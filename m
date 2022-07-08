@@ -2,75 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA77F56C23D
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 01:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D27856C32C
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 01:14:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237678AbiGHWUK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jul 2022 18:20:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45326 "EHLO
+        id S238759AbiGHWXH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jul 2022 18:23:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237215AbiGHWUJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 18:20:09 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55680A2E5B;
-        Fri,  8 Jul 2022 15:20:09 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id 23so95959pgc.8;
-        Fri, 08 Jul 2022 15:20:09 -0700 (PDT)
+        with ESMTP id S238190AbiGHWXG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 18:23:06 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 497EDA2E75;
+        Fri,  8 Jul 2022 15:23:05 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id a15so187374pfv.13;
+        Fri, 08 Jul 2022 15:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=0EIlqNvLm4emyzZjhw+3K6rBKNh5VIFKb+1G7bffK9I=;
-        b=ebV3ddL3/SV0MqeBPND0Kto4HpBVx99pC3mmEZrjds67/5dQoyBcw+H0ck+L4EARCg
-         BtmKz3vgExddcwFO41RAyetDosfU/bKQYwYBTmP00gpj8AyGMAFZgXrvB6+Gw3k051gN
-         YmXLfRPuUzxuyfLRjmVq4u6HsXSMoL3uu86F3I8zSYtVrNjiV5BKNww0PLMLn3Fc68L1
-         QdXfzC4mJ251GB0VXclaG5SbRAXsFq25wx04GZyE6VMS4G+sQmVDsgK9im3DKiGaE7Ar
-         gODnpTnHxdXd/crxRq2U0KdtUBJD9C73rCt36DI2iU/aOl5i/gj04fiZCvG4JGlgPr94
-         PghQ==
+        bh=awbCX6D8TgaWVx4PaHvXISepNRKwfSLcno0uruq5CMU=;
+        b=Y8CUlZJ8uGgqajYbhGJtxEivYuxYsKb1Nj281kx9qT1nJmU8DzYGUmM+zXemnfOkL+
+         XickPc13iKeqjkDpzqC16OUWhXELLUqqaZoSujZfd0GGWBChnkX6Bkg6Xjo6TEuIYjpb
+         bPZ+GbqF16Zq5Xt8+ofsYrX6dYqD0wCK3JRvy9+bSSpZ4RWAeMrL/a3b8EphT+ksNKP2
+         TAAK3k2eQWC3ix0Sje6Hw3Dxin2bY2x86pe7pJzHEq9smxnMTPFC5PMhnKH4Amkp5Hn5
+         O0WRdYBIWjJ4MP2iqNMDVtJKbxVQgyxOQy/LbROys0upoP4SQNkHosHcq12tGGB9/PQl
+         iCtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=0EIlqNvLm4emyzZjhw+3K6rBKNh5VIFKb+1G7bffK9I=;
-        b=wBstAevSxQovs8AbcMl9sUpR/vDdfa57mrRGvZJ2Ks+/eYmiLHIgcTMVBvl63PV72C
-         d90HY25+jFCnkgWISxV0wJ9Q5c6xY2cGIYhxg9f1O8RY/tNMxi8FGHoAhPsOnAl+kkUV
-         JNkxZN7r0QJxSW9xHqXo5Qw322qaeNrnR2JwofoM8HUAlLep3REWxqTKM0Amx7+lR5if
-         lszcim7AJqR+cI+hMt1t8To7v7wf2y0yx45T+quSPc1qtInxT1AG8ZIr+fKL6JULw0VO
-         9FTVl5YbQytfwnkaIq+8Qx8xium/UFUcH04OKH9mTE0sW2G0+B7Lg0erSGF7wD8fQuS6
-         El5Q==
-X-Gm-Message-State: AJIora/LK9+2zC9xlqc+HrPoczTJPZC6K38Lzq+0yF39TAsEpSiPyY+c
-        gasZun29Ck1iklmX4HeGr94vbVcoFZ8=
-X-Google-Smtp-Source: AGRyM1v3G4TToMoO3KJm7CpBaZGZmipI+kGIQYaNAfaVb+AzOSrXF9HTDyi6eDJaXOJLHYWm5HhneA==
-X-Received: by 2002:a63:4042:0:b0:411:bbfe:e736 with SMTP id n63-20020a634042000000b00411bbfee736mr5121801pga.1.1657318808763;
-        Fri, 08 Jul 2022 15:20:08 -0700 (PDT)
+        bh=awbCX6D8TgaWVx4PaHvXISepNRKwfSLcno0uruq5CMU=;
+        b=1Hwd9daKeTSS4CInLBFTdqn5rciu9F0AMR8696unWwGZn1L4AEh0QVeqHnr2TDpcQu
+         e8CN5GgTR20PI/vNDwOU+0Gi7cSmbCmH7qBD3HClCIFXYWQnuVK20TkppkWUcx8+Rj+m
+         mwhtJjt0c2pa1sO6CM/rDYvR8Xn2pvG3A75x//qEnbKe0ehEyLGJQ8Lmhdz/D7RcCeQ0
+         6pnRE2DhYS0pBVyb5oPRVZFR4jCNrVvRVIbeh4Eort6hi8Y2b6IppN2qt3oITJXUvAVC
+         5K799LnKhV8LPkcqyw739EetU1ldO2uCMElwquKBmK+IMyoMH5ILUQq+clCQghN7tGgY
+         S7Kg==
+X-Gm-Message-State: AJIora+27mU1jbKVBSRU/IUr3XVvsB/2syZSMZRgSKeS1TrH1bk7X2qB
+        Xw3Y6RPsy3zaHyBEdvJguj7MTsM4UwQ=
+X-Google-Smtp-Source: AGRyM1siGJ1E9EAcQp1E2pold0DZlvsAKWPVZoikBzkCUpfVLjSu2NIH2s73fV+oSiW7yuDW/gsXYQ==
+X-Received: by 2002:a05:6a02:18b:b0:415:c9d:4e3c with SMTP id bj11-20020a056a02018b00b004150c9d4e3cmr5000142pgb.580.1657318984741;
+        Fri, 08 Jul 2022 15:23:04 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:9707:b37:49b0:77c2])
-        by smtp.gmail.com with ESMTPSA id t20-20020a62d154000000b0052850947cf8sm68358pfl.171.2022.07.08.15.20.06
+        by smtp.gmail.com with ESMTPSA id l7-20020a170903244700b0016a33177d3csm21891pls.160.2022.07.08.15.23.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 15:20:07 -0700 (PDT)
-Date:   Fri, 8 Jul 2022 15:20:04 -0700
+        Fri, 08 Jul 2022 15:23:03 -0700 (PDT)
+Date:   Fri, 8 Jul 2022 15:23:01 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] dt-bindings: input: Common property clean-ups and
- adc-keys conversion
-Message-ID: <YsitlMhIl/xHuiS+@google.com>
-References: <20220608211207.2058487-1-robh@kernel.org>
- <20220628175137.GA694214-robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RESEND PATCH v3 0/3] dt-bindings: input: gpio-keys: apply via
+ DT tree
+Message-ID: <YsiuRbaFMa683H1Z@google.com>
+References: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
+ <CAL_Jsq+LepF_67SJUqQ5mUO-TZAd-46LB+aYE5rZmnmmwMg=bw@mail.gmail.com>
+ <352f27e7-0da1-4a4a-83a4-ded370dfbd7f@linaro.org>
+ <YsiVH41gCLeIMyd6@google.com>
+ <20220708220507.GA1557227-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220628175137.GA694214-robh@kernel.org>
+In-Reply-To: <20220708220507.GA1557227-robh@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -81,32 +77,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 11:51:37AM -0600, Rob Herring wrote:
-> On Wed, Jun 08, 2022 at 03:12:02PM -0600, Rob Herring wrote:
-> > This series refactors the common 'linux,code', 'linux,keycodes', and
-> > 'linux,input-type' properties defined in various binding schemas. As the
-> > properties are common, they should only have a single common schema type
-> > definition. Note that 'linux,input-value' was not included here as it is
-> > only used in 1 binding (gpio-keys).
+On Fri, Jul 08, 2022 at 04:05:07PM -0600, Rob Herring wrote:
+> On Fri, Jul 08, 2022 at 01:35:43PM -0700, Dmitry Torokhov wrote:
+> > Hi,
 > > 
-> > The clean-ups are are result of the discussion on v1 of the adc-keys
-> > binding conversion[1].
+> > On Wed, Jul 06, 2022 at 08:30:54AM +0200, Krzysztof Kozlowski wrote:
+> > > On 05/07/2022 21:11, Rob Herring wrote:
+> > > > On Tue, Jul 5, 2022 at 6:04 AM Krzysztof Kozlowski
+> > > > <krzysztof.kozlowski@linaro.org> wrote:
+> > > >>
+> > > >> Hi Rob,
+> > > >>
+> > > >> Can you apply these directly? You already reviewed them, but I dropped
+> > > >> the tag so you will see them in Patchwork. It seems these won't go in
+> > > >> through input [1].
+> > > >>
+> > > >> [1] https://lore.kernel.org/all/c2c1cf0c-9462-9ba5-a297-70d13a063de1@linaro.org/
+> > > > 
+> > > > Will give Dmitry a few more days first before I take both series.
+> > > 
+> > > Then let's keep your Rb for entire patchset:
+> > > 
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
 > > 
-> > Rob
+> > I am sorry but what series/branch this series is based on? I tried
+> > applying but there are conflicts. The latest I have that is touching
+> > gpio-keys.yaml is:
 > > 
-> > [1] https://lore.kernel.org/all/20220606184243.1057145-1-robh@kernel.org/
-> > 
-> > 
-> > Rob Herring (5):
-> >   dt-bindings: input: Increase maximum keycode value to 0x2ff
-> >   dt-bindings: input: Centralize 'linux,code' definition
-> >   dt-bindings: input: Use common 'linux,keycodes' definition
-> >   dt-bindings: input: Centralize 'linux,input-type' definition
-> >   dt-bindings: input: Convert adc-keys to DT schema
+> > 4fda8a2df83a dt-bindings: input: use generic node names
 > 
-> Dmitry, Any comments on this?
+> This one from me:
+> 
+> https://lore.kernel.org/all/20220608211207.2058487-1-robh@kernel.org/
 
-Sorry, applied the lot, thank you.
+Ah, I see, thank you. Applied the lot.
+
 
 -- 
 Dmitry
