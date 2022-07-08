@@ -2,67 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A47356ACFA
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jul 2022 22:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D69656B2C5
+	for <lists+linux-input@lfdr.de>; Fri,  8 Jul 2022 08:28:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236542AbiGGUvg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jul 2022 16:51:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
+        id S237167AbiGHG1j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jul 2022 02:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236533AbiGGUvg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jul 2022 16:51:36 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA652CE06;
-        Thu,  7 Jul 2022 13:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=TTdDoMIncBueyDVjmYEyIZn/enGMqk78p+ra2MsjS+w=; b=sE7/kRbdlSv7EDNBiYq9turMip
-        Y8jFHim2VJqGyNd6kV+yyl+ghqx0wWjY1oAiKWWvg1OEtRazc2fwps6uBk2W/rAY6QjFvLj3AdcQK
-        NjzHVTWhmxPc8gfHjR0GL/zj+HVMZ1CmupVS4UZZqcjbz8BNmmW8+/IvXVqDA36+u3l3XcpEFhFSQ
-        TWPZ0amSSofhK9YDY4uV5jWZHbMQjPj+zWVwcLWCoEupQm21QzaYFo6WKR5PF7M4AdVOVKeBkAytS
-        btzrXPQ2hDd3Km43Qd42cgGLAXZBmv2WuEUPASG78hGx1ea8ym3uKyTgvrtiaQEfTl5URkscMo0KZ
-        Pud0lScw==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o9YSz-000B7y-VT; Thu, 07 Jul 2022 20:51:18 +0000
-Message-ID: <a2984435-6c8f-aee2-1e42-efc0b7cc4078@infradead.org>
-Date:   Thu, 7 Jul 2022 13:51:15 -0700
+        with ESMTP id S237028AbiGHG1j (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 02:27:39 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB2C4D4FC
+        for <linux-input@vger.kernel.org>; Thu,  7 Jul 2022 23:27:37 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o9hSh-0005t4-6f; Fri, 08 Jul 2022 08:27:35 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o9hSW-0056Sx-W4; Fri, 08 Jul 2022 08:27:28 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o9hSZ-003jLd-Q7; Fri, 08 Jul 2022 08:27:27 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     patches@opensource.cirrus.com, linux-input@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH] Input: wm97xx: Make .remove() obviously always return 0
+Date:   Fri,  8 Jul 2022 08:27:18 +0200
+Message-Id: <20220708062718.240013-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v5 5/6] HID: add spi-hid, transport driver for HID over
- SPI bus
-Content-Language: en-US
-To:     Jarrett Schultz <jaschultzms@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     Dmitry Antipov <dmanti@microsoft.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Jarrett Schultz <jaschultz@microsoft.com>
-References: <20220707165902.3184-1-jaschultzMS@gmail.com>
- <20220707165902.3184-6-jaschultzMS@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220707165902.3184-6-jaschultzMS@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1077; h=from:subject; bh=bO8JFhgUTLYRHlTzYIQPw2IDBYXgeAjQjkNehBYhAn8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBix85CHgM7oqFEpQrxjR3jpHMGbivTtBR7Kyx0dRqa N0YC1aOJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYsfOQgAKCRDB/BR4rcrsCRh8B/ 4+DveUAZUajHxS+QICqUbz5ywQDYbD+evLbMFuaJ6U+cxR5oBzarU3a5V+OzoSzbWx1aLHMQs+2v9E KvH+naTs9EyXskYfW/5yLb5YuoQkK39qTwlv6ugorelfgE4xwGwIcYqzoFGLLAg2qsNIhYpNrJ8epQ Rnjeq88fyzU+betlThaFUsYDYgenj/s+VuqTQScv1gsRtCYeAUSYZqY32++nnjBxJerxkBouWZ05wo k0PVTv0O9J0+7NALeQpKIhf9lyv9R3uKzsPA79WG+FhGN8nfpuzpM9VKYLo1QbMvz1QNuKLKehq3Kd HsXH7aVskKuE7N6eWcjHogwM8JF6uK
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,86 +53,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi--
+wm97xx_remove() returns zero unconditionally. To prepare changing the
+prototype for platform remove callbacks to return void, make it explicit
+that wm97xx_mfd_remove() always returns zero.
 
-On 7/7/22 09:59, Jarrett Schultz wrote:
-> From: Jarrett Schultz <jaschultz@microsoft.com>
-> 
-> This driver follows HID Over SPI Protocol Specification 1.0 available at
-> https://www.microsoft.com/en-us/download/details.aspx?id=103325. The
-> initial version of the driver does not support: 1) multi-fragment input
-> reports, 2) sending GET_INPUT and COMMAND output report types and
-> processing their respective acknowledge input reports, and 3) device
-> sleep power state.
-> 
-> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+The prototype for wm97xx_remove cannot be changed, as it's also used as
+a plain device remove callback.
 
-Missing your (Jarrett's) Signed-off-by: here.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/input/touchscreen/wm97xx-core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-More below...
+diff --git a/drivers/input/touchscreen/wm97xx-core.c b/drivers/input/touchscreen/wm97xx-core.c
+index 2757c7768ffe..f51ab5614532 100644
+--- a/drivers/input/touchscreen/wm97xx-core.c
++++ b/drivers/input/touchscreen/wm97xx-core.c
+@@ -758,7 +758,9 @@ static int wm97xx_mfd_probe(struct platform_device *pdev)
+ 
+ static int wm97xx_mfd_remove(struct platform_device *pdev)
+ {
+-	return wm97xx_remove(&pdev->dev);
++	wm97xx_remove(&pdev->dev);
++
++	return 0;
+ }
+ 
+ static int __maybe_unused wm97xx_suspend(struct device *dev)
 
-> ---
->  drivers/hid/Kconfig                 |    2 +
->  drivers/hid/Makefile                |    1 +
->  drivers/hid/spi-hid/Kconfig         |   25 +
->  drivers/hid/spi-hid/Makefile        |   12 +
->  drivers/hid/spi-hid/spi-hid-core.c  | 1326 +++++++++++++++++++++++++++
->  drivers/hid/spi-hid/spi-hid-core.h  |  188 ++++
->  drivers/hid/spi-hid/spi-hid-of.c    |  141 +++
->  drivers/hid/spi-hid/spi-hid-of.h    |   30 +
->  drivers/hid/spi-hid/spi-hid_trace.h |  194 ++++
->  drivers/hid/spi-hid/trace.c         |    9 +
->  10 files changed, 1928 insertions(+)
->  create mode 100644 drivers/hid/spi-hid/Kconfig
->  create mode 100644 drivers/hid/spi-hid/Makefile
->  create mode 100644 drivers/hid/spi-hid/spi-hid-core.c
->  create mode 100644 drivers/hid/spi-hid/spi-hid-core.h
->  create mode 100644 drivers/hid/spi-hid/spi-hid-of.c
->  create mode 100644 drivers/hid/spi-hid/spi-hid-of.h
->  create mode 100644 drivers/hid/spi-hid/spi-hid_trace.h
->  create mode 100644 drivers/hid/spi-hid/trace.c
-> 
-
-> diff --git a/drivers/hid/spi-hid/Kconfig b/drivers/hid/spi-hid/Kconfig
-> new file mode 100644
-> index 000000000000..37302d658162
-> --- /dev/null
-> +++ b/drivers/hid/spi-hid/Kconfig
-> @@ -0,0 +1,25 @@
-> +#
-> +# Copyright (c) 2021 Microsoft Corporation
-> +#
-> +# This program is free software; you can redistribute it and/or modify it
-> +# under the terms of the GNU General Public License version 2 as published by
-> +# the Free Software Foundation.
-> +#
-
-Please just use SPDX tags instead of all of that.
-See other hid/Kconfig files for examples.
-
-> +menu "SPI HID support"
-> +	depends on SPI
-> +
-> +config SPI_HID
-> +	tristate "HID over SPI transport layer"
-> +	default n
-> +	depends on SPI && INPUT && OF
-> +	select HID
-> +	help
-> +	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
-> +	  other HID based devices which is connected to your computer via SPI.
-
-	        HID-based devices which are connected
-(or)
-	        HID-based device which is connected
-
-> +
-> +	  If unsure, say N.
-> +
-> +	  This support is also available as a module.  If so, the module
-> +	  will be called spi-hid.
-> +
-> +endmenu
-
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
 -- 
-~Randy
+2.36.1
+
