@@ -2,114 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A57AE56B3B2
-	for <lists+linux-input@lfdr.de>; Fri,  8 Jul 2022 09:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70A3156B587
+	for <lists+linux-input@lfdr.de>; Fri,  8 Jul 2022 11:34:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237470AbiGHHkR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jul 2022 03:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49660 "EHLO
+        id S237302AbiGHJeL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 8 Jul 2022 05:34:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237232AbiGHHkQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 03:40:16 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D86277B36C
-        for <linux-input@vger.kernel.org>; Fri,  8 Jul 2022 00:40:14 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id b26so29391331wrc.2
-        for <linux-input@vger.kernel.org>; Fri, 08 Jul 2022 00:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dv9JXEgCKOeWMiFcwfCNcrf+mbDPEpHGWcncYHXK47U=;
-        b=qy5rUhBJFoOIxr1Dq8+XjF0T6TxcBTUvKvuNwwLAlk1NgLmEBarScoC2L4QaVVCSbC
-         mX7201TT4x9ZZvmW2XxYL6QRCwz9xQTZtrkQgAa4xEA4HryXDaxSXdjS6CHVNZkbEOTq
-         bExe0Nu2pLcoEbQFqgQwTxjKokapDaCE08FlFK0PloJqo6V8LjwVf0r4DYYtOwzFoDki
-         LEZLsqz5kSnDIO3HV1ygNE/mBTAOlpSDxOibXfo+dcEvBkh6aHEuylXaRWltRZuAjMY9
-         YbA1Mm0hhfrk1PTSR4IxcCaLaacJFaswvgAmRx7fivizMHswzZpAJcgnzbvVjqusksXO
-         ZLRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dv9JXEgCKOeWMiFcwfCNcrf+mbDPEpHGWcncYHXK47U=;
-        b=24Y089tVc0VZ9Gy/+bTpHkn4mskcm8CEYUzWJod8lC6KpmIqWMhs2TvPuOp5PAeHxE
-         XPMrjYWOZ+58u0izbQcNSZp8DbGQr5ie/5XKb5wOc+XKH2QNh9BJ72mMOYHFXCmclro/
-         MP5sFUP4tx7uFhjC9kqjD6StveZ7B6XWv6Bzys+HTAKVO62XY8E4+Jwehy1P6dZXmA+b
-         dEZCl6zTUCtvb6+fat6dSYCRQaUrY1kuaXYTzqxWvB5hp/rQtidJXZkysurFkFsGEj8T
-         0hpE2QThpcBsfldGlJ4WuyGlWEha8haF9qsw/Yk3ykwcEdg9nGOCVALfQz/16gN1EESW
-         dUIw==
-X-Gm-Message-State: AJIora+h9hnN/EswIYl6wpGTCJ9wQRoet4xDlp9xpP4Fdbrjh47QbosR
-        ifl/yN8QfpAVBB+ifvYuI9XxMg==
-X-Google-Smtp-Source: AGRyM1ukO7Z6bP/0h93+ejhRJzyOWYZdEm5HO9OlTgLawyrlsEN7ERCeQpJ6u3SUymINxS3tor2HTA==
-X-Received: by 2002:adf:f20f:0:b0:21d:6de6:6f47 with SMTP id p15-20020adff20f000000b0021d6de66f47mr1960233wro.532.1657266013364;
-        Fri, 08 Jul 2022 00:40:13 -0700 (PDT)
-Received: from joneslee-l.cable.virginm.net (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id r7-20020a5d4947000000b0021d221daccfsm9922661wrs.78.2022.07.08.00.40.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 00:40:12 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH 1/1] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
-Date:   Fri,  8 Jul 2022 08:40:09 +0100
-Message-Id: <20220708074009.621113-1-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+        with ESMTP id S234525AbiGHJeK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 05:34:10 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF2B72A96A;
+        Fri,  8 Jul 2022 02:34:09 -0700 (PDT)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2686QhUn003478;
+        Fri, 8 Jul 2022 05:33:59 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3h5tu88xsn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 08 Jul 2022 05:33:59 -0400
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 2689Xw8Z061339
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 8 Jul 2022 05:33:58 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 8 Jul 2022
+ 05:33:57 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 8 Jul 2022 05:33:57 -0400
+Received: from nsa.ad.analog.com ([10.44.3.51])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 2689Xi8d017826;
+        Fri, 8 Jul 2022 05:33:47 -0400
+From:   =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+To:     <devicetree@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <linux-input@vger.kernel.org>
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 00/10] adp5588-keys refactor and fw properties support
+Date:   Fri, 8 Jul 2022 11:34:38 +0200
+Message-ID: <20220708093448.42617-1-nuno.sa@analog.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: LyW_7SY7N4xW607BIaZoRKNnL3pR3nme
+X-Proofpoint-ORIG-GUID: LyW_7SY7N4xW607BIaZoRKNnL3pR3nme
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-08_08,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=981 clxscore=1011 phishscore=0 malwarescore=0
+ spamscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207080035
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It is possible for a malicious device to forgo submitting a Feature
-Report.  The HID Steam driver presently makes no prevision for this
-and de-references the 'struct hid_report' pointer obtained from the
-HID devices without first checking its validity.  Let's change that.
+The main goal of this patchset is to remove platform data and replace it by
+firmware properties. Original discussion in [1].
 
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
-Fixes: c164d6abf3841 ("HID: add driver for Valve Steam Controller")
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/hid/hid-steam.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+While in here, some refactor was done to the driver. The most noticeable one
+is to replace the GPIs events handling by irqchip support so that this gpi
+keys can be "consumed" by the gpio-keys driver (also as suggested in [1]).
+With this, the gpio-adp5588 can be removed. This change comes first so that
+we can already remove some platform data variables making it easier to
+completly replace it by firmware properties further down in the series.
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index a3b151b29bd71..fc616db4231bb 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -134,6 +134,11 @@ static int steam_recv_report(struct steam_device *steam,
- 	int ret;
- 
- 	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[0];
-+	if (!r) {
-+		hid_err(steam->hdev, "No HID_FEATURE_REPORT submitted -  nothing to read\n");
-+		return -EINVAL;
-+	}
-+
- 	if (hid_report_len(r) < 64)
- 		return -EINVAL;
- 
-@@ -165,6 +170,11 @@ static int steam_send_report(struct steam_device *steam,
- 	int ret;
- 
- 	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[0];
-+	if (!r) {
-+		hid_err(steam->hdev, "No HID_FEATURE_REPORT submitted -  nothing to read\n");
-+		return -EINVAL;
-+	}
-+
- 	if (hid_report_len(r) < 64)
- 		return -EINVAL;
- 
+As there's no users of the platform data, I just replace it in a single
+patch as there's no point in having support for both (even though it might
+be harder to review the patch as-is).
+
+Special note to the gpio-adp5588 driver removal. I'm aware of some changes
+to the driver in [2]. These changes are in the gpio tree and this patchset
+is naturally based on the input tree which means that patch 2 will
+not apply. So, I'm not really sure how to handle this. I guess in this
+case the conflict is easy to handle :) but just let me know on how to
+proceed in here if there's anything for me to do.
+
+[1]: https://lore.kernel.org/linux-input/20220504084617.36844-1-u.kleine-koenig@pengutronix.de/
+[2]: https://lore.kernel.org/linux-gpio/20220628193906.36350-3-andriy.shevchenko@linux.intel.com/
+
+Nuno Sá (10):
+  input: keyboard: adp5588-keys: support gpi key events as 'gpio keys'
+  gpio: gpio-adp5588: drop the driver
+  input: keyboard: adp5588-keys: bail out on returned error
+  input: keyboard: adp5588-keys: add support for fw properties
+  dt-bindings: input: adp5588-keys: add bindings
+  input: keyboard: adp5588-keys: do not check for irq presence
+  input: keyboard: adp5588-keys: fix coding style warnings
+  input: keyboard: adp5588-keys: add optional reset gpio
+  input: keyboard: adp5588-keys: add regulator support
+  input: keyboard: adp5588-keys: Use new PM macros
+
+ .../bindings/input/adi,adp5588-keys.yaml      | 110 +++
+ MAINTAINERS                                   |   2 +-
+ drivers/gpio/Kconfig                          |  14 -
+ drivers/gpio/Makefile                         |   1 -
+ drivers/gpio/gpio-adp5588.c                   | 471 ------------
+ drivers/input/keyboard/Kconfig                |   3 +
+ drivers/input/keyboard/adp5588-keys.c         | 710 ++++++++++++------
+ include/linux/platform_data/adp5588.h         | 171 -----
+ 8 files changed, 580 insertions(+), 902 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/adi,adp5588-keys.yaml
+ delete mode 100644 drivers/gpio/gpio-adp5588.c
+ delete mode 100644 include/linux/platform_data/adp5588.h
+
 -- 
-2.37.0.rc0.161.g10f37bed90-goog
+2.37.0
 
