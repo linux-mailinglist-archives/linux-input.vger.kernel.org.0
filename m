@@ -2,84 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C847A56BAA3
-	for <lists+linux-input@lfdr.de>; Fri,  8 Jul 2022 15:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A367256BB69
+	for <lists+linux-input@lfdr.de>; Fri,  8 Jul 2022 16:01:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237610AbiGHN2U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jul 2022 09:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34258 "EHLO
+        id S238155AbiGHOAY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jul 2022 10:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237549AbiGHN2T (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 09:28:19 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E292CC8E
-        for <linux-input@vger.kernel.org>; Fri,  8 Jul 2022 06:28:17 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id dn9so32430510ejc.7
-        for <linux-input@vger.kernel.org>; Fri, 08 Jul 2022 06:28:17 -0700 (PDT)
+        with ESMTP id S231905AbiGHOAX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 10:00:23 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD2315819;
+        Fri,  8 Jul 2022 07:00:22 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-31c86fe1dddso151735237b3.1;
+        Fri, 08 Jul 2022 07:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=m9WVXbkDJLtZC6olxtUbRFTPOOp7yjkrqp9x2/VUb9k=;
-        b=VKwkclyYjAhTg8dlqMvNrZ+3Ykn5Ytw/eFWV/vSC+1XdiSw+3CdLH1yAxoqWsIcJdQ
-         NRNZprgLz8UEYnI/B15Dxc3qmxR1o2+eHgSzTsQDnqFYkX2jGwWvQ5QqU39Eqoukx8nR
-         mEyH3gSH/m5jEK0VAS/M6Qa37h6/n/kFqsgcSrERKrZYkc28qJhVTvn1o1+bM37l9sxy
-         L4CKxPT+SNVK5/BCz98HfMjTrdI/+cnUrGKDdDCny1BTc53CK5j1X1GlXJ1bFqLlXBBT
-         B584xoudZ5gHfdnCg3YK4nRDL/Q12hxOFYI6cWQ/WlcF5K+p2lWpQ2dkuPhi7XSrCO/B
-         7jZg==
+        bh=BfjSNVqEOwnxfaGfNNXI9zb5JlYvwedHY1tJwv0387s=;
+        b=KNE+EAvQXH8SpwABTIRkS7TzxcG8lp4KduMUp6MfzybCxQKoaYuqVnSM7QAyM+oF3v
+         Y11JYItd3MVAK3lTuGlQf/T9vMrybnRbka/9SrsVMEKWBnvdOihtLP76wMONUf6nMUMV
+         9tkB6m+txvoTnZcw+mGW06SKsrzQrNRSwJhwzpdH+ljVoyXfjpn3HwoX0RWiQq7K5aki
+         9IJVlRWIsVB9wTj+eoKsxmGLJ9l23Fn6CHYRLS0epxmtgZpnUHaxHcx6Vq9tqVZ3P8L1
+         X6oCmJeWrEfXMWAxnpI4fTWQCOiiAHJz/cObT/PYRzXEKFfeChpXdYcy4cDIdJOV7pVc
+         sm1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=m9WVXbkDJLtZC6olxtUbRFTPOOp7yjkrqp9x2/VUb9k=;
-        b=WWPS+FylCmNb8gegFCoIs9m8X7dOWZ0P3AHCGhMHlp8IjRAjqjJm1cy2LiBAKRhj+Y
-         BAK7CUDlwfzFRVZZoei90D8pHpNk+j4TSKE7JiI/mOzZmCA+w1OxOd4ed/WIwyyhp1uh
-         coBiCiEs/l4Nq4LKrz7TNi2sZ7SoUK/GWlQbeSpvDPxsecckVoOPCB0RjQDHcH/4B9vI
-         hsCb4rXcAeAgdR2LkGtL9jPoqQdtL/ttqdwmRUNyYqDrSpNWbzkkW2YUSB+QQXf8lQ3U
-         sBJUMd4qQIY48ACspIAOYSxY+qaoV5hd1fYyGmDGhJBekqn4M58UIg71unf9FLSEHVXy
-         nrbg==
-X-Gm-Message-State: AJIora8GCcSh4NmluheevIxUSZeA6v8SBag7MRsdSYyY98s9vuWRYuf2
-        1LDNwCEjKeNATKeixpG82hvcCX6tBMV8XE6xny+3dw==
-X-Google-Smtp-Source: AGRyM1u1PFamNCZgncPVIkAWV6ivSfJgSKEN+GTn1zW6Ogyj0JGUNmoBgwrz2oApIcZRb+y8xHcD/VigW89l9cVx8cg=
-X-Received: by 2002:a17:906:739d:b0:722:e94a:24c5 with SMTP id
- f29-20020a170906739d00b00722e94a24c5mr3575057ejl.734.1657286896011; Fri, 08
- Jul 2022 06:28:16 -0700 (PDT)
+        bh=BfjSNVqEOwnxfaGfNNXI9zb5JlYvwedHY1tJwv0387s=;
+        b=vgzFf+nN1hbH5nXpQKy3YBJh7DLn360mp354fy2/ybRewiNCQZw0VwvsLiLu6Qp1eH
+         e2OfZjZQKOhzSKxKxIzBQRhgvsO9Bcn09yAoo1WR8U0JOLATGqYiC0UKnPQF9Cpn9COY
+         hQRlcBNseL4mJw1FEtTDr4SEmzmoo2RXWALhV3yp68ngLhHdpP4osLL6rOF+5HNly/pQ
+         p53Wsvr4jGt2fyQAzEa6KtXFcj5e8oP6ddhJ75JiNsK1f8ki5E2D0y4a0rmKVmcwwZYB
+         toUY/Sjm09GzGlcXIcVm8qyyqzqQ+6/QwBk/YFk2X61HC/VuY7TphBvL4Jg/Kw0rhmvR
+         XNCQ==
+X-Gm-Message-State: AJIora9gCxrj8tjZwlXTGmHjqO1OpuK5e53V9leMf9bZBfWximaI5apk
+        mp0bxHSjUATxIei3UhJ9OaDcbm1kKn3UdCakBfQ=
+X-Google-Smtp-Source: AGRyM1uChV+08AKmeNTw5HjedSQflibghpvrWC1upoLdO0RZ1Ca3vAGX2Ol84yB3zw32neKQj9h72PiwNiW3AiHaKOk=
+X-Received: by 2002:a81:108f:0:b0:31c:d7ae:9ff1 with SMTP id
+ 137-20020a81108f000000b0031cd7ae9ff1mr4068408ywq.18.1657288821898; Fri, 08
+ Jul 2022 07:00:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220708093448.42617-1-nuno.sa@analog.com> <20220708093448.42617-3-nuno.sa@analog.com>
-In-Reply-To: <20220708093448.42617-3-nuno.sa@analog.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Fri, 8 Jul 2022 15:28:05 +0200
-Message-ID: <CAMRc=MeqbxE_e+cLD_ouyzZKFirqmfU5fs16jp5tP=igYqALJw@mail.gmail.com>
-Subject: Re: [PATCH 02/10] gpio: gpio-adp5588: drop the driver
+References: <20220708093448.42617-1-nuno.sa@analog.com>
+In-Reply-To: <20220708093448.42617-1-nuno.sa@analog.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 8 Jul 2022 15:59:40 +0200
+Message-ID: <CAHp75VfGvAR1+uPL3T96eGDCOeXrc7MTdzwPZ8GV6h61Oq=XPA@mail.gmail.com>
+Subject: Re: [PATCH 00/10] adp5588-keys refactor and fw properties support
 To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc:     devicetree <devicetree@vger.kernel.org>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
         Michael Hennerich <michael.hennerich@analog.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 8, 2022 at 11:34 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+On Fri, Jul 8, 2022 at 11:36 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 >
-> With commit 1c18af5f21cc
-> ("input: keyboard: adp5588-keys: support gpi key events as 'gpio keys'"),
-> the irchip functionality is directly supported in the input driver as
-> the main goal of these pins is to be used as gpio keys. Hence, this
-> driver can be removed.
+> The main goal of this patchset is to remove platform data and replace it =
+by
 >
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> ---
+> firmware properties. Original discussion in [1].
+>
+>
+>
+> While in here, some refactor was done to the driver. The most noticeable =
+one
+>
+> is to replace the GPIs events handling by irqchip support so that this gp=
+i
+>
+> keys can be "consumed" by the gpio-keys driver (also as suggested in [1])=
+.
+>
+> With this, the gpio-adp5588 can be removed. This change comes first so th=
+at
+>
+> we can already remove some platform data variables making it easier to
+>
+> completly replace it by firmware properties further down in the series.
+>
+>
+>
+> As there's no users of the platform data, I just replace it in a single
+>
+> patch as there's no point in having support for both (even though it migh=
+t
+>
+> be harder to review the patch as-is).
+>
+>
+>
+> Special note to the gpio-adp5588 driver removal. I'm aware of some change=
+s
+>
+> to the driver in [2]. These changes are in the gpio tree and this patchse=
+t
+>
+> is naturally based on the input tree which means that patch 2 will
+>
+> not apply. So, I'm not really sure how to handle this. I guess in this
+>
+> case the conflict is easy to handle :) but just let me know on how to
+>
+> proceed in here if there's anything for me to do.
 
-Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
+Resolving conflict like this is easy, just input subsys maintainer
+needs to tell Linus about it to Linus in PR.
+
+--=20
+With Best Regards,
+Andy Shevchenko
