@@ -2,50 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D69656B2C5
-	for <lists+linux-input@lfdr.de>; Fri,  8 Jul 2022 08:28:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A57AE56B3B2
+	for <lists+linux-input@lfdr.de>; Fri,  8 Jul 2022 09:40:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237167AbiGHG1j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jul 2022 02:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54800 "EHLO
+        id S237470AbiGHHkR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jul 2022 03:40:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237028AbiGHG1j (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 02:27:39 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB2C4D4FC
-        for <linux-input@vger.kernel.org>; Thu,  7 Jul 2022 23:27:37 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o9hSh-0005t4-6f; Fri, 08 Jul 2022 08:27:35 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o9hSW-0056Sx-W4; Fri, 08 Jul 2022 08:27:28 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o9hSZ-003jLd-Q7; Fri, 08 Jul 2022 08:27:27 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     patches@opensource.cirrus.com, linux-input@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH] Input: wm97xx: Make .remove() obviously always return 0
-Date:   Fri,  8 Jul 2022 08:27:18 +0200
-Message-Id: <20220708062718.240013-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S237232AbiGHHkQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 03:40:16 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D86277B36C
+        for <linux-input@vger.kernel.org>; Fri,  8 Jul 2022 00:40:14 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id b26so29391331wrc.2
+        for <linux-input@vger.kernel.org>; Fri, 08 Jul 2022 00:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dv9JXEgCKOeWMiFcwfCNcrf+mbDPEpHGWcncYHXK47U=;
+        b=qy5rUhBJFoOIxr1Dq8+XjF0T6TxcBTUvKvuNwwLAlk1NgLmEBarScoC2L4QaVVCSbC
+         mX7201TT4x9ZZvmW2XxYL6QRCwz9xQTZtrkQgAa4xEA4HryXDaxSXdjS6CHVNZkbEOTq
+         bExe0Nu2pLcoEbQFqgQwTxjKokapDaCE08FlFK0PloJqo6V8LjwVf0r4DYYtOwzFoDki
+         LEZLsqz5kSnDIO3HV1ygNE/mBTAOlpSDxOibXfo+dcEvBkh6aHEuylXaRWltRZuAjMY9
+         YbA1Mm0hhfrk1PTSR4IxcCaLaacJFaswvgAmRx7fivizMHswzZpAJcgnzbvVjqusksXO
+         ZLRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dv9JXEgCKOeWMiFcwfCNcrf+mbDPEpHGWcncYHXK47U=;
+        b=24Y089tVc0VZ9Gy/+bTpHkn4mskcm8CEYUzWJod8lC6KpmIqWMhs2TvPuOp5PAeHxE
+         XPMrjYWOZ+58u0izbQcNSZp8DbGQr5ie/5XKb5wOc+XKH2QNh9BJ72mMOYHFXCmclro/
+         MP5sFUP4tx7uFhjC9kqjD6StveZ7B6XWv6Bzys+HTAKVO62XY8E4+Jwehy1P6dZXmA+b
+         dEZCl6zTUCtvb6+fat6dSYCRQaUrY1kuaXYTzqxWvB5hp/rQtidJXZkysurFkFsGEj8T
+         0hpE2QThpcBsfldGlJ4WuyGlWEha8haF9qsw/Yk3ykwcEdg9nGOCVALfQz/16gN1EESW
+         dUIw==
+X-Gm-Message-State: AJIora+h9hnN/EswIYl6wpGTCJ9wQRoet4xDlp9xpP4Fdbrjh47QbosR
+        ifl/yN8QfpAVBB+ifvYuI9XxMg==
+X-Google-Smtp-Source: AGRyM1ukO7Z6bP/0h93+ejhRJzyOWYZdEm5HO9OlTgLawyrlsEN7ERCeQpJ6u3SUymINxS3tor2HTA==
+X-Received: by 2002:adf:f20f:0:b0:21d:6de6:6f47 with SMTP id p15-20020adff20f000000b0021d6de66f47mr1960233wro.532.1657266013364;
+        Fri, 08 Jul 2022 00:40:13 -0700 (PDT)
+Received: from joneslee-l.cable.virginm.net (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id r7-20020a5d4947000000b0021d221daccfsm9922661wrs.78.2022.07.08.00.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 00:40:12 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH 1/1] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
+Date:   Fri,  8 Jul 2022 08:40:09 +0100
+Message-Id: <20220708074009.621113-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1077; h=from:subject; bh=bO8JFhgUTLYRHlTzYIQPw2IDBYXgeAjQjkNehBYhAn8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBix85CHgM7oqFEpQrxjR3jpHMGbivTtBR7Kyx0dRqa N0YC1aOJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYsfOQgAKCRDB/BR4rcrsCRh8B/ 4+DveUAZUajHxS+QICqUbz5ywQDYbD+evLbMFuaJ6U+cxR5oBzarU3a5V+OzoSzbWx1aLHMQs+2v9E KvH+naTs9EyXskYfW/5yLb5YuoQkK39qTwlv6ugorelfgE4xwGwIcYqzoFGLLAg2qsNIhYpNrJ8epQ Rnjeq88fyzU+betlThaFUsYDYgenj/s+VuqTQScv1gsRtCYeAUSYZqY32++nnjBxJerxkBouWZ05wo k0PVTv0O9J0+7NALeQpKIhf9lyv9R3uKzsPA79WG+FhGN8nfpuzpM9VKYLo1QbMvz1QNuKLKehq3Kd HsXH7aVskKuE7N6eWcjHogwM8JF6uK
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,35 +68,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-wm97xx_remove() returns zero unconditionally. To prepare changing the
-prototype for platform remove callbacks to return void, make it explicit
-that wm97xx_mfd_remove() always returns zero.
+It is possible for a malicious device to forgo submitting a Feature
+Report.  The HID Steam driver presently makes no prevision for this
+and de-references the 'struct hid_report' pointer obtained from the
+HID devices without first checking its validity.  Let's change that.
 
-The prototype for wm97xx_remove cannot be changed, as it's also used as
-a plain device remove callback.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org
+Fixes: c164d6abf3841 ("HID: add driver for Valve Steam Controller")
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/input/touchscreen/wm97xx-core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/hid/hid-steam.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/input/touchscreen/wm97xx-core.c b/drivers/input/touchscreen/wm97xx-core.c
-index 2757c7768ffe..f51ab5614532 100644
---- a/drivers/input/touchscreen/wm97xx-core.c
-+++ b/drivers/input/touchscreen/wm97xx-core.c
-@@ -758,7 +758,9 @@ static int wm97xx_mfd_probe(struct platform_device *pdev)
+diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+index a3b151b29bd71..fc616db4231bb 100644
+--- a/drivers/hid/hid-steam.c
++++ b/drivers/hid/hid-steam.c
+@@ -134,6 +134,11 @@ static int steam_recv_report(struct steam_device *steam,
+ 	int ret;
  
- static int wm97xx_mfd_remove(struct platform_device *pdev)
- {
--	return wm97xx_remove(&pdev->dev);
-+	wm97xx_remove(&pdev->dev);
+ 	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[0];
++	if (!r) {
++		hid_err(steam->hdev, "No HID_FEATURE_REPORT submitted -  nothing to read\n");
++		return -EINVAL;
++	}
 +
-+	return 0;
- }
+ 	if (hid_report_len(r) < 64)
+ 		return -EINVAL;
  
- static int __maybe_unused wm97xx_suspend(struct device *dev)
-
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+@@ -165,6 +170,11 @@ static int steam_send_report(struct steam_device *steam,
+ 	int ret;
+ 
+ 	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[0];
++	if (!r) {
++		hid_err(steam->hdev, "No HID_FEATURE_REPORT submitted -  nothing to read\n");
++		return -EINVAL;
++	}
++
+ 	if (hid_report_len(r) < 64)
+ 		return -EINVAL;
+ 
 -- 
-2.36.1
+2.37.0.rc0.161.g10f37bed90-goog
 
