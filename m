@@ -2,66 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D1156C372
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 01:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 361EB56C204
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 01:12:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240025AbiGHUTd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jul 2022 16:19:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45522 "EHLO
+        id S240036AbiGHUUd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jul 2022 16:20:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239177AbiGHUTd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 16:19:33 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94A3B1C91A
-        for <linux-input@vger.kernel.org>; Fri,  8 Jul 2022 13:19:32 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id j3so10715pfb.6
-        for <linux-input@vger.kernel.org>; Fri, 08 Jul 2022 13:19:32 -0700 (PDT)
+        with ESMTP id S238985AbiGHUUb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 16:20:31 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D174532EFC;
+        Fri,  8 Jul 2022 13:20:30 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id 5so11335592plk.9;
+        Fri, 08 Jul 2022 13:20:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Uxctw0BgffzUjgFNz67tSytllGHTCN9T0LSLaW/WDxY=;
-        b=DVfb2gCVyFEjekLQfX/hWT8QlEfItiCydJbKQKaaGo4JSU8E7//5TPI/ckcUftFM5x
-         be2YWI2i50F4FYdSnQuAtG9uVij94drLkUALm8YLc5nuohry/Ejxvlt6uLidQ1Qi3JBh
-         tDYc2OUiuMXPUMWQlVor0fc0MHUYnDmCGPBnlTsJAKRfGh9+BWDKx7gGwvcU6uiZIVsK
-         fWgpTKiKQG4FCfmInbtHa0tAi+3FIwaw5tG6QNjQ1LmIB3DtPRNrmtUBy1UciQCYtgTq
-         VXJ8K5E2wK5hZYn85gSMMkcxTun0JZMBrzhObcwK9m0KViogn5KmgWI1ZylFBCFyYQtU
-         Ml2w==
+         :content-disposition:in-reply-to;
+        bh=JvRn3rvWlHDJiinkiBH01X8XyzaKuHuzaOkEP2fwSA8=;
+        b=kKA7BwxpfIG4pb5JlkTE6MKy6Lb/AitSKmI06IVbVNU4o7A/1mTGBvKExNlN65TJkk
+         ytRsHli+y+5vcKB6OkYPJ6/gFi5Z/MhyO9sgQdgnbZVFlRsVuV//be/rjGvN1aQuIBHk
+         DtyktgiWc6cl8V8Dh43ciM3AkA2sQfBhAhAsdi++mu0FyyZ4iiPVubMNK0e4dgvgZ91J
+         0xpT9Ju6K+V16DhbrhCQ5RjSXLZKmkpYXjGaMmJB2qgyOXOpUQQ4aMcW8jxeHE8gX8+U
+         dLeFQeuoC+BHcXXja0J51Nr1a9ZbzxUS8kp0uIw7KsRbRBsPF9IvGME1H1XEawnuDVL2
+         AuSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Uxctw0BgffzUjgFNz67tSytllGHTCN9T0LSLaW/WDxY=;
-        b=QJ0fYv3dMUfd1vTgLzKkx+s+sFwC19U588X0u1U5q0RzP35CWSRJtbTF4L2oS9AGm4
-         i/94KTTcWoaTsdQcTWDGuw0jvzXwa8l/jUVkHmiKClPCTmb5s6+iQGBatG+sA8QRK7Xv
-         F9nB7yF0SkXzgRV7VPJDsqU3fpj0uKdjT//i8pAhiBRGThP1KTKcAp7t+ktAHFEVm34M
-         gTA4CxF3hzDXzqqqHxqFHEB22GR3Du8TO1LXAlV3z1m8LbaJtH9JHRjsVm/tJd2hh4Ve
-         QVU4pwOgSTfgUfD+G7vDyAkrjjoMRW76S96cEhjFe5kPWJZ7dMsD4HS0YX3eabEjpfgN
-         t5ug==
-X-Gm-Message-State: AJIora+KI7bCapFdjBYccqcBhb2V6EZ+pmGPlegI2Z446WrZrRmbC+pu
-        YAI8cKbVeeP/ov+L8An9ksENRFEC1FQ=
-X-Google-Smtp-Source: AGRyM1voHoX1bHmZsULYPme7a2QZ5tH788Z2RMdCYRsVgjhNCaMPoQLUlZ4IDTx+DP9kdeip7S/gIw==
-X-Received: by 2002:a63:6a85:0:b0:3fa:722a:fbdc with SMTP id f127-20020a636a85000000b003fa722afbdcmr4799088pgc.174.1657311571917;
-        Fri, 08 Jul 2022 13:19:31 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=JvRn3rvWlHDJiinkiBH01X8XyzaKuHuzaOkEP2fwSA8=;
+        b=ETBV0XzyQOy8hIX3Ax0fRSCxhC5mCEaBT7H6wdBw2x526EMCYxO+9+Y+/HfvoQl2E0
+         cpgmnmhJXIJeP63OyttC0Dvr5z8d8xApc/csdr3NsjvkCs2csNsI6rKo0Cem4N4XtkRr
+         0RhvD0ISq+vETkPCZy7MdcZndWuk3nz1kz+9H8ENA73ZMyACYHB948cU1IojRGMSSWIu
+         2My4G4j9H7gMha8fUe6JhlMmJC2A/ZlGTIPhc8At2vRraOdK0MIvOHMpS8pcQ+8zGDZo
+         LE3STqzuEEvQ2RFWbnvg9m+kpFCEiK1yHA/5a/t889AbZaNaNGf0v9izy760fWWmAco7
+         8ydQ==
+X-Gm-Message-State: AJIora8YXn1pH+OCG++WNTpKHoCYQDWXD13O1O29WRl7uAggPaC13KUM
+        CT3pM6rUqe1oHlLMUmlfGQjxaYtFQW0=
+X-Google-Smtp-Source: AGRyM1sXKUNwupr3TzhCK8jnGYVpWCoU3pQQfdjQoWGD5OM4hFn5P3QtgbfXc2NJB446UrqAzT0NJw==
+X-Received: by 2002:a17:90b:1644:b0:1ef:88c6:6e39 with SMTP id il4-20020a17090b164400b001ef88c66e39mr1762717pjb.122.1657311630316;
+        Fri, 08 Jul 2022 13:20:30 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:9707:b37:49b0:77c2])
-        by smtp.gmail.com with ESMTPSA id c9-20020a170902c2c900b0016a091e993dsm30484716pla.42.2022.07.08.13.19.30
+        by smtp.gmail.com with ESMTPSA id z15-20020a6553cf000000b003fadd680908sm28184890pgr.83.2022.07.08.13.20.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 13:19:31 -0700 (PDT)
-Date:   Fri, 8 Jul 2022 13:19:28 -0700
+        Fri, 08 Jul 2022 13:20:29 -0700 (PDT)
+Date:   Fri, 8 Jul 2022 13:20:27 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     patches@opensource.cirrus.com, linux-input@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH] Input: wm97xx: Make .remove() obviously always return 0
-Message-ID: <YsiRUD8siyhBnbo8@google.com>
-References: <20220708062718.240013-1-u.kleine-koenig@pengutronix.de>
+To:     Werner Sembach <wse@tuxedocomputers.com>
+Cc:     hdegoede@redhat.com, tiwai@suse.de, samuel@cavoj.net,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: i8042 - add additional TUXEDO devices to
+ i8042 quirk tables
+Message-ID: <YsiRixoaiyydp9j1@google.com>
+References: <20220708161005.1251929-1-wse@tuxedocomputers.com>
+ <20220708161005.1251929-2-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220708062718.240013-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220708161005.1251929-2-wse@tuxedocomputers.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -72,15 +71,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 08, 2022 at 08:27:18AM +0200, Uwe Kleine-König wrote:
-> wm97xx_remove() returns zero unconditionally. To prepare changing the
-> prototype for platform remove callbacks to return void, make it explicit
-> that wm97xx_mfd_remove() always returns zero.
+On Fri, Jul 08, 2022 at 06:10:04PM +0200, Werner Sembach wrote:
+> A lot of modern Clevo barebones have touchpad and/or keyboard issues after
+> suspend fixable with nomux + reset + noloop + nopnp. Luckily, none of them
+> have an external PS/2 port so this can safely be set for all of them.
 > 
-> The prototype for wm97xx_remove cannot be changed, as it's also used as
-> a plain device remove callback.
+> I'm not entirely sure if every device listed really needs all four quirks,
+> but after testing and production use. No negative effects could be
+> observed when setting all four.
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Cc: stable@vger.kernel.org
 
 Applied, thank you.
 
