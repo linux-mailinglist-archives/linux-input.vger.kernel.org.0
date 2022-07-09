@@ -2,136 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE77456CB0A
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 20:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675AF56CBF2
+	for <lists+linux-input@lfdr.de>; Sun, 10 Jul 2022 01:15:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbiGISRL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Jul 2022 14:17:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46720 "EHLO
+        id S229471AbiGIXP4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jul 2022 19:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiGISRK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 14:17:10 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619DA17E1A
-        for <linux-input@vger.kernel.org>; Sat,  9 Jul 2022 11:17:09 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id e5so1674582iof.2
-        for <linux-input@vger.kernel.org>; Sat, 09 Jul 2022 11:17:09 -0700 (PDT)
+        with ESMTP id S229552AbiGIXPz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 19:15:55 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7818E1F63A
+        for <linux-input@vger.kernel.org>; Sat,  9 Jul 2022 16:15:53 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id i14so3317394yba.1
+        for <linux-input@vger.kernel.org>; Sat, 09 Jul 2022 16:15:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Evu+1KvIAIQqxBNHUYqv/sTrx80iWnMG6c0ad8xVl2U=;
-        b=NZSaHJN0WdnY0C6r5vn/4w3aqmWnMGMkXaV7koH55StAFLfFG9IOy9H71I8P/Ubl2Q
-         pNiyTlNx8/wYWOSRKrvMiPJBa9757+RHgSliX8CMpjPTNB08V5EV2GiBzGuxdpydT54E
-         oDPkhT1wQcNWdB9ZqOIVV9ps4G1Jj/1yew9raHO0N8kc3lTR9toAeySb4RXKr2LWn8Yx
-         LCbFEm4fQvkyDvi0DEzYh9npNC3lNzEhTyBAcxizxGs3Ax4pF6Nic6/SLC+AmnWPJyMO
-         cwK1C6ai4CYOGRw75yyGjcN98ofwOWiwsUS4+Wyp0CAQa4aDOkel+12mnQG56Sb2NpzJ
-         Rm4w==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mP2wLhwavewGA8FVEJebKzO+AyUl27McMXohUrjH32M=;
+        b=lofU9L5Tz9Yj7xkCPTUYbQb7wUBPYtbVCeSlBrpxJ5w75Xs9r8Vn/0QY2Xx3K6HcNx
+         rM5CSUUaLZEQnVc9zTjuDhaqd4yPqihiguwlOaDvsgGkB5gHgemi0DSm92+LyPUN2yWS
+         U570rUJJr5rrCQ6JtpQA5qRpYDR9WlorM1dCYCDGugTUdgfE4B+G2sNtDVEFkyNOh/B9
+         mmx+1Xbs3pPQzd4XzurQKQ0Jy0l6icPmWeFOC4Z9c98obW1c+PlLUNasrOFsjv4CSTPz
+         s321Z29KouSaMVEAwnq66OqpgMwk97Bb31ALluDtP2v9Q383Frxq+DTCYhDF+4h26hDA
+         9eUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=Evu+1KvIAIQqxBNHUYqv/sTrx80iWnMG6c0ad8xVl2U=;
-        b=Fzd1XLf1jx+8bp3ApiXnuDXKIkBYn44Bh2ZX07BC5x8+0sc50OLwE4t+RlxFHjBWi3
-         CahdiS/LTnLndkOrVZf3iHhNwwG1VaMj5aMsdG8Lf42G6O4OBOw/aquM7G2XOozsQIgU
-         kTut9e4rEpDJ13gFnS7SgF7/4w9ADSuQuyDYqi2LRP7Ef+0iOy966EUt49g6zTeiTOIK
-         omdjW7q2fLpM5wSQREPtRwsURh0X4XO0i6wdWtBS2yfpTSq0rdXA8l0OwJ9+MpkPgzr2
-         4xKpvRezNEVxzg7wVfml19RiJ9drJHcC8ZIFieR+qAXSQTFiWViY11U0n0TnNWsdM0V2
-         cQhQ==
-X-Gm-Message-State: AJIora97+pfwZv//dLvNY9SAD760ObkIr5ED+nGupJbiqtZgcX7EF7ET
-        KX/FRuf97cVqxnvtjHuZzvaKGQu9pfNcwZUHOwo=
-X-Google-Smtp-Source: AGRyM1uS6/jaMS69325RTj3NUCwwn9i8WBGyQWCWp+/trq1ajF4if2UQyKSG0KwmxvymyR+DGMO580o3g6LO2UaK9IU=
-X-Received: by 2002:a05:6602:1346:b0:669:35d4:1a81 with SMTP id
- i6-20020a056602134600b0066935d41a81mr5352014iov.112.1657390628613; Sat, 09
- Jul 2022 11:17:08 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mP2wLhwavewGA8FVEJebKzO+AyUl27McMXohUrjH32M=;
+        b=hWKTsKqrbS1vEX7Udt8gBzCsrMsgDrtpNm59zviJGYLsYjj8lF2KFwbtboSgFlYsOi
+         CcxudnV4nsP6XVhbwF6nuZipggOnqWuwBy387jZyVVuxBPmvCtIRV0q4iD4qRJDMd2EI
+         GYkjcSNuQGbR/m09uM4VqlIG1KNqNXuRb90LtLs9oruHSkovA86TyXhsh8ziN9a1Kh7u
+         wg47fhCDUNOsvY2B3zwyDf13GhX67EL66dBDInQdGa7u9mg+F1vulCNZCOU7pxTh67WS
+         gt7zKTDt/2+7eb/TC7307BX2wGjZ+PbL9Cxm+bYsH45EjBgAsCb7pG0P8nvlU91DUIfT
+         ipFw==
+X-Gm-Message-State: AJIora/FwGQsRrqJqmee1NPYKnUbrY/1vKLEwTk2x+tAFNfA4SbixNAZ
+        QNNwe6fRqvjOW9bh6MTrGxEC6n03fnRmiZds6+i83A==
+X-Google-Smtp-Source: AGRyM1snPIFzzPQrblAAlshjOA0mEK4qfSBKO2mQPb+MmznS2glNgzneCmOnOy4qyulsIyO5WJaID6sPej9uHMFeaSs=
+X-Received: by 2002:a25:4046:0:b0:66e:ddca:2ff5 with SMTP id
+ n67-20020a254046000000b0066eddca2ff5mr8784868yba.492.1657408552750; Sat, 09
+ Jul 2022 16:15:52 -0700 (PDT)
 MIME-Version: 1.0
-Sender: patriciajohn728@gmail.com
-Received: by 2002:a4f:f8c6:0:0:0:0:0 with HTTP; Sat, 9 Jul 2022 11:17:07 -0700 (PDT)
-From:   MRS HANNAH VANDRAD <h.vandrad@gmail.com>
-Date:   Sat, 9 Jul 2022 11:17:07 -0700
-X-Google-Sender-Auth: zujOUhsr-JZbADnR9pexuKI485E
-Message-ID: <CANFVa24_qdUD452kURiPB8u-HySg4M8Gfd=H9ZPWw+rYDAempw@mail.gmail.com>
-Subject: Greetings My dear,
-To:     undisclosed-recipients:;
+References: <20220707125022.1156498-1-viorel.suman@oss.nxp.com> <20220707125022.1156498-3-viorel.suman@oss.nxp.com>
+In-Reply-To: <20220707125022.1156498-3-viorel.suman@oss.nxp.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 10 Jul 2022 01:15:41 +0200
+Message-ID: <CACRpkdaBXqgxv_2-=Z6Lst7g6kGGL=eti_YaBSqvSQ7LeDgLaA@mail.gmail.com>
+Subject: Re: [PATCH v8 02/15] dt-bindings: pinctrl: imx: Add fsl,scu-iomux
+ yaml file
+To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Viorel Suman <viorel.suman@nxp.com>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Peng Fan <peng.fan@nxp.com>, Liu Ying <victor.liu@nxp.com>,
+        Shijie Qin <shijie.qin@nxp.com>, Ming Qian <ming.qian@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:d2d listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [patriciajohn728[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [patriciajohn728[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings My dear,
+On Thu, Jul 7, 2022 at 2:51 PM Viorel Suman (OSS)
+<viorel.suman@oss.nxp.com> wrote:
 
+> From: Abel Vesa <abel.vesa@nxp.com>
+>
+> In order to replace the fsl,scu txt file from bindings/arm/freescale,
+> we need to split it between the right subsystems. This patch documents
+> separately the 'iomux/pinctrl' child node of the SCU main node.
+>
+> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
+> Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-=C2=A0=C2=A0 This letter might be a surprise to you, But I believe that you=
- will
-be honest to fulfill my final wish. I bring peace and love to you. It
-is by the grace of god, I had no choice than to do what is lawful and
-right in the sight of God for eternal life and in the sight of man for
-witness of god=E2=80=99s mercy and glory upon my life. My dear, I sent this
-mail praying it will find you in a good condition, since I myself am
-in a very critical health condition in which I sleep every night
-without knowing if I may be alive to seethe next day. I am Mrs.Hannah
-Vandrad, a widow suffering from a long time illness. I have some funds
-I inherited from my late husband, the sum of($11,000,000.00, Eleven
-Million Dollars) my Doctor told me recently that I have serious
-sickness which is a cancer problem. What disturbs me most is my stroke
-sickness. Having known my condition, I decided to donate this fund to
-a good person that will utilize it the way I am going to instruct
-herein. I need a very honest and God fearing person=C2=A0who can claim this
-money and use it for Charity works, for orphanages and gives justice
-and help to the poor, needy and widows says The Lord." Jeremiah
-22:15-16.=E2=80=9C and also build schools for less privilege that will be
-named after my late husband if possible and to promote the word of god
-and the effort that the house of god is maintained.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-=C2=A0I do not want a situation where this money will be used in an ungodly
-manner. That's why I'm taking this decision. I'm not afraid of death,
-so I know where I'm going. I accept this decision because I do not
-have any child who will inherit this money after I die. Please I want
-your sincere and urgent answer to know if you will be able to execute
-this project, and I will give you more information on how the fund
-will be transferred to your bank account. May the grace, peace, love
-and the truth in the Word of god be with you and all those that you
-love and=C2=A0 care for.
+Tell me if you want me to apply this to the pinctrl tree.
+(I guess Shawn is handling it?)
 
-I am waiting for your reply.
-
-May God Bless you,
-
-=C2=A0Mrs. Hannah Vandrad.
+Yours,
+Linus Walleij
