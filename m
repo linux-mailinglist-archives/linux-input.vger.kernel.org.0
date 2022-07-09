@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4537556C6F9
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 06:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCA2E56C6FC
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 06:53:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229455AbiGIEu1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Jul 2022 00:50:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43046 "EHLO
+        id S229457AbiGIExt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jul 2022 00:53:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiGIEu1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 00:50:27 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 625897E813
-        for <linux-input@vger.kernel.org>; Fri,  8 Jul 2022 21:50:26 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id e16so638045pfm.11
-        for <linux-input@vger.kernel.org>; Fri, 08 Jul 2022 21:50:26 -0700 (PDT)
+        with ESMTP id S229379AbiGIExs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 00:53:48 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0046140D5;
+        Fri,  8 Jul 2022 21:53:47 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id bh13so559611pgb.4;
+        Fri, 08 Jul 2022 21:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=6TCbWLLtmcojvBYO9H7MJUmDFhAo4ymbaHEyQHBGnoQ=;
-        b=qT3uW/OX3E4isIp3QUUSgnvO3K/026+sulGR0egm81KNB0wOPxWDTSHqnc6DWvJDhW
-         fXv0MIcanL89bux2bFkFmS7yOqjJzaEZw2gCSBO3JWPSLHO81SfyMkawpx/JoLndDeNY
-         ktyd/izvxs4t8qlRP7Ul+kLjv3jOuWZgfyyIVLD/vRSULeujJ3KvVJ82lfDxl4nCxRcV
-         cr16nWsl9mJVGtE4f2ASJJQnEEL8OMEeIIAzPS5BUGqGbajl47rDSTM6Vch8BbMDFBJX
-         jJycKUuN8AoDPxKCdLDDPexQ9VD2d2/S34tAi7WzeFD9vfytooxO/aJ/Vf4e51/cA36i
-         C6MQ==
+        bh=+zzXGVbFC1NRlQzxK4sf3CCcjjPYGBluawnVA4ofjIU=;
+        b=f6puec+ID1sEU6WH0NJGgfBjywoXSoTjlZngp0ITvnEdeyyxaAHramKL+GnQSYJVsy
+         hbWWbs9hOWWCYqLzNTzgx3PosYeWZE7lWzrwggKITvqeVPIp25CdrCssSaldtYI53+BL
+         6As5MdnutdfaiUKzU7q41h1OFcqAds5iUbfI9kMwrJei8ujVeQyeVQtlxIx8OCGuhRn2
+         k1e6p02WlEvl27Z1/yTtOJGdImzDyrh9MjEOAFgbB2NgCqFq9sUzVRiE2vLW45FhAhcT
+         NHG8Ienq/46DyNCDgw4Ra5KE7FALuQSafsbwl/919mtGSAIdyTsqUs8zDEBXN+Gj0MfV
+         XXsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=6TCbWLLtmcojvBYO9H7MJUmDFhAo4ymbaHEyQHBGnoQ=;
-        b=wdhA9iIrtXEbVniyDBHR/cXvazjVrED4dqYyqLeBxSYYqMv64SjYjV07eopORk2Dwg
-         YgDhCjt7StyYu8awzU/8P9ibKXxkG294OQAlGuyGRdR6BedFcBR2oJbXjDZTFsd6fQoE
-         d38A6hHTjOwtnUBNqSlqx6QUOMkI/l5g1rzqvYS90gYKlMk9NHVmAZiZh1i+VvpBb5Uc
-         AKoNjSajH2K3CzffAwf94d+wgNbRPdKXay5poTwvDfJQyFYX5Py84aB9D3DJZ0gGlN87
-         JWJUIF/Py6/1xr8icVOIFS1vBdvjB1E8HLrhasO+i9zoFApWc0mT2T9koUAqI32wxjUd
-         qlTA==
-X-Gm-Message-State: AJIora9Wr8VthebldlGTYO1kdKdCXZ6Dv5PSvPqL8f2YARZnQgtzEJXa
-        otC8ITIEmLU3eykR7S2SVmyOydW5Io0=
-X-Google-Smtp-Source: AGRyM1uEtFgdqfR0/ayvwrOHJZQaHd4Cbqsw3e9pfcA8WE3pusHFZ3gBXHXmQyhfKIqhlXy1IQM1iA==
-X-Received: by 2002:a05:6a00:1a8b:b0:525:9c4f:ade5 with SMTP id e11-20020a056a001a8b00b005259c4fade5mr7502205pfv.74.1657342225832;
-        Fri, 08 Jul 2022 21:50:25 -0700 (PDT)
+        bh=+zzXGVbFC1NRlQzxK4sf3CCcjjPYGBluawnVA4ofjIU=;
+        b=D7cxggQ6VF3qh/Byx5U+76vuK8WxV/RgOPYiJhsWNWkJyuNw3tX7RaoO9zpFnSh4rL
+         d9titn/BaUcM3tyDrtaKnyahyemD454TdPXirCC2B4kcWiIFBQUvMp37X37OlokMlEQy
+         3wprIEnaPN9l9APYupaDxgLK93Yrr+guPrG18kqNBdPEwVR6Qv1UPB4NLCYisL0Pg+Tp
+         MhuzUAdraIxcEUpxeua83yUoj2FeIOjZBEX0qEk1+4sTgKw84dMnZN3LHoaY2Ox6i3wf
+         2j5D6DRUM3XiYHQmo8v8OgFnZTz/VQm8FIRHSKK6rfzpY6vEuDPOzaS8s7L2jUSb5qTY
+         0PFA==
+X-Gm-Message-State: AJIora8uONd928o2BdAcrYK4hPw8MDQDqJm2q2tBT9UkR20wasYaNbmX
+        f9I8EvfGloQL5ZqqlBEWy6zxafyxXuY=
+X-Google-Smtp-Source: AGRyM1svvZnewMosK+TxZ7hMFRIqBj1pfpUK4mnYNH+vG8qwrxseKMaDLdMjIyhD9932ZGI/IIn7AA==
+X-Received: by 2002:a63:4524:0:b0:412:a2ee:eaf4 with SMTP id s36-20020a634524000000b00412a2eeeaf4mr6090708pga.41.1657342427067;
+        Fri, 08 Jul 2022 21:53:47 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:5011:9ea9:1cc2:a4c0])
-        by smtp.gmail.com with ESMTPSA id w125-20020a628283000000b00528676a46cbsm441286pfd.194.2022.07.08.21.50.24
+        by smtp.gmail.com with ESMTPSA id 195-20020a6214cc000000b005286a4ca9c8sm439559pfu.211.2022.07.08.21.53.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 21:50:24 -0700 (PDT)
-Date:   Fri, 8 Jul 2022 21:50:22 -0700
+        Fri, 08 Jul 2022 21:53:46 -0700 (PDT)
+Date:   Fri, 8 Jul 2022 21:53:43 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH] input/i8042: Add dritek quirk for Acer Aspire One AO532
-Message-ID: <YskJDh9qCWZmAXAy@google.com>
-References: <20220418200949.6009-1-hdegoede@redhat.com>
+To:     cy_huang <u0084500@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        lee.jones@linaro.org, broonie@kernel.org, lgirdwood@gmail.com,
+        cy_huang@richtek.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] input: misc: rt5120: Add power key support
+Message-ID: <YskJ1wAp0rV9qFRM@google.com>
+References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
+ <1655892104-10874-5-git-send-email-u0084500@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220418200949.6009-1-hdegoede@redhat.com>
+In-Reply-To: <1655892104-10874-5-git-send-email-u0084500@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -69,17 +72,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 18, 2022 at 10:09:49PM +0200, Hans de Goede wrote:
-> Like on other Acer devices, the wifi, bluetooth and touchpad on/off toggle
-> hotkeys on the Acer AO532 do not send any events when the dritek extensions
-> are not enabled.
-> 
-> Add a quirk to enable the dritek extensions on this netbook model.
-> 
-> Cc: Werner Sembach <wse@tuxedocomputers.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Hi ChiYuan,
 
-Applied, thank you.
+On Wed, Jun 22, 2022 at 06:01:44PM +0800, cy_huang wrote:
+> +
+> +	is_pressed = !(stat & RT5120_PWRKEYSTAT_MASK);
+> +
+> +	if ((is_pressed && irq == priv->press_irq) ||
+> +	    (!is_pressed  && irq == priv->release_irq)) {
+> +		input_report_key(priv->input, KEY_POWER, is_pressed);
+> +		input_sync(priv->input);
+> +	}
+> +
+
+What is the reason for checking both the status and interrupt? Can we
+simply say:
+
+
+	input_report_key(priv->input, KEY_POWER,
+			 !(stat & RT5120_PWRKEYSTAT_MASK));
+	input_sync(priv->input);
+
+?
+
+Thanks.
 
 -- 
 Dmitry
