@@ -2,599 +2,190 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AF0056C5E0
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 03:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2481156C68A
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 06:11:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229441AbiGIB6J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jul 2022 21:58:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36290 "EHLO
+        id S229506AbiGIEL2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jul 2022 00:11:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiGIB6J (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 21:58:09 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07BEAC7;
-        Fri,  8 Jul 2022 18:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=axixuHdhNPC8PLU+MtwLWuxcy7tj0nJV9eaiEYW+1x0=; b=VtaN+pjuBmL5p96mNCI/c6E/ce
-        8rfzM2NMb3BiW/rvm0M7x0MZ+0smnTwkRnPWqWfGPVKy4kCGpK6Basoo+rVszgc3dSU+LFN3vkWvy
-        pWyb3RdFZ3y0mtVi2ihZgKlD1nejQC8JI0EDJiKblHG2O4qAuEadnC8Walf8da51rudq3QyWL2ESm
-        1I4B6w7Ulw7cwpidAaqeDpa/mo8TM/8ZBeKcNaztrxON+S1230QgAte/3unTHKAnhawFxFQ+mBWed
-        gewGVkm9x7RXJyxd+VTNIcnrCgz9JLNmu4/qs7rzal7h/0F8IPAxgogVvLku92qMm9sH//HIMcRUp
-        yrqyGjYA==;
-Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o9zjQ-0041pK-ES; Sat, 09 Jul 2022 01:58:05 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        with ESMTP id S229436AbiGIEL1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 00:11:27 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3B67AB32;
+        Fri,  8 Jul 2022 21:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657339885; x=1688875885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dImL4G2o7pTQGqvQRAZ/53V7JkwZUADnQxGIvBEKs5U=;
+  b=HpmwqBleJEj+sFuDvRC6BtwHaFFF6VeLKtt+qFZwlaD45gzbVPBIpBQv
+   kw2RP8sZEIu8gFyfQMxHa2wmppwN6225+p79CA2xihowLICzN/vObmejn
+   dnBpXvsFedE+WwR9fSEaLCzIw2kYWAPLyMtcspbcO4Yeny6HhuL++7Sf8
+   3A/wHnV8ikEgXcfldu53jZ8e/l8CowQwtmASGZcJUCQbW88jMEeVxn63G
+   GrB2nxjG7YOKMxEvXB+tPSkWyInhTWVZko6Xir6DZqHYqzwYhBqTT5eD8
+   zKp1J9+jpGuFgOHFFXP4nU5b3BJiWXmS9v+lMZjRcIvtgPcVNsdvItod8
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="281958563"
+X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
+   d="scan'208";a="281958563"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 21:11:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
+   d="scan'208";a="683857081"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2022 21:11:22 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oA1oP-000OHc-Eb;
+        Sat, 09 Jul 2022 04:11:21 +0000
+Date:   Sat, 9 Jul 2022 12:10:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-input@vger.kernel.org
-Subject: [PATCH] HID: Kconfig: remove redundant "depends on HID" lines
-Date:   Fri,  8 Jul 2022 18:57:59 -0700
-Message-Id: <20220709015759.6396-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.36.1
+Cc:     kbuild-all@lists.01.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 01/10] input: keyboard: adp5588-keys: support gpi key
+ events as 'gpio keys'
+Message-ID: <202207091223.nBzeL6dk-lkp@intel.com>
+References: <20220708093448.42617-2-nuno.sa@analog.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220708093448.42617-2-nuno.sa@analog.com>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Remove all occurrences of "depends on HID" that are inside the
-"if HID" / "endif" block since they are redundant.
+Hi "Nuno,
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
----
- drivers/hid/Kconfig |   73 ------------------------------------------
- 1 file changed, 1 insertion(+), 72 deletions(-)
+I love your patch! Yet something to improve:
 
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -28,7 +28,6 @@ if HID
- 
- config HID_BATTERY_STRENGTH
- 	bool "Battery level reporting for HID devices"
--	depends on HID
- 	select POWER_SUPPLY
- 	default n
- 	help
-@@ -38,7 +37,6 @@ config HID_BATTERY_STRENGTH
- 
- config HIDRAW
- 	bool "/dev/hidraw raw HID device support"
--	depends on HID
- 	help
- 	Say Y here if you want to support HID devices (from the USB
- 	specification standpoint) that aren't strictly user interface
-@@ -57,7 +55,6 @@ config HIDRAW
- 
- config UHID
- 	tristate "User-space I/O driver support for HID subsystem"
--	depends on HID
- 	default n
- 	help
- 	Say Y here if you want to provide HID I/O Drivers from user-space.
-@@ -78,7 +75,6 @@ config UHID
- 
- config HID_GENERIC
- 	tristate "Generic HID driver"
--	depends on HID
- 	default HID
- 	help
- 	Support for generic devices on the HID bus. This includes most
-@@ -90,11 +86,9 @@ config HID_GENERIC
- 	If unsure, say Y.
- 
- menu "Special HID drivers"
--	depends on HID
- 
- config HID_A4TECH
- 	tristate "A4TECH mice"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for some A4TECH mice with two scroll wheels.
-@@ -113,7 +107,6 @@ config HID_ACCUTOUCH
- 
- config HID_ACRUX
- 	tristate "ACRUX game controller support"
--	depends on HID
- 	help
- 	Say Y here if you want to enable support for ACRUX game controllers.
- 
-@@ -127,7 +120,6 @@ config HID_ACRUX_FF
- 
- config HID_APPLE
- 	tristate "Apple {i,Power,Mac}Books"
--	depends on HID
- 	depends on LEDS_CLASS
- 	depends on NEW_LEDS
- 	default !EXPERT
-@@ -167,13 +159,11 @@ config HID_ASUS
- 
- config HID_AUREAL
- 	tristate "Aureal"
--	depends on HID
- 	help
- 	Support for Aureal Cy se W-01RN Remote Controller and other Aureal derived remotes.
- 
- config HID_BELKIN
- 	tristate "Belkin Flip KVM and Wireless keyboard"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for Belkin Flip KVM and Wireless keyboard.
-@@ -202,7 +192,6 @@ config HID_BIGBEN_FF
- 
- config HID_CHERRY
- 	tristate "Cherry Cymotion keyboard"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for Cherry Cymotion keyboard.
-@@ -227,7 +216,6 @@ config HID_CORSAIR
- 
- config HID_COUGAR
- 	tristate "Cougar devices"
--	depends on HID
- 	help
- 	Support for Cougar devices that are not fully compliant with the
- 	HID standard.
-@@ -237,7 +225,6 @@ config HID_COUGAR
- 
- config HID_MACALLY
- 	tristate "Macally devices"
--	depends on HID
- 	help
- 	Support for Macally devices that are not fully compliant with the
- 	HID standard.
-@@ -262,7 +249,6 @@ config HID_PRODIKEYS
- 
- config HID_CMEDIA
- 	tristate "CMedia audio chips"
--	depends on HID
- 	help
- 	Support for CMedia CM6533 HID audio jack controls
-         and HS100B mute buttons.
-@@ -288,14 +274,12 @@ config HID_CREATIVE_SB0540
- 
- config HID_CYPRESS
- 	tristate "Cypress mouse and barcode readers"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for cypress mouse and barcode readers.
- 
- config HID_DRAGONRISE
- 	tristate "DragonRise Inc. game controller"
--	depends on HID
- 	help
- 	Say Y here if you have DragonRise Inc. game controllers.
- 	These might be branded as:
-@@ -314,7 +298,6 @@ config DRAGONRISE_FF
- 
- config HID_EMS_FF
- 	tristate "EMS Production Inc. force feedback support"
--	depends on HID
- 	select INPUT_FF_MEMLESS
- 	help
- 	Say Y here if you want to enable force feedback support for devices by
-@@ -332,7 +315,6 @@ config HID_ELAN
- 
- config HID_ELECOM
- 	tristate "ELECOM HID devices"
--	depends on HID
- 	help
- 	Support for ELECOM devices:
- 	  - BM084 Bluetooth Mouse
-@@ -349,7 +331,6 @@ config HID_ELO
- 
- config HID_EZKEY
- 	tristate "Ezkey BTC 8193 keyboard"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for Ezkey BTC 8193 keyboard.
-@@ -367,19 +348,16 @@ config HID_FT260
- 
- config HID_GEMBIRD
- 	tristate "Gembird Joypad"
--	depends on HID
- 	help
- 	Support for Gembird JPD-DualForce 2.
- 
- config HID_GFRM
- 	tristate "Google Fiber TV Box remote control support"
--	depends on HID
- 	help
- 	Support for Google Fiber TV Box remote controls
- 
- config HID_GLORIOUS
- 	tristate "Glorious PC Gaming Race mice"
--	depends on HID
- 	help
- 	  Support for Glorious PC Gaming Race mice such as
- 	  the Glorious Model O, O- and D.
-@@ -424,7 +402,6 @@ config HID_VIVALDI
- 	tristate "Vivaldi Keyboard"
- 	select HID_VIVALDI_COMMON
- 	select INPUT_VIVALDIFMAP
--	depends on HID
- 	help
- 	  Say Y here if you want to enable support for Vivaldi keyboards.
- 
-@@ -447,7 +424,6 @@ config HID_GT683R
- 
- config HID_KEYTOUCH
- 	tristate "Keytouch HID devices"
--	depends on HID
- 	help
- 	Support for Keytouch HID devices not fully compliant with
- 	the specification. Currently supported:
-@@ -455,7 +431,6 @@ config HID_KEYTOUCH
- 
- config HID_KYE
- 	tristate "KYE/Genius devices"
--	depends on HID
- 	help
- 	Support for KYE/Genius devices not fully compliant with HID standard:
- 	- Ergo Mouse
-@@ -471,32 +446,27 @@ config HID_UCLOGIC
- 
- config HID_WALTOP
- 	tristate "Waltop"
--	depends on HID
- 	help
- 	Support for Waltop tablets.
- 
- config HID_VIEWSONIC
- 	tristate "ViewSonic/Signotec"
--	depends on HID
- 	help
- 	  Support for ViewSonic/Signotec PD1011 signature pad.
- 
- config HID_XIAOMI
- 	tristate "Xiaomi"
--	depends on HID
- 	help
- 	  Adds support for side buttons of Xiaomi Mi Dual Mode Wireless
- 	  Mouse Silent Edition.
- 
- config HID_GYRATION
- 	tristate "Gyration remote control"
--	depends on HID
- 	help
- 	Support for Gyration remote control.
- 
- config HID_ICADE
- 	tristate "ION iCade arcade controller"
--	depends on HID
- 	help
- 	Support for the ION iCade arcade controller to work as a joystick.
- 
-@@ -505,14 +475,12 @@ config HID_ICADE
- 
- config HID_ITE
- 	tristate "ITE devices"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for ITE devices not fully compliant with HID standard.
- 
- config HID_JABRA
- 	tristate "Jabra USB HID Driver"
--	depends on HID
- 	help
- 	Support for Jabra USB HID devices.
- 
-@@ -523,26 +491,22 @@ config HID_JABRA
- 
- config HID_TWINHAN
- 	tristate "Twinhan IR remote control"
--	depends on HID
- 	help
- 	Support for Twinhan IR remote control.
- 
- config HID_KENSINGTON
- 	tristate "Kensington Slimblade Trackball"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for Kensington Slimblade Trackball.
- 
- config HID_LCPOWER
- 	tristate "LC-Power"
--	depends on HID
- 	help
- 	Support for LC-Power RC1000MCE RF remote control.
- 
- config HID_LED
- 	tristate "Simple RGB LED support"
--	depends on HID
- 	depends on LEDS_CLASS
- 	help
- 	Support for simple RGB LED devices. Currently supported are:
-@@ -557,7 +521,6 @@ config HID_LED
- 
- config HID_LENOVO
- 	tristate "Lenovo / Thinkpad devices"
--	depends on HID
- 	select NEW_LEDS
- 	select LEDS_CLASS
- 	help
-@@ -675,7 +638,6 @@ config LOGIWHEELS_FF
- 
- config HID_MAGICMOUSE
- 	tristate "Apple Magic Mouse/Trackpad multi-touch support"
--	depends on HID
- 	help
- 	Support for the Apple Magic Mouse/Trackpad multi-touch.
- 
-@@ -684,14 +646,12 @@ config HID_MAGICMOUSE
- 
- config HID_MALTRON
- 	tristate "Maltron L90 keyboard"
--	depends on HID
- 	help
- 	Adds support for the volume up, volume down, mute, and play/pause buttons
- 	of the Maltron L90 keyboard.
- 
- config HID_MAYFLASH
- 	tristate "Mayflash game controller adapter force feedback"
--	depends on HID
- 	select INPUT_FF_MEMLESS
- 	help
- 	Say Y here if you have HJZ Mayflash PS3 game controller adapters
-@@ -707,14 +667,12 @@ config HID_MEGAWORLD_FF
- 
- config HID_REDRAGON
- 	tristate "Redragon keyboards"
--	depends on HID
- 	default !EXPERT
- 	help
-     Support for Redragon keyboards that need fix-ups to work properly.
- 
- config HID_MICROSOFT
- 	tristate "Microsoft non-fully HID-compliant devices"
--	depends on HID
- 	default !EXPERT
- 	select INPUT_FF_MEMLESS
- 	help
-@@ -722,14 +680,12 @@ config HID_MICROSOFT
- 
- config HID_MONTEREY
- 	tristate "Monterey Genius KB29E keyboard"
--	depends on HID
- 	default !EXPERT
- 	help
- 	Support for Monterey Genius KB29E.
- 
- config HID_MULTITOUCH
- 	tristate "HID Multitouch panels"
--	depends on HID
- 	help
- 	  Generic support for HID multitouch panels.
- 
-@@ -775,7 +731,6 @@ config HID_MULTITOUCH
- 
- config HID_NINTENDO
- 	tristate "Nintendo Joy-Con and Pro Controller support"
--	depends on HID
- 	depends on NEW_LEDS
- 	depends on LEDS_CLASS
- 	select POWER_SUPPLY
-@@ -811,7 +766,6 @@ config HID_NTRIG
- 
- config HID_ORTEK
- 	tristate "Ortek PKB-1700/WKB-2000/Skycable wireless keyboard and mouse trackpad"
--	depends on HID
- 	help
- 	There are certain devices which have LogicalMaximum wrong in the keyboard
- 	usage page of their report descriptor. The most prevailing ones so far
-@@ -824,7 +778,6 @@ config HID_ORTEK
- 
- config HID_PANTHERLORD
- 	tristate "Pantherlord/GreenAsia game controller"
--	depends on HID
- 	help
- 	  Say Y here if you have a PantherLord/GreenAsia based game controller
- 	  or adapter.
-@@ -850,13 +803,11 @@ config HID_PENMOUNT
- 
- config HID_PETALYNX
- 	tristate "Petalynx Maxter remote control"
--	depends on HID
- 	help
- 	Support for Petalynx Maxter remote control.
- 
- config HID_PICOLCD
- 	tristate "PicoLCD (graphic version)"
--	depends on HID
- 	help
- 	  This provides support for Minibox PicoLCD devices, currently
- 	  only the graphical ones are supported.
-@@ -922,7 +873,6 @@ config HID_PICOLCD_CIR
- 
- config HID_PLANTRONICS
- 	tristate "Plantronics USB HID Driver"
--	depends on HID
- 	help
- 	  Provides HID support for Plantronics USB audio devices.
- 	  Correctly maps vendor unique volume up/down HID usages to
-@@ -933,7 +883,6 @@ config HID_PLANTRONICS
- 
- config HID_PLAYSTATION
- 	tristate "PlayStation HID Driver"
--	depends on HID
- 	depends on LEDS_CLASS_MULTICOLOR
- 	select CRC32
- 	select POWER_SUPPLY
-@@ -952,14 +901,12 @@ config PLAYSTATION_FF
- 
- config HID_RAZER
- 	tristate "Razer non-fully HID-compliant devices"
--	depends on HID
- 	help
- 	Support for Razer devices that are not fully compliant with the
- 	HID standard.
- 
- config HID_PRIMAX
- 	tristate "Primax non-fully HID-compliant devices"
--	depends on HID
- 	help
- 	Support for Primax devices that are not fully compliant with the
- 	HID standard.
-@@ -981,7 +928,6 @@ config HID_ROCCAT
- 
- config HID_SAITEK
- 	tristate "Saitek (Mad Catz) non-fully HID-compliant devices"
--	depends on HID
- 	help
- 	Support for Saitek devices that are not fully compliant with the
- 	HID standard.
-@@ -999,7 +945,6 @@ config HID_SAMSUNG
- 
- config HID_SEMITEK
- 	tristate "Semitek USB keyboards"
--	depends on HID
- 	help
- 	Support for Semitek USB keyboards that are not fully compliant
- 	with the HID standard.
-@@ -1050,13 +995,11 @@ config SONY_FF
- 
- config HID_SPEEDLINK
- 	tristate "Speedlink VAD Cezanne mouse support"
--	depends on HID
- 	help
- 	Support for Speedlink Vicious and Divine Cezanne mouse.
- 
- config HID_STEAM
- 	tristate "Steam Controller support"
--	depends on HID
- 	select POWER_SUPPLY
- 	help
- 	Say Y here if you have a Steam Controller if you want to use it
-@@ -1065,19 +1008,16 @@ config HID_STEAM
- 
- config HID_STEELSERIES
- 	tristate "Steelseries SRW-S1 steering wheel support"
--	depends on HID
- 	help
- 	Support for Steelseries SRW-S1 steering wheel
- 
- config HID_SUNPLUS
- 	tristate "Sunplus wireless desktop"
--	depends on HID
- 	help
- 	Support for Sunplus wireless desktop.
- 
- config HID_RMI
- 	tristate "Synaptics RMI4 device support"
--	depends on HID
- 	select RMI4_CORE
- 	select RMI4_F03
- 	select RMI4_F11
-@@ -1090,7 +1030,6 @@ config HID_RMI
- 
- config HID_GREENASIA
- 	tristate "GreenAsia (Product ID 0x12) game controller support"
--	depends on HID
- 	help
- 	  Say Y here if you have a GreenAsia (Product ID 0x12) based game
- 	  controller or adapter.
-@@ -1112,7 +1051,6 @@ config HID_HYPERV_MOUSE
- 
- config HID_SMARTJOYPLUS
- 	tristate "SmartJoy PLUS PS2/USB adapter support"
--	depends on HID
- 	help
- 	Support for SmartJoy PLUS PS2/USB adapter, Super Dual Box,
- 	Super Joy Box 3 Pro, Super Dual Box Pro, and Super Joy Box 5 Pro.
-@@ -1130,20 +1068,17 @@ config SMARTJOYPLUS_FF
- 
- config HID_TIVO
- 	tristate "TiVo Slide Bluetooth remote control support"
--	depends on HID
- 	help
- 	Say Y if you have a TiVo Slide Bluetooth remote control.
- 
- config HID_TOPSEED
- 	tristate "TopSeed Cyberlink, BTC Emprex, Conceptronic remote control support"
--	depends on HID
- 	help
- 	Say Y if you have a TopSeed Cyberlink or BTC Emprex or Conceptronic
- 	CLLRCMCE remote control.
- 
- config HID_THINGM
- 	tristate "ThingM blink(1) USB RGB LED"
--	depends on HID
- 	depends on LEDS_CLASS
- 	select HID_LED
- 	help
-@@ -1170,7 +1105,6 @@ config THRUSTMASTER_FF
- 
- config HID_UDRAW_PS3
- 	tristate "THQ PS3 uDraw tablet"
--	depends on HID
- 	help
- 	  Say Y here if you want to use the THQ uDraw gaming tablet for
- 	  the PS3.
-@@ -1207,7 +1141,6 @@ config HID_WACOM
- 
- config HID_WIIMOTE
- 	tristate "Nintendo Wii / Wii U peripherals"
--	depends on HID
- 	depends on LEDS_CLASS
- 	select POWER_SUPPLY
- 	select INPUT_FF_MEMLESS
-@@ -1232,7 +1165,6 @@ config HID_WIIMOTE
- 
- config HID_XINMO
- 	tristate "Xin-Mo non-fully compliant devices"
--	depends on HID
- 	help
- 	Support for Xin-Mo devices that are not fully compliant with the HID
- 	standard. Currently only supports the Xin-Mo Dual Arcade. Say Y here
-@@ -1240,7 +1172,6 @@ config HID_XINMO
- 
- config HID_ZEROPLUS
- 	tristate "Zeroplus based game controller support"
--	depends on HID
- 	help
- 	  Say Y here if you have a Zeroplus based game controller.
- 
-@@ -1254,13 +1185,12 @@ config ZEROPLUS_FF
- 
- config HID_ZYDACRON
- 	tristate "Zydacron remote control support"
--	depends on HID
- 	help
- 	Support for Zydacron remote control.
- 
- config HID_SENSOR_HUB
- 	tristate "HID Sensors framework support"
--	depends on HID && HAS_IOMEM
-+	depends on HAS_IOMEM
- 	select MFD_CORE
- 	default n
- 	help
-@@ -1289,7 +1219,6 @@ config HID_SENSOR_CUSTOM_SENSOR
- 
- config HID_ALPS
- 	tristate "Alps HID device support"
--	depends on HID
- 	help
- 	Support for Alps I2C HID touchpads and StickPointer.
- 	Say Y here if you have a Alps touchpads over i2c-hid or usbhid
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on next-20220708]
+[cannot apply to brgl/gpio/for-next hid/for-next linus/master v5.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20220709/202207091223.nBzeL6dk-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/64267ff775fd4b945fb916a10187be1c15faa165
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
+        git checkout 64267ff775fd4b945fb916a10187be1c15faa165
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/input/keyboard/adp5588-keys.c: In function 'adp5588_gpio_add':
+>> drivers/input/keyboard/adp5588-keys.c:263:18: error: 'struct gpio_chip' has no member named 'of_node'; did you mean 'fwnode'?
+     263 |         kpad->gc.of_node = kpad->client->dev.of_node;
+         |                  ^~~~~~~
+         |                  fwnode
+
+
+vim +263 drivers/input/keyboard/adp5588-keys.c
+
+   243	
+   244	static int adp5588_gpio_add(struct adp5588_kpad *kpad)
+   245	{
+   246		struct irq_chip *irq_chip = &kpad->irq_chip;
+   247		struct device *dev = &kpad->client->dev;
+   248		const struct adp5588_kpad_platform_data *pdata = dev_get_platdata(dev);
+   249		const struct adp5588_gpio_platform_data *gpio_data = pdata->gpio_data;
+   250		struct gpio_irq_chip *girq;
+   251		int i, error;
+   252	
+   253		if (!gpio_data)
+   254			return 0;
+   255	
+   256		kpad->gc.ngpio = adp5588_build_gpiomap(kpad, pdata);
+   257		if (kpad->gc.ngpio == 0) {
+   258			dev_info(dev, "No unused gpios left to export\n");
+   259			return 0;
+   260		}
+   261	
+   262		kpad->gc.parent = &kpad->client->dev;
+ > 263		kpad->gc.of_node = kpad->client->dev.of_node;
+   264		kpad->gc.direction_input = adp5588_gpio_direction_input;
+   265		kpad->gc.direction_output = adp5588_gpio_direction_output;
+   266		kpad->gc.get = adp5588_gpio_get_value;
+   267		kpad->gc.set = adp5588_gpio_set_value;
+   268		kpad->gc.can_sleep = 1;
+   269	
+   270		kpad->gc.base = gpio_data->gpio_start;
+   271		kpad->gc.label = kpad->client->name;
+   272		kpad->gc.owner = THIS_MODULE;
+   273		kpad->gc.names = gpio_data->names;
+   274	
+   275		irq_chip->name = "adp5588";
+   276		irq_chip->irq_mask = adp5588_irq_mask;
+   277		irq_chip->irq_unmask = adp5588_irq_unmask;
+   278		irq_chip->irq_bus_lock = adp5588_irq_bus_lock;
+   279		irq_chip->irq_bus_sync_unlock = adp5588_irq_bus_sync_unlock;
+   280		irq_chip->irq_set_type = adp5588_irq_set_type;
+   281		irq_chip->flags	= IRQCHIP_SKIP_SET_WAKE;
+   282		girq = &kpad->gc.irq;
+   283		girq->chip = irq_chip;
+   284		girq->handler = handle_simple_irq;
+   285		girq->threaded = true;
+   286	
+   287		mutex_init(&kpad->gpio_lock);
+   288	
+   289		error = devm_gpiochip_add_data(dev, &kpad->gc, kpad);
+   290		if (error) {
+   291			dev_err(dev, "gpiochip_add failed: %d\n", error);
+   292			return error;
+   293		}
+   294	
+   295		for (i = 0; i <= ADP5588_BANK(ADP5588_MAXGPIO); i++) {
+   296			kpad->dat_out[i] = adp5588_read(kpad->client,
+   297							GPIO_DAT_OUT1 + i);
+   298			kpad->dir[i] = adp5588_read(kpad->client, GPIO_DIR1 + i);
+   299		}
+   300	
+   301		if (gpio_data->setup) {
+   302			error = gpio_data->setup(kpad->client,
+   303						 kpad->gc.base, kpad->gc.ngpio,
+   304						 gpio_data->context);
+   305			if (error)
+   306				dev_warn(dev, "setup failed: %d\n", error);
+   307		}
+   308	
+   309		if (gpio_data->teardown) {
+   310			error = devm_add_action(dev, adp5588_gpio_do_teardown, kpad);
+   311			if (error)
+   312				dev_warn(dev, "failed to schedule teardown: %d\n",
+   313					 error);
+   314		}
+   315	
+   316		return 0;
+   317	}
+   318	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
