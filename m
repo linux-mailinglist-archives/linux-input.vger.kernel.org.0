@@ -2,190 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2481156C68A
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 06:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A194556C6E4
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 06:28:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbiGIEL2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Jul 2022 00:11:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
+        id S229436AbiGIE2g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jul 2022 00:28:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiGIEL1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 00:11:27 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3B67AB32;
-        Fri,  8 Jul 2022 21:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657339885; x=1688875885;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dImL4G2o7pTQGqvQRAZ/53V7JkwZUADnQxGIvBEKs5U=;
-  b=HpmwqBleJEj+sFuDvRC6BtwHaFFF6VeLKtt+qFZwlaD45gzbVPBIpBQv
-   kw2RP8sZEIu8gFyfQMxHa2wmppwN6225+p79CA2xihowLICzN/vObmejn
-   dnBpXvsFedE+WwR9fSEaLCzIw2kYWAPLyMtcspbcO4Yeny6HhuL++7Sf8
-   3A/wHnV8ikEgXcfldu53jZ8e/l8CowQwtmASGZcJUCQbW88jMEeVxn63G
-   GrB2nxjG7YOKMxEvXB+tPSkWyInhTWVZko6Xir6DZqHYqzwYhBqTT5eD8
-   zKp1J9+jpGuFgOHFFXP4nU5b3BJiWXmS9v+lMZjRcIvtgPcVNsdvItod8
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="281958563"
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="281958563"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 21:11:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="683857081"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2022 21:11:22 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oA1oP-000OHc-Eb;
-        Sat, 09 Jul 2022 04:11:21 +0000
-Date:   Sat, 9 Jul 2022 12:10:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-input@vger.kernel.org
-Cc:     kbuild-all@lists.01.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 01/10] input: keyboard: adp5588-keys: support gpi key
- events as 'gpio keys'
-Message-ID: <202207091223.nBzeL6dk-lkp@intel.com>
-References: <20220708093448.42617-2-nuno.sa@analog.com>
+        with ESMTP id S229495AbiGIE2c (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 00:28:32 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C4F5F9D;
+        Fri,  8 Jul 2022 21:28:31 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id l12so359288plk.13;
+        Fri, 08 Jul 2022 21:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=P1ZmRAMQkKi+73jDKOIxJoV5SeHUxQ3O93b7K+9df6Q=;
+        b=Sit6D4+D1IB11o9WUsG0USK8bmhZeOQMlIsXx5F/g1jWh9wShUczZQaKcpSDGwB4Gy
+         xaRu+h0b6KwoNLvnxguvheLxaqD7/8aWeFp+eona6sOeWEydZJBFa1Q081VQGejzv9T2
+         eeBIwAZQ4ofhcNaOiF5PcMiBV3DWTkGUApnOqpUD78jcCyWTO4y16Jf62zxLcGAn18Oy
+         AGNqPNPxEJ5VqFbkSB4UxRoKtTywJcP/4Jyy5mLr7E69nujYaui7zlbyI2Tdxjdn5ywr
+         96HY3RetQcLVmn4VDH1mn2LsiR2B+mi+2RUeMH3+SJYQE+UcwCcQ8BPVP9NaR5vLMwHd
+         jdPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=P1ZmRAMQkKi+73jDKOIxJoV5SeHUxQ3O93b7K+9df6Q=;
+        b=0wi/pTmZNFm7uF4JwygkbBBQRleBlfircXUlgNWDTkG6P3L0N5eohSiNsIc/7bcYwA
+         6BiX3GqD/WovJAnTJoRFI8ubSKKpFJ4diBV1L5MXzIGevirxnvwHSnHjS2hCWgwgNVjh
+         0/5F0eTbIHGzuokjnmusE4ys89lmD/9MEfxRj+8cFOrg2D0A3CbvAtLSQRj26DTWzk22
+         1nnIHFbvytDB9XNgWAfdKjJQ2NWg+A76JdyiYW2ijpK1ifJ9cVVJUk5myrIGJZNkSWNG
+         NxJystBLe5xGsMtHPEj7E3UE3uD9mx1AbYmBnuz2Kf65EDIlSQTcPr1F++xnBhKjxaVR
+         jhWw==
+X-Gm-Message-State: AJIora9WvlnPJ4awRjD5xrxr5BiD74lcEMUC0Z/15i4kZmn1wEDdADkc
+        sOGp4BkJ8YNs5XuaZvwIs0M=
+X-Google-Smtp-Source: AGRyM1t00kPzOqjiMw+aqKWQ/Di9XwgqWq0GXN4A6dkrdxlf+Q1NjP//JJDZF59HpfioK/NADLijEg==
+X-Received: by 2002:a17:90a:eb17:b0:1ef:81d5:1fd0 with SMTP id j23-20020a17090aeb1700b001ef81d51fd0mr3936069pjz.29.1657340910456;
+        Fri, 08 Jul 2022 21:28:30 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:5011:9ea9:1cc2:a4c0])
+        by smtp.gmail.com with ESMTPSA id u3-20020a627903000000b00528999fba99sm423242pfc.175.2022.07.08.21.28.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 21:28:29 -0700 (PDT)
+Date:   Fri, 8 Jul 2022 21:28:27 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <YskD6/4iDgiIkV2G@google.com>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220708093448.42617-2-nuno.sa@analog.com>
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi "Nuno,
+On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-König wrote:
+> From: Uwe Kleine-König <uwe@kleine-koenig.org>
+> 
+> The value returned by an i2c driver's remove function is mostly ignored.
+> (Only an error message is printed if the value is non-zero that the
+> error is ignored.)
+> 
+> So change the prototype of the remove function to return no value. This
+> way driver authors are not tempted to assume that passing an error to
+> the upper layer is a good idea. All drivers are adapted accordingly.
+> There is no intended change of behaviour, all callbacks were prepared to
+> return 0 before.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+...
+>  drivers/input/joystick/as5011.c                           | 4 +---
+>  drivers/input/keyboard/adp5588-keys.c                     | 4 +---
+>  drivers/input/keyboard/lm8323.c                           | 4 +---
+>  drivers/input/keyboard/lm8333.c                           | 4 +---
+>  drivers/input/keyboard/mcs_touchkey.c                     | 4 +---
+>  drivers/input/keyboard/qt1070.c                           | 4 +---
+>  drivers/input/keyboard/qt2160.c                           | 4 +---
+>  drivers/input/keyboard/tca6416-keypad.c                   | 4 +---
+>  drivers/input/misc/adxl34x-i2c.c                          | 4 +---
+>  drivers/input/misc/bma150.c                               | 4 +---
+>  drivers/input/misc/cma3000_d0x_i2c.c                      | 4 +---
+>  drivers/input/misc/pcf8574_keypad.c                       | 4 +---
+>  drivers/input/mouse/synaptics_i2c.c                       | 4 +---
+>  drivers/input/rmi4/rmi_smbus.c                            | 4 +---
+>  drivers/input/touchscreen/atmel_mxt_ts.c                  | 4 +---
+>  drivers/input/touchscreen/bu21013_ts.c                    | 4 +---
+>  drivers/input/touchscreen/cyttsp4_i2c.c                   | 4 +---
+>  drivers/input/touchscreen/edt-ft5x06.c                    | 4 +---
+>  drivers/input/touchscreen/goodix.c                        | 4 +---
+>  drivers/input/touchscreen/migor_ts.c                      | 4 +---
+>  drivers/input/touchscreen/s6sy761.c                       | 4 +---
+>  drivers/input/touchscreen/stmfts.c                        | 4 +---
 
-I love your patch! Yet something to improve:
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on next-20220708]
-[cannot apply to brgl/gpio/for-next hid/for-next linus/master v5.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20220709/202207091223.nBzeL6dk-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/64267ff775fd4b945fb916a10187be1c15faa165
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
-        git checkout 64267ff775fd4b945fb916a10187be1c15faa165
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/input/keyboard/adp5588-keys.c: In function 'adp5588_gpio_add':
->> drivers/input/keyboard/adp5588-keys.c:263:18: error: 'struct gpio_chip' has no member named 'of_node'; did you mean 'fwnode'?
-     263 |         kpad->gc.of_node = kpad->client->dev.of_node;
-         |                  ^~~~~~~
-         |                  fwnode
-
-
-vim +263 drivers/input/keyboard/adp5588-keys.c
-
-   243	
-   244	static int adp5588_gpio_add(struct adp5588_kpad *kpad)
-   245	{
-   246		struct irq_chip *irq_chip = &kpad->irq_chip;
-   247		struct device *dev = &kpad->client->dev;
-   248		const struct adp5588_kpad_platform_data *pdata = dev_get_platdata(dev);
-   249		const struct adp5588_gpio_platform_data *gpio_data = pdata->gpio_data;
-   250		struct gpio_irq_chip *girq;
-   251		int i, error;
-   252	
-   253		if (!gpio_data)
-   254			return 0;
-   255	
-   256		kpad->gc.ngpio = adp5588_build_gpiomap(kpad, pdata);
-   257		if (kpad->gc.ngpio == 0) {
-   258			dev_info(dev, "No unused gpios left to export\n");
-   259			return 0;
-   260		}
-   261	
-   262		kpad->gc.parent = &kpad->client->dev;
- > 263		kpad->gc.of_node = kpad->client->dev.of_node;
-   264		kpad->gc.direction_input = adp5588_gpio_direction_input;
-   265		kpad->gc.direction_output = adp5588_gpio_direction_output;
-   266		kpad->gc.get = adp5588_gpio_get_value;
-   267		kpad->gc.set = adp5588_gpio_set_value;
-   268		kpad->gc.can_sleep = 1;
-   269	
-   270		kpad->gc.base = gpio_data->gpio_start;
-   271		kpad->gc.label = kpad->client->name;
-   272		kpad->gc.owner = THIS_MODULE;
-   273		kpad->gc.names = gpio_data->names;
-   274	
-   275		irq_chip->name = "adp5588";
-   276		irq_chip->irq_mask = adp5588_irq_mask;
-   277		irq_chip->irq_unmask = adp5588_irq_unmask;
-   278		irq_chip->irq_bus_lock = adp5588_irq_bus_lock;
-   279		irq_chip->irq_bus_sync_unlock = adp5588_irq_bus_sync_unlock;
-   280		irq_chip->irq_set_type = adp5588_irq_set_type;
-   281		irq_chip->flags	= IRQCHIP_SKIP_SET_WAKE;
-   282		girq = &kpad->gc.irq;
-   283		girq->chip = irq_chip;
-   284		girq->handler = handle_simple_irq;
-   285		girq->threaded = true;
-   286	
-   287		mutex_init(&kpad->gpio_lock);
-   288	
-   289		error = devm_gpiochip_add_data(dev, &kpad->gc, kpad);
-   290		if (error) {
-   291			dev_err(dev, "gpiochip_add failed: %d\n", error);
-   292			return error;
-   293		}
-   294	
-   295		for (i = 0; i <= ADP5588_BANK(ADP5588_MAXGPIO); i++) {
-   296			kpad->dat_out[i] = adp5588_read(kpad->client,
-   297							GPIO_DAT_OUT1 + i);
-   298			kpad->dir[i] = adp5588_read(kpad->client, GPIO_DIR1 + i);
-   299		}
-   300	
-   301		if (gpio_data->setup) {
-   302			error = gpio_data->setup(kpad->client,
-   303						 kpad->gc.base, kpad->gc.ngpio,
-   304						 gpio_data->context);
-   305			if (error)
-   306				dev_warn(dev, "setup failed: %d\n", error);
-   307		}
-   308	
-   309		if (gpio_data->teardown) {
-   310			error = devm_add_action(dev, adp5588_gpio_do_teardown, kpad);
-   311			if (error)
-   312				dev_warn(dev, "failed to schedule teardown: %d\n",
-   313					 error);
-   314		}
-   315	
-   316		return 0;
-   317	}
-   318	
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Dmitry
