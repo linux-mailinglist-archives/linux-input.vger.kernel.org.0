@@ -2,72 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ACD956C947
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 13:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3583556CA36
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 16:56:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbiGILxT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Jul 2022 07:53:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58532 "EHLO
+        id S229460AbiGIO4V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jul 2022 10:56:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiGILxS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 07:53:18 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F21E18B16;
-        Sat,  9 Jul 2022 04:53:17 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-31d27fd3d94so9917257b3.7;
-        Sat, 09 Jul 2022 04:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1HdCa8JaBhBe1x+dQjl5PVk/b2s2b2bApOUpgobQiZc=;
-        b=Zj+rynRLWTx6GjzPfSmKFqFIlmu16iinYammW8Q5H8SMbhT2RB3b1smHMxQ6T5nmEK
-         Ej1ve0jBLI1w/EaVRw2eqC+5pgosHPLbem9hod6vl8IAE7z7Nr0tXon4Ldy9YoC6OkEj
-         Y0iYfPpdd/cyKROQeNBxAxTRMdL4xCYroMICZ64FbLZ/eQFurFhvReODeata+I/RK9t6
-         pjGvZv3Zu5tgw+VvhMKbshTY/vyqMygUfglcQVFDMcOMnO6dw5cw6kQqRk1vwOtfxqEs
-         zUw9vM0YGWTgF8yrRw7G41Bs4e6OGOyNiIwKH04yUIixcbffxOtAnttv25x0o/t7kU5m
-         W5NQ==
+        with ESMTP id S229456AbiGIO4U (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 10:56:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 07E611AD89
+        for <linux-input@vger.kernel.org>; Sat,  9 Jul 2022 07:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657378579;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lhe0MLtyoBkpahosVrejSAhtzTQ5suZXiUqbUoZC8Os=;
+        b=Lz3hQ/S9xIlmgsaebXA+WEdABHXJyII6Eu5ZbmUxU+/N+6vZxr+WvZo90Z8/wspBmhkSVQ
+        1xoqkEK+N2mYOQ/VPqYlqDl7at/gnQLNytF11bszp9/GKZKL969RYrISQW27ltVwUCul/x
+        NpRLhAKHXFQQgXuUIGRbHhd49/ost/A=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-395-spa4QV2lOvmuRXFOOCQNqg-1; Sat, 09 Jul 2022 10:56:17 -0400
+X-MC-Unique: spa4QV2lOvmuRXFOOCQNqg-1
+Received: by mail-ed1-f70.google.com with SMTP id z20-20020a05640240d400b0043a82d9d65fso1139637edb.0
+        for <linux-input@vger.kernel.org>; Sat, 09 Jul 2022 07:56:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1HdCa8JaBhBe1x+dQjl5PVk/b2s2b2bApOUpgobQiZc=;
-        b=Ea8UiCN3pEgayV/VCan8dBr5CkMFERBl1OcntI/kyJ6xcpkhphabwywdcIJo04dfhj
-         wKjFWJ8yBZCs9ALclFnqJqvWcdSQO3ShiUDJSoI0YLmQlYI5G1GbJR1rcx1UOyqf+dHF
-         2+wIK770OSRu95lwusC4zraVeznR1LYFDy1Q3r0aRzIylMkYBQWKj1ADORQ1CfSc8OLT
-         v8oQRbIrK2jBMRet63BH6IxxtmzB9/xFpGK/+p2zWC4k3qrf/8vsIq3yQR99PstCSQ3J
-         A+GeWXFsQ6V9xEB7bMbCU+grH5yoIHbm7FJm3jT9Qn1AONcW91H01yRHIiglnLOtE/BO
-         Z9EQ==
-X-Gm-Message-State: AJIora9VYKo8nL0rgvSwRvcGLNE3qMGo1Ibt67Nyi3ZyVGHihpGieyL1
-        s2ElHY/VBJs3HasQ3HgPNFv1efy1R6EfnckMMfE=
-X-Google-Smtp-Source: AGRyM1t34SOaeHMpbBP42yDVZZ7Yk7/a8nvd8vWppoQ8b4AP03aUHRugEErG8Ze0HVi4z0e4AS02+b13SMorpBwQrXg=
-X-Received: by 2002:a81:4986:0:b0:31d:388b:d08d with SMTP id
- w128-20020a814986000000b0031d388bd08dmr4739829ywa.185.1657367596167; Sat, 09
- Jul 2022 04:53:16 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=lhe0MLtyoBkpahosVrejSAhtzTQ5suZXiUqbUoZC8Os=;
+        b=vf/JSecw9QrWWjQy5hdR9FWy9boVhkI1kimzfRCczkVtIgDRRVQ9r+Pivo91LRhQ3x
+         yM1hXDvdyiOJMcyGUk+ASVGJBYfkiNpGMfU+9QoELcGrW6ga+HosirmF6Byfmx4aevZ5
+         Eu/YfRLfyyfx3F7Ou57IO2YrHJ1VvkStaCQe3aXVJ83xSTIMXK5c0cFEQq1vZ46BnVGn
+         susr+afun0tCcptF48wtdKMgFWdkRjRjymLJjSHBsz0BrBQkA6XbmlPoOoRyZdXE3KI1
+         YlwmIZG73HZ7ZA4WDYFvilabTl30mePVPI41RcTAzHCAoGeCGutnQZYPgyWfcIlqrm14
+         qiDg==
+X-Gm-Message-State: AJIora93FhtejAgTMrzF297F0XH2bGVBpSaLZteolEU19YdAEp46gLr+
+        Ksm7nrarypV+eDaV0yn0ve/ktHbwp1Oispxa+GuS38isv7GY+n2hqKPBwxk7RIZTWuPMWq5p221
+        +3saFAQj0mg/FAC/YyE2/tBA=
+X-Received: by 2002:a17:907:7ba8:b0:72b:1491:c73c with SMTP id ne40-20020a1709077ba800b0072b1491c73cmr8995978ejc.415.1657378576731;
+        Sat, 09 Jul 2022 07:56:16 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tk8xtQIGFQOcmJKQJrfW5RgVDZYVRGPl9aPcP2hAw6MPO4bXHTwfaYbxpxXXpa5cElXNVuzQ==
+X-Received: by 2002:a17:907:7ba8:b0:72b:1491:c73c with SMTP id ne40-20020a1709077ba800b0072b1491c73cmr8995961ejc.415.1657378576545;
+        Sat, 09 Jul 2022 07:56:16 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id ch15-20020a0564021bcf00b0043a71c376a2sm1087446edb.33.2022.07.09.07.56.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Jul 2022 07:56:16 -0700 (PDT)
+Message-ID: <8b893c42-e514-bcef-0513-070b3723cdcc@redhat.com>
+Date:   Sat, 9 Jul 2022 16:56:15 +0200
 MIME-Version: 1.0
-References: <20220708093448.42617-2-nuno.sa@analog.com> <202207091223.nBzeL6dk-lkp@intel.com>
-In-Reply-To: <202207091223.nBzeL6dk-lkp@intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 9 Jul 2022 13:52:39 +0200
-Message-ID: <CAHp75Vfs5Q=hJ6v5Ft4w4+DU3HgbV5z0FsuZXrFEK3B43-4SaA@mail.gmail.com>
-Subject: Re: [PATCH 01/10] input: keyboard: adp5588-keys: support gpi key
- events as 'gpio keys'
-To:     kernel test robot <lkp@intel.com>
-Cc:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        kbuild-all@lists.01.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: input/i8042: Malfunctioning brightness keys on HP Elite Dragonfly
+ G2
+Content-Language: en-US
+To:     Alex Dewar <alex.dewar@gmx.co.uk>, dmitry.torokhov@gmail.com,
+        tiwai@suse.de, markgross@kernel.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+References: <20220629094314.b7xmfb3xccj7vs6v@ic-alex-elitebook>
+ <3fedf676645bfa638c9a6c656121083abc2c98ea.camel@gmx.co.uk>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <3fedf676645bfa638c9a6c656121083abc2c98ea.camel@gmx.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,46 +83,57 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jul 9, 2022 at 6:22 AM kernel test robot <lkp@intel.com> wrote:
->
-> Hi "Nuno,
->
-> I love your patch! Yet something to improve:
->
-> [auto build test ERROR on dtor-input/next]
-> [also build test ERROR on next-20220708]
-> [cannot apply to brgl/gpio/for-next hid/for-next linus/master v5.19-rc5]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-> config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20220709/202207091223.nBzeL6dk-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/64267ff775fd4b945fb916a10187be1c15faa165
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
->         git checkout 64267ff775fd4b945fb916a10187be1c15faa165
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
->
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
->
-> All errors (new ones prefixed by >>):
->
->    drivers/input/keyboard/adp5588-keys.c: In function 'adp5588_gpio_add':
-> >> drivers/input/keyboard/adp5588-keys.c:263:18: error: 'struct gpio_chip' has no member named 'of_node'; did you mean 'fwnode'?
->      263 |         kpad->gc.of_node = kpad->client->dev.of_node;
->          |                  ^~~~~~~
->          |                  fwnode
+Hi,
 
-Yes, exactly the point why of_node is bad to have. In legacy code like
-this you need to guard access to it with #ifdef CONFIG_OF_GPIO IIRC.
+On 7/5/22 19:25, Alex Dewar wrote:
+> Friendly ping? 🙂
+> 
+> I'm also CC'ing the x86 platform people into this, as I'm not sure
+> whether this problem is something more within their remit.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Please test the atbkd device with "sudo evemu-record" or "sudo evtest"
+and if the brightness keys generate events there, write down the
+raw event codes (MSC events).
+
+Assuming the brightness keys indeed send events here, then:
+
+After that you need to create an update to:
+/lib/udev/hwdb.d/60-keyboard.hwdb to fix the mapping for your laptop.
+See the "To update this file, create a new file ..." section.
+
+You can find the DMI match pattern used in this file by doing:
+
+cat /sys/class/dmi/id/modalias
+
+Once you have things working, please submit a pull-req to upstream
+systemd to get these quirk included in the offical hwdb. Or send
+me a copy of the local 70-keyboard.hwdb override you have created
+and I can submit it upstream for you.
+
+Regards,
+
+Hans
+
+
+
+> 
+> Best,
+> Alex
+> 
+> On Wed, 2022-06-29 at 10:43 +0100, Alex Dewar wrote:
+>> Hi,
+>>
+>> I'm running Linux 5.18.7 on an HP Elite Dragonfly G2 laptop, which
+>> seems
+>> to use the i8042 driver. Mostly things seem to work (including
+>> hotkeys)
+>> except that the increase/decrease brightness keys instead send the
+>> "mic
+>> mute" keycode. (The *actual* mic mute key works fine.)
+>>
+>> Any ideas? Do we need to add a quirk?
+>>
+>> Best,
+>> Alex
+> 
+
