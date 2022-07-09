@@ -2,116 +2,202 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D27856C32C
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 01:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9CD756C5A4
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 03:15:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238759AbiGHWXH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jul 2022 18:23:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47204 "EHLO
+        id S229532AbiGIBPU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jul 2022 21:15:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238190AbiGHWXG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 18:23:06 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 497EDA2E75;
-        Fri,  8 Jul 2022 15:23:05 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id a15so187374pfv.13;
-        Fri, 08 Jul 2022 15:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=awbCX6D8TgaWVx4PaHvXISepNRKwfSLcno0uruq5CMU=;
-        b=Y8CUlZJ8uGgqajYbhGJtxEivYuxYsKb1Nj281kx9qT1nJmU8DzYGUmM+zXemnfOkL+
-         XickPc13iKeqjkDpzqC16OUWhXELLUqqaZoSujZfd0GGWBChnkX6Bkg6Xjo6TEuIYjpb
-         bPZ+GbqF16Zq5Xt8+ofsYrX6dYqD0wCK3JRvy9+bSSpZ4RWAeMrL/a3b8EphT+ksNKP2
-         TAAK3k2eQWC3ix0Sje6Hw3Dxin2bY2x86pe7pJzHEq9smxnMTPFC5PMhnKH4Amkp5Hn5
-         O0WRdYBIWjJ4MP2iqNMDVtJKbxVQgyxOQy/LbROys0upoP4SQNkHosHcq12tGGB9/PQl
-         iCtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=awbCX6D8TgaWVx4PaHvXISepNRKwfSLcno0uruq5CMU=;
-        b=1Hwd9daKeTSS4CInLBFTdqn5rciu9F0AMR8696unWwGZn1L4AEh0QVeqHnr2TDpcQu
-         e8CN5GgTR20PI/vNDwOU+0Gi7cSmbCmH7qBD3HClCIFXYWQnuVK20TkppkWUcx8+Rj+m
-         mwhtJjt0c2pa1sO6CM/rDYvR8Xn2pvG3A75x//qEnbKe0ehEyLGJQ8Lmhdz/D7RcCeQ0
-         6pnRE2DhYS0pBVyb5oPRVZFR4jCNrVvRVIbeh4Eort6hi8Y2b6IppN2qt3oITJXUvAVC
-         5K799LnKhV8LPkcqyw739EetU1ldO2uCMElwquKBmK+IMyoMH5ILUQq+clCQghN7tGgY
-         S7Kg==
-X-Gm-Message-State: AJIora+27mU1jbKVBSRU/IUr3XVvsB/2syZSMZRgSKeS1TrH1bk7X2qB
-        Xw3Y6RPsy3zaHyBEdvJguj7MTsM4UwQ=
-X-Google-Smtp-Source: AGRyM1siGJ1E9EAcQp1E2pold0DZlvsAKWPVZoikBzkCUpfVLjSu2NIH2s73fV+oSiW7yuDW/gsXYQ==
-X-Received: by 2002:a05:6a02:18b:b0:415:c9d:4e3c with SMTP id bj11-20020a056a02018b00b004150c9d4e3cmr5000142pgb.580.1657318984741;
-        Fri, 08 Jul 2022 15:23:04 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:9707:b37:49b0:77c2])
-        by smtp.gmail.com with ESMTPSA id l7-20020a170903244700b0016a33177d3csm21891pls.160.2022.07.08.15.23.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 15:23:03 -0700 (PDT)
-Date:   Fri, 8 Jul 2022 15:23:01 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [RESEND PATCH v3 0/3] dt-bindings: input: gpio-keys: apply via
- DT tree
-Message-ID: <YsiuRbaFMa683H1Z@google.com>
-References: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
- <CAL_Jsq+LepF_67SJUqQ5mUO-TZAd-46LB+aYE5rZmnmmwMg=bw@mail.gmail.com>
- <352f27e7-0da1-4a4a-83a4-ded370dfbd7f@linaro.org>
- <YsiVH41gCLeIMyd6@google.com>
- <20220708220507.GA1557227-robh@kernel.org>
+        with ESMTP id S229379AbiGIBPT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jul 2022 21:15:19 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8379A643D5;
+        Fri,  8 Jul 2022 18:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657329318; x=1688865318;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SFN91SBKl8zV0FODfRS2tJ2kUZI5R8GwUBZHq04TEEA=;
+  b=KoOQNJPQXXMut5+xFOZEZNB8chhQo3bMeTMnaISSqzxRebromUwEK34B
+   cAuIVn2GtgF60PJHyV18dWLp4undvN4l11cbaKHwEo0VMTWPeVHB1cCaV
+   84xsw0nTwz3eXCcMhWRvR3j57LzZylUv7r4QI9SnSo651R0RBFzvaBK9o
+   fYs1SsgYTvLOlYtz0PnZCMKz79xMuI6A0ANtKSAzn/D/DhH2mFAYlmlh2
+   977wz6HBMzmdRBgR8bEpqXkcMMGZ7HiAk6MOzu5UXldjxTXHI5/VGTKGo
+   /qb2StE6ulXtUklOFDmAt/KHBZJSl9+DCSWJ9BFCc38fuRaZ+B+n96iAz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="309985066"
+X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
+   d="scan'208";a="309985066"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 18:15:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
+   d="scan'208";a="661954457"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 08 Jul 2022 18:15:15 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o9z3y-000O8E-QS;
+        Sat, 09 Jul 2022 01:15:14 +0000
+Date:   Sat, 9 Jul 2022 09:14:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org
+Cc:     kbuild-all@lists.01.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 04/10] input: keyboard: adp5588-keys: add support for fw
+ properties
+Message-ID: <202207090942.hoWXaKCu-lkp@intel.com>
+References: <20220708093448.42617-5-nuno.sa@analog.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220708220507.GA1557227-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220708093448.42617-5-nuno.sa@analog.com>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 08, 2022 at 04:05:07PM -0600, Rob Herring wrote:
-> On Fri, Jul 08, 2022 at 01:35:43PM -0700, Dmitry Torokhov wrote:
-> > Hi,
-> > 
-> > On Wed, Jul 06, 2022 at 08:30:54AM +0200, Krzysztof Kozlowski wrote:
-> > > On 05/07/2022 21:11, Rob Herring wrote:
-> > > > On Tue, Jul 5, 2022 at 6:04 AM Krzysztof Kozlowski
-> > > > <krzysztof.kozlowski@linaro.org> wrote:
-> > > >>
-> > > >> Hi Rob,
-> > > >>
-> > > >> Can you apply these directly? You already reviewed them, but I dropped
-> > > >> the tag so you will see them in Patchwork. It seems these won't go in
-> > > >> through input [1].
-> > > >>
-> > > >> [1] https://lore.kernel.org/all/c2c1cf0c-9462-9ba5-a297-70d13a063de1@linaro.org/
-> > > > 
-> > > > Will give Dmitry a few more days first before I take both series.
-> > > 
-> > > Then let's keep your Rb for entire patchset:
-> > > 
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > 
-> > I am sorry but what series/branch this series is based on? I tried
-> > applying but there are conflicts. The latest I have that is touching
-> > gpio-keys.yaml is:
-> > 
-> > 4fda8a2df83a dt-bindings: input: use generic node names
-> 
-> This one from me:
-> 
-> https://lore.kernel.org/all/20220608211207.2058487-1-robh@kernel.org/
+Hi "Nuno,
 
-Ah, I see, thank you. Applied the lot.
+I love your patch! Perhaps something to improve:
 
+[auto build test WARNING on dtor-input/next]
+[cannot apply to brgl/gpio/for-next hid/for-next linus/master v5.19-rc5 next-20220708]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220709/202207090942.hoWXaKCu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/75ce2e5c9e3267912dc4bc6773869d135a753e35
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220708-173730
+        git checkout 75ce2e5c9e3267912dc4bc6773869d135a753e35
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/keyboard/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/gpio/driver.h:5,
+                    from drivers/input/keyboard/adp5588-keys.c:13:
+   drivers/input/keyboard/adp5588-keys.c: In function 'adp5588_fw_parse':
+>> drivers/input/keyboard/adp5588-keys.c:667:39: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
+     667 |                 dev_err(&client->dev, "number of unlock keys(%d) > (%d)\n",
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/input/keyboard/adp5588-keys.c:667:17: note: in expansion of macro 'dev_err'
+     667 |                 dev_err(&client->dev, "number of unlock keys(%d) > (%d)\n",
+         |                 ^~~~~~~
+   drivers/input/keyboard/adp5588-keys.c:667:70: note: format string is defined here
+     667 |                 dev_err(&client->dev, "number of unlock keys(%d) > (%d)\n",
+         |                                                                     ~^
+         |                                                                      |
+         |                                                                      int
+         |                                                                     %ld
+
+
+vim +667 drivers/input/keyboard/adp5588-keys.c
+
+   631	
+   632	static int adp5588_fw_parse(struct adp5588_kpad *kpad)
+   633	{
+   634		struct i2c_client *client = kpad->client;
+   635		int ret, i;
+   636	
+   637		ret = matrix_keypad_parse_properties(&client->dev, &kpad->rows,
+   638						     &kpad->cols);
+   639		if (ret)
+   640			return ret;
+   641	
+   642		if (kpad->rows > ADP5588_ROWS_MAX || kpad->cols > ADP5588_COLS_MAX) {
+   643			dev_err(&client->dev, "Invalid nr of rows(%u) or cols(%u)\n",
+   644				kpad->rows, kpad->cols);
+   645			return -EINVAL;
+   646		}
+   647	
+   648		ret = matrix_keypad_build_keymap(NULL, NULL, kpad->rows, kpad->cols,
+   649						 kpad->keycode, kpad->input);
+   650		if (ret)
+   651			return ret;
+   652	
+   653		kpad->row_shift = get_count_order(kpad->cols);
+   654	
+   655		if (device_property_read_bool(&client->dev, "autorepeat"))
+   656			__set_bit(EV_REP, kpad->input->evbit);
+   657	
+   658		kpad->nkeys_unlock = device_property_count_u32(&client->dev,
+   659							       "adi,unlock-keys");
+   660		if (kpad->nkeys_unlock <= 0) {
+   661			/* so that we don't end up enabling key lock */
+   662			kpad->nkeys_unlock = 0;
+   663			return 0;
+   664		}
+   665	
+   666		if (kpad->nkeys_unlock > ARRAY_SIZE(kpad->unlock_keys)) {
+ > 667			dev_err(&client->dev, "number of unlock keys(%d) > (%d)\n",
+   668				kpad->nkeys_unlock, ARRAY_SIZE(kpad->unlock_keys));
+   669			return -EINVAL;
+   670		}
+   671	
+   672		ret = device_property_read_u32_array(&client->dev, "adi,unlock-keys",
+   673						     kpad->unlock_keys,
+   674						     kpad->nkeys_unlock);
+   675		if (ret)
+   676			return ret;
+   677	
+   678		for (i = 0; i < kpad->nkeys_unlock; i++) {
+   679			/*
+   680			 * Even though it should be possible (as stated in the datasheet)
+   681			 * to use GPIs (which are part of the keys event) as unlock keys,
+   682			 * it was not working at all and was leading to overflow events
+   683			 * at some point. Hence, for now, let's just allow keys which are
+   684			 * part of keypad matrix to be used and if a reliable way of
+   685			 * using GPIs is found, this condition can be removed/lightened.
+   686			 */
+   687			if (kpad->unlock_keys[i] >= kpad->cols * kpad->rows) {
+   688				dev_err(&client->dev, "Invalid unlock key(%d)\n",
+   689					kpad->unlock_keys[i]);
+   690				return -EINVAL;
+   691			}
+   692	
+   693			/*
+   694			 * fw properties keys start from 0 but on the device they
+   695			 * start from 1.
+   696			 */
+   697			kpad->unlock_keys[i] += 1;
+   698		}
+   699	
+   700		return 0;
+   701	}
+   702	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://01.org/lkp
