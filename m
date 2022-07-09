@@ -2,167 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0A156CAF7
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 19:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE77456CB0A
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jul 2022 20:17:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229458AbiGIRs4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Jul 2022 13:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35606 "EHLO
+        id S229504AbiGISRL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jul 2022 14:17:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiGIRs4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 13:48:56 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9144CDE
-        for <linux-input@vger.kernel.org>; Sat,  9 Jul 2022 10:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657388934; x=1688924934;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2OQf7NP9cUsLRzEwgj1vZzZKBpj8efBOefLoAmviz3o=;
-  b=VjV68sEvTy8EpcYtPvBeFnX/VaU8o/JyW4a7mvKHFJ/XUoFkMBWvD/3T
-   eq2pJq8iSBTA+Lg1xkzo+wlGkHFbxPKgPl7AptUCetX1DqII2v1oatR7w
-   LK5isQbCrcNyDhhi9o4lPXo5HpKEniJm3SFftqg7XUOFdYqulGe+8xtLU
-   6qwGXGXRU+xMYRzADchbO6cdr3Ia25Dee8D0F9GZs84yQB/AKyr01xGe1
-   Z9ifYdA72wbLrsw8B2LafXM7UwQSjjHiNMlwOYYnFZbr8hrHwGebANC3R
-   LJ0FDwsDXWQp2rCgryNiGiZZmyrL6yejdY76r+a/nljKA+2uE9OhN60d7
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10403"; a="348435232"
-X-IronPort-AV: E=Sophos;i="5.92,259,1650956400"; 
-   d="scan'208";a="348435232"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2022 10:48:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,259,1650956400"; 
-   d="scan'208";a="621590889"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Jul 2022 10:48:53 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oAEZY-000OyG-Kn;
-        Sat, 09 Jul 2022 17:48:52 +0000
-Date:   Sun, 10 Jul 2022 01:48:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 94c8e8664ab6f781b2ba1258c3bb389131f5ebb4
-Message-ID: <62c9bf7f.66necJBbuP+V3ox2%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229448AbiGISRK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jul 2022 14:17:10 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619DA17E1A
+        for <linux-input@vger.kernel.org>; Sat,  9 Jul 2022 11:17:09 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id e5so1674582iof.2
+        for <linux-input@vger.kernel.org>; Sat, 09 Jul 2022 11:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Evu+1KvIAIQqxBNHUYqv/sTrx80iWnMG6c0ad8xVl2U=;
+        b=NZSaHJN0WdnY0C6r5vn/4w3aqmWnMGMkXaV7koH55StAFLfFG9IOy9H71I8P/Ubl2Q
+         pNiyTlNx8/wYWOSRKrvMiPJBa9757+RHgSliX8CMpjPTNB08V5EV2GiBzGuxdpydT54E
+         oDPkhT1wQcNWdB9ZqOIVV9ps4G1Jj/1yew9raHO0N8kc3lTR9toAeySb4RXKr2LWn8Yx
+         LCbFEm4fQvkyDvi0DEzYh9npNC3lNzEhTyBAcxizxGs3Ax4pF6Nic6/SLC+AmnWPJyMO
+         cwK1C6ai4CYOGRw75yyGjcN98ofwOWiwsUS4+Wyp0CAQa4aDOkel+12mnQG56Sb2NpzJ
+         Rm4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=Evu+1KvIAIQqxBNHUYqv/sTrx80iWnMG6c0ad8xVl2U=;
+        b=Fzd1XLf1jx+8bp3ApiXnuDXKIkBYn44Bh2ZX07BC5x8+0sc50OLwE4t+RlxFHjBWi3
+         CahdiS/LTnLndkOrVZf3iHhNwwG1VaMj5aMsdG8Lf42G6O4OBOw/aquM7G2XOozsQIgU
+         kTut9e4rEpDJ13gFnS7SgF7/4w9ADSuQuyDYqi2LRP7Ef+0iOy966EUt49g6zTeiTOIK
+         omdjW7q2fLpM5wSQREPtRwsURh0X4XO0i6wdWtBS2yfpTSq0rdXA8l0OwJ9+MpkPgzr2
+         4xKpvRezNEVxzg7wVfml19RiJ9drJHcC8ZIFieR+qAXSQTFiWViY11U0n0TnNWsdM0V2
+         cQhQ==
+X-Gm-Message-State: AJIora97+pfwZv//dLvNY9SAD760ObkIr5ED+nGupJbiqtZgcX7EF7ET
+        KX/FRuf97cVqxnvtjHuZzvaKGQu9pfNcwZUHOwo=
+X-Google-Smtp-Source: AGRyM1uS6/jaMS69325RTj3NUCwwn9i8WBGyQWCWp+/trq1ajF4if2UQyKSG0KwmxvymyR+DGMO580o3g6LO2UaK9IU=
+X-Received: by 2002:a05:6602:1346:b0:669:35d4:1a81 with SMTP id
+ i6-20020a056602134600b0066935d41a81mr5352014iov.112.1657390628613; Sat, 09
+ Jul 2022 11:17:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Sender: patriciajohn728@gmail.com
+Received: by 2002:a4f:f8c6:0:0:0:0:0 with HTTP; Sat, 9 Jul 2022 11:17:07 -0700 (PDT)
+From:   MRS HANNAH VANDRAD <h.vandrad@gmail.com>
+Date:   Sat, 9 Jul 2022 11:17:07 -0700
+X-Google-Sender-Auth: zujOUhsr-JZbADnR9pexuKI485E
+Message-ID: <CANFVa24_qdUD452kURiPB8u-HySg4M8Gfd=H9ZPWw+rYDAempw@mail.gmail.com>
+Subject: Greetings My dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:d2d listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [patriciajohn728[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [patriciajohn728[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
+        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
+        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 94c8e8664ab6f781b2ba1258c3bb389131f5ebb4  Input: i8042 - add dritek quirk for Acer Aspire One AO532
+Greetings My dear,
 
-elapsed time: 723m
 
-configs tested: 86
-configs skipped: 2
+=C2=A0=C2=A0 This letter might be a surprise to you, But I believe that you=
+ will
+be honest to fulfill my final wish. I bring peace and love to you. It
+is by the grace of god, I had no choice than to do what is lawful and
+right in the sight of God for eternal life and in the sight of man for
+witness of god=E2=80=99s mercy and glory upon my life. My dear, I sent this
+mail praying it will find you in a good condition, since I myself am
+in a very critical health condition in which I sleep every night
+without knowing if I may be alive to seethe next day. I am Mrs.Hannah
+Vandrad, a widow suffering from a long time illness. I have some funds
+I inherited from my late husband, the sum of($11,000,000.00, Eleven
+Million Dollars) my Doctor told me recently that I have serious
+sickness which is a cancer problem. What disturbs me most is my stroke
+sickness. Having known my condition, I decided to donate this fund to
+a good person that will utilize it the way I am going to instruct
+herein. I need a very honest and God fearing person=C2=A0who can claim this
+money and use it for Charity works, for orphanages and gives justice
+and help to the poor, needy and widows says The Lord." Jeremiah
+22:15-16.=E2=80=9C and also build schools for less privilege that will be
+named after my late husband if possible and to promote the word of god
+and the effort that the house of god is maintained.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+=C2=A0I do not want a situation where this money will be used in an ungodly
+manner. That's why I'm taking this decision. I'm not afraid of death,
+so I know where I'm going. I accept this decision because I do not
+have any child who will inherit this money after I die. Please I want
+your sincere and urgent answer to know if you will be able to execute
+this project, and I will give you more information on how the fund
+will be transferred to your bank account. May the grace, peace, love
+and the truth in the Word of god be with you and all those that you
+love and=C2=A0 care for.
 
-gcc tested configs:
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-m68k                         apollo_defconfig
-arm                      footbridge_defconfig
-microblaze                      mmu_defconfig
-sh                          rsk7264_defconfig
-arc                 nsimosci_hs_smp_defconfig
-ia64                          tiger_defconfig
-sh                        edosk7705_defconfig
-sh                           se7721_defconfig
-sh                           se7750_defconfig
-mips                         rt305x_defconfig
-alpha                            alldefconfig
-sh                        apsh4ad0a_defconfig
-sh                          r7785rp_defconfig
-parisc                generic-32bit_defconfig
-arc                         haps_hs_defconfig
-mips                          rb532_defconfig
-um                                  defconfig
-m68k                             allyesconfig
-sh                           se7619_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-ia64                             allmodconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                             allyesconfig
-i386                                defconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220707
-s390                 randconfig-r044-20220707
-riscv                randconfig-r042-20220707
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
+I am waiting for your reply.
 
-clang tested configs:
-powerpc                  mpc866_ads_defconfig
-powerpc                   microwatt_defconfig
-mips                        maltaup_defconfig
-arm                    vt8500_v6_v7_defconfig
-powerpc                      walnut_defconfig
-powerpc                          g5_defconfig
-mips                       rbtx49xx_defconfig
-arm                         palmz72_defconfig
-x86_64                        randconfig-k001
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r041-20220707
-hexagon              randconfig-r045-20220707
+May God Bless you,
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+=C2=A0Mrs. Hannah Vandrad.
