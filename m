@@ -2,110 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF3D956CDAF
-	for <lists+linux-input@lfdr.de>; Sun, 10 Jul 2022 10:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9125556D091
+	for <lists+linux-input@lfdr.de>; Sun, 10 Jul 2022 19:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbiGJIQB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 10 Jul 2022 04:16:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42008 "EHLO
+        id S229513AbiGJRvJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 10 Jul 2022 13:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiGJIQA (ORCPT
+        with ESMTP id S229456AbiGJRvJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 10 Jul 2022 04:16:00 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AE811816;
-        Sun, 10 Jul 2022 01:15:59 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so5643935pjl.5;
-        Sun, 10 Jul 2022 01:15:59 -0700 (PDT)
+        Sun, 10 Jul 2022 13:51:09 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0151B1055C;
+        Sun, 10 Jul 2022 10:51:05 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id v16so4355293wrd.13;
+        Sun, 10 Jul 2022 10:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uB33o1I70+FsA4di+MxL+HE0Wl1Mfr1zYKDikSzqCkM=;
-        b=cS2mM90Jze7n7/9wYlcxb2dP2mUDEFV9l8aMlD0bcYG+cSnu3LZnJ3pjqWiKfTZLkX
-         iotJ9c1PQqneBEBwd0jxdPVtbKca4kvylW0deWnYCvRfTUMSXuXPAb175maSZBWJbjPH
-         dYQkIkZBEV48tDGPgfGp+48BCAljMf9waD/1FEOsB69L8EcPvkDWkDgoBdrV83Cg22iY
-         4l/ERTWoOS3FQ3Z/3/u6ZRikFlNdGmVSEp40gXuR59r8jCutjTxn7DbX9J7i6pthC9em
-         zEO+32JJ+2nNYkhDqXQfC/fm7zqiMu4Kn1jBl1QIzxEMjny21jZeawbWg1VmMLGC/MTa
-         2ZUQ==
+        bh=JB95EOb7kF1r0wKeHhsm1Zy9Cfy2EBIRKhZZlQs9l6Y=;
+        b=U7XQxtZ4aLimPAaYRqeIgP/vwUOHjUT0W2KIb9+zXCHV33+luVKUT3M5bYLaqG39/w
+         eVc6Gz5zA59+KM19NGpSAaqvL10bfAGh41HWVaHbZdu6UE6+Ke8020Am+l6Mrp8dPcm6
+         SB9AMimS5Ny1wSELgiJYrHja6VQDrPIQoQQ2dNIbguU9ZBqpvCjFDGXcmK5bIctRcjix
+         RIXQlR8Cp24PFg4fBjTaZAdeYwfnBO6M/e84xMaoTNjKPtBZ6Ow+a5LYxT0+Qxtn/rJS
+         ucVR0t3HnThBGRPit1kBCmzEJ+fT8snxiGhzt7LlDBWIDcL8krahkZSIK9fJrFTba0qG
+         +2sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uB33o1I70+FsA4di+MxL+HE0Wl1Mfr1zYKDikSzqCkM=;
-        b=T06wkWjWDVndxu0F9xoS9jmhQQ8oEpb6j6ueyQJQC1qsE4pBXC6RkCHjm3E3U6viFf
-         80rVkmDiYCTpzocVVhadO3RcBMbjivpL1jZyo6ZN7Rn/SyiIbilKqRy2D20V4c0OzGWY
-         G6Mkw+gwT8p52g+Dh0M8eN0QmgmzUyHR6IWVWDmtzu5smnALUVV0tTwYDPwJs5iLWbbT
-         W4EJPzQwvA7FHVNFpo7nfkHgYynzMHOxIvwfyyKnVOXoLx35YigwzxnHPojk4X046ikp
-         KRKrm5EYFTyI22n3ZkrIIuN/fdtIe0izca25U13rE/iProbxN2DhAfAwNlOyGgOjoeQy
-         ghfw==
-X-Gm-Message-State: AJIora8wz/+XCmbaYHKG9Gv2hO28qaKXz+JR9B/vh5nrAYRthoDCSGXa
-        lME1uvFIKBkU8ocQPHWz+As=
-X-Google-Smtp-Source: AGRyM1sCfZTsYhpidCOmAko/nyB19AWNvchwlqVMdh/xwDJ+5jJAnbqMyh8Dc2DkndQWOouh6BcwyA==
-X-Received: by 2002:a17:902:e54b:b0:16c:38e5:a9b7 with SMTP id n11-20020a170902e54b00b0016c38e5a9b7mr4514822plf.66.1657440958942;
-        Sun, 10 Jul 2022 01:15:58 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id a15-20020a170902710f00b0016be6e954e8sm2355236pll.68.2022.07.10.01.15.55
+        bh=JB95EOb7kF1r0wKeHhsm1Zy9Cfy2EBIRKhZZlQs9l6Y=;
+        b=I2fQM/u1finvK02bQoN2EypitNDmDV5EzymlnVYOgnpfBjF7LGg3tvMY5pQndEGyRa
+         UkatyvRqe6hkr6SmmAJCAAlvYeZ7O7cDFKuUYyvQtQ5sMFTlnJM/nu1X0ej+rh2C6oR1
+         2YmEABw9vPNIt9OMWHgRLtRT72uxnXnEcLuNjP044YPKTdmDpYSymg6jQCPp7ECz4/0x
+         H8mizZLC6mWx5VhIJ35HnzwWhY7cvSko+OXfevdjcwq4bdEIb1VEzbPg1VbCxL/2Afqv
+         WpdmWwbGeiIkqW9TIqsn2xodDuJM79fe9Y/t7uBbJXxKizfzWSIJ+259QANhsSWoLj3z
+         frbg==
+X-Gm-Message-State: AJIora/QFUVJJlySsPr0wqCtEzA7YUi7/GJgVq6T8ad52iscVob58gxf
+        EKr1M8kqYWr8m2DgMkkPKzQ=
+X-Google-Smtp-Source: AGRyM1uD3uV1UQFdngXNrv8GYStTMuk/+aKstRfS8HI63shEVe2a9KhaMWZHszIasUMmCgh6+mLp2g==
+X-Received: by 2002:a5d:64c3:0:b0:21d:720c:4ade with SMTP id f3-20020a5d64c3000000b0021d720c4ademr14120911wri.570.1657475464452;
+        Sun, 10 Jul 2022 10:51:04 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.185])
+        by smtp.gmail.com with ESMTPSA id l23-20020a1ced17000000b003a03ae64f57sm4523495wmh.8.2022.07.10.10.51.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 01:15:58 -0700 (PDT)
-From:   Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Sun, 10 Jul 2022 10:51:04 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        j.witteveen@gmail.com, stefanberzl@gmail.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH] AMD_SFH: Add a DMI quirk entry for Chromebooks
-Date:   Sun, 10 Jul 2022 17:15:47 +0900
-Message-Id: <20220710081547.3553-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        kunit-dev@googlegroups.com,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/7] XP-PEN Deco Pro S support (for-5.20/uclogic)
+Date:   Sun, 10 Jul 2022 19:50:36 +0200
+Message-Id: <20220710175043.192901-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Google Chromebooks use Chrome OS Embedded Controller Sensor Hub instead
-of Sensor Hub Fusion and leaves MP2 uninitialized, which disables all
-functionalities, even including the registers necessary for feature
-detections.
+Hello everyone,
 
-The behavior was observed with Lenovo ThinkPad C13 Yoga.
+This patchset adds support for the XP-PEN Deco Pro S.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Like the Deco L (for-5.20/uclogic) this tablet is a UGEE v2 tablet.
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index dadc491bbf6b..b91e1c95e543 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -197,6 +197,18 @@ static const struct dmi_system_id dmi_sensor_mask_overrides[] = {
- 		},
- 		.driver_data = (void *)(ACEL_EN | MAGNO_EN),
- 	},
-+	{
-+		/*
-+		 * Google Chromebooks use Chrome OS Embedded Controller Sensor
-+		 * Hub instead of Sensor Hub Fusion and leaves MP2
-+		 * uninitialized, which disables all functionalities, even
-+		 * including the registers necessary for feature detections.
-+		 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
-+		},
-+		.driver_data = (void *)0,
-+	},
- 	{ }
- };
- 
+The first patch is not related to this tablet. It fixes some naming
+conventions on the KUnit tests.
+
+Patches 2 and 3 just move code to functions and add more unit tests.
+
+Patch 4 parses the tablet string descriptor to get its frame type. The
+values discovered so far are: only buttons, buttons + dial or
+buttons + dial + mouse.
+
+Patches 5 and 6 add the descriptors for the new frame types.
+
+The last patch uses all of this to add support for the tablet.
+
+I don't have access to the tablet. Credit for testing the patches and
+providing the required recordings goes to Jouke Witteveen.
+This fixes an issue reported in libinput:
+https://gitlab.freedesktop.org/libinput/libinput/-/issues/738
+
+Best wishes,
+José Expósito
+
+José Expósito (7):
+  HID: uclogic: KUnit best practices and naming conventions
+  HID: uclogic: Refactor UGEE v2 string descriptor parsing
+  HID: uclogic: Refactor UGEE v2 frame initialization
+  HID: uclogic: Parse the UGEE v2 frame type
+  HID: uclogic: Add support for UGEE v2 dial frames
+  HID: uclogic: Add support for UGEE v2 mouse frames
+  HID: uclogic: Add support for XP-PEN Deco Pro S
+
+ drivers/hid/Kconfig                   |   2 +-
+ drivers/hid/Makefile                  |   4 +-
+ drivers/hid/hid-ids.h                 |   1 +
+ drivers/hid/hid-uclogic-core.c        |   2 +
+ drivers/hid/hid-uclogic-params-test.c | 192 ++++++++++++++++++++++
+ drivers/hid/hid-uclogic-params.c      | 225 ++++++++++++++++++++++----
+ drivers/hid/hid-uclogic-params.h      |  10 ++
+ drivers/hid/hid-uclogic-rdesc-test.c  |  22 +--
+ drivers/hid/hid-uclogic-rdesc.c       |  74 +++++++++
+ drivers/hid/hid-uclogic-rdesc.h       |   8 +
+ 10 files changed, 494 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/hid/hid-uclogic-params-test.c
+
+
+base-commit: 0cb1fc0988e32bda84c2b7218e0c761af1430baf
 -- 
-2.36.1
+2.25.1
 
