@@ -2,107 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1CE456D359
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 05:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5972356D372
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 05:43:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbiGKD2R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 10 Jul 2022 23:28:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35484 "EHLO
+        id S229548AbiGKDn4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 10 Jul 2022 23:43:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiGKD2P (ORCPT
+        with ESMTP id S229450AbiGKDnz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 10 Jul 2022 23:28:15 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE1F17E33;
-        Sun, 10 Jul 2022 20:28:15 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id b8so2342908pjo.5;
-        Sun, 10 Jul 2022 20:28:15 -0700 (PDT)
+        Sun, 10 Jul 2022 23:43:55 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6A255AC;
+        Sun, 10 Jul 2022 20:43:52 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id v10-20020a05600c15ca00b003a2db8aa2c4so2291671wmf.2;
+        Sun, 10 Jul 2022 20:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wvpJcRf6oUgX+QTmJOMTVRuB6ZpQWygO0uE6iOwv3EY=;
-        b=OT22HNUXNQMXJ8QFqf2Ppbo9WsAw44UUVwPFI2ZRqLBMIsK+PxOfalK5+Yoesp7fA6
-         btFqpIfbjtLE4kxZp62YiNkErFz+3OK6g2QbxcLEg7WN2BAT8heMUVIOp2HdMwuaLGkk
-         qqMrQDjBtmaxs2uSpYOT58uJo3B/cUsJPw+sccWiIStcejXidcfYDHK0DM2sUpLOMSJR
-         y6XQIKNSxmVWq45hI1hwzBdrINXzOEyf5Rm4m4WU1l05g26hxpuLivuyeApdG3zdQwuX
-         3tEeabcjsfCmKXs5SfVpxX3nSM6j570wFc8cNSZ7XdXM6EN2tJ+ysPbyvk7qBoaHhG7j
-         CUJQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=KqMpWWr7jAHeiYl0M//2HHTwac5q/QWJup1Tb9ebpsE=;
+        b=fxUC+Rp5sEY94QL+2UKtp9RwgS/2nBgZ/gGsbIDQy5fWDQqChSmZS03UP6g4+ZpVtF
+         RQvRfcReaaSvBC1EMrezqWNSPsgCK2nyitl8oboDn0a/hhJSNpAQLiq5Y1mNiYGRwLzs
+         i/0XwKGoeqbfgJUvBOXic0jmxFHZ9hTqP3wkvIKDCRflFk/WDW2Q7AOK+VxQoutP2xhp
+         S/v1RoHggmkNNkxfG3rjHcWIxb2dgUTnhiFJv3F2k7BVhAE7L6rLN2hIZIsUfGZQNjIE
+         Wo+poC9VRgu6m9/OKsmb2R0kUvh5CxUsVRDUTCom+95CASiEMkytZwj6CzxMtkqIH4QE
+         K1tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wvpJcRf6oUgX+QTmJOMTVRuB6ZpQWygO0uE6iOwv3EY=;
-        b=2u+5P3SnsUAQ1Br9qhlFYOV8JxkNDav4IF3V6L/+N2+lxAmQX/jnrBPZ6uJMa9KuJm
-         abjVTJdaCcO3BqQP/EOBS+R7FtFMRZTipNK0PCWcQrG/6jlXqw6C+ObsdO8Db/afFprW
-         8hvvKsWI7iB4RUKT3Is3+jzn/R8ieoS0ebQk2mv5WyvHZrIpLBBUzk+4lr/Bu+asXKmD
-         DyHeQ3dmPZeTDPMueLPu14BcVeNYHHmUwhOaWHFkkeYcpzjd4Hn0qEIiHMmajnlU4r80
-         smUbx5FhVmGl7GYKnx8jDl/QlUAHWyQ1Hn31m86Wnecbf9p7lNSkU8jyaX1MpAmHmJNT
-         L9Iw==
-X-Gm-Message-State: AJIora8Dq3Cov7nl3oCDPjAwKQv8AYH9q2iFL7JAtF9+1tISo0U13o3K
-        YA04VtNvqcnp2snebWS1eOI=
-X-Google-Smtp-Source: AGRyM1toH/cAS/LDlQiylUhVdo5tejUnCGLAKWX1fMPdZ4XeRBtTApKS4ROZLiTcRHyu+7wY5gJtIw==
-X-Received: by 2002:a17:903:2447:b0:16a:3b58:48c1 with SMTP id l7-20020a170903244700b0016a3b5848c1mr17049132pls.44.1657510094625;
-        Sun, 10 Jul 2022 20:28:14 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:fe1c:af2d:8734:b8ac])
-        by smtp.gmail.com with ESMTPSA id 4-20020a620404000000b00528d880a32fsm3569832pfe.78.2022.07.10.20.28.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 20:28:13 -0700 (PDT)
-Date:   Sun, 10 Jul 2022 20:28:11 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Daniel Lezcano <daniel.lezcano@linexp.org>
-Cc:     daniel.lezcano@linaro.org, rafael@kernel.org, rui.zhang@intel.com,
-        khilman@baylibre.com, abailon@baylibre.com, amitk@kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>,
-        "moderated list:ARM/Allwinner sunXi SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Allwinner sunXi SoC support" 
-        <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH v1 28/33] input/drivers/touchscreen_sun4i: Switch to new
- of thermal API
-Message-ID: <YsuYyxTY6Ils/snA@google.com>
-References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
- <20220710212423.681301-29-daniel.lezcano@linexp.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KqMpWWr7jAHeiYl0M//2HHTwac5q/QWJup1Tb9ebpsE=;
+        b=RW5a8YSZ8EsFMWFYgRYbsHQh+QdjaxQYrVLsQOQbhWaiJRPQqct0slk0uhG64eNK9K
+         fv+2clmsCP6ZEDvs6i1Q8Nza5TWZpwpTE1ccFbTXMn8gwA67yeuO23RO9wNpF6NXkqM6
+         zY97cg5Zrfz6VnDzsM3sLZr8o1raM4J+4qzU23W6z6TLSO+14AO2E9sqZ6p2fyeJbpcV
+         D+fuvVSnHnjowsAkPS3H70TZ4msyatwSHV6RfRDNZ32klpTjTHuPD0Xv5RDpYaomy7TR
+         K52vCjh2BYAiFlutl+Sfm6npJBQOfcMKqmbjvB/+9jVOps2NIAVxving+LQgne2b3ydJ
+         qe0w==
+X-Gm-Message-State: AJIora+QkZKWJwHzzFJUFH3qFLlYQAkTvSyflcOABqfkRkl+43xhuCq0
+        G/ct6/gm8bIvkErRDF2fnrXpJs/NKK53Z2E+3a4=
+X-Google-Smtp-Source: AGRyM1uiMzdFBcUgWVzca80FM1o67gTwc+QwMZvxPWQRS7GgdfPxrIdQ2xnKLC8bWu/aGXU3D+3HoGLkT998eFjwXqI=
+X-Received: by 2002:a05:600c:2946:b0:3a2:e11f:ce4 with SMTP id
+ n6-20020a05600c294600b003a2e11f0ce4mr10852925wmd.186.1657511031221; Sun, 10
+ Jul 2022 20:43:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220710212423.681301-29-daniel.lezcano@linexp.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
+ <1655892104-10874-5-git-send-email-u0084500@gmail.com> <YskJ1wAp0rV9qFRM@google.com>
+In-Reply-To: <YskJ1wAp0rV9qFRM@google.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Mon, 11 Jul 2022 11:43:39 +0800
+Message-ID: <CADiBU3-ca=YMskJnp++sUHS7fTVb41prUzRtPdhJ_rrnYdzfkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] input: misc: rt5120: Add power key support
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Daniel,
-
-On Sun, Jul 10, 2022 at 11:24:18PM +0200, Daniel Lezcano wrote:
-> The thermal OF code has a new API allowing to migrate the OF
-> initialization to a simpler approach.
-> 
-> Use this new API.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-
-I assume you want to take this through thermal tree if you get everyone
-to agree. I am OK with it, but please use "Input: <driver> - <subject>"
-format for input patches, i.e.
-
-	Input: sun4i-ts - switch to new OF thermal API
-
-Otherwise:
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Thanks.
-
--- 
-Dmitry
+Dmitry Torokhov <dmitry.torokhov@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=
+=889=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=AD=E5=8D=8812:53=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> Hi ChiYuan,
+>
+> On Wed, Jun 22, 2022 at 06:01:44PM +0800, cy_huang wrote:
+> > +
+> > +     is_pressed =3D !(stat & RT5120_PWRKEYSTAT_MASK);
+> > +
+> > +     if ((is_pressed && irq =3D=3D priv->press_irq) ||
+> > +         (!is_pressed  && irq =3D=3D priv->release_irq)) {
+> > +             input_report_key(priv->input, KEY_POWER, is_pressed);
+> > +             input_sync(priv->input);
+> > +     }
+> > +
+>
+> What is the reason for checking both the status and interrupt? Can we
+> simply say:
+>
+Just to make sure 'press/release' to matche the current state.
+In the IC design, it already guarantee press/release interrupt with 50
+millisecond debounce time.
+But if irq is delayed handling, press and release irq will all be checked.
+Although irq is one by one, but in that case, pwrkey button up will be
+reported twice.
+I'm not sure whether this case exists or not.
+>
+>         input_report_key(priv->input, KEY_POWER,
+>                          !(stat & RT5120_PWRKEYSTAT_MASK));
+>         input_sync(priv->input);
+>
+> ?
+>
+Yes, but how about the above comment? Is that case 'don't care'?
+> Thanks.
+>
+> --
+> Dmitry
