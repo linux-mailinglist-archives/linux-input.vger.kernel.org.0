@@ -2,53 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 360A657033C
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 14:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4349B57035E
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 14:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbiGKMqw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jul 2022 08:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43810 "EHLO
+        id S231975AbiGKMwW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jul 2022 08:52:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231848AbiGKMqY (ORCPT
+        with ESMTP id S231138AbiGKMwU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jul 2022 08:46:24 -0400
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E28461D94;
-        Mon, 11 Jul 2022 05:46:02 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by srv6.fidu.org (Postfix) with ESMTP id 56358C80091;
-        Mon, 11 Jul 2022 14:46:00 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
-        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id sW0mNK6XUXn5; Mon, 11 Jul 2022 14:45:59 +0200 (CEST)
-Received: from [192.168.178.47] (host-212-18-30-247.customer.m-online.net [212.18.30.247])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by srv6.fidu.org (Postfix) with ESMTPSA id 65F0DC80089;
-        Mon, 11 Jul 2022 14:45:59 +0200 (CEST)
-Message-ID: <c5a7fa10-7b6a-fa0d-622e-4392fda1ee93@tuxedocomputers.com>
-Date:   Mon, 11 Jul 2022 14:45:58 +0200
+        Mon, 11 Jul 2022 08:52:20 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B286A3C8D8
+        for <linux-input@vger.kernel.org>; Mon, 11 Jul 2022 05:52:19 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id 75so7247761ybf.4
+        for <linux-input@vger.kernel.org>; Mon, 11 Jul 2022 05:52:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wHf8COA4hyvd1AE5ZEZMJGUPLqbpAN5gXJpc/hXFdD8=;
+        b=Q5pcvNKMdm5iX3GfmeCGyZBqcQ9NkDemFQep972DEcKl3TjJ4KZeseTF3PTx7gxvhq
+         OP01pryHfZ3TfgEzw8IQXjuQEHcq1AOJqqb4SMSbMfX1H8hPocCCPjWPRm1nQWZKYOuZ
+         WVV57xP21L1H8EuiGf3mCRLECdP5uQhCR6+TWybJDrH3UEBgtmsXDiXTf+zYi839tbkD
+         fJMhdqwC+yohpVuldXrmmhQxmnwkIQPEgnoozgAnZDfzK6ot0xamwG3gTcvpz9y6dNVe
+         TnenplSbxaKBvRNfi82WSOZZYRJwlfcKQz9MkIO2annVv5aLaPyGoYkDvg6JDSDbjGLV
+         m50Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wHf8COA4hyvd1AE5ZEZMJGUPLqbpAN5gXJpc/hXFdD8=;
+        b=aEsZ2E2lreF33aop8lpcS80FbOJ5/wU2d9q79A6nQHhpAiV0acTFZqVXufFWd7qRXL
+         XimvP2JuG3CPFzNtRtXvrKmuP4JIvuRg9p1qYZRL0FWqQ0AxhHuh/zk+3LHd/nR59vEU
+         UcrTaVE+SCvdHPXDrG1LR2T4piZ9xVXKUvAbjO29Hoyvwj/7RqWCYK+IBBdEh+HoiSP5
+         iJZHNpj+8Y6VfqtTfpksL+QX8TF1tyef79TuCtURGBmGsuLuUbbnKKVCsSAJO/Hq/jN6
+         pyG9pQMDA1Nfk2yZNP1YWNWA3VW1A+ZotvWdfznXfImAAX9aHMKOWs+NhTUIwsR/TV84
+         CVUA==
+X-Gm-Message-State: AJIora9GtpDQDndZO94YTqh8xBLl2rEMwbv/NB3gQtweEfyIgE6DrGSv
+        toBRPBRdq3cX2yESyQB8m9B+6oIVQTFovjQlWxsG6g==
+X-Google-Smtp-Source: AGRyM1sG1dgHPuAfv6YjJ8aSOS1gcifULRM2VeNfW2WWMIwvT91O7Rs2HwKkhK3K28x7kazLyrpOp1954o8TdPowIMg=
+X-Received: by 2002:a05:6902:1184:b0:66e:756d:3baa with SMTP id
+ m4-20020a056902118400b0066e756d3baamr16750341ybu.533.1657543939020; Mon, 11
+ Jul 2022 05:52:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 2/2] Input: i8042 - add TUXEDO devices to i8042 quirk
- tables for partial fix
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>, dmitry.torokhov@gmail.com,
-        tiwai@suse.de, samuel@cavoj.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220708161005.1251929-1-wse@tuxedocomputers.com>
- <20220708161005.1251929-3-wse@tuxedocomputers.com>
- <37a7e536-252a-c8a9-1412-37d3f2052a6d@redhat.com>
-From:   Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <37a7e536-252a-c8a9-1412-37d3f2052a6d@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20220708093448.42617-1-nuno.sa@analog.com> <20220708093448.42617-9-nuno.sa@analog.com>
+In-Reply-To: <20220708093448.42617-9-nuno.sa@analog.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 11 Jul 2022 14:52:08 +0200
+Message-ID: <CACRpkda74wZA2-kzsShGj61EjatHfAowWro49C1jnMcYo_peNQ@mail.gmail.com>
+Subject: Re: [PATCH 08/10] input: keyboard: adp5588-keys: add optional reset gpio
+To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
+Cc:     devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,94 +72,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Fri, Jul 8, 2022 at 11:34 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 
-On 7/8/22 21:39, Hans de Goede wrote:
-> Hi,
+> Optionally reset the device during probe.
 >
-> On 7/8/22 18:10, Werner Sembach wrote:
->> A lot of modern Clevo barebones have touchpad and/or keyboard issues after
->> suspend fixable with nomux + reset + noloop + nopnp. Luckily, none of them
->> have an external PS/2 port so this can safely be set for all of them.
->>
->> I'm not entirely sure if every device listed really needs all four quirks,
->> but after testing and production use. No negative effects could be
->> observed when setting all four.
->>
->> Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS on the Clevo N150CU
->> and the Clevo NHxxRZQ makes the keyboard very laggy for ~5 seconds after
->> boot and sometimes also after resume. However both are required for the
->> keyboard to not fail completely sometimes after boot or resume.
-> Hmm, the very laggy bit does not sound good. Have you looked into other
-> solutions, e.g. what happens if you use just nomux without any of the
-> other 3 options ?
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-I tried a lot of combinations, but it was some time ago.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-iirc: at least nomux and reset are required and both individually cause 
-the lagging.
-
-So the issue is not fixed by just using a different set of quirks.
-
-Regards,
-
-Werner
-
->
-> Regards,
->
-> Hans
->
->
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> Cc: stable@vger.kernel.org
->> ---
->>   drivers/input/serio/i8042-x86ia64io.h | 28 +++++++++++++++++++++++++++
->>   1 file changed, 28 insertions(+)
->>
->> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
->> index 5204a7dd61d4..9dc0266e5168 100644
->> --- a/drivers/input/serio/i8042-x86ia64io.h
->> +++ b/drivers/input/serio/i8042-x86ia64io.h
->> @@ -1107,6 +1107,20 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->>   		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->>   					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->>   	},
->> +	{
->> +		/*
->> +		 * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes
->> +		 * the keyboard very laggy for ~5 seconds after boot and
->> +		 * sometimes also after resume.
->> +		 * However both are required for the keyboard to not fail
->> +		 * completely sometimes after boot or resume.
->> +		 */
->> +		.matches = {
->> +			DMI_MATCH(DMI_BOARD_NAME, "N150CU"),
->> +		},
->> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->> +	},
->>   	{
->>   		.matches = {
->>   			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
->> @@ -1114,6 +1128,20 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->>   		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->>   					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->>   	},
->> +	{
->> +		/*
->> +		 * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes
->> +		 * the keyboard very laggy for ~5 seconds after boot and
->> +		 * sometimes also after resume.
->> +		 * However both are required for the keyboard to not fail
->> +		 * completely sometimes after boot or resume.
->> +		 */
->> +		.matches = {
->> +			DMI_MATCH(DMI_BOARD_NAME, "NHxxRZQ"),
->> +		},
->> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->> +	},
->>   	{
->>   		.matches = {
->>   			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
+Yours,
+Linus Walleij
