@@ -2,238 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2942657009D
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 13:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F07555701BC
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 14:10:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbiGKL32 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jul 2022 07:29:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43330 "EHLO
+        id S231598AbiGKMKG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jul 2022 08:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231324AbiGKL25 (ORCPT
+        with ESMTP id S231221AbiGKMKF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jul 2022 07:28:57 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1911326102
-        for <linux-input@vger.kernel.org>; Mon, 11 Jul 2022 04:10:24 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id mf4so7036056ejc.3
-        for <linux-input@vger.kernel.org>; Mon, 11 Jul 2022 04:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zkANRKcZbCaKSgW3zgTNeMUMr8X2SBwRfvqFLff+8ZA=;
-        b=ZBgFbOgBqk32UIWTND6ietHkpJ9TJrOwwXtkzswaVpoU8cqklMCFk81fOuqvtO9b9+
-         193XC1MSSCbyeRCTelx7Em66ORq+FmDBSYBVSERNcNEchxozN6pHqlwerTuLzywh1PJ7
-         PPr5INbdvszlJtgdHO6XhLDVfxRYSD+EpLfYzREdWmvAqfTXb1AYuMVQyzz+UgfSKZsT
-         OipXrh2/XOdyT0NtEXhNWLcAzerxjK/m2z7jd3nRq6uX7U+n5jKV+w1Tq89vDB1ZQFIh
-         KjdKi2LPGjl7/fc3L/TZkwDsVRLWhTZ+cQonFNbttvBLHusUdIQosAAUe4FLvsRMbyrB
-         i/ig==
+        Mon, 11 Jul 2022 08:10:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 16B8D48EA1
+        for <linux-input@vger.kernel.org>; Mon, 11 Jul 2022 05:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657541403;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zZO1t8x1vKKXKqRlgpTXp1+pMPXfuqgvu4S1UnnB/Hc=;
+        b=RtrTYJ4EJ75oP3jg1ay61c5ys6h4b0/EiZqn/5cYiGbW2uInalUUoSSMzi9R5h+lEKR4Rt
+        WdJK9ecZlDpUYSCxYVSUaVADUfCSHpiY1IecCndNYtJv9r55uMyAI9w+uGmyUigp9tQWSv
+        hO8flLwbXkFJUsft0Ln+nqKuF3xvNp0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-68-Kea8p0YSM_OMexYzsgV3DA-1; Mon, 11 Jul 2022 08:10:02 -0400
+X-MC-Unique: Kea8p0YSM_OMexYzsgV3DA-1
+Received: by mail-ed1-f72.google.com with SMTP id t5-20020a056402524500b0043a923324b2so4065617edd.22
+        for <linux-input@vger.kernel.org>; Mon, 11 Jul 2022 05:10:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zkANRKcZbCaKSgW3zgTNeMUMr8X2SBwRfvqFLff+8ZA=;
-        b=LMDFrbj+TxUVAaUqBUHD6/cg//NPLYtTdtPjv2Ic2j3W398Y2OsyDofT6Rz5KOMux8
-         TW/xGsrCMh0/O0X1GFUycrgPrhDapSSSaqjLTFu0+qOPypZmYvP6qQ/1BwcmFfoZbyS5
-         2woHqfWbwnqk1ESYxW73cL6acURRs+IPyHQCEUmCo0t46zeutxRWPL+w/mTZp9Z2AYRK
-         rIF9CV6OqwqwFD/gZGNvsC94AjskdLqGj9UNIn13ewFlB1uOobLGhDAi/8tVYN1PfZB2
-         oCM4SNnYi6TODxssweotrgMP1gU+/X2lDOjwtE+0v6y5nxtMqFUm2g7/0J3wfUe/38Iv
-         Iwnw==
-X-Gm-Message-State: AJIora86Ed5tvGDABEIdIKqYXtG2c9FXEwNQpZITZ4uUdQc45yohr81N
-        TiX68qJ53ltbwxx1+ud4TX1Ptw==
-X-Google-Smtp-Source: AGRyM1uSmvI2XhE/U0vJsp/yH6sycrVAD/rDP9hVX00y91ePkUQ92JzvhV0TAf2kqlLOX6iymV68bw==
-X-Received: by 2002:a17:907:6ea3:b0:726:ca39:5d98 with SMTP id sh35-20020a1709076ea300b00726ca395d98mr17992224ejc.400.1657537822607;
-        Mon, 11 Jul 2022 04:10:22 -0700 (PDT)
-Received: from linaro.org ([94.52.112.99])
-        by smtp.gmail.com with ESMTPSA id gx16-20020a170906f1d000b0072b1bb3cc08sm2562448ejb.120.2022.07.11.04.10.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 04:10:22 -0700 (PDT)
-Date:   Mon, 11 Jul 2022 14:10:19 +0300
-From:   Abel Vesa <abel.vesa@linaro.org>
-To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Viorel Suman <viorel.suman@nxp.com>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Peng Fan <peng.fan@nxp.com>, Liu Ying <victor.liu@nxp.com>,
-        Shijie Qin <shijie.qin@nxp.com>, Ming Qian <ming.qian@nxp.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8 01/15] dt-bindings: clk: imx: Add fsl,scu-clk yaml file
-Message-ID: <YswFG/JdjGC03rHU@linaro.org>
-References: <20220707125022.1156498-1-viorel.suman@oss.nxp.com>
- <20220707125022.1156498-2-viorel.suman@oss.nxp.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=zZO1t8x1vKKXKqRlgpTXp1+pMPXfuqgvu4S1UnnB/Hc=;
+        b=7YisdlvGT2Ot5vvi5dK1mo2GN1g2cRMMP23BAWg8FFem9ofUm+UcXLd3vp5ve6hv/4
+         K+WfChZRZG3EDdJ4O7zY7sKuwBQQ00VzIEJYJyTsXJB8fVRYVHOkSEnVMAl0dN5021Lo
+         c9kAZdHVBNBngjkswij2jq0Kdg8J5MK3CsiWyfGztCnIO2/Dden6q109rzpeKlaisHef
+         a7TAzHWb1WgK93po2m6xSHEIeuT3EC7F8hgAOE7dF61y2cKlq5BUUzq48pn6tDKHoUpQ
+         A/DMmCi0IrJmvmsgmR+ZnunqRjp+Cwpu1R7iEpfQWfmBnxdADLeWXcTzWh/ediuNQsoK
+         VveA==
+X-Gm-Message-State: AJIora/DoUzq3BRMSrOZ6EekTK2kmJ55LVqDVI4jlUYl0qLBvS/FQ17g
+        Q5jajPle1lSCXT9Cb5d0mORG6pi91v9OKOdEn0fjJcSLJz/ACOJBhp77UmMSCg9cfPZ+BSwTi66
+        tdjsd4tovYTVYLQxdhQFtDP8=
+X-Received: by 2002:a05:6402:34c5:b0:43a:8f90:e643 with SMTP id w5-20020a05640234c500b0043a8f90e643mr24064576edc.88.1657541400742;
+        Mon, 11 Jul 2022 05:10:00 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1unc4Zn4OKThc2UuVsZ8zNRcENKGzVs1wpa6vNt9iTO0Lm22fWG7sRgAh0Do/nGeuAIxmuWeg==
+X-Received: by 2002:a05:6402:34c5:b0:43a:8f90:e643 with SMTP id w5-20020a05640234c500b0043a8f90e643mr24064551edc.88.1657541400588;
+        Mon, 11 Jul 2022 05:10:00 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id s17-20020a056402037100b00437938c731fsm4242723edw.97.2022.07.11.05.09.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Jul 2022 05:09:59 -0700 (PDT)
+Message-ID: <c89d39eb-17b9-8800-c8ff-8d236b80de2f@redhat.com>
+Date:   Mon, 11 Jul 2022 14:09:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220707125022.1156498-2-viorel.suman@oss.nxp.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: input/i8042: Malfunctioning brightness keys on HP Elite Dragonfly
+ G2
+Content-Language: en-US
+To:     Alex Dewar <alex.dewar@gmx.co.uk>, dmitry.torokhov@gmail.com,
+        tiwai@suse.de, markgross@kernel.org,
+        "Lopez, Jorge A (Thin Clients)" <jorge.lopez2@hp.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+References: <20220629094314.b7xmfb3xccj7vs6v@ic-alex-elitebook>
+ <3fedf676645bfa638c9a6c656121083abc2c98ea.camel@gmx.co.uk>
+ <8b893c42-e514-bcef-0513-070b3723cdcc@redhat.com>
+ <df7313597d2ac3212f10c05aa3d369728f030c86.camel@gmx.co.uk>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <df7313597d2ac3212f10c05aa3d369728f030c86.camel@gmx.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 22-07-07 15:50:08, Viorel Suman (OSS) wrote:
-> From: Abel Vesa <abel.vesa@nxp.com>
->
-> In order to replace the fsl,scu txt file from bindings/arm/freescale,
-> we need to split it between the right subsystems. This patch documents
-> separately the 'clock' child node of the SCU main node.
->
-> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
-> Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
-> Acked-by: Stephen Boyd <sboyd@kernel.org>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi Alex,
 
-Shawn, I'm assuming you're going to pick this up through your tree,
-right?
+On 7/11/22 09:49, Alex Dewar wrote:
+> Hi Hans,
+> 
+> On Sat, 2022-07-09 at 16:56 +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 7/5/22 19:25, Alex Dewar wrote:
+>>> Friendly ping? 🙂
+>>>
+>>> I'm also CC'ing the x86 platform people into this, as I'm not sure
+>>> whether this problem is something more within their remit.
+>>
+>> Please test the atbkd device with "sudo evemu-record" or "sudo
+>> evtest"
+>> and if the brightness keys generate events there, write down the
+>> raw event codes (MSC events).
+> 
+> I tried this but unfortunately this doesn't seem to be the whole story.
+> If I press "decrease brightness" I get:
+> Event: time 1657525393.922727, -------------- SYN_REPORT ------------
+> Event: time 1657525397.043348, type 4 (EV_MSC), code 4 (MSC_SCAN),
+> value 81
+> Event: time 1657525397.043348, type 1 (EV_KEY), code 190 (KEY_F20),
+> value 1
+> Event: time 1657525397.043348, -------------- SYN_REPORT ------------
+> Event: time 1657525397.050384, type 4 (EV_MSC), code 4 (MSC_SCAN),
+> value 81
+> Event: time 1657525397.050384, type 1 (EV_KEY), code 190 (KEY_F20),
+> value 0
+> 
+> And if I press "increase brightness" I get:
+> Event: time 1657525397.050384, -------------- SYN_REPORT ------------
+> Event: time 1657525398.607184, type 4 (EV_MSC), code 4 (MSC_SCAN),
+> value 81
+> Event: time 1657525398.607184, type 1 (EV_KEY), code 190 (KEY_F20),
+> value 1
+> Event: time 1657525398.607184, -------------- SYN_REPORT ------------
+> Event: time 1657525398.614190, type 4 (EV_MSC), code 4 (MSC_SCAN),
+> value 81
+> Event: time 1657525398.614190, type 1 (EV_KEY), code 190 (KEY_F20),
+> value 0
+> 
+> There's no difference! And I also get the same thing if I press the
+> *actual* mute mic button 😞.
+> 
+> Any ideas?
 
-> ---
->  .../bindings/arm/freescale/fsl,scu.txt        | 31 -------------
->  .../bindings/clock/fsl,scu-clk.yaml           | 43 +++++++++++++++++++
->  2 files changed, 43 insertions(+), 31 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/clock/fsl,scu-clk.yaml
->
-> diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> index a87ec15e28d2..ef7f5222ac48 100644
-> --- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> +++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> @@ -79,29 +79,6 @@ Required properties:
->  			See detailed Resource ID list from:
->  			include/dt-bindings/firmware/imx/rsrc.h
->
-> -Clock bindings based on SCU Message Protocol
-> -------------------------------------------------------------
-> -
-> -This binding uses the common clock binding[1].
-> -
-> -Required properties:
-> -- compatible:		Should be one of:
-> -			  "fsl,imx8dxl-clk"
-> -			  "fsl,imx8qm-clk"
-> -			  "fsl,imx8qxp-clk"
-> -			followed by "fsl,scu-clk"
-> -- #clock-cells:		Should be 2.
-> -			Contains the Resource and Clock ID value.
-> -- clocks:		List of clock specifiers, must contain an entry for
-> -			each required entry in clock-names
-> -- clock-names:		Should include entries "xtal_32KHz", "xtal_24MHz"
-> -
-> -The clock consumer should specify the desired clock by having the clock
-> -ID in its "clocks" phandle cell.
-> -
-> -See the full list of clock IDs from:
-> -include/dt-bindings/clock/imx8qxp-clock.h
-> -
->  Pinctrl bindings based on SCU Message Protocol
->  ------------------------------------------------------------
->
-> @@ -127,7 +104,6 @@ Required properties for Pinctrl sub nodes:
->  			Please refer to i.MX8QXP Reference Manual for detailed
->  			CONFIG settings.
->
-> -[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
->  [2] Documentation/devicetree/bindings/power/power-domain.yaml
->  [3] Documentation/devicetree/bindings/pinctrl/fsl,imx-pinctrl.txt
->
-> @@ -208,11 +184,6 @@ firmware {
->  			  &lsio_mu1 1 3
->  			  &lsio_mu1 3 3>;
->
-> -		clk: clk {
-> -			compatible = "fsl,imx8qxp-clk", "fsl,scu-clk";
-> -			#clock-cells = <2>;
-> -		};
-> -
->  		iomuxc {
->  			compatible = "fsl,imx8qxp-iomuxc";
->
-> @@ -265,7 +236,5 @@ serial@5a060000 {
->  	...
->  	pinctrl-names = "default";
->  	pinctrl-0 = <&pinctrl_lpuart0>;
-> -	clocks = <&uart0_clk IMX_SC_R_UART_0 IMX_SC_PM_CLK_PER>;
-> -	clock-names = "ipg";
->  	power-domains = <&pd IMX_SC_R_UART_0>;
->  };
-> diff --git a/Documentation/devicetree/bindings/clock/fsl,scu-clk.yaml b/Documentation/devicetree/bindings/clock/fsl,scu-clk.yaml
-> new file mode 100644
-> index 000000000000..f2c48460a399
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/fsl,scu-clk.yaml
-> @@ -0,0 +1,43 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/clock/fsl,scu-clk.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: i.MX SCU Client Device Node - Clock bindings based on SCU Message Protocol
-> +
-> +maintainers:
-> +  - Abel Vesa <abel.vesa@nxp.com>
-> +
-> +description: i.MX SCU Client Device Node
-> +  Client nodes are maintained as children of the relevant IMX-SCU device node.
-> +  This binding uses the common clock binding.
-> +  (Documentation/devicetree/bindings/clock/clock-bindings.txt)
-> +  The clock consumer should specify the desired clock by having the clock
-> +  ID in its "clocks" phandle cell. See the full list of clock IDs from
-> +  include/dt-bindings/clock/imx8qxp-clock.h
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - fsl,imx8dxl-clk
-> +          - fsl,imx8qm-clk
-> +          - fsl,imx8qxp-clk
-> +      - const: fsl,scu-clk
-> +
-> +  '#clock-cells':
-> +    const: 2
-> +
-> +required:
-> +  - compatible
-> +  - '#clock-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    clock-controller {
-> +        compatible = "fsl,imx8qxp-clk", "fsl,scu-clk";
-> +        #clock-cells = <2>;
-> +    };
-> --
-> 2.25.1
->
+From this it looks like we need to use some other interface to get
+these events (+ ignore the above events).
+
+Do you have a "HP WMI hotkeys" device in your list of input
+devices?  And are you getting any events on that ?
+
+Likewise do you have a "Video Bus" device and any events on that ?
+
+I've also added Jorge from HP to the Cc. Jorge, can you help with this ?
+
+Regards,
+
+Hans
+
