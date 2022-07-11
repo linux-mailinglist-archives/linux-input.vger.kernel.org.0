@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D63E256D510
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 09:00:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28BA156D6DF
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 09:33:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbiGKHAm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jul 2022 03:00:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
+        id S230022AbiGKHdw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jul 2022 03:33:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbiGKHAk (ORCPT
+        with ESMTP id S229697AbiGKHdv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jul 2022 03:00:40 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A915D167C4;
-        Mon, 11 Jul 2022 00:00:39 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id v10-20020a05600c15ca00b003a2db8aa2c4so2460781wmf.2;
-        Mon, 11 Jul 2022 00:00:39 -0700 (PDT)
+        Mon, 11 Jul 2022 03:33:51 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C7021A048;
+        Mon, 11 Jul 2022 00:33:50 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id o19-20020a05600c511300b003a2de48b4bbso3122336wms.5;
+        Mon, 11 Jul 2022 00:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=eZitZxeb+tFy7bckf8dOgFNmWer8aqUshovdBHHfdIU=;
-        b=KpaifXBHHWFfwHLHNxAkbRBiOfnHMoLAcyBD7kpOBqblUik8u+9ziUMnWxAWBoOxmD
-         yhefiOReWitSzELlcSxTVLnfQfftUoVNswofXINSZxZ++LMfecPsVb5yQYBd70q1L2jh
-         Ltiz1JeIPSvbRs42cSq8OGNzMgHDuT+tdxRpGSAEPG2WHh95GlsCZwPPmaeL+aZb/GqO
-         pC/g0lRB+JDRi7XBoHwSEzYroESCBQLkjjjgnD/3V6PsqmYVpEqCoQBPqX3V6Jl5ZRRr
-         iyQYc8wvCr3aUlPAA3awIcuwiZLttbFW7WJDuxlcDt3AsW0ROKhcWFqpIA3IpxIUevA0
-         xJLA==
+        bh=bWprOYf0otpaMCejRz21ihN86ilpeml7m0pSz/Cp7s8=;
+        b=WlrrXGdzetMV5cQUjRQVZ4UUfZQuQEO0sVoH7Q1R2TstiH36jAhOwMrf6uh2s2T6nF
+         ucbLPY3b4i9YL2lTe3FxnG4xA/vlfJDR1dkrpazDIWh0MzwEF06iwtwFY2wft7s+0we/
+         hy3BapglXypxj/npsD0NcYf3ANWtqpb+qFIdp8F9azihcwfvGltC3r5RHlbCpmk0F54I
+         mXMO7VBs80IM+xZp5RnfCQiFKzfkIh7Tm9FzWRJxNDLNMiB0s2cEjHBpGRXzAsvuBBdS
+         HTISodY7APmoHFViHkyEk6J8XAv36C4SjnwhWURfgkuB/PydfhDsL/Og4cWUr2FiUB2U
+         xBLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=eZitZxeb+tFy7bckf8dOgFNmWer8aqUshovdBHHfdIU=;
-        b=wuXlwtaNGMgZ1UFKZFTFfAxx3+PohKdKRQhUOLGKA6h1q4sLVL2WZ2mRm492K1ppr+
-         TvBxy4Xk39j1yPyNc5+3tiKrdmUW5HK6XZHvbLqiMDeGI53btdMRQtaJzexesWD5qZxj
-         m7NT9Nji/xVa4V1uyu4hljlMmtHUuqKEpDavAggjql5kV5FoymZeeV/KUTUGfcYyO9EJ
-         cplSUSCB3yNy1hVCH3fNH+X2M26mOSAFEEXLItD0ECxP2Yc8XBdh3XKrdHy80b8BrHiO
-         Mfpo4PTVO0ducbbpKaYZGuRL0fmjDzJTgnOKSKB1aGmV7zNiuPvitg4fYZcTP8kV2EZd
-         T52A==
-X-Gm-Message-State: AJIora9EFBFi+r2fmFUWNEY8TU1n6xvHiSD7k/xRuZ1CSZbxelwgNGI3
-        9e45cwgjScfwTmlSYn1cB6E=
-X-Google-Smtp-Source: AGRyM1sQbzsr1qEHwBUhuJqm0nnpYT6EBStXujczeh14dLIEx/7aGgepj/cKMynAFl8uq+S+XPYrBQ==
-X-Received: by 2002:a7b:c003:0:b0:39c:5642:e415 with SMTP id c3-20020a7bc003000000b0039c5642e415mr14077555wmb.111.1657522838108;
-        Mon, 11 Jul 2022 00:00:38 -0700 (PDT)
+        bh=bWprOYf0otpaMCejRz21ihN86ilpeml7m0pSz/Cp7s8=;
+        b=rTD/571bXqLUimTrh7dZZSHUYQo+nOSqKhjsrJZqc5msl6izecuWPb2BB5sQGQnsaX
+         0kiKim/luX01H24ivfctzFDmP/pxI9q14zMvqRpXIL2NP1d5WGiJZ/7nA6HnffmrPJXD
+         u4K1IR7ZMTpWtCHlRfkvWpW6ht5J0EsbwjizCZuXfV8Ee5Ad46NmwzC2+/jifyGjuQ5l
+         icQLKZzzD1/dLqt48cWh8aYJo2H4sxOb/WZiHBx/L1heqo6SP26bEG8mLxzdmXWAGi/o
+         H8MpfttHeUQfIwz6JkRD+qBJs5wtnLf/DqhGPquZmVHXdcUTeIrmSNvC/Pl5HbqpamG0
+         q1yQ==
+X-Gm-Message-State: AJIora/PJqkMfUjSdE/2rXM+KXWfnUoTyC7iixwngZYsm4hT/ripzq+F
+        Z+6lfva7FmzB9LwoVVlP6ko=
+X-Google-Smtp-Source: AGRyM1v6Vkcrf5r9GxjvaD2Yue1HGnL/WF2bLEdRhzZ2P3QzVd94oZ1AIp9iVlCBaqmq5hpo3bkD4Q==
+X-Received: by 2002:a05:600c:4f05:b0:3a1:67df:a116 with SMTP id l5-20020a05600c4f0500b003a167dfa116mr14653844wmq.103.1657524828807;
+        Mon, 11 Jul 2022 00:33:48 -0700 (PDT)
 Received: from localhost.localdomain ([94.73.36.185])
-        by smtp.gmail.com with ESMTPSA id d8-20020adffbc8000000b0021d6a520ce9sm5082614wrs.47.2022.07.11.00.00.33
+        by smtp.gmail.com with ESMTPSA id j16-20020adfff90000000b0021d76a1b0e3sm5155671wrr.6.2022.07.11.00.33.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 00:00:37 -0700 (PDT)
+        Mon, 11 Jul 2022 00:33:48 -0700 (PDT)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To:     jikos@kernel.org
 Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH] HID: uclogic: Add missing suffix for digitalizers
-Date:   Mon, 11 Jul 2022 09:00:26 +0200
-Message-Id: <20220711070026.167428-1-jose.exposito89@gmail.com>
+Subject: [PATCH] HID: uclogic: Fix warning in uclogic_rdesc_template_apply
+Date:   Mon, 11 Jul 2022 09:33:37 +0200
+Message-Id: <20220711073337.337708-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -70,30 +70,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Pen (0x02) application usage was changed to Digitalizer (0x01) in
-f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for styluses").
-However, a suffix was not selected for the new usage.
+Building with Sparse enabled prints this warning:
 
-Handle the digitalizer application usage in uclogic_input_configured()
-and add the required suffix.
+    warning: incorrect type in assignment (different base types)
+        expected signed int x
+        got restricted __le32 [usertype]
 
+Cast the return value of cpu_to_le32() to fix the warning.
+
+Fixes: 08177f40bd00 ("HID: uclogic: merge hid-huion driver in hid-uclogic")
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/hid/hid-uclogic-core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-uclogic-rdesc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
-index c0fe66e50c58..cf3315a408c8 100644
---- a/drivers/hid/hid-uclogic-core.c
-+++ b/drivers/hid/hid-uclogic-core.c
-@@ -153,6 +153,7 @@ static int uclogic_input_configured(struct hid_device *hdev,
- 			suffix = "Pad";
- 			break;
- 		case HID_DG_PEN:
-+		case HID_DG_DIGITIZER:
- 			suffix = "Pen";
- 			break;
- 		case HID_CP_CONSUMER_CONTROL:
+diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
+index 13f9ce73f1b1..9fe048729e51 100644
+--- a/drivers/hid/hid-uclogic-rdesc.c
++++ b/drivers/hid/hid-uclogic-rdesc.c
+@@ -1009,7 +1009,7 @@ __u8 *uclogic_rdesc_template_apply(const __u8 *template_ptr,
+ 		if (memcmp(p, head, sizeof(head)) == 0 &&
+ 		    p[sizeof(head)] < param_num) {
+ 			v = param_list[p[sizeof(head)]];
+-			put_unaligned(cpu_to_le32(v), (s32 *)p);
++			put_unaligned((__force u32)cpu_to_le32(v), (s32 *)p);
+ 			p += sizeof(head) + 1;
+ 		} else {
+ 			p++;
 -- 
 2.25.1
 
