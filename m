@@ -2,115 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5972356D372
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 05:43:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86A6256D428
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jul 2022 06:58:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbiGKDn4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 10 Jul 2022 23:43:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42586 "EHLO
+        id S229589AbiGKE6B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jul 2022 00:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiGKDnz (ORCPT
+        with ESMTP id S229478AbiGKE6B (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 10 Jul 2022 23:43:55 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6A255AC;
-        Sun, 10 Jul 2022 20:43:52 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id v10-20020a05600c15ca00b003a2db8aa2c4so2291671wmf.2;
-        Sun, 10 Jul 2022 20:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=KqMpWWr7jAHeiYl0M//2HHTwac5q/QWJup1Tb9ebpsE=;
-        b=fxUC+Rp5sEY94QL+2UKtp9RwgS/2nBgZ/gGsbIDQy5fWDQqChSmZS03UP6g4+ZpVtF
-         RQvRfcReaaSvBC1EMrezqWNSPsgCK2nyitl8oboDn0a/hhJSNpAQLiq5Y1mNiYGRwLzs
-         i/0XwKGoeqbfgJUvBOXic0jmxFHZ9hTqP3wkvIKDCRflFk/WDW2Q7AOK+VxQoutP2xhp
-         S/v1RoHggmkNNkxfG3rjHcWIxb2dgUTnhiFJv3F2k7BVhAE7L6rLN2hIZIsUfGZQNjIE
-         Wo+poC9VRgu6m9/OKsmb2R0kUvh5CxUsVRDUTCom+95CASiEMkytZwj6CzxMtkqIH4QE
-         K1tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KqMpWWr7jAHeiYl0M//2HHTwac5q/QWJup1Tb9ebpsE=;
-        b=RW5a8YSZ8EsFMWFYgRYbsHQh+QdjaxQYrVLsQOQbhWaiJRPQqct0slk0uhG64eNK9K
-         fv+2clmsCP6ZEDvs6i1Q8Nza5TWZpwpTE1ccFbTXMn8gwA67yeuO23RO9wNpF6NXkqM6
-         zY97cg5Zrfz6VnDzsM3sLZr8o1raM4J+4qzU23W6z6TLSO+14AO2E9sqZ6p2fyeJbpcV
-         D+fuvVSnHnjowsAkPS3H70TZ4msyatwSHV6RfRDNZ32klpTjTHuPD0Xv5RDpYaomy7TR
-         K52vCjh2BYAiFlutl+Sfm6npJBQOfcMKqmbjvB/+9jVOps2NIAVxving+LQgne2b3ydJ
-         qe0w==
-X-Gm-Message-State: AJIora+QkZKWJwHzzFJUFH3qFLlYQAkTvSyflcOABqfkRkl+43xhuCq0
-        G/ct6/gm8bIvkErRDF2fnrXpJs/NKK53Z2E+3a4=
-X-Google-Smtp-Source: AGRyM1uiMzdFBcUgWVzca80FM1o67gTwc+QwMZvxPWQRS7GgdfPxrIdQ2xnKLC8bWu/aGXU3D+3HoGLkT998eFjwXqI=
-X-Received: by 2002:a05:600c:2946:b0:3a2:e11f:ce4 with SMTP id
- n6-20020a05600c294600b003a2e11f0ce4mr10852925wmd.186.1657511031221; Sun, 10
- Jul 2022 20:43:51 -0700 (PDT)
+        Mon, 11 Jul 2022 00:58:01 -0400
+Received: from m151.mail.126.com (m151.mail.126.com [220.181.15.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AA2F3F583;
+        Sun, 10 Jul 2022 21:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=65ngY
+        rvV3KMV1ztJX1Ell1RlOnJw2EPgc14cLkNCPL4=; b=Wa4dzib1IuoV9NNJg+sdf
+        qwgtQymYcp47P9lG2HS8vDTpfwhwt5/lJc6hPbScROmKJvMoQpiMPZtUsRBRGdYr
+        AnJHv+vyVupUufZfxC+lMqqk3LUCERiCAlTshBubRu1yhY7WNHKWAUZt9WhMza+M
+        /wc8ouOk+OxmP4r6/20NPo=
+Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr1
+ (Coremail) ; Mon, 11 Jul 2022 12:57:52 +0800 (CST)
+X-Originating-IP: [124.16.139.61]
+Date:   Mon, 11 Jul 2022 12:57:52 +0800 (CST)
+From:   "Liang He" <windhl@126.com>
+To:     "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: Re: [PATCH] input/serio: Fix refcount leak bug in
+ i8042-sparcio
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 126com
+In-Reply-To: <YsuWuJTQsMlQabqt@google.com>
+References: <20220619073036.4067872-1-windhl@126.com>
+ <YskI088DEjt39Dqm@google.com>
+ <5b7bcbf5.3f6.181e5c0dcff.Coremail.windhl@126.com>
+ <YsuWuJTQsMlQabqt@google.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
- <1655892104-10874-5-git-send-email-u0084500@gmail.com> <YskJ1wAp0rV9qFRM@google.com>
-In-Reply-To: <YskJ1wAp0rV9qFRM@google.com>
-From:   ChiYuan Huang <u0084500@gmail.com>
-Date:   Mon, 11 Jul 2022 11:43:39 +0800
-Message-ID: <CADiBU3-ca=YMskJnp++sUHS7fTVb41prUzRtPdhJ_rrnYdzfkQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] input: misc: rt5120: Add power key support
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        cy_huang <cy_huang@richtek.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Message-ID: <3da61037.1b03.181eb9ef491.Coremail.windhl@126.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AcqowABHeLDRrctiG9UgAA--.48054W
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbizgk7F18RPeIWbwACsB
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dmitry Torokhov <dmitry.torokhov@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=AD=E5=8D=8812:53=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> Hi ChiYuan,
->
-> On Wed, Jun 22, 2022 at 06:01:44PM +0800, cy_huang wrote:
-> > +
-> > +     is_pressed =3D !(stat & RT5120_PWRKEYSTAT_MASK);
-> > +
-> > +     if ((is_pressed && irq =3D=3D priv->press_irq) ||
-> > +         (!is_pressed  && irq =3D=3D priv->release_irq)) {
-> > +             input_report_key(priv->input, KEY_POWER, is_pressed);
-> > +             input_sync(priv->input);
-> > +     }
-> > +
->
-> What is the reason for checking both the status and interrupt? Can we
-> simply say:
->
-Just to make sure 'press/release' to matche the current state.
-In the IC design, it already guarantee press/release interrupt with 50
-millisecond debounce time.
-But if irq is delayed handling, press and release irq will all be checked.
-Although irq is one by one, but in that case, pwrkey button up will be
-reported twice.
-I'm not sure whether this case exists or not.
->
->         input_report_key(priv->input, KEY_POWER,
->                          !(stat & RT5120_PWRKEYSTAT_MASK));
->         input_sync(priv->input);
->
-> ?
->
-Yes, but how about the above comment? Is that case 'don't care'?
-> Thanks.
->
-> --
-> Dmitry
+CgoKCkF0IDIwMjItMDctMTEgMTE6MTk6MjAsICJEbWl0cnkgVG9yb2tob3YiIDxkbWl0cnkudG9y
+b2tob3ZAZ21haWwuY29tPiB3cm90ZToKPk9uIFN1biwgSnVsIDEwLCAyMDIyIGF0IDA5OjM3OjEw
+QU0gKzA4MDAsIExpYW5nIEhlIHdyb3RlOgo+PiBBdCAyMDIyLTA3LTA5IDEyOjQ5OjIzLCAiRG1p
+dHJ5IFRvcm9raG92IiA8ZG1pdHJ5LnRvcm9raG92QGdtYWlsLmNvbT4gd3JvdGU6Cj4+ID5IaSBM
+aWFuZywKPj4gPgo+PiA+T24gU3VuLCBKdW4gMTksIDIwMjIgYXQgMDM6MzA6MzZQTSArMDgwMCwg
+TGlhbmcgSGUgd3JvdGU6Cj4+ID4+IEluIGk4MDQyX3BsYXRmb3JtX2luaXQoKSBhbmQgaTgwNDJf
+cGxhdGZvcm1fZXhpdCgpLCB3ZSBuZWVkIGNhbGwKPj4gPj4gb2Zfbm9kZV9wdXQoKSB0byBrZWVw
+IHJlZmNvdW50IGJhbGFuY2UuCj4+ID4+IAo+PiA+PiBTaWduZWQtb2ZmLWJ5OiBMaWFuZyBIZSA8
+d2luZGhsQDEyNi5jb20+Cj4+ID4+IC0tLQo+PiA+PiAgZHJpdmVycy9pbnB1dC9zZXJpby9pODA0
+Mi1zcGFyY2lvLmggfCA0ICsrKysKPj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
+KykKPj4gPj4gCj4+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L3NlcmlvL2k4MDQyLXNw
+YXJjaW8uaCBiL2RyaXZlcnMvaW5wdXQvc2VyaW8vaTgwNDItc3BhcmNpby5oCj4+ID4+IGluZGV4
+IGZjZTc2ODEyODQzYi4uYTJhOWRiOTIyMGQ3IDEwMDY0NAo+PiA+PiAtLS0gYS9kcml2ZXJzL2lu
+cHV0L3NlcmlvL2k4MDQyLXNwYXJjaW8uaAo+PiA+PiArKysgYi9kcml2ZXJzL2lucHV0L3Nlcmlv
+L2k4MDQyLXNwYXJjaW8uaAo+PiA+PiBAQCAtMTA4LDYgKzEwOCw4IEBAIHN0YXRpYyBpbnQgX19p
+bml0IGk4MDQyX3BsYXRmb3JtX2luaXQodm9pZCkKPj4gPj4gIAlzdHJ1Y3QgZGV2aWNlX25vZGUg
+KnJvb3QgPSBvZl9maW5kX25vZGVfYnlfcGF0aCgiLyIpOwo+PiA+PiAgCWNvbnN0IGNoYXIgKm5h
+bWUgPSBvZl9nZXRfcHJvcGVydHkocm9vdCwgIm5hbWUiLCBOVUxMKTsKPj4gPj4gIAo+PiA+PiAr
+CW9mX25vZGVfcHV0KHJvb3QpOwo+PiA+PiArCj4+ID4+ICAJaWYgKG5hbWUgJiYgIXN0cmNtcChu
+YW1lLCAiU1VOVyxKYXZhU3RhdGlvbi0xIikpIHsKPj4gPj4gIAkJLyogSGFyZGNvZGVkIHZhbHVl
+cyBmb3IgTXJDb2ZmZWUuICAqLwo+PiA+PiAgCQlpODA0Ml9rYmRfaXJxID0gaTgwNDJfYXV4X2ly
+cSA9IDEzIHwgMHgyMDsKPj4gPj4gQEAgLTEzOSw2ICsxNDEsOCBAQCBzdGF0aWMgaW5saW5lIHZv
+aWQgaTgwNDJfcGxhdGZvcm1fZXhpdCh2b2lkKQo+PiA+PiAgCXN0cnVjdCBkZXZpY2Vfbm9kZSAq
+cm9vdCA9IG9mX2ZpbmRfbm9kZV9ieV9wYXRoKCIvIik7Cj4+ID4+ICAJY29uc3QgY2hhciAqbmFt
+ZSA9IG9mX2dldF9wcm9wZXJ0eShyb290LCAibmFtZSIsIE5VTEwpOwo+PiA+PiAgCj4+ID4+ICsJ
+b2Zfbm9kZV9wdXQocm9vdCk7Cj4+ID4+ICsKPj4gPj4gIAlpZiAoIW5hbWUgfHwgc3RyY21wKG5h
+bWUsICJTVU5XLEphdmFTdGF0aW9uLTEiKSkKPj4gPj4gIAkJcGxhdGZvcm1fZHJpdmVyX3VucmVn
+aXN0ZXIoJnNwYXJjX2k4MDQyX2RyaXZlcik7Cj4+ID4+ICB9Cj4+ID4KPj4gPlRoZXJlIGFscmVh
+ZHkgd2FzIGFuIGF0dGVtcHQgdG8gZml4IHRoaXMgaXNzdWUgaW4gYSBzbGlnaHRseSBiZXR0ZXIg
+d2F5LAo+PiA+dW5mb3J0dW5hdGVseSB0aGUgb3JpZ2luYWwgYXV0aG9yIGRpZCBub3QgZmluaXNo
+IHRoZSB3b3JrOgo+PiA+Cj4+ID5odHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAxODEyMTIx
+NjM1NDguMjM3MjMtMS10aW55LndpbmR6ekBnbWFpbC5jb20vCj4+ID4KPj4gPlRoYW5rcy4KPj4g
+Pgo+PiA+LS0gCj4+ID5EbWl0cnkKPj4gCj4+IEhpLCBEbWlydHJ5LAo+PiAKPj4gVGhhbmtzIGZv
+ciByZXZpZXdpbmcgbXkgcGF0Y2ggY29kZS4KPj4gCj4+IFRoZSBMaSdzIHBhdGNoIGFkZHMgYSBo
+ZWxwZXIgYW5kIGlzIGJldHRlciB0aGFuIG1pbmUuCj4KPlJpZ2h0LCBob3dldmVyIHRoZXJlIGlz
+IGEgY29tcGlsZSBlcnJvciBpbiBMaSdzIHZlcnNpb24uIEl0IHdvdWxkIGJlCj5ncmVhdCBpZiBz
+b21lb25lIGNvdWxkIGZpbmlzaCB0aGVpciB3b3JrLgo+Cj5UaGFua3MuCj4KPi0tIAo+RG1pdHJ5
+CgoKVGhhbmtzLCAKCkknZCBsaWtlIHRvIGNvbnRpbnVlIExpJ3Mgd29yayBhbmQgY29tcGxldGUg
+aXQgc29vbi4KCkxpYW5n
