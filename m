@@ -2,167 +2,286 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00086570F20
-	for <lists+linux-input@lfdr.de>; Tue, 12 Jul 2022 02:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDD99570F6E
+	for <lists+linux-input@lfdr.de>; Tue, 12 Jul 2022 03:25:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231588AbiGLAy4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jul 2022 20:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54940 "EHLO
+        id S230282AbiGLBZ1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jul 2022 21:25:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiGLAyz (ORCPT
+        with ESMTP id S231585AbiGLBZ0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jul 2022 20:54:55 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 307822A721;
-        Mon, 11 Jul 2022 17:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657587294; x=1689123294;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V6w2sMs8zcctI71jT/jdZW5CM1h96l8zoH9VbyJnAnM=;
-  b=Ldv7tubNo0S98EJKfEhYV3eR54b6saKYfLHbV3vcAeS9oy3Qhgq2cfLm
-   8UeElwpqLa9TeD70uREOlWVLlzKi2p4LIJSyGbFuVvnRMCT//qjVMq4Gi
-   zFvpZBqBd9+E6gT/CR7vUWDSSCvmfQliyAl+TruCHjRbRLhNU4ZyepbQA
-   BmjnajTHw/2ERg3XllpYCHkx7Cq224BKiwCb5EZPzznHP8YbF9We9FNBL
-   pwJKUXC1wtdn09W2BKbHDRm/iYb557BCcDxmuj2BJiQK7iyx/ZRC8VU83
-   PBQvBI5sxqdNiNeBbrLueEDU9bsbnJXWnhkoRessmF85uy61tuaCevvYI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="265219256"
-X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; 
-   d="scan'208";a="265219256"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 17:54:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; 
-   d="scan'208";a="662759318"
-Received: from lkp-server02.sh.intel.com (HELO 8708c84be1ad) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Jul 2022 17:54:48 -0700
-Received: from kbuild by 8708c84be1ad with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oB4Aq-0001Rz-8h;
-        Tue, 12 Jul 2022 00:54:48 +0000
-Date:   Tue, 12 Jul 2022 08:54:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jarrett Schultz <jaschultzms@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Mon, 11 Jul 2022 21:25:26 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365828AEC1;
+        Mon, 11 Jul 2022 18:25:25 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id o5-20020a17090a3d4500b001ef76490983so6503830pjf.2;
+        Mon, 11 Jul 2022 18:25:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=tJk6zBlY9QhoHDBqE6sf/Ar1VT3b2UIqq/vwqwhB/To=;
+        b=SdrCVU8V7n1mEnZPqiBABStsw6yqQpQVouPs7LbNp0b2rcLAsVIGMaNMDLdojJ3W8E
+         Uz5kHYF87Ipu9A/qN0aFy099JBAtGWbQNK4vShKsEUuRz35yDaIfdwKYUhyPrWXV3CI/
+         Q7wrdnRHslrlZkHOGFoAJJJiZ3Jtxej0qemOk4tbliYt1UwNkqhtXc/uaLGumK7b5Lq5
+         EkeGC0jNRvS+VKIOoD5CSCELfhowN7GK0fsapsmIeuxgVHaVRAZ/snVBF6EezSW+TFI/
+         nD+kJ09rEKfgzdxemzJ96Gz3SYXlHH+zAiDEo7Zf3/PCLV/cemSGhGa0F/4VGp0lwJGI
+         Lqeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=tJk6zBlY9QhoHDBqE6sf/Ar1VT3b2UIqq/vwqwhB/To=;
+        b=7GWkaIDhxw+/x18N3HdoCqBWq/RliQ4LDJg54x7fXz+nreLh3LxGAWBcjcSuIOCGPA
+         ZfODkbkCy0boliBFnFUzcQjvfhj593ffXuj2fkLP3+2r5gN9UW/6M4OKoMzve4GnlJIZ
+         7W9b1It+K2j8oZNZsi88yyh80KYNQS8MzZtpQ0WNoJl0IJfmGLjonKalSbsEcBerbgop
+         FrEFSHQeCTKyoNGHGIrxQzEOX63eSWHxQc3ZOOf+IHArpry65TavoI66/6UFBqU589Ln
+         f5lDliJwecbtAv6RLPP8PQoZ5FXV8HpXJ/CgUjJ0cKpQejFUQiwMDz8t2brPU1jlsotT
+         fC4Q==
+X-Gm-Message-State: AJIora+erUyUFiKenu+oU4yBvtRJb4paSKOJCOakq+uDgBSwS+nCbJSs
+        r7IR7pjZD4pS2nGbWHzfVZimUZPP8TA=
+X-Google-Smtp-Source: AGRyM1tVDFhTOh3SLdWErzTBq0Y0cdXLDepnSiDU+IuE3v/TMGPW7U3/ihBoOO5UGN0rk+sv+32csQ==
+X-Received: by 2002:a17:90b:4c42:b0:1ef:c8a6:fe91 with SMTP id np2-20020a17090b4c4200b001efc8a6fe91mr1304325pjb.202.1657589123951;
+        Mon, 11 Jul 2022 18:25:23 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:a31e:fcfb:1279:f5f8])
+        by smtp.gmail.com with ESMTPSA id y7-20020a17090abd0700b001ec71be4145sm5408763pjr.2.2022.07.11.18.25.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 18:25:22 -0700 (PDT)
+Date:   Mon, 11 Jul 2022 18:25:18 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org, acz@semihalf.com
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Dmitry Antipov <dmanti@microsoft.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Jarrett Schultz <jaschultz@microsoft.com>
-Subject: Re: [PATCH v5 5/6] HID: add spi-hid, transport driver for HID over
- SPI bus
-Message-ID: <202207120839.Ga8kjAG8-lkp@intel.com>
-References: <20220707165902.3184-6-jaschultzMS@gmail.com>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: properly queue synthetic events
+Message-ID: <YszNfq4b6MkeoCJC@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220707165902.3184-6-jaschultzMS@gmail.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jarrett,
+We should not be passing synthetic events (such as autorepeat events)
+out of order with the events coming from the hardware device, but rather
+add them to pending events and flush them all at once.
 
-Thank you for the patch! Perhaps something to improve:
+This also fixes an issue with timestamps for key release events carrying
+stale data from the previous autorepeat event.
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on dtor-input/next robh/for-next linus/master v5.19-rc6 next-20220711]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/input.c | 125 +++++++++++++++++++++---------------------
+ 1 file changed, 63 insertions(+), 62 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarrett-Schultz/Add-spi-hid-transport-for-HID-over-SPI-bus/20220708-010203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220712/202207120839.Ga8kjAG8-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 77a38f6839980bfac61babb40d83772c51427011)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d0121c2f2d1bb21824555c34c233dd3fbc6aee96
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jarrett-Schultz/Add-spi-hid-transport-for-HID-over-SPI-bus/20220708-010203
-        git checkout d0121c2f2d1bb21824555c34c233dd3fbc6aee96
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hid/spi-hid/ drivers/md/ drivers/net/ethernet/marvell/prestera/ drivers/vfio/pci/mlx5/
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 1365c9dfb5f2..2c24e92fd64a 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -174,44 +174,6 @@ static void input_pass_values(struct input_dev *dev,
+ 	}
+ }
+ 
+-static void input_pass_event(struct input_dev *dev,
+-			     unsigned int type, unsigned int code, int value)
+-{
+-	struct input_value vals[] = { { type, code, value } };
+-
+-	input_pass_values(dev, vals, ARRAY_SIZE(vals));
+-}
+-
+-/*
+- * Generate software autorepeat event. Note that we take
+- * dev->event_lock here to avoid racing with input_event
+- * which may cause keys get "stuck".
+- */
+-static void input_repeat_key(struct timer_list *t)
+-{
+-	struct input_dev *dev = from_timer(dev, t, timer);
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->event_lock, flags);
+-
+-	if (test_bit(dev->repeat_key, dev->key) &&
+-	    is_event_supported(dev->repeat_key, dev->keybit, KEY_MAX)) {
+-		struct input_value vals[] =  {
+-			{ EV_KEY, dev->repeat_key, 2 },
+-			input_value_sync
+-		};
+-
+-		input_set_timestamp(dev, ktime_get());
+-		input_pass_values(dev, vals, ARRAY_SIZE(vals));
+-
+-		if (dev->rep[REP_PERIOD])
+-			mod_timer(&dev->timer, jiffies +
+-					msecs_to_jiffies(dev->rep[REP_PERIOD]));
+-	}
+-
+-	spin_unlock_irqrestore(&dev->event_lock, flags);
+-}
+-
+ #define INPUT_IGNORE_EVENT	0
+ #define INPUT_PASS_TO_HANDLERS	1
+ #define INPUT_PASS_TO_DEVICE	2
+@@ -275,6 +237,10 @@ static int input_get_disposition(struct input_dev *dev,
+ 	int disposition = INPUT_IGNORE_EVENT;
+ 	int value = *pval;
+ 
++	/* filter-out events from inhibited devices */
++	if (dev->inhibited)
++		return INPUT_IGNORE_EVENT;
++
+ 	switch (type) {
+ 
+ 	case EV_SYN:
+@@ -375,19 +341,9 @@ static int input_get_disposition(struct input_dev *dev,
+ 	return disposition;
+ }
+ 
+-static void input_handle_event(struct input_dev *dev,
+-			       unsigned int type, unsigned int code, int value)
++static void input_event_dispose(struct input_dev *dev, int disposition,
++			        unsigned int type, unsigned int code, int value)
+ {
+-	int disposition;
+-
+-	/* filter-out events from inhibited devices */
+-	if (dev->inhibited)
+-		return;
+-
+-	disposition = input_get_disposition(dev, type, code, &value);
+-	if (disposition != INPUT_IGNORE_EVENT && type != EV_SYN)
+-		add_input_randomness(type, code, value);
+-
+ 	if ((disposition & INPUT_PASS_TO_DEVICE) && dev->event)
+ 		dev->event(dev, type, code, value);
+ 
+@@ -426,7 +382,22 @@ static void input_handle_event(struct input_dev *dev,
+ 		input_pass_values(dev, dev->vals, dev->num_vals);
+ 		dev->num_vals = 0;
+ 	}
++}
++
++static void input_handle_event(struct input_dev *dev,
++			       unsigned int type, unsigned int code, int value)
++{
++	int disposition;
++
++	lockdep_assert_held(&dev->event_lock);
++
++	disposition = input_get_disposition(dev, type, code, &value);
++	if (disposition != INPUT_IGNORE_EVENT) {
++		if (type != EV_SYN)
++			add_input_randomness(type, code, value);
+ 
++		input_event_dispose(dev, disposition, type, code, value);
++	}
+ }
+ 
+ /**
+@@ -613,7 +584,7 @@ static void __input_release_device(struct input_handle *handle)
+ 					    lockdep_is_held(&dev->mutex));
+ 	if (grabber == handle) {
+ 		rcu_assign_pointer(dev->grab, NULL);
+-		/* Make sure input_pass_event() notices that grab is gone */
++		/* Make sure input_pass_values() notices that grab is gone */
+ 		synchronize_rcu();
+ 
+ 		list_for_each_entry(handle, &dev->h_list, d_node)
+@@ -736,7 +707,7 @@ void input_close_device(struct input_handle *handle)
+ 
+ 	if (!--handle->open) {
+ 		/*
+-		 * synchronize_rcu() makes sure that input_pass_event()
++		 * synchronize_rcu() makes sure that input_pass_values()
+ 		 * completed and that no more input events are delivered
+ 		 * through this handle
+ 		 */
+@@ -758,14 +729,12 @@ static void input_dev_release_keys(struct input_dev *dev)
+ 
+ 	if (is_event_supported(EV_KEY, dev->evbit, EV_MAX)) {
+ 		for_each_set_bit(code, dev->key, KEY_CNT) {
+-			input_pass_event(dev, EV_KEY, code, 0);
++			input_handle_event(dev, EV_KEY, code, 0);
+ 			need_sync = true;
+ 		}
+ 
+ 		if (need_sync)
+-			input_pass_event(dev, EV_SYN, SYN_REPORT, 1);
+-
+-		memset(dev->key, 0, sizeof(dev->key));
++			input_handle_event(dev, EV_SYN, SYN_REPORT, 1);
+ 	}
+ }
+ 
+@@ -1004,12 +973,16 @@ int input_set_keycode(struct input_dev *dev,
+ 	} else if (test_bit(EV_KEY, dev->evbit) &&
+ 		   !is_event_supported(old_keycode, dev->keybit, KEY_MAX) &&
+ 		   __test_and_clear_bit(old_keycode, dev->key)) {
+-		struct input_value vals[] =  {
+-			{ EV_KEY, old_keycode, 0 },
+-			input_value_sync
+-		};
+-
+-		input_pass_values(dev, vals, ARRAY_SIZE(vals));
++		/*
++		 * We have to use input_event_dispose() here directly instead
++		 * of input_handle_event() because the key we want to release
++		 * here is considered no longer supported by the device and
++		 * input_handle_event() will ignore it.
++		 */
++		input_event_dispose(dev, INPUT_PASS_TO_HANDLERS,
++				    EV_KEY, old_keycode, 0);
++		input_event_dispose(dev, INPUT_PASS_TO_HANDLERS | INPUT_FLUSH,
++				    EV_SYN, SYN_REPORT, 1);
+ 	}
+ 
+  out:
+@@ -2259,6 +2232,34 @@ static void devm_input_device_unregister(struct device *dev, void *res)
+ 	__input_unregister_device(input);
+ }
+ 
++/*
++ * Generate software autorepeat event. Note that we take
++ * dev->event_lock here to avoid racing with input_event
++ * which may cause keys get "stuck".
++ */
++static void input_repeat_key(struct timer_list *t)
++{
++	struct input_dev *dev = from_timer(dev, t, timer);
++	unsigned long flags;
++
++	spin_lock_irqsave(&dev->event_lock, flags);
++
++	if (!dev->inhibited &&
++	    test_bit(dev->repeat_key, dev->key) &&
++	    is_event_supported(dev->repeat_key, dev->keybit, KEY_MAX)) {
++
++		input_set_timestamp(dev, ktime_get());
++		input_handle_event(dev, EV_KEY, dev->repeat_key, 2);
++		input_handle_event(dev, EV_SYN, SYN_REPORT, 1);
++
++		if (dev->rep[REP_PERIOD])
++			mod_timer(&dev->timer, jiffies +
++					msecs_to_jiffies(dev->rep[REP_PERIOD]));
++	}
++
++	spin_unlock_irqrestore(&dev->event_lock, flags);
++}
++
+ /**
+  * input_enable_softrepeat - enable software autorepeat
+  * @dev: input device
+-- 
+2.37.0.144.g8ac04bfd2-goog
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hid/spi-hid/spi-hid-core.c:193:20: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
-   static const char *const spi_hid_power_mode_string(u8 power_state)
-                      ^~~~~~
->> drivers/hid/spi-hid/spi-hid-core.c:691:4: warning: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Wformat]
-                           hid->vendor, hid->product);
-                           ^~~~~~~~~~~
-   drivers/hid/spi-hid/spi-hid-core.c:691:17: warning: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Wformat]
-                           hid->vendor, hid->product);
-                                        ^~~~~~~~~~~~
-   drivers/hid/spi-hid/spi-hid-core.c:1318:13: error: incompatible function pointer types initializing 'void (*)(struct spi_device *)' with an expression of type 'int (struct spi_device *)' [-Werror,-Wincompatible-function-pointer-types]
-           .remove         = spi_hid_remove,
-                             ^~~~~~~~~~~~~~
-   3 warnings and 1 error generated.
---
-   In file included from drivers/hid/spi-hid/trace.c:9:
-   In file included from drivers/hid/spi-hid/./spi-hid_trace.h:194:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:237:
->> drivers/hid/spi-hid/./spi-hid_trace.h:140:92: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-           TP_printk("spi%d.%d: (%04x:%04x v%d) HID v%d.%d state i:%d p:%d len i:%d o:%d r:%d flags %c",
-                                                                                                    ~^
-   include/trace/stages/stage3_trace_output.h:9:33: note: expanded from macro 'TP_printk'
-   #define TP_printk(fmt, args...) fmt "\n", args
-                                   ^~~
-   include/trace/trace_events.h:203:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-           trace_event_printf(iter, print);                                \
-                                    ^~~~~
-   1 warning generated.
-
-
-vim +/const +193 drivers/hid/spi-hid/spi-hid-core.c
-
-   192	
- > 193	static const char *const spi_hid_power_mode_string(u8 power_state)
-   194	{
-   195		switch (power_state) {
-   196		case SPI_HID_POWER_MODE_ON:
-   197			return "d0";
-   198		case SPI_HID_POWER_MODE_SLEEP:
-   199			return "d2";
-   200		case SPI_HID_POWER_MODE_OFF:
-   201			return "d3";
-   202		case SPI_HID_POWER_MODE_WAKING_SLEEP:
-   203			return "d3*";
-   204		default:
-   205			return "unknown";
-   206		}
-   207	}
-   208	
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Dmitry
