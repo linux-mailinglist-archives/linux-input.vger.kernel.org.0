@@ -2,101 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9600572885
-	for <lists+linux-input@lfdr.de>; Tue, 12 Jul 2022 23:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F374B572921
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jul 2022 00:17:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233404AbiGLVXV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Jul 2022 17:23:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57384 "EHLO
+        id S229976AbiGLWRO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Jul 2022 18:17:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233270AbiGLVXS (ORCPT
+        with ESMTP id S229755AbiGLWRK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Jul 2022 17:23:18 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCEC9D0E36
-        for <linux-input@vger.kernel.org>; Tue, 12 Jul 2022 14:23:16 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id e28so12461107lfj.4
-        for <linux-input@vger.kernel.org>; Tue, 12 Jul 2022 14:23:16 -0700 (PDT)
+        Tue, 12 Jul 2022 18:17:10 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 957FFC053E;
+        Tue, 12 Jul 2022 15:17:09 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id x18-20020a17090a8a9200b001ef83b332f5so658824pjn.0;
+        Tue, 12 Jul 2022 15:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ZIixC2bV5bk0+HIicGoB7Neycw0Y+e5g1F3XyfSlUow=;
-        b=lEd2am2qFIvJv6mvwUPXijftjd8L/Wyv9Yx+kKh+EvPQy2tACUdBFYr9SBMhe52bh4
-         oypuIStUzdaV9hnFKV8CZx6YYvxyWyBt+hdEKrL0xT8OBGD7oRh55m4WKmqzfkbzj5Dp
-         XMjQMxMW8vWxEpXgr3S5Y1Ti7r5bCIkZ4ftbbTBEg93nORt5WH5trqMQe35/+EvhDdak
-         RVOBEB9WpNO4QJ8LX7couSF9n0zEMJpevFZOlFiQKveOzKA8dDVowBooFkhWIfiz5GRv
-         kiov8wQwDs2OA8iiTDK4cv5moIrCKR7v3VOys92mWJTzS/unkodYL9b7uHt/oeRUfBuP
-         lbBg==
+        d=gmail.com; s=20210112;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pSWqQLPzGCmh4WIT75be5rc1+0dauWv9WtCYsyw1neg=;
+        b=PRu54UlfcnmszTEjKzE3IFCDZrLM6jVDqupfbnFk4pdd9Wi3QvkpF2Jk5QF/2M2/IP
+         tFybVI7jFusbtKhxFTNwhQpHjsO+R3MXl6n/IL2MQvr/s+OZH1szKdlLIuwxoMhQyMQe
+         O7GXomf4J7pcnQd5rUDF9f8aQNxpZCz5PNtNWoWVqbDucRDi6+kwliweadiBIPdvjfsW
+         yvfcLQtBl/TKlxMQlbOHZjD5JYj3yUWTCpDQK+23j42cP9nFhf6STMDhDlE5NOYx9dYH
+         qR0cqm1h66bEmgrt8bwthEr/nzi7NOsTYe7Lzcwv9i2Lo3a5/pQ5VQ4m9Iu6mUQWovW6
+         2E4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ZIixC2bV5bk0+HIicGoB7Neycw0Y+e5g1F3XyfSlUow=;
-        b=OZqwlKylLtJ+ad4khN+ari8lmRrsIQ0tYdxC5BF2/bpXpJF3fkgtfrpGofd5DA/nXv
-         wA2rQilotedikEVNCLbr4hU/IA3Kz6jkZ1AbUTRlB6W0bSy2yZ4/Um4xLSX0grdHWFaf
-         3YKF0r5a9DyLn5GQKJj3/GBWllY0aSLvuX4lukk3QzS4B9mLCmdz09m+CWaFJ2p/Kkpj
-         1G4jH8k/BVa49GqyXJshlNPcbml9CYNeZuJyOTpIFaJJz89xLs6Va9DAn7u7lA62KwX3
-         t5IWX/y2orVk+NFYqhg7lD6Td1wPzbOXKRTZ+EvKrTp8dqwkg9smUEzmfojJkeNWrn3g
-         v+Ng==
-X-Gm-Message-State: AJIora8ImxdB7dmxq3FwgiZdFQ5/6GAb5220nc4DyAu+qTookZ5xgp7o
-        L+uJRD7u4AXgKxSEm1diJn9PwA==
-X-Google-Smtp-Source: AGRyM1sLfpcYmbiEjWfaKm08jr8ScrE2GfPqP64cecPIr1DDlLCmyOl86WwUnjYrA+y/rjH/i6DnAQ==
-X-Received: by 2002:a05:6512:3b8f:b0:489:c6c9:f522 with SMTP id g15-20020a0565123b8f00b00489c6c9f522mr11797lfv.244.1657660996339;
-        Tue, 12 Jul 2022 14:23:16 -0700 (PDT)
-Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
-        by smtp.gmail.com with ESMTPSA id v11-20020ac2560b000000b0047f9dca3708sm2391737lfd.51.2022.07.12.14.23.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 14:23:15 -0700 (PDT)
-Message-ID: <ca26630c-a09c-6f4d-51de-7a2ba615bd58@linaro.org>
-Date:   Tue, 12 Jul 2022 23:23:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 5/5] dt-bindings: input: touchscreen: stmpe: Remove
- node name requirement
-Content-Language: en-US
-To:     Francesco Dolcini <francesco.dolcini@toradex.com>,
-        Lee Jones <lee.jones@linaro.org>,
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=pSWqQLPzGCmh4WIT75be5rc1+0dauWv9WtCYsyw1neg=;
+        b=5BlxdhotUCrPw5Dl2QGeBjxL13a2KuUHIg89u7vwZdmJecsoWJevBF1jZWAkEUXvi1
+         e5XkyubfNiJ2XpiDx/oEdmIajq9O9I2NrkYQ48HlY8vBZrZ38hf6sGkmC0DiGd/3Rhuw
+         Dd4FfZttF9NT1NSmyCBnOyyX7ISjYJXyLKZ5VulEtTBCr3t8LJdbOYWW0iKqYUK2rkHe
+         VHYhheUJpOGPjUsVMUrkFiFAxlHkVzASSa7i5gRWqnOSbnbX7yJdcOLRdQWC0POZQzum
+         I7/fftQ12lCC3ahW30Pbis1i9BSbjqDZGnZgLYWqQZoCuGwO+AMIqaKnKMjz1x76JaC5
+         Vu8A==
+X-Gm-Message-State: AJIora9njypedaAsNQfXKKxmuF9VZLsCIGlqeoHU6129bfQjpq8REiTM
+        +OQWqIOx9YN0/5zybJXq9sM=
+X-Google-Smtp-Source: AGRyM1suK+wAC874fac4wQuIogjEeFI6uqvENhpnssrl/pjhWHjOk9ywgCuPJ1++0XgfI6aNu4Zilw==
+X-Received: by 2002:a17:90a:e7c4:b0:1f0:78a7:bf37 with SMTP id kb4-20020a17090ae7c400b001f078a7bf37mr1141093pjb.77.1657664229153;
+        Tue, 12 Jul 2022 15:17:09 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id i9-20020a17090332c900b0016c36b368d1sm6804111plr.150.2022.07.12.15.17.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jul 2022 15:17:08 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-input@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org
-References: <20220712163345.445811-1-francesco.dolcini@toradex.com>
- <20220712163345.445811-6-francesco.dolcini@toradex.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220712163345.445811-6-francesco.dolcini@toradex.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Nergi Rahardi <nergi@google.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>
+Subject: [PATCH] HID: nintendo: Add missing array termination
+Date:   Tue, 12 Jul 2022 15:17:05 -0700
+Message-Id: <20220712221705.1847793-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/07/2022 18:33, Francesco Dolcini wrote:
-> STMPE driver does not require a specific node name anymore, only the
-> compatible is checked, update binding according to this.
-> 
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> ---
->  Documentation/devicetree/bindings/input/touchscreen/stmpe.txt | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+joycon_dpad_inputs_jc[] is unterminated. This may result in odd warnings
+such as
 
+input: input_set_capability: invalid code 3077588140 for type 1
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+or in kernel crashes in nintendo_hid_probe(). Terminate the array to fix
+the problem.
 
+Fixes: 2af16c1f846bd ("HID: nintendo: add nintendo switch controller driver")
+Cc: Daniel J. Ogorchock <djogorchock@gmail.com>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/hid/hid-nintendo.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 2204de889739..4b1173957c17 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -1586,6 +1586,7 @@ static const unsigned int joycon_button_inputs_r[] = {
+ /* We report joy-con d-pad inputs as buttons and pro controller as a hat. */
+ static const unsigned int joycon_dpad_inputs_jc[] = {
+ 	BTN_DPAD_UP, BTN_DPAD_DOWN, BTN_DPAD_LEFT, BTN_DPAD_RIGHT,
++	0 /* 0 signals end of array */
+ };
+ 
+ static int joycon_input_create(struct joycon_ctlr *ctlr)
+-- 
+2.35.1
+
