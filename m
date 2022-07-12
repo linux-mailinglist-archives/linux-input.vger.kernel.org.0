@@ -2,74 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 804355712CF
-	for <lists+linux-input@lfdr.de>; Tue, 12 Jul 2022 09:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 417B157162C
+	for <lists+linux-input@lfdr.de>; Tue, 12 Jul 2022 11:54:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiGLHLJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Jul 2022 03:11:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50476 "EHLO
+        id S231126AbiGLJx6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Jul 2022 05:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiGLHLF (ORCPT
+        with ESMTP id S229621AbiGLJx6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Jul 2022 03:11:05 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F13FC2B1A7
-        for <linux-input@vger.kernel.org>; Tue, 12 Jul 2022 00:11:03 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id q7so8821092lji.12
-        for <linux-input@vger.kernel.org>; Tue, 12 Jul 2022 00:11:03 -0700 (PDT)
+        Tue, 12 Jul 2022 05:53:58 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 901F6140BA
+        for <linux-input@vger.kernel.org>; Tue, 12 Jul 2022 02:53:56 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id u14so9260470ljh.2
+        for <linux-input@vger.kernel.org>; Tue, 12 Jul 2022 02:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=QEUyx0E9n8vFcgYZZ5+oGz1HVwAvbqPb8QwcUhO4wh8=;
-        b=pblwCANp624g23t3MmHXm13+zksran9Vfismaduy4g67uAj8xvi/xaROG1iXc2qy9+
-         SJqD8n1mg0jTfBRdlTzlVe9/0ezZbtVDWWdjYZV74TMB9at7CyoSIxh5FBwdIeWypfy9
-         9nq/rWlA2/EmBgB0DKUdSB4J4MJBmuFYXpKHzNqDs0Dai6ThkkJIr4Jpg+5SxuP2MaiC
-         RN7gZRV0Pb1QP5EKvz9H0WMwdNiCMz6S+0rWji1VaqUvgn0zu36oMrPZMpDDTWbNHcrT
-         U/kn4UY9ZgQhjL8w7kZemkaXCpcqOvE9L4hspvcYI4Qh7iu220I9SIyg7d9D+StczKwG
-         gIRA==
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=LMjElaEycr7SAx7h59JBZKxM3vi9DYxeY8Usf5KNPqA=;
+        b=M79X/n3YtBxlMJx0CE/v58ek7eJ/4+aNYp72M7tUXpcGUajqpRjpqWDvzIfk0iDKaZ
+         RBqy7cwj2XdbTfuZTg2g2RKKDn///7skzfv3cZpPIpd0ma8qBuX6zO/9CcEdT+LGPYp9
+         mocZH4KtdzqtbMKmes2DKIjZRmoMQKCICJVEyjM9+tOb/tOTNZIjZmj3nyY0erFmK3Rv
+         WQQtDREaTeHmisLSJ2kBHx5avl8u//N3xZyIhfN2v3n0e4N3CZ4uNp3nkSlgf2tOn5b/
+         WxkW5FP3vbpO3C2Dx2hgQBqQSsndsCtpbpGvI07V9Sxf/OO2qXrUlfyfFzCEnlikGbgr
+         YEZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+         :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=QEUyx0E9n8vFcgYZZ5+oGz1HVwAvbqPb8QwcUhO4wh8=;
-        b=15W9ZhuZxEbYL0ef5RmsIKb9Rq7s0FO9f/dDj4i6HnNra1G7xahgEX6gk1yOwD1/0b
-         Z0xqkgPPqT0JUmhkJr8rXQEQrbNbDLa9XdfFXC/Q52ZvWpnNEzNBCeFTmEdzNYwCdxyM
-         0e42VWFkAnIQ5QGhDD2A3frPg01lCHR4r1PHb83Qr8bfigt6gUYRSggsS/anJZAL5wpx
-         AHD5lw5S2hRNoHJAg2SyJEy3Cjo04prYFz6KJ/8U3hF7MfhODaDx+c9yksDgYNiGcFkk
-         pgO/JAuiANrnMINM0UlgoAkZORhkwyvFNfucIRsS9gGNdpH/kVg/QKKQo3rxtOTkjq+K
-         9sEw==
-X-Gm-Message-State: AJIora9RgyoOBmhFiDX/aolkJCayNscO9IiXQzOl5PwXx3p6ZYt6YSf9
-        /vQSB5TLKDAwuDi+TT9J+X6weQ==
-X-Google-Smtp-Source: AGRyM1sZ2tKhjXGOykefiUQc+wQu3O3VZEElIodcEfttcGfucNFdJm4CvcLdTZAlaGm46CP46fxOJQ==
-X-Received: by 2002:a2e:96c1:0:b0:258:e8ec:3889 with SMTP id d1-20020a2e96c1000000b00258e8ec3889mr12162830ljj.6.1657609862335;
-        Tue, 12 Jul 2022 00:11:02 -0700 (PDT)
-Received: from [10.0.0.8] (fwa5cab-55.bb.online.no. [88.92.171.55])
-        by smtp.gmail.com with ESMTPSA id t9-20020ac25489000000b0047f8cb94004sm2024781lfk.35.2022.07.12.00.11.00
+        bh=LMjElaEycr7SAx7h59JBZKxM3vi9DYxeY8Usf5KNPqA=;
+        b=TmtkrYMStLNN99t7vJYdOLSo6UMo980KTslM/FibORoS0E+B5pzpz9KEs67CVWNilK
+         hHwPiPNiV4RRcbH2O30z1pZ9UxX25IhdLybvxEGPfmX7f2YAyOcB3Kh0heSyaL7Q5Yq1
+         JvE5hrYnTL3ZecCXsL+i+4o1CY7bugp/O0yiJWGb1Jg96Z4HEgMAb+/3FPOofctj5ag4
+         qxOqo1kZ0t0ITFwMk6rdbt0audDD1ArJ0pVfKAlPfHkiXzM5ohEkCRLKjy3uYjeNllHq
+         lUI/TZKFrRHXpidnnbTQUzbt/LWTrzZNAErSahCZ6fg9scv1AC70Fc674gWqa29DmEP7
+         0b2Q==
+X-Gm-Message-State: AJIora83nbsJfDz6mslTtZ0RyXrQonif2gD52lnxjt8cG+9883qW+7WJ
+        /TlvW2xGSuYzFKIr5GxIkMKZZw==
+X-Google-Smtp-Source: AGRyM1vUyYI89x6KhM9BfxnYOCsnYfp6d4jaPd18IXEKS6Ap6dTYvp3qlHHbxDjKTmb0zSmt5WDAMQ==
+X-Received: by 2002:a2e:96c2:0:b0:25d:7b22:f2dc with SMTP id d2-20020a2e96c2000000b0025d7b22f2dcmr1112264ljj.297.1657619634971;
+        Tue, 12 Jul 2022 02:53:54 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+        by smtp.gmail.com with ESMTPSA id z2-20020a19f702000000b004794a78bfe7sm2103304lfe.6.2022.07.12.02.53.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 00:11:01 -0700 (PDT)
-Message-ID: <09c11a48-fb3f-8fde-c530-dc13f5cf4bf6@linaro.org>
-Date:   Tue, 12 Jul 2022 09:11:00 +0200
+        Tue, 12 Jul 2022 02:53:54 -0700 (PDT)
+Message-ID: <16107992-a69f-9856-aa36-8596c7cdd4ce@linaro.org>
+Date:   Tue, 12 Jul 2022 11:53:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [RESEND PATCH v3 0/3] dt-bindings: input: gpio-keys: apply via DT
- tree
+Subject: Re: [PATCH v8 04/15] dt-bindings: nvmem: Add fsl,scu-ocotp yaml file
 Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
- <CAL_Jsq+LepF_67SJUqQ5mUO-TZAd-46LB+aYE5rZmnmmwMg=bw@mail.gmail.com>
- <352f27e7-0da1-4a4a-83a4-ded370dfbd7f@linaro.org>
- <YsiVH41gCLeIMyd6@google.com> <20220708220507.GA1557227-robh@kernel.org>
- <YsiuRbaFMa683H1Z@google.com>
+To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Viorel Suman <viorel.suman@nxp.com>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Peng Fan <peng.fan@nxp.com>, Liu Ying <victor.liu@nxp.com>,
+        Shijie Qin <shijie.qin@nxp.com>, Ming Qian <ming.qian@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20220707125022.1156498-1-viorel.suman@oss.nxp.com>
+ <20220707125022.1156498-5-viorel.suman@oss.nxp.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YsiuRbaFMa683H1Z@google.com>
+In-Reply-To: <20220707125022.1156498-5-viorel.suman@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -82,20 +106,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 09/07/2022 00:23, Dmitry Torokhov wrote:
->>> I am sorry but what series/branch this series is based on? I tried
->>> applying but there are conflicts. The latest I have that is touching
->>> gpio-keys.yaml is:
->>>
->>> 4fda8a2df83a dt-bindings: input: use generic node names
->>
->> This one from me:
->>
->> https://lore.kernel.org/all/20220608211207.2058487-1-robh@kernel.org/
+On 07/07/2022 14:50, Viorel Suman (OSS) wrote:
+> From: Abel Vesa <abel.vesa@nxp.com>
 > 
-> Ah, I see, thank you. Applied the lot.
+> In order to replace the fsl,scu txt file from bindings/arm/freescale,
+> we need to split it between the right subsystems. This patch documents
+> separately the 'ocotp' child node of the SCU main node.
+> 
+> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
+> Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
 
-Great! Thank you.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 
 Best regards,
 Krzysztof
