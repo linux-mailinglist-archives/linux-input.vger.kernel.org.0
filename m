@@ -2,175 +2,218 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7727B5731A4
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jul 2022 10:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90F83573596
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jul 2022 13:36:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235217AbiGMI4M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Jul 2022 04:56:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36978 "EHLO
+        id S236253AbiGMLgj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jul 2022 07:36:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235102AbiGMI4L (ORCPT
+        with ESMTP id S236222AbiGMLgi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Jul 2022 04:56:11 -0400
-Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43F1C9951
-        for <linux-input@vger.kernel.org>; Wed, 13 Jul 2022 01:56:09 -0700 (PDT)
-Received: from [192.168.1.18] ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id BYABo66oB3kbdBYABofk55; Wed, 13 Jul 2022 10:56:07 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Wed, 13 Jul 2022 10:56:07 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <9d799a6a-edbd-c7d7-1b20-b033fe38bcf7@wanadoo.fr>
-Date:   Wed, 13 Jul 2022 10:56:06 +0200
+        Wed, 13 Jul 2022 07:36:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 397E110290A
+        for <linux-input@vger.kernel.org>; Wed, 13 Jul 2022 04:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657712196;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yrCSuJaHzqqJrDzlPoHK3BCroMA+MPPreiwAH9qdrfA=;
+        b=JDcdVJFSnY3H8mKLTXNgmxEJzQ1kDPKnIpAOxkxsh4HEn/OGu+bz1Cre5/FbErriGM2fpu
+        nV0LkPs5wZj5wg4zENTvIY6RMkymPTZHkqAHwsGfiCaHW7rB6BOj59ZB6paP9H8nUMqvQP
+        SyumZ/4KerX1W63cYbngmMKCkUo7QDQ=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-498-6ulKxaQtM-mryXgW0itYmw-1; Wed, 13 Jul 2022 07:36:35 -0400
+X-MC-Unique: 6ulKxaQtM-mryXgW0itYmw-1
+Received: by mail-pg1-f200.google.com with SMTP id d66-20020a636845000000b0040a88edd9c1so5063408pgc.13
+        for <linux-input@vger.kernel.org>; Wed, 13 Jul 2022 04:36:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yrCSuJaHzqqJrDzlPoHK3BCroMA+MPPreiwAH9qdrfA=;
+        b=8CJjQ2ISL2uQ4IUis5+EOFXWX8OsyuHVMd18iyhV5KbiMfSDMx7mwSFMcGnV0Dw14K
+         VvNQagSfV9o3t9OBPYJ4PVSc/Ys0gFZCEGgK05HIbuXSSb4idYpGKyaIYkFN0qVc2zaG
+         H/bM0cO5keipwSd6Y5fvyANkH7qkf7s6cV9Z7zigqaO+XLhH7zXhfFOE3Qz1V0f86ZZq
+         8Z6+VUYJt3FR0HYc1EA8ccErGsFJYOxkUb528QHjkj3w+WwzmgvbKmVyL48MKEnWO5zP
+         hwym7Wa2EvKhd7deeOTGQCq8SEHRv9MBzGztdvB20gYOTfF23IdxjG0UalMnfXAs3KC+
+         zopQ==
+X-Gm-Message-State: AJIora8d6TKNWm7Gw9UpIpXlUQ+083vAYZt1RSgJyhmUvBUZfaJherC6
+        0LKZdYiI52MuJnXWQjzx1R67ioTplqRTnsFgU3QhnvnpnD45JWH4A53SvIr/nvBgPDCVf3UAWDf
+        yGCb4uFOOG9AxYoEGHHfRvmSmBZGuI71nWvlzcqk=
+X-Received: by 2002:a63:5b16:0:b0:416:1b3b:9562 with SMTP id p22-20020a635b16000000b004161b3b9562mr2640560pgb.146.1657712193993;
+        Wed, 13 Jul 2022 04:36:33 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tMvNaIU5RdJs8xFRKHMRkHgZ6gojSHT6mUC3bNG1PFZd6uvWCEzPNcBAqRmFF+sgNMHsiXK2QJJwUhF0wM9ws=
+X-Received: by 2002:a63:5b16:0:b0:416:1b3b:9562 with SMTP id
+ p22-20020a635b16000000b004161b3b9562mr2640529pgb.146.1657712193703; Wed, 13
+ Jul 2022 04:36:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] Input: tsc2007 - enable GPIO chips that can sleep
-Content-Language: en-US
-To:     Benjamin Bara <bbara93@gmail.com>, dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-References: <20220713084247.3090353-1-bbara93@gmail.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20220713084247.3090353-1-bbara93@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+ <20220712145850.599666-13-benjamin.tissoires@redhat.com> <668a2f86-9446-61de-494c-f2d2ee15f09e@isovalent.com>
+In-Reply-To: <668a2f86-9446-61de-494c-f2d2ee15f09e@isovalent.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 13 Jul 2022 13:36:22 +0200
+Message-ID: <CAO-hwJ+23HWjRHx8463uL5hA1HMYcmPD2=63Fv=J__x7zvmLjg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v6 12/23] HID: initial BPF implementation
+To:     Quentin Monnet <quentin@isovalent.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Pu Lehui <pulehui@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 13/07/2022 à 10:42, Benjamin Bara a écrit :
-> From: Benjamin Bara <benjamin.bara@skidata.com>
-> 
-> This enables the usage of "can_sleep" GPIO chips as "pin up" GPIO.
-> This might be the case if the GPIO chip is an expander behind i2c.
+On Wed, Jul 13, 2022 at 10:48 AM Quentin Monnet <quentin@isovalent.com> wrote:
+>
+> On 12/07/2022 15:58, Benjamin Tissoires wrote:
+[...]
+> > diff --git a/drivers/hid/bpf/entrypoints/Makefile b/drivers/hid/bpf/entrypoints/Makefile
+> > new file mode 100644
+> > index 000000000000..dd60a460c6c4
+> > --- /dev/null
+> > +++ b/drivers/hid/bpf/entrypoints/Makefile
+> > @@ -0,0 +1,88 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +OUTPUT := .output
+> > +abs_out := $(abspath $(OUTPUT))
+> > +
+> > +CLANG ?= clang
+> > +LLC ?= llc
+> > +LLVM_STRIP ?= llvm-strip
+> > +
+> > +TOOLS_PATH := $(abspath ../../../../tools)
+> > +BPFTOOL_SRC := $(TOOLS_PATH)/bpf/bpftool
+> > +BPFTOOL_OUTPUT := $(abs_out)/bpftool
+> > +DEFAULT_BPFTOOL := $(OUTPUT)/sbin/bpftool
+> > +BPFTOOL ?= $(DEFAULT_BPFTOOL)
+> > +
+> > +LIBBPF_SRC := $(TOOLS_PATH)/lib/bpf
+> > +LIBBPF_OUTPUT := $(abs_out)/libbpf
+> > +LIBBPF_DESTDIR := $(LIBBPF_OUTPUT)
+> > +LIBBPF_INCLUDE := $(LIBBPF_DESTDIR)/include
+> > +BPFOBJ := $(LIBBPF_OUTPUT)/libbpf.a
+> > +
+> > +INCLUDES := -I$(OUTPUT) -I$(LIBBPF_INCLUDE) -I$(TOOLS_PATH)/include/uapi
+> > +CFLAGS := -g -Wall
+> > +
+> > +VMLINUX_BTF_PATHS ?= $(if $(O),$(O)/vmlinux)                         \
+> > +                  $(if $(KBUILD_OUTPUT),$(KBUILD_OUTPUT)/vmlinux)    \
+> > +                  ../../../../vmlinux                                \
+> > +                  /sys/kernel/btf/vmlinux                            \
+> > +                  /boot/vmlinux-$(shell uname -r)
+> > +VMLINUX_BTF ?= $(abspath $(firstword $(wildcard $(VMLINUX_BTF_PATHS))))
+> > +ifeq ($(VMLINUX_BTF),)
+> > +$(error Cannot find a vmlinux for VMLINUX_BTF at any of "$(VMLINUX_BTF_PATHS)")
+> > +endif
+> > +
+> > +ifeq ($(V),1)
+> > +Q =
+> > +msg =
+> > +else
+> > +Q = @
+> > +msg = @printf '  %-8s %s%s\n' "$(1)" "$(notdir $(2))" "$(if $(3), $(3))";
+> > +MAKEFLAGS += --no-print-directory
+> > +submake_extras := feature_display=0
+> > +endif
+> > +
+> > +.DELETE_ON_ERROR:
+> > +
+> > +.PHONY: all clean
+> > +
+> > +all: entrypoints.lskel.h
+> > +
+> > +clean:
+> > +     $(call msg,CLEAN)
+> > +     $(Q)rm -rf $(OUTPUT) entrypoints
+> > +
+> > +entrypoints.lskel.h: $(OUTPUT)/entrypoints.bpf.o | $(BPFTOOL)
+> > +     $(call msg,GEN-SKEL,$@)
+> > +     $(Q)$(BPFTOOL) gen skeleton -L $< > $@
+> > +
+> > +
+> > +$(OUTPUT)/entrypoints.bpf.o: entrypoints.bpf.c $(OUTPUT)/vmlinux.h $(BPFOBJ) | $(OUTPUT)
+> > +     $(call msg,BPF,$@)
+> > +     $(Q)$(CLANG) -g -O2 -target bpf $(INCLUDES)                           \
+> > +              -c $(filter %.c,$^) -o $@ &&                                 \
+> > +     $(LLVM_STRIP) -g $@
+> > +
+> > +$(OUTPUT)/vmlinux.h: $(VMLINUX_BTF) $(BPFTOOL) | $(INCLUDE_DIR)
+> > +ifeq ($(VMLINUX_H),)
+> > +     $(call msg,GEN,,$@)
+> > +     $(Q)$(BPFTOOL) btf dump file $(VMLINUX_BTF) format c > $@
+> > +else
+> > +     $(call msg,CP,,$@)
+> > +     $(Q)cp "$(VMLINUX_H)" $@
+> > +endif
+> > +
+> > +$(OUTPUT) $(LIBBPF_OUTPUT) $(BPFTOOL_OUTPUT):
+> > +     $(call msg,MKDIR,$@)
+> > +     $(Q)mkdir -p $@
+> > +
+> > +$(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(LIBBPF_OUTPUT)
+> > +     $(Q)$(MAKE) $(submake_extras) -C $(LIBBPF_SRC)                         \
+> > +                 OUTPUT=$(abspath $(dir $@))/ prefix=                       \
+> > +                 DESTDIR=$(LIBBPF_DESTDIR) $(abspath $@) install_headers
+> > +
+> > +$(DEFAULT_BPFTOOL): $(BPFOBJ) | $(BPFTOOL_OUTPUT)
+> > +     $(Q)$(MAKE) $(submake_extras) -C $(BPFTOOL_SRC)                        \
+> > +                 OUTPUT=$(BPFTOOL_OUTPUT)/                                  \
+> > +                 LIBBPF_OUTPUT=$(LIBBPF_OUTPUT)/                            \
+> > +                 LIBBPF_DESTDIR=$(LIBBPF_DESTDIR)/                          \
+> > +                 prefix= DESTDIR=$(abs_out)/ install-bin
+>
+> Hi Benjamin,
+>
+> Note that, at other locations where bpftool is needed to generate the
+> vmlinux.h or the skeletons, there is some work in progress to use only
+> the "bootstrap" version of bpftool (the intermediary bpftool binary used
+> to generate skeletons required for the final bpftool binary) [0]. This
+> is enough to generate these objects, it makes compiling the bpftool
+> binary faster, and solves some issues related to cross-compilation. It's
+> probably worth exploring in your case (or as a follow-up) as well.
+>
 
-Hi,
+Hi Quentin,
 
-should you care and/or should there be a v2, some nitpick below.
+Indeed, I applied a similar patch to [1] (the 3/3 in the series you
+mentioned) and I have the exact same light skeleton.
+I have stashed the changes locally for a future revision (I doubt
+everything will go through in this version ;-P ).
 
-CJ
+Cheers,
+Benjamin
 
-> 
-> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-> ---
->   drivers/input/touchscreen/tsc2007.h      |  1 +
->   drivers/input/touchscreen/tsc2007_core.c | 38 ++++++++++++++++++++----
->   2 files changed, 34 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/tsc2007.h b/drivers/input/touchscreen/tsc2007.h
-> index 69b08dd6c8df..29bd1ff22c72 100644
-> --- a/drivers/input/touchscreen/tsc2007.h
-> +++ b/drivers/input/touchscreen/tsc2007.h
-> @@ -78,6 +78,7 @@ struct tsc2007 {
->   	bool			stopped;
->   
->   	int			(*get_pendown_state)(struct device *);
-> +	int			(*get_pendown_state_cansleep)(struct device *);
->   	void			(*clear_penirq)(void);
->   
->   	struct mutex		mlock;
-> diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
-> index 3e871d182c40..0ad4c3c41297 100644
-> --- a/drivers/input/touchscreen/tsc2007_core.c
-> +++ b/drivers/input/touchscreen/tsc2007_core.c
-> @@ -20,6 +20,7 @@
->   #include <linux/module.h>
->   #include <linux/slab.h>
->   #include <linux/gpio/consumer.h>
-> +#include <linux/gpio/driver.h>
->   #include <linux/input.h>
->   #include <linux/interrupt.h>
->   #include <linux/i2c.h>
-> @@ -108,6 +109,14 @@ bool tsc2007_is_pen_down(struct tsc2007 *ts)
->   	return ts->get_pendown_state(&ts->client->dev);
->   }
->   
-> +bool tsc2007_is_pen_down_cansleep(struct tsc2007 *ts)
-> +{
-> +	if (!ts->get_pendown_state_cansleep)
-> +		return true;
-> +
-> +	return ts->get_pendown_state_cansleep(&ts->client->dev);
-> +}
-> +
->   static irqreturn_t tsc2007_soft_irq(int irq, void *handle)
->   {
->   	struct tsc2007 *ts = handle;
-> @@ -115,7 +124,7 @@ static irqreturn_t tsc2007_soft_irq(int irq, void *handle)
->   	struct ts_event tc;
->   	u32 rt;
->   
-> -	while (!ts->stopped && tsc2007_is_pen_down(ts)) {
-> +	while (!ts->stopped && tsc2007_is_pen_down_cansleep(ts)) {
->   
->   		/* pen is down, continue with the measurement */
->   
-> @@ -125,7 +134,7 @@ static irqreturn_t tsc2007_soft_irq(int irq, void *handle)
->   
->   		rt = tsc2007_calculate_resistance(ts, &tc);
->   
-> -		if (!rt && !ts->get_pendown_state) {
-> +		if (!rt && !ts->get_pendown_state_cansleep) {
->   			/*
->   			 * If pressure reported is 0 and we don't have
->   			 * callback to check pendown state, we have to
-> @@ -229,6 +238,14 @@ static int tsc2007_get_pendown_state_gpio(struct device *dev)
->   	return gpiod_get_value(ts->gpiod);
->   }
->   
-> +static int tsc2007_get_pendown_state_gpio_cansleep(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct tsc2007 *ts = i2c_get_clientdata(client);
-> +
-> +	return gpiod_get_value_cansleep(ts->gpiod);
-> +}
-> +
->   static int tsc2007_probe_properties(struct device *dev, struct tsc2007 *ts)
->   {
->   	u32 val32;
-> @@ -264,10 +281,21 @@ static int tsc2007_probe_properties(struct device *dev, struct tsc2007 *ts)
->   	if (IS_ERR(ts->gpiod))
->   		return PTR_ERR(ts->gpiod);
->   
-> -	if (ts->gpiod)
-> -		ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
-> -	else
-> +	if (ts->gpiod) {
-> +		/* to support detection during the hard IRQ, the GPIO chip is required to not sleep.
-
-There should be /* alone on the first line of the comment.
-
-> +		 * this might be the case if the GPIO is e.g. behind an i2c-based GPIO expander.
-> +		 * it is fine to sleep later in the soft IRQ, as it is threaded.
-> +		 */
-> +		ts->get_pendown_state_cansleep = tsc2007_get_pendown_state_gpio_cansleep;
-> +		if (gpiod_to_chip(ts->gpiod) && !gpiod_to_chip(ts->gpiod)->can_sleep) {
-> +			ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
-> +		} else {
-> +			dev_dbg(dev, "Pen down GPIO chip can sleep\n");
-> +		}
-
-Un-needed extra { } around each branch of this "if".
-
-Just my 2c,
-CJ
-
-> +
-> +	} else {
->   		dev_warn(dev, "Pen down GPIO is not specified in properties\n");
-> +	}
->   
->   	return 0;
->   }
+> Quentin
+>
+> [0]
+> https://lore.kernel.org/all/20220712030813.865410-1-pulehui@huawei.com/t/#u
+>
+[1] https://lore.kernel.org/all/20220712030813.865410-4-pulehui@huawei.com/
 
