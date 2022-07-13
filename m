@@ -2,115 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63AAD57295F
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jul 2022 00:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89577572BD9
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jul 2022 05:21:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231250AbiGLWfH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Jul 2022 18:35:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47424 "EHLO
+        id S230009AbiGMDVg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Jul 2022 23:21:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiGLWfG (ORCPT
+        with ESMTP id S229568AbiGMDVe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Jul 2022 18:35:06 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC79CC3AEE;
-        Tue, 12 Jul 2022 15:35:04 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so608382pjl.5;
-        Tue, 12 Jul 2022 15:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=72J7TCt8+zxMrSHffLMPTA0BXv+7mgfFyxy0hmazDXY=;
-        b=OyB8mtybFPMIy1/hqXY+UCkeFlzb4YKwlbOnHk3mDQB0jlMi2c6KP+wFF+s7LmXEww
-         HvZKytNi6U4alFk7wNpUEpm9hw3WwEhp3ek6vGqV4WM7+2IhLcpQvwivZCoM7MUegEYl
-         bEpvzzKOm+QhLdZXOxeHIIm5rkEgBwjd4NN1fzpLP784OY/Z+q9GrGB7/gONuq0z7glc
-         meYawaEJOqbpQoZrd5glcknlBN7GaYkXtd2RAVT3scemww49v9M1VPxx08MbiUoG4vfm
-         cQVjga6tKrXaAxFcKmA1QcWTpi1jkQot7qTvUxpbyMl6HBmr0tB13nbCNUqlKZLBp9o5
-         yXBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=72J7TCt8+zxMrSHffLMPTA0BXv+7mgfFyxy0hmazDXY=;
-        b=zv2kMf+lMyGihirYvgHJaD1pFpii9M7Xp4z1QPiJf49rrmiVRsJ8+AJEjSWj9B2L06
-         ZkQ73XhhGXIyT0TkGz7ypbKNbIA/BkfgAXloWWOIf50ok/Y4g+iClr2YLovYLU1/9FuG
-         AR+GuXtreJDx2W1XGF9FNIypUrjg58SvrIz1Jac9lB7Jtmr9scqTZf60jOdAWIxWYCkl
-         Eavv8OHFaDXcQjVrOObuvnKCArQKs6bhmXvtSf76PLn+h1K+qb0dHrFCF/pvwj9WFHKo
-         FJQhWcH8g8TK7ed8Og/RBSBMRT+Ci/GZ62wx9/YCkgmEZxfMy9kNoWulwQ7AmxM/hhNt
-         f/cg==
-X-Gm-Message-State: AJIora9ZJJ7w+MjU3qligUcChoS+tDgUBlBsUswQ+1Tt8LmtdiDB+hT5
-        DdpVvi9Hm4nzeP1HAA3u1IHotqWlxyU=
-X-Google-Smtp-Source: AGRyM1tCBhP5yfWPibLu4jTYbnGFOi1qxc7mhwNzjwP3PADQBoc/nKuga9RFb3fiVUz6MHiDHeBnBA==
-X-Received: by 2002:a17:90b:3a84:b0:1f0:56d5:4600 with SMTP id om4-20020a17090b3a8400b001f056d54600mr6892308pjb.162.1657665304119;
-        Tue, 12 Jul 2022 15:35:04 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:a31e:fcfb:1279:f5f8])
-        by smtp.gmail.com with ESMTPSA id z1-20020aa79901000000b0050dc7628171sm7306772pff.75.2022.07.12.15.35.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 15:35:03 -0700 (PDT)
-Date:   Tue, 12 Jul 2022 15:35:00 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nergi Rahardi <nergi@google.com>,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>
-Subject: Re: [PATCH] HID: nintendo: Add missing array termination
-Message-ID: <Ys33FIuNEsyZw8EF@google.com>
-References: <20220712221705.1847793-1-linux@roeck-us.net>
+        Tue, 12 Jul 2022 23:21:34 -0400
+Received: from m12-15.163.com (m12-15.163.com [220.181.12.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 68DB5C48F1;
+        Tue, 12 Jul 2022 20:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=7H5QC
+        /ebLWEw0Vftb7BZuIxCrCx4xpLAewO2u8p2DHg=; b=mdmi7qwGOHl68OCOxAo0T
+        mKMBMCTWl36/djl/DVaV62jRO4kmQg53BrvfUY+QCr3VgI9VTIXl0ohUScQBKv1z
+        FQ/27+3pzd5UJTG3P3QnMzVTztZljdY0xBZnxYKRra9C3FqmowVKzViz/IORMbxK
+        tR1GuPVdtQAiq91kIlrJRM=
+Received: from localhost.localdomain (unknown [111.48.58.12])
+        by smtp11 (Coremail) with SMTP id D8CowACHPPovOs5iQQ5eMg--.5854S2;
+        Wed, 13 Jul 2022 11:21:23 +0800 (CST)
+From:   Jiangshan Yi <13667453960@163.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiangshan Yi <yijiangshan@kylinos.cn>
+Subject: [PATCH] HID: rmi: replace ternary operator with min()
+Date:   Wed, 13 Jul 2022 11:20:47 +0800
+Message-Id: <20220713032047.2238205-1-13667453960@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220712221705.1847793-1-linux@roeck-us.net>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: D8CowACHPPovOs5iQQ5eMg--.5854S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KFyUWF1UGFy3Jw1fKw15Jwb_yoW8XrW8pF
+        WkCFZ0yrWUAF18Cw1Ut3WDCa4rtwn7Gay5u34jv347WFn8tF98GrW5Ka4UWwn0vFs3J39r
+        Xr1DurW5G3WqvaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jz6wZUUUUU=
+X-Originating-IP: [111.48.58.12]
+X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbi8BQ9+1uohid3cwAAs0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 03:17:05PM -0700, Guenter Roeck wrote:
-> joycon_dpad_inputs_jc[] is unterminated. This may result in odd warnings
-> such as
-> 
-> input: input_set_capability: invalid code 3077588140 for type 1
-> 
-> or in kernel crashes in nintendo_hid_probe(). Terminate the array to fix
-> the problem.
-> 
-> Fixes: 2af16c1f846bd ("HID: nintendo: add nintendo switch controller driver")
-> Cc: Daniel J. Ogorchock <djogorchock@gmail.com>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+From: Jiangshan Yi <yijiangshan@kylinos.cn>
 
-Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Fix the following coccicheck warning:
 
-I'd recommend tagging stable on this one.
+drivers/hid/hid-rmi.c:240: WARNING opportunity for min().
+drivers/hid/hid-rmi.c:350: WARNING opportunity for min().
 
-> ---
->  drivers/hid/hid-nintendo.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> index 2204de889739..4b1173957c17 100644
-> --- a/drivers/hid/hid-nintendo.c
-> +++ b/drivers/hid/hid-nintendo.c
-> @@ -1586,6 +1586,7 @@ static const unsigned int joycon_button_inputs_r[] = {
->  /* We report joy-con d-pad inputs as buttons and pro controller as a hat. */
->  static const unsigned int joycon_dpad_inputs_jc[] = {
->  	BTN_DPAD_UP, BTN_DPAD_DOWN, BTN_DPAD_LEFT, BTN_DPAD_RIGHT,
-> +	0 /* 0 signals end of array */
->  };
->  
->  static int joycon_input_create(struct joycon_ctlr *ctlr)
-> -- 
-> 2.35.1
-> 
+min() macro is defined in include/linux/minmax.h. It avoids
+multiple evaluations of the arguments when non-constant and performs
+strict type-checking.
 
-Thanks.
+Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+---
+ drivers/hid/hid-rmi.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
+index 311eee599ce9..bb1f423f4ace 100644
+--- a/drivers/hid/hid-rmi.c
++++ b/drivers/hid/hid-rmi.c
+@@ -237,8 +237,7 @@ static int rmi_hid_read_block(struct rmi_transport_dev *xport, u16 addr,
+ 
+ 			read_input_count = data->readReport[1];
+ 			memcpy(buf + bytes_read, &data->readReport[2],
+-				read_input_count < bytes_needed ?
+-					read_input_count : bytes_needed);
++				min(read_input_count, bytes_needed));
+ 
+ 			bytes_read += read_input_count;
+ 			bytes_needed -= read_input_count;
+@@ -347,8 +346,7 @@ static int rmi_read_data_event(struct hid_device *hdev, u8 *data, int size)
+ 		return 0;
+ 	}
+ 
+-	memcpy(hdata->readReport, data, size < hdata->input_report_size ?
+-			size : hdata->input_report_size);
++	memcpy(hdata->readReport, data, min((u32)size, hdata->input_report_size));
+ 	set_bit(RMI_READ_DATA_PENDING, &hdata->flags);
+ 	wake_up(&hdata->wait);
+ 
 -- 
-Dmitry
+2.25.1
+
