@@ -2,98 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5645C574703
-	for <lists+linux-input@lfdr.de>; Thu, 14 Jul 2022 10:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18CE2574774
+	for <lists+linux-input@lfdr.de>; Thu, 14 Jul 2022 10:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237062AbiGNIhE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Jul 2022 04:37:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60804 "EHLO
+        id S235469AbiGNIov (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Jul 2022 04:44:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235876AbiGNIg5 (ORCPT
+        with ESMTP id S229931AbiGNIou (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Jul 2022 04:36:57 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 569FA3F32C
-        for <linux-input@vger.kernel.org>; Thu, 14 Jul 2022 01:36:51 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id q9so1554415wrd.8
-        for <linux-input@vger.kernel.org>; Thu, 14 Jul 2022 01:36:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
-        b=nfF93HFABydKtKUN6hm08YjvNRh2G4i7biDP0iGWKm0CJI/6tO/7ASVGiMVbrFcvre
-         dFe7LS0o6XmnC1olR6EZQT61Pk5CcDXk8EOCE/ZUPQPC2WOF08wHjQNTI98f51BXkTW7
-         5dyslKzFlMJ1FAFUBcS5XSZMuJJQc0mVGS8sJL1EcuApFLh9MbSY3DeHMChVpm6lylO2
-         ZiD2YD5TYnCnW1RYesj2zabgr2TZokupGOdRW5Wg1Wsic5Yzi6a7GNVAIH/aFq924Tv4
-         l/BLkapdJUQdDh1nnfELCxBLwNTsd2zSHh12MGEWr6e9uOYA2kL+ohlW7KhzBK2CbHvs
-         dAHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
-        b=DbM8N367AlVvt7RRklv+7nxSomDpxovadYac82W4OiePXcJIQzt5eAg+8qqOHFgnjP
-         5OoVvPkFaK1jHq69iNYUw4sR+iJIHD1eauJUNW7ThCStzGWq5kjl9MXNrLcKb3uA0ood
-         BGzpPZrJvsLqTLBqfPUvS1OkAkOQMobOV4nvSDPnW/dOjapZLLu53mW5H1dHu4+X+SRQ
-         6R5yI3IURs+hz7+Si25YiYFcVD/CYL8JkngRQ/u/ign9aJWMizJp1m+lrFNVPkMGeYVd
-         t9KFan2ljqKx0kpVx+QxM9hSWSiBAC0dNnYY0U8cAP4cGh4bww+xeKPt/siSBamqZQZi
-         tV1Q==
-X-Gm-Message-State: AJIora9VA3GlkcKle0PQLIJHclYOhME7olcXp/XAUs0R09AAN4ST19k0
-        OlwTCnD+7wiVzmITgj2nMi2W2JWgHHwWUrjYGJsyTm43P8HTrA==
-X-Google-Smtp-Source: AGRyM1sBAY02anFyAAkYvB61573ohyB+lIVHvdune1I2St249pttaSZdeqZISv5rckThyg5u7Q/retQg6yCpkFrJ9YI=
-X-Received: by 2002:a05:6512:1307:b0:47f:baa4:52c5 with SMTP id
- x7-20020a056512130700b0047fbaa452c5mr4350443lfu.103.1657787798421; Thu, 14
- Jul 2022 01:36:38 -0700 (PDT)
+        Thu, 14 Jul 2022 04:44:50 -0400
+X-Greylist: delayed 61 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Jul 2022 01:44:46 PDT
+Received: from smtpdh19-2.aruba.it (smtpdh19-2.aruba.it [62.149.155.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE15415836
+        for <linux-input@vger.kernel.org>; Thu, 14 Jul 2022 01:44:46 -0700 (PDT)
+Received: from asem-TANK-H61.asem.intra ([151.1.184.193])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id BuRhoA7r5bvrcBuRhoFpeR; Thu, 14 Jul 2022 10:43:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1657788223; bh=un5pkqfd2ZfN3kAgLbVdkbNuttBIuRIZqLiIVNxtmm0=;
+        h=From:To:Subject:Date:MIME-Version;
+        b=VcKVUrh9ALrfwKAd1fyn+xZ86elbjwsChsz6IA1WNykRl8ShfTJyq3J6Hr0AQP+Uw
+         PZqSL4uMz1YUy2RPEhsYPLcCrnxHciTazcVbmZclEkQc3oyjvxKqDrDK6XlOLOkwEW
+         oAANdsVYeSfLTWPNAVgh8gy7ZVt53xOnKNcqmYEbcD+VbZdd9/Jkw3l/bufTpSqMmy
+         l0UQK4o7dJtCOXbnX66HvxuPRW6953oThMVgqI5cdoZXh5KS9pfiXm5YljL+OpNlB+
+         f8lt/CgEP5Jra9WfHYGH1r42UAAzTuyavRCYNZPANVg4pHOt6yYaSwL8729WUGcSiD
+         dAr/v/XPS0lGw==
+From:   Luca Ellero <luca.ellero@brickedbrain.com>
+To:     dmitry.torokhov@gmail.com, daniel@zonque.org,
+        m.felsch@pengutronix.de, andriy.shevchenko@linux.intel.com,
+        u.kleine-koenig@pengutronix.de, mkl@pengutronix.de,
+        miquel.raynal@bootlin.com, imre.deak@nokia.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luca Ellero <luca.ellero@brickedbrain.com>
+Subject: [PATCH 0/3] ads7846: fix support for ADS7845
+Date:   Thu, 14 Jul 2022 10:43:16 +0200
+Message-Id: <20220714084319.107334-1-luca.ellero@brickedbrain.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:36:37
- -0700 (PDT)
-Reply-To: abdwabbomaddahm@gmail.com
-From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
-Date:   Thu, 14 Jul 2022 09:36:37 +0100
-Message-ID: <CAFC-3idDfFB0Mmtq-N-n6z5Ly7T-KDCJtvbc0UgtirMnTLYTCg@mail.gmail.com>
-Subject: Get back to me... URGENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:431 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4306]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [abdwabbomaddah746[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [abdwabbomaddah746[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfJnqr8V9hEAPp0TQjknV0VYIUN0jcm5nlRIOl5/wxcXF4/OLMi5z9dAF1ZXNIlF2XJmasse8Z9TFU47LOS9Fayaq4aOUj66YbXyrCFAc3xNWNbnsX/6Q
+ Baw2qTeAQ82KlwlNTok36NShF7GQkOcYFGgq74p9KXCl+s/yf/97D7KmNBJaFBFiQyrpmh6+nyuaoHuuIRW9P/Kcq/6um2HAaFTrE7IgrapKSThbgFZz6/Of
+ ROT7kSwzfpNDEHAIr2yEygSOFn27d9hGJThkKcQm4/uc8LvuJnVnlPh9suS2WCLm/ttBtU9yzZxoaSD3B7JhXwEWKnMvVSMbSkaXCidiRVOF3vm+g3t/mwRO
+ 935XtkrAfdqV6TCTdmKsNFJoPspw+kAQCWi6s2oE5UgJK3Ww25NxPUbkoJMlhDnRaJISlRDe9JHEsc9NzGpLCx8PTDXSaS9APBAIRX1aWcBMMwG3IOl5koVg
+ ornOlIEvSsuDzeExTlUfCBds4q9v293b7K/U3i5uNZuKdujtlt/IOyJi7V3oRuYuhqDZaZ62LelGKvJrmSrto6LqEIqk1/qWjeXk7+A9fobp0zDMVPKb/TA5
+ OkH4AZ81FaNyWU6cL6Gi5oeW
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_05,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+ADS7845 support is buggy in this driver.
+These patches fix various issues to get it work properly.
+
+Luca Ellero (3):
+  ads7846: don't report pressure for ads7845
+  ads7846: always set last command to PWRDOWN
+  ads7846: don't check penirq immediately for 7845
+
+ drivers/input/touchscreen/ads7846.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
 -- 
-Dear,
-I had sent you a mail but i don't think you received it that's why am
-writing you again.It is important you get back to me as soon as you
-can.
-Abd-Wabbo Maddah
+2.25.1
+
