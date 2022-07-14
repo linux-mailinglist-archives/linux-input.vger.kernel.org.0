@@ -2,280 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09822575201
-	for <lists+linux-input@lfdr.de>; Thu, 14 Jul 2022 17:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F634575545
+	for <lists+linux-input@lfdr.de>; Thu, 14 Jul 2022 20:45:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236048AbiGNPiv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Jul 2022 11:38:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43618 "EHLO
+        id S240267AbiGNSpL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Jul 2022 14:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239808AbiGNPig (ORCPT
+        with ESMTP id S239685AbiGNSpB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Jul 2022 11:38:36 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F8B63925;
-        Thu, 14 Jul 2022 08:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1657813095;
-        bh=DtJnqs/sSTnIu3XjHE2BezrZQiBgwGyZEk5B116ynNQ=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=MZt/PuS/hLfThaTSR2wanewjwHHkJDUdJaOShzdUR80706ftTx4Ea+/bAfV91L8ud
-         FUNxDmDmQ9MTnBXaDCog8iMujDeQ7A1QPwVV1JZ3NoAU4MbB5NYTYZ+vaLjtp0gnsU
-         8fPxkF5v6vV5yvX8jAA+PWmypDR2/sBB8/kM4ioU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from max-esprimop556.user.selfnet.de ([141.72.241.228]) by
- mail.gmx.net (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1My36N-1nL89Z48K7-00zYLE; Thu, 14 Jul 2022 17:38:15 +0200
-From:   Max Buchholz <max.buchholz@gmx.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sameer Pujar <spujar@nvidia.com>
-Cc:     Max Buchholz <Max.Buchholz@gmx.de>,
-        David Heidelberg <david@ixit.cz>,
-        Max Buchholz <max.buchholz@gmx.de>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: nvidia,tegra20-kbc: Convert to json-schema
-Date:   Thu, 14 Jul 2022 17:37:31 +0200
-Message-Id: <20220714153732.48698-1-max.buchholz@gmx.de>
-X-Mailer: git-send-email 2.37.0
+        Thu, 14 Jul 2022 14:45:01 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD41C2655A;
+        Thu, 14 Jul 2022 11:45:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HH4eZo8LOWH0d1IHOlK3zZbUIbHmWZHPHTG+gE4LfGsnrpU4TvDJyOkvfFGUGdxCtfnPMQQIXOB53XSEzg2nmBQmUd5vgOdUQtK4FKrL98TGocGlOoBsnma7zq8+GrY94Mbh1nCxzSmTrQgYEVpmJqT4cuKyw4Pm4FlPnibN5ZBcg4oIaZkYES4DP2Uw2RGHTQeMVKZj5vCMHQ9QFv2zyGs5NveH1KNuz23mK8yGbO1fHkr9ds3ZcTVK7rxFMRsASNO6CmxPoAPXWXkn/dwIo1xN1oxL0a8lS35rvBwoazYcGn6OH5a2QQwfMbdIFL3G5jLWsKw1BAnCnY6hz6Ws1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ue5rm0wjtCVMUyaxf0BrGA5jnpQJuSCEXdoDPQp/vyQ=;
+ b=aytBURp2gwmTWJ/I0445Y4vxdgTvOB71HnAdItu8FMaVc4cXYR5Kk+xAnvW8259xIqOJAySBC3Yv/mTfA4g8Ae7d7PY7oHTB54ou7Xg5TICGD1oe6RUqfJNNKq2l2cU0r66937f9oPQTiU3QwyJOWIk0LuPsYOhrxCArSej+Jx52xZPu2lKP+eUkCRro9HkRPAeFm75tveePzrDv2VdKvZC0M16HBQexAAhq8fj9ZrMys9eryVsFXiy2YIUHkDCM/4Fc5CnBQven1sTRtUvQ+vhbuuD/m8T8t8qYjw1o8WmXcYiZhgoWtSB1njRlwOuDV9JddbNV5v8q3ayNf/2rSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ue5rm0wjtCVMUyaxf0BrGA5jnpQJuSCEXdoDPQp/vyQ=;
+ b=JqmwCujL9RGnyM92UZ9E7k6C+fiITzUBZmaUCoAjM/gh39N6rSIlsY+jHs1iAXAbVjWmXrk4w+NhPEoDh1rEmSEbistvJ682x7Vghzft1F/dQjFo+DVaXABJahZgASqKwA6V7oRydGdMlo0z7lbKzqUcpa+iboQeP7A2HKa0QZA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by CY4PR12MB1335.namprd12.prod.outlook.com (2603:10b6:903:37::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Thu, 14 Jul
+ 2022 18:44:59 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::2ddb:590a:f046:b38b]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::2ddb:590a:f046:b38b%5]) with mapi id 15.20.5417.026; Thu, 14 Jul 2022
+ 18:44:59 +0000
+Message-ID: <9f6f77f2-7a46-7735-2be8-c39e39e6af22@amd.com>
+Date:   Fri, 15 Jul 2022 00:14:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] AMD_SFH: Add a DMI quirk entry for Chromebooks
+Content-Language: en-US
+To:     Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mario Limonciello <mario.limonciello@amd.com>
+References: <20220714053752.5124-1-akihiko.odaki@gmail.com>
+From:   Basavaraj Natikar <bnatikar@amd.com>
+In-Reply-To: <20220714053752.5124-1-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0015.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:95::19) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fIrSM4Gy1y4DV0VVUdtk9JrFSlEEZSzVRogeJi377bW5WwSVUcW
- A0GI622mXXcKHn8TFGwvftFPvCUNqx013rwmIYQPsYGae1FXE2R67znqsIIEEQ64jAcewnv
- KKD6qV1YP1O6FH3xIPwNQf6/1Q+pcvMUAy8kF4NX53RIeo8qr7n+wLLVFsXYp3ZcEqHPL+v
- pYuypIR2TT3/UT0tiWe3w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JcalHAO1k7A=:8RBClnJt1vAxUzvv8Mzo6+
- UuvhGP3LrQl134WotTYrrUyTR6IGEbmNdrApGKq+ohmvLbYG3mNgHsrXiZQnr1o+a7odlglKj
- /KGtK9mQPu6ECxKhU/6h0+5XJwrnYbPolPbVNd7SiwfkbHgKV+UYb2WobOVT13W/7dC+/0+Wh
- aq4fwZC5UUtg6kdBW2VBCmCvADzd2mxcFBvDXXf0g30EnbRfoKYpWV6omT7E0CsStPyif4cMJ
- GW3Ji4BVeSBpI5qkVM6Bn6NyV+Ij/9d5P2MGJLmQGr+iXFHZXW97rJruvc9yqUHPknMUR46Ud
- rZdd+cH6HPUAto2Ph3vGQL1OFzMEd8wItzQOnqSlKu6OD7sXms+0IdCNR3XO/fdWv3i8X0oDI
- M1qnoItQg9bloPbhdMCrWiYMYR9uGD5ov8AdH7GXJzFFyz8W/nxoOor0JYb1HuuWv2pJ5pPel
- 7KJzGDOtNzycosGCjkXZy0uXgYhYQgvtNIfKekbOvwmPf8FD2a7lEKbfo45g0BIbHwLHaXWqa
- TSeWXzl9pnyt18hC3mN97bPfJttZWzBeoqlykVRNuU4Pv1k2bfc/V1RUUhFs+aoY6+jWCcOLq
- iT2OyE+DDRQ2mQtrQOYqccQOWKxCPaQ++/UtPTGjzm08PFkt9uooYGqjajKXhRIiaXgPsF+dg
- T9XcuH8SG9QbEPlhlht1dB3sxDYKWZ8+072A/Veh8Dibkfym5vwUGn/zBX3seqAyjSKEi09BL
- /AXDuMOgY6RQEGodg3ICNMO5My6mbyDHBu+JCGpjgNQjaZ8IJDahTBcaazW2+5Q6p8UwZfjrT
- Qc4P6wr/5ZMOBgOA76HBlzj+rsiMxD/F7jW3F2Vdx6x28pgjHabvufCAEH0FDtJJ22SW9bqOV
- c9/cJE2AtI9zF0zyl1zf2VWEiAFkokbtJrZxPMCC/+e1gGv0EkPMiRrtE1M7IgjFr0yDJ4uzj
- 93VJzX53LAdqgGK1Mkn5ZKViisLUN6PjH5a2PO4AQ0w/aXZyb40ZN3RzCTJmRJZ6mFpIo/Zdc
- Fq67SkqlthpK/HQJc2BRdPMdTgFw7reyOqZ+Gra6wcLhL+CJIA+tHlz+Q1sawUVuMaZ5kJ3EK
- BklmwK7czbn4k+y4bGq3iTN+cVCCtM2s1PBCzyC653lEdT4Vf12BodxXw==
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 650de3a2-7f38-4f5e-94dd-08da65c8f416
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1335:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f7gF7JnZX4DsYE0zWJWrUj9VoX5hbwM6QNsjYe3YE3Zt46x8qmIgWC3Cve92hMgxJwrYoVDqT+yH9vs41GJVo1Z3c6Nx9aqpitc6HR/N97Q992CQd3FQAzuu710OVFtBbd6mYyGXF4eglSWeN+1BqaL4qe2owhDsNTcDEC51c8Dy/t8Ej2Cy0sPK9x+pTptxlZOHwdzQomM/FIqolELr9jIXRY8yQUWiFBnpPcfSf5t0fmV5QLV9k6do4OxBuxbyKpTRG5S4ONXClf61cZqZnM+SM3PYO2ARf5LlWojhQ/7YAsIJFahb1q6S0KpKHgntlN+fTUQ3kc6VBxAAM58GCrpDVY9FS1j14YM7qfY12l5o98thZtUrUlLysDjP7mmcIrRDgHWJ/Ftai6vJ9ISEmagkVCvUnHOZ2nubzXPQsDE9uT9xRLEh7ZdvPDVKy2jYailGA0rdDUOlRo1lKAp2QCED1fxGd8N/mbraszPhgmoO7hxLnQPlSEUUDXLVHtlCXeXIEt656cU3LAPSJJC/1SKa8/qG2yj5OVK5/WU8VYxXFp36Dsk4/R+uDLIQnq2OYswdzhBWrU8C+dXTbjAzTF6bgwnvL0xhSVg/LVtdQuAR+ig2bjwW7v4TEetVrGSPgmZ5arLIKkRjeVJllgxWTUll7iftAgRoUi47zjU7HUFudIjyzBTkvbisCeCe9+L+FaDa56+6/tyznyhyp5tF+NRP8NZNlcNr8VyRaJoR6m/0P9k5giURtqIF9BjeDfvbXVJY/1EaUP5LZErr5IZVxSvxBs0nraQKC8mIdAoUASTWntVlh8HgPf3YQIux1mngdHdHV/6/xgpIJve/T94CdXsHICtXuwS6i2NMHIWSpGc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(39860400002)(376002)(366004)(396003)(26005)(316002)(8936002)(4326008)(6916009)(54906003)(6512007)(6486002)(2906002)(41300700001)(38100700002)(5660300002)(6506007)(8676002)(36756003)(4744005)(6666004)(31696002)(83380400001)(186003)(53546011)(66556008)(66476007)(478600001)(2616005)(31686004)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MUxjSytsQlBZRjBvUXhNMXZqNzc4VXRtRksvRFA4YUZXSzRCKzZYajZwOE1q?=
+ =?utf-8?B?emJnNnVEbFBYZllCYWJrVGNta3ZjcE5hWVhueGVMNjBKakRCZUFRQ2Y1Tm90?=
+ =?utf-8?B?U1JLS1k0NXZFaTBuNENMTTRMYnJ4MXB2dis0Ti92cElHTmVQbXkrcEgzRHpH?=
+ =?utf-8?B?MysyUjVGWjhEQTNxSE9MaXZ5cFUzTGFXWG5LeTdGeXdvMG04NklYTEpVcjlQ?=
+ =?utf-8?B?Rys1Q3JPNll1Q0M5c3hKMW5MRklpMGhhYVB6NXBWMkN5Q2FEU3NHVGdPdzNI?=
+ =?utf-8?B?UUpSLzFNcDdpV0ZKTytSMmRpUmVOZjBWRHBicHNSYTZhZHFZRjBuMjF2a20r?=
+ =?utf-8?B?NThUckxHVGNKVTJ5VS9IMUZqdW9POFREclAxanVWK2VlODdxVFUzOXhiT1RZ?=
+ =?utf-8?B?bllVcGtDWHk0SnFkTWpyRmRTNktpQ0s5N1IwRjhDRUg2RFNMMXFBY2VoNXor?=
+ =?utf-8?B?UnpRRUsxRUhZczRnV3VtN0NSMm80bFFEb0puSUd2WU9iUlJEUkFlamkrZ0dj?=
+ =?utf-8?B?L2lCSVV6bnhrN1ZsMU82NTNadlZ2QlpzQm5MckNXdHF4ZXR4WmZFNFBCbEFr?=
+ =?utf-8?B?NmIrMFNlbWY0TU5GZmFZUXFTdFBNcmNoUmlMTmtLT2N2TEUvVVRmbktGNnRK?=
+ =?utf-8?B?WkdhQy9sQk93eG81cVFzZmRna0Jtbm13d2xJOUZOWFd2bWhhdi9JK3RHYWdw?=
+ =?utf-8?B?NkRJNXQyekRWY3Ayb3NSMkk2NnRGRkJrZFR5R2ZaSytSR1VyNGhzRllUVG5G?=
+ =?utf-8?B?cGR4VUk2eGxSNTdvbjQweG5zb0tJeGF0OFgyZWQ4SjI0ajBqL2FSUDBuUGxD?=
+ =?utf-8?B?OEpzbzRTQ2dSbGxtWjJlOVpwWGduRENITy92dG9oM1IrNzdTVTVUS2RhdlBR?=
+ =?utf-8?B?ZTJtYWNDSjZvdElFTkloWThGem1BTWlWcGswUEV2NnFpWnJXdEhhem5LLzc5?=
+ =?utf-8?B?VTVwV0ZIRWJZb2lPUTFMbC9panptb2R5U043cVZlS1lWNWJ6R25DN0d0dW5Y?=
+ =?utf-8?B?WjRaRk9EWE82blQxMzFLQnJRRlVrMjBmRXBZYXdIdVBDVlNNL0NFd25lRWFl?=
+ =?utf-8?B?ZndFSm5QV0tFWE5DRGdTb1pTOHU0K25DV1cxeEFDVHBNVkkxVWRMWFJIbjBu?=
+ =?utf-8?B?KzRuNEpqaFF1L3BId0lFYmtudjZYdk1iVGZHb3RPelEwOXNvUjlhcEI4ZklP?=
+ =?utf-8?B?WUpja2tIRFVES2kxalFCbjZQTmdGa1FWc3lkQTVoc0tnb0Zub3pSWU8yV1Zt?=
+ =?utf-8?B?QVN6UUZkYzhxYllvRmNyNHdrNHpRZGxHU3FDQlBjelUrUVFYdUt0VXZ5QTZi?=
+ =?utf-8?B?eWVmVkVEaFd6ZEtmb2Z0WUVzQVVnc1M2ZmdGL0VkSHlnUmRlM3kxakhxeERh?=
+ =?utf-8?B?VUw4clE3UEprUGRmU3V4NlhQMUt5YUNWUjE2ODkzdDF2WlZQcW1MUkZRTnlM?=
+ =?utf-8?B?K0xCbEwrY2VENG9nQXZDYjRrZHdDWnpsL0Q2Z1BEUktybmIxVkdURFZ3bmNX?=
+ =?utf-8?B?MHZNTVg1SHJXdWx5NHN5Y0xINEsvbGltY0xiejVpQnVaVG9qUWUvWFJlNVI4?=
+ =?utf-8?B?TFc2TVFtaE9WbzRBU1F5UThvRnhZeWt4eFVoYWI0L0t0dVZRYWRMSERmMlZM?=
+ =?utf-8?B?bFArSjVicVR6Sy9pZ3ZKWC9naVRVWDdWSktHdGtQRnFZalY2T0JqS0k3aG5n?=
+ =?utf-8?B?K1QrcVV2UXFmdStucDhibU5FeDZoRmpPRmpiQUFkY0VsSjhuREU4YWJZWlpF?=
+ =?utf-8?B?MnZpS0dCVnoyU21memdobE1QME5ZbkMrV2w4VDNkTEswSUVabzJBZTJHY1Rt?=
+ =?utf-8?B?aVlMOXptN1k1REtvL2x0TzBOZnJMRDVKZ0pOMnpYYU45RytBSnNhZHcybmxT?=
+ =?utf-8?B?dmpQTTY3bUc1eGhZUzF3QlRiVUpQaWlRaVlrTDdKMmRkcUxCRFRMekJndEJv?=
+ =?utf-8?B?QzUvb3owRkJNM093LzJrVlVrajN1TllNSmlnRWNoazdZMW9XRytNN2JtZVhV?=
+ =?utf-8?B?TVhtZGYwSk8zTmUwYVNjS3hHR3JSTFdDek5YTitzQUc3dFp3OWtoQjFoR3kx?=
+ =?utf-8?B?T2wzSDNRMlM5M041UlRic0FuS3hmOHY5QnF2K0VvTUlUUTBxbnhGSWNBR3pu?=
+ =?utf-8?Q?JJULmNsd6CXyVkf1j+BUtvlPL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 650de3a2-7f38-4f5e-94dd-08da65c8f416
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 18:44:59.1831
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eiYe3AujBX8exp2gVA/vZh01F8He8AIUnGMQVPgG0jsrYJ3VkFH7f33KlPd65KjIuFL0L1OFD1vw4sbwBRniaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1335
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Max Buchholz <Max.Buchholz@gmx.de>
 
-This converts the Nvidia Tegra keyboard controller bindings to YAML
-and fix them up a bit.
+On 7/14/2022 11:07 AM, Akihiko Odaki wrote:
+> Google Chromebooks use Chrome OS Embedded Controller Sensor Hub instead
+> of Sensor Hub Fusion and leaves MP2 uninitialized, which disables all
+> functionalities, even including the registers necessary for feature
+> detections.
+>
+> The behavior was observed with Lenovo ThinkPad C13 Yoga.
 
-Reviewed-by: David Heidelberg <david@ixit.cz>
-Signed-off-by: Max Buchholz <max.buchholz@gmx.de>
-=2D--
- .../bindings/input/nvidia,tegra20-kbc.txt     |  55 ---------
- .../bindings/input/nvidia,tegra20-kbc.yaml    | 109 ++++++++++++++++++
- 2 files changed, 109 insertions(+), 55 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20=
--kbc.txt
- create mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20=
--kbc.yaml
+We are checking for few things with respect to this issue
+internally.
 
-diff --git a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.tx=
-t b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
-deleted file mode 100644
-index 1faa7292e21f..000000000000
-=2D-- a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
-+++ /dev/null
-@@ -1,55 +0,0 @@
--* Tegra keyboard controller
--The key controller has maximum 24 pins to make matrix keypad. Any pin
--can be configured as row or column. The maximum column pin can be 8
--and maximum row pins can be 16 for Tegra20/Tegra30.
--
--Required properties:
-=2D- compatible: "nvidia,tegra20-kbc"
-=2D- reg: Register base address of KBC.
-=2D- interrupts: Interrupt number for the KBC.
-=2D- nvidia,kbc-row-pins: The KBC pins which are configured as row. This i=
-s an
--  array of pin numbers which is used as rows.
-=2D- nvidia,kbc-col-pins: The KBC pins which are configured as column. Thi=
-s is an
--  array of pin numbers which is used as column.
-=2D- linux,keymap: The keymap for keys as described in the binding documen=
-t
--  devicetree/bindings/input/matrix-keymap.txt.
-=2D- clocks: Must contain one entry, for the module clock.
--  See ../clocks/clock-bindings.txt for details.
-=2D- resets: Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
-=2D- reset-names: Must include the following entries:
--  - kbc
--
--Optional properties, in addition to those specified by the shared
--matrix-keyboard bindings:
--
-=2D- linux,fn-keymap: a second keymap, same specification as the
--  matrix-keyboard-controller spec but to be used when the KEY_FN modifier
--  key is pressed.
-=2D- nvidia,debounce-delay-ms: delay in milliseconds per row scan for debo=
-uncing
-=2D- nvidia,repeat-delay-ms: delay in milliseconds before repeat starts
-=2D- nvidia,ghost-filter: enable ghost filtering for this device
-=2D- wakeup-source: configure keyboard as a wakeup source for suspend/resu=
-me
--		 (Legacy property supported: "nvidia,wakeup-source")
--
--Example:
--
--keyboard: keyboard {
--	compatible =3D "nvidia,tegra20-kbc";
--	reg =3D <0x7000e200 0x100>;
--	interrupts =3D <0 85 0x04>;
--	clocks =3D <&tegra_car 36>;
--	resets =3D <&tegra_car 36>;
--	reset-names =3D "kbc";
--	nvidia,ghost-filter;
--	nvidia,debounce-delay-ms =3D <640>;
--	nvidia,kbc-row-pins =3D <0 1 2>;    /* pin 0, 1, 2 as rows */
--	nvidia,kbc-col-pins =3D <11 12 13>; /* pin 11, 12, 13 as columns */
--	linux,keymap =3D <0x00000074
--			0x00010067
--			0x00020066
--			0x01010068
--			0x02000069
--			0x02010070
--			0x02020071>;
--};
-diff --git a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.ya=
-ml b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
-new file mode 100644
-index 000000000000..8ecd42e02f09
-=2D-- /dev/null
-+++ b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
-@@ -0,0 +1,109 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/input/nvidia,tegra20-kbc.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Nvidia Tegra keyboard controller
-+
-+maintainers:
-+  - Jon Hunter <jonathanh@nvidia.com>
-+  - Sameer Pujar <spujar@nvidia.com>
-+
-+description: The key controller has maximum 24 pins to make matrix keypad=
-. Any pin
-+  can be configured as row or column.
-+
-+allOf:
-+  - $ref: "/schemas/input/matrix-keymap.yaml#"
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - const: nvidia,tegra30-kbc
-+          - const: nvidia,tegra20-kbc
-+      - items:
-+          - const: nvidia,tegra20-kbc
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  nvidia,kbc-row-pins:
-+    maxItems: 16
-+    description: KBC pins which are configured as row
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+
-+  nvidia,kbc-col-pins:
-+    maxItems: 8
-+    description: KBC pins which are configured as column
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+
-+  clocks:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    const: kbc
-+
-+  linux,fn-keymap:
-+    description: a secondary keymap to be used when the KEY_FN modifier k=
-ey is pressed
-+
-+  nvidia,debounce-delay-ms:
-+    description: delay in milliseconds per row scan for debouncing
-+
-+  nvidia,repeat-delay-ms:
-+    description: delay in milliseconds before repeat starts
-+
-+  nvidia,ghost-filter:
-+    description: enable ghost filtering for this device
-+    type: boolean
-+
-+  wakeup-source:
-+    description: configure keyboard as a wakeup source for suspend/resume
-+
-+  nvidia,wakeup-source:
-+    description: configure keyboard as a wakeup source for suspend/resume
-+    deprecated: true
-+    type: boolean
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - nvidia,kbc-row-pins
-+  - nvidia,kbc-col-pins
-+  - linux,keymap
-+  - clocks
-+  - resets
-+  - reset-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    kbc@7000e200 {
-+        compatible =3D "nvidia,tegra20-kbc";
-+        reg =3D <0x7000e200 0x100>;
-+        interrupts =3D <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks =3D <&tegra_car 36>;
-+        resets =3D <&tegra_car 36>;
-+        reset-names =3D "kbc";
-+        nvidia,ghost-filter;
-+        nvidia,debounce-delay-ms =3D <640>;
-+        nvidia,kbc-row-pins =3D <0 1 2>;    /* pin 0, 1, 2 as rows */
-+        nvidia,kbc-col-pins =3D <11 12 13>; /* pin 11, 12, 13 as columns =
-*/
-+        linux,keymap =3D <0x00000074
-+                        0x00010067
-+                        0x00020066
-+                        0x01010068
-+                        0x02000069
-+                        0x02010070
-+                        0x02020071>;
-+    };
-=2D-
-2.37.0
+Please hold on this patch. we will get back soon.
+
+Thanks,
+Basavaraj
 
