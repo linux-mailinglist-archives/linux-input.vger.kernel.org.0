@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BD3E574C2A
-	for <lists+linux-input@lfdr.de>; Thu, 14 Jul 2022 13:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A3AC574C33
+	for <lists+linux-input@lfdr.de>; Thu, 14 Jul 2022 13:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238885AbiGNLc5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Jul 2022 07:32:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43700 "EHLO
+        id S237860AbiGNLfB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Jul 2022 07:35:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238881AbiGNLc4 (ORCPT
+        with ESMTP id S238952AbiGNLez (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Jul 2022 07:32:56 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 794F32DD3;
-        Thu, 14 Jul 2022 04:32:54 -0700 (PDT)
+        Thu, 14 Jul 2022 07:34:55 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDEFF599FE;
+        Thu, 14 Jul 2022 04:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657798374; x=1689334374;
+  t=1657798494; x=1689334494;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WtBev9dHMwuukNjd40pA16rIrhzGg5WZruaX/rRQtr4=;
-  b=SdYBnnIRNt5+zeZfIl1/br5o78Qce+7WsUE8Es6PdhbsQu6+Ha5Z0sLb
-   Fq9Hw8ojxyWICYawYLlRh0JDHgYoKl9uIXPLQFCAb2ktL4sgnAFOD2b1U
-   4uRdNYUGg+dYPxvSSpDet7c/1blGabS1zlUKXkv4twPJpiOcj51ZERItq
-   hWABd67Leio3AhGbKqqCfS37AorOOlhcO2GkoN8F7zr+Ajn0W5blQO7F0
-   so5JZr5uF9afFnq4szyk5EnOR1D2fcu9UexMiiXMPigQ14EeOB5K560uN
-   X4HgoC/cXpIlQC3GpWEl51ew6VfzcJkGnKVYL8fNFmcdZu1kx9z7LMRSz
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="349454318"
+  bh=UYKVusdjN3uJPbVd5bXgJk3qFGpE1Ln3ZbTd6vEktCY=;
+  b=Bee0U2HyoRZ1PV0jpvSRseIab7mGt1Qg2JJKas6RuoXPiWUqyItZz4/9
+   drs44hpAfmH7pyfWR8tRuyEiHbw/xcX1XHgt6xkT1WDq++N1n9W8Dvcei
+   /VkecMoHnEjFQHMffPgYzthO4ZwIkRnio6+xKFBBHHQmuCd/rIRFVMrvV
+   6xoPONRFPv2DISt+zJWK2+59oYtp3lB/HON0v3Hshv+BKQ1OD2yPWCYw9
+   9xLXBTztUGdgAjiiZ5RhX8ZqY0rxt/EfNQlHTTxGAeB20D5i6NzAmn3yE
+   nctx/+MKijEUwXPjOelbA7hGQIdk5IXAsgRtBnWJVUCxdrqAWzmzeK/Ct
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="347168181"
 X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; 
-   d="scan'208";a="349454318"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 04:32:53 -0700
+   d="scan'208";a="347168181"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 04:34:42 -0700
 X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; 
-   d="scan'208";a="842112922"
+   d="scan'208";a="722694140"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 04:32:51 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 04:34:39 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oBx5M-001DC3-0A;
-        Thu, 14 Jul 2022 14:32:48 +0300
-Date:   Thu, 14 Jul 2022 14:32:47 +0300
+        id 1oBx76-001DCE-2h;
+        Thu, 14 Jul 2022 14:34:36 +0300
+Date:   Thu, 14 Jul 2022 14:34:36 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Luca Ellero <luca.ellero@brickedbrain.com>
 Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
@@ -49,14 +49,14 @@ Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
         mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Luca Ellero <l.ellero@asem.it>
-Subject: Re: [PATCH 1/3] ads7846: don't report pressure for ads7845
-Message-ID: <Ys/+37mzoi++8MDW@smile.fi.intel.com>
+Subject: Re: [PATCH 2/3] ads7846: always set last command to PWRDOWN
+Message-ID: <Ys//TM5/JuvoEZMo@smile.fi.intel.com>
 References: <20220714084319.107334-1-luca.ellero@brickedbrain.com>
- <20220714084319.107334-2-luca.ellero@brickedbrain.com>
+ <20220714084319.107334-3-luca.ellero@brickedbrain.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220714084319.107334-2-luca.ellero@brickedbrain.com>
+In-Reply-To: <20220714084319.107334-3-luca.ellero@brickedbrain.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
@@ -68,38 +68,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 14, 2022 at 10:43:17AM +0200, Luca Ellero wrote:
+On Thu, Jul 14, 2022 at 10:43:18AM +0200, Luca Ellero wrote:
 > From: Luca Ellero <l.ellero@asem.it>
 > 
-> ADS7845 doesn't support pressure.
-> This patch avoids the following error reported by libinput-list-devices:
-> "ADS7845 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE"
+> This was broken on controllers with 3 commands as ads7845.
+> READ_Z1 was sent instead.
 
-Missed period, otherwise looks good.
-
+What is "This"? Please, make commit message more understandable by its own.
+With that fixed,
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 > Signed-off-by: Luca Ellero <l.ellero@asem.it>
 > ---
->  drivers/input/touchscreen/ads7846.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/input/touchscreen/ads7846.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-> index bed68a68f330..24605c40d039 100644
+> index 24605c40d039..9e15cdf6faa0 100644
 > --- a/drivers/input/touchscreen/ads7846.c
 > +++ b/drivers/input/touchscreen/ads7846.c
-> @@ -1316,8 +1316,9 @@ static int ads7846_probe(struct spi_device *spi)
->  			pdata->y_min ? : 0,
->  			pdata->y_max ? : MAX_12BIT,
->  			0, 0);
-> -	input_set_abs_params(input_dev, ABS_PRESSURE,
-> -			pdata->pressure_min, pdata->pressure_max, 0, 0);
-> +	if (ts->model != 7845)
-> +		input_set_abs_params(input_dev, ABS_PRESSURE,
-> +				pdata->pressure_min, pdata->pressure_max, 0, 0);
+> @@ -1066,6 +1066,9 @@ static int ads7846_setup_spi_msg(struct ads7846 *ts,
+>  		struct ads7846_buf_layout *l = &packet->l[cmd_idx];
+>  		unsigned int max_count;
 >  
->  	/*
->  	 * Parse common framework properties. Must be done here to ensure the
+> +		if (cmd_idx == packet->cmds - 1)
+> +			cmd_idx = ADS7846_PWDOWN;
+> +
+>  		if (ads7846_cmd_need_settle(cmd_idx))
+>  			max_count = packet->count + packet->count_skip;
+>  		else
+> @@ -1102,7 +1105,12 @@ static int ads7846_setup_spi_msg(struct ads7846 *ts,
+>  
+>  	for (cmd_idx = 0; cmd_idx < packet->cmds; cmd_idx++) {
+>  		struct ads7846_buf_layout *l = &packet->l[cmd_idx];
+> -		u8 cmd = ads7846_get_cmd(cmd_idx, vref);
+> +		u8 cmd;
+> +
+> +		if (cmd_idx == packet->cmds - 1)
+> +			cmd_idx = ADS7846_PWDOWN;
+> +
+> +		cmd = ads7846_get_cmd(cmd_idx, vref);
+>  
+>  		for (b = 0; b < l->count; b++)
+>  			packet->tx[l->offset + b].cmd = cmd;
 > -- 
 > 2.25.1
 > 
