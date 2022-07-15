@@ -2,68 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9767E576710
-	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 21:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B5AA576A5F
+	for <lists+linux-input@lfdr.de>; Sat, 16 Jul 2022 01:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230438AbiGOTEH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Jul 2022 15:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42888 "EHLO
+        id S230222AbiGOXFW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Jul 2022 19:05:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbiGOTEG (ORCPT
+        with ESMTP id S231810AbiGOXFR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Jul 2022 15:04:06 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D52B01;
-        Fri, 15 Jul 2022 12:04:02 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-31c9b70c382so55749937b3.6;
-        Fri, 15 Jul 2022 12:04:02 -0700 (PDT)
+        Fri, 15 Jul 2022 19:05:17 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6E38BAA6
+        for <linux-input@vger.kernel.org>; Fri, 15 Jul 2022 16:05:16 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id p9so6854411pjd.3
+        for <linux-input@vger.kernel.org>; Fri, 15 Jul 2022 16:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GvNoylKdUFrFiai+l4kyUHpO6WjmryHFiNYK1D6xN6A=;
-        b=JcLJbZ3bNqnfCoqGA+VQZ68OshK7IqcM4z9kh664iA3UNoDmVOejj2QYbmS9bHMX0d
-         jyuN+fA3JBT2iOVPvcB0PswHzrq5Dpk2WhD53peRTqLidDCahw/nYQFQnaVbAaAX3gPo
-         5c2xR6rJwyT74sgHTLWhJKEibrE4uhKpSKd32UVOB6I8qKiSibSLMoD10rd9dQOYM9pA
-         yZkkwomaguKuSoWL+I6XKhFUOIXZG7VAiv80oXnjHdHEW1jCxsDE7ZD1MejZqZ2jHERZ
-         tcTH8sCImbu4Fznw++oA/6hFUFe/7TLdsjmT4qP29E6LtPvCEEYRbeU++2ld//zuVScp
-         hDVw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IJe0lgfJICowTRa3UBGHLmthbWN8TcJrFiGAEnt3Rlw=;
+        b=lYelmKVyTL9DvhR11oXkn6iU4rPY34KSv/nd6zTi43g0SFhElc+2PFB4SWYf/HJYks
+         1F06kEiUEJAWvCjv4pwyPjSVYo2nCWrZT8ybNKqQxS5NihweXaoXxm0t1+Z51yKvpZ7E
+         8WNbeHf8PO0HlcqJSmNnRuNPLE2GPTxyaGHPiX0MlBnu9EEhsipfAyf9OsP/2XrJBfhG
+         2KOmfMOxf0Bc6I+9x+kcDGlzaQ0cfK2JMNwgFC5Q1+aZpTLretHic7HILggfdm/a5O2B
+         DD2ovvwd/WgXkF9vudCK6FmnPHhtX/CR68JZJTMidBCpntsuX0PmKwbsYft3WT8DqQA7
+         1WOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GvNoylKdUFrFiai+l4kyUHpO6WjmryHFiNYK1D6xN6A=;
-        b=Rte3in0lb3JE+vw+c1F7J4KTVHWaEb7lvQGvbdfDirWlby4HpPMMdRLHboS5iC6QxX
-         hK4BO7guegWmGq2w3+gldYGlPkAAFCEvqEtZYmSoi6QGA5NH/dVhdzLtHiXDmmJgC1Vn
-         v/DI5W9XSXxRGGDzy+sACLxt3YOyL23YsUC+nIJ8UpItvy0fIsT4ZYrNRBjNzTM9+VWU
-         yYmNtJvct9flhM+U3FioGTYzQBEwukmG9k89NdrR00C1Mb5AAiQNYDrHOklTEW5r6B0k
-         53sMxmNd+Wp7w6IsTJ/oBSbAPAasofdG+X9xPtlbVm5c5Oraz1aY4bI19Ql50dEyCo5W
-         eDBw==
-X-Gm-Message-State: AJIora+yM+Tgmb8qfe12tagdj+hnOQsjwIZyDTTwtVpuMO1N411ADkam
-        a3egS6erYaFiOF0xFPOpbeItFcWoCBxGxZItD4A=
-X-Google-Smtp-Source: AGRyM1u4JjC5NUYyUjGT2sgcCJnp/jYPFLkDzsR3mAo1UbOSpuRLrdEs/lA1+F4+cyDgmjMbaow6pDNthqyeWODDNpk=
-X-Received: by 2002:a81:8397:0:b0:31c:8a02:3f6d with SMTP id
- t145-20020a818397000000b0031c8a023f6dmr17875107ywf.486.1657911841461; Fri, 15
- Jul 2022 12:04:01 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IJe0lgfJICowTRa3UBGHLmthbWN8TcJrFiGAEnt3Rlw=;
+        b=y2ZWCQCAbBEfLgGw8+vkIMX9UocXyTVUtA6+DD237rrC2mmfe7SUoqNIi5DF8YOKDn
+         uS9gwRIAbYvO4Bwet/nU7XU4ShH5tHbJveIc+VDnXz9RR32t9wm1YesdVXbcxErR5FBK
+         JmHamtGMZq/jHNrMHijYxpxEg4+wMvy2mtiNkHOzOg7asUg2FNioDAoKF9UuYga3MCeI
+         1h+ALsx+k+csMxiSXTbIXUN0plgMll6znJmkkPZ1YqRWqjDtQmRL5otPgqZPissFgY2f
+         vm2tlMa38LfHX83EFTThkLp//6PtFFPtUojWaIcF1ks2ZMRRKDT2GV6J9I2Epz+I4/zX
+         y/Xg==
+X-Gm-Message-State: AJIora8KrbYGrTmZRqUFzthCnXEykLnMMCdRNl7WUJ3lXuqLXHGHjW8f
+        WpacDOzEveFLYZKXbwh+ilLWukBmpqsdqQ==
+X-Google-Smtp-Source: AGRyM1sniU0KFMFrOnZsHXDopKB4yzhvG9626fXtVC6IJgMbAHYGBSI7NIzGkl8GURNcYzOLP91wcw==
+X-Received: by 2002:a17:902:f684:b0:16c:5811:486f with SMTP id l4-20020a170902f68400b0016c5811486fmr15879115plg.64.1657926315514;
+        Fri, 15 Jul 2022 16:05:15 -0700 (PDT)
+Received: from horus.lan (75-164-183-54.ptld.qwest.net. [75.164.183.54])
+        by smtp.gmail.com with ESMTPSA id a18-20020a170902b59200b0016bcc35000asm4037144pls.302.2022.07.15.16.05.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jul 2022 16:05:14 -0700 (PDT)
+From:   Jason Gerecke <killertofu@gmail.com>
+X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
+To:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: [PATCH] HID: wacom: Force pen out of prox if no events have been received in a while
+Date:   Fri, 15 Jul 2022 16:05:19 -0700
+Message-Id: <20220715230519.2183-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220715125138.378632-1-nuno.sa@analog.com>
-In-Reply-To: <20220715125138.378632-1-nuno.sa@analog.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 15 Jul 2022 21:03:25 +0200
-Message-ID: <CAHp75VcYAErGywT=29ovPinAubVJCjVoWa6g-5N+OdowaGAmvw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] adp5588-keys refactor and fw properties support
-To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -74,104 +73,133 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 2:50 PM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
->
-> The main goal of this patchset is to remove platform data and replace it =
-by
-> firmware properties. Original discussion in [1].
->
-> While in here, some refactor was done to the driver. The most noticeable =
-one
-> is to replace the GPIs events handling by irqchip support so that this gp=
-i
-> keys can be "consumed" by the gpio-keys driver (also as suggested in [1])=
-.
-> With this, the gpio-adp5588 can be removed. This change comes first so th=
-at
-> we can already remove some platform data variables making it easier to
-> completly replace it by firmware properties further down in the series.
->
-> As there's no users of the platform data, I just replace it in a single
-> patch as there's no point in having support for both (even though it migh=
-t
-> be harder to review the patch as-is).
->
-> Special note to the gpio-adp5588 driver removal. I'm aware of some change=
-s
-> to the driver in [2]. These changes are in the gpio tree and this patchse=
-t
-> is naturally based on the input tree which means that patch 2 will
-> not apply. So, I'm not really sure how to handle this. I guess in this
-> case the conflict is easy to handle :) but just let me know on how to
-> proceed in here if there's anything for me to do.
+Prox-out events may not be reliably sent by some AES firmware. This can
+cause problems for users, particularly due to arbitration logic disabling
+touch input while the pen is in prox.
 
-You may add my tag to non-commented patches (excluding DT binding one)
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+This commit adds a timer which is reset every time a new prox event is
+received. When the timer expires we check to see if the pen is still in
+prox and force it out if necessary. This is patterend off of the same
+solution used by 'hid-letsketch' driver which has a similar problem.
 
-> v2 changes:
->
-> [1/10]
->  * Turn hwirq signed so we can compare < 0;
->  * Replace WARN_ON with dev_warn();
->  * Do not set of_node on gpiochip;
->  * Moved to use a const irqchip within the gpiochip;
->  * Set default handler to 'handle_bad_irq()' and change it
-> in irq_set_type;
->
-> [4/10]
->  * Dropped "-keys" from compatible and added vendor prefix;
->  * Fix -Wformat complains;
->  * Don't use abbrev in comments (fw -> Firmware).
->
-> [5/10]
->  * Be consistent on $refs;
->  * Drop "-keys" from compatible.
->
-> [7/10]
->  * Include bits.h;
->  * Use GENMASK();
->  * Use BIT() in KP_SEL();
->  * Reflect code changes in the commit message.
->
-> [9/10]
->  * One line for regulator_disable action.
->
-> [1]: https://lore.kernel.org/linux-input/20220504084617.36844-1-u.kleine-=
-koenig@pengutronix.de/
-> [2]: https://lore.kernel.org/linux-gpio/20220628193906.36350-3-andriy.she=
-vchenko@linux.intel.com/
->
-> Nuno S=C3=A1 (10):
->   input: keyboard: adp5588-keys: support gpi key events as 'gpio keys'
->   gpio: gpio-adp5588: drop the driver
->   input: keyboard: adp5588-keys: bail out on returned error
->   input: keyboard: adp5588-keys: add support for fw properties
->   dt-bindings: input: adp5588-keys: add bindings
->   input: keyboard: adp5588-keys: do not check for irq presence
->   input: keyboard: adp5588-keys: fix coding style warnings
->   input: keyboard: adp5588-keys: add optional reset gpio
->   input: keyboard: adp5588-keys: add regulator support
->   input: keyboard: adp5588-keys: Use new PM macros
->
->  .../bindings/input/adi,adp5588-keys.yaml      | 110 +++
->  MAINTAINERS                                   |   2 +-
->  drivers/gpio/Kconfig                          |  14 -
->  drivers/gpio/Makefile                         |   1 -
->  drivers/gpio/gpio-adp5588.c                   | 452 -----------
->  drivers/input/keyboard/Kconfig                |   3 +
->  drivers/input/keyboard/adp5588-keys.c         | 719 ++++++++++++------
->  include/linux/platform_data/adp5588.h         | 171 -----
->  8 files changed, 588 insertions(+), 884 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/adi,adp5588-k=
-eys.yaml
->  delete mode 100644 drivers/gpio/gpio-adp5588.c
->  delete mode 100644 include/linux/platform_data/adp5588.h
->
-> --
-> 2.37.1
->
+Link: https://github.com/linuxwacom/input-wacom/issues/310
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+---
+ drivers/hid/wacom.h     |  3 +++
+ drivers/hid/wacom_sys.c |  2 ++
+ drivers/hid/wacom_wac.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 44 insertions(+)
 
+diff --git a/drivers/hid/wacom.h b/drivers/hid/wacom.h
+index 203d27d198b8..3f8b24a57014 100644
+--- a/drivers/hid/wacom.h
++++ b/drivers/hid/wacom.h
+@@ -91,6 +91,7 @@
+ #include <linux/leds.h>
+ #include <linux/usb/input.h>
+ #include <linux/power_supply.h>
++#include <linux/timer.h>
+ #include <asm/unaligned.h>
+ 
+ /*
+@@ -167,6 +168,7 @@ struct wacom {
+ 	struct delayed_work init_work;
+ 	struct wacom_remote *remote;
+ 	struct work_struct mode_change_work;
++	struct timer_list idleprox_timer;
+ 	bool generic_has_leds;
+ 	struct wacom_leds {
+ 		struct wacom_group_leds *groups;
+@@ -239,4 +241,5 @@ struct wacom_led *wacom_led_find(struct wacom *wacom, unsigned int group,
+ struct wacom_led *wacom_led_next(struct wacom *wacom, struct wacom_led *cur);
+ int wacom_equivalent_usage(int usage);
+ int wacom_initialize_leds(struct wacom *wacom);
++void wacom_idleprox_timeout(struct timer_list *list);
+ #endif
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 98384b911288..194a2e327591 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -2781,6 +2781,7 @@ static int wacom_probe(struct hid_device *hdev,
+ 	INIT_WORK(&wacom->battery_work, wacom_battery_work);
+ 	INIT_WORK(&wacom->remote_work, wacom_remote_work);
+ 	INIT_WORK(&wacom->mode_change_work, wacom_mode_change_work);
++	timer_setup(&wacom->idleprox_timer, &wacom_idleprox_timeout, TIMER_DEFERRABLE);
+ 
+ 	/* ask for the report descriptor to be loaded by HID */
+ 	error = hid_parse(hdev);
+@@ -2821,6 +2822,7 @@ static void wacom_remove(struct hid_device *hdev)
+ 	cancel_work_sync(&wacom->battery_work);
+ 	cancel_work_sync(&wacom->remote_work);
+ 	cancel_work_sync(&wacom->mode_change_work);
++	del_timer_sync(&wacom->idleprox_timer);
+ 	if (hdev->bus == BUS_BLUETOOTH)
+ 		device_remove_file(&hdev->dev, &dev_attr_speed);
+ 
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index f8cc4bb3e3a7..d049239256a2 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -11,6 +11,7 @@
+ #include "wacom_wac.h"
+ #include "wacom.h"
+ #include <linux/input/mt.h>
++#include <linux/jiffies.h>
+ 
+ /* resolution for penabled devices */
+ #define WACOM_PL_RES		20
+@@ -41,6 +42,43 @@ static int wacom_numbered_button_to_key(int n);
+ 
+ static void wacom_update_led(struct wacom *wacom, int button_count, int mask,
+ 			     int group);
++
++static void wacom_force_proxout(struct wacom_wac *wacom_wac)
++{
++	struct input_dev *input = wacom_wac->pen_input;
++
++	wacom_wac->shared->stylus_in_proximity = 0;
++
++	input_report_key(input, BTN_TOUCH, 0);
++	input_report_key(input, BTN_STYLUS, 0);
++	input_report_key(input, BTN_STYLUS2, 0);
++	input_report_key(input, BTN_STYLUS3, 0);
++	input_report_key(input, wacom_wac->tool[0], 0);
++	if (wacom_wac->serial[0]) {
++		input_report_abs(input, ABS_MISC, 0);
++	}
++	input_report_abs(input, ABS_PRESSURE, 0);
++
++	wacom_wac->tool[0] = 0;
++	wacom_wac->id[0] = 0;
++	wacom_wac->serial[0] = 0;
++
++	input_sync(input);
++}
++
++void wacom_idleprox_timeout(struct timer_list *list)
++{
++	struct wacom *wacom = from_timer(wacom, list, idleprox_timer);
++	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
++
++	if (!wacom_wac->hid_data.sense_state) {
++		return;
++	}
++
++	hid_warn(wacom->hdev, "%s: tool appears to be hung in-prox. forcing it out.\n", __func__);
++	wacom_force_proxout(wacom_wac);
++}
++
+ /*
+  * Percent of battery capacity for Graphire.
+  * 8th value means AC online and show 100% capacity.
+@@ -2329,6 +2367,7 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
+ 		value = field->logical_maximum - value;
+ 		break;
+ 	case HID_DG_INRANGE:
++		mod_timer(&wacom->idleprox_timer, jiffies + msecs_to_jiffies(100));
+ 		wacom_wac->hid_data.inrange_state = value;
+ 		if (!(features->quirks & WACOM_QUIRK_SENSE))
+ 			wacom_wac->hid_data.sense_state = value;
+-- 
+2.37.1
 
---=20
-With Best Regards,
-Andy Shevchenko
