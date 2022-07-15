@@ -2,63 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08CCF575A1A
-	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 06:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78620575A2C
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 06:11:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231855AbiGOEAF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Jul 2022 00:00:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35754 "EHLO
+        id S230494AbiGOEKw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Jul 2022 00:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231527AbiGOEAF (ORCPT
+        with ESMTP id S231307AbiGOEKr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Jul 2022 00:00:05 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6311F753A6;
-        Thu, 14 Jul 2022 21:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657857603; x=1689393603;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hKPPuQbWPT+H5/LhHy8Xc6+43fIOur+Tt3pMg1WW4Uw=;
-  b=HNdrL3lct7bN36H440GDOBgiyPgv1xIP6kp2TcjUD1/9r47uUcCggZFx
-   WdAHGtcOBPDyd5kfy6BmS96Q3zPBXP7ny+KFQMsg7or6bQxUaFMuh5+NU
-   W7oBOpOnwsO5JOaw4iVTNHTrvKJpD0Q6jI8YUdHESUOGjb7oN58oCFOxA
-   pRQbvGNGCrMZraRITBTrd1oqaKdiiPUJkUj19E/wNNGQZogCM7v0cfsjR
-   F5lYraPK3KpvzXXgRzVEzoYOsyCsxZFV2EJrCOgVJStLp+FKkH9NM4uGT
-   VhUPvvprxd2buJ1BT6b2rP79Z6+5x+ENTFn3tiWjJlCoMUgcLf44K+29O
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="283253559"
-X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
-   d="scan'208";a="283253559"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 21:00:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
-   d="scan'208";a="623690669"
-Received: from lkp-server01.sh.intel.com (HELO fd2c14d642b4) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 14 Jul 2022 21:00:00 -0700
-Received: from kbuild by fd2c14d642b4 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCCUi-0001VN-0k;
-        Fri, 15 Jul 2022 04:00:00 +0000
-Date:   Fri, 15 Jul 2022 11:59:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Bara <bbara93@gmail.com>, dmitry.torokhov@gmail.com
-Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-Subject: Re: [PATCH] Input: tsc2007 - enable GPIO chips that can sleep
-Message-ID: <202207151127.f15rTOxu-lkp@intel.com>
-References: <20220713084247.3090353-1-bbara93@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220713084247.3090353-1-bbara93@gmail.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Fri, 15 Jul 2022 00:10:47 -0400
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 975A47821A;
+        Thu, 14 Jul 2022 21:10:44 -0700 (PDT)
+Received: by mail-io1-f42.google.com with SMTP id z132so3088652iof.0;
+        Thu, 14 Jul 2022 21:10:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=E7Fg+MV2e/bPhHnHkaMwMTaDWkJm3NnH26DLJHQT/M0=;
+        b=vMhh7vjkgK3zBTc6AsrSIj1MRSvRtuG5FE+WxC7CLquELZSe1pMR0CvixdCFH9ivj3
+         eUw5GTiyHPytQ508lvymQ1/46oJqX6HTeUpHhd06OIEYJHeWM/qQ4rlqBkZfgxVGY0Sp
+         R27yK7FypvPDwQ/67fn/At0nzHJ1/EFawOFPiBPktiS7gJuZLZMg/paWINmcXVStf0EK
+         5ILj73GimD+TyhlaboBkaR5Ktj/1rNhdEsZASihazP5K4LBCo0mCcYR8ayEl3x9VRgVE
+         FOCcd3hsUEXa8zqfy64wKWySOwYzztcVJCOaXeAOy133GkRMt1wFwmi0aoVbZYlxBMaN
+         Qd/g==
+X-Gm-Message-State: AJIora9u007Cy45h6sNeoEf2cHOJP8CzCcnCXAEO6t6aKxoMWH+7i2If
+        LTxs+r77pWs7Nq7fUvmf1Q==
+X-Google-Smtp-Source: AGRyM1tmnSz6ythoDFJg2wDkxNG61OkgikNlESLrdgMrS1wpzE1ury8Y2U7B94DVtlTWpphzc1VGpg==
+X-Received: by 2002:a5d:8582:0:b0:669:835f:48b0 with SMTP id f2-20020a5d8582000000b00669835f48b0mr5943449ioj.146.1657858243849;
+        Thu, 14 Jul 2022 21:10:43 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id m9-20020a02a149000000b0033f1772fd24sm1526183jah.20.2022.07.14.21.10.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jul 2022 21:10:43 -0700 (PDT)
+Received: (nullmailer pid 3702464 invoked by uid 1000);
+        Fri, 15 Jul 2022 04:10:41 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Max Buchholz <max.buchholz@gmx.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        David Heidelberg <david@ixit.cz>,
+        Max Buchholz <Max.Buchholz@gmx.de>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-input@vger.kernel.org
+In-Reply-To: <20220714153732.48698-1-max.buchholz@gmx.de>
+References: <20220714153732.48698-1-max.buchholz@gmx.de>
+Subject: Re: [PATCH v2] dt-bindings: nvidia,tegra20-kbc: Convert to json-schema
+Date:   Thu, 14 Jul 2022 22:10:41 -0600
+Message-Id: <1657858241.636403.3702463.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,38 +66,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+On Thu, 14 Jul 2022 17:37:31 +0200, Max Buchholz wrote:
+> From: Max Buchholz <Max.Buchholz@gmx.de>
+> 
+> This converts the Nvidia Tegra keyboard controller bindings to YAML
+> and fix them up a bit.
+> 
+> Reviewed-by: David Heidelberg <david@ixit.cz>
+> Signed-off-by: Max Buchholz <max.buchholz@gmx.de>
+> ---
+>  .../bindings/input/nvidia,tegra20-kbc.txt     |  55 ---------
+>  .../bindings/input/nvidia,tegra20-kbc.yaml    | 109 ++++++++++++++++++
+>  2 files changed, 109 insertions(+), 55 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
+> 
 
-Thank you for the patch! Perhaps something to improve:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on linus/master v5.19-rc6 next-20220714]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+yamllint warnings/errors:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Bara/Input-tsc2007-enable-GPIO-chips-that-can-sleep/20220713-164521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: i386-randconfig-s003 (https://download.01.org/0day-ci/archive/20220715/202207151127.f15rTOxu-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/13455f523263c4e90b5cc8c587ef2be97008ff5f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Bara/Input-tsc2007-enable-GPIO-chips-that-can-sleep/20220713-164521
-        git checkout 13455f523263c4e90b5cc8c587ef2be97008ff5f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/touchscreen/
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.example.dtb: kbc@7000e200: nvidia,kbc-row-pins: 'oneOf' conditional failed, one must be fixed:
+	[0, 1, 2] is too long
+	[0, 1, 2] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.example.dtb: kbc@7000e200: nvidia,kbc-col-pins: 'oneOf' conditional failed, one must be fixed:
+	[11, 12, 13] is too long
+	[11, 12, 13] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.example.dtb: kbc@7000e200: 'linux,keymap' does not match any of the regexes: 'pinctrl-[0-9]+'
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+doc reference errors (make refcheckdocs):
+Documentation/devicetree/bindings/power/wakeup-source.txt: Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
 
+See https://patchwork.ozlabs.org/patch/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/touchscreen/tsc2007_core.c:112:6: sparse: sparse: symbol 'tsc2007_is_pen_down_cansleep' was not declared. Should it be static?
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
