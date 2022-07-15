@@ -2,60 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 411045763B9
-	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 16:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D50F25764CF
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 17:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231842AbiGOOiP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Jul 2022 10:38:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        id S231862AbiGOP70 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Jul 2022 11:59:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229962AbiGOOiO (ORCPT
+        with ESMTP id S231310AbiGOP7W (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Jul 2022 10:38:14 -0400
-X-Greylist: delayed 60 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 15 Jul 2022 07:38:10 PDT
-Received: from smtpcmd0641.aruba.it (smtpcmd0641.aruba.it [62.149.156.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 63C9F6EEBE
-        for <linux-input@vger.kernel.org>; Fri, 15 Jul 2022 07:38:10 -0700 (PDT)
-Received: from [172.16.17.104] ([151.1.184.193])
-        by Aruba Outgoing Smtp  with ESMTPSA
-        id CMQIoCjkGxOg1CMRFoVrST; Fri, 15 Jul 2022 16:37:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1657895828; bh=+Hv8twkI458WQPf2RkTodsab6ZaohleQbrIgT3PVHjQ=;
-        h=Date:MIME-Version:Subject:To:From:Content-Type;
-        b=cikaFMRm5w4wqep5Ac0Znpq8YtnnFRPeRPb/Ulg68VC9xbE0hRiO8EgwDC+5T3DJk
-         hpwOEya9emEkDyxywz0kve3TQmuMGyf/9Nl8m0i1m+BLf34FPptDEBcvjvGyjO5ex9
-         qEMo1aZb08sWZaHxlnbBFeP3AWV3CFOZTULr38XIy5HQV2H3zX9T1VEug5U2iKTaqL
-         klKUcwwIJPCygOwRE5WS0EwJqz/VYn1COTyTNasneWgQrajw1QOWL1XNYD02WT+vLn
-         a3wd5zNqnH4eCCDXixDH7Kp0XtwjY3XDvoMgWZkaZS5DXapGc6ZdunKOX7PR5e1cTL
-         9lWStBJNcX4hQ==
-Message-ID: <41375332-6d48-2fee-6768-22b639090e3e@brickedbrain.com>
-Date:   Fri, 15 Jul 2022 16:36:06 +0200
+        Fri, 15 Jul 2022 11:59:22 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E7D18B2A
+        for <linux-input@vger.kernel.org>; Fri, 15 Jul 2022 08:59:18 -0700 (PDT)
+Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 858D381E76;
+        Fri, 15 Jul 2022 17:59:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1657900755;
+        bh=IU8uEUC3W4Qv5uoEqEdXTEpzZx7FlTTL93TN2TntD7w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uc3vcw5O3BoxZMVp1KLTyRtGXM7Zyszt7dcetli9f+IialKFSR6dF9diDltJ0B+bj
+         s99gy83XqMFDISDbwKpTsHwRbefdYngeGxd7KwG1QSCoVilCTVQO0XvcrllSxi7sGH
+         4o9HIS5BHmy7GZp4RCOXJNJMJ9uvj3WLSmcNCyfLo+a8wiGX4h9sC2UeK18X2rtpFA
+         scc/yauZg/e27PwvNFOpUBIryV57NY7EaR/QjTbxHi5OPSxzSdSi4Yk6xvwW7c1VB7
+         k9Csyw/cgvDgoW2hgxPnu7biLvWhqaa2qyitkpM6aSTaoPu0GXwbvFADMf1rkT1KGF
+         iOIPGtnXs7Abg==
+From:   Marek Vasut <marex@denx.de>
+To:     linux-input@vger.kernel.org
+Cc:     Marek Vasut <marex@denx.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
+Subject: [PATCH] Input: ili210x - Probe even if no resolution information
+Date:   Fri, 15 Jul 2022 17:59:05 +0200
+Message-Id: <20220715155905.219391-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/3] ads7846: don't report pressure for ads7845
-Content-Language: en-GB
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
-        m.felsch@pengutronix.de, u.kleine-koenig@pengutronix.de,
-        mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luca Ellero <l.ellero@asem.it>
-References: <20220714084319.107334-1-luca.ellero@brickedbrain.com>
- <20220714084319.107334-2-luca.ellero@brickedbrain.com>
- <Ys/+37mzoi++8MDW@smile.fi.intel.com>
-From:   Luca Ellero <luca.ellero@brickedbrain.com>
-In-Reply-To: <Ys/+37mzoi++8MDW@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFYA6ulDGHh3sRKi+35wzkNxpE6GEIVxuzCQc6yqmINY8qMWYJSzIRZ0hn1rpf88XOnDD/w1yeSd3TjDqkcxsZpvn6yRlDROFoFZw3LOjUuUjTX5zCha
- jmhlzhXUYuWQbb1dMd5HK3V4blX2wyFjHkXG/dgVeFmP44xQ9RVIQe0tZ0TG9F6ZMx0A28GJw/+ncYhft9UDP17il8D8bRDkjRHq/xXYfdNGoryCabmllDmy
- zeFHAwffn/I7ySMUOXFaL37uZv52tAIlZKpA4QQ+vinm7JtMFgZQrUXuxogcLjWIsSbz/FrE5KyB/lxBiX6WrUJi2Q+9X5aJmVtK0AtfqB0HFMoawHafXF9a
- yFF3OUmOK9agVbKs5y0hWrVGQLVItAlFx7ebZX+A5a3iZXqWDUa7IaRsqS8CDuDQXXtLM4Lq45MRNW45MVYxG7iBojlebFbPucKYLlq4Uer6OElO1OlqTd5E
- soDHrCrShfkTjEFDzpMspS5QKb1z9hPo0jJFxNbHEz2IpcIuZIoTADel3f+jb4o7h/5p+1+J7N3DCrCI8i/eRTrt8K+nz7Tsi/1kV8rmlNTmZZsh1xOySNqy
- dJc=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,53 +53,71 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 14/07/2022 13:32, Andy Shevchenko wrote:
-> On Thu, Jul 14, 2022 at 10:43:17AM +0200, Luca Ellero wrote:
->> From: Luca Ellero <l.ellero@asem.it>
->>
->> ADS7845 doesn't support pressure.
->> This patch avoids the following error reported by libinput-list-devices:
->> "ADS7845 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE"
-> 
-> Missed period, otherwise looks good.
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
->> Signed-off-by: Luca Ellero <l.ellero@asem.it>
->> ---
->>   drivers/input/touchscreen/ads7846.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
->> index bed68a68f330..24605c40d039 100644
->> --- a/drivers/input/touchscreen/ads7846.c
->> +++ b/drivers/input/touchscreen/ads7846.c
->> @@ -1316,8 +1316,9 @@ static int ads7846_probe(struct spi_device *spi)
->>   			pdata->y_min ? : 0,
->>   			pdata->y_max ? : MAX_12BIT,
->>   			0, 0);
->> -	input_set_abs_params(input_dev, ABS_PRESSURE,
->> -			pdata->pressure_min, pdata->pressure_max, 0, 0);
->> +	if (ts->model != 7845)
->> +		input_set_abs_params(input_dev, ABS_PRESSURE,
->> +				pdata->pressure_min, pdata->pressure_max, 0, 0);
->>   
->>   	/*
->>   	 * Parse common framework properties. Must be done here to ensure the
->> -- 
->> 2.25.1
->>
-> 
+Probe the touch controller driver even if resolution information is not
+available. This can happen e.g. in case the touch controller suffered a
+failed firmware update and is stuck in bootloader mode.
 
-Hi Andy,
-thank you for your comments.
-I will resend v2 of the patches.
-Regards
-Luca
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Joe Hung <joe_hung@ilitek.com>
+Cc: Luca Hsu <luca_hsu@ilitek.com>
+---
+ drivers/input/touchscreen/ili210x.c | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index e9bd36adbe47d..ad25081e301c6 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -370,22 +370,32 @@ static int ili251x_firmware_update_resolution(struct device *dev)
+ 
+ 	/* The firmware update blob might have changed the resolution. */
+ 	error = priv->chip->read_reg(client, REG_PANEL_INFO, &rs, sizeof(rs));
+-	if (error)
+-		return error;
++	if (!error) {
++		resx = le16_to_cpup((__le16 *)rs);
++		resy = le16_to_cpup((__le16 *)(rs + 2));
+ 
+-	resx = le16_to_cpup((__le16 *)rs);
+-	resy = le16_to_cpup((__le16 *)(rs + 2));
++		/* The value reported by the firmware is invalid. */
++		if (!resx || resx == 0xffff || !resy || resy == 0xffff)
++			error = -EINVAL;
++	}
+ 
+-	/* The value reported by the firmware is invalid. */
+-	if (!resx || resx == 0xffff || !resy || resy == 0xffff)
+-		return -EINVAL;
++	/*
++	 * In case of error, the firmware might be stuck in bootloader mode,
++	 * e.g. after a failed firmware update. Set maximum resolution, but
++	 * do not fail to probe, so the user can re-trigger the firmware
++	 * update and recover the touch controller.
++	 */
++	if (error) {
++		resx = 16384;
++		resy = 16384;
++	}
+ 
+ 	input_abs_set_max(priv->input, ABS_X, resx - 1);
+ 	input_abs_set_max(priv->input, ABS_Y, resy - 1);
+ 	input_abs_set_max(priv->input, ABS_MT_POSITION_X, resx - 1);
+ 	input_abs_set_max(priv->input, ABS_MT_POSITION_Y, resy - 1);
+ 
+-	return 0;
++	return error;
+ }
+ 
+ static ssize_t ili251x_firmware_update_firmware_version(struct device *dev)
+@@ -980,7 +990,6 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+ 	if (error) {
+ 		dev_err(dev, "Unable to cache firmware information, err: %d\n",
+ 			error);
+-		return error;
+ 	}
+ 	touchscreen_parse_properties(input, true, &priv->prop);
+ 
 -- 
-Luca Ellero
-
-E-mail: luca.ellero@brickedbrain.com
-Internet: www.brickedbrain.com
+2.35.1
 
