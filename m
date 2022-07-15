@@ -2,74 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E48F3576621
-	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 19:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2F69576709
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 21:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbiGORfL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Jul 2022 13:35:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41300 "EHLO
+        id S230391AbiGOTAj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Jul 2022 15:00:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbiGORfJ (ORCPT
+        with ESMTP id S230395AbiGOTAi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Jul 2022 13:35:09 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C9F52FF8;
-        Fri, 15 Jul 2022 10:35:09 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id h145so4371254iof.9;
-        Fri, 15 Jul 2022 10:35:08 -0700 (PDT)
+        Fri, 15 Jul 2022 15:00:38 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25A3A509E4;
+        Fri, 15 Jul 2022 12:00:37 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-31d7db3e6e5so55467587b3.11;
+        Fri, 15 Jul 2022 12:00:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x4PyeC7DknSEozr2Rop+Ti8Cfi6yj/0ATtSdVUySwnQ=;
-        b=J1aj53+wNAbEw+IHLK8Z72Y/0Gb/enxKDEJoJCi4kEwUPHNRFo1YVnepiO7k9zjt0O
-         XHj/bdo8LBMk4vsZSQCkVyZLljQkF9AJ5WZNAUlNeAbOWqnC7NE7Ig1U0k5XSWExGfcp
-         KTbUI0jK/K60oYXEtB0xjO2Xgsc1ZwN52sJBRBqM2mjIYxC04NpLbVRz0Wipph4hVYjh
-         KmTDvSI/H1NUeQ6Rp/UrbYqXkCPmifNCWfHwBJP4lDUS8G0fZLZ3a23QFbjrUy5K2xUw
-         jCw2h1G86t5Rsy5e8H6ztxYSpGBE9pc6bA14zrda8bPbR2rDcjfadcynVp+5sLL9xHDQ
-         Wz9A==
+         :cc:content-transfer-encoding;
+        bh=LSGYIWeSSCO085bPC4DkTjeA04Gpnvqi55NkID81Qow=;
+        b=nXM286l0mrdDwNRH9hUxXBi3lihtF2KGYema6h3qU9hTtDlkCnD92fDDtGhvdLbgE8
+         Ftd1hZWxbMk6zQ4YHfPw1NB7BMDsA6cOJPfoJklZ+k6UEwPizkewmMH9RAI7N8JN5cvu
+         U4/RwYDeuUEajEIUxTnNRT+HSOr7MBbrIl+JlmF1/IyktAX+fUrm1stWCMmYRRyvxlaj
+         xplQZWTZWYE2eFdei9kpl3g44LnkrjJGrtTWlr3d89ihXeYPEXKhJbKZjUV/q3wzXxtZ
+         FX5uuVTsqeVOaGj8MW0wSX1wAQXuWhC6JAMOIqhfzZFuevAAbXx4XrcERs2b5730pWfv
+         xO9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x4PyeC7DknSEozr2Rop+Ti8Cfi6yj/0ATtSdVUySwnQ=;
-        b=sOa+sAk9v9E6m9IH8Mhml8EWLiZtYHLpFSvh5QX9FQ/hpyAHEw0pyE8bzViZIv1S8c
-         HVw3k2gSYnfGIMdhImDfl8YT+1/VYqybOrRGrq4bypp6qKKMqXlA6m5BFdLn6daRAjky
-         1tcAekFGNeSJww6xarRFYWLR6fMAGb9i1uQzmUHefhtF2ZElNohIrOHxEmoWaMbefa+F
-         vMBbNI9KF0E17nrLbFa8WcbvgBnbmQNvBUYsP4vFzhJPW8dEuC7UOcneJb7/osP2nmX7
-         p7p32C+OW7q60L4MeDI/PxHq+YjAOFiYYX0q18orVx+IgDCH9H0C006QcLbfu9uCKH7m
-         Al6Q==
-X-Gm-Message-State: AJIora9gJD/H6DRUVXZpYQAYQWTUcDR6C3fq5AIy4AiGPUl44digTrv3
-        5E0Ia+AcwnGjY1pEXoqLgcyqmzeE6A+dSKIKAqkj90wg/9g=
-X-Google-Smtp-Source: AGRyM1vXy8j20gHUEsoo8QWPuQvHey3I1meuQx56FZHopAnVEj3jwYjJHzssCdwlGyl/uj0ZRucTt5XsKmZhobZWFis=
-X-Received: by 2002:a05:6602:2e8d:b0:64f:b683:c70d with SMTP id
- m13-20020a0566022e8d00b0064fb683c70dmr7236737iow.62.1657906508386; Fri, 15
- Jul 2022 10:35:08 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LSGYIWeSSCO085bPC4DkTjeA04Gpnvqi55NkID81Qow=;
+        b=8PuuoLub6tohBdIO2dYKYldz5WFgb/xPFm/fHH957u+ze9pbY140gOW7O8fO+78POT
+         oqioHtQPBPp1FqsnFYYnV9iG6yIrRGA4fiHE8GujJosFAalO3EnKL1PzrGhUbLCi3nNm
+         tK+8cvEPjyQDsCazNpx7tEphEo9HgOjsNBth9kWyUxh3HMQ0qe896ekE0oH69RzEk04g
+         +zzyPqXTNnOBPG0UrctZPomyADrBddUFqwcpkG4X/lidS+SLp4V9CcSYl+2eBxfutFi6
+         UlbwjPV5+oOjbTA7RDOHmqwK4pH/8DlRgIhpGGoG4V/gN86WS5jp4U13eRKErV/t0zs7
+         qOBw==
+X-Gm-Message-State: AJIora+8sp24VbXOhAMyOOxIdk/V+85xAM8qPmmtTzSCO/gS95IvrPKn
+        N0GRRri8RhPNw7AvCGA0GKpwRKNZS1Em4o4oiPQ=
+X-Google-Smtp-Source: AGRyM1smVkp8G2PBYT8iJRVvRGTm7wtFBemRGoxhHC8Mj29Dz7gwmqVRtN0lxOyDPT9iRReNi5YBZItDIyDjXGf8Vbw=
+X-Received: by 2002:a81:54c1:0:b0:31d:ec18:fd5d with SMTP id
+ i184-20020a8154c1000000b0031dec18fd5dmr7720291ywb.277.1657911635968; Fri, 15
+ Jul 2022 12:00:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com> <20220714213912.zrotlequhpgxzdl4@MacBook-Pro-3.local>
-In-Reply-To: <20220714213912.zrotlequhpgxzdl4@MacBook-Pro-3.local>
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Fri, 15 Jul 2022 19:34:32 +0200
-Message-ID: <CAP01T746cSrRgYME75O-NZvf+4NQNvtU8ZhGf5XGmXRqY6jQzQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v6 00/23] Introduce eBPF support for HID devices
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220715125138.378632-1-nuno.sa@analog.com> <20220715125138.378632-2-nuno.sa@analog.com>
+In-Reply-To: <20220715125138.378632-2-nuno.sa@analog.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 15 Jul 2022 20:59:59 +0200
+Message-ID: <CAHp75VfWWP__yyWhG2urwu=k9V1_afiOwD-hynOjSa0LUHg9Tg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] input: keyboard: adp5588-keys: support gpi key
+ events as 'gpio keys'
+To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -80,32 +75,117 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 14 Jul 2022 at 23:39, Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Fri, Jul 15, 2022 at 2:50 PM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 >
-> On Tue, Jul 12, 2022 at 04:58:27PM +0200, Benjamin Tissoires wrote:
-> > Hi,
-> >
-> > and after a little bit of time, here comes the v6 of the HID-BPF series.
-> >
-> > Again, for a full explanation of HID-BPF, please refer to the last patch
-> > in this series (23/23).
-> >
-> > This version sees some improvements compared to v5 on top of the
-> > usual addressing of the previous comments:
-> > - now I think every eBPF core change has a matching selftest added
-> > - the kfuncs declared in syscall can now actually access the memory of
-> >   the context
-> > - the code to retrieve the BTF ID of the various HID hooks is much
-> >   simpler (just a plain use of the BTF_ID() API instead of
-> >   loading/unloading of a tracing program)
-> > - I also added my HID Surface Dial example that I use locally to provide
-> >   a fuller example to users
+> This change replaces the support for GPIs as key event generators.
+> Instead of reporting the events directly, we add a gpio based irqchip
+> so that these events can be consumed by keys defined in the gpio-keys
+> driver (as it's goal is indeed for keys on GPIOs capable of generating
+> interrupts). With this, the gpio-adp5588 driver can also be dropped.
 >
-> Looking great.
-> Before another respin to address bits in patch 12 let's land the first ~8 patches,
-> since they're generic useful improvements.
+> The basic idea is that all the pins that are not being used as part of
+> the keymap matrix can be possibly requested as GPIOs by gpio-keys
+> (it's also fine to use these pins as plain interrupts though that's not
+> really the point).
 >
-> Kumar, could you please help review the verifier bits?
+> Since the gpiochip now also has irqchip capabilities, we should only
+> remove it after we free the device interrupt (otherwise we could, in
+> theory, be handling GPIs interrupts while the gpiochip is concurrently
+> removed). Thus the call 'adp5588_gpio_add()' is moved and since the
+> setup phase also needs to come before making the gpios visible, we also
+> need to move 'adp5588_setup()'.
+>
+> While at it, always select GPIOLIB so that we don't need to use #ifdef
+> guards.
 
-Sure, I'll take a look.
+...
+
+> +static void adp5588_irq_mask(struct irq_data *d)
+> +{
+> +       struct gpio_chip *gc =3D irq_data_get_irq_chip_data(d);
+> +       struct adp5588_kpad *kpad =3D gpiochip_get_data(gc);
+
+> +       unsigned long real_irq =3D kpad->gpiomap[d->hwirq];
+
+There is a helper to retrieve hwirq from the IRQ chip data.
+
+> +       kpad->irq_mask[ADP5588_BANK(real_irq)] &=3D ~ADP5588_BIT(real_irq=
+);
+> +       gpiochip_disable_irq(gc, d->hwirq);
+> +}
+
+...
+
+> +static void adp5588_irq_unmask(struct irq_data *d)
+> +{
+> +       struct gpio_chip *gc =3D irq_data_get_irq_chip_data(d);
+> +       struct adp5588_kpad *kpad =3D gpiochip_get_data(gc);
+> +       unsigned long real_irq =3D kpad->gpiomap[d->hwirq];
+
+Ditto.
+
+> +       gpiochip_enable_irq(gc, d->hwirq);
+> +       kpad->irq_mask[ADP5588_BANK(real_irq)] |=3D ADP5588_BIT(real_irq)=
+;
+> +}
+
+...
+
+> +static int adp5588_gpiomap_get_hwirq(struct device *dev, const u8 *map,
+> +                                    unsigned int gpio, unsigned int ngpi=
+os)
+>  {
+
+> +       unsigned int hwirq;
+> +
+> +       for (hwirq =3D 0; hwirq < ngpios; hwirq++)
+> +               if (map[hwirq] =3D=3D gpio)
+> +                       return hwirq;
+
+I'm sorry if I already asked, but can irq_valid_mask be helpful here?
+
+> +       /* should never happen */
+> +       dev_warn_ratelimited(dev, "could not find the hwirq for gpio(%u)\=
+n", gpio);
+> +
+> +       return -ENOENT;
+> +}
+
+...
+
+> +       int hwirq;
+> +
+> +       hwirq =3D adp5588_gpiomap_get_hwirq(&client->dev, kpad->gpiomap,
+> +                                         gpio, kpad->gc.ngpio);
+> +       if (hwirq < 0) {
+> +               dev_err(&client->dev, "Could not get hwirq for key(%u)\n"=
+, key_val);
+> +               return;
+> +       }
+
+Instead of having it signed, can you use INVALID_HWIRQ definition?
+
+...
+
+> +       irq =3D irq_find_mapping(kpad->gc.irq.domain, hwirq);
+> +       if (irq <=3D 0)
+
+'<' ? How is it possible?
+
+> +               return;
+> +
+> +       desc =3D irq_get_irq_data(irq);
+> +       if (!desc) {
+> +               dev_err(&client->dev, "Could not get irq(%u) data\n", irq=
+);
+> +               return;
+> +       }
+> +
+> +       irq_type =3D irqd_get_trigger_type(desc);
+
+'desc' is quite a confusing name for IRQ chip data! Please rename (we
+have IRQ descriptor and it's not the IRQ chip data).
+
+--=20
+With Best Regards,
+Andy Shevchenko
