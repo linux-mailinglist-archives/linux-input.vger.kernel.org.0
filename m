@@ -2,106 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C66AB575A8E
-	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 06:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DA6D575AAA
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 07:01:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiGOEpw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Jul 2022 00:45:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60824 "EHLO
+        id S229777AbiGOFAn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Jul 2022 01:00:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiGOEpv (ORCPT
+        with ESMTP id S229706AbiGOFAn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Jul 2022 00:45:51 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B597A62A5B;
-        Thu, 14 Jul 2022 21:45:50 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id k19so2247994pll.5;
-        Thu, 14 Jul 2022 21:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=DRHClB5BYENwtyQXEZigOp1KZKAnPunxuF0IW+oQZJU=;
-        b=mtlw8663BOcm7bg1VsTypZCWjyoLYRJZnO4+hMEzSdHzDLrvBc/Ibz/H8MOJpyNT1y
-         KvAIznkyb2xwozj55gRtbXMGM6aDxoBKSuxIG9V+rpdq1szPCxpVMcKxzWmzD9Sfu27B
-         Qdj9ZleIpjatWxy7oahzpNY30weOR+3lA8tR7MSxb5pGqfzIfSs5rTIn1NbHBWEojRpv
-         V7yUPkHE1P0tXN6MyA3zvX0EsJs09lRuDr2xk/Av+MpG6eIq9erYrgHGL8jn51rzlNoX
-         7rbI7Dp38RD1z9Mvgen76R0sfvSHbAuNLEOgOpvf47T4/eYwSUjfLzjhSVETWQM8p/x2
-         4qcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=DRHClB5BYENwtyQXEZigOp1KZKAnPunxuF0IW+oQZJU=;
-        b=sUtYjMcr/7tj1YMO/VrTFf9PoVTtE6DtloJ9vofasVwYLqT8vuqD/ml9OgXfkzUCyl
-         rboWHWjf2fRbYb9Xt8BMX+soYWlhh7rlM2Gkc1ui76RsLkb+s/YmkRSof4F3ShVXAUNG
-         /5VT3JHabYgR4+FiQdD08z/qLuclzekdnDOoW0mmZ42Tgo34S6H/R+IWb2ExH16GqI8T
-         6JVBemVRDt2o2a3FJW9MD9pB5VbZNklaExKiI4kDkXEiU83GM/rFLJkR21lr/DERjS1B
-         ZOsyy8MZ7nBQJgrTXH7t4PLhFuq3TzJMBnD+VlVEXj48KaT7k0/uAMwARkR5+dkQpJ1K
-         i3AA==
-X-Gm-Message-State: AJIora+n7WGuUFhLmMwJ8Lz3H5q45eWbDWjYywPCbrK4PHe8p+tPgx3W
-        EmRxU3c70nfv+mZTgjWqhX8=
-X-Google-Smtp-Source: AGRyM1un19bitLuSvnONqwpHaQgn9j4Oq7PbkbA674hEHebtfhCF8fIvz4cxcEquCjg5tKwzKZ03dw==
-X-Received: by 2002:a17:90a:2b4a:b0:1ef:3e28:fbc8 with SMTP id y10-20020a17090a2b4a00b001ef3e28fbc8mr13304447pjc.54.1657860350117;
-        Thu, 14 Jul 2022 21:45:50 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
-        by smtp.gmail.com with ESMTPSA id t4-20020a170902d14400b0016bfcfde685sm2349734plt.56.2022.07.14.21.45.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 21:45:49 -0700 (PDT)
-Message-ID: <2b73e71c-a927-076d-bf44-6dc4431eb3be@gmail.com>
-Date:   Fri, 15 Jul 2022 13:45:45 +0900
+        Fri, 15 Jul 2022 01:00:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E192378581;
+        Thu, 14 Jul 2022 22:00:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 77AF462246;
+        Fri, 15 Jul 2022 05:00:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C0E5C3411E;
+        Fri, 15 Jul 2022 05:00:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1657861240;
+        bh=Hek494Yetd3XN90he4BxOJbpQ2dkKLCIYiZNf3+pfA0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Kxxg6dz9/3aBwvkXZ/oAaWLb6NKzJXAis2DXFBUvPhL2zy1R85keS7nHBElPKZbtM
+         O65XQ6pyPng/miykZf3kmYGUkxWYT8HnUnS0tJoIRm/iNm3C7rsel2zNh+gt5VLHIc
+         gDGof+fdyvGyLtLP/cD6fWSDs0clD/lSbI+7NUIg=
+Date:   Fri, 15 Jul 2022 07:00:38 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v6 09/23] HID: core: store the unique system
+ identifier in hid_device
+Message-ID: <YtD0dt3MxjSozgXg@kroah.com>
+References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+ <20220712145850.599666-10-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] AMD_SFH: Add a DMI quirk entry for Chromebooks
-Content-Language: en-US
-To:     Basavaraj Natikar <bnatikar@amd.com>
-Cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mario Limonciello <mario.limonciello@amd.com>
-References: <20220714053752.5124-1-akihiko.odaki@gmail.com>
- <87d96692-7dbf-f846-f644-5a81f92efcb9@amd.com>
-From:   Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <87d96692-7dbf-f846-f644-5a81f92efcb9@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220712145850.599666-10-benjamin.tissoires@redhat.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022/07/15 13:41, Basavaraj Natikar wrote:
+On Tue, Jul 12, 2022 at 04:58:36PM +0200, Benjamin Tissoires wrote:
+> This unique identifier is currently used only for ensuring uniqueness in
+> sysfs. However, this could be handful for userspace to refer to a specific
+> hid_device by this id.
 > 
+> 2 use cases are in my mind: LEDs (and their naming convention), and
+> HID-BPF.
 > 
-> On 7/14/2022 11:07 AM, Akihiko Odaki wrote:
->> Google Chromebooks use Chrome OS Embedded Controller Sensor Hub instead
->> of Sensor Hub Fusion and leaves MP2 uninitialized, which disables all
->> functionalities, even including the registers necessary for feature
->> detections.
->>
->> The behavior was observed with Lenovo ThinkPad C13 Yoga.
->>
->>
-> This driver should not get loaded in chrome OS by default.
-> Could you please provide details of Chrome OS Version and Kernel version to confirm the behavior.
-> 
-> Are you enabling manually CONFIG_AMD_SFH_HID config?
-> 
-> Thanks,
-> Basavaraj
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 > 
 
-I use Fedora 36, not Chrome OS. The config is enabled on Fedora's 
-generic kernel. The kernel is built from commit 
-78ca55889a549a9a194c6ec666836329b774ab6d from the upstream.
 
-Regards,
-Akihiko Odaki
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
