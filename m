@@ -2,109 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64E76575714
-	for <lists+linux-input@lfdr.de>; Thu, 14 Jul 2022 23:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 864D05758A4
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jul 2022 02:34:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240939AbiGNVjZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Jul 2022 17:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38742 "EHLO
+        id S229556AbiGOAd6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Jul 2022 20:33:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240995AbiGNVjR (ORCPT
+        with ESMTP id S229481AbiGOAd4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Jul 2022 17:39:17 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F341573D;
-        Thu, 14 Jul 2022 14:39:16 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id s27so2708732pga.13;
-        Thu, 14 Jul 2022 14:39:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DgW9kAXC6VaNn9rU3wnHWjSpTrZ8/AEf3hlkouGTzLM=;
-        b=c8mWRbXSajF588i3rM9y0yyoGZfg0NbyGk3jlGOuAtgVjzANWV6yySZGTzenPaeJqz
-         Lr+Z+hmrpiXr84CYm/40hhnRLEn4MHNCK/RFAquVz5gVQZiZw+yyhlIf/4LnKYhylRfn
-         GKYYF+mE08XAFgo709pRl5qxWjI4qzD1LnNHp18EH9lp8bMCpKrdOekGdDKLFJ9Evhn3
-         oBc0R6SLnmZPDvldLIlZFx/9T07rIP/mKbzeWj4y/nWJn9kVolBIrTaG8RWDs6hOf46U
-         Qd7KMF3lpTGOxcxW3nMB1eBy+aPugcSMQhRm0/gtMQWZeyhd0T1UmjnN6XBZugfMMvrs
-         P4yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DgW9kAXC6VaNn9rU3wnHWjSpTrZ8/AEf3hlkouGTzLM=;
-        b=ElNKoEb1FkH6wRwiex5RX5kxQcjy2ymSZJ5ECiTNp8pqkvHO8Gw4MolXQ7NqtG2mN/
-         ucH+trAtSFWdTZyMEm5PvZYjDbdgO/nSXIIgE+A9VWnUlBnQV/hUaL+izim2GP0z1+Ou
-         faDM9kbbRQJFbtdFsxSZwGmSt1Qn1PDexJqUYzJISHhJ6vXtsmqoopRka2ETElVSwBCU
-         ilTSxBJV9srdlFkDoHoLtJSjmYmK5t99wkvqY6KYWRUwznLx/uldtFuXp7tPP3e/Vyb1
-         lzhaH5YbspamEapbVaaOT03+tEjVAOeFm1D2Lj/BZSIWlN9hKDijZuJ9qVLKRe06kcWP
-         jRGQ==
-X-Gm-Message-State: AJIora+6GySdmHr4X/mq7d8tmpl5pN8Va8EBPTfOKGOZZ7/lF9DwTQQ8
-        RgGdM2VscMdQLB5Q2KeTiYo=
-X-Google-Smtp-Source: AGRyM1sY/NZRxlCCjWjo5j61Gv+szsCKgzp7/Bjo7JYU8bEO3/CBMFYME2TsUz3zfoxhbUOdAfyDbw==
-X-Received: by 2002:a62:864f:0:b0:52a:be82:6b60 with SMTP id x76-20020a62864f000000b0052abe826b60mr10342092pfd.48.1657834756198;
-        Thu, 14 Jul 2022 14:39:16 -0700 (PDT)
-Received: from MacBook-Pro-3.local ([2620:10d:c090:500::1:697a])
-        by smtp.gmail.com with ESMTPSA id g204-20020a6252d5000000b0052aca106b20sm2165289pfb.202.2022.07.14.14.39.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 14:39:15 -0700 (PDT)
-Date:   Thu, 14 Jul 2022 14:39:12 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        memxor@gmail.com
-Subject: Re: [PATCH bpf-next v6 00/23] Introduce eBPF support for HID devices
-Message-ID: <20220714213912.zrotlequhpgxzdl4@MacBook-Pro-3.local>
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+        Thu, 14 Jul 2022 20:33:56 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5AF2A25B;
+        Thu, 14 Jul 2022 17:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657845235; x=1689381235;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LmHXyKnAKMH9F3nbUsgv39wMlBgdj3qLzQZyWOGkDDQ=;
+  b=ROyMxVnt20NI0QmWJp+IJc9+xQ2F+Te9AsGEfWivYeqIsFkYXpQDYwGB
+   KmW0XYmpZODqPOCoM/KFD7madDBwBGpm74gZrvqtNrDC4ofRY5BpUUMbA
+   DfAhA6mm07jUV7jVpfVYsLKyZz4g0FvJYGhNLXtd1Wo1MEe2hdvfrETWD
+   il56kUDQ3lCJbK807CPbalF1KuE2TpkAixfN2oKc0opBE3Xtr+veSdyQV
+   3fibeCxDbiFspQUjLt90NFETmH+Hg/254yE1sqkeGdLBkp4MDNG6dE/Qn
+   3k6gA3kvJRue4VtBOZU/G3CCrRlH1sQk9kFXmtLkhu5H2c+FqoGJFMCEr
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="311326656"
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
+   d="scan'208";a="311326656"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 17:33:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
+   d="scan'208";a="546470039"
+Received: from lkp-server01.sh.intel.com (HELO fd2c14d642b4) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 14 Jul 2022 17:33:52 -0700
+Received: from kbuild by fd2c14d642b4 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oC9HE-0001JL-2q;
+        Fri, 15 Jul 2022 00:33:52 +0000
+Date:   Fri, 15 Jul 2022 08:33:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Bara <bbara93@gmail.com>, dmitry.torokhov@gmail.com
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Bara <benjamin.bara@skidata.com>,
+        Richard Leitner <richard.leitner@skidata.com>
+Subject: Re: [PATCH] Input: tsc2007 - enable GPIO chips that can sleep
+Message-ID: <202207150807.PrPXLs2u-lkp@intel.com>
+References: <20220713084247.3090353-1-bbara93@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220713084247.3090353-1-bbara93@gmail.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 04:58:27PM +0200, Benjamin Tissoires wrote:
-> Hi,
-> 
-> and after a little bit of time, here comes the v6 of the HID-BPF series.
-> 
-> Again, for a full explanation of HID-BPF, please refer to the last patch
-> in this series (23/23).
-> 
-> This version sees some improvements compared to v5 on top of the
-> usual addressing of the previous comments:
-> - now I think every eBPF core change has a matching selftest added
-> - the kfuncs declared in syscall can now actually access the memory of
->   the context
-> - the code to retrieve the BTF ID of the various HID hooks is much
->   simpler (just a plain use of the BTF_ID() API instead of
->   loading/unloading of a tracing program)
-> - I also added my HID Surface Dial example that I use locally to provide
->   a fuller example to users
+Hi Benjamin,
 
-Looking great.
-Before another respin to address bits in patch 12 let's land the first ~8 patches,
-since they're generic useful improvements.
+Thank you for the patch! Perhaps something to improve:
 
-Kumar, could you please help review the verifier bits?
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on hid/for-next linus/master v5.19-rc6 next-20220714]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Bara/Input-tsc2007-enable-GPIO-chips-that-can-sleep/20220713-164521
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: riscv-randconfig-r003-20220714 (https://download.01.org/0day-ci/archive/20220715/202207150807.PrPXLs2u-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e61b9c556267086ef9b743a0b57df302eef831b)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/13455f523263c4e90b5cc8c587ef2be97008ff5f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Bara/Input-tsc2007-enable-GPIO-chips-that-can-sleep/20220713-164521
+        git checkout 13455f523263c4e90b5cc8c587ef2be97008ff5f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/amd/display/amdgpu_dm/ drivers/input/touchscreen/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/input/touchscreen/tsc2007_core.c:112:6: warning: no previous prototype for function 'tsc2007_is_pen_down_cansleep' [-Wmissing-prototypes]
+   bool tsc2007_is_pen_down_cansleep(struct tsc2007 *ts)
+        ^
+   drivers/input/touchscreen/tsc2007_core.c:112:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool tsc2007_is_pen_down_cansleep(struct tsc2007 *ts)
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/tsc2007_is_pen_down_cansleep +112 drivers/input/touchscreen/tsc2007_core.c
+
+   111	
+ > 112	bool tsc2007_is_pen_down_cansleep(struct tsc2007 *ts)
+   113	{
+   114		if (!ts->get_pendown_state_cansleep)
+   115			return true;
+   116	
+   117		return ts->get_pendown_state_cansleep(&ts->client->dev);
+   118	}
+   119	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
