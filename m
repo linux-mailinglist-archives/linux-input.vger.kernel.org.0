@@ -2,65 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7ED457748C
-	for <lists+linux-input@lfdr.de>; Sun, 17 Jul 2022 06:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58D345776BD
+	for <lists+linux-input@lfdr.de>; Sun, 17 Jul 2022 16:45:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbiGQE6V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Jul 2022 00:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57662 "EHLO
+        id S231784AbiGQOnl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Jul 2022 10:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiGQE6V (ORCPT
+        with ESMTP id S231229AbiGQOnk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Jul 2022 00:58:21 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3416A12638;
-        Sat, 16 Jul 2022 21:58:20 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id o31-20020a17090a0a2200b001ef7bd037bbso9782219pjo.0;
-        Sat, 16 Jul 2022 21:58:20 -0700 (PDT)
+        Sun, 17 Jul 2022 10:43:40 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC8EFD0B;
+        Sun, 17 Jul 2022 07:43:38 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id p26-20020a1c545a000000b003a2fb7c1274so3538605wmi.1;
+        Sun, 17 Jul 2022 07:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pk35A4tnG9Ct8HadEgqknM1J2JwIT5p0DRJbULK144Q=;
-        b=E7x/gc754j9YkZE5dHhV9H4L/ZUM8uK++3nWm69DwlHaX/Fx3pZW6y9CPgeKTRmDrt
-         sFprVUy9uaRf4b1prO8hAqeTfp/q2Byi/bIzBQfP3Uxy9d642YmwHqq4zwi/NC7U22K7
-         D+lUM6DatGSB0azB21HtkdRakGTAF+xNE/uOAEGA/jW/gYVTYRBmQKbds2lwRwUUlvUY
-         bNIV9P01IcbY1V4uGytNAeLSBHryQkulanduAZ3zIw15Wiurhlr5BTZgrrCtSMPaDS6f
-         KGBGsBwBwhQ7BW5Ci2f3dl6MuLdIEu8B1S5DoVOYcUwPXupB8YwaxvL9BNJnjGm63JCp
-         VsaA==
+        bh=+nXzr6RXTjmwManVEd/M1NzDTHAv1xLQeADv/g9hsBw=;
+        b=Wh0Uk6J8JtbDSh+iS+CJvs962lJuYfDS91VIX4Y7C73tRWP743GDoiXSX+R0pTtCUE
+         BU3sZWunf0zQXKdHrYZVpC4F3IoOyJhagbgIaoCl9tApAdBdS+zCuAIcPrNOTHmEADTl
+         CdykEFAqgpFFYnklw61niymytzjHrbQQbb8N3OoVd9fNKVRft0boAWC/+LeIrpmGnPdU
+         jt3hb/aG65/vSuUDciIynxzbLBmXo3Q66SmwwwBcQzDx8et0GoBZ2Wo+A4tRtkyB/SsX
+         5I3cnN3MRg3/RxtGCWjyKsDMVEKp//lGWgbGdgc/1/uYpv0Vvm9BZ2bjcf5R5gBEzN32
+         c4sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=pk35A4tnG9Ct8HadEgqknM1J2JwIT5p0DRJbULK144Q=;
-        b=azsJ7qnFxdabUIr7wLnHtgnsEVKIUtaRJUl03UF2KBH90ZzsyX2O1YAvHEXmIql3gx
-         lq943yfRt+49xYFmFgr+i20fu6AXhpxurVFu/RzOYCaUxqx2cQsq3HUWdiPJ5jhvyk4+
-         y24Gd6FSgqt9xgLoaM4gVqffvi59d0E8cNxjeqbgT7QyD8cVacuxr0WO1+MZjHKCfv90
-         O6rKk91gk3XIpiFEeoq66H3ovMl1kwMQOkibzBVmfLuv10/O+pcGobpfPapO3UXj2ztg
-         zizlIBCiKxxOdKwqy5QDbsCgfTK37NlsQ6G52Gma0+M2LnXsB9PTqqOtohD22UliK7cB
-         HGxQ==
-X-Gm-Message-State: AJIora9/AwnF03qcemdbULNklzmXElqc4vC1T0s7qVW24RmxdBbBdgRc
-        p06eHOTikpA3RNHj79PZ17RLnDErSUj+BA==
-X-Google-Smtp-Source: AGRyM1tiKTVx2sxl/2KzNWT+GRA2wu7ho+PKJm9836c5JvH5g95cNgep16siD+7mFTohAyO0PBVqlQ==
-X-Received: by 2002:a17:902:ee42:b0:16b:e518:d894 with SMTP id 2-20020a170902ee4200b0016be518d894mr21761770plo.5.1658033899426;
-        Sat, 16 Jul 2022 21:58:19 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:e796:f778:8123:2ffa])
-        by smtp.gmail.com with ESMTPSA id hk11-20020a17090b224b00b001ef87c5b7f4sm8623564pjb.30.2022.07.16.21.58.18
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+nXzr6RXTjmwManVEd/M1NzDTHAv1xLQeADv/g9hsBw=;
+        b=BoM340WEP2k0nhKJHq/r6g6Ou8YlXyN4uSVcv7QDqaVG828TpAxeDvaJ6jXWQ/NUij
+         K9BbR6psfldQkyFoAaEnc1caXt+tKxqLZowSQbX3VOUHQlbN72U3D5wA4T2oFiLWNItY
+         Hv+b4ctclS2bW1H7V+nhZ4GiDo1ode9vTf5HF7EWCLgDvCfk5G3A8osjga7PXR5cOxM6
+         nOvoV9Q/D/i4Aun3OQiANz7Dwx/qxVaDrimt/BbLLZZXUA71cZNmIBR1qWGND3zgeHWf
+         PIm1Q+u5jsCo3/jWjLsjD/YLlfRtk1JcurnJhqEa4tvfw+F40IFAvIcn/h/QcZ5tWQCh
+         Fwqg==
+X-Gm-Message-State: AJIora/CGY+HrwbuIyKri7lPTVoQKxHzcHXT6JmW/nm3yGpDbajdFqzL
+        A6e/I6YaUIB8HvsGwQDPajU=
+X-Google-Smtp-Source: AGRyM1sivoj/mvrgjyl34nlF+tobq79sQiOhJIaZqIuygzddoBuAAg+kOklPQkoaks7ufrGA3FjzRg==
+X-Received: by 2002:a05:600c:a0b:b0:39e:22ef:1a0 with SMTP id z11-20020a05600c0a0b00b0039e22ef01a0mr22787319wmp.46.1658069017156;
+        Sun, 17 Jul 2022 07:43:37 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.185])
+        by smtp.gmail.com with ESMTPSA id h8-20020adff4c8000000b0021d887f9468sm8432001wrp.25.2022.07.17.07.43.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Jul 2022 21:58:18 -0700 (PDT)
-Date:   Sat, 16 Jul 2022 21:58:16 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v5.19-rc6
-Message-ID: <YtOW6KABn6sd9ZDZ@google.com>
+        Sun, 17 Jul 2022 07:43:36 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        j.witteveen@gmail.com, stefanberzl@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v2 0/7] XP-PEN Deco Pro S support (for-5.20/uclogic)
+Date:   Sun, 17 Jul 2022 16:43:26 +0200
+Message-Id: <20220717144333.251190-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,47 +72,61 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Hello everyone,
 
-Please pull from:
+This patchset adds support for the XP-PEN Deco Pro S.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v5.19-rc6
+Like the Deco L (for-5.20/uclogic) this tablet is a UGEE v2 tablet.
 
-to receive updates for the input subsystem. You will get:
+The first patch is not related to this tablet. It fixes some naming
+conventions on the KUnit tests.
 
-- a fix in Goodix driver to properly behave on the Aya Neo Next
-- some more sanity checks in usbtouchscreen driver
-- a tweak in wm97xx driver in preparation for remove() to return void
-- a clarification in input core regarding units of measurement for
-  resolution on touch events.
+Patches 2 and 3 just move code to functions and add more unit tests.
+
+Patch 4 parses the tablet string descriptor to get its frame type. The
+values discovered so far are: only buttons, buttons + dial or
+buttons + dial + mouse.
+
+Patches 5 and 6 add the descriptors for the new frame types.
+
+The last patch uses all of this to add support for the tablet.
+
+I don't have access to the tablet. Credit for testing the patches and
+providing the required recordings goes to Jouke Witteveen.
+This fixes an issue reported in libinput:
+https://gitlab.freedesktop.org/libinput/libinput/-/issues/738
+
+Best wishes,
+José Expósito
+
+v1 -> v2:
+
+ - First patch acked-by Daniel Latypov
+
+José Expósito (7):
+  HID: uclogic: KUnit best practices and naming conventions
+  HID: uclogic: Refactor UGEE v2 string descriptor parsing
+  HID: uclogic: Refactor UGEE v2 frame initialization
+  HID: uclogic: Parse the UGEE v2 frame type
+  HID: uclogic: Add support for UGEE v2 dial frames
+  HID: uclogic: Add support for UGEE v2 mouse frames
+  HID: uclogic: Add support for XP-PEN Deco Pro S
+
+ drivers/hid/Kconfig                   |   2 +-
+ drivers/hid/Makefile                  |   4 +-
+ drivers/hid/hid-ids.h                 |   1 +
+ drivers/hid/hid-uclogic-core.c        |   2 +
+ drivers/hid/hid-uclogic-params-test.c | 192 ++++++++++++++++++++++
+ drivers/hid/hid-uclogic-params.c      | 225 ++++++++++++++++++++++----
+ drivers/hid/hid-uclogic-params.h      |  10 ++
+ drivers/hid/hid-uclogic-rdesc-test.c  |  22 +--
+ drivers/hid/hid-uclogic-rdesc.c       |  74 +++++++++
+ drivers/hid/hid-uclogic-rdesc.h       |   8 +
+ 10 files changed, 494 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/hid/hid-uclogic-params-test.c
 
 
-Changelog:
----------
-
-Hans de Goede (1):
-      Input: goodix - call acpi_device_fix_up_power() in some cases
-
-Johan Hovold (1):
-      Input: usbtouchscreen - add driver_info sanity check
-
-Siarhei Vishniakou (1):
-      Input: document the units for resolution of size axes
-
-Uwe Kleine-K�nig (1):
-      Input: wm97xx - make .remove() obviously always return 0
-
-Diffstat:
---------
-
- drivers/input/touchscreen/goodix.c         |  5 +++++
- drivers/input/touchscreen/usbtouchscreen.c |  3 +++
- drivers/input/touchscreen/wm97xx-core.c    |  4 +++-
- include/uapi/linux/input.h                 | 11 +++++++----
- 4 files changed, 18 insertions(+), 5 deletions(-)
-
-Thanks.
-
-
+base-commit: 0cb1fc0988e32bda84c2b7218e0c761af1430baf
 -- 
-Dmitry
+2.25.1
+
