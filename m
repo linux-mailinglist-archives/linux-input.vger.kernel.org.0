@@ -2,321 +2,258 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF2E0578599
-	for <lists+linux-input@lfdr.de>; Mon, 18 Jul 2022 16:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29AAF5785D6
+	for <lists+linux-input@lfdr.de>; Mon, 18 Jul 2022 16:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234214AbiGROgi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Jul 2022 10:36:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33190 "EHLO
+        id S233936AbiGROwA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Jul 2022 10:52:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234496AbiGROgZ (ORCPT
+        with ESMTP id S234156AbiGROvz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Jul 2022 10:36:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7916A1117C
-        for <linux-input@vger.kernel.org>; Mon, 18 Jul 2022 07:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1658154983;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=rFQMscdcwUkaTGb2PKaBiEdNVFGKZ4TJiBENKOnBRwk=;
-        b=CKsEABmBjDrw5acESS3Vgfx/bwt+fDl7Tkpztjoho7TdElpAuSXdUXulSmlZAE1SVrhQOX
-        vBO3En9fq/1/tkjp8n6i1z8qv4M4GaSJXRFbxKp5KF38SIFu9K3MDAKkIVLEv5WuDQMnVM
-        N10M/HT7bA3HsB9OfhnEZYbWoYV63gc=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-96-gLyfivu5PqaoLg6LelORuw-1; Mon, 18 Jul 2022 10:36:16 -0400
-X-MC-Unique: gLyfivu5PqaoLg6LelORuw-1
-Received: by mail-pl1-f198.google.com with SMTP id p10-20020a170902e74a00b0016c3f3acb51so6808348plf.16
-        for <linux-input@vger.kernel.org>; Mon, 18 Jul 2022 07:36:16 -0700 (PDT)
+        Mon, 18 Jul 2022 10:51:55 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129581EAEE;
+        Mon, 18 Jul 2022 07:51:52 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id a5so17389907wrx.12;
+        Mon, 18 Jul 2022 07:51:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=Zwyzja49jTBt5v01ZmoYlLErXPaXS1ddpKN1QWHfErY=;
+        b=X8R5n11Ajs6cnyczw/D9MhsD5ziNbwIMfJESuWMeEpjGpWqW7E/TbA5uhDDbTZ3cZp
+         AZIOoC8IFjkkqvi7UzKzjim4Qc215+EmMOLe8J/JcBER3Zzbnp1G5rQeR8sHXI3rVtFH
+         pt+UJAd4ve5MXGi6579fLgs8a7WOfGHvFCr/Jf8eqx5fKvzbrn8xSWivKY+sP23LV+Zj
+         mh97p4XoaJGZ2lUS5Dm57RjOgkjOgpkgd9QruFWOm6ySADzbIb8m4JiMbEuTPo3zLPL7
+         EMKkJF5HlLlMkZ6ZJy4uBQhx6mBCJFl3gbGdgp3Kh4H0SgRZkIqdu1JKKbYPP/lPRE3d
+         H2ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rFQMscdcwUkaTGb2PKaBiEdNVFGKZ4TJiBENKOnBRwk=;
-        b=6WIVcOF6TY8NkRIjhwEI3XCFNPI6WJsMBv9RoyrYr04MCFkR+hcISD7RRomtRNRG8V
-         +zEzI+QhJENbhfftb5KVPcXh9JhrWqk0HdUYgDr//IIAUWyXUIz4Ky6f8lzQLd8LyzEX
-         ZeNjzaRr16Zoe8vAzTyJTEOww+Q9bkKw92Z/tHQDXNpjpzE8aHAn0W5o16nIlUZX1xsS
-         egjsSwCQFj1ECnYLzBGeVuhH/A179BYThhVAuwNQ3UWCVFSu3VsKQnXlSmiN4gntc9Di
-         fQU1dn/FnT6hA6UAEBzoNo6TY5UgnSYefHauszFBU4kNiQJsqXz1iKwQShqZthRaGRz2
-         T67A==
-X-Gm-Message-State: AJIora8ZaoMlw+89kBjmTHF6tBHJBSODlS1oKyuJyIK6ySX9LmlmY7X/
-        bpf7xfNtf4cD3famnzyg7216SZYvydwytIUwwhxmZutKhS3XNkdICipu2N39UZ/TL/b+4+JaEtI
-        M1Mx30/LqiT5e4JGERaTOSB0v68i8fqvqFXoLtzY=
-X-Received: by 2002:a17:90b:4a08:b0:1ef:f36b:18e1 with SMTP id kk8-20020a17090b4a0800b001eff36b18e1mr39392466pjb.246.1658154975482;
-        Mon, 18 Jul 2022 07:36:15 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uGK9T6cOVFp659SW1DdrZP3gQ+n6vI6T88el9GhA+lj4mOmIFGxU6jOUkfisaABLvRHaU8Fp6cYg+cPkG0fuk=
-X-Received: by 2002:a17:90b:4a08:b0:1ef:f36b:18e1 with SMTP id
- kk8-20020a17090b4a0800b001eff36b18e1mr39392441pjb.246.1658154975155; Mon, 18
- Jul 2022 07:36:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
- <20220712145850.599666-6-benjamin.tissoires@redhat.com> <7fc49373-55df-c7fd-4a73-c2cf8a62748d@fb.com>
-In-Reply-To: <7fc49373-55df-c7fd-4a73-c2cf8a62748d@fb.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 18 Jul 2022 16:36:03 +0200
-Message-ID: <CAO-hwJKwX2LW8wuFzQbWm-ttwqocNBc-evgpn2An-D-92osw0Q@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v6 05/23] bpf/verifier: allow kfunc to return an
- allocated mem
-To:     Yonghong Song <yhs@fb.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=Zwyzja49jTBt5v01ZmoYlLErXPaXS1ddpKN1QWHfErY=;
+        b=o0RjKevkWXXTZLpRDRK7LZIijbf4USHA1tK5vuBRSAhiFxIKesT1/OR4UILJCv/sSl
+         tOvUlm/QGA+34NKERDlNkIwqc4cgUSKHu1R8CL4yUtAJkygFsFDzrOcYGP5lq20v6ZQg
+         g8C8sP1dqU9U7gxyLfIKsfpvO0XnATifK4bbDBuTdqsFKqi08JWqjqa1W5Dgt13B15bd
+         22oR++2+2G05FzdC4gWaePg9Xr3dNL9Et5OtaTtRNwZ3QF40H0sqAvCL0YPB8mOPdwnB
+         HLeKy3KH55+W33Ug7i2ZtaVAYpBhupd2lntm83tEJKkudL6+hAR2q5ltZKl7qWxpiGAL
+         H7eQ==
+X-Gm-Message-State: AJIora8D6+JAvTkSCmPc3IpuZ82Pqzg8O6uiugCxIO31rgQp3GrFiRVo
+        5RfOTcWo1YaI31t84PAPIXI=
+X-Google-Smtp-Source: AGRyM1v2WLaMnndYP3Zu5sgujhWallh4uHB0Gzu00kx1NdmLvZa4E7QpVt5I8lfA9wZU6Lt+YDfYBA==
+X-Received: by 2002:a5d:64ad:0:b0:21d:adb6:c266 with SMTP id m13-20020a5d64ad000000b0021dadb6c266mr24483156wrp.638.1658155910486;
+        Mon, 18 Jul 2022 07:51:50 -0700 (PDT)
+Received: from p200300f6ef036f005de6a4d0d791ed01.dip0.t-ipconnect.de (p200300f6ef036f005de6a4d0d791ed01.dip0.t-ipconnect.de. [2003:f6:ef03:6f00:5de6:a4d0:d791:ed01])
+        by smtp.gmail.com with ESMTPSA id r8-20020a5d52c8000000b0021d65e9d449sm11578377wrv.73.2022.07.18.07.51.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 07:51:50 -0700 (PDT)
+Message-ID: <82ed44d4cb90a79109755e1e0b6b2de267462cc7.camel@gmail.com>
+Subject: Re: [PATCH v2 05/10] dt-bindings: input: adp5588-keys: add bindings
+From:   Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Date:   Mon, 18 Jul 2022 16:52:54 +0200
+In-Reply-To: <1c73fe9e-81f8-3ecd-edd1-60e6ddd548f3@linaro.org>
+References: <20220715125138.378632-1-nuno.sa@analog.com>
+         <20220715125138.378632-6-nuno.sa@analog.com>
+         <1c73fe9e-81f8-3ecd-edd1-60e6ddd548f3@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.3 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jul 16, 2022 at 6:29 AM Yonghong Song <yhs@fb.com> wrote:
->
->
->
-> On 7/12/22 7:58 AM, Benjamin Tissoires wrote:
-> > When a kfunc is not returning a pointer to a struct but to a plain type,
-> > we can consider it is a valid allocated memory assuming that:
-> > - one of the arguments is either called rdonly_buf_size or
-> >    rdwr_buf_size
-> > - and this argument is a const from the caller point of view
-> >
-> > We can then use this parameter as the size of the allocated memory.
-> >
-> > The memory is either read-only or read-write based on the name
-> > of the size parameter.
->
-> If I understand correctly, this permits a kfunc like
->     int *kfunc(..., int rdonly_buf_size);
->     ...
->     int *p = kfunc(..., 20);
-> so the 'p' points to a memory buffer with size 20.
-
-Yes, exactly.
-
->
-> This looks like a strange interface although probably there
-> is a valid reason for this as I didn't participated in
-> earlier discussions.
-
-Well, the point is I need to be able to access a memory region that
-was allocated dynamically. For drivers, the incoming data can not
-usually be bound to a static value, and so we can not have the data
-statically defined in the matching struct.
-So this allows defining a kfunc to return any memory properly
-allocated and owned by the device.
-
->
-> >
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >
+On Mon, 2022-07-18 at 16:27 +0200, Krzysztof Kozlowski wrote:
+> On 15/07/2022 14:51, Nuno S=C3=A1 wrote:
+> > Add device tree bindings for the adp5588-keys driver.
+> >=20
+> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 > > ---
-> >
-> > changes in v6:
-> > - code review from Kartikeya:
-> >    - remove comment change that had no reasons to be
-> >    - remove handling of PTR_TO_MEM with kfunc releases
-> >    - introduce struct bpf_kfunc_arg_meta
-> >    - do rdonly/rdwr_buf_size check in btf_check_kfunc_arg_match
-> >    - reverted most of the changes in verifier.c
-> >    - make sure kfunc acquire is using a struct pointer, not just a plain
-> >      pointer
-> >    - also forward ref_obj_id to PTR_TO_MEM in kfunc to not use after free
-> >      the allocated memory
-> >
-> > changes in v5:
-> > - updated PTR_TO_MEM comment in btf.c to match upstream
-> > - make it read-only or read-write based on the name of size
-> >
-> > new in v4
-> > ---
-> >   include/linux/bpf.h   | 10 ++++++-
-> >   include/linux/btf.h   | 12 ++++++++
-> >   kernel/bpf/btf.c      | 67 ++++++++++++++++++++++++++++++++++++++++---
-> >   kernel/bpf/verifier.c | 49 +++++++++++++++++++++++--------
-> >   4 files changed, 121 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-> > index 2b21f2a3452f..5b8eadb6e7bc 100644
-> > --- a/include/linux/bpf.h
-> > +++ b/include/linux/bpf.h
-> > @@ -1916,12 +1916,20 @@ int btf_distill_func_proto(struct bpf_verifier_log *log,
-> >                          const char *func_name,
-> >                          struct btf_func_model *m);
-> >
-> > +struct bpf_kfunc_arg_meta {
-> > +     u64 r0_size;
-> > +     bool r0_rdonly;
-> > +     int ref_obj_id;
-> > +     bool multiple_ref_obj_id;
-> > +};
-> > +
-> >   struct bpf_reg_state;
-> >   int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> >                               struct bpf_reg_state *regs);
-> >   int btf_check_kfunc_arg_match(struct bpf_verifier_env *env,
-> >                             const struct btf *btf, u32 func_id,
-> > -                           struct bpf_reg_state *regs);
-> > +                           struct bpf_reg_state *regs,
-> > +                           struct bpf_kfunc_arg_meta *meta);
-> >   int btf_prepare_func_args(struct bpf_verifier_env *env, int subprog,
-> >                         struct bpf_reg_state *reg);
-> >   int btf_check_type_match(struct bpf_verifier_log *log, const struct bpf_prog *prog,
-> > diff --git a/include/linux/btf.h b/include/linux/btf.h
-> > index 1bfed7fa0428..31da4273c2ec 100644
-> > --- a/include/linux/btf.h
-> > +++ b/include/linux/btf.h
-> > @@ -420,4 +420,16 @@ static inline int register_btf_id_dtor_kfuncs(const struct btf_id_dtor_kfunc *dt
-> >   }
-> >   #endif
-> >
-> > +static inline bool btf_type_is_struct_ptr(struct btf *btf, const struct btf_type *t)
-> > +{
-> > +     /* t comes in already as a pointer */
-> > +     t = btf_type_by_id(btf, t->type);
-> > +
-> > +     /* allow const */
-> > +     if (BTF_INFO_KIND(t->info) == BTF_KIND_CONST)
-> > +             t = btf_type_by_id(btf, t->type);
-> > +
-> > +     return btf_type_is_struct(t);
-> > +}
-> > +
-> >   #endif
-> > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> > index 4423045b8ff3..552d7bc05a0c 100644
-> > --- a/kernel/bpf/btf.c
-> > +++ b/kernel/bpf/btf.c
-> > @@ -6168,10 +6168,36 @@ static bool is_kfunc_arg_mem_size(const struct btf *btf,
-> >       return true;
-> >   }
-> >
-> > +static bool btf_is_kfunc_arg_mem_size(const struct btf *btf,
-> > +                                   const struct btf_param *arg,
-> > +                                   const struct bpf_reg_state *reg,
-> > +                                   const char *name)
-> > +{
-> > +     int len, target_len = strlen(name);
-> > +     const struct btf_type *t;
-> > +     const char *param_name;
-> > +
-> > +     t = btf_type_skip_modifiers(btf, arg->type, NULL);
-> > +     if (!btf_type_is_scalar(t) || reg->type != SCALAR_VALUE)
-> > +             return false;
-> > +
-> > +     param_name = btf_name_by_offset(btf, arg->name_off);
-> > +     if (str_is_empty(param_name))
-> > +             return false;
-> > +     len = strlen(param_name);
-> > +     if (len != target_len)
-> > +             return false;
-> > +     if (strncmp(param_name, name, target_len))
->
-> strcmp(param_name, name) is enough. len == target_len and both len and
-> target_len is computed from strlen(...).
+> > =C2=A0.../bindings/input/adi,adp5588-keys.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 110
+> > ++++++++++++++++++
+> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0=C2=A0 1 +
+> > =C2=A02 files changed, 111 insertions(+)
+> > =C2=A0create mode 100644
+> > Documentation/devicetree/bindings/input/adi,adp5588-keys.yaml
+>=20
+> Thank you for your patch. There is something to discuss/improve.
+>=20
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/input/adi,adp5588-
+> > keys.yaml b/Documentation/devicetree/bindings/input/adi,adp5588-
+> > keys.yaml
+> > new file mode 100644
+> > index 000000000000..0d262b42150a
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/adi,adp5588-keys.yaml
+> > @@ -0,0 +1,110 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/input/adi,adp5588-keys.yaml#
+>=20
+> Is ADP5588 a multi-function device? If not, I propose to drop the
+> "keys"
+> suffix.
+>=20
 
-Ack, fixed locally
+I can do that. I just kept the same naming of the c file...
 
->
-> > +             return false;
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +     return true;
-> > +}
+> > +title: Analog Devices ADP5588 Keypad Controller
 > > +
-> >   static int btf_check_func_arg_match(struct bpf_verifier_env *env,
-> >                                   const struct btf *btf, u32 func_id,
-> >                                   struct bpf_reg_state *regs,
-> > -                                 bool ptr_to_mem_ok)
-> > +                                 bool ptr_to_mem_ok,
-> > +                                 struct bpf_kfunc_arg_meta *kfunc_meta)
-> >   {
-> >       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
-> >       struct bpf_verifier_log *log = &env->log;
-> > @@ -6225,6 +6251,30 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
-> >
-> >               t = btf_type_skip_modifiers(btf, args[i].type, NULL);
-> >               if (btf_type_is_scalar(t)) {
-> > +                     if (is_kfunc && kfunc_meta) {
-> > +                             bool is_buf_size = false;
+> > +maintainers:
+> > +=C2=A0 - Nuno S=C3=A1 <nuno.sa@analog.com>
 > > +
-> > +                             /* check for any const scalar parameter of name "rdonly_buf_size"
-> > +                              * or "rdwr_buf_size"
-> > +                              */
-> > +                             if (btf_is_kfunc_arg_mem_size(btf, &args[i], reg,
-> > +                                                           "rdonly_buf_size")) {
-> > +                                     kfunc_meta->r0_rdonly = true;
-> > +                                     is_buf_size = true;
-> > +                             } else if (btf_is_kfunc_arg_mem_size(btf, &args[i], reg,
-> > +                                                                  "rdwr_buf_size"))
-> > +                                     is_buf_size = true;
+> > +description: |
+> > +=C2=A0 Analog Devices Mobile I/O Expander and QWERTY Keypad Controller
+> > +=C2=A0
+> > https://www.analog.com/media/en/technical-documentation/data-sheets/ADP=
+5588.pdf
 > > +
-> > +                             if (is_buf_size) {
-> > +                                     if (kfunc_meta->r0_size) {
-> > +                                             bpf_log(log, "2 or more rdonly/rdwr_buf_size parameters for kfunc");
-> > +                                             return -EINVAL;
-> > +                                     }
+> > +allOf:
+> > +=C2=A0 - $ref: matrix-keymap.yaml#
+> > +=C2=A0 - $ref: input.yaml#
 > > +
-> > +                                     kfunc_meta->r0_size = reg->var_off.value;
->
-> Did we check 'reg' is a constant somewhere?
+> > +properties:
+> > +=C2=A0 compatible:
+> > +=C2=A0=C2=A0=C2=A0 enum:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5588
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5587
+>=20
+> Bring some order, like alphabetical.
+>=20
 
-I used to check for it in the previous version, but I think it got
-dropped in this revision. Re-adding this thanks to Kumar's help :)
+ack...
 
-Cheers,
-Benjamin
+> > +
+> > +=C2=A0 reg:
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 vcc-supply:
+> > +=C2=A0=C2=A0=C2=A0 description: Supply Voltage Input
+> > +
+> > +=C2=A0 reset-gpios:
+> > +=C2=A0=C2=A0=C2=A0 description:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If specified, it will be asserted durin=
+g driver probe. As
+> > the line is
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 active low, it should be marked GPIO_AC=
+TIVE_LOW.
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 interrupts:
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 gpio-controller:
+> > +=C2=A0=C2=A0=C2=A0 description:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This property applies if either keypad,=
+num-rows lower than 8
+> > or
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 keypad,num-columns lower than 10.
+> > +
+> > +=C2=A0 '#gpio-cells':
+> > +=C2=A0=C2=A0=C2=A0 const: 2
+> > +
+> > +=C2=A0 interrupt-controller:
+> > +=C2=A0=C2=A0=C2=A0 description:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This property applies if either keypad,=
+num-rows lower than 8
+> > or
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 keypad,num-columns lower than 10.
+> > +
+> > +=C2=A0 '#interrupt-cells':
+> > +=C2=A0=C2=A0=C2=A0 const: 2
+> > +
+> > +=C2=A0 adi,unlock-keys:
+> > +=C2=A0=C2=A0=C2=A0 description:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Specifies a maximum of 2 keys that can =
+be used to unlock the
+> > keypad.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If this property is set, the keyboard w=
+ill be locked and
+> > only unlocked
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 after these keys are pressed. If only o=
+ne key is set, a
+> > double click is
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 needed to unlock the keypad.
+> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +=C2=A0=C2=A0=C2=A0 minItems: 1
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 2
+>=20
+> What are the values/units? keycodes? If so, maybe "adi,unlock-
+> keycodes"
+> and add limit on values (like linux,keycodes).
+>=20
 
->
-> > +                             }
-> > +                     }
+They are just key numbers on the matrix. In the driver there's actually
+a check so that the value cannot be >=3D keypad,num-rows * keypad,num-
+columns. Not sure if there's a way to express this but I can surely
+improve the description.
+
+(There's also a comment on the driver regarding why I'm doing this
+check).
+
 > > +
-> >                       if (reg->type == SCALAR_VALUE)
-> >                               continue;
-> >                       bpf_log(log, "R%d is not a scalar\n", regno);
-> > @@ -6246,6 +6296,14 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
-> >               if (ret < 0)
-> >                       return ret;
-> >
-> > +             /* kptr_get is only valid for kfunc */
-> > +             if (kfunc_meta && reg->ref_obj_id) {
-> > +                     /* check for any one ref_obj_id to keep track of memory */
-> > +                     if (kfunc_meta->ref_obj_id)
-> > +                             kfunc_meta->multiple_ref_obj_id = true;
-> > +                     kfunc_meta->ref_obj_id = reg->ref_obj_id;
-> > +             }
+> > +required:
+> > +=C2=A0 - compatible
+> > +=C2=A0 - reg
+> > +=C2=A0 - interrupts
+> > +=C2=A0 - keypad,num-rows
+> > +=C2=A0 - keypad,num-columns
+> > +=C2=A0 - linux,keymap
 > > +
-> >               /* kptr_get is only true for kfunc */
-> >               if (i == 0 && kptr_get) {
-> >                       struct bpf_map_value_off_desc *off_desc;
-> > @@ -6441,7 +6499,7 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> >               return -EINVAL;
-> >
-> >       is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
-> > -     err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global);
-> > +     err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, NULL);
-> >
-> >       /* Compiler optimizations can remove arguments from static functions
-> >        * or mismatched type can be passed into a global function.
-> [...]
->
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +=C2=A0 - |
+> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/interrupt-controller/irq.h>
+> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/input/input.h>
+> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/gpio/gpio.h>
+> > +=C2=A0=C2=A0=C2=A0 i2c {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =
+=3D <1>;
+>=20
+> Wrong indentation. 4 spaces for DTS example.
+>=20
+
+ack
+
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D=
+ <0>;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adp5588@34 {
+>=20
+> Node names should be generic.
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-device=
+tree-basics.html#generic-names-recommendation
+>=20
+>=20
+
+ack
+
+- Nuno S=C3=A1
 
