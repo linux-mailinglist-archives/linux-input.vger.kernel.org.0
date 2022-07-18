@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2956557861A
-	for <lists+linux-input@lfdr.de>; Mon, 18 Jul 2022 17:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FDE057861B
+	for <lists+linux-input@lfdr.de>; Mon, 18 Jul 2022 17:17:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235221AbiGRPRy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Jul 2022 11:17:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34374 "EHLO
+        id S233406AbiGRPR5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Jul 2022 11:17:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233406AbiGRPRx (ORCPT
+        with ESMTP id S235245AbiGRPR5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Jul 2022 11:17:53 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8BC726AEA
-        for <linux-input@vger.kernel.org>; Mon, 18 Jul 2022 08:17:52 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id p26-20020a1c545a000000b003a2fb7c1274so5457307wmi.1
-        for <linux-input@vger.kernel.org>; Mon, 18 Jul 2022 08:17:52 -0700 (PDT)
+        Mon, 18 Jul 2022 11:17:57 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA9EF26AEA
+        for <linux-input@vger.kernel.org>; Mon, 18 Jul 2022 08:17:55 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id e15so12284420wro.5
+        for <linux-input@vger.kernel.org>; Mon, 18 Jul 2022 08:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=semihalf.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fQlo7UeDXI6o2W9nD/fT5IEKlIszvx9aJnZSW1oBAjU=;
-        b=A5HOJWoWyF51BemeNU9mf0ylTDmpAQyd0h2enOdlnUhLB/IeGfgsaWu30q98bMdQNa
-         acgsL1Yi48GuPp7asKPRCtC9+J+4PCo/NQVhzHPkddHEmke+26lG1FYcNO9yRJgMlHbH
-         5Nq26zLhgYwpBKu1VQG3jYq3OFTiNnK6axyIaa2U3xbvvyqCPXqVct5eRK8DSEcOAW/w
-         5NpvBtpy8LRVVYMvuNfjC8qvbLR+fnu8gyTqQK7g9JyvyRKrAYNlhfUiLYmGdxlDqPhM
-         n/rv34bn6kCUQ6hXlVgcUmq7eeVNHQB3j2b5bq6GdTIs7lAYWke8DpcrUimHFwHnGvNs
-         oN8A==
+        bh=YZAOxtAnAR9sp8dvz4bz9CDD/oWkzFTPpw1SRzra+qQ=;
+        b=nCmQPdRhSPqjCGLcYZmldUKFap/RDmNnB5pEqCnebfSq04hFhOlx8g3F8FGlzrXODI
+         l0L5mSLDgm6/ZktH2mn/JZwKO0K55J5bRFMvKMUY0xsZcP5j9H3p6TWulGF5eiCRNRnK
+         yQtzZntn+74QfFMvoTOec0TQ9056lUpu8mwG9JrqMBYXr8QkfGXq/ZQx6R6TAwk5/F17
+         Fwv4QTWUYkDXU81zlkrhyFAqB6SjW/xy2031AiCqrW3PYSu5bmADK3+Wtx5wWbRz41c4
+         laOiFLr2quiUWhzS79QxoZ5GkLOVjHiX52hQXj7B+p3S7QOEAs/FflT26Tq0akP+1WY1
+         6X6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fQlo7UeDXI6o2W9nD/fT5IEKlIszvx9aJnZSW1oBAjU=;
-        b=6jbkbkK9Uo0yCg3+Fxo5UTaYrI/8TklqnHC0+AtYUKFZe/YgEJVEo2wh5YVuIgF9+M
-         nlPI2vMyQ3+zXh+qVWDFctm7YlEI54UwR/5btAOgk2UmLgT96thWwNOrlcmyuDfeIFTy
-         QBNrhw8+4ty+vJNV0etIdMzjehR83ZRB0fA4elA9RXhk/C5wH1WESBpTwkh1K7MPteAF
-         o/O3YsgVQaQ9BjyxmpV5u/3xTJpNGcL4+slgUcZCXdlcutB+YJQ8z9cgoKmz4Pp6mOiY
-         L/tmc50UFzplZdKNdrkexYa6tZ2S6QIIb/UXnQZfjCtkQ2V/CULZYZpWlLJ9FF/2Rn11
-         LAAQ==
-X-Gm-Message-State: AJIora/Rr7T/fw1S+vCUBcBk2Qy4GeJPJYQG45IC7HFlqk4adhjGWWGZ
-        J6vaKHAwnyHfjc0MmsklM+lLyiQH/0gt85JJ
-X-Google-Smtp-Source: AGRyM1shxVDIzcWbJ1l+PIK+bQT19cbiXJcRoWCfs9mk1892wuiaO+B4qCZFQmrkdZWSEvEI/8BUpA==
-X-Received: by 2002:a05:600c:3b24:b0:3a3:1fa6:77d with SMTP id m36-20020a05600c3b2400b003a31fa6077dmr2249863wms.3.1658157471382;
-        Mon, 18 Jul 2022 08:17:51 -0700 (PDT)
+        bh=YZAOxtAnAR9sp8dvz4bz9CDD/oWkzFTPpw1SRzra+qQ=;
+        b=w8YUBpOonQ6ppwaD++cB0E8tDHg1TPfDtms/2zyF5s6gcvowlqPAzpen71XYz0+thV
+         emqgbY4nCKUpxK1I2GulkEbxkHXhZZ9o6N7rfd3OVgscOhYjOL8B1LtM1iAjluCZHEJV
+         8p3e2RoB9iBHqxY5AG8vghcPe3LIfV73rUHUefCzk9SdHh9dm6zztoYC0Ti0EM4iAP8H
+         GER7khd32rcPCyeznQMKyOLqB41PgjzO/GmCDbNzY7fq6SfQvA9VM8/8TbeHS8PYaSiR
+         imwyWrZc5i/vBBQ56VA25/RFFKGf86abnTiiEacXADBLkR3I23iamYs316gAvQ9qbveV
+         D0cQ==
+X-Gm-Message-State: AJIora+2XpqR42dRhlP1egoRZPkNWzTK3pzlILmHE6bIfUkGU8L/Um5W
+        Fe8szqLaNQzvGnNxzTvjx4149PHESzc8cZCx
+X-Google-Smtp-Source: AGRyM1uqHGxPJ8VXShK10UrXukUWeEeOutdBsnCcE+Ih25KhvBsqJvZshlPZZo/OQEri+HYewHBbKA==
+X-Received: by 2002:a5d:42c4:0:b0:21e:2cd4:a72e with SMTP id t4-20020a5d42c4000000b0021e2cd4a72emr77645wrr.249.1658157474363;
+        Mon, 18 Jul 2022 08:17:54 -0700 (PDT)
 Received: from aczubak.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id t4-20020a1c7704000000b003a308e9a192sm13346075wmi.30.2022.07.18.08.17.50
+        by smtp.gmail.com with ESMTPSA id t4-20020a1c7704000000b003a308e9a192sm13346075wmi.30.2022.07.18.08.17.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 08:17:50 -0700 (PDT)
+        Mon, 18 Jul 2022 08:17:53 -0700 (PDT)
 From:   Angela Czubak <acz@semihalf.com>
 To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
 Cc:     upstream@semihalf.com, benjamin.tissoires@redhat.com,
         hdegoede@redhat.com, peter.hutterer@who-t.net,
         Angela Czubak <acz@semihalf.com>
-Subject: [PATCH v2 1/2] Input: properly queue synthetic events
-Date:   Mon, 18 Jul 2022 15:17:14 +0000
-Message-Id: <20220718151715.1052842-2-acz@semihalf.com>
+Subject: [PATCH v2 2/2] Input: Inactivate slots in input_inhibit_device()
+Date:   Mon, 18 Jul 2022 15:17:15 +0000
+Message-Id: <20220718151715.1052842-3-acz@semihalf.com>
 X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
 In-Reply-To: <20220718151715.1052842-1-acz@semihalf.com>
 References: <20220718151715.1052842-1-acz@semihalf.com>
@@ -70,219 +70,256 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Function input_dev_release_keys() issues BTN_TOUCH = 0 event to the
+userpace if there was any touch present.
+Make slot state consistent for multitouch devices and send
+ABS_MT_TRACKING_ID = -1 for every active slot when the device gets
+inhibited.
+Factor out sending EV_SYN from input_dev_release_keys() as we may possibly
+want to send it later.
 
-We should not be passing synthetic events (such as autorepeat events)
-out of order with the events coming from the hardware device, but rather
-add them to pending events and flush them all at once.
-
-This also fixes an issue with timestamps for key release events carrying
-stale data from the previous autorepeat event.
-
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Reviewed-by: Angela Czubak <acz@semihalf.com>
+Signed-off-by: Angela Czubak <acz@semihalf.com>
 ---
- drivers/input/input.c | 125 +++++++++++++++++++++---------------------
- 1 file changed, 63 insertions(+), 62 deletions(-)
+ drivers/input/input-core-private.h | 16 ++++++++++
+ drivers/input/input-mt.c           | 48 +++++++++++++++++++++++++++---
+ drivers/input/input.c              | 31 ++++++++++++-------
+ include/linux/input/mt.h           |  1 +
+ 4 files changed, 82 insertions(+), 14 deletions(-)
+ create mode 100644 drivers/input/input-core-private.h
 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index 1365c9dfb5f29..5e75b175b5949 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -174,44 +174,6 @@ static void input_pass_values(struct input_dev *dev,
+diff --git a/drivers/input/input-core-private.h b/drivers/input/input-core-private.h
+new file mode 100644
+index 0000000000000..116834cf88689
+--- /dev/null
++++ b/drivers/input/input-core-private.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _INPUT_CORE_PRIVATE_H
++#define _INPUT_CORE_PRIVATE_H
++
++/*
++ * Functions and definitions that are private to input core,
++ * should not be used by input drivers or handlers.
++ */
++
++struct input_dev;
++
++void input_mt_release_slots(struct input_dev *dev);
++void input_handle_event(struct input_dev *dev,
++			unsigned int type, unsigned int code, int value);
++
++#endif /* _INPUT_CORE_PRIVATE_H */
+diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
+index 44fe6f2f063ce..14b53dac1253b 100644
+--- a/drivers/input/input-mt.c
++++ b/drivers/input/input-mt.c
+@@ -8,6 +8,7 @@
+ #include <linux/input/mt.h>
+ #include <linux/export.h>
+ #include <linux/slab.h>
++#include "input-core-private.h"
+ 
+ #define TRKID_SGN	((TRKID_MAX + 1) >> 1)
+ 
+@@ -259,10 +260,13 @@ static void __input_mt_drop_unused(struct input_dev *dev, struct input_mt *mt)
+ {
+ 	int i;
+ 
++	lockdep_assert_held(&dev->event_lock);
++
+ 	for (i = 0; i < mt->num_slots; i++) {
+-		if (!input_mt_is_used(mt, &mt->slots[i])) {
+-			input_mt_slot(dev, i);
+-			input_event(dev, EV_ABS, ABS_MT_TRACKING_ID, -1);
++		if (input_mt_is_active(&mt->slots[i]) &&
++		    !input_mt_is_used(mt, &mt->slots[i])) {
++			input_handle_event(dev, EV_ABS, ABS_MT_SLOT, i);
++			input_handle_event(dev, EV_ABS, ABS_MT_TRACKING_ID, -1);
+ 		}
  	}
  }
+@@ -278,12 +282,43 @@ void input_mt_drop_unused(struct input_dev *dev)
+ 	struct input_mt *mt = dev->mt;
  
--static void input_pass_event(struct input_dev *dev,
--			     unsigned int type, unsigned int code, int value)
--{
--	struct input_value vals[] = { { type, code, value } };
--
--	input_pass_values(dev, vals, ARRAY_SIZE(vals));
--}
--
--/*
-- * Generate software autorepeat event. Note that we take
-- * dev->event_lock here to avoid racing with input_event
-- * which may cause keys get "stuck".
-- */
--static void input_repeat_key(struct timer_list *t)
--{
--	struct input_dev *dev = from_timer(dev, t, timer);
--	unsigned long flags;
--
--	spin_lock_irqsave(&dev->event_lock, flags);
--
--	if (test_bit(dev->repeat_key, dev->key) &&
--	    is_event_supported(dev->repeat_key, dev->keybit, KEY_MAX)) {
--		struct input_value vals[] =  {
--			{ EV_KEY, dev->repeat_key, 2 },
--			input_value_sync
--		};
--
--		input_set_timestamp(dev, ktime_get());
--		input_pass_values(dev, vals, ARRAY_SIZE(vals));
--
--		if (dev->rep[REP_PERIOD])
--			mod_timer(&dev->timer, jiffies +
--					msecs_to_jiffies(dev->rep[REP_PERIOD]));
--	}
--
--	spin_unlock_irqrestore(&dev->event_lock, flags);
--}
--
- #define INPUT_IGNORE_EVENT	0
- #define INPUT_PASS_TO_HANDLERS	1
- #define INPUT_PASS_TO_DEVICE	2
-@@ -275,6 +237,10 @@ static int input_get_disposition(struct input_dev *dev,
- 	int disposition = INPUT_IGNORE_EVENT;
- 	int value = *pval;
- 
-+	/* filter-out events from inhibited devices */
-+	if (dev->inhibited)
-+		return INPUT_IGNORE_EVENT;
+ 	if (mt) {
++		unsigned long flags;
 +
- 	switch (type) {
++		spin_lock_irqsave(&dev->event_lock, flags);
++
+ 		__input_mt_drop_unused(dev, mt);
+ 		mt->frame++;
++
++		spin_unlock_irqrestore(&dev->event_lock, flags);
+ 	}
+ }
+ EXPORT_SYMBOL(input_mt_drop_unused);
  
- 	case EV_SYN:
-@@ -375,19 +341,9 @@ static int input_get_disposition(struct input_dev *dev,
- 	return disposition;
++/**
++ * input_mt_release_slots() - Deactivate all slots
++ * @dev: input device with allocated MT slots
++ *
++ * Lift all active slots.
++ */
++void input_mt_release_slots(struct input_dev *dev)
++{
++	struct input_mt *mt = dev->mt;
++
++	lockdep_assert_held(&dev->event_lock);
++
++	if (mt) {
++		/* This will effectively mark all slots unused. */
++		mt->frame++;
++
++		__input_mt_drop_unused(dev, mt);
++
++		if (test_bit(ABS_PRESSURE, dev->absbit))
++			input_handle_event(dev, EV_ABS, ABS_PRESSURE, 0);
++
++		mt->frame++;
++	}
++}
++
+ /**
+  * input_mt_sync_frame() - synchronize mt frame
+  * @dev: input device with allocated MT slots
+@@ -300,8 +335,13 @@ void input_mt_sync_frame(struct input_dev *dev)
+ 	if (!mt)
+ 		return;
+ 
+-	if (mt->flags & INPUT_MT_DROP_UNUSED)
++	if (mt->flags & INPUT_MT_DROP_UNUSED) {
++		unsigned long flags;
++
++		spin_lock_irqsave(&dev->event_lock, flags);
+ 		__input_mt_drop_unused(dev, mt);
++		spin_unlock_irqrestore(&dev->event_lock, flags);
++	}
+ 
+ 	if ((mt->flags & INPUT_MT_POINTER) && !(mt->flags & INPUT_MT_SEMI_MT))
+ 		use_count = true;
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 5e75b175b5949..ed415651f49e5 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -24,8 +24,10 @@
+ #include <linux/mutex.h>
+ #include <linux/rcupdate.h>
+ #include "input-compat.h"
++#include "input-core-private.h"
+ #include "input-poller.h"
+ 
++
+ MODULE_AUTHOR("Vojtech Pavlik <vojtech@suse.cz>");
+ MODULE_DESCRIPTION("Input core");
+ MODULE_LICENSE("GPL");
+@@ -142,6 +144,8 @@ static void input_pass_values(struct input_dev *dev,
+ 	struct input_handle *handle;
+ 	struct input_value *v;
+ 
++	lockdep_assert_held(&dev->event_lock);
++
+ 	if (!count)
+ 		return;
+ 
+@@ -384,8 +388,8 @@ static void input_event_dispose(struct input_dev *dev, int disposition,
+ 	}
  }
  
 -static void input_handle_event(struct input_dev *dev,
 -			       unsigned int type, unsigned int code, int value)
-+static void input_event_dispose(struct input_dev *dev, int disposition,
-+				unsigned int type, unsigned int code, int value)
++void input_handle_event(struct input_dev *dev,
++			unsigned int type, unsigned int code, int value)
  {
--	int disposition;
--
--	/* filter-out events from inhibited devices */
--	if (dev->inhibited)
--		return;
--
--	disposition = input_get_disposition(dev, type, code, &value);
--	if (disposition != INPUT_IGNORE_EVENT && type != EV_SYN)
--		add_input_randomness(type, code, value);
--
- 	if ((disposition & INPUT_PASS_TO_DEVICE) && dev->event)
- 		dev->event(dev, type, code, value);
+ 	int disposition;
  
-@@ -426,7 +382,22 @@ static void input_handle_event(struct input_dev *dev,
- 		input_pass_values(dev, dev->vals, dev->num_vals);
- 		dev->num_vals = 0;
- 	}
-+}
-+
-+static void input_handle_event(struct input_dev *dev,
-+			       unsigned int type, unsigned int code, int value)
-+{
-+	int disposition;
-+
+@@ -722,20 +726,21 @@ EXPORT_SYMBOL(input_close_device);
+  * Simulate keyup events for all keys that are marked as pressed.
+  * The function must be called with dev->event_lock held.
+  */
+-static void input_dev_release_keys(struct input_dev *dev)
++static bool input_dev_release_keys(struct input_dev *dev)
+ {
+ 	bool need_sync = false;
+ 	int code;
+ 
 +	lockdep_assert_held(&dev->event_lock);
 +
-+	disposition = input_get_disposition(dev, type, code, &value);
-+	if (disposition != INPUT_IGNORE_EVENT) {
-+		if (type != EV_SYN)
-+			add_input_randomness(type, code, value);
- 
-+		input_event_dispose(dev, disposition, type, code, value);
-+	}
- }
- 
- /**
-@@ -613,7 +584,7 @@ static void __input_release_device(struct input_handle *handle)
- 					    lockdep_is_held(&dev->mutex));
- 	if (grabber == handle) {
- 		rcu_assign_pointer(dev->grab, NULL);
--		/* Make sure input_pass_event() notices that grab is gone */
-+		/* Make sure input_pass_values() notices that grab is gone */
- 		synchronize_rcu();
- 
- 		list_for_each_entry(handle, &dev->h_list, d_node)
-@@ -736,7 +707,7 @@ void input_close_device(struct input_handle *handle)
- 
- 	if (!--handle->open) {
- 		/*
--		 * synchronize_rcu() makes sure that input_pass_event()
-+		 * synchronize_rcu() makes sure that input_pass_values()
- 		 * completed and that no more input events are delivered
- 		 * through this handle
- 		 */
-@@ -758,14 +729,12 @@ static void input_dev_release_keys(struct input_dev *dev)
- 
  	if (is_event_supported(EV_KEY, dev->evbit, EV_MAX)) {
  		for_each_set_bit(code, dev->key, KEY_CNT) {
--			input_pass_event(dev, EV_KEY, code, 0);
-+			input_handle_event(dev, EV_KEY, code, 0);
+ 			input_handle_event(dev, EV_KEY, code, 0);
  			need_sync = true;
  		}
- 
- 		if (need_sync)
--			input_pass_event(dev, EV_SYN, SYN_REPORT, 1);
 -
--		memset(dev->key, 0, sizeof(dev->key));
-+			input_handle_event(dev, EV_SYN, SYN_REPORT, 1);
+-		if (need_sync)
+-			input_handle_event(dev, EV_SYN, SYN_REPORT, 1);
  	}
++
++	return need_sync;
  }
  
-@@ -1004,12 +973,16 @@ int input_set_keycode(struct input_dev *dev,
- 	} else if (test_bit(EV_KEY, dev->evbit) &&
- 		   !is_event_supported(old_keycode, dev->keybit, KEY_MAX) &&
- 		   __test_and_clear_bit(old_keycode, dev->key)) {
--		struct input_value vals[] =  {
--			{ EV_KEY, old_keycode, 0 },
--			input_value_sync
--		};
--
--		input_pass_values(dev, vals, ARRAY_SIZE(vals));
-+		/*
-+		 * We have to use input_event_dispose() here directly instead
-+		 * of input_handle_event() because the key we want to release
-+		 * here is considered no longer supported by the device and
-+		 * input_handle_event() will ignore it.
-+		 */
-+		input_event_dispose(dev, INPUT_PASS_TO_HANDLERS,
-+				    EV_KEY, old_keycode, 0);
-+		input_event_dispose(dev, INPUT_PASS_TO_HANDLERS | INPUT_FLUSH,
-+				    EV_SYN, SYN_REPORT, 1);
- 	}
- 
-  out:
-@@ -2259,6 +2232,34 @@ static void devm_input_device_unregister(struct device *dev, void *res)
- 	__input_unregister_device(input);
- }
- 
-+/*
-+ * Generate software autorepeat event. Note that we take
-+ * dev->event_lock here to avoid racing with input_event
-+ * which may cause keys get "stuck".
-+ */
-+static void input_repeat_key(struct timer_list *t)
-+{
-+	struct input_dev *dev = from_timer(dev, t, timer);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dev->event_lock, flags);
-+
-+	if (!dev->inhibited &&
-+	    test_bit(dev->repeat_key, dev->key) &&
-+	    is_event_supported(dev->repeat_key, dev->keybit, KEY_MAX)) {
-+
-+		input_set_timestamp(dev, ktime_get());
-+		input_handle_event(dev, EV_KEY, dev->repeat_key, 2);
+ /*
+@@ -762,7 +767,8 @@ static void input_disconnect_device(struct input_dev *dev)
+ 	 * generate events even after we done here but they will not
+ 	 * reach any handlers.
+ 	 */
+-	input_dev_release_keys(dev);
++	if (input_dev_release_keys(dev))
 +		input_handle_event(dev, EV_SYN, SYN_REPORT, 1);
-+
-+		if (dev->rep[REP_PERIOD])
-+			mod_timer(&dev->timer, jiffies +
-+					msecs_to_jiffies(dev->rep[REP_PERIOD]));
-+	}
-+
-+	spin_unlock_irqrestore(&dev->event_lock, flags);
-+}
-+
- /**
-  * input_enable_softrepeat - enable software autorepeat
-  * @dev: input device
+ 
+ 	list_for_each_entry(handle, &dev->h_list, d_node)
+ 		handle->open = 0;
+@@ -1757,7 +1763,8 @@ void input_reset_device(struct input_dev *dev)
+ 	spin_lock_irqsave(&dev->event_lock, flags);
+ 
+ 	input_dev_toggle(dev, true);
+-	input_dev_release_keys(dev);
++	if (input_dev_release_keys(dev))
++		input_handle_event(dev, EV_SYN, SYN_REPORT, 1);
+ 
+ 	spin_unlock_irqrestore(&dev->event_lock, flags);
+ 	mutex_unlock(&dev->mutex);
+@@ -1779,7 +1786,9 @@ static int input_inhibit_device(struct input_dev *dev)
+ 	}
+ 
+ 	spin_lock_irq(&dev->event_lock);
++	input_mt_release_slots(dev);
+ 	input_dev_release_keys(dev);
++	input_handle_event(dev, EV_SYN, SYN_REPORT, 1);
+ 	input_dev_toggle(dev, false);
+ 	spin_unlock_irq(&dev->event_lock);
+ 
+@@ -1830,7 +1839,8 @@ static int input_dev_suspend(struct device *dev)
+ 	 * Keys that are pressed now are unlikely to be
+ 	 * still pressed when we resume.
+ 	 */
+-	input_dev_release_keys(input_dev);
++	if (input_dev_release_keys(input_dev))
++		input_handle_event(input_dev, EV_SYN, SYN_REPORT, 1);
+ 
+ 	/* Turn off LEDs and sounds, if any are active. */
+ 	input_dev_toggle(input_dev, false);
+@@ -1864,7 +1874,8 @@ static int input_dev_freeze(struct device *dev)
+ 	 * Keys that are pressed now are unlikely to be
+ 	 * still pressed when we resume.
+ 	 */
+-	input_dev_release_keys(input_dev);
++	if (input_dev_release_keys(input_dev))
++		input_handle_event(input_dev, EV_SYN, SYN_REPORT, 1);
+ 
+ 	spin_unlock_irq(&input_dev->event_lock);
+ 
+diff --git a/include/linux/input/mt.h b/include/linux/input/mt.h
+index 3b8580bd33c14..af7e64a76e12c 100644
+--- a/include/linux/input/mt.h
++++ b/include/linux/input/mt.h
+@@ -108,6 +108,7 @@ static inline void input_mt_report_slot_inactive(struct input_dev *dev)
+ void input_mt_report_finger_count(struct input_dev *dev, int count);
+ void input_mt_report_pointer_emulation(struct input_dev *dev, bool use_count);
+ void input_mt_drop_unused(struct input_dev *dev);
++void input_mt_release_slots(struct input_dev *dev);
+ 
+ void input_mt_sync_frame(struct input_dev *dev);
+ 
 -- 
 2.37.0.170.g444d1eabd0-goog
 
