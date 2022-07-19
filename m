@@ -2,94 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52EC257A277
-	for <lists+linux-input@lfdr.de>; Tue, 19 Jul 2022 16:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17F0A57A364
+	for <lists+linux-input@lfdr.de>; Tue, 19 Jul 2022 17:43:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239413AbiGSOyD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Jul 2022 10:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
+        id S238245AbiGSPnw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Jul 2022 11:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239345AbiGSOyB (ORCPT
+        with ESMTP id S238137AbiGSPnv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Jul 2022 10:54:01 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3686DF7E;
-        Tue, 19 Jul 2022 07:54:00 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id by8so14067043ljb.13;
-        Tue, 19 Jul 2022 07:54:00 -0700 (PDT)
+        Tue, 19 Jul 2022 11:43:51 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26E9058860
+        for <linux-input@vger.kernel.org>; Tue, 19 Jul 2022 08:43:50 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id bu1so22193175wrb.9
+        for <linux-input@vger.kernel.org>; Tue, 19 Jul 2022 08:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZU0Bu2rg9jlNUnlDr9BOrJmTz+1TW5Vgl1xGRwguT1I=;
-        b=dBOtQ2L34N7/ZUS0IW7WRgJmuqRO+OaEK0XQfXqdkeaBFaHNK1IhBpKVuy4r5kypW8
-         PcI0qnMQDupjucogn5YD9nhWlq8m4bk16a7y4A7/KqmE6CFFCRGqHQNDjrV6N4fvukNu
-         Q7xntwch8Koq2Kt8bAsQ8AzkZeUHbYz6MBK8wOP3lNkhODfhJ2LojzLSTm+UTMJhoufe
-         iHvZx78/rzMjy6f6/680BbsEEPaemGTjoAL5e1bahG1MhFNLW7BfrWbZEizMMQ/YTlvW
-         NtpZnJeU5CkDovDVWK6kREY71u7tNpdrQMXMR7fK8P0r1iHGm4cgKn9CMV4CSpCkEXGr
-         1fxA==
+        d=linaro.org; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=NmXXZtQUscROskShGi5ApQFRMHLTFbjS4HwuHMm/I84=;
+        b=pvlVbngw6KM3g6upOOZBcEY149F2PuDNOaFSzXUboE6byqwEefNRQAIGWTtSayWmw2
+         bl7nn0yfmvFF1YYdAmR2zXDMpXPuDsp/fEYxVbuUPBe07DsGLdJFo1NkQbJ5NftynTl9
+         MmpSOoqmb6+trpjJJdUSjDTjA3ACTzJP+bH7XdGZkE3xRsCm3SK0684JrxbiVFqgUwsQ
+         1Wj7bYjYRieoASOpK48o327G2B1FgkSxpUdxlob2HGS38S5rhxUhcNV8YaG8pRkHS2MK
+         T77j91Q1HXiiHNZXUoCUtm3UD6kLGRXMOKqbTn4y9pdEDFN5Ai+YE9nJtuOFADuw2kK2
+         N0zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZU0Bu2rg9jlNUnlDr9BOrJmTz+1TW5Vgl1xGRwguT1I=;
-        b=2HjG2tLWc2zZd7lboUviRO9jrsUhqpubZ9vHIyRq53JhjMThlk1TuIQoJfFQUM2aTp
-         mtJN2sq/vRhTALHv4wCmOTNCGtQZDT8Bgqnmy2eCtOY3U1MADZumDAHdYXfG2oUIMnJ7
-         yJlHh56Q3W5s+15d6/OP1vCiQAsQoImwBPU3qz2Quebdeu+7rrGdz1JAuDseU//6o9bO
-         34q14ia5Ho45gR7wVzhHio0Jhn6vgq6Y/WojTWafInAA1ZJ2PdP4I5cS7C+GgPghLlAW
-         MgX4ngtOsYBDKe3sbY02nwgEgmfNdWavsYkIvBc4G6D72jgZHOW+RzvvLfj7r0qcSNKE
-         ELMQ==
-X-Gm-Message-State: AJIora/Za4N3ZdizyF0YIxWpPdRxA0BttXRUyOffYN4KEXkb/ywIR5mW
-        lKLwQFM450MgULT4M3CtNl9bSJC/bOhEVYOR
-X-Google-Smtp-Source: AGRyM1vumWCwbaQAZKdozbWuO9f8JGaWExrVofDlFag/GxRk8+pbOFzZvYM/AWi46nrd8X9sTt0NWw==
-X-Received: by 2002:a2e:a58e:0:b0:25d:7113:7f30 with SMTP id m14-20020a2ea58e000000b0025d71137f30mr15140220ljp.74.1658242438460;
-        Tue, 19 Jul 2022 07:53:58 -0700 (PDT)
-Received: from localhost.localdomain ([31.180.181.180])
-        by smtp.googlemail.com with ESMTPSA id v12-20020a2ea60c000000b0025d5c86d44dsm2623101ljp.103.2022.07.19.07.53.56
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=NmXXZtQUscROskShGi5ApQFRMHLTFbjS4HwuHMm/I84=;
+        b=60msXCwd7Z3pf4rFW0FXZeSll7H7Mvrob1v6dlewGIiEBNv0vpF8Smd6SaIK2ghDk6
+         sAFwiPvBg23l5mKRfEKQ5SXf1992z54oKyYaKGMOMxylyVAmEeterT2QB2go8nYRuUHb
+         zBSyyp4LGoIspnQsJNDpBaCzPodlZTuYVJDVP+/Y9k77Oc6tMzHenXk6JX2vX9JUadSM
+         Lml5tQEf1SK+jksinYYieY4LBYeByisrn09d1LUGBMipp6g34IKbTauMvoMI0Y5nTtR7
+         Zr9cEW9y+uYEhwpiYJWUedJcqYq3ynYu7AvGalBeCJQE2Xdb6fkWoPdh+X/trREfuORe
+         pMAQ==
+X-Gm-Message-State: AJIora/WtYDxFF1as6phuYls9bDGeRxVsvr1ZzTf6vQQ39iIW/YCX49u
+        V9TD41j2yaZk3TLUvkv08f4d21igqCuXjA==
+X-Google-Smtp-Source: AGRyM1uzotpcXAdt14sD1BYa+k/svbItICtU/qB9rEDhsWagU8ivEogigo5szlDrZY/oUXRcykTFzA==
+X-Received: by 2002:a5d:6c62:0:b0:21d:c697:87f2 with SMTP id r2-20020a5d6c62000000b0021dc69787f2mr20419150wrz.283.1658245428578;
+        Tue, 19 Jul 2022 08:43:48 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id f7-20020a7bcd07000000b003a02cbf862esm19122568wmj.13.2022.07.19.08.43.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jul 2022 07:53:58 -0700 (PDT)
-From:   Artem Borisov <dedsa2002@gmail.com>
-Cc:     jikos@kernel.org, dedsa2002@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: alps: Declare U1_UNICORN_LEGACY support
-Date:   Tue, 19 Jul 2022 17:53:24 +0300
-Message-Id: <20220719145324.8107-1-dedsa2002@gmail.com>
-X-Mailer: git-send-email 2.37.1
+        Tue, 19 Jul 2022 08:43:48 -0700 (PDT)
+Date:   Tue, 19 Jul 2022 16:43:45 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/1] HID: steam: Prevent NULL pointer dereference in
+ steam_{recv,send}_report
+Message-ID: <YtbRMUSa8KyOtd1x@google.com>
+References: <20220708074009.621113-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220708074009.621113-1-lee.jones@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-U1_UNICORN_LEGACY id was added to the driver, but was not declared
-in the device id table, making it impossible to use.
+On Fri, 08 Jul 2022, Lee Jones wrote:
 
-Fixes: 640e403 ("HID: alps: Add AUI1657 device ID")
-Signed-off-by: Artem Borisov <dedsa2002@gmail.com>
----
- drivers/hid/hid-alps.c | 2 ++
- 1 file changed, 2 insertions(+)
+> It is possible for a malicious device to forgo submitting a Feature
+> Report.  The HID Steam driver presently makes no prevision for this
+> and de-references the 'struct hid_report' pointer obtained from the
+> HID devices without first checking its validity.  Let's change that.
+> 
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: linux-input@vger.kernel.org
+> Fixes: c164d6abf3841 ("HID: add driver for Valve Steam Controller")
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/hid/hid-steam.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
-index 2b986d0dbde4..db146d0f7937 100644
---- a/drivers/hid/hid-alps.c
-+++ b/drivers/hid/hid-alps.c
-@@ -830,6 +830,8 @@ static const struct hid_device_id alps_id[] = {
- 		USB_VENDOR_ID_ALPS_JP, HID_DEVICE_ID_ALPS_U1_DUAL) },
- 	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY,
- 		USB_VENDOR_ID_ALPS_JP, HID_DEVICE_ID_ALPS_U1) },
-+	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY,
-+		USB_VENDOR_ID_ALPS_JP, HID_DEVICE_ID_ALPS_U1_UNICORN_LEGACY) },
- 	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY,
- 		USB_VENDOR_ID_ALPS_JP, HID_DEVICE_ID_ALPS_T4_BTNLESS) },
- 	{ }
+Did anyone get a chance to look at this?
+
+Would you like me to submit a [RESEND]?
+
+> diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+> index a3b151b29bd71..fc616db4231bb 100644
+> --- a/drivers/hid/hid-steam.c
+> +++ b/drivers/hid/hid-steam.c
+> @@ -134,6 +134,11 @@ static int steam_recv_report(struct steam_device *steam,
+>  	int ret;
+>  
+>  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[0];
+> +	if (!r) {
+> +		hid_err(steam->hdev, "No HID_FEATURE_REPORT submitted -  nothing to read\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (hid_report_len(r) < 64)
+>  		return -EINVAL;
+>  
+> @@ -165,6 +170,11 @@ static int steam_send_report(struct steam_device *steam,
+>  	int ret;
+>  
+>  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[0];
+> +	if (!r) {
+> +		hid_err(steam->hdev, "No HID_FEATURE_REPORT submitted -  nothing to read\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (hid_report_len(r) < 64)
+>  		return -EINVAL;
+>  
+
 -- 
-2.20.1
-
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
