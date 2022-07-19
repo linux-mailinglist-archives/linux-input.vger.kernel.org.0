@@ -2,73 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CDAF579E47
-	for <lists+linux-input@lfdr.de>; Tue, 19 Jul 2022 15:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 552CE57A0D8
+	for <lists+linux-input@lfdr.de>; Tue, 19 Jul 2022 16:11:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239598AbiGSNA7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Jul 2022 09:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39950 "EHLO
+        id S238681AbiGSOLz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Jul 2022 10:11:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242599AbiGSM7J (ORCPT
+        with ESMTP id S238720AbiGSOLf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Jul 2022 08:59:09 -0400
-Received: from smtpbg.qq.com (biz-43-154-54-12.mail.qq.com [43.154.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345CA5FAE7;
-        Tue, 19 Jul 2022 05:23:54 -0700 (PDT)
-X-QQ-mid: bizesmtp82t1658233414tdshc6pu
-Received: from localhost.localdomain ( [171.223.96.21])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Tue, 19 Jul 2022 20:23:33 +0800 (CST)
-X-QQ-SSF: 01000000002000F0U000B00A0000020
-X-QQ-FEAT: +N0aDBfR9LWKmk7Cm6MZO183x4CWNFE6ULv1jzaOcDN64ENn+jNOxFvyMQM+Q
-        L53n9JuFEWD/Y+k0digcDsh7aXATZHzRbgEIltGhM8lCH1OVNVbdGgaM1umg8lxi6u2sfS9
-        DOY4cooGEYQ/JGz03OrQrlq/6G5UhWxErwdtlv40u5Z94wxC45+zn6ilGgsku4DgHlwbEBm
-        +TzqdtKRAKL2pMn5th25qzBAR/AdXUSwsLcwxYDqLYdjdwo4HhW9cdhpZsZYq5wEqoDywKv
-        phx7+IC2Mop7siOwA//RgailbLvuX1K1h+yaPL9VmQHWrBfbvlFI6Ek5AaMzLY/YgCyXZ+e
-        H/C4Qdpwyqer97xPJbEAsyJiVD8gVvJYzwQVLuIVxXWbEKWwP/yRFfXIx3D1CRFJJcxZy2b
-X-QQ-GoodBg: 0
-From:   Jason Wang <wangborong@cdjrlc.com>
-To:     jikos@kernel.org
-Cc:     srinivas.pandruvada@linux.intel.com, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jason Wang <wangborong@cdjrlc.com>
-Subject: [PATCH] HID: intel-ish-hid: Fix comment typo
-Date:   Sat, 16 Jul 2022 12:21:37 +0800
-Message-Id: <20220716042137.35364-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.35.1
+        Tue, 19 Jul 2022 10:11:35 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F7B2804AF;
+        Tue, 19 Jul 2022 06:32:09 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 7C02420040;
+        Tue, 19 Jul 2022 13:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1658237527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=CHIjTuHv9bNt731So7n3G26Wh0Oy/lleHB5H/W3dlvU=;
+        b=tH39tYXWGfNlsnEER4nMOA+IEVbE12OCemiSiQ9NavHzxxtNgSu+SwoVQBZPlU/LVqoLkJ
+        z7HntRwzng3TbS9XFB7hRkDRjT6iumuPC2HIygrmu47FlUVwm9ScJ5B3RGL8Jv81xMS2o6
+        RaYdjOf0Ax9V3WFIW5HTbACb5Fp3Wz4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1658237527;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=CHIjTuHv9bNt731So7n3G26Wh0Oy/lleHB5H/W3dlvU=;
+        b=H1lxNaKSipvJiZiLT9TAChz8+VaBDpHDulgyUQL2dyVPhleowvbbcU029EcAGPcZq/bGrI
+        2vPifpja35AAznCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5D5AD13A72;
+        Tue, 19 Jul 2022 13:32:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id xHgTFley1mKLXAAAMHmgww
+        (envelope-from <tiwai@suse.de>); Tue, 19 Jul 2022 13:32:07 +0000
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: i8042 - Apply probe defer to more ASUS ZenBook models
+Date:   Tue, 19 Jul 2022 15:31:50 +0200
+Message-Id: <20220719133150.31257-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,RDNS_DYNAMIC,
-        SPF_PASS,T_SPF_HELO_TEMPERROR autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The double `the' is duplicated in the comment, remove one.
+There are yet a few more ASUS ZenBook models that require the deferred
+probe.  At least, there are different ZenBook UX325x and UX425x
+models.  Let's extend the DMI matching table entries for adapting
+those missing models.
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- drivers/hid/intel-ish-hid/ishtp-hid-client.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/serio/i8042-x86ia64io.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-index 4338c9b68a43..e3d70c5460e9 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-@@ -328,7 +328,7 @@ static void process_recv(struct ishtp_cl *hid_ishtp_cl, void *recv_buf,
- 
- /**
-  * ish_cl_event_cb() - bus driver callback for incoming message/packet
-- * @device:	Pointer to the the ishtp client device for which this message
-+ * @device:	Pointer to the ishtp client device for which this message
-  *		is targeted
-  *
-  * Remove the packet from the list and process the message by calling
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index 4fbec7bbecca..5043dc7b8fb3 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -114,18 +114,18 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_NEVER)
+ 	},
+ 	{
+-		/* ASUS ZenBook UX425UA */
++		/* ASUS ZenBook UX425UA/QA */
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425UA"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425"),
+ 		},
+ 		.driver_data = (void *)(SERIO_QUIRK_PROBE_DEFER | SERIO_QUIRK_RESET_NEVER)
+ 	},
+ 	{
+-		/* ASUS ZenBook UM325UA */
++		/* ASUS ZenBook UM325UA/QA */
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX325UA_UM325UA"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX325"),
+ 		},
+ 		.driver_data = (void *)(SERIO_QUIRK_PROBE_DEFER | SERIO_QUIRK_RESET_NEVER)
+ 	},
 -- 
-2.35.1
+2.35.3
 
