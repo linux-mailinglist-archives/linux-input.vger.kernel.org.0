@@ -2,73 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DDE257BD24
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jul 2022 19:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 070D757BD41
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jul 2022 19:54:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbiGTRqB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Jul 2022 13:46:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43258 "EHLO
+        id S229805AbiGTRyw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Jul 2022 13:54:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231207AbiGTRqA (ORCPT
+        with ESMTP id S229738AbiGTRyu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Jul 2022 13:46:00 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C956343E51;
-        Wed, 20 Jul 2022 10:45:58 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id b26so27177903wrc.2;
-        Wed, 20 Jul 2022 10:45:58 -0700 (PDT)
+        Wed, 20 Jul 2022 13:54:50 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF985D0F3;
+        Wed, 20 Jul 2022 10:54:49 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id r1-20020a05600c35c100b003a326685e7cso2259238wmq.1;
+        Wed, 20 Jul 2022 10:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=2kl28+S6ry6c13j5cXgtm1d+IOWTpDAhjNj1zVliyOM=;
-        b=JbRKm9olk7xWgCdpkxuLJGPyXrfprMMTzdirLPelQo7WtfHsX/Y+C7r9dzH1bXOCQ1
-         luLVd18L3DO7zXva2nvU5xw0WtFM5Sbpt8BABc3pC2ZIq7/kBOZepHLli6zmo0of0DQ6
-         fZZ+pcgd9yh1sQ4Ber+ZF+hLw0MiXC4kK3HZ2vH9oHRaICU/e8sSa0llFw1puGZFsQf9
-         NTflBtzwKApsNAAuCvmoTrvhw+9uOSundT00GNQF5s6//oD77kuNKj6+AWp/kuqkNFr3
-         4uxX4DZsJ/G8ca+sSg3GjaKgfJA4a/ucGK5SfOpORETL78ca0LtzalrfeYBCL7vylHa8
-         eyMg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=nvBmcuzvSurejSZdYSe5kOht66040DYtWGbKekxuKaE=;
+        b=CCgD980K35ClV34zACGAPCEkcZPbx6s5IHZQMEp9ADUJFFsaIunseILJhZ8XUuYX3c
+         uspOQMinN1OaJdSRO7BrYBM64BWh6HvX6lMlB5fBmiQvfd9ZD2BGXSipgcx8b8qpy+dF
+         DltEfqGBx2e17cPKObE/1TXjxsh54yN++MFVx9DM1HWeNJ63Obl9raHNyVt2Ry9wFMSv
+         udSYaYePpBv7RE8grtk8D2ENRQVYb4bt3xaZ6ItaQU5aREyqUBhu3BWAq56OWMZjCsOo
+         k3XqgBgLnP0Q7b9kxBqTFL+wrcBmfr0pe1V2DevfwLX191Xg3awsW/utcCS8YQRnU6xC
+         u5aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2kl28+S6ry6c13j5cXgtm1d+IOWTpDAhjNj1zVliyOM=;
-        b=n6AooL3fUqqa2FnlpKv45r68AzAbdANgFu4CVd+2mAOyHX3Zy/26Psvc4eF+5nLMTb
-         i9IPfKQ3/Us3viOk9LameYygFGYXZlKn7FpTIAFWohwshuCKcimBOaB6Cquitoi99gXm
-         cYCfOz++r5QvPb+dYTDUFSUJmdpG9qi5MwnisDN/Tj1qsZw42k+lPXpkhNPfZtl+My5T
-         GiyPqJ8PUneyFf67qrfSJzxnjsHzNhiFR7tvW07RN+S490kLkncTJPP/ZGWh/5yfke1R
-         FOe5GnbzpEzqE5rXg+TUb0FD1U9G60Ki1xoteCihhUplG+Ap7JE2NkydCXoz+9eP8BSR
-         /gCA==
-X-Gm-Message-State: AJIora+b+KqJ5cSzXgzdYQeBrIcABRCqY+znyG+dBTog9uImBMCBTkBM
-        Jj6WcbLqQg7FAFz3WL2Hn3Y=
-X-Google-Smtp-Source: AGRyM1uU9BSa/FdbgSBo/vKBJpWCvH03e8JgHH+mbpSk3vY10CxOxYi/me77WItgM/Fn5Yrmqa/lzA==
-X-Received: by 2002:adf:e187:0:b0:21d:64c6:74f0 with SMTP id az7-20020adfe187000000b0021d64c674f0mr30653939wrb.221.1658339157339;
-        Wed, 20 Jul 2022 10:45:57 -0700 (PDT)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id s7-20020a5d5107000000b0021e4c3b2967sm1807013wrt.65.2022.07.20.10.45.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jul 2022 10:45:56 -0700 (PDT)
-Message-ID: <47970684-1158-cee8-9ff5-d7dca70a54ae@gmail.com>
-Date:   Wed, 20 Jul 2022 20:45:55 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC] UCLogic: Filtering unsupported HUION tablets
-Content-Language: en-US
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=nvBmcuzvSurejSZdYSe5kOht66040DYtWGbKekxuKaE=;
+        b=qCZucCPFnwBhmeZDAiqhZldjmBX+4RWs3pArWbkTnDGpChcNvVzMSdVuNGpWGDU2nu
+         XFc7EwN5DzbDmmDO6WfCBD74D4fWhmOUdheuH26Yii/piZ6unj+JFHXqnRwCfFYQHfci
+         JpEITfxOQSe+M4Tw0P/0x5nyORQtnFOUOS7VtsEqUDingI8x48FVVCx+QXLQ0907AccT
+         xVG8zodCACvAFnfX1TwLA5L7/W7bw2IHwO6ToI9fyJFj4VgtpKdAv8VQjQOIHAIWO/8v
+         1VbVKEx+9oDbwAXQnolN41+9OhxmzXZ4oKh/CYDgGxA/adK6S2gYCXIFohN7gatePeck
+         XzAw==
+X-Gm-Message-State: AJIora/7ayTpc+Xeu8I3nm/vQ4/vwhpry09kb5/3ZymILx1FBQ0A6/hZ
+        V77Y1MdDVGLlQnpviPScPGY=
+X-Google-Smtp-Source: AGRyM1u8T+zYmxSaSUGuaHlC+Yw3jW3KePCz4cspfcEmn36fKvTaoLWxmhFqjCU1othrnDDK5c1V9Q==
+X-Received: by 2002:a05:600c:3b24:b0:3a3:1fa6:77d with SMTP id m36-20020a05600c3b2400b003a31fa6077dmr4869273wms.3.1658339687195;
+        Wed, 20 Jul 2022 10:54:47 -0700 (PDT)
+Received: from elementary ([94.73.36.185])
+        by smtp.gmail.com with ESMTPSA id q19-20020a7bce93000000b003a31ca9dfb6sm3935248wmj.32.2022.07.20.10.54.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 10:54:46 -0700 (PDT)
+Date:   Wed, 20 Jul 2022 19:54:44 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     Nikolai Kondrashov <spbnick@gmail.com>
 Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC] UCLogic: Filtering unsupported HUION tablets
+Message-ID: <20220720175444.GA10744@elementary>
 References: <20220718172953.6817-1-jose.exposito89@gmail.com>
  <5d4ef0df-083f-a00e-fb41-1ce1df6e9473@gmail.com>
  <20220720173656.GA3725@elementary>
-From:   Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <20220720173656.GA3725@elementary>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <47970684-1158-cee8-9ff5-d7dca70a54ae@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <47970684-1158-cee8-9ff5-d7dca70a54ae@gmail.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,56 +75,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 7/20/22 20:36, JosÃ© ExpÃ³sito wrote:
-> Hi Nikolai,
-> 
-> Thanks a lot for the quick response.
-> 
-> On Tue, Jul 19, 2022 at 12:57:09PM +0300, Nikolai Kondrashov wrote:
->> Hi JosÃ©,
->>
->> First of all, thanks a lot for all the work you're doing with the tablets!
->>
->> Yes, this situation is unfortunate, but there's really not much we could do.
->> The tablet database at http://digimend.github.io/tablets/ hasn't been
->> updated in ages, and it has never been exhaustive to start with.
->>
->> There are tons of tablet modifications, including of the same (marketed)
->> model, and those can differ not only in the reported name, but probably even
->> the VID:PID, as could've happened when Huion switched from v1 to v2
->> protocol.
->>
->> So, I think a "whitelist" would be a maintenance nightmare.
->>
->> Moreover, I think it's better to disable the tablet completely in case we
->> failed initialization (e.g. got an invalid response to configuration, or
->> failed to find some interfaces and such), after producing a comprehensive
->> error message. Configuring a tablet partially, and then handing it over to
->> the generic driver could mess things up more.
->>
->> It's less confusing for the user, and stops them from trying to fix the
->> problem up the stack with various settings, often getting into a worse
->> situation. It's also much easier for the maintainer, since they don't need
->> to investigate all the higher layers.
->>
->> A "blacklist" would work better here, if you can find the tablets to include.
->>
->> Nick
-> 
-> That makes sense, thanks for the pointers.
-> 
-> It is unfortunate that we don't have the required information about the
-> supported tablets. Excluding the unsupported tablets (when fixing them
-> is not possible for reasons) seems like a reasonable approach.
-> 
-> I don't know about any broken device handled by the driver, so there is
-> no need to add new code yet :)
-> I'll try to keep an eye on DIGImend's issue tracker now that the code
-> present in the upstream kernel is being released by many distros.
+Hi!
 
-If you have the time, backporting your changes to digimend-kernel-drivers 
-would get you feedback much faster :)
+On Wed, Jul 20, 2022 at 08:45:55PM +0300, Nikolai Kondrashov wrote:
+> On 7/20/22 20:36, José Expósito wrote:
+> > I don't know about any broken device handled by the driver, so there is
+> > no need to add new code yet :)
+> > I'll try to keep an eye on DIGImend's issue tracker now that the code
+> > present in the upstream kernel is being released by many distros.
+> 
+> If you have the time, backporting your changes to digimend-kernel-drivers
+> would get you feedback much faster :)
+> 
+> I can do a release once we get the code in.
 
-I can do a release once we get the code in.
+I already opened a PR a few months ago:
+https://github.com/DIGImend/digimend-kernel-drivers/pull/598
 
-Nick
+But more code has been merged since then. I'll try to backport the
+latest changes this weekend and ping you on GitHub once it is
+ready for review again.
+
+Best wishes,
+Jose
