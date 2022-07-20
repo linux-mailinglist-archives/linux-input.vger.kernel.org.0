@@ -2,74 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0944557BD7E
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jul 2022 20:13:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B5C57BE10
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jul 2022 20:49:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235613AbiGTSNo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Jul 2022 14:13:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35096 "EHLO
+        id S229594AbiGTStK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Jul 2022 14:49:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236252AbiGTSNn (ORCPT
+        with ESMTP id S233066AbiGTSi7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Jul 2022 14:13:43 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B30165D7D;
-        Wed, 20 Jul 2022 11:13:42 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id n12so14408761wrc.8;
-        Wed, 20 Jul 2022 11:13:42 -0700 (PDT)
+        Wed, 20 Jul 2022 14:38:59 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE5073904
+        for <linux-input@vger.kernel.org>; Wed, 20 Jul 2022 11:38:52 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id p8so5982434plq.13
+        for <linux-input@vger.kernel.org>; Wed, 20 Jul 2022 11:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=5LukrXp7Co7uGUlwQKh4k3CtbJ6qok1w1ecgOSE/NhA=;
-        b=EJ0NNqR7uzooGBM/Nz5kGkkws9Ha/pvhYQjO/XhRL5N8BCDAQCH9XpzYlxJT7GIUGz
-         Vo71h/yMCvnmqLK2ZknAunJn90vauRUI5pccmeQ5l1+Mo3skiYGretzGgbrfM/eMVJ40
-         jB6oOYG0Ni82faiKxaMS40ZogP+TLi6Tli47Ik5CCQd9qq2gVKDqjaUuVLvpoC+G5iUa
-         lfJ1O2lFaBFmEurG4BYi2dD+uzkI77hZxMBCvd7WDyy+9Gen94gzKMGAJprDJZXuwgLf
-         NIBkvSEH2Jyo2eFO0KevCmvv62IFyJfoy09moCDv7v0FXdgIytEY/97mvfISZH/ewy8W
-         ng5w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ChXnRY/x91qYaSkVdnC8O+He+BLLSe/5j0Oz9dKeGP8=;
+        b=RElcgBn3bU518JEsf6WaDMB0OwXxvbxj7WimN72tbP8N97eUtrR6MeSyBI11Rjkx/C
+         RDTMOm3qGLUaPT3CZGc17Ze733VPRo8d9AQLXkUHUaDL+xky3N/eS7XxXWQXYqkEp5Iq
+         iX+kr35GYuQeA1h0aOohR/YHueGaLGLnKjZp7g/v8khPG5hyWwQkNYQUP4O5MeHwhiIv
+         D7VqisyrT6x0cd9k39EoFOc7lvGJV5kyUz081W8ph+LnpHGDCk/pvmYluBQPfbqnNS9Y
+         q1VQV52mVtotK/VB1PhGixqcyjff2t8iJCf4r2ppoWFoSjrXQr3cFL2GsN9EqmDEoFaR
+         JZGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=5LukrXp7Co7uGUlwQKh4k3CtbJ6qok1w1ecgOSE/NhA=;
-        b=MorNKj52BqRXggZR3nTBOjok1TIbDXiaNLbIUMoVk79+3gh+jenJRxUQAktYEfjVwn
-         1zKB0vQ9l7mqPhtxI60TAtoppvHILjzwOs/F0VimTMozy5HC3PRbnhJfFsZXFzmwL8x2
-         RS7E3dHpcebz88HzO71dxWmeEs1mwpEnp7MqVmW5VJ1j5dn8HBZwr4MWxsq9NMbRPI0J
-         cyRQwvKkCAEizn/KCz7Q7OcxbbgZCH+FiYh8NblnSAVRnw1ujSsw2FCfnV7gR5+LbH0e
-         se6fXnEpn9Iofuqe4KTPgCX7nvDQqnaKkVsEOBj/EhG3VsKKtx35P0gJoRqbXRk77iLn
-         DJ+g==
-X-Gm-Message-State: AJIora9XCDcjSWGBgcYuawwiW48JlfLcmHEgabPsWPJ3zx4n36VI+RLp
-        8OgXhdmjYuJcqd4TlKD9DcA=
-X-Google-Smtp-Source: AGRyM1sYf0GyVKs6sPI8vNn2iaV/h41VtqCv5qZu5Hg/3oDz+aIbNR9y5NIkml2ugL1Ie/rTYtiU8Q==
-X-Received: by 2002:a5d:6149:0:b0:21d:6ba7:6095 with SMTP id y9-20020a5d6149000000b0021d6ba76095mr31477059wrt.680.1658340820757;
-        Wed, 20 Jul 2022 11:13:40 -0700 (PDT)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id r9-20020a05600c2c4900b003a02cbf862esm3208832wmg.13.2022.07.20.11.13.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jul 2022 11:13:40 -0700 (PDT)
-Message-ID: <3cdbcfe5-bb7e-2677-730f-f250e2d33f0c@gmail.com>
-Date:   Wed, 20 Jul 2022 21:13:39 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ChXnRY/x91qYaSkVdnC8O+He+BLLSe/5j0Oz9dKeGP8=;
+        b=T0irSdb63UtCybXpEToBtOjftlPoRxHnPgE5npWOKo7cZJuR5U50/a5e1tXptZjxs+
+         FuAtWmScKS0KGlRq+c1n4VLjRdEHYPUwONbSi/NWOEOt7lzLo66OaThblqjmkPAMqkYr
+         rLEqF0T87NcGacW3Z3gpkH0QF93dWTCUQ1Z80dcPQ7pMPB1Je6hgX/fqGYKZP0/3QeDr
+         ZbRVPro+qEpQ/ziUaniULOahJvxCjPHYlwlIqDzkCOPlfnCfNfm0WsAn+NMjoqtZqACZ
+         gbAwkNFx1AWgZG8oEjuNeXrTFaxtlvaoQhjXQEkfoIh7nC0Y8rOuq5GEs0hpd8Xxe7Yi
+         DT4Q==
+X-Gm-Message-State: AJIora+vl3qzL0AsSLt6nKY9DAH1bpB54q6UteBEHKWAHTo/V15Q8MLm
+        JzJqT0Ge5OH2WJCh6lrUkh0=
+X-Google-Smtp-Source: AGRyM1sUAAj/HIfS0u2rC5TaE/7bS+6s/ENF6ZHM47lrpMCgOUOzgX0S0F30siHo3pQLoErd82hRdg==
+X-Received: by 2002:a17:90b:8d:b0:1ef:74c8:1541 with SMTP id bb13-20020a17090b008d00b001ef74c81541mr6932549pjb.103.1658342332265;
+        Wed, 20 Jul 2022 11:38:52 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:8a:775:d4b2:21a6])
+        by smtp.gmail.com with ESMTPSA id j8-20020a17090a734800b001f004ba93b1sm2016726pjs.27.2022.07.20.11.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 11:38:50 -0700 (PDT)
+Date:   Wed, 20 Jul 2022 11:38:47 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Angela Czubak <acz@semihalf.com>
+Cc:     linux-input@vger.kernel.org, upstream@semihalf.com,
+        benjamin.tissoires@redhat.com, hdegoede@redhat.com,
+        peter.hutterer@who-t.net
+Subject: Re: [PATCH v2 2/2] Input: Inactivate slots in input_inhibit_device()
+Message-ID: <YthLtxDq5YxiOpaH@google.com>
+References: <20220718151715.1052842-1-acz@semihalf.com>
+ <20220718151715.1052842-3-acz@semihalf.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC] UCLogic: Filtering unsupported HUION tablets
-Content-Language: en-US
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220718172953.6817-1-jose.exposito89@gmail.com>
- <5d4ef0df-083f-a00e-fb41-1ce1df6e9473@gmail.com>
- <20220720173656.GA3725@elementary>
- <47970684-1158-cee8-9ff5-d7dca70a54ae@gmail.com>
- <20220720175444.GA10744@elementary>
-From:   Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <20220720175444.GA10744@elementary>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220718151715.1052842-3-acz@semihalf.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -78,31 +72,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 7/20/22 20:54, José Expósito wrote:
-> Hi!
+On Mon, Jul 18, 2022 at 03:17:15PM +0000, Angela Czubak wrote:
+> Function input_dev_release_keys() issues BTN_TOUCH = 0 event to the
+> userpace if there was any touch present.
+> Make slot state consistent for multitouch devices and send
+> ABS_MT_TRACKING_ID = -1 for every active slot when the device gets
+> inhibited.
+> Factor out sending EV_SYN from input_dev_release_keys() as we may possibly
+> want to send it later.
 > 
-> On Wed, Jul 20, 2022 at 08:45:55PM +0300, Nikolai Kondrashov wrote:
->> On 7/20/22 20:36, José Expósito wrote:
->>> I don't know about any broken device handled by the driver, so there is
->>> no need to add new code yet :)
->>> I'll try to keep an eye on DIGImend's issue tracker now that the code
->>> present in the upstream kernel is being released by many distros.
->>
->> If you have the time, backporting your changes to digimend-kernel-drivers
->> would get you feedback much faster :)
->>
->> I can do a release once we get the code in.
-> 
-> I already opened a PR a few months ago:
-> https://github.com/DIGImend/digimend-kernel-drivers/pull/598
-> 
-> But more code has been merged since then. I'll try to backport the
-> latest changes this weekend and ping you on GitHub once it is
-> ready for review again.
+> Signed-off-by: Angela Czubak <acz@semihalf.com>
 
-Ah, sorry, I rarely look at DIGImend notifications 🙈
+Applied (reworded the patch description a bit), thank you.
 
-Could you send me an email once you got something ready for review?
-
-Thank you!
-Nick
+-- 
+Dmitry
