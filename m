@@ -2,133 +2,201 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C9DA57CE97
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 17:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3244E57CF5B
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 17:37:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231845AbiGUPHE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 11:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54062 "EHLO
+        id S232516AbiGUPhE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 11:37:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231783AbiGUPHB (ORCPT
+        with ESMTP id S232518AbiGUPgm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 11:07:01 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436F48721A
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 08:07:00 -0700 (PDT)
-Received: from fsav118.sakura.ne.jp (fsav118.sakura.ne.jp [27.133.134.245])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 26LF6Wt0020230;
-        Fri, 22 Jul 2022 00:06:32 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav118.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp);
- Fri, 22 Jul 2022 00:06:32 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 26LF6SPH020221
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 22 Jul 2022 00:06:28 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <2bcd5385-2423-2e8f-be01-9db93afaba43@I-love.SAKURA.ne.jp>
-Date:   Fri, 22 Jul 2022 00:06:26 +0900
+        Thu, 21 Jul 2022 11:36:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 006981BEBE
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 08:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658417796;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=E9vNgely/RNeXoTi/6KXKEKS3Vm4HrmO6DZ21V4RiOg=;
+        b=SkxTaCGJP5nkoCaxcouCFAWIhO7INSfXbcfMsitpUyu/lEpw7GT+RxrSXABcqFId33Quj5
+        NBgm2ZrmZafcqXgqPegf3f12lKd0K7j4sUEWF5z8Iy3YNCDN/jjRBKUoB7Xndyx2JN5TUM
+        DFSh0jFMfImCy86MLiAB5Iy7KVVq8LA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-yU1vkqs-P36TDaFyBVoQAw-1; Thu, 21 Jul 2022 11:36:32 -0400
+X-MC-Unique: yU1vkqs-P36TDaFyBVoQAw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B00B1019C8D;
+        Thu, 21 Jul 2022 15:36:31 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.194.200])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5DCC42166B26;
+        Thu, 21 Jul 2022 15:36:28 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v7 00/24] Introduce eBPF support for HID devices
+Date:   Thu, 21 Jul 2022 17:36:01 +0200
+Message-Id: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [syzbot] INFO: task hung in __input_unregister_device (4)
-Content-Language: en-US
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        syzkaller-bugs@googlegroups.com, rydberg@bitmath.org,
-        syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>,
-        linux-input@vger.kernel.org
-References: <000000000000ed47a705e2cbd347@google.com>
- <bae8fb53-969c-0e92-2e57-f602e4eb848e@I-love.SAKURA.ne.jp>
- <8106256.T7Z3S40VBb@opensuse>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <8106256.T7Z3S40VBb@opensuse>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022/07/21 23:45, Fabio M. De Francesco wrote:
-> If it can be fixed, as you said, by a simple notification to 
-> wait_event_interruptible(), why not changing iforce_usb_disconnect() the 
-> following way?
-> 
-> static void iforce_usb_disconnect(struct usb_interface *intf)
-> {
->         struct iforce_usb *iforce_usb = usb_get_intfdata(intf);
-> 
->         usb_set_intfdata(intf, NULL);
-> 
->         __set_bit(IFORCE_XMIT_RUNNING, iforce_usb->iforce.xmit_flags);
+Hi,
 
-I assume you meant clear_bit() here, for
+here comes the v7 of the HID-BPF series.
 
-	wait_event_interruptible(iforce->wait,
-		!test_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags));
+Again, for a full explanation of HID-BPF, please refer to the last patch
+in this series (24/24).
 
-waits until IFORCE_XMIT_RUNNING bit is cleared.
+This version sees some minor improvements compared to v6, only
+focusing on the reviews I got.
 
-However, clear_bit() is racy, for IFORCE_XMIT_RUNNING bit is set by
-iforce_send_packet() at the previous line.
+I also wanted to mention that I have started working on the userspace
+side to "see" how the BPF programs would look when automatically loaded.
+See the udev-hid-bpf project[0] for the code.
 
->         wake_up(&iforce_usb->iforce.wait);
-> 
->         input_unregister_device(iforce_usb->iforce.dev);
-> 
->         usb_free_urb(iforce_usb->irq);
->         usb_free_urb(iforce_usb->out);
-> 
->         kfree(iforce_usb);
-> }
-> 
-> I am sorry if I'm overlooking anything, especially because I'm entering 
-> this thread without reading the other messages and so without knowing the 
-> whole context. Furthermore I haven't even test-compiled these changes :-(
+The idea is to define the HID-BPF userspace programs so we can reuse
+the same semantic in the kernel.
+I am quite happy with the results: this looks pretty similar to a kernel
+module in term of design. The .bpf.c file is a standalone compilation
+unit, and instead of having a table of ids, the filename is used (based
+on the modalias). This allows to have a "probe" like function that we
+can run to decide if the program needs to be attached or not.
 
-So far, I asked syzbot to test
+All in all, the end result is that we can write the bpf program, compile
+it locally, and send the result to the user. The user needs to drop the
+.bpf.o in a local folder, and udev-hid-bpf will pick it up the next time
+the device is plugged in. No other operations is required.
 
---- a/drivers/input/joystick/iforce/iforce-usb.c
-+++ b/drivers/input/joystick/iforce/iforce-usb.c
-@@ -258,6 +258,9 @@ static void iforce_usb_disconnect(struct usb_interface *intf)
- 
- 	usb_set_intfdata(intf, NULL);
- 
-+	usb_poison_urb(iforce_usb->irq);
-+	usb_poison_urb(iforce_usb->out);
-+
- 	input_unregister_device(iforce_usb->iforce.dev);
- 
- 	usb_free_urb(iforce_usb->irq);
+Next step will be to drop the same source file in the kernel source
+tree, and have some magic to automatically load the compiled program
+when the device is loaded.
 
-which still triggered this problem, and
+Cheers,
+Benjamin
 
---- a/drivers/input/joystick/iforce/iforce-main.c
-+++ b/drivers/input/joystick/iforce/iforce-main.c
-@@ -200,8 +200,10 @@ static void iforce_close(struct input_dev *dev)
- 		/* Disable force feedback playback */
- 		iforce_send_packet(iforce, FF_CMD_ENABLE, "\001");
- 		/* Wait for the command to complete */
--		wait_event_interruptible(iforce->wait,
--			!test_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags));
-+		wait_event_interruptible_timeout
-+			(iforce->wait,
-+			 !test_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags),
-+			 5 * HZ);
- 	}
- 
- 	iforce->xport_ops->stop_io(iforce);
+[0] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf (warning: probably
+not the best rust code ever)
 
-which did not trigger this problem.
+Benjamin Tissoires (24):
+  selftests/bpf: fix config for CLS_BPF
+  bpf/verifier: allow kfunc to read user provided context
+  bpf/verifier: do not clear meta in check_mem_size
+  selftests/bpf: add test for accessing ctx from syscall program type
+  bpf/verifier: allow kfunc to return an allocated mem
+  selftests/bpf: Add tests for kfunc returning a memory pointer
+  bpf: prepare for more bpf syscall to be used from kernel and user
+    space.
+  libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
+  HID: core: store the unique system identifier in hid_device
+  HID: export hid_report_type to uapi
+  HID: convert defines of HID class requests into a proper enum
+  HID: Kconfig: split HID support and hid-core compilation
+  HID: initial BPF implementation
+  selftests/bpf: add tests for the HID-bpf initial implementation
+  HID: bpf: allocate data memory for device_event BPF programs
+  selftests/bpf/hid: add test to change the report size
+  HID: bpf: introduce hid_hw_request()
+  selftests/bpf: add tests for bpf_hid_hw_request
+  HID: bpf: allow to change the report descriptor
+  selftests/bpf: add report descriptor fixup tests
+  selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+  samples/bpf: add new hid_mouse example
+  HID: bpf: add Surface Dial example
+  Documentation: add HID-BPF docs
 
-Since wait_event_interruptible() was used here, I think we can expect that
-it is tolerable to continue without waiting for the command to complete...
+ Documentation/hid/hid-bpf.rst                 | 512 +++++++++
+ Documentation/hid/index.rst                   |   1 +
+ drivers/Makefile                              |   2 +-
+ drivers/hid/Kconfig                           |  20 +-
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/bpf/Kconfig                       |  18 +
+ drivers/hid/bpf/Makefile                      |  11 +
+ drivers/hid/bpf/entrypoints/Makefile          |  93 ++
+ drivers/hid/bpf/entrypoints/README            |   4 +
+ drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  66 ++
+ .../hid/bpf/entrypoints/entrypoints.lskel.h   | 682 ++++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.c            | 553 ++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
+ drivers/hid/bpf/hid_bpf_jmp_table.c           | 577 ++++++++++
+ drivers/hid/hid-core.c                        |  49 +-
+ include/linux/bpf.h                           |   9 +-
+ include/linux/btf.h                           |  10 +
+ include/linux/hid.h                           |  38 +-
+ include/linux/hid_bpf.h                       | 148 +++
+ include/uapi/linux/hid.h                      |  26 +-
+ include/uapi/linux/hid_bpf.h                  |  25 +
+ kernel/bpf/btf.c                              |  91 +-
+ kernel/bpf/syscall.c                          |  10 +-
+ kernel/bpf/verifier.c                         |  65 +-
+ net/bpf/test_run.c                            |  23 +
+ samples/bpf/.gitignore                        |   2 +
+ samples/bpf/Makefile                          |  27 +
+ samples/bpf/hid_mouse.bpf.c                   | 134 +++
+ samples/bpf/hid_mouse.c                       | 147 +++
+ samples/bpf/hid_surface_dial.bpf.c            | 161 +++
+ samples/bpf/hid_surface_dial.c                | 212 ++++
+ tools/include/uapi/linux/hid.h                |  62 ++
+ tools/include/uapi/linux/hid_bpf.h            |  25 +
+ tools/lib/bpf/skel_internal.h                 |  23 +
+ tools/testing/selftests/bpf/Makefile          |   5 +-
+ tools/testing/selftests/bpf/config            |   5 +-
+ tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
+ .../selftests/bpf/prog_tests/kfunc_call.c     |  76 ++
+ tools/testing/selftests/bpf/progs/hid.c       | 206 ++++
+ .../selftests/bpf/progs/kfunc_call_test.c     | 125 +++
+ 40 files changed, 5184 insertions(+), 79 deletions(-)
+ create mode 100644 Documentation/hid/hid-bpf.rst
+ create mode 100644 drivers/hid/bpf/Kconfig
+ create mode 100644 drivers/hid/bpf/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/README
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
+ create mode 100644 include/linux/hid_bpf.h
+ create mode 100644 include/uapi/linux/hid_bpf.h
+ create mode 100644 samples/bpf/hid_mouse.bpf.c
+ create mode 100644 samples/bpf/hid_mouse.c
+ create mode 100644 samples/bpf/hid_surface_dial.bpf.c
+ create mode 100644 samples/bpf/hid_surface_dial.c
+ create mode 100644 tools/include/uapi/linux/hid.h
+ create mode 100644 tools/include/uapi/linux/hid_bpf.h
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+
+-- 
+2.36.1
 
