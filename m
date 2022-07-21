@@ -2,49 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23EF957C9CD
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 13:37:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A9157C9E3
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 13:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233184AbiGULhY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 07:37:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50056 "EHLO
+        id S233213AbiGULo7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 07:44:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233182AbiGULhY (ORCPT
+        with ESMTP id S233224AbiGULo6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 07:37:24 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E6C731DF4;
-        Thu, 21 Jul 2022 04:37:23 -0700 (PDT)
+        Thu, 21 Jul 2022 07:44:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8640782FB6
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 04:44:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B0B64B823C8;
-        Thu, 21 Jul 2022 11:37:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C31DC341CE;
-        Thu, 21 Jul 2022 11:37:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F00761C19
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 11:44:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE75C3411E;
+        Thu, 21 Jul 2022 11:44:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658403440;
-        bh=IJfrVQPMT4yKttp8HhU31vIdYsxoLfOU3EqREIXq8TY=;
+        s=k20201202; t=1658403896;
+        bh=vTmJNKzjgYgbuMDrg3L9eoi1hiju/a0KulrK6MZ0J5Q=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=mpLbs1fgXFwTqj00tbzZDZNxz2E4STwel3+kvfzwsPwr4M8E0iDna/YTsYKjY+6OG
-         AIFZrGgvBL/fn3g6N6JVUGUK1OqxkKoOt9AAg86LfDa61gEwCTGALeIzMo6Q3szskm
-         57xcN0rWPIbOtRtVre6EE42ZeDRqGwyWbuZJ9eVq6AynpVtnWPK9eBKl/IvOz+B4fz
-         e7WyuJNm+lFP98HgwuBylwAPlmlQ7HZv9CB6/x4W/+prsyJTqx7E7Xl55toftbEbtC
-         FapDcAfWltbTsP2tr7P+IFqK5zhHPfJcd1FkA8uqoSNjvzO0fyXhZrRnTg5PBh6iwy
-         at+ZoK1EDnYvg==
-Date:   Thu, 21 Jul 2022 13:37:15 +0200 (CEST)
+        b=gXqM0vZsbqHUQuE3hIQ9Gn1EGv8vYYljEXejLgq07IMI25z9S4A4dg0Q66ho+Wf32
+         z4az6M8QFxcG1DVQDrdZacxlv1Bc6GjXfHoyoSs35THZsp3gaIUQIE+smt5nyt8n7o
+         rpB4u9kWxSnNC5ly7C5R+5h9MwmT9ZfopNNLC0n8o9Yns7Kf4qumyRUqzxJOBuTwyP
+         whxauApFk/L6Q1XgHDS8K8ysR/Cn8HaqlxTncnOoCYWoRVwyamqZ/S563ZSKkEco1n
+         T4LfRv/WoYO3pDu1JWTjmmcN/pTNSywcpDSICoESOUwmIh1IPCdOATD/Ycpg5zLrRw
+         xjts4g8zMj+Jw==
+Date:   Thu, 21 Jul 2022 13:44:53 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: core: remove unneeded assignment in
- hid_process_report()
-In-Reply-To: <20220701112720.13452-1-lukas.bulwahn@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2207211337090.19850@cbobk.fhfr.pm>
-References: <20220701112720.13452-1-lukas.bulwahn@gmail.com>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH 00/11] Fixes and implementation of AMD SFH 1.1
+ functionality
+In-Reply-To: <20220712181836.3488343-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2207211344360.19850@cbobk.fhfr.pm>
+References: <20220712181836.3488343-1-Basavaraj.Natikar@amd.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,42 +53,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 1 Jul 2022, Lukas Bulwahn wrote:
+On Tue, 12 Jul 2022, Basavaraj Natikar wrote:
 
-> Commit bebcc522fbee ("HID: core: for input reports, process the usages by
-> priority list") split the iteration into two distinct loops in
-> hid_process_report().
-> 
-> After this change, the variable field is only used while iterating in the
-> second loop and the assignment of values to this variable in the first loop
-> is simply not needed.
-> 
-> Remove the unneeded assignment during retrieval. No functional change and
-> no change in the resulting object code.
-> 
-> This was discovered as a dead store with clang-analyzer.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Benjamin, Jiri, please pick this minor non-urgent clean-up patch.
-> 
->  drivers/hid/hid-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> index 00154a1cd2d8..b7f5566e338d 100644
-> --- a/drivers/hid/hid-core.c
-> +++ b/drivers/hid/hid-core.c
-> @@ -1662,7 +1662,7 @@ static void hid_process_report(struct hid_device *hid,
->  
->  	/* first retrieve all incoming values in data */
->  	for (a = 0; a < report->maxfield; a++)
-> -		hid_input_fetch_field(hid, field = report->field[a], data);
-> +		hid_input_fetch_field(hid, report->field[a], data);
->  
->  	if (!list_empty(&report->field_entry_list)) {
+> Changes includes fixes and support of new firmware (SFH 1.1) with new
+> PCI device ID to implement SFH1.1 functionality which is used by
+> newer AMD SOCs.
 
-Applied, thanks Lukas.
+Queued in hid.git#for-5.20/amd-sfh. Thanks,
 
 -- 
 Jiri Kosina
