@@ -2,72 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D27C357D42B
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 21:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8E4557D4B0
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 22:15:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233082AbiGUTcd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 15:32:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46256 "EHLO
+        id S232729AbiGUUPz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 16:15:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiGUTcb (ORCPT
+        with ESMTP id S232583AbiGUUPy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 15:32:31 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD8A88F1E
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 12:32:30 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id x91so3444617ede.1
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 12:32:30 -0700 (PDT)
+        Thu, 21 Jul 2022 16:15:54 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F183B951;
+        Thu, 21 Jul 2022 13:15:51 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id z132so2265647iof.0;
+        Thu, 21 Jul 2022 13:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:cc:from:in-reply-to:content-transfer-encoding;
-        bh=qlna7oTiSptQ7tN0H9VSjBuiazrFsuWecl4k2lvsb0g=;
-        b=Twx7iv2tqFO2oEMSg8BNkGJnpAOuCnv1dXyeAW2keYqRVKj4BXf8tLNVD9Y51NAlNW
-         JATZxpN2f4bKRqgiIdyIKqbU+0IetenqL8lwvo2ra7u8VTX0dWbdnL4wrTjz/Jh5J50S
-         q3Oeme5SKLgUF6Wpr/ZIALpQxpNR1ykUzZ1Oja4vh3WrttkCx4YecpJjDgiFufrRdYGQ
-         9HtsbPLrXTdq6Bubq/G/POY2Xm3VkmUIDPvlPPaLecJvG++zkKvR2xoD0Q1q07o+Uog1
-         y0OFn89twSkJRgJ8mahQ2gNgcdFDijHsFZLbPvFH15vw3dZXpRIoJFC4++6ntBXFtWiS
-         Eccg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
+        b=Emb6nVw/XsXfIS2rg5l909a2QlHcjhWE6BvXTfg7yFiAz4PCoYNtH3W2EfmQ4FRE6y
+         2pzUglyR5engfI0A8axVQUlrS837XKYH84LVFJoqlPal8GV8hRSl1uceuwRPAUHUgPdy
+         YdUPzSnnoxSEC9oOOZbIl3zFV+fqFjUsnUcT+dB6Q23AD3q3yumtw9WPxv775fB/3DTs
+         WP6TpLle3aNXqrUP0buCa+694rc1cDagQd5A5fMaR3rxaQ5Z3XvvMiys9OjY08KU3ibQ
+         fv+sLC6OhAjVZbB5xqlp11/NKOthbaMzt6GxAjDsl5tVgh2KfWVpBSKKAhMwVHs3Nruw
+         vEKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:cc:from:in-reply-to
-         :content-transfer-encoding;
-        bh=qlna7oTiSptQ7tN0H9VSjBuiazrFsuWecl4k2lvsb0g=;
-        b=hpU6Wg5V5NNOLR4CvlZ1Ha2CZhhB+H80cHCl1je0zVEiQvMKdlIe7cHlZPd8eZ1gJ+
-         eBsS/lVhRaQNeGXPe3XVbC/ViAi1oWwdYz9l/JS+t0kXSt4AYd3cwfpjboQOnoljmw/b
-         iUB+mr2ruN/18oL0J0vPaDfLAW2P0j5WjC252/NERDWf3CYhzlg7zKeEBqZf5Pr1NA59
-         ZUWWyDvo+iE1XnhSVOcam7vHu2ltg3hy/VvO7efI1r4VCH7Js0H0GztFMC6oWqR1BgO7
-         b+qYvrBzBgns62lshw4ljUQwjFJM6dIPgPJUNYx9Gig19hPge97D9Kc30IDJnY1kd8D9
-         vN+Q==
-X-Gm-Message-State: AJIora/R6cRnB1zUC3hcITUy3VPup47xIX2GaYdHelWPkap57vgVLAeh
-        j1DhVhgjmET7xeO7eWc/4nmRrmujd/Y=
-X-Google-Smtp-Source: AGRyM1vhAjFUY+SHmpKjmxv+kpe4yopPhaeAUqnIQQ9oPn6Yl4zCvfc0uCNYpN1UI1LW36/NU1KNag==
-X-Received: by 2002:a05:6402:34c8:b0:43b:c782:2419 with SMTP id w8-20020a05640234c800b0043bc7822419mr4570335edc.158.1658431948780;
-        Thu, 21 Jul 2022 12:32:28 -0700 (PDT)
-Received: from ?IPV6:2a02:168:575a:b00b:c379:f460:84c1:10b7? ([2a02:168:575a:b00b:c379:f460:84c1:10b7])
-        by smtp.googlemail.com with ESMTPSA id 26-20020a170906319a00b00722f069fd40sm1128184ejy.159.2022.07.21.12.32.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 12:32:27 -0700 (PDT)
-Message-ID: <92b162b8-40c1-c62d-85b1-ff7449ca17d3@gmail.com>
-Date:   Thu, 21 Jul 2022 21:32:26 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
+        b=fPCPZykZTDkSU6X33lVLNf5JqCp+EaqG4z7JVOPsNnyn9DiEOIEsWNSXYVXZsYkzHr
+         gjqLRID23NtztgrJkrOg+ITkKqnQwKX6f5/5n/Ij/TPA6QEGw/c3AH40FfcDhFVO5L6o
+         1BXCvLmWurG4CD1Qd0rIuvWGCnGI0NYoTv4f8efFESHoFsc6++O96omjiQFIPLAoPBBe
+         whjT4v2ReL+gSlgc0z9qiM6mxaPyHUBirEjWwYEVDwYogTEic+6pQUd3VGrTU49dx+ca
+         uT6wRPm6x4zyxfBzpaqWhxTJUGoGdlEN/Fc3cS+ilnBoGc+m6RjITsJDdgosoF/m8UZt
+         /JbQ==
+X-Gm-Message-State: AJIora+5Q3NY5E71VIOzYuRGRU31+ApiBZuLv7/FZ3huOMjBbrWBugF1
+        OaDok3IcCmz786SbTlzzImPdoX1JZp0BkSYmgQhTsjX2aPk=
+X-Google-Smtp-Source: AGRyM1s1dL2pvG1uxUsYYIrkYW/FJ9oEkL6wAsTSGF52krk09y5ouOvFZX9RoHB/cPeHZ2FTRKUfl2LlvjYLHkJU5/M=
+X-Received: by 2002:a05:6602:150c:b0:67c:149b:a349 with SMTP id
+ g12-20020a056602150c00b0067c149ba349mr74750iow.168.1658434550268; Thu, 21 Jul
+ 2022 13:15:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: Stylus battery reported as having 1% charge even though fully
- charged
-Content-Language: en-US
-To:     linux-input@vger.kernel.org
-References: <5d775fec-1c42-927b-affd-c9f7d3c602a8@gmail.com>
- <28d18d2f39fef4da00021d21cf2ccd7eb4a29ac9.camel@hadess.net>
-Cc:     Sebastian Arnhold <sebastian.arnhold387@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-From:   Gregor Riepl <onitake@gmail.com>
-In-Reply-To: <28d18d2f39fef4da00021d21cf2ccd7eb4a29ac9.camel@hadess.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com> <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Thu, 21 Jul 2022 22:15:14 +0200
+Message-ID: <CAP01T746d18QjJH1pRaq5Wy2QtrXXKhaJge8sB=q1rNtqjTntA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v7 02/24] bpf/verifier: allow kfunc to read user
+ provided context
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -76,9 +80,95 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, 21 Jul 2022 at 17:36, Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> When a kfunc was trying to access data from context in a syscall eBPF
+> program, the verifier was rejecting the call.
+> This is because the syscall context is not known at compile time, and
+> so we need to check this when actually accessing it.
+>
+> Check for the valid memory access and allow such situation to happen.
+>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> ---
+>
 
-> You'll probably want to implement a patch similar to this one:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f3193ea1b6779023334faa72b214ece457e02656
+LGTM, with just a couple more nits.
+Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
-Does this mean that the driver doesn't support battery status reporting
-for some devices, or is the feature simply missing in this controller?
+> changes in v7:
+> - renamed access_t into atype
+> - allow zero-byte read
+> - check_mem_access() to the correct offset/size
+>
+> new in v6
+> ---
+>  kernel/bpf/verifier.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 7c1e056624f9..d5fe7e618c52 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
+>         struct bpf_map *map_ptr;
+>         bool raw_mode;
+>         bool pkt_access;
+> +       bool is_kfunc;
+>         u8 release_regno;
+>         int regno;
+>         int access_size;
+> @@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+>                                    struct bpf_call_arg_meta *meta)
+>  {
+>         struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
+> +       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
+>         u32 *max_access;
+>
+>         switch (base_type(reg->type)) {
+> @@ -5223,6 +5225,24 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+>                                 env,
+>                                 regno, reg->off, access_size,
+>                                 zero_size_allowed, ACCESS_HELPER, meta);
+> +       case PTR_TO_CTX:
+> +               /* in case of a kfunc called in a program of type SYSCALL, the context is
+> +                * user supplied, so not computed statically.
+> +                * Dynamically check it now
+> +                */
+> +               if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
+> +                       enum bpf_access_type atype = meta->raw_mode ? BPF_WRITE : BPF_READ;
+> +                       int offset = access_size - 1;
+> +
+> +                       /* Allow zero-byte read from NULL or PTR_TO_CTX */
+
+This will not be handling the case for NULL, only for kfunc(ptr_to_ctx, 0)
+A null pointer has its reg->type as scalar, so it will be handled by
+the default case.
+
+> +                       if (access_size == 0)
+> +                               return zero_size_allowed ? 0 : -EINVAL;
+
+We should use -EACCES, just to be consistent.
+
+> +
+> +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
+> +                                               atype, -1, false);
+> +               }
+> +
+> +               fallthrough;
+>         default: /* scalar_value or invalid ptr */
+>                 /* Allow zero-byte read from NULL, regardless of pointer type */
+>                 if (zero_size_allowed && access_size == 0 &&
+> @@ -5335,6 +5355,7 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
+>         WARN_ON_ONCE(regno < BPF_REG_2 || regno > BPF_REG_5);
+>
+>         memset(&meta, 0, sizeof(meta));
+> +       meta.is_kfunc = true;
+>
+>         if (may_be_null) {
+>                 saved_reg = *mem_reg;
+> --
+> 2.36.1
+>
