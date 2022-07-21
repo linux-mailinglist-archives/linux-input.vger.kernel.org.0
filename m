@@ -2,55 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43BDD57CC04
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 15:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1D9457CCB4
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 15:51:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbiGUNeQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 09:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42280 "EHLO
+        id S231197AbiGUNvo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 09:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbiGUNeP (ORCPT
+        with ESMTP id S231254AbiGUNvY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 09:34:15 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB02643C0
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 06:34:14 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id d8so2307156wrp.6
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 06:34:14 -0700 (PDT)
+        Thu, 21 Jul 2022 09:51:24 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8AAD30F70
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 06:51:13 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id u13so2901092lfn.5
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 06:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=m9tu5kfLkLBgd8ubz/EUC+KagXbqcDn5HWzdWJeSb3Y=;
-        b=6v6Hu/g3Zo0GWLuMb/6idFPyuTqciNcRwGDVx+n8h2Rqq65ZCYzPnMS6hb3+hpO23F
-         8wEH+HIznFFlGbx8xvFvRSSV6krJRDxtCTbvWGXiTuIsk5Ab0S1+Wu9UG0kbhA7RaGb5
-         cea6QvDNyrFOH2+4jTRq53uq/wOo/xiG/PQA0q8jj8jDWiTqn4LTpinsH6p9meJUhpc/
-         R+E17VM4zjcQvngCUXrU91UwkqlvtXEzfIHOVaDG5TS6XLvyhD5kbZ7v5t45lo1e107K
-         utNwAJI1DYsHvrguolIH1iwujd59CZEAOjkrTNQE2zvhMVUs+FN8UeMrU1ebDv40k3Se
-         v8PQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=kecr5i+5DLqDAmpCrXdI3okGZBctpe1q4C972GZbARg=;
+        b=t+T9FmxDSET1eznoCZFy5FwJ1ygGlaE91MHfg567RS5eq0HIIhoshGcZqgbcPUTPs0
+         DML/HMp9i7WzlYCUCDXr/j8xjWMaPLeurgwe0nr3WvKcjnX6/D3dqvvNQ530f0OMBeKD
+         Ql4RQyM4kGU+93SJTClpPoh0X3m7iukKfp3+3Fv5gZdgA+XwE5bZsJujIfQ3Z4hRXFX3
+         FRsPzQZsR9BDjhLvA2c0rI1gMapeAJgxaVhFRh1OlyTS2mnwbQO/NbyuNfYm13Y1c+PQ
+         RFfFE+z5+1QfwTc9GMQq4q/jCF5DHw8DGJKfssxwJiWHg+vVpfY9HsFL22Mp0enGyREU
+         Yfkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=m9tu5kfLkLBgd8ubz/EUC+KagXbqcDn5HWzdWJeSb3Y=;
-        b=yP7sZ/sVtCQ8TVVnx56SycoG0L08BxN7wWNL60PZIE2hCds1ZdFJwaRBrOXP1keTDX
-         ryjCMQWCkDgsO8sRP5AzFMaLlswZVJZh1wWnut1H9xJRoLT8p9KH8r4Soic33CxQsAxN
-         8JCMfQozzckrSLkFiE68KsqBc/KSXd79tPs8s4fTOIIW782mw59cF2sIV63F6Gsxo9uj
-         QUN+ZuRxEeda7iCfPkmjlc5tMlz8e9WmE/13xXXqcbY39DbkRrnXSjzPxyApuTanBCR2
-         8BwXVVeXNSRXytelGjENnWphRRFmv0461LT9uPZRccKKoecT9+rfmqo8Zp9xTRtGrW6G
-         T23g==
-X-Gm-Message-State: AJIora/zDAYn8kpadTat7isg6eP+Ovh1bezbxmXkcP9291DWB/p6AFOh
-        a8metQLUHOLmqrrsTMKKbTXvTQ==
-X-Google-Smtp-Source: AGRyM1vFMRoTO4e+uNQGZXhzHMNWPBJJ+oaO5moEg5utkAab7eiYnQAw585oYLpHYefDneVsptGijA==
-X-Received: by 2002:a5d:6848:0:b0:21e:5e37:b2e4 with SMTP id o8-20020a5d6848000000b0021e5e37b2e4mr11612wrw.530.1658410452448;
-        Thu, 21 Jul 2022 06:34:12 -0700 (PDT)
-Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id p10-20020adff20a000000b0021baf5e590dsm1907554wro.71.2022.07.21.06.34.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 06:34:12 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=kecr5i+5DLqDAmpCrXdI3okGZBctpe1q4C972GZbARg=;
+        b=M2XVkx9O2TQ61A9qgVRY04VeoTF+yVhcI6Paa1KHFH4O1c7yUbHQ7Os7IorS5kXvZI
+         TgNisOpROA1+nT/FvfzlINHTfPgYeZuqz453ScmS1oel+53+uySraXxtWoBw9+m3Yr4T
+         xLbxKcC7c4LjZabuxmwzbkbSYxkwK8KsUie3sRa7QCM+rbfObDpkohMxiOtL/00UZgfh
+         9sa2HupOou7wkp5l7QDOkpxHoPDJxLrn40RbDlJXOgHbblRyHD4+nwmHSOKMN+Vt6c08
+         MrHr38nNP0jo8gWT9m7jinwSyEfxbAzDlk1c8H0DfsA5PgoY/UThuQo6IsJkXITo1QDL
+         HOrA==
+X-Gm-Message-State: AJIora9J5VWU4kXJm+occleytzOZtjHlQEd8eYFxPnthbb7jiz9kB9Nz
+        KzL308YgXQe6d5+L8Ddfvhh2rA==
+X-Google-Smtp-Source: AGRyM1skXS9BzdqmFA82kATV7e6ORmNPtgRU6LtaPvd+9FfzbJu0HXQ5nPVqtz0xd98CkqRG+GjCRw==
+X-Received: by 2002:ac2:4bc1:0:b0:48a:ad3:f1af with SMTP id o1-20020ac24bc1000000b0048a0ad3f1afmr21039314lfq.240.1658411472064;
+        Thu, 21 Jul 2022 06:51:12 -0700 (PDT)
+Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
+        by smtp.gmail.com with ESMTPSA id s4-20020a056512314400b00488333b6515sm448587lfi.305.2022.07.21.06.51.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Jul 2022 06:51:11 -0700 (PDT)
+Message-ID: <4084d7e6-e722-a4a7-1a34-c50983f7d93a@linaro.org>
+Date:   Thu, 21 Jul 2022 15:51:09 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 3/6] dt-bindings: mediatek,mt6779-keypad: add
+ mediatek,double-keys
+Content-Language: en-US
+To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -60,73 +67,43 @@ Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         linux-mediatek@lists.infradead.org,
         Fabien Parent <fparent@baylibre.com>,
         linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 3/6] dt-bindings: mediatek,mt6779-keypad: add
- mediatek,double-keys
-In-Reply-To: <c5e94d12-4f52-2e75-3b45-735afa0e987b@collabora.com>
 References: <20220720-mt8183-keypad-v1-0-ef9fc29dbff4@baylibre.com>
  <20220720-mt8183-keypad-v1-3-ef9fc29dbff4@baylibre.com>
- <c5e94d12-4f52-2e75-3b45-735afa0e987b@collabora.com>
-Date:   Thu, 21 Jul 2022 15:34:11 +0200
-Message-ID: <87o7xih9nw.fsf@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+ <98ec7967-d007-46d7-ef54-aa41426b5f9f@linaro.org>
+ <87r12eh9qe.fsf@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <87r12eh9qe.fsf@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 10:40, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> wrote:
+On 21/07/2022 15:32, Mattijs Korpershoek wrote:
+>>> diff --git a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+>>> index ca8ae40a73f7..03c9555849e5 100644
+>>> --- a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+>>> +++ b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+>>> @@ -49,6 +49,12 @@ properties:
+>>>      maximum: 256
+>>>      default: 16
+>>>  
+>>> +  mediatek,double-keys:
+>>
+>> Do you think there could be another MT keypad version with triple-keys?
+> 
+> Of all the SoC's i've worked on (MT8167, MT8183, MT8365, MT8195) I've
+> never seen a "triple-keys" keypad.
 
-> Il 20/07/22 16:48, Mattijs Korpershoek ha scritto:
->> MediaTek keypad has 2 modes of detecting key events:
->> - single key: each (row, column) can detect one key
->> - double key: each (row, column) is a group of 2 keys
->> 
->> Currently, only single key detection is supported (by default)
->> Add an optional property, mediatek,double-keys to support double
->> key detection.
->> 
->> Double key support exists to minimize cost, since it reduces the number
->> of pins required for physical keys.
->> 
->> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->> 
->> diff --git a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
->> index ca8ae40a73f7..03c9555849e5 100644
->> --- a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
->> +++ b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
->> @@ -49,6 +49,12 @@ properties:
->>       maximum: 256
->>       default: 16
->>   
->> +  mediatek,double-keys:
->> +    description: |
->> +      use double key matrix instead of single key
->> +      when set, each (row,column) is a group that can detect 2 keys
->
-> We can make it shorter and (imo) easier to understand, like:
->
->    mediatek,double-keys:
->
->      description: Each (row, column) group has two keys
->
-> ...also because, if we say that the group "can detect" two keys, it may be
-> creating a misunderstandment such as "if I press one key, it gives me two
-> different input events for two different keys.", which is something that
-> wouldn't make a lot of sense, would it? :-)
+OK, but the binding you create now would be poor if MT comes with such
+tripe-key feature later...
 
-Hi AngeloGioacchino,
 
-Thank you for the suggestion. I like your description better as well :)
-Will use it in v2.
-
->
->> +    type: boolean
->> +
->>   required:
->>     - compatible
->>     - reg
+Best regards,
+Krzysztof
