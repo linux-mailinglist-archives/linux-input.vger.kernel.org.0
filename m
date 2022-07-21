@@ -2,46 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF77E57C848
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 11:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BF4D57C86C
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 12:00:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230198AbiGUJ4k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 05:56:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55138 "EHLO
+        id S232318AbiGUKAa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 06:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232878AbiGUJ4j (ORCPT
+        with ESMTP id S233030AbiGUKAP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 05:56:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D23A025EA6;
-        Thu, 21 Jul 2022 02:56:38 -0700 (PDT)
+        Thu, 21 Jul 2022 06:00:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2112595A8
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 03:00:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 66A3561F67;
-        Thu, 21 Jul 2022 09:56:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94E38C3411E;
-        Thu, 21 Jul 2022 09:56:36 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AFAFAB821EB
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 10:00:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E629C3411E;
+        Thu, 21 Jul 2022 10:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658397397;
-        bh=vAstcB6EnQW5FIp47JVSi9NTuUpabnfZIv25B+vTDnk=;
+        s=k20201202; t=1658397609;
+        bh=Li3mmxM18jEyEJPe5efPttu/1k79+0h0qz+GM2lWKE0=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=uD0bev0L+pp++3rqPR+JC/tPP5xbITHVDQu3nixVp3aASui0zTqfKTxmRug+yr3iM
-         uC68oMd8Ndl2+AE1znLV2twulXzbQcd4BO2wtqBT8FzOqYJ0+Cqf6Dq+1jUxghGW8m
-         rqAOsmt83DQt4hsvjICKVhDJVsVKS81ajqUN1/khE9cqX6Db6iY37CmNPxEpPrYMT8
-         MM9up/K3jIqPJu1g8DbXThPutKLZ8bPGoGxk09NIc/oZe9fLCcCtOl3ld29lEWSAI5
-         2t0o0o45a1nbjIjJvjKZakCisL62zZtLILuRlPWXCki7ESgZf3EK78FORBmm8HoOvk
-         lFx39IZuo5wVg==
-Date:   Thu, 21 Jul 2022 11:56:34 +0200 (CEST)
+        b=IyxL+GG1ZRN4ZBYRLd1zqHk1hBrSJqHudCSb8hbGNSKuS/63sN5dF6omE5LKWqEnf
+         oiD6yuDygMLbErXY23SMTEsgBrZw0urm5wlub6z1RDVw80B5iLRvMU+Tt/64Si2pIY
+         PTdkcfAfVN4e56k5da52wmRZSft5QSRPdqOEJUhtQXSvM2M+Q0wlK1e97XJkvcgMEN
+         vSAm8RJ9aIxHdlCVyu5b915Jf1YWnZEBXs0iDbhJzjfSv+X8CS3aCnXLpURABuRiWf
+         RVokz9secG7Z3dlzVEZbsYwCOjlV8wx5Hk+PU57dXAII+Bzmi3ncuLhW8kJuC8nsxL
+         EcL5ltStACbDQ==
+Date:   Thu, 21 Jul 2022 12:00:05 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Jiang Jian <jiangjian@cdjrlc.com>
-cc:     srinivas.pandruvada@linux.intel.com, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ID: intel-ish-hid: hid-client: drop unexpected word
- "the" in the comments
-In-Reply-To: <20220621122751.117143-1-jiangjian@cdjrlc.com>
-Message-ID: <nycvar.YFH.7.76.2207211156280.19850@cbobk.fhfr.pm>
-References: <20220621122751.117143-1-jiangjian@cdjrlc.com>
+To:     Hyunwoo Kim <imv4bel@gmail.com>
+cc:     erazor_de@users.sourceforge.net, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: roccat: Fix Use-After-Free in roccat_read
+In-Reply-To: <20220626111330.GA59219@ubuntu>
+Message-ID: <nycvar.YFH.7.76.2207211159210.19850@cbobk.fhfr.pm>
+References: <20220626111330.GA59219@ubuntu>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,35 +53,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 21 Jun 2022, Jiang Jian wrote:
+On Sun, 26 Jun 2022, Hyunwoo Kim wrote:
 
-> there is an unexpected word "the" in the comments that need to be dropped
-> 
-> file: drivers/hid/intel-ish-hid/ishtp-hid-client.c
-> line: 331
->  * @device: Pointer to the the ishtp client device for which this message
-> changed to
->  * @device: Pointer to the ishtp client device for which this message
-> 
-> Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
-> ---
->  drivers/hid/intel-ish-hid/ishtp-hid-client.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-> index 4338c9b68a43..e3d70c5460e9 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-> @@ -328,7 +328,7 @@ static void process_recv(struct ishtp_cl *hid_ishtp_cl, void *recv_buf,
+> diff --git a/drivers/hid/hid-roccat.c b/drivers/hid/hid-roccat.c
+> index 26373b82fe81..abe23ccd48e8 100644
+> --- a/drivers/hid/hid-roccat.c
+> +++ b/drivers/hid/hid-roccat.c
+> @@ -260,7 +260,9 @@ int roccat_report_event(int minor, u8 const *data)
+>  	report = &device->cbuf[device->cbuf_end];
 >  
->  /**
->   * ish_cl_event_cb() - bus driver callback for incoming message/packet
-> - * @device:	Pointer to the the ishtp client device for which this message
-> + * @device:	Pointer to the ishtp client device for which this message
->   *		is targeted
->   *
+>  	/* passing NULL is safe */
+> +	mutex_lock(&device->cbuf_lock);
+>  	kfree(report->value);
+> +	mutex_unlock(&device->cbuf_lock);
+>  
+>  	report->value = new_value;
+>  	device->cbuf_end = (device->cbuf_end + 1) % ROCCAT_CBUF_SIZE;
 
-Applied, thank you.
+Don't we actually need the mutex for much longer period during 
+roccat_report_event()? At minimum it's also manipulating cbuf_end.
+
+Thanks,
 
 -- 
 Jiri Kosina
