@@ -2,173 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8E4557D4B0
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 22:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A664657D50F
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 22:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232729AbiGUUPz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 16:15:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
+        id S233554AbiGUUtI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 16:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232583AbiGUUPy (ORCPT
+        with ESMTP id S233499AbiGUUtG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 16:15:54 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F183B951;
-        Thu, 21 Jul 2022 13:15:51 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id z132so2265647iof.0;
-        Thu, 21 Jul 2022 13:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
-        b=Emb6nVw/XsXfIS2rg5l909a2QlHcjhWE6BvXTfg7yFiAz4PCoYNtH3W2EfmQ4FRE6y
-         2pzUglyR5engfI0A8axVQUlrS837XKYH84LVFJoqlPal8GV8hRSl1uceuwRPAUHUgPdy
-         YdUPzSnnoxSEC9oOOZbIl3zFV+fqFjUsnUcT+dB6Q23AD3q3yumtw9WPxv775fB/3DTs
-         WP6TpLle3aNXqrUP0buCa+694rc1cDagQd5A5fMaR3rxaQ5Z3XvvMiys9OjY08KU3ibQ
-         fv+sLC6OhAjVZbB5xqlp11/NKOthbaMzt6GxAjDsl5tVgh2KfWVpBSKKAhMwVHs3Nruw
-         vEKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
-        b=fPCPZykZTDkSU6X33lVLNf5JqCp+EaqG4z7JVOPsNnyn9DiEOIEsWNSXYVXZsYkzHr
-         gjqLRID23NtztgrJkrOg+ITkKqnQwKX6f5/5n/Ij/TPA6QEGw/c3AH40FfcDhFVO5L6o
-         1BXCvLmWurG4CD1Qd0rIuvWGCnGI0NYoTv4f8efFESHoFsc6++O96omjiQFIPLAoPBBe
-         whjT4v2ReL+gSlgc0z9qiM6mxaPyHUBirEjWwYEVDwYogTEic+6pQUd3VGrTU49dx+ca
-         uT6wRPm6x4zyxfBzpaqWhxTJUGoGdlEN/Fc3cS+ilnBoGc+m6RjITsJDdgosoF/m8UZt
-         /JbQ==
-X-Gm-Message-State: AJIora+5Q3NY5E71VIOzYuRGRU31+ApiBZuLv7/FZ3huOMjBbrWBugF1
-        OaDok3IcCmz786SbTlzzImPdoX1JZp0BkSYmgQhTsjX2aPk=
-X-Google-Smtp-Source: AGRyM1s1dL2pvG1uxUsYYIrkYW/FJ9oEkL6wAsTSGF52krk09y5ouOvFZX9RoHB/cPeHZ2FTRKUfl2LlvjYLHkJU5/M=
-X-Received: by 2002:a05:6602:150c:b0:67c:149b:a349 with SMTP id
- g12-20020a056602150c00b0067c149ba349mr74750iow.168.1658434550268; Thu, 21 Jul
- 2022 13:15:50 -0700 (PDT)
+        Thu, 21 Jul 2022 16:49:06 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9282C8FD44
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 13:49:01 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oEd6K-00081W-OX; Thu, 21 Jul 2022 22:48:52 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oEd6H-002Nn0-9R; Thu, 21 Jul 2022 22:48:49 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oEd6G-006euJ-7j; Thu, 21 Jul 2022 22:48:48 +0200
+Date:   Thu, 21 Jul 2022 22:48:35 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Luca Ellero <luca.ellero@brickedbrain.com>
+Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
+        m.felsch@pengutronix.de, andriy.shevchenko@linux.intel.com,
+        mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luca Ellero <l.ellero@asem.it>
+Subject: Re: [PATCH v2 1/3] ads7846: don't report pressure for ads7845
+Message-ID: <20220721204835.fobidbnsvhea7r3w@pengutronix.de>
+References: <20220721083458.6412-1-luca.ellero@brickedbrain.com>
+ <20220721083458.6412-2-luca.ellero@brickedbrain.com>
 MIME-Version: 1.0
-References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com> <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Thu, 21 Jul 2022 22:15:14 +0200
-Message-ID: <CAP01T746d18QjJH1pRaq5Wy2QtrXXKhaJge8sB=q1rNtqjTntA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v7 02/24] bpf/verifier: allow kfunc to read user
- provided context
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="w5lsgzu4zpvcl76q"
+Content-Disposition: inline
+In-Reply-To: <20220721083458.6412-2-luca.ellero@brickedbrain.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 21 Jul 2022 at 17:36, Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> When a kfunc was trying to access data from context in a syscall eBPF
-> program, the verifier was rejecting the call.
-> This is because the syscall context is not known at compile time, and
-> so we need to check this when actually accessing it.
->
-> Check for the valid memory access and allow such situation to happen.
->
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> ---
->
 
-LGTM, with just a couple more nits.
-Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+--w5lsgzu4zpvcl76q
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> changes in v7:
-> - renamed access_t into atype
-> - allow zero-byte read
-> - check_mem_access() to the correct offset/size
->
-> new in v6
-> ---
->  kernel/bpf/verifier.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> index 7c1e056624f9..d5fe7e618c52 100644
-> --- a/kernel/bpf/verifier.c
-> +++ b/kernel/bpf/verifier.c
-> @@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
->         struct bpf_map *map_ptr;
->         bool raw_mode;
->         bool pkt_access;
-> +       bool is_kfunc;
->         u8 release_regno;
->         int regno;
->         int access_size;
-> @@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
->                                    struct bpf_call_arg_meta *meta)
->  {
->         struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
-> +       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
->         u32 *max_access;
->
->         switch (base_type(reg->type)) {
-> @@ -5223,6 +5225,24 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
->                                 env,
->                                 regno, reg->off, access_size,
->                                 zero_size_allowed, ACCESS_HELPER, meta);
-> +       case PTR_TO_CTX:
-> +               /* in case of a kfunc called in a program of type SYSCALL, the context is
-> +                * user supplied, so not computed statically.
-> +                * Dynamically check it now
-> +                */
-> +               if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
-> +                       enum bpf_access_type atype = meta->raw_mode ? BPF_WRITE : BPF_READ;
-> +                       int offset = access_size - 1;
-> +
-> +                       /* Allow zero-byte read from NULL or PTR_TO_CTX */
+On Thu, Jul 21, 2022 at 10:34:56AM +0200, Luca Ellero wrote:
+> From: Luca Ellero <l.ellero@asem.it>
+>=20
+> ADS7845 doesn't support pressure.
+> This patch avoids the following error reported by libinput-list-devices:
+> "ADS7845 Touchscreen: kernel bug: device has min =3D=3D max on ABS_PRESSU=
+RE".
+>=20
+> Signed-off-by: Luca Ellero <l.ellero@asem.it>
 
-This will not be handling the case for NULL, only for kfunc(ptr_to_ctx, 0)
-A null pointer has its reg->type as scalar, so it will be handled by
-the default case.
+I don't know how picky Dmitry is, but some maintainers would ask you to
+either add a Signed-off-by with the email address you sent this patch
+=66rom, or make sure to send it from the asem.it address.
 
-> +                       if (access_size == 0)
-> +                               return zero_size_allowed ? 0 : -EINVAL;
+Best regards
+Uwe
 
-We should use -EACCES, just to be consistent.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> +
-> +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
-> +                                               atype, -1, false);
-> +               }
-> +
-> +               fallthrough;
->         default: /* scalar_value or invalid ptr */
->                 /* Allow zero-byte read from NULL, regardless of pointer type */
->                 if (zero_size_allowed && access_size == 0 &&
-> @@ -5335,6 +5355,7 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
->         WARN_ON_ONCE(regno < BPF_REG_2 || regno > BPF_REG_5);
->
->         memset(&meta, 0, sizeof(meta));
-> +       meta.is_kfunc = true;
->
->         if (may_be_null) {
->                 saved_reg = *mem_reg;
-> --
-> 2.36.1
->
+--w5lsgzu4zpvcl76q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLZu6AACgkQwfwUeK3K
+7Aka9Qf/XMlQ2ClmcylbAAWGWytbtIGqwu4CwJcTG7Pxn4pfXGu8ADg+Vy6uQF6z
+2Ut/9XBYLjDl3jPKsSu9jIi30somF5903y82En7SplEisCRSdNUcGS6RZrMJ76yK
+W/y9Tee7KPyE7HMI4WsrfhOUSSYed8AO0OhS2BIIYHUcF8285ZS3IaFhzGdasAIl
+GQ8Bv7nQjPefBgMKN/tuF6C3iArEhDXm4VyicpEhtqtf3KK5238nNUtdkngJ3y9M
+HIrc5gQlogZ2vjppWa5z5DH/y4OqaTtnZOAE0V7jEVE2m7MZdS1cXzcai9dymUKJ
+nBu6vY5CfZZIPzpYds/02eqin2KnkQ==
+=xW2N
+-----END PGP SIGNATURE-----
+
+--w5lsgzu4zpvcl76q--
