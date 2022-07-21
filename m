@@ -2,190 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B203B57CE48
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 16:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C9DA57CE97
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 17:07:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232336AbiGUOzR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 10:55:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41704 "EHLO
+        id S231845AbiGUPHE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 11:07:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232334AbiGUOzP (ORCPT
+        with ESMTP id S231783AbiGUPHB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 10:55:15 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5E05F5E;
-        Thu, 21 Jul 2022 07:55:10 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C86916601AAA;
-        Thu, 21 Jul 2022 15:55:08 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658415309;
-        bh=EyTW2qzfSr+AZwVRWnf0cfBClBBVk9mIXqcmwKrTY2s=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=aSEK3wBJW5ZfYWmPNlbU0sePZNNXqwE5AWAY0mJjsvUxtxBli+P/UKHnuJANoPXq7
-         i6YchppxsUCeAkZabMD3HcUnpaKhjWb8sHCBVZys24FUwLxG+uctouTt7zv/etPMVS
-         nolBLYYTQL+7sIBdXza+ndbUjXIo3MfypvJenbXhmDIFaxKNIH+DUA/zTkJ0sU2q+E
-         gG6FhfvlzqcTG3tjE9UfPG4RjFNhti5Z9yx/7arp0+aq0e2WejNFtNxiMZHhMF6i31
-         l11Wi9NEOqihzUURMuI23vmri2Ffz90BVG7OgT75M5Hf/vi33Nr+hpCpwVi1lFUhCy
-         AyJ2RTNWhDHFg==
-Message-ID: <1eed6877-8868-6b29-b7c9-90986d230f36@collabora.com>
-Date:   Thu, 21 Jul 2022 16:55:06 +0200
+        Thu, 21 Jul 2022 11:07:01 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436F48721A
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 08:07:00 -0700 (PDT)
+Received: from fsav118.sakura.ne.jp (fsav118.sakura.ne.jp [27.133.134.245])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 26LF6Wt0020230;
+        Fri, 22 Jul 2022 00:06:32 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav118.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp);
+ Fri, 22 Jul 2022 00:06:32 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 26LF6SPH020221
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 22 Jul 2022 00:06:28 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <2bcd5385-2423-2e8f-be01-9db93afaba43@I-love.SAKURA.ne.jp>
+Date:   Fri, 22 Jul 2022 00:06:26 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v1 4/6] Input: mt6779-keypad - support double keys matrix
+Subject: Re: [syzbot] INFO: task hung in __input_unregister_device (4)
 Content-Language: en-US
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Fabien Parent <parent.f@gmail.com>, devicetree@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-arm-kernel@lists.infradead.org
-References: <20220720-mt8183-keypad-v1-0-ef9fc29dbff4@baylibre.com>
- <20220720-mt8183-keypad-v1-4-ef9fc29dbff4@baylibre.com>
- <b2676b5c-14b3-2058-9fb8-d6d78cc5d29c@collabora.com>
- <87ilnqh632.fsf@baylibre.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <87ilnqh632.fsf@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        syzkaller-bugs@googlegroups.com, rydberg@bitmath.org,
+        syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>,
+        linux-input@vger.kernel.org
+References: <000000000000ed47a705e2cbd347@google.com>
+ <bae8fb53-969c-0e92-2e57-f602e4eb848e@I-love.SAKURA.ne.jp>
+ <8106256.T7Z3S40VBb@opensuse>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <8106256.T7Z3S40VBb@opensuse>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Il 21/07/22 16:51, Mattijs Korpershoek ha scritto:
-> On Thu, Jul 21, 2022 at 10:34, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> wrote:
+On 2022/07/21 23:45, Fabio M. De Francesco wrote:
+> If it can be fixed, as you said, by a simple notification to 
+> wait_event_interruptible(), why not changing iforce_usb_disconnect() the 
+> following way?
 > 
->> Il 20/07/22 16:48, Mattijs Korpershoek ha scritto:
->>> MediaTek keypad has 2 modes of detecting key events:
->>> - single key: each (row, column) can detect one key
->>> - double key: each (row, column) is a group of 2 keys
->>>
->>> Double key support exists to minimize cost, since it reduces the number
->>> of pins required for physical keys.
->>>
->>> Double key is configured by setting BIT(0) of the KP_SEL register.
->>>
->>> Enable double key matrix support based on the mediatek,double-keys
->>> device tree property.
->>>
->>> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->>> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
->>>
->>> diff --git a/drivers/input/keyboard/mt6779-keypad.c b/drivers/input/keyboard/mt6779-keypad.c
->>> index bf447bf598fb..9a5dbd415dac 100644
->>> --- a/drivers/input/keyboard/mt6779-keypad.c
->>> +++ b/drivers/input/keyboard/mt6779-keypad.c
->>> @@ -18,6 +18,7 @@
->>>    #define MTK_KPD_DEBOUNCE_MASK	GENMASK(13, 0)
->>>    #define MTK_KPD_DEBOUNCE_MAX_MS	256
->>>    #define MTK_KPD_SEL		0x0020
->>> +#define MTK_KPD_SEL_DOUBLE_KP_MODE	BIT(0)
->>>    #define MTK_KPD_SEL_COL	GENMASK(15, 10)
->>>    #define MTK_KPD_SEL_ROW	GENMASK(9, 4)
->>>    #define MTK_KPD_SEL_COLMASK(c)	GENMASK((c) + 9, 10)
->>> @@ -31,6 +32,7 @@ struct mt6779_keypad {
->>>    	struct clk *clk;
->>>    	u32 n_rows;
->>>    	u32 n_cols;
->>> +	bool double_keys;
->>>    	DECLARE_BITMAP(keymap_state, MTK_KPD_NUM_BITS);
->>>    };
->>>    
->>> @@ -67,8 +69,13 @@ static irqreturn_t mt6779_keypad_irq_handler(int irq, void *dev_id)
->>>    			continue;
->>>    
->>>    		key = bit_nr / 32 * 16 + bit_nr % 32;
->>> -		row = key / 9;
->>> -		col = key % 9;
->>> +		if (keypad->double_keys) {
->>> +			row = key / 13;
->>> +			col = (key % 13) / 2;
->>> +		} else {
->>> +			row = key / 9;
->>> +			col = key % 9;
->>> +		}
->>
->> I don't fully like this if branch permanently evaluating true or false, as no
->> runtime can actually change this result...
->>
->> In practice, it's fine, but I was wondering if anyone would disagree with the
->> following proposal...
->>
->> struct mt6779_keypad {
->> 	.......
->> 	void (*calc_row_col)(unsigned int *row, unsigned int *col);
->> };
->>
->> In mt6779_keypad_irq_handler:
->>
->> 	key = bit_nr / 32 * 16 + bit_nr % 32;
->> 	keypad->calc_row_col(&row, &col);
->>
->> and below...
->>
->>>    
->>>    		scancode = MATRIX_SCAN_CODE(row, col, row_shift);
->>>    		/* 1: not pressed, 0: pressed */
->>> @@ -150,6 +157,8 @@ static int mt6779_keypad_pdrv_probe(struct platform_device *pdev)
->>>    
->>>    	wakeup = device_property_read_bool(&pdev->dev, "wakeup-source");
->>>    
->>> +	keypad->double_keys = device_property_read_bool(&pdev->dev, "mediatek,double-keys");
->>> +
->>>    	dev_dbg(&pdev->dev, "n_row=%d n_col=%d debounce=%d\n",
->>>    		keypad->n_rows, keypad->n_cols, debounce);
->>>    
->>> @@ -166,6 +175,10 @@ static int mt6779_keypad_pdrv_probe(struct platform_device *pdev)
->>>    	regmap_write(keypad->regmap, MTK_KPD_DEBOUNCE,
->>>    		     (debounce * (1 << 5)) & MTK_KPD_DEBOUNCE_MASK);
->>>    
->>> +	if (keypad->double_keys)
->>
->> 		keypad->calc_row_col = mt6779_keypad_calc_row_col_double_kp;
->>
->>> +		regmap_update_bits(keypad->regmap, MTK_KPD_SEL,
->>> +				   MTK_KPD_SEL_DOUBLE_KP_MODE, MTK_KPD_SEL_DOUBLE_KP_MODE);
->>> +
->>
->> 	} else {
->> 		keypad->calc_row_col = mt6779_keypad_calc_row_col_single_kp;
->> 	}
->>
->>>    	regmap_update_bits(keypad->regmap, MTK_KPD_SEL, MTK_KPD_SEL_ROW,
->>>    			   MTK_KPD_SEL_ROWMASK(keypad->n_rows));
->>>    	regmap_update_bits(keypad->regmap, MTK_KPD_SEL, MTK_KPD_SEL_COL,
->>
->> what do you think?
+> static void iforce_usb_disconnect(struct usb_interface *intf)
+> {
+>         struct iforce_usb *iforce_usb = usb_get_intfdata(intf);
 > 
-> Hi Angelo,
+>         usb_set_intfdata(intf, NULL);
 > 
-> Thank you for your detailed suggestion. I like it and since I have to
-> resend a v2 anyways, I will consider implementing it.
-> On the other hand, I'm a little reluctant because it means that I'll
-> have to remove Matthias's reviewed-by :(
+>         __set_bit(IFORCE_XMIT_RUNNING, iforce_usb->iforce.xmit_flags);
+
+I assume you meant clear_bit() here, for
+
+	wait_event_interruptible(iforce->wait,
+		!test_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags));
+
+waits until IFORCE_XMIT_RUNNING bit is cleared.
+
+However, clear_bit() is racy, for IFORCE_XMIT_RUNNING bit is set by
+iforce_send_packet() at the previous line.
+
+>         wake_up(&iforce_usb->iforce.wait);
 > 
+>         input_unregister_device(iforce_usb->iforce.dev);
+> 
+>         usb_free_urb(iforce_usb->irq);
+>         usb_free_urb(iforce_usb->out);
+> 
+>         kfree(iforce_usb);
+> }
+> 
+> I am sorry if I'm overlooking anything, especially because I'm entering 
+> this thread without reading the other messages and so without knowing the 
+> whole context. Furthermore I haven't even test-compiled these changes :-(
 
-Yes, you will have to. In that case:
+So far, I asked syzbot to test
 
-Matthias, any considerations about this idea? :)))
+--- a/drivers/input/joystick/iforce/iforce-usb.c
++++ b/drivers/input/joystick/iforce/iforce-usb.c
+@@ -258,6 +258,9 @@ static void iforce_usb_disconnect(struct usb_interface *intf)
+ 
+ 	usb_set_intfdata(intf, NULL);
+ 
++	usb_poison_urb(iforce_usb->irq);
++	usb_poison_urb(iforce_usb->out);
++
+ 	input_unregister_device(iforce_usb->iforce.dev);
+ 
+ 	usb_free_urb(iforce_usb->irq);
 
->>
->> Cheers,
->> Angelo
+which still triggered this problem, and
 
+--- a/drivers/input/joystick/iforce/iforce-main.c
++++ b/drivers/input/joystick/iforce/iforce-main.c
+@@ -200,8 +200,10 @@ static void iforce_close(struct input_dev *dev)
+ 		/* Disable force feedback playback */
+ 		iforce_send_packet(iforce, FF_CMD_ENABLE, "\001");
+ 		/* Wait for the command to complete */
+-		wait_event_interruptible(iforce->wait,
+-			!test_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags));
++		wait_event_interruptible_timeout
++			(iforce->wait,
++			 !test_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags),
++			 5 * HZ);
+ 	}
+ 
+ 	iforce->xport_ops->stop_io(iforce);
+
+which did not trigger this problem.
+
+Since wait_event_interruptible() was used here, I think we can expect that
+it is tolerable to continue without waiting for the command to complete...
 
