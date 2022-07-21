@@ -2,45 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92A9157C9E3
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 13:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78D4157C9E8
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 13:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233213AbiGULo7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 07:44:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54720 "EHLO
+        id S230472AbiGULss (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 07:48:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233224AbiGULo6 (ORCPT
+        with ESMTP id S229661AbiGULsr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 07:44:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8640782FB6
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 04:44:57 -0700 (PDT)
+        Thu, 21 Jul 2022 07:48:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CCA8213C;
+        Thu, 21 Jul 2022 04:48:46 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F00761C19
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 11:44:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE75C3411E;
-        Thu, 21 Jul 2022 11:44:55 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 893E061C61;
+        Thu, 21 Jul 2022 11:48:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FB39C3411E;
+        Thu, 21 Jul 2022 11:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658403896;
-        bh=vTmJNKzjgYgbuMDrg3L9eoi1hiju/a0KulrK6MZ0J5Q=;
+        s=k20201202; t=1658404125;
+        bh=JTMyejOti6w6vxB7oO98F/1xGgPNOKOcBtobYLK8O24=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=gXqM0vZsbqHUQuE3hIQ9Gn1EGv8vYYljEXejLgq07IMI25z9S4A4dg0Q66ho+Wf32
-         z4az6M8QFxcG1DVQDrdZacxlv1Bc6GjXfHoyoSs35THZsp3gaIUQIE+smt5nyt8n7o
-         rpB4u9kWxSnNC5ly7C5R+5h9MwmT9ZfopNNLC0n8o9Yns7Kf4qumyRUqzxJOBuTwyP
-         whxauApFk/L6Q1XgHDS8K8ysR/Cn8HaqlxTncnOoCYWoRVwyamqZ/S563ZSKkEco1n
-         T4LfRv/WoYO3pDu1JWTjmmcN/pTNSywcpDSICoESOUwmIh1IPCdOATD/Ycpg5zLrRw
-         xjts4g8zMj+Jw==
-Date:   Thu, 21 Jul 2022 13:44:53 +0200 (CEST)
+        b=Yk6KK4DzU4Ng4AwnWv96vLV7llVZFQ5agAqVWOkqUcqVEs/XFmNm6TtTE/tpnevvf
+         Lu2Yo8MXoC8t9qaMIhXGFS42trekjXqzX+mFiNtlBRKuuaQ71mcD1DbpmBfRlNflZS
+         ZaCZf/7j8LECtUdtD+SMaILQuLKiiYR/+yWkp/BvMxFICZnrp7FIHI8vLDgcaUY8be
+         x7ZvuPJUvT1FVWsmAPLpss956S/AuRscKplHTZr49Dnra+UgyABm6akAL1SXxuThYU
+         6urpdV44FhLe4ZK+W1YzS710Y0nHAhP2VnkVYHPSvWAD4VDkoeH4ZvK1urPZkhCxA0
+         ASTVHYIAGGaog==
+Date:   Thu, 21 Jul 2022 13:48:41 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: Re: [PATCH 00/11] Fixes and implementation of AMD SFH 1.1
- functionality
-In-Reply-To: <20220712181836.3488343-1-Basavaraj.Natikar@amd.com>
-Message-ID: <nycvar.YFH.7.76.2207211344360.19850@cbobk.fhfr.pm>
-References: <20220712181836.3488343-1-Basavaraj.Natikar@amd.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc:     Guenter Roeck <linux@roeck-us.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nergi Rahardi <nergi@google.com>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>
+Subject: Re: [PATCH] HID: nintendo: Add missing array termination
+In-Reply-To: <Ys33FIuNEsyZw8EF@google.com>
+Message-ID: <nycvar.YFH.7.76.2207211348340.19850@cbobk.fhfr.pm>
+References: <20220712221705.1847793-1-linux@roeck-us.net> <Ys33FIuNEsyZw8EF@google.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,13 +56,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 12 Jul 2022, Basavaraj Natikar wrote:
+On Tue, 12 Jul 2022, Dmitry Torokhov wrote:
 
-> Changes includes fixes and support of new firmware (SFH 1.1) with new
-> PCI device ID to implement SFH1.1 functionality which is used by
-> newer AMD SOCs.
+> On Tue, Jul 12, 2022 at 03:17:05PM -0700, Guenter Roeck wrote:
+> > joycon_dpad_inputs_jc[] is unterminated. This may result in odd warnings
+> > such as
+> > 
+> > input: input_set_capability: invalid code 3077588140 for type 1
+> > 
+> > or in kernel crashes in nintendo_hid_probe(). Terminate the array to fix
+> > the problem.
+> > 
+> > Fixes: 2af16c1f846bd ("HID: nintendo: add nintendo switch controller driver")
+> > Cc: Daniel J. Ogorchock <djogorchock@gmail.com>
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> 
+> Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> 
+> I'd recommend tagging stable on this one.
 
-Queued in hid.git#for-5.20/amd-sfh. Thanks,
+I did so and applied, thanks.
 
 -- 
 Jiri Kosina
