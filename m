@@ -2,79 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA60057C9EE
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 13:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A22657CB8C
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 15:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233224AbiGULuJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 07:50:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58238 "EHLO
+        id S234016AbiGUNLd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 09:11:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230230AbiGULuI (ORCPT
+        with ESMTP id S233931AbiGUNLa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 07:50:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28442BC5
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 04:50:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8EEE461C21
-        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 11:50:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FCE9C3411E;
-        Thu, 21 Jul 2022 11:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658404207;
-        bh=6oL34VVFDeazlj147McteD2jFavkEBHLQCKAVdnNm4M=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=ZQJL5D9oryzhFvD7V43ohjWZtS0VtF6GLLuGQBiCBPMI+8AgT6cXkFfFVdIvyCEq1
-         j1Iyfmb2Byrzb2A/UNCwKLBI0zZrz2MrEF6yc0O4gNH2TZKoRNQSOq7x8VOeMSFul/
-         I71RY8OKat6QdATbI+fg1KtXceefCgNo0dcjdKOgMWVXIwZGe/p+xMh9zS5GYQeKzC
-         IQqOSNYhh8lmQTg7AtaNiQ+C9Xwlu3GPsPlh61K9Q19FpVEuv1hRtNLvr92jX7omIk
-         dm+VJDMNP4fooB3fY4mPjIGnPIcXX+8ic60/hXSvViJ3YyPxXKkz0bOqJef32jbniu
-         CzH8OLSalJ7Jg==
-Date:   Thu, 21 Jul 2022 13:50:03 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jason Gerecke <killertofu@gmail.com>
-cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Joshua Dickens <Joshua@Joshua-Dickens.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: Re: [PATCH] HID: wacom: Force pen out of prox if no events have been
- received in a while
-In-Reply-To: <20220715230519.2183-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2207211349490.19850@cbobk.fhfr.pm>
-References: <20220715230519.2183-1-jason.gerecke@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Thu, 21 Jul 2022 09:11:30 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4409C28E2B
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 06:11:24 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id d8so2211793wrp.6
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 06:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=2GDU2IRydfXQkfqrUDMU1D/n3Z3JpQ7CUV8m7kZHOXo=;
+        b=zM6uqqJD0zUpxrXvqvUJTtgzK7C8wI0w7+NobGNxJFW/oU2rftvyIufnMzzsksbQfo
+         UPL6bIwDPZSX2erGUifThY2H1sG1qGDQM31W5Umj8L55JPcbgUJ+cO+aXCfAaeSJxRc3
+         myUrxdjxtk9d5svXSSZra335QyPA3OCo5I+I3Hnp+g+6il7yE8imHH9KCq0lfrM3YMEg
+         HRzpljYsgy8TtyJV8zSBIpAxN9W5F+b4p9vLrSp75U1Jufzo1WbGPolvsp4cUx6Pn5cD
+         DsCs0sYDiem6ZuqbEt1ZrQFRxc5RhdUk5wrtjJo5b9rf5hw4s7m0p7UieJO7pPFlbwCz
+         wHng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=2GDU2IRydfXQkfqrUDMU1D/n3Z3JpQ7CUV8m7kZHOXo=;
+        b=hwktCXyZdXXl6uYzwaYSUH1ekUQ+4B0Lmc9GSDZ06uBUVpO7aztSF75yTtbDicpXUg
+         ktw0/uWIftighTWljNGrs8UEtU8NXMNMrZnTl2o7joPl7gGOznAji4YOF0jhVIhWkMFf
+         QBNRFXgqD+SkcmDflo2OpH+/KzlHaGW1cW7xcfDI9e3lBQkAj3Q+hZZ1aF0X5qnSU6GV
+         rfXWLttkMrfgzyoRTwDNj7kdQxlu9LjKsJ6fE/WRpP9gaDRVetpo6hEOL0TXCcGcRg31
+         SWTMjzId2rBDKLD0YtGEH8AOgsn2tfZ9iECaLrkP11JhZqIEUUO5I/ABgK2Mq4cKQw0G
+         L6Yg==
+X-Gm-Message-State: AJIora/h6yN3PVvg4O7FgZDCUL38QAwBte3lT3hzcoOBJ/1YWcr6BQXn
+        vG+86+VbAQ67ckUH7ryYuuKEiA==
+X-Google-Smtp-Source: AGRyM1vMWJglV7kWdNrjYZOUhLc5gsJSA6p5P1/egh9annTDsloDA+h8irZ0fOR8tFshFQMxXCNoOQ==
+X-Received: by 2002:a05:6000:1d9c:b0:21e:4a6d:664d with SMTP id bk28-20020a0560001d9c00b0021e4a6d664dmr6415826wrb.673.1658409082764;
+        Thu, 21 Jul 2022 06:11:22 -0700 (PDT)
+Received: from localhost ([82.66.159.240])
+        by smtp.gmail.com with ESMTPSA id l37-20020a05600c1d2500b003a33227e49bsm1635651wms.4.2022.07.21.06.11.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 06:11:22 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Fabien Parent <parent.f@gmail.com>, devicetree@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v1 2/6] dt-bindings: mediatek,mt6779-keypad: use
+ unevaluatedProperties
+In-Reply-To: <734ed3cf-1461-6067-e718-663ca4be47a6@linaro.org>
+References: <20220720-mt8183-keypad-v1-0-ef9fc29dbff4@baylibre.com>
+ <20220720-mt8183-keypad-v1-2-ef9fc29dbff4@baylibre.com>
+ <e1ec8511-d1dd-faa5-031f-50c4e55062cd@linaro.org>
+ <874jzaj0m5.fsf@baylibre.com>
+ <734ed3cf-1461-6067-e718-663ca4be47a6@linaro.org>
+Date:   Thu, 21 Jul 2022 15:11:21 +0200
+Message-ID: <87tu7ahapy.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 15 Jul 2022, Jason Gerecke wrote:
+On Thu, Jul 21, 2022 at 11:16, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-> Prox-out events may not be reliably sent by some AES firmware. This can
-> cause problems for users, particularly due to arbitration logic disabling
-> touch input while the pen is in prox.
-> 
-> This commit adds a timer which is reset every time a new prox event is
-> received. When the timer expires we check to see if the pen is still in
-> prox and force it out if necessary. This is patterend off of the same
-> solution used by 'hid-letsketch' driver which has a similar problem.
-> 
-> Link: https://github.com/linuxwacom/input-wacom/issues/310
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> On 21/07/2022 11:06, Mattijs Korpershoek wrote:
+>> On Wed, Jul 20, 2022 at 19:14, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+>> 
+>>> On 20/07/2022 16:48, Mattijs Korpershoek wrote:
+>>>> writing-bindings.rst states:
+>>>>> - If schema includes other schema (e.g. /schemas/i2c/i2c-controller.yaml) use
+>>>>>   "unevaluatedProperties:false". In other cases, usually use
+>>>>>   "additionalProperties:false".
+>>>>
+>>>> mt6779-keypad includes matrix-keymap.yaml so replace additionalProperties:false
+>>>> by unevaluatedProperties:false.
+>>>
+>>> This is not sufficient explanation. You now allow all properties from
+>>> matrix-keymap.yaml, which might be desired or might be not (e.g. they
+>>> are not valid for this device). Please investigate it and mention the
+>>> outcome.
+>> 
+>> Hi Krzysztof,
+>> 
+>> Thank you for your prompt review.
+>> 
+>> In mt6779_keypad_pdrv_probe(), we call
+>> * matrix_keypad_parse_properties() which requires keypad,num-rows and keypad,num-cols.
+>> * matrix_keypad_build_keymap() which uses linux,keymap
+>> 
+>> Therefore, all properties from matrix-keymap.yaml are
+>> required by the mt6779-keypad 
+> Better to mention the device, not driver.
 
-Applied, thanks.
+I mixed up driver versus device (hardware). Sorry about that.
 
--- 
-Jiri Kosina
-SUSE Labs
+For successful key detection, the hardware (called MediaTek keypad) 
+requires that we program rows/columns via the KP_SEL register.
+So num-rows and num-cols are valid properties for this device.
 
+The MediaTek keypad has a set of bits representing keys, from KEY0 to KEY77. 
+These keys are organized in a 8x8 hardware matrix.
+Therefore, linux,keymap is also a valid property for this device.
+>
+>> 
+>> In v2, I will add the above justification and also add all 3 properties
+>> in the "required" list.
+>> 
+>> Initially, I did not do this because from a dts/code perspective it seemed
+>> interesting to split out SoC specific keyboard node vs board specific key configuration:
+>> * [PATCH v1 5/6] arm64: dts: mediatek: mt8183: add keyboard node # SoC specific
+>> * [PATCH v1 6/6] arm64: dts: mediatek: mt8183-pumpkin: add keypad support # board specific
+>> 
+>> What would be the recommend approach for above?
+>> I see at least 2:
+>> * "move the whole keyboard node into the board file (mt8183-pumpkin.dts)" even if it generates
+>>   duplication between boards using the same SoC.
+>> * "add a "dummy keymap,row,cols" properties in the soc node which can be overriden in board file.
+>>   For example, use rows and cols = 0 which would have the driver early exit.
+>> 
+> SoC DTSI should have only SoC properties. The keyboard module is part of
+> SoC. The keys and how it is wired to them - not.
+
+Indeed. So the split I send in v1 is "valid", from a device(hardware)
+point of view.
+In that case i'll not make the properties from matrix-keymap.yaml
+*required* in v2.
+
+Thanks again for your feedback.
+
+Mattijs
+
+>
+> Best regards,
+> Krzysztof
