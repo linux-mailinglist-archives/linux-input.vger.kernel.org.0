@@ -2,71 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C11D57D321
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 20:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D27C357D42B
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jul 2022 21:32:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbiGUSRI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jul 2022 14:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38124 "EHLO
+        id S233082AbiGUTcd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jul 2022 15:32:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbiGUSRH (ORCPT
+        with ESMTP id S229479AbiGUTcb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jul 2022 14:17:07 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC666EEB6;
-        Thu, 21 Jul 2022 11:17:05 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id u5so3423538wrm.4;
-        Thu, 21 Jul 2022 11:17:05 -0700 (PDT)
+        Thu, 21 Jul 2022 15:32:31 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD8A88F1E
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 12:32:30 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id x91so3444617ede.1
+        for <linux-input@vger.kernel.org>; Thu, 21 Jul 2022 12:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Yxx1e89atLUMVwn1S4GxaEg7bWzejrusn7MtGiRpjkk=;
-        b=altUeCfXn6znAXVOq+Xo/Ndd7+GQ7/rHphbh1JD8QMizp1uPvxUMF5DdFdLBHa7YBQ
-         KSsleK/rQKWGlJixFMG+6WzvjvZ06KEohHjf9/2pliECBjNTPWXjHxbJ5IFlOpS+Z6Fw
-         +mu+5HWwUWDi7sl+oXohhOLCquYePnijRRwCcQgTVqs0rWaTAazIa2gu3VXi1T00wS/t
-         076aL7nFI3RDVEI1k5kmdXG5Gs1vhcmLRYYDDhT0U1vjs7+psJu2hUHyuY+b+UBBi/6s
-         56W2cz0qLEdXTxYE/ZCHgdmjoDStI1WAuwAWWVEzPob80g9hSjpryRjr18OS6Ysvs7kR
-         sNCQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:cc:from:in-reply-to:content-transfer-encoding;
+        bh=qlna7oTiSptQ7tN0H9VSjBuiazrFsuWecl4k2lvsb0g=;
+        b=Twx7iv2tqFO2oEMSg8BNkGJnpAOuCnv1dXyeAW2keYqRVKj4BXf8tLNVD9Y51NAlNW
+         JATZxpN2f4bKRqgiIdyIKqbU+0IetenqL8lwvo2ra7u8VTX0dWbdnL4wrTjz/Jh5J50S
+         q3Oeme5SKLgUF6Wpr/ZIALpQxpNR1ykUzZ1Oja4vh3WrttkCx4YecpJjDgiFufrRdYGQ
+         9HtsbPLrXTdq6Bubq/G/POY2Xm3VkmUIDPvlPPaLecJvG++zkKvR2xoD0Q1q07o+Uog1
+         y0OFn89twSkJRgJ8mahQ2gNgcdFDijHsFZLbPvFH15vw3dZXpRIoJFC4++6ntBXFtWiS
+         Eccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Yxx1e89atLUMVwn1S4GxaEg7bWzejrusn7MtGiRpjkk=;
-        b=nzaKDcO72jbvFK2rkD4S4UUELHotRZkoI+hp0ekUbxery6EHLLsKCQhTNOpu8lxIpa
-         CLoNqPSJXvztuVQxkSq4pbeGQFItLopSGkot8PXrYRHXz7O3WIa1GM4CGPIukdDT/zgt
-         whlIYItIeSp+SXoI0d6HVyNJGGYBX+NYukTeKoz0n/FM0pOaZJRtip1ojiLHRYsQDXI8
-         V2aL63T40Xe/gjD2itPHEdg2QAnsWF2wWeKS//0CYbNg6I0vlXVexFnoSB5y8NjweGxb
-         TRBg/stkKmiERCWUQ07jWsLrZv7MSomNrrWKgALbMiiWSo1799BKzsw42D8pp7czKHtW
-         8MNQ==
-X-Gm-Message-State: AJIora/2736KNE8dWUwp2EHiqil3DGbrcaoUakUVwJwTNgAR70MxOSfE
-        nBUZhEr/j7Vvto4uFRgmwC4=
-X-Google-Smtp-Source: AGRyM1tOnLZ284hQJDfPeDNtJYVslip/xjS8cgczTs07jGoDS76bGyhePnvElvGVpddPaGrO1t5C8Q==
-X-Received: by 2002:a5d:4889:0:b0:21d:eab7:f798 with SMTP id g9-20020a5d4889000000b0021deab7f798mr23275267wrq.96.1658427424145;
-        Thu, 21 Jul 2022 11:17:04 -0700 (PDT)
-Received: from opensuse.localnet (host-95-235-102-55.retail.telecomitalia.it. [95.235.102.55])
-        by smtp.gmail.com with ESMTPSA id f9-20020adfb609000000b0021e519eba9bsm2518843wre.42.2022.07.21.11.17.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 11:17:02 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     syzkaller-bugs@googlegroups.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        syzkaller-bugs@googlegroups.com, rydberg@bitmath.org,
-        syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>,
-        linux-input@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>, ira.weiny@intel.com
-Subject: Re: [syzbot] INFO: task hung in __input_unregister_device (4)
-Date:   Thu, 21 Jul 2022 20:16:59 +0200
-Message-ID: <12027074.O9o76ZdvQC@opensuse>
-In-Reply-To: <8095587.T7Z3S40VBb@opensuse>
-References: <000000000000ed47a705e2cbd347@google.com> <2bcd5385-2423-2e8f-be01-9db93afaba43@I-love.SAKURA.ne.jp> <8095587.T7Z3S40VBb@opensuse>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:cc:from:in-reply-to
+         :content-transfer-encoding;
+        bh=qlna7oTiSptQ7tN0H9VSjBuiazrFsuWecl4k2lvsb0g=;
+        b=hpU6Wg5V5NNOLR4CvlZ1Ha2CZhhB+H80cHCl1je0zVEiQvMKdlIe7cHlZPd8eZ1gJ+
+         eBsS/lVhRaQNeGXPe3XVbC/ViAi1oWwdYz9l/JS+t0kXSt4AYd3cwfpjboQOnoljmw/b
+         iUB+mr2ruN/18oL0J0vPaDfLAW2P0j5WjC252/NERDWf3CYhzlg7zKeEBqZf5Pr1NA59
+         ZUWWyDvo+iE1XnhSVOcam7vHu2ltg3hy/VvO7efI1r4VCH7Js0H0GztFMC6oWqR1BgO7
+         b+qYvrBzBgns62lshw4ljUQwjFJM6dIPgPJUNYx9Gig19hPge97D9Kc30IDJnY1kd8D9
+         vN+Q==
+X-Gm-Message-State: AJIora/R6cRnB1zUC3hcITUy3VPup47xIX2GaYdHelWPkap57vgVLAeh
+        j1DhVhgjmET7xeO7eWc/4nmRrmujd/Y=
+X-Google-Smtp-Source: AGRyM1vhAjFUY+SHmpKjmxv+kpe4yopPhaeAUqnIQQ9oPn6Yl4zCvfc0uCNYpN1UI1LW36/NU1KNag==
+X-Received: by 2002:a05:6402:34c8:b0:43b:c782:2419 with SMTP id w8-20020a05640234c800b0043bc7822419mr4570335edc.158.1658431948780;
+        Thu, 21 Jul 2022 12:32:28 -0700 (PDT)
+Received: from ?IPV6:2a02:168:575a:b00b:c379:f460:84c1:10b7? ([2a02:168:575a:b00b:c379:f460:84c1:10b7])
+        by smtp.googlemail.com with ESMTPSA id 26-20020a170906319a00b00722f069fd40sm1128184ejy.159.2022.07.21.12.32.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Jul 2022 12:32:27 -0700 (PDT)
+Message-ID: <92b162b8-40c1-c62d-85b1-ff7449ca17d3@gmail.com>
+Date:   Thu, 21 Jul 2022 21:32:26 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: Stylus battery reported as having 1% charge even though fully
+ charged
+Content-Language: en-US
+To:     linux-input@vger.kernel.org
+References: <5d775fec-1c42-927b-affd-c9f7d3c602a8@gmail.com>
+ <28d18d2f39fef4da00021d21cf2ccd7eb4a29ac9.camel@hadess.net>
+Cc:     Sebastian Arnhold <sebastian.arnhold387@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>
+From:   Gregor Riepl <onitake@gmail.com>
+In-Reply-To: <28d18d2f39fef4da00021d21cf2ccd7eb4a29ac9.camel@hadess.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,148 +76,9 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On gioved=C3=AC 21 luglio 2022 18:53:27 CEST Fabio M. De Francesco wrote:
-> On gioved=C3=AC 21 luglio 2022 17:06:26 CEST Tetsuo Handa wrote:
-> > On 2022/07/21 23:45, Fabio M. De Francesco wrote:
-> > > If it can be fixed, as you said, by a simple notification to=20
-> > > wait_event_interruptible(), why not changing iforce_usb_disconnect()=
-=20
-> the=20
-> > > following way?
-> > >=20
-> > > static void iforce_usb_disconnect(struct usb_interface *intf)
-> > > {
-> > >         struct iforce_usb *iforce_usb =3D usb_get_intfdata(intf);
-> > >=20
-> > >         usb_set_intfdata(intf, NULL);
-> > >=20
-> > >         __set_bit(IFORCE_XMIT_RUNNING, iforce_usb-
->iforce.xmit_flags);
-> >=20
-> > I assume you meant clear_bit() here, for
-> >=20
-> > 	wait_event_interruptible(iforce->wait,
-> > 		!test_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags));
-> >=20
-> > waits until IFORCE_XMIT_RUNNING bit is cleared.
-> >=20
->=20
-> Sorry, yes you are correct. I didn't note that negation of test_bit().
-> However, you understood what I was trying to convey :-)
->=20
-> > However, clear_bit() is racy, for IFORCE_XMIT_RUNNING bit is set by
-> > iforce_send_packet() at the previous line.
->=20
-> Why not protecting with a mutex, I mean both in iforce_usb_disconnect()=20
-and=20
-> soon before calling iforce_send_packet() in iforce_close()?
->=20
-> > >         wake_up(&iforce_usb->iforce.wait);
-> > >=20
-> > >         input_unregister_device(iforce_usb->iforce.dev);
-> > >=20
-> > >         usb_free_urb(iforce_usb->irq);
-> > >         usb_free_urb(iforce_usb->out);
-> > >=20
-> > >         kfree(iforce_usb);
-> > > }
-> > >=20
-> > > I am sorry if I'm overlooking anything, especially because I'm=20
-entering=20
-> > > this thread without reading the other messages and so without knowing=
-=20
-> the=20
-> > > whole context. Furthermore I haven't even test-compiled these changes=
-=20
-> :-(
-> >=20
-> > So far, I asked syzbot to test
-> >=20
-> > --- a/drivers/input/joystick/iforce/iforce-usb.c
-> > +++ b/drivers/input/joystick/iforce/iforce-usb.c
-> > @@ -258,6 +258,9 @@ static void iforce_usb_disconnect(struct=20
-> usb_interface *intf)
-> > =20
-> >  	usb_set_intfdata(intf, NULL);
-> > =20
-> > +	usb_poison_urb(iforce_usb->irq);
-> > +	usb_poison_urb(iforce_usb->out);
-> > +
-> >  	input_unregister_device(iforce_usb->iforce.dev);
-> > =20
-> >  	usb_free_urb(iforce_usb->irq);
-> >=20
-> > which still triggered this problem, and
-> >=20
-> > --- a/drivers/input/joystick/iforce/iforce-main.c
-> > +++ b/drivers/input/joystick/iforce/iforce-main.c
-> > @@ -200,8 +200,10 @@ static void iforce_close(struct input_dev *dev)
-> >  		/* Disable force feedback playback */
-> >  		iforce_send_packet(iforce, FF_CMD_ENABLE, "\001");
-> >  		/* Wait for the command to complete */
-> > -		wait_event_interruptible(iforce->wait,
-> > -			!test_bit(IFORCE_XMIT_RUNNING, iforce-
-> >xmit_flags));
-> > +		wait_event_interruptible_timeout
-> > +			(iforce->wait,
-> > +			 !test_bit(IFORCE_XMIT_RUNNING, iforce-
-> >xmit_flags),
-> > +			 5 * HZ);
-> >  	}
-> > =20
-> >  	iforce->xport_ops->stop_io(iforce);
-> >=20
-> > which did not trigger this problem.
->=20
-> It did not clear this problem because of _timeout(), I guess.
 
-^^^^^ Sorry, "clear" -> "trigger" ^^^^^
-However, I suppose it doesn't matter any longer.
+> You'll probably want to implement a patch similar to this one:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f3193ea1b6779023334faa72b214ece457e02656
 
-Thanks,
-
-=46abio
-
->=20
-> If I recall correctly, this task hanged in wait_event_interruptible() and=
-=20
-> your problem was how to clear that bit and make the task return from=20
-> wait_event_interruptible(). Correct?
->=20
-> Now you changed this code to return after some time, despite that flag.
-> Are you sure this is the better suited way to fix this bug?
->=20
-> >=20
-> > Since wait_event_interruptible() was used here, I think we can expect=20
-> that
-> > it is tolerable to continue without waiting for the command to=20
-> complete...
->=20
-> Ah, yes. Maybe you are right here but I wouldn't bet on what authors=20
-> thought when they called wait_event_interruptible() :-)
->=20
-> Thanks,
->=20
-> Fabio
->=20
-> > --=20
-> > You received this message because you are subscribed to the Google=20
-Groups=20
-> "syzkaller-bugs" group.
-> > To unsubscribe from this group and stop receiving emails from it, send=
-=20
-an=20
-> email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/
-> msgid/syzkaller-bugs/2bcd5385-2423-2e8f-be01-9db93afaba43%40I-
-> love.SAKURA.ne.jp.
-> >=20
->=20
->=20
->=20
->=20
->=20
-
-
-
-
+Does this mean that the driver doesn't support battery status reporting
+for some devices, or is the feature simply missing in this controller?
