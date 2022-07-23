@@ -2,47 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62C9657EF10
-	for <lists+linux-input@lfdr.de>; Sat, 23 Jul 2022 13:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A7157F0E9
+	for <lists+linux-input@lfdr.de>; Sat, 23 Jul 2022 20:11:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233048AbiGWLlA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Jul 2022 07:41:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59262 "EHLO
+        id S231610AbiGWSLY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Jul 2022 14:11:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230010AbiGWLlA (ORCPT
+        with ESMTP id S231414AbiGWSLX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Jul 2022 07:41:00 -0400
+        Sat, 23 Jul 2022 14:11:23 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EBF0E0AE;
-        Sat, 23 Jul 2022 04:40:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 289DF175B1;
+        Sat, 23 Jul 2022 11:11:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F2E70B80906;
-        Sat, 23 Jul 2022 11:40:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 861D4C341C0;
-        Sat, 23 Jul 2022 11:40:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BA3A0B80AEF;
+        Sat, 23 Jul 2022 18:11:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C39C341C0;
+        Sat, 23 Jul 2022 18:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658576456;
-        bh=WIe7y2pDQXUhDeALdGhb6ETAfomqWoK+C8ML8M8aVoo=;
+        s=k20201202; t=1658599880;
+        bh=m6Q3tnXorif4RYbPtHxva7FixZkqHCVu3tsT2DxQEag=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=VdQ+FC6yid26Gl9nR8I8J2XCtC33TtALCQn8iOhhIt+tWHZQo04szuLwJnUcMC0BK
-         DfJ/K1FubRiuOtYAP/NZT7LnssE/fqZcLoVY9SpIflX4N7KD6pL83svaavsk9taacE
-         g98dUVwsy/3phWLNTSBOjOgnjTqzX/oYSNaG2rbeW+pIyko/nQ3jh1Xm4+9suv/DwW
-         IoSROhatn48/e53MztcN+4By/vOBo+z2bOiu5/LXwTEEHCrV/lkAEfd4JmpR++VfAw
-         Jvlkyrb5QphyhkKHORBCt9fzwstnab8NL88FaypmVxBxHqwkLFVOL/bP3EwrYfki+/
-         T5g1pT/d9aYvA==
-Date:   Sat, 23 Jul 2022 13:40:53 +0200 (CEST)
+        b=kOX0SPHToIYYSY70q5LMQo9taF+GllCp4Vm91T1yOjXx2JOygVkZOKVo3B1RBPxxy
+         8Q8t11Lu4qojKXeryd7q2NMYDqcg5WYdXM2qKZuZkCb3d2Wg1ShWoRtXZIimBawn9a
+         bSPtkfhtHspq+V05nHemqGfRgYQR8+mXxtKk07Aac9s0Ipoq2wQLubIpTz8Jb6O41J
+         EZe6vJ6sZltNn8ySHhUJo9kVSriZZmsakGwxUJ+S2rqWlkkYYhGgmLUICOhpe6sBnn
+         xgmHGCIN3Kz9o5HC2D8hcNwvcHo9OItZ+ok9c8XHyK2rivGrxPuSiPnabzKBxxjp5v
+         iQ/Zl5lf61xbw==
+Date:   Sat, 23 Jul 2022 20:11:16 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Stefan Hansson <newbie13xd@gmail.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
- Inspiroy H640 drawing tablet
-In-Reply-To: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm>
-References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc:     benjamin.tissoires@redhat.com, rdunlap@infradead.org,
+        linux-input@vger.kernel.org, linux-next@vger.kernel.org,
+        sfr@canb.auug.org.au
+Subject: Re: [PATCH for-next 0/2] Fixes to amd_sfh driver 
+In-Reply-To: <20220723061033.1377061-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2207232011090.19850@cbobk.fhfr.pm>
+References: <20220723061033.1377061-1-Basavaraj.Natikar@amd.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -56,40 +55,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 22 Jul 2022, Stefan Hansson wrote:
+On Sat, 23 Jul 2022, Basavaraj Natikar wrote:
 
-> Hi!
+> Changes includes to handle "no sensors" case and fix of implicit
+> declaration error on i386.
 > 
-> Somewhere between Linux 5.17.6 and 5.18.11 the Huion tablet I have stopped
-> working properly. In GNOME Control Center it is identified as Huion New 1060
-> Plus, however that's a different tablet than the one I have. Mine is a Huion
-> Inspiroy H640, and it uses the hid_uclogic driver.
+> Link: https://lore.kernel.org/all/92ed10f9-2c84-ad42-20d1-f8a101f78f08@infradead.org/
+> '''
+> From: Randy Dunlap <rdunlap@infradead.org>
+> Changes since 20220721:
 > 
-> With Linux 5.17.6, the tablet works as expected with all the buttons being
-> detected and the stylus being usable. With 5.18.11, the buttons work fine but
-> the stylus does not work correctly. The first time I approach the tablet with
-> the stylus it works properly, i.e., the cursor on my screen moves around and
-> follows the stylus around the tablet as expected. It continues working like
-> this until I remove the stylus from the tablet. After I remove it from the
-> tablet, the cursor never gets controlled by the stylus again. I can see that
-> the tablet detects the stylus (it has a small indicator light), but the cursor
-> doesn't move when I approach the tablet again. To clarify, with Linux 5.17.6,
-> the cursor moves around just fine when I remove and then put it back to the
-> tablet, just as you would expected.
+> on i386:
 > 
-> It may also be worth noting that it worked fine when I previously used it
-> around six months ago, although I'm not sure what version of Linux I was using
-> at that time (whatever Fedora shipped back then). I also tried reproducing it
-> with yesterday's linux-next and Linux 5.19.0-RC7, and the behaviour was the
-> same as 5.18.11. I am currently trying to bisect this, but it's not going very
-> fast as I currently only have access to a dual core laptop from 2014, so
-> building Linux takes a good while.
+> ../drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c: In function ‘amd_stop_sensor’:
+> ../drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c:48:9: error: implicit declaration of function ‘writeq’; did you mean ‘writel’? [-Werror=implicit-function-declaration]
+>    48 |         writeq(0x0, privdata->mmio + AMD_C2P_MSG(1));
+>       |         ^~~~~~
+>       |         writel
+> '''
+> 
+> Basavaraj Natikar (2):
+>   HID: amd_sfh: Fix implicit declaration error on i386
+>   HID: amd_sfh: Handle condition of "no sensors"
+> 
+>  drivers/hid/amd-sfh-hid/amd_sfh_client.c           | 2 ++
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c | 2 ++
+>  2 files changed, 4 insertions(+)
 
-Thanks for the report. CCing José who has been doing a lot of work in this 
-area recently, maybe he has an immediate idea.
-
-If not, perhaps bisecting the hid-uclogic.c commits between the two 
-kernels would be the quickest option.
+Queued in hid.git, thanks.
 
 -- 
 Jiri Kosina
