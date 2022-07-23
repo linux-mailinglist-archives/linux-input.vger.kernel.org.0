@@ -2,135 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6025757EC26
-	for <lists+linux-input@lfdr.de>; Sat, 23 Jul 2022 06:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C87C57EC35
+	for <lists+linux-input@lfdr.de>; Sat, 23 Jul 2022 07:38:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229975AbiGWE5I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Jul 2022 00:57:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58548 "EHLO
+        id S232000AbiGWFiQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Jul 2022 01:38:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiGWE5I (ORCPT
+        with ESMTP id S229611AbiGWFiQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Jul 2022 00:57:08 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45EDD4F691;
-        Fri, 22 Jul 2022 21:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658552227; x=1690088227;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JMSMekzxd46aJ2CW0m5a7du5wb1V2aYzSQjtKvvhHog=;
-  b=Qh6GbE0jtq5Atey6+BWOvZ+MMeLsMEH4IyJkbw0XI+ENScRXZ+wUq8Zs
-   4D119AQmUfBy0cptFPRlIpQ6rHJR39oHNSIRRtADgBpvl2GZYmfoARGGq
-   CJqcM86hhKpEuuc1MMPV57cv6wNNZb9lIIXVpy/zRDhs+9NhkoHykvCOP
-   dgnlElFT6ED5uTa2lq0f4FvE8fGauuXEJV/L0XKASkwV8iNwAglXpaMQh
-   HDks5ts1kU5scBf99YiR3qNpKaa2TpVhJXOTjW3E+H2zwHrE9O3rUQ43N
-   d45+d0MfO6JPyNh1MQ50gBkTqWA/ZHv48IkkHZRFNqbpGpIYXN7FdsOQC
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10416"; a="267219118"
-X-IronPort-AV: E=Sophos;i="5.93,187,1654585200"; 
-   d="scan'208";a="267219118"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2022 21:57:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,187,1654585200"; 
-   d="scan'208";a="549389809"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Jul 2022 21:57:03 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oF7CI-0002Gy-2S;
-        Sat, 23 Jul 2022 04:57:02 +0000
-Date:   Sat, 23 Jul 2022 12:56:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v3 01/10] input: keyboard: adp5588-keys: support gpi key
- events as 'gpio keys'
-Message-ID: <202207231228.n8l077iB-lkp@intel.com>
-References: <20220721080423.156151-2-nuno.sa@analog.com>
+        Sat, 23 Jul 2022 01:38:16 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEA3AB5565
+        for <linux-input@vger.kernel.org>; Fri, 22 Jul 2022 22:38:14 -0700 (PDT)
+Received: from fsav114.sakura.ne.jp (fsav114.sakura.ne.jp [27.133.134.241])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 26N5cCmE091674;
+        Sat, 23 Jul 2022 14:38:12 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav114.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav114.sakura.ne.jp);
+ Sat, 23 Jul 2022 14:38:12 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav114.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 26N5cCeL091668
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Sat, 23 Jul 2022 14:38:12 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <03fda856-2c47-b8a4-908c-16e942678250@I-love.SAKURA.ne.jp>
+Date:   Sat, 23 Jul 2022 14:38:10 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721080423.156151-2-nuno.sa@analog.com>
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [syzbot] INFO: task hung in __input_unregister_device (4)
+Content-Language: en-US
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     syzkaller-bugs@googlegroups.com, Johan Hovold <johan@kernel.org>,
+        rydberg@bitmath.org,
+        syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>,
+        linux-input@vger.kernel.org, ira.weiny@intel.com
+References: <000000000000ed47a705e2cbd347@google.com>
+ <8095587.T7Z3S40VBb@opensuse>
+ <30ccf517-f6b3-fc54-33d0-ffc24ada4b29@I-love.SAKURA.ne.jp>
+ <1902535.PYKUYFuaPT@opensuse>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <1902535.PYKUYFuaPT@opensuse>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi "Nuno,
+On 2022/07/23 4:15, Fabio M. De Francesco wrote:
+> I had misunderstood easily what you said because I had no context. I have 
+> not yet all the necessary context to prepare a "real" patch. As said, it 
+> was only a "proof of concept".
 
-I love your patch! Perhaps something to improve:
+Although current problem is that iforce_usb_disconnect() being blocked on
+dev->mutex which was held by the caller of iforce_close(), I worry that
+a proper fix requires something like commit db264d4c66c0fe00 ("media:
+imon: reorganize serialization") in order to defer
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on next-20220722]
-[cannot apply to brgl/gpio/for-next hid/for-next linus/master v5.19-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	usb_free_urb(iforce_usb->irq);
+	usb_free_urb(iforce_usb->out);
+	kfree(iforce_usb);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220721-160531
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20220723/202207231228.n8l077iB-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 12fbd2d377e396ad61bce56d71c98a1eb1bebfa9)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/357979f7c2525297178fb321c5793a4bd63dabb6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220721-160531
-        git checkout 357979f7c2525297178fb321c5793a4bd63dabb6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/keyboard/ drivers/platform/x86/
+part in iforce_usb_disconnect(), given that iforce_close() (which needs to
+perform urb operation) might be called even after iforce_usb_disconnect()
+completed.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/input/keyboard/adp5588-keys.c:336:9: warning: implicit conversion from 'unsigned long' to 'int' changes value from 18446744073709551615 to -1 [-Wconstant-conversion]
-           return INVALID_HWIRQ;
-           ~~~~~~ ^~~~~~~~~~~~~
-   include/linux/irq.h:1245:24: note: expanded from macro 'INVALID_HWIRQ'
-   #define INVALID_HWIRQ   (~0UL)
-                            ^~~~
-   1 warning generated.
-
-
-vim +336 drivers/input/keyboard/adp5588-keys.c
-
-   323	
-   324	static int adp5588_gpiomap_get_hwirq(struct device *dev, const u8 *map,
-   325					     unsigned int gpio, unsigned int ngpios)
-   326	{
-   327		unsigned int hwirq;
-   328	
-   329		for (hwirq = 0; hwirq < ngpios; hwirq++)
-   330			if (map[hwirq] == gpio)
-   331				return hwirq;
-   332	
-   333		/* should never happen */
-   334		dev_warn_ratelimited(dev, "could not find the hwirq for gpio(%u)\n", gpio);
-   335	
- > 336		return INVALID_HWIRQ;
-   337	}
-   338	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Device file's close callback being not prepared for disconnect event
+(that is, code assumes that close happens only before disconnect happens)
+might be frequently observed problem in USB drivers...
