@@ -2,142 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE37C5805BE
-	for <lists+linux-input@lfdr.de>; Mon, 25 Jul 2022 22:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A34835806BC
+	for <lists+linux-input@lfdr.de>; Mon, 25 Jul 2022 23:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237199AbiGYUfC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Jul 2022 16:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40564 "EHLO
+        id S237425AbiGYV36 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Jul 2022 17:29:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237219AbiGYUe4 (ORCPT
+        with ESMTP id S237485AbiGYV3P (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Jul 2022 16:34:56 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5D422BFC;
-        Mon, 25 Jul 2022 13:34:54 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id mf4so22715061ejc.3;
-        Mon, 25 Jul 2022 13:34:54 -0700 (PDT)
+        Mon, 25 Jul 2022 17:29:15 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AA024BEB
+        for <linux-input@vger.kernel.org>; Mon, 25 Jul 2022 14:28:05 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id h9so17757801wrm.0
+        for <linux-input@vger.kernel.org>; Mon, 25 Jul 2022 14:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=f9QlVd3sY4PWP1LvgvsglsfYdo46+qKuYLSCKi5klpY=;
-        b=kh+Aki1lVqKeBtJg/8dN55UIOrgM4lLUyefRybo33qn5mXHg5ruQyt607eWvl6XW6C
-         jxpunR2ZxTytMHDyvGlCw780j3AUV8RH92yk9782xsGx4dYJTQxY7CYb46HOvp0cM7cn
-         U1EUwA3uYu6Y/wAi+YGwTpFHC8WGW4otXGC0dqgxaZ+zWmNtFMp7/UQlJcUb4F8FKpLq
-         51YxKGefmk76+gnkAfyzOnn+eEAUHrJd31CtzWtrEXJDUPmIAmAaqi+TR+HgKWa5Ohvg
-         apIPDifFTqDBNqQhaxVB1CRfqneOhV5boGD/NBiEoE6/OgobXAvSahm8ukcbCJT9Ea1X
-         2YXQ==
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
+        b=uisaYlWHlc1RSvh90hpzc7AOFByO6SZOCyDzOMnogH0ZogazNwnYVkQ9oEHpT9V+JG
+         dHyb/dlixsReklVEcEGk1t6k+jnAlhFtWhmjsD+3vhap9Y7sdPNYwZ7n6GaWxIPg8VIr
+         M5BrqdaX1YGUbos8NzxD1/HbBDMNiMxwh9Ej/3ahYypsbH2QRpvXUNFFpO122LDxygZ2
+         yflNbmzyx/yfw4bJe7B+sh2esm9/YIr8r737zy8yHkSXxoJ9HTZd8sl7aRrYVW3GmYS0
+         2Q2weVTqUyHsNYiQeuy4csaFK93xldDCTSdJ58OnQxYjMCQCfveEwsJ8VgVSkkaJoMe6
+         yFzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=f9QlVd3sY4PWP1LvgvsglsfYdo46+qKuYLSCKi5klpY=;
-        b=lVaevs7ckjWZKlu1Ad/mqhLsbTeVXq+OulCXiLx5FhPGPwy/lJAcfrOLKQoGeLgvsx
-         6K9/RZcU5IeuDXaoibGn7R0GEv2dO4iDDlaq8D47fy29rfoB3XDjN38wCCsZGp4aPBoW
-         d81zAvaChbd6erdKlcZd5vDSGOzW4z+8mJRj///C85ar9klnvag/EXctDPrJ8KzIhZhn
-         5qH2vLPMb/gCZiFu2rp/Su1hpHPYLLMh/Sw6lbkTYgsoe+DBRWaKVxJ35ducRaK14xrx
-         3bELp7a7nMtFZoQ+GxdH5Y0s/ROhVIMoUeMd1lO0qkd2vO9ZJktHRaiFradfQVUZ1xsz
-         kPHQ==
-X-Gm-Message-State: AJIora87VZoZfHFyTXWialuKUhQGVAOVzCKJJm4yax29YXue8bGxjdl+
-        a1rqkWd8e0oAzPIgIVzH8j+HrkbDYfWoeiNJ95vTboj5IKw=
-X-Google-Smtp-Source: AGRyM1viPX6Y2qUKGqEyRljFJc8aIyvl2t52ya99spUMxKDkKiH7ivLGc1t2cvSXbq/20Q2ES5xf3ux8j9pnK2NlfjE=
-X-Received: by 2002:a17:907:6297:b0:72f:9aad:fcb with SMTP id
- nd23-20020a170907629700b0072f9aad0fcbmr11181691ejc.161.1658781292737; Mon, 25
- Jul 2022 13:34:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
+        b=AOnCRQxmRBF074IGvEvml2/IYGpnojVt+7VpvirDjIHAL3t7RiURT6zBtQEdFmvusd
+         EmDMfefob7dmxz+K4eWD0mxCe7aJr8G/GHMm+8R047D4S+Lj1MLke5dtCnc/Pg1eN5LW
+         JsqYM89pbZho48UwyBtgtCDCtAyI7qtjKaMOG5gGEe4zube3KeVc118MvJdjGz+Gpa5o
+         9BlgB4/ngqJDQmJeZNx6r7iDsdz4aUMmyUNZXmr7WWGRRcdqamw3+CB5HU46qihZkCZb
+         HV+7/D2y0rhn7WLZSYwv1RDR/nAVmcGMferqpWa9uRo97lds0uGuUBDM4Arxn6QqtVMl
+         7yfQ==
+X-Gm-Message-State: AJIora9S8ytdi+w1uvIqJkMMw/sooBMVUzuaIvlMWdHUZcA0FloDAQ8H
+        O00Np2JEyadqQFLBBq5nYa55dg==
+X-Google-Smtp-Source: AGRyM1uI3wfXx2DOxmMhE1F+VbGqV3pN/W/4oQOzQ/VR/RxyuEoMWtDqsQfUPTNSt3/kwY1RVdJN+Q==
+X-Received: by 2002:a5d:4811:0:b0:21e:3d86:a2df with SMTP id l17-20020a5d4811000000b0021e3d86a2dfmr9104284wrq.633.1658784483998;
+        Mon, 25 Jul 2022 14:28:03 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:1780:8e54:dd38:6668])
+        by smtp.gmail.com with ESMTPSA id r17-20020a5d52d1000000b0021d68a504cbsm12668772wrv.94.2022.07.25.14.28.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jul 2022 14:28:03 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linexp.org>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org
+Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, khilman@baylibre.com,
+        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
+        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
+        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
+        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
+        baolin.wang7@gmail.com, f.fainelli@gmail.com,
+        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
+        glaroque@baylibre.com, miquel.raynal@bootlin.com,
+        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
+        matthias.bgg@gmail.com, j-keerthy@ti.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK
+        , TOUCHSCREEN)...),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner
+        sunXi SoC support),
+        linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH v2 28/32] Input: sun4i-ts - switch to new of thermal API
+Date:   Mon, 25 Jul 2022 23:26:33 +0200
+Message-Id: <20220725212637.2818207-29-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220725212637.2818207-1-daniel.lezcano@linexp.org>
+References: <20220725212637.2818207-1-daniel.lezcano@linexp.org>
 MIME-Version: 1.0
-References: <20220721080423.156151-1-nuno.sa@analog.com> <20220721080423.156151-2-nuno.sa@analog.com>
-In-Reply-To: <20220721080423.156151-2-nuno.sa@analog.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 25 Jul 2022 22:34:16 +0200
-Message-ID: <CAHp75Vfeq+7Ngj_wiXUXTGhyL=isqHy3DuPeJyE0C5YjYjZN=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] input: keyboard: adp5588-keys: support gpi key
- events as 'gpio keys'
-To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 10:03 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
->
-> This change replaces the support for GPIs as key event generators.
-> Instead of reporting the events directly, we add a gpio based irqchip
-> so that these events can be consumed by keys defined in the gpio-keys
-> driver (as it's goal is indeed for keys on GPIOs capable of generating
-> interrupts). With this, the gpio-adp5588 driver can also be dropped.
->
-> The basic idea is that all the pins that are not being used as part of
-> the keymap matrix can be possibly requested as GPIOs by gpio-keys
-> (it's also fine to use these pins as plain interrupts though that's not
-> really the point).
->
-> Since the gpiochip now also has irqchip capabilities, we should only
-> remove it after we free the device interrupt (otherwise we could, in
-> theory, be handling GPIs interrupts while the gpiochip is concurrently
-> removed). Thus the call 'adp5588_gpio_add()' is moved and since the
-> setup phase also needs to come before making the gpios visible, we also
-> need to move 'adp5588_setup()'.
->
-> While at it, always select GPIOLIB so that we don't need to use #ifdef
-> guards.
+The thermal OF code has a new API allowing to migrate the OF
+initialization to a simpler approach. The ops are no longer device
+tree specific and are the generic ones provided by the core code.
 
-...
+Convert the ops to the thermal_zone_device_ops format and use the new
+API to register the thermal zone with these generic ops.
 
-> +static void adp5588_irq_mask(struct irq_data *d)
-> +{
-> +       struct gpio_chip *gc =3D irq_data_get_irq_chip_data(d);
-> +       struct adp5588_kpad *kpad =3D gpiochip_get_data(gc);
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/sun4i-ts.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Can it be
+diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
+index 742a7e96c1b5..73eb8f80be6e 100644
+--- a/drivers/input/touchscreen/sun4i-ts.c
++++ b/drivers/input/touchscreen/sun4i-ts.c
+@@ -192,12 +192,12 @@ static int sun4i_get_temp(const struct sun4i_ts_data *ts, int *temp)
+ 	return 0;
+ }
+ 
+-static int sun4i_get_tz_temp(void *data, int *temp)
++static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	return sun4i_get_temp(data, temp);
++	return sun4i_get_temp(tz->devdata, temp);
+ }
+ 
+-static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
++static const struct thermal_zone_device_ops sun4i_ts_tz_ops = {
+ 	.get_temp = sun4i_get_tz_temp,
+ };
+ 
+@@ -356,8 +356,8 @@ static int sun4i_ts_probe(struct platform_device *pdev)
+ 	if (IS_ERR(hwmon))
+ 		return PTR_ERR(hwmon);
+ 
+-	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
+-						       &sun4i_ts_tz_ops);
++	thermal = devm_thermal_of_zone_register(ts->dev, 0, ts,
++						&sun4i_ts_tz_ops);
+ 	if (IS_ERR(thermal))
+ 		return PTR_ERR(thermal);
+ 
+-- 
+2.25.1
 
-  irq_hw_number_t hwirq =3D irqd_to_hwirq(d);
-
-?
-
-> +       unsigned long real_irq =3D kpad->gpiomap[irqd_to_hwirq(d)];
-> +
-> +       kpad->irq_mask[ADP5588_BANK(real_irq)] &=3D ~ADP5588_BIT(real_irq=
-);
-> +       gpiochip_disable_irq(gc, irqd_to_hwirq(d));
-> +}
-> +
-> +static void adp5588_irq_unmask(struct irq_data *d)
-> +{
-> +       struct gpio_chip *gc =3D irq_data_get_irq_chip_data(d);
-> +       struct adp5588_kpad *kpad =3D gpiochip_get_data(gc);
-> +       unsigned long real_irq =3D kpad->gpiomap[irqd_to_hwirq(d)];
-> +
-> +       gpiochip_enable_irq(gc, irqd_to_hwirq(d));
-> +       kpad->irq_mask[ADP5588_BANK(real_irq)] |=3D ADP5588_BIT(real_irq)=
-;
-
-Ditto.
-
-> +}
-
-...
-
-> +                       /* gpio line used as IRQ source */
-
-GPIO
-
---=20
-With Best Regards,
-Andy Shevchenko
