@@ -2,101 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9D4E580982
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 04:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42ED8580A16
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 05:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237052AbiGZCec (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Jul 2022 22:34:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35960 "EHLO
+        id S237194AbiGZDpQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Jul 2022 23:45:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230489AbiGZCeb (ORCPT
+        with ESMTP id S229852AbiGZDpQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Jul 2022 22:34:31 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481FF28E29;
-        Mon, 25 Jul 2022 19:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658802870; x=1690338870;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oQGLDobYwHi1A02VN+sYCWqkJ5xg453HmlwiMQc6qZQ=;
-  b=Sx6HWrZu6dpUQRlQNpsq+Az7JnokEicO3tr8H8Vjr8sR6h4AGsM8SiZJ
-   Tp4lA6udJONf8pxfKqP+eP2vzwxHbB1WimnPwtyMbEASup/QFWHU3edDN
-   M9kQbeH5FADAl60N0HMMiyYPQavor7Yxgwfb0lVxRrPO71qJ73ujusNPM
-   PIR7Z+WAxmexulWZaCsZekQjZricfhIy78TNcqEYUkzrnfTqCz/nI0oQf
-   h/t+3uTOY+k6KscVL6nrtJAWz5w6//ObzA31Q0q7dx2gbT+NHqpecTIo8
-   0jsdT0B7PJOEPrPMy7JSYynIXeHBsKSXKT0sH5mT3u9huCivev4fuy5m9
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10419"; a="289030171"
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
-   d="scan'208";a="289030171"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2022 19:34:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
-   d="scan'208";a="742050967"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2022 19:34:27 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oGAOw-0005sk-2h;
-        Tue, 26 Jul 2022 02:34:26 +0000
-Date:   Tue, 26 Jul 2022 10:33:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        jikos@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        j.witteveen@gmail.com, stefanberzl@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com,
-        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH v2 6/7] HID: uclogic: Add support for UGEE v2 mouse frames
-Message-ID: <202207261047.hUEFf74G-lkp@intel.com>
-References: <20220717144333.251190-7-jose.exposito89@gmail.com>
+        Mon, 25 Jul 2022 23:45:16 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADADD265D;
+        Mon, 25 Jul 2022 20:45:14 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id tk8so23919246ejc.7;
+        Mon, 25 Jul 2022 20:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=hK9bdKxTQpaVNAf62mZs34iWrOFJN74ACx5fLDVM42o=;
+        b=dQ1lsD0pepwYEFblTk7mpzcFBnxB6tyOgcPOpx/6lHi03xM2x6XoOMsftr0Ahyhnyp
+         YKRNwmbk3S/dLgnWzqNgPvK3hzQRuTVRQls/Mi1FhdzbDczqdn38liHHuEZW47JFLsk1
+         +h8lkfRCPTDjr9YQRU8WmvTdoUuNXQFyhb7IMeTpMpj5T/h8sYR0lb0eox1DrvXaLl90
+         u8PqQ4B47CZB0IIFF6SbpRISJlWaXFWXrxg6Ylkgcn2ynkyqgVjdVxYWOU1X6rvhpy8R
+         pTzJRcOEm6vNKlAm0C7wQxZPfKBpMYuFfOzuVH69iBnapUG9N+QMFhV7yxDIhCFQNAdJ
+         /mtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hK9bdKxTQpaVNAf62mZs34iWrOFJN74ACx5fLDVM42o=;
+        b=y9Thlp2Cm6fVezY/mAlU30Z0KdXXnV48dd5JHwH6pxqYAhBAM4rHy082jQRU5cylQH
+         ZCgNgheuN2XDJFEGTkNZ/ArKCPrl9okpCKeosQxcJ1ReX6UNNf9S2Ggvo1w20lp1weYt
+         n3a955YG5EH1NMvlGUfhL76sYVyeuu98kIm9wcrde10AP1uPTZ/CyZc2Boqc/N/f/xl5
+         9wgV1aAvgT/wIyPd8rRJqsvyvzmQSTZKmQoaWl2djn5aEWjZIaG3nzjOfnX/196kGp/U
+         PYH+EpIUbODrK+y4PLvkqpXI2FiEQ3R7p/bUOz95cnWnPBSO+J5JJHknuOflA57kTNg5
+         PXEQ==
+X-Gm-Message-State: AJIora9GuM8QjTucc0BbrvGUBzIKkWQvROY4QJGfzmu2cyDNw4YqBN5W
+        qmPN9PpY0U8+9erQ8W+92ioDVsJq8tddYfAXqwY=
+X-Google-Smtp-Source: AGRyM1uBh2/Ujp0DRIZAzAQnZ43gbhiJIymwO1u6SGrzdqZ5yaYUGN2qu0sR6xbFs3MVvu26GUSOxwk4olKhadauEMc=
+X-Received: by 2002:a17:906:844f:b0:72b:549e:a654 with SMTP id
+ e15-20020a170906844f00b0072b549ea654mr11954747ejy.535.1658807113081; Mon, 25
+ Jul 2022 20:45:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220717144333.251190-7-jose.exposito89@gmail.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <1657780937-20891-1-git-send-email-u0084500@gmail.com>
+In-Reply-To: <1657780937-20891-1-git-send-email-u0084500@gmail.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Tue, 26 Jul 2022 11:45:00 +0800
+Message-ID: <CADiBU39x98iyO_OB2sYdAUGUOW9pV4dt+mEdfquhuJVm1HDRHA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Add Richtek RT5120 PMIC support
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi "José,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on 0cb1fc0988e32bda84c2b7218e0c761af1430baf]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Exp-sito/XP-PEN-Deco-Pro-S-support-for-5-20-uclogic/20220717-224559
-base:   0cb1fc0988e32bda84c2b7218e0c761af1430baf
-config: x86_64-buildonly-randconfig-r002-20220718 (https://download.01.org/0day-ci/archive/20220726/202207261047.hUEFf74G-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fa0c7639e91fa1cd0cf2ff0445a1634a90fe850a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/10fcf5d5cca4657c53477c392b1fb675d72cfda3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jos-Exp-sito/XP-PEN-Deco-Pro-S-support-for-5-20-uclogic/20220717-224559
-        git checkout 10fcf5d5cca4657c53477c392b1fb675d72cfda3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: call to __read_overflow marked "dontcall-error": detected read beyond size of object (1st parameter)
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+cy_huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=8814=E6=97=A5 =
+=E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=882:42=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> This patch series is to add Richtek RT5120 PMIC support.
+> In RT5120, it integrates four channels of buck converter, one channel of =
+LDO,
+> and one external enable channel to control the external power source.
+ping ......
+>
+> rt5120-regulator can be referred in the below link
+> Link: https://lore.kernel.org/lkml/165599062767.127406.125714869841700832=
+13.b4-ty@kernel.org/
+>
+> Since v3:
+> - Use a 'dev' variable and dev_err_probe to decrease the LOC in mfd.
+> - Simplify the power key irq handler key report
+> - Since press and release irq not needed to keep in private data, change =
+'press',
+>   'release' irq as local variable only.
+> - Fix Kconfig typo for pwrkey.
+>
+> Since v2:
+> - Add 'unevaluatedProperties: false' for regulator buck1~4/ldo/exten.
+> - Fix indention and remove status for powerkey.
+> - Refine powerkey description for more HW details.
+> - For the regulator property parsing, use of_property_read_u32 instead.
+> - Not to overwrite regulator constraint.
+> - Refine regulator desc coding.
+>
+> ChiYuan Huang (3):
+>   dt-binding: mfd: Add Richtek RT5120 PMIC support
+>   mfd: rt5120: Add Richtek PMIC support
+>   input: misc: rt5120: Add power key support
+>
+>  .../devicetree/bindings/mfd/richtek,rt5120.yaml    | 178 +++++++++++++++=
+++++++
+>  drivers/input/misc/Kconfig                         |   9 ++
+>  drivers/input/misc/Makefile                        |   1 +
+>  drivers/input/misc/rt5120-pwrkey.c                 | 105 ++++++++++++
+>  drivers/mfd/Kconfig                                |  12 ++
+>  drivers/mfd/Makefile                               |   1 +
+>  drivers/mfd/rt5120.c                               | 121 ++++++++++++++
+>  7 files changed, 427 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt5120.=
+yaml
+>  create mode 100644 drivers/input/misc/rt5120-pwrkey.c
+>  create mode 100644 drivers/mfd/rt5120.c
+>
+> --
+> 2.7.4
+>
