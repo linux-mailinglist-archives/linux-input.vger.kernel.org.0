@@ -2,142 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5216581760
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 18:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE6F5581789
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 18:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239256AbiGZQYY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jul 2022 12:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
+        id S239395AbiGZQjf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jul 2022 12:39:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbiGZQYX (ORCPT
+        with ESMTP id S229558AbiGZQjd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jul 2022 12:24:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2A226ACB;
-        Tue, 26 Jul 2022 09:24:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 576C9611F8;
-        Tue, 26 Jul 2022 16:24:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12119C433D6;
-        Tue, 26 Jul 2022 16:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658852661;
-        bh=e5WQ82QXiZdaq5B32yptMF6AnsdJVIz/qzufzzfmS/Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lwOg6aQmG22CNWStkrQHr4DLs+p3YhotUzffLeuIsod50WyU9yA5cn4XBvNxtJY7n
-         dibpTmLbOEGA0/TCJfoa/RAQ94BZXDfIMG6kboFjoUITcGKJ7ZpujBMpIkRqvtnIL9
-         G9bxZsZHPnMoqDPk7WQ0t1URIR168BBlzWNyS+Cw3b5XMcjLU4ChlESkFzU7DHwFoV
-         GmYfhqOWIQWSwMH8ST6+f9CiuT+AkvUIwyYIQFl9q0G9Cd4ISXfk2o0ZgIFa0YKlq0
-         Vt+0wOkm8d9WZnwBZySXiiGfopAduw+k2yefTR3/AxnaC1GCyTQxBY0Y61Hr4hzKua
-         BU2hV1NC2DbSA==
-Date:   Tue, 26 Jul 2022 09:24:19 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc:     kernel test robot <lkp@intel.com>, jikos@kernel.org,
-        llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        j.witteveen@gmail.com, stefanberzl@gmail.com,
+        Tue, 26 Jul 2022 12:39:33 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D86E71B78A;
+        Tue, 26 Jul 2022 09:39:31 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id u14-20020a05600c00ce00b003a323062569so8484416wmm.4;
+        Tue, 26 Jul 2022 09:39:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=29x0nCk/ur2KUdOZUnTIumuxDHZRb0pHCThFhm3QUnE=;
+        b=eswxB9oFMd4BSNn6cVnnv4RNChTe8UtyetdfRbT1oXV5VAf6YcJUBTrPXZ0VQe+kNf
+         +0/N6ga2xIWLlVVuGYPllkmQImEkJf0M87MZ6O24tB9ioBD3PxZ0BneI1ZbJpVXZu4DW
+         ZmzFg652az62jrOfIqLi5605sk1LGg51MmHdsdI7fyZp82ha8Em5Mrf4KoslJAhjYLu9
+         pKz231jd7R7sDsu3mebgW3JKbX0xD3b0lnNqkb4IlyAjzKFacnEqGyUpoyfqjXlBTMWz
+         A65qYyxKXwL6DDaonfQDvqxyum0683VRl8OwFhBkxG/is83k6uYOJvDszhaf0/YWLLUV
+         Rsmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=29x0nCk/ur2KUdOZUnTIumuxDHZRb0pHCThFhm3QUnE=;
+        b=vDVdKRGWuyI/0XUQu2uyptE1sRqbL7iwNe3N+JbLSAeGoHHzyyWCZ5VCaBVeKSptNJ
+         H9CdtolAvBNlu9WivuwPQ4QXYmkH7QqNQLk1Y62o1UQP8SxrMhdXLMAo9Bhov7/UiHvl
+         xklcRIIHzxAaQG+8vX3gk8OwTJTB3Pc1z3CUC/hamrdCwDRPTDxkq93FoKEhsi6GsI2k
+         mas8IkNIwxKIbWvrFRV1eNq2goS0VetlsELHLQwKGBn4w48HJgo0TBUzlkuIjTymuMcF
+         30SIQw1Nl2nqqmZ3wYCFkxsDsoI7NCu3+U8a8W8vaBK/fIRaKH4uejSB/bhsbBB7cU6+
+         DlJQ==
+X-Gm-Message-State: AJIora9rWK0ZzCXUQbiCMcGdZovUc7VWFJel5OGuU4y4WEoD9wYihRJO
+        VTSWQt5EcIS8efNW5a5fgQI=
+X-Google-Smtp-Source: AGRyM1sQevuEo1/3d/ZSVQq2jLHlnNo7slsoom4acFCjIgpOnRwPtpOSFtw0+CEM9oqFtCqLBh05Yg==
+X-Received: by 2002:a05:600c:1e83:b0:3a3:3ecb:52a0 with SMTP id be3-20020a05600c1e8300b003a33ecb52a0mr59570wmb.44.1658853570264;
+        Tue, 26 Jul 2022 09:39:30 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.33.57])
+        by smtp.gmail.com with ESMTPSA id o9-20020a05600c058900b0039c54bb28f2sm19514710wmd.36.2022.07.26.09.39.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jul 2022 09:39:29 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        j.witteveen@gmail.com, stefanberzl@gmail.com, nathan@kernel.org,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com
-Subject: Re: [PATCH v2 6/7] HID: uclogic: Add support for UGEE v2 mouse frames
-Message-ID: <YuAVMwTxIo2q6Wgd@dev-arch.thelio-3990X>
-References: <20220717144333.251190-7-jose.exposito89@gmail.com>
- <202207261047.hUEFf74G-lkp@intel.com>
- <YuAMzSBcfsyGMjNy@dev-arch.thelio-3990X>
- <20220726161455.GA3260@elementary>
+        kunit-dev@googlegroups.com,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH v3 0/7] XP-PEN Deco Pro S support (for-5.20/uclogic)
+Date:   Tue, 26 Jul 2022 18:39:19 +0200
+Message-Id: <20220726163926.10549-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220726161455.GA3260@elementary>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 06:14:55PM +0200, JosÈ ExpÛsito wrote:
-> On Tue, Jul 26, 2022 at 08:48:29AM -0700, Nathan Chancellor wrote:
-> > On Tue, Jul 26, 2022 at 10:33:25AM +0800, kernel test robot wrote:
-> > > Hi "JosÈ,
-> > > 
-> > > Thank you for the patch! Yet something to improve:
-> > > 
-> > > [auto build test ERROR on 0cb1fc0988e32bda84c2b7218e0c761af1430baf]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Exp-sito/XP-PEN-Deco-Pro-S-support-for-5-20-uclogic/20220717-224559
-> > > base:   0cb1fc0988e32bda84c2b7218e0c761af1430baf
-> > > config: x86_64-buildonly-randconfig-r002-20220718 (https://download.01.org/0day-ci/archive/20220726/202207261047.hUEFf74G-lkp@intel.com/config)
-> > > compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fa0c7639e91fa1cd0cf2ff0445a1634a90fe850a)
-> > > reproduce (this is a W=1 build):
-> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         # https://github.com/intel-lab-lkp/linux/commit/10fcf5d5cca4657c53477c392b1fb675d72cfda3
-> > >         git remote add linux-review https://github.com/intel-lab-lkp/linux
-> > >         git fetch --no-tags linux-review Jos-Exp-sito/XP-PEN-Deco-Pro-S-support-for-5-20-uclogic/20220717-224559
-> > >         git checkout 10fcf5d5cca4657c53477c392b1fb675d72cfda3
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > > >> ld.lld: error: call to __read_overflow marked "dontcall-error": detected read beyond size of object (1st parameter)
-> > 
-> > Unfortunately, LTO makes this warning kind of cryptic but it seems like
-> > the wrong template size is being used? This appears to resolve the
-> > warning for me.
-> > 
-> > Cheers,
-> > Nathan
-> > 
-> > diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-> > index 2407e927d1bf..dd4b1ed6fd1e 100644
-> > --- a/drivers/hid/hid-uclogic-params.c
-> > +++ b/drivers/hid/hid-uclogic-params.c
-> > @@ -1205,7 +1205,7 @@ static int uclogic_params_ugee_v2_init_frame_mouse(struct uclogic_params *p)
-> >  
-> >  	rc = uclogic_params_frame_init_with_desc(&p->frame_list[1],
-> >  						 uclogic_rdesc_ugee_v2_frame_mouse_template_arr,
-> > -						 uclogic_rdesc_ugee_v2_frame_dial_template_size,
-> > +						 uclogic_rdesc_ugee_v2_frame_mouse_template_size,
-> >  						 UCLOGIC_RDESC_V1_FRAME_ID);
-> >  	if (rc)
-> >  		return rc;
-> 
-> Hi Nathan,
-> 
-> Yes, I was about to send v3 fixing it. As you mentioned, I copy-pasted
-> the wrong template size.
+Hello everyone,
 
-Good to know! At least we caught it early :)
+This is v3 of [1]. Check the description in the link for more
+information, please.
 
-> I really need to learn how to enable those warnings in my dev
-> environment. My toolchain didn't complain about this.
+v1 -> v2:
 
-CONFIG_FORTIFY_SOURCE will be the configuration that can catch these
-issues but I did not see a warning from clang without LTO, so it is
-likely the case that LTO helped the compiler see through translation
-units that the size was not correct.
+First patch acked-by Daniel Latypov
 
-> Thanks for pointing me to LTO. I didn't know about the CONFIG_LTO_*
-> options, I'll play a bit with them.
+v2 -> v3:
 
-If you have any questions about it, feel free to reach out to our
-mailing list (llvm@lists.linux.dev), we're always happy to help!
+Fix bug in "HID: uclogic: Add support for UGEE v2 mouse frames".
+Reported-by: kernel test robot <lkp@intel.com>
 
-> Thanks a lot for looking into this,
-> Jose
+I copy-pasted the wrong template size.
+Thanks to Nathan Chancellor for looking into it. As he mentioned [2],
+CONFIG_FORTIFY_SOURCE doesn't catch this error without LTO enabled.
 
-Any time!
+[1] https://lore.kernel.org/linux-input/20220717144333.251190-1-jose.exposito89@gmail.com/T/
+[2] https://lore.kernel.org/linux-input/20220717144333.251190-1-jose.exposito89@gmail.com/T/#m796ac6c8f7484b0bafc1f1ed80d3ead90ae5dbb7
 
-Cheers,
-Nathan
+Jos√© Exp√≥sito (7):
+  HID: uclogic: KUnit best practices and naming conventions
+  HID: uclogic: Refactor UGEE v2 string descriptor parsing
+  HID: uclogic: Refactor UGEE v2 frame initialization
+  HID: uclogic: Parse the UGEE v2 frame type
+  HID: uclogic: Add support for UGEE v2 dial frames
+  HID: uclogic: Add support for UGEE v2 mouse frames
+  HID: uclogic: Add support for XP-PEN Deco Pro S
+
+ drivers/hid/Kconfig                   |   2 +-
+ drivers/hid/Makefile                  |   4 +-
+ drivers/hid/hid-ids.h                 |   1 +
+ drivers/hid/hid-uclogic-core.c        |   2 +
+ drivers/hid/hid-uclogic-params-test.c | 192 ++++++++++++++++++++++
+ drivers/hid/hid-uclogic-params.c      | 225 ++++++++++++++++++++++----
+ drivers/hid/hid-uclogic-params.h      |  10 ++
+ drivers/hid/hid-uclogic-rdesc-test.c  |  22 +--
+ drivers/hid/hid-uclogic-rdesc.c       |  74 +++++++++
+ drivers/hid/hid-uclogic-rdesc.h       |   8 +
+ 10 files changed, 494 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/hid/hid-uclogic-params-test.c
+
+
+base-commit: 0cb1fc0988e32bda84c2b7218e0c761af1430baf
+-- 
+2.25.1
+
