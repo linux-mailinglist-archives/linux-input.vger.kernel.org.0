@@ -2,100 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 124E15810AC
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 12:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E84B58112E
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 12:31:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232656AbiGZKDZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jul 2022 06:03:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35802 "EHLO
+        id S233109AbiGZKbI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jul 2022 06:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231492AbiGZKDX (ORCPT
+        with ESMTP id S232128AbiGZKbG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jul 2022 06:03:23 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442153121F;
-        Tue, 26 Jul 2022 03:03:22 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id f15so8659120edc.4;
-        Tue, 26 Jul 2022 03:03:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LKwGqmUj96Eif8vyV8hd+gwU8OsUdDwQ9Yl4J8uKbgU=;
-        b=GGeBqLGdauVLqo0xDLvelQVIgDx/FWxKblVC5Dp81n+qksny1mgA7wi3JQcuD4aZUw
-         +6947jo4tn2swwREiz1qUk6W8U91/zqi4TY6BKs/21ZwT1yp5fx1cdqcuHV2i/rANKk9
-         Tf6mKFfxA/Yt459rDb3aXLMCf/ho7al4PKxXb4npTq8twNZWm9RlvhyGNMcD2VXE9c4a
-         c/NQSWhzW4rwxfscm92Hah6O+J3fcrLPDKY3C87gubm5o9cnBM78Lfa1csifMj5UFwBa
-         RcosCuJkOANlWK8YZmkFphcBxPXFqJvYJOTAXAIi0YzWUss2iTYZMo0OVcmrwx4gQKVo
-         DVrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LKwGqmUj96Eif8vyV8hd+gwU8OsUdDwQ9Yl4J8uKbgU=;
-        b=y1crJJwc4msKuVWegI1WmH0EY86Xp8eIAG4qJlaJGbiHcNHvHtIZGPKK3KiTxr9Wix
-         Xa3WshqUxca8cbZZ9sddKNaE8AKmg5eAthR/1QKFG1p1BGeEPQJ5avDMC9YTmTyk/xKY
-         PFsrHhhb6Pvh9KaOq61/LQOeNNXy116Wb03qVsTHrqhJxlevbXS85lf6Fa+eed1/Y67K
-         VrAkwkjONNee71dtf27Q+6GmAWYIll9ryNh1b4XBw3sDRWqeAe3pFy8LJbkdbQlGulh6
-         K0Pm+jMFBbbHfxEXyfu10T0Xd+yQSEPjTCvWPPoN+Pb49Tb3nRjafiUARkgNkBJIVV/t
-         1d/w==
-X-Gm-Message-State: AJIora/xHwmwRdsorK1LZIoM8TDeDkbRCpbGZoyM+n0jXs2l+mHhbvLF
-        dPND5l3vKHwt6hC4kZCpZS9vZdrDHT/hBbuFPYo=
-X-Google-Smtp-Source: AGRyM1uPysQNOXR4mPuYD+VMBkxc1fR87sWcUT6/GvstLWYn2XNZYtr3aZvs10BDVK13Ig+fb+aHlzs6vxLFmNmqOa4=
-X-Received: by 2002:a05:6402:d05:b0:425:b7ab:776e with SMTP id
- eb5-20020a0564020d0500b00425b7ab776emr18093826edb.142.1658829800622; Tue, 26
- Jul 2022 03:03:20 -0700 (PDT)
+        Tue, 26 Jul 2022 06:31:06 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC2627B1B;
+        Tue, 26 Jul 2022 03:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658831466; x=1690367466;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=buTUpv21hPzfPEggPXI1QrQSGfzkMz+f1AZYRt7xzKw=;
+  b=Uew8kbIjnX4kG/PDtrmCfUWenQDHGEcCRbP+Gce+F/cYNSeBTKSEpIor
+   u+5Q1lSVVRNt5igPPPTilUX95cj36FD8XGF+WMjtrI2hZ1NDPdKcog+Ll
+   lrL3ZVPcyYF587r6rDbUxHFggtwd8gQlWgR+AjYGc9noc+RqQaFQZXQL+
+   Vzyx6WrylrYuAQZmUoWpYoyxEwhIt7In6jJMUD+tpqIDrJvuhqVF0jZgz
+   4or0j/MsFDp1Eag2pc6P+gPomZjx/3L8Y5Sy4F+4t+kXc9H+HLqib1Kb4
+   MLX/ttM76ovMxwONTMOnmyQLjgCL7h6e30EbaA9MBNvgOzG02VJkEYzEE
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10419"; a="289109318"
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
+   d="scan'208";a="289109318"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2022 03:31:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
+   d="scan'208";a="550353557"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 26 Jul 2022 03:31:02 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oGHq9-0006hQ-2O;
+        Tue, 26 Jul 2022 10:31:01 +0000
+Date:   Tue, 26 Jul 2022 18:30:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Linus Walleij <linus.walleij@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v3 01/10] input: keyboard: adp5588-keys: support gpi key
+ events as 'gpio keys'
+Message-ID: <202207261830.c3VuQ5P0-lkp@intel.com>
+References: <20220721080423.156151-2-nuno.sa@analog.com>
 MIME-Version: 1.0
-References: <1657780937-20891-1-git-send-email-u0084500@gmail.com>
- <CADiBU39x98iyO_OB2sYdAUGUOW9pV4dt+mEdfquhuJVm1HDRHA@mail.gmail.com> <ada44af6-2a5e-0b1c-8c46-3dbaae9b1a94@linaro.org>
-In-Reply-To: <ada44af6-2a5e-0b1c-8c46-3dbaae9b1a94@linaro.org>
-From:   ChiYuan Huang <u0084500@gmail.com>
-Date:   Tue, 26 Jul 2022 18:03:09 +0800
-Message-ID: <CADiBU3-juJZoeGccjPGCsJJ=B7Sez=MhtiiFADCuCCGc7fLrxQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] Add Richtek RT5120 PMIC support
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        cy_huang <cy_huang@richtek.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220721080423.156151-2-nuno.sa@analog.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2022=E5=B9=
-=B47=E6=9C=8826=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=885:59=E5=AF=AB=
-=E9=81=93=EF=BC=9A
->
-> On 26/07/2022 05:45, ChiYuan Huang wrote:
-> > cy_huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=8814=E6=97=
-=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=882:42=E5=AF=AB=E9=81=93=EF=BC=9A
-> >>
-> >> From: ChiYuan Huang <cy_huang@richtek.com>
-> >>
-> >> This patch series is to add Richtek RT5120 PMIC support.
-> >> In RT5120, it integrates four channels of buck converter, one channel =
-of LDO,
-> >> and one external enable channel to control the external power source.
-> > ping ......
->
-> Whom are you pinging? Everyone in To list?
->
-Sorry, forget to specify the part.
-I'm pining the 'mfd' patch and 'power key' patch.
+Hi "Nuno,
 
-> Best regards,
-> Krzysztof
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on next-20220725]
+[cannot apply to brgl/gpio/for-next hid/for-next linus/master v5.19-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220721-160531
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20220726/202207261830.c3VuQ5P0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/357979f7c2525297178fb321c5793a4bd63dabb6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nuno-S/adp5588-keys-refactor-and-fw-properties-support/20220721-160531
+        git checkout 357979f7c2525297178fb321c5793a4bd63dabb6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/keyboard/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/gpio/driver.h:6,
+                    from drivers/input/keyboard/adp5588-keys.c:13:
+   drivers/input/keyboard/adp5588-keys.c: In function 'adp5588_gpiomap_get_hwirq':
+>> include/linux/irq.h:1245:25: warning: overflow in conversion from 'long unsigned int' to 'int' changes value from '18446744073709551615' to '-1' [-Woverflow]
+    1245 | #define INVALID_HWIRQ   (~0UL)
+         |                         ^
+   drivers/input/keyboard/adp5588-keys.c:336:16: note: in expansion of macro 'INVALID_HWIRQ'
+     336 |         return INVALID_HWIRQ;
+         |                ^~~~~~~~~~~~~
+
+
+vim +1245 include/linux/irq.h
+
+2f75d9e1c90511 Thomas Gleixner 2017-09-13  1243  
+d17bf24e695290 Qais Yousef     2015-12-08  1244  /* Contrary to Linux irqs, for hardware irqs the irq number 0 is valid */
+d17bf24e695290 Qais Yousef     2015-12-08 @1245  #define INVALID_HWIRQ	(~0UL)
+f9bce791ae2a1a Qais Yousef     2015-12-08  1246  irq_hw_number_t ipi_get_hwirq(unsigned int irq, unsigned int cpu);
+3b8e29a82dd16c Qais Yousef     2015-12-08  1247  int __ipi_send_single(struct irq_desc *desc, unsigned int cpu);
+3b8e29a82dd16c Qais Yousef     2015-12-08  1248  int __ipi_send_mask(struct irq_desc *desc, const struct cpumask *dest);
+3b8e29a82dd16c Qais Yousef     2015-12-08  1249  int ipi_send_single(unsigned int virq, unsigned int cpu);
+3b8e29a82dd16c Qais Yousef     2015-12-08  1250  int ipi_send_mask(unsigned int virq, const struct cpumask *dest);
+d17bf24e695290 Qais Yousef     2015-12-08  1251  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
