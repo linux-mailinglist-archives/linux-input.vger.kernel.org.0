@@ -2,128 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42ED8580A16
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 05:45:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA6C580A1D
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 05:53:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237194AbiGZDpQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Jul 2022 23:45:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46648 "EHLO
+        id S229820AbiGZDxk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Jul 2022 23:53:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229852AbiGZDpQ (ORCPT
+        with ESMTP id S229647AbiGZDxj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Jul 2022 23:45:16 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADADD265D;
-        Mon, 25 Jul 2022 20:45:14 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id tk8so23919246ejc.7;
-        Mon, 25 Jul 2022 20:45:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hK9bdKxTQpaVNAf62mZs34iWrOFJN74ACx5fLDVM42o=;
-        b=dQ1lsD0pepwYEFblTk7mpzcFBnxB6tyOgcPOpx/6lHi03xM2x6XoOMsftr0Ahyhnyp
-         YKRNwmbk3S/dLgnWzqNgPvK3hzQRuTVRQls/Mi1FhdzbDczqdn38liHHuEZW47JFLsk1
-         +h8lkfRCPTDjr9YQRU8WmvTdoUuNXQFyhb7IMeTpMpj5T/h8sYR0lb0eox1DrvXaLl90
-         u8PqQ4B47CZB0IIFF6SbpRISJlWaXFWXrxg6Ylkgcn2ynkyqgVjdVxYWOU1X6rvhpy8R
-         pTzJRcOEm6vNKlAm0C7wQxZPfKBpMYuFfOzuVH69iBnapUG9N+QMFhV7yxDIhCFQNAdJ
-         /mtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hK9bdKxTQpaVNAf62mZs34iWrOFJN74ACx5fLDVM42o=;
-        b=y9Thlp2Cm6fVezY/mAlU30Z0KdXXnV48dd5JHwH6pxqYAhBAM4rHy082jQRU5cylQH
-         ZCgNgheuN2XDJFEGTkNZ/ArKCPrl9okpCKeosQxcJ1ReX6UNNf9S2Ggvo1w20lp1weYt
-         n3a955YG5EH1NMvlGUfhL76sYVyeuu98kIm9wcrde10AP1uPTZ/CyZc2Boqc/N/f/xl5
-         9wgV1aAvgT/wIyPd8rRJqsvyvzmQSTZKmQoaWl2djn5aEWjZIaG3nzjOfnX/196kGp/U
-         PYH+EpIUbODrK+y4PLvkqpXI2FiEQ3R7p/bUOz95cnWnPBSO+J5JJHknuOflA57kTNg5
-         PXEQ==
-X-Gm-Message-State: AJIora9GuM8QjTucc0BbrvGUBzIKkWQvROY4QJGfzmu2cyDNw4YqBN5W
-        qmPN9PpY0U8+9erQ8W+92ioDVsJq8tddYfAXqwY=
-X-Google-Smtp-Source: AGRyM1uBh2/Ujp0DRIZAzAQnZ43gbhiJIymwO1u6SGrzdqZ5yaYUGN2qu0sR6xbFs3MVvu26GUSOxwk4olKhadauEMc=
-X-Received: by 2002:a17:906:844f:b0:72b:549e:a654 with SMTP id
- e15-20020a170906844f00b0072b549ea654mr11954747ejy.535.1658807113081; Mon, 25
- Jul 2022 20:45:13 -0700 (PDT)
+        Mon, 25 Jul 2022 23:53:39 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87DEE29827
+        for <linux-input@vger.kernel.org>; Mon, 25 Jul 2022 20:53:38 -0700 (PDT)
+Received: from fsav113.sakura.ne.jp (fsav113.sakura.ne.jp [27.133.134.240])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 26Q3rbbb044446;
+        Tue, 26 Jul 2022 12:53:37 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav113.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav113.sakura.ne.jp);
+ Tue, 26 Jul 2022 12:53:37 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav113.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 26Q3raGs044441
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Tue, 26 Jul 2022 12:53:36 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <f23c165c-3f2b-e802-21ce-70eef22ebe31@I-love.SAKURA.ne.jp>
+Date:   Tue, 26 Jul 2022 12:53:36 +0900
 MIME-Version: 1.0
-References: <1657780937-20891-1-git-send-email-u0084500@gmail.com>
-In-Reply-To: <1657780937-20891-1-git-send-email-u0084500@gmail.com>
-From:   ChiYuan Huang <u0084500@gmail.com>
-Date:   Tue, 26 Jul 2022 11:45:00 +0800
-Message-ID: <CADiBU39x98iyO_OB2sYdAUGUOW9pV4dt+mEdfquhuJVm1HDRHA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] Add Richtek RT5120 PMIC support
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [syzbot] INFO: task hung in __input_unregister_device (4)
+Content-Language: en-US
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        cy_huang <cy_huang@richtek.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     syzkaller-bugs@googlegroups.com, Johan Hovold <johan@kernel.org>,
+        rydberg@bitmath.org,
+        syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>,
+        linux-input@vger.kernel.org, ira.weiny@intel.com
+References: <000000000000ed47a705e2cbd347@google.com>
+ <8095587.T7Z3S40VBb@opensuse>
+ <30ccf517-f6b3-fc54-33d0-ffc24ada4b29@I-love.SAKURA.ne.jp>
+ <1902535.PYKUYFuaPT@opensuse>
+ <03fda856-2c47-b8a4-908c-16e942678250@I-love.SAKURA.ne.jp>
+In-Reply-To: <03fda856-2c47-b8a4-908c-16e942678250@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-cy_huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=8814=E6=97=A5 =
-=E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=882:42=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> From: ChiYuan Huang <cy_huang@richtek.com>
->
-> This patch series is to add Richtek RT5120 PMIC support.
-> In RT5120, it integrates four channels of buck converter, one channel of =
-LDO,
-> and one external enable channel to control the external power source.
-ping ......
->
-> rt5120-regulator can be referred in the below link
-> Link: https://lore.kernel.org/lkml/165599062767.127406.125714869841700832=
-13.b4-ty@kernel.org/
->
-> Since v3:
-> - Use a 'dev' variable and dev_err_probe to decrease the LOC in mfd.
-> - Simplify the power key irq handler key report
-> - Since press and release irq not needed to keep in private data, change =
-'press',
->   'release' irq as local variable only.
-> - Fix Kconfig typo for pwrkey.
->
-> Since v2:
-> - Add 'unevaluatedProperties: false' for regulator buck1~4/ldo/exten.
-> - Fix indention and remove status for powerkey.
-> - Refine powerkey description for more HW details.
-> - For the regulator property parsing, use of_property_read_u32 instead.
-> - Not to overwrite regulator constraint.
-> - Refine regulator desc coding.
->
-> ChiYuan Huang (3):
->   dt-binding: mfd: Add Richtek RT5120 PMIC support
->   mfd: rt5120: Add Richtek PMIC support
->   input: misc: rt5120: Add power key support
->
->  .../devicetree/bindings/mfd/richtek,rt5120.yaml    | 178 +++++++++++++++=
-++++++
->  drivers/input/misc/Kconfig                         |   9 ++
->  drivers/input/misc/Makefile                        |   1 +
->  drivers/input/misc/rt5120-pwrkey.c                 | 105 ++++++++++++
->  drivers/mfd/Kconfig                                |  12 ++
->  drivers/mfd/Makefile                               |   1 +
->  drivers/mfd/rt5120.c                               | 121 ++++++++++++++
->  7 files changed, 427 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt5120.=
-yaml
->  create mode 100644 drivers/input/misc/rt5120-pwrkey.c
->  create mode 100644 drivers/mfd/rt5120.c
->
-> --
-> 2.7.4
->
+On 2022/07/23 4:15, Fabio M. De Francesco wrote:
+> I had misunderstood easily what you said because I had no context. I have 
+> not yet all the necessary context to prepare a "real" patch. As said, it 
+> was only a "proof of concept".
+
+Well, it seems that the cause of this problem is nothing but lack of wake_up()
+after clear_bit(). Debug printk() patch shown below says that iforce_usb_out()
+ from interrupt context hit "urb->status -71, exiting" when iforce_close()
+ from process context was in progress.
+
+[  491.314788][ T2962] iforce_close(ffff88807e6b8000) start
+[  491.316393][   T14] usb 1-1: USB disconnect, device number 117
+[  491.320453][ T2962] iforce_send_packet(ffff88807e6b8000) start
+[  491.326488][    C0] iforce 1-1:0.0: urb->status -71, exiting
+[  491.327471][   T14] iforce_usb_disconnect(ffff88807e6b8000) start
+[  491.335041][ T2962] iforce_send_packet(ffff88807e6b8000)=0
+[  491.351266][ T2962] wait_event_interruptible(ffff88807e6b8000) end
+[  491.357778][ T2962] iforce_close(ffff88807e6b8000) end
+[  491.366421][   T14] input_unregister_device(ffff88807e6b8000) end
+[  491.372939][   T14] iforce_usb_disconnect(ffff88807e6b8000) end
+
+On 2022/07/26 12:08, syzbot wrote:
+> Hello,
+> 
+> syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+> 
+> Reported-and-tested-by: syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com
+> 
+> Tested on:
+> 
+> commit:         e0dccc3b Linux 5.19-rc8
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=15e470de080000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=26034e6fe0075dad
+> dashboard link: https://syzkaller.appspot.com/bug?extid=deb6abc36aad4008f407
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=14b307f6080000
+> 
+> Note: testing is done by a robot and is best-effort only.
