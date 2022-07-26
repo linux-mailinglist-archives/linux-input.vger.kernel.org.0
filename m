@@ -2,136 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9968C5813AC
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 14:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 592715816C1
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jul 2022 17:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239068AbiGZM5B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jul 2022 08:57:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51940 "EHLO
+        id S239287AbiGZPsf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jul 2022 11:48:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238808AbiGZM4r (ORCPT
+        with ESMTP id S239215AbiGZPse (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jul 2022 08:56:47 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26C2275ED
-        for <linux-input@vger.kernel.org>; Tue, 26 Jul 2022 05:56:37 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id b21-20020a05600c4e1500b003a32bc8612fso8110628wmq.3
-        for <linux-input@vger.kernel.org>; Tue, 26 Jul 2022 05:56:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:date:subject:mime-version:content-transfer-encoding:message-id
-         :references:in-reply-to:cc;
-        bh=Pv8Wb/XUfgDvlUBb7xZCItYlnc14Qbd8klbk0fBR/cI=;
-        b=JQC0LDeiyCTONLO9wJzCR3DZayr2OeSY97UtihVtK2Bg//mORTzwXNPQ+3bZvguNmQ
-         G8HgNDfEkkPic2mCzlej2yTg5sJBWpWQOKJW4hmFNVLOtUNlTHZLmvnLaYTGO57swON9
-         JnMb07hRleek6DOVe9ppMcxjCwr4KlqQ5aYSfJsjWJ43VFGGsOTp1NkHXUuBaFtIwwkt
-         /bgJS8DYAK1Zn8Fw53JRW+sZoWXXjJs3uWAfYWySQg+Yc5Wpnwa6Ee7Xuue3cpQ89FD+
-         e5reycwqnH7QxWvpijS7glQJuXIBJEVn4DgeAUml+0SWnmHj/ADspwBVxwBwtXp/TTOc
-         0OTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:date:subject:mime-version
-         :content-transfer-encoding:message-id:references:in-reply-to:cc;
-        bh=Pv8Wb/XUfgDvlUBb7xZCItYlnc14Qbd8klbk0fBR/cI=;
-        b=C4PRiYy/vW6YJRNjYsVCtPlhcptVQ4KxXCxYAmdiFiVcqm76qfhC/HDGUP8k9EPoXM
-         1fKI4JoJlOrSE3QXGwUlBIVXW8fK584jTJaMoqRLj2lO2ukDBaFYo6vRSNv8+1u51Y0C
-         OG0tJ0bkU+mYRnDYNuj04wDASnGa0PJ9yLOJwPWoccAO+e2C/QDMnoWmnfUEovBAcyfn
-         GZk+RRC/55HXnoBEUmc3Ro36qHofGtxP3lu9sL2/SQNly7xM2Bg/GbBzEMYqgGcSJh0U
-         emAZIwYX88hb0Dg/eJoQ8uiE6w9TK0iLR6gPCziIc96DpNZHHnJD9tGHrLEJBspZLwy2
-         PTCg==
-X-Gm-Message-State: AJIora8VZP/pesD8J3O6N3hRtvvuIxWQX9FSbIfULLPZJ6PH+PfKAIB8
-        PxaIXi34iG9Z8J2Z+WQERBR99Q==
-X-Google-Smtp-Source: AGRyM1vvvRdQPmoQCB+VQgE8Mf8j6lPcMzabj6A5fEyQBKVFOEwxFB9YOwKu5xXK1jyzEiBm23752g==
-X-Received: by 2002:a05:600c:19cc:b0:3a3:3cfe:d548 with SMTP id u12-20020a05600c19cc00b003a33cfed548mr12225185wmq.6.1658840196274;
-        Tue, 26 Jul 2022 05:56:36 -0700 (PDT)
-Received: from [192.168.2.253] ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id k1-20020adff5c1000000b0020fff0ea0a3sm14171549wrp.116.2022.07.26.05.56.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 05:56:35 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Date:   Tue, 26 Jul 2022 14:56:12 +0200
-Subject: [PATCH v2 7/7] arm64: dts: mediatek: mt8183-pumpkin: add keypad support
+        Tue, 26 Jul 2022 11:48:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D5162ED4E;
+        Tue, 26 Jul 2022 08:48:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DEAF060D17;
+        Tue, 26 Jul 2022 15:48:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B83FC433D6;
+        Tue, 26 Jul 2022 15:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658850512;
+        bh=Uzd9kHOcKO6VXOdUzTw8gjKqg7nPcNlibSG7TmjBK0I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iJvH1vyglyS5Nxfd4oCmumxkKCRuc0c16/Pr0qckmnosMASH0zaPTvZoOreZ67sgq
+         WwEXbYN0pHqve71NL6F6mEVhmpFnWMJP06jl5krEA0DFiFlVloDW/AElw/giq05Tpx
+         iR+XpsVbslG19Dz+tpkTcK8wRTWyI0CTe4NpiNXXneONWHRwtFYmyovHedPwA02FyW
+         CGfUNv5XGwrA1nZaohcUNY3W9M8fCcW1lVLjtvh5gDilj0FEDJbaYupSgAp+cSWAMu
+         +pjQ5A7zWNtN5F/NNO/sD20Ox5l4A/RQroGjtiYjI2u9wQRugk1hZ2znV7vxaX6fug
+         HfjTumJFSe/qw==
+Date:   Tue, 26 Jul 2022 08:48:29 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        jikos@kernel.org, llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        j.witteveen@gmail.com, stefanberzl@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com
+Subject: Re: [PATCH v2 6/7] HID: uclogic: Add support for UGEE v2 mouse frames
+Message-ID: <YuAMzSBcfsyGMjNy@dev-arch.thelio-3990X>
+References: <20220717144333.251190-7-jose.exposito89@gmail.com>
+ <202207261047.hUEFf74G-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220720-mt8183-keypad-v2-7-6d42c357cb76@baylibre.com>
-References: <20220720-mt8183-keypad-v2-0-6d42c357cb76@baylibre.com>
-In-Reply-To: <20220720-mt8183-keypad-v2-0-6d42c357cb76@baylibre.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Fabien Parent <parent.f@gmail.com>
-X-Mailer: b4 0.10.0-dev-78725
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,MISSING_HEADERS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <202207261047.hUEFf74G-lkp@intel.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Fabien Parent <fparent@baylibre.com>
+On Tue, Jul 26, 2022 at 10:33:25AM +0800, kernel test robot wrote:
+> Hi "José,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on 0cb1fc0988e32bda84c2b7218e0c761af1430baf]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Exp-sito/XP-PEN-Deco-Pro-S-support-for-5-20-uclogic/20220717-224559
+> base:   0cb1fc0988e32bda84c2b7218e0c761af1430baf
+> config: x86_64-buildonly-randconfig-r002-20220718 (https://download.01.org/0day-ci/archive/20220726/202207261047.hUEFf74G-lkp@intel.com/config)
+> compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fa0c7639e91fa1cd0cf2ff0445a1634a90fe850a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/10fcf5d5cca4657c53477c392b1fb675d72cfda3
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Jos-Exp-sito/XP-PEN-Deco-Pro-S-support-for-5-20-uclogic/20220717-224559
+>         git checkout 10fcf5d5cca4657c53477c392b1fb675d72cfda3
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: call to __read_overflow marked "dontcall-error": detected read beyond size of object (1st parameter)
 
-Add device-tree bindings for the keypad driver on the MT8183 Pumpkin
-board.
+Unfortunately, LTO makes this warning kind of cryptic but it seems like
+the wrong template size is being used? This appears to resolve the
+warning for me.
 
-The MT8183 Pumpkin board has 2 buttons connected using: KPROW0,
-KPROW1 and KPCOL0.
+Cheers,
+Nathan
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-index 530e0c9ce0c9..a1d01639df30 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-@@ -7,6 +7,7 @@
- /dts-v1/;
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index 2407e927d1bf..dd4b1ed6fd1e 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -1205,7 +1205,7 @@ static int uclogic_params_ugee_v2_init_frame_mouse(struct uclogic_params *p)
  
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
- #include "mt8183.dtsi"
- #include "mt6358.dtsi"
- 
-@@ -122,6 +123,18 @@ &i2c6 {
- 	clock-frequency = <100000>;
- };
- 
-+&keyboard {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&keyboard_pins>;
-+	status = "okay";
-+	linux,keymap = <MATRIX_KEY(0x00, 0x00, KEY_VOLUMEDOWN)
-+			MATRIX_KEY(0x01, 0x00, KEY_VOLUMEUP)>;
-+	keypad,num-rows = <2>;
-+	keypad,num-columns = <1>;
-+	debounce-delay-ms = <32>;
-+	mediatek,keys-per-group = <2>;
-+};
-+
- &mmc0 {
- 	status = "okay";
- 	pinctrl-names = "default", "state_uhs";
-@@ -226,6 +239,14 @@ pins_cmd_dat {
- 		};
- 	};
- 
-+	keyboard_pins: keyboard {
-+		pins_keyboard {
-+			pinmux = <PINMUX_GPIO91__FUNC_KPROW1>,
-+				 <PINMUX_GPIO92__FUNC_KPROW0>,
-+				 <PINMUX_GPIO93__FUNC_KPCOL0>;
-+		};
-+	};
-+
- 	mmc0_pins_default: mmc0-pins-default {
- 		pins_cmd_dat {
- 			pinmux = <PINMUX_GPIO123__FUNC_MSDC0_DAT0>,
-
--- 
-b4 0.10.0-dev-78725
+ 	rc = uclogic_params_frame_init_with_desc(&p->frame_list[1],
+ 						 uclogic_rdesc_ugee_v2_frame_mouse_template_arr,
+-						 uclogic_rdesc_ugee_v2_frame_dial_template_size,
++						 uclogic_rdesc_ugee_v2_frame_mouse_template_size,
+ 						 UCLOGIC_RDESC_V1_FRAME_ID);
+ 	if (rc)
+ 		return rc;
