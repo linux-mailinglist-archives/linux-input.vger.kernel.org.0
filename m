@@ -2,102 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BC42582443
-	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 12:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52EA4582BB5
+	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 18:37:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231466AbiG0K2G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Jul 2022 06:28:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33384 "EHLO
+        id S238404AbiG0QhB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Jul 2022 12:37:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231504AbiG0K2D (ORCPT
+        with ESMTP id S238574AbiG0Qfz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Jul 2022 06:28:03 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F3E245F7A
-        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 03:28:02 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id t1so26430642lft.8
-        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 03:28:02 -0700 (PDT)
+        Wed, 27 Jul 2022 12:35:55 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329484F696;
+        Wed, 27 Jul 2022 09:28:00 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id b26so25270064wrc.2;
+        Wed, 27 Jul 2022 09:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+cxae8gv9ghFQbgIV+zWyRPdnemR4uamP3+fIGQ0mcg=;
-        b=unGh8VSdM4z9dQYZaotpL1ryQAJtRKmdzXSK3lhFziwgOgZe58IRl0RU1pj8VkTn5A
-         elkIrdMs2VY5NdRDjZBCbIhXsN345uxhPlh5ZP1qtRUK2TyCtFAC2JTjjUQTitPDQuTW
-         ndu7gpeqDnv6duTHuQhEkaRTUeUNMpFXJ6plWHEN9eMebgpfaXswzpE3aTOAXlPUjPHU
-         dI6WqXYBRGihvlz7jNAAgUGryEgy24P0r2iMYsRI1JkbYkyCGJqXNF8PYcxdi0voKRVv
-         LSHfEQm/5CSEj6yz0fnjp+n1I4cfvwnNXJTZbQkih7fxli6WdoNi6u3ZpHm2qea4GjvB
-         Q8jA==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kfkoj4fNNraT0/nQVLzO6vYNRTJCIdKopXSEcy8gVDM=;
+        b=q3H37dDZW+3bOfULAfYuQJm8ZxzHjx0rixk1dhrWM5nbo4TbK8CBATCD7xIksSB0Lg
+         ouKAl16bl1ZbP/Uv73EZvnVZ8l5rAfrwU6dpPPqvk9bXxunonxcqefStjmYB0beCWs8+
+         SIRHGrlLRYuwvIgkUyk0zFktGzSZRpdDgzpUyTx/Ntp+K9UHF55kDzpDbLmEh9MRJKXL
+         RYSkyw6OQli3pZLECvucTltLlry9TD/aqJuLSSTzvXJcGTBELmhY/W0C2p+aIXg/6HuG
+         SKFp/RTBtmi4w6/qwnZr8glMe2nthiP7h4mcGxA18xD67A5PvYt+UHYsxPPiv11wEOC2
+         Nm5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+cxae8gv9ghFQbgIV+zWyRPdnemR4uamP3+fIGQ0mcg=;
-        b=x+hmL/LoaG8IV26gsdotwGkum9K8lvbz8MkD3slEK4cmA2Xr2DzK2uj90Ut8LweI56
-         sESt/MFOuekcIfAmZ+FIbOZ3eWlXImoZpQdkRHg7v032oym+K9Pw7Ld/4/S7p7BXEDxJ
-         hLQudWHioi1RL431urww8SHntHFK6I6PbAXXRSjZTsuFmajH5bxC7DkwGGM5WA06OI7i
-         dKmKiVg9PwNdo29jmvAUnKLDubCSLW2m/MRZSEltLW98ZjlB9LVdRmNuI6Nbv/bJ1Sat
-         GSxP2QMhmPkc7llnjuXqtb7Rtkxhs6IZU0Orp7fNhFoahDG4DqPd9dEha+tI0SFlL7Vf
-         4ebQ==
-X-Gm-Message-State: AJIora+sNwLLbOhMyjFGihjAQfNbDqvudp2GImyJ9DbLqKuCCEKH2Q0W
-        Rsldg8Ejhqb+MNe1KNmhFgwTBQ==
-X-Google-Smtp-Source: AGRyM1sl8aBw5QZ2EVsyCzqKkcJGvcqaRHRnIc4WpVubax801paGLnvD6aDVAIrlGAggKjSJkOFyhw==
-X-Received: by 2002:a05:6512:1093:b0:48a:7c08:8d29 with SMTP id j19-20020a056512109300b0048a7c088d29mr8053245lfg.540.1658917680455;
-        Wed, 27 Jul 2022 03:28:00 -0700 (PDT)
-Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no. [78.26.46.173])
-        by smtp.gmail.com with ESMTPSA id m3-20020a056512358300b0048a85bd4429sm2102539lfr.126.2022.07.27.03.27.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jul 2022 03:28:00 -0700 (PDT)
-Message-ID: <ff0341b1-e6a3-c2ff-4095-a6cc3641c82a@linaro.org>
-Date:   Wed, 27 Jul 2022 12:27:58 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kfkoj4fNNraT0/nQVLzO6vYNRTJCIdKopXSEcy8gVDM=;
+        b=aFQBKk/mjgxuxzCcXnWGeWaSKvUJY+hSJk3JQY0vLybANqoOXPEBLt7htsV6AQQ/Ux
+         UlceXbHXSebsIcCYTBNFVUm7bTWnWn4YJwm34R8JPjeLbf/FH1IefVNg+bmtfv2b0Prr
+         d/LiJvtBPWNOnEDfZV63KJfZfV6UHyVXEp79n1HIz0+Tspj9uWBkE4LYjE4sQoFi3hiQ
+         UCa83c6dNeiRcpElcnWX4+FvP+UOI16oZnLbmsAmxRxzEBjpzIrlZg3TF4sLRbmmcWDM
+         pquveQbdJRRIXtecvtuBbr8hgAgGXGnSaoUKNw2rQFF0o6j95z8Gg5VE/tJVMWsyO9NP
+         BItg==
+X-Gm-Message-State: AJIora+VhHXKYvNsRLkoESuhzIhqcohVQymHSpZ6OMPM0W5MoE5D8GtJ
+        SKmS6wuJZWAWzcQizQXy0cE=
+X-Google-Smtp-Source: AGRyM1tGzrPKCky6a6fSRf3hKGzV7CyhtQhIjfR3kqAZAEygm9jlnBVaaOUd5JATDO60ztoTTN6kVg==
+X-Received: by 2002:a1c:e90c:0:b0:3a1:7527:cd3c with SMTP id q12-20020a1ce90c000000b003a17527cd3cmr3631590wmc.91.1658939278035;
+        Wed, 27 Jul 2022 09:27:58 -0700 (PDT)
+Received: from elementary ([94.73.33.57])
+        by smtp.gmail.com with ESMTPSA id m16-20020adffa10000000b0020e6ce4dabdsm17551020wrr.103.2022.07.27.09.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 09:27:57 -0700 (PDT)
+Date:   Wed, 27 Jul 2022 18:27:55 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     Stefan Hansson <newbie13xd@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <ping.cheng@wacom.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
+ Inspiroy H640 drawing tablet
+Message-ID: <20220727162755.GA3839@elementary>
+References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
+ <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm>
+ <20220724114849.GA32182@elementary>
+ <20220725224841.GA75640@elementary>
+ <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
+ <20220726214858.GA3202@elementary>
+ <8a35df7d-a6cc-63e9-b207-6fbed05e32e5@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 3/7] dt-bindings: mediatek,mt6779-keypad: add
- mediatek,keys-per-group
-Content-Language: en-US
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Fabien Parent <parent.f@gmail.com>
-References: <20220720-mt8183-keypad-v2-0-6d42c357cb76@baylibre.com>
- <20220720-mt8183-keypad-v2-3-6d42c357cb76@baylibre.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220720-mt8183-keypad-v2-3-6d42c357cb76@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8a35df7d-a6cc-63e9-b207-6fbed05e32e5@gmail.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 26/07/2022 14:56, Mattijs Korpershoek wrote:
-> The MediaTek keypad has 2 modes of detecting key events:
-> * single key: each (row, column) can detect one key
-> * double key: each (row, column) is a group of 2 keys
+On Tue, Jul 26, 2022 at 10:56:33PM -0400, Stefan Hansson wrote:
+> Hi!
 > 
-> With double key, two keys are physically wired to one (row, column) pin.
-> These keys are in the same "group".
+> > > Thanks for looking into this! Bisecting has been slow on my end
+> > > unfortunately. I built today's linux-next (20220726) with your proposed
+> > > patch below and my drawing tablet curiously still does not work as expected.
+> > > The stylus works a couple of times, but eventually stops working (unlike
+> > > prior where it always seemed to only work once). Do I need both your revert
+> > > and this diff for it to work properly?
+> > 
+> > You are right, I just tested for a while with the diff applied (without
+> > reverting the commit causing the issue) and after putting the pen in
+> > and out proximity a fair amount of times (> 100) it stopped working.
 > 
-> Multiple keys in the same group reduces the number of pins which
-> minimizes cost.
-> 
-> Add a keys-per-group property to describe this.
-> 
-> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> This part is peculiar to me. When I said "a couple of times", I really meant
+> a couple of times. For me, this issue reproduces after maybe 10 times at
+> most. I have never been able to do it for anything close to 100 times. I
+> wonder what's up with this disparity?
 
+We are most likely doing something different. Anyway, the important bit
+is that with the current code present 5.18 the bug is easy to reproduce
+in order to test fixes.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-Best regards,
-Krzysztof
+Jose
