@@ -2,43 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E121582124
-	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 09:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 620CF582128
+	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 09:34:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230328AbiG0HeO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Jul 2022 03:34:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37422 "EHLO
+        id S230268AbiG0He3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Jul 2022 03:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230297AbiG0HeM (ORCPT
+        with ESMTP id S230307AbiG0He2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Jul 2022 03:34:12 -0400
+        Wed, 27 Jul 2022 03:34:28 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E8EDBE34;
-        Wed, 27 Jul 2022 00:34:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2DD422CC;
+        Wed, 27 Jul 2022 00:34:28 -0700 (PDT)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id F3C026601ABE;
-        Wed, 27 Jul 2022 08:34:08 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8D2CA6601ABE;
+        Wed, 27 Jul 2022 08:34:26 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658907249;
-        bh=z8qNM7YJGlGgLr5CtAhQT5G31+zHCWFzXU6yj7DoQRw=;
+        s=mail; t=1658907267;
+        bh=6ps4uQowS8HpISETXvtaiicTxwDeXzdtMPrNeVaDsvk=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=obJ1brsK60dsAyiQVGl3tC8c/dqH6jT8h6XczYe+jJWOD5TXjCvZ7k+YZoYPqv2SF
-         d9SRts3+EZEmgCfZoMBurFII3X8GYQHMwZPbP/oeCKOdiFisG+7JQOSp+/DDjGlSGt
-         YR73wFCosNkFHu3hVCwzTLyssbl+MGtrAtCqAb2YaJ1vX/zs+INb7IjHiEDgbKRgD9
-         0NZzqX7wyZmZ6sgi651J0Belo+wY+gZSsf1MK7YHPiY8o13cQ0WKfGp3E+beQqkX4F
-         umbSmHt00/x5gdhR0yCu4+gyUZ2tw6mrLUEdNUpfqH2r341YbP37ZP0jjzNV0lCX3M
-         /1hF/5A7b7wAA==
-Message-ID: <62fa552b-6117-3f76-d3a1-e08a33f287d1@collabora.com>
-Date:   Wed, 27 Jul 2022 09:34:07 +0200
+        b=ToEX/wUgUB/m4F2DIP7ruKo6y+qjdkYa3nKiNumxyrfxYQSnZRpIz57UFxXNkTLv5
+         v50V4KAS4HbXimDKUYXObvJj6LL8dZ9oJjvbuDppd7NCUxdNqEdcvjqaVaPyUwJBhN
+         UMTLo7HkUIKVdTAhY+eEO+wlI5NTIy5vPMb+ZsowOCqcP9mz7KqIb5snaUuKekZHD8
+         3fFhkvQsKj72T1eQ/tDhsD8IiKZcCW7Z2X70QNpxh6ZSu6TbZMzYm4d8CIhhTKaeI8
+         mirvQmENKSZujpqyBvi22L7EDKvF/Fbo1sC7eOMcjp+mQmhkgSUhNcCDWxbm85GTTj
+         4rB8vRSImBbaw==
+Message-ID: <47f90532-c115-61ad-1203-5658430b6a7a@collabora.com>
+Date:   Wed, 27 Jul 2022 09:34:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 4/7] Input: mt6779-keypad - prepare double keys support
- with calc_row_col
+Subject: Re: [PATCH v2 5/7] Input: mt6779-keypad - support double keys matrix
 Content-Language: en-US
 To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
 Cc:     linux-arm-kernel@lists.infradead.org,
@@ -47,10 +46,10 @@ Cc:     linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         Fabien Parent <parent.f@gmail.com>
 References: <20220720-mt8183-keypad-v2-0-6d42c357cb76@baylibre.com>
- <20220720-mt8183-keypad-v2-4-6d42c357cb76@baylibre.com>
+ <20220720-mt8183-keypad-v2-5-6d42c357cb76@baylibre.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220720-mt8183-keypad-v2-4-6d42c357cb76@baylibre.com>
+In-Reply-To: <20220720-mt8183-keypad-v2-5-6d42c357cb76@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -63,16 +62,18 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 Il 26/07/22 14:56, Mattijs Korpershoek ha scritto:
-> The MediaTek keypad can operate in two modes: single key or double key.
-> The driver only supports single key mode. In double key mode, the
-> row/column calculation based on the key is different.
+> MediaTek keypad has 2 modes of detecting key events:
+> - single key: each (row, column) can detect one key
+> - double key: each (row, column) is a group of 2 keys
 > 
-> Add a calc_row_col function pointer which will be different based on
-> single/double key mode.
+> Double key support exists to minimize cost, since it reduces the number
+> of pins required for physical keys.
 > 
-> No functional change.
+> Double key is configured by setting BIT(0) of the KP_SEL register.
 > 
-> Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Enable double key matrix support based on the mediatek,keys-per-group
+> device tree property.
+> 
 > Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
