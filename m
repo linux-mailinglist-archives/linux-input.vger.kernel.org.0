@@ -2,121 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC13B582E9C
-	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 19:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 335F25834A5
+	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 23:07:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231418AbiG0RO4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Jul 2022 13:14:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54630 "EHLO
+        id S237635AbiG0VGO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Jul 2022 17:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241734AbiG0ROY (ORCPT
+        with ESMTP id S237023AbiG0VFp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Jul 2022 13:14:24 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6524077575
-        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 09:42:41 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id w18so9370782lje.1
-        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 09:42:41 -0700 (PDT)
+        Wed, 27 Jul 2022 17:05:45 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC8D46172C
+        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 14:04:21 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id v5so10797279wmj.0
+        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 14:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzYOY2dB+nJ4Wrasac8i9wLlDQ6Egt9GBa/do8G+Sig=;
-        b=K9uKvk75SJSfedHogdY+kWH/CsEe/wSTIPBB8eidVqGxr8FXX0fnBnnafTEoJASqQJ
-         RaRG5tZJjdpbbu2xJkLg/HYItJKDJIqsavU8GE7u0sMaidntxyIak+tzCQn7fq+YqNvg
-         XjE5ptccosCYau06VrSBVIkvoFpc7xRveMXYNZ+2ZlpfaILOpJnoWLTxphoTlRfcNEj2
-         PW++n4ci32WZtTJkwiFPKoibx+hzJOjqHV7SI2lCHrJ0N8ZofhOeDnlagmGYfi8hgiWz
-         p0FkuVR/bUtB0Dwo+DAoxbd2ugzgly77uA9utvOfbC1kbfgcCR3d6qQeFesv+ns7jaKE
-         p8hQ==
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
+        b=gBmx9wqQLoqOz1G8d20izBhuJqPdHv57Lnkp1oGme86ifNa1BX5VaVX6Qxni4w11x0
+         M5zasePCyPuhkkRG7E4ecxaZtVm3iRm5eHLpLZPBANzAUDlBB29l7RG7wxAdPCjmW+K8
+         I3ErWXL6Gwezl/+usLr2NQm7fGLJM1fjDkrbCY+RZSK7VCNfKlRaiEg79sLuQ6TtiXWb
+         BaaMSQ+T81j7SbXHZbGqpSl905NGyHTffwPDdGqHZXhrRr6lKrF0G2Z4cpEdNb8PTKnP
+         aneAxR3IUSJHYeTylaPGo2J/cIAjCJMsSXhMh8D3cOr3wS1Ms7vEJsdwrjb8KMZlxRj3
+         Figw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzYOY2dB+nJ4Wrasac8i9wLlDQ6Egt9GBa/do8G+Sig=;
-        b=kMIG/f40CfvVo7MQTZwlq122rPb/6CUe8lfT3H2W+6ae81EyavS53bXkeSKO25BvTb
-         4djpfB+oPrUpbGJM4FGwyMdR47oDp3Ycgbk+p1zOFRIN9XwomyBHkeMlwnrjm1sDC+Ri
-         F7aA7VNyMW6N8UOLIYGDsTfOr/GQfYkv4h0+vD3J9ZN942YSnxFp9f7ClKp6iIZJovx+
-         dMA2Iuyq9qZy1rBuPAG8mMrjaS1pqX+QV4am4DENQD0QzgZFdA5fTkeWJEmWx8lO+Tek
-         V/f2qeQGV1vfGpuKZkizlTOOGrl7ul4jjvMXGgZ/JCyNf9klyBawqKReqCRUyIl6e3DM
-         BOWA==
-X-Gm-Message-State: AJIora/YhmJKuxqkrEsZk1M3eEwFG1wAdBpPvbxaF5sWp5Wz2S5bp0jZ
-        CRcBNFo43wfazoQmvTEwlxaaxA==
-X-Google-Smtp-Source: AGRyM1tz+0k7fZ2bna3hFG6H3YS6grlcQvMVem+eMziNNndSW6tc8FrubWz77g7n/OurMqXq4uHOwg==
-X-Received: by 2002:a2e:3210:0:b0:25e:b6d:4d90 with SMTP id y16-20020a2e3210000000b0025e0b6d4d90mr4717724ljy.282.1658940159071;
-        Wed, 27 Jul 2022 09:42:39 -0700 (PDT)
-Received: from krzk-bin.lan (78-26-46-173.network.trollfjord.no. [78.26.46.173])
-        by smtp.gmail.com with ESMTPSA id 197-20020a2e05ce000000b0025d70efeaaasm4049508ljf.75.2022.07.27.09.42.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
+        b=YV/e8jNxD9MAVhKjOvN4+pnjjSYUAJIuW5Kgz91dpXxb2ctJOYHyri+mJxwzjnP6cb
+         DQwM3Wfl2LP6jmJprNGCT2U9Ixn2LKBrkR+wyw1L6lz5V+xKs3Pid1wtWziBIOG8zVrz
+         kmwqXhrUb+ot5MbvAcHImMw2RoXwtN+BEnP1o/kE80ZZAPrd8mILGmGm8RZ+8XTfwc5Q
+         gIyTU6dXWmTvLb8Hgg6s3n2nqbHedXe3xeHNc4QZqSx6f76lba80/wqK5pzzniAX71Od
+         EhOfL+Q/5rVLViaefamF/OjznLKaT7/QTptetGnsoCCVCyE6ov+/A8Ki/7cH7qPnkEQP
+         mXYA==
+X-Gm-Message-State: AJIora8m82rrZdwEWJrevZ842Jz238kqMz8+RRVoRLry9AARr82mWKQr
+        UE0hDWAQgb9GEIY9e7/KpfgJbA==
+X-Google-Smtp-Source: AGRyM1ugHIvYzT8GdJW8TvjMkyTFgxeT9hbgI4acFLt2PD9dNPAlJfHZAYPec9JkG0vYfhz8FRL5JA==
+X-Received: by 2002:a05:600c:1d1b:b0:3a3:e2:42d1 with SMTP id l27-20020a05600c1d1b00b003a300e242d1mr4242428wms.137.1658955858007;
+        Wed, 27 Jul 2022 14:04:18 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:65a8:ebd8:4098:d9d0])
+        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003a38606385esm37908wmq.3.2022.07.27.14.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 09:42:38 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lubomir Rintel <lkundrak@v3.sk>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: input: ariel-pwrbutton: use spi-peripheral-props.yaml
-Date:   Wed, 27 Jul 2022 18:42:30 +0200
-Message-Id: <20220727164230.385614-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Wed, 27 Jul 2022 14:04:17 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linexp.org>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org
+Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, khilman@baylibre.com,
+        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
+        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
+        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
+        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
+        baolin.wang7@gmail.com, f.fainelli@gmail.com,
+        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
+        glaroque@baylibre.com, miquel.raynal@bootlin.com,
+        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
+        matthias.bgg@gmail.com, j-keerthy@ti.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK
+        , TOUCHSCREEN)...),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner
+        sunXi SoC support),
+        linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH v3 28/32] Input: sun4i-ts - switch to new of thermal API
+Date:   Wed, 27 Jul 2022 23:02:49 +0200
+Message-Id: <20220727210253.3794069-29-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
+References: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Instead of listing directly properties typical for SPI peripherals,
-reference the spi-peripheral-props.yaml schema.  This allows using all
-properties typical for SPI-connected devices, even these which device
-bindings author did not tried yet.
+The thermal OF code has a new API allowing to migrate the OF
+initialization to a simpler approach. The ops are no longer device
+tree specific and are the generic ones provided by the core code.
 
-Remove the spi-* properties which now come via spi-peripheral-props.yaml
-schema, except for the cases when device schema adds some constraints
-like maximum frequency.
+Convert the ops to the thermal_zone_device_ops format and use the new
+API to register the thermal zone with these generic ops.
 
-While changing additionalProperties->unevaluatedProperties, put it in
-typical place, just before example DTS.a
-
-The binding references also input.yaml and lists explicitly allowed
-properties, thus here reference only spi-peripheral-props.yaml for
-purpose of documenting the SPI slave device and bringing
-spi-max-frequency type validation.
-
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
+ drivers/input/touchscreen/sun4i-ts.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Technically, this depends on [1] merged to SPI tree, if we want to
-preserve existing behavior of not allowing SPI CPHA and CPOL in each of
-schemas in this patch.
-
-If this patch comes independently via different tree, the SPI CPHA and
-CPOL will be allowed for brief period of time, before [1] is merged.
-This will not have negative impact, just DT schema checks will be
-loosened for that period.
-
-[1] https://lore.kernel.org/all/20220722191539.90641-2-krzysztof.kozlowski@linaro.org/
----
- Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml b/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml
-index b4ad829d7383..442f623bb294 100644
---- a/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml
-+++ b/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml
-@@ -17,6 +17,7 @@ description: |
+diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
+index 742a7e96c1b5..73eb8f80be6e 100644
+--- a/drivers/input/touchscreen/sun4i-ts.c
++++ b/drivers/input/touchscreen/sun4i-ts.c
+@@ -192,12 +192,12 @@ static int sun4i_get_temp(const struct sun4i_ts_data *ts, int *temp)
+ 	return 0;
+ }
  
- allOf:
-   - $ref: input.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+-static int sun4i_get_tz_temp(void *data, int *temp)
++static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	return sun4i_get_temp(data, temp);
++	return sun4i_get_temp(tz->devdata, temp);
+ }
  
- properties:
-   compatible:
+-static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
++static const struct thermal_zone_device_ops sun4i_ts_tz_ops = {
+ 	.get_temp = sun4i_get_tz_temp,
+ };
+ 
+@@ -356,8 +356,8 @@ static int sun4i_ts_probe(struct platform_device *pdev)
+ 	if (IS_ERR(hwmon))
+ 		return PTR_ERR(hwmon);
+ 
+-	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
+-						       &sun4i_ts_tz_ops);
++	thermal = devm_thermal_of_zone_register(ts->dev, 0, ts,
++						&sun4i_ts_tz_ops);
+ 	if (IS_ERR(thermal))
+ 		return PTR_ERR(thermal);
+ 
 -- 
-2.34.1
+2.25.1
 
