@@ -2,178 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA7F2581BE4
-	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 00:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B343581DC4
+	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 04:56:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232372AbiGZWAb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jul 2022 18:00:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53984 "EHLO
+        id S230343AbiG0C4j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jul 2022 22:56:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiGZWAa (ORCPT
+        with ESMTP id S233991AbiG0C4i (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jul 2022 18:00:30 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5157AB7FC
-        for <linux-input@vger.kernel.org>; Tue, 26 Jul 2022 15:00:26 -0700 (PDT)
-Received: from fsav411.sakura.ne.jp (fsav411.sakura.ne.jp [133.242.250.110])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 26QM02ef065841;
-        Wed, 27 Jul 2022 07:00:02 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav411.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp);
- Wed, 27 Jul 2022 07:00:02 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 26QM01oI065818
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Wed, 27 Jul 2022 07:00:02 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <887021c3-4f13-40ce-c8b9-aa6e09faa3a7@I-love.SAKURA.ne.jp>
-Date:   Wed, 27 Jul 2022 07:00:00 +0900
+        Tue, 26 Jul 2022 22:56:38 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69647357D5;
+        Tue, 26 Jul 2022 19:56:36 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id r24so11820215qtx.6;
+        Tue, 26 Jul 2022 19:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=tnVUfveHENcuNsM+rkNWOjb5mSPRIjYCSwHkGzsISFw=;
+        b=jRydY8a62raCEIP2zW1yVhusvCE/TTO1NTCkdf4RwKvDeQLiePvqnyUgmBv7zW4clL
+         CSBr+mg4EKts3IKmQPJ/IoF2SQX6sAV+7dAbkip7GxNXOt1LR0MDGuSsYSe2L3NbLJ6x
+         eHT2YB4htn5rPhqC15brIJrrUwXUVuyVCR/cIP1tCW76EEoCE1OI53bIUXwFKj+nCi9D
+         PPPmw1OjptaUN/MvtZZMrkSDSKQOPqoWaJ4i2+P+xE5ge9NycFGp54q7cH4jnblfjl98
+         udZBRq4R2/5Ao/fPXkKD1qI0fXTiaEdvuZHUKkocyz/AVdiFK9cPE9s9MRwEXRPQVsuG
+         IUQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=tnVUfveHENcuNsM+rkNWOjb5mSPRIjYCSwHkGzsISFw=;
+        b=AkfH6XLAJ/PXJwyZGMeLBMK8S0QWbfxyxTocDPUopbehD9ac1rWpuY7H7IN9xdErNE
+         DrFVdbVHR/qsp+saYqSTg8lI1Jeuc7OIbyF0yfVDLEmHZeQvr7zSc88o0I1KkpKgNiVv
+         N31kdJu8scXV6IS9YNHejTBoc/a2d5+GtEl3AdFTTJT4pErW6QZnXQUl5pVbUNEeFQkX
+         J5ZKnWczYpJoIDGgDiEvbmNrp9tD0Hx/h8wIrU3zJ//RX0ZbBWvUHUv6lEiQiWDFFbOk
+         3CyVi/J3lO4b7903pQ4H5J8Hrb+TPc7XXbPAB1NBcxYJpFWBhQvYCnCtZ64v7mwXioc4
+         NIkQ==
+X-Gm-Message-State: AJIora/9aZuBJszaCelLog5T4JaWtQUDRbQro1T3Ex0SHRxm7UazkJtO
+        qe82tm0HrOtJ6OWW1qnoA8JTLxaTUm/qVA==
+X-Google-Smtp-Source: AGRyM1uqOZgdEQs40Dm6b/CDZFfYTmhoxiy5GsI+RRvlYH6CyNNRrjxamqVD7fU+DhEHpXsUeQCuBA==
+X-Received: by 2002:a05:622a:287:b0:31f:32f6:1db1 with SMTP id z7-20020a05622a028700b0031f32f61db1mr13805911qtw.480.1658890595478;
+        Tue, 26 Jul 2022 19:56:35 -0700 (PDT)
+Received: from [192.168.0.9] ([198.179.6.194])
+        by smtp.gmail.com with ESMTPSA id s1-20020ac85cc1000000b0031ef67386a5sm10550688qta.68.2022.07.26.19.56.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Jul 2022 19:56:35 -0700 (PDT)
+Message-ID: <8a35df7d-a6cc-63e9-b207-6fbed05e32e5@gmail.com>
+Date:   Tue, 26 Jul 2022 22:56:33 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: [PATCH v2] Input: iforce - wake up after clearing IFORCE_XMIT_RUNNING
- flag
+Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
+ Inspiroy H640 drawing tablet
 Content-Language: en-US
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>, ira.weiny@intel.com,
-        Hillf Danton <hdanton@sina.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-References: <c10494c0-5da5-716d-3e62-abca5b65dd88@I-love.SAKURA.ne.jp>
-In-Reply-To: <c10494c0-5da5-716d-3e62-abca5b65dd88@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <ping.cheng@wacom.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
+ <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm>
+ <20220724114849.GA32182@elementary> <20220725224841.GA75640@elementary>
+ <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
+ <20220726214858.GA3202@elementary>
+From:   Stefan Hansson <newbie13xd@gmail.com>
+In-Reply-To: <20220726214858.GA3202@elementary>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot is reporting hung task at __input_unregister_device() [1], for
-iforce_close() waiting at wait_event_interruptible() with dev->mutex held
-is blocking input_disconnect_device() from __input_unregister_device().
+Hi!
 
-It seems that the cause is simply that commit c2b27ef672992a20 ("Input:
-iforce - wait for command completion when closing the device") forgot to
-call wake_up() after clear_bit().
+>> Thanks for looking into this! Bisecting has been slow on my end
+>> unfortunately. I built today's linux-next (20220726) with your proposed
+>> patch below and my drawing tablet curiously still does not work as expected.
+>> The stylus works a couple of times, but eventually stops working (unlike
+>> prior where it always seemed to only work once). Do I need both your revert
+>> and this diff for it to work properly?
+> 
+> You are right, I just tested for a while with the diff applied (without
+> reverting the commit causing the issue) and after putting the pen in
+> and out proximity a fair amount of times (> 100) it stopped working.
 
-Fix this problem by introducing a helper that calls clear_bit() followed
-by wake_up_all().
+This part is peculiar to me. When I said "a couple of times", I really 
+meant a couple of times. For me, this issue reproduces after maybe 10 
+times at most. I have never been able to do it for anything close to 100 
+times. I wonder what's up with this disparity?
 
-Link: https://syzkaller.appspot.com/bug?extid=deb6abc36aad4008f407 [1]
-Reported-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
-Fixes: c2b27ef672992a20 ("Input: iforce - wait for command completion when closing the device")
-Tested-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
-Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Co-developed-by: Hillf Danton <hdanton@sina.com>
-Signed-off-by: Hillf Danton <hdanton@sina.com>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
-Changes in v2:
-  Add Suggested-by: and Tested-by: tags.
-
- drivers/input/joystick/iforce/iforce-serio.c | 6 +++---
- drivers/input/joystick/iforce/iforce-usb.c   | 8 ++++----
- drivers/input/joystick/iforce/iforce.h       | 6 ++++++
- 3 files changed, 13 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/input/joystick/iforce/iforce-serio.c b/drivers/input/joystick/iforce/iforce-serio.c
-index f95a81b9fac7..2380546d7978 100644
---- a/drivers/input/joystick/iforce/iforce-serio.c
-+++ b/drivers/input/joystick/iforce/iforce-serio.c
-@@ -39,7 +39,7 @@ static void iforce_serio_xmit(struct iforce *iforce)
- 
- again:
- 	if (iforce->xmit.head == iforce->xmit.tail) {
--		clear_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags);
-+		iforce_clear_xmit_and_wake(iforce);
- 		spin_unlock_irqrestore(&iforce->xmit_lock, flags);
- 		return;
- 	}
-@@ -64,7 +64,7 @@ static void iforce_serio_xmit(struct iforce *iforce)
- 	if (test_and_clear_bit(IFORCE_XMIT_AGAIN, iforce->xmit_flags))
- 		goto again;
- 
--	clear_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags);
-+	iforce_clear_xmit_and_wake(iforce);
- 
- 	spin_unlock_irqrestore(&iforce->xmit_lock, flags);
- }
-@@ -169,7 +169,7 @@ static irqreturn_t iforce_serio_irq(struct serio *serio,
- 			iforce_serio->cmd_response_len = iforce_serio->len;
- 
- 			/* Signal that command is done */
--			wake_up(&iforce->wait);
-+			wake_up_all(&iforce->wait);
- 		} else if (likely(iforce->type)) {
- 			iforce_process_packet(iforce, iforce_serio->id,
- 					      iforce_serio->data_in,
-diff --git a/drivers/input/joystick/iforce/iforce-usb.c b/drivers/input/joystick/iforce/iforce-usb.c
-index ea58805c480f..cba92bd590a8 100644
---- a/drivers/input/joystick/iforce/iforce-usb.c
-+++ b/drivers/input/joystick/iforce/iforce-usb.c
-@@ -30,7 +30,7 @@ static void __iforce_usb_xmit(struct iforce *iforce)
- 	spin_lock_irqsave(&iforce->xmit_lock, flags);
- 
- 	if (iforce->xmit.head == iforce->xmit.tail) {
--		clear_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags);
-+		iforce_clear_xmit_and_wake(iforce);
- 		spin_unlock_irqrestore(&iforce->xmit_lock, flags);
- 		return;
- 	}
-@@ -58,9 +58,9 @@ static void __iforce_usb_xmit(struct iforce *iforce)
- 	XMIT_INC(iforce->xmit.tail, n);
- 
- 	if ( (n=usb_submit_urb(iforce_usb->out, GFP_ATOMIC)) ) {
--		clear_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags);
- 		dev_warn(&iforce_usb->intf->dev,
- 			 "usb_submit_urb failed %d\n", n);
-+		iforce_clear_xmit_and_wake(iforce);
- 	}
- 
- 	/* The IFORCE_XMIT_RUNNING bit is not cleared here. That's intended.
-@@ -175,15 +175,15 @@ static void iforce_usb_out(struct urb *urb)
- 	struct iforce *iforce = &iforce_usb->iforce;
- 
- 	if (urb->status) {
--		clear_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags);
- 		dev_dbg(&iforce_usb->intf->dev, "urb->status %d, exiting\n",
- 			urb->status);
-+		iforce_clear_xmit_and_wake(iforce);
- 		return;
- 	}
- 
- 	__iforce_usb_xmit(iforce);
- 
--	wake_up(&iforce->wait);
-+	wake_up_all(&iforce->wait);
- }
- 
- static int iforce_usb_probe(struct usb_interface *intf,
-diff --git a/drivers/input/joystick/iforce/iforce.h b/drivers/input/joystick/iforce/iforce.h
-index 6aa761ebbdf7..9ccb9107ccbe 100644
---- a/drivers/input/joystick/iforce/iforce.h
-+++ b/drivers/input/joystick/iforce/iforce.h
-@@ -119,6 +119,12 @@ static inline int iforce_get_id_packet(struct iforce *iforce, u8 id,
- 					 response_data, response_len);
- }
- 
-+static inline void iforce_clear_xmit_and_wake(struct iforce *iforce)
-+{
-+	clear_bit(IFORCE_XMIT_RUNNING, iforce->xmit_flags);
-+	wake_up_all(&iforce->wait);
-+}
-+
- /* Public functions */
- /* iforce-main.c */
- int iforce_init_device(struct device *parent, u16 bustype,
--- 
-2.34.1
-
+Regards,
+Stefan Hansson
