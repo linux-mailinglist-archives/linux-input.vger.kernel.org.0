@@ -2,136 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 335F25834A5
-	for <lists+linux-input@lfdr.de>; Wed, 27 Jul 2022 23:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F12DE583B3C
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 11:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237635AbiG0VGO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Jul 2022 17:06:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55630 "EHLO
+        id S235497AbiG1JaP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jul 2022 05:30:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237023AbiG0VFp (ORCPT
+        with ESMTP id S235163AbiG1JaO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Jul 2022 17:05:45 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC8D46172C
-        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 14:04:21 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id v5so10797279wmj.0
-        for <linux-input@vger.kernel.org>; Wed, 27 Jul 2022 14:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=gBmx9wqQLoqOz1G8d20izBhuJqPdHv57Lnkp1oGme86ifNa1BX5VaVX6Qxni4w11x0
-         M5zasePCyPuhkkRG7E4ecxaZtVm3iRm5eHLpLZPBANzAUDlBB29l7RG7wxAdPCjmW+K8
-         I3ErWXL6Gwezl/+usLr2NQm7fGLJM1fjDkrbCY+RZSK7VCNfKlRaiEg79sLuQ6TtiXWb
-         BaaMSQ+T81j7SbXHZbGqpSl905NGyHTffwPDdGqHZXhrRr6lKrF0G2Z4cpEdNb8PTKnP
-         aneAxR3IUSJHYeTylaPGo2J/cIAjCJMsSXhMh8D3cOr3wS1Ms7vEJsdwrjb8KMZlxRj3
-         Figw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=YV/e8jNxD9MAVhKjOvN4+pnjjSYUAJIuW5Kgz91dpXxb2ctJOYHyri+mJxwzjnP6cb
-         DQwM3Wfl2LP6jmJprNGCT2U9Ixn2LKBrkR+wyw1L6lz5V+xKs3Pid1wtWziBIOG8zVrz
-         kmwqXhrUb+ot5MbvAcHImMw2RoXwtN+BEnP1o/kE80ZZAPrd8mILGmGm8RZ+8XTfwc5Q
-         gIyTU6dXWmTvLb8Hgg6s3n2nqbHedXe3xeHNc4QZqSx6f76lba80/wqK5pzzniAX71Od
-         EhOfL+Q/5rVLViaefamF/OjznLKaT7/QTptetGnsoCCVCyE6ov+/A8Ki/7cH7qPnkEQP
-         mXYA==
-X-Gm-Message-State: AJIora8m82rrZdwEWJrevZ842Jz238kqMz8+RRVoRLry9AARr82mWKQr
-        UE0hDWAQgb9GEIY9e7/KpfgJbA==
-X-Google-Smtp-Source: AGRyM1ugHIvYzT8GdJW8TvjMkyTFgxeT9hbgI4acFLt2PD9dNPAlJfHZAYPec9JkG0vYfhz8FRL5JA==
-X-Received: by 2002:a05:600c:1d1b:b0:3a3:e2:42d1 with SMTP id l27-20020a05600c1d1b00b003a300e242d1mr4242428wms.137.1658955858007;
-        Wed, 27 Jul 2022 14:04:18 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:65a8:ebd8:4098:d9d0])
-        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003a38606385esm37908wmq.3.2022.07.27.14.04.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 14:04:17 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linexp.org>
-To:     daniel.lezcano@linaro.org, rafael@kernel.org
-Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, khilman@baylibre.com,
-        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
-        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
-        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
-        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
-        baolin.wang7@gmail.com, f.fainelli@gmail.com,
-        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
-        glaroque@baylibre.com, miquel.raynal@bootlin.com,
-        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
-        matthias.bgg@gmail.com, j-keerthy@ti.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK
-        , TOUCHSCREEN)...),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner
-        sunXi SoC support),
-        linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH v3 28/32] Input: sun4i-ts - switch to new of thermal API
-Date:   Wed, 27 Jul 2022 23:02:49 +0200
-Message-Id: <20220727210253.3794069-29-daniel.lezcano@linexp.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
-References: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
+        Thu, 28 Jul 2022 05:30:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2064BE06;
+        Thu, 28 Jul 2022 02:30:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7FE65B8040B;
+        Thu, 28 Jul 2022 09:30:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2432EC433C1;
+        Thu, 28 Jul 2022 09:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659000611;
+        bh=RK0p45PJzf+xSyo1liQs0iRoThupe00fRizXrfLKftk=;
+        h=Date:From:To:Cc:Subject:From;
+        b=WxKxnFJL+LI4HzvHm+8/hxVki4r/bxkblBRS6RK2nIeWzptQU21Ou7g7VVQ67RrSs
+         r56W0EmhnBCJ+dpC/33zDeOtXyFS5YH6k4OnpKwZqpN+Y4ImiXsM3pxACJ31c5DKBB
+         mWm55JdqrxZM4fVwOd1oFfKOuNvWykqQjfnJjMBSfGSGT7spnfkvzmS+BwrntqPCiT
+         wV5uW3H1/zaA9YiFkX+NlpAMv00rLvP35XnTCaaFn6SsRnSX0wbh8FWK6RxWIO+wr6
+         Ah3FEfJl0LwrIHnkWj0nY2/ZipjfIzghhcj2QHWvEkziNdAbMUCbfUrpNlnCr9nEAA
+         6wAFy0tPtbg0g==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oGzqa-0005Xq-5X; Thu, 28 Jul 2022 11:30:24 +0200
+Date:   Thu, 28 Jul 2022 11:30:24 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Dmitry Torokhov <dtor@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Second-source devices and interrupt-mapping race
+Message-ID: <YuJXMHoT4ijUxnRb@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The thermal OF code has a new API allowing to migrate the OF
-initialization to a simpler approach. The ops are no longer device
-tree specific and are the generic ones provided by the core code.
+Hi Marc, Rob and Krzysztof,
 
-Convert the ops to the thermal_zone_device_ops format and use the new
-API to register the thermal zone with these generic ops.
+When adding support for the new Lenovo Thinkpad X13s laptop, we realised
+that it comes with two different touchpad controllers.
 
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/sun4i-ts.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+To enable some early adopters to use the alternate touchpad, I tried to
+enable both nodes in the devicetree and have the i2c-hid driver bind to
+the one that is actually present.
 
-diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
-index 742a7e96c1b5..73eb8f80be6e 100644
---- a/drivers/input/touchscreen/sun4i-ts.c
-+++ b/drivers/input/touchscreen/sun4i-ts.c
-@@ -192,12 +192,12 @@ static int sun4i_get_temp(const struct sun4i_ts_data *ts, int *temp)
- 	return 0;
- }
- 
--static int sun4i_get_tz_temp(void *data, int *temp)
-+static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
- {
--	return sun4i_get_temp(data, temp);
-+	return sun4i_get_temp(tz->devdata, temp);
- }
- 
--static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
-+static const struct thermal_zone_device_ops sun4i_ts_tz_ops = {
- 	.get_temp = sun4i_get_tz_temp,
- };
- 
-@@ -356,8 +356,8 @@ static int sun4i_ts_probe(struct platform_device *pdev)
- 	if (IS_ERR(hwmon))
- 		return PTR_ERR(hwmon);
- 
--	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
--						       &sun4i_ts_tz_ops);
-+	thermal = devm_thermal_of_zone_register(ts->dev, 0, ts,
-+						&sun4i_ts_tz_ops);
- 	if (IS_ERR(thermal))
- 		return PTR_ERR(thermal);
- 
--- 
-2.25.1
+This turned out to be racy due to the hid driver in question enabling
+async probing so that the populated and non-populated nodes can be
+probed in parallel, which in turn lead to some interesting findings.
 
+Specifically, it seems like the interrupt-domain mapping code is racy in
+that it can return two different mappings for the same hwirq, and when
+the hid driver enables one of them, this may end up looking like
+spurious interrupts for the other mapping:
+
+[  +0.014042] i2c_hid_of 0-002c: i2c_device_probe
+[  +0.000001] i2c_hid_of 0-0015: i2c_device_probe
+[  +0.000025] i2c_hid_of 0-002c: i2c_device_probe - irq mapped (166)
+[  +0.000013] i2c_hid_of 0-0015: i2c_device_probe - irq mapped (167)
+[  +0.000051] i2c_hid_of 0-002c: supply vddl not found, using dummy regulator
+[  +0.000056] i2c_hid_of 0-0015: supply vddl not found, using dummy regulator
+[  +0.000016] i2c_hid_of 0-002c: HID probe called for i2c 0x2c
+[  +0.000374] i2c_hid_of 0-0015: HID probe called for i2c 0x15
+...
+[  +0.000180] i2c_hid_of 0-002c: Requesting IRQ: 166
+[  +0.000045] irq 167, desc: (____ptrval____), depth: 1, count: 0, unhandled: 0
+[  +0.000014] ->handle_irq():  (____ptrval____), handle_bad_irq+0x0/0x220
+[  +0.000015] ->irq_data.chip(): (____ptrval____), msm_gpio_irq_chip+0x0/0x108
+[  +0.000011] ->action(): 0000000000000000
+[  +0.000006]    IRQ_NOPROBE set
+
+The interrupt is eventually disabled and the populated device fails to
+probe. Note that this only happens intermittently.
+
+This second-source example could obviously be dismissed as something
+which is simply not supported (the boot firmware should have made sure
+only the populated node was enabled), but what if there were actually
+two separate devices sharing an interrupt and that now end up with two
+different virq?
+
+Async probing has been around for a while now and needs to be supported,
+even if the platform bus doesn't use it (yet). 
+
+TL;DR:
+
+1. Marc, does the irq mapping code need to be serialised to handle the
+valid case of two devices sharing an interrupt being probed in parallel?
+It may not be a common setup, but correctness first?
+
+I've just posted a patch that should address this here:
+
+	https://lore.kernel.org/r/20220728092710.21190-1-johan+linaro@kernel.org
+
+
+2. Rob, Krzysztof, I assume that handling second-source devices by
+enabling multiple variants in the devicetree can not be considered
+correct?
+
+What about the related case of simply non-populated devices (e.g. laptop
+variants without a touchscreen)?
+
+Note that we have at least two cases of "second-source" nodes in mainline
+("rtc" and "trackpad", respectively):
+
+	85a9efcd4e29 ("ARM: mvebu: add DT support for Seagate NAS 2 and 4-Bay")
+	689b937bedde ("arm64: dts: mediatek: add mt8173 elm and hana board")
+
+and that, for example, the i2c-hid driver explicitly supports
+non-populated devices:
+
+	b3a81b6c4fc6 ("HID: i2c-hid: check if device is there before really probing")
+
+and the commit message indicates that this is something that Chromebooks
+rely on.
+
+For the X13s, I'm not sure how we would go about to tell the variants
+apart (the ACPI tables that Windows use include both touchpads and an
+optional touchscreen). In the end, the boot firmware might need to
+resort to a similar kind of probing if we don't allow the kernel to do
+it.
+
+Finally, note that while disabling async probing for "second-source"
+nodes (e.g. if we could mark them as requiring that) would take care of
+the irq-mapping race, we'd still currently also need to move any
+pinconfig handles to the parent bus node (as is also done in one of the
+in-tree examples above) to suppress the corresponding pinctrl errors in
+case the populated device is probed and bound first:
+
+[  +0.010217] sc8280xp-tlmm f100000.pinctrl: pin GPIO_182 already requested by 0-0015; cannot claim for 0-002c
+
+Johan
