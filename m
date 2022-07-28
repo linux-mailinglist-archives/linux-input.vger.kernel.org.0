@@ -2,76 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B27595842B7
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 17:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 374855842E8
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 17:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbiG1PNi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jul 2022 11:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
+        id S231705AbiG1PTs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jul 2022 11:19:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiG1PNi (ORCPT
+        with ESMTP id S231674AbiG1PTr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jul 2022 11:13:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A70C650076;
-        Thu, 28 Jul 2022 08:13:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4645261AF8;
-        Thu, 28 Jul 2022 15:13:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215B6C433D7;
-        Thu, 28 Jul 2022 15:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659021216;
-        bh=i9oduQQVXavAe/KC8oBpGCp7ggtnA6YfRbWCof8rmJQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1zR4d+Tz3sQ0TFPmqhLihvShhdUmwPfQmEkNSCQ7UcYTY79R8OOTT7T8FbV+BOjke
-         ul8MmQkClrrThCKzLyYr9C/5w2do2dnnQ+IQ+L3NsgGjvqiATeilsHDf49vUVtdVq+
-         gUovVbsIiKixWut4+TJgZYDXYVFsCvodj4/nvXSo=
-Date:   Thu, 28 Jul 2022 17:13:33 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v7 22/24] samples/bpf: add new hid_mouse example
-Message-ID: <YuKnnV8c5nlBzMkK@kroah.com>
-References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
- <20220721153625.1282007-23-benjamin.tissoires@redhat.com>
+        Thu, 28 Jul 2022 11:19:47 -0400
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4A654AEC;
+        Thu, 28 Jul 2022 08:19:47 -0700 (PDT)
+Received: by mail-io1-f52.google.com with SMTP id y197so1588815iof.12;
+        Thu, 28 Jul 2022 08:19:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=0z/h9XBmB5jyPdPiW47nkL54BYrItNNHG2DA/iFVm6k=;
+        b=k5aZUG+oBLL7zJq/+YB6TmziUuuGyy8zOm7UUlIHb9TsnDb51wvNPqlHErlxWL5Q4/
+         SwGj+NXxBC8T38lt6twLiidU6K1nOhvCInIJU/MP36eMI29KZ/x6GEG8jbo6YsmQN98M
+         mLmTOxUK3/WVDFEp+E3X1b3l+5GFbbUOE/CfND29RVsc1QRnxlK52GaU+ebYJ59aFnni
+         mGglkpcJ5FUdAfF1GtRhpk7TxbesczPnzPdDD4taFRuoocXuvjpOS0vAPhoGmxzc1kLb
+         UGRCkVG1e6k6lm/6YSZLVoQ2Wn8a5aNajZSuXRp3TfxRPm0GQDiP8yJTj9AMDc4Sgi+s
+         0tAQ==
+X-Gm-Message-State: AJIora+DBLe/j+dPvIlOZULIwXOiocNtiCYm+U4ZJi6UIziTM7lQMGKV
+        f16wmJehcbizRwF2YcpjhA==
+X-Google-Smtp-Source: AGRyM1ugjEwL5OtivvGtWO4E5B1nNCf/kf7E4cZlfHIETS/ruoOPYRf5H0G1w3QKJWthkeh6i/xKDQ==
+X-Received: by 2002:a05:6602:168d:b0:67c:44c3:9ba5 with SMTP id s13-20020a056602168d00b0067c44c39ba5mr9745834iow.190.1659021584187;
+        Thu, 28 Jul 2022 08:19:44 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id d4-20020a6bb404000000b00678e1d1b2c7sm511200iof.0.2022.07.28.08.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jul 2022 08:19:43 -0700 (PDT)
+Received: (nullmailer pid 903417 invoked by uid 1000);
+        Thu, 28 Jul 2022 15:19:42 -0000
+Date:   Thu, 28 Jul 2022 09:19:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: ariel-pwrbutton: use
+ spi-peripheral-props.yaml
+Message-ID: <20220728151942.GA903363-robh@kernel.org>
+References: <20220727164230.385614-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220721153625.1282007-23-benjamin.tissoires@redhat.com>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220727164230.385614-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 05:36:23PM +0200, Benjamin Tissoires wrote:
-> Everything should be available in the selftest part of the tree, but
-> providing an example without uhid and hidraw will be more easy to
-> follow for users.
+On Wed, 27 Jul 2022 18:42:30 +0200, Krzysztof Kozlowski wrote:
+> Instead of listing directly properties typical for SPI peripherals,
+> reference the spi-peripheral-props.yaml schema.  This allows using all
+> properties typical for SPI-connected devices, even these which device
+> bindings author did not tried yet.
+> 
+> Remove the spi-* properties which now come via spi-peripheral-props.yaml
+> schema, except for the cases when device schema adds some constraints
+> like maximum frequency.
+> 
+> While changing additionalProperties->unevaluatedProperties, put it in
+> typical place, just before example DTS.a
+> 
+> The binding references also input.yaml and lists explicitly allowed
+> properties, thus here reference only spi-peripheral-props.yaml for
+> purpose of documenting the SPI slave device and bringing
+> spi-max-frequency type validation.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Technically, this depends on [1] merged to SPI tree, if we want to
+> preserve existing behavior of not allowing SPI CPHA and CPOL in each of
+> schemas in this patch.
+> 
+> If this patch comes independently via different tree, the SPI CPHA and
+> CPOL will be allowed for brief period of time, before [1] is merged.
+> This will not have negative impact, just DT schema checks will be
+> loosened for that period.
+> 
+> [1] https://lore.kernel.org/all/20220722191539.90641-2-krzysztof.kozlowski@linaro.org/
+> ---
+>  Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-A hint as to what the program is supposed to be doing would also be nice
-in the usage section.
-
-thanks,
-
-greg k-h
+Acked-by: Rob Herring <robh@kernel.org>
