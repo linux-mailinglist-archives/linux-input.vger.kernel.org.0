@@ -2,105 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 374855842E8
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 17:19:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0712D584369
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 17:43:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231705AbiG1PTs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jul 2022 11:19:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33982 "EHLO
+        id S232049AbiG1Pn1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jul 2022 11:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231674AbiG1PTr (ORCPT
+        with ESMTP id S232130AbiG1PnZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jul 2022 11:19:47 -0400
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4A654AEC;
-        Thu, 28 Jul 2022 08:19:47 -0700 (PDT)
-Received: by mail-io1-f52.google.com with SMTP id y197so1588815iof.12;
-        Thu, 28 Jul 2022 08:19:47 -0700 (PDT)
+        Thu, 28 Jul 2022 11:43:25 -0400
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37F06A4A9;
+        Thu, 28 Jul 2022 08:43:22 -0700 (PDT)
+Received: by mail-pl1-f170.google.com with SMTP id x10so1424406plb.3;
+        Thu, 28 Jul 2022 08:43:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0z/h9XBmB5jyPdPiW47nkL54BYrItNNHG2DA/iFVm6k=;
-        b=k5aZUG+oBLL7zJq/+YB6TmziUuuGyy8zOm7UUlIHb9TsnDb51wvNPqlHErlxWL5Q4/
-         SwGj+NXxBC8T38lt6twLiidU6K1nOhvCInIJU/MP36eMI29KZ/x6GEG8jbo6YsmQN98M
-         mLmTOxUK3/WVDFEp+E3X1b3l+5GFbbUOE/CfND29RVsc1QRnxlK52GaU+ebYJ59aFnni
-         mGglkpcJ5FUdAfF1GtRhpk7TxbesczPnzPdDD4taFRuoocXuvjpOS0vAPhoGmxzc1kLb
-         UGRCkVG1e6k6lm/6YSZLVoQ2Wn8a5aNajZSuXRp3TfxRPm0GQDiP8yJTj9AMDc4Sgi+s
-         0tAQ==
-X-Gm-Message-State: AJIora+DBLe/j+dPvIlOZULIwXOiocNtiCYm+U4ZJi6UIziTM7lQMGKV
-        f16wmJehcbizRwF2YcpjhA==
-X-Google-Smtp-Source: AGRyM1ugjEwL5OtivvGtWO4E5B1nNCf/kf7E4cZlfHIETS/ruoOPYRf5H0G1w3QKJWthkeh6i/xKDQ==
-X-Received: by 2002:a05:6602:168d:b0:67c:44c3:9ba5 with SMTP id s13-20020a056602168d00b0067c44c39ba5mr9745834iow.190.1659021584187;
-        Thu, 28 Jul 2022 08:19:44 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id d4-20020a6bb404000000b00678e1d1b2c7sm511200iof.0.2022.07.28.08.19.43
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=9J9OIkJMZnysMReJqY0eBDSfGAATl0A6Xx7Ap4m7F8k=;
+        b=eit6dye5UVfLjH2AhkiBYZ1QuhsRRvNhx//RGJqzsTqPn023VZmDf+O9etHxNrJelk
+         3Efye8jN4sYlNLZHNSrlOsT2Mo+vLjgqaX3uZfA64+ft7RV5hZe8OB/1/5Ypq6OTJgTk
+         QeZ4P9/hP2iZ+Dm3qAaPfvRcoc+E+uvojc9NaC/irr+bwNbVLKUcRzbcb+50UieOXnT+
+         DRU6bpyVnK7Q0GY9wWWh+gRqHWqPUVWagtvjdsfTON2/4BsoFJqXoDHY4QaETHJO9ifa
+         vz4GWmWLqy9iOafc6d4T8IPYmQ7Kmco1ClG3IdYAzH85JOs+5JOD8laeCYwJ39OkKlQ0
+         EPrQ==
+X-Gm-Message-State: AJIora85cqIA7AoT0Lw+BVBRst2VX8wtcVnSVg8ftcPDIL1sIxk7xTjT
+        SISxlSrS+OKLAWCjDzlWFF4=
+X-Google-Smtp-Source: AGRyM1u24LGPgyQLBUhgENLyOoBvMALle4uJlRPhTLWgWhlPPfmDqRB16Mor7m8gcDzDmrm1tfpMCA==
+X-Received: by 2002:a17:902:da88:b0:16d:b75e:16d8 with SMTP id j8-20020a170902da8800b0016db75e16d8mr7113840plx.157.1659023002111;
+        Thu, 28 Jul 2022 08:43:22 -0700 (PDT)
+Received: from karthik-strix-linux.karthek.com ([61.1.131.162])
+        by smtp.gmail.com with ESMTPSA id q6-20020a170902dac600b0015e9f45c1f4sm1483344plx.186.2022.07.28.08.43.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 08:19:43 -0700 (PDT)
-Received: (nullmailer pid 903417 invoked by uid 1000);
-        Thu, 28 Jul 2022 15:19:42 -0000
-Date:   Thu, 28 Jul 2022 09:19:42 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: ariel-pwrbutton: use
- spi-peripheral-props.yaml
-Message-ID: <20220728151942.GA903363-robh@kernel.org>
-References: <20220727164230.385614-1-krzysztof.kozlowski@linaro.org>
+        Thu, 28 Jul 2022 08:43:21 -0700 (PDT)
+Date:   Thu, 28 Jul 2022 21:13:17 +0530
+From:   Karthik Alapati <mail@karthek.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: hidraw: fix memory leak in hidraw_release()
+Message-ID: <YuKuldGx55BB+hrd@karthik-strix-linux.karthek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220727164230.385614-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 27 Jul 2022 18:42:30 +0200, Krzysztof Kozlowski wrote:
-> Instead of listing directly properties typical for SPI peripherals,
-> reference the spi-peripheral-props.yaml schema.  This allows using all
-> properties typical for SPI-connected devices, even these which device
-> bindings author did not tried yet.
-> 
-> Remove the spi-* properties which now come via spi-peripheral-props.yaml
-> schema, except for the cases when device schema adds some constraints
-> like maximum frequency.
-> 
-> While changing additionalProperties->unevaluatedProperties, put it in
-> typical place, just before example DTS.a
-> 
-> The binding references also input.yaml and lists explicitly allowed
-> properties, thus here reference only spi-peripheral-props.yaml for
-> purpose of documenting the SPI slave device and bringing
-> spi-max-frequency type validation.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Technically, this depends on [1] merged to SPI tree, if we want to
-> preserve existing behavior of not allowing SPI CPHA and CPOL in each of
-> schemas in this patch.
-> 
-> If this patch comes independently via different tree, the SPI CPHA and
-> CPOL will be allowed for brief period of time, before [1] is merged.
-> This will not have negative impact, just DT schema checks will be
-> loosened for that period.
-> 
-> [1] https://lore.kernel.org/all/20220722191539.90641-2-krzysztof.kozlowski@linaro.org/
-> ---
->  Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Free the buffered reports before deleting the list entry.
 
-Acked-by: Rob Herring <robh@kernel.org>
+BUG: memory leak
+unreferenced object 0xffff88810e72f180 (size 32):
+  comm "softirq", pid 0, jiffies 4294945143 (age 16.080s)
+  hex dump (first 32 bytes):
+    64 f3 c6 6a d1 88 07 04 00 00 00 00 00 00 00 00  d..j............
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff814ac6c3>] kmemdup+0x23/0x50 mm/util.c:128
+    [<ffffffff8357c1d2>] kmemdup include/linux/fortify-string.h:440 [inline]
+    [<ffffffff8357c1d2>] hidraw_report_event+0xa2/0x150 drivers/hid/hidraw.c:521
+    [<ffffffff8356ddad>] hid_report_raw_event+0x27d/0x740 drivers/hid/hid-core.c:1992
+    [<ffffffff8356e41e>] hid_input_report+0x1ae/0x270 drivers/hid/hid-core.c:2065
+    [<ffffffff835f0d3f>] hid_irq_in+0x1ff/0x250 drivers/hid/usbhid/hid-core.c:284
+    [<ffffffff82d3c7f9>] __usb_hcd_giveback_urb+0xf9/0x230 drivers/usb/core/hcd.c:1670
+    [<ffffffff82d3cc26>] usb_hcd_giveback_urb+0x1b6/0x1d0 drivers/usb/core/hcd.c:1747
+    [<ffffffff82ef1e14>] dummy_timer+0x8e4/0x14c0 drivers/usb/gadget/udc/dummy_hcd.c:1988
+    [<ffffffff812f50a8>] call_timer_fn+0x38/0x200 kernel/time/timer.c:1474
+    [<ffffffff812f5586>] expire_timers kernel/time/timer.c:1519 [inline]
+    [<ffffffff812f5586>] __run_timers.part.0+0x316/0x430 kernel/time/timer.c:1790
+    [<ffffffff812f56e4>] __run_timers kernel/time/timer.c:1768 [inline]
+    [<ffffffff812f56e4>] run_timer_softirq+0x44/0x90 kernel/time/timer.c:1803
+    [<ffffffff848000e6>] __do_softirq+0xe6/0x2ea kernel/softirq.c:571
+    [<ffffffff81246db0>] invoke_softirq kernel/softirq.c:445 [inline]
+    [<ffffffff81246db0>] __irq_exit_rcu kernel/softirq.c:650 [inline]
+    [<ffffffff81246db0>] irq_exit_rcu+0xc0/0x110 kernel/softirq.c:662
+    [<ffffffff84574f02>] sysvec_apic_timer_interrupt+0xa2/0xd0 arch/x86/kernel/apic/apic.c:1106
+    [<ffffffff84600c8b>] asm_sysvec_apic_timer_interrupt+0x1b/0x20 arch/x86/include/asm/idtentry.h:649
+    [<ffffffff8458a070>] native_safe_halt arch/x86/include/asm/irqflags.h:51 [inline]
+    [<ffffffff8458a070>] arch_safe_halt arch/x86/include/asm/irqflags.h:89 [inline]
+    [<ffffffff8458a070>] acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
+    [<ffffffff8458a070>] acpi_idle_do_entry+0xc0/0xd0 drivers/acpi/processor_idle.c:554
+
+Link: https://syzkaller.appspot.com/bug?id=19a04b43c75ed1092021010419b5e560a8172c4f
+Reported-by: syzbot+f59100a0428e6ded9443@syzkaller.appspotmail.com
+Signed-off-by: Karthik Alapati <mail@karthek.com>
+---
+ drivers/hid/hidraw.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+index 681614a8302a..197b1e7bf029 100644
+--- a/drivers/hid/hidraw.c
++++ b/drivers/hid/hidraw.c
+@@ -350,6 +350,8 @@ static int hidraw_release(struct inode * inode, struct file * file)
+ 	down_write(&minors_rwsem);
+ 
+ 	spin_lock_irqsave(&hidraw_table[minor]->list_lock, flags);
++	for (int i = list->tail; i < list->head; i++)
++		kfree(list->buffer[i].value);
+ 	list_del(&list->node);
+ 	spin_unlock_irqrestore(&hidraw_table[minor]->list_lock, flags);
+ 	kfree(list);
+-- 
+2.36.1
+
