@@ -2,71 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6DDC583EF8
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 14:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C3F75840CB
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 16:14:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237945AbiG1Mha (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jul 2022 08:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47778 "EHLO
+        id S231159AbiG1OOk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jul 2022 10:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237841AbiG1Mh3 (ORCPT
+        with ESMTP id S230473AbiG1OOj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jul 2022 08:37:29 -0400
-Received: from smtpbg.qq.com (unknown [43.155.67.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C18AB691CB;
-        Thu, 28 Jul 2022 05:37:23 -0700 (PDT)
-X-QQ-mid: bizesmtp71t1659011837tl5sm6cx
-Received: from localhost.localdomain ( [171.223.98.80])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Thu, 28 Jul 2022 20:37:16 +0800 (CST)
-X-QQ-SSF: 01000000002000F0U000B00A0000020
-X-QQ-FEAT: DQ0OCu3gog3WdyvVI/CPjQSC485SfJNAohL4WVgEQxO7BBzJQjirNeJ22EBIj
-        MdPllWHsFL3gawWPeKcz0ktiSbsI3g0v8kaLdjVz4IHEvhZ8raxuMaBhnTFV+5pX96Z534X
-        RHaLP7uuBMPaWDJuyTL0ncmvj/YXUYYbkeb/AmVl7qQxj/MnCp/CUJ6TZXUidktrBTCJSYZ
-        4OIdVRHfJhtJjgk7yuM8OB31hyP4+eYL8epGFsXF9jStFZMALblNpeDEx7zD6tvPqnZVUqb
-        gE7AZIIyLwc3GhgrdWq5eRoGfMXuInYp/zfHxd8z9+3h2xXiS7BNePy0w+2ATEH0KOGJ4KR
-        1NVB/KFplW3L+Aadpy6Ixa2YIlMSaqYBVHrEtbi4diHDRYbi9bZIzTtoshlihQ8cB3Fr6fw
-X-QQ-GoodBg: 0
-From:   Jason Wang <wangborong@cdjrlc.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jason Wang <wangborong@cdjrlc.com>
-Subject: [PATCH] input: serio: Fix comment typo
-Date:   Mon, 25 Jul 2022 12:35:23 +0800
-Message-Id: <20220725043523.6513-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.35.1
+        Thu, 28 Jul 2022 10:14:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C39814000;
+        Thu, 28 Jul 2022 07:14:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2815E60A10;
+        Thu, 28 Jul 2022 14:14:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 024C9C43140;
+        Thu, 28 Jul 2022 14:14:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659017677;
+        bh=G6gX1hF4PLXi0gkv94nAzv1BT0g1WX1G8vkIVNw1/Zw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Nie8FLHMj48h43cconZqNLxRLLC4QUUDF6PjNzfFUzfsIV3o+Tt5O65dY2HF/QI+C
+         JGTWYljiv+52htx6/Xpyap6cxsW5py1VG7v4Zgn7veZCJvyIZ6DAV0BPdVd40x7IX5
+         qvSek5C2u4yGXJ+KDN3ykRUrW1P3djkHDWhZe6po=
+Date:   Thu, 28 Jul 2022 16:14:34 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v7 12/24] HID: Kconfig: split HID support and
+ hid-core compilation
+Message-ID: <YuKZyvGGVZqhMEmi@kroah.com>
+References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
+ <20220721153625.1282007-13-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,SPF_PASS,
-        T_SPF_HELO_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220721153625.1282007-13-benjamin.tissoires@redhat.com>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The first `in' is a typo in the comment, change to `it'.
+On Thu, Jul 21, 2022 at 05:36:13PM +0200, Benjamin Tissoires wrote:
+> Currently, we step into drivers/hid/ based on the value of
+> CONFIG_HID.
+> 
+> However, that value is a tristate, meaning that it can be a module.
+> 
+> As per the documentation, if we jump into the subdirectory by
+> following an obj-m, we can not compile anything inside that
+> subdirectory in vmlinux. It is considered as a bug.
+> 
+> To make things more friendly to HID-BPF, split HID (the HID core
+> parameter) from HID_SUPPORT (do we want any kind of HID support in the
+> system?), and make this new config a boolean.
+> 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> 
+> ---
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
----
- drivers/input/serio/q40kbd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/serio/q40kbd.c b/drivers/input/serio/q40kbd.c
-index bd248398556a..b2b572079e67 100644
---- a/drivers/input/serio/q40kbd.c
-+++ b/drivers/input/serio/q40kbd.c
-@@ -81,7 +81,7 @@ static void q40kbd_stop(void)
- 
- /*
-  * q40kbd_open() is called when a port is open by the higher layer.
-- * It allocates the interrupt and enables in in the chip.
-+ * It allocates the interrupt and enables it in the chip.
-  */
- 
- static int q40kbd_open(struct serio *port)
--- 
-2.35.1
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
