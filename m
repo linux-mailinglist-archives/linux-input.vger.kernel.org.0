@@ -2,125 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E7D95844EB
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 19:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46A64584553
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jul 2022 20:08:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232427AbiG1RYZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jul 2022 13:24:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34594 "EHLO
+        id S232697AbiG1RvT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jul 2022 13:51:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbiG1RYY (ORCPT
+        with ESMTP id S232867AbiG1RvR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jul 2022 13:24:24 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2059.outbound.protection.outlook.com [40.107.220.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF2B765646;
-        Thu, 28 Jul 2022 10:24:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fQJO/t5bRWx9xQWLy7tMreEuISWOSo1KW58l2j2uGCq97xQSP1Uwz+16BhaxO8oAYgFiopFZvswT1laursnJe9oXljLoPpORFXVZj/FtwFZwm55gkFpHMgrds5dtgrNHnkPEkulTSl4aU+LUVvZf+dDMuvwjo/SOdKeHFpjIZwqPLh2Ga0JR4AdnJdOWE10pOBvgQvqQYnmuJD8aSWzYvQCyfR7ZNmwUf2CBanALL/QpK7noCZuLxkHuziKtLKB5InsYZUE5N/GRnzfiCGskAZxD0umw91YzlUMyD1xfvCsqUmuHMZiO8IK3GGLl/GMQfwoJRaN3ZktXxqRUB8QH1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G+8npCijmG03kdQDaRvMGCcnNNCUP7FuyYilG4u7uOQ=;
- b=ogu0p7mY26CJ7Q06hmSw7IGoH1mqiXgUYVCOtzIDTxBaJVPriAAI4+dGlyJkbc8R/Oi192RalaBqCwf2XYwGN8zcK9m4SZoVYY6GJe2bH/GqRwf6c6YWSO/MjWu8jzI0F5jYS2fT547cidxu6YT7JoExNWzOnYjNf2VlLx/goUUNmVLvnKu+e+goeaYALwGdCa45L/JCiJMn518kJ05dQ6IXgGEwZJE1RwcdwYWbWtRQ7A8mETO4TpAqn+qL/2PgnRByNeeILYcaKDnY/XDcLNDdbx2JxtJiQ+X1kDGSN35Ns1JC0Xe+tQPha0NXdFH/42sL9+mlZeoFyvONE/aDzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G+8npCijmG03kdQDaRvMGCcnNNCUP7FuyYilG4u7uOQ=;
- b=ApASrzO86yTCnDd3EifVAf5NS0rYFQoGXTL0boBU4NUFEmJq7oBL8rUCI8OuSmBcQg25JU6WfZCOliJaMOkLHLW+ougVe+NEHn2Q/ma29eo2/QAkRhracyNeVSOb9dh993VUBnkwUEJQ2vkJl7JtYYFEZQZjxbzWXaMB9whpnEA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by CH2PR12MB4972.namprd12.prod.outlook.com (2603:10b6:610:69::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Thu, 28 Jul
- 2022 17:24:19 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::2ddb:590a:f046:b38b]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::2ddb:590a:f046:b38b%5]) with mapi id 15.20.5482.006; Thu, 28 Jul 2022
- 17:24:19 +0000
-Message-ID: <818ed83e-00c4-354d-753a-ff1d6d38b9b8@amd.com>
-Date:   Thu, 28 Jul 2022 22:54:06 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: build failure of next-20220728 due to 93ce5e0231d7 ("HID:
- amd_sfh: Implement SFH1.1 functionality")
-Content-Language: en-US
-To:     "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
-        Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-next@vger.kernel.org
-References: <YuLEvUKxrcwe2dZp@debian>
-From:   Basavaraj Natikar <bnatikar@amd.com>
-In-Reply-To: <YuLEvUKxrcwe2dZp@debian>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0112.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:27::27) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+        Thu, 28 Jul 2022 13:51:17 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFEC22A428;
+        Thu, 28 Jul 2022 10:51:16 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id y197so1907259iof.12;
+        Thu, 28 Jul 2022 10:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CXMRCPg/c9Nbak8x8/xFoJWKumOKkUty3hELsz55Pu4=;
+        b=FYGlUeNsJv/aOwTaXwRqilYn7rkz6D+rKHHRH0+kTu65hoygCWrHbrV13KL82jB2VN
+         5A+VFSdmQmPzv/5f/zS4lTrqI+xaqgXDXTFl8wPicp7/jpcHEsUYqu+wMqE9YuuNZdKU
+         x0i7Sp9NnXksHyYfg3/s3uET3iCfTQWNhWjUK9ttTQR7qOl7bvprRHGHeMzJW/YuoPPQ
+         H+ArPcg4A6LjUgxQ8xZP8I9NxKCQPQkYLXL0yDG7/0AeSoqiGz2qtrN6KRxDE9sh7Ck4
+         2NCT5T7MIS8whMj8NfQvnaOhgqCOVlV+bd/8MFVzIGYBRIWCt5xTWp5j4vAuStZJS8t+
+         5GdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CXMRCPg/c9Nbak8x8/xFoJWKumOKkUty3hELsz55Pu4=;
+        b=nLXJF8l1nFIp/fuZPFOJYL1bgHAL9LJMa+hUubtuE/KYEl8/0ttYmtrBOA1CRmHtAO
+         Dcou9uiAlSrl73jH2bcyeF8Mw/XSeN6FYdtx4Xez74Ech7nFY3jEeFuq5wGLaCHVxS3/
+         DK/2qNthkifaQZMjLm9QHtaI8XqYNCvoPCccj7ItgnhbJACcfdM0IAV17dAuXV/r2NOs
+         byuAfPzR+bcu79sAhlnrq2fy1GSCYZ+pUdDBjytiObUfRySovaVl2XbtNbriUwJ8JASw
+         IchUnVSJYTF4W9QJ24SCAij+q68yQ3a+Xu7CCTYeobKOfJKbN6RmbdIqOaf6CwykSyAl
+         6eDQ==
+X-Gm-Message-State: AJIora+0XS+Q6OHgPW6c4A3Wzi366YiV/8+GhYL4KU0mhseViiZHNtof
+        SICRsdniVHj2vrPWezBLrg3+6KBF7KkuRw==
+X-Google-Smtp-Source: AGRyM1vFETi9nJb7BXr+m3gG0v2Nk7JjG5f7nXxam3ehi4VvlChzhQxwDFSQHin/MyhxElBORWV+kg==
+X-Received: by 2002:a05:6602:2dc4:b0:648:adac:bae8 with SMTP id l4-20020a0566022dc400b00648adacbae8mr9885180iow.9.1659030675553;
+        Thu, 28 Jul 2022 10:51:15 -0700 (PDT)
+Received: from localhost.localdomain ([2601:249:600:388b::2253:8b11])
+        by smtp.gmail.com with ESMTPSA id a12-20020a02ac0c000000b0033e72ec9d93sm621487jao.145.2022.07.28.10.51.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jul 2022 10:51:14 -0700 (PDT)
+From:   Josh Kilmer <srjek2@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>, Josh Kilmer <srjek2@gmail.com>
+Subject: [PATCH v2 RESEND] hid: asus: ROG NKey: Ignore portion of 0x5a report
+Date:   Thu, 28 Jul 2022 12:51:11 -0500
+Message-Id: <20220728175111.18769-1-srjek2@gmail.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <CAMXW6=97T1tzT=FSyzZN6jBAKgzUDOjqRoH-FMAPLHk1gsD=mA@mail.gmail.com>
+References: <CAMXW6=97T1tzT=FSyzZN6jBAKgzUDOjqRoH-FMAPLHk1gsD=mA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 946338d5-2df1-4272-8177-08da70be012f
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4972:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kfBHdvf3r5ni6A7z52zSSqsp9wOGcln7xoS/MLfZImpjgfPmIi/R+tJFgtbanBCGJBGbf43VICf830QDLanfcGhjsplhiyAzvV8S+59+Az7raVn1p/tFyT7KsjOqDy21aS+pPNtWF8m1NyZHakFOGWTIA7KAINKN9Pm2SEcVumnH6tj1SmPIfDdCEKVZgtiBf24ikcQ0fO9WO7sU5TISRHkowHnLbtXN8LWMxsXxSLf7MSeHqxROgAi71Rag11RLCT1thWEmylmS7ifsoinSHji0LKf02c4eBXdK3hJQx6mDOIkGsWiPVCfDvNiyWRe++x74nGDqC+7/6ertLBmuWD3bXFeFjv3s1CzSqfvBm5ZVmHk+1ogTHAY+5cv8zj1wQgxw25utIcGvR8vA3pF1CLZtDRfcXdv1HtpUSQpVyMyj7BAe6m8KxNjNIkRWi8HUc2tdKDFsJrS73khWTXzNo1TH82CPpprkNEJIBPyagUxQ9ORgYNs0QXLTASrZfOJ8Ci/23c7N90GMocmp5EXo/X/6Kt1xfC8RDChlOmHtwJAtzN5Tq1fUVMYSA4dTRMJfO4TESuSvW1/z8yBp6F91D1J0F8Ag61B8Z5n4j8k0+q4UfwXbQN4bfOd6DUE6yxO4nD3sqT8sY2ORWDMiwXjUwyz+huyvgJJnhpTfK/DR3HialBF05V0v9+49j0Wv9S8SB4uvvfTG75c0IGtyBnaKtgySLkLlfFS9vhRJlv36FWzUKiU0qbJYmAKLs2X56E/NSV2ih8qBPz6OZud9vle/rCGX/Q/n+OW1Y9AaAOSs1r9aK8gXeRPwCn13CdK/mRbiiqJ8oa4nJRJcxoyPK3HlySiQben5mLRU8DQRUOKS0W3g9OVdyZkMmPiDORKOZaucjTgHgASE+sm5hb6MHmHMSg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(376002)(396003)(136003)(366004)(39860400002)(5660300002)(8936002)(66556008)(4326008)(66476007)(4744005)(66946007)(8676002)(2906002)(31696002)(36756003)(6486002)(478600001)(966005)(316002)(38100700002)(110136005)(6512007)(26005)(186003)(6506007)(41300700001)(2616005)(53546011)(6666004)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R01aelBjODFiNHRPWTN2a0dDaFR0a1hLN3QyT0k5L0RwWFYxL01iQ2dHdnhT?=
- =?utf-8?B?OVdncHNQZEQ3UjJWK2hjMXFlNlUvM0JFdWZwNUFmd1UvYS90d1dVQzIwYmNX?=
- =?utf-8?B?TDNuK0QyNXJLbmZvUkwvSjl5TCtaSVBEbHRIanUzdkdrektsY0pZb2NGelJF?=
- =?utf-8?B?T0dJNmFlNVVjV1RvZng1T3lGVFRvNHZ3Z1FObGNQeHBqbTZYcEI5Y2pUeWxv?=
- =?utf-8?B?b2t0bEVpZTcyMU1xMTJMc1VQQzhBT05OWWp4YjhhOFZrSzR6L3RiODhXWi9k?=
- =?utf-8?B?RHFxN3FOaFRjR3hZdjZaMG9WTys0MVNOazBGZkdWSFA3dXVVMXFaWkk5TXcr?=
- =?utf-8?B?WGEzT0dPRVRJWlNWVS9Pd2VyWlBEVTNTWnJjaEtwT1dFK3VITURMRXlkclJx?=
- =?utf-8?B?UEl4K1FKVjRaNlZWM3RvMXRibnBwVnFMVWtjTVNsSWtZVzQ2d2VRcFNnWEM3?=
- =?utf-8?B?MkhFbHJHOGdiNHFwcTE0MU8weHhLSWZ1REV2c205RVdvdDFrY3lLN1dRY3VJ?=
- =?utf-8?B?Y0F0eEpzdW5WRXgxMTdYMkFya3Mxa3dJbStJTnM4MjVWZmJ6Sy9YeHQ5M0l5?=
- =?utf-8?B?U3dRUGhMUUQ2MzBiUE0vUzV4ZjRGZmZzK3ViZ3I3WEJZT3FQSUdLRThHSU9m?=
- =?utf-8?B?YVNSWGtISXNueHFjKzJ0bHNtWSt6NVR0MTVjQktpcDNyb2xka2tyKytjcUFt?=
- =?utf-8?B?c3V1eFBwOVN2bjlxOUVla09keVRlV21UNjc1ZG04TTBoTzJrNU9uMy92Kzd0?=
- =?utf-8?B?NjdqVkhMV3BQVVVOREw5TkE1eDdWOTNIOHR2QURLa1BNdVlhdm9UZ2NURTg4?=
- =?utf-8?B?L2ZZcFZhUlFCeVpkd3N0d1ozRVd3NHg0VCs5THZmWUU1dlF4N0dUQW5wcWI4?=
- =?utf-8?B?SGQzcHRqUXpSNWpEeTZDM0NOSHpHa1BlN1JuZUxyY2JvUHJyeG1QdjJUbUxp?=
- =?utf-8?B?ZFVIWHZwY0ZSeHVFVzVhTWgvU3hPeVlacldiNGtWTXdER242YU9hTng2Y2Rt?=
- =?utf-8?B?UENqT0kzbVFzaUtJMnI4MEtsWTJSb21Yb25tMjBrdWJRbXVlbnhCR1U2Q2M0?=
- =?utf-8?B?ajlYdHgvc1dIb2xUb1dZNzNBdExDQkpMS1RsZkg3TWtyZENzcW1KTVF3TkRO?=
- =?utf-8?B?YnhjU3A4b0JDWVB2cERRZGtBcm5PcXZtam5UOFNqMEFKZ1VqaXdyakJVM2JT?=
- =?utf-8?B?RGluUHBpcVNNSnRORVBLcFNITmtya0RXalFGZ3BhY1VNMFZkVnRncFMvdUR6?=
- =?utf-8?B?bDhVai9ZQW9ZOTVaTTAyYm42eXdaSmxUdEdkYldLcjlFTnB4bkovYi81b29Q?=
- =?utf-8?B?THdQRVNTNGpIdVhFVWxGVVRiNlVHaitqRmJWWWxGajd0WTRLcEo5aFhJOU5O?=
- =?utf-8?B?cU1teTc5ZFExcTNzKzFHdk5Oc1BjRi9SM3F2TFg4ZEFGS29PbjN4dmY4UGIz?=
- =?utf-8?B?VmxCUEdDejQ5U1VCYVhUTFZuY0REaE1zQktlWFFNZ3pLaExWMjZ5UVpsRVp2?=
- =?utf-8?B?bTI1c0xocEZiQWd1SXU5R1Y0a2cyR05CM01SN0k3Ukg0YUVIYVl5RmlsQXp3?=
- =?utf-8?B?bmxxWGEvUGVkQithdWo3YWJDWDQ4bmprRzZsUzhCTFdBdC9HRE1TQVZVWEV4?=
- =?utf-8?B?K1lZckx5UDl4WUZqK0NaNDFub1JmdFdLalFOTURNMTRjSGNIb1R6YXF4dFpS?=
- =?utf-8?B?MVpTZ0tFaGF0a3NZVTl2THdsaC9zZjB0Z0NsVkYrZkhES0RwQ25ycCtxU0dv?=
- =?utf-8?B?Sk1FTnV0ZzA5cjFScXlXUE04NS90L0lLc1JGdmpReWVGSEgvdk5KOThLQ1ZF?=
- =?utf-8?B?V05odllza3pEZ0pqYXNLVlh5VnBhY0JMdldNZjRESWIvSVdDYWh5UzV4cTh3?=
- =?utf-8?B?L1ExWU56UmEwWlZIUVpCeHpLRlViMFYwTm41bFpsRFRISHNlN1BEQ0VqbjBu?=
- =?utf-8?B?K3hpTjNTRUJ4SXI2Tm4vL1hUMmNIZWVmS3phaEp4cy9qVGpjQmJ2QXcyeEY3?=
- =?utf-8?B?cGY5Y05TRG5rMUV3NEdOSHIyeGJPSFdmRVNxMVJUZEQvZWxnZFhzdHM3TzNh?=
- =?utf-8?B?NVEyNUJEK1V4S2VRTU5USGZLbEFCUjNQcitrYnFvb1JTcWlmdEhFTHpWKy9o?=
- =?utf-8?Q?KVKPYDgFvdH7HxUj9kWiWIOBP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 946338d5-2df1-4272-8177-08da70be012f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 17:24:19.3740
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jSVG+T4h7DvWcZe8Z9Jps50tZThL0CswPBtbht/CDeTIADtOIcv5hfOZGFxqg+sVqqcTcv5ClSL62EzLAT7gMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4972
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -128,23 +71,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On an Asus G513QY, of the 5 bytes in a 0x5a report, only the first byte
+is a meaningful keycode. The other bytes are zeroed out or hold garbage
+from the last packet sent to the keyboard.
 
+This patch fixes up the report descriptor for this event so that the
+general hid code will only process 1 byte for keycodes, avoiding
+spurious key events and unmapped Asus vendor usagepage code warnings.
 
-On 7/28/2022 10:47 PM, Sudip Mukherjee (Codethink) wrote:
-> Hi All,
->
-> Not sure if it has been reported, builds of xtensa, mips, csky and arm allmodsconfig
-> have failed to build next-20220728 with the error:
->
-> drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c: In function 'amd_stop_sensor':
-> drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c:48:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+Signed-off-by: Josh Kilmer <srjek2@gmail.com>
+---
+ drivers/hid/hid-asus.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Already fixed in https://lore.kernel.org/all/nycvar.YFH.7.76.2207232011090.19850@cbobk.fhfr.pm/
-Also find fix in https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/tree/?h=for-next
-or https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-5.20/amd-sfh
-
-Thanks,
---
-Basavaraj
-
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 08c9a9a60ae4..b59c3dafa6a4 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -1212,6 +1212,13 @@ static __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		rdesc = new_rdesc;
+ 	}
+ 
++	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
++			*rsize == 331 && rdesc[190] == 0x85 && rdesc[191] == 0x5a &&
++			rdesc[204] == 0x95 && rdesc[205] == 0x05) {
++		hid_info(hdev, "Fixing up Asus N-KEY keyb report descriptor\n");
++		rdesc[205] = 0x01;
++	}
++
+ 	return rdesc;
+ }
+ 
+-- 
+2.35.1
 
