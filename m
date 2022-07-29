@@ -2,376 +2,281 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C7FB585312
-	for <lists+linux-input@lfdr.de>; Fri, 29 Jul 2022 17:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69C0958536B
+	for <lists+linux-input@lfdr.de>; Fri, 29 Jul 2022 18:30:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237540AbiG2Prk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Jul 2022 11:47:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50290 "EHLO
+        id S232475AbiG2Qa4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Jul 2022 12:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237994AbiG2Prf (ORCPT
+        with ESMTP id S229519AbiG2Qaz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Jul 2022 11:47:35 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F74A88760
-        for <linux-input@vger.kernel.org>; Fri, 29 Jul 2022 08:47:33 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id o1so3876469qkg.9
-        for <linux-input@vger.kernel.org>; Fri, 29 Jul 2022 08:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=+5irFiUay6OqzYY1Rv5ub9Cnd0lFOiyTrIqFEDJ7JXI=;
-        b=eE7Ch6REvTQtiVtNny1Li0UJrMD0OJJ3UoM73LbvtAv6U5T0duy3fJH7mbhUHwx/ZY
-         qVq7s19dzdDPAYjDILF+kBNNDKHvo06LCv0gunJgiX/EdyKvcriX/wZe8kbK6/Kpa5ZS
-         FmDimA9txg4GhwV/D4oymVKnV4Vf0R1x46MPE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=+5irFiUay6OqzYY1Rv5ub9Cnd0lFOiyTrIqFEDJ7JXI=;
-        b=H4MzsnhQLgdwnV1Olu8+vP+0AORowmyUspvmXKIwhtQ2phfHfJyD21iBMUOHPS7u+4
-         x3xACD/IaLk1ScaOvVjRgbdUUVAw9CC/eyDDcif0bAnTDea85zFCIoK54hElx9AmqLAi
-         vruVrsrjlKSMJVbpkilJxB9221fpIrqYIxkBDN+VCc9VQv54Q++ru9vboyeubWf8JYT0
-         Yb62BAsTDKKrgL20oHX8Zd5uCwqcnjppzorkQtU+qjLvtoMM3Hx/8buvOFpnnOF6DGxc
-         aYMOqi7ab/I7RSBy5XRvL3yQhXdXRUKMztuuFLxic2ZKG7p9nvB/C1nC7aNM90RMxt9y
-         9t4g==
-X-Gm-Message-State: AJIora9YyAeZoaWCXFf0B1PtmsquCtKzcKCVmEpXQnY6Fg6lBJHL+buP
-        2ogDYIeSMoxzqh3SDb82kO7Uiven2h//l8H/
-X-Google-Smtp-Source: AGRyM1s+MKXZCbBRd0Hwqk5spGxfkWWDE5Mi8oOFz+B57d6YT73OhqJSdDL3Fw1nd3TIV4ce0TpYqQ==
-X-Received: by 2002:a37:c15:0:b0:6b5:e820:d0a8 with SMTP id 21-20020a370c15000000b006b5e820d0a8mr3192112qkm.452.1659109651842;
-        Fri, 29 Jul 2022 08:47:31 -0700 (PDT)
-Received: from roguebox.lan ([159.65.38.31])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05622a048700b0031ea1ad6c5asm2491247qtx.75.2022.07.29.08.47.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 08:47:31 -0700 (PDT)
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-To:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org
-Cc:     Matt Ranostay <matt.ranostay@konsulko.com>,
-        Rishi Gupta <gupt21@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH] HID: mcp2221: add ADC/DAC support via iio subsystem
-Date:   Fri, 29 Jul 2022 23:47:23 +0800
-Message-Id: <20220729154723.99947-1-matt.ranostay@konsulko.com>
-X-Mailer: git-send-email 2.37.1
+        Fri, 29 Jul 2022 12:30:55 -0400
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04olkn2066.outbound.protection.outlook.com [40.92.46.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F92511C2E;
+        Fri, 29 Jul 2022 09:30:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cBywtHLGyM/v8NyZLwG+yqPxlGn3cQlz5o2rNGxQyprJ4zzADrwwjde+vCbBPzQfXzr7IZYryxlQWgqMRSb7eXs+OW7DJnqC5HIPVatc40LG3NBegjInF1B2XMRFjT31b9eUOWnkR2Unl6jsVdPOBGrtV+kAeSPMaGmZHHTo4WxczlVp2L43Gp1ED9Do9TIg4T817gpOiK6yUB4fz3CcURE6B8WIO8rs4yowDzPO3U3vznA1zJh0vnUuBWd3rqdyPDrCyLqEkcJO0EO6/pXasD9Cddn6q1NRPnCs2VUT/czUGRY2jlwX9VhraGj2TNGzGB0Ux2+kC8ox+fy0l9Yv9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f2wH/U/EPxs1fpl2Tfbsb+QmHV2PiIAIbfV/adnCaW4=;
+ b=M+9PKrO0fL53fKHO8P61FGzTMSwW+6nqgjzBePS73bhYO2ZlgFInxMXFWoSP0eZaVhU75EO8CRh5oIAu06i87A9mlx10rXBMPMLsNzudz50kjPsFVG+0oxAKSSC8/uq0QWlTr+336MjwGhctmWucJVDDwR60mlHDH05K/FxYId0+5dGv4/mfbDtgR6bzbitTFI4Ci8qkdLTkB5Q6JRfiaxhYtAL08lkbWXgrn8TBn1xU4eMNrdylSCsSJORUzXYCPYtssuctHSqdbofA3gdtR4ogIXwY9EmqDJMQ+3/RnZmptRt+4no9eNuok5MOehQrWip5BGtn5C63yP7RZkykeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f2wH/U/EPxs1fpl2Tfbsb+QmHV2PiIAIbfV/adnCaW4=;
+ b=DSUEkNLRfBal5z1qzPGrBGo0aY6cskKWrQAVcy/6SwgUWLi+BInO54DYVXYRJHrdVSCOJ+O8+avlcu4fS+jIzR0xOGBp1PXaIWik3Fy4n5qGgHAyPIfbN98DmgFCJ6Sj53wn37Iw3k8EQ6JgiiUxKY6+zHOX4UGdYywuqhi/XlL0wmpCbbc+loeluV6WGQ2cEs6vAjcelINBAQOA/2lANWfWozZIcnZJF0OBQRszqH1jQbcGI2D57UAdIRGcCWsufYDDn8rEeefUmp6hDAsb7lx5hftGVQYO0DxDZXnp443m+2DZusd7LbsuEd0YOGe9x5xzzO9C8bkyFy9zhXp4GA==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by BL0PR06MB4644.namprd06.prod.outlook.com (2603:10b6:208:5e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Fri, 29 Jul
+ 2022 16:30:51 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::1474:5d4a:b9da:946c]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::1474:5d4a:b9da:946c%5]) with mapi id 15.20.5482.012; Fri, 29 Jul 2022
+ 16:30:51 +0000
+Date:   Fri, 29 Jul 2022 11:30:48 -0500
+From:   Chris Morgan <macromorgan@hotmail.com>
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        jic23@kernel.org, paul@crapouillou.net, linux-iio@vger.kernel.org,
+        Maya Matuszczyk <maccraft123mc@gmail.com>
+Subject: Re: [PATCH v8 2/3] Input: adc-joystick - Add polled input device
+ support
+Message-ID: <SN6PR06MB53424C8BD8C59B39CBAC9105A5999@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20220721164603.13534-1-macroalpha82@gmail.com>
+ <20220721164603.13534-3-macroalpha82@gmail.com>
+ <8c6efe60662609a92e2a4e758e784f66@artur-rojek.eu>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8c6efe60662609a92e2a4e758e784f66@artur-rojek.eu>
+X-TMN:  [75e5GlD17DkQezseRuCe29yGoDZrN1A0]
+X-ClientProxiedBy: SA0PR12CA0003.namprd12.prod.outlook.com
+ (2603:10b6:806:6f::8) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <20220729163048.GA123@wintermute.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f1816574-6434-486d-9787-08da717fb389
+X-MS-TrafficTypeDiagnostic: BL0PR06MB4644:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ARQw3Qwbbp+e132Pd5Pc8LPizlIeIViStSVCGBMRQ4bPj6LLeRRD3NHukcudkH9QTBHQ5/51HdxH8N0pWPi18ShZt2qolvllRY/0fovCwRcn9gikgqBLzlqjV1lq8EfZGhtEOqkbMXHcAsoQmGahlegj8BfXftbpIDy/Z5Cw19UTbYl567Kj+NUrRcOFBF17f2x129pp2ql3e9wQUjQOJDOv3zOFUGw7G8omeX1glUrrDTPJtlIpBsy9+hTc67uVYmIvGTJT4YLMY0UQ6szhST1cOOlSlqVcWrkWa4wp0sNamj6UUhjJRbyzFBcZq1Yx31IDfyK0HKhvfYViX+tng2W2qIeFfKHepNq1vz5I0b68s/p/qhgGzjnfyfbs177XGGFBfrY6YHL/BZpNTDiA2d4erUYDNPS0WkH987rGv7c3lpIzJHn21FwOcwSdfOwXUAMWFoUR5UbgBld0txN420Kd738lFTotivcmWUtt2dqTxS+V7b5WD3ig3qM10BRpmh+wZe/MGcP7Wte8m3qnis6QRsI+gWxOBgsilyVKhnP5AFHFXBlfKk8MPm2ZS1IaPC6E5TYHCVyn5QRzNCo3yGwC6/d7Y3g6xps/Hva0nj2zxYcTfpRAeGU4t7Vk/747rDiu2Qo3KnD9bAvFAt6f2B2ZpJLzbvnIaxOiRybFQpgCRa8Xri1FdN1OY0Vd3vf5
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jhnvaIdAUAOABwwAKRxAkSJqIXppJlR+TsOqMa0rIh03v0i38852N7TbKAdr?=
+ =?us-ascii?Q?nLTgeZ3zkpBlZhfe1TdT79NqspBhdYWNclJKoy+0541L4YH/SZtQ4s/ytKau?=
+ =?us-ascii?Q?OpeTr3TbrzrndQAR/DQpEwx7C+7MOWQXXP8INXJz0+9ZkiYlzK9qjPDnba0C?=
+ =?us-ascii?Q?53YAO983C4mZklGGzgXw3ksQ1BN/IqAkyC1wBVijkrPuqE9CVQF1DmS/UzJd?=
+ =?us-ascii?Q?fZj14XDKF4Pa5H/BPK+Wp5I48767IgG97bAki00qkGfAhk5b9Exy4Xt0GJtf?=
+ =?us-ascii?Q?gakLwJo6FPLR5FFOkZfY/NL1hRwS0j8g5RAQVCeHpfj29Tf2Aq0Z4tVD5ye7?=
+ =?us-ascii?Q?8or7zJXuw1YSA1ScenkSslJoVS2zv/+zPGpLWI6sfyO+gVpZMOkUpnrJcUzU?=
+ =?us-ascii?Q?tvJ0q6gl3Z/wnZE23LIHD7rgZOGlcmmG+fYASj8JLugUXWPsWKN61Dr/+X4a?=
+ =?us-ascii?Q?G/Groeh3T1hTqr6JDgeYwY2EtHV2zsWugukiR9GwW0kN/gL7HMZwxbIy9Mlw?=
+ =?us-ascii?Q?OJ4S8+iTVZ+bLfwW+WF34MElx4vAjYv6tQvs9zIMLPtwDgIKYkFe9fzhwk2q?=
+ =?us-ascii?Q?qhfUnyZvtuQCYyuxf/zblR22uOe6F+ZsFjg8kf1UYzuXXOCdnnYAi0jqbCe+?=
+ =?us-ascii?Q?xUpghGLqb8azPtTBwd0QBip5PQKnisbD+xnvssXgm9ze4fLIgNazzOZ8BeaY?=
+ =?us-ascii?Q?vmMRTVoMwrQ+CiycVnBZy/a5cCv9QoZgziNZJRF9hzG4hwu9+mmDzquqF6VA?=
+ =?us-ascii?Q?kisBCe4VOsjUimLEZ6cBFMpJ+zze6uwsWu8JxIzB7WKxo8XJVKoORW6C8mUL?=
+ =?us-ascii?Q?steIGuaUPBzFleVDPSZB+kXwnDq97QRau3wx5tp53hNv/PuY+ZpwxSsE4icX?=
+ =?us-ascii?Q?9kwaOOdAf7TSGaoXoLfqeOMag8zadKK0B7jAzEDPPfgiRzzXxDb5/Nz5hNzk?=
+ =?us-ascii?Q?5B3riaGy+ysa0+Zy3uGDLDaPwuGoiPQr+7iWDBd3/vSWrxF64Qi+g+2D8Jxr?=
+ =?us-ascii?Q?cfCcMNrApYpHMHsvBaxNSPsvedhYFVk2lr4c3nGFnxYnVzDyOOdPzTGK+ReT?=
+ =?us-ascii?Q?WKw/4B394ONyRGlZFot6Fm32pswwMRI8UNKFHjtqVYIEsnTOUi7W82rb7sxd?=
+ =?us-ascii?Q?0Ca1+EZVIiiK2IBFO07OJNBsJCswh4UmSUuLd3ykfaza2JN5TvnPT8HHYYTe?=
+ =?us-ascii?Q?uWa3UCbojr/5DPVkeAv8C5pikjhuMifj7orscdUSS+FAoPK1xYsHXnoQaftm?=
+ =?us-ascii?Q?5xv8RnmfXu3nAF5XVk5jiM25j4rctWDU/9UWOkzq5g=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1816574-6434-486d-9787-08da717fb389
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2022 16:30:51.8114
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR06MB4644
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for 3x 10-bit ADC and 1x DAC channels registered via
-the iio subsystem.
+On Thu, Jul 28, 2022 at 10:26:07PM +0200, Artur Rojek wrote:
+> On 2022-07-21 18:46, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add polled input device support to the adc-joystick driver. This is
+> > useful for devices which do not have hardware capable triggers on
+> > their SARADC. Code modified from adc-joystick.c changes made by Maya
+> > Matuszczyk.
+> > 
+> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> Hey Chris,
+> 
+> sorry for the late response. Comments in-line.
+> 
+> Cheers,
+> Artur
+> >  drivers/input/joystick/adc-joystick.c | 82 ++++++++++++++++++++-------
+> >  1 file changed, 62 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/drivers/input/joystick/adc-joystick.c
+> > b/drivers/input/joystick/adc-joystick.c
+> > index 78ebca7d400a..085b8e10dfb5 100644
+> > --- a/drivers/input/joystick/adc-joystick.c
+> > +++ b/drivers/input/joystick/adc-joystick.c
+> > @@ -26,8 +26,23 @@ struct adc_joystick {
+> >  	struct adc_joystick_axis *axes;
+> >  	struct iio_channel *chans;
+> >  	int num_chans;
+> > +	bool polled;
+> >  };
+> > 
+> > +static void adc_joystick_poll(struct input_dev *input)
+> > +{
+> > +	struct adc_joystick *joy = input_get_drvdata(input);
+> > +	int i, val, ret;
+> > +
+> > +	for (i = 0; i < joy->num_chans; i++) {
+> > +		ret = iio_read_channel_raw(&joy->chans[i], &val);
+> > +		if (ret < 0)
+> > +			return;
+> > +		input_report_abs(input, joy->axes[i].code, val);
+> > +	}
+> > +	input_sync(input);
+> > +}
+> > +
+> >  static int adc_joystick_handle(const void *data, void *private)
+> >  {
+> >  	struct adc_joystick *joy = private;
+> > @@ -178,7 +193,9 @@ static int adc_joystick_probe(struct platform_device
+> > *pdev)
+> >  	struct input_dev *input;
+> >  	int error;
+> >  	int bits;
+> > +	int chan_storage;
+> >  	int i;
+> > +	unsigned int poll_interval;
+> > 
+> >  	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
+> >  	if (!joy)
+> > @@ -192,16 +209,31 @@ static int adc_joystick_probe(struct
+> > platform_device *pdev)
+> >  		return error;
+> >  	}
+> > 
+> > -	/* Count how many channels we got. NULL terminated. */
+> > +	if (device_property_present(dev, "poll-interval")) {
+> > +		error = device_property_read_u32(dev, "poll-interval",
+> > +						 &poll_interval);
+> > +		if (error)
+> > +			return error;
+> > +		joy->polled = true;
+> > +	}
+> > +
+> > +	/* Count how many channels we got. NULL terminated. Do not check the
+> > +	 * storage size if using polling.
+> > +	 */
+> As per Linux coding style, the multi-line comment opens with a lone `/*`
+> line. Also, move the second sentence into a new line for readability.
 
-To prevent breakage and unexpected dependencies this support only is
-only built if CONFIG_IIO is enabled, and is only weakly referenced by
-'imply IIO' within the respective Kconfig.
+Gotcha, I always thought it could start this way but had to end with an
+empty line. I guess I learned something new.
 
-Additionally the iio device only gets registered if at least one channel
-is enabled in the power-on configuration read from SRAM.
+> 
+> > +	chan_storage = joy->chans[0].channel->scan_type.storagebits;
+> >  	for (i = 0; joy->chans[i].indio_dev; i++) {
+> > -		bits = joy->chans[i].channel->scan_type.storagebits;
+> > -		if (!bits || bits > 16) {
+> > -			dev_err(dev, "Unsupported channel storage size\n");
+> > -			return -EINVAL;
+> > -		}
+> > -		if (bits != joy->chans[0].channel->scan_type.storagebits) {
+> > -			dev_err(dev, "Channels must have equal storage size\n");
+> > -			return -EINVAL;
+> > +		if (!joy->polled) {
+> > +			bits = joy->chans[i].channel->scan_type.storagebits;
+> > +			if (!bits || bits > 16) {
+> > +				dev_err(dev,
+> > +					"Unsupported channel storage size\n");
+> > +				return -EINVAL;
+> > +			}
+> > +			if (bits != chan_storage) {
+> > +				dev_err(dev,
+> > +					"Channels must be equal size\n");
+> > +				return -EINVAL;
+> > +			}
+> Just do `for (i = 0; !joy->polled && joy->chans[i].indio_dev; i++)`, as
+> this will terminate early if we're polling.
+> Then we'll also be able to restore the loop body to its original code and
+> get rid of that `chan_storage` helper.
+> 
 
-Cc: Rishi Gupta <gupt21@gmail.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
----
- drivers/hid/Kconfig       |   3 +-
- drivers/hid/hid-mcp2221.c | 207 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 209 insertions(+), 1 deletion(-)
+Thank you, I was struggling to figure out how to get the code to do
+what I wanted while keeping it below 80 columns, this is perfect.
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 6ce92830b5d1..eb4f4bb05226 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1298,7 +1298,8 @@ config HID_ALPS
- config HID_MCP2221
- 	tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
- 	depends on USB_HID && I2C
--	depends on GPIOLIB
-+	select GPIOLIB
-+	imply IIO
- 	help
- 	Provides I2C and SMBUS host adapter functionality over USB-HID
- 	through MCP2221 device.
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index de52e9f7bb8c..ab8ca2a65592 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -16,6 +16,8 @@
- #include <linux/hidraw.h>
- #include <linux/i2c.h>
- #include <linux/gpio/driver.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/sysfs.h>
- #include "hid-ids.h"
- 
- /* Commands codes in a raw output report */
-@@ -30,6 +32,8 @@ enum {
- 	MCP2221_I2C_CANCEL = 0x10,
- 	MCP2221_GPIO_SET = 0x50,
- 	MCP2221_GPIO_GET = 0x51,
-+	MCP2221_SET_SRAM_SETTINGS = 0x60,
-+	MCP2221_GET_SRAM_SETTINGS = 0x61,
- };
- 
- /* Response codes in a raw input report */
-@@ -89,6 +93,7 @@ struct mcp2221 {
- 	struct i2c_adapter adapter;
- 	struct mutex lock;
- 	struct completion wait_in_report;
-+	struct delayed_work init_work;
- 	u8 *rxbuf;
- 	u8 txbuf[64];
- 	int rxbuf_idx;
-@@ -97,6 +102,17 @@ struct mcp2221 {
- 	struct gpio_chip *gc;
- 	u8 gp_idx;
- 	u8 gpio_dir;
-+	u8 mode[4];
-+#if IS_REACHABLE(CONFIG_IIO)
-+	struct iio_chan_spec iio_channels[3];
-+	struct iio_dev *indio_dev;
-+	u16 adc_values[3];
-+	u8 dac_value;
-+#endif
-+};
-+
-+struct mcp2221_iio {
-+	struct mcp2221 *mcp;
- };
- 
- /*
-@@ -745,6 +761,10 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 				break;
- 			}
- 			mcp->status = mcp_get_i2c_eng_state(mcp, data, 8);
-+#if IS_REACHABLE(CONFIG_IIO)
-+			if (mcp->indio_dev)
-+				memcpy(&mcp->adc_values, &data[50], 6);
-+#endif
- 			break;
- 		default:
- 			mcp->status = -EIO;
-@@ -816,6 +836,32 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 		complete(&mcp->wait_in_report);
- 		break;
- 
-+	case MCP2221_SET_SRAM_SETTINGS:
-+		switch (data[1]) {
-+		case MCP2221_SUCCESS:
-+			mcp->status = 0;
-+			break;
-+		default:
-+			mcp->status = -EAGAIN;
-+		}
-+		complete(&mcp->wait_in_report);
-+		break;
-+
-+	case MCP2221_GET_SRAM_SETTINGS:
-+		switch (data[1]) {
-+		case MCP2221_SUCCESS:
-+			memcpy(&mcp->mode, &data[22], 4);
-+#if IS_REACHABLE(CONFIG_IIO)
-+			mcp->dac_value = data[6] & GENMASK(4, 0);
-+#endif
-+			mcp->status = 0;
-+			break;
-+		default:
-+			mcp->status = -EAGAIN;
-+		}
-+		complete(&mcp->wait_in_report);
-+		break;
-+
- 	default:
- 		mcp->status = -EIO;
- 		complete(&mcp->wait_in_report);
-@@ -824,6 +870,158 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 	return 1;
- }
- 
-+#if IS_REACHABLE(CONFIG_IIO)
-+static int mcp2221_read_raw(struct iio_dev *indio_dev,
-+			    struct iio_chan_spec const *channel, int *val,
-+			    int *val2, long mask)
-+{
-+
-+	struct mcp2221_iio *priv = iio_priv(indio_dev);
-+	struct mcp2221 *mcp = priv->mcp;
-+	int ret;
-+
-+	mutex_lock(&mcp->lock);
-+
-+	if (channel->output) {
-+		*val = mcp->dac_value;
-+
-+		mutex_unlock(&mcp->lock);
-+	} else {
-+		// Read ADC values
-+		ret = mcp_chk_last_cmd_status(mcp);
-+		if (ret < 0) {
-+			mutex_unlock(&mcp->lock);
-+			return ret;
-+		}
-+
-+		*val = le16_to_cpu(mcp->adc_values[channel->address]);
-+
-+		mutex_unlock(&mcp->lock);
-+
-+		// Confirm value is within 10-bit range
-+		if (*val > GENMASK(9, 0))
-+			return -EINVAL;
-+	}
-+
-+	return IIO_VAL_INT;
-+}
-+
-+static int mcp2221_write_raw(struct iio_dev *indio_dev,
-+			     struct iio_chan_spec const *chan,
-+			     int val, int val2, long mask)
-+{
-+	struct mcp2221_iio *priv = iio_priv(indio_dev);
-+	struct mcp2221 *mcp = priv->mcp;
-+	int ret;
-+
-+	if (val < 0 || val > GENMASK(4, 0))
-+		return -EINVAL;
-+
-+
-+	hid_hw_power(mcp->hdev, PM_HINT_FULLON);
-+
-+	mutex_lock(&mcp->lock);
-+
-+	memset(mcp->txbuf, 0, 12);
-+	mcp->txbuf[0] = MCP2221_SET_SRAM_SETTINGS;
-+	mcp->txbuf[4] = BIT(7) | val;
-+
-+	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 12);
-+
-+	hid_hw_power(mcp->hdev, PM_HINT_NORMAL);
-+
-+	if (ret) {
-+		mutex_unlock(&mcp->lock);
-+		return -EINVAL;
-+	}
-+
-+	mcp->dac_value = val;
-+
-+	mutex_unlock(&mcp->lock);
-+
-+	return 0;
-+}
-+
-+static const struct iio_info mcp2221_info = {
-+	.read_raw = &mcp2221_read_raw,
-+	.write_raw = &mcp2221_write_raw,
-+};
-+
-+static int mcp_iio_channels(struct mcp2221 *mcp)
-+{
-+	int idx, cnt = 0;
-+	bool dac_created = false;
-+
-+	// GP0 doesn't have ADC/DAC alternative function
-+	for (idx = 1; idx < MCP_NGPIO; idx++) {
-+		struct iio_chan_spec *chan = &mcp->iio_channels[cnt];
-+
-+		switch (mcp->mode[idx]) {
-+		case 2:
-+			chan->address = idx - 1;
-+			chan->channel = cnt++;
-+			break;
-+		case 3:
-+			// GP1 doesn't have DAC alternative function
-+			if (idx == 1 || dac_created)
-+				continue;
-+			// DAC1 and DAC2 outputs are connected to the same DAC
-+			dac_created = true;
-+			chan->output = 1;
-+			cnt++;
-+			break;
-+		default:
-+			continue;
-+		};
-+
-+		chan->type = IIO_VOLTAGE;
-+		chan->indexed = 1;
-+		chan->info_mask_separate = BIT(IIO_CHAN_INFO_RAW);
-+		chan->scan_index = -1;
-+	}
-+
-+	return cnt;
-+}
-+
-+static void mcp_init_work(struct work_struct *work)
-+{
-+	struct mcp2221 *mcp = container_of(work, struct mcp2221, init_work.work);
-+	struct mcp2221_iio *iio;
-+	int ret, num_channels;
-+
-+	hid_hw_power(mcp->hdev, PM_HINT_FULLON);
-+
-+	mutex_lock(&mcp->lock);
-+
-+	mcp->txbuf[0] = MCP2221_GET_SRAM_SETTINGS;
-+
-+	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
-+
-+	hid_hw_power(mcp->hdev, PM_HINT_NORMAL);
-+	mutex_unlock(&mcp->lock);
-+
-+	if (ret)
-+		return;
-+
-+	num_channels = mcp_iio_channels(mcp);
-+	if (!num_channels)
-+		return;
-+
-+	mcp->indio_dev = devm_iio_device_alloc(&mcp->hdev->dev, sizeof(*iio));
-+
-+	iio = iio_priv(mcp->indio_dev);
-+	iio->mcp = mcp;
-+
-+	mcp->indio_dev->name = "mcp2221";
-+	mcp->indio_dev->modes = INDIO_DIRECT_MODE;
-+	mcp->indio_dev->info = &mcp2221_info;
-+	mcp->indio_dev->channels = mcp->iio_channels;
-+	mcp->indio_dev->num_channels = num_channels;
-+
-+	iio_device_register(mcp->indio_dev);
-+}
-+#endif
-+
- static int mcp2221_probe(struct hid_device *hdev,
- 					const struct hid_device_id *id)
- {
-@@ -902,6 +1100,11 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	if (ret)
- 		goto err_gc;
- 
-+#if IS_REACHABLE(CONFIG_IIO)
-+	INIT_DELAYED_WORK(&mcp->init_work, mcp_init_work);
-+	schedule_delayed_work(&mcp->init_work, msecs_to_jiffies(500));
-+#endif
-+
- 	return 0;
- 
- err_gc:
-@@ -920,6 +1123,10 @@ static void mcp2221_remove(struct hid_device *hdev)
- 	i2c_del_adapter(&mcp->adapter);
- 	hid_hw_close(mcp->hdev);
- 	hid_hw_stop(mcp->hdev);
-+#if IS_REACHABLE(CONFIG_IIO)
-+	if (mcp->indio_dev)
-+		iio_device_unregister(mcp->indio_dev);
-+#endif
- }
- 
- static const struct hid_device_id mcp2221_devices[] = {
--- 
-2.36.1
-
+> >  		}
+> >  	}
+> >  	joy->num_chans = i;
+> > @@ -215,8 +247,14 @@ static int adc_joystick_probe(struct
+> > platform_device *pdev)
+> >  	joy->input = input;
+> >  	input->name = pdev->name;
+> >  	input->id.bustype = BUS_HOST;
+> > -	input->open = adc_joystick_open;
+> > -	input->close = adc_joystick_close;
+> > +
+> > +	if (joy->polled) {
+> > +		input_setup_polling(input, adc_joystick_poll);
+> > +		input_set_poll_interval(input, poll_interval);
+> > +	} else {
+> > +		input->open = adc_joystick_open;
+> > +		input->close = adc_joystick_close;
+> > +	}
+> > 
+> >  	error = adc_joystick_set_axes(dev, joy);
+> >  	if (error)
+> > @@ -229,16 +267,20 @@ static int adc_joystick_probe(struct
+> > platform_device *pdev)
+> >  		return error;
+> >  	}
+> > 
+> > -	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+> > -	if (IS_ERR(joy->buffer)) {
+> > -		dev_err(dev, "Unable to allocate callback buffer\n");
+> > -		return PTR_ERR(joy->buffer);
+> > -	}
+> > +	if (!joy->polled) {
+> > +		joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle,
+> > +						     joy);
+> > +		if (IS_ERR(joy->buffer)) {
+> > +			dev_err(dev, "Unable to allocate callback buffer\n");
+> > +			return PTR_ERR(joy->buffer);
+> > +		}
+> > 
+> > -	error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
+> > joy->buffer);
+> > -	if (error)  {
+> > -		dev_err(dev, "Unable to add action\n");
+> > -		return error;
+> > +		error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
+> > +						 joy->buffer);
+> > +		if (error)  {
+> > +			dev_err(dev, "Unable to add action\n");
+> > +			return error;
+> > +		}
+> >  	}
+> > 
+> >  	return 0;
+> 
