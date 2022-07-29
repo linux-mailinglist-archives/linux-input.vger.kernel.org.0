@@ -2,94 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71682585127
-	for <lists+linux-input@lfdr.de>; Fri, 29 Jul 2022 15:53:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9CD1585132
+	for <lists+linux-input@lfdr.de>; Fri, 29 Jul 2022 15:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbiG2NxA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Jul 2022 09:53:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
+        id S236535AbiG2N63 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Jul 2022 09:58:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231178AbiG2Nw7 (ORCPT
+        with ESMTP id S236547AbiG2N6X (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Jul 2022 09:52:59 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D565F4E629;
-        Fri, 29 Jul 2022 06:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659102776; x=1690638776;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T4oYnFR8eMrAv8J1qLxL2Fa4Ck7WG4S9YZv0+0Ue2UQ=;
-  b=EwjtTRdo5a5NXdTWRyrlBSGykkFqsWTCcBO3zdO+lFdPxhHMDtQ1z/eI
-   COEIyOhlxzk0w8pYnStKzvQtW1d/1Y97njrI86L4xeC/vBLGJQmyOlJSe
-   ZgoZ4q/Iel7K2ddERPADog1ikzAMgaX/GeBRQGhXTbnOXM0wnbO0v0iB8
-   loPhgcvNha+EYPMjh2dIddSM7CZacPK4KFBUYoJmR0wazMBB1zd4ot0Bn
-   Hl+xOrvJfCFEzNH5WU3/w1sul/YiLVsFJYJpY8juO7gf+sQL9spQNaoqM
-   gqURG9s+eJyDj++5lYOUji8crDjueUuPHq3AumpBKKf0SNt7P9xkI4ds7
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="352767446"
-X-IronPort-AV: E=Sophos;i="5.93,201,1654585200"; 
-   d="scan'208";a="352767446"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 06:52:56 -0700
-X-IronPort-AV: E=Sophos;i="5.93,201,1654585200"; 
-   d="scan'208";a="601292708"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 06:52:53 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oHQQ6-001eY1-2u;
-        Fri, 29 Jul 2022 16:52:50 +0300
-Date:   Fri, 29 Jul 2022 16:52:50 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Luca Ellero <luca.ellero@brickedbrain.com>
-Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
-        m.felsch@pengutronix.de, u.kleine-koenig@pengutronix.de,
-        mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3]  ads7846: fix support for ADS7845
-Message-ID: <YuPmMlq2+dvb8N+2@smile.fi.intel.com>
-References: <20220721083458.6412-1-luca.ellero@brickedbrain.com>
+        Fri, 29 Jul 2022 09:58:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B6071736;
+        Fri, 29 Jul 2022 06:58:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6DEAC61F70;
+        Fri, 29 Jul 2022 13:58:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C54C433D6;
+        Fri, 29 Jul 2022 13:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659103100;
+        bh=jaUjsv1PVnXc526rmanhZp9VEH+hoxg6XeDwxPCiOOA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HV8VUJkgX9NAwSeaIs3MdC4LKBMuuTABvG2n/RwJG39e71c6CFeWFTyalg1K6A7gx
+         prjZndMzoU22mWAxOn7cPhJyGMndlYuvwI4d9A0Qt152dVSd3k64pSNzA+fZM6E8Id
+         60MbbzZop0t2PWQOW7jEEvjgvm16YoentaBvb6Ws=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-input@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: elan_i2c - convert to use dev_groups
+Date:   Fri, 29 Jul 2022 15:58:16 +0200
+Message-Id: <20220729135816.2306989-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721083458.6412-1-luca.ellero@brickedbrain.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1627; i=gregkh@linuxfoundation.org; h=from:subject; bh=jaUjsv1PVnXc526rmanhZp9VEH+hoxg6XeDwxPCiOOA=; b=owGbwMvMwCRo6H6F97bub03G02pJDEmPn1fEW+xoVncOX/nw4VGXtWdWpSby3/FcwtLJtddrY3kr R/+cjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZgIvwTDgplV3VIXShKu3umukfCv5f /10PJiEMOCw5dKKxVLFkpN3yv67yn7nvMJzr9vAQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 10:34:55AM +0200, Luca Ellero wrote:
-> ADS7845 support is buggy in this driver.
-> These patches fix various issues to get it work properly.
-> 
-> Changes for v2:
->  - add missing period in patch 0001 message
->  - elaborate comment in patch 0002
+The driver core supports the ability to handle the creation and removal
+of device-specific sysfs files in a race-free manner.  Take advantage of
+that by converting this driver to use this by moving the sysfs
+attributes into a group and assigning the dev_groups pointer to it.
 
-All three looks good to me,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "jingle.wu" <jingle.wu@emc.com.tw>
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/input/mouse/elan_i2c_core.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-> Luca Ellero (3):
->   ads7846: don't report pressure for ads7845
->   ads7846: always set last command to PWRDOWN
->   ads7846: don't check penirq immediately for 7845
-> 
->  drivers/input/touchscreen/ads7846.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
-
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index e1758d5ffe42..d4eb59b55bf1 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -1311,12 +1311,6 @@ static int elan_probe(struct i2c_client *client,
+ 		return error;
+ 	}
+ 
+-	error = devm_device_add_groups(dev, elan_sysfs_groups);
+-	if (error) {
+-		dev_err(dev, "failed to create sysfs attributes: %d\n", error);
+-		return error;
+-	}
+-
+ 	error = input_register_device(data->input);
+ 	if (error) {
+ 		dev_err(dev, "failed to register input device: %d\n", error);
+@@ -1442,6 +1436,7 @@ static struct i2c_driver elan_driver = {
+ 		.acpi_match_table = ACPI_PTR(elan_acpi_id),
+ 		.of_match_table = of_match_ptr(elan_of_match),
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
++		.dev_groups = elan_sysfs_groups,
+ 	},
+ 	.probe		= elan_probe,
+ 	.id_table	= elan_id,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.37.1
 
