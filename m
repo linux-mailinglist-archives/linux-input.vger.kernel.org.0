@@ -2,84 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F17E585A1C
-	for <lists+linux-input@lfdr.de>; Sat, 30 Jul 2022 12:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C799585C81
+	for <lists+linux-input@lfdr.de>; Sun, 31 Jul 2022 00:21:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233718AbiG3K1N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 30 Jul 2022 06:27:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38790 "EHLO
+        id S230510AbiG3WVw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 30 Jul 2022 18:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232432AbiG3K1M (ORCPT
+        with ESMTP id S229895AbiG3WVv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 30 Jul 2022 06:27:12 -0400
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E14313EA6
-        for <linux-input@vger.kernel.org>; Sat, 30 Jul 2022 03:27:11 -0700 (PDT)
-Received: by mail-io1-f71.google.com with SMTP id n20-20020a6b8b14000000b0067c00777874so1997201iod.15
-        for <linux-input@vger.kernel.org>; Sat, 30 Jul 2022 03:27:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=mNXc9U3IpQ/oCpk7EwLAV42C9rdtmhFCDfYRU7xuwsg=;
-        b=Syw8P8Notw5w7hVwTLe8R83PPVBhHjOcjPuX+x9RyV1fwRC0PoPzzN7niZo9Mzds/R
-         ulIbCaF90rEfqxYDCqO8xGNlJ2hvNA3nmIgwPueqDn8QUvH1BeIWI/Eaobodul6Hzft6
-         RxVF4/umUng61Ltk8nJzdWyVyMf61LFbtcHwiizlRQaLlIVLDEtxYQI2Ub50UytJw5Nk
-         X0gi9GZ1MidEUlSNzveHDZ7unxhIqEtoQQNA/Zvmpn8Alu/VLySNghj3iWdVnYtQYjGm
-         LhVm8JNNpD6epDOh/ppTRpTq4vRG7gteV4dn4Io8hsONJVbZch1QvVJQ7YrJKpcW2faX
-         fHlw==
-X-Gm-Message-State: AJIora/RlTPoqP2b9uH1tIm6MB654dnLUFgVYNpFi7ZStre3s2P33erh
-        Gx2JTCyXg7pmeNLMOQX3qi2tS+Uoh+J4XcT2rqW/MCCsw5vX
-X-Google-Smtp-Source: AGRyM1tD/Co71uWMmElhO8YQYnXgHSc+IQXq6qB2ByLb4ASbs0n0XTlcO3FruxUQROFhUMrb06lKvwPRtaCZ5Jqae5S5j/KV1fsa
+        Sat, 30 Jul 2022 18:21:51 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6B1913E08
+        for <linux-input@vger.kernel.org>; Sat, 30 Jul 2022 15:21:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659219710; x=1690755710;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+lmZwGBC6mWku02MktmD17iV3sA5j0PaSdMhZK/mMpc=;
+  b=fUuwS943SCY5ab6nSNlmJAFxwkiIUgkmycKdxw2WSGRkSEadPpWeQM/V
+   V78yIaoWDC0bmxVtfPOTJAtWcjrzuQ/SOzOFWxUsL3KuFOEYNXMzNZRDk
+   J4MMkhhXCo2kkKe86da5UcvLjIi06VRTpJPeO1eVseWKQPuomMZjoyh27
+   b4im7kh3WUewXamnriBe53ocnfHG+jhJpz1UJo9PGYsh9sZPGo7djMU+0
+   UWqsuPHLm6eWJtnH4Q395RgsqrGotKcgNMP+VfhPw9+ydk0N/ukM4ScX/
+   PI7JXHMxVLHhXzoAMTQj92rrLj441Xq4Lz8QN2Hz/0GY7dHzjTzsG+9y1
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10424"; a="375253225"
+X-IronPort-AV: E=Sophos;i="5.93,205,1654585200"; 
+   d="scan'208";a="375253225"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2022 15:21:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,205,1654585200"; 
+   d="scan'208";a="929125897"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 30 Jul 2022 15:21:49 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oHuqC-000DOZ-36;
+        Sat, 30 Jul 2022 22:21:48 +0000
+Date:   Sun, 31 Jul 2022 06:21:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jiri Kosina <jkosina@suse.cz>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org
+Subject: [hid:for-next 22/28] drivers/hid/hid-nintendo.c:1514:29: error:
+ redefinition of 'JC_RUMBLE_ZERO_AMP_PKT_CNT'
+Message-ID: <202207310604.IJTM9Qx3-lkp@intel.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:b750:0:b0:2dd:9194:3ea8 with SMTP id
- c16-20020a92b750000000b002dd91943ea8mr2750644ilm.197.1659176830619; Sat, 30
- Jul 2022 03:27:10 -0700 (PDT)
-Date:   Sat, 30 Jul 2022 03:27:10 -0700
-In-Reply-To: <000000000000109c040597dc5843@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009bd74d05e5033509@google.com>
-Subject: Re: [syzbot] INFO: rcu detected stall in hub_event
-From:   syzbot <syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, balbi@kernel.org,
-        benjamin.tissoires@redhat.com, fweisbec@gmail.com,
-        gregkh@linuxfoundation.org, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, mingo@kernel.org,
-        quic_mrana@quicinc.com, rafael@kernel.org,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot has bisected this issue to:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+head:   7af32d156ad75cd88699b28a617857c74c933721
+commit: 0f0606ababb185afe1461ebd9abb95d797a5b952 [22/28] Merge branch 'for-5.20/nintendo' into for-next
+config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20220731/202207310604.IJTM9Qx3-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00cabf479aa7eb6dbb063b7ba41ea57bce9e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?id=0f0606ababb185afe1461ebd9abb95d797a5b952
+        git remote add hid https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+        git fetch --no-tags hid for-next
+        git checkout 0f0606ababb185afe1461ebd9abb95d797a5b952
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hid/
 
-commit 859bdc359567f5fa8e8dc780d7b5e53ea43d9ce9
-Author: Mayank Rana <quic_mrana@quicinc.com>
-Date:   Wed May 18 18:12:52 2022 +0000
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-    usb: dwc3: core: Add error log when core soft reset failed
+All errors (new ones prefixed by >>):
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=144812f2080000
-start commit:   6e2c0490769e Merge tag 'drm-fixes-2022-07-29' of git://ano..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=164812f2080000
-console output: https://syzkaller.appspot.com/x/log.txt?x=124812f2080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=26034e6fe0075dad
-dashboard link: https://syzkaller.appspot.com/bug?extid=ec5f884c4a135aa0dbb9
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=119bc436080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16c3c0f2080000
+>> drivers/hid/hid-nintendo.c:1514:29: error: redefinition of 'JC_RUMBLE_ZERO_AMP_PKT_CNT'
+   static const unsigned short JC_RUMBLE_ZERO_AMP_PKT_CNT = 5;
+                               ^
+   drivers/hid/hid-nintendo.c:295:29: note: previous definition is here
+   static const unsigned short JC_RUMBLE_ZERO_AMP_PKT_CNT = 5;
+                               ^
+   1 error generated.
 
-Reported-by: syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com
-Fixes: 859bdc359567 ("usb: dwc3: core: Add error log when core soft reset failed")
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+vim +/JC_RUMBLE_ZERO_AMP_PKT_CNT +1514 drivers/hid/hid-nintendo.c
+
+c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1513  
+669abca7b767f0 Aashish Sharma      2022-07-20 @1514  static const unsigned short JC_RUMBLE_ZERO_AMP_PKT_CNT = 5;
+669abca7b767f0 Aashish Sharma      2022-07-20  1515  
+
+:::::: The code at line 1514 was first introduced by commit
+:::::: 669abca7b767f0daa34f6b965a415f7a9045703e HID: nintendo: Fix unused-const-variable compiler warning
+
+:::::: TO: Aashish Sharma <shraash@google.com>
+:::::: CC: Jiri Kosina <jkosina@suse.cz>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
