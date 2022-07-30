@@ -2,78 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0495857D3
-	for <lists+linux-input@lfdr.de>; Sat, 30 Jul 2022 03:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 550EF5858E1
+	for <lists+linux-input@lfdr.de>; Sat, 30 Jul 2022 08:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbiG3Bpl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Jul 2022 21:45:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56872 "EHLO
+        id S231303AbiG3Gh5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 30 Jul 2022 02:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231687AbiG3Bpj (ORCPT
+        with ESMTP id S229706AbiG3Gh4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Jul 2022 21:45:39 -0400
-Received: from sonic318-21.consmr.mail.ne1.yahoo.com (sonic318-21.consmr.mail.ne1.yahoo.com [66.163.186.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE2B4D83E
-        for <linux-input@vger.kernel.org>; Fri, 29 Jul 2022 18:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com.br; s=s2048; t=1659145537; bh=Uhtus2ZEjDq47PV67v8HWtlCPMuTYw0XT2741IsLsw4=; h=Date:From:To:Subject:References:From:Subject:Reply-To; b=oO8/qTKTXafC7a7QYoVA5YHSVkly7sDX5Gyf3xsKNnIsV614iu5Sg7NKdYWSuI7EgIbz02HuEbeOxqwrLXS9mf1Ubkw2OK4kLfNFccMAvcbffugbfLpghHrSAmK3Cn03zXYShseKiKhLEHpON+7f5NzTr9BUwp8K7amDm4ztmMbI+K6/1LwcHLC7fqMK8KLu8FKNwcqXzPiCNcEHG5wTeZsLuo6GT2lJax8oRO4/e4s36iLWbvAs+bgvvwX/MFX6Uk1ABxCEdtAhEGoZzr5rO5xspH/SQz0MtQCIMhoPuk0+2KvXsN46msx8r2KkHXrGMyfVBExzaUWzD0+idYm6dw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1659145537; bh=wvv2OkjFcsG2ksAn83ZQMk72gCEejprA1Mvs8rdU0l5=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=FOPSzCKREIpsyuAxGpVwyjpUv7CMKUCTjnV6UOXyVueV1WbPirt++YgO7Wi2JyKqtvUK5QbShVt3n0N6c4S/enJKTzWHJFQPLsEmTIYFsIkEcGRlZF2lDWjA9cXE+ly4IDGD0XKRKUEbAx75vfJacOqMrXUuzM26FCS6QHMdwtWJ0ZX8H9Ju8b4ETvd1+4BPgYdgAuYu8BolKadKcRHo7NsJdhQrGaoDBuHiXBS2+VhiOIXobmmhK4araDa/sfTVp7pkUnCmhDb3ay9m9MFSoVMvn1Sv+GI9vNHsbzznLzSc3Abmt4GIKoYakT9IEEh3O6ZzTJNrV5Kt1necfgZEpA==
-X-YMail-OSG: dk9RB6kVM1kTqVus.pwh.Z5ISMNPQqHSUgbH48oeOH4imPQE5DfYh3eCKYQwrDS
- PQzqsPhWaWrPA6kvGNCAcHNgyZN48bQEn5AoOk.t4acUZ1oSGFVUyKBFxrzzkdL0sVIHOUUUmFkv
- FlIVV5ggjP_6ne7Ca435pzeYO0JAega.Qo8jtq..0QDtqYUWwFcrNDyJyogy_ZTDGtvEz4xiUA3_
- ZFI9I9WY4x4y0dzm1iLPo1BoK8cPX_p_LW.Ca4iad.JfeJGouv7pU9ctQmAGS6QAVpp2qh2O5Pxz
- 7bkGW3HPy50haFDsnbqLAXlItskN5lnN_3_oSMeZ7MrQy.0.hRO_7xgnwOZyILi6vNY0ihRrJr16
- 7j_Kqu3RfYa3I5.xIVhB0NT1sp.H6IgPwE.vIY6a_Hbh6THWbWJfy1ZjWi3ESEr76zD5YjBfRzqs
- ukHHjtYyjD6NCcXFsQPb3R.3ZHdNhXUB4lA4r6oqO_dGGWv8XHbXjFSBy4e.__P.9ieUHbo.IXsq
- _fO7fvB4TSCkrUq5BEqtzkpeyy.CLS__HHJoQyWqaKA3d8WLQAybCw2oQ2qJJFhW2.5_TX6evct6
- caiuuYOUaGHyL80mdj1pFufauzuN0Ua6lANDB8VL_Y3auxUoGWN2GnxMDUMrE9avqt8cLcq71i84
- T8p359Yp9gcdRWmJUrSzgec5g677_mc972O2iYSISg3E3dl_ZpTktQ4qnyi3.V58zGQerckZcR98
- b3YUN9Mq2C.ybUHrSCFxNJuiarkKmc5K3cLuQeO0G1hdhFuYrPF1MDq1THWPOVv9CIEPOfsKCbxL
- lvH.g2tt0MY7FCkEHOaWnWOO8VfrsDdHUYIcToIyCCEX1kNa4G7f6EFmqVjvKmIN7yF2eIzNRzRX
- QRGhXTQKeIGtdLYBZkjJA04uiIU1wBz.lFYMPklQPMFY1APyvz7_Rp5ptgTaxWThR.Zbw.7pxLBL
- ju.onDRDdULD2_peNEZiug7wYkLgbEg67kujPaL1w6qhwNbkiMxVQ83xA61c9bP6Vm1uIpF1zK.Q
- M_xxWinQ.OrbL8urYBHm6n6EXDQPqnV9Q2A2kGz5r0aINaEWi4ZE.X0bp7HKvfe2B7im5Dq3PpAN
- 6__BFZFdbfHNJYRfItYF60CPb9XBRC3WJkW0LKA0uFYhF5weHHs5k5qVtIhH05TZYUb.ENl84NzI
- 7hEll5Oj6F19WbTv1ScoE.F79gbQ0KwAHGcnrnNG9bsJRRLnpiyjWzhaOx7BfncmiYnqtJOI51Hg
- ehgQtJHFxAwPszIEepsIeJKnn9stehuS0xtL7hGBvl.53tvURsrQcsbF1POEZjHv0Mb5NDiNyJk0
- KoR0W.7Nn22lJxVy9tmLO6l0eqBtFnXu4CPIgK1qr6IRMskeYJ0DjYf1O4HjphNiJNN7eqH8w5H9
- _esmeLTrd1VhM9F7fw7skqBuZu_Q2Y4KH7qkiXP7p4LXfNgNIZ8NK6fc_eMRsigLj4mNVfzW12tD
- w5P.EVShGlrQ1g2TRqXYWq_yKkcsxUsD.uG29Q4SZ_Z6IpFqPM77Pa9gJd9uD5ikRWdBmwFIJS4Y
- l4WSr3Uzo1wy0ol03ZnIAI3WVN59HIHLoiSjhX7LRLOadYHiIYUCdLthQx8t2pt6apyo3O8vgWCQ
- um3NzY2qPLcSmwXGZ6LaillaG.oSIlAkdrZWat5VLvIPQwSkySYi4QoXZmzMDzCyA97rESzLTr3Y
- GKNq_HLzPy.vReqlfbRA1T6HqqyAMiTUxma_1ZAC56rlEEZBfZAeSOYFwvOc59MJJE1we0OAcdIE
- B1onOo9qnP17j0Qf6vqpK3JsN81MzadhfHvmva1sgk2mzKzMJn2HHj4Xk3Tw1pFeFCbbzGNQNBhb
- RtwshhBjkK7zubbxasPi3IxOr.eRuVmd3aiDAlDuAhZS2S8AOTs._tW0iIw.4.CQQ8MkFuqrMb6O
- 1m662JKNrZpC_yYv3odu8KXoaAvVHW1O.WAsahzWTIiDKRw5r4VSaE6aEhKIkp7hqRWQpwjsLnZR
- yO7zLH1CA8cDmksW6NIkCwh96O7p8qxJFALOx9Za88x0j002PyXiyrbFAEq59ypaqI2DNCu875zs
- JGjvEeRE4zsPMDdiI9bBRDsk1IfoqM.x5PGgNtWQMe5ZaAGZ2ucvvDWk5QNLNRnoePWKksaFtJCE
- zF0FfrrW5akg_OtLfqkIHrsNA8dCoWrqBFS1DA1Q8fq6Cm1YIROtTlR9beIdlbTnd5dJyj7I._z2
- h261XMoi712oiAvL_
-X-Sonic-MF: <jackmcslay@yahoo.com.br>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic318.consmr.mail.ne1.yahoo.com with HTTP; Sat, 30 Jul 2022 01:45:37 +0000
-Date:   Sat, 30 Jul 2022 01:45:35 +0000 (UTC)
-From:   Jack McSlay <jackmcslay@yahoo.com.br>
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Message-ID: <62890335.4126474.1659145535086@mail.yahoo.com>
-Subject: FlashFire Cobra V5
+        Sat, 30 Jul 2022 02:37:56 -0400
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF4FE49B6A
+        for <linux-input@vger.kernel.org>; Fri, 29 Jul 2022 23:37:54 -0700 (PDT)
+Date:   Sat, 30 Jul 2022 06:37:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gurevit.ch;
+        s=protonmail; t=1659163072; x=1659422272;
+        bh=4b/3s3O3YVmjgF+YOkAU35pIIIgu6wkFPG0NYHRXye4=;
+        h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
+         Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
+        b=QUecaTpIdv7SRYjw+0TR7+ABWTDT8uXZ80Mz8yYRj0hlIhZdlB4o1c9TeOG+TlDcX
+         4zWFP4c4uaMt124tFAEhV0TkavZDc+kV/Tk0wOOSXEpR7L/hJyagVX2qWxgyHbdr1+
+         A4YOy+XD3G+M1s3a4CmtlDFNa8vq1PhM99A67QRJDqEcHsLjPgI4JXiivaKCTlri75
+         IE6A17eDLahrmMF7bLo9dIChYVh5Ua7s0MmASXG9AjWK0njnSDNDgN5QDOHFcvm5Ec
+         jqCKnkPG8qwzc6lCJxdtuGRF2ZprOBjbwJW2Lj+bjpDgR3xbMqRSfxaUl+rKERfu+w
+         lN2Al3UjZButA==
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+From:   gurevitch <mail@gurevit.ch>
+Cc:     "egori@altlinux.org" <egori@altlinux.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Reply-To: gurevitch <mail@gurevit.ch>
+Subject: [PATCH] Input: i8042 - enable dumbkbd quirk for HP 15-dy2xxx and 15s-fq2xxx
+Message-ID: <2iAJTwqZV6lQs26cTb38RNYqxvsink6SRmrZ5h0cBUSuf9NT0tZTsf9fEAbbto2maavHJEOP8GA1evlKa6xjKOsaskDhtJWxjcnrgPigzVo=@gurevit.ch>
+Feedback-ID: 43922923:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-References: <62890335.4126474.1659145535086.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.20447 YMailNorrin
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I bought a FlashFire Cobra V5 - a clone of the VKB Gladiator MK.I and it se=
-ems the hat is glitchy. Instead of reporting each direction as it should it=
- appears as a single axis in which up is 0, down is 120, left is 180 and ri=
-ght is 60 and the value stays on whatever direction I press. It works norma=
-lly on windows so I don't think I got a defective unit.
+These two sets of HP laptops have a long keyboard initialization delay due
+to the controller not delivering interrupts correctly as previously
+determined by Egor and Vojtech. For the 15-dy2044nr models I have at work
+the issue persists even after manually updating the system firmware to the
+latest revision from the Microsoft update catalog (15.21.0.0). Egor
+submitted a patch for 15s-fq2xxx systems previously but it seems to have
+been missed/forgotten, so I've included both here.
 
-I'm on Ubuntu 22.04 kernel=C2=A05.15.0. I have not worked on the linux joys=
-tick driver before, any idea what I should look for to try to fix this?
+Link: https://lore.kernel.org/lkml/20210528154339.GA9116@suse.com/
+Link: https://lore.kernel.org/all/20210609073333.8425-1-egori@altlinux.org/
+
+Signed-off-by: gurevitch <mail@gurevit.ch>
+---
+ drivers/input/serio/i8042-x86ia64io.h | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8=
+042-x86ia64io.h
+index 148a7c5fd..a2454d277 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -995,6 +995,24 @@ static const struct dmi_system_id __initconst i8042_dm=
+i_kbdreset_table[] =3D {
+ =09{ }
+ };
+
++static const struct dmi_system_id __initconst i8042_dmi_dumbkbd_table[] =
+=3D {
++=09{
++=09=09/* HP 15-dy2xxx - keyboard */
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "HP Laptop 15-dy2xxx"),
++=09=09},
++=09},
++=09{
++=09=09/* HP 15s-fq2xxx - keyboard */
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "HP Laptop 15s-fq2xxx"),
++=09=09},
++=09},
++=09{ }
++};
++
+ static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initcons=
+t =3D {
+ =09{
+ =09=09/* ASUS ZenBook UX425UA */
+@@ -1333,6 +1351,9 @@ static int __init i8042_platform_init(void)
+ =09if (dmi_check_system(i8042_dmi_kbdreset_table))
+ =09=09i8042_kbdreset =3D true;
+
++=09if (dmi_check_system(i8042_dmi_dumbkbd_table))
++=09=09i8042_dumbkbd =3D true;
++
+ =09if (dmi_check_system(i8042_dmi_probe_defer_table))
+ =09=09i8042_probe_defer =3D true;
+
+--
+2.37.1
+
