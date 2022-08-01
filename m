@@ -2,167 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7446C5866B9
-	for <lists+linux-input@lfdr.de>; Mon,  1 Aug 2022 11:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93D75586D25
+	for <lists+linux-input@lfdr.de>; Mon,  1 Aug 2022 16:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230331AbiHAJJT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Aug 2022 05:09:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39586 "EHLO
+        id S233295AbiHAOnW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Aug 2022 10:43:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbiHAJJS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Aug 2022 05:09:18 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8EDA2A942;
-        Mon,  1 Aug 2022 02:09:17 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id r4so5170549edi.8;
-        Mon, 01 Aug 2022 02:09:17 -0700 (PDT)
+        with ESMTP id S233284AbiHAOnE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Aug 2022 10:43:04 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC4B3F30E
+        for <linux-input@vger.kernel.org>; Mon,  1 Aug 2022 07:42:14 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id l4so14412171wrm.13
+        for <linux-input@vger.kernel.org>; Mon, 01 Aug 2022 07:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=T8Dx1LB9nhk4V6gwNnrIDAbF7gw5C16RB9z39eBzzFQ=;
-        b=Xo6pOWUIV20zMi9pQiC0Iw3nM6uMtgVz1u65uQjxaYfL7JoNrYRBr9hymGxTBJpwcc
-         VO94cK7OifIKmeiHk06KBFa96UHeqYulBxY2BcwZOj2Dd2/boNoLyUg7xqI6OAXOZ6Kq
-         FH+cxNCIXBswsaFPzyWygxY2+dx3AU+d34kzpFFAHm0OYwNirnrAcdJFqlOeW6P80NFv
-         gw0QojPd0jIobAS4KkpCDX9lu+oO/lqWx4i7CqE4/jyE1LMkxahiXMvw8F6FbEFUOkgc
-         COwGJo6tpgptWuz/e/C5wPYC7wOq7ZpLIHe9PIgcD6hllPlJ2VYzS55Ljen6YJGkpgpr
-         TO0g==
+        d=linaro.org; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc;
+        bh=4mNGPkiJmohKmnOITHrGFa8PgJkIob3O+bOGBuccTN0=;
+        b=JaRggMvlHH/j4V6dHNpxE2SGL71/p/MNU0fZhD+h5pf9VtLt+vuL6gltrwEZU9J9i8
+         spwkxa9c73rQDdTtwEh/rf7IytRiLNrcWDdiGQQSryc4qlTZp6Jw0MGRBiH4JeI8LtUP
+         eGzJU/74n7nPJDVzvdIdxW2PiQwYOvqerhEMdStBGhPBrxEOSzqHse23A5lT8P9E95n4
+         +hbFgil/Y6y0SIlc078KBnRLHROIuYDoy4yBshgxfjnSud1/so+tdNjqDX2TVz54y6i2
+         d86BpqU1BgPcf72wQtlrcXcFkney5LdIihUIvj5dAO/5QRl2+A/NIC8wscpDD9Fw3asc
+         3bMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=T8Dx1LB9nhk4V6gwNnrIDAbF7gw5C16RB9z39eBzzFQ=;
-        b=DC9qms8axe9EvuJpteSbsJXXkCHHA2XQzNyOikjYMsPOPjiYnObiz002ze2UEbreJp
-         bXG5uxQzFeUNAIvYZlct3t2qFVYMKx+m3kxBov7fS05jMWyOF1OE6jVycCObnOIXU8Mf
-         hfjWrwHe0R/E/yU/P82bTHRe0Vm8WOnqJa0wBJHdq9CpXB5TL6SAGqiwTxYBxJk8h6Tr
-         3Mu+E/y0TF3JmtKon1sJoUCTMCrUijcYRpyzsuB5j3/TrKIASS8U8avZulivVOrd5ioK
-         tLbPMxRRdEjNiTd065qyjalJCxVTL9nTzyQDrp/s9uK11uzhDxDb7nLblZMk31S3son8
-         HLBQ==
-X-Gm-Message-State: AJIora/OSBCfIPJ7LkXXKx3xSX+3A0uVif9CrV3ts2iDCWVWyuKiAZfF
-        q7yjcDS3BP/XHYIpz9O/Kf4guhmhPyg4PKL/3Hg=
-X-Google-Smtp-Source: AGRyM1sCm2pwABAlv0cffLgHfmFtk4QVghaduQ8LEgkETjyxcra3eI6nckHfO20ctWM3XF9LKP6GNLKmhQ0zAysfxFo=
-X-Received: by 2002:a05:6402:40c3:b0:43b:d65a:cbf7 with SMTP id
- z3-20020a05640240c300b0043bd65acbf7mr15224541edb.380.1659344956035; Mon, 01
- Aug 2022 02:09:16 -0700 (PDT)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=4mNGPkiJmohKmnOITHrGFa8PgJkIob3O+bOGBuccTN0=;
+        b=jRN/K5ksuU0IRbsUkdySQ/39VRg/inKW+5fvklNNVoqMqQiUo8dnAms/dLgy2McFap
+         qssfPsUAkz0r+6li/o3G3xKFR9DZ7EgjyJL0Mq2MwJd+M1GrCJNvLcJt6Tg4mS7aIqL+
+         yuEHvXdATnNYNOuJ09/j7zvq52lQ1dfDQIxxTsbkp8JR+Gp00NrJIqu80VhCk/J7dG/f
+         2vA6gJPECL+4tFWRCeNa+TMrWy5IKqvMVovnV50Rb+C2ZWIJQ9aENUUj9AV8k4CWc14j
+         d4ErQUAR2p8KUcbLs1R4o/cz4jDkPiurV5iKKvXTFXzqlPOF13TjEL+ZloksqPmPli38
+         D3Yg==
+X-Gm-Message-State: ACgBeo3Geo1iw252cniASakzfRMa56qKkRk3ZL3deL/G7RipTqAQ5DvE
+        x7cKR/34SpoH2A352D8oHuSNh73PkdtsPw==
+X-Google-Smtp-Source: AA6agR4/IyYurhGhEZw2tgwWkaDRof0/42GQxvcMgrV1ZTVNlW1ZTXb5875EISg5z4dRhX8+wNWUXQ==
+X-Received: by 2002:a5d:4889:0:b0:21d:eab7:f798 with SMTP id g9-20020a5d4889000000b0021deab7f798mr10403906wrq.96.1659364932883;
+        Mon, 01 Aug 2022 07:42:12 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id l3-20020adff483000000b00220592005edsm7068170wro.85.2022.08.01.07.42.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Aug 2022 07:42:12 -0700 (PDT)
+Date:   Mon, 1 Aug 2022 15:42:09 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     ChiYuan Huang <u0084500@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v3 0/3] Add Richtek RT5120 PMIC support
+Message-ID: <YufmQXSQ093YkuiE@google.com>
+References: <1657780937-20891-1-git-send-email-u0084500@gmail.com>
+ <CADiBU39x98iyO_OB2sYdAUGUOW9pV4dt+mEdfquhuJVm1HDRHA@mail.gmail.com>
+ <ada44af6-2a5e-0b1c-8c46-3dbaae9b1a94@linaro.org>
+ <CADiBU3-juJZoeGccjPGCsJJ=B7Sez=MhtiiFADCuCCGc7fLrxQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220729154723.99947-1-matt.ranostay@konsulko.com>
- <CAHp75VcOAbrZ2yciwH6teYs5L0vYnE4z==SQ6ejye63+_v9v+g@mail.gmail.com> <CAJCx=gnxV7-oQCNE1LvpcFGhPCQ86rRbn_2NMh4MWpvmQ9WAYw@mail.gmail.com>
-In-Reply-To: <CAJCx=gnxV7-oQCNE1LvpcFGhPCQ86rRbn_2NMh4MWpvmQ9WAYw@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 1 Aug 2022 11:08:39 +0200
-Message-ID: <CAHp75VfmdZQF7Kyu5ZsNpVfOoD3Dd2ShWOuuoauyJnV4t0w=XQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: mcp2221: add ADC/DAC support via iio subsystem
-To:     Matt Ranostay <matt.ranostay@konsulko.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Rishi Gupta <gupt21@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADiBU3-juJZoeGccjPGCsJJ=B7Sez=MhtiiFADCuCCGc7fLrxQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 1, 2022 at 6:19 AM Matt Ranostay <matt.ranostay@konsulko.com> wrote:
-> On Mon, Aug 1, 2022 at 3:11 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Fri, Jul 29, 2022 at 5:49 PM Matt Ranostay
-> > <matt.ranostay@konsulko.com> wrote:
+On Tue, 26 Jul 2022, ChiYuan Huang wrote:
 
-First of all, please, remove unneeded context when replying!
-(And I believe that non-commented stuff will be addressed as suggested)
-
-...
-
-> > > -       depends on GPIOLIB
-> > > +       select GPIOLIB
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年7月26日 週二 下午5:59寫道：
 > >
-> > I'm not sure why.
->
-> Changed to select from 'depends on' to avoid this circular dependency
-
-Was it before your patch? If so, it should be addressed separately as a fix.
-
->   SYNC    include/config/auto.conf.cmd
-> drivers/gpio/Kconfig:14:error: recursive dependency detected!
-
-> drivers/gpio/Kconfig:14:        symbol GPIOLIB is selected by I2C_MUX_LTC4306
-
-Isn't it the real problem here?
-
-> drivers/i2c/muxes/Kconfig:47:   symbol I2C_MUX_LTC4306 depends on I2C_MUX
-> drivers/i2c/Kconfig:62: symbol I2C_MUX is selected by MPU3050_I2C
-> drivers/iio/gyro/Kconfig:127:   symbol MPU3050_I2C depends on IIO
-> drivers/iio/Kconfig:6:  symbol IIO is implied by HID_MCP2221
-> drivers/hid/Kconfig:1298:       symbol HID_MCP2221 depends on GPIOLIB
-
-...
-
-> > > +                       if (mcp->indio_dev)
-> > > +                               memcpy(&mcp->adc_values, &data[50], 6);
+> > On 26/07/2022 05:45, ChiYuan Huang wrote:
+> > > cy_huang <u0084500@gmail.com> 於 2022年7月14日 週四 下午2:42寫道：
+> > >>
+> > >> From: ChiYuan Huang <cy_huang@richtek.com>
+> > >>
+> > >> This patch series is to add Richtek RT5120 PMIC support.
+> > >> In RT5120, it integrates four channels of buck converter, one channel of LDO,
+> > >> and one external enable channel to control the external power source.
+> > > ping ......
 > >
-> > sizeof()
->
-> sizeof(mcp->adc_values) would work here if needed.
-
-You need to write code to be more robust, using hardcoded magics when
-it's easy to derive is not good practice.
-
-...
-
-> > > +       memset(mcp->txbuf, 0, 12);
+> > Whom are you pinging? Everyone in To list?
 > >
-> > sizeof() ?
->
-> txbuf isn't 12 bytes long but 64 since that is the full max size a HID
-> transaction could
-> have. So sizeof() won't work in these cases..
+> Sorry, forget to specify the part.
+> I'm pining the 'mfd' patch and 'power key' patch.
 
-I see, what about a specific definition with a self-explanatory name?
+Don't ping any{thing,one}!  If you think your patch has fallen through
+the gaps (it hasn't), then submit a [RESEND].
 
-...
-
-> > > +       ret = mcp_send_data_req_status(mcp, mcp->txbuf, 12);
-> >
-> > Ditto,
->
-> See above.
-
-See above.
-
-...
-
-> > > +       if (mcp->indio_dev)
-> >
-> > Do you need this check?
->
-> Yes basically if no ADC or DAC channel is enabled then no iio_device
-> get allocated or registered.
-
-> > > +               iio_device_unregister(mcp->indio_dev);
-
-So, we have an inconvenience in the iio_device_unregister(), i.e. it
-doesn't perform the NULL-check by itself. I recommend fixing it there
-and dropping this check in the caller. This is standard practice in
-the Linux kernel for resource deallocator APIs.
-
-...
-
-> > Overall what I really do not like is that ugly ifdeffery. Can we avoid
-> > adding it?
->
-> Could make CONFIG_IIO required for building but not sure we really
-> want to add as an additional dependency.
-> Which is way the imply is set for CONFIG_IIO
-
-The code looks ugly with this kind of ifdeffery. But okay, I leave it
-up to maintainers, just my 2cents.
+Your patch was submitted at the very end of the development cycle,
+which means that it is low priority and is unlikely to receive
+attention until after -rc1 is out.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
