@@ -2,232 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2290586347
-	for <lists+linux-input@lfdr.de>; Mon,  1 Aug 2022 06:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1742A586556
+	for <lists+linux-input@lfdr.de>; Mon,  1 Aug 2022 08:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239148AbiHAET7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Aug 2022 00:19:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50104 "EHLO
+        id S232933AbiHAGsC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Aug 2022 02:48:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239136AbiHAET6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Aug 2022 00:19:58 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E315F13DD8
-        for <linux-input@vger.kernel.org>; Sun, 31 Jul 2022 21:19:49 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id x64so7609732iof.1
-        for <linux-input@vger.kernel.org>; Sun, 31 Jul 2022 21:19:49 -0700 (PDT)
+        with ESMTP id S234265AbiHAGro (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Aug 2022 02:47:44 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1B6638F
+        for <linux-input@vger.kernel.org>; Sun, 31 Jul 2022 23:46:50 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id d20so2334317pfq.5
+        for <linux-input@vger.kernel.org>; Sun, 31 Jul 2022 23:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=7y69nF8yylApvNF8tnbnFLvYv1tkhmPPUVUPa2891qc=;
-        b=DdXTOmV+TuIZy/mE4W6jNZd6uiwDY7MDmCSWRkBNW3cgfAqAI38xyqbn6VVnzEEAhb
-         8G4MUMe9Hy5VxVs9CTBDnrEEMkIReFp4kcAdZ6D9CR9PFIdm+C6XGZE1hd1vdvN00oOL
-         2RcgT4WsE2Y7qBZ8/6ootJRrgq5EGDvO0G2QI=
+        d=synaptics-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=JAtDb2BzsZbrhrNn0Iwjw4diHPiR7j2cRNNJMQMKcFo=;
+        b=adGHt2GNY2NtBhIvrMdkPDf1jxWGv0quQnTqqjQPc9ipa/ZVFndMnnqjwVmsY5bMXW
+         nZdkTHoZXHXwlVWAW2sdxwW38NWkLicK8pK37a3GzwDFkqoZfmZ00um6maNoTV9PnCYr
+         4G8FXomYnMVRjaNU+PfOMwp27mM+zpRj6ZN6uqIpC9XgMSmW/dUW3IzphA94q46CxQwR
+         cXbsrR3HXG92aIt5r/25JNDzEH5YuLE3h1iFxFOUGGX2xA1t4rI614WJnELvXU+HpcJl
+         3+c8fOEMZRcQqiQHWbzYEMfK8C5GF8YF9eVVwPRv9vMVHDQuq7sKIMAJpP8YPN1aieCc
+         bv8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=7y69nF8yylApvNF8tnbnFLvYv1tkhmPPUVUPa2891qc=;
-        b=ACbCfdPWr7YQGs/xzQsZ8Kp9zhniGslZYaD5P6UQu5z1ks+7bOC/aOvnpbZ3gbAmF9
-         XfaAX8rYvCZUuDExEG7Ibw2RTE5H3r0mvL+lErbiks8PAbsRPWzlImn15LHWyS/Dw7dS
-         4NKf/MYVAjUdQon1j7dBm+UrpRpFq89f46c06Zc6i+CdJjxHAs8XXPrJJHXT1mUu5RFg
-         FBIfO8w0KlIRTNIlcoVAqHHiV5tSOHR14yLSYUOoPy/eltknPFu4Jzq/hoyMvCOfW2pP
-         lnlg0R24HQRPcsZNweGUtpzvLTGZSs0W2fyGYJ2pDMoO2aLUFSq+JOKTyP8NqzVDEaHN
-         ya4Q==
-X-Gm-Message-State: AJIora8TIFRPZbOG6KcqKNtpPM34gH/96JwH7Xy0HEZi73SoHZvAZkBn
-        Ged6zNNb8c4OIqHkiqRk1l/U9xFBJA58cu9boADIRg==
-X-Google-Smtp-Source: AGRyM1tBcfkws8S5Mv3ZWo4TZS8WuMZ7q8sUQvrr9rAzPOy8paIkj6HqvTFTxnv3QpKTmLVLyVlVJB1j6A/PSngNKz0=
-X-Received: by 2002:a05:6638:dd1:b0:341:55c2:38b6 with SMTP id
- m17-20020a0566380dd100b0034155c238b6mr5539717jaj.245.1659327589288; Sun, 31
- Jul 2022 21:19:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220729154723.99947-1-matt.ranostay@konsulko.com> <CAHp75VcOAbrZ2yciwH6teYs5L0vYnE4z==SQ6ejye63+_v9v+g@mail.gmail.com>
-In-Reply-To: <CAHp75VcOAbrZ2yciwH6teYs5L0vYnE4z==SQ6ejye63+_v9v+g@mail.gmail.com>
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-Date:   Mon, 1 Aug 2022 12:19:37 +0800
-Message-ID: <CAJCx=gnxV7-oQCNE1LvpcFGhPCQ86rRbn_2NMh4MWpvmQ9WAYw@mail.gmail.com>
-Subject: Re: [PATCH] HID: mcp2221: add ADC/DAC support via iio subsystem
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Rishi Gupta <gupt21@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=JAtDb2BzsZbrhrNn0Iwjw4diHPiR7j2cRNNJMQMKcFo=;
+        b=XBeHu4FORKeJ/UA0UZKt4D/M6qjeDD3UI+I5D/x+Sr0h9nVls2Vwyq6BSJHzhysNkR
+         TYTPREbcB6YRj2bF+k0W293kLLubnPB6238d8MMcPC2jeFmLPe/aIW64NMRvq6/R9oRh
+         zBHCy57EUWQIrKVTVUu2C1TOJ4/zps4hRUNTwLrTLCcDhu2n0fkCqjljTHnTmUmVZptp
+         Qdl/w0ciMeWcOGpM58uuXFDm5Q93BdF1V7y9GNvVOx91aPNrpowuZygak43El7jeKAQ7
+         ZoLcXF4WukJvJ9X12oWV/x3RS9xr8YC578ZNr/AAlmL9brLQEcukTeiPb7s42jcaPU05
+         E1bw==
+X-Gm-Message-State: AJIora/K+dTazZCqww7pTNNCtihYjgtUbaXtLlBtIVSfCYC364QqsTRC
+        mTjLRSYwOX9KoLFAX047QAI1iQ==
+X-Google-Smtp-Source: AGRyM1vrF9MftH4pfwtuio+gHfJvK0ADlPo2skMM2GtEl+P10maUNds+goB13nmWHd6y9dqepW6lhg==
+X-Received: by 2002:a63:1324:0:b0:419:afb2:af7b with SMTP id i36-20020a631324000000b00419afb2af7bmr12010926pgl.367.1659336410259;
+        Sun, 31 Jul 2022 23:46:50 -0700 (PDT)
+Received: from localhost.localdomain ([63.222.17.38])
+        by smtp.gmail.com with ESMTPSA id x22-20020aa78f16000000b0052cec54e3b8sm4766853pfr.215.2022.07.31.23.46.47
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 31 Jul 2022 23:46:49 -0700 (PDT)
+From:   margeyang <marge.yang@synaptics.corp-partner.google.com>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     marge.yang@tw.synaptics.com, derek.chegn@tw.synaptcs.com,
+        vincent.huang@tw.synaptics.com,
+        Marge Yang <marge.yang@synaptics.corp-partner.google.com>
+Subject: [PATCH] Input: HID-rmi - ignore to rmi_hid_read_block after system resumes.
+Date:   Mon,  1 Aug 2022 14:46:43 +0800
+Message-Id: <1659336403-2546-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 1, 2022 at 3:11 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Fri, Jul 29, 2022 at 5:49 PM Matt Ranostay
-> <matt.ranostay@konsulko.com> wrote:
-> >
-> > Add support for 3x 10-bit ADC and 1x DAC channels registered via
-> > the iio subsystem.
-> >
-> > To prevent breakage and unexpected dependencies this support only is
-> > only built if CONFIG_IIO is enabled, and is only weakly referenced by
-> > 'imply IIO' within the respective Kconfig.
-> >
-> > Additionally the iio device only gets registered if at least one channel
-> > is enabled in the power-on configuration read from SRAM.
->
-> I tried to leave the comments not clashed with Jonathan's ones below.
->
-> ...
->
-> > Cc: Rishi Gupta <gupt21@gmail.com>
-> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->
-> Use --cc in the parameters to `git format-patch` or move them after
-> the cutter '---' line below, so they won't pollute the Git commit
-> message.
+From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
 
-Noted for the future.
->
-> ...
->
-> > -       depends on GPIOLIB
-> > +       select GPIOLIB
->
-> I'm not sure why.
+ignore to rmi_hid_read_block function once after system resumes.
+Because
 
-Changed to select from 'depends on' to avoid this circular dependency
+Signed-off-by: Marge Yang<marge.yang@synaptics.corp-partner.google.com>
+---
+ drivers/hid/hid-rmi.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-  SYNC    include/config/auto.conf.cmd
-drivers/gpio/Kconfig:14:error: recursive dependency detected!
-drivers/gpio/Kconfig:14:        symbol GPIOLIB is selected by I2C_MUX_LTC4306
-drivers/i2c/muxes/Kconfig:47:   symbol I2C_MUX_LTC4306 depends on I2C_MUX
-drivers/i2c/Kconfig:62: symbol I2C_MUX is selected by MPU3050_I2C
-drivers/iio/gyro/Kconfig:127:   symbol MPU3050_I2C depends on IIO
-drivers/iio/Kconfig:6:  symbol IIO is implied by HID_MCP2221
-drivers/hid/Kconfig:1298:       symbol HID_MCP2221 depends on GPIOLIB
-For a resolution refer to Documentation/kbuild/kconfig-language.rst
+diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
+index 311eee599ce9..1b038f3db0f1 100644
+--- a/drivers/hid/hid-rmi.c
++++ b/drivers/hid/hid-rmi.c
+@@ -101,7 +101,7 @@ struct rmi_data {
+ };
+ 
+ #define RMI_PAGE(addr) (((addr) >> 8) & 0xff)
+-
++int ignoreonce;
+ static int rmi_write_report(struct hid_device *hdev, u8 *report, int len);
+ 
+ /**
+@@ -203,7 +203,13 @@ static int rmi_hid_read_block(struct rmi_transport_dev *xport, u16 addr,
+ 		if (ret < 0)
+ 			goto exit;
+ 	}
+-
++	if (ignoreonce == 1) {
++		dev_err(&hdev->dev,
++			"ignoreonce (%d)\n",
++			ignoreonce);
++		ignoreonce = 0;
++		goto exit;
++	}
+ 	for (retries = 5; retries > 0; retries--) {
+ 		data->writeReport[0] = RMI_READ_ADDR_REPORT_ID;
+ 		data->writeReport[1] = 0; /* old 1 byte read count */
+@@ -468,7 +474,10 @@ static int rmi_post_resume(struct hid_device *hdev)
+ 	ret = hid_hw_open(hdev);
+ 	if (ret)
+ 		return ret;
+-
++	// Avoid to read rmi_hid_read_block once after system resumes.
++	// The interrupt will be pulled down
++	// after RMI Read command(Report ID:0x0A).
++	ignoreonce = 1;
+ 	ret = rmi_reset_attn_mode(hdev);
+ 	if (ret)
+ 		goto out;
+-- 
+2.22.0.windows.1
 
->
-> ...
->
-> >  #include <linux/hidraw.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/gpio/driver.h>
->
-> + blank line.
->
-> > +#include <linux/iio/iio.h>
-> > +#include <linux/iio/sysfs.h>
->
-> + blank line.
->
-> >  #include "hid-ids.h"
->
-> > +#if IS_REACHABLE(CONFIG_IIO)
-> > +       struct iio_chan_spec iio_channels[3];
-> > +       struct iio_dev *indio_dev;
-> > +       u16 adc_values[3];
-> > +       u8 dac_value;
-> > +#endif
-> > +};
->
-> ...
->
-> > +#if IS_REACHABLE(CONFIG_IIO)
-> > +                       if (mcp->indio_dev)
-> > +                               memcpy(&mcp->adc_values, &data[50], 6);
->
-> sizeof()
-
-sizeof(mcp->adc_values) would work here if needed.
-
->
-> > +#endif
->
-> ...
->
-> > +               // Confirm value is within 10-bit range
-> > +               if (*val > GENMASK(9, 0))
->
->   if (*val >= BIT(10))
->
->  will make comment useless
->
-> > +                       return -EINVAL;
-> > +       }
->
-> ...
->
-> > +       if (val < 0 || val > GENMASK(4, 0))
->
-> In a similar way, val >= BIT(5).
->
-> > +               return -EINVAL;
->
-> ...
->
-> > +       memset(mcp->txbuf, 0, 12);
->
-> sizeof() ?
-
-txbuf isn't 12 bytes long but 64 since that is the full max size a HID
-transaction could
-have. So sizeof() won't work in these cases..
-
->
-> ...
->
-> > +       ret = mcp_send_data_req_status(mcp, mcp->txbuf, 12);
->
-> Ditto,
-
-See above.
-
->
-> > +       hid_hw_power(mcp->hdev, PM_HINT_NORMAL);
->
-> Even in an error case?
-
-hid_hw_power was set to PM_HINT_FULLON before the check, and in error case it
-should reset back to normal hint.
-
->
-> > +       if (ret) {
-> > +               mutex_unlock(&mcp->lock);
-> > +               return -EINVAL;
-> > +       }
->
-> ...
->
-> > +#if IS_REACHABLE(CONFIG_IIO)
-> > +       if (mcp->indio_dev)
->
-> Do you need this check?
-
-Yes basically if no ADC or DAC channel is enabled then no iio_device
-get allocated or registered.
-
->
-> > +               iio_device_unregister(mcp->indio_dev);
-> > +#endif
->
-> ...
->
-> Overall what I really do not like is that ugly ifdeffery. Can we avoid
-> adding it?
-
-Could make CONFIG_IIO required for building but not sure we really
-want to add as an additional dependency.
-Which is way the imply is set for CONFIG_IIO
-
-- Matt
-
->
-> --
-> With Best Regards,
-> Andy Shevchenko
