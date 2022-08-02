@@ -2,236 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00960587CCC
-	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 15:00:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12CD2587DCB
+	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 16:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237154AbiHBM7q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Aug 2022 08:59:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43370 "EHLO
+        id S237082AbiHBOBs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Aug 2022 10:01:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237160AbiHBM7R (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 08:59:17 -0400
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6279F20BEC;
-        Tue,  2 Aug 2022 05:59:08 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id AFEF93200926;
-        Tue,  2 Aug 2022 08:59:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 02 Aug 2022 08:59:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-         h=cc:cc:content-transfer-encoding:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1659445146; x=
-        1659531546; bh=e69w31e7e/7d0EmO5mFp65sRGccZp1oPXI8E7rKhCCI=; b=i
-        b0G9TFpUlnUivlLX/H0nvNhjUwmj5ByRYpTaJJ53ogvM4cqGg824iutwgbFyzg+O
-        WeK2izewREbl8GIcJvUhyzEDaRimrY+oqV0bLkq2J7yj+tEdZV2A4tXaTCgLPOC0
-        icgTiBIHGWlYK3uX3Vuz/ShzwBqXO3EL0s5yUpXvdw/1KZiAJxYpf/k+npLrqVw5
-        RTslqtF2aRabjFHcwBBPk8YWVkhzTp0enNNkiomI9vZcy9vFz7o+uMk8pgTy4Mv1
-        jR0RvXrA0BTt2i/Ctt8wM8h3cjh5hQfsK5kGJI0P9xpOUA3QlxVA+vnUkitKNutO
-        Riwppm+c7F4Gzi698Nd7w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1659445146; x=1659531546; bh=e69w31e7e/7d0
-        EmO5mFp65sRGccZp1oPXI8E7rKhCCI=; b=kOHKeQHicVjPwvvTRROJmlSCmvmJt
-        bMkRqSkhmEFxEGb6ojJm/9l5B8DEXzLwPMqSCu4uFjrvCYx42Awlp33wjjTEap2y
-        vNVp+7kuffVBzJxZyRNRJe/Xoy8qTpAD7A/9P8zlBZEcQmrzw8Sri9432fmOkG3P
-        1GITupKXm+s2NLifEfJ17Of9gTU3GZdsNAMtsvXdGlHiqPkfmczQviVvca58FdQN
-        S6mL9adhrnIW2z8akucHormKgJe3Hx9pEgI4pfYnrClRCxtnyuCeyiDZkqKyXik1
-        rOGF+/m8wwWDPjY2c03blLEt54+T/pCYV10yQNU7SjYDXlMB/H+Ko74Zg==
-X-ME-Sender: <xms:mh_pYpFDt48FagJUh_C0ZKMWqjWvxyKGrU_N5HBZ7iTG3bRRE6bDqQ>
-    <xme:mh_pYuUmXidagAi_MLP-BOdYpiO1H8ZKHPURWtl1bGhcqyMDELiC4jFkMI2ldfGgZ
-    QzvRKvloGyGWBSRSW4>
-X-ME-Received: <xmr:mh_pYrKlhMIn0DNI7sp6DlfnTSQnwUQE49ylpt0Iv6kMTO_1IIfTPMDOpoeHVEUZrVcrxuuObt35>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvhedgheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucgoufhorhhtvggutfgvtghiphdvucdlgedtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeetlhhishht
-    rghirhcuhfhrrghntghishcuoegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-    eqnecuggftrfgrthhtvghrnhepiedtfeekteelvdelveevueeujeffuefguedvteekveej
-    jeeutedufeethffgheehnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrg
-    hilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:mh_pYvHkU2B-e3XJW1vTjnG3de_hvnWLFNfYlaSZdYbWsdrlBxKLGQ>
-    <xmx:mh_pYvXE2Ku17yQLoLNJMnKrKcqEtT1iHg3v1ROOCe7qU6eILfdAZg>
-    <xmx:mh_pYqOWAnVysGtF5nft2TuflGd_jfZOPOPJC2slbxbArZ6tYVGm6Q>
-    <xmx:mh_pYou8ObN4roJUTD52nFwtmyrs7ldhHJrcg2n4REGMo7YVHWHfIQ>
-Feedback-ID: ifd214418:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Aug 2022 08:59:01 -0400 (EDT)
-From:   Alistair Francis <alistair@alistair23.me>
-To:     linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     shawnguo@kernel.org, alistair23@gmail.com, robh+dt@kernel.org,
-        linus.walleij@linaro.org, s.hauer@pengutronix.de,
-        andreas@kemnade.info, krzysztof.kozlowski+dt@linaro.org,
-        rydberg@bitmath.org, dmitry.torokhov@gmail.com,
-        Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v8 4/4] ARM: dts: imx7d-remarkable2: Enable the cyttsp5
-Date:   Tue,  2 Aug 2022 22:58:27 +1000
-Message-Id: <20220802125827.34509-5-alistair@alistair23.me>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220802125827.34509-1-alistair@alistair23.me>
-References: <20220802125827.34509-1-alistair@alistair23.me>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S237055AbiHBOBq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 10:01:46 -0400
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0021F63F;
+        Tue,  2 Aug 2022 07:01:45 -0700 (PDT)
+Received: by mail-il1-f173.google.com with SMTP id h16so7020880ilc.10;
+        Tue, 02 Aug 2022 07:01:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc;
+        bh=9HP6RV14iyBefsrq7UF+VvvWbuNYrykxC6shEJNRhLs=;
+        b=hi0/xOhNNlk4J6q80W7+ZkwaENZUk+bSMIlOnw1aeaCvDRbOEtTgwq6vRs5nOxAKwd
+         B3e5aXjPdmCUD9PkEedUeMb53ZpJlFXA3CmSvmr5WJl4anEegbe4SsF9yM469rouKPQy
+         3pMEx2LZLC4b0/DJxkM+Gjliv2Dtlrg7Npoz2E3flQ8jEpD6An0aPtoOnNgqVqiHNYcW
+         b+0P51brZoY1NpWxHDYbEFU2BSf+Wc7KO3kMj62BtbeaUOrti529WcLm7vzCBfEzJJ8G
+         wIG19cHiChwoD/+KbiWOJzc9fx4NQey2O/wLj2y/xjwQLeXoOqzl6hIPvueYx0Nh7RQa
+         YAbQ==
+X-Gm-Message-State: AJIora9jpe43rEgcbj6d0/tIjrr1NRygKV4JvFGCHEJy1/IClW0T67eU
+        VK4wFEIBSBbul52z6ZY5Ww==
+X-Google-Smtp-Source: AGRyM1ub8jaiVWjVciNr9MeONH5WR1JVir2IcYCFMPoECG21PeM+dvGSFRA95dWXDvCDiilDY4VB2Q==
+X-Received: by 2002:a92:ce50:0:b0:2dd:dc8e:1f36 with SMTP id a16-20020a92ce50000000b002dddc8e1f36mr8814976ilr.34.1659448905241;
+        Tue, 02 Aug 2022 07:01:45 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id n5-20020a056638110500b0033f0589eb52sm1897615jal.2.2022.08.02.07.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 07:01:44 -0700 (PDT)
+Received: (nullmailer pid 8420 invoked by uid 1000);
+        Tue, 02 Aug 2022 14:01:41 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     robh+dt@kernel.org, andreas@kemnade.info,
+        dmitry.torokhov@gmail.com, rydberg@bitmath.org,
+        s.hauer@pengutronix.de, krzysztof.kozlowski+dt@linaro.org,
+        alistair23@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
+        shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org
+In-Reply-To: <20220802125827.34509-3-alistair@alistair23.me>
+References: <20220802125827.34509-1-alistair@alistair23.me> <20220802125827.34509-3-alistair@alistair23.me>
+Subject: Re: [PATCH v8 2/4] dt-bindings: input: Add Cypress TT2100 touchscreen controller
+Date:   Tue, 02 Aug 2022 08:01:41 -0600
+Message-Id: <1659448901.672444.8419.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for the cyttsp5 touchscreen controller for the reMarkable 2.
+On Tue, 02 Aug 2022 22:58:25 +1000, Alistair Francis wrote:
+> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
+> documentation. It can use I2C or SPI bus.
+> This touchscreen can handle some defined zone that are designed and
+> sent as button. To be able to customize the keycode sent, the
+> "linux,code" property in a "button" sub-node can be used.
+> 
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../input/touchscreen/cypress,tt21000.yaml    | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+> 
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- arch/arm/boot/dts/imx7d-remarkable2.dts | 100 ++++++++++++++++++++++++
- 1 file changed, 100 insertions(+)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
-index a2a91bfdd98e..fea480af8e48 100644
---- a/arch/arm/boot/dts/imx7d-remarkable2.dts
-+++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
-@@ -8,6 +8,7 @@
- /dts-v1/;
- 
- #include "imx7d.dtsi"
-+#include <dt-bindings/input/linux-event-codes.h>
- 
- / {
- 	model = "reMarkable 2.0";
-@@ -47,6 +48,18 @@ reg_digitizer: regulator-digitizer {
- 		startup-delay-us = <100000>; /* 100 ms */
- 	};
- 
-+	reg_touch: regulator-touch {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VDD_3V3_TOUCH";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		pinctrl-names = "default", "sleep";
-+		pinctrl-0 = <&pinctrl_touch_reg>;
-+		pinctrl-1 = <&pinctrl_touch_reg>;
-+		gpio = <&gpio1 11 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
- 	wifi_pwrseq: wifi_pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		pinctrl-names = "default";
-@@ -84,6 +97,70 @@ wacom_digitizer: digitizer@9 {
- 	};
- };
- 
-+&i2c3 {
-+	clock-frequency = <100000>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c3>;
-+	status = "okay";
-+
-+	tsc@24 {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		compatible = "cypress,tt21000";
-+		reg = <0x24>;
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_touch>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
-+		vdd-supply = <&reg_touch>;
-+		touchscreen-size-x = <880>;
-+		touchscreen-size-y = <1280>;
-+
-+		button@0 {
-+			reg = <0>;
-+			linux,keycodes = <KEY_HOMEPAGE>;
-+		};
-+
-+		button@1 {
-+			reg = <1>;
-+			linux,keycodes = <KEY_MENU>;
-+		};
-+
-+		button@2 {
-+			reg = <2>;
-+			linux,keycodes = <KEY_BACK>;
-+		};
-+
-+		button@3 {
-+			reg = <3>;
-+			linux,keycodes = <KEY_SEARCH>;
-+		};
-+
-+		button@4 {
-+			reg = <4>;
-+			linux,keycodes = <KEY_VOLUMEDOWN>;
-+		};
-+
-+		button@5 {
-+			reg = <5>;
-+			linux,keycodes = <KEY_VOLUMEUP>;
-+		};
-+
-+		button@6 {
-+			reg = <6>;
-+			linux,keycodes = <KEY_CAMERA>;
-+		};
-+
-+		button@7 {
-+			reg = <7>;
-+			linux,keycodes = <KEY_POWER>;
-+		};
-+	};
-+};
-+
- &snvs_pwrkey {
- 	status = "okay";
- };
-@@ -177,6 +254,15 @@ MX7D_PAD_SAI1_TX_BCLK__GPIO6_IO13	0x14
- 		>;
- 	};
- 
-+	pinctrl_touch: touchgrp {
-+		fsl,pins = <
-+			/* CYTTSP interrupt */
-+			MX7D_PAD_GPIO1_IO14__GPIO1_IO14		0x54
-+			/* CYTTSP reset */
-+			MX7D_PAD_GPIO1_IO13__GPIO1_IO13		0x04
-+		>;
-+	};
-+
- 	pinctrl_i2c1: i2c1grp {
- 		fsl,pins = <
- 			MX7D_PAD_I2C1_SDA__I2C1_SDA		0x4000007f
-@@ -184,6 +270,20 @@ MX7D_PAD_I2C1_SCL__I2C1_SCL		0x4000007f
- 		>;
- 	};
- 
-+	pinctrl_i2c3: i2c3grp {
-+		fsl,pins = <
-+			MX7D_PAD_I2C3_SDA__I2C3_SDA		0x4000007f
-+			MX7D_PAD_I2C3_SCL__I2C3_SCL		0x4000007f
-+		>;
-+	};
-+
-+	pinctrl_touch_reg: touchreggrp {
-+		fsl,pins = <
-+			/* TOUCH_PWR_EN */
-+			MX7D_PAD_GPIO1_IO11__GPIO1_IO11		0x14
-+		>;
-+	};
-+
- 	pinctrl_uart1: uart1grp {
- 		fsl,pins = <
- 			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
--- 
-2.37.1
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dtb: touchscreen@24: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
