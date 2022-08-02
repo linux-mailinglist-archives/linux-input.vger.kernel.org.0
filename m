@@ -2,129 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2726D587EA1
-	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 17:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FB0D587F0B
+	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 17:38:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236505AbiHBPKI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Aug 2022 11:10:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50998 "EHLO
+        id S229460AbiHBPiW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Aug 2022 11:38:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235854AbiHBPKH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 11:10:07 -0400
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C48C28E17;
-        Tue,  2 Aug 2022 08:10:07 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id h16so7123057ilc.10;
-        Tue, 02 Aug 2022 08:10:07 -0700 (PDT)
+        with ESMTP id S229645AbiHBPiV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 11:38:21 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A3C10FEA;
+        Tue,  2 Aug 2022 08:38:20 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-31f443e276fso144872517b3.1;
+        Tue, 02 Aug 2022 08:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m0b6Z4o9N99dBrxvZIzGAcIl3UdOT7UmGWjcS9K8gvk=;
+        b=Qi3am3BQET1o09/pbzliCWfM0TmZ6chfbhojviwnlEK/icgACHA0ax/O0mb/eIcx/u
+         To64cTh+brgbDk7NohdgpdLwlPEG1R4i1yobwspAdwWLrfpfmbIDHE3gyUU4ClsVM/Dc
+         olqdpQt/04EuOWFVBEWjHbtubRJ2dD6CtjVMzLyHyhzsZykoWXDH2MApMIHjXEJBxcp2
+         Xw7E3fkyeTLFI8WyUhH1BVpVox9fUaaa4r8wkSCc3s7x8GQONIMUU9sfuZlLdO4Jpjzn
+         DchTnIaJOGYwPqTn/1ZR2Uj9FLl/HQDKMgbJs7nFewlcpv6hhqFI6klWNw4SLqZCCcTu
+         kBAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=UV82uEIsvHDZrliUx1r2+IPpqDlRXG1R8sadUym76Ns=;
-        b=RfFmqqD5MfGy/kbSpySS5uIVrUQzCBqV52bsu3NVJVlEuGzbD+lZwvFA1rMaZR4rbm
-         fT/YVkHmcGvxX54gxT/0ZjYvu2bWW8MTLdmtNQFwiv9O/0HAiMkYd4StfI29P+Rw7sJO
-         xZ26S4pX22QV8eO+LOZvXi3PXllFW0eUgA9bQPdv2LtM/YKf/7lYMTJcFjyXZMzWoRAu
-         IixgBVeIrIQ94WxmaVONIO0hS5M9qFpDA2fqVE/cmuACoeHmX8qSymAr+vrIbjaPTi2c
-         7hRJAUWFtz4zexIhojRlMdKEQa4mtmMKemtE3Q02/pfc55eN1BPP37EJBOmkqRfRR2Ek
-         IAIQ==
-X-Gm-Message-State: ACgBeo0ZSZHNEUlh8XtsOBntvN0+Ij3NVRxo6OBBf8VONlX+JzNeB/6a
-        EsnnQOxM0X/HeWqZyisq6g==
-X-Google-Smtp-Source: AA6agR6qEtPWKu6LQNhC/sCZhdW870Xl86PU7mC8mmdhENczblUR53y2AS/pkKzRkJkzddn98twsjw==
-X-Received: by 2002:a92:d80f:0:b0:2de:d3bc:d553 with SMTP id y15-20020a92d80f000000b002ded3bcd553mr2572195ilm.269.1659453006374;
-        Tue, 02 Aug 2022 08:10:06 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id v18-20020a056e020f9200b002dbfcfa3233sm5871998ilo.37.2022.08.02.08.10.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Aug 2022 08:10:06 -0700 (PDT)
-Received: (nullmailer pid 116902 invoked by uid 1000);
-        Tue, 02 Aug 2022 15:10:04 -0000
-Date:   Tue, 2 Aug 2022 09:10:04 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        shawnguo@kernel.org, alistair23@gmail.com,
-        linus.walleij@linaro.org, s.hauer@pengutronix.de,
-        andreas@kemnade.info, krzysztof.kozlowski+dt@linaro.org,
-        rydberg@bitmath.org, dmitry.torokhov@gmail.com
-Subject: Re: [PATCH v8 2/4] dt-bindings: input: Add Cypress TT2100
- touchscreen controller
-Message-ID: <20220802151004.GA112502-robh@kernel.org>
-References: <20220802125827.34509-1-alistair@alistair23.me>
- <20220802125827.34509-3-alistair@alistair23.me>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m0b6Z4o9N99dBrxvZIzGAcIl3UdOT7UmGWjcS9K8gvk=;
+        b=Qg7fyfC++hFM0dYBZocpSK1PxoJRBeFppxQOZEmjmgK8ZEIrdmr6xsjkyCd+nB8/H1
+         EiELLg33s8rh1xbO/gVosWstheFUGHkMpVcOb5MUgFQkZaTo1ktuoP3BWR2xvOEvn8Go
+         vu/erGy/WoH+f9nJ7XMvqrRyK9DgXNb7ucchJJBjGcRldHvW85qxffPk5eREILUtahXi
+         lIZEXBNqYaVciPa+GNuuRFb/Vy/CMGt1Zt+jMmcMKWsLQJ40BSUX1rbVRisUQtJ5X64+
+         bRIZNyigmj3kMO/EZmE8eVT8DJPT1nUwYb9SBI6eIpjVcqkbbp0jd2eLffd8p2GxRxUn
+         yfqw==
+X-Gm-Message-State: ACgBeo3CdaBnTCs7Qw5U3OGIryraPB1LUQM4sbZOIoH/V8Els61LT6ce
+        N215r4MN52+5MkUbop0TrtlpUC/Ku+brV+S08dw=
+X-Google-Smtp-Source: AA6agR4RPpRQhvb7LWsXW4yIc4rxDjRbpzkdw0GMMn/85ECVHC2rpuwUUAQ6N31ADZc8T9TOjyOz2lJF1qgthg3xYNw=
+X-Received: by 2002:a0d:ea57:0:b0:31f:4ebd:99f7 with SMTP id
+ t84-20020a0dea57000000b0031f4ebd99f7mr18123450ywe.280.1659454699984; Tue, 02
+ Aug 2022 08:38:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220802125827.34509-3-alistair@alistair23.me>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <bb1df380b64dd708f480261548fb303046352878.1659296372.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <bb1df380b64dd708f480261548fb303046352878.1659296372.git.christophe.jaillet@wanadoo.fr>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Tue, 2 Aug 2022 08:38:42 -0700
+Message-ID: <CANRwn3RqbhbK-aGa5aAc9gHDU446Qyk_9-HJmN51q=y=HpweNg@mail.gmail.com>
+Subject: Re: [PATCH] HID: wacom: Simplify comments
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Ping Cheng <ping.cheng@wacom.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Input <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 02, 2022 at 10:58:25PM +1000, Alistair Francis wrote:
-> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
-> documentation. It can use I2C or SPI bus.
-> This touchscreen can handle some defined zone that are designed and
-> sent as button. To be able to customize the keycode sent, the
-> "linux,code" property in a "button" sub-node can be used.
-> 
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+On Sun, Jul 31, 2022 at 12:51 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> Remove a left-over from commit 2874c5fd2842 ("treewide: Replace GPLv2
+> boilerplate/reference with SPDX - rule 152").
+> An empty comment block can be removed.
+>
+> While at it remove, also remove what is supposed to be the path/filename of
+> the file.
+> This is really low value... and wrong since commit 471d17148c8b
+> ("Input: wacom - move the USB (now hid) Wacom driver in drivers/hid")
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->  .../input/touchscreen/cypress,tt21000.yaml    | 101 ++++++++++++++++++
->  1 file changed, 101 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml b/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> new file mode 100644
-> index 000000000000..3fc4b7011040
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> @@ -0,0 +1,101 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/cypress,tt21000.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cypress TT2100 touchscreen controller
-> +
-> +description: The Cypress TT2100 series (also known as "CYTTSP5" after
-> +  the marketing name Cypress TrueTouch Standard Product series 5).
-> +
-> +maintainers:
-> +  - Alistair Francis <alistair@alistair23.me>
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: cypress,tt21000
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: Regulator for voltage.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  linux,keycodes:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: EV_ABS specific event code generated by the axis.
+>  drivers/hid/wacom_sys.c | 5 -----
+>  1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> index 194a2e327591..21612fdae9c3 100644
+> --- a/drivers/hid/wacom_sys.c
+> +++ b/drivers/hid/wacom_sys.c
+> @@ -1,13 +1,8 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> - * drivers/input/tablet/wacom_sys.c
+> - *
+>   *  USB Wacom tablet support - system specific code
+>   */
+>
+> -/*
+> - */
+> -
+>  #include "wacom_wac.h"
+>  #include "wacom.h"
+>  #include <linux/input/mt.h>
+> --
+> 2.34.1
+>
 
-See commit d853cec7306a ("dt-bindings: input: Use common 
-'linux,keycodes' definition") in next.
-
-Rob
+LGTM.
+Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
