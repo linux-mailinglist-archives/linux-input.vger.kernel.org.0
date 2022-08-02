@@ -2,110 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5B0758791D
-	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 10:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BF4E587CBE
+	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 14:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236222AbiHBIgR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Aug 2022 04:36:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
+        id S236315AbiHBM7W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Aug 2022 08:59:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236089AbiHBIgO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 04:36:14 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C86BF43;
-        Tue,  2 Aug 2022 01:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1659429331;
-        bh=iIYXOeF3+KaJ7IbFEL8mFs74uWBNxD2A1YQSgpC/z8o=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=SYEej6jMKWGnTCirupgWqUuYA7cFbocaY0g/J0oh9c2q+DlGLqJJCv9jgCrjBxvR7
-         dfqqttb66pIhq+Hd9wA/B4r3Pi04DnIOADOe2Z65z3OXYfxIMjJ51DqL3RN1ORP1hZ
-         jUX536/oK10qjdJoN6Uo4hwLRPFpkskz1he/jaB8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.166.88]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mg6Zq-1nnLEj1NPy-00hc2r; Tue, 02
- Aug 2022 10:35:31 +0200
-Message-ID: <16dfaab2-bce5-6f07-7c18-d568f4719d75@gmx.de>
-Date:   Tue, 2 Aug 2022 10:35:27 +0200
+        with ESMTP id S237117AbiHBM7N (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 08:59:13 -0400
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C79AD371B6;
+        Tue,  2 Aug 2022 05:58:41 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 148623200930;
+        Tue,  2 Aug 2022 08:58:35 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 02 Aug 2022 08:58:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=cc:cc:content-transfer-encoding:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1659445115; x=1659531515; bh=lF
+        k/fEqBGfRzPVeA4zR92b29OEVwLUgqcUO6+ieSCuw=; b=De3Ozp7T3KJr7SZH9B
+        bdvwSXWKjdJcwUl3KPk2abFFoUT5VfnYQTgF9xQw0RMpDq708rwYzTLfy1qx93gW
+        JxWODCyv43eBQrL2MsqfRw1o/F4BsGIWOyYKUOaNDIxmpfZy4L1tdaf89IoM2n6G
+        kpNDUhZa5XJBJF4VCFWPEAYhHTqTs0LW473Tiz0wS3sSLbXUn2ggf22jgu6ztEfm
+        wrMLhVsCN0K8Y4zX4KYqyaagq2xEIvswfrcpcD+lTvylh9mlAcmjW0BRS/qDlGK+
+        sZ3uFYOiV9O+8ZN+y480hqkqKu3gZ8oF6dN55/Wk6eFVwQ56tlfxduRDSco/VgZj
+        6qdw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1659445115; x=1659531515; bh=lFk/fEqBGfRzP
+        VeA4zR92b29OEVwLUgqcUO6+ieSCuw=; b=zA75VwDG+ZdUQsq4YEMlA09bxhBoc
+        u3cEMDCk5J+/KKKaCwQAdLTlBlHUPLAiOe48l9P68E54jqGNp8OQ+Pz16GS2UqBc
+        +4GZus9hPXfcZZcuHrAziWtf7cFMr6EJ7FJY/NTQiDNDby11bF46vY1pLCMHq1xl
+        vrgPD8P84XvYXWPVMqi9QttikKwMJ9MmyQXz+3ijb75LoVwCLagoBMHvJWI0MruR
+        EEqk/yoyF5geYd3Mp7MUyklrYPpAHmFXyPADqBZeDOXxmQMAu1+pcwYwVs1CQz0p
+        Su8Ujy4ocy0Qo1fK27A81Sw2VF56OMEMyktYzqNUzOqxuP/MezqChfdJw==
+X-ME-Sender: <xms:ex_pYgIsBpK7I1jSMD_iM468W3TmFlAMzxHA_41aN53rhR8pz23rdA>
+    <xme:ex_pYgKl-E1dbVT82y3RgthvCmZ-H-Mi85eh0jctP-qvarQIV_M3Sm0wjz25I7AVt
+    smnpbDT4nYs6aX8SeE>
+X-ME-Received: <xmr:ex_pYgtmVmhq_qTUOdVjy8cm29_q-qQjW3CGH1yHH4jOt8QEUQgyHCed6uNy6D6I1_gGYegBQnEk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvhedgheejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgoufhorhhtvggutfgvtghiphdvucdlgedtmdenuc
+    fjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheptehlihhsthgr
+    ihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqe
+    enucggtffrrghtthgvrhhnpeegtddvffefffejkeeggfegteffffdtueevkeefvdejveet
+    vdeuuddvvddtiefgleenucffohhmrghinheplhifnhdrnhgvthdpghhithhhuhgsrdgtoh
+    hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghl
+    ihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:ex_pYtbAfu0vzyPON07SxqCbgYoXmrkfWCNBGxJopFbPPvXiJo3Qog>
+    <xmx:ex_pYnYjxJU1kQb4jk_LiAoWquw1E40uBJB22HaSh4d_Od8-narLmw>
+    <xmx:ex_pYpC5DYJry9xxwS1avRAoaBZewP9bHnWi9Jho_n-5kprYEH4FpQ>
+    <xmx:ex_pYrSVtVCE8cBrdMzyJ6iBSi9vs5dbVRrCndVbFUMUwFZrPMtL1g>
+Feedback-ID: ifd214418:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 2 Aug 2022 08:58:30 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     shawnguo@kernel.org, alistair23@gmail.com, robh+dt@kernel.org,
+        linus.walleij@linaro.org, s.hauer@pengutronix.de,
+        andreas@kemnade.info, krzysztof.kozlowski+dt@linaro.org,
+        rydberg@bitmath.org, dmitry.torokhov@gmail.com,
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v8 0/4] Add support for the Cypress cyttsp5
+Date:   Tue,  2 Aug 2022 22:58:23 +1000
+Message-Id: <20220802125827.34509-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Input: check the return value of ioremap() in
- gscps2_probe()
-Content-Language: en-US
-To:     studentxswpy@163.com, James.Bottomley@HansenPartnership.com,
-        dmitry.torokhov@gmail.com, linux-parisc@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Hacash Robot <hacashRobot@santino.com>
-References: <20220802072033.3211980-1-studentxswpy@163.com>
-From:   Helge Deller <deller@gmx.de>
-In-Reply-To: <20220802072033.3211980-1-studentxswpy@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jmwb6AnzQ+6m9q1J6y/EkOGl4AmWemJ/9d1eOhtb8NIS0nKGBIE
- Ou+yg5arQBDV2IRe1EL8CUn/XAyv9MfjI2x80Ll3TqTS4hvPyLw79oiPtma+ii1w+cgVa1w
- +crCHwsFROsR1iv1+e3D3JftDfdpDomkGuCB91b20n1Db4MIywvQFPiAYZhewgH2gYKpG5b
- /ksCrfmQabaXngLDIV9VA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wt2UlAJTeOM=:A/aJZ/ayLUu0oGpwIN4x+g
- A3Qz8f4MCASFyOuKcR8hMdHfM8vk9s05OjrHxlReLkShm8vEQugqooKYkvVmK66uA61o2kuv1
- ETbutf8VHHPOpaP0I+4P3BQYMuZmJuW9PD3vYLPNafJvPFyi1uFoFJ2TZ4vx5bfGl1Hi+1cY3
- EAHutgwGAz/zcybE+Swq0CyQ/5QRdGnbC5/4fyGtuBCxkc9gMLtkUhTfA0wn9VTKnJzck4XD9
- DIqhk8faETRfaTxvLMumHyPAZAx6GIwY2c1/RnrKR+5LHN/vo44HyHykuQfQH40zsO4a2lKeN
- HdQLi1WU92TS7azRs5dRTZb3V71Evyg78baSL3yKhIcY0RAgkSB6NSP57hhr5Ta5mJMdsZvmO
- DbWss17/ZMra8rgwAxWsChsgB3fnS4MkQLlhn1n58nDSyTLCsRoFzBYQhL20pl4wIUy4ScqQC
- pZGj0clzK8ydEh29JsySz8+VGxDT3lpOP82Y4iRM9erus6xNFS9wBl7z5X/k0ljW4Lvn8v1vj
- 6Spjtt0YHeLrMMdbOz79xrQ6jM9uyGzXXfNthFVbwSr8PdhmfF2S1RH7c/9wgW0NIxh2k5CQB
- QsXtCnbl1H1iA1YWSZRyejp48iaDEPAhxlmCFhu849PJdHwVb71zeiiDfDc3+02z2ZccjIrsm
- PR8RYDz4/6Gb4v24X8nQyhLoViJEwBK5oc8zcaueBghfNBJ1/doZ5YxqFD8QM1xJxhciFIFP9
- Xvyj6Pd//qmJsHNnJH47j53O5pRZRwPP1Lsk9lZ8DugZg2qeNs5uaVa3Rq0YynwMbsXEIuVNh
- IUvOKQJ8U3BUx8b/QGjEhgUX8K7o+T+w/6JJukkA21oSV9eCOBe1dffbEss5a4IbYpOkWVUzP
- qKPU+yhff7zfNO54AZY7NdKuSo6BklmAfNZpKXQslF/1z5PPH8JwG9ZR0E9e+O+yewImk13sQ
- tkNRyRrF7zpEWmL2fOWiQ8GVNTZOZHuEZ6A49F7gnFHGM4AhRteB+hWJXm6L9Bd5gaCjSys3k
- y1aIXTwtyR6YhqWb3ypqOgT/9V5ipLWWBQfp64Y4HqexJh/UVeCtdKRvCOz3DTTrDxA4Ow1Rp
- uAAqv5PgD1yFpfkQAv/m5h+D+KIf9GA1ViF
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 8/2/22 09:20, studentxswpy@163.com wrote:
-> From: Xie Shaowen <studentxswpy@163.com>
->
-> The function ioremap() in gscps2_probe() can fail, so
-> its return value should be checked.
->
-> Fixes: 4bdc0d676a643 ("remove ioremap_nocache and devm_ioremap_nocache")
-> Reported-by: Hacash Robot <hacashRobot@santino.com>
-> Signed-off-by: Xie Shaowen <studentxswpy@163.com>
+This patch series builds on top of [1] and adds support for the cyttsp5
+touchscreen controller for the reMarkable 2.
 
-I've applied it to the parisc git tree.
+I first tried to add an I2C HID device. Although the cyttsp5 has some HID
+looking aspects it is not HID compatible. Just in trying to probe the device
+I found:
+ - The HID descriptor has extra padding
+ - The HID descriptor sets the high bytes of the descriptor length
+ - The HID descriptor has extra unrecognised tags
+ - The HID reset command doesn't appear to work
 
-Thanks!
-Helge
+I don't think there is a way to use the I2C HID framework with the cyttsp5.
+For anyone interested you can see the work here [2]. In that branch though I
+can only obtain a HID descriptor, nothing else works without more core
+changes.
 
-> ---
->  drivers/input/serio/gscps2.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/input/serio/gscps2.c b/drivers/input/serio/gscps2.c
-> index a9065c6ab550..da2c67cb8642 100644
-> --- a/drivers/input/serio/gscps2.c
-> +++ b/drivers/input/serio/gscps2.c
-> @@ -350,6 +350,10 @@ static int __init gscps2_probe(struct parisc_device=
- *dev)
->  	ps2port->port =3D serio;
->  	ps2port->padev =3D dev;
->  	ps2port->addr =3D ioremap(hpa, GSC_STATUS + 4);
-> +	if (!ps2port->addr) {
-> +		ret =3D -ENOMEM;
-> +		goto fail_nomem;
-> +	}
->  	spin_lock_init(&ps2port->lock);
->
->  	gscps2_reset(ps2port);
+So instead I rebased the series from [1]. Converted to the new yaml DTS
+documentation, added regulator support and fixed a x/y miscalculation bug.
+
+1: https://lwn.net/ml/linux-kernel/20180703094309.18514-1-mylene.josserand@bootlin.com/
+2: https://github.com/alistair23/linux/commits/rM2-mainline-cyttsp5-hid
+
+v8:
+ - Rebase and resend
+v7:
+ - Fix device tree warnings
+v6:
+ - Use reg for the button properties
+v5:
+ - Address review comments from v4
+
+Alistair Francis (4):
+  Input: Add driver for Cypress Generation 5 touchscreen
+  dt-bindings: input: Add Cypress TT2100 touchscreen controller
+  ARM: imx_v6_v7_defconfig: Enable the cyttsp5 touchscreen
+  ARM: dts: imx7d-remarkable2: Enable the cyttsp5
+
+ .../input/touchscreen/cypress,tt21000.yaml    | 101 ++
+ arch/arm/boot/dts/imx7d-remarkable2.dts       | 100 ++
+ arch/arm/configs/imx_v6_v7_defconfig          |   1 +
+ drivers/input/touchscreen/Kconfig             |  16 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/cyttsp5.c           | 902 ++++++++++++++++++
+ 6 files changed, 1121 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+ create mode 100644 drivers/input/touchscreen/cyttsp5.c
+
+-- 
+2.37.1
 
