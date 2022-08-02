@@ -2,112 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FB0D587F0B
-	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 17:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20125588040
+	for <lists+linux-input@lfdr.de>; Tue,  2 Aug 2022 18:29:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbiHBPiW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Aug 2022 11:38:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40466 "EHLO
+        id S237512AbiHBQ3B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Aug 2022 12:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbiHBPiV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 11:38:21 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A3C10FEA;
-        Tue,  2 Aug 2022 08:38:20 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-31f443e276fso144872517b3.1;
-        Tue, 02 Aug 2022 08:38:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m0b6Z4o9N99dBrxvZIzGAcIl3UdOT7UmGWjcS9K8gvk=;
-        b=Qi3am3BQET1o09/pbzliCWfM0TmZ6chfbhojviwnlEK/icgACHA0ax/O0mb/eIcx/u
-         To64cTh+brgbDk7NohdgpdLwlPEG1R4i1yobwspAdwWLrfpfmbIDHE3gyUU4ClsVM/Dc
-         olqdpQt/04EuOWFVBEWjHbtubRJ2dD6CtjVMzLyHyhzsZykoWXDH2MApMIHjXEJBxcp2
-         Xw7E3fkyeTLFI8WyUhH1BVpVox9fUaaa4r8wkSCc3s7x8GQONIMUU9sfuZlLdO4Jpjzn
-         DchTnIaJOGYwPqTn/1ZR2Uj9FLl/HQDKMgbJs7nFewlcpv6hhqFI6klWNw4SLqZCCcTu
-         kBAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m0b6Z4o9N99dBrxvZIzGAcIl3UdOT7UmGWjcS9K8gvk=;
-        b=Qg7fyfC++hFM0dYBZocpSK1PxoJRBeFppxQOZEmjmgK8ZEIrdmr6xsjkyCd+nB8/H1
-         EiELLg33s8rh1xbO/gVosWstheFUGHkMpVcOb5MUgFQkZaTo1ktuoP3BWR2xvOEvn8Go
-         vu/erGy/WoH+f9nJ7XMvqrRyK9DgXNb7ucchJJBjGcRldHvW85qxffPk5eREILUtahXi
-         lIZEXBNqYaVciPa+GNuuRFb/Vy/CMGt1Zt+jMmcMKWsLQJ40BSUX1rbVRisUQtJ5X64+
-         bRIZNyigmj3kMO/EZmE8eVT8DJPT1nUwYb9SBI6eIpjVcqkbbp0jd2eLffd8p2GxRxUn
-         yfqw==
-X-Gm-Message-State: ACgBeo3CdaBnTCs7Qw5U3OGIryraPB1LUQM4sbZOIoH/V8Els61LT6ce
-        N215r4MN52+5MkUbop0TrtlpUC/Ku+brV+S08dw=
-X-Google-Smtp-Source: AA6agR4RPpRQhvb7LWsXW4yIc4rxDjRbpzkdw0GMMn/85ECVHC2rpuwUUAQ6N31ADZc8T9TOjyOz2lJF1qgthg3xYNw=
-X-Received: by 2002:a0d:ea57:0:b0:31f:4ebd:99f7 with SMTP id
- t84-20020a0dea57000000b0031f4ebd99f7mr18123450ywe.280.1659454699984; Tue, 02
- Aug 2022 08:38:19 -0700 (PDT)
+        with ESMTP id S237224AbiHBQ3B (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Aug 2022 12:29:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD9E33E0E;
+        Tue,  2 Aug 2022 09:29:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 51B95B81FA2;
+        Tue,  2 Aug 2022 16:28:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90B8CC433C1;
+        Tue,  2 Aug 2022 16:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659457738;
+        bh=Hj/CQNaxBVLSLl5kQyeXMjIf/ndHxdLkWD0KIYWve38=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vy61WoC9aEy7G5ERSRAVWNEYFlE7mQfxgGlhedlsD7Pt/Gqb9CI23xUqgX0+894gI
+         VYkMqFSYCrais5okjO6NVFxS8XMdzhSSJ5rC4rGZvjLROuT4lMXd2hrZ0HR1+N/Yu8
+         3g01W8slD9mUK1yR+hveeaQpHgPrZqPTpxiu7X18=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-input@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Input: elan_i2c - convert to use dev_groups
+Date:   Tue,  2 Aug 2022 18:28:54 +0200
+Message-Id: <20220802162854.3015369-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <bb1df380b64dd708f480261548fb303046352878.1659296372.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <bb1df380b64dd708f480261548fb303046352878.1659296372.git.christophe.jaillet@wanadoo.fr>
-From:   Jason Gerecke <killertofu@gmail.com>
-Date:   Tue, 2 Aug 2022 08:38:42 -0700
-Message-ID: <CANRwn3RqbhbK-aGa5aAc9gHDU446Qyk_9-HJmN51q=y=HpweNg@mail.gmail.com>
-Subject: Re: [PATCH] HID: wacom: Simplify comments
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Linux Input <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1775; i=gregkh@linuxfoundation.org; h=from:subject; bh=Hj/CQNaxBVLSLl5kQyeXMjIf/ndHxdLkWD0KIYWve38=; b=owGbwMvMwCRo6H6F97bub03G02pJDEkvA47sKH1Y2DPx+BLVr9dWi0zSlFpdFen7Ue10lI6QIN+i u8oHOmJZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAilx4wzM+0uaA+PTbX3Poe15vjca kW8puPvmNY0PWmtaEijumxzpbw2M6ow/45ah8ZAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jul 31, 2022 at 12:51 PM Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
->
-> Remove a left-over from commit 2874c5fd2842 ("treewide: Replace GPLv2
-> boilerplate/reference with SPDX - rule 152").
-> An empty comment block can be removed.
->
-> While at it remove, also remove what is supposed to be the path/filename of
-> the file.
-> This is really low value... and wrong since commit 471d17148c8b
-> ("Input: wacom - move the USB (now hid) Wacom driver in drivers/hid")
->
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/hid/wacom_sys.c | 5 -----
->  1 file changed, 5 deletions(-)
->
-> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-> index 194a2e327591..21612fdae9c3 100644
-> --- a/drivers/hid/wacom_sys.c
-> +++ b/drivers/hid/wacom_sys.c
-> @@ -1,13 +1,8 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * drivers/input/tablet/wacom_sys.c
-> - *
->   *  USB Wacom tablet support - system specific code
->   */
->
-> -/*
-> - */
-> -
->  #include "wacom_wac.h"
->  #include "wacom.h"
->  #include <linux/input/mt.h>
-> --
-> 2.34.1
->
+There is no need for a driver to individually add/create device groups,
+the driver core will do it automatically for you.  Convert the elan_i2c
+driver to use the dev_groups pointer instead of manually calling the
+driver core to create the group and have it be cleaned up later on by
+the devm core.
 
-LGTM.
-Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "jingle.wu" <jingle.wu@emc.com.tw>
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+v2: change text based on Dmitry's review, it's not a race condition,
+    it's just less code to worry about in a driver.
+
+ drivers/input/mouse/elan_i2c_core.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index e1758d5ffe42..d4eb59b55bf1 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -1311,12 +1311,6 @@ static int elan_probe(struct i2c_client *client,
+ 		return error;
+ 	}
+ 
+-	error = devm_device_add_groups(dev, elan_sysfs_groups);
+-	if (error) {
+-		dev_err(dev, "failed to create sysfs attributes: %d\n", error);
+-		return error;
+-	}
+-
+ 	error = input_register_device(data->input);
+ 	if (error) {
+ 		dev_err(dev, "failed to register input device: %d\n", error);
+@@ -1442,6 +1436,7 @@ static struct i2c_driver elan_driver = {
+ 		.acpi_match_table = ACPI_PTR(elan_acpi_id),
+ 		.of_match_table = of_match_ptr(elan_of_match),
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
++		.dev_groups = elan_sysfs_groups,
+ 	},
+ 	.probe		= elan_probe,
+ 	.id_table	= elan_id,
+-- 
+2.37.1
+
