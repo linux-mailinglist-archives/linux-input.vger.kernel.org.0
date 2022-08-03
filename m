@@ -2,269 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B1A3588781
-	for <lists+linux-input@lfdr.de>; Wed,  3 Aug 2022 08:41:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04019588809
+	for <lists+linux-input@lfdr.de>; Wed,  3 Aug 2022 09:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231570AbiHCGlY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Aug 2022 02:41:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52662 "EHLO
+        id S234589AbiHCHhC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Aug 2022 03:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233734AbiHCGlT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Aug 2022 02:41:19 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF633337A;
-        Tue,  2 Aug 2022 23:41:18 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 19F2E5C006B;
-        Wed,  3 Aug 2022 02:41:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 03 Aug 2022 02:41:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
-         s=fm2; t=1659508878; x=1659595278; bh=jUaLFYINvqKx+M6zsZxzZlQ1O
-        Yc3iNm9/LdyYF2RyoY=; b=kp/uPnwEv75XWejnosTifI0nWdSWU4vDNb2Aw2OCy
-        TCql3HI3J+Kwj1EBzZfBumRCa+u0Rdt7i5a/or9NAyse4Pr9knu+sPw0OcNpDXFi
-        dZqnbjtoXoO9L8SS/Y+oNbjIlfTw0T0gdYFGFRlqhq4txstzCSFfiDMav/5QmJCd
-        OuU3Z3SOo4C1KVwcBK5xxUhcgSUhrbiOU2HIHIKUUZXGIFI9qz0k4bnbulCHN9Pc
-        Pw3y6gvEx12OPP39ScGG2lqAY0fZlRhRuRBU91ocjNWHY+AlJgoAxEWb6z3PSnJ/
-        IujJSCt9bqSSxBuXD91zYXSNy5XBqFN0YBaLVT/mJvhIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:message-id
-        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1659508878; x=1659595278; bh=jUaLFYINvqKx+M6zsZxzZlQ1OYc3iNm9/Ld
-        yYF2RyoY=; b=oMqxDEiTsRZYf7Xj1HDz3XoR6L7ex1BCWqzHaCSfXrNor5v2hdA
-        PtNn/PsZayEKmBErEbeH91wL1Xg3ydfrVnIrq1LIsVV4h5VEF06n0xEMVI4Gc4yk
-        6ClurOrYRq7oclh/ccHMhX1vxnwUbsyYFpmFF4ZzmA92sWq3cB2Cg9IgPeDqxJQu
-        /62G42Y8Vgh9TCQidP+1c1QJwDFqAMWDDz/GOHsGWjxveg9H1WBl+5V90iLc41Go
-        omS7hAq+DTdq67jEnloyJ8HSjiQAt6zJFYY9kcueKYe/2u6GXw4LYMFZhs7/ZDfH
-        q/HR+ufNWpN6k8dxtUz8OiStYrffWt3TnAg==
-X-ME-Sender: <xms:jRjqYu6TNsej7_GVFK3zdRGbcFBLmYwJb4m5toBJiZXfszEG9GDRNQ>
-    <xme:jRjqYn7sguatoMYxtLB9ryMQfpseTzD20lk7zNQ4xRt4wpKinO4fEGq13q8Tx2qns
-    V0v4-e3l3HQjI5u0b4>
-X-ME-Received: <xmr:jRjqYtc9wAUgfaFjssufTlP05DvtBN6zP1RUIgzPwaXKe93l9TMl5DDaD-hC>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddviedgudduudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
-    dtredttdenucfhrhhomhepfdfnuhhkvgcuffdrucflohhnvghsfdcuoehluhhkvgeslhhj
-    ohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpefgudejtdfhuddukefffeekiefftd
-    dtvdfhgeduudeuffeuhfefgfegfeetvedvgeenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghv
-X-ME-Proxy: <xmx:jRjqYrLqgOPzkz4lrs2CPaAKVyp09jE0r8-HKp1kBtivDNaYKu5MRg>
-    <xmx:jRjqYiKeG6WS00GvdQjQ1bKhqJMvtpbzL5f405QUhHKRzJo-RdIfnw>
-    <xmx:jRjqYsx8E-F0XyGLP1BuURx4hafTt099jQCzB0-fYy1mBQ_PXtum7w>
-    <xmx:jhjqYnH1FLP5j3ic-aIvDCC55CKhtHTH8u_1SAI5aEloBGaeVuD87Q>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 3 Aug 2022 02:41:15 -0400 (EDT)
-From:   "Luke D. Jones" <luke@ljones.dev>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, basavaraj.natikar@amd.com,
-        nehal-bakulchandra.shah@amd.com, "Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH 1/1] HID: amd_sfh: Add keyguard for ASUS ROG X13 tablet
-Date:   Wed,  3 Aug 2022 18:41:09 +1200
-Message-Id: <20220803064109.766342-1-luke@ljones.dev>
-X-Mailer: git-send-email 2.37.1
+        with ESMTP id S234261AbiHCHhB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Aug 2022 03:37:01 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 948A61EED4;
+        Wed,  3 Aug 2022 00:37:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659512220; x=1691048220;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uDol4quIHyCkUUQN0yS9RT26ovaTXTi4u51IGycUZO4=;
+  b=XR+/IVPs5DUHmwh+btacUt+0sBjZdqlUDnZ1N+PoMY0DQPgz/LEB3t6x
+   cO8xRqQTjsIF0zcvOpQ3KrFCP6J31EWvQc5AR57P2u7DdcBYfHJWHSwYd
+   JuN1A07pNc564UQMwQb58+9qabEGnsGHrvPtOFZABFbKHni61c/2Saqz3
+   O978sL3+h2GlMGHr6JYtPoiKfhx/iiWYH8Y2KFu788l1IJ/Cgf7Seo42x
+   Ai2Eu3gs0B4gdI+5oZvNnDkegVOo2bh87gtz+ioPVMA+2mh/tA05HH4Id
+   oL4UT9k8zcBnx5tOHQX3mL27ZUavKpBZ4qNOYbDAfn7S4dGraBP7kyMu8
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="290826652"
+X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
+   d="scan'208";a="290826652"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 00:36:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
+   d="scan'208";a="553225929"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 03 Aug 2022 00:36:54 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oJ8w1-000GzL-2r;
+        Wed, 03 Aug 2022 07:36:53 +0000
+Date:   Wed, 3 Aug 2022 15:36:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Alistair Francis <alistair@alistair23.me>,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, shawnguo@kernel.org, alistair23@gmail.com,
+        robh+dt@kernel.org, linus.walleij@linaro.org,
+        s.hauer@pengutronix.de, andreas@kemnade.info,
+        krzysztof.kozlowski+dt@linaro.org, rydberg@bitmath.org,
+        dmitry.torokhov@gmail.com,
+        Alistair Francis <alistair@alistair23.me>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
+        <mylene.josserand@bootlin.com>, Peter Geis <pgwipeout@gmail.com>
+Subject: Re: [PATCH v8 1/4] Input: Add driver for Cypress Generation 5
+ touchscreen
+Message-ID: <202208031503.3PE5bw9a-lkp@intel.com>
+References: <20220802125827.34509-2-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802125827.34509-2-alistair@alistair23.me>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for ROG X13 Flow 2-in-1 to disable the keyboard when
-the lid is flipped.
+Hi Alistair,
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
----
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  7 ++++-
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.h        |  1 +
- .../hid_descriptor/amd_sfh_hid_desc.c         | 27 +++++++++++++++++++
- .../hid_descriptor/amd_sfh_hid_desc.h         |  9 +++++++
- .../hid_descriptor/amd_sfh_hid_report_desc.h  | 19 +++++++++++++
- 5 files changed, 62 insertions(+), 1 deletion(-)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index dadc491bbf6b..243541d426d8 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -26,6 +26,7 @@
- #define ACEL_EN		BIT(0)
- #define GYRO_EN		BIT(1)
- #define MAGNO_EN	BIT(2)
-+#define KBGUARD_EN	BIT(15)
- #define HPD_EN		BIT(16)
- #define ALS_EN		BIT(19)
- 
-@@ -232,6 +233,9 @@ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
- 	if (HPD_EN & activestatus)
- 		sensor_id[num_of_sensors++] = HPD_IDX;
- 
-+	if (KBGUARD_EN & activestatus)
-+		sensor_id[num_of_sensors++] = KBGUARD_IDX;
-+
- 	return num_of_sensors;
- }
- 
-@@ -373,7 +377,8 @@ static int __maybe_unused amd_mp2_pci_suspend(struct device *dev)
- 
- 	for (i = 0; i < cl_data->num_hid_devices; i++) {
- 		if (cl_data->sensor_idx[i] != HPD_IDX &&
--		    cl_data->sensor_sts[i] == SENSOR_ENABLED) {
-+			cl_data->sensor_idx[i] != KBGUARD_IDX &&
-+			cl_data->sensor_sts[i] == SENSOR_ENABLED) {
- 			mp2->mp2_ops->stop(mp2, cl_data->sensor_idx[i]);
- 			status = amd_sfh_wait_for_response
- 					(mp2, cl_data->sensor_idx[i], SENSOR_DISABLED);
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-index 8c760526132a..4a86bc6038a2 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-@@ -36,6 +36,7 @@
- #define SENSOR_DISABLED    5
- 
- #define HPD_IDX		16
-+#define KBGUARD_IDX	15
- 
- #define AMD_SFH_IDLE_LOOP	200
- 
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
-index 76095bd53c65..f41d28ea7b93 100644
---- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
-@@ -57,6 +57,11 @@ int get_report_descriptor(int sensor_idx, u8 *rep_desc)
- 		memcpy(rep_desc, hpd_report_descriptor,
- 		       sizeof(hpd_report_descriptor));
- 		break;
-+	case KBGUARD_IDX: /* kbguard ? */
-+		memset(rep_desc, 0, sizeof(kbguard_report_descriptor));
-+		memcpy(rep_desc, kbguard_report_descriptor,
-+		       sizeof(kbguard_report_descriptor));
-+		break;
- 	default:
- 		break;
- 	}
-@@ -116,6 +121,16 @@ u32 get_descr_sz(int sensor_idx, int descriptor_name)
- 			return sizeof(struct hpd_feature_report);
- 		}
- 		break;
-+	case KBGUARD_IDX:
-+		switch (descriptor_name) {
-+		case descr_size:
-+			return sizeof(kbguard_report_descriptor);
-+		case input_size:
-+			return sizeof(struct kbguard_input_report);
-+		case feature_size:
-+			return sizeof(struct kbguard_feature_report);
-+		}
-+		break;
- 
- 	default:
- 		break;
-@@ -139,6 +154,7 @@ u8 get_feature_report(int sensor_idx, int report_id, u8 *feature_report)
- 	struct gyro_feature_report gyro_feature;
- 	struct magno_feature_report magno_feature;
- 	struct hpd_feature_report hpd_feature;
-+	struct kbguard_feature_report kbguard_feature;
- 	struct als_feature_report als_feature;
- 	u8 report_size = 0;
- 
-@@ -186,6 +202,11 @@ u8 get_feature_report(int sensor_idx, int report_id, u8 *feature_report)
- 		memcpy(feature_report, &hpd_feature, sizeof(hpd_feature));
- 		report_size = sizeof(hpd_feature);
- 		break;
-+	case KBGUARD_IDX:  /* auto disable keyboard when flip out */
-+		get_common_features(&kbguard_feature.common_property, report_id);
-+		memcpy(feature_report, &kbguard_feature, sizeof(kbguard_feature));
-+		report_size = sizeof(kbguard_feature);
-+		break;
- 
- 	default:
- 		break;
-@@ -210,6 +231,7 @@ u8 get_input_report(u8 current_index, int sensor_idx, int report_id, struct amd_
- 	struct accel3_input_report acc_input;
- 	struct gyro_input_report gyro_input;
- 	struct hpd_input_report hpd_input;
-+	struct kbguard_input_report kbguard_input;
- 	struct als_input_report als_input;
- 	struct hpd_status hpdstatus;
- 	u8 report_size = 0;
-@@ -262,6 +284,11 @@ u8 get_input_report(u8 current_index, int sensor_idx, int report_id, struct amd_
- 		report_size = sizeof(hpd_input);
- 		memcpy(input_report, &hpd_input, sizeof(hpd_input));
- 		break;
-+	case KBGUARD_IDX: /* kb guard */
-+		get_common_inputs(&kbguard_input.common_property, report_id);
-+		report_size = sizeof(kbguard_input);
-+		memcpy(input_report, &kbguard_input, sizeof(kbguard_input));
-+break;
- 	default:
- 		break;
- 	}
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-index 70b1b7abe2c6..98571a8597b3 100644
---- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-@@ -105,12 +105,21 @@ struct hpd_feature_report {
- 	struct common_feature_property common_property;
- } __packed;
- 
-+struct kbguard_feature_report {
-+	struct common_feature_property common_property;
-+} __packed;
-+
- struct hpd_input_report {
- 	struct common_input_property common_property;
- 	 /* values specific to human presence sensor */
- 	u8 human_presence;
- } __packed;
- 
-+struct kbguard_input_report {
-+	struct common_input_property common_property;
-+} __packed;
-+
-+
- int get_report_descriptor(int sensor_idx, u8 rep_desc[]);
- u32 get_descr_sz(int sensor_idx, int descriptor_name);
- u8 get_feature_report(int sensor_idx, int report_id, u8 *feature_report);
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
-index 697f2791ea9c..7a62fcec2c73 100644
---- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
-@@ -644,6 +644,25 @@ static const u8 als_report_descriptor[] = {
- 0xC0			/* HID end collection */
- };
- 
-+
-+static const u8 kbguard_report_descriptor[] = {
-+0x06, 0x43, 0xFF,  // Usage Page (Vendor Defined 0xFF43)
-+0x0A, 0x02, 0x02,  // Usage (0x0202)
-+0xA1, 0x01, // Collection (Application)
-+0x85, 0x11, //   Report ID (17)
-+0x15, 0x00, //   Logical Minimum (0)
-+0x25, 0x01, //   Logical Maximum (1)
-+0x35, 0x00, //   Physical Minimum (0)
-+0x45, 0x01, //   Physical Maximum (1)
-+0x65, 0x00, //   Unit (None)
-+0x55, 0x00, //   Unit Exponent (0)
-+0x75, 0x01, //   Report Size (1)
-+0x95, 0x98, //   Report Count (-104)
-+0x81, 0x03, //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-+0x91, 0x03, //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
-+0xC1, 0x00, // End Collection
-+};
-+
- /* BIOMETRIC PRESENCE*/
- static const u8 hpd_report_descriptor[] = {
- 0x05, 0x20,          /* Usage page */
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on hid/for-next shawnguo/for-next linus/master v5.19 next-20220802]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20220802-210032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: nios2-randconfig-s031-20220803 (https://download.01.org/0day-ci/archive/20220803/202208031503.3PE5bw9a-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/9c372983ef0b8eb7ad48c025a156f80943269af7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20220802-210032
+        git checkout 9c372983ef0b8eb7ad48c025a156f80943269af7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/input/touchscreen/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/cyttsp5.c:602:36: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] hid_desc_register @@     got int @@
+   drivers/input/touchscreen/cyttsp5.c:602:36: sparse:     expected restricted __le16 [usertype] hid_desc_register
+   drivers/input/touchscreen/cyttsp5.c:602:36: sparse:     got int
+
+vim +602 drivers/input/touchscreen/cyttsp5.c
+
+   597	
+   598	static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
+   599					      struct cyttsp5_hid_desc *desc)
+   600	{
+   601		struct device *dev = ts->dev;
+ > 602		__le16 hid_desc_register = HID_DESC_REG;
+   603		int rc;
+   604		u8 cmd[2];
+   605	
+   606		/* Set HID descriptor register */
+   607		memcpy(cmd, &hid_desc_register, sizeof(hid_desc_register));
+   608	
+   609		rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
+   610		if (rc) {
+   611			dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
+   612			return rc;
+   613		}
+   614	
+   615		rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
+   616							msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
+   617		if (rc <= 0) {
+   618			dev_err(ts->dev, "HID get descriptor timed out\n");
+   619			rc = -ETIMEDOUT;
+   620			return rc;
+   621		}
+   622	
+   623		memcpy(desc, ts->response_buf, sizeof(*desc));
+   624	
+   625		/* Check HID descriptor length and version */
+   626		if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
+   627		    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
+   628			dev_err(dev, "Unsupported HID version\n");
+   629			return -ENODEV;
+   630		}
+   631	
+   632		return 0;
+   633	}
+   634	
+
 -- 
-2.37.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
