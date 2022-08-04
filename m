@@ -2,178 +2,624 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B44589ED8
-	for <lists+linux-input@lfdr.de>; Thu,  4 Aug 2022 17:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D830589F18
+	for <lists+linux-input@lfdr.de>; Thu,  4 Aug 2022 18:06:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236471AbiHDPmQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Aug 2022 11:42:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44078 "EHLO
+        id S232484AbiHDQGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Aug 2022 12:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231617AbiHDPmP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Aug 2022 11:42:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F201F252BF;
-        Thu,  4 Aug 2022 08:42:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D3D761313;
-        Thu,  4 Aug 2022 15:42:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD07C433D7;
-        Thu,  4 Aug 2022 15:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659627733;
-        bh=Qq7NlW7jpulKxTpi/vp74Z763atoHCYyI0gLVo/h6WY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=c+mC/Ptmoqk64R5Onm2m28MP+eI0EVeW1BfEOk8Svmh8A9ywPO/rUtM1izNZnDu1i
-         95dmQp5l2wX65dfoq6c+kTevxOqknkLbUsb+SbsUaaaRa9gw7Pn/P36+3iDFlCmpdk
-         crAg6BWojkQu7YFqo1An79FtMjGLTU54lf+IC6bOcE0viT426MlP5kP6MdPBjekM3p
-         dPkDxvp2kW6Uxw9OIkk6mm0TLbjUrfGZu7QzDStOOcbnIZsDXxc7sr5NrBqA7T5nJ0
-         kIFZ9KprId96f64GYc+W4yw4EM6Nmlb7jQxeWlSZxlqfrgBAa9TZE2LxAULbiNgprH
-         j8F2Pad7oIqYg==
-Received: by mail-vk1-f180.google.com with SMTP id c22so7221889vko.7;
-        Thu, 04 Aug 2022 08:42:13 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0kB+MH2G+xK/QaToWWC2mokGHUy5QvKnyDtrg0KUe382wkUpr9
-        PfNE9ky47BUUsES2xhb0HBm7GY1lVhwB06XQdg==
-X-Google-Smtp-Source: AA6agR75oE+Wp/3SrMZokWfZBcG1lnqwFNBtXZ4BbBn6bhDGle+sjw5dsgaNvBf0d2CqY58Cs/qb1BDYtXNqctNdUIo=
-X-Received: by 2002:a1f:2dc2:0:b0:377:84fa:dbe5 with SMTP id
- t185-20020a1f2dc2000000b0037784fadbe5mr1192421vkt.15.1659627732775; Thu, 04
- Aug 2022 08:42:12 -0700 (PDT)
+        with ESMTP id S233472AbiHDQGp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Aug 2022 12:06:45 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C081144C;
+        Thu,  4 Aug 2022 09:06:43 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id z25so31513461lfr.2;
+        Thu, 04 Aug 2022 09:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=av5XyveaXOq4lfomx4NUPXmNERnCNgpBk1zL7MxIgKM=;
+        b=KdDxlVX9eeujoZBA/QigecGC24OzEXH5SX+b21lS2em+5kL/Ha5I6KrPrF6JnXfmg/
+         JqLVDILml+PhxVU+gW7jvA8gX+rLVSsmgFY5kiK8M+VTvUuKe15x/2+yk2eUuMb465FB
+         QjOrvYc7OPpSslGjLa95tSrzbrw0sCb9e0lbMTmXmdo58UTSJjl5zInoIN0cNdj8d+ZF
+         IQct6LFmMOmwiKF7OZhd7v2NJSN6I71OTBdC5IwdA32CDmDQ5dLBtbpctiTNg9lbE6lY
+         wkS/SOxOposJpLkXgb8a+XWFYHkGxIMiDjsY7FkP+CsBa2YfDjXiibeskcLFVmS2B5LX
+         //Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=av5XyveaXOq4lfomx4NUPXmNERnCNgpBk1zL7MxIgKM=;
+        b=joRAVpZHXvhvkfOM0/ovSV3g2XZZDkqt/jw6KkRqEHDP0Cwj+Ifbje57P/CI621RS5
+         vDVRaECJh/+9JrVPSHXeCpII45JIaRAuWreh4fEUyqf3wJkIS2JF0r8w8w0xx6oEnZqJ
+         e9NhP1eqxHf3anpxfGii/2qhBctKHaoiiuopNZnMqmLiIwP1W4fBO8g6AF/MkiP7zL59
+         kEvkBw5GA1CvW5DJqFtJ3RL4nmo3GeK5S1cNcY8VOjmBjajZgq0YibH+iCNvEvgt86Z0
+         HA68jDg5vH2KKbGXiShaE7Vm0g91drZsY5TvgsHPuJTY6KYBvk7T0nv2iUU6sjua3Vrw
+         6VFg==
+X-Gm-Message-State: ACgBeo1QJyHS14vaspqZk3fxK35CqseOTOB/tliDsI2sE8LaLucVWxze
+        a8DEhhp2Gxc90l0CqvPh5AN9lgOYm0E=
+X-Google-Smtp-Source: AA6agR5uXiYr9kll8tPdI85wq1Y9lyDG85wQn/SozQL1ZxlpylEa7x0zWS9JTQMpG6HbxCU+mORgSA==
+X-Received: by 2002:ac2:51af:0:b0:48a:f341:21a1 with SMTP id f15-20020ac251af000000b0048af34121a1mr864311lfk.625.1659629201496;
+        Thu, 04 Aug 2022 09:06:41 -0700 (PDT)
+Received: from localhost.localdomain (82-209-154-112.cust.bredband2.com. [82.209.154.112])
+        by smtp.gmail.com with ESMTPSA id h4-20020a2eb0e4000000b0025e2b567434sm169804ljl.9.2022.08.04.09.06.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Aug 2022 09:06:40 -0700 (PDT)
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH 1/2] HID: Add driver for RC Simulator Controllers
+Date:   Thu,  4 Aug 2022 18:10:40 +0200
+Message-Id: <20220804161041.4147310-1-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <YuJXMHoT4ijUxnRb@hovoldconsulting.com>
-In-Reply-To: <YuJXMHoT4ijUxnRb@hovoldconsulting.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 4 Aug 2022 09:42:01 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJJdEFspgJkJnC4jmeq+qaQjkRQU2-WTRmYVOzWrnKifQ@mail.gmail.com>
-Message-ID: <CAL_JsqJJdEFspgJkJnC4jmeq+qaQjkRQU2-WTRmYVOzWrnKifQ@mail.gmail.com>
-Subject: Re: Second-source devices and interrupt-mapping race
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 3:30 AM Johan Hovold <johan@kernel.org> wrote:
->
-> Hi Marc, Rob and Krzysztof,
->
-> When adding support for the new Lenovo Thinkpad X13s laptop, we realised
-> that it comes with two different touchpad controllers.
->
-> To enable some early adopters to use the alternate touchpad, I tried to
-> enable both nodes in the devicetree and have the i2c-hid driver bind to
-> the one that is actually present.
->
-> This turned out to be racy due to the hid driver in question enabling
-> async probing so that the populated and non-populated nodes can be
-> probed in parallel, which in turn lead to some interesting findings.
->
-> Specifically, it seems like the interrupt-domain mapping code is racy in
-> that it can return two different mappings for the same hwirq, and when
-> the hid driver enables one of them, this may end up looking like
-> spurious interrupts for the other mapping:
->
-> [  +0.014042] i2c_hid_of 0-002c: i2c_device_probe
-> [  +0.000001] i2c_hid_of 0-0015: i2c_device_probe
-> [  +0.000025] i2c_hid_of 0-002c: i2c_device_probe - irq mapped (166)
-> [  +0.000013] i2c_hid_of 0-0015: i2c_device_probe - irq mapped (167)
-> [  +0.000051] i2c_hid_of 0-002c: supply vddl not found, using dummy regulator
-> [  +0.000056] i2c_hid_of 0-0015: supply vddl not found, using dummy regulator
-> [  +0.000016] i2c_hid_of 0-002c: HID probe called for i2c 0x2c
-> [  +0.000374] i2c_hid_of 0-0015: HID probe called for i2c 0x15
-> ...
-> [  +0.000180] i2c_hid_of 0-002c: Requesting IRQ: 166
-> [  +0.000045] irq 167, desc: (____ptrval____), depth: 1, count: 0, unhandled: 0
-> [  +0.000014] ->handle_irq():  (____ptrval____), handle_bad_irq+0x0/0x220
-> [  +0.000015] ->irq_data.chip(): (____ptrval____), msm_gpio_irq_chip+0x0/0x108
-> [  +0.000011] ->action(): 0000000000000000
-> [  +0.000006]    IRQ_NOPROBE set
->
-> The interrupt is eventually disabled and the populated device fails to
-> probe. Note that this only happens intermittently.
->
-> This second-source example could obviously be dismissed as something
-> which is simply not supported (the boot firmware should have made sure
-> only the populated node was enabled), but what if there were actually
-> two separate devices sharing an interrupt and that now end up with two
-> different virq?
->
-> Async probing has been around for a while now and needs to be supported,
-> even if the platform bus doesn't use it (yet).
->
-> TL;DR:
->
-> 1. Marc, does the irq mapping code need to be serialised to handle the
-> valid case of two devices sharing an interrupt being probed in parallel?
-> It may not be a common setup, but correctness first?
->
-> I've just posted a patch that should address this here:
->
->         https://lore.kernel.org/r/20220728092710.21190-1-johan+linaro@kernel.org
->
->
-> 2. Rob, Krzysztof, I assume that handling second-source devices by
-> enabling multiple variants in the devicetree can not be considered
-> correct?
+Several RC Simulator Controllers are HID compliant with similar
+interface.
 
-Probably not, but there's not really any defined policy there. What
-that looks like in DT depends on the component. Displays are a common
-one and don't lend well to populating multiple in the DT. For those,
-the only solution so far is we require the 2nd source to be compatible
-with the default/1st. I think that was QCom chromebooks...
+Add support for these controllers:
+ - Phoenix RC (HID variant)
+ - Car VRC2.0
+ - Real Flight G5/G6/G7
+ - Aero Fly, FMS
+ - OrangeRX FrSky
 
-The easy answer is firmware should deal with figuring out what's
-actually there and update the DT accordingly.
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
+ Documentation/hid/index.rst |   1 +
+ Documentation/hid/rcsim.rst | 142 ++++++++++++++++
+ drivers/hid/Kconfig         |  11 ++
+ drivers/hid/Makefile        |   1 +
+ drivers/hid/hid-ids.h       |   5 +
+ drivers/hid/hid-rcsim.c     | 315 ++++++++++++++++++++++++++++++++++++
+ 6 files changed, 475 insertions(+)
+ create mode 100644 Documentation/hid/rcsim.rst
+ create mode 100644 drivers/hid/hid-rcsim.c
 
-> What about the related case of simply non-populated devices (e.g. laptop
-> variants without a touchscreen)?
+diff --git a/Documentation/hid/index.rst b/Documentation/hid/index.rst
+index e50f513c579c..e5813d264f37 100644
+--- a/Documentation/hid/index.rst
++++ b/Documentation/hid/index.rst
+@@ -17,3 +17,4 @@ Human Interface Devices (HID)
+    hid-alps
+    intel-ish-hid
+    amd-sfh-hid
++   rcsim
+diff --git a/Documentation/hid/rcsim.rst b/Documentation/hid/rcsim.rst
+new file mode 100644
+index 000000000000..1a031f7189cb
+--- /dev/null
++++ b/Documentation/hid/rcsim.rst
+@@ -0,0 +1,142 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=================================
++rcsim - RC Simulator Controllers
++=================================
++
++:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
++
++This driver let you use your own RC controller plugged
++into your computer using an HID compatible USB dongle.
++
++There are several HID compatible USB dongles from different
++vendors. The driver currently supports:
++
++- Phoenix RC (HID variant) (8ch)
++- Car VRC2.0 (2ch)
++- Real Flight G5/G6/G7 (6ch)
++- Aero Fly, FMS (8ch)
++- OrangeRX FrSky (6ch)
++
++Many RC controllers is able to configure which stick goes to which channel.
++This is also configurable in most simulators, so a matching is not necessary.
++
++Supported dongles
++==================
++
++PhoenixRC
++----------
++
++The PhoenixRC has one HID compatible variant which is supported by this driver.
++The controller has support for 8 analog channels.
++
++The driver is generating the following input event for on channels:
++
+++---------+----------------+
++| Channel |      Event     |
+++=========+================+
++|     1   |  ABS_Y         |
+++---------+----------------+
++|     2   |  ABS_X         |
+++---------+----------------+
++|     3   |  ABS_RY        |
+++---------+----------------+
++|     4   |  ABS_RX        |
+++---------+----------------+
++|     5   |  ABS_RUDDER    |
+++---------+----------------+
++|     6   |  ABS_THROTTLE  |
+++---------+----------------+
++|     7   |  ABS_Z         |
+++---------+----------------+
++|     8   |  ABS_RZ        |
+++---------+----------------+
++
++VRC2.0
++----------
++VRC2.0 is a controller for RC Cars.
++The controller has support for 2 analog channels.
++
++The driver is generating the following input event for on channels:
++
+++---------+----------------+
++| Channel |      Event     |
+++=========+================+
++|     1   |  ABS_GAS       |
+++---------+----------------+
++|     2   |  ABS_WHEEL     |
+++---------+----------------+
++
++RealFlight
++----------
++
++This driver supports Realflight G4-G7 and above
++The controller has support for 4 analog channels and two buttons.
++
++The driver is generating the following input event for on channels:
++
+++---------+----------------+
++| Channel |      Event     |
+++=========+================+
++|     1   |  ABS_Y         |
+++---------+----------------+
++|     2   |  ABS_X         |
+++---------+----------------+
++|     3   |  ABS_RY        |
+++---------+----------------+
++|     4   |  ABS_RX        |
+++---------+----------------+
++|     5   |  BTN_A         |
+++---------+----------------+
++|     6   |  BTN_B         |
+++---------+----------------+
++
++XTR+G2+FMS Controllers
++--------------------------------
++
++The controllers has support for 8 analog channels.
++
++The driver is generating the following input event for on channels:
++
+++---------+----------------+
++| Channel |      Event     |
+++=========+================+
++|     1   |  ABS_Y         |
+++---------+----------------+
++|     2   |  ABS_X         |
+++---------+----------------+
++|     3   |  ABS_RY        |
+++---------+----------------+
++|     4   |  ABS_RX        |
+++---------+----------------+
++|     5   |  ABS_RUDDER    |
+++---------+----------------+
++|     6   |  ABS_THROTTLE  |
+++---------+----------------+
++|     7   |  ABS_Z         |
+++---------+----------------+
++|     8   |  ABS_RZ        |
+++---------+----------------+
++
++OrangeRX
++----------
++
++The controllers has support for 6 analog channels.
++
++The driver is generating the following input event for on channels:
++
+++---------+----------------+
++| Channel |      Event     |
+++=========+================+
++|     1   |  ABS_Y         |
+++---------+----------------+
++|     2   |  ABS_X         |
+++---------+----------------+
++|     3   |  ABS_RY        |
+++---------+----------------+
++|     4   |  ABS_RX        |
+++---------+----------------+
++|     5   |  ABS_RUDDER    |
+++---------+----------------+
++|     6   |  ABS_THROTTLE  |
+++---------+----------------+
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 70da5931082f..d8313d36086c 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -957,6 +957,17 @@ config HID_RAZER
+ 	Support for Razer devices that are not fully compliant with the
+ 	HID standard.
+ 
++config HID_RCSIM
++	tristate "RC Simulator Controllers"
++	depends on HID
++	help
++	Support for several HID compatible RC Simulator Controllers including
++         - Phoenix RC
++         - Car VRC2.0
++         - Real Flight
++         - Aero Fly, FMS
++         - OrangeRX FrSky
++
+ config HID_PRIMAX
+ 	tristate "Primax non-fully HID-compliant devices"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index cac2cbe26d11..85d50ab352ee 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -102,6 +102,7 @@ obj-$(CONFIG_HID_PLANTRONICS)	+= hid-plantronics.o
+ obj-$(CONFIG_HID_PLAYSTATION)	+= hid-playstation.o
+ obj-$(CONFIG_HID_PRIMAX)	+= hid-primax.o
+ obj-$(CONFIG_HID_RAZER)	+= hid-razer.o
++obj-$(CONFIG_HID_RCSIM)	+= hid-rcsim.o
+ obj-$(CONFIG_HID_REDRAGON)	+= hid-redragon.o
+ obj-$(CONFIG_HID_RETRODE)	+= hid-retrode.o
+ obj-$(CONFIG_HID_ROCCAT)	+= hid-roccat.o hid-roccat-common.o \
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index d9eb676abe96..baf5f74d5bed 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1381,6 +1381,11 @@
+ 
+ #define USB_VENDOR_ID_MULTIPLE_1781	0x1781
+ #define USB_DEVICE_ID_RAPHNET_4NES4SNES_OLD	0x0a9d
++#define USB_DEVICE_ID_PHOENIXRC	0x0898
++#define USB_DEVICE_ID_REALFLIGHT	0x0e56
++
++#define USB_VENDOR_ID_DIPLING	0x0B9B
++#define USB_DEVICE_ID_DIPLING_RCCONTROLLER	0x4012
+ 
+ #define USB_VENDOR_ID_DRACAL_RAPHNET	0x289b
+ #define USB_DEVICE_ID_RAPHNET_2NES2SNES	0x0002
+diff --git a/drivers/hid/hid-rcsim.c b/drivers/hid/hid-rcsim.c
+new file mode 100644
+index 000000000000..0f214cb5816a
+--- /dev/null
++++ b/drivers/hid/hid-rcsim.c
+@@ -0,0 +1,315 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Driver for several HID compatible RC Simulator Controllers.
++ * Currently supported controllers are:
++ *
++ * - Phoenix RC (HID variant) (8ch)
++ * - Car VRC2.0 (2ch)
++ * - Real Flight G5/G6/G7 (6ch)
++ * - Aero Fly, FMS (8ch)
++ * - OrangeRX FrSky (6ch)
++ *
++ * Copyright (C) 2022 Marcus Folkesson <marcus.folkesson@gmail.com>
++ */
++
++#include <linux/bitfield.h>
++#include <linux/device.h>
++#include <linux/input.h>
++#include <linux/hid.h>
++#include <linux/module.h>
++#include <linux/usb.h>
++
++#include "hid-ids.h"
++
++/*
++ * Some of these VID/PID are probably "borrowed", so keep them locally and
++ * do not populate hid-ids.h with those.
++ */
++
++/* PHOENIXRC Controlloer (HID variant) */
++#define PHOENIXRC_VID	(USB_VENDOR_ID_MULTIPLE_1781)
++#define PHOENIXRC_PID	(USB_DEVICE_ID_PHOENIXRC)
++#define PHOENIXRC_DSIZE	(8)
++
++/* VRC2 Controlloer */
++#define VRC2_VID	(0x07c0)
++#define VRC2_PID	(0x1125)
++#define VRC2_DSIZE	(7)
++
++/* Realflight G4-&7 and Above Controller */
++#define REALFLIGHT_VID	(USB_VENDOR_ID_MULTIPLE_1781)
++#define REALFLIGHT_PID	(USB_DEVICE_ID_REALFLIGHT)
++#define REALFLIGHT_DSIZE	(8)
++
++#define REALFLIGHT_BTN_A	BIT(0)
++#define REALFLIGHT_BTN_B	BIT(1)
++
++/* XTR+G2+FMS Controller */
++#define XTRG2FMS_VID	(USB_VENDOR_ID_DIPLING)
++#define XTRG2FMS_PID	(USB_DEVICE_ID_DIPLING_RCCONTROLLER)
++#define XTRG2FMS_DSIZE	(8)
++
++#define XTRG2FMS_X_HI	GENMASK(3, 2)
++#define XTRG2FMS_Y_HI	GENMASK(1, 0)
++#define XTRG2FMS_RX_HI	GENMASK(7, 6)
++#define XTRG2FMS_RY_HI	GENMASK(5, 4)
++#define XTRG2FMS_ALT1_HI	GENMASK(3, 2)
++#define XTRG2FMS_ALT2_HI	GENMASK(1, 0)
++
++/* OrangeRX FrSky */
++#define ORANGERX_VID	(0x0451)
++#define ORANGERX_PID	(0x16a5)
++#define ORANGERX_DSIZE	(8)
++
++enum rcsim_controller {
++	PHOENIXRC,
++	VRC2,
++	REALFLIGHT,
++	XTRG2FMS,
++	ORANGERX
++};
++
++struct rcsim_priv {
++	struct hid_device *hdev;
++	struct input_dev *input;
++	enum rcsim_controller controller;
++	u8 alt;
++};
++
++static int rcsim_open(struct input_dev *dev)
++{
++	struct rcsim_priv *priv = input_get_drvdata(dev);
++
++	return hid_hw_open(priv->hdev);
++}
++
++static void rcsim_close(struct input_dev *dev)
++{
++	struct rcsim_priv *priv = input_get_drvdata(dev);
++
++	hid_hw_close(priv->hdev);
++}
++
++static int rcsim_setup_input(struct rcsim_priv *priv)
++{
++	struct input_dev *input;
++
++	input = devm_input_allocate_device(&priv->hdev->dev);
++	if (!input)
++		return -ENOMEM;
++
++	input->id.bustype = priv->hdev->bus;
++	input->id.vendor  = priv->hdev->vendor;
++	input->id.product = priv->hdev->product;
++	input->id.version = priv->hdev->bus;
++	input->phys = priv->hdev->phys;
++	input->uniq = priv->hdev->uniq;
++	input->open = rcsim_open;
++	input->close = rcsim_close;
++
++	input_set_drvdata(input, priv);
++
++	switch (priv->controller) {
++	case PHOENIXRC:
++		input_set_abs_params(input, ABS_X, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_Y, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_RX, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_RY, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_Z, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_RZ, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_RUDDER, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_THROTTLE, 0, 255, 0, 0);
++		input->name = "RC Simuator Controller PhoenixRC";
++		break;
++	case VRC2:
++		input_set_abs_params(input, ABS_GAS, 0, 2048, 0, 0);
++		input_set_abs_params(input, ABS_WHEEL, 0, 2048, 0, 0);
++		input->name = "RC Simuator Controller VRC2.0";
++		break;
++	case REALFLIGHT:
++		input_set_abs_params(input, ABS_X, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_Y, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_RX, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_RY, 0, 1024, 0, 0);
++		input_set_capability(input, EV_KEY, BTN_A);
++		input_set_capability(input, EV_KEY, BTN_B);
++		input->name = "RC Simuator Controller Realflight";
++		break;
++	case XTRG2FMS:
++		input_set_abs_params(input, ABS_X, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_Y, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_RX, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_RY, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_Z, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_RZ, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_RUDDER, 0, 1024, 0, 0);
++		input_set_abs_params(input, ABS_THROTTLE, 0, 1024, 0, 0);
++		input->name = "RC Simuator Controller AeroFly, FMS";
++		priv->alt = 0;
++		break;
++	case ORANGERX:
++		input_set_abs_params(input, ABS_X, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_Y, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_RX, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_RY, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_RUDDER, 0, 255, 0, 0);
++		input_set_abs_params(input, ABS_THROTTLE, 0, 255, 0, 0);
++		input->name = "RC Simuator Controller OrangeRX FrSky";
++		break;
++	};
++
++	priv->input = input;
++	return input_register_device(priv->input);
++}
++
++static int rcsim_raw_event(struct hid_device *hdev,
++			       struct hid_report *report,
++			       u8 *raw_data, int size)
++{
++	struct rcsim_priv *priv = hid_get_drvdata(hdev);
++	u16 value;
++
++	switch (priv->controller) {
++	case PHOENIXRC:
++		if (size != PHOENIXRC_DSIZE)
++			break;
++
++		/* X, RX, Y and RY, RUDDER and THROTTLE are sent every time */
++		input_report_abs(priv->input, ABS_X, raw_data[2]);
++		input_report_abs(priv->input, ABS_Y, raw_data[0]);
++		input_report_abs(priv->input, ABS_RX, raw_data[4]);
++		input_report_abs(priv->input, ABS_RY, raw_data[3]);
++		input_report_abs(priv->input, ABS_RUDDER, raw_data[5]);
++		input_report_abs(priv->input, ABS_THROTTLE, raw_data[6]);
++
++		/* Z and RZ are sent every other time */
++		if (priv->alt)
++			input_report_abs(priv->input, ABS_Z, raw_data[7]);
++		else
++			input_report_abs(priv->input, ABS_RZ, raw_data[7]);
++
++		priv->alt ^= 1;
++		break;
++	case VRC2:
++		if (size != VRC2_DSIZE)
++			break;
++		value = (raw_data[1] << 8 | raw_data[0]) & GENMASK(10, 0);
++		input_report_abs(priv->input, ABS_GAS, value);
++		value = (raw_data[3] << 8 | raw_data[2]) & GENMASK(10, 0);
++		input_report_abs(priv->input, ABS_WHEEL, value);
++		break;
++	case REALFLIGHT:
++		if (size != REALFLIGHT_DSIZE)
++			break;
++		input_report_abs(priv->input, ABS_X, raw_data[2]);
++		input_report_abs(priv->input, ABS_Y, raw_data[1]);
++		input_report_abs(priv->input, ABS_RX, raw_data[5]);
++		input_report_abs(priv->input, ABS_RY, raw_data[3]);
++		input_report_abs(priv->input, ABS_MISC, raw_data[4]);
++		input_report_key(priv->input, BTN_A,
++				raw_data[7] & REALFLIGHT_BTN_A);
++		input_report_key(priv->input, BTN_B,
++				raw_data[7] & REALFLIGHT_BTN_B);
++		break;
++	case XTRG2FMS:
++		if (size != XTRG2FMS_DSIZE)
++			break;
++
++		/* X, RX, Y and RY are sent every time */
++		value = FIELD_GET(XTRG2FMS_X_HI, raw_data[3]);
++		value = (value << 8) | raw_data[1];
++		input_report_abs(priv->input, ABS_X, value);
++
++		value = FIELD_GET(XTRG2FMS_Y_HI, raw_data[3]);
++		value = (value << 8) | raw_data[2];
++		input_report_abs(priv->input, ABS_Y, value);
++
++		value = FIELD_GET(XTRG2FMS_RX_HI, raw_data[3]);
++		value = (value << 8) | raw_data[0];
++		input_report_abs(priv->input, ABS_RX, value);
++
++		value = FIELD_GET(XTRG2FMS_RY_HI, raw_data[3]);
++		value = (value << 8) | raw_data[4];
++		input_report_abs(priv->input, ABS_RY, value);
++
++		/* Z, RZ, RUDDER and THROTTLE are sent every other time */
++		value = FIELD_GET(XTRG2FMS_ALT1_HI, raw_data[7]);
++		value = (value << 8) | raw_data[6];
++		if (priv->alt)
++			input_report_abs(priv->input, ABS_Z, value);
++		else
++			input_report_abs(priv->input, ABS_RUDDER, value);
++
++		value = FIELD_GET(XTRG2FMS_ALT2_HI, raw_data[7]);
++		value = (value << 8) | raw_data[5];
++		if (priv->alt)
++			input_report_abs(priv->input, ABS_RZ, value);
++		else
++			input_report_abs(priv->input, ABS_THROTTLE, value);
++
++		priv->alt ^= 1;
++		break;
++	case ORANGERX:
++		if (size != ORANGERX_DSIZE)
++			break;
++		input_report_abs(priv->input, ABS_X, raw_data[0]);
++		input_report_abs(priv->input, ABS_Y, raw_data[2]);
++		input_report_abs(priv->input, ABS_RX, raw_data[3]);
++		input_report_abs(priv->input, ABS_RY, raw_data[1]);
++		input_report_abs(priv->input, ABS_RUDDER, raw_data[5]);
++		input_report_abs(priv->input, ABS_THROTTLE, raw_data[6]);
++		break;
++	};
++
++	input_sync(priv->input);
++	return 0;
++}
++
++static int rcsim_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	struct device *dev = &hdev->dev;
++	struct rcsim_priv *priv;
++	int ret;
++
++	if (!hid_is_using_ll_driver(hdev, &usb_hid_driver))
++		return -ENODEV;
++
++	ret = hid_parse(hdev);
++	if (ret)
++		return ret;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->hdev = hdev;
++	priv->controller = id->driver_data;
++	hid_set_drvdata(hdev, priv);
++
++	ret = rcsim_setup_input(priv);
++	if (ret)
++		return ret;
++
++	return hid_hw_start(hdev, HID_CONNECT_HIDRAW);
++}
++
++static const struct hid_device_id rcsim_devices[] = {
++	{ HID_USB_DEVICE(PHOENIXRC_VID, PHOENIXRC_PID), .driver_data = PHOENIXRC },
++	{ HID_USB_DEVICE(VRC2_VID, VRC2_PID), .driver_data = VRC2 },
++	{ HID_USB_DEVICE(REALFLIGHT_VID, REALFLIGHT_PID), .driver_data = REALFLIGHT },
++	{ HID_USB_DEVICE(XTRG2FMS_VID, XTRG2FMS_PID), .driver_data = XTRG2FMS },
++	{ HID_USB_DEVICE(ORANGERX_VID, ORANGERX_PID), .driver_data = ORANGERX },
++	{ /* Sentinel */ }
++};
++MODULE_DEVICE_TABLE(hid, rcsim_devices);
++
++static struct hid_driver rcsim_driver = {
++	.name = "rcsim",
++	.id_table = rcsim_devices,
++	.probe = rcsim_probe,
++	.raw_event = rcsim_raw_event,
++};
++module_hid_driver(rcsim_driver);
++
++MODULE_AUTHOR("Marcus Folkesson <marcus.folkesson@gmail.com>");
++MODULE_LICENSE("GPL");
+-- 
+2.37.1
 
-Shouldn't that just be a case of the driver not screaming if there's no device?
-
-> Note that we have at least two cases of "second-source" nodes in mainline
-> ("rtc" and "trackpad", respectively):
->
->         85a9efcd4e29 ("ARM: mvebu: add DT support for Seagate NAS 2 and 4-Bay")
->         689b937bedde ("arm64: dts: mediatek: add mt8173 elm and hana board")
->
-> and that, for example, the i2c-hid driver explicitly supports
-> non-populated devices:
->
->         b3a81b6c4fc6 ("HID: i2c-hid: check if device is there before really probing")
->
-> and the commit message indicates that this is something that Chromebooks
-> rely on.
->
-> For the X13s, I'm not sure how we would go about to tell the variants
-> apart (the ACPI tables that Windows use include both touchpads and an
-> optional touchscreen). In the end, the boot firmware might need to
-> resort to a similar kind of probing if we don't allow the kernel to do
-> it.
->
-> Finally, note that while disabling async probing for "second-source"
-> nodes (e.g. if we could mark them as requiring that) would take care of
-> the irq-mapping race, we'd still currently also need to move any
-> pinconfig handles to the parent bus node (as is also done in one of the
-> in-tree examples above) to suppress the corresponding pinctrl errors in
-> case the populated device is probed and bound first:
->
-> [  +0.010217] sc8280xp-tlmm f100000.pinctrl: pin GPIO_182 already requested by 0-0015; cannot claim for 0-002c
-
-If the config is the same for both we could suppress that warning. If
-not the same, seems a bit dangerous to configure the wrong config...
-
-Rob
