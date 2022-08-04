@@ -2,105 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6779589E84
-	for <lists+linux-input@lfdr.de>; Thu,  4 Aug 2022 17:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3B44589ED8
+	for <lists+linux-input@lfdr.de>; Thu,  4 Aug 2022 17:42:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239029AbiHDPTT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Aug 2022 11:19:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56698 "EHLO
+        id S236471AbiHDPmQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Aug 2022 11:42:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231148AbiHDPTS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Aug 2022 11:19:18 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9BF5266F
-        for <linux-input@vger.kernel.org>; Thu,  4 Aug 2022 08:19:16 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id b96so136235edf.0
-        for <linux-input@vger.kernel.org>; Thu, 04 Aug 2022 08:19:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=bg+F2RrBWGFyK2s+cM+4qJbZ09e4qncJ8OPoUyeTF7M=;
-        b=KjrJ1lM9HxP6ZLkmvqyj806kURRkqBBXcppj5UwYVRrnfT4nRuWWIXrSWw3zCFucOn
-         Tx5wB0L+FRXaWQ8mRj7NvYRJnVy/UFDO2G7/8YHdwszHaqBJv1vCXYQCIc2HUTTwXLW8
-         GdFi+v7Y0l2NxFZ7+YEnS/pryMhkUKT18i+gk08kvIQHxLZn87kP8003QN1/WrsJ0avm
-         ltemmhQoC5G26N467DRIDGK7U5YpM5STo7oQ6UVNwur3LPBpvTT5NxYL5aFACxn+VOBq
-         eHbDwDiPvFUsgyFdHx6drZb9yYFxjeFpjYPqM9ReKlzKImbIBIP7D0ZXcDJfoFJF7apQ
-         K/5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=bg+F2RrBWGFyK2s+cM+4qJbZ09e4qncJ8OPoUyeTF7M=;
-        b=KxH2hnCYkQ0ifPVnhB1KQAuqJjCwUjh3VM92Vw4azS2pC+ssAzK+VPOT/v3dvsKKuh
-         i4RMaggFd3Fff4tamhjIqxP0pDhK8zRX/Sr7ND8BtYgChqhpK6IHWuON5fDjj/qQYcle
-         h/0/wJMoyvJTWjEcvgCG7NLfPsw5UbiAMHWve2aZHwtEESNxpPcyhqjUbluPkJlAOa4S
-         47Ho0JTWFpY5lvSuD0Xs8Notkkd4ms77LmBLiX9i3n6AymSOu1iY3aLfLQ1OdeTNb83a
-         vxjXt4u/RsXHhnnOOqap/AO0mzZ8f5eS3+htjwvjUJbWeUQ3/iEqFAnKnUx0WiYeRkQX
-         ZUkA==
-X-Gm-Message-State: ACgBeo2Z8WiBnI/HrCn7I0CsO2RmZ0VW6oYz0U3CUzN2ZpXe7f8padNW
-        PPo08G66fi7IwE5C063Ul/Q=
-X-Google-Smtp-Source: AA6agR6Mydv7XG6WM+D/H0Wyk6887karRfXxx6rmmNo1cwRlxFKG20w073ZE2RQ8y8DqlhzMJhwjoQ==
-X-Received: by 2002:a05:6402:28c3:b0:43a:6d78:1b64 with SMTP id ef3-20020a05640228c300b0043a6d781b64mr2572864edb.93.1659626355267;
-        Thu, 04 Aug 2022 08:19:15 -0700 (PDT)
-Received: from ARKON.codeweavers.com (ip5f5bc78c.dynamic.kabel-deutschland.de. [95.91.199.140])
-        by smtp.gmail.com with ESMTPSA id b10-20020a1709063caa00b007262b7afa05sm414530ejh.213.2022.08.04.08.19.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 08:19:14 -0700 (PDT)
-From:   Torge Matthies <openglfreak@googlemail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Cc:     Nikolai Kondrashov <spbnick@gmail.com>,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Torge Matthies <openglfreak@googlemail.com>
-Subject: [PATCH] HID: Accept Digitizers as input devices
-Date:   Thu,  4 Aug 2022 17:18:32 +0200
-Message-Id: <20220804151832.30373-1-openglfreak@googlemail.com>
-X-Mailer: git-send-email 2.37.1
+        with ESMTP id S231617AbiHDPmP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Aug 2022 11:42:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F201F252BF;
+        Thu,  4 Aug 2022 08:42:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D3D761313;
+        Thu,  4 Aug 2022 15:42:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD07C433D7;
+        Thu,  4 Aug 2022 15:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659627733;
+        bh=Qq7NlW7jpulKxTpi/vp74Z763atoHCYyI0gLVo/h6WY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=c+mC/Ptmoqk64R5Onm2m28MP+eI0EVeW1BfEOk8Svmh8A9ywPO/rUtM1izNZnDu1i
+         95dmQp5l2wX65dfoq6c+kTevxOqknkLbUsb+SbsUaaaRa9gw7Pn/P36+3iDFlCmpdk
+         crAg6BWojkQu7YFqo1An79FtMjGLTU54lf+IC6bOcE0viT426MlP5kP6MdPBjekM3p
+         dPkDxvp2kW6Uxw9OIkk6mm0TLbjUrfGZu7QzDStOOcbnIZsDXxc7sr5NrBqA7T5nJ0
+         kIFZ9KprId96f64GYc+W4yw4EM6Nmlb7jQxeWlSZxlqfrgBAa9TZE2LxAULbiNgprH
+         j8F2Pad7oIqYg==
+Received: by mail-vk1-f180.google.com with SMTP id c22so7221889vko.7;
+        Thu, 04 Aug 2022 08:42:13 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0kB+MH2G+xK/QaToWWC2mokGHUy5QvKnyDtrg0KUe382wkUpr9
+        PfNE9ky47BUUsES2xhb0HBm7GY1lVhwB06XQdg==
+X-Google-Smtp-Source: AA6agR75oE+Wp/3SrMZokWfZBcG1lnqwFNBtXZ4BbBn6bhDGle+sjw5dsgaNvBf0d2CqY58Cs/qb1BDYtXNqctNdUIo=
+X-Received: by 2002:a1f:2dc2:0:b0:377:84fa:dbe5 with SMTP id
+ t185-20020a1f2dc2000000b0037784fadbe5mr1192421vkt.15.1659627732775; Thu, 04
+ Aug 2022 08:42:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+References: <YuJXMHoT4ijUxnRb@hovoldconsulting.com>
+In-Reply-To: <YuJXMHoT4ijUxnRb@hovoldconsulting.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 4 Aug 2022 09:42:01 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJJdEFspgJkJnC4jmeq+qaQjkRQU2-WTRmYVOzWrnKifQ@mail.gmail.com>
+Message-ID: <CAL_JsqJJdEFspgJkJnC4jmeq+qaQjkRQU2-WTRmYVOzWrnKifQ@mail.gmail.com>
+Subject: Re: Second-source devices and interrupt-mapping race
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Commit f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for
-styluses") broke input from my XP-Pen Star G640. This is because the
-"Digitizer" usage is not recognized as a valid usage for input devices.
+On Thu, Jul 28, 2022 at 3:30 AM Johan Hovold <johan@kernel.org> wrote:
+>
+> Hi Marc, Rob and Krzysztof,
+>
+> When adding support for the new Lenovo Thinkpad X13s laptop, we realised
+> that it comes with two different touchpad controllers.
+>
+> To enable some early adopters to use the alternate touchpad, I tried to
+> enable both nodes in the devicetree and have the i2c-hid driver bind to
+> the one that is actually present.
+>
+> This turned out to be racy due to the hid driver in question enabling
+> async probing so that the populated and non-populated nodes can be
+> probed in parallel, which in turn lead to some interesting findings.
+>
+> Specifically, it seems like the interrupt-domain mapping code is racy in
+> that it can return two different mappings for the same hwirq, and when
+> the hid driver enables one of them, this may end up looking like
+> spurious interrupts for the other mapping:
+>
+> [  +0.014042] i2c_hid_of 0-002c: i2c_device_probe
+> [  +0.000001] i2c_hid_of 0-0015: i2c_device_probe
+> [  +0.000025] i2c_hid_of 0-002c: i2c_device_probe - irq mapped (166)
+> [  +0.000013] i2c_hid_of 0-0015: i2c_device_probe - irq mapped (167)
+> [  +0.000051] i2c_hid_of 0-002c: supply vddl not found, using dummy regulator
+> [  +0.000056] i2c_hid_of 0-0015: supply vddl not found, using dummy regulator
+> [  +0.000016] i2c_hid_of 0-002c: HID probe called for i2c 0x2c
+> [  +0.000374] i2c_hid_of 0-0015: HID probe called for i2c 0x15
+> ...
+> [  +0.000180] i2c_hid_of 0-002c: Requesting IRQ: 166
+> [  +0.000045] irq 167, desc: (____ptrval____), depth: 1, count: 0, unhandled: 0
+> [  +0.000014] ->handle_irq():  (____ptrval____), handle_bad_irq+0x0/0x220
+> [  +0.000015] ->irq_data.chip(): (____ptrval____), msm_gpio_irq_chip+0x0/0x108
+> [  +0.000011] ->action(): 0000000000000000
+> [  +0.000006]    IRQ_NOPROBE set
+>
+> The interrupt is eventually disabled and the populated device fails to
+> probe. Note that this only happens intermittently.
+>
+> This second-source example could obviously be dismissed as something
+> which is simply not supported (the boot firmware should have made sure
+> only the populated node was enabled), but what if there were actually
+> two separate devices sharing an interrupt and that now end up with two
+> different virq?
+>
+> Async probing has been around for a while now and needs to be supported,
+> even if the platform bus doesn't use it (yet).
+>
+> TL;DR:
+>
+> 1. Marc, does the irq mapping code need to be serialised to handle the
+> valid case of two devices sharing an interrupt being probed in parallel?
+> It may not be a common setup, but correctness first?
+>
+> I've just posted a patch that should address this here:
+>
+>         https://lore.kernel.org/r/20220728092710.21190-1-johan+linaro@kernel.org
+>
+>
+> 2. Rob, Krzysztof, I assume that handling second-source devices by
+> enabling multiple variants in the devicetree can not be considered
+> correct?
 
-This patch changes the IS_INPUT_APPLICATION macro so that the "Digitizer"
-(HID_DG_DIGITIZER) usage is recognized as an input device usage.
+Probably not, but there's not really any defined policy there. What
+that looks like in DT depends on the component. Displays are a common
+one and don't lend well to populating multiple in the DT. For those,
+the only solution so far is we require the 2nd source to be compatible
+with the default/1st. I think that was QCom chromebooks...
 
-Fixes: f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for styluses")
-Signed-off-by: Torge Matthies <openglfreak@googlemail.com>
----
-This patch could be risky, because any digitizer devices that were
-previously not treated as input devices are now used for input.
-Alternatively the linked commit could be reverted, but that would
-re-introduce the problem detailed in its commit message.
+The easy answer is firmware should deal with figuring out what's
+actually there and update the DT accordingly.
 
- include/linux/hid.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> What about the related case of simply non-populated devices (e.g. laptop
+> variants without a touchscreen)?
 
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 4363a63b9775..07803e144d98 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -883,7 +883,7 @@ static inline bool hid_is_usb(struct hid_device *hdev)
- /* We ignore a few input applications that are not widely used */
- #define IS_INPUT_APPLICATION(a) \
- 		(((a >= HID_UP_GENDESK) && (a <= HID_GD_MULTIAXIS)) \
--		|| ((a >= HID_DG_PEN) && (a <= HID_DG_WHITEBOARD)) \
-+		|| ((a >= HID_DG_DIGITIZER) && (a <= HID_DG_WHITEBOARD)) \
- 		|| (a == HID_GD_SYSTEM_CONTROL) || (a == HID_CP_CONSUMER_CONTROL) \
- 		|| (a == HID_GD_WIRELESS_RADIO_CTLS))
- 
--- 
-2.37.1
+Shouldn't that just be a case of the driver not screaming if there's no device?
 
+> Note that we have at least two cases of "second-source" nodes in mainline
+> ("rtc" and "trackpad", respectively):
+>
+>         85a9efcd4e29 ("ARM: mvebu: add DT support for Seagate NAS 2 and 4-Bay")
+>         689b937bedde ("arm64: dts: mediatek: add mt8173 elm and hana board")
+>
+> and that, for example, the i2c-hid driver explicitly supports
+> non-populated devices:
+>
+>         b3a81b6c4fc6 ("HID: i2c-hid: check if device is there before really probing")
+>
+> and the commit message indicates that this is something that Chromebooks
+> rely on.
+>
+> For the X13s, I'm not sure how we would go about to tell the variants
+> apart (the ACPI tables that Windows use include both touchpads and an
+> optional touchscreen). In the end, the boot firmware might need to
+> resort to a similar kind of probing if we don't allow the kernel to do
+> it.
+>
+> Finally, note that while disabling async probing for "second-source"
+> nodes (e.g. if we could mark them as requiring that) would take care of
+> the irq-mapping race, we'd still currently also need to move any
+> pinconfig handles to the parent bus node (as is also done in one of the
+> in-tree examples above) to suppress the corresponding pinctrl errors in
+> case the populated device is probed and bound first:
+>
+> [  +0.010217] sc8280xp-tlmm f100000.pinctrl: pin GPIO_182 already requested by 0-0015; cannot claim for 0-002c
+
+If the config is the same for both we could suppress that warning. If
+not the same, seems a bit dangerous to configure the wrong config...
+
+Rob
