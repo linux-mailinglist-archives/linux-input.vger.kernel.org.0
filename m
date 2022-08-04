@@ -2,173 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12F4B589203
-	for <lists+linux-input@lfdr.de>; Wed,  3 Aug 2022 20:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50EE9589583
+	for <lists+linux-input@lfdr.de>; Thu,  4 Aug 2022 02:58:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbiHCSDX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Aug 2022 14:03:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37932 "EHLO
+        id S237369AbiHDA6w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Aug 2022 20:58:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiHCSDW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Aug 2022 14:03:22 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 121AC19011;
-        Wed,  3 Aug 2022 11:03:20 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPA id 86971100003;
-        Wed,  3 Aug 2022 18:03:17 +0000 (UTC)
+        with ESMTP id S229686AbiHDA6v (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Aug 2022 20:58:51 -0400
+Received: from smtpbg.qq.com (biz-43-154-54-12.mail.qq.com [43.154.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091E35F12C;
+        Wed,  3 Aug 2022 17:58:45 -0700 (PDT)
+X-QQ-mid: bizesmtp90t1659574704tkggsjv3
+Received: from localhost.localdomain ( [182.148.15.41])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Thu, 04 Aug 2022 08:58:23 +0800 (CST)
+X-QQ-SSF: 01000000000000F0U000000A0000020
+X-QQ-FEAT: CEO3k+BsRkI2wgkrQuyb4CGqAgm+zWPjDU8YtgV6mETOqi2a4hHPybfTbGOUO
+        RDXleSQjac3FsKb1EdAOehKpJVyUGNhZjhRnSosMRvWFh9Cr1J9G2k/deRXOOfbID3GtzPe
+        eECxDljfJVvxYQHos9ZTbhW/mdOV/Q5vv4xejy/XJ5bUYwy+DWQB91/HgWNTw8KvAfzM0fJ
+        N20wf6z4ciF2BCocRGLEkSlvnYxD/wL6HGNfn7I2nAkIk8FC4LdKOz7FsHi7R+oABL3XzfC
+        RL1MjEBUW9AJHDeY6ifxYz6OmHtY6TxEUn+Q9GIlGwVvKFN07Pmo/LCSYRFMQhszj11aa2D
+        sm+PEO+QHht3lSY01Oc5PIJ0y1iSA==
+X-QQ-GoodBg: 0
+From:   Jason Wang <wangborong@cdjrlc.com>
+To:     jikos@kernel.org
+Cc:     srinivas.pandruvada@linux.intel.com, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jason Wang <wangborong@cdjrlc.com>
+Subject: [PATCH] HID: ishtp-hid-clientHID: ishtp-hid-client: Fix comment typo
+Date:   Thu,  4 Aug 2022 08:58:14 +0800
+Message-Id: <20220804005814.5444-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Date:   Wed, 03 Aug 2022 20:03:17 +0200
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Chris Morgan <macroalpha82@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        jic23@kernel.org, paul@crapouillou.net,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Maya Matuszczyk <maccraft123mc@gmail.com>
-Subject: Re: [PATCH v10 2/3] Input: adc-joystick - Add polled input device
- support
-In-Reply-To: <20220803174505.21420-3-macroalpha82@gmail.com>
-References: <20220803174505.21420-1-macroalpha82@gmail.com>
- <20220803174505.21420-3-macroalpha82@gmail.com>
-Message-ID: <5feecb7813f9718c3d980fe548997bff@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        RDNS_DYNAMIC,SPF_PASS,T_SPF_HELO_TEMPERROR autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022-08-03 19:45, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add polled input device support to the adc-joystick driver. This is
-> useful for devices which do not have hardware capable triggers on
-> their SARADC. Code modified from adc-joystick.c changes made by Maya
-> Matuszczyk.
-> 
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
-Chris,
-some minor details inline.
->  drivers/input/joystick/adc-joystick.c | 53 ++++++++++++++++++++++++---
->  1 file changed, 47 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/input/joystick/adc-joystick.c
-> b/drivers/input/joystick/adc-joystick.c
-> index 78ebca7d400a..a288ebfe254e 100644
-> --- a/drivers/input/joystick/adc-joystick.c
-> +++ b/drivers/input/joystick/adc-joystick.c
-> @@ -26,8 +26,23 @@ struct adc_joystick {
->  	struct adc_joystick_axis *axes;
->  	struct iio_channel *chans;
->  	int num_chans;
-> +	bool polled;
->  };
-> 
-> +static void adc_joystick_poll(struct input_dev *input)
-> +{
-> +	struct adc_joystick *joy = input_get_drvdata(input);
-> +	int i, val, ret;
-> +
-> +	for (i = 0; i < joy->num_chans; i++) {
-> +		ret = iio_read_channel_raw(&joy->chans[i], &val);
-> +		if (ret < 0)
-> +			return;
-> +		input_report_abs(input, joy->axes[i].code, val);
-> +	}
-> +	input_sync(input);
-> +}
-> +
->  static int adc_joystick_handle(const void *data, void *private)
->  {
->  	struct adc_joystick *joy = private;
-> @@ -179,6 +194,7 @@ static int adc_joystick_probe(struct 
-> platform_device *pdev)
->  	int error;
->  	int bits;
->  	int i;
-> +	unsigned int poll_interval;
-> 
->  	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
->  	if (!joy)
-> @@ -192,11 +208,25 @@ static int adc_joystick_probe(struct
-> platform_device *pdev)
->  		return error;
->  	}
-> 
-> -	/* Count how many channels we got. NULL terminated. */
-> +	if (device_property_present(dev, "poll-interval")) {
-> +		error = device_property_read_u32(dev, "poll-interval",
-> +						 &poll_interval);
-> +		if (error)
-> +			return error;
-> +		joy->polled = true;
-> +	}
-> +
-> +	/*
-> +	 * Count how many channels we got. NULL terminated.
-> +	 * Do not check the storage size if using polling.
-> +	 */
->  	for (i = 0; joy->chans[i].indio_dev; i++) {
-> +		if (joy->polled)
-> +			continue;
->  		bits = joy->chans[i].channel->scan_type.storagebits;
->  		if (!bits || bits > 16) {
-> -			dev_err(dev, "Unsupported channel storage size\n");
-> +			dev_err(dev,
-> +				"Unsupported channel storage size\n");
-This change is now unnecessary, as the line can fit in 80 chars again.
->  			return -EINVAL;
->  		}
->  		if (bits != joy->chans[0].channel->scan_type.storagebits) {
-> @@ -215,8 +245,14 @@ static int adc_joystick_probe(struct 
-> platform_device *pdev)
->  	joy->input = input;
->  	input->name = pdev->name;
->  	input->id.bustype = BUS_HOST;
-> -	input->open = adc_joystick_open;
-> -	input->close = adc_joystick_close;
-> +
-> +	if (joy->polled) {
-> +		input_setup_polling(input, adc_joystick_poll);
-> +		input_set_poll_interval(input, poll_interval);
-> +	} else {
-> +		input->open = adc_joystick_open;
-> +		input->close = adc_joystick_close;
-> +	}
-> 
->  	error = adc_joystick_set_axes(dev, joy);
->  	if (error)
-> @@ -229,13 +265,18 @@ static int adc_joystick_probe(struct
-> platform_device *pdev)
->  		return error;
->  	}
-> 
-> -	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-> +	if (joy->polled)
-> +		return 0;
-> +
-> +	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle,
-> +					     joy);
-Same here.
->  	if (IS_ERR(joy->buffer)) {
->  		dev_err(dev, "Unable to allocate callback buffer\n");
->  		return PTR_ERR(joy->buffer);
->  	}
-> 
-> -	error = devm_add_action_or_reset(dev, adc_joystick_cleanup, 
-> joy->buffer);
-> +	error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
-> +					 joy->buffer);
-And here.
->  	if (error)  {
->  		dev_err(dev, "Unable to add action\n");
->  		return error;
+The double `like' is duplicated in the comment, remove one.
+
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+---
+ drivers/hid/intel-ish-hid/ishtp-hid.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ishtp-hid.h b/drivers/hid/intel-ish-hid/ishtp-hid.h
+index 6a5cc11aefd8..35dddc5015b3 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-hid.h
++++ b/drivers/hid/intel-ish-hid/ishtp-hid.h
+@@ -105,7 +105,7 @@ struct report_list {
+  * @multi_packet_cnt:	Count of fragmented packet count
+  *
+  * This structure is used to store completion flags and per client data like
+- * like report description, number of HID devices etc.
++ * report description, number of HID devices etc.
+  */
+ struct ishtp_cl_data {
+ 	/* completion flags */
+-- 
+2.35.1
+
