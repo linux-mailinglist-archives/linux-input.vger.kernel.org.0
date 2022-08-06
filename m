@@ -2,78 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6911258B363
-	for <lists+linux-input@lfdr.de>; Sat,  6 Aug 2022 04:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D7258B39C
+	for <lists+linux-input@lfdr.de>; Sat,  6 Aug 2022 05:53:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240338AbiHFCUO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Aug 2022 22:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42392 "EHLO
+        id S239336AbiHFDxs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Aug 2022 23:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231974AbiHFCUM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Aug 2022 22:20:12 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58FF42A8
-        for <linux-input@vger.kernel.org>; Fri,  5 Aug 2022 19:20:10 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id j11so2917915qvt.10
-        for <linux-input@vger.kernel.org>; Fri, 05 Aug 2022 19:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=hpL2SD3c6BbQtJILsmAr9lDTBlieQYxegWxZpRuWWIo=;
-        b=M43HUrj5YwVccl1wPw3h6jdTTliD4PDE2p4BBvZrsdk6ng5PRnUdcSW33vChDkOoyB
-         FrNZm2U91gE+23UMDJQWzEIpgtlQw6ntW9HdAP/isq7bEMhAVz8hFJYWLBySvcmbBOH0
-         hQAaTRn31YJ2Zv/rwLvz78JeKO4ftpi+ml9EM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=hpL2SD3c6BbQtJILsmAr9lDTBlieQYxegWxZpRuWWIo=;
-        b=7sDJCwkd0TX1lRDCgA0dV1rwj6P3J0ZnykdrEz7b89nzuXZrIS23Bo3IRek3ZVJQVe
-         ajuFfwXICwu8ohlEOh2yxIWoTiMcmyPX4FmokP79ja/P0ZXbKCSjTSp+3aOIFiXcliYM
-         e0Eefdz9HVYmKTuuiG9nfwKRS98BlGwAYNg/+EfyTO/PDl5BNOwmqiQsNRjyknzdjASU
-         00y+HYXJyIxUPzw4+dwVYQCfpCUF4yatI8fuTXENycQbYdIHkBc6+ZGYTyiXF4sVXRdD
-         btPnIBd/t+pv8cKhowb/FSK2/thvUZb9AaqLSZs9opb8dJ84XFRiGEqCNT/uxCbX0O0r
-         mICA==
-X-Gm-Message-State: ACgBeo1z74hhx3YkREZGKt9XJSpCrxIprcRBfHWEo8sTuvXJOWAD/7od
-        ePfveOhsq9D1dI2HawIk6KrEeh64nUvvW90W
-X-Google-Smtp-Source: AA6agR6BY89yjx2PMb4W94LtgtU7As5s58BjbLO2MqJV8DrD1pF95zzgVUY5bNt6MDH9SkyrQoLJ1g==
-X-Received: by 2002:ad4:5ca9:0:b0:474:9143:6ffc with SMTP id q9-20020ad45ca9000000b0047491436ffcmr8043497qvh.19.1659752409239;
-        Fri, 05 Aug 2022 19:20:09 -0700 (PDT)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
-        by smtp.gmail.com with ESMTPSA id i18-20020a05620a405200b006b8e049cf08sm3766564qko.2.2022.08.05.19.20.07
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 19:20:08 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id a2so3120194qkk.2
-        for <linux-input@vger.kernel.org>; Fri, 05 Aug 2022 19:20:07 -0700 (PDT)
-X-Received: by 2002:a05:620a:129b:b0:6b9:211e:aff0 with SMTP id
- w27-20020a05620a129b00b006b9211eaff0mr2862012qki.552.1659752407244; Fri, 05
- Aug 2022 19:20:07 -0700 (PDT)
+        with ESMTP id S231191AbiHFDxs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Aug 2022 23:53:48 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA491409F;
+        Fri,  5 Aug 2022 20:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659758026; x=1691294026;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EOrwo1+w2rYt40oWYg7x/pWgKGfaH9b92Nt/uY+i8tA=;
+  b=Xw+ycoQwGTg32EQO2VtRJPJJKhRtLeZq9Gw44IV0faylS1PystKP9+fY
+   mLOpiAixN2PTU6/Pswu6F0Gq/SckK2AVoEttexSvlIb4guB5jarkp1DQm
+   RiFvfhAgwsvnV35e0FWu79apcmv/HdUhYyeFErCpXczTzexP2HstoOHgn
+   ChhFWElpR3nbLgncRina45IkaAkwfIshAc7mtFljiRtkjQqAET0ad2OCP
+   mDX7RdIlwJpGsXzo1nku8MEPycjARYuWH5b6+Uq39oUMH3qSukrQK+nBi
+   MKEX+9KeCAALwEBFovJDKFjMxl1uBfhCptGN+qxjer3whIz/F0Wn9FHRI
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10430"; a="270110861"
+X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
+   d="scan'208";a="270110861"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 20:53:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
+   d="scan'208";a="746063365"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2022 20:53:42 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oKAsg-000Jzj-0A;
+        Sat, 06 Aug 2022 03:53:42 +0000
+Date:   Sat, 6 Aug 2022 11:53:08 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Alistair Francis <alistair@alistair23.me>,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, shawnguo@kernel.org, alistair23@gmail.com,
+        robh+dt@kernel.org, linus.walleij@linaro.org,
+        s.hauer@pengutronix.de, andreas@kemnade.info,
+        krzysztof.kozlowski+dt@linaro.org, rydberg@bitmath.org,
+        dmitry.torokhov@gmail.com,
+        Alistair Francis <alistair@alistair23.me>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
+        <mylene.josserand@bootlin.com>, Peter Geis <pgwipeout@gmail.com>
+Subject: Re: [PATCH v8 1/4] Input: Add driver for Cypress Generation 5
+ touchscreen
+Message-ID: <202208061128.pfj2DRWO-lkp@intel.com>
+References: <20220802125827.34509-2-alistair@alistair23.me>
 MIME-Version: 1.0
-References: <12042830.O9o76ZdvQC@kreacher> <1c7fa65d-47ab-b064-9087-648bcfbf4ab5@amd.com>
- <CAJZ5v0ie7B=GvhbfBsi7Zxu+=YzYKUqvUNs6dNZQfT3CRm=KPg@mail.gmail.com> <a2d2b61e-87c0-ee39-ea4e-3c575da0a66c@redhat.com>
-In-Reply-To: <a2d2b61e-87c0-ee39-ea4e-3c575da0a66c@redhat.com>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Fri, 5 Aug 2022 20:19:56 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30DjkyDT8KbsHzfwiyg6Tst9EFhtCnjx3MmwbWRerzW_6A@mail.gmail.com>
-Message-ID: <CAHQZ30DjkyDT8KbsHzfwiyg6Tst9EFhtCnjx3MmwbWRerzW_6A@mail.gmail.com>
-Subject: Re: [PATCH] i2c: ACPI: Do not check ACPI_FADT_LOW_POWER_S0
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Limonciello, Mario" <mario.limonciello@amd.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802125827.34509-2-alistair@alistair23.me>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,78 +73,82 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I do plan on coming back and updating those patches. I got derailed
-with other priorities. But as Hans pointed out, we wanted to use
-`ExclusiveAndWake` to make the decision since not all IRQs can be wake
-sources while in s0i3.
+Hi Alistair,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on shawnguo/for-next linus/master v5.19 next-20220805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20220802-210032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20220806/202208061128.pfj2DRWO-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/9c372983ef0b8eb7ad48c025a156f80943269af7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20220802-210032
+        git checkout 9c372983ef0b8eb7ad48c025a156f80943269af7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_handle_irq':
+>> drivers/input/touchscreen/cyttsp5.c:254:31: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
+     254 |         for (nbyte = 0, *axis = 0; nbyte < size; nbyte++)
+         |                         ~~~~~~^~~
+   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
+     333 |         u8 num_cur_tch;
+         |            ^~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp5.c:257:15: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
+     257 |         *axis &= max - 1;
+         |               ^~
+   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
+     333 |         u8 num_cur_tch;
+         |            ^~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp5.c:257:15: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
+     257 |         *axis &= max - 1;
+         |         ~~~~~~^~~~~~~~~~
+   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
+     333 |         u8 num_cur_tch;
+         |            ^~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp5.c:255:23: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
+     255 |                 *axis += ((xy_data[nbyte] >> bofs) << (nbyte * 8));
+         |                       ^~
+   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
+     333 |         u8 num_cur_tch;
+         |            ^~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp5.c:255:23: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
+     255 |                 *axis += ((xy_data[nbyte] >> bofs) << (nbyte * 8));
+         |                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
+     333 |         u8 num_cur_tch;
+         |            ^~~~~~~~~~~
 
 
-On Fri, Aug 5, 2022 at 12:54 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 8/5/22 19:08, Rafael J. Wysocki wrote:
-> > On Fri, Aug 5, 2022 at 6:59 PM Limonciello, Mario
-> > <mario.limonciello@amd.com> wrote:
-> >>
-> >> On 8/5/2022 11:51, Rafael J. Wysocki wrote:
-> >>> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >>>
-> >>> The ACPI_FADT_LOW_POWER_S0 flag merely means that it is better to
-> >>> use low-power S0 idle on the given platform than S3 (provided that
-> >>> the latter is supported) and it doesn't preclude using either of
-> >>> them (which of them will be used depends on the choices made by user
-> >>> space).
-> >>>
-> >>> Because of that, ACPI_FADT_LOW_POWER_S0 is generally not sufficient
-> >>> for making decisions in device drivers and so i2c_hid_acpi_probe()
-> >>> should not use it.
-> >>>
-> >>> Moreover, Linux always supports suspend-to-idle, so if a given
-> >>> device can wake up the system from suspend-to-idle, then it can be
-> >>> marked as wakeup capable unconditionally, so make that happen in
-> >>> i2c_hid_acpi_probe().
-> >>>
-> >>> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >>
-> >> +Raul
-> >> +Hans
-> >> +KH
-> >>
-> >> Raul had a patch that was actually going to just tear out this code
-> >> entirely:
-> >> https://lkml.kernel.org/lkml/20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid/
-> >>
-> >> As part of that patch series discussion another suggestion had
-> >> transpired
-> >> (https://patchwork.kernel.org/project/linux-input/patch/20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid/#24681016):
-> >>
-> >> ```
-> >> if ((acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) &&
-> >>             !adev->flags.power_manageable) {
-> >>                  device_set_wakeup_capable(dev, true);
-> >>                  device_set_wakeup_enable(dev, false);
-> >>          }
-> >> ```
-> >>
-> >> If this is being changed, maybe consider that suggestion to
-> >> check `adev->flags.power_manageable`.
-> >
-> > Fair enough, I'll send a v2 with this check added.
->
-> Re-reading the original thread:
-> https://lkml.kernel.org/lkml/20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid/T/#u
->
-> The conclusion there was that the :
->
->                  device_set_wakeup_capable(dev, true);
->                  device_set_wakeup_enable(dev, false);
->
-> Calls should be made conditional on the IRQ being
-> marked ExclusiveAndWake instead of the ACPI_FADT_LOW_POWER_S0
-> check.
->
-> Regards,
->
-> Hans
->
+vim +254 drivers/input/touchscreen/cyttsp5.c
+
+   248	
+   249	static void cyttsp5_get_touch_axis(int *axis, int size, int max, u8 *xy_data,
+   250					   int bofs)
+   251	{
+   252		int nbyte;
+   253	
+ > 254		for (nbyte = 0, *axis = 0; nbyte < size; nbyte++)
+   255			*axis += ((xy_data[nbyte] >> bofs) << (nbyte * 8));
+   256	
+   257		*axis &= max - 1;
+   258	}
+   259	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
