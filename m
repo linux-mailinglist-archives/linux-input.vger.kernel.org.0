@@ -2,70 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59D7258B39C
-	for <lists+linux-input@lfdr.de>; Sat,  6 Aug 2022 05:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B73B58B608
+	for <lists+linux-input@lfdr.de>; Sat,  6 Aug 2022 16:19:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239336AbiHFDxs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Aug 2022 23:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55864 "EHLO
+        id S230133AbiHFOT1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 6 Aug 2022 10:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231191AbiHFDxs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Aug 2022 23:53:48 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA491409F;
-        Fri,  5 Aug 2022 20:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659758026; x=1691294026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EOrwo1+w2rYt40oWYg7x/pWgKGfaH9b92Nt/uY+i8tA=;
-  b=Xw+ycoQwGTg32EQO2VtRJPJJKhRtLeZq9Gw44IV0faylS1PystKP9+fY
-   mLOpiAixN2PTU6/Pswu6F0Gq/SckK2AVoEttexSvlIb4guB5jarkp1DQm
-   RiFvfhAgwsvnV35e0FWu79apcmv/HdUhYyeFErCpXczTzexP2HstoOHgn
-   ChhFWElpR3nbLgncRina45IkaAkwfIshAc7mtFljiRtkjQqAET0ad2OCP
-   mDX7RdIlwJpGsXzo1nku8MEPycjARYuWH5b6+Uq39oUMH3qSukrQK+nBi
-   MKEX+9KeCAALwEBFovJDKFjMxl1uBfhCptGN+qxjer3whIz/F0Wn9FHRI
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10430"; a="270110861"
-X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
-   d="scan'208";a="270110861"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 20:53:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
-   d="scan'208";a="746063365"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2022 20:53:42 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oKAsg-000Jzj-0A;
-        Sat, 06 Aug 2022 03:53:42 +0000
-Date:   Sat, 6 Aug 2022 11:53:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alistair Francis <alistair@alistair23.me>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, shawnguo@kernel.org, alistair23@gmail.com,
-        robh+dt@kernel.org, linus.walleij@linaro.org,
-        s.hauer@pengutronix.de, andreas@kemnade.info,
-        krzysztof.kozlowski+dt@linaro.org, rydberg@bitmath.org,
-        dmitry.torokhov@gmail.com,
-        Alistair Francis <alistair@alistair23.me>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
-        <mylene.josserand@bootlin.com>, Peter Geis <pgwipeout@gmail.com>
-Subject: Re: [PATCH v8 1/4] Input: Add driver for Cypress Generation 5
- touchscreen
-Message-ID: <202208061128.pfj2DRWO-lkp@intel.com>
-References: <20220802125827.34509-2-alistair@alistair23.me>
+        with ESMTP id S231473AbiHFOT0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 6 Aug 2022 10:19:26 -0400
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC77E12602;
+        Sat,  6 Aug 2022 07:19:24 -0700 (PDT)
+Received: (Authenticated sender: contact@artur-rojek.eu)
+        by mail.gandi.net (Postfix) with ESMTPA id 13909200002;
+        Sat,  6 Aug 2022 14:19:21 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220802125827.34509-2-alistair@alistair23.me>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Date:   Sat, 06 Aug 2022 16:19:21 +0200
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Chris Morgan <macroalpha82@gmail.com>
+Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        heiko@sntech.de, paul@crapouillou.net,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Maya Matuszczyk <maccraft123mc@gmail.com>
+Subject: Re: [PATCH v12 2/3] Input: adc-joystick - Add polled input device
+ support
+In-Reply-To: <20220806152042.39bc5351@jic23-huawei>
+References: <20220805171016.21217-1-macroalpha82@gmail.com>
+ <20220805171016.21217-3-macroalpha82@gmail.com>
+ <20220806152042.39bc5351@jic23-huawei>
+Message-ID: <9399f54366be973dba36a70cb3dcbfd9@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,82 +48,129 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alistair,
+On 2022-08-06 16:20, Jonathan Cameron wrote:
+> On Fri,  5 Aug 2022 12:10:15 -0500
+> Chris Morgan <macroalpha82@gmail.com> wrote:
+> 
+>> From: Chris Morgan <macromorgan@hotmail.com>
+>> 
+>> Add polled input device support to the adc-joystick driver. This is
+>> useful for devices which do not have hardware capable triggers on
+>> their SARADC. Code modified from adc-joystick.c changes made by Maya
+>> Matuszczyk.
+>> 
+>> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Hi Chris,
+> 
+> Trying to avoid too much indentation has lead to an odd code structure.
+> Still minor thing, so either way this looks fine to me.
+> 
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+>> ---
+>>  drivers/input/joystick/adc-joystick.c | 44 
+>> +++++++++++++++++++++++++--
+>>  1 file changed, 41 insertions(+), 3 deletions(-)
+>> 
+>> diff --git a/drivers/input/joystick/adc-joystick.c 
+>> b/drivers/input/joystick/adc-joystick.c
+>> index 78ebca7d400a..77dfb7dd96eb 100644
+>> --- a/drivers/input/joystick/adc-joystick.c
+>> +++ b/drivers/input/joystick/adc-joystick.c
+>> @@ -26,8 +26,23 @@ struct adc_joystick {
+>>  	struct adc_joystick_axis *axes;
+>>  	struct iio_channel *chans;
+>>  	int num_chans;
+>> +	bool polled;
+>>  };
+>> 
+>> +static void adc_joystick_poll(struct input_dev *input)
+>> +{
+>> +	struct adc_joystick *joy = input_get_drvdata(input);
+>> +	int i, val, ret;
+>> +
+>> +	for (i = 0; i < joy->num_chans; i++) {
+>> +		ret = iio_read_channel_raw(&joy->chans[i], &val);
+>> +		if (ret < 0)
+>> +			return;
+>> +		input_report_abs(input, joy->axes[i].code, val);
+>> +	}
+>> +	input_sync(input);
+>> +}
+>> +
+>>  static int adc_joystick_handle(const void *data, void *private)
+>>  {
+>>  	struct adc_joystick *joy = private;
+>> @@ -179,6 +194,7 @@ static int adc_joystick_probe(struct 
+>> platform_device *pdev)
+>>  	int error;
+>>  	int bits;
+>>  	int i;
+>> +	unsigned int poll_interval;
+>> 
+>>  	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
+>>  	if (!joy)
+>> @@ -192,8 +208,21 @@ static int adc_joystick_probe(struct 
+>> platform_device *pdev)
+>>  		return error;
+>>  	}
+>> 
+>> -	/* Count how many channels we got. NULL terminated. */
+>> +	if (device_property_present(dev, "poll-interval")) {
+>> +		error = device_property_read_u32(dev, "poll-interval",
+>> +						 &poll_interval);
+>> +		if (error)
+>> +			return error;
+>> +		joy->polled = true;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Count how many channels we got. NULL terminated.
+>> +	 * Do not check the storage size if using polling.
+>> +	 */
+>>  	for (i = 0; joy->chans[i].indio_dev; i++) {
+>> +		if (joy->polled)
+>> +			continue;
+> 
+> Whilst I can see why did this, it is a rather 'unusual' code structure
+> and that makes me a tiny bit uncomfortable. However if everyone else
+> is happy with this then fair enough (I see it was Artur's suggestion to
+> handle it like this).
+Yep, I'm fine with the way it is right now :)
 
-Thank you for the patch! Perhaps something to improve:
+Acked-by: Artur Rojek <contact@artur-rojek.eu>
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on shawnguo/for-next linus/master v5.19 next-20220805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20220802-210032
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20220806/202208061128.pfj2DRWO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/9c372983ef0b8eb7ad48c025a156f80943269af7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20220802-210032
-        git checkout 9c372983ef0b8eb7ad48c025a156f80943269af7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_handle_irq':
->> drivers/input/touchscreen/cyttsp5.c:254:31: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
-     254 |         for (nbyte = 0, *axis = 0; nbyte < size; nbyte++)
-         |                         ~~~~~~^~~
-   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
-     333 |         u8 num_cur_tch;
-         |            ^~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp5.c:257:15: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
-     257 |         *axis &= max - 1;
-         |               ^~
-   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
-     333 |         u8 num_cur_tch;
-         |            ^~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp5.c:257:15: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
-     257 |         *axis &= max - 1;
-         |         ~~~~~~^~~~~~~~~~
-   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
-     333 |         u8 num_cur_tch;
-         |            ^~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp5.c:255:23: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
-     255 |                 *axis += ((xy_data[nbyte] >> bofs) << (nbyte * 8));
-         |                       ^~
-   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
-     333 |         u8 num_cur_tch;
-         |            ^~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp5.c:255:23: warning: array subscript 'int[0]' is partly outside array bounds of 'u8[1]' {aka 'unsigned char[1]'} [-Warray-bounds]
-     255 |                 *axis += ((xy_data[nbyte] >> bofs) << (nbyte * 8));
-         |                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp5.c:333:12: note: while referencing 'num_cur_tch'
-     333 |         u8 num_cur_tch;
-         |            ^~~~~~~~~~~
-
-
-vim +254 drivers/input/touchscreen/cyttsp5.c
-
-   248	
-   249	static void cyttsp5_get_touch_axis(int *axis, int size, int max, u8 *xy_data,
-   250					   int bofs)
-   251	{
-   252		int nbyte;
-   253	
- > 254		for (nbyte = 0, *axis = 0; nbyte < size; nbyte++)
-   255			*axis += ((xy_data[nbyte] >> bofs) << (nbyte * 8));
-   256	
-   257		*axis &= max - 1;
-   258	}
-   259	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> 
+>>  		bits = joy->chans[i].channel->scan_type.storagebits;
+>>  		if (!bits || bits > 16) {
+>>  			dev_err(dev, "Unsupported channel storage size\n");
+>> @@ -215,8 +244,14 @@ static int adc_joystick_probe(struct 
+>> platform_device *pdev)
+>>  	joy->input = input;
+>>  	input->name = pdev->name;
+>>  	input->id.bustype = BUS_HOST;
+>> -	input->open = adc_joystick_open;
+>> -	input->close = adc_joystick_close;
+>> +
+>> +	if (joy->polled) {
+>> +		input_setup_polling(input, adc_joystick_poll);
+>> +		input_set_poll_interval(input, poll_interval);
+>> +	} else {
+>> +		input->open = adc_joystick_open;
+>> +		input->close = adc_joystick_close;
+>> +	}
+>> 
+>>  	error = adc_joystick_set_axes(dev, joy);
+>>  	if (error)
+>> @@ -229,6 +264,9 @@ static int adc_joystick_probe(struct 
+>> platform_device *pdev)
+>>  		return error;
+>>  	}
+>> 
+>> +	if (joy->polled)
+>> +		return 0;
+>> +
+>>  	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+>>  	if (IS_ERR(joy->buffer)) {
+>>  		dev_err(dev, "Unable to allocate callback buffer\n");
