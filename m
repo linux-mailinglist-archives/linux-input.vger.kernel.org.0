@@ -2,104 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E34158C458
-	for <lists+linux-input@lfdr.de>; Mon,  8 Aug 2022 09:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE6AA58C544
+	for <lists+linux-input@lfdr.de>; Mon,  8 Aug 2022 11:07:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241889AbiHHHoi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Aug 2022 03:44:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51368 "EHLO
+        id S242023AbiHHJHq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Aug 2022 05:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241975AbiHHHoe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Aug 2022 03:44:34 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4378112AC1;
-        Mon,  8 Aug 2022 00:44:33 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id h13so9889648wrf.6;
-        Mon, 08 Aug 2022 00:44:33 -0700 (PDT)
+        with ESMTP id S234382AbiHHJHp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Aug 2022 05:07:45 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF2E513EA8
+        for <linux-input@vger.kernel.org>; Mon,  8 Aug 2022 02:07:44 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id f65so8008663pgc.12
+        for <linux-input@vger.kernel.org>; Mon, 08 Aug 2022 02:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Sf4wLGaCgzbbxoh829tsTcB7v9NtgcB/mEiDvk8sXgU=;
-        b=pkJNBjUZfEfopdTEikMVR2I0gPkKay6eHwIjeMgFj7T5FYpGjJeEHl6mPJj6oYl8+S
-         URg9JtRQ2zthx7IoO3e97xztpZyF3eweTUYX9/qATbMl+ZbU7vMCC2AekMMzXmmam6Wt
-         kWhKYIQCT2katpcoW0gnd6p9WEmrySneC7yJ8zP8s1ZrYXov3fc2mrGbyVXsf3PfJ17B
-         zHL4FUNJZVqNtut/ZE09c2aPxIHyHRF/44ad7MycSu5zpCMu08n2rUH+atf+KzEJK0Ar
-         A6plYOAlp8inMDMuiEK2QViBiJJyAr59BMlTwQWWpYunVm2M9VkzwLo2Ev5hP29NjuZa
-         tfyA==
+        d=synaptics-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=uXfRDudrIK/ym9JOWmRUVgw+nCbxEojGCmMIxNo4iG0=;
+        b=ZWwO3btjzt2PD//bvwV3/BHYNE6I9njvJCcGeNZ4+25Hel6A0Ntv/5+6zg/+3fivd1
+         G0B1ybVEE7mvZr6zvtioMZnbdnLKiIbV/hCP/yfmkIbILf1c74ZVwzNYHp3gwrUqdU6L
+         E96KNJx8MSWW5RjGa4uSVpP0kMU0ukh8Ck6RsbTbh6P7lraMqRe9kNOmmUGBNuNvZttj
+         bqLPl4BREuqS3l6OP533To1RCM6hZLlDoCGjP6SfEJ+cTWjdAf+9ISoVyKvlfF27Zkm2
+         5kigS6kXV+2+sZEfjKMOG7ljSowE+492p8eIhAe+haKhPqTCYgRvkopCCgAd+cFftf0s
+         Qg3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Sf4wLGaCgzbbxoh829tsTcB7v9NtgcB/mEiDvk8sXgU=;
-        b=xBfWRE6UZuMx+P7JxYl1oPzSsuOcU5ydrTfrQ0LOtv3ymFvIkpONkV12SizpJQ59lx
-         Io7N2kLCllL26j0+ZbZV5WE2ihR7e1D+GwGkVu66deBa1T/BmKrwQYQO2GfHD/bNgcBt
-         MB9NMcTg0U7UDFQ+rgjZkn6+zFK55vKQcXlg44mwwYo0EZ2a13G7VGiL22gQxnap6Ope
-         XnyurR/1fr3KilxE/Jc5Ol7cp440e/9zsnsNqI2grmDaWHea8qVq9dEs/1bB7wiC9SQ4
-         +Up1WBi7saqE8GIxlaw6UKlYO9/lhCHhyM8f6+PRvNszd5JTqMkfFELV4sp7DO7i/5D5
-         it4w==
-X-Gm-Message-State: ACgBeo0G+gdtJDSsr0sSHyj2not/ARI8djlxvxMp5291uipL5kUtRPh3
-        ToOkYMAyK/leEQbjvb55OBY=
-X-Google-Smtp-Source: AA6agR5pw41Hz6lN25sLb6EVDy9R13XQOeH5Z+FNSKWjGm/CtgDwV/YV8LXMLn9Y6qatMmfh4/Gutw==
-X-Received: by 2002:adf:ed41:0:b0:210:20a5:26c2 with SMTP id u1-20020adfed41000000b0021020a526c2mr10435771wro.603.1659944671776;
-        Mon, 08 Aug 2022 00:44:31 -0700 (PDT)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi. [88.113.27.52])
-        by smtp.gmail.com with ESMTPSA id k12-20020adfb34c000000b002205df9ce16sm10677495wrd.97.2022.08.08.00.44.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 00:44:30 -0700 (PDT)
-Message-ID: <f05e0c92-a1c9-f517-e1b4-f753e362dfd4@gmail.com>
-Date:   Mon, 8 Aug 2022 10:44:29 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC] UCLogic: Filtering unsupported HUION tablets
-Content-Language: en-US
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220718172953.6817-1-jose.exposito89@gmail.com>
- <5d4ef0df-083f-a00e-fb41-1ce1df6e9473@gmail.com>
- <20220720173656.GA3725@elementary>
- <47970684-1158-cee8-9ff5-d7dca70a54ae@gmail.com>
- <20220720175444.GA10744@elementary>
- <3cdbcfe5-bb7e-2677-730f-f250e2d33f0c@gmail.com>
- <20220724110509.GA30492@elementary>
-From:   Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <20220724110509.GA30492@elementary>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=uXfRDudrIK/ym9JOWmRUVgw+nCbxEojGCmMIxNo4iG0=;
+        b=gS6J2pKy0TacHVERAFddwxGyBwlPR6/OlLdIVSCCRcwnGLwBkLBkxPQD6qYqW4cs4v
+         ibqmUevAS0vCst/QZOCX1N36ocNdShxhVaJOgTdJa1lsA+UfZOGW157CZWuUN6OrCqTt
+         0qA7cbXL6zFysgMjVuY1u9WQwPH3S+YmBKQ6D7VpfW11FKNs8EZN3aOmwwVwanG1U9mb
+         WcppRYCEQ0RJYVU9DVZuv/zYC7DlpPK7JR3XAYcp9jogUyx/9fCcEeNFrZ4lIyVOysFx
+         2toKoLk/jNAP4ywSePXpQTXKbhfHBngx6IoDlPbRLQjlIJZ/BSZ7PCofnaDfq5Xed5AP
+         yfIw==
+X-Gm-Message-State: ACgBeo0R0IcrKsmfOSHwWgj/06MBbT46+Rn6Y2kojhcPhcWLtCY2d061
+        9sCJelvLPdMUur2m9DZX9YfVdD2z1RLZWSBz9YU=
+X-Google-Smtp-Source: AA6agR60zET4m7agymxSlxzEjRGY6WxbCBr9Oj5xR7sBojNyZSazQjhdScxJB96ScZjhBEAmInPDGA==
+X-Received: by 2002:a63:e511:0:b0:41d:2c8d:e9f with SMTP id r17-20020a63e511000000b0041d2c8d0e9fmr8723595pgh.404.1659949664388;
+        Mon, 08 Aug 2022 02:07:44 -0700 (PDT)
+Received: from localhost.localdomain ([63.222.17.38])
+        by smtp.gmail.com with ESMTPSA id a3-20020aa795a3000000b005289ef6db79sm8047671pfk.32.2022.08.08.02.07.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Aug 2022 02:07:43 -0700 (PDT)
+From:   margeyang <marge.yang@synaptics.corp-partner.google.com>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hdegoede@redhat.com,
+        benjamin.tissoires@redhat.com
+Cc:     marge.yang@tw.synaptics.com, derek.cheng@tw.synaptcs.com,
+        vincent.huang@tw.synaptics.com,
+        Marge Yang <marge.yang@synaptics.corp-partner.google.com>
+Subject: [PATCH] HID: HID-rmi - ignore to rmi_hid_read_block after system resumes.
+Date:   Mon,  8 Aug 2022 17:07:19 +0800
+Message-Id: <1659949639-3127-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 7/24/22 14:05, José Expósito wrote:
-> On Wed, Jul 20, 2022 at 09:13:39PM +0300, Nikolai Kondrashov wrote:
->> Could you send me an email once you got something ready for review?
->>
->> Thank you!
->> Nick
-> 
-> Sure, the PR is ready:
-> https://github.com/DIGImend/digimend-kernel-drivers/pull/598
-> 
-> I included the patches present in "for-5.20/uclogic" but not the
-> patches I sent during the last couple of weeks to the mailing list,
-> just in case changes are requested.
-> 
-> In addition, I created another PR adding the XP-Pen Deco L tablet to
-> the web:
-> https://github.com/DIGImend/tablets/pull/52
+From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
 
-Thank you, José!
+The interrupt GPIO will be pulled down once
+after RMI driver reads this command(Report ID:0x0A).
+It will cause "Dark resume test fail" for chromebook device.
+Hence, TP driver will ignore rmi_hid_read_block function once
+after system resumes.
 
-I finally made the release:
-https://github.com/DIGImend/digimend-kernel-drivers/releases/tag/v11
+Signed-off-by: Marge Yang<marge.yang@synaptics.corp-partner.google.com>
+---
+ drivers/hid/hid-rmi.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Nick
+diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
+index 311eee599ce9..236a38bfcf9a 100644
+--- a/drivers/hid/hid-rmi.c
++++ b/drivers/hid/hid-rmi.c
+@@ -101,7 +101,7 @@ struct rmi_data {
+ };
+ 
+ #define RMI_PAGE(addr) (((addr) >> 8) & 0xff)
+-
++int ignoreonce;
+ static int rmi_write_report(struct hid_device *hdev, u8 *report, int len);
+ 
+ /**
+@@ -203,7 +203,13 @@ static int rmi_hid_read_block(struct rmi_transport_dev *xport, u16 addr,
+ 		if (ret < 0)
+ 			goto exit;
+ 	}
+-
++	if (ignoreonce == 1) {
++		dev_err(&hdev->dev,
++			"ignoreonce (%d)\n",
++			ignoreonce);
++		ignoreonce = 0;
++		goto exit;
++	}
+ 	for (retries = 5; retries > 0; retries--) {
+ 		data->writeReport[0] = RMI_READ_ADDR_REPORT_ID;
+ 		data->writeReport[1] = 0; /* old 1 byte read count */
+@@ -468,8 +474,12 @@ static int rmi_post_resume(struct hid_device *hdev)
+ 	ret = hid_hw_open(hdev);
+ 	if (ret)
+ 		return ret;
+-
++	// Avoid to read rmi_hid_read_block once after system resumes.
++	// The interrupt will be pulled down
++	// after RMI Read command(Report ID:0x0A).
++	ignoreonce = 1;
+ 	ret = rmi_reset_attn_mode(hdev);
++	ignoreonce = 0;
+ 	if (ret)
+ 		goto out;
+ 
+-- 
+2.22.0.windows.1
+
