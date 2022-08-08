@@ -2,110 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A12658CBF3
-	for <lists+linux-input@lfdr.de>; Mon,  8 Aug 2022 18:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0436558CC8A
+	for <lists+linux-input@lfdr.de>; Mon,  8 Aug 2022 19:11:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243406AbiHHQP2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Aug 2022 12:15:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47260 "EHLO
+        id S235606AbiHHRK6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Aug 2022 13:10:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243772AbiHHQP1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Aug 2022 12:15:27 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116FD559D;
-        Mon,  8 Aug 2022 09:15:26 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id l22so11462752wrz.7;
-        Mon, 08 Aug 2022 09:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc;
-        bh=J9w4Uw+mJQZ0qiMoimYZNyfJ80DjkGzw/tF6TsleD38=;
-        b=OT7Uo1A6oiFck/ynH1HvY1JnqyhE9tBYd0Qw1Ojxs1lmeSOPkMQsgE47LUbf7NnHuP
-         jR9nyxYX/xBu0IRVTKQikGIskHX91qgppvsvIxBFH0id2sL9oZ7BzQgp+/g1u6hM6jCl
-         xV7Xv3HgzWF366B729OMMNH9N3UaMy5bqVAF42TUGR2AIRDkHF7dIamfm2LphNisQsX4
-         zW7cv55+5wsovBUFND2eOY6mQISVC9RDT/cm/uVeMkVgiDkDr6fnbMbZ6dLzcWvpeOCf
-         I/wl9TOZFiq0f+t4sShe9RtiLLeK7E43b+IcUJlp4drziF95FFxkXUShNa469IIqUx1v
-         Hnjg==
+        with ESMTP id S229516AbiHHRK6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Aug 2022 13:10:58 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BFB9FDD;
+        Mon,  8 Aug 2022 10:10:55 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-328303afa6eso87464777b3.10;
+        Mon, 08 Aug 2022 10:10:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=J9w4Uw+mJQZ0qiMoimYZNyfJ80DjkGzw/tF6TsleD38=;
-        b=dVctfNhCkEMp8dXrS0y9grU01qo7habu4ovSDumnLTA+GMoBGPK3H7hb+5d1Uc2o4E
-         /HMoUvTy0PnmSjxz193OimX3HZlLQ0Mkv5j2M4595igMmo+9y5pe5YpGFTlU+hXpAM9v
-         o2Zc6i6cHOud5g9NauEmRpW9DXJp0L3Xiltp0osz6YSThk2WQMa5oFm7UB2UEfgj2emO
-         yK3yWESVWTo7HyYAKt1GONEG3iyvTsh0msGMX/7BtzMk1GMyv8vABBQQUreZG4laCZh1
-         pGycmQwvOdDJW9gkBhF5vgvbL61OCKQoSYpBnUnH/VgXxfGW2V748Nmstwd0XULphYz0
-         DhSw==
-X-Gm-Message-State: ACgBeo0aCJtxORZyIXqvW9liLHdvg8W3GdCgv/Mpb8nwfp9eatE5re+K
-        o7kN+N68o3ee+pvil8Fn3ClkpEEYR1M=
-X-Google-Smtp-Source: AA6agR5dxhOfUrPrecnB4/fpHTX8ys+j3CMnLHd4fY06zaGZbe3LGy3gneKFGrofLizNc7DRCbMscA==
-X-Received: by 2002:a05:6000:711:b0:220:63a5:954c with SMTP id bs17-20020a056000071100b0022063a5954cmr11656927wrb.667.1659975324486;
-        Mon, 08 Aug 2022 09:15:24 -0700 (PDT)
-Received: from elementary ([94.73.32.249])
-        by smtp.gmail.com with ESMTPSA id m1-20020a7bcb81000000b003a3278d5cafsm18330370wmi.28.2022.08.08.09.15.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 09:15:23 -0700 (PDT)
-Date:   Mon, 8 Aug 2022 18:15:22 +0200
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Nikolai Kondrashov <spbnick@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC] UCLogic: Filtering unsupported HUION tablets
-Message-ID: <20220808161522.GA4497@elementary>
-References: <20220718172953.6817-1-jose.exposito89@gmail.com>
- <5d4ef0df-083f-a00e-fb41-1ce1df6e9473@gmail.com>
- <20220720173656.GA3725@elementary>
- <47970684-1158-cee8-9ff5-d7dca70a54ae@gmail.com>
- <20220720175444.GA10744@elementary>
- <3cdbcfe5-bb7e-2677-730f-f250e2d33f0c@gmail.com>
- <20220724110509.GA30492@elementary>
- <f05e0c92-a1c9-f517-e1b4-f753e362dfd4@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=nWit7Kn68GEMPw7G4wEbtJxZwK0Ee9idrNPto3C7Rb4=;
+        b=lUGrnrYwTXB1WdRVHQWoYUBNs5MSz8xz2uoCV+mzOfFYO/Jvmf/pdrxW/8VLNDqcly
+         jjKnCcsm12VtF90EkL7JRI0zdZ+H9KM56ZUICdgYelSSsWhEHXe6LrlhbNkHeI4SqQqz
+         YeTqLh2cNeJhtU1tlaD+9QFGCZPB1nFOmu3FlTaWJwegOlTS6fr6KLLI/t6PJkQO6Ju0
+         CqT2PW5johVndBy4Mh3pQYU0UPpk7oOJdQR3O6jmg3DxuYFbncyNsLYU+kS+NCUE8pbc
+         Vf8/gWaV1nyL/R3h5Ghnuw/Vcutyw8G73Lh6ypyBmfswHqnuHlHZ5thSljxnZShbVrj0
+         JZJg==
+X-Gm-Message-State: ACgBeo0qZkRNHix1QuG1+TAhRZR8kHD2/MK+vnzUmxYKQTDSMg9HSs+S
+        kpiHXlI64igw14iZsfrgv6usVpD/c/NTGPDTtQI=
+X-Google-Smtp-Source: AA6agR7Ato2DCBx203VKocNIXQ8BeokFSfhIucyMnDZXDO5irSPSPb5f5Mz32kBJ/Rrv0I4Ay+BbZg1UXz+IiD+c1AM=
+X-Received: by 2002:a81:7485:0:b0:329:a463:1ff4 with SMTP id
+ p127-20020a817485000000b00329a4631ff4mr6653113ywc.19.1659978654940; Mon, 08
+ Aug 2022 10:10:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f05e0c92-a1c9-f517-e1b4-f753e362dfd4@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <12042830.O9o76ZdvQC@kreacher> <1c7fa65d-47ab-b064-9087-648bcfbf4ab5@amd.com>
+ <CAJZ5v0ie7B=GvhbfBsi7Zxu+=YzYKUqvUNs6dNZQfT3CRm=KPg@mail.gmail.com>
+ <a2d2b61e-87c0-ee39-ea4e-3c575da0a66c@redhat.com> <CAHQZ30DjkyDT8KbsHzfwiyg6Tst9EFhtCnjx3MmwbWRerzW_6A@mail.gmail.com>
+In-Reply-To: <CAHQZ30DjkyDT8KbsHzfwiyg6Tst9EFhtCnjx3MmwbWRerzW_6A@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 8 Aug 2022 19:10:43 +0200
+Message-ID: <CAJZ5v0gXizr6szRA09fNYC0njUv-Dg7kDSu9FtmfDRgX2n45wg@mail.gmail.com>
+Subject: Re: [PATCH] i2c: ACPI: Do not check ACPI_FADT_LOW_POWER_S0
+To:     Raul Rangel <rrangel@chromium.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Limonciello, Mario" <mario.limonciello@amd.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ACPI <linux-acpi@vger.kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 08, 2022 at 10:44:29AM +0300, Nikolai Kondrashov wrote:
-> On 7/24/22 14:05, José Expósito wrote:
-> > On Wed, Jul 20, 2022 at 09:13:39PM +0300, Nikolai Kondrashov wrote:
-> > > Could you send me an email once you got something ready for review?
-> > > 
-> > > Thank you!
-> > > Nick
-> > 
-> > Sure, the PR is ready:
-> > https://github.com/DIGImend/digimend-kernel-drivers/pull/598
-> > 
-> > I included the patches present in "for-5.20/uclogic" but not the
-> > patches I sent during the last couple of weeks to the mailing list,
-> > just in case changes are requested.
-> > 
-> > In addition, I created another PR adding the XP-Pen Deco L tablet to
-> > the web:
-> > https://github.com/DIGImend/tablets/pull/52
-> 
-> Thank you, José!
-> 
-> I finally made the release:
-> https://github.com/DIGImend/digimend-kernel-drivers/releases/tag/v11
-> 
-> Nick
+On Sat, Aug 6, 2022 at 4:20 AM Raul Rangel <rrangel@chromium.org> wrote:
+>
+> I do plan on coming back and updating those patches. I got derailed
+> with other priorities.
 
-Thanks a lot Nickolai :) I'll keep an eye on the bug tracker just in
-case.
+I'll leave it to you then.  I'm mostly interested in dropping the
+misguided ACPI_FADT_LOW_POWER_S0 check.
 
-Jose
+> But as Hans pointed out, we wanted to use
+> `ExclusiveAndWake` to make the decision since not all IRQs can be wake
+> sources while in s0i3.
+
+S0i3 is still S0, so all of the interrupts that work in S0 will still work.
+
+What really matters is whether or not enable_irq_wake() is called for
+the given IRQ, but I'm not sufficiently familiar with the code in
+question to comment on it any further without thorough investigation.
+
+And of course the device needs to be able to generate interrupts in
+the first place and if it is power-manageable by ACPI, I would just
+leave the wakeup handling to the generic ACPI code.
+
+>
+> On Fri, Aug 5, 2022 at 12:54 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >
+> > Hi,
+> >
+> > On 8/5/22 19:08, Rafael J. Wysocki wrote:
+> > > On Fri, Aug 5, 2022 at 6:59 PM Limonciello, Mario
+> > > <mario.limonciello@amd.com> wrote:
+> > >>
+> > >> On 8/5/2022 11:51, Rafael J. Wysocki wrote:
+> > >>> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > >>>
+> > >>> The ACPI_FADT_LOW_POWER_S0 flag merely means that it is better to
+> > >>> use low-power S0 idle on the given platform than S3 (provided that
+> > >>> the latter is supported) and it doesn't preclude using either of
+> > >>> them (which of them will be used depends on the choices made by user
+> > >>> space).
+> > >>>
+> > >>> Because of that, ACPI_FADT_LOW_POWER_S0 is generally not sufficient
+> > >>> for making decisions in device drivers and so i2c_hid_acpi_probe()
+> > >>> should not use it.
+> > >>>
+> > >>> Moreover, Linux always supports suspend-to-idle, so if a given
+> > >>> device can wake up the system from suspend-to-idle, then it can be
+> > >>> marked as wakeup capable unconditionally, so make that happen in
+> > >>> i2c_hid_acpi_probe().
+> > >>>
+> > >>> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > >>
+> > >> +Raul
+> > >> +Hans
+> > >> +KH
+> > >>
+> > >> Raul had a patch that was actually going to just tear out this code
+> > >> entirely:
+> > >> https://lkml.kernel.org/lkml/20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid/
+> > >>
+> > >> As part of that patch series discussion another suggestion had
+> > >> transpired
+> > >> (https://patchwork.kernel.org/project/linux-input/patch/20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid/#24681016):
+> > >>
+> > >> ```
+> > >> if ((acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) &&
+> > >>             !adev->flags.power_manageable) {
+> > >>                  device_set_wakeup_capable(dev, true);
+> > >>                  device_set_wakeup_enable(dev, false);
+> > >>          }
+> > >> ```
+> > >>
+> > >> If this is being changed, maybe consider that suggestion to
+> > >> check `adev->flags.power_manageable`.
+> > >
+> > > Fair enough, I'll send a v2 with this check added.
+> >
+> > Re-reading the original thread:
+> > https://lkml.kernel.org/lkml/20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid/T/#u
+> >
+> > The conclusion there was that the :
+> >
+> >                  device_set_wakeup_capable(dev, true);
+> >                  device_set_wakeup_enable(dev, false);
+> >
+> > Calls should be made conditional on the IRQ being
+> > marked ExclusiveAndWake instead of the ACPI_FADT_LOW_POWER_S0
+> > check.
+> >
+> > Regards,
+> >
+> > Hans
+> >
