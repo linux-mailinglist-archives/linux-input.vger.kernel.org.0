@@ -2,71 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3690558D60A
-	for <lists+linux-input@lfdr.de>; Tue,  9 Aug 2022 11:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA3F58D74A
+	for <lists+linux-input@lfdr.de>; Tue,  9 Aug 2022 12:18:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbiHIJMs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Aug 2022 05:12:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41412 "EHLO
+        id S242213AbiHIKSl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Aug 2022 06:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230089AbiHIJMr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Aug 2022 05:12:47 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 149DE21824;
-        Tue,  9 Aug 2022 02:12:47 -0700 (PDT)
+        with ESMTP id S242226AbiHIKSi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Aug 2022 06:18:38 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AEC71F2ED;
+        Tue,  9 Aug 2022 03:18:37 -0700 (PDT)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 0389A32000D9;
-        Tue,  9 Aug 2022 05:12:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Tue, 09 Aug 2022 05:12:45 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 8A776320005D;
+        Tue,  9 Aug 2022 06:18:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 09 Aug 2022 06:18:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=undef.tools; h=
         cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
         :message-id:mime-version:reply-to:sender:subject:subject:to:to;
-         s=fm1; t=1660036364; x=1660122764; bh=rB0hDcQzcfmipxIVzOCx2wq2L
-        3CxDGgdvFX9zfr40wo=; b=j3f3h8I8z89+u/np0MjbsUbJ/qyMFawKi0ER0Qhe5
-        nStveoZA6Mk8qnPfq4wYAvohEof6OKeAVV3vgRYpSvP6LqufNIKIWP1zq6Eq7Mhb
-        rOY5sQKbHKUpIgVS+krJ/u1GOwjGMo0Ob13jEjFdhpvmUWFr4GHhFw34qz27VNxr
-        Ubg2ypPuEpBeU1fmPXh59dMhGdFOvU6S1hdIxXw+byK0r1rlWxEbEZuD8+Py0edJ
-        26puMERe0G49+rR7wFAT6Vs5xJR42UDxhCGDAyYbWnNxOPGzboa6OV5cTn7nUlJl
-        bzCRl/glO44uVYGMgL9+tyuaIDk5g0DBl2phfWYiyXwXw==
+         s=fm1; t=1660040313; x=1660126713; bh=cSaKIuo8NVh4MYoCKJvrALvtp
+        B3Wd3w5fB6WP0MFulE=; b=bjVSMc97VVSRBzi5hSU1RTjrxz9pp8XG3pM/3+8db
+        UCHHxeiLfl7/OEH4X5H4Mz0ZzXyCUJSoETDrZLnr+nq7RMZpkqqnP2GNnNP2ouoJ
+        rCT38ATQbwe10pjOIjLoeNKCm7MRoTd/825AFIW3mOy3sOJSZC91bwWQBLdHJnwe
+        AO5DNvhpFQK8W9oHqNK4iVOozwf1Y+TacDH8QE8LjNS/dHhPdiCGwir9OoVywqUk
+        yB8A6jC6o3HOL5ON/iK8oPdsW77R7ehvBQJW4R74q80/lzJ0KSXfY37WM7BP8wq2
+        8nBoKF5hdnSEjr6o0jTWh6kd45DbgEp8UMjy2B2XvifFA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
         :feedback-id:feedback-id:from:from:in-reply-to:message-id
         :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
         :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-        1660036364; x=1660122764; bh=rB0hDcQzcfmipxIVzOCx2wq2L3CxDGgdvFX
-        9zfr40wo=; b=oJFJUkDBEUD9Bn1BU4LOzSXhwRg9esjaztYvqevUB6PkioNO421
-        U+F0fLrD00b6Nj3kDtH5CVamHVeSky3IzG/0hZoJBrkGKuZibPatC/yxiZ8nowpq
-        tDzRctcbUsPOqxMlvO4U6AXVmfCsIVNJXViZ+j75Z+B6hYZbiYjnxvsxoRg1e6mH
-        HXdJNilBbtQQCigjTEriFUGwcGJ3uSunpNTTf+fyt2tiu3yoZEv9s7Mwz3S5rF8e
-        OI0r9yWrHw3YL6Dhau09FryoRi6rvd/1K+9VQ7Z3/d0lffZ0zvCZTIKyVs2LQgIK
-        K2jiuF8azRDHOSRnczxLt6QhFrFh1Zxeuhw==
-X-ME-Sender: <xms:CyXyYlpb4QPU4ZSvqSSQpwKUi_CeRk73FOdG1HZ0YYxdDGDxLnVTFA>
-    <xme:CyXyYnrd9KnS7b0pYF-0wVLaUHoiHWhIcuplR0hR6gyGO6y_l_jF16YTJlyM8O1Yv
-    uTuYAFx1omfUuQqxgg>
-X-ME-Received: <xmr:CyXyYiNBFkyRLIBo0U20yf0eZZnzLunPrKQK3CEwPGHPrU5lQRFp_HdnyUS9AO61OUsYz5BqF7ijVQdex7Iawpml3-fdbe0_zz4Ul803n-73ZJG9FVtaKzsM_Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegtddgudefucetufdoteggodetrfdotf
+        1660040313; x=1660126713; bh=cSaKIuo8NVh4MYoCKJvrALvtpB3Wd3w5fB6
+        WP0MFulE=; b=cDXDx/ySgJ5LBTUjuN2h6DHGhxSvhlz6dKm55pjpdBn/NUiQihN
+        RpmUXBZjKcxhFoyolL9wytXPmxSG61mg2PIDaNZozYqTHaDWM5GWeS0mbiujafQf
+        n14t4cfGgp3jQ+OF8xVuly/XbEaXEBp1W1HhlOA7dCOnDFb39XJ7BGYTztM6rpw1
+        SDKCoGTetFbh8TTtiwOUcnLSBKph720RB0s8EOp1nIF+2z2P55FuZBRW5y+3gtS0
+        GdPjK/VOszUz9VTZ7bH8xt9fPHjNyo0xShC5CdhUqcZexW3qtCjcq88MYXG8QSAg
+        FXTP5ByyRKaBE+Eba2QL0YfTDHTiSPsuwhw==
+X-ME-Sender: <xms:eDTyYlymtfXLxhjbJTUyDEvHHpm2NLrWCrf5m6oRUpOnvjq1BGI-xA>
+    <xme:eDTyYlSZlD4m9gm7QEu3sjLeQtqK5UvaYJ-_Hdsslnnl0uqEQt_ut4FyYvgFzydon
+    IHe9pAqql_Lc9CDucw>
+X-ME-Received: <xmr:eDTyYvUY1093cc0QUPnT8Tz85G0MNbcHGuxFb_OcE6QY6lmB9Amzjild0HIodWHzdMJFRUCeL7vg0WDnZ1oKB-DkPeBEqRJHUnajcaeZkwmBU5C6zQAAIHS3vA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegtddgvdeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
     ertddtnecuhfhrohhmpehkvghrnhgvlhesuhhnuggvfhdrthhoohhlshenucggtffrrght
-    thgvrhhnpedttdeiheeggfevgeekgfehkeegleekjeelleekjeeujeektdekteefgffhke
-    dtueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehk
-    vghrnhgvlhesuhhnuggvfhdrthhoohhlsh
-X-ME-Proxy: <xmx:CyXyYg6aJg_kffOVzVibNpTdQgV8NrwggMn8IMDaj3HumbPBsxX_iQ>
-    <xmx:CyXyYk7wA4c9HPqB5l6IgdYud8Ooz0Tb5WnrKp976LZVBN5gfr0a7g>
-    <xmx:CyXyYogBYrOAANNbBx7EzUWplZjTUMxz8KaKbGf9LG51c80BV8-Jrg>
-    <xmx:DCXyYhtLJI97jbtCNPFhwJsyXGOyZfaMT4syjRBYnOuNI80Qg9SFvA>
+    thgvrhhnpeduleegkeevheeifefhheeluedvjeevvdeuheeuheeuvdduveduhfegffegtd
+    dutdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepkhgvrhhnvghlsehunhguvghfrdhtohholh
+    hs
+X-ME-Proxy: <xmx:eDTyYngqwfuzaVh9wK_O7YbzJrQyW1d1YJJxRyYHQiMIlP1RKCvZpw>
+    <xmx:eDTyYnCpSjDezdHwfdF70_WiHy4ctl6Fn3PBqLMjc33HltHOsXekcQ>
+    <xmx:eDTyYgJhK3j_9K466iiWlK2q2D7_ehGmd_EAwtcYy1H8dWmMBKHhGA>
+    <xmx:eTTyYp1aiVvbH92ciOKSKIjNWNGjujJUdoVvCKfIFnMvbLYcB4FblQ>
 Feedback-ID: id76147eb:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 9 Aug 2022 05:12:41 -0400 (EDT)
+ 9 Aug 2022 06:18:30 -0400 (EDT)
 From:   kernel@undef.tools
 To:     hadess@hadess.net, hdegoede@redhat.com, dmitry.torokhov@gmail.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     phone-devel@vger.kernel.org, megi@xff.cz,
         Jarrah Gosbell <kernel@undef.tools>
-Subject: [PATCH] Input: goodix: Add support for GT1158
-Date:   Tue,  9 Aug 2022 09:12:01 +0000
-Message-Id: <20220809091200.290492-1-kernel@undef.tools>
+Subject: [PATCH] dt-bindings: input: touchscreen: add compatible string for Goodix GT1158
+Date:   Tue,  9 Aug 2022 10:16:34 +0000
+Message-Id: <20220809101633.352315-1-kernel@undef.tools>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -80,29 +81,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ondrej Jirman <megi@xff.cz>
+From: Jarrah Gosbell <kernel@undef.tools>
 
-This controller is used by PinePhone and PinePhone Pro. Support for
-the PinePhone Pro will be added in a later patch set.
+Goodix GT1158 is a touchscreen chip from Goodix used in the PinePhone
+and PinePhone Pro. Patches to correct these devices dts files will be
+sent in a later patch series.
 
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
+This driver was modified to support the GT1158 in the patch linked
+below. Add its compatible string to the device tree binding.
+
+Suggested-by: Ondrej Jirman <megi@xff.cz>
 Signed-off-by: Jarrah Gosbell <kernel@undef.tools>
+Link: https://lore.kernel.org/phone-devel/20220809091200.290492-1-kernel@undef.tools/
 ---
- drivers/input/touchscreen/goodix.c | 1 +
+ Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index aa45a9fee6a0..06d4fcafb766 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -95,6 +95,7 @@ static const struct goodix_chip_data gt9x_chip_data = {
- 
- static const struct goodix_chip_id goodix_chip_ids[] = {
- 	{ .id = "1151", .data = &gt1x_chip_data },
-+	{ .id = "1158", .data = &gt1x_chip_data },
- 	{ .id = "5663", .data = &gt1x_chip_data },
- 	{ .id = "5688", .data = &gt1x_chip_data },
- 	{ .id = "917S", .data = &gt1x_chip_data },
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+index 93f2ce3130ae..19ac9da421df 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+@@ -16,6 +16,7 @@ properties:
+   compatible:
+     enum:
+       - goodix,gt1151
++      - goodix,gt1158
+       - goodix,gt5663
+       - goodix,gt5688
+       - goodix,gt911
 -- 
 2.35.1
 
