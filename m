@@ -2,116 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5EAD58DFE5
-	for <lists+linux-input@lfdr.de>; Tue,  9 Aug 2022 21:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F27B658E075
+	for <lists+linux-input@lfdr.de>; Tue,  9 Aug 2022 21:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345459AbiHITHm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Aug 2022 15:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43332 "EHLO
+        id S245012AbiHITsK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Aug 2022 15:48:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348394AbiHITGv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Aug 2022 15:06:51 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D2D286EF
-        for <linux-input@vger.kernel.org>; Tue,  9 Aug 2022 11:53:09 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id z22so16266959edd.6
-        for <linux-input@vger.kernel.org>; Tue, 09 Aug 2022 11:53:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yngvason-is.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=bSmwmy0d4ywlzFxYzuJvOnoVLp0jnUKwPWKgJ5yhLF4=;
-        b=USW+KTDFOgMxHjyUyP6gvObtoUnYD4uz2HG1RpaR3C1O0Ry2yrhUISxkmDZS02KJ5u
-         7KSpUqSyhyr1lnuGRmjoxF+AtV8V3/wPa7eqDlDTeQWBuDApGui7KEnMacujM7hA3WkI
-         gcyPaVaYUcLlo7u16e6nuqkQR9dztCZVlNEkuCPIndgYyiA0VD5SP6gB6skdkfjy/KZ3
-         STGUXmfzn3SjHI7uIlxttvLC2JMgNzkkeCeDhEltb2pKdpIwUZd8GJFJk7tfKaupS+y0
-         tmVVcn20cao+VAq88M6nL0TgBILcdC7uEcSsU5Li6VCqMAfpyvnlnd4UCSxIbh2kdp+U
-         9QJg==
+        with ESMTP id S1344371AbiHITrt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Aug 2022 15:47:49 -0400
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9541517A88;
+        Tue,  9 Aug 2022 12:47:47 -0700 (PDT)
+Received: by mail-io1-f48.google.com with SMTP id h138so10435402iof.12;
+        Tue, 09 Aug 2022 12:47:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=bSmwmy0d4ywlzFxYzuJvOnoVLp0jnUKwPWKgJ5yhLF4=;
-        b=KuCN5dLUXrqlec8S41zR131l2aJ9PF0qHSn9aPRFYQ0vCaca+K0TmYlGL5hRI1pkcC
-         i9qtNyKkrI1oPlZZxeVGrchhwfDknhhFJAJqLZ6AZVh+QLubtcCf2l4G1vwajhgSiRm0
-         48Bb0xhzsUKAtX+XUHHBcEwjh3B7Eki80eI4wFuwnCgdGFiqOFeaxaJ1cgtl6Js0Tm1z
-         ZFZ8NxKp+srJHwGpX6dti3ptHUJzNoYu27OMUO9YTjW+RvJcfXeR7Xmh8+HQgnfgpZmr
-         n0OVEmFYlcsSbuP93GvdPQsLsSosDptj8/ASJaDIzlAd66nRH+DWtevbqMKKh/KwuRHc
-         7Eiw==
-X-Gm-Message-State: ACgBeo3MHxayrzhGrIZZ0j/zwqVQcE/CV15AwvSwL+LDw+pby05jwPFl
-        28/Lz/Krz5nOe8yoKaGsBiRp2o16uLBIHsTa
-X-Google-Smtp-Source: AA6agR5/8sMdQc7YyszdXqeA08b9F1SsOh5FN88DLMS3vZKz8mJZGzkJ+mi9qlxSPPs28HFCqbeMvg==
-X-Received: by 2002:a05:6402:4392:b0:43e:5033:40f8 with SMTP id o18-20020a056402439200b0043e503340f8mr23170800edc.245.1660071187677;
-        Tue, 09 Aug 2022 11:53:07 -0700 (PDT)
-Received: from andri-workstation.turninn.appdynamic.com ([2a01:8280:aa07:ad:7285:c2ff:fef0:4baf])
-        by smtp.gmail.com with ESMTPSA id v12-20020aa7dbcc000000b0042de3d661d2sm6452921edt.1.2022.08.09.11.53.06
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=k4UmaRvRZxWq4o+Yspru8OrOEwdOORLs/XhcJE2LcmE=;
+        b=i7uR/89jJpgYHFV6gHO6aJrq7B0Q4L5AEXCwj90d1/03PdaLNOZu9NbqxC1BwTXHmU
+         XDKmoivGwX92m05+wSDg4vy3EbO8WiIZAHSWaaUuc7EP6x5WtMVHFTVy5I6nbviBo4eG
+         fw+zoom+DlHl5xkcWdCqgsT9Fq+g+XlHqBSWK/KXco8RTjEr8Kp9PTVTOBTkjuZe5Pw1
+         jAlCzvGUkBJQ6yiglXffOdPiJW6gU834WIMragRju7txmNjjUDiF447HFqbHvB8f0DEK
+         3uTTCUR+EH9PYcZYKd9F6zvTqTdXd88frGTx5Bo4lKS/UHEItVPkVhkuG/z2WccDJ2lg
+         Abeg==
+X-Gm-Message-State: ACgBeo2STXCGo5kwx6u7a0fqKlVEPuDBfIPCiAzjKIpaxrQ2ZRKTLMZE
+        QuYzOs71KZ4vHqtOpxOIuA==
+X-Google-Smtp-Source: AA6agR7fG1uhYXOmBJYv5wsJOKXjgKp41AG88l0opsqFJjhGJlNG6iL6q3oTW8sl2117x5aUUcG7/A==
+X-Received: by 2002:a05:6638:16cf:b0:341:4543:b354 with SMTP id g15-20020a05663816cf00b003414543b354mr11803265jat.114.1660074466471;
+        Tue, 09 Aug 2022 12:47:46 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id h11-20020a92d08b000000b002de7ceafb4esm1386103ilh.20.2022.08.09.12.47.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 11:53:07 -0700 (PDT)
-From:   Andri Yngvason <andri@yngvason.is>
-To:     linux-input@vger.kernel.org
-Cc:     Andri Yngvason <andri@yngvason.is>
-Subject: [PATCH] HID: multitouch: Add memory barriers
-Date:   Tue,  9 Aug 2022 18:51:25 +0000
-Message-Id: <20220809185124.270636-1-andri@yngvason.is>
-X-Mailer: git-send-email 2.37.1
+        Tue, 09 Aug 2022 12:47:46 -0700 (PDT)
+Received: (nullmailer pid 2274578 invoked by uid 1000);
+        Tue, 09 Aug 2022 19:47:43 -0000
+Date:   Tue, 9 Aug 2022 13:47:43 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jerome Neanne <jneanne@baylibre.com>
+Cc:     khilman@baylibre.com, lgirdwood@gmail.com,
+        linux-arm-kernel@lists.infradead.org, nm@ti.com,
+        lee.jones@linaro.org, linux-input@vger.kernel.org,
+        msp@baylibre.com, devicetree@vger.kernel.org, j-keerthy@ti.com,
+        broonie@kernel.org, narmstrong@baylibre.com,
+        dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, kristo@kernel.org
+Subject: Re: [PATCH v3 04/10] regulator: dt-bindings: Add TI TPS65219 PMIC
+ bindings
+Message-ID: <20220809194743.GA2274545-robh@kernel.org>
+References: <20220805121852.21254-1-jneanne@baylibre.com>
+ <20220805121852.21254-5-jneanne@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220805121852.21254-5-jneanne@baylibre.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This fixes a race with the release-timer by adding acquire/release
-barrier semantics.
+On Fri, 05 Aug 2022 14:18:46 +0200, Jerome Neanne wrote:
+> Add TPS65219 PMIC bindings using json-schema.
+> 
+> Describe required properties and regname-supply.
+> regname-supply is required when bypass mode is used for a regulator.
+> Describes regulator topology.
+> Interrupts support.
+> Add a power-button property to configure the EN/PB/VSENSE pin as a
+> powerbutton:
+> 
+> TPS65219 has a multipurpose pin called EN/PB/VSENSE that can be either:
+> - EN in which case it functions as an enable pin.
+> - VSENSE which compares the voltages and triggers an automatic
+> on/off request.
+> - PB in which case it can be configured to trigger an interrupt
+> to the SoC.
+> ti,power-button reflects the last one of those options
+> where the board has a button wired to the pin and triggers
+> an interrupt on pressing it.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Jerome Neanne <jneanne@baylibre.com>
+> ---
+>  .../bindings/regulator/ti,tps65219.yaml       | 173 ++++++++++++++++++
+>  1 file changed, 173 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/ti,tps65219.yaml
+> 
 
-I noticed that contacts were sometimes sticking, even with the "sticky
-fingers" quirk enabled. This fixes that problem.
-
-Signed-off-by: Andri Yngvason <andri@yngvason.is>
----
- drivers/hid/hid-multitouch.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 2e72922e36f5..91a4d3fc30e0 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1186,7 +1186,7 @@ static void mt_touch_report(struct hid_device *hid,
- 	int contact_count = -1;
- 
- 	/* sticky fingers release in progress, abort */
--	if (test_and_set_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
-+	if (test_and_set_bit_lock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
- 		return;
- 
- 	scantime = *app->scantime;
-@@ -1267,7 +1267,7 @@ static void mt_touch_report(struct hid_device *hid,
- 			del_timer(&td->release_timer);
- 	}
- 
--	clear_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
-+	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
- }
- 
- static int mt_touch_input_configured(struct hid_device *hdev,
-@@ -1699,11 +1699,11 @@ static void mt_expired_timeout(struct timer_list *t)
- 	 * An input report came in just before we release the sticky fingers,
- 	 * it will take care of the sticky fingers.
- 	 */
--	if (test_and_set_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
-+	if (test_and_set_bit_lock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
- 		return;
- 	if (test_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags))
- 		mt_release_contacts(hdev);
--	clear_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
-+	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
- }
- 
- static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
--- 
-2.37.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
