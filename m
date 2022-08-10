@@ -2,241 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91F1F58E501
-	for <lists+linux-input@lfdr.de>; Wed, 10 Aug 2022 04:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE29558E720
+	for <lists+linux-input@lfdr.de>; Wed, 10 Aug 2022 08:09:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbiHJC4E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Aug 2022 22:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59004 "EHLO
+        id S230304AbiHJGJP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Aug 2022 02:09:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230221AbiHJC4B (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Aug 2022 22:56:01 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 529946E882;
-        Tue,  9 Aug 2022 19:55:59 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id h28so12471966pfq.11;
-        Tue, 09 Aug 2022 19:55:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc;
-        bh=l3n0xNkM7y1LjHD6LrFxe9l1XPdXW5jtjDOQp4rcO/k=;
-        b=lo1BruH/vdXNwPVHbqSlKdobgAf6YmMjRBWtOLpQU9Je9K7s1b7Wsa2tK+2LtAm4Ki
-         mDfMwxoG/dO9Mzj8UGstVIY/PKtpY4CaSGj6cINFlhqdzgdipYDI95GNTkklhxZZ5jzs
-         JQ5cmoOpcaOloYtrjLWqs/mbhgbbbNgy86TM+ywcxvzc5UzLkTv+usNv8R89Wis87+Je
-         qt6t63W8UMSEKX1Cr0PLfqs4w3zE3KrJdIKj5S+S49NcCxLlnbmE+S4UsIDIymjtKsGT
-         PKtXO7hv6YbyJYTWnU2InIpt57HGslzItJDZtOFiddEOo7aorPhdLXpndX7qpVzSUry+
-         pQ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc;
-        bh=l3n0xNkM7y1LjHD6LrFxe9l1XPdXW5jtjDOQp4rcO/k=;
-        b=dL/LDM4Jjuc3alb4QgBMO1D1LcQ2eL462QEhZtCDpSupSREv19OUxLXprWdzn/RJMi
-         on7JImwJf6TNk0XxKhLEgHvSupwP8aA5KrLfv3MdAfR2kfKEcKi6cZ7kxzAgPKBxfIZG
-         8g9VbEbbjTywEbMJOj5IWtnSGtqvOVOLnc+QX0iOm/6anQ9Wo2W8raZeuMePWzz4B8kp
-         zfmAqCHYHF/9F8NPYMqawL/qbah6gK13Pr7A89SrYS8lExiZVN1orZHtJlK4UIvSm1Kn
-         yb1hs5W2vYRLYtaglv3v4YIKvXwYX9cCpgF2Uv6r0pjccoQ148vqFJpkEiuWNgYFCGTF
-         I3Yg==
-X-Gm-Message-State: ACgBeo2A93oeGyF4w1SOQaICx5b1p8b78Z6aXM3bVXplulGJdcyf5cHK
-        Xoj+fH+I5rH8CDT4ZUP94Dw=
-X-Google-Smtp-Source: AA6agR5Nsk8n2J7f6D5rnXastYfmjURoEK0IGsEPSab2NT41Qwb3scM9E6J0rmI44rT1FxMITyvIeQ==
-X-Received: by 2002:a05:6a00:b82:b0:52f:518f:fe6c with SMTP id g2-20020a056a000b8200b0052f518ffe6cmr11690460pfj.80.1660100158724;
-        Tue, 09 Aug 2022 19:55:58 -0700 (PDT)
-Received: from localhost.localdomain ([2402:7500:577:d15f:416a:c0:aecd:5d6e])
-        by smtp.gmail.com with ESMTPSA id i5-20020a170902c94500b0016d1f474653sm11785654pla.52.2022.08.09.19.55.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Aug 2022 19:55:58 -0700 (PDT)
-From:   cy_huang <u0084500@gmail.com>
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        lee@kernel.org, dmitry.torokhov@gmail.com
-Cc:     cy_huang@richtek.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v4 3/3] input: misc: rt5120: Add power key support
-Date:   Wed, 10 Aug 2022 10:55:42 +0800
-Message-Id: <1660100142-32493-4-git-send-email-u0084500@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1660100142-32493-1-git-send-email-u0084500@gmail.com>
-References: <1660100142-32493-1-git-send-email-u0084500@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230182AbiHJGJP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Aug 2022 02:09:15 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C66261DAE;
+        Tue,  9 Aug 2022 23:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660111754; x=1691647754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4r5i0Y6g9xMaNUs1Xqtf0YMvE9i1mgwbTQx+M/ACgz0=;
+  b=HbspaCTXbdDiJCmr+muVZgISNWvD8Gs0XS8UoiWOTN9LuTrLBVUwvSG9
+   DMIJb78va51CtafVitxVejafJg4hNF2kIBftHHL09et4882a0oJ7PtYL+
+   NDhT+7waN7dIIxsrcjJ1L/etkyNuahzxkVQQuGed/ggoEYN8K+HRBzWou
+   95z8paUhqSMoV/AGGuMAATCoPma1JGcHxcV9G3wKNr/Kk+ru3Uz13s4UE
+   lQG57qaxMR6XT6sJtz8m58yGq0auP3rUF9YwXyAlrRgbxLA5L6dWY3D1o
+   UaDrQi4DjJJlaNdcGHAr1Vf/plDm6gEEjefSqhmA4imD4ZRMIylnT1GyB
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="271391327"
+X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; 
+   d="scan'208";a="271391327"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2022 23:09:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; 
+   d="scan'208";a="673177336"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 09 Aug 2022 23:09:12 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oLetz-000NaL-1u;
+        Wed, 10 Aug 2022 06:09:11 +0000
+Date:   Wed, 10 Aug 2022 14:08:10 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nate Yocom <nate@yocom.org>, dmitry.torokhov@gmail.com
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nate@yocom.org
+Subject: Re: [PATCH] Input: joystick: xpad: Add X-Box Adaptive Controller
+ support
+Message-ID: <202208101406.tS1Uz1FD-lkp@intel.com>
+References: <20220810002024.13686-1-nate@yocom.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220810002024.13686-1-nate@yocom.org>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+Hi Nate,
 
-Add RT5120 PMIC power key support.
+Thank you for the patch! Perhaps something to improve:
 
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
----
-Since v4:
-- Add "Copyright" string and refine for GPL version string.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on hid/for-next linus/master v5.19 next-20220810]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Since v3:
-- Simplify the power key irq handler key report
-- Since press and release irq not needed to keep in private data, change 'press',
-  'release' irq as local variable only.
-- Fix Kconfig typo for pwrkey.
+url:    https://github.com/intel-lab-lkp/linux/commits/Nate-Yocom/Input-joystick-xpad-Add-X-Box-Adaptive-Controller-support/20220810-082302
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20220810/202208101406.tS1Uz1FD-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 5f1c7e2cc5a3c07cbc2412e851a7283c1841f520)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4c3757fab74082cf845405ba8d8b2d60e06572cd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nate-Yocom/Input-joystick-xpad-Add-X-Box-Adaptive-Controller-support/20220810-082302
+        git checkout 4c3757fab74082cf845405ba8d8b2d60e06572cd
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/entry/ drivers/input/joystick/
 
----
- drivers/input/misc/Kconfig         |   9 +++
- drivers/input/misc/Makefile        |   1 +
- drivers/input/misc/rt5120-pwrkey.c | 109 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 119 insertions(+)
- create mode 100644 drivers/input/misc/rt5120-pwrkey.c
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index a18ab73..92daa4d 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -891,6 +891,15 @@ config INPUT_SC27XX_VIBRA
- 	  To compile this driver as a module, choose M here. The module will
- 	  be called sc27xx_vibra.
- 
-+config INPUT_RT5120_PWRKEY
-+	tristate "RT5120 PMIC power key support"
-+	depends on MFD_RT5120
-+	help
-+	  This enables support for RT5120 PMIC power key driver.
-+
-+	  To compile this driver as a module, choose M here. the module will
-+	  be called rt5120-pwrkey.
-+
- config INPUT_STPMIC1_ONKEY
- 	tristate "STPMIC1 PMIC Onkey support"
- 	depends on MFD_STPMIC1
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 28dfc44..d1fb00e 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -69,6 +69,7 @@ obj-$(CONFIG_INPUT_RAVE_SP_PWRBUTTON)	+= rave-sp-pwrbutton.o
- obj-$(CONFIG_INPUT_RB532_BUTTON)	+= rb532_button.o
- obj-$(CONFIG_INPUT_REGULATOR_HAPTIC)	+= regulator-haptic.o
- obj-$(CONFIG_INPUT_RETU_PWRBUTTON)	+= retu-pwrbutton.o
-+obj-$(CONFIG_INPUT_RT5120_PWRKEY)	+= rt5120-pwrkey.o
- obj-$(CONFIG_INPUT_AXP20X_PEK)		+= axp20x-pek.o
- obj-$(CONFIG_INPUT_GPIO_ROTARY_ENCODER)	+= rotary_encoder.o
- obj-$(CONFIG_INPUT_RK805_PWRKEY)	+= rk805-pwrkey.o
-diff --git a/drivers/input/misc/rt5120-pwrkey.c b/drivers/input/misc/rt5120-pwrkey.c
-new file mode 100644
-index 00000000..94d25ba
---- /dev/null
-+++ b/drivers/input/misc/rt5120-pwrkey.c
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2022 Richtek Technology Corp.
-+ * Author: ChiYuan Huang <cy_huang@richtek.com>
-+ */
-+
-+#include <linux/bits.h>
-+#include <linux/input.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define RT5120_REG_INTSTAT	0x1E
-+#define RT5120_PWRKEYSTAT_MASK	BIT(7)
-+
-+struct rt5120_priv {
-+	struct regmap *regmap;
-+	struct input_dev *input;
-+};
-+
-+static irqreturn_t rt5120_pwrkey_handler(int irq, void *devid)
-+{
-+	struct rt5120_priv *priv = devid;
-+	unsigned int stat;
-+	int ret;
-+
-+	ret = regmap_read(priv->regmap, RT5120_REG_INTSTAT, &stat);
-+	if (ret)
-+		return IRQ_NONE;
-+
-+	input_report_key(priv->input, KEY_POWER,
-+			 !(stat & RT5120_PWRKEYSTAT_MASK));
-+	input_sync(priv->input);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int rt5120_pwrkey_probe(struct platform_device *pdev)
-+{
-+	struct rt5120_priv *priv;
-+	struct device *dev = &pdev->dev;
-+	int press_irq, release_irq;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->regmap = dev_get_regmap(dev->parent, NULL);
-+	if (!priv->regmap)
-+		return dev_err_probe(dev, -ENODEV, "Failed to init regmap\n");
-+
-+	press_irq = platform_get_irq_byname(pdev, "pwrkey-press");
-+	if (press_irq < 0)
-+		return press_irq;
-+
-+	release_irq = platform_get_irq_byname(pdev, "pwrkey-release");
-+	if (release_irq < 0)
-+		return release_irq;
-+
-+	/* Make input device be device resource managed */
-+	priv->input = devm_input_allocate_device(dev);
-+	if (!priv->input)
-+		return dev_err_probe(dev, -ENOMEM,
-+				     "Failed to allocate input device\n");
-+
-+	priv->input->name = "rt5120_pwrkey";
-+	priv->input->phys = "rt5120_pwrkey/input0";
-+	priv->input->id.bustype = BUS_I2C;
-+	input_set_capability(priv->input, EV_KEY, KEY_POWER);
-+
-+	ret = input_register_device(priv->input);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to register input device\n");
-+
-+	ret = devm_request_threaded_irq(dev, press_irq, NULL,
-+					rt5120_pwrkey_handler, 0,
-+					"pwrkey-press", priv);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to register pwrkey press irq\n");
-+
-+	return devm_request_threaded_irq(dev, release_irq, NULL,
-+					 rt5120_pwrkey_handler, 0,
-+					 "pwrkey-release", priv);
-+}
-+
-+static const struct of_device_id r5120_pwrkey_match_table[] = {
-+	{ .compatible = "richtek,rt5120-pwrkey" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, r5120_pwrkey_match_table);
-+
-+static struct platform_driver rt5120_pwrkey_driver = {
-+	.driver = {
-+		.name = "rt5120-pwrkey",
-+		.of_match_table = r5120_pwrkey_match_table,
-+	},
-+	.probe = rt5120_pwrkey_probe,
-+};
-+module_platform_driver(rt5120_pwrkey_driver);
-+
-+MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-+MODULE_DESCRIPTION("Richtek RT5120 power key driver");
-+MODULE_LICENSE("GPL v2");
+All warnings (new ones prefixed by >>):
+
+>> drivers/input/joystick/xpad.c:1643:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   drivers/input/joystick/xpad.c:1643:2: note: insert '__attribute__((fallthrough));' to silence this warning
+           default:
+           ^
+           __attribute__((fallthrough)); 
+   drivers/input/joystick/xpad.c:1643:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   1 warning generated.
+
+
+vim +1643 drivers/input/joystick/xpad.c
+
+^1da177e4c3f41 drivers/usb/input/xpad.c      Linus Torvalds    2005-04-16  1618  
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1619  static void xpad_set_up_abs(struct input_dev *input_dev, signed short abs)
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1620  {
+1a48ff81b3912b drivers/input/joystick/xpad.c Ted Mielczarek    2014-08-08  1621  	struct usb_xpad *xpad = input_get_drvdata(input_dev);
+68c78d0155e379 drivers/input/joystick/xpad.c Leo Sperling      2016-08-03  1622  
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1623  	switch (abs) {
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1624  	case ABS_X:
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1625  	case ABS_Y:
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1626  	case ABS_RX:
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1627  	case ABS_RY:	/* the two sticks */
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1628  		input_set_abs_params(input_dev, abs, -32768, 32767, 16, 128);
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1629  		break;
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1630  	case ABS_Z:
+b45d44e7e00c17 drivers/input/joystick/xpad.c Nicolas Léveillé  2009-12-29  1631  	case ABS_RZ:	/* the triggers (if mapped to axes) */
+1a48ff81b3912b drivers/input/joystick/xpad.c Ted Mielczarek    2014-08-08  1632  		if (xpad->xtype == XTYPE_XBOXONE)
+1a48ff81b3912b drivers/input/joystick/xpad.c Ted Mielczarek    2014-08-08  1633  			input_set_abs_params(input_dev, abs, 0, 1023, 0, 0);
+1a48ff81b3912b drivers/input/joystick/xpad.c Ted Mielczarek    2014-08-08  1634  		else
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1635  			input_set_abs_params(input_dev, abs, 0, 255, 0, 0);
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1636  		break;
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1637  	case ABS_HAT0X:
+b45d44e7e00c17 drivers/input/joystick/xpad.c Nicolas Léveillé  2009-12-29  1638  	case ABS_HAT0Y:	/* the d-pad (only if dpad is mapped to axes */
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1639  		input_set_abs_params(input_dev, abs, -1, 1, 0, 0);
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1640  		break;
+4c3757fab74082 drivers/input/joystick/xpad.c Nate Yocom        2022-08-09  1641  	case ABS_MISC: /* 4 value layer button (such as on the XAC) */
+4c3757fab74082 drivers/input/joystick/xpad.c Nate Yocom        2022-08-09  1642  		input_set_abs_params(input_dev, abs, 0, 4, 0, 0);
+a01308031c2647 drivers/input/joystick/xpad.c Marcus Folkesson  2018-05-08 @1643  	default:
+a01308031c2647 drivers/input/joystick/xpad.c Marcus Folkesson  2018-05-08  1644  		input_set_abs_params(input_dev, abs, 0, 0, 0, 0);
+a01308031c2647 drivers/input/joystick/xpad.c Marcus Folkesson  2018-05-08  1645  		break;
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1646  	}
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1647  }
+deb8ee43a23d48 drivers/usb/input/xpad.c      Dominic Cerquetti 2006-10-10  1648  
+
 -- 
-2.7.4
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
