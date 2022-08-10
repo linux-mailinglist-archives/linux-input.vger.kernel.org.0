@@ -2,63 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EDEA58E405
-	for <lists+linux-input@lfdr.de>; Wed, 10 Aug 2022 02:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2327458E4F9
+	for <lists+linux-input@lfdr.de>; Wed, 10 Aug 2022 04:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbiHJAUc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Aug 2022 20:20:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
+        id S229755AbiHJCzv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Aug 2022 22:55:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbiHJAUb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Aug 2022 20:20:31 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6691FB01
-        for <linux-input@vger.kernel.org>; Tue,  9 Aug 2022 17:20:28 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id pm17so13216341pjb.3
-        for <linux-input@vger.kernel.org>; Tue, 09 Aug 2022 17:20:28 -0700 (PDT)
+        with ESMTP id S229456AbiHJCzv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Aug 2022 22:55:51 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658FE6E894;
+        Tue,  9 Aug 2022 19:55:50 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id m2so13068719pls.4;
+        Tue, 09 Aug 2022 19:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yocom-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=1x7SOVtOei70cdAgsBLTaDzhKWbFRtoFMWwMze/rFM8=;
-        b=RFUpjh/DphoZwLHaoft5BHiz2a9zHUo26WJH+Wv8XymWhJs5KZJNzguPNytnzagpC8
-         obsMdqT2SP28aUZohDbG7TY6HXkXk+VakdhhiPwJMPaGuQHGRK9imgrpR1JHujJ4/mjR
-         Ws02oUgfMZFBsOl+SYDkW5T2DThfQ6zR/hQvGEjrDhuoyGaGNRAYbteN+s2RTn3R6Hz8
-         qg8ofbAUlNAdnsMO4GyRRwr1cojH/77dbIq0kLBXC4EKM/sAIPRAoJR7JqYl09i9z7JV
-         hjZrpiyDVliI0Jg6dcLrT/QA5+E3hotNVmd/NZfYVXKh4cl8DC2Wwy1kfA8k5k+IYvlH
-         Vppg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=WO6tQqM10EHYIi2tDllBbfU+5oiZu0xp+kjAXZmD9VQ=;
+        b=fGPt2iWbKcUPtUbpJePn5tIAHZ7SdQUi4IxwD/UgqI6GkyvPx2GK9kw8OY1NgtdqB2
+         K/4m070tKHcKSzpKYwu6kYf94You4aJiu2Tj5SWDzC0n2Dxo06CWzFkb3/Sq5KPlERO/
+         8oR36xbflcLxc9GIIXBAsEEpRvns/d4zESYVOxDVrcWFY87gOPzA4+3N40cKNugxk/1r
+         M75hZwcTHrx32b8KqJ9GwmtxaKaaYkETRjxC7yW3GUVQeA0bwndkN+fPT9T9eotqu3gB
+         SaoOj2RYZ7bJS1xPfMbyFzIXONW05Rv6KxvbUNVFgH9pse20VGGpMWbsEO5ASlImolyG
+         bOIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=1x7SOVtOei70cdAgsBLTaDzhKWbFRtoFMWwMze/rFM8=;
-        b=L5PDprpGTJLjvK9CX8mxNfG+UBw8KRFO5dcI0EaeYU1MOfnzulR2ypo1Fs4luAK1aw
-         CutK5BkcGmHXYum62+fwqJ9oOWQAwOVZ7Nt7LfD39vcSGGJiPsD+cLeyPR1wryRPxOsY
-         fNFaTN0HenFxIjkLLoGN6JpMvAe5rw80XAIJCshXr6TP8zVwtXBcu1bt4yCbriSj0Afv
-         ovCQcFiXpWnr4lr6cXsvD304kP5Xsszg3MCrGhnQ7Q+wlhVrY1FzONmhLKr0gTKjykaR
-         SFiVNqpVB3a0oAorZqLYLQODCY1WCmYvC57GJmZ47yedaXv16EEkcaZUoQc8BHvJPOxd
-         uR6A==
-X-Gm-Message-State: ACgBeo2R4lLuK8z89dCUZ2n4BrYfe9BCd7d9u6OOKVwSe2sutlKXqPIy
-        UUHaWfUAAX/sJN2m9nwV2+VfrA==
-X-Google-Smtp-Source: AA6agR4x3Y5olBaNr/fKSPGTFcGSwGvHlG3yZELirqR8W/0dyJiu5xlfDN5BpskP8ZYzQF7YwuayIg==
-X-Received: by 2002:a17:902:8486:b0:16d:d4b1:ceb6 with SMTP id c6-20020a170902848600b0016dd4b1ceb6mr25708252plo.33.1660090827919;
-        Tue, 09 Aug 2022 17:20:27 -0700 (PDT)
-Received: from localhost.localdomain ([2601:600:a07f:e6ac::1c])
-        by smtp.gmail.com with ESMTPSA id i22-20020aa796f6000000b0050dc7628183sm495325pfq.93.2022.08.09.17.20.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 17:20:27 -0700 (PDT)
-From:   Nate Yocom <nate@yocom.org>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nate@yocom.org
-Subject: [PATCH] Input: joystick: xpad: Add X-Box Adaptive Controller support
-Date:   Tue,  9 Aug 2022 17:20:24 -0700
-Message-Id: <20220810002024.13686-1-nate@yocom.org>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=WO6tQqM10EHYIi2tDllBbfU+5oiZu0xp+kjAXZmD9VQ=;
+        b=G1pFzw//G5X/HWriL7jnPtD7kKYXxJZYZ/fWUDNjz+9WsllbrOu0PZXieiHqeosANN
+         QeMAiWQcLj9SdiTki2aWXwBWRtTl7Ff5vZ+Tt2WZJy9XXKShwuEsmkMpH/NQoXsYAxNi
+         qB9WIkfEX+7PTTpaN1m3dXx2PySGz0nJ/NQ6RaKGX3hcsUeiYkaq+rNQBxQVSyI4pMTj
+         V3bHTmf4H0Kym1zYXEee02dNDPJ705JSZoV9UMUF9sTUnJ70vew+UtaeYjqVADkAQ6O1
+         dlIK0bH7d5sqwS8H9YXhZL3mwt6JgX41Ey99DKFcw0Jr9S67ZHFGW61WLzVGireXRDTD
+         Z5Ow==
+X-Gm-Message-State: ACgBeo1WEHLXWFBK2ifLPGyBNtFs9KVA5wl8G7aXWWKnCNA95EUy9Wr8
+        fEHgNHGa/8i27ssRKzK0nr4=
+X-Google-Smtp-Source: AA6agR4ccL0bsqHiZDiLBp/aEdJ0eH5feiNRFH/CTpVYuJNPArD7GDNymKRIs9b+Mu54CQzhqlsYcQ==
+X-Received: by 2002:a17:90b:38cc:b0:1f7:2835:d45e with SMTP id nn12-20020a17090b38cc00b001f72835d45emr1413068pjb.177.1660100149685;
+        Tue, 09 Aug 2022 19:55:49 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:577:d15f:416a:c0:aecd:5d6e])
+        by smtp.gmail.com with ESMTPSA id i5-20020a170902c94500b0016d1f474653sm11785654pla.52.2022.08.09.19.55.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 09 Aug 2022 19:55:49 -0700 (PDT)
+From:   cy_huang <u0084500@gmail.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        lee@kernel.org, dmitry.torokhov@gmail.com
+Cc:     cy_huang@richtek.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v4 0/3] Add Richtek RT5120 PMIC support
+Date:   Wed, 10 Aug 2022 10:55:39 +0800
+Message-Id: <1660100142-32493-1-git-send-email-u0084500@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,89 +64,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Adds support for the X-Box Adaptive Controller, which is protocol
-compatible with the XTYPE_XBOXONE support in the driver with two deltas:
+From: ChiYuan Huang <cy_huang@richtek.com>
 
- - The X-Box button sets 0x02 as its activation ID, where others set
-   0x01
- - The controller has an additional "Layer" button with 4 active states,
-   which this change maps to an Axis control with 4 possible values
+This patch series is to add Richtek RT5120 PMIC support.
+In RT5120, it integrates four channels of buck converter, one channel of LDO,
+and one external enable channel to control the external power source.
 
-Signed-off-by: Nate Yocom <nate@yocom.org>
----
- drivers/input/joystick/xpad.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+rt5120-regulator can be referred in the below link
+Link: https://lore.kernel.org/lkml/165599062767.127406.12571486984170083213.b4-ty@kernel.org/
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 18190b529bca..0d02d88790b6 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -80,6 +80,7 @@
- #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
- #define MAP_STICKS_TO_NULL		(1 << 2)
- #define MAP_SELECT_BUTTON		(1 << 3)
-+#define MAP_LAYER_BUTTON		(1 << 4)
- #define DANCEPAD_MAP_CONFIG	(MAP_DPAD_TO_BUTTONS |			\
- 				MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
- 
-@@ -131,6 +132,7 @@ static const struct xpad_device {
- 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-+	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_LAYER_BUTTON, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
- 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
-@@ -857,7 +859,17 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 		if (data[1] == 0x30)
- 			xpadone_ack_mode_report(xpad, data[2]);
- 
--		input_report_key(dev, BTN_MODE, data[4] & 0x01);
-+		/*
-+		 * X-Box Adaptive controller sets 0x02 when x-box button is pressed,
-+		 * we could probably condense into just data[4] != 0, but explicitly
-+		 * checking here ensures no regression if other devices set other bits.
-+		 */
-+		if (le16_to_cpu(xpad->dev->id.vendor) == 0x045e &&
-+			le16_to_cpu(xpad->dev->id.product) == 0x0b0a)
-+			input_report_key(dev, BTN_MODE, data[4] & 0x02);
-+		else
-+			input_report_key(dev, BTN_MODE, data[4] & 0x01);
-+
- 		input_sync(dev);
- 		return;
- 	}
-@@ -926,6 +938,10 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 				 (__u16) le16_to_cpup((__le16 *)(data + 8)));
- 	}
- 
-+	/* Layer button has a value of 0-4, so its reported as an axis */
-+	if (xpad->mapping & MAP_LAYER_BUTTON)
-+		input_report_abs(dev, ABS_MISC, data[34]);
-+
- 	input_sync(dev);
- }
- 
-@@ -1622,6 +1638,8 @@ static void xpad_set_up_abs(struct input_dev *input_dev, signed short abs)
- 	case ABS_HAT0Y:	/* the d-pad (only if dpad is mapped to axes */
- 		input_set_abs_params(input_dev, abs, -1, 1, 0, 0);
- 		break;
-+	case ABS_MISC: /* 4 value layer button (such as on the XAC) */
-+		input_set_abs_params(input_dev, abs, 0, 4, 0, 0);
- 	default:
- 		input_set_abs_params(input_dev, abs, 0, 0, 0, 0);
- 		break;
-@@ -1714,6 +1732,10 @@ static int xpad_init_input(struct usb_xpad *xpad)
- 			xpad_set_up_abs(input_dev, xpad_abs_triggers[i]);
- 	}
- 
-+	/* setup layer buton as an axis with 4 possible values */
-+	if (xpad->mapping & MAP_LAYER_BUTTON)
-+		xpad_set_up_abs(input_dev, ABS_MISC);
-+
- 	error = xpad_init_ff(xpad);
- 	if (error)
- 		goto err_free_input;
+Since v4:
+- Add "Copyright" string and refine for GPL version string.
+- Refine the comma usage in mfd. For the last uncertain terminated element in
+  struct arrays, put the comma for it to keep the extensibility.
+
+Since v3:
+- Use a 'dev' variable and dev_err_probe to decrease the LOC in mfd.
+- Simplify the power key irq handler key report
+- Since press and release irq not needed to keep in private data, change 'press',
+  'release' irq as local variable only.
+- Fix Kconfig typo for pwrkey.
+
+Since v2:
+- Add 'unevaluatedProperties: false' for regulator buck1~4/ldo/exten.
+- Fix indention and remove status for powerkey.
+- Refine powerkey description for more HW details.
+- For the regulator property parsing, use of_property_read_u32 instead.
+- Not to overwrite regulator constraint.
+- Refine regulator desc coding.
+
+ChiYuan Huang (3):
+  dt-binding: mfd: Add Richtek RT5120 PMIC support
+  mfd: rt5120: Add Richtek PMIC support
+  input: misc: rt5120: Add power key support
+
+ .../devicetree/bindings/mfd/richtek,rt5120.yaml    | 178 +++++++++++++++++++++
+ drivers/input/misc/Kconfig                         |   9 ++
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/rt5120-pwrkey.c                 | 109 +++++++++++++
+ drivers/mfd/Kconfig                                |  12 ++
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/rt5120.c                               | 124 ++++++++++++++
+ 7 files changed, 434 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
+ create mode 100644 drivers/input/misc/rt5120-pwrkey.c
+ create mode 100644 drivers/mfd/rt5120.c
+
 -- 
-2.30.2
+2.7.4
 
