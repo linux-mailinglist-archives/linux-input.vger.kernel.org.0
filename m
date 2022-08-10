@@ -2,159 +2,227 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B38C58EE00
-	for <lists+linux-input@lfdr.de>; Wed, 10 Aug 2022 16:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9708558F44E
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 00:23:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbiHJOP1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Aug 2022 10:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52452 "EHLO
+        id S233382AbiHJWXC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Aug 2022 18:23:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230506AbiHJOP0 (ORCPT
+        with ESMTP id S231550AbiHJWXB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Aug 2022 10:15:26 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8041A24BF5
-        for <linux-input@vger.kernel.org>; Wed, 10 Aug 2022 07:15:24 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id gp7so473260pjb.4
-        for <linux-input@vger.kernel.org>; Wed, 10 Aug 2022 07:15:24 -0700 (PDT)
+        Wed, 10 Aug 2022 18:23:01 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 852F38D3CC;
+        Wed, 10 Aug 2022 15:23:00 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id x23so15456539pll.7;
+        Wed, 10 Aug 2022 15:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yocom-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=DE7kWGPbgjvQmtjthwX9rNykAQvMNixqw5ivlEeVRls=;
-        b=uQDghEUL+SZyNQ2MOFoedH1eRmbX7kmqp5AlET/aLVOMztOSypPG2iH7alqQOmM3VT
-         tJvPZHj4tWXTd410fGwkWsisBkBKH0qC1y+cPcUizvgIon2c3XYY0JRAhFaoHj8kTlbL
-         NyKpXedCmRKHas66ZBKZ+tr0Ye1t+TG6KFHOl015aQpxdmFfxt8HOFnqZIsRnEpd81M6
-         h5BVBBU2ULAWfFiu/JPOISkHBunBHn+OH4BetgEeotbgH70wf0GutMTuNtsm8IqEV/KS
-         cRlv9R6JpYFju4ohgy1o/j2TXgq+Qxu9gA5FVkTQxLs5is/PHWExau6638EnZQrYFwFO
-         J4dA==
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc;
+        bh=JQqekzl1vEkZlcNOD3yssSzMeWzthaUCawc53RF6fao=;
+        b=QjJAgm/ZM369m8wZEBgNZF82SV97DWvZOlD82vsJ6lK44zJlyAyzGDu4HcQGqndv0q
+         dCE6J0RmHA9mCtFs8U1HdBvfrqISb2UK78oxgrAyriRQ3MELbF+IaSZhU2UCG+nJC2w0
+         pf20UuzSBkT76jiPJtN/4x56tmhqD1oLyUhCd4twPOI5qJTDDGab5v9xJxI4jefa2d3r
+         RRyRFIgH8jlVXcvsG1OW0Tae2aUitIYEF0M6OAGmvjR/Z7RQa8bAn4fB97ckHJQ6Midv
+         Vryb62ALcdMrTWJuQEYHh0ClM4WGXKF5LEm5MQWBNqqjeEHis50ztuikf5Bmyhw7hWVd
+         orYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=DE7kWGPbgjvQmtjthwX9rNykAQvMNixqw5ivlEeVRls=;
-        b=hMfHYW0P7NCIh9fATNzRc3YljnWiY1Lk6iGjNSjgk1Y3yWEJW0nb7MyTARffgrGoC5
-         4YafUuIyUbNdTZ3nDtRu9a053Il9EQav5ONgeBka57bSnRTb14CS81zK99RDFxgHY8zW
-         mf9lCFNsC9YgmOn0hp1hl6VAF1hbgOaqdTwEdl5k9yVSAMm+y5I7fCDREoG55NFr4+M3
-         OAonHZEuP+l/vgoHR4XW0AffKg5HJmpEHqHaAfqqJuMGYa6t8A8wPDDXiWWUYZhWVYtV
-         4UrPg8m9svoNYiBiAsIAA3g2pSwVahyHVkDqFiyp2WAST3TAmDNio/f9rj7Wfh+flVap
-         OSrg==
-X-Gm-Message-State: ACgBeo2ysbTVJ4ZqFyi0M60g5daJ8Efo4CxXw9KNZOZvVwprkUhL1rtV
-        ohcz2zvqNA2t2gZ94xMbmbqPjA==
-X-Google-Smtp-Source: AA6agR5wy9Jask3wpEltPycPqHVoqPicxz/mC3iJDNT7/ZyzZ2ASCzOoBtydt6N9ZDP6GPUAKs1kqA==
-X-Received: by 2002:a17:902:f30b:b0:170:c8ec:63b1 with SMTP id c11-20020a170902f30b00b00170c8ec63b1mr12113865ple.125.1660140923832;
-        Wed, 10 Aug 2022 07:15:23 -0700 (PDT)
-Received: from localhost.localdomain ([2601:600:a07f:e6ac::1c])
-        by smtp.gmail.com with ESMTPSA id z125-20020a623383000000b0052c92329115sm2001576pfz.218.2022.08.10.07.15.23
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=JQqekzl1vEkZlcNOD3yssSzMeWzthaUCawc53RF6fao=;
+        b=md/NPxUJ2D/pciYdENi7I2UEfSkkUsNoZO6YJWuUR3JQVsGnG+NQCOYQZykPAi2+67
+         jHuGFaAzgYBHGW5VFlQChmrT+PFXYVKP9yq2KlaUAqOHfHRYc+rmxKG3oAaI4WnI5Boy
+         U9qka4sdVe7oB6+VhlAusuObSfoR69b8XSQeCAChfW/64tpcZrGkHG5fvC2m0TGYUeb1
+         I1ezoRug4UnWsNNC8r8WaPrAq1LEpy3baxau5Wx+l5je+Pmryb3I0AIOOfvgNPTmo2Ch
+         iSE0Yeva6gwEiSmJpXyKR2wC7e7heTWtPMz1n/f5ieCPYGAPiSC/0WMsSmb5YcsJjYqH
+         hw9A==
+X-Gm-Message-State: ACgBeo3rZpuBkdWXttNiKT5wJlXPG+pDQE9Ed20i+tsiXafvBB9R6uMn
+        Gsel4GRgIjiSSl+9jKsIYVWlCjsHVq8=
+X-Google-Smtp-Source: AA6agR69sMXwMA5wf2NcYLdtAH1Cukvj4/dfYeY089n7y6V6ANrqCTfgwPXV4zRJyJ1M6bqutP8llw==
+X-Received: by 2002:a17:902:ce04:b0:16c:e142:5dd7 with SMTP id k4-20020a170902ce0400b0016ce1425dd7mr30336311plg.173.1660170179734;
+        Wed, 10 Aug 2022 15:22:59 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:a3c8:d6b9:a5c2:1eca])
+        by smtp.gmail.com with ESMTPSA id i190-20020a626dc7000000b0052f80d1a573sm2501538pfc.120.2022.08.10.15.22.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 07:15:23 -0700 (PDT)
-From:   Nate Yocom <nate@yocom.org>
-To:     dmitry.torokhov@gmail.com
-Cc:     nate@yocom.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Input: joystick: xpad: Add X-Box Adaptive Controller support
-Date:   Wed, 10 Aug 2022 07:15:11 -0700
-Message-Id: <20220810141511.11827-1-nate@yocom.org>
-X-Mailer: git-send-email 2.30.2
+        Wed, 10 Aug 2022 15:22:58 -0700 (PDT)
+Date:   Wed, 10 Aug 2022 15:22:56 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.20-rc0
+Message-ID: <YvQvwNqu5sxr36Th@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Adds support for the X-Box Adaptive Controller, which is protocol
-compatible with the XTYPE_XBOXONE support in the driver with two deltas:
+Hi Linus,
 
- - The X-Box button sets 0x02 as its activation ID, where others set
-   0x01
- - The controller has an additional "Layer" button with 4 active states,
-   which this change maps to an Axis control with 4 possible values
+Please pull from:
 
-Signed-off-by: Nate Yocom <nate@yocom.org>
----
- v2: Fix warning Reported-by: kernel test robot <lkp@intel.com>
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v5.20-rc0
 
- drivers/input/joystick/xpad.c | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+to receive updates for the input subsystem. You will get:
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 18190b529bca..b411bfb9a6b8 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -80,6 +80,7 @@
- #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
- #define MAP_STICKS_TO_NULL		(1 << 2)
- #define MAP_SELECT_BUTTON		(1 << 3)
-+#define MAP_LAYER_BUTTON		(1 << 4)
- #define DANCEPAD_MAP_CONFIG	(MAP_DPAD_TO_BUTTONS |			\
- 				MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
- 
-@@ -131,6 +132,7 @@ static const struct xpad_device {
- 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-+	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_LAYER_BUTTON, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
- 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
-@@ -857,7 +859,17 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 		if (data[1] == 0x30)
- 			xpadone_ack_mode_report(xpad, data[2]);
- 
--		input_report_key(dev, BTN_MODE, data[4] & 0x01);
-+		/*
-+		 * X-Box Adaptive controller sets 0x02 when x-box button is pressed,
-+		 * we could probably condense into just data[4] != 0, but explicitly
-+		 * checking here ensures no regression if other devices set other bits.
-+		 */
-+		if (le16_to_cpu(xpad->dev->id.vendor) == 0x045e &&
-+			le16_to_cpu(xpad->dev->id.product) == 0x0b0a)
-+			input_report_key(dev, BTN_MODE, data[4] & 0x02);
-+		else
-+			input_report_key(dev, BTN_MODE, data[4] & 0x01);
-+
- 		input_sync(dev);
- 		return;
- 	}
-@@ -926,6 +938,10 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 				 (__u16) le16_to_cpup((__le16 *)(data + 8)));
- 	}
- 
-+	/* Layer button has a value of 0-4, so its reported as an axis */
-+	if (xpad->mapping & MAP_LAYER_BUTTON)
-+		input_report_abs(dev, ABS_MISC, data[34]);
-+
- 	input_sync(dev);
- }
- 
-@@ -1622,6 +1638,9 @@ static void xpad_set_up_abs(struct input_dev *input_dev, signed short abs)
- 	case ABS_HAT0Y:	/* the d-pad (only if dpad is mapped to axes */
- 		input_set_abs_params(input_dev, abs, -1, 1, 0, 0);
- 		break;
-+	case ABS_MISC: /* 4 value layer button (such as on the XAC) */
-+		input_set_abs_params(input_dev, abs, 0, 4, 0, 0);
-+		break;
- 	default:
- 		input_set_abs_params(input_dev, abs, 0, 0, 0, 0);
- 		break;
-@@ -1714,6 +1733,10 @@ static int xpad_init_input(struct usb_xpad *xpad)
- 			xpad_set_up_abs(input_dev, xpad_abs_triggers[i]);
- 	}
- 
-+	/* setup layer buton as an axis with 4 possible values */
-+	if (xpad->mapping & MAP_LAYER_BUTTON)
-+		xpad_set_up_abs(input_dev, ABS_MISC);
-+
- 	error = xpad_init_ff(xpad);
- 	if (error)
- 		goto err_free_input;
+- changes to input core to properly queue synthetic events (such as
+  autorepeat) and to release multitouch contacts when an input device is
+  inhibited or suspended
+- reworked quirk handling in i8042 driver that consolidates multiple
+  DMI tables into one and adds several quirks for TUXEDO line of
+  laptops
+- update to mt6779 keypad to better reflect organization of the hardware 
+- changes to mtk-pmic-keys driver preparing it to handle more variants
+- facelift of adp5588-keys driver
+- improvements to iqs7222 driver
+- adjustments to various DT binding documents for input devices
+- other assorted driver fixes.
 
-base-commit: 15205c2829ca2cbb5ece5ceaafe1171a8470e62b
+Changelog:
+---------
+
+Andy Shevchenko (1):
+      Input: goodix - switch use of acpi_gpio_get_*_resource() APIs
+
+Angela Czubak (1):
+      Input: deactivate MT slots when inhibiting or suspending devices
+
+AngeloGioacchino Del Regno (2):
+      Input: mtk-pmic-keys - transfer per-key bit in mtk_pmic_keys_regs
+      Input: mtk-pmic-keys - move long press debounce mask to mtk_pmic_regs
+
+Dario Binacchi (6):
+      dt-bindings: input: touchscreen: edt-ft5x06: add report-rate-hz
+      Input: edt-ft5x06 - get/set M12 report rate by sysfs
+      Input: edt-ft5x06 - set report rate by dts property
+      Input: edt-ft5x06 - show model name by sysfs
+      Input: edt-ft5x06 - show firmware version by sysfs
+      Input: edt-ft5x06 - show crc and header errors by sysfs
+
+Dmitry Torokhov (9):
+      Input: cros_ec_keyb - switch to using generic device properties
+      Input: adp5588-keys - drop CONFIG_PM guards
+      Input: adp5588-keys - switch to using threaded interrupt
+      Input: adp5588-keys - switch to using managed resources
+      Input: adp5588-keys - do not explicitly set device as wakeup source
+      Input: mtk-pmic-keys - allow compiling with COMPILE_TEST
+      Input: mtk-pmic-keys - use single update when configuring long press behavior
+      Input: properly queue synthetic events
+      Input: adc-joystick - fix ordering in adc_joystick_probe()
+
+Furquan Shaikh (1):
+      Input: cros_ec_keyb - handle x86 detachable/convertible Chromebooks
+
+Hans de Goede (1):
+      Input: i8042 - add dritek quirk for Acer Aspire One AO532
+
+Jeff LaBundy (10):
+      Input: iqs7222 - correct slider event disable logic
+      Input: iqs7222 - fortify slider event reporting
+      Input: iqs7222 - protect volatile registers
+      Input: iqs7222 - acknowledge reset before writing registers
+      Input: iqs7222 - handle reset during ATI
+      Input: iqs7222 - remove support for RF filter
+      dt-bindings: input: iqs7222: Remove support for RF filter
+      dt-bindings: input: iqs7222: Correct bottom speed step size
+      dt-bindings: input: iqs7222: Extend slider-mapped GPIO to IQS7222C
+      dt-bindings: input: iqs7222: Use central 'linux,code' definition
+
+Jiang Jian (2):
+      Input: gpio_mouse - fix typos in comments
+      Input: cyapa_gen6 - aligned "*" each line
+
+Krzysztof Kozlowski (5):
+      dt-bindings: input: use generic node names
+      dt-bindings: input: gpio-keys: enforce node names to match all properties
+      dt-bindings: input: gpio-keys: reference input.yaml and document properties
+      dt-bindings: input: gpio-keys: accept also interrupt-extended
+      dt-bindings: input: ariel-pwrbutton: use spi-peripheral-props.yaml
+
+Linus Walleij (1):
+      Input: zinitix - rename defines ZINITIX_*
+
+Mattijs Korpershoek (2):
+      Input: mt6779-keypad - match hardware matrix organization
+      Input: mt6779-keypad - implement row/column selection
+
+Miaoqian Lin (1):
+      Input: exc3000 - fix return value check of wait_for_completion_timeout
+
+Minghao Chi (1):
+      Input: omap4-keypad - switch to using pm_runtime_resume_and_get()
+
+Rob Herring (5):
+      dt-bindings: input: Increase maximum keycode value to 0x2ff
+      dt-bindings: input: Centralize 'linux,code' definition
+      dt-bindings: input: Use common 'linux,keycodes' definition
+      dt-bindings: input: Centralize 'linux,input-type' definition
+      dt-bindings: input: Convert adc-keys to DT schema
+
+Werner Sembach (5):
+      Input: i8042 - move __initconst to fix code styling warning
+      Input: i8042 - merge quirk tables
+      Input: i8042 - add debug output for quirks
+      Input: i8042 - add TUXEDO devices to i8042 quirk tables
+      Input: i8042 - add additional TUXEDO devices to i8042 quirk tables
+
+Yang Li (1):
+      Input: sensehat-joystick - remove unnecessary error message
+
+Diffstat:
+--------
+
+ .../devicetree/bindings/input/adc-joystick.yaml    |    2 +-
+ .../devicetree/bindings/input/adc-keys.txt         |   67 -
+ .../devicetree/bindings/input/adc-keys.yaml        |  103 ++
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml      |    5 +-
+ .../devicetree/bindings/input/ariel-pwrbutton.yaml |    1 +
+ .../devicetree/bindings/input/azoteq,iqs7222.yaml  |   41 +-
+ .../bindings/input/fsl,mpr121-touchkey.yaml        |    4 +-
+ .../devicetree/bindings/input/gpio-keys.yaml       |  167 ++-
+ Documentation/devicetree/bindings/input/input.yaml |   24 +-
+ .../devicetree/bindings/input/iqs269a.yaml         |   17 +-
+ .../devicetree/bindings/input/iqs626a.yaml         |   13 +-
+ .../devicetree/bindings/input/iqs62x-keys.yaml     |    9 +-
+ .../devicetree/bindings/input/max77650-onkey.yaml  |    8 +-
+ .../bindings/input/microchip,cap11xx.yaml          |    2 +-
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |    8 +
+ drivers/input/input-core-private.h                 |   16 +
+ drivers/input/input-mt.c                           |   48 +-
+ drivers/input/input.c                              |  149 +--
+ drivers/input/joystick/adc-joystick.c              |   15 +-
+ drivers/input/joystick/sensehat-joystick.c         |    4 +-
+ drivers/input/keyboard/Kconfig                     |    2 +-
+ drivers/input/keyboard/adp5588-keys.c              |  206 ++--
+ drivers/input/keyboard/cros_ec_keyb.c              |   89 +-
+ drivers/input/keyboard/mt6779-keypad.c             |   18 +-
+ drivers/input/keyboard/mtk-pmic-keys.c             |   98 +-
+ drivers/input/keyboard/omap4-keypad.c              |   26 +-
+ drivers/input/misc/iqs7222.c                       |  178 ++-
+ drivers/input/mouse/cyapa_gen6.c                   |    2 +-
+ drivers/input/mouse/gpio_mouse.c                   |    2 +-
+ drivers/input/serio/i8042-x86ia64io.h              | 1282 ++++++++++++--------
+ drivers/input/touchscreen/edt-ft5x06.c             |   96 +-
+ drivers/input/touchscreen/exc3000.c                |    7 +-
+ drivers/input/touchscreen/goodix.c                 |   22 +-
+ drivers/input/touchscreen/zinitix.c                |  112 +-
+ 34 files changed, 1709 insertions(+), 1134 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/adc-keys.txt
+ create mode 100644 Documentation/devicetree/bindings/input/adc-keys.yaml
+ create mode 100644 drivers/input/input-core-private.h
+
+Thanks.
+
+
 -- 
-2.30.2
-
+Dmitry
