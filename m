@@ -2,291 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 841C058FE31
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 16:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB0458FF3D
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 17:24:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234905AbiHKOXU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Aug 2022 10:23:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36958 "EHLO
+        id S234574AbiHKPYJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Aug 2022 11:24:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234759AbiHKOXS (ORCPT
+        with ESMTP id S230133AbiHKPYI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Aug 2022 10:23:18 -0400
+        Thu, 11 Aug 2022 11:24:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BB1CC6B17C
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 07:23:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 261AA92F46
+        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660227796;
+        s=mimecast20190719; t=1660231445;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=k/GK/JSV/KciKY8R8wWvgS0jrL8EQYeLHgsmbC6kR1U=;
-        b=KvOsSNMx5wkmhBbUQe6rFSN11TL7bGX3phOp4LJwowu7eR9Xz2Ost2F3RlNamPw5MODEk0
-        B36FLcte7xMwiPQ9fxlmbfKo0XkM7Umh7A8rrA7v4Hb/2qbjZ+AaD2bxT4eSa4D9F3Q3FO
-        1p9BDNRGea+nRMKEZyI+R5d4xYM3P3g=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=1h3Y3RmJF3aa7mPyEan1bKo/SeXETlN162Suiv+//04=;
+        b=HayQsLq7aEyaGIQRVz/55g02LocgnpwRIAKgEf+HSX7MO3tWF7yBuW/rhPrLr9+8CxPn9Y
+        vauZkWJAGIFHUBgs8k5S8IclSW7NUq8ouehQfQaeycCfGoelXadJrQKx2sFp0TNmy9PBil
+        841P+bnAtsX0c6xLXcXc7yV0rhSh/O8=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-652-N0pAmKtZP1WXcve9uZqKVA-1; Thu, 11 Aug 2022 10:23:15 -0400
-X-MC-Unique: N0pAmKtZP1WXcve9uZqKVA-1
-Received: by mail-ej1-f72.google.com with SMTP id qf23-20020a1709077f1700b007308a195618so5495535ejc.7
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 07:23:15 -0700 (PDT)
+ us-mta-386-fpaMqxQDN2K43poc8eo7mQ-1; Thu, 11 Aug 2022 11:24:04 -0400
+X-MC-Unique: fpaMqxQDN2K43poc8eo7mQ-1
+Received: by mail-pj1-f70.google.com with SMTP id r14-20020a17090a1bce00b001f53b234980so8784958pjr.5
+        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:24:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=k/GK/JSV/KciKY8R8wWvgS0jrL8EQYeLHgsmbC6kR1U=;
-        b=USVJtZPiZfqKKimz1BibFGcBX5Y95/QEwJsH5cD0XQe57H2v34oHzryoDox3Klfc0T
-         ft7pJbC23QYh9gkSpcwJAbRsojNnYIgtERbwSHdc7+wv6pGoifiVHIabOsX4mruKzxGJ
-         NC01tnrBkXEjOSjtfkTJJ9KJS6wRfHMS/T5fuLii0BCtI90MOF2mjzufTZh5AHJ0A+X2
-         /3Eho9UzeoPQwibNL7DypihBwkbeBEae3wao3mmzYubfRdG9KcyML2ctfLDblrL5H+Mc
-         YG1ypEQEuW9KbCCKcgTADX8iy1HyRLJU6fNFDCuC0NH+wVdu0Fh0CI5fN4Cu+qlwmndX
-         VcLw==
-X-Gm-Message-State: ACgBeo1vOx19b/X+WjtMQ0+wm/zqfTI7x1ZC2O4aqfXXj4XTyx4IiDK9
-        OswXk+AbzfR3fosU8M+g3md8VwJ+knFP+ijibmuMEg4mxk72IuR/mA+56of1WCZse0TlDrC9Tng
-        K3X23O886lN5vYUgvYkZRB14=
-X-Received: by 2002:a05:6402:3583:b0:43d:6943:44a with SMTP id y3-20020a056402358300b0043d6943044amr30638716edc.409.1660227794490;
-        Thu, 11 Aug 2022 07:23:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5z1uZE7dm5s8SHSKbGZPuCBf2MsEnEX8VMtQSnm1KfXxrbFQ0PpDc/5Kwvh/6DtDqAgi6C+w==
-X-Received: by 2002:a05:6402:3583:b0:43d:6943:44a with SMTP id y3-20020a056402358300b0043d6943044amr30638704edc.409.1660227794291;
-        Thu, 11 Aug 2022 07:23:14 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id d4-20020a17090694c400b007313a25e56esm3516087ejy.29.2022.08.11.07.23.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 07:23:13 -0700 (PDT)
-Message-ID: <41ca4d6b-e19c-c039-ed57-716106135e06@redhat.com>
-Date:   Thu, 11 Aug 2022 16:23:13 +0200
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=1h3Y3RmJF3aa7mPyEan1bKo/SeXETlN162Suiv+//04=;
+        b=3thsdbSu8fN1yS4w5PlfMT16EKrtuVuzpon2XgQNhDQ8QnjYVZtgAoAfo3Qm+dhzds
+         rykpaP9hOkaOLJppCfEhvoDIprN99fMnQca7PB4SIagQc9vUFqoFNMuq0LKckECNm9HG
+         mq17cJo2RLESIWHIU7mkvg7CAtywhl2HoFmPpD690ckW9omY9qgVECRUVXTH7jiwFsU/
+         0rEsai09OTXiy5MKzmLoN0tSL2fte2tpmHGcgIBbtZM9g4bhr/4jRu9axjBlc7fCPuBy
+         8JZVt1LvpYxmiODgkHQyCbh1N9EmiMVnHITz3luviRut+BjgxExgbHk23pc18hRJ9vpr
+         vtuA==
+X-Gm-Message-State: ACgBeo0GptyA172q789ql6mNX525w6vF4XdF1gGw6EVuMy7xLOwE8HBZ
+        wiHbUJbyw+4q+vpzEViMPkOIrGkTDDHdiHkyT8V81DsORRv+E409hjbrQO+CyMBfYi276V3gVvn
+        KBg/HNARMupK/dYkAO2JBsxWJfBN88ACIad5VeEc=
+X-Received: by 2002:a63:e70f:0:b0:41c:ac9e:27aa with SMTP id b15-20020a63e70f000000b0041cac9e27aamr26240929pgi.489.1660231443732;
+        Thu, 11 Aug 2022 08:24:03 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6xDlcoTxL3DHADFHK9h8Xh4vShOzgWZAlNazMjrDr1EngYc2KIR0v3BBaBT6g6mw9pZ5Iy443C10PlJwme4qU=
+X-Received: by 2002:a63:e70f:0:b0:41c:ac9e:27aa with SMTP id
+ b15-20020a63e70f000000b0041cac9e27aamr26240916pgi.489.1660231443414; Thu, 11
+ Aug 2022 08:24:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] Input: synaptics-rmi4 - filter incomplete relative
- packet.
-Content-Language: en-US
-To:     margeyang <marge.yang@synaptics.corp-partner.google.com>,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, benjamin.tissoires@redhat.com
-Cc:     marge.yang@tw.synaptics.com, derek.cheng@tw.synaptcs.com,
-        vincent.huang@tw.synaptics.com
-References: <1659944641-2625-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <1659944641-2625-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
+ <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm> <20220724114849.GA32182@elementary>
+ <20220725224841.GA75640@elementary> <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
+ <20220804182445.GA16569@elementary>
+In-Reply-To: <20220804182445.GA16569@elementary>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 11 Aug 2022 17:23:52 +0200
+Message-ID: <CAO-hwJ+hBipNJpeYaHRr2-rKXA5d79XT7zE2fo2oEKUKJtKJ0g@mail.gmail.com>
+Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
+ Inspiroy H640 drawing tablet
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Stefan Hansson <newbie13xd@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Ping Cheng <ping.cheng@wacom.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Thu, Aug 4, 2022 at 8:24 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
+il.com> wrote:
+>
+> Hi again,
+>
+> On 2022-07-26 18:48, Jos=C3=A9 Exp=C3=B3sito wrote:
+> > The first bad commit is 87562fcd1342 ("HID: input: remove the need for
+> > HID_QUIRK_INVERT"):
+> > https://lore.kernel.org/all/20220203143226.4023622-11-benjamin.tissoire=
+s@redhat.com/
+> > (CCing the folks whose email is in the patch tags)
+> >
+> > I reverted the patch on hid/for-next and, after fixing a tiny conflict,
+> > I can confirm that the tablet works again as expected.
+> >
+> > I'd need to investigate a bit more over the weekend, but I think that
+> > all HUION tablets with the latest firmware (internally, v2) are
+> > affected.
+>
+> Indeed, it looks like v2 devices are affected. Similar reports:
+>
+>  - https://github.com/DIGImend/digimend-kernel-drivers/issues/626
+>  - https://bugzilla.kernel.org/show_bug.cgi?id=3D216106
+>
+> Kindly sending this thread back to your inbox to see if we could fix
+> this regression.
 
-On 8/8/22 09:44, margeyang wrote:
-> From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
-> 
-> RMI4 F03 supports the Stick function,
-> it's designed to support relative packet.
-> This patch supports the following case.
-> When relative packet can't be reported completely,
-> it may miss one byte or two byte.
-> New Synaptics firmware will report PARITY error.
-> When timeout error or parity error happens,
-> RMI4 driver will sends 0xFE command and
-> ask FW to Re-send stick packet again.
-> 
-> Signed-off-by: Marge Yang<marge.yang@synaptics.corp-partner.google.com>
-> ---
->  drivers/input/rmi4/rmi_f03.c | 82 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 78 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/input/rmi4/rmi_f03.c b/drivers/input/rmi4/rmi_f03.c
-> index c194b1664b10..57f03dfcb4ff 100644
-> --- a/drivers/input/rmi4/rmi_f03.c
-> +++ b/drivers/input/rmi4/rmi_f03.c
-> @@ -23,8 +23,12 @@
->  #define RMI_F03_BYTES_PER_DEVICE_SHIFT	4
->  #define RMI_F03_QUEUE_LENGTH		0x0F
->  
-> +#define RMI_F03_RESET_STYK 0xFE
+[sorry, I was out on vacation the past 2 weeks and this week was the
+usual "urgent" thing I have to day for yesterday]
 
-Please use tabs in front of the 0xFE to align it with the other values.
+Ideally, I'd like to not revert that commit. It solves a bunch of
+issues on many devices, so that's maybe not the way forward.
 
-> +
->  #define PSMOUSE_OOB_EXTRA_BTNS		0x01
->  
-> +#define RELATIVE_PACKET_SIZE		0x03
+FWIW, it was quite painful to tweak and that was a solution that
+matches the hid-multitouch devices I could find.
 
-Just "3" please since this is a size (not a register value).
+I tried to process your email when you described the succession of
+events without much success.
 
-> +
->  struct f03_data {
->  	struct rmi_function *fn;
->  
-> @@ -36,7 +40,8 @@ struct f03_data {
->  	u8 device_count;
->  	u8 rx_queue_length;
->  };
-> -
-> +int iwritecommandcounter;
-> +unsigned int ipacketindex;
+Would you mind dumping a hid-record when exposing the bug?
 
-Please do not use global variables like this, instead store these
-e.g. inside struct f03_data.
+Cheers,
+Benjamin
 
->  int rmi_f03_overwrite_button(struct rmi_function *fn, unsigned int button,
->  			     int value)
->  {
-> @@ -87,7 +92,7 @@ static int rmi_f03_pt_write(struct serio *id, unsigned char val)
->  			__func__, error);
->  		return error;
->  	}
-> -
-> +	iwritecommandcounter++;
->  	return 0;
->  }
->  
-> @@ -197,10 +202,12 @@ static int rmi_f03_register_pt(struct f03_data *f03)
->  
->  static int rmi_f03_probe(struct rmi_function *fn)
->  {
-> +
->  	struct device *dev = &fn->dev;
->  	struct f03_data *f03;
->  	int error;
-> -
-> +	iwritecommandcounter = 0;
-> +	ipacketindex = 0;
->  	f03 = devm_kzalloc(dev, sizeof(struct f03_data), GFP_KERNEL);
->  	if (!f03)
->  		return -ENOMEM;
 
-If you put the 2 variables into the f03_data then there will be no need
-to zero them.
-
-> @@ -251,9 +258,12 @@ static irqreturn_t rmi_f03_attention(int irq, void *ctx)
->  	const u8 ob_len = f03->rx_queue_length * RMI_F03_OB_SIZE;
->  	u8 obs[RMI_F03_QUEUE_LENGTH * RMI_F03_OB_SIZE];
->  	u8 ob_status;
-> +	static u8 ob_dataArry[RELATIVE_PACKET_SIZE];
->  	u8 ob_data;
->  	unsigned int serio_flags;
-> +	static unsigned int serio_flagsArry[RELATIVE_PACKET_SIZE];
-
-Please drop these 2 static arrays here and instead store the info in
-the f03_data struct.
-
->  	int i;
-> +
-
-Unrelated whitespace change, please drop.
-
->  	int error;
->  
->  	if (drvdata->attn_data.data) {
-> @@ -284,6 +294,22 @@ static irqreturn_t rmi_f03_attention(int irq, void *ctx)
->  		ob_data = obs[i + RMI_F03_OB_DATA_OFFSET];
->  		serio_flags = 0;
->  
-> +		if (ob_status & (RMI_F03_OB_FLAG_TIMEOUT | RMI_F03_OB_FLAG_PARITY)) {
-> +			//  Send resend command to stick when timeout or parity error.
-> +			//  Driver can receive the last stick packet.
-> +
-> +			error = rmi_write(f03->fn->rmi_dev, f03->fn->fd.data_base_addr,
-> +			 RMI_F03_RESET_STYK);
-> +			if (error) {
-> +				dev_err(&f03->fn->dev,
-> +					"%s: Failed to rmi_write to F03 TX register (%d).\n",
-> +					__func__, error);
-> +				return error;
-> +			}
-> +			ipacketindex = 0;
-> +			break;
-> +		}
-> +
->  		if (!(ob_status & RMI_F03_RX_DATA_OFB))
->  			continue;
->  
-> @@ -298,9 +324,57 @@ static irqreturn_t rmi_f03_attention(int irq, void *ctx)
->  			serio_flags & SERIO_TIMEOUT ?  'Y' : 'N',
->  			serio_flags & SERIO_PARITY ? 'Y' : 'N');
->  
-> -		serio_interrupt(f03->serio, ob_data, serio_flags);
-> +		if (iwritecommandcounter > 0) {
-> +			// Read Acknowledge Byte after writing the PS2 command.
-> +			// It is not trackpoint data.
-> +			serio_interrupt(f03->serio, ob_data, serio_flags);
-> +
-> +		} else {
-> +			//   The relative-mode PS/2 packet format is as follows:
-> +			//
-> +			//              bit position            position (as array of bytes)
-> +			//     7   6   5   4   3   2   1   0
-> +			//   =================================+
-> +			//    Yov Xov DY8 DX8  1   M   R   L  | DATA[0]
-> +			//                DX[7:0]             | DATA[1]
-> +			//                DY[7:0]             | DATA[2]
-> +			//   =================================+
-> +			//		Yov: Y overflow
-> +			//    Xov: X overflow
-> +			if ((ipacketindex == 0) && (ob_data & ((BIT(7)|BIT(6))))) {
-> +				dev_err(&f03->fn->dev,
-> +				"%s: X or Y is overflow. (%x)\n",
-> +				__func__, ob_data);
-> +				break;
-> +			} else if ((ipacketindex == 0) && !(ob_data & BIT(3))) {
-> +				dev_err(&f03->fn->dev,
-> +				"%s: New BIT 3 is not 1 for the first byte\n",
-> +				__func__);
-
-Why no break; here like above ?
-
-> +			} else {
-> +				if (ipacketindex >= RELATIVE_PACKET_SIZE) {
-> +					ipacketindex = 0;
-
-This means that you are skipping every 4th byte, since you only store
-the ob_data + serio_flags the next cycle through the loop!
-
-> +				} else {
-> +					ob_dataArry[ipacketindex] = ob_data;
-> +					serio_flagsArry[ipacketindex] = serio_flags;
-> +					ipacketindex++;
-> +				}
-> +				if (ipacketindex == RELATIVE_PACKET_SIZE)	{
-> +					serio_interrupt(f03->serio, ob_dataArry[0],
-> +					 serio_flagsArry[0]);
-> +					serio_interrupt(f03->serio, ob_dataArry[1],
-> +					 serio_flagsArry[1]);
-> +					serio_interrupt(f03->serio, ob_dataArry[2],
-> +					 serio_flagsArry[2]);
-> +					ipacketindex = 0;
-> +				}
-> +			}
-> +		}
->  	}
->  
-> +	if (iwritecommandcounter > 0) {
-> +		ipacketindex = 0;
-> +		iwritecommandcounter = iwritecommandcounter - 1;
-> +	}
-
-You check iwritecommandcounter inside the:
-
-        for (i = 0; i < ob_len; i += RMI_F03_OB_SIZE) {
-
-loop, I understand that you want to forward the entire PS/2 response
-data and only decrement iwritecommandcounter once, but what if
-the rmi_f03_attention() did not contain any OOB data at all ?
-
-I believe that in that case iwritecommandcounter should not be
-decremented ?
-
-Regards,
-
-Hans
+>
+> Best wishes,
+> Jose
+>
+> > Those tablets do not set the inrange bit (UCLOGIC_PARAMS_PEN_INRANGE_NO=
+NE).
+> > The driver sets it and uses a timer to remove it.
+> > See drivers/hid/hid-uclogic-core.c, function uclogic_raw_event_pen().
+> > [...]
+>
 
