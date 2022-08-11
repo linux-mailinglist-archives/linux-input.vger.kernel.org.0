@@ -2,69 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F50258F496
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 00:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA2058F570
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 02:59:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233445AbiHJW5I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Aug 2022 18:57:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56292 "EHLO
+        id S232777AbiHKA67 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Aug 2022 20:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230251AbiHJW5G (ORCPT
+        with ESMTP id S229488AbiHKA6y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Aug 2022 18:57:06 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4697465810;
-        Wed, 10 Aug 2022 15:57:06 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id d20so15004471pfq.5;
-        Wed, 10 Aug 2022 15:57:06 -0700 (PDT)
+        Wed, 10 Aug 2022 20:58:54 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1BB647DE;
+        Wed, 10 Aug 2022 17:58:53 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id f11so15821569pgj.7;
+        Wed, 10 Aug 2022 17:58:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc;
-        bh=xPdhc/0hHYmENeMDs6+MtCNPsr3iYA3ZSSH+vaWj1IM=;
-        b=RPFiz8B1rVOie58ZBdBHmpFfHRmrhoZyqdFFaGlw8qr2+il/opCX909xv8cb52fzQT
-         xuPMGTgnrNwoRvU0Ax9uGwQFFf7w4biqio0J15psnjzAAPW2Jr48Tl2BxG0By6ZoGuRg
-         hy1xCp4fpZrXlO2D2ZpvuyDqI8FpWF4fLpNTNs3y2v9D/zYPDwH0vzx8O7L+GjeAegot
-         k2LjqKAixz70q0OitDAiwtvHt9hlvnv6Yp+XsW8RL8ipwr/NKaX/BwpqEkqi49OUXUQG
-         +up0YYuOImPN5EzsYEqyhL7XsjhIShLLcXc8iqgfaryLkYQ+aopIQ1uR2yVeSPWmHFzX
-         Sd5w==
+        bh=k0bhUMiU7HDf8ByyUWn8v9bASxgxCe2ocaeUGV4VFSk=;
+        b=CJfZY3aExNLiELPRL69Xbai+jTrHNRWlkO3/tiVRZWuDzVwkRQ9icJmwwirqfCJksD
+         Uorpvrn/drkM17+vZj/ZE0Rpr61dZdPRtY3Rv1vhdjWWHnOsy9hs3Bgp//huYFykVXcW
+         Qx7DzH64XhoRqq6sz0PzfWnTTMZo7c9GXlZm6orBQhBWEjprEyAVLNZdeNkhrXg7olWw
+         aBzwy5ejz1OlcK3Z/XBNF6Ajh7+ls4ApuTnpcHEEAFs1iqJdruNFaB+Ns+b/4C4X+6YO
+         QGttH8bMn/g4/Kk8pZ1GbTiPyWg+H8cBn3EEzYSzMUB6OxbyVa0A33nrTMS2wnc0mRiF
+         Wa6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=xPdhc/0hHYmENeMDs6+MtCNPsr3iYA3ZSSH+vaWj1IM=;
-        b=uI0EpgiXfDWXbZ501As4LXX92evtiVs2jqY2QvIge9TsC9epu/x6YEWgh5R1Q0Omfk
-         sdXVRrdiELQK9UDODkG6ErE7u61MAJaQaQqcLulD1rkWOA2vY7rP0nUtyO57i3/IA/ZW
-         EG9psH3UmLClKQHXbLU+9mYnJBpZT1tY4PanIYZDphg2BgL162m05YMjVL0F7GRZgH2M
-         RLJDSjFkegHT+O+pS0yxKDV/4g56gG3XNPljP8BWQQDnMdXK6mO7hM3zyZS50YB+smRA
-         7oSSScu0RLsAqIs6jNWs+JyaX5TSy2Ue1Af425zqZmW0BP+NtpwWQ0kFO3wD214mzGPF
-         bGzQ==
-X-Gm-Message-State: ACgBeo38sMu+XJWuyDxDwkpNyqk6ztYU43Ota8dAAH/Yp0XemV2ftCoX
-        3JDPEDcaxKasEkFZFakrGPA=
-X-Google-Smtp-Source: AA6agR6HLsceBFq6yTroejhdeRCo4HgSVRKlPFXjxrfQchp2WJKLeR06sqDosQDUvkh8bG0wfYFIrg==
-X-Received: by 2002:a63:7a1a:0:b0:41d:2c8c:43bc with SMTP id v26-20020a637a1a000000b0041d2c8c43bcmr18937347pgc.97.1660172225717;
-        Wed, 10 Aug 2022 15:57:05 -0700 (PDT)
+        bh=k0bhUMiU7HDf8ByyUWn8v9bASxgxCe2ocaeUGV4VFSk=;
+        b=Ja1iQ6N5VhO+VDAxyjZI6ByneycOPIkgl7yas6N1RW4ALOG/QU+A9yoz85YJCsCwXh
+         fwWoNdzwsJFeP3oNFZSl0L/7eZtD78BWq5TNOausEOkrDq+coCMT4J1w7eOlnWC/rIrq
+         ugSY/ApcW49i+EIiitgwe3/siKDhi8mb5wypnpOvbakxNvium8u7QvPIz8NCbWtCHWtP
+         NwMwOC7Yr1XzviyaqrjT5t174XDp1HFZnwDLqX391qxVSNoKfc37Dmo1HqIYWLZGoR8s
+         uxYyIdG6tMlVWpM3qTyAm78epteHY6XqPG6ALYRi0x96JDWdqcrvDrQV/p4TBfkdU6SS
+         15nA==
+X-Gm-Message-State: ACgBeo2bhSyNpQb0oBnzNG1EUg3boDB1iNR98wrX3EGVlAFpcf7mrNCL
+        AUSGLgj0KKgjAO4ZUbRv5hM=
+X-Google-Smtp-Source: AA6agR70H85HGA3vVInnbpSwUrfmwyci7JmiXRzPSUpGbugeNcYRT+UHskzbJLTRUwIyGzGtchgB/A==
+X-Received: by 2002:a63:ff19:0:b0:41a:8f88:5703 with SMTP id k25-20020a63ff19000000b0041a8f885703mr25186834pgi.355.1660179532829;
+        Wed, 10 Aug 2022 17:58:52 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:a3c8:d6b9:a5c2:1eca])
-        by smtp.gmail.com with ESMTPSA id a4-20020a1709027e4400b0015e9f45c1f4sm13399301pln.186.2022.08.10.15.57.04
+        by smtp.gmail.com with ESMTPSA id l17-20020a170902f69100b0016a091eb88esm13674287plg.126.2022.08.10.17.58.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 15:57:04 -0700 (PDT)
-Date:   Wed, 10 Aug 2022 15:57:02 -0700
+        Wed, 10 Aug 2022 17:58:51 -0700 (PDT)
+Date:   Wed, 10 Aug 2022 17:58:48 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: ariel-pwrbutton: use
- spi-peripheral-props.yaml
-Message-ID: <YvQ3viBmbzuai+LC@google.com>
-References: <20220727164230.385614-1-krzysztof.kozlowski@linaro.org>
- <20220728151942.GA903363-robh@kernel.org>
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        heiko@sntech.de, paul@crapouillou.net,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Maya Matuszczyk <maccraft123mc@gmail.com>
+Subject: Re: [PATCH v12 2/3] Input: adc-joystick - Add polled input device
+ support
+Message-ID: <YvRUSBFGuMmjGsb4@google.com>
+References: <20220805171016.21217-1-macroalpha82@gmail.com>
+ <20220805171016.21217-3-macroalpha82@gmail.com>
+ <20220806152042.39bc5351@jic23-huawei>
+ <9399f54366be973dba36a70cb3dcbfd9@artur-rojek.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220728151942.GA903363-robh@kernel.org>
+In-Reply-To: <9399f54366be973dba36a70cb3dcbfd9@artur-rojek.eu>
 X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -75,50 +79,158 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 09:19:42AM -0600, Rob Herring wrote:
-> On Wed, 27 Jul 2022 18:42:30 +0200, Krzysztof Kozlowski wrote:
-> > Instead of listing directly properties typical for SPI peripherals,
-> > reference the spi-peripheral-props.yaml schema.  This allows using all
-> > properties typical for SPI-connected devices, even these which device
-> > bindings author did not tried yet.
+On Sat, Aug 06, 2022 at 04:19:21PM +0200, Artur Rojek wrote:
+> On 2022-08-06 16:20, Jonathan Cameron wrote:
+> > On Fri,  5 Aug 2022 12:10:15 -0500
+> > Chris Morgan <macroalpha82@gmail.com> wrote:
 > > 
-> > Remove the spi-* properties which now come via spi-peripheral-props.yaml
-> > schema, except for the cases when device schema adds some constraints
-> > like maximum frequency.
+> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > > 
+> > > Add polled input device support to the adc-joystick driver. This is
+> > > useful for devices which do not have hardware capable triggers on
+> > > their SARADC. Code modified from adc-joystick.c changes made by Maya
+> > > Matuszczyk.
+> > > 
+> > > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > Hi Chris,
 > > 
-> > While changing additionalProperties->unevaluatedProperties, put it in
-> > typical place, just before example DTS.a
+> > Trying to avoid too much indentation has lead to an odd code structure.
+> > Still minor thing, so either way this looks fine to me.
 > > 
-> > The binding references also input.yaml and lists explicitly allowed
-> > properties, thus here reference only spi-peripheral-props.yaml for
-> > purpose of documenting the SPI slave device and bringing
-> > spi-max-frequency type validation.
+> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > > 
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > 
-> > ---
-> > 
-> > Technically, this depends on [1] merged to SPI tree, if we want to
-> > preserve existing behavior of not allowing SPI CPHA and CPOL in each of
-> > schemas in this patch.
+> > > ---
+> > >  drivers/input/joystick/adc-joystick.c | 44
+> > > +++++++++++++++++++++++++--
+> > >  1 file changed, 41 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/input/joystick/adc-joystick.c
+> > > b/drivers/input/joystick/adc-joystick.c
+> > > index 78ebca7d400a..77dfb7dd96eb 100644
+> > > --- a/drivers/input/joystick/adc-joystick.c
+> > > +++ b/drivers/input/joystick/adc-joystick.c
+> > > @@ -26,8 +26,23 @@ struct adc_joystick {
+> > >  	struct adc_joystick_axis *axes;
+> > >  	struct iio_channel *chans;
+> > >  	int num_chans;
+> > > +	bool polled;
+> > >  };
+> > > 
+> > > +static void adc_joystick_poll(struct input_dev *input)
+> > > +{
+> > > +	struct adc_joystick *joy = input_get_drvdata(input);
+> > > +	int i, val, ret;
+> > > +
+> > > +	for (i = 0; i < joy->num_chans; i++) {
+> > > +		ret = iio_read_channel_raw(&joy->chans[i], &val);
+> > > +		if (ret < 0)
+> > > +			return;
+> > > +		input_report_abs(input, joy->axes[i].code, val);
+> > > +	}
+> > > +	input_sync(input);
+> > > +}
+> > > +
+> > >  static int adc_joystick_handle(const void *data, void *private)
+> > >  {
+> > >  	struct adc_joystick *joy = private;
+> > > @@ -179,6 +194,7 @@ static int adc_joystick_probe(struct
+> > > platform_device *pdev)
+> > >  	int error;
+> > >  	int bits;
+> > >  	int i;
+> > > +	unsigned int poll_interval;
+> > > 
+> > >  	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
+> > >  	if (!joy)
+> > > @@ -192,8 +208,21 @@ static int adc_joystick_probe(struct
+> > > platform_device *pdev)
+> > >  		return error;
+> > >  	}
+> > > 
+> > > -	/* Count how many channels we got. NULL terminated. */
+> > > +	if (device_property_present(dev, "poll-interval")) {
+> > > +		error = device_property_read_u32(dev, "poll-interval",
+> > > +						 &poll_interval);
+> > > +		if (error)
+> > > +			return error;
+> > > +		joy->polled = true;
 
-Could we merge this through SPI tree as well?
 
+device_property_read_u32() return -EINVAL if property is not present, so
+we can write:
+
+	error = device_property_read_u32(dev, "poll-interval", &poll_interval);
+	if (error) {
+		/* -EINVAL means the property is absent. */
+		if (error != -EINVAL)
+			return error;
+	} else if (poll_interval == 0) {
+		dev_err(...);
+		return -EINVAL;
+	} else {
+		joy->polled = true;
+	}
+
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Count how many channels we got. NULL terminated.
+> > > +	 * Do not check the storage size if using polling.
+> > > +	 */
+> > >  	for (i = 0; joy->chans[i].indio_dev; i++) {
+> > > +		if (joy->polled)
+> > > +			continue;
 > > 
-> > If this patch comes independently via different tree, the SPI CPHA and
-> > CPOL will be allowed for brief period of time, before [1] is merged.
-> > This will not have negative impact, just DT schema checks will be
-> > loosened for that period.
-> > 
-> > [1] https://lore.kernel.org/all/20220722191539.90641-2-krzysztof.kozlowski@linaro.org/
-> > ---
-> >  Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
+> > Whilst I can see why did this, it is a rather 'unusual' code structure
+> > and that makes me a tiny bit uncomfortable. However if everyone else
+> > is happy with this then fair enough (I see it was Artur's suggestion to
+> > handle it like this).
+> Yep, I'm fine with the way it is right now :)
 > 
-> Acked-by: Rob Herring <robh@kernel.org>
+> Acked-by: Artur Rojek <contact@artur-rojek.eu>
+> 
+> > 
+> > >  		bits = joy->chans[i].channel->scan_type.storagebits;
+> > >  		if (!bits || bits > 16) {
+> > >  			dev_err(dev, "Unsupported channel storage size\n");
+> > > @@ -215,8 +244,14 @@ static int adc_joystick_probe(struct
+> > > platform_device *pdev)
+> > >  	joy->input = input;
+> > >  	input->name = pdev->name;
+> > >  	input->id.bustype = BUS_HOST;
+> > > -	input->open = adc_joystick_open;
+> > > -	input->close = adc_joystick_close;
+> > > +
+> > > +	if (joy->polled) {
+> > > +		input_setup_polling(input, adc_joystick_poll);
+> > > +		input_set_poll_interval(input, poll_interval);
+> > > +	} else {
+> > > +		input->open = adc_joystick_open;
+> > > +		input->close = adc_joystick_close;
+> > > +	}
+> > > 
+> > >  	error = adc_joystick_set_axes(dev, joy);
+> > >  	if (error)
+> > > @@ -229,6 +264,9 @@ static int adc_joystick_probe(struct
+> > > platform_device *pdev)
+> > >  		return error;
+> > >  	}
+> > > 
+> > > +	if (joy->polled)
+> > > +		return 0;
+> > > +
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+This is no longer compatible with the latest driver code as input device
+registration has been moved to the very end, so you actually need to move
+getting bugger and setting up cleanup action into the "else" clause of "if
+(joy->polled)", even though it adds indentation level.
+
+> > >  	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+> > >  	if (IS_ERR(joy->buffer)) {
+> > >  		dev_err(dev, "Unable to allocate callback buffer\n");
+
+Thanks.
 
 -- 
 Dmitry
