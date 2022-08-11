@@ -2,159 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E802A58F89A
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 09:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DA658F9DE
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 11:17:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234461AbiHKHvx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Aug 2022 03:51:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58174 "EHLO
+        id S234934AbiHKJRC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Aug 2022 05:17:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234470AbiHKHvk (ORCPT
+        with ESMTP id S234846AbiHKJRB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Aug 2022 03:51:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0F4456261
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 00:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660204297;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MRRDPmaXaOI7KYfth4LauhUxcMLLOLTg9h0zPP92dWo=;
-        b=d9UcXrJbbYOjN2Q+3H8ab0RpO2x29LfuFhrhtadFWKkDafMbwvAtQPqc9plor+DfbrBTJ2
-        2tXmGL1Kmxk/HfkKAdJ8Cf5RFWS6LUefNzvMcn/s+FU9XP0vQHnYQLfi4gPZ6T6tqGf1db
-        I9QKyM6d28I7H6D6p6VxxtBjk0paaZw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-yoDFSEhEPqGUaGdZFDBA3g-1; Thu, 11 Aug 2022 03:51:36 -0400
-X-MC-Unique: yoDFSEhEPqGUaGdZFDBA3g-1
-Received: by mail-ed1-f70.google.com with SMTP id l19-20020a056402255300b0043df64f9a0fso10469863edb.16
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 00:51:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=MRRDPmaXaOI7KYfth4LauhUxcMLLOLTg9h0zPP92dWo=;
-        b=dxHDQa0QkXr66EN7kZ3BHA8XObp1Sc6D0qGEg2ipu/XH7TbDBucA+SL/Wc9gbSlwNi
-         SldzSN6J7i95d+1kkQIZZOds7iRQEuLjvq9Pn6p+p6iIYsflSsJFVjI4K7ozGj21VuTJ
-         7Wg+izEIeg8bzGKXeL+7fQdp/dJqsMlgoi2EIkOJEBx+5kg1wkZhEp/Hd/Qw/jEjQxkz
-         5UHBhayxQ2VYUBQsd02cAY2j8D4DOQFi4H/Qi7RVDZU1lmeYdqF0enwT9eXr5aX2dOga
-         qXfZZarlV0JSOvtJ4E8TxKlVkFQPFIDmiTQTYwsshMZ56WGFljnc6LHVz/Dc1hGQCM6K
-         c6/A==
-X-Gm-Message-State: ACgBeo00Ah1waRunygMDvTt303S3zXnn42Mmutw1ZRIKSxoL44fLeo0o
-        LNLoKzl9eyhKKoMHjF2Ipqyo2nKUYph04fI6OmosztL771jn9/UAlmKJWFhsAMDyCoD5LSS1M7R
-        MhYkp3nDSdT1/FWJOEn6r1HQ=
-X-Received: by 2002:aa7:cc06:0:b0:440:7258:ad16 with SMTP id q6-20020aa7cc06000000b004407258ad16mr19589120edt.74.1660204295160;
-        Thu, 11 Aug 2022 00:51:35 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6BY45a1yXinu+X4F4KpPFoeHanngbL0sqYvpsvDnQEGErO7y45y403n7xviOctxM1amRberQ==
-X-Received: by 2002:aa7:cc06:0:b0:440:7258:ad16 with SMTP id q6-20020aa7cc06000000b004407258ad16mr19589107edt.74.1660204294944;
-        Thu, 11 Aug 2022 00:51:34 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id k11-20020a170906578b00b00730b933410csm3264178ejq.145.2022.08.11.00.51.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 00:51:34 -0700 (PDT)
-Message-ID: <4d585a6a-adc5-0799-596b-d2bdea8529f3@redhat.com>
-Date:   Thu, 11 Aug 2022 09:51:33 +0200
+        Thu, 11 Aug 2022 05:17:01 -0400
+Received: from cpd-ras.landau.ac.ru (cpd-ras.landau.ac.ru [83.149.229.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C80C3DBCD
+        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 02:17:00 -0700 (PDT)
+Received: from asus-lashk.lashk ([128.0.135.107])
+        (authenticated bits=0)
+        by cpd-ras.landau.ac.ru (8.14.3/8.14.3/Debian-9.4) with ESMTP id 27B9Gv4X014287
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO)
+        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 12:16:58 +0300
+To:     linux-input@vger.kernel.org
+From:   Michael Lashkevich <lashkevi@landau.ac.ru>
+Subject: a problem with synaptics touchpad
+Openpgp: preference=signencrypt
+Autocrypt: addr=lashkevi@landau.ac.ru; keydata=
+ xsDiBFQhIL8RBACmWZYCsWRPp8s9M3GY7s/lwNGV8rCsNa2415Pwv+Uyld/F2hsbogCFWmSv
+ P9YlTyukX81JA9Kk58zcdTvz0//BNDPlXqBVjVs44PSOt41nYwVjuYeVYeqnVOnLw2rzKMXn
+ V+1fnj3eitRyA5zGdWQ4Da+Ia2LllCzU+yjEzS4C3wCg670l4OIQ7GOWfBdceYxOCxS0hAMD
+ /0FVdE+dYFItASh9iBxv0eraPFbAjCBfFqhrJMJJXe3SFK38pmCeqp6vz12usOjdQueZXblJ
+ nt+6vy/Apg5buemILQKDPM7flfUM9pJJIJsRAO0yAjrH7zvPAG+0EgxAyZ3jymQ6jQtKjboe
+ kVWhk+DgahxvqoS3l8isa5uXbeTPA/42AqS/gdVW5CYfHOXmSNqafcrXz2Me+2YPZkiQLYuP
+ bdUTNqgHG09N4UoLTd2DGcpnNOW1F59gIB3NvLXizzefODzlUU/f5wrOLf11gURtb30lukoz
+ mbmNmK1aju2cUjp5S8tr3BLEMcO3cjZoCkoMMiowK3+8rgM4RB2x+lOOi80qTWljaGFlbCBM
+ YXNoa2V2aWNoIDxsYXNoa2V2aUBsYW5kYXUuYWMucnU+wmMEExECACMFAlQhIL8CGyMHCwkI
+ BwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRC6AMBHKu0wClduAKDPhoR0YrZGvsl/4jWqX3e0
+ 6j8bEgCfXprqHUl2Vz0yaF6tRRW9Q8bMas3OwE0EVCEgvxAEAIFF0oW02miwQvcK+K7CnhqT
+ r58KAO9EMJNue4NvP2WGL7zd2MTSsG38WNZ1BY+2T6O/hM2WPbp9ZwiXzM/6+lA+XiThPV00
+ HGriz7sr3Ke11a3FAG31TCsbt4yugWDN6EcavveWEGnSQ0rrXU7jKGFvHXA3fnwJoU1rJXG1
+ eDgrAAMGA/9DLDJimkAKS1+mF4pnjJii5MqOv71AvAryouFRUlS3P5RzU1IoF/D2j74oEMoY
+ OrbcgbVbur2aVplH8IVnToeuVd0B5xB0rbc8jVyF+TiOGiARLFg1oNidfwGLgtYILeUUHpmj
+ DYePn+xdUznU3ld5kSb296k1x7J+IDijq6kgHMJJBBgRAgAJBQJUISC/AhsMAAoJELoAwEcq
+ 7TAK6lwAn2qDipsgYIlYhhXsnDHJScTlnQdFAJ0f2jPu8UZdWCyNKa6ij46QmyCI2g==
+Message-ID: <02acb391-9a29-227d-43a1-d988a92b73b2@landau.ac.ru>
+Date:   Thu, 11 Aug 2022 12:16:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH V3] HID: HID-rmi - ignore to rmi_hid_read_block after
- system resumes.
-Content-Language: en-US
-To:     margeyang <marge.yang@synaptics.corp-partner.google.com>,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, benjamin.tissoires@redhat.com
-Cc:     marge.yang@tw.synaptics.com, derek.cheng@tw.synaptics.com,
-        vincent.huang@tw.synaptics.com
-References: <1660186712-2598-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <1660186712-2598-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Language: ru-RU
+X-Virus-Scanned: clamav-milter 0.98.1 at cpd
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Lastly I have problems with synaptics touchpad. I set KDE Plasma to disable it, when a mouse is plugged in. But it "revives" very often.
 
-On 8/11/22 04:58, margeyang wrote:
-> From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
-> 
-> The interrupt GPIO will be pulled down once
-> after RMI driver reads this command(Report ID:0x0A).
-> It will cause "Dark resume test fail" for chromebook device.
-> Hence, TP driver will ignore rmi_hid_read_block function once
-> after system resumes.
-> 
-> Signed-off-by: Marge Yang<marge.yang@synaptics.corp-partner.google.com>
+In dmesg I have:
 
-Thanks, patch looks good to me:
+[218746.882290] psmouse serio4: TouchPad at isa0060/serio4/input0 lost synchronization, throwing 5 bytes away.
+[218747.399298] psmouse serio4: resync failed, issuing reconnect request
+[218747.704260] psmouse serio4: synaptics: device claims to have max coordinates query, but I'm not able to read it.
+[218747.731036] psmouse serio4: synaptics: device claims to have min coordinates query, but I'm not able to read it.
+[218747.758193] psmouse serio4: synaptics: Unable to initialize device.
+[218748.198572] psmouse serio4: synaptics: queried max coordinates: x [..5088], y [..3828]
+[218748.230689] psmouse serio4: synaptics: queried min coordinates: x [1024..], y [1044..]
+[218748.230699] psmouse serio4: synaptics: Your touchpad (PNP: SYN0a2d SYN0a00 SYN0002 PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
+[218748.289450] psmouse serio4: synaptics: Touchpad model: 1, fw: 8.1, id: 0x1e2b1, caps: 0xd00323/0x840300/0x126c00/0x0, board id: 2227, fw id: 1396050
+[218748.321785] input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio4/input/input239
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-> ---
->  drivers/hid/hid-rmi.c | 14 ++++++++++++--
->  include/linux/rmi.h   |  2 ++
->  2 files changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
-> index 311eee599ce9..fdaf2c4ce181 100644
-> --- a/drivers/hid/hid-rmi.c
-> +++ b/drivers/hid/hid-rmi.c
-> @@ -203,7 +203,13 @@ static int rmi_hid_read_block(struct rmi_transport_dev *xport, u16 addr,
->  		if (ret < 0)
->  			goto exit;
->  	}
-> -
-> +	if (xport->ignoreonce == 1) {
-> +		dev_err(&hdev->dev,
-> +			"ignoreonce (%d)\n",
-> +			xport->ignoreonce);
-> +		xport->ignoreonce = 0;
-> +		goto exit;
-> +	}
->  	for (retries = 5; retries > 0; retries--) {
->  		data->writeReport[0] = RMI_READ_ADDR_REPORT_ID;
->  		data->writeReport[1] = 0; /* old 1 byte read count */
-> @@ -468,8 +474,12 @@ static int rmi_post_resume(struct hid_device *hdev)
->  	ret = hid_hw_open(hdev);
->  	if (ret)
->  		return ret;
-> -
-> +	// Avoid to read rmi_hid_read_block once after system resumes.
-> +	// The interrupt will be pulled down
-> +	// after RMI Read command(Report ID:0x0A).
-> +	data->xport.ignoreonce = 1;
->  	ret = rmi_reset_attn_mode(hdev);
-> +	data->xport.ignoreonce = 0;
->  	if (ret)
->  		goto out;
->  
-> diff --git a/include/linux/rmi.h b/include/linux/rmi.h
-> index ab7eea01ab42..24f63ad00970 100644
-> --- a/include/linux/rmi.h
-> +++ b/include/linux/rmi.h
-> @@ -270,6 +270,8 @@ struct rmi_transport_dev {
->  	struct rmi_device_platform_data pdata;
->  
->  	struct input_dev *input;
-> +
-> +	int ignoreonce;
->  };
->  
->  /**
-
+My system: OpenSUSE 15.3.
+My kernel: kernel-default-5.3.18-150300.59.87.1.x86_64
