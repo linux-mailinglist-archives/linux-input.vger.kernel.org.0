@@ -2,79 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46DA658F9DE
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 11:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1380358FB42
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 13:29:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234934AbiHKJRC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Aug 2022 05:17:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59076 "EHLO
+        id S234224AbiHKL3u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Aug 2022 07:29:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234846AbiHKJRB (ORCPT
+        with ESMTP id S234028AbiHKL3u (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Aug 2022 05:17:01 -0400
-Received: from cpd-ras.landau.ac.ru (cpd-ras.landau.ac.ru [83.149.229.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C80C3DBCD
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 02:17:00 -0700 (PDT)
-Received: from asus-lashk.lashk ([128.0.135.107])
-        (authenticated bits=0)
-        by cpd-ras.landau.ac.ru (8.14.3/8.14.3/Debian-9.4) with ESMTP id 27B9Gv4X014287
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO)
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 12:16:58 +0300
-To:     linux-input@vger.kernel.org
-From:   Michael Lashkevich <lashkevi@landau.ac.ru>
-Subject: a problem with synaptics touchpad
-Openpgp: preference=signencrypt
-Autocrypt: addr=lashkevi@landau.ac.ru; keydata=
- xsDiBFQhIL8RBACmWZYCsWRPp8s9M3GY7s/lwNGV8rCsNa2415Pwv+Uyld/F2hsbogCFWmSv
- P9YlTyukX81JA9Kk58zcdTvz0//BNDPlXqBVjVs44PSOt41nYwVjuYeVYeqnVOnLw2rzKMXn
- V+1fnj3eitRyA5zGdWQ4Da+Ia2LllCzU+yjEzS4C3wCg670l4OIQ7GOWfBdceYxOCxS0hAMD
- /0FVdE+dYFItASh9iBxv0eraPFbAjCBfFqhrJMJJXe3SFK38pmCeqp6vz12usOjdQueZXblJ
- nt+6vy/Apg5buemILQKDPM7flfUM9pJJIJsRAO0yAjrH7zvPAG+0EgxAyZ3jymQ6jQtKjboe
- kVWhk+DgahxvqoS3l8isa5uXbeTPA/42AqS/gdVW5CYfHOXmSNqafcrXz2Me+2YPZkiQLYuP
- bdUTNqgHG09N4UoLTd2DGcpnNOW1F59gIB3NvLXizzefODzlUU/f5wrOLf11gURtb30lukoz
- mbmNmK1aju2cUjp5S8tr3BLEMcO3cjZoCkoMMiowK3+8rgM4RB2x+lOOi80qTWljaGFlbCBM
- YXNoa2V2aWNoIDxsYXNoa2V2aUBsYW5kYXUuYWMucnU+wmMEExECACMFAlQhIL8CGyMHCwkI
- BwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRC6AMBHKu0wClduAKDPhoR0YrZGvsl/4jWqX3e0
- 6j8bEgCfXprqHUl2Vz0yaF6tRRW9Q8bMas3OwE0EVCEgvxAEAIFF0oW02miwQvcK+K7CnhqT
- r58KAO9EMJNue4NvP2WGL7zd2MTSsG38WNZ1BY+2T6O/hM2WPbp9ZwiXzM/6+lA+XiThPV00
- HGriz7sr3Ke11a3FAG31TCsbt4yugWDN6EcavveWEGnSQ0rrXU7jKGFvHXA3fnwJoU1rJXG1
- eDgrAAMGA/9DLDJimkAKS1+mF4pnjJii5MqOv71AvAryouFRUlS3P5RzU1IoF/D2j74oEMoY
- OrbcgbVbur2aVplH8IVnToeuVd0B5xB0rbc8jVyF+TiOGiARLFg1oNidfwGLgtYILeUUHpmj
- DYePn+xdUznU3ld5kSb296k1x7J+IDijq6kgHMJJBBgRAgAJBQJUISC/AhsMAAoJELoAwEcq
- 7TAK6lwAn2qDipsgYIlYhhXsnDHJScTlnQdFAJ0f2jPu8UZdWCyNKa6ij46QmyCI2g==
-Message-ID: <02acb391-9a29-227d-43a1-d988a92b73b2@landau.ac.ru>
-Date:   Thu, 11 Aug 2022 12:16:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Thu, 11 Aug 2022 07:29:50 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D1765806
+        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 04:29:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660217389; x=1691753389;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=x+15fJocfrvdlrzc/Ki0Rq2So2PULOX7SOmXUl6HMpY=;
+  b=eRMRgQrl0/F6WmZx57+n686tYMJoTw4ulh95FS5e45UYG4YzGy3CSuGQ
+   D24mRdGQntiNLybg0uzTQqyV0s8PRERQ6eiiavUIItpjcuc+tteGB5Raj
+   1UfbuWyJbpAu98VXxpMBMJlTQ7L6pcX9aHCnghbE7a6mWjyzGKqy01HfB
+   7I5rRs0669pKC5fbmr7OpjH1OoE+h1LnJ38sNeWbU2SalDeL8dDMU/L71
+   5JP/wMi4OkfHgapPWg9s/NtVsfWvUdZWe/DP8BXE8padF9pshm7+dfSgA
+   oFiBahPrzTb1O9qwU6mWIKxaKvluCEt8B2Rsu5hICudXwMrZcx+6O+zgz
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="271099042"
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
+   d="scan'208";a="271099042"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 04:29:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
+   d="scan'208";a="556096186"
+Received: from lkp-server02.sh.intel.com (HELO cfab306db114) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 11 Aug 2022 04:29:47 -0700
+Received: from kbuild by cfab306db114 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oM6Nn-00008i-0V;
+        Thu, 11 Aug 2022 11:29:47 +0000
+Date:   Thu, 11 Aug 2022 19:29:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 51c88597517d9625c127f0d8f8f3bf04ef5f8d76
+Message-ID: <62f4e807.XXs46bLOggVs+UEf%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Content-Language: ru-RU
-X-Virus-Scanned: clamav-milter 0.98.1 at cpd
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Lastly I have problems with synaptics touchpad. I set KDE Plasma to disable it, when a mouse is plugged in. But it "revives" very often.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 51c88597517d9625c127f0d8f8f3bf04ef5f8d76  Input: mt6779-keypad - support double keys matrix
 
-In dmesg I have:
+elapsed time: 713m
 
-[218746.882290] psmouse serio4: TouchPad at isa0060/serio4/input0 lost synchronization, throwing 5 bytes away.
-[218747.399298] psmouse serio4: resync failed, issuing reconnect request
-[218747.704260] psmouse serio4: synaptics: device claims to have max coordinates query, but I'm not able to read it.
-[218747.731036] psmouse serio4: synaptics: device claims to have min coordinates query, but I'm not able to read it.
-[218747.758193] psmouse serio4: synaptics: Unable to initialize device.
-[218748.198572] psmouse serio4: synaptics: queried max coordinates: x [..5088], y [..3828]
-[218748.230689] psmouse serio4: synaptics: queried min coordinates: x [1024..], y [1044..]
-[218748.230699] psmouse serio4: synaptics: Your touchpad (PNP: SYN0a2d SYN0a00 SYN0002 PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
-[218748.289450] psmouse serio4: synaptics: Touchpad model: 1, fw: 8.1, id: 0x1e2b1, caps: 0xd00323/0x840300/0x126c00/0x0, board id: 2227, fw id: 1396050
-[218748.321785] input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio4/input/input239
+configs tested: 53
+configs skipped: 2
 
-My system: OpenSUSE 15.3.
-My kernel: kernel-default-5.3.18-150300.59.87.1.x86_64
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+riscv                randconfig-r042-20220810
+x86_64                        randconfig-a002
+i386                                defconfig
+m68k                             allyesconfig
+arm                                 defconfig
+x86_64                        randconfig-a015
+x86_64                        randconfig-a006
+i386                          randconfig-a005
+i386                          randconfig-a016
+x86_64                              defconfig
+sh                               allmodconfig
+x86_64                               rhel-8.3
+powerpc                          allmodconfig
+x86_64                        randconfig-a013
+i386                          randconfig-a012
+x86_64                        randconfig-a004
+mips                             allyesconfig
+powerpc                           allnoconfig
+i386                             allyesconfig
+i386                          randconfig-a001
+x86_64                           rhel-8.3-kvm
+arc                  randconfig-r043-20220810
+i386                          randconfig-a003
+i386                          randconfig-a014
+x86_64                        randconfig-a011
+alpha                            allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                           allyesconfig
+arm64                            allyesconfig
+m68k                             allmodconfig
+s390                 randconfig-r044-20220810
+x86_64                           rhel-8.3-syz
+arc                              allyesconfig
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+arm                              allyesconfig
+ia64                             allmodconfig
+
+clang tested configs:
+x86_64                        randconfig-a001
+i386                          randconfig-a004
+hexagon              randconfig-r041-20220810
+i386                          randconfig-a015
+x86_64                        randconfig-a016
+x86_64                        randconfig-a003
+i386                          randconfig-a013
+i386                          randconfig-a006
+i386                          randconfig-a011
+i386                          randconfig-a002
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a005
+hexagon              randconfig-r045-20220810
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
