@@ -2,74 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABB0458FF3D
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 17:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8954E58FF4C
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 17:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234574AbiHKPYJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Aug 2022 11:24:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
+        id S234705AbiHKP2M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Aug 2022 11:28:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230133AbiHKPYI (ORCPT
+        with ESMTP id S235063AbiHKP2L (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:24:08 -0400
+        Thu, 11 Aug 2022 11:28:11 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 261AA92F46
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:24:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E5A3894120
+        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:28:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660231445;
+        s=mimecast20190719; t=1660231690;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1h3Y3RmJF3aa7mPyEan1bKo/SeXETlN162Suiv+//04=;
-        b=HayQsLq7aEyaGIQRVz/55g02LocgnpwRIAKgEf+HSX7MO3tWF7yBuW/rhPrLr9+8CxPn9Y
-        vauZkWJAGIFHUBgs8k5S8IclSW7NUq8ouehQfQaeycCfGoelXadJrQKx2sFp0TNmy9PBil
-        841P+bnAtsX0c6xLXcXc7yV0rhSh/O8=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=pyyZicGfxCosuxfOzGiPvCZKl7Zw5v9IKBUyR8STasU=;
+        b=JI6YvA1Lou2VxAhMElYS5vRoPT29+lcwUSgcZ8Pv/+w00e6UDX3xULzdTPZh/R5P8BrG9O
+        pdo4jJQtI40SN+K9otGouCZNQTKnf9UVy5XlINomWg0xb7Jwqbr+fy21h8jLBv5i/WyMOy
+        EgMITFTQuSrvk1D8UfPyvg3T6yI4/l8=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-386-fpaMqxQDN2K43poc8eo7mQ-1; Thu, 11 Aug 2022 11:24:04 -0400
-X-MC-Unique: fpaMqxQDN2K43poc8eo7mQ-1
-Received: by mail-pj1-f70.google.com with SMTP id r14-20020a17090a1bce00b001f53b234980so8784958pjr.5
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:24:04 -0700 (PDT)
+ us-mta-256-NXjOxiGlMXGR3TcQMzKzYw-1; Thu, 11 Aug 2022 11:28:09 -0400
+X-MC-Unique: NXjOxiGlMXGR3TcQMzKzYw-1
+Received: by mail-pg1-f200.google.com with SMTP id 196-20020a6301cd000000b0041b0f053fd1so6619456pgb.6
+        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=1h3Y3RmJF3aa7mPyEan1bKo/SeXETlN162Suiv+//04=;
-        b=3thsdbSu8fN1yS4w5PlfMT16EKrtuVuzpon2XgQNhDQ8QnjYVZtgAoAfo3Qm+dhzds
-         rykpaP9hOkaOLJppCfEhvoDIprN99fMnQca7PB4SIagQc9vUFqoFNMuq0LKckECNm9HG
-         mq17cJo2RLESIWHIU7mkvg7CAtywhl2HoFmPpD690ckW9omY9qgVECRUVXTH7jiwFsU/
-         0rEsai09OTXiy5MKzmLoN0tSL2fte2tpmHGcgIBbtZM9g4bhr/4jRu9axjBlc7fCPuBy
-         8JZVt1LvpYxmiODgkHQyCbh1N9EmiMVnHITz3luviRut+BjgxExgbHk23pc18hRJ9vpr
-         vtuA==
-X-Gm-Message-State: ACgBeo0GptyA172q789ql6mNX525w6vF4XdF1gGw6EVuMy7xLOwE8HBZ
-        wiHbUJbyw+4q+vpzEViMPkOIrGkTDDHdiHkyT8V81DsORRv+E409hjbrQO+CyMBfYi276V3gVvn
-        KBg/HNARMupK/dYkAO2JBsxWJfBN88ACIad5VeEc=
-X-Received: by 2002:a63:e70f:0:b0:41c:ac9e:27aa with SMTP id b15-20020a63e70f000000b0041cac9e27aamr26240929pgi.489.1660231443732;
-        Thu, 11 Aug 2022 08:24:03 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6xDlcoTxL3DHADFHK9h8Xh4vShOzgWZAlNazMjrDr1EngYc2KIR0v3BBaBT6g6mw9pZ5Iy443C10PlJwme4qU=
-X-Received: by 2002:a63:e70f:0:b0:41c:ac9e:27aa with SMTP id
- b15-20020a63e70f000000b0041cac9e27aamr26240916pgi.489.1660231443414; Thu, 11
- Aug 2022 08:24:03 -0700 (PDT)
+        bh=pyyZicGfxCosuxfOzGiPvCZKl7Zw5v9IKBUyR8STasU=;
+        b=pmJDukDHKNH+n3YJBc/tKqNeFEla6C07aUiWo0RwHJLh6iP6RLXC9lepGO0vouNAFq
+         i+AsyGqwQu5FTtPzTyuauQo3/9h610tExSfdcqtPqdDBnFchYXWnmyBa2UDUruenYOIh
+         tyPSf9y6OLayeN6UtJ5g4FvYQ8Rel3Q3UocjKWJPalo/YddeVDiwwGuxY5LRh/Mbo1Ka
+         HIpXE6D6LVfft2ZPYELkvWBRKtwDTVE96hMjdVgVFh6jSEEj3e5RI0uK5Ki5dwg9NNat
+         DQZdNTEqwzMjSeT5Da+iKd6JxVlM1F4IoBRjOqXL73lYZ31q1YDdlCYl1u8gMP95kx8n
+         W58g==
+X-Gm-Message-State: ACgBeo0ByakRc1NCHCLHO74IhI1C8Qm1Tu//skY5C3j/1PROukdAVV9E
+        X4LNQWCcltbvfhqCmsVauqnQAQzt8u+zaqhBBC6Qp6IPDR7aNhvBT10lh0CVrNwfFuwA7n1vyNc
+        Em6y4KO/uyQ/PAzdZE3crHEFKX5uo6duc6Lv96xs=
+X-Received: by 2002:a17:90a:c58e:b0:1f3:1ab5:22ae with SMTP id l14-20020a17090ac58e00b001f31ab522aemr9331837pjt.45.1660231687776;
+        Thu, 11 Aug 2022 08:28:07 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6XMWTyM027cAaa57/38LykZhXqn1Z5RtclKltuvWm2EbjrPCwh5ukQpnlhdVbthKxo9c9SXjbcZ2jBPZ4YaZo=
+X-Received: by 2002:a17:90a:c58e:b0:1f3:1ab5:22ae with SMTP id
+ l14-20020a17090ac58e00b001f31ab522aemr9331818pjt.45.1660231687557; Thu, 11
+ Aug 2022 08:28:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
- <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm> <20220724114849.GA32182@elementary>
- <20220725224841.GA75640@elementary> <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
- <20220804182445.GA16569@elementary>
-In-Reply-To: <20220804182445.GA16569@elementary>
+References: <20220804151832.30373-1-openglfreak@googlemail.com> <20220804180038.GA8906@elementary>
+In-Reply-To: <20220804180038.GA8906@elementary>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 11 Aug 2022 17:23:52 +0200
-Message-ID: <CAO-hwJ+hBipNJpeYaHRr2-rKXA5d79XT7zE2fo2oEKUKJtKJ0g@mail.gmail.com>
-Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
- Inspiroy H640 drawing tablet
+Date:   Thu, 11 Aug 2022 17:27:56 +0200
+Message-ID: <CAO-hwJJsKC=fyeFLCmdXMRkxEQFVGZ189GKphTVK83QJWc=udA@mail.gmail.com>
+Subject: Re: [PATCH] HID: Accept Digitizers as input devices
 To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     Stefan Hansson <newbie13xd@gmail.com>,
+Cc:     Torge Matthies <openglfreak@googlemail.com>,
         Jiri Kosina <jikos@kernel.org>,
-        Ping Cheng <ping.cheng@wacom.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+        Nikolai Kondrashov <spbnick@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -82,59 +76,84 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 4, 2022 at 8:24 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
+On Thu, Aug 4, 2022 at 8:00 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
 il.com> wrote:
 >
-> Hi again,
+> Hi Torge,
 >
-> On 2022-07-26 18:48, Jos=C3=A9 Exp=C3=B3sito wrote:
-> > The first bad commit is 87562fcd1342 ("HID: input: remove the need for
-> > HID_QUIRK_INVERT"):
-> > https://lore.kernel.org/all/20220203143226.4023622-11-benjamin.tissoire=
-s@redhat.com/
-> > (CCing the folks whose email is in the patch tags)
+> Thanks for the patch.
+>
+> On Thu, Aug 04, 2022 at 05:18:32PM +0200, Torge Matthies wrote:
+> > Commit f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for
+> > styluses") broke input from my XP-Pen Star G640. This is because the
+> > "Digitizer" usage is not recognized as a valid usage for input devices.
 > >
-> > I reverted the patch on hid/for-next and, after fixing a tiny conflict,
-> > I can confirm that the tablet works again as expected.
+> > This patch changes the IS_INPUT_APPLICATION macro so that the "Digitize=
+r"
+> > (HID_DG_DIGITIZER) usage is recognized as an input device usage.
 > >
-> > I'd need to investigate a bit more over the weekend, but I think that
-> > all HUION tablets with the latest firmware (internally, v2) are
-> > affected.
+> > Fixes: f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for stylu=
+ses")
+> > Signed-off-by: Torge Matthies <openglfreak@googlemail.com>
+> > ---
+> > This patch could be risky, because any digitizer devices that were
+> > previously not treated as input devices are now used for input.
+> > Alternatively the linked commit could be reverted, but that would
+> > re-introduce the problem detailed in its commit message.
+> >
+> >  include/linux/hid.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Indeed, it looks like v2 devices are affected. Similar reports:
+> I hesitated about this when I sent the patch you mentioned. In the end,
+> I didn't include any fix because the digitizer use was tested for 2
+> years in DIGImend, so I (wrongly) assumed that it was safe enough.
 >
->  - https://github.com/DIGImend/digimend-kernel-drivers/issues/626
->  - https://bugzilla.kernel.org/show_bug.cgi?id=3D216106
+> However, my initial thought was to add in uclogic_probe():
 >
-> Kindly sending this thread back to your inbox to see if we could fix
-> this regression.
+>         hdev->quirks |=3D HID_QUIRK_HIDINPUT_FORCE;
+> +       hdev->quirks |=3D HID_QUIRK_HIDINPUT_FORCE;
+>
+> Let's see if we can hear more opinions, but if you are worried about
+> affecting other drivers, that could be a good solution.
 
-[sorry, I was out on vacation the past 2 weeks and this week was the
-usual "urgent" thing I have to day for yesterday]
+Sadly, my automated regression tests are broken for a while and I
+haven't checked if that patch is introducing errors in hid-multitouch.
 
-Ideally, I'd like to not revert that commit. It solves a bunch of
-issues on many devices, so that's maybe not the way forward.
+FWIW, this part has always been painful because some tablets were not
+using the correct usages. And so that's why we are ending up in that
+weird situation.
 
-FWIW, it was quite painful to tweak and that was a solution that
-matches the hid-multitouch devices I could find.
-
-I tried to process your email when you described the succession of
-events without much success.
-
-Would you mind dumping a hid-record when exposing the bug?
+Anyway, just to mention that any code that touches this part should be
+tested against the hid regression tests suite[0], because that's the
+only way to find out if the change is affecting other devices.
 
 Cheers,
 Benjamin
 
+[0] https://gitlab.freedesktop.org/libevdev/hid-tools
 
 >
 > Best wishes,
 > Jose
 >
-> > Those tablets do not set the inrange bit (UCLOGIC_PARAMS_PEN_INRANGE_NO=
-NE).
-> > The driver sets it and uses a timer to remove it.
-> > See drivers/hid/hid-uclogic-core.c, function uclogic_raw_event_pen().
-> > [...]
+> > diff --git a/include/linux/hid.h b/include/linux/hid.h
+> > index 4363a63b9775..07803e144d98 100644
+> > --- a/include/linux/hid.h
+> > +++ b/include/linux/hid.h
+> > @@ -883,7 +883,7 @@ static inline bool hid_is_usb(struct hid_device *hd=
+ev)
+> >  /* We ignore a few input applications that are not widely used */
+> >  #define IS_INPUT_APPLICATION(a) \
+> >               (((a >=3D HID_UP_GENDESK) && (a <=3D HID_GD_MULTIAXIS)) \
+> > -             || ((a >=3D HID_DG_PEN) && (a <=3D HID_DG_WHITEBOARD)) \
+> > +             || ((a >=3D HID_DG_DIGITIZER) && (a <=3D HID_DG_WHITEBOAR=
+D)) \
+> >               || (a =3D=3D HID_GD_SYSTEM_CONTROL) || (a =3D=3D HID_CP_C=
+ONSUMER_CONTROL) \
+> >               || (a =3D=3D HID_GD_WIRELESS_RADIO_CTLS))
+> >
+> > --
+> > 2.37.1
+> >
 >
 
