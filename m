@@ -2,135 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1380358FB42
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 13:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C11FF58FD44
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 15:19:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234224AbiHKL3u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Aug 2022 07:29:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60196 "EHLO
+        id S235084AbiHKNT5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Aug 2022 09:19:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234028AbiHKL3u (ORCPT
+        with ESMTP id S234050AbiHKNT4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Aug 2022 07:29:50 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D1765806
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 04:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660217389; x=1691753389;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=x+15fJocfrvdlrzc/Ki0Rq2So2PULOX7SOmXUl6HMpY=;
-  b=eRMRgQrl0/F6WmZx57+n686tYMJoTw4ulh95FS5e45UYG4YzGy3CSuGQ
-   D24mRdGQntiNLybg0uzTQqyV0s8PRERQ6eiiavUIItpjcuc+tteGB5Raj
-   1UfbuWyJbpAu98VXxpMBMJlTQ7L6pcX9aHCnghbE7a6mWjyzGKqy01HfB
-   7I5rRs0669pKC5fbmr7OpjH1OoE+h1LnJ38sNeWbU2SalDeL8dDMU/L71
-   5JP/wMi4OkfHgapPWg9s/NtVsfWvUdZWe/DP8BXE8padF9pshm7+dfSgA
-   oFiBahPrzTb1O9qwU6mWIKxaKvluCEt8B2Rsu5hICudXwMrZcx+6O+zgz
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="271099042"
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
-   d="scan'208";a="271099042"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 04:29:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
-   d="scan'208";a="556096186"
-Received: from lkp-server02.sh.intel.com (HELO cfab306db114) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 11 Aug 2022 04:29:47 -0700
-Received: from kbuild by cfab306db114 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oM6Nn-00008i-0V;
-        Thu, 11 Aug 2022 11:29:47 +0000
-Date:   Thu, 11 Aug 2022 19:29:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 51c88597517d9625c127f0d8f8f3bf04ef5f8d76
-Message-ID: <62f4e807.XXs46bLOggVs+UEf%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 11 Aug 2022 09:19:56 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8908F80534;
+        Thu, 11 Aug 2022 06:19:55 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 250D3FF805;
+        Thu, 11 Aug 2022 13:19:50 +0000 (UTC)
+Message-ID: <32f116c30f1f071d57e8e2d15425178cbccf9b70.camel@hadess.net>
+Subject: Re: [PATCH v2] Input: joystick: xpad: Add X-Box Adaptive Controller
+ support
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Nate Yocom <nate@yocom.org>, dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 11 Aug 2022 15:19:50 +0200
+In-Reply-To: <20220810141511.11827-1-nate@yocom.org>
+References: <20220810141511.11827-1-nate@yocom.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 51c88597517d9625c127f0d8f8f3bf04ef5f8d76  Input: mt6779-keypad - support double keys matrix
+SGV5LAoKT24gV2VkLCAyMDIyLTA4LTEwIGF0IDA3OjE1IC0wNzAwLCBOYXRlIFlvY29tIHdyb3Rl
+Ogo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKgo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgKiBYLUJveCBBZGFwdGl2ZSBjb250cm9sbGVyIHNldHMgMHgwMiB3aGVu
+IHgtYm94Cj4gYnV0dG9uIGlzIHByZXNzZWQsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAqIHdlIGNvdWxkIHByb2JhYmx5IGNvbmRlbnNlIGludG8ganVzdCBkYXRhWzRdICE9IDAs
+Cj4gYnV0IGV4cGxpY2l0bHkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICogY2hl
+Y2tpbmcgaGVyZSBlbnN1cmVzIG5vIHJlZ3Jlc3Npb24gaWYgb3RoZXIKPiBkZXZpY2VzIHNldCBv
+dGhlciBiaXRzLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKGxlMTZfdG9fY3B1KHhwYWQtPmRldi0+aWQudmVu
+ZG9yKSA9PSAweDA0NWUgJiYKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoGxlMTZfdG9fY3B1KHhwYWQtPmRldi0+aWQucHJvZHVjdCkgPT0gMHgwYjBhKQo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW5wdXRfcmVw
+b3J0X2tleShkZXYsIEJUTl9NT0RFLCBkYXRhWzRdICYKPiAweDAyKTsKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgZWxzZQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgaW5wdXRfcmVwb3J0X2tleShkZXYsIEJUTl9NT0RFLCBkYXRhWzRdICYK
+PiAweDAxKTsKCgpJIHdvbid0IGJlIGFibGUgdG8gdGVzdCB0aGUgcGF0Y2ggdW50aWwgbmV4dCB3
+ZWVrLCBidXQgSSB3b3VsZCBhY3R1YWxseQppbXBsZW1lbnQgd2hhdCB5b3UgbWVudGlvbiBpbiB0
+aGUgY29tbWVudCBhcyBhIHNlcGFyYXRlIHBhdGNoLiBUaGlzCndvdWxkIGF2b2lkIGhhdmluZyBh
+IHNwZWNpYWwtY2FzZSBmb3IgYSBzcGVjaWZpYyBWSUQvUElEIHdpdGhvdXQgYQpxdWlyayBsaWtl
+ICJNQVBfTEFZRVJfQlVUVE9OIiBkZWZpbmVkLCBhbmQgaWYgaXQgd2VyZSB0byBjYXVzZQpwcm9i
+bGVtcywgaXQgd291bGQgYmUgc3RyYWlnaHQgZm9yd2FyZCB0byByZXZlcnQuCg==
 
-elapsed time: 713m
-
-configs tested: 53
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-riscv                randconfig-r042-20220810
-x86_64                        randconfig-a002
-i386                                defconfig
-m68k                             allyesconfig
-arm                                 defconfig
-x86_64                        randconfig-a015
-x86_64                        randconfig-a006
-i386                          randconfig-a005
-i386                          randconfig-a016
-x86_64                              defconfig
-sh                               allmodconfig
-x86_64                               rhel-8.3
-powerpc                          allmodconfig
-x86_64                        randconfig-a013
-i386                          randconfig-a012
-x86_64                        randconfig-a004
-mips                             allyesconfig
-powerpc                           allnoconfig
-i386                             allyesconfig
-i386                          randconfig-a001
-x86_64                           rhel-8.3-kvm
-arc                  randconfig-r043-20220810
-i386                          randconfig-a003
-i386                          randconfig-a014
-x86_64                        randconfig-a011
-alpha                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                           allyesconfig
-arm64                            allyesconfig
-m68k                             allmodconfig
-s390                 randconfig-r044-20220810
-x86_64                           rhel-8.3-syz
-arc                              allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-arm                              allyesconfig
-ia64                             allmodconfig
-
-clang tested configs:
-x86_64                        randconfig-a001
-i386                          randconfig-a004
-hexagon              randconfig-r041-20220810
-i386                          randconfig-a015
-x86_64                        randconfig-a016
-x86_64                        randconfig-a003
-i386                          randconfig-a013
-i386                          randconfig-a006
-i386                          randconfig-a011
-i386                          randconfig-a002
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a005
-hexagon              randconfig-r045-20220810
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
