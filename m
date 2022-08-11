@@ -2,235 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA2058F570
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 02:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E422158F63A
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 05:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232777AbiHKA67 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Aug 2022 20:58:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
+        id S233896AbiHKDAL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Aug 2022 23:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbiHKA6y (ORCPT
+        with ESMTP id S233970AbiHKC75 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Aug 2022 20:58:54 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1BB647DE;
-        Wed, 10 Aug 2022 17:58:53 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id f11so15821569pgj.7;
-        Wed, 10 Aug 2022 17:58:53 -0700 (PDT)
+        Wed, 10 Aug 2022 22:59:57 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D4BE8B997
+        for <linux-input@vger.kernel.org>; Wed, 10 Aug 2022 19:58:52 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id p18so15872614plr.8
+        for <linux-input@vger.kernel.org>; Wed, 10 Aug 2022 19:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=k0bhUMiU7HDf8ByyUWn8v9bASxgxCe2ocaeUGV4VFSk=;
-        b=CJfZY3aExNLiELPRL69Xbai+jTrHNRWlkO3/tiVRZWuDzVwkRQ9icJmwwirqfCJksD
-         Uorpvrn/drkM17+vZj/ZE0Rpr61dZdPRtY3Rv1vhdjWWHnOsy9hs3Bgp//huYFykVXcW
-         Qx7DzH64XhoRqq6sz0PzfWnTTMZo7c9GXlZm6orBQhBWEjprEyAVLNZdeNkhrXg7olWw
-         aBzwy5ejz1OlcK3Z/XBNF6Ajh7+ls4ApuTnpcHEEAFs1iqJdruNFaB+Ns+b/4C4X+6YO
-         QGttH8bMn/g4/Kk8pZ1GbTiPyWg+H8cBn3EEzYSzMUB6OxbyVa0A33nrTMS2wnc0mRiF
-         Wa6A==
+        d=synaptics-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=FanHt6WQP4NmLyUB3d1OkhI4bOP5Oviwv4Y0DSe/VWQ=;
+        b=H4oeZC06TwA9/XuttKLwNTgeswONrKea67HF/xbp8TBAdztgvZWgIEEDJrQRmYC76R
+         uieU3KnBmYrtsndL5/yfhxjBnldpGVMlFwRBD3hDC1PKbQzLyWi00WsBL6TYlAyAAeN2
+         ly8l9quZdBO0b7TUmX8p+6GiXmSmFhX7YA/19GQ2bhBUVuoqXD/KpKkqQpRcRSGXjXeF
+         DR98JAFf2EuSBK4BcUAcDNadURntrV2TjzsIejS3HG6TRW+BDjE4NjrryzOr+YmcY9zd
+         ICeiVNN2zp9Gv+UeEyWtpC59hW4AdS6AHA4oGsNy5NfWfamPQSZDh67YbR4glxWBErZ/
+         HJlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=k0bhUMiU7HDf8ByyUWn8v9bASxgxCe2ocaeUGV4VFSk=;
-        b=Ja1iQ6N5VhO+VDAxyjZI6ByneycOPIkgl7yas6N1RW4ALOG/QU+A9yoz85YJCsCwXh
-         fwWoNdzwsJFeP3oNFZSl0L/7eZtD78BWq5TNOausEOkrDq+coCMT4J1w7eOlnWC/rIrq
-         ugSY/ApcW49i+EIiitgwe3/siKDhi8mb5wypnpOvbakxNvium8u7QvPIz8NCbWtCHWtP
-         NwMwOC7Yr1XzviyaqrjT5t174XDp1HFZnwDLqX391qxVSNoKfc37Dmo1HqIYWLZGoR8s
-         uxYyIdG6tMlVWpM3qTyAm78epteHY6XqPG6ALYRi0x96JDWdqcrvDrQV/p4TBfkdU6SS
-         15nA==
-X-Gm-Message-State: ACgBeo2bhSyNpQb0oBnzNG1EUg3boDB1iNR98wrX3EGVlAFpcf7mrNCL
-        AUSGLgj0KKgjAO4ZUbRv5hM=
-X-Google-Smtp-Source: AA6agR70H85HGA3vVInnbpSwUrfmwyci7JmiXRzPSUpGbugeNcYRT+UHskzbJLTRUwIyGzGtchgB/A==
-X-Received: by 2002:a63:ff19:0:b0:41a:8f88:5703 with SMTP id k25-20020a63ff19000000b0041a8f885703mr25186834pgi.355.1660179532829;
-        Wed, 10 Aug 2022 17:58:52 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:a3c8:d6b9:a5c2:1eca])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170902f69100b0016a091eb88esm13674287plg.126.2022.08.10.17.58.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 17:58:51 -0700 (PDT)
-Date:   Wed, 10 Aug 2022 17:58:48 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Artur Rojek <contact@artur-rojek.eu>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Chris Morgan <macroalpha82@gmail.com>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        heiko@sntech.de, paul@crapouillou.net,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Maya Matuszczyk <maccraft123mc@gmail.com>
-Subject: Re: [PATCH v12 2/3] Input: adc-joystick - Add polled input device
- support
-Message-ID: <YvRUSBFGuMmjGsb4@google.com>
-References: <20220805171016.21217-1-macroalpha82@gmail.com>
- <20220805171016.21217-3-macroalpha82@gmail.com>
- <20220806152042.39bc5351@jic23-huawei>
- <9399f54366be973dba36a70cb3dcbfd9@artur-rojek.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9399f54366be973dba36a70cb3dcbfd9@artur-rojek.eu>
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=FanHt6WQP4NmLyUB3d1OkhI4bOP5Oviwv4Y0DSe/VWQ=;
+        b=NkfzAa2E89lEIDjXpZAjqkJfQtnobfJz0n2EsMJ1c5ze3w1rTUx9qteRQ3ps8ffKzk
+         uvxeid/jCZK3AYBTM34oXB/3GA67dTkbGGRgEFjXmoHkPXCzdr/oWfmaZFki9PuuRPLW
+         +NrjMIUMl5/3FGvpNH/2jzN2AreXKH6MVWOgMORqivc8sas8dgEonDIUdzCo7tiSstCz
+         DbsQkxeLZ0+f/xiRBuhCk1noAbtJYiUUKgCHlq5kSvHAYSesUYfNe4klv4CqAZ7v4MWS
+         lmuaBr8yuwv9lI4YfuE/7JytEq3slhX4a6IJ9fkk49DS3oJhzouQZZidmoRQO/EXeqrI
+         IaTw==
+X-Gm-Message-State: ACgBeo3Zf5cKyHqggTtJa8PxXrMmlfPC8DfbPrJAzDtlprPqKtfONk95
+        3njlzmJrJP579RGxeT/DzD1iHXr+oQSLA0fFe8s=
+X-Google-Smtp-Source: AA6agR5oT5yzIfzE/MaqN7E6f9Qbw5KM3qzSiNAkisKrSwlmjPsA0/sF3D8jQpGxsBd5A8gOiwbpow==
+X-Received: by 2002:a17:90b:390f:b0:1f4:e394:8c18 with SMTP id ob15-20020a17090b390f00b001f4e3948c18mr6479082pjb.141.1660186728795;
+        Wed, 10 Aug 2022 19:58:48 -0700 (PDT)
+Received: from localhost.localdomain ([63.222.17.38])
+        by smtp.gmail.com with ESMTPSA id g2-20020a1709026b4200b0016db51ca7dfsm13721310plt.15.2022.08.10.19.58.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 10 Aug 2022 19:58:48 -0700 (PDT)
+From:   margeyang <marge.yang@synaptics.corp-partner.google.com>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hdegoede@redhat.com,
+        benjamin.tissoires@redhat.com
+Cc:     marge.yang@tw.synaptics.com, derek.cheng@tw.synaptics.com,
+        vincent.huang@tw.synaptics.com,
+        Marge Yang <marge.yang@synaptics.corp-partner.google.com>
+Subject: [PATCH V3] HID: HID-rmi - ignore to rmi_hid_read_block after system resumes.
+Date:   Thu, 11 Aug 2022 10:58:32 +0800
+Message-Id: <1660186712-2598-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Aug 06, 2022 at 04:19:21PM +0200, Artur Rojek wrote:
-> On 2022-08-06 16:20, Jonathan Cameron wrote:
-> > On Fri,  5 Aug 2022 12:10:15 -0500
-> > Chris Morgan <macroalpha82@gmail.com> wrote:
-> > 
-> > > From: Chris Morgan <macromorgan@hotmail.com>
-> > > 
-> > > Add polled input device support to the adc-joystick driver. This is
-> > > useful for devices which do not have hardware capable triggers on
-> > > their SARADC. Code modified from adc-joystick.c changes made by Maya
-> > > Matuszczyk.
-> > > 
-> > > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > Hi Chris,
-> > 
-> > Trying to avoid too much indentation has lead to an odd code structure.
-> > Still minor thing, so either way this looks fine to me.
-> > 
-> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > 
-> > > ---
-> > >  drivers/input/joystick/adc-joystick.c | 44
-> > > +++++++++++++++++++++++++--
-> > >  1 file changed, 41 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/input/joystick/adc-joystick.c
-> > > b/drivers/input/joystick/adc-joystick.c
-> > > index 78ebca7d400a..77dfb7dd96eb 100644
-> > > --- a/drivers/input/joystick/adc-joystick.c
-> > > +++ b/drivers/input/joystick/adc-joystick.c
-> > > @@ -26,8 +26,23 @@ struct adc_joystick {
-> > >  	struct adc_joystick_axis *axes;
-> > >  	struct iio_channel *chans;
-> > >  	int num_chans;
-> > > +	bool polled;
-> > >  };
-> > > 
-> > > +static void adc_joystick_poll(struct input_dev *input)
-> > > +{
-> > > +	struct adc_joystick *joy = input_get_drvdata(input);
-> > > +	int i, val, ret;
-> > > +
-> > > +	for (i = 0; i < joy->num_chans; i++) {
-> > > +		ret = iio_read_channel_raw(&joy->chans[i], &val);
-> > > +		if (ret < 0)
-> > > +			return;
-> > > +		input_report_abs(input, joy->axes[i].code, val);
-> > > +	}
-> > > +	input_sync(input);
-> > > +}
-> > > +
-> > >  static int adc_joystick_handle(const void *data, void *private)
-> > >  {
-> > >  	struct adc_joystick *joy = private;
-> > > @@ -179,6 +194,7 @@ static int adc_joystick_probe(struct
-> > > platform_device *pdev)
-> > >  	int error;
-> > >  	int bits;
-> > >  	int i;
-> > > +	unsigned int poll_interval;
-> > > 
-> > >  	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
-> > >  	if (!joy)
-> > > @@ -192,8 +208,21 @@ static int adc_joystick_probe(struct
-> > > platform_device *pdev)
-> > >  		return error;
-> > >  	}
-> > > 
-> > > -	/* Count how many channels we got. NULL terminated. */
-> > > +	if (device_property_present(dev, "poll-interval")) {
-> > > +		error = device_property_read_u32(dev, "poll-interval",
-> > > +						 &poll_interval);
-> > > +		if (error)
-> > > +			return error;
-> > > +		joy->polled = true;
+From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
 
+The interrupt GPIO will be pulled down once
+after RMI driver reads this command(Report ID:0x0A).
+It will cause "Dark resume test fail" for chromebook device.
+Hence, TP driver will ignore rmi_hid_read_block function once
+after system resumes.
 
-device_property_read_u32() return -EINVAL if property is not present, so
-we can write:
+Signed-off-by: Marge Yang<marge.yang@synaptics.corp-partner.google.com>
+---
+ drivers/hid/hid-rmi.c | 14 ++++++++++++--
+ include/linux/rmi.h   |  2 ++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-	error = device_property_read_u32(dev, "poll-interval", &poll_interval);
-	if (error) {
-		/* -EINVAL means the property is absent. */
-		if (error != -EINVAL)
-			return error;
-	} else if (poll_interval == 0) {
-		dev_err(...);
-		return -EINVAL;
-	} else {
-		joy->polled = true;
-	}
-
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Count how many channels we got. NULL terminated.
-> > > +	 * Do not check the storage size if using polling.
-> > > +	 */
-> > >  	for (i = 0; joy->chans[i].indio_dev; i++) {
-> > > +		if (joy->polled)
-> > > +			continue;
-> > 
-> > Whilst I can see why did this, it is a rather 'unusual' code structure
-> > and that makes me a tiny bit uncomfortable. However if everyone else
-> > is happy with this then fair enough (I see it was Artur's suggestion to
-> > handle it like this).
-> Yep, I'm fine with the way it is right now :)
-> 
-> Acked-by: Artur Rojek <contact@artur-rojek.eu>
-> 
-> > 
-> > >  		bits = joy->chans[i].channel->scan_type.storagebits;
-> > >  		if (!bits || bits > 16) {
-> > >  			dev_err(dev, "Unsupported channel storage size\n");
-> > > @@ -215,8 +244,14 @@ static int adc_joystick_probe(struct
-> > > platform_device *pdev)
-> > >  	joy->input = input;
-> > >  	input->name = pdev->name;
-> > >  	input->id.bustype = BUS_HOST;
-> > > -	input->open = adc_joystick_open;
-> > > -	input->close = adc_joystick_close;
-> > > +
-> > > +	if (joy->polled) {
-> > > +		input_setup_polling(input, adc_joystick_poll);
-> > > +		input_set_poll_interval(input, poll_interval);
-> > > +	} else {
-> > > +		input->open = adc_joystick_open;
-> > > +		input->close = adc_joystick_close;
-> > > +	}
-> > > 
-> > >  	error = adc_joystick_set_axes(dev, joy);
-> > >  	if (error)
-> > > @@ -229,6 +264,9 @@ static int adc_joystick_probe(struct
-> > > platform_device *pdev)
-> > >  		return error;
-> > >  	}
-> > > 
-> > > +	if (joy->polled)
-> > > +		return 0;
-> > > +
-
-This is no longer compatible with the latest driver code as input device
-registration has been moved to the very end, so you actually need to move
-getting bugger and setting up cleanup action into the "else" clause of "if
-(joy->polled)", even though it adds indentation level.
-
-> > >  	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-> > >  	if (IS_ERR(joy->buffer)) {
-> > >  		dev_err(dev, "Unable to allocate callback buffer\n");
-
-Thanks.
-
+diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
+index 311eee599ce9..fdaf2c4ce181 100644
+--- a/drivers/hid/hid-rmi.c
++++ b/drivers/hid/hid-rmi.c
+@@ -203,7 +203,13 @@ static int rmi_hid_read_block(struct rmi_transport_dev *xport, u16 addr,
+ 		if (ret < 0)
+ 			goto exit;
+ 	}
+-
++	if (xport->ignoreonce == 1) {
++		dev_err(&hdev->dev,
++			"ignoreonce (%d)\n",
++			xport->ignoreonce);
++		xport->ignoreonce = 0;
++		goto exit;
++	}
+ 	for (retries = 5; retries > 0; retries--) {
+ 		data->writeReport[0] = RMI_READ_ADDR_REPORT_ID;
+ 		data->writeReport[1] = 0; /* old 1 byte read count */
+@@ -468,8 +474,12 @@ static int rmi_post_resume(struct hid_device *hdev)
+ 	ret = hid_hw_open(hdev);
+ 	if (ret)
+ 		return ret;
+-
++	// Avoid to read rmi_hid_read_block once after system resumes.
++	// The interrupt will be pulled down
++	// after RMI Read command(Report ID:0x0A).
++	data->xport.ignoreonce = 1;
+ 	ret = rmi_reset_attn_mode(hdev);
++	data->xport.ignoreonce = 0;
+ 	if (ret)
+ 		goto out;
+ 
+diff --git a/include/linux/rmi.h b/include/linux/rmi.h
+index ab7eea01ab42..24f63ad00970 100644
+--- a/include/linux/rmi.h
++++ b/include/linux/rmi.h
+@@ -270,6 +270,8 @@ struct rmi_transport_dev {
+ 	struct rmi_device_platform_data pdata;
+ 
+ 	struct input_dev *input;
++
++	int ignoreonce;
+ };
+ 
+ /**
 -- 
-Dmitry
+2.22.0.windows.1
+
