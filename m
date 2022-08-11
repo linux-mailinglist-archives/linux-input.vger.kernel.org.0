@@ -2,73 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8954E58FF4C
-	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 17:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E849590534
+	for <lists+linux-input@lfdr.de>; Thu, 11 Aug 2022 18:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234705AbiHKP2M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Aug 2022 11:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46140 "EHLO
+        id S237855AbiHKQ5F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Aug 2022 12:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235063AbiHKP2L (ORCPT
+        with ESMTP id S236756AbiHKQ4s (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:28:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E5A3894120
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:28:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660231690;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pyyZicGfxCosuxfOzGiPvCZKl7Zw5v9IKBUyR8STasU=;
-        b=JI6YvA1Lou2VxAhMElYS5vRoPT29+lcwUSgcZ8Pv/+w00e6UDX3xULzdTPZh/R5P8BrG9O
-        pdo4jJQtI40SN+K9otGouCZNQTKnf9UVy5XlINomWg0xb7Jwqbr+fy21h8jLBv5i/WyMOy
-        EgMITFTQuSrvk1D8UfPyvg3T6yI4/l8=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-256-NXjOxiGlMXGR3TcQMzKzYw-1; Thu, 11 Aug 2022 11:28:09 -0400
-X-MC-Unique: NXjOxiGlMXGR3TcQMzKzYw-1
-Received: by mail-pg1-f200.google.com with SMTP id 196-20020a6301cd000000b0041b0f053fd1so6619456pgb.6
-        for <linux-input@vger.kernel.org>; Thu, 11 Aug 2022 08:28:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=pyyZicGfxCosuxfOzGiPvCZKl7Zw5v9IKBUyR8STasU=;
-        b=pmJDukDHKNH+n3YJBc/tKqNeFEla6C07aUiWo0RwHJLh6iP6RLXC9lepGO0vouNAFq
-         i+AsyGqwQu5FTtPzTyuauQo3/9h610tExSfdcqtPqdDBnFchYXWnmyBa2UDUruenYOIh
-         tyPSf9y6OLayeN6UtJ5g4FvYQ8Rel3Q3UocjKWJPalo/YddeVDiwwGuxY5LRh/Mbo1Ka
-         HIpXE6D6LVfft2ZPYELkvWBRKtwDTVE96hMjdVgVFh6jSEEj3e5RI0uK5Ki5dwg9NNat
-         DQZdNTEqwzMjSeT5Da+iKd6JxVlM1F4IoBRjOqXL73lYZ31q1YDdlCYl1u8gMP95kx8n
-         W58g==
-X-Gm-Message-State: ACgBeo0ByakRc1NCHCLHO74IhI1C8Qm1Tu//skY5C3j/1PROukdAVV9E
-        X4LNQWCcltbvfhqCmsVauqnQAQzt8u+zaqhBBC6Qp6IPDR7aNhvBT10lh0CVrNwfFuwA7n1vyNc
-        Em6y4KO/uyQ/PAzdZE3crHEFKX5uo6duc6Lv96xs=
-X-Received: by 2002:a17:90a:c58e:b0:1f3:1ab5:22ae with SMTP id l14-20020a17090ac58e00b001f31ab522aemr9331837pjt.45.1660231687776;
-        Thu, 11 Aug 2022 08:28:07 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6XMWTyM027cAaa57/38LykZhXqn1Z5RtclKltuvWm2EbjrPCwh5ukQpnlhdVbthKxo9c9SXjbcZ2jBPZ4YaZo=
-X-Received: by 2002:a17:90a:c58e:b0:1f3:1ab5:22ae with SMTP id
- l14-20020a17090ac58e00b001f31ab522aemr9331818pjt.45.1660231687557; Thu, 11
- Aug 2022 08:28:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220804151832.30373-1-openglfreak@googlemail.com> <20220804180038.GA8906@elementary>
-In-Reply-To: <20220804180038.GA8906@elementary>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 11 Aug 2022 17:27:56 +0200
-Message-ID: <CAO-hwJJsKC=fyeFLCmdXMRkxEQFVGZ189GKphTVK83QJWc=udA@mail.gmail.com>
-Subject: Re: [PATCH] HID: Accept Digitizers as input devices
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     Torge Matthies <openglfreak@googlemail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Nikolai Kondrashov <spbnick@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Thu, 11 Aug 2022 12:56:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30797D86D9;
+        Thu, 11 Aug 2022 09:29:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 91094B821AD;
+        Thu, 11 Aug 2022 16:28:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4594AC433C1;
+        Thu, 11 Aug 2022 16:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660235337;
+        bh=3+ho3jN/CyJOCje1s1LNU0zm5QUTd8ipkfPq+/Q0vgs=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=uuD7CSDCyZ0KzpuYUQIqVqnqgUhGMjIdTeX0syj2elNormVH8lZj8Jd2vKIPglM1m
+         9uigaBEic1/toShAdfypI88StXkbkGaL7jm8UcLM1ji/cSNN4r/TIPYWd7UTpeID0i
+         KHtF6d/T8M+urPRPLKeNsymYwa3khsmIfgY2bRZmKQ4M7T2fEOqEE++uUlhsMIRpx7
+         QI3rTB6E9Fd1Shj+b3uVp8NHf18YZKLZvt3OF6Lsp7rarYxqgVZZ/POAhz0MSf/HaL
+         uq+PW10p7Vw9rWUHhXoUKFEqwWwrLhadNSI2DBbeyqWOuPrm4b/vgHAbHguvn/cvX6
+         71I/arFz3XACw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 34703C43142;
+        Thu, 11 Aug 2022 16:28:57 +0000 (UTC)
+Subject: Re: [git pull] Input updates for v5.20-rc0
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <YvQvwNqu5sxr36Th@google.com>
+References: <YvQvwNqu5sxr36Th@google.com>
+X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YvQvwNqu5sxr36Th@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v5.20-rc0
+X-PR-Tracked-Commit-Id: 8bb5e7f4dcd9b9ef22a3ea25c9066a8a968f12dd
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2ae08b36c06ea8df73a79f6b80ff7964e006e9e3
+Message-Id: <166023533719.23214.12182678886174197132.pr-tracker-bot@kernel.org>
+Date:   Thu, 11 Aug 2022 16:28:57 +0000
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,84 +61,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 4, 2022 at 8:00 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
-il.com> wrote:
->
-> Hi Torge,
->
-> Thanks for the patch.
->
-> On Thu, Aug 04, 2022 at 05:18:32PM +0200, Torge Matthies wrote:
-> > Commit f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for
-> > styluses") broke input from my XP-Pen Star G640. This is because the
-> > "Digitizer" usage is not recognized as a valid usage for input devices.
-> >
-> > This patch changes the IS_INPUT_APPLICATION macro so that the "Digitize=
-r"
-> > (HID_DG_DIGITIZER) usage is recognized as an input device usage.
-> >
-> > Fixes: f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for stylu=
-ses")
-> > Signed-off-by: Torge Matthies <openglfreak@googlemail.com>
-> > ---
-> > This patch could be risky, because any digitizer devices that were
-> > previously not treated as input devices are now used for input.
-> > Alternatively the linked commit could be reverted, but that would
-> > re-introduce the problem detailed in its commit message.
-> >
-> >  include/linux/hid.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> I hesitated about this when I sent the patch you mentioned. In the end,
-> I didn't include any fix because the digitizer use was tested for 2
-> years in DIGImend, so I (wrongly) assumed that it was safe enough.
->
-> However, my initial thought was to add in uclogic_probe():
->
->         hdev->quirks |=3D HID_QUIRK_HIDINPUT_FORCE;
-> +       hdev->quirks |=3D HID_QUIRK_HIDINPUT_FORCE;
->
-> Let's see if we can hear more opinions, but if you are worried about
-> affecting other drivers, that could be a good solution.
+The pull request you sent on Wed, 10 Aug 2022 15:22:56 -0700:
 
-Sadly, my automated regression tests are broken for a while and I
-haven't checked if that patch is introducing errors in hid-multitouch.
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v5.20-rc0
 
-FWIW, this part has always been painful because some tablets were not
-using the correct usages. And so that's why we are ending up in that
-weird situation.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2ae08b36c06ea8df73a79f6b80ff7964e006e9e3
 
-Anyway, just to mention that any code that touches this part should be
-tested against the hid regression tests suite[0], because that's the
-only way to find out if the change is affecting other devices.
+Thank you!
 
-Cheers,
-Benjamin
-
-[0] https://gitlab.freedesktop.org/libevdev/hid-tools
-
->
-> Best wishes,
-> Jose
->
-> > diff --git a/include/linux/hid.h b/include/linux/hid.h
-> > index 4363a63b9775..07803e144d98 100644
-> > --- a/include/linux/hid.h
-> > +++ b/include/linux/hid.h
-> > @@ -883,7 +883,7 @@ static inline bool hid_is_usb(struct hid_device *hd=
-ev)
-> >  /* We ignore a few input applications that are not widely used */
-> >  #define IS_INPUT_APPLICATION(a) \
-> >               (((a >=3D HID_UP_GENDESK) && (a <=3D HID_GD_MULTIAXIS)) \
-> > -             || ((a >=3D HID_DG_PEN) && (a <=3D HID_DG_WHITEBOARD)) \
-> > +             || ((a >=3D HID_DG_DIGITIZER) && (a <=3D HID_DG_WHITEBOAR=
-D)) \
-> >               || (a =3D=3D HID_GD_SYSTEM_CONTROL) || (a =3D=3D HID_CP_C=
-ONSUMER_CONTROL) \
-> >               || (a =3D=3D HID_GD_WIRELESS_RADIO_CTLS))
-> >
-> > --
-> > 2.37.1
-> >
->
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
