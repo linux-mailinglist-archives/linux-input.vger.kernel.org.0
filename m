@@ -2,148 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26E1A59135F
-	for <lists+linux-input@lfdr.de>; Fri, 12 Aug 2022 18:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F5625915F5
+	for <lists+linux-input@lfdr.de>; Fri, 12 Aug 2022 21:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234111AbiHLP75 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Aug 2022 11:59:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54590 "EHLO
+        id S230095AbiHLT2c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Aug 2022 15:28:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231271AbiHLP74 (ORCPT
+        with ESMTP id S238120AbiHLT2X (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Aug 2022 11:59:56 -0400
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD659ACA36;
-        Fri, 12 Aug 2022 08:59:54 -0700 (PDT)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-31f445bd486so13991677b3.13;
-        Fri, 12 Aug 2022 08:59:54 -0700 (PDT)
+        Fri, 12 Aug 2022 15:28:23 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB2EB08AC;
+        Fri, 12 Aug 2022 12:28:23 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id p8so1536771plq.13;
+        Fri, 12 Aug 2022 12:28:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=yysyImrhLlAY3C/TnSWpE64J+UbkveI1E/t+93CXsL0=;
-        b=DgENi7+Ue7tLt1Pl1ATDN/XTcVA8oZ11rYTH6oQuCaPzAbVl6qaCfuTpj9qI26ZZVW
-         QBIO4rIM7IbS3Dg3vOfbaEtgIke84amPjcqSDutDFqwnYkQLSceJfOTjxYFN1k1YtWcy
-         P+3VpS+Y40Af8ERo+bDBxXdodKQIfyH0pw+xF4vVubzHRoWEN8nOxJez5zVg1n7GBmMg
-         nsYBY8Kt9RS7Ygg1N2oSKhkkBufuHzdLOxfFP5vQprX+6MNvIlZNKV4IWqGfNEOKKy+U
-         ne5La8Cv8mQ7S7edF6NDWoP9tIpON4feSfKQeNHcSEMgXOyHdyB+YEuzjbadYBB4aHMk
-         0hCg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=IaNDAdEa8hgXhA9slqB1hEbULevRfy/CuIByo7fB7oY=;
+        b=HLSm97rrOLYJkzPX2w6QgFUDvZAlVyraM1Cdtc6CnudfXDGFGGSC6oP9jpu1K5FU9y
+         jr9ifGkldw6NkuannS9dSFrNzyYUzifTOx83mmUeATi0/1yzcjnKoUJQQCYdGNPqITB7
+         B78KVzOFbVwHSu9HOeACSLpEpQsTA3KXkmMzCOga9JsEGadJfEjdsGuDIWWKtpKtpC58
+         YHRYgvxX5YcqeedHn1YHQZn6d0HqRABlOr7PbKRecywam6pic7QV9bsgLV4ZtlTXWhD+
+         uuMwPWLT+NK87kyzdj6ytGOTT1wIgnO3hcUJUPSnPx+5WpyUfpjxwww4ARJGRVw5Rn54
+         KQeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=yysyImrhLlAY3C/TnSWpE64J+UbkveI1E/t+93CXsL0=;
-        b=pl8FGOKhnKnOYuGBdDdUlisPITo9LS7F24jzl5Wh8+kxateOv8WPVz8zAZfHVzBrVB
-         Myx7RGudJklJXoKlotWBfPIE/K0yaSwL9BvC+haU1tnIZCuBnqkdCkTZsL1xUHWrsktA
-         bOimWb7Plz02sT3U1G1fhr6F/VYmLSRH2ll6HKnbv8mEMd2JLbW1/ZrNZaFHecaKF19Z
-         hxbnf3VFjkKHOPU0xNxYNdEj0duFbAiZmBUTwelhWbVbINKzvalyrhJYCybhazXoFeZK
-         pwXj8YhQybpWBZIWfHzOt9epB+Gdpc0YP3bE1LQ2xIezob2na2bh509kPYldI5NMNC6i
-         Szaw==
-X-Gm-Message-State: ACgBeo15wt14DLY5pk0ebPy1OR5rEolaKT/+vwRtJT+y7mUg8mGQD7wh
-        OIh0Cm+upEWtggNMVoZiSqS+OFWBKS0mS76VU+I=
-X-Google-Smtp-Source: AA6agR46a2BAgn9IO/KQvgr9BK5Qz69v5A6HGK5pb3pOb5T/UozNYNDng0Wi88vvrjixsnuaPPOAsjR0SNEcqURn0QE=
-X-Received: by 2002:a0d:d849:0:b0:324:8602:7ca9 with SMTP id
- a70-20020a0dd849000000b0032486027ca9mr4253369ywe.481.1660319994018; Fri, 12
- Aug 2022 08:59:54 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=IaNDAdEa8hgXhA9slqB1hEbULevRfy/CuIByo7fB7oY=;
+        b=qBawCP+eRSHxWEx4HS0YIq6Qvpb2iN3ZOp9QYmIyTTOOthKFIZyh0jltqvnOlTi/Mh
+         jx1s2L61MIAJ85iuSicrH6ZuzKzITOxmeLWT50mJ2HYFK6Dbk4zjUKyiW2duuS20JGgA
+         9t5URMsBefWoWszlVTVaPtCkZEXMsJvAlmfW3xKDSFgeCjJ4UJKAxlgtDZ6svw2sI+ie
+         pG+W41Mr8PnzGnTGXSZnxUhszDW/Fxn9lElDLeZdbxuJepfvqZBz0Xns0K8Xe7N66Jwy
+         XmyxjZmlp0mTIWq85yUIwNTC8dpWSB8Ste4XazxvPaYc1DpPMKZe1cnSVkc19TLbFCjQ
+         HLTA==
+X-Gm-Message-State: ACgBeo2JMHSgehhkl9rYm3mx2LCGe/ABNmmAy+1h2YEBkk+nmigCyvLg
+        UnqUX8if3KqSk58Ny7lrMtE=
+X-Google-Smtp-Source: AA6agR7Y6iCDD7AR93KBVw18z7gK/7WjC04/p/OasvAPHPOCIhX6lGMi+tKOCzhW72UlXFqTP/Qz7A==
+X-Received: by 2002:a17:902:d484:b0:171:3cbc:7c6 with SMTP id c4-20020a170902d48400b001713cbc07c6mr5423597plg.85.1660332502216;
+        Fri, 12 Aug 2022 12:28:22 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:eb15:868d:43:d73a])
+        by smtp.gmail.com with ESMTPSA id b4-20020a6567c4000000b0040dd052ab11sm1691136pgs.58.2022.08.12.12.28.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Aug 2022 12:28:21 -0700 (PDT)
+Date:   Fri, 12 Aug 2022 12:28:18 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     margeyang <marge.yang@synaptics.corp-partner.google.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hdegoede@redhat.com, benjamin.tissoires@redhat.com,
+        marge.yang@tw.synaptics.com, derek.cheng@tw.synaptics.com,
+        vincent.huang@tw.synaptics.com
+Subject: Re: [PATCH V2] Input: synaptics-rmi4 - filter incomplete relative
+ packet.
+Message-ID: <Yvap0uh1U81gqy6J@google.com>
+References: <1660293805-16053-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
 MIME-Version: 1.0
-References: <20220804113052.1117009-1-gregkh@linuxfoundation.org>
-In-Reply-To: <20220804113052.1117009-1-gregkh@linuxfoundation.org>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Fri, 12 Aug 2022 08:59:43 -0700
-Message-ID: <CAEc3jaApj_=eEgOWzhfh06PXKU7DO1zAsR8tG-SD3vva5duTtw@mail.gmail.com>
-Subject: Re: [PATCH] HID: playstation: convert to use dev_groups
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1660293805-16053-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
+X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Greg,
+Hi Marge,
 
-Thanks for the patch. It looks good and confirmed it working properly.
-(Replying from personal email... corporate email systems *Exchange*
-don't work well with GIT)
+On Fri, Aug 12, 2022 at 04:43:25PM +0800, margeyang wrote:
+> From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
+> 
+> RMI4 F03 supports the Stick function,
+> it's designed to support relative packet.
+> This patch supports the following case.
+> When relative packet can't be reported completely,
+> it may miss one byte or two byte.
+> New Synaptics firmware will report PARITY error.
+> When timeout error or parity error happens,
+> RMI4 driver will sends 0xFE command and
+> ask FW to Re-send stick packet again.
 
-Acked-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+My understanding is that F03 is intended to be a pass-through mechanism
+for PS/2-compatible devices. In that spirit all protocol handling and
+validation should happen in psmouse driver that attaches to a serio port
+provided by F03.
 
-Thanks,
-Roderick Colenbrander
+Historically we did not pay attention to parity and frame errors for
+PS/2 mice/touchpads (and for keyboards on x86) but we coudl add such
+code there. Do we actually observe this with RMI devices? Can RMI
+firmware handle this better instead?
 
-On Thu, Aug 4, 2022 at 4:32 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> There is no need for a driver to individually add/create device groups,
-> the driver core will do it automatically for you.  Convert the
-> hid-playstation driver to use the dev_groups pointer instead of manually
-> calling the driver core to create the group and have it be cleaned up
-> later on by the devm core.
->
-> Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  drivers/hid/hid-playstation.c | 16 +++++-----------
->  1 file changed, 5 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-> index b1b5721b5d8f..40050eb85c0a 100644
-> --- a/drivers/hid/hid-playstation.c
-> +++ b/drivers/hid/hid-playstation.c
-> @@ -692,15 +692,12 @@ static ssize_t hardware_version_show(struct device *dev,
->
->  static DEVICE_ATTR_RO(hardware_version);
->
-> -static struct attribute *ps_device_attributes[] = {
-> +static struct attribute *ps_device_attrs[] = {
->         &dev_attr_firmware_version.attr,
->         &dev_attr_hardware_version.attr,
->         NULL
->  };
-> -
-> -static const struct attribute_group ps_device_attribute_group = {
-> -       .attrs = ps_device_attributes,
-> -};
-> +ATTRIBUTE_GROUPS(ps_device);
->
->  static int dualsense_get_calibration_data(struct dualsense *ds)
->  {
-> @@ -1448,12 +1445,6 @@ static int ps_probe(struct hid_device *hdev, const struct hid_device_id *id)
->                 }
->         }
->
-> -       ret = devm_device_add_group(&hdev->dev, &ps_device_attribute_group);
-> -       if (ret) {
-> -               hid_err(hdev, "Failed to register sysfs nodes.\n");
-> -               goto err_close;
-> -       }
-> -
->         return ret;
->
->  err_close:
-> @@ -1487,6 +1478,9 @@ static struct hid_driver ps_driver = {
->         .probe          = ps_probe,
->         .remove         = ps_remove,
->         .raw_event      = ps_raw_event,
-> +       .driver = {
-> +               .dev_groups = ps_device_groups,
-> +       },
->  };
->
->  static int __init ps_init(void)
-> --
-> 2.37.1
->
+Thanks.
+
+-- 
+Dmitry
