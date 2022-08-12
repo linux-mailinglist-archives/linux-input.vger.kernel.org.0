@@ -2,309 +2,379 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE727590D93
-	for <lists+linux-input@lfdr.de>; Fri, 12 Aug 2022 10:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17301590DD4
+	for <lists+linux-input@lfdr.de>; Fri, 12 Aug 2022 10:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237423AbiHLIn5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Aug 2022 04:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
+        id S238014AbiHLIyR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Aug 2022 04:54:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237127AbiHLIn4 (ORCPT
+        with ESMTP id S237882AbiHLIx6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Aug 2022 04:43:56 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E58BA8965;
-        Fri, 12 Aug 2022 01:43:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VYCaHRy+pZrC2WL4Y1qlxucpudzLoZuENvaBQagPRkvZVm3DMmDcvt1jTstvmhNguPlycfpeNIZHJUz6ho4bYMWi5QS484IJuFkoPJcjS9mhiPjLpwHTe6PGDHf6oNQK+ZH5WQAPtk3QUBKnyMqGYg45I+2+LrTGk174mijTct/X6qM5mSK+PO2qigO1LfawGspyIzIuDZMoFqZOePeXZWBOLGXaZ7+Oq3rSU+yCA951IcrNgCUpW03hLvqvJaLW1KXvWSICzZMU5kqlUlsKxXF3h72JlN9AwqdUtqEwZP6MYJ9a+U/oqIFLYvj7ljM/Mt6G1zSLjgSPYZafHIIobw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8FKplBfTWXlBiZvS2VS3lQcp+mzZXAQ9DLvIUBsIuW8=;
- b=bW8ICBwaGW3lw/D233pVax4kZz6BmnvnXuPMXevcY2jWzZGpb+8amxF9dMjeW1nRwgWIE3UdfdQTrcKg3ocorzM+4HQMgruCp8S88w+Ug2/tIddE8m+mJrOGGoi6yYh2PYLNtissyeIk3ECAc5YudKweZeD5bei4K35nwX3OU2gANQJixu/X29XCFh/tpz6xa/odxiqzpgSz9NIWP5JfQ+bxX6o1ieAAU2pdLh4a/2EMzjThMiaAgizVfY5mXkTKSHzLNjW1ynXCOaDKM1uS1TcL/kQ4OqeBoFWwQHPd4+EkB1SdTyy+QTIa29KosTtFIL+XgrQwpKB/j1+wMlJNuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=tw.synaptics.com; dmarc=pass action=none
- header.from=tw.synaptics.com; dkim=pass header.d=tw.synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8FKplBfTWXlBiZvS2VS3lQcp+mzZXAQ9DLvIUBsIuW8=;
- b=Oxb3LM+nnUzkfIazdHs2dy+dMppTTHyOg3Mn53CcHJ9ydptPZvK8SO1qRBrtukDO7CbaBE5toKyZ2wBhtmTUgFIJppJOPGJ2IKbBCyMGFrWy+Y6hDI0/HYk6RcX0cvUTMmJtKphwVNVQK0ZH8523s+XlHJTKudKqj1IxxjvxSWk=
-Received: from PH0PR03MB5848.namprd03.prod.outlook.com (2603:10b6:510:30::19)
- by CO1PR03MB5748.namprd03.prod.outlook.com (2603:10b6:303:6d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Fri, 12 Aug
- 2022 08:43:53 +0000
-Received: from PH0PR03MB5848.namprd03.prod.outlook.com
- ([fe80::60b1:a766:c174:65ca]) by PH0PR03MB5848.namprd03.prod.outlook.com
- ([fe80::60b1:a766:c174:65ca%8]) with mapi id 15.20.5504.025; Fri, 12 Aug 2022
- 08:43:53 +0000
-From:   Marge Yang <Marge.Yang@tw.synaptics.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
+        Fri, 12 Aug 2022 04:53:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2491AA98F5
+        for <linux-input@vger.kernel.org>; Fri, 12 Aug 2022 01:53:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1660294424;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LVBJ07hgCcMJvtQxqB1fn4K3n5iAnchLaBytWfkxYb4=;
+        b=PTJeacbFn9yYKDc2GLx3ZLVJWHfjMu6Ttncf0awOiVzWGNk9VlTCK+63tHy3yGdxhn9wyk
+        3DyAX94z4aGDiY9pjzrA3IAdGonJ8YwpHE95R0M4rwvFMBEtGx+fINynK/uRZAAUnHEOGg
+        +EcAnXC4G5cxMj+8emuEbrQ9QzCsf0M=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-556-Ssp05xyyP_O02sdYiY8VHw-1; Fri, 12 Aug 2022 04:53:42 -0400
+X-MC-Unique: Ssp05xyyP_O02sdYiY8VHw-1
+Received: by mail-ej1-f71.google.com with SMTP id s4-20020a170906500400b006feaccb3a0eso198775ejj.11
+        for <linux-input@vger.kernel.org>; Fri, 12 Aug 2022 01:53:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=LVBJ07hgCcMJvtQxqB1fn4K3n5iAnchLaBytWfkxYb4=;
+        b=t0i9g/C3W6AkUEln96G3VT/Aq/8Abh8SppzS+dXBfKrkXv8rW2B72ZD8+v4YtO+8iQ
+         L1uB4BLyXXucPxlQQ9L+plxRxJnFeodvV8cNZ+xBV8Ij77XZzVsw/JekoSHxNBMKJbkV
+         gno/IoR60x7oOtUOLG1jL62OftEyvM91SgL63CswAPmgN7O+4e6QjEKnS3QskaN1keOk
+         0OUtKkYejbXr+xflQoZNbvE0LZlngBwwdpYFebBnczv7dd8FHZHvqtjLuWB9oiAWdjFZ
+         jG0ZxYY3E7ckeSv0YdyZ8FW5KKmZEopt3iArMBt4A2fJORLinWePuNsCMZ5eCNO699jM
+         WVtw==
+X-Gm-Message-State: ACgBeo3pI05DC7VF2SV+1R2lM/WKG+3JYCJmrN6WZfygB5qPh/3cDsY1
+        Cr9Zg8TRp6ZPSvcpaQWpKTdP2XQtq1VM41TOaAXdeC1neXIzR8ibxVLJ/jn9Eie7/qg98SnLbpl
+        vvIFlSC0zXW3tB9t1AnteOCA=
+X-Received: by 2002:a50:fb10:0:b0:43d:561a:c990 with SMTP id d16-20020a50fb10000000b0043d561ac990mr2668133edq.115.1660294421453;
+        Fri, 12 Aug 2022 01:53:41 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7TEPABAEpkXidXc3AXAFU6PBoWB/RxZAWk0lIWN7zUmGK3rFQKNWfqLYaXVshcyRfAk5PMeQ==
+X-Received: by 2002:a50:fb10:0:b0:43d:561a:c990 with SMTP id d16-20020a50fb10000000b0043d561ac990mr2668126edq.115.1660294421286;
+        Fri, 12 Aug 2022 01:53:41 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id n9-20020a05640206c900b0043cc7a3ff7fsm1008538edy.33.2022.08.12.01.53.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Aug 2022 01:53:40 -0700 (PDT)
+Message-ID: <075cd337-7dbf-2de2-fb28-9217091f9480@redhat.com>
+Date:   Fri, 12 Aug 2022 10:53:39 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: FW: [PATCH] Input: synaptics-rmi4 - filter incomplete relative
+ packet.
+Content-Language: en-US
+To:     Marge Yang <Marge.Yang@tw.synaptics.com>,
         margeyang <marge.yang@synaptics.corp-partner.google.com>,
         "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>
-CC:     Derek Cheng <derek.cheng@tw.synaptics.com>,
+Cc:     Derek Cheng <derek.cheng@tw.synaptics.com>,
         Vincent Huang <Vincent.huang@tw.synaptics.com>
-Subject: FW: [PATCH] Input: synaptics-rmi4 - filter incomplete relative
- packet.
-Thread-Topic: [PATCH] Input: synaptics-rmi4 - filter incomplete relative
- packet.
-Thread-Index: AQHYqvqnz3w53LMly0OII0MDk1wUqq2pxdKAgADEWJCAAGyI0A==
-Date:   Fri, 12 Aug 2022 08:43:53 +0000
-Message-ID: <PH0PR03MB584812B0831CBEFA0468D32FA3679@PH0PR03MB5848.namprd03.prod.outlook.com>
 References: <1659944641-2625-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
  <41ca4d6b-e19c-c039-ed57-716106135e06@redhat.com>
  <PH0PR03MB584819DB46B04A4AB481C0F1A3679@PH0PR03MB5848.namprd03.prod.outlook.com>
-In-Reply-To: <PH0PR03MB584819DB46B04A4AB481C0F1A3679@PH0PR03MB5848.namprd03.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbXlhbmdcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1lMzEyNTRiZS0xYTFhLTExZWQtODJkNi1mODU5NzE0OTljZGNcYW1lLXRlc3RcZTMxMjU0YmYtMWExYS0xMWVkLTgyZDYtZjg1OTcxNDk5Y2RjYm9keS50eHQiIHN6PSI5OTUzIiB0PSIxMzMwNDc2NzQzMTAwNTM0NTciIGg9IlVuMmZMbnRmNnRLWGpnU2pUdnFOWlk2QS9zQT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: true
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=tw.synaptics.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0653d769-1cf4-41b7-29a2-08da7c3ec934
-x-ms-traffictypediagnostic: CO1PR03MB5748:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0L7MiZJnfEvbZ3LRxYjlE7vZIlu2m5RqgKo8wBwK6pP9uUq8Wq1iuH/xFA0NsDiFAMYn8bqt0BqoWdMslZYj3DsuCRlxJP3bH0rVW7qMVihOz7qzORx1XWd38Wk7QTdF1+u/1CMl+JoNLlm1zs9nFwb0HkqQg255h7wH/9WwecV9d+56rfORt69n34w+uGxk4C171w/CktOWbfwdh8bEmkRNzlvqkysQAA17eEyu1GUmOtx8Z9L9wLpMksDQbTJK8Yq5jNr/CxglGLaKLMZt9ovDU9tT3eDF547r467YCuKIK1CoiNYuVKQ2HhIxUgEl1DeSd4BqkODdMgffefBsTIe5mngqudEpimzaxZO1Ttb+s2UtsgXaTT8ZaGNZ+HJWp+UWahVe9Nmg7Pr8MbKM0ZeAyBJvd8GUF6b+0oo81cNZX5uTeozyEBWUcCL8pKZz+ngald1q26FX6GPZgLlKIQgaRpR4pLQe9qGZPiN3hyE7zaXM7c86bbaNd81qYG8A5NV8YvxaC1C0l7tzjLVQifs39/kSD4Ifji22HC5nzpugyBOZbgHUZAa+ztM1gEqJ7Beh/w+KrmlWxiC51drcQ+FAlxdpLcyCnUHJSYZCYO6Ty4jUccVuZEyY0wQxrv0cYNWBYcGcUvikM2sSzhJeha+VIF3rcu3VVKIAm06D/P4BqA+a8eNbOzfx+uUsfbbEqGkBS7WDjJxS+fKUqVFa1Hw9SUZQ5ibY2Enooy2eaKgpPYSMJpCG/4KUqHtKyilEe7apCNLahaVNVdxB6UQ/shmSkhkgwmX1LROcnkt8TFTpXWD6t200DU9JdQz98zFs
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB5848.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(346002)(366004)(39860400002)(136003)(376002)(186003)(83380400001)(38070700005)(38100700002)(122000001)(76116006)(4326008)(64756008)(66446008)(66476007)(8676002)(66946007)(66556008)(316002)(5660300002)(2906002)(52536014)(7696005)(6506007)(107886003)(53546011)(41300700001)(26005)(2940100002)(8936002)(9686003)(54906003)(86362001)(478600001)(71200400001)(33656002)(55016003)(110136005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cHdpalowZ3F5V2lQQVNWVjhhRDZkM1p6YWFxNTBYZ2ZWdUI1ZGZkOGxSSkZB?=
- =?utf-8?B?ZW0xNEVOKzJOMmh6WVRQZ0FDenN0bm5qcDRlZnhwc01jUDlIdWxTRE1tQWRs?=
- =?utf-8?B?aEc1alBRalF6U1RXQWlNb0pkeE9sdGRsQUVJUFlTWDFaYVNVTTdKZXpRVkk2?=
- =?utf-8?B?WWFCZGQ3aWo0Z3VGUTY1OVZIMjNrUGpRUGNpTVlQYlFRdHFwUDdNY3oxTFZJ?=
- =?utf-8?B?dEo5Q2FNMUNleVh2LzhYVkpnNFVwbkF1dHN1eVJxeS9XMWhidkd1TElGRFRm?=
- =?utf-8?B?akpFKytsTFMyamdJQzU0Y21MbytjVmwzVEllQWN4cHVSQkwyR2VKQTZzWVpU?=
- =?utf-8?B?c0JsS0xaR09FMFViYktPT3JJL1A0WWV1TTV4bnVvR2RxeDNZSFlvQzJRM09I?=
- =?utf-8?B?dHZsUWlVdmRaTGxlaUN6NExaM2YvWDBrSEFjYUhRQmVrd0pJUmN4RGVmSGlC?=
- =?utf-8?B?U2VxRExQV1NxbEFzd01EZkVDaHRQL0haQmZtQ0kvamdueUtwdkxYWmxlVmJC?=
- =?utf-8?B?Vi9VY0RuTkdYVm1DV0ZhSUlHaGROYlFXQWlOZDVaMFBWcHVneEF6YXhnWE9E?=
- =?utf-8?B?SjJHWjBuK0RFWGdNb3ZwS0dCTmI0UkREdFZJaWFwcG5IWWhzUC93T2xxdmtz?=
- =?utf-8?B?dG5raU9VSXpDdW1WTWltSXZrdklVNlJHVXk5UzZiNGFRRFpJUWJScmhsMmZk?=
- =?utf-8?B?MU9OZG4wT3Rxb1ArQU1GS1dSR2xydFhtR1NqdUVyb3RaS2JUK2k3Q21LTlhn?=
- =?utf-8?B?UGwrTG42dnpPeHRtcnhRVFNWRUg5aEdxMVR0RURPWWl2SUQwMWVQL0tDZkli?=
- =?utf-8?B?M0tkMkF0a1hMdjdWMlZWU0dvWFVxRzhWRGhiQzZyNFEwZXhQMWI5LzRJOWt4?=
- =?utf-8?B?eU15akx6QlFnTUJ4ZW52N3FUR0NLYnFKb2lRN2VmVkwrZkM2bEx5ZkhOc0F6?=
- =?utf-8?B?S0g2YVg1clRHVmwyQXZaT09OaG53cklqcGFKbWFjR0hYSEh3OTVBTkpoeDRh?=
- =?utf-8?B?WWplQWh4NGorMVhvT2RJcmJtL240eGFiQ3BKSy9qYkZlSFZ5R0EzYXA4bXcy?=
- =?utf-8?B?dHhnejVJZEJJZ0Jvc2RsbGFYL2QzMndid0theDZxSDVjL3pmeVl1VDZMV2Rr?=
- =?utf-8?B?OGppd3J4bGFWV29DNHRHNXFNSVBMYU9BaFJtZ3NBTGRMcmNXZDlxejluMkJG?=
- =?utf-8?B?TGRTQkJNaTVJc29IZm51QnpNV3Y5Rkw3Q1pIVGpIZDlqRVZWY0hkNXpIUG81?=
- =?utf-8?B?eTMxeG84N24vU0NmWk9lWUlmQ3VDOGdub25PL0dudll2eC9CWUZQai9sTC9l?=
- =?utf-8?B?czFkZEVWSEMwbFRYSXRBY1NlTFJLeWRvY0tGazBoVTVqUytCQ2EzcGhSY2Vj?=
- =?utf-8?B?MlQ1dFVrUmRWZjFueFhzcG5kN3RLS3g2czhTOE9NQ3NDN1JpRE11OUFJZHAz?=
- =?utf-8?B?MzkralhCc21ZRWY2RC80cWMydC9XcXIzZ3dkMzF2cWpxQThIK0RtZnE1azND?=
- =?utf-8?B?aG9GUWV0dy9ZMjZxY2xxYWl0aElyUE0wcDlvaG9iMFhKMjVlSExIaUlGSlFO?=
- =?utf-8?B?R1ZNb3N5TE4yZWZpUmN6NS9kRDZWc2lEYlpUUDloWDNhWDNvcGhIeGI2Z0lH?=
- =?utf-8?B?Y1BpM3NsQmRzY2RwTzZBSndZbkNvZFVrTzBrVDlTNWY1aDlQMkhSUlJLVlhS?=
- =?utf-8?B?aUxqN3hNZnZ0K3pkMDUwV1F4SFg3UDlWZHN2ZGNyRy9LaEdLUy9heThNUklU?=
- =?utf-8?B?SjdUblNmWFFrYjdNbzhaNy9lcnNOTmV6SzFwWnhPdExOSXNmOU1GdjQzUVRw?=
- =?utf-8?B?ellEK2s4KzFiUWU1dnVNN2h0OVB5N2FGOFplT2Y2ZEt5eVRJL0tKSEVBYlMx?=
- =?utf-8?B?TXpKZ2t5NVV2a1VYanY0dUZYTFFQcHhnLzFDaWczaTJzckdpSkhtbWlEbWFk?=
- =?utf-8?B?eERKc2trcllnbFRhVUs2Ty9KUksxVG9HYU1Ta05uNUhKZDIzMk1TZ2pZdGZS?=
- =?utf-8?B?aEp4eGVHWTJVakpnSm5oUmtaUVdINWxvOE14d3FKUmZ6enJMTnVraHNHdTEw?=
- =?utf-8?B?YlJkMStIeEJOckYwRE80b1ZxWjNsNTBxQjBIaHFjYzMzS0NOSmw5bFdLRmNR?=
- =?utf-8?Q?SB7qP+qtJ4R/l0g+lba8fkFWe?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: tw.synaptics.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB5848.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0653d769-1cf4-41b7-29a2-08da7c3ec934
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2022 08:43:53.1645
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: d8NJaoFX3tWfdMaoucULW3QzwokA6a0cjJ1jHsqqYVObt5hRvCNSsgWotYsoZF1HrA/F2zqLjj8AJi9oeJqPHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR03MB5748
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+ <PH0PR03MB584812B0831CBEFA0468D32FA3679@PH0PR03MB5848.namprd03.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <PH0PR03MB584812B0831CBEFA0468D32FA3679@PH0PR03MB5848.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGkgSGFucywNCglUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4NCkkgaGF2ZSByZXBsaWVkIHRo
-ZSBmb2xsb3dpbmcgcXVlc3Rpb25zLg0KU29tZSBxdWVzdGlvbnMgd2lsbCBiZSBmaXhlZCBvbiBW
-MiBwYXRjaC4NCg0KVGhhbmtzDQpNYXJnZSBZYW5nDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQpGcm9tOiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29tPg0KU2VudDogVGh1
-cnNkYXksIEF1Z3VzdCAxMSwgMjAyMiAxMDoyMyBQTQ0KVG86IG1hcmdleWFuZyA8bWFyZ2UueWFu
-Z0BzeW5hcHRpY3MuY29ycC1wYXJ0bmVyLmdvb2dsZS5jb20+OyBkbWl0cnkudG9yb2tob3ZAZ21h
-aWwuY29tOyBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmc7IGJlbmphbWluLnRpc3NvaXJlc0ByZWRoYXQuY29tDQpDYzogTWFyZ2UgWWFuZyA8
-TWFyZ2UuWWFuZ0B0dy5zeW5hcHRpY3MuY29tPjsgZGVyZWsuY2hlbmdAdHcuc3luYXB0Y3MuY29t
-OyBWaW5jZW50IEh1YW5nIDxWaW5jZW50Lmh1YW5nQHR3LnN5bmFwdGljcy5jb20+DQpTdWJqZWN0
-OiBSZTogW1BBVENIXSBJbnB1dDogc3luYXB0aWNzLXJtaTQgLSBmaWx0ZXIgaW5jb21wbGV0ZSBy
-ZWxhdGl2ZSBwYWNrZXQuDQoNCkNBVVRJT046IEVtYWlsIG9yaWdpbmF0ZWQgZXh0ZXJuYWxseSwg
-ZG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSByZWNvZ25p
-emUgdGhlIHNlbmRlciBhbmQga25vdyB0aGUgY29udGVudCBpcyBzYWZlLg0KDQoNCkhpLA0KDQpP
-biA4LzgvMjIgMDk6NDQsIG1hcmdleWFuZyB3cm90ZToNCj4gRnJvbTogTWFyZ2UgWWFuZyA8bWFy
-Z2UueWFuZ0BzeW5hcHRpY3MuY29ycC1wYXJ0bmVyLmdvb2dsZS5jb20+DQo+DQo+IFJNSTQgRjAz
-IHN1cHBvcnRzIHRoZSBTdGljayBmdW5jdGlvbiwNCj4gaXQncyBkZXNpZ25lZCB0byBzdXBwb3J0
-IHJlbGF0aXZlIHBhY2tldC4NCj4gVGhpcyBwYXRjaCBzdXBwb3J0cyB0aGUgZm9sbG93aW5nIGNh
-c2UuDQo+IFdoZW4gcmVsYXRpdmUgcGFja2V0IGNhbid0IGJlIHJlcG9ydGVkIGNvbXBsZXRlbHks
-IGl0IG1heSBtaXNzIG9uZSANCj4gYnl0ZSBvciB0d28gYnl0ZS4NCj4gTmV3IFN5bmFwdGljcyBm
-aXJtd2FyZSB3aWxsIHJlcG9ydCBQQVJJVFkgZXJyb3IuDQo+IFdoZW4gdGltZW91dCBlcnJvciBv
-ciBwYXJpdHkgZXJyb3IgaGFwcGVucywNCj4gUk1JNCBkcml2ZXIgd2lsbCBzZW5kcyAweEZFIGNv
-bW1hbmQgYW5kIGFzayBGVyB0byBSZS1zZW5kIHN0aWNrIHBhY2tldCANCj4gYWdhaW4uDQo+DQo+
-IFNpZ25lZC1vZmYtYnk6IE1hcmdlDQo+IFlhbmc8bWFyZ2UueWFuZ0BzeW5hcHRpY3MuY29ycC1w
-YXJ0bmVyLmdvb2dsZS5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9pbnB1dC9ybWk0L3JtaV9mMDMu
-YyB8IDgyDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLQ0KPiAgMSBmaWxl
-IGNoYW5nZWQsIDc4IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2lucHV0L3JtaTQvcm1pX2YwMy5jIA0KPiBiL2RyaXZlcnMvaW5wdXQvcm1p
-NC9ybWlfZjAzLmMgaW5kZXggYzE5NGIxNjY0YjEwLi41N2YwM2RmY2I0ZmYgMTAwNjQ0DQo+IC0t
-LSBhL2RyaXZlcnMvaW5wdXQvcm1pNC9ybWlfZjAzLmMNCj4gKysrIGIvZHJpdmVycy9pbnB1dC9y
-bWk0L3JtaV9mMDMuYw0KPiBAQCAtMjMsOCArMjMsMTIgQEANCj4gICNkZWZpbmUgUk1JX0YwM19C
-WVRFU19QRVJfREVWSUNFX1NISUZUICAgICAgIDQNCj4gICNkZWZpbmUgUk1JX0YwM19RVUVVRV9M
-RU5HVEggICAgICAgICAweDBGDQo+DQo+ICsjZGVmaW5lIFJNSV9GMDNfUkVTRVRfU1RZSyAweEZF
-DQoNClBsZWFzZSB1c2UgdGFicyBpbiBmcm9udCBvZiB0aGUgMHhGRSB0byBhbGlnbiBpdCB3aXRo
-IHRoZSBvdGhlciB2YWx1ZXMuDQoNCltNYXJnZSAwOC8xMl0gQ29ycmVjdCBpdCBvbiBWMiBwYXRj
-aC4NCg0KPiArDQo+ICAjZGVmaW5lIFBTTU9VU0VfT09CX0VYVFJBX0JUTlMgICAgICAgICAgICAg
-ICAweDAxDQo+DQo+ICsjZGVmaW5lIFJFTEFUSVZFX1BBQ0tFVF9TSVpFICAgICAgICAgMHgwMw0K
-DQpKdXN0ICIzIiBwbGVhc2Ugc2luY2UgdGhpcyBpcyBhIHNpemUgKG5vdCBhIHJlZ2lzdGVyIHZh
-bHVlKS4NCg0KDQpbTWFyZ2UgMDgvMTJdIENvcnJlY3QgaXQgb24gVjIgcGF0Y2guDQoNCj4gKw0K
-PiAgc3RydWN0IGYwM19kYXRhIHsNCj4gICAgICAgc3RydWN0IHJtaV9mdW5jdGlvbiAqZm47DQo+
-DQo+IEBAIC0zNiw3ICs0MCw4IEBAIHN0cnVjdCBmMDNfZGF0YSB7DQo+ICAgICAgIHU4IGRldmlj
-ZV9jb3VudDsNCj4gICAgICAgdTggcnhfcXVldWVfbGVuZ3RoOw0KPiAgfTsNCj4gLQ0KPiAraW50
-IGl3cml0ZWNvbW1hbmRjb3VudGVyOw0KPiArdW5zaWduZWQgaW50IGlwYWNrZXRpbmRleDsNCg0K
-UGxlYXNlIGRvIG5vdCB1c2UgZ2xvYmFsIHZhcmlhYmxlcyBsaWtlIHRoaXMsIGluc3RlYWQgc3Rv
-cmUgdGhlc2UgZS5nLiBpbnNpZGUgc3RydWN0IGYwM19kYXRhLg0KDQpbTWFyZ2UgMDgvMTJdIENv
-cnJlY3QgaXQgb24gVjIgcGF0Y2guDQoNCj4gIGludCBybWlfZjAzX292ZXJ3cml0ZV9idXR0b24o
-c3RydWN0IHJtaV9mdW5jdGlvbiAqZm4sIHVuc2lnbmVkIGludCBidXR0b24sDQo+ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIGludCB2YWx1ZSkNCj4gIHsNCj4gQEAgLTg3LDcgKzkyLDcgQEAg
-c3RhdGljIGludCBybWlfZjAzX3B0X3dyaXRlKHN0cnVjdCBzZXJpbyAqaWQsIHVuc2lnbmVkIGNo
-YXIgdmFsKQ0KPiAgICAgICAgICAgICAgICAgICAgICAgX19mdW5jX18sIGVycm9yKTsNCj4gICAg
-ICAgICAgICAgICByZXR1cm4gZXJyb3I7DQo+ICAgICAgIH0NCj4gLQ0KPiArICAgICBpd3JpdGVj
-b21tYW5kY291bnRlcisrOw0KPiAgICAgICByZXR1cm4gMDsNCj4gIH0NCj4NCj4gQEAgLTE5Nywx
-MCArMjAyLDEyIEBAIHN0YXRpYyBpbnQgcm1pX2YwM19yZWdpc3Rlcl9wdChzdHJ1Y3QgZjAzX2Rh
-dGENCj4gKmYwMykNCj4NCj4gIHN0YXRpYyBpbnQgcm1pX2YwM19wcm9iZShzdHJ1Y3Qgcm1pX2Z1
-bmN0aW9uICpmbikgIHsNCj4gKw0KPiAgICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmZm4tPmRl
-djsNCj4gICAgICAgc3RydWN0IGYwM19kYXRhICpmMDM7DQo+ICAgICAgIGludCBlcnJvcjsNCj4g
-LQ0KPiArICAgICBpd3JpdGVjb21tYW5kY291bnRlciA9IDA7DQo+ICsgICAgIGlwYWNrZXRpbmRl
-eCA9IDA7DQo+ICAgICAgIGYwMyA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZihzdHJ1Y3QgZjAz
-X2RhdGEpLCBHRlBfS0VSTkVMKTsNCj4gICAgICAgaWYgKCFmMDMpDQo+ICAgICAgICAgICAgICAg
-cmV0dXJuIC1FTk9NRU07DQoNCklmIHlvdSBwdXQgdGhlIDIgdmFyaWFibGVzIGludG8gdGhlIGYw
-M19kYXRhIHRoZW4gdGhlcmUgd2lsbCBiZSBubyBuZWVkIHRvIHplcm8gdGhlbS4NCg0KW01hcmdl
-IDA4LzEyXSBJdCBpcyBpbml0aWFsaXplZC4gSSB3aWxsIG1vdmUgdGhlbSB0byBybWlfZjAzX2lu
-aXRpYWxpemUgZnVuY3Rpb24uDQoNCj4gQEAgLTI1MSw5ICsyNTgsMTIgQEAgc3RhdGljIGlycXJl
-dHVybl90IHJtaV9mMDNfYXR0ZW50aW9uKGludCBpcnEsIHZvaWQgKmN0eCkNCj4gICAgICAgY29u
-c3QgdTggb2JfbGVuID0gZjAzLT5yeF9xdWV1ZV9sZW5ndGggKiBSTUlfRjAzX09CX1NJWkU7DQo+
-ICAgICAgIHU4IG9ic1tSTUlfRjAzX1FVRVVFX0xFTkdUSCAqIFJNSV9GMDNfT0JfU0laRV07DQo+
-ICAgICAgIHU4IG9iX3N0YXR1czsNCj4gKyAgICAgc3RhdGljIHU4IG9iX2RhdGFBcnJ5W1JFTEFU
-SVZFX1BBQ0tFVF9TSVpFXTsNCj4gICAgICAgdTggb2JfZGF0YTsNCj4gICAgICAgdW5zaWduZWQg
-aW50IHNlcmlvX2ZsYWdzOw0KPiArICAgICBzdGF0aWMgdW5zaWduZWQgaW50IHNlcmlvX2ZsYWdz
-QXJyeVtSRUxBVElWRV9QQUNLRVRfU0laRV07DQoNClBsZWFzZSBkcm9wIHRoZXNlIDIgc3RhdGlj
-IGFycmF5cyBoZXJlIGFuZCBpbnN0ZWFkIHN0b3JlIHRoZSBpbmZvIGluIHRoZSBmMDNfZGF0YSBz
-dHJ1Y3QuDQpbTWFyZ2UgMDgvMTJdIENvcnJlY3QgaXQgb24gVjIgcGF0Y2guDQoNCj4gICAgICAg
-aW50IGk7DQo+ICsNCg0KVW5yZWxhdGVkIHdoaXRlc3BhY2UgY2hhbmdlLCBwbGVhc2UgZHJvcC4N
-CltNYXJnZSAwOC8xMl0gQ29ycmVjdCBpdCBvbiBWMiBwYXRjaC4NCg0KPiAgICAgICBpbnQgZXJy
-b3I7DQo+DQo+ICAgICAgIGlmIChkcnZkYXRhLT5hdHRuX2RhdGEuZGF0YSkgew0KPiBAQCAtMjg0
-LDYgKzI5NCwyMiBAQCBzdGF0aWMgaXJxcmV0dXJuX3Qgcm1pX2YwM19hdHRlbnRpb24oaW50IGly
-cSwgdm9pZCAqY3R4KQ0KPiAgICAgICAgICAgICAgIG9iX2RhdGEgPSBvYnNbaSArIFJNSV9GMDNf
-T0JfREFUQV9PRkZTRVRdOw0KPiAgICAgICAgICAgICAgIHNlcmlvX2ZsYWdzID0gMDsNCj4NCj4g
-KyAgICAgICAgICAgICBpZiAob2Jfc3RhdHVzICYgKFJNSV9GMDNfT0JfRkxBR19USU1FT1VUIHwg
-Uk1JX0YwM19PQl9GTEFHX1BBUklUWSkpIHsNCj4gKyAgICAgICAgICAgICAgICAgICAgIC8vICBT
-ZW5kIHJlc2VuZCBjb21tYW5kIHRvIHN0aWNrIHdoZW4gdGltZW91dCBvciBwYXJpdHkgZXJyb3Iu
-DQo+ICsgICAgICAgICAgICAgICAgICAgICAvLyAgRHJpdmVyIGNhbiByZWNlaXZlIHRoZSBsYXN0
-IHN0aWNrIHBhY2tldC4NCj4gKw0KPiArICAgICAgICAgICAgICAgICAgICAgZXJyb3IgPSBybWlf
-d3JpdGUoZjAzLT5mbi0+cm1pX2RldiwgZjAzLT5mbi0+ZmQuZGF0YV9iYXNlX2FkZHIsDQo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgUk1JX0YwM19SRVNFVF9TVFlLKTsNCj4gKyAgICAgICAgICAg
-ICAgICAgICAgIGlmIChlcnJvcikgew0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBk
-ZXZfZXJyKCZmMDMtPmZuLT5kZXYsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIiVzOiBGYWlsZWQgdG8gcm1pX3dyaXRlIHRvIEYwMyBUWCByZWdpc3RlciAoJWQpLlxu
-IiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBfX2Z1bmNfXywgZXJy
-b3IpOw0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gZXJyb3I7DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICB9DQo+ICsgICAgICAgICAgICAgICAgICAgICBpcGFja2V0aW5k
-ZXggPSAwOw0KPiArICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ICsgICAgICAgICAgICAg
-fQ0KPiArDQo+ICAgICAgICAgICAgICAgaWYgKCEob2Jfc3RhdHVzICYgUk1JX0YwM19SWF9EQVRB
-X09GQikpDQo+ICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZTsNCj4NCj4gQEAgLTI5OCw5
-ICszMjQsNTcgQEAgc3RhdGljIGlycXJldHVybl90IHJtaV9mMDNfYXR0ZW50aW9uKGludCBpcnEs
-IHZvaWQgKmN0eCkNCj4gICAgICAgICAgICAgICAgICAgICAgIHNlcmlvX2ZsYWdzICYgU0VSSU9f
-VElNRU9VVCA/ICAnWScgOiAnTicsDQo+ICAgICAgICAgICAgICAgICAgICAgICBzZXJpb19mbGFn
-cyAmIFNFUklPX1BBUklUWSA/ICdZJyA6ICdOJyk7DQo+DQo+IC0gICAgICAgICAgICAgc2VyaW9f
-aW50ZXJydXB0KGYwMy0+c2VyaW8sIG9iX2RhdGEsIHNlcmlvX2ZsYWdzKTsNCj4gKyAgICAgICAg
-ICAgICBpZiAoaXdyaXRlY29tbWFuZGNvdW50ZXIgPiAwKSB7DQo+ICsgICAgICAgICAgICAgICAg
-ICAgICAvLyBSZWFkIEFja25vd2xlZGdlIEJ5dGUgYWZ0ZXIgd3JpdGluZyB0aGUgUFMyIGNvbW1h
-bmQuDQo+ICsgICAgICAgICAgICAgICAgICAgICAvLyBJdCBpcyBub3QgdHJhY2twb2ludCBkYXRh
-Lg0KPiArICAgICAgICAgICAgICAgICAgICAgc2VyaW9faW50ZXJydXB0KGYwMy0+c2VyaW8sIG9i
-X2RhdGEsIA0KPiArIHNlcmlvX2ZsYWdzKTsNCj4gKw0KPiArICAgICAgICAgICAgIH0gZWxzZSB7
-DQo+ICsgICAgICAgICAgICAgICAgICAgICAvLyAgIFRoZSByZWxhdGl2ZS1tb2RlIFBTLzIgcGFj
-a2V0IGZvcm1hdCBpcyBhcyBmb2xsb3dzOg0KPiArICAgICAgICAgICAgICAgICAgICAgLy8NCj4g
-KyAgICAgICAgICAgICAgICAgICAgIC8vICAgICAgICAgICAgICBiaXQgcG9zaXRpb24gICAgICAg
-ICAgICBwb3NpdGlvbiAoYXMgYXJyYXkgb2YgYnl0ZXMpDQo+ICsgICAgICAgICAgICAgICAgICAg
-ICAvLyAgICAgNyAgIDYgICA1ICAgNCAgIDMgICAyICAgMSAgIDANCj4gKyAgICAgICAgICAgICAg
-ICAgICAgIC8vICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Kw0KPiArICAgICAg
-ICAgICAgICAgICAgICAgLy8gICAgWW92IFhvdiBEWTggRFg4ICAxICAgTSAgIFIgICBMICB8IERB
-VEFbMF0NCj4gKyAgICAgICAgICAgICAgICAgICAgIC8vICAgICAgICAgICAgICAgIERYWzc6MF0g
-ICAgICAgICAgICAgfCBEQVRBWzFdDQo+ICsgICAgICAgICAgICAgICAgICAgICAvLyAgICAgICAg
-ICAgICAgICBEWVs3OjBdICAgICAgICAgICAgIHwgREFUQVsyXQ0KPiArICAgICAgICAgICAgICAg
-ICAgICAgLy8gICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0rDQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAvLyAgICAgICAgICAgICAgWW92OiBZIG92ZXJmbG93DQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAvLyAgICBYb3Y6IFggb3ZlcmZsb3cNCj4gKyAgICAgICAgICAgICAgICAg
-ICAgIGlmICgoaXBhY2tldGluZGV4ID09IDApICYmIChvYl9kYXRhICYgKChCSVQoNyl8QklUKDYp
-KSkpKSB7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIoJmYwMy0+Zm4t
-PmRldiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIiVzOiBYIG9yIFkgaXMgb3Zl
-cmZsb3cuICgleClcbiIsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF9fZnVuY19f
-LCBvYl9kYXRhKTsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICB9IGVsc2UgaWYgKChpcGFja2V0aW5kZXggPT0gMCkgJiYgIShv
-Yl9kYXRhICYgQklUKDMpKSkgew0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZXZf
-ZXJyKCZmMDMtPmZuLT5kZXYsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICIlczog
-TmV3IEJJVCAzIGlzIG5vdCAxIGZvciB0aGUgZmlyc3QgYnl0ZVxuIiwNCj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgX19mdW5jX18pOw0KDQpXaHkgbm8gYnJlYWs7IGhlcmUgbGlrZSBh
-Ym92ZSA/DQoNCltNYXJnZSAwOC8xMl0gQ29ycmVjdCBpdCBvbiBWMiBwYXRjaC4NCg0KPiArICAg
-ICAgICAgICAgICAgICAgICAgfSBlbHNlIHsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgaWYgKGlwYWNrZXRpbmRleCA+PSBSRUxBVElWRV9QQUNLRVRfU0laRSkgew0KPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlwYWNrZXRpbmRleCA9IDA7DQoNClRoaXMg
-bWVhbnMgdGhhdCB5b3UgYXJlIHNraXBwaW5nIGV2ZXJ5IDR0aCBieXRlLCBzaW5jZSB5b3Ugb25s
-eSBzdG9yZSB0aGUgb2JfZGF0YSArIHNlcmlvX2ZsYWdzIHRoZSBuZXh0IGN5Y2xlIHRocm91Z2gg
-dGhlIGxvb3AhDQoNCltNYXJnZSAwOC8xMl0gQ29ycmVjdCBpdCBvbiBWMiBwYXRjaC4NCg0KPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9IGVsc2Ugew0KPiArICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIG9iX2RhdGFBcnJ5W2lwYWNrZXRpbmRleF0gPSBvYl9kYXRh
-Ow0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNlcmlvX2ZsYWdzQXJy
-eVtpcGFja2V0aW5kZXhdID0gc2VyaW9fZmxhZ3M7DQo+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgaXBhY2tldGluZGV4Kys7DQo+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIH0NCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgKGlwYWNrZXRpbmRl
-eCA9PSBSRUxBVElWRV9QQUNLRVRfU0laRSkgICAgICAgew0KPiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHNlcmlvX2ludGVycnVwdChmMDMtPnNlcmlvLCBvYl9kYXRhQXJy
-eVswXSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VyaW9fZmxh
-Z3NBcnJ5WzBdKTsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzZXJp
-b19pbnRlcnJ1cHQoZjAzLT5zZXJpbywgb2JfZGF0YUFycnlbMV0sDQo+ICsgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHNlcmlvX2ZsYWdzQXJyeVsxXSk7DQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VyaW9faW50ZXJydXB0KGYwMy0+c2VyaW8s
-IG9iX2RhdGFBcnJ5WzJdLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBzZXJpb19mbGFnc0FycnlbMl0pOw0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGlwYWNrZXRpbmRleCA9IDA7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IH0NCj4gKyAgICAgICAgICAgICAgICAgICAgIH0NCj4gKyAgICAgICAgICAgICB9DQo+ICAgICAg
-IH0NCj4NCj4gKyAgICAgaWYgKGl3cml0ZWNvbW1hbmRjb3VudGVyID4gMCkgew0KPiArICAgICAg
-ICAgICAgIGlwYWNrZXRpbmRleCA9IDA7DQo+ICsgICAgICAgICAgICAgaXdyaXRlY29tbWFuZGNv
-dW50ZXIgPSBpd3JpdGVjb21tYW5kY291bnRlciAtIDE7DQo+ICsgICAgIH0NCg0KWW91IGNoZWNr
-IGl3cml0ZWNvbW1hbmRjb3VudGVyIGluc2lkZSB0aGU6DQoNCiAgICAgICAgZm9yIChpID0gMDsg
-aSA8IG9iX2xlbjsgaSArPSBSTUlfRjAzX09CX1NJWkUpIHsNCg0KbG9vcCwgSSB1bmRlcnN0YW5k
-IHRoYXQgeW91IHdhbnQgdG8gZm9yd2FyZCB0aGUgZW50aXJlIFBTLzIgcmVzcG9uc2UgZGF0YSBh
-bmQgb25seSBkZWNyZW1lbnQgaXdyaXRlY29tbWFuZGNvdW50ZXIgb25jZSwgYnV0IHdoYXQgaWYg
-dGhlIHJtaV9mMDNfYXR0ZW50aW9uKCkgZGlkIG5vdCBjb250YWluIGFueSBPT0IgZGF0YSBhdCBh
-bGwgPw0KDQpJIGJlbGlldmUgdGhhdCBpbiB0aGF0IGNhc2UgaXdyaXRlY29tbWFuZGNvdW50ZXIg
-c2hvdWxkIG5vdCBiZSBkZWNyZW1lbnRlZCA/DQoNCltNYXJnZSAwOC8xMl0gRm9yIFN5bmFwdGlj
-cyBGVyBkZXNpZ24sIEZXIG11c3QgaGF2ZSByZXNwb25zZXMgYWZ0ZXIgVFAgZHJpdmVyIHdyaXRl
-cyB0byBGMDMgVFggcmVnaXN0ZXIuDQpXaGVuIFRvdWNocGFkIEZXIGdldHMgdGhpcyBpbmZvcm1h
-dGlvbiwgVG91Y2hwYWQgRlcgbmVlZHMgdG8gc3luYyBpdCB3aXRoIHN0aWNrIGRldmljZSggb3Ig
-VHJhY2tQb2ludCBkZXZpY2UpLg0KQWZ0ZXIgU3RpY2sgZGV2aWNlKG9yIFRyYWNrUG9pbnQgZGV2
-aWNlKSBnZXRzIHRoaXMgaW5mb3JtYXRpb24sIGl0IHdpbGwgcmVwb3J0IDB4RkEgZGF0YSAoQWNr
-KSBvciBvdGhlciBpbmZvcm1hdGlvbiB0byBUb3VjaHBhZCBkZXZpY2UuDQpXZSBjYW4gZ2V0IEZX
-J3MgcmVzcG9uc2UgZnJvbSBGMDMgUlggcmVnaXN0ZXIoaW4gcm1pX2YwM19hdHRlbnRpb24pLg0K
-SWYgU3luYXB0aWNzIEZXIGhhcyBubyByZXNwb25zZSwgaXQgbWF5IGJlIGEgU3luYXB0aWNzIGZp
-cm13YXJlIGlzc3VlLg0KRm9yIFJNSV9GMDNfUkVTRVRfU1RZSyBjb21tYW5kLCBpdCBpcyBhIHNw
-ZWNpYWwgY29tbWFuZC4NCkFmdGVyIFRQIGRyaXZlciB3cml0ZXMgUk1JX0YwM19SRVNFVF9TVFlL
-IHRvIEYwMyBUWCByZWdpc3RlciwgRlcgd2lsbCBjbGVhciBmdW4wMyBidWZmZXIgYW5kIHJlLXNl
-bmQgcmVsYXRpdmUgcGFja2V0IGFnYWluLg0KDQpSZWdhcmRzLA0KDQpIYW5zDQoNCg==
+Hi,
+
+On 8/12/22 10:43, Marge Yang wrote:
+> Hi Hans,
+> 	Thanks for your suggestion.
+> I have replied the following questions.
+> Some questions will be fixed on V2 patch.
+> 
+> Thanks
+> Marge Yang
+> 
+> -----Original Message-----
+> From: Hans de Goede <hdegoede@redhat.com>
+> Sent: Thursday, August 11, 2022 10:23 PM
+> To: margeyang <marge.yang@synaptics.corp-partner.google.com>; dmitry.torokhov@gmail.com; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; benjamin.tissoires@redhat.com
+> Cc: Marge Yang <Marge.Yang@tw.synaptics.com>; derek.cheng@tw.synaptcs.com; Vincent Huang <Vincent.huang@tw.synaptics.com>
+> Subject: Re: [PATCH] Input: synaptics-rmi4 - filter incomplete relative packet.
+> 
+> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
+> 
+> 
+> Hi,
+> 
+> On 8/8/22 09:44, margeyang wrote:
+>> From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
+>>
+>> RMI4 F03 supports the Stick function,
+>> it's designed to support relative packet.
+>> This patch supports the following case.
+>> When relative packet can't be reported completely, it may miss one 
+>> byte or two byte.
+>> New Synaptics firmware will report PARITY error.
+>> When timeout error or parity error happens,
+>> RMI4 driver will sends 0xFE command and ask FW to Re-send stick packet 
+>> again.
+>>
+>> Signed-off-by: Marge
+>> Yang<marge.yang@synaptics.corp-partner.google.com>
+>> ---
+>>  drivers/input/rmi4/rmi_f03.c | 82
+>> ++++++++++++++++++++++++++++++++++--
+>>  1 file changed, 78 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/input/rmi4/rmi_f03.c 
+>> b/drivers/input/rmi4/rmi_f03.c index c194b1664b10..57f03dfcb4ff 100644
+>> --- a/drivers/input/rmi4/rmi_f03.c
+>> +++ b/drivers/input/rmi4/rmi_f03.c
+>> @@ -23,8 +23,12 @@
+>>  #define RMI_F03_BYTES_PER_DEVICE_SHIFT       4
+>>  #define RMI_F03_QUEUE_LENGTH         0x0F
+>>
+>> +#define RMI_F03_RESET_STYK 0xFE
+> 
+> Please use tabs in front of the 0xFE to align it with the other values.
+> 
+> [Marge 08/12] Correct it on V2 patch.
+> 
+>> +
+>>  #define PSMOUSE_OOB_EXTRA_BTNS               0x01
+>>
+>> +#define RELATIVE_PACKET_SIZE         0x03
+> 
+> Just "3" please since this is a size (not a register value).
+> 
+> 
+> [Marge 08/12] Correct it on V2 patch.
+> 
+>> +
+>>  struct f03_data {
+>>       struct rmi_function *fn;
+>>
+>> @@ -36,7 +40,8 @@ struct f03_data {
+>>       u8 device_count;
+>>       u8 rx_queue_length;
+>>  };
+>> -
+>> +int iwritecommandcounter;
+>> +unsigned int ipacketindex;
+> 
+> Please do not use global variables like this, instead store these e.g. inside struct f03_data.
+> 
+> [Marge 08/12] Correct it on V2 patch.
+> 
+>>  int rmi_f03_overwrite_button(struct rmi_function *fn, unsigned int button,
+>>                            int value)
+>>  {
+>> @@ -87,7 +92,7 @@ static int rmi_f03_pt_write(struct serio *id, unsigned char val)
+>>                       __func__, error);
+>>               return error;
+>>       }
+>> -
+>> +     iwritecommandcounter++;
+>>       return 0;
+>>  }
+>>
+>> @@ -197,10 +202,12 @@ static int rmi_f03_register_pt(struct f03_data
+>> *f03)
+>>
+>>  static int rmi_f03_probe(struct rmi_function *fn)  {
+>> +
+>>       struct device *dev = &fn->dev;
+>>       struct f03_data *f03;
+>>       int error;
+>> -
+>> +     iwritecommandcounter = 0;
+>> +     ipacketindex = 0;
+>>       f03 = devm_kzalloc(dev, sizeof(struct f03_data), GFP_KERNEL);
+>>       if (!f03)
+>>               return -ENOMEM;
+> 
+> If you put the 2 variables into the f03_data then there will be no need to zero them.
+> 
+> [Marge 08/12] It is initialized. I will move them to rmi_f03_initialize function.
+> 
+>> @@ -251,9 +258,12 @@ static irqreturn_t rmi_f03_attention(int irq, void *ctx)
+>>       const u8 ob_len = f03->rx_queue_length * RMI_F03_OB_SIZE;
+>>       u8 obs[RMI_F03_QUEUE_LENGTH * RMI_F03_OB_SIZE];
+>>       u8 ob_status;
+>> +     static u8 ob_dataArry[RELATIVE_PACKET_SIZE];
+>>       u8 ob_data;
+>>       unsigned int serio_flags;
+>> +     static unsigned int serio_flagsArry[RELATIVE_PACKET_SIZE];
+> 
+> Please drop these 2 static arrays here and instead store the info in the f03_data struct.
+> [Marge 08/12] Correct it on V2 patch.
+> 
+>>       int i;
+>> +
+> 
+> Unrelated whitespace change, please drop.
+> [Marge 08/12] Correct it on V2 patch.
+> 
+>>       int error;
+>>
+>>       if (drvdata->attn_data.data) {
+>> @@ -284,6 +294,22 @@ static irqreturn_t rmi_f03_attention(int irq, void *ctx)
+>>               ob_data = obs[i + RMI_F03_OB_DATA_OFFSET];
+>>               serio_flags = 0;
+>>
+>> +             if (ob_status & (RMI_F03_OB_FLAG_TIMEOUT | RMI_F03_OB_FLAG_PARITY)) {
+>> +                     //  Send resend command to stick when timeout or parity error.
+>> +                     //  Driver can receive the last stick packet.
+>> +
+>> +                     error = rmi_write(f03->fn->rmi_dev, f03->fn->fd.data_base_addr,
+>> +                      RMI_F03_RESET_STYK);
+>> +                     if (error) {
+>> +                             dev_err(&f03->fn->dev,
+>> +                                     "%s: Failed to rmi_write to F03 TX register (%d).\n",
+>> +                                     __func__, error);
+>> +                             return error;
+>> +                     }
+>> +                     ipacketindex = 0;
+>> +                     break;
+>> +             }
+>> +
+>>               if (!(ob_status & RMI_F03_RX_DATA_OFB))
+>>                       continue;
+>>
+>> @@ -298,9 +324,57 @@ static irqreturn_t rmi_f03_attention(int irq, void *ctx)
+>>                       serio_flags & SERIO_TIMEOUT ?  'Y' : 'N',
+>>                       serio_flags & SERIO_PARITY ? 'Y' : 'N');
+>>
+>> -             serio_interrupt(f03->serio, ob_data, serio_flags);
+>> +             if (iwritecommandcounter > 0) {
+>> +                     // Read Acknowledge Byte after writing the PS2 command.
+>> +                     // It is not trackpoint data.
+>> +                     serio_interrupt(f03->serio, ob_data, 
+>> + serio_flags);
+>> +
+>> +             } else {
+>> +                     //   The relative-mode PS/2 packet format is as follows:
+>> +                     //
+>> +                     //              bit position            position (as array of bytes)
+>> +                     //     7   6   5   4   3   2   1   0
+>> +                     //   =================================+
+>> +                     //    Yov Xov DY8 DX8  1   M   R   L  | DATA[0]
+>> +                     //                DX[7:0]             | DATA[1]
+>> +                     //                DY[7:0]             | DATA[2]
+>> +                     //   =================================+
+>> +                     //              Yov: Y overflow
+>> +                     //    Xov: X overflow
+>> +                     if ((ipacketindex == 0) && (ob_data & ((BIT(7)|BIT(6))))) {
+>> +                             dev_err(&f03->fn->dev,
+>> +                             "%s: X or Y is overflow. (%x)\n",
+>> +                             __func__, ob_data);
+>> +                             break;
+>> +                     } else if ((ipacketindex == 0) && !(ob_data & BIT(3))) {
+>> +                             dev_err(&f03->fn->dev,
+>> +                             "%s: New BIT 3 is not 1 for the first byte\n",
+>> +                             __func__);
+> 
+> Why no break; here like above ?
+> 
+> [Marge 08/12] Correct it on V2 patch.
+> 
+>> +                     } else {
+>> +                             if (ipacketindex >= RELATIVE_PACKET_SIZE) {
+>> +                                     ipacketindex = 0;
+> 
+> This means that you are skipping every 4th byte, since you only store the ob_data + serio_flags the next cycle through the loop!
+> 
+> [Marge 08/12] Correct it on V2 patch.
+> 
+>> +                             } else {
+>> +                                     ob_dataArry[ipacketindex] = ob_data;
+>> +                                     serio_flagsArry[ipacketindex] = serio_flags;
+>> +                                     ipacketindex++;
+>> +                             }
+>> +                             if (ipacketindex == RELATIVE_PACKET_SIZE)       {
+>> +                                     serio_interrupt(f03->serio, ob_dataArry[0],
+>> +                                      serio_flagsArry[0]);
+>> +                                     serio_interrupt(f03->serio, ob_dataArry[1],
+>> +                                      serio_flagsArry[1]);
+>> +                                     serio_interrupt(f03->serio, ob_dataArry[2],
+>> +                                      serio_flagsArry[2]);
+>> +                                     ipacketindex = 0;
+>> +                             }
+>> +                     }
+>> +             }
+>>       }
+>>
+>> +     if (iwritecommandcounter > 0) {
+>> +             ipacketindex = 0;
+>> +             iwritecommandcounter = iwritecommandcounter - 1;
+>> +     }
+> 
+> You check iwritecommandcounter inside the:
+> 
+>         for (i = 0; i < ob_len; i += RMI_F03_OB_SIZE) {
+> 
+> loop, I understand that you want to forward the entire PS/2 response data and only decrement iwritecommandcounter once, but what if the rmi_f03_attention() did not contain any OOB data at all ?
+> 
+> I believe that in that case iwritecommandcounter should not be decremented ?
+> 
+> [Marge 08/12] For Synaptics FW design, FW must have responses after TP driver writes to F03 TX register.
+> When Touchpad FW gets this information, Touchpad FW needs to sync it with stick device( or TrackPoint device).
+> After Stick device(or TrackPoint device) gets this information, it will report 0xFA data (Ack) or other information to Touchpad device.
+> We can get FW's response from F03 RX register(in rmi_f03_attention).
+> If Synaptics FW has no response, it may be a Synaptics firmware issue.
+> For RMI_F03_RESET_STYK command, it is a special command.
+> After TP driver writes RMI_F03_RESET_STYK to F03 TX register, FW will clear fun03 buffer and re-send relative packet again.
+
+Right but what if the following happens:
+
+1. PS/2 command is forward to stick through RMI
+2. Regular RMI touchpad data is received, no PS/2 response yet, so no
+   OOB data
+3. Despite here not being OOB data rmi_f03_attention() still decrements
+   iwritecommandcounter
+4. PS/2 command reply comes in, but iwritecommandcounter is 0 now
+   because of 3, so the code will hit the else part of:
+
++             if (iwritecommandcounter > 0) {
++                     // Read Acknowledge Byte after writing the PS2 command.
++                     // It is not trackpoint data.
++                     serio_interrupt(f03->serio, ob_data, 
++ serio_flags);
++
++             } else {
++                     //   The relative-mode PS/2 packet format is as follows:
++                     //
++                     //              bit position            position (as array of bytes)
++                     //     7   6   5   4   3   2   1   0
++                     //   =================================+
++                     //    Yov Xov DY8 DX8  1   M   R   L  | DATA[0]
++                     //                DX[7:0]             | DATA[1]
++                     //                DY[7:0]             | DATA[2]
++                     //   =================================+
++                     //              Yov: Y overflow
++                     //    Xov: X overflow
+                      ...
+
+Treating the command reply as a relative mode PS/2 packet, instead
+of just forwarding it to the PS/2 layer.
+
+I believe that to fix this possible race you *must* only decrement
+iwritecommandcounter() at the end of rmi_f03_attention() if
+the read data actually contains OOB data.
+
+But thinking about this more, I guess this can never happen
+because each function has its own attention handler and if
+there is only touchpad data then the attention handler for
+the f03 function will never run ?
+
+Regards,
+
+Hans
+
