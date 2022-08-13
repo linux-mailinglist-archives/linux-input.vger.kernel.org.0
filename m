@@ -2,111 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E95C45918D6
-	for <lists+linux-input@lfdr.de>; Sat, 13 Aug 2022 06:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A46A5919F8
+	for <lists+linux-input@lfdr.de>; Sat, 13 Aug 2022 13:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235083AbiHMEid (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 13 Aug 2022 00:38:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39880 "EHLO
+        id S238040AbiHMLJ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 13 Aug 2022 07:09:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbiHMEid (ORCPT
+        with ESMTP id S229719AbiHMLJ2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 13 Aug 2022 00:38:33 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600E72871A;
-        Fri, 12 Aug 2022 21:38:32 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 0FF403200921;
-        Sat, 13 Aug 2022 00:38:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sat, 13 Aug 2022 00:38:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=undef.tools; h=
-        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
-         s=fm1; t=1660365510; x=1660451910; bh=HEcNfg4CwiBsfqODwObieSZgI
-        suTV3ZpAgRuL6VBTtg=; b=NwE54rizUgYGRU5kE4pbEMAx3ul6uR36YOFRkj3sO
-        fMW2AM6rnp39EraZBCnBPm42Ymq2xEOnVmM8MaqjxCdN2qbv/WBSGM0GGTIrtT24
-        j/V/8AtDtH4H+WN2Bcp994gkAsDKlWpPGAHKuSyZR0MbqLIJQCMAW3LrLg9yNLnt
-        u3WK1MBt71/E+tIR9EfHvogHJwg1o0D1XusW9P3peOPkMUkFNH94W6ALBgsI8Ils
-        U2mX2vnx47z6FIx8Hb0xn1T0HZNp6+bWo3g/NcA0yPOv3OhBofNaTefWlzxyR/MD
-        3TifbectHtm5RweOr4Cv+WNapn1WGpdy5xYBgefH/YQAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:message-id
-        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-        1660365510; x=1660451910; bh=HEcNfg4CwiBsfqODwObieSZgIsuTV3ZpAgR
-        uL6VBTtg=; b=OhHgQzE/QUcnvt8UPLuOF2ZHlwaCVdeFZ7Bx1r+w9L4rFx4Ezqb
-        Y34KrqtSVZPcjcc9xDFrxcFEIuxpaGDsR+Wrb42bwGMffG1hNWDRdx1KgTB+CBb7
-        b4tjiPkuyPJw3bQ6I5NfBXNJrFbWJvCsA/mSjRCHl1CubUoTTqi+BnrV7WLXyZE0
-        J/O7MkR17kdkP2Xab4Ddy3NbP0/qpIpG5leCy6O1FkNo1ivrTvO2x4Ov/6CElxJs
-        X+YL5cmclPYfDIUa89Q7xoZq5WcmbJYeJjJBoVsWrIWlFwsDA2ST28JyPWFrjZXL
-        r0y/tUuiP8MI3109/lUall7r9ASWP2mvTYA==
-X-ME-Sender: <xms:xSr3YnhYk5WE9Q8kZexRKMNCcrRPPs3Ef9qW2IKyPmYsm-lpaPXdtA>
-    <xme:xSr3YkCXzvfiqmsP0wgQqdqVO4c-wWc2zk8WGjVUufKHMp7dCzri9ytc5mP5dpMUX
-    8qF33AmaZH8Yu09EXo>
-X-ME-Received: <xmr:xSr3YnE-OgUuD_SEi1QqjgD7PlQvNlMFIoMWW5HVMOVqZQETx7aALEh4T7uM3dyFCQH4NbmXcg4slgxh6lZ9qwbve4U6mKnbQBsUfEOCKcTBFUeJY-eG5PEQtA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegjedgkeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepkhgvrhhnvghl
-    sehunhguvghfrdhtohholhhsnecuggftrfgrthhtvghrnheptddtieehgefgveegkefghe
-    ekgeelkeejleelkeejueejkedtkeetfefghfektdeunecuvehluhhsthgvrhfuihiivgep
-    tdenucfrrghrrghmpehmrghilhhfrhhomhepkhgvrhhnvghlsehunhguvghfrdhtohholh
-    hs
-X-ME-Proxy: <xmx:xir3YkSI9WA7s-ARKSn7rWSS-n5QDFuDlwht6o5JX_o5aLTiwEaDmg>
-    <xmx:xir3Ykzh67NkWRbrHePCTM90GjU5BJbFnMdiJGuv_ru3Unn5bzF4qw>
-    <xmx:xir3Yq7Rz6Jrqv1GSQKI5gK0szjJ430kOKiP0sCw25dMm5PAW6_wTg>
-    <xmx:xir3YrnL5-JXfp796yqk-SofX5opsl8f-cTrKtOUcIlzBIHV7swKdg>
-Feedback-ID: id76147eb:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 13 Aug 2022 00:38:27 -0400 (EDT)
-From:   kernel@undef.tools
-To:     Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ondrej Jirman <megi@xff.cz>,
-        Jarrah Gosbell <kernel@undef.tools>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     phone-devel@vger.kernel.org
-Subject: [PATCH] Input: goodix: Add compatible string for GT1158
-Date:   Sat, 13 Aug 2022 04:38:21 +0000
-Message-Id: <20220813043821.9981-1-kernel@undef.tools>
-X-Mailer: git-send-email 2.35.1
+        Sat, 13 Aug 2022 07:09:28 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA53881B3A;
+        Sat, 13 Aug 2022 04:09:25 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id n4so3646360wrp.10;
+        Sat, 13 Aug 2022 04:09:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc;
+        bh=Lwob7xDX18xuLzciMs6sBm4FASciIc2P3TkLVW9Vtr8=;
+        b=lhqYuwLazf0BX+NIgPnn+2pq/UH/GRuuSy+uRVE/Q5pn8RtXQQWqDoQiCTE0RkBC9F
+         QuYyVf17uFZgk1yhl4C5WVH0S+OPnwoBJvwc6esxR6sen+LOOvTnRse28Zm99EZHjFK7
+         4E9Mxfd319Ry+Eznci8iZ/aV3bPID5zKqjEv/0I4Byk+YC/CwSVbnLbbyv6de3Ew2u09
+         2sVJn0wJDk88jxU/0qbzM3xcKVrXsRBNFI8NQicEjEL8mwtiZ1t6l+6AfAVi0OwO+W/l
+         7xIpC6AUJzhZqS9TqcObhsjCIOSjk5mx+wOpaM7l6AAOMrTF7h2sIgbX3TyRG+On1CMQ
+         pVzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=Lwob7xDX18xuLzciMs6sBm4FASciIc2P3TkLVW9Vtr8=;
+        b=rAUQRnwRE0PXZd2LmT6VXAaqD+889ehvx1eDghq/cFPBiR/HYhH9PwgfEPQrldaUz/
+         7/r27ObhAtEPhJY3vy7oYTSs22Lnnhq28XqHOFDd03E0adFHcrUvvNOZA0FM3l1B8gl+
+         hf2DlR2myuMUa76vjrkDTRCQ6rYqQhKsZwj62bwc+H9vbZQj4GKJhpn/gf3yxUGKjBTu
+         lTuSU+nRJwB0EWwwD7joea1zhsH81Npk6X5mnNVMrSuFTC2KMVmiab9iu8xUyiUfHoKH
+         GS7kjJUKXoEKVYs/NuM6SZ3SaXLQMjvLfBvXmZs9c18JX1e0ok/xVInxv6Md6sZkXN1Z
+         i9Nw==
+X-Gm-Message-State: ACgBeo2hnjiV65EwQTeFKR5qbiVQw5H47P8XdChOoQ8zalGzgopTPFRe
+        I4j1lVUz91sFLr9n2o3fGMyumSfTox99KA==
+X-Google-Smtp-Source: AA6agR5m+uuldCzeXOiU1Q9D8HXKbLjpabwFRyPKwNsR0kNT/XwMtGz7uyFol70kboIDOx4jCHbc3A==
+X-Received: by 2002:a05:6000:1549:b0:220:7199:bd4 with SMTP id 9-20020a056000154900b0022071990bd4mr4474052wry.673.1660388964476;
+        Sat, 13 Aug 2022 04:09:24 -0700 (PDT)
+Received: from elementary ([94.73.32.249])
+        by smtp.gmail.com with ESMTPSA id h13-20020a5d430d000000b00224f605f39dsm792883wrq.76.2022.08.13.04.09.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Aug 2022 04:09:24 -0700 (PDT)
+Date:   Sat, 13 Aug 2022 13:09:22 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Stefan Hansson <newbie13xd@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Ping Cheng <ping.cheng@wacom.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
+ Inspiroy H640 drawing tablet
+Message-ID: <20220813110922.GA47526@elementary>
+References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
+ <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm>
+ <20220724114849.GA32182@elementary>
+ <20220725224841.GA75640@elementary>
+ <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
+ <20220804182445.GA16569@elementary>
+ <CAO-hwJ+hBipNJpeYaHRr2-rKXA5d79XT7zE2fo2oEKUKJtKJ0g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAO-hwJ+hBipNJpeYaHRr2-rKXA5d79XT7zE2fo2oEKUKJtKJ0g@mail.gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jarrah Gosbell <kernel@undef.tools>
+Hi Benjamin,
 
-Add compatible string for GT1158 missing from the previous patch.
+On Thu, Aug 11, 2022 at 05:23:52PM +0200, Benjamin Tissoires wrote:
+> On Thu, Aug 4, 2022 at 8:24 PM José Expósito <jose.exposito89@gmail.com> wrote:
+> >
+> > Hi again,
+> >
+> > On 2022-07-26 18:48, José Expósito wrote:
+> > > The first bad commit is 87562fcd1342 ("HID: input: remove the need for
+> > > HID_QUIRK_INVERT"):
+> > > https://lore.kernel.org/all/20220203143226.4023622-11-benjamin.tissoires@redhat.com/
+> > > (CCing the folks whose email is in the patch tags)
+> > >
+> > > I reverted the patch on hid/for-next and, after fixing a tiny conflict,
+> > > I can confirm that the tablet works again as expected.
+> > >
+> > > I'd need to investigate a bit more over the weekend, but I think that
+> > > all HUION tablets with the latest firmware (internally, v2) are
+> > > affected.
+> >
+> > Indeed, it looks like v2 devices are affected. Similar reports:
+> >
+> >  - https://github.com/DIGImend/digimend-kernel-drivers/issues/626
+> >  - https://bugzilla.kernel.org/show_bug.cgi?id=216106
+> >
+> > Kindly sending this thread back to your inbox to see if we could fix
+> > this regression.
+> 
+> [sorry, I was out on vacation the past 2 weeks and this week was the
+> usual "urgent" thing I have to day for yesterday]
 
-Fixes:	425fe4709c76 ("Input: goodix - add support for GT1158")
-Signed-off-by: Jarrah Gosbell <kernel@undef.tools>
----
- drivers/input/touchscreen/goodix.c | 1 +
- 1 file changed, 1 insertion(+)
+No problem, I hope you enjoyed your holidays :D 
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index 3974cb63708f..995169701f13 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -1557,6 +1557,7 @@ MODULE_DEVICE_TABLE(acpi, goodix_acpi_match);
- #ifdef CONFIG_OF
- static const struct of_device_id goodix_of_match[] = {
- 	{ .compatible = "goodix,gt1151" },
-+	{ .compatible = "goodix,gt1158" },
- 	{ .compatible = "goodix,gt5663" },
- 	{ .compatible = "goodix,gt5688" },
- 	{ .compatible = "goodix,gt911" },
--- 
-2.35.1
+> Ideally, I'd like to not revert that commit. It solves a bunch of
+> issues on many devices, so that's maybe not the way forward.
+>
+> FWIW, it was quite painful to tweak and that was a solution that
+> matches the hid-multitouch devices I could find.
+> 
+> I tried to process your email when you described the succession of
+> events without much success.
+> 
+> Would you mind dumping a hid-record when exposing the bug?
 
+Sure, I added as an attachment in the existing report in bugzilla:
+https://bugzilla.kernel.org/show_bug.cgi?id=216106#c2
+
+I hope it helps you to debug the issue. Let me know if you need more
+recordings, help testing patches or any other information.
+
+In future changes to tablet code, feel free to cc me. I have a bunch of
+non Wacom devices and I'll help you testing your changes.
+
+Best wishes,
+Jose
+
+> Cheers,
+> Benjamin
+> 
+> 
+> >
+> > Best wishes,
+> > Jose
+> >
+> > > Those tablets do not set the inrange bit (UCLOGIC_PARAMS_PEN_INRANGE_NONE).
+> > > The driver sets it and uses a timer to remove it.
+> > > See drivers/hid/hid-uclogic-core.c, function uclogic_raw_event_pen().
+> > > [...]
+> >
+> 
