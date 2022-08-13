@@ -2,103 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5625915F5
-	for <lists+linux-input@lfdr.de>; Fri, 12 Aug 2022 21:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E95C45918D6
+	for <lists+linux-input@lfdr.de>; Sat, 13 Aug 2022 06:38:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbiHLT2c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Aug 2022 15:28:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
+        id S235083AbiHMEid (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 13 Aug 2022 00:38:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238120AbiHLT2X (ORCPT
+        with ESMTP id S231424AbiHMEid (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Aug 2022 15:28:23 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB2EB08AC;
-        Fri, 12 Aug 2022 12:28:23 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id p8so1536771plq.13;
-        Fri, 12 Aug 2022 12:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=IaNDAdEa8hgXhA9slqB1hEbULevRfy/CuIByo7fB7oY=;
-        b=HLSm97rrOLYJkzPX2w6QgFUDvZAlVyraM1Cdtc6CnudfXDGFGGSC6oP9jpu1K5FU9y
-         jr9ifGkldw6NkuannS9dSFrNzyYUzifTOx83mmUeATi0/1yzcjnKoUJQQCYdGNPqITB7
-         B78KVzOFbVwHSu9HOeACSLpEpQsTA3KXkmMzCOga9JsEGadJfEjdsGuDIWWKtpKtpC58
-         YHRYgvxX5YcqeedHn1YHQZn6d0HqRABlOr7PbKRecywam6pic7QV9bsgLV4ZtlTXWhD+
-         uuMwPWLT+NK87kyzdj6ytGOTT1wIgnO3hcUJUPSnPx+5WpyUfpjxwww4ARJGRVw5Rn54
-         KQeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=IaNDAdEa8hgXhA9slqB1hEbULevRfy/CuIByo7fB7oY=;
-        b=qBawCP+eRSHxWEx4HS0YIq6Qvpb2iN3ZOp9QYmIyTTOOthKFIZyh0jltqvnOlTi/Mh
-         jx1s2L61MIAJ85iuSicrH6ZuzKzITOxmeLWT50mJ2HYFK6Dbk4zjUKyiW2duuS20JGgA
-         9t5URMsBefWoWszlVTVaPtCkZEXMsJvAlmfW3xKDSFgeCjJ4UJKAxlgtDZ6svw2sI+ie
-         pG+W41Mr8PnzGnTGXSZnxUhszDW/Fxn9lElDLeZdbxuJepfvqZBz0Xns0K8Xe7N66Jwy
-         XmyxjZmlp0mTIWq85yUIwNTC8dpWSB8Ste4XazxvPaYc1DpPMKZe1cnSVkc19TLbFCjQ
-         HLTA==
-X-Gm-Message-State: ACgBeo2JMHSgehhkl9rYm3mx2LCGe/ABNmmAy+1h2YEBkk+nmigCyvLg
-        UnqUX8if3KqSk58Ny7lrMtE=
-X-Google-Smtp-Source: AA6agR7Y6iCDD7AR93KBVw18z7gK/7WjC04/p/OasvAPHPOCIhX6lGMi+tKOCzhW72UlXFqTP/Qz7A==
-X-Received: by 2002:a17:902:d484:b0:171:3cbc:7c6 with SMTP id c4-20020a170902d48400b001713cbc07c6mr5423597plg.85.1660332502216;
-        Fri, 12 Aug 2022 12:28:22 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:eb15:868d:43:d73a])
-        by smtp.gmail.com with ESMTPSA id b4-20020a6567c4000000b0040dd052ab11sm1691136pgs.58.2022.08.12.12.28.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 12:28:21 -0700 (PDT)
-Date:   Fri, 12 Aug 2022 12:28:18 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     margeyang <marge.yang@synaptics.corp-partner.google.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hdegoede@redhat.com, benjamin.tissoires@redhat.com,
-        marge.yang@tw.synaptics.com, derek.cheng@tw.synaptics.com,
-        vincent.huang@tw.synaptics.com
-Subject: Re: [PATCH V2] Input: synaptics-rmi4 - filter incomplete relative
- packet.
-Message-ID: <Yvap0uh1U81gqy6J@google.com>
-References: <1660293805-16053-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
+        Sat, 13 Aug 2022 00:38:33 -0400
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600E72871A;
+        Fri, 12 Aug 2022 21:38:32 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id 0FF403200921;
+        Sat, 13 Aug 2022 00:38:30 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 13 Aug 2022 00:38:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=undef.tools; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm1; t=1660365510; x=1660451910; bh=HEcNfg4CwiBsfqODwObieSZgI
+        suTV3ZpAgRuL6VBTtg=; b=NwE54rizUgYGRU5kE4pbEMAx3ul6uR36YOFRkj3sO
+        fMW2AM6rnp39EraZBCnBPm42Ymq2xEOnVmM8MaqjxCdN2qbv/WBSGM0GGTIrtT24
+        j/V/8AtDtH4H+WN2Bcp994gkAsDKlWpPGAHKuSyZR0MbqLIJQCMAW3LrLg9yNLnt
+        u3WK1MBt71/E+tIR9EfHvogHJwg1o0D1XusW9P3peOPkMUkFNH94W6ALBgsI8Ils
+        U2mX2vnx47z6FIx8Hb0xn1T0HZNp6+bWo3g/NcA0yPOv3OhBofNaTefWlzxyR/MD
+        3TifbectHtm5RweOr4Cv+WNapn1WGpdy5xYBgefH/YQAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1660365510; x=1660451910; bh=HEcNfg4CwiBsfqODwObieSZgIsuTV3ZpAgR
+        uL6VBTtg=; b=OhHgQzE/QUcnvt8UPLuOF2ZHlwaCVdeFZ7Bx1r+w9L4rFx4Ezqb
+        Y34KrqtSVZPcjcc9xDFrxcFEIuxpaGDsR+Wrb42bwGMffG1hNWDRdx1KgTB+CBb7
+        b4tjiPkuyPJw3bQ6I5NfBXNJrFbWJvCsA/mSjRCHl1CubUoTTqi+BnrV7WLXyZE0
+        J/O7MkR17kdkP2Xab4Ddy3NbP0/qpIpG5leCy6O1FkNo1ivrTvO2x4Ov/6CElxJs
+        X+YL5cmclPYfDIUa89Q7xoZq5WcmbJYeJjJBoVsWrIWlFwsDA2ST28JyPWFrjZXL
+        r0y/tUuiP8MI3109/lUall7r9ASWP2mvTYA==
+X-ME-Sender: <xms:xSr3YnhYk5WE9Q8kZexRKMNCcrRPPs3Ef9qW2IKyPmYsm-lpaPXdtA>
+    <xme:xSr3YkCXzvfiqmsP0wgQqdqVO4c-wWc2zk8WGjVUufKHMp7dCzri9ytc5mP5dpMUX
+    8qF33AmaZH8Yu09EXo>
+X-ME-Received: <xmr:xSr3YnE-OgUuD_SEi1QqjgD7PlQvNlMFIoMWW5HVMOVqZQETx7aALEh4T7uM3dyFCQH4NbmXcg4slgxh6lZ9qwbve4U6mKnbQBsUfEOCKcTBFUeJY-eG5PEQtA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegjedgkeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepkhgvrhhnvghl
+    sehunhguvghfrdhtohholhhsnecuggftrfgrthhtvghrnheptddtieehgefgveegkefghe
+    ekgeelkeejleelkeejueejkedtkeetfefghfektdeunecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepkhgvrhhnvghlsehunhguvghfrdhtohholh
+    hs
+X-ME-Proxy: <xmx:xir3YkSI9WA7s-ARKSn7rWSS-n5QDFuDlwht6o5JX_o5aLTiwEaDmg>
+    <xmx:xir3Ykzh67NkWRbrHePCTM90GjU5BJbFnMdiJGuv_ru3Unn5bzF4qw>
+    <xmx:xir3Yq7Rz6Jrqv1GSQKI5gK0szjJ430kOKiP0sCw25dMm5PAW6_wTg>
+    <xmx:xir3YrnL5-JXfp796yqk-SofX5opsl8f-cTrKtOUcIlzBIHV7swKdg>
+Feedback-ID: id76147eb:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 13 Aug 2022 00:38:27 -0400 (EDT)
+From:   kernel@undef.tools
+To:     Bastien Nocera <hadess@hadess.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ondrej Jirman <megi@xff.cz>,
+        Jarrah Gosbell <kernel@undef.tools>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     phone-devel@vger.kernel.org
+Subject: [PATCH] Input: goodix: Add compatible string for GT1158
+Date:   Sat, 13 Aug 2022 04:38:21 +0000
+Message-Id: <20220813043821.9981-1-kernel@undef.tools>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1660293805-16053-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marge,
+From: Jarrah Gosbell <kernel@undef.tools>
 
-On Fri, Aug 12, 2022 at 04:43:25PM +0800, margeyang wrote:
-> From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
-> 
-> RMI4 F03 supports the Stick function,
-> it's designed to support relative packet.
-> This patch supports the following case.
-> When relative packet can't be reported completely,
-> it may miss one byte or two byte.
-> New Synaptics firmware will report PARITY error.
-> When timeout error or parity error happens,
-> RMI4 driver will sends 0xFE command and
-> ask FW to Re-send stick packet again.
+Add compatible string for GT1158 missing from the previous patch.
 
-My understanding is that F03 is intended to be a pass-through mechanism
-for PS/2-compatible devices. In that spirit all protocol handling and
-validation should happen in psmouse driver that attaches to a serio port
-provided by F03.
+Fixes:	425fe4709c76 ("Input: goodix - add support for GT1158")
+Signed-off-by: Jarrah Gosbell <kernel@undef.tools>
+---
+ drivers/input/touchscreen/goodix.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Historically we did not pay attention to parity and frame errors for
-PS/2 mice/touchpads (and for keyboards on x86) but we coudl add such
-code there. Do we actually observe this with RMI devices? Can RMI
-firmware handle this better instead?
-
-Thanks.
-
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index 3974cb63708f..995169701f13 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -1557,6 +1557,7 @@ MODULE_DEVICE_TABLE(acpi, goodix_acpi_match);
+ #ifdef CONFIG_OF
+ static const struct of_device_id goodix_of_match[] = {
+ 	{ .compatible = "goodix,gt1151" },
++	{ .compatible = "goodix,gt1158" },
+ 	{ .compatible = "goodix,gt5663" },
+ 	{ .compatible = "goodix,gt5688" },
+ 	{ .compatible = "goodix,gt911" },
 -- 
-Dmitry
+2.35.1
+
