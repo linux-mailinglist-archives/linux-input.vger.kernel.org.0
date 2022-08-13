@@ -2,60 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ABFC591A0A
-	for <lists+linux-input@lfdr.de>; Sat, 13 Aug 2022 13:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBA45591B2B
+	for <lists+linux-input@lfdr.de>; Sat, 13 Aug 2022 16:54:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239404AbiHMLqU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 13 Aug 2022 07:46:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44754 "EHLO
+        id S239518AbiHMOym (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 13 Aug 2022 10:54:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbiHMLqT (ORCPT
+        with ESMTP id S235340AbiHMOyl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 13 Aug 2022 07:46:19 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D8F1D32F
-        for <linux-input@vger.kernel.org>; Sat, 13 Aug 2022 04:46:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660391178; x=1691927178;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hLrNjxs59hJUwjWJAXrQ1CCZA+kup+p8CljhzP9K4wM=;
-  b=HTFeX6jsI0uCX6bx/OWUCju9+qT0StmowwWp6hFWd9WsfxXesM+XvgfK
-   BBphBd+xie1uZPxU9Sce4UtZQKWRUSpdtoEbEEBgdZ2AQNOIh4LGjOOSQ
-   Ht6yEGF3SiviaNaIkzZg/YfPUB1kp/RRzPuPid7816Dils55zK9sOJgrj
-   6jocwHw03IaKPIVmNuYS8ZW3a7APKbciejQi41GBrPPKBe9am/o0dcvcF
-   WKk+YwiapteqbD2U6b5NH939XMBbayTLWaKmdpYGXLTjwQSh21TXcHWF8
-   TCNybn2jMQsS18ku1NQvmTUCKbCIMYvUH7eoIBCFBrovvYm8L8GUVaKz3
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10437"; a="293017082"
-X-IronPort-AV: E=Sophos;i="5.93,233,1654585200"; 
-   d="scan'208";a="293017082"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2022 04:46:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,233,1654585200"; 
-   d="scan'208";a="639171020"
-Received: from lkp-server02.sh.intel.com (HELO 8745164cafc7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 13 Aug 2022 04:46:17 -0700
-Received: from kbuild by 8745164cafc7 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oMpaq-0001dH-1m;
-        Sat, 13 Aug 2022 11:46:16 +0000
-Date:   Sat, 13 Aug 2022 19:45:19 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 8bd5d27d426b560755b5c99a9a495384987f0955
-Message-ID: <62f78ecf.Hm3mH6DDU3hqn1Cy%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 13 Aug 2022 10:54:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F56BF79;
+        Sat, 13 Aug 2022 07:54:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F1A960DEF;
+        Sat, 13 Aug 2022 14:54:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A87AC433D6;
+        Sat, 13 Aug 2022 14:54:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660402479;
+        bh=N4kjUi4PTo0aa0MQR9hcV00wsscIFyN4QydIKOaekVE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=vEWAmtylEsAaz9sRfKNI1rrv/BMqyZ4ZJUF1H1orjJXnEyhYNUeE3pI3zpwCr1kTf
+         BmLuFWw3QxsmuiIgUibCYimqbg2pRi0hmXfK27e/S9yKgHbBJyNv51mJiueVzi2pGA
+         U04Lz/yNTfJ1h2u7GBohGoVlEyCHbdbWyAwFeCo1HitQxQgnkZFkNs+lEyjv3eKJkF
+         w2rzkXCU+06L7LJj75hdt5SdpYQjTJ1WUEfwNyWAVdLhR7ATMlyo2vbEfzvOa9jLsO
+         q2wO/uAKz7hjsHqnxzsBIMfc/DtXsmGrO/pyepz98F2HELOBVpaRSx4J4rNPsmiCCD
+         zdQRipfyv2FYg==
+Date:   Sat, 13 Aug 2022 16:05:06 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-input@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v2 4/5] dt-bindings: iio: adc: stmpe: Remove node name
+ requirement
+Message-ID: <20220813160506.04be3760@jic23-huawei>
+In-Reply-To: <YvJ/N2zulizbiU6u@google.com>
+References: <20220712163345.445811-1-francesco.dolcini@toradex.com>
+        <20220712163345.445811-5-francesco.dolcini@toradex.com>
+        <20220809134607.GA44926@francesco-nb.int.toradex.com>
+        <YvJ/N2zulizbiU6u@google.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,82 +68,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 8bd5d27d426b560755b5c99a9a495384987f0955  Input: Add IBM Operation Panel driver
+On Tue, 9 Aug 2022 16:37:27 +0100
+Lee Jones <lee.jones@linaro.org> wrote:
 
-elapsed time: 720m
+> On Tue, 09 Aug 2022, Francesco Dolcini wrote:
+> 
+> > Hello Jonathan, can you pick this? Patches 1 and 2 were applied to MFD
+> > tree.  
+> 
+> Sending out nags whilst the merge-window is open is seldom helpful.
 
-configs tested: 61
-configs skipped: 2
+Agreed, next week would have been better.  I happen to be queuing stuff
+up ready for a rebase this cycle though so applied this one to what will
+be the togreg branch of iio.git after rc1 is available and I've rebased.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Jonathan
 
-gcc tested configs:
-um                             i386_defconfig
-s390                 randconfig-r044-20220812
-arc                  randconfig-r043-20220812
-um                           x86_64_defconfig
-riscv                randconfig-r042-20220812
-i386                                defconfig
-x86_64                        randconfig-a002
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-i386                          randconfig-a001
-i386                          randconfig-a003
-x86_64                        randconfig-a006
-x86_64                        randconfig-a015
-x86_64                        randconfig-a004
-x86_64                           rhel-8.3-syz
-i386                             allyesconfig
-i386                          randconfig-a016
-i386                          randconfig-a005
-m68k                             allmodconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-arm                                 defconfig
-sh                               allmodconfig
-x86_64                    rhel-8.3-kselftests
-powerpc                          allmodconfig
-arc                              allyesconfig
-x86_64                           rhel-8.3-kvm
-mips                             allyesconfig
-powerpc                           allnoconfig
-alpha                            allyesconfig
-i386                          randconfig-a012
-m68k                             allyesconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-i386                          randconfig-a014
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-ia64                             allmodconfig
-csky                              allnoconfig
-alpha                             allnoconfig
-arc                               allnoconfig
-riscv                             allnoconfig
-sh                        dreamcast_defconfig
-parisc                           alldefconfig
-parisc                              defconfig
-powerpc                 mpc834x_mds_defconfig
+> 
+> Also, please refrain from top-posting.
+> 
+> Thanks.
+> 
+> > On Tue, Jul 12, 2022 at 06:33:44PM +0200, Francesco Dolcini wrote:  
+> > > STMPE driver does not require a specific node name anymore, only the
+> > > compatible is checked, update binding according to this.
+> > > 
+> > > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/iio/adc/st,stmpe-adc.yaml | 3 +--
+> > >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/iio/adc/st,stmpe-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stmpe-adc.yaml
+> > > index 9049c699152f..333744a2159c 100644
+> > > --- a/Documentation/devicetree/bindings/iio/adc/st,stmpe-adc.yaml
+> > > +++ b/Documentation/devicetree/bindings/iio/adc/st,stmpe-adc.yaml
+> > > @@ -13,8 +13,7 @@ description:
+> > >    This ADC forms part of an ST microelectronics STMPE multifunction device .
+> > >    The ADC is shared with the STMPE touchscreen. As a result some ADC related
+> > >    settings are specified in the parent node.
+> > > -  The node name myst be stmpe_adc and should be a child node of the stmpe node
+> > > -  to which it belongs.
+> > > +  The node should be a child node of the stmpe node to which it belongs.
+> > >  
+> > >  properties:
+> > >    compatible:  
+> >   
+> 
 
-clang tested configs:
-hexagon              randconfig-r041-20220812
-hexagon              randconfig-r045-20220812
-x86_64                        randconfig-a012
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-x86_64                        randconfig-a016
-i386                          randconfig-a002
-x86_64                        randconfig-a014
-i386                          randconfig-a004
-i386                          randconfig-a015
-i386                          randconfig-a013
-i386                          randconfig-a006
-i386                          randconfig-a011
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
