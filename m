@@ -2,47 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F2D592128
-	for <lists+linux-input@lfdr.de>; Sun, 14 Aug 2022 17:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 758655921D3
+	for <lists+linux-input@lfdr.de>; Sun, 14 Aug 2022 17:42:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240647AbiHNPeZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Aug 2022 11:34:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39358 "EHLO
+        id S241064AbiHNPmV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Aug 2022 11:42:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231671AbiHNPdw (ORCPT
+        with ESMTP id S241306AbiHNPlQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Aug 2022 11:33:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782942DDD;
-        Sun, 14 Aug 2022 08:30:32 -0700 (PDT)
+        Sun, 14 Aug 2022 11:41:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 152C421804;
+        Sun, 14 Aug 2022 08:32:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0CF4960BEC;
-        Sun, 14 Aug 2022 15:30:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90599C433B5;
-        Sun, 14 Aug 2022 15:30:29 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9FDDCB80B87;
+        Sun, 14 Aug 2022 15:32:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 764B7C433D6;
+        Sun, 14 Aug 2022 15:32:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491030;
-        bh=opRpwBXuIqKfJEKdV/gdL/Q2qqUENx7dxO38eYQHJZA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YdtKb7w02pilIBrprKtdd2D41OGkNwWu0qjhgxoDeqrxmNWFLNN1Ss7HMZPlwc1Fh
-         KAN7cMpYjQC+Y6WuJ0T+/xuqSgVQI8EY7QSwHkRCgjCctpdtND8sCYrKFMWAc8txbq
-         sEahmoEAb5ip+sgLy3HSMc+OiZnuM9G86hy1IYB2dPr9NYg3ZOSIKDj6HoFLCGHKju
-         PlAfzoZi+JtZqT2q+JZw8rqmItw7cI0yKTXqTQ5Mx/noXpEvSyWJHS+TNPoRaWkUbk
-         wTyP4Q2S8pVbIrzY7eDTpXDfZh+sUujkSHiT3vATcxID//ZGRbX++qEGdeGx3p2uad
-         lAdzHrpBx5iqw==
+        s=k20201202; t=1660491170;
+        bh=0pbObdzox6CbrcgRjPxsv/HH0bIFHIjmUHHJFWXZ/p4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Emdu4A2EjO9syZj1eibSW2jxAzP0fGWy3NnlUQ2AgOY5XDPVNupFXRPu/DcIJeo4D
+         ibznx8WzgmHtrmhq6tds3ff4moZjtiy++e6YAAS9Gv6wGdljbEFzdXfhVoHj2+IkYt
+         qMEfLO7QqY5m7zpOE8ZajgFaLFVBFbvRmGfGP1RoW7oSyQStkwHXh70o3CCSgAjnT5
+         6HoBwYpWBXfRQa/vcM6ogcj5MFNg/9bqSbIEXQWrX8oWinyGod/ruewX1tqzYZYC0l
+         DgTXOhCYBILbB3bzgvu28EI/mE+DECnWj5qSCDKLVQRJcJ6k3Hbaq99rGacQWOnpuy
+         /6Jxa8csxY+VA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Tao Jin <tao-j@outlook.com>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
         benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 02/56] HID: multitouch: new device class fix Lenovo X12 trackpad sticky
-Date:   Sun, 14 Aug 2022 11:29:32 -0400
-Message-Id: <20220814153026.2377377-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 01/46] HID: multitouch: new device class fix Lenovo X12 trackpad sticky
+Date:   Sun, 14 Aug 2022 11:32:02 -0400
+Message-Id: <20220814153247.2378312-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153026.2377377-1-sashal@kernel.org>
-References: <20220814153026.2377377-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -87,7 +85,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 6bb3890b0f2c..2e72922e36f5 100644
+index f382444dc2db..a14c48de4446 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
 @@ -194,6 +194,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
@@ -122,7 +120,7 @@ index 6bb3890b0f2c..2e72922e36f5 100644
  			     cls->name == MT_CLS_WIN_8_DISABLE_WAKEUP) &&
  				(field->application == HID_DG_TOUCHPAD ||
  				 field->application == HID_DG_TOUCHSCREEN))
-@@ -2035,7 +2046,7 @@ static const struct hid_device_id mt_devices[] = {
+@@ -2033,7 +2044,7 @@ static const struct hid_device_id mt_devices[] = {
  			   USB_DEVICE_ID_LENOVO_X1_TAB3) },
  
  	/* Lenovo X12 TAB Gen 1 */
