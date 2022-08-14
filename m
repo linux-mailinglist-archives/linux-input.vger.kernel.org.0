@@ -2,108 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98989591F73
-	for <lists+linux-input@lfdr.de>; Sun, 14 Aug 2022 12:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA49592066
+	for <lists+linux-input@lfdr.de>; Sun, 14 Aug 2022 17:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbiHNKM0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Aug 2022 06:12:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
+        id S231439AbiHNPYo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Aug 2022 11:24:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbiHNKMZ (ORCPT
+        with ESMTP id S231304AbiHNPYn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Aug 2022 06:12:25 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBC12018E;
-        Sun, 14 Aug 2022 03:12:24 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id x21so6351105edd.3;
-        Sun, 14 Aug 2022 03:12:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=1+mb69L+xqrAYBz+n/l0oT22rgwEo4zT/GChnKSihHg=;
-        b=bhJnAPvl8dAmRl0/3Nc6acyExiSTqYLEqrbPRQJbd5QYDO21pR0LDR3ky1ftzHZU/j
-         COElbRmt8asxFYHsS1lvDLqeT1DoCUGP1Ll0odlXXVnECaaWe2XH8edFWAnEIcgGFrvw
-         vhb0H7Xf0hlfikfI1GpbP2ZahLXvXjJOMirQPpIT+KRZdJHk/HDrO3oBi5Z29hqG6unP
-         rS0PTQ6bXhtJdpeakpaJ5+Bu7wBdfbyrTXKjped8VIFZQSkl/xATXHBmFmpdnZYHuFvF
-         kwI3kXbcKYOcno4HAzsRyUguNoUMbXu7py6of5o1vIe51U8SKQTgpLlL8AzKqwalQuiL
-         rLHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=1+mb69L+xqrAYBz+n/l0oT22rgwEo4zT/GChnKSihHg=;
-        b=NlE/iGfmaKkySDItrrxLHG7pwL+wasFoYCf5+8812erk37+hePuybp4xowP1Fo3UQF
-         4w1WtjYgu8RaWUkW35hcALVO5qXH6xzHFv9N0w+hH82ebfcWUkd5YwKVRbZZKYOwCy6R
-         XeCJ9FGC1mwegPJNtYFYsV1P/9xJ4Tw81JBLxTsCz/BZ87vifUIEdrYtjeyUKRnv+Z86
-         +7sTpYe36jQzhQql7uA4jUg1t1pxbZVwwW2+iosvyFKmNXF9m7Y2hFDy90wwcRxFTr1d
-         OALJV/RErCBzzfQlLqjeElwf0ccRDkbo+4tdwHKLl9OZ0tqq1jviG9CQ+XcpBr5SOIme
-         hzDQ==
-X-Gm-Message-State: ACgBeo3ASSjLo5l07YT5val1MTEy0a+285qPY6DfjVw6rntK1x6xp3xl
-        trPZpkC+pJ89FbEtdkgtZqw=
-X-Google-Smtp-Source: AA6agR7X9N4O3WfDrYIk/VM94aaKm2o58k/Qya8E5B+4G+3yoIYZJ5fowQBFGeaSXfh59aq7b/6b1g==
-X-Received: by 2002:a05:6402:540f:b0:440:d9a4:aebf with SMTP id ev15-20020a056402540f00b00440d9a4aebfmr10251453edb.196.1660471943579;
-        Sun, 14 Aug 2022 03:12:23 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id b10-20020a0564021f0a00b0043df40e4cfdsm4488524edb.35.2022.08.14.03.12.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 03:12:23 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     daniel.lezcano@linaro.org, rafael@kernel.org,
-        Daniel Lezcano <daniel.lezcano@linexp.org>
-Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, khilman@baylibre.com,
-        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
-        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
-        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
-        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
-        baolin.wang7@gmail.com, f.fainelli@gmail.com,
-        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
-        glaroque@baylibre.com, miquel.raynal@bootlin.com,
-        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
-        matthias.bgg@gmail.com, j-keerthy@ti.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>,
-        "moderated list:ARM/Allwinner sunXi SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Allwinner sunXi SoC support" 
-        <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH v5 29/33] Input: sun4i-ts - switch to new of thermal API
-Date:   Sun, 14 Aug 2022 12:12:21 +0200
-Message-ID: <5746387.MhkbZ0Pkbq@jernej-laptop>
-In-Reply-To: <20220804224349.1926752-30-daniel.lezcano@linexp.org>
-References: <20220804224349.1926752-1-daniel.lezcano@linexp.org> <20220804224349.1926752-30-daniel.lezcano@linexp.org>
+        Sun, 14 Aug 2022 11:24:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D066D65ED;
+        Sun, 14 Aug 2022 08:24:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A85660B90;
+        Sun, 14 Aug 2022 15:24:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED1E4C433D7;
+        Sun, 14 Aug 2022 15:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660490681;
+        bh=opRpwBXuIqKfJEKdV/gdL/Q2qqUENx7dxO38eYQHJZA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=suSfbhv3gBI3+CXyAMxrz/OjfQfHxBWMdSVgLpern7+1L9oNtbwF6gJhsdj8hjvlv
+         OaR4YIsI5FCwiih/1m0JJ7iyNUEyoIcJF9TwdzXngsNPz5gaA1hBtVmdFLzAxxgrzz
+         UExlNvWgC9A9xynsWR3wsyFhLAiDhAUD1viab0bfwcGbqHcv5ELhexP5FNE4VTLzs6
+         XUyCfSjs2wdapCUgfHnYznMkJFG8aS2THU7DXESoeW7m76TiK3+kyqWhS1xUJWcGrs
+         lwnyOQ+8aolfbltc1+YK5Du9RX04XqbF5/bRJj6C1ery64NpP+pNwbES0wAOimdEY2
+         QHZD7HY7PEA+A==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Tao Jin <tao-j@outlook.com>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 02/64] HID: multitouch: new device class fix Lenovo X12 trackpad sticky
+Date:   Sun, 14 Aug 2022 11:23:35 -0400
+Message-Id: <20220814152437.2374207-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220814152437.2374207-1-sashal@kernel.org>
+References: <20220814152437.2374207-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dne petek, 05. avgust 2022 ob 00:43:45 CEST je Daniel Lezcano napisal(a):
-> The thermal OF code has a new API allowing to migrate the OF
-> initialization to a simpler approach. The ops are no longer device
-> tree specific and are the generic ones provided by the core code.
-> 
-> Convert the ops to the thermal_zone_device_ops format and use the new
-> API to register the thermal zone with these generic ops.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From: Tao Jin <tao-j@outlook.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+[ Upstream commit 54eed5c7b938dc4ef6b14d4ee048bbdafdbce352 ]
 
-Best regards,
-Jernej
+The trackpad of the given device sends continuous report of pointers
+status as per wxn8 spec. However, the spec did not clarify when the
+fingers are lifted so fast that between the interval of two report
+frames fingers on pad reduced from >=2 to 0. The second last report
+contains >=2 fingers with tip state 1 and the last report contains only
+1 finger with tip state 0. Although this can happen unfrequently, a
+  quick fix will be improve the consistency to 100%. A quick fix is to
+disable MT_QUIRK_ALWAYS_VALID and enable MT_QUIRK_NOT_SEEN_MEANS_UP.
 
+Test for hid-tools is added in [1]
+
+In addition to this, I2C device 04CA:00B1 may also need similar class
+but with MT_QUIRK_FORCE_MULTI_INPUT disabled (but it does not harm to
+ enable it on non-multi-input device either). The respective owner has
+been notified and a patch may coming soon after test.
+
+[1]: https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/130
+
+Signed-off-by: Tao Jin <tao-j@outlook.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-multitouch.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 6bb3890b0f2c..2e72922e36f5 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -194,6 +194,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+ #define MT_CLS_WIN_8_FORCE_MULTI_INPUT		0x0015
+ #define MT_CLS_WIN_8_DISABLE_WAKEUP		0x0016
+ #define MT_CLS_WIN_8_NO_STICKY_FINGERS		0x0017
++#define MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU	0x0018
+ 
+ /* vendor specific classes */
+ #define MT_CLS_3M				0x0101
+@@ -286,6 +287,15 @@ static const struct mt_class mt_classes[] = {
+ 			MT_QUIRK_WIN8_PTP_BUTTONS |
+ 			MT_QUIRK_FORCE_MULTI_INPUT,
+ 		.export_all_inputs = true },
++	{ .name = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
++		.quirks = MT_QUIRK_IGNORE_DUPLICATES |
++			MT_QUIRK_HOVERING |
++			MT_QUIRK_CONTACT_CNT_ACCURATE |
++			MT_QUIRK_STICKY_FINGERS |
++			MT_QUIRK_WIN8_PTP_BUTTONS |
++			MT_QUIRK_FORCE_MULTI_INPUT |
++			MT_QUIRK_NOT_SEEN_MEANS_UP,
++		.export_all_inputs = true },
+ 	{ .name = MT_CLS_WIN_8_DISABLE_WAKEUP,
+ 		.quirks = MT_QUIRK_ALWAYS_VALID |
+ 			MT_QUIRK_IGNORE_DUPLICATES |
+@@ -783,6 +793,7 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 		case HID_DG_CONFIDENCE:
+ 			if ((cls->name == MT_CLS_WIN_8 ||
+ 			     cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT ||
++			     cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU ||
+ 			     cls->name == MT_CLS_WIN_8_DISABLE_WAKEUP) &&
+ 				(field->application == HID_DG_TOUCHPAD ||
+ 				 field->application == HID_DG_TOUCHSCREEN))
+@@ -2035,7 +2046,7 @@ static const struct hid_device_id mt_devices[] = {
+ 			   USB_DEVICE_ID_LENOVO_X1_TAB3) },
+ 
+ 	/* Lenovo X12 TAB Gen 1 */
+-	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
+ 			   USB_VENDOR_ID_LENOVO,
+ 			   USB_DEVICE_ID_LENOVO_X12_TAB) },
+-- 
+2.35.1
 
