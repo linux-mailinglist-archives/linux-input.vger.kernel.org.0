@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DA49592066
-	for <lists+linux-input@lfdr.de>; Sun, 14 Aug 2022 17:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F2D592128
+	for <lists+linux-input@lfdr.de>; Sun, 14 Aug 2022 17:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbiHNPYo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Aug 2022 11:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33034 "EHLO
+        id S240647AbiHNPeZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Aug 2022 11:34:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231304AbiHNPYn (ORCPT
+        with ESMTP id S231671AbiHNPdw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Aug 2022 11:24:43 -0400
+        Sun, 14 Aug 2022 11:33:52 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D066D65ED;
-        Sun, 14 Aug 2022 08:24:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782942DDD;
+        Sun, 14 Aug 2022 08:30:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A85660B90;
-        Sun, 14 Aug 2022 15:24:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED1E4C433D7;
-        Sun, 14 Aug 2022 15:24:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0CF4960BEC;
+        Sun, 14 Aug 2022 15:30:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90599C433B5;
+        Sun, 14 Aug 2022 15:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660490681;
+        s=k20201202; t=1660491030;
         bh=opRpwBXuIqKfJEKdV/gdL/Q2qqUENx7dxO38eYQHJZA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=suSfbhv3gBI3+CXyAMxrz/OjfQfHxBWMdSVgLpern7+1L9oNtbwF6gJhsdj8hjvlv
-         OaR4YIsI5FCwiih/1m0JJ7iyNUEyoIcJF9TwdzXngsNPz5gaA1hBtVmdFLzAxxgrzz
-         UExlNvWgC9A9xynsWR3wsyFhLAiDhAUD1viab0bfwcGbqHcv5ELhexP5FNE4VTLzs6
-         XUyCfSjs2wdapCUgfHnYznMkJFG8aS2THU7DXESoeW7m76TiK3+kyqWhS1xUJWcGrs
-         lwnyOQ+8aolfbltc1+YK5Du9RX04XqbF5/bRJj6C1ery64NpP+pNwbES0wAOimdEY2
-         QHZD7HY7PEA+A==
+        b=YdtKb7w02pilIBrprKtdd2D41OGkNwWu0qjhgxoDeqrxmNWFLNN1Ss7HMZPlwc1Fh
+         KAN7cMpYjQC+Y6WuJ0T+/xuqSgVQI8EY7QSwHkRCgjCctpdtND8sCYrKFMWAc8txbq
+         sEahmoEAb5ip+sgLy3HSMc+OiZnuM9G86hy1IYB2dPr9NYg3ZOSIKDj6HoFLCGHKju
+         PlAfzoZi+JtZqT2q+JZw8rqmItw7cI0yKTXqTQ5Mx/noXpEvSyWJHS+TNPoRaWkUbk
+         wTyP4Q2S8pVbIrzY7eDTpXDfZh+sUujkSHiT3vATcxID//ZGRbX++qEGdeGx3p2uad
+         lAdzHrpBx5iqw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Tao Jin <tao-j@outlook.com>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
         benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 02/64] HID: multitouch: new device class fix Lenovo X12 trackpad sticky
-Date:   Sun, 14 Aug 2022 11:23:35 -0400
-Message-Id: <20220814152437.2374207-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 02/56] HID: multitouch: new device class fix Lenovo X12 trackpad sticky
+Date:   Sun, 14 Aug 2022 11:29:32 -0400
+Message-Id: <20220814153026.2377377-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814152437.2374207-1-sashal@kernel.org>
-References: <20220814152437.2374207-1-sashal@kernel.org>
+In-Reply-To: <20220814153026.2377377-1-sashal@kernel.org>
+References: <20220814153026.2377377-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
