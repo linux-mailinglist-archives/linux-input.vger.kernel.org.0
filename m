@@ -2,95 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B177B591C5A
-	for <lists+linux-input@lfdr.de>; Sat, 13 Aug 2022 20:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98989591F73
+	for <lists+linux-input@lfdr.de>; Sun, 14 Aug 2022 12:12:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231308AbiHMSx7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 13 Aug 2022 14:53:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52044 "EHLO
+        id S230489AbiHNKM0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Aug 2022 06:12:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239646AbiHMSx6 (ORCPT
+        with ESMTP id S230488AbiHNKMZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 13 Aug 2022 14:53:58 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A331113F0C
-        for <linux-input@vger.kernel.org>; Sat, 13 Aug 2022 11:53:57 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id d71so3364115pgc.13
-        for <linux-input@vger.kernel.org>; Sat, 13 Aug 2022 11:53:57 -0700 (PDT)
+        Sun, 14 Aug 2022 06:12:25 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBC12018E;
+        Sun, 14 Aug 2022 03:12:24 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id x21so6351105edd.3;
+        Sun, 14 Aug 2022 03:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yocom-org.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=mvPdMDyNKTfqz6k1c2rtPVKLvaBKcrbPWc8BVxjdedY=;
-        b=4gkEsyZN39qjg2vrgm0H2K6qZ5jK623yHCU69SSOXOhHjIRl+xvIhLQVZSOoFNNSRx
-         EopSx1pg28MtkHxwb0VAcDXN7kVBwsUdOgtrYuUhZoTy9Y4E6s5SeNrADtF/S7XOri/X
-         Brn0zk+x4+1XbSEMX5cAj1U+/cpJHc+YR3FGB9N4rdOgD2ai6UnB3PgCq6RFNIP0nf+M
-         lm1RiCTJTz+9D3xtg2lesy3yXMyZg8s7P4Fg1+oWGm5D9fQPjBuiEFKxpECJJhDIHlP3
-         nU+uZ9Uk8yp/vUDdIWgfwDnFw3PEaxrTprN3B1gTSxd5Ua66SkC9RAgQOsmYHPNrbo7e
-         LDXA==
+        bh=1+mb69L+xqrAYBz+n/l0oT22rgwEo4zT/GChnKSihHg=;
+        b=bhJnAPvl8dAmRl0/3Nc6acyExiSTqYLEqrbPRQJbd5QYDO21pR0LDR3ky1ftzHZU/j
+         COElbRmt8asxFYHsS1lvDLqeT1DoCUGP1Ll0odlXXVnECaaWe2XH8edFWAnEIcgGFrvw
+         vhb0H7Xf0hlfikfI1GpbP2ZahLXvXjJOMirQPpIT+KRZdJHk/HDrO3oBi5Z29hqG6unP
+         rS0PTQ6bXhtJdpeakpaJ5+Bu7wBdfbyrTXKjped8VIFZQSkl/xATXHBmFmpdnZYHuFvF
+         kwI3kXbcKYOcno4HAzsRyUguNoUMbXu7py6of5o1vIe51U8SKQTgpLlL8AzKqwalQuiL
+         rLHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=mvPdMDyNKTfqz6k1c2rtPVKLvaBKcrbPWc8BVxjdedY=;
-        b=0oOqB2Kw7YR0pjriMgELhshaXjKtBG1fi46XDp396HpcJKgb61K9ITf2lAE6NRyJC9
-         fk4iBCuUcvBHM9rep2+qNacB5bIsQX9EJsvHn6otxui4u3F7oJqwNo+gUdTe7VpP0WnF
-         PZSexhVAyU1AHPlxriaZFdZpv2sm+mdoEcbMZk3AKelVgrW980oLlNrHMsqKtpLTx/+h
-         Y+jqdmo7PUeJOj2NJ0b9RsRIqwKy/vobVwrv3SE1DuiG8XNPm6Tglj9xuJFH56i7LmAq
-         D4IeR5cRdheVnCdsEVBBh1wf9PNLieC8jz6j1Pyms7ZrLpY2Pbd1H8tb80j7+mi6Yci1
-         cLmg==
-X-Gm-Message-State: ACgBeo2jB4OZENh2ucVMTaxItR96R35aXsmnD1PzNz8bCDmygJwpfnlw
-        HPICC44gkzK8FEzgJ4A8tS23eA==
-X-Google-Smtp-Source: AA6agR5FesUCLXoh+wZtTxjFXqThlCxwVdvfpdB8EAAIMN2BxaofqW0OwwQD2aRAvbgsQeN4kpV1IQ==
-X-Received: by 2002:a05:6a00:2352:b0:52e:f0bd:981e with SMTP id j18-20020a056a00235200b0052ef0bd981emr8937778pfj.28.1660416837082;
-        Sat, 13 Aug 2022 11:53:57 -0700 (PDT)
-Received: from localhost.localdomain ([2601:600:a07f:e6ac::1c])
-        by smtp.gmail.com with ESMTPSA id fs1-20020a17090af28100b001f246f2a423sm1972183pjb.17.2022.08.13.11.53.56
+        bh=1+mb69L+xqrAYBz+n/l0oT22rgwEo4zT/GChnKSihHg=;
+        b=NlE/iGfmaKkySDItrrxLHG7pwL+wasFoYCf5+8812erk37+hePuybp4xowP1Fo3UQF
+         4w1WtjYgu8RaWUkW35hcALVO5qXH6xzHFv9N0w+hH82ebfcWUkd5YwKVRbZZKYOwCy6R
+         XeCJ9FGC1mwegPJNtYFYsV1P/9xJ4Tw81JBLxTsCz/BZ87vifUIEdrYtjeyUKRnv+Z86
+         +7sTpYe36jQzhQql7uA4jUg1t1pxbZVwwW2+iosvyFKmNXF9m7Y2hFDy90wwcRxFTr1d
+         OALJV/RErCBzzfQlLqjeElwf0ccRDkbo+4tdwHKLl9OZ0tqq1jviG9CQ+XcpBr5SOIme
+         hzDQ==
+X-Gm-Message-State: ACgBeo3ASSjLo5l07YT5val1MTEy0a+285qPY6DfjVw6rntK1x6xp3xl
+        trPZpkC+pJ89FbEtdkgtZqw=
+X-Google-Smtp-Source: AA6agR7X9N4O3WfDrYIk/VM94aaKm2o58k/Qya8E5B+4G+3yoIYZJ5fowQBFGeaSXfh59aq7b/6b1g==
+X-Received: by 2002:a05:6402:540f:b0:440:d9a4:aebf with SMTP id ev15-20020a056402540f00b00440d9a4aebfmr10251453edb.196.1660471943579;
+        Sun, 14 Aug 2022 03:12:23 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id b10-20020a0564021f0a00b0043df40e4cfdsm4488524edb.35.2022.08.14.03.12.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Aug 2022 11:53:56 -0700 (PDT)
-From:   Nate Yocom <nate@yocom.org>
-To:     dmitry.torokhov@gmail.com
-Cc:     nate@yocom.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hadess@hadess.net
-Subject: [PATCH v3 3/3] Input: joystick: xpad: Add X-Box Adaptive Controller XBox button
-Date:   Sat, 13 Aug 2022 11:53:43 -0700
-Message-Id: <20220813185343.2306-4-nate@yocom.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220813185343.2306-1-nate@yocom.org>
-References: <20220813185343.2306-1-nate@yocom.org>
+        Sun, 14 Aug 2022 03:12:23 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org,
+        Daniel Lezcano <daniel.lezcano@linexp.org>
+Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, khilman@baylibre.com,
+        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
+        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
+        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
+        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
+        baolin.wang7@gmail.com, f.fainelli@gmail.com,
+        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
+        glaroque@baylibre.com, miquel.raynal@bootlin.com,
+        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
+        matthias.bgg@gmail.com, j-keerthy@ti.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
+        <linux-input@vger.kernel.org>,
+        "moderated list:ARM/Allwinner sunXi SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/Allwinner sunXi SoC support" 
+        <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH v5 29/33] Input: sun4i-ts - switch to new of thermal API
+Date:   Sun, 14 Aug 2022 12:12:21 +0200
+Message-ID: <5746387.MhkbZ0Pkbq@jernej-laptop>
+In-Reply-To: <20220804224349.1926752-30-daniel.lezcano@linexp.org>
+References: <20220804224349.1926752-1-daniel.lezcano@linexp.org> <20220804224349.1926752-30-daniel.lezcano@linexp.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Adaptive controller sets 0x02 bit for this button, all others set 0x01
-so presence of either is used for BTN_MODE.
+Dne petek, 05. avgust 2022 ob 00:43:45 CEST je Daniel Lezcano napisal(a):
+> The thermal OF code has a new API allowing to migrate the OF
+> initialization to a simpler approach. The ops are no longer device
+> tree specific and are the generic ones provided by the core code.
+> 
+> Convert the ops to the thermal_zone_device_ops format and use the new
+> API to register the thermal zone with these generic ops.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Signed-off-by: Nate Yocom <nate@yocom.org>
----
- drivers/input/joystick/xpad.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 83a4f4d07af5..bea71721b6cd 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -859,7 +859,7 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 		if (data[1] == 0x30)
- 			xpadone_ack_mode_report(xpad, data[2]);
- 
--		input_report_key(dev, BTN_MODE, data[4] & 0x01);
-+		input_report_key(dev, BTN_MODE, data[4] & 0x03);
- 		input_sync(dev);
- 		return;
- 	}
--- 
-2.30.2
+Best regards,
+Jernej
+
 
