@@ -2,106 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8210D5953E4
-	for <lists+linux-input@lfdr.de>; Tue, 16 Aug 2022 09:35:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC738595422
+	for <lists+linux-input@lfdr.de>; Tue, 16 Aug 2022 09:52:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbiHPHfI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Aug 2022 03:35:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
+        id S232242AbiHPHwz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Aug 2022 03:52:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232248AbiHPHee (ORCPT
+        with ESMTP id S232243AbiHPHwb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Aug 2022 03:34:34 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF73D8E1C;
-        Mon, 15 Aug 2022 21:16:15 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id 17so8166685pli.0;
-        Mon, 15 Aug 2022 21:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=iMjp1pmx9d1MiBxAyaWKVDH1qY8XRo0KqTWn0WPr7nQ=;
-        b=A2NhZqXR3XwQPM2cJAjrzE7BnoX+OgI8gmYq9/Q5PnbhL/Csih7fYg/Ylu92o5vNIw
-         1A62Dfsks3IixLufu3TX2VQe1AakmnhQGpDoJMLnOeSke7y7GBilHXRLYgjHWzPH9RNZ
-         I60JX68g6qwSGW32BaApM/Dlw6sHRFdSRlGrK7JZ1lba6YGOUHitgBkzcVAc2/ez2L1V
-         8tEfdXJDeXzKMarZteEREJgG9QiTHk/5IIf/SRTGULnrLcD3D5uEg7tPtM0PwzOCISUn
-         xm4FmRWZmT77xTTehidqXkS+qHW0qzSrgwfO7HubSI41m0DugXCbtU39e4rrVaisHPw0
-         ykaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=iMjp1pmx9d1MiBxAyaWKVDH1qY8XRo0KqTWn0WPr7nQ=;
-        b=y4HDii8qfBIm6zCPSu4D/6+RM8v8ui4nIMslbyqWCKtkXkIKp8bGpp/hxcX1daeV1o
-         Y+UoSusE2iF8Z7+QHmYGGLzLUo58UyMb4tEOawcQz78YfAaSdSxfysQIFkUFm4PrYnmJ
-         dNi13PndYs5yGKSAYYd/YDi+/FEgbgzfRQjryAthefjaaSkNvRvmiRML2jcytbi3YSiv
-         EmxuhrA5gKVHjK7ykyfuQQz0RzSSQJZL2eYYZ6kmy36/ptztmqUFbQkIO6zdGs8mFdoL
-         y/pQB5i6xP9J/dx6Ot7HRcy5cgYjVuebCIEBXPlXGHq0C9zSsfaBOSHooV/Ygli3Y2sv
-         LBPg==
-X-Gm-Message-State: ACgBeo39U2RNwrq9yufC5aMKzJBTuY0nGRgwcqf301pPHcj09ojYmrHx
-        xXPVNU0pBv63W6jX6d2fNcU=
-X-Google-Smtp-Source: AA6agR5RhCQnvTQ2itDaCabXEeCUp+sazLXG8afjfgNlCq8mZOHZQLmSLSNwX0u4n7DVfhrid5KOOg==
-X-Received: by 2002:a17:903:22c1:b0:16f:3d1:f5c with SMTP id y1-20020a17090322c100b0016f03d10f5cmr20184549plg.155.1660623374584;
-        Mon, 15 Aug 2022 21:16:14 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:98d5:dcc4:68c2:c537])
-        by smtp.gmail.com with ESMTPSA id b14-20020a17090a488e00b001fa8ee8649esm645136pjh.7.2022.08.15.21.16.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 21:16:12 -0700 (PDT)
-Date:   Mon, 15 Aug 2022 21:16:10 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        linux-input@vger.kernel.org, Wolfram Sang <wsa@kernel.org>
-Subject: Re: linux-next: Tree for Aug 15 (input/misc/ibm-panel.c)
-Message-ID: <YvsaCjnkucMeyj60@google.com>
-References: <20220815122926.7fd3ac58@canb.auug.org.au>
- <0d836243-6a02-e031-961e-1e334dfd167d@infradead.org>
+        Tue, 16 Aug 2022 03:52:31 -0400
+Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C980118730A
+        for <linux-input@vger.kernel.org>; Mon, 15 Aug 2022 22:00:58 -0700 (PDT)
+Received: from [192.168.0.2] (ip5f5aec6b.dynamic.kabel-deutschland.de [95.90.236.107])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 566A861EA192A;
+        Tue, 16 Aug 2022 07:00:56 +0200 (CEST)
+Message-ID: <f9181b2b-c593-f845-5663-6154d4041360@molgen.mpg.de>
+Date:   Tue, 16 Aug 2022 07:00:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d836243-6a02-e031-961e-1e334dfd167d@infradead.org>
-X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: Re: Dell XPS 13 9310 2-in-1: psmouse serio1: synaptics: Unable to
+ query device: -5
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, Dell.Client.Kernel@dell.com,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <a075a4f7-21f6-54cf-8d97-af7f55ff4b91@molgen.mpg.de>
+ <DM6PR19MB2636B859754CFACE88F5652BFACE0@DM6PR19MB2636.namprd19.prod.outlook.com>
+ <1fe43de4-61e1-82ac-2a17-fe2adfea252a@molgen.mpg.de>
+ <DM6PR19MB2636B8F9DB38079722EA0397FACE0@DM6PR19MB2636.namprd19.prod.outlook.com>
+Content-Language: en-US
+In-Reply-To: <DM6PR19MB2636B8F9DB38079722EA0397FACE0@DM6PR19MB2636.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 15, 2022 at 06:26:43PM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 8/14/22 19:29, Stephen Rothwell wrote:
-> > Hi all,
-> > 
-> > Changes since 20220812:
-> > 
-> 
-> on x86_64:
-> 
-> when CONFIG_I2C=m and CONFIG_I2C_SLAVE=y:
-> 
-> ld: drivers/input/misc/ibm-panel.o: in function `ibm_panel_remove':
-> ibm-panel.c:(.text+0x16): undefined reference to `i2c_slave_unregister'
-> ld: drivers/input/misc/ibm-panel.o: in function `ibm_panel_probe':
-> ibm-panel.c:(.text+0x3e3): undefined reference to `i2c_slave_register'
-> ld: drivers/input/misc/ibm-panel.o: in function `ibm_panel_driver_init':
-> ibm-panel.c:(.init.text+0x18): undefined reference to `i2c_register_driver'
-> ld: drivers/input/misc/ibm-panel.o: in function `ibm_panel_driver_exit':
-> ibm-panel.c:(.exit.text+0x11): undefined reference to `i2c_del_driver'
+[Resend without attachment as linux-input@ bounced it due to exceeding 
+the size limit.]
 
-It sounds like I need to adjust the depend statement to be:
+[Cc: -Mario as he works at AMD now.; +Dell.Client.Kernel@dell.com, but I 
+never received a response from them.; +Benjamin]
 
-	depends on I2C && I2C_SLAVE
+Dear Dmitry,
 
-Thanks.
 
--- 
-Dmitry
+Am 07.12.20 um 22:09 schrieb Limonciello, Mario:
+
+>>> The messages you're seeing are harmless in this laptop.
+>>>
+>>> The laptop input is supported using the hid-multitouch and i2c-hid drivers as
+>>> noted in your messages.
+>>>
+>>> [  393.280115] input: DLL09FF:01 06CB:CE39 Touchpad as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-2/i2c- DLL09FF:01/0018:06CB:CE39.0002/input/input21
+>>> [  393.280221] hid-multitouch 0018:06CB:CE39.0002: input,hidraw1: I2C HID v1.00 Mouse [DLL09FF:01 06CB:CE39] on i2c-DLL09FF:01
+>>
+>> Where is
+>>
+>>       input: PS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input2
+>>
+>> coming from then, and what touchpad is that supposed to be?
+>>
+>> If it’s harmless, should the log level be decreased from error to debug?
+> 
+> There are two common scenarios that happen on Dell's laptops.
+> 1) Touchpads are connected to 2 buses.  Such as PS2 and i2c.
+> 2) Touchpads are connected only to 1 bus, but the EC can emulate
+> a PS/2 touchpad in the PS/2 bus until OS drivers have started up.
+> This allows using it in BIOS setup for example without an UEFI DXE
+> driver for I2C.  It's not generally safe for using it this way in
+> a general purpose operating system.
+> 
+> I don't have the schematics for the model you referred to confirm it,
+> but I suspect it's likely the second case.  In the first case you should
+> see some sort of message along the lines that the touchpad supports
+> another bus, you should make sure you have those drivers enabled.
+> 
+> The key however is that the PS/2 driver and i2c-hid drivers don't have
+> any handshake here whatsoever about what happened.  This has come
+> up several times over the years, but because there is "no negative
+> impact" to a ghost touchpad device there has been no effort by
+> anyone to fix it.  You can compile your kernel without psmouse and it
+> should then not be present.
+> 
+> In systems with the first scenario pretty much when the I2C driver
+> starts up, the PS/2 mode is turned off and you won't get traffic on
+> the bus. Because of kernel probing order you would end up with psmouse
+> mentioning it's supported by another bus probably, and then later in
+> startup the i2c one starts up.  The I2C driver can't just notify psmouse
+> it's supporting something because it can't prove the device it supports
+> now is the same one that was supported by psmouse.
+> 
+> In the second scenario you're talking about a virtual device from the EC
+> and a real device on the I2C bus.  So the notification flow is even more
+> confusing.
+> 
+> Here's my two low effort ideas:
+> 1) Adjust this so when kernel is compiled with the support for both can we
+> make psmouse wait to initialize until after i2c-hid and hid-multitouch
+> have finished?  This is probably a question for Benjamin if that would
+> actually work and it's as low effort as I think it would be.
+> 
+> 2) Downgrade all psmouse messaging to debug. Realistically modern
+> machines are no longer using psmouse in the first place. The messaging
+> benefits no one except those that have a problem with older hardware,
+> which can then be told to boot with dyndebug turned on for psmouse.
+
+Today I have seen this also on a Dell XPS 13 9370 (system firmware 
+1.15.0, 06/07/2021) with Linux 5.18.16. The message is logged on the 
+screen even with `quiet` passed – as it’s log level error, and the user 
+sees it when entering the LUKS passphrase.
+
+Which one of Mario’s suggestions do the developers prefer?
+
+
+Kind regards,
+
+Paul
