@@ -2,82 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 486085959BA
-	for <lists+linux-input@lfdr.de>; Tue, 16 Aug 2022 13:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E400595901
+	for <lists+linux-input@lfdr.de>; Tue, 16 Aug 2022 12:54:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233698AbiHPLT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Aug 2022 07:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47870 "EHLO
+        id S232587AbiHPKy3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Aug 2022 06:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiHPLTi (ORCPT
+        with ESMTP id S232298AbiHPKyF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Aug 2022 07:19:38 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B9F72620
-        for <linux-input@vger.kernel.org>; Tue, 16 Aug 2022 02:50:35 -0700 (PDT)
-Received: from fsav414.sakura.ne.jp (fsav414.sakura.ne.jp [133.242.250.113])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 27G9o4kc039290;
-        Tue, 16 Aug 2022 18:50:04 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav414.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav414.sakura.ne.jp);
- Tue, 16 Aug 2022 18:50:04 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav414.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 27G9o4vt039287
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Tue, 16 Aug 2022 18:50:04 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <2b11d0b2-0a2e-257d-34f8-37e3f69a58c5@I-love.SAKURA.ne.jp>
-Date:   Tue, 16 Aug 2022 18:50:00 +0900
+        Tue, 16 Aug 2022 06:54:05 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678C233356;
+        Tue, 16 Aug 2022 03:21:37 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id q19so8959480pfg.8;
+        Tue, 16 Aug 2022 03:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=gk5spmMleYDB5E6yzSXkYXDq0W9ZxoMNmm79ibU/KLs=;
+        b=ooUezOaJ7bL3Vrcz7k/onDIrSEwngP/K2dpLWayA1Y4TePLMi14ak10c89vlV6R4CP
+         dtKM4IdLCu2oot4iEbtUF1d8hzXt5uTYtzcN2zCoRpYZ3oOeFiIffuquuLSPI7JVhwu9
+         TX2NPbW9Tjak+H77euKPhwAffRszTQZ/4xZVUOR1PnqQs5AaMWu1AKZWE555ddu+SdHh
+         naS9ShgvLtR2wQ2Pi4iA6r3p2BgIAVLxUdfixg0mkY7dAKhLOHkGEM6ygG6EPHLnr3n5
+         jMU/J7k5w2hv71mywkRjwEEqiL/GkgpiMnzFHVZMm6MxneXLZCg+Ih0sVSJ1wXC7iQdU
+         Ob8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=gk5spmMleYDB5E6yzSXkYXDq0W9ZxoMNmm79ibU/KLs=;
+        b=e+x8vCtnKMIC7MYmAgTdAdHDB1eneWoawrZgr6f0vwVIzNzawpChqKsN/y26DtNYHs
+         h0YtfMLa+vhosVjLcFoXDuNQrMEwaKctCWiqnL2VIU0FEVNYpM2ldtHm+Z+xMCrQ8GaD
+         qlkn4Pi0iDnTefNMo+oCA+z2nBFHtQClIM0JM8+S6Mw3eP/vMnR/BixCFoTxqkjZnYfU
+         ICfdgjcQpzfn4pQCohsOsLMnRLj00uupPgr31QFBRWKiPfce1p+8CG1+LRuH8lZAgOkj
+         BpQMJJIthMJRmuE/Bsp0sEGsneGn839tCgA/ZfcxFsKGE048oT+50xA/dgg4TY4uC1rx
+         wTiQ==
+X-Gm-Message-State: ACgBeo05+iSYjDgbuY6Mc71yQnpqRoQ+fT3Yy9EGBtm+KbcnYhs9YuvE
+        XydNwcQNyKFXUPru+l8Bx5w=
+X-Google-Smtp-Source: AA6agR7uyINHbIv1zyIDimnsWbzI1puM5XJvr2Ubu7kDjkIgc56i296ZU2t2ADuN3Fdkx2wZ0ObygQ==
+X-Received: by 2002:a63:80c8:0:b0:41c:62c7:abd7 with SMTP id j191-20020a6380c8000000b0041c62c7abd7mr17611213pgd.570.1660645296906;
+        Tue, 16 Aug 2022 03:21:36 -0700 (PDT)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id 22-20020a621516000000b0052ceaba7411sm8065181pfv.125.2022.08.16.03.21.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Aug 2022 03:21:36 -0700 (PDT)
+From:   Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akihiko Odaki <akihiko.odaki@gmail.com>,
+        Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v3] AMD_SFH: Add a DMI quirk entry for Chromebooks
+Date:   Tue, 16 Aug 2022 19:21:20 +0900
+Message-Id: <20220816102120.6131-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2] Input: iforce - wake up after clearing
- IFORCE_XMIT_RUNNING flag
-Content-Language: en-US
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>, ira.weiny@intel.com,
-        Hillf Danton <hdanton@sina.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-References: <c10494c0-5da5-716d-3e62-abca5b65dd88@I-love.SAKURA.ne.jp>
- <887021c3-4f13-40ce-c8b9-aa6e09faa3a7@I-love.SAKURA.ne.jp>
-In-Reply-To: <887021c3-4f13-40ce-c8b9-aa6e09faa3a7@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Any questions?
+Google Chromebooks use Chrome OS Embedded Controller Sensor Hub instead
+of Sensor Hub Fusion and leaves MP2 uninitialized, which disables all
+functionalities, even including the registers necessary for feature
+detections.
 
-On 2022/07/27 7:00, Tetsuo Handa wrote:
-> syzbot is reporting hung task at __input_unregister_device() [1], for
-> iforce_close() waiting at wait_event_interruptible() with dev->mutex held
-> is blocking input_disconnect_device() from __input_unregister_device().
-> 
-> It seems that the cause is simply that commit c2b27ef672992a20 ("Input:
-> iforce - wait for command completion when closing the device") forgot to
-> call wake_up() after clear_bit().
-> 
-> Fix this problem by introducing a helper that calls clear_bit() followed
-> by wake_up_all().
-> 
-> Link: https://syzkaller.appspot.com/bug?extid=deb6abc36aad4008f407 [1]
-> Reported-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
-> Fixes: c2b27ef672992a20 ("Input: iforce - wait for command completion when closing the device")
-> Tested-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
-> Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> Co-developed-by: Hillf Danton <hdanton@sina.com>
-> Signed-off-by: Hillf Danton <hdanton@sina.com>
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+The behavior was observed with Lenovo ThinkPad C13 Yoga.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+index 4b90c86ee5f8..47774b9ab3de 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+@@ -288,11 +288,29 @@ int amd_sfh_irq_init(struct amd_mp2_dev *privdata)
+ 	return 0;
+ }
+ 
++static const struct dmi_system_id dmi_nodevs[] = {
++	{
++		/*
++		 * Google Chromebooks use Chrome OS Embedded Controller Sensor
++		 * Hub instead of Sensor Hub Fusion and leaves MP2
++		 * uninitialized, which disables all functionalities, even
++		 * including the registers necessary for feature detections.
++		 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
++		},
++	},
++	{ }
++};
++
+ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	struct amd_mp2_dev *privdata;
+ 	int rc;
+ 
++	if (dmi_first_match(dmi_nodevs))
++		return -ENODEV;
++
+ 	privdata = devm_kzalloc(&pdev->dev, sizeof(*privdata), GFP_KERNEL);
+ 	if (!privdata)
+ 		return -ENOMEM;
+-- 
+2.37.2
 
