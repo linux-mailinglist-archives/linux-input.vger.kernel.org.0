@@ -2,103 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCB14596D02
-	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 12:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39FE7596D1F
+	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 13:01:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238948AbiHQKuj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Aug 2022 06:50:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42940 "EHLO
+        id S239059AbiHQK5V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Aug 2022 06:57:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238839AbiHQKuf (ORCPT
+        with ESMTP id S238358AbiHQK5U (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Aug 2022 06:50:35 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F036C13A;
-        Wed, 17 Aug 2022 03:50:34 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id c24so11652272pgg.11;
-        Wed, 17 Aug 2022 03:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=5RiZpgZDUuO6MV3ALtXTmbuVcbhlGB6egOopFvdYj90=;
-        b=fNzPi2WncFTKeH2XgHbHqO3yz1RWdVZcL/3a6wAebKjrIqoAkjVoPwk7v+t+NXa4Li
-         NOKo6/ZYV6Cbrg31/a/m+Ntxb/ppYHnmzgOMsPxUzvBuuCt5y0a2CDYI6wuCLYLM5bF9
-         Vkxksy10GEdcWIZZuPGUbpTiQdqy0wZDV8n+gGCKzIdldBWGmN994Pqih5/yevIoAuHk
-         tBie1d7q5KZoKi4SddL6HNREi6cvEEHVeom7NkIJvSecw43K2pe81qJyyOBvxwV/qfMk
-         gBDcjEqGJmrpmi+41Y6QYYPG0uuPXnVZ+n/TUHrjkUfZ0z6cLaWNIQ+wQJ+//AfJe/4b
-         Y5vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=5RiZpgZDUuO6MV3ALtXTmbuVcbhlGB6egOopFvdYj90=;
-        b=kb0/QK3XKUIHoGWKHra2R2NVajdJbv+VLe89QaCluIv8ctZnlAyxfyluSSU5IQlGSH
-         FeTxfnKVdOCwddRonGhtouWLiW7by9QdRCVSIUhlZxrUktERehf5yf2Nbeq7i3YKoY9E
-         yoTNF5ey2VudZr1N96zjFsdy1hY6bVMi5FhUdh59P+6Ofpb45EkSy3zhS1IB0UfQ2wY1
-         1jhKtVPGSA3sjodBpKb0DVRU8HB0afwkpziRLApcnGPhPxnDH3ZSPwK1sH4IsccyR15h
-         6JGw3e8BoU5I6wQ0yzj++CooqNvRerfy0ituCLYxS5GoOTtFqormajvrpTmol8bitwCs
-         VZsw==
-X-Gm-Message-State: ACgBeo2NWtD5sEqseWbrEVRJA+gNKifn8VbkOBVTDzUrciOShmSExGox
-        Q4A9HgoYUZyVwt7oaQPfhtZ7oGgxqYY=
-X-Google-Smtp-Source: AA6agR6v/qaKXALKSRCgB2FvuUcNiNmRImMFtCzuegTfY64K6w8+f2ca/C2oUByGIo4KEIPNsYUC8Q==
-X-Received: by 2002:a05:6a00:1a47:b0:52e:6a8c:5430 with SMTP id h7-20020a056a001a4700b0052e6a8c5430mr24537458pfv.48.1660733434041;
-        Wed, 17 Aug 2022 03:50:34 -0700 (PDT)
-Received: from fedora.. ([49.49.237.218])
-        by smtp.googlemail.com with ESMTPSA id n8-20020a170902d2c800b00172897952a0sm1152033plc.283.2022.08.17.03.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 03:50:33 -0700 (PDT)
-From:   Supasak Sutha <blur.3rd@gmail.com>
-Cc:     blur.3rd@gmail.com, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: magicmouse: Add parameter to be able to adjust middle button position.
-Date:   Wed, 17 Aug 2022 17:50:13 +0700
-Message-Id: <20220817105013.28036-1-blur.3rd@gmail.com>
+        Wed, 17 Aug 2022 06:57:20 -0400
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD9C863F10;
+        Wed, 17 Aug 2022 03:57:18 -0700 (PDT)
+Received: (Authenticated sender: contact@artur-rojek.eu)
+        by mail.gandi.net (Postfix) with ESMTPSA id 64194200002;
+        Wed, 17 Aug 2022 10:57:15 +0000 (UTC)
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Paul Cercueil <paul@crapouillou.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chris Morgan <macromorgan@hotmail.com>
+Cc:     linux-mips@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Artur Rojek <contact@artur-rojek.eu>
+Subject: [PATCH 0/4] iio/adc-joystick: buffer data parsing fixes
+Date:   Wed, 17 Aug 2022 12:56:39 +0200
+Message-Id: <20220817105643.95710-1-contact@artur-rojek.eu>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Apparently the driver fixed the offset of middle button to [-350, +350].
-Which separated the area to 3 equally space for 3 buttons.
-Lead to a lot of mis-clicking as the magicmouse has no real button.
-Users should be able to adjust the buttons to suite their fingers.
+Hi all,
 
-This patch add parameters to adjust theses offsets,
-while keeping the default values to [-350, +350].
+this patch set fixes the way channel data is being parsed in the
+adc-joystick driver. To achieve that, it also introduces helpers in the
+IIO subsystem. As a side effect of those changes, a bug in ingenic-adc
+has been exposed, which this patch set promptly rectifies.
 
-Signed-off-by: Supasak Sutha <blur.3rd@gmail.com>
----
- drivers/hid/hid-magicmouse.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Tested on GCW Zero (by me) and on Anbernic RG350 (by Paul).
 
-diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index 664a624a363d..9709085647fb 100644
---- a/drivers/hid/hid-magicmouse.c
-+++ b/drivers/hid/hid-magicmouse.c
-@@ -25,7 +25,12 @@ module_param(emulate_3button, bool, 0644);
- MODULE_PARM_DESC(emulate_3button, "Emulate a middle button");
- 
- static int middle_button_start = -350;
-+module_param(middle_button_start, int, 0644);
-+MODULE_PARM_DESC(middle_button_start, "Middle button beginning offset");
-+
- static int middle_button_stop = +350;
-+module_param(middle_button_stop, int, 0644);
-+MODULE_PARM_DESC(middle_button_stop, "Middle button end offset");
- 
- static bool emulate_scroll_wheel = true;
- module_param(emulate_scroll_wheel, bool, 0644);
+Chris:
+As you have originally reported the issue, would you be able to test
+the above changes on your setup (Odroid Go Advance, was it)?
+
+Artur Rojek (4):
+  iio/adc: ingenic: fix channel offsets in buffer
+  iio: add iio_channel_cb_get_iio_buffer helper
+  iio: add helper function for reading channel offset in buffer
+  input: joystick: Fix buffer data parsing
+
+ drivers/iio/adc/ingenic-adc.c               |  7 +++---
+ drivers/iio/buffer/industrialio-buffer-cb.c |  7 ++++++
+ drivers/iio/industrialio-buffer.c           | 28 +++++++++++++++++++++
+ drivers/input/joystick/adc-joystick.c       | 26 ++++++++++++-------
+ include/linux/iio/buffer.h                  |  4 +++
+ include/linux/iio/consumer.h                | 12 +++++++++
+ 6 files changed, 71 insertions(+), 13 deletions(-)
+
 -- 
-2.37.1
+2.37.2
 
