@@ -2,128 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9367596D29
-	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 13:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D4A3596DAC
+	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 13:41:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239093AbiHQK5a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Aug 2022 06:57:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52928 "EHLO
+        id S231751AbiHQLgi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Aug 2022 07:36:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239085AbiHQK50 (ORCPT
+        with ESMTP id S229749AbiHQLgh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Aug 2022 06:57:26 -0400
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56439647E8;
-        Wed, 17 Aug 2022 03:57:25 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPSA id 9002B200009;
-        Wed, 17 Aug 2022 10:57:22 +0000 (UTC)
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chris Morgan <macromorgan@hotmail.com>
-Cc:     linux-mips@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Artur Rojek <contact@artur-rojek.eu>
-Subject: [PATCH 4/4] input: joystick: Fix buffer data parsing
-Date:   Wed, 17 Aug 2022 12:56:43 +0200
-Message-Id: <20220817105643.95710-5-contact@artur-rojek.eu>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220817105643.95710-1-contact@artur-rojek.eu>
-References: <20220817105643.95710-1-contact@artur-rojek.eu>
+        Wed, 17 Aug 2022 07:36:37 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7247823C
+        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 04:36:36 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id t5so17088251edc.11
+        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 04:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=yngvason-is.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=gyCEOVo27wLAgzpJn/UaSXEoHE1DuPy7RQEOcX5blIE=;
+        b=nn7x/cIq+VkVCFcfZyzJrstcEcSjIV97WfYHTP5kVbXF5dD8ibTaZvULLDBt3wdd6+
+         10RQ8VOwKs1Yqwk5SL6gaJwT+pMkTtNYIN/XCaXtu+YZYxYV5HiiykAnJkOkcJeyHcrq
+         1aRQqfsZYuMKVnT1IV7A0S4jzwBncL4D7Y0vGxSpu/NRZg2tAljtAO52MsJScz7s1tr2
+         c2vtMtRzOCkXlQnUkVPBrB/u9F8oyQ8eGTvjd+siO9mDwbPqwkvusNe/1HDuMdw76rWe
+         BBV3Vag3hxlj09PFPXgzfxTvfP5lKyQ5xVe5HaYQPRoZZLhialdn1X0JXEJuDKtVTIo7
+         ewwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=gyCEOVo27wLAgzpJn/UaSXEoHE1DuPy7RQEOcX5blIE=;
+        b=isWNeuxDVbnSCRvJLo7bIugK00uS8iuo0c1aZPoHEQiW2Yo+4NciDK+QfoJqNGRvur
+         LvOU4Whrjm0mk1LoN3v6Xy4dV/gFhG3cqnSQkU+AQ1QBaN0PeNBAr21+UdBRHLeTLSNd
+         4YClSCo4Ij5set0z0dTIr9CyojdPwBubBoGk1352mOnH94iaAGC4sjGlagxMW9lpUHky
+         u5K7YQiEHs66MgWL96IAOer+XRMpAt+jqgEBw/T5CEA614If+RI9vKaRIh5xuUZV6rhJ
+         B+g2lCy8/nUCBd009aKpTAPL+pXovxCdzk1YLXA9McAsP/ptsh0I0zmB+QYDZYk8hCkp
+         s/ug==
+X-Gm-Message-State: ACgBeo30qeP60YnOflEnDUXDv5TzCY5nfUXqrUPAnE3JSW0G4ST470ts
+        BGvmGOYVzs6CE3wPsOaojVuL+g==
+X-Google-Smtp-Source: AA6agR46lmxLDl89sLkMTDpz4VMKopvL77Xlq+20zuQfkQ9REJE26TM/e5d9N3EssFxeBTHHGcfL/A==
+X-Received: by 2002:a05:6402:f0e:b0:43d:61d6:bff9 with SMTP id i14-20020a0564020f0e00b0043d61d6bff9mr22139057eda.78.1660736194525;
+        Wed, 17 Aug 2022 04:36:34 -0700 (PDT)
+Received: from andri-workstation.turninn.appdynamic.com ([2a01:8280:aa07:ad:7285:c2ff:fef0:4baf])
+        by smtp.gmail.com with ESMTPSA id qn16-20020a170907211000b007330204dccdsm6780318ejb.140.2022.08.17.04.36.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 04:36:33 -0700 (PDT)
+From:   Andri Yngvason <andri@yngvason.is>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, Andri Yngvason <andri@yngvason.is>,
+        stable@vger.kernel.org
+Subject: [PATCH RESEND] HID: multitouch: Add memory barriers
+Date:   Wed, 17 Aug 2022 11:32:48 +0000
+Message-Id: <20220817113247.3530979-1-andri@yngvason.is>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Don't try to access buffer data of a channel by its scan index. Instead,
-use the newly introduced `iio_find_channel_offset_in_buffer` to get the
-correct data offset.
+This fixes a race with the release-timer by adding acquire/release
+barrier semantics.
 
-The scan index of a channel does not represent its position in a buffer,
-as the buffer will contain data for enabled channels only, affecting
-data offsets and alignment.
+I noticed that contacts were sometimes sticking, even with the "sticky
+fingers" quirk enabled. This fixes that problem.
 
-Fixes: 2c2b364fddd5 ("Input: joystick - add ADC attached joystick driver.")
-Reported-by: Chris Morgan <macromorgan@hotmail.com>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+Cc: stable@vger.kernel.org
+Signed-off-by: Andri Yngvason <andri@yngvason.is>
 ---
- drivers/input/joystick/adc-joystick.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ drivers/hid/hid-multitouch.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-index c0deff5d4282..aed853ebe1d1 100644
---- a/drivers/input/joystick/adc-joystick.c
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -6,6 +6,7 @@
- #include <linux/ctype.h>
- #include <linux/input.h>
- #include <linux/iio/iio.h>
-+#include <linux/iio/buffer.h>
- #include <linux/iio/consumer.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-@@ -46,36 +47,43 @@ static void adc_joystick_poll(struct input_dev *input)
- static int adc_joystick_handle(const void *data, void *private)
- {
- 	struct adc_joystick *joy = private;
-+	struct iio_buffer *buffer;
- 	enum iio_endian endianness;
--	int bytes, msb, val, idx, i;
--	const u16 *data_u16;
-+	int bytes, msb, val, off;
-+	const u8 *chan_data;
-+	unsigned int i;
- 	bool sign;
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 2e72922e36f5..91a4d3fc30e0 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1186,7 +1186,7 @@ static void mt_touch_report(struct hid_device *hid,
+ 	int contact_count = -1;
  
- 	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
+ 	/* sticky fingers release in progress, abort */
+-	if (test_and_set_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
++	if (test_and_set_bit_lock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
+ 		return;
  
- 	for (i = 0; i < joy->num_chans; ++i) {
--		idx = joy->chans[i].channel->scan_index;
- 		endianness = joy->chans[i].channel->scan_type.endianness;
- 		msb = joy->chans[i].channel->scan_type.realbits - 1;
- 		sign = tolower(joy->chans[i].channel->scan_type.sign) == 's';
-+		buffer = iio_channel_cb_get_iio_buffer(joy->buffer);
-+		off = iio_find_channel_offset_in_buffer(joy->chans[i].indio_dev,
-+							joy->chans[i].channel,
-+							buffer);
-+		if (off < 0)
-+			return off;
-+
-+		chan_data = (const u8 *)data + off;
+ 	scantime = *app->scantime;
+@@ -1267,7 +1267,7 @@ static void mt_touch_report(struct hid_device *hid,
+ 			del_timer(&td->release_timer);
+ 	}
  
- 		switch (bytes) {
- 		case 1:
--			val = ((const u8 *)data)[idx];
-+			val = *chan_data;
- 			break;
- 		case 2:
--			data_u16 = (const u16 *)data + idx;
--
- 			/*
- 			 * Data is aligned to the sample size by IIO core.
- 			 * Call `get_unaligned_xe16` to hide type casting.
- 			 */
- 			if (endianness == IIO_BE)
--				val = get_unaligned_be16(data_u16);
-+				val = get_unaligned_be16(chan_data);
- 			else if (endianness == IIO_LE)
--				val = get_unaligned_le16(data_u16);
-+				val = get_unaligned_le16(chan_data);
- 			else /* IIO_CPU */
--				val = *data_u16;
-+				val = *(const u16 *)chan_data;
- 			break;
- 		default:
- 			return -EINVAL;
+-	clear_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
++	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
+ }
+ 
+ static int mt_touch_input_configured(struct hid_device *hdev,
+@@ -1699,11 +1699,11 @@ static void mt_expired_timeout(struct timer_list *t)
+ 	 * An input report came in just before we release the sticky fingers,
+ 	 * it will take care of the sticky fingers.
+ 	 */
+-	if (test_and_set_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
++	if (test_and_set_bit_lock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
+ 		return;
+ 	if (test_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags))
+ 		mt_release_contacts(hdev);
+-	clear_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
++	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
+ }
+ 
+ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
 -- 
-2.37.2
+2.37.1
 
