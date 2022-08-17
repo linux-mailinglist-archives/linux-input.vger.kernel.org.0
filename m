@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28F53597557
-	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 19:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C934597555
+	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 19:56:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238429AbiHQRvm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Aug 2022 13:51:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58530 "EHLO
+        id S240402AbiHQRvn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Aug 2022 13:51:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238326AbiHQRvl (ORCPT
+        with ESMTP id S240128AbiHQRvm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Aug 2022 13:51:41 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63647B786
-        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 10:51:39 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id s5-20020a17090a13c500b001f4da9ffe5fso2486581pjf.5
-        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 10:51:39 -0700 (PDT)
+        Wed, 17 Aug 2022 13:51:42 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502497B786
+        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 10:51:41 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id o5-20020a17090a3d4500b001ef76490983so2638214pjf.2
+        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 10:51:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=yocom-org.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=Rm03kdd5pGdzOHdddpGCv8ErrczhXETsQw8dLYIZL0M=;
-        b=1uPKWl+apyqatLAu66fj0JNNHmuDuVVQccZvz5HSwyetKNz9JnbhyZIVDm1Hj4Ltry
-         5cwbKmpezbMiIbaV3Mf2hrzArnOK+45hBOvHLh66sSzCvGr+kfGTwWyfFf558whTM0I7
-         jSH5+kpUiTlx+hmETztwQJqEme/XafLd5keDmK6wPlKI219bd4L2g4hcVN6oOipGWe/o
-         n/tiot5+yh/Dv0i7YJQX4HhzBoKuFGwlS96rdTo1dYx9BQw5QMGBjng+JZmQl+axvam2
-         0mXpqKZnrc2CIafBo9646ZTEJHVw9cnP5byCMfkKsCbRq4cF94pIZrOM4niGgiiD7TCA
-         2xww==
+        bh=Wm0tHJqofpxXwdDseHL/uJ/+OrgW8gnJ90ltIhdcZZ0=;
+        b=RWQZoIk7J8VvXclA1u1mR1aNYk0pV40udcWTXfL+88lFOmAsZcVOO2nDhTc/1h7dIy
+         M5gb7K+jQ80pdHhsaxS52T04c9wN5cOSWNu7J6BQqpsWJzav+Zeg4F9fzWL63p0Tv02D
+         XCFJF4NBZnPgplNiBMQx19sDsa54kJUV2e3Xw8IWgq4RKPQOWLE6v4N6Qbqb5AFT2zje
+         Se+vQMtcMPYT7Z5gqTnDPPMS7USyxh3XR4MzMvCSzzScHtAs7HUwEyhrSdIim8LQvRak
+         9LliQnQ2tLI+tLZg39yFFNwsTmpcHpz6NfzztyVCRLZNtrL9L1S9rZV/z/TPrlkmlQJT
+         SLCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=Rm03kdd5pGdzOHdddpGCv8ErrczhXETsQw8dLYIZL0M=;
-        b=tbx4ukUe8V5XIhokU/ZZttS93dxNNmfusy2dbQ1fGSrREcHZJOQoEFSFFUvPnpEOfh
-         bYdJ2W+pA3mjMplB8+elIIdcXx+g8zf56BuPQ3EaWRRayrjwLk2zY8SaAct4Fdsaacw9
-         qOkf9tNhVv7GgDj/UG/Kin0gZhLLx97UimAUf9/wSggJ4J99PwirDjUr3BUlCuTDsopa
-         JwDrQ0FgFjQTluwdwhFBoW5i0XXm6RCHuEUwXDEZacpEFdQdSLRaVNYJkAmIy0m1MuuD
-         gF/39CDLTaAoExyLNRY3FitrjBd2ZB2HixRGTru3WMUisl7XPgw6i29OQt9efauLiGM9
-         MptA==
-X-Gm-Message-State: ACgBeo0dqR4UsNoOPhn7j9D/JdKzO9eL6BNAAhLTJUqr+pW6ecV/izEl
-        nhy01YLwRXFmQXgLpgkZwxfmgw==
-X-Google-Smtp-Source: AA6agR6TLuX0lYssHXw9af8lp2B1LND3h0QRniPS5UVzXlF9zI1nlmYE0VtjJu6SENiEqfXr4mehvQ==
-X-Received: by 2002:a17:903:22c7:b0:171:516d:d2a4 with SMTP id y7-20020a17090322c700b00171516dd2a4mr27699865plg.98.1660758699407;
-        Wed, 17 Aug 2022 10:51:39 -0700 (PDT)
+        bh=Wm0tHJqofpxXwdDseHL/uJ/+OrgW8gnJ90ltIhdcZZ0=;
+        b=zRzJ8AhunWMCe4Vo1/X4Rr1pUpurysoR2lWgr9AH7ISLgXL+YB3gyiluUPVE1EKvby
+         +PmLveo1LK+ySOt+wScK3ery1eJQf3BezX0BWGwtAWMLPjmxSY0o8//ijXA30II0RXFE
+         N3p2kuGLhTPNYSwcJTOFYrFGURNwAFJEqXTePtRmPdziWMQ4nNaN4PTqdRd1Qs8JUZvE
+         qTzNgkqH+hQRNtvgTaGWS7pjlPzXCTsJu86GoTzPJimxZMkPua1q4eXAVSfJIY84vkQg
+         xi6s/yZz9MjthbI/LndE7Rr3eNKWFWT/aJERUNYOSmD0U/w0hdjM5R9dyged9ffLjrb8
+         ztMg==
+X-Gm-Message-State: ACgBeo07qojugwm3pmkwWG9/2vmNtMCr/gLkw8DyVZYmMUzG2676k8PQ
+        Wn7mM4wubQ1uEMSUQQ106B8taA==
+X-Google-Smtp-Source: AA6agR63v1wAt+8uIVJ71lOT9FWq5Tr4DTfCyM176tZv1KzizQ6Zb+GE2LCVdurejoOxm6ddtV/LKw==
+X-Received: by 2002:a17:902:8d8a:b0:16f:21fb:b97a with SMTP id v10-20020a1709028d8a00b0016f21fbb97amr27396985plo.160.1660758700773;
+        Wed, 17 Aug 2022 10:51:40 -0700 (PDT)
 Received: from localhost.localdomain ([2601:600:8f80:973::5f])
-        by smtp.gmail.com with ESMTPSA id z29-20020aa7991d000000b0052f0a616a87sm10734127pff.168.2022.08.17.10.51.38
+        by smtp.gmail.com with ESMTPSA id z29-20020aa7991d000000b0052f0a616a87sm10734127pff.168.2022.08.17.10.51.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 10:51:38 -0700 (PDT)
+        Wed, 17 Aug 2022 10:51:40 -0700 (PDT)
 From:   Nate Yocom <nate@yocom.org>
 To:     dmitry.torokhov@gmail.com
 Cc:     nate@yocom.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, hadess@hadess.net
-Subject: [PATCH v4 2/3] Input: joystick: xpad: Add X-Box Adaptive Controller Profile button
-Date:   Wed, 17 Aug 2022 10:51:33 -0700
-Message-Id: <20220817175134.15084-3-nate@yocom.org>
+Subject: [PATCH v4 3/3] Input: joystick: xpad: Add X-Box Adaptive Controller XBox button
+Date:   Wed, 17 Aug 2022 10:51:34 -0700
+Message-Id: <20220817175134.15084-4-nate@yocom.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220817175134.15084-1-nate@yocom.org>
 References: <20220817175134.15084-1-nate@yocom.org>
@@ -70,68 +70,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Adds a new quirk for controllers that have a Profile button which has 4
-states, reflected as an ABS_MISC axis with 4 values.
+Adaptive controller sets 0x02 bit for this button, all others set 0x01
+so presence of either is used for BTN_MODE.
 
 Signed-off-by: Nate Yocom <nate@yocom.org>
 Tested-by: Bastien Nocera <hadess@hadess.net>
 ---
- drivers/input/joystick/xpad.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/input/joystick/xpad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index c8b38bb73d34..561e097396fb 100644
+index 561e097396fb..f65e8b1d46e2 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
-@@ -80,6 +80,7 @@
- #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
- #define MAP_STICKS_TO_NULL		(1 << 2)
- #define MAP_SELECT_BUTTON		(1 << 3)
-+#define MAP_PROFILE_BUTTON		(1 << 4)
- #define DANCEPAD_MAP_CONFIG	(MAP_DPAD_TO_BUTTONS |			\
- 				MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
+@@ -859,7 +859,7 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
+ 		if (data[1] == 0x30)
+ 			xpadone_ack_mode_report(xpad, data[2]);
  
-@@ -131,7 +132,7 @@ static const struct xpad_device {
- 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
--	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", 0, XTYPE_XBOXONE },
-+	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_PROFILE_BUTTON, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
- 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
-@@ -927,6 +928,10 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 				 (__u16) le16_to_cpup((__le16 *)(data + 8)));
+-		input_report_key(dev, BTN_MODE, data[4] & 0x01);
++		input_report_key(dev, BTN_MODE, data[4] & 0x03);
+ 		input_sync(dev);
+ 		return;
  	}
- 
-+	/* Profile button has a value of 0-4, so it is reported as an axis */
-+	if (xpad->mapping & MAP_PROFILE_BUTTON)
-+		input_report_abs(dev, ABS_MISC, data[34]);
-+
- 	input_sync(dev);
- }
- 
-@@ -1623,6 +1628,9 @@ static void xpad_set_up_abs(struct input_dev *input_dev, signed short abs)
- 	case ABS_HAT0Y:	/* the d-pad (only if dpad is mapped to axes */
- 		input_set_abs_params(input_dev, abs, -1, 1, 0, 0);
- 		break;
-+	case ABS_MISC: /* 4 value profile button (such as on XAC) */
-+		input_set_abs_params(input_dev, abs, 0, 4, 0, 0);
-+		break;
- 	default:
- 		input_set_abs_params(input_dev, abs, 0, 0, 0, 0);
- 		break;
-@@ -1715,6 +1723,10 @@ static int xpad_init_input(struct usb_xpad *xpad)
- 			xpad_set_up_abs(input_dev, xpad_abs_triggers[i]);
- 	}
- 
-+	/* setup profile button as an axis with 4 possible values */
-+	if (xpad->mapping & MAP_PROFILE_BUTTON)
-+		xpad_set_up_abs(input_dev, ABS_MISC);
-+
- 	error = xpad_init_ff(xpad);
- 	if (error)
- 		goto err_free_input;
 -- 
 2.30.2
 
