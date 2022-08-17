@@ -2,71 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D51E3597550
-	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 19:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA067597559
+	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 19:56:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237505AbiHQRsW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Aug 2022 13:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52214 "EHLO
+        id S238014AbiHQRvj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Aug 2022 13:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237202AbiHQRsV (ORCPT
+        with ESMTP id S229712AbiHQRvi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Aug 2022 13:48:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0976F13D6C;
-        Wed, 17 Aug 2022 10:48:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B7246B81D4C;
-        Wed, 17 Aug 2022 17:48:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 219A4C433D6;
-        Wed, 17 Aug 2022 17:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660758498;
-        bh=oGNYkVCpNdKqGzZ/A1v7/SNpGbfJg9/ChuTQsjENTVA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=icwLAD23/E4FKYmJ2m+WIryEl7O0qXny0tJX91xTkdyue6WKcy7Fl+/Ap31B7RGeb
-         Pv4zhjOzBX4YqFTFXqGhZk6gfy7JkwZA/t+3HElHF1eNHGJmu3Bz7D3IuLr01OogxA
-         4kJyUtgnLkonm66jD+zPcrJ7//x+h2nq8OHnP3/0=
-Date:   Wed, 17 Aug 2022 19:48:15 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Andri Yngvason <andri@yngvason.is>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] HID: multitouch: Add memory barriers
-Message-ID: <Yv0p38x60vE7WLry@kroah.com>
-References: <20220817173234.3564543-1-andri@yngvason.is>
+        Wed, 17 Aug 2022 13:51:38 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5257A75A
+        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 10:51:37 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d16so12590195pll.11
+        for <linux-input@vger.kernel.org>; Wed, 17 Aug 2022 10:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=yocom-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=kWck20S1B+F14QNxCoJfAR+/3TD94IN6T9hA3skKazc=;
+        b=GXH9jSMPPj0o5jJEYkmfhqF7ueKW2cVKn5uh7+RxeTQWuYByj4vGGyqPH6i0mhj5cz
+         mfGUvN8CWxJGdJ/ICESAHxubo2RBuu5lcCX2w7Iv8vNe3yrYCTjpUnfKkgON3lGRSzWC
+         9UUIvAtWE8REDTU+FFo46bIrT4szc86T8Cv73RVOcKZEM/Evy802fBjGSle4DQDdp7dL
+         XFq/gz/YEW35sSql3gwF0yQM6gg4s9LzTF48yBvdxXRdvWqM6iR+zJRWLCEWKTeExiwT
+         9wgbpLoBgMkA83yJ6KAwrMVBnKUjJTa4tlSsAAaL2lRs/k+bNAJfey1AYeUOWdyi36hG
+         n5+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=kWck20S1B+F14QNxCoJfAR+/3TD94IN6T9hA3skKazc=;
+        b=E00ULkflg9Zn5RQ36fK4c2ArxYDXa7Q1U5YsUMVwZh+91uq5XcS5WqgP1wMw1gpk37
+         lhKQ1sp63b3yygMTjs7PN60BDoDr/biQGq7b4xD7hb8dRlnX3OL7KQJeoofpwhyhST7X
+         SKUC+2bWq9gbRWZ8ryis9aGPN3lQQTz6secNJb+1AGjDg5CKtxYUSR2Hf65RrKMUs8y5
+         l1/IZZ0dRWxaNMZM/YrdDi/AExYMSqiVRY//nxqbL9rvXjzFsap3HXQYdjaEtNQbYvQK
+         LhhOX1xr+vXWBgLjy00aPKCUhi/MT7/EHFcB57HwbRjzbqeNrE5uOQikvEyTfwJrmedY
+         ivTw==
+X-Gm-Message-State: ACgBeo1A8m/ILwEug3a49XvXL5revrJEXrh14KScYna9wdZWPpe0kFNQ
+        YpGaO+en7zOXDy9fewpXHLxlIQ==
+X-Google-Smtp-Source: AA6agR5ZYLi82ql41LRFSL9bT86RXgUa8FyjSpMspI7A3p4dVht9dllCbmBkniKzTS6fRHwZiL+LiQ==
+X-Received: by 2002:a17:90b:278b:b0:1f7:66b6:a86d with SMTP id pw11-20020a17090b278b00b001f766b6a86dmr4940147pjb.115.1660758697173;
+        Wed, 17 Aug 2022 10:51:37 -0700 (PDT)
+Received: from localhost.localdomain ([2601:600:8f80:973::5f])
+        by smtp.gmail.com with ESMTPSA id z29-20020aa7991d000000b0052f0a616a87sm10734127pff.168.2022.08.17.10.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 10:51:36 -0700 (PDT)
+From:   Nate Yocom <nate@yocom.org>
+To:     dmitry.torokhov@gmail.com
+Cc:     nate@yocom.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hadess@hadess.net
+Subject: [PATCH v4 0/3] Input: joystick: xpad: Add X-Box Adaptive Controller support
+Date:   Wed, 17 Aug 2022 10:51:31 -0700
+Message-Id: <20220817175134.15084-1-nate@yocom.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220817173234.3564543-1-andri@yngvason.is>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 17, 2022 at 05:32:35PM +0000, Andri Yngvason wrote:
-> This fixes broken atomic checks which cause a race between the
-> release-timer and processing of hid input.
-> 
-> I noticed that contacts were sometimes sticking, even with the "sticky
-> fingers" quirk enabled. This fixes that problem.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 9609827458c37d7b2c37f2a9255631c603a5004c
+Adds support for the X-Box Adaptive Controller, which is protocol
+compatible with the XTYPE_XBOXONE support in the driver with two deltas:
 
-Close, but not quite.  The documentation says how to format this, it
-should look like:
+ - The X-Box button sets 0x02 as its activation ID, where others set
+   0x01
+ - The controller has an additional Profile button with 4 active states,
+   which this change maps to an Axis control with 4 possible values
 
-Fixes: 9609827458c3 ("HID: multitouch: optimize the sticky fingers timer")
+Patch series adds device to the supported table, adds support for the
+Profile button, and adds support for the X-Box button as distinct changes.
 
-thanks,
+Signed-off-by: Nate Yocom <nate@yocom.org>
 
-greg k-h
+Nate Yocom (3):
+  Input: joystick: xpad: Add X-Box Adaptive Controller support
+  Input: joystick: xpad: Add X-Box Adaptive Controller Profile button
+  Input: joystick: xpad: Add X-Box Adaptive Controller XBox button
+
+ v2: Fix warning Reported-by: kernel test robot <lkp@intel.com>
+ v3: Break into multi-part and remove VID/PID check for XBox button
+ v4: Rename Layer -> Profile as suggested by Bastien Nocera <hadess@hadess.net>
+
+ drivers/input/joystick/xpad.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+
+base-commit: 15205c2829ca2cbb5ece5ceaafe1171a8470e62b
+-- 
+2.30.2
+
