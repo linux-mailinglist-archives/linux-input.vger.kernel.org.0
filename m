@@ -2,63 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E36596CE0
-	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 12:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCB14596D02
+	for <lists+linux-input@lfdr.de>; Wed, 17 Aug 2022 12:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235637AbiHQKhk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Aug 2022 06:37:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42310 "EHLO
+        id S238948AbiHQKuj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Aug 2022 06:50:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236037AbiHQKhi (ORCPT
+        with ESMTP id S238839AbiHQKuf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Aug 2022 06:37:38 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D01152FC4;
-        Wed, 17 Aug 2022 03:37:36 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id EA13740006;
-        Wed, 17 Aug 2022 10:37:34 +0000 (UTC)
-Message-ID: <2a521e4f327778e390f344da16c9df0b6dea82fb.camel@hadess.net>
-Subject: Re: [PATCH v3 3/3] Input: joystick: xpad: Add X-Box Adaptive
- Controller XBox button
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Nate Yocom <nate@yocom.org>, dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed, 17 Aug 2022 12:37:34 +0200
-In-Reply-To: <20220813185343.2306-4-nate@yocom.org>
-References: <20220813185343.2306-1-nate@yocom.org>
-         <20220813185343.2306-4-nate@yocom.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        Wed, 17 Aug 2022 06:50:35 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F036C13A;
+        Wed, 17 Aug 2022 03:50:34 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id c24so11652272pgg.11;
+        Wed, 17 Aug 2022 03:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=5RiZpgZDUuO6MV3ALtXTmbuVcbhlGB6egOopFvdYj90=;
+        b=fNzPi2WncFTKeH2XgHbHqO3yz1RWdVZcL/3a6wAebKjrIqoAkjVoPwk7v+t+NXa4Li
+         NOKo6/ZYV6Cbrg31/a/m+Ntxb/ppYHnmzgOMsPxUzvBuuCt5y0a2CDYI6wuCLYLM5bF9
+         Vkxksy10GEdcWIZZuPGUbpTiQdqy0wZDV8n+gGCKzIdldBWGmN994Pqih5/yevIoAuHk
+         tBie1d7q5KZoKi4SddL6HNREi6cvEEHVeom7NkIJvSecw43K2pe81qJyyOBvxwV/qfMk
+         gBDcjEqGJmrpmi+41Y6QYYPG0uuPXnVZ+n/TUHrjkUfZ0z6cLaWNIQ+wQJ+//AfJe/4b
+         Y5vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=5RiZpgZDUuO6MV3ALtXTmbuVcbhlGB6egOopFvdYj90=;
+        b=kb0/QK3XKUIHoGWKHra2R2NVajdJbv+VLe89QaCluIv8ctZnlAyxfyluSSU5IQlGSH
+         FeTxfnKVdOCwddRonGhtouWLiW7by9QdRCVSIUhlZxrUktERehf5yf2Nbeq7i3YKoY9E
+         yoTNF5ey2VudZr1N96zjFsdy1hY6bVMi5FhUdh59P+6Ofpb45EkSy3zhS1IB0UfQ2wY1
+         1jhKtVPGSA3sjodBpKb0DVRU8HB0afwkpziRLApcnGPhPxnDH3ZSPwK1sH4IsccyR15h
+         6JGw3e8BoU5I6wQ0yzj++CooqNvRerfy0ituCLYxS5GoOTtFqormajvrpTmol8bitwCs
+         VZsw==
+X-Gm-Message-State: ACgBeo2NWtD5sEqseWbrEVRJA+gNKifn8VbkOBVTDzUrciOShmSExGox
+        Q4A9HgoYUZyVwt7oaQPfhtZ7oGgxqYY=
+X-Google-Smtp-Source: AA6agR6v/qaKXALKSRCgB2FvuUcNiNmRImMFtCzuegTfY64K6w8+f2ca/C2oUByGIo4KEIPNsYUC8Q==
+X-Received: by 2002:a05:6a00:1a47:b0:52e:6a8c:5430 with SMTP id h7-20020a056a001a4700b0052e6a8c5430mr24537458pfv.48.1660733434041;
+        Wed, 17 Aug 2022 03:50:34 -0700 (PDT)
+Received: from fedora.. ([49.49.237.218])
+        by smtp.googlemail.com with ESMTPSA id n8-20020a170902d2c800b00172897952a0sm1152033plc.283.2022.08.17.03.50.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 03:50:33 -0700 (PDT)
+From:   Supasak Sutha <blur.3rd@gmail.com>
+Cc:     blur.3rd@gmail.com, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: magicmouse: Add parameter to be able to adjust middle button position.
+Date:   Wed, 17 Aug 2022 17:50:13 +0700
+Message-Id: <20220817105013.28036-1-blur.3rd@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gU2F0LCAyMDIyLTA4LTEzIGF0IDExOjUzIC0wNzAwLCBOYXRlIFlvY29tIHdyb3RlOgo+IEFk
-YXB0aXZlIGNvbnRyb2xsZXIgc2V0cyAweDAyIGJpdCBmb3IgdGhpcyBidXR0b24sIGFsbCBvdGhl
-cnMgc2V0Cj4gMHgwMQo+IHNvIHByZXNlbmNlIG9mIGVpdGhlciBpcyB1c2VkIGZvciBCVE5fTU9E
-RS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBOYXRlIFlvY29tIDxuYXRlQHlvY29tLm9yZz4KClRlc3Rl
-ZC1ieTogQmFzdGllbiBOb2NlcmEgPGhhZGVzc0BoYWRlc3MubmV0PgoKPiAtLS0KPiDCoGRyaXZl
-cnMvaW5wdXQvam95c3RpY2sveHBhZC5jIHwgMiArLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQv
-am95c3RpY2sveHBhZC5jCj4gYi9kcml2ZXJzL2lucHV0L2pveXN0aWNrL3hwYWQuYwo+IGluZGV4
-IDgzYTRmNGQwN2FmNS4uYmVhNzE3MjFiNmNkIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvaW5wdXQv
-am95c3RpY2sveHBhZC5jCj4gKysrIGIvZHJpdmVycy9pbnB1dC9qb3lzdGljay94cGFkLmMKPiBA
-QCAtODU5LDcgKzg1OSw3IEBAIHN0YXRpYyB2b2lkIHhwYWRvbmVfcHJvY2Vzc19wYWNrZXQoc3Ry
-dWN0Cj4gdXNiX3hwYWQgKnhwYWQsIHUxNiBjbWQsIHVuc2lnbmVkIGNoYXIKPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChkYXRhWzFdID09IDB4MzApCj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgeHBhZG9uZV9hY2tfbW9kZV9yZXBv
-cnQoeHBhZCwgZGF0YVsyXSk7Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-aW5wdXRfcmVwb3J0X2tleShkZXYsIEJUTl9NT0RFLCBkYXRhWzRdICYgMHgwMSk7Cj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlucHV0X3JlcG9ydF9rZXkoZGV2LCBCVE5fTU9ERSwg
-ZGF0YVs0XSAmIDB4MDMpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW5wdXRf
-c3luYyhkZXYpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuOwo+IMKg
-wqDCoMKgwqDCoMKgwqB9Cgo=
+Apparently the driver fixed the offset of middle button to [-350, +350].
+Which separated the area to 3 equally space for 3 buttons.
+Lead to a lot of mis-clicking as the magicmouse has no real button.
+Users should be able to adjust the buttons to suite their fingers.
+
+This patch add parameters to adjust theses offsets,
+while keeping the default values to [-350, +350].
+
+Signed-off-by: Supasak Sutha <blur.3rd@gmail.com>
+---
+ drivers/hid/hid-magicmouse.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+index 664a624a363d..9709085647fb 100644
+--- a/drivers/hid/hid-magicmouse.c
++++ b/drivers/hid/hid-magicmouse.c
+@@ -25,7 +25,12 @@ module_param(emulate_3button, bool, 0644);
+ MODULE_PARM_DESC(emulate_3button, "Emulate a middle button");
+ 
+ static int middle_button_start = -350;
++module_param(middle_button_start, int, 0644);
++MODULE_PARM_DESC(middle_button_start, "Middle button beginning offset");
++
+ static int middle_button_stop = +350;
++module_param(middle_button_stop, int, 0644);
++MODULE_PARM_DESC(middle_button_stop, "Middle button end offset");
+ 
+ static bool emulate_scroll_wheel = true;
+ module_param(emulate_scroll_wheel, bool, 0644);
+-- 
+2.37.1
 
