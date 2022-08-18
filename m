@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABF0C5987B9
-	for <lists+linux-input@lfdr.de>; Thu, 18 Aug 2022 17:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C8C15987B5
+	for <lists+linux-input@lfdr.de>; Thu, 18 Aug 2022 17:45:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245095AbiHRPo3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Aug 2022 11:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
+        id S1343693AbiHRPob (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Aug 2022 11:44:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343725AbiHRPoX (ORCPT
+        with ESMTP id S1343889AbiHRPo1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Aug 2022 11:44:23 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51AD399B53;
-        Thu, 18 Aug 2022 08:44:22 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id k26so3976018ejx.5;
-        Thu, 18 Aug 2022 08:44:22 -0700 (PDT)
+        Thu, 18 Aug 2022 11:44:27 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 375F79A9A2
+        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 08:44:23 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id dc19so3933762ejb.12
+        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 08:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=+KEQEXdVW07odh0Ewbkh0xV5rBKsuf8MuFMSnAKQKbE=;
-        b=ZZjyx+D9DN6ssFXGJ5HD58G+rcfwNlAA9vrfHBeqSb1oLIzSq7ZPW47iLkbOV4NUfQ
-         zxibJcS763VR0bu8GOLhYWeRygz4vWkZzDxr0iO8k6GGq2yAQ8gojaL9EV3g+dzB2ACH
-         8DcDhVFUzDhn17nq9j8EuV8XNfmKECk6quErNku8B7knXDEMdA3MIyerktfw/kZs+j7l
-         Hp7A41hp0tBDzakFl3jV94+onZXcalPWGwkejpxPK+7KPMvpyEjl22vK9cSAKy3YkZh2
-         RR+rilZ1x82cRqBNDqHOftCjManh9ZQYJJWxlrWwcQkGNFis7iciZ6w2kK4kXIKV2rgX
-         l7rA==
+        bh=8SDrmIhzrmAJNelmt4SDMm2Yu9CQ0/R9sPqoPNG3qU0=;
+        b=QS5+twyE0IN8YpXVvlWqHyv/7h6s+RAFLjtyFMwyDRjxH64icsr2/r59QMPijaGfZG
+         Jn9P9K/LYomHtVnZoJj4daJKwBy1cntWPosI8Fg/WpHL1n08uCma8n6tZ+dL69oS/UQr
+         kQvw/xvzKFNkJlarIw1iuP+ugwMAIbEq3TsO/iyoUNVJyir7PSp+lils0sL6prbMeqW5
+         /hglhjtqXyNueSmi6vgntRguHZreAEkwUXjx1W5HxFofS3TrVAjuyNEGZkSposUQ4T2K
+         e0Kc4kUxOoCnWlXWK/i8NzSwGzxTGprDojL6fg9NXX2gdLGDu4XpGchrwUNtAJT7YpN6
+         llIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=+KEQEXdVW07odh0Ewbkh0xV5rBKsuf8MuFMSnAKQKbE=;
-        b=Ny6hoaUMsKUyGXMG/+2LBgmoGV2MExuWoUUoiSGKd9FhkhCDdAtaWZGNqYcJPq7hWv
-         s9wkJniCO3LzhyeV6tPbBswV01lDzHt2kICuZ8H7OqHw9iVxEaPo9uWYZYr1cWsFeSc3
-         E+HiQYwiWIBm0SFXPf3kfyslN9GSpKvwiIHKLSkA0VL5DBU4d+P9/patVxn0yvJ4sys7
-         ONl1xdHe+9+L0vSOTjERGXLNIKV7h48slwDPrwNPQS+6GXYcM+8NU6aBmQ/n1zIwQBbF
-         Kzr8wU8/ItOHhzS/6iKb8iaVuKjqs9Lhc0OvxDaBPfwDlKra3YauxSdp3aaYw8I+lAXP
-         m11g==
-X-Gm-Message-State: ACgBeo3DC4dWKwRnUjOPJ1AEiUX+zYy50x/GLmUticUh1ycLO6gCTar+
-        EiK9RlrRxWeAb02uLj5PyOWE5VFmX2wLBw==
-X-Google-Smtp-Source: AA6agR4qur4O1WJBCwc6VHF2vXdtKJWbXP6y8sNLOPr8jf/JTTg+lpj7s4z6/0o6/W9KmP2/71hYKQ==
-X-Received: by 2002:a17:906:7950:b0:730:f098:86ce with SMTP id l16-20020a170906795000b00730f09886cemr2170428ejo.390.1660837460713;
-        Thu, 18 Aug 2022 08:44:20 -0700 (PDT)
+        bh=8SDrmIhzrmAJNelmt4SDMm2Yu9CQ0/R9sPqoPNG3qU0=;
+        b=UnizuebDV1WEHKt/Z6zcAbocfwv5lkP/rvwNrRta8mTL48VVMleZjBny1MRdlqNVer
+         7AmQPuZp1IIPTyMLgz7+WcenqlUh8nuMpuXJV2NL0aWK23XW73ASPvRtbq70nFoUqTal
+         PNqfYLUEwwDh6AmDLdsVYOw5OmMfF0NzvhBrp2kzDHGydqqVbW0bZuVGiOctyqbRcSLY
+         /TRDn3Kc8UXXvO07OjdV0kI4JwFdcjPdFz1vff6dQocQAjf+L6ueZzUrm8baQfEfQenm
+         49F1/M6hexnm2Bwq523k0vzTNfaE+hGZstApS4dPQeSj4FXwAz/a1mkSc6vChA4ZQxvJ
+         Hbpg==
+X-Gm-Message-State: ACgBeo2Zmqn9TvD7Zd1wm31vbSfSl0VRoMQSBFZO7OoDLEQiokMPiWTk
+        Gi9n90fxuAH39BKlK6xWiHja4+jXH5Ewig==
+X-Google-Smtp-Source: AA6agR6fmvsCYR358OBpuKBJN98I6/7o24DI1PhCeeUJhMZDc96OSyy/pCgblrVnbpvWkQ+DwH3F0w==
+X-Received: by 2002:a17:906:9753:b0:732:f809:e539 with SMTP id o19-20020a170906975300b00732f809e539mr2226310ejy.235.1660837461745;
+        Thu, 18 Aug 2022 08:44:21 -0700 (PDT)
 Received: from deepwhite.fritz.box ([2001:9e8:220d:e00:f78b:3e64:f8af:69ef])
-        by smtp.gmail.com with ESMTPSA id v1-20020a170906292100b0073a62f3b447sm997486ejd.44.2022.08.18.08.44.19
+        by smtp.gmail.com with ESMTPSA id v1-20020a170906292100b0073a62f3b447sm997486ejd.44.2022.08.18.08.44.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 08:44:20 -0700 (PDT)
+        Thu, 18 Aug 2022 08:44:21 -0700 (PDT)
 From:   Pavel Rojtberg <rojtberg@gmail.com>
 X-Google-Original-From: Pavel Rojtberg < rojtberg@gmail.com >
 To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
         gregkh@linuxfoundation.org
-Cc:     Cameron Gutman <aicommander@gmail.com>, stable@vger.kernel.org,
+Cc:     Santosh De Massari <s.demassari@gmail.com>,
         Pavel Rojtberg <rojtberg@gmail.com>
-Subject: [PATCH v2 2/4] Input: xpad - fix wireless 360 controller breaking after suspend
-Date:   Thu, 18 Aug 2022 17:44:09 +0200
-Message-Id: <20220818154411.510308-3-rojtberg@gmail.com>
+Subject: [PATCH v2 3/4] Input: xpad - Poweroff XBOX360W on mode button long press
+Date:   Thu, 18 Aug 2022 17:44:10 +0200
+Message-Id: <20220818154411.510308-4-rojtberg@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220818154411.510308-1-rojtberg@gmail.com>
 References: <20220818154411.510308-1-rojtberg@gmail.com>
@@ -72,37 +72,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Cameron Gutman <aicommander@gmail.com>
+From: Santosh De Massari <s.demassari@gmail.com>
 
-Suspending and resuming the system can sometimes cause the out
-URB to get hung after a reset_resume. This causes LED setting
-and force feedback to break on resume. To avoid this, just drop
-the reset_resume callback so the USB core rebinds xpad to the
-wireless pads on resume if a reset happened.
+Newer gamepads turn themselves off when the mode button is held down.
+For XBOX360W gamepads we must do this in the driver.
 
-A nice side effect of this change is the LED ring on wireless
-controllers is now set correctly on system resume.
+Do not use BIT() macro for consistency within the file.
 
-Cc: stable@vger.kernel.org
-Fixes: 4220f7db1e42 ("Input: xpad - workaround dead irq_out after suspend/ resume")
-Signed-off-by: Cameron Gutman <aicommander@gmail.com>
+Signed-off-by: Santosh De Massari <s.demassari@gmail.com>
 Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
 ---
- drivers/input/joystick/xpad.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/input/joystick/xpad.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 629646b..4e01056 100644
+index 4e01056..f964219 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
-@@ -1991,7 +1991,6 @@ static struct usb_driver xpad_driver = {
- 	.disconnect	= xpad_disconnect,
- 	.suspend	= xpad_suspend,
- 	.resume		= xpad_resume,
--	.reset_resume	= xpad_resume,
- 	.id_table	= xpad_table,
+@@ -89,6 +89,11 @@
+ #define XTYPE_XBOXONE     3
+ #define XTYPE_UNKNOWN     4
+ 
++/* Send power-off packet to xpad360w after holding the mode button for this many
++ * seconds
++ */
++#define XPAD360W_POWEROFF_TIMEOUT 5
++
+ static bool dpad_to_buttons;
+ module_param(dpad_to_buttons, bool, S_IRUGO);
+ MODULE_PARM_DESC(dpad_to_buttons, "Map D-PAD to buttons rather than axes for unknown pads");
+@@ -630,11 +635,13 @@ struct usb_xpad {
+ 	int pad_nr;			/* the order x360 pads were attached */
+ 	const char *name;		/* name of the device */
+ 	struct work_struct work;	/* init/remove device from callback */
++	time64_t mode_btn_down_ts;
  };
  
+ static int xpad_init_input(struct usb_xpad *xpad);
+ static void xpad_deinit_input(struct usb_xpad *xpad);
+ static void xpadone_ack_mode_report(struct usb_xpad *xpad, u8 seq_num);
++static void xpad360w_poweroff_controller(struct usb_xpad *xpad);
+ 
+ /*
+  *	xpad_process_packet
+@@ -786,6 +793,23 @@ static void xpad360_process_packet(struct usb_xpad *xpad, struct input_dev *dev,
+ 	}
+ 
+ 	input_sync(dev);
++
++	/* XBOX360W controllers can't be turned off without driver assistance */
++	if (xpad->xtype == XTYPE_XBOX360W) {
++		if (xpad->mode_btn_down_ts > 0 && xpad->pad_present &&
++		    ((ktime_get_seconds() - xpad->mode_btn_down_ts) >=
++		     XPAD360W_POWEROFF_TIMEOUT)) {
++			xpad360w_poweroff_controller(xpad);
++			xpad->mode_btn_down_ts = 0;
++			return;
++		}
++
++		/* mode button down/up */
++		if (data[3] & 0x04)
++			xpad->mode_btn_down_ts = ktime_get_seconds();
++		else
++			xpad->mode_btn_down_ts = 0;
++	}
+ }
+ 
+ static void xpad_presence_work(struct work_struct *work)
 -- 
 2.34.1
 
