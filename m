@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 101995983D8
-	for <lists+linux-input@lfdr.de>; Thu, 18 Aug 2022 15:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCBAD5983D4
+	for <lists+linux-input@lfdr.de>; Thu, 18 Aug 2022 15:12:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244250AbiHRNLG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Aug 2022 09:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36376 "EHLO
+        id S244526AbiHRNLp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Aug 2022 09:11:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244526AbiHRNLE (ORCPT
+        with ESMTP id S244862AbiHRNLo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Aug 2022 09:11:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80830B08B7
-        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 06:10:59 -0700 (PDT)
+        Thu, 18 Aug 2022 09:11:44 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAA260685
+        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 06:11:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1E139B81FC7
-        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 13:10:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 682D7C433C1;
-        Thu, 18 Aug 2022 13:10:56 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 7FA2CCE2052
+        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 13:11:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5845EC433D6;
+        Thu, 18 Aug 2022 13:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660828256;
-        bh=mvtkMfCjDMNu5vyI7NOCU1VYdsVLKhImqb0n0zaE338=;
+        s=korg; t=1660828299;
+        bh=UeEBwtYdVcW8MGTiAlm79zj6Pdak+BrQZ+GM+wxaER0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O8DNmTeNY5xT8hnWF4vaDaIQK0mRe5HGse+P3wr/Ex9nWz8rUQYFF6qQ8EsMBOMjn
-         cS21PVrIX+bjZPMHlMCQwQcJ6KzpxmPaq4sanjBrWagPGf8HbQH4JwlspbVpD2Otsv
-         MIPOBCtpNhGzRVeTVOIuU70u7mwsrxVjqj/xBzqM=
-Date:   Thu, 18 Aug 2022 15:10:53 +0200
+        b=QOyZjqv+Ndr5TdWO152lhD+v3d0kiNxajUsUNYUPUr/bASlSKnk/j3gst9pddXejB
+         XuaB556HYhhnMTxX1DzqtuI2iua822O5gpF8yZixTFDZnFinzGRyfocAAs0yHE0KeL
+         xiYbzYb7PmZgQGNhBaux5B6z+vAMQ/msRpRKTW5A=
+Date:   Thu, 18 Aug 2022 15:11:37 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Pavel Rojtberg <rojtberg@gmail.com>
 Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        Cameron Gutman <aicommander@gmail.com>
-Subject: Re: [PATCH 2/4] Input: xpad - fix wireless 360 controller breaking
- after suspend
-Message-ID: <Yv46XUD1/Kx9cGcy@kroah.com>
+        Santosh De Massari <s.demassari@gmail.com>
+Subject: Re: [PATCH 3/4] Input: xpad - Poweroff XBOX360W on mode button long
+ press
+Message-ID: <Yv46iY/C8RH/+UIe@kroah.com>
 References: <20220818130021.487410-1-rojtberg@gmail.com>
- <20220818130021.487410-3-rojtberg@gmail.com>
+ <20220818130021.487410-4-rojtberg@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220818130021.487410-3-rojtberg@gmail.com>
+In-Reply-To: <20220818130021.487410-4-rojtberg@gmail.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -53,25 +53,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 03:00:19PM +0200, Pavel Rojtberg wrote:
-> From: Cameron Gutman <aicommander@gmail.com>
+On Thu, Aug 18, 2022 at 03:00:20PM +0200, Pavel Rojtberg wrote:
+> From: Santosh De Massari <s.demassari@gmail.com>
 > 
-> Suspending and resuming the system can sometimes cause the out
-> URB to get hung after a reset_resume. This causes LED setting
-> and force feedback to break on resume. To avoid this, just drop
-> the reset_resume callback so the USB core rebinds xpad to the
-> wireless pads on resume if a reset happened.
+> Newer gamepads turn themselves off when the mode button is held down.
+> For XBOX360W gamepads we must do this in the driver.
 > 
-> A nice side effect of this change is the LED ring on wireless
-> controllers is now set correctly on system resume.
-> 
-> Signed-off-by: Cameron Gutman <aicommander@gmail.com>
-> Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
-> ---
->  drivers/input/joystick/xpad.c | 1 -
->  1 file changed, 1 deletion(-)
+> Do not use BIT() macro for consistency within the file.
 
-What commit id does this fix?  Should it go to stable kernels?
+You can fix the file up to properly use the BIT() macro :)
 
 thanks,
 
