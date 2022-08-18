@@ -2,196 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B760597FF8
-	for <lists+linux-input@lfdr.de>; Thu, 18 Aug 2022 10:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7129598171
+	for <lists+linux-input@lfdr.de>; Thu, 18 Aug 2022 12:28:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239481AbiHRIVj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Aug 2022 04:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56304 "EHLO
+        id S243909AbiHRK1r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Aug 2022 06:27:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239095AbiHRIVi (ORCPT
+        with ESMTP id S243859AbiHRK1q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Aug 2022 04:21:38 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEB17AC35
-        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 01:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660810898; x=1692346898;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jdnqsImNCZHgPtdvh3C6Im4J7/oGKghJAOAJSlbpgFY=;
-  b=Q7aa3oLg7lKSaymgGRi6MJDtfakYmfzzjH2F5EFbbm0hvWlN8qWVWcQY
-   XSX1cbgIcqdxF12WorcGtL7jJqdI8i13LQoJWx9lElfa4hPb8tuOUDkyb
-   XwQNKKWPLQ5LK/XKnVLlYopxuUQSfkWQidHuSjVDMhO0OgT3dq9g8HBU8
-   cBsVgil88qHVMuMaJJDcEDTK3WGXOh+iAAsvx1Y7wIUvjjBKSaIp63sSo
-   03ionJzY62w7mpYUbpr28Zq7/F2MN/SzQU0w8EbvhMiIKoi5IaIuuhIEM
-   sUcD2FRuZvIU7s+Iib+qM6747dRE+TEcEeDxnLnqjWWvJ58HpEYukgpVn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="293976242"
-X-IronPort-AV: E=Sophos;i="5.93,245,1654585200"; 
-   d="scan'208";a="293976242"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 01:21:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
-   d="scan'208";a="640772693"
-Received: from lkp-server01.sh.intel.com (HELO 6cc724e23301) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 Aug 2022 01:21:36 -0700
-Received: from kbuild by 6cc724e23301 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oOamV-0000Fh-2k;
-        Thu, 18 Aug 2022 08:21:35 +0000
-Date:   Thu, 18 Aug 2022 16:21:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 24c06e000e8fa237ff2d960def0768a47d0db7b1
-Message-ID: <62fdf679.DsKNyx+uRF2SQnwx%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 18 Aug 2022 06:27:46 -0400
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E05165675
+        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 03:27:45 -0700 (PDT)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-3246910dac3so28677747b3.12
+        for <linux-input@vger.kernel.org>; Thu, 18 Aug 2022 03:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=9fVsXAu4P1Mgde2oXVo+acOsn6aaMkcFelHwjHZBtQg=;
+        b=ssuAI6l4hjntpbmueNgtSHDC29v5f1O+mGRjmyJJv0hT3Uv3KlV9DL3pg/0KKnx+rw
+         ezwUvGh/yZaOrsyyLxhBsEuD3MUR2sXNTrlrkCvnLqO4QW6JCtJ1SHlTKS4iVTXNPzT2
+         B7FGTaMSiCJAsH6p7nYVp+Yw/dyG3ifNFD3i/kwhUQnD/CARsauUaKmJcB87dQwdqUMQ
+         aD25gvAzwML2DSe2P78IqRWIzTL4eFP+noBGmbo+8mcXMCdOnlVTflATol1Msa+onCry
+         v4ukhOwx5GZu+o7H7GBCFlO5mjQ2chxL2Cxtr+3OwDiw4U1KvziFaJFCLkO2zKW/sRXT
+         oiWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=9fVsXAu4P1Mgde2oXVo+acOsn6aaMkcFelHwjHZBtQg=;
+        b=l5haXGLk7KXSEroNrcBXHWCpSaDV8OFNbhVQ50SqsIPEJf+k+KCasjEG3yi+bTiIWQ
+         XIbdgieaIaERzGloUNH9HTvOmMMOy9EeYOKSS3MwQ3/ZbavbmbmQ6ISWgtrS7QgOz8gQ
+         RkDAM7YIYBKm8aWlpOUhNnQUX/4ZjQoojhDsAdfJGHkm5FDdOrLiyLR7fYXOazNw3f3F
+         0wgCB856jGYqiAUOkTx9U8YxlQw1wZIAe7XHkHZN/J97OCkoyycj/PbvTaWGidwnhtkc
+         gHwdZxLoEbe2E9+hczblcoNZ9WEBtOatOgg+8ZQRCN8MASBsxCm1QqX3G5ubiI779bTg
+         /EyA==
+X-Gm-Message-State: ACgBeo0sgbH9ahszpNAFTT1QadhDxfGUtVjGjiwbBduBjZAoIGIp/4p/
+        4zv4LSmWYBE+fB4Gi20T9DOOUzDZIhCR6MGEznxuJw==
+X-Google-Smtp-Source: AA6agR4m5lJa0HkfYL1ZG0xr9bWmM3g0q53YO0ZnhUFTPsvg8PoJV/BmTB6FTmYvhNSVT2PFs6UEHy20RK5BdrsxLGE=
+X-Received: by 2002:a0d:c981:0:b0:330:dc03:7387 with SMTP id
+ l123-20020a0dc981000000b00330dc037387mr2149397ywd.380.1660818464648; Thu, 18
+ Aug 2022 03:27:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220726080504.4185715-1-tero.kristo@linux.intel.com>
+In-Reply-To: <20220726080504.4185715-1-tero.kristo@linux.intel.com>
+From:   Angela Czubak <acz@semihalf.com>
+Date:   Thu, 18 Aug 2022 12:27:33 +0200
+Message-ID: <CAB4aORWWL7w1rVCrFw-Q2aof6WeQZR5iYRFg2UrvQQwHZzy7hA@mail.gmail.com>
+Subject: Re: [PATCH] HID: i2c-hid: fix the report-id passed in via set_or_send_report
+To:     Tero Kristo <tero.kristo@linux.intel.com>
+Cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-kernel@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 24c06e000e8fa237ff2d960def0768a47d0db7b1  Input: adc-joystick - add polled input device support
+Hi Tero,
 
-elapsed time: 726m
+I believe this is not the right solution. To my mind the spec does not
+mention anything that the ID in the payload of SET_REPORT command
+should be altered; you have a full byte to us, so why not?
+Other than that this will result into problems with sending reports
+via output register: for any report with report ID >=0xF we will get
+the same report ID in the payload, so how could the device know which
+one we have in mind?
+Dmitry's rework was intended to actually solve problems with large
+report IDs being incorrectly overwritten with 0xF.
 
-configs tested: 113
-configs skipped: 2
+Regards,
+Angela
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-powerpc                          allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-csky                              allnoconfig
-alpha                             allnoconfig
-arc                               allnoconfig
-riscv                             allnoconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-i386                             allyesconfig
-i386                                defconfig
-x86_64                          rhel-8.3-func
-x86_64                        randconfig-a004
-x86_64                         rhel-8.3-kunit
-x86_64                        randconfig-a013
-x86_64                        randconfig-a002
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                        randconfig-a011
-x86_64                        randconfig-a006
-x86_64                        randconfig-a015
-riscv                randconfig-r042-20220818
-s390                 randconfig-r044-20220818
-arc                  randconfig-r043-20220818
-arm                             pxa_defconfig
-powerpc                      ppc40x_defconfig
-powerpc                      mgcoge_defconfig
-powerpc                      cm5200_defconfig
-loongarch                           defconfig
-loongarch                         allnoconfig
-sparc                       sparc32_defconfig
-sh                          r7785rp_defconfig
-mips                  decstation_64_defconfig
-arm                         cm_x300_defconfig
-i386                          randconfig-c001
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-mips                      loongson3_defconfig
-sh                          polaris_defconfig
-arc                          axs103_defconfig
-powerpc                       maple_defconfig
-sh                        edosk7705_defconfig
-arm                            zeus_defconfig
-nios2                         3c120_defconfig
-sh                           se7712_defconfig
-arm                          pxa3xx_defconfig
-arm                            xcep_defconfig
-sh                               alldefconfig
-ia64                         bigsur_defconfig
-nios2                            allyesconfig
-arm                          exynos_defconfig
-arm                           tegra_defconfig
-mips                           ip32_defconfig
-m68k                            mac_defconfig
-arc                          axs101_defconfig
-sh                   rts7751r2dplus_defconfig
-powerpc                 mpc837x_mds_defconfig
-alpha                            alldefconfig
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-arc                 nsimosci_hs_smp_defconfig
-sh                         microdev_defconfig
-sh                          lboxre2_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-sh                             sh03_defconfig
-arm                          simpad_defconfig
-sh                        edosk7760_defconfig
-powerpc                 mpc834x_mds_defconfig
-m68k                        m5307c3_defconfig
-arm                             ezx_defconfig
-mips                        vocore2_defconfig
-arm                        oxnas_v6_defconfig
-m68k                          hp300_defconfig
-powerpc                         ps3_defconfig
-nios2                               defconfig
-powerpc                     tqm8548_defconfig
-
-clang tested configs:
-x86_64                        randconfig-a016
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-powerpc                 mpc8560_ads_defconfig
-arm                           spitz_defconfig
-powerpc                 xes_mpc85xx_defconfig
-x86_64                        randconfig-k001
-powerpc                          g5_defconfig
-arm64                            allyesconfig
-arm                          ixp4xx_defconfig
-powerpc                      obs600_defconfig
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+On Tue, Jul 26, 2022 at 10:05 AM Tero Kristo
+<tero.kristo@linux.intel.com> wrote:
+>
+> The formatting of the data passed to the i2c HID data register was
+> changed with the re-work of the i2c-hid-core. Previously the report ID
+> passed in was encoded as 0xF if the report-id was greater than 0xF
+> (similar to what is done with the command portion.) Now with the rework,
+> a full report-id is passed in always, and this causes the messages to be
+> rejected by the i2c controller. Fix this by encoding the report-id
+> field in the same manner as previously was done.
+>
+> Fixes: dbe0dd5fd2e0 ("HID: i2c-hid: explicitly code setting and sending
+> reports")
+> Signed-off-by: Tero Kristo <tero.kristo@linux.intel.com>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index c078f09a2318..156b12f840c4 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -296,6 +296,9 @@ static size_t i2c_hid_format_report(u8 *buf, int report_id,
+>  {
+>         size_t length = sizeof(__le16); /* reserve space to store size */
+>
+> +       if (report_id > 0xF)
+> +               report_id = 0xF;
+> +
+>         if (report_id)
+>                 buf[length++] = report_id;
+>
+> --
+> 2.25.1
+>
