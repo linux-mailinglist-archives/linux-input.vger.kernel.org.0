@@ -2,356 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D536599CC2
-	for <lists+linux-input@lfdr.de>; Fri, 19 Aug 2022 15:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99384599D64
+	for <lists+linux-input@lfdr.de>; Fri, 19 Aug 2022 16:18:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349321AbiHSNMo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Aug 2022 09:12:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
+        id S1349233AbiHSOPn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Aug 2022 10:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349315AbiHSNMm (ORCPT
+        with ESMTP id S1348475AbiHSOPm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Aug 2022 09:12:42 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D96C3C889B
-        for <linux-input@vger.kernel.org>; Fri, 19 Aug 2022 06:12:40 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oP1ne-0000PI-Ts; Fri, 19 Aug 2022 15:12:34 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oP1nb-0008LN-HJ; Fri, 19 Aug 2022 15:12:31 +0200
-Date:   Fri, 19 Aug 2022 15:12:31 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Gireesh.Hiremath@in.bosch.com
-Cc:     linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        bcousson@baylibre.com, tony@atomide.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, dmitry.torokhov@gmail.com,
-        mkorpershoek@baylibre.com, davidgow@google.com,
-        swboyd@chromium.org, fengping.yu@mediatek.com,
-        y.oudjana@protonmail.com, rdunlap@infradead.org,
-        colin.king@intel.com, sjoerd.simons@collabora.co.uk,
-        VinayKumar.Shettar@in.bosch.com,
-        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
-Subject: Re: [PATCH v3 1/3] driver: input: matric-keypad: switch to gpiod
-Message-ID: <20220819131231.nzi26cbrpgfrycl2@pengutronix.de>
-References: <20220819065946.9572-1-Gireesh.Hiremath@in.bosch.com>
+        Fri, 19 Aug 2022 10:15:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A4A96FFC
+        for <linux-input@vger.kernel.org>; Fri, 19 Aug 2022 07:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1660918539;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=g7OyeVLAU6xMi038SjWDHGxYcHH7a4vEJga0kvvd3tQ=;
+        b=RxSu3mTJqFabJf/eAqdSrTkzWjX5x36YeSiToUGjzzwioMXDXL2YBdcIgjXcQnBIJmGnww
+        IBSzRowVXK/a62GptR7qvbFyRl271K1hJwEzJINf1bf7pGPRqsAjnJTDxQA5/Wp/4CnE63
+        0ZuZTkhMqq8vzJht11XEes3VaA2AA7M=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-77-xYbOggDXNFSahPyPNI6r5A-1; Fri, 19 Aug 2022 10:15:38 -0400
+X-MC-Unique: xYbOggDXNFSahPyPNI6r5A-1
+Received: by mail-wr1-f71.google.com with SMTP id r8-20020adfbb08000000b00225239ce4deso803003wrg.1
+        for <linux-input@vger.kernel.org>; Fri, 19 Aug 2022 07:15:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=g7OyeVLAU6xMi038SjWDHGxYcHH7a4vEJga0kvvd3tQ=;
+        b=nV2S6eUmdIt/c5buB63wlvSmhvRBITsIKLVeTueW/yqYtkKuHLpQ0YY42tFXnMOIa6
+         LH4rjfHHABlLHGElSeRE8jnwggiAiYdZM1dmKXJeuHVwt020cosPUV/uIMckxfMlxuk0
+         kPL9cVi4h9xPCYIu/dbNDGl5lssWNfxmBiemaTXD7oo+4KE8DdI5igXX01OUz4svwfJx
+         YmWqMZpaWsEe5VCV/Vm3w8UdbeX6MYO5FHeRzUCNNndT49Bgebb6ylV0fSWNqIoeABNJ
+         7H0nKZja/3d7Scxy7VEvDbkYSKWRg++eDqsZyO86q08ec+3bmikli5zMuwGJcXmJb0+E
+         uxAA==
+X-Gm-Message-State: ACgBeo2PbLgD1Yoc9/9QR/H3HIvAUeK0fo04kSjH9nD+wQn1ydK4t8wk
+        y63P3vVlDBTeQILlOlD49etmzdzUx26nOWtUih/q1IYMriZmWeOc1vE4LdzkiOt5/mq3g0/h4jn
+        OcXYYqs6XDhsADKW4ABZF2bI=
+X-Received: by 2002:a05:6000:693:b0:221:7a12:8d6a with SMTP id bo19-20020a056000069300b002217a128d6amr4452025wrb.290.1660918536551;
+        Fri, 19 Aug 2022 07:15:36 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5kv2X5n6PMQW+2A4jNkYIUZt3CTpd8SxcHtLlp9NnUTjeX5pz4XSu0OLyUbXN7khaDmnjbng==
+X-Received: by 2002:a05:6000:693:b0:221:7a12:8d6a with SMTP id bo19-20020a056000069300b002217a128d6amr4452013wrb.290.1660918536293;
+        Fri, 19 Aug 2022 07:15:36 -0700 (PDT)
+Received: from [192.168.110.200] (82-65-22-26.subs.proxad.net. [82.65.22.26])
+        by smtp.gmail.com with ESMTPSA id m6-20020a056000008600b0021d6dad334bsm4242706wrx.4.2022.08.19.07.15.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Aug 2022 07:15:35 -0700 (PDT)
+Message-ID: <d8b91029-4a6e-1508-1512-faea768ae580@redhat.com>
+Date:   Fri, 19 Aug 2022 16:15:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220819065946.9572-1-Gireesh.Hiremath@in.bosch.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
+ Inspiroy H640 drawing tablet
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Stefan Hansson <newbie13xd@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Ping Cheng <ping.cheng@wacom.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
+ <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm>
+ <20220724114849.GA32182@elementary> <20220725224841.GA75640@elementary>
+ <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
+ <20220804182445.GA16569@elementary>
+ <CAO-hwJ+hBipNJpeYaHRr2-rKXA5d79XT7zE2fo2oEKUKJtKJ0g@mail.gmail.com>
+ <20220813110922.GA47526@elementary>
+Content-Language: en-US
+In-Reply-To: <20220813110922.GA47526@elementary>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Gireesh,
 
-On 22-08-19, Gireesh.Hiremath@in.bosch.com wrote:
-> From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> 
-> Switch from gpio API to gpiod API
 
-Nice change.
+On Sat, Aug 13, 2022 at 1:09 PM José Expósito <jose.exposito89@gmail.com> wrote:
+>
+> Hi Benjamin,
+>
+> On Thu, Aug 11, 2022 at 05:23:52PM +0200, Benjamin Tissoires wrote:
+> > On Thu, Aug 4, 2022 at 8:24 PM José Expósito <jose.exposito89@gmail.com> wrote:
+> > >
+> > > Hi again,
+> > >
+> > > On 2022-07-26 18:48, José Expósito wrote:
+> > > > The first bad commit is 87562fcd1342 ("HID: input: remove the need for
+> > > > HID_QUIRK_INVERT"):
+> > > > https://lore.kernel.org/all/20220203143226.4023622-11-benjamin.tissoires@redhat.com/
+> > > > (CCing the folks whose email is in the patch tags)
+> > > >
+> > > > I reverted the patch on hid/for-next and, after fixing a tiny conflict,
+> > > > I can confirm that the tablet works again as expected.
+> > > >
+> > > > I'd need to investigate a bit more over the weekend, but I think that
+> > > > all HUION tablets with the latest firmware (internally, v2) are
+> > > > affected.
+> > >
+> > > Indeed, it looks like v2 devices are affected. Similar reports:
+> > >
+> > >  - https://github.com/DIGImend/digimend-kernel-drivers/issues/626
+> > >  - https://bugzilla.kernel.org/show_bug.cgi?id=216106
+> > >
+> > > Kindly sending this thread back to your inbox to see if we could fix
+> > > this regression.
+> >
+> > [sorry, I was out on vacation the past 2 weeks and this week was the
+> > usual "urgent" thing I have to day for yesterday]
+>
+> No problem, I hope you enjoyed your holidays :D
+>
+> > Ideally, I'd like to not revert that commit. It solves a bunch of
+> > issues on many devices, so that's maybe not the way forward.
+> >
+> > FWIW, it was quite painful to tweak and that was a solution that
+> > matches the hid-multitouch devices I could find.
+> >
+> > I tried to process your email when you described the succession of
+> > events without much success.
+> >
+> > Would you mind dumping a hid-record when exposing the bug?
+>
+> Sure, I added as an attachment in the existing report in bugzilla:
+> https://bugzilla.kernel.org/show_bug.cgi?id=216106#c2
+>
+> I hope it helps you to debug the issue. Let me know if you need more
+> recordings, help testing patches or any other information.
+>
+> In future changes to tablet code, feel free to cc me. I have a bunch of
+> non Wacom devices and I'll help you testing your changes.
 
-Did you checked the users of this driver? This change changes the
-behaviour for actice_low GPIOs. A quick check showed that at least on
-upstream board: arch/arm/mach-pxa/palmtc.c uses active low GPIOs.
+FWIW, I found the issue: the hid-uclogic driver is emitting input data
+behind hid-input, and the state between the 2 is desynchronized.
 
-> Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> 
-> Gbp-Pq: Topic apertis/guardian
-> Gbp-Pq: Name driver-input-matric-keypad-switch-gpio-to-gpiod.patch
+The following patch seems to be working (with the Huion v1 protocol I
+have here that I have tweaked to resemble a v2):
+---
+ From aeedd318e6cb4dbee551f67616302cc7c4308c58 Mon Sep 17 00:00:00 2001
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Thu, 18 Aug 2022 15:09:25 +0200
+Subject: [PATCH] Fix uclogic
 
-Please drop this internal tags.
+---
+  drivers/hid/hid-input.c | 5 ++++-
+  1 file changed, 4 insertions(+), 1 deletion(-)
 
-> ---
->  drivers/input/keyboard/matrix_keypad.c | 84 ++++++++++----------------
->  include/linux/input/matrix_keypad.h    |  4 +-
->  2 files changed, 33 insertions(+), 55 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-> index 30924b57058f..b99574edad9c 100644
-> --- a/drivers/input/keyboard/matrix_keypad.c
-> +++ b/drivers/input/keyboard/matrix_keypad.c
-> @@ -15,11 +15,10 @@
->  #include <linux/interrupt.h>
->  #include <linux/jiffies.h>
->  #include <linux/module.h>
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/input/matrix_keypad.h>
->  #include <linux/slab.h>
->  #include <linux/of.h>
-> -#include <linux/of_gpio.h>
->  #include <linux/of_platform.h>
->  
->  struct matrix_keypad {
-> @@ -49,11 +48,11 @@ static void __activate_col(const struct matrix_keypad_platform_data *pdata,
->  	bool level_on = !pdata->active_low;
->  
->  	if (on) {
-> -		gpio_direction_output(pdata->col_gpios[col], level_on);
-> +		gpiod_direction_output(pdata->col_gpios[col], level_on);
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index c6b27aab9041..a3e2397bb3a7 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -1530,7 +1530,10 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+  			 * assume ours
+  			 */
+  			if (!report->tool)
+-				hid_report_set_tool(report, input, usage->code);
++				report->tool = usage->code;
++
++			/* drivers may have changed the value behind our back, resend it */
++			hid_report_set_tool(report, input, report->tool);
+  		} else {
+  			hid_report_release_tool(report, input, usage->code);
+  		}
+-- 
+2.36.1
 
-Now strange things can happen, if active_low is set and you specified
-GPIO_ACTIVE_LOW within the device-tree. We need a way to move to gpiod
-and keep the current behaviour.
+---
 
->  	} else {
-> -		gpio_set_value_cansleep(pdata->col_gpios[col], !level_on);
-> +		gpiod_set_value_cansleep(pdata->col_gpios[col], !level_on);
->  		if (!pdata->drive_inactive_cols)
-> -			gpio_direction_input(pdata->col_gpios[col]);
-> +			gpiod_direction_input(pdata->col_gpios[col]);
->  	}
->  }
->  
-> @@ -78,7 +77,7 @@ static void activate_all_cols(const struct matrix_keypad_platform_data *pdata,
->  static bool row_asserted(const struct matrix_keypad_platform_data *pdata,
->  			 int row)
->  {
-> -	return gpio_get_value_cansleep(pdata->row_gpios[row]) ?
-> +	return gpiod_get_value_cansleep(pdata->row_gpios[row]) ?
->  			!pdata->active_low : pdata->active_low;
->  }
->  
-> @@ -91,7 +90,7 @@ static void enable_row_irqs(struct matrix_keypad *keypad)
->  		enable_irq(pdata->clustered_irq);
->  	else {
->  		for (i = 0; i < pdata->num_row_gpios; i++)
-> -			enable_irq(gpio_to_irq(pdata->row_gpios[i]));
-> +			enable_irq(gpiod_to_irq(pdata->row_gpios[i]));
->  	}
->  }
->  
-> @@ -104,7 +103,7 @@ static void disable_row_irqs(struct matrix_keypad *keypad)
->  		disable_irq_nosync(pdata->clustered_irq);
->  	else {
->  		for (i = 0; i < pdata->num_row_gpios; i++)
-> -			disable_irq_nosync(gpio_to_irq(pdata->row_gpios[i]));
-> +			disable_irq_nosync(gpiod_to_irq(pdata->row_gpios[i]));
->  	}
->  }
->  
-> @@ -230,7 +229,7 @@ static void matrix_keypad_stop(struct input_dev *dev)
->  static void matrix_keypad_enable_wakeup(struct matrix_keypad *keypad)
->  {
->  	const struct matrix_keypad_platform_data *pdata = keypad->pdata;
-> -	unsigned int gpio;
-> +	struct gpio_desc *gpio;
->  	int i;
->  
->  	if (pdata->clustered_irq > 0) {
-> @@ -242,7 +241,7 @@ static void matrix_keypad_enable_wakeup(struct matrix_keypad *keypad)
->  			if (!test_bit(i, keypad->disabled_gpios)) {
->  				gpio = pdata->row_gpios[i];
->  
-> -				if (enable_irq_wake(gpio_to_irq(gpio)) == 0)
-> +				if (enable_irq_wake(gpiod_to_irq(gpio)) == 0)
->  					__set_bit(i, keypad->disabled_gpios);
->  			}
->  		}
-> @@ -252,7 +251,7 @@ static void matrix_keypad_enable_wakeup(struct matrix_keypad *keypad)
->  static void matrix_keypad_disable_wakeup(struct matrix_keypad *keypad)
->  {
->  	const struct matrix_keypad_platform_data *pdata = keypad->pdata;
-> -	unsigned int gpio;
-> +	struct gpio_desc *gpio;
->  	int i;
->  
->  	if (pdata->clustered_irq > 0) {
-> @@ -264,7 +263,7 @@ static void matrix_keypad_disable_wakeup(struct matrix_keypad *keypad)
->  		for (i = 0; i < pdata->num_row_gpios; i++) {
->  			if (test_and_clear_bit(i, keypad->disabled_gpios)) {
->  				gpio = pdata->row_gpios[i];
-> -				disable_irq_wake(gpio_to_irq(gpio));
-> +				disable_irq_wake(gpiod_to_irq(gpio));
->  			}
->  		}
->  	}
-> @@ -308,27 +307,11 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
->  
->  	/* initialized strobe lines as outputs, activated */
->  	for (i = 0; i < pdata->num_col_gpios; i++) {
-> -		err = gpio_request(pdata->col_gpios[i], "matrix_kbd_col");
-> -		if (err) {
-> -			dev_err(&pdev->dev,
-> -				"failed to request GPIO%d for COL%d\n",
-> -				pdata->col_gpios[i], i);
-> -			goto err_free_cols;
-> -		}
-> -
-> -		gpio_direction_output(pdata->col_gpios[i], !pdata->active_low);
-> +		gpiod_direction_output(pdata->col_gpios[i], !pdata->active_low);
->  	}
->  
->  	for (i = 0; i < pdata->num_row_gpios; i++) {
-> -		err = gpio_request(pdata->row_gpios[i], "matrix_kbd_row");
-> -		if (err) {
-> -			dev_err(&pdev->dev,
-> -				"failed to request GPIO%d for ROW%d\n",
-> -				pdata->row_gpios[i], i);
-> -			goto err_free_rows;
-> -		}
-> -
-> -		gpio_direction_input(pdata->row_gpios[i]);
-> +		gpiod_direction_input(pdata->row_gpios[i]);
->  	}
->  
->  	if (pdata->clustered_irq > 0) {
-> @@ -344,7 +327,7 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
->  	} else {
->  		for (i = 0; i < pdata->num_row_gpios; i++) {
->  			err = request_any_context_irq(
-> -					gpio_to_irq(pdata->row_gpios[i]),
-> +					gpiod_to_irq(pdata->row_gpios[i]),
->  					matrix_keypad_interrupt,
->  					IRQF_TRIGGER_RISING |
->  					IRQF_TRIGGER_FALLING,
-> @@ -352,7 +335,7 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
->  			if (err < 0) {
->  				dev_err(&pdev->dev,
->  					"Unable to acquire interrupt for GPIO line %i\n",
-> -					pdata->row_gpios[i]);
-> +					i);
->  				goto err_free_irqs;
->  			}
->  		}
-> @@ -364,15 +347,12 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
->  
->  err_free_irqs:
->  	while (--i >= 0)
-> -		free_irq(gpio_to_irq(pdata->row_gpios[i]), keypad);
-> +		free_irq(gpiod_to_irq(pdata->row_gpios[i]), keypad);
->  	i = pdata->num_row_gpios;
->  err_free_rows:
->  	while (--i >= 0)
-> -		gpio_free(pdata->row_gpios[i]);
-> +		gpiod_put(pdata->row_gpios[i]);
->  	i = pdata->num_col_gpios;
-> -err_free_cols:
-> -	while (--i >= 0)
-> -		gpio_free(pdata->col_gpios[i]);
->  
->  	return err;
->  }
-> @@ -386,14 +366,14 @@ static void matrix_keypad_free_gpio(struct matrix_keypad *keypad)
->  		free_irq(pdata->clustered_irq, keypad);
->  	} else {
->  		for (i = 0; i < pdata->num_row_gpios; i++)
-> -			free_irq(gpio_to_irq(pdata->row_gpios[i]), keypad);
-> +			free_irq(gpiod_to_irq(pdata->row_gpios[i]), keypad);
->  	}
->  
->  	for (i = 0; i < pdata->num_row_gpios; i++)
-> -		gpio_free(pdata->row_gpios[i]);
-> +		gpiod_put(pdata->row_gpios[i]);
->  
->  	for (i = 0; i < pdata->num_col_gpios; i++)
-> -		gpio_free(pdata->col_gpios[i]);
-> +		gpiod_put(pdata->col_gpios[i]);
->  }
->  
->  #ifdef CONFIG_OF
-> @@ -402,7 +382,8 @@ matrix_keypad_parse_dt(struct device *dev)
->  {
->  	struct matrix_keypad_platform_data *pdata;
->  	struct device_node *np = dev->of_node;
-> -	unsigned int *gpios;
-> +	struct gpio_desc **gpios;
-> +	struct gpio_desc *desc;
->  	int ret, i, nrow, ncol;
->  
->  	if (!np) {
-> @@ -416,8 +397,8 @@ matrix_keypad_parse_dt(struct device *dev)
->  		return ERR_PTR(-ENOMEM);
->  	}
->  
-> -	pdata->num_row_gpios = nrow = of_gpio_named_count(np, "row-gpios");
-> -	pdata->num_col_gpios = ncol = of_gpio_named_count(np, "col-gpios");
-> +	pdata->num_row_gpios = nrow = gpiod_count(dev, "row");
-> +	pdata->num_col_gpios = ncol = gpiod_count(dev, "col");
->  	if (nrow <= 0 || ncol <= 0) {
->  		dev_err(dev, "number of keypad rows/columns not specified\n");
->  		return ERR_PTR(-EINVAL);
-> @@ -429,9 +410,6 @@ matrix_keypad_parse_dt(struct device *dev)
->  	pdata->wakeup = of_property_read_bool(np, "wakeup-source") ||
->  			of_property_read_bool(np, "linux,wakeup"); /* legacy */
->  
-> -	if (of_get_property(np, "gpio-activelow", NULL))
-> -		pdata->active_low = true;
-> -
+Can someone with an affected device test it?
 
-This removes backward compatibility, please don't do that.
+Cheers,
+Benjamin
 
-Regards,
-  Marco
+>
+> Best wishes,
+> Jose
+>
+> > Cheers,
+> > Benjamin
+> >
+> >
+> > >
+> > > Best wishes,
+> > > Jose
+> > >
+> > > > Those tablets do not set the inrange bit (UCLOGIC_PARAMS_PEN_INRANGE_NONE).
+> > > > The driver sets it and uses a timer to remove it.
+> > > > See drivers/hid/hid-uclogic-core.c, function uclogic_raw_event_pen().
+> > > > [...]
+> > >
+> >
+>
 
->  	pdata->drive_inactive_cols =
->  		of_property_read_bool(np, "drive-inactive-cols");
->  
-> @@ -441,7 +419,7 @@ matrix_keypad_parse_dt(struct device *dev)
->  
->  	gpios = devm_kcalloc(dev,
->  			     pdata->num_row_gpios + pdata->num_col_gpios,
-> -			     sizeof(unsigned int),
-> +			     sizeof(*gpios),
->  			     GFP_KERNEL);
->  	if (!gpios) {
->  		dev_err(dev, "could not allocate memory for gpios\n");
-> @@ -449,17 +427,17 @@ matrix_keypad_parse_dt(struct device *dev)
->  	}
->  
->  	for (i = 0; i < nrow; i++) {
-> -		ret = of_get_named_gpio(np, "row-gpios", i);
-> -		if (ret < 0)
-> +		desc = devm_gpiod_get_index(dev, "row", i, GPIOD_IN);
-> +		if (IS_ERR(desc))
->  			return ERR_PTR(ret);
-> -		gpios[i] = ret;
-> +		gpios[i] = desc;
->  	}
->  
->  	for (i = 0; i < ncol; i++) {
-> -		ret = of_get_named_gpio(np, "col-gpios", i);
-> -		if (ret < 0)
-> +		desc = devm_gpiod_get_index(dev, "col", i, GPIOD_IN);
-> +		if (IS_ERR(desc))
->  			return ERR_PTR(ret);
-> -		gpios[nrow + i] = ret;
-> +		gpios[nrow + i] = desc;
->  	}
->  
->  	pdata->row_gpios = gpios;
-> diff --git a/include/linux/input/matrix_keypad.h b/include/linux/input/matrix_keypad.h
-> index 9476768c3b90..8ad7d4626e62 100644
-> --- a/include/linux/input/matrix_keypad.h
-> +++ b/include/linux/input/matrix_keypad.h
-> @@ -59,8 +59,8 @@ struct matrix_keymap_data {
->  struct matrix_keypad_platform_data {
->  	const struct matrix_keymap_data *keymap_data;
->  
-> -	const unsigned int *row_gpios;
-> -	const unsigned int *col_gpios;
-> +	struct gpio_desc **row_gpios;
-> +	struct gpio_desc **col_gpios;
->  
->  	unsigned int	num_row_gpios;
->  	unsigned int	num_col_gpios;
-> -- 
-> 2.20.1
-> 
-> 
