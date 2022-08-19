@@ -2,67 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D1A05998B2
-	for <lists+linux-input@lfdr.de>; Fri, 19 Aug 2022 11:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4609A599976
+	for <lists+linux-input@lfdr.de>; Fri, 19 Aug 2022 12:10:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244451AbiHSJeq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 19 Aug 2022 05:34:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48898 "EHLO
+        id S1348102AbiHSKHg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Aug 2022 06:07:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbiHSJep (ORCPT
+        with ESMTP id S1346395AbiHSKHf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Aug 2022 05:34:45 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2057B6CF6C
-        for <linux-input@vger.kernel.org>; Fri, 19 Aug 2022 02:34:43 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7E40B40005;
-        Fri, 19 Aug 2022 09:34:41 +0000 (UTC)
-Message-ID: <b3079fca592e5f8cb4692273e6dea59bcbeb7423.camel@hadess.net>
-Subject: Re: [PATCH v2 4/4] Input: xpad - add support for XBOX One Elite
- paddles
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Pavel Rojtberg <rojtberg@gmail.com>, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org
-Cc:     Christopher Crockett <chaorace@gmail.com>
-Date:   Fri, 19 Aug 2022 11:34:40 +0200
-In-Reply-To: <20220818154411.510308-5-rojtberg@gmail.com>
-References: <20220818154411.510308-1-rojtberg@gmail.com>
-         <20220818154411.510308-5-rojtberg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        Fri, 19 Aug 2022 06:07:35 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1CDEEF3D;
+        Fri, 19 Aug 2022 03:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1660903645; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ryDfhbtuwYy5c1tcol3QoAaRVgMHXbulgS9d5yfa2n8=;
+        b=AyDj/vtHJrg0GK0pZAzam8akj3i9uUkn1TYV42yobzb9ve+gR5E0rUoRTqd5PXElNpRFvi
+        pVtLmsqz8sfYBiV6AqLbf2iXzzKeYazBTwKu/fqHD8GItAq4w23N7Kbin4XdywM7BUmXBl
+        kpitl0lC36Tkswi2CoMT8GbetEW2KY8=
+Date:   Fri, 19 Aug 2022 12:07:16 +0200
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 1/4] iio/adc: ingenic: fix channel offsets in buffer
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Artur Rojek <contact@artur-rojek.eu>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        BROADCOM NVRAM DRIVER <linux-mips@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>
+Message-Id: <4GXUGR.SAF00K92YJMF@crapouillou.net>
+In-Reply-To: <CAHp75Vd49aCKkK+KvmxJrW2mKk7=VgtSBCTYE9umOhZhc4Y8FA@mail.gmail.com>
+References: <20220817105643.95710-1-contact@artur-rojek.eu>
+        <20220817105643.95710-2-contact@artur-rojek.eu>
+        <CAHp75Vd49aCKkK+KvmxJrW2mKk7=VgtSBCTYE9umOhZhc4Y8FA@mail.gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2022-08-18 at 17:44 +0200, Pavel Rojtberg wrote:
-> From: Christopher Crockett <chaorace@gmail.com>
-> 
-> An effort has been made to support every official model and firmware
-> version I could track down info on. The following controllers
-> _should_
-> have working paddles with this PR:
-> - Xbox Elite (**untested**)
-> - Xbox Elite Series 2 on early firmwares (**untested**)
-> - Xbox Elite Series 2 on v4 firmwares (Tested v4.8.1908.0)
-> - Xbox Elite Series 2 on v5 pre-BLE firmwares (**untested**)
-> - Xbox Elite Series 2 on v5 post-BLE firmwares (Tested v5.13.3143.0)
-> 
-> This patch also introduces correct handling for the Elite 1
-> controller
-> and properly suppresses paddle inputs when using a custom profile
-> slot.
+Hi Andy,
 
-I tested with an original "X-Box" Elite (1698) and the paddle buttons
-all worked in both profiles. I haven't been able to get the firmware
-version (maybe the driver could export it somehow?), and I haven't
-tested with custom profiles either.
+Le ven., ao=FBt 19 2022 at 11:12:38 +0300, Andy Shevchenko=20
+<andy.shevchenko@gmail.com> a =E9crit :
+> On Wed, Aug 17, 2022 at 1:58 PM Artur Rojek <contact@artur-rojek.eu>=20
+> wrote:
+>>=20
+>>  Consumers expect the buffer to only contain enabled channels. While
+>>  preparing the buffer, the driver also (incorrectly) inserts empty=20
+>> data
+>>  for disabled channels, causing the enabled channels to appear at=20
+>> wrong
+>>  offsets. Fix that.
+>=20
+> What consumers? Have you tested on all of them? Please, elaborate. It
+> might be that some of them have to be fixed. In such case you need to
+> report the issue to their respective channels and put the
+> corresponding links here.
 
-Tested-by: Bastien Nocera <hadess@hadess.net>
+There are no consumers to fix, only this driver. I believe it  wasn't=20
+noticed until now because all consumers were only using channels 0 and=20
+1.
+
+Cheers,
+-Paul
+
+> P.S. It doesn't mean I'm against the patch.
+>=20
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+
