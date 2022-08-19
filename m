@@ -2,102 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 414705999F4
-	for <lists+linux-input@lfdr.de>; Fri, 19 Aug 2022 12:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16B645999EA
+	for <lists+linux-input@lfdr.de>; Fri, 19 Aug 2022 12:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347854AbiHSKdW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Aug 2022 06:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48460 "EHLO
+        id S1347977AbiHSKf5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Aug 2022 06:35:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347614AbiHSKdV (ORCPT
+        with ESMTP id S1347745AbiHSKf4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Aug 2022 06:33:21 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74A32B4;
-        Fri, 19 Aug 2022 03:33:14 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPA id 40ECBE000B;
-        Fri, 19 Aug 2022 10:33:09 +0000 (UTC)
+        Fri, 19 Aug 2022 06:35:56 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E0AF23FC;
+        Fri, 19 Aug 2022 03:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660905355; x=1692441355;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9tIOJO8iIZTfgTPmf7d8mdH6aJrcZ7JVSdLiYDFz5dE=;
+  b=f/KEn0fpkJXnt7ufpN5My7CvD7GcJykWiKeyemp/rWuLMFp9ruS+SV1p
+   uGQmAKw4CVGSEqIiT8YKXIUujnu13TvMQ2u9FCTfRn3oURztddpYkRCnx
+   fjwJNPrL1lJvtBRttBiyjda71gD0Chr9+YSyfDT6Yn3hGBVrQyBY0heTY
+   1sO3cllB3CW9DyfyWQmcpUUs8dusa4ytPspSH3S/f8CO9Xga7MTwtCLLr
+   S+7axlS+nEeZQ7iZjAaVdnJrNIZR2aK3OUSBMk1+kVBzSu+j1uVhznXz+
+   2WdfUFKN8Wi/0gSJodlORoj7xW0jepgFdAzOU/Pjt7lAhuT3sYElL0aRT
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="292983803"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="292983803"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 03:35:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="711301794"
+Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2022 03:35:51 -0700
+Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oOzLy-0001MH-1w;
+        Fri, 19 Aug 2022 10:35:50 +0000
+Date:   Fri, 19 Aug 2022 18:35:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gireesh.Hiremath@in.bosch.com, linux-omap@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, bcousson@baylibre.com,
+        tony@atomide.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, dmitry.torokhov@gmail.com,
+        mkorpershoek@baylibre.com, davidgow@google.com,
+        m.felsch@pengutronix.de, swboyd@chromium.org,
+        fengping.yu@mediatek.com, y.oudjana@protonmail.com,
+        rdunlap@infradead.org, colin.king@intel.com
+Cc:     kbuild-all@lists.01.org, sjoerd.simons@collabora.co.uk,
+        VinayKumar.Shettar@in.bosch.com,
+        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
+Subject: Re: [PATCH v3 2/3] driver: input: matric-keypad: add reduced matrix
+ support
+Message-ID: <202208191853.knYsDJyu-lkp@intel.com>
+References: <20220819065946.9572-2-Gireesh.Hiremath@in.bosch.com>
 MIME-Version: 1.0
-Date:   Fri, 19 Aug 2022 12:33:08 +0200
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>
-Subject: Re: [PATCH 3/4] iio: add helper function for reading channel offset
- in buffer
-In-Reply-To: <CAHp75VeierGKV7BqF+y-vxramA4nk24LOSPRxgmjots_amkg-w@mail.gmail.com>
-References: <20220817105643.95710-1-contact@artur-rojek.eu>
- <20220817105643.95710-4-contact@artur-rojek.eu>
- <CAHp75VeierGKV7BqF+y-vxramA4nk24LOSPRxgmjots_amkg-w@mail.gmail.com>
-Message-ID: <a9b3f2b469e26d13f1c37a6f10373e24@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819065946.9572-2-Gireesh.Hiremath@in.bosch.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022-08-19 10:17, Andy Shevchenko wrote:
-> On Wed, Aug 17, 2022 at 1:58 PM Artur Rojek <contact@artur-rojek.eu> 
-> wrote:
->> 
->> This is useful for consumers that wish to parse raw buffer data.
-> 
-> ...
-> 
->> +int iio_find_channel_offset_in_buffer(struct iio_dev *indio_dev,
->> +                                     const struct iio_chan_spec 
->> *chan,
->> +                                     struct iio_buffer *buffer)
->> +{
->> +       int length, offset = 0;
->> +       unsigned int si;
->> +
->> +       if (chan->scan_index < 0 ||
->> +           !test_bit(chan->scan_index, buffer->scan_mask)) {
->> +               return -EINVAL;
->> +       }
-> 
-> Have you run checkpatch? The {} are redundant. But personally I would
-> split this into two separate conditionals.
-I did run checkpatch on it - all patches were ready for submission.
-I don't find the {} redundant for multi-line statements, like this one,
-and I personally prefer to check conditions that return the same error
-type together.
-> 
->> +       for (si = 0; si < chan->scan_index; ++si) {
-> 
-> Just a side crying: where did you, people, get this pre-increment 
-> pattern from?!
-> 
->> +               if (!test_bit(si, buffer->scan_mask))
->> +                       continue;
-> 
-> NIH for_each_set_bit()
-> 
->> +               length = iio_storage_bytes_for_si(indio_dev, si);
->> +
->> +               /* Account for channel alignment. */
->> +               if (offset % length)
->> +                       offset += length - (offset % length);
->> +               offset += length;
->> +       }
->> +
->> +       return offset;
->> +}
->> +EXPORT_SYMBOL_GPL(iio_find_channel_offset_in_buffer);
-> 
-> Same Q as per previous patch: IIO namespace?
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on linus/master v6.0-rc1 next-20220819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gireesh-Hiremath-in-bosch-com/driver-input-matric-keypad-switch-to-gpiod/20220819-151155
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20220819/202208191853.knYsDJyu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/a0b420e08e3b8775a3dbc4857f6ef4831db1c2b3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gireesh-Hiremath-in-bosch-com/driver-input-matric-keypad-switch-to-gpiod/20220819-151155
+        git checkout a0b420e08e3b8775a3dbc4857f6ef4831db1c2b3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/keyboard/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/input/keyboard/matrix_keypad.c:65:33: warning: 'keypad_infos' defined but not used [-Wunused-const-variable=]
+      65 | static const struct keypad_info keypad_infos[] = {
+         |                                 ^~~~~~~~~~~~
+
+
+vim +/keypad_infos +65 drivers/input/keyboard/matrix_keypad.c
+
+    64	
+  > 65	static const struct keypad_info keypad_infos[] = {
+    66		{
+    67			.mode = GENERIC,
+    68		},
+    69		{
+    70			.mode = REDUCED,
+    71		},
+    72	};
+    73	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
