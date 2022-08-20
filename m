@@ -2,160 +2,335 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18FDF59A483
-	for <lists+linux-input@lfdr.de>; Fri, 19 Aug 2022 20:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06B1259AA53
+	for <lists+linux-input@lfdr.de>; Sat, 20 Aug 2022 03:05:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350494AbiHSR6h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Aug 2022 13:58:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39346 "EHLO
+        id S239403AbiHTA7R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Aug 2022 20:59:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350816AbiHSR5z (ORCPT
+        with ESMTP id S237730AbiHTA7R (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Aug 2022 13:57:55 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B30F631358;
-        Fri, 19 Aug 2022 10:43:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 28E3CCE26B5;
-        Fri, 19 Aug 2022 17:43:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FDCBC433D6;
-        Fri, 19 Aug 2022 17:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660930983;
-        bh=CtN0bU1lCxBA2fo8mhjV2ip2dwYJ1d1FUVmor9iMIE8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eNPvGdQ/HZ3TrSyM9+mcrX5Ixzh7JeBIY71kH3qCq3XhdcIh+cj7SNkuW2qWOqSlm
-         KMU8VkmtknY5zH4Jt/Bwl/i2Fqd3XP9HvUzfpLJsfCOdOcnP5lBM6xZvHPwpepqC32
-         l7QvgFgsdBLLh6FdQHJ5JDWINV5YUWb2DmWq+ZeLi0b7Jq+bF3//cebXvNa5TetDIz
-         Yw9AkJyB9ohxI2FSWDmPmpVIj0gjvlmB2pcn3T08N+juDfmP01fHSL//PveRBViwy2
-         fKZEg2pFqi7Tx7+BtiRZ94tYGR8jqd4/D897mmTN2jDH3yqZfE0pDypYbtO0cng8s/
-         37N3gk1KRxa7g==
-Date:   Fri, 19 Aug 2022 18:53:39 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Artur Rojek <contact@artur-rojek.eu>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        linux-mips@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 4/4] input: joystick: Fix buffer data parsing
-Message-ID: <20220819185339.7f488ad8@jic23-huawei>
-In-Reply-To: <20220817105643.95710-5-contact@artur-rojek.eu>
-References: <20220817105643.95710-1-contact@artur-rojek.eu>
-        <20220817105643.95710-5-contact@artur-rojek.eu>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        Fri, 19 Aug 2022 20:59:17 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD1CDB7750;
+        Fri, 19 Aug 2022 17:59:15 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id s206so4915302pgs.3;
+        Fri, 19 Aug 2022 17:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=7ETiwQl3PE0gS3p1yZNKwRLbYB4yEgnAjiWaZl01Ej4=;
+        b=a/XWSoSzLWgIYfGj2MZNh1oL1HQQ6on2vA08OqrU1/QBqWKjmVfCK7zJMJ598XPLmr
+         GXYWcKKC7LiPhSnjmed/SKOb3yg9r35RvgbMWfYARvIq53bKZP14pRf/oKH0I3Ho+24m
+         KaAnO/YUecgjDkR5s2bxaKySyRHTmBqLRpkoz4Rxi6jnkPb/3lnTItH2L2Hgpn/i6utj
+         pFj5g3DCIXTeAQpdqAwi5fcSN6r2u2pwsxHxH+MsVo7Zf7iMN+exvqF5INAHDRD3p2p/
+         QlPtkRrxv5LcfiO6r+Efb8Or0UiVhebVco1Q+fJMcS6D9l72eeouIW/aR0KGzAmW2BK6
+         /j5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=7ETiwQl3PE0gS3p1yZNKwRLbYB4yEgnAjiWaZl01Ej4=;
+        b=PpC1F/wLaiQ0NWWn+bktTQAeGAy+tD79fi1GCcRpGO9nuOuMz80m4eYvcPNpw7mo6i
+         Mh78cbg1Zcgv69UHw0ExeIJ5DE79wWoU4VT+bE1oGYLeiIKW06tAqaOsXujdNHZN15rT
+         F5ZtT2Z2vIws8flGNSmUIgQEId1LoaVhOEMuLzfnZUP8ajHGwaW5JFkPtQYgeEl/IzHd
+         gqsdLEIE4/RR/ui6HVSj6myYqe5jTvUKCuFLZjGxqair/TV5KOi6I8jalup0Dby5ctNe
+         JIV0ZufHWmba+p/pJWClOV2nRoSN9D4lbRJKq3ON0dKwfPQU5vdYA303Ciwny7LeIT6Q
+         WjXg==
+X-Gm-Message-State: ACgBeo2qXgEyHqy2itFEFCjV2BkUSyIa+Y5dS1H/BPYJ7X9YBQDd7h/1
+        B1aACA5VMu0bAwgrNCNg3c4=
+X-Google-Smtp-Source: AA6agR4Yw4tRLyNAtVcmJT1HTpVfPAO85/rYniawHc+CrHlz8wh/Q5fwWOEFhLgBXXABEqBtJ73Q0A==
+X-Received: by 2002:a63:8749:0:b0:41d:89d4:ce3d with SMTP id i70-20020a638749000000b0041d89d4ce3dmr7978965pge.344.1660957154929;
+        Fri, 19 Aug 2022 17:59:14 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:3e7:2d3d:d921:7f8a])
+        by smtp.gmail.com with ESMTPSA id g2-20020a63f402000000b0040d75537824sm3272643pgi.86.2022.08.19.17.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Aug 2022 17:59:14 -0700 (PDT)
+Date:   Fri, 19 Aug 2022 17:59:11 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Gireesh.Hiremath@in.bosch.com, linux-omap@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, bcousson@baylibre.com,
+        tony@atomide.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, mkorpershoek@baylibre.com,
+        davidgow@google.com, swboyd@chromium.org, fengping.yu@mediatek.com,
+        y.oudjana@protonmail.com, rdunlap@infradead.org,
+        colin.king@intel.com, sjoerd.simons@collabora.co.uk,
+        VinayKumar.Shettar@in.bosch.com,
+        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
+Subject: Re: [PATCH v3 1/3] driver: input: matric-keypad: switch to gpiod
+Message-ID: <YwAx38N0ICE37Vu9@google.com>
+References: <20220819065946.9572-1-Gireesh.Hiremath@in.bosch.com>
+ <20220819131231.nzi26cbrpgfrycl2@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819131231.nzi26cbrpgfrycl2@pengutronix.de>
+X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 17 Aug 2022 12:56:43 +0200
-Artur Rojek <contact@artur-rojek.eu> wrote:
-
-> Don't try to access buffer data of a channel by its scan index. Instead,
-> use the newly introduced `iio_find_channel_offset_in_buffer` to get the
-> correct data offset.
+On Fri, Aug 19, 2022 at 03:12:31PM +0200, Marco Felsch wrote:
+> Hi Gireesh,
 > 
-> The scan index of a channel does not represent its position in a buffer,
-> as the buffer will contain data for enabled channels only, affecting
-> data offsets and alignment.
+> On 22-08-19, Gireesh.Hiremath@in.bosch.com wrote:
+> > From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
+> > 
+> > Switch from gpio API to gpiod API
 > 
-> Fixes: 2c2b364fddd5 ("Input: joystick - add ADC attached joystick driver.")
-> Reported-by: Chris Morgan <macromorgan@hotmail.com>
-> Tested-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-> ---
->  drivers/input/joystick/adc-joystick.c | 26 +++++++++++++++++---------
->  1 file changed, 17 insertions(+), 9 deletions(-)
+> Nice change.
 > 
-> diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-> index c0deff5d4282..aed853ebe1d1 100644
-> --- a/drivers/input/joystick/adc-joystick.c
-> +++ b/drivers/input/joystick/adc-joystick.c
-> @@ -6,6 +6,7 @@
->  #include <linux/ctype.h>
->  #include <linux/input.h>
->  #include <linux/iio/iio.h>
-> +#include <linux/iio/buffer.h>
->  #include <linux/iio/consumer.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> @@ -46,36 +47,43 @@ static void adc_joystick_poll(struct input_dev *input)
->  static int adc_joystick_handle(const void *data, void *private)
->  {
->  	struct adc_joystick *joy = private;
-> +	struct iio_buffer *buffer;
->  	enum iio_endian endianness;
-> -	int bytes, msb, val, idx, i;
-> -	const u16 *data_u16;
-> +	int bytes, msb, val, off;
-> +	const u8 *chan_data;
-> +	unsigned int i;
->  	bool sign;
->  
->  	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
->  
->  	for (i = 0; i < joy->num_chans; ++i) {
-> -		idx = joy->chans[i].channel->scan_index;
->  		endianness = joy->chans[i].channel->scan_type.endianness;
->  		msb = joy->chans[i].channel->scan_type.realbits - 1;
->  		sign = tolower(joy->chans[i].channel->scan_type.sign) == 's';
-> +		buffer = iio_channel_cb_get_iio_buffer(joy->buffer);
-> +		off = iio_find_channel_offset_in_buffer(joy->chans[i].indio_dev,
-> +							joy->chans[i].channel,
-> +							buffer);
+> Did you checked the users of this driver? This change changes the
+> behaviour for actice_low GPIOs. A quick check showed that at least on
+> upstream board: arch/arm/mach-pxa/palmtc.c uses active low GPIOs.
+> 
+> > Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
+> > 
+> > Gbp-Pq: Topic apertis/guardian
+> > Gbp-Pq: Name driver-input-matric-keypad-switch-gpio-to-gpiod.patch
+> 
+> Please drop this internal tags.
+> 
+> > ---
+> >  drivers/input/keyboard/matrix_keypad.c | 84 ++++++++++----------------
+> >  include/linux/input/matrix_keypad.h    |  4 +-
+> >  2 files changed, 33 insertions(+), 55 deletions(-)
+> > 
+> > diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
+> > index 30924b57058f..b99574edad9c 100644
+> > --- a/drivers/input/keyboard/matrix_keypad.c
+> > +++ b/drivers/input/keyboard/matrix_keypad.c
+> > @@ -15,11 +15,10 @@
+> >  #include <linux/interrupt.h>
+> >  #include <linux/jiffies.h>
+> >  #include <linux/module.h>
+> > -#include <linux/gpio.h>
+> > +#include <linux/gpio/consumer.h>
+> >  #include <linux/input/matrix_keypad.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/of.h>
+> > -#include <linux/of_gpio.h>
+> >  #include <linux/of_platform.h>
+> >  
+> >  struct matrix_keypad {
+> > @@ -49,11 +48,11 @@ static void __activate_col(const struct matrix_keypad_platform_data *pdata,
+> >  	bool level_on = !pdata->active_low;
+> >  
+> >  	if (on) {
+> > -		gpio_direction_output(pdata->col_gpios[col], level_on);
+> > +		gpiod_direction_output(pdata->col_gpios[col], level_on);
+> 
+> Now strange things can happen, if active_low is set and you specified
+> GPIO_ACTIVE_LOW within the device-tree. We need a way to move to gpiod
+> and keep the current behaviour.
+> 
+> >  	} else {
+> > -		gpio_set_value_cansleep(pdata->col_gpios[col], !level_on);
+> > +		gpiod_set_value_cansleep(pdata->col_gpios[col], !level_on);
+> >  		if (!pdata->drive_inactive_cols)
+> > -			gpio_direction_input(pdata->col_gpios[col]);
+> > +			gpiod_direction_input(pdata->col_gpios[col]);
+> >  	}
+> >  }
+> >  
+> > @@ -78,7 +77,7 @@ static void activate_all_cols(const struct matrix_keypad_platform_data *pdata,
+> >  static bool row_asserted(const struct matrix_keypad_platform_data *pdata,
+> >  			 int row)
+> >  {
+> > -	return gpio_get_value_cansleep(pdata->row_gpios[row]) ?
+> > +	return gpiod_get_value_cansleep(pdata->row_gpios[row]) ?
+> >  			!pdata->active_low : pdata->active_low;
+> >  }
+> >  
+> > @@ -91,7 +90,7 @@ static void enable_row_irqs(struct matrix_keypad *keypad)
+> >  		enable_irq(pdata->clustered_irq);
+> >  	else {
+> >  		for (i = 0; i < pdata->num_row_gpios; i++)
+> > -			enable_irq(gpio_to_irq(pdata->row_gpios[i]));
+> > +			enable_irq(gpiod_to_irq(pdata->row_gpios[i]));
+> >  	}
+> >  }
+> >  
+> > @@ -104,7 +103,7 @@ static void disable_row_irqs(struct matrix_keypad *keypad)
+> >  		disable_irq_nosync(pdata->clustered_irq);
+> >  	else {
+> >  		for (i = 0; i < pdata->num_row_gpios; i++)
+> > -			disable_irq_nosync(gpio_to_irq(pdata->row_gpios[i]));
+> > +			disable_irq_nosync(gpiod_to_irq(pdata->row_gpios[i]));
+> >  	}
+> >  }
+> >  
+> > @@ -230,7 +229,7 @@ static void matrix_keypad_stop(struct input_dev *dev)
+> >  static void matrix_keypad_enable_wakeup(struct matrix_keypad *keypad)
+> >  {
+> >  	const struct matrix_keypad_platform_data *pdata = keypad->pdata;
+> > -	unsigned int gpio;
+> > +	struct gpio_desc *gpio;
+> >  	int i;
+> >  
+> >  	if (pdata->clustered_irq > 0) {
+> > @@ -242,7 +241,7 @@ static void matrix_keypad_enable_wakeup(struct matrix_keypad *keypad)
+> >  			if (!test_bit(i, keypad->disabled_gpios)) {
+> >  				gpio = pdata->row_gpios[i];
+> >  
+> > -				if (enable_irq_wake(gpio_to_irq(gpio)) == 0)
+> > +				if (enable_irq_wake(gpiod_to_irq(gpio)) == 0)
+> >  					__set_bit(i, keypad->disabled_gpios);
+> >  			}
+> >  		}
+> > @@ -252,7 +251,7 @@ static void matrix_keypad_enable_wakeup(struct matrix_keypad *keypad)
+> >  static void matrix_keypad_disable_wakeup(struct matrix_keypad *keypad)
+> >  {
+> >  	const struct matrix_keypad_platform_data *pdata = keypad->pdata;
+> > -	unsigned int gpio;
+> > +	struct gpio_desc *gpio;
+> >  	int i;
+> >  
+> >  	if (pdata->clustered_irq > 0) {
+> > @@ -264,7 +263,7 @@ static void matrix_keypad_disable_wakeup(struct matrix_keypad *keypad)
+> >  		for (i = 0; i < pdata->num_row_gpios; i++) {
+> >  			if (test_and_clear_bit(i, keypad->disabled_gpios)) {
+> >  				gpio = pdata->row_gpios[i];
+> > -				disable_irq_wake(gpio_to_irq(gpio));
+> > +				disable_irq_wake(gpiod_to_irq(gpio));
+> >  			}
+> >  		}
+> >  	}
+> > @@ -308,27 +307,11 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
+> >  
+> >  	/* initialized strobe lines as outputs, activated */
+> >  	for (i = 0; i < pdata->num_col_gpios; i++) {
+> > -		err = gpio_request(pdata->col_gpios[i], "matrix_kbd_col");
+> > -		if (err) {
+> > -			dev_err(&pdev->dev,
+> > -				"failed to request GPIO%d for COL%d\n",
+> > -				pdata->col_gpios[i], i);
+> > -			goto err_free_cols;
+> > -		}
+> > -
+> > -		gpio_direction_output(pdata->col_gpios[i], !pdata->active_low);
+> > +		gpiod_direction_output(pdata->col_gpios[i], !pdata->active_low);
+> >  	}
+> >  
+> >  	for (i = 0; i < pdata->num_row_gpios; i++) {
+> > -		err = gpio_request(pdata->row_gpios[i], "matrix_kbd_row");
+> > -		if (err) {
+> > -			dev_err(&pdev->dev,
+> > -				"failed to request GPIO%d for ROW%d\n",
+> > -				pdata->row_gpios[i], i);
+> > -			goto err_free_rows;
+> > -		}
+> > -
+> > -		gpio_direction_input(pdata->row_gpios[i]);
+> > +		gpiod_direction_input(pdata->row_gpios[i]);
+> >  	}
+> >  
+> >  	if (pdata->clustered_irq > 0) {
+> > @@ -344,7 +327,7 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
+> >  	} else {
+> >  		for (i = 0; i < pdata->num_row_gpios; i++) {
+> >  			err = request_any_context_irq(
+> > -					gpio_to_irq(pdata->row_gpios[i]),
+> > +					gpiod_to_irq(pdata->row_gpios[i]),
+> >  					matrix_keypad_interrupt,
+> >  					IRQF_TRIGGER_RISING |
+> >  					IRQF_TRIGGER_FALLING,
+> > @@ -352,7 +335,7 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
+> >  			if (err < 0) {
+> >  				dev_err(&pdev->dev,
+> >  					"Unable to acquire interrupt for GPIO line %i\n",
+> > -					pdata->row_gpios[i]);
+> > +					i);
+> >  				goto err_free_irqs;
+> >  			}
+> >  		}
+> > @@ -364,15 +347,12 @@ static int matrix_keypad_init_gpio(struct platform_device *pdev,
+> >  
+> >  err_free_irqs:
+> >  	while (--i >= 0)
+> > -		free_irq(gpio_to_irq(pdata->row_gpios[i]), keypad);
+> > +		free_irq(gpiod_to_irq(pdata->row_gpios[i]), keypad);
+> >  	i = pdata->num_row_gpios;
+> >  err_free_rows:
+> >  	while (--i >= 0)
+> > -		gpio_free(pdata->row_gpios[i]);
+> > +		gpiod_put(pdata->row_gpios[i]);
+> >  	i = pdata->num_col_gpios;
+> > -err_free_cols:
+> > -	while (--i >= 0)
+> > -		gpio_free(pdata->col_gpios[i]);
+> >  
+> >  	return err;
+> >  }
+> > @@ -386,14 +366,14 @@ static void matrix_keypad_free_gpio(struct matrix_keypad *keypad)
+> >  		free_irq(pdata->clustered_irq, keypad);
+> >  	} else {
+> >  		for (i = 0; i < pdata->num_row_gpios; i++)
+> > -			free_irq(gpio_to_irq(pdata->row_gpios[i]), keypad);
+> > +			free_irq(gpiod_to_irq(pdata->row_gpios[i]), keypad);
+> >  	}
+> >  
+> >  	for (i = 0; i < pdata->num_row_gpios; i++)
+> > -		gpio_free(pdata->row_gpios[i]);
+> > +		gpiod_put(pdata->row_gpios[i]);
+> >  
+> >  	for (i = 0; i < pdata->num_col_gpios; i++)
+> > -		gpio_free(pdata->col_gpios[i]);
+> > +		gpiod_put(pdata->col_gpios[i]);
+> >  }
+> >  
+> >  #ifdef CONFIG_OF
+> > @@ -402,7 +382,8 @@ matrix_keypad_parse_dt(struct device *dev)
+> >  {
+> >  	struct matrix_keypad_platform_data *pdata;
+> >  	struct device_node *np = dev->of_node;
+> > -	unsigned int *gpios;
+> > +	struct gpio_desc **gpios;
+> > +	struct gpio_desc *desc;
+> >  	int ret, i, nrow, ncol;
+> >  
+> >  	if (!np) {
+> > @@ -416,8 +397,8 @@ matrix_keypad_parse_dt(struct device *dev)
+> >  		return ERR_PTR(-ENOMEM);
+> >  	}
+> >  
+> > -	pdata->num_row_gpios = nrow = of_gpio_named_count(np, "row-gpios");
+> > -	pdata->num_col_gpios = ncol = of_gpio_named_count(np, "col-gpios");
+> > +	pdata->num_row_gpios = nrow = gpiod_count(dev, "row");
+> > +	pdata->num_col_gpios = ncol = gpiod_count(dev, "col");
+> >  	if (nrow <= 0 || ncol <= 0) {
+> >  		dev_err(dev, "number of keypad rows/columns not specified\n");
+> >  		return ERR_PTR(-EINVAL);
+> > @@ -429,9 +410,6 @@ matrix_keypad_parse_dt(struct device *dev)
+> >  	pdata->wakeup = of_property_read_bool(np, "wakeup-source") ||
+> >  			of_property_read_bool(np, "linux,wakeup"); /* legacy */
+> >  
+> > -	if (of_get_property(np, "gpio-activelow", NULL))
+> > -		pdata->active_low = true;
+> > -
+> 
+> This removes backward compatibility, please don't do that.
 
-With this call replaced with one that instead uses
+I do not think there is a reasonable way of keeping the compatibility
+while using gpiod API (sans abandoning polarity handling and using
+*_raw() versions of API).
 
-		off = iio_find_channel_offset_in_buffer(joy->chans, i);
+I would adjust the DTSes in the kernel and move on, especially given
+that the DTSes in the kernel are inconsistent - they specify
+gpio-activelow attribute while specifying "action high" in gpio
+properties).
 
-which I'm fairly sure is enough via the info in chans[x]->channel to establish this offset.
+Thanks.
 
-All is good, though you should probably cache it as doing that maths every
-time seems excessive.
-
-
-> +		if (off < 0)
-> +			return off;
-> +
-> +		chan_data = (const u8 *)data + off;
->  
->  		switch (bytes) {
->  		case 1:
-> -			val = ((const u8 *)data)[idx];
-> +			val = *chan_data;
->  			break;
->  		case 2:
-> -			data_u16 = (const u16 *)data + idx;
-> -
->  			/*
->  			 * Data is aligned to the sample size by IIO core.
->  			 * Call `get_unaligned_xe16` to hide type casting.
->  			 */
->  			if (endianness == IIO_BE)
-> -				val = get_unaligned_be16(data_u16);
-> +				val = get_unaligned_be16(chan_data);
-
-I obviously missed this previously but these are aligned so we don't need the
-unaligned form.
-
->  			else if (endianness == IIO_LE)
-> -				val = get_unaligned_le16(data_u16);
-> +				val = get_unaligned_le16(chan_data);
->  			else /* IIO_CPU */
-> -				val = *data_u16;
-> +				val = *(const u16 *)chan_data;
->  			break;
->  		default:
->  			return -EINVAL;
-
+-- 
+Dmitry
