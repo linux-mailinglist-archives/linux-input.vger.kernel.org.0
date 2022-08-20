@@ -2,154 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D371959AFF0
-	for <lists+linux-input@lfdr.de>; Sat, 20 Aug 2022 21:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DDD59B0ED
+	for <lists+linux-input@lfdr.de>; Sun, 21 Aug 2022 01:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbiHTTgk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 20 Aug 2022 15:36:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52726 "EHLO
+        id S230013AbiHTXpr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 20 Aug 2022 19:45:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbiHTTgk (ORCPT
+        with ESMTP id S229512AbiHTXpp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 20 Aug 2022 15:36:40 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A17426FB
-        for <linux-input@vger.kernel.org>; Sat, 20 Aug 2022 12:36:39 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oPUGl-00038H-Qq; Sat, 20 Aug 2022 21:36:31 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oPUGd-0006zB-Bm; Sat, 20 Aug 2022 21:36:23 +0200
-Date:   Sat, 20 Aug 2022 21:36:23 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Gireesh.Hiremath@in.bosch.com, linux-omap@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, bcousson@baylibre.com,
-        tony@atomide.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, mkorpershoek@baylibre.com,
-        davidgow@google.com, swboyd@chromium.org, fengping.yu@mediatek.com,
-        y.oudjana@protonmail.com, rdunlap@infradead.org,
-        colin.king@intel.com, sjoerd.simons@collabora.co.uk,
-        VinayKumar.Shettar@in.bosch.com,
-        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
-Subject: Re: [PATCH v3 1/3] driver: input: matric-keypad: switch to gpiod
-Message-ID: <20220820193623.bnjgnydu3rkbdtbo@pengutronix.de>
-References: <20220819065946.9572-1-Gireesh.Hiremath@in.bosch.com>
- <20220819131231.nzi26cbrpgfrycl2@pengutronix.de>
- <YwAx38N0ICE37Vu9@google.com>
+        Sat, 20 Aug 2022 19:45:45 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 414A31B7B0;
+        Sat, 20 Aug 2022 16:45:45 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id l5so5708700qtv.4;
+        Sat, 20 Aug 2022 16:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=Btkkj48d679yMHfGDb7blJcQxQiXhetd/ngCq9I26DY=;
+        b=Kzx5zU0MeBIxlozUMBpXJavMDTSDnV2JELrkqEPducYlks2y3noS3EkIGMbZylbjcr
+         wYaPfAsBKelN07jYLDGORcjvJrvuNo3Tlq8nzXZ9fYfCXIq/8Pqui9/u/5O2vi9mfI8Q
+         oZIpjU32722CGSP9n4vFr78h34WhggEIDtw8m9pETHQfQo38rusr5ruR7VUgqCbQOXWs
+         hikAGIoIyGJCnNZ7SSvmyvsnF9nEluk0Bu5jNKEjidgjOjIIkqUlDVC7uADKOXA0icoj
+         GcvCsn5uPcPvX3oQDWY4KxHUiI/H9HF0tVJB9pMiNMYcKOJHYAC1CWY6Fcd7Xu9LwFNE
+         KMLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=Btkkj48d679yMHfGDb7blJcQxQiXhetd/ngCq9I26DY=;
+        b=rHv9WMoI4hYGYxjJ+aragoSwQhyv58fRhK5+V7AJtyc1Ehi4UyuniYE7j4T+Wl2OcO
+         tnkatl8eYzVbtbfLHoJzuuAzhvd4ZT/WXCGVd20IpSZ99L5ND+omDoMlvgqKU4E/rKit
+         MAb1twqTdhSfppYT869xgBkXkqTSJTxODXe91o8nAGYRaTCqeWq46szFv2Hg5SYBMG4z
+         9fLf14Uwy38SFXcbwDByP/gg4qiQ9AUxUuL0ReoASjbEpO57kaIyZZjD0ynfckQbDY+d
+         YMW1CfFL0wy3+Xzzwpia4rhNiZZKsf/f0ox2K2OqDTm1zd1rmZFS667DBKhcHqA1X5P/
+         6UTA==
+X-Gm-Message-State: ACgBeo1SNY1OjbhLgvRgGup4XB2KFNeGm+8NlcrIR1E26B00z3a40V0r
+        wZ2f36OSyMaOS38O0568Gy8=
+X-Google-Smtp-Source: AA6agR5t8qnthpzQ7Anx6Wp3jN1V6sDpW3q+oHh2UjFY2ftn0OpSjdpvjOskXSfXMp1zXabPUOzcOQ==
+X-Received: by 2002:a05:622a:8a:b0:344:5611:7a8a with SMTP id o10-20020a05622a008a00b0034456117a8amr11221617qtw.565.1661039144395;
+        Sat, 20 Aug 2022 16:45:44 -0700 (PDT)
+Received: from [192.168.0.9] ([198.179.6.194])
+        by smtp.gmail.com with ESMTPSA id f21-20020a05620a409500b006bb2bca5741sm7793099qko.93.2022.08.20.16.45.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Aug 2022 16:45:43 -0700 (PDT)
+Message-ID: <97ec87e6-b0c3-f2c9-4412-41a5884b6a24@gmail.com>
+Date:   Sat, 20 Aug 2022 19:45:42 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwAx38N0ICE37Vu9@google.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
+ Inspiroy H640 drawing tablet
+Content-Language: en-GB
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, Ping Cheng <ping.cheng@wacom.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <9e16d503-2203-57ed-d6af-61fea0c3e10b@gmail.com>
+ <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm>
+ <20220724114849.GA32182@elementary> <20220725224841.GA75640@elementary>
+ <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
+ <20220804182445.GA16569@elementary>
+ <CAO-hwJ+hBipNJpeYaHRr2-rKXA5d79XT7zE2fo2oEKUKJtKJ0g@mail.gmail.com>
+ <20220813110922.GA47526@elementary>
+ <d8b91029-4a6e-1508-1512-faea768ae580@redhat.com>
+From:   Stefan Hansson <newbie13xd@gmail.com>
+In-Reply-To: <d8b91029-4a6e-1508-1512-faea768ae580@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-On 22-08-19, Dmitry Torokhov wrote:
-> On Fri, Aug 19, 2022 at 03:12:31PM +0200, Marco Felsch wrote:
-> > Hi Gireesh,
-> > 
-> > On 22-08-19, Gireesh.Hiremath@in.bosch.com wrote:
-> > > From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> > > 
-> > > Switch from gpio API to gpiod API
-> > 
-> > Nice change.
-> > 
-> > Did you checked the users of this driver? This change changes the
-> > behaviour for actice_low GPIOs. A quick check showed that at least on
-> > upstream board: arch/arm/mach-pxa/palmtc.c uses active low GPIOs.
-> > 
-> > > Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> > > 
-> > > Gbp-Pq: Topic apertis/guardian
-> > > Gbp-Pq: Name driver-input-matric-keypad-switch-gpio-to-gpiod.patch
-> > 
-> > Please drop this internal tags.
-> > 
-> > > ---
-> > >  drivers/input/keyboard/matrix_keypad.c | 84 ++++++++++----------------
-> > >  include/linux/input/matrix_keypad.h    |  4 +-
-> > >  2 files changed, 33 insertions(+), 55 deletions(-)
-> > > 
-> > > diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-> > > index 30924b57058f..b99574edad9c 100644
-> > > --- a/drivers/input/keyboard/matrix_keypad.c
-> > > +++ b/drivers/input/keyboard/matrix_keypad.c
-> > > @@ -15,11 +15,10 @@
-> > >  #include <linux/interrupt.h>
-> > >  #include <linux/jiffies.h>
-> > >  #include <linux/module.h>
-> > > -#include <linux/gpio.h>
-> > > +#include <linux/gpio/consumer.h>
-> > >  #include <linux/input/matrix_keypad.h>
-> > >  #include <linux/slab.h>
-> > >  #include <linux/of.h>
-> > > -#include <linux/of_gpio.h>
-> > >  #include <linux/of_platform.h>
-> > >  
-> > >  struct matrix_keypad {
-> > > @@ -49,11 +48,11 @@ static void __activate_col(const struct matrix_keypad_platform_data *pdata,
-> > >  	bool level_on = !pdata->active_low;
-> > >  
-> > >  	if (on) {
-> > > -		gpio_direction_output(pdata->col_gpios[col], level_on);
-> > > +		gpiod_direction_output(pdata->col_gpios[col], level_on);
-> > 
-> > Now strange things can happen, if active_low is set and you specified
-> > GPIO_ACTIVE_LOW within the device-tree. We need a way to move to gpiod
-> > and keep the current behaviour.
-> > 
-> > >  	} else {
-> > > -		gpio_set_value_cansleep(pdata->col_gpios[col], !level_on);
-> > > +		gpiod_set_value_cansleep(pdata->col_gpios[col], !level_on);
-> > >  		if (!pdata->drive_inactive_cols)
-> > > -			gpio_direction_input(pdata->col_gpios[col]);
-> > > +			gpiod_direction_input(pdata->col_gpios[col]);
-
-...
-
-> > > @@ -429,9 +410,6 @@ matrix_keypad_parse_dt(struct device *dev)
-> > >  	pdata->wakeup = of_property_read_bool(np, "wakeup-source") ||
-> > >  			of_property_read_bool(np, "linux,wakeup"); /* legacy */
-> > >  
-> > > -	if (of_get_property(np, "gpio-activelow", NULL))
-> > > -		pdata->active_low = true;
-> > > -
-> > 
-> > This removes backward compatibility, please don't do that.
+> FWIW, I found the issue: the hid-uclogic driver is emitting input data
+> behind hid-input, and the state between the 2 is desynchronized.
 > 
-> I do not think there is a reasonable way of keeping the compatibility
-> while using gpiod API (sans abandoning polarity handling and using
-> *_raw() versions of API).
+> The following patch seems to be working (with the Huion v1 protocol I
+> have here that I have tweaked to resemble a v2):
+> ---
+>  From aeedd318e6cb4dbee551f67616302cc7c4308c58 Mon Sep 17 00:00:00 2001
+> From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Date: Thu, 18 Aug 2022 15:09:25 +0200
+> Subject: [PATCH] Fix uclogic
 > 
-> I would adjust the DTSes in the kernel and move on, especially given
-> that the DTSes in the kernel are inconsistent - they specify
-> gpio-activelow attribute while specifying "action high" in gpio
-> properties).
+> ---
+>   drivers/hid/hid-input.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index c6b27aab9041..a3e2397bb3a7 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1530,7 +1530,10 @@ void hidinput_hid_event(struct hid_device *hid, 
+> struct hid_field *field, struct
+>                * assume ours
+>                */
+>               if (!report->tool)
+> -                hid_report_set_tool(report, input, usage->code);
+> +                report->tool = usage->code;
+> +
+> +            /* drivers may have changed the value behind our back, 
+> resend it */
+> +            hid_report_set_tool(report, input, report->tool);
+>           } else {
+>               hid_report_release_tool(report, input, usage->code);
+>           }
 
-Yes, because the driver didn't respect that by not using the gpiod API.
-Got your point for the DTses but what about the boards based on the
-platform-data? Those boards must be changed as well.
-
-Also I thought DTB is firmware and we should never break it, now we
-doing it by this commit. Just to get your opinion on this.
-
-Regards,
-  Marco
+What branch should this be applied on top of?
