@@ -2,69 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D10AB59C604
-	for <lists+linux-input@lfdr.de>; Mon, 22 Aug 2022 20:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A73059C902
+	for <lists+linux-input@lfdr.de>; Mon, 22 Aug 2022 21:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235151AbiHVSW7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Aug 2022 14:22:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45548 "EHLO
+        id S238850AbiHVTgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Aug 2022 15:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232132AbiHVSW6 (ORCPT
+        with ESMTP id S238768AbiHVTgA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Aug 2022 14:22:58 -0400
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D178047B97;
-        Mon, 22 Aug 2022 11:22:57 -0700 (PDT)
-Received: by mail-oi1-f181.google.com with SMTP id v125so13234528oie.0;
-        Mon, 22 Aug 2022 11:22:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=0Qoldrnk1OOisFOprUKbgJfO+ztr4gzIbivup1sV7ig=;
-        b=t+2EpcIV1uUS4QVlzbL43gyDj7JlL26Sotyp1vNgtp0uNb8JfGrvoUhOYsbzGP7yOe
-         AWcyaof0/LMcz7KOE49uFyVxylKdqYzwVscoq5riPLvO7UzXRfGzcvmDQfaueljTt4X9
-         uI6MDNyyq5T+0m7vEhoWOb55XJx0Zw8DuUhH8NSeu/8NGxcOZhxbCrtx3L0QzA/1hUv4
-         +IdFGbk7xGXYOjx9TAHDHJ8C6ae54ezzaYY127yfuIHgcfzzMQXZJZ+83taHBsIR3vdQ
-         o/px8BDoqpm18EusmS7uZsItX8xv8rQ3Bf5FngV720+/pnRtTM3pAZMuyJP3yypRfG7f
-         QWtw==
-X-Gm-Message-State: ACgBeo2yHWi09A5eAQZty0vuiOS/DykxAdqVoqO7FpZDn78fBloi5C6J
-        62fAjPuSkKO+m5+WhIQlmQ==
-X-Google-Smtp-Source: AA6agR6W2WOiZtmbA+066xdS7uLzllg7qZidjvvWBjMfuzyQ2cDQHRcW3NbhntdvtXkdXa+pc7crqQ==
-X-Received: by 2002:aca:2110:0:b0:343:26cf:c6cf with SMTP id 16-20020aca2110000000b0034326cfc6cfmr12281154oiz.276.1661192576902;
-        Mon, 22 Aug 2022 11:22:56 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id g22-20020a056830161600b0063715f7eef8sm3025060otr.38.2022.08.22.11.22.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 11:22:56 -0700 (PDT)
-Received: (nullmailer pid 107284 invoked by uid 1000);
-        Mon, 22 Aug 2022 18:22:55 -0000
-Date:   Mon, 22 Aug 2022 13:22:55 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Gireesh.Hiremath@in.bosch.com
-Cc:     linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        bcousson@baylibre.com, tony@atomide.com,
-        krzysztof.kozlowski+dt@linaro.org, dmitry.torokhov@gmail.com,
-        mkorpershoek@baylibre.com, davidgow@google.com,
-        m.felsch@pengutronix.de, swboyd@chromium.org,
-        fengping.yu@mediatek.com, y.oudjana@protonmail.com,
-        rdunlap@infradead.org, colin.king@intel.com,
-        sjoerd.simons@collabora.co.uk, VinayKumar.Shettar@in.bosch.com,
-        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
-Subject: Re: [PATCH v3 3/3] dt-bindings: input: gpio-matrix-keypad: add
- reduced matrix keypad bindings definition
-Message-ID: <20220822182255.GA97986-robh@kernel.org>
-References: <20220819065946.9572-1-Gireesh.Hiremath@in.bosch.com>
- <20220819065946.9572-3-Gireesh.Hiremath@in.bosch.com>
+        Mon, 22 Aug 2022 15:36:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9CE1275E;
+        Mon, 22 Aug 2022 12:35:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 868AF6122F;
+        Mon, 22 Aug 2022 19:35:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E425AC43141;
+        Mon, 22 Aug 2022 19:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661196948;
+        bh=59bb0jYFlSosGYQkwjxBpEccBGa05dy9L2UhBEaYG+I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=e4u1X1JWq8Fq35+G7oCT0frCJtoXcIPfYBzz2ocV72fIPDu635p+trs2/NJX51Bw+
+         dgo+DWNHq1pD50EiRAdBEzkcKK3vT+9Aacb/Ii2b7sNZQh2VEXp1Stfw/xPvBSP7TE
+         yEUSUZpbiCwhm85IZbW8DzLkomsacdzLFaXZh2aCVKqStx6LceK2JZBqZEkdt09Oru
+         Jn59ZTfbqB/+T6ZGRuwTfYcwfJcS6gnjL37YLHkn3qHx4o6q7ptzcqvSp2vy9foITX
+         lmbGxorMtEcb0WFe+XxpFFX+6N9/xgRjbImvwZc5tNJQVc9dwnZy0o667r1FWMrLcm
+         IoN/gGcnWyy6Q==
+Date:   Mon, 22 Aug 2022 20:01:20 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Artur Rojek <contact@artur-rojek.eu>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        linux-mips@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 4/4] input: joystick: Fix buffer data parsing
+Message-ID: <20220822200120.543ff801@jic23-huawei>
+In-Reply-To: <3HE0HR.IPKJTTCKEJUA1@crapouillou.net>
+References: <20220817105643.95710-1-contact@artur-rojek.eu>
+        <20220817105643.95710-5-contact@artur-rojek.eu>
+        <20220819185339.7f488ad8@jic23-huawei>
+        <3HE0HR.IPKJTTCKEJUA1@crapouillou.net>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220819065946.9572-3-Gireesh.Hiremath@in.bosch.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,17 +61,25 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 19, 2022 at 06:59:46AM +0000, Gireesh.Hiremath@in.bosch.com wrote:
-> From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
+> >>   		case 2:
+> >>  -			data_u16 = (const u16 *)data + idx;
+> >>  -
+> >>   			/*
+> >>   			 * Data is aligned to the sample size by IIO core.
+> >>   			 * Call `get_unaligned_xe16` to hide type casting.
+> >>   			 */
+> >>   			if (endianness == IIO_BE)
+> >>  -				val = get_unaligned_be16(data_u16);
+> >>  +				val = get_unaligned_be16(chan_data);  
+> > 
+> > I obviously missed this previously but these are aligned so we don't 
+> > need the
+> > unaligned form.  
 > 
-> Add binding definition for the support of the reduced matrix
-> keypad driver.
-> 
-> Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> ---
->  .../bindings/input/gpio-matrix-keypad.txt     | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
+> Yes, the comment above says that it's used to hide type casting.
+oops :)
 
-This needs to be converted to DT schema first for this level of change.
+Thanks for pointing out my lack of observation!
 
-Rob
+Jonathan
+
