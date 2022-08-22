@@ -2,183 +2,262 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09FD959B2B2
-	for <lists+linux-input@lfdr.de>; Sun, 21 Aug 2022 10:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 324BD59B727
+	for <lists+linux-input@lfdr.de>; Mon, 22 Aug 2022 03:12:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbiHUIE4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 21 Aug 2022 04:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45212 "EHLO
+        id S232187AbiHVBMk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 21 Aug 2022 21:12:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiHUIEw (ORCPT
+        with ESMTP id S229948AbiHVBMk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 21 Aug 2022 04:04:52 -0400
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2043.outbound.protection.outlook.com [40.92.103.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1198C19297;
-        Sun, 21 Aug 2022 01:04:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z9wmJoQ5Dk058G9i4LCUwj7NxytyODkBXKBl2tt+jzJTafJtQYfTddXBHzzYO4fo5TxkmUEewbnbCQMdwg4QkmcOUhz8dmfEpcuDXN3P0vKii1fUxFr1XNKzqgJjxiIHkkJYa4cqzqZWWItGgWEDYsjR0RJuU1bgZbbAbhMOysR/ZOaFTtELe1WgsMQD1vKnPqGpNMNgzq9CR43tnPdVn1kJ9udAc1Jos4niFjRlhpdGQVcHf53FzDNTmIF7yxFVaRBhi5MvzIvxgY703P2EMVV8DWlbMh/nDC08dykuSpHzQ9uupCzy4Xlyo1FPIeRXy8AGEzCqGPZk/aM14M4AYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V45qjMYj3h9KxIOG0T+8wSKEzObPX5v4mVeIRKWyZss=;
- b=gY9aRZdDuo0ch2IDeiWY5CyvA/n+xGDgdggtzy6Oj4ULZET6TRN88pRatrc9s5aMvlxkw5RgZMy4iKRhrX0qgVNXFMtFyUwWiAX2Hve19AiTJu8EDoATGM6MTt0QI9GISZlGYc2JbgwMWOV/vOMrt7CXZX/yUABKvdit3zZsW2GmPGtb8rd3HIHdiuSBM+kkwzQHYkt1A/UqpDqVP0AdoDUdym3b/EfifhKYQ9PPlTUK1Y8XCKveNxUJ1CkMXCKqnaWgFieRUO3/6QVmY9AHPax4qTbzd4tFFmfj6XeGOOq7YkBOatRc3KFfljhpnVSEupNvZw94mZNNb1zZWpl04g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V45qjMYj3h9KxIOG0T+8wSKEzObPX5v4mVeIRKWyZss=;
- b=qVKdleNSdhfB/xNITGQ0t4OZfzMclSuWE3vkK1+rATvP+YDAxYu53uwEtYHHAM7MY2Cjpdrk0WTcChCIpQcOpvrF9AC6pXiOAjfUhFej0iN46pHW9cbmzNaj0PMUcfi05QmE1dsFu8aas68qHohAQshmANmbFZllmrHQI9bKluYTre4ONMDr3rl5SShjfxdEfzAibOrsnS0ykQl2GN7c2vQnWGpx4Xi/UA8CK6qPORpJnCxUxZR75LsMdzFtliKAo831T2zZ7q/HaAOlAoqWFhcxc+JcPcwdNWQQyFgSuinS3HrG/Yv5hgKxCnpRo54SLQMoukLKSqTQDfZZ/8QogA==
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1b::13)
- by BM1PR01MB2947.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:46::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.19; Sun, 21 Aug
- 2022 08:04:45 +0000
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::cc2c:fa62:8825:6b97]) by PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::cc2c:fa62:8825:6b97%6]) with mapi id 15.20.5546.021; Sun, 21 Aug 2022
- 08:04:45 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        "jkosina@suse.cz" <jkosina@suse.cz>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-CC:     Orlando Chamberlain <redecorating@protonmail.com>
-Subject: [PATCH] HID: Add Apple Touchbar on T2 Macs in hid_have_special_driver
- list
-Thread-Topic: [PATCH] HID: Add Apple Touchbar on T2 Macs in
- hid_have_special_driver list
-Thread-Index: AQHYtTStFWCRoLFmPEqV8QD4Wsg3WA==
-Date:   Sun, 21 Aug 2022 08:04:45 +0000
-Message-ID: <30CA04A0-4F49-400F-A684-2C65B15E4431@live.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [5pNxUAJkx8s9mdIWHMN+iG7SGSb+t07P]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc3568aa-d967-4731-b164-08da834bcf93
-x-ms-traffictypediagnostic: BM1PR01MB2947:EE_
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2iLqCw7l8/dAsB9xpoctiB51x7iAT+R6vpgCy6kZ8QZVdhGZ7AmQ+ERQuBt8PgUuDxPHVHlUkGIEL8cTJFvv32tTpsU9YfmnuWi9UnUIorjd/nRxmJeV69Xo1Utmme3m7zaKxVn22DeNV9muAs/wmiS/JA/2KATPeU+GGiGy9LSGHBKAILPO99iY9M7q/tv6CA4Vr+NQh51H+v0NaE6vOXnghaWI8lnNkfX+qwODb0CUuNIxN6HSJjrP7HINUfLN2D66tpoqs81YttfZB7798tgER72/9Rt9gmm4KdORm7Yt9yvJmuKGUuJN9IhUE3nz4AAfFlr7a8OgOf51ppKorIYGKbgXFuxHIKeEC6DZxMhPfeyx3CrmoAMl/7e8yYOPI/bAoneJf4C33t6DS8/m5VJ785hw0EFcRn3CdiR2IOKXabqK/m/OE8IZcUpJfVxXG4KD88Mj6iXzjJ8nVEU3RGIcO6LXi0+LqeDAzeqMrDOUHb/HGNujDNg15+gCyzkuRFu3k0z0HaxOGffxFMTpH3H89diydnqlV+bgxPCradMBbpKgtifQBa5j+5dcZC4vYNCdAn0NbzvVorS4TzWY7CEQujHPYI8KgbY6A0rd3k6ZpjpRe4+06vEfxBqTGAYK
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wnMUyXb70hkANHR/odiJoktJX4YL8iPxlEB4kshbxocCOQEhhH2XDLdy0qCU?=
- =?us-ascii?Q?CQk2BXgl9U2sLRC2LAaeHxggKyd73yPYq9MeMfxb5JLXqJRq+rSL1V6R/fQi?=
- =?us-ascii?Q?3ZG9WChW3LLNYK6ZmgmKSkYHTmDQ7vWIQdYEz8WLqhgzSvL3cnL87NHIoNJ4?=
- =?us-ascii?Q?jS4hARak5u4pv9dPNbbYoP24T7pGYNF0b8MW5A+AB0Dg8qyciyAoLYWZ/Nq2?=
- =?us-ascii?Q?J5AfW+tAQZTe3T9ue0o0440NNzSE1pohEg5mgWVyUC4OAveY7/h/kEQSzWKH?=
- =?us-ascii?Q?15cJekkyVJvQKrl0K23ymMrHRxsTtec1U7/5L51pJwoLrZudaYmyx7WrrQqK?=
- =?us-ascii?Q?ASfmMA6amn7kuy5Baj7Oj88hzEd7sdQK8lM9VhCG8I9AJw9E2SpSnhfua1b0?=
- =?us-ascii?Q?YbBsxyJoXSQvkJWCPVwCruXjxtZlBOAH6FU/5kxedZWYeqo2I8K6+ItPtg+N?=
- =?us-ascii?Q?wx7X2pAc6a7gOQuHI9jEBa7K1zm7AnmhtAHjl3QUJjAspg1TC111sMURc++6?=
- =?us-ascii?Q?cF/8tDMM0uQ0u+KqCBUE0JAj5LpC/3EG33etCDxvO7K0p2VyeJKKheRIQCn1?=
- =?us-ascii?Q?+Zh0AEOmmCpzB0i5DQj4RLn4ca8jhtQVy9VyiXKmU7dn+3E12YRtE59wW1Bo?=
- =?us-ascii?Q?0EH8F179Zmpo1YqrT6dG4K/CAUrnngufDVUMioQOIUqlBT154SC7gUT8hsJ5?=
- =?us-ascii?Q?9cTwKSS3SWlTnjOfpnNaqjBTx37DPG5FpyK67q5s85A10oHNEAxjgGLcCVTj?=
- =?us-ascii?Q?ovFPZo6Ey+2aKXkr7/eQamiyd8D5O4xh0Vo1SnvigDULYDrVbk9e5IKYdGro?=
- =?us-ascii?Q?Mb7/HTOAZiR0xS+xnpyGs7US75ML4r5dWwEp0NvLhUfWsz1jx17SUOHcS5g0?=
- =?us-ascii?Q?Wo6JTZLUAOIbtBkbo3HY9g0YE+Z+aL9Z+yUvZqm7jdjiYKXd6dKv92EirLIS?=
- =?us-ascii?Q?PlsClWrV1dvlgZPnrDsidYZdQrrs+7YE5UG3OPatY6crZL9YIy+w8CgkfmyV?=
- =?us-ascii?Q?fYlRgHkxI5tUouC9Mb8rVrOOiFDXiOd5Bz0KhIpNZG6ONU6M732YbNfCM7LF?=
- =?us-ascii?Q?17I2AT42zHV28+jRxJIBmoVf4bJhXG6ZsxNb5LgALjGvuqI+rI7BMtPmeUHD?=
- =?us-ascii?Q?4feVzFfknnMMFSUVbSAxG65ipZjgiRlOtdBuihoNeUmCi3RWjKh6I+zsqaKR?=
- =?us-ascii?Q?wp/X14HiWX4I5NXNN9215re82UjmUeENmsTN2D7v5eleN7xlgkqskYg1Yhb8?=
- =?us-ascii?Q?PmHfu233a5Ar5CWgitVYOZ9jpgENAfQYkJ8LUWZJOg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B91BAC671E2F7B41801AFBC86E55DFC4@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+        Sun, 21 Aug 2022 21:12:40 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D16831D335;
+        Sun, 21 Aug 2022 18:12:38 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id h24so11377878wrb.8;
+        Sun, 21 Aug 2022 18:12:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=3AdmndOpd6zIunTecnpi1mLwFVDbJmvpabOXm3DCD78=;
+        b=UjA6q8mKF5sQPoLULzIpKiofAFZY40IWajUeMlzFBkgXRR1L3syXcQQQ2v1DsjJ+vC
+         f5EdgcNNpD0i8LhIyzUnyj+QzwsqoAXMB+h1UMxTgjtwHNCYxphL3DYz+YlWiT/YSh/0
+         v1M7tkxnWYKhiZ8YiO9yHEP7FnQSETbPeuSHkLjH6x9hGP/kv65OSAj0TtGOnUaNE7oy
+         dA0Y48JGNapJ6tJw18MvN1mZZoSrzS3Nse+Z7nKiD/3hdZaOiN5lGCs2/tnxxoaeDlEc
+         V7YxbB4YwIip0GsTi/p38daD8wOcVuc0K6EgaaE4tx7OlsfUtsKRNtpsvHWkoxuqPBpt
+         k3RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=3AdmndOpd6zIunTecnpi1mLwFVDbJmvpabOXm3DCD78=;
+        b=IcmBzEswe2Kj56tmsMfUhdefNX8YJ69U14WUrqi5IyyGZ69/P6oLhJO6EGlwxD7KZq
+         GKn3d5MShWdLdrbRqSeZ01jXCRf02ue8im23D/5vXNfgm+V4wUHLGUyCPfPuup3SAl6e
+         et6ODVtZ8TV8pQkDSLkRvrx8iLQiSUiTZnrx9NVG83n1/XnNxOjlAN7IgAKlpblQXh8I
+         CddtWJJH8aKs6Dy4DHN6iyawe2e+dK91LNzwO6F16wOhr+dzxnKuQdyeRjIXJEmvigWc
+         MPGqx0C0LznJnr+93Xx7wMmp5xfZAmbN2RQnq6oBsWE6o51IRDkmsLWqAeCSXsFpwBFS
+         e2ug==
+X-Gm-Message-State: ACgBeo1PsWHQdIwDoGsVaxWcZtqx0PuauY7TuGYWYylyKKlRDpqwLWcW
+        +Ma/8NFIsDkAgE8pVbx5fGVQICZWFJA/qe1kOXY=
+X-Google-Smtp-Source: AA6agR5uWVa8JzxnIp25ysSvDyI4mN9wel1e/8gMEU0B3ZJX034gy37HQN12YxIIXHg+/YhNVZwvn0jWOOj/MQJf+Kw=
+X-Received: by 2002:a05:6000:1684:b0:220:6e60:768d with SMTP id
+ y4-20020a056000168400b002206e60768dmr9016494wrd.121.1661130757182; Sun, 21
+ Aug 2022 18:12:37 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc3568aa-d967-4731-b164-08da834bcf93
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2022 08:04:45.4070
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB2947
+References: <1660100142-32493-1-git-send-email-u0084500@gmail.com> <1660100142-32493-4-git-send-email-u0084500@gmail.com>
+In-Reply-To: <1660100142-32493-4-git-send-email-u0084500@gmail.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Mon, 22 Aug 2022 09:12:25 +0800
+Message-ID: <CADiBU39vExtLYQZO=p=Zf_k3da1SWVjogLtvs1Oi1vCXn46bqg@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] input: misc: rt5120: Add power key support
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Aditya Garg <gargaditya08@live.com>
+Dear reviewers:
 
-The touchbar on Apple T2 Macs has 2 modes, one that shows the function
-keys and other that shows the media controls. The user can use the fn
-key on his keyboard to switch between the 2 modes.
-
-On Linux, if people were using an external keyboard or mouse, the
-touchbar failed to change modes on pressing the fn key with the following
-in dmesg :-
-
-[   10.661445] apple-ib-als 0003:05AC:8262.0001: : USB HID v1.01 Device [Ap=
-ple Inc. Ambient Light Sensor] on usb-bce-vhci-3/input0
-[   11.830992] apple-ib-touchbar 0003:05AC:8302.0007: input: USB HID v1.01 =
-Keyboard [Apple Inc. Touch Bar Display] on usb-bce-vhci-6/input0
-[   12.139407] apple-ib-touchbar 0003:05AC:8102.0008: : USB HID v1.01 Devic=
-e [Apple Inc. Touch Bar Backlight] on usb-bce-vhci-7/input0
-[   12.211824] apple-ib-touchbar 0003:05AC:8102.0009: : USB HID v1.01 Devic=
-e [Apple Inc. Touch Bar Backlight] on usb-bce-vhci-7/input1
-[   14.219759] apple-ib-touchbar 0003:05AC:8302.0007: tb: Failed to set tou=
-ch bar mode to 2 (-110)
-[   24.395670] apple-ib-touchbar 0003:05AC:8302.0007: tb: Failed to set tou=
-ch bar mode to 2 (-110)
-[   34.635791] apple-ib-touchbar 0003:05AC:8302.0007: tb: Failed to set tou=
-ch bar mode to 2 (-110)
-[  269.579233] apple-ib-touchbar 0003:05AC:8302.0007: tb: Failed to set tou=
-ch bar mode to 1 (-110)
-
-Add the USB IDs of the touchbar found in T2 Macs to HID have special
-driver list to fix the issue.
-
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/hid/hid-ids.h    | 2 ++
- drivers/hid/hid-quirks.c | 2 ++
- 2 files changed, 4 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0fb720a96..78cd2a62b 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -185,6 +185,8 @@
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021   0x029c
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021   0x029a
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021   0x029f
-+#define USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT 0x8102
-+#define USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY 0x8302
-=20
- #define USB_VENDOR_ID_ASUS		0x0486
- #define USB_DEVICE_ID_ASUS_T91MT	0x0185
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index dc67717d2..70f602c64 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -314,6 +314,8 @@ static const struct hid_device_id hid_have_special_driv=
-er[] =3D {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY=
-) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_=
-2021) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_=
-FINGERPRINT_2021) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLI=
-GHT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLA=
-Y) },
- #endif
- #if IS_ENABLED(CONFIG_HID_APPLEIR)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IRCONTROL) },
---=20
-2.34.1
-
-
+cy_huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B48=E6=9C=8810=E6=97=A5 =
+=E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8810:55=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> Add RT5120 PMIC power key support.
+>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+> Since v4:
+> - Add "Copyright" string and refine for GPL version string.
+>
+> Since v3:
+> - Simplify the power key irq handler key report
+> - Since press and release irq not needed to keep in private data, change =
+'press',
+>   'release' irq as local variable only.
+> - Fix Kconfig typo for pwrkey.
+>
+Since binding/mfd/regulator are all applied, only this one is left.
+Any update about this pwrkey patch?
+> ---
+>  drivers/input/misc/Kconfig         |   9 +++
+>  drivers/input/misc/Makefile        |   1 +
+>  drivers/input/misc/rt5120-pwrkey.c | 109 +++++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 119 insertions(+)
+>  create mode 100644 drivers/input/misc/rt5120-pwrkey.c
+>
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index a18ab73..92daa4d 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -891,6 +891,15 @@ config INPUT_SC27XX_VIBRA
+>           To compile this driver as a module, choose M here. The module w=
+ill
+>           be called sc27xx_vibra.
+>
+> +config INPUT_RT5120_PWRKEY
+> +       tristate "RT5120 PMIC power key support"
+> +       depends on MFD_RT5120
+> +       help
+> +         This enables support for RT5120 PMIC power key driver.
+> +
+> +         To compile this driver as a module, choose M here. the module w=
+ill
+> +         be called rt5120-pwrkey.
+> +
+>  config INPUT_STPMIC1_ONKEY
+>         tristate "STPMIC1 PMIC Onkey support"
+>         depends on MFD_STPMIC1
+> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> index 28dfc44..d1fb00e 100644
+> --- a/drivers/input/misc/Makefile
+> +++ b/drivers/input/misc/Makefile
+> @@ -69,6 +69,7 @@ obj-$(CONFIG_INPUT_RAVE_SP_PWRBUTTON) +=3D rave-sp-pwrb=
+utton.o
+>  obj-$(CONFIG_INPUT_RB532_BUTTON)       +=3D rb532_button.o
+>  obj-$(CONFIG_INPUT_REGULATOR_HAPTIC)   +=3D regulator-haptic.o
+>  obj-$(CONFIG_INPUT_RETU_PWRBUTTON)     +=3D retu-pwrbutton.o
+> +obj-$(CONFIG_INPUT_RT5120_PWRKEY)      +=3D rt5120-pwrkey.o
+>  obj-$(CONFIG_INPUT_AXP20X_PEK)         +=3D axp20x-pek.o
+>  obj-$(CONFIG_INPUT_GPIO_ROTARY_ENCODER)        +=3D rotary_encoder.o
+>  obj-$(CONFIG_INPUT_RK805_PWRKEY)       +=3D rk805-pwrkey.o
+> diff --git a/drivers/input/misc/rt5120-pwrkey.c b/drivers/input/misc/rt51=
+20-pwrkey.c
+> new file mode 100644
+> index 00000000..94d25ba
+> --- /dev/null
+> +++ b/drivers/input/misc/rt5120-pwrkey.c
+> @@ -0,0 +1,109 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2022 Richtek Technology Corp.
+> + * Author: ChiYuan Huang <cy_huang@richtek.com>
+> + */
+> +
+> +#include <linux/bits.h>
+> +#include <linux/input.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +#define RT5120_REG_INTSTAT     0x1E
+> +#define RT5120_PWRKEYSTAT_MASK BIT(7)
+> +
+> +struct rt5120_priv {
+> +       struct regmap *regmap;
+> +       struct input_dev *input;
+> +};
+> +
+> +static irqreturn_t rt5120_pwrkey_handler(int irq, void *devid)
+> +{
+> +       struct rt5120_priv *priv =3D devid;
+> +       unsigned int stat;
+> +       int ret;
+> +
+> +       ret =3D regmap_read(priv->regmap, RT5120_REG_INTSTAT, &stat);
+> +       if (ret)
+> +               return IRQ_NONE;
+> +
+> +       input_report_key(priv->input, KEY_POWER,
+> +                        !(stat & RT5120_PWRKEYSTAT_MASK));
+> +       input_sync(priv->input);
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+> +static int rt5120_pwrkey_probe(struct platform_device *pdev)
+> +{
+> +       struct rt5120_priv *priv;
+> +       struct device *dev =3D &pdev->dev;
+> +       int press_irq, release_irq;
+> +       int ret;
+> +
+> +       priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->regmap =3D dev_get_regmap(dev->parent, NULL);
+> +       if (!priv->regmap)
+> +               return dev_err_probe(dev, -ENODEV, "Failed to init regmap=
+\n");
+> +
+> +       press_irq =3D platform_get_irq_byname(pdev, "pwrkey-press");
+> +       if (press_irq < 0)
+> +               return press_irq;
+> +
+> +       release_irq =3D platform_get_irq_byname(pdev, "pwrkey-release");
+> +       if (release_irq < 0)
+> +               return release_irq;
+> +
+> +       /* Make input device be device resource managed */
+> +       priv->input =3D devm_input_allocate_device(dev);
+> +       if (!priv->input)
+> +               return dev_err_probe(dev, -ENOMEM,
+> +                                    "Failed to allocate input device\n")=
+;
+> +
+> +       priv->input->name =3D "rt5120_pwrkey";
+> +       priv->input->phys =3D "rt5120_pwrkey/input0";
+> +       priv->input->id.bustype =3D BUS_I2C;
+> +       input_set_capability(priv->input, EV_KEY, KEY_POWER);
+> +
+> +       ret =3D input_register_device(priv->input);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret,
+> +                                    "Failed to register input device\n")=
+;
+> +
+> +       ret =3D devm_request_threaded_irq(dev, press_irq, NULL,
+> +                                       rt5120_pwrkey_handler, 0,
+> +                                       "pwrkey-press", priv);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret,
+> +                                    "Failed to register pwrkey press irq=
+\n");
+> +
+> +       return devm_request_threaded_irq(dev, release_irq, NULL,
+> +                                        rt5120_pwrkey_handler, 0,
+> +                                        "pwrkey-release", priv);
+> +}
+> +
+> +static const struct of_device_id r5120_pwrkey_match_table[] =3D {
+> +       { .compatible =3D "richtek,rt5120-pwrkey" },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(of, r5120_pwrkey_match_table);
+> +
+> +static struct platform_driver rt5120_pwrkey_driver =3D {
+> +       .driver =3D {
+> +               .name =3D "rt5120-pwrkey",
+> +               .of_match_table =3D r5120_pwrkey_match_table,
+> +       },
+> +       .probe =3D rt5120_pwrkey_probe,
+> +};
+> +module_platform_driver(rt5120_pwrkey_driver);
+> +
+> +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
+> +MODULE_DESCRIPTION("Richtek RT5120 power key driver");
+> +MODULE_LICENSE("GPL v2");
+> --
+> 2.7.4
+>
