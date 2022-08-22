@@ -2,103 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEA5C59B8F0
-	for <lists+linux-input@lfdr.de>; Mon, 22 Aug 2022 08:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A8E759B945
+	for <lists+linux-input@lfdr.de>; Mon, 22 Aug 2022 08:22:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232531AbiHVGE5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Aug 2022 02:04:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55798 "EHLO
+        id S232943AbiHVGW5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Aug 2022 02:22:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229915AbiHVGEy (ORCPT
+        with ESMTP id S230119AbiHVGW4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Aug 2022 02:04:54 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A03F20BF9;
-        Sun, 21 Aug 2022 23:04:54 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id l1so13284716lfk.8;
-        Sun, 21 Aug 2022 23:04:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=doWgkAfEcmSMhRNIxRoHTjD9fSl7Q2XFQ3gDJGe0anw=;
-        b=d4vR2s8+jxnIrEGB/CJTUEY5EHRuuUOMpojTc+QpmNEZGAUirYD2O/zwgfBwghXVth
-         6ano1jbjTf3HWovy0VG6zgWCy0MS1HfZNWz/HW1FgMoLWnPHUgyPyvBttjXjvfmQW2rL
-         PSOLIssuruiQRbESq/mSb7kQhv58B6FsKldWmZ8LljlHFwB73Yu4rNA1xzwdZvKAgcmT
-         EPiVVOC4BnnexElaDjpHuDA7C4mvbm6B/FOwkTcn9WGsDSMOWjqXf4ZoNwjsy3MXueXH
-         KZbE83t2aOGeNqTER/qtLoaXLCYBbAPvZhlEVDTSyNtDL0Eg/w/Yz1ytZTN+CU5gdyGC
-         TpWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=doWgkAfEcmSMhRNIxRoHTjD9fSl7Q2XFQ3gDJGe0anw=;
-        b=oLi4mi7fwDSZ3mVQ+EaLes+lhF3DzUd20hCl6FPc42jZJC+0UmIeQ8E/V2TWKA0SMc
-         XaiVVESZOGbuw2nfKYf29GSVvRLtpBAt6+1had99UH7OYhSh+vkQ4Aq1QN1rloTNlt4W
-         4L0NzjSwuGhQgbStobZOVBry4b0uDcb1KRs02ZMtUYUlxCi5aXd8h1SLc4WTtRIPk01M
-         I3SVCenDw8hOoa2wg8JQutLrEcNaBRsY+8Vky5fSlgVDmG+U0NHdGKkzdepO1TLC4fn6
-         GKKIASXmM79bK/MxzTgD4m0SEr8BrmnefKMZh05BbBGS4PpeJd0W5AKQDEJEMAt2FH5F
-         u45Q==
-X-Gm-Message-State: ACgBeo1YQJ0DEg4HTatm4BRShVD8lv3nwOtWsoOYaiGGWmoMCBAfhPX2
-        1/WsekxQnQArjAovmXtXbQ0=
-X-Google-Smtp-Source: AA6agR7S8W+RHjW6Fx6LlBk13x71rzPMpPIyQa8sXXSvRaIDvZJ7qmlMXLPS0fUSGTwuUpzhC7hc/A==
-X-Received: by 2002:a05:6512:3f19:b0:48a:874f:534 with SMTP id y25-20020a0565123f1900b0048a874f0534mr6304213lfa.446.1661148292323;
-        Sun, 21 Aug 2022 23:04:52 -0700 (PDT)
-Received: from localhost.localdomain (82-209-154-112.cust.bredband2.com. [82.209.154.112])
-        by smtp.gmail.com with ESMTPSA id u17-20020ac243d1000000b0048afeb4ea32sm1776929lfl.100.2022.08.21.23.04.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Aug 2022 23:04:51 -0700 (PDT)
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
+        Mon, 22 Aug 2022 02:22:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A04CA27177
+        for <linux-input@vger.kernel.org>; Sun, 21 Aug 2022 23:22:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661149374;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nn4jF27DFlQd4RWn0PQw34qeK9JpgLOLE2krBPtSffM=;
+        b=U1kSJtcIV2dWVMf1zWHNvmWbDsBVH5KOEqn6oMQr/cjwRH62+h6QpjCA7KXQWTN/MXkk/M
+        LNts6Vj5Cnq3oCmo0PSI12hoDIZVFbzTeROinAeM/NAae7jYKf9IlKq/bQ1N93lQH37guB
+        8nOcCv6tvY8fGwF1LNiWliGDgfEiLq0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208-oWilpA_WMdKNbxA-Luhz_w-1; Mon, 22 Aug 2022 02:22:50 -0400
+X-MC-Unique: oWilpA_WMdKNbxA-Luhz_w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 566F43C0CD4A;
+        Mon, 22 Aug 2022 06:22:50 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.192.211])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4E8911121314;
+        Mon, 22 Aug 2022 06:22:49 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Stefan Hansson <newbie13xd@gmail.com>,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [RESEND PATCH 2/2] MAINTAINERS: Add entry for RC Simulator Controllers
-Date:   Mon, 22 Aug 2022 08:09:36 +0200
-Message-Id: <20220822060936.769855-2-marcus.folkesson@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220822060936.769855-1-marcus.folkesson@gmail.com>
-References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+Subject: [PATCH] HID: input: fix uclogic tablets
+Date:   Mon, 22 Aug 2022 08:22:47 +0200
+Message-Id: <20220822062247.1146141-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add an entry for RC Simulator Controllers and add myself
-as maintainers of this driver.
+commit 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
+made the assumption that it was the only one handling tablets and thus
+kept an internal state regarding the tool.
 
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Turns out that the uclogic driver has a timer to release the in range
+bit, effectively making hid-input ignoring all in range information
+after the very first one.
+
+Fix that by having a more rationale approach which consists in forwarding
+every event and let the input stack filter out the duplicates.
+
+Reported-by: Stefan Hansson <newbie13xd@gmail.com>
+Fixes: 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/hid/hid-input.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 64379c699903..216b9f021f72 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16896,6 +16896,13 @@ M:	Patrick Lerda <patrick9876@free.fr>
- S:	Maintained
- F:	drivers/media/rc/ir-rcmm-decoder.c
- 
-+RC SIMULATOR CONTROLLERS
-+M:	Marcus Folkesson <marcus.folkesson@gmail.com>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hid/rcsim.rst
-+F:	drivers/hid/hid-rcsim.c
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 48c1c02c69f4..871a185a0f1f 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -1532,7 +1532,10 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 			 * assume ours
+ 			 */
+ 			if (!report->tool)
+-				hid_report_set_tool(report, input, usage->code);
++				report->tool = usage->code;
 +
- RCUTORTURE TEST FRAMEWORK
- M:	"Paul E. McKenney" <paulmck@kernel.org>
- M:	Josh Triplett <josh@joshtriplett.org>
++			/* drivers may have changed the value behind our back, resend it */
++			hid_report_set_tool(report, input, report->tool);
+ 		} else {
+ 			hid_report_release_tool(report, input, usage->code);
+ 		}
 -- 
 2.37.1
 
