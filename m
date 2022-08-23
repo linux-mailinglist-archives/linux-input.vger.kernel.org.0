@@ -2,73 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C9E059EBC8
-	for <lists+linux-input@lfdr.de>; Tue, 23 Aug 2022 21:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CAF759ECDC
+	for <lists+linux-input@lfdr.de>; Tue, 23 Aug 2022 21:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbiHWTHg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Aug 2022 15:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39840 "EHLO
+        id S229966AbiHWTvX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Aug 2022 15:51:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231782AbiHWTHT (ORCPT
+        with ESMTP id S230225AbiHWTut (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Aug 2022 15:07:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A93713389C
-        for <linux-input@vger.kernel.org>; Tue, 23 Aug 2022 10:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661276576;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+fFhfrqCii4T/WFPMsHfn5web5vqcTYDBOszx5C8k0E=;
-        b=Yr2yeL8ZzXObNcrRKgu6bewcgm5suIOYKMeo5c6AN/7MhhSYF/3oRZ5aK2OsbfZuhHTDkB
-        l93XI3KfG//tUfAlMSagw6gzjKyl7f9Xx6nj6dH20mPULnXyYN9QmgrSMJmyRMJ/DtI0y4
-        7MMoSrpoDuzNkNQ8CWRHIAQs+pHhl1Y=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-TRnmRCyRObuiGSH8jXgB_A-1; Tue, 23 Aug 2022 13:42:53 -0400
-X-MC-Unique: TRnmRCyRObuiGSH8jXgB_A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Tue, 23 Aug 2022 15:50:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CC0546DA6;
+        Tue, 23 Aug 2022 11:54:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74B1629DD9A2;
-        Tue, 23 Aug 2022 17:42:52 +0000 (UTC)
-Received: from cmirabil.redhat.com (unknown [10.22.33.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A406514152E0;
-        Tue, 23 Aug 2022 17:42:51 +0000 (UTC)
-From:   Charles Mirabile <cmirabil@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Charles Mirabile <cmirabil@redhat.com>,
-        Peter Robinson <pbrobinson@gmail.com>,
-        Serge Schneider <serge@raspberrypi.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Nicolas Saenz Julienne <nicolassaenzj@gmail.com>,
-        Mattias Brugger <mbrugger@suse.com>,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, rh-kdlp@googlegroups.com,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, Joel Savitz <jsavitz@redhat.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 3/5] dt-bindings: mfd: sensehat: Add Raspberry Pi Sense HAT schema
-Date:   Tue, 23 Aug 2022 13:41:56 -0400
-Message-Id: <20220823174158.45579-4-cmirabil@redhat.com>
-In-Reply-To: <20220823174158.45579-1-cmirabil@redhat.com>
-References: <20220823174158.45579-1-cmirabil@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A822D616F0;
+        Tue, 23 Aug 2022 18:54:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3791EC433C1;
+        Tue, 23 Aug 2022 18:54:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661280892;
+        bh=wqZqOz27RQR1a98XGt8nLx/18hL9UVEZJHjpEEk/opA=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=lDKG1TUllnD9sw5CLYVsYKXcPesJ4J/kyOogGFCe6/jfYRthdUbBNY80keja9esta
+         CuL8YpYrpufQZVwhWb2Kv4zgXpu393EISPPcxV8lqI7xb6pNAzVdxPUL1KRNpuHe4n
+         yhzLuUcWLSsuGxrWO37TM3LDbhX7nTWJ4+T11J+efmAz4l6TfZU8VSDzwuXMEFoZrD
+         CRGPe7Fu3mjUZs0Z+OrqnWTilBYA2prkz4f8ltwU9MathNYAnoH3H15bLvYUjhFDXR
+         oygz6S+VgxJoAXnTpGUTYhKUgZ5m5kKEHwOPBu0rvifOCSMjvx/eshQtlGP/p159Ol
+         LT7PW7h+KnBkQ==
+From:   Mark Brown <broonie@kernel.org>
+To:     kristo@kernel.org, Jerome Neanne <jneanne@baylibre.com>,
+        dmitry.torokhov@gmail.com, lgirdwood@gmail.com, robh+dt@kernel.org,
+        nm@ti.com
+Cc:     narmstrong@baylibre.com, lee.jones@linaro.org, msp@baylibre.com,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        khilman@baylibre.com, j-keerthy@ti.com, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+In-Reply-To: <20220805121852.21254-1-jneanne@baylibre.com>
+References: <20220805121852.21254-1-jneanne@baylibre.com>
+Subject: Re: (subset) [PATCH v3 00/10] Add support for TI TPS65219 PMIC.
+Message-Id: <166128088890.1047495.17882167686293190279.b4-ty@kernel.org>
+Date:   Tue, 23 Aug 2022 19:54:48 +0100
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-Mailer: b4 0.10.0-dev-0c1df
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,154 +59,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds the device tree bindings for the Sense HAT
-and each of its children devices in yaml form.
+On Fri, 5 Aug 2022 14:18:42 +0200, Jerome Neanne wrote:
+> This driver supports
+> - 3 Buck regulators and 4 LDOs
+> - low-power standby mode
+> - warm/soft reset
+> - basic fault handling (via interrupts).
+> - power button
+> 
+> [...]
 
-Co-developed-by: Joel Savitz <jsavitz@redhat.com>
-Signed-off-by: Joel Savitz <jsavitz@redhat.com>
-Signed-off-by: Charles Mirabile <cmirabil@redhat.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../raspberrypi,sensehat-display.yaml         | 26 +++++++++
- .../input/raspberrypi,sensehat-joystick.yaml  | 31 ++++++++++
- .../bindings/mfd/raspberrypi,sensehat.yaml    | 57 +++++++++++++++++++
- 3 files changed, 114 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/auxdisplay/raspberrypi,sensehat-display.yaml
- create mode 100644 Documentation/devicetree/bindings/input/raspberrypi,sensehat-joystick.yaml
- create mode 100644 Documentation/devicetree/bindings/mfd/raspberrypi,sensehat.yaml
+Applied to
 
-diff --git a/Documentation/devicetree/bindings/auxdisplay/raspberrypi,sensehat-display.yaml b/Documentation/devicetree/bindings/auxdisplay/raspberrypi,sensehat-display.yaml
-new file mode 100644
-index 000000000000..0cf59b0a519c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/auxdisplay/raspberrypi,sensehat-display.yaml
-@@ -0,0 +1,26 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/auxdisplay/raspberrypi,sensehat-display.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Raspberry Pi Sensehat Display
-+
-+maintainers:
-+  - Charles Mirabile <cmirabil@redhat.com>
-+  - Joel Savitz <jsavitz@redhat.com>
-+
-+description:
-+  This device is part of the sensehat multi function device.
-+  For more information see ../mfd/raspberrypi,sensehat.yaml.
-+
-+  This device features a programmable 8x8 RGB LED matrix.
-+
-+properties:
-+  compatible:
-+    const: raspberrypi,sensehat-display
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-diff --git a/Documentation/devicetree/bindings/input/raspberrypi,sensehat-joystick.yaml b/Documentation/devicetree/bindings/input/raspberrypi,sensehat-joystick.yaml
-new file mode 100644
-index 000000000000..98b03878a570
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/raspberrypi,sensehat-joystick.yaml
-@@ -0,0 +1,31 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/raspberrypi,sensehat-joystick.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Raspberry Pi Sensehat Joystick
-+
-+maintainers:
-+  - Charles Mirabile <cmirabil@redhat.com>
-+  - Joel Savitz <jsavitz@redhat.com>
-+
-+description:
-+  This device is part of the sensehat multi function device.
-+  For more information see ../mfd/raspberrypi,sensehat.yaml.
-+
-+  This device features a five button joystick (up, down,left,
-+  right, click)
-+
-+properties:
-+  compatible:
-+    const: raspberrypi,sensehat-joystick
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - interrupts
-+
-+additionalProperties: false
-diff --git a/Documentation/devicetree/bindings/mfd/raspberrypi,sensehat.yaml b/Documentation/devicetree/bindings/mfd/raspberrypi,sensehat.yaml
-new file mode 100644
-index 000000000000..bc53834fbaa7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/raspberrypi,sensehat.yaml
-@@ -0,0 +1,57 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/raspberrypi,sensehat.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Raspberry Pi Sensehat
-+
-+maintainers:
-+  - Charles Mirabile <cmirabil@redhat.com>
-+  - Joel Savitz <jsavitz@redhat.com>
-+
-+description:
-+  The Raspberry Pi Sensehat is an addon board originally developed
-+  for the Raspberry Pi that has a joystick and an 8x8 RGB LED display
-+  as well as several environmental sensors. It connects via i2c and
-+  a gpio for irq.
-+
-+properties:
-+  compatible:
-+    const: raspberrypi,sensehat
-+
-+  reg:
-+    maxItems: 1
-+
-+  joystick:
-+    $ref: /schemas/input/raspberrypi,sensehat-joystick.yaml#
-+
-+  display:
-+    $ref: /schemas/auxdisplay/raspberrypi,sensehat-display.yaml#
-+
-+required:
-+  - compatible
-+  - reg
-+  - joystick
-+  - display
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      hat@46 {
-+        compatible = "raspberrypi,sensehat";
-+        reg = <0x46>;
-+        display {
-+          compatible = "raspberrypi,sensehat-display";
-+        };
-+        joystick {
-+          compatible = "raspberrypi,sensehat-joystick";
-+          interrupts = <23 IRQ_TYPE_EDGE_RISING>;
-+        };
-+      };
-+    };
--- 
-2.31.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
+Thanks!
+
+[04/10] regulator: dt-bindings: Add TI TPS65219 PMIC bindings
+        commit: 4d2aed6ee306ccdcae51f550309bfb82ebf31b01
+[08/10] regulator: drivers: Add TI TPS65219 PMIC regulators support
+        commit: c12ac5fc3e0af29851785e557e243663b4fc7f4b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
