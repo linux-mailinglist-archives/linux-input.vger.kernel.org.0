@@ -2,75 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F44959D00B
-	for <lists+linux-input@lfdr.de>; Tue, 23 Aug 2022 06:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 061B559D00E
+	for <lists+linux-input@lfdr.de>; Tue, 23 Aug 2022 06:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235194AbiHWE1K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Aug 2022 00:27:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42522 "EHLO
+        id S234779AbiHWE1v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Aug 2022 00:27:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234779AbiHWE1J (ORCPT
+        with ESMTP id S236382AbiHWE1u (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Aug 2022 00:27:09 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF3F3CBD2;
-        Mon, 22 Aug 2022 21:27:07 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id x19so9557682pfq.1;
-        Mon, 22 Aug 2022 21:27:07 -0700 (PDT)
+        Tue, 23 Aug 2022 00:27:50 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C74E73D5A2
+        for <linux-input@vger.kernel.org>; Mon, 22 Aug 2022 21:27:49 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id f21so12946105pjt.2
+        for <linux-input@vger.kernel.org>; Mon, 22 Aug 2022 21:27:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc;
-        bh=8O32nIU+E94T4lj/ioNF6HtVBi6nRMpp7pamJorcVy8=;
-        b=f/dGN8vBO8yvLWXhlmnB2tMhLft+P997o8doz3LRo7SxoJMJRu20XJAU2fNQTKg1tZ
-         K36dTB9LIOgqRtkYe8RkyubzJkqcu+e7f2um2vi+UNlqVVYC18vpN+cZqfcPH/MNaxD7
-         l3bHz3IJTYU5DkoxA9iPqjrjm+nGtdZ2QzR3i9mgmbIYA6TFYhdGkGAPNSYk8+2PSOtN
-         lozYkPmIIc7scMQV6lywikln95Wh6smZBgAWLxispAniUSGE4jNrEtHZjPjBEEiTpe/g
-         48uxpQ+sIP05F+5JHvWTBJCZsdZvLzGIaZCfTXT7UeZ74DqiC8q7hRWIOtq0A+rhkoa/
-         ATzA==
+        bh=ExZxSQFmQeosUufPXSj7a9bTORVwoReIbBQhOA+MEaI=;
+        b=f11c6PlD9Y/h/5IeDMvWyGm5A9hd3OgjVbwiV5fWsr7lFdIz9lyhjr38wiaZPThMO3
+         cC7UzfyU7jfHcYLC95R9ceAyEFrafiSBTO9nJyiHI8FkBZhM42V2+2sAeWRK/Uo1QOVT
+         Veq4A/VyyDhHTzK2w9aqGQh4ZXK8aABIrf6wawRp9zAPn/VN9ekqJ9ZcJa8dJ4oz2U0c
+         XdkMNE3X0GAwVBHHWAc9MNRdIwfiRZkMwKSVnnkpavEBEDWh6H15F7AuSMkryiOom+89
+         uaymplxKIRUHtfeW9dsAnGarm9kAHat3KIazhbkvkx1y6LZ9XMVtgYkw78EFWhjmg6jC
+         V2BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=8O32nIU+E94T4lj/ioNF6HtVBi6nRMpp7pamJorcVy8=;
-        b=Xe6wooe9glXxrPOOmpGBhsjViY2tXx6bl9OfYGpYmH07gZ2u2A1l1fV87u8MBQgddU
-         szSc0vKSZdYUy/F52IT17Fef1KgZbru1vSyMXNbfXIHrBsk9j7OS/di6VsRsjzabZGJO
-         LGD1vyyjTgY0U0Z8dGYfZVTQl9wmrd7pGPoPoTIpjGoF2VSjcb1JeS/KUjV7DrUeNOfG
-         7trfMZ6kcT0hVtnRqddZ+tgCkbllgqYZsS54e0lfjQG0CqWeArmBSyca0/q1GLDW0CSx
-         /Ldzl11Oppip7sGd9tGrh/1M9wzS3Wg9tvk6dDl85KadTqxYOQNQA5Ag/l2aIJ87Zv16
-         ETVQ==
-X-Gm-Message-State: ACgBeo19+yo8bkrJOh97vO0ruFerHiX64GRgaI29k1P+QfVc86Z5QC0E
-        6H6KEVIUsyjEsBOWdR0Gb48=
-X-Google-Smtp-Source: AA6agR7G0/OogiCOKP4W9o8q31gLZFkujaXjy0F/tTrRNtWGMP5nbcz5gKHlv9jri/Bt6+sf4pqLXg==
-X-Received: by 2002:a63:6804:0:b0:422:1689:ed05 with SMTP id d4-20020a636804000000b004221689ed05mr18887367pgc.289.1661228826515;
-        Mon, 22 Aug 2022 21:27:06 -0700 (PDT)
+        bh=ExZxSQFmQeosUufPXSj7a9bTORVwoReIbBQhOA+MEaI=;
+        b=PtzEdaatoh0MJBM1Bik3lDJ/H53yLxiOgmtkl6Q84DJ3tjMgpglOno75Ep9b2BtQRA
+         48xSl3Na6WioPibSXReL5uRr2qIZ7PVDa5pmeFFVKsKLXgvuxLdLuCCtVQYyNdzNl1Hb
+         zIVJLHNzNUTIJEY2xiNHb+y6T+9AjvvDm/r1VlaTqEDwP+8s+ZUbaXK+Qt7u2ORJFTzQ
+         CrdWKmUQRwyAq4YNCkbFquO7F/N+LhN09YrAYKrKx+fNFfv71MXhvOZ6qEZtqEQf1+Om
+         4cxrdba1y9KvMHVU7oUKK0Dw53M+4fVbn8NIKTSXzmjV0ycVF3Ik30yewtxJlaArcdh0
+         kAeQ==
+X-Gm-Message-State: ACgBeo2j1Wr8hE/21Vi1ta9XTX1xvFPnpkfgdWyHYwGpBeVGzUrIutHn
+        sUDgH5FHX6Ux0z9TPW9ZeGrZG06vFaY=
+X-Google-Smtp-Source: AA6agR4fSAUvi3MJ2kQAwKG3Is1DZNPvU2BnNXNLutES60RasvCppTQLHGlPQmMBM2ZgcRWKlYPo5g==
+X-Received: by 2002:a17:90b:3941:b0:1fb:375:a4be with SMTP id oe1-20020a17090b394100b001fb0375a4bemr1512875pjb.225.1661228869193;
+        Mon, 22 Aug 2022 21:27:49 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:ebe5:ba37:26e1:8072])
-        by smtp.gmail.com with ESMTPSA id t3-20020a170902d14300b0016f1319d2a7sm9108397plt.297.2022.08.22.21.27.04
+        by smtp.gmail.com with ESMTPSA id o12-20020a170902bccc00b0016db7f49cc2sm9174131pls.115.2022.08.22.21.27.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 21:27:05 -0700 (PDT)
-Date:   Mon, 22 Aug 2022 21:27:02 -0700
+        Mon, 22 Aug 2022 21:27:48 -0700 (PDT)
+Date:   Mon, 22 Aug 2022 21:27:46 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Nick Dyer <nick@shmanahar.org>, linux-input@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] Input: move from strlcpy with unused retval to strscpy
-Message-ID: <YwRXFsEyc39lbPQX@google.com>
-References: <20220818210022.6865-1-wsa+renesas@sang-engineering.com>
+To:     Peter Robinson <pbrobinson@gmail.com>
+Cc:     Joseph Chen <chenjh@rock-chips.com>, linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: misc: rk805-pwrkey: Fix module autoloading
+Message-ID: <YwRXQjo4uMxSI01s@google.com>
+References: <20220612225437.3628788-1-pbrobinson@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220818210022.6865-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220612225437.3628788-1-pbrobinson@gmail.com>
 X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -81,13 +69,12 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 11:00:19PM +0200, Wolfram Sang wrote:
-> Follow the advice of the below link and prefer 'strscpy' in this
-> subsystem. Conversion is 1:1 because the return value is not used.
-> Generated by a coccinelle script.
+On Sun, Jun 12, 2022 at 11:54:37PM +0100, Peter Robinson wrote:
+> Add the module alias so the rk805-pwrkey driver will
+> autoload when built as a module.
 > 
-> Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Fixes: 5a35b85c2d92 ("Input: add power key driver for Rockchip RK805 PMIC")
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 
 Applied, thank you.
 
