@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53B4A5A0B3E
-	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 10:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67C785A0B68
+	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 10:26:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233519AbiHYIWm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 04:22:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48504 "EHLO
+        id S235946AbiHYI0K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Aug 2022 04:26:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238045AbiHYIWl (ORCPT
+        with ESMTP id S236230AbiHYIZs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 04:22:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE29CA5735;
-        Thu, 25 Aug 2022 01:22:39 -0700 (PDT)
+        Thu, 25 Aug 2022 04:25:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64165A61D0;
+        Thu, 25 Aug 2022 01:25:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2977B61AF6;
-        Thu, 25 Aug 2022 08:22:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799A9C433D7;
-        Thu, 25 Aug 2022 08:22:37 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C8369B825C6;
+        Thu, 25 Aug 2022 08:25:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33959C433C1;
+        Thu, 25 Aug 2022 08:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661415758;
-        bh=uWhj5buhwHMeZlieGDkHSgadBEk4hW4Jr27pvQbKR6E=;
+        s=k20201202; t=1661415912;
+        bh=+3nbUDEGFHWk7BXN0epNvlnSXMzGK3xJtVizdfnqTik=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=N61kPms6+ktr/YyZuKW+AfohFGERr330rt8HrFv02M+hv2lnFoOXYVGSmTNayDfnP
-         qI3mV1qJUM02AATGlCNM0H22dhSOuYfOTjIaJ3uu32pSHgxlsermIEgvCEGS58QBld
-         ilLDIoazBi3YsfMzUMJn1AOFxg9eRteTc1OUrl3qtzi678pbjcwHSQ0D0PljeFj95Q
-         LUAGUv/fRUL9o4td82X/KaIJYFR6rNtYd0EYGoxar58KRsgIPugTB7F5gbHxX2qcgv
-         BYZySJAY9MEdiOSQDgGc39W7v8hLyVsCUQzSkplZqIKzz9E4sSoiWX3TOTdr4Olf3G
-         POlMnemo0wctw==
-Date:   Thu, 25 Aug 2022 10:22:35 +0200 (CEST)
+        b=C6Y5F6TdMhjaHXDBt8319eHc36cT5d3h3VBOl2NdUXxuKtnMhdQDZEk6ezQcXs/J5
+         tl+o80MiQOmPjzyuuHcGZGRJ9qXK/rr8xi0tE4+m1Vh3ZbetWSC2JezIVvZ38ebBNp
+         mf0nCJMtcchvzNRKCv2S86lDgQJGYbUG7+His1hly9Op/AWZ08rA00ksyumBYozxHG
+         Hq0uz9QhGWwgGTM8hG3EXJFjNntxf2xGnBuvui3SrDMo4Salyxz8GYIvT5oxcPQ2I7
+         Jw8bn1dxCRWJz7oJmKZQrB4OJH/a+/Qe2qVz20pqm33RMiycnU5mzy6Ct9sqdxO10X
+         Xpm+hCJoaCKRQ==
+Date:   Thu, 25 Aug 2022 10:25:08 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Lee Jones <lee.jones@linaro.org>
-cc:     linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/1] HID: steam: Prevent NULL pointer dereference in
- steam_{recv,send}_report
-In-Reply-To: <20220708074009.621113-1-lee.jones@linaro.org>
-Message-ID: <nycvar.YFH.7.76.2208251022170.19850@cbobk.fhfr.pm>
-References: <20220708074009.621113-1-lee.jones@linaro.org>
+To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] HID: uclogic: Add missing suffix for
+ digitalizers
+In-Reply-To: <20220815142615.17965-1-jose.exposito89@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2208251025020.19850@cbobk.fhfr.pm>
+References: <20220815142615.17965-1-jose.exposito89@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -56,21 +56,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 8 Jul 2022, Lee Jones wrote:
+On Mon, 15 Aug 2022, José Expósito wrote:
 
-> It is possible for a malicious device to forgo submitting a Feature
-> Report.  The HID Steam driver presently makes no prevision for this
-> and de-references the 'struct hid_report' pointer obtained from the
-> HID devices without first checking its validity.  Let's change that.
+> The Pen (0x02) application usage was changed to Digitalizer (0x01) in
+> commit f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for
+> styluses"). However, a suffix was not selected for the new usage.
 > 
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: linux-input@vger.kernel.org
-> Fixes: c164d6abf3841 ("HID: add driver for Valve Steam Controller")
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> Handle the digitalizer application usage in uclogic_input_configured()
+> and add the required suffix.
+> 
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> 
+> ---
+> 
+> Kindly resending this patch so it doesn't get lost after the merge
+> window.
+> ---
+>  drivers/hid/hid-uclogic-core.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+> index 47a17375c7fc..ff46604ef1d8 100644
+> --- a/drivers/hid/hid-uclogic-core.c
+> +++ b/drivers/hid/hid-uclogic-core.c
+> @@ -153,6 +153,7 @@ static int uclogic_input_configured(struct hid_device *hdev,
+>  			suffix = "Pad";
+>  			break;
+>  		case HID_DG_PEN:
+> +		case HID_DG_DIGITIZER:
+>  			suffix = "Pen";
+>  			break;
+>  		case HID_CP_CONSUMER_CONTROL:
 
-Sorry for the delay, I had some time off and things got stalled. Applied 
-now, thank you.
+Applied, thanks.
 
 -- 
 Jiri Kosina
