@@ -2,45 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 919925A0CEF
-	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917375A0CFD
+	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:47:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240564AbiHYJpp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 05:45:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53320 "EHLO
+        id S240689AbiHYJrL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Aug 2022 05:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240556AbiHYJpn (ORCPT
+        with ESMTP id S233215AbiHYJrK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 05:45:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9BB0A98EC;
-        Thu, 25 Aug 2022 02:45:42 -0700 (PDT)
+        Thu, 25 Aug 2022 05:47:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661AAAB417;
+        Thu, 25 Aug 2022 02:47:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8410061C12;
-        Thu, 25 Aug 2022 09:45:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4173C433D6;
-        Thu, 25 Aug 2022 09:45:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E12AA61C21;
+        Thu, 25 Aug 2022 09:47:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 179C7C433C1;
+        Thu, 25 Aug 2022 09:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661420741;
-        bh=fJxognZHd8CymIKscJO21iln9kDmRQD5RAhBjB2ssPQ=;
+        s=k20201202; t=1661420828;
+        bh=DwxCA3CR5K7a5JzZ8eAf21/k+uiLRdWoQ4yt0z0nFpc=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=GCVKMDU+CMqPMnPhFCWdxlqAkCiOOK683eBW+Aymp14W8Io70CU+2D+9bt1pXHvFm
-         oEK5BtTREwBbfmS7UjzvJG6jPynVMNKLY+Y5hWZ4hyBsURwBe7e7VbPyeXVvIOugD+
-         T4bcvjfpZsRZbi2nyFw0z6q00UZMhDE5/fuKLOIAAm2eeHenlovu2VkZfjJAzYbabE
-         G98AMJwhXHLVy8+lnhhFvJq/k3t+DkLh86LpJng9aEL6bFcA5XEm8p2gy3OQ1XNeMX
-         wMfpWmG9jeiBmP5KIBOb3YfSNQAEpbxqohdqNv8mfoPgvjYSt6H5xwufouR8hsE4bp
-         cOHNB/Dwp7ucQ==
-Date:   Thu, 25 Aug 2022 11:45:38 +0200 (CEST)
+        b=JnYcNWP2FZZlj3MXdirxSFt2g5hGq6hXHAauSxw3SV7os46ogZMXg3fmCTy6SxmaP
+         uNuPUxpxqUDyJAB+hRAru4H9g4OMK/N4e8W4OqCpxKv84IhJH1zwrY+fRPvpUsNNQN
+         AFO7/43Nz7zIZRQy/yoIwKgUO+1xEJI28bSIZIbtZ0GVuxsUw8fFbIhaGdoiu+4CIm
+         sP+0wt/1NN+dHQC86G8vQCdqiWmkuyiXhExUqKglh2bwobFxxaAEG8Ot1pEos6CFNz
+         z2r7wgRl7s8ZCIHRSNoDrR/havAM/TUpxKLrDGoAqZlXb/WnhVhTtHTcKjcy4VyOCT
+         NEFcphLIHNhgw==
+Date:   Thu, 25 Aug 2022 11:47:04 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Steev Klimaszewski <steev@kali.org>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Stefan Hansson <newbie13xd@gmail.com>,
+        =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: hid-input: add Lenov Yoga C630 battery quirk
-In-Reply-To: <20220819023924.3272-1-steev@kali.org>
-Message-ID: <nycvar.YFH.7.76.2208251145240.19850@cbobk.fhfr.pm>
-References: <20220819023924.3272-1-steev@kali.org>
+Subject: Re: [PATCH] HID: input: fix uclogic tablets
+In-Reply-To: <20220822062247.1146141-1-benjamin.tissoires@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2208251146580.19850@cbobk.fhfr.pm>
+References: <20220822062247.1146141-1-benjamin.tissoires@redhat.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,16 +55,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 18 Aug 2022, Steev Klimaszewski wrote:
+On Mon, 22 Aug 2022, Benjamin Tissoires wrote:
 
-> Similar to the Surface Go devices, the Elantech touchscreen/digitizer in
-> the Lenovo Yoga C630 mistakenly reports the battery of the stylus, and
-> always reports an empty battery.
+> commit 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
+> made the assumption that it was the only one handling tablets and thus
+> kept an internal state regarding the tool.
 > 
-> Apply the HID_BATTERY_QUIRK_IGNORE quirk to ignore this battery and
-> prevent the erroneous low battery warnings.
+> Turns out that the uclogic driver has a timer to release the in range
+> bit, effectively making hid-input ignoring all in range information
+> after the very first one.
+> 
+> Fix that by having a more rationale approach which consists in forwarding
+> every event and let the input stack filter out the duplicates.
+> 
+> Reported-by: Stefan Hansson <newbie13xd@gmail.com>
+> Fixes: 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> ---
+>  drivers/hid/hid-input.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 48c1c02c69f4..871a185a0f1f 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1532,7 +1532,10 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+>  			 * assume ours
+>  			 */
+>  			if (!report->tool)
+> -				hid_report_set_tool(report, input, usage->code);
+> +				report->tool = usage->code;
+> +
+> +			/* drivers may have changed the value behind our back, resend it */
+> +			hid_report_set_tool(report, input, report->tool);
+>  		} else {
+>  			hid_report_release_tool(report, input, usage->code);
 
-I've fixed the typo in patch subject and applied, thanks.
+Queued in for-6.0/upstream-fixes. Thanks,
 
 -- 
 Jiri Kosina
