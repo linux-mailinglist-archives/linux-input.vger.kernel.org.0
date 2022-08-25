@@ -2,48 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DF205A0CB4
-	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24ECB5A0CBC
+	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:35:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234112AbiHYJcx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 05:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56424 "EHLO
+        id S240450AbiHYJfi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Aug 2022 05:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240353AbiHYJcw (ORCPT
+        with ESMTP id S240452AbiHYJff (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 05:32:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1B5979C0;
-        Thu, 25 Aug 2022 02:32:50 -0700 (PDT)
+        Thu, 25 Aug 2022 05:35:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E83A98F9;
+        Thu, 25 Aug 2022 02:35:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4E3B0B827B0;
-        Thu, 25 Aug 2022 09:32:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A66CC433C1;
-        Thu, 25 Aug 2022 09:32:46 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 55C8D61BDF;
+        Thu, 25 Aug 2022 09:35:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710DFC433D7;
+        Thu, 25 Aug 2022 09:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661419968;
-        bh=giBw2Ge0kvHTOOLhLqERownbmN1JP1/B1ngNjLMJhdY=;
+        s=k20201202; t=1661420133;
+        bh=Dg64EwaRLm4x48UpJhKVaByDrVi2BCHtsShXWFbqr9c=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Ko+J6tJlz7Plt3yat03TlKHnfmjpmm4/iE2BiAqKg2Jzx6xv4rSd90Qtgw6VvHbPM
-         WTHLZyb1TmokNdBd1F6g25IFez9/w09s0pDZ3QyNxwFKM/XlYLMubq2Jt6btYI8Hl4
-         c1xddBZNgiiD9jwe+R837yrPtEnmpRF6aYM/24Q4fOhuSJrkuCXQ6Z3z7k6VYNGCZR
-         md+rCcFhRDm4cfLHPxTrL9hOfUXGGeNHlG+0QNXEcsUc/fI8yKliEaBVTOX2agKNuM
-         vti12jfN+a790e1baFNSRE+dYPmiCLei187HpUqYMZEs0Pz5bscrCG4jXeVCeTaXFI
-         8uySO+cVOgp0g==
-Date:   Thu, 25 Aug 2022 11:32:44 +0200 (CEST)
+        b=rLP1mER6US22rl5xIabqAeY18c6r2qoE1W3KkvLZYXVn1aBKIYYdKhln3j9apNUQR
+         DXdqScmePeMIcQKTMJecLp6Ig2HrALmwJYN98su90zC+KJ/mzHDYDhWrxVpwBJj/ow
+         uauo1qsn7MuCX3uOeY/wXvcAyOq1Khls/r3ObvSMDX5Fkr+UYy+9dUDv9y67OojUxo
+         hgo7GGSYq4lrNWm9aHkgK6X3Slt2ynWSTMNljyxO4FhCvj4M3UlPSdJrzkF5uJ5nku
+         9T+vqM7kQtxOovUmNhHITRundDxnmjFqsRFlXzw9IVd6i1MyFozoogbuiua2Vmwgd0
+         KeSpDvC5u5xTA==
+Date:   Thu, 25 Aug 2022 11:35:30 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-cc:     Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] HID: wacom: Simplify comments
-In-Reply-To: <7eec2e24a231510577647853a32bddb89a762128.1659468931.git.christophe.jaillet@wanadoo.fr>
-Message-ID: <nycvar.YFH.7.76.2208251132330.19850@cbobk.fhfr.pm>
-References: <7eec2e24a231510577647853a32bddb89a762128.1659468931.git.christophe.jaillet@wanadoo.fr>
+To:     Jason Wang <wangborong@cdjrlc.com>
+cc:     srinivas.pandruvada@linux.intel.com, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: ishtp-hid-clientHID: ishtp-hid-client: Fix comment
+ typo
+In-Reply-To: <20220804005814.5444-1-wangborong@cdjrlc.com>
+Message-ID: <nycvar.YFH.7.76.2208251135240.19850@cbobk.fhfr.pm>
+References: <20220804005814.5444-1-wangborong@cdjrlc.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,20 +55,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2 Aug 2022, Christophe JAILLET wrote:
+On Thu, 4 Aug 2022, Jason Wang wrote:
 
-> Remove a left-over from commit 2874c5fd2842 ("treewide: Replace GPLv2
-> boilerplate/reference with SPDX - rule 152").
-> An empty comment block can be removed.
+> The double `like' is duplicated in the comment, remove one.
 > 
-> While at it remove, also remove what is supposed to be the path/filename of
-> the file.
-> This is really low value... and wrong since commit 471d17148c8b
-> ("Input: wacom - move the USB (now hid) Wacom driver in drivers/hid")
+> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+> ---
+>  drivers/hid/intel-ish-hid/ishtp-hid.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> diff --git a/drivers/hid/intel-ish-hid/ishtp-hid.h b/drivers/hid/intel-ish-hid/ishtp-hid.h
+> index 6a5cc11aefd8..35dddc5015b3 100644
+> --- a/drivers/hid/intel-ish-hid/ishtp-hid.h
+> +++ b/drivers/hid/intel-ish-hid/ishtp-hid.h
+> @@ -105,7 +105,7 @@ struct report_list {
+>   * @multi_packet_cnt:	Count of fragmented packet count
+>   *
+>   * This structure is used to store completion flags and per client data like
+> - * like report description, number of HID devices etc.
+> + * report description, number of HID devices etc.
+>   */
 
-Applied, thank you.
+Applied.
 
 -- 
 Jiri Kosina
