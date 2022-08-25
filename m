@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB90B5A0C8C
-	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB31B5A0C9B
+	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:29:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240126AbiHYJ1J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 05:27:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41232 "EHLO
+        id S236094AbiHYJ3F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Aug 2022 05:29:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239950AbiHYJ1A (ORCPT
+        with ESMTP id S240048AbiHYJ25 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 05:27:00 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E488A6E2EB;
-        Thu, 25 Aug 2022 02:26:46 -0700 (PDT)
+        Thu, 25 Aug 2022 05:28:57 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D7CBAA3FD;
+        Thu, 25 Aug 2022 02:28:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 02777B827CF;
-        Thu, 25 Aug 2022 09:26:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3D8C433D7;
-        Thu, 25 Aug 2022 09:26:42 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5EF4AB827DC;
+        Thu, 25 Aug 2022 09:28:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C98C433C1;
+        Thu, 25 Aug 2022 09:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661419603;
-        bh=6LFyQ6YlD5on8u6gveMR+kD0JxrBIJfsAknJq3NW5IU=;
+        s=k20201202; t=1661419734;
+        bh=euspszcD5Bv35WXVNUON/0s8Nd1+hwZGTV6aiKSOsXw=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=l9fek1rf931eJmOQYz/shO6Sb/3dxt0C+PY5gd4hS4f0JHL6z0aI2lLpNgakP+QFd
-         VBBZjj/VGoT/NfzMJJcS+oVU8IzS1KGbTPCIusQpJfqqIlhaQtTlAVOW73P8ZYV5AJ
-         m2oGkcIsen06ASbZIkH74t91iaUbi66XQiQedZO2uNcyQ+XvK4lNCll8ard9D/wiV+
-         +AvKrPMvmaFcvFmW44qh1hXQ9ZVrQ7jvkdURSGv3asOAA8Wm2cB8o9IFDYIBmB4w8r
-         14y4WvI1/pVmohtXt8epdITYeZZZczuyc89/fdp7INUSxqQ0PpI8GjS0qZkDEPswT1
-         AR+f/DJ448eNg==
-Date:   Thu, 25 Aug 2022 11:26:39 +0200 (CEST)
+        b=sZlXOBKClzM3z8J3OmF4Tp+yaX83B7P6DSF5VeRn6ZBjl+yP3KVFU5/HcCWEQzXy/
+         9/ixYbC9BS/gwRtGtPrf1+kIpE1rnTR1CT1cPNSUeGdDSdHaig/6iqMVJKCvo13GWh
+         Ra6/P2CxQKWUsc88ZQWOz4kMpx6XISYaq82ASWzY/+Pz9Ebv2TuwUbMgLBC9dgkPWq
+         PYCOJMbQgV2a3wS/RmGq5PKWYdlwYjy9LAFqGa9dKB3s1l3b8R1rlL2vUAbz9kledW
+         po8ceF69UuHE4yFOIe054N5kSj2SNbFcjI9uuI1MIF2U0dPYMHjZupPNmR9T8aGPCu
+         S5OJU9drHAB1Q==
+Date:   Thu, 25 Aug 2022 11:28:50 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+To:     Randy Dunlap <rdunlap@infradead.org>
+cc:     linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: cp2112: Remove some dead code
-In-Reply-To: <6ee2132c415db2fc90e7fa2106db427a914cc566.1655563907.git.christophe.jaillet@wanadoo.fr>
-Message-ID: <nycvar.YFH.7.76.2208251126010.19850@cbobk.fhfr.pm>
-References: <6ee2132c415db2fc90e7fa2106db427a914cc566.1655563907.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] HID: Kconfig: remove redundant "depends on HID" lines
+In-Reply-To: <20220709015759.6396-1-rdunlap@infradead.org>
+Message-ID: <nycvar.YFH.7.76.2208251128410.19850@cbobk.fhfr.pm>
+References: <20220709015759.6396-1-rdunlap@infradead.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,26 +55,12 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 18 Jun 2022, Christophe JAILLET wrote:
+On Fri, 8 Jul 2022, Randy Dunlap wrote:
 
-> Commit 13de9cca514e ("HID: cp2112: add IRQ chip handling") has introduced
-> cp2112_allocate_irq() that seems to be unused since 2016.
-> 
-> Remove it, remove the associated resources and part of the remove()
-> function that frees the resources allocated in cp2112_allocate_irq().
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> Compile tested only.
-> 
-> Maybe the issue is completely elsewhere and the probe() should call
-> cp2112_allocate_irq() in some cases.
+> Remove all occurrences of "depends on HID" that are inside the
+> "if HID" / "endif" block since they are redundant.
 
-Benjamin, could you please take a look? Apparently you were aware of the 
-code being dead due to the __maybe_unused annotation ... :) What was the 
-point?
-
-Thanks,
+Applied, thanks Randy.
 
 -- 
 Jiri Kosina
