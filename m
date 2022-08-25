@@ -2,223 +2,394 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C8305A0838
-	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 06:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87A685A090C
+	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 08:44:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbiHYEzr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 00:55:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53424 "EHLO
+        id S236277AbiHYGoM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Aug 2022 02:44:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbiHYEzq (ORCPT
+        with ESMTP id S235132AbiHYGoF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 00:55:46 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC08760EA;
-        Wed, 24 Aug 2022 21:55:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h5sw2KAd3w5H+MVocY4AA7Nn1ve++2GPnEG1VoNbdJIw6ix1P1CbK+OcCLBycYb5AXWfOD/TfAOI+UyiRMnGdRCANPzxEZN4RCbgB/JEEC9h0ZGpPZX+CF0gew+vA8C31avSNwvcRsSOg08k1BewNhbILnOZc4DFW1l+3T4NL9QtpXQBgT2/274tSBaJqvW9LApbPKkPpe9Sj+LVI3VH97dW1YRLwe808x+abtcBIfOWWoaGb3QLaZ0hiPp0OnDWd55fR195EM55OUfaJHF6Wk0XZ0JhqqZKRyjjIzEscx5CCs5C6+KSG5IeMbUJuZT+gWIXXSl9dzyC11vLV9nh3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pbK6iAyKQClxRYXTRFm332mtoj5HcFNrycmAFhEQexQ=;
- b=R7qIB02Mx+QM4tMq1Q7AWnOlY0xiVCZPyHJLvrDVWJMOimPG61KqY197mdO6/KU+oVxppa60SbB/CX2yKvZtjD1e0SbvJ7sdh89U6OjCiwPevW7DbOvyYhcEd6pIM7Uj3XbpHaRfoxVIJBH9cBvUY5vMVWSu3UO5Wanvdbwl1PmHAFNvUnGVOHmMfWfI4xJkGKK1DBWLM/pmTLIXIEjXQMK3kdm5xx/XLF6Bk/nUNff23CfUD0MfsuOZkK3OqgvHdhSLBPAjKYuHgysM2Yxvb2l1VQ9r7B3QgeTxQHpt0/p3fq7hX3+DmJJWMr65LeqQ3ENCmhiATvPUNWeptn56Ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pbK6iAyKQClxRYXTRFm332mtoj5HcFNrycmAFhEQexQ=;
- b=xANcXo1G4egj96tsP1hQRL0b83V40zw5kIfbeK7jqM10gRCA7WUM+IyjbPAscHa3nOc3aBlLlklUvyOy1AA9D2dDy8YMJfKvOoS+TU0UJeR0kRh+jXBzUs3mlWF48bsCJdfrJMpDM6jdVC1MK1LLks6pp8gu+XrdLUE/OVy410o=
-Received: from BN9P223CA0010.NAMP223.PROD.OUTLOOK.COM (2603:10b6:408:10b::15)
- by DM6PR12MB4057.namprd12.prod.outlook.com (2603:10b6:5:213::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.20; Thu, 25 Aug
- 2022 04:55:41 +0000
-Received: from BN8NAM11FT023.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10b:cafe::d3) by BN9P223CA0010.outlook.office365.com
- (2603:10b6:408:10b::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.14 via Frontend
- Transport; Thu, 25 Aug 2022 04:55:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT023.mail.protection.outlook.com (10.13.177.103) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5566.15 via Frontend Transport; Thu, 25 Aug 2022 04:55:41 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 24 Aug
- 2022 23:54:56 -0500
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     <mario.limonciello@amd.com>, Jiri Kosina <jikos@kernel.org>,
-        "Benjamin Tissoires" <benjamin.tissoires@redhat.com>
-CC:     Richard Gong <richard.gong@amd.com>, <linux-usb@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4] HID: usbhid: Set USB mice as s2idle wakeup resources
-Date:   Wed, 24 Aug 2022 23:55:17 -0500
-Message-ID: <20220825045517.16791-1-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 25 Aug 2022 02:44:05 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF1FA0628;
+        Wed, 24 Aug 2022 23:44:00 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id bn9so10934591ljb.6;
+        Wed, 24 Aug 2022 23:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=fCqPJdGrxDmqHnnybrRmXsBnNNGdb+J4MxtkazPkIw8=;
+        b=GIcyMcFJxDyq0yaN3ZbLZDqVYVDTRQ5PbZmc5jfi8X+v+aV5PXQotkuJmhLsa3RbrB
+         P7dlG+0wPc5lNj9eNjxkTOBtk8awX6CRASWVy0HURJjl6QO+PCWkfcGX/PKzF/gDitGP
+         9QTTC9eyNDZFYbCo8CAE7xKygE9mF2JiGmmMIsSg7S9EL2c7s0Lv7JdqfYfbAWFcPC0+
+         aZVPUNJxNogCxptBnkbEOcOK3QuqSrJxxwUrmg3tvSU8fBM/hnLs9Ya3dvvQBIrVAyRp
+         6cuzTUz4WKYSKnqsu82dtkx7Vvo4s/6EimOgvMhcnxdhZvqcpkpSxaM3+Ns5mJQVwDmT
+         Un2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=fCqPJdGrxDmqHnnybrRmXsBnNNGdb+J4MxtkazPkIw8=;
+        b=WO0ybQGgU/8zXGSYJbZYwcnLG+YGAEiVn8x0B2wMA5P/TxcH0P6lNur2G+8rfeGr+9
+         YAvrKdpkpVglf59wLXbSqoVJlbjHDX3/yB1P3K79VT3eu95nnyn0DnXo6/PB0RxjQR4V
+         H9GqnEwW5m+hXBlgO81bSgk6SuoJHbwqkqdGXWiWlkgATelwwQDDa1znmeLdhfqicMyY
+         T9Ex3Qv+pOThyl2YkB3gEgcE3sdPYmIB+lxTBMc1LSaOMy407jonGa37aPXyP4X4tmEm
+         hxYuERX2rjOx/1DSKyroIkBUcuzidPkUQon0gpjvo/tVmMsILwq+VviNNo8O0iCbYyqe
+         Il9A==
+X-Gm-Message-State: ACgBeo3RwT4QTP+LWfLV2BfAqtJXDr3dA3W5tQ9QLuzXcW4+kZc5d87J
+        ZzuGqpShbuN95d0ZTayAeyk=
+X-Google-Smtp-Source: AA6agR5DjMkW3860q87IRXS1RfFsHKZ16C9THLWAEwykJH05MGe41NVV/uXrTGS2NNU/xuANVeTFLw==
+X-Received: by 2002:a05:651c:1a1e:b0:25f:e7bd:6a4e with SMTP id by30-20020a05651c1a1e00b0025fe7bd6a4emr715035ljb.362.1661409838828;
+        Wed, 24 Aug 2022 23:43:58 -0700 (PDT)
+Received: from gmail.com (82-209-154-112.cust.bredband2.com. [82.209.154.112])
+        by smtp.gmail.com with ESMTPSA id v19-20020a056512349300b00489c6c76385sm319335lfr.268.2022.08.24.23.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Aug 2022 23:43:57 -0700 (PDT)
+Date:   Thu, 25 Aug 2022 08:48:52 +0200
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
+Message-ID: <YwcbVJswrL1Doi4s@gmail.com>
+References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+ <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
+ <YwTvrNuulKx0SB6H@gmail.com>
+ <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 68ecc191-31fd-482c-2f26-08da86560fce
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4057:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CvKhv+HdWN6S2m0rQ5QBNHWc23PXytKH6eo6oB18RbC5P9ClxS2tpE726vYRlxORMRKuka1/W19smzExW60Q4+Ngttc2Pp/yiyUG5f55TwtsaPHdTUmwoqWW/cC45MpuAp2ZqFQZa7mZNHg9TqawB9Tjdkr4AlUNHpfSOl5HekkBQojLNxZx+LI7zqrQFW9IRtKx/eI/Wl8Qjj1yx1HFJrErs71Ka/3KjRdmi6ETc1TJ61dfwLnU3XP14kn4YoLql9sRCt/NKetjlnDhdgVplX/w0AMuBbWwSWlZ60kES8A0yJfxBI14fNsUACt+3HwANYNV84bSoKDKGY46+CSDZl7Hrtr25q6GsY1jXwP/dhHcOficpsSK2ytj+KnvY8v2RLobQ7hlwYCVtcCsWrjriZZ/QEN/1xY7kIQIE+Z6/QZpzQeXfdCQ/PYWjQaW/Gp4u4PGHzwLV+ONERpsLLL8FXIo3hdnAvfl1kjj9dwkNxPPOD7X+CJSmof1UlIRNSqwkL+Kt1G0pS37FCQRZMfxiCfS3O43A/HTJ9jBMAsFiVsAwGLrOvGfI1sNYZAdMrUzrLFDE2fceaviCuSWbR9g5V6277JuRDmHdPE0tqid6ZY0Pn/5Z1oNu+DSg0A0fHkuVLKKOuwK56Kxc7lDqEuNfcUa7Kc9Edzw5MGuXrhqjl56D0EDfXFrZCnwKOwU84cueNaxqrVNueA3Kr0tTyGEfSWUMzIPElOUqhD2uDHBjC8MjZmmazAAE9b6u6R/2JZgyGMOScD4mqepJ3DuPwYq9NhCeuv1sVuGMtYNzgkQtZiQw+6QNGqINokvm9lMUak9zT2j32b5cZcyRJNaAsNh4nmYKfrEeCN5Y8yeytGbfy3aFbHZKWklMrOu4/Kj3P8V
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(39860400002)(396003)(376002)(46966006)(36840700001)(40470700004)(966005)(70586007)(1076003)(110136005)(8676002)(70206006)(4326008)(45080400002)(316002)(186003)(6666004)(478600001)(54906003)(41300700001)(44832011)(5660300002)(2906002)(426003)(83380400001)(7696005)(47076005)(2616005)(26005)(36756003)(336012)(16526019)(86362001)(356005)(36860700001)(40460700003)(40480700001)(81166007)(8936002)(82310400005)(82740400003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 04:55:41.6201
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68ecc191-31fd-482c-2f26-08da86560fce
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT023.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4057
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="7Xw/4XWTP378h0nh"
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
+X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The USB HID transport layer doesn't configure mice for wakeup by default.
-Thus users can not wake system from s2idle via USB mouse. However, users
-can wake the same system from Modern Standby on Windows with the same USB
-mouse.
 
-Microsoft documentation indicates that all USB mice and touchpads should
-be waking the system from Modern Standby.
+--7Xw/4XWTP378h0nh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Many people who have used Windows on a PC that supports Modern Standby
-have an expectation that s2idle wakeup sources should behave the same in
-Linux. For example if your PC is configured "dual-boot" and is used docked
-it's very common to wakeup by using a USB mouse connected to your dock in
-Windows. Switching to Linux this is not enabled by default and you'll
-need to manually turn it on or use a different wakeup source than you did
-for Windows.
+Hi Benjamin,
 
-Changes for wakeups have been made in other subsystems such as the PS/2
-keyboard driver which align how wakeup sources in Linux and Modern Standby
-in Windows behave. To align expectations from users on USB mice, make this
-behavior the same when the system is configured to default to s2idle.
-This normally happens when the FADT indicates low power idle support or the
-system doesn't support S3.
+Thank you!
+I have a few questions regarding the report descriptor, please see
+below.
 
-This means that at a minimum supported mice will be able to wakeup by
-clicking a button. If the USB mouse is powered over the s2idle cycle (such
-as a wireless mouse with a battery) it's also possible that moving it
-may wake up the system.  This is HW dependent behavior.
+On Tue, Aug 23, 2022 at 06:43:47PM +0200, Benjamin Tissoires wrote:
+> On Tue, Aug 23, 2022 at 5:13 PM Marcus Folkesson
+> <marcus.folkesson@gmail.com> wrote:
+> >
+> > Thank you  Benjamin,
+> >
+> > On Tue, Aug 23, 2022 at 11:49:59AM +0200, Benjamin Tissoires wrote:
+> > > Hi Marcus,
+> > >
+> > > [and sorry for the delay in the review of your patches]
+> > >
+> > > On Mon, Aug 22, 2022 at 8:04 AM Marcus Folkesson
+> > > <marcus.folkesson@gmail.com> wrote:
 
-If the user sets the system to use S3 instead of s2idle, or the OEM ships
-the system defaulting to S3, this behavior will not be turned on by
-default.
+[...]
 
-Users who have a modern laptop that supports s2idle and use s2idle but
-prefer the previous Linux kernel behavior can turn this off via a udev
-rule.
+> > > > +       };
+> > > > +
+> > > > +       priv->input =3D input;
+> > > > +       return input_register_device(priv->input);
+> > > > +}
+> > >
+> > > You are basically rewriting hid-input.c, which is suboptimal.
+> >
+> > Ouch. I will have a look at hid-input, thanks.
+> >
+> > >
+> > > I guess the report descriptor provided by these devices are basically
+> > > useless, and so you have to parse the reports yourself in the
+> > > raw_event callback.
+> >
+> > Yep.
+> >
+> > >
+> > > But instead of manually doing that, why not overwrite the report
+> > > descriptor (with .rdesc_fixup) and declare here all of the data that
+> >  Do you mean .report_fixup?
+>=20
+> yes, sorry :/
+>=20
+> >
+> > > needs to be exported. You could remove basically everything in this
+> > > driver by just providing a fixed report descriptor.
+> >
+> > What you are aiming for is to fixup the report descriptor and let the
+> > generic hid-raw driver handle the rest, or do I get you wrong?
+>=20
+> yep, exactly
+>=20
+> >
+> > How is the report mapped to certain events then?
+>=20
+> Have a look at hid_configure_usage in hid-input.c [3]. Most of HID
+> events are mapped to input events with a one to one mapping.
+>=20
+> >
+> > I do read at [1] but it is not obvious how to put it together.
+> > Most drivers I've looked at that is using .report_fixup just fix broken
+> > reports. I guess these reports are not "broken", just.. odd?
+>=20
+> Have a look at [2], lots of full report descriptors :)
+>=20
+> And in your case, the reports are incomplete, not odd.
 
-Link: https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby-wake-sources#input-devices-1
-Link: https://lore.kernel.org/linux-usb/20220404214557.3329796-1-richard.gong@amd.com/
-Suggested-by: Richard Gong <richard.gong@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-More people keep coming to us confused that they couldn't wake a Linux system
-up from sleep using a mouse, so this patch is being revived.
+Got it.
+I've parsed [4] the report descriptor for VRC2, and I guess it does not loo=
+ks
+that good:
 
-Microsoft documentation doesn't indicate any allowlist for this behavior, and
-they actually prescribe it for all USB mice and touchpads.
+0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
+0x09, 0x00,        // Usage (Undefined)
+0xA1, 0x01,        // Collection (Application)
+0x15, 0x00,        //   Logical Minimum (0)
+0x25, 0x01,        //   Logical Maximum (1)
+0x75, 0x01,        //   Report Size (1)
+0x05, 0x09,        //   Usage Page (Button)
+0x19, 0x01,        //   Usage Minimum (0x01)
+0x29, 0x3F,        //   Usage Maximum (0x3F)
+0x95, 0x40,        //   Report Count (64)
+0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,=
+No Null Position)
+0xC0,              // End Collection
 
-changes from v3->v4:
- * Drop all changes related to pm_suspend_preferred_s2idle.
-   The direction from Rafael has been that drivers should NOT
-   use acpi_gbl.FADT to make policy decisions.
- * Instead only examine pm_suspend_default_s2idle() for policy decision.
+The Usage should rather be Joystick than undefined, the other
+fields does also looks wrong to me.
 
-changes from v2->v3:
- * Use `pm_suspend_preferred_s2idle`
- * Drop now unnecessary acpi.h header inclusion
- * Update commit message
- * Adjust comments from v2 per thread
+The data for each axis (WHEEL and GAS) is 11 bit long (Logical maximum
+2047 ?), how does the report descriptor map to the actual data in terms
+of offset, order and length?
 
-changes from v1->v2:
- * Resubmit by Mario
- * Update commit message
- * Only activate on systems configured by user and OEM for using s2idle
----
- drivers/hid/usbhid/hid-core.c | 36 ++++++++++++++++++++++++-----------
- 1 file changed, 25 insertions(+), 11 deletions(-)
+>=20
+> >
+> >
+> > >
+> > > > +
+> > > > +static int rcsim_raw_event(struct hid_device *hdev,
+> > > > +                              struct hid_report *report,
+> > > > +                              u8 *raw_data, int size)
+> > > > +{
+> > > > +       struct rcsim_priv *priv =3D hid_get_drvdata(hdev);
+> > > > +       u16 value;
+> > > > +
+> > > > +       switch (priv->controller) {
+> > > > +       case PHOENIXRC:
+> > > > +               if (size !=3D PHOENIXRC_DSIZE)
+> > > > +                       break;
+> > > > +
+> > > > +               /* X, RX, Y and RY, RUDDER and THROTTLE are sent ev=
+ery time */
+> > > > +               input_report_abs(priv->input, ABS_X, raw_data[2]);
+> > > > +               input_report_abs(priv->input, ABS_Y, raw_data[0]);
+> > > > +               input_report_abs(priv->input, ABS_RX, raw_data[4]);
+> > > > +               input_report_abs(priv->input, ABS_RY, raw_data[3]);
+> > > > +               input_report_abs(priv->input, ABS_RUDDER, raw_data[=
+5]);
+> > > > +               input_report_abs(priv->input, ABS_THROTTLE, raw_dat=
+a[6]);
+> > > > +
+> > > > +               /* Z and RZ are sent every other time */
+> > > > +               if (priv->alt)
+> > > > +                       input_report_abs(priv->input, ABS_Z, raw_da=
+ta[7]);
+> > > > +               else
+> > > > +                       input_report_abs(priv->input, ABS_RZ, raw_d=
+ata[7]);
+> > > > +
+> > > > +               priv->alt ^=3D 1;
+> > > > +               break;
+> > > > +       case VRC2:
+> > > > +               if (size !=3D VRC2_DSIZE)
+> > > > +                       break;
+> > > > +               value =3D (raw_data[1] << 8 | raw_data[0]) & GENMAS=
+K(10, 0);
+> > > > +               input_report_abs(priv->input, ABS_GAS, value);
+> > > > +               value =3D (raw_data[3] << 8 | raw_data[2]) & GENMAS=
+K(10, 0);
+> > > > +               input_report_abs(priv->input, ABS_WHEEL, value);
+> > > > +               break;
+> > > > +       case REALFLIGHT:
+> > > > +               if (size !=3D REALFLIGHT_DSIZE)
+> > > > +                       break;
+> > > > +               input_report_abs(priv->input, ABS_X, raw_data[2]);
+> > > > +               input_report_abs(priv->input, ABS_Y, raw_data[1]);
+> > > > +               input_report_abs(priv->input, ABS_RX, raw_data[5]);
+> > > > +               input_report_abs(priv->input, ABS_RY, raw_data[3]);
+> > > > +               input_report_abs(priv->input, ABS_MISC, raw_data[4]=
+);
+> > > > +               input_report_key(priv->input, BTN_A,
+> > > > +                               raw_data[7] & REALFLIGHT_BTN_A);
+> > > > +               input_report_key(priv->input, BTN_B,
+> > > > +                               raw_data[7] & REALFLIGHT_BTN_B);
+> > > > +               break;
+> > > > +       case XTRG2FMS:
+> > > > +               if (size !=3D XTRG2FMS_DSIZE)
+> > > > +                       break;
+> > > > +
+> > > > +               /* X, RX, Y and RY are sent every time */
+> > > > +               value =3D FIELD_GET(XTRG2FMS_X_HI, raw_data[3]);
+> > > > +               value =3D (value << 8) | raw_data[1];
+> > > > +               input_report_abs(priv->input, ABS_X, value);
+> > > > +
+> > > > +               value =3D FIELD_GET(XTRG2FMS_Y_HI, raw_data[3]);
+> > > > +               value =3D (value << 8) | raw_data[2];
+> > > > +               input_report_abs(priv->input, ABS_Y, value);
+> > > > +
+> > > > +               value =3D FIELD_GET(XTRG2FMS_RX_HI, raw_data[3]);
+> > > > +               value =3D (value << 8) | raw_data[0];
+> > > > +               input_report_abs(priv->input, ABS_RX, value);
+> > > > +
+> > > > +               value =3D FIELD_GET(XTRG2FMS_RY_HI, raw_data[3]);
+> > > > +               value =3D (value << 8) | raw_data[4];
+> > > > +               input_report_abs(priv->input, ABS_RY, value);
+> > > > +
+> > > > +               /* Z, RZ, RUDDER and THROTTLE are sent every other =
+time */
+> > > > +               value =3D FIELD_GET(XTRG2FMS_ALT1_HI, raw_data[7]);
+> > > > +               value =3D (value << 8) | raw_data[6];
+> > > > +               if (priv->alt)
+> > > > +                       input_report_abs(priv->input, ABS_Z, value);
+> > > > +               else
+> > > > +                       input_report_abs(priv->input, ABS_RUDDER, v=
+alue);
+> > > > +
+> > > > +               value =3D FIELD_GET(XTRG2FMS_ALT2_HI, raw_data[7]);
+> > > > +               value =3D (value << 8) | raw_data[5];
+> > > > +               if (priv->alt)
+> > > > +                       input_report_abs(priv->input, ABS_RZ, value=
+);
+> > > > +               else
+> > > > +                       input_report_abs(priv->input, ABS_THROTTLE,=
+ value);
+> > > > +
+> > > > +               priv->alt ^=3D 1;
+> > > > +               break;
+> > > > +       case ORANGERX:
+> > > > +               if (size !=3D ORANGERX_DSIZE)
+> > > > +                       break;
+> > > > +               input_report_abs(priv->input, ABS_X, raw_data[0]);
+> > > > +               input_report_abs(priv->input, ABS_Y, raw_data[2]);
+> > > > +               input_report_abs(priv->input, ABS_RX, raw_data[3]);
+> > > > +               input_report_abs(priv->input, ABS_RY, raw_data[1]);
+> > > > +               input_report_abs(priv->input, ABS_RUDDER, raw_data[=
+5]);
+> > > > +               input_report_abs(priv->input, ABS_THROTTLE, raw_dat=
+a[6]);
+> > > > +               break;
+> > > > +       };
+> > > > +
+> > > > +       input_sync(priv->input);
+> > > > +       return 0;
+> > > > +}
+> > > > +
+> > > > +static int rcsim_probe(struct hid_device *hdev, const struct hid_d=
+evice_id *id)
+> > > > +{
+> > > > +       struct device *dev =3D &hdev->dev;
+> > > > +       struct rcsim_priv *priv;
+> > > > +       int ret;
+> > > > +
+> > > > +       if (!hid_is_using_ll_driver(hdev, &usb_hid_driver))
+> > > > +               return -ENODEV;
+> > >
+> > > You are not accessing anything in the USB stack, so there is no need
+> > > to prevent regression tests that could inject uhid devices to your
+> > > drivers.
+> >
+> > Ok, thanks.
+> >
+> > >
+> > > Cheers,
+> > > Benjamin
+> > >
+> >
+> > Best regards,
+> > Marcus Folkesson
+> >
+> > [1] https://www.usb.org/hid
+> >
+>=20
+> If you need help in writing report descriptors, I can give you some,
+> but the easiest might be for you to start from the report descriptor
+> in hid-sony.c. I used to have a tool to dynamically write a report
+> descriptor, but I'm not sure it still works...
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index 4490e2f7252a..19aa186a7e0e 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -26,6 +26,7 @@
- #include <linux/wait.h>
- #include <linux/workqueue.h>
- #include <linux/string.h>
-+#include <linux/suspend.h>
- 
- #include <linux/usb.h>
- 
-@@ -1176,17 +1177,30 @@ static int usbhid_start(struct hid_device *hid)
- 		usb_autopm_put_interface(usbhid->intf);
- 	}
- 
--	/* Some keyboards don't work until their LEDs have been set.
--	 * Since BIOSes do set the LEDs, it must be safe for any device
--	 * that supports the keyboard boot protocol.
--	 * In addition, enable remote wakeup by default for all keyboard
--	 * devices supporting the boot protocol.
--	 */
--	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT &&
--			interface->desc.bInterfaceProtocol ==
--				USB_INTERFACE_PROTOCOL_KEYBOARD) {
--		usbhid_set_leds(hid);
--		device_set_wakeup_enable(&dev->dev, 1);
-+	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT) {
-+		switch (interface->desc.bInterfaceProtocol) {
-+		/* Some keyboards don't work until their LEDs have been set.
-+		 * Since BIOSes do set the LEDs, it must be safe for any device
-+		 * that supports the keyboard boot protocol.
-+		 * In addition, enable remote wakeup by default for all keyboard
-+		 * devices supporting the boot protocol.
-+		 */
-+		case USB_INTERFACE_PROTOCOL_KEYBOARD:
-+			usbhid_set_leds(hid);
-+			device_set_wakeup_enable(&dev->dev, 1);
-+			break;
-+		/*
-+		 * Windows configures USB mice to be a wakeup source from Modern
-+		 * Standby, and users have expectations that s2idle wakeup sources
-+		 * behave the same.  Thus setup remote wakeup by default for mice
-+		 * supporting boot protocol if the system supports s2idle and the user
-+		 * has not disabled it on the kernel command line.
-+		 */
-+		case USB_INTERFACE_PROTOCOL_MOUSE:
-+			if (pm_suspend_default_s2idle())
-+				device_set_wakeup_enable(&dev->dev, 1);
-+			break;
-+		}
- 	}
- 
- 	mutex_unlock(&usbhid->mutex);
--- 
-2.34.1
+I think at least some advice would be great :-)
 
+The VRC2 would be the most simple of those, it only has 2 axis with
+resolution of 11-bit.
+If you have time, would you please give some advice what a report descripto=
+r would look
+like and I could probably come up with something for the others.
+
+>=20
+> FYI, I just re-read rcsim_raw_event() and there is stuff that would
+> require more than just a report descriptor fixup (the fact that some
+> data is sent every other report is not good and will need some manual
+> handling though).
+
+
+Is the fact that more than one button share the same
+byte hard to describe in the report?
+
+  value =3D FIELD_GET(XTRG2FMS_ALT1_HI, raw_data[7]);
+  value =3D (value << 8) | raw_data[6];
+
+=2E..
+  value =3D FIELD_GET(XTRG2FMS_ALT2_HI, raw_data[7]);
+  value =3D (value << 8) | raw_data[5];
+
+
+>=20
+> Cheers,
+> Benjamin
+>=20
+
+Best regards
+Marcus Folkesson
+
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/drivers/hid/hid-uclogic-rdesc.c
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/drivers/hid/hid-input.c#n817
+[4] https://eleccelerator.com/usbdescreqparser/
+
+--7Xw/4XWTP378h0nh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmMHG08ACgkQiIBOb1ld
+UjIO5A/+JWXCCZI2+4+Nk+jnYQoqETdMveimgYOIgUBeWONUtcRW5vYhgUNh+huy
+G0hre6n6misVW59F94LmWtJ9EMWD45jc1jt3l8r4OjBvirI3M3UMudsnmYlkWXpT
+jktg8/B8lV5S8ATYpEZp+NwNR1wX0HI8B59J5S88LGuyF7nfZzp71GnZSPeyPqs4
+WeKr8gehyfGpVr4g6wox7sdywWGPTEc2Xyrye0CJ4QlVLHYvCs51ZJCGBIREuFty
+znQk9Wom/pkPodQNnQgtEAr9xvWzZkbEa3k0UBzhxxe2vx4JaknIhTEzwafa8mif
+Mg1GQ/vvYYivSMS98rsUtE7Kk1dbnykZSsUGrC2i6LbRNW4to8uxQ+v9d/4x8U6Z
+1Qgj50cF4DurR56xv06fZXLfiZjUpMoJ3eKYjQK9SvTASIlj4CflSTTJUfr8lClc
+kNzkfXrZWsoZiAYQicY7fAtTQYyrSBG8rkHn2OUsisHnYBQcELmpD1u+o5nXplh1
+Fox+cisVkNtEt1ymHtXnBNAojaHW5hQ0iXy4V3B2J6F9E/BZ8RHADm2F6sMoSWHy
+MpqbXTid/aoqKabOj75A8p5PIPzhbl69AP+YlgNwFrzEhdnltvjJTR9PTePIuChy
+NGxzIXbjj6hZ9UzmzOFUxgYxCDVGjn3nC0dh9p5/NGy/G0RwAUA=
+=P5uZ
+-----END PGP SIGNATURE-----
+
+--7Xw/4XWTP378h0nh--
