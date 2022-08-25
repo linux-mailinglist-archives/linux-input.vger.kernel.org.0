@@ -2,101 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9884D5A0CA1
-	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 841EC5A0CA5
+	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:31:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237349AbiHYJaP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 05:30:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49198 "EHLO
+        id S234415AbiHYJbO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Aug 2022 05:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234415AbiHYJaO (ORCPT
+        with ESMTP id S238202AbiHYJbJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 05:30:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB7254669;
-        Thu, 25 Aug 2022 02:30:12 -0700 (PDT)
+        Thu, 25 Aug 2022 05:31:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0483874DEF;
+        Thu, 25 Aug 2022 02:31:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CE05861BE6;
-        Thu, 25 Aug 2022 09:30:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1ACBC433D6;
-        Thu, 25 Aug 2022 09:30:09 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B6070B827DC;
+        Thu, 25 Aug 2022 09:31:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56736C433D6;
+        Thu, 25 Aug 2022 09:31:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661419811;
-        bh=L+0sXmx3plDatFgNg4UJoNuIQ/1S5Vx8B0Xd9YUiaZ8=;
+        s=k20201202; t=1661419865;
+        bh=plUt9uMkO0KE9Ug185awFHVbd+XLpzhEW8EZU+WPwdI=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=RficcT4mEcQK7KICgYfApQfkkwbhkoNIXWvgSNZBHQwxDMUuPe8nLksV3+nsoWiXi
-         INl4jOWJNbt8JA+d9a4LHowOOuCH4dcAKeJiVfwqPJ1IObit0z9qjmHVJQLoh8PDBy
-         wG1k21fNEWDYQZbUuVwoeAY585DVqJMU3vkinUzfGrQjdbf7i3hwlxyyl1D+YbUxAp
-         05JYjVbKzSjioxsRK/zbDx0+C4jQfh23baof986uVXGqH6OdUymxqp8hMGMZDORaOI
-         6arWSoVJVpaM++wsBbnf7nw+bppAanXXEk7lgtazOgGOicGFDqun2b+DaaffQ0VAQ2
-         +f3UbxTps1tXw==
-Date:   Thu, 25 Aug 2022 11:30:07 +0200 (CEST)
+        b=gqHYU93y5S1V9afV+Fb301SVrj38bUxYiBnCmzv80PNF/rfxbw6VEKcGtNIm6lgzA
+         FzV4RrxBUQ5WH5wzreUErNhfU2Toi01OiX0D7VMwZYSSN7PS6ObxqJs2JjSq1+LuuW
+         zlIz+TanoZKGu+0tjaf6FsyJtYMiW9Fe5Z+viJOvYJ0PzKLqkxdC1rTp0muh/B5riu
+         1f7OpaFdgWDCWbUp9HbTJnQdAqRUD0YmZn2d+SLJA/YvZn/FaV5JtgU2Y8JCwJ24gh
+         /RtJrd1XSnbssBUgFJ44+qocx71uf7a3F9UV6BJ9zN/vT5hJ8Ju1Qwo6LXclOwCaae
+         pZGyaRtMKGF6Q==
+Date:   Thu, 25 Aug 2022 11:31:01 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Jiangshan Yi <13667453960@163.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jiangshan Yi <yijiangshan@kylinos.cn>
-Subject: Re: [PATCH] HID: rmi: replace ternary operator with min()
-In-Reply-To: <20220713032047.2238205-1-13667453960@163.com>
-Message-ID: <nycvar.YFH.7.76.2208251129590.19850@cbobk.fhfr.pm>
-References: <20220713032047.2238205-1-13667453960@163.com>
+To:     Karthik Alapati <mail@karthek.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: hidraw: fix memory leak in hidraw_release()
+In-Reply-To: <YuKuldGx55BB+hrd@karthik-strix-linux.karthek.com>
+Message-ID: <nycvar.YFH.7.76.2208251130510.19850@cbobk.fhfr.pm>
+References: <YuKuldGx55BB+hrd@karthik-strix-linux.karthek.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 13 Jul 2022, Jiangshan Yi wrote:
+On Thu, 28 Jul 2022, Karthik Alapati wrote:
 
-> From: Jiangshan Yi <yijiangshan@kylinos.cn>
+> Free the buffered reports before deleting the list entry.
 > 
-> Fix the following coccicheck warning:
+> BUG: memory leak
+> unreferenced object 0xffff88810e72f180 (size 32):
+>   comm "softirq", pid 0, jiffies 4294945143 (age 16.080s)
+>   hex dump (first 32 bytes):
+>     64 f3 c6 6a d1 88 07 04 00 00 00 00 00 00 00 00  d..j............
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<ffffffff814ac6c3>] kmemdup+0x23/0x50 mm/util.c:128
+>     [<ffffffff8357c1d2>] kmemdup include/linux/fortify-string.h:440 [inline]
+>     [<ffffffff8357c1d2>] hidraw_report_event+0xa2/0x150 drivers/hid/hidraw.c:521
+>     [<ffffffff8356ddad>] hid_report_raw_event+0x27d/0x740 drivers/hid/hid-core.c:1992
+>     [<ffffffff8356e41e>] hid_input_report+0x1ae/0x270 drivers/hid/hid-core.c:2065
+>     [<ffffffff835f0d3f>] hid_irq_in+0x1ff/0x250 drivers/hid/usbhid/hid-core.c:284
+>     [<ffffffff82d3c7f9>] __usb_hcd_giveback_urb+0xf9/0x230 drivers/usb/core/hcd.c:1670
+>     [<ffffffff82d3cc26>] usb_hcd_giveback_urb+0x1b6/0x1d0 drivers/usb/core/hcd.c:1747
+>     [<ffffffff82ef1e14>] dummy_timer+0x8e4/0x14c0 drivers/usb/gadget/udc/dummy_hcd.c:1988
+>     [<ffffffff812f50a8>] call_timer_fn+0x38/0x200 kernel/time/timer.c:1474
+>     [<ffffffff812f5586>] expire_timers kernel/time/timer.c:1519 [inline]
+>     [<ffffffff812f5586>] __run_timers.part.0+0x316/0x430 kernel/time/timer.c:1790
+>     [<ffffffff812f56e4>] __run_timers kernel/time/timer.c:1768 [inline]
+>     [<ffffffff812f56e4>] run_timer_softirq+0x44/0x90 kernel/time/timer.c:1803
+>     [<ffffffff848000e6>] __do_softirq+0xe6/0x2ea kernel/softirq.c:571
+>     [<ffffffff81246db0>] invoke_softirq kernel/softirq.c:445 [inline]
+>     [<ffffffff81246db0>] __irq_exit_rcu kernel/softirq.c:650 [inline]
+>     [<ffffffff81246db0>] irq_exit_rcu+0xc0/0x110 kernel/softirq.c:662
+>     [<ffffffff84574f02>] sysvec_apic_timer_interrupt+0xa2/0xd0 arch/x86/kernel/apic/apic.c:1106
+>     [<ffffffff84600c8b>] asm_sysvec_apic_timer_interrupt+0x1b/0x20 arch/x86/include/asm/idtentry.h:649
+>     [<ffffffff8458a070>] native_safe_halt arch/x86/include/asm/irqflags.h:51 [inline]
+>     [<ffffffff8458a070>] arch_safe_halt arch/x86/include/asm/irqflags.h:89 [inline]
+>     [<ffffffff8458a070>] acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
+>     [<ffffffff8458a070>] acpi_idle_do_entry+0xc0/0xd0 drivers/acpi/processor_idle.c:554
 > 
-> drivers/hid/hid-rmi.c:240: WARNING opportunity for min().
-> drivers/hid/hid-rmi.c:350: WARNING opportunity for min().
-> 
-> min() macro is defined in include/linux/minmax.h. It avoids
-> multiple evaluations of the arguments when non-constant and performs
-> strict type-checking.
-> 
-> Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+> Link: https://syzkaller.appspot.com/bug?id=19a04b43c75ed1092021010419b5e560a8172c4f
+> Reported-by: syzbot+f59100a0428e6ded9443@syzkaller.appspotmail.com
+> Signed-off-by: Karthik Alapati <mail@karthek.com>
 > ---
->  drivers/hid/hid-rmi.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  drivers/hid/hidraw.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
-> index 311eee599ce9..bb1f423f4ace 100644
-> --- a/drivers/hid/hid-rmi.c
-> +++ b/drivers/hid/hid-rmi.c
-> @@ -237,8 +237,7 @@ static int rmi_hid_read_block(struct rmi_transport_dev *xport, u16 addr,
+> diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+> index 681614a8302a..197b1e7bf029 100644
+> --- a/drivers/hid/hidraw.c
+> +++ b/drivers/hid/hidraw.c
+> @@ -350,6 +350,8 @@ static int hidraw_release(struct inode * inode, struct file * file)
+>  	down_write(&minors_rwsem);
 >  
->  			read_input_count = data->readReport[1];
->  			memcpy(buf + bytes_read, &data->readReport[2],
-> -				read_input_count < bytes_needed ?
-> -					read_input_count : bytes_needed);
-> +				min(read_input_count, bytes_needed));
->  
->  			bytes_read += read_input_count;
->  			bytes_needed -= read_input_count;
-> @@ -347,8 +346,7 @@ static int rmi_read_data_event(struct hid_device *hdev, u8 *data, int size)
->  		return 0;
->  	}
->  
-> -	memcpy(hdata->readReport, data, size < hdata->input_report_size ?
-> -			size : hdata->input_report_size);
-> +	memcpy(hdata->readReport, data, min((u32)size, hdata->input_report_size));
->  	set_bit(RMI_READ_DATA_PENDING, &hdata->flags);
->  	wake_up(&hdata->wait);
+>  	spin_lock_irqsave(&hidraw_table[minor]->list_lock, flags);
+> +	for (int i = list->tail; i < list->head; i++)
+> +		kfree(list->buffer[i].value);
+>  	list_del(&list->node);
+>  	spin_unlock_irqrestore(&hidraw_table[minor]->list_lock, flags);
+>  	kfree(list);
 
-Applied, thanks.
+Applied, thank you.
 
 -- 
 Jiri Kosina
