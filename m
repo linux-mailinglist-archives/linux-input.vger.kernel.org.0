@@ -2,98 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 917375A0CFD
-	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 11:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE325A1078
+	for <lists+linux-input@lfdr.de>; Thu, 25 Aug 2022 14:30:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240689AbiHYJrL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 05:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54756 "EHLO
+        id S241699AbiHYM3t convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 25 Aug 2022 08:29:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233215AbiHYJrK (ORCPT
+        with ESMTP id S241680AbiHYM3m (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 05:47:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661AAAB417;
-        Thu, 25 Aug 2022 02:47:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E12AA61C21;
-        Thu, 25 Aug 2022 09:47:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 179C7C433C1;
-        Thu, 25 Aug 2022 09:47:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661420828;
-        bh=DwxCA3CR5K7a5JzZ8eAf21/k+uiLRdWoQ4yt0z0nFpc=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=JnYcNWP2FZZlj3MXdirxSFt2g5hGq6hXHAauSxw3SV7os46ogZMXg3fmCTy6SxmaP
-         uNuPUxpxqUDyJAB+hRAru4H9g4OMK/N4e8W4OqCpxKv84IhJH1zwrY+fRPvpUsNNQN
-         AFO7/43Nz7zIZRQy/yoIwKgUO+1xEJI28bSIZIbtZ0GVuxsUw8fFbIhaGdoiu+4CIm
-         sP+0wt/1NN+dHQC86G8vQCdqiWmkuyiXhExUqKglh2bwobFxxaAEG8Ot1pEos6CFNz
-         z2r7wgRl7s8ZCIHRSNoDrR/havAM/TUpxKLrDGoAqZlXb/WnhVhTtHTcKjcy4VyOCT
-         NEFcphLIHNhgw==
-Date:   Thu, 25 Aug 2022 11:47:04 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     Stefan Hansson <newbie13xd@gmail.com>,
-        =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: input: fix uclogic tablets
-In-Reply-To: <20220822062247.1146141-1-benjamin.tissoires@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2208251146580.19850@cbobk.fhfr.pm>
-References: <20220822062247.1146141-1-benjamin.tissoires@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Thu, 25 Aug 2022 08:29:42 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D50B2DAB
+        for <linux-input@vger.kernel.org>; Thu, 25 Aug 2022 05:29:40 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 84ADF40007;
+        Thu, 25 Aug 2022 12:29:37 +0000 (UTC)
+Message-ID: <4542beb149883ab5dfdcfd7f6bb4b516e5c1bcdb.camel@hadess.net>
+Subject: [PATCH] HID: logitech-hidpp: Enable HID++ for all the Logitech
+ Bluetooth devices
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Date:   Thu, 25 Aug 2022 14:29:36 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 22 Aug 2022, Benjamin Tissoires wrote:
+Probe for HID++ support over Bluetooth for all the Logitech Bluetooth
+devices. As Logitech doesn't have a list of Bluetooth devices that
+support HID++ over Bluetooth, probe every device. The HID++ driver
+will fall back to plain HID if the device does not support HID++.
 
-> commit 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
-> made the assumption that it was the only one handling tablets and thus
-> kept an internal state regarding the tool.
-> 
-> Turns out that the uclogic driver has a timer to release the in range
-> bit, effectively making hid-input ignoring all in range information
-> after the very first one.
-> 
-> Fix that by having a more rationale approach which consists in forwarding
-> every event and let the input stack filter out the duplicates.
-> 
-> Reported-by: Stefan Hansson <newbie13xd@gmail.com>
-> Fixes: 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> ---
->  drivers/hid/hid-input.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 48c1c02c69f4..871a185a0f1f 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1532,7 +1532,10 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
->  			 * assume ours
->  			 */
->  			if (!report->tool)
-> -				hid_report_set_tool(report, input, usage->code);
-> +				report->tool = usage->code;
-> +
-> +			/* drivers may have changed the value behind our back, resend it */
-> +			hid_report_set_tool(report, input, report->tool);
->  		} else {
->  			hid_report_release_tool(report, input, usage->code);
+Note that this change might cause upower to export 2 batteries for
+certain Bluetooth LE devices which export their battery information
+through the Bluetooth BATT profile. This particular bug is tracked at:
+https://gitlab.freedesktop.org/upower/upower/-/issues/166
 
-Queued in for-6.0/upstream-fixes. Thanks,
+Tested with a Logitech Signature M650 mouse, over Bluetooth
 
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+---
+
+Note that I could not test whether the Harmony PS3 (handled in hid-sony.c)
+or DiNovo Edge keyboard (handled in hid-input.c) devices would correctly fallback
+to those drivers in that case.
+
+Ways to test this would be appreciated (or merge this, and wait for feedback...)
+
+ drivers/hid/hid-logitech-hidpp.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 81de88ab2ecc..86e7a38d8a9a 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4347,6 +4347,9 @@ static const struct hid_device_id hidpp_devices[] = {
+        { /* MX Master 3 mouse over Bluetooth */
+          HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023),
+          .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
++
++       { /* And try to enable HID++ for all the Logitech Bluetooth devices */
++         HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_ANY, USB_VENDOR_ID_LOGITECH, HID_ANY_ID) },
+        {}
+ };
+ 
 -- 
-Jiri Kosina
-SUSE Labs
+2.37.2
 
