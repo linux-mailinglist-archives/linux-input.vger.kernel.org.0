@@ -2,57 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD65A5A1E1D
-	for <lists+linux-input@lfdr.de>; Fri, 26 Aug 2022 03:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B5A65A1E49
+	for <lists+linux-input@lfdr.de>; Fri, 26 Aug 2022 03:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235039AbiHZBZQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Aug 2022 21:25:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46280 "EHLO
+        id S229470AbiHZBmF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Aug 2022 21:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231750AbiHZBZP (ORCPT
+        with ESMTP id S243899AbiHZBmE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Aug 2022 21:25:15 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9AB01D0C6;
-        Thu, 25 Aug 2022 18:25:13 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id p187so128419iod.8;
-        Thu, 25 Aug 2022 18:25:13 -0700 (PDT)
+        Thu, 25 Aug 2022 21:42:04 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12696B5E47;
+        Thu, 25 Aug 2022 18:42:02 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id lx1so459107ejb.12;
+        Thu, 25 Aug 2022 18:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=J5snBVTDlWBFu801/ywde1pPm00Eyyw3yMLWbRdtRFQ=;
-        b=Ex1tXuuT1qkRrdHQJdEwKN8pBVE5IGGrbZROLG/2VjcLX/gM6oaE6/E5c6j9phsSZa
-         MUFOU9IRnYNlCNutvBjkjQQZaWhz4bUobD13vwZjcYb7AZgYfwcIkvUaVYHoE8n3GZIL
-         Ag0hzmCR0iu3bZt47wsgC8lkXAp1LJOPVZ8L5Uv4RKgVcGvbrk9Wk38yfYj5TSxXzvDa
-         O7Ptz/IKMhoRYxz5srL3oTv3WFNSfhkGlAF7/aV22LkoDVvxzsqsf2wt3Yq9Tfebl0dw
-         MjNSc1M5F1HhaFmtxZjD+gTJYpQXPV+P7Zw2tN3uoglHFXGn7AI0zr0txqU/4vKiYd26
-         XaPw==
+        bh=quqbhae9tE+u+AuLu2p96mCxM/yvBDszB/bTDBaigeA=;
+        b=DVfp8xZ0ZsJuW29ra11t3CveVoIOlgCAeTBHFvwcXUXJuPz9MfnvLIr5WvgXV2m6IN
+         qRbBT37zyUFfc7CSq94cpgFL1ZTgzLydSwXzWEXn6Nc0bTbPtpSn1IKlulFxTsorgDsa
+         IWw1SjjYOavpqX1e6EJaiBEay3rjqLipNd5XRPdWCkl1ll1txb/DMSttvVFuKglVt1s3
+         7lg9DR394b2A2VMf+85lRITjVZ650A9QsQ+7wVbVj85eFWP6AjgIFGojK3Fove9I3ZTs
+         b9e+gO965DgLnAFBrXX97X/T6OoOqdi05wZB0FPmDFPv7lB5Xjq70qVDlY9gveHrGCtd
+         2m3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=J5snBVTDlWBFu801/ywde1pPm00Eyyw3yMLWbRdtRFQ=;
-        b=Rp1kcYUaRgtBWDnzc0l5YRI75fP8tiqTVGw5/fXBu462M5HM5LlWYXTmlz81SDFQ2o
-         RV5gl7dbG9/dSxpC0ENEIG6KWujkL+oZKrDwD76qyQj046kkP4mhGr/cvbiZoVuKCqVb
-         Qz4MeLG3FsMkJ8cGO3pnl+kZvZPSoIKpQhoNNbAZIu0W4Z9ujdmDuxqmqY3KtpVATr2W
-         nKGh3G2pH/DqE/16Rqfs06T0maqau3FAeuYFtyQABwHdkZ/0gI/6tQSjqbP7JizBEatS
-         am6w/EjKok39ZEMkd4phXekO6MAn9p7gyg6d9lzZD3+9Z9uBGixjaLitiftS8zri3STY
-         1xqA==
-X-Gm-Message-State: ACgBeo0Y/K6UZ1AowOmGYifersenyiSVy+ldLAA0HgErtyL3GMtWBkTg
-        0chKNI1rWZSDqXP/qT6NpvctirK9Tk4ME0pix5E=
-X-Google-Smtp-Source: AA6agR5OoRAsYmkKWzn7x8LBM1xeXfEXZP3NcBAmEHhFG5PrKOCKqxwbhXKIm69DDl2rYhZCc3tzxzRN4htkc0G8UEM=
-X-Received: by 2002:a05:6638:3828:b0:349:e863:f16c with SMTP id
- i40-20020a056638382800b00349e863f16cmr3153987jav.206.1661477112952; Thu, 25
- Aug 2022 18:25:12 -0700 (PDT)
+        bh=quqbhae9tE+u+AuLu2p96mCxM/yvBDszB/bTDBaigeA=;
+        b=pkq5yRJuKfS80cXlB5nyne7LRCg/uPwB90+ChOKp9V74smRqCNmToLPuWwWvc+UFVg
+         GFiWDwcr69Z2vWgnIdroxnTXvOHJl1hevQtBmx2MnIYrPT8HyuOyqFqZ3SqQmXiQb/6W
+         zZiu5NnTQao+gCwSP+7Ag97AT226wE7jW0fo29ydWfUPHuRv6C/rdsPsrOjcR7Wev+5g
+         EKTxs1cWPQ0hb+zHVcbJ/75h3pWYk1i1frZnzkA1FVfDjWiFSbbTfLOvcoBhP7rQPyCs
+         wOHGEqqLA+jHtwq5H6kifvOneBzlqcND6WfkZP1H+pmTgbw0uNxL+22vEDh0yFK9B/N1
+         Q5Rw==
+X-Gm-Message-State: ACgBeo1aAsPMJWmZJu7l7y+LMhmoyiCoLmEjJdLruvJOOLsFxFXx77QN
+        t/3wBDzEnoOJeCPwZTUZwhomphwGyBp2DJKAJNM=
+X-Google-Smtp-Source: AA6agR5PS8ZOJ+z0uD7rWY0c7lK03WtKQPHQ4chiwWkm17j7fYBMhw8neFuDjgLE8SeBkxc5+p52ZeKjmmtitPIa/0E=
+X-Received: by 2002:a17:907:e8d:b0:730:a4e8:27ed with SMTP id
+ ho13-20020a1709070e8d00b00730a4e827edmr3886774ejc.58.1661478120333; Thu, 25
+ Aug 2022 18:42:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com> <20220824134055.1328882-5-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220824134055.1328882-5-benjamin.tissoires@redhat.com>
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Fri, 26 Aug 2022 03:24:37 +0200
-Message-ID: <CAP01T74ZmvoYtG=8wiDm0_X3hrMN8s55CkSzurphDrZ3b86UZQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v9 04/23] bpf/verifier: allow kfunc to return an
- allocated mem
+References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com> <20220824134055.1328882-2-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220824134055.1328882-2-benjamin.tissoires@redhat.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Thu, 25 Aug 2022 18:41:49 -0700
+Message-ID: <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
+ read user provided context
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -61,14 +61,19 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Andrii Nakryiko <andrii@kernel.org>,
         Martin KaFai Lau <kafai@fb.com>,
         Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
         John Fastabend <john.fastabend@gmail.com>,
         KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
         Dave Marchevsky <davemarchevsky@fb.com>,
         Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
         Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -80,28 +85,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 24 Aug 2022 at 15:41, Benjamin Tissoires
+On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
 <benjamin.tissoires@redhat.com> wrote:
 >
-> For drivers (outside of network), the incoming data is not statically
-> defined in a struct. Most of the time the data buffer is kzalloc-ed
-> and thus we can not rely on eBPF and BTF to explore the data.
+> When a function was trying to access data from context in a syscall eBPF
+> program, the verifier was rejecting the call unless it was accessing the
+> first element.
+> This is because the syscall context is not known at compile time, and
+> so we need to check this when actually accessing it.
 >
-> This commit allows to return an arbitrary memory, previously allocated by
-> the driver.
-> An interesting extra point is that the kfunc can mark the exported
-> memory region as read only or read/write.
+> Check for the valid memory access if there is no convert_ctx callback,
+> and allow such situation to happen.
 >
-> So, when a kfunc is not returning a pointer to a struct but to a plain
-> type, we can consider it is a valid allocated memory assuming that:
-> - one of the arguments is either called rdonly_buf_size or
->   rdwr_buf_size
-> - and this argument is a const from the caller point of view
+> There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
+> will check that the types are matching, which is a good thing, but to
+> have an accurate result, it hides the fact that the context register may
+> be null. This makes env->prog->aux->max_ctx_offset being set to the size
+> of the context, which is incompatible with a NULL context.
 >
-> We can then use this parameter as the size of the allocated memory.
->
-> The memory is either read-only or read-write based on the name
-> of the size parameter.
+> Solve that last problem by storing max_ctx_offset before the type check
+> and restoring it after.
 >
 > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
@@ -109,136 +112,101 @@ On Wed, 24 Aug 2022 at 15:41, Benjamin Tissoires
 > ---
 >
 > changes in v9:
-> - updated to match upstream (replaced kfunc_flag by a field in
->   kfunc_meta)
+> - rewrote the commit title and description
+> - made it so all functions can make use of context even if there is
+>   no convert_ctx
+> - remove the is_kfunc field in bpf_call_arg_meta
 >
-> no changes in v8
+> changes in v8:
+> - fixup comment
+> - return -EACCESS instead of -EINVAL for consistency
 >
 > changes in v7:
-> - ensures btf_type_is_struct_ptr() checks for a ptr first
->   (squashed from next commit)
-> - remove multiple_ref_obj_id need
-> - use btf_type_skip_modifiers instead of manually doing it in
->   btf_type_is_struct_ptr()
-> - s/strncmp/strcmp/ in btf_is_kfunc_arg_mem_size()
-> - check for tnum_is_const when retrieving the size value
-> - have only one check for "Ensure only one argument is referenced
->   PTR_TO_BTF_ID"
-> - add some more context to the commit message
+> - renamed access_t into atype
+> - allow zero-byte read
+> - check_mem_access() to the correct offset/size
 >
-> changes in v6:
-> - code review from Kartikeya:
->   - remove comment change that had no reasons to be
->   - remove handling of PTR_TO_MEM with kfunc releases
->   - introduce struct bpf_kfunc_arg_meta
->   - do rdonly/rdwr_buf_size check in btf_check_kfunc_arg_match
->   - reverted most of the changes in verifier.c
->   - make sure kfunc acquire is using a struct pointer, not just a plain
->     pointer
->   - also forward ref_obj_id to PTR_TO_MEM in kfunc to not use after free
->     the allocated memory
->
-> changes in v5:
-> - updated PTR_TO_MEM comment in btf.c to match upstream
-> - make it read-only or read-write based on the name of size
->
-> new in v4
->
-> change btf.h
->
-> fix allow kfunc to return an allocated mem
+> new in v6
 > ---
->  include/linux/bpf.h   |  9 +++-
->  include/linux/btf.h   | 10 +++++
->  kernel/bpf/btf.c      | 98 ++++++++++++++++++++++++++++++++++---------
->  kernel/bpf/verifier.c | 43 +++++++++++++------
->  4 files changed, 128 insertions(+), 32 deletions(-)
+>  kernel/bpf/btf.c      | 11 ++++++++++-
+>  kernel/bpf/verifier.c | 19 +++++++++++++++++++
+>  2 files changed, 29 insertions(+), 1 deletion(-)
 >
-> diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-> index 39bd36359c1e..90dd218e0199 100644
-> --- a/include/linux/bpf.h
-> +++ b/include/linux/bpf.h
-> @@ -1932,13 +1932,20 @@ int btf_distill_func_proto(struct bpf_verifier_log *log,
->                            const char *func_name,
->                            struct btf_func_model *m);
-> [...]
-> +
->  static int btf_check_func_arg_match(struct bpf_verifier_env *env,
->                                     const struct btf *btf, u32 func_id,
->                                     struct bpf_reg_state *regs,
->                                     bool ptr_to_mem_ok,
-> -                                   u32 kfunc_flags)
-> +                                   struct bpf_kfunc_arg_meta *kfunc_meta)
+> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> index 903719b89238..386300f52b23 100644
+> --- a/kernel/bpf/btf.c
+> +++ b/kernel/bpf/btf.c
+> @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
 >  {
->         enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
->         bool rel = false, kptr_get = false, trusted_arg = false;
-> @@ -6207,12 +6232,12 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
+>         struct bpf_prog *prog = env->prog;
+>         struct btf *btf = prog->aux->btf;
+> +       u32 btf_id, max_ctx_offset;
+>         bool is_global;
+> -       u32 btf_id;
+>         int err;
+>
+>         if (!prog->aux->func_info)
+> @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+>         if (prog->aux->func_info_aux[subprog].unreliable)
 >                 return -EINVAL;
->         }
 >
-> -       if (is_kfunc) {
-> +       if (is_kfunc && kfunc_meta) {
->                 /* Only kfunc can be release func */
-> -               rel = kfunc_flags & KF_RELEASE;
-> -               kptr_get = kfunc_flags & KF_KPTR_GET;
-> -               trusted_arg = kfunc_flags & KF_TRUSTED_ARGS;
-> -               sleepable = kfunc_flags & KF_SLEEPABLE;
-> +               rel = kfunc_meta->flags & KF_RELEASE;
-> +               kptr_get = kfunc_meta->flags & KF_KPTR_GET;
-> +               trusted_arg = kfunc_meta->flags & KF_TRUSTED_ARGS;
-> +               sleepable = kfunc_meta->flags & KF_SLEEPABLE;
->         }
+> +       /* subprogs arguments are not actually accessing the data, we need
+> +        * to check for the types if they match.
+> +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
+> +        * given that this function will have a side effect of changing it.
+> +        */
+> +       max_ctx_offset = env->prog->aux->max_ctx_offset;
+> +
+>         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
+>         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
 >
->         /* check that BTF function arguments match actual types that the
-> @@ -6225,6 +6250,35 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
+> +       env->prog->aux->max_ctx_offset = max_ctx_offset;
+
+I don't understand this.
+If we pass a ctx into a helper and it's going to
+access [0..N] bytes from it why do we need to hide it?
+max_ctx_offset will be used later raw_tp, tp, syscall progs
+to determine whether it's ok to load them.
+By hiding the actual size of access somebody can construct
+a prog that reads out of bounds.
+How is this related to NULL-ness property?
+
+> +
+>         /* Compiler optimizations can remove arguments from static functions
+>          * or mismatched type can be passed into a global function.
+>          * In such cases mark the function as unreliable from BTF point of view.
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 2c1f8069f7b7..d694f43ab911 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -5229,6 +5229,25 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+>                                 env,
+>                                 regno, reg->off, access_size,
+>                                 zero_size_allowed, ACCESS_HELPER, meta);
+> +       case PTR_TO_CTX:
+> +               /* in case the function doesn't know how to access the context,
+> +                * (because we are in a program of type SYSCALL for example), we
+> +                * can not statically check its size.
+> +                * Dynamically check it now.
+> +                */
+> +               if (!env->ops->convert_ctx_access) {
+> +                       enum bpf_access_type atype = meta && meta->raw_mode ? BPF_WRITE : BPF_READ;
+> +                       int offset = access_size - 1;
+> +
+> +                       /* Allow zero-byte read from PTR_TO_CTX */
+> +                       if (access_size == 0)
+> +                               return zero_size_allowed ? 0 : -EACCES;
+> +
+> +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
+> +                                               atype, -1, false);
+> +               }
+
+This part looks good alone. Without max_ctx_offset save/restore.
+
+> +               fallthrough;
+>         default: /* scalar_value or invalid ptr */
+>                 /* Allow zero-byte read from NULL, regardless of pointer type */
+>                 if (zero_size_allowed && access_size == 0 &&
+> --
+> 2.36.1
 >
->                 t = btf_type_skip_modifiers(btf, args[i].type, NULL);
->                 if (btf_type_is_scalar(t)) {
-> +                       if (is_kfunc && kfunc_meta) {
-> +                               bool is_buf_size = false;
-> +
-> +                               /* check for any const scalar parameter of name "rdonly_buf_size"
-> +                                * or "rdwr_buf_size"
-> +                                */
-> +                               if (btf_is_kfunc_arg_mem_size(btf, &args[i], reg,
-> +                                                             "rdonly_buf_size")) {
-> +                                       kfunc_meta->r0_rdonly = true;
-> +                                       is_buf_size = true;
-> +                               } else if (btf_is_kfunc_arg_mem_size(btf, &args[i], reg,
-> +                                                                    "rdwr_buf_size"))
-> +                                       is_buf_size = true;
-> +
-> +                               if (is_buf_size) {
-> +                                       if (kfunc_meta->r0_size) {
-> +                                               bpf_log(log, "2 or more rdonly/rdwr_buf_size parameters for kfunc");
-> +                                               return -EINVAL;
-> +                                       }
-> +
-> +                                       if (!tnum_is_const(reg->var_off)) {
-> +                                               bpf_log(log, "R%d is not a const\n", regno);
-> +                                               return -EINVAL;
-> +                                       }
-> +
-> +                                       kfunc_meta->r0_size = reg->var_off.value;
-
-Sorry for not pointing it out before, but you will need a call to
-mark_chain_precision here after this, since the value of the scalar is
-being used to decide the size of the returned pointer.
-
-> +                               }
-> +                       }
-> +
->                         if (reg->type == SCALAR_VALUE)
->                                 continue;
->                         bpf_log(log, "R%d is not a scalar\n", regno);
-> @@ -6255,6 +6309,19 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
->                 if (ret < 0)
->                         return ret;
->
-> +               if (is_kfunc && reg->type == PTR_TO_BTF_ID) {
-
-I think you can drop this extra check 'reg->type == PTR_TO_BTF_ID),
-this condition of only one ref_obj_id should hold regardless of the
-type.
-
-> [...]
