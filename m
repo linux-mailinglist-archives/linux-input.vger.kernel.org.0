@@ -2,57 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F03145A268F
-	for <lists+linux-input@lfdr.de>; Fri, 26 Aug 2022 13:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAE425A29A2
+	for <lists+linux-input@lfdr.de>; Fri, 26 Aug 2022 16:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343544AbiHZLGo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Aug 2022 07:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49368 "EHLO
+        id S1344580AbiHZOfi convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 26 Aug 2022 10:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344509AbiHZLFz (ORCPT
+        with ESMTP id S1344524AbiHZOfS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Aug 2022 07:05:55 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5844642CF;
-        Fri, 26 Aug 2022 04:05:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 30C9ACE2F6F;
-        Fri, 26 Aug 2022 11:05:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A03DC433C1;
-        Fri, 26 Aug 2022 11:05:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661511949;
-        bh=hTUIuHPBeCP7kGPU71SynWjBmXmLkWSnlXM1XJNBa94=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=lGgtgCJs0zkraO6Xo0lxyJs4A/GyKJAurVuNOxaLbpKTLE/sdUptv1hxv8hJjrzMN
-         rZT+Yu7xdXaE08JmxjlNZbyNh9uOxAkcUCgy40k9NOSjYc4mNBaK3NoaNFmasqzaEs
-         BZEiqCLVkJUwvmURH/H0G/Ka3IznUEqwnj9SeauFqULzsNiV5dEGLWSO0RvlzWLTog
-         8SF1CWDkaoj9M4La2dLzpzRH0N6aaNK721eEFVkscc9CAiPRMvF2kE+IwLkfB0nGsA
-         LpWhELVbXlBSzzBwNM6GN3fL1C3Uk67hfrfvZBPFKwJZYH6Yz1Wf73Vko9Ib8sjsxA
-         iEH3tBJ5mx2zA==
-Date:   Fri, 26 Aug 2022 13:05:44 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Thorsten Leemhuis <regressions@leemhuis.info>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        gomapo2868@safe-cart.com, LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        Roman Romanenko <romu4444@gmail.com>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: [Regression] Bug 216395 - XP-Pen Star G430S stops working on
- any kernel newer than 5.18.7
-In-Reply-To: <a3ab81d9-0fe1-0bc9-b265-37793c11ff77@leemhuis.info>
-Message-ID: <nycvar.YFH.7.76.2208261304470.19850@cbobk.fhfr.pm>
-References: <a3ab81d9-0fe1-0bc9-b265-37793c11ff77@leemhuis.info>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Fri, 26 Aug 2022 10:35:18 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB02C24BD9
+        for <linux-input@vger.kernel.org>; Fri, 26 Aug 2022 07:35:06 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id D327240003;
+        Fri, 26 Aug 2022 14:35:02 +0000 (UTC)
+Message-ID: <d3824bda564871c7759fd3b1ebad16b3d9affe1e.camel@hadess.net>
+Subject: Re: [PATCH] HID: logitech-hidpp: Enable HID++ for all the Logitech
+ Bluetooth devices
+From:   Bastien Nocera <hadess@hadess.net>
+To:     "Peter F. Patel-Schneider" <pfpschneider@gmail.com>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Date:   Fri, 26 Aug 2022 16:35:02 +0200
+In-Reply-To: <f285873c4cf0a0747db996bbca7e7d9234ce77fb.camel@gmail.com>
+References: <4542beb149883ab5dfdcfd7f6bb4b516e5c1bcdb.camel@hadess.net>
+         <CAE7qMrrj+rBzoAFf2FezqexgWNo+iSAd6b5NZwKFQ1C1zD_Qaw@mail.gmail.com>
+         <f285873c4cf0a0747db996bbca7e7d9234ce77fb.camel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -61,62 +46,54 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 26 Aug 2022, Thorsten Leemhuis wrote:
+On Thu, 2022-08-25 at 16:47 -0400, Peter F. Patel-Schneider wrote:
+> This patch will cause more use of a part of the driver that
+> constructs
+> messages that do not conform to the HID++ 2.0 specification.  This
+> makes now a good time to fix the parts of the driver that construct
+> non-conforming messages.  More information follows.
 
-> Hi, this is your Linux kernel regression tracker.
-> 
-> I noticed a regression report in bugzilla.kernel.org that afaics nobody
-> acted upon since it was reported. That's why I decided to forward it by
-> mail to those that afaics should handle this.
-> 
-> To quote from https://bugzilla.kernel.org/show_bug.cgi?id=216395 :
-> 
-> >  gomapo2868@safe-cart.com 2022-08-22 16:28:00 UTC
-> > 
-> > XP-Pen Star G430S stops working on newer kernels than 5.18.7 (5.18.8, 5.19, 6.0rc1 tested)
-> > It seems to use the uclogic drivers.
-> 
-> See the ticket for details and further comments.
+This would cause problems, but not any worse than adding the product
+IDs individually, which is what we're trying to avoid.
 
-Thorsten, thanks for the report.
+> This results in non-conforming messages being sent to devices.  As
+> devices are obligated to return this nibble intact they produce non-
+> conforming responses as well.  (Their other option would be to reject
+> the messages.) This confuses other software that correctly uses this
+> nibble to distinguish between device response messages and device
+> event
+> messages.
 
-CCing people who have been working on XP-Pen support recently (Roman, 
-Nikolai, José).
+I don't understand how this...
 
-Keeping the rest of the mail below for reference.
+> In particular, the response to the unified battery command to get the
+> capabilities comes back with a 0x00 function byte which is
+> indistinguishable from a spontaneous notification message from the
+> device for a battery status event.  Other software trying to
+> communicate with the device (e.g., Solaar) sees a unified battery
+> status notification and will generally end up with incorrect
+> information about the device.  I suspect that this is actually
+> happening and is the cause of the Solaar bug report
+> https://github.com/pwr-Solaar/Solaar/issues/1718
 
-> 
-> Please look into the issue if you're among the main recipients of this
-> mail (and not just CCed). I hope I picked the right people to sent this
-> to, if not just let everyone know (and apologies for getting it wrong!).
-> 
-> Anyway, to ensure this is not forgotten lets get this tracked by the the
-> Linux kernel regression tracking bot:
-> 
-> #regzbot introduced: v5.18..5.18.7
-> https://bugzilla.kernel.org/show_bug.cgi?id=216395
-> #regzbot ignore-activity
-> 
-> This isn't a regression? This issue or a fix for it are already
-> discussed somewhere else? It was fixed already? You want to clarify when
-> the regression started to happen? Or point out I got the title or
-> something else totally wrong? Then just reply -- ideally with also
-> telling regzbot about it, as explained here:
-> https://linux-regtracking.leemhuis.info/tracked-regression/
-> 
-> Reminder for developers: When fixing the issue, add 'Link:' tags
-> pointing to the report in bugzilla, as the kernel's documentation calls
-> for; above page explains why this is important for tracked regressions.
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> 
-> P.S.: As the Linux kernel's regression tracker I deal with a lot of
-> reports and sometimes miss something important when writing mails like
-> this. If that's the case here, don't hesitate to tell me in a public
-> reply, it's in everyone's interest to set the public record straight.
-> 
+...could cause this. Can you explain what the messages would look like
+in both cases, and how they could be misinterpreted as a 15 vs. 85
+percent battery level?
 
--- 
-Jiri Kosina
-SUSE Labs
+> There is also the possibility that the driver confuses a notification
+> from the device as the response to a command that it sent.  When this
+> happens it would be likely that the actual response would be treated
+> as
+> a notification.
+> 
+> 
+> The fix is to modify all the CMD definitions in the code to have 1 in
+> their low-order nibble.
 
+All in all, I don't see those bugs as blocking the integration of the
+patch discussed above, I see it as a way to expose those bugs and
+possibly a way to make them more urgent.
+
+Filipe, were those problems known/already reported?
+
+Cheers
