@@ -2,90 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7F005A34FE
-	for <lists+linux-input@lfdr.de>; Sat, 27 Aug 2022 08:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69EF95A372D
+	for <lists+linux-input@lfdr.de>; Sat, 27 Aug 2022 13:09:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbiH0GSE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 27 Aug 2022 02:18:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57634 "EHLO
+        id S233929AbiH0LJu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Aug 2022 07:09:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbiH0GSD (ORCPT
+        with ESMTP id S230283AbiH0LJt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 27 Aug 2022 02:18:03 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B42AD8B0A
-        for <linux-input@vger.kernel.org>; Fri, 26 Aug 2022 23:18:02 -0700 (PDT)
-Received: from fsav315.sakura.ne.jp (fsav315.sakura.ne.jp [153.120.85.146])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 27R6I03P041788;
-        Sat, 27 Aug 2022 15:18:00 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav315.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp);
- Sat, 27 Aug 2022 15:18:00 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 27R6HxMH041782
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Sat, 27 Aug 2022 15:18:00 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <ee82117b-6f98-eae8-9002-675cd98d6f11@I-love.SAKURA.ne.jp>
-Date:   Sat, 27 Aug 2022 15:17:57 +0900
+        Sat, 27 Aug 2022 07:09:49 -0400
+X-Greylist: delayed 25120 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 27 Aug 2022 04:09:44 PDT
+Received: from smtp1.csc.fi (smtp1.csc.fi [IPv6:2001:708:10:6004::14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD3417E3E;
+        Sat, 27 Aug 2022 04:09:44 -0700 (PDT)
+Received: from tapir.csc.fi (tapir.csc.fi [86.50.27.201])
+        by smtp1.csc.fi (8.14.4/8.14.4/CSC) with ESMTP id 27R4A37s029248
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Sat, 27 Aug 2022 07:10:04 +0300
+Received: from tapir.csc.fi (localhost [127.0.0.1])
+        by tapir.csc.fi (Postfix) with ESMTPS id CBDF5124339;
+        Sat, 27 Aug 2022 07:10:02 +0300 (EEST)
+Received: from localhost (localhost [127.0.0.1])
+        by tapir.csc.fi (Postfix) with ESMTP id 5C3BB123739;
+        Sat, 27 Aug 2022 07:10:02 +0300 (EEST)
+Received: from tapir.csc.fi ([127.0.0.1])
+        by localhost (tapir.csc.fi [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id lh6E0DwmGv-k; Sat, 27 Aug 2022 07:10:02 +0300 (EEST)
+Received: from zebra.csc.fi (zebra.csc.fi [86.50.27.101])
+        by tapir.csc.fi (Postfix) with ESMTP id 9E5CCBE389;
+        Sat, 27 Aug 2022 07:10:00 +0300 (EEST)
+Date:   Sat, 27 Aug 2022 07:10:00 +0300 (EEST)
+From:   Chen Huaiyu <satu.hakanurmi@csc.fi>
+Reply-To: " Chen Huaiyu" <chenhuaiyui1@outlook.jp>
+Message-ID: <398792072.10087135.1661573400589.JavaMail.zimbra@csc.fi>
+Subject: Please get back to me
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2] Input: iforce - wake up after clearing
- IFORCE_XMIT_RUNNING flag
-Content-Language: en-US
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>, ira.weiny@intel.com,
-        Hillf Danton <hdanton@sina.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <c10494c0-5da5-716d-3e62-abca5b65dd88@I-love.SAKURA.ne.jp>
- <887021c3-4f13-40ce-c8b9-aa6e09faa3a7@I-love.SAKURA.ne.jp>
- <2b11d0b2-0a2e-257d-34f8-37e3f69a58c5@I-love.SAKURA.ne.jp>
-In-Reply-To: <2b11d0b2-0a2e-257d-34f8-37e3f69a58c5@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Originating-IP: [156.146.59.42]
+X-Mailer: Zimbra 8.8.15_GA_4372 (zclient/8.8.15_GA_4372)
+Thread-Index: W0q26sSq3qxwQG2mk9U47iQWDlGGjA==
+Thread-Topic: Please get back to me
+X-Spam-Score: undef - relay 86.50.27.201 marked with skip_spam_scan
+X-CanIt-Geo: ip=86.50.27.201; country=FI; region=Uusimaa; city=Espoo; latitude=60.2050; longitude=24.6455; http://maps.google.com/maps?q=60.2050,24.6455&z=6
+X-CanItPRO-Stream: outbound (inherits from 01_Tag_Only,default)
+X-Canit-Stats-ID: Bayes signature not available
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=csc.fi; h=date:from
+        :reply-to:message-id:subject:mime-version:content-type
+        :content-transfer-encoding; s=smtp; bh=q+e1fdFmUrE7U5olX0DQBQke2
+        Ke8NLlatQgVJI+ftgs=; b=tm9UnnJD8PAOBXhL6sGtgP4mURftc53iWRSMGpyOB
+        4P/L1vtkxWfQYTTdSxYGcjmdFspMRZLtLoH9Z7LdPBCPBr+1G37d8pdjQ0P3zyKO
+        W0xGmL/888zmO7QF4Mf8NB2Er7vWKZ3HVZ18/TwKtay3UnJiL28hyhdu7K8QgHB5
+        GWNM2wPsHkb9fN17ldwGomw5dXYmtUMKoi1ZZhVB0KqpbR87wN6gRWT4COIlObOC
+        BubAOGh/B5LrF1ZePoSMeJ3PEryiINOYIp5Iwj4vg+9dwFWMlqny44P97r4JwSds
+        ScHWtN39Qg0g/eJwtoB9p3yru3FUTIUyrzaEIIueVSoBg==
+X-Scanned-By: CanIt (www . roaringpenguin . com) on 86.50.27.145
+X-Spam-Status: Yes, score=6.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,
+        HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_ENVFROM,HK_RANDOM_REPLYTO,
+        MISSING_HEADERS,REPLYTO_WITHOUT_TO_CC,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  1.0 HK_RANDOM_ENVFROM Envelope sender username looks random
+        *  1.0 HK_RANDOM_REPLYTO Reply-To username looks random
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.7 SPF_SOFTFAIL SPF: sender does not match SPF record (softfail)
+        *  1.0 MISSING_HEADERS Missing To: header
+        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
+        *      mail domains are different
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [chenhuaiyui1[at]outlook.jp]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [chenhuaiyui1[at]outlook.jp]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [chenhuaiyui1[at]outlook.jp]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.2 FREEMAIL_FORGED_FROMDOMAIN 2nd level domains in From and
+        *      EnvelopeFrom freemail headers are different
+        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-No response from maintainers for one month.
-Do I need to directly ask Greg or Andrew to take this patch?
 
-On 2022/08/16 18:50, Tetsuo Handa wrote:
-> Any questions?
-> 
-> On 2022/07/27 7:00, Tetsuo Handa wrote:
->> syzbot is reporting hung task at __input_unregister_device() [1], for
->> iforce_close() waiting at wait_event_interruptible() with dev->mutex held
->> is blocking input_disconnect_device() from __input_unregister_device().
->>
->> It seems that the cause is simply that commit c2b27ef672992a20 ("Input:
->> iforce - wait for command completion when closing the device") forgot to
->> call wake_up() after clear_bit().
->>
->> Fix this problem by introducing a helper that calls clear_bit() followed
->> by wake_up_all().
->>
->> Link: https://syzkaller.appspot.com/bug?extid=deb6abc36aad4008f407 [1]
->> Reported-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
->> Fixes: c2b27ef672992a20 ("Input: iforce - wait for command completion when closing the device")
->> Tested-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
->> Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->> Co-developed-by: Hillf Danton <hdanton@sina.com>
->> Signed-off-by: Hillf Danton <hdanton@sina.com>
->> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> 
 
+Did you receive my previous email?
