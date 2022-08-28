@@ -2,187 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B046B5A3F0F
-	for <lists+linux-input@lfdr.de>; Sun, 28 Aug 2022 20:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B39915A4031
+	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 01:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbiH1SU1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Aug 2022 14:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40798 "EHLO
+        id S229468AbiH1X45 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 Aug 2022 19:56:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbiH1SU1 (ORCPT
+        with ESMTP id S229449AbiH1X45 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Aug 2022 14:20:27 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D6B27FFD
-        for <linux-input@vger.kernel.org>; Sun, 28 Aug 2022 11:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661710825; x=1693246825;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=IRPo1O6Fh9ITyYe3kMQaBePyBvQr9ahbEo499Or0s28=;
-  b=cYg6FjbppVhIocWm9YsTn33ixKtmgBFAfLW5IllxAy6HBautwB9qYd2O
-   KDB7Rh+WGotVixVhq2pvMBtY5xnOZrLzuK1kUtcYYyColUglcDwG+/JGY
-   l1K+InyhEYKjvLjbK1ipAaR/ZDMQ/GF1Bw/8WYGr7Z+YnfDrWcGdFzkZd
-   wVaRe8I+vN+5agF0NwHsol8vhxR7s9oxEfogiG2Ab8v6jci2Buyv2hnIz
-   GezqeRgoffA4Of1uzlZ32tymljRaIQ//0wIhy2nXbBCrPS0oI3FyB/mOd
-   4aWQIEfkyopKG0AQVjKOIPV3yIEwnBt4q9MfkZ2u38Q4ThEgbwUBSMcNt
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10453"; a="292339009"
-X-IronPort-AV: E=Sophos;i="5.93,271,1654585200"; 
-   d="scan'208";a="292339009"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2022 11:20:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,271,1654585200"; 
-   d="scan'208";a="939332330"
-Received: from lkp-server01.sh.intel.com (HELO fc16deae1c42) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Aug 2022 11:20:23 -0700
-Received: from kbuild by fc16deae1c42 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oSMtT-0001Tb-0j;
-        Sun, 28 Aug 2022 18:20:23 +0000
-Date:   Mon, 29 Aug 2022 02:19:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 98e01215708b6d416345465c09dce2bd4868c67a
-Message-ID: <630bb1be.iw6gDg3ErpDdDDeo%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sun, 28 Aug 2022 19:56:57 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C6821810
+        for <linux-input@vger.kernel.org>; Sun, 28 Aug 2022 16:56:55 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id bq23so9043328lfb.7
+        for <linux-input@vger.kernel.org>; Sun, 28 Aug 2022 16:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc;
+        bh=umXhZE4PS31B0LZRjwePjoplbeRMPCwJjdzu0NizgIE=;
+        b=AfHceim0fodht5Fz6/2uCazT7xMBzaxCf3s/XNJWzZIncUFR+dvYjDJvysZJ0rV2LM
+         idfTWh0q7lPVCY33VxbUyoQOWokx5f3Mebg4NyUcRSzY/JvEE4LJr5zIc7cBfPkbWVl5
+         ++NwvDgxrFbI3fFj7jNomRCLOCrVmx8SgU7NNVbBWikk+WN+2IX5rJh9XnVfhZWup/S3
+         SZCib1TCjq5iBBFYK7pz02U6deBEFOqxH1nO8VhgRbwhdLKFwDWsJe/zUpb5GeuIRdYC
+         U+P8+uqcZXr8iTYoG5gEBbE97NNbGDwHfDx+RSdKCjCIwqujMbeeT8qYo/euSoPvkyUJ
+         8g1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=umXhZE4PS31B0LZRjwePjoplbeRMPCwJjdzu0NizgIE=;
+        b=FnBtDiyCS/rdmAKlH5gQKfMVPSB/VbqxtkCgUR5wmz517Pw4ZqlZcqkj418gjd4aa6
+         pakqxopcyn0MEufEp46gKIo9GNTGmnGZgTxLUM8qgS4v3Xjnf9wDh8tVXV8pYh8WwKKR
+         9H91112jwGyJ+ZhxWM9jyAx1PAFdJ4530i12EwQ504cBKKN182c9CqT2iC83+F6S44kp
+         AMzPjxQwUQRpNxcZYPIOWMdAR98dFBspCLZJqIVhcCudkwq2+dQxtFWIhVDft3j9ZyKa
+         6VkRNoaGMCvXBd+XJTFa1ajQpig7x1xD3lHJxYnN6qRlE6Tagr3939JVWZh9uunCDwSV
+         Rgnw==
+X-Gm-Message-State: ACgBeo2NyJbE8cp/1X7NCVZQPmT9MVD5KZkRwue/qptsrI0Hoog7iIp+
+        khueQ2RvN3ROux0CR4Ltiabl0rXxmhrX+enySn3HhTlv
+X-Google-Smtp-Source: AA6agR75rHV54AGqm21iDyyIP54U/tO7je46okVpN7dxFfdkuCCIthFo1Om8KE+CUlg4Y5n9uBq6XQfNvwuEDmoRLFs=
+X-Received: by 2002:a05:6512:2814:b0:492:f9fc:567e with SMTP id
+ cf20-20020a056512281400b00492f9fc567emr6063771lfb.394.1661731013734; Sun, 28
+ Aug 2022 16:56:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a2e:a594:0:0:0:0:0 with HTTP; Sun, 28 Aug 2022 16:56:52
+ -0700 (PDT)
+From:   Greg Tulli <greg.iforce@gmail.com>
+Date:   Mon, 29 Aug 2022 01:56:52 +0200
+Message-ID: <CAKEH-64P5HTWtqrgGoS4RF74XXOvnDZ4o5z2bx7LZ=9r=3tsjw@mail.gmail.com>
+Subject: [PATCH] Input: iforce - add missing vendor and product ids to the
+ Unknown device name
+To:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 98e01215708b6d416345465c09dce2bd4868c67a  Input: iforce - wake up after clearing IFORCE_XMIT_RUNNING flag
+An unknown iforce device is named "Unknown I-Force Device
+[%04x:%04x]". The vendor and product ids should be substituted.
 
-elapsed time: 797m
+diff --git a/drivers/input/joystick/iforce/iforce-main.c
+b/drivers/input/joystick/iforce/iforce-main.c
+index b2a68bc9f0b4..6de5d06d2bd0 100644
+--- a/drivers/input/joystick/iforce/iforce-main.c
++++ b/drivers/input/joystick/iforce/iforce-main.c
+@@ -323,7 +323,11 @@ int iforce_init_device(struct device *parent, u16 bustype,
+                        break;
 
-configs tested: 105
-configs skipped: 5
+        iforce->type = iforce_device + i;
+-       input_dev->name = iforce->type->name;
++       if (iforce_device[i].idvendor)
++               input_dev->name = iforce->type->name;
++       else
++               input_dev->name = devm_kasprintf(parent, GFP_KERNEL,
+iforce->type->name,
++                       input_dev->id.vendor, input_dev->id.product);
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-i386                                defconfig
-x86_64                              defconfig
-loongarch                         allnoconfig
-x86_64                               rhel-8.3
-loongarch                           defconfig
-i386                             allyesconfig
-riscv                             allnoconfig
-riscv                    nommu_virt_defconfig
-x86_64                           allyesconfig
-i386                         debian-10.3-func
-x86_64                           rhel-8.3-kvm
-i386                        debian-10.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
-arc                               allnoconfig
-i386                   debian-10.3-kselftests
-x86_64                          rhel-8.3-func
-i386                          debian-10.3-kvm
-i386                              debian-10.3
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                randconfig-r042-20220828
-x86_64                        randconfig-a015
-arm                        shmobile_defconfig
-alpha                             allnoconfig
-csky                              allnoconfig
-x86_64                        randconfig-a013
-arm                                 defconfig
-arc                  randconfig-r043-20220828
-x86_64                         rhel-8.3-kunit
-csky                                defconfig
-arm                              allyesconfig
-x86_64                        randconfig-a002
-s390                 randconfig-r044-20220828
-arm64                            allyesconfig
-x86_64                                  kexec
-x86_64                        randconfig-a011
-ia64                          tiger_defconfig
-mips                           ip32_defconfig
-arc                                 defconfig
-s390                             allmodconfig
-x86_64                        randconfig-a006
-riscv                            allmodconfig
-sparc                            allyesconfig
-i386                          randconfig-a014
-alpha                               defconfig
-i386                          randconfig-a001
-s390                             allyesconfig
-s390                                defconfig
-mips                          rb532_defconfig
-i386                          randconfig-a012
-powerpc                          allyesconfig
-sh                           se7750_defconfig
-sparc                               defconfig
-xtensa                           allyesconfig
-riscv                               defconfig
-i386                          randconfig-a016
-i386                          randconfig-a003
-parisc                              defconfig
-riscv                            allyesconfig
-nios2                               defconfig
-x86_64                        randconfig-a004
-arm                          pxa3xx_defconfig
-i386                          randconfig-a005
-nios2                            allyesconfig
-mips                      maltasmvp_defconfig
-parisc                           allyesconfig
-ia64                             allmodconfig
-parisc64                            defconfig
-i386                          randconfig-c001
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arm64                               defconfig
-ia64                                defconfig
-m68k                                defconfig
-arm                              allmodconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20220828
-hexagon              randconfig-r045-20220828
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-arm                      tct_hammer_defconfig
-mips                        qi_lb60_defconfig
-i386                          randconfig-a013
-powerpc                    ge_imp3a_defconfig
-arm                       netwinder_defconfig
-i386                          randconfig-a011
-x86_64                        randconfig-a016
-arm                     am200epdkit_defconfig
-x86_64                        randconfig-a003
-i386                          randconfig-a002
-x86_64                        randconfig-a012
-i386                          randconfig-a015
-i386                          randconfig-a006
-x86_64                        randconfig-a014
-i386                          randconfig-a004
-x86_64                        randconfig-k001
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+ /*
+  * Set input device bitfields and ranges.
