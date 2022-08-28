@@ -2,156 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5B535A3C0F
-	for <lists+linux-input@lfdr.de>; Sun, 28 Aug 2022 08:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55AA55A3D11
+	for <lists+linux-input@lfdr.de>; Sun, 28 Aug 2022 11:58:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231800AbiH1GAc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Aug 2022 02:00:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51340 "EHLO
+        id S229483AbiH1J56 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 Aug 2022 05:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231721AbiH1GA3 (ORCPT
+        with ESMTP id S229935AbiH1J43 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Aug 2022 02:00:29 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66FF11A21;
-        Sat, 27 Aug 2022 23:00:27 -0700 (PDT)
-Received: from fsav415.sakura.ne.jp (fsav415.sakura.ne.jp [133.242.250.114])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 27S606Pj000431;
-        Sun, 28 Aug 2022 15:00:06 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav415.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp);
- Sun, 28 Aug 2022 15:00:05 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 27S605D8000428
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Sun, 28 Aug 2022 15:00:05 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <046968f7-3245-1df5-6e11-6f29292bbbc5@I-love.SAKURA.ne.jp>
-Date:   Sun, 28 Aug 2022 15:00:02 +0900
+        Sun, 28 Aug 2022 05:56:29 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9804952FDD;
+        Sun, 28 Aug 2022 02:56:28 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id i188-20020a1c3bc5000000b003a7b6ae4eb2so1690226wma.4;
+        Sun, 28 Aug 2022 02:56:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=uF1cBWnD9V/6QV2r1LkXOLqZB9ABkh9yZksOLuQoa44=;
+        b=nwu6Q0fs/GRqHRUdjnJP1FjlGAL69zA9WwsQmQwq/J9QwNzh8+Ij66BtBS5yLFSDaU
+         O32mZYa4STFSz8AuMEVn6fZPoF5iM7+e28ooYlWc7sFkp64/e4Q73QJO8VH5uaz3kD0p
+         /WRqkB8GQpjcRkKfQEJT9aRTnnL9BMGQgMNFVHANGJ5av4z45WQWI8j2XZtCWD05PUSp
+         Cw8zYJVKVKydgyMejjvI77VwwR9qPl+42rh7ncFTVWWvq0P1NvQxnP7mDOw1dw2fNy79
+         ufkdElcBYv88+L1Tp39ZwoblwW+r8YquF6Y75tsEOmVWTlRccAkT99jNqri+09konGMQ
+         MmYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=uF1cBWnD9V/6QV2r1LkXOLqZB9ABkh9yZksOLuQoa44=;
+        b=zxc2YAa3/EZB75ppNxjTAecqHVTvNE+ljayXsrnSjm1sGwjDV+Xqo3LUI/dpU1e+i/
+         Fbzd5yGn6lwxJ1ch/FcimiW0ksFDMtx+DmFuKC49LmpVpvgl6XT5ZdSMK+/g3VV2fXSn
+         n+cbU6AMqMuq9PLtr4V2R5ovKVrw8QHzZ4iaFyV/OnSI1N/Gchk6ZXBir+GNXwhlxeej
+         VZNZRzrwoF1dMhhq2CocnGZ8YjHtdxOmifq073jCRGKuPZDf9qUA1XY0QYJW5fFKI2pV
+         EF0LBOkQybq6CIaDh6W8Mg5s93uehIRJl3LtQ1B+DnmGM3/29lV4U5Uyc5gwlV1tKB6L
+         a6kA==
+X-Gm-Message-State: ACgBeo3klJNwLONbIFGQzyoRtHhwdFnb6pMA8T8aOQ3cv7jszrFJoj26
+        j/kUvZldmzrT2ROMZ+w0sm0=
+X-Google-Smtp-Source: AA6agR45gLdtzUdh1r3scAU1iZySoMqcZfZRVPLICI/RT5+UjVYJfeO7s15X8O2geEJpk9/W2iKzvg==
+X-Received: by 2002:a05:600c:1e88:b0:3a6:2ca2:e34f with SMTP id be8-20020a05600c1e8800b003a62ca2e34fmr4175835wmb.146.1661680587091;
+        Sun, 28 Aug 2022 02:56:27 -0700 (PDT)
+Received: from elementary ([94.73.32.249])
+        by smtp.gmail.com with ESMTPSA id h15-20020a5d548f000000b0020e6ce4dabdsm4122020wrv.103.2022.08.28.02.56.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Aug 2022 02:56:26 -0700 (PDT)
+Date:   Sun, 28 Aug 2022 11:56:24 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Stefan Hansson <newbie13xd@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: input: fix uclogic tablets
+Message-ID: <20220828095624.GA4121@elementary>
+References: <20220822062247.1146141-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [Question] iforce_serio lockup
-Content-Language: en-US
-To:     Greg Tulli <greg.iforce@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-References: <CAKEH-64YKTnb444AZsgm0MudN=KMM_EWv8SsNUwZGh9OGm4ayA@mail.gmail.com>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <CAKEH-64YKTnb444AZsgm0MudN=KMM_EWv8SsNUwZGh9OGm4ayA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220822062247.1146141-1-benjamin.tissoires@redhat.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022/07/30 4:24, Greg Tulli wrote:
-> I was advised to use a vanilla kernel with CONFIG_PROVE_LOCKING and
-> decode the symbols in the report. So I followed
-> https://kernelnewbies.org/OutreachyfirstpatchSetup and here's the
-> result. Thanks, Tetsuo Handa.
+Hi Benjamin,
+
+On Mon, Aug 22, 2022 at 08:22:47AM +0200, Benjamin Tissoires wrote:
+> commit 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
+> made the assumption that it was the only one handling tablets and thus
+> kept an internal state regarding the tool.
 > 
-> WARNING: possible circular locking dependency detected
-> 5.19.0-rc6iforce-00194-gf3a76018dd55 #2 Not tainted
-
-OK. You confirmed that this is a real deadlock.
-
-> 2022-07-11 11:32 GMT+02:00, Greg T <greg.iforce@gmail.com>:
+> Turns out that the uclogic driver has a timer to release the in range
+> bit, effectively making hid-input ignoring all in range information
+> after the very first one.
 > 
->> That problem vanishes if we don't call iforce_process_packet directly
->> from iforce_serio_irq, but from a tasklet. Is that a right approach?
+> Fix that by having a more rationale approach which consists in forwarding
+> every event and let the input stack filter out the duplicates.
 
-Does untested diff shown below solve the problem?
-I don't know about flush ordering in iforce_serio_disconnect().
+Apologies for the delayed response, I was on holiday.
 
- drivers/input/joystick/iforce/iforce-serio.c | 51 +++++++++++++++++++-
- 1 file changed, 49 insertions(+), 2 deletions(-)
+Tested on the affected device (HUION H640P) and I can confirm that the
+issue is fixed.
 
-diff --git a/drivers/input/joystick/iforce/iforce-serio.c b/drivers/input/joystick/iforce/iforce-serio.c
-index f95a81b9fac7..5ff650ce05ab 100644
---- a/drivers/input/joystick/iforce/iforce-serio.c
-+++ b/drivers/input/joystick/iforce/iforce-serio.c
-@@ -124,8 +124,7 @@ static void iforce_serio_write_wakeup(struct serio *serio)
- 	iforce_serio_xmit(iforce);
- }
- 
--static irqreturn_t iforce_serio_irq(struct serio *serio,
--				    unsigned char data, unsigned int flags)
-+static void do_iforce_serio(struct serio *serio, unsigned char data)
- {
- 	struct iforce_serio *iforce_serio = serio_get_drvdata(serio);
- 	struct iforce *iforce = &iforce_serio->iforce;
-@@ -183,6 +182,53 @@ static irqreturn_t iforce_serio_irq(struct serio *serio,
- 		iforce_serio->csum = 0;
- 	}
- out:
-+	return;
-+}
-+
-+struct iforce_serio_irq {
-+	struct list_head list;
-+	struct serio *serio;
-+	unsigned char data;
-+};
-+static LIST_HEAD(iforce_serio_irq_list);
-+static DEFINE_SPINLOCK(iforce_serio_irq_list_lock);
-+
-+static void iforce_serio_workfn(struct work_struct *work)
-+{
-+	static DEFINE_MUTEX(lock);
-+	struct iforce_serio_irq *ev;
-+
-+	mutex_lock(&lock);
-+	spin_lock_irq(&iforce_serio_irq_list_lock);
-+	while (!list_empty(&iforce_serio_irq_list)) {
-+		ev = list_first_entry(&iforce_serio_irq_list, struct iforce_serio_irq, list);
-+		list_del(&ev->list);
-+		spin_unlock_irq(&iforce_serio_irq_list_lock);
-+		do_iforce_serio(ev->serio, ev->data);
-+		kfree(ev);
-+		spin_lock_irq(&iforce_serio_irq_list_lock);
-+	}
-+	spin_unlock_irq(&iforce_serio_irq_list_lock);
-+	mutex_unlock(&lock);
-+}
-+static DECLARE_WORK(iforce_serio_work, iforce_serio_workfn);
-+
-+static irqreturn_t iforce_serio_irq(struct serio *serio,
-+				    unsigned char data, unsigned int flags)
-+{
-+	bool was_empty;
-+	struct iforce_serio_irq *ev = kmalloc(sizeof(*ev), GFP_ATOMIC | __GFP_NOWARN);
-+
-+	if (ev) {
-+		ev->serio = serio;
-+		ev->data = data;
-+		spin_lock(&iforce_serio_irq_list_lock);
-+		was_empty = list_empty(&iforce_serio_irq_list);
-+		list_add_tail(&ev->list, &iforce_serio_irq_list);
-+		spin_unlock(&iforce_serio_irq_list_lock);
-+		if (was_empty)
-+			queue_work(system_highpri_wq, &iforce_serio_work);
-+	}
- 	return IRQ_HANDLED;
- }
- 
-@@ -220,6 +266,7 @@ static void iforce_serio_disconnect(struct serio *serio)
- {
- 	struct iforce_serio *iforce_serio = serio_get_drvdata(serio);
- 
-+	flush_work(&iforce_serio_work);
- 	input_unregister_device(iforce_serio->iforce.dev);
- 	serio_close(serio);
- 	serio_set_drvdata(serio, NULL);
--- 
-2.18.4
+I also tested in other non-Wacom tablets and they keep working as
+expected.
 
+Best wishes,
+Jose
+
+> Reported-by: Stefan Hansson <newbie13xd@gmail.com>
+> Fixes: 87562fcd1342 ("HID: input: remove the need for HID_QUIRK_INVERT")
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> ---
+>  drivers/hid/hid-input.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 48c1c02c69f4..871a185a0f1f 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1532,7 +1532,10 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+>  			 * assume ours
+>  			 */
+>  			if (!report->tool)
+> -				hid_report_set_tool(report, input, usage->code);
+> +				report->tool = usage->code;
+> +
+> +			/* drivers may have changed the value behind our back, resend it */
+> +			hid_report_set_tool(report, input, report->tool);
+>  		} else {
+>  			hid_report_release_tool(report, input, usage->code);
+>  		}
+> -- 
+> 2.37.1
+> 
