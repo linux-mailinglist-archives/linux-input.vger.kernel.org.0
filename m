@@ -2,74 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3A225A3D17
-	for <lists+linux-input@lfdr.de>; Sun, 28 Aug 2022 12:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F39F5A3D20
+	for <lists+linux-input@lfdr.de>; Sun, 28 Aug 2022 12:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbiH1KDY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Aug 2022 06:03:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54168 "EHLO
+        id S229476AbiH1KHV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 Aug 2022 06:07:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiH1KDX (ORCPT
+        with ESMTP id S229436AbiH1KHT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Aug 2022 06:03:23 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C8D2F65A;
-        Sun, 28 Aug 2022 03:03:21 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id bq11so6746441wrb.12;
-        Sun, 28 Aug 2022 03:03:21 -0700 (PDT)
+        Sun, 28 Aug 2022 06:07:19 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95FD52FFB;
+        Sun, 28 Aug 2022 03:07:18 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id h5so6766514wru.7;
+        Sun, 28 Aug 2022 03:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc;
-        bh=EDp9bFFfokiyig7e5bgko3ERNvFO4G1q9fzYUvPw5rA=;
-        b=l8Wk0pPdk+Bg6FopOMq8pXw5ITY/2Z1ItWKRm37519Fu1W4TLCQzabPFvEPpU0yElT
-         T2xbHEvPu2WgPFSMSgXch0/nBnOaxp7RVCesMZVz4z6l8Ib2D5BULnGIILeEXx/KQUw1
-         nu5adjwMUv8GS2X9ECOo02FEtIcAzCIOIj4IWekW1OUqPySfU/JfHLZ2a91N/hehI+E1
-         uEyJ77XeuApow1Fd3OgKej0HE9QouAU3ml8n6sMJfTDupRC173OPa/2IBSAd2p+n9Bxe
-         Yo9fJFHVBrIYF9dVoqr9qup7shF0onOLg2y3Aihdi3pHjdpsWnFbwvjefYxp0vOBhMUI
-         CccQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=gN5wff+7D49gSmIVwVq0k68HaEIv4gh2Z+uJl/v6os4=;
+        b=UTQKI75Of0dE8+F7Os670doSJ2pnyqRE6C4z2lo0cDm0my3i91eh0uUaaqTl7C8OZI
+         RGo+W5rG+eAlSpjY9V2wO5VMT/62D4uyiD5a1O6kyoz+Yjp52Knkgp2q4TQqpZjNoEcL
+         vqAigBpWEu4r11TYF9CfNeC1zeQzsL4fQzqq3+ozmTKlKGdwWWRBxKch2Uof7O7gyowg
+         a94a0NGgXY0Rw79jfuQq7RUiwEALDb1WWhmtgEu071Eu9BZW44aSWu3ZoBTw1MReESdf
+         JZezsNml4boheXrA3oirydVeD4oUcQTrkv8XeITE4vpsA9WK7/mU7tNXcK4ovLQI219u
+         uCkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=EDp9bFFfokiyig7e5bgko3ERNvFO4G1q9fzYUvPw5rA=;
-        b=v3WYGBscRK3Jv5nrmYEwQQhPINUEphoZjNihamwyMQpIAuqMJY2atfzPB9lPuWpk6U
-         MMXzu/JsqovjYoGO/fk7gWReY33Wt2GPhrOB7lQ5O0XalVXV5Cq4Ze0UqVUTJK81Nlx2
-         E5pRw+7EDviRP4OJ7bIxIXSM7CRyHy2Wa4DLng3m/FFHV+W4rKRQR8Td2a9K5Jt8qOSa
-         wSBcXPpikfaYdMeOTkWmqKT/zSgbHXDx9a168+KMk5trtxFS8C8zJAz/HAWe9u74b1Hb
-         sLBZ8onVR5cEG4z9vb1kv1ldA7oIAUi+lHfHdWZh1Zif0L3xxCj17x2t145XMlSs5bES
-         rlFQ==
-X-Gm-Message-State: ACgBeo2eEqu2Z5AF+n4CVjdURVxFBg8ZqI3eDTTsJyFBq2QgPtWT4rYJ
-        7Cu10HYPa6hSLcqRmnfC79s=
-X-Google-Smtp-Source: AA6agR7dXl20W8E49WAfLNwEYgz6GcwD7bc8mHHbDk311LrvVYorwdtmdtB4ZuNVluxJe8y9t0JTVg==
-X-Received: by 2002:adf:f911:0:b0:21e:c0f6:fd26 with SMTP id b17-20020adff911000000b0021ec0f6fd26mr3725313wrr.361.1661681000385;
-        Sun, 28 Aug 2022 03:03:20 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=gN5wff+7D49gSmIVwVq0k68HaEIv4gh2Z+uJl/v6os4=;
+        b=k9ftOw21Vy4QcMj3MVpbSuSZraE5a73/0sVma845t+yzBo2dAw/bH11P6sYyHbrodL
+         CPZdAod+DKgxmATgGE+g/ZeayhZgh+y0mKMPVNp+MwYhsEisbwTCy8wfqjyMyGa/qq9F
+         cnFnI2etp62OC154XdMBBvDZWH9aRX4W+lspUtRw8UdyPuXnqSRVdYvtNQbPwE2++feu
+         kXkwlCzHFGrQeaKXrdbU+ym6+ajjBaLQHb8zbFvkYkIh+gFRaxSHyEwhK4JEBeOoOLHO
+         5U0InmVuLKMNczI1qLFRLCPvOds6goWeCUTSt3ynvi8uS3YTdZ5rgfddxFiR6PZPDZyX
+         fUtQ==
+X-Gm-Message-State: ACgBeo2YYYzPo1AfzHcBpkmrJnPrB8rg86PG9QHdyf3I04EmRtPeYP6X
+        MNwCuVFOcUX93ZszTe3fOrMp4R7JglVUoQ==
+X-Google-Smtp-Source: AA6agR7orfVETcNZNBzso4oBSDv8P3rDpZFzUexWwMDg5Y6Y8fbxAkMzcArvLoz+rB9cDMVmJ5xy+A==
+X-Received: by 2002:adf:fa81:0:b0:224:f260:2523 with SMTP id h1-20020adffa81000000b00224f2602523mr3811529wrr.26.1661681237187;
+        Sun, 28 Aug 2022 03:07:17 -0700 (PDT)
 Received: from elementary ([94.73.32.249])
-        by smtp.gmail.com with ESMTPSA id az22-20020a05600c601600b003a844885f88sm945512wmb.22.2022.08.28.03.03.19
+        by smtp.gmail.com with ESMTPSA id p4-20020a1c5444000000b003a63a3b55c3sm6138227wmi.14.2022.08.28.03.07.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Aug 2022 03:03:20 -0700 (PDT)
-Date:   Sun, 28 Aug 2022 12:03:18 +0200
+        Sun, 28 Aug 2022 03:07:16 -0700 (PDT)
+Date:   Sun, 28 Aug 2022 12:07:14 +0200
 From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Thorsten Leemhuis <regressions@leemhuis.info>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        gomapo2868@safe-cart.com, LKML <linux-kernel@vger.kernel.org>,
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Stefan Hansson <newbie13xd@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Ping Cheng <ping.cheng@wacom.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        Roman Romanenko <romu4444@gmail.com>,
-        Nikolai Kondrashov <spbnick@gmail.com>
-Subject: Re: [Regression] Bug 216395 - XP-Pen Star G430S stops working on any
- kernel newer than 5.18.7
-Message-ID: <20220828100318.GB4121@elementary>
-References: <a3ab81d9-0fe1-0bc9-b265-37793c11ff77@leemhuis.info>
- <nycvar.YFH.7.76.2208261304470.19850@cbobk.fhfr.pm>
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: PROBLEM: Regression likely in hid_uclogic driver breaks Huion
+ Inspiroy H640 drawing tablet
+Message-ID: <20220828100714.GA182607@elementary>
+References: <nycvar.YFH.7.76.2207231339500.19850@cbobk.fhfr.pm>
+ <20220724114849.GA32182@elementary>
+ <20220725224841.GA75640@elementary>
+ <3f2e0a49-38a8-417e-1bb0-9a9f28371240@gmail.com>
+ <20220804182445.GA16569@elementary>
+ <CAO-hwJ+hBipNJpeYaHRr2-rKXA5d79XT7zE2fo2oEKUKJtKJ0g@mail.gmail.com>
+ <20220813110922.GA47526@elementary>
+ <d8b91029-4a6e-1508-1512-faea768ae580@redhat.com>
+ <97ec87e6-b0c3-f2c9-4412-41a5884b6a24@gmail.com>
+ <CAO-hwJ+MtU5w9M5rqbOPYjUUZtJ609Q0GwPJpy-9egDEjo9m7g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <nycvar.YFH.7.76.2208261304470.19850@cbobk.fhfr.pm>
+In-Reply-To: <CAO-hwJ+MtU5w9M5rqbOPYjUUZtJ609Q0GwPJpy-9egDEjo9m7g@mail.gmail.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -80,77 +84,58 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Fri, Aug 26, 2022 at 01:05:44PM +0200, Jiri Kosina wrote:
-> On Fri, 26 Aug 2022, Thorsten Leemhuis wrote:
+On Mon, Aug 22, 2022 at 08:25:52AM +0200, Benjamin Tissoires wrote:
+> On Sun, Aug 21, 2022 at 1:45 AM Stefan Hansson <newbie13xd@gmail.com> wrote:
+> >
+> > > FWIW, I found the issue: the hid-uclogic driver is emitting input data
+> > > behind hid-input, and the state between the 2 is desynchronized.
+> > >
+> > > The following patch seems to be working (with the Huion v1 protocol I
+> > > have here that I have tweaked to resemble a v2):
+> > > ---
+> > >  From aeedd318e6cb4dbee551f67616302cc7c4308c58 Mon Sep 17 00:00:00 2001
+> > > From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > Date: Thu, 18 Aug 2022 15:09:25 +0200
+> > > Subject: [PATCH] Fix uclogic
+> > >
+> > > ---
+> > >   drivers/hid/hid-input.c | 5 ++++-
+> > >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > > index c6b27aab9041..a3e2397bb3a7 100644
+> > > --- a/drivers/hid/hid-input.c
+> > > +++ b/drivers/hid/hid-input.c
+> > > @@ -1530,7 +1530,10 @@ void hidinput_hid_event(struct hid_device *hid,
+> > > struct hid_field *field, struct
+> > >                * assume ours
+> > >                */
+> > >               if (!report->tool)
+> > > -                hid_report_set_tool(report, input, usage->code);
+> > > +                report->tool = usage->code;
+> > > +
+> > > +            /* drivers may have changed the value behind our back,
+> > > resend it */
+> > > +            hid_report_set_tool(report, input, report->tool);
+> > >           } else {
+> > >               hid_report_release_tool(report, input, usage->code);
+> > >           }
+> >
+> > What branch should this be applied on top of?
+> >
 > 
-> > Hi, this is your Linux kernel regression tracker.
-> > 
-> > I noticed a regression report in bugzilla.kernel.org that afaics nobody
-> > acted upon since it was reported. That's why I decided to forward it by
-> > mail to those that afaics should handle this.
-> > 
-> > To quote from https://bugzilla.kernel.org/show_bug.cgi?id=216395 :
-> > 
-> > >  gomapo2868@safe-cart.com 2022-08-22 16:28:00 UTC
-> > > 
-> > > XP-Pen Star G430S stops working on newer kernels than 5.18.7 (5.18.8, 5.19, 6.0rc1 tested)
-> > > It seems to use the uclogic drivers.
-> > 
-> > See the ticket for details and further comments.
+> Sorry for that. I had some local commits in my tree that made the
+> patch unusable. I just formally sent the patch [0] based on the
+> hid.git/for-next branch which is actually applying on top of v5.19 or
+> even v5.18.
 > 
-> Thorsten, thanks for the report.
+> Cheers,
+> Benjamin
 > 
-> CCing people who have been working on XP-Pen support recently (Roman, 
-> Nikolai, José).
-> 
-> Keeping the rest of the mail below for reference.
-> 
-> > 
-> > Please look into the issue if you're among the main recipients of this
-> > mail (and not just CCed). I hope I picked the right people to sent this
-> > to, if not just let everyone know (and apologies for getting it wrong!).
-> > 
-> > Anyway, to ensure this is not forgotten lets get this tracked by the the
-> > Linux kernel regression tracking bot:
-> > 
-> > #regzbot introduced: v5.18..5.18.7
-> > https://bugzilla.kernel.org/show_bug.cgi?id=216395
-> > #regzbot ignore-activity
-> > 
-> > This isn't a regression? This issue or a fix for it are already
-> > discussed somewhere else? It was fixed already? You want to clarify when
-> > the regression started to happen? Or point out I got the title or
-> > something else totally wrong? Then just reply -- ideally with also
-> > telling regzbot about it, as explained here:
-> > https://linux-regtracking.leemhuis.info/tracked-regression/
-> > 
-> > Reminder for developers: When fixing the issue, add 'Link:' tags
-> > pointing to the report in bugzilla, as the kernel's documentation calls
-> > for; above page explains why this is important for tracked regressions.
-> > 
-> > Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> > 
-> > P.S.: As the Linux kernel's regression tracker I deal with a lot of
-> > reports and sometimes miss something important when writing mails like
-> > this. If that's the case here, don't hesitate to tell me in a public
-> > reply, it's in everyone's interest to set the public record straight.
-> > 
-> 
-> -- 
-> Jiri Kosina
-> SUSE Labs
+> [0] https://lore.kernel.org/linux-input/20220822062247.1146141-1-benjamin.tissoires@redhat.com/T/#u
 > 
 
-I think that this bug report is similar to [1] and [2].
+As I already commented in the patch, the problem is now solved on
+hid/for-next.
 
-The issue was already solved by Benjamin with this patch [3].
-If you can, please test his patch.
-
-Best wishes,
-Jose
-
-[1] https://lore.kernel.org/linux-input/CAO-hwJ+MtU5w9M5rqbOPYjUUZtJ609Q0GwPJpy-9egDEjo9m7g@mail.gmail.com/T/
-[2] https://bugzilla.kernel.org/show_bug.cgi?id=216106
-[3] https://lore.kernel.org/linux-input/20220828095624.GA4121@elementary/T/
+Thanks!
