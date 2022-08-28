@@ -2,101 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 110845A3B3D
-	for <lists+linux-input@lfdr.de>; Sun, 28 Aug 2022 05:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5B535A3C0F
+	for <lists+linux-input@lfdr.de>; Sun, 28 Aug 2022 08:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbiH1Dy4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 27 Aug 2022 23:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41432 "EHLO
+        id S231800AbiH1GAc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 Aug 2022 02:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbiH1Dyy (ORCPT
+        with ESMTP id S231721AbiH1GA3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 27 Aug 2022 23:54:54 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B8E1001
-        for <linux-input@vger.kernel.org>; Sat, 27 Aug 2022 20:54:49 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id 145so4878825pfw.4
-        for <linux-input@vger.kernel.org>; Sat, 27 Aug 2022 20:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=O8bHOv/8Od8FmasE3bEMr0kYyYk7jZ1oAXrwIEiwQ10=;
-        b=IBO/Pzf/J8VmbDx3jG8dn/4gr/ISd/Uf754nBwyQOlAzmfxO3tBlDUtbVlJjHeIpgx
-         6O81SWntJWu0gdOe91+fT0ARJe5zvq4CAAezWsqAYPu3k7wpfiTPTc5bM1HJWd1TYEKU
-         WB+9vnVggwyDYE2NJTr5bPtsVuYwy89OPSNfEc+F42Ikv8ViESoirgBbuSQ89/heC+Mk
-         o5zynejx+Rp8D8ejDjdXs/UVGmASdhGKB3DbmR+E0Y8tDs3JxEhPhL7mpToCz8cPtS8x
-         2CHoIXpaq57yJFl9MQQU88KKtSJrrgc4y8p24z7RFZuMuy2vaxlUvbh8syItuGyFX3Cu
-         q+jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=O8bHOv/8Od8FmasE3bEMr0kYyYk7jZ1oAXrwIEiwQ10=;
-        b=YQpIol/nO15AlClvMLS1usGnyXueXCZAJTqbpCQfCw2Ic/ED8Q8twtxlWXLY9tmry2
-         RlLCP+DTm6Bmd7R1G1adw1FNLwEXE5SkCoGffeN8ru1EFLOs2A8/3X+wmpV1r+hZG9Ma
-         LQci1XpwgqfxyEGoGSQu/0cpf9DD5d1/kDDU9qsmfr9JtQez5k84nQeuw32CjO6OYlne
-         ElE3oAVfOteij1RHiH3A0T2Xe01giv7hbsmIGzKkisKTWjEEm4stYad2htEeiSF7upVJ
-         Vsr9KZEc8IPNsafEiups61RNGQ9+suhHT1X03BeJd/W0JU8CytBtua1QwLgRPulHabvV
-         nLwQ==
-X-Gm-Message-State: ACgBeo3M/GnWEaPcgtrIq2ZTcdWPA9CV+tN4ThuKTuUlzkN7nnpChS8J
-        HC0o4NgoS1Rhz42nUTFyiYY=
-X-Google-Smtp-Source: AA6agR7RldTWKVZ53/omxmBai/j/R7VRV3guUQf1HvDvHZ+fUwHc5DlSREmVWh8smAZF/nkRvvd7BQ==
-X-Received: by 2002:a65:594b:0:b0:42b:f6bc:a04d with SMTP id g11-20020a65594b000000b0042bf6bca04dmr298378pgu.313.1661658889123;
-        Sat, 27 Aug 2022 20:54:49 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:6744:7e4e:7103:ef7b])
-        by smtp.gmail.com with ESMTPSA id mp10-20020a17090b190a00b001f333fab3d6sm4063537pjb.18.2022.08.27.20.54.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 20:54:44 -0700 (PDT)
-Date:   Sat, 27 Aug 2022 20:54:41 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>, ira.weiny@intel.com,
-        Hillf Danton <hdanton@sina.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v2] Input: iforce - wake up after clearing
- IFORCE_XMIT_RUNNING flag
-Message-ID: <YwrnAWUCY8S1ZOZZ@google.com>
-References: <c10494c0-5da5-716d-3e62-abca5b65dd88@I-love.SAKURA.ne.jp>
- <887021c3-4f13-40ce-c8b9-aa6e09faa3a7@I-love.SAKURA.ne.jp>
+        Sun, 28 Aug 2022 02:00:29 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66FF11A21;
+        Sat, 27 Aug 2022 23:00:27 -0700 (PDT)
+Received: from fsav415.sakura.ne.jp (fsav415.sakura.ne.jp [133.242.250.114])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 27S606Pj000431;
+        Sun, 28 Aug 2022 15:00:06 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav415.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp);
+ Sun, 28 Aug 2022 15:00:05 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 27S605D8000428
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Sun, 28 Aug 2022 15:00:05 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <046968f7-3245-1df5-6e11-6f29292bbbc5@I-love.SAKURA.ne.jp>
+Date:   Sun, 28 Aug 2022 15:00:02 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <887021c3-4f13-40ce-c8b9-aa6e09faa3a7@I-love.SAKURA.ne.jp>
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [Question] iforce_serio lockup
+Content-Language: en-US
+To:     Greg Tulli <greg.iforce@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <CAKEH-64YKTnb444AZsgm0MudN=KMM_EWv8SsNUwZGh9OGm4ayA@mail.gmail.com>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <CAKEH-64YKTnb444AZsgm0MudN=KMM_EWv8SsNUwZGh9OGm4ayA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 27, 2022 at 07:00:00AM +0900, Tetsuo Handa wrote:
-> syzbot is reporting hung task at __input_unregister_device() [1], for
-> iforce_close() waiting at wait_event_interruptible() with dev->mutex held
-> is blocking input_disconnect_device() from __input_unregister_device().
+On 2022/07/30 4:24, Greg Tulli wrote:
+> I was advised to use a vanilla kernel with CONFIG_PROVE_LOCKING and
+> decode the symbols in the report. So I followed
+> https://kernelnewbies.org/OutreachyfirstpatchSetup and here's the
+> result. Thanks, Tetsuo Handa.
 > 
-> It seems that the cause is simply that commit c2b27ef672992a20 ("Input:
-> iforce - wait for command completion when closing the device") forgot to
-> call wake_up() after clear_bit().
-> 
-> Fix this problem by introducing a helper that calls clear_bit() followed
-> by wake_up_all().
-> 
-> Link: https://syzkaller.appspot.com/bug?extid=deb6abc36aad4008f407 [1]
-> Reported-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
-> Fixes: c2b27ef672992a20 ("Input: iforce - wait for command completion when closing the device")
-> Tested-by: syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
-> Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> Co-developed-by: Hillf Danton <hdanton@sina.com>
-> Signed-off-by: Hillf Danton <hdanton@sina.com>
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> WARNING: possible circular locking dependency detected
+> 5.19.0-rc6iforce-00194-gf3a76018dd55 #2 Not tainted
 
-Applied, thank you.
+OK. You confirmed that this is a real deadlock.
 
+> 2022-07-11 11:32 GMT+02:00, Greg T <greg.iforce@gmail.com>:
+> 
+>> That problem vanishes if we don't call iforce_process_packet directly
+>> from iforce_serio_irq, but from a tasklet. Is that a right approach?
+
+Does untested diff shown below solve the problem?
+I don't know about flush ordering in iforce_serio_disconnect().
+
+ drivers/input/joystick/iforce/iforce-serio.c | 51 +++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/joystick/iforce/iforce-serio.c b/drivers/input/joystick/iforce/iforce-serio.c
+index f95a81b9fac7..5ff650ce05ab 100644
+--- a/drivers/input/joystick/iforce/iforce-serio.c
++++ b/drivers/input/joystick/iforce/iforce-serio.c
+@@ -124,8 +124,7 @@ static void iforce_serio_write_wakeup(struct serio *serio)
+ 	iforce_serio_xmit(iforce);
+ }
+ 
+-static irqreturn_t iforce_serio_irq(struct serio *serio,
+-				    unsigned char data, unsigned int flags)
++static void do_iforce_serio(struct serio *serio, unsigned char data)
+ {
+ 	struct iforce_serio *iforce_serio = serio_get_drvdata(serio);
+ 	struct iforce *iforce = &iforce_serio->iforce;
+@@ -183,6 +182,53 @@ static irqreturn_t iforce_serio_irq(struct serio *serio,
+ 		iforce_serio->csum = 0;
+ 	}
+ out:
++	return;
++}
++
++struct iforce_serio_irq {
++	struct list_head list;
++	struct serio *serio;
++	unsigned char data;
++};
++static LIST_HEAD(iforce_serio_irq_list);
++static DEFINE_SPINLOCK(iforce_serio_irq_list_lock);
++
++static void iforce_serio_workfn(struct work_struct *work)
++{
++	static DEFINE_MUTEX(lock);
++	struct iforce_serio_irq *ev;
++
++	mutex_lock(&lock);
++	spin_lock_irq(&iforce_serio_irq_list_lock);
++	while (!list_empty(&iforce_serio_irq_list)) {
++		ev = list_first_entry(&iforce_serio_irq_list, struct iforce_serio_irq, list);
++		list_del(&ev->list);
++		spin_unlock_irq(&iforce_serio_irq_list_lock);
++		do_iforce_serio(ev->serio, ev->data);
++		kfree(ev);
++		spin_lock_irq(&iforce_serio_irq_list_lock);
++	}
++	spin_unlock_irq(&iforce_serio_irq_list_lock);
++	mutex_unlock(&lock);
++}
++static DECLARE_WORK(iforce_serio_work, iforce_serio_workfn);
++
++static irqreturn_t iforce_serio_irq(struct serio *serio,
++				    unsigned char data, unsigned int flags)
++{
++	bool was_empty;
++	struct iforce_serio_irq *ev = kmalloc(sizeof(*ev), GFP_ATOMIC | __GFP_NOWARN);
++
++	if (ev) {
++		ev->serio = serio;
++		ev->data = data;
++		spin_lock(&iforce_serio_irq_list_lock);
++		was_empty = list_empty(&iforce_serio_irq_list);
++		list_add_tail(&ev->list, &iforce_serio_irq_list);
++		spin_unlock(&iforce_serio_irq_list_lock);
++		if (was_empty)
++			queue_work(system_highpri_wq, &iforce_serio_work);
++	}
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -220,6 +266,7 @@ static void iforce_serio_disconnect(struct serio *serio)
+ {
+ 	struct iforce_serio *iforce_serio = serio_get_drvdata(serio);
+ 
++	flush_work(&iforce_serio_work);
+ 	input_unregister_device(iforce_serio->iforce.dev);
+ 	serio_close(serio);
+ 	serio_set_drvdata(serio, NULL);
 -- 
-Dmitry
+2.18.4
+
