@@ -2,132 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72AD85A4D9A
-	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 15:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEED75A4E5F
+	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 15:41:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbiH2NSE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Aug 2022 09:18:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33740 "EHLO
+        id S229680AbiH2NlR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 29 Aug 2022 09:41:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230142AbiH2NRQ (ORCPT
+        with ESMTP id S230330AbiH2NlK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Aug 2022 09:17:16 -0400
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C778A1C939;
-        Mon, 29 Aug 2022 06:16:42 -0700 (PDT)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27TCgHnP025952;
-        Mon, 29 Aug 2022 09:15:17 -0400
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3j7g673cf5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 29 Aug 2022 09:15:17 -0400
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 27TDFGck019146
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 29 Aug 2022 09:15:16 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 29 Aug
- 2022 09:15:15 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Mon, 29 Aug 2022 09:15:15 -0400
-Received: from nsa.ad.analog.com ([10.44.3.68])
-        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 27TDEeiU026449;
-        Mon, 29 Aug 2022 09:15:08 -0400
-From:   =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
-To:     <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <devicetree@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        <linux-input@vger.kernel.org>,
-        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
-CC:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Hennerich <michael.hennerich@analog.com>
-Subject: [PATCH v4 10/10] input: keyboard: adp5588-keys: Use new PM macros
-Date:   Mon, 29 Aug 2022 15:15:53 +0200
-Message-ID: <20220829131553.690063-11-nuno.sa@analog.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220829131553.690063-1-nuno.sa@analog.com>
-References: <20220829131553.690063-1-nuno.sa@analog.com>
-MIME-Version: 1.0
+        Mon, 29 Aug 2022 09:41:10 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19DC68E0F3
+        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 06:41:06 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 04650240009;
+        Mon, 29 Aug 2022 13:41:02 +0000 (UTC)
+Message-ID: <10a9cd5638ad43f06ab2bc78aef1979c98b27e99.camel@hadess.net>
+Subject: Re: [PATCH] HID: logitech-hidpp: Enable HID++ for all the Logitech
+ Bluetooth devices
+From:   Bastien Nocera <hadess@hadess.net>
+To:     "Peter F. Patel-Schneider" <pfpschneider@gmail.com>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Date:   Mon, 29 Aug 2022 15:41:02 +0200
+In-Reply-To: <a1421662-18ef-dea1-6adb-a18390831aca@gmail.com>
+References: <4542beb149883ab5dfdcfd7f6bb4b516e5c1bcdb.camel@hadess.net>
+         <CAE7qMrrj+rBzoAFf2FezqexgWNo+iSAd6b5NZwKFQ1C1zD_Qaw@mail.gmail.com>
+         <f285873c4cf0a0747db996bbca7e7d9234ce77fb.camel@gmail.com>
+         <d3824bda564871c7759fd3b1ebad16b3d9affe1e.camel@hadess.net>
+         <a1421662-18ef-dea1-6adb-a18390831aca@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: HzHZf3F1q6vI2raEM49qHnp9POj5dtts
-X-Proofpoint-GUID: HzHZf3F1q6vI2raEM49qHnp9POj5dtts
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-29_07,2022-08-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
- impostorscore=0 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208290061
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+MIME-Version: 1.0
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-With the new PM macros (DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()), the
-compiler has visibility to see that the functions are not used when
-!CONFIG_PM and hence, remove the dead code. As such, there's no need
-for '__maybe_unused'.
+On Fri, 2022-08-26 at 11:37 -0400, Peter F. Patel-Schneider wrote:
+> Looking at
+> https://bugzilla.kernel.org/show_bug.cgi?id=215699 reminded me of 
+> another problem with the driver code.   Several HID++ 2.0 features,
+> including 
+> the HiRes Wheel, have commands with bit fields in them and set all
+> the bits in 
+> the bit field at once. But when the driver code sets the high-
+> resolution bit 
+> for this feature it also sets two other bits, ignoring their current
+> setting.  
+> This prevents other software from reliably using these two other
+> bits, one of 
+> which is for reporting wheel movement in the opposite direction, a.
+> k. a. 
+> natural scrolling.
+> 
+> It would be useful for the driver code to first get the other bits
+> and set 
+> them to their retrieved values.
 
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
- drivers/input/keyboard/adp5588-keys.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index 0e6f4a47bb9c..7cb120ad3a68 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -825,7 +825,7 @@ static void adp5588_remove(struct i2c_client *client)
- 	/* all resources will be freed by devm */
- }
- 
--static int __maybe_unused adp5588_suspend(struct device *dev)
-+static int adp5588_suspend(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 
-@@ -834,7 +834,7 @@ static int __maybe_unused adp5588_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused adp5588_resume(struct device *dev)
-+static int adp5588_resume(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 
-@@ -843,7 +843,7 @@ static int __maybe_unused adp5588_resume(struct device *dev)
- 	return 0;
- }
- 
--static SIMPLE_DEV_PM_OPS(adp5588_dev_pm_ops, adp5588_suspend, adp5588_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(adp5588_dev_pm_ops, adp5588_suspend, adp5588_resume);
- 
- static const struct i2c_device_id adp5588_id[] = {
- 	{ "adp5588-keys", 0 },
-@@ -863,7 +863,7 @@ static struct i2c_driver adp5588_driver = {
- 	.driver = {
- 		.name = KBUILD_MODNAME,
- 		.of_match_table = adp5588_of_match,
--		.pm   = &adp5588_dev_pm_ops,
-+		.pm   = pm_sleep_ptr(&adp5588_dev_pm_ops),
- 	},
- 	.probe    = adp5588_probe,
- 	.remove   = adp5588_remove,
--- 
-2.37.2
-
+Do you have any other examples of this? For the classic Linux desktop,
+this particular bug isn't something we'd hit, as natural scrolling is
+implemented at the higher levels (libinput) rather than something we
+expect the driver to support.
