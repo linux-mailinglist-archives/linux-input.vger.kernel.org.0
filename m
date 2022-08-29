@@ -2,81 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DCCE5A53E3
-	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 20:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26FB25A544B
+	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 21:08:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbiH2SVj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Aug 2022 14:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39404 "EHLO
+        id S229601AbiH2TIC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Aug 2022 15:08:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbiH2SVj (ORCPT
+        with ESMTP id S229478AbiH2TIB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Aug 2022 14:21:39 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DE77E32A
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 11:21:38 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id p185so8976803pfb.13
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 11:21:38 -0700 (PDT)
+        Mon, 29 Aug 2022 15:08:01 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEC57A776
+        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 12:08:00 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 73so179657pga.1
+        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 12:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=HsQfjVEzXj19AFxyocmblevDkYk5auwvBNTZ+Cg31tM=;
-        b=dy3hXyZGfWi+a1YAlBDkwLUvaJuAnmIyT5A3vQY9wgAjwjIw4aw15hRRHnjmECXWVX
-         8xhPPv5wgd8D9dQ88QQtBXRVa/KwuvktLQRFWWgGSAE9Ep4FgTBEnk1tDe9Ku0odzcX6
-         +cVgmm3X21Psd/Zunr6Fe2o+9qSP48yQ9xgXxM6Ucnoan4GYSIbG1pDVZPp0utFZ2Kup
-         V56Izf6Z1MAdQQXhN3N0NqFZveaUOP8H6Nsg1QxkjTrGy9c7YhkYJY9nIgRT+psGOcm8
-         vpYnXtualSB1yuwk/EKeVHhOCKn7kBmpeYVX0g/8J+Jvab0yWyIuNgbRnHYT0R9B8XoJ
-         h+OQ==
+        d=yocom-org.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc;
+        bh=i5bKUTrb+rmLcQzkpU6se5oAMu2l3FKdPS9MD2hRt6U=;
+        b=RDDWcuxD4oVbcRzclcJ3cIjOiFkzBfoPFqyO6YmocITJZOvLBBXwnecQ2zt5T9KBvK
+         u12Q/lMA/BI6O6z/05quk4e3nBwfsbDStLt+SQT00tLIhzK2jLQqjMlY2cO04MMMF+8n
+         c35Eu4b2p1XAMo9iLwWVR02ug67GlkTzHQntJVczws3EpasGJ3qxVHWaps0fvRT1r+mq
+         K472D+bcAkNsbkmSWFqMbc+GttrC5qc8Fd4EnVSfjspVVeX+vz8RITPy3er+uhsiY5k5
+         oRFNI/jIkofCq9cTg281IXqLkcW4de67fNEk75F1ylPRoMS1xBkpD4+a2rBIkEmvxeWp
+         TTWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=HsQfjVEzXj19AFxyocmblevDkYk5auwvBNTZ+Cg31tM=;
-        b=XIQkQfOPVZN3KjrQz1N8b3yyai5r8rGLvOtyVwKT9e+rEWiACRzTeoqoH4nx567uEY
-         tkCAy5rADta16xtCUyOeF97mcxOcezz14jI5QFtWE+0hHGvJMWd9gs/TG/jVJ4IKH8d/
-         m+XwVqlXGP+YsvxO5Ck0U8H8WsirtjvJpRhKnJ+CI4DpTrwiASOPVg25rsWfHze+vqB3
-         R7acRqnoRz6Kv5WwlCP7+/+8sXhcjV+FMxylj14smVs+sDhqCkq21z7Ql2T4FGdlqPdz
-         7w7g9n+4V+66aCAHXUvMdNAdiPySTEAuVBUaSHWir7gr8+D5+FQ/B+ZDDXxk7CKMauJG
-         O91w==
-X-Gm-Message-State: ACgBeo3/pJp39OwrnndIARfF4QlaYp+uCoBN4jhOPNtdUPxqQiEMMJGV
-        JnOka9hWpK7sbttT7CWwfYKYK+Vh2Qw=
-X-Google-Smtp-Source: AA6agR5k5domyvbhnbBPhpLK+yFGLCQChBIXmDvTk5ElEFFJxzkHGT/DHb2XFvVDZoVFY/yOPZZEzA==
-X-Received: by 2002:a62:b504:0:b0:538:20ae:bbf2 with SMTP id y4-20020a62b504000000b0053820aebbf2mr7962451pfe.79.1661797297971;
-        Mon, 29 Aug 2022 11:21:37 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:a95a:58fc:2b39:1c99])
-        by smtp.gmail.com with ESMTPSA id im23-20020a170902bb1700b00172bd84c8b4sm7850193plb.98.2022.08.29.11.21.37
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=i5bKUTrb+rmLcQzkpU6se5oAMu2l3FKdPS9MD2hRt6U=;
+        b=PW/QaDF4lt5aACkMldeFMJL2LnD2FL13kFriFy09eZeSKk9wrLwVqmfkBVReBQxZBK
+         qONTXFWVpbbXhaKdwfOsieZ/Nk+bA34TO2ZCjHbn9yQq9S8bnRjMg+48danN/4qdbgQe
+         3mGFugMOkHXzMVcuXwiXfYVjKByGvO3v1MNr9gQcShmD+G61Nz6NZr9uvffrO2MKMrZz
+         rZdms2INtFxrnm/00k0xtwaWDmd6QDtnbYDJ4qPhclVTaM+iBB8tu+7ikDronFagZebg
+         5eEV5FjmiuAJogMvWTic74Q6C6J3mmxLW7XinU7eHPU1nW4u9hlsS9JhG2B4xNycCAbC
+         vGRA==
+X-Gm-Message-State: ACgBeo1TBdycfdWy91qiwEpNPWLhBMG4X4ap9jQVEE5FFWnFpbWV7/FS
+        l56gqz0mmHzmZb2lOxVpMLdp0w==
+X-Google-Smtp-Source: AA6agR7VCq9o9rb31ziklMeuW2vIyE5vZINyv1AAur7Edf5GqfjCFc0T8IR6q1spIj+JCT30jBg71A==
+X-Received: by 2002:a63:395:0:b0:42b:80a2:7ad2 with SMTP id 143-20020a630395000000b0042b80a27ad2mr13042872pgd.194.1661800080287;
+        Mon, 29 Aug 2022 12:08:00 -0700 (PDT)
+Received: from ghaven-kernel ([2601:600:8f80:973::5f])
+        by smtp.gmail.com with ESMTPSA id 201-20020a6217d2000000b0052d50e14f1dsm7563069pfx.78.2022.08.29.12.07.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 11:21:37 -0700 (PDT)
-Date:   Mon, 29 Aug 2022 11:21:35 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Greg Tulli <greg.iforce@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v2] Input: iforce - add support for Boeder Force Feedback
- Wheel
-Message-ID: <Yw0Dr2H1KG/WyA93@google.com>
-References: <CAKEH-67dv9PC41v7wZXJEopEnMQjwbPvQz01sFbndinpZvbrGQ@mail.gmail.com>
- <3256420-c8ac-31b-8499-3c488a9880fd@gmail.com>
+        Mon, 29 Aug 2022 12:07:59 -0700 (PDT)
+Date:   Mon, 29 Aug 2022 12:07:58 -0700
+From:   Nate Yocom <nate@yocom.org>
+To:     Bastien Nocera <hadess@hadess.net>, dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v5 2/4] Input: joystick: xpad: Add ABS_PROFILE axis value
+ to uapi
+Message-ID: <Yw0OjoVzKV3QOYah@ghaven-kernel>
+References: <20220825222420.6833-1-nate@yocom.org>
+ <20220825222420.6833-3-nate@yocom.org>
+ <3e48ef8d13337ce1c3ec68baffc612fde4740b0e.camel@hadess.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3256420-c8ac-31b-8499-3c488a9880fd@gmail.com>
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3e48ef8d13337ce1c3ec68baffc612fde4740b0e.camel@hadess.net>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 12:11:16PM +0200, Greg Tulli wrote:
-> Add a new iforce_device entry to support the Boeder Force Feedback Wheel device.
+On Sat, Aug 27, 2022 at 12:40:46PM +0200, Bastien Nocera wrote:
+> On Thu, 2022-08-25 at 15:24 -0700, Nate Yocom wrote:
+> > Add an ABS_PROFILE axis for input devices which need it, e.g. X-Box
+> > Adaptive Controller and X-Box Elite 2.
+> > ---
+> >  include/uapi/linux/input-event-codes.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/include/uapi/linux/input-event-codes.h
+> > b/include/uapi/linux/input-event-codes.h
+> > index dff8e7f17074..7ad931a32970 100644
+> > --- a/include/uapi/linux/input-event-codes.h
+> > +++ b/include/uapi/linux/input-event-codes.h
+> > @@ -862,6 +862,7 @@
+> >  #define ABS_TOOL_WIDTH         0x1c
+> >  
+> >  #define ABS_VOLUME             0x20
+> > +#define ABS_PROFILE            0x21
+> >  
+> >  #define ABS_MISC               0x28
+> >  
 > 
-> Signed-off-by: Greg Tulli <greg.iforce@gmail.com>
+> 
+> You probably also want to add it to the absolutes array in
+> drivers/hid/hid-debug.c.
 
-Applied, thank you.
+doh, roger.
 
--- 
-Dmitry
+> Again, you might want to wait for confirmation from Dmitry that this is
+> the right way to do this for the profiles.
+
+Makes sense.  Dmitry?
+
