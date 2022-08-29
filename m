@@ -2,76 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42B875A4F08
-	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 16:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A68B55A4F13
+	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 16:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbiH2OUd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Aug 2022 10:20:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41236 "EHLO
+        id S230133AbiH2OWn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Aug 2022 10:22:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230135AbiH2OUY (ORCPT
+        with ESMTP id S230242AbiH2OWg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Aug 2022 10:20:24 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C2826106
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 07:20:19 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id 10so6656080iou.2
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 07:20:19 -0700 (PDT)
+        Mon, 29 Aug 2022 10:22:36 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92158E4FB;
+        Mon, 29 Aug 2022 07:22:32 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id l6so2790752ilk.13;
+        Mon, 29 Aug 2022 07:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=7lOhCwyCgxj70NfnYVELQ5Ug5sOCR4L+ZmNUGHh7yso=;
-        b=K5vShWKeF1Wob7qbEXQGl+lFQjFKiskc02jJIQm54c5mFzEA+WwQXmZLpc+hy15dvx
-         FH1RKVAEO7/EAZYxTlRBvliayeWFW/8Zv04hWRUAl5sVpGyf5H8r9Kq/s2W/la7fjVuA
-         LIqXdrK0Ed/3pWkNYQajMmT+dTJWlHFX8nlpQjKZCi83rGzsNSI+cOwvd6gVTH8qya02
-         NMLvma629uz+zlifnquXycus9vqRt4YRKEUIPMvd3jPm62pvzaBJ9wxlMk3unLNOIm3n
-         pvS07e6ucclmnmxrsI5QmdWtwG2gMwyDoIJrq3VNktMsQlKKqlsFzpMnJkuudPhUcvbN
-         F91w==
+        bh=r2IisvDZhIUwr3A4znPc/Y5pU34Q3HM0h5+VHVWhOk4=;
+        b=gHRIscN/jmrTqobS5b2rFsptm4KH1+QQiZdg/c4BJJ+nZ7VIzisYERmizhRPFmwKU0
+         SxIacjlrjP1QHzndUY5Z1A3/acAqOh0DDpDS5MZb1eRrajp+KFpE2ufYGXvWwkBHuGFy
+         H57kRraoxtdG09kqsKSYS7DpsqksYAQBWeMWM5ssFkTZaa/oYY/ZxKsDjc9PH7RDTbeY
+         7uPswya4MXUNvy0fC1BH8nc2tdJ6849qHtsz39qiM4eL5kBpGEbxF+JMpZBD0aLPQX7/
+         jbCvj/JCdPzwhr1zbw49eRGaSI29DlmM8adoRWD/dLmTOQs0XNGolZJuf7NeQhQomNw4
+         U6ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=7lOhCwyCgxj70NfnYVELQ5Ug5sOCR4L+ZmNUGHh7yso=;
-        b=wRoW9zl4J5ZL5nYBWmzR16b4GnlQ1dsIu+Ce0QyMbvVSEUqUwvf9hzsKrnMq3rLovK
-         w6QS7x4tk6j7AqrhfuFS2CBfOAH7wstBYb1GG/tvnYeFYZDEgadfKq666GjKl69DAMkY
-         TYCj8dBZ2sUAH1tP/x1z7XLmuAzZBXp3CG8rQfDzV0aKCfI2GZjDtd6obOklSMjX/rcE
-         toBhyGvHzkPTDQjM6ZjqZ3gcoH1x3F1C4ANKXvHbsP7rT+2ioxLd2A6dN3viO+a+WSGz
-         0qNKa6aflabfjoBmkF3P4puNZ9PfhR9wleUA7tR8pN65KKHHi67tSXfu9VGWQ1Z8xYv1
-         Ga3A==
-X-Gm-Message-State: ACgBeo06eqy6jpIaB3ApHCfKPaebcYaVFrhJ3fhq5SJWl/Oc2dj9JdVe
-        jECiSGrWObGGSlFBCukInS8=
-X-Google-Smtp-Source: AA6agR6++Vw5X81QfTRwMlKkE7U0h0rLr+Ogd6lS7mz4GTy7sEZHzXgo2nTZIkXvLGjjis3HW7VNjQ==
-X-Received: by 2002:a5d:9383:0:b0:67b:adc2:c053 with SMTP id c3-20020a5d9383000000b0067badc2c053mr9046449iol.102.1661782819158;
-        Mon, 29 Aug 2022 07:20:19 -0700 (PDT)
+        bh=r2IisvDZhIUwr3A4znPc/Y5pU34Q3HM0h5+VHVWhOk4=;
+        b=FJCw1jaO7QMwML5oejPlt+1HfyDfwG/MQ08IvzG/O6oVfqjtIKQNbENrtWSTIER0lE
+         m7YK/cV+MKumdLtGf9LBz8iYc7YDCLNCyqsgUc7STUevUkAfmXQ0YdvypNkImRyF6Uf4
+         0ewQyB+eJojl29jvBWw8d4KSSVjBNRxp9nOGTsnb30RY9rOQs3CovEMV8xvXR+GRDvif
+         fgsOAOKUzjOGOHlZwLoXx1wPeRkmHsZj6xLQEavru+zpXVe3XzHyHZOvr4NNVgxk8atw
+         asq0vMLBSrlqAubFWUKyLk3CmiZ1gSTpdLkAADgYw0DYZyYvS+eO2ELQ50Hq6lypxTOB
+         C47w==
+X-Gm-Message-State: ACgBeo3p/Gxf15vTOICoW9eqJVXP361m2yLwbrn33WEValpwZs0+CESP
+        DS5zcoKJMHnxAt/FYUo9L0s=
+X-Google-Smtp-Source: AA6agR7dSn8UGvaaP95ttMa51jL3T38SsmfSy8tqy4l3eQroIkxmc1Vapo6+T0bEXq5pCmYQdz0aew==
+X-Received: by 2002:a92:c242:0:b0:2e9:62e2:a87c with SMTP id k2-20020a92c242000000b002e962e2a87cmr9970868ilo.246.1661782951170;
+        Mon, 29 Aug 2022 07:22:31 -0700 (PDT)
 Received: from [192.168.0.27] ([204.237.49.50])
-        by smtp.gmail.com with ESMTPSA id o3-20020a92d383000000b002ea915c3249sm4534836ilo.66.2022.08.29.07.20.17
+        by smtp.gmail.com with ESMTPSA id h16-20020a92d850000000b002eb109706f4sm1316923ilq.84.2022.08.29.07.22.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Aug 2022 07:20:18 -0700 (PDT)
-Message-ID: <b98deb1e-ff3b-0b85-1f3d-2583ed726728@gmail.com>
-Date:   Mon, 29 Aug 2022 10:20:16 -0400
+        Mon, 29 Aug 2022 07:22:30 -0700 (PDT)
+Message-ID: <fab763ac-2865-58b1-d735-51a28a76aa94@gmail.com>
+Date:   Mon, 29 Aug 2022 10:22:28 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH] HID: logitech-hidpp: Enable HID++ for all the Logitech
- Bluetooth devices
+Subject: Re: [RFC v1 1/2] HID: logitech-hidpp: Fix "Sw. Id." for HID++ 2.0
+ commands
 Content-Language: en-US
-To:     Bastien Nocera <hadess@hadess.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Cc:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Jiri Kosina <jikos@kernel.org>,
+To:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-References: <4542beb149883ab5dfdcfd7f6bb4b516e5c1bcdb.camel@hadess.net>
- <CAE7qMrrj+rBzoAFf2FezqexgWNo+iSAd6b5NZwKFQ1C1zD_Qaw@mail.gmail.com>
- <f285873c4cf0a0747db996bbca7e7d9234ce77fb.camel@gmail.com>
- <d3824bda564871c7759fd3b1ebad16b3d9affe1e.camel@hadess.net>
- <a1421662-18ef-dea1-6adb-a18390831aca@gmail.com>
- <10a9cd5638ad43f06ab2bc78aef1979c98b27e99.camel@hadess.net>
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+References: <20220829134852.312548-1-hadess@hadess.net>
 From:   "Peter F. Patel-Schneider" <pfpschneider@gmail.com>
-In-Reply-To: <10a9cd5638ad43f06ab2bc78aef1979c98b27e99.camel@hadess.net>
+In-Reply-To: <20220829134852.312548-1-hadess@hadess.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -85,50 +79,56 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
-On 8/29/22 09:41, Bastien Nocera wrote:
-> On Fri, 2022-08-26 at 11:37 -0400, Peter F. Patel-Schneider wrote:
->> Looking at
->> https://bugzilla.kernel.org/show_bug.cgi?id=215699 reminded me of
->> another problem with the driver code.   Several HID++ 2.0 features,
->> including
->> the HiRes Wheel, have commands with bit fields in them and set all
->> the bits in
->> the bit field at once. But when the driver code sets the high-
->> resolution bit
->> for this feature it also sets two other bits, ignoring their current
->> setting.
->> This prevents other software from reliably using these two other
->> bits, one of
->> which is for reporting wheel movement in the opposite direction, a.
->> k. a.
->> natural scrolling.
->>
->> It would be useful for the driver code to first get the other bits
->> and set
->> them to their retrieved values.
-> Do you have any other examples of this? For the classic Linux desktop,
-> this particular bug isn't something we'd hit, as natural scrolling is
-> implemented at the higher levels (libinput) rather than something we
-> expect the driver to support.
+On 8/29/22 09:48, Bastien Nocera wrote:
+> Always set a non-zero "Sw. Id." in the lower nibble of the Function/ASE
+> and Software Identifier byte in HID++ 2.0 commands.
+>
+> As per the "Protocol HID++2.0 essential features" section in
+> https://lekensteyn.nl/files/logitech/logitech_hidpp_2.0_specification_draft_2012-06-04.pdf
+> "
+> Software identifier (4 bits, unsigned)
+>
+> A number uniquely defining the software that sends a request. The
+> firmware must copy the software identifier in the response but does
+> not use it in any other ways.
+>
+> 0 Do not use (allows to distinguish a notification from a response).
+> "
+>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=215699
+> Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> ---
+>   drivers/hid/hid-logitech-hidpp.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index 86e7a38d8a9a..02f8c99672c7 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -41,6 +41,9 @@ module_param(disable_tap_to_click, bool, 0644);
+>   MODULE_PARM_DESC(disable_tap_to_click,
+>   	"Disable Tap-To-Click mode reporting for touchpads (only on the K400 currently).");
+>   
+> +/* Define a non-zero software ID to identify our own requests */
+> +#define LINUX_KERNEL_SW_ID			0x06
+> +
+>   #define REPORT_ID_HIDPP_SHORT			0x10
+>   #define REPORT_ID_HIDPP_LONG			0x11
+>   #define REPORT_ID_HIDPP_VERY_LONG		0x12
+> @@ -343,7 +346,7 @@ static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
+>   	else
+>   		message->report_id = REPORT_ID_HIDPP_LONG;
+>   	message->fap.feature_index = feat_index;
+> -	message->fap.funcindex_clientid = funcindex_clientid;
+> +	message->fap.funcindex_clientid = funcindex_clientid | LINUX_KERNEL_SW_ID;
+>   	memcpy(&message->fap.params, params, param_count);
+>   
+>   	ret = hidpp_send_message_sync(hidpp, message, response);
 
 
-I looked and I didn't find any other examples of this in the driver.  The only 
-HID++ command with this feature that is used by the driver, as far as I could 
-tell, is
 
-#define CMD_HIRES_WHEEL_SET_WHEEL_MODE 0x20
-
-of
-
-#define HIDPP_PAGE_HIRES_WHEEL 0x2121
-
-
-The way Solaar users see this bug is that if they use this feature to set 
-reverse scrolling sometimes the driver flips the bit off after Solaar flips 
-the bit on.  If a user doesn't use Solaar or some other software that changes 
-devices behaviour using HID++ commands then they won't see any problem.  (The 
-could have a multi-host mouse, use Logitech software to flip the bit, and then 
-when they change hosts to a Linux host the Linux driver would flip the bit.)
+Looks good to me.  It might be better to use ID 0x01 to signifiy the "first" 
+software but that is a minor quibble.
 
 
 peter
