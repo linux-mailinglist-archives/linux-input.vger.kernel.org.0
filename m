@@ -2,107 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE1825A4640
-	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 11:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 367575A464F
+	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 11:45:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbiH2Jkh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Aug 2022 05:40:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50264 "EHLO
+        id S229577AbiH2JpW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Aug 2022 05:45:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229956AbiH2Jkc (ORCPT
+        with ESMTP id S229527AbiH2JpW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Aug 2022 05:40:32 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF0C2B26E
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 02:40:31 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id m2so6577777lfp.11
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 02:40:31 -0700 (PDT)
+        Mon, 29 Aug 2022 05:45:22 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDEFE2B1BB
+        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 02:45:20 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id s11so9341461edd.13
+        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 02:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
-         :reply-to:mime-version:from:to:cc;
-        bh=mTe6rsF1WlocKfWRCIawejpNJl6lRYSIlYxDz8jltlQ=;
-        b=oPmA7RrQI5HlB/lsJpZ0ac2cM/Nq9dE/nN035HMAcpEerosptPl8/CXDYA0uDm5J+r
-         9Zx/UYP+L8q2yCjb0rX0ATn8TELs8qUDGPTzDpDcoVKM4ZuuEgio7bqBM4xeQKPIAVEq
-         j/3P45vSUyOnFvX1PeLPRHaHL6Hx/YoigVLLKVgKpB+oIXuJr62F0cCjVD1hXxrr4p0E
-         8EFsKi+Q1FWrOgSXhvMYJt76pfVnZLRFR7cikxYzlD1U6AbbUUarjmzQgRKv5GD8HY3B
-         7q3LLyYP6fO38Fftqw9oKIek5KRynYMLqQC6+bEWzn15rioFEs14d1fu27TjQi1GuW2f
-         EiZQ==
+        h=mime-version:references:message-id:in-reply-to:subject:to:from:date
+         :from:to:cc;
+        bh=s+XIEEWURZt1fMCirW3gSWf8Blcqle54zg04C50Q77I=;
+        b=fbT2n5Y04vmbbOgbZlOvAqkL9pcmqWmRDH08hOMjiXyT9RKjfsSkPKmP2RPliC4dzm
+         W/Evxd9miUpjHP2Xko0fPaVBem/S5mfmTwqRezeaR2vLWKCZTCsOBkm2EqV092kka35Z
+         S/HT5aBGDyvRSpcwzsUtOfsoVgKiflEgTg3hu9aLOlrS6QSOM4p9fVOnuEHEJvF5yz+U
+         ZYLdbPvG5UfCm0stJq8WVNoO9XIlfhaxpofDuXftBUJCO0i3h/klkCKEMP71uniYgNZv
+         w8gm3jbXyY0UGsLcMRMASSGffYelvG1kU7GhcmO/vQW9IJH20IfheiJ3x0crKdU9vqBj
+         R+Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
-         :reply-to:mime-version:x-gm-message-state:from:to:cc;
-        bh=mTe6rsF1WlocKfWRCIawejpNJl6lRYSIlYxDz8jltlQ=;
-        b=XfxNOMXmLsYgt0x0cr7HZHJUlrFH585oE2lKXjWJO2N626HoKFPwqQB5KRsYRHiggv
-         NFHHu3/nRlWchmgNs9ipIS3imDbIv/4j/TYb5aRls9pWhLS5MsJraRaKl+MXslvWk9is
-         U+X+EijvPxYfFMXI6zjSMB9rzpsH4G/YDyXC40Z4z0nuo4JfiLp5F0NxVy7zcBF7UXcQ
-         zMxemx1PM7eX/qtHgs8KQyXjPwgCuf2IebyprR/NoLIHDvJFgF9k2A6G4hsoZWTyUZim
-         X2UB9L3fjJGSQg6+TdfEpqUyMy3xSgox7Mbs3canwxhrtsihlEWOtb+tMVjky/1e6HpX
-         jkZQ==
-X-Gm-Message-State: ACgBeo08Gh1DSm7GhBQ3uH9vzE07ezyisqBPHAEBpeEd8Z41uILgH/Oa
-        ltT/+99g/OZ4aeHZmLNjBYVo8Zuwgfo26kc1lw==
-X-Google-Smtp-Source: AA6agR4xMfXwaAmOyqlfkdmlA6HmGvKkz7ijh2sAy7wyHmldppe9JaFIwwnoGOfyFHtidouq7r6aAE935EbH693MM7I=
-X-Received: by 2002:a05:6512:3a84:b0:48c:f59e:3bff with SMTP id
- q4-20020a0565123a8400b0048cf59e3bffmr6805072lfu.516.1661766029265; Mon, 29
- Aug 2022 02:40:29 -0700 (PDT)
+        h=mime-version:references:message-id:in-reply-to:subject:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=s+XIEEWURZt1fMCirW3gSWf8Blcqle54zg04C50Q77I=;
+        b=fxPf35Y1fxLlavA21bkCIiLGx1Dvs2ol0AUIfPuYvwZW59eA3duhVvOMbfPT18peL9
+         gzb1JGg6MbDSRGXgrOY6RZk0sJUC+NkOmkr0lcK3DHcGNDdsIeXhandl+7yfFwIAjvSo
+         oyIYSeiUl8eFLWr4f+3YvPLu2xI97E4+m8hw/uoCTwV31rw9Tw372VeCIljfAMBvhoKV
+         ImGmsjG285cusdxuf2/djCo3fyraRbd3gQEsL/AYVTEgAsmaw40+djlKk+jIsu5Grjl7
+         PSErgKX1/NwHNZS3fNHqi6/CFJKMeMeo8aNPkpp5x6e9TuyGmjnCGdFuGPvgJ9xeqk2u
+         y5Qg==
+X-Gm-Message-State: ACgBeo1/L4C290WqaZkEBSL2HqwQpfujgxlZ/xjQFSSaLcHZ4ZC1vMCk
+        YudypZ7ZMCC7qJFYsdwWYsiE2OVA6l7AaV9r
+X-Google-Smtp-Source: AA6agR7Dpw/WswmIkd4AkZsHmpn1h5GxieCBeMdcs6AF1nXf9IWQ/5Czr6weeE/LHsMqm9JP/tQ0FQ==
+X-Received: by 2002:a05:6402:1706:b0:448:1b9f:d8bd with SMTP id y6-20020a056402170600b004481b9fd8bdmr8005656edu.397.1661766319535;
+        Mon, 29 Aug 2022 02:45:19 -0700 (PDT)
+Received: from 178-164-143-12.pool.digikabel.hu (178-164-143-12.pool.digikabel.hu. [178.164.143.12])
+        by smtp.gmail.com with ESMTPSA id j5-20020aa7ca45000000b0044629b54b00sm5502726edt.46.2022.08.29.02.45.19
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Aug 2022 02:45:19 -0700 (PDT)
+Date:   Mon, 29 Aug 2022 11:45:18 +0200 (CEST)
+From:   Greg Tulli <greg.iforce@gmail.com>
+To:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH v2] Input: iforce - add missing vendor and product ids to
+ the Unknown device name
+In-Reply-To: <CAKEH-64P5HTWtqrgGoS4RF74XXOvnDZ4o5z2bx7LZ=9r=3tsjw@mail.gmail.com>
+Message-ID: <edc347e3-52d8-9621-c3f1-5c3872d95fcb@gmail.com>
+References: <CAKEH-64P5HTWtqrgGoS4RF74XXOvnDZ4o5z2bx7LZ=9r=3tsjw@mail.gmail.com>
 MIME-Version: 1.0
-Reply-To: zahirikeen@gmail.com
-Sender: aliwattara1961@gmail.com
-Received: by 2002:ab2:5e02:0:b0:155:3ad:499b with HTTP; Mon, 29 Aug 2022
- 02:40:27 -0700 (PDT)
-From:   Zahiri Keen <zahirikeen2@gmail.com>
-Date:   Mon, 29 Aug 2022 11:40:27 +0200
-X-Google-Sender-Auth: 1QKqw5koKF8zswjXPEwMUO98K3Y
-Message-ID: <CAFX=yDMEVN8n+Ngfscy_Pb98QTRTH6CJgQUzVdsQZmk23YLTSA@mail.gmail.com>
-Subject: I am waiting to hear from you urgently.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:143 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [aliwattara1961[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [zahirikeen2[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Good Day,
 
-I know this email might come to you as a surprise because is coming
-from someone you haven=E2=80=99t met with before.
+An unknown iforce device is named "Unknown I-Force Device
+[%04x:%04x]". The vendor and product ids should be substituted.
 
-I am Mr. Zahiri Keen, the bank manager with BOA bank i contact you for
-a deal relating to the funds which are in my position I shall furnish
-you with more detail once your response.
+Signed-off-by: Greg Tulli <greg.iforce@gmail.com>
+---
 
-Regards,
-Mr.Zahiri
+diff --git a/drivers/input/joystick/iforce/iforce-main.c b/drivers/input/joystick/iforce/iforce-main.c
+index b2a68bc9f0b4..6de5d06d2bd0 100644
+--- a/drivers/input/joystick/iforce/iforce-main.c
++++ b/drivers/input/joystick/iforce/iforce-main.c
+@@ -323,7 +323,11 @@ int iforce_init_device(struct device *parent, u16 bustype,
+ 			break;
+ 
+ 	iforce->type = iforce_device + i;
+-	input_dev->name = iforce->type->name;
++	if (iforce_device[i].idvendor)
++		input_dev->name = iforce->type->name;
++	else
++		input_dev->name = devm_kasprintf(parent, GFP_KERNEL, iforce->type->name,
++			input_dev->id.vendor, input_dev->id.product);
+ 
+ /*
+  * Set input device bitfields and ranges.
