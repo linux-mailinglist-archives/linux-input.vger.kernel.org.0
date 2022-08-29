@@ -2,319 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EB035A5135
-	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 18:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8AD5A53CF
+	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 20:13:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbiH2QOM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Aug 2022 12:14:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
+        id S229677AbiH2SNl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Aug 2022 14:13:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbiH2QOK (ORCPT
+        with ESMTP id S229881AbiH2SNk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Aug 2022 12:14:10 -0400
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1B791D1F;
-        Mon, 29 Aug 2022 09:14:09 -0700 (PDT)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27T9r0el025958;
-        Mon, 29 Aug 2022 09:15:12 -0400
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3j7g673cek-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 29 Aug 2022 09:15:12 -0400
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 27TDFBQR019122
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 29 Aug 2022 09:15:11 -0400
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Mon, 29 Aug 2022 09:15:10 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Mon, 29 Aug 2022 09:15:10 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Mon, 29 Aug 2022 09:15:10 -0400
-Received: from nsa.ad.analog.com ([10.44.3.68])
-        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 27TDEeiR026449;
-        Mon, 29 Aug 2022 09:15:03 -0400
-From:   =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
-To:     <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <devicetree@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        <linux-input@vger.kernel.org>,
-        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
-CC:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Hennerich <michael.hennerich@analog.com>
-Subject: [PATCH v4 07/10] input: keyboard: adp5588-keys: fix coding style warnings
-Date:   Mon, 29 Aug 2022 15:15:50 +0200
-Message-ID: <20220829131553.690063-8-nuno.sa@analog.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220829131553.690063-1-nuno.sa@analog.com>
-References: <20220829131553.690063-1-nuno.sa@analog.com>
+        Mon, 29 Aug 2022 14:13:40 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FE3790190;
+        Mon, 29 Aug 2022 11:13:39 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id i7-20020a17090adc0700b001fd7ccbec3cso5395418pjv.0;
+        Mon, 29 Aug 2022 11:13:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=jfFWiU561O7uKuC2cJVMX/HT/7uH4m9j1QExSkrFTSM=;
+        b=DdypRuXPfkr/UW67eTRllnfaXmefE7CC1RQVpJY14/xmiC1rMZDU7rcW5OnWCSx5w8
+         Vzph05zpNRr4VrNrIprDIlYlKfkon4Ym1Ahq79ExCIKJO4L3QhutSfa0Jm70SvNKf3QW
+         +XYikw0N9J9CPVeueczV4gkr1peAwonyBmX7sAO37UvnVMgYoSnnX84s+vQkeWcwNilu
+         k17jhjSZ4zhBefnWzSiOBp0/vX7flNG1+qINFGnUEuar3HZ5+ebSWznEA+3nCRnCtxr8
+         MDojFe3mIb+izeCjM+ivcJuNkiFtxkruUXPwp+7WMVCSX2jVeKEGUQUNU4rj0DR1Uh03
+         xNtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=jfFWiU561O7uKuC2cJVMX/HT/7uH4m9j1QExSkrFTSM=;
+        b=HeAwVUhKwOpXoSPuggujTEWGC2wzJ6c9JDmPdp1i2fe9c3KTMWWSy00VCACHpfS6QB
+         pLYqafefw2Gw871J2msm4j7YCMo6f/ndu0T34csFbq+A3IkG3gIUZqtzyF/edjY42hmk
+         OJHyURlsf39brRE6LkAhHst3o13A3i9gG0RKXtzd025tStfPpbl6nroXIWpFHyRCxZ1A
+         RXu8/igKB8QWIHB69YSzlM10x1Z8LASfQsYwOGlZd1+rorWXxFk2ESw4I9JMLghua/3n
+         j8k3ERkvb6pJNbjLAor/k1YtxgCYuo+LOt9tCcr41DWKXOTM5QV4cKej1fZBHcZQOTb7
+         xd1A==
+X-Gm-Message-State: ACgBeo11zYqJsdDk7hhKhl5AzP6cYMKx3BaSz+i4zodhPSB2zI8F3axZ
+        2joc9KXc6UOHPesAhm7aObI=
+X-Google-Smtp-Source: AA6agR6b0oQKAtOmG4Aa2PNOXvcYHKxxtirCQUq2ZUUe5hh45PHjw3p4KDcZv7VkusmNhw/ZjTDAEg==
+X-Received: by 2002:a17:902:eccd:b0:172:cff9:5796 with SMTP id a13-20020a170902eccd00b00172cff95796mr17133082plh.151.1661796818826;
+        Mon, 29 Aug 2022 11:13:38 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:a95a:58fc:2b39:1c99])
+        by smtp.gmail.com with ESMTPSA id o1-20020a17090a168100b001fa8b909ef0sm6996830pja.7.2022.08.29.11.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Aug 2022 11:13:38 -0700 (PDT)
+Date:   Mon, 29 Aug 2022 11:13:35 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     Greg Tulli <greg.iforce@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [Question] iforce_serio lockup
+Message-ID: <Yw0Bz9+ukNAf2Hpk@google.com>
+References: <CAKEH-64YKTnb444AZsgm0MudN=KMM_EWv8SsNUwZGh9OGm4ayA@mail.gmail.com>
+ <20220828090509.2839-1-hdanton@sina.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: iTuBsIWWFquh14KQwhUY9XBlKULKyB08
-X-Proofpoint-GUID: iTuBsIWWFquh14KQwhUY9XBlKULKyB08
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-29_07,2022-08-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
- impostorscore=0 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208290061
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220828090509.2839-1-hdanton@sina.com>
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Just some code cleanup regarding coding style. With the introduction of
-the bits.h macros changes in the code are indeed introduced.
+On Sun, Aug 28, 2022 at 05:05:09PM +0800, Hillf Danton wrote:
+> On Fri, 29 Jul 2022 21:24:13 +0200 Greg Tulli <greg.iforce@gmail.com>
+> > 
+> > Chain exists of:
+> > &iforce->xmit_lock --> &port_lock_key --> &serport->lock
+> > 
+> >  Possible unsafe locking scenario:
+> > 
+> >        CPU0                    CPU1
+> >        ----                    ----
+> >   lock(&serport->lock);
+> >                                lock(&port_lock_key);
+> >                                lock(&serport->lock);
+> >   lock(&iforce->xmit_lock);
+> > 
+> > *** DEADLOCK ***
+> > 
+> > 2022-07-11 11:32 GMT+02:00, Greg T <greg.iforce@gmail.com>:
+> > 
+> > > That problem vanishes if we don't call iforce_process_packet directly
+> > > from iforce_serio_irq, but from a tasklet. Is that a right approach?
+> 
+> Another option is to do wakeup without serport->lock held,
+> given iforce->xmit_lock. Your test will provide info about the races
+> that may come up due to the serport->lock.
 
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
- drivers/input/keyboard/adp5588-keys.c | 98 +++++++++++++--------------
- 1 file changed, 48 insertions(+), 50 deletions(-)
+No, I think we should use work to process the outbound buffer/queue,
+as the comment in include/linux/tty_ldisc.h recommends. I believe a
+single work instance in struct iforce_serio will suffice:
+iforce_serio_xmit already should be able to handle concurrent
+invocations, so we just need to schedule the work from
+iforce_serio_write_wakeup() (and it is fine if it is already scheduled)
+and let iforce_serio_xmit() do its job.
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index e716efbb2105..3a234ec37fd4 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -8,6 +8,7 @@
-  * Copyright (C) 2008-2010 Analog Devices Inc.
-  */
- 
-+#include <linux/bits.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
- #include <linux/gpio/driver.h>
-@@ -29,16 +30,16 @@
- #define CFG 0x01		/* Configuration Register1 */
- #define INT_STAT 0x02		/* Interrupt Status Register */
- #define KEY_LCK_EC_STAT 0x03	/* Key Lock and Event Counter Register */
--#define Key_EVENTA 0x04		/* Key Event Register A */
--#define Key_EVENTB 0x05		/* Key Event Register B */
--#define Key_EVENTC 0x06		/* Key Event Register C */
--#define Key_EVENTD 0x07		/* Key Event Register D */
--#define Key_EVENTE 0x08		/* Key Event Register E */
--#define Key_EVENTF 0x09		/* Key Event Register F */
--#define Key_EVENTG 0x0A		/* Key Event Register G */
--#define Key_EVENTH 0x0B		/* Key Event Register H */
--#define Key_EVENTI 0x0C		/* Key Event Register I */
--#define Key_EVENTJ 0x0D		/* Key Event Register J */
-+#define KEY_EVENTA 0x04		/* Key Event Register A */
-+#define KEY_EVENTB 0x05		/* Key Event Register B */
-+#define KEY_EVENTC 0x06		/* Key Event Register C */
-+#define KEY_EVENTD 0x07		/* Key Event Register D */
-+#define KEY_EVENTE 0x08		/* Key Event Register E */
-+#define KEY_EVENTF 0x09		/* Key Event Register F */
-+#define KEY_EVENTG 0x0A		/* Key Event Register G */
-+#define KEY_EVENTH 0x0B		/* Key Event Register H */
-+#define KEY_EVENTI 0x0C		/* Key Event Register I */
-+#define KEY_EVENTJ 0x0D		/* Key Event Register J */
- #define KP_LCK_TMR 0x0E		/* Keypad Lock1 to Lock2 Timer */
- #define UNLOCK1 0x0F		/* Unlock Key1 */
- #define UNLOCK2 0x10		/* Unlock Key2 */
-@@ -66,9 +67,9 @@
- #define GPIO_INT_LVL1 0x26	/* GPIO Edge/Level Detect */
- #define GPIO_INT_LVL2 0x27	/* GPIO Edge/Level Detect */
- #define GPIO_INT_LVL3 0x28	/* GPIO Edge/Level Detect */
--#define Debounce_DIS1 0x29	/* Debounce Disable */
--#define Debounce_DIS2 0x2A	/* Debounce Disable */
--#define Debounce_DIS3 0x2B	/* Debounce Disable */
-+#define DEBOUNCE_DIS1 0x29	/* Debounce Disable */
-+#define DEBOUNCE_DIS2 0x2A	/* Debounce Disable */
-+#define DEBOUNCE_DIS3 0x2B	/* Debounce Disable */
- #define GPIO_PULL1 0x2C		/* GPIO Pull Disable */
- #define GPIO_PULL2 0x2D		/* GPIO Pull Disable */
- #define GPIO_PULL3 0x2E		/* GPIO Pull Disable */
-@@ -91,27 +92,27 @@
- #define ADP5588_DEVICE_ID_MASK	0xF
- 
-  /* Configuration Register1 */
--#define ADP5588_AUTO_INC	(1 << 7)
--#define ADP5588_GPIEM_CFG	(1 << 6)
--#define ADP5588_OVR_FLOW_M	(1 << 5)
--#define ADP5588_INT_CFG		(1 << 4)
--#define ADP5588_OVR_FLOW_IEN	(1 << 3)
--#define ADP5588_K_LCK_IM	(1 << 2)
--#define ADP5588_GPI_IEN		(1 << 1)
--#define ADP5588_KE_IEN		(1 << 0)
-+#define ADP5588_AUTO_INC	BIT(7)
-+#define ADP5588_GPIEM_CFG	BIT(6)
-+#define ADP5588_OVR_FLOW_M	BIT(5)
-+#define ADP5588_INT_CFG		BIT(4)
-+#define ADP5588_OVR_FLOW_IEN	BIT(3)
-+#define ADP5588_K_LCK_IM	BIT(2)
-+#define ADP5588_GPI_IEN		BIT(1)
-+#define ADP5588_KE_IEN		BIT(0)
- 
- /* Interrupt Status Register */
--#define ADP5588_CMP2_INT	(1 << 5)
--#define ADP5588_CMP1_INT	(1 << 4)
--#define ADP5588_OVR_FLOW_INT	(1 << 3)
--#define ADP5588_K_LCK_INT	(1 << 2)
--#define ADP5588_GPI_INT		(1 << 1)
--#define ADP5588_KE_INT		(1 << 0)
-+#define ADP5588_CMP2_INT	BIT(5)
-+#define ADP5588_CMP1_INT	BIT(4)
-+#define ADP5588_OVR_FLOW_INT	BIT(3)
-+#define ADP5588_K_LCK_INT	BIT(2)
-+#define ADP5588_GPI_INT		BIT(1)
-+#define ADP5588_KE_INT		BIT(0)
- 
- /* Key Lock and Event Counter Register */
--#define ADP5588_K_LCK_EN	(1 << 6)
-+#define ADP5588_K_LCK_EN	BIT(6)
- #define ADP5588_LCK21		0x30
--#define ADP5588_KEC		0xF
-+#define ADP5588_KEC		GENMASK(3, 0)
- 
- #define ADP5588_MAXGPIO		18
- #define ADP5588_BANK(offs)	((offs) >> 3)
-@@ -158,10 +159,10 @@
- #define ADP5588_GPIMAPSIZE_MAX (GPI_PIN_END - GPI_PIN_BASE + 1)
- 
- /* Key Event Register xy */
--#define KEY_EV_PRESSED		(1 << 7)
--#define KEY_EV_MASK		(0x7F)
-+#define KEY_EV_PRESSED		BIT(7)
-+#define KEY_EV_MASK		GENMASK(6, 0)
- 
--#define KP_SEL(x)		(0xFFFF >> (16 - x))	/* 2^x-1 */
-+#define KP_SEL(x)		(BIT(x) - 1)	/* 2^x-1 */
- 
- #define KEYP_MAX_EVENT		10
- 
-@@ -211,7 +212,7 @@ static int adp5588_write(struct i2c_client *client, u8 reg, u8 val)
- 	return i2c_smbus_write_byte_data(client, reg, val);
- }
- 
--static int adp5588_gpio_get_value(struct gpio_chip *chip, unsigned off)
-+static int adp5588_gpio_get_value(struct gpio_chip *chip, unsigned int off)
- {
- 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
-@@ -231,7 +232,7 @@ static int adp5588_gpio_get_value(struct gpio_chip *chip, unsigned off)
- }
- 
- static void adp5588_gpio_set_value(struct gpio_chip *chip,
--				   unsigned off, int val)
-+				   unsigned int off, int val)
- {
- 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
-@@ -244,8 +245,7 @@ static void adp5588_gpio_set_value(struct gpio_chip *chip,
- 	else
- 		kpad->dat_out[bank] &= ~bit;
- 
--	adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
--			   kpad->dat_out[bank]);
-+	adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank, kpad->dat_out[bank]);
- 
- 	mutex_unlock(&kpad->gpio_lock);
- }
-@@ -284,7 +284,7 @@ static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
- 	return ret;
- }
- 
--static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned off)
-+static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned int off)
- {
- 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
-@@ -302,7 +302,7 @@ static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned off)
- }
- 
- static int adp5588_gpio_direction_output(struct gpio_chip *chip,
--					 unsigned off, int val)
-+					 unsigned int off, int val)
- {
- 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
-@@ -319,12 +319,11 @@ static int adp5588_gpio_direction_output(struct gpio_chip *chip,
- 		kpad->dat_out[bank] &= ~bit;
- 
- 	ret = adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
--				 kpad->dat_out[bank]);
-+			    kpad->dat_out[bank]);
- 	if (ret)
- 		goto out_unlock;
- 
--	ret = adp5588_write(kpad->client, GPIO_DIR1 + bank,
--				 kpad->dir[bank]);
-+	ret = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
- 
- out_unlock:
- 	mutex_unlock(&kpad->gpio_lock);
-@@ -524,7 +523,7 @@ static void adp5588_report_events(struct adp5588_kpad *kpad, int ev_cnt)
- 	int i;
- 
- 	for (i = 0; i < ev_cnt; i++) {
--		int key = adp5588_read(kpad->client, Key_EVENTA + i);
-+		int key = adp5588_read(kpad->client, KEY_EVENTA + i);
- 		int key_val = key & KEY_EV_MASK;
- 		int key_press = key & KEY_EV_PRESSED;
- 
-@@ -624,21 +623,20 @@ static int adp5588_setup(struct adp5588_kpad *kpad)
- 	}
- 
- 	for (i = 0; i < KEYP_MAX_EVENT; i++) {
--		ret = adp5588_read(client, Key_EVENTA);
-+		ret = adp5588_read(client, KEY_EVENTA);
- 		if (ret)
- 			return ret;
- 	}
- 
- 	ret = adp5588_write(client, INT_STAT,
--				ADP5588_CMP2_INT | ADP5588_CMP1_INT |
--				ADP5588_OVR_FLOW_INT | ADP5588_K_LCK_INT |
--				ADP5588_GPI_INT | ADP5588_KE_INT); /* Status is W1C */
-+			    ADP5588_CMP2_INT | ADP5588_CMP1_INT |
-+			    ADP5588_OVR_FLOW_INT | ADP5588_K_LCK_INT |
-+			    ADP5588_GPI_INT | ADP5588_KE_INT); /* Status is W1C */
- 	if (ret)
- 		return ret;
- 
- 	return adp5588_write(client, CFG, ADP5588_INT_CFG |
--					  ADP5588_OVR_FLOW_IEN |
--					  ADP5588_KE_IEN);
-+			     ADP5588_OVR_FLOW_IEN | ADP5588_KE_IEN);
- }
- 
- static int adp5588_fw_parse(struct adp5588_kpad *kpad)
-@@ -722,7 +720,7 @@ static int adp5588_probe(struct i2c_client *client,
- 	int error;
- 
- 	if (!i2c_check_functionality(client->adapter,
--					I2C_FUNC_SMBUS_BYTE_DATA)) {
-+				     I2C_FUNC_SMBUS_BYTE_DATA)) {
- 		dev_err(&client->dev, "SMBUS Byte Data not Supported\n");
- 		return -EIO;
- 	}
-@@ -746,7 +744,7 @@ static int adp5588_probe(struct i2c_client *client,
- 	if (ret < 0)
- 		return ret;
- 
--	revid = (u8) ret & ADP5588_DEVICE_ID_MASK;
-+	revid = ret & ADP5588_DEVICE_ID_MASK;
- 	if (WA_DELAYED_READOUT_REVID(revid))
- 		kpad->delay = msecs_to_jiffies(WA_DELAYED_READOUT_TIME);
- 
+We can wait for the buffer to empty (which should take care of the work
+running, but we may also do cancel_work_sync() for a good measure) in
+iforce_serio_stop_io().
+
+Thanks.
+
 -- 
-2.37.2
-
+Dmitry
