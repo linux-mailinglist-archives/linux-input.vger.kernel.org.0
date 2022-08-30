@@ -2,109 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26FB25A544B
-	for <lists+linux-input@lfdr.de>; Mon, 29 Aug 2022 21:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E6055A5CA7
+	for <lists+linux-input@lfdr.de>; Tue, 30 Aug 2022 09:14:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbiH2TIC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Aug 2022 15:08:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
+        id S230319AbiH3HOP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Aug 2022 03:14:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbiH2TIB (ORCPT
+        with ESMTP id S230441AbiH3HOO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Aug 2022 15:08:01 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEC57A776
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 12:08:00 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id 73so179657pga.1
-        for <linux-input@vger.kernel.org>; Mon, 29 Aug 2022 12:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yocom-org.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc;
-        bh=i5bKUTrb+rmLcQzkpU6se5oAMu2l3FKdPS9MD2hRt6U=;
-        b=RDDWcuxD4oVbcRzclcJ3cIjOiFkzBfoPFqyO6YmocITJZOvLBBXwnecQ2zt5T9KBvK
-         u12Q/lMA/BI6O6z/05quk4e3nBwfsbDStLt+SQT00tLIhzK2jLQqjMlY2cO04MMMF+8n
-         c35Eu4b2p1XAMo9iLwWVR02ug67GlkTzHQntJVczws3EpasGJ3qxVHWaps0fvRT1r+mq
-         K472D+bcAkNsbkmSWFqMbc+GttrC5qc8Fd4EnVSfjspVVeX+vz8RITPy3er+uhsiY5k5
-         oRFNI/jIkofCq9cTg281IXqLkcW4de67fNEk75F1ylPRoMS1xBkpD4+a2rBIkEmvxeWp
-         TTWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=i5bKUTrb+rmLcQzkpU6se5oAMu2l3FKdPS9MD2hRt6U=;
-        b=PW/QaDF4lt5aACkMldeFMJL2LnD2FL13kFriFy09eZeSKk9wrLwVqmfkBVReBQxZBK
-         qONTXFWVpbbXhaKdwfOsieZ/Nk+bA34TO2ZCjHbn9yQq9S8bnRjMg+48danN/4qdbgQe
-         3mGFugMOkHXzMVcuXwiXfYVjKByGvO3v1MNr9gQcShmD+G61Nz6NZr9uvffrO2MKMrZz
-         rZdms2INtFxrnm/00k0xtwaWDmd6QDtnbYDJ4qPhclVTaM+iBB8tu+7ikDronFagZebg
-         5eEV5FjmiuAJogMvWTic74Q6C6J3mmxLW7XinU7eHPU1nW4u9hlsS9JhG2B4xNycCAbC
-         vGRA==
-X-Gm-Message-State: ACgBeo1TBdycfdWy91qiwEpNPWLhBMG4X4ap9jQVEE5FFWnFpbWV7/FS
-        l56gqz0mmHzmZb2lOxVpMLdp0w==
-X-Google-Smtp-Source: AA6agR7VCq9o9rb31ziklMeuW2vIyE5vZINyv1AAur7Edf5GqfjCFc0T8IR6q1spIj+JCT30jBg71A==
-X-Received: by 2002:a63:395:0:b0:42b:80a2:7ad2 with SMTP id 143-20020a630395000000b0042b80a27ad2mr13042872pgd.194.1661800080287;
-        Mon, 29 Aug 2022 12:08:00 -0700 (PDT)
-Received: from ghaven-kernel ([2601:600:8f80:973::5f])
-        by smtp.gmail.com with ESMTPSA id 201-20020a6217d2000000b0052d50e14f1dsm7563069pfx.78.2022.08.29.12.07.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 12:07:59 -0700 (PDT)
-Date:   Mon, 29 Aug 2022 12:07:58 -0700
-From:   Nate Yocom <nate@yocom.org>
-To:     Bastien Nocera <hadess@hadess.net>, dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        benjamin.tissoires@redhat.com
-Subject: Re: [PATCH v5 2/4] Input: joystick: xpad: Add ABS_PROFILE axis value
- to uapi
-Message-ID: <Yw0OjoVzKV3QOYah@ghaven-kernel>
-References: <20220825222420.6833-1-nate@yocom.org>
- <20220825222420.6833-3-nate@yocom.org>
- <3e48ef8d13337ce1c3ec68baffc612fde4740b0e.camel@hadess.net>
+        Tue, 30 Aug 2022 03:14:14 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBEEC22BD
+        for <linux-input@vger.kernel.org>; Tue, 30 Aug 2022 00:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661843653; x=1693379653;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=t+JJJHDALaqbYngAXfK0S42AU2X8Eetci0rTIQCs2r0=;
+  b=j+NaHGx7FsA2jS/tUf8hcvssmESY1J5UNfBSqA+tuZXABaoa/x3WZT4K
+   sN1RbIP9wlH0kW8Z5YCbXhgx4RCdgUAUaiu/prK/qe/OzM0VBgh5oif8x
+   yiZGVZdfL2ASWp+2iPjm3QFwMU7u1Oz1Zjoo+wZ9dm34KmgM7PDfd5m/i
+   bAtgoBlUB+5H36npd+9XtzzGcP8Y+3y8q4X08G/Ko0Ckw/WnoFLwxyOwt
+   E9ORw84OK97Q1AQ/Kz5ajOrcBMcIxPiavtm9iSkPwbkwI5UaeC4Z8rdqp
+   kuyNbX1aj+yzD8vR0VW4+iBJ6wkSrpteJZ4RbOmDN9qpYdNcOPHdNooz1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="359066652"
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; 
+   d="scan'208";a="359066652"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 00:13:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; 
+   d="scan'208";a="679929991"
+Received: from lkp-server02.sh.intel.com (HELO 77b6d4e16fc5) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Aug 2022 00:13:53 -0700
+Received: from kbuild by 77b6d4e16fc5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oSvRY-00001c-1X;
+        Tue, 30 Aug 2022 07:13:52 +0000
+Date:   Tue, 30 Aug 2022 15:13:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 9c9c71168f7979f3798b61c65b4530fbfbcf19d1
+Message-ID: <630db885.xrZ+FH9HBGODDW6P%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3e48ef8d13337ce1c3ec68baffc612fde4740b0e.camel@hadess.net>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Aug 27, 2022 at 12:40:46PM +0200, Bastien Nocera wrote:
-> On Thu, 2022-08-25 at 15:24 -0700, Nate Yocom wrote:
-> > Add an ABS_PROFILE axis for input devices which need it, e.g. X-Box
-> > Adaptive Controller and X-Box Elite 2.
-> > ---
-> >  include/uapi/linux/input-event-codes.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/include/uapi/linux/input-event-codes.h
-> > b/include/uapi/linux/input-event-codes.h
-> > index dff8e7f17074..7ad931a32970 100644
-> > --- a/include/uapi/linux/input-event-codes.h
-> > +++ b/include/uapi/linux/input-event-codes.h
-> > @@ -862,6 +862,7 @@
-> >  #define ABS_TOOL_WIDTH         0x1c
-> >  
-> >  #define ABS_VOLUME             0x20
-> > +#define ABS_PROFILE            0x21
-> >  
-> >  #define ABS_MISC               0x28
-> >  
-> 
-> 
-> You probably also want to add it to the absolutes array in
-> drivers/hid/hid-debug.c.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 9c9c71168f7979f3798b61c65b4530fbfbcf19d1  Input: iforce - add support for Boeder Force Feedback Wheel
 
-doh, roger.
+elapsed time: 728m
 
-> Again, you might want to wait for confirmation from Dmitry that this is
-> the right way to do this for the profiles.
+configs tested: 71
+configs skipped: 3
 
-Makes sense.  Dmitry?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+powerpc                           allnoconfig
+arc                  randconfig-r043-20220829
+um                             i386_defconfig
+um                           x86_64_defconfig
+sh                               allmodconfig
+i386                 randconfig-a001-20220829
+x86_64               randconfig-a003-20220829
+m68k                             allmodconfig
+i386                 randconfig-a003-20220829
+mips                             allyesconfig
+arc                              allyesconfig
+i386                 randconfig-a002-20220829
+powerpc                          allmodconfig
+alpha                            allyesconfig
+i386                 randconfig-a004-20220829
+x86_64               randconfig-a004-20220829
+x86_64               randconfig-a005-20220829
+i386                 randconfig-a005-20220829
+x86_64               randconfig-a002-20220829
+i386                 randconfig-a006-20220829
+x86_64               randconfig-a006-20220829
+x86_64                          rhel-8.3-func
+m68k                             allyesconfig
+x86_64               randconfig-a001-20220829
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
+x86_64                           rhel-8.3-kvm
+i386                                defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+i386                             allyesconfig
+sh                            migor_defconfig
+sh                      rts7751r2d1_defconfig
+x86_64                           allyesconfig
+xtensa                           alldefconfig
+powerpc                         wii_defconfig
+powerpc                        cell_defconfig
+xtensa                    xip_kc705_defconfig
+arm                                 defconfig
+csky                              allnoconfig
+arc                               allnoconfig
+alpha                             allnoconfig
+riscv                             allnoconfig
+powerpc                    amigaone_defconfig
+arm                              allyesconfig
+m68k                       m5208evb_defconfig
+arm64                            allyesconfig
+xtensa                  nommu_kc705_defconfig
+powerpc                       ppc64_defconfig
+ia64                             allmodconfig
+
+clang tested configs:
+hexagon              randconfig-r041-20220829
+hexagon              randconfig-r045-20220829
+s390                 randconfig-r044-20220829
+riscv                randconfig-r042-20220829
+i386                 randconfig-a011-20220829
+i386                 randconfig-a014-20220829
+i386                 randconfig-a013-20220829
+i386                 randconfig-a012-20220829
+i386                 randconfig-a016-20220829
+i386                 randconfig-a015-20220829
+x86_64               randconfig-a011-20220829
+x86_64               randconfig-a012-20220829
+x86_64               randconfig-a013-20220829
+x86_64               randconfig-a014-20220829
+x86_64               randconfig-a016-20220829
+x86_64               randconfig-a015-20220829
+arm                        magician_defconfig
+powerpc                   lite5200b_defconfig
+arm                         orion5x_defconfig
+powerpc                     powernv_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
