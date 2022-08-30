@@ -2,59 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F485A717E
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 01:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09DC15A7185
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 01:17:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231666AbiH3XQs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Aug 2022 19:16:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37848 "EHLO
+        id S231772AbiH3XRM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Aug 2022 19:17:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231528AbiH3XQ0 (ORCPT
+        with ESMTP id S231653AbiH3XQq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Aug 2022 19:16:26 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34EE3642C2
+        Tue, 30 Aug 2022 19:16:46 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21EFC67CA2
         for <linux-input@vger.kernel.org>; Tue, 30 Aug 2022 16:16:18 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id i77so10590766ioa.7
-        for <linux-input@vger.kernel.org>; Tue, 30 Aug 2022 16:16:17 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id i77so10590781ioa.7
+        for <linux-input@vger.kernel.org>; Tue, 30 Aug 2022 16:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=9y7lXZfKic1LpjpQXIA9tlb8KUkVBW2jlGcm93skgJQ=;
-        b=NcJfK/oaE+ozKaG0LkF54DJtrz2QVlpP3O6ijlLw4aPafT/KGp1lHiHSpirPVul/pi
-         8MgftYJtdSiaGFqZ5tpZX1dfUJfdfvncN+Lgg2crIJX0tU73PGyk2jSydcAYdUF6CQg9
-         N1XCIrmJSzZV3tPTWDO3lezzc66SBBeCWJQ+o=
+        bh=1cUv8OQqQzL2mBMn36W85TxKKM2bLkDxJLwZ9X/W2YQ=;
+        b=n8CbHCFCLa3NvlMNU6GyEavHcWEz+keNd9w4QE9X/dGEtMIwWBrhzek4sWMS/9Mra5
+         7mog0q8D4QWNT3dJ2mn2GkEkOgxk+S9uRjAqmpEn14RFrL8Tlv2FVGhR1aRmq7TQssWN
+         GcYrY4tRT/1uoMpxqA0BmqO9JxkI5fCH44cGA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=9y7lXZfKic1LpjpQXIA9tlb8KUkVBW2jlGcm93skgJQ=;
-        b=ALglefR1D3CWXqZfh5yPP9T62sZ2sohmD6p7YmzQXudamgxZIxhsCXkXtee0JcUqCk
-         e8DPt2iy/bbOWSJpvb7OPNN8mtrsHCaeAfAmGwrTAlQhnC6ivvuVDucf2OhPpOu0nlz9
-         1LgpAs7hwSkAuy5j4frk6DNquTraC1zId1urkG0HfV9O5xEK0joKBi+ARHfLJp2+hg9F
-         RSWAK8Gn3/9WZZchmYhNwqFbg7VbKUGSGHa3IW9+EaO2Bfu8iqKi1s3eHTL1ORNCMvT6
-         nRC9Yq9h9HmOpMIS93xnCH40EM042KxY1qJL50Gw/4r6LXVrYvmgnlliNH1I87IpzcZT
-         lyQQ==
-X-Gm-Message-State: ACgBeo10iaRaiaPGGX5Os2mbqV8WDC7im/Iy9UaLY+M9ol4MYtFIKhZA
-        jKGRQjXmewoK+36p+A5fyqs/lA==
-X-Google-Smtp-Source: AA6agR5O6/8tXAxW3fbQdsvlk23iJZe+hw4eqjCS74ugbqYtFuBc+Z/YJhAGmZm8FSUp1ousJAgNLg==
-X-Received: by 2002:a05:6638:1456:b0:346:856f:f3c4 with SMTP id l22-20020a056638145600b00346856ff3c4mr13545825jad.179.1661901377151;
+        bh=1cUv8OQqQzL2mBMn36W85TxKKM2bLkDxJLwZ9X/W2YQ=;
+        b=kmzc0oYhvCvOqv1OfE42MDHv7VLIcZULj3jrH1qFMhlmNEFedJTmwUrbl0dxnCwyFp
+         8ce0FpagCXiGIx5z+JUbVfterYhH+skw9pzYAm75ERSokGd/CHx19M++M8+WZ3+rF2pJ
+         lUQMRre80DoR0xGfV136Mqg6b2QBfinKRyUQl5RI6NxH6lYx7bG8JZXHcpdtkSjhl8IT
+         p6vfp1rXnwpyINo3Ts4kDntI7Q+dBLYAtOEIinRvTeiipcD11NkxvwsW6DwqFRT5bHRB
+         L08/qLJiLZUSvUmPKfCMqY/2VmeSR3TiTN2t7MjUU/udhfoU90y/UymT6E7+xhw2wGUz
+         wiqA==
+X-Gm-Message-State: ACgBeo1Jj4D3DqcyHrhfU9oTCrlsVHVrgNg5/U91OQQXdd+m+o9z6U5b
+        QQg8aeCHucMAroIdWuCJ+GXODQ==
+X-Google-Smtp-Source: AA6agR7PjXZLt8Hb1gIOgXE8wv+NOkD4UEFuOUmbIEpKHV8192AELOhphNFTR6UEXBQm62sSsoK5uw==
+X-Received: by 2002:a02:860d:0:b0:345:b478:a611 with SMTP id e13-20020a02860d000000b00345b478a611mr13376735jai.95.1661901377952;
         Tue, 30 Aug 2022 16:16:17 -0700 (PDT)
 Received: from rrangel920.bld.corp.google.com (h24-56-189-219.arvdco.broadband.dynamic.tds.net. [24.56.189.219])
-        by smtp.gmail.com with ESMTPSA id z30-20020a056602081e00b0068b1858c81asm6165821iow.13.2022.08.30.16.16.16
+        by smtp.gmail.com with ESMTPSA id z30-20020a056602081e00b0068b1858c81asm6165821iow.13.2022.08.30.16.16.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 16:16:16 -0700 (PDT)
+        Tue, 30 Aug 2022 16:16:17 -0700 (PDT)
 From:   Raul E Rangel <rrangel@chromium.org>
 To:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org
 Cc:     hdegoede@redhat.com, mario.limonciello@amd.com, timvp@google.com,
         rafael@kernel.org, Raul E Rangel <rrangel@chromium.org>,
+        Alistair Francis <alistair@alistair23.me>,
+        Angela Czubak <acz@semihalf.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "jingle.wu" <jingle.wu@emc.com.tw>, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/8] Input: elan_i2c - Don't set wake_irq when using ACPI
-Date:   Tue, 30 Aug 2022 17:15:39 -0600
-Message-Id: <20220830171332.6.I7309b8f322082437b93581c6e2953886eeb998d7@changeid>
+        Jiri Kosina <jikos@kernel.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 7/8] HID: i2c-hid: Don't set wake_irq when using ACPI
+Date:   Tue, 30 Aug 2022 17:15:40 -0600
+Message-Id: <20220830171332.7.Id22d056440953134d8e8fe2c2aff79c79bc78424@changeid>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
 In-Reply-To: <20220830231541.1135813-1-rrangel@chromium.org>
 References: <20220830231541.1135813-1-rrangel@chromium.org>
@@ -79,25 +84,25 @@ config.
 Signed-off-by: Raul E Rangel <rrangel@chromium.org>
 ---
 
- drivers/input/mouse/elan_i2c_core.c | 4 ++--
+ drivers/hid/i2c-hid/i2c-hid-core.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-index 7d997d2b56436b..d434c8ff8c4ca2 100644
---- a/drivers/input/mouse/elan_i2c_core.c
-+++ b/drivers/input/mouse/elan_i2c_core.c
-@@ -1333,10 +1333,10 @@ static int elan_probe(struct i2c_client *client,
- 	}
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 0b7a1a8b3e9a33..630e8dcda1100d 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -1037,10 +1037,10 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 		goto err_powered;
  
  	/*
 -	 * Systems using device tree should set up wakeup via DTS,
 +	 * Systems using device tree should set up wakeup via DTS or ACPI,
  	 * the rest will configure device as wakeup source by default.
  	 */
--	if (!dev->of_node) {
-+	if (!dev->of_node && !has_acpi_companion(dev)) {
- 		device_init_wakeup(dev, true);
- 		dev_pm_set_wake_irq(dev, client->irq);
+-	if (!client->dev.of_node) {
++	if (!client->dev.of_node && !has_acpi_companion(&client->dev)) {
+ 		device_init_wakeup(&client->dev, true);
+ 		dev_pm_set_wake_irq(&client->dev, client->irq);
  	}
 -- 
 2.37.2.672.g94769d06f0-goog
