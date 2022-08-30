@@ -2,22 +2,22 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C04925A649E
+	by mail.lfdr.de (Postfix) with ESMTP id 0E2905A649C
 	for <lists+linux-input@lfdr.de>; Tue, 30 Aug 2022 15:26:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229975AbiH3NZ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Aug 2022 09:25:56 -0400
+        id S230088AbiH3NZ7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Aug 2022 09:25:59 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbiH3NZy (ORCPT
+        with ESMTP id S230026AbiH3NZ4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Aug 2022 09:25:54 -0400
+        Tue, 30 Aug 2022 09:25:56 -0400
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F4265EDE2;
-        Tue, 30 Aug 2022 06:25:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12DAB6B175;
+        Tue, 30 Aug 2022 06:25:54 -0700 (PDT)
 Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id E203E2000C;
-        Tue, 30 Aug 2022 13:25:49 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 0251B2000E;
+        Tue, 30 Aug 2022 13:25:51 +0000 (UTC)
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-input@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
@@ -25,10 +25,12 @@ Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
         "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
         =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
         Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: [v4 1/5] HID: core: Export hid_match_id()
-Date:   Tue, 30 Aug 2022 15:25:45 +0200
-Message-Id: <20220830132549.7240-1-hadess@hadess.net>
+Subject: [v4 2/5] HID: logitech-hidpp: Enable HID++ for all the Logitech Bluetooth devices
+Date:   Tue, 30 Aug 2022 15:25:46 +0200
+Message-Id: <20220830132549.7240-2-hadess@hadess.net>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220830132549.7240-1-hadess@hadess.net>
+References: <20220830132549.7240-1-hadess@hadess.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
@@ -40,26 +42,69 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Export hid_match_id() so it can be used in device-specific drivers to
-implement their own matching with open-coding a match function.
+Probe for HID++ support over Bluetooth for all the Logitech Bluetooth
+devices. As Logitech doesn't have a list of Bluetooth devices that
+support HID++ over Bluetooth, probe every device. The HID++ driver
+will fall back to plain HID if the device does not support HID++,
+or to a another device-specific driver if it is part of the
+unhandled_hidpp_devices array, used in the match function.
+
+Note that this change might cause upower to export 2 batteries for
+certain Bluetooth LE devices which export their battery information
+through the Bluetooth BATT profile. This particular bug is tracked at:
+https://gitlab.freedesktop.org/upower/upower/-/issues/166
+
+Tested with a Logitech Signature M650 mouse, over Bluetooth
 
 Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
- drivers/hid/hid-core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-logitech-hidpp.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index b7f5566e338d..72f8d8835b34 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2088,6 +2088,7 @@ const struct hid_device_id *hid_match_id(const struct hid_device *hdev,
- 
- 	return NULL;
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 68f9e9d207f4..641c897bf714 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4219,6 +4219,21 @@ static void hidpp_remove(struct hid_device *hdev)
+ 	mutex_destroy(&hidpp->send_mutex);
  }
-+EXPORT_SYMBOL_GPL(hid_match_id);
  
- static const struct hid_device_id hid_hiddev_list[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MGE, USB_DEVICE_ID_MGE_UPS) },
++static const struct hid_device_id unhandled_hidpp_devices[] = {
++	/* Logitech Harmony Adapter for PS3, handled in hid-sony */
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_HARMONY_PS3) },
++	/* Handled in hid-generic */
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD) },
++	{}
++};
++
++static bool hidpp_match(struct hid_device *hdev,
++			bool ignore_special_driver)
++{
++	/* Refuse to handle devices handled by other HID drivers */
++	return !hid_match_id(hdev, unhandled_hidpp_devices);
++}
++
+ #define LDJ_DEVICE(product) \
+ 	HID_DEVICE(BUS_USB, HID_GROUP_LOGITECH_DJ_DEVICE, \
+ 		   USB_VENDOR_ID_LOGITECH, (product))
+@@ -4347,6 +4362,9 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	{ /* MX Master 3 mouse over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023),
+ 	  .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
++
++	{ /* And try to enable HID++ for all the Logitech Bluetooth devices */
++	  HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_ANY, USB_VENDOR_ID_LOGITECH, HID_ANY_ID) },
+ 	{}
+ };
+ 
+@@ -4360,6 +4378,7 @@ static const struct hid_usage_id hidpp_usages[] = {
+ static struct hid_driver hidpp_driver = {
+ 	.name = "logitech-hidpp-device",
+ 	.id_table = hidpp_devices,
++	.match = hidpp_match,
+ 	.report_fixup = hidpp_report_fixup,
+ 	.probe = hidpp_probe,
+ 	.remove = hidpp_remove,
 -- 
 2.37.2
 
