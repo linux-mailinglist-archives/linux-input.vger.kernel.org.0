@@ -2,175 +2,571 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 683985A85EA
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 20:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F39C5A8642
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 21:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232967AbiHaSnb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Aug 2022 14:43:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38716 "EHLO
+        id S233169AbiHaTAP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Aug 2022 15:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233099AbiHaSnF (ORCPT
+        with ESMTP id S233155AbiHaTAE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Aug 2022 14:43:05 -0400
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD25260C6;
-        Wed, 31 Aug 2022 11:42:48 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 193so5453713ybc.10;
-        Wed, 31 Aug 2022 11:42:48 -0700 (PDT)
+        Wed, 31 Aug 2022 15:00:04 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7906DEE10
+        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 11:59:57 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id t5so19589591edc.11
+        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 11:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=oE09gP9dIs9vPLmFjPr/tr4lGLgbitaeb1H1jgVHrCc=;
+        b=A5gdxoGrJ+YWDF5rhdgvNZcoxq3t5hn0FNtAAE4V7GcF0VuGyen5w2vY5Zh2iyg5Ki
+         9Pq4RuwrbDBHvMEhBg/43tM5Hh5Mw41r05hJt6sn2agLaLhCia6F3Sb9kspnM66XKLqO
+         wKC9VMaVKFPdbo2uaVqR5UAOV//go53qN8CnTTcFAxI6B0zxf7uVmsxFMjz2fX/ZOcMP
+         iqu3Ljq1T99yVLapDfXaNz+OsiLkuC20yrek33XEKLc+R+kEIitsN70XKznRbkWGdJIJ
+         Cds/s+Eu3hF+UuZEvEALrzYBpUCgWs51xufHW07awqgoXqt1fg5KLBSEHO9l1jMaHEop
+         8hHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=xzoGBbwJ3ZwrByKi856TIQu0OrENwqVUhnhirrGF5H4=;
-        b=LfVse99iLmoMvSxqMbl686kNuMq/rDAS4UUXmVTpzLNJAYy/J2GDCWAbnPlmPiXp0t
-         lbgeLK9j2DfpHqa4nSBzy5guSEiYoJEZAf2bSAIB1HlPrVeOeHYo2N2Y+wbVcy85+n4s
-         wJ4MwfYHziTGAE8MJUTasRZfQ06LXtZ3yOXSe78l3qgFXym7G0JhHiTuUaamwmF1I7O+
-         /dfHFN4kkTP/VXUXs46WGMli3WPxGp9HTGfa8Dz729bOpIIQBSPgpyCWdL5rEF7q6g+O
-         SbLts6MNZwa+741fvM5wV0ZdL35BIWnVwFUkoS2Kr07pfUQ5m+66ACbsBJQMOxbJBL76
-         x5hA==
-X-Gm-Message-State: ACgBeo1NtiC3ZoxlxBLLdhCOuC8arwEDgVLcHAqXD/7L97oqV9yh9E3u
-        0p+jbKE/y5S7OF+zVNGfkMESkJCnY74DDjTYPyY=
-X-Google-Smtp-Source: AA6agR5JV1SYkvRX2LsVp9PLMmZQmg2hGokpEhZ7ZDChQbEa3WUq26eyLEcZjnDVTue2K3C+snPMP2110a5dT5nsZjY=
-X-Received: by 2002:a25:2785:0:b0:69b:b1d2:fd05 with SMTP id
- n127-20020a252785000000b0069bb1d2fd05mr12156875ybn.81.1661971367951; Wed, 31
- Aug 2022 11:42:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220830231541.1135813-1-rrangel@chromium.org>
- <20220830171332.1.Id022caf53d01112188308520915798f08a33cd3e@changeid>
- <CAJZ5v0h10wrurjYG50dA+pCfRtNDqN=c8odQ0p6HJRnOyJh7KA@mail.gmail.com> <CAHQZ30BTYEYEAGjwsbuiYuYGhpFtQy_AEP66v3trdTzY_DRUOQ@mail.gmail.com>
-In-Reply-To: <CAHQZ30BTYEYEAGjwsbuiYuYGhpFtQy_AEP66v3trdTzY_DRUOQ@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 31 Aug 2022 20:42:36 +0200
-Message-ID: <CAJZ5v0gS6U6v-CEPNhgoj=f5E3q1T_Z8vOe2qokyHw4qeVhTsQ@mail.gmail.com>
-Subject: Re: [PATCH 1/8] Input: elan_i2c - Use PM subsystem to manage wake irq
-To:     Raul Rangel <rrangel@chromium.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Tim Van Patten <timvp@google.com>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=oE09gP9dIs9vPLmFjPr/tr4lGLgbitaeb1H1jgVHrCc=;
+        b=yubjVzjELvVzLUfMlwPmXiORcWL/+3G+4cZuQI+nELeD70cZ4owONXieZeUiTFke2V
+         r0XeFJf47VOmeRHOoEWwDq40mKRA/GHtLN5QgwcEBT1aiVe13gvjOI5xGYS7zVbx2ieT
+         fb1ygvc0qbgEdmcA527TqX+STmMtbIucsFVF+Ij3qp+ogtoDdMv2RwB/vPe2t/vGTFZd
+         99d1L51TBGLnU9EZxwBDTOKF1nk399Y5Nt7F8iQiCbKY6Itja/YAQelPHYFa05rgWSJX
+         vMkATJ0doO6hUi9lNRl80lOpmteWG2wWmrGwVPAGmz8pVjLrERSk5mLMjXmotl09eEv8
+         9HSQ==
+X-Gm-Message-State: ACgBeo2IoXPbsw5Z4+CpksdbMs6JHQCs5pKFcCy1EBUtS/RwGboTMlGN
+        yP2HO/kMdnzdlSkArvWA7l75hg==
+X-Google-Smtp-Source: AA6agR5FeBy0+hrD4qhiUzVFgkG8EPVvxFpa8s/vdBg9ZN3GWITBzrj95vh4ck8GGySZQSs4PAs/Xg==
+X-Received: by 2002:a05:6402:2945:b0:446:1144:f1aa with SMTP id ed5-20020a056402294500b004461144f1aamr25202680edb.79.1661972395628;
+        Wed, 31 Aug 2022 11:59:55 -0700 (PDT)
+Received: from blmsp (55d427d2.access.ecotel.net. [85.212.39.210])
+        by smtp.gmail.com with ESMTPSA id p1-20020a05640210c100b0043d1eff72b3sm6671edu.74.2022.08.31.11.59.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Aug 2022 11:59:55 -0700 (PDT)
+Date:   Wed, 31 Aug 2022 20:59:54 +0200
+From:   Markus Schneider-Pargmann <msp@baylibre.com>
+To:     Andrew Davis <afd@ti.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Lee Jones <lee@kernel.org>, Tony Lindgren <tony@atomide.com>,
+        nm@ti.com, kristo@kernel.org, Jerome Neanne <jneanne@baylibre.com>,
+        khilman@baylibre.com, narmstrong@baylibre.com, j-keerthy@ti.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] mfd: drivers: Add TI TPS65219 PMIC support
+Message-ID: <20220831185954.rponn24lgvowr2jg@blmsp>
+References: <20220825150224.826258-1-msp@baylibre.com>
+ <20220825150224.826258-5-msp@baylibre.com>
+ <3c802196-bd18-7caa-0a26-d3e935325e50@ti.com>
+ <20220829073940.g7weogfgh3zr3u24@blmsp>
+ <f042acf5-aab3-5356-7656-2d55edfb29eb@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f042acf5-aab3-5356-7656-2d55edfb29eb@ti.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 8:14 PM Raul Rangel <rrangel@chromium.org> wrote:
->
-> On Wed, Aug 31, 2022 at 12:01 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >
-> > On Wed, Aug 31, 2022 at 1:16 AM Raul E Rangel <rrangel@chromium.org> wrote:
-> > >
-> > > The Elan I2C touchpad driver is currently manually managing the wake
-> > > IRQ. This change removes the explicit enable_irq_wake/disable_irq_wake
-> > > and instead relies on the PM subsystem. This is done by calling
-> > > dev_pm_set_wake_irq.
-> > >
-> > > i2c_device_probe already calls dev_pm_set_wake_irq when using device
-> > > tree, so it's only required when using ACPI. The net result is that this
-> > > change should be a no-op. i2c_device_remove also already calls
-> > > dev_pm_clear_wake_irq, so we don't need to do that in this driver.
-> > >
-> > > I tested this on an ACPI system where the touchpad doesn't have _PRW
-> > > defined. I verified I can still wake the system and that the wake source
-> > > was the touchpad IRQ GPIO.
-> > >
-> > > Signed-off-by: Raul E Rangel <rrangel@chromium.org>
-> >
->
->
-> > I like this a lot, but the assumption in the wakeirq code is that the
-> > IRQ in question will be dedicated for signaling wakeup.  Does it hold
-> > here?
->
-> The wakeirq code defines two methods: `dev_pm_set_wake_irq` and
-> `dev_pm_set_dedicated_wake_irq`.
-> The latter is used when you have a dedicated wakeup signal. In this
-> driver it's currently assumed
-> that the IRQ and the wake IRQ are the same, so I used `dev_pm_set_wake_irq`.
->
-> This change in theory also fixes a bug where you define a dedicated
-> wake irq in DT, but
-> then the driver enables the `client->irq` as a wake source. In
-> practice this doesn't happen
-> since the elan touchpads only have a single IRQ line.
+Hi Andrew,
 
-OK, thanks!
+On Mon, Aug 29, 2022 at 09:49:15AM -0500, Andrew Davis wrote:
+> On 8/29/22 2:39 AM, Markus Schneider-Pargmann wrote:
+> > Hi Andrew,
+> > 
+> > On Thu, Aug 25, 2022 at 12:14:41PM -0500, Andrew Davis wrote:
+> > > On 8/25/22 10:02 AM, Markus Schneider-Pargmann wrote:
+> > 
+> > ...
+> > 
+> > > > diff --git a/drivers/mfd/tps65219.c b/drivers/mfd/tps65219.c
+> > > > new file mode 100644
+> > > > index 000000000000..f3883911de37
+> > > > --- /dev/null
+> > > > +++ b/drivers/mfd/tps65219.c
+> > 
+> > ...
+> > 
+> > > > +
+> > > > +	sys_pwr = of_property_read_bool(tps->dev->of_node, "system-power-controller");
+> > > > +
+> > > > +	if (!sys_pwr)
+> > > > +		return 0;
+> > > 
+> > > 
+> > > I'm not liking these non-error short circut returns. Will lead to things getting
+> > > missed should they be added below this point. Prefer:
+> > > 
+> > > 
+> > > 	sys_pwr = of_property_read_bool(tps->dev->of_node, "system-power-controller");
+> > > 	if (sys_pwr) {
+> > > 		if (pm_power_off) {
+> > > 			dev_warn(tps->dev, "system-power-controller requested but pm_power_off function already registered\n");
+> > > 		} else {
+> > > 			tps65219_i2c_client = client;
+> > > 			pm_power_off = &tps65219_pm_power_off;
+> > > 		}
+> > > 	}
+> > > 
+> > > 	tps65219_i2c_client = client;
+> > > 
+> > > 	return 0;
+> > > }
+> > 
+> > Good point, I actually just changed it because of a review suggesting
+> > this. I will change it back.
+> > 
+> > > 
+> > > Or even better, just drop all this "system-power-controller" stuff until we figure
+> > > out how we will handle it. The systems today using this PMIC will have PSCI
+> > > being the pm_power_off controller, so we always go down the error/warn path here.
+> > 
+> > I think I would prefer to keep the code. Once this is figured out all
+> > the drivers using pm_power_off will need to be updated anyways so I
+> > guess it's easy for this to be adjusted at that point IMHO.
+> > 
+> 
+> 
+> It is already well figured out, ARM64 processors should use PSCI to handle powerdown.
+> This code might be useful for other architectures sure, but this PMIC was designed
+> specifically for powering ARM64 SoCs.
+> 
+> 
+> > I could make it an info message and rephrase it a bit so it's clear that
+> > this is kind of expected to happen. What do you think?
+> > 
+> 
+> 
+> That's fine with me if you really want to keep this code, but I'd make
+> the message even quieter, maybe even a debug message, since we will
+> always go down this message path should we set "system-power-controller"
+> in DT unless we do something hacky in our evil vendor tree.. For
+> upstream I don't see the point.
 
-Please feel free to add
+Thank you for explaining it to me. I will drop system-power-controller
+for the next version.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Best,
+Markus
 
-to the patch.
-
-> >
-> > > ---
-> > >
-> > >  drivers/input/mouse/elan_i2c_core.c | 12 ++++--------
-> > >  1 file changed, 4 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-> > > index e1758d5ffe4218..7d997d2b56436b 100644
-> > > --- a/drivers/input/mouse/elan_i2c_core.c
-> > > +++ b/drivers/input/mouse/elan_i2c_core.c
-> > > @@ -33,6 +33,7 @@
-> > >  #include <linux/jiffies.h>
-> > >  #include <linux/completion.h>
-> > >  #include <linux/of.h>
-> > > +#include <linux/pm_wakeirq.h>
-> > >  #include <linux/property.h>
-> > >  #include <linux/regulator/consumer.h>
-> > >  #include <asm/unaligned.h>
-> > > @@ -86,8 +87,6 @@ struct elan_tp_data {
-> > >         u16                     fw_page_size;
-> > >         u32                     fw_signature_address;
-> > >
-> > > -       bool                    irq_wake;
-> > > -
-> > >         u8                      min_baseline;
-> > >         u8                      max_baseline;
-> > >         bool                    baseline_ready;
-> > > @@ -1337,8 +1336,10 @@ static int elan_probe(struct i2c_client *client,
-> > >          * Systems using device tree should set up wakeup via DTS,
-> > >          * the rest will configure device as wakeup source by default.
-> > >          */
-> > > -       if (!dev->of_node)
-> > > +       if (!dev->of_node) {
-> > >                 device_init_wakeup(dev, true);
-> > > +               dev_pm_set_wake_irq(dev, client->irq);
-> > > +       }
-> > >
-> > >         return 0;
-> > >  }
-> > > @@ -1362,8 +1363,6 @@ static int __maybe_unused elan_suspend(struct device *dev)
-> > >
-> > >         if (device_may_wakeup(dev)) {
-> > >                 ret = elan_sleep(data);
-> > > -               /* Enable wake from IRQ */
-> > > -               data->irq_wake = (enable_irq_wake(client->irq) == 0);
-> > >         } else {
-> > >                 ret = elan_set_power(data, false);
-> > >                 if (ret)
-> > > @@ -1394,9 +1393,6 @@ static int __maybe_unused elan_resume(struct device *dev)
-> > >                         dev_err(dev, "error %d enabling regulator\n", error);
-> > >                         goto err;
-> > >                 }
-> > > -       } else if (data->irq_wake) {
-> > > -               disable_irq_wake(client->irq);
-> > > -               data->irq_wake = false;
-> > >         }
-> > >
-> > >         error = elan_set_power(data, true);
-> > > --
-> > > 2.37.2.672.g94769d06f0-goog
-> > >
+> 
+> Andrew
+> 
+> 
+> > Thanks,
+> > Markus
+> > 
+> > > 
+> > > Andrew
+> > > 
+> > > 
+> > > > +
+> > > > +	if (pm_power_off) {
+> > > > +		dev_err(tps->dev, "system-power-controller requested but pm_power_off function already registered\n");
+> > > > +		return 0;
+> > > > +	}
+> > > > +
+> > > > +	tps65219_i2c_client = client;
+> > > > +	pm_power_off = &tps65219_pm_power_off;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int tps65219_remove(struct i2c_client *client)
+> > > > +{
+> > > > +	struct tps65219 *tps = i2c_get_clientdata(client);
+> > > > +
+> > > > +	if (tps65219_i2c_client == client) {
+> > > > +		pm_power_off = NULL;
+> > > > +		tps65219_i2c_client = NULL;
+> > > > +	}
+> > > > +
+> > > > +	return unregister_restart_handler(&tps->nb);
+> > > > +}
+> > > > +
+> > > > +static const struct of_device_id of_tps65219_match_table[] = {
+> > > > +	{ .compatible = "ti,tps65219", },
+> > > > +	{}
+> > > > +};
+> > > > +MODULE_DEVICE_TABLE(of, of_tps65219_match_table);
+> > > > +
+> > > > +static struct i2c_driver tps65219_driver = {
+> > > > +	.driver		= {
+> > > > +		.name	= "tps65219",
+> > > > +		.of_match_table = of_tps65219_match_table,
+> > > > +	},
+> > > > +	.probe_new	= tps65219_probe,
+> > > > +	.remove		= tps65219_remove,
+> > > > +};
+> > > > +module_i2c_driver(tps65219_driver);
+> > > > +
+> > > > +MODULE_AUTHOR("Jerome Neanne <jneanne@baylibre.com>");
+> > > > +MODULE_DESCRIPTION("TPS65219 power management IC driver");
+> > > > +MODULE_LICENSE("GPL");
+> > > > diff --git a/include/linux/mfd/tps65219.h b/include/linux/mfd/tps65219.h
+> > > > new file mode 100644
+> > > > index 000000000000..2c1cf92e92ac
+> > > > --- /dev/null
+> > > > +++ b/include/linux/mfd/tps65219.h
+> > > > @@ -0,0 +1,345 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +/*
+> > > > + * Functions to access TPS65219 power management IC.
+> > > > + *
+> > > > + * Copyright (C) 2022 BayLibre Incorporated - https://www.baylibre.com/
+> > > > + */
+> > > > +
+> > > > +#ifndef MFD_TPS65219_H
+> > > > +#define MFD_TPS65219_H
+> > > > +
+> > > > +#include <linux/bitops.h>
+> > > > +#include <linux/notifier.h>
+> > > > +#include <linux/regulator/driver.h>
+> > > > +
+> > > > +struct regmap;
+> > > > +struct regmap_irq_chip_data;
+> > > > +
+> > > > +#define TPS65219_1V35					1350000
+> > > > +#define TPS65219_1V8					1800000
+> > > > +
+> > > > +/* TPS chip id list */
+> > > > +#define TPS65219					0xF0
+> > > > +
+> > > > +/* I2C ID for TPS65219 part */
+> > > > +#define TPS65219_I2C_ID					0x24
+> > > > +
+> > > > +/* All register addresses */
+> > > > +#define TPS65219_REG_TI_DEV_ID				0x00
+> > > > +#define TPS65219_REG_NVM_ID				0x01
+> > > > +#define TPS65219_REG_ENABLE_CTRL			0x02
+> > > > +#define TPS65219_REG_BUCKS_CONFIG			0x03
+> > > > +#define TPS65219_REG_LDO4_VOUT				0x04
+> > > > +#define TPS65219_REG_LDO3_VOUT				0x05
+> > > > +#define TPS65219_REG_LDO2_VOUT				0x06
+> > > > +#define TPS65219_REG_LDO1_VOUT				0x07
+> > > > +#define TPS65219_REG_BUCK3_VOUT				0x8
+> > > > +#define TPS65219_REG_BUCK2_VOUT				0x9
+> > > > +#define TPS65219_REG_BUCK1_VOUT				0xA
+> > > > +#define TPS65219_REG_LDO4_SEQUENCE_SLOT			0xB
+> > > > +#define TPS65219_REG_LDO3_SEQUENCE_SLOT			0xC
+> > > > +#define TPS65219_REG_LDO2_SEQUENCE_SLOT			0xD
+> > > > +#define TPS65219_REG_LDO1_SEQUENCE_SLOT			0xE
+> > > > +#define TPS65219_REG_BUCK3_SEQUENCE_SLOT		0xF
+> > > > +#define TPS65219_REG_BUCK2_SEQUENCE_SLOT		0x10
+> > > > +#define TPS65219_REG_BUCK1_SEQUENCE_SLOT		0x11
+> > > > +#define TPS65219_REG_nRST_SEQUENCE_SLOT			0x12
+> > > > +#define TPS65219_REG_GPIO_SEQUENCE_SLOT			0x13
+> > > > +#define TPS65219_REG_GPO2_SEQUENCE_SLOT			0x14
+> > > > +#define TPS65219_REG_GPO1_SEQUENCE_SLOT			0x15
+> > > > +#define TPS65219_REG_POWER_UP_SLOT_DURATION_1		0x16
+> > > > +#define TPS65219_REG_POWER_UP_SLOT_DURATION_2		0x17
+> > > > +#define TPS65219_REG_POWER_UP_SLOT_DURATION_3		0x18
+> > > > +#define TPS65219_REG_POWER_UP_SLOT_DURATION_4		0x19
+> > > > +#define TPS65219_REG_POWER_DOWN_SLOT_DURATION_1		0x1A
+> > > > +#define TPS65219_REG_POWER_DOWN_SLOT_DURATION_2		0x1B
+> > > > +#define TPS65219_REG_POWER_DOWN_SLOT_DURATION_3		0x1C
+> > > > +#define TPS65219_REG_POWER_DOWN_SLOT_DURATION_4		0x1D
+> > > > +#define TPS65219_REG_GENERAL_CONFIG			0x1E
+> > > > +#define TPS65219_REG_MFP_1_CONFIG			0x1F
+> > > > +#define TPS65219_REG_MFP_2_CONFIG			0x20
+> > > > +#define TPS65219_REG_STBY_1_CONFIG			0x21
+> > > > +#define TPS65219_REG_STBY_2_CONFIG			0x22
+> > > > +#define TPS65219_REG_OC_DEGL_CONFIG			0x23
+> > > > +/* 'sub irq' MASK registers */
+> > > > +#define TPS65219_REG_INT_MASK_UV			0x24
+> > > > +#define TPS65219_REG_MASK_CONFIG			0x25
+> > > > +
+> > > > +#define TPS65219_REG_I2C_ADDRESS_REG			0x26
+> > > > +#define TPS65219_REG_USER_GENERAL_NVM_STORAGE		0x27
+> > > > +#define TPS65219_REG_MANUFACTURING_VER			0x28
+> > > > +#define TPS65219_REG_MFP_CTRL				0x29
+> > > > +#define TPS65219_REG_DISCHARGE_CONFIG			0x2A
+> > > > +/* main irq registers */
+> > > > +#define TPS65219_REG_INT_SOURCE				0x2B
+> > > > +/* 'sub irq' registers */
+> > > > +#define TPS65219_REG_INT_LDO_3_4			0x2C
+> > > > +#define TPS65219_REG_INT_LDO_1_2			0x2D
+> > > > +#define TPS65219_REG_INT_BUCK_3				0x2E
+> > > > +#define TPS65219_REG_INT_BUCK_1_2			0x2F
+> > > > +#define TPS65219_REG_INT_SYSTEM				0x30
+> > > > +#define TPS65219_REG_INT_RV				0x31
+> > > > +#define TPS65219_REG_INT_TIMEOUT_RV_SD			0x32
+> > > > +#define TPS65219_REG_INT_PB				0x33
+> > > > +
+> > > > +#define TPS65219_REG_INT_LDO_3_4_POS			0
+> > > > +#define TPS65219_REG_INT_LDO_1_2_POS			1
+> > > > +#define TPS65219_REG_INT_BUCK_3_POS			2
+> > > > +#define TPS65219_REG_INT_BUCK_1_2_POS			3
+> > > > +#define TPS65219_REG_INT_SYS_POS			4
+> > > > +#define TPS65219_REG_INT_RV_POS				5
+> > > > +#define TPS65219_REG_INT_TO_RV_POS			6
+> > > > +#define TPS65219_REG_INT_PB_POS				7
+> > > > +
+> > > > +#define TPS65219_REG_USER_NVM_CMD			0x34
+> > > > +#define TPS65219_REG_POWER_UP_STATUS			0x35
+> > > > +#define TPS65219_REG_SPARE_2				0x36
+> > > > +#define TPS65219_REG_SPARE_3				0x37
+> > > > +#define TPS65219_REG_FACTORY_CONFIG_2			0x41
+> > > > +
+> > > > +/* Register field definitions */
+> > > > +#define TPS65219_DEVID_REV_MASK				GENMASK(7, 0)
+> > > > +#define TPS65219_BUCKS_LDOS_VOUT_VSET_MASK		GENMASK(5, 0)
+> > > > +#define TPS65219_BUCKS_UV_THR_SEL_MASK			BIT(6)
+> > > > +#define TPS65219_BUCKS_BW_SEL_MASK			BIT(7)
+> > > > +#define LDO_BYP_SHIFT					6
+> > > > +#define TPS65219_LDOS_BYP_CONFIG_MASK			BIT(LDO_BYP_SHIFT)
+> > > > +#define TPS65219_LDOS_LSW_CONFIG_MASK			BIT(7)
+> > > > +/* Regulators enable control */
+> > > > +#define TPS65219_ENABLE_BUCK1_EN_MASK			BIT(0)
+> > > > +#define TPS65219_ENABLE_BUCK2_EN_MASK			BIT(1)
+> > > > +#define TPS65219_ENABLE_BUCK3_EN_MASK			BIT(2)
+> > > > +#define TPS65219_ENABLE_LDO1_EN_MASK			BIT(3)
+> > > > +#define TPS65219_ENABLE_LDO2_EN_MASK			BIT(4)
+> > > > +#define TPS65219_ENABLE_LDO3_EN_MASK			BIT(5)
+> > > > +#define TPS65219_ENABLE_LDO4_EN_MASK			BIT(6)
+> > > > +/* power ON-OFF sequence slot */
+> > > > +#define TPS65219_BUCKS_LDOS_SEQUENCE_OFF_SLOT_MASK	GENMASK(3, 0)
+> > > > +#define TPS65219_BUCKS_LDOS_SEQUENCE_ON_SLOT_MASK	GENMASK(7, 4)
+> > > > +/* TODO: Not needed, same mapping as TPS65219_ENABLE_REGNAME_EN, factorize */
+> > > > +#define TPS65219_STBY1_BUCK1_STBY_EN_MASK		BIT(0)
+> > > > +#define TPS65219_STBY1_BUCK2_STBY_EN_MASK		BIT(1)
+> > > > +#define TPS65219_STBY1_BUCK3_STBY_EN_MASK		BIT(2)
+> > > > +#define TPS65219_STBY1_LDO1_STBY_EN_MASK		BIT(3)
+> > > > +#define TPS65219_STBY1_LDO2_STBY_EN_MASK		BIT(4)
+> > > > +#define TPS65219_STBY1_LDO3_STBY_EN_MASK		BIT(5)
+> > > > +#define TPS65219_STBY1_LDO4_STBY_EN_MASK		BIT(6)
+> > > > +/* STBY_2 config */
+> > > > +#define TPS65219_STBY2_GPO1_STBY_EN_MASK		BIT(0)
+> > > > +#define TPS65219_STBY2_GPO2_STBY_EN_MASK		BIT(1)
+> > > > +#define TPS65219_STBY2_GPIO_STBY_EN_MASK		BIT(2)
+> > > > +/* MFP Control */
+> > > > +#define TPS65219_MFP_I2C_OFF_REQ_MASK			BIT(0)
+> > > > +#define TPS65219_MFP_STBY_I2C_CTRL_MASK			BIT(1)
+> > > > +#define TPS65219_MFP_COLD_RESET_I2C_CTRL_MASK		BIT(2)
+> > > > +#define TPS65219_MFP_WARM_RESET_I2C_CTRL_MASK		BIT(3)
+> > > > +#define TPS65219_MFP_GPIO_STATUS_MASK			BIT(4)
+> > > > +/* MFP_1 Config */
+> > > > +#define TPS65219_MFP_1_VSEL_DDR_SEL_MASK		BIT(0)
+> > > > +#define TPS65219_MFP_1_VSEL_SD_POL_MASK			BIT(1)
+> > > > +#define TPS65219_MFP_1_VSEL_RAIL_MASK			BIT(2)
+> > > > +/* MFP_2 Config */
+> > > > +#define TPS65219_MFP_2_MODE_STBY_MASK			GENMASK(1, 0)
+> > > > +#define TPS65219_MFP_2_MODE_RESET_MASK			BIT(2)
+> > > > +#define TPS65219_MFP_2_EN_PB_VSENSE_DEGL_MASK		BIT(3)
+> > > > +#define TPS65219_MFP_2_EN_PB_VSENSE_MASK		GENMASK(5, 4)
+> > > > +#define TPS65219_MFP_2_WARM_COLD_RESET_MASK		BIT(6)
+> > > > +#define TPS65219_MFP_2_PU_ON_FSD_MASK			BIT(7)
+> > > > +#define TPS65219_MFP_2_EN				0
+> > > > +#define TPS65219_MFP_2_PB				BIT(4)
+> > > > +#define TPS65219_MFP_2_VSENSE				BIT(5)
+> > > > +/* MASK_UV Config */
+> > > > +#define TPS65219_REG_MASK_UV_LDO1_UV_MASK		BIT(0)
+> > > > +#define TPS65219_REG_MASK_UV_LDO2_UV_MASK		BIT(1)
+> > > > +#define TPS65219_REG_MASK_UV_LDO3_UV_MASK		BIT(2)
+> > > > +#define TPS65219_REG_MASK_UV_LDO4_UV_MASK		BIT(3)
+> > > > +#define TPS65219_REG_MASK_UV_BUCK1_UV_MASK		BIT(4)
+> > > > +#define TPS65219_REG_MASK_UV_BUCK2_UV_MASK		BIT(5)
+> > > > +#define TPS65219_REG_MASK_UV_BUCK3_UV_MASK		BIT(6)
+> > > > +#define TPS65219_REG_MASK_UV_RETRY_MASK			BIT(7)
+> > > > +/* MASK Config */
+> > > > +// SENSOR_N_WARM_MASK already defined in Thermal
+> > > > +#define TPS65219_REG_MASK_INT_FOR_RV_MASK		BIT(4)
+> > > > +#define TPS65219_REG_MASK_EFFECT_MASK			GENMASK(2, 1)
+> > > > +#define TPS65219_REG_MASK_INT_FOR_PB_MASK		BIT(7)
+> > > > +/* UnderVoltage - Short to GND - OverCurrent*/
+> > > > +/* LDO3-4 */
+> > > > +#define TPS65219_INT_LDO3_SCG_MASK			BIT(0)
+> > > > +#define TPS65219_INT_LDO3_OC_MASK			BIT(1)
+> > > > +#define TPS65219_INT_LDO3_UV_MASK			BIT(2)
+> > > > +#define TPS65219_INT_LDO4_SCG_MASK			BIT(3)
+> > > > +#define TPS65219_INT_LDO4_OC_MASK			BIT(4)
+> > > > +#define TPS65219_INT_LDO4_UV_MASK			BIT(5)
+> > > > +/* LDO1-2 */
+> > > > +#define TPS65219_INT_LDO1_SCG_MASK			BIT(0)
+> > > > +#define TPS65219_INT_LDO1_OC_MASK			BIT(1)
+> > > > +#define TPS65219_INT_LDO1_UV_MASK			BIT(2)
+> > > > +#define TPS65219_INT_LDO2_SCG_MASK			BIT(3)
+> > > > +#define TPS65219_INT_LDO2_OC_MASK			BIT(4)
+> > > > +#define TPS65219_INT_LDO2_UV_MASK			BIT(5)
+> > > > +/* BUCK3 */
+> > > > +#define TPS65219_INT_BUCK3_SCG_MASK			BIT(0)
+> > > > +#define TPS65219_INT_BUCK3_OC_MASK			BIT(1)
+> > > > +#define TPS65219_INT_BUCK3_NEG_OC_MASK			BIT(2)
+> > > > +#define TPS65219_INT_BUCK3_UV_MASK			BIT(3)
+> > > > +/* BUCK1-2 */
+> > > > +#define TPS65219_INT_BUCK1_SCG_MASK			BIT(0)
+> > > > +#define TPS65219_INT_BUCK1_OC_MASK			BIT(1)
+> > > > +#define TPS65219_INT_BUCK1_NEG_OC_MASK			BIT(2)
+> > > > +#define TPS65219_INT_BUCK1_UV_MASK			BIT(3)
+> > > > +#define TPS65219_INT_BUCK2_SCG_MASK			BIT(4)
+> > > > +#define TPS65219_INT_BUCK2_OC_MASK			BIT(5)
+> > > > +#define TPS65219_INT_BUCK2_NEG_OC_MASK			BIT(6)
+> > > > +#define TPS65219_INT_BUCK2_UV_MASK			BIT(7)
+> > > > +/* Thermal Sensor  */
+> > > > +#define TPS65219_INT_SENSOR_3_WARM_MASK			BIT(0)
+> > > > +#define TPS65219_INT_SENSOR_2_WARM_MASK			BIT(1)
+> > > > +#define TPS65219_INT_SENSOR_1_WARM_MASK			BIT(2)
+> > > > +#define TPS65219_INT_SENSOR_0_WARM_MASK			BIT(3)
+> > > > +#define TPS65219_INT_SENSOR_3_HOT_MASK			BIT(4)
+> > > > +#define TPS65219_INT_SENSOR_2_HOT_MASK			BIT(5)
+> > > > +#define TPS65219_INT_SENSOR_1_HOT_MASK			BIT(6)
+> > > > +#define TPS65219_INT_SENSOR_0_HOT_MASK			BIT(7)
+> > > > +/* Residual Voltage */
+> > > > +#define TPS65219_INT_BUCK1_RV_MASK			BIT(0)
+> > > > +#define TPS65219_INT_BUCK2_RV_MASK			BIT(1)
+> > > > +#define TPS65219_INT_BUCK3_RV_MASK			BIT(2)
+> > > > +#define TPS65219_INT_LDO1_RV_MASK			BIT(3)
+> > > > +#define TPS65219_INT_LDO2_RV_MASK			BIT(4)
+> > > > +#define TPS65219_INT_LDO3_RV_MASK			BIT(5)
+> > > > +#define TPS65219_INT_LDO4_RV_MASK			BIT(6)
+> > > > +/* Residual Voltage ShutDown */
+> > > > +#define TPS65219_INT_BUCK1_RV_SD_MASK			BIT(0)
+> > > > +#define TPS65219_INT_BUCK2_RV_SD_MASK			BIT(1)
+> > > > +#define TPS65219_INT_BUCK3_RV_SD_MASK			BIT(2)
+> > > > +#define TPS65219_INT_LDO1_RV_SD_MASK			BIT(3)
+> > > > +#define TPS65219_INT_LDO2_RV_SD_MASK			BIT(4)
+> > > > +#define TPS65219_INT_LDO3_RV_SD_MASK			BIT(5)
+> > > > +#define TPS65219_INT_LDO4_RV_SD_MASK			BIT(6)
+> > > > +#define TPS65219_INT_TIMEOUT_MASK			BIT(7)
+> > > > +/* Power Button */
+> > > > +#define TPS65219_INT_PB_FALLING_EDGE_DETECT_MASK	BIT(0)
+> > > > +#define TPS65219_INT_PB_RISING_EDGE_DETECT_MASK		BIT(1)
+> > > > +#define TPS65219_INT_PB_REAL_TIME_STATUS_MASK		BIT(2)
+> > > > +
+> > > > +#define TPS65219_PB_POS					7
+> > > > +#define TPS65219_TO_RV_POS				6
+> > > > +#define TPS65219_RV_POS					5
+> > > > +#define TPS65219_SYS_POS				4
+> > > > +#define TPS65219_BUCK_1_2_POS				3
+> > > > +#define TPS65219_BUCK_3_POS				2
+> > > > +#define TPS65219_LDO_1_2_POS				1
+> > > > +#define TPS65219_LDO_3_4_POS				0
+> > > > +
+> > > > +/* IRQs */
+> > > > +enum {
+> > > > +	/* LDO3-4 register IRQs */
+> > > > +	TPS65219_INT_LDO3_SCG,
+> > > > +	TPS65219_INT_LDO3_OC,
+> > > > +	TPS65219_INT_LDO3_UV,
+> > > > +	TPS65219_INT_LDO4_SCG,
+> > > > +	TPS65219_INT_LDO4_OC,
+> > > > +	TPS65219_INT_LDO4_UV,
+> > > > +	/* LDO1-2 */
+> > > > +	TPS65219_INT_LDO1_SCG,
+> > > > +	TPS65219_INT_LDO1_OC,
+> > > > +	TPS65219_INT_LDO1_UV,
+> > > > +	TPS65219_INT_LDO2_SCG,
+> > > > +	TPS65219_INT_LDO2_OC,
+> > > > +	TPS65219_INT_LDO2_UV,
+> > > > +	/* BUCK3 */
+> > > > +	TPS65219_INT_BUCK3_SCG,
+> > > > +	TPS65219_INT_BUCK3_OC,
+> > > > +	TPS65219_INT_BUCK3_NEG_OC,
+> > > > +	TPS65219_INT_BUCK3_UV,
+> > > > +	/* BUCK1-2 */
+> > > > +	TPS65219_INT_BUCK1_SCG,
+> > > > +	TPS65219_INT_BUCK1_OC,
+> > > > +	TPS65219_INT_BUCK1_NEG_OC,
+> > > > +	TPS65219_INT_BUCK1_UV,
+> > > > +	TPS65219_INT_BUCK2_SCG,
+> > > > +	TPS65219_INT_BUCK2_OC,
+> > > > +	TPS65219_INT_BUCK2_NEG_OC,
+> > > > +	TPS65219_INT_BUCK2_UV,
+> > > > +	/* Thermal Sensor  */
+> > > > +	TPS65219_INT_SENSOR_3_WARM,
+> > > > +	TPS65219_INT_SENSOR_2_WARM,
+> > > > +	TPS65219_INT_SENSOR_1_WARM,
+> > > > +	TPS65219_INT_SENSOR_0_WARM,
+> > > > +	TPS65219_INT_SENSOR_3_HOT,
+> > > > +	TPS65219_INT_SENSOR_2_HOT,
+> > > > +	TPS65219_INT_SENSOR_1_HOT,
+> > > > +	TPS65219_INT_SENSOR_0_HOT,
+> > > > +	/* Residual Voltage */
+> > > > +	TPS65219_INT_BUCK1_RV,
+> > > > +	TPS65219_INT_BUCK2_RV,
+> > > > +	TPS65219_INT_BUCK3_RV,
+> > > > +	TPS65219_INT_LDO1_RV,
+> > > > +	TPS65219_INT_LDO2_RV,
+> > > > +	TPS65219_INT_LDO3_RV,
+> > > > +	TPS65219_INT_LDO4_RV,
+> > > > +	/* Residual Voltage ShutDown */
+> > > > +	TPS65219_INT_BUCK1_RV_SD,
+> > > > +	TPS65219_INT_BUCK2_RV_SD,
+> > > > +	TPS65219_INT_BUCK3_RV_SD,
+> > > > +	TPS65219_INT_LDO1_RV_SD,
+> > > > +	TPS65219_INT_LDO2_RV_SD,
+> > > > +	TPS65219_INT_LDO3_RV_SD,
+> > > > +	TPS65219_INT_LDO4_RV_SD,
+> > > > +	TPS65219_INT_TIMEOUT,
+> > > > +	/* Power Button */
+> > > > +	TPS65219_INT_PB_FALLING_EDGE_DETECT,
+> > > > +	TPS65219_INT_PB_RISING_EDGE_DETECT,
+> > > > +};
+> > > > +
+> > > > +enum tps65219_regulator_id {
+> > > > +	/* DCDC's */
+> > > > +	TPS65219_BUCK_1,
+> > > > +	TPS65219_BUCK_2,
+> > > > +	TPS65219_BUCK_3,
+> > > > +	/* LDOs */
+> > > > +	TPS65219_LDO_1,
+> > > > +	TPS65219_LDO_2,
+> > > > +	TPS65219_LDO_3,
+> > > > +	TPS65219_LDO_4,
+> > > > +};
+> > > > +
+> > > > +/* Number of step-down converters available */
+> > > > +#define TPS65219_NUM_DCDC		3
+> > > > +/* Number of LDO voltage regulators available */
+> > > > +#define TPS65219_NUM_LDO		4
+> > > > +/* Number of total regulators available */
+> > > > +#define TPS65219_NUM_REGULATOR		(TPS65219_NUM_DCDC + TPS65219_NUM_LDO)
+> > > > +
+> > > > +/* Define the TPS65219 IRQ numbers */
+> > > > +enum tps65219_irqs {
+> > > > +	/* INT source registers */
+> > > > +	TPS65219_TO_RV_SD_SET_IRQ,
+> > > > +	TPS65219_RV_SET_IRQ,
+> > > > +	TPS65219_SYS_SET_IRQ,
+> > > > +	TPS65219_BUCK_1_2_SET_IRQ,
+> > > > +	TPS65219_BUCK_3_SET_IRQ,
+> > > > +	TPS65219_LDO_1_2_SET_IRQ,
+> > > > +	TPS65219_LDO_3_4_SET_IRQ,
+> > > > +	TPS65219_PB_SET_IRQ,
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct tps65219 - tps65219 sub-driver chip access routines
+> > > > + *
+> > > > + * Device data may be used to access the TPS65219 chip
+> > > > + *
+> > > > + * @dev MFD device
+> > > > + * @regmap Regmap for accessing the device registers
+> > > > + * @irq_data Regmap irq data used for the irq chip
+> > > > + * @nb notifier block for the restart handler
+> > > > + */
+> > > > +struct tps65219 {
+> > > > +	struct device *dev;
+> > > > +	struct regmap *regmap;
+> > > > +
+> > > > +	struct regmap_irq_chip_data *irq_data;
+> > > > +	struct notifier_block nb;
+> > > > +};
+> > > > +
+> > > > +#endif /*  MFD_TPS65219_H */
