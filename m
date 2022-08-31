@@ -2,105 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED8655A7D8F
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 14:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D1EC5A7E5F
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 15:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231290AbiHaMh7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Aug 2022 08:37:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33746 "EHLO
+        id S229794AbiHaNMi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Aug 2022 09:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231278AbiHaMhz (ORCPT
+        with ESMTP id S230280AbiHaNMg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Aug 2022 08:37:55 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BABCD34C4
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 05:37:53 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id b16so18201434edd.4
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 05:37:53 -0700 (PDT)
+        Wed, 31 Aug 2022 09:12:36 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D841C6943;
+        Wed, 31 Aug 2022 06:12:35 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id p8-20020a17090ad30800b001fdfc8c7567so3397899pju.1;
+        Wed, 31 Aug 2022 06:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=Fuu2JI5A+wpqBRcbGTVNrKjUHyua0GPAJlLMkrI8qfM=;
-        b=DncXsye6bDUGM3ZIlLj8XaqyFahtrLvWtKE5nsSgLN9rz+zuBJr8w2nCpnng1T7Ull
-         HGATaLn6yjkxmIGp9wf1ULad1lWWo59GbeZV7/Xa4IWOtpa8AahuoTZltyQvyK4k5Kz3
-         qsXuN3+8mCqPoRtcd3cLOzs01jdB4GHRnNMHbJAt+bhPEP+0p8ABJfvoL63QGX1Tz8YF
-         G21U5UD92CSv9NIb6NAk41FKefscQhcq+CP4V/YabLsp0ux5sjk6kwXAhgwZ1T63MVd/
-         lw3sTwerL9dFL1hk0QymcSLvcY+bKvu9UZw3Z0V366w4964qiIdpDuylQEvmqfPe+9tU
-         j3jw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=kG9J8mc34kOWDD2HFXJian4iWEnEH3T2McwksneBIHg=;
+        b=bE/3Fd7YL3nsg9guk3Aygn/bv3CAtQIEIQblh8EtIYEgp2X//5HtiBW4KquwIXNSYY
+         pl+OXbMNexL84AVrgGE3q0PiOAVmO+xjqt/7T6wafW6kivDKCYHAvqMnVS6Jm5yzCziI
+         bxGU7eFn+1hdhTPO2WdZizeUzIJZHDlib03sbDZ3IzODsY+HHdxPBrMqjogzqTpxAudM
+         jmbmM8XON+IcJYc6v7ceXwAd2RJp8nI9UmpOnedM3WJFUTxbxu+npWHDV9YJ2pgQKjgP
+         /hOtJJxuua0x03YCK2nxPNCkcElWzQKKbRcH7c1HHpu8YfgF0njMmWmI6ZPz9IFaaqHn
+         VqDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=Fuu2JI5A+wpqBRcbGTVNrKjUHyua0GPAJlLMkrI8qfM=;
-        b=nUyy3AdCuqy//ty+bJBXhWiGaEsVjK7E6Y8T3oVcCwwmkWURcJGb13Uv9lEPfRR+aU
-         /0Fd/hKi3HKZJNU5Kjdh6geOfGHqGuBzBDaFzUgcH0pcXLqvVCH75QgPrMjcFab9eCcD
-         swVn0DXubCGfWHx/ErjgJyHic2tFUYACMM/dFXTLiAfKyLBZ3pfQcUyAAOv2UoHCEP+s
-         ZxzP4wC9eydwaqZ6shsG8aAdlx407wS/E53AS5Y/gLbEbqYd3Cs549POVXPPw++KvTIG
-         YcCq+d4jk4kTGiFHBRhUduTP0206yEgJ4pZzHmfHbZmMQWOX7JzzK8h0r6upmMSDztBk
-         fGzA==
-X-Gm-Message-State: ACgBeo29iKOI+QEG7y9ac/ZgXUytsqRXM8Xk2kzF+3VdfZUkr34JoSaa
-        T5nU0pypHdWQaWQTTNoTSKWVcoUlZnBboDGe13NbYA==
-X-Google-Smtp-Source: AA6agR6omxyBZo7cfhMeYIlGj9RWba4kt4+v9Lqw1rabWR1KY7hd2NaWUKr76TcAnNwZ6YcyK7Qa6NIvNPVVvf0g0aQ=
-X-Received: by 2002:aa7:c84f:0:b0:446:2bfb:5a63 with SMTP id
- g15-20020aa7c84f000000b004462bfb5a63mr24625165edt.172.1661949471929; Wed, 31
- Aug 2022 05:37:51 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=kG9J8mc34kOWDD2HFXJian4iWEnEH3T2McwksneBIHg=;
+        b=dMGYDviUZ4xtTmWOMpaqpk2uFCmShkdGXVziJC7IVXmF1NTd5BqjqV4uyirKPNwq+/
+         FZNjBT+xTIUQ7lY1VrN1p5JOs69ueo97TpS8e+G1agm5/SfbCBc5Vqkuls0dJyIaaTq/
+         nRSKnYTeNFIA34p1Ydkymbu1QoeHlw+9PbrdT+PEjldTqV1ytVq5pOasR+vWkDv4iTwC
+         X5UlKR8YaKhaREsdYhSvzl//UcOOCjNY0BHdGs3r9TFxsmDStM0K5M4T2P4OHby+urTs
+         BQ8zIC0MS51WH2d/ioSa+uuulzGc2x2+X++oHwAxkVRr+iaQ6D/DYKjfefSdfwKhIqRV
+         LqvA==
+X-Gm-Message-State: ACgBeo0iQzG1pGEYi+ylTfTHWHl0ams7I2p+iyiDyVv5LWgs9zlKlYLg
+        XxIa7L/WdbQXwICB868Mq/0=
+X-Google-Smtp-Source: AA6agR5M3QMcB32EBw2NHvEdrw6lQ32HuP7em2K51zuNjcLgntIUv8FzpoWIbXtnBUhIy4Grpox49A==
+X-Received: by 2002:a17:903:2c7:b0:16c:ebf6:db22 with SMTP id s7-20020a17090302c700b0016cebf6db22mr25686465plk.16.1661951554432;
+        Wed, 31 Aug 2022 06:12:34 -0700 (PDT)
+Received: from carlis-virtual-machine.localdomain ([156.236.96.164])
+        by smtp.gmail.com with ESMTPSA id b11-20020aa78ecb000000b0053abbad37a4sm1429871pfr.123.2022.08.31.06.12.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Aug 2022 06:12:33 -0700 (PDT)
+From:   Xuezhi Zhang <zhangxuezhi3@gmail.com>
+To:     bonbons@linux-vserver.org, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        zhangxuezhi1@coolpad.com
+Subject: [PATCH v2] HID: hid-picolcd_core: convert sysfs snprintf to sysfs_emit
+Date:   Wed, 31 Aug 2022 21:12:28 +0800
+Message-Id: <20220831131228.240026-1-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220829131553.690063-1-nuno.sa@analog.com> <20220829131553.690063-2-nuno.sa@analog.com>
-In-Reply-To: <20220829131553.690063-2-nuno.sa@analog.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 31 Aug 2022 14:37:40 +0200
-Message-ID: <CACRpkdaxfgf6T4EcWKG8_y4LmZPggQHGjHcq6f_5YkgGWv5vcA@mail.gmail.com>
-Subject: Re: [PATCH v4 01/10] input: keyboard: adp5588-keys: support gpi key
- events as 'gpio keys'
-To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc:     linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Hennerich <michael.hennerich@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 3:15 PM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+From: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
 
-> This change replaces the support for GPIs as key event generators.
-> Instead of reporting the events directly, we add a gpio based irqchip
-> so that these events can be consumed by keys defined in the gpio-keys
-> driver (as it's goal is indeed for keys on GPIOs capable of generating
-> interrupts). With this, the gpio-adp5588 driver can also be dropped.
->
-> The basic idea is that all the pins that are not being used as part of
-> the keymap matrix can be possibly requested as GPIOs by gpio-keys
-> (it's also fine to use these pins as plain interrupts though that's not
-> really the point).
->
-> Since the gpiochip now also has irqchip capabilities, we should only
-> remove it after we free the device interrupt (otherwise we could, in
-> theory, be handling GPIs interrupts while the gpiochip is concurrently
-> removed). Thus the call 'adp5588_gpio_add()' is moved and since the
-> setup phase also needs to come before making the gpios visible, we also
-> need to move 'adp5588_setup()'.
->
-> While at it, always select GPIOLIB so that we don't need to use #ifdef
-> guards.
->
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+Fix up all sysfs show entries to use sysfs_emit
 
-Makes the world simpler so:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+---
+v2: fix the From line and Signed-off-by line.
+---
+ drivers/hid/hid-picolcd_core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Yours,
-Linus Walleij
+diff --git a/drivers/hid/hid-picolcd_core.c b/drivers/hid/hid-picolcd_core.c
+index bbda231a7ce3..fa46fb6eab3f 100644
+--- a/drivers/hid/hid-picolcd_core.c
++++ b/drivers/hid/hid-picolcd_core.c
+@@ -256,9 +256,9 @@ static ssize_t picolcd_operation_mode_show(struct device *dev,
+ 	struct picolcd_data *data = dev_get_drvdata(dev);
+ 
+ 	if (data->status & PICOLCD_BOOTLOADER)
+-		return snprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
++		return sysfs_emit(buf, "[bootloader] lcd\n");
+ 	else
+-		return snprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
++		return sysfs_emit(buf, "bootloader [lcd]\n");
+ }
+ 
+ static ssize_t picolcd_operation_mode_store(struct device *dev,
+@@ -301,7 +301,7 @@ static ssize_t picolcd_operation_mode_delay_show(struct device *dev,
+ {
+ 	struct picolcd_data *data = dev_get_drvdata(dev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
++	return sysfs_emit(buf, "%hu\n", data->opmode_delay);
+ }
+ 
+ static ssize_t picolcd_operation_mode_delay_store(struct device *dev,
+-- 
+2.25.1
+
