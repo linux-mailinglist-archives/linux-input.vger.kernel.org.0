@@ -2,113 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F05B5A7F1C
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 15:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D665A808C
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 16:46:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231406AbiHaNnK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Aug 2022 09:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34824 "EHLO
+        id S230344AbiHaOqf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Aug 2022 10:46:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231384AbiHaNnJ (ORCPT
+        with ESMTP id S230457AbiHaOqd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Aug 2022 09:43:09 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C06CD127B;
-        Wed, 31 Aug 2022 06:43:07 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id c66so4183272pfc.10;
-        Wed, 31 Aug 2022 06:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=QX+pK6pl51LdKNSDDQw1Lof7kBsf/PjbDKJj0w0kufU=;
-        b=MstNWsW/rd4BWnVxjuRvSSOPnjbd5+FGCvfiM9EtPwTb1rKQqMKE1g0y56Z/O2qOXL
-         KmuI1XlrmqqRLaw3gUVvtqDE5z2y1ZHARqdoG6gGJsab4Uj/nY8/Y4To03lJDNkEhu+c
-         ZnMNGHXINUTqolRFVbCftNiwX7casPkhcZGq3dLqVOCOCrjWVTTaYHyvvkz4jNRtiB/L
-         B9F4cEEZdjOjcNOIXzK8W2nhDOAPv4yqNyxTzEHNqbExfJTyYmHDAndE7E0LsAS6GA/B
-         SicjUg/qZq29h2IUu9WfN8+W7a9gZCFiZqxQRrI8EFH9saY+HGs1BxXBs/xuq0ldQ8hc
-         1ymQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=QX+pK6pl51LdKNSDDQw1Lof7kBsf/PjbDKJj0w0kufU=;
-        b=raNALThCNOkYla6r3nR3JAGOKzllsyV/zAawe/3SUYV1ReDBqCnYqwIU602+6hURsF
-         Nt+4S+NOyNDbEYeDDCHoQS0qxOwEqrm7lbZn6RTBX3rfOvk12tl5AK9Qw0jFWAT4QInd
-         bjLSk4flCf0VtKTRevRRlf/upPT+vq2CYZwH973GBPlo+yNZIoXlENgsdoCV8pzuz9SB
-         kL8T4Ow99qe2UjgiKSuSRar66geZW/7264IN93VJZ17lF5vluMmbewgY+2JxQF2gyFZe
-         JVllPRCIbatsUoZQXqdlay+hDEIFZo7grlm7XPMdD7ewKrqQDWhcu4wtWHB1hSD653zC
-         Z+Gw==
-X-Gm-Message-State: ACgBeo24nSe/QRc62MM3Aj/zC41Sylq1IT0V1wZy1LBDQYibWs50i6jY
-        keRD2r3acFAoQyliwHJp+Q8=
-X-Google-Smtp-Source: AA6agR5LhvjAGAJAC1ejVM7dLx4XQes9u2zFghzTOqsZhZPlcA8t2SbOtphu9/fXDpMrGsTDyJr1aQ==
-X-Received: by 2002:a65:5688:0:b0:3c2:1015:988e with SMTP id v8-20020a655688000000b003c21015988emr22104168pgs.280.1661953387018;
-        Wed, 31 Aug 2022 06:43:07 -0700 (PDT)
-Received: from carlis-virtual-machine.localdomain ([156.236.96.164])
-        by smtp.gmail.com with ESMTPSA id a19-20020a170902ee9300b0016d773aae60sm7288858pld.19.2022.08.31.06.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 06:43:06 -0700 (PDT)
-From:   Xuezhi Zhang <zhangxuezhi3@gmail.com>
-To:     erazor_de@users.sourceforge.net, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        zhangxuezhi3@gmail.com, Xuezhi Zhang <zhangxuezhi1@coolpad.com>
-Subject: [PATCH] HID: roccat: convert sysfs snprintf to sysfs_emit
-Date:   Wed, 31 Aug 2022 21:43:02 +0800
-Message-Id: <20220831134302.366439-1-zhangxuezhi3@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 31 Aug 2022 10:46:33 -0400
+X-Greylist: delayed 1201 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 Aug 2022 07:46:29 PDT
+Received: from smtp-out-04.comm2000.it (smtp-out-04.comm2000.it [212.97.32.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F6A4CD787;
+        Wed, 31 Aug 2022 07:46:27 -0700 (PDT)
+Received: from gaggiata.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: francesco@dolcini.it)
+        by smtp-out-04.comm2000.it (Postfix) with ESMTPSA id 99D4CBC3523;
+        Wed, 31 Aug 2022 16:09:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailserver.it;
+        s=mailsrv; t=1661954951;
+        bh=WFwevAUNYHXoiwaArC/0UBzceD8ZT+ESgHntaya0Irw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=hwUBejTQyeYqeMyOJi+A720R5zpJOEOuTQFcM7Hlun0+1LmhBtsfxwqklNevyUjbr
+         2ijTkaoefKNbJ1CD4BxinA1kb82Vx4QXrZEICkWwUsAWSnlK1fxxcW2HIOUU7L/eHu
+         fe1RsjWZuH9dgQ0VlZxF3ojL1Kv+WxJFQE5xKnDhiR2gRUxHfi6IoO7YBylw5vLZPU
+         pQ1RVO4xDcC6viPWDyaQSnXQrPUzyII4xc86SuxI9OjYp8Vl9IJREHvnmfIdmSMkMk
+         Lzc1ya2R9V1O/ZpvS8DTfh1trNdi9iRxUxWFA7ANDsC15SxL1c2ahTiPW4dMvepGwi
+         IE+Eyl5EgBs7A==
+Received: by gaggiata.pivistrello.it (Postfix, from userid 1000)
+        id 5A6EB7F82D; Wed, 31 Aug 2022 16:09:11 +0200 (CEST)
+Date:   Wed, 31 Aug 2022 16:09:11 +0200
+From:   Francesco Dolcini <francesco@dolcini.it>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Francesco Dolcini <francesco.dolcini@toradex.com>
+Subject: Re: [PATCH v1 0/2] Input: touchscreen: Minor colibri-vf50-ts cleanups
+Message-ID: <Yw9rh7L3QecetL7m@gaggiata.pivistrello.it>
+References: <20220712101619.326120-1-francesco.dolcini@toradex.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220712101619.326120-1-francesco.dolcini@toradex.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+Hello all,
 
-Fix up all sysfs show entries to use sysfs_emit
+On Tue, Jul 12, 2022 at 12:16:17PM +0200, Francesco Dolcini wrote:
+> Hi all,
+> This series introduce some minor cleanups on colibri-vf50-ts, allow using it
+> with any IIO ADC input and fix a couple of mistakes in the dt-bindings
+> documentation.
+> 
+> Max Krummenacher (2):
+>   Input: touchscreen: colibri-vf50-ts: don't depend on VF610_ADC
+>   dt-bindings: input: colibri-vf50-ts: Improve documentation
+> 
+>  .../input/touchscreen/colibri-vf50-ts.txt        | 16 ++++++++--------
+>  drivers/input/touchscreen/Kconfig                |  2 +-
+>  2 files changed, 9 insertions(+), 9 deletions(-)
 
-Signed-off-by: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
----
- drivers/hid/hid-roccat-pyra.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Just a gently ping on this series, anything I should do?
 
-diff --git a/drivers/hid/hid-roccat-pyra.c b/drivers/hid/hid-roccat-pyra.c
-index 4fcc8e7d276f..8b4d2519d4c4 100644
---- a/drivers/hid/hid-roccat-pyra.c
-+++ b/drivers/hid/hid-roccat-pyra.c
-@@ -286,7 +286,7 @@ static ssize_t pyra_sysfs_show_actual_cpi(struct device *dev,
- {
- 	struct pyra_device *pyra =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", pyra->actual_cpi);
-+	return sysfs_emit(buf, "%d\n", pyra->actual_cpi);
- }
- static DEVICE_ATTR(actual_cpi, 0440, pyra_sysfs_show_actual_cpi, NULL);
- 
-@@ -303,7 +303,7 @@ static ssize_t pyra_sysfs_show_actual_profile(struct device *dev,
- 			&settings, PYRA_SIZE_SETTINGS);
- 	mutex_unlock(&pyra->pyra_lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", settings.startup_profile);
-+	return sysfs_emit(buf, "%d\n", settings.startup_profile);
- }
- static DEVICE_ATTR(actual_profile, 0440, pyra_sysfs_show_actual_profile, NULL);
- static DEVICE_ATTR(startup_profile, 0440, pyra_sysfs_show_actual_profile, NULL);
-@@ -324,7 +324,7 @@ static ssize_t pyra_sysfs_show_firmware_version(struct device *dev,
- 			&info, PYRA_SIZE_INFO);
- 	mutex_unlock(&pyra->pyra_lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", info.firmware_version);
-+	return sysfs_emit(buf, "%d\n", info.firmware_version);
- }
- static DEVICE_ATTR(firmware_version, 0440, pyra_sysfs_show_firmware_version,
- 		   NULL);
--- 
-2.25.1
-
+Francesco
