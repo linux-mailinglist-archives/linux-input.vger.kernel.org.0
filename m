@@ -2,162 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B52BA5A85D3
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 20:38:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 683985A85EA
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 20:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233013AbiHaSiU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Aug 2022 14:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60106 "EHLO
+        id S232967AbiHaSnb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Aug 2022 14:43:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233018AbiHaSh6 (ORCPT
+        with ESMTP id S233099AbiHaSnF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Aug 2022 14:37:58 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3820613D51
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 11:35:00 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id 72so15263987pfx.9
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 11:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=BF6HZWh0lIO6JP7Iahnyp/DPpNq7NYWD0O6mpa00wm0=;
-        b=WMT7IblMUP6IbINyxYOTTk3/5C/SsZwEz/PStR1GnxNGEiTOBTx0H0bcoX7mtTZOFs
-         vW/nmQVoxpVJGmhXtPihBudI7bs7hFhQ7NNkMHCNvfgh40a1jYEzzES0ocdqAzWF06W6
-         ereG8wftpqUi6FJJpbNpjoGm7QbHY6Odaz8Fw=
+        Wed, 31 Aug 2022 14:43:05 -0400
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD25260C6;
+        Wed, 31 Aug 2022 11:42:48 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 193so5453713ybc.10;
+        Wed, 31 Aug 2022 11:42:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=BF6HZWh0lIO6JP7Iahnyp/DPpNq7NYWD0O6mpa00wm0=;
-        b=h/Fe+cKY51EfdTTcA+qdfGUPna92+l8h3b/N9W02eUJG0DbnOCUu0YB+Z2XgRnO6hr
-         +HdjSe33XrCJidvKsz0nQUf41NxQfbdfks+Y406o16nKSk0jV1WS2YS30OQXkKC6sH3f
-         sVnTcNzFlbq1d0dWGMHmq7crdqyILufJGNSvxu82YQWiNErUR828Wck1OdYDQZy5QR8G
-         566vffKn7TP9aAN7O/lbz5QCJdKXuUGRg5w9utDLkTNdnzC3aZcoJsDqktil/m7oykC9
-         F/G44QjNFDm461/vIaYXXb1zHLuFmk1bMYyjhlDiSqPcT0aPYMaMZ2T7DD5JD7tJaYL8
-         GDYQ==
-X-Gm-Message-State: ACgBeo14PNsWUPbJkg2pqIWMXRk+GF7hJAi87ruOkW/14CK3lDpUAL+4
-        htpvK3cc8kjaQYbwh96Ya1G5qA==
-X-Google-Smtp-Source: AA6agR7fo6VejIBMks/yQH9zBQhqvzOQ/jVgBeELe620QEE3MIqxdQctdFNdrpDaTK8wEGiOq4adhA==
-X-Received: by 2002:a05:6a00:a90:b0:530:2f3c:da43 with SMTP id b16-20020a056a000a9000b005302f3cda43mr27374922pfl.50.1661970899675;
-        Wed, 31 Aug 2022 11:34:59 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id bm26-20020a656e9a000000b0042bd73400b6sm3642659pgb.87.2022.08.31.11.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 11:34:59 -0700 (PDT)
-Date:   Wed, 31 Aug 2022 11:34:58 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>,
-        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 1/3] fortify: use __builtin_dynamic_object_size in
- __compiletime_strlen
-Message-ID: <202208311132.27EE59B@keescook>
-References: <20220830205309.312864-1-ndesaulniers@google.com>
- <20220830205309.312864-2-ndesaulniers@google.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=xzoGBbwJ3ZwrByKi856TIQu0OrENwqVUhnhirrGF5H4=;
+        b=LfVse99iLmoMvSxqMbl686kNuMq/rDAS4UUXmVTpzLNJAYy/J2GDCWAbnPlmPiXp0t
+         lbgeLK9j2DfpHqa4nSBzy5guSEiYoJEZAf2bSAIB1HlPrVeOeHYo2N2Y+wbVcy85+n4s
+         wJ4MwfYHziTGAE8MJUTasRZfQ06LXtZ3yOXSe78l3qgFXym7G0JhHiTuUaamwmF1I7O+
+         /dfHFN4kkTP/VXUXs46WGMli3WPxGp9HTGfa8Dz729bOpIIQBSPgpyCWdL5rEF7q6g+O
+         SbLts6MNZwa+741fvM5wV0ZdL35BIWnVwFUkoS2Kr07pfUQ5m+66ACbsBJQMOxbJBL76
+         x5hA==
+X-Gm-Message-State: ACgBeo1NtiC3ZoxlxBLLdhCOuC8arwEDgVLcHAqXD/7L97oqV9yh9E3u
+        0p+jbKE/y5S7OF+zVNGfkMESkJCnY74DDjTYPyY=
+X-Google-Smtp-Source: AA6agR5JV1SYkvRX2LsVp9PLMmZQmg2hGokpEhZ7ZDChQbEa3WUq26eyLEcZjnDVTue2K3C+snPMP2110a5dT5nsZjY=
+X-Received: by 2002:a25:2785:0:b0:69b:b1d2:fd05 with SMTP id
+ n127-20020a252785000000b0069bb1d2fd05mr12156875ybn.81.1661971367951; Wed, 31
+ Aug 2022 11:42:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220830205309.312864-2-ndesaulniers@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220830231541.1135813-1-rrangel@chromium.org>
+ <20220830171332.1.Id022caf53d01112188308520915798f08a33cd3e@changeid>
+ <CAJZ5v0h10wrurjYG50dA+pCfRtNDqN=c8odQ0p6HJRnOyJh7KA@mail.gmail.com> <CAHQZ30BTYEYEAGjwsbuiYuYGhpFtQy_AEP66v3trdTzY_DRUOQ@mail.gmail.com>
+In-Reply-To: <CAHQZ30BTYEYEAGjwsbuiYuYGhpFtQy_AEP66v3trdTzY_DRUOQ@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 31 Aug 2022 20:42:36 +0200
+Message-ID: <CAJZ5v0gS6U6v-CEPNhgoj=f5E3q1T_Z8vOe2qokyHw4qeVhTsQ@mail.gmail.com>
+Subject: Re: [PATCH 1/8] Input: elan_i2c - Use PM subsystem to manage wake irq
+To:     Raul Rangel <rrangel@chromium.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Tim Van Patten <timvp@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tony Lindgren <tony@atomide.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 01:53:07PM -0700, Nick Desaulniers wrote:
-> With CONFIG_FORTIFY=y and CONFIG_UBSAN_LOCAL_BOUNDS=y enabled, we
-> observe a runtime panic while running Android's Compatibility Test
-> Suite's (CTS) android.hardware.input.cts.tests.  This is stemming from a
-> strlen() call in hidinput_allocate().
-> 
-> __compiletime_strlen is implemented in terms of __builtin_object_size(),
-> then does an array access to check for NUL-termination. A quirk of
-> __builtin_object_size() is that for strings whose values are runtime
-> dependent, __builtin_object_size(str, 1 or 0) returns the maximum size
-> of possible values when those sizes are determinable at compile time.
-> Example:
-> 
->   static const char *v = "FOO BAR";
->   static const char *y = "FOO BA";
->   unsigned long x (int z) {
->       // Returns 8, which is:
->       // max(__builtin_object_size(v, 1), __builtin_object_size(y, 1))
->       return __builtin_object_size(z ? v : y, 1);
->   }
-> 
-> So when FORTIFY is enabled, the current implementation of
-> __compiletime_strlen will try to access beyond the end of y at runtime
-> using the size of v. Mixed with UBSAN_LOCAL_BOUNDS we get a fault.
-> 
-> hidinput_allocate() has a local C string whose value is control flow
-> dependent on a switch statement, so __builtin_object_size(str, 1)
-> evaluates to the maximum string length, making all other cases fault on
-> the last character check. hidinput_allocate() could be cleaned up to
-> avoid runtime calls to strlen() since the local variable can only have
-> literal values, so there's no benefit to trying to fortify the strlen
-> call site there.
-> 
-> Add a Kconfig check for __builtin_dynamic_object_size(), then use that
-> when available (gcc-12+, all supported versions of clang) which avoids
-> this surprising behavior.
-> 
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  include/linux/fortify-string.h | 8 +++++++-
->  init/Kconfig                   | 3 +++
->  2 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-> index 3b401fa0f374..c5adad596a3f 100644
-> --- a/include/linux/fortify-string.h
-> +++ b/include/linux/fortify-string.h
-> @@ -14,11 +14,17 @@ void __read_overflow2_field(size_t avail, size_t wanted) __compiletime_warning("
->  void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
->  void __write_overflow_field(size_t avail, size_t wanted) __compiletime_warning("detected write beyond size of field (1st parameter); maybe use struct_group()?");
->  
-> +#ifdef CONFIG_CC_HAS_BUILTIN_DYNAMIC_OBJECT_SIZE
-> +#define __object_size __builtin_dynamic_object_size
-> +#else
-> +#define __object_size __builtin_object_size
-> +#endif
+On Wed, Aug 31, 2022 at 8:14 PM Raul Rangel <rrangel@chromium.org> wrote:
+>
+> On Wed, Aug 31, 2022 at 12:01 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> >
+> > On Wed, Aug 31, 2022 at 1:16 AM Raul E Rangel <rrangel@chromium.org> wrote:
+> > >
+> > > The Elan I2C touchpad driver is currently manually managing the wake
+> > > IRQ. This change removes the explicit enable_irq_wake/disable_irq_wake
+> > > and instead relies on the PM subsystem. This is done by calling
+> > > dev_pm_set_wake_irq.
+> > >
+> > > i2c_device_probe already calls dev_pm_set_wake_irq when using device
+> > > tree, so it's only required when using ACPI. The net result is that this
+> > > change should be a no-op. i2c_device_remove also already calls
+> > > dev_pm_clear_wake_irq, so we don't need to do that in this driver.
+> > >
+> > > I tested this on an ACPI system where the touchpad doesn't have _PRW
+> > > defined. I verified I can still wake the system and that the wake source
+> > > was the touchpad IRQ GPIO.
+> > >
+> > > Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> >
+>
+>
+> > I like this a lot, but the assumption in the wakeirq code is that the
+> > IRQ in question will be dedicated for signaling wakeup.  Does it hold
+> > here?
+>
+> The wakeirq code defines two methods: `dev_pm_set_wake_irq` and
+> `dev_pm_set_dedicated_wake_irq`.
+> The latter is used when you have a dedicated wakeup signal. In this
+> driver it's currently assumed
+> that the IRQ and the wake IRQ are the same, so I used `dev_pm_set_wake_irq`.
+>
+> This change in theory also fixes a bug where you define a dedicated
+> wake irq in DT, but
+> then the driver enables the `client->irq` as a wake source. In
+> practice this doesn't happen
+> since the elan touchpads only have a single IRQ line.
 
-Instead of a Kconfig, how about just:
+OK, thanks!
 
-#if __has_builtin(__builtin_dynamic_object_size)
-# define __object_size __builtin_dynamic_object_size
-#else
-# define __object_size __builtin_object_size
-#endif
+Please feel free to add
 
-?
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-> +
->  #define __compiletime_strlen(p)					\
->  ({								\
->  	unsigned char *__p = (unsigned char *)(p);		\
->  	size_t __ret = (size_t)-1;				\
-> -	size_t __p_size = __builtin_object_size(p, 1);		\
-> +	size_t __p_size = __object_size(p, 1);			\
->  	if (__p_size != (size_t)-1) {				\
->  		size_t __p_len = __p_size - 1;			\
->  		if (__builtin_constant_p(__p[__p_len]) &&	\
+to the patch.
 
-The fact that __builtin_object_size() will actually span control flow,
-and produce a size-inclusive result on the possible inputs is ...
-surprising and potentially quite problematic. But I'm satisfied that
-bdos appears to fix it here (since the "compiletime"ness will still get
-filtered by the __builtin_constant_p() check).
-
--Kees
-
--- 
-Kees Cook
+> >
+> > > ---
+> > >
+> > >  drivers/input/mouse/elan_i2c_core.c | 12 ++++--------
+> > >  1 file changed, 4 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> > > index e1758d5ffe4218..7d997d2b56436b 100644
+> > > --- a/drivers/input/mouse/elan_i2c_core.c
+> > > +++ b/drivers/input/mouse/elan_i2c_core.c
+> > > @@ -33,6 +33,7 @@
+> > >  #include <linux/jiffies.h>
+> > >  #include <linux/completion.h>
+> > >  #include <linux/of.h>
+> > > +#include <linux/pm_wakeirq.h>
+> > >  #include <linux/property.h>
+> > >  #include <linux/regulator/consumer.h>
+> > >  #include <asm/unaligned.h>
+> > > @@ -86,8 +87,6 @@ struct elan_tp_data {
+> > >         u16                     fw_page_size;
+> > >         u32                     fw_signature_address;
+> > >
+> > > -       bool                    irq_wake;
+> > > -
+> > >         u8                      min_baseline;
+> > >         u8                      max_baseline;
+> > >         bool                    baseline_ready;
+> > > @@ -1337,8 +1336,10 @@ static int elan_probe(struct i2c_client *client,
+> > >          * Systems using device tree should set up wakeup via DTS,
+> > >          * the rest will configure device as wakeup source by default.
+> > >          */
+> > > -       if (!dev->of_node)
+> > > +       if (!dev->of_node) {
+> > >                 device_init_wakeup(dev, true);
+> > > +               dev_pm_set_wake_irq(dev, client->irq);
+> > > +       }
+> > >
+> > >         return 0;
+> > >  }
+> > > @@ -1362,8 +1363,6 @@ static int __maybe_unused elan_suspend(struct device *dev)
+> > >
+> > >         if (device_may_wakeup(dev)) {
+> > >                 ret = elan_sleep(data);
+> > > -               /* Enable wake from IRQ */
+> > > -               data->irq_wake = (enable_irq_wake(client->irq) == 0);
+> > >         } else {
+> > >                 ret = elan_set_power(data, false);
+> > >                 if (ret)
+> > > @@ -1394,9 +1393,6 @@ static int __maybe_unused elan_resume(struct device *dev)
+> > >                         dev_err(dev, "error %d enabling regulator\n", error);
+> > >                         goto err;
+> > >                 }
+> > > -       } else if (data->irq_wake) {
+> > > -               disable_irq_wake(client->irq);
+> > > -               data->irq_wake = false;
+> > >         }
+> > >
+> > >         error = elan_set_power(data, true);
+> > > --
+> > > 2.37.2.672.g94769d06f0-goog
+> > >
