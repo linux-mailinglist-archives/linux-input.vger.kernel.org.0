@@ -2,148 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 212095A7C83
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 13:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DD975A7CC0
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 14:01:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbiHaLwf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Aug 2022 07:52:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47210 "EHLO
+        id S229643AbiHaMBQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Aug 2022 08:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbiHaLwe (ORCPT
+        with ESMTP id S229518AbiHaMBP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Aug 2022 07:52:34 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EED1C7F9B;
-        Wed, 31 Aug 2022 04:52:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661946753; x=1693482753;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oYuQNupbwHPTjXRmzQFBh8aoIsFuQZttcSqIKJea66Q=;
-  b=QRV3Jv+j7MLrNcNHqkaby2wDLNxDt7p6S9PHNFUMl63LncRJq1piAQ1P
-   2nd+hCnGrdyHwsARqtRFIOzufec7XekLWJRn4UVPzKx3yG4D9KwKIejNX
-   2owyaLHENW3zZOkBJygFvvMhtboXbVYQ6nhjSbf+IGwJxOzXGHiEfzVPV
-   PrHaXi/omd2eqVRNyN/1W2yIUHrlshBv4JPTIw+frbX/J7jIKYb4ndQub
-   sgwZjwE5ZIyMBYZoDAVZz1LbopItG/6AcWtcZkjK08kTwHl/g96tawRC1
-   oINxwd8gF0Nxfgyg1b5gHNoeeq8QqsNcXD62c+dIQvmZwf59wbUj5aENb
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="275831600"
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; 
-   d="scan'208";a="275831600"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2022 04:52:33 -0700
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; 
-   d="scan'208";a="680398895"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2022 04:52:27 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oTMGe-006MMJ-07;
-        Wed, 31 Aug 2022 14:52:24 +0300
-Date:   Wed, 31 Aug 2022 14:52:23 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Raul E Rangel <rrangel@chromium.org>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        hdegoede@redhat.com, mario.limonciello@amd.com, timvp@google.com,
-        rafael@kernel.org, Alistair Francis <alistair@alistair23.me>,
-        Angela Czubak <acz@semihalf.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Bartosz Szczepanek <bsz@semihalf.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>, Len Brown <lenb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Rob Herring <robh@kernel.org>, Wolfram Sang <wsa@kernel.org>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        "jingle.wu" <jingle.wu@emc.com.tw>, linux-gpio@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] acpi: i2c: Use SharedAndWake and ExclusiveAndWake to
- enable wake irq
-Message-ID: <Yw9LdxWQMpnzgFe/@smile.fi.intel.com>
-References: <20220830231541.1135813-1-rrangel@chromium.org>
+        Wed, 31 Aug 2022 08:01:15 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99412B81C3
+        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 05:01:13 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id v26so9383762lfd.10
+        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 05:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc;
+        bh=4YS5JYn1uiiBNl1ts5t+GGUkCHO4fewra9776ibyVd0=;
+        b=qplb4uMP/aCP4xajNLnopVBa0PW5Kducc8HdF47fQlC16cCm6p6GvAl9Tahvqmqc2n
+         JbYdgi7wKvLTYBgV9aznirKx+QOnfXJg0FP/dCSc6iXzE75N2CCQkGOf2VdloRDMwu2w
+         UIgyRyxU1Bjtovr1KinjiyW4nRGvrQkynUFpcOi0Vrt6foVY2xMDHFQyWCjDbYWfE2ha
+         t5XtITS58U5Hsv+FZe538qQSBcKhI0z2uR+iMKfMI2dLB53vBqU2tTliPXFxnIf6soTw
+         1PVe+aG//a19dsbaL61xJKymGuEAmqZnBT7hBCtNRocOozKJU1Bqi7da9R6LyGVsfPO1
+         xdQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=4YS5JYn1uiiBNl1ts5t+GGUkCHO4fewra9776ibyVd0=;
+        b=4BpcOirMzdysFnK6gKcNadCK5qde8TZNSdm1kpi3z+eHFKEC44AnLzMt8K/DRbgfJN
+         vJlKnxSBZyFy1qgwfT+6WxKSgnKUSasbe2kVn/nhb8nemELNcEzbUeLBcqlYJTxLvSdj
+         ngYY8DSmQDunFy5hCZymEgo9LZtLx8CsbPOrDtkt6vQ2Hc/HKKSlTN8CFer4TnRVDax6
+         qMLc4dCNXQZsFvOjpfK4PJsqfIr0lqYfqWHgwSq3KOrxn/JAfxQ3fcKPYSw8qk4Vh1pP
+         aM42pm4tBUg0XwWhqC9DQDsFTIx2e9EFyHuyXrPxf27Q2OEv0WF+5VIAnsgrLJsZwnw0
+         TCrg==
+X-Gm-Message-State: ACgBeo2Hmu2NdoRivkklTESmVEhn7l2qsFMpBGLrMlpvuT9ssi2cuX5E
+        pmjl/DbnR9AlxI87Ufv9oX6Ll2gmnv4o7hbhYgo=
+X-Google-Smtp-Source: AA6agR4tuS850AO5q4FK1OLs1HQUy4W70aWPOMYZcV5Z/Ns0pDo+H2i8DddeLdiJdvcIiIPISj09YsVyYO0DSF9/gpM=
+X-Received: by 2002:a19:434a:0:b0:494:77c1:abec with SMTP id
+ m10-20020a19434a000000b0049477c1abecmr2618816lfj.497.1661947271944; Wed, 31
+ Aug 2022 05:01:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220830231541.1135813-1-rrangel@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:6504:659:b0:1da:3c84:5615 with HTTP; Wed, 31 Aug 2022
+ 05:01:11 -0700 (PDT)
+Reply-To: golsonfinancial@gmail.com
+From:   OLSON FINANCIAL GROUP <adamamusaharunna@gmail.com>
+Date:   Wed, 31 Aug 2022 05:01:11 -0700
+Message-ID: <CALy2aYqyXN2t0FWdEDQ9dpBOzepa4+_Aum6pQbTeK+rT2tMBVw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 05:15:33PM -0600, Raul E Rangel wrote:
-> Today, i2c drivers are making the assumption that their IRQs can also
-> be used as wake IRQs. This isn't always the case and it can lead to
-> spurious wakes. This has recently started to affect AMD Chromebooks.
-> With the introduction of
-> d62bd5ce12d7 ("pinctrl: amd: Implement irq_set_wake"), the AMD GPIO
-> controller gained the capability to set the wake bit on each GPIO. The
-> ACPI specification defines two ways to inform the system if a device is
-> wake capable:
-> 1) The _PRW object defines the GPE that can be used to wake the system.
-> 2) Setting ExclusiveAndWake or SharedAndWake in the _CRS GpioInt.
-> 
-> Currently only the first method is supported. The i2c drivers don't have
-> any indication that the IRQ is wake capable, so they guess. This causes
-> spurious interrupts, for example:
-> * We have an ACPI HID device that has `_PR0` and `_PR3`. It doesn't have
->   `_PRW` or `ExclusiveAndWake` so that means the device can't wake the
->   system.
-> * The IRQ line is active level low for this device and is pulled up by
->   the power resource defined in `_PR0`/`_PR3`.
-> * The i2c driver will (incorrectly) arm the GPIO for wake by calling
->   `enable_irq_wake` as part of its suspend hook.
-> * ACPI will power down the device since it doesn't have a wake GPE
->   associated with it.
-> * When the device is powered down, the IRQ line will drop, and it will
->   trigger a wake event.
-> 
-> See the following debug log:
-> [   42.335804] PM: Suspending system (s2idle)
-> [   42.340186] amd_gpio AMD0030:00: RX: Setting wake for pin 89 to enable
-> [   42.467736]     power-0416 __acpi_power_off      : Power resource [PR00] turned off
-> [   42.467739] device_pm-0280 device_set_power      : Device [H05D] transitioned to D3cold
-> [   42.475210] PM: pm_system_irq_wakeup: 11 triggered pinctrl_amd
-> [   42.535293] PM: Wakeup unrelated to ACPI SCI
-> [   42.535294] PM: resume from suspend-to-idle
-> 
-> In order to fix this, we need to take into account the wake capable bit
-> defined on the GpioInt. This is accomplished by:
-> * Migrating some of the i2c drivers over to using the PM subsystem to
->   manage the wake IRQ. max8925-i2c, elants_i2c, and raydium_i2c_ts still
->   need to be migrated, I can do that depending on the feedback to this
->   patch series.
-> * Expose the wake_capable bit from the ACPI GpioInt resource to the
->   i2c core.
-> * Use the wake_capable bit in the i2c core to call
->   `dev_pm_set_wake_irq`. This reuses the existing device tree flow.
-> * Make the i2c drivers stop calling `dev_pm_set_wake_irq` since it's now
->   handled by the i2c core.
-> * Make the ACPI device PM system aware of the wake_irq. This is
->   necessary so the device doesn't incorrectly get powered down when a
->   wake_irq is enabled.
-> 
-> I've tested this code with various combinations of having _PRW,
-> ExclusiveAndWake and power resources all defined or not defined, but it
-> would be great if others could test this out on their hardware.
-
-I have got only cover letter and a single patch (#3). What's going on?
-
-Note: I'm also reviewer of I²C DesignWare driver, you really have to
-fix your tools / submission process and try again. No review for this
-series.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--=20
+Hallo Gr=C3=BC=C3=9Fe,
+Ben=C3=B6tigen Sie dringend einen Kredit, um ein Haus oder ein Auto zu
+kaufen? oder ben=C3=B6tigen Sie ein Gesch=C3=A4fts- oder Privatdarlehen, um=
+ zu
+investieren? ein neues Gesch=C3=A4ft er=C3=B6ffnen, Rechnungen bezahlen? Un=
+d
+zahlen Sie uns Installationen zur=C3=BCck? Wir sind ein zertifiziertes
+Finanzunternehmen. Wir bieten Privatpersonen und Unternehmen Kredite
+an. Wir bieten zuverl=C3=A4ssige Kredite zu einem sehr niedrigen Zinssatz
+von 2 %. F=C3=BCr weitere Informationen
+mailen Sie uns an: golsonfinancial@gmail.com....
