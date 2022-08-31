@@ -2,390 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A285F5A84D3
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 19:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BDF85A84E3
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 20:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231527AbiHaR5G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Aug 2022 13:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53356 "EHLO
+        id S229786AbiHaSB1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Aug 2022 14:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbiHaR5F (ORCPT
+        with ESMTP id S231845AbiHaSB0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Aug 2022 13:57:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9BAD7CD7
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 10:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661968619;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lKRE16b9MM8u6Z8O6Bdi3U8ibkp6UbNP1fi8My+b5A8=;
-        b=ATln72108aFEkYWjNHF0IremnyYuHAa/VmqJ4yVtcA8gdxUFqPxHkVpcTowSmKfu0GO3s/
-        /e+PcSX4DaqBOqbEE8X9IttFZvzcML6aE1AQx+V0hvCM2PYc5KjrFjK5IUWmrCjzG/ySel
-        uw1DI90HZCHGEFq0nbc0Xf8ZFrKNaTE=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-651-5YkcQHgWOyGWDYQ5Xc2aNw-1; Wed, 31 Aug 2022 13:56:58 -0400
-X-MC-Unique: 5YkcQHgWOyGWDYQ5Xc2aNw-1
-Received: by mail-pf1-f199.google.com with SMTP id z36-20020a056a001da400b005386b23cf15so3701227pfw.9
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 10:56:58 -0700 (PDT)
+        Wed, 31 Aug 2022 14:01:26 -0400
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B026DD4F8;
+        Wed, 31 Aug 2022 11:01:25 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id e71so5309948ybh.9;
+        Wed, 31 Aug 2022 11:01:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=lKRE16b9MM8u6Z8O6Bdi3U8ibkp6UbNP1fi8My+b5A8=;
-        b=Evi2tZoSkwp8axC8LqoJ5aaNfsvEwTXCAsCzU/QgjqyNwlDTMxlDUh5dXZ9damw0zE
-         ulfigkrcUpLhdmzhs9oCLOHmFI3emdz/3PlO7Rm9G5wQz1NO2FTAJRuJ89FMvoeVultR
-         8xOEO0TcxWb21RQrCDqbM0ytxpDdk+gEJ49CF7CLfm8mWC+dOnC4hYG0IfQ0gpOW6fCN
-         ZhGPhyIrjvH+wlHCOZy2C2j7mzDoyCXp4q38xqU2USJX5fTi8HgYupvSn+twShmQd2Ra
-         g2nGWbDmxiYwdaIvru0emURsA490Ag49LHw1SSsIG1W6aFW2qwbbGEj37MAT0ORe6F7C
-         yAag==
-X-Gm-Message-State: ACgBeo1lVVmsnJm30QriB9MmKvB5L/6V5Rt4ZPmG0syEp6ZYUuCYhpSb
-        94R4s6XSGvXQZ4JdQP6hTGwM2wqHlV4HPgSNsOj5wptmKqBBMhyYuuy5fBgYHsaSF4h7AMoQZBS
-        O+XB5mPlEHV3YIhzebH4p8U8xf9agNSZpVHc7aH8=
-X-Received: by 2002:a65:6255:0:b0:42c:87b1:485b with SMTP id q21-20020a656255000000b0042c87b1485bmr8853663pgv.491.1661968617016;
-        Wed, 31 Aug 2022 10:56:57 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7yF6XgnbUA7X7pkH/iSvWC9vC651aFLswA1iXydDYqeAQponIFLXm+j24vx9ittOajohLxG7OhhxuSOM34jyE=
-X-Received: by 2002:a65:6255:0:b0:42c:87b1:485b with SMTP id
- q21-20020a656255000000b0042c87b1485bmr8853631pgv.491.1661968616657; Wed, 31
- Aug 2022 10:56:56 -0700 (PDT)
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=VVktuC1tHcVjWphKZ83mZSdKAvpz7EcwQZEsdT73H08=;
+        b=N+mgdELDMwDQlHKiE039HU2Y7ljzhuiMpRzLxfgU86mrh+N0w57pqKPMA76CdKyE1p
+         0udP3XFtkJ49zLCx9lSGoMkegDv4S/xQYVYafq4jIqTAmovF8SNJceVhF1/wXbZIEMS2
+         ailxg8jZCdoAVqE9DjAkOg8uNGrUUryk3b1dnkPAiRcMvxe8nV+ELo/FeQvOMJP/agmj
+         K8dAOUiuNuSbjzY46DohODA+07pp8F/OohK2QqH1viSZ0KTNZEmIAifouFYDRHf84cLc
+         mRu7Py4VCsjLu/S0GsQaIDpSXTxeXdIHtoWugcI0S/uHgVOy1k213P0B91Jltq8L9TsQ
+         O90A==
+X-Gm-Message-State: ACgBeo2YyGqS9KYpjMwLo0BqvCFM+QUwdHS/pwa9BRzsrsFPHaT/mLlh
+        eSOIALHAJ3cbE93SpJ8NK1YHaRCbl5BrqTCZCT0=
+X-Google-Smtp-Source: AA6agR7n0eoCX6NQW4VMkE+zt6SHW1lUY07FER6iYtB8g617dkr4FAVyEaBzyAcpJRgvjL3G33I/yZ0KDqJpucojJI4=
+X-Received: by 2002:a25:ec0c:0:b0:690:d092:2d56 with SMTP id
+ j12-20020a25ec0c000000b00690d0922d56mr15354533ybh.622.1661968884114; Wed, 31
+ Aug 2022 11:01:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
- <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
- <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
- <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com> <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
-In-Reply-To: <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 31 Aug 2022 19:56:45 +0200
-Message-ID: <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
- read user provided context
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20220830231541.1135813-1-rrangel@chromium.org> <20220830171332.1.Id022caf53d01112188308520915798f08a33cd3e@changeid>
+In-Reply-To: <20220830171332.1.Id022caf53d01112188308520915798f08a33cd3e@changeid>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 31 Aug 2022 20:01:12 +0200
+Message-ID: <CAJZ5v0h10wrurjYG50dA+pCfRtNDqN=c8odQ0p6HJRnOyJh7KA@mail.gmail.com>
+Subject: Re: [PATCH 1/8] Input: elan_i2c - Use PM subsystem to manage wake irq
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        timvp@google.com, "Rafael J. Wysocki" <rafael@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tony Lindgren <tony@atomide.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 6:37 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Wed, Aug 31, 2022 at 1:16 AM Raul E Rangel <rrangel@chromium.org> wrote:
 >
-> On Tue, Aug 30, 2022 at 7:29 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > On Fri, Aug 26, 2022 at 3:51 AM Kumar Kartikeya Dwivedi
-> > <memxor@gmail.com> wrote:
-> > >
-> > > On Fri, 26 Aug 2022 at 03:42, Alexei Starovoitov
-> > > <alexei.starovoitov@gmail.com> wrote:
-> > > >
-> > > > On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
-> > > > <benjamin.tissoires@redhat.com> wrote:
-> > > > >
-> > > > > When a function was trying to access data from context in a syscall eBPF
-> > > > > program, the verifier was rejecting the call unless it was accessing the
-> > > > > first element.
-> > > > > This is because the syscall context is not known at compile time, and
-> > > > > so we need to check this when actually accessing it.
-> > > > >
-> > > > > Check for the valid memory access if there is no convert_ctx callback,
-> > > > > and allow such situation to happen.
-> > > > >
-> > > > > There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
-> > > > > will check that the types are matching, which is a good thing, but to
-> > > > > have an accurate result, it hides the fact that the context register may
-> > > > > be null. This makes env->prog->aux->max_ctx_offset being set to the size
-> > > > > of the context, which is incompatible with a NULL context.
-> > > > >
-> > > > > Solve that last problem by storing max_ctx_offset before the type check
-> > > > > and restoring it after.
-> > > > >
-> > > > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-> > > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > >
-> > > > > ---
-> > > > >
-> > > > > changes in v9:
-> > > > > - rewrote the commit title and description
-> > > > > - made it so all functions can make use of context even if there is
-> > > > >   no convert_ctx
-> > > > > - remove the is_kfunc field in bpf_call_arg_meta
-> > > > >
-> > > > > changes in v8:
-> > > > > - fixup comment
-> > > > > - return -EACCESS instead of -EINVAL for consistency
-> > > > >
-> > > > > changes in v7:
-> > > > > - renamed access_t into atype
-> > > > > - allow zero-byte read
-> > > > > - check_mem_access() to the correct offset/size
-> > > > >
-> > > > > new in v6
-> > > > > ---
-> > > > >  kernel/bpf/btf.c      | 11 ++++++++++-
-> > > > >  kernel/bpf/verifier.c | 19 +++++++++++++++++++
-> > > > >  2 files changed, 29 insertions(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> > > > > index 903719b89238..386300f52b23 100644
-> > > > > --- a/kernel/bpf/btf.c
-> > > > > +++ b/kernel/bpf/btf.c
-> > > > > @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > >  {
-> > > > >         struct bpf_prog *prog = env->prog;
-> > > > >         struct btf *btf = prog->aux->btf;
-> > > > > +       u32 btf_id, max_ctx_offset;
-> > > > >         bool is_global;
-> > > > > -       u32 btf_id;
-> > > > >         int err;
-> > > > >
-> > > > >         if (!prog->aux->func_info)
-> > > > > @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > >         if (prog->aux->func_info_aux[subprog].unreliable)
-> > > > >                 return -EINVAL;
-> > > > >
-> > > > > +       /* subprogs arguments are not actually accessing the data, we need
-> > > > > +        * to check for the types if they match.
-> > > > > +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
-> > > > > +        * given that this function will have a side effect of changing it.
-> > > > > +        */
-> > > > > +       max_ctx_offset = env->prog->aux->max_ctx_offset;
-> > > > > +
-> > > > >         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
-> > > > >         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
-> > > > >
-> > > > > +       env->prog->aux->max_ctx_offset = max_ctx_offset;
-> > > >
-> > > > I don't understand this.
-> > > > If we pass a ctx into a helper and it's going to
-> > > > access [0..N] bytes from it why do we need to hide it?
-> > > > max_ctx_offset will be used later raw_tp, tp, syscall progs
-> > > > to determine whether it's ok to load them.
-> > > > By hiding the actual size of access somebody can construct
-> > > > a prog that reads out of bounds.
-> > > > How is this related to NULL-ness property?
-> > >
-> > > Same question, was just typing exactly the same thing.
-> >
-> > The test I have that is failing in patch 2/23 is the following, with
-> > args being set to NULL by userspace:
-> >
-> > SEC("syscall")
-> > int kfunc_syscall_test_null(struct syscall_test_args *args)
-> > {
-> >        bpf_kfunc_call_test_mem_len_pass1(args, 0);
-> >
-> >        return 0;
-> > }
-> >
-> > Basically:
-> > if userspace declares the following:
-> >  DECLARE_LIBBPF_OPTS(bpf_test_run_opts, syscall_topts,
-> >                .ctx_in = NULL,
-> >                .ctx_size_in = 0,
-> >        );
-> >
-> > The verifier is happy with the current released kernel:
-> > kfunc_syscall_test_fail() never dereferences the ctx pointer, it just
-> > passes it around to bpf_kfunc_call_test_mem_len_pass1(), which in turn
-> > is also happy because it says it is not accessing the data at all (0
-> > size memory parameter).
-> >
-> > In the current code, check_helper_mem_access() actually returns
-> > -EINVAL, but doesn't change max_ctx_offset (it's still at the value of
-> > 0 here). The program is now marked as unreliable, but the verifier
-> > goes on.
-> >
-> > When adding this patch, if we declare a syscall eBPF (or any other
-> > function that doesn't have env->ops->convert_ctx_access), the previous
-> > "test" is failing because this ensures the syscall program has to have
-> > a valid ctx pointer.
-> > btf_check_func_arg_match() now calls check_mem_access() which
-> > basically validates the fact that the program can dereference the ctx.
-> >
-> > So now, without the max_ctx_offset store/restore, the verifier
-> > enforces that the provided ctx is not null.
-> >
-> > What I thought that would happen was that if we were to pass a NULL
-> > context from userspace, but the eBPF program dereferences it (or in
-> > that case have a subprog or a function call that dereferences it),
-> > then max_ctx_offset would still be set to the proper value because of
-> > that internal dereference, and so the verifier would reject with
-> > -EINVAL the call to the eBPF program.
-> >
-> > If I add another test that has the following ebpf prog (with ctx_in
-> > being set to NULL by the userspace):
-> >
-> > SEC("syscall")
-> > int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
-> > {
-> >        bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> >
-> >        return 0;
-> > }
-> >
-> > Then the call of the program is actually failing with -EINVAL, even
-> > with this patch.
-> >
-> > But again, if setting from userspace a ctx of NULL with a 0 size is
-> > not considered as valid, then we can just drop that hunk and add a
-> > test to enforce it.
+> The Elan I2C touchpad driver is currently manually managing the wake
+> IRQ. This change removes the explicit enable_irq_wake/disable_irq_wake
+> and instead relies on the PM subsystem. This is done by calling
+> dev_pm_set_wake_irq.
 >
-> PTR_TO_CTX in the verifier always means valid pointer.
-> All code paths in the verifier assumes that it's not NULL.
-> Pointer to skb, to xdp, to pt_regs, etc.
-> The syscall prog type is little bit special, since it
-> makes sense not to pass any argument to such prog.
-> So ctx_size_in == 0 is enforced after the verification:
-> if (ctx_size_in < prog->aux->max_ctx_offset ||
->     ctx_size_in > U16_MAX)
->           return -EINVAL;
-> The verifier should be able to proceed assuming ctx != NULL
-> and remember max max_ctx_offset.
-> If max_ctx_offset == 4 and ctx_size_in == 0 then
-> it doesn't matter whether the actual 'ctx' pointer is NULL
-> or points to a valid memory.
-> So it's ok for the verifier to assume ctx != NULL everywhere.
-
-Ok, thanks for the detailed explanation.
-
+> i2c_device_probe already calls dev_pm_set_wake_irq when using device
+> tree, so it's only required when using ACPI. The net result is that this
+> change should be a no-op. i2c_device_remove also already calls
+> dev_pm_clear_wake_irq, so we don't need to do that in this driver.
 >
-> Back to the issue at hand.
-> With this patch the line:
->     bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> will be seen as access_size == sizeof(*args), right?
-> So this part:
-> +                       if (access_size == 0)
-> +                               return zero_size_allowed ? 0 : -EACCES;
+> I tested this on an ACPI system where the touchpad doesn't have _PRW
+> defined. I verified I can still wake the system and that the wake source
+> was the touchpad IRQ GPIO.
 >
-> will be skipped and
-> the newly added check_mem_access() will call check_ctx_access()
-> which will call syscall_prog_is_valid_access() and it will say
-> that any off < U16_MAX is fine and will simply
-> record max max_ctx_offset.
-> The ctx_size_in < prog->aux->max_ctx_offset check is done later.
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
 
-Yep, this is correct and this is working now, with a proper error (and
-no, this is not the error I am trying to fix, see below):
+I like this a lot, but the assumption in the wakeirq code is that the
+IRQ in question will be dedicated for signaling wakeup.  Does it hold
+here?
 
-eBPF prog:
-```
-  SEC("?syscall")
-  int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
-  {
-          bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-          return 0;
-  }
-```
-
-before this patch (1/23):
-* with ctx not NULL:
-libbpf: prog 'kfunc_syscall_test_null_fail': BPF program load failed:
-Invalid argument
-R1 type=ctx expected=fp
-arg#0 arg#1 memory, len pair leads to invalid memory access
-
- => this is not correct, we expect the program to be loaded (and it is
-expected, this is the bug that is fixed)
-
-* Same result with ctx being NULL from the caller
-
-With just the hunk in kernel/bpf/verifier.c (so without touching max_ctx_offset:
-* with ctx not NULL:
-program is loaded, and executed correctly
-
-* with ctx being NULL:
-program is now loaded, but execution returns -EINVAL, as expected
-
-So this case is fully solved by just the hunk in verifier.c
-
-With the full patch:
-same results, with or without ctx being set to NULL, so no side effects.
-
+> ---
 >
-> So when you're saying:
-> "call of the program is actually failing with -EINVAL"
-> that's the check you're referring to?
-
-No. I am referring to the following eBPF program:
-```
-  SEC("syscall")
-  int kfunc_syscall_test_null(struct syscall_test_args *args)
-  {
-           return 0;
-  }
-```
-
-(no calls, just the declaration of a program)
-
-This one is supposed to be loaded and properly run whatever the
-context is, right?
-
-However, without the hunk in the btf.c file (max_ctx_offset), we have
-the following (ctx is set to NULL by the userspace):
-verify_success:FAIL:kfunc_syscall_test_null unexpected error: -22 (errno 22)
-
-The reason is that the verifier is calling
-btf_check_subprog_arg_match() on programs too, and considers that ctx
-is not NULL, and bumps the max_ctx_offset value.
-
+>  drivers/input/mouse/elan_i2c_core.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 >
-> If so, everything works as expected.
-
-Not exactly, we can not call a syscall program with a null context
-without this hunk.
-
-> The verifier thinks that bpf_kfunc_call_test_mem_len_pass1()
-> can read that many bytes from args,
-> so it has to reject running the loaded prog in bpf_prog_test_run_syscall().
-
-Yes, that part works. I am focusing on the program declaration.
-
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index e1758d5ffe4218..7d997d2b56436b 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/jiffies.h>
+>  #include <linux/completion.h>
+>  #include <linux/of.h>
+> +#include <linux/pm_wakeirq.h>
+>  #include <linux/property.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <asm/unaligned.h>
+> @@ -86,8 +87,6 @@ struct elan_tp_data {
+>         u16                     fw_page_size;
+>         u32                     fw_signature_address;
 >
-> So what are you trying to achieve ?
-
-See above :)
-
-> Make the verifier understand that ctx can be NULL ?
-
-Nope. I am fine with the way it is. But any eBPF (sub)prog is checked
-against btf_check_subprog_arg_match(), which in turns marks all of
-these calls accessing the entire ctx, even if the ctx is null when
-that case is valid.
-
-> If so that is a probably huge undertaking.
-> Something else?
+> -       bool                    irq_wake;
+> -
+>         u8                      min_baseline;
+>         u8                      max_baseline;
+>         bool                    baseline_ready;
+> @@ -1337,8 +1336,10 @@ static int elan_probe(struct i2c_client *client,
+>          * Systems using device tree should set up wakeup via DTS,
+>          * the rest will configure device as wakeup source by default.
+>          */
+> -       if (!dev->of_node)
+> +       if (!dev->of_node) {
+>                 device_init_wakeup(dev, true);
+> +               dev_pm_set_wake_irq(dev, client->irq);
+> +       }
 >
-
-Hopefully this is clearer now.
-
-Cheers,
-Benjamin
-
+>         return 0;
+>  }
+> @@ -1362,8 +1363,6 @@ static int __maybe_unused elan_suspend(struct device *dev)
+>
+>         if (device_may_wakeup(dev)) {
+>                 ret = elan_sleep(data);
+> -               /* Enable wake from IRQ */
+> -               data->irq_wake = (enable_irq_wake(client->irq) == 0);
+>         } else {
+>                 ret = elan_set_power(data, false);
+>                 if (ret)
+> @@ -1394,9 +1393,6 @@ static int __maybe_unused elan_resume(struct device *dev)
+>                         dev_err(dev, "error %d enabling regulator\n", error);
+>                         goto err;
+>                 }
+> -       } else if (data->irq_wake) {
+> -               disable_irq_wake(client->irq);
+> -               data->irq_wake = false;
+>         }
+>
+>         error = elan_set_power(data, true);
+> --
+> 2.37.2.672.g94769d06f0-goog
+>
