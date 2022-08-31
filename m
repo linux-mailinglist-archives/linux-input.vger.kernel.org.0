@@ -2,136 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 846675A8660
-	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 21:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD8215A8669
+	for <lists+linux-input@lfdr.de>; Wed, 31 Aug 2022 21:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230474AbiHaTDE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 Aug 2022 15:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
+        id S231210AbiHaTGc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 Aug 2022 15:06:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbiHaTCx (ORCPT
+        with ESMTP id S229652AbiHaTGb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 Aug 2022 15:02:53 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AA3C57A7
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 12:02:51 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id e13so18571724wrm.1
-        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 12:02:51 -0700 (PDT)
+        Wed, 31 Aug 2022 15:06:31 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0EDDC9269
+        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 12:06:28 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id h11-20020a17090a470b00b001fbc5ba5224so205558pjg.2
+        for <linux-input@vger.kernel.org>; Wed, 31 Aug 2022 12:06:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=JRPIjaT85DJC7KZEEFgd6/KiQ+pmuQh+h52pvw3QvGk=;
-        b=3F7oQj1ysT1ftZuHEg9/L230UCHXp0uYp573bSmf6kNvsClS2TP8/JqH77ZscLb1Io
-         tIggepPRHRW31oKvnRS4OrzpY6udqa5OkYUDiLkiOdAudYrrwmjoXvM+HdO0rhQqDuIG
-         rirqNzwXU0w5cr+23s49UqFGUkB9PJsVwQv/OtajoBybSVR79l3bMmcu8Pb7So8xxiIF
-         Fza+PohUuzMt/bkeIOLLTcBy+VmZLanCZ0RqENWQ4rt/WUs0ZgK0CA8/pA+clgtTws1K
-         J2GL31emxZUflC2I1tiL8ZpDicoXKjZ4TnUHpRzDEdVE0fcuKlYn9M15tKFPTupAQPSF
-         3UfQ==
+         :subject:cc:to:from:date:from:to:cc;
+        bh=4vabnxTMH9N4kijguDzewyk8E7kS2vGaLqNfOIBWjZk=;
+        b=knfiwPAL6lej4jecmDDu4C6Ido4YLWRq7K/4z5xP8Y95HipfVhgz9D5nJlBVxO+T7m
+         rZ65frZHQeugkrkuUSyfMYi8rlLaNBqTao7nj1rIF6hA90aTFqAP4QZljRPK9W9aDkog
+         G7mP4IN5JYMqCNEm6yaf7ctHY/x9O3FT+5Z8U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=JRPIjaT85DJC7KZEEFgd6/KiQ+pmuQh+h52pvw3QvGk=;
-        b=XGwpApESgRUSvUM7qabLA8r7B53rKHg8kgi48IRzgcqt3xgbUhdLNo4GZmgv9/Xxcm
-         s5CaJZVn4HR+gwPwyEcbdhPTkjXoHDoJ2243ATuOVZ2AZw3I/L16K63yCo5+SW26Hl5i
-         gE4Bl+49OOLOHa7LLqgmoU5tmIy55XRNVPCTpwBNJmPx6SCgxZLs25YFj9JfLBCJy4gI
-         WDhe0rEfBl2I3+qyojWtZ/DBbRWiCqCgozy9IqqjnRcDXGqM/vUiVRcLnm/YPx3sKb2W
-         528fPXEI2+U8mte76nBCm2tgc7RmqStDiIgfOvsk+c/GKYrAH7ko8d+qDErR/W7vRPcg
-         qYmw==
-X-Gm-Message-State: ACgBeo3kutxbXHYisAP3vzsBwQfbyOpFAgHd995gw3ACBYGK9X8KCtA+
-        SKDD4TyaFBHhexIjZvQ4MJIBHg==
-X-Google-Smtp-Source: AA6agR5eOTF0GUQsf0rqXWtABEFOA8Ct6eF2ufSnu2R5kXkDTz3oE1KrOyPRjsQXBB/Dp+j1jG2ddA==
-X-Received: by 2002:a5d:588d:0:b0:225:6e1a:8696 with SMTP id n13-20020a5d588d000000b002256e1a8696mr12449673wrf.512.1661972569710;
-        Wed, 31 Aug 2022 12:02:49 -0700 (PDT)
-Received: from blmsp (55d427d2.access.ecotel.net. [85.212.39.210])
-        by smtp.gmail.com with ESMTPSA id q16-20020adff950000000b002251639bfd0sm12769474wrr.59.2022.08.31.12.02.48
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=4vabnxTMH9N4kijguDzewyk8E7kS2vGaLqNfOIBWjZk=;
+        b=mT/MH/XlB5GFzO/DdUlJfzD1BOTba/ntxFX/ihPg4pi8u0EFIaNlM4PMfEcLbvOn/9
+         W0eyHI3MultPW0YhMcyIbNfGhf6gjJ1A+QuLOpeQlb5JAPPUbsgEN1ncy2YV2mvmPAi4
+         7rmWdcdbHrBgkXBt2Y8/SNzc7T0FLySu3/aErEadpG2/3l+lUvmLrbWa9uFpjA4lLc06
+         rWiJLR6g05wTN7pk/+w+JTt8kvSZlaGZSnr8t5VPG8dAJaXA5E7BpY9RLwniqFqdyqzz
+         daS5ig5EiDQJ1xQA8Lhhhc4l+SD9j5KTiDtikc+88Uw+D8qDBmWfYoEzxQ3bZOmUvR9V
+         SUeg==
+X-Gm-Message-State: ACgBeo3JPfxwkazvdb9iXD7e1dLsx79UYpX11NVgyPqG3VTWhohp5Z96
+        XdY6HE022CrJbj/Bai5qb9DUzA==
+X-Google-Smtp-Source: AA6agR6dob1FlpsurmMAaUDc1n7xLlFq+7hVuLAeZ0jGTHEY+FVp5+hXY6mm84n2BdL67uQtwFFGqA==
+X-Received: by 2002:a17:903:d5:b0:173:3307:bcf with SMTP id x21-20020a17090300d500b0017333070bcfmr27256352plc.87.1661972788232;
+        Wed, 31 Aug 2022 12:06:28 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id mh16-20020a17090b4ad000b001f8aee0d826sm1633159pjb.53.2022.08.31.12.06.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 12:02:48 -0700 (PDT)
-Date:   Wed, 31 Aug 2022 21:02:47 +0200
-From:   Markus Schneider-Pargmann <msp@baylibre.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee@kernel.org>, Tony Lindgren <tony@atomide.com>,
-        nm@ti.com, kristo@kernel.org, Jerome Neanne <jneanne@baylibre.com>,
-        khilman@baylibre.com, narmstrong@baylibre.com, j-keerthy@ti.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] mfd: drivers: Add TI TPS65219 PMIC support
-Message-ID: <20220831190247.t46qdrwu4pe3woby@blmsp>
-References: <20220825150224.826258-1-msp@baylibre.com>
- <20220825150224.826258-5-msp@baylibre.com>
- <b6dae743-8910-1cc2-9b3f-382c6a926b4c@linaro.org>
+        Wed, 31 Aug 2022 12:06:27 -0700 (PDT)
+Date:   Wed, 31 Aug 2022 12:06:26 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/3] fortify: cosmetic cleanups to __compiletime_strlen
+Message-ID: <202208311138.2CA3E54B0D@keescook>
+References: <20220830205309.312864-1-ndesaulniers@google.com>
+ <20220830205309.312864-3-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b6dae743-8910-1cc2-9b3f-382c6a926b4c@linaro.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220830205309.312864-3-ndesaulniers@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Krzysztof,
+On Tue, Aug 30, 2022 at 01:53:08PM -0700, Nick Desaulniers wrote:
+> Two things I noticed in __compiletime_strlen:
 
-On Tue, Aug 30, 2022 at 12:46:53PM +0300, Krzysztof Kozlowski wrote:
-> On 25/08/2022 18:02, Markus Schneider-Pargmann wrote:
-> > From: Jerome Neanne <jneanne@baylibre.com>
-> > 
-> > The TPS65219 is a power management IC PMIC designed to supply a wide
-> > range of SoCs in both portable and stationary applications. Any SoC can
-> > control TPS65219 over a standard I2C interface.
-> > 
-> > It contains the following components:
-> > - Regulators.
-> > - Over Temperature warning and Shut down.
-> > - GPIOs
-> > - Multi Function Pins (MFP)
-> > - power-button
-> > 
-> > This patch adds support for tps65219 PMIC. At this time only
-> > the functionalities listed below are made available:
-> > 
-> > - Regulators probe and functionalities
-> > - warm and cold reset support
-> > - SW shutdown support
-> > - Regulator warnings via IRQs
-> > - Power-button via IRQ
-> > 
-> > Signed-off-by: Jerome Neanne <jneanne@baylibre.com>
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > ---
-> > 
-> > Notes:
-> >     Changes in v4:
-> >     - Removed unused fields from struct tps65219
-> >     - Added description for the fields in struct tps65219
-> >     - Fixed coding style
-> >     - Squash all patches into one mfd patch
-> >     - Call devm_mfd_add_devices multiple times to clean up the code
-> >     - Remove debug prints and fixup other messages
-> >     - Use new_probe instead of probe
-> > 
-> >  MAINTAINERS                  |   1 +
-> >  drivers/mfd/Kconfig          |  14 ++
-> >  drivers/mfd/Makefile         |   1 +
-> >  drivers/mfd/tps65219.c       | 357 +++++++++++++++++++++++++++++++++++
-> >  include/linux/mfd/tps65219.h | 345 +++++++++++++++++++++++++++++++++
+Four? :)
+
+> 1. A temporary, __p, is created+used to avoid repeated side effects from
+>    multiple evaluation of the macro parameter, but the macro parameter
+>    was being used accidentally in __builtin_object_size.
+
+__builtin_object_size(), like sizeof() but unlike __builtin_strlen(),
+will not evaluate side-effects: https://godbolt.org/z/Yaa1z7YvK
+And using bos on __p will sometimes mask the actual object, so p needs to
+stay the argument.
+
+> 2. The temporary has a curious signedness and const-less qualification.
+>    Just use __auto_type.
+
+__auto_type is pretty rare in the kernel, but does provide the removal
+of "const". Even though the kernel builds with -Wno-pointer-sign, the
+explicit case does fix a potential warnings about signedness differences,
+not just const differences, for __builtin_strlen() which requires "const
+char *", but many arguments are "unsigned char *", "u8 *", etc.
+
+Is __auto_type more readable than the explicit cast? It does seem to
+work fine.
+
+> 3. (size_t)-1 is perhaps more readable as -1UL.
+
+That's true, though I kind of prefer (size_t)-1, though yes, it appears
+to be the extreme minority in the kernel.
+
+> 4. __p_size == -1UL when __builtin_object_size can't evaluate the
+>    object size at compile time. We could just reuse __ret and use one
+>    less variable here.
+
+This seems to get entire optimized away by the compiler? I think it's
+more readable to keep the explicit variable.
+
+-Kees
+
 > 
-> Use subject prefixes matching the subsystem (git log --oneline -- ...).
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  include/linux/fortify-string.h | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+> index c5adad596a3f..aaf73575050f 100644
+> --- a/include/linux/fortify-string.h
+> +++ b/include/linux/fortify-string.h
+> @@ -22,11 +22,10 @@ void __write_overflow_field(size_t avail, size_t wanted) __compiletime_warning("
+>  
+>  #define __compiletime_strlen(p)					\
+>  ({								\
+> -	unsigned char *__p = (unsigned char *)(p);		\
+> -	size_t __ret = (size_t)-1;				\
+> -	size_t __p_size = __object_size(p, 1);			\
+> -	if (__p_size != (size_t)-1) {				\
+> -		size_t __p_len = __p_size - 1;			\
+> +	__auto_type __p = (p);					\
+> +	size_t __ret = __object_size(__p, 1);			\
+> +	if (__ret != -1UL) {					\
+> +		size_t __p_len = __ret - 1;			\
+>  		if (__builtin_constant_p(__p[__p_len]) &&	\
+>  		    __p[__p_len] == '\0')			\
+>  			__ret = __builtin_strlen(__p);		\
+> -- 
+> 2.37.2.672.g94769d06f0-goog
+> 
 
-thank you for noticing, I am fixing it for the next version.
-
-Best,
-Markus
+-- 
+Kees Cook
