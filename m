@@ -2,52 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0D4D5A928B
-	for <lists+linux-input@lfdr.de>; Thu,  1 Sep 2022 10:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A23805A9D72
+	for <lists+linux-input@lfdr.de>; Thu,  1 Sep 2022 18:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234328AbiIAI7Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Sep 2022 04:59:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37974 "EHLO
+        id S233456AbiIAQsG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Sep 2022 12:48:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234010AbiIAI6z (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Sep 2022 04:58:55 -0400
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8B2C130A19
-        for <linux-input@vger.kernel.org>; Thu,  1 Sep 2022 01:58:25 -0700 (PDT)
-Received: by mail-il1-f200.google.com with SMTP id k9-20020a056e021a8900b002e5bd940e96so12398392ilv.13
-        for <linux-input@vger.kernel.org>; Thu, 01 Sep 2022 01:58:25 -0700 (PDT)
+        with ESMTP id S234485AbiIAQsE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Sep 2022 12:48:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD229835F
+        for <linux-input@vger.kernel.org>; Thu,  1 Sep 2022 09:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662050880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JmSTZNuoR5/0BLeN7G1KPisKeeRorhWXxUEtlv0SKGg=;
+        b=EInNRLD/ShoVHoC+qC8nvhLqeBqMrK2mYZ1Xunag6uDPzVo42+gGrR5TJvtt9BwikvXr78
+        iZPl6y9FmoqWWwVhCdVccdJIVc1194+DzCz5nJqJH0f1wEmgJqU3Cd7TaWzWRgGToTFPyb
+        MWC04EYwHPfmXY97h+C5GmfL29+l96I=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-86-V_ZBHC5NPfOO68txIglGAQ-1; Thu, 01 Sep 2022 12:47:58 -0400
+X-MC-Unique: V_ZBHC5NPfOO68txIglGAQ-1
+Received: by mail-pj1-f70.google.com with SMTP id s4-20020a17090aa10400b001fe1cfc50f7so1668938pjp.9
+        for <linux-input@vger.kernel.org>; Thu, 01 Sep 2022 09:47:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=gnwWiTBesqBtTpf5srkJZwPb9vI4gWm69WHle44tYRo=;
-        b=B6aoOEUe7yWmpyvCo2TRHK1y2lQIA32L7M8Jgdri+bFTtlgo3Weq+umygnU1C7mXaG
-         n6BSkND0YEf+DGEzOZTjj0Y5k7fRwZr01ncDFfCqLFFnxmrQ6WuXbBj0qtWGPXrW2Hv3
-         RslUfaSawEXzPh5C+8fVMN6p+Q7ttMDsrrFdc6AJJse0M5MaeT92HQo5YTKES1ytZlIP
-         ixXxijxB75P015Csb6RLTYKBMiBuAOXfGeOn9Cn7k7LNhWt3lQoe/6u9TyUPbs/vKyoI
-         tX8PZyJ9MUQXva0wsepVzBXfpWJs3SpR9VUblvmbBP82hisgxCjPhh47Ux/y43Ng/8Fg
-         5q8A==
-X-Gm-Message-State: ACgBeo0Yjul806eOAYSLTffKRvClcuQ1J2pZrPfXLeXdpZSGkxlqbCqt
-        ZETXYR+NsVryJSKIOXEs9cRdtKhcdBkWqFUrDvfG4jDhrEnE
-X-Google-Smtp-Source: AA6agR5v6uN4hx4zcEDZtvnuTGYrZDGbSFRFNEEjdtGnGAhKNE0fnddXuT2gRviFiwcw3bsR08uZWHc9hUl7cPKTuuluWRcr46EE
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=JmSTZNuoR5/0BLeN7G1KPisKeeRorhWXxUEtlv0SKGg=;
+        b=gU+IfqVSXSaKjfGI6KNjVWR2LSyfxh/vg/oUds5Kt2Q6ufbzX/CZ+qQ6uTXJYzHLB/
+         5ffGQ+SlrtiheVfO1k9jKdmxv/+5r4HrC+w7TUfOR1koV0N5Aw5As9WR+o5TdfVqb2aM
+         +3q85/SAtYSX13nwEg6LAAMRcSZHQVgtT6giKRGoFhTc1QO6FR5pTQv/T9zG63u3lqCo
+         SUoYG/mJ7ow3op7Sigvakf8gJcwLVgwNdJu0HQ+tmkXV1y3fCuUITWur4rhTekwG3YXU
+         b74HAgfP/Sg6J58V8tfWidK60y3v0lLDZhyEU9OrK3ghWKRuYIkPlK5Bh75zkEG6Diy6
+         Uh8Q==
+X-Gm-Message-State: ACgBeo2ie+hYv7JKr1puutsenBoezRUikmco/Xhmx8NejXTujhjLWKJt
+        9NcOwXNlhH5kzLb8AuUqXGGWv8No99sMjp0XWfnYg6S18BFf4CuOLy3RUuAzxPNv7xvV7+jjO3Q
+        eH0wwXQdUY2XkrEXbHnPQAEayeTHg1bRzQzJa6IQ=
+X-Received: by 2002:a17:903:120c:b0:172:728a:3b24 with SMTP id l12-20020a170903120c00b00172728a3b24mr31230798plh.61.1662050877600;
+        Thu, 01 Sep 2022 09:47:57 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5V9baM7wbECIOLU2cc4dJ4lH8MVOMc1IGV9dE9JUZaUiy83PnHLzx+/7PJ3+AQ4GLfQUWhZJDTtOuHTUEUFkY=
+X-Received: by 2002:a17:903:120c:b0:172:728a:3b24 with SMTP id
+ l12-20020a170903120c00b00172728a3b24mr31230768plh.61.1662050877195; Thu, 01
+ Sep 2022 09:47:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1baf:b0:2e0:e64c:c68b with SMTP id
- n15-20020a056e021baf00b002e0e64cc68bmr16300244ili.200.1662022705123; Thu, 01
- Sep 2022 01:58:25 -0700 (PDT)
-Date:   Thu, 01 Sep 2022 01:58:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f296b105e799d0d6@google.com>
-Subject: [syzbot] KASAN: use-after-free Read in powermate_config_complete (4)
-From:   syzbot <syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, mailhol.vincent@wanadoo.fr,
-        syzkaller-bugs@googlegroups.com
+References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
+ <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
+ <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
+ <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com>
+ <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
+ <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com> <CAADnVQLuL045Sxdvh8kfcNkmD55+Wz8fHU3RtH+oQyOgePU5Pw@mail.gmail.com>
+In-Reply-To: <CAADnVQLuL045Sxdvh8kfcNkmD55+Wz8fHU3RtH+oQyOgePU5Pw@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 1 Sep 2022 18:47:45 +0200
+Message-ID: <CAO-hwJJJJRtoq2uTXRKCck6QSH8SFDSTpHmvTyOieczY7bdm8g@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
+ read user provided context
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,213 +95,352 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Thu, Sep 1, 2022 at 6:15 AM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Wed, Aug 31, 2022 at 10:56 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > On Wed, Aug 31, 2022 at 6:37 PM Alexei Starovoitov
+> > <alexei.starovoitov@gmail.com> wrote:
+> > >
+> > > On Tue, Aug 30, 2022 at 7:29 AM Benjamin Tissoires
+> > > <benjamin.tissoires@redhat.com> wrote:
+> > > >
+> > > > On Fri, Aug 26, 2022 at 3:51 AM Kumar Kartikeya Dwivedi
+> > > > <memxor@gmail.com> wrote:
+> > > > >
+> > > > > On Fri, 26 Aug 2022 at 03:42, Alexei Starovoitov
+> > > > > <alexei.starovoitov@gmail.com> wrote:
+> > > > > >
+> > > > > > On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
+> > > > > > <benjamin.tissoires@redhat.com> wrote:
+> > > > > > >
+> > > > > > > When a function was trying to access data from context in a syscall eBPF
+> > > > > > > program, the verifier was rejecting the call unless it was accessing the
+> > > > > > > first element.
+> > > > > > > This is because the syscall context is not known at compile time, and
+> > > > > > > so we need to check this when actually accessing it.
+> > > > > > >
+> > > > > > > Check for the valid memory access if there is no convert_ctx callback,
+> > > > > > > and allow such situation to happen.
+> > > > > > >
+> > > > > > > There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
+> > > > > > > will check that the types are matching, which is a good thing, but to
+> > > > > > > have an accurate result, it hides the fact that the context register may
+> > > > > > > be null. This makes env->prog->aux->max_ctx_offset being set to the size
+> > > > > > > of the context, which is incompatible with a NULL context.
+> > > > > > >
+> > > > > > > Solve that last problem by storing max_ctx_offset before the type check
+> > > > > > > and restoring it after.
+> > > > > > >
+> > > > > > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> > > > > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > > > > >
+> > > > > > > ---
+> > > > > > >
+> > > > > > > changes in v9:
+> > > > > > > - rewrote the commit title and description
+> > > > > > > - made it so all functions can make use of context even if there is
+> > > > > > >   no convert_ctx
+> > > > > > > - remove the is_kfunc field in bpf_call_arg_meta
+> > > > > > >
+> > > > > > > changes in v8:
+> > > > > > > - fixup comment
+> > > > > > > - return -EACCESS instead of -EINVAL for consistency
+> > > > > > >
+> > > > > > > changes in v7:
+> > > > > > > - renamed access_t into atype
+> > > > > > > - allow zero-byte read
+> > > > > > > - check_mem_access() to the correct offset/size
+> > > > > > >
+> > > > > > > new in v6
+> > > > > > > ---
+> > > > > > >  kernel/bpf/btf.c      | 11 ++++++++++-
+> > > > > > >  kernel/bpf/verifier.c | 19 +++++++++++++++++++
+> > > > > > >  2 files changed, 29 insertions(+), 1 deletion(-)
+> > > > > > >
+> > > > > > > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> > > > > > > index 903719b89238..386300f52b23 100644
+> > > > > > > --- a/kernel/bpf/btf.c
+> > > > > > > +++ b/kernel/bpf/btf.c
+> > > > > > > @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> > > > > > >  {
+> > > > > > >         struct bpf_prog *prog = env->prog;
+> > > > > > >         struct btf *btf = prog->aux->btf;
+> > > > > > > +       u32 btf_id, max_ctx_offset;
+> > > > > > >         bool is_global;
+> > > > > > > -       u32 btf_id;
+> > > > > > >         int err;
+> > > > > > >
+> > > > > > >         if (!prog->aux->func_info)
+> > > > > > > @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> > > > > > >         if (prog->aux->func_info_aux[subprog].unreliable)
+> > > > > > >                 return -EINVAL;
+> > > > > > >
+> > > > > > > +       /* subprogs arguments are not actually accessing the data, we need
+> > > > > > > +        * to check for the types if they match.
+> > > > > > > +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
+> > > > > > > +        * given that this function will have a side effect of changing it.
+> > > > > > > +        */
+> > > > > > > +       max_ctx_offset = env->prog->aux->max_ctx_offset;
+> > > > > > > +
+> > > > > > >         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
+> > > > > > >         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
+> > > > > > >
+> > > > > > > +       env->prog->aux->max_ctx_offset = max_ctx_offset;
+> > > > > >
+> > > > > > I don't understand this.
+> > > > > > If we pass a ctx into a helper and it's going to
+> > > > > > access [0..N] bytes from it why do we need to hide it?
+> > > > > > max_ctx_offset will be used later raw_tp, tp, syscall progs
+> > > > > > to determine whether it's ok to load them.
+> > > > > > By hiding the actual size of access somebody can construct
+> > > > > > a prog that reads out of bounds.
+> > > > > > How is this related to NULL-ness property?
+> > > > >
+> > > > > Same question, was just typing exactly the same thing.
+> > > >
+> > > > The test I have that is failing in patch 2/23 is the following, with
+> > > > args being set to NULL by userspace:
+> > > >
+> > > > SEC("syscall")
+> > > > int kfunc_syscall_test_null(struct syscall_test_args *args)
+> > > > {
+> > > >        bpf_kfunc_call_test_mem_len_pass1(args, 0);
+> > > >
+> > > >        return 0;
+> > > > }
+> > > >
+> > > > Basically:
+> > > > if userspace declares the following:
+> > > >  DECLARE_LIBBPF_OPTS(bpf_test_run_opts, syscall_topts,
+> > > >                .ctx_in = NULL,
+> > > >                .ctx_size_in = 0,
+> > > >        );
+> > > >
+> > > > The verifier is happy with the current released kernel:
+> > > > kfunc_syscall_test_fail() never dereferences the ctx pointer, it just
+> > > > passes it around to bpf_kfunc_call_test_mem_len_pass1(), which in turn
+> > > > is also happy because it says it is not accessing the data at all (0
+> > > > size memory parameter).
+> > > >
+> > > > In the current code, check_helper_mem_access() actually returns
+> > > > -EINVAL, but doesn't change max_ctx_offset (it's still at the value of
+> > > > 0 here). The program is now marked as unreliable, but the verifier
+> > > > goes on.
+> > > >
+> > > > When adding this patch, if we declare a syscall eBPF (or any other
+> > > > function that doesn't have env->ops->convert_ctx_access), the previous
+> > > > "test" is failing because this ensures the syscall program has to have
+> > > > a valid ctx pointer.
+> > > > btf_check_func_arg_match() now calls check_mem_access() which
+> > > > basically validates the fact that the program can dereference the ctx.
+> > > >
+> > > > So now, without the max_ctx_offset store/restore, the verifier
+> > > > enforces that the provided ctx is not null.
+> > > >
+> > > > What I thought that would happen was that if we were to pass a NULL
+> > > > context from userspace, but the eBPF program dereferences it (or in
+> > > > that case have a subprog or a function call that dereferences it),
+> > > > then max_ctx_offset would still be set to the proper value because of
+> > > > that internal dereference, and so the verifier would reject with
+> > > > -EINVAL the call to the eBPF program.
+> > > >
+> > > > If I add another test that has the following ebpf prog (with ctx_in
+> > > > being set to NULL by the userspace):
+> > > >
+> > > > SEC("syscall")
+> > > > int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
+> > > > {
+> > > >        bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
+> > > >
+> > > >        return 0;
+> > > > }
+> > > >
+> > > > Then the call of the program is actually failing with -EINVAL, even
+> > > > with this patch.
+> > > >
+> > > > But again, if setting from userspace a ctx of NULL with a 0 size is
+> > > > not considered as valid, then we can just drop that hunk and add a
+> > > > test to enforce it.
+> > >
+> > > PTR_TO_CTX in the verifier always means valid pointer.
+> > > All code paths in the verifier assumes that it's not NULL.
+> > > Pointer to skb, to xdp, to pt_regs, etc.
+> > > The syscall prog type is little bit special, since it
+> > > makes sense not to pass any argument to such prog.
+> > > So ctx_size_in == 0 is enforced after the verification:
+> > > if (ctx_size_in < prog->aux->max_ctx_offset ||
+> > >     ctx_size_in > U16_MAX)
+> > >           return -EINVAL;
+> > > The verifier should be able to proceed assuming ctx != NULL
+> > > and remember max max_ctx_offset.
+> > > If max_ctx_offset == 4 and ctx_size_in == 0 then
+> > > it doesn't matter whether the actual 'ctx' pointer is NULL
+> > > or points to a valid memory.
+> > > So it's ok for the verifier to assume ctx != NULL everywhere.
+> >
+> > Ok, thanks for the detailed explanation.
+> >
+> > >
+> > > Back to the issue at hand.
+> > > With this patch the line:
+> > >     bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
+> > > will be seen as access_size == sizeof(*args), right?
+> > > So this part:
+> > > +                       if (access_size == 0)
+> > > +                               return zero_size_allowed ? 0 : -EACCES;
+> > >
+> > > will be skipped and
+> > > the newly added check_mem_access() will call check_ctx_access()
+> > > which will call syscall_prog_is_valid_access() and it will say
+> > > that any off < U16_MAX is fine and will simply
+> > > record max max_ctx_offset.
+> > > The ctx_size_in < prog->aux->max_ctx_offset check is done later.
+> >
+> > Yep, this is correct and this is working now, with a proper error (and
+> > no, this is not the error I am trying to fix, see below):
+> >
+> > eBPF prog:
+> > ```
+> >   SEC("?syscall")
+> >   int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
+> >   {
+> >           bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
+> >           return 0;
+> >   }
+> > ```
+> >
+> > before this patch (1/23):
+> > * with ctx not NULL:
+> > libbpf: prog 'kfunc_syscall_test_null_fail': BPF program load failed:
+> > Invalid argument
+> > R1 type=ctx expected=fp
+> > arg#0 arg#1 memory, len pair leads to invalid memory access
+> >
+> >  => this is not correct, we expect the program to be loaded (and it is
+> > expected, this is the bug that is fixed)
+> >
+> > * Same result with ctx being NULL from the caller
+> >
+> > With just the hunk in kernel/bpf/verifier.c (so without touching max_ctx_offset:
+> > * with ctx not NULL:
+> > program is loaded, and executed correctly
+> >
+> > * with ctx being NULL:
+> > program is now loaded, but execution returns -EINVAL, as expected
+> >
+> > So this case is fully solved by just the hunk in verifier.c
+> >
+> > With the full patch:
+> > same results, with or without ctx being set to NULL, so no side effects.
+> >
+> > >
+> > > So when you're saying:
+> > > "call of the program is actually failing with -EINVAL"
+> > > that's the check you're referring to?
+> >
+> > No. I am referring to the following eBPF program:
+> > ```
+> >   SEC("syscall")
+> >   int kfunc_syscall_test_null(struct syscall_test_args *args)
+> >   {
+> >            return 0;
+> >   }
+> > ```
+> >
+> > (no calls, just the declaration of a program)
+> >
+> > This one is supposed to be loaded and properly run whatever the
+> > context is, right?
+>
+> Got it. Yes. Indeed.
+> The if (!env->ops->convert_ctx_access)
+> hunk alone would break existing progs because of
+> side effect of max_ctx_offset.
+> We have this unfortunate bit of code:
+>                 ret = btf_check_subprog_arg_match(env, subprog, regs);
+>                 if (ret == -EFAULT)
+>                         /* unlikely verifier bug. abort.
+>                          * ret == 0 and ret < 0 are sadly acceptable for
+>                          * main() function due to backward compatibility.
+>                          * Like socket filter program may be written as:
+>                          * int bpf_prog(struct pt_regs *ctx)
+>                          * and never dereference that ctx in the program.
+>                          * 'struct pt_regs' is a type mismatch for socket
+>                          * filter that should be using 'struct __sk_buff'.
+>                          */
+>                         goto out;
+>
+> because btf_check_subprog_arg_match() is used to match arguments
+> for calling into a function and when the verifier just starts
+> to analyze a function.
+> Before this patch the btf_check_subprog_arg_match() would just
+> EINVAL on your above example and will proceed,
+> but with the patch the non zero max_ctx_offset will
+> disallow execution later and break things.
+> I think we need to clean up this bit of code.
+> Just save/restore of max_ctx_offset isn't going to work.
+> How about adding a flag to btf_check_subprog_arg_match
+> to indicate whether the verifier is processing 'call' insn
+> or just starting processing a function body and
+> then do
+> if (ptr_to_mem_ok && processing_call) ?
+> Still feels like a hack.
+> Maybe btf_check_func_arg_match() needs to be split to
+> disambiguate calling vs processing the body ?
 
-syzbot found the following issue on:
+Just to be sure I understand the problem correctly:
+btf_check_subprog_arg_match() is called twice only in verifier.c
+  - first time (in do_check_common()):
+               /* 1st arg to a function */
+               regs[BPF_REG_1].type = PTR_TO_CTX;
+               mark_reg_known_zero(env, regs, BPF_REG_1);
+               ret = btf_check_subprog_arg_match(env, subprog, regs);
 
-HEAD commit:    ffcf9c5700e4 x86: link vdso and boot with -z noexecstack -..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=15757783080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=62757afbf52714ca
-dashboard link: https://syzkaller.appspot.com/bug?extid=0434ac83f907a1dbdd1e
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+AFAICT this call is the "starting processing a function body", and
+thus we should only match whether the function definition is correct
+compared to the BTF (whether the program is correctly defined or not),
+and thus should not have side effects like changing max_ctx_offset
 
-Unfortunately, I don't have any reproducer for this issue yet.
+  - second time (in __check_func_call()):
+          func_info_aux = env->prog->aux->func_info_aux;
+          if (func_info_aux)
+                  is_global = func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
+          err = btf_check_subprog_arg_match(env, subprog, caller->regs);
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/7f6fb0733c70/disk-ffcf9c57.raw.xz
-vmlinux: https://storage.googleapis.com/767503818e0d/vmlinux-ffcf9c57.xz
+This time we are in the "processing 'call' insn" part and this is
+where we need to also ensure that the register we access is correctly
+set, so max_ctx_offset needs to be updated.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
+If the above is correct, then yes, it would make sense to me to have 2
+distinct functions: one to check for the args types only (does the
+function definition in the problem matches BTF), and one to check for
+its use.
+Behind the scenes, btf_check_subprog_arg_match() calls
+btf_check_func_arg_match() which is the one function with entangled
+arguments type checking and actually assessing that the values
+provided are correct.
 
-powermate 5-1:0.0: powermate_irq - usb_submit_urb failed with result: -19
-powermate: config urb returned -71
-==================================================================
-BUG: KASAN: use-after-free in __lock_acquire+0x3ee7/0x56d0 kernel/locking/lockdep.c:4923
-Read of size 8 at addr ffff88813fb04058 by task ksoftirqd/1/19
+I can try to split that  btf_check_func_arg_match() into 2 distinct
+functions, though I am not sure I'll get it right.
+Maybe the hack about having "processing_call" for
+btf_check_func_arg_match() only will be good enough as a first step
+towards a better solution?
 
-CPU: 1 PID: 19 Comm: ksoftirqd/1 Not tainted 5.19.0-syzkaller-13666-gffcf9c5700e4 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description mm/kasan/report.c:317 [inline]
- print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
- kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
- __lock_acquire+0x3ee7/0x56d0 kernel/locking/lockdep.c:4923
- lock_acquire kernel/locking/lockdep.c:5666 [inline]
- lock_acquire+0x1ab/0x570 kernel/locking/lockdep.c:5631
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0x39/0x50 kernel/locking/spinlock.c:162
- powermate_config_complete+0x79/0xb0 drivers/input/misc/powermate.c:202
- __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1671
- usb_hcd_giveback_urb+0x380/0x430 drivers/usb/core/hcd.c:1754
- dummy_timer+0x11ff/0x32c0 drivers/usb/gadget/udc/dummy_hcd.c:1988
- call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
- expire_timers kernel/time/timer.c:1519 [inline]
- __run_timers.part.0+0x674/0xa80 kernel/time/timer.c:1790
- __run_timers kernel/time/timer.c:1768 [inline]
- run_timer_softirq+0xb3/0x1d0 kernel/time/timer.c:1803
- __do_softirq+0x1c0/0x9a9 kernel/softirq.c:571
- run_ksoftirqd kernel/softirq.c:934 [inline]
- run_ksoftirqd+0x2d/0x60 kernel/softirq.c:926
- smpboot_thread_fn+0x645/0x9c0 kernel/smpboot.c:164
- kthread+0x2ea/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
- </TASK>
+> And may cleanup the rest of that function ?
+> Like all of if (is_kfunc) applies only to 'calling' case.
+> Other ideas?
+>
 
-Allocated by task 24122:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- kasan_set_track mm/kasan/common.c:45 [inline]
- set_alloc_info mm/kasan/common.c:437 [inline]
- ____kasan_kmalloc mm/kasan/common.c:516 [inline]
- __kasan_kmalloc+0x81/0xa0 mm/kasan/common.c:525
- kmalloc include/linux/slab.h:600 [inline]
- kzalloc include/linux/slab.h:733 [inline]
- powermate_probe+0x24a/0x12a0 drivers/input/misc/powermate.c:323
- usb_probe_interface+0x30b/0x7f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:530 [inline]
- really_probe+0x249/0xb90 drivers/base/dd.c:609
- __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:748
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:778
- __device_attach_driver+0x206/0x2e0 drivers/base/dd.c:901
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x1e4/0x530 drivers/base/dd.c:973
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
- device_add+0xbd5/0x1e90 drivers/base/core.c:3517
- usb_set_configuration+0x1019/0x1900 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
- usb_probe_device+0xd4/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:530 [inline]
- really_probe+0x249/0xb90 drivers/base/dd.c:609
- __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:748
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:778
- __device_attach_driver+0x206/0x2e0 drivers/base/dd.c:901
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x1e4/0x530 drivers/base/dd.c:973
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
- device_add+0xbd5/0x1e90 drivers/base/core.c:3517
- usb_new_device.cold+0x685/0x10ad drivers/usb/core/hub.c:2573
- hub_port_connect drivers/usb/core/hub.c:5353 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
- port_event drivers/usb/core/hub.c:5653 [inline]
- hub_event+0x26c7/0x4610 drivers/usb/core/hub.c:5735
- process_one_work+0x991/0x1610 kernel/workqueue.c:2289
- worker_thread+0x665/0x1080 kernel/workqueue.c:2436
- kthread+0x2ea/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+I was trying to understand the problem most of today, and the only
+other thing I could think of was "why is the assumption that
+PTR_TO_CTX is not NULL actually required?". But again, this question
+is "valid" in the function declaration part, but not in the caller
+insn part. So I think splitting btf_check_subprog_arg_match() in 2 is
+probably the best.
 
-Freed by task 24523:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- kasan_set_track+0x21/0x30 mm/kasan/common.c:45
- kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
- ____kasan_slab_free mm/kasan/common.c:367 [inline]
- ____kasan_slab_free+0x14a/0x1b0 mm/kasan/common.c:329
- kasan_slab_free include/linux/kasan.h:200 [inline]
- slab_free_hook mm/slub.c:1754 [inline]
- slab_free_freelist_hook mm/slub.c:1780 [inline]
- slab_free mm/slub.c:3534 [inline]
- kfree+0xca/0x5c0 mm/slub.c:4562
- powermate_disconnect+0x1ce/0x250 drivers/input/misc/powermate.c:432
- usb_unbind_interface+0x1d8/0x8e0 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:520 [inline]
- device_remove+0x11f/0x170 drivers/base/dd.c:512
- __device_release_driver drivers/base/dd.c:1209 [inline]
- device_release_driver_internal+0x4a1/0x700 drivers/base/dd.c:1235
- bus_remove_device+0x2e3/0x590 drivers/base/bus.c:529
- device_del+0x4f3/0xc80 drivers/base/core.c:3704
- usb_disable_device+0x356/0x7a0 drivers/usb/core/message.c:1419
- usb_disconnect.cold+0x259/0x6ed drivers/usb/core/hub.c:2235
- hub_port_connect drivers/usb/core/hub.c:5197 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
- port_event drivers/usb/core/hub.c:5653 [inline]
- hub_event+0x1f86/0x4610 drivers/usb/core/hub.c:5735
- process_one_work+0x991/0x1610 kernel/workqueue.c:2289
- worker_thread+0x665/0x1080 kernel/workqueue.c:2436
- kthread+0x2ea/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+Cheers,
+Benjamin
 
-The buggy address belongs to the object at ffff88813fb04000
- which belongs to the cache kmalloc-256 of size 256
-The buggy address is located 88 bytes inside of
- 256-byte region [ffff88813fb04000, ffff88813fb04100)
-
-The buggy address belongs to the physical page:
-page:ffffea0004fec100 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x13fb04
-head:ffffea0004fec100 order:1 compound_mapcount:0 compound_pincount:0
-flags: 0x200000000010200(slab|head|node=0|zone=2)
-raw: 0200000000010200 ffffea0004021380 dead000000000004 ffff888100041b40
-raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 1, migratetype Unmovable, gfp_mask 0x1d20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC|__GFP_HARDWALL), pid 20353, tgid 20353 (syz-executor.1), ts 1943819602580, free_ts 1943661399748
- prep_new_page mm/page_alloc.c:2532 [inline]
- get_page_from_freelist+0x11cc/0x2a20 mm/page_alloc.c:4283
- __alloc_pages+0x1c7/0x510 mm/page_alloc.c:5515
- alloc_pages+0x1a6/0x270 mm/mempolicy.c:2270
- alloc_slab_page mm/slub.c:1824 [inline]
- allocate_slab+0x27e/0x3d0 mm/slub.c:1969
- new_slab mm/slub.c:2029 [inline]
- ___slab_alloc+0x7b4/0xda0 mm/slub.c:3031
- __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3118
- slab_alloc_node mm/slub.c:3209 [inline]
- slab_alloc mm/slub.c:3251 [inline]
- __kmalloc+0x2ea/0x320 mm/slub.c:4420
- kmalloc include/linux/slab.h:605 [inline]
- kzalloc include/linux/slab.h:733 [inline]
- ops_init+0xfb/0x470 net/core/net_namespace.c:125
- setup_net+0x5d1/0xc50 net/core/net_namespace.c:326
- copy_net_ns+0x318/0x760 net/core/net_namespace.c:472
- create_new_namespaces+0x3f6/0xb20 kernel/nsproxy.c:110
- unshare_nsproxy_namespaces+0xc1/0x1f0 kernel/nsproxy.c:227
- ksys_unshare+0x445/0x920 kernel/fork.c:3183
- __do_sys_unshare kernel/fork.c:3254 [inline]
- __se_sys_unshare kernel/fork.c:3252 [inline]
- __x64_sys_unshare+0x2d/0x40 kernel/fork.c:3252
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1449 [inline]
- free_pcp_prepare+0x5d2/0xb80 mm/page_alloc.c:1499
- free_unref_page_prepare mm/page_alloc.c:3380 [inline]
- free_unref_page+0x19/0x420 mm/page_alloc.c:3476
- qlink_free mm/kasan/quarantine.c:168 [inline]
- qlist_free_all+0x6a/0x170 mm/kasan/quarantine.c:187
- kasan_quarantine_reduce+0x180/0x200 mm/kasan/quarantine.c:294
- __kasan_slab_alloc+0x78/0x80 mm/kasan/common.c:447
- kasan_slab_alloc include/linux/kasan.h:224 [inline]
- slab_post_alloc_hook mm/slab.h:727 [inline]
- slab_alloc_node mm/slub.c:3243 [inline]
- slab_alloc mm/slub.c:3251 [inline]
- __kmem_cache_alloc_lru mm/slub.c:3258 [inline]
- kmem_cache_alloc+0x354/0x4a0 mm/slub.c:3268
- vm_area_alloc+0x1c/0x110 kernel/fork.c:459
- mmap_region+0x7fd/0x12b0 mm/mmap.c:1729
- do_mmap+0x863/0xfa0 mm/mmap.c:1540
- vm_mmap_pgoff+0x1ab/0x270 mm/util.c:552
- ksys_mmap_pgoff+0x41b/0x5a0 mm/mmap.c:1586
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-Memory state around the buggy address:
- ffff88813fb03f00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff88813fb03f80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->ffff88813fb04000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                    ^
- ffff88813fb04080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88813fb04100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
