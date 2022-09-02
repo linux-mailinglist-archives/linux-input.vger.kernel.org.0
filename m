@@ -2,138 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA465A9EE4
-	for <lists+linux-input@lfdr.de>; Thu,  1 Sep 2022 20:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92B175AA69C
+	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 05:52:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232008AbiIASZ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Sep 2022 14:25:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56456 "EHLO
+        id S234836AbiIBDvZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Sep 2022 23:51:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233350AbiIASZy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Sep 2022 14:25:54 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3FBA419BC
-        for <linux-input@vger.kernel.org>; Thu,  1 Sep 2022 11:25:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662056752; x=1693592752;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nhRBRBUcwtdoHNZCBV5dvaoO2HHpb9ws8/tNoFwTIjw=;
-  b=b+csdc3iUtUmmfZA5ksMTQ5/D9jjr5Jz1zKbzaSxm+qaX4vajltWo76T
-   HCnXK1utqpqlq/l9pSMyWzVTxF/i9MuIUxR9m8INTrEyhdwzgatGjRIze
-   Xx3dKoBVt6v2iuQxhdU6b/cTtMIfvI0jVy9P/pc2QnrmlaWrfRbT6Fo3E
-   Rwg+4EKJNS7steunB+9GCXSOfcKxR2fAHkAvjGpru3ObdkU1JjRPU/o+x
-   Lz8cYXN0kwL6tpoo/JeTiMFSE8267Pf8ffLXW6/rfbpwhXmHFCeFocdfT
-   SRgeAnEJGW0vjNdHe+Fvm9BcS7ctoujpWeu6oFYrUXsy3Zd2EQP2hBYAv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="278811840"
-X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; 
-   d="scan'208";a="278811840"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2022 11:25:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; 
-   d="scan'208";a="680976220"
-Received: from lkp-server02.sh.intel.com (HELO b138c9e8658c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Sep 2022 11:25:51 -0700
-Received: from kbuild by b138c9e8658c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oTosw-0000d3-1F;
-        Thu, 01 Sep 2022 18:25:50 +0000
-Date:   Fri, 02 Sep 2022 02:25:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- ed3d5bd20dcdfdbe110feeabf120cba7bd329ad8
-Message-ID: <6310f910.gZQJoIfQuOWhDE2S%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S235422AbiIBDvL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Sep 2022 23:51:11 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F17953037;
+        Thu,  1 Sep 2022 20:50:55 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id n202so701813iod.6;
+        Thu, 01 Sep 2022 20:50:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=E+LJ1geH9sHZ7zNZY9aNOFdRivMlaRJnVrHaJZ75NKo=;
+        b=nRy9G0eht6ytO52NCU/doiQCtMeaRAV6V7krSlmSA9qcUj7j3ecvqgG1ge+ubUm4hy
+         5zTEUU2+pN2G9UjF/E1TmIyiq2Gtmx0YhQVHIuwxsTaygjYaZSspj1di9q324yvyHLOs
+         onkk7PntBDcPqCBMReGZ5Kx+7NwYsGoO6vm00HM1pp3JzxLVuDF5vGFxvOLmqc1dnknH
+         vdmXethcA7SAPx10M2RQkjSXVHxCcjMzI/ZvksBqpGZsPJvqn0pJGHV0vOSCiSGioJS/
+         UbfCnamfaV1Into6YeCLtbsjys6xcHUKFr2MT9AU/SAm9XZXLaA3eLvR/YlyAKFCnfHy
+         Fgpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=E+LJ1geH9sHZ7zNZY9aNOFdRivMlaRJnVrHaJZ75NKo=;
+        b=AgEYTiyfAdDw0NWjJPXEVo7Tj2KSOOPbBouarQIE8qToZJe3D+wri0Eudj9KY5xwN3
+         352IgrPwPnyY5RuoRM5O/IlkOlv4tUJENMaX1sKyTTf2H+gJ947XHZUcsrAIXlf3urhF
+         TADQYSBamnrlGT0n7OPzT1jcFRQXrw4sVBBpVUJeqJXtHxg5B2Dph0b/rMrfxEGqZn0P
+         gbv6EizHn7/EfBRL33dnK5YDa6UzPWvemF9bUvarXinCenDGRD/SvfZzFQKeV0tRzHB3
+         OG8qbcpX1gD9LoQF3EytG+xmYXaDaBDW2G+DOi0NASgJgnPsRn/OnCsyZ4mUfIU+okMw
+         iI+A==
+X-Gm-Message-State: ACgBeo0jX18X2szq0twvLakogsDczJSfB+fszslNj+eS1zLIdRxaWTt0
+        J4R0xLfZkhc2BhecvTH2bRwXl0pBQAqda1qliRg=
+X-Google-Smtp-Source: AA6agR7DtugthLRfnyg7YwsykX98zovzEb5HyhodkBFu5mzFBonF8cErMKxWUkl202KP0GIgPA2dBHRGOzjeT5EVFI4=
+X-Received: by 2002:a6b:2ac4:0:b0:688:3a14:2002 with SMTP id
+ q187-20020a6b2ac4000000b006883a142002mr15979839ioq.62.1662090654002; Thu, 01
+ Sep 2022 20:50:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
+ <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
+ <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
+ <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com>
+ <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
+ <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com>
+ <CAADnVQLuL045Sxdvh8kfcNkmD55+Wz8fHU3RtH+oQyOgePU5Pw@mail.gmail.com> <CAO-hwJJJJRtoq2uTXRKCck6QSH8SFDSTpHmvTyOieczY7bdm8g@mail.gmail.com>
+In-Reply-To: <CAO-hwJJJJRtoq2uTXRKCck6QSH8SFDSTpHmvTyOieczY7bdm8g@mail.gmail.com>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Fri, 2 Sep 2022 05:50:18 +0200
+Message-ID: <CAP01T77SJyiDxv0A++_mNw7JZ-Mzh4B1FAM6zLiP6n75MNY0uQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
+ read user provided context
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: ed3d5bd20dcdfdbe110feeabf120cba7bd329ad8  Input: rt5120 - add power key support
+On Thu, 1 Sept 2022 at 18:48, Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> [...]
+> If the above is correct, then yes, it would make sense to me to have 2
+> distinct functions: one to check for the args types only (does the
+> function definition in the problem matches BTF), and one to check for
+> its use.
+> Behind the scenes, btf_check_subprog_arg_match() calls
+> btf_check_func_arg_match() which is the one function with entangled
+> arguments type checking and actually assessing that the values
+> provided are correct.
+>
+> I can try to split that  btf_check_func_arg_match() into 2 distinct
+> functions, though I am not sure I'll get it right.
 
-elapsed time: 1129m
+FYI, I've already split them into separate functions in my tree
+because it had become super ugly at this point with all the new
+support and I refactored it to add the linked list helpers support
+using kfuncs (which requires some special handling for the args), so I
+think you can just leave it with a "processing_call" check in for your
+series for now.
 
-configs tested: 57
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-powerpc                          allmodconfig
-s390                 randconfig-r044-20220831
-mips                             allyesconfig
-arc                  randconfig-r043-20220831
-powerpc                           allnoconfig
-riscv                randconfig-r042-20220831
-x86_64                              defconfig
-sh                               allmodconfig
-x86_64                               rhel-8.3
-m68k                             allyesconfig
-x86_64                           allyesconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-x86_64                        randconfig-a002
-i386                          randconfig-a016
-x86_64                        randconfig-a013
-x86_64                        randconfig-a006
-i386                          randconfig-a012
-m68k                             allmodconfig
-x86_64                        randconfig-a004
-i386                          randconfig-a001
-x86_64                        randconfig-a011
-i386                          randconfig-a005
-i386                                defconfig
-x86_64                        randconfig-a015
-i386                          randconfig-a003
-i386                          randconfig-a014
-i386                             allyesconfig
-x86_64                           rhel-8.3-syz
-x86_64                           rhel-8.3-kvm
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-ia64                             allmodconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20220831
-hexagon              randconfig-r045-20220831
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a016
-i386                          randconfig-a015
-i386                          randconfig-a013
-i386                          randconfig-a004
-i386                          randconfig-a002
-x86_64                        randconfig-a012
-i386                          randconfig-a011
-i386                          randconfig-a006
-x86_64                        randconfig-a014
-riscv                randconfig-r042-20220901
-hexagon              randconfig-r041-20220901
-hexagon              randconfig-r045-20220901
-s390                 randconfig-r044-20220901
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> Maybe the hack about having "processing_call" for
+> btf_check_func_arg_match() only will be good enough as a first step
+> towards a better solution?
+>
+> > And may cleanup the rest of that function ?
+> > Like all of if (is_kfunc) applies only to 'calling' case.
+> > Other ideas?
+> >
+>
+> I was trying to understand the problem most of today, and the only
+> other thing I could think of was "why is the assumption that
+> PTR_TO_CTX is not NULL actually required?". But again, this question
+> is "valid" in the function declaration part, but not in the caller
+> insn part. So I think splitting btf_check_subprog_arg_match() in 2 is
+> probably the best.
+>
+> Cheers,
+> Benjamin
+>
