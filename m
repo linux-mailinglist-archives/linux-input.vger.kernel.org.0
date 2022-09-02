@@ -2,32 +2,32 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EAD05AB009
-	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 14:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 985D35AAF67
+	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 14:37:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237675AbiIBMru (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Sep 2022 08:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54192 "EHLO
+        id S236981AbiIBMhO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Sep 2022 08:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237614AbiIBMrU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 08:47:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C7FF1B68;
-        Fri,  2 Sep 2022 05:34:22 -0700 (PDT)
+        with ESMTP id S236502AbiIBMgi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 08:36:38 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A84C1E42C7;
+        Fri,  2 Sep 2022 05:29:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D9640621C5;
-        Fri,  2 Sep 2022 12:32:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B9CC433D6;
-        Fri,  2 Sep 2022 12:32:47 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AB718B82A9B;
+        Fri,  2 Sep 2022 12:29:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2AE2C433B5;
+        Fri,  2 Sep 2022 12:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1662121968;
+        s=korg; t=1662121757;
         bh=Bs2CQBsnUjpIZ+XxHHFSiRhfkB928kkGSKMck2e8gws=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2S7f3DLAcGIv/TbAkH8hmjUJtkK4Db4EdFarO78GYsnrHDzOoQ+0t54Lfv1TAnY5h
-         m7DoUKjgHtFy36be93UiiEMqmd2ljIG5e7fB6hNPqLvIgEPWnkZnPi5mc4Dbm9nmRz
-         TnfkRiEBxoeEY5OadduRKnL1YcUz8oZYffTYCDPs=
+        b=K3j3IgD1kKVWm2WE1xMlpJp7t/UoCnTyVE3LyLmUtYIImTcovHGhQKRWAFFKze3Jl
+         PQ3qrbKeUGVelThdnauWqVr7EDhsheRiASKpDjCFZucGhP2n5LOO8cgqA9SqDheazO
+         9TZVPmQu2N60ADZdJOfXPLFBM+H913ssFSuLtZMU=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -35,12 +35,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
         Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH 5.15 27/73] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
-Date:   Fri,  2 Sep 2022 14:18:51 +0200
-Message-Id: <20220902121405.336885912@linuxfoundation.org>
+Subject: [PATCH 5.4 54/77] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
+Date:   Fri,  2 Sep 2022 14:19:03 +0200
+Message-Id: <20220902121405.472911966@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220902121404.435662285@linuxfoundation.org>
-References: <20220902121404.435662285@linuxfoundation.org>
+In-Reply-To: <20220902121403.569927325@linuxfoundation.org>
+References: <20220902121403.569927325@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
