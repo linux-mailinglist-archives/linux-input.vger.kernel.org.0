@@ -2,41 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F13D5AB308
-	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 16:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B815AB2EC
+	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 16:05:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236317AbiIBOJj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Sep 2022 10:09:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41426 "EHLO
+        id S235672AbiIBOFq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Sep 2022 10:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238936AbiIBOIX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 10:08:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816614E600
-        for <linux-input@vger.kernel.org>; Fri,  2 Sep 2022 06:36:27 -0700 (PDT)
+        with ESMTP id S238832AbiIBOF0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 10:05:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B727816D16B
+        for <linux-input@vger.kernel.org>; Fri,  2 Sep 2022 06:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662125778;
+        s=mimecast20190719; t=1662125604;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UmXuOjUugSdvFfhnfCLRZhRw10ucC5QWiKjJxW2knIY=;
-        b=McfIhz2vG7DUj3rm3gkkmCvTAd7l6C8iaXkYHy3gEUBIyQyismP77rsT88hbe1t4z/j1Jy
-        +zhR/s6/olMSkxQUGMilbZLOqDWSrIAp/dpxksg9y4lHl6dzsA1Ej6XO7+XKgiW8zg6vjs
-        os0/Zi4Bbrvs3jY4SwXMk+Lj1MW8bqE=
+        bh=VUKUUQjEeN9deUgONQ69Pygk6MyShH73lTMPk6bWnlU=;
+        b=ecdj9idk6IqN9zoSHaL8VvWn92j4u8qXhFGIsULtkMDWYCUIUwjKd6vtFXR7KufoXr6vVo
+        /Pw2mtxg8DUF2Pp8ZXGSxFpNsq4hg6ce1ioI77mJygUw923MSRKA2PYFjiMluC+pH8aWcE
+        JD5pWEU/cSeJXpVKWzIIDGudHUy+Cks=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-C2v1YD0hOziZ3XJ_0yDWmA-1; Fri, 02 Sep 2022 09:29:56 -0400
-X-MC-Unique: C2v1YD0hOziZ3XJ_0yDWmA-1
+ us-mta-483-Zxgn3Cl-NRmBb9C41GflPQ-1; Fri, 02 Sep 2022 09:30:05 -0400
+X-MC-Unique: Zxgn3Cl-NRmBb9C41GflPQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B6B63C0F37B;
-        Fri,  2 Sep 2022 13:29:55 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D5C22919EC0;
+        Fri,  2 Sep 2022 13:30:04 +0000 (UTC)
 Received: from plouf.redhat.com (unknown [10.39.193.218])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1BEDC492C3B;
-        Fri,  2 Sep 2022 13:29:51 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E9E64492C3B;
+        Fri,  2 Sep 2022 13:29:59 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -55,16 +55,16 @@ Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
         netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH bpf-next v10 03/23] bpf/verifier: allow all functions to read user provided context
-Date:   Fri,  2 Sep 2022 15:29:18 +0200
-Message-Id: <20220902132938.2409206-4-benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v10 05/23] bpf/btf: bump BTF_KFUNC_SET_MAX_CNT
+Date:   Fri,  2 Sep 2022 15:29:20 +0200
+Message-Id: <20220902132938.2409206-6-benjamin.tissoires@redhat.com>
 In-Reply-To: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
 References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -73,82 +73,36 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When a function was trying to access data from context in a syscall eBPF
-program, the verifier was rejecting the call unless it was accessing the
-first element.
-This is because the syscall context is not known at compile time, and
-so we need to check this when actually accessing it.
+net/bpf/test_run.c is already presenting 20 kfuncs.
+net/netfilter/nf_conntrack_bpf.c is also presenting an extra 10 kfuncs.
 
-Check for the valid memory access if there is no convert_ctx callback,
-and allow such situation to happen.
+Given that all the kfuncs are regrouped into one unique set, having
+only 2 space left prevent us to add more selftests.
 
-There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
-will check that the types are matching, which is a good thing, but to
-have an accurate result, it hides the fact that the context register may
-be null. This makes env->prog->aux->max_ctx_offset being set to the size
-of the context, which is incompatible with a NULL context.
+Bump it to 64 for now.
 
-Solve that last problem by storing max_ctx_offset before the type check
-and restoring it after.
-
-Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 ---
 
-changes in v10:
-- dropped the hunk in btf.c saving/restoring max_ctx_offset
-
-changes in v9:
-- rewrote the commit title and description
-- made it so all functions can make use of context even if there is
-  no convert_ctx
-- remove the is_kfunc field in bpf_call_arg_meta
-
-changes in v8:
-- fixup comment
-- return -EACCESS instead of -EINVAL for consistency
-
-changes in v7:
-- renamed access_t into atype
-- allow zero-byte read
-- check_mem_access() to the correct offset/size
-
-new in v6
+new in v10
 ---
- kernel/bpf/verifier.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ kernel/bpf/btf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index d27fae3ce949..3f9e6fa92cde 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -5233,6 +5233,25 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
- 				env,
- 				regno, reg->off, access_size,
- 				zero_size_allowed, ACCESS_HELPER, meta);
-+	case PTR_TO_CTX:
-+		/* in case the function doesn't know how to access the context,
-+		 * (because we are in a program of type SYSCALL for example), we
-+		 * can not statically check its size.
-+		 * Dynamically check it now.
-+		 */
-+		if (!env->ops->convert_ctx_access) {
-+			enum bpf_access_type atype = meta && meta->raw_mode ? BPF_WRITE : BPF_READ;
-+			int offset = access_size - 1;
-+
-+			/* Allow zero-byte read from PTR_TO_CTX */
-+			if (access_size == 0)
-+				return zero_size_allowed ? 0 : -EACCES;
-+
-+			return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
-+						atype, -1, false);
-+		}
-+
-+		fallthrough;
- 	default: /* scalar_value or invalid ptr */
- 		/* Allow zero-byte read from NULL, regardless of pointer type */
- 		if (zero_size_allowed && access_size == 0 &&
+diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+index eca9ea78ee5f..8280c1a8dbce 100644
+--- a/kernel/bpf/btf.c
++++ b/kernel/bpf/btf.c
+@@ -208,7 +208,7 @@ enum btf_kfunc_hook {
+ };
+ 
+ enum {
+-	BTF_KFUNC_SET_MAX_CNT = 32,
++	BTF_KFUNC_SET_MAX_CNT = 64,
+ 	BTF_DTOR_KFUNC_MAX_CNT = 256,
+ };
+ 
 -- 
 2.36.1
 
