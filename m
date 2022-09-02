@@ -2,32 +2,32 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9388E5AAF48
-	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 14:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50D4E5AB0F5
+	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 15:01:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236281AbiIBMgE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Sep 2022 08:36:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46620 "EHLO
+        id S238177AbiIBNBK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Sep 2022 09:01:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236762AbiIBMe5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 08:34:57 -0400
+        with ESMTP id S238160AbiIBM7d (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 08:59:33 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0208FE39B4;
-        Fri,  2 Sep 2022 05:28:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67977FC334;
+        Fri,  2 Sep 2022 05:40:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0157DB82A8F;
-        Fri,  2 Sep 2022 12:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49DF9C433C1;
-        Fri,  2 Sep 2022 12:25:51 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 26D9FB81CCF;
+        Fri,  2 Sep 2022 12:40:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F628C433D6;
+        Fri,  2 Sep 2022 12:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1662121551;
+        s=korg; t=1662122413;
         bh=Bs2CQBsnUjpIZ+XxHHFSiRhfkB928kkGSKMck2e8gws=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JFQlI8gO1LRZJf69vh4KLKPovu68caMWGOCZajoI2FxIiNk1l4o/DBXKZbo1Xo/kt
-         LtM4i3tS2+f+I+IBVfB09c3B3LBlvunWEjrTe8n+caQzLQcacfxq91cXdIvG3Ov+32
-         DvcI2dGK73VGqFAu5hCiLZ2MYQ3wpiO0syBByBAw=
+        b=LnAewgnh+LU+Enum7LXvsBmyitv+NlN2hAcGPkEU14ASBKyR8vs4it6gBxq3NZCjN
+         hK4ewyApmhGCisUn1ZdgF/MeFES8wLJW6jgjK11AwDsnWh2EnzynVfwCtNVg81k9Jg
+         3Z1m6CQBUXO4ESff0At5kT0jc5Ww2qW2aJzWezDc=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -35,12 +35,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
         Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH 4.19 45/56] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
-Date:   Fri,  2 Sep 2022 14:19:05 +0200
-Message-Id: <20220902121401.962049712@linuxfoundation.org>
+Subject: [PATCH 5.10 09/37] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
+Date:   Fri,  2 Sep 2022 14:19:31 +0200
+Message-Id: <20220902121359.467033047@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220902121400.219861128@linuxfoundation.org>
-References: <20220902121400.219861128@linuxfoundation.org>
+In-Reply-To: <20220902121359.177846782@linuxfoundation.org>
+References: <20220902121359.177846782@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
