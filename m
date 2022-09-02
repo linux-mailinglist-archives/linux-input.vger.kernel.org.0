@@ -2,32 +2,32 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 610135AB04A
-	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 14:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EAD05AB009
+	for <lists+linux-input@lfdr.de>; Fri,  2 Sep 2022 14:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237834AbiIBMwN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Sep 2022 08:52:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45428 "EHLO
+        id S237675AbiIBMru (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Sep 2022 08:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237835AbiIBMvV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 08:51:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A92002CDDC;
-        Fri,  2 Sep 2022 05:37:13 -0700 (PDT)
+        with ESMTP id S237614AbiIBMrU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Sep 2022 08:47:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C7FF1B68;
+        Fri,  2 Sep 2022 05:34:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9D1E8B82AD7;
-        Fri,  2 Sep 2022 12:35:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA30C433D6;
-        Fri,  2 Sep 2022 12:35:50 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D9640621C5;
+        Fri,  2 Sep 2022 12:32:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B9CC433D6;
+        Fri,  2 Sep 2022 12:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1662122151;
+        s=korg; t=1662121968;
         bh=Bs2CQBsnUjpIZ+XxHHFSiRhfkB928kkGSKMck2e8gws=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nFipbIvLdvWGNnFudSU0aS7GUedmCQyE3XwtX7MhLuPX7gYNSGY08Dc4wo1+PnpKe
-         bMEeIZacatV/jzUhMnqMy57Ojyql7gJVLz7t0K3VX9iul3p+EDgj8U3GbDWzJTFYqk
-         9sboJsnet0w+wnZ21ZHvhMSxB3Kwkyy/skLTY3FI=
+        b=2S7f3DLAcGIv/TbAkH8hmjUJtkK4Db4EdFarO78GYsnrHDzOoQ+0t54Lfv1TAnY5h
+         m7DoUKjgHtFy36be93UiiEMqmd2ljIG5e7fB6hNPqLvIgEPWnkZnPi5mc4Dbm9nmRz
+         TnfkRiEBxoeEY5OadduRKnL1YcUz8oZYffTYCDPs=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -35,12 +35,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
         Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH 5.19 09/72] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
-Date:   Fri,  2 Sep 2022 14:18:45 +0200
-Message-Id: <20220902121405.102987587@linuxfoundation.org>
+Subject: [PATCH 5.15 27/73] HID: steam: Prevent NULL pointer dereference in steam_{recv,send}_report
+Date:   Fri,  2 Sep 2022 14:18:51 +0200
+Message-Id: <20220902121405.336885912@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220902121404.772492078@linuxfoundation.org>
-References: <20220902121404.772492078@linuxfoundation.org>
+In-Reply-To: <20220902121404.435662285@linuxfoundation.org>
+References: <20220902121404.435662285@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
