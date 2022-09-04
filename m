@@ -2,61 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3656C5AC62B
-	for <lists+linux-input@lfdr.de>; Sun,  4 Sep 2022 21:31:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A4365AC62F
+	for <lists+linux-input@lfdr.de>; Sun,  4 Sep 2022 21:33:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234561AbiIDTbV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Sep 2022 15:31:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42030 "EHLO
+        id S234928AbiIDTdy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Sep 2022 15:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234318AbiIDTbU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Sep 2022 15:31:20 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078C72EF22
-        for <linux-input@vger.kernel.org>; Sun,  4 Sep 2022 12:31:20 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id l3so6607256plb.10
-        for <linux-input@vger.kernel.org>; Sun, 04 Sep 2022 12:31:19 -0700 (PDT)
+        with ESMTP id S234318AbiIDTdx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Sep 2022 15:33:53 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E40B2F012
+        for <linux-input@vger.kernel.org>; Sun,  4 Sep 2022 12:33:52 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id q3so6583533pjg.3
+        for <linux-input@vger.kernel.org>; Sun, 04 Sep 2022 12:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date;
-        bh=dhghe/zYVZi/SqWmcAzPxHuqsvlYhZEJnLpBLnOTpa8=;
-        b=g1zaKKILhtoYEPbvWNHZa3b7q4nG16NU3VDZGyvjW5bCA1eYikmdSQYKljkaRFBqLb
-         3ozvAG0t34CtTUi9dRBlrM3EO2MsKRmeoRKanE18qB6y72L1h0sYnXe5OvFGF5lc2FQB
-         bGsx8Idn3QOzrcWDTZS0GE1l5TgzhaNp2IOZ+oVINaGjKAzd6LBzdvC06Ywvrb0prgLu
-         fzOvVv/smM5Gx3N5IQIZh3U4+1B6EtBJhxPsKJy3hUYNILPsqwONUaoXbUwSxSnXUFwm
-         ocKcIrxAn89MC5BH7aJ3LJSl6pzDMKVneqrPI219z5IYl/BJWHwUExD20p0McQbZuQ7T
-         NNWw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=w5fl12S2ZW3VypbIFgHFO8NxSKpTZNWQ0fqpBVv6W1M=;
+        b=PMUbz6JWboILZB7oRZjaylzWfMBU1I1X1gR6Vd/XXN9HlMRl7TD5E7rxElh5fpHPuP
+         quoUFRpNRq+l5YkRahtbkjBnstOZYnO1f0o8GV+7llBkdXPPLh3/zi8Rg9lf14ipWj1U
+         FErQo4ebi3WOOmNJIujgCYlTGZsRDjtlvnICTu0TPQ7T1ZxfqdZuWPhUttVcWWV+Eztu
+         zOa6FdQCJyTLtalDkN322A6+wf/bTDt+TkrhVYzjCVGl42i0oBIqyZUjR8td2pOp01bP
+         xuQuQjDZU6Kub0Q5brEbnBsyt/Vvw7VC7hyYbcrxhZoM+MsxLRu0WbZYaOZibcPecW0s
+         HVhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=dhghe/zYVZi/SqWmcAzPxHuqsvlYhZEJnLpBLnOTpa8=;
-        b=kcIpinafNzB6qfmRZbsIIuluPKP59ljbdw5GPMYZf+i2sA1FHFj8SLowjTTb0SuhFm
-         Mg5orofTdRh+CN8UPy37ay3TAbWu2s+RDFPkWLufC6U8xTRH5Csta2YH4iJ46o/b73qy
-         GkEffmgSjXYkYS+ahWBYUPaC+v1TpFi1a7C8SHb2EbqRwDtmIC8OCJxR0s+JF301aeuu
-         vl4XSbvS/pN8aoAxu8OnyRQTe4Np57fC5ukCqmjvS0iHuzaaD5O3hfobSEu9aH3Khulf
-         yA1acfgSCzNH8RJB/9Y3jVzYeHNjuwGWppdB9UBVk6eXwoxX6freH4XdW/XCkg0zpE9V
-         PSNw==
-X-Gm-Message-State: ACgBeo1k1yvZkxdiIEx+P1NcqRSvDZ+ZCqTkYGzJZJ376DI0A/B+iyBI
-        M4KFY/M41RmW5eVvqu/lHTU=
-X-Google-Smtp-Source: AA6agR6k5Be92w0pY7iJzakeZ7jV9UFVX5drMFHi3XlMERochcDsumK5nnOqQrcdWZbVyJ47VBID6g==
-X-Received: by 2002:a17:902:ecc6:b0:174:90c5:613b with SMTP id a6-20020a170902ecc600b0017490c5613bmr35667058plh.28.1662319879371;
-        Sun, 04 Sep 2022 12:31:19 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=w5fl12S2ZW3VypbIFgHFO8NxSKpTZNWQ0fqpBVv6W1M=;
+        b=wDOYjHPVW8zE/KWBAIcj7eZTExn+r7qjQ7Umir8G7D3x+CIZKwiV0TnM2JxIR9D7T/
+         Co2m69YuimlE5U7N+M8l1Z7RVcC2h9JJeKq4UzhlBoGvM67PJzDgzQQsOnlmQr1G0oMQ
+         PZ2Bt9yRXV3qEfvaGHUnAjvv163VH+KIcLBX6EV7MJCuf4HBPIJAwjCNX5jtLDDEaIUH
+         rh9Fbdjyt9Wh5eSciAKEH02c0LUB4nzxqoh0ce+gVKMUz9pRVm5/xvxtLpXgbw1egxPi
+         kuBGRe2FFVw4JqhGtiYe6E0BIBCAHHlpx4lmtetqeg4k7VOYypvj9GhkRquQvx/00oWQ
+         B7eg==
+X-Gm-Message-State: ACgBeo1R09HNH32L1MH6/rz4gmB3C7TY0rBg7o1fhZQk7UMtlaqU4Igk
+        fBNJcxFlzOlhkMsp1kPq3Rs=
+X-Google-Smtp-Source: AA6agR45lYQQ0E4719M8rqpMcKxaWdoHe/dyhLaduDACvV9+pDv58Ck79lCaMPFfuNbDESOXiVeEbQ==
+X-Received: by 2002:a17:90a:4d8d:b0:1fa:9cc6:3408 with SMTP id m13-20020a17090a4d8d00b001fa9cc63408mr15301870pjh.245.1662320031957;
+        Sun, 04 Sep 2022 12:33:51 -0700 (PDT)
 Received: from ubuntu ([175.124.254.119])
-        by smtp.gmail.com with ESMTPSA id i125-20020a636d83000000b0042c60bef7b5sm4947511pgc.85.2022.09.04.12.31.17
+        by smtp.gmail.com with ESMTPSA id r12-20020aa7988c000000b0053612ec8859sm5931665pfl.209.2022.09.04.12.33.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Sep 2022 12:31:19 -0700 (PDT)
-Date:   Sun, 4 Sep 2022 12:31:15 -0700
+        Sun, 04 Sep 2022 12:33:51 -0700 (PDT)
+Date:   Sun, 4 Sep 2022 12:33:47 -0700
 From:   Hyunwoo Kim <imv4bel@gmail.com>
-To:     erazor_de@users.sourceforge.net, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, imv4bel@gmail.com
-Subject: [PATCH v2] HID: roccat: Fix Use-After-Free in roccat_read
-Message-ID: <20220904193115.GA28134@ubuntu>
+To:     Silvan Jegen <s.jegen@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, erazor_de@users.sourceforge.net,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: roccat: Fix Use-After-Free in roccat_read
+Message-ID: <20220904193347.GA28255@ubuntu>
+References: <20220626111330.GA59219@ubuntu>
+ <nycvar.YFH.7.76.2207211159210.19850@cbobk.fhfr.pm>
+ <20220904172716.GA26269@ubuntu>
+ <3N6XHHINKIWO5.3FX36FY953IQ1@homearch.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <3N6XHHINKIWO5.3FX36FY953IQ1@homearch.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -67,100 +72,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-roccat_report_event() is responsible for registering
-roccat-related reports in struct roccat_device.
+On Sun, Sep 04, 2022 at 09:16:21PM +0200, Silvan Jegen wrote:
+> Maybe resending the second version (with the appropriate "[PATCH v2]
+> HID: ..."-subject) would motivate people to have a second look (though
+> there is never a guarantee for that as both reviewers and maintainers
+> seem to be in short supply) ...
 
-int roccat_report_event(int minor, u8 const *data)
-{
-	struct roccat_device *device;
-	struct roccat_reader *reader;
-	struct roccat_report *report;
-	uint8_t *new_value;
+Thank you for telling me.
+I will resubmit the v2 patch.
 
-	device = devices[minor];
-
-	new_value = kmemdup(data, device->report_size, GFP_ATOMIC);
-	if (!new_value)
-		return -ENOMEM;
-
-	report = &device->cbuf[device->cbuf_end];
-
-	/* passing NULL is safe */
-	kfree(report->value);
-	...
-
-The registered report is stored in the struct roccat_device member
-"struct roccat_report cbuf[ROCCAT_CBUF_SIZE];".
-If more reports are received than the "ROCCAT_CBUF_SIZE" value,
-kfree() the saved report from cbuf[0] and allocates a new reprot.
-Since there is no lock when this kfree() is performed,
-kfree() can be performed even while reading the saved report.
-
-static ssize_t roccat_read(struct file *file, char __user *buffer,
-		size_t count, loff_t *ppos)
-{
-	struct roccat_reader *reader = file->private_data;
-	struct roccat_device *device = reader->device;
-	struct roccat_report *report;
-	ssize_t retval = 0, len;
-	DECLARE_WAITQUEUE(wait, current);
-
-	mutex_lock(&device->cbuf_lock);
-
-	...
-
-	report = &device->cbuf[reader->cbuf_start];
-	/*
-	 * If report is larger than requested amount of data, rest of report
-	 * is lost!
-	 */
-	len = device->report_size > count ? count : device->report_size;
-
-	if (copy_to_user(buffer, report->value, len)) {
-		retval = -EFAULT;
-		goto exit_unlock;
-	}
-	...
-
-The roccat_read() function receives the device->cbuf report and
-delivers it to the user through copy_to_user().
-If the N+ROCCAT_CBUF_SIZE th report is received while copying of
-the Nth report->value is in progress, the pointer that copy_to_user()
-is working on is kfree()ed and UAF read may occur. (race condition)
-
-Since the device node of this driver does not set separate permissions,
-this is not a security vulnerability, but because it is used for
-requesting screen display of profile or dpi settings,
-a user using the roccat device can apply udev to this device node or
-There is a possibility to use it by giving.
-
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
----
- drivers/hid/hid-roccat.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/hid/hid-roccat.c b/drivers/hid/hid-roccat.c
-index 26373b82fe81..6da80e442fdd 100644
---- a/drivers/hid/hid-roccat.c
-+++ b/drivers/hid/hid-roccat.c
-@@ -257,6 +257,8 @@ int roccat_report_event(int minor, u8 const *data)
- 	if (!new_value)
- 		return -ENOMEM;
- 
-+	mutex_lock(&device->cbuf_lock);
-+
- 	report = &device->cbuf[device->cbuf_end];
- 
- 	/* passing NULL is safe */
-@@ -276,6 +278,8 @@ int roccat_report_event(int minor, u8 const *data)
- 			reader->cbuf_start = (reader->cbuf_start + 1) % ROCCAT_CBUF_SIZE;
- 	}
- 
-+	mutex_unlock(&device->cbuf_lock);
-+
- 	wake_up_interruptible(&device->wait);
- 	return 0;
- }
--- 
-2.25.1
-
+Regards,
+Hyunwoo Kim.
