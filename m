@@ -2,59 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 114865AC392
-	for <lists+linux-input@lfdr.de>; Sun,  4 Sep 2022 11:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 557485AC518
+	for <lists+linux-input@lfdr.de>; Sun,  4 Sep 2022 17:45:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233046AbiIDJOE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Sep 2022 05:14:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51826 "EHLO
+        id S229967AbiIDPpq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Sep 2022 11:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbiIDJOD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Sep 2022 05:14:03 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6FA3DBD9
-        for <linux-input@vger.kernel.org>; Sun,  4 Sep 2022 02:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662282842; x=1693818842;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HV+2tIBciVJQghYC/Rumsmw1zgaIcVMSAfCWj9ck8G8=;
-  b=kEG2rD+bg1Qd9tji40Mlxvt8cLvW7eGHVeQPeRZlxaJRRNcAy0QqHMHD
-   7HNiCY8dWJ6KWlcJuz2jIWzYmtNSNFxE4sbkozfeq1rR+w/jJoGji27FL
-   Bb3C2PXcuxh2hapUMBtNjvKotZQprS3rfEQSLJTLcWBL73/VGUZ7T2+Aj
-   vGWt4yaXWoIDO5tbwJEV0sin/uOdPA0DWPmEH3mAZJIU/F8qeKj+yJ879
-   xmmp1p1ojO/mHcVlnaCK2IgEnSPDDmImH+kNzXr/6JnUypv+WLXZIRo9D
-   EJtoXmUIqQ+i9yreWpEK4maIr7GQrUvK/UvPKyemlwaN3ClKJgLW54aoo
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10459"; a="296229474"
-X-IronPort-AV: E=Sophos;i="5.93,289,1654585200"; 
-   d="scan'208";a="296229474"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2022 02:13:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,289,1654585200"; 
-   d="scan'208";a="564432266"
-Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 04 Sep 2022 02:13:43 -0700
-Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oUlhH-0002s9-0M;
-        Sun, 04 Sep 2022 09:13:43 +0000
-Date:   Sun, 04 Sep 2022 17:13:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- f4e7a254299bcdfe7bced700a7d96690b1b9a6f2
-Message-ID: <63146c21.zLaNADEPkTHj0KXM%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229627AbiIDPpp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Sep 2022 11:45:45 -0400
+Received: from smtpbg.qq.com (bg4.exmail.qq.com [43.154.221.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE0EF28E0B
+        for <linux-input@vger.kernel.org>; Sun,  4 Sep 2022 08:45:39 -0700 (PDT)
+X-QQ-mid: bizesmtp90t1662306321tip94v1w
+Received: from localhost.localdomain ( [182.148.14.80])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sun, 04 Sep 2022 23:45:15 +0800 (CST)
+X-QQ-SSF: 01000000002000C0C000B00A0000000
+X-QQ-FEAT: D6RqbDSxuq7nYvRqKV7DW/HBOzGOdZ1plErt1mwrlg8Dy5GHR7B7mMYjaA7vc
+        dMDU8WX7iQH1W1lWQXqTH92Dl07zNgDWqOMD+xvkou3QjjxPS5f/we/+bnllVA1CF+9uufC
+        xwQdhTui4PjPVIxRuBm0P30XUfEIqUxLoJzY8nQkCHOEyMMAIg+LHF35cWMWUCAnEdoRem6
+        sTSBKu3Tb+/xFj3ggUXKUaIZgFwjoqPmFsiBufAcFc+6wuetGqx7YgUOqSOYwoJ3kIZeHlR
+        W5/hUJATnv+yTuY65OYd9eN/IGGxZo40imTARIusemC7TbTz8oQYVtdJMtEtX06GqRGGygP
+        /uq1G/BOtERlU40cNeYc026VroIGtv8nXzv3UP8sM3vfw71wWk=
+X-QQ-GoodBg: 0
+From:   Shaomin Deng <dengshaomin@cdjrlc.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org
+Cc:     Shaomin Deng <dengshaomin@cdjrlc.com>
+Subject: [PATCH] HID: sony: Fix double word in comments
+Date:   Sun,  4 Sep 2022 11:45:15 -0400
+Message-Id: <20220904154515.25143-1-dengshaomin@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,113 +47,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: f4e7a254299bcdfe7bced700a7d96690b1b9a6f2  Input: aiptek - switch to using dev_groups for driver-specific attributes
+Remove the repeated word "not" in comments.
 
-elapsed time: 771m
+Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
+---
+ drivers/hid/hid-sony.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-configs tested: 92
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                             i386_defconfig
-arc                  randconfig-r043-20220904
-riscv                randconfig-r042-20220904
-um                           x86_64_defconfig
-s390                 randconfig-r044-20220904
-i386                                defconfig
-x86_64                        randconfig-a015
-x86_64                        randconfig-a011
-i386                          randconfig-a016
-x86_64                        randconfig-a004
-i386                          randconfig-a012
-sh                               allmodconfig
-microblaze                          defconfig
-i386                          randconfig-a014
-powerpc                          allmodconfig
-i386                          randconfig-a003
-x86_64                          rhel-8.3-func
-x86_64                        randconfig-a013
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-x86_64                        randconfig-a006
-mips                             allyesconfig
-x86_64                         rhel-8.3-kunit
-i386                          randconfig-a005
-powerpc                         wii_defconfig
-x86_64                           rhel-8.3-kvm
-powerpc                           allnoconfig
-i386                          randconfig-a001
-m68k                        m5272c3_defconfig
-sh                          r7785rp_defconfig
-x86_64                    rhel-8.3-kselftests
-sh                           se7206_defconfig
-arc                      axs103_smp_defconfig
-sh                               j2_defconfig
-x86_64                        randconfig-a002
-arm                                 defconfig
-csky                              allnoconfig
-arc                               allnoconfig
-i386                             allyesconfig
-alpha                             allnoconfig
-riscv                             allnoconfig
-microblaze                      mmu_defconfig
-x86_64                               rhel-8.3
-ia64                             allmodconfig
-sh                          sdk7780_defconfig
-m68k                             alldefconfig
-mips                      fuloong2e_defconfig
-arm                         lpc18xx_defconfig
-sparc                               defconfig
-sh                           se7712_defconfig
-arm                     eseries_pxa_defconfig
-arm                        keystone_defconfig
-arm                         assabet_defconfig
-mips                       bmips_be_defconfig
-mips                  decstation_64_defconfig
-x86_64                           allyesconfig
-arm                      integrator_defconfig
-mips                  maltasmvp_eva_defconfig
-parisc64                         alldefconfig
-sh                   rts7751r2dplus_defconfig
-sh                            shmin_defconfig
-sh                           se7721_defconfig
-ia64                      gensparse_defconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-arm                              allyesconfig
-arc                              allyesconfig
-arm64                            allyesconfig
-i386                          randconfig-c001
-m68k                             allmodconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20220904
-hexagon              randconfig-r045-20220904
-i386                          randconfig-a013
-i386                          randconfig-a015
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a005
-x86_64                        randconfig-a014
-i386                          randconfig-a002
-i386                          randconfig-a011
-i386                          randconfig-a004
-arm                        multi_v5_defconfig
-i386                          randconfig-a006
-powerpc                 mpc8272_ads_defconfig
-x86_64                        randconfig-a001
-arm                         orion5x_defconfig
-arm                           sama7_defconfig
-x86_64                        randconfig-a003
-powerpc                          g5_defconfig
-powerpc                      ppc64e_defconfig
-riscv                          rv32_defconfig
-arm                            mmp2_defconfig
-
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index 60ec2b29d54d..03691cdcfb8e 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -368,7 +368,7 @@ static const unsigned int buzz_keymap[] = {
+ };
+ 
+ /* The Navigation controller is a partial DS3 and uses the same HID report
+- * and hence the same keymap indices, however not not all axes/buttons
++ * and hence the same keymap indices, however not all axes/buttons
+  * are physically present. We use the same axis and button mapping as
+  * the DS3, which uses the Linux gamepad spec.
+  */
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
