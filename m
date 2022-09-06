@@ -2,238 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4DA55AF28B
-	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 19:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C789E5AF2A9
+	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 19:34:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236364AbiIFRaP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Sep 2022 13:30:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
+        id S238990AbiIFRcp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Sep 2022 13:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237058AbiIFR3r (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 13:29:47 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 092688003E
-        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 10:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662484956; x=1694020956;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GecpeHRLBGaL1cT3P22KzfndlLbPAXCQJGga95/NsKo=;
-  b=faOlSGVAoNfc6YI05X74ZIaUxbzD03ML8cClzlmgpCBGqudNQNUSo5m2
-   Q3eJK5cP5mtBrMI/sSbzVntrAxIsxxEuPZNq5vT95ULQzElA/zv4AFKh8
-   toboSiIigKYweqKB3t8LCiDTlogZVe3bkYMtnzT3dAZii8h4BNb3aVY+C
-   GnM/zw3fwg4hCNcyWvx3xWI2IhmlDbtOY8ugL4rgPWTaRwzxWLaWvBK9q
-   s5Q4Ns7YJBBp2gVGAOYfI3PHoyH8MTLdkyEZRD9FM5Qp9wbefREX43PKZ
-   x/1xUnPWpi6k9yxTPliNJ48bHMMqCdvBtln7VXDj2YcNBMIXC7ZJLs4XG
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="322834321"
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="322834321"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 10:22:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="756447539"
-Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2022 10:22:35 -0700
-Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oVcHT-0005ON-0n;
-        Tue, 06 Sep 2022 17:22:35 +0000
-Date:   Wed, 07 Sep 2022 01:22:03 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 94b22e125175e0c57d044c18d122ad5991348ca3
-Message-ID: <631781bb.IKmQbjyE96w3cS+0%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S239117AbiIFRcY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 13:32:24 -0400
+Received: from na01-obe.outbound.protection.outlook.com (mail-westcentralusazon11010010.outbound.protection.outlook.com [40.93.198.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C711178;
+        Tue,  6 Sep 2022 10:28:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GF9wvze+O9dtUsEwCpFnrEIzy77euHXpeNUbw4ZLENzRzX1MB+S2ZQxurPiv1GKEkLK8l2BH92Z7/2hTg+45L+qzJ7YzQMhzMHtc5AvrPQQKrJZLl/TYmVVFYtRPYuIdikTcUXXjlKktQzTo3bWtoIo90Um2BTGQfXujBP2kW6iOZHtjm8Z73NSzT0NCAvKAZUlJwhoc8M3DFmTcfUVXjFl1bOY7wSMz7C33FW7hmdR9Gxui0RaV5PzR8iEIcvQbq03smJC24jkGQb5E3FeV6cgpq+o03/5wyhJS0OrJApya/CqQiQewd8o4CTIVnRIZ7RvrOBrnfKQjOb7wa4ZQRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OTIMLrTHM7cQ6b2tvRYYqq04m8+aq3ZwOku6Sv3UwIs=;
+ b=ctny9mo0YAxTll+jUD7UgDVJie0zulFmnwv0V7ktgfDcP2C6/ulpQvFis699+kVXxPUnbm2a35NuUWzlp0QDReWxbKEoyTWmvyazoiR4yLRDThKxfY8ZJkjQghErfBXxe46rPcgNz1GH+hSMOMYajHL558QGO8X3lD/XIwBKYOoDPw0d8xYwp8BOGc0lkt9ahw6Dxqq0F33Gucer2GMt+h3MwAm1m7Wz3Zwrf8Xgw6ij3wpnf4W3qnfMaiSG77WIckvpza1nzis5O4qFqWgVzZQlQeZZFEzulcvhCPYk+7JcFTGsQVwvrrTWh9mOvTOrxakG/eWIjzRfcOT8W/3uIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OTIMLrTHM7cQ6b2tvRYYqq04m8+aq3ZwOku6Sv3UwIs=;
+ b=R65+CZX5wrgS10zjOm8ogBT4GmKr6L7VdhfWxOZKtbjGW+sKLzEFi6po4sp1oNwSVDrByBzsZDhI0tbC88cIYt29zAM7xXtnKzHSahIMF38/kpwAs+PSIcWZ07ZlzAOHJ3oicFjJZ7Yh66AZUC3xN+Qp+2SHpUhmZjgaH19Rkr4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+Received: from BYAPR05MB3960.namprd05.prod.outlook.com (2603:10b6:a02:88::12)
+ by BN7PR05MB4276.namprd05.prod.outlook.com (2603:10b6:406:f1::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.5; Tue, 6 Sep
+ 2022 17:28:19 +0000
+Received: from BYAPR05MB3960.namprd05.prod.outlook.com
+ ([fe80::a8ee:57cf:b2f1:b818]) by BYAPR05MB3960.namprd05.prod.outlook.com
+ ([fe80::a8ee:57cf:b2f1:b818%5]) with mapi id 15.20.5612.011; Tue, 6 Sep 2022
+ 17:28:19 +0000
+From:   vdasa@vmware.com
+To:     vbhakta@vmware.com, namit@vmware.com, bryantan@vmware.com,
+        zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+        doshir@vmware.com, sgarzare@redhat.com, gregkh@linuxfoundation.org,
+        davem@davemloft.net
+Cc:     pv-drivers@vmware.com, joe@perches.com, netdev@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Vishnu Dasa <vdasa@vmware.com>
+Subject: [PATCH 0/3] MAINTAINERS: Update entries for some VMware drivers
+Date:   Tue,  6 Sep 2022 10:27:19 -0700
+Message-Id: <20220906172722.19862-1-vdasa@vmware.com>
+X-Mailer: git-send-email 2.35.1
+Reply-To: vdasa@vmware.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR21CA0009.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::19) To BYAPR05MB3960.namprd05.prod.outlook.com
+ (2603:10b6:a02:88::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR05MB3960:EE_|BN7PR05MB4276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ad3eab3-91cd-447a-2222-08da902d30ce
+X-LD-Processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JfMliaX6DPU8FQu773Otj1WeqImdq3pPcmK2kG5hv1rqiOuvKIl93DxSjG5A/YztNvmTR33uiiHUSeCg03TaZdUThUzX2SnI5YAHoVsHWCFhYZ7/o+u7BsrUXiK7GiKzlW8kxD7hUDBst7HBfMaZ/folwSda2SxQgy6MDGoQckJHAxm8An4rofKSvDIFJD8XPDxP10Dk0YoHQ3xRWKZboCpwHxqULumW+hiGyTFwPtb9aXmi1K0Dt640cn/z9dQ4ktIgizoIEwykQMixL49Leq1FK7DZ824kRx4X9X1Pv2IPFa9uk4XdMmTaqdCge9aYSpBWbuHlPI9b65ba60HETRsecqMvHsuz5SgqLb8p6hxoFxg01CPAuzBckxBzDgVilI3LSd/ug8ReIlFGnDVMgrYT+WUPsQ9TGqIZDRRAdx2cNMtm3sQ7MrtlfeC/pKDarXG5pbD9goVDbP0CZ+vJg2O5qgcNXh0v+jJrJoqQZq/58o6FfOG191Vk2JsyDFf8DFYCI1443xcf23XRKYQWbYKnTaxRXa0kTFGFH2or4FIB0R417nTH1pyttFFrYR7KC1rcNkQW3maQ39xrsOmw3HWvRubrPizYgaKHP1gul9pEENROCkb/GzaZ6XukObl7f3ktMDy24N6KW9hSOGfGDoSFgMcKNu/PPLAXT+GGpYoT3zR/f9IEfLTLt7hlzFUKB+T1iCUYWTSIBu1+HpajeKF8e5jPlW3p/zKC5pMov1vFn3M6l2NcEs9JnipvBYIHJQTUqwzzb5KELIG29/HQsOOULm4ONi7tpzg4dixpiNesD/aH/JPdvpdqgXUYqr4h
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR05MB3960.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(38350700002)(38100700002)(66946007)(66556008)(66476007)(8676002)(4326008)(316002)(2906002)(15650500001)(4744005)(7416002)(5660300002)(8936002)(186003)(1076003)(2616005)(9686003)(6512007)(83380400001)(41300700001)(6486002)(478600001)(6506007)(86362001)(26005)(52116002)(36756003)(107886003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hYj43R9O0TghiJd9nboflVv4qN3knBMKIHsbeG7Zf+uTRiKEcaRNzx/g+W4q?=
+ =?us-ascii?Q?bAPZGEfvNROxe91Zw28bayxSLDz8FILMzb/K25k2Ggkg0EWCLa+h9Vywz00k?=
+ =?us-ascii?Q?j6amF4JCLQY4XppiNbpmQB75OYLcZ2baJuUNB1FlGBE5jmWDLWPNSk8UcN//?=
+ =?us-ascii?Q?9EhWmSG7+lCCmr891jlXXM9HbsHMyrkWNW+HJpZRuaEU7xDOM3CxNQrEtnKH?=
+ =?us-ascii?Q?j7PgBwHBPz0aF4BjAyKEFuEkC97EVMy/h/Y8uzy+6yRyg9RfzMsFmr5ca42g?=
+ =?us-ascii?Q?zogUmCY5foBJjXeYW0CliwkD6/4l/vEN0FUKP/Rif1E4CUfd38YZBiSVo3KA?=
+ =?us-ascii?Q?tI22GOYkIz32QeGIWRH4yfHbNj+sQi6AnTdzId3aPdBG2Ew4hlV4t1iO3mhl?=
+ =?us-ascii?Q?qazlQmm7UQWNhl6KsDU3dgg8X14ojLN9Q71MYG+/TLo1vk2WHw+h/vC1ZpaH?=
+ =?us-ascii?Q?iOzkT72fJTR4NDjHVOsaZeWhsTGIQdpdpvdCimAy812W7UXjqj+eCxJmE9Z4?=
+ =?us-ascii?Q?NZtU5AAKVOQ4fCKiZ0NnGWNl/RRYs6V4TnfDEiJXlRqNv6p80J2WkyL743TO?=
+ =?us-ascii?Q?B+AFtt/SQGIZas9g7lNmYhn6kfSiJUAh6ji92fIcv3zai4CQY4fxi0LkSvSb?=
+ =?us-ascii?Q?OVFafRpTcOv+ZR+hY/yj1HAH/5eSkJGcxHjyq2q6NiDRZaXq8Nl9oIOHwdPk?=
+ =?us-ascii?Q?HS0t5MGbqZg4SqZHWGOh3hKpZyKYGX9AQDiw7ScZC0TQgJ4/ChxmqM+liIMY?=
+ =?us-ascii?Q?Xr/wfFFm5XhZ+pqj80ldZLlOf6d9Qh0/TNzdQB6YWsPu7rldvVKXeDFxd6J5?=
+ =?us-ascii?Q?D7R9nVMn1YfOcgQMMQSXqb64kZqXB6sdFmkvUrscRGOnyqF1tV9bOepVkF2T?=
+ =?us-ascii?Q?cPIik5mffOCtUNqjb/zzptV5NZafbzLCbzaipSIp9IAIMdnO+fb+ttGDEv+Z?=
+ =?us-ascii?Q?Lv/swXrT3it2nJ12G6w6zp4W9IGYI6Uq/Au2nw5qFqt/FpXXkn9UpH9AITrD?=
+ =?us-ascii?Q?cKkAxJ85DKeZ/ohdxJQqSi8+XyvSlIXKmB3E+ttgzARha74ekTNGB89oYkXS?=
+ =?us-ascii?Q?m9kguJ/yE4uq+OW4AlN4qeQtqKXUuTMAZ8s83q2rFwVb0tiPLRAc4585gRVg?=
+ =?us-ascii?Q?dqe8nhex+SShhBybWaUiRR/85bM8d2xsvEdOO8U/y/5Ru0FlKB+bu6FXV3tY?=
+ =?us-ascii?Q?vjKkHWGNU1PqU35ovXselNsaqx1SiZYvP+Pj7AU6huLNzf8m8aM5eJNwb9Em?=
+ =?us-ascii?Q?JJjuhFPKKziuKmaxbljFyngGKzLWfaDnXUiBgG24TxQa7wFgQfTbdDWqoLNg?=
+ =?us-ascii?Q?AxayBSi4pmNIwqIxFRmy+CKvpwAHF6JfJJaUHrvIdGdqbKiwBoVRXLm7DfV/?=
+ =?us-ascii?Q?Bs0BiPv3Oa+5hAaWRo64GEEDBJT4EiqhY/qrfE4XfJcEpwJyKSZGq2eBkQeu?=
+ =?us-ascii?Q?36tyZV1KWMMRlY+wAHgkFEkYvzq3JHWQU12WpSNqTqbY1zwiXQ1h3ssJJujN?=
+ =?us-ascii?Q?sCCBKPKEec+6qyr3vZZg85YWgbKgynVkTiLwii+cZKdXWdyVEQRI4KuMhofA?=
+ =?us-ascii?Q?7/+c/vSGBhYaL2hwM4Q=3D?=
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR05MB4276
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 94b22e125175e0c57d044c18d122ad5991348ca3  dt-bindings: input: touchscreen: stmpe: Remove node name requirement
+From: Vishnu Dasa <vdasa@vmware.com>
 
-elapsed time: 779m
+This series updates a few existing maintainer entries for VMware
+supported drivers and adds a new entry for vsock vmci transport
+driver.
 
-configs tested: 157
-configs skipped: 3
+Vishnu Dasa (3):
+  MAINTAINERS: Change VMware PVSCSI driver entry to upper case
+  MAINTAINERS: Change status of some VMware drivers
+  MAINTAINERS: Add a new entry for VMWARE VSOCK VMCI TRANSPORT DRIVER
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-i386                                defconfig
-i386                 randconfig-a003-20220905
-i386                 randconfig-a004-20220905
-i386                 randconfig-a001-20220905
-i386                 randconfig-a002-20220905
-m68k                             allmodconfig
-i386                 randconfig-a005-20220905
-i386                 randconfig-a006-20220905
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-x86_64                          rhel-8.3-func
-powerpc                           allnoconfig
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-kvm
-x86_64               randconfig-a003-20220905
-x86_64               randconfig-a002-20220905
-x86_64                           rhel-8.3-syz
-x86_64               randconfig-a001-20220905
-x86_64               randconfig-a004-20220905
-x86_64                              defconfig
-x86_64               randconfig-a005-20220905
-mips                             allyesconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-csky                              allnoconfig
-alpha                             allnoconfig
-arc                               allnoconfig
-riscv                             allnoconfig
-riscv                randconfig-r042-20220906
-arc                  randconfig-r043-20220906
-s390                 randconfig-r044-20220906
-x86_64                        randconfig-a011
-powerpc                          allmodconfig
-sh                               allmodconfig
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-x86_64                        randconfig-a013
-i386                             allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a016
-powerpc                     tqm8541_defconfig
-sh                          polaris_defconfig
-powerpc                 linkstation_defconfig
-sh                           se7780_defconfig
-mips                           xway_defconfig
-powerpc                       holly_defconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-arc                        nsim_700_defconfig
-powerpc                        warp_defconfig
-arm                      footbridge_defconfig
-mips                     loongson1b_defconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-loongarch                           defconfig
-loongarch                         allnoconfig
-powerpc                         wii_defconfig
-arm                            lart_defconfig
-sh                               j2_defconfig
-powerpc                 mpc85xx_cds_defconfig
-sparc64                             defconfig
-sh                         apsh4a3a_defconfig
-i386                          randconfig-c001
-sh                   sh7770_generic_defconfig
-ia64                                defconfig
-powerpc                    klondike_defconfig
-ia64                            zx1_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220906
-arm                        trizeps4_defconfig
-arm                        multi_v7_defconfig
-powerpc                    adder875_defconfig
-arm                         lpc18xx_defconfig
-arm                            xcep_defconfig
-powerpc                     tqm8548_defconfig
-arm                          pxa3xx_defconfig
-microblaze                      mmu_defconfig
-sh                          r7785rp_defconfig
-sh                     sh7710voipgw_defconfig
-openrisc                         alldefconfig
-arm                           tegra_defconfig
-arm                          gemini_defconfig
-sh                         ecovec24_defconfig
-xtensa                generic_kc705_defconfig
-nios2                            allyesconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-sparc                               defconfig
-xtensa                           allyesconfig
-csky                                defconfig
-sparc                            allyesconfig
-x86_64                                  kexec
-mips                     decstation_defconfig
-powerpc                      ppc40x_defconfig
-mips                           ci20_defconfig
-arm                              allmodconfig
-arm                       aspeed_g5_defconfig
-m68k                          multi_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                        spear6xx_defconfig
-xtensa                    smp_lx200_defconfig
-arm                        shmobile_defconfig
-s390                                defconfig
-s390                             allmodconfig
-arc                                 defconfig
-alpha                               defconfig
-s390                             allyesconfig
-parisc                generic-32bit_defconfig
-arc                         haps_hs_defconfig
-ia64                             allmodconfig
-
-clang tested configs:
-i386                 randconfig-a013-20220905
-i386                 randconfig-a012-20220905
-i386                 randconfig-a011-20220905
-i386                 randconfig-a014-20220905
-i386                 randconfig-a016-20220905
-i386                 randconfig-a015-20220905
-i386                          randconfig-a013
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-i386                          randconfig-a015
-x86_64                        randconfig-a014
-i386                          randconfig-a011
-hexagon              randconfig-r041-20220906
-hexagon              randconfig-r045-20220906
-powerpc                          allyesconfig
-mips                          malta_defconfig
-arm                        vexpress_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-powerpc                 mpc8313_rdb_defconfig
-arm                            mmp2_defconfig
-arm                    vt8500_v6_v7_defconfig
-mips                  cavium_octeon_defconfig
-mips                           ip27_defconfig
-arm                         orion5x_defconfig
-powerpc                      ppc64e_defconfig
-powerpc                    mvme5100_defconfig
+ MAINTAINERS | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
