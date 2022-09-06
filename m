@@ -2,110 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 388275AE712
-	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 14:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F22DE5AE8E0
+	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 14:55:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232447AbiIFMAh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Sep 2022 08:00:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57526 "EHLO
+        id S240333AbiIFMyz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Sep 2022 08:54:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232951AbiIFMAe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 08:00:34 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD3E7820C
-        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 05:00:33 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id bz13so11679151wrb.2
-        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 05:00:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:subject:from:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date;
-        bh=d+tzIwr+5ozDfubPv1VTyibMQFtNJExwnc7cUUpEjik=;
-        b=hOWuM85MmSUv2LLk9b405FJAeRCmXoylW9F29cEKOW84Q9xn4wW0Eo0T7ULpkXP70i
-         ngGLGQ+IrwTUSd8dhx+2+o+fEr2QQAOGP3qSIc1u4Jp14HZ84voFCtY0jzhUhELTGb0y
-         4NucU2AjRUVuNeZxEJ2djRLT47NLygqXfgV9dxotT7N31RTMOndRiygSNe6G8qZ5j259
-         0O8W6v9KY8uwcyY4sorNj7B11Id/hH80dGg93ryibqsmj5z0HvFlXi62fFh1/y4rliVS
-         ZJZjDWSPgFI0aBKQJHYsDiEynnac8HggQgD8Uy1oONPPo68jmEjDOWFZxLKxYADsSr2Z
-         uXIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=d+tzIwr+5ozDfubPv1VTyibMQFtNJExwnc7cUUpEjik=;
-        b=l6B0yrGr3Gk2OAEPCFx5ZKyjENlI8Uyt/x7j+QolPmegphpccXkA9lS6p9/s9OXccy
-         RWjj1xkSvh/5bbTmiAWN5795ts1PR2Vp/8avwzHIraVP9XY8idrilRW+q32j3B8rjqfk
-         NBfYwC9OM0iLYxYD34voCf81RyY+DwKXmCOvXW7QHKlTfdI+nQMQ2MsLMoAz/eQa4jHl
-         2PCqBRMf/sBqb9THFddkrcTVm+iDlqvM0pXWRTN9tnEq0CdQhttly1FhGZHPaZ7GMlvZ
-         j4H1SqBa5FbDmSASvhyujAt5FR5UjkoSolMgAadhKm6rc2F6oXgZ4iCM4xByQ6SxB/1A
-         +5MQ==
-X-Gm-Message-State: ACgBeo2XlgErij6ClFquhGK6J/wgW0Y3IuLosHxDs+dBhq7JA/yJjIyC
-        nFescOeJNA+myEJkuZ53tnzidZ65AnSGhA==
-X-Google-Smtp-Source: AA6agR5o5glDTAL8TxKxnciSUDncogkT3kpleTpQqR6QL8AuCHSYn9h5yVO2qHv8Vk2KrmEBgALnaQ==
-X-Received: by 2002:a5d:6109:0:b0:228:62cf:86d4 with SMTP id v9-20020a5d6109000000b0022862cf86d4mr7596520wrt.552.1662465631720;
-        Tue, 06 Sep 2022 05:00:31 -0700 (PDT)
-Received: from ?IPV6:2001:9e8:2239:cf00:ee9c:5302:9a6d:9921? ([2001:9e8:2239:cf00:ee9c:5302:9a6d:9921])
-        by smtp.googlemail.com with ESMTPSA id bg15-20020a05600c3c8f00b003a4f08495b7sm23382695wmb.34.2022.09.06.05.00.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Sep 2022 05:00:31 -0700 (PDT)
-Message-ID: <a2d416db-16ce-5d1f-604a-9c194237fc8c@gmail.com>
-Date:   Tue, 6 Sep 2022 14:00:30 +0200
+        with ESMTP id S240347AbiIFMy3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 08:54:29 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 293C56E8A6;
+        Tue,  6 Sep 2022 05:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662468852; x=1694004852;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AuhIIJScC02nXHqA0igWrc36n6s/zz9Obhn0kpayqwI=;
+  b=GGww8Cn7kVSFV/AzDA+inK0dJsuxvIzXg/i47K+BHSjFVkU9YSojUEZA
+   smKuKcWLLgaBhe4PDYG8/w6L55XJumniADATd2Ra2CfRV0X7c7zjVlTcD
+   VkkiQed3p/598jsk0x9NnFN9mc7ZL8jKSxVD/v1+grh6FEvikO66MJ4EU
+   dKMz+M+WXZNNktZQEDAC3L8j5KJpNrsmh7KaNhq4PMCTwKNIDkMzKPrqa
+   Fm9rdGAPiv1CmLhYJWpGMGDJipoOk3KUUjy7WBSxKjJrp7+e/RO6GF3yV
+   PpgnjoCXbas7KezbcOYUXvvTsIfbCZBEF+Gwufi2cpomcBcDnpBiHlvnG
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="360532020"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="360532020"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 05:54:11 -0700
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="675677408"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 05:54:09 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oVY5e-0097jn-2u;
+        Tue, 06 Sep 2022 15:54:06 +0300
+Date:   Tue, 6 Sep 2022 15:54:06 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v1 1/1] Input: icn8505 - Utilize acpi_get_subsystem_id()
+Message-ID: <YxdC7i9F1ayR5icS@smile.fi.intel.com>
+References: <20220905172001.69244-1-andriy.shevchenko@linux.intel.com>
+ <YxZPjsRJXJijZ/K3@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-From:   Pavel Rojtberg <rojtberg@gmail.com>
-Subject: Re: [PATCH v2 0/4] Input: xpad - sync with github fork
-To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        gregkh@linuxfoundation.org, hadess@hadess.net
-References: <20220818154411.510308-1-rojtberg@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20220818154411.510308-1-rojtberg@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YxZPjsRJXJijZ/K3@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am 18.08.22 um 17:44 schrieb Pavel Rojtberg:
-> From: Pavel Rojtberg <rojtberg@gmail.com>
-> 
-> I maintain the fork of the xpad driver at https://github.com/paroj/xpad.
-> This upstreams some changes that have proven to be stable.
-> 
-> The first patch merely updates the list of supported devices.
-> 
-> The next two patches improve xbox360w gamepad support.
-> I have tested those myself, as I own that device.
-> 
-> The last patch carries most of the diff and adds support for
-> "paddle" buttons found on some Xbox One controllers.
-> 
-> Compared to v1, this adds the requested tags to the first
-> two patches of the series.
-> 
-> Cameron Gutman (1):
->   Input: xpad - fix wireless 360 controller breaking after suspend
-> 
-> Christopher Crockett (1):
->   Input: xpad - add support for XBOX One Elite paddles
-> 
-> Pavel Rojtberg (1):
->   Input: xpad - add supported devices as contributed on github
-> 
-> Santosh De Massari (1):
->   Input: xpad - Poweroff XBOX360W on mode button long press
-> 
->  drivers/input/joystick/xpad.c | 298 +++++++++++++++++++++++++++++++++++++++++++++------------
->  1 file changed, 236 insertions(+), 62 deletions(-)
-> 
+On Mon, Sep 05, 2022 at 12:35:42PM -0700, Dmitry Torokhov wrote:
+> On Mon, Sep 05, 2022 at 08:20:01PM +0300, Andy Shevchenko wrote:
 
-Is there anything else to be done for this to get merged?
+...
 
-Greetings, Pavel
+> > +	subsys = acpi_get_subsystem_id(ACPI_HANDLE(dev));
+> > +	if (IS_ERR(subsys) && PTR_ERR(subsys) != -ENODATA)
+> > +		return PTR_ERR(subsys);
+> > +
+> > +	if (IS_ERR(subsys) && PTR_ERR(subsys) == -ENODATA)
+> > +		subsys = kstrdup_const("unknown", GFP_KERNEL);
+> 
+> Do we really need kstrdup_const() here? This makes me wonder if we need
+> to also have error handling here, and if we going to tip some automated
+> tools by not having it. Why can't we simply assign the constant here
+> (and continue using kfree_const() below)?
+
+Which makes code inconsistent. But okay, no big deal.
+
+> I think this is the case where PTR_ERR_OR_ZERO() might help avoid
+> multiple IS_ERR/PTR_ERR:
+> 
+> 	subsys = acpi_get_subsystem_id(ACPI_HANDLE(dev));
+> 	error = PTR_ERR_OR_ZERO(subsys);
+> 	if (error == -ENODATA)
+> 		subsys = "unknown";
+> 	else if (error)
+> 		return error;
+
+Would it matter? The generated code will be the same in both cases, no?
+
+> >  	snprintf(icn8505->firmware_name, sizeof(icn8505->firmware_name),
+> >  		 "chipone/icn8505-%s.fw", subsys);
+> >  
+> > -	kfree(buffer.pointer);
+> > +	kfree_const(subsys);
+> >  	return 0;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
