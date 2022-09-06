@@ -2,67 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04AE15AE1B2
-	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 09:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 388275AE712
+	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 14:01:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238646AbiIFH5Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Sep 2022 03:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34980 "EHLO
+        id S232447AbiIFMAh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Sep 2022 08:00:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238975AbiIFH5T (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 03:57:19 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5186DAE3;
-        Tue,  6 Sep 2022 00:57:17 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id mj6so10453762pjb.1;
-        Tue, 06 Sep 2022 00:57:17 -0700 (PDT)
+        with ESMTP id S232951AbiIFMAe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 08:00:34 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD3E7820C
+        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 05:00:33 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id bz13so11679151wrb.2
+        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 05:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=7d/92Uix5upXpWyYq3ETNsVVpKrhQj/Lk0f9mVGVjPA=;
-        b=SRFlpzCyevXhUYSNS4G8ug5Y5wTKHeebo7uJ5ejYWctEDgNggKRNfNUf6xBYSRn0eU
-         JCAdctcZQngCOYd8E7Zxp8duIE/8CC2dGNSSFXYmxL3JUHK4T5yIuVAd1PKY7XQFi5Vh
-         mYhGO7HmeFNq/nU9yy4ZRcO+ybuyD15g4LnZfTZCNbqYzSjQPRKxdMvd18qaEOBazjvM
-         Xrbh9P8Z9yRg0OpUF3rFDQrY683kCVVMCwMqfkCX9RDN+NDyjSC8y+aAtAGKFpmB8n9S
-         GG4H6YKugEsD0G4buFb+rGe3s1BIykgvIqfCMdjwhBy4YEnTOJt3OPojve9+waMqy20C
-         plhg==
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:from:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date;
+        bh=d+tzIwr+5ozDfubPv1VTyibMQFtNJExwnc7cUUpEjik=;
+        b=hOWuM85MmSUv2LLk9b405FJAeRCmXoylW9F29cEKOW84Q9xn4wW0Eo0T7ULpkXP70i
+         ngGLGQ+IrwTUSd8dhx+2+o+fEr2QQAOGP3qSIc1u4Jp14HZ84voFCtY0jzhUhELTGb0y
+         4NucU2AjRUVuNeZxEJ2djRLT47NLygqXfgV9dxotT7N31RTMOndRiygSNe6G8qZ5j259
+         0O8W6v9KY8uwcyY4sorNj7B11Id/hH80dGg93ryibqsmj5z0HvFlXi62fFh1/y4rliVS
+         ZJZjDWSPgFI0aBKQJHYsDiEynnac8HggQgD8Uy1oONPPo68jmEjDOWFZxLKxYADsSr2Z
+         uXIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=7d/92Uix5upXpWyYq3ETNsVVpKrhQj/Lk0f9mVGVjPA=;
-        b=x7aieBMc3G4fXah85WbkHzmqdTgAVbZ7RsaNb0U0XN0G3OTQMImc6iU+60Mvpl3QmF
-         88ums4acaZfURYN8Tkhb+DwkD/DXvVbzo+e8tr9B/0FRq9QKHxbHWmFqWnaR0Z/jYl4e
-         /YQUXWTJTJsnQ6rAL0SkUfOcsBB1gmsOdif26BwFE/9+SqER1WretlL94Yg2YdsBzJ44
-         ia+Vd09xMEAAHrdyDZFagyb+L7bdUhL5/BS/rFX4auUKVYD2jY3VRNKFSMl5yoDUOGie
-         YCPGIBn/+wsubo/Uj86vjV5DQKpD6wWHiBqYrNjxlcMEAz7mHOGGVcFuEt4/3OyFOXfs
-         17RA==
-X-Gm-Message-State: ACgBeo3/njmcNtK7IUL4ryly6WcEtTB/EGYZNw/q2eURLTvuehs1WRjy
-        dAVfadMXLGsJT+EloScQk2U=
-X-Google-Smtp-Source: AA6agR6bl4BhuuZ/gx9PXCMRzEiC6M1YXyi3FOUk3XLFORk1ZPNG0kMEzGxKMCheiVFmaaqr3ezNHA==
-X-Received: by 2002:a17:903:11c7:b0:170:a74e:3803 with SMTP id q7-20020a17090311c700b00170a74e3803mr51951613plh.156.1662451037255;
-        Tue, 06 Sep 2022 00:57:17 -0700 (PDT)
-Received: from [192.168.50.247] ([129.227.150.140])
-        by smtp.gmail.com with ESMTPSA id a12-20020a170902710c00b00174c235e1fdsm8989725pll.199.2022.09.06.00.57.15
+        bh=d+tzIwr+5ozDfubPv1VTyibMQFtNJExwnc7cUUpEjik=;
+        b=l6B0yrGr3Gk2OAEPCFx5ZKyjENlI8Uyt/x7j+QolPmegphpccXkA9lS6p9/s9OXccy
+         RWjj1xkSvh/5bbTmiAWN5795ts1PR2Vp/8avwzHIraVP9XY8idrilRW+q32j3B8rjqfk
+         NBfYwC9OM0iLYxYD34voCf81RyY+DwKXmCOvXW7QHKlTfdI+nQMQ2MsLMoAz/eQa4jHl
+         2PCqBRMf/sBqb9THFddkrcTVm+iDlqvM0pXWRTN9tnEq0CdQhttly1FhGZHPaZ7GMlvZ
+         j4H1SqBa5FbDmSASvhyujAt5FR5UjkoSolMgAadhKm6rc2F6oXgZ4iCM4xByQ6SxB/1A
+         +5MQ==
+X-Gm-Message-State: ACgBeo2XlgErij6ClFquhGK6J/wgW0Y3IuLosHxDs+dBhq7JA/yJjIyC
+        nFescOeJNA+myEJkuZ53tnzidZ65AnSGhA==
+X-Google-Smtp-Source: AA6agR5o5glDTAL8TxKxnciSUDncogkT3kpleTpQqR6QL8AuCHSYn9h5yVO2qHv8Vk2KrmEBgALnaQ==
+X-Received: by 2002:a5d:6109:0:b0:228:62cf:86d4 with SMTP id v9-20020a5d6109000000b0022862cf86d4mr7596520wrt.552.1662465631720;
+        Tue, 06 Sep 2022 05:00:31 -0700 (PDT)
+Received: from ?IPV6:2001:9e8:2239:cf00:ee9c:5302:9a6d:9921? ([2001:9e8:2239:cf00:ee9c:5302:9a6d:9921])
+        by smtp.googlemail.com with ESMTPSA id bg15-20020a05600c3c8f00b003a4f08495b7sm23382695wmb.34.2022.09.06.05.00.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Sep 2022 00:57:16 -0700 (PDT)
-Message-ID: <64a3bd41-1184-e65b-e70f-01ef8daadb53@gmail.com>
-Date:   Tue, 6 Sep 2022 15:57:13 +0800
+        Tue, 06 Sep 2022 05:00:31 -0700 (PDT)
+Message-ID: <a2d416db-16ce-5d1f-604a-9c194237fc8c@gmail.com>
+Date:   Tue, 6 Sep 2022 14:00:30 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] hid: hid-logitech-hidpp: avoid unnecessary assignments in
- hidpp_connect_event
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+From:   Pavel Rojtberg <rojtberg@gmail.com>
+Subject: Re: [PATCH v2 0/4] Input: xpad - sync with github fork
+To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        gregkh@linuxfoundation.org, hadess@hadess.net
+References: <20220818154411.510308-1-rojtberg@gmail.com>
 Content-Language: en-US
-To:     lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220812025515.19467-1-hbh25y@gmail.com>
-From:   Hangyu Hua <hbh25y@gmail.com>
-In-Reply-To: <20220812025515.19467-1-hbh25y@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220818154411.510308-1-rojtberg@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
@@ -74,30 +73,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/8/2022 10:55, Hangyu Hua wrote:
-> hidpp->delayed_input can't be assigned to an object that already call
-> input_free_device when input_register_device fails.
+Am 18.08.22 um 17:44 schrieb Pavel Rojtberg:
+> From: Pavel Rojtberg <rojtberg@gmail.com>
 > 
-> Fixes: c39e3d5fc9dd ("HID: logitech-hidpp: late bind the input device on wireless connection")
-> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-> ---
->   drivers/hid/hid-logitech-hidpp.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+> I maintain the fork of the xpad driver at https://github.com/paroj/xpad.
+> This upstreams some changes that have proven to be stable.
 > 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index 68f9e9d207f4..c3602bf8f9b9 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -3959,8 +3959,10 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
->   	hidpp_populate_input(hidpp, input);
->   
->   	ret = input_register_device(input);
-> -	if (ret)
-> +	if (ret) {
->   		input_free_device(input);
-> +		return;
-> +	}
->   
->   	hidpp->delayed_input = input;
->   }
-Gentel ping.
+> The first patch merely updates the list of supported devices.
+> 
+> The next two patches improve xbox360w gamepad support.
+> I have tested those myself, as I own that device.
+> 
+> The last patch carries most of the diff and adds support for
+> "paddle" buttons found on some Xbox One controllers.
+> 
+> Compared to v1, this adds the requested tags to the first
+> two patches of the series.
+> 
+> Cameron Gutman (1):
+>   Input: xpad - fix wireless 360 controller breaking after suspend
+> 
+> Christopher Crockett (1):
+>   Input: xpad - add support for XBOX One Elite paddles
+> 
+> Pavel Rojtberg (1):
+>   Input: xpad - add supported devices as contributed on github
+> 
+> Santosh De Massari (1):
+>   Input: xpad - Poweroff XBOX360W on mode button long press
+> 
+>  drivers/input/joystick/xpad.c | 298 +++++++++++++++++++++++++++++++++++++++++++++------------
+>  1 file changed, 236 insertions(+), 62 deletions(-)
+> 
+
+Is there anything else to be done for this to get merged?
+
+Greetings, Pavel
