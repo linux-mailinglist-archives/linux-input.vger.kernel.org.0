@@ -2,76 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04F9D5ADE05
-	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 05:29:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04AE15AE1B2
+	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 09:57:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238250AbiIFD3B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Sep 2022 23:29:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51582 "EHLO
+        id S238646AbiIFH5Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Sep 2022 03:57:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238278AbiIFD2U (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Sep 2022 23:28:20 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84E76D559;
-        Mon,  5 Sep 2022 20:27:50 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id q81so7953947iod.9;
-        Mon, 05 Sep 2022 20:27:50 -0700 (PDT)
+        with ESMTP id S238975AbiIFH5T (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 03:57:19 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5186DAE3;
+        Tue,  6 Sep 2022 00:57:17 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id mj6so10453762pjb.1;
+        Tue, 06 Sep 2022 00:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=edqEW8K/wxMVRZ77yuARzYVZRubfPFDmCU9QJYmWr3A=;
-        b=MLwGeAaD9znffyX/kWEqH875dsCLjLaKVS4+g2FKPQR7nWcZ7pD6/jY9dFb61amb4t
-         hJlTn4vnrh/k8Wuko4UunAbnzAP2Ypu4ybqL5zfK3z6lq0GlOVfWyORMIfOJn6RSDixy
-         mfs2zYMPGjd+EXtn9USuUM5909gZ8I9dLsNuFYsnjwoE4glRl8VT/PwuJcQUpKy5JDb+
-         slCkhaOv0wplD3HU88SF5Q4+kqG1/usozqeZ+WSA93AHZNJcmYva96j4WUXQnkTexw8J
-         WgtiRWEzHwDTbqhFnLd46Z8SJYeIe/IgxrRxSNdKqcBALSjNRF+P5t9nfmDMZl6A671+
-         wKrA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=7d/92Uix5upXpWyYq3ETNsVVpKrhQj/Lk0f9mVGVjPA=;
+        b=SRFlpzCyevXhUYSNS4G8ug5Y5wTKHeebo7uJ5ejYWctEDgNggKRNfNUf6xBYSRn0eU
+         JCAdctcZQngCOYd8E7Zxp8duIE/8CC2dGNSSFXYmxL3JUHK4T5yIuVAd1PKY7XQFi5Vh
+         mYhGO7HmeFNq/nU9yy4ZRcO+ybuyD15g4LnZfTZCNbqYzSjQPRKxdMvd18qaEOBazjvM
+         Xrbh9P8Z9yRg0OpUF3rFDQrY683kCVVMCwMqfkCX9RDN+NDyjSC8y+aAtAGKFpmB8n9S
+         GG4H6YKugEsD0G4buFb+rGe3s1BIykgvIqfCMdjwhBy4YEnTOJt3OPojve9+waMqy20C
+         plhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=edqEW8K/wxMVRZ77yuARzYVZRubfPFDmCU9QJYmWr3A=;
-        b=x9S0xf30rZFMZ7k/ewMIWJPkz3YTHwU6CL278RDDNzpdFGWcJkNJhHxNu2LpVc7SzA
-         RNZJfIZ+HwNGx9C/9EHyotC6LWACxesw7K2hSAUL71pWZFMGC9b+dVN1W+RlzP/F+hz+
-         L63hDjS1U20Ycbc1s7P9pr22V4N9d703aG6YfNmLUXiMXjQOoRNK/yBaphQyypgsXnrl
-         ncKLgy9OIYKNMveWvmFn1jEbsYKD4VO4bcHR80JWfsnCxGQKd9Q3XwgoxluTb4eVQ2J+
-         smxXKyxCDZXT5VxPINsfp7Iicyt+kcYn/1TDE2GPaqMMhEuVOVNY0qhjgbED8o1R/dCV
-         SqRg==
-X-Gm-Message-State: ACgBeo3uhPmvHtJzA+pKXQPnzFnXpgGZXyWlGrnogwNQpVch1Nl7iV7i
-        6lmVZ+0afNXvn4+yY3M4YMOKwGS4xJLaqYw8M/I=
-X-Google-Smtp-Source: AA6agR4hdPeg8VFYGGLwYbUrwahqoCx4oP7yfw2h/x1rR+5//miHeZ4c2j3vtktiaeBEAjP14I7O2+M5eP10fGewESw=
-X-Received: by 2002:a05:6638:3802:b0:351:d8a5:6d58 with SMTP id
- i2-20020a056638380200b00351d8a56d58mr5441296jav.206.1662434870210; Mon, 05
- Sep 2022 20:27:50 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=7d/92Uix5upXpWyYq3ETNsVVpKrhQj/Lk0f9mVGVjPA=;
+        b=x7aieBMc3G4fXah85WbkHzmqdTgAVbZ7RsaNb0U0XN0G3OTQMImc6iU+60Mvpl3QmF
+         88ums4acaZfURYN8Tkhb+DwkD/DXvVbzo+e8tr9B/0FRq9QKHxbHWmFqWnaR0Z/jYl4e
+         /YQUXWTJTJsnQ6rAL0SkUfOcsBB1gmsOdif26BwFE/9+SqER1WretlL94Yg2YdsBzJ44
+         ia+Vd09xMEAAHrdyDZFagyb+L7bdUhL5/BS/rFX4auUKVYD2jY3VRNKFSMl5yoDUOGie
+         YCPGIBn/+wsubo/Uj86vjV5DQKpD6wWHiBqYrNjxlcMEAz7mHOGGVcFuEt4/3OyFOXfs
+         17RA==
+X-Gm-Message-State: ACgBeo3/njmcNtK7IUL4ryly6WcEtTB/EGYZNw/q2eURLTvuehs1WRjy
+        dAVfadMXLGsJT+EloScQk2U=
+X-Google-Smtp-Source: AA6agR6bl4BhuuZ/gx9PXCMRzEiC6M1YXyi3FOUk3XLFORk1ZPNG0kMEzGxKMCheiVFmaaqr3ezNHA==
+X-Received: by 2002:a17:903:11c7:b0:170:a74e:3803 with SMTP id q7-20020a17090311c700b00170a74e3803mr51951613plh.156.1662451037255;
+        Tue, 06 Sep 2022 00:57:17 -0700 (PDT)
+Received: from [192.168.50.247] ([129.227.150.140])
+        by smtp.gmail.com with ESMTPSA id a12-20020a170902710c00b00174c235e1fdsm8989725pll.199.2022.09.06.00.57.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Sep 2022 00:57:16 -0700 (PDT)
+Message-ID: <64a3bd41-1184-e65b-e70f-01ef8daadb53@gmail.com>
+Date:   Tue, 6 Sep 2022 15:57:13 +0800
 MIME-Version: 1.0
-References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
- <20220902132938.2409206-2-benjamin.tissoires@redhat.com> <CAP01T75KTjawtsvQmhZhj0=tEJVwc7UewRqdT1ui+uKONg07Zw@mail.gmail.com>
-In-Reply-To: <CAP01T75KTjawtsvQmhZhj0=tEJVwc7UewRqdT1ui+uKONg07Zw@mail.gmail.com>
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Tue, 6 Sep 2022 05:27:14 +0200
-Message-ID: <CAP01T74zEuSfTYhkKieU1B5YwzdXhKWxPX55AabV84j-=virwA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v10 01/23] selftests/bpf: regroup and declare
- similar kfuncs selftests in an array
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] hid: hid-logitech-hidpp: avoid unnecessary assignments in
+ hidpp_connect_event
+Content-Language: en-US
+To:     lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220812025515.19467-1-hbh25y@gmail.com>
+From:   Hangyu Hua <hbh25y@gmail.com>
+In-Reply-To: <20220812025515.19467-1-hbh25y@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -80,37 +74,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 6 Sept 2022 at 05:25, Kumar Kartikeya Dwivedi <memxor@gmail.com> wrote:
->
-> On Fri, 2 Sept 2022 at 15:29, Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > Similar to tools/testing/selftests/bpf/prog_tests/dynptr.c:
-> > we declare an array of tests that we run one by one in a for loop.
-> >
-> > Followup patches will add more similar-ish tests, so avoid a lot of copy
-> > paste by grouping the declaration in an array.
-> >
-> > To be able to call bpf_object__find_program_by_name(), we need to use
-> > plain libbpf calls, and not light skeletons. So also change the Makefile
-> > to not generate light skeletons.
-> >
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >
-> > ---
->
-> I see your point, but this is also a test so that we keep verifying
-> kfunc call in light skeleton.
-> Code for relocating both is different in libbpf (we generate BPF ASM
-> for light skeleton so it is done inside a loader BPF program instead
-> of userspace).
-
-Err, hit send too early.
-We can probably use a macro to hide how program is called, then do
-X(prog1)
-X(prog2)
-in a series, won't look too bad and avoids duplication at the same time.
-
-> You might then be able to make it work for both light and normal skeleton.
->
-WDYT?
+On 12/8/2022 10:55, Hangyu Hua wrote:
+> hidpp->delayed_input can't be assigned to an object that already call
+> input_free_device when input_register_device fails.
+> 
+> Fixes: c39e3d5fc9dd ("HID: logitech-hidpp: late bind the input device on wireless connection")
+> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+> ---
+>   drivers/hid/hid-logitech-hidpp.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index 68f9e9d207f4..c3602bf8f9b9 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -3959,8 +3959,10 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
+>   	hidpp_populate_input(hidpp, input);
+>   
+>   	ret = input_register_device(input);
+> -	if (ret)
+> +	if (ret) {
+>   		input_free_device(input);
+> +		return;
+> +	}
+>   
+>   	hidpp->delayed_input = input;
+>   }
+Gentel ping.
