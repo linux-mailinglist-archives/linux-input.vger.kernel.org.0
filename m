@@ -2,98 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10B8F5AF7FF
-	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 00:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 876565AF83A
+	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 01:07:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbiIFW3X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Sep 2022 18:29:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60912 "EHLO
+        id S229793AbiIFXGy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Sep 2022 19:06:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230085AbiIFW3W (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 18:29:22 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8A327DE3
-        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 15:29:18 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id gb36so26368667ejc.10
-        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 15:29:18 -0700 (PDT)
+        with ESMTP id S229449AbiIFXGx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 19:06:53 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D68285ABD;
+        Tue,  6 Sep 2022 16:06:52 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id t11-20020a17090a510b00b001fac77e9d1fso16437470pjh.5;
+        Tue, 06 Sep 2022 16:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=tzV5Zo1zPXPHYlUrwIwFAafpDKH7ddJHuMF7Y7rCweA=;
-        b=NrD1lKMkW/LP27c/myN1W9vtmnxl9C2r3nLQQCkEubatVJntTMQywq96/+Zrhp3iNX
-         V1pMZj8E2hhw9LETuAVP7nAnj1shZXe9cZ1jpIBnlBmss4fyyZvnatwjINmE/DJ6EVk/
-         J4zJGnHbdmQSTo/6vGt+tdufQ/kiMCxUcod1M=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=MmjTN2umMbTipMC2ywC8SfF6zMfKOmm31STCj40Urr8=;
+        b=h0MW8YZ3af4vyBRPdWHoZvJVTDmJk+IeQCWw4O+ymMP9imoO49JCKRGm5SDKyvJJyX
+         6vcAP1Ml6wnWq/ltoGqGAXIEkXtVFrh9kX1o4y2l0kkgC4QRXchbPiIWjDNbQXND8pMl
+         jD7K2SIGx0VpK7ToU/z0UYe9IH1bppvRJaqimqX1YYA3l32zDhOz6HMQY5LcEl9mjldp
+         hqNcCCDZrTNlug0DXa37ZfrIXiiVFnfK0rY/ORRfjypubjWHLRVLrmP/b6jjK0qj4MLd
+         9Tpr7N/y7CPTPgZw83JwwEcyjsRNGVK8oK/VV0KUlPbUL17YMjcJPbkfecBFnX/fcJWK
+         bbYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=tzV5Zo1zPXPHYlUrwIwFAafpDKH7ddJHuMF7Y7rCweA=;
-        b=6WsgqGiibYzvzWPs7dVhwGX79+OG1Qt69CzDu2X4f3/o5B5rpSC3d0HdeEe95ccRzz
-         ltCfhbYnCcBsIvw59O4Z8FmInBHhYUiBlq+TUOVp3InOhMctJo9sIFrD8F3adnysIElh
-         QSpAKt8EJiLEEaGw/YrtVqAlQnG9YHRV6HsylsZgVHZs3zPcQdAlthYNj+XSSrL5Cl4e
-         Nvx2+SWgFsfbdTJ6fVjSR6U3kp80DPrME1mOXUMALfC9yKEKC/Y5cFF4SnYJ8svCtQww
-         mvbLO2usJyTmuc1wq56oafZTCL/SRxlyd+QCAyNZkU356enbS+W3Be29vonFNMkIWagE
-         fmyQ==
-X-Gm-Message-State: ACgBeo0HTa4UzmFI1P1C9r/APgP40zGFjtuJ/Udr/8ccIpeFOr9ZIsgp
-        ZQ3HJjalMKvp6LD9eXFRVUThLyy2tS+B/RQc
-X-Google-Smtp-Source: AA6agR7OVKZqX+aANO2X6LA58dKU47uoh0gvfIOxuWNk7/2nXkmjw3rDgQH40zDY+xh4bOG8x/btPg==
-X-Received: by 2002:a17:907:720b:b0:731:6e49:dc93 with SMTP id dr11-20020a170907720b00b007316e49dc93mr405265ejc.421.1662503357131;
-        Tue, 06 Sep 2022 15:29:17 -0700 (PDT)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
-        by smtp.gmail.com with ESMTPSA id f10-20020a17090631ca00b00730860b6c43sm7421550ejf.173.2022.09.06.15.29.15
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Sep 2022 15:29:16 -0700 (PDT)
-Received: by mail-wm1-f50.google.com with SMTP id h204-20020a1c21d5000000b003a5b467c3abso10519875wmh.5
-        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 15:29:15 -0700 (PDT)
-X-Received: by 2002:a05:600c:5114:b0:3a6:1ab9:5b3d with SMTP id
- o20-20020a05600c511400b003a61ab95b3dmr271110wms.93.1662503354765; Tue, 06 Sep
- 2022 15:29:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220902082843.1.I7da6ff6c8e8700624d61e51ff7d09e151bd83dcb@changeid>
-In-Reply-To: <20220902082843.1.I7da6ff6c8e8700624d61e51ff7d09e151bd83dcb@changeid>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 6 Sep 2022 15:29:03 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=URtPnUF=moq_+iua517RBPB4WF+56gE94GZ6fhM2XUow@mail.gmail.com>
-Message-ID: <CAD=FV=URtPnUF=moq_+iua517RBPB4WF+56gE94GZ6fhM2XUow@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: elants_i2c: Add
- eth3915n touchscreen chip
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=MmjTN2umMbTipMC2ywC8SfF6zMfKOmm31STCj40Urr8=;
+        b=1hDaekW9MbU45CJ8THf7gp1my/0VUpxjZ1juTewk2Y1rcWfte463vEAkAD3grWAVAi
+         WSZWjnA3xqdep5fIhm06vwZ0V35DRd8aJZKBOYL9F4vAGuhBaXyLXjXUqtbf2vy9ZmQG
+         +KWFTqrRJ8oFEG+qi6PmnIHzI5M9raptTrWlGyZcxljgvKQnBbrbUNAVBwP7V8rZXwsd
+         mDQKNhqz6XDYprC9qu7BCXKE1N9RfKYqPzCYqb6d20aLpYVX5kPmIxpUJlqYJbJ+6vQy
+         /mmsIAQCsmeoKMglO+Z2GNiugsRQ6d6XUlO4mlzxvX8I4wPGAvL1AZkj/Ly38dAXUa7n
+         ESLQ==
+X-Gm-Message-State: ACgBeo1qJBoLQYQ+zrb0XGiMR0mEfntl3j5pqz11YPMktqmugLy2WDDq
+        mG2RI0BU2wlukXQVMYKwzvc=
+X-Google-Smtp-Source: AA6agR5D2JrGrU7ucf2z4l+b25hQbtbvjiNMLlshQ82RsKrsYelSUBl0eIRvo+9u5Bo2TwKN83k/aw==
+X-Received: by 2002:a17:902:e5c7:b0:174:e71e:30ef with SMTP id u7-20020a170902e5c700b00174e71e30efmr802328plf.30.1662505611411;
+        Tue, 06 Sep 2022 16:06:51 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:abc4:5d24:5a73:a96b])
+        by smtp.gmail.com with ESMTPSA id b14-20020a621b0e000000b005377c74c409sm10879125pfb.4.2022.09.06.16.06.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 16:06:50 -0700 (PDT)
+Date:   Tue, 6 Sep 2022 16:06:47 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Bob Moragues <moragues@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
         Henry Sun <henrysun@google.com>,
         David Heidelberg <david@ixit.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: elants_i2c: Add
+ eth3915n touchscreen chip
+Message-ID: <YxfShztWKwErrxyt@google.com>
+References: <20220902082843.1.I7da6ff6c8e8700624d61e51ff7d09e151bd83dcb@changeid>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902082843.1.I7da6ff6c8e8700624d61e51ff7d09e151bd83dcb@changeid>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Fri, Sep 2, 2022 at 1:32 AM Yunlong Jia
-<yunlong.jia@ecs.corp-partner.google.com> wrote:
->
+On Fri, Sep 02, 2022 at 08:32:35AM +0000, Yunlong Jia wrote:
 > Add an elan touch screen chip eth3915n.
 > This chip requires more delay time than the eth3500.
->
+> 
 > Signed-off-by: Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
+
+Do you have company email (instead of Google partner domain account) by
+chance?
+
 > ---
->
+> 
 >  .../devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml   | 1 +
 >  1 file changed, 1 insertion(+)
->
+> 
 > diff --git a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
 > index a9b53c2e6f0ab..d28625372f5ac 100644
 > --- a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
@@ -103,5 +98,14 @@ On Fri, Sep 2, 2022 at 1:32 AM Yunlong Jia
 >        - elan,ektf3624
 >        - elan,ekth3500
 > +      - elan,ekth3915
+>  
+>    reg:
+>      maxItems: 1
+> -- 
+> 2.17.1
+> 
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Thanks.
+
+-- 
+Dmitry
