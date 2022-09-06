@@ -2,185 +2,217 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A875AF092
-	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 18:37:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF0FD5AF267
+	for <lists+linux-input@lfdr.de>; Tue,  6 Sep 2022 19:28:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233093AbiIFQhH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Sep 2022 12:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
+        id S233851AbiIFR2E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Sep 2022 13:28:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233442AbiIFQgp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 12:36:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248CF13F5D
-        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 09:12:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662480777;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kg2ZD8/t1Jr30+S6ZmV5Vng3X+mccbhRQidJGUyOJ8o=;
-        b=Hdx2jw3IDZlrCLAi90onICEn5UaRBMqVRZJzny7HB2pFOFn6WF38JxMq5cL7qF3ntLY+AH
-        0Chj4OdzwUj9kPiqaa2oiuhA+Noj6Wbv73sL/O/6ob24LMJsq7hvGSTdnWog0X69XmLRBF
-        BEsVFCTgRjNyiBXYgtk8YiFOIs7jLJg=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-60-ZtiQweRhOZaAjFxTmIQstA-1; Tue, 06 Sep 2022 12:12:56 -0400
-X-MC-Unique: ZtiQweRhOZaAjFxTmIQstA-1
-Received: by mail-pj1-f71.google.com with SMTP id g11-20020a17090a4b0b00b001fb5f1e195fso5081238pjh.6
-        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 09:12:55 -0700 (PDT)
+        with ESMTP id S233857AbiIFR1s (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Sep 2022 13:27:48 -0400
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4803A470
+        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 10:19:05 -0700 (PDT)
+Received: by mail-il1-x12e.google.com with SMTP id h14so6307316ilh.10
+        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 10:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=QfDvYdUdYp4IWhbJI3qOuZcjPKjhP7sYkjgPDUO+zHo=;
+        b=WILT073FsTIu6roPPSq54BECUHVQJG+F4mk0L2/x7YxNrmkK+A71YpbAlPcFHowp/C
+         76/s8aERPHUUhMle/CPWdkByS3hcrKfXf5kl+XetUWj6yefOIq3LFrM5Xw4rnTqtzXnt
+         D+XwhZ/9x+8z92Y2QxWWSxJ8dWF2QEbV7X134=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=kg2ZD8/t1Jr30+S6ZmV5Vng3X+mccbhRQidJGUyOJ8o=;
-        b=3sIScvy0D5r0GroiOcVdxDTla2K5PLEdarrdyaVCj748sDDR40XFG5HtcqULSOFZAX
-         vIAn9T3hNwEm+0MiwmU34uhvaxNwEec9bf3X82xtCeWRx44bMrg3Z8f/ecYwB6fcffpY
-         gC6wZbi6WhgwWgSyfmJg+txElY2HBd6IgSg6Zw9PK5sxnp1AxQXnZKLaS3HiQ1qbQ127
-         mfCEOz5jWWc9kEfzyBIPpPFuEIFzWqph9n/2csB5Ia6t8MyMtYg8hkiy9LT3WB7u+jdI
-         e6LK9ULQnMT27/amFcHzsTHuUJ4iu5wcLDualm2Gu0TreiJeYgb8w7c+6IW9ja07I9qW
-         G4ow==
-X-Gm-Message-State: ACgBeo2pLAqPq2OlZ9TEvnNEQHz9sGNeVTqJO3yzixrM9PdXxoUwCqMj
-        MvWPL/G9U8XkD4aauUHaUdJQYerekIsDztknZfkqSIr30m5a1+EaI34EhcTG05yzwLhd08MKuj9
-        DEqAzxQu/YB8Pt9Ytisntkk1mB8CISQLoLaElSkU=
-X-Received: by 2002:a17:90a:4485:b0:1fa:cc1f:a7a with SMTP id t5-20020a17090a448500b001facc1f0a7amr25979385pjg.45.1662480774582;
-        Tue, 06 Sep 2022 09:12:54 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR62clyvFNxfvYwrm+zhQNaRY46JYdBxaA8PGMyTRlTBTbWPbc89Y4U7LekV45n04MZzTad6xPl3cyc04nZan6E=
-X-Received: by 2002:a17:90a:4485:b0:1fa:cc1f:a7a with SMTP id
- t5-20020a17090a448500b001facc1f0a7amr25979368pjg.45.1662480774362; Tue, 06
- Sep 2022 09:12:54 -0700 (PDT)
+        bh=QfDvYdUdYp4IWhbJI3qOuZcjPKjhP7sYkjgPDUO+zHo=;
+        b=l7bIqMP4Yfbq985m6K676sA/YLDf0FPxrFsR2gHEgE7NdhHd88zs00rLX8+AivxJWZ
+         Dg17sRqChiwy+yHF1cxy/+xud5kXO9AL0Z1mMnF2e4mxWzqelsPS9fWVu6pVoSFOHIEU
+         PWOZ3L7rrgospSWutjUtCEjoP1KqSBLg+iz4gp7wXrUp60cMP/yodtotci3pGdPDUo6E
+         l15HHH29FqcVTZkbibQ2G/80gwSTg5AFdkqc0ylT53On0wCrj5oTAjan0+uxRjUI+ESi
+         0Gk+La5jdPB1Oz09JVBAwodmK76zmmg4abvN6oOf5Oavc1RDPT7cyfSbVAuLHEYHVFHv
+         3abw==
+X-Gm-Message-State: ACgBeo318w6a0tbvGUP+qsmuXAVXpMtYXrzSn5Ag3MXCiarlQCOFxY+V
+        BTwokbJn1vQ9WihTpeH140wHS/Y/1HXrAA==
+X-Google-Smtp-Source: AA6agR4geR242HEiNZEZM8qtUNkGQEBeKiTg+Rns5sg5dNVbpT58cgRx+tkUX5+xua6BYWITBzU+nw==
+X-Received: by 2002:a05:6e02:198d:b0:2ec:d6c5:49e8 with SMTP id g13-20020a056e02198d00b002ecd6c549e8mr14022336ilf.187.1662484744541;
+        Tue, 06 Sep 2022 10:19:04 -0700 (PDT)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com. [209.85.166.41])
+        by smtp.gmail.com with ESMTPSA id v10-20020a056602058a00b006883f9641bbsm6150038iox.19.2022.09.06.10.19.01
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Sep 2022 10:19:01 -0700 (PDT)
+Received: by mail-io1-f41.google.com with SMTP id y187so9530998iof.0
+        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 10:19:01 -0700 (PDT)
+X-Received: by 2002:a05:6602:3cc:b0:678:eb57:5eb with SMTP id
+ g12-20020a05660203cc00b00678eb5705ebmr24073719iov.125.1662484740728; Tue, 06
+ Sep 2022 10:19:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
- <20220902132938.2409206-2-benjamin.tissoires@redhat.com> <CAP01T75KTjawtsvQmhZhj0=tEJVwc7UewRqdT1ui+uKONg07Zw@mail.gmail.com>
- <CAP01T74zEuSfTYhkKieU1B5YwzdXhKWxPX55AabV84j-=virwA@mail.gmail.com> <CAO-hwJLBtjfU7NWVTRK8HKmATuSb3ZSY__+OOMZhqY85DeQbWQ@mail.gmail.com>
-In-Reply-To: <CAO-hwJLBtjfU7NWVTRK8HKmATuSb3ZSY__+OOMZhqY85DeQbWQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 6 Sep 2022 18:12:43 +0200
-Message-ID: <CAO-hwJ+K0EmS-j+2uuj-13aDf2+X8ZVU4ue4MNg55p9nJhLAKw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v10 01/23] selftests/bpf: regroup and declare
- similar kfuncs selftests in an array
-To:     Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20220830231541.1135813-1-rrangel@chromium.org>
+ <20220830171332.1.Id022caf53d01112188308520915798f08a33cd3e@changeid>
+ <CAJZ5v0h10wrurjYG50dA+pCfRtNDqN=c8odQ0p6HJRnOyJh7KA@mail.gmail.com>
+ <Yw+yqbaTi04Ydgkq@google.com> <Yw+zo9eUQM+T1eYZ@google.com>
+ <CAHQZ30C0Q39cSxTcfu3+6ZNj7iuRE6pJpc9aPdreFt4MNHqZRQ@mail.gmail.com> <YxLg7t2wyPajh/rY@google.com>
+In-Reply-To: <YxLg7t2wyPajh/rY@google.com>
+From:   Raul Rangel <rrangel@chromium.org>
+Date:   Tue, 6 Sep 2022 11:18:49 -0600
+X-Gmail-Original-Message-ID: <CAHQZ30BEksUMuwqkin8XtXxPpFR0havN-pqx6nSjzpA2wSdORw@mail.gmail.com>
+Message-ID: <CAHQZ30BEksUMuwqkin8XtXxPpFR0havN-pqx6nSjzpA2wSdORw@mail.gmail.com>
+Subject: Re: [PATCH 1/8] Input: elan_i2c - Use PM subsystem to manage wake irq
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Tim Van Patten <timvp@google.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tony Lindgren <tony@atomide.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,WEIRD_QUOTING
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 6, 2022 at 3:50 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
+On Fri, Sep 2, 2022 at 11:07 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 >
-> On Tue, Sep 6, 2022 at 5:27 AM Kumar Kartikeya Dwivedi <memxor@gmail.com> wrote:
-> >
-> > On Tue, 6 Sept 2022 at 05:25, Kumar Kartikeya Dwivedi <memxor@gmail.com> wrote:
+> On Wed, Aug 31, 2022 at 08:17:23PM -0600, Raul Rangel wrote:
+> > On Wed, Aug 31, 2022 at 1:16 PM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
 > > >
-> > > On Fri, 2 Sept 2022 at 15:29, Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
+> > > On Wed, Aug 31, 2022 at 12:12:41PM -0700, Dmitry Torokhov wrote:
+> > > > On Wed, Aug 31, 2022 at 08:01:12PM +0200, Rafael J. Wysocki wrote:
+> > > > > On Wed, Aug 31, 2022 at 1:16 AM Raul E Rangel <rrangel@chromium.org> wrote:
+> > > > > >
+> > > > > > The Elan I2C touchpad driver is currently manually managing the wake
+> > > > > > IRQ. This change removes the explicit enable_irq_wake/disable_irq_wake
+> > > > > > and instead relies on the PM subsystem. This is done by calling
+> > > > > > dev_pm_set_wake_irq.
+> > > > > >
+> > > > > > i2c_device_probe already calls dev_pm_set_wake_irq when using device
+> > > > > > tree, so it's only required when using ACPI. The net result is that this
+> > > > > > change should be a no-op. i2c_device_remove also already calls
+> > > > > > dev_pm_clear_wake_irq, so we don't need to do that in this driver.
+> > > > > >
+> > > > > > I tested this on an ACPI system where the touchpad doesn't have _PRW
+> > > > > > defined. I verified I can still wake the system and that the wake source
+> > > > > > was the touchpad IRQ GPIO.
+> > > > > >
+> > > > > > Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> > > > >
+> > > > > I like this a lot [...]
 > > > >
-> > > > Similar to tools/testing/selftests/bpf/prog_tests/dynptr.c:
-> > > > we declare an array of tests that we run one by one in a for loop.
-> > > >
-> > > > Followup patches will add more similar-ish tests, so avoid a lot of copy
-> > > > paste by grouping the declaration in an array.
-> > > >
-> > > > To be able to call bpf_object__find_program_by_name(), we need to use
-> > > > plain libbpf calls, and not light skeletons. So also change the Makefile
-> > > > to not generate light skeletons.
-> > > >
-> > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > >
-> > > > ---
-> > >
-> > > I see your point, but this is also a test so that we keep verifying
-> > > kfunc call in light skeleton.
-> > > Code for relocating both is different in libbpf (we generate BPF ASM
-> > > for light skeleton so it is done inside a loader BPF program instead
-> > > of userspace).
 > >
-> > Err, hit send too early.
-> > We can probably use a macro to hide how program is called, then do
-> > X(prog1)
-> > X(prog2)
-> > in a series, won't look too bad and avoids duplication at the same time.
+> > > > I also like this a lot, but this assumes that firmware has correct
+> > > > settings for the interrupt... Unfortunately it is not always the case
+> > > > and I see that at least Chrome OS devices, such as glados line (cave, chell, sentry,
+> > > > ect) do not mark interrupt as wakeup:
+> > > >
+> > > > src/mainboard/google/glados/variants/chell/overridetree.cb
+> > > >
+> > > >                         chip drivers/i2c/generic
+> > > >                                 register "hid" = ""ELAN0000""
+> > > >                                 register "desc" = ""ELAN Touchpad""
+> > > >                                 register "irq" = "ACPI_IRQ_LEVEL_LOW(GPP_B3_IRQ)"
+> > > >                                 register "wake" = "GPE0_DW0_05"
+> > > >                                 device i2c 15 on end
+> > > >
 > >
-> > > You might then be able to make it work for both light and normal skeleton.
-> > >
-> > WDYT?
+> > So the above entry specifies the `wake` register. This generates an
+> > ACPI _PRW resource. The patch series will actually fix devices like
+> > this. Today without this patch series we get two wake events for a
+> > device. The ACPI wake GPE specified by the _PRW resource, and the
+> > erroneous GPIO wake event. But you bring up a good point.
+>
+
+
+> Does this mean that the example that we currently have in coreboot
+> documentation (Documentation/acpi/devicetree.md) is not correct:
+>
+> device pci 15.0 on
+>         chip drivers/i2c/generic
+>                 register "hid" = ""ELAN0000""
+>                 register "desc" = ""ELAN Touchpad""
+>                 register "irq" = "ACPI_IRQ_WAKE_LEVEL_LOW(GPP_A21_IRQ)"
+>                 register "wake" = "GPE0_DW0_21"
+>                 device i2c 15 on end
+>         end
+> end # I2C #0
+>
+> Doesn't in say that we have both GpioIrq and GPE wakeup methods defined
+> for the same device?
+
+Hrmm, yeah that is wrong and will cause duplicate wake events for the
+device. I'll push a CL to clean up the documentation.
+
+>
 > >
+> > I wrote a quick and dirty script (https://0paste.com/391849) to parse
+> > the coreboot device tree entries. Open source firmware is great isn't
+> > it? ;)
+> >
+> > $ find src/mainboard/google/ -iname '*.cb' | xargs awk -f touch.awk --
+> > src/mainboard/google/eve/devicetree.cb
 >
-> On this patch alone, I concede the benefit is minimum. But if you look
-> at 6/23, I must confess I definitely prefer having just an array of
-> tests at the beginning instead of crippling the tests functions with
-> calls or macros.
+> ...
 >
-> The actual reason for me to ditch light skeletons was because I was
-> using bpf_object__find_program_by_name().
+> > src/mainboard/google/sarien/variants/sarien/devicetree.cb
+> > 1
+> > chip drivers/i2c/generic
+> > register "hid" = ""ELAN0000""
+> > register "desc" = ""ELAN Touchpad""
+> > register "irq" = "ACPI_IRQ_EDGE_LOW(GPP_B3_IRQ)"
+> > register "probed" = "1"
+> > device i2c 2c on end
+> > end
+> > Total Touchpad: 202
+> > Total Wake: 195
+> >
+> > Out of all the touchpads defined on ChromeOS it looks like only 4
+> > devices are missing a wake declaration. I omitted touchpanels because
+> > ChromeOS doesn't use those as a wake source. chromeos_laptop.c already
+> > defines some devices with i2c board_info and it sets the
+> > `I2C_CLIENT_WAKE` flag. I'm not sure if this is actually working as
+> > expected. `i2c_device_probe` requires a `wakeup` irq to be present in
+> > the device tree if the `I2C_CLIENT_WAKE` flag is set, but I'm assuming
 >
-> But I can work around that by relying on the offsetof() macro, and
-> make the whole thing working for *both* light skeleton and libbpf:
-> +struct kfunc_test_params {
-> +       const char *prog_name;
-> +       unsigned long int lskel_prog_desc_offset;
-> +       int retval;
-> +};
-> +
-> +#define TC_TEST(name,__retval) \
-> +       { \
-> +         .prog_name = #name, \
-> +         .lskel_prog_desc_offset = offsetof(struct
-> kfunc_call_test_lskel, progs.name), \
-> +         .retval = __retval, \
-> +       }
-> +
-> +static struct kfunc_test_params kfunc_tests[] = {
-> +       TC_TEST(kfunc_call_test1, 12),
-> +       TC_TEST(kfunc_call_test2, 3),
-> +       TC_TEST(kfunc_call_test_ref_btf_id, 0),
-> +};
-> +
-> +static void verify_success(struct kfunc_test_params *param)
->  {
-> [...]
-> +       struct bpf_prog_desc *lskel_prog = (struct bpf_prog_desc
-> *)((char *)lskel + param->lskel_prog_desc_offset);
+> No it does not. If there is no wakeup IRQ defined of_irq_get_byname()
+> will return an error and we'll take the "else if (client->irq > 0)"
+> branch and will set up client->irq as the wakeup irq.
 >
-> However, for failing tests, I can not really rely on light skeletons
-> because we can not dynamically set the autoload property.
-> So either I split every failed test in its own file, or I only test
-> the ones that are supposed to load, which don't add a lot IMO.
->
-> I'll repost the bpf-core changes only so you can have a better idea of
-> what I am saying.
->
+> > the device tree was missing wake attributes.
 
-FWIW, I have now sent them at [0] and dropped all of the people not in
-get_maintainers.pl.
+Oh thanks for pointing that out. I might refactor patch #4 to just set
+the `I2C_CLIENT_WAKE` flag when `acpi_wake_capable` is true.
 
-Cheers,
-Benjamin
+>
+> >
+> > Anyway, patches 6, and 7 are the ones that drop the legacy behavior. I
+> > can figure out how to add the above boards to chromeos_laptop.c and
+> > get the wake attribute plumbed, or I can add something directly to the
+> > elan_i2c_core, etc so others can add overrides for their boards there.
+> > I'll also send out CLs to fix the device tree configs (not that we
+> > would run a FW qual just for this change).
+>
+> My preference is to limit board-specific hacks in drivers if we can, so
+> adding missing properties to chromeos_laptop.c would be my preference.
 
-[0] https://lore.kernel.org/all/20220906151303.2780789-1-benjamin.tissoires@redhat.com/T/#u
+How should we handle non chromeos boards?
 
+>
+> Thanks.
+>
+> --
+> Dmitry
+
+Thanks!
