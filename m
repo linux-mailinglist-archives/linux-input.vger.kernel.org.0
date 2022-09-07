@@ -2,153 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB0E35AFBFA
-	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 07:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F34A5AFC1A
+	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 08:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiIGFwk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Sep 2022 01:52:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59718 "EHLO
+        id S229847AbiIGGDF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Sep 2022 02:03:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbiIGFwi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Sep 2022 01:52:38 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29603883F7
-        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 22:52:32 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id c198so3697794pfc.13
-        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 22:52:32 -0700 (PDT)
+        with ESMTP id S229845AbiIGGDF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Sep 2022 02:03:05 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1714E868BA
+        for <linux-input@vger.kernel.org>; Tue,  6 Sep 2022 23:03:04 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id bq9so5755475wrb.4
+        for <linux-input@vger.kernel.org>; Tue, 06 Sep 2022 23:03:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ecs-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date;
-        bh=JFk6Wy6/dMaKMuY8o7j06cewyOb+0XexmdFM4uw0rXA=;
-        b=HjIL4ef7mowqU62OfWZrSCwqEpM5S75JQqwiHvyaejZxlqxz4uXb6mW5XJuHqk043a
-         9XeW+8KToe6qaTO8d3n8+yOz3W+mMkkK+kgqTTn3Sbt42SNUx/deXNkqxpOo2tpV/HMD
-         CMC8ZCVbtDMFEbOzXhpF0wrW4ekwwvLvNt7T+6jyV+R62kPbIw0/xfswwobrcz2jotpd
-         fZ4khXwffRkooIl2ob6yCall5UrOnIUdYcAPnN1fJZukYkuirOcztjYCx1a1uBctcusP
-         e2nIpyWnAycOj2w9hBWS3A+Q6+VvmCJxiAN+IeFIxckRlh39p3jDnwWeE+U/RKljBSPQ
-         hNiQ==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=FYczuPxi1SjOxRTyYdaZAVwl03tDQ3quqbW2UiDSc58=;
+        b=bSjza7uUyEFLBzo0vLRVL5O0eppMtSJAjTzKE5hrP/r1zb/jUo+utz5iZvdxtAFl2A
+         jXA2taZd5sxk8ROyfw68D+7XvmM7jP1ZhwEiqnsg+bSS8ocR8ZEIHr+PmlguwLe7l+aq
+         8+23Ma9e6mnYXXw8Vx4ruVN+w+qyfatuwKL6NUvKNs2U6+ZiUIwMSVx8uTN9A/S4iHZo
+         I+jROlIhjFdlsQRqE4Tm7CqPoFlACJs4ZgindMp4/kcu6SgnMMhmR0ULVvwMa1VG/Wvp
+         GZcoaWLLXcRT9fihVbBztEyir9sEoie8vsp8mBBbRvPtG6578Z2P4SONsZFEhrq9i9dw
+         FXQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=JFk6Wy6/dMaKMuY8o7j06cewyOb+0XexmdFM4uw0rXA=;
-        b=JT0aGWAblK+zKmDKQZoqMcRxemtF5GJxzsmrq3M92tm8jbcOGdFVjCZS94Qn1j4BJi
-         7MycclwA44tmtSPfnU/DlZ0nWJubBXrIo7BV0HGDBwZioNFP4GUhZgWl+vdse4vBTfIX
-         jT8cd9Yu6ArPH97ACOjN4sk8WxvK7GdCAu+eSM7W4N2ToPP5IIkBX9nhDEFZ7dXITnze
-         jbR175mejYIHUHByy1pTjHYR1XxkWkJxk3UimB8LNjk698t15fFocA2i9yAYfLYCsA4N
-         vIZCJF8WAygmXjEV+KNCi0rAtxv9g5mXGP3ySYjtrBe97axSKXf84LkG2uIdotmFi8aj
-         pQNA==
-X-Gm-Message-State: ACgBeo1DSr/41Thc8WXt4kCIi2vFRLbiztkS7qcS3OzQHPaSd6uJ3KST
-        K4IhbUkomJqiyLTsQKPkYTc12A==
-X-Google-Smtp-Source: AA6agR77t5rxjeuUTD8QAqc8sAxs5M3rLjd+1dfwed5GqOwnJcyVIY85AF1H9rj8mKhNGYSYlqOd5A==
-X-Received: by 2002:a63:106:0:b0:430:805a:f1ad with SMTP id 6-20020a630106000000b00430805af1admr1982367pgb.284.1662529951192;
-        Tue, 06 Sep 2022 22:52:31 -0700 (PDT)
-Received: from localhost.localdomain ([103.104.171.43])
-        by smtp.gmail.com with ESMTPSA id d6-20020a170902654600b00172dc6e1916sm6168094pln.220.2022.09.06.22.52.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 22:52:30 -0700 (PDT)
-From:   Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Bob Moragues <moragues@chromium.org>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
-        Henry Sun <henrysun@google.com>,
-        Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2 2/2] input: touchscreen: elants_i2c: Add eth3915n touchscreen chip
-Date:   Wed,  7 Sep 2022 05:52:04 +0000
-Message-Id: <20220907054805.v2.2.Ib278031fb2e3f4eafdfd8297b9d41031a2e080e0@changeid>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220907054805.v2.1.I1168feec10de16e0f130dfe72ce7976762597dba@changeid>
-References: <20220907054805.v2.1.I1168feec10de16e0f130dfe72ce7976762597dba@changeid>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=FYczuPxi1SjOxRTyYdaZAVwl03tDQ3quqbW2UiDSc58=;
+        b=Ppjjh93gSZRF8R4rPFQYEHfijdd4K3SYgLpymk3JE4uz5zv4T/1xfOKp8J0DrzpVg3
+         kt0gyB4Z8U4ABmnaJycbfDlHIl9MJu8Y7d+W3U0s9Kx/ZUzdRFbGADYCPA8QgJx7rK51
+         COlB/lJ0GUch+OrHkZjOjAK37qJwTM6AhFhOYvSXuHuxTOnDQjCZp+x/xK3gHNukWYqv
+         EZl0atRawUJM40TacRUyRxzyjEM9dq9OL8uzVBzyGFIp9UgwLZ5K7Gk1gOl0H4zJONFl
+         7wYKZhoyzQ1nnUlU0Q+hQNLGLjT5o6X4y59hxRD/dJjZyzuFwZKr/++HFv5PQJ5ztdHJ
+         FbCQ==
+X-Gm-Message-State: ACgBeo3vXQ1gj9QOZpfTaRYQks8MbExvcBkakqWoEeo4IJyiteRnuWxa
+        sJjGJwVjVFxqfVe1bUFIGvdVtbEgZ5pW3Jn8drJshQ==
+X-Google-Smtp-Source: AA6agR4W5ki12nxKxG7SUsvFAJ9Vc06JdpwPpOn7lpjTtVQ1YIwlCDryeTo4ZJMAjr2T4O+Z79WvK4aPUPirmx8Fuow=
+X-Received: by 2002:a05:6000:10cf:b0:228:df93:a9b1 with SMTP id
+ b15-20020a05600010cf00b00228df93a9b1mr989499wrx.4.1662530582482; Tue, 06 Sep
+ 2022 23:03:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220907021751.GA30945@inn2.lkp.intel.com> <332d9d42-c4ae-47a8-b3d6-32907eddb7ba@intel.com>
+In-Reply-To: <332d9d42-c4ae-47a8-b3d6-32907eddb7ba@intel.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 6 Sep 2022 23:02:50 -0700
+Message-ID: <CAKwvOdk8R9HS_aJfFPKyuka8TM9jPpnT21TTvQ8ffv_p+RcGUw@mail.gmail.com>
+Subject: Re: [fortify] ab66e7d1d8: BUG:kernel_failed_in_early-boot_stage,last_printk:Booting_the_kernel
+To:     kernel test robot <yujie.liu@intel.com>
+Cc:     lkp@lists.01.org, 0day robot <lkp@intel.com>,
+        linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The eth3915n requires more delay time than the eth3500 when reset.
-Define EKTH3915_RESET_DELAY_MSEC as the reset delay time of eth3915n,
-about 300ms.
+On Tue, Sep 6, 2022 at 10:54 PM kernel test robot <yujie.liu@intel.com> wrote:
+>
+> Greeting,
+>
+> FYI, we noticed the following commit (built with gcc-11):
+>
+> commit: ab66e7d1d8a90f6addac0da9b3ae13d77f095f76 ("[PATCH 2/3] fortify: cosmetic cleanups to __compiletime_strlen")
+> url: https://github.com/intel-lab-lkp/linux/commits/Nick-Desaulniers/Fix-FORTIFY-y-UBSAN_LOCAL_BOUNDS-y/20220831-045536
+> base: https://git.kernel.org/cgit/linux/kernel/git/kees/linux.git for-next/hardening
+> patch link: https://lore.kernel.org/linux-hardening/20220830205309.312864-3-ndesaulniers@google.com
 
-Signed-off-by: Yunlong Jia <yunlong.jia@ecs.com.tw>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
----
-
-(no changes since v1)
-
- drivers/input/touchscreen/elants_i2c.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index c9dd703b0c7d8..60ddb58281bdf 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -116,6 +116,7 @@
- 
- #define ELAN_POWERON_DELAY_USEC	500
- #define ELAN_RESET_DELAY_MSEC	20
-+#define EKTH3915_RESET_DELAY_MSEC	300
- 
- /* FW boot code version */
- #define BC_VER_H_BYTE_FOR_EKTH3900x1_I2C        0x72
-@@ -133,6 +134,7 @@
- enum elants_chip_id {
- 	EKTH3500,
- 	EKTF3624,
-+	EKTH3915,
- };
- 
- enum elants_state {
-@@ -664,6 +666,7 @@ static int elants_i2c_initialize(struct elants_data *ts)
- 
- 	switch (ts->chip_id) {
- 	case EKTH3500:
-+	case EKTH3915:
- 		if (!error)
- 			error = elants_i2c_query_ts_info_ekth(ts);
- 		break;
-@@ -1361,7 +1364,17 @@ static int elants_i2c_power_on(struct elants_data *ts)
- 	if (error)
- 		return error;
- 
--	msleep(ELAN_RESET_DELAY_MSEC);
-+	if (ts->chip_id == EKTH3915)
-+		/*
-+		 * There need delay 300ms for power on sequence.
-+		 * T1 + T2 + T3 >= 305 ms
-+		 * T1: 0<time<500us
-+		 * T2: >5ms
-+		 * T3: >300ms
-+		 */
-+		msleep(EKTH3915_RESET_DELAY_MSEC);
-+	else
-+		msleep(ELAN_RESET_DELAY_MSEC);
- 
- 	return 0;
- }
-@@ -1686,6 +1699,7 @@ static const struct i2c_device_id elants_i2c_id[] = {
- 	{ DEVICE_NAME, EKTH3500 },
- 	{ "ekth3500", EKTH3500 },
- 	{ "ektf3624", EKTF3624 },
-+	{ "ekth3915", EKTH3915 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, elants_i2c_id);
-@@ -1702,6 +1716,7 @@ MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
- static const struct of_device_id elants_of_match[] = {
- 	{ .compatible = "elan,ekth3500", .data = (void *)EKTH3500 },
- 	{ .compatible = "elan,ektf3624", .data = (void *)EKTF3624 },
-+	{ .compatible = "elan,ekth3915", .data = (void *)EKTH3915 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, elants_of_match);
+Thanks for the report! Series dropped! Kees sent a v2.
 -- 
-2.17.1
-
+Thanks,
+~Nick Desaulniers
