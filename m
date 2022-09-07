@@ -1,98 +1,114 @@
 Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B53555B0029
-	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 11:18:24 +0200 (CEST)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 7A9F25B06C1
+	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 16:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbiIGJSX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Sep 2022 05:18:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60654 "EHLO
+        id S230332AbiIGOcE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Sep 2022 10:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiIGJSW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Sep 2022 05:18:22 -0400
-Received: from ixit.cz (ip-94-112-206-30.bb.vodafone.cz [94.112.206.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E3596745;
-        Wed,  7 Sep 2022 02:18:18 -0700 (PDT)
-Received: from [100.83.88.146] (ipb218f8d0.dynamic.kabel-deutschland.de [178.24.248.208])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ixit.cz (Postfix) with ESMTPSA id D34492007F;
-        Wed,  7 Sep 2022 11:18:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-        t=1662542296;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KFhsnQr+dDz1VS1i28hNPASrpJenpNV9xRvWHTJSoxk=;
-        b=r3/WMnC3wSInggZ915/RUaPtkbYiSurP/pa839ONbnx0W1qNEjneYg0nizsYeBnVXMU+9y
-        ByzBUmlcjPxrjbKfrHgVTGy0jHLpyB3INV5P2ZXkco2cI4mhCgoiu3AOLg4dsXFhRjCsve
-        2Zcbz6ifdDoO9ZtKAu4pmDTINh20atM=
-Message-ID: <b1032180-aece-283a-b983-2ef57284aefd@ixit.cz>
-Date:   Wed, 7 Sep 2022 11:18:15 +0200
+        with ESMTP id S230300AbiIGObb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Sep 2022 10:31:31 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A90AB1AD
+        for <linux-input@vger.kernel.org>; Wed,  7 Sep 2022 07:31:16 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id z17so2705623eje.0
+        for <linux-input@vger.kernel.org>; Wed, 07 Sep 2022 07:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date;
+        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
+        b=boA3graP4wtJe8cwRxkMJy5rso3t9xyj4fxUFsG0Fez1aWDY0C6gZpYPvm/Hxa5tX5
+         Zk+XDE4h4sSr3Kc7gAmKt5OJ7AP3AEEipJ5m7D7tQ5BTHkXWMmIdiC/g3MqGg04yG8Wz
+         mFTYUlKwIYoLI0bvi9Q3MSV1athb174l2Ms/7z+L0TzD2CQLBWt0bOa5Jg9CBAeygplA
+         zqROn488xUY/B608ffA8/XOsolF390gA0UeCbMrgWX87LxLuf34XOCHn+1VgcYnMY7Sr
+         klavsMj/u/K0iLTegE+9syCXTdcAl7jimLLfNxQJoiGWtjh15Idxzz9bfpV/1Jhy4Wly
+         oLRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
+        b=a4sv2fwpb5bfecNRlt699OAXMlgTtpytELY18LGCZ1Ak9jKh2pFIOrkIDKtcRtSDJM
+         liTSx4jdCZMm/t9+L3wwyAgxl2upzRXHyvv+E8Bwp8rtK8aTTEkaOEHPST+t8uP/0UYm
+         WIQpZif45TP2LFmrXUmthfWnPmU30XQrqzJ30Z8OSkKJSrNH3PpvP+YmUit1UKYZIC+G
+         xspKQnUwozuKrdFulyiewa3cssJnJv7Znx9ID+O+asZ+ngbB1VHzoGHt4XJVfpb9+MwE
+         g8dLOnR8ZJlcKmObdZ1L2yLtSEPnDzMC3ZiQ7UriGSFSr/85ByLdcFvXlWDeZNbODb7W
+         vjag==
+X-Gm-Message-State: ACgBeo1joi8KvR+TrOHv/O/jPfGXLd3X9Fr/ByC4DYLMR4PwotC2fNqD
+        f/niWRe6ZBbjM5g5S9kaGW9A9Hs12UPo8260BUk=
+X-Google-Smtp-Source: AA6agR7OKiKkSx+MbdKnn4tKaQhdmVzFj2krU0Vhk4MjDetoGwDDBbw+8TT3Fj+g2bgbPAiBcK/73KQpnrd5Cpv4s3c=
+X-Received: by 2002:a17:907:75ec:b0:741:484b:3ca4 with SMTP id
+ jz12-20020a17090775ec00b00741484b3ca4mr2508106ejc.316.1662561074796; Wed, 07
+ Sep 2022 07:31:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101
- Thunderbird/104.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: elants_i2c: Add
- eth3915n touchscreen chip
-To:     Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Bob Moragues <moragues@chromium.org>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
-        Henry Sun <henrysun@google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <20220907054805.v2.1.I1168feec10de16e0f130dfe72ce7976762597dba@changeid>
-Content-Language: en-US
-From:   David Heidelberg <david@ixit.cz>
-In-Reply-To: <20220907054805.v2.1.I1168feec10de16e0f130dfe72ce7976762597dba@changeid>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RDNS_DYNAMIC,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:a54:3fc4:0:0:0:0:0 with HTTP; Wed, 7 Sep 2022 07:31:14 -0700 (PDT)
+Reply-To: lumar.casey@outlook.com
+From:   LUMAR CASEY <miriankushrat@gmail.com>
+Date:   Wed, 7 Sep 2022 16:31:14 +0200
+Message-ID: <CAO4StN0fh9iLpvL71MAvphxmFm4ur7+Op=qm5oJuhdRZZPJ3cA@mail.gmail.com>
+Subject: ATTENTION/PROPOSAL
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM,UNDISC_MONEY,UPPERCASE_75_100 autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:642 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5049]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [miriankushrat[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 UPPERCASE_75_100 message body is 75-100% uppercase
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  0.0 ADVANCE_FEE_4_NEW_MONEY Advance Fee fraud and lots of money
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Acked-by: David Heidelberg <david@ixit.cz>
+ATTENTION
 
-On 07/09/2022 07:52, Yunlong Jia wrote:
-> Add an elan touch screen chip eth3915n.
-> This chip requires more delay time than the eth3500.
->
-> Signed-off-by: Yunlong Jia <yunlong.jia@ecs.com.tw>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
-> (no changes since v1)
->
->   .../devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml   | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-> index a9b53c2e6f0ab..d28625372f5ac 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-> @@ -17,6 +17,7 @@ properties:
->       enum:
->         - elan,ektf3624
->         - elan,ekth3500
-> +      - elan,ekth3915
->   
->     reg:
->       maxItems: 1
+BUSINESS PARTNER,
 
--- 
-David Heidelberg
-Consultant Software Engineer
+I AM LUMAR CASEY WORKING WITH AN INSURANCE FINANCIAL INSTITUTE, WITH
+MY POSITION AND PRIVILEGES I WAS ABLE TO SOURCE OUT AN OVER DUE
+PAYMENT OF 12.8 MILLION POUNDS THAT IS NOW SECURED WITH A SHIPPING
+DIPLOMATIC OUTLET.
 
-Matrix: @okias:matrix.org
+I AM SEEKING YOUR PARTNERSHIP TO RECEIVE THIS CONSIGNMENT AS AS MY
+PARTNER TO INVEST THIS FUND INTO A PROSPEROUS INVESTMENT VENTURE IN
+YOUR COUNTRY.
 
+I AWAIT YOUR REPLY TO ENABLE US PROCEED WITH THIS BUSINESS PARTNERSHIP TOGETHER.
+
+REGARDS,
+
+LUMAR CASEY
