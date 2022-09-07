@@ -2,129 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7D655B0773
-	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 16:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8177D5B07DF
+	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 17:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229626AbiIGOtx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Sep 2022 10:49:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55030 "EHLO
+        id S230115AbiIGPCu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Sep 2022 11:02:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbiIGOtv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Sep 2022 10:49:51 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A5452092
-        for <linux-input@vger.kernel.org>; Wed,  7 Sep 2022 07:49:48 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id z21so10050537edi.1
-        for <linux-input@vger.kernel.org>; Wed, 07 Sep 2022 07:49:48 -0700 (PDT)
+        with ESMTP id S229959AbiIGPCs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Sep 2022 11:02:48 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AD5AB419
+        for <linux-input@vger.kernel.org>; Wed,  7 Sep 2022 08:02:46 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id y3so31088758ejc.1
+        for <linux-input@vger.kernel.org>; Wed, 07 Sep 2022 08:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=9Egso+F9oAqpmnjS5DTHauVPwDLq9mb6P2D6VOioG74=;
-        b=GJH3rh/Lggajl8hpTEBX35JHXSivg85bmb3IntirQOIXPUYhecuXuFTAKNkeGZKElr
-         1zTyVTl0dikamJeacrK4dDipNLeX7crqRfTO8j5DILmwXbMmL0L6KzfdoYlgxfQncEAA
-         naE3Kl4csXUkopC68eMXzq+655Nj2N3VmW7Eo=
+        d=yngvason-is.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=WAheL4HPHNwvgOLLenXson8oVvgZbabyb428S9NGB+Q=;
+        b=z2HvOtaSoOokZtlpJCwwDaEIxHqfmxUmQLeyhQ8BZkbUHoav2qYIcp+S2dMQxIsZeD
+         hFnmztkJtAm9jq6PTYHkjK2izMVOV+fdaZgmu85mqlVCyIUdQEZLNyp4cDucRWN5w5qQ
+         K40x1v4dkN46Gl2h1w+VXbuHCciij/WHdVLJ6hnaif615QOtBVOkWuZKoL/6Vws16tzU
+         eKdK5VHr9m6kTByMrxJAgdMcdnXlQCM/rpYfmzKS7oB/fFhsfa2kq6hnr4e6aU+45U35
+         3pRKpM+OZGOJRDXW7v5rTCDojTkpVuYkQhcyzP/NODFbcqS9u6TK0WQo3JzdwkB+aOGa
+         po9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=9Egso+F9oAqpmnjS5DTHauVPwDLq9mb6P2D6VOioG74=;
-        b=WE6+cNlI6Hu5zxFTkbyQlya7WTml/E6lwISCj4pRbovWzOLpjXrMN082yCRZDDlYCk
-         qwEpVN5s1SwQ0ke9CWTJHXCr1QlFcSuUJrLRsGgGQ8FxBh5s73fEvRxvJ/IsmTiMwOVH
-         +wv9142ytW/QS74RIy3i9ZwRASZ5qRpbpF5ctC9HIUu5CwmtveRJ8HnE4sITfrb3D6TW
-         W7P36tVZaAS4IA6otWkb/6RmVSAMHbfHP15ARuBkCW/E+Rv2CWv+urb8a/qU+dOVYKkt
-         jP8v2dPEmmaJmp8F5QbBtD3kicqfl3IhUYiHJ4A55+HTpzvzZZk7+TJDrKzsiQ4TVKCD
-         AvhA==
-X-Gm-Message-State: ACgBeo1z5KmK+KP5RvopxHdG3oy6q1m5zVCVbEWT59jmHdQ8lLZQZxP5
-        mEGuZ14HIZMH9III2kksFTuv+HfUbp8oRA3q
-X-Google-Smtp-Source: AA6agR6D61l+IsvYOuuCg1sdZ4vfw3abVxrFnjY/MVPGmKaCff5Bt2x2ie5/d1l5dymBL/nYQ7Iftg==
-X-Received: by 2002:aa7:d703:0:b0:44e:a7b9:d5bd with SMTP id t3-20020aa7d703000000b0044ea7b9d5bdmr3433982edq.425.1662562187220;
-        Wed, 07 Sep 2022 07:49:47 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id op24-20020a170906bcf800b0073093eaf53esm8439035ejb.131.2022.09.07.07.49.46
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Sep 2022 07:49:46 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id t14so13491815wrx.8
-        for <linux-input@vger.kernel.org>; Wed, 07 Sep 2022 07:49:46 -0700 (PDT)
-X-Received: by 2002:a5d:4d0c:0:b0:228:cd9f:5a4c with SMTP id
- z12-20020a5d4d0c000000b00228cd9f5a4cmr2462176wrt.138.1662562186396; Wed, 07
- Sep 2022 07:49:46 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=WAheL4HPHNwvgOLLenXson8oVvgZbabyb428S9NGB+Q=;
+        b=wGh5T5b4PjTXAxzw7d56/p4omLuMgZhe4aP8fK7Isp+fp1XvIAc8CxpdPTq0+zUNrs
+         Df7iGZS50EgiHW7l3zBbtoUKfYvjbt1tkEXtahAQU0o19b/OS/VMqZzFhhvS5z1hMpHS
+         Qo6bglx4TmeUYNgULfaPvx7IgiWIfyyd0z7Bew8Jyb9YnFGLECify/k16LeNcr8wJF5Q
+         FbVpGbWHS48yHrkMbN6BTSxnLqQvvHLl8nEaAb4ZF+u42atZo8/35pesbJo9lPOeBi2u
+         4LJXBt8EHcWAO5ZSllZI4Xk13Ig3kf/h2wt3Ofe8sVl3p3B6gPoWmF2lF4ztH8uXUoNV
+         mWMg==
+X-Gm-Message-State: ACgBeo2tcBCDRlG3uvSfMb21leDr3tWrK0jOaFhODBNUkcdeGBHhSbcb
+        meO3P6iraLwpTIHWbeVarFXvu1vn2M26uw==
+X-Google-Smtp-Source: AA6agR7pL/NytkbLvNQWAEJvQTicKef/lDxQePKZAJb8D3OjrBZzALblwfOUH1/xabTeg+nrmnhIkg==
+X-Received: by 2002:a17:907:a422:b0:73f:18a8:4137 with SMTP id sg34-20020a170907a42200b0073f18a84137mr2734928ejc.10.1662562965027;
+        Wed, 07 Sep 2022 08:02:45 -0700 (PDT)
+Received: from andri-workstation.turninn.appdynamic.com ([2a01:8280:aa07:ad:7285:c2ff:fef0:4baf])
+        by smtp.gmail.com with ESMTPSA id mc4-20020a170906eb4400b0073100dfa7b5sm8611654ejb.33.2022.09.07.08.02.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 08:02:44 -0700 (PDT)
+From:   Andri Yngvason <andri@yngvason.is>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Andri Yngvason <andri@yngvason.is>, stable@vger.kernel.org
+Subject: [PATCH v3 RESEND] HID: multitouch: Add memory barriers
+Date:   Wed,  7 Sep 2022 15:01:59 +0000
+Message-Id: <20220907150159.2285460-1-andri@yngvason.is>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220907054805.v2.1.I1168feec10de16e0f130dfe72ce7976762597dba@changeid>
-In-Reply-To: <20220907054805.v2.1.I1168feec10de16e0f130dfe72ce7976762597dba@changeid>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 7 Sep 2022 07:49:34 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XEkPfU9wjwGrp59QJDAspUbWwmOTSZfE1Y5PWt1w309w@mail.gmail.com>
-Message-ID: <CAD=FV=XEkPfU9wjwGrp59QJDAspUbWwmOTSZfE1Y5PWt1w309w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: elants_i2c: Add
- eth3915n touchscreen chip
-To:     Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Bob Moragues <moragues@chromium.org>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
-        Henry Sun <henrysun@google.com>,
-        David Heidelberg <david@ixit.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+This fixes broken atomic checks which cause a race between the
+release-timer and processing of hid input.
 
-On Tue, Sep 6, 2022 at 10:52 PM Yunlong Jia
-<yunlong.jia@ecs.corp-partner.google.com> wrote:
->
-> Add an elan touch screen chip eth3915n.
-> This chip requires more delay time than the eth3500.
->
-> Signed-off-by: Yunlong Jia <yunlong.jia@ecs.com.tw>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
-> (no changes since v1)
+I noticed that contacts were sometimes sticking, even with the "sticky
+fingers" quirk enabled. This fixes that problem.
 
-Technically that's not true. You changed your Signed-off-by between v1
-and v2. That would be something to mention in the changelog.
+Cc: stable@vger.kernel.org
+Fixes: 9609827458c3 ("HID: multitouch: optimize the sticky fingers timer")
+Signed-off-by: Andri Yngvason <andri@yngvason.is>
+---
+ V1 -> V2: Clarified where the race is and added Fixes tag as suggested
+           by Greg KH
+ V2 -> V3: Fix formatting of "Fixes" tag
 
-Also: I suspect that when a maintainer lands your patch that they'll
-get into trouble. That's because your email was sent from
-"yunlong.jia@ecs.corp-partner.google.com" but your "Signed-off-by" was
-"yunlong.jia@ecs.com.tw". If I try grabbing your patch from the
-mailing lists, applying it, and then running it through "checkpatch":
+ drivers/hid/hid-multitouch.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- ./scripts/checkpatch.pl
-0001-input-touchscreen-elants_i2c-Add-eth3915n-touchscree.patch
-WARNING: From:/Signed-off-by: email address mismatch: 'From: Yunlong
-Jia <yunlong.jia@ecs.corp-partner.google.com>' != 'Signed-off-by:
-Yunlong Jia <yunlong.jia@ecs.com.tw>'
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 2e72922e36f5..91a4d3fc30e0 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1186,7 +1186,7 @@ static void mt_touch_report(struct hid_device *hid,
+ 	int contact_count = -1;
+ 
+ 	/* sticky fingers release in progress, abort */
+-	if (test_and_set_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
++	if (test_and_set_bit_lock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
+ 		return;
+ 
+ 	scantime = *app->scantime;
+@@ -1267,7 +1267,7 @@ static void mt_touch_report(struct hid_device *hid,
+ 			del_timer(&td->release_timer);
+ 	}
+ 
+-	clear_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
++	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
+ }
+ 
+ static int mt_touch_input_configured(struct hid_device *hdev,
+@@ -1699,11 +1699,11 @@ static void mt_expired_timeout(struct timer_list *t)
+ 	 * An input report came in just before we release the sticky fingers,
+ 	 * it will take care of the sticky fingers.
+ 	 */
+-	if (test_and_set_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
++	if (test_and_set_bit_lock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags))
+ 		return;
+ 	if (test_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags))
+ 		mt_release_contacts(hdev);
+-	clear_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
++	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
+ }
+ 
+ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+-- 
+2.37.2
 
-
-If I had to guess, the problem is with Google's SMTP servers. If you
-logged into the SMTP server with your "corp-partner" address then
-Google's SMTP server will automatically re-write your "From" address
-to be whatever address you logged in with. I'd guess your options are:
-
-1. Use an official SMTP server for "ecs.com.tw"
-
-...or...
-
-2. I _suspect_ that it will work to set the git config
-"sendemail.envelopeSender" to
-"yunlong.jia@ecs.corp-partner.google.com". I haven't tested this but I
-think it'll work.
-
-Note that when you send a v3, make sure to carry David Heidelberg's Ack.
-
--Doug
