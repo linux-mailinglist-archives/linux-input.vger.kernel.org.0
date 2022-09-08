@@ -2,97 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C44C95B0DC7
-	for <lists+linux-input@lfdr.de>; Wed,  7 Sep 2022 22:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 440375B1417
+	for <lists+linux-input@lfdr.de>; Thu,  8 Sep 2022 07:36:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbiIGUKD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Sep 2022 16:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46630 "EHLO
+        id S230092AbiIHFgl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Sep 2022 01:36:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiIGUKC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Sep 2022 16:10:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A9C3FA32;
-        Wed,  7 Sep 2022 13:10:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2338161A2B;
-        Wed,  7 Sep 2022 20:10:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD46AC433C1;
-        Wed,  7 Sep 2022 20:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662581399;
-        bh=tY2rZkKMAh0HGG+k/VKKFfccvfgdnJQ271Rh8HaQ56A=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=uvMp0pvg/Seeo4CI4fAPNMHhDJSFy0uoZdedZTUujyMpLAxClWKShXl0k9M/ITYF0
-         0i8MxAgVUKHLOmnyqJKMDMggXgmb+ojw7WgP84Si+gdLR4vLB/RbTcBBypnp9dT1ST
-         5NPvCWe8JRTI4UX0LlJ/gZYA5BXmGxKvvasf/GOut3xJ9HGifpp9lSKvrGPQBNBQZ4
-         YiKwdyLneccG5hrbaP73dkZpMEjgbvWSL5LtTFwMzLO++o/XHUbZEoIMH3f7qj2FFf
-         /9rI5uc8vg0SAduMxV67hsktLIr9dWxLqd1A80g7JszBojJETTC46ZE0yp7WtlbO14
-         YjilFAmt9SbvQ==
-Date:   Wed, 7 Sep 2022 22:09:55 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
+        with ESMTP id S230057AbiIHFgk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Sep 2022 01:36:40 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62394543DD;
+        Wed,  7 Sep 2022 22:36:39 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id v4so15642260pgi.10;
+        Wed, 07 Sep 2022 22:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date;
+        bh=XSaEEp3bnQCQ+NAfy3AWeCLVxgW8xttjR0bTKrhnYDM=;
+        b=CzD/sQkcxG5xYCXNPHtmRcqHe2zScH6KQGjpNa2bVwiPwKyW1cKv4l0FUIweaobM/E
+         FvKHO9lWX51ZJoceB/T50BXpsu/I+EbON6dUVmQgavalnbjU1H9FnYqb4YXYoP4wUXyH
+         Xsx0QPwLn5Nw37Xt+pfqA0BlAkN2hQff0jsyLvepP24pWJVNtEeF3Kj/khJsGbiBcW+e
+         265r3+FaqWsDE6JKpcMhXHb/miH9iZYGxiwGLbNu6uPHvp833/qozMhkr2jA9E9mz/j5
+         vX7oS8vR846KySY0Pjx74fY+N92+CL/E7K0RrcgJE92jmZCoelXn7aUNQifLfnqg3qx/
+         p2jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=XSaEEp3bnQCQ+NAfy3AWeCLVxgW8xttjR0bTKrhnYDM=;
+        b=EfxBFSWodAXHVHFKM1VWeBus2xW+4VsShSenbqxhRDZn5lxk/aosEtliCClXLe71JG
+         sBP3YoiZ9nSWsS+UZaOdLHJ3fXe/Qo/p+GREXjPO/obuOfuuvUf3h8i/ChvzUwTqgihb
+         1d1QrvsgV8dAtCmONBmwEuAdqferzimz56wldr3Vs2bHXwMc1I1zXNFNwH3cLzPXPYcc
+         a+CFeJWpygp0dlHulmcjD5tvxpgu6ZNYUl140Kkj9UEYlhttV3It0miG2IOgRKq67fJe
+         3P/pRLdkVs703m5qSOA/9ar7bO5eMIrDxrkkg3FVMGor9y3x6ViAkQ93AdS+PHQdZBis
+         /zGQ==
+X-Gm-Message-State: ACgBeo1TA/OSHo8qhVpBzxhw5qQHbsVaond6MvjiH5vcATnJOCMvLA0E
+        inlBuQtiQXQ5kDrMMi0yooA=
+X-Google-Smtp-Source: AA6agR6oJbZtP7MyjwSY9Sf5oEoSVV7tmITNkThEoGTbyNRrEDeqPs/5pgJyKfYRs8GmYXa7XaDSJw==
+X-Received: by 2002:a05:6a00:21c8:b0:52e:3404:eba5 with SMTP id t8-20020a056a0021c800b0052e3404eba5mr7472850pfj.67.1662615398688;
+        Wed, 07 Sep 2022 22:36:38 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:7af1:2c0d:fbfa:b9d7])
+        by smtp.gmail.com with ESMTPSA id n6-20020a170902e54600b00173cfaed233sm1290356plf.62.2022.09.07.22.36.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 22:36:37 -0700 (PDT)
+Date:   Wed, 7 Sep 2022 22:36:35 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Bastien Nocera <hadess@hadess.net>
-cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: Re: [v4 1/5] HID: core: Export hid_match_id()
-In-Reply-To: <e907c9240fb2cc0c1e60e3610cfae15ff8125c49.camel@hadess.net>
-Message-ID: <nycvar.YFH.7.76.2209072208490.19850@cbobk.fhfr.pm>
-References: <20220830132549.7240-1-hadess@hadess.net> <e907c9240fb2cc0c1e60e3610cfae15ff8125c49.camel@hadess.net>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+Cc:     Nate Yocom <nate@yocom.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v5 2/4] Input: joystick: xpad: Add ABS_PROFILE axis value
+ to uapi
+Message-ID: <Yxl/YxSRtV9Hv271@google.com>
+References: <20220825222420.6833-1-nate@yocom.org>
+ <20220825222420.6833-3-nate@yocom.org>
+ <3e48ef8d13337ce1c3ec68baffc612fde4740b0e.camel@hadess.net>
+ <Yw0OjoVzKV3QOYah@ghaven-kernel>
+ <661ee8227c96aeba7aae9fff6ac9a73f1d81e765.camel@hadess.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <661ee8227c96aeba7aae9fff6ac9a73f1d81e765.camel@hadess.net>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 7 Sep 2022, Bastien Nocera wrote:
-
-> > Export hid_match_id() so it can be used in device-specific drivers to
-> > implement their own matching with open-coding a match function.
+On Wed, Sep 07, 2022 at 05:41:08PM +0200, Bastien Nocera wrote:
+> On Mon, 2022-08-29 at 12:07 -0700, Nate Yocom wrote:
+> > On Sat, Aug 27, 2022 at 12:40:46PM +0200, Bastien Nocera wrote:
+> > > On Thu, 2022-08-25 at 15:24 -0700, Nate Yocom wrote:
+> > > > Add an ABS_PROFILE axis for input devices which need it, e.g. X-
+> > > > Box
+> > > > Adaptive Controller and X-Box Elite 2.
+> > > > ---
+> > > >  include/uapi/linux/input-event-codes.h | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > > 
+> > > > diff --git a/include/uapi/linux/input-event-codes.h
+> > > > b/include/uapi/linux/input-event-codes.h
+> > > > index dff8e7f17074..7ad931a32970 100644
+> > > > --- a/include/uapi/linux/input-event-codes.h
+> > > > +++ b/include/uapi/linux/input-event-codes.h
+> > > > @@ -862,6 +862,7 @@
+> > > >  #define ABS_TOOL_WIDTH         0x1c
+> > > >  
+> > > >  #define ABS_VOLUME             0x20
+> > > > +#define ABS_PROFILE            0x21
+> > > >  
+> > > >  #define ABS_MISC               0x28
+> > > >  
+> > > 
+> > > 
+> > > You probably also want to add it to the absolutes array in
+> > > drivers/hid/hid-debug.c.
 > > 
-> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > ---
-> > Â drivers/hid/hid-core.c | 1 +
-> > Â 1 file changed, 1 insertion(+)
+> > doh, roger.
 > > 
-> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > index b7f5566e338d..72f8d8835b34 100644
-> > --- a/drivers/hid/hid-core.c
-> > +++ b/drivers/hid/hid-core.c
-> > @@ -2088,6 +2088,7 @@ const struct hid_device_id *hid_match_id(const
-> > struct hid_device *hdev,
-> > Â 
-> > Â Â Â Â Â Â Â Â return NULL;
-> > Â }
-> > +EXPORT_SYMBOL_GPL(hid_match_id);
-> > Â 
-> > Â static const struct hid_device_id hid_hiddev_list[] = {
-> > Â Â Â Â Â Â Â Â { HID_USB_DEVICE(USB_VENDOR_ID_MGE, USB_DEVICE_ID_MGE_UPS) },
+> > > Again, you might want to wait for confirmation from Dmitry that
+> > > this is
+> > > the right way to do this for the profiles.
+> > 
+> > Makes sense.  Dmitry?
 > 
-> If those patches look good to you, would be great to get merged.
-> Benjamin doesn't have the bandwidth to test the patches on his own test
-> hardware right now, but I've been using them daily for a week now.
+> Dmitry, could you please confirm whether ABS_PROFILE definition is
+> correct?
 
-Alright, I was waiting for Ack from Benjamin, but based on this, and due 
-to the fact that I don't see any issue with it myself, I've now applied 
-the series to for-6.1/logitech branch so that it gets as much linux-next 
-exposure as possible.
+Yes, I think this makes sense. Do we have a buy in from userspace folks
+(Peter H, etc) for this?
 
-Thanks,
+I'd like some documentation added to Documentation/input/event-codes.rst
+and potentially to Documentation/input/gamepad.rst even though profile
+does not have to be gamepad specific event.
+
+Thanks.
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Dmitry
