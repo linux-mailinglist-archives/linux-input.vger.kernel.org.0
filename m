@@ -2,71 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FD435B1CF0
-	for <lists+linux-input@lfdr.de>; Thu,  8 Sep 2022 14:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 929A25B1E37
+	for <lists+linux-input@lfdr.de>; Thu,  8 Sep 2022 15:11:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231605AbiIHM2v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Sep 2022 08:28:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59724 "EHLO
+        id S232048AbiIHNLt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Sep 2022 09:11:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231586AbiIHM2u (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Sep 2022 08:28:50 -0400
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048FEE5822;
-        Thu,  8 Sep 2022 05:28:48 -0700 (PDT)
-X-QQ-mid: bizesmtp86t1662640123t827xnr3
+        with ESMTP id S232273AbiIHNL1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Sep 2022 09:11:27 -0400
+Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D8FE620A;
+        Thu,  8 Sep 2022 06:10:56 -0700 (PDT)
+X-QQ-mid: bizesmtp62t1662642651tzwfgrad
 Received: from localhost.localdomain ( [182.148.14.0])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Thu, 08 Sep 2022 20:28:42 +0800 (CST)
-X-QQ-SSF: 0100000000200090C000B00A0000000
-X-QQ-FEAT: xqT8U4SkSphd4WmtCLI8WEMU7bQn+l+hHT6vbJsiU9UG/6Z0A6fyjHjZ27SvS
-        hdhlPJXhWTjypwx/J2mhHrWEYWFMiHoJUwUAF/B01hnPo4E1ZTtkFQQR32q5V+vI2/hdftw
-        xgUFyawz4WNweiIgCwp5F9z6WV+JxiZxTQtgVKeeifvLUZjuvrblM+TyUrpRaNHJ/LYDRwU
-        ZZBkevLj6NU4lBwISFpVK+CdjwOd1VGWNu8M8r72LgoYW+6jMzKH3Uxd1S2H7JDFcz6Hxz8
-        jQvf6ko2tNZAUvqJB2Sy0rBBWE1I8CXAsY+LWAAL+UFoLPr3DavLbG99Jwyymvh4HKgWhKL
-        DSFFy6JZ1C+s1d98oAW+MISIyO9dZ/j1i5EhLl3WxeMVQYKcp3vY53tUSnl5A==
+        id ; Thu, 08 Sep 2022 21:10:50 +0800 (CST)
+X-QQ-SSF: 01000000002000B0C000B00A0000000
+X-QQ-FEAT: 83ShfzFP0oBbtYgqnnaZvNPUUGGrjzey0kOBTZrE2Djs8msViU/sAXUkZIBAv
+        RMFMks7uAmP4O/msPnt3R2YIJRhIOdlP2lnvecyvAI2ngXPfY4BY9YPKVvRygIO+mUH4KIa
+        a2AJgVR5qSS3ElcSRAMqTM+D++Jiyzwj7oAwb1OPxj2X+7EDQWbV72Pe4DkAmAf8lejcm+w
+        eQrtafNh4DOgwxCBCVMnm1DajaM00IFFllXNifR0Tg2R9yiZhgKSpXESPJQXEmGDm76y6gU
+        VPSwtCzjEZrPEpJju0YQFuSzub1EALET01DpYmWSPPmUfES3mWPX+bcDMgCj3AbVpz/yuM7
+        Og4ZPEv8yCVUcbUKp56stWYmsxaVP///E+VkqK/EK5YTkGnFqkgqnbVr9IkaQ==
 X-QQ-GoodBg: 0
 From:   wangjianli <wangjianli@cdjrlc.com>
 To:     dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         wangjianli <wangjianli@cdjrlc.com>
-Subject: [PATCH] input/serio: fix repeated words in comments
-Date:   Thu,  8 Sep 2022 20:28:35 +0800
-Message-Id: <20220908122835.13888-1-wangjianli@cdjrlc.com>
+Subject: [PATCH] input/mouse: fix repeated words in comments
+Date:   Thu,  8 Sep 2022 21:10:43 +0800
+Message-Id: <20220908131043.37099-1-wangjianli@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,RCVD_IN_PBL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Delete the redundant word 'in'.
+Delete the redundant word 'to'.
 
 Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 ---
- drivers/input/serio/q40kbd.c | 2 +-
+ drivers/input/mouse/hgpk.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/serio/q40kbd.c b/drivers/input/serio/q40kbd.c
-index a1c61f5de047..fd25679af251 100644
---- a/drivers/input/serio/q40kbd.c
-+++ b/drivers/input/serio/q40kbd.c
-@@ -81,7 +81,7 @@ static void q40kbd_stop(void)
+diff --git a/drivers/input/mouse/hgpk.c b/drivers/input/mouse/hgpk.c
+index 523b26a117d6..3c8310da0b05 100644
+--- a/drivers/input/mouse/hgpk.c
++++ b/drivers/input/mouse/hgpk.c
+@@ -884,7 +884,7 @@ static ssize_t hgpk_trigger_recal(struct psmouse *psmouse, void *data,
  
- /*
-  * q40kbd_open() is called when a port is open by the higher layer.
-- * It allocates the interrupt and enables in in the chip.
-+ * It allocates the interrupt and enables in the chip.
-  */
- 
- static int q40kbd_open(struct serio *port)
+ 	/*
+ 	 * We queue work instead of doing recalibration right here
+-	 * to avoid adding locking to to hgpk_force_recalibrate()
++	 * to avoid adding locking to hgpk_force_recalibrate()
+ 	 * since workqueue provides serialization.
+ 	 */
+ 	psmouse_queue_work(psmouse, &priv->recalib_wq, 0);
 -- 
 2.36.1
 
