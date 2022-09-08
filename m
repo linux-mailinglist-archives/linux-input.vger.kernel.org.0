@@ -2,137 +2,486 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE0795B24F9
-	for <lists+linux-input@lfdr.de>; Thu,  8 Sep 2022 19:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 945565B2752
+	for <lists+linux-input@lfdr.de>; Thu,  8 Sep 2022 22:00:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231827AbiIHRlb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Sep 2022 13:41:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35106 "EHLO
+        id S229670AbiIHUAe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Sep 2022 16:00:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232125AbiIHRlD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Sep 2022 13:41:03 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B3F22DA80
-        for <linux-input@vger.kernel.org>; Thu,  8 Sep 2022 10:39:44 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id s14-20020a17090a6e4e00b0020057c70943so3056196pjm.1
-        for <linux-input@vger.kernel.org>; Thu, 08 Sep 2022 10:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yocom-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=LPhRLaWef+Hz3zJYtHqHes7JAiIwNYbeVpUYbArIE2g=;
-        b=Ucysblj0jQtpYnQ3v4BxSFf8awFsQO6SNWAv27Ne5Oaf1DVywieh6hyvVkdIn1GaIt
-         J99PU5di1sfx7L1oA3hG5OBNxGXRU44BmfT/0uV3FKolG3WIiTpCJ2985G+uu0BPUTjq
-         99CTwtQXPny/QtEkocGOjR/kUH5HDV9fhp8tOQgH8EP1WEXlDVkLYFWeqdF8xLmuIXGA
-         nOXSAVNfey+oqypYxI1/yb9ACm4Z8qhI0JmAfqWt0embyRDuI+mdVac83oO6gJ1FtODG
-         F9yurCeAAOV23J/Oa4RxRZhSLamYvPoEMdunO3z3JnhdAnrW22M3E/CYhgTVNpWuHeo7
-         YYZQ==
+        with ESMTP id S229825AbiIHUAI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Sep 2022 16:00:08 -0400
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BAE5FF50D;
+        Thu,  8 Sep 2022 12:59:11 -0700 (PDT)
+Received: by mail-ot1-f48.google.com with SMTP id t8-20020a9d5908000000b0063b41908168so13053199oth.8;
+        Thu, 08 Sep 2022 12:59:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=LPhRLaWef+Hz3zJYtHqHes7JAiIwNYbeVpUYbArIE2g=;
-        b=kRNHixcxS7u/8Ti1YbQkwYj9bUKfNTjRZLriL2Sx/RVidCCewGMi6XR0umjh3EBlK2
-         8Q5SoqREwWj25CyyJ+tP9/qYPXJ9EVQXzA0VvlBc6otnBjYduWsJE5WIQWl8YdkX292U
-         WUFY2mRvRXGbeduWM1KOAzi0YIKKwndGH7yd5sR2osxa0P6IiAqub5LymONhX4kBul5S
-         FmufxWOFwrAiIUne6bpQ7inIezSophPj+5YKyV+d+Rf91aixAqRcm6FX3Lh2c7enF7yA
-         WDhyRSwkE1Z6eZdXMugmNLZB5V6eJ1cSIbjaz1faxZgtqwxYld+i6m8Mzr7YLPE/KBpR
-         FAQw==
-X-Gm-Message-State: ACgBeo3GcdsoeHlIl/Q9hat4s9oawTw9BXp4iajF9Fid9hqpfWon/BVF
-        F6tNPxBthbrsnPv3xaXhQZoWjw==
-X-Google-Smtp-Source: AA6agR5zSanZ9Zsj5sMjjDtbnqCwGnovjeUHi7EGp81MgWKH1PNLzfe7cG5tBpWWgfLi0ZKTnMEKsQ==
-X-Received: by 2002:a17:902:c951:b0:176:d421:7502 with SMTP id i17-20020a170902c95100b00176d4217502mr10059051pla.72.1662658781195;
-        Thu, 08 Sep 2022 10:39:41 -0700 (PDT)
-Received: from ghaven-kernel.yocom.org.beta.tailscale.net ([2601:600:8f80:973::5f])
-        by smtp.gmail.com with ESMTPSA id x76-20020a62864f000000b0052d4b0d0c74sm15166767pfd.70.2022.09.08.10.39.39
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=FE4XUOSRjT1XbypGp3gnBlh+Cy482+hPOhUrG4ei/Ws=;
+        b=FsvqhpiMtnREI9g+peD2Kb788t+BNwqCS+cMfAGiNM/iuv4xGaHmXDqZuLpzHxYbJ1
+         iKYyI8bupFQ7HGvbIiAHVONMkwYOyz81S6ATPcBrRLPrxDBjNmzr6P4Pka7VzIf/SuYl
+         fhUVGVA7+a80VxBXK8cxZjVbieErmKrNRLFqTBn7KPnIbhjWIdDCHAZTMQ01IoUE2P9F
+         U4IaGUXpa2T9J4NMgWC4hpoQA0Mt9XmLl9lCY1/mWZL/8xaTjxT5tFSWC5EbOu0broPf
+         I9j05olbykS4kK050aXth0scYTjxCdKOWIGUJfB3ALm1TTWMBvXGRXO+XaIH6hMaDm2h
+         383g==
+X-Gm-Message-State: ACgBeo1kM3+DR1Cz28SS9kfx73QgqJNA7X3INLJflPO3l6ePZfDenK9L
+        GES/oEQSkcZRW3R8EHyS1A==
+X-Google-Smtp-Source: AA6agR5FPmuEhLtFtR/xYYI/U5rTfkIaX2Dtz1rcT+Q/3ir2XB0M2zuy01hjUUtEzjHbJuBViWP4RA==
+X-Received: by 2002:a9d:17a4:0:b0:647:a03e:d77d with SMTP id j33-20020a9d17a4000000b00647a03ed77dmr4103739otj.306.1662667150338;
+        Thu, 08 Sep 2022 12:59:10 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id l14-20020a4ac60e000000b00435ae9a836asm6479632ooq.15.2022.09.08.12.59.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 10:39:40 -0700 (PDT)
-From:   Nate Yocom <nate@yocom.org>
-To:     dmitry.torokhov@gmail.com
-Cc:     nate@yocom.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hadess@hadess.net,
-        benjamin.tissoires@redhat.com
-Subject: [PATCH v6 5/5] Input: joystick: xpad: Add X-Box Adaptive Profile button
-Date:   Thu,  8 Sep 2022 10:39:30 -0700
-Message-Id: <20220908173930.28940-6-nate@yocom.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220908173930.28940-1-nate@yocom.org>
-References: <20220908173930.28940-1-nate@yocom.org>
+        Thu, 08 Sep 2022 12:59:10 -0700 (PDT)
+Received: (nullmailer pid 3240104 invoked by uid 1000);
+        Thu, 08 Sep 2022 19:59:09 -0000
+Date:   Thu, 8 Sep 2022 14:59:09 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: input: Add bindings for Azoteq
+ IQS7210A/7211A/E
+Message-ID: <20220908195909.GA3217447-robh@kernel.org>
+References: <20220902141424.90063-1-jeff@labundy.com>
+ <20220902141424.90063-2-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902141424.90063-2-jeff@labundy.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Adds a new quirk for controllers that have a Profile button which has 4
-states, reflected as an ABS_PROFILE axis with 4 values.
+On Fri, Sep 02, 2022 at 09:14:23AM -0500, Jeff LaBundy wrote:
+> This patch adds bindings for the Azoteq IQS7210A/7211A/E family of
+> trackpad/touchscreen controllers.
 
-Signed-off-by: Nate Yocom <nate@yocom.org>
-Tested-by: Bastien Nocera <hadess@hadess.net>
----
- drivers/input/joystick/xpad.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Another touchpad/touchscreen with a boat load of properties. Seems like 
+an opportunity for some common properties.
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index dff0d099d416..ece38f00dfff 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -80,6 +80,7 @@
- #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
- #define MAP_STICKS_TO_NULL		(1 << 2)
- #define MAP_SELECT_BUTTON		(1 << 3)
-+#define MAP_PROFILE_BUTTON		(1 << 4)
- #define DANCEPAD_MAP_CONFIG	(MAP_DPAD_TO_BUTTONS |			\
- 				MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
- 
-@@ -131,7 +132,7 @@ static const struct xpad_device {
- 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
--	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", 0, XTYPE_XBOXONE },
-+	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_PROFILE_BUTTON, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
- 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
-@@ -927,6 +928,10 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 				 (__u16) le16_to_cpup((__le16 *)(data + 8)));
- 	}
- 
-+	/* Profile button has a value of 0-3, so it is reported as an axis */
-+	if (xpad->mapping & MAP_PROFILE_BUTTON)
-+		input_report_abs(dev, ABS_PROFILE, data[34]);
-+
- 	input_sync(dev);
- }
- 
-@@ -1623,6 +1628,9 @@ static void xpad_set_up_abs(struct input_dev *input_dev, signed short abs)
- 	case ABS_HAT0Y:	/* the d-pad (only if dpad is mapped to axes */
- 		input_set_abs_params(input_dev, abs, -1, 1, 0, 0);
- 		break;
-+	case ABS_PROFILE: /* 4 value profile button (such as on XAC) */
-+		input_set_abs_params(input_dev, abs, 0, 4, 0, 0);
-+		break;
- 	default:
- 		input_set_abs_params(input_dev, abs, 0, 0, 0, 0);
- 		break;
-@@ -1715,6 +1723,10 @@ static int xpad_init_input(struct usb_xpad *xpad)
- 			xpad_set_up_abs(input_dev, xpad_abs_triggers[i]);
- 	}
- 
-+	/* setup profile button as an axis with 4 possible values */
-+	if (xpad->mapping & MAP_PROFILE_BUTTON)
-+		xpad_set_up_abs(input_dev, ABS_PROFILE);
-+
- 	error = xpad_init_ff(xpad);
- 	if (error)
- 		goto err_free_input;
--- 
-2.30.2
+Some of these properties already exist. Ideally, you should not be 
+defining them again (and even worse is if they end up different types). 
+Can't they be pulled out to a common Azoteq schema?
 
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+>  .../input/touchscreen/azoteq,iqs7211.yaml     | 765 ++++++++++++++++++
+>  1 file changed, 765 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml b/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml
+> new file mode 100644
+> index 000000000000..190bcd9a864f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml
+> @@ -0,0 +1,765 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/azoteq,iqs7211.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Azoteq IQS7210A/7211A/E Trackpad/Touchscreen Controller
+> +
+> +maintainers:
+> +  - Jeff LaBundy <jeff@labundy.com>
+> +
+> +description: |
+> +  The Azoteq IQS7210A, IQS7211A and IQS7211E trackpad and touchscreen control-
+> +  lers employ projected-capacitance sensing and can track two contacts.
+> +
+> +  Link to datasheets: https://www.azoteq.com/
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - azoteq,iqs7210a
+> +      - azoteq,iqs7211a
+> +      - azoteq,iqs7211e
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  irq-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Specifies the GPIO connected to the device's active-low RDY output. The
+> +      pin doubles as the IQS7211E's active-low MCLR input, in which case this
+> +      GPIO must be configured as open-drain.
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Specifies the GPIO connected to the device's active-low MCLR input. The
+> +      device is temporarily held in hardware reset prior to initialization if
+> +      this property is present.
+> +
+> +  azoteq,default-comms:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 2
+> +    default: 0
+> +    description: |
+> +      Specifies the device's initial communication mode as follows:
+> +      0: Unknown (wait for device to open initial communication window)
+> +      1: Forced communication disabled by default
+> +      2: Forced communication enabled by default
+
+This kind of property is typically not present to use default, 0 to 
+disable, or 1 to enable.
+
+> +
+> +  azoteq,forced-comms:
+> +    type: boolean
+> +    description:
+> +      Enables forced communication throughout the remainder of operation; for
+> +      use with host adapters that cannot tolerate clock stretching.
+> +
+> +  azoteq,rate-active-ms:
+> +    minimum: 0
+> +    maximum: 65535
+> +    description: Specifies the report rate (in ms) during active mode.
+> +
+> +  azoteq,rate-touch-ms:
+> +    minimum: 0
+> +    maximum: 65535
+> +    description: Specifies the report rate (in ms) during idle-touch mode.
+> +
+> +  azoteq,rate-idle-ms:
+> +    minimum: 0
+> +    maximum: 65535
+> +    description: Specifies the report rate (in ms) during idle mode.
+> +
+> +  azoteq,rate-lp1-ms:
+q> +    minimum: 0
+> +    maximum: 65535
+> +    description: Specifies the report rate (in ms) during low-power mode 1.
+> +
+> +  azoteq,rate-lp2-ms:
+> +    minimum: 0
+> +    maximum: 65535
+> +    description: Specifies the report rate (in ms) during low-power mode 2.
+> +
+> +  azoteq,timeout-active-ms:
+> +    multipleOf: 1000
+> +    minimum: 0
+> +    maximum: 65535000
+> +    description:
+> +      Specifies the length of time (in ms) to wait for an event before moving
+> +      from active mode to idle or idle-touch modes.
+> +
+> +  azoteq,timeout-touch-ms:
+> +    multipleOf: 1000
+> +    minimum: 0
+> +    maximum: 65535000
+> +    description:
+> +      Specifies the length of time (in ms) to wait for an event before moving
+> +      from idle-touch mode to idle mode.
+> +
+> +  azoteq,timeout-idle-ms:
+> +    multipleOf: 1000
+> +    minimum: 0
+> +    maximum: 65535000
+> +    description:
+> +      Specifies the length of time (in ms) to wait for an event before moving
+> +      from idle mode to low-power mode 1.
+> +
+> +  azoteq,timeout-lp1-ms:
+> +    multipleOf: 1000
+> +    minimum: 0
+> +    maximum: 65535000
+> +    description:
+> +      Specifies the length of time (in ms) to wait for an event before moving
+> +      from low-power mode 1 to low-power mode 2.
+> +
+> +  azoteq,timeout-lp2-ms:
+
+Use existing azoteq,timeout-lp-ms and allow 2 values?
+
+> +    multipleOf: 1000
+> +    minimum: 0
+> +    maximum: 60000
+> +    description:
+> +      Specifies the rate (in ms) at which the trackpad reference values
+> +      are updated during low-power modes 1 and 2.
+> +
+> +  azoteq,timeout-ati-ms:
+> +    multipleOf: 1000
+> +    minimum: 0
+> +    maximum: 60000
+> +    description:
+> +      Specifies the delay (in ms) before ATI is retried following an ATI error.
+> +
+> +  azoteq,timeout-comms-ms:
+> +    minimum: 0
+> +    maximum: 65535
+> +    description:
+> +      Specifies the delay (in ms) before a communication window is closed.
+> +
+> +  azoteq,timeout-press-ms:
+> +    multipleOf: 1000
+> +    minimum: 0
+> +    maximum: 60000
+> +    description:
+> +      Specifies the length of time (in ms) to wait before automatically
+> +      releasing a press event. Specify zero to allow the press state to
+> +      persist indefinitely.
+> +
+> +  azoteq,fosc-freq:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1]
+> +    description: |
+> +      Specifies the device's core clock frequency as follows:
+> +      0: 14 MHz
+> +      1: 18 MHz
+> +
+> +  azoteq,fosc-trim:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 15
+> +    description: Specifies the device's core clock frequency trim.
+> +
+> +  azoteq,num-contacts:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 2
+> +    default: 0
+> +    description: Specifies the number of contacts reported by the device.
+> +
+> +  azoteq,contact-split:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 255
+> +    description: Specifies the contact (finger) split factor.
+> +
+> +  azoteq,trim-x:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 255
+> +    description: Specifies the horizontal trim width.
+> +
+> +  azoteq,trim-y:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 255
+> +    description: Specifies the vertical trim height.
+> +
+> +  trackpad:
+> +    type: object
+> +    description: Represents all channels associated with the trackpad.
+> +
+> +    properties:
+> +      azoteq,rx-enable:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        minItems: 1
+> +        maxItems: 8
+> +        items:
+> +          minimum: 0
+> +          maximum: 7
+> +        description:
+> +          Specifies the order of the CRx pin(s) associated with the trackpad.
+> +
+> +      azoteq,tx-enable:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        minItems: 1
+> +        maxItems: 12
+> +        items:
+> +          minimum: 0
+> +          maximum: 11
+> +        description:
+> +          Specifies the order of the CTx pin(s) associated with the trackpad.
+> +
+> +      azoteq,channel-select:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        minItems: 1
+> +        maxItems: 36
+> +        items:
+> +          minimum: 0
+> +          maximum: 255
+> +        description: |
+> +          Specifies the channels mapped to each cycle in the following order:
+> +          Cycle 0, slot 0
+> +          Cycle 0, slot 1
+> +          Cycle 1, slot 0
+> +          Cycle 1, slot 1
+> +          ...and so on. Specify 255 to disable a given slot.
+> +
+> +      azoteq,ati-frac-div-fine:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 31
+> +        description: Specifies the trackpad's ATI fine fractional divider.
+> +
+> +      azoteq,ati-frac-mult-coarse:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 15
+> +        description: Specifies the trackpad's ATI coarse fractional multiplier.
+> +
+> +      azoteq,ati-frac-div-coarse:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 31
+> +        description: Specifies the trackpad's ATI coarse fractional divider.
+> +
+> +      azoteq,ati-comp-div:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 31
+> +        description: Specifies the trackpad's ATI compensation divider.
+> +
+> +      azoteq,ati-target:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 65535
+> +        description: Specifies the trackpad's ATI target.
+> +
+> +      azoteq,touch-enter:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description: Specifies the trackpad's touch entrance factor.
+> +
+> +      azoteq,touch-exit:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description: Specifies the trackpad's touch exit factor.
+> +
+> +      azoteq,thresh:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description: Specifies the trackpad's stationary touch threshold.
+> +
+> +      azoteq,conv-period:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description: Specifies the trackpad's conversion period.
+> +
+> +      azoteq,conv-frac:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description: Specifies the trackpad's conversion frequency fraction.
+> +
+> +    patternProperties:
+> +      "^event-(tap(-double|-triple)?|hold|palm|swipe-(x|y)-(pos|neg)(-hold)?)$":
+> +        type: object
+> +        $ref: ../input.yaml#
+> +        description:
+> +          Represents a gesture event reported by the trackpad. In the case of
+> +          axial gestures, the duration or distance specified in one direction
+> +          applies to both directions along the same axis.
+> +
+> +        properties:
+> +          linux,code: true
+> +
+> +          azoteq,gesture-max-ms:
+> +            minimum: 0
+> +            maximum: 65535
+> +            description: Specifies the maximum duration of tap/swipe gestures.
+> +
+> +          azoteq,gesture-mid-ms:
+> +            minimum: 0
+> +            maximum: 65535
+> +            description:
+> +              Specifies the maximum duration between subsequent tap gestures
+> +              (IQS7211E only).
+> +
+> +          azoteq,gesture-min-ms:
+> +            minimum: 0
+> +            maximum: 65535
+> +            description: Specifies the minimum duration of hold gestures.
+> +
+> +          azoteq,gesture-dist:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            minimum: 0
+> +            maximum: 65535
+> +            description:
+> +              Specifies the minimum (swipe) or maximum (tap and hold) distance
+> +              a finger may travel to be considered a gesture.
+> +
+> +          azoteq,gesture-dist-rep:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            minimum: 0
+> +            maximum: 65535
+> +            description:
+> +              Specifies the minimum distance a finger must travel to elicit a
+> +              repeated swipe gesture (IQS7211E only).
+> +
+> +          azoteq,gesture-angle:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            minimum: 0
+> +            maximum: 255
+> +            description:
+> +              Specifies the maximum angle a finger may travel to be considered
+> +              a swipe gesture, expressed as 64 * tan(theta).
+
+degrees would be nicer units.
+
+> +
+> +          azoteq,thresh:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            minimum: 0
+> +            maximum: 42
+> +            description: Specifies the palm gesture threshold (IQS7211E only).
+> +
+> +        additionalProperties: false
+> +
+> +    dependencies:
+> +      azoteq,tx-enable: ["azoteq,rx-enable"]
+> +      azoteq,channel-select: ["azoteq,rx-enable"]
+> +
+> +    additionalProperties: false
+> +
+> +  alp:
+> +    type: object
+> +    $ref: ../input.yaml#
+> +    description: Represents the alternate low-power channel (ALP).
+> +
+> +    properties:
+> +      azoteq,rx-enable:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        minItems: 1
+> +        maxItems: 8
+> +        items:
+> +          minimum: 0
+> +          maximum: 7
+> +        description:
+> +          Specifies the CRx pin(s) associated with the ALP in no particular
+> +          order.
+> +
+> +      azoteq,tx-enable:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        minItems: 1
+> +        maxItems: 12
+> +        items:
+> +          minimum: 0
+> +          maximum: 11
+> +        description:
+> +          Specifies the CTx pin(s) associated with the ALP in no particular
+> +          order.
+> +
+> +      azoteq,ati-frac-div-fine:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 31
+> +        description: Specifies the ALP's ATI fine fractional divider.
+
+Is ATI defined anywhere?
+
+Rob
