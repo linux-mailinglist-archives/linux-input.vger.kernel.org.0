@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 374105B24F0
+	by mail.lfdr.de (Postfix) with ESMTP id A32215B24F1
 	for <lists+linux-input@lfdr.de>; Thu,  8 Sep 2022 19:41:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232257AbiIHRlN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Sep 2022 13:41:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35854 "EHLO
+        id S231808AbiIHRlT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Sep 2022 13:41:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231274AbiIHRku (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Sep 2022 13:40:50 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07982608
-        for <linux-input@vger.kernel.org>; Thu,  8 Sep 2022 10:39:37 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id 78so17401171pgb.13
-        for <linux-input@vger.kernel.org>; Thu, 08 Sep 2022 10:39:37 -0700 (PDT)
+        with ESMTP id S232070AbiIHRlA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Sep 2022 13:41:00 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45A02A42E
+        for <linux-input@vger.kernel.org>; Thu,  8 Sep 2022 10:39:44 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so3029076pjq.3
+        for <linux-input@vger.kernel.org>; Thu, 08 Sep 2022 10:39:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=yocom-org.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=FKRPxQ5naxQK7DTBiolb96pHzElhA3kQapK3dHX4GyI=;
-        b=64adH5I4fYXThrhknLfUKFk2qgQ5orBkYnjbBIu2+9qcbBrDhIaUz6/0TXhBROM+V9
-         GoBFfWtdjPZOiJmAkeXNxxCIMJj/7yjBQ0R+yg/mApkAvFX0t0SxPJk2HDooKO7x3mTH
-         5oUNuLNT7Knvvrjp43o3qwkuymNNarTCQfAHFvjOFmjsgxHVzXi6GkJkk9enmQ8T/03G
-         +Ve3n4fCzm8nN1JhFDnTG6lSvf6W9bZec3Ly2dwSTsPIyu5N4WueDjuRcpZo/P9mxQGW
-         giefMHoNzjhVQTIS2tBcE9Fp4r0k8ZroYpRr/dE2C1u8DVcoUiHo+1f3DB0Ga8MbBAM4
-         iHeA==
+        bh=O5FoYocoznvhyRvqw8gv5IRTDjEDa6vZWW0iZZav3Ss=;
+        b=ogejVbJ8uFcXB4k/W3Y8ZIi4R2OfDpBMqaqC19oqU1lGFKdJz6WgI4g6Me68KPFHnD
+         sIT7WjUC4h9fnc2tIyNUA2u6g09FdIS5uQyNYiczZIf9b8woXxCh44lRnj4H4ci/u+ij
+         0N/X7+wAL+Fyl1NTeXVziVFPYlWPI5w7KWwPRFqkCviQEXshYDdNkcX63Pip50hOxRL6
+         UZOVklnRth/MpIboxuqe/61Qdq0O9jTqBSSnyEJFRdYbkonudb+IDiwcJ7Ihl0KXxJ4g
+         HHj0Zw/3DbOk9rCgw35QakOOBgX7xINABOKSPVWyfjD//Rxp/ph0WtcPG21Ju9nTL2kx
+         HL6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=FKRPxQ5naxQK7DTBiolb96pHzElhA3kQapK3dHX4GyI=;
-        b=0Ep1vI1N+4UD9OHDE7rA1LRmcw00+kotOV9UXQEnOJJEXQ+dxd72qWjz0dZgBOd+ZC
-         m2XnmyVr415sSL7fgRaDkw5qCZ0FF2JQ+wuALIAiPRITNqhDxqORiXvkdX4KkxJD/4BU
-         HJef2IC+Ss2CBATh/Puidv+Dfc63Rt+0LHC07/CQfTkWvIfqu49ZhRNbebz900fIj763
-         6wKW1afPNmTqk9b9C4LN26lT/KqUJnNWtc6FM3bGmoJWTiMfuUD+9n+lcXeWCNotUXP5
-         Oa02u0o8/NOuXanxPSCRanYSDohK2wBL71SqcJ1vwfHCtnNnEQZWJ9Ti5JzGH4w+HPoz
-         fpZQ==
-X-Gm-Message-State: ACgBeo350msMlHMjUxA5N/liGCn7neynXI6uZ5DVC/QpNZDfbiWwnbtf
-        uhZfw5oi5kARErQlJIRZbWaimA==
-X-Google-Smtp-Source: AA6agR5mOhvkHP0/rVnWqdL6DhOZwPuxfZnHYmEAP/YWN/jX6dy4BAUGE//gzBGs2IBk7BF1T2OhDg==
-X-Received: by 2002:a63:1d58:0:b0:434:93f1:2e9f with SMTP id d24-20020a631d58000000b0043493f12e9fmr8904266pgm.157.1662658776105;
-        Thu, 08 Sep 2022 10:39:36 -0700 (PDT)
+        bh=O5FoYocoznvhyRvqw8gv5IRTDjEDa6vZWW0iZZav3Ss=;
+        b=Lxrp6paN/qgw7ULmmytXE0EV4jXJXs5VulT30l/0hwaVqwWFQ1tauxJk1mtlo9xbJW
+         0pdDzbJ0cgDPIUbgryhyklH1aEw5ya0bVNDHkvi9FOEfFOatucZONvDfBcnmEZTKy2He
+         OdBt8cqr+fGGxb+HJcC9+j5wioj8Ny0/S6OXXwzdWGyGbYrLW8AJmKS6CgVSm9Ui+d9n
+         4Pop7zcJMtgnpgQlEDp4yUmgD88QjqLejkxZKy0T6g4eBEe6iMOssxzUJNJMGPFh+uoS
+         Ng7ddEJxhPi8CSHFBDoJSHeewjPzwIfx2o5Y37aT+h1YTRapMo/UitjILsrA084+j6hH
+         xdQw==
+X-Gm-Message-State: ACgBeo1KDYH1Y3ZAr/hBOKxUg09qPg/qlVmuomUPyPqdV1QqBoVAiUsG
+        pgYi8eH2YRLx3TatC3i5FiDM0w==
+X-Google-Smtp-Source: AA6agR5CdBHGZtnsfi2EQgd+cDex6+eBrX2IMIPIvngcLYBS62ZD6/G3M1CZFZWgrkdOsI0S6MQXFg==
+X-Received: by 2002:a17:903:248:b0:172:7520:db04 with SMTP id j8-20020a170903024800b001727520db04mr10038835plh.99.1662658777993;
+        Thu, 08 Sep 2022 10:39:37 -0700 (PDT)
 Received: from ghaven-kernel.yocom.org.beta.tailscale.net ([2601:600:8f80:973::5f])
-        by smtp.gmail.com with ESMTPSA id x76-20020a62864f000000b0052d4b0d0c74sm15166767pfd.70.2022.09.08.10.39.34
+        by smtp.gmail.com with ESMTPSA id x76-20020a62864f000000b0052d4b0d0c74sm15166767pfd.70.2022.09.08.10.39.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 10:39:35 -0700 (PDT)
+        Thu, 08 Sep 2022 10:39:36 -0700 (PDT)
 From:   Nate Yocom <nate@yocom.org>
 To:     dmitry.torokhov@gmail.com
 Cc:     nate@yocom.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, hadess@hadess.net,
         benjamin.tissoires@redhat.com
-Subject: [PATCH v6 2/5] Input: joystick: xpad: Add X-Box Adaptive XBox button
-Date:   Thu,  8 Sep 2022 10:39:27 -0700
-Message-Id: <20220908173930.28940-3-nate@yocom.org>
+Subject: [PATCH v6 3/5] Input: joystick: xpad: Add ABS_PROFILE to uapi
+Date:   Thu,  8 Sep 2022 10:39:28 -0700
+Message-Id: <20220908173930.28940-4-nate@yocom.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220908173930.28940-1-nate@yocom.org>
 References: <20220908173930.28940-1-nate@yocom.org>
@@ -71,28 +71,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Adaptive controller sets 0x02 bit for this button, all others set 0x01
-so presence of either is used for BTN_MODE.
+Add an ABS_PROFILE axis for input devices which need it, e.g. X-Box
+Adaptive Controller and X-Box Elite 2.
 
 Signed-off-by: Nate Yocom <nate@yocom.org>
-Tested-by: Bastien Nocera <hadess@hadess.net>
 ---
- drivers/input/joystick/xpad.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-debug.c                | 3 ++-
+ include/uapi/linux/input-event-codes.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index c8b38bb73d34..dff0d099d416 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -858,7 +858,7 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 		if (data[1] == 0x30)
- 			xpadone_ack_mode_report(xpad, data[2]);
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index 81e7e404a5fc..2ca6ab600bc9 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -1014,7 +1014,8 @@ static const char *absolutes[ABS_CNT] = {
+ 	[ABS_HAT3Y] = "Hat 3Y",		[ABS_PRESSURE] = "Pressure",
+ 	[ABS_DISTANCE] = "Distance",	[ABS_TILT_X] = "XTilt",
+ 	[ABS_TILT_Y] = "YTilt",		[ABS_TOOL_WIDTH] = "ToolWidth",
+-	[ABS_VOLUME] = "Volume",	[ABS_MISC] = "Misc",
++	[ABS_VOLUME] = "Volume",	[ABS_PROFILE] = "Profile",
++	[ABS_MISC] = "Misc",
+ 	[ABS_MT_TOUCH_MAJOR] = "MTMajor",
+ 	[ABS_MT_TOUCH_MINOR] = "MTMinor",
+ 	[ABS_MT_WIDTH_MAJOR] = "MTMajorW",
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index dff8e7f17074..7ad931a32970 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -862,6 +862,7 @@
+ #define ABS_TOOL_WIDTH		0x1c
  
--		input_report_key(dev, BTN_MODE, data[4] & 0x01);
-+		input_report_key(dev, BTN_MODE, data[4] & 0x03);
- 		input_sync(dev);
- 		return;
- 	}
+ #define ABS_VOLUME		0x20
++#define ABS_PROFILE		0x21
+ 
+ #define ABS_MISC		0x28
+ 
 -- 
 2.30.2
 
