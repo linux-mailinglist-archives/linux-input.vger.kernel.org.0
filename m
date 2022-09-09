@@ -2,173 +2,197 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11B3D5B353E
-	for <lists+linux-input@lfdr.de>; Fri,  9 Sep 2022 12:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F1265B3EFC
+	for <lists+linux-input@lfdr.de>; Fri,  9 Sep 2022 20:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbiIIK2Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Sep 2022 06:28:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33874 "EHLO
+        id S229550AbiIISr2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Sep 2022 14:47:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231157AbiIIK2V (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Sep 2022 06:28:21 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCBC12F205
-        for <linux-input@vger.kernel.org>; Fri,  9 Sep 2022 03:28:20 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id q15-20020a17090a304f00b002002ac83485so1152205pjl.0
-        for <linux-input@vger.kernel.org>; Fri, 09 Sep 2022 03:28:20 -0700 (PDT)
+        with ESMTP id S229493AbiIISr1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Sep 2022 14:47:27 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B01128C2F
+        for <linux-input@vger.kernel.org>; Fri,  9 Sep 2022 11:47:26 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id m16so1272329ilg.3
+        for <linux-input@vger.kernel.org>; Fri, 09 Sep 2022 11:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ecs-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date;
-        bh=dudaN+vQlPBdSJzNtdC8je441R+dRkrcZdvbH6gzK6o=;
-        b=GyvQxiY/w91s0naf5u4nCgJth+JgxU7PiIRHwg1M2nASw77wKcmvilHtPwP+yvYbKC
-         GrGTta2EiooFYTyvGqjdct5bzij5WNo5McezHCjswy0MNkOX/fHpmHYFBtM+QTw8MCd4
-         vCuH08rZtNm5K7h3lJBo48kkvzwYCI1+ZYADLy73Bud6Yn9o3opOQgfsqlGjFJkT6CNS
-         VzmEZFmrCsBRMe+5Cfps6TJuyrc+iLvF8Mcpvws6sbdf+0Kk7rbIZNlimSTbsYSfD+9A
-         Q2wN3w/v+Xuy8SoGzazstKby6Yl3Qf7jCHAjq0Hc7KYIvs6CpnEYtkEJSBo0DD1AiTCE
-         8Haw==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=tY2acVbA/Ha3+2EN4QAjkpHBg/SdpbP2hwHDbNpf9bw=;
+        b=ODw3NcxqU5t/spePY1O2k2TkXmXTPzngWZ+jzGxk48CMeQWHZCm43xP09J0X8msJpw
+         RAUkVxddDp2KODf4+zE1ChALe0wbOMml+kErKuzJ/uLWeR04yvJD6RwIfEjgdK2Z0g9Q
+         9o3ic/nQgpcfaq3PozndHUEK3yIhuLu7ebECI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=dudaN+vQlPBdSJzNtdC8je441R+dRkrcZdvbH6gzK6o=;
-        b=y/FPyaHVP+ODW1repCfpD3wKg/THnZk1qJejs/JQoVG+7ahQaIb/4oB4MNs4ggOk75
-         /A2RYqyy1O39AtGAm3uWroQa2ndOSMphrzURlteoHpTjWkA22Tc+e0hhiNF1AZ9rKMyc
-         cbJFPp15Nm8ZNGpE6FQ2/f9aY53jsPLNKxHTe9idrzaIM4LjMv+BgngvJbOtv0DsqEw7
-         kl/kEST/5t6Qwyexl1ICuHwJ0ArZHXFPpgkyZNOTR6fzDAke4nmS4agdCKA5ehcR8eTd
-         Lcr3bTGPJ8zRcvzQPibpzWLYNYnu0ZK6/+LevyyF+K8B15w10UusDo6/BiU4JBftAhdp
-         ACaQ==
-X-Gm-Message-State: ACgBeo0MYRyJtdaGTTLnMXRfvt9sY+7gROOayxYk+Iw3cUKpcw+PflL0
-        0JppCaqmEEs/9w6fwTgiKCQl4g==
-X-Google-Smtp-Source: AA6agR74SLJNRgDh7EXqn5O6lou0t+YKwAvGJ0lXu5mgXosr5nxdp5gBXaPgpbg627lWslom8gojTw==
-X-Received: by 2002:a17:902:7b8a:b0:172:9516:f15 with SMTP id w10-20020a1709027b8a00b0017295160f15mr13481676pll.92.1662719299472;
-        Fri, 09 Sep 2022 03:28:19 -0700 (PDT)
-Received: from localhost.localdomain ([103.150.184.130])
-        by smtp.gmail.com with ESMTPSA id c12-20020a170902d48c00b0016bb24f5d19sm121476plg.209.2022.09.09.03.28.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 03:28:19 -0700 (PDT)
-From:   Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
-X-Google-Original-From: Yunlong Jia <yunlong.jia@ecs.com.tw>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Henry Sun <henrysun@google.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Bob Moragues <moragues@chromium.org>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=tY2acVbA/Ha3+2EN4QAjkpHBg/SdpbP2hwHDbNpf9bw=;
+        b=KbCu20MUUu+T477uoA/AczeiIRGBnZvYLC9Pm+kBRzVSZ1Eus8IueH32wf/EDxvnrR
+         lsmJ+3A3RfyKnZbxppaqHFKUgPaJ0kNHwDL97nTNqQ4WTG1k3zWikq0Gwbf+kEjIcCGp
+         lm9+zWxCjPOYRO5dfKPpzqGboZUDB5hMc40plvDHM/2VZLT4T032A45Rv8+yIcP0mIaN
+         5abd9B+gObV5boU5QVBKbN2GdXlwpMg6BFxe+ASqL0PiAIn8hb4rtHX9syKdqLxiYpCB
+         AOtoUfw/2IA0lCJLiDujouEsGYvCI0D0Zy0cEwl+5OJJcr1JYSrZOZPaPHO1zL3phZ4o
+         oJtQ==
+X-Gm-Message-State: ACgBeo0w881fVv2Xv8CtCuBlRc0LHwSluXojPJuStW1anBHYIQTXhDf1
+        6A/qVpPITcAXQMiS0x8NlO8mcWEf7utZVw==
+X-Google-Smtp-Source: AA6agR5JD1kFeNVJqAM40UQFg25iiV22a8r62BVfqVMHBktKCob3PSQm7T83AVZQaEOFANSy+Q9UyA==
+X-Received: by 2002:a05:6e02:1b07:b0:2f1:3e58:5949 with SMTP id i7-20020a056e021b0700b002f13e585949mr4954077ilv.95.1662749245600;
+        Fri, 09 Sep 2022 11:47:25 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com. [209.85.166.51])
+        by smtp.gmail.com with ESMTPSA id e3-20020a921e03000000b002f14ab41d2esm426918ile.13.2022.09.09.11.47.23
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Sep 2022 11:47:23 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id d68so2143542iof.11
+        for <linux-input@vger.kernel.org>; Fri, 09 Sep 2022 11:47:23 -0700 (PDT)
+X-Received: by 2002:a05:6602:2d4f:b0:689:5bba:dc99 with SMTP id
+ d15-20020a0566022d4f00b006895bbadc99mr7410102iow.7.1662749242176; Fri, 09 Sep
+ 2022 11:47:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220830231541.1135813-1-rrangel@chromium.org>
+ <20220830171332.4.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
+ <YxftNQrRx3fwsobk@google.com> <CAHQZ30DPmn1hN+xfck7CgOGLcze0jtHxxWnq7yVVL0Q_DzG6UQ@mail.gmail.com>
+ <98559c23-cc22-3b85-2102-0cc760240804@redhat.com> <CAHQZ30ACZ-1UtgbXwEc+tFRvW-KpDg87Q4nj5Dwysz2BB26yiQ@mail.gmail.com>
+ <CAJZ5v0iyF98fBgGFyvj_huVkyKvn4O0_WhA=-wC2VCG6A4DdjQ@mail.gmail.com>
+In-Reply-To: <CAJZ5v0iyF98fBgGFyvj_huVkyKvn4O0_WhA=-wC2VCG6A4DdjQ@mail.gmail.com>
+From:   Raul Rangel <rrangel@chromium.org>
+Date:   Fri, 9 Sep 2022 12:47:11 -0600
+X-Gmail-Original-Message-ID: <CAHQZ30DY9aYBoW303qW+hkegYV0BbKFO6LkCuHKnHNxZ3QoLYw@mail.gmail.com>
+Message-ID: <CAHQZ30DY9aYBoW303qW+hkegYV0BbKFO6LkCuHKnHNxZ3QoLYw@mail.gmail.com>
+Subject: Re: [PATCH 4/8] i2c: acpi: Use ACPI GPIO wake capability bit to set wake_irq
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v3 2/2] input: touchscreen: elants_i2c: Add eth3915n touchscreen chip
-Date:   Fri,  9 Sep 2022 10:27:55 +0000
-Message-Id: <20220909102720.v3.2.I22ae48d8ee064456073a828393704809360c4368@changeid>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220909102720.v3.1.Ib599a6001558a4afd11016e7016d74dce748a749@changeid>
-References: <20220909102720.v3.1.Ib599a6001558a4afd11016e7016d74dce748a749@changeid>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Linux ACPI <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        "Limonciello, Mario" <mario.limonciello@amd.com>,
+        Tim Van Patten <timvp@google.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The eth3915n requires more delay time than the eth3500 when poweron
- & reset.
-Define EKTH3915_POWERON_DELAY_MSEC as the poweron delay time of eth3915n,
- about 80ms.
-Define EKTH3915_RESET_DELAY_MSEC as the reset delay time of eth3915n,
- about 300ms.
+It looks like `i2c_acpi_get_irq` and `platform_get_irq_optional` are
+doing pretty much the same thing. Can we replace `i2c_acpi_get_irq`
+and switch over to `platform_get_irq_optional`? Is it possible to get
+a `platform_device` from an `i2c_client`?
 
-Signed-off-by: Yunlong Jia <yunlong.jia@ecs.com.tw>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
----
-
-Changes in v3:
- 1. Add poweron delay time.
-
-Changes in v2:
- 1. Adjust the 'Signed-off-by'.
-
- drivers/input/touchscreen/elants_i2c.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index c9dd703b0c7d8..fb99dd10b0b6d 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -116,6 +116,8 @@
- 
- #define ELAN_POWERON_DELAY_USEC	500
- #define ELAN_RESET_DELAY_MSEC	20
-+#define EKTH3915_POWERON_DELAY_MSEC    80
-+#define EKTH3915_RESET_DELAY_MSEC	300
- 
- /* FW boot code version */
- #define BC_VER_H_BYTE_FOR_EKTH3900x1_I2C        0x72
-@@ -133,6 +135,7 @@
- enum elants_chip_id {
- 	EKTH3500,
- 	EKTF3624,
-+	EKTH3915,
- };
- 
- enum elants_state {
-@@ -664,6 +667,7 @@ static int elants_i2c_initialize(struct elants_data *ts)
- 
- 	switch (ts->chip_id) {
- 	case EKTH3500:
-+	case EKTH3915:
- 		if (!error)
- 			error = elants_i2c_query_ts_info_ekth(ts);
- 		break;
-@@ -1331,6 +1335,9 @@ static int elants_i2c_power_on(struct elants_data *ts)
- 	if (IS_ERR_OR_NULL(ts->reset_gpio))
- 		return 0;
- 
-+	if (ts->chip_id == EKTH3915)
-+		msleep(EKTH3915_POWERON_DELAY_MSEC);
-+
- 	gpiod_set_value_cansleep(ts->reset_gpio, 1);
- 
- 	error = regulator_enable(ts->vcc33);
-@@ -1361,7 +1368,17 @@ static int elants_i2c_power_on(struct elants_data *ts)
- 	if (error)
- 		return error;
- 
--	msleep(ELAN_RESET_DELAY_MSEC);
-+	if (ts->chip_id == EKTH3915)
-+		/*
-+		 * There need delay 300ms for power on sequence.
-+		 * T1 + T2 + T3 >= 305 ms
-+		 * T1: 0<time<500us
-+		 * T2: >5ms
-+		 * T3: >300ms
-+		 */
-+		msleep(EKTH3915_RESET_DELAY_MSEC);
-+	else
-+		msleep(ELAN_RESET_DELAY_MSEC);
- 
- 	return 0;
- }
-@@ -1686,6 +1703,7 @@ static const struct i2c_device_id elants_i2c_id[] = {
- 	{ DEVICE_NAME, EKTH3500 },
- 	{ "ekth3500", EKTH3500 },
- 	{ "ektf3624", EKTF3624 },
-+	{ "ekth3915", EKTH3915 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, elants_i2c_id);
-@@ -1702,6 +1720,7 @@ MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
- static const struct of_device_id elants_of_match[] = {
- 	{ .compatible = "elan,ekth3500", .data = (void *)EKTH3500 },
- 	{ .compatible = "elan,ektf3624", .data = (void *)EKTF3624 },
-+	{ .compatible = "elan,ekth3915", .data = (void *)EKTH3915 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, elants_of_match);
--- 
-2.17.1
-
+On Thu, Sep 8, 2022 at 9:23 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+>
+> On Thu, Sep 8, 2022 at 4:40 PM Raul Rangel <rrangel@chromium.org> wrote:
+> >
+> > On Wed, Sep 7, 2022 at 2:12 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On 9/7/22 04:00, Raul Rangel wrote:
+> > > > On Tue, Sep 6, 2022 at 7:00 PM Dmitry Torokhov
+> > > > <dmitry.torokhov@gmail.com> wrote:
+> > > >>
+> > > >> On Tue, Aug 30, 2022 at 05:15:37PM -0600, Raul E Rangel wrote:
+> > > >>> Device tree already has a mechanism to pass the wake_irq. It does this
+> > > >>> by looking for the wakeup-source property and setting the
+> > > >>> I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses at the
+> > > >>> ACPI GpioInt wake flag to determine if the interrupt can be used to wake
+> > > >>> the system. Previously the i2c drivers had to make assumptions and
+> > > >>> blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
+> > > >>> If there is a device with an Active Low interrupt and the device gets
+> > > >>> powered off while suspending, the interrupt line will go low since it's
+> > > >>> no longer powered and wake the system. For this reason we should respect
+> > > >>> the board designers wishes and honor the wake bit defined on the
+> > > >>> GpioInt.
+> > > >>>
+> > > >>> This change does not cover the ACPI Interrupt or IRQ resources.
+> > > >>>
+> > > >>> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> > > >>> ---
+> > > >>>
+> > > >>>  drivers/i2c/i2c-core-acpi.c |  8 ++++++--
+> > > >>>  drivers/i2c/i2c-core-base.c | 17 +++++++++++------
+> > > >>>  drivers/i2c/i2c-core.h      |  4 ++--
+> > > >>>  3 files changed, 19 insertions(+), 10 deletions(-)
+> > > >>>
+> > > >>> diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
+> > > >>> index c762a879c4cc6b..cfe82a6ba3ef28 100644
+> > > >>> --- a/drivers/i2c/i2c-core-acpi.c
+> > > >>> +++ b/drivers/i2c/i2c-core-acpi.c
+> > > >>> @@ -182,12 +182,13 @@ static int i2c_acpi_add_resource(struct acpi_resource *ares, void *data)
+> > > >>>  /**
+> > > >>>   * i2c_acpi_get_irq - get device IRQ number from ACPI
+> > > >>>   * @client: Pointer to the I2C client device
+> > > >>> + * @wake_capable: Set to 1 if the IRQ is wake capable
+> > > >>>   *
+> > > >>>   * Find the IRQ number used by a specific client device.
+> > > >>>   *
+> > > >>>   * Return: The IRQ number or an error code.
+> > > >>>   */
+> > > >>> -int i2c_acpi_get_irq(struct i2c_client *client)
+> > > >>> +int i2c_acpi_get_irq(struct i2c_client *client, int *wake_capable)
+> > > >>>  {
+> > > >>>       struct acpi_device *adev = ACPI_COMPANION(&client->dev);
+> > > >>>       struct list_head resource_list;
+> > > >>> @@ -196,6 +197,9 @@ int i2c_acpi_get_irq(struct i2c_client *client)
+> > > >>>
+> > > >>>       INIT_LIST_HEAD(&resource_list);
+> > > >>>
+> > > >>> +     if (wake_capable)
+> > > >>> +             *wake_capable = 0;
+> > > >>> +
+> > > >>>       ret = acpi_dev_get_resources(adev, &resource_list,
+> > > >>>                                    i2c_acpi_add_resource, &irq);
+> > > >>
+> > > >
+> > > >
+> > > >> You also need to handle "Interrupt(..., ...AndWake)" case here. I would
+> > > >> look into maybe defining
+> > > >>
+> > > >> #define IORESOURCE_IRQ_WAKECAPABLE      (1<<6)
+> > > >>
+> > > >> in include/linux/ioport.h and plumbing it through from ACPI layer.
+> > > >>
+> > > >> Thanks.
+> > > >
+> > > > AFAIK the Intel (Not 100% certain) and AMD IO-APIC's can't actually
+> > > > wake a system from suspend/suspend-to-idle.
+> > >
+> > > That may be true for S3 suspend (it sounds about right) there
+> > > certainly is no way to "arm for wakeup" on the APIC, but with
+> > > s2idle all IRQs which are not explicitly disabled by the OS
+> > > still function normally so there any IRQ can be a wakeup
+> > > source (AFAIK).
+>
+> That's true.
+>
+> Moreover, even for S3 there are transitions into it and there may be
+> wakeup interrupts taking place during those transitions.  Those may be
+> any IRQs too.
+>
+> > > And even with S3 suspend I think some IRQs can act as wakeup,
+> > > but that is configured by the BIOS then and not something which
+> > > linux can enable/disable. E.g IIRC the parent IRQ of the GPIO
+> > > controllers on x86 is an APIC IRQ ...
+>
+> It's more about how the system is wired up AFAICS.  Basically, in
+> order to wake up the system from S3, the given IRQ needs to be
+> physically attached to an input that will trigger the platform wakeup
+> logic while in S3.
+>
+> > >
+> >
+> > SGTM. I wanted to make sure there was interest before I invested the
+> > time in adding the functionality. Hopefully I can push up a new patch
+> > set tomorrow.
+>
+> Sounds good. :-)
