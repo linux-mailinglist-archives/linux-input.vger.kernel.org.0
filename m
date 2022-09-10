@@ -2,48 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D23BA5B495C
-	for <lists+linux-input@lfdr.de>; Sat, 10 Sep 2022 23:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B984B5B499C
+	for <lists+linux-input@lfdr.de>; Sat, 10 Sep 2022 23:21:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbiIJVTG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Sep 2022 17:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57552 "EHLO
+        id S230260AbiIJVVc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Sep 2022 17:21:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230004AbiIJVSU (ORCPT
+        with ESMTP id S230266AbiIJVUd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Sep 2022 17:18:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8E84C608;
-        Sat, 10 Sep 2022 14:17:31 -0700 (PDT)
+        Sat, 10 Sep 2022 17:20:33 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D6E4C635;
+        Sat, 10 Sep 2022 14:18:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9359B60EBC;
-        Sat, 10 Sep 2022 21:17:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2765BC433C1;
-        Sat, 10 Sep 2022 21:17:10 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 917DECE0AE3;
+        Sat, 10 Sep 2022 21:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68EF7C433D7;
+        Sat, 10 Sep 2022 21:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844631;
-        bh=54RdefYutBM/Gw3iVNj/W+hkwOzEHl/9vNlS+w2lrfg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ovYwvZg1DH9RMvHKRSstn/kaviXXpk3SInrbZjsRMDKUZCibt1Qsn/DjfGSi4iyB1
-         /za5LFzgvFb+oYAekePjtonZqvRTuOUirfEKCOHxIbU+G1y9FU/ORrPhCtSjSoDt2J
-         ZNflwPLHArJjtxa3oMdbh2+jKue1nAWF9RlCbrrCNj7QBK0TjwyQfYZAwGvqgEk7I6
-         NcyXmoXbd4pWtx8XHWh7bOqblt3cf7z+Fp7oy3Di6R1FkMCGY7uxw4yWIRCBS0SSno
-         +7zP4hZpkwewyOraVnvlRdAjLHluiMDG0HPPf1zjiwPJnoSqRvB106F5i56PfKIboy
-         3zMz2Lod/xeoQ==
+        s=k20201202; t=1662844675;
+        bh=FTyZm82ma7c7kIDojvTdLUTSDMwwa3K7yYhHENatSfA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hHRXHHqCJnTtnKw6Q+1RbPq6mb+8Q9cu3LRSWJgQTzNcUdFcTYe5Av77alCgwLR8n
+         bThq9GpcVAYh3anj7VsW7fXfgzq7+OGVJSaMGdaz0vzo6Kxz6GFfOfRDx1fAoxR9YC
+         FkeIyziBdE854Bn903ojAPgstSUuDEX32sEg9DT0LL79XLviH5z7Bhsiu4z4olZI65
+         B1EMrJX6oAoVlVcGF/1thCDLV2PAMOMaCgcjA7Ta3ZWAUoEJ5uFc3k5C+T4hCnK+EB
+         CZF1oNCslH16l3fxTF9I+xnvRNeg4fw68h18Ne6+nd4GSjruuAWBLHYrRHFi7xShiX
+         H5/uxlqDcZ91w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Greg Tulli <greg.iforce@gmail.com>,
+Cc:     Ondrej Jirman <megi@xff.cz>, Jarrah Gosbell <kernel@undef.tools>,
+        Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 23/38] Input: iforce - add support for Boeder Force Feedback Wheel
-Date:   Sat, 10 Sep 2022 17:16:08 -0400
-Message-Id: <20220910211623.69825-23-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, hadess@hadess.net,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 01/21] Input: goodix - add support for GT1158
+Date:   Sat, 10 Sep 2022 17:17:32 -0400
+Message-Id: <20220910211752.70291-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220910211623.69825-1-sashal@kernel.org>
-References: <20220910211623.69825-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,46 +57,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Greg Tulli <greg.iforce@gmail.com>
+From: Ondrej Jirman <megi@xff.cz>
 
-[ Upstream commit 9c9c71168f7979f3798b61c65b4530fbfbcf19d1 ]
+[ Upstream commit 425fe4709c76e35f93f4c0e50240f0b61b2a2e54 ]
 
-Add a new iforce_device entry to support the Boeder Force Feedback Wheel
-device.
+This controller is used by PinePhone and PinePhone Pro. Support for
+the PinePhone Pro will be added in a later patch set.
 
-Signed-off-by: Greg Tulli <greg.iforce@gmail.com>
-Link: https://lore.kernel.org/r/3256420-c8ac-31b-8499-3c488a9880fd@gmail.com
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+Signed-off-by: Jarrah Gosbell <kernel@undef.tools>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://lore.kernel.org/r/20220809091200.290492-1-kernel@undef.tools
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/input/joydev/joystick.rst     | 1 +
- drivers/input/joystick/iforce/iforce-main.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/input/touchscreen/goodix.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/input/joydev/joystick.rst b/Documentation/input/joydev/joystick.rst
-index f615906a0821b..6d721396717a2 100644
---- a/Documentation/input/joydev/joystick.rst
-+++ b/Documentation/input/joydev/joystick.rst
-@@ -517,6 +517,7 @@ All I-Force devices are supported by the iforce module. This includes:
- * AVB Mag Turbo Force
- * AVB Top Shot Pegasus
- * AVB Top Shot Force Feedback Racing Wheel
-+* Boeder Force Feedback Wheel
- * Logitech WingMan Force
- * Logitech WingMan Force Wheel
- * Guillemot Race Leader Force Feedback
-diff --git a/drivers/input/joystick/iforce/iforce-main.c b/drivers/input/joystick/iforce/iforce-main.c
-index b2a68bc9f0b4d..b86de1312512b 100644
---- a/drivers/input/joystick/iforce/iforce-main.c
-+++ b/drivers/input/joystick/iforce/iforce-main.c
-@@ -50,6 +50,7 @@ static struct iforce_device iforce_device[] = {
- 	{ 0x046d, 0xc291, "Logitech WingMan Formula Force",		btn_wheel, abs_wheel, ff_iforce },
- 	{ 0x05ef, 0x020a, "AVB Top Shot Pegasus",			btn_joystick_avb, abs_avb_pegasus, ff_iforce },
- 	{ 0x05ef, 0x8884, "AVB Mag Turbo Force",			btn_wheel, abs_wheel, ff_iforce },
-+	{ 0x05ef, 0x8886, "Boeder Force Feedback Wheel",		btn_wheel, abs_wheel, ff_iforce },
- 	{ 0x05ef, 0x8888, "AVB Top Shot Force Feedback Racing Wheel",	btn_wheel, abs_wheel, ff_iforce }, //?
- 	{ 0x061c, 0xc0a4, "ACT LABS Force RS",                          btn_wheel, abs_wheel, ff_iforce }, //?
- 	{ 0x061c, 0xc084, "ACT LABS Force RS",				btn_wheel, abs_wheel, ff_iforce },
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index 3667f7e51fde4..54ea593897466 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -94,6 +94,7 @@ static const struct goodix_chip_data gt9x_chip_data = {
+ 
+ static const struct goodix_chip_id goodix_chip_ids[] = {
+ 	{ .id = "1151", .data = &gt1x_chip_data },
++	{ .id = "1158", .data = &gt1x_chip_data },
+ 	{ .id = "5663", .data = &gt1x_chip_data },
+ 	{ .id = "5688", .data = &gt1x_chip_data },
+ 	{ .id = "917S", .data = &gt1x_chip_data },
 -- 
 2.35.1
 
