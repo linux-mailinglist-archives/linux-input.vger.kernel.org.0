@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D80CD5B4934
-	for <lists+linux-input@lfdr.de>; Sat, 10 Sep 2022 23:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D23BA5B495C
+	for <lists+linux-input@lfdr.de>; Sat, 10 Sep 2022 23:19:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbiIJVSA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Sep 2022 17:18:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57320 "EHLO
+        id S229938AbiIJVTG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Sep 2022 17:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229881AbiIJVRc (ORCPT
+        with ESMTP id S230004AbiIJVSU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Sep 2022 17:17:32 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B34F4C600;
-        Sat, 10 Sep 2022 14:17:08 -0700 (PDT)
+        Sat, 10 Sep 2022 17:18:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8E84C608;
+        Sat, 10 Sep 2022 14:17:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id A35E0CE0AE8;
-        Sat, 10 Sep 2022 21:16:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A874C43140;
-        Sat, 10 Sep 2022 21:16:55 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9359B60EBC;
+        Sat, 10 Sep 2022 21:17:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2765BC433C1;
+        Sat, 10 Sep 2022 21:17:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844616;
-        bh=+9DHORVupybjs9vxMMqRyoCkvWMizkXZU0o2NK9uums=;
+        s=k20201202; t=1662844631;
+        bh=54RdefYutBM/Gw3iVNj/W+hkwOzEHl/9vNlS+w2lrfg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Iqsl1AitIr0Jj8qFrhEMnE6hLJh2YiQo3VIGFifNQODtBzwetIVB3gfF9BxSxcJzO
-         kg0uyl4OXhwqdAFez+ZBDMcYOLapfBcg5K8KD3y/IYZc87DjjTMcsv+osOx0CDGnU9
-         pX0K3oYes+Bweqemcyx3dQAFJ1S0k0hx0Mi/2T9wc7PBoeB0qmbl3V6GIjNvN/Edr5
-         fXGI3FPBZkZnMsGOYZDYLC3i2Cmeatj+1APNz6MB+z9EG/7duI4c32bTRIsqO2yq+w
-         du1SPDBic2m2ybURh1xE4fdvAp4rL2arQCxdDxIYRfBCA1i8JG8hdvjVI3Fmn/+LL5
-         suXfEewC8Eo4A==
+        b=ovYwvZg1DH9RMvHKRSstn/kaviXXpk3SInrbZjsRMDKUZCibt1Qsn/DjfGSi4iyB1
+         /za5LFzgvFb+oYAekePjtonZqvRTuOUirfEKCOHxIbU+G1y9FU/ORrPhCtSjSoDt2J
+         ZNflwPLHArJjtxa3oMdbh2+jKue1nAWF9RlCbrrCNj7QBK0TjwyQfYZAwGvqgEk7I6
+         NcyXmoXbd4pWtx8XHWh7bOqblt3cf7z+Fp7oy3Di6R1FkMCGY7uxw4yWIRCBS0SSno
+         +7zP4hZpkwewyOraVnvlRdAjLHluiMDG0HPPf1zjiwPJnoSqRvB106F5i56PfKIboy
+         3zMz2Lod/xeoQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 17/38] HID: nintendo: fix rumble worker null pointer deref
-Date:   Sat, 10 Sep 2022 17:16:02 -0400
-Message-Id: <20220910211623.69825-17-sashal@kernel.org>
+Cc:     Greg Tulli <greg.iforce@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 23/38] Input: iforce - add support for Boeder Force Feedback Wheel
+Date:   Sat, 10 Sep 2022 17:16:08 -0400
+Message-Id: <20220910211623.69825-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220910211623.69825-1-sashal@kernel.org>
 References: <20220910211623.69825-1-sashal@kernel.org>
@@ -58,54 +58,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: "Daniel J. Ogorchock" <djogorchock@gmail.com>
+From: Greg Tulli <greg.iforce@gmail.com>
 
-[ Upstream commit 1ff89e06c2e5fab30274e4b02360d4241d6e605e ]
+[ Upstream commit 9c9c71168f7979f3798b61c65b4530fbfbcf19d1 ]
 
-We can dereference a null pointer trying to queue work to a destroyed
-workqueue.
+Add a new iforce_device entry to support the Boeder Force Feedback Wheel
+device.
 
-If the device is disconnected, nintendo_hid_remove is called, in which
-the rumble_queue is destroyed. Avoid using that queue to defer rumble
-work once the controller state is set to JOYCON_CTLR_STATE_REMOVED.
-
-This eliminates the null pointer dereference.
-
-Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Greg Tulli <greg.iforce@gmail.com>
+Link: https://lore.kernel.org/r/3256420-c8ac-31b-8499-3c488a9880fd@gmail.com
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-nintendo.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ Documentation/input/joydev/joystick.rst     | 1 +
+ drivers/input/joystick/iforce/iforce-main.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 4b1173957c17c..f33a03c96ba68 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -1222,6 +1222,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 
- 	spin_lock_irqsave(&ctlr->lock, flags);
- 	if (IS_ENABLED(CONFIG_NINTENDO_FF) && rep->vibrator_report &&
-+	    ctlr->ctlr_state != JOYCON_CTLR_STATE_REMOVED &&
- 	    (msecs - ctlr->rumble_msecs) >= JC_RUMBLE_PERIOD_MS &&
- 	    (ctlr->rumble_queue_head != ctlr->rumble_queue_tail ||
- 	     ctlr->rumble_zero_countdown > 0)) {
-@@ -1546,12 +1547,13 @@ static int joycon_set_rumble(struct joycon_ctlr *ctlr, u16 amp_r, u16 amp_l,
- 		ctlr->rumble_queue_head = 0;
- 	memcpy(ctlr->rumble_data[ctlr->rumble_queue_head], data,
- 	       JC_RUMBLE_DATA_SIZE);
--	spin_unlock_irqrestore(&ctlr->lock, flags);
- 
- 	/* don't wait for the periodic send (reduces latency) */
--	if (schedule_now)
-+	if (schedule_now && ctlr->ctlr_state != JOYCON_CTLR_STATE_REMOVED)
- 		queue_work(ctlr->rumble_queue, &ctlr->rumble_worker);
- 
-+	spin_unlock_irqrestore(&ctlr->lock, flags);
-+
- 	return 0;
- }
- 
+diff --git a/Documentation/input/joydev/joystick.rst b/Documentation/input/joydev/joystick.rst
+index f615906a0821b..6d721396717a2 100644
+--- a/Documentation/input/joydev/joystick.rst
++++ b/Documentation/input/joydev/joystick.rst
+@@ -517,6 +517,7 @@ All I-Force devices are supported by the iforce module. This includes:
+ * AVB Mag Turbo Force
+ * AVB Top Shot Pegasus
+ * AVB Top Shot Force Feedback Racing Wheel
++* Boeder Force Feedback Wheel
+ * Logitech WingMan Force
+ * Logitech WingMan Force Wheel
+ * Guillemot Race Leader Force Feedback
+diff --git a/drivers/input/joystick/iforce/iforce-main.c b/drivers/input/joystick/iforce/iforce-main.c
+index b2a68bc9f0b4d..b86de1312512b 100644
+--- a/drivers/input/joystick/iforce/iforce-main.c
++++ b/drivers/input/joystick/iforce/iforce-main.c
+@@ -50,6 +50,7 @@ static struct iforce_device iforce_device[] = {
+ 	{ 0x046d, 0xc291, "Logitech WingMan Formula Force",		btn_wheel, abs_wheel, ff_iforce },
+ 	{ 0x05ef, 0x020a, "AVB Top Shot Pegasus",			btn_joystick_avb, abs_avb_pegasus, ff_iforce },
+ 	{ 0x05ef, 0x8884, "AVB Mag Turbo Force",			btn_wheel, abs_wheel, ff_iforce },
++	{ 0x05ef, 0x8886, "Boeder Force Feedback Wheel",		btn_wheel, abs_wheel, ff_iforce },
+ 	{ 0x05ef, 0x8888, "AVB Top Shot Force Feedback Racing Wheel",	btn_wheel, abs_wheel, ff_iforce }, //?
+ 	{ 0x061c, 0xc0a4, "ACT LABS Force RS",                          btn_wheel, abs_wheel, ff_iforce }, //?
+ 	{ 0x061c, 0xc084, "ACT LABS Force RS",				btn_wheel, abs_wheel, ff_iforce },
 -- 
 2.35.1
 
