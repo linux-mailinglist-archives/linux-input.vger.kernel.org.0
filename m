@@ -2,55 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 275645B4A3E
-	for <lists+linux-input@lfdr.de>; Sat, 10 Sep 2022 23:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55EC65B4A66
+	for <lists+linux-input@lfdr.de>; Sat, 10 Sep 2022 23:53:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230496AbiIJVcW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Sep 2022 17:32:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33630 "EHLO
+        id S229534AbiIJVxE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Sep 2022 17:53:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbiIJVcF (ORCPT
+        with ESMTP id S229660AbiIJVxE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Sep 2022 17:32:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E5EF52838;
-        Sat, 10 Sep 2022 14:26:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7037B60EDF;
-        Sat, 10 Sep 2022 21:19:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0526CC4347C;
-        Sat, 10 Sep 2022 21:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844791;
-        bh=jaexKV/ISln6aKv9PrpU0ZKA7HGBT+BGvGa+IiQ2i6g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Zk66uFrSoY5jQFLWFBepMhNHEnMJcFvdon0UUhhe+jWGlnnh2kW2G68VK/YCWxxzk
-         nVQjSOsGz1OYA+88nhqf5RbFX3tAqPKVBvJZI+iBCYaMoYPzAxh4KK/olptaQilJQh
-         h0pUlUi55l5hc3a2E7LNOVw06+f3pmEEC/1zl5VKjxGpEmVyI8PL0FhX11Bx9DPgaf
-         k2qXi+Gc5mYaX+Nf5TPPJsJaCkOHT3T45te+rWVHEveryRw205b5NUZuA6QawZDSEH
-         bIfze9bfPI2o5xEFlxeb/M5TTqBWJasDLlDDVZKT7MDIXDiAJsTc9ve8O5R2aWzXa5
-         IoyQU9KmXUVXQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jason Wang <wangborong@cdjrlc.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>,
-        srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/5] HID: ishtp-hid-clientHID: ishtp-hid-client: Fix comment typo
-Date:   Sat, 10 Sep 2022 17:19:44 -0400
-Message-Id: <20220910211947.71066-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220910211947.71066-1-sashal@kernel.org>
-References: <20220910211947.71066-1-sashal@kernel.org>
+        Sat, 10 Sep 2022 17:53:04 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F3052DABF
+        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 14:53:01 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id y8so630724edc.10
+        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 14:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=1PPWCbKXlEnu4f5Y1l2ZGcr26PupHUMW55EBs/BVMPw=;
+        b=jafaxW5FyQ4KBW/ss0lvDFQS+BytcTlCthxnY13MDRI2O751HlCvxQGZRO58po3QOu
+         jBNoL1p04iABMzEsXUW+UewQmoEVE+zAtBnAxFa7/StgjWqJO9sn/z3XQ/FUvyImetKI
+         45JNjteSQ84/waP9QAb74Id1C5s1XmyAS1kpk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=1PPWCbKXlEnu4f5Y1l2ZGcr26PupHUMW55EBs/BVMPw=;
+        b=C3wxq99nNe6qM2024M7RkTOXHHCBGTEtamA44Rl8hKXSvG04kiEpQEuwCFr5fc0mr/
+         4TnhP4v3sXQTQ7Shszp27gNJzet6Py6YPz43uvgV7e6p5kMCXTGiOZ3Ba+mPPsTWKObh
+         mnfnDGghp3YPlOXekxDVz4FrPHybOoI4Q35XH53pHDOUKlnabGixB3S/4bxnHVj0o8t+
+         XzlhGRw45egvkyIDY14JsY6Dexj8cAaymrpWxcX+0GmPcrRD+ipYUFjoZgBhKhjDGqdw
+         OYtuKj0mKYax+64MP9/Ab8xoxxjw3Ml15g1DKYDs2L+fb+BZKBt9ExVO7bEDZoLYMGn1
+         zTYA==
+X-Gm-Message-State: ACgBeo3eqhSOlvvUCYtHZxvbaqRyeWlpjRm1zpcAJnWOVGXke8FWoirl
+        IRIBpV9EeOnM7waEiOI141ltb4QI4/MBK1bs
+X-Google-Smtp-Source: AA6agR63E5mJVaDm3bGLiAm64hMzDG9d4601crVttUpJECNA0Ssv9+dJ1zyG55QGtLBrVuSd6aDs5w==
+X-Received: by 2002:a05:6402:35cb:b0:451:6a0a:6688 with SMTP id z11-20020a05640235cb00b004516a0a6688mr2288066edc.415.1662846779946;
+        Sat, 10 Sep 2022 14:52:59 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id c1-20020a17090618a100b0076fcde2ff37sm2141667ejf.70.2022.09.10.14.52.57
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Sep 2022 14:52:57 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id c2-20020a1c3502000000b003b2973dafb7so7856204wma.2
+        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 14:52:57 -0700 (PDT)
+X-Received: by 2002:a05:600c:548b:b0:3b4:61f4:804e with SMTP id
+ iv11-20020a05600c548b00b003b461f4804emr4580041wmb.188.1662846776956; Sat, 10
+ Sep 2022 14:52:56 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20220909102720.v3.1.Ib599a6001558a4afd11016e7016d74dce748a749@changeid>
+In-Reply-To: <20220909102720.v3.1.Ib599a6001558a4afd11016e7016d74dce748a749@changeid>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Sat, 10 Sep 2022 14:52:44 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WtJ_UJkXJkMY0Ma4Fum8Xicqiv=ZX5QCJ=woL51VjFxw@mail.gmail.com>
+Message-ID: <CAD=FV=WtJ_UJkXJkMY0Ma4Fum8Xicqiv=ZX5QCJ=woL51VjFxw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: input: touchscreen: elants_i2c: Add
+ eth3915n touchscreen chip
+To:     Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Henry Sun <henrysun@google.com>,
+        Bob Moragues <moragues@chromium.org>,
+        Yunlong Jia <yunlong.jia@ecs.com.tw>,
+        David Heidelberg <david@ixit.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,32 +82,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Wang <wangborong@cdjrlc.com>
+Hi,
 
-[ Upstream commit 94553f8a218540d676efbf3f7827ed493d1057cf ]
+On Fri, Sep 9, 2022 at 3:28 AM Yunlong Jia
+<yunlong.jia@ecs.corp-partner.google.com> wrote:
+>
+> Add an elan touch screen chip eth3915n.
+> This chip requires more delay time than the eth3500.
+>
+> Signed-off-by: Yunlong Jia <yunlong.jia@ecs.com.tw>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Acked-by: David Heidelberg <david@ixit.cz>
 
-The double `like' is duplicated in the comment, remove one.
+This has the same problem talked about in:
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/intel-ish-hid/ishtp-hid.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://lore.kernel.org/r/CAD=FV=XEkPfU9wjwGrp59QJDAspUbWwmOTSZfE1Y5PWt1w309w@mail.gmail.com/
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid.h b/drivers/hid/intel-ish-hid/ishtp-hid.h
-index f5c7eb79b7b53..fa16983007f60 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid.h
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid.h
-@@ -118,7 +118,7 @@ struct report_list {
-  * @multi_packet_cnt:	Count of fragmented packet count
-  *
-  * This structure is used to store completion flags and per client data like
-- * like report description, number of HID devices etc.
-+ * report description, number of HID devices etc.
-  */
- struct ishtp_cl_data {
- 	/* completion flags */
--- 
-2.35.1
+Namely that the Signed-off-by and "From" address don't match. You need
+to fix that.
 
+Also note that neither of your patches indicates what changed between v2 and v3.
+
+
+-Doug
