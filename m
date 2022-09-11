@@ -2,101 +2,212 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F1C15B4A67
-	for <lists+linux-input@lfdr.de>; Sat, 10 Sep 2022 23:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3184D5B4B00
+	for <lists+linux-input@lfdr.de>; Sun, 11 Sep 2022 02:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbiIJVxq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Sep 2022 17:53:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58522 "EHLO
+        id S229582AbiIKAli (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Sep 2022 20:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbiIJVxp (ORCPT
+        with ESMTP id S229598AbiIKAlh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Sep 2022 17:53:45 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41122DABD
-        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 14:53:43 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id u9so12004983ejy.5
-        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 14:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=6L+PSUGxbdCi19Kzp6BZonN1w/q5i5nMluVZJC+p5yc=;
-        b=oA2uqROCT54LhRWj64l3rPm7M+LihrVNBFzDjQRtmDzhEdFWFV4yuo1+Z6N1ScH6T4
-         lpvp49uyil2y0E3VGzSNhkZempJXL9Fm27zi352oAgdwpNPZYl8OD+dG0soJ2O88lpDu
-         tn91F4x2ZI6SBLyIx6SzvkwmHsqmeTgN97WBM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=6L+PSUGxbdCi19Kzp6BZonN1w/q5i5nMluVZJC+p5yc=;
-        b=0liBUzM1BPsDYPG/++KiVWxo+vYXTBFlRAqp+t++2pqug/seRTpSEoOmYCcU62TzLG
-         TkghQ9zTWeL6whpjji6Ii2ESuvkNrEhWA3rdtWfZDiHvGnLJafIEANKnm9COMDWVWPvc
-         XMGIAO7sYKxn2LuORHfz0ASf1+WRX1C4iDTRjXX0HcMSKJFf3tDnnv07nNkP4aa9hiwV
-         0E3/9ZOlrP1AczYx+HXbK24ac0Jh5AErGLwZchqn7QP9PYMUwMSQ9c4qCR4x0t+n+G1F
-         KR0BVuGamK6piTj9Nz7JFh+Xo0++E3Pdynfv1x9tsCrT3efR4BspxFIpGTzlKDJdcYeK
-         pJqA==
-X-Gm-Message-State: ACgBeo19dlmHhYFSO/jhkqaidHndW5IgieHFgVGMicVmoIN5g9GgeWmc
-        168nTs/l+/kwcjLU6ATfFtBaojliiLJLE3c4
-X-Google-Smtp-Source: AA6agR7eNG84leW8vkIQIQ6rv9Yhnnkxu0cYzw3/I7yACuuWYb62fTj8PWRowirTk05ekgzI0k0mOQ==
-X-Received: by 2002:a17:907:2da1:b0:773:dc01:877a with SMTP id gt33-20020a1709072da100b00773dc01877amr10317457ejc.567.1662846822257;
-        Sat, 10 Sep 2022 14:53:42 -0700 (PDT)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
-        by smtp.gmail.com with ESMTPSA id u5-20020a1709063b8500b007336c3f05bdsm2190372ejf.178.2022.09.10.14.53.41
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Sep 2022 14:53:41 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id n12so9147352wru.6
-        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 14:53:41 -0700 (PDT)
-X-Received: by 2002:a5d:6c62:0:b0:22a:2f59:cb7d with SMTP id
- r2-20020a5d6c62000000b0022a2f59cb7dmr7792616wrz.405.1662846821172; Sat, 10
- Sep 2022 14:53:41 -0700 (PDT)
+        Sat, 10 Sep 2022 20:41:37 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B5E40E02;
+        Sat, 10 Sep 2022 17:41:35 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 546C05C0094;
+        Sat, 10 Sep 2022 20:41:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 10 Sep 2022 20:41:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=harrystern.net;
+         h=cc:cc:content-transfer-encoding:date:date:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1662856893; x=1662943293; bh=M90mpLmhh8
+        9IpWYmWfG4M1STa7CV73N3cCiudARxij0=; b=OD8xCwHhD6z9YV4jo1RRFmD/R6
+        Kj18FjQmP7jLSMcXCo6+UrzSoJGi+oNXhxzXaQiDjLpKhG1YcpPKkslgPL1GJw5S
+        Z+q1iGb2pZgoKuAPMYhZmKYGCCsAT1vtKVD92ooYL8qx43LiNOobs37tNA3hNRTs
+        1TUcdC80h748b3Gobtlhrbgeo9/V4caXqfWcZTuKVzoV50dSIjrMH/9nJkZNJ2Ou
+        OouECl8mSfVRObeUOEEmyEWypp0lKLL2T+Juk3LJMe+vbEfmuRCLjKb/eZbvzN1J
+        ld0BGHz8/PCXQgRgfjSWDmqaguTsrFYpaNukhlQo9E6z9pY+J8MR73gZdtJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1662856893; x=1662943293; bh=M90mpLmhh89IpWYmWfG4M1STa7CV73N3cCi
+        udARxij0=; b=s+YoYuZ+wnTsHMrHWrZmu72eZDrKbpqCrW/MHOQgWH97DO4TKIq
+        iERttKEQUjEBKEKLF26zrjR/L/gQ5UuOkIIOH8Pw1XZUSjx0GBtayGr9DbRlO4xJ
+        WXRr8+oujZIGQJ6ry0cMIxnwzHOaOTCKhNpiqG1x6l962/dWGkHMMQ/Mp03hSQVq
+        1XssHg0t5Aa33cofe29e48eagTMSok0itTLch5b+wkJV/x4q6KsBQZNCAD+1jfK+
+        xmAgDiK7OKQIHvPoeS6XVF7LNe/+2KpIxvSfW/IVbJRHSbmXzvmoOOtAzF1stWeO
+        8a8YLISFaIW4IBftB7eUvqvSNyZlb+KIu+Q==
+X-ME-Sender: <xms:vS4dYyD6UAEJFH8S1x_E0evdoSQ4hYtYkXbxfw9wGt7e20KsV1ZhxA>
+    <xme:vS4dY8hbqe3Iy7sf5FTniU1yXLvVgHZYQkSU--obM_F8p9Wpn10UBMw6ScjWMxvVb
+    qrzi94oDjsG8sbTyA>
+X-ME-Received: <xmr:vS4dY1kcUl3EMw-ilSXCgYOZreNKQSR22RWTi0jdsm-i64bT2lSms81kBNb-QSXr1Sgk1an0PCRcEuYK1Yd5hvWmpCeTSRadpIcRdryQUPA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtkedgfeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegoteeftdduqddtudculdduhedm
+    necujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepjfgrrhhrhi
+    cuufhtvghrnhcuoehhrghrrhihsehhrghrrhihshhtvghrnhdrnhgvtheqnecuggftrfgr
+    thhtvghrnheplefgtdffteeigfduiefgteeugefgudeujeevueettdekhefhteevteegie
+    etgefhnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhgrrhhrhieshhgrrhhrhi
+    hsthgvrhhnrdhnvght
+X-ME-Proxy: <xmx:vS4dYwx0XRZbXkjtThdSf-5Bcw_0lYUovslrHEsuNYbqoFFFw7xalw>
+    <xmx:vS4dY3T1YBtFeZmhXGXyFBJMj7xWFeSGnETenipeVQ85ujZFPHoNqA>
+    <xmx:vS4dY7ZWpSSJTqtTiP4EpgVdFNXnPQIlfGaV7LCth5iaExOC7jXQ5Q>
+    <xmx:vS4dYxedIeJH5BEokW69YZf2lQxDwy39kEMTxkcXZwsMLe-P8eGg5Q>
+Feedback-ID: if19944f9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 10 Sep 2022 20:41:32 -0400 (EDT)
+From:   Harry Stern <harry@harrystern.net>
+Cc:     Harry Stern <harry@harrystern.net>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH] hid: topre: Add driver fixing report descriptor
+Date:   Sat, 10 Sep 2022 20:36:13 -0400
+Message-Id: <20220911003614.297613-1-harry@harrystern.net>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220909102720.v3.1.Ib599a6001558a4afd11016e7016d74dce748a749@changeid>
- <20220909102720.v3.2.I22ae48d8ee064456073a828393704809360c4368@changeid>
-In-Reply-To: <20220909102720.v3.2.I22ae48d8ee064456073a828393704809360c4368@changeid>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Sat, 10 Sep 2022 14:53:27 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WMJRU9hSXUT7Y47xMku1kAuuTap9xhjWt541GOzhvy9g@mail.gmail.com>
-Message-ID: <CAD=FV=WMJRU9hSXUT7Y47xMku1kAuuTap9xhjWt541GOzhvy9g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] input: touchscreen: elants_i2c: Add eth3915n
- touchscreen chip
-To:     Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Henry Sun <henrysun@google.com>,
-        Bob Moragues <moragues@chromium.org>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The Topre REALFORCE R2 firmware incorrectly reports that interface
+descriptor number 1, input report descriptor 2's events are array events
+rather than variable events. That particular report descriptor is used
+to report keypresses when there are more than 6 keys held at a time.
+This bug prevents events from this interface from being registered
+properly, so only 6 keypresses (from a different interface) can be
+registered at once, rather than full n-key rollover.
 
-On Fri, Sep 9, 2022 at 3:28 AM Yunlong Jia
-<yunlong.jia@ecs.corp-partner.google.com> wrote:
->
-> The eth3915n requires more delay time than the eth3500 when poweron
->  & reset.
-> Define EKTH3915_POWERON_DELAY_MSEC as the poweron delay time of eth3915n,
->  about 80ms.
-> Define EKTH3915_RESET_DELAY_MSEC as the reset delay time of eth3915n,
->  about 300ms.
->
-> Signed-off-by: Yunlong Jia <yunlong.jia@ecs.com.tw>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+This commit fixes the bug by setting the correct value in a report_fixup
+function.
 
-Just to be clear, this can't land as long as your Signed-off-by and
-"From" address don't match.
+The original bug report can be found here:
+Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/804
 
--Doug
+Thanks to Benjamin Tissoires for diagnosing the issue with the report
+descriptor.
+
+Signed-off-by: Harry Stern <harry@harrystern.net>
+---
+ drivers/hid/Kconfig     |  6 +++++
+ drivers/hid/Makefile    |  1 +
+ drivers/hid/hid-ids.h   |  3 +++
+ drivers/hid/hid-topre.c | 49 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 59 insertions(+)
+ create mode 100644 drivers/hid/hid-topre.c
+
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 6ce92830b..c4308d498 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1141,6 +1141,12 @@ config HID_TOPSEED
+ 	Say Y if you have a TopSeed Cyberlink or BTC Emprex or Conceptronic
+ 	CLLRCMCE remote control.
+ 
++config HID_TOPRE
++	tristate "Topre REALFORCE keyboards"
++	depends on HID
++	help
++	  Say Y for N-key rollover support on Topre REALFORCE R2 108 key keyboards.
++
+ config HID_THINGM
+ 	tristate "ThingM blink(1) USB RGB LED"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index b0bef8098..bccaec0d7 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -123,6 +123,7 @@ obj-$(CONFIG_HID_GREENASIA)	+= hid-gaff.o
+ obj-$(CONFIG_HID_THRUSTMASTER)	+= hid-tmff.o hid-thrustmaster.o
+ obj-$(CONFIG_HID_TIVO)		+= hid-tivo.o
+ obj-$(CONFIG_HID_TOPSEED)	+= hid-topseed.o
++obj-$(CONFIG_HID_TOPRE)	+= hid-topre.o
+ obj-$(CONFIG_HID_TWINHAN)	+= hid-twinhan.o
+ obj-$(CONFIG_HID_U2FZERO)	+= hid-u2fzero.o
+ hid-uclogic-objs		:= hid-uclogic-core.o \
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index f80d6193f..50bab12d9 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1231,6 +1231,9 @@
+ #define USB_DEVICE_ID_TIVO_SLIDE	0x1201
+ #define USB_DEVICE_ID_TIVO_SLIDE_PRO	0x1203
+ 
++#define USB_VENDOR_ID_TOPRE			0x0853
++#define USB_DEVICE_ID_TOPRE_REALFORCE_R2_108			0x0148
++
+ #define USB_VENDOR_ID_TOPSEED		0x0766
+ #define USB_DEVICE_ID_TOPSEED_CYBERLINK	0x0204
+ 
+diff --git a/drivers/hid/hid-topre.c b/drivers/hid/hid-topre.c
+new file mode 100644
+index 000000000..88a91cdad
+--- /dev/null
++++ b/drivers/hid/hid-topre.c
+@@ -0,0 +1,49 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ *  HID driver for Topre REALFORCE Keyboards
++ *
++ *  Copyright (c) 2022 Harry Stern <harry@harrystern.net>
++ *
++ *  Based on the hid-macally driver
++ */
++
++#include <linux/hid.h>
++#include <linux/module.h>
++
++#include "hid-ids.h"
++
++MODULE_AUTHOR("Harry Stern <harry@harrystern.net>");
++MODULE_DESCRIPTION("REALFORCE R2 Keyboard driver");
++MODULE_LICENSE("GPL");
++
++/*
++ * Fix the REALFORCE R2's non-boot interface's report descriptor to match the
++ * events it's actually sending. It claims to send array events but is instead
++ * sending variable events.
++ */
++static __u8 *topre_report_fixup(struct hid_device *hdev, __u8 *rdesc,
++				 unsigned int *rsize)
++{
++	if (*rsize >= 119 && rdesc[69] == 0x29 && rdesc[70] == 0xe7 &&
++						 rdesc[71] == 0x81 && rdesc[72] == 0x00) {
++		hid_info(hdev,
++			"fixing up Topre REALFORCE keyboard report descriptor\n");
++		rdesc[72] = 0x02;
++	}
++	return rdesc;
++}
++
++static const struct hid_device_id topre_id_table[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
++			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_108) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, topre_id_table);
++
++static struct hid_driver topre_driver = {
++	.name			= "topre",
++	.id_table		= topre_id_table,
++	.report_fixup		= topre_report_fixup,
++};
++
++module_hid_driver(topre_driver);
+-- 
+2.37.3
+
