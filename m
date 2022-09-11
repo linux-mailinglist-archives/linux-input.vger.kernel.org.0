@@ -2,212 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3184D5B4B00
-	for <lists+linux-input@lfdr.de>; Sun, 11 Sep 2022 02:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAEC45B4B35
+	for <lists+linux-input@lfdr.de>; Sun, 11 Sep 2022 03:41:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbiIKAli (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Sep 2022 20:41:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53744 "EHLO
+        id S229778AbiIKBlL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Sep 2022 21:41:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbiIKAlh (ORCPT
+        with ESMTP id S229609AbiIKBlJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Sep 2022 20:41:37 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B5E40E02;
-        Sat, 10 Sep 2022 17:41:35 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 546C05C0094;
-        Sat, 10 Sep 2022 20:41:33 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 10 Sep 2022 20:41:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=harrystern.net;
-         h=cc:cc:content-transfer-encoding:date:date:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1662856893; x=1662943293; bh=M90mpLmhh8
-        9IpWYmWfG4M1STa7CV73N3cCiudARxij0=; b=OD8xCwHhD6z9YV4jo1RRFmD/R6
-        Kj18FjQmP7jLSMcXCo6+UrzSoJGi+oNXhxzXaQiDjLpKhG1YcpPKkslgPL1GJw5S
-        Z+q1iGb2pZgoKuAPMYhZmKYGCCsAT1vtKVD92ooYL8qx43LiNOobs37tNA3hNRTs
-        1TUcdC80h748b3Gobtlhrbgeo9/V4caXqfWcZTuKVzoV50dSIjrMH/9nJkZNJ2Ou
-        OouECl8mSfVRObeUOEEmyEWypp0lKLL2T+Juk3LJMe+vbEfmuRCLjKb/eZbvzN1J
-        ld0BGHz8/PCXQgRgfjSWDmqaguTsrFYpaNukhlQo9E6z9pY+J8MR73gZdtJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:message-id
-        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1662856893; x=1662943293; bh=M90mpLmhh89IpWYmWfG4M1STa7CV73N3cCi
-        udARxij0=; b=s+YoYuZ+wnTsHMrHWrZmu72eZDrKbpqCrW/MHOQgWH97DO4TKIq
-        iERttKEQUjEBKEKLF26zrjR/L/gQ5UuOkIIOH8Pw1XZUSjx0GBtayGr9DbRlO4xJ
-        WXRr8+oujZIGQJ6ry0cMIxnwzHOaOTCKhNpiqG1x6l962/dWGkHMMQ/Mp03hSQVq
-        1XssHg0t5Aa33cofe29e48eagTMSok0itTLch5b+wkJV/x4q6KsBQZNCAD+1jfK+
-        xmAgDiK7OKQIHvPoeS6XVF7LNe/+2KpIxvSfW/IVbJRHSbmXzvmoOOtAzF1stWeO
-        8a8YLISFaIW4IBftB7eUvqvSNyZlb+KIu+Q==
-X-ME-Sender: <xms:vS4dYyD6UAEJFH8S1x_E0evdoSQ4hYtYkXbxfw9wGt7e20KsV1ZhxA>
-    <xme:vS4dY8hbqe3Iy7sf5FTniU1yXLvVgHZYQkSU--obM_F8p9Wpn10UBMw6ScjWMxvVb
-    qrzi94oDjsG8sbTyA>
-X-ME-Received: <xmr:vS4dY1kcUl3EMw-ilSXCgYOZreNKQSR22RWTi0jdsm-i64bT2lSms81kBNb-QSXr1Sgk1an0PCRcEuYK1Yd5hvWmpCeTSRadpIcRdryQUPA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtkedgfeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegoteeftdduqddtudculdduhedm
-    necujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepjfgrrhhrhi
-    cuufhtvghrnhcuoehhrghrrhihsehhrghrrhihshhtvghrnhdrnhgvtheqnecuggftrfgr
-    thhtvghrnheplefgtdffteeigfduiefgteeugefgudeujeevueettdekhefhteevteegie
-    etgefhnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhgrrhhrhieshhgrrhhrhi
-    hsthgvrhhnrdhnvght
-X-ME-Proxy: <xmx:vS4dYwx0XRZbXkjtThdSf-5Bcw_0lYUovslrHEsuNYbqoFFFw7xalw>
-    <xmx:vS4dY3T1YBtFeZmhXGXyFBJMj7xWFeSGnETenipeVQ85ujZFPHoNqA>
-    <xmx:vS4dY7ZWpSSJTqtTiP4EpgVdFNXnPQIlfGaV7LCth5iaExOC7jXQ5Q>
-    <xmx:vS4dYxedIeJH5BEokW69YZf2lQxDwy39kEMTxkcXZwsMLe-P8eGg5Q>
-Feedback-ID: if19944f9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 10 Sep 2022 20:41:32 -0400 (EDT)
-From:   Harry Stern <harry@harrystern.net>
-Cc:     Harry Stern <harry@harrystern.net>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] hid: topre: Add driver fixing report descriptor
-Date:   Sat, 10 Sep 2022 20:36:13 -0400
-Message-Id: <20220911003614.297613-1-harry@harrystern.net>
+        Sat, 10 Sep 2022 21:41:09 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667E331341
+        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 18:41:06 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id s13so4233079qvq.10
+        for <linux-input@vger.kernel.org>; Sat, 10 Sep 2022 18:41:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=c5vcW1lBPXfKib2G8cgHNSZRBAYnHmthJtjHqJonCT0=;
+        b=LGhvldT2C8eMWAFuOEUlpXsqCQ9luO2q8VanSyu0OeUP7xaFFFPKA2Z4QAtrJzL7zF
+         5m3Q7FwGvlRPm6VTPmSo+4kw/eJs06TUSNKEuyf+LzXOvLzF6NG+rzbjldiGxZ8PCiLB
+         Kg+ibVWubXsSum7vqCjUuljT/Lrp1FcoiejLw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=c5vcW1lBPXfKib2G8cgHNSZRBAYnHmthJtjHqJonCT0=;
+        b=A0D/BoKLI0xZhacuCYoAb2Pizjvw8pm5Azx255a2vXRM+SoS9ATbI0iHbIKJFvCtIm
+         jpzO+OERtRSHOGKlqAYvGrb9YnOSapNzrCxDaOZPqvJZ/zwgn2gA/+KxrGJzC/ZyVKoY
+         cG3w1G+7MOzu/Q6i1pSHfbMqmuvPWJpPYyyNRRjQcbFt4N4kS98FpNduRebphHSlNQxe
+         yD6THW4Y9cR7RxIm1+aDiPkl5CFUHZCBzJtf6vibVrGEDb6hfyoty1hw9Im4YrfuORmo
+         Mu+XbT2btdf7c2osIkXyMp7ILRBpEo28ViygFpOhmWfx9O+pSHC0rmYe06jG6dyLJZdP
+         +CDQ==
+X-Gm-Message-State: ACgBeo1tufZv2sPsxwGUgUVWUnoGBLssJKjtrjoRpN4X9IRQ3AHm3J4U
+        fKpjL/tZ0FLVqGFR1E2kGWKpfgWh5ncSOCKfnAw=
+X-Google-Smtp-Source: AA6agR4141o6DsC4sZdZt2rHuKXxrWqLv/swTx7Gaf+Oai8/E4GxT5jZ+2ddQT95pzXmIM8Ja+dT8g==
+X-Received: by 2002:a0c:9a4c:0:b0:4a4:3ad8:3c28 with SMTP id q12-20020a0c9a4c000000b004a43ad83c28mr18314352qvd.124.1662860465543;
+        Sat, 10 Sep 2022 18:41:05 -0700 (PDT)
+Received: from localhost.localdomain ([159.65.38.31])
+        by smtp.gmail.com with ESMTPSA id q26-20020ac8451a000000b003438a8e842fsm3542973qtn.44.2022.09.10.18.41.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Sep 2022 18:41:04 -0700 (PDT)
+From:   Matt Ranostay <matt.ranostay@konsulko.com>
+To:     jic23@kernel.org, gupt21@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Matt Ranostay <matt@ranostay.org>
+Subject: [PATCH v2 0/5] HID: mcp2221: iio support and device resource management
+Date:   Sat, 10 Sep 2022 18:40:43 -0700
+Message-Id: <20220911014048.64235-1-matt.ranostay@konsulko.com>
 X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Topre REALFORCE R2 firmware incorrectly reports that interface
-descriptor number 1, input report descriptor 2's events are array events
-rather than variable events. That particular report descriptor is used
-to report keypresses when there are more than 6 keys held at a time.
-This bug prevents events from this interface from being registered
-properly, so only 6 keypresses (from a different interface) can be
-registered at once, rather than full n-key rollover.
+From: Matt Ranostay <matt@ranostay.org>
 
-This commit fixes the bug by setting the correct value in a report_fixup
-function.
+This patchset is primarily to enable iio support for the MCP2221 HID driver,
+but requires several Kconfig changes and device resource management.
 
-The original bug report can be found here:
-Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/804
+First attempt of this patchset is referenced here:
 
-Thanks to Benjamin Tissoires for diagnosing the issue with the report
-descriptor.
+Link: https://lore.kernel.org/all/20220729154723.99947-1-matt.ranostay@konsulko.com/
 
-Signed-off-by: Harry Stern <harry@harrystern.net>
----
- drivers/hid/Kconfig     |  6 +++++
- drivers/hid/Makefile    |  1 +
- drivers/hid/hid-ids.h   |  3 +++
- drivers/hid/hid-topre.c | 49 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 59 insertions(+)
- create mode 100644 drivers/hid/hid-topre.c
+Changes from v1:
+* Fixing various Kconfig recursive dependencies that appear with 'imply IIO'
+* Switch hid-mcp2221 driver to device managed resources for i2c support
+* Reworking patchset per advice on lore.kernel.org link above
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 6ce92830b..c4308d498 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1141,6 +1141,12 @@ config HID_TOPSEED
- 	Say Y if you have a TopSeed Cyberlink or BTC Emprex or Conceptronic
- 	CLLRCMCE remote control.
- 
-+config HID_TOPRE
-+	tristate "Topre REALFORCE keyboards"
-+	depends on HID
-+	help
-+	  Say Y for N-key rollover support on Topre REALFORCE R2 108 key keyboards.
-+
- config HID_THINGM
- 	tristate "ThingM blink(1) USB RGB LED"
- 	depends on HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index b0bef8098..bccaec0d7 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -123,6 +123,7 @@ obj-$(CONFIG_HID_GREENASIA)	+= hid-gaff.o
- obj-$(CONFIG_HID_THRUSTMASTER)	+= hid-tmff.o hid-thrustmaster.o
- obj-$(CONFIG_HID_TIVO)		+= hid-tivo.o
- obj-$(CONFIG_HID_TOPSEED)	+= hid-topseed.o
-+obj-$(CONFIG_HID_TOPRE)	+= hid-topre.o
- obj-$(CONFIG_HID_TWINHAN)	+= hid-twinhan.o
- obj-$(CONFIG_HID_U2FZERO)	+= hid-u2fzero.o
- hid-uclogic-objs		:= hid-uclogic-core.o \
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index f80d6193f..50bab12d9 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1231,6 +1231,9 @@
- #define USB_DEVICE_ID_TIVO_SLIDE	0x1201
- #define USB_DEVICE_ID_TIVO_SLIDE_PRO	0x1203
- 
-+#define USB_VENDOR_ID_TOPRE			0x0853
-+#define USB_DEVICE_ID_TOPRE_REALFORCE_R2_108			0x0148
-+
- #define USB_VENDOR_ID_TOPSEED		0x0766
- #define USB_DEVICE_ID_TOPSEED_CYBERLINK	0x0204
- 
-diff --git a/drivers/hid/hid-topre.c b/drivers/hid/hid-topre.c
-new file mode 100644
-index 000000000..88a91cdad
---- /dev/null
-+++ b/drivers/hid/hid-topre.c
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ *  HID driver for Topre REALFORCE Keyboards
-+ *
-+ *  Copyright (c) 2022 Harry Stern <harry@harrystern.net>
-+ *
-+ *  Based on the hid-macally driver
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/module.h>
-+
-+#include "hid-ids.h"
-+
-+MODULE_AUTHOR("Harry Stern <harry@harrystern.net>");
-+MODULE_DESCRIPTION("REALFORCE R2 Keyboard driver");
-+MODULE_LICENSE("GPL");
-+
-+/*
-+ * Fix the REALFORCE R2's non-boot interface's report descriptor to match the
-+ * events it's actually sending. It claims to send array events but is instead
-+ * sending variable events.
-+ */
-+static __u8 *topre_report_fixup(struct hid_device *hdev, __u8 *rdesc,
-+				 unsigned int *rsize)
-+{
-+	if (*rsize >= 119 && rdesc[69] == 0x29 && rdesc[70] == 0xe7 &&
-+						 rdesc[71] == 0x81 && rdesc[72] == 0x00) {
-+		hid_info(hdev,
-+			"fixing up Topre REALFORCE keyboard report descriptor\n");
-+		rdesc[72] = 0x02;
-+	}
-+	return rdesc;
-+}
-+
-+static const struct hid_device_id topre_id_table[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
-+			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_108) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, topre_id_table);
-+
-+static struct hid_driver topre_driver = {
-+	.name			= "topre",
-+	.id_table		= topre_id_table,
-+	.report_fixup		= topre_report_fixup,
-+};
-+
-+module_hid_driver(topre_driver);
+Matt Ranostay (5):
+  i2c: muxes: ltc4306: fix future recursive dependencies
+  iio: addac: stx104: fix future recursive dependencies
+  iio: dac: fix future recursive dependencies
+  HID: mcp2221: switch i2c registration to devm functions
+  HID: mcp2221: add ADC/DAC support via iio subsystem
+
+ drivers/hid/Kconfig       |   1 +
+ drivers/hid/hid-mcp2221.c | 196 ++++++++++++++++++++++++++++++++++++--
+ drivers/i2c/muxes/Kconfig |   2 +-
+ drivers/iio/addac/Kconfig |   3 +-
+ drivers/iio/dac/Kconfig   |   6 +-
+ 5 files changed, 195 insertions(+), 13 deletions(-)
+
 -- 
-2.37.3
+2.37.2
 
