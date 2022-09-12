@@ -2,65 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 488FC5B5F61
-	for <lists+linux-input@lfdr.de>; Mon, 12 Sep 2022 19:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E73285B6350
+	for <lists+linux-input@lfdr.de>; Tue, 13 Sep 2022 00:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbiILRcb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Sep 2022 13:32:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42660 "EHLO
+        id S230160AbiILWNo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Sep 2022 18:13:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229698AbiILRca (ORCPT
+        with ESMTP id S229575AbiILWNn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Sep 2022 13:32:30 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7C5286DC
-        for <linux-input@vger.kernel.org>; Mon, 12 Sep 2022 10:32:27 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id f26so4249284qto.11
-        for <linux-input@vger.kernel.org>; Mon, 12 Sep 2022 10:32:27 -0700 (PDT)
+        Mon, 12 Sep 2022 18:13:43 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8039F4D4EB
+        for <linux-input@vger.kernel.org>; Mon, 12 Sep 2022 15:13:40 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id s11so5284019ilt.7
+        for <linux-input@vger.kernel.org>; Mon, 12 Sep 2022 15:13:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=MGwVR7KMW7JJIFZssHswgB9KTK6/O+Daft2L6+TvsYk=;
-        b=pU+uazCGd57RG/H8bU5+CIs55xRlWBja4huUwXKNCCRXf252l9m6pn1Hz9oI0I6VKX
-         r7LRPOwKhpg4MshZVRA0aZnaBskbVYbO5tfZEre1KlVby4ozgUUU1x3/wuc9MDi/NFcT
-         h8xoTiZXFCz+sp0SNk9k862bYwZpN2N18OLEs=
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=WtBz2ZjAbdVsCXaJ14UBh6dPKQNQTEXbXV+WGkY+jwg=;
+        b=nfBNhUl+5qqTsJR9FKSY2gYY9fcN0IrZCSEpHl+lpRb/6P9ffCToyjYvaHnUQTneH2
+         0s6d7JIfEG3LJ2CuHlrfcg2lwaYvYAXOm+BfilrDAIFQDpaecYlgWf9V3OvQSIJ7hub2
+         bCLpWIF4W6FmS40ggFgGwjD1YL2JGLpYRqHK4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=MGwVR7KMW7JJIFZssHswgB9KTK6/O+Daft2L6+TvsYk=;
-        b=KepiJgOIWv6+HklAoGAvp9RWTbhMqGMegdmDZpccyekVI6L+Z+whyQ3+fKAQZzTw+O
-         /1bjU1oUh+qw+kvlFsqSE0g1SXNuTMI3WBOfm5HI+Nsedx7fdXKn5Rj0AfDkuQqMc9i2
-         5cScwf0uIB58BVTReC3PWinh99WVriFNvpJ+p07QqXSzFfvy6TvN49wYZbqbDPP3tDXL
-         khoziyHzigZw9hVpD4L/HmrhMSKgdZM7KswAMODWA6FDDpQhM5P4rE8k+E84vcDmBUvL
-         hamaWu+UlyOUVnxIxZzoqGl3Ctev93z0/zlfc/jFsvFL0GR3pTRl7v3PSQbB+Wtpoc9L
-         o6UQ==
-X-Gm-Message-State: ACgBeo2PZhog6bxiyVsfQZ+/xYjmN09QiM2ZvebXQeU4kB5IoMlc9snz
-        dgzhHeS2YBDskKCYtsdIvz9HYfMRIhXLxh04
-X-Google-Smtp-Source: AA6agR5nz30Bsl+4gu+YGS5kfsccHrvtsrwePGKlqUYERkUio8mi1WhI1VFvkLiFB1JV4mN4dGWoXA==
-X-Received: by 2002:ac8:5a8c:0:b0:35b:b2f7:7e96 with SMTP id c12-20020ac85a8c000000b0035bb2f77e96mr5802110qtc.659.1663003946691;
-        Mon, 12 Sep 2022 10:32:26 -0700 (PDT)
-Received: from localhost.localdomain ([159.65.38.31])
-        by smtp.gmail.com with ESMTPSA id h63-20020a376c42000000b006b8d1914504sm8289394qkc.22.2022.09.12.10.32.25
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=WtBz2ZjAbdVsCXaJ14UBh6dPKQNQTEXbXV+WGkY+jwg=;
+        b=bJj0/zDh6Phv/y4m72JRxAix7M/9/mQD8FcocbysMUqz6FlV66iVp+hekdWkMA+BNZ
+         aR5aI9Dp3an4KJ/Mu+/MP3tDE4ulsUrtz2T4kPR15GBBtW62eY1bsfBoMyM70QC7r/gt
+         YqCeYYKLDqCDUlVzzffEYI46v92l9dNCCqhTTbqfQgygvDRbIm30Mjpx+bsiKf2cxuIR
+         fUbfC7mDTAzaaNdcV6IJB/9KwKaf12l6Kc+2WgWCbBi7hlWVdh8iwLjD1u02+n5b+kiE
+         FZmEKjnEB0nhV8q2IpoGMZSrh3UCi1UAV35B7Uv6ReE/+RbLp1BOWE6ZvAPA21WOOOUT
+         tJmg==
+X-Gm-Message-State: ACgBeo2NjLLmso6e1FOs9u1wjDi7GwVUckzgdMDfUkIhAbcd49IUa4uu
+        8NbBmAI2ZZDYjpakOwAh7V1VP5QxRLb0X/E+
+X-Google-Smtp-Source: AA6agR6Mhax5MMnlQWw37OVm7KiDOL5L2o75oFtVGCDfR+WbrOVoGhj25OvXnu4kb3JI1EKMPCKW0w==
+X-Received: by 2002:a05:6e02:214b:b0:2ec:f24f:5272 with SMTP id d11-20020a056e02214b00b002ecf24f5272mr11230667ilv.169.1663020819876;
+        Mon, 12 Sep 2022 15:13:39 -0700 (PDT)
+Received: from rrangel920.bld.corp.google.com (h24-56-189-219.arvdco.broadband.dynamic.tds.net. [24.56.189.219])
+        by smtp.gmail.com with ESMTPSA id 18-20020a056e020cb200b002f16e7021f6sm4077334ilg.22.2022.09.12.15.13.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 10:32:26 -0700 (PDT)
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-To:     gupt21@gmail.com, jic23@kernel.org
-Cc:     linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-i2c@vger.kernel.org,
-        Matt Ranostay <matt.ranostay@konsulko.com>
-Subject: [PATCH v3 5/5] HID: mcp2221: add ADC/DAC support via iio subsystem
-Date:   Mon, 12 Sep 2022 10:32:02 -0700
-Message-Id: <20220912173202.16723-6-matt.ranostay@konsulko.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220912173202.16723-1-matt.ranostay@konsulko.com>
-References: <20220912173202.16723-1-matt.ranostay@konsulko.com>
+        Mon, 12 Sep 2022 15:13:38 -0700 (PDT)
+From:   Raul E Rangel <rrangel@chromium.org>
+To:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org
+Cc:     andriy.shevchenko@linux.intel.com, jingle.wu@emc.com.tw,
+        mario.limonciello@amd.com, timvp@google.com,
+        linus.walleij@linaro.org, hdegoede@redhat.com, rafael@kernel.org,
+        Raul E Rangel <rrangel@chromium.org>,
+        Alistair Francis <alistair@alistair23.me>,
+        Angela Czubak <acz@semihalf.com>,
+        Asmaa Mnebhi <asmaa@nvidia.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Bartosz Szczepanek <bsz@semihalf.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Thompson <davthompson@nvidia.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Len Brown <lenb@kernel.org>, Lu Wei <luwei32@huawei.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        Terry Bowman <terry.bowman@amd.com>,
+        Wolfram Sang <wsa@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH v2 00/13] acpi: i2c: Use SharedAndWake and ExclusiveAndWake to enable wake irq
+Date:   Mon, 12 Sep 2022 16:13:04 -0600
+Message-Id: <20220912221317.2775651-1-rrangel@chromium.org>
+X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -69,281 +93,114 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for 3x 10-bit ADC and 1x DAC channels registered via the iio
-subsystem.
 
-To prevent breakage and unexpected dependencies this support only is
-only built if CONFIG_IIO is enabled, and is only weakly referenced by
-'imply IIO' within the respective Kconfig.
+Today, i2c drivers are making the assumption that their IRQs can also
+be used as wake IRQs. This isn't always the case and it can lead to
+spurious wakes. This has recently started to affect AMD Chromebooks.
+With the introduction of
+d62bd5ce12d7 ("pinctrl: amd: Implement irq_set_wake"), the AMD GPIO
+controller gained the capability to set the wake bit on each GPIO. The
+ACPI specification defines two ways to inform the system if a device is
+wake capable:
+1) The _PRW object defines the GPE that can be used to wake the system.
+2) Setting ExclusiveAndWake or SharedAndWake in the _CRS GpioInt.
 
-Additionally the iio device only gets registered if at least one channel
-is enabled in the power-on configuration read from SRAM.
+Currently only the first method is supported. The i2c drivers don't have
+any indication that the IRQ is wake capable, so they guess. This causes
+spurious interrupts, for example:
+* We have an ACPI HID device that has `_PR0` and `_PR3`. It doesn't have
+  `_PRW` or `ExclusiveAndWake` so that means the device can't wake the
+  system.
+* The IRQ line is active level low for this device and is pulled up by
+  the power resource defined in `_PR0`/`_PR3`.
+* The i2c driver will (incorrectly) arm the GPIO for wake by calling
+  `enable_irq_wake` as part of its suspend hook.
+* ACPI will power down the device since it doesn't have a wake GPE
+  associated with it.
+* When the device is powered down, the IRQ line will drop, and it will
+  trigger a wake event.
 
-Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
----
- drivers/hid/Kconfig       |   1 +
- drivers/hid/hid-mcp2221.c | 187 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 188 insertions(+)
+See the following debug log:
+[   42.335804] PM: Suspending system (s2idle)
+[   42.340186] amd_gpio AMD0030:00: RX: Setting wake for pin 89 to enable
+[   42.467736]     power-0416 __acpi_power_off      : Power resource [PR00] turned off
+[   42.467739] device_pm-0280 device_set_power      : Device [H05D] transitioned to D3cold
+[   42.475210] PM: pm_system_irq_wakeup: 11 triggered pinctrl_amd
+[   42.535293] PM: Wakeup unrelated to ACPI SCI
+[   42.535294] PM: resume from suspend-to-idle
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 863d1f96ea57..cdae312f4795 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1228,6 +1228,7 @@ config HID_MCP2221
- 	tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
- 	depends on USB_HID && I2C
- 	depends on GPIOLIB
-+	imply IIO
- 	help
- 	Provides I2C and SMBUS host adapter functionality over USB-HID
- 	through MCP2221 device.
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index 29e69576c3d4..923b41eb76b3 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -16,6 +16,7 @@
- #include <linux/hidraw.h>
- #include <linux/i2c.h>
- #include <linux/gpio/driver.h>
-+#include <linux/iio/iio.h>
- #include "hid-ids.h"
- 
- /* Commands codes in a raw output report */
-@@ -30,6 +31,8 @@ enum {
- 	MCP2221_I2C_CANCEL = 0x10,
- 	MCP2221_GPIO_SET = 0x50,
- 	MCP2221_GPIO_GET = 0x51,
-+	MCP2221_SET_SRAM_SETTINGS = 0x60,
-+	MCP2221_GET_SRAM_SETTINGS = 0x61,
- };
- 
- /* Response codes in a raw input report */
-@@ -89,6 +92,7 @@ struct mcp2221 {
- 	struct i2c_adapter adapter;
- 	struct mutex lock;
- 	struct completion wait_in_report;
-+	struct delayed_work init_work;
- 	u8 *rxbuf;
- 	u8 txbuf[64];
- 	int rxbuf_idx;
-@@ -97,6 +101,16 @@ struct mcp2221 {
- 	struct gpio_chip *gc;
- 	u8 gp_idx;
- 	u8 gpio_dir;
-+	u8 mode[4];
-+#if IS_REACHABLE(CONFIG_IIO)
-+	struct iio_chan_spec iio_channels[3];
-+	u16 adc_values[3];
-+	u8 dac_value;
-+#endif
-+};
-+
-+struct mcp2221_iio {
-+	struct mcp2221 *mcp;
- };
- 
- /*
-@@ -745,6 +759,9 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 				break;
- 			}
- 			mcp->status = mcp_get_i2c_eng_state(mcp, data, 8);
-+#if IS_REACHABLE(CONFIG_IIO)
-+			memcpy(&mcp->adc_values, &data[50], sizeof(mcp->adc_values));
-+#endif
- 			break;
- 		default:
- 			mcp->status = -EIO;
-@@ -816,6 +833,32 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 		complete(&mcp->wait_in_report);
- 		break;
- 
-+	case MCP2221_SET_SRAM_SETTINGS:
-+		switch (data[1]) {
-+		case MCP2221_SUCCESS:
-+			mcp->status = 0;
-+			break;
-+		default:
-+			mcp->status = -EAGAIN;
-+		}
-+		complete(&mcp->wait_in_report);
-+		break;
-+
-+	case MCP2221_GET_SRAM_SETTINGS:
-+		switch (data[1]) {
-+		case MCP2221_SUCCESS:
-+			memcpy(&mcp->mode, &data[22], 4);
-+#if IS_REACHABLE(CONFIG_IIO)
-+			mcp->dac_value = data[6] & GENMASK(4, 0);
-+#endif
-+			mcp->status = 0;
-+			break;
-+		default:
-+			mcp->status = -EAGAIN;
-+		}
-+		complete(&mcp->wait_in_report);
-+		break;
-+
- 	default:
- 		mcp->status = -EIO;
- 		complete(&mcp->wait_in_report);
-@@ -824,6 +867,145 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 	return 1;
- }
- 
-+#if IS_REACHABLE(CONFIG_IIO)
-+static int mcp2221_read_raw(struct iio_dev *indio_dev,
-+			    struct iio_chan_spec const *channel, int *val,
-+			    int *val2, long mask)
-+{
-+	struct mcp2221_iio *priv = iio_priv(indio_dev);
-+	struct mcp2221 *mcp = priv->mcp;
-+	int ret;
-+
-+	mutex_lock(&mcp->lock);
-+
-+	if (channel->output) {
-+		*val = mcp->dac_value;
-+		ret = IIO_VAL_INT;
-+	} else {
-+		/* Read ADC values */
-+		ret = mcp_chk_last_cmd_status(mcp);
-+
-+		if (!ret) {
-+			*val = le16_to_cpu(mcp->adc_values[channel->address]);
-+			if (*val >= BIT(10))
-+				ret =  -EINVAL;
-+			else
-+				ret = IIO_VAL_INT;
-+		}
-+	}
-+
-+	mutex_unlock(&mcp->lock);
-+
-+	return ret;
-+}
-+
-+static int mcp2221_write_raw(struct iio_dev *indio_dev,
-+			     struct iio_chan_spec const *chan,
-+			     int val, int val2, long mask)
-+{
-+	struct mcp2221_iio *priv = iio_priv(indio_dev);
-+	struct mcp2221 *mcp = priv->mcp;
-+	int ret;
-+
-+	if (val < 0 || val >= BIT(5))
-+		return -EINVAL;
-+
-+	mutex_lock(&mcp->lock);
-+
-+	memset(mcp->txbuf, 0, 12);
-+	mcp->txbuf[0] = MCP2221_SET_SRAM_SETTINGS;
-+	mcp->txbuf[4] = BIT(7) | val;
-+
-+	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 12);
-+
-+	if (!ret)
-+		mcp->dac_value = val;
-+
-+	mutex_unlock(&mcp->lock);
-+
-+	return ret;
-+}
-+
-+static const struct iio_info mcp2221_info = {
-+	.read_raw = &mcp2221_read_raw,
-+	.write_raw = &mcp2221_write_raw,
-+};
-+
-+static int mcp_iio_channels(struct mcp2221 *mcp)
-+{
-+	int idx, cnt = 0;
-+	bool dac_created = false;
-+
-+	/* GP0 doesn't have ADC/DAC alternative function */
-+	for (idx = 1; idx < MCP_NGPIO; idx++) {
-+		struct iio_chan_spec *chan = &mcp->iio_channels[cnt];
-+
-+		switch (mcp->mode[idx]) {
-+		case 2:
-+			chan->address = idx - 1;
-+			chan->channel = cnt++;
-+			break;
-+		case 3:
-+			/* GP1 doesn't have DAC alternative function */
-+			if (idx == 1 || dac_created)
-+				continue;
-+			/* DAC1 and DAC2 outputs are connected to the same DAC */
-+			dac_created = true;
-+			chan->output = 1;
-+			cnt++;
-+			break;
-+		default:
-+			continue;
-+		};
-+
-+		chan->type = IIO_VOLTAGE;
-+		chan->indexed = 1;
-+		chan->info_mask_separate = BIT(IIO_CHAN_INFO_RAW);
-+		chan->scan_index = -1;
-+	}
-+
-+	return cnt;
-+}
-+
-+static void mcp_init_work(struct work_struct *work)
-+{
-+	struct iio_dev *indio_dev;
-+	struct mcp2221 *mcp = container_of(work, struct mcp2221, init_work.work);
-+	struct mcp2221_iio *data;
-+	int ret, num_channels;
-+
-+	hid_hw_power(mcp->hdev, PM_HINT_FULLON);
-+	mutex_lock(&mcp->lock);
-+
-+	mcp->txbuf[0] = MCP2221_GET_SRAM_SETTINGS;
-+	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
-+	mutex_unlock(&mcp->lock);
-+	hid_hw_power(mcp->hdev, PM_HINT_NORMAL);
-+
-+	if (ret)
-+		return;
-+
-+	num_channels = mcp_iio_channels(mcp);
-+	if (!num_channels)
-+		return;
-+
-+	indio_dev = devm_iio_device_alloc(&mcp->hdev->dev, sizeof(*data));
-+	if (!indio_dev)
-+		return;
-+
-+	data = iio_priv(indio_dev);
-+	data->mcp = mcp;
-+
-+	indio_dev->name = "mcp2221";
-+	indio_dev->modes = INDIO_DIRECT_MODE;
-+	indio_dev->info = &mcp2221_info;
-+	indio_dev->channels = mcp->iio_channels;
-+	indio_dev->num_channels = num_channels;
-+
-+	devm_iio_device_register(&mcp->hdev->dev, indio_dev);
-+}
-+#endif
-+
- static int mcp2221_probe(struct hid_device *hdev,
- 					const struct hid_device_id *id)
- {
-@@ -902,6 +1084,11 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	if (ret)
- 		goto err_i2c;
- 
-+#if IS_REACHABLE(CONFIG_IIO)
-+	INIT_DELAYED_WORK(&mcp->init_work, mcp_init_work);
-+	schedule_delayed_work(&mcp->init_work, msecs_to_jiffies(500));
-+#endif
-+
- 	return 0;
- 
- err_i2c:
+In order to fix this, we need to take into account the wake capable bit
+defined on the Interrupt/GpioInt. This is accomplished by:
+* Migrating some of the i2c drivers over to using the PM subsystem to
+  manage the wake IRQ.
+* Expose the wake_capable bit from the ACPI Interrupt/GpioInt resource
+  to the  i2c core.
+* Use the wake_capable bit in the i2c core to call
+  `dev_pm_set_wake_irq`. This reuses the existing device tree flow.
+* Make the i2c drivers stop calling `dev_pm_set_wake_irq` since it's now
+  handled by the i2c core.
+* Make the ACPI device PM system aware of the wake_irq. This is
+  necessary so the device doesn't incorrectly get powered down when a
+  wake_irq is enabled.
+
+I've tested this code with various combinations of having _PRW,
+ExclusiveAndWake and power resources all defined or not defined, but it
+would be great if others could test this out on their hardware.
+
+I'm sure this will surface some devices where the IRQs were not
+correctly marked as wake capable. Ideally the firmware can be fixed, but
+if not we can work around this in the kernel by providing a board
+specific `struct i2c_board_info` with the `I2C_CLIENT_WAKE` flag set.
+See `chromeos_laptop.c` for an example of matching DMI properties and
+setting the `I2C_CLIENT_WAKE` override.
+
+Thanks,
+Raul
+
+Changes in v2:
+- Added elants_i2c to series
+- Added raydium_ts_i2c to series
+- Fixed call site in mlxbf_gige_probe
+- Added ability to extract wake bit from Interrupt/IRQ resources
+- Look at wake_cabple bit for IRQ/Interrupt resources
+- I chose not to keep the legacy code around since systems without DT or ACPI should be rare.
+
+Raul E Rangel (13):
+  HID: i2c-hid: Use PM subsystem to manage wake irq
+  Input: elan_i2c - Use PM subsystem to manage wake irq
+  Input: elants_i2c - Use PM subsystem to manage wake irq
+  Input: raydium_ts_i2c - Use PM subsystem to manage wake irq
+  gpiolib: acpi: Add wake_capable parameter to acpi_dev_gpio_irq_get_by
+  ACPI: resources: Add wake_capable parameter to acpi_dev_irq_flags
+  i2c: acpi: Use ACPI wake capability bit to set wake_irq
+  ACPI: PM: Take wake IRQ into consideration when entering
+    suspend-to-idle
+  HID: i2c-hid: acpi: Stop setting wakeup_capable
+  HID: i2c-hid: Don't set wake_capable and wake_irq
+  Input: elan_i2c - Don't set wake_capable and wake_irq
+  Input: elants_i2c - Don't set wake_capable and wake_irq
+  Input: raydium_ts_i2c - Don't set wake_capable and wake_irq
+
+ drivers/acpi/device_pm.c                      | 19 +++++++++-
+ drivers/acpi/irq.c                            | 11 ++++--
+ drivers/acpi/resource.c                       | 24 ++++++++----
+ drivers/gpio/gpio-pca953x.c                   |  3 +-
+ drivers/gpio/gpiolib-acpi.c                   | 11 +++++-
+ drivers/gpio/gpiolib-acpi.h                   |  2 +
+ drivers/hid/i2c-hid/i2c-hid-acpi.c            |  5 ---
+ drivers/hid/i2c-hid/i2c-hid-core.c            | 24 ++----------
+ drivers/i2c/i2c-core-acpi.c                   | 37 ++++++++++++++-----
+ drivers/i2c/i2c-core-base.c                   |  6 ++-
+ drivers/i2c/i2c-core.h                        |  4 +-
+ drivers/input/mouse/elan_i2c_core.c           | 15 +-------
+ drivers/input/touchscreen/elants_i2c.c        | 13 +------
+ drivers/input/touchscreen/raydium_i2c_ts.c    |  7 +---
+ .../mellanox/mlxbf_gige/mlxbf_gige_main.c     |  3 +-
+ drivers/pnp/pnpacpi/rsparser.c                |  9 +++--
+ include/linux/acpi.h                          | 17 +++++++--
+ include/linux/ioport.h                        |  3 +-
+ 18 files changed, 121 insertions(+), 92 deletions(-)
+
 -- 
-2.37.2
+2.37.2.789.g6183377224-goog
 
