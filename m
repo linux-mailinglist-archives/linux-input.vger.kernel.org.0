@@ -2,117 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E74FD5B68A6
-	for <lists+linux-input@lfdr.de>; Tue, 13 Sep 2022 09:28:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCDC35B6C6B
+	for <lists+linux-input@lfdr.de>; Tue, 13 Sep 2022 13:37:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbiIMH2M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Sep 2022 03:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
+        id S231443AbiIMLhS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Sep 2022 07:37:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbiIMH2L (ORCPT
+        with ESMTP id S229782AbiIMLhR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Sep 2022 03:28:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF60F419B8;
-        Tue, 13 Sep 2022 00:28:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A6C7612E7;
-        Tue, 13 Sep 2022 07:28:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF397C433D6;
-        Tue, 13 Sep 2022 07:28:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663054089;
-        bh=V+0RnDg7bOwumzIae0Rp19hgVWwVgZ6XqH36wihmwxc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=q30vIdk1Gwn8+shFD1HDdcAMFdb8rjtsUEh+o58LBi0tqviyNhWd8fRBQxZlNYSvh
-         +3v4Hb1vxhcmKo03oMRm0jC2FCWdGGI4sROoTgrdjII2Ta/32oqjq10O23zD5NvOVq
-         0367ebmq40LDZ3msYuCoZ0S5hH/QOSkmqDvzzzX7MWbl+rm/+29CceS6vWxG/Z/6jm
-         ByY9FYlrxC/DANVo3Kw2zc8b8vPs7mAtJcni0++xoOWDyWiLjvPs6HbeYc0/8WcWBM
-         g0/3tdpoo/MVZl4rPwcXLbcwrJJsO6nS4uddUDda6k386yMUwetZ2uBVBHGsW0B+ga
-         e4Rv4f166zTPw==
-Date:   Tue, 13 Sep 2022 08:28:06 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Raul E Rangel <rrangel@chromium.org>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, jingle.wu@emc.com.tw,
-        mario.limonciello@amd.com, timvp@google.com,
-        linus.walleij@linaro.org, hdegoede@redhat.com, rafael@kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 07/13] i2c: acpi: Use ACPI wake capability bit to set
- wake_irq
-Message-ID: <YyAxBtAD2wL91quT@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Raul E Rangel <rrangel@chromium.org>, linux-acpi@vger.kernel.org,
-        linux-input@vger.kernel.org, andriy.shevchenko@linux.intel.com,
-        jingle.wu@emc.com.tw, mario.limonciello@amd.com, timvp@google.com,
-        linus.walleij@linaro.org, hdegoede@redhat.com, rafael@kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220912221317.2775651-1-rrangel@chromium.org>
- <20220912160931.v2.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
+        Tue, 13 Sep 2022 07:37:17 -0400
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E592EF24;
+        Tue, 13 Sep 2022 04:37:17 -0700 (PDT)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1225219ee46so31290376fac.2;
+        Tue, 13 Sep 2022 04:37:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=es5VviBfCfjJDWnQQDGsY0ZEFyJ8tjZ9cwVKNT5Gju0=;
+        b=zn6Kt8Vc28HpN2r/1EjSUCQF/l2NUb3mLTTaiNrmi09v4nC5Bpd/JX2CYnlhS+BDHO
+         t4AzICEcxmWm5HfsdLo7AJ6XRK8R/QiWB+d1sQkDMrEBGeUX4m8ob/vyc0QfnU/9hulK
+         VyLPdbSYnwI+hIMHBeqocZuCRbvZ/nMzabNEk0jyLvaC8UdE5boK23ezakvGxKlNQnCY
+         gAsXONO+ApUoWTOYkzIv5zMwgPZUlQS1kvFoSfYl4+0riOm3BZC1i4R5dl349qwRRdQ6
+         FVtpB158H0M9Neqa+8O+2e0MBuwFzhU6brxdPMa93dkhXEuvapUebYFS9434TfmSRRob
+         wQRw==
+X-Gm-Message-State: ACgBeo1QOu9f5P+WW0jI/KSus8y8MOGmYUGWRPZnbs4sWIuGLQF9d0Ro
+        DgY2bq4A4uYm9doBknOayg==
+X-Google-Smtp-Source: AA6agR4q6QrgVZn+8gUM1TPZY7TFs7RSJeRaKHvdLU6Mdg2YsHZyGfnx+v9KqSLvdjrJKXgGcG0znQ==
+X-Received: by 2002:a05:6808:1309:b0:344:9497:7821 with SMTP id y9-20020a056808130900b0034494977821mr1282110oiv.50.1663069036239;
+        Tue, 13 Sep 2022 04:37:16 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r19-20020a056870439300b00127d2005ea1sm7189523oah.18.2022.09.13.04.37.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 04:37:15 -0700 (PDT)
+Received: (nullmailer pid 3323511 invoked by uid 1000);
+        Tue, 13 Sep 2022 11:37:15 -0000
+Date:   Tue, 13 Sep 2022 06:37:15 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, robh+dt@kernel.org
+Subject: Re: [PATCH 03/11] dt-bindings: input: iqs7222: Correct minimum
+ slider size
+Message-ID: <20220913113715.GA3323414-robh@kernel.org>
+References: <20220908131548.48120-1-jeff@labundy.com>
+ <20220908131548.48120-4-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3UTJQ9CDOp2Ojq2j"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220912160931.v2.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220908131548.48120-4-jeff@labundy.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, 08 Sep 2022 08:15:40 -0500, Jeff LaBundy wrote:
+> The minimum slider size enforced by the driver is 1 or 16 for the
+> IQS7222C or IQS7222A, respectively.
+> 
+> Fixes: 44dc42d254bf ("dt-bindings: input: Add bindings for Azoteq IQS7222A/B/C")
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+>  Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 
---3UTJQ9CDOp2Ojq2j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Sep 12, 2022 at 04:13:11PM -0600, Raul E Rangel wrote:
-> Device tree already has a mechanism to pass the wake_irq. It does this
-> by looking for the wakeup-source property and setting the
-> I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
-> ACPI interrupt wake flag to determine if the interrupt can be used to
-> wake the system. Previously the i2c drivers had to make assumptions and
-> blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
-> If there is a device with an Active Low interrupt and the device gets
-> powered off while suspending, the interrupt line will go low since it's
-> no longer powered and wakes the system. For this reason we should
-> respect the board designers wishes and honor the wake bit defined on the
-> interrupt.
-
-I'll let the I2C ACPI maintainers deal with the technical details
-because they are the experts here, yet one minor thing hits my eye:
-
-> +		irq_ctx.irq = acpi_dev_gpio_irq_get_wake(
-> +			adev, 0, &irq_ctx.wake_capable);
-
-That line split looks weird with the open parens at the end of line 1.
-
-
---3UTJQ9CDOp2Ojq2j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMgMQYACgkQFA3kzBSg
-KbYLBQ//Uku0QuXy5XdPydAmO+biFM9Altxe0Nc4C7FbC6F9L6ekiQHwSsPcOXCp
-9YMprziLx5LQAkPzJI9dxxmmDzuYktPmtEKWidU8R5DB9M6PgRSg4wT+dKSFPrhA
-n6+qIfOVHSC6Kvi4I3rV6tFwRKFTC3nN05eB3BeLrFTKbW9S1N1yFqYYwu2Ry7gr
-BIIvJjgNeSZmuaFhYK92GGTD/2IuYNGCWdHuupBRIJxHM5ZNQv1SedLm7hfjBUvH
-WcFUrDqJSgXf+7BF+YtC3jsyjPZmPpDeOWa0xyOItm3A9s7murjTyJNePQerzrYh
-RKLiaiVVc+qhElONvHUcgJp3NqbelEMUfRJowkJXZcIhwzg/L1xQRN7kUCF+yKlZ
-wEjk0VJ11ttx7QNoAawlgH4XZDrJcZgQVckYx7qv342HTvi8xO8PX9cTVz3X0fOG
-66fXxAHJ0DkdTw7RIsQ0oB4ayTn/dpMqIu3JyF9a7O7pz3BCTA8QAkP7PXcmKH+0
-t32XHXSQQaMn1V3GK7Ox2CUbR3ORG2gccP6wWbs2ymmI4hjigEvET86ISyEiSOT9
-0mX+x839iQWeesDoCP47y7lYgAtwKXgcHSepWsW5rbwH6RGdeJck5leACyL3aFE0
-zYF6RlmJ7NahEbVZOFo6QsuFhZ5yd7HkvU1h14CuaBfYWf/n9jg=
-=xwNP
------END PGP SIGNATURE-----
-
---3UTJQ9CDOp2Ojq2j--
+Acked-by: Rob Herring <robh@kernel.org>
