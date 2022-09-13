@@ -2,114 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADEAC5B7725
-	for <lists+linux-input@lfdr.de>; Tue, 13 Sep 2022 19:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E99655B78E5
+	for <lists+linux-input@lfdr.de>; Tue, 13 Sep 2022 19:55:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232300AbiIMRBx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Sep 2022 13:01:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35506 "EHLO
+        id S231422AbiIMRzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Sep 2022 13:55:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbiIMRBK (ORCPT
+        with ESMTP id S230095AbiIMRzA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Sep 2022 13:01:10 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F67E8D3C0
-        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 08:52:05 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id k2so6460798ilu.9
-        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 08:52:04 -0700 (PDT)
+        Tue, 13 Sep 2022 13:55:00 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7CE6E0C7;
+        Tue, 13 Sep 2022 09:54:42 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id l10so12423986plb.10;
+        Tue, 13 Sep 2022 09:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date;
-        bh=CGLCtRbWwRCAf6WmqGJBYksHAfnT5oX5xIBwMzUyvqg=;
-        b=Gjb/1drlC0T1KT6qKQp+EOjvuce3jT3ddBuZmCIhUCD1JjfynIXluqq+ydAE0YYAmG
-         p+5JnSpv26BEqUDuJzeFgV+cDv+pcrHfjXDLRRItnLSsP1xlI5YcJEZJ7pEhDX8zjIh3
-         cRbSM6dRKjNE1AtZwiNsW22tXNeNU6ZbagvXk=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=tj/y2R3Cw/vtMo2CMiLLgLOFf+kwPiBNNxkBB8CDEbQ=;
+        b=Y3RK4X3XH624gow0ivIrqP3F39itnqDtSlYTamx3GD7bKVjqm6t2pdhRsdPLRc+5Kk
+         flSAsagunvM4xkaLqpriS0p+adIN/4jzO+yqzLYF6NqG8ejBDDA5wffXbC099hVwykm+
+         NjMOxSGAKwgpvE2hzucR8HIpsvC9x9m0EEXlA3dAUjsNm7Wg41WDaG5bV/VRlABs00W9
+         YXtN12sgohMiWPUkfwk1d22J/M1t8SNUH37I6lcs60lbQEJr2tfMv9ggjfWH26ZrKDcW
+         TE1vr7r9QvYfSOdVXkciMS+Eh6m+66Mmw++yqDIuT+VevfgbGe+d5cK83EaxYq/8Z7Iw
+         WFGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=CGLCtRbWwRCAf6WmqGJBYksHAfnT5oX5xIBwMzUyvqg=;
-        b=EPuwEMC00Mf3ogxuFIeVQhKUYOo5nPkFOigpj7XzKDZElRy07J9q/3Nznw8mbogBir
-         7SvzEhAbajE4RoXFvSv7fHibSb22U1MWgBGc5LzdAo6BsFDerXElRHn4rJJqLQu6nnix
-         ruNKVajN2k/dx7WChqjbuVRVQrXNMHdvzEFVg0AgLBDLpayalTpSrQPgGxZQnAu6jEq9
-         68l31dfMCaEP7Kc/KxkVjLxN+Qa70NYBHLwXtUTrHCHVaoBoMBiWQc6jfC8ViLeh2/d2
-         B0ryqR2+4hgey92paRQk00uxYxt2tOaSbVaYlrebosUlmuq97Kh6Dd+6SWp1Lbx8X5Xu
-         RFFg==
-X-Gm-Message-State: ACgBeo1mlA+x3m6j2MCWh63QoyMZKJeMlGsg+7kHCTR6pff4fH4hBoR8
-        K9AmwlEDv6BvcuYAERm2O1ApQMijIhbD1w==
-X-Google-Smtp-Source: AA6agR6YXK+2JiVJ+0O3FwRQG2IKK1+7mvCGH6jcdvdIgVLFkzMgzPrBuv+ec9IWtVkdEcDcbCxpiA==
-X-Received: by 2002:a05:6e02:1b86:b0:2f1:76ec:4b91 with SMTP id h6-20020a056e021b8600b002f176ec4b91mr13172075ili.191.1663084321698;
-        Tue, 13 Sep 2022 08:52:01 -0700 (PDT)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com. [209.85.166.174])
-        by smtp.gmail.com with ESMTPSA id t9-20020a025409000000b003566ff0eb13sm5722744jaa.34.2022.09.13.08.52.00
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Sep 2022 08:52:00 -0700 (PDT)
-Received: by mail-il1-f174.google.com with SMTP id x2so203792ill.10
-        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 08:52:00 -0700 (PDT)
-X-Received: by 2002:a05:6e02:12a8:b0:2ea:f53a:2d06 with SMTP id
- f8-20020a056e0212a800b002eaf53a2d06mr12701463ilr.223.1663084320106; Tue, 13
- Sep 2022 08:52:00 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=tj/y2R3Cw/vtMo2CMiLLgLOFf+kwPiBNNxkBB8CDEbQ=;
+        b=H7k9va9rSuXhAXlJh0xIL19qEp+mEyxJOnZFBKMVAbgsk8JjzsiKQvHrv5lA9L+G24
+         XZpY2qPVYNpxHRmIMQsi8dNZmwtEVNNai93fbNFCRTEeB3LzKQHmoi8KSyhcy+MO5811
+         N96vqPa4GJrwMU1wb/LL3sysXoRZjhi36QClHBArXocVCju0DiTSU109/L2F5xc5p9lA
+         V67J7fahEvrzvk2YKbp18CmpJ1SqcROfad1KqvNJgz9lMPYiA/m/1aWHHLDnL+ZO6OML
+         HlWtczaQksliYgi5kRHZVaWixwYzfmBOe8sZ9VibSxcAkX8FKcyk1Ce8ofBXaN9ZK9ml
+         Nf6Q==
+X-Gm-Message-State: ACrzQf1KV+WLvkvdsVN5knU8OAwRYrfguhVbqydn67KpAKxuxP4sweYk
+        7EX4a6pv71Pjbtydm+fSXvRR1RbRLinIRw==
+X-Google-Smtp-Source: AMsMyM4BPXD1Zj3M7Hp//nlTHalCsLR69ABT2cT522VWfp1BCumGEWNGMr0caRucSDDzwSLZuXhXkQ==
+X-Received: by 2002:a17:90b:180d:b0:202:7cf6:9f9b with SMTP id lw13-20020a17090b180d00b002027cf69f9bmr220475pjb.160.1663088080547;
+        Tue, 13 Sep 2022 09:54:40 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:b126:15e1:55ae:d9eb])
+        by smtp.gmail.com with ESMTPSA id md22-20020a17090b23d600b0020061f4c907sm7586448pjb.7.2022.09.13.09.54.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 09:54:40 -0700 (PDT)
+Date:   Tue, 13 Sep 2022 09:54:37 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     matthias.bgg@gmail.com, mkorpershoek@baylibre.com,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Input: mtk-pmic-keys - Add support for MT6331 PMIC
+ keys
+Message-ID: <YyC1zRlf+AUSFKnv@google.com>
+References: <20220913123941.385349-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-References: <20220912221317.2775651-1-rrangel@chromium.org>
- <20220912160931.v2.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid> <YyAxBtAD2wL91quT@shikoro>
-In-Reply-To: <YyAxBtAD2wL91quT@shikoro>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Tue, 13 Sep 2022 09:51:48 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30Dw8XvNyok-BJ=oQEROC+Z6hfK8D93YHS4v-KGZymNXZw@mail.gmail.com>
-Message-ID: <CAHQZ30Dw8XvNyok-BJ=oQEROC+Z6hfK8D93YHS4v-KGZymNXZw@mail.gmail.com>
-Subject: Re: [PATCH v2 07/13] i2c: acpi: Use ACPI wake capability bit to set wake_irq
-To:     Wolfram Sang <wsa@kernel.org>,
-        Raul E Rangel <rrangel@chromium.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
-        "Limonciello, Mario" <mario.limonciello@amd.com>,
-        Tim Van Patten <timvp@google.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220913123941.385349-1-angelogioacchino.delregno@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 1:28 AM Wolfram Sang <wsa@kernel.org> wrote:
->
-> On Mon, Sep 12, 2022 at 04:13:11PM -0600, Raul E Rangel wrote:
-> > Device tree already has a mechanism to pass the wake_irq. It does this
-> > by looking for the wakeup-source property and setting the
-> > I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
-> > ACPI interrupt wake flag to determine if the interrupt can be used to
-> > wake the system. Previously the i2c drivers had to make assumptions and
-> > blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
-> > If there is a device with an Active Low interrupt and the device gets
-> > powered off while suspending, the interrupt line will go low since it's
-> > no longer powered and wakes the system. For this reason we should
-> > respect the board designers wishes and honor the wake bit defined on the
-> > interrupt.
->
-> I'll let the I2C ACPI maintainers deal with the technical details
-> because they are the experts here, yet one minor thing hits my eye:
->
+On Tue, Sep 13, 2022 at 02:39:41PM +0200, AngeloGioacchino Del Regno wrote:
+> Add support for PMIC Keys of the MT6331 PMIC.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
-> > +             irq_ctx.irq = acpi_dev_gpio_irq_get_wake(
-> > +                     adev, 0, &irq_ctx.wake_capable);
->
-> That line split looks weird with the open parens at the end of line 1.
->
-Ah, looks like I missed `clang-format` on that line. I can fix it in
-the next revision.
+Applied, thank you. But we also need to add the compatible to the list
+in Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
 
-Thanks
+Thanks.
+
+-- 
+Dmitry
