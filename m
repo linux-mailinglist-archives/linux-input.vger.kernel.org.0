@@ -2,104 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6604C5B8557
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 11:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A5945B85F6
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 12:10:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbiINJmx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 05:42:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60080 "EHLO
+        id S229544AbiINKKU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 06:10:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231172AbiINJm2 (ORCPT
+        with ESMTP id S229622AbiINKKF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 05:42:28 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258EB32AB5;
-        Wed, 14 Sep 2022 02:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663148528; x=1694684528;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KygSRb8RNrq6ueX2RVvRzI4GlM9IvgjpZfDFHSuvf9I=;
-  b=HD2cffVnRwWgEaSEMDuD4Ok07WPghqktwKfpdnGWMsXlXK6lBYSV2ooz
-   ndYfcn0HAx72JgbvVf1zQlguPxaplgAOR8zcH5NQzHhVJRbsKH/idNg7P
-   RW1Dxl2x8yEiD/439ZZYvf/LH5BvLiGY3KsgGGSjtvJWxBFmSylltCGYe
-   C3bNZJJD6U3xHkG0JTBdoxMhS8RsWb5/Zbh422ULWzvNvVwGD1X6KetbN
-   z8p9Hfq28aCLIdNX3IVGLXY1ncRPSvbJNsQ4R/HpOXMWgisWCBwRbXf3e
-   zmwdDDv2KeOM565P2YHjDrSTotx/cYGZKohfUu6LYoCUGWuYWs1hTu4n6
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="278114977"
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="278114977"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 02:42:07 -0700
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="685251593"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 02:42:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oYOu9-0028hA-2F;
-        Wed, 14 Sep 2022 12:42:01 +0300
-Date:   Wed, 14 Sep 2022 12:42:01 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Raul Rangel <rrangel@chromium.org>
-Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
-        "Limonciello, Mario" <mario.limonciello@amd.com>,
-        Tim Van Patten <timvp@google.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 07/13] i2c: acpi: Use ACPI wake capability bit to set
- wake_irq
-Message-ID: <YyGh6Yjbb/5rkh35@smile.fi.intel.com>
-References: <20220912221317.2775651-1-rrangel@chromium.org>
- <20220912160931.v2.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
- <YyC9N62JaMGaeanf@smile.fi.intel.com>
- <CAHQZ30DAr_BwH03=bG9tfCSGW+-he-c-4PPeJMOqH28cVcKDoA@mail.gmail.com>
- <YyDNAw+ur177ayY0@smile.fi.intel.com>
- <CAHQZ30DP1asiMj7hoebQQvGqE36sBDjaFmp3ju3eUEF1PruFeg@mail.gmail.com>
+        Wed, 14 Sep 2022 06:10:05 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6971819033;
+        Wed, 14 Sep 2022 03:10:04 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id b75so9188056pfb.7;
+        Wed, 14 Sep 2022 03:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=cPFUbVusUyYaamNKcLMOcgI4YKxbnXYHUGcz80IUKLY=;
+        b=jYCUBdXOCio5vgYh8T0yWK2B3AULh1sAtJL7aA9a64J93Vh8UJHHoQf+SZ8ta++uQU
+         jnjVqUhuS+9CuzVMwbkdHnhTNMNYudPa3HYygSLizNBgPBumS5xUlmAJSUrwnkN5Dhkz
+         rHcYoBXkhDQNF3tr3ADHlaBEQ0ftS9oY3DBPXy0wf81Bb+n8CCSg1uw2XQg04C6fYsMv
+         m5UgyoEy7fmDmMI1h4YHh9YF4pPJCV1eHKWpXwhCXv51oNNotubfpOdNpMmA+Lqw1frU
+         1RsrX9+RRorUrYxBG5aF/12P60yTbM6vPmfwEQe3ULLUxs0gxgMUrbQSCn6uFpYjnnus
+         KPOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=cPFUbVusUyYaamNKcLMOcgI4YKxbnXYHUGcz80IUKLY=;
+        b=H5+0aljJgZMw0iDizjT46qhjhaux+oK0MiFmz4v+hahlvHgwpAyEfNgcSv97c3RpBt
+         BbXnSSdThFhcQHtgOfwB17WyCAS774UJKvBVtG/WTfFFFpUXzN/497D5uMhRYYUHRDYJ
+         Xt5jkTz8BtqacFWE0riW764WAmQKVbgQ4UyrUsF+Jm5FPzWShbLbGxeD92CHnym2bvpP
+         UKD4GoetzOzn9DOUyqh/BGvUr+V/3fqakJiYy7YDrR9LiuO3LJJy4CakEppi3oFCpYfz
+         tExrugt7/PDuKLB0L3GDGWO6McRwK6KL8mIIsqidcGCM3mQK/yT6o303CirJKmCgqrzp
+         ADuQ==
+X-Gm-Message-State: ACgBeo3K2vC9zG5DlFBGcgPSs43GaZ2n7RPQRqJUUqecmozm8oS5VWes
+        4PgsWXzdZuU8NFK65f2CZTkWJVMp9GpOTw==
+X-Google-Smtp-Source: AA6agR5j5eb7ea6KNgF67Quj256gbBNPWIzWcDkngE1+TbgZmBXTL1Vgj2erShl7rVyeOUKDU7L3cQ==
+X-Received: by 2002:a63:e34b:0:b0:439:77cb:bfbd with SMTP id o11-20020a63e34b000000b0043977cbbfbdmr331463pgj.309.1663150203748;
+        Wed, 14 Sep 2022 03:10:03 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:2f68:fe7:a2e6:7595])
+        by smtp.gmail.com with ESMTPSA id l22-20020a17090af8d600b002031264a864sm1300006pjd.41.2022.09.14.03.10.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 03:10:03 -0700 (PDT)
+Date:   Wed, 14 Sep 2022 03:10:00 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 06/11] Input: iqs7222 - avoid sending empty SYN_REPORT
+ events
+Message-ID: <YyGoeCEo79dXjnTV@google.com>
+References: <20220908131548.48120-1-jeff@labundy.com>
+ <20220908131548.48120-7-jeff@labundy.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHQZ30DP1asiMj7hoebQQvGqE36sBDjaFmp3ju3eUEF1PruFeg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220908131548.48120-7-jeff@labundy.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 12:56:37PM -0600, Raul Rangel wrote:
-> On Tue, Sep 13, 2022 at 12:33 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Tue, Sep 13, 2022 at 12:07:53PM -0600, Raul Rangel wrote:
-
-...
-
-> > This is similar to what of_i2c_get_board_info() does, no?
-> > Note: _get_ there.
+On Thu, Sep 08, 2022 at 08:15:43AM -0500, Jeff LaBundy wrote:
+> Add a check to prevent sending undefined events, which ultimately
+> map to SYN_REPORT.
 > 
-> `*info` is an out parameter in that case. Ideally I would have
-> `i2c_acpi_get_irq`, `acpi_dev_gpio_irq_get_wake`,
-> `platform_get_irq_optional`, and `i2c_dev_irq_from_resources` all
-> return a `struct irq_info {int irq; bool wake_capable;}`. This would
-> be a larger change though.
+> Fixes: e505edaedcb9 ("Input: add support for Azoteq IQS7222A/B/C")
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
-Seems the ACPI analogue is i2c_acpi_fill_info(). Can we do it there?
+Applied, thank you.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry
