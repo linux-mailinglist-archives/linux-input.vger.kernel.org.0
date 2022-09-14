@@ -2,265 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D675E5B8EF3
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 20:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3522A5B8F4F
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 21:40:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbiINSiM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 14:38:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48294 "EHLO
+        id S229602AbiINTko (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 15:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiINSiL (ORCPT
+        with ESMTP id S229513AbiINTkn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 14:38:11 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95B574E17;
-        Wed, 14 Sep 2022 11:38:10 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 9so18455462ljr.2;
-        Wed, 14 Sep 2022 11:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=78CnzaAPH4z89FBxFwtTHbWcXI9P3dep9t1OMRvZpng=;
-        b=AET+Preuyw0r7MANwiGVh8fhlMt2pbWqsDfNC+8RxBdroWgUIc44Ll3xSO9CYGGbau
-         iTf85uuXCQtGPW36YMAlCOtBuGRrTR6e5wuJwYSP/OU5KZ/mcQcf3lssQjdti1RRqp/T
-         7Dg/LeeVae0Eai9LMY6Jkaj94D+Z2i/pN54emEK5GlRjjIxl5YbbQHcuUS22IrrewlvK
-         o3OgATaAbaEABHeYYMHHTVg+Ar3pRUsNx48Bp8WKYMY84RtGJJdrd4wZrh21DMB00hgL
-         1T7UNa1B0zaBCiDhsa6CAAe2NxypqzBlHGzf412dArDxkzM3+tNJAR1H06OOerGoMRXN
-         H4HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=78CnzaAPH4z89FBxFwtTHbWcXI9P3dep9t1OMRvZpng=;
-        b=RvjabqnqF4nkzrmptaJoOV+OPqmLCqbCQZ2NasSEZvD3sOzYctmYmjMovTCpAhqHJ6
-         ERbhaEu09z4v9E9GGXygdtvoPsLbOu2ngW71S7kHoC7hajs4bvndmQdZtqEtFN5WgG8V
-         SZx28zfyNah9LntSM5l7hh3+OEJUCZ0lthHH+K/VvmJ72ElHWwVlNu9Nvx4/yPJQ6Za0
-         pHuyPry7fX8ucRqYfvDtWXiMl4ydqBzjEDNU9wsnvcFD0cm5mNX83j9DB6YUh1V1NnYH
-         43ZjyTxkW5cbqWBIWqNNDGfhwDAMzDAUURKM5qhWSYb7Ug/SnUzs8tEFIdr8x6p/SpIb
-         M0WQ==
-X-Gm-Message-State: ACgBeo0UCc1rcvOXgvi3H3wjUGSv3N8cYP7pK7lUaCratMeFkJiLfs2/
-        i1Y3bNAv3DPSReKrRV5Stko=
-X-Google-Smtp-Source: AA6agR5yMPw4sfc/ilrCzNJbQpRxEsraQo4n/QorEbeHZAqQQwwLjNmj8VH5v2VxywDZ9W54idfzyg==
-X-Received: by 2002:a2e:bf23:0:b0:26c:83e:b4d3 with SMTP id c35-20020a2ebf23000000b0026c083eb4d3mr4700513ljr.282.1663180688737;
-        Wed, 14 Sep 2022 11:38:08 -0700 (PDT)
-Received: from localhost.localdomain (82-209-154-112.cust.bredband2.com. [82.209.154.112])
-        by smtp.gmail.com with ESMTPSA id a6-20020a05651c010600b0026c079006bcsm2002102ljb.118.2022.09.14.11.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 11:38:07 -0700 (PDT)
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
+        Wed, 14 Sep 2022 15:40:43 -0400
+X-Greylist: delayed 398 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 14 Sep 2022 12:40:40 PDT
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B13422CC;
+        Wed, 14 Sep 2022 12:40:40 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id 53970157E;
+        Wed, 14 Sep 2022 21:34:00 +0200 (CEST)
+Authentication-Results: ext-mx-out001.mykolab.com (amavisd-new);
+        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+        header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:in-reply-to:references:from:from:subject:subject
+        :date:date:received:received:received; s=dkim20160331; t=
+        1663184039; x=1664998440; bh=QEPTuJ0CDzklXbRh4DD4or5E2pmxX6owZcy
+        baaXghQU=; b=b+JaWMp/YUOwZehRVD9vbdqwn3/GHYsaY6zjt02zcqQSOM0UfaL
+        vqXDh0WB5VitAV9QqtZRGvmi7ZehdrdgRKG3MoMKEZrw+k+TlgbAJYu8HAeAqbA9
+        eNLqTtYTbnD3xM8krhbqHImkshL9l2quFuueMMNXkjFHbFTbDUbu3U8kythMmsqG
+        hk78+iGetGDR8WT6vjWv5iqCLwLBFDpGFcnTGH3pnzH3OMbKdGtzRGd3ILZoj/FG
+        ++pxXxaa2kZX6Ofg3UD8IYuTtcZVPA65oZ6wOz5XtFLKDvQQ0QBp4HEWAHmmHGE+
+        KvEwVtGnLaBCBxMvJ9mCjF4RtwE7IQB2t2ZaR+XKmcTKl9WY2q19vwDzv+Vs2C7n
+        i1W4i+EzI7EUIUHQoTjnaKY2Ag2egSb2EeJVTArBr/byHfNeBCkq6gQ2ZuYQrjwh
+        KF/HL2N6TbEy43Az7OdN1jDO53KanSBEui9NRNgJZ7SGXTbABik7arbC5QBANSSg
+        GZE5uBXO6RPesI62/07LXvIyC4jidwkAxNTNFUUoH204RPJMDdJYZRDv9YLHYTcN
+        yg5UiQrzcNecR/oKYAnNIu4ULkEYObYbQcyR2siLbcs2UP/cMZRYZwXlch8ZMVPG
+        rLHcXpPFKImgRO13FYb9FJaxnue2Gaw79O6DqJJi+ChuKA4w4pMC9To8=
+X-Virus-Scanned: amavisd-new at mykolab.com
+X-Spam-Score: -1.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id kZJsm5l6656i; Wed, 14 Sep 2022 21:33:59 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by mx.kolabnow.com (Postfix) with ESMTPS id F3091147B;
+        Wed, 14 Sep 2022 21:33:58 +0200 (CEST)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 8992D2E98;
+        Wed, 14 Sep 2022 21:33:58 +0200 (CEST)
+Date:   Wed, 14 Sep 2022 21:33:56 +0200
+To:     Johnothan King <johnothanking@protonmail.com>
+Cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] HID: Add driver for PhoenixRC Flight Controller
-Date:   Wed, 14 Sep 2022 20:43:45 +0200
-Message-Id: <20220914184345.270456-1-marcus.folkesson@gmail.com>
-X-Mailer: git-send-email 2.37.1
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: nintendo: check analog user calibration for
+ plausibility
+From:   "Silvan Jegen" <me@sillymon.ch>
+References: <ByMO0BENaLBLEnGGrPwe37i3VDtN-VuRlSHqkdgk7Q1JHQ16bI_S1QuEtqtSdeV0XcwGMZwrAkFEGaEdXN_Z1qaN2r1cFeZnu5TyHMxszIU=@protonmail.com>
+In-Reply-To: <ByMO0BENaLBLEnGGrPwe37i3VDtN-VuRlSHqkdgk7Q1JHQ16bI_S1QuEtqtSdeV0XcwGMZwrAkFEGaEdXN_Z1qaN2r1cFeZnu5TyHMxszIU=@protonmail.com>
+Message-Id: <3DQ9AO4TGVHWM.3BGLGQY972JSD@homearch.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The PhoenixRC is a controller with 8 channels for use in flight
-simulators.
+Hi
 
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
- MAINTAINERS            |   6 +++
- drivers/hid/Kconfig    |   9 ++++
- drivers/hid/Makefile   |   1 +
- drivers/hid/hid-ids.h  |   1 +
- drivers/hid/hid-pxrc.c | 112 +++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 129 insertions(+)
- create mode 100644 drivers/hid/hid-pxrc.c
+Johnothan King <johnothanking@protonmail.com> wrote:
+> Arne Wendt writes:
+>   Cheap clone controllers may (falsely) report as having a user
+>   calibration for the analog sticks in place, but return
+>   wrong/impossible values for the actual calibration data.
+>   In the present case at mine, the controller reports having a
+>   user calibration in place and successfully executes the read
+>   commands. The reported user calibration however is
+>   min =3D center =3D max =3D 0.
+>=20
+>   This pull request addresses problems of this kind by checking the
+>   provided user calibration-data for plausibility (min < center < max)
+>   and falling back to the default values if implausible.
+>=20
+> I'll note that I was experiencing a crash because of this bug when using
+> the GuliKit KingKong 2 controller. The crash manifests as a divide by
+> zero error in the kernel logs:
+> kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
+>=20
+> Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
+> Link: https://github.com/DanielOgorchock/linux/issues/36
+> Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
+> Signed-off-by: Johnothan King <johnothanking@protonmail.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 24 ++++++++++++++++++++++--
+>  1 file changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 64379c699903..2f70b7d2b4b9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8907,6 +8907,12 @@ L:	linux-input@vger.kernel.org
- S:	Supported
- F:	drivers/hid/hid-playstation.c
- 
-+HID PHOENIX RC FLIGHT CONTROLLER
-+M:	Marcus Folkesson <marcus.folkesson@gmail.com>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/hid-pxrc.c
-+
- HID SENSOR HUB DRIVERS
- M:	Jiri Kosina <jikos@kernel.org>
- M:	Jonathan Cameron <jic23@kernel.org>
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 70da5931082f..8ca58141d5be 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -950,6 +950,15 @@ config PLAYSTATION_FF
- 	  Say Y here if you would like to enable force feedback support for
- 	  PlayStation game controllers.
- 
-+config HID_PXRC
-+       tristate "PhoenixRC HID Flight Controller"
-+       depends on HID
-+       help
-+       Support for PhoenixRC HID Flight Controller, a 8-axis flight controller.
-+
-+       To compile this driver as a module, choose M here: the
-+       module will be called hid-pxrc.
-+
- config HID_RAZER
- 	tristate "Razer non-fully HID-compliant devices"
- 	depends on HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index cac2cbe26d11..b3748b97d5b5 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -101,6 +101,7 @@ hid-picolcd-$(CONFIG_DEBUG_FS)		+= hid-picolcd_debugfs.o
- obj-$(CONFIG_HID_PLANTRONICS)	+= hid-plantronics.o
- obj-$(CONFIG_HID_PLAYSTATION)	+= hid-playstation.o
- obj-$(CONFIG_HID_PRIMAX)	+= hid-primax.o
-+obj-$(CONFIG_HID_PXRC)		+= hid-pxrc.o
- obj-$(CONFIG_HID_RAZER)	+= hid-razer.o
- obj-$(CONFIG_HID_REDRAGON)	+= hid-redragon.o
- obj-$(CONFIG_HID_RETRODE)	+= hid-retrode.o
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d9eb676abe96..30ac56cb238b 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1381,6 +1381,7 @@
- 
- #define USB_VENDOR_ID_MULTIPLE_1781	0x1781
- #define USB_DEVICE_ID_RAPHNET_4NES4SNES_OLD	0x0a9d
-+#define USB_DEVICE_ID_PHOENIXRC        0x0898
- 
- #define USB_VENDOR_ID_DRACAL_RAPHNET	0x289b
- #define USB_DEVICE_ID_RAPHNET_2NES2SNES	0x0002
-diff --git a/drivers/hid/hid-pxrc.c b/drivers/hid/hid-pxrc.c
-new file mode 100644
-index 000000000000..b0e517f9cde7
---- /dev/null
-+++ b/drivers/hid/hid-pxrc.c
-@@ -0,0 +1,112 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * HID driver for PhoenixRC 8-axis flight controller
-+ *
-+ * Copyright (C) 2022 Marcus Folkesson <marcus.folkesson@gmail.com>
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/hid.h>
-+#include <linux/module.h>
-+
-+#include "hid-ids.h"
-+
-+struct pxrc_priv {
-+	u8 slider;
-+	u8 dial;
-+	bool alternate;
-+};
-+
-+static __u8 pxrc_rdesc_fixed[] = {
-+	0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
-+	0x09, 0x04,        // Usage (Joystick)
-+	0xA1, 0x01,        // Collection (Application)
-+	0x09, 0x01,        //   Usage (Pointer)
-+	0xA1, 0x00,        //   Collection (Physical)
-+	0x09, 0x30,        //     Usage (X)
-+	0x09, 0x36,        //     Usage (Slider)
-+	0x09, 0x31,        //     Usage (Y)
-+	0x09, 0x32,        //     Usage (Z)
-+	0x09, 0x33,        //     Usage (Rx)
-+	0x09, 0x34,        //     Usage (Ry)
-+	0x09, 0x35,        //     Usage (Rz)
-+	0x09, 0x37,        //     Usage (Dial)
-+	0x15, 0x00,        //     Logical Minimum (0)
-+	0x26, 0xFF, 0x00,  //     Logical Maximum (255)
-+	0x35, 0x00,        //     Physical Minimum (0)
-+	0x46, 0xFF, 0x00,  //     Physical Maximum (255)
-+	0x75, 0x08,        //     Report Size (8)
-+	0x95, 0x08,        //     Report Count (8)
-+	0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-+	0xC0,              //   End Collection
-+	0xC0,              // End Collection
-+};
-+
-+static __u8 *pxrc_report_fixup(struct hid_device *hdev, __u8 *rdesc,
-+				unsigned int *rsize)
-+{
-+	hid_info(hdev, "fixing up PXRC report descriptor\n");
-+	*rsize = sizeof(pxrc_rdesc_fixed);
-+	return pxrc_rdesc_fixed;
-+}
-+
-+static int pxrc_raw_event(struct hid_device *hdev, struct hid_report *report,
-+	 u8 *data, int size)
-+{
-+	struct pxrc_priv *priv = hid_get_drvdata(hdev);
-+
-+	if (priv->alternate)
-+		priv->slider = data[7];
-+	else
-+		priv->dial = data[7];
-+
-+	data[1] = priv->slider;
-+	data[7] = priv->dial;
-+
-+	priv->alternate = !priv->alternate;
-+	return 0;
-+}
-+
-+static int pxrc_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret;
-+	struct pxrc_priv *priv;
-+
-+	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+	hid_set_drvdata(hdev, priv);
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "parse failed\n");
-+		return ret;
-+	}
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+	if (ret) {
-+		hid_err(hdev, "hw start failed\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct hid_device_id pxrc_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MULTIPLE_1781, USB_DEVICE_ID_PHOENIXRC) },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(hid, pxrc_devices);
-+
-+static struct hid_driver pxrc_driver = {
-+	.name = "hid-pxrc",
-+	.id_table = pxrc_devices,
-+	.report_fixup = pxrc_report_fixup,
-+	.probe = pxrc_probe,
-+	.raw_event = pxrc_raw_event,
-+};
-+module_hid_driver(pxrc_driver);
-+
-+MODULE_AUTHOR("Marcus Folkesson <marcus.folkesson@gmail.com>");
-+MODULE_DESCRIPTION("HID driver for PXRC 8-axis flight controller");
-+MODULE_LICENSE("GPL");
--- 
-2.37.1
+Reviewed-by: Silvan Jegen <s.jegen@gmail.com>
+
+I have actually hit this issue as well ...
+
+
+Cheers,
+Silvan
+
+>=20
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index 6028af3c3aae..7f287f6a75f5 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -793,7 +793,17 @@ static int joycon_request_calibration(struct joycon_=
+ctlr *ctlr)
+>  					    &ctlr->left_stick_cal_x,
+>  					    &ctlr->left_stick_cal_y,
+>  					    true);
+> -	if (ret) {
+> +
+> +	/*
+> +	 * Check whether read succeeded and perform plausibility check
+> +	 * for retrieved values.
+> +	 */
+> +	if (ret ||
+> +		ctlr->left_stick_cal_x.min >=3D ctlr->left_stick_cal_x.center ||
+> +		ctlr->left_stick_cal_x.center >=3D ctlr->left_stick_cal_x.max ||
+> +		ctlr->left_stick_cal_y.min >=3D ctlr->left_stick_cal_y.center ||
+> +		ctlr->left_stick_cal_y.center >=3D ctlr->left_stick_cal_y.max
+> +	) {
+>  		hid_warn(ctlr->hdev,
+>  			 "Failed to read left stick cal, using dflts; e=3D%d\n",
+>  			 ret);
+> @@ -812,7 +822,17 @@ static int joycon_request_calibration(struct joycon_=
+ctlr *ctlr)
+>  					    &ctlr->right_stick_cal_x,
+>  					    &ctlr->right_stick_cal_y,
+>  					    false);
+> -	if (ret) {
+> +
+> +	/*
+> +	 * Check whether read succeeded and perform plausibility check
+> +	 * for retrieved values.
+> +	 */
+> +	if (ret ||
+> +		ctlr->right_stick_cal_x.min >=3D ctlr->right_stick_cal_x.center ||
+> +		ctlr->right_stick_cal_x.center >=3D ctlr->right_stick_cal_x.max ||
+> +		ctlr->right_stick_cal_y.min >=3D ctlr->right_stick_cal_y.center ||
+> +		ctlr->right_stick_cal_y.center >=3D ctlr->right_stick_cal_y.max
+> +	) {
+>  		hid_warn(ctlr->hdev,
+>  			 "Failed to read right stick cal, using dflts; e=3D%d\n",
+>  			 ret);
+
 
