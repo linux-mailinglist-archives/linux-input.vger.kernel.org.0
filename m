@@ -2,111 +2,247 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B735B7CC9
-	for <lists+linux-input@lfdr.de>; Tue, 13 Sep 2022 23:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB7355B811B
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 07:54:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbiIMVrE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Sep 2022 17:47:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40096 "EHLO
+        id S229837AbiINFyU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 01:54:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiIMVrD (ORCPT
+        with ESMTP id S229880AbiINFyT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Sep 2022 17:47:03 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874686BD7F
-        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 14:47:01 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id g12so9458068qts.1
-        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 14:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yocom-org.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=F9e72CVH8beHMQQ9IXxSTC+b48uudP1jPeUhAvu93N4=;
-        b=MfQk8WhferHWYJ/rhpAjkQ0kVV9pSpnd1O7rpsfH2zCQm9YTtgAgd01gMBUTw7hBip
-         qd0d9kkB1MtC09R4tetkVT5xxy3hjLfKUcQJLIBglqcOh3dVnklHegKtsjMDbbeGNfB/
-         KRJmAz75996OA746t0qychUO6zmbKyuCFJMpw/UqTqOZDi81K/lRV5m81hSfs2CYhNtk
-         dSoZ8mUI1/mmxhS2PUrW84MkaIb624zaU7ZkA8zPYRavoW2gYpheJR7HwsfhjEXkI7Mp
-         YB5jtYn6SCeLoIe8K54jSKU81BVpWE2n5AcnJ09n/VOZTmTKI4rSxiOYqDUXXrmu0RRd
-         fTLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=F9e72CVH8beHMQQ9IXxSTC+b48uudP1jPeUhAvu93N4=;
-        b=U5+Xs8easr1hBYd1Ew+RCbohiU7VCeXZzSgla23lnrTDWTfWzgFtD38J4cfUOrHsM/
-         Vxt4VRbqJEDGi49ubdzrZl+3dkaphCRUAm2056UODCe2SNtFpe/o12/52bSxQOikZjq6
-         4PLLMCLk5yIfsq9JjJfogXfu8pKqeUWcmL1K1fKN624ITUVoxXg3yJ6IgAM2dXEI8+Vt
-         ellaqn/vj2Eoq4zz2Zr74BaysKfNARLrl6sACTTFo1NivXMw55zYcKraVorfLnSdAQcJ
-         raxvDZbA+Db9aQveGS/+ECM5c3PSDsvOfj2KeA7ZUlR1M7A026ollcQjFAYGHbT+6JtH
-         zXNg==
-X-Gm-Message-State: ACgBeo0rSy7tzE0VqnDuYblWm8fDNOJUl8RCaA1GPdtRThnvAe8xormP
-        4l8mto9nnYz6vswtJWLi1E6raP8lwYugqg8IZzMZlhxAq9c=
-X-Google-Smtp-Source: AA6agR75XlClAfp+/9d1/WfjZc6QSfduqs+XplBXecUZvYUkRbxx7wKY6AnjyU9P7u37HWbscJntZ7fcpzTD+r751/I=
-X-Received: by 2002:a05:622a:8e:b0:35b:acbe:cb48 with SMTP id
- o14-20020a05622a008e00b0035bacbecb48mr15207815qtw.390.1663105620672; Tue, 13
- Sep 2022 14:47:00 -0700 (PDT)
+        Wed, 14 Sep 2022 01:54:19 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B3753D01;
+        Tue, 13 Sep 2022 22:54:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663134858; x=1694670858;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g0ZDy774WTGsi9qoMGjCuWt0nAi4gxFyXs0tiK+AsLk=;
+  b=J1r0PWI0BKcp4kEbMeJ2WxI8lnwCAXFx+HHahW6IKd1EU6+RUzlJzxye
+   Lfasq7mFTLsFpbRvSIzxPRBH/04X430eOIitmUu7y3o6Q0nfWeAuJdPbB
+   N0SoYLbCnw18yhi5ftmp5Yh0HgNsNG7lqt+0eg9O9A6LWnitKsLHns0ND
+   4sRkmv7IFrFl4CJZ8Docjf/I6NmvMn7mzKjqHpcXpBDUSP8ojO5Ri5lHn
+   50r2jb1TwVXWX5hJk753HNfTY/Z1ZHALCfTQN98WoOMfwWRJqiHWEjqO2
+   b9f8hZ7HheC5AnXMtsHf1OseHOHOtjcX/wz7m/fwf8JTnYSy4s6DNQNhe
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="298342848"
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
+   d="scan'208";a="298342848"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 22:54:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
+   d="scan'208";a="649947388"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2022 22:54:15 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 28560F7; Wed, 14 Sep 2022 08:54:31 +0300 (EEST)
+Date:   Wed, 14 Sep 2022 08:54:31 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, jingle.wu@emc.com.tw,
+        mario.limonciello@amd.com, timvp@google.com,
+        linus.walleij@linaro.org, hdegoede@redhat.com, rafael@kernel.org,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 07/13] i2c: acpi: Use ACPI wake capability bit to set
+ wake_irq
+Message-ID: <YyFslxMchzntebVb@black.fi.intel.com>
+References: <20220912221317.2775651-1-rrangel@chromium.org>
+ <20220912160931.v2.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
 MIME-Version: 1.0
-References: <20220908173930.28940-1-nate@yocom.org>
-In-Reply-To: <20220908173930.28940-1-nate@yocom.org>
-From:   Nate Yocom <nate@yocom.org>
-Date:   Tue, 13 Sep 2022 14:46:49 -0700
-Message-ID: <CAF+10nJmefZ7pb38wTR3VD7LijzYati7eyTe9QZWEpK=sji9yA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/5] Input: joystick: xpad: Add X-Box Adaptive
- Controller support
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hadess@hadess.net, benjamin.tissoires@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220912160931.v2.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 08, 2022 at 10:39:25AM -0700, Nate Yocom wrote:
-> Adds support for the X-Box Adaptive Controller, which is protocol
-> compatible with the XTYPE_XBOXONE support in the driver with two deltas:
->
->  - The X-Box button sets 0x02 as its activation ID, where others set
->    0x01
->  - The controller has an additional Profile button with 4 active states,
->    which this change maps to an Axis control with 4 possible values
->
-> Patch series adds device to the supported table, adds support for the
-> Profile button, and adds support for the X-Box button as distinct
-> changes.
->
-> Signed-off-by: Nate Yocom <nate@yocom.org>
->
-> Nate Yocom (5):
->   Input: joystick: xpad: Add X-Box Adaptive support
->   Input: joystick: xpad: Add X-Box Adaptive XBox button
->   Input: joystick: xpad: Add ABS_PROFILE to uapi
->   Input: joystick: xpad: Add ABS_PROFILE to Docs
->   Input: joystick: xpad: Add X-Box Adaptive Profile button
->
->  v2: Fix warning Reported-by: kernel test robot <lkp@intel.com>
->  v3: Break into multi-part and remove VID/PID check for XBox button
->  v4: Rename Layer -> Profile as suggested by Bastien Nocera
->  v5: Add new ABS_PROFILE axis to uapi and use it for the profile button
->  v6: Add ABS_PROFILE to absolutes array and docs as requested by Dmitry
->
->  Documentation/input/event-codes.rst    |  6 ++++++
->  Documentation/input/gamepad.rst        |  6 ++++++
->  drivers/hid/hid-debug.c                |  3 ++-
->  drivers/input/joystick/xpad.c          | 15 ++++++++++++++-
->  include/uapi/linux/input-event-codes.h |  1 +
->  5 files changed, 29 insertions(+), 2 deletions(-)
->
->
-> base-commit: 26b1224903b3fb66e8aa564868d0d57648c32b15
-> --
-> 2.30.2
->
+Hi,
 
-Dmitry et al, anything else I can do to see this through?  Thanks!
+On Mon, Sep 12, 2022 at 04:13:11PM -0600, Raul E Rangel wrote:
+> Device tree already has a mechanism to pass the wake_irq. It does this
+> by looking for the wakeup-source property and setting the
+> I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
+> ACPI interrupt wake flag to determine if the interrupt can be used to
+> wake the system. Previously the i2c drivers had to make assumptions and
+> blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
+> If there is a device with an Active Low interrupt and the device gets
+> powered off while suspending, the interrupt line will go low since it's
+> no longer powered and wakes the system. For this reason we should
+> respect the board designers wishes and honor the wake bit defined on the
+> interrupt.
+> 
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> ---
+> 
+> Changes in v2:
+> - Look at wake_cabple bit for IRQ/Interrupt resources
+> 
+>  drivers/i2c/i2c-core-acpi.c | 37 ++++++++++++++++++++++++++++---------
+>  drivers/i2c/i2c-core-base.c |  6 +++++-
+>  drivers/i2c/i2c-core.h      |  4 ++--
+>  3 files changed, 35 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
+> index c762a879c4cc6b..c3d69b287df824 100644
+> --- a/drivers/i2c/i2c-core-acpi.c
+> +++ b/drivers/i2c/i2c-core-acpi.c
+> @@ -137,6 +137,11 @@ static const struct acpi_device_id i2c_acpi_ignored_device_ids[] = {
+>  	{}
+>  };
+>  
+> +struct i2c_acpi_irq_context {
+> +	int irq;
+> +	int wake_capable;
 
-- Nate
+Why not bool?
+
+Also perhaps 'wakeable'?
+
+> +};
+> +
+>  static int i2c_acpi_do_lookup(struct acpi_device *adev,
+>  			      struct i2c_acpi_lookup *lookup)
+>  {
+> @@ -170,11 +175,14 @@ static int i2c_acpi_do_lookup(struct acpi_device *adev,
+>  
+>  static int i2c_acpi_add_resource(struct acpi_resource *ares, void *data)
+>  {
+> -	int *irq = data;
+> +	struct i2c_acpi_irq_context *irq_ctx = data;
+>  	struct resource r;
+>  
+> -	if (*irq <= 0 && acpi_dev_resource_interrupt(ares, 0, &r))
+> -		*irq = i2c_dev_irq_from_resources(&r, 1);
+> +	if (irq_ctx->irq <= 0 && acpi_dev_resource_interrupt(ares, 0, &r)) {
+> +		irq_ctx->irq = i2c_dev_irq_from_resources(&r, 1);
+> +		irq_ctx->wake_capable =
+> +			r.flags & IORESOURCE_IRQ_WAKECAPABLE ? 1 : 0;
+
+Then you can just do this:
+
+		irq_ctx->wakeable = r.flags & IORESOURCE_IRQ_WAKECAPABLE;
+
+> +	}
+>  
+>  	return 1; /* No need to add resource to the list */
+>  }
+> @@ -182,31 +190,42 @@ static int i2c_acpi_add_resource(struct acpi_resource *ares, void *data)
+>  /**
+>   * i2c_acpi_get_irq - get device IRQ number from ACPI
+>   * @client: Pointer to the I2C client device
+> + * @wake_capable: Set to 1 if the IRQ is wake capable
+>   *
+>   * Find the IRQ number used by a specific client device.
+>   *
+>   * Return: The IRQ number or an error code.
+>   */
+> -int i2c_acpi_get_irq(struct i2c_client *client)
+> +int i2c_acpi_get_irq(struct i2c_client *client, int *wake_capable)
+
+bool here too
+
+>  {
+>  	struct acpi_device *adev = ACPI_COMPANION(&client->dev);
+>  	struct list_head resource_list;
+> -	int irq = -ENOENT;
+> +	struct i2c_acpi_irq_context irq_ctx = {
+> +		.irq = -ENOENT,
+> +		.wake_capable = 0,
+> +	};
+>  	int ret;
+>  
+>  	INIT_LIST_HEAD(&resource_list);
+>  
+> +	if (wake_capable)
+> +		*wake_capable = 0;
+
+I think it is better to touch this only after the function succeeds so..
+
+> +
+>  	ret = acpi_dev_get_resources(adev, &resource_list,
+> -				     i2c_acpi_add_resource, &irq);
+> +				     i2c_acpi_add_resource, &irq_ctx);
+>  	if (ret < 0)
+>  		return ret;
+>  
+>  	acpi_dev_free_resource_list(&resource_list);
+>  
+> -	if (irq == -ENOENT)
+> -		irq = acpi_dev_gpio_irq_get(adev, 0);
+> +	if (irq_ctx.irq == -ENOENT)
+> +		irq_ctx.irq = acpi_dev_gpio_irq_get_wake(
+> +			adev, 0, &irq_ctx.wake_capable);
+> +
+> +	if (wake_capable)
+> +		*wake_capable = irq_ctx.wake_capable;
+
+... here only.
+
+>  
+> -	return irq;
+> +	return irq_ctx.irq;
+>  }
+>  
+>  static int i2c_acpi_get_info(struct acpi_device *adev,
+> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> index 91007558bcb260..97315b41550213 100644
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -468,6 +468,7 @@ static int i2c_device_probe(struct device *dev)
+>  	struct i2c_client	*client = i2c_verify_client(dev);
+>  	struct i2c_driver	*driver;
+>  	int status;
+> +	int acpi_wake_capable = 0;
+
+You can declare this in the below block instead.
+
+>  
+>  	if (!client)
+>  		return 0;
+> @@ -487,7 +488,10 @@ static int i2c_device_probe(struct device *dev)
+>  			if (irq == -EINVAL || irq == -ENODATA)
+>  				irq = of_irq_get(dev->of_node, 0);
+>  		} else if (ACPI_COMPANION(dev)) {
+
+			bool wakeable;
+
+> -			irq = i2c_acpi_get_irq(client);
+> +			irq = i2c_acpi_get_irq(client, &acpi_wake_capable);
+> +
+			if (irq > 0 && wakeable)
+				client->flags |= I2C_CLIENT_WAKE;
+>  		}
+>  		if (irq == -EPROBE_DEFER) {
+>  			status = irq;
+> diff --git a/drivers/i2c/i2c-core.h b/drivers/i2c/i2c-core.h
+> index 87e2c914f1c57b..8e336638a0cd2e 100644
+> --- a/drivers/i2c/i2c-core.h
+> +++ b/drivers/i2c/i2c-core.h
+> @@ -61,11 +61,11 @@ static inline int __i2c_check_suspended(struct i2c_adapter *adap)
+>  #ifdef CONFIG_ACPI
+>  void i2c_acpi_register_devices(struct i2c_adapter *adap);
+>  
+> -int i2c_acpi_get_irq(struct i2c_client *client);
+> +int i2c_acpi_get_irq(struct i2c_client *client, int *wake_capable);
+>  #else /* CONFIG_ACPI */
+>  static inline void i2c_acpi_register_devices(struct i2c_adapter *adap) { }
+>  
+> -static inline int i2c_acpi_get_irq(struct i2c_client *client)
+> +static inline int i2c_acpi_get_irq(struct i2c_client *client, int *wake_capable)
+>  {
+>  	return 0;
+>  }
+> -- 
+> 2.37.2.789.g6183377224-goog
