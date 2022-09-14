@@ -2,46 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF7455B8228
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 09:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E0615B8299
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 10:04:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbiINHn7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 03:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42678 "EHLO
+        id S230261AbiINIEf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 04:04:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiINHn6 (ORCPT
+        with ESMTP id S230442AbiINIED (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 03:43:58 -0400
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9164F72B67
-        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 00:43:57 -0700 (PDT)
-Date:   Wed, 14 Sep 2022 07:43:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1663141433; x=1663400633;
-        bh=HppxmTtawa0nrgXshMeDsopmQeqOWidtWPtFGQHpuZY=;
-        h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID;
-        b=o5kNx5WbyZ0y8VrZOOCtDHVvRmBYC46vP+p9gAONc/8AXyQLuEbc66VXDoAezrdTl
-         cPMQRvQ6IXevWE6Qi6pD40TYLOHcchUiIY3MeCsWRJzjIlQVAKHcKr3HumlxVjzVbI
-         Rq3DEr2WrKrBP5DxkmCUvF9Kc6yoBqyxXSCdlhw+fDK1u4/xAnJJjJ1ObLKxXxiLi/
-         Hj3Lp9nWgggSZSTvnLTDQOv3pBv7clOe7OuAeeCaqsN6TwJ0+Pgx4dxZyGDKoHs1Lt
-         TzLUoWu+5i1IPYCFP3KwSnqOj1uYOx36EEFNphmOP6ucCbGucUfI3rjt/D3UjVJgdy
-         qX7a0f0KL7l4g==
-To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From:   Johnothan King <johnothanking@protonmail.com>
-Subject: [PATCH] HID: nintendo: check analog user calibration for plausibility
-Message-ID: <ByMO0BENaLBLEnGGrPwe37i3VDtN-VuRlSHqkdgk7Q1JHQ16bI_S1QuEtqtSdeV0XcwGMZwrAkFEGaEdXN_Z1qaN2r1cFeZnu5TyHMxszIU=@protonmail.com>
-Feedback-ID: 1750573:user:proton
+        Wed, 14 Sep 2022 04:04:03 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFBC872FF5;
+        Wed, 14 Sep 2022 01:03:24 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 32B096601FF1;
+        Wed, 14 Sep 2022 09:03:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1663142603;
+        bh=TITOuthHNLGkMHxvtBcpAKptZhyxFjhWVWDdbx8f6zM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=VEJzKu+ubtFGsd5IhUiXO7bzvBSuGuepfJ4V0OMjc5+D9yiuNk6wNVa7IggUl3+oo
+         gB2QLf+t4rk0uzjX+EsbOXQ4y+4LT6bgoHG9pD0B6U3cA/CZyTiT8msaXkEQX1MOhY
+         GRDDlUahzVA8IjMyIfJ7A9bfsC3Is9ABewpB2H+N5YUb3wdrfhxErNGcMnOnYSkZAM
+         JksNOSdBPHDJCBowo/wejdGYw4hUiUsQmoVhXVNNRzU2PKmO8JmwqEbFP9EMjv8kNB
+         iKGr5iaGD0Xj21Xe7dSqmjkbmEBEOET4caFSxlAUwnwvetRWqL8fUd32Frf+JgCQh+
+         Ox5rVlzYWCYXw==
+Message-ID: <69b50512-4958-8233-cd6d-4850bd5c5fcf@collabora.com>
+Date:   Wed, 14 Sep 2022 10:03:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v3] Input: mtk-pmic-keys - Add support for MT6331 PMIC
+ keys
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     matthias.bgg@gmail.com, mkorpershoek@baylibre.com,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20220913123941.385349-1-angelogioacchino.delregno@collabora.com>
+ <YyC1zRlf+AUSFKnv@google.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <YyC1zRlf+AUSFKnv@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,77 +61,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Arne Wendt writes:
-  Cheap clone controllers may (falsely) report as having a user
-  calibration for the analog sticks in place, but return
-  wrong/impossible values for the actual calibration data.
-  In the present case at mine, the controller reports having a
-  user calibration in place and successfully executes the read
-  commands. The reported user calibration however is
-  min =3D center =3D max =3D 0.
+Il 13/09/22 18:54, Dmitry Torokhov ha scritto:
+> On Tue, Sep 13, 2022 at 02:39:41PM +0200, AngeloGioacchino Del Regno wrote:
+>> Add support for PMIC Keys of the MT6331 PMIC.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> 
+> Applied, thank you. But we also need to add the compatible to the list
+> in Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
+> 
+> Thanks.
+> 
 
-  This pull request addresses problems of this kind by checking the
-  provided user calibration-data for plausibility (min < center < max)
-  and falling back to the default values if implausible.
+Right. Sending a commit for that asap.
 
-I'll note that I was experiencing a crash because of this bug when using
-the GuliKit KingKong 2 controller. The crash manifests as a divide by
-zero error in the kernel logs:
-kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
-
-Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
-Link: https://github.com/DanielOgorchock/linux/issues/36
-Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
-Signed-off-by: Johnothan King <johnothanking@protonmail.com>
----
- drivers/hid/hid-nintendo.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 6028af3c3aae..7f287f6a75f5 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -793,7 +793,17 @@ static int joycon_request_calibration(struct joycon_ct=
-lr *ctlr)
- =09=09=09=09=09    &ctlr->left_stick_cal_x,
- =09=09=09=09=09    &ctlr->left_stick_cal_y,
- =09=09=09=09=09    true);
--=09if (ret) {
-+
-+=09/*
-+=09 * Check whether read succeeded and perform plausibility check
-+=09 * for retrieved values.
-+=09 */
-+=09if (ret ||
-+=09=09ctlr->left_stick_cal_x.min >=3D ctlr->left_stick_cal_x.center ||
-+=09=09ctlr->left_stick_cal_x.center >=3D ctlr->left_stick_cal_x.max ||
-+=09=09ctlr->left_stick_cal_y.min >=3D ctlr->left_stick_cal_y.center ||
-+=09=09ctlr->left_stick_cal_y.center >=3D ctlr->left_stick_cal_y.max
-+=09) {
- =09=09hid_warn(ctlr->hdev,
- =09=09=09 "Failed to read left stick cal, using dflts; e=3D%d\n",
- =09=09=09 ret);
-@@ -812,7 +822,17 @@ static int joycon_request_calibration(struct joycon_ct=
-lr *ctlr)
- =09=09=09=09=09    &ctlr->right_stick_cal_x,
- =09=09=09=09=09    &ctlr->right_stick_cal_y,
- =09=09=09=09=09    false);
--=09if (ret) {
-+
-+=09/*
-+=09 * Check whether read succeeded and perform plausibility check
-+=09 * for retrieved values.
-+=09 */
-+=09if (ret ||
-+=09=09ctlr->right_stick_cal_x.min >=3D ctlr->right_stick_cal_x.center ||
-+=09=09ctlr->right_stick_cal_x.center >=3D ctlr->right_stick_cal_x.max ||
-+=09=09ctlr->right_stick_cal_y.min >=3D ctlr->right_stick_cal_y.center ||
-+=09=09ctlr->right_stick_cal_y.center >=3D ctlr->right_stick_cal_y.max
-+=09) {
- =09=09hid_warn(ctlr->hdev,
- =09=09=09 "Failed to read right stick cal, using dflts; e=3D%d\n",
- =09=09=09 ret);
---=20
-2.37.3
-
-
+Thank you!
+Angelo
