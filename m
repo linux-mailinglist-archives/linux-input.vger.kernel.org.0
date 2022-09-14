@@ -2,104 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BFF55B8D44
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 18:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDB865B8EA5
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 20:13:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbiINQmJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 12:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40082 "EHLO
+        id S229724AbiINSNi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 14:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiINQmI (ORCPT
+        with ESMTP id S229714AbiINSNd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 12:42:08 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 032CC5B7B8
-        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 09:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663173728; x=1694709728;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fcw4M5PjoWuIUXdDgyeZ4Ok6bjEdUa/CU95EmxYnPKA=;
-  b=VgfdMbJayND8ptwxDkmAHiGMBboUdD3rS2Kr9q5jn82n2TP19GUgXhmP
-   crUe0lyILlArP0+ocupxd9T9HL2YfyOov93fBbSZfgO2vxuV/4PQsqNTO
-   hQd4M6UV5NzRu0nN1e7KwyJWgViyMV/gYsaKyXCHlKSurzboM5J5a08lj
-   PdBZPmzS1i7ppLC0s4ZB/YLwO61wIKTloodFBrQBDJJRoKotQ6+ipla2x
-   aQ5eRopIEQzQHdgRuWl3aTZt53nXQg0cIwd59AqP3pOKGFEC1DTfGOZ4T
-   LRAKHtV40yDpvDBDD0W8O0EcSvRcLj47BCeoJikHL9vHCMcawQeSp2klI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="299838006"
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="299838006"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 09:42:07 -0700
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="647458171"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 09:42:05 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oYVSd-002ITn-0W;
-        Wed, 14 Sep 2022 19:42:03 +0300
-Date:   Wed, 14 Sep 2022 19:42:02 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [dtor-input:next 9/36]
- drivers/input/keyboard/matrix_keypad.c:419:39: error: implicit declaration
- of function 'gpiod_count'; did you mean 'of_gpio_count'?
-Message-ID: <YyIEWiEQSDFc+Qs3@smile.fi.intel.com>
-References: <202209142319.3cDIFi8V-lkp@intel.com>
+        Wed, 14 Sep 2022 14:13:33 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED39930F63;
+        Wed, 14 Sep 2022 11:13:32 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id p1-20020a17090a2d8100b0020040a3f75eso15206719pjd.4;
+        Wed, 14 Sep 2022 11:13:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=Z6XbQYQrL3hibLXcs9Qu2WQKlcrTEXAiBTewPjwbvI8=;
+        b=ZZFFOTNzRXOnjQm+TMxLNjuV0QU8eRzrmdrOZGtS1MBevBLNUOEg6BudAEsibqF+8z
+         tk0LCKUgi1WTarJREuQznibhsy7f5C/xagb3vVH5mz2duK9MhcI9nHS3gTywr5iNSVVM
+         Hf7S06uUBQRioFGdS7URdA2l/7eBi1l1fY1LtPtpYiHX9fxE7ZDl7d3L5kg42rX2dRt5
+         z8ULCWlONGQU4KxVWLLovHQvoPqk1x7aBXrSHgKFfHVkhjkDv5dF0lusXjQaB5WWyBn+
+         eZZR/WD6XzrQN1oVov7LYUeqjZAcgiA6MlOSqIIjmOK9FyuUMZUOuev/2q8XzbMh8EaA
+         PqtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=Z6XbQYQrL3hibLXcs9Qu2WQKlcrTEXAiBTewPjwbvI8=;
+        b=eCi1iJAfpJ11IJ38AETm+eO/z5FdcAIsVUSIP1AuV7JeVaZxBZd+HgfPfFhdD0iQqi
+         Iyjn/UfFpFU3OaKyxqut2S5inD0jUpl3idMUDn01rHUf1PgfTOxFzOsPhgKfgt172eN5
+         rRGbR3G7JSok66dd4xYPcrtIxoAmk5uoCcq710bSZ79gKjFDCMoxeYVfepyMpcDCtVz/
+         wo3CJ1mYf3mfl9UAIexw4xrP4euhmBz8GSI82AtPTTAGL+2jrz4X7h6MbBFkSK9+f7t9
+         EkeaTXhOVktuJXMycgtmwwR7mBueKUqVVVzlpOzy86l5p2YxG5uDxoDSBHmI7FR2IUm3
+         0YaA==
+X-Gm-Message-State: ACgBeo1LZ2DAVuOiQti0GMb3p4sl85sWQd7/xayvbhTqqQPCJRHSvv9e
+        ktliZmDcoVWiVZ5bypB1u+I=
+X-Google-Smtp-Source: AMsMyM5fZthu4Ufl4nx1rAnN7OIJ9+p6ypeQYud2S/IB/+gY/0t6HXNQkPujoybWI4VEqBpsQ136qA==
+X-Received: by 2002:a17:90a:6401:b0:200:b8ed:ca6 with SMTP id g1-20020a17090a640100b00200b8ed0ca6mr6296772pjj.0.1663179212243;
+        Wed, 14 Sep 2022 11:13:32 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:2f68:fe7:a2e6:7595])
+        by smtp.gmail.com with ESMTPSA id y5-20020a17090a2b4500b00200b866d061sm9472692pjc.30.2022.09.14.11.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 11:13:31 -0700 (PDT)
+Date:   Wed, 14 Sep 2022 11:13:27 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        matthias.bgg@gmail.com, chen.zhong@mediatek.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 0/2] MediaTek PMIC Keys - DT schema conversion
+Message-ID: <YyIZx9j6HCluvRW+@google.com>
+References: <20220914103021.43593-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202209142319.3cDIFi8V-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220914103021.43593-1-angelogioacchino.delregno@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 11:14:12PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-> head:   d56111ed58482de0045e1e1201122e6e71516945
-> commit: f8f7f47d576f7f5d44ef9237f356bd6d42002614 [9/36] Input: matrix_keypad - replace of_gpio_named_count() by gpiod_count()
-> config: microblaze-randconfig-m041-20220914 (https://download.01.org/0day-ci/archive/20220914/202209142319.3cDIFi8V-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?id=f8f7f47d576f7f5d44ef9237f356bd6d42002614
->         git remote add dtor-input https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git
->         git fetch --no-tags dtor-input next
->         git checkout f8f7f47d576f7f5d44ef9237f356bd6d42002614
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash
+On Wed, Sep 14, 2022 at 12:30:19PM +0200, AngeloGioacchino Del Regno wrote:
+> This series converts the old mtk-pmic-keys.txt binding to DT schema,
+> documents the missing support for key press/release interrupts and
+> adds a compatible for the newly introduced MT6331 keys.
 > 
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
+> Changes in v2:
+>  - Removed tests leftover interrupts/interrupt-names from examples
 > 
-> All errors (new ones prefixed by >>):
+> AngeloGioacchino Del Regno (2):
+>   dt-bindings: input: Convert mtk-pmic-keys to DT schema
+>   dt-bindings: input: mediatek,pmic-keys: Add compatible for MT6331 keys
 > 
->    drivers/input/keyboard/matrix_keypad.c: In function 'matrix_keypad_parse_dt':
-> >> drivers/input/keyboard/matrix_keypad.c:419:39: error: implicit declaration of function 'gpiod_count'; did you mean 'of_gpio_count'? [-Werror=implicit-function-declaration]
->      419 |         pdata->num_row_gpios = nrow = gpiod_count(dev, "row");
->          |                                       ^~~~~~~~~~~
->          |                                       of_gpio_count
->    cc1: some warnings being treated as errors
+>  .../bindings/input/mediatek,pmic-keys.yaml    | 114 ++++++++++++++++++
+>  .../bindings/input/mtk-pmic-keys.txt          |  46 -------
+>  2 files changed, 114 insertions(+), 46 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
 
-Heh... Seems on some architectures this needs an explicit include of linux/gpio/consumer.h.
-Dmitry, do you want me to send a fixup, or would you squash the change yourself?
+Applied the lot, thank you.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry
