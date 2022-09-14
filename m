@@ -2,125 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C05C5B8B8C
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 17:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF7755B8BC1
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 17:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbiINPP1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 11:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46622 "EHLO
+        id S229637AbiINP04 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 11:26:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbiINPP1 (ORCPT
+        with ESMTP id S230206AbiINP0w (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 11:15:27 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3EFC7C33F;
-        Wed, 14 Sep 2022 08:15:25 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id d64-20020a17090a6f4600b00202ce056566so9897344pjk.4;
-        Wed, 14 Sep 2022 08:15:25 -0700 (PDT)
+        Wed, 14 Sep 2022 11:26:52 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA307E31E
+        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 08:26:51 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id s9so8874408qkg.4
+        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 08:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=y+CEF9gRDb/EgFNm7dVs85bWtFGbC7pYw1WXkO8Kgic=;
-        b=Bx+K1Xd4JdTI+J6lOPG7z14pA2cfGrdc0T58n8zTv46xxhszlhZ9q6Y53j0XSldANR
-         9rMJuyyPaCNxRwK1xoF2z3J9wt+2GREEB3tr4KM29ZEpalyNp1lB8DGJMLq/RyKQCE7a
-         hO03wveC8kAW5iZ6QCjQS6bD7qPF/zEF+zXaOwURh6Gu0qnwbtOKsglhNOMhy266Q72g
-         aixy2IPT7rrvsBy/b89QhYNDXj+pyznynm7Tt/EsGvphPtOEY/ItfxnytpPxwTsGcfWd
-         EzIpeAtyB69xA+opVlczX7+xjYE0BSurTIITsKK/9RzscCFZLOpK1mf6nTjFkTZtIW4q
-         Y5GQ==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=8sVnRYf4lRZtHclJFM/PYgijezwVHsVwJUa/M1F9Nfw=;
+        b=aU+pRvep+sXGVRr01+jPV7M1KGeUuIOdGm/7Imgv2e35rdbyXzmARUq1pX7NbUK31d
+         P7JnZtuwOHE1Y3V+NSrCkrjcfy/IVgYVBkLzYROVFEJ2rN4QRKzlug+IhDRBgsnblfD/
+         z6gvdEo890XqggiMeBDVIPT5KAcHLF/iLDo5o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=y+CEF9gRDb/EgFNm7dVs85bWtFGbC7pYw1WXkO8Kgic=;
-        b=ilC5zeGNuyKdjYQf23ebGDYhoDBRVEfUknIHE3ftT3PfLbPXrytMPmBywwQkA0VSmP
-         uXF2zbIIlXAwpiA1F0SpcWLe2mwenUsdvUxNuYSOmntWIK1a2I3y3QvACk5PukGS2Znu
-         kk4Q+ZBLHcqoBBQtJaBZ5w2I5znyQSjzQNNfzrilP61W0iBmJdE9hcr1cazX1FOH8JPk
-         Bh2GclJGy79F5vdGZliahbe/zPVdA3YEL/2FzksgMGv764Z0/4hqWH81Bf7pa6+PqplG
-         ObaovktrC+/USVn8q/wQoAvl+bWQEbO6xJrYfS+9/iBtQ6VUZa4KkQYhsSfYVeiQIuar
-         hqzg==
-X-Gm-Message-State: ACrzQf0hZUZibedseSK2TEIAFVHAM0J/atAX6s6qzkb3sRKXTebSV+9c
-        3yA+zbmjLk1cwbJtqkPzg7DrToen9GVcwQ==
-X-Google-Smtp-Source: AMsMyM4FnQudPsz/6Ns3NbXnqQwFSaWR4bLRESzg2I2W7aK2SrNRAlR0goghAKFoeu22XXgNIu+wog==
-X-Received: by 2002:a17:90b:1c8e:b0:1f7:524f:bfcc with SMTP id oo14-20020a17090b1c8e00b001f7524fbfccmr5387467pjb.132.1663168524927;
-        Wed, 14 Sep 2022 08:15:24 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:2f68:fe7:a2e6:7595])
-        by smtp.gmail.com with ESMTPSA id 7-20020a630207000000b0042f62120c1bsm9781769pgc.17.2022.09.14.08.15.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 08:15:24 -0700 (PDT)
-Date:   Wed, 14 Sep 2022 08:15:21 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Heiko Stuebner <heiko@sntech.de>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] Input: auo-pixcir-ts - switch to using gpiod API
-Message-ID: <YyHwCSTNK2jCvJyg@google.com>
-References: <20220914141428.2201784-1-dmitry.torokhov@gmail.com>
- <20220914141428.2201784-2-dmitry.torokhov@gmail.com>
- <2115487.irdbgypaU6@phil>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=8sVnRYf4lRZtHclJFM/PYgijezwVHsVwJUa/M1F9Nfw=;
+        b=OS1f/Jc9Sdm96nNOs1Hnjx/wbggi5dqedp3vpmB0H2mUztFLd9/QD11Ki7ifLqpNyz
+         EA8GLpf+3RPV/AUl6eFs2SF5NV79ZZ/e+dJTGUVYPnbnKxxhqsXeM2VLSTwoDcr2zqEv
+         3bv+rqyp1deSYwmVhGldGvRe+thXd3JbQnHLQO1s5HeiIAiZPHtw2GDbVUA2LmGk6UgC
+         gCj4esN0sJPRlE53lW+y4GPJTl082Dyk6gHVCrKvU101BxKYEgvx0XsoopU0oHbtH4Fm
+         +s6U6QJpGkegFCtr5u4KI+Zt0ClatFdnZIUAwsbaHbwE3PYTsoHopcNRADC7YVM/pBqe
+         OkAg==
+X-Gm-Message-State: ACgBeo2NShqprvZ9xgttS9822vCi4FZkwDvvKoHIFIFkCaR65P44eff1
+        lbpesGmqFgBkj1chf1aG1iCjdqtSVi0x+w==
+X-Google-Smtp-Source: AA6agR6CyM0RS0qCkTyButesq8TnTyIH0EolyWFEb7kz8gdG9PwgtX69vkjRNqdmN188o5Uyvun9Cg==
+X-Received: by 2002:a05:620a:254f:b0:6bb:dcb6:4279 with SMTP id s15-20020a05620a254f00b006bbdcb64279mr27736361qko.79.1663169210039;
+        Wed, 14 Sep 2022 08:26:50 -0700 (PDT)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com. [209.85.222.176])
+        by smtp.gmail.com with ESMTPSA id w4-20020ac86b04000000b00343057845f7sm1728619qts.20.2022.09.14.08.26.49
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Sep 2022 08:26:49 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id g2so8295889qkk.1
+        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 08:26:49 -0700 (PDT)
+X-Received: by 2002:a02:9509:0:b0:349:b6cb:9745 with SMTP id
+ y9-20020a029509000000b00349b6cb9745mr18869971jah.281.1663168880396; Wed, 14
+ Sep 2022 08:21:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2115487.irdbgypaU6@phil>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220912221317.2775651-1-rrangel@chromium.org>
+ <20220912160931.v2.5.I4ff95ba7e884a486d7814ee888bf864be2ebdef4@changeid> <YyFs5q67RYR2aAy7@black.fi.intel.com>
+In-Reply-To: <YyFs5q67RYR2aAy7@black.fi.intel.com>
+From:   Raul Rangel <rrangel@chromium.org>
+Date:   Wed, 14 Sep 2022 09:21:08 -0600
+X-Gmail-Original-Message-ID: <CAHQZ30CU2-YtOfGYXJq3c=-1ttyw=hKZvViOfWGAKkxXO1C5Gw@mail.gmail.com>
+Message-ID: <CAHQZ30CU2-YtOfGYXJq3c=-1ttyw=hKZvViOfWGAKkxXO1C5Gw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/13] gpiolib: acpi: Add wake_capable parameter to acpi_dev_gpio_irq_get_by
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        "Limonciello, Mario" <mario.limonciello@amd.com>,
+        Tim Van Patten <timvp@google.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Asmaa Mnebhi <asmaa@nvidia.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Thompson <davthompson@nvidia.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Len Brown <lenb@kernel.org>,
+        Lu Wei <luwei32@huawei.com>, Paolo Abeni <pabeni@redhat.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 05:04:14PM +0200, Heiko Stuebner wrote:
-> Am Mittwoch, 14. September 2022, 16:14:25 CEST schrieb Dmitry Torokhov:
-> > This switches the driver to gpiod API and drops uses of of_get_gpio() API.
-> > 
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > ---
-> >  drivers/input/touchscreen/auo-pixcir-ts.c | 47 ++++++++++-------------
-> >  1 file changed, 20 insertions(+), 27 deletions(-)
-> 
-> [...]
-> 
-> > @@ -578,23 +566,28 @@ static int auo_pixcir_probe(struct i2c_client *client,
-> >  
-> >  	input_set_drvdata(ts->input, ts);
-> >  
-> > -	error = devm_gpio_request_one(&client->dev, ts->gpio_int,
-> > -				      GPIOF_DIR_IN, "auo_pixcir_ts_int");
-> > +	ts->gpio_int = devm_gpiod_get_index(&client->dev, NULL, 0, GPIOD_IN);
-> > +	error = PTR_ERR_OR_ZERO(ts->gpio_int);
-> >  	if (error) {
-> > -		dev_err(&client->dev, "request of gpio %d failed, %d\n",
-> > -			ts->gpio_int, error);
-> > +		dev_err(&client->dev,
-> > +			"request of int gpio failed: %d\n", error);
-> >  		return error;
-> >  	}
-> >  
-> > -	error = devm_gpio_request_one(&client->dev, ts->gpio_rst,
-> > -				      GPIOF_DIR_OUT | GPIOF_INIT_HIGH,
-> > -				      "auo_pixcir_ts_rst");
-> > +	gpiod_set_consumer_name(ts->gpio_int, "auo_pixcir_ts_int");
-> > +
-> > +	/* Take the chip out of reset */
-> > +	ts->gpio_rst = devm_gpiod_get_index(&client->dev, NULL, 1,
-> > +					    GPIOD_OUT_LOW);
-> 
-> hmm, is this really equivalent? It looks like above we're startig
-> with GPIOF_INIT_HIGH, while here it is LOW?
+On Tue, Sep 13, 2022 at 11:55 PM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> Hi,
+>
+> On Mon, Sep 12, 2022 at 04:13:09PM -0600, Raul E Rangel wrote:
+> > +int acpi_dev_gpio_irq_get_by(struct acpi_device *adev, const char *name,
+> > +                          int index, int *wake_capable)
+>
+> Here too bool.
 
-Yes, I believe the behavior will not change. You need to remember that
-legacy gpio API operates on raw line states, whereas gpiod API is
-normally logical state that gets converted to raw state (and the
-conversion takes into account the polarity).
-
-Here we are dealing with ACTIVE_LOW gpio, so setting it into logical
-"low" (== inactive) means that the raw state is "high", as it was with
-gpio_request_oneio_request_one(...GPIOF_DIR_OUT | GPIOF_INIT_HIGH, ...);
-
-Thanks.
-
--- 
-Dmitry
+I've incorporated both of your suggestions. I instead added
+`acpi_dev_gpio_irq_wake_get_by` as the basic function and left
+`acpi_dev_gpio_irq_get_by` the same. THis way I don't have to update
+any of the callers.
