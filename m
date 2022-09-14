@@ -2,160 +2,265 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3522A5B8F4F
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 21:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FAE55B8FC0
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 22:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbiINTko (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 15:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
+        id S229824AbiINUtc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 16:49:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiINTkn (ORCPT
+        with ESMTP id S229784AbiINUt3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 15:40:43 -0400
-X-Greylist: delayed 398 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 14 Sep 2022 12:40:40 PDT
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B13422CC;
-        Wed, 14 Sep 2022 12:40:40 -0700 (PDT)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 53970157E;
-        Wed, 14 Sep 2022 21:34:00 +0200 (CEST)
-Authentication-Results: ext-mx-out001.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :message-id:in-reply-to:references:from:from:subject:subject
-        :date:date:received:received:received; s=dkim20160331; t=
-        1663184039; x=1664998440; bh=QEPTuJ0CDzklXbRh4DD4or5E2pmxX6owZcy
-        baaXghQU=; b=b+JaWMp/YUOwZehRVD9vbdqwn3/GHYsaY6zjt02zcqQSOM0UfaL
-        vqXDh0WB5VitAV9QqtZRGvmi7ZehdrdgRKG3MoMKEZrw+k+TlgbAJYu8HAeAqbA9
-        eNLqTtYTbnD3xM8krhbqHImkshL9l2quFuueMMNXkjFHbFTbDUbu3U8kythMmsqG
-        hk78+iGetGDR8WT6vjWv5iqCLwLBFDpGFcnTGH3pnzH3OMbKdGtzRGd3ILZoj/FG
-        ++pxXxaa2kZX6Ofg3UD8IYuTtcZVPA65oZ6wOz5XtFLKDvQQ0QBp4HEWAHmmHGE+
-        KvEwVtGnLaBCBxMvJ9mCjF4RtwE7IQB2t2ZaR+XKmcTKl9WY2q19vwDzv+Vs2C7n
-        i1W4i+EzI7EUIUHQoTjnaKY2Ag2egSb2EeJVTArBr/byHfNeBCkq6gQ2ZuYQrjwh
-        KF/HL2N6TbEy43Az7OdN1jDO53KanSBEui9NRNgJZ7SGXTbABik7arbC5QBANSSg
-        GZE5uBXO6RPesI62/07LXvIyC4jidwkAxNTNFUUoH204RPJMDdJYZRDv9YLHYTcN
-        yg5UiQrzcNecR/oKYAnNIu4ULkEYObYbQcyR2siLbcs2UP/cMZRYZwXlch8ZMVPG
-        rLHcXpPFKImgRO13FYb9FJaxnue2Gaw79O6DqJJi+ChuKA4w4pMC9To8=
-X-Virus-Scanned: amavisd-new at mykolab.com
-X-Spam-Score: -1.899
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id kZJsm5l6656i; Wed, 14 Sep 2022 21:33:59 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by mx.kolabnow.com (Postfix) with ESMTPS id F3091147B;
-        Wed, 14 Sep 2022 21:33:58 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 8992D2E98;
-        Wed, 14 Sep 2022 21:33:58 +0200 (CEST)
-Date:   Wed, 14 Sep 2022 21:33:56 +0200
-To:     Johnothan King <johnothanking@protonmail.com>
-Cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] HID: nintendo: check analog user calibration for
- plausibility
-From:   "Silvan Jegen" <me@sillymon.ch>
-References: <ByMO0BENaLBLEnGGrPwe37i3VDtN-VuRlSHqkdgk7Q1JHQ16bI_S1QuEtqtSdeV0XcwGMZwrAkFEGaEdXN_Z1qaN2r1cFeZnu5TyHMxszIU=@protonmail.com>
-In-Reply-To: <ByMO0BENaLBLEnGGrPwe37i3VDtN-VuRlSHqkdgk7Q1JHQ16bI_S1QuEtqtSdeV0XcwGMZwrAkFEGaEdXN_Z1qaN2r1cFeZnu5TyHMxszIU=@protonmail.com>
-Message-Id: <3DQ9AO4TGVHWM.3BGLGQY972JSD@homearch.localdomain>
+        Wed, 14 Sep 2022 16:49:29 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8C86C752
+        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 13:49:25 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id m16so8655149ilg.3
+        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 13:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=3mV+8hivhbbPWMIU69Q7PYVjXSPqTMHW70DKIKwtAgA=;
+        b=l5Bp25Iv500wTd6MmHDbFfof87eWDydEutYpcO6vnWH8bh4KiA7+t6qY9YzAe/2zKu
+         ztvdRBLFtT0pzCeqRzMTVLopOkPSh+mx/6XPVHMVMg0hky/xGCw+M07cE2PxZ+jwSP96
+         /jeCq/dBPMvP5MkxmOttK9uWOTz2ir17r51Ig=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=3mV+8hivhbbPWMIU69Q7PYVjXSPqTMHW70DKIKwtAgA=;
+        b=RsU6TsXmaVyjiEd9fdv3RegT3EVWd0Ond5U29A6u9wohCRHuRVJX1wFc+YpMXPuS+i
+         FYqELDRT53LC518pTs412d/6+fPWyGRdISsuA4ZaWl/6ioa6OMoI8qllXRDkbC+nDka8
+         cbKH8C2EoIPtxO6L0Q8//3drdnl0LbkKdFAS77h9joN2Xx9cUmZZMy5Dr6lQ5g5CAYAa
+         3dPfmjz2bXqhwRDLZtYPXGuuv3xSSeNeAF0gBqd1b8zrUOKZM5ahWNpfIhTuPQlEu05S
+         uVrov5vaNwvJ8MkqfxLUfv0bZ2GgJigHO2AE2nUOuLHYrsOmbPMRVqhuTmGBOUX2sdEA
+         C0aw==
+X-Gm-Message-State: ACgBeo2d3Ui3jAf8cgMcWKs35HuJX4KbwoPzWCEBjZV2/+4yHlusIcD2
+        7d6YChEsh/gdQxG4TBl98eLVDA==
+X-Google-Smtp-Source: AA6agR4WPOHQL+6SLMBIOnBeUsFgw9xlYC62YmwWEJJrmUVgv5NXlXdb8y/LyJtcHmrCr6IBjRk62w==
+X-Received: by 2002:a92:dcc7:0:b0:2f1:6fd6:4e61 with SMTP id b7-20020a92dcc7000000b002f16fd64e61mr15287521ilr.89.1663188565142;
+        Wed, 14 Sep 2022 13:49:25 -0700 (PDT)
+Received: from google.com (h24-56-189-219.arvdco.broadband.dynamic.tds.net. [24.56.189.219])
+        by smtp.gmail.com with ESMTPSA id s2-20020a02cc82000000b00349ba0d1137sm130424jap.24.2022.09.14.13.49.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 13:49:24 -0700 (PDT)
+Date:   Wed, 14 Sep 2022 14:49:22 -0600
+From:   Raul E Rangel <rrangel@chromium.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        jingle.wu@emc.com.tw, mario.limonciello@amd.com, timvp@google.com,
+        linus.walleij@linaro.org, hdegoede@redhat.com, rafael@kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Len Brown <lenb@kernel.org>,
+        Terry Bowman <terry.bowman@amd.com>,
+        Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 06/13] ACPI: resources: Add wake_capable parameter to
+ acpi_dev_irq_flags
+Message-ID: <YyI+Un/1O36Zkuko@google.com>
+References: <20220912221317.2775651-1-rrangel@chromium.org>
+ <20220912160931.v2.6.I8092e417a8152475d13d8d638eb4c5d8ea12ac7b@changeid>
+ <YyC8C+ZH57xHYLQd@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YyC8C+ZH57xHYLQd@smile.fi.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+On Tue, Sep 13, 2022 at 08:21:15PM +0300, Andy Shevchenko wrote:
+> On Mon, Sep 12, 2022 at 04:13:10PM -0600, Raul E Rangel wrote:
+> > ACPI IRQ/Interrupt resources contain a bit that describes if the
+> > interrupt should wake the system. This change exposes that bit via
+> > a new IORESOURCE_IRQ_WAKECAPABLE flag. Drivers should check this flag
+> > before arming an IRQ to wake the system.
+> 
+> ...
+> 
+> >  static inline void acpi_irq_parse_one_match(struct fwnode_handle *fwnode,
+> >  					    u32 hwirq, u8 triggering,
+> >  					    u8 polarity, u8 shareable,
+> > +					    u8 wake_capable,
+> >  					    struct acpi_irq_parse_one_ctx *ctx)
+> 
+> This function is used only in scope of a single C-file. Why instead not
+> converting it to use some internal structure and acpi_irq_parse_one_cb()
+> becomes like:
+> 
+> 	struct internal_struct s;
+> 
+>         switch (ares->type) {
+> 	case ACPI_RESOURCE_TYPE_IRQ:
+> 		...fill internal_struct...
+> 		break;
+> 	case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
+> 		...fill internal_struct...
+> 		break;
+> 	default:
+> 		return AE_OK;
+> 
+> 	acpi_irq_parse_one_match(&s);
+> 	return AE_CTRL_TERMINATE;
+> 
+> ?
+> 
+> ...
+> 
+> > +			acpi_dev_get_irqresource(res,
+> > +						 ext_irq->interrupts[index],
+> > +						 ext_irq->triggering,
+> > +						 ext_irq->polarity,
+> > +						 ext_irq->shareable,
+> > +						 ext_irq->wake_capable, false);
+> 
+> Ditto.
+> 
+> Actually it can be shared structure for these too.
+> 
 
-Johnothan King <johnothanking@protonmail.com> wrote:
-> Arne Wendt writes:
->   Cheap clone controllers may (falsely) report as having a user
->   calibration for the analog sticks in place, but return
->   wrong/impossible values for the actual calibration data.
->   In the present case at mine, the controller reports having a
->   user calibration in place and successfully executes the read
->   commands. The reported user calibration however is
->   min =3D center =3D max =3D 0.
->=20
->   This pull request addresses problems of this kind by checking the
->   provided user calibration-data for plausibility (min < center < max)
->   and falling back to the default values if implausible.
->=20
-> I'll note that I was experiencing a crash because of this bug when using
-> the GuliKit KingKong 2 controller. The crash manifests as a divide by
-> zero error in the kernel logs:
-> kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
->=20
-> Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
-> Link: https://github.com/DanielOgorchock/linux/issues/36
-> Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
-> Signed-off-by: Johnothan King <johnothanking@protonmail.com>
-> ---
->  drivers/hid/hid-nintendo.c | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
+I tried your suggestion, but I honestly think it hurts readability. It's
+also a little scary because the compiler doesn't guarantee all the
+members of the struct are filled out, unlike having the explicit
+parameters. Here is the patch:
 
-Reviewed-by: Silvan Jegen <s.jegen@gmail.com>
-
-I have actually hit this issue as well ...
-
-
-Cheers,
-Silvan
-
->=20
-> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> index 6028af3c3aae..7f287f6a75f5 100644
-> --- a/drivers/hid/hid-nintendo.c
-> +++ b/drivers/hid/hid-nintendo.c
-> @@ -793,7 +793,17 @@ static int joycon_request_calibration(struct joycon_=
-ctlr *ctlr)
->  					    &ctlr->left_stick_cal_x,
->  					    &ctlr->left_stick_cal_y,
->  					    true);
-> -	if (ret) {
-> +
-> +	/*
-> +	 * Check whether read succeeded and perform plausibility check
-> +	 * for retrieved values.
-> +	 */
-> +	if (ret ||
-> +		ctlr->left_stick_cal_x.min >=3D ctlr->left_stick_cal_x.center ||
-> +		ctlr->left_stick_cal_x.center >=3D ctlr->left_stick_cal_x.max ||
-> +		ctlr->left_stick_cal_y.min >=3D ctlr->left_stick_cal_y.center ||
-> +		ctlr->left_stick_cal_y.center >=3D ctlr->left_stick_cal_y.max
-> +	) {
->  		hid_warn(ctlr->hdev,
->  			 "Failed to read left stick cal, using dflts; e=3D%d\n",
->  			 ret);
-> @@ -812,7 +822,17 @@ static int joycon_request_calibration(struct joycon_=
-ctlr *ctlr)
->  					    &ctlr->right_stick_cal_x,
->  					    &ctlr->right_stick_cal_y,
->  					    false);
-> -	if (ret) {
-> +
-> +	/*
-> +	 * Check whether read succeeded and perform plausibility check
-> +	 * for retrieved values.
-> +	 */
-> +	if (ret ||
-> +		ctlr->right_stick_cal_x.min >=3D ctlr->right_stick_cal_x.center ||
-> +		ctlr->right_stick_cal_x.center >=3D ctlr->right_stick_cal_x.max ||
-> +		ctlr->right_stick_cal_y.min >=3D ctlr->right_stick_cal_y.center ||
-> +		ctlr->right_stick_cal_y.center >=3D ctlr->right_stick_cal_y.max
-> +	) {
->  		hid_warn(ctlr->hdev,
->  			 "Failed to read right stick cal, using dflts; e=3D%d\n",
->  			 ret);
-
+diff --git a/drivers/acpi/irq.c b/drivers/acpi/irq.c
+index 5483cf9a28e3a0..8549ccefa5d03c 100644
+--- a/drivers/acpi/irq.c
++++ b/drivers/acpi/irq.c
+@@ -139,35 +139,37 @@ struct acpi_irq_parse_one_ctx {
+ 	struct irq_fwspec *fwspec;
+ };
+ 
++struct acpi_irq_parse_one_match_params {
++	struct fwnode_handle *fwnode;
++	u32 hwirq;
++	u8 triggering;
++	u8 polarity;
++	u8 shareable;
++	u8 wake_capable;
++}
++
+ /**
+- * acpi_irq_parse_one_match - Handle a matching IRQ resource.
+- * @fwnode: matching fwnode
+- * @hwirq: hardware IRQ number
+- * @triggering: triggering attributes of hwirq
+- * @polarity: polarity attributes of hwirq
+- * @polarity: polarity attributes of hwirq
+- * @shareable: shareable attributes of hwirq
+- * @wake_capable: wake capable attribute of hwirq
++ * acpi_irq_parse_update_ctx - Handle a matching IRQ resource.
++ * @params: IRQ parameters
+  * @ctx: acpi_irq_parse_one_ctx updated by this function
+  *
+  * Description:
+- * Handle a matching IRQ resource by populating the given ctx with
+- * the information passed.
++ * Update the given ctx with the IRQ information passed.
+  */
+-static inline void acpi_irq_parse_one_match(struct fwnode_handle *fwnode,
+-					    u32 hwirq, u8 triggering,
+-					    u8 polarity, u8 shareable,
+-					    u8 wake_capable,
+-					    struct acpi_irq_parse_one_ctx *ctx)
++static inline void
++acpi_irq_parse_update_ctx(const struct parse_one_match *params,
++			  struct acpi_irq_parse_one_ctx *ctx)
+ {
+-	if (!fwnode)
++	if (!params->fwnode)
+ 		return;
+ 	ctx->rc = 0;
+-	*ctx->res_flags = acpi_dev_irq_flags(triggering, polarity, shareable,
+-					     wake_capable);
+-	ctx->fwspec->fwnode = fwnode;
+-	ctx->fwspec->param[0] = hwirq;
+-	ctx->fwspec->param[1] = acpi_dev_get_irq_type(triggering, polarity);
++	*ctx->res_flags =
++		acpi_dev_irq_flags(params->triggering, params->polarity,
++				   params->shareable, params->wake_capable);
++	ctx->fwspec->fwnode = params->fwnode;
++	ctx->fwspec->param[0] = params->hwirq;
++	ctx->fwspec->param[1] =
++		acpi_dev_get_irq_type(params->triggering, params->polarity);
+ 	ctx->fwspec->param_count = 2;
+ }
+ 
+@@ -182,7 +184,7 @@ static inline void acpi_irq_parse_one_match(struct fwnode_handle *fwnode,
+  * might contain multiple interrupts we check if the index is within this
+  * one's interrupt array, otherwise we subtract the current resource IRQ
+  * count from the lookup index to prepare for the next resource.
+- * Once a match is found we call acpi_irq_parse_one_match to populate
++ * Once a match is found we call acpi_irq_parse_update_ctx to populate
+  * the result and end the walk by returning AE_CTRL_TERMINATE.
+  *
+  * Return:
+@@ -195,7 +197,7 @@ static acpi_status acpi_irq_parse_one_cb(struct acpi_resource *ares,
+ 	struct acpi_irq_parse_one_ctx *ctx = context;
+ 	struct acpi_resource_irq *irq;
+ 	struct acpi_resource_extended_irq *eirq;
+-	struct fwnode_handle *fwnode;
++	struct acpi_irq_parse_one_match_params params = {0};
+ 
+ 	switch (ares->type) {
+ 	case ACPI_RESOURCE_TYPE_IRQ:
+@@ -204,11 +206,13 @@ static acpi_status acpi_irq_parse_one_cb(struct acpi_resource *ares,
+ 			ctx->index -= irq->interrupt_count;
+ 			return AE_OK;
+ 		}
+-		fwnode = acpi_get_gsi_domain_id(irq->interrupts[ctx->index]);
+-		acpi_irq_parse_one_match(fwnode, irq->interrupts[ctx->index],
+-					 irq->triggering, irq->polarity,
+-					 irq->shareable, irq->wake_capable,
+-					 ctx);
++		params.fwnode =
++			acpi_get_gsi_domain_id(irq->interrupts[ctx->index]);
++		params.hwirq = irq->interrupts[ctx->index];
++		params.triggering = irq->triggering;
++		params.polarity = irq->polarity;
++		params.shareable = irq->shareable;
++		params.wake_capable = irq->wake_capable;
+ 		return AE_CTRL_TERMINATE;
+ 	case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
+ 		eirq = &ares->data.extended_irq;
+@@ -218,16 +222,22 @@ static acpi_status acpi_irq_parse_one_cb(struct acpi_resource *ares,
+ 			ctx->index -= eirq->interrupt_count;
+ 			return AE_OK;
+ 		}
+-		fwnode = acpi_get_irq_source_fwhandle(&eirq->resource_source,
+-						      eirq->interrupts[ctx->index]);
+-		acpi_irq_parse_one_match(fwnode, eirq->interrupts[ctx->index],
+-					 eirq->triggering, eirq->polarity,
+-					 eirq->shareable, eirq->wake_capable,
+-					 ctx);
+-		return AE_CTRL_TERMINATE;
++		params.fwnode = acpi_get_irq_source_fwhandle(
++			&eirq->resource_source, eirq->interrupts[ctx->index]);
++		params.hwirq = eirq->interrupts[ctx->index];
++		params.triggering = eirq->triggering;
++		params.polarity = eirq->polarity;
++		params.shareable = eirq->shareable;
++		params.wake_capable = eirq->wake_capable;
++
++	default:
++		return AE_OK;
+ 	}
+ 
+-	return AE_OK;
++	acpi_irq_parse_update_ctx(&params, ctx);
++
++	return AE_CTRL_TERMINATE;
++
+ }
+ 
+ /**
 
