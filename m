@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 263645B8625
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 12:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 847FA5B8664
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 12:30:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiINKVT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 06:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48388 "EHLO
+        id S229884AbiINKah (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 06:30:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbiINKVR (ORCPT
+        with ESMTP id S229774AbiINKah (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 06:21:17 -0400
+        Wed, 14 Sep 2022 06:30:37 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6835F79EFB;
-        Wed, 14 Sep 2022 03:21:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 274D57B1DB;
+        Wed, 14 Sep 2022 03:30:36 -0700 (PDT)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C9212660201C;
-        Wed, 14 Sep 2022 11:21:13 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 542386601FAD;
+        Wed, 14 Sep 2022 11:30:34 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1663150874;
-        bh=+t+eS5uIq7be1EAHToZiBnClNaJKjeBU4Ul3SPxFOAg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=U8xUsm4llePZLK4+gmK9cVOZa6u5GdXx0q9y+xXYW7TEL8roG9249T7pQ7JKw/dth
-         aYI8FMx0mzU7dXn9er5jfyxsuef0HFjgEtRGAUqHLevq5MiAuiZt5tOSpvqqeuSOra
-         WLTuT2GAY6ngDengo2Ru4/uNr6jLALaTEGp3jIVxWZ51v7poOribtsURx90/5vJ/oo
-         125VMs0ilxUxlVkgiP9RcxCHTg+bSBsfwvqD08rsbzWo+VLiJIHarnd05rFIGZ6ZKd
-         ffp3ezY7Q/bWgTstgtFYwSh8f7+PmlxJqXkG2qNOvYfyfmeXu4G5OrwEylbYvC0tZ+
-         mrTGQLAUHdz1w==
+        s=mail; t=1663151434;
+        bh=JeaIcKOvl1wCsTf8RWNpKTL2k0i/vhElw9DGJuWnWB8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GJgaqKXVMCcyQl1PHfEDZG+HdO0Cy9Ce2T6XkfNE/R2T5xNg7AWPX4FEm/X7xL0MI
+         yizc4tdi5AnE76uneoh1TJjAXImUxpcP5bSq9GeZcf2z3fCL//zOzi6vRv3AJUvJyT
+         pi+xhAe5Hmr4oII4wKNgaxhOyHqqo/f6IiP9zVUQ4vKn/UbvQ86yOpk9ot7iSeIYdc
+         Tt/KiLxvjrxybZwankLAYo/RD4KNehFgaa4WxD7tcP7YY6iJpo3eDblqjnm0Piuq9j
+         cJdsE7XcXGoVVq3JjF2dmF6EI0MEx8MOynH92XbPjQyT3eBM/OUmtoccCP42u5wCLZ
+         1bhynkmiZ2jDw==
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
 To:     krzysztof.kozlowski+dt@linaro.org
@@ -42,12 +42,10 @@ Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
         linux-mediatek@lists.infradead.org,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 2/2] dt-bindings: input: mediatek,pmic-keys: Add compatible for MT6331 keys
-Date:   Wed, 14 Sep 2022 12:20:59 +0200
-Message-Id: <20220914102059.41757-3-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 0/2] MediaTek PMIC Keys - DT schema conversion
+Date:   Wed, 14 Sep 2022 12:30:19 +0200
+Message-Id: <20220914103021.43593-1-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220914102059.41757-1-angelogioacchino.delregno@collabora.com>
-References: <20220914102059.41757-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -59,25 +57,23 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a compatible for the keys found on MT6331 PMIC.
+This series converts the old mtk-pmic-keys.txt binding to DT schema,
+documents the missing support for key press/release interrupts and
+adds a compatible for the newly introduced MT6331 keys.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v2:
+ - Removed tests leftover interrupts/interrupt-names from examples
 
-diff --git a/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml b/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
-index e33fdca50b16..358d027e3e81 100644
---- a/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
-@@ -25,6 +25,7 @@ properties:
-   compatible:
-     enum:
-       - mediatek,mt6323-keys
-+      - mediatek,mt6331-keys
-       - mediatek,mt6358-keys
-       - mediatek,mt6397-keys
- 
+AngeloGioacchino Del Regno (2):
+  dt-bindings: input: Convert mtk-pmic-keys to DT schema
+  dt-bindings: input: mediatek,pmic-keys: Add compatible for MT6331 keys
+
+ .../bindings/input/mediatek,pmic-keys.yaml    | 114 ++++++++++++++++++
+ .../bindings/input/mtk-pmic-keys.txt          |  46 -------
+ 2 files changed, 114 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
+
 -- 
 2.37.2
 
