@@ -2,104 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D6A45B8C64
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 18:03:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB6D55B8CFA
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 18:28:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229852AbiINQDP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 12:03:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33302 "EHLO
+        id S230043AbiINQ2X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 12:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229875AbiINQDL (ORCPT
+        with ESMTP id S229528AbiINQ2F (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 12:03:11 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB11B6A490
-        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 09:03:09 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id bo13so9938375wrb.1
-        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 09:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date;
-        bh=aqzQjvp4t41Jz7jUGp3ZAp2nDn4twAnuhFEkrXjTvyg=;
-        b=bv4jcSOrYQdmAw5tIXiM4fFo8rXknewxV2tDaI3ZCqDkGeXZhaQ/HJVrJnoNRahM/S
-         BhS5tlXvmz5H/+q8hnohv03K4JeHvPGtooXP2ebNjn83UkN2Rzn6bqDYFbSmzO40hUjj
-         Bwu4AHdUIdPh8CMnpsGPBS0ejYA7KPdGonfD7O+S7+cV2lR1Ezal47i8MjdhVqiBqwzN
-         fsHNnnbtqX08piKeLsl0LrodwLEmVvJTyK2EfUmON0jVJQeFL0ky1kHOTkJUH4ZXr8dB
-         eedJ95XKJSZWAk8MTUCo6MEXswJb8IKj0lPbUzgy+3gzc3uaF4PZpcZTzUV6Ml+HFY02
-         6mXA==
+        Wed, 14 Sep 2022 12:28:05 -0400
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D01E844F4;
+        Wed, 14 Sep 2022 09:27:26 -0700 (PDT)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1225219ee46so42432499fac.2;
+        Wed, 14 Sep 2022 09:27:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=aqzQjvp4t41Jz7jUGp3ZAp2nDn4twAnuhFEkrXjTvyg=;
-        b=DRFe+Z2yhkzsXf7/Z1omXvnFJ7PZ9pQY/VHt1/hgMAHyArm35G4hijozAoWdh7sm2P
-         TSQ/FvlZ2rALB7TCHI+CxtHXlnG191wwXdhYB93BWrszAzw3M5c4K92BkK6saFukB1WN
-         Y8HD5Ez5kLg+KJnEr8pF1/A9K8bplFBiduj+P835ihAWv4ncJD/SFMjAMC+w5xFBR9ho
-         Ud4IpkKGpubGhisLsmu9Ydw1Jta5/3rgEhMw2GAVYuNmKB7c1J1bYMPDDIj+55urqJgI
-         gj7q0913ManpVRtsTyWn5ODWBckLz8odQU1j45j5w2PWXmngSKabMCvfXeMHDWiek/iv
-         khUw==
-X-Gm-Message-State: ACgBeo2ZvPxybXD0p6I3aBMF12iEbSZPLW5qt2sIO8ZywGnzsJyA053u
-        AV0K0vpDOLvs3WOER4JuBnGTmg==
-X-Google-Smtp-Source: AA6agR4lKuES9242SuLhAy9XPb7I73BC3tyhkmK9vHGMmgkz0UiKbcrDvRouOntt44xvARa+AAMRKw==
-X-Received: by 2002:a05:6000:16ce:b0:228:62e0:37a6 with SMTP id h14-20020a05600016ce00b0022862e037a6mr21764430wrf.563.1663171388351;
-        Wed, 14 Sep 2022 09:03:08 -0700 (PDT)
-Received: from localhost ([185.122.133.20])
-        by smtp.gmail.com with ESMTPSA id v8-20020a05600c12c800b003a844885f88sm16585749wmd.22.2022.09.14.09.03.07
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=zZD8tJ7NCtrHJsbCaNSP87Y3qe7OynbxFKCss/jxB3I=;
+        b=bLDYu1JGbEvYJN7uMWfR1S0F9M66PQD3EL094y77Gs2LGAeM28pvRPEKVSzeCfjkvA
+         YlIizg67ks5xulJq2zWSxRT05VMuflKI4KSYmb1KXyK0jLF4nSUjZLKKzb4Jew1libA8
+         hDy5X+jAD50eUoLx80G4N0DZbwHGMcGDm/FkB10+snerpKeh2IaW5x0B2CpT1/pCOOGl
+         +wisL5b3ak8iVW0BlOIJNpITi8P1K9t+7CRFtAd69HeIWoHfqNlsduP9s2tPaunFMTfp
+         Vk3OQCSNL23znCqg9+aKrHPeBUqJMp8wmYzIkasdZ9WTbP5ZaC3gAHetucCYa8UItJWt
+         gAJA==
+X-Gm-Message-State: ACgBeo25sYwWWC0mWGi4vsqW00RJzJW/fPHiZqV9y328GNbd/WAB5kka
+        74k8fvqQvwxGtqLl53BuJA==
+X-Google-Smtp-Source: AA6agR508A59RRasBqGG0pg5H5/FqMmo9DiIAClotXDA1a4zQTOyhkP1kMxVLkm7CrmxQf7x66/I2A==
+X-Received: by 2002:a05:6870:34d:b0:127:cb87:a169 with SMTP id n13-20020a056870034d00b00127cb87a169mr2787895oaf.87.1663172845636;
+        Wed, 14 Sep 2022 09:27:25 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id g9-20020a056830160900b00655d9ea896bsm5587940otr.47.2022.09.14.09.27.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 09:03:07 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+        Wed, 14 Sep 2022 09:27:25 -0700 (PDT)
+Received: (nullmailer pid 2501100 invoked by uid 1000);
+        Wed, 14 Sep 2022 16:27:24 -0000
+Date:   Wed, 14 Sep 2022 11:27:24 -0500
+From:   Rob Herring <robh@kernel.org>
 To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        matthias.bgg@gmail.com, chen.zhong@mediatek.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: input: mediatek,pmic-keys: Add
- compatible for MT6331 keys
-In-Reply-To: <20220914103021.43593-3-angelogioacchino.delregno@collabora.com>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        chen.zhong@mediatek.com, robh+dt@kernel.org,
+        linux-kernel@vger.kernel.org, matthias.bgg@gmail.com,
+        linux-arm-kernel@lists.infradead.org,
+        krzysztof.kozlowski+dt@linaro.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: Convert mtk-pmic-keys to DT
+ schema
+Message-ID: <20220914162724.GA2500989-robh@kernel.org>
 References: <20220914103021.43593-1-angelogioacchino.delregno@collabora.com>
- <20220914103021.43593-3-angelogioacchino.delregno@collabora.com>
-Date:   Wed, 14 Sep 2022 17:03:07 +0100
-Message-ID: <87illqt03o.fsf@baylibre.com>
+ <20220914103021.43593-2-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220914103021.43593-2-angelogioacchino.delregno@collabora.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 12:30, AngeloGioacchino Del Regno         <angelogioacchino.delregno@collabora.com> wrote:
-
-> Add a compatible for the keys found on MT6331 PMIC.
->
+On Wed, 14 Sep 2022 12:30:20 +0200, AngeloGioacchino Del Regno wrote:
+> Convert the mtk-pmic-keys to DT schema format.
+> 
+> The old binding was missing documentation for key press/release
+> interrupts, even though it was supported in hardware and driver,
+> so support for the same was added during the conversion.
+> 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
 > ---
->  Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml b/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
-> index 9d8a0c3aebca..2f72ec418415 100644
-> --- a/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
-> +++ b/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
-> @@ -25,6 +25,7 @@ properties:
->    compatible:
->      enum:
->        - mediatek,mt6323-keys
-> +      - mediatek,mt6331-keys
->        - mediatek,mt6358-keys
->        - mediatek,mt6397-keys
->  
-> -- 
-> 2.37.2
+>  .../bindings/input/mediatek,pmic-keys.yaml    | 113 ++++++++++++++++++
+>  .../bindings/input/mtk-pmic-keys.txt          |  46 -------
+>  2 files changed, 113 insertions(+), 46 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
