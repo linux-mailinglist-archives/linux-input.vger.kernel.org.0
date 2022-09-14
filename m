@@ -2,60 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0688D5B8184
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 08:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D953C5B8199
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 08:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229909AbiINGdu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 02:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49680 "EHLO
+        id S229484AbiINGqR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 02:46:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiINGdt (ORCPT
+        with ESMTP id S230062AbiINGqP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 02:33:49 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 555666171F
-        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 23:33:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663137228; x=1694673228;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/s880EnXBpKY6wOVYWsR6auE0YdYjh5L2AxeLKodp4U=;
-  b=UnfiQeP75Nart6jslg1RcE43nxZoVOQAZY6UHkw9fMBvYX1+Yex95H9n
-   VnAQ80SdZlRghcnvErsqyGYP7Pxtk1vW0u4aGff4cRjLrADRxAtJl5z1F
-   CFW2U+j63YD0i+L5qNBVFJ+lZLyeT0xOLjr4Ome6//9UzNeMn6C0BhBSE
-   mHSTP8w4q/okzj8jy3tuq+1omVn0jvUoxCY7yUk6WBZpFiQFqcYBBMTEb
-   fJwYQfJo+ZUeEMmz8InQ8M/Niev0j3MEsd3eclc84jaSUgc7peCjUu+3G
-   3eXVXxaVNN8Jqd9YNuYUrWbV3LT9U081EXB3SVFU1HGiv0rJPLa2/GwfT
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="278079265"
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
-   d="scan'208";a="278079265"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 23:33:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
-   d="scan'208";a="567889480"
-Received: from lkp-server01.sh.intel.com (HELO f00d1ee8958c) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2022 23:33:46 -0700
-Received: from kbuild by f00d1ee8958c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oYLxx-00002o-30;
-        Wed, 14 Sep 2022 06:33:45 +0000
-Date:   Wed, 14 Sep 2022 14:33:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:gpio-test] BUILD SUCCESS
- 584572bcd1aab71a159c7156b92d03d927eaa423
-Message-ID: <632175b1.2FW8OwndfmFkYSJw%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 14 Sep 2022 02:46:15 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 810D7647E1
+        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 23:46:14 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id e16so24110475wrx.7
+        for <linux-input@vger.kernel.org>; Tue, 13 Sep 2022 23:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=ImmVW0/zlsxHuw+mi1Y/IEzHEHB3es0bsHMSoWAgL4k=;
+        b=u+lq0otXn+KFbHR11SKSKZ+asxqc1H4lSrT/Aw6f7w3zGwHYtEcttBGlS3k8gKusPG
+         CbAJlMmhtPy1LkGly9A9yChqyYDjJW7gM4oBWv3nDjPFnQHa/Kp8rgF53AAr3yxlQWd5
+         Qm4Ps0L9LvLibt7KC7weO7oGIwK+NPyXTKaI+3RlkXNGKXTrQt0FQlKYUz2HBojG+r9B
+         c7epBJr25jHh+OXIfSVGIBw2hxbLjLEfVVDzityV4J5ck0ywrGpKOehQZpkkwm40jOgL
+         q6U+WQpjIvrtpwE2Gqxei7ZILJsEtOcgd6qUVfZQvbCufQBQ84wc4wn4Gs5pz2OJ6EU+
+         pCmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=ImmVW0/zlsxHuw+mi1Y/IEzHEHB3es0bsHMSoWAgL4k=;
+        b=b6IUbNd5QOSSNwPjlYDu6nixdUFFGsPz8U1EVBM8WZhxPnt1TlRDT9JDIIwTO3O043
+         eE53M67yJ+auZ7vI1LCG0sFYeeHI7aGjFzd3NbogXmohJRzBzZ7t+UipWcIBGIix2IUr
+         uhuYKbzvvy0ZMj/3VNJZEArx7XXRfIAuWj3nFAk3vlRPB1ETi9E28VizZ6jdTAja9OGy
+         CM8UN3tnf7N8uDSgvmpthm8AioTIncmDTHuTBVI+01otKuKqGAEE9GjPjhVvrCWvdxhy
+         cO10/SfgBpUr4yhHPUEWukbJvr59Wa0u97XAQw7YiyEmjC93PHCmSO3o8go1Q0JkW1yM
+         wB8w==
+X-Gm-Message-State: ACgBeo0ABKsXp9mWhtvp1ugy+EuAQcBgeHyg+415eXfqnBQQ3iYngsGq
+        uJxldDWFtZtH9bg4M3j5LzcEfQ==
+X-Google-Smtp-Source: AA6agR4+sQtyB4wK6jRKjx2OlMzlixZ167jBff5k7cF+FUTrqgsIco8SvtKudY3At2GX0GTDOP0o3Q==
+X-Received: by 2002:a05:6000:1861:b0:22a:bb41:886d with SMTP id d1-20020a056000186100b0022abb41886dmr5011968wri.661.1663137973060;
+        Tue, 13 Sep 2022 23:46:13 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id t16-20020adfe110000000b00229b76f872asm14930035wrz.27.2022.09.13.23.46.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 23:46:11 -0700 (PDT)
+Date:   Wed, 14 Sep 2022 07:46:04 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jerome Neanne <jneanne@baylibre.com>
+Cc:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
+        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, tony@atomide.com, afd@ti.com,
+        khilman@baylibre.com, narmstrong@baylibre.com, msp@baylibre.com,
+        j-keerthy@ti.com, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
+        Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v5 4/6] mfd: tps65219: Add driver for TI TPS65219 PMIC
+Message-ID: <YyF4rDbR/lwblAVt@google.com>
+References: <20220913121419.15420-1-jneanne@baylibre.com>
+ <20220913121419.15420-5-jneanne@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Disposition: inline
+In-Reply-To: <20220913121419.15420-5-jneanne@baylibre.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,79 +78,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git gpio-test
-branch HEAD: 584572bcd1aab71a159c7156b92d03d927eaa423  media: i2c: s5k6a3: switch to using gpiod API
+On Tue, 13 Sep 2022, Jerome Neanne wrote:
 
-elapsed time: 730m
+> The TPS65219 is a power management IC PMIC designed to supply a wide
+> range of SoCs in both portable and stationary applications. Any SoC can
+> control TPS65219 over a standard I2C interface.
+> 
+> It contains the following components:
+> - Regulators.
+> - Over Temperature warning and Shut down.
+> - GPIOs
+> - Multi Function Pins (MFP)
+> - power-button
+> 
+> This patch adds support for tps65219 PMIC. At this time only
+> the functionalities listed below are made available:
+> 
+> - Regulators probe and functionalities
+> - warm and cold reset support
+> - SW shutdown support
+> - Regulator warnings via IRQs
+> - Power-button via IRQ
+> 
+> Signed-off-by: Jerome Neanne <jneanne@baylibre.com>
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> ---
+>  MAINTAINERS                  |   1 +
+>  drivers/mfd/Kconfig          |  14 ++
+>  drivers/mfd/Makefile         |   1 +
+>  drivers/mfd/tps65219.c       | 320 ++++++++++++++++++++++++++++++++
+>  include/linux/mfd/tps65219.h | 345 +++++++++++++++++++++++++++++++++++
+>  5 files changed, 681 insertions(+)
+>  create mode 100644 drivers/mfd/tps65219.c
+>  create mode 100644 include/linux/mfd/tps65219.h
 
-configs tested: 58
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-powerpc                           allnoconfig
-i386                 randconfig-a005-20220912
-i386                 randconfig-a001-20220912
-i386                 randconfig-a002-20220912
-i386                 randconfig-a004-20220912
-i386                 randconfig-a003-20220912
-i386                 randconfig-a006-20220912
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-i386                                defconfig
-x86_64                              defconfig
-sh                               allmodconfig
-arm                                 defconfig
-m68k                             allmodconfig
-riscv                randconfig-r042-20220911
-x86_64                               rhel-8.3
-m68k                             allyesconfig
-arc                  randconfig-r043-20220912
-x86_64               randconfig-a001-20220912
-arm                              allyesconfig
-powerpc                          allmodconfig
-x86_64                          rhel-8.3-func
-x86_64               randconfig-a006-20220912
-x86_64                           allyesconfig
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-mips                             allyesconfig
-x86_64               randconfig-a004-20220912
-x86_64                    rhel-8.3-kselftests
-arc                  randconfig-r043-20220911
-arm64                            allyesconfig
-x86_64                           rhel-8.3-syz
-s390                 randconfig-r044-20220911
-x86_64               randconfig-a002-20220912
-x86_64               randconfig-a005-20220912
-x86_64               randconfig-a003-20220912
-i386                             allyesconfig
-ia64                             allmodconfig
-
-clang tested configs:
-i386                 randconfig-a013-20220912
-i386                 randconfig-a011-20220912
-i386                 randconfig-a012-20220912
-i386                 randconfig-a014-20220912
-i386                 randconfig-a015-20220912
-i386                 randconfig-a016-20220912
-x86_64               randconfig-a011-20220912
-riscv                randconfig-r042-20220912
-hexagon              randconfig-r041-20220912
-x86_64               randconfig-a012-20220912
-hexagon              randconfig-r045-20220911
-x86_64               randconfig-a015-20220912
-x86_64               randconfig-a016-20220912
-x86_64               randconfig-a013-20220912
-hexagon              randconfig-r041-20220911
-x86_64               randconfig-a014-20220912
-hexagon              randconfig-r045-20220912
-s390                 randconfig-r044-20220912
+Please resend this to the email indicated in MAINTAINERS.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+DEPRECATED: Please use lee@kernel.org
