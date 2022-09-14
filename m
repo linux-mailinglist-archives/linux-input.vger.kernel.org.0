@@ -2,132 +2,265 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13E525B8EF6
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 20:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D675E5B8EF3
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 20:38:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbiINSkn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 14:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51932 "EHLO
+        id S229561AbiINSiM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 14:38:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiINSkm (ORCPT
+        with ESMTP id S229520AbiINSiL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 14:40:42 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B37786DA
-        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 11:40:41 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id d16so8460872ils.8
-        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 11:40:41 -0700 (PDT)
+        Wed, 14 Sep 2022 14:38:11 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95B574E17;
+        Wed, 14 Sep 2022 11:38:10 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id 9so18455462ljr.2;
+        Wed, 14 Sep 2022 11:38:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=vSj623uSHxO0oVI/Q9wO/OKZArt2x1BaVoPyjdenhVw=;
-        b=be+8kTLNJULJ2PK8PDlYNxkvOH9mMmtB2rahv3H4TKnEDphAAkmXCOE/IJeod6Hn7s
-         5bfrqzY55uo+WMDgfUuRTLnl3LQV0KqxaKo9Hoaec6URvxcr4+Uuej3n9eNHdHp4OrQy
-         hhupSd3M3qkMCC7pUEhaLICCpyPOIsfS/nENA=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=78CnzaAPH4z89FBxFwtTHbWcXI9P3dep9t1OMRvZpng=;
+        b=AET+Preuyw0r7MANwiGVh8fhlMt2pbWqsDfNC+8RxBdroWgUIc44Ll3xSO9CYGGbau
+         iTf85uuXCQtGPW36YMAlCOtBuGRrTR6e5wuJwYSP/OU5KZ/mcQcf3lssQjdti1RRqp/T
+         7Dg/LeeVae0Eai9LMY6Jkaj94D+Z2i/pN54emEK5GlRjjIxl5YbbQHcuUS22IrrewlvK
+         o3OgATaAbaEABHeYYMHHTVg+Ar3pRUsNx48Bp8WKYMY84RtGJJdrd4wZrh21DMB00hgL
+         1T7UNa1B0zaBCiDhsa6CAAe2NxypqzBlHGzf412dArDxkzM3+tNJAR1H06OOerGoMRXN
+         H4HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=vSj623uSHxO0oVI/Q9wO/OKZArt2x1BaVoPyjdenhVw=;
-        b=M7q4S/CHG3pvNCRZjKdmeonkLjALv0TyLUuQsHCKnjy4oFUMMVs7JDXaUP74ivvaVY
-         fqT5pehZzhiVxhNSqugAK3guLg6t7gGh9tH1hqQONjAqXNlrUvmWrRTHS/hK6VdwiD4k
-         zoNW4cOGBWClkX32MHtR+Rc0JkMDZ14luuobFpjHx1tpqJQbemDx8XhbBlNEGdKG8hqk
-         Hxumy8RbBsPvPAllBcTdl5i7w5avhCVlcUCAAalYF0ctc3mRvDfvub3BAL0Uyfy/9oS8
-         W/SNMxcJIe7zMFqqHL7pBiBf7IRL01DjbBJZzbdB3bOfBsGxzk2Q11KF4H3KY8pO3ifp
-         Wvdg==
-X-Gm-Message-State: ACgBeo3PORIEmCzrHYxYFxokDGGzYme5nSvqCk2BRRU+lUMaqXbdfA1P
-        ebr7Xj9+oiMrym92zE+i0sCD4E79cL27+Q==
-X-Google-Smtp-Source: AA6agR4gH/pK3RxT+OvbZSDBAwKtvXmJzKHq8ig4VbS1OIynOAbx2/0Evi56vOMnu75Ulm406XlsiA==
-X-Received: by 2002:a05:6e02:1448:b0:2f3:6087:128c with SMTP id p8-20020a056e02144800b002f36087128cmr12512315ilo.196.1663180840851;
-        Wed, 14 Sep 2022 11:40:40 -0700 (PDT)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com. [209.85.166.176])
-        by smtp.gmail.com with ESMTPSA id c66-20020a029648000000b0035670a71fcbsm7499934jai.64.2022.09.14.11.40.40
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Sep 2022 11:40:40 -0700 (PDT)
-Received: by mail-il1-f176.google.com with SMTP id x2so2198363ill.10
-        for <linux-input@vger.kernel.org>; Wed, 14 Sep 2022 11:40:40 -0700 (PDT)
-X-Received: by 2002:a05:6e02:2189:b0:2f1:92d4:6b22 with SMTP id
- j9-20020a056e02218900b002f192d46b22mr14224475ila.210.1663180409089; Wed, 14
- Sep 2022 11:33:29 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=78CnzaAPH4z89FBxFwtTHbWcXI9P3dep9t1OMRvZpng=;
+        b=RvjabqnqF4nkzrmptaJoOV+OPqmLCqbCQZ2NasSEZvD3sOzYctmYmjMovTCpAhqHJ6
+         ERbhaEu09z4v9E9GGXygdtvoPsLbOu2ngW71S7kHoC7hajs4bvndmQdZtqEtFN5WgG8V
+         SZx28zfyNah9LntSM5l7hh3+OEJUCZ0lthHH+K/VvmJ72ElHWwVlNu9Nvx4/yPJQ6Za0
+         pHuyPry7fX8ucRqYfvDtWXiMl4ydqBzjEDNU9wsnvcFD0cm5mNX83j9DB6YUh1V1NnYH
+         43ZjyTxkW5cbqWBIWqNNDGfhwDAMzDAUURKM5qhWSYb7Ug/SnUzs8tEFIdr8x6p/SpIb
+         M0WQ==
+X-Gm-Message-State: ACgBeo0UCc1rcvOXgvi3H3wjUGSv3N8cYP7pK7lUaCratMeFkJiLfs2/
+        i1Y3bNAv3DPSReKrRV5Stko=
+X-Google-Smtp-Source: AA6agR5yMPw4sfc/ilrCzNJbQpRxEsraQo4n/QorEbeHZAqQQwwLjNmj8VH5v2VxywDZ9W54idfzyg==
+X-Received: by 2002:a2e:bf23:0:b0:26c:83e:b4d3 with SMTP id c35-20020a2ebf23000000b0026c083eb4d3mr4700513ljr.282.1663180688737;
+        Wed, 14 Sep 2022 11:38:08 -0700 (PDT)
+Received: from localhost.localdomain (82-209-154-112.cust.bredband2.com. [82.209.154.112])
+        by smtp.gmail.com with ESMTPSA id a6-20020a05651c010600b0026c079006bcsm2002102ljb.118.2022.09.14.11.38.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 11:38:07 -0700 (PDT)
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH] HID: Add driver for PhoenixRC Flight Controller
+Date:   Wed, 14 Sep 2022 20:43:45 +0200
+Message-Id: <20220914184345.270456-1-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220912221317.2775651-1-rrangel@chromium.org>
- <20220912160931.v2.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
- <YyC9N62JaMGaeanf@smile.fi.intel.com> <CAHQZ30DAr_BwH03=bG9tfCSGW+-he-c-4PPeJMOqH28cVcKDoA@mail.gmail.com>
- <YyDNAw+ur177ayY0@smile.fi.intel.com> <CAHQZ30DP1asiMj7hoebQQvGqE36sBDjaFmp3ju3eUEF1PruFeg@mail.gmail.com>
- <YyGh6Yjbb/5rkh35@smile.fi.intel.com>
-In-Reply-To: <YyGh6Yjbb/5rkh35@smile.fi.intel.com>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Wed, 14 Sep 2022 12:33:17 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30Dsk2ikhctYSk_eP=1qcOOn_tjgtCftPOqQFkHNfQwBsg@mail.gmail.com>
-Message-ID: <CAHQZ30Dsk2ikhctYSk_eP=1qcOOn_tjgtCftPOqQFkHNfQwBsg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/13] i2c: acpi: Use ACPI wake capability bit to set wake_irq
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
-        "Limonciello, Mario" <mario.limonciello@amd.com>,
-        Tim Van Patten <timvp@google.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> > > This is similar to what of_i2c_get_board_info() does, no?
-> > > Note: _get_ there.
-> >
-> > `*info` is an out parameter in that case. Ideally I would have
-> > `i2c_acpi_get_irq`, `acpi_dev_gpio_irq_get_wake`,
-> > `platform_get_irq_optional`, and `i2c_dev_irq_from_resources` all
-> > return a `struct irq_info {int irq; bool wake_capable;}`. This would
-> > be a larger change though.
->
-> Seems the ACPI analogue is i2c_acpi_fill_info(). Can we do it there?
->
+The PhoenixRC is a controller with 8 channels for use in flight
+simulators.
 
-So I originally had that thought, but decided against it to avoid
-changing too many things,
-but since you brought it up, I thought I would try it.
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
+ MAINTAINERS            |   6 +++
+ drivers/hid/Kconfig    |   9 ++++
+ drivers/hid/Makefile   |   1 +
+ drivers/hid/hid-ids.h  |   1 +
+ drivers/hid/hid-pxrc.c | 112 +++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 129 insertions(+)
+ create mode 100644 drivers/hid/hid-pxrc.c
 
-So I moved the GPIO lookup into `i2c_acpi_do_lookup`, but it failed
-spectacularly.
-I've linked some logs of both cases. grep for `RX:` to see my logging messages.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 64379c699903..2f70b7d2b4b9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8907,6 +8907,12 @@ L:	linux-input@vger.kernel.org
+ S:	Supported
+ F:	drivers/hid/hid-playstation.c
+ 
++HID PHOENIX RC FLIGHT CONTROLLER
++M:	Marcus Folkesson <marcus.folkesson@gmail.com>
++L:	linux-input@vger.kernel.org
++S:	Maintained
++F:	drivers/hid/hid-pxrc.c
++
+ HID SENSOR HUB DRIVERS
+ M:	Jiri Kosina <jikos@kernel.org>
+ M:	Jonathan Cameron <jic23@kernel.org>
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 70da5931082f..8ca58141d5be 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -950,6 +950,15 @@ config PLAYSTATION_FF
+ 	  Say Y here if you would like to enable force feedback support for
+ 	  PlayStation game controllers.
+ 
++config HID_PXRC
++       tristate "PhoenixRC HID Flight Controller"
++       depends on HID
++       help
++       Support for PhoenixRC HID Flight Controller, a 8-axis flight controller.
++
++       To compile this driver as a module, choose M here: the
++       module will be called hid-pxrc.
++
+ config HID_RAZER
+ 	tristate "Razer non-fully HID-compliant devices"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index cac2cbe26d11..b3748b97d5b5 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -101,6 +101,7 @@ hid-picolcd-$(CONFIG_DEBUG_FS)		+= hid-picolcd_debugfs.o
+ obj-$(CONFIG_HID_PLANTRONICS)	+= hid-plantronics.o
+ obj-$(CONFIG_HID_PLAYSTATION)	+= hid-playstation.o
+ obj-$(CONFIG_HID_PRIMAX)	+= hid-primax.o
++obj-$(CONFIG_HID_PXRC)		+= hid-pxrc.o
+ obj-$(CONFIG_HID_RAZER)	+= hid-razer.o
+ obj-$(CONFIG_HID_REDRAGON)	+= hid-redragon.o
+ obj-$(CONFIG_HID_RETRODE)	+= hid-retrode.o
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index d9eb676abe96..30ac56cb238b 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1381,6 +1381,7 @@
+ 
+ #define USB_VENDOR_ID_MULTIPLE_1781	0x1781
+ #define USB_DEVICE_ID_RAPHNET_4NES4SNES_OLD	0x0a9d
++#define USB_DEVICE_ID_PHOENIXRC        0x0898
+ 
+ #define USB_VENDOR_ID_DRACAL_RAPHNET	0x289b
+ #define USB_DEVICE_ID_RAPHNET_2NES2SNES	0x0002
+diff --git a/drivers/hid/hid-pxrc.c b/drivers/hid/hid-pxrc.c
+new file mode 100644
+index 000000000000..b0e517f9cde7
+--- /dev/null
++++ b/drivers/hid/hid-pxrc.c
+@@ -0,0 +1,112 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * HID driver for PhoenixRC 8-axis flight controller
++ *
++ * Copyright (C) 2022 Marcus Folkesson <marcus.folkesson@gmail.com>
++ */
++
++#include <linux/device.h>
++#include <linux/hid.h>
++#include <linux/module.h>
++
++#include "hid-ids.h"
++
++struct pxrc_priv {
++	u8 slider;
++	u8 dial;
++	bool alternate;
++};
++
++static __u8 pxrc_rdesc_fixed[] = {
++	0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
++	0x09, 0x04,        // Usage (Joystick)
++	0xA1, 0x01,        // Collection (Application)
++	0x09, 0x01,        //   Usage (Pointer)
++	0xA1, 0x00,        //   Collection (Physical)
++	0x09, 0x30,        //     Usage (X)
++	0x09, 0x36,        //     Usage (Slider)
++	0x09, 0x31,        //     Usage (Y)
++	0x09, 0x32,        //     Usage (Z)
++	0x09, 0x33,        //     Usage (Rx)
++	0x09, 0x34,        //     Usage (Ry)
++	0x09, 0x35,        //     Usage (Rz)
++	0x09, 0x37,        //     Usage (Dial)
++	0x15, 0x00,        //     Logical Minimum (0)
++	0x26, 0xFF, 0x00,  //     Logical Maximum (255)
++	0x35, 0x00,        //     Physical Minimum (0)
++	0x46, 0xFF, 0x00,  //     Physical Maximum (255)
++	0x75, 0x08,        //     Report Size (8)
++	0x95, 0x08,        //     Report Count (8)
++	0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
++	0xC0,              //   End Collection
++	0xC0,              // End Collection
++};
++
++static __u8 *pxrc_report_fixup(struct hid_device *hdev, __u8 *rdesc,
++				unsigned int *rsize)
++{
++	hid_info(hdev, "fixing up PXRC report descriptor\n");
++	*rsize = sizeof(pxrc_rdesc_fixed);
++	return pxrc_rdesc_fixed;
++}
++
++static int pxrc_raw_event(struct hid_device *hdev, struct hid_report *report,
++	 u8 *data, int size)
++{
++	struct pxrc_priv *priv = hid_get_drvdata(hdev);
++
++	if (priv->alternate)
++		priv->slider = data[7];
++	else
++		priv->dial = data[7];
++
++	data[1] = priv->slider;
++	data[7] = priv->dial;
++
++	priv->alternate = !priv->alternate;
++	return 0;
++}
++
++static int pxrc_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	int ret;
++	struct pxrc_priv *priv;
++
++	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++	hid_set_drvdata(hdev, priv);
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "parse failed\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
++	if (ret) {
++		hid_err(hdev, "hw start failed\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++static const struct hid_device_id pxrc_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_MULTIPLE_1781, USB_DEVICE_ID_PHOENIXRC) },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(hid, pxrc_devices);
++
++static struct hid_driver pxrc_driver = {
++	.name = "hid-pxrc",
++	.id_table = pxrc_devices,
++	.report_fixup = pxrc_report_fixup,
++	.probe = pxrc_probe,
++	.raw_event = pxrc_raw_event,
++};
++module_hid_driver(pxrc_driver);
++
++MODULE_AUTHOR("Marcus Folkesson <marcus.folkesson@gmail.com>");
++MODULE_DESCRIPTION("HID driver for PXRC 8-axis flight controller");
++MODULE_LICENSE("GPL");
+-- 
+2.37.1
 
-* https://0paste.com/393416 - Logs with IRQ lookup happening in
-`i2c_acpi_do_lookup`
-    * We can see that `i2c_acpi_do_lookup` gets called in three cases
-         1) Early on from i2c_acpi_notify when the I2C ACPI nodes are
-first created
-         2) From `i2c_dw_adjust_bus_speed` as part of `dw_i2c_plat_probe`
-         3) From `i2c_register_adapter` as part of `i2c_dw_probe_master`.
-    * What happens is that all of these calls happen before the GPIO
-chip has been registered.
-      This means that `acpi_dev_gpio_irq_get` will return `-EPROBE_DEFER`. This
-      messes something up in the i2c init sequence and the devices are never
-      probed again.
-    * You can see the `amd gpio driver loaded` message after all the
-i2c probing.
-* https://0paste.com/393420 - Logs of a normal boot
-    * Here we can see the GPIO controller registers early
-    * We can see the i2c devices being probed by `__driver_attach_async_helper`.
-      I'm guessing the device was enqueued as part of `i2c_acpi_register_device`
-      early on and it gets probed later.
-
-I could try moving the gpio lookup into `i2c_acpi_get_info`, but I
-think that suffers from the
-same problem, the stack can't handle a PROBE_DEFER. So I think we need to keep
-the lookup in `i2c_device_probe` for the PROBE_DEFER logic to work correctly.
