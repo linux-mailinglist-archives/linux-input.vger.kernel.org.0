@@ -2,33 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9494F5B8B3F
-	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 17:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0B505B8B45
+	for <lists+linux-input@lfdr.de>; Wed, 14 Sep 2022 17:06:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiINPFf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Sep 2022 11:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55058 "EHLO
+        id S229670AbiINPGY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Sep 2022 11:06:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbiINPFe (ORCPT
+        with ESMTP id S229539AbiINPGW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Sep 2022 11:05:34 -0400
+        Wed, 14 Sep 2022 11:06:22 -0400
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2AD831358;
-        Wed, 14 Sep 2022 08:05:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBF048C96;
+        Wed, 14 Sep 2022 08:06:21 -0700 (PDT)
 Received: from [185.122.133.20] (helo=phil.localnet)
         by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <heiko@sntech.de>)
-        id 1oYTxA-0006lg-Pw; Wed, 14 Sep 2022 17:05:28 +0200
+        id 1oYTxz-0006ma-Gd; Wed, 14 Sep 2022 17:06:19 +0200
 From:   Heiko Stuebner <heiko@sntech.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] Input: auo-pixcir-ts - do not force rising edge interrupt trigger
-Date:   Wed, 14 Sep 2022 17:05:27 +0200
-Message-ID: <2845209.e9J7NaK4W3@phil>
-In-Reply-To: <20220914141428.2201784-3-dmitry.torokhov@gmail.com>
-References: <20220914141428.2201784-1-dmitry.torokhov@gmail.com> <20220914141428.2201784-3-dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 4/5] Input: auo-pixcir-ts - switch to using generic device properties
+Date:   Wed, 14 Sep 2022 17:06:18 +0200
+Message-ID: <3194447.44csPzL39Z@phil>
+In-Reply-To: <20220914141428.2201784-4-dmitry.torokhov@gmail.com>
+References: <20220914141428.2201784-1-dmitry.torokhov@gmail.com> <20220914141428.2201784-4-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -41,9 +41,8 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am Mittwoch, 14. September 2022, 16:14:26 CEST schrieb Dmitry Torokhov:
-> Instead of hard-coding rising edge as the interrupt trigger, let's rely on
-> the platform (ACPI, DT) to configure the interrupt properly.
+Am Mittwoch, 14. September 2022, 16:14:27 CEST schrieb Dmitry Torokhov:
+> Let's use generic device properties API instead of OF-specific one.
 > 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
