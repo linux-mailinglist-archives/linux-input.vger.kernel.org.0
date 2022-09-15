@@ -2,142 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F1E75B9579
-	for <lists+linux-input@lfdr.de>; Thu, 15 Sep 2022 09:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 868D35B95E2
+	for <lists+linux-input@lfdr.de>; Thu, 15 Sep 2022 10:02:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiIOHfn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Sep 2022 03:35:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
+        id S229710AbiIOICU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Sep 2022 04:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiIOHfn (ORCPT
+        with ESMTP id S229826AbiIOICT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Sep 2022 03:35:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C98178BC2
-        for <linux-input@vger.kernel.org>; Thu, 15 Sep 2022 00:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663227338;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=soVYuMAxayh+2brnGzLjNkGMPYifBwRHy6hrOc9fKJ8=;
-        b=OyPlY/1tpSkuNIuHGkNy3q3T709HeKFVaGyFkAZ/MG+FxFjU1t5zdpibDN/MOu0ymX9v9B
-        T9wUieo+qIcOczD4RB3igJJLWm4DgJetZhGQdmvU0IOGYwm/Ut5Zt1GtlxzlU6BykYWFQu
-        J+jWu6BVH4o3O2u0QzDLjnLBIdD4ih8=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-4weoDi-MPxex2ouSCKcnsA-1; Thu, 15 Sep 2022 03:35:37 -0400
-X-MC-Unique: 4weoDi-MPxex2ouSCKcnsA-1
-Received: by mail-pl1-f197.google.com with SMTP id o1-20020a170902d4c100b00177f59a9889so12114936plg.13
-        for <linux-input@vger.kernel.org>; Thu, 15 Sep 2022 00:35:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=soVYuMAxayh+2brnGzLjNkGMPYifBwRHy6hrOc9fKJ8=;
-        b=HvJdyptQLn4gX2H+jNv9Lj6s5zDoVm0gRroLPTcujRtBmvI0F/m62u1LKYUZHAq7P2
-         cwc/4w6oMkwYb/fB9vvlCKpNrDKQ7vCfq681KTrUHe1mQtjXHu9zvZ2iUdaGSPNmDSdn
-         /3CsQPk3iKw5v0qXRP/WoXBk7y/f3ebfLjONYjzM/AsVQA9vP99zSWvcf4cgH3xVrc99
-         U788fEYvEIULjdQP7tY6mdJfPv+m7Bp9LvBzu3QxxeHOstTuGxcRwRGcJG2QCwGCT4pH
-         T7NTMW4h4V3IPPCqtOOzhx7nvNPybr54UJcr/OWhyukLdtURt9qE5m3hKmN894xbQM1T
-         4gHA==
-X-Gm-Message-State: ACrzQf1KHutmZ+ZfDLDOdpMqEovyIwXW9Ji+GPk+pepTxflRkT3PRv0c
-        j0h0eH9roxcF6yai3ZNjwGhCjjjAMt/caI3DzkDKh9WblAJfcs9n6e27cClOJgBUoMVMyvaIOzs
-        zaY2GkEs8k3ka6vUhPaI3ufUIDyy/OKztSUI+asw=
-X-Received: by 2002:a17:903:3014:b0:176:e498:2340 with SMTP id o20-20020a170903301400b00176e4982340mr3078635pla.119.1663227336198;
-        Thu, 15 Sep 2022 00:35:36 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM66EOQRG+uyyFv9IE6MmpghdMEhIjmEVFEbL27fE57qiUN+hTdC4XHDd0YfNOVJy61ajzo/dhfEWZYTZs15d48=
-X-Received: by 2002:a17:903:3014:b0:176:e498:2340 with SMTP id
- o20-20020a170903301400b00176e4982340mr3078616pla.119.1663227335929; Thu, 15
- Sep 2022 00:35:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
- <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
- <YwTvrNuulKx0SB6H@gmail.com> <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
- <YwcbVJswrL1Doi4s@gmail.com> <CAO-hwJJ86oAuaFD+uX7Rwv7cASO=4mchRJ1UBTxz9gYs6M1rUg@mail.gmail.com>
- <YyLVblZkIPCvNd/2@gmail.com>
-In-Reply-To: <YyLVblZkIPCvNd/2@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 15 Sep 2022 08:35:25 +0100
-Message-ID: <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
-Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+        Thu, 15 Sep 2022 04:02:19 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D0169F6B;
+        Thu, 15 Sep 2022 01:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1663228938; x=1694764938;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ybAfiFs8eUgGnH4G//19S9jDye+SzwnhGZadHt7eQ0U=;
+  b=Ueqeo7fuhWFl5/D5JTlpk2ZBnn9DhhYbs4DCAoiuFEj0rdfdEbkXXS8F
+   x34DcY0Mlq7dSX+TX/m2SAu6AKvXF16se1yLQ6QxfVpYJ0PSWYpMDV6dD
+   ugz4lP/efDHEqqJUZDfjD9jIeIBd3/D1ZkCyVnm9b113xWSmiifXgMrnT
+   PTmoL1qozrkDHKRy4A0kfS+csceJhGsujAzN5YIGg02uGpWzU+cCGlnp6
+   sY3x4QdhYg8N8IipSjEE9GPXUUBSJu08T096CwAj5QxVESVjjCet5tfCb
+   hlq8Yxafm5ZWv6y1JIg2NIRghWUxr+PR0yoQT8DX4iZH/qAlitgBQDMMi
+   A==;
+X-IronPort-AV: E=Sophos;i="5.93,317,1654552800"; 
+   d="scan'208";a="26194008"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 15 Sep 2022 10:02:16 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 15 Sep 2022 10:02:16 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 15 Sep 2022 10:02:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1663228936; x=1694764936;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ybAfiFs8eUgGnH4G//19S9jDye+SzwnhGZadHt7eQ0U=;
+  b=cSAaWru0nDubmmWhr0zTwPPyhJFQNXWGn1Ak09iS/SKA8F6uBKpMzntp
+   vIa7oGoW/lxSIMKvWrwSeNh6GXjfmubq5XTt7qw7kHHIdlIR7r4I0Cou+
+   Wry+N9NQw0mLjbB3OrBZ/kBIajMOulxaCY+XuQa93rVBioUkBM2ji2sYm
+   Fd91o+B7BgsRpzezFrhhhYxQGzv9KhEkk0FgVTqt+ZRIEh7cBJ/nKatlB
+   jE7MFGre/SfDFYHiVEQeRz8u2Ash9DaB+hXbbmrKVkiSWRb0oJXHRExyD
+   92FT5avEHCeL6qssvQxuILKRjtPIx6TAR+7L82jLPVZdI/yxXPtKDTJsq
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,317,1654552800"; 
+   d="scan'208";a="26194007"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 15 Sep 2022 10:02:16 +0200
+Received: from schifferm-ubuntu (SCHIFFERM-M2.tq-net.de [10.121.49.14])
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPA id C9CD5280056;
+        Thu, 15 Sep 2022 10:02:15 +0200 (CEST)
+Message-ID: <a959cfe90356b702727413e7c14b246875eb88b6.camel@ew.tq-group.com>
+Subject: Re: [PATCH 0/9] Input: synaptics-rmi4 - Bootloader v7/v8 firmware
+ update improvements
+From:   Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Lyude Paul <lyude@redhat.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 15 Sep 2022 10:02:13 +0200
+In-Reply-To: <c434ba87606d3d7696ae076684ceea67bfe662e3.camel@ew.tq-group.com>
+References: <20220608124808.51402-1-matthias.schiffer@ew.tq-group.com>
+         <26790cfecb827245187233bc81f9fb89553bb4a7.camel@ew.tq-group.com>
+         <c434ba87606d3d7696ae076684ceea67bfe662e3.camel@ew.tq-group.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 8:28 AM Marcus Folkesson
-<marcus.folkesson@gmail.com> wrote:
->
-> Hi Benjamin,
->
-> On Tue, Aug 30, 2022 at 02:45:11PM +0200, Benjamin Tissoires wrote:
-> > On Thu, Aug 25, 2022 at 8:44 AM Marcus Folkesson
-> > <marcus.folkesson@gmail.com> wrote:
-> > >
->
->
-> [...]
-> > >
-> > >
-> > > Is the fact that more than one button share the same
-> > > byte hard to describe in the report?
-> >
-> > No, this is actually easy to describe. You say that there is one usage
-> > of "something" which has a report size of 1 bit, and then you have
-> > another usage of "something else" with the same report size.
-> >
-> > But usually you have to add padding after to make up to 8 bits (so 6
-> > bits in that case).
-> >
-> > I was referring to the case  where you are parsing the same bit on the
-> > wire, and give a different usage based if you have received an odd or
-> > an even number of reports. In that case, we probably need to use move
-> > this bit to a const field in the original report descriptor and say
-> > that the data is now not const:
-> >
-> > - initial report (completely random example):
-> >   X (2 bytes) | Y (2 bytes) | button this_or_that (1 bit, depending of
-> > odd or even received reports) | 7 bits of padding
-> > - we can declare it as:
-> >   X (2 bytes) | Y (2 bytes) | button this (1 bit) | button that (1
-> > bit) | 6 bits of padding
->
-> How about if there is no unused bytes?
->
-> The XTRG2FMS has 8 10-bit channels and use every byte in the report.
-> Should I specify 8 8-bit channels instead and fix that in raw_event?
-> If so, should I only use 8bit values then?
+On Mon, 2022-08-15 at 09:43 +0200, Matthias Schiffer wrote:
+> On Mon, 2022-06-27 at 10:31 +0200, Matthias Schiffer wrote:
+> > On Wed, 2022-06-08 at 14:47 +0200, Matthias Schiffer wrote:
+> > > This fixes the firmware update function with bootloader v8, allows to
+> > > recover from interrupted updates with v7/v8, and does some code cleanup.
+> > > 
+> > > I believe that the code that allows to recover from a broken partition
+> > > table is also necessary to make flashing a different partition table
+> > > work at all, but I wasn't able to verify that, as I don't have any firmware
+> > > images with different partition tables to test with. In any case, I'm
+> > > pretty sure that it is working correctly now, as recovery from a mostly
+> > > empty flash without partition table has been tested successfully.
+> > > 
+> > > I have only tested the new code with bootloader v8, and I don't have the
+> > > documentation / interfacing guide for v7, so it would be great if anyone
+> > > could check that I didn't break updates for v7.
+> > 
+> > Hi everyone,
+> > 
+> > any news regarding this patch series?
+> > 
+> > 
+> > Kind regards,
+> > Matthias
+> 
+> Ping - can we get this applied, or at least any kind of feedback?
+> 
+> 
+> Kind regards,
+> Matthias
 
-If I am not wrong, you should be able to add another byte in the
-report descriptor, as long as your raw_event function always adds it.
-Though now that I am typing it, I am actually wondering if this will
-work. You can always try, there is a chance it'll work, but I can't
-remember if it'll result in a timeout on the USB front because it'll
-expect one more byte that will never arrive.
 
->
-> (Are you at the ELCE conference btw?)
+Ping - another month has passed.
 
-I was at Plumbers this week, but got an extra day today. But yeah, I'm
-in Dublin today.
+Should I resend the series? Not much has happened in the RMI4 driver,
+so the patches still apply cleanly to latest linux-next.
 
-Cheers,
-Benjamin
+Kind regards,
+Matthias
 
->
-> Best regards
-> Marcus Folkesson
+
+
+> 
+> 
+> 
+> > 
+> > 
+> > > Matthias Schiffer (9):
+> > >   Input: synaptics-rmi4 - fix firmware update operations with bootloader
+> > >     v8
+> > >   Input: synaptics-rmi4 - introduce rmi_f34v7_check_command_status()
+> > >     helper
+> > >   Input: synaptics-rmi4 - fix command completion check for bootloader
+> > >     v7/v8
+> > >   Input: synaptics-rmi4 - rewrite partition table unconditionally
+> > >   Input: synaptics-rmi4 - reset after writing partition table
+> > >   Input: synaptics-rmi4 - make rmi_f34v7_erase_all() use the "erase all"
+> > >     command
+> > >   Input: synaptics-rmi4 - remove unneeded struct register_offset
+> > >   Input: synaptics-rmi4 - simplify rmi_f34v7_start_reflash()
+> > >   Input: synaptics-rmi4 - drop useless gotos in rmi_f34v7_do_reflash()
+> > > 
+> > >  drivers/input/rmi4/rmi_f34.c   |  16 +-
+> > >  drivers/input/rmi4/rmi_f34.h   |  17 --
+> > >  drivers/input/rmi4/rmi_f34v7.c | 349 +++++++--------------------------
+> > >  3 files changed, 81 insertions(+), 301 deletions(-)
+> > > 
 
