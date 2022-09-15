@@ -2,110 +2,246 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5B95B9DB6
-	for <lists+linux-input@lfdr.de>; Thu, 15 Sep 2022 16:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A50F5B9F29
+	for <lists+linux-input@lfdr.de>; Thu, 15 Sep 2022 17:49:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbiIOOuT convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 15 Sep 2022 10:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52118 "EHLO
+        id S229536AbiIOPtS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Sep 2022 11:49:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbiIOOuR (ORCPT
+        with ESMTP id S229515AbiIOPtJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Sep 2022 10:50:17 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEAA15827;
-        Thu, 15 Sep 2022 07:50:13 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0E26B1C0012;
-        Thu, 15 Sep 2022 14:50:09 +0000 (UTC)
-Message-ID: <5d890576d10cda7dbeef48f0eb13aa6860ab7d44.camel@hadess.net>
-Subject: Re: [PATCH v1] HID: logitech-hidpp: Detect hi-res scrolling support
-From:   Bastien Nocera <hadess@hadess.net>
-To:     "Peter F. Patel-Schneider" <pfpschneider@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Date:   Thu, 15 Sep 2022 16:50:09 +0200
-In-Reply-To: <e9526860-b77e-8cc0-7421-91fe5370918d@gmail.com>
-References: <20220914132146.6435-1-hadess@hadess.net>
-         <c56c4053388baa5ea3db8bc849c5a420859347f1.camel@hadess.net>
-         <e9526860-b77e-8cc0-7421-91fe5370918d@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        Thu, 15 Sep 2022 11:49:09 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2FD245F46
+        for <linux-input@vger.kernel.org>; Thu, 15 Sep 2022 08:49:08 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id x2so3629529ill.10
+        for <linux-input@vger.kernel.org>; Thu, 15 Sep 2022 08:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=RbcmCrt9MgNwVtS84rioFN6K+2EnzOOlimgTAZwP98I=;
+        b=ZWfyszh5ASkbDN5lS0dfsNxWt9+T9r+fI0UExDTPZRhVQuglIZnwGXd9pcrBMwT+DF
+         trkp5ZM/q57uF+azefdt/8dxoYLykqpa37Jz+ZulL03PsWodP3IVhsgjqanPo4bG8iPT
+         htWBYNR5phBWSyLHfrPJuwYCya2nS+S7SWHcg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=RbcmCrt9MgNwVtS84rioFN6K+2EnzOOlimgTAZwP98I=;
+        b=M8EKNw6+maiE9DS0ox1UNbCucDcBPtKU+aYHSBccU22EtWBsbv5YeLfLLmknviN2YN
+         9vLr+dWj7I7aC5Nlc5RlJF9LoLkRx/byQopGLdwyhBPR3coxC0IZkR2A/Z8eUdy02GFd
+         VOWbSNXZ81sfh6CJxeQT1s9oX2ZY2WARrN0JKra7nsE7N1QIhkpCPgv/ZdYCUq+E5lEc
+         b/gDggzHWP4eyG/6TSU6/Llw3aZ4dCn+AUP2oZTKRWr9YN/VdJXzhoJSIKE5ELbY1zhR
+         esjJFvFLQ7ssLl4Zf5NFpSFqChOBeNBdXbpbF2i9dHBYlr/Aml8h0TUNfndK3F7qVc8N
+         /+nQ==
+X-Gm-Message-State: ACrzQf0FtRgwjso3WfeEUbfuMzySu0m5N2d9wQnjeUDDiQpZSecjRKtf
+        4uR4qdkQeNcJ8me5RaWqKUIW8v1dHdWh0A==
+X-Google-Smtp-Source: AMsMyM7PPP/2tAhunBs9VcLtXLqQHCx9iyDta9XAwnnrAW5WGzB2brH80h8vm0ndm5/ec5zh1rK0uw==
+X-Received: by 2002:a92:ca08:0:b0:2f1:e021:84a1 with SMTP id j8-20020a92ca08000000b002f1e02184a1mr263114ils.321.1663256947393;
+        Thu, 15 Sep 2022 08:49:07 -0700 (PDT)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com. [209.85.166.42])
+        by smtp.gmail.com with ESMTPSA id y2-20020a029502000000b0034a0275ae76sm1252438jah.139.2022.09.15.08.49.03
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Sep 2022 08:49:04 -0700 (PDT)
+Received: by mail-io1-f42.google.com with SMTP id i7so6249468ioa.5
+        for <linux-input@vger.kernel.org>; Thu, 15 Sep 2022 08:49:03 -0700 (PDT)
+X-Received: by 2002:a05:6638:4110:b0:35a:6d6b:57f7 with SMTP id
+ ay16-20020a056638411000b0035a6d6b57f7mr326227jab.134.1663256942370; Thu, 15
+ Sep 2022 08:49:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220914235801.1731478-1-rrangel@chromium.org>
+ <20220914155914.v3.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid> <YyMCcNl2zU4/xEHN@black.fi.intel.com>
+In-Reply-To: <YyMCcNl2zU4/xEHN@black.fi.intel.com>
+From:   Raul Rangel <rrangel@chromium.org>
+Date:   Thu, 15 Sep 2022 09:48:50 -0600
+X-Gmail-Original-Message-ID: <CAHQZ30A2Tpst-WKj-u_rmrnV69Dby3j0+mFBKorzF4YMBySqBw@mail.gmail.com>
+Message-ID: <CAHQZ30A2Tpst-WKj-u_rmrnV69Dby3j0+mFBKorzF4YMBySqBw@mail.gmail.com>
+Subject: Re: [PATCH v3 07/13] i2c: acpi: Use ACPI wake capability bit to set wake_irq
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Limonciello, Mario" <mario.limonciello@amd.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Tim Van Patten <timvp@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2022-09-15 at 10:23 -0400, Peter F. Patel-Schneider wrote:
-> 
-> On 9/14/22 11:41, Bastien Nocera wrote:
-> > On Wed, 2022-09-14 at 15:21 +0200, Bastien Nocera wrote:
-> > > Rather than relying on a never-ending stream of patches for
-> > > quirks.
-> > > 
-> > > This change will detect whether HID++ 1.0 hi-res scroll, HID++
-> > > 2.0
-> > > hi-res scroll or HID++ 2.0 hi-res scroll wheel is supported, and
-> > > enable
-> > > the feature without the need for quirks.
-> > > 
-> > > Tested on a Logitech M705 mouse that was unsupported before this
-> > > change.
-> > > 
-> > > [    9.365324] logitech-hidpp-device 0003:046D:406D.0006:
-> > > input,hidraw3: USB HID v1.11 Mouse [Logitech M705] on usb-
-> > > 0000:00:14.0-4/input2:3
-> > > [   57.472434] logitech-hidpp-device 0003:046D:406D.0006: HID++
-> > > 4.5
-> > > device connected.
-> > > [   57.616429] logitech-hidpp-device 0003:046D:406D.0006:
-> > > Detected
-> > > HID++ 2.0 hi-res scroll wheel
-> > > [   57.712424] logitech-hidpp-device 0003:046D:406D.0006: wheel
-> > > multiplier = 8
-> > > 
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=216480
-> > > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > For anyone on a recent version of Fedora that wants to test it,
-> > those
-> > packages should work:
-> > https://koji.fedoraproject.org/koji/taskinfo?taskID=92008550
-> > 
-> > Cheers
-> 
-> 
-> 
-> Using this kernel I tested several Logitech mice - an MX Master 3,
-> which 
-> already supported hi-res scrolling in Linux; an M310 and an M185,
-> which have 
-> features but no feature for hi-res scrolling; and an old-style M510,
-> which 
-> does not have features.  I used evtest to show the events that were 
-> generated.   For these mice the patch does not produce any change in
-> events 
-> generated, as expected, both REL_WHEEL and REL_WHEEL_HI_RES events.
+On Thu, Sep 15, 2022 at 4:46 AM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> On Wed, Sep 14, 2022 at 05:57:55PM -0600, Raul E Rangel wrote:
+> > Device tree already has a mechanism to pass the wake_irq. It does this
+> > by looking for the wakeup-source property and setting the
+> > I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
+> > ACPI interrupt wake flag to determine if the interrupt can be used to
+> > wake the system. Previously the i2c drivers had to make assumptions and
+> > blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
+> > If there is a device with an Active Low interrupt and the device gets
+> > powered off while suspending, the interrupt line will go low since it's
+> > no longer powered and wakes the system. For this reason we should
+> > respect the board designers wishes and honor the wake bit defined on the
+> > interrupt.
+> >
+> > Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> > ---
+> >
+> > Changes in v3:
+> > - Convert wake_capable to bool
+> > - Only update wake_capable pointer once
+> > - Move wake_capable local into local block
+> >
+> > Changes in v2:
+> > - Look at wake_cabple bit for IRQ/Interrupt resources
+> >
+> >  drivers/i2c/i2c-core-acpi.c | 33 ++++++++++++++++++++++++---------
+> >  drivers/i2c/i2c-core-base.c |  8 +++++++-
+> >  drivers/i2c/i2c-core.h      |  4 ++--
+> >  3 files changed, 33 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
+> > index c762a879c4cc6b..b3d68a9659ff4f 100644
+> > --- a/drivers/i2c/i2c-core-acpi.c
+> > +++ b/drivers/i2c/i2c-core-acpi.c
+> > @@ -137,6 +137,11 @@ static const struct acpi_device_id i2c_acpi_ignored_device_ids[] = {
+> >       {}
+> >  };
+> >
+> > +struct i2c_acpi_irq_context {
+> > +     int irq;
+> > +     bool wake_capable;
+> > +};
+> > +
+> >  static int i2c_acpi_do_lookup(struct acpi_device *adev,
+> >                             struct i2c_acpi_lookup *lookup)
+> >  {
+> > @@ -170,11 +175,14 @@ static int i2c_acpi_do_lookup(struct acpi_device *adev,
+> >
+> >  static int i2c_acpi_add_resource(struct acpi_resource *ares, void *data)
+> >  {
+> > -     int *irq = data;
+> > +     struct i2c_acpi_irq_context *irq_ctx = data;
+> >       struct resource r;
+> >
 
-In the future, it would be awesome if you could mention the tested-by
-tag as mentioned here:
-https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+> > -     if (*irq <= 0 && acpi_dev_resource_interrupt(ares, 0, &r))
+> > -             *irq = i2c_dev_irq_from_resources(&r, 1);
+> > +     if (irq_ctx->irq <= 0 && acpi_dev_resource_interrupt(ares, 0, &r)) {
+> > +             irq_ctx->irq = i2c_dev_irq_from_resources(&r, 1);
+> > +             irq_ctx->wake_capable =
+> > +                     !!(r.flags & IORESOURCE_IRQ_WAKECAPABLE);
+>
+> You don't need the !!() here. Just
+>
+>                 irq_ctx->wake_capable = r.flags & IORESOURCE_IRQ_WAKECAPABLE;
+>
+You know, I learned something new today! I was concerned about this
+setting `wake_capable` to something that wasn't 0 or 1, but apparently
+this is handled by the compiler!
 
-As the tree maintainer can then use it directly when merging the patch
-in their tree.
+http://port70.net/~nsz/c/c11/n1570.html#6.3.1.2
 
-So, for Jiri or Benjamin:
+> 6.3.1.2 Boolean type
+> When any scalar value is converted to _Bool, the result is 0 if the value compares equal to 0; otherwise, the result is 1.
 
-Tested-by: Peter F. Patel-Schneider <pfpschneider@gmail.com>
+Whoah!
 
-:)
+> > +     }
+> >
+> >       return 1; /* No need to add resource to the list */
+> >  }
+> > @@ -182,31 +190,38 @@ static int i2c_acpi_add_resource(struct acpi_resource *ares, void *data)
+> >  /**
+> >   * i2c_acpi_get_irq - get device IRQ number from ACPI
+> >   * @client: Pointer to the I2C client device
+> > + * @wake_capable: Set to true if the IRQ is wake capable
+> >   *
+> >   * Find the IRQ number used by a specific client device.
+> >   *
+> >   * Return: The IRQ number or an error code.
+> >   */
+> > -int i2c_acpi_get_irq(struct i2c_client *client)
+> > +int i2c_acpi_get_irq(struct i2c_client *client, bool *wake_capable)
+> >  {
+> >       struct acpi_device *adev = ACPI_COMPANION(&client->dev);
+> >       struct list_head resource_list;
+> > -     int irq = -ENOENT;
+> > +     struct i2c_acpi_irq_context irq_ctx = {
+> > +             .irq = -ENOENT,
+> > +     };
+> >       int ret;
+> >
+> >       INIT_LIST_HEAD(&resource_list);
+> >
+> >       ret = acpi_dev_get_resources(adev, &resource_list,
+> > -                                  i2c_acpi_add_resource, &irq);
+> > +                                  i2c_acpi_add_resource, &irq_ctx);
+> >       if (ret < 0)
+> >               return ret;
+> >
+> >       acpi_dev_free_resource_list(&resource_list);
+> >
+> > -     if (irq == -ENOENT)
+> > -             irq = acpi_dev_gpio_irq_get(adev, 0);
+> > +     if (irq_ctx.irq == -ENOENT)
+> > +             irq_ctx.irq = acpi_dev_gpio_irq_wake_get(adev, 0,
+> > +                                                      &irq_ctx.wake_capable);
+> > +
+> > +     if (wake_capable)
+> > +             *wake_capable = irq_ctx.wake_capable;
+> >
+> > -     return irq;
+> > +     return irq_ctx.irq;
+> >  }
+> >
+> >  static int i2c_acpi_get_info(struct acpi_device *adev,
+> > diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> > index 91007558bcb260..c4debd46c6340f 100644
+> > --- a/drivers/i2c/i2c-core-base.c
+> > +++ b/drivers/i2c/i2c-core-base.c
+> > @@ -487,8 +487,14 @@ static int i2c_device_probe(struct device *dev)
+> >                       if (irq == -EINVAL || irq == -ENODATA)
+> >                               irq = of_irq_get(dev->of_node, 0);
+> >               } else if (ACPI_COMPANION(dev)) {
+> > -                     irq = i2c_acpi_get_irq(client);
+> > +                     bool wake_capable;
+> > +
+> > +                     irq = i2c_acpi_get_irq(client, &wake_capable);
+> > +
+>
+> Drop the empty line here.
+Done
 
-Thanks for the testing, much appreciated!
+>
+> > +                     if (irq > 0 && wake_capable)
+> > +                             client->flags |= I2C_CLIENT_WAKE;
+> >               }
+> > +
+>
+> Unrelated whitespace change.
+Done
 
+>
+> With those fixed feel free to add,
+>
+> Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+
+Added, thanks!
