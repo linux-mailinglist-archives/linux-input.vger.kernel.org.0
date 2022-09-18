@@ -2,62 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD9C55BBE81
-	for <lists+linux-input@lfdr.de>; Sun, 18 Sep 2022 16:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61E295BBEB5
+	for <lists+linux-input@lfdr.de>; Sun, 18 Sep 2022 17:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbiIROkR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 18 Sep 2022 10:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55536 "EHLO
+        id S229515AbiIRPjd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Sep 2022 11:39:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiIROkR (ORCPT
+        with ESMTP id S229564AbiIRPjc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 18 Sep 2022 10:40:17 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910BC22531
-        for <linux-input@vger.kernel.org>; Sun, 18 Sep 2022 07:40:15 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id w28so13859790edi.7
-        for <linux-input@vger.kernel.org>; Sun, 18 Sep 2022 07:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=WJeTo/YoIqzGxBFJQlGTAeJS2JaDh5aCUVTVnuwF7YM=;
-        b=Z/2KbxcMC57BZRevUCvexaoh4RLqSuY7+hZthoy4SnlD+bZFq6GBoRcZ/fWJIoMQtf
-         +Ju45vTDpB8TYm7gm3nMbR37EYcD9lus81WKL4zNrw8xo9dh1NewU7aVBDn6k8zXBHYo
-         DjMwm3ouqFsn0T+JuZy3EWLBcnLELIF57WDi4ux5UfdoiuEZY1VTSj7qab8LH5p3goXg
-         WVwQbn1VZpvv8LH6SPccyFutWl1Will7xgwI9Raua6SGkEFdHlwxmCNKMPGWabWkUnSe
-         rUnFMnj5BfuL4hYsX72gw4AybGTd6sH/OKcR3pRQxDYcXx2dc6yhrnOqlQa5HQWh5zbL
-         1dyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=WJeTo/YoIqzGxBFJQlGTAeJS2JaDh5aCUVTVnuwF7YM=;
-        b=ZIu+UxwxynHaJE7sWltwj6jfD+9vB6y3sZAIXSx3fj4pC/7D8JRlB4u3eZL9qiDURY
-         yxyc/d3UMW9YUW1LltLMLS9uzl58/aEOMu0xuHSpjc0CQaXc33akCBUWhHbxUuO0BxbK
-         LePahGrLv0kqpHOjoJm/ra3SQfA8qEz9h6mU87M2qqDpA7tfN/SWooZWpqBOlO3Tl19z
-         LSDopIImRbRiKkaYsbWBOVJk8/0lTuXLMKVzTwtd+arqGxvKF2E2oNlkJ9saJTVSH3Dm
-         Efc+et2oPUdSUDyY2pONxtn3aU5Pco8yH7bw/L/qoQwjAYj8iqR1fB5y8KynZ4K5u9Io
-         YKIg==
-X-Gm-Message-State: ACrzQf3ewqCzS/PGQ/9ImBjW1QwSj/WPwe+I92U2V5gBvdcRhI/kcT8u
-        2jLEn7C9YjrtkQeFuHNuMhgSxM8yV9Bl2+tlls+gVxgO8QQ=
-X-Google-Smtp-Source: AMsMyM7hDs2F6N0cDYpOC844+/sfzkePCFn2OXMPH0gr5/awqAUxuGJMsI5iGClyBfJv6MxsPUtAbJSMah2R7urb35U=
-X-Received: by 2002:aa7:d994:0:b0:451:e570:8a7d with SMTP id
- u20-20020aa7d994000000b00451e5708a7dmr11832915eds.205.1663512014151; Sun, 18
- Sep 2022 07:40:14 -0700 (PDT)
+        Sun, 18 Sep 2022 11:39:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CE07D9C;
+        Sun, 18 Sep 2022 08:39:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A76A61579;
+        Sun, 18 Sep 2022 15:39:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FCBBC433D6;
+        Sun, 18 Sep 2022 15:39:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663515569;
+        bh=eoh5wKV0bhC+uVW0zG39LMfRVLlky4WPRI9zCyibDdk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=XzWY4GGAQw3LFp9z4JxPO8Vi9FpfEvM8Q18dJzeaFBlnYDxyY9J2yc9qWeiM8J/oc
+         A/TqEeSSW8LjT/4/ilci23/H+mmQUSEJQ1KdkLiphyoozm3UIVfDt0xVPa6vxjL1qH
+         7f1bAH0A04i1aWha84zHwlkykUIimL4LizDlzdbKMsV3qeeAG65qwaiwjmq+iKs6Ls
+         CxqK92fBojx4u0LnXNrxaX49E0GHcacVw7GIkj6LyoZ6/UukcicsLccSfeKbefZdmF
+         uAGzgyqxKTIDMM2hzCRgMYJY/zrkIBFEihKQt0ecXg5XYw7DORtzVVtzN300ESHHz/
+         7H407cZpLV/KQ==
+Date:   Sun, 18 Sep 2022 16:39:33 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Matt Ranostay <matt.ranostay@konsulko.com>
+Cc:     gupt21@gmail.com, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] HID: mcp2221: switch i2c registration to devm
+ functions
+Message-ID: <20220918163933.0e52b581@jic23-huawei>
+In-Reply-To: <20220912173202.16723-5-matt.ranostay@konsulko.com>
+References: <20220912173202.16723-1-matt.ranostay@konsulko.com>
+        <20220912173202.16723-5-matt.ranostay@konsulko.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220914141428.2201784-1-dmitry.torokhov@gmail.com> <20220914141428.2201784-2-dmitry.torokhov@gmail.com>
-In-Reply-To: <20220914141428.2201784-2-dmitry.torokhov@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 18 Sep 2022 16:40:03 +0200
-Message-ID: <CACRpkdad4CVo6xuesaN-rgrq+Tb+MUdAyyeP13V-b-e6FUMvzA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] Input: auo-pixcir-ts - switch to using gpiod API
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Heiko Stuebner <heiko@sntech.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,14 +56,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 4:14 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On Mon, 12 Sep 2022 10:32:01 -0700
+Matt Ranostay <matt.ranostay@konsulko.com> wrote:
 
-> This switches the driver to gpiod API and drops uses of of_get_gpio() API.
->
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Switch from i2c_add_adapter() to resource managed devm_i2c_add_adapter()
+> for matching rest of driver initialization, and more concise code.
+> 
+> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+This doesn't necessarily make things worse, but I'm not keen on the
+potential ordering issues that result form mixed devm / non-devm
+in this function.  It's too hard too think about!
 
-Yours,
-Linus Walleij
+Easiest way to avoid people staring at the code to figure out if
+there are nasty issues would be to take the whole thing devm
+with a couple of devm_add_action_or_reset() to handle the
+hid_hw_stop()/hid_hw_close() at right points in the error / remove
+flows.
+
+Jonathan
+
+
+> ---
+>  drivers/hid/hid-mcp2221.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+> index de52e9f7bb8c..29e69576c3d4 100644
+> --- a/drivers/hid/hid-mcp2221.c
+> +++ b/drivers/hid/hid-mcp2221.c
+> @@ -873,7 +873,7 @@ static int mcp2221_probe(struct hid_device *hdev,
+>  			"MCP2221 usb-i2c bridge on hidraw%d",
+>  			((struct hidraw *)hdev->hidraw)->minor);
+>  
+> -	ret = i2c_add_adapter(&mcp->adapter);
+> +	ret = devm_i2c_add_adapter(&hdev->dev, &mcp->adapter);
+>  	if (ret) {
+>  		hid_err(hdev, "can't add usb-i2c adapter: %d\n", ret);
+>  		goto err_i2c;
+> @@ -884,7 +884,7 @@ static int mcp2221_probe(struct hid_device *hdev,
+>  	mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
+>  	if (!mcp->gc) {
+>  		ret = -ENOMEM;
+> -		goto err_gc;
+> +		goto err_i2c;
+>  	}
+>  
+>  	mcp->gc->label = "mcp2221_gpio";
+> @@ -900,12 +900,10 @@ static int mcp2221_probe(struct hid_device *hdev,
+>  
+>  	ret = devm_gpiochip_add_data(&hdev->dev, mcp->gc, mcp);
+>  	if (ret)
+> -		goto err_gc;
+> +		goto err_i2c;
+>  
+>  	return 0;
+>  
+> -err_gc:
+> -	i2c_del_adapter(&mcp->adapter);
+>  err_i2c:
+>  	hid_hw_close(mcp->hdev);
+>  err_hstop:
+> @@ -917,7 +915,6 @@ static void mcp2221_remove(struct hid_device *hdev)
+>  {
+>  	struct mcp2221 *mcp = hid_get_drvdata(hdev);
+>  
+> -	i2c_del_adapter(&mcp->adapter);
+>  	hid_hw_close(mcp->hdev);
+>  	hid_hw_stop(mcp->hdev);
+>  }
+
