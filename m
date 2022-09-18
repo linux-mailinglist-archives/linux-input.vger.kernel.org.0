@@ -2,112 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D11775BBDEB
-	for <lists+linux-input@lfdr.de>; Sun, 18 Sep 2022 15:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD9C55BBE81
+	for <lists+linux-input@lfdr.de>; Sun, 18 Sep 2022 16:40:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiIRNIX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 18 Sep 2022 09:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55994 "EHLO
+        id S229517AbiIROkR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Sep 2022 10:40:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiIRNIW (ORCPT
+        with ESMTP id S229529AbiIROkR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 18 Sep 2022 09:08:22 -0400
-Received: from smtp.smtpout.orange.fr (smtp06.smtpout.orange.fr [80.12.242.128])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C46BE1F63E
-        for <linux-input@vger.kernel.org>; Sun, 18 Sep 2022 06:08:20 -0700 (PDT)
-Received: from pop-os.home ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id Zu1yoxokbiBgAZu1yoePn2; Sun, 18 Sep 2022 15:08:18 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 18 Sep 2022 15:08:18 +0200
-X-ME-IP: 90.11.190.129
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Input: applespi - avoid wasting some memory
-Date:   Sun, 18 Sep 2022 15:08:17 +0200
-Message-Id: <0db94f84920663f3bd45a73e2ae73950627a377f.1663506472.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        Sun, 18 Sep 2022 10:40:17 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910BC22531
+        for <linux-input@vger.kernel.org>; Sun, 18 Sep 2022 07:40:15 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id w28so13859790edi.7
+        for <linux-input@vger.kernel.org>; Sun, 18 Sep 2022 07:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=WJeTo/YoIqzGxBFJQlGTAeJS2JaDh5aCUVTVnuwF7YM=;
+        b=Z/2KbxcMC57BZRevUCvexaoh4RLqSuY7+hZthoy4SnlD+bZFq6GBoRcZ/fWJIoMQtf
+         +Ju45vTDpB8TYm7gm3nMbR37EYcD9lus81WKL4zNrw8xo9dh1NewU7aVBDn6k8zXBHYo
+         DjMwm3ouqFsn0T+JuZy3EWLBcnLELIF57WDi4ux5UfdoiuEZY1VTSj7qab8LH5p3goXg
+         WVwQbn1VZpvv8LH6SPccyFutWl1Will7xgwI9Raua6SGkEFdHlwxmCNKMPGWabWkUnSe
+         rUnFMnj5BfuL4hYsX72gw4AybGTd6sH/OKcR3pRQxDYcXx2dc6yhrnOqlQa5HQWh5zbL
+         1dyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=WJeTo/YoIqzGxBFJQlGTAeJS2JaDh5aCUVTVnuwF7YM=;
+        b=ZIu+UxwxynHaJE7sWltwj6jfD+9vB6y3sZAIXSx3fj4pC/7D8JRlB4u3eZL9qiDURY
+         yxyc/d3UMW9YUW1LltLMLS9uzl58/aEOMu0xuHSpjc0CQaXc33akCBUWhHbxUuO0BxbK
+         LePahGrLv0kqpHOjoJm/ra3SQfA8qEz9h6mU87M2qqDpA7tfN/SWooZWpqBOlO3Tl19z
+         LSDopIImRbRiKkaYsbWBOVJk8/0lTuXLMKVzTwtd+arqGxvKF2E2oNlkJ9saJTVSH3Dm
+         Efc+et2oPUdSUDyY2pONxtn3aU5Pco8yH7bw/L/qoQwjAYj8iqR1fB5y8KynZ4K5u9Io
+         YKIg==
+X-Gm-Message-State: ACrzQf3ewqCzS/PGQ/9ImBjW1QwSj/WPwe+I92U2V5gBvdcRhI/kcT8u
+        2jLEn7C9YjrtkQeFuHNuMhgSxM8yV9Bl2+tlls+gVxgO8QQ=
+X-Google-Smtp-Source: AMsMyM7hDs2F6N0cDYpOC844+/sfzkePCFn2OXMPH0gr5/awqAUxuGJMsI5iGClyBfJv6MxsPUtAbJSMah2R7urb35U=
+X-Received: by 2002:aa7:d994:0:b0:451:e570:8a7d with SMTP id
+ u20-20020aa7d994000000b00451e5708a7dmr11832915eds.205.1663512014151; Sun, 18
+ Sep 2022 07:40:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220914141428.2201784-1-dmitry.torokhov@gmail.com> <20220914141428.2201784-2-dmitry.torokhov@gmail.com>
+In-Reply-To: <20220914141428.2201784-2-dmitry.torokhov@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 18 Sep 2022 16:40:03 +0200
+Message-ID: <CACRpkdad4CVo6xuesaN-rgrq+Tb+MUdAyyeP13V-b-e6FUMvzA@mail.gmail.com>
+Subject: Re: [PATCH 2/5] Input: auo-pixcir-ts - switch to using gpiod API
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Heiko Stuebner <heiko@sntech.de>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When the 'struct applespi_data' structure is allocated at the beginning of
-applespi_probe(), 2504 bytes are allocated.
+On Wed, Sep 14, 2022 at 4:14 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-Because of the way memory is allocated, it ends to a 4096 bytes allocation.
-So, about 1500 bytes are wasted.
+> This switches the driver to gpiod API and drops uses of of_get_gpio() API.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Later in this function, when 'tx_buffer', 'tx_status', 'rx_buffer' and
-'msg_buf' are allocated, 256, 4, 256 and 512 bytes are requested (~1 ko).
-A devm_ memory allocation has a small overhead of 40 bytes. So, for the
-same reason as above, it ends to allocate 512, 64, 512 and 1024 (~2 ko).
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-All that said, defining these 4 arrays as part of 'struct applespi_data'
-saves 2 ko of runtime memory.
-
-3504 bytes are now requested, and 4096 really allocated. All these 4
-arrays fit in the 'wasted' memory of the first allocation.
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested only.
----
- drivers/input/keyboard/applespi.c | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
-index fab5473ae5da..bee4ccfa2b05 100644
---- a/drivers/input/keyboard/applespi.c
-+++ b/drivers/input/keyboard/applespi.c
-@@ -373,11 +373,11 @@ struct applespi_data {
- 	struct input_dev		*keyboard_input_dev;
- 	struct input_dev		*touchpad_input_dev;
- 
--	u8				*tx_buffer;
--	u8				*tx_status;
--	u8				*rx_buffer;
-+	u8				tx_buffer[APPLESPI_PACKET_SIZE];
-+	u8				tx_status[APPLESPI_STATUS_SIZE];
-+	u8				rx_buffer[APPLESPI_PACKET_SIZE];
- 
--	u8				*msg_buf;
-+	u8				msg_buf[MAX_PKTS_PER_MSG * APPLESPI_PACKET_SIZE];
- 	unsigned int			saved_msg_len;
- 
- 	struct applespi_tp_info		tp_info;
-@@ -1659,21 +1659,6 @@ static int applespi_probe(struct spi_device *spi)
- 	/* store the driver data */
- 	spi_set_drvdata(spi, applespi);
- 
--	/* create our buffers */
--	applespi->tx_buffer = devm_kmalloc(&spi->dev, APPLESPI_PACKET_SIZE,
--					   GFP_KERNEL);
--	applespi->tx_status = devm_kmalloc(&spi->dev, APPLESPI_STATUS_SIZE,
--					   GFP_KERNEL);
--	applespi->rx_buffer = devm_kmalloc(&spi->dev, APPLESPI_PACKET_SIZE,
--					   GFP_KERNEL);
--	applespi->msg_buf = devm_kmalloc_array(&spi->dev, MAX_PKTS_PER_MSG,
--					       APPLESPI_PACKET_SIZE,
--					       GFP_KERNEL);
--
--	if (!applespi->tx_buffer || !applespi->tx_status ||
--	    !applespi->rx_buffer || !applespi->msg_buf)
--		return -ENOMEM;
--
- 	/* set up our spi messages */
- 	applespi_setup_read_txfrs(applespi);
- 	applespi_setup_write_txfrs(applespi);
--- 
-2.34.1
-
+Yours,
+Linus Walleij
