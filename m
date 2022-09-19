@@ -2,142 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71F835BBFBB
-	for <lists+linux-input@lfdr.de>; Sun, 18 Sep 2022 22:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3635BC178
+	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 04:45:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbiIRUMX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 18 Sep 2022 16:12:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43294 "EHLO
+        id S229610AbiISCpU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Sep 2022 22:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbiIRUMW (ORCPT
+        with ESMTP id S229750AbiISCpR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 18 Sep 2022 16:12:22 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A779313D52
-        for <linux-input@vger.kernel.org>; Sun, 18 Sep 2022 13:12:20 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id p3so11615197iof.13
-        for <linux-input@vger.kernel.org>; Sun, 18 Sep 2022 13:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=uwwi92DRkzziP5G3a3vC0eP80gJHoxLlFlUaVUv3Y4A=;
-        b=eX9zpejPmg2yUIo2EeXY0P9k6yVrB7s2K2a5UUyr8LNbD/keMKOt2iZYGBioC7jgHo
-         ZYeuOPwAuQsJ+TOEysRZTCyPS8QSYC6tWvM/btm5mfpLptYex7qhPLvh/ue9w551oTjA
-         w0vYQDfXoaEaYn50kA7bGFjmgj3Bgk9x6Xe6I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=uwwi92DRkzziP5G3a3vC0eP80gJHoxLlFlUaVUv3Y4A=;
-        b=lIc1jAu+hSZ4UNDIvwzXpCV36PuahHT+lCJcJM8xTRW72QsjZ8tkYgd9vYrvGabCpA
-         vJNVm/fyt+a2G+mFGTlh98SckR5BV6zNwKhFFlT9MbVfEmkvKj/my0JzbaotJOZbKhxX
-         AHLGM9Q9AhYThRrX9or4oQZLmJc1x9gZhFxKd/lAUhMQgkJmRA97XQIPnIdEYvodH0dW
-         gUeiH2d8olpXyrGXBSumJiG8FGe/XbauJKBCbpIJGRtrfTBCmwJUQVYFr89VLKlp1ctn
-         VOG4ecE2NH2wRpiFFUpNznTSeF0Qcuatm8NZ33rUU63Acu+ns/HHwAj677N8nVCvDa1I
-         95PQ==
-X-Gm-Message-State: ACrzQf1BAixfLfENPBluxmSH++jd3De2kXLxQfzVbP3pq5vLu4wA5OnU
-        W91lYLZadB/lNT1H7x67wrABjniRW1fa3Fwjb7W+dw==
-X-Google-Smtp-Source: AMsMyM6x44E44imJOG600gCWyQhF+SRbbBEL1BFLiw5eUyFTdnVkdknogBUWXMEMPKnEu0PG5hjx5gD/G/vjIWK8It8=
-X-Received: by 2002:a5d:9ac1:0:b0:6a3:1938:e6b0 with SMTP id
- x1-20020a5d9ac1000000b006a31938e6b0mr1114144ion.186.1663531940006; Sun, 18
- Sep 2022 13:12:20 -0700 (PDT)
+        Sun, 18 Sep 2022 22:45:17 -0400
+X-Greylist: delayed 727 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 18 Sep 2022 19:45:12 PDT
+Received: from mailserver.astranet.ru (mailserver.astranet.ru [62.183.109.36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 74ECA11168;
+        Sun, 18 Sep 2022 19:45:12 -0700 (PDT)
+Received: by mailserver.astranet.ru (Postfix, from userid 33)
+        id 70457901A69; Mon, 19 Sep 2022 06:31:18 +0400 (+04)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=astranet.ru; s=mail;
+        t=1663554678; bh=8U4kVQ9MaDdmTFvWLQWQOeffea76A7LfBrqduaHb4h8=;
+        h=To:Subject:Date:From:Reply-To:From;
+        b=VRRFNEvtoCxi1x6B5sPGDdRwSFibOU+RM2SGzlwoTKhI9hPQYkrDEvGdwdAbJqxgy
+         PymIWcu4LNYftOuA5QJBPSZOKCMwvOMccHtXxCkIMubq6esRlG1O+tG4L8WY/lWfsT
+         G+MRnmKWPnKaxztDH7ghvtnmAnn1Ff5Skgmk9CK0=
+To:     undisclosed-recipients:;
+Subject: AW: Darlehensangebot 1,5 %.
+X-PHP-Originating-Script: 0:rcube.php
 MIME-Version: 1.0
-References: <20220912173202.16723-1-matt.ranostay@konsulko.com>
- <20220912173202.16723-6-matt.ranostay@konsulko.com> <20220918164920.5bc2bc87@jic23-huawei>
-In-Reply-To: <20220918164920.5bc2bc87@jic23-huawei>
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-Date:   Sun, 18 Sep 2022 13:12:08 -0700
-Message-ID: <CAJCx=g=JPRTm-Qjy233BfOfzFiSVonM5GbS2BrRrzp8aNZA4MQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] HID: mcp2221: add ADC/DAC support via iio subsystem
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     gupt21@gmail.com, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Mon, 19 Sep 2022 03:31:18 +0100
+From:   PREMIER SOLUTION <instrument@astranet.ru>
+Organization: PREMIER SOLUTION
+Reply-To: premiersolutions.inc@hotmail.com
+Mail-Reply-To: premiersolutions.inc@hotmail.com
+Message-ID: <ede3a115bdf6b0a8013a17453b6d44ac@astranet.ru>
+X-Sender: instrument@astranet.ru
+User-Agent: Roundcube Webmail/1.2-beta
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_60,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        ODD_FREEM_REPTO,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Report: *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.6346]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  2.3 ODD_FREEM_REPTO Has unusual reply-to header
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Sep 18, 2022 at 8:49 AM Jonathan Cameron <jic23@kernel.org> wrote:
->
-> On Mon, 12 Sep 2022 10:32:02 -0700
-> Matt Ranostay <matt.ranostay@konsulko.com> wrote:
->
-> > Add support for 3x 10-bit ADC and 1x DAC channels registered via the iio
-> > subsystem.
-> >
-> > To prevent breakage and unexpected dependencies this support only is
-> > only built if CONFIG_IIO is enabled, and is only weakly referenced by
-> > 'imply IIO' within the respective Kconfig.
-> >
-> > Additionally the iio device only gets registered if at least one channel
-> > is enabled in the power-on configuration read from SRAM.
-> >
-> > Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
->
-> Hi Matt,
->
-> Can we not provide a _scale?
-> Whilst not technically required in all IIO Drivers, a bare _raw interface
-> is rarely that much use and here the ADC and DAC clearly have very different
-> scales.
 
-I will check into that. The sampling voltage range is configurable
-though and will need
-to see
 
->
-> Otherwise, as seen below, I'd like a comment on why the registration
-> is kicked off in a delayed work item. Right now that looks like a hack
-> to ensure something else has happened first.  That's fine, but there
-> doesn't seem to be rescheduling if whatever that 'thing' is hasn't happened yet.
-> To use this sort of delayed trick, I'd definitely expect a backoff again
-> to be implemented...
+-- 
+Grüße,
 
-Ok a retry here maybe would make sense to be sure the SRAM
-configuration is read.
-This hack is just because we have to be sure the MCP2221 is up and
-running before
-attempting to read the SRAM via a USB message, and is less ugly/wrong to pop a
-msleep in a probe function.
+Brauchen Sie einen Kredit?
 
-Also in this case we can back down the half second delay since that is
-the worst case.
+Machen Sie sich finanziell stabil, indem Sie einen Kredit bei PREMIER 
+aufnehmen
+SOLUTION ist das zuverlässigste Kreditunternehmen.
+Das Unternehmen PREMIER SOLUTION gewährt Darlehen zu einem niedrigen 
+Zinssatz von 1,5 %
+Wir bieten verschiedene Arten von Darlehen für Unternehmen und 
+Einzelpersonen an, einschließlich Projektdarlehen (kurz- und 
+langfristige Darlehen, Privatdarlehen, Investitionsdarlehen und 
+Geschäftsdarlehen usw.)
 
-- Matt
+Wenn Sie an weiteren Details interessiert sind, füllen Sie bitte die 
+folgenden Details aus
 
->
-> > ---
-> >  drivers/hid/Kconfig       |   1 +
-> >  drivers/hid/hid-mcp2221.c | 187 ++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 188 insertions(+)
->
->
-> ...
->
-> >  static int mcp2221_probe(struct hid_device *hdev,
-> >                                       const struct hid_device_id *id)
-> >  {
-> > @@ -902,6 +1084,11 @@ static int mcp2221_probe(struct hid_device *hdev,
-> >       if (ret)
-> >               goto err_i2c;
-> >
-> > +#if IS_REACHABLE(CONFIG_IIO)
-> > +     INIT_DELAYED_WORK(&mcp->init_work, mcp_init_work);
-> > +     schedule_delayed_work(&mcp->init_work, msecs_to_jiffies(500));
->
-> Good to have a comment here to say why you are kicking the registration of the
-> IIO device onto a delayed work path.
->
-> > +#endif
-> > +
-> >       return 0;
-> >
-> >  err_i2c:
->
+Bitte füllen Sie folgende Angaben aus:
+
+Vollständiger Name :
+Darlehensbetrag:
+Mietzeitraum :
+Darlehen Zweck :
+Telefon :
+
+Hinweis: Wir bieten Kredite in verschiedenen Währungen EUR, CHF, DOLLAR 
+an
+und Pfund usw.
+
+Wir erwarten Ihre dringende Antwort, um fortzufahren
+
+Grüße
