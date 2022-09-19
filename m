@@ -2,110 +2,578 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 557CA5BC34C
-	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 09:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C9E65BC552
+	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 11:27:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbiISHCp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Sep 2022 03:02:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42034 "EHLO
+        id S229566AbiISJ1v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Sep 2022 05:27:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbiISHCo (ORCPT
+        with ESMTP id S229529AbiISJ1u (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Sep 2022 03:02:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7D71CB0C;
-        Mon, 19 Sep 2022 00:02:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DFC2B61122;
-        Mon, 19 Sep 2022 07:02:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46387C433C1;
-        Mon, 19 Sep 2022 07:02:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663570962;
-        bh=r7rE3QztujfpGUrKJbtq/eo8EOPVd2kk3QtrqlMwkLc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WaRQxufDDaOlWRgNKR9T5RMjCg8WwLQXD114nYKmW5vAeKW0RqlIQI1yMwFxD+qn1
-         GnR4BgXNco/ml8Rv4H/2p79ph8h2ENGScxCYaJA7zze+7WFpwhN1SndZBgwxbb1OGB
-         NsUmm2WFlvlbnYYGoogKVSvtTizAnqM3/5BR1+LLmrUyk0jdk91cuL/L3ZNRIPgMgj
-         UbRcwm1lGnK8JlzmapBN0vkUgdzBzzPOXwZGndiuwymzS/hmHrK6HFV3fRh8VdfgMr
-         LK9w1ZiSLYnk7rdEWFXPgyeQlD2VXYl85MczzivsQmVz8RAIX4/809yBQ9EvE1lo23
-         rCXcO4xCtsxeg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1oaAnm-0004zd-Cd; Mon, 19 Sep 2022 09:02:46 +0200
-Date:   Mon, 19 Sep 2022 09:02:46 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: applespi - avoid wasting some memory
-Message-ID: <YygUFr5cSpZhYKOA@hovoldconsulting.com>
-References: <0db94f84920663f3bd45a73e2ae73950627a377f.1663506472.git.christophe.jaillet@wanadoo.fr>
+        Mon, 19 Sep 2022 05:27:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16BF765EA
+        for <linux-input@vger.kernel.org>; Mon, 19 Sep 2022 02:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663579667;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=VkiaQBQdHoL9KRuhmhORNRUFSg/c9en9dR/2S8CVp74=;
+        b=CPZ+StZt5DxcMB3xsHFDZSIDzMs/N2Rd4VNLfbCFu2OCXPvCKrAgIJLIL21aOlZ0VnhLsq
+        WMZ9Kedt5hgBR7H6/imAPZBZ+Zyfy6TTJ20olFafFl2+7j9ICt/lIt4Pam3o38bfnwhO9v
+        AMO9Lpe42eNr5+XA1hnVeqv+k//Bes4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-327-21NL5FJyMfKniRD4HtXD9A-1; Mon, 19 Sep 2022 05:27:46 -0400
+X-MC-Unique: 21NL5FJyMfKniRD4HtXD9A-1
+Received: by mail-ed1-f71.google.com with SMTP id y9-20020a056402270900b00451dfbbc9b2so15288143edd.12
+        for <linux-input@vger.kernel.org>; Mon, 19 Sep 2022 02:27:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=VkiaQBQdHoL9KRuhmhORNRUFSg/c9en9dR/2S8CVp74=;
+        b=CJNDfUm3h3kzS9FtJ6FNWn5e5Qa3b8q9P8MX8/x9D0JC6F4ztV/D0KY99OMk8OhJNL
+         gjGVlCeSQKInFgqFXckRXivDKRB4U8jl0kG3UHsM76QLZBPmTwOe+q/fa2L0m/w7gRYe
+         7C5X5yEqkjRa1QPhRNFa/7nmVuUde+SGU/r6B0iZbXkfsb2yOEekwJPX5KQwwKJweIy6
+         YzG8t8ZyEgg2Uo6L1OSNahr8mFuusR4Mbdm07RQpKj7yuqNyPCNoemAarpH8PJhprpPh
+         2CrOKwYoNyOPWW11Qh8wZmNT7NfnM5enZmtzpFp2hHq5fuTNBhaN4QPwiB1+2Z+MSaEA
+         wvTA==
+X-Gm-Message-State: ACrzQf3i5kKRr924HtZsYD4VXcBmXk0HkSIAK1AM2qQuiJmhziJm9X/w
+        D/z961mfdyEMdK/E2oepB19pc8pNlFNr3mDSVgMWt/5l0tRakQp9JSC9So6NEESNFj8WZNqneAY
+        v0Bjs2q3gSeO3lrwpavBIBRs=
+X-Received: by 2002:a05:6402:3211:b0:453:ba03:9dee with SMTP id g17-20020a056402321100b00453ba039deemr7514902eda.351.1663579664675;
+        Mon, 19 Sep 2022 02:27:44 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM63mLbyR/nvh9Je8oD+Lg38Xh99uP9xN6sN3YJlRedoxqYgFPxrMxxa4mjJRonAIQvHOfzorw==
+X-Received: by 2002:a05:6402:3211:b0:453:ba03:9dee with SMTP id g17-20020a056402321100b00453ba039deemr7514890eda.351.1663579664367;
+        Mon, 19 Sep 2022 02:27:44 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id u22-20020a170906781600b007305d408b3dsm15300278ejm.78.2022.09.19.02.27.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 02:27:43 -0700 (PDT)
+Message-ID: <0e88f032-5f29-8842-401e-48a573319ecf@redhat.com>
+Date:   Mon, 19 Sep 2022 10:27:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0db94f84920663f3bd45a73e2ae73950627a377f.1663506472.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH RFC 1/2] staging: quickstart: Add ACPI quickstart button
+ (PNP0C32) driver
+Content-Language: en-US
+To:     Arvid Norlander <lkml@vorpal.se>,
+        platform-driver-x86@vger.kernel.org
+Cc:     linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>
+References: <20220911194934.558019-1-lkml@vorpal.se>
+ <20220911194934.558019-2-lkml@vorpal.se>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220911194934.558019-2-lkml@vorpal.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Sep 18, 2022 at 03:08:17PM +0200, Christophe JAILLET wrote:
-> When the 'struct applespi_data' structure is allocated at the beginning of
-> applespi_probe(), 2504 bytes are allocated.
+Hi,
+
+On 9/11/22 20:49, Arvid Norlander wrote:
+> This is loosly based on a previous staging driver that was removed. See
+> links below for more info on that driver. The original commit ID was
+> 0be013e3dc2ee79ffab8a438bbb4e216837e3d52.
 > 
-> Because of the way memory is allocated, it ends to a 4096 bytes allocation.
-> So, about 1500 bytes are wasted.
+> However, here a completely different approach is taken to the user space
+> API (which should solve the issues the original driver had). Each PNP0C32
+> device is a button, and each such button gets a separate input device
+> associated with it (instead of a shared platform input device).
 > 
-> Later in this function, when 'tx_buffer', 'tx_status', 'rx_buffer' and
-> 'msg_buf' are allocated, 256, 4, 256 and 512 bytes are requested (~1 ko).
-> A devm_ memory allocation has a small overhead of 40 bytes. So, for the
-> same reason as above, it ends to allocate 512, 64, 512 and 1024 (~2 ko).
+> The button ID (as read from ACPI method GHID) is provided via a sysfs file
+> "button_id".
 > 
-> All that said, defining these 4 arrays as part of 'struct applespi_data'
-> saves 2 ko of runtime memory.
+> If the button caused a wakeup it will "latch" the "wakeup_cause" sysfs file
+> to true. This can be reset by a user space process.
 > 
-> 3504 bytes are now requested, and 4096 really allocated. All these 4
-> arrays fit in the 'wasted' memory of the first allocation.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Link: https://marc.info/?l=linux-acpi&m=120550727131007
+> Link: https://lkml.org/lkml/2010/5/28/327
+> Signed-off-by: Arvid Norlander <lkml@vorpal.se>
+
+2 high level remarks here:
+
+1. I believe we should strive for having all issues with this driver fixed
+before merging it, at which point it should not sit under drivers/staging
+but rather under drivers/platform/x86 (as an added bonus this can also make
+toshiba_apci's Kconfig bit select it automatically). So for the next version
+please move this to drivers/platform/x86
+
+2. This is using struct acpi_driver, but as Rafael (ACPI maintainer) always
+said that is really only for very special cases. The ACPI subsystem should
+instantiate standard platform devices for each PNP0C32 device, you can
+check this under: /sys/bus/devices/platform.  And this driver should then
+be convered to a standard platform_driver binding to the platform devices
+instead of being a struct acpi_driver.
+
+Please address these 2 things as well as the remarks from Barnabás and
+then send out a version 2. Then I will do a more detailed review of
+version 2 once posted.
+
+Regards,
+
+Hans
+
+
+
+
 > ---
-> Compile tested only.
-> ---
->  drivers/input/keyboard/applespi.c | 23 ++++-------------------
->  1 file changed, 4 insertions(+), 19 deletions(-)
+>  drivers/staging/Kconfig                 |   2 +
+>  drivers/staging/Makefile                |   1 +
+>  drivers/staging/quickstart/Kconfig      |  12 +
+>  drivers/staging/quickstart/Makefile     |   1 +
+>  drivers/staging/quickstart/quickstart.c | 376 ++++++++++++++++++++++++
+>  5 files changed, 392 insertions(+)
+>  create mode 100644 drivers/staging/quickstart/Kconfig
+>  create mode 100644 drivers/staging/quickstart/Makefile
+>  create mode 100644 drivers/staging/quickstart/quickstart.c
 > 
-> diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
-> index fab5473ae5da..bee4ccfa2b05 100644
-> --- a/drivers/input/keyboard/applespi.c
-> +++ b/drivers/input/keyboard/applespi.c
-> @@ -373,11 +373,11 @@ struct applespi_data {
->  	struct input_dev		*keyboard_input_dev;
->  	struct input_dev		*touchpad_input_dev;
+> diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+> index 3bd80f9695ac..db89ffbcd1ad 100644
+> --- a/drivers/staging/Kconfig
+> +++ b/drivers/staging/Kconfig
+> @@ -50,6 +50,8 @@ source "drivers/staging/iio/Kconfig"
 >  
-> -	u8				*tx_buffer;
-> -	u8				*tx_status;
-> -	u8				*rx_buffer;
-> +	u8				tx_buffer[APPLESPI_PACKET_SIZE];
-> +	u8				tx_status[APPLESPI_STATUS_SIZE];
-> +	u8				rx_buffer[APPLESPI_PACKET_SIZE];
+>  source "drivers/staging/sm750fb/Kconfig"
 >  
-> -	u8				*msg_buf;
-> +	u8				msg_buf[MAX_PKTS_PER_MSG * APPLESPI_PACKET_SIZE];
->  	unsigned int			saved_msg_len;
+> +source "drivers/staging/quickstart/Kconfig"
+> +
+>  source "drivers/staging/emxx_udc/Kconfig"
 >  
->  	struct applespi_tp_info		tp_info;
+>  source "drivers/staging/nvec/Kconfig"
+> diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+> index 1d9ae39fea14..cb92880f7db5 100644
+> --- a/drivers/staging/Makefile
+> +++ b/drivers/staging/Makefile
+> @@ -16,6 +16,7 @@ obj-$(CONFIG_VT6656)		+= vt6656/
+>  obj-$(CONFIG_VME_BUS)		+= vme_user/
+>  obj-$(CONFIG_IIO)		+= iio/
+>  obj-$(CONFIG_FB_SM750)		+= sm750fb/
+> +obj-$(CONFIG_ACPI_QUICKSTART)	+= quickstart/
+>  obj-$(CONFIG_USB_EMXX)		+= emxx_udc/
+>  obj-$(CONFIG_MFD_NVEC)		+= nvec/
+>  obj-$(CONFIG_STAGING_BOARD)	+= board/
+> diff --git a/drivers/staging/quickstart/Kconfig b/drivers/staging/quickstart/Kconfig
+> new file mode 100644
+> index 000000000000..e1cf1810e967
+> --- /dev/null
+> +++ b/drivers/staging/quickstart/Kconfig
+> @@ -0,0 +1,12 @@
+> +config ACPI_QUICKSTART
+> +	tristate "ACPI Quickstart key driver"
+> +	depends on ACPI
+> +	depends on INPUT
+> +	select INPUT_SPARSEKMAP
+> +	help
+> +	  Say Y here if you have a platform that supports the ACPI
+> +	  quickstart key protocol.
+> +
+> +	  To compile this driver as a module, choose M here: the module will be
+> +	  called quickstart.
+> +
+> diff --git a/drivers/staging/quickstart/Makefile b/drivers/staging/quickstart/Makefile
+> new file mode 100644
+> index 000000000000..290e0e476797
+> --- /dev/null
+> +++ b/drivers/staging/quickstart/Makefile
+> @@ -0,0 +1 @@
+> +obj-$(CONFIG_ACPI_QUICKSTART)		+= quickstart.o
+> diff --git a/drivers/staging/quickstart/quickstart.c b/drivers/staging/quickstart/quickstart.c
+> new file mode 100644
+> index 000000000000..8d76472c6b7f
+> --- /dev/null
+> +++ b/drivers/staging/quickstart/quickstart.c
+> @@ -0,0 +1,376 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + *  quickstart.c - ACPI Direct App Launch driver
+> + *
+> + *  Copyright (C) 2022 Arvid Norlander <lkml@vorapal.se>
+> + *  Copyright (C) 2007-2010 Angelo Arrifano <miknix@gmail.com>
+> + *
+> + *  Information gathered from disassembled dsdt and from here:
+> + *  <https://archive.org/details/microsoft-acpi-dirapplaunch>
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + */
+> +
+> +#define QUICKSTART_VERSION "1.04"
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/types.h>
+> +#include <linux/acpi.h>
+> +#include <linux/input.h>
+> +#include <linux/input/sparse-keymap.h>
+> +
+> +MODULE_AUTHOR("Arvid Norlander <lkml@vorpal.se>");
+> +MODULE_AUTHOR("Angelo Arrifano");
+> +MODULE_DESCRIPTION("ACPI Direct App Launch driver");
+> +MODULE_LICENSE("GPL");
+> +
+> +#define QUICKSTART_ACPI_DEVICE_NAME	"quickstart"
+> +#define QUICKSTART_ACPI_CLASS		"quickstart"
+> +#define QUICKSTART_ACPI_HID		"PNP0C32"
+> +
+> +/*
+> + * There will be two events:
+> + * 0x02 - A hot button was pressed while device was off/sleeping.
+> + * 0x80 - A hot button was pressed while device was up.
+> + */
+> +#define QUICKSTART_EVENT_WAKE		0x02
+> +#define QUICKSTART_EVENT_RUNTIME	0x80
+> +
+> +/*
+> + * Each PNP0C32 device is an individual button. This structure
+> + * keeps track of data associated with said device.
+> + */
+> +struct quickstart_acpi {
+> +	struct acpi_device *acpi_dev;
+> +	struct input_dev *input_device;
+> +	struct quickstart_button *button;
+> +	/* Name of button for debug messages */
+> +	char *name;
+> +	/* ID of button as returned by GHID */
+> +	u32 id;
+> +	/* Flags for cleanup */
+> +	unsigned int input_registered : 1;
+> +	unsigned int sysfs_created : 1;
+> +	/* Track if a wakeup event was received */
+> +	unsigned int wakeup_cause : 1;
+> +	/* Name of input device */
+> +	char input_name[32];
+> +	/* Physical path for the input device */
+> +	char phys[32];
+> +};
+> +
+> +/*
+> + * Knowing what these buttons do require system specific knowledge.
+> + * This could be done by matching on DMI data in a long quirk table.
+> + * However, it is easier to leave it up to user space to figure this out.
+> + *
+> + * Using for example udev hwdb the scancode 0x1 can be remapped suitably.
+> + */
+> +static const struct key_entry quickstart_keymap[] = {
+> +	{ KE_KEY, 0x1, { KEY_UNKNOWN } },
+> +	{ KE_END, 0 },
+> +};
+> +
+> +static ssize_t wakeup_cause_show(struct device *dev,
+> +				 struct device_attribute *attr, char *buf)
+> +{
+> +	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
+> +
+> +	return scnprintf(buf, PAGE_SIZE, "%s\n",
+> +			 (quickstart->wakeup_cause ? "true" : "false"));
+> +}
+> +
+> +static ssize_t wakeup_cause_store(struct device *dev,
+> +				  struct device_attribute *attr,
+> +				  const char *buf, size_t count)
+> +{
+> +	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
+> +
+> +	if (count < 2)
+> +		return -EINVAL;
+> +
+> +	if (strncasecmp(buf, "false", 4) != 0)
+> +		return -EINVAL;
+> +
+> +	quickstart->wakeup_cause = false;
+> +	return count;
+> +}
+> +static DEVICE_ATTR_RW(wakeup_cause);
+> +
+> +static ssize_t button_id_show(struct device *dev, struct device_attribute *attr,
+> +			      char *buf)
+> +{
+> +	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
+> +
+> +	return scnprintf(buf, PAGE_SIZE, "%d\n", quickstart->id);
+> +}
+> +static DEVICE_ATTR_RO(button_id);
+> +
+> +/* ACPI Driver functions */
+> +static void quickstart_acpi_notify(struct acpi_device *acpi_dev, u32 event)
+> +{
+> +	struct quickstart_acpi *quickstart = acpi_driver_data(acpi_dev);
+> +
+> +	if (!quickstart)
+> +		return;
+> +
+> +	switch (event) {
+> +	case QUICKSTART_EVENT_WAKE:
+> +		quickstart->wakeup_cause = true;
+> +		break;
+> +	case QUICKSTART_EVENT_RUNTIME:
+> +		if (!sparse_keymap_report_event(quickstart->input_device, 0x1,
+> +						1, true)) {
+> +			pr_info("Key handling error\n");
+> +		}
+> +		break;
+> +	default:
+> +		pr_err("Unexpected ACPI event notify (%u)\n", event);
+> +		break;
+> +	}
+> +}
+> +
+> +/*
+> + * The GHID ACPI method is used to indicate the "role" of the button.
+> + * However, all the meanings of these values are vendor defined.
+> + *
+> + * We do however expose this value to user space.
+> + */
+> +static int quickstart_acpi_ghid(struct quickstart_acpi *quickstart)
+> +{
+> +	acpi_status status;
+> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	int ret = 0;
+> +	union acpi_object *obj = NULL;
+> +
+> +	/*
+> +	 * This returns a buffer telling the button usage ID,
+> +	 * and triggers pending notify events (The ones before booting).
+> +	 */
+> +	status = acpi_evaluate_object(quickstart->acpi_dev->handle, "GHID",
+> +				      NULL, &buffer);
+> +	if (ACPI_FAILURE(status)) {
+> +		pr_err("%s GHID method failed\n", quickstart->name);
+> +		return -EINVAL;
+> +	}
+> +	obj = buffer.pointer;
+> +
+> +	/*
+> +	 * GHID returns buffers, sanity check that is the case.
+> +	 */
+> +	if (obj->type != ACPI_TYPE_BUFFER) {
+> +		pr_err("%s GHID did not return buffer\n", quickstart->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * Quoting the specification:
+> +	 * "The GHID method can return a BYTE, WORD, or DWORD.
+> +	 *  The value must be encoded in little-endian byte
+> +	 *  order (least significant byte first)."
+> +	 */
+> +	switch (obj->buffer.length) {
+> +	case 1:
+> +		quickstart->id = *(u8 *)obj->buffer.pointer;
+> +		break;
+> +	case 2:
+> +		quickstart->id = le16_to_cpu(*(u16 *)obj->buffer.pointer);
+> +		break;
+> +	case 4:
+> +		quickstart->id = le32_to_cpu(*(u32 *)obj->buffer.pointer);
+> +		break;
+> +	case 8:
+> +		quickstart->id = le64_to_cpu(*(u64 *)obj->buffer.pointer);
+> +		break;
+> +	default:
+> +		pr_err("%s GHID method returned buffer of unexpected length %lu\n",
+> +		       quickstart->name, (unsigned long)obj->buffer.length);
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +	kfree(buffer.pointer);
+> +
+> +	return ret;
+> +}
+> +
+> +static int quickstart_acpi_config(struct quickstart_acpi *quickstart)
+> +{
+> +	char *bid = acpi_device_bid(quickstart->acpi_dev);
+> +	char *name;
+> +
+> +	name = kmalloc(strlen(bid) + 1, GFP_KERNEL);
+> +	if (!name)
+> +		return -ENOMEM;
+> +
+> +	quickstart->name = name;
+> +	strcpy(quickstart->name, bid);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct attribute *quickstart_attributes[] = {
+> +	&dev_attr_wakeup_cause.attr,
+> +	&dev_attr_button_id.attr,
+> +	NULL,
+> +};
+> +
+> +static const struct attribute_group quickstart_attr_group = {
+> +	.attrs = quickstart_attributes,
+> +};
+> +
+> +static int quickstart_acpi_remove(struct acpi_device *acpi_dev)
+> +{
+> +	struct quickstart_acpi *quickstart;
+> +
+> +	if (!acpi_dev)
+> +		return -EINVAL;
+> +
+> +	quickstart = acpi_driver_data(acpi_dev);
+> +	if (!quickstart)
+> +		return -EINVAL;
+> +
+> +	if (quickstart->sysfs_created)
+> +		sysfs_remove_group(&quickstart->acpi_dev->dev.kobj,
+> +				   &quickstart_attr_group);
+> +
+> +	kfree(quickstart->name);
+> +	quickstart->name = NULL;
+> +
+> +	kfree(quickstart);
+> +
+> +	return 0;
+> +}
+> +
+> +static int quickstart_acpi_add(struct acpi_device *acpi_dev)
+> +{
+> +	int ret;
+> +	struct quickstart_acpi *quickstart;
+> +
+> +	if (!acpi_dev)
+> +		return -EINVAL;
+> +
+> +	quickstart = kzalloc(sizeof(*quickstart), GFP_KERNEL);
+> +	if (!quickstart)
+> +		return -ENOMEM;
+> +
+> +	/*
+> +	 * This must be set early for proper cleanup on error handling path.
+> +	 * After this point generic error handling can be used.
+> +	 */
+> +	acpi_dev->driver_data = quickstart;
+> +	quickstart->acpi_dev = acpi_dev;
+> +	dev_set_drvdata(&acpi_dev->dev, quickstart);
+> +
+> +	strcpy(acpi_device_name(acpi_dev), QUICKSTART_ACPI_DEVICE_NAME);
+> +	strcpy(acpi_device_class(acpi_dev), QUICKSTART_ACPI_CLASS);
+> +
+> +	/* Initialize device name */
+> +	ret = quickstart_acpi_config(quickstart);
+> +	if (ret < 0)
+> +		goto error;
+> +
+> +	/* Retrieve the GHID ID */
+> +	ret = quickstart_acpi_ghid(quickstart);
+> +	if (ret < 0)
+> +		goto error;
+> +
+> +	/* Set up sysfs entries */
+> +	ret = sysfs_create_group(&quickstart->acpi_dev->dev.kobj,
+> +				 &quickstart_attr_group);
+> +	if (ret) {
+> +		quickstart->sysfs_created = 0;
+> +		pr_err("Unable to setup sysfs entries\n");
+> +		goto error;
+> +	}
+> +	quickstart->sysfs_created = !ret;
+> +
+> +	/* Set up input device */
+> +	quickstart->input_device =
+> +		devm_input_allocate_device(&quickstart->acpi_dev->dev);
+> +	if (!quickstart->input_device) {
+> +		ret = -ENOMEM;
+> +		goto error;
+> +	}
+> +	ret = sparse_keymap_setup(quickstart->input_device, quickstart_keymap,
+> +				  NULL);
+> +	if (ret)
+> +		goto error;
+> +
+> +	snprintf(quickstart->input_name, sizeof(quickstart->phys),
+> +		 "Quickstart Button %u", quickstart->id);
+> +	snprintf(quickstart->phys, sizeof(quickstart->phys),
+> +		 QUICKSTART_ACPI_DEVICE_NAME "/input%u", quickstart->id);
+> +
+> +	quickstart->input_device->name = quickstart->input_name;
+> +	quickstart->input_device->phys = quickstart->phys;
+> +	quickstart->input_device->id.bustype = BUS_HOST;
+> +
+> +	ret = input_register_device(quickstart->input_device);
+> +	if (ret) {
+> +		quickstart->input_registered = 0;
+> +		pr_err("Unable to register input device\n");
+> +		goto error;
+> +	}
+> +	quickstart->input_registered = !ret;
+> +
+> +	return 0;
+> +error:
+> +	quickstart_acpi_remove(acpi_dev);
+> +	return ret;
+> +}
+> +
+> +static const struct acpi_device_id quickstart_device_ids[] = {
+> +	{ QUICKSTART_ACPI_HID, 0 },
+> +	{ "", 0 },
+> +};
+> +MODULE_DEVICE_TABLE(acpi, quickstart_device_ids);
+> +
+> +static struct acpi_driver quickstart_acpi_driver = {
+> +	.name	= "quickstart",
+> +	.owner	= THIS_MODULE,
+> +	.class	= QUICKSTART_ACPI_CLASS,
+> +	.ids	= quickstart_device_ids,
+> +	.flags	= ACPI_DRIVER_ALL_NOTIFY_EVENTS,
+> +	.ops	= {
+> +		.add = quickstart_acpi_add,
+> +		.remove = quickstart_acpi_remove,
+> +		.notify = quickstart_acpi_notify
+> +	},
+> +};
+> +
+> +/* Module functions */
+> +static void quickstart_exit(void)
+> +{
+> +	acpi_bus_unregister_driver(&quickstart_acpi_driver);
+> +}
+> +
+> +static int __init quickstart_init(void)
+> +{
+> +	int ret;
+> +
+> +	/* ACPI driver register */
+> +	ret = acpi_bus_register_driver(&quickstart_acpi_driver);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pr_info("ACPI Direct App Launch ver %s\n", QUICKSTART_VERSION);
+> +
+> +	return 0;
+> +}
+> +
+> +module_init(quickstart_init);
+> +module_exit(quickstart_exit);
 
-This kind of change is generally broken in case DMA can be involved.
-
-Allocating the transfer buffers separately makes sure that alignment
-requirements are met and avoids hard-to-debug memory corruption issues.
-
-Johan
