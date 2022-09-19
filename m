@@ -2,109 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A2EF5BD3F6
-	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 19:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65EF45BD3F9
+	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 19:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbiISRlI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Sep 2022 13:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55388 "EHLO
+        id S229869AbiISRly (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Sep 2022 13:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbiISRlE (ORCPT
+        with ESMTP id S229727AbiISRlw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Sep 2022 13:41:04 -0400
-Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr [80.12.242.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7CFD3356E9
-        for <linux-input@vger.kernel.org>; Mon, 19 Sep 2022 10:41:03 -0700 (PDT)
-Received: from [192.168.1.18] ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id aKeAoPhYzAOp2aKeAoyF6y; Mon, 19 Sep 2022 19:33:31 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 19 Sep 2022 19:33:31 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <e4914aa5-3e42-235c-fd9e-65a907a92842@wanadoo.fr>
-Date:   Mon, 19 Sep 2022 19:33:30 +0200
+        Mon, 19 Sep 2022 13:41:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B772839B8B;
+        Mon, 19 Sep 2022 10:41:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 70298B81E89;
+        Mon, 19 Sep 2022 17:41:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B452C433C1;
+        Mon, 19 Sep 2022 17:41:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663609309;
+        bh=OvVnROzD0otzKIOfupvYy7oKYylHoLKLR1yjrRi0+Jg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mpDfuGKMmQ9eRKBxRG0FUHvLIXGgTkhDTMVAmEZ6IdfW6P0bvcHzyaPvnofJtTI2U
+         WvF0+nI3vPfMYhbDwqzelJejOeP9mhrVP1mUGnCuqhfzWDc+nqF6UxOt23kmlx1Bb/
+         4cvpONlA6W08Hd42GcUJlSW5Y3bEtxTcXPP8L4Zn97pJyKUeDvnXYeZU3Tllzw76I5
+         0WFtSiB6EFQ1IcNzHQ+phuKYJVUB1ieY1wSwERvM0OAEXspfZY+PEqKk16MuFTRwwK
+         ICj+SUts7pCz/xLNHfg8Q7Qd2rTLEDUU96WO3zviOsJwphCqkREfEzkja+3Z/FShVD
+         hYqbr0u7ha/Og==
+Date:   Mon, 19 Sep 2022 10:41:47 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     vdasa@vmware.com
+Cc:     vbhakta@vmware.com, namit@vmware.com, bryantan@vmware.com,
+        zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+        doshir@vmware.com, sgarzare@redhat.com, gregkh@linuxfoundation.org,
+        davem@davemloft.net, pv-drivers@vmware.com, joe@perches.com,
+        netdev@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-rdma@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 0/3] MAINTAINERS: Update entries for some VMware drivers
+Message-ID: <20220919104147.1373eac1@kernel.org>
+In-Reply-To: <20220906172722.19862-1-vdasa@vmware.com>
+References: <20220906172722.19862-1-vdasa@vmware.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Input: applespi - avoid wasting some memory
-Content-Language: en-US
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <0db94f84920663f3bd45a73e2ae73950627a377f.1663506472.git.christophe.jaillet@wanadoo.fr>
- <YygUFr5cSpZhYKOA@hovoldconsulting.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <YygUFr5cSpZhYKOA@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 19/09/2022 à 09:02, Johan Hovold a écrit :
-> On Sun, Sep 18, 2022 at 03:08:17PM +0200, Christophe JAILLET wrote:
->> When the 'struct applespi_data' structure is allocated at the beginning of
->> applespi_probe(), 2504 bytes are allocated.
->>
->> Because of the way memory is allocated, it ends to a 4096 bytes allocation.
->> So, about 1500 bytes are wasted.
->>
->> Later in this function, when 'tx_buffer', 'tx_status', 'rx_buffer' and
->> 'msg_buf' are allocated, 256, 4, 256 and 512 bytes are requested (~1 ko).
->> A devm_ memory allocation has a small overhead of 40 bytes. So, for the
->> same reason as above, it ends to allocate 512, 64, 512 and 1024 (~2 ko).
->>
->> All that said, defining these 4 arrays as part of 'struct applespi_data'
->> saves 2 ko of runtime memory.
->>
->> 3504 bytes are now requested, and 4096 really allocated. All these 4
->> arrays fit in the 'wasted' memory of the first allocation.
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->> Compile tested only.
->> ---
->>   drivers/input/keyboard/applespi.c | 23 ++++-------------------
->>   1 file changed, 4 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
->> index fab5473ae5da..bee4ccfa2b05 100644
->> --- a/drivers/input/keyboard/applespi.c
->> +++ b/drivers/input/keyboard/applespi.c
->> @@ -373,11 +373,11 @@ struct applespi_data {
->>   	struct input_dev		*keyboard_input_dev;
->>   	struct input_dev		*touchpad_input_dev;
->>   
->> -	u8				*tx_buffer;
->> -	u8				*tx_status;
->> -	u8				*rx_buffer;
->> +	u8				tx_buffer[APPLESPI_PACKET_SIZE];
->> +	u8				tx_status[APPLESPI_STATUS_SIZE];
->> +	u8				rx_buffer[APPLESPI_PACKET_SIZE];
->>   
->> -	u8				*msg_buf;
->> +	u8				msg_buf[MAX_PKTS_PER_MSG * APPLESPI_PACKET_SIZE];
->>   	unsigned int			saved_msg_len;
->>   
->>   	struct applespi_tp_info		tp_info;
+On Tue,  6 Sep 2022 10:27:19 -0700 vdasa@vmware.com wrote:
+> From: Vishnu Dasa <vdasa@vmware.com>
 > 
-> This kind of change is generally broken in case DMA can be involved.
-> 
-> Allocating the transfer buffers separately makes sure that alignment
-> requirements are met and avoids hard-to-debug memory corruption issues.
-> 
-> Johan
-> 
+> This series updates a few existing maintainer entries for VMware
+> supported drivers and adds a new entry for vsock vmci transport
+> driver.
 
-Got it. I'll keep away from it.
-
-Thanks for the feed-back and explanation.
-
-CJ
+Just to be sure - who are you expecting to take these in?
