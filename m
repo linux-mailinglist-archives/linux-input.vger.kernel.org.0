@@ -2,257 +2,181 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 591535BC5D3
-	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 11:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CD605BCD4E
+	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 15:33:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbiISJy4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Sep 2022 05:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50970 "EHLO
+        id S229775AbiISNc7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Sep 2022 09:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbiISJyr (ORCPT
+        with ESMTP id S230051AbiISNcy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Sep 2022 05:54:47 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD3D64D7;
-        Mon, 19 Sep 2022 02:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663581285; x=1695117285;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZzVrGPgxb2EYGRp7pUoh8rtW+Aqfkox53ObWGT7/wmk=;
-  b=m2zPNjCYRj54GvxllGJl/KwL7nCwcAyv53WvCVuFSr+NOrNkc2AJFfQy
-   HC1gv8EVp9jSGdKvsWoY3bueMPg04PIyr3M+4VfbTr6x7nD9GWMoDemeK
-   vlfLr5JenLV7EQSpf83pZ1U2EbxPU6dfVI/5S6qQR5e+zhZJXGNiDuBbf
-   y3tmxd7Dft9gVJeJyb7YKsFe3a+QuZ8zO9338ZaklMX1x8CcL9mzrTxyR
-   e4BDXXrwlnd8ffVuY+1LBPaFJWEYrMbEMSrpdQJYcS9wahNGDqdJGYXiD
-   SnZokDeghNBrEeK9fIJyjVPTun4I976sZfcU5SUe+1p5/MC6NNWolUhhP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="279738920"
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="279738920"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 02:54:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="760800394"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2022 02:54:39 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oaDU5-004VNP-37;
-        Mon, 19 Sep 2022 12:54:37 +0300
-Date:   Mon, 19 Sep 2022 12:54:37 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Raul E Rangel <rrangel@chromium.org>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        jingle.wu@emc.com.tw, rafael@kernel.org, mario.limonciello@amd.com,
-        hdegoede@redhat.com, linus.walleij@linaro.org, timvp@google.com,
-        dmitry.torokhov@gmail.com,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 07/13] i2c: acpi: Use ACPI wake capability bit to set
- wake_irq
-Message-ID: <Yyg8XZHrPZaKcWHa@smile.fi.intel.com>
-References: <20220914235801.1731478-1-rrangel@chromium.org>
- <20220914155914.v3.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
+        Mon, 19 Sep 2022 09:32:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D5B24BE6
+        for <linux-input@vger.kernel.org>; Mon, 19 Sep 2022 06:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663594372;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=S3R/J9mAzmfvH9Y9E0yXACqtf5r5Llzujq7g/NYrlA8=;
+        b=GPh+ke7WNHvLaqXHiOrYZn7FPNQghBfwima6aIm0+TuaQJ0GOR1TdK0ORsLO0r7n0lZc8S
+        LJT0sXycWv/trdtAl6DjhlGRuq88QCC9wNdRplJBiICxbevqqeuAFYHcgM/+2m7UWTloIj
+        I6F643eceKY48RZ5DwRPS7C0JjLciYQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-616-Mey6H53rMraQVZcMMeKRsw-1; Mon, 19 Sep 2022 09:32:47 -0400
+X-MC-Unique: Mey6H53rMraQVZcMMeKRsw-1
+Received: by mail-wm1-f69.google.com with SMTP id 185-20020a1c02c2000000b003b4be28d7e3so4048001wmc.0
+        for <linux-input@vger.kernel.org>; Mon, 19 Sep 2022 06:32:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=S3R/J9mAzmfvH9Y9E0yXACqtf5r5Llzujq7g/NYrlA8=;
+        b=y6tnreTzJu+nPMXYaLKR0lWpM5FEl85rZC0RZlbxsl8cTWqgNWs1JghNZwJLlCVYT7
+         +vG3UKjj6pClItMxU2u7wzn3sTGyo/h4RvUjdiBoZEMA/XeUnx0XMEUzZY8mF8StJF7w
+         m3DpaiM83ykkHk7niv7ZHsnMBQ0NU+ii5RWC+lWOkfVDNQICYufGSaLP2uxx9NyXkuGj
+         bzVWCJdK5HNKorolmmbtz26meI+ORZ1Y9t9rKYjOrMgbe3XWevIAQuGbnwoO5x4myKtU
+         OJGGwlQanZZq6JiggwI+BRNxeMN59hsibpMWG/eCE9YEq9RDd/zXCi5O6miCJDbSbCuX
+         rrJQ==
+X-Gm-Message-State: ACgBeo1leVn8N++HaJ2ML6jEbUyhKFsDkpxX9FZSytpf0umqdEIIsJsj
+        FmPROExv1ahlfyyfe4Z8Qauucqx5mv/38+RPP9jZa8lNUJxaAALN0MERJnkjzwZCnvm92DlaqYu
+        HiSCibUG5SW6Fkmw0qk/6BGg=
+X-Received: by 2002:a7b:c8d6:0:b0:3b4:868b:afc3 with SMTP id f22-20020a7bc8d6000000b003b4868bafc3mr18599001wml.66.1663594362159;
+        Mon, 19 Sep 2022 06:32:42 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6OcwxNBdq96pcCKiBsuz5gSLS3FYvAwyZhxQCkoPkFWU0g/YPusv2Hki3QnCjwBm0u4wEhQQ==
+X-Received: by 2002:a7b:c8d6:0:b0:3b4:868b:afc3 with SMTP id f22-20020a7bc8d6000000b003b4868bafc3mr18598877wml.66.1663594359815;
+        Mon, 19 Sep 2022 06:32:39 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:2bc:381::432? ([2a01:e0a:2bc:381::432])
+        by smtp.gmail.com with ESMTPSA id x1-20020adfdd81000000b002205cbc1c74sm9753212wrl.101.2022.09.19.06.32.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 06:32:38 -0700 (PDT)
+Message-ID: <d4b420a0-23da-6ab6-886a-7342f7e63651@redhat.com>
+Date:   Mon, 19 Sep 2022 15:32:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220914155914.v3.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+ <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
+ <YwTvrNuulKx0SB6H@gmail.com>
+ <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
+ <YwcbVJswrL1Doi4s@gmail.com>
+ <CAO-hwJJ86oAuaFD+uX7Rwv7cASO=4mchRJ1UBTxz9gYs6M1rUg@mail.gmail.com>
+ <YyLVblZkIPCvNd/2@gmail.com>
+ <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 05:57:55PM -0600, Raul E Rangel wrote:
-> Device tree already has a mechanism to pass the wake_irq. It does this
-> by looking for the wakeup-source property and setting the
-> I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
-> ACPI interrupt wake flag to determine if the interrupt can be used to
-> wake the system. Previously the i2c drivers had to make assumptions and
-> blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
-> If there is a device with an Active Low interrupt and the device gets
-> powered off while suspending, the interrupt line will go low since it's
-> no longer powered and wakes the system. For this reason we should
-> respect the board designers wishes and honor the wake bit defined on the
-> interrupt.
 
-Okay, let's go with this variant, but I'm afraid that in time we may come up
-to the proposed (generic structure for ACPI IRQ parameters which can be used
-in a few places).
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
-> ---
+On 9/15/22 09:35, Benjamin Tissoires wrote:
+> On Thu, Sep 15, 2022 at 8:28 AM Marcus Folkesson
+> <marcus.folkesson@gmail.com> wrote:
+>>
+>> Hi Benjamin,
+>>
+>> On Tue, Aug 30, 2022 at 02:45:11PM +0200, Benjamin Tissoires wrote:
+>>> On Thu, Aug 25, 2022 at 8:44 AM Marcus Folkesson
+>>> <marcus.folkesson@gmail.com> wrote:
+>>>>
+>>
+>>
+>> [...]
+>>>>
+>>>>
+>>>> Is the fact that more than one button share the same
+>>>> byte hard to describe in the report?
+>>>
+>>> No, this is actually easy to describe. You say that there is one usage
+>>> of "something" which has a report size of 1 bit, and then you have
+>>> another usage of "something else" with the same report size.
+>>>
+>>> But usually you have to add padding after to make up to 8 bits (so 6
+>>> bits in that case).
+>>>
+>>> I was referring to the case  where you are parsing the same bit on the
+>>> wire, and give a different usage based if you have received an odd or
+>>> an even number of reports. In that case, we probably need to use move
+>>> this bit to a const field in the original report descriptor and say
+>>> that the data is now not const:
+>>>
+>>> - initial report (completely random example):
+>>>    X (2 bytes) | Y (2 bytes) | button this_or_that (1 bit, depending of
+>>> odd or even received reports) | 7 bits of padding
+>>> - we can declare it as:
+>>>    X (2 bytes) | Y (2 bytes) | button this (1 bit) | button that (1
+>>> bit) | 6 bits of padding
+>>
+>> How about if there is no unused bytes?
+>>
+>> The XTRG2FMS has 8 10-bit channels and use every byte in the report.
+>> Should I specify 8 8-bit channels instead and fix that in raw_event?
+>> If so, should I only use 8bit values then?
 > 
-> Changes in v3:
-> - Convert wake_capable to bool
-> - Only update wake_capable pointer once
-> - Move wake_capable local into local block
+> If I am not wrong, you should be able to add another byte in the
+> report descriptor, as long as your raw_event function always adds it.
+> Though now that I am typing it, I am actually wondering if this will
+> work. You can always try, there is a chance it'll work, but I can't
+> remember if it'll result in a timeout on the USB front because it'll
+> expect one more byte that will never arrive.
+
+I am back home, and I just tested that. I had a doubt, and it is indeed
+failing. You need the following change for this to be working (I need to
+send it as a proper patch after assessing it hasn't side effects)
+
+---
+
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 13cce286247e..f37ffe2bd488 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -275,6 +275,7 @@ static void hid_irq_in(struct urb *urb)
+         int                     status;
+  
+         switch (urb->status) {
++       case -EOVERFLOW:        /* happens with modified report descriptors */
+         case 0:                 /* success */
+                 usbhid->retry_delay = 0;
+                 if (!test_bit(HID_OPENED, &usbhid->iofl))
+---
+
+Cheers,
+Benjamin
+
 > 
-> Changes in v2:
-> - Look at wake_cabple bit for IRQ/Interrupt resources
+>>
+>> (Are you at the ELCE conference btw?)
 > 
->  drivers/i2c/i2c-core-acpi.c | 33 ++++++++++++++++++++++++---------
->  drivers/i2c/i2c-core-base.c |  8 +++++++-
->  drivers/i2c/i2c-core.h      |  4 ++--
->  3 files changed, 33 insertions(+), 12 deletions(-)
+> I was at Plumbers this week, but got an extra day today. But yeah, I'm
+> in Dublin today.
 > 
-> diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
-> index c762a879c4cc6b..b3d68a9659ff4f 100644
-> --- a/drivers/i2c/i2c-core-acpi.c
-> +++ b/drivers/i2c/i2c-core-acpi.c
-> @@ -137,6 +137,11 @@ static const struct acpi_device_id i2c_acpi_ignored_device_ids[] = {
->  	{}
->  };
->  
-> +struct i2c_acpi_irq_context {
-> +	int irq;
-> +	bool wake_capable;
-> +};
-> +
->  static int i2c_acpi_do_lookup(struct acpi_device *adev,
->  			      struct i2c_acpi_lookup *lookup)
->  {
-> @@ -170,11 +175,14 @@ static int i2c_acpi_do_lookup(struct acpi_device *adev,
->  
->  static int i2c_acpi_add_resource(struct acpi_resource *ares, void *data)
->  {
-> -	int *irq = data;
-> +	struct i2c_acpi_irq_context *irq_ctx = data;
->  	struct resource r;
->  
-> -	if (*irq <= 0 && acpi_dev_resource_interrupt(ares, 0, &r))
-> -		*irq = i2c_dev_irq_from_resources(&r, 1);
-> +	if (irq_ctx->irq <= 0 && acpi_dev_resource_interrupt(ares, 0, &r)) {
-> +		irq_ctx->irq = i2c_dev_irq_from_resources(&r, 1);
-> +		irq_ctx->wake_capable =
-> +			!!(r.flags & IORESOURCE_IRQ_WAKECAPABLE);
-> +	}
-
-Maybe
-
-	if (irq_ctx->irq > 0)
-		return 1;
-
-	if (!acpi_dev_resource_interrupt(ares, 0, &r))
-		return 1;
-
-	irq_ctx->irq = i2c_dev_irq_from_resources(&r, 1);
-	irq_ctx->wake_capable = !!(r.flags & IORESOURCE_IRQ_WAKECAPABLE);
-
-?
-
->  	return 1; /* No need to add resource to the list */
->  }
-
-Also not sure why the callback is not called i2c_acpi_add_irq_resource().
-But it probably can be done in a separate change.
-
-> @@ -182,31 +190,38 @@ static int i2c_acpi_add_resource(struct acpi_resource *ares, void *data)
->  /**
->   * i2c_acpi_get_irq - get device IRQ number from ACPI
->   * @client: Pointer to the I2C client device
-> + * @wake_capable: Set to true if the IRQ is wake capable
->   *
->   * Find the IRQ number used by a specific client device.
->   *
->   * Return: The IRQ number or an error code.
->   */
-> -int i2c_acpi_get_irq(struct i2c_client *client)
-> +int i2c_acpi_get_irq(struct i2c_client *client, bool *wake_capable)
->  {
->  	struct acpi_device *adev = ACPI_COMPANION(&client->dev);
->  	struct list_head resource_list;
-> -	int irq = -ENOENT;
-> +	struct i2c_acpi_irq_context irq_ctx = {
-> +		.irq = -ENOENT,
-> +	};
->  	int ret;
->  
->  	INIT_LIST_HEAD(&resource_list);
->  
->  	ret = acpi_dev_get_resources(adev, &resource_list,
-> -				     i2c_acpi_add_resource, &irq);
-> +				     i2c_acpi_add_resource, &irq_ctx);
->  	if (ret < 0)
->  		return ret;
->  
->  	acpi_dev_free_resource_list(&resource_list);
->  
-> -	if (irq == -ENOENT)
-> -		irq = acpi_dev_gpio_irq_get(adev, 0);
-> +	if (irq_ctx.irq == -ENOENT)
-> +		irq_ctx.irq = acpi_dev_gpio_irq_wake_get(adev, 0,
-> +							 &irq_ctx.wake_capable);
-> +
-> +	if (wake_capable)
-> +		*wake_capable = irq_ctx.wake_capable;
->  
-> -	return irq;
-> +	return irq_ctx.irq;
->  }
->  
->  static int i2c_acpi_get_info(struct acpi_device *adev,
-> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index 91007558bcb260..c4debd46c6340f 100644
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -487,8 +487,14 @@ static int i2c_device_probe(struct device *dev)
->  			if (irq == -EINVAL || irq == -ENODATA)
->  				irq = of_irq_get(dev->of_node, 0);
->  		} else if (ACPI_COMPANION(dev)) {
-> -			irq = i2c_acpi_get_irq(client);
-> +			bool wake_capable;
-> +
-> +			irq = i2c_acpi_get_irq(client, &wake_capable);
-
-> +
-
-Unneeded blank line.
-
-> +			if (irq > 0 && wake_capable)
-> +				client->flags |= I2C_CLIENT_WAKE;
->  		}
-
-> +
-
-Ditto. (This even looks like a stray change)
-
->  		if (irq == -EPROBE_DEFER) {
->  			status = irq;
->  			goto put_sync_adapter;
-> diff --git a/drivers/i2c/i2c-core.h b/drivers/i2c/i2c-core.h
-> index 87e2c914f1c57b..1247e6e6e97517 100644
-> --- a/drivers/i2c/i2c-core.h
-> +++ b/drivers/i2c/i2c-core.h
-> @@ -61,11 +61,11 @@ static inline int __i2c_check_suspended(struct i2c_adapter *adap)
->  #ifdef CONFIG_ACPI
->  void i2c_acpi_register_devices(struct i2c_adapter *adap);
->  
-> -int i2c_acpi_get_irq(struct i2c_client *client);
-> +int i2c_acpi_get_irq(struct i2c_client *client, bool *wake_capable);
->  #else /* CONFIG_ACPI */
->  static inline void i2c_acpi_register_devices(struct i2c_adapter *adap) { }
->  
-> -static inline int i2c_acpi_get_irq(struct i2c_client *client)
-> +static inline int i2c_acpi_get_irq(struct i2c_client *client, bool *wake_capable)
->  {
->  	return 0;
->  }
-> -- 
-> 2.37.3.968.ga6b4b080e4-goog
+> Cheers,
+> Benjamin
 > 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+>>
+>> Best regards
+>> Marcus Folkesson
 
