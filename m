@@ -2,156 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5806D5BEC0D
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 19:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D6B5BEDF2
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 21:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230292AbiITRcr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 13:32:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56864 "EHLO
+        id S231281AbiITTkW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 15:40:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229766AbiITRcq (ORCPT
+        with ESMTP id S230176AbiITTkS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 13:32:46 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7690963B6
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 10:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663695165; x=1695231165;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=deuu/YkZ9OKKz8UHPVB6SzCsiKX0F6GsrQ5nHo5O0Ek=;
-  b=JEMxIbQJgGFhAYZreK+XvX7OM74Ne4eAG+bwGzro25ULDqRvTBYD7+2N
-   czWFGpvnhectlmXROnPyJMEKyTi/YUSh+jwHYYqyeV+GNUDF7G69vIXSg
-   M2w65Udqh3P/Xm4bkorCaOSz9VQ91RkQZb/24t0dbJHAyW/Z6pHfoGFwY
-   HW52aVSRQ8l7cs20eck/VkPB1q/SENrqo2UdLz3i80EUFhqCdcyWyknHK
-   psn4OujuGbwsOHzYXEUijj6VzH/AB6dagW+p/rL8HBB2LFuDGBf7GPpXQ
-   1fhT1tLE5QaP8ZwfgpZ6BRoiT6XoO+ep1u+FwR5mX52Ao29zGEFSYsWp4
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="301144451"
-X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; 
-   d="scan'208";a="301144451"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2022 10:32:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; 
-   d="scan'208";a="681397753"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Sep 2022 10:32:23 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oah6c-0002rp-1p;
-        Tue, 20 Sep 2022 17:32:22 +0000
-Date:   Wed, 21 Sep 2022 01:32:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:gpio-test] BUILD REGRESSION
- 53be931d133999d54ca1f0869ffb0aed731a0289
-Message-ID: <6329f911.Dbb5LCQk1hRU207p%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 20 Sep 2022 15:40:18 -0400
+Received: from mail1.bemta31.messagelabs.com (mail1.bemta31.messagelabs.com [67.219.246.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E48303E8
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 12:40:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com;
+        s=Selector; t=1663702816; i=@lenovo.com;
+        bh=iM79aHLuHeYl6fzqr8y91kMeQjqdAcli8LbhM2ooqwo=;
+        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+         MIME-Version:Content-Transfer-Encoding:Content-Type;
+        b=groru93bun1xuvk8ZofOzWBPUqqPSgAR33+amaOWJ4r1/XrHUWDT1+zWGhKKcqOAU
+         Ol/CQ+H0/p1NYyoXgIhPn7U4AnykBMKQh2Yn0EvznvraM3S7TS8rkW1CgByzHdUggN
+         HIPIxw6KbAhPDXrinALPi19Oc9Ndwor27TJtyslpfH0UzRuIjDjLetGXFfu8kVWq0G
+         hJ2RL+RYPmsDxUeuSP1KQI8zbZG4tOpAyYM1EdtkthQ7PMHOxj8+T686vKe4glKETy
+         Gv7PnTpm31wY+/mrADFdlJvs83okDq2nGYf6ct11K9lYI/yAiNd3PYH4OQLwieuoPZ
+         4/12KbhJxgi1g==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAJsWRWlGSWpSXmKPExsWSoZ+npysvrpV
+  sMOWCmsXhRS8YLW5++sZqsfHwD1YHZo+ds+6ye3zeJBfAFMWamZeUX5HAmrHgxCyWgoccFWf2
+  PGVqYFzJ3sXIxcEosJRZ4uqKK2wQziJWiau7P0A5fUwSM+8tYwFxhARmMklcWX4EytnPJHF48
+  kTmLkZODgmB44wS3avcIRKdjBK7t/5gg3AmMEkcXLuPEaRKSOAJo8SyR0EQiRdAHRN3s4Ek2A
+  S0JbZs+QVmiwgoSsw4u58FxGYWCJDY97sVbIWwQKDE7k3b2EFsFgFVieX9C8FqeAWsJLp3bWO
+  FOENeYtL760wgNqeAmsSWSVfYIBarSty90wlVLyhxcuYTqPnyEs1bZzND2BISB1+8YIaoV5b4
+  1X+eGWbmv5mzmCDsBImef4/YIGxJiWs3L7BD2LISR8/OYYGw7SWOfPoIdY+vxNMzjVC2nMSp3
+  nNMMDN3brwNVS8jMXHPBZYJjNqzkJw3C8l5s5Cct4CReRWjVVJRZnpGSW5iZo6uoYGBrqGhia
+  6hrpGpkV5ilW6iXmmxbmpicYmuoV5iebFeanGxXnFlbnJOil5easkmRmCySSli/LODsbPnp94
+  hRkkOJiVR3t5vmslCfEn5KZUZicUZ8UWlOanFhxhlODiUJHhniGglCwkWpaanVqRl5gATH0xa
+  goNHSYS3QggozVtckJhbnJkOkTrFaMxxZdvevcwc53fu38ssxJKXn5cqJc77TxSoVACkNKM0D
+  24QLCFfYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTM6wKykCczrwRu3yugU5iATrmhog5ySk
+  kiQkqqgUlu+iG+52UbUy9IK5f/e22Zfv8Zj2Vas16t8D23dp7zlj/+HouJT99s6P/H9Zz4/lM
+  Jx9+qzl3WKtWWs4sx7Brjn4I5XDdPek+SebGkUjaxR/SlwwWd4NrtTlyfQxZnGG/d5ioxW8M5
+  7lCD4rnWsLb4C5mh9RcspG2WfSl6vuiTf+gndRezJIZb75fuconcsXmPhenSVWd6XJYx/nCZ/
+  eWDubfq7ei/dZ4bau+K3vjUejWh31flrvDi/VbXNsgk/FViTdOuS/4w+7XRqjfXPO+dm7+hYW
+  8qo2XCwgPrX8e5LrafMNfVdDKH/+X41p1HhSLTPPeyvLf+nZvW+6P3+dKj77/rhCxfuPPPHoP
+  9WQpKLMUZiYZazEXFiQCD3dz+QwQAAA==
+X-Env-Sender: markpearson@lenovo.com
+X-Msg-Ref: server-21.tower-686.messagelabs.com!1663702814!393185!1
+X-Originating-IP: [104.47.110.46]
+X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.87.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 19603 invoked from network); 20 Sep 2022 19:40:15 -0000
+Received: from mail-tyzapc01lp2046.outbound.protection.outlook.com (HELO APC01-TYZ-obe.outbound.protection.outlook.com) (104.47.110.46)
+  by server-21.tower-686.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 20 Sep 2022 19:40:15 -0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LBatLvuIIukGm6puChgxIhskmDH54jq/PfxmNy7qt3b6CqrsYSSpbPomwTOn5O2zy2jF7Dv+o+jdD2+bGmOe6PY4Aj3NS/IEHWIOWS3XRAxO4UTv/pDwf+m3v9MLdf8DwT43/G65Zbf5uON+DprKQOsxA59p2iGsJIWtiISE+VlyoSua+SvSIT+QlL101/aYJN95jjJ3VaYvuuOYaYuoGItaknwRZ3uSjeYNqaCahEvr6ko6fS1jZGpgOtmGdev0F1oUmZBWaqpDI65enyzgZ9I4W9OvrfzibEVgcZidEBIndymAmrboj73YuEnFXADz5N8g7LIBtB4XAThDwFAQhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iM79aHLuHeYl6fzqr8y91kMeQjqdAcli8LbhM2ooqwo=;
+ b=d95bTiBPzQxDS8v9jfMdcE7A230wVIb0+Xinls2tqd4rrjLuRUWyVjXo+NoAw3lKvdFVfcQFoYMcQUqFbeZ4Sj7NXFBJKNyVpFCdFWVscu+voCH0yB/53qZ8+nOtrSJNENaYlT4l3yhsRJDLH97sxjrB1hsQ02UCTq5AR4gIeR7KCjCL5qRnvPtj3CTmMu9bpCb+97dc1Sf6dcjCBX6MfeKWK7oILm1hh2PLOKgHQA0CqKL+3fwlN6qnRC4YR83n4xfQANQ1ptbRtyLH/X174mlEh+oW3ElgKripkytaAavyOEmrwA4lsyYLqQXPgnmyB0BxSR8HElKPJKxS7XAbdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 104.232.225.6) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=lenovo.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=lenovo.com;
+ dkim=none (message not signed); arc=none
+Received: from PSBPR02CA0007.apcprd02.prod.outlook.com (2603:1096:301::17) by
+ SG2PR03MB4486.apcprd03.prod.outlook.com (2603:1096:4:8c::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5654.12; Tue, 20 Sep 2022 19:40:12 +0000
+Received: from PSAAPC01FT065.eop-APC01.prod.protection.outlook.com
+ (2603:1096:301:0:cafe::4d) by PSBPR02CA0007.outlook.office365.com
+ (2603:1096:301::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21 via Frontend
+ Transport; Tue, 20 Sep 2022 19:40:12 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 104.232.225.6) smtp.mailfrom=lenovo.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=lenovo.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ lenovo.com discourages use of 104.232.225.6 as permitted sender)
+Received: from mail.lenovo.com (104.232.225.6) by
+ PSAAPC01FT065.mail.protection.outlook.com (10.13.38.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5632.12 via Frontend Transport; Tue, 20 Sep 2022 19:40:12 +0000
+Received: from reswpmail01.lenovo.com (10.62.32.20) by mail.lenovo.com
+ (10.62.123.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.31; Tue, 20 Sep
+ 2022 15:40:10 -0400
+Received: from localhost.localdomain (10.46.48.29) by reswpmail01.lenovo.com
+ (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.31; Tue, 20 Sep
+ 2022 15:40:09 -0400
+From:   Mark Pearson <markpearson@lenovo.com>
+To:     <linux-input@vger.kernel.org>
+CC:     <markpearson@lenovo.com>, <snafu109@gmail.com>,
+        <dmitry.torokhov@gmail.com>
+Subject: [PATCH] [PATCH] Input: Disable Intertouch for Lenovo T14 and P14s AMD G1
+Date:   Tue, 20 Sep 2022 15:39:36 -0400
+Message-ID: <20220920193936.8709-1-markpearson@lenovo.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <markpearson@lenovo.com,>
+References: <markpearson@lenovo.com,>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.46.48.29]
+X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
+ reswpmail01.lenovo.com (10.62.32.20)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PSAAPC01FT065:EE_|SG2PR03MB4486:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8845ed89-2738-4815-96f7-08da9b3fef57
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JCngb1iNg+oYUzFBh36/CJV7tButuZtVIkppimJuLlQ9Xbf9LcAYlFD8UxH+BNxvqfBMYnCNgDsG+oMyHAxS+WstRJoSyap/Ur+4o5leFaHm6cdWknnLW4oS7LdIihY0jMUwBbj922G+g9miU0sp5NbksVpZMBIryOAy8uSYCB4dF4+PMMfdJWK+j6vPLkav1R/LHO4KNJy2rlcEARNI4B0MDJaJql2ow8jA+rzMEFaISHOtqJ452OhlDf+qRN4iyFCFe37Ju4nb/Nsgym0weyIrR1pJ43zz/HfhQpHGSP6iwFjSlFmrew5lSZJyoN8wNB0jTonVUGDwmBw920vngMaIcyh91wuEQGwUgPQR7nt3sg/VDHei9PuVW79FpgZRhzVCYLXn9FLFcj0ohjnHzNMMpKas5Lsvk3KRj/bOzSpBHS+5NshKh+BDfqrmaypRBj1CzH0NbtRh2QxfafQSDNYXNsZpf6g3XD8ffb95aitoFiq7CGvg9txZ9L9QGAXuTt3vOK2jotdj+YYTHqcAxUn2m00HeGcbOG5eLHiT+F7TA7WxTdd6WZFUYpICkwTj4oL+1ueNt4trFuCq0m3Y0Q+g6NZmxLU5/DH5LjHyaiilVGjTvA+PR0ENKZ1ptlm56NDxHx/GtFg2AvAUoKmei5uibRaS/vt5gTSNF48JiRdWkG/uyHKexxULM6DrSYoCoTdCy/crGiGy6JNooq7ThxEGpPruPqQsMYAcxBgjOMdWxx5J/vUdKqe+r2QxnQIDCtkoTQQkJoYVhuEI/c0Eai3wncXhmYJY8o0AR82b9JBTmaZ+PzBrvd4ltZvU9PqT
+X-Forefront-Antispam-Report: CIP:104.232.225.6;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.lenovo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(346002)(396003)(136003)(451199015)(36840700001)(46966006)(40470700004)(83380400001)(426003)(82310400005)(336012)(54906003)(1076003)(6916009)(2616005)(5660300002)(36906005)(316002)(47076005)(16526019)(186003)(8936002)(356005)(86362001)(26005)(2906002)(4326008)(40480700001)(36860700001)(82960400001)(82740400003)(40460700003)(478600001)(8676002)(41300700001)(70206006)(36756003)(70586007)(6666004)(81166007)(36900700001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: lenovo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2022 19:40:12.2867
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8845ed89-2738-4815-96f7-08da9b3fef57
+X-MS-Exchange-CrossTenant-Id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5c7d0b28-bdf8-410c-aa93-4df372b16203;Ip=[104.232.225.6];Helo=[mail.lenovo.com]
+X-MS-Exchange-CrossTenant-AuthSource: PSAAPC01FT065.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR03MB4486
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git gpio-test
-branch HEAD: 53be931d133999d54ca1f0869ffb0aed731a0289  ASoC: ssm2518: switch to using gpiod API
+Since intertouch was enabled for the T14 and P14s AMD G1 laptops there
+have been a number of reports of touchpads not working well.
 
-Error/Warning reports:
+Debugging this with Synaptics they noted that intertouch should not be
+enabled as SMBUS host notify is not available on these laptops.
 
-https://lore.kernel.org/linux-input/202209201926.qKKWT7uk-lkp@intel.com
+Reverting the previous commit (e4ce4d3a939d97bea045eafa13ad1195695f91ce)
+to restore functionality back to what it was.
 
-Error/Warning: (recently discovered and may have been fixed)
+Note - we are working with Synaptics to see if there is a better
+solution, but nothing is confirmed as yet.
 
-drivers/pci/controller/pci-mvebu.c:1100:9: error: implicit declaration of function 'chained_irq_enter'; did you mean 'ct_irq_enter'? [-Werror=implicit-function-declaration]
-drivers/pci/controller/pci-mvebu.c:1115:9: error: implicit declaration of function 'chained_irq_exit'; did you mean 'ct_irq_exit'? [-Werror=implicit-function-declaration]
-drivers/pci/controller/pci-mvebu.c:1344:17: error: too few arguments to function 'devm_kfree'
-drivers/pci/controller/pci-mvebu.c:1344:32: error: passing argument 1 of 'devm_kfree' from incompatible pointer type [-Werror=incompatible-pointer-types]
+Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+---
+ drivers/input/mouse/synaptics.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-`-- arm-defconfig
-    |-- drivers-pci-controller-pci-mvebu.c:error:implicit-declaration-of-function-chained_irq_enter
-    |-- drivers-pci-controller-pci-mvebu.c:error:implicit-declaration-of-function-chained_irq_exit
-    |-- drivers-pci-controller-pci-mvebu.c:error:passing-argument-of-devm_kfree-from-incompatible-pointer-type
-    `-- drivers-pci-controller-pci-mvebu.c:error:too-few-arguments-to-function-devm_kfree
-
-elapsed time: 721m
-
-configs tested: 58
-configs skipped: 2
-
-gcc tested configs:
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-x86_64                               rhel-8.3
-s390                             allyesconfig
-x86_64               randconfig-a012-20220919
-riscv                randconfig-r042-20220919
-powerpc                           allnoconfig
-arc                  randconfig-r043-20220919
-x86_64               randconfig-a011-20220919
-x86_64               randconfig-a014-20220919
-x86_64                           allyesconfig
-i386                 randconfig-a013-20220919
-i386                                defconfig
-x86_64               randconfig-a015-20220919
-arm                                 defconfig
-s390                 randconfig-r044-20220919
-x86_64               randconfig-a013-20220919
-x86_64               randconfig-a016-20220919
-i386                 randconfig-a012-20220919
-x86_64                    rhel-8.3-kselftests
-i386                 randconfig-a011-20220919
-x86_64                          rhel-8.3-func
-arm                              allyesconfig
-x86_64                         rhel-8.3-kunit
-arm64                            allyesconfig
-m68k                             allmodconfig
-sh                               allmodconfig
-i386                 randconfig-a014-20220919
-x86_64                           rhel-8.3-kvm
-mips                             allyesconfig
-x86_64                           rhel-8.3-syz
-powerpc                          allmodconfig
-i386                 randconfig-a016-20220919
-arc                              allyesconfig
-i386                 randconfig-a015-20220919
-alpha                            allyesconfig
-m68k                             allyesconfig
-ia64                             allmodconfig
-i386                             allyesconfig
-
-clang tested configs:
-i386                 randconfig-a001-20220919
-i386                 randconfig-a002-20220919
-i386                 randconfig-a003-20220919
-i386                 randconfig-a004-20220919
-i386                 randconfig-a006-20220919
-i386                 randconfig-a005-20220919
-x86_64               randconfig-a003-20220919
-hexagon              randconfig-r041-20220919
-x86_64               randconfig-a001-20220919
-x86_64               randconfig-a002-20220919
-hexagon              randconfig-r045-20220919
-x86_64               randconfig-a004-20220919
-x86_64               randconfig-a006-20220919
-x86_64               randconfig-a005-20220919
-
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 434d48ae4b12..ffad142801b3 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -186,7 +186,6 @@ static const char * const smbus_pnp_ids[] = {
+ 	"LEN2044", /* L470  */
+ 	"LEN2054", /* E480 */
+ 	"LEN2055", /* E580 */
+-	"LEN2064", /* T14 Gen 1 AMD / P14s Gen 1 AMD */
+ 	"LEN2068", /* T14 Gen 1 */
+ 	"SYN3052", /* HP EliteBook 840 G4 */
+ 	"SYN3221", /* HP 15-ay000 */
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.37.2
+
