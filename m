@@ -2,84 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8B5C5BEE97
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 22:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B0FF5BEF90
+	for <lists+linux-input@lfdr.de>; Wed, 21 Sep 2022 00:03:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbiITUe0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 16:34:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33508 "EHLO
+        id S229870AbiITWCt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 18:02:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbiITUeZ (ORCPT
+        with ESMTP id S229471AbiITWCs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 16:34:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B27675CCD
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 13:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663706063;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AW/dBlE2AQIyAJdoiRe+IiNWCzn2tZIwTsT8MkCs6dw=;
-        b=LwSM/RuNl64bBTuPzertN8E7wPL512PXsq7G9RJf4FfMXSKN6OoB0yR0eIIujQLrOPqOl4
-        j/u1jynuUlvZu7vNBRIAWwmzriTeCuT5TI+IarfotTdm/NPNjVlKftRnrX1chVdGQRT9sD
-        +hfLBaLCDkvD6wUy+xFBOXuWscE10Rs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-564-AWpGpeV_MeyUb0DqSkvf4w-1; Tue, 20 Sep 2022 16:34:22 -0400
-X-MC-Unique: AWpGpeV_MeyUb0DqSkvf4w-1
-Received: by mail-ed1-f72.google.com with SMTP id z2-20020a056402274200b004516734e755so2706327edd.3
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 13:34:22 -0700 (PDT)
+        Tue, 20 Sep 2022 18:02:48 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5157B74DC0;
+        Tue, 20 Sep 2022 15:02:47 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id q17so4719360lji.11;
+        Tue, 20 Sep 2022 15:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=KKoSHRBxBw2hqUBrqTTCYRIaI1B095qY9I7hde1tbzI=;
+        b=CR2NPIKW1E07gtvBE1ipzhl0IqCpbv7kFPXjgP09xoYDF5n9L9dW/3w8JM9VvvAUh4
+         YgOE+ZKZf3qXkIw+A+SuYydvd4WPFyxqUhWG4al07ZhGG7+HZYiL1X5K9LN2wcNaEqz9
+         6YsihPHOcG7tajD0t8Ti3+swhCu76446wiP6dHWGtRj0K2RXA9GRtA+zRNCl+GZFJAtv
+         vCXiujWKC514x4sHgVLqOwr7BYACBmJvW32IHxAi44c6LqUXi/NWSocAQ5UNOQOxuutB
+         LjmGFEAGfDHUye1uyy+biFJ1V9sURSrxvRjd7ErYQqSIR9bTZI7MEOf6rOkjIAlgTXq8
+         +yEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=AW/dBlE2AQIyAJdoiRe+IiNWCzn2tZIwTsT8MkCs6dw=;
-        b=eBlDdX2qFaJX0sjOy07dEHqjeY7qpfpKJEe0ezj8gXkyBxpPotFSdb8nYGmfGQT0Fy
-         6luR0pNZFyctXVQ2dQO43UzDPLAQ0/mZfZKvLlXyLikaEH2rby+YDLNecs72/KGfG9YW
-         ufVm7TgMRG7y3nVtuB91V6H3b3RPRdNEb7irFsDAdEghw1rgvU8ziBcgslGekXIR3Lk6
-         p+D83d1MpYG5TmCckqp2XUp/uDA3si+ABERJchwVZN6a2/hyIm4C5f7Af7f6pkOr/fS5
-         pUzxkVFIPJlZlMiHghvpljfunrWLFkM6qO7hwHcuWAc3g99t0Zk19hCJU/knoBrqpR+x
-         JdRA==
-X-Gm-Message-State: ACrzQf1jfsiUAhMymdVHslHevJRyB22C2wrG5nKu+g+JOCdyZmbo+/lw
-        +HY5tkUSGp1TgKsj5d0zeceGwCCJCUbXtgPRbg+vLGm/sbL7uYpsOh/HIgIzdX3B2X9xv7CPWVx
-        5QbkqwTuhyJMfjrE7OH6dH9Q=
-X-Received: by 2002:a05:6402:148e:b0:44e:aa8c:abc5 with SMTP id e14-20020a056402148e00b0044eaa8cabc5mr21854668edv.145.1663706060859;
-        Tue, 20 Sep 2022 13:34:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5FchS9e4VFCieS+jJqLY+dTOU/Tx49Du5MG0zdHE5Otei40J9KDFt3Sdcf4z5v6zK+N5MWgw==
-X-Received: by 2002:a05:6402:148e:b0:44e:aa8c:abc5 with SMTP id e14-20020a056402148e00b0044eaa8cabc5mr21854652edv.145.1663706060620;
-        Tue, 20 Sep 2022 13:34:20 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id n26-20020aa7c45a000000b00452ff2c203asm415245edr.92.2022.09.20.13.34.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Sep 2022 13:34:20 -0700 (PDT)
-Message-ID: <0df56807-f8d3-e284-3c4d-f510b2c5604a@redhat.com>
-Date:   Tue, 20 Sep 2022 22:34:18 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=KKoSHRBxBw2hqUBrqTTCYRIaI1B095qY9I7hde1tbzI=;
+        b=aNgz2kOvhC/hXNpdpcN1Glop6VnEC9sCpr2ur5Yg9LBV3c0wZfN88VwaM4Ombaqvdp
+         6yIaBulI5Xgy7+kCFcajZoLHgzAJrLAVEw1mdvYl33OJKheXxcHTCBwZn2iR6l+50nZd
+         bCT0B4q9l9B+X+mVuZ28kIXH/yF8M6PlAYzB7yM/VtFSJ1961nApvJbrOo6mdIYFdzvY
+         EiI3TIePqHiXW0/7k3n9LruMaTotY8I9y+Xlc4Hvrd9K+kKXitAUt/u+vDAL+ucQexGx
+         Lnm9ToX4Xu1I90NXbnpUvKmbxcauz/fBbfAa4POgcaEoqg3HC5O5paab58JJp1U1lMAt
+         Gpxw==
+X-Gm-Message-State: ACrzQf00gk7ZjtUGrv5O6wVWzz5jw4n1Sks+YHAhFasCG8ZiB1HcCnrQ
+        0eGILbiFvDIa4iG6POR0dgpRWC9vZdSqJVK1wOI=
+X-Google-Smtp-Source: AMsMyM6GSjRrCb2VJkivB1ycysFKNJCKgnWhNMSn1DeMgdoWsRF+SyXcEFTMXjJVCdTbGpt0+SRDnUMtU7+XtkHALcY=
+X-Received: by 2002:a05:651c:98d:b0:261:b5c0:121d with SMTP id
+ b13-20020a05651c098d00b00261b5c0121dmr7448391ljq.336.1663711365568; Tue, 20
+ Sep 2022 15:02:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH RFC 1/2] staging: quickstart: Add ACPI quickstart button
- (PNP0C32) driver
-To:     Arvid Norlander <lkml@vorpal.se>,
-        platform-driver-x86@vger.kernel.org
-Cc:     linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>
-References: <20220911194934.558019-1-lkml@vorpal.se>
- <20220911194934.558019-2-lkml@vorpal.se>
- <0e88f032-5f29-8842-401e-48a573319ecf@redhat.com>
- <484b5248-ebf2-74c9-0629-08daa538a5c0@vorpal.se>
-Content-Language: en-US
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <484b5248-ebf2-74c9-0629-08daa538a5c0@vorpal.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <RINjeKS0brZzIa6F-fgBKuiHrrcZB8zfTg_chbQIT3BRLqx-l9SmsxvV3LXx7upuctFCki33uAIhXNsM92YWTub8vbzSQHcJibhPkN5ijB8=@protonmail.com>
+In-Reply-To: <RINjeKS0brZzIa6F-fgBKuiHrrcZB8zfTg_chbQIT3BRLqx-l9SmsxvV3LXx7upuctFCki33uAIhXNsM92YWTub8vbzSQHcJibhPkN5ijB8=@protonmail.com>
+From:   Daniel Ogorchock <djogorchock@gmail.com>
+Date:   Tue, 20 Sep 2022 18:02:33 -0400
+Message-ID: <CAEVj2tn8byGn2RHmvYc77rv2BZkApW3yQ5qSDDzNGxhbygO2Ag@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: nintendo: check analog user calibration for plausibility
+To:     Johnothan King <johnothanking@protonmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,103 +68,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Arvid,
+On Tue, Sep 20, 2022 at 12:54 PM Johnothan King
+<johnothanking@protonmail.com> wrote:
+>
+> Arne Wendt writes:
+>   Cheap clone controllers may (falsely) report as having a user
+>   calibration for the analog sticks in place, but return
+>   wrong/impossible values for the actual calibration data.
+>   In the present case at mine, the controller reports having a
+>   user calibration in place and successfully executes the read
+>   commands. The reported user calibration however is
+>   min = center = max = 0.
+>
+>   This pull request addresses problems of this kind by checking the
+>   provided user calibration-data for plausibility (min < center < max)
+>   and falling back to the default values if implausible.
+>
+> I'll note that I was experiencing a crash because of this bug when using
+> the GuliKit KingKong 2 controller. The crash manifests as a divide by
+> zero error in the kernel logs:
+> kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
+>
+> Changes in v2:
+>  - Move the plausibility check to joycon_read_stick_calibration() and
+>    have that function return -EINVAL if the check fails.
+>  - In the plausibility check, change >= to ==. hid_field_extract() never
+>    returns a negative value, so a scenario involving min > center or
+>    center > max is impossible.
+>  - To reduce code duplication, move the code for setting default
+>    calibration values into a single function called
+>    joycon_use_default_calibration().
+>
+> Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
+> Link: https://github.com/DanielOgorchock/linux/issues/36
+> Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
+> Signed-off-by: Johnothan King <johnothanking@protonmail.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 58 ++++++++++++++++++++++----------------
+>  1 file changed, 33 insertions(+), 25 deletions(-)
+>
 
-On 9/20/22 11:48, Arvid Norlander wrote:
-> On 2022-09-19 11:27, Hans de Goede wrote:
->> Hi,
->>
->> On 9/11/22 20:49, Arvid Norlander wrote:
->>> This is loosly based on a previous staging driver that was removed. See
->>> links below for more info on that driver. The original commit ID was
->>> 0be013e3dc2ee79ffab8a438bbb4e216837e3d52.
->>>
->>> However, here a completely different approach is taken to the user space
->>> API (which should solve the issues the original driver had). Each PNP0C32
->>> device is a button, and each such button gets a separate input device
->>> associated with it (instead of a shared platform input device).
->>>
->>> The button ID (as read from ACPI method GHID) is provided via a sysfs file
->>> "button_id".
->>>
->>> If the button caused a wakeup it will "latch" the "wakeup_cause" sysfs file
->>> to true. This can be reset by a user space process.
->>>
->>> Link: https://marc.info/?l=linux-acpi&m=120550727131007
->>> Link: https://lkml.org/lkml/2010/5/28/327
->>> Signed-off-by: Arvid Norlander <lkml@vorpal.se>
->>
->> 2 high level remarks here:
->>
->> 1. I believe we should strive for having all issues with this driver fixed
->> before merging it, at which point it should not sit under drivers/staging
->> but rather under drivers/platform/x86 (as an added bonus this can also make
->> toshiba_apci's Kconfig bit select it automatically). So for the next version
->> please move this to drivers/platform/x86
-> 
-> Makes sense, will do. However, there is nothing x86 specific in theory with
-> this driver. Would it not make more sense to put it under drivers/acpi?
+Reviewed-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 
-Since the spec is from Microsoft I expect it to be a x86 only thing
-(AFAIK this predates there couple of ARM attempts). Also since this has
-some tie-in with toshiba-acpi (at least for the laptops you are actually
-testing this on) keeping it in the same dir as toshiba-acpi seems to
-make the most sense to me.
+Thanks for the fix. This seems like a good way around invalid calibration data.
 
-A lot of ACPI drivers actually live under drivers/platform/x86 for
-similar reasons.
-
->> 2. This is using struct acpi_driver, but as Rafael (ACPI maintainer) always
->> said that is really only for very special cases. The ACPI subsystem should
->> instantiate standard platform devices for each PNP0C32 device, you can
->> check this under: /sys/bus/devices/platform.  And this driver should then
->> be convered to a standard platform_driver binding to the platform devices
->> instead of being a struct acpi_driver.
-> 
-> I had a look at this, and it seems like a much more complicated a approach,
-> for example, there is no dedicated .ops.notify, which means I need to use
-> acpi_install_notify_handler, and there is no devm_ version of that either.
-> A lot of other things seem to be ever so slightly more complicated as well. 
-> 
-> What is the motivation behind this being preferred? And are most of the
-> existing drivers using acpi_driver legacy (e.g. toshiba_acpi)?
-
-I'm mostly just parroting (repeating) the party-line here. Not making
-new drivers an acpi_driver is typically requested by Rafael, the ACPI
-maintainer. Rafael can you explain why?
-
-From my own view point I guess this has to do with ACPI having changed
-over time from mostly offering firmware interfaces which mostly talk
-to the EC, to actually also describing the hw.
-
-Now a days of lot of ACPI devices are actually describing real hardware
-devices, e.g. PCI cards, I2C devices, SPI decices and UART attached devices
-including things like IO / MMIO addresses, I2C slave addresses, SPI chip
-selects, GPIOs, IRQs, etc.
-
-So the kernel now a days instantiates actual SPI / I2C / UART / PCI /
-other(platform) devices for all the devices in ACPI, with all the physicial
-resources attached to the struct platform_device / struct i2c_client / etc.
-using the kernels standard resource mechanisms.
-
-The struct platform_device / struct i2c_client / etc. devices then have
-a firmware_node pointer (aka companion device) pointing to the ACPI
-device in case the driver also needs to make some actual ACPI calls on
-either to query some extra information stored in ACPI, or sometimes
-to enable / disable special features driven through ACPI methods.
-
-The instantiation of these struct platform_device / struct i2c_client / etc.
-devices is done through a special default/fallback acpi_driver. If you
-attach your own acpi_driver to an acpi_device then this will not happen.
-
-So for any devices which also have some physical part (and not just pure
-firmware interface) using an acpi_driver is not what you want. At which
-point I guess we simply just want to avoid it even for pure virtual/fw
-devices like the PNP0C32 case for consistency.
-
-Note this is just my view on this, perhaps Rafael can explain this better?
-
-Regards,
-
-Hans
-
+-Daniel
