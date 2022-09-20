@@ -2,85 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ACC65BEA45
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 17:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81B8A5BEB09
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 18:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231556AbiITPaV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 11:30:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57726 "EHLO
+        id S231180AbiITQVt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 12:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231543AbiITPaS (ORCPT
+        with ESMTP id S231293AbiITQVS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 11:30:18 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7152C6612C
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 08:30:17 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MX53j41Szz14Qyk
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 23:26:09 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 20 Sep 2022 23:30:15 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 20 Sep
- 2022 23:30:14 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-input@vger.kernel.org>
-CC:     <dmitry.torokhov@gmail.com>, <thierry.reding@gmail.com>,
-        <u.kleine-koenig@pengutronix.de>, <yangyingliang@huawei.com>
-Subject: [PATCH -next 5/5] Input: rotary_encoder - Switch to use dev_err_probe() helper
-Date:   Tue, 20 Sep 2022 23:36:56 +0800
-Message-ID: <20220920153656.3486879-5-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220920153656.3486879-1-yangyingliang@huawei.com>
-References: <20220920153656.3486879-1-yangyingliang@huawei.com>
+        Tue, 20 Sep 2022 12:21:18 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE48745987
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 09:20:54 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d24so2903478pls.4
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 09:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=jJXR4QCgKEKFUSG8vusb6sfxw0STSpEfWJnRz7e0NC9MtZBKjvXzZMpF9Ej7hQMVcP
+         eVEmYyt4wAn0MuJOiaThRMoysdxiAnExsZMBLHXih5pxGpv47+BvokjE3+IRVOU5DKEz
+         pONIbVBodbWf8ggeVFWQYebPl4TvN/IC/y3ICmpak/mN6HBpZXY+z43POF01MRYi9SQ6
+         vSuU6e6TNOQGtFwtjF6WT5KAOfHj3Lrbb/dR61CgJKlfK/vj2/fksALzXndGb+2BL1Gs
+         QD5cseJB+vVnLGKR1Tm89b65OC5vSH0PNE3tljGl6XWbeglgRND6GHSubY266qO89pCf
+         84Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=s2PkvR1wBLIlDWWEJa1IovNkEFXYlGq7TisQCNW/W5eULov4cmdb081JMOFgNCl2nm
+         O3vHXsErT0ZbsIGnHZNRA2jBreKMiLAgRxKA75fAIeLUmxR8abcAvWebN/ZMC3IAaGP7
+         9d/6SAW6pX8IHQGzdaTYncVRqC3jsUTna/zH64Jq5pD5Vz+axBSBClU2+Qjw6UdGMi1X
+         2Ty8C5l1zFXbODpGfX0Lxv8jy7btqQ/jE1XctZOVhEDRqzu9mlmnRO/eDEeWs0k8RWzJ
+         uf29rOT9ZKZe2wRdE47R1FjhbLG5H1ayXZVn+WcixALs3tpQDRimcXKQkc3kl6Pm6oTX
+         7Dfw==
+X-Gm-Message-State: ACrzQf1kvnOhK/ij+uBffguimdSwk7DMc5RXUuhm3Emi3O+j6WkCsxQd
+        jKiS/vPY5ujFO1r7xwZTF499I1jiIOOjfFBn
+X-Google-Smtp-Source: AMsMyM5Jg+ji0iF3avp2yrwfXFu5Y5fRYa7i6ePgzpk/ySoFQnfnpNozUjg7dtpWhbvbrMPnjwPrBlTUfiXNh42Is2A=
+X-Received: by 2002:a17:90b:4d12:b0:202:e772:fa09 with SMTP id
+ mw18-20020a17090b4d1200b00202e772fa09mr4859555pjb.30.1663690854475; Tue, 20
+ Sep 2022 09:20:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a10:e896:b0:2f4:3ded:66bc with HTTP; Tue, 20 Sep 2022
+ 09:20:53 -0700 (PDT)
+Reply-To: linadavid0089@gmail.com
+From:   Lina David <tinaeevan@gmail.com>
+Date:   Tue, 20 Sep 2022 17:20:53 +0100
+Message-ID: <CADEuEs9rKLpQBXWA9XeeeCp5APpp=aHu-Jtng8pa+Eub4s0+yg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In the probe path, dev_err() can be replaced with dev_err_probe()
-which will check if error code is -EPROBE_DEFER and prints the
-error name. It also sets the defer probe reason which can be
-checked later through debugfs.
-
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/input/misc/rotary_encoder.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/input/misc/rotary_encoder.c b/drivers/input/misc/rotary_encoder.c
-index 6d613f2a017c..e106cab58e8f 100644
---- a/drivers/input/misc/rotary_encoder.c
-+++ b/drivers/input/misc/rotary_encoder.c
-@@ -236,12 +236,9 @@ static int rotary_encoder_probe(struct platform_device *pdev)
- 		device_property_read_bool(dev, "rotary-encoder,relative-axis");
- 
- 	encoder->gpios = devm_gpiod_get_array(dev, NULL, GPIOD_IN);
--	if (IS_ERR(encoder->gpios)) {
--		err = PTR_ERR(encoder->gpios);
--		if (err != -EPROBE_DEFER)
--			dev_err(dev, "unable to get gpios: %d\n", err);
--		return err;
--	}
-+	if (IS_ERR(encoder->gpios))
-+		return dev_err_probe(dev, PTR_ERR(encoder->gpios),
-+				     "unable to get gpios\n");
- 	if (encoder->gpios->ndescs < 2) {
- 		dev_err(dev, "not enough gpios found\n");
- 		return -EINVAL;
 -- 
-2.25.1
-
+Hello,
+how are you?
