@@ -2,181 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9A6B5BEB6B
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 18:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5806D5BEC0D
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 19:32:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230466AbiITQzO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 12:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41128 "EHLO
+        id S230292AbiITRcr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 13:32:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230382AbiITQzG (ORCPT
+        with ESMTP id S229766AbiITRcq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 12:55:06 -0400
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7442928E20
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 09:54:52 -0700 (PDT)
-Date:   Tue, 20 Sep 2022 16:54:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1663692888; x=1663952088;
-        bh=b6ndjbcZhGSJGsthJvwVEPx5dH9yn8An6taijSqj7Go=;
-        h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID;
-        b=ow6j0wF5pGYOm+Gw463dsuCkcLJvXC8Czc3BMRj3RYX3BhJU4IP7fXy5In8SOhfIf
-         M7QwGTOoAan0c8P8PeonOAwRpFtCt2GYpxQNOsy4xSSYXjrWYWZ5cVYIGJGZhUzuk3
-         6Cyvasg/xHsbCy8OTu/CRoPG9rtVDzGjDitprIR7sEwj4Ys9/GHyptQMM+FSs5P72v
-         /QNO5miBdY5mNNPR6wL96kdqhZeB5pdI3FGo8HfhKk9Ya0o+eJZwp1zyUuVktsz6ld
-         GlxNlom+xcT/OR4A28lCOjZv8UhC9QWhTZ78V6nYmFIcsAihVfZ2QymBnVAiTSpOQr
-         Lov7O+BksP3Gg==
-To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>
-From:   Johnothan King <johnothanking@protonmail.com>
-Subject: [PATCH v2] HID: nintendo: check analog user calibration for plausibility
-Message-ID: <RINjeKS0brZzIa6F-fgBKuiHrrcZB8zfTg_chbQIT3BRLqx-l9SmsxvV3LXx7upuctFCki33uAIhXNsM92YWTub8vbzSQHcJibhPkN5ijB8=@protonmail.com>
-Feedback-ID: 1750573:user:proton
+        Tue, 20 Sep 2022 13:32:46 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7690963B6
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 10:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663695165; x=1695231165;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=deuu/YkZ9OKKz8UHPVB6SzCsiKX0F6GsrQ5nHo5O0Ek=;
+  b=JEMxIbQJgGFhAYZreK+XvX7OM74Ne4eAG+bwGzro25ULDqRvTBYD7+2N
+   czWFGpvnhectlmXROnPyJMEKyTi/YUSh+jwHYYqyeV+GNUDF7G69vIXSg
+   M2w65Udqh3P/Xm4bkorCaOSz9VQ91RkQZb/24t0dbJHAyW/Z6pHfoGFwY
+   HW52aVSRQ8l7cs20eck/VkPB1q/SENrqo2UdLz3i80EUFhqCdcyWyknHK
+   psn4OujuGbwsOHzYXEUijj6VzH/AB6dagW+p/rL8HBB2LFuDGBf7GPpXQ
+   1fhT1tLE5QaP8ZwfgpZ6BRoiT6XoO+ep1u+FwR5mX52Ao29zGEFSYsWp4
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="301144451"
+X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; 
+   d="scan'208";a="301144451"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2022 10:32:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,331,1654585200"; 
+   d="scan'208";a="681397753"
+Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Sep 2022 10:32:23 -0700
+Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oah6c-0002rp-1p;
+        Tue, 20 Sep 2022 17:32:22 +0000
+Date:   Wed, 21 Sep 2022 01:32:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:gpio-test] BUILD REGRESSION
+ 53be931d133999d54ca1f0869ffb0aed731a0289
+Message-ID: <6329f911.Dbb5LCQk1hRU207p%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Arne Wendt writes:
-  Cheap clone controllers may (falsely) report as having a user
-  calibration for the analog sticks in place, but return
-  wrong/impossible values for the actual calibration data.
-  In the present case at mine, the controller reports having a
-  user calibration in place and successfully executes the read
-  commands. The reported user calibration however is
-  min =3D center =3D max =3D 0.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git gpio-test
+branch HEAD: 53be931d133999d54ca1f0869ffb0aed731a0289  ASoC: ssm2518: switch to using gpiod API
 
-  This pull request addresses problems of this kind by checking the
-  provided user calibration-data for plausibility (min < center < max)
-  and falling back to the default values if implausible.
+Error/Warning reports:
 
-I'll note that I was experiencing a crash because of this bug when using
-the GuliKit KingKong 2 controller. The crash manifests as a divide by
-zero error in the kernel logs:
-kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
+https://lore.kernel.org/linux-input/202209201926.qKKWT7uk-lkp@intel.com
 
-Changes in v2:
- - Move the plausibility check to joycon_read_stick_calibration() and
-   have that function return -EINVAL if the check fails.
- - In the plausibility check, change >=3D to =3D=3D. hid_field_extract() ne=
-ver
-   returns a negative value, so a scenario involving min > center or
-   center > max is impossible.
- - To reduce code duplication, move the code for setting default
-   calibration values into a single function called
-   joycon_use_default_calibration().
+Error/Warning: (recently discovered and may have been fixed)
 
-Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
-Link: https://github.com/DanielOgorchock/linux/issues/36
-Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
-Signed-off-by: Johnothan King <johnothanking@protonmail.com>
----
- drivers/hid/hid-nintendo.c | 58 ++++++++++++++++++++++----------------
- 1 file changed, 33 insertions(+), 25 deletions(-)
+drivers/pci/controller/pci-mvebu.c:1100:9: error: implicit declaration of function 'chained_irq_enter'; did you mean 'ct_irq_enter'? [-Werror=implicit-function-declaration]
+drivers/pci/controller/pci-mvebu.c:1115:9: error: implicit declaration of function 'chained_irq_exit'; did you mean 'ct_irq_exit'? [-Werror=implicit-function-declaration]
+drivers/pci/controller/pci-mvebu.c:1344:17: error: too few arguments to function 'devm_kfree'
+drivers/pci/controller/pci-mvebu.c:1344:32: error: passing argument 1 of 'devm_kfree' from incompatible pointer type [-Werror=incompatible-pointer-types]
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 6028af3c3aae..ca58f5440159 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -760,12 +760,34 @@ static int joycon_read_stick_calibration(struct joyco=
-n_ctlr *ctlr, u16 cal_addr,
- =09cal_y->max =3D cal_y->center + y_max_above;
- =09cal_y->min =3D cal_y->center - y_min_below;
-=20
--=09return 0;
-+=09/* check if values are plausible */
-+=09if (cal_x->min =3D=3D cal_x->center ||
-+=09    cal_x->center =3D=3D cal_x->max ||
-+=09    cal_y->min =3D=3D cal_y->center ||
-+=09    cal_y->center =3D=3D cal_y->max)
-+=09=09ret =3D -EINVAL;
-+
-+=09return ret;
- }
-=20
- static const u16 DFLT_STICK_CAL_CEN =3D 2000;
- static const u16 DFLT_STICK_CAL_MAX =3D 3500;
- static const u16 DFLT_STICK_CAL_MIN =3D 500;
-+static void joycon_use_default_calibration(struct joycon_ctlr *ctlr,
-+=09=09=09=09=09   struct joycon_stick_cal *cal_x,
-+=09=09=09=09=09   struct joycon_stick_cal *cal_y,
-+=09=09=09=09=09   const char *stick, int ret)
-+{
-+=09hid_warn(ctlr->hdev,
-+=09=09 "Failed to read %s stick cal, "
-+=09=09 "using defaults; e=3D%d\n",
-+=09=09 stick, ret);
-+
-+=09cal_x->center =3D cal_y->center =3D DFLT_STICK_CAL_CEN;
-+=09cal_x->max =3D cal_y->max =3D DFLT_STICK_CAL_MAX;
-+=09cal_x->min =3D cal_y->min =3D DFLT_STICK_CAL_MIN;
-+}
-+
- static int joycon_request_calibration(struct joycon_ctlr *ctlr)
- {
- =09u16 left_stick_addr =3D JC_CAL_FCT_DATA_LEFT_ADDR;
-@@ -793,38 +815,24 @@ static int joycon_request_calibration(struct joycon_c=
-tlr *ctlr)
- =09=09=09=09=09    &ctlr->left_stick_cal_x,
- =09=09=09=09=09    &ctlr->left_stick_cal_y,
- =09=09=09=09=09    true);
--=09if (ret) {
--=09=09hid_warn(ctlr->hdev,
--=09=09=09 "Failed to read left stick cal, using dflts; e=3D%d\n",
--=09=09=09 ret);
-=20
--=09=09ctlr->left_stick_cal_x.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->left_stick_cal_x.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->left_stick_cal_x.min =3D DFLT_STICK_CAL_MIN;
--
--=09=09ctlr->left_stick_cal_y.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->left_stick_cal_y.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->left_stick_cal_y.min =3D DFLT_STICK_CAL_MIN;
--=09}
-+=09if (ret)
-+=09=09joycon_use_default_calibration(ctlr,
-+=09=09=09=09=09       &ctlr->left_stick_cal_x,
-+=09=09=09=09=09       &ctlr->left_stick_cal_y,
-+=09=09=09=09=09       "left", ret);
-=20
- =09/* read the right stick calibration data */
- =09ret =3D joycon_read_stick_calibration(ctlr, right_stick_addr,
- =09=09=09=09=09    &ctlr->right_stick_cal_x,
- =09=09=09=09=09    &ctlr->right_stick_cal_y,
- =09=09=09=09=09    false);
--=09if (ret) {
--=09=09hid_warn(ctlr->hdev,
--=09=09=09 "Failed to read right stick cal, using dflts; e=3D%d\n",
--=09=09=09 ret);
--
--=09=09ctlr->right_stick_cal_x.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->right_stick_cal_x.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->right_stick_cal_x.min =3D DFLT_STICK_CAL_MIN;
-=20
--=09=09ctlr->right_stick_cal_y.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->right_stick_cal_y.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->right_stick_cal_y.min =3D DFLT_STICK_CAL_MIN;
--=09}
-+=09if (ret)
-+=09=09joycon_use_default_calibration(ctlr,
-+=09=09=09=09=09       &ctlr->right_stick_cal_x,
-+=09=09=09=09=09       &ctlr->right_stick_cal_y,
-+=09=09=09=09=09       "right", ret);
-=20
- =09hid_dbg(ctlr->hdev, "calibration:\n"
- =09=09=09    "l_x_c=3D%d l_x_max=3D%d l_x_min=3D%d\n"
---=20
-2.37.3
+Error/Warning ids grouped by kconfigs:
 
+gcc_recent_errors
+`-- arm-defconfig
+    |-- drivers-pci-controller-pci-mvebu.c:error:implicit-declaration-of-function-chained_irq_enter
+    |-- drivers-pci-controller-pci-mvebu.c:error:implicit-declaration-of-function-chained_irq_exit
+    |-- drivers-pci-controller-pci-mvebu.c:error:passing-argument-of-devm_kfree-from-incompatible-pointer-type
+    `-- drivers-pci-controller-pci-mvebu.c:error:too-few-arguments-to-function-devm_kfree
 
+elapsed time: 721m
+
+configs tested: 58
+configs skipped: 2
+
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+arc                                 defconfig
+s390                             allmodconfig
+alpha                               defconfig
+s390                                defconfig
+x86_64                               rhel-8.3
+s390                             allyesconfig
+x86_64               randconfig-a012-20220919
+riscv                randconfig-r042-20220919
+powerpc                           allnoconfig
+arc                  randconfig-r043-20220919
+x86_64               randconfig-a011-20220919
+x86_64               randconfig-a014-20220919
+x86_64                           allyesconfig
+i386                 randconfig-a013-20220919
+i386                                defconfig
+x86_64               randconfig-a015-20220919
+arm                                 defconfig
+s390                 randconfig-r044-20220919
+x86_64               randconfig-a013-20220919
+x86_64               randconfig-a016-20220919
+i386                 randconfig-a012-20220919
+x86_64                    rhel-8.3-kselftests
+i386                 randconfig-a011-20220919
+x86_64                          rhel-8.3-func
+arm                              allyesconfig
+x86_64                         rhel-8.3-kunit
+arm64                            allyesconfig
+m68k                             allmodconfig
+sh                               allmodconfig
+i386                 randconfig-a014-20220919
+x86_64                           rhel-8.3-kvm
+mips                             allyesconfig
+x86_64                           rhel-8.3-syz
+powerpc                          allmodconfig
+i386                 randconfig-a016-20220919
+arc                              allyesconfig
+i386                 randconfig-a015-20220919
+alpha                            allyesconfig
+m68k                             allyesconfig
+ia64                             allmodconfig
+i386                             allyesconfig
+
+clang tested configs:
+i386                 randconfig-a001-20220919
+i386                 randconfig-a002-20220919
+i386                 randconfig-a003-20220919
+i386                 randconfig-a004-20220919
+i386                 randconfig-a006-20220919
+i386                 randconfig-a005-20220919
+x86_64               randconfig-a003-20220919
+hexagon              randconfig-r041-20220919
+x86_64               randconfig-a001-20220919
+x86_64               randconfig-a002-20220919
+hexagon              randconfig-r045-20220919
+x86_64               randconfig-a004-20220919
+x86_64               randconfig-a006-20220919
+x86_64               randconfig-a005-20220919
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
