@@ -2,104 +2,233 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B65965BE34F
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 12:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0573F5BE3B0
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 12:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbiITKeU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 06:34:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45224 "EHLO
+        id S229687AbiITKnw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 06:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231159AbiITKdy (ORCPT
+        with ESMTP id S231240AbiITKn0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 06:33:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 184E272FF6
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 03:32:36 -0700 (PDT)
+        Tue, 20 Sep 2022 06:43:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3ED26CD35
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 03:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663669954;
+        s=mimecast20190719; t=1663670592;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=m2Z85nnT6jRG76duZBvmb+k2OKXeIArfGfFllZ9EDFg=;
-        b=BD1Yi6ECSA+mtLvranKqjaZpIfXaY2L1NETy2PX6n6PXFYI7IW0aihbuT9mngH47NIRTJo
-        5rQuxBfSjbkmKDHBjaUcdeDt0leCC99q0y9Wpgx3+2XoCZp3Y4ZLvfJlBCnW1+k/knVl4d
-        c6KKcf6IevjLwTfBcqbvhS1cg/phDvM=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=qMA0rQs86FOwfocxFPVrINYPjkbq3Q1x9nWeAx3V0gI=;
+        b=i7RiBaoiwVpRGjSHu0HPOwQxdPYI7vfZJX+lZuIGLVk1uY5VeQQMOWq2raBR/IQDPa/A+x
+        AntwPk+86NZyzWfHculruhB9SBe5HHYlgiVDfOmOvfh8kwMtR5OvhfTkm0Ka8wJCfwnmWa
+        HVLeJjz/CXgb+R4dn0NWsHTIiQ31oPE=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-26-b3kitqq8OnOUz1oupdH4Mw-1; Tue, 20 Sep 2022 06:32:32 -0400
-X-MC-Unique: b3kitqq8OnOUz1oupdH4Mw-1
-Received: by mail-pg1-f197.google.com with SMTP id s68-20020a632c47000000b00434e0e75076so1387861pgs.7
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 03:32:32 -0700 (PDT)
+ us-mta-583-hIi6PR2_NJ6QvqzdMnlDVw-1; Tue, 20 Sep 2022 06:43:10 -0400
+X-MC-Unique: hIi6PR2_NJ6QvqzdMnlDVw-1
+Received: by mail-pf1-f198.google.com with SMTP id u10-20020a056a00098a00b00543b3eb6416so1501367pfg.15
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 03:43:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=m2Z85nnT6jRG76duZBvmb+k2OKXeIArfGfFllZ9EDFg=;
-        b=CeutTdVbSXsmtsU8seiCn7k4roUhdR3w1bth72Ip/gAWetO7iRWs/QqR0ks/dQ7X7i
-         znnKz/0sl2PbDm0q5+1usHm3keI3tfkdmeZeATGnlobRCbS5aMBv3vJDe3VlddN/29A+
-         IaAcusf/X/nGIJunoAOkzVD13tgkxnxZr9fknH857Mu626ZoKTJOUvid7yNIigJrqF6F
-         Em0U00E92srg4SdmoUcNox+f35dbnOwRPdLUjErzeIkzw6K1ZzLgK2t4LcX0t0kh4U1U
-         ATh72kIcjbzvkOs8RcJxa2/OJ+BC9AkzVor65eAJoLra5EPsL4lQdONepk84JqbW0rnb
-         ve0w==
-X-Gm-Message-State: ACrzQf3KChKAc84Dl2Pl5eVqh82wRiX/hUeaqp5CWyysdPeMFEtueh/R
-        Q4kE7haDkScbqijlLO/oJI5B22vixLA7dD7eHNwWVA+bS45cuDBJ5q70QVQu8Jg7hFapytgki0l
-        +Ons75N8Wl4jbnm40M9Kq2hhXnaJ6XqRsJyusxa8=
-X-Received: by 2002:a17:903:3014:b0:176:e498:2340 with SMTP id o20-20020a170903301400b00176e4982340mr4279285pla.119.1663669951557;
-        Tue, 20 Sep 2022 03:32:31 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4m8Wf54Zgy/KmdFCfQYUJKcwWsCKi4SuHoMqFIizDtokQ4+qG2a2Sed0PH/05+DIZJC7b1OMgoIfbU4tVfn30=
-X-Received: by 2002:a17:903:3014:b0:176:e498:2340 with SMTP id
- o20-20020a170903301400b00176e4982340mr4279261pla.119.1663669951231; Tue, 20
- Sep 2022 03:32:31 -0700 (PDT)
+        bh=qMA0rQs86FOwfocxFPVrINYPjkbq3Q1x9nWeAx3V0gI=;
+        b=Z8w4AtLgVF+7my+PD4aNToPOL2bw1/8m8Kc3DHYTr6AkZnFDsfC5eSoMr/xHliWwTI
+         wHrxEzIg7rqJAhSTvwXyXdxuen1QX2NEbe5HYAPhmGueTQCwK5+FfjVQLNNqWF7GljQ9
+         o6QxJM25nWw5VFMV4vo+tHdIeUqJddOowRfj6v8an9AkoOFmPTGXhraAR9xkFrpAe4KX
+         FjBj448J3tdJ9+RrkiecSpKhTVlVrAvzdqXc32EXeXVlFGemgwCrcEgyz8xThoCLgsze
+         2G2+iDxK1vBDRIOaExWfrrzMPQ8S/neVQOvTUbwFwWP8ioWW+kJ9vtFDUtV8KC7P0R4R
+         kEhw==
+X-Gm-Message-State: ACrzQf3f8Gz9BejA1t6zyW0pxEr57NOlW5VJa5Ffql8N9eCHflkIP+vc
+        N/etod5H6K26eJ11WXe0iIvm+ePL57YKCwB4lmfcWXpzeQFLFJ2DzBaWhwvyiaPKCMz9R8VuaHL
+        MD6yt0QVFhg/vFkheoTdZhi2il+CuSCeg/h4A2q4=
+X-Received: by 2002:a17:90b:1d12:b0:200:461c:fa7d with SMTP id on18-20020a17090b1d1200b00200461cfa7dmr3254651pjb.38.1663670589909;
+        Tue, 20 Sep 2022 03:43:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4LwOlWM+owfEUV010mJfgetj3SukXN+Y26a36gzyfhur973qtqvZjOgY/ZWBiyAeoxHSdwI2HqG3nq0p7A1iQ=
+X-Received: by 2002:a17:90b:1d12:b0:200:461c:fa7d with SMTP id
+ on18-20020a17090b1d1200b00200461cfa7dmr3254615pjb.38.1663670589623; Tue, 20
+ Sep 2022 03:43:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220904154515.25143-1-dengshaomin@cdjrlc.com>
-In-Reply-To: <20220904154515.25143-1-dengshaomin@cdjrlc.com>
+References: <20220919155916.1044219-1-rrangel@chromium.org>
+In-Reply-To: <20220919155916.1044219-1-rrangel@chromium.org>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 20 Sep 2022 12:32:20 +0200
-Message-ID: <CAO-hwJ+hP8ab63OXEi95VP+A9iJR2X4Bu9vwouAzqWFTqVqFEQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: sony: Fix double word in comments
-To:     Shaomin Deng <dengshaomin@cdjrlc.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Date:   Tue, 20 Sep 2022 12:42:58 +0200
+Message-ID: <CAO-hwJKcpXQjvLuQK+wfqkU0LHxKbbAyNCZnQGxe47fm1o6LQw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/13] acpi: i2c: Use SharedAndWake and
+ ExclusiveAndWake to enable wake irq
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     linux-acpi@vger.kernel.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        timvp@google.com, Hans De Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        rafael@kernel.org, Mario Limonciello <mario.limonciello@amd.com>,
+        jingle <jingle.wu@emc.com.tw>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alistair Francis <alistair@alistair23.me>,
+        Angela Czubak <acz@semihalf.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Bartosz Szczepanek <bsz@semihalf.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
+        Terry Bowman <terry.bowman@amd.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        linux-gpio@vger.kernel.org, Linux I2C <linux-i2c@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Sep 4, 2022 at 5:46 PM Shaomin Deng <dengshaomin@cdjrlc.com> wrote:
+On Mon, Sep 19, 2022 at 5:59 PM Raul E Rangel <rrangel@chromium.org> wrote:
 >
-> Remove the repeated word "not" in comments.
+> Today, i2c drivers are making the assumption that their IRQs can also
+> be used as wake IRQs. This isn't always the case and it can lead to
+> spurious wakes. This has recently started to affect AMD Chromebooks.
+> With the introduction of
+> d62bd5ce12d7 ("pinctrl: amd: Implement irq_set_wake"), the AMD GPIO
+> controller gained the capability to set the wake bit on each GPIO. The
+> ACPI specification defines two ways to inform the system if a device is
+> wake capable:
+> 1) The _PRW object defines the GPE that can be used to wake the system.
+> 2) Setting ExclusiveAndWake or SharedAndWake in the _CRS GpioInt.
 >
-> Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
-> ---
+> Currently only the first method is supported. The i2c drivers don't have
+> any indication that the IRQ is wake capable, so they guess. This causes
+> spurious interrupts, for example:
+> * We have an ACPI HID device that has `_PR0` and `_PR3`. It doesn't have
+>   `_PRW` or `ExclusiveAndWake` so that means the device can't wake the
+>   system.
+> * The IRQ line is active level low for this device and is pulled up by
+>   the power resource defined in `_PR0`/`_PR3`.
+> * The i2c driver will (incorrectly) arm the GPIO for wake by calling
+>   `enable_irq_wake` as part of its suspend hook.
+> * ACPI will power down the device since it doesn't have a wake GPE
+>   associated with it.
+> * When the device is powered down, the IRQ line will drop, and it will
+>   trigger a wake event.
+>
+> See the following debug log:
+> [   42.335804] PM: Suspending system (s2idle)
+> [   42.340186] amd_gpio AMD0030:00: RX: Setting wake for pin 89 to enable
+> [   42.467736]     power-0416 __acpi_power_off      : Power resource [PR00] turned off
+> [   42.467739] device_pm-0280 device_set_power      : Device [H05D] transitioned to D3cold
+> [   42.475210] PM: pm_system_irq_wakeup: 11 triggered pinctrl_amd
+> [   42.535293] PM: Wakeup unrelated to ACPI SCI
+> [   42.535294] PM: resume from suspend-to-idle
+>
+> In order to fix this, we need to take into account the wake capable bit
+> defined on the Interrupt/GpioInt. This is accomplished by:
+> * Migrating some of the i2c drivers over to using the PM subsystem to
+>   manage the wake IRQ.
+> * Expose the wake_capable bit from the ACPI Interrupt/GpioInt resource
+>   to the  i2c core.
+> * Use the wake_capable bit in the i2c core to call
+>   `dev_pm_set_wake_irq`. This reuses the existing device tree flow.
+> * Make the i2c drivers stop calling `dev_pm_set_wake_irq` since it's now
+>   handled by the i2c core.
+> * Make the ACPI device PM system aware of the wake_irq. This is
+>   necessary so the device doesn't incorrectly get powered down when a
+>   wake_irq is enabled.
+>
+> I've tested this code with various combinations of having _PRW,
+> ExclusiveAndWake and power resources all defined or not defined, but it
+> would be great if others could test this out on their hardware.
+>
+> I'm sure this will surface some devices where the IRQs were not
+> correctly marked as wake capable. Ideally the firmware can be fixed, but
+> if not we can work around this in the kernel by providing a board
+> specific `struct i2c_board_info` with the `I2C_CLIENT_WAKE` flag set.
+> See `chromeos_laptop.c` for an example of matching DMI properties and
+> setting the `I2C_CLIENT_WAKE` override.
+>
+> Thanks,
+> Raul
+>
+> Changes in v4:
+> - Added Reviewed-by
+> - Reformatted with 96 char limit
+> - Removed unnecessary !!
+> - Removed unrelated white space change
+> - Renamed i2c_acpi_add_resource to i2c_acpi_add_irq_resource
+> - Expanded logic in i2c_acpi_add_i2c_resource to make it easier to read
+>
+> Changes in v3:
+> - Kept `acpi_dev_gpio_irq_get_by` unchanged to avoid having to touch
+>   unrelated drivers.
+> - Converted wake_capable parameter to bool.
+> - Fixed bad indent
+> - Convert wake_capable to bool
+> - Only update wake_capable pointer once
+> - Move wake_capable local into local block
+>
+> Changes in v2:
+> - Added elants_i2c to series
+> - Added raydium_ts_i2c to series
+> - Fixed call site in mlxbf_gige_probe
+> - Added ability to extract wake bit from Interrupt/IRQ resources
+> - Look at wake_cabple bit for IRQ/Interrupt resources
+> - I chose not to keep the legacy code around since systems without DT or ACPI should be rare.
+>
+> Raul E Rangel (13):
+>   HID: i2c-hid: Use PM subsystem to manage wake irq
+>   Input: elan_i2c - Use PM subsystem to manage wake irq
+>   Input: elants_i2c - Use PM subsystem to manage wake irq
+>   Input: raydium_ts_i2c - Use PM subsystem to manage wake irq
+>   gpiolib: acpi: Add wake_capable variants of acpi_dev_gpio_irq_get
+>   ACPI: resources: Add wake_capable parameter to acpi_dev_irq_flags
+>   i2c: acpi: Use ACPI wake capability bit to set wake_irq
+>   ACPI: PM: Take wake IRQ into consideration when entering
+>     suspend-to-idle
+>   HID: i2c-hid: acpi: Stop setting wakeup_capable
+>   HID: i2c-hid: Don't set wake_capable and wake_irq
+>   Input: elan_i2c - Don't set wake_capable and wake_irq
+>   Input: elants_i2c - Don't set wake_capable and wake_irq
+>   Input: raydium_ts_i2c - Don't set wake_capable and wake_irq
+>
+>  drivers/acpi/device_pm.c                   | 19 +++++++++--
+>  drivers/acpi/irq.c                         |  8 +++--
+>  drivers/acpi/resource.c                    | 23 ++++++++++----
+>  drivers/gpio/gpiolib-acpi.c                | 15 +++++++--
+>  drivers/gpio/gpiolib-acpi.h                |  2 ++
+>  drivers/hid/i2c-hid/i2c-hid-acpi.c         |  5 ---
+>  drivers/hid/i2c-hid/i2c-hid-core.c         | 24 ++------------
+>  drivers/i2c/i2c-core-acpi.c                | 37 ++++++++++++++++------
+>  drivers/i2c/i2c-core-base.c                |  6 +++-
+>  drivers/i2c/i2c-core.h                     |  4 +--
+>  drivers/input/mouse/elan_i2c_core.c        | 15 +--------
+>  drivers/input/touchscreen/elants_i2c.c     | 13 ++------
+>  drivers/input/touchscreen/raydium_i2c_ts.c |  7 +---
+>  drivers/pnp/pnpacpi/rsparser.c             |  7 ++--
+>  include/linux/acpi.h                       | 23 +++++++++++---
+>  include/linux/ioport.h                     |  3 +-
+>  16 files changed, 117 insertions(+), 94 deletions(-)
+>
 
-Applied, thanks.
+For the HID patches (1, 9, 10):
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+Feel free to take those through whatever tree is the best, we don't
+have anything scheduled for i2c-hid for 6.1 right now.
 
 Cheers,
 Benjamin
-
->  drivers/hid/hid-sony.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-> index 60ec2b29d54d..03691cdcfb8e 100644
-> --- a/drivers/hid/hid-sony.c
-> +++ b/drivers/hid/hid-sony.c
-> @@ -368,7 +368,7 @@ static const unsigned int buzz_keymap[] = {
->  };
->
->  /* The Navigation controller is a partial DS3 and uses the same HID report
-> - * and hence the same keymap indices, however not not all axes/buttons
-> + * and hence the same keymap indices, however not all axes/buttons
->   * are physically present. We use the same axis and button mapping as
->   * the DS3, which uses the Linux gamepad spec.
->   */
-> --
-> 2.35.1
->
 
