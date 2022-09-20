@@ -2,305 +2,227 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 151F85BE740
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 15:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D3CC5BE76C
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 15:44:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbiITNiN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 09:38:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
+        id S231258AbiITNoN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 09:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231185AbiITNiK (ORCPT
+        with ESMTP id S230146AbiITNoL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 09:38:10 -0400
+        Tue, 20 Sep 2022 09:44:11 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F246856B8C
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 06:38:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 966D2501B2
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 06:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663681087;
+        s=mimecast20190719; t=1663681448;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=lXq60k4Ir3p5piUtObaU84pFedZT5LrWb+1N9tdzWIw=;
-        b=JvmWh+z89KOhyujYjXLBClTGAXKUk87uiIKuKWwzo/6stjoN9uWZdbNyqWDbJOS3gmbapD
-        AmK/FhgMSNvbpHiG2/ISlQAWcs445jxtQa+XlZdKTMFUIbvLDSsxBlV1n6QUcDFmR8ReRi
-        GNCTLslvAPgyPUINqwS6t9aLtI0QyUE=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=vwW7t8MPa7zeKiTEgnAftOAZBeq2iD70Wyn142D/zRo=;
+        b=SClir3dq9ieDg7GzdeVhk3z8wn69SXG5Za2e9Tpolj3w/M9cVkavVKQ/qBcXJuLLqDDlYs
+        Zj4dMrCFUH1iSeE/su+Eijma+w6g5opW7yzC8v6IiRx51k/kSuAXuRyTGTAhyzGmpmPwb9
+        UHoeh7OZmlABBKZZrmgnKeTdT5/gNqI=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-534-eupVjdWRNXCBTLKF_eE0gQ-1; Tue, 20 Sep 2022 09:38:06 -0400
-X-MC-Unique: eupVjdWRNXCBTLKF_eE0gQ-1
-Received: by mail-pg1-f197.google.com with SMTP id 69-20020a630148000000b0043bbb38f75bso889739pgb.6
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 06:38:05 -0700 (PDT)
+ us-mta-362-2FxjvrscMoafnghd1Oj6Ng-1; Tue, 20 Sep 2022 09:44:07 -0400
+X-MC-Unique: 2FxjvrscMoafnghd1Oj6Ng-1
+Received: by mail-pf1-f200.google.com with SMTP id y17-20020a056a00181100b0053e8868496bso1753719pfa.21
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 06:44:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=lXq60k4Ir3p5piUtObaU84pFedZT5LrWb+1N9tdzWIw=;
-        b=MzyItCyKdDlwRrSokLwGeLBv8/D8dvJydHXN3xtajNlPweqLyRXmKcCJYCDYhjmkLC
-         xtjWWIJb+2IoAR6bYMuIeFRKl+0/lkdDC6p91iBuh+ULm/P9a9pCZ0THW8y9LhriLJn9
-         QtZkWFEoiTIyAJW5K+VX0rFC3kphJeG6M2x4v/ktQ9FiLdnYmGTOpemEFNLysrwtQ6Jz
-         bU05ViMxNqtXAqtxCoRfnLvBLkurL8zrgZ8bC0dsO/iDz906hHJlXRjzLEPmQrF0CeKT
-         LPfoQBBmWhn1LpXNP4ADZvzpwfmTlGryjDPWrKZLeBckcc0hVS0LsyyXYOQ9ra500WMN
-         i4vA==
-X-Gm-Message-State: ACrzQf2q7U6mbfnO0KsB6hMsiycZ78xMobJh8mouG8uQ2WaKkvTF+/tE
-        CWE5Vb2vrbKQaCvcAegQPhPx565DujM5fSpWIkHe+aEJlxhbFsdJEGBt7eFwHxuGWd3XJBIv5OE
-        Jpy/myl2v4eRw7w6Z4m+gPFZ17jaQuln0joR2XkU=
-X-Received: by 2002:a17:903:120c:b0:172:728a:3b24 with SMTP id l12-20020a170903120c00b00172728a3b24mr4829618plh.61.1663681085011;
-        Tue, 20 Sep 2022 06:38:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7Tlmu2PWHOfxvk9a5I8EUZK0cU3NFSK+sKuHQ3NlD5rbAifGDu5hMyQzwnZt1PlabuZgn4SJAAFw6/OHUgYDo=
-X-Received: by 2002:a17:903:120c:b0:172:728a:3b24 with SMTP id
- l12-20020a170903120c00b00172728a3b24mr4829597plh.61.1663681084696; Tue, 20
- Sep 2022 06:38:04 -0700 (PDT)
+        bh=vwW7t8MPa7zeKiTEgnAftOAZBeq2iD70Wyn142D/zRo=;
+        b=fA/79dqm85pj4SgVFkYQuVw3lTWxno8RfOKa+XkNr7TzBbgeZ4yY4LpZ4jNW+N0Q4y
+         Yh0vgXUnndVUl9JphZRfsdZ5rNavkgomfuvf7SPFCws1W8PFzt7hqZvIT0PyJqLkFm86
+         Gbg59Mt0bYQ7ip3BW/G6R3e2sySTKUJ5ouBggDRlrG8f/WPeL9/cNrGqCdpWBr4fJKzK
+         /inJc0bt79V5udoQz1mbNXz4D9N95ZpwhDcGD2L41s+z2UB/sSQde1oQkoQrkO/KjtMq
+         OTPpHCMH1l3O2ZVRoPoMO97wogQ3oVxcOLqA6/fs0ftsN60k+fRpBifF9/mFPGa/ZRN9
+         EoCw==
+X-Gm-Message-State: ACrzQf282Ctly8U7EnLFIi6k5e9YKUNjFxyIUDK+6l+soHRMX61XlAbY
+        u8FdgTTzBQ2IipnIUWr7BS/gWTvTH2y6MopFcTK2PMcXIaUtKlOLzJas0f4SyS9Lwj5FhI1aL37
+        YVMyCyYJcFABFD2s1ji8ZfxbYSbAs7v4KG2pY1As=
+X-Received: by 2002:a17:90a:f28b:b0:203:627c:7ba1 with SMTP id fs11-20020a17090af28b00b00203627c7ba1mr4063205pjb.191.1663681446409;
+        Tue, 20 Sep 2022 06:44:06 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM61euhDYViIzDlUs4Ah/OZb3hFvXIlLEfl5ptqxt1gkv1vD4Ica+puVs5gjlf6riTd8NcMoul6d/R4nLAKpoCo=
+X-Received: by 2002:a17:90a:f28b:b0:203:627c:7ba1 with SMTP id
+ fs11-20020a17090af28b00b00203627c7ba1mr4063163pjb.191.1663681446067; Tue, 20
+ Sep 2022 06:44:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220914132146.6435-1-hadess@hadess.net>
-In-Reply-To: <20220914132146.6435-1-hadess@hadess.net>
+References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 20 Sep 2022 15:37:53 +0200
-Message-ID: <CAO-hwJL=CXZRkp1c9R6jcnM1HT4NpTsJPkuFH40bP8K9u0mDFg@mail.gmail.com>
-Subject: Re: [PATCH v1] HID: logitech-hidpp: Detect hi-res scrolling support
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
+Date:   Tue, 20 Sep 2022 15:43:55 +0200
+Message-ID: <CAO-hwJ+GxSHKf-zCNg-WM_5+o2B94n4=AXGwz-tfipS_+YpK+w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v10 00/23] Introduce eBPF support for HID devices
+To:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 3:21 PM Bastien Nocera <hadess@hadess.net> wrote:
+On Fri, Sep 2, 2022 at 3:29 PM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> Rather than relying on a never-ending stream of patches for quirks.
+> Hi,
 >
-> This change will detect whether HID++ 1.0 hi-res scroll, HID++ 2.0
-> hi-res scroll or HID++ 2.0 hi-res scroll wheel is supported, and enable
-> the feature without the need for quirks.
+> here comes the v10 of the HID-BPF series.
 >
-> Tested on a Logitech M705 mouse that was unsupported before this change.
+> Again, for a full explanation of HID-BPF, please refer to the last patch
+> in this series (23/23).
 >
-> [    9.365324] logitech-hidpp-device 0003:046D:406D.0006: input,hidraw3: USB HID v1.11 Mouse [Logitech M705] on usb-0000:00:14.0-4/input2:3
-> [   57.472434] logitech-hidpp-device 0003:046D:406D.0006: HID++ 4.5 device connected.
-> [   57.616429] logitech-hidpp-device 0003:046D:406D.0006: Detected HID++ 2.0 hi-res scroll wheel
-> [   57.712424] logitech-hidpp-device 0003:046D:406D.0006: wheel multiplier = 8
+> Hopefully we are getting closer to merging the bpf-core changes that
+> are pre-requesite of the HID work.
 >
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=216480
-> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> ---
+> This revision of the series focused on those bpf-core changes with
+> a hopefully proper way of fixing access to ctx pointers, and a few more
+> selftests to cover those changes.
+>
+> Once those bpf changes are in, the HID changes are pretty much self
+> consistent, which is a good thing, but I still wonder how we are going
+> to merge the selftests. I'd rather have the selftests in the bpf tree to
+> prevent any regression on bpf-core changes, but that might require some
+> coordination between the HID and bpf trees.
+>
+> Anyway, let's hope we are getting closer to the end of those revisions :)
 
-Added the tested-by line from Peter and applied to for-6.1/logitech in hid.git
+FWIW, I have now applied the HID patches 8, 9, and 10 to hid.git. They
+are independent of the bpf work and given how close we are to 6.1, we
+can take them just now.
+Patch 11 is having a conflict with the HID tree, so I'll need to
+handle it in v11 for the HID part.
+
+The first few patches have already been applied in the bpf-next tree,
+as part of the v11 subset of those patches.
+
+The plan is now to wait for all of these to land in 6.1-rc1, and then
+submit only the HID changes as a followup series for 6.2.
 
 Cheers,
 Benjamin
 
->  drivers/hid/hid-logitech-hidpp.c | 118 ++++++++++++++++---------------
->  1 file changed, 61 insertions(+), 57 deletions(-)
 >
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index 74013d0e0a24..5f8261c7b74c 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -74,21 +74,18 @@ MODULE_PARM_DESC(disable_tap_to_click,
->  #define HIDPP_QUIRK_NO_HIDINPUT                        BIT(23)
->  #define HIDPP_QUIRK_FORCE_OUTPUT_REPORTS       BIT(24)
->  #define HIDPP_QUIRK_UNIFYING                   BIT(25)
-> -#define HIDPP_QUIRK_HI_RES_SCROLL_1P0          BIT(26)
-> -#define HIDPP_QUIRK_HI_RES_SCROLL_X2120                BIT(27)
-> -#define HIDPP_QUIRK_HI_RES_SCROLL_X2121                BIT(28)
-> -#define HIDPP_QUIRK_HIDPP_WHEELS               BIT(29)
-> -#define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS     BIT(30)
-> -#define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS BIT(31)
-> +#define HIDPP_QUIRK_HIDPP_WHEELS               BIT(26)
-> +#define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS     BIT(27)
-> +#define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS BIT(28)
+> Cheers,
+> Benjamin
 >
->  /* These are just aliases for now */
->  #define HIDPP_QUIRK_KBD_SCROLL_WHEEL HIDPP_QUIRK_HIDPP_WHEELS
->  #define HIDPP_QUIRK_KBD_ZOOM_WHEEL   HIDPP_QUIRK_HIDPP_WHEELS
 >
->  /* Convenience constant to check for any high-res support. */
-> -#define HIDPP_QUIRK_HI_RES_SCROLL      (HIDPP_QUIRK_HI_RES_SCROLL_1P0 | \
-> -                                        HIDPP_QUIRK_HI_RES_SCROLL_X2120 | \
-> -                                        HIDPP_QUIRK_HI_RES_SCROLL_X2121)
-> +#define HIDPP_CAPABILITY_HI_RES_SCROLL (HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL | \
-> +                                        HIDPP_CAPABILITY_HIDPP20_HI_RES_SCROLL | \
-> +                                        HIDPP_CAPABILITY_HIDPP20_HI_RES_WHEEL)
+> Benjamin Tissoires (23):
+>   selftests/bpf: regroup and declare similar kfuncs selftests in an
+>     array
+>   bpf: split btf_check_subprog_arg_match in two
+>   bpf/verifier: allow all functions to read user provided context
+>   selftests/bpf: add test for accessing ctx from syscall program type
+>   bpf/btf: bump BTF_KFUNC_SET_MAX_CNT
+>   bpf/verifier: allow kfunc to return an allocated mem
+>   selftests/bpf: Add tests for kfunc returning a memory pointer
+>   HID: core: store the unique system identifier in hid_device
+>   HID: export hid_report_type to uapi
+>   HID: convert defines of HID class requests into a proper enum
+>   HID: Kconfig: split HID support and hid-core compilation
+>   HID: initial BPF implementation
+>   selftests/bpf: add tests for the HID-bpf initial implementation
+>   HID: bpf: allocate data memory for device_event BPF programs
+>   selftests/bpf/hid: add test to change the report size
+>   HID: bpf: introduce hid_hw_request()
+>   selftests/bpf: add tests for bpf_hid_hw_request
+>   HID: bpf: allow to change the report descriptor
+>   selftests/bpf: add report descriptor fixup tests
+>   selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+>   samples/bpf: HID: add new hid_mouse example
+>   samples/bpf: HID: add Surface Dial example
+>   Documentation: add HID-BPF docs
 >
->  #define HIDPP_QUIRK_DELAYED_INIT               HIDPP_QUIRK_NO_HIDINPUT
+>  Documentation/hid/hid-bpf.rst                 | 513 +++++++++
+>  Documentation/hid/index.rst                   |   1 +
+>  drivers/Makefile                              |   2 +-
+>  drivers/hid/Kconfig                           |  20 +-
+>  drivers/hid/Makefile                          |   2 +
+>  drivers/hid/bpf/Kconfig                       |  17 +
+>  drivers/hid/bpf/Makefile                      |  11 +
+>  drivers/hid/bpf/entrypoints/Makefile          |  93 ++
+>  drivers/hid/bpf/entrypoints/README            |   4 +
+>  drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  66 ++
+>  .../hid/bpf/entrypoints/entrypoints.lskel.h   | 682 ++++++++++++
+>  drivers/hid/bpf/hid_bpf_dispatch.c            | 526 ++++++++++
+>  drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
+>  drivers/hid/bpf/hid_bpf_jmp_table.c           | 577 ++++++++++
+>  drivers/hid/hid-core.c                        |  49 +-
+>  include/linux/bpf.h                           |  11 +-
+>  include/linux/bpf_verifier.h                  |   2 +
+>  include/linux/btf.h                           |  10 +
+>  include/linux/hid.h                           |  38 +-
+>  include/linux/hid_bpf.h                       | 148 +++
+>  include/uapi/linux/hid.h                      |  26 +-
+>  include/uapi/linux/hid_bpf.h                  |  25 +
+>  kernel/bpf/btf.c                              | 149 ++-
+>  kernel/bpf/verifier.c                         |  66 +-
+>  net/bpf/test_run.c                            |  37 +
+>  samples/bpf/.gitignore                        |   2 +
+>  samples/bpf/Makefile                          |  27 +
+>  samples/bpf/hid_mouse.bpf.c                   | 134 +++
+>  samples/bpf/hid_mouse.c                       | 161 +++
+>  samples/bpf/hid_surface_dial.bpf.c            | 161 +++
+>  samples/bpf/hid_surface_dial.c                | 232 ++++
+>  tools/include/uapi/linux/hid.h                |  62 ++
+>  tools/include/uapi/linux/hid_bpf.h            |  25 +
+>  tools/testing/selftests/bpf/Makefile          |   2 +-
+>  tools/testing/selftests/bpf/config            |   3 +
+>  tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
+>  .../selftests/bpf/prog_tests/kfunc_call.c     | 182 +++-
+>  tools/testing/selftests/bpf/progs/hid.c       | 206 ++++
+>  .../selftests/bpf/progs/kfunc_call_fail.c     | 160 +++
+>  .../selftests/bpf/progs/kfunc_call_test.c     |  71 ++
+>  40 files changed, 5416 insertions(+), 105 deletions(-)
+>  create mode 100644 Documentation/hid/hid-bpf.rst
+>  create mode 100644 drivers/hid/bpf/Kconfig
+>  create mode 100644 drivers/hid/bpf/Makefile
+>  create mode 100644 drivers/hid/bpf/entrypoints/Makefile
+>  create mode 100644 drivers/hid/bpf/entrypoints/README
+>  create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
+>  create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
+>  create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
+>  create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
+>  create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
+>  create mode 100644 include/linux/hid_bpf.h
+>  create mode 100644 include/uapi/linux/hid_bpf.h
+>  create mode 100644 samples/bpf/hid_mouse.bpf.c
+>  create mode 100644 samples/bpf/hid_mouse.c
+>  create mode 100644 samples/bpf/hid_surface_dial.bpf.c
+>  create mode 100644 samples/bpf/hid_surface_dial.c
+>  create mode 100644 tools/include/uapi/linux/hid.h
+>  create mode 100644 tools/include/uapi/linux/hid_bpf.h
+>  create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/kfunc_call_fail.c
 >
-> @@ -99,6 +96,9 @@ MODULE_PARM_DESC(disable_tap_to_click,
->  #define HIDPP_CAPABILITY_BATTERY_VOLTAGE       BIT(4)
->  #define HIDPP_CAPABILITY_BATTERY_PERCENTAGE    BIT(5)
->  #define HIDPP_CAPABILITY_UNIFIED_BATTERY       BIT(6)
-> +#define HIDPP_CAPABILITY_HIDPP20_HI_RES_WHEEL  BIT(7)
-> +#define HIDPP_CAPABILITY_HIDPP20_HI_RES_SCROLL BIT(8)
-> +#define HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL   BIT(9)
->
->  #define lg_map_key_clear(c)  hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
->
-> @@ -3418,14 +3418,14 @@ static int hi_res_scroll_enable(struct hidpp_device *hidpp)
->         int ret;
->         u8 multiplier = 1;
->
-> -       if (hidpp->quirks & HIDPP_QUIRK_HI_RES_SCROLL_X2121) {
-> +       if (hidpp->capabilities & HIDPP_CAPABILITY_HIDPP20_HI_RES_WHEEL) {
->                 ret = hidpp_hrw_set_wheel_mode(hidpp, false, true, false);
->                 if (ret == 0)
->                         ret = hidpp_hrw_get_wheel_capability(hidpp, &multiplier);
-> -       } else if (hidpp->quirks & HIDPP_QUIRK_HI_RES_SCROLL_X2120) {
-> +       } else if (hidpp->capabilities & HIDPP_CAPABILITY_HIDPP20_HI_RES_SCROLL) {
->                 ret = hidpp_hrs_set_highres_scrolling_mode(hidpp, true,
->                                                            &multiplier);
-> -       } else /* if (hidpp->quirks & HIDPP_QUIRK_HI_RES_SCROLL_1P0) */ {
-> +       } else /* if (hidpp->capabilities & HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL) */ {
->                 ret = hidpp10_enable_scrolling_acceleration(hidpp);
->                 multiplier = 8;
->         }
-> @@ -3440,6 +3440,49 @@ static int hi_res_scroll_enable(struct hidpp_device *hidpp)
->         return 0;
->  }
->
-> +static int hidpp_initialize_hires_scroll(struct hidpp_device *hidpp)
-> +{
-> +       int ret;
-> +       unsigned long capabilities;
-> +
-> +       capabilities = hidpp->capabilities;
-> +
-> +       if (hidpp->protocol_major >= 2) {
-> +               u8 feature_index;
-> +               u8 feature_type;
-> +
-> +               ret = hidpp_root_get_feature(hidpp, HIDPP_PAGE_HIRES_WHEEL,
-> +                                            &feature_index, &feature_type);
-> +               if (!ret) {
-> +                       hidpp->capabilities |= HIDPP_CAPABILITY_HIDPP20_HI_RES_WHEEL;
-> +                       hid_dbg(hidpp->hid_dev, "Detected HID++ 2.0 hi-res scroll wheel\n");
-> +                       return 0;
-> +               }
-> +               ret = hidpp_root_get_feature(hidpp, HIDPP_PAGE_HI_RESOLUTION_SCROLLING,
-> +                                            &feature_index, &feature_type);
-> +               if (!ret) {
-> +                       hidpp->capabilities |= HIDPP_CAPABILITY_HIDPP20_HI_RES_SCROLL;
-> +                       hid_dbg(hidpp->hid_dev, "Detected HID++ 2.0 hi-res scrolling\n");
-> +               }
-> +       } else {
-> +               struct hidpp_report response;
-> +
-> +               ret = hidpp_send_rap_command_sync(hidpp,
-> +                                                 REPORT_ID_HIDPP_SHORT,
-> +                                                 HIDPP_GET_REGISTER,
-> +                                                 HIDPP_ENABLE_FAST_SCROLL,
-> +                                                 NULL, 0, &response);
-> +               if (!ret) {
-> +                       hidpp->capabilities |= HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL;
-> +                       hid_dbg(hidpp->hid_dev, "Detected HID++ 1.0 fast scroll\n");
-> +               }
-> +       }
-> +
-> +       if (hidpp->capabilities == capabilities)
-> +               hid_dbg(hidpp->hid_dev, "Did not detect HID++ hi-res scrolling hardware support\n");
-> +       return 0;
-> +}
-> +
->  /* -------------------------------------------------------------------------- */
->  /* Generic HID++ devices                                                      */
->  /* -------------------------------------------------------------------------- */
-> @@ -3694,8 +3737,9 @@ static int hidpp_event(struct hid_device *hdev, struct hid_field *field,
->          * cases we must return early (falling back to default behaviour) to
->          * avoid a crash in hidpp_scroll_counter_handle_scroll.
->          */
-> -       if (!(hidpp->quirks & HIDPP_QUIRK_HI_RES_SCROLL) || value == 0
-> -           || hidpp->input == NULL || counter->wheel_multiplier == 0)
-> +       if (!(hidpp->capabilities & HIDPP_CAPABILITY_HI_RES_SCROLL)
-> +           || value == 0 || hidpp->input == NULL
-> +           || counter->wheel_multiplier == 0)
->                 return 0;
->
->         hidpp_scroll_counter_handle_scroll(hidpp->input, counter, value);
-> @@ -3927,6 +3971,7 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
->         }
->
->         hidpp_initialize_battery(hidpp);
-> +       hidpp_initialize_hires_scroll(hidpp);
->
->         /* forward current battery state */
->         if (hidpp->capabilities & HIDPP_CAPABILITY_HIDPP10_BATTERY) {
-> @@ -3946,7 +3991,7 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
->         if (hidpp->battery.ps)
->                 power_supply_changed(hidpp->battery.ps);
->
-> -       if (hidpp->quirks & HIDPP_QUIRK_HI_RES_SCROLL)
-> +       if (hidpp->capabilities & HIDPP_CAPABILITY_HI_RES_SCROLL)
->                 hi_res_scroll_enable(hidpp);
->
->         if (!(hidpp->quirks & HIDPP_QUIRK_NO_HIDINPUT) || hidpp->delayed_input)
-> @@ -4257,42 +4302,9 @@ static const struct hid_device_id hidpp_devices[] = {
->           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
->                 USB_DEVICE_ID_LOGITECH_T651),
->           .driver_data = HIDPP_QUIRK_CLASS_WTP },
-> -       { /* Mouse Logitech Anywhere MX */
-> -         LDJ_DEVICE(0x1017), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
-> -       { /* Mouse Logitech Cube */
-> -         LDJ_DEVICE(0x4010), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2120 },
-> -       { /* Mouse Logitech M335 */
-> -         LDJ_DEVICE(0x4050), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech M515 */
-> -         LDJ_DEVICE(0x4007), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2120 },
->         { /* Mouse logitech M560 */
->           LDJ_DEVICE(0x402d),
-> -         .driver_data = HIDPP_QUIRK_DELAYED_INIT | HIDPP_QUIRK_CLASS_M560
-> -               | HIDPP_QUIRK_HI_RES_SCROLL_X2120 },
-> -       { /* Mouse Logitech M705 (firmware RQM17) */
-> -         LDJ_DEVICE(0x101b), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
-> -       { /* Mouse Logitech M705 (firmware RQM67) */
-> -         LDJ_DEVICE(0x406d), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech M720 */
-> -         LDJ_DEVICE(0x405e), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech MX Anywhere 2 */
-> -         LDJ_DEVICE(0x404a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { LDJ_DEVICE(0x4072), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { LDJ_DEVICE(0xb013), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { LDJ_DEVICE(0xb018), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { LDJ_DEVICE(0xb01f), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech MX Anywhere 2S */
-> -         LDJ_DEVICE(0x406a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech MX Master */
-> -         LDJ_DEVICE(0x4041), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { LDJ_DEVICE(0x4060), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { LDJ_DEVICE(0x4071), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech MX Master 2S */
-> -         LDJ_DEVICE(0x4069), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech MX Master 3 */
-> -         LDJ_DEVICE(0x4082), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* Mouse Logitech Performance MX */
-> -         LDJ_DEVICE(0x101a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
-> +         .driver_data = HIDPP_QUIRK_DELAYED_INIT | HIDPP_QUIRK_CLASS_M560 },
->         { /* Keyboard logitech K400 */
->           LDJ_DEVICE(0x4024),
->           .driver_data = HIDPP_QUIRK_CLASS_K400 },
-> @@ -4353,14 +4365,6 @@ static const struct hid_device_id hidpp_devices[] = {
->         { /* MX5500 keyboard over Bluetooth */
->           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
->           .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
-> -       { /* MX Master mouse over Bluetooth */
-> -         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
-> -         .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
-> -         .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-> -       { /* MX Master 3 mouse over Bluetooth */
-> -         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023),
-> -         .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
->
->         { /* And try to enable HID++ for all the Logitech Bluetooth devices */
->           HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_ANY, USB_VENDOR_ID_LOGITECH, HID_ANY_ID) },
 > --
-> 2.37.3
+> 2.36.1
 >
 
