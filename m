@@ -2,68 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65EF45BD3F9
-	for <lists+linux-input@lfdr.de>; Mon, 19 Sep 2022 19:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73EBC5BDB53
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 06:20:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbiISRly (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Sep 2022 13:41:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55956 "EHLO
+        id S229540AbiITEUF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 00:20:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbiISRlw (ORCPT
+        with ESMTP id S229456AbiITEUE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Sep 2022 13:41:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B772839B8B;
-        Mon, 19 Sep 2022 10:41:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 70298B81E89;
-        Mon, 19 Sep 2022 17:41:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B452C433C1;
-        Mon, 19 Sep 2022 17:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663609309;
-        bh=OvVnROzD0otzKIOfupvYy7oKYylHoLKLR1yjrRi0+Jg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mpDfuGKMmQ9eRKBxRG0FUHvLIXGgTkhDTMVAmEZ6IdfW6P0bvcHzyaPvnofJtTI2U
-         WvF0+nI3vPfMYhbDwqzelJejOeP9mhrVP1mUGnCuqhfzWDc+nqF6UxOt23kmlx1Bb/
-         4cvpONlA6W08Hd42GcUJlSW5Y3bEtxTcXPP8L4Zn97pJyKUeDvnXYeZU3Tllzw76I5
-         0WFtSiB6EFQ1IcNzHQ+phuKYJVUB1ieY1wSwERvM0OAEXspfZY+PEqKk16MuFTRwwK
-         ICj+SUts7pCz/xLNHfg8Q7Qd2rTLEDUU96WO3zviOsJwphCqkREfEzkja+3Z/FShVD
-         hYqbr0u7ha/Og==
-Date:   Mon, 19 Sep 2022 10:41:47 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     vdasa@vmware.com
-Cc:     vbhakta@vmware.com, namit@vmware.com, bryantan@vmware.com,
-        zackr@vmware.com, linux-graphics-maintainer@vmware.com,
-        doshir@vmware.com, sgarzare@redhat.com, gregkh@linuxfoundation.org,
-        davem@davemloft.net, pv-drivers@vmware.com, joe@perches.com,
-        netdev@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-rdma@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH 0/3] MAINTAINERS: Update entries for some VMware drivers
-Message-ID: <20220919104147.1373eac1@kernel.org>
-In-Reply-To: <20220906172722.19862-1-vdasa@vmware.com>
-References: <20220906172722.19862-1-vdasa@vmware.com>
+        Tue, 20 Sep 2022 00:20:04 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8D221E39;
+        Mon, 19 Sep 2022 21:20:03 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id q3so1731571pjg.3;
+        Mon, 19 Sep 2022 21:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=8W++mQUvSSiZYDmTJHzAKiPmuDVQP9ByjdOW/BfpvAA=;
+        b=R8eXOgPthRbfn7XaZp9SfDXQbc+pMGow7oVsoOSmvm5Upin22H7lFvqpu8+rdPnfl7
+         hRIwdc+Pr7roFGpkREpEirTQuvW6yqHBz0xnMGX7JWLTYAEqlZB54/M9iao7q1X+EKSi
+         yVqx9XCEUKhc9VOpP4A22eTUTCsHsK9uh8Un45NrBXOFgsKjvtobbuWVHxsoEryqQ3cC
+         IjzumQky4SJKL9v/6rRDRJ6QdJGhKkMmZXAcPNhRkqAVcrnyoPOaPUkmfiLfdy3qeHie
+         VHSXHvfpXN/RCl6Jkn+Mgz+gM086XSFAddzbeo0FZhRRWkCS2YAAdiI+CysjzW9KzHxP
+         3aVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=8W++mQUvSSiZYDmTJHzAKiPmuDVQP9ByjdOW/BfpvAA=;
+        b=zE0qmm5tlV/UkOV1sHSf8sMh6rVJvKjUvAhi0ptuKcApX828S8JqwK0dh8lTNuj0Zb
+         +vc44sB6wK3I7wDHbuXQFWCYGKEFd7yDcqerHLi4BZTv4AADYSYMbGRI8YNV3KvYXjzl
+         ZVa0Cr9hZ5pvoGH3+TtPyHR+dsxhjtBCAAEj/iTPy8auAvGMKUpJkYUCwmLUBFLkC85b
+         9bWmRueYgEMsN1VV5vWbOSBkjB7bW74HERgcZsO5B8nB4Dgq1XFBDT0KI3ib3F84FvjO
+         7jPdkodQ3NtQrQJXlTt1+Wvru9BpArtPL6PSjsgkp906uZRH40GoMLi//vCZaqNwxStB
+         Snsw==
+X-Gm-Message-State: ACrzQf2Z3+M5MaUAtEWBJ2vlL467ckjYe/3aWpUu54RuE96qyTwKor9K
+        /m5aBmxO1NHlScuOWyT4Hhw=
+X-Google-Smtp-Source: AMsMyM5Ba2tOWGG85vx4ihGR87exW6KXXAeL/IXoBUH+Ga1jMQuGL0yo1wLt+wDKn9U0dPe/GlDk7g==
+X-Received: by 2002:a17:902:7c11:b0:178:a6ca:4850 with SMTP id x17-20020a1709027c1100b00178a6ca4850mr3097414pll.111.1663647602763;
+        Mon, 19 Sep 2022 21:20:02 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:b095:5d5d:4c28:8088])
+        by smtp.gmail.com with ESMTPSA id jj11-20020a170903048b00b00176da1aae5asm255288plb.70.2022.09.19.21.20.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 21:20:02 -0700 (PDT)
+Date:   Mon, 19 Sep 2022 21:19:59 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Henry Sun <henrysun@google.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Bob Moragues <moragues@chromium.org>,
+        Yunlong Jia <yunlong.jia@ecs.com.tw>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] input: touchscreen: elants_i2c: Add eth3915n
+ touchscreen chip
+Message-ID: <Yyk/b29aG2ivpkf5@google.com>
+References: <20220909102720.v3.1.Ib599a6001558a4afd11016e7016d74dce748a749@changeid>
+ <20220909102720.v3.2.I22ae48d8ee064456073a828393704809360c4368@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220909102720.v3.2.I22ae48d8ee064456073a828393704809360c4368@changeid>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue,  6 Sep 2022 10:27:19 -0700 vdasa@vmware.com wrote:
-> From: Vishnu Dasa <vdasa@vmware.com>
-> 
-> This series updates a few existing maintainer entries for VMware
-> supported drivers and adds a new entry for vsock vmci transport
-> driver.
+Hi Yunlong,
 
-Just to be sure - who are you expecting to take these in?
+On Fri, Sep 09, 2022 at 10:27:55AM +0000, Yunlong Jia wrote:
+> The eth3915n requires more delay time than the eth3500 when poweron
+>  & reset.
+> Define EKTH3915_POWERON_DELAY_MSEC as the poweron delay time of eth3915n,
+>  about 80ms.
+> Define EKTH3915_RESET_DELAY_MSEC as the reset delay time of eth3915n,
+>  about 300ms.
+> 
+> Signed-off-by: Yunlong Jia <yunlong.jia@ecs.com.tw>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> ---
+> 
+> Changes in v3:
+>  1. Add poweron delay time.
+
+This materially changes the patch so I do not believe you should have
+kept Doug's reviewed-by tag. I also do not understand what this delay is
+for. Is this the minimal time for the reset line to stay high? Something
+else?
+
+Thanks.
+
+-- 
+Dmitry
