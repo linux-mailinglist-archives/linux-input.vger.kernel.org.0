@@ -2,26 +2,26 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4788B5BEA41
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 17:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ACC65BEA45
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 17:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231135AbiITPaU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 11:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58156 "EHLO
+        id S231556AbiITPaV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 11:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbiITPaR (ORCPT
+        with ESMTP id S231543AbiITPaS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 11:30:17 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F6C61D67
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 08:30:16 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MX55B6gXTzpTHd
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 23:27:26 +0800 (CST)
+        Tue, 20 Sep 2022 11:30:18 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7152C6612C
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 08:30:17 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MX53j41Szz14Qyk
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 23:26:09 +0800 (CST)
 Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 20 Sep 2022 23:30:14 +0800
+ 15.1.2375.31; Tue, 20 Sep 2022 23:30:15 +0800
 Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
  (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 20 Sep
@@ -30,9 +30,9 @@ From:   Yang Yingliang <yangyingliang@huawei.com>
 To:     <linux-input@vger.kernel.org>
 CC:     <dmitry.torokhov@gmail.com>, <thierry.reding@gmail.com>,
         <u.kleine-koenig@pengutronix.de>, <yangyingliang@huawei.com>
-Subject: [PATCH -next 4/5] Input: pwm-vibra - Switch to use dev_err_probe() helper
-Date:   Tue, 20 Sep 2022 23:36:55 +0800
-Message-ID: <20220920153656.3486879-4-yangyingliang@huawei.com>
+Subject: [PATCH -next 5/5] Input: rotary_encoder - Switch to use dev_err_probe() helper
+Date:   Tue, 20 Sep 2022 23:36:56 +0800
+Message-ID: <20220920153656.3486879-5-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220920153656.3486879-1-yangyingliang@huawei.com>
 References: <20220920153656.3486879-1-yangyingliang@huawei.com>
@@ -58,41 +58,29 @@ checked later through debugfs.
 
 Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/input/misc/pwm-vibra.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ drivers/input/misc/rotary_encoder.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/misc/pwm-vibra.c b/drivers/input/misc/pwm-vibra.c
-index 81e777a04b88..fe6074e6fe68 100644
---- a/drivers/input/misc/pwm-vibra.c
-+++ b/drivers/input/misc/pwm-vibra.c
-@@ -135,21 +135,15 @@ static int pwm_vibrator_probe(struct platform_device *pdev)
+diff --git a/drivers/input/misc/rotary_encoder.c b/drivers/input/misc/rotary_encoder.c
+index 6d613f2a017c..e106cab58e8f 100644
+--- a/drivers/input/misc/rotary_encoder.c
++++ b/drivers/input/misc/rotary_encoder.c
+@@ -236,12 +236,9 @@ static int rotary_encoder_probe(struct platform_device *pdev)
+ 		device_property_read_bool(dev, "rotary-encoder,relative-axis");
  
- 	vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
- 	err = PTR_ERR_OR_ZERO(vibrator->vcc);
--	if (err) {
+ 	encoder->gpios = devm_gpiod_get_array(dev, NULL, GPIOD_IN);
+-	if (IS_ERR(encoder->gpios)) {
+-		err = PTR_ERR(encoder->gpios);
 -		if (err != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "Failed to request regulator: %d",
--				err);
+-			dev_err(dev, "unable to get gpios: %d\n", err);
 -		return err;
 -	}
-+	if (err)
-+		return dev_err_probe(&pdev->dev, err,
-+				     "Failed to request regulator\n");
- 
- 	vibrator->pwm = devm_pwm_get(&pdev->dev, "enable");
- 	err = PTR_ERR_OR_ZERO(vibrator->pwm);
--	if (err) {
--		if (err != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "Failed to request main pwm: %d",
--				err);
--		return err;
--	}
-+	if (err)
-+		return dev_err_probe(&pdev->dev, err,
-+				     "Failed to request main pwm\n");
- 
- 	INIT_WORK(&vibrator->play_work, pwm_vibrator_play_work);
- 
++	if (IS_ERR(encoder->gpios))
++		return dev_err_probe(dev, PTR_ERR(encoder->gpios),
++				     "unable to get gpios\n");
+ 	if (encoder->gpios->ndescs < 2) {
+ 		dev_err(dev, "not enough gpios found\n");
+ 		return -EINVAL;
 -- 
 2.25.1
 
