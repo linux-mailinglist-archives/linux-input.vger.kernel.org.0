@@ -2,101 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E23DB5BDFD0
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 10:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1B9C5BE255
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 11:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbiITIVF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 04:21:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33222 "EHLO
+        id S230121AbiITJsv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 05:48:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231175AbiITIUN (ORCPT
+        with ESMTP id S229764AbiITJsu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 04:20:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA046B7D6
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 01:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663661913;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nYBXnM221OKkMmYnX56agU4HA29O1+0qE07dmbgFr1Y=;
-        b=EBJn5WbTCik2ruEHQHWdCoIQrba7H6PjRvrCWuqRJzWrOcxfEuIB8RATBraQyS5CYVCjcO
-        FlSFe5lFWTZEu4hiQvTqI/+rFGiJ/LCqz8wjiewSVK3TWfo2jD64ViXZnMgm4htawTpO5v
-        OV0uzkUPGARmcHlKK+Z6GyteBkbslyE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-210-doefiJZ9Px6yTYjqUDa80Q-1; Tue, 20 Sep 2022 04:18:31 -0400
-X-MC-Unique: doefiJZ9Px6yTYjqUDa80Q-1
-Received: by mail-wm1-f71.google.com with SMTP id i132-20020a1c3b8a000000b003b339a8556eso814597wma.4
-        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 01:18:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=nYBXnM221OKkMmYnX56agU4HA29O1+0qE07dmbgFr1Y=;
-        b=fJ7GoIbDPNIceaxGMxA+sDfgvqqfoiqWeZ1D9L5ke3xpqfhtsK/ZVfLd1f49kKLmFS
-         Yb8bDSS4FTfePvN3ulxu+CPobx6kTLmcPePylMB8WIiT5HACv+AzVlzCh7sOszBy36yb
-         /l2apct8NMWa7oWweMZGpk1YfcMBcBnSGs4MspSqtniKsA2xH6HFGJTIoaRhu7GUnEEE
-         kxhD47cLtpbXM2oDtMha/kLqBg0UWR9tt/alhtCfC5XvMyEarpqsGkyOzIKg/cJiKWEA
-         uYwcCPFNVzwfoggx2XHEvcwS1Dr9zLHO5zyQDA6O5pEjVrmDr20u0/x+WeX3SGFoGg/Z
-         dxlw==
-X-Gm-Message-State: ACrzQf0JaGNAodnkjda+SmOtmquwRomZXo6Tp73fbYRygBfHj/6JsHrr
-        AdbqdZt4Z2QjGRYCG/SnLFg16g4fZEbHvHQHQbuqYm93UK4v2dL2gPPNU4a7uuUXNwAbe0apQLA
-        ZFeX8ad9V0ktWwSxn5JjecNc=
-X-Received: by 2002:a5d:4ec5:0:b0:228:6707:8472 with SMTP id s5-20020a5d4ec5000000b0022867078472mr13700969wrv.12.1663661910616;
-        Tue, 20 Sep 2022 01:18:30 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Gc746EtqOMp12PC/ZhI3qlffavJ9O8HKgnaDgO6702xNdn3VPX99CEZYZBDDZBLY3QzW+vw==
-X-Received: by 2002:a5d:4ec5:0:b0:228:6707:8472 with SMTP id s5-20020a5d4ec5000000b0022867078472mr13700953wrv.12.1663661910369;
-        Tue, 20 Sep 2022 01:18:30 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-11-6-69.retail.telecomitalia.it. [87.11.6.69])
-        by smtp.gmail.com with ESMTPSA id z22-20020a05600c0a1600b003b4868eb6bbsm1749112wmp.23.2022.09.20.01.18.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Sep 2022 01:18:29 -0700 (PDT)
-Date:   Tue, 20 Sep 2022 10:18:24 +0200
-From:   Stefano Garzarella <sgarzare@redhat.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     vdasa@vmware.com, vbhakta@vmware.com, namit@vmware.com,
-        bryantan@vmware.com, zackr@vmware.com,
-        linux-graphics-maintainer@vmware.com, doshir@vmware.com,
-        gregkh@linuxfoundation.org, davem@davemloft.net,
-        pv-drivers@vmware.com, joe@perches.com, netdev@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH 0/3] MAINTAINERS: Update entries for some VMware drivers
-Message-ID: <20220920081824.vshwiv3lt5crlxdj@sgarzare-redhat>
-References: <20220906172722.19862-1-vdasa@vmware.com>
- <20220919104147.1373eac1@kernel.org>
+        Tue, 20 Sep 2022 05:48:50 -0400
+Received: from vorpal.se (vorpal.se [151.236.221.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DBD6E2DC;
+        Tue, 20 Sep 2022 02:48:48 -0700 (PDT)
+Received: by vorpal.se (Postfix) with ESMTPSA id 1F1B4147E0;
+        Tue, 20 Sep 2022 09:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vorpal.se; s=2019;
+        t=1663667325; bh=zEZHnbBa+6Fr7SMiR8nx4C8hqji8Co2Df87UPvBlwSc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Sw3Z6fgmtEQ+7vTpY/8dA5kbeFYcRjnz6OfTOi7lphLtBcVIrhk+Hd9gLkMJWPuLa
+         uSxSzB7AI3jhFBb1q+2MIV1Hn3tLJ8Zs4CelYcd+J6QmWbFIkjxCgEBq5tBxJXLU/d
+         KyLMSfW7iwpcIjXkZnsoAe0gQNJyvyIDcnNOZNPfxY9yRuYDig6efG3+Am7QRbrMak
+         sSvnEEyM8cwReR4/yToIcrRnjHrXKdXTpHGEgCcJLSDIanZQgJ/n1qbehUvqcMrtf0
+         EUrKLjko4Gcxibi0/EzSLoKra8qA6FKPR7sD20Vx39W4tw9M6U8W89HiVEwZUyKR+a
+         55/T0R8yd4LQg==
+Message-ID: <484b5248-ebf2-74c9-0629-08daa538a5c0@vorpal.se>
+Date:   Tue, 20 Sep 2022 11:48:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220919104147.1373eac1@kernel.org>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH RFC 1/2] staging: quickstart: Add ACPI quickstart button
+ (PNP0C32) driver
+To:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>
+References: <20220911194934.558019-1-lkml@vorpal.se>
+ <20220911194934.558019-2-lkml@vorpal.se>
+ <0e88f032-5f29-8842-401e-48a573319ecf@redhat.com>
+Content-Language: en-US
+From:   Arvid Norlander <lkml@vorpal.se>
+In-Reply-To: <0e88f032-5f29-8842-401e-48a573319ecf@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Sep 19, 2022 at 10:41:47AM -0700, Jakub Kicinski wrote:
->On Tue,  6 Sep 2022 10:27:19 -0700 vdasa@vmware.com wrote:
->> From: Vishnu Dasa <vdasa@vmware.com>
+On 2022-09-19 11:27, Hans de Goede wrote:
+> Hi,
+> 
+> On 9/11/22 20:49, Arvid Norlander wrote:
+>> This is loosly based on a previous staging driver that was removed. See
+>> links below for more info on that driver. The original commit ID was
+>> 0be013e3dc2ee79ffab8a438bbb4e216837e3d52.
 >>
->> This series updates a few existing maintainer entries for VMware
->> supported drivers and adds a new entry for vsock vmci transport
->> driver.
->
->Just to be sure - who are you expecting to take these in?
->
+>> However, here a completely different approach is taken to the user space
+>> API (which should solve the issues the original driver had). Each PNP0C32
+>> device is a button, and each such button gets a separate input device
+>> associated with it (instead of a shared platform input device).
+>>
+>> The button ID (as read from ACPI method GHID) is provided via a sysfs file
+>> "button_id".
+>>
+>> If the button caused a wakeup it will "latch" the "wakeup_cause" sysfs file
+>> to true. This can be reset by a user space process.
+>>
+>> Link: https://marc.info/?l=linux-acpi&m=120550727131007
+>> Link: https://lkml.org/lkml/2010/5/28/327
+>> Signed-off-by: Arvid Norlander <lkml@vorpal.se>
+> 
+> 2 high level remarks here:
+> 
+> 1. I believe we should strive for having all issues with this driver fixed
+> before merging it, at which point it should not sit under drivers/staging
+> but rather under drivers/platform/x86 (as an added bonus this can also make
+> toshiba_apci's Kconfig bit select it automatically). So for the next version
+> please move this to drivers/platform/x86
 
-FYI Greg already queued this series in his char-misc-next branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git/log/?h=char-misc-next
+Makes sense, will do. However, there is nothing x86 specific in theory with
+this driver. Would it not make more sense to put it under drivers/acpi?
 
-Thanks,
-Stefano
+> 
+> 2. This is using struct acpi_driver, but as Rafael (ACPI maintainer) always
+> said that is really only for very special cases. The ACPI subsystem should
+> instantiate standard platform devices for each PNP0C32 device, you can
+> check this under: /sys/bus/devices/platform.  And this driver should then
+> be convered to a standard platform_driver binding to the platform devices
+> instead of being a struct acpi_driver.
 
+I had a look at this, and it seems like a much more complicated a approach,
+for example, there is no dedicated .ops.notify, which means I need to use
+acpi_install_notify_handler, and there is no devm_ version of that either.
+A lot of other things seem to be ever so slightly more complicated as well. 
+
+What is the motivation behind this being preferred? And are most of the
+existing drivers using acpi_driver legacy (e.g. toshiba_acpi)?
+
+
+> 
+> Please address these 2 things as well as the remarks from Barnabás and
+> then send out a version 2. Then I will do a more detailed review of
+> version 2 once posted.
+> 
+> Regards,
+> 
+> Hans
+> 
+<snip>
