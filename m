@@ -2,104 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBDFF5BDBA9
-	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 06:26:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23DB5BDFD0
+	for <lists+linux-input@lfdr.de>; Tue, 20 Sep 2022 10:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbiITE0u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Sep 2022 00:26:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37932 "EHLO
+        id S230171AbiITIVF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Sep 2022 04:21:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229901AbiITE0Z (ORCPT
+        with ESMTP id S231175AbiITIUN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Sep 2022 00:26:25 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B113758B78;
-        Mon, 19 Sep 2022 21:26:17 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id j6-20020a17090a694600b00200bba67dadso1219668pjm.5;
-        Mon, 19 Sep 2022 21:26:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=rfUpzYsI63frIDNqdmtPpUE/MEzLhWYo/H+oG5zg+h8=;
-        b=UbE8mSCw4zn9exu+f8n6nmg2N5VlvTNPteV9yQ84pmabq9FyvlDwWZUtyEB/gFIPcL
-         YcHgfHgRkZtRpwpIw4rh/OmS0bSbwYkynpmB2cY3tswQTH8tLkoHlsuMUMAbiJnKlh+Q
-         vwa5wxZ4thbiZY9lmUsdSvrjTGzmNW8t3wOPRDunGxfzfbPlbGVv/9Me9VhJFoX/T51r
-         4Xhh3R+mohFH245CVSTeW4fNK2LjuD8d8XQ0HqsO6yu9zp7usqoXjBsVJSSobWmdVKwR
-         3LF0ZJaV9A4q4w35HbOOOKioeuArN7unkZ3Ir/X1LxHGbywXfs1mqeWitwBj/iFm6QTp
-         2d/w==
+        Tue, 20 Sep 2022 04:20:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA046B7D6
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 01:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663661913;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=nYBXnM221OKkMmYnX56agU4HA29O1+0qE07dmbgFr1Y=;
+        b=EBJn5WbTCik2ruEHQHWdCoIQrba7H6PjRvrCWuqRJzWrOcxfEuIB8RATBraQyS5CYVCjcO
+        FlSFe5lFWTZEu4hiQvTqI/+rFGiJ/LCqz8wjiewSVK3TWfo2jD64ViXZnMgm4htawTpO5v
+        OV0uzkUPGARmcHlKK+Z6GyteBkbslyE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-210-doefiJZ9Px6yTYjqUDa80Q-1; Tue, 20 Sep 2022 04:18:31 -0400
+X-MC-Unique: doefiJZ9Px6yTYjqUDa80Q-1
+Received: by mail-wm1-f71.google.com with SMTP id i132-20020a1c3b8a000000b003b339a8556eso814597wma.4
+        for <linux-input@vger.kernel.org>; Tue, 20 Sep 2022 01:18:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=rfUpzYsI63frIDNqdmtPpUE/MEzLhWYo/H+oG5zg+h8=;
-        b=a0F+Us3NM1cilvMDJzCQhBoXu7oqQ2odWarwGgTHwA7DykhYDsfypvvTMdvF5z4Nlg
-         EKIHwRwGLnDTBFZ4CaAaDNUThYcQlP+3KqVDX5uRpfzkFZ/6h/zBYgoFHuMPakxNVgpK
-         6XtNOLH8uY0UK2tiS1LTEqxq8I5JFpDMBMKS6am4XqqHjcxk1lN/lV7FabnMabm+zWOM
-         grE2TvY2a4JREgNajSGfD6lX4ljlxG8mbxOwtiMTGHlSZs7e5R9mN1aCw2128Ulr7Qr9
-         xtmfyNNWC6/WRWEkdpXPqHCCj2AQWRCwTSjiOtbwtDQS9cY2LlVPFGy+NIfcwa/R45VZ
-         DNnw==
-X-Gm-Message-State: ACrzQf0bJa+q+7uq2I4QGKYkVNnybXJLPCe0aSLgHtfE9ktr8gUCfr4M
-        iboU2hKUeRI0CQnRRfA1nJPOQbZ2Ais=
-X-Google-Smtp-Source: AMsMyM6Eo2sVwAvW4yjDLBtQUL5K0AJwz1fwTFJsPODUbnZKBr5vLscVdpLogQsr8lAuEC1TZag7Eg==
-X-Received: by 2002:a17:902:e550:b0:177:f115:1646 with SMTP id n16-20020a170902e55000b00177f1151646mr3148201plf.112.1663647976320;
-        Mon, 19 Sep 2022 21:26:16 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:b095:5d5d:4c28:8088])
-        by smtp.gmail.com with ESMTPSA id t15-20020a17090a024f00b001fab208523esm337518pje.3.2022.09.19.21.26.15
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=nYBXnM221OKkMmYnX56agU4HA29O1+0qE07dmbgFr1Y=;
+        b=fJ7GoIbDPNIceaxGMxA+sDfgvqqfoiqWeZ1D9L5ke3xpqfhtsK/ZVfLd1f49kKLmFS
+         Yb8bDSS4FTfePvN3ulxu+CPobx6kTLmcPePylMB8WIiT5HACv+AzVlzCh7sOszBy36yb
+         /l2apct8NMWa7oWweMZGpk1YfcMBcBnSGs4MspSqtniKsA2xH6HFGJTIoaRhu7GUnEEE
+         kxhD47cLtpbXM2oDtMha/kLqBg0UWR9tt/alhtCfC5XvMyEarpqsGkyOzIKg/cJiKWEA
+         uYwcCPFNVzwfoggx2XHEvcwS1Dr9zLHO5zyQDA6O5pEjVrmDr20u0/x+WeX3SGFoGg/Z
+         dxlw==
+X-Gm-Message-State: ACrzQf0JaGNAodnkjda+SmOtmquwRomZXo6Tp73fbYRygBfHj/6JsHrr
+        AdbqdZt4Z2QjGRYCG/SnLFg16g4fZEbHvHQHQbuqYm93UK4v2dL2gPPNU4a7uuUXNwAbe0apQLA
+        ZFeX8ad9V0ktWwSxn5JjecNc=
+X-Received: by 2002:a5d:4ec5:0:b0:228:6707:8472 with SMTP id s5-20020a5d4ec5000000b0022867078472mr13700969wrv.12.1663661910616;
+        Tue, 20 Sep 2022 01:18:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Gc746EtqOMp12PC/ZhI3qlffavJ9O8HKgnaDgO6702xNdn3VPX99CEZYZBDDZBLY3QzW+vw==
+X-Received: by 2002:a5d:4ec5:0:b0:228:6707:8472 with SMTP id s5-20020a5d4ec5000000b0022867078472mr13700953wrv.12.1663661910369;
+        Tue, 20 Sep 2022 01:18:30 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-11-6-69.retail.telecomitalia.it. [87.11.6.69])
+        by smtp.gmail.com with ESMTPSA id z22-20020a05600c0a1600b003b4868eb6bbsm1749112wmp.23.2022.09.20.01.18.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 21:26:15 -0700 (PDT)
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-input@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] Input: egalax_ts - do not hardcode interrupt trigger
-Date:   Mon, 19 Sep 2022 21:26:08 -0700
-Message-Id: <20220920042608.1865560-4-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.37.3.968.ga6b4b080e4-goog
-In-Reply-To: <20220920042608.1865560-1-dmitry.torokhov@gmail.com>
-References: <20220920042608.1865560-1-dmitry.torokhov@gmail.com>
+        Tue, 20 Sep 2022 01:18:29 -0700 (PDT)
+Date:   Tue, 20 Sep 2022 10:18:24 +0200
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     vdasa@vmware.com, vbhakta@vmware.com, namit@vmware.com,
+        bryantan@vmware.com, zackr@vmware.com,
+        linux-graphics-maintainer@vmware.com, doshir@vmware.com,
+        gregkh@linuxfoundation.org, davem@davemloft.net,
+        pv-drivers@vmware.com, joe@perches.com, netdev@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 0/3] MAINTAINERS: Update entries for some VMware drivers
+Message-ID: <20220920081824.vshwiv3lt5crlxdj@sgarzare-redhat>
+References: <20220906172722.19862-1-vdasa@vmware.com>
+ <20220919104147.1373eac1@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220919104147.1373eac1@kernel.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Stop hard-coding interrupt trigger, instead rely on the platform code
-to do the right thing, according to DT or ACPI data.
+On Mon, Sep 19, 2022 at 10:41:47AM -0700, Jakub Kicinski wrote:
+>On Tue,  6 Sep 2022 10:27:19 -0700 vdasa@vmware.com wrote:
+>> From: Vishnu Dasa <vdasa@vmware.com>
+>>
+>> This series updates a few existing maintainer entries for VMware
+>> supported drivers and adds a new entry for vsock vmci transport
+>> driver.
+>
+>Just to be sure - who are you expecting to take these in?
+>
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/egalax_ts.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+FYI Greg already queued this series in his char-misc-next branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git/log/?h=char-misc-next
 
-diff --git a/drivers/input/touchscreen/egalax_ts.c b/drivers/input/touchscreen/egalax_ts.c
-index 9e9b1c52720d..8333a512b605 100644
---- a/drivers/input/touchscreen/egalax_ts.c
-+++ b/drivers/input/touchscreen/egalax_ts.c
-@@ -203,10 +203,9 @@ static int egalax_ts_probe(struct i2c_client *client,
- 			     ABS_MT_POSITION_Y, 0, EGALAX_MAX_Y, 0, 0);
- 	input_mt_init_slots(input_dev, MAX_SUPPORT_POINTS, 0);
- 
--	error = devm_request_threaded_irq(&client->dev, client->irq, NULL,
--					  egalax_ts_interrupt,
--					  IRQF_TRIGGER_LOW | IRQF_ONESHOT,
--					  "egalax_ts", ts);
-+	error = devm_request_threaded_irq(&client->dev, client->irq,
-+					  NULL, egalax_ts_interrupt,
-+					  IRQF_ONESHOT, "egalax_ts", ts);
- 	if (error < 0) {
- 		dev_err(&client->dev, "Failed to register interrupt\n");
- 		return error;
--- 
-2.37.3.968.ga6b4b080e4-goog
+Thanks,
+Stefano
 
