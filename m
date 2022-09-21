@@ -1,62 +1,67 @@
 Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAEEC5D0226
-	for <lists+linux-input@lfdr.de>; Wed, 21 Sep 2022 20:00:28 +0200 (CEST)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 724F25E5438
+	for <lists+linux-input@lfdr.de>; Wed, 21 Sep 2022 22:10:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230016AbiIUR5b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Sep 2022 13:57:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55250 "EHLO
+        id S230282AbiIUUKx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Sep 2022 16:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbiIUR5b (ORCPT
+        with ESMTP id S229970AbiIUUKw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Sep 2022 13:57:31 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D77247287E
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 10:57:29 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id p3so5659628iof.13
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 10:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=lWz9vmTktmlnF8P5ct/IitkPDKwxx7s+v31tQx0NTfE=;
-        b=hPwgMa4Vzn+dr/R9yowxrWVRYm8GRaOYX2QoyN8KqjKAruRAR8nNeUXwTE8lnoP0Ri
-         UDKRiMuYU5L6x/cudqgLDdfD0EH/YL4CBP0B+PQHMz1Rbhy633LVkXBMEBO+nks+xWeP
-         WzDL/YlaWVONcpKPFD5/SY7FFqH99eKHZw8X8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=lWz9vmTktmlnF8P5ct/IitkPDKwxx7s+v31tQx0NTfE=;
-        b=I98JyZ3WfbitG4lWLPpRnOfbtSm4vss+a9XfjOKXELOG/ZLwtfFiLC9ivb0aVkUcJX
-         Sqef5Q6hqeYSdoFwg8IFfHu11ov9Y55JUTFBbrr4Gvgu0g9rCppRTWBKK6MrGcKLPvAh
-         em6SXQpA1ynkai7RZy94b7JoAswg8SWVRWrhQoQTX+lSLHtpKfl0OMz5lFkwDGiXB1MO
-         5fHLIX3SbGpi/NV0fxTLLIWJoRqK2n2DUaL1QjdVkV8Poo4XVwCzuW7VWcq/93N/Lem6
-         pNyKF/fwFDs3i7+SQm35IefrjX73KWa7Z3zqdtU/BUT5HZoeXMHqPfzGwML6lNYWwV9W
-         xIeQ==
-X-Gm-Message-State: ACrzQf0j9wxD4h+15KsYo/vCwcqm451zK305Lh+zx3qy0hkVzNA4whEx
-        zEDvPTevPN1Jivwe1um9H1TpgQ4o7xeeE7/XO5NcOA==
-X-Google-Smtp-Source: AMsMyM57bNVpIjGiIB5AzUj9jqWSl+gKbWzjqH3/K8KuyS1WQHhDHUSCV967QoGMG6sBH4ZRz7Psmf7S6Nv8biJzb6I=
-X-Received: by 2002:a05:6638:3818:b0:35a:8cf5:e007 with SMTP id
- i24-20020a056638381800b0035a8cf5e007mr12843820jav.227.1663783049239; Wed, 21
- Sep 2022 10:57:29 -0700 (PDT)
+        Wed, 21 Sep 2022 16:10:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 185ED9C2C6;
+        Wed, 21 Sep 2022 13:10:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D0741B81F90;
+        Wed, 21 Sep 2022 20:10:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1FDC433D6;
+        Wed, 21 Sep 2022 20:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663791048;
+        bh=rv29LAUUGzQp6QdV7CsyD9nRXhzFSX+5EI3EqTFY//0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sOJ5Ar1d9F/nJocBjvVLGXQp5u56v5HPdEXmqyScEbkEqDaUmWmyarqyW0fCarpru
+         RcPvnInLNbdcBSriYEt+P1wp+9K9B6dpLLcYPwdXd7oUl9GpGqRBNUPY0vKemZ/Sjh
+         0CAR6Bse4zciv2/CbLrnq901bfgXQooSlkrJZ3ZmqvBhcmSU4y66s+AsULFzdqVC+5
+         HfA/vkBPgY6+x1vxGOPxMXlH92N7/T1UfetyhKPxtnj3OeIiFzGY+CtUQQ6UM7YhTT
+         CcJ3XUcU+NVtug2zgPKLQbm5wW4Oz541VcFfOxs8iZBYBNAE+OXxq1SBRmBVoqHb+m
+         PoAOvMMd/zI6Q==
+Date:   Wed, 21 Sep 2022 22:10:45 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        rafael@kernel.org, timvp@google.com,
+        mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
+        dmitry.torokhov@gmail.com, jingle.wu@emc.com.tw,
+        hdegoede@redhat.com, mario.limonciello@amd.com,
+        linus.walleij@linaro.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 07/13] i2c: acpi: Use ACPI wake capability bit to set
+ wake_irq
+Message-ID: <YytvxVs7g5vx8AAM@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Raul E Rangel <rrangel@chromium.org>, linux-acpi@vger.kernel.org,
+        linux-input@vger.kernel.org, rafael@kernel.org, timvp@google.com,
+        mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
+        dmitry.torokhov@gmail.com, jingle.wu@emc.com.tw,
+        hdegoede@redhat.com, mario.limonciello@amd.com,
+        linus.walleij@linaro.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220921155205.1332614-1-rrangel@chromium.org>
+ <20220921094736.v5.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
 MIME-Version: 1.0
-References: <20220921063026.89619-1-matt.ranostay@konsulko.com>
- <20220921063026.89619-5-matt.ranostay@konsulko.com> <20220921080458.3uue5ooc3svcbmxp@mail.corp.redhat.com>
-In-Reply-To: <20220921080458.3uue5ooc3svcbmxp@mail.corp.redhat.com>
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-Date:   Wed, 21 Sep 2022 10:57:18 -0700
-Message-ID: <CAJCx=gn0bZp3fToF+LZE+evR2m4nWMueusjysxcrvimH0wRhaA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] HID: mcp2221: switch i2c registration to devm functions
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     gupt21@gmail.com, jic23@kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="I1sEXZoSjXGGazpV"
+Content-Disposition: inline
+In-Reply-To: <20220921094736.v5.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,164 +69,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 1:05 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> [foreword: please keep Jiri and myself (the HID maintainers) CC-ed to
-> the series, as you will need ack from us and we don't necessarily monitor
-> every single message on linux-input]
->
-> On Sep 20 2022, Matt Ranostay wrote:
-> > Switch from i2c_add_adapter() to resource managed devm_i2c_add_adapter()
-> > for matching rest of driver initialization, and more concise code.
-> >
-> > Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
-> > ---
-> >  drivers/hid/hid-mcp2221.c | 45 +++++++++++++++++----------------------
-> >  1 file changed, 19 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-> > index de52e9f7bb8c..7ba63bcd66de 100644
-> > --- a/drivers/hid/hid-mcp2221.c
-> > +++ b/drivers/hid/hid-mcp2221.c
-> > @@ -824,6 +824,14 @@ static int mcp2221_raw_event(struct hid_device *hdev,
-> >       return 1;
-> >  }
-> >
-> > +static void mcp2221_hid_remove(void *ptr)
-> > +{
-> > +     struct hid_device *hdev = ptr;
-> > +
-> > +     hid_hw_close(hdev);
-> > +     hid_hw_stop(hdev);
->
-> By default, if you remove the .remove() callback, hid_hw_stop() will get
-> automatically called by hid-core.c. So we are now calling it twice,
-> which, in a way is not a big deal but it might be an issue in the long
-> run.
->
-> Generally speaking, in the HID subsystem, that situation doesn't happen
-> a lot because hid_hw_start() is usually the last command of probe, and
-> we don't need to open the device in the driver itself.
->
-> Here, I guess as soon as you add the i2c adapter, you might want to have
-> the communication channels ready, and thus you need to have it open
-> *before* i2c_add_adapter.
->
-> I would suggest the following if you want to keep the devm release of
-> stop and close: please put a big fat warning before mcp2221_hid_remove()
-> explaining that this is called in devm management, *and* add a function
-> that would just return 0 as the .remove() callback with another big fat
-> warning explaining that we don't want hid-core.c to call hid_hw_stop()
-> because we are doing it ourself through devres.
->
 
-Yeah maybe best to keep the non-devres if it isn't going to affect how the last
-change in this series is trying to implement with iio.
+--I1sEXZoSjXGGazpV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll wait for Jonathan to chime in on this thread.
+On Wed, Sep 21, 2022 at 09:51:59AM -0600, Raul E Rangel wrote:
+> Device tree already has a mechanism to pass the wake_irq. It does this
+> by looking for the wakeup-source property and setting the
+> I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
+> ACPI interrupt wake flag to determine if the interrupt can be used to
+> wake the system. Previously the i2c drivers had to make assumptions and
+> blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
+> If there is a device with an Active Low interrupt and the device gets
+> powered off while suspending, the interrupt line will go low since it's
+> no longer powered and wakes the system. For this reason we should
+> respect the board designers wishes and honor the wake bit defined on the
+> interrupt.
+>=20
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>=20
 
-> Last, in the HID subsystem, we often interleave non devres with devres
-> for resource allocation, given that .remove() will be called before any
-> devres release. But that is assuming this ordering is OK, which doesn't
-> seem to be the case here. We first need to unregister the i2c adapter
-> and then close/stop the HID device.
+Acked-by: Wolfram Sang <wsa@kernel.org>
 
-Noted.
 
--  Matt
+--I1sEXZoSjXGGazpV
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> > +}
-> > +
-> >  static int mcp2221_probe(struct hid_device *hdev,
-> >                                       const struct hid_device_id *id)
-> >  {
-> > @@ -849,7 +857,8 @@ static int mcp2221_probe(struct hid_device *hdev,
-> >       ret = hid_hw_open(hdev);
-> >       if (ret) {
-> >               hid_err(hdev, "can't open device\n");
-> > -             goto err_hstop;
-> > +             hid_hw_stop(hdev);
-> > +             return ret;
-> >       }
-> >
-> >       mutex_init(&mcp->lock);
-> > @@ -857,6 +866,10 @@ static int mcp2221_probe(struct hid_device *hdev,
-> >       hid_set_drvdata(hdev, mcp);
-> >       mcp->hdev = hdev;
-> >
-> > +     ret = devm_add_action_or_reset(&hdev->dev, mcp2221_hid_remove, hdev);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> >       /* Set I2C bus clock diviser */
-> >       if (i2c_clk_freq > 400)
-> >               i2c_clk_freq = 400;
-> > @@ -873,19 +886,17 @@ static int mcp2221_probe(struct hid_device *hdev,
-> >                       "MCP2221 usb-i2c bridge on hidraw%d",
-> >                       ((struct hidraw *)hdev->hidraw)->minor);
-> >
-> > -     ret = i2c_add_adapter(&mcp->adapter);
-> > +     ret = devm_i2c_add_adapter(&hdev->dev, &mcp->adapter);
-> >       if (ret) {
-> >               hid_err(hdev, "can't add usb-i2c adapter: %d\n", ret);
-> > -             goto err_i2c;
-> > +             return ret;
-> >       }
-> >       i2c_set_adapdata(&mcp->adapter, mcp);
-> >
-> >       /* Setup GPIO chip */
-> >       mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
-> > -     if (!mcp->gc) {
-> > -             ret = -ENOMEM;
-> > -             goto err_gc;
-> > -     }
-> > +     if (!mcp->gc)
-> > +             return -ENOMEM;
-> >
-> >       mcp->gc->label = "mcp2221_gpio";
-> >       mcp->gc->direction_input = mcp_gpio_direction_input;
-> > @@ -900,26 +911,9 @@ static int mcp2221_probe(struct hid_device *hdev,
-> >
-> >       ret = devm_gpiochip_add_data(&hdev->dev, mcp->gc, mcp);
-> >       if (ret)
-> > -             goto err_gc;
-> > +             return ret;
-> >
-> >       return 0;
-> > -
-> > -err_gc:
-> > -     i2c_del_adapter(&mcp->adapter);
-> > -err_i2c:
-> > -     hid_hw_close(mcp->hdev);
-> > -err_hstop:
-> > -     hid_hw_stop(mcp->hdev);
-> > -     return ret;
-> > -}
-> > -
-> > -static void mcp2221_remove(struct hid_device *hdev)
-> > -{
-> > -     struct mcp2221 *mcp = hid_get_drvdata(hdev);
-> > -
-> > -     i2c_del_adapter(&mcp->adapter);
-> > -     hid_hw_close(mcp->hdev);
-> > -     hid_hw_stop(mcp->hdev);
-> >  }
-> >
-> >  static const struct hid_device_id mcp2221_devices[] = {
-> > @@ -932,7 +926,6 @@ static struct hid_driver mcp2221_driver = {
-> >       .name           = "mcp2221",
-> >       .id_table       = mcp2221_devices,
-> >       .probe          = mcp2221_probe,
-> > -     .remove         = mcp2221_remove,
-> >       .raw_event      = mcp2221_raw_event,
-> >  };
-> >
-> > --
-> > 2.37.2
-> >
->
-> Cheers,
-> Benjamin
->
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMrb8QACgkQFA3kzBSg
+KbatIQ/+IyW1ZAyHqbyjAHsEBC9key1KUPhiobZS22Yxc2Q/c0MpSccz/wTjHC+5
+daB76MkxT2eneJRlL7QhDB9Hrh4o5s3+knCKjjPjg6MddrOxpSK+OGz3Ec+FaUNX
+K/tnd1aXprE1iClRyluzfs4c8wmR2QATMY1d9+foBjZhPwNhyL4GnEoDV3SbctAA
+7iGOMayy0VjRB7BbGk1RjNY9EFV91NlgI4wijFhKG8u1X5x1ePfJOK+MFcWrZy/P
+HI8b11gZ5WDCh+hOb0f453cU+DQB20ZEzkiF0mIZGabzlhCJf98yYbbxmsEGhVX8
+OCIlDgxf+5LDQy8DqCRiLqOTVZvqZQNqBEG7871Xwj/m3ST7LtaXqAMHyMqM9z4G
+JWco49ygFV5M3XSn/zEml4Fv0WhUTccVxbGOy4ehDmMLkhZQzNLZnMfu3MNITURK
+4YcQy0t/MrvYRUuSscpiRXzx2kHGaW+L+eEOriJ2JIl/q6y5RsCV58xapoj35Mxn
+SuQm8yh4+i7IogqfA1zX2W6e1e161nfOHDyqFDciP17zTa29k2oSFu7VM/tlOzHO
+oxbu9O6pnEZveGR2QAEodH2sDaEW+Tme5RejJostHh+NHbl/DGh4dIbwP3gcOdIX
+tF0MQ0Ef9QQHodTQcu8w0jblwR4pPQkS6X2uLNKBNv5G4whvNgU=
+=2Tdp
+-----END PGP SIGNATURE-----
+
+--I1sEXZoSjXGGazpV--
