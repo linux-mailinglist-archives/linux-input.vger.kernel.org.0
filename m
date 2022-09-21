@@ -2,189 +2,269 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E26D5BFCA1
-	for <lists+linux-input@lfdr.de>; Wed, 21 Sep 2022 12:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80AFF5BFDD7
+	for <lists+linux-input@lfdr.de>; Wed, 21 Sep 2022 14:32:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbiIUK4L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Sep 2022 06:56:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38484 "EHLO
+        id S229699AbiIUMcP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Sep 2022 08:32:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbiIUK4J (ORCPT
+        with ESMTP id S229518AbiIUMcO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Sep 2022 06:56:09 -0400
-Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1317E92F69
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 03:56:08 -0700 (PDT)
-Date:   Wed, 21 Sep 2022 10:55:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1663757767; x=1664016967;
-        bh=ghRWy/e90VWRHHDbxBAs0t0Nb9qsu1i8ost31cToLGU=;
-        h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID;
-        b=KqV05N021s1uRIPAZb0hxE5nLPPfhlVtsnoRQifU415XatpOHiU8V8Vwv4h8dRG8t
-         ac9tWNmeMG6i1omV/8iBBIkGznTVT9mTEJbdyURMqM1kr+pRpOyNJqQleD8bVJ3aLn
-         GfZlZtzAIs+lFwJWMbY+pf1sATzFrBGWLekv0EwUKpdTY3zSIWS1hYS4dXA0RWLVtD
-         LVXPQ8KFrIVU8PPTvWhw1QeRdoGhH0UWBhaIsEPTv5lu8j7iDP/4j7gj/hBFI2kPs9
-         +SfCLu2Z5TeTdNF+H2CBGlLzFhRgp3Od1ijdda5UeYaa5/R4vGa+h3jgXSPbmjBL4d
-         bPLYmoKZSoAtA==
-To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        Wed, 21 Sep 2022 08:32:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54249696D5
+        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 05:32:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663763532;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=DmmiulZMt100BXRKk69magtMbbZrqOsVx99Jfsr3JpY=;
+        b=Meb+MfyLsopYwY0qNiNaRNLfRylMJSd/CWUbPkv/E0uUHdwd5WIUptqU9OTKRHLrDjnwBq
+        moCRmGctMR1J1kan4AJR8DJpD9XN7sV+doRv4ew3aN21fjpCM+dEy1t7jkbwIVYh1lJ8ja
+        bsqgd1ljp0FxaNC0WYbjJGGFgV/SSVg=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-515-Kz7g_EZkNZSXokhtBCDQmA-1; Wed, 21 Sep 2022 08:32:11 -0400
+X-MC-Unique: Kz7g_EZkNZSXokhtBCDQmA-1
+Received: by mail-io1-f69.google.com with SMTP id v20-20020a6b5b14000000b0069fee36308eso2994611ioh.10
+        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 05:32:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=DmmiulZMt100BXRKk69magtMbbZrqOsVx99Jfsr3JpY=;
+        b=VUqShEXe+5t/akNz6Kzpwj4KL82f1fQqJFM2szpW0thnSGxoyXiBGq+Dk2JXLiifH3
+         9aK7Jk0CW7Y+Dx1uL3DK5FBDcRKGcCXqjKamGrTIFPJjrHdqSI/8rmaMwxGJcM+rmUuF
+         0k93D/2Ctqqy+GPOfbwpWvaUVLiQnYOAjy0RE7hxkzLBb3zT2sYAtqNGKqFd/aiqxjRg
+         Alpnuk/BxVEtEj3dLvwyEhaHutS6u9lPD3NyzEeIVdCTPH+WQ/N7cIieD/rfx9VFm4/b
+         zNQIrEE47+8h6KJKh8bWbVFdIi3nheSIBUjc+I6OtJuVKYKnblDVTMgfOqDj0u8v6XCA
+         E71w==
+X-Gm-Message-State: ACrzQf1IbO6b4GBCQBA0nuhNWqytYKV4nQDdWXYDSkyp6RmdYCCnuVVq
+        cYEc7LXlJYAtSH6r40/h7gkqkXP8zHW3BAcDfq9PhiRO64YlQ253wXOB6BKN7fEynKoq1t+5vqg
+        eoWhZPptuJdb0JTc9a+HBp+FxfWh5a4Ayl4nS/hE=
+X-Received: by 2002:a05:6e02:1bc7:b0:2f2:406:3ede with SMTP id x7-20020a056e021bc700b002f204063edemr12019629ilv.240.1663763530666;
+        Wed, 21 Sep 2022 05:32:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5gIXYTDEJ4X0JsF2+pTcRPoS+mmRke7eGpb75znwPwewB68fGejE6MyPAd3eBQj6Zhi4tIVxcImzFPBwr3SqE=
+X-Received: by 2002:a05:6e02:1bc7:b0:2f2:406:3ede with SMTP id
+ x7-20020a056e021bc700b002f204063edemr12019618ilv.240.1663763530356; Wed, 21
+ Sep 2022 05:32:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <kn4CB9QoD1YwWTQC8wlBFUvXoEsYgDRtcx91dvd913pHTzuNw0ZnYoh8rWsN2WUSnghQm8nCz4xqwH4NbsK04MWihIvP3HWkV9kPi4KMK_I=@protonmail.com>
+ <20220921083420.sm72vrsemaldjsz2@mail.corp.redhat.com> <sYmiVRgE2W0l3bBHFNqT-qFvK1mCRziesWwHDHPoYiefTpHS1T2hJkyDN23WfIWqbreMT3CGcTwgVQrcINwci0CsD19z1io-49Yv2G2cBi4=@protonmail.com>
+In-Reply-To: <sYmiVRgE2W0l3bBHFNqT-qFvK1mCRziesWwHDHPoYiefTpHS1T2hJkyDN23WfIWqbreMT3CGcTwgVQrcINwci0CsD19z1io-49Yv2G2cBi4=@protonmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 21 Sep 2022 14:31:59 +0200
+Message-ID: <CAO-hwJLar_mQdUVAEjhoTqCzpwnFq66J3-K5MTYTgLLq5rUm6g@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: nintendo: check analog user calibration for plausibility
+To:     Johnothan King <johnothanking@protonmail.com>
+Cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From:   Johnothan King <johnothanking@protonmail.com>
-Subject: [PATCH v4] HID: nintendo: check analog user calibration for plausibility
-Message-ID: <gvpL2G6VwXGJPvxX5KRiu9pVjvTivgayug_jdKDY6zfuAaAqncP9BkKLosjwUXNlgVVTMfJSKfwPF1K79cKAkwGComyC21vCV3q9B3EXNkE=@protonmail.com>
-Feedback-ID: 1750573:user:proton
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Arne Wendt writes:
-  Cheap clone controllers may (falsely) report as having a user
-  calibration for the analog sticks in place, but return
-  wrong/impossible values for the actual calibration data.
-  In the present case at mine, the controller reports having a
-  user calibration in place and successfully executes the read
-  commands. The reported user calibration however is
-  min =3D center =3D max =3D 0.
+On Wed, Sep 21, 2022 at 12:53 PM Johnothan King
+<johnothanking@protonmail.com> wrote:
+>
+> For my v4 patch I'll just change the check back to using >=. The
+> signedness of the min, max and center values will probably need some
+> sort of fix, but that's out of the scope of this patch.
 
-  This pull request addresses problems of this kind by checking the
-  provided user calibration-data for plausibility (min < center < max)
-  and falling back to the default values if implausible.
+Yeah, no worries. The signedness issue was more a FYI, in case you
+ever need signed integers from that function. I hope we won't have the
+case here and that we are actually having unsigned integers in the
+data.
 
-I'll note that I was experiencing a crash because of this bug when using
-the GuliKit KingKong 2 controller. The crash manifests as a divide by
-zero error in the kernel logs:
-kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
+Cheers,
+Benjamin
 
-Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
-Link: https://github.com/DanielOgorchock/linux/issues/36
-Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
-Signed-off-by: Johnothan King <johnothanking@protonmail.com>
----
-Changes in v2:
- - Move the plausibility check to joycon_read_stick_calibration() and
-   have that function return -EINVAL if the check fails.
- - In the plausibility check, change >=3D to =3D=3D. hid_field_extract() ne=
-ver
-   returns a negative value, so a scenario involving min > center or
-   center > max is impossible.
- - To reduce code duplication, move the code for setting default
-   calibration values into a single function called
-   joycon_use_default_calibration().
-
-Changes in v3:
- - Unbreak warning string to conform to coding style.
- - Change joycon_use_default_calibration() to accept a struct hid_device
-   pointer instead of a struct joycon_ctlr pointer.
-
-Changes in v4:
- - Reformat joycon_use_default_calibration() another time to move stick
-   and ret onto the same line.
- - Revert =3D=3D to >=3D change to account for rollover.
- - Additional minor change to comment for value check.
-
- drivers/hid/hid-nintendo.c | 55 +++++++++++++++++++++-----------------
- 1 file changed, 30 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 5cb5a1d53b71..71e2a9a0882a 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -760,12 +760,31 @@ static int joycon_read_stick_calibration(struct joyco=
-n_ctlr *ctlr, u16 cal_addr,
- =09cal_y->max =3D cal_y->center + y_max_above;
- =09cal_y->min =3D cal_y->center - y_min_below;
-=20
--=09return 0;
-+=09/* check if calibration values are plausible */
-+=09if (cal_x->min >=3D cal_x->center || cal_x->center >=3D cal_x->max ||
-+=09    cal_y->min >=3D cal_y->center || cal_y->center >=3D cal_y->max)
-+=09=09ret =3D -EINVAL;
-+
-+=09return ret;
- }
-=20
- static const u16 DFLT_STICK_CAL_CEN =3D 2000;
- static const u16 DFLT_STICK_CAL_MAX =3D 3500;
- static const u16 DFLT_STICK_CAL_MIN =3D 500;
-+static void joycon_use_default_calibration(struct hid_device *hdev,
-+=09=09=09=09=09   struct joycon_stick_cal *cal_x,
-+=09=09=09=09=09   struct joycon_stick_cal *cal_y,
-+=09=09=09=09=09   const char *stick, int ret)
-+{
-+=09hid_warn(hdev,
-+=09=09 "Failed to read %s stick cal, using defaults; e=3D%d\n",
-+=09=09 stick, ret);
-+
-+=09cal_x->center =3D cal_y->center =3D DFLT_STICK_CAL_CEN;
-+=09cal_x->max =3D cal_y->max =3D DFLT_STICK_CAL_MAX;
-+=09cal_x->min =3D cal_y->min =3D DFLT_STICK_CAL_MIN;
-+}
-+
- static int joycon_request_calibration(struct joycon_ctlr *ctlr)
- {
- =09u16 left_stick_addr =3D JC_CAL_FCT_DATA_LEFT_ADDR;
-@@ -793,38 +812,24 @@ static int joycon_request_calibration(struct joycon_c=
-tlr *ctlr)
- =09=09=09=09=09    &ctlr->left_stick_cal_x,
- =09=09=09=09=09    &ctlr->left_stick_cal_y,
- =09=09=09=09=09    true);
--=09if (ret) {
--=09=09hid_warn(ctlr->hdev,
--=09=09=09 "Failed to read left stick cal, using dflts; e=3D%d\n",
--=09=09=09 ret);
--
--=09=09ctlr->left_stick_cal_x.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->left_stick_cal_x.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->left_stick_cal_x.min =3D DFLT_STICK_CAL_MIN;
-=20
--=09=09ctlr->left_stick_cal_y.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->left_stick_cal_y.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->left_stick_cal_y.min =3D DFLT_STICK_CAL_MIN;
--=09}
-+=09if (ret)
-+=09=09joycon_use_default_calibration(ctlr->hdev,
-+=09=09=09=09=09       &ctlr->left_stick_cal_x,
-+=09=09=09=09=09       &ctlr->left_stick_cal_y,
-+=09=09=09=09=09       "left", ret);
-=20
- =09/* read the right stick calibration data */
- =09ret =3D joycon_read_stick_calibration(ctlr, right_stick_addr,
- =09=09=09=09=09    &ctlr->right_stick_cal_x,
- =09=09=09=09=09    &ctlr->right_stick_cal_y,
- =09=09=09=09=09    false);
--=09if (ret) {
--=09=09hid_warn(ctlr->hdev,
--=09=09=09 "Failed to read right stick cal, using dflts; e=3D%d\n",
--=09=09=09 ret);
--
--=09=09ctlr->right_stick_cal_x.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->right_stick_cal_x.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->right_stick_cal_x.min =3D DFLT_STICK_CAL_MIN;
-=20
--=09=09ctlr->right_stick_cal_y.center =3D DFLT_STICK_CAL_CEN;
--=09=09ctlr->right_stick_cal_y.max =3D DFLT_STICK_CAL_MAX;
--=09=09ctlr->right_stick_cal_y.min =3D DFLT_STICK_CAL_MIN;
--=09}
-+=09if (ret)
-+=09=09joycon_use_default_calibration(ctlr->hdev,
-+=09=09=09=09=09       &ctlr->right_stick_cal_x,
-+=09=09=09=09=09       &ctlr->right_stick_cal_y,
-+=09=09=09=09=09       "right", ret);
-=20
- =09hid_dbg(ctlr->hdev, "calibration:\n"
- =09=09=09    "l_x_c=3D%d l_x_max=3D%d l_x_min=3D%d\n"
---=20
-2.37.3
-
+>
+> - Johnothan King
+>
+> ------- Original Message -------
+> On Wednesday, September 21st, 2022 at 1:34 AM, Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+>
+>
+> > Hi Johnothan,
+> >
+> > On Sep 21 2022, Johnothan King wrote:
+> >
+> > > Arne Wendt writes:
+> > > Cheap clone controllers may (falsely) report as having a user
+> > > calibration for the analog sticks in place, but return
+> > > wrong/impossible values for the actual calibration data.
+> > > In the present case at mine, the controller reports having a
+> > > user calibration in place and successfully executes the read
+> > > commands. The reported user calibration however is
+> > > min = center = max = 0.
+> > >
+> > > This pull request addresses problems of this kind by checking the
+> > > provided user calibration-data for plausibility (min < center < max)
+> > > and falling back to the default values if implausible.
+> > >
+> > > I'll note that I was experiencing a crash because of this bug when using
+> > > the GuliKit KingKong 2 controller. The crash manifests as a divide by
+> > > zero error in the kernel logs:
+> > > kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
+> > >
+> > > Changes in v2:
+> > > - Move the plausibility check to joycon_read_stick_calibration() and
+> > > have that function return -EINVAL if the check fails.
+> > > - In the plausibility check, change >= to ==. hid_field_extract() never
+> > > returns a negative value, so a scenario involving min > center or
+> > > center > max is impossible.
+> >
+> >
+> > I am not so sure this is a great idea. I agree this is correct, but it
+> > definitely requires some processing from my brain and double
+> > verifications in the code that this is correct.
+> >
+> > The problem is that all of the values are declared as s32.
+> > hid_field_extract() returns a u32, yes, but I haven't checked the report
+> > descriptor if that value can be a negative one. What needs to be done,
+> > if the logical min value is negative is that we should call hid_snto32()
+> > to convert into a proper s32 (I doubt you have to do it but I am putting
+> > it here for completeness).
+> >
+> > So basically, you are blindly converting a u32 into a s32 and do not
+> > take rollover into account.
+> >
+> > Given that this function is only called at probe time where timing is
+> > not the biggest of our concerns, I would simply leave the more human
+> > friendy with obvious failures cases with >= and <=.
+> >
+> >
+> >
+> > Second note: please move all "Changes in v*" below the first '---' and
+> > before the file stats. This way they will be stripped out when applying
+> > the patch. People who want to see the changes can always follow the lore
+> > link that should be applied to the commit when this patch gets applied.
+> >
+> > > - To reduce code duplication, move the code for setting default
+> > > calibration values into a single function called
+> > > joycon_use_default_calibration().
+> > >
+> > > Changes in v3:
+> > > - Unbreak warning string to conform to coding style.
+> > > - Change joycon_use_default_calibration() to accept a struct hid_device
+> > > pointer instead of a struct joycon_ctlr pointer.
+> > >
+> > > Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
+> > > Link: https://github.com/DanielOgorchock/linux/issues/36
+> > > Co-authored-by: Arne Wendt arne.wendt@tuhh.de
+> > > Signed-off-by: Johnothan King johnothanking@protonmail.com
+> > > ---
+> > > drivers/hid/hid-nintendo.c | 55 +++++++++++++++++++++-----------------
+> > > 1 file changed, 30 insertions(+), 25 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> > > index 6028af3c3aae..f25b7b19e9a4 100644
+> > > --- a/drivers/hid/hid-nintendo.c
+> > > +++ b/drivers/hid/hid-nintendo.c
+> > > @@ -760,12 +760,31 @@ static int joycon_read_stick_calibration(struct joycon_ctlr *ctlr, u16 cal_addr,
+> > > cal_y->max = cal_y->center + y_max_above;
+> > > cal_y->min = cal_y->center - y_min_below;
+> > >
+> > > - return 0;
+> > > + /* check if values are plausible */
+> > > + if (cal_x->min == cal_x->center || cal_x->center == cal_x->max ||
+> > > + cal_y->min == cal_y->center || cal_y->center == cal_y->max)
+> > > + ret = -EINVAL;
+> > > +
+> > > + return ret;
+> > > }
+> > >
+> > > static const u16 DFLT_STICK_CAL_CEN = 2000;
+> > > static const u16 DFLT_STICK_CAL_MAX = 3500;
+> > > static const u16 DFLT_STICK_CAL_MIN = 500;
+> > > +static void joycon_use_default_calibration(struct hid_device *hdev,
+> > > + struct joycon_stick_cal *cal_x,
+> > > + struct joycon_stick_cal *cal_y,
+> > > + const char *stick, int ret)
+> > > +{
+> > > + hid_warn(hdev,
+> > > + "Failed to read %s stick cal, using defaults; e=%d\n", stick,
+> > > + ret);
+> >
+> >
+> > nitpick: why not putting the format string on the line above and leave
+> > "stick" and "ret in the second line? It should be OK for checkpatch and
+> > will be less weird to have "ret" on its line all by itself.
+> >
+> > > +
+> > > + cal_x->center = cal_y->center = DFLT_STICK_CAL_CEN;
+> > > + cal_x->max = cal_y->max = DFLT_STICK_CAL_MAX;
+> > > + cal_x->min = cal_y->min = DFLT_STICK_CAL_MIN;
+> > > +}
+> > > +
+> > > static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+> > > {
+> > > u16 left_stick_addr = JC_CAL_FCT_DATA_LEFT_ADDR;
+> > > @@ -793,38 +812,24 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+> > > &ctlr->left_stick_cal_x,
+> > > &ctlr->left_stick_cal_y,
+> > > true);
+> > > - if (ret) {
+> > > - hid_warn(ctlr->hdev,
+> > > - "Failed to read left stick cal, using dflts; e=%d\n",
+> > > - ret);
+> > > -
+> > > - ctlr->left_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+> > > - ctlr->left_stick_cal_x.max = DFLT_STICK_CAL_MAX;
+> > > - ctlr->left_stick_cal_x.min = DFLT_STICK_CAL_MIN;
+> > >
+> > > - ctlr->left_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+> > > - ctlr->left_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+> > > - ctlr->left_stick_cal_y.min = DFLT_STICK_CAL_MIN;
+> > > - }
+> > > + if (ret)
+> > > + joycon_use_default_calibration(ctlr->hdev,
+> > > + &ctlr->left_stick_cal_x,
+> > > + &ctlr->left_stick_cal_y,
+> > > + "left", ret);
+> > >
+> > > /* read the right stick calibration data */
+> > > ret = joycon_read_stick_calibration(ctlr, right_stick_addr,
+> > > &ctlr->right_stick_cal_x,
+> > > &ctlr->right_stick_cal_y,
+> > > false);
+> > > - if (ret) {
+> > > - hid_warn(ctlr->hdev,
+> > > - "Failed to read right stick cal, using dflts; e=%d\n",
+> > > - ret);
+> > > -
+> > > - ctlr->right_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+> > > - ctlr->right_stick_cal_x.max = DFLT_STICK_CAL_MAX;
+> > > - ctlr->right_stick_cal_x.min = DFLT_STICK_CAL_MIN;
+> > >
+> > > - ctlr->right_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+> > > - ctlr->right_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+> > > - ctlr->right_stick_cal_y.min = DFLT_STICK_CAL_MIN;
+> > > - }
+> > > + if (ret)
+> > > + joycon_use_default_calibration(ctlr->hdev,
+> > > + &ctlr->right_stick_cal_x,
+> > > + &ctlr->right_stick_cal_y,
+> > > + "right", ret);
+> > >
+> > > hid_dbg(ctlr->hdev, "calibration:\n"
+> > > "l_x_c=%d l_x_max=%d l_x_min=%d\n"
+> > > --
+> > > 2.37.3
+> >
+> >
+> > Cheers,
+> > Benjamin
+>
 
