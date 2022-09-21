@@ -2,78 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 581B15C00F5
-	for <lists+linux-input@lfdr.de>; Wed, 21 Sep 2022 17:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 012CD5C01C0
+	for <lists+linux-input@lfdr.de>; Wed, 21 Sep 2022 17:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbiIUPSz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Sep 2022 11:18:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
+        id S229663AbiIUPin (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Sep 2022 11:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229779AbiIUPSv (ORCPT
+        with ESMTP id S230426AbiIUPiL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Sep 2022 11:18:51 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEEAC8E4EC
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 08:18:48 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id c4so5318584iof.3
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 08:18:48 -0700 (PDT)
+        Wed, 21 Sep 2022 11:38:11 -0400
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2249E0FB
+        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 08:34:06 -0700 (PDT)
+Received: by mail-il1-x132.google.com with SMTP id j7so2560093ilu.7
+        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 08:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=KLCmAE9UlNDGgLGs2ArJ00VmIdhhVt7eh934lDS0138=;
-        b=JURosBZkyeDvy/vyZPMqlVgB6IuAkyD75OrRJfNUt8s3w3vxLN7VamcPkqlyzdXLxr
-         6swKXk3vZvHZYdWG8NrSs5fqQ4zSAGVnpshII0vyAtAUYXty40xxoz50U7xZkAXpCBnl
-         B3sxf5HQVWZvvDPtd3cWBMqGFvqnM1X5cb4es=
+        bh=UTdfe4rE8KI1C0mMzwUzNNTbt7cLPfJiUPMCCT6i1bw=;
+        b=GhMRIYK+BNavL7wlB7IPzB3C5ER/d3XvUFqXlz7Cv/yEpFsy2iiHXyQf2dtXFbe61Y
+         Y3UIer9yzgVe6lHcu10PgJsD8yuSm55/lpuzm+Xlrfyaoa8/WHRamtLoOhOVKVlCRw5P
+         uRv0Ysw/ekeuqatl7Akd+W6Kv5ZDs6Midmy28=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=KLCmAE9UlNDGgLGs2ArJ00VmIdhhVt7eh934lDS0138=;
-        b=Bx2bIi984BU4ywdC3D5ojceKL2Kq9SJ1UWpy2l0v9+vZRS0gD1A+CFAtPWksg1O2Tr
-         W4eKHI7Y37aZ3Ow6/mqyelpxQmVEop1Rg3ltZ0F8BTuJ/SCYM8Rf4COJPHaWgobNTMAs
-         9+9whhHwzSyzbtiOvQlgljmBDyfQIyMC+1NSKhg6dtEvLuwtLbyz1Rxkp71EomvZ3XrS
-         PMlOPspoKWGS17NC84JkE47n0CCUkhBvWApQi6miqKYoNsEv6PXvW9nX+1xFdXiMBjEU
-         K4QaoNedCyEW9IE+e3zTJvF44QJrKmtcScmkQUTizv8JMikKJxghSfksPYYYAJ1z9xoR
-         TvUg==
-X-Gm-Message-State: ACrzQf1bWKigzUEBLXjhZ2jUb20NU+w1dS3TWzRjBo75heplmnX8HcLU
-        NzxFHeAmiLWmAP428NZIwzBUacC8+uBt4g==
-X-Google-Smtp-Source: AMsMyM7mCnFFb3mrd583RxltpHsNyV76ocwe5fgwonp/k5sjogq/AQHDpnmgV7pJ3q7oM/rHQcop/g==
-X-Received: by 2002:a05:6602:26d4:b0:68a:e0e3:4d06 with SMTP id g20-20020a05660226d400b0068ae0e34d06mr11490012ioo.215.1663773527846;
-        Wed, 21 Sep 2022 08:18:47 -0700 (PDT)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com. [209.85.166.180])
-        by smtp.gmail.com with ESMTPSA id q26-20020a05663810da00b0035a328c6ccasm1140721jad.76.2022.09.21.08.18.45
+        bh=UTdfe4rE8KI1C0mMzwUzNNTbt7cLPfJiUPMCCT6i1bw=;
+        b=q1CnGRlZvrXxDEkQdiX1NPWLOlR5RlPmftIVaZvzrv719kEm0L38N5N3uZn1jljS4P
+         x2Vi8n9Dja/qk34y7gTTwnd5e9YEojH0rhnE9+6UVO8ot86zIrdVe6Tm6f/SOAF04mXF
+         ii23oT977Ar64NIU1/ksgIjASsTwbtQyphfw+qAad5HSsOzoRzcQJCGuoDO05IvTTUA/
+         xxPdrY1AiDxajw+THsLDqtc3nfrkm/DcRqmiPntp5HUg72XXv4ZTMy2HoUGa7QAN6/CT
+         JU6nrIEvGyqgIMXXAluHqhC9TskWtW4NMs/Qfxs33Vvhjbm4cp8PMNcyMnobX4DfOEMD
+         PupA==
+X-Gm-Message-State: ACrzQf0RCZp09xrjvj/BuA0KOzf90fC9bC1fCW3ddSfsgxXF2GptfJOR
+        aM58XVWRNBIxgpp6B6wYfvbvFKnZDoS3eQ==
+X-Google-Smtp-Source: AMsMyM5NrERw+Ldn5KI/Ae0LF7y0TCgeQ882PiN/ePhvFy1BHtv1t1pCWush7zNUmnVaMKRyjU4xYg==
+X-Received: by 2002:a05:6e02:dc3:b0:2ea:d7a4:a5f with SMTP id l3-20020a056e020dc300b002ead7a40a5fmr11962714ilj.308.1663774417194;
+        Wed, 21 Sep 2022 08:33:37 -0700 (PDT)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com. [209.85.166.48])
+        by smtp.gmail.com with ESMTPSA id p10-20020a92d48a000000b002f671cb730asm701310ilg.42.2022.09.21.08.33.36
         for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 08:18:45 -0700 (PDT)
-Received: by mail-il1-f180.google.com with SMTP id m16so3291374iln.9
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 08:18:45 -0700 (PDT)
-X-Received: by 2002:a92:c569:0:b0:2f5:927d:b61a with SMTP id
- b9-20020a92c569000000b002f5927db61amr7672947ilj.151.1663773525104; Wed, 21
- Sep 2022 08:18:45 -0700 (PDT)
+        Wed, 21 Sep 2022 08:33:36 -0700 (PDT)
+Received: by mail-io1-f48.google.com with SMTP id r134so5335317iod.8
+        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 08:33:36 -0700 (PDT)
+X-Received: by 2002:a6b:e003:0:b0:6a0:d55b:a3ae with SMTP id
+ z3-20020a6be003000000b006a0d55ba3aemr11587226iog.167.1663774415900; Wed, 21
+ Sep 2022 08:33:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220919155916.1044219-1-rrangel@chromium.org>
- <20220919095504.v4.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid> <Yymyzcfp7gqdTYam@smile.fi.intel.com>
-In-Reply-To: <Yymyzcfp7gqdTYam@smile.fi.intel.com>
+References: <20220919155916.1044219-1-rrangel@chromium.org> <CAO-hwJKcpXQjvLuQK+wfqkU0LHxKbbAyNCZnQGxe47fm1o6LQw@mail.gmail.com>
+In-Reply-To: <CAO-hwJKcpXQjvLuQK+wfqkU0LHxKbbAyNCZnQGxe47fm1o6LQw@mail.gmail.com>
 From:   Raul Rangel <rrangel@chromium.org>
-Date:   Wed, 21 Sep 2022 09:18:34 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30C3Wsqbwnpn+9tP2DCDdtMGOqOZ8di77agDcLM7idWxuQ@mail.gmail.com>
-Message-ID: <CAHQZ30C3Wsqbwnpn+9tP2DCDdtMGOqOZ8di77agDcLM7idWxuQ@mail.gmail.com>
-Subject: Re: [PATCH v4 07/13] i2c: acpi: Use ACPI wake capability bit to set wake_irq
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date:   Wed, 21 Sep 2022 09:33:24 -0600
+X-Gmail-Original-Message-ID: <CAHQZ30CSbsm0j15=gMbuwdeSOR6Z17tcwB+N1H2Vof5SuDPzew@mail.gmail.com>
+Message-ID: <CAHQZ30CSbsm0j15=gMbuwdeSOR6Z17tcwB+N1H2Vof5SuDPzew@mail.gmail.com>
+Subject: Re: [PATCH v4 00/13] acpi: i2c: Use SharedAndWake and
+ ExclusiveAndWake to enable wake irq
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         Tim Van Patten <timvp@google.com>,
-        Hans de Goede <hdegoede@redhat.com>,
+        Hans De Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Limonciello, Mario" <mario.limonciello@amd.com>,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        jingle <jingle.wu@emc.com.tw>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Linus Walleij <linus.walleij@linaro.org>,
+        Alistair Francis <alistair@alistair23.me>,
+        Angela Czubak <acz@semihalf.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Bartosz Szczepanek <bsz@semihalf.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
+        Terry Bowman <terry.bowman@amd.com>,
         Wolfram Sang <wsa@kernel.org>,
-        "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
+        Yang Li <yang.lee@linux.alibaba.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -85,60 +102,142 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 20, 2022 at 6:32 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Tue, Sep 20, 2022 at 4:43 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> On Mon, Sep 19, 2022 at 09:59:09AM -0600, Raul E Rangel wrote:
-> > Device tree already has a mechanism to pass the wake_irq. It does this
-> > by looking for the wakeup-source property and setting the
-> > I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
-> > ACPI interrupt wake flag to determine if the interrupt can be used to
-> > wake the system. Previously the i2c drivers had to make assumptions and
-> > blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
-> > If there is a device with an Active Low interrupt and the device gets
-> > powered off while suspending, the interrupt line will go low since it's
-> > no longer powered and wakes the system. For this reason we should
-> > respect the board designers wishes and honor the wake bit defined on the
-> > interrupt.
->
-> ...
->
-> > +     if (irq_ctx.irq == -ENOENT)
-> > +             irq_ctx.irq = acpi_dev_gpio_irq_wake_get(adev, 0, &irq_ctx.wake_capable);
->
-> I just realized, that there is an inconsistency on how we fill the wake_capable
-> parameter. In some cases we check for IRQ for an error condition (IRQ not found)
-> and in some the wake_capable still be filled.
->
-> Here the best approach I believe is to add
->
->         if (irq_ctx.irq < 0)
->                 return irq_ctx.irq;
->
-> I.o.w. we apply the rule "do not fill the output parameters when it's known
-> to be an error condition".
->
-> > +     if (wake_capable)
-> > +             *wake_capable = irq_ctx.wake_capable;
->
-> > +     return irq_ctx.irq;
+> On Mon, Sep 19, 2022 at 5:59 PM Raul E Rangel <rrangel@chromium.org> wrote:
+> >
+> > Today, i2c drivers are making the assumption that their IRQs can also
+> > be used as wake IRQs. This isn't always the case and it can lead to
+> > spurious wakes. This has recently started to affect AMD Chromebooks.
+> > With the introduction of
+> > d62bd5ce12d7 ("pinctrl: amd: Implement irq_set_wake"), the AMD GPIO
+> > controller gained the capability to set the wake bit on each GPIO. The
+> > ACPI specification defines two ways to inform the system if a device is
+> > wake capable:
+> > 1) The _PRW object defines the GPE that can be used to wake the system.
+> > 2) Setting ExclusiveAndWake or SharedAndWake in the _CRS GpioInt.
+> >
+> > Currently only the first method is supported. The i2c drivers don't have
+> > any indication that the IRQ is wake capable, so they guess. This causes
+> > spurious interrupts, for example:
+> > * We have an ACPI HID device that has `_PR0` and `_PR3`. It doesn't have
+> >   `_PRW` or `ExclusiveAndWake` so that means the device can't wake the
+> >   system.
+> > * The IRQ line is active level low for this device and is pulled up by
+> >   the power resource defined in `_PR0`/`_PR3`.
+> > * The i2c driver will (incorrectly) arm the GPIO for wake by calling
+> >   `enable_irq_wake` as part of its suspend hook.
+> > * ACPI will power down the device since it doesn't have a wake GPE
+> >   associated with it.
+> > * When the device is powered down, the IRQ line will drop, and it will
+> >   trigger a wake event.
+> >
+> > See the following debug log:
+> > [   42.335804] PM: Suspending system (s2idle)
+> > [   42.340186] amd_gpio AMD0030:00: RX: Setting wake for pin 89 to enable
+> > [   42.467736]     power-0416 __acpi_power_off      : Power resource [PR00] turned off
+> > [   42.467739] device_pm-0280 device_set_power      : Device [H05D] transitioned to D3cold
+> > [   42.475210] PM: pm_system_irq_wakeup: 11 triggered pinctrl_amd
+> > [   42.535293] PM: Wakeup unrelated to ACPI SCI
+> > [   42.535294] PM: resume from suspend-to-idle
+> >
+> > In order to fix this, we need to take into account the wake capable bit
+> > defined on the Interrupt/GpioInt. This is accomplished by:
+> > * Migrating some of the i2c drivers over to using the PM subsystem to
+> >   manage the wake IRQ.
+> > * Expose the wake_capable bit from the ACPI Interrupt/GpioInt resource
+> >   to the  i2c core.
+> > * Use the wake_capable bit in the i2c core to call
+> >   `dev_pm_set_wake_irq`. This reuses the existing device tree flow.
+> > * Make the i2c drivers stop calling `dev_pm_set_wake_irq` since it's now
+> >   handled by the i2c core.
+> > * Make the ACPI device PM system aware of the wake_irq. This is
+> >   necessary so the device doesn't incorrectly get powered down when a
+> >   wake_irq is enabled.
+> >
+> > I've tested this code with various combinations of having _PRW,
+> > ExclusiveAndWake and power resources all defined or not defined, but it
+> > would be great if others could test this out on their hardware.
+> >
+> > I'm sure this will surface some devices where the IRQs were not
+> > correctly marked as wake capable. Ideally the firmware can be fixed, but
+> > if not we can work around this in the kernel by providing a board
+> > specific `struct i2c_board_info` with the `I2C_CLIENT_WAKE` flag set.
+> > See `chromeos_laptop.c` for an example of matching DMI properties and
+> > setting the `I2C_CLIENT_WAKE` override.
+> >
+> > Thanks,
+> > Raul
+> >
+> > Changes in v4:
+> > - Added Reviewed-by
+> > - Reformatted with 96 char limit
+> > - Removed unnecessary !!
+> > - Removed unrelated white space change
+> > - Renamed i2c_acpi_add_resource to i2c_acpi_add_irq_resource
+> > - Expanded logic in i2c_acpi_add_i2c_resource to make it easier to read
+> >
+> > Changes in v3:
+> > - Kept `acpi_dev_gpio_irq_get_by` unchanged to avoid having to touch
+> >   unrelated drivers.
+> > - Converted wake_capable parameter to bool.
+> > - Fixed bad indent
+> > - Convert wake_capable to bool
+> > - Only update wake_capable pointer once
+> > - Move wake_capable local into local block
+> >
+> > Changes in v2:
+> > - Added elants_i2c to series
+> > - Added raydium_ts_i2c to series
+> > - Fixed call site in mlxbf_gige_probe
+> > - Added ability to extract wake bit from Interrupt/IRQ resources
+> > - Look at wake_cabple bit for IRQ/Interrupt resources
+> > - I chose not to keep the legacy code around since systems without DT or ACPI should be rare.
+> >
+> > Raul E Rangel (13):
+> >   HID: i2c-hid: Use PM subsystem to manage wake irq
+> >   Input: elan_i2c - Use PM subsystem to manage wake irq
+> >   Input: elants_i2c - Use PM subsystem to manage wake irq
+> >   Input: raydium_ts_i2c - Use PM subsystem to manage wake irq
+> >   gpiolib: acpi: Add wake_capable variants of acpi_dev_gpio_irq_get
+> >   ACPI: resources: Add wake_capable parameter to acpi_dev_irq_flags
+> >   i2c: acpi: Use ACPI wake capability bit to set wake_irq
+> >   ACPI: PM: Take wake IRQ into consideration when entering
+> >     suspend-to-idle
+> >   HID: i2c-hid: acpi: Stop setting wakeup_capable
+> >   HID: i2c-hid: Don't set wake_capable and wake_irq
+> >   Input: elan_i2c - Don't set wake_capable and wake_irq
+> >   Input: elants_i2c - Don't set wake_capable and wake_irq
+> >   Input: raydium_ts_i2c - Don't set wake_capable and wake_irq
+> >
+> >  drivers/acpi/device_pm.c                   | 19 +++++++++--
+> >  drivers/acpi/irq.c                         |  8 +++--
+> >  drivers/acpi/resource.c                    | 23 ++++++++++----
+> >  drivers/gpio/gpiolib-acpi.c                | 15 +++++++--
+> >  drivers/gpio/gpiolib-acpi.h                |  2 ++
+> >  drivers/hid/i2c-hid/i2c-hid-acpi.c         |  5 ---
+> >  drivers/hid/i2c-hid/i2c-hid-core.c         | 24 ++------------
+> >  drivers/i2c/i2c-core-acpi.c                | 37 ++++++++++++++++------
+> >  drivers/i2c/i2c-core-base.c                |  6 +++-
+> >  drivers/i2c/i2c-core.h                     |  4 +--
+> >  drivers/input/mouse/elan_i2c_core.c        | 15 +--------
+> >  drivers/input/touchscreen/elants_i2c.c     | 13 ++------
+> >  drivers/input/touchscreen/raydium_i2c_ts.c |  7 +---
+> >  drivers/pnp/pnpacpi/rsparser.c             |  7 ++--
+> >  include/linux/acpi.h                       | 23 +++++++++++---
+> >  include/linux/ioport.h                     |  3 +-
+> >  16 files changed, 117 insertions(+), 94 deletions(-)
+> >
 >
 
-I applied the following:
-diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
-index ba64e505183595..1618f5619d5ed9 100644
---- a/drivers/i2c/i2c-core-acpi.c
-+++ b/drivers/i2c/i2c-core-acpi.c
-@@ -220,7 +220,7 @@ int i2c_acpi_get_irq(struct i2c_client *client,
-bool *wake_capable)
-        if (irq_ctx.irq == -ENOENT)
-                irq_ctx.irq = acpi_dev_gpio_irq_wake_get(adev, 0,
-&irq_ctx.wake_capable);
-
--       if (wake_capable)
-+       if (irq_ctx.irq > 0 && wake_capable)
-                *wake_capable = irq_ctx.wake_capable;
-
-        return irq_ctx.irq;
-
-Thanks!
+> For the HID patches (1, 9, 10):
+> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> Feel free to take those through whatever tree is the best, we don't
+> have anything scheduled for i2c-hid for 6.1 right now.
+>
+> Cheers,
+> Benjamin
+>
+Great thanks! I'll include your Acked-By in the next round.
