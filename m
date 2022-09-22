@@ -2,137 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AD9D5E6CE8
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 22:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E6135E7049
+	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 01:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232779AbiIVUSs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 16:18:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40858 "EHLO
+        id S229822AbiIVXpC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 19:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232865AbiIVUSq (ORCPT
+        with ESMTP id S229563AbiIVXpA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 16:18:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE211110B23
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 13:18:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663877925;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=A3oprjemUkt7kMHECIu5uPyweyyYP9Tv3GSK6vQIX50=;
-        b=Bt7As8+ORGWibpopsEj7UyxwxYqWjmsCvJ/k+zVhaJSP6B3fmefqpfOTK/QoX4N0PPSOg6
-        DNzI4SNEn4R5UPc6FRQLsmTqPSOpB3TkjQdk4+JBN4LRMRp6ocUNmuvu2AIPpOqzXNovSZ
-        bwGrHBeTvdu/nAs2T4pLQ8cum1aVz9Q=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-668-86XDQWtoO3eZ3jKGxAXNbA-1; Thu, 22 Sep 2022 16:18:43 -0400
-X-MC-Unique: 86XDQWtoO3eZ3jKGxAXNbA-1
-Received: by mail-qv1-f72.google.com with SMTP id g12-20020a0cfdcc000000b004ad431ceee0so7119911qvs.7
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 13:18:43 -0700 (PDT)
+        Thu, 22 Sep 2022 19:45:00 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B09445143F
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 16:44:58 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id u28so7323157qku.2
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 16:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=0Hb5HGp+k2XflhkoKgDKjNTvMxi7xMzwldrOdX8+I+g=;
+        b=OUEpNXvvSeMMe+CcI3u8etC80T82EUY1ydti5DKjOJ0nHC1OMXAURoia0kfTrGIU4v
+         CBOCdWZlSGSuxh+V9z4CRBAmsHN2RqMRWshHkVGOzZQyvkwBjXKe0vbAvR2WWcFTiGnq
+         yW8yc8dlNL9UUrxF3POgIYWJmznfgbZpJz6ac=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:organization
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=A3oprjemUkt7kMHECIu5uPyweyyYP9Tv3GSK6vQIX50=;
-        b=yV+KEjdWHpQ/tKCGNoY0ndY2pV9npttkVKlal6AJfCBnSTSZ8J/R/ty6B/H2peOG61
-         UXbdrdbh/jtHpW2y4OYG3pItPBCQED4xaHqGGuGccX3MXZZ+QRFB5+Ub7o9twNHE1gXr
-         ZYErdJ+vTkJxq8NYQMjiXpBvuqiW1Gc8PnVHjYHStdI3hMf97ZtymTqtJS2bk+/5vCgN
-         UX9JC/Qpmipv0J8EPBWB4QTJW9f8aa/mIE99uNFRFcsm+KdoD1O9NqjdG1O5Ozx1ly8A
-         KqgdyKFJgiLvk7WQrX30CaI9Z65YEYoCXKrW8ptcK56ozf2qX570O2sfw8f/q3kSBRk3
-         nYHA==
-X-Gm-Message-State: ACrzQf3MagZY5z8G6COANtkZ0RmVRQjtaVvAQJWsz0NLA2VKH4V1LE2H
-        WMEcZsdzNJfq1hKZxpsLz33+GO30SfikiDyF0/JF/Jl/N1o/06jQEL57L14qQ0UnDDTem2LhKir
-        8jeEcUCD7YzuJa4CU1DOGHm8=
-X-Received: by 2002:a05:6214:ca9:b0:4aa:a2c9:2f23 with SMTP id s9-20020a0562140ca900b004aaa2c92f23mr4168783qvs.60.1663877922799;
-        Thu, 22 Sep 2022 13:18:42 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5pni2LYkOzrlIhwMpx1cHEHZsx5JF13Oj7xoj30GUGp9q95MmDDdN84zCN9ktdm0iGF55Otg==
-X-Received: by 2002:a05:6214:ca9:b0:4aa:a2c9:2f23 with SMTP id s9-20020a0562140ca900b004aaa2c92f23mr4168770qvs.60.1663877922617;
-        Thu, 22 Sep 2022 13:18:42 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c48:e00::feb? ([2600:4040:5c48:e00::feb])
-        by smtp.gmail.com with ESMTPSA id o67-20020a374146000000b006ced5d3f921sm4248065qka.52.2022.09.22.13.18.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 13:18:41 -0700 (PDT)
-Message-ID: <76ef7f62cf3327e4c7fc4ff96c2978e8dfabff91.camel@redhat.com>
-Subject: Re: [PATCH 0/9] Input: synaptics-rmi4 - Bootloader v7/v8 firmware
- update improvements
-From:   Lyude Paul <lyude@redhat.com>
-To:     Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Thu, 22 Sep 2022 16:18:40 -0400
-In-Reply-To: <20220608124808.51402-1-matthias.schiffer@ew.tq-group.com>
-References: <20220608124808.51402-1-matthias.schiffer@ew.tq-group.com>
-Organization: Red Hat Inc.
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=0Hb5HGp+k2XflhkoKgDKjNTvMxi7xMzwldrOdX8+I+g=;
+        b=Ai7BP9SCTdTNiYHzdng87zfzkY6+ORneNOlcL0eUvcwwxI9zlL37hQbzotOK/6G0Ar
+         lUsdb/VVyxslLjxYYVNIgp8wnRolB8TwBNhOX7HVeexiCbFh/vJueDk9LrBr5/R80mHt
+         O9g4vJKovb1fGdL5wNIdZEm9glCtxcDXi6nEKYv+91ytFwMqp6cf+XsIGI/7vdk7L5CS
+         GxAeNCMbis++AXwLWBws0C6+hpz7EItyZbp2l2IXA+lQh1eNG6J6yW5odn5Safp8NcZV
+         7d2oTCBDVK+GdbkE73Nmi8ULOfMxhYM2piZeLqxS0Ld06lBIuAYg7z/iQ0e85XywfaBK
+         vyfQ==
+X-Gm-Message-State: ACrzQf0ar8o+cwrRP2y5EjVswH5IfihimWWNEAFLPIWfZhTf3S+bA6je
+        lnyYa4hM05/Wjhxw1zsTxmZVVQ5sThA0XqwJWKCSOQ==
+X-Google-Smtp-Source: AMsMyM4lzGrAhbGpiWu+pLgXbcf3Ed0LZQW8B+2iJP5rYUG4K+19xk2aBZ0atCNaYzbt5RRCc09JWwoR7UEvWbHdF3E=
+X-Received: by 2002:a05:620a:c41:b0:6b6:bc8:2051 with SMTP id
+ u1-20020a05620a0c4100b006b60bc82051mr4013261qki.410.1663890297830; Thu, 22
+ Sep 2022 16:44:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20220921063026.89619-1-matt.ranostay@konsulko.com>
+ <20220921063026.89619-5-matt.ranostay@konsulko.com> <20220921080458.3uue5ooc3svcbmxp@mail.corp.redhat.com>
+ <CAJCx=gn0bZp3fToF+LZE+evR2m4nWMueusjysxcrvimH0wRhaA@mail.gmail.com>
+In-Reply-To: <CAJCx=gn0bZp3fToF+LZE+evR2m4nWMueusjysxcrvimH0wRhaA@mail.gmail.com>
+From:   Matt Ranostay <matt.ranostay@konsulko.com>
+Date:   Thu, 22 Sep 2022 16:44:47 -0700
+Message-ID: <CAJCx=gmAyae-_VmYpVw=q4+34zraxQ4d2E3DTjjRX4OWqaWwHg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] HID: mcp2221: switch i2c registration to devm functions
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     gupt21@gmail.com, jic23@kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Sorry this took me a little while to get to, but more sorry it took so long
-for anyone to review this for you!
+On Wed, Sep 21, 2022 at 10:57 AM Matt Ranostay
+<matt.ranostay@konsulko.com> wrote:
+>
+> On Wed, Sep 21, 2022 at 1:05 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > [foreword: please keep Jiri and myself (the HID maintainers) CC-ed to
+> > the series, as you will need ack from us and we don't necessarily monitor
+> > every single message on linux-input]
+> >
+> > On Sep 20 2022, Matt Ranostay wrote:
+> > > Switch from i2c_add_adapter() to resource managed devm_i2c_add_adapter()
+> > > for matching rest of driver initialization, and more concise code.
+> > >
+> > > Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+> > > ---
+> > >  drivers/hid/hid-mcp2221.c | 45 +++++++++++++++++----------------------
+> > >  1 file changed, 19 insertions(+), 26 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+> > > index de52e9f7bb8c..7ba63bcd66de 100644
+> > > --- a/drivers/hid/hid-mcp2221.c
+> > > +++ b/drivers/hid/hid-mcp2221.c
+> > > @@ -824,6 +824,14 @@ static int mcp2221_raw_event(struct hid_device *hdev,
+> > >       return 1;
+> > >  }
+> > >
+> > > +static void mcp2221_hid_remove(void *ptr)
+> > > +{
+> > > +     struct hid_device *hdev = ptr;
+> > > +
+> > > +     hid_hw_close(hdev);
+> > > +     hid_hw_stop(hdev);
+> >
+> > By default, if you remove the .remove() callback, hid_hw_stop() will get
+> > automatically called by hid-core.c. So we are now calling it twice,
+> > which, in a way is not a big deal but it might be an issue in the long
+> > run.
+> >
+> > Generally speaking, in the HID subsystem, that situation doesn't happen
+> > a lot because hid_hw_start() is usually the last command of probe, and
+> > we don't need to open the device in the driver itself.
+> >
+> > Here, I guess as soon as you add the i2c adapter, you might want to have
+> > the communication channels ready, and thus you need to have it open
+> > *before* i2c_add_adapter.
+> >
+> > I would suggest the following if you want to keep the devm release of
+> > stop and close: please put a big fat warning before mcp2221_hid_remove()
+> > explaining that this is called in devm management, *and* add a function
+> > that would just return 0 as the .remove() callback with another big fat
+> > warning explaining that we don't want hid-core.c to call hid_hw_stop()
+> > because we are doing it ourself through devres.
+> >
+>
+> Yeah maybe best to keep the non-devres if it isn't going to affect how the last
+> change in this series is trying to implement with iio.
+>
+> I'll wait for Jonathan to chime in on this thread.
+>
+> > Last, in the HID subsystem, we often interleave non devres with devres
+> > for resource allocation, given that .remove() will be called before any
+> > devres release. But that is assuming this ordering is OK, which doesn't
+> > seem to be the case here. We first need to unregister the i2c adapter
+> > and then close/stop the HID device.
 
-Anyway-luckily it seems I retained most of my RMI4 knowledge, so I was able to
-follow along with the patch series pretty easily. I basically only had one
-small comment about a missing Cc: stable@vger.kernel.org tag on one patch, but
-the rest looks good to me:
+On second thought I2C will be unregistered before the HID calls, since
+unless I'm totally
+incorrect device resource management unwinds backwards in the order actions are
+registered.
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+- Matt
 
-Feel free to poke me if you need my help getting anything else reviewed
-
-On Wed, 2022-06-08 at 14:47 +0200, Matthias Schiffer wrote:
-> This fixes the firmware update function with bootloader v8, allows to
-> recover from interrupted updates with v7/v8, and does some code cleanup.
-> 
-> I believe that the code that allows to recover from a broken partition
-> table is also necessary to make flashing a different partition table
-> work at all, but I wasn't able to verify that, as I don't have any firmware
-> images with different partition tables to test with. In any case, I'm
-> pretty sure that it is working correctly now, as recovery from a mostly
-> empty flash without partition table has been tested successfully.
-> 
-> I have only tested the new code with bootloader v8, and I don't have the
-> documentation / interfacing guide for v7, so it would be great if anyone
-> could check that I didn't break updates for v7.
-> 
-> 
-> Matthias Schiffer (9):
->   Input: synaptics-rmi4 - fix firmware update operations with bootloader
->     v8
->   Input: synaptics-rmi4 - introduce rmi_f34v7_check_command_status()
->     helper
->   Input: synaptics-rmi4 - fix command completion check for bootloader
->     v7/v8
->   Input: synaptics-rmi4 - rewrite partition table unconditionally
->   Input: synaptics-rmi4 - reset after writing partition table
->   Input: synaptics-rmi4 - make rmi_f34v7_erase_all() use the "erase all"
->     command
->   Input: synaptics-rmi4 - remove unneeded struct register_offset
->   Input: synaptics-rmi4 - simplify rmi_f34v7_start_reflash()
->   Input: synaptics-rmi4 - drop useless gotos in rmi_f34v7_do_reflash()
-> 
->  drivers/input/rmi4/rmi_f34.c   |  16 +-
->  drivers/input/rmi4/rmi_f34.h   |  17 --
->  drivers/input/rmi4/rmi_f34v7.c | 349 +++++++--------------------------
->  3 files changed, 81 insertions(+), 301 deletions(-)
-> 
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+>
+> Noted.
+>
+> -  Matt
+>
+> >
+> > > +}
+> > > +
+> > >  static int mcp2221_probe(struct hid_device *hdev,
+> > >                                       const struct hid_device_id *id)
+> > >  {
+> > > @@ -849,7 +857,8 @@ static int mcp2221_probe(struct hid_device *hdev,
+> > >       ret = hid_hw_open(hdev);
+> > >       if (ret) {
+> > >               hid_err(hdev, "can't open device\n");
+> > > -             goto err_hstop;
+> > > +             hid_hw_stop(hdev);
+> > > +             return ret;
+> > >       }
+> > >
+> > >       mutex_init(&mcp->lock);
+> > > @@ -857,6 +866,10 @@ static int mcp2221_probe(struct hid_device *hdev,
+> > >       hid_set_drvdata(hdev, mcp);
+> > >       mcp->hdev = hdev;
+> > >
+> > > +     ret = devm_add_action_or_reset(&hdev->dev, mcp2221_hid_remove, hdev);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > >       /* Set I2C bus clock diviser */
+> > >       if (i2c_clk_freq > 400)
+> > >               i2c_clk_freq = 400;
+> > > @@ -873,19 +886,17 @@ static int mcp2221_probe(struct hid_device *hdev,
+> > >                       "MCP2221 usb-i2c bridge on hidraw%d",
+> > >                       ((struct hidraw *)hdev->hidraw)->minor);
+> > >
+> > > -     ret = i2c_add_adapter(&mcp->adapter);
+> > > +     ret = devm_i2c_add_adapter(&hdev->dev, &mcp->adapter);
+> > >       if (ret) {
+> > >               hid_err(hdev, "can't add usb-i2c adapter: %d\n", ret);
+> > > -             goto err_i2c;
+> > > +             return ret;
+> > >       }
+> > >       i2c_set_adapdata(&mcp->adapter, mcp);
+> > >
+> > >       /* Setup GPIO chip */
+> > >       mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
+> > > -     if (!mcp->gc) {
+> > > -             ret = -ENOMEM;
+> > > -             goto err_gc;
+> > > -     }
+> > > +     if (!mcp->gc)
+> > > +             return -ENOMEM;
+> > >
+> > >       mcp->gc->label = "mcp2221_gpio";
+> > >       mcp->gc->direction_input = mcp_gpio_direction_input;
+> > > @@ -900,26 +911,9 @@ static int mcp2221_probe(struct hid_device *hdev,
+> > >
+> > >       ret = devm_gpiochip_add_data(&hdev->dev, mcp->gc, mcp);
+> > >       if (ret)
+> > > -             goto err_gc;
+> > > +             return ret;
+> > >
+> > >       return 0;
+> > > -
+> > > -err_gc:
+> > > -     i2c_del_adapter(&mcp->adapter);
+> > > -err_i2c:
+> > > -     hid_hw_close(mcp->hdev);
+> > > -err_hstop:
+> > > -     hid_hw_stop(mcp->hdev);
+> > > -     return ret;
+> > > -}
+> > > -
+> > > -static void mcp2221_remove(struct hid_device *hdev)
+> > > -{
+> > > -     struct mcp2221 *mcp = hid_get_drvdata(hdev);
+> > > -
+> > > -     i2c_del_adapter(&mcp->adapter);
+> > > -     hid_hw_close(mcp->hdev);
+> > > -     hid_hw_stop(mcp->hdev);
+> > >  }
+> > >
+> > >  static const struct hid_device_id mcp2221_devices[] = {
+> > > @@ -932,7 +926,6 @@ static struct hid_driver mcp2221_driver = {
+> > >       .name           = "mcp2221",
+> > >       .id_table       = mcp2221_devices,
+> > >       .probe          = mcp2221_probe,
+> > > -     .remove         = mcp2221_remove,
+> > >       .raw_event      = mcp2221_raw_event,
+> > >  };
+> > >
+> > > --
+> > > 2.37.2
+> > >
+> >
+> > Cheers,
+> > Benjamin
+> >
