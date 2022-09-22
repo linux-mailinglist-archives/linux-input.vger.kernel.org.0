@@ -2,64 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC54A5E5DF2
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 10:52:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88F545E5DF3
+	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 10:52:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230378AbiIVIwR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 04:52:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56666 "EHLO
+        id S230133AbiIVIwc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 04:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiIVIwO (ORCPT
+        with ESMTP id S229995AbiIVIwb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 04:52:14 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66C7B07F1
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:52:13 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id t14so14344617wrx.8
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:52:13 -0700 (PDT)
+        Thu, 22 Sep 2022 04:52:31 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D617FB07F1
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:52:30 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id v3-20020a1cac03000000b003b4fd0fe6c0so851125wme.5
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:52:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date;
-        bh=JiN+SUsbKASJMIn+alILcOFssysT9+1+IG/iGqkIGKU=;
-        b=2GeZeww5mV34pduJGRxUIB4vRvpFBG19gSSi177+Y9gyba75mBeXNBSM5Q3bHIXLkG
-         mSoMzJJxoGMa9ESkmF1vIc5Ed4r0mb9qt8J77SWyVB0tZoZlCVuh97OMi9yIFBhnhZKm
-         5TisHXLyNrV+nCeesr02zVPoELArCPw8YR+mtn6Wj198bwi77u8iAqNbBzVMzct+0bG+
-         PiLMDf8e/1QAwMieTdzdCSPu+iiCeLUC9eVRleLw3qnlKX1gwCZAIJPH53fI6bLhRmDI
-         ErNSMrFJqQatrJXJDl3LsaRJo8zSdoiJqCNZhfad/5sn2x+sgaCP5ZVGTz9vN6LRW9A/
-         tJjg==
+        bh=jeSPHfnC0uJ1kdJSZkrh47xdyMnZPdIwBOpxeoIueyg=;
+        b=2E3ABcqkDN91Xv1WxMWTFGxU1X1ZYcYoT1fGmrzYF5clnQhU0uwVo5p52p/eYkCF9H
+         DfBTENYVV7GmTZYd7z7nLZOJ5dwL0f275NUzuH4dI4+IrWw42pnVN+Q7E1lSKfv2zROX
+         e5r2rUnZ91YC3TRM06BWlXI7v6nRyChgDgfjjsAwSkOxEjsrjv+yBi9Sr++moqTSidBW
+         4YICuxdDPoSwGlXjegDPOsOeun8DuSCvrY4V5PdW2hycrw4iYSlLr8lvvMpV5xer0z0K
+         UoozOYAiA+vX0SERcMSN2cGpaxXcCgJz8F73VyT/MP7XvXSyNfOB8Jo71j1TuskxZ8eq
+         yK3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=JiN+SUsbKASJMIn+alILcOFssysT9+1+IG/iGqkIGKU=;
-        b=qYvHhELqtcR3VPDpUuh4V/hK5LlzZRmiv4VAeJ/iP/8brRvDRQ7FxsetxoOqflnsx9
-         PPUgNpVpLBYoEl/f0ew4ZgVDfLHWbvyv3R0enE7OhJaXppllgKfHAcbXHBj/y/Tjlepm
-         h+Z2yFgfKPKzDBwBrtLuWERp8bJZi2m4itqYkZw8w5sf+/PhBUZ2GN6BApJvl9xCyoiR
-         coPSaGJ6wTgdChqKTUPcU/dm1TXvb+7cFsbId7QAaUpHcu9cuZDgg0frCC5AeltkcQrZ
-         R7rg1+FZWqLnvYnCM7IEZxX5D4Dk0RkMgiVWP1A8iTiOA1Q7YWBR7WP8G06yTdOleMvA
-         p6Lg==
-X-Gm-Message-State: ACrzQf1Px0TxuDOvRhqFBET/QBQWk2LUB/Y8ZZYF6ae9yc+qEaiRxpjd
-        j3tiBSLf/ckNIQQxfTeNMQfRlw==
-X-Google-Smtp-Source: AMsMyM5VRk3Gj+ODLA/yU+XI7V95SRmqnsApNpr65yz82vUXzZk+arjnprBGvMcPTaKLsCtWOHSHWA==
-X-Received: by 2002:adf:e24d:0:b0:22a:4a40:d5cc with SMTP id bl13-20020adfe24d000000b0022a4a40d5ccmr1320226wrb.494.1663836732206;
-        Thu, 22 Sep 2022 01:52:12 -0700 (PDT)
+        bh=jeSPHfnC0uJ1kdJSZkrh47xdyMnZPdIwBOpxeoIueyg=;
+        b=MAbSc6PWz+/el7gFysMyZL6H+kstwu9uMIt7Xsz1Hw3+XYjV5x+8RyV1UWhXc6tctt
+         43zfU/Q0divZEc78LnAF93ZGM1SHLjYIx7lpm0tIwdIZEXtfUU0FEcSWZKdVIXfxUuhc
+         hlV8M7leEcTQC2mmA7YVK5LImy4EPFJu2b3KdZKNCnGeGTuZ0ldk6ls/O//W6XJvovTU
+         rFYm9SbebOnGHyEb1fZ8O5HnYI5tIgpMgqcN1KyB0N1MY1wIsWJj1KSEUQ5rTcBPilnq
+         EX0grrAOSPGdCssZq4Vm+1F/TqHRQCACzL2KcLbYBnKKW4Fk7skDpBxdRmfl8vOejTY4
+         pSGw==
+X-Gm-Message-State: ACrzQf3MC6tUAUd0vclz5VeEU4ewXevsSCbyuPfIH1Ije9a6OCcONZaF
+        CoSCnK5PSwIed8ipnps3QC45AQ==
+X-Google-Smtp-Source: AMsMyM4zp0H94wunF+yvgPRGY2Jis3bqap5GSz30cFrrHbCWfegZaQMs9xsONn17zLv0+75F22qJjA==
+X-Received: by 2002:a7b:cd14:0:b0:3b4:8680:79a7 with SMTP id f20-20020a7bcd14000000b003b4868079a7mr1599577wmj.28.1663836749366;
+        Thu, 22 Sep 2022 01:52:29 -0700 (PDT)
 Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id v2-20020a5d6b02000000b00229e0def760sm4543685wrw.88.2022.09.22.01.52.11
+        by smtp.gmail.com with ESMTPSA id bg17-20020a05600c3c9100b003a5f4fccd4asm5374166wmb.35.2022.09.22.01.52.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 01:52:11 -0700 (PDT)
+        Thu, 22 Sep 2022 01:52:28 -0700 (PDT)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
 To:     Yang Yingliang <yangyingliang@huawei.com>,
         linux-input@vger.kernel.org
 Cc:     dmitry.torokhov@gmail.com
-Subject: Re: [PATCH -next 4/4] Input: gpio_keys_polled - Switch to use
+Subject: Re: [PATCH -next 3/4] Input: gpio_keys - Switch to use
  dev_err_probe() helper
-In-Reply-To: <87y1ubg5g4.fsf@baylibre.com>
+In-Reply-To: <87zgerg5g8.fsf@baylibre.com>
 References: <20220920153055.3465115-1-yangyingliang@huawei.com>
- <20220920153055.3465115-4-yangyingliang@huawei.com>
- <87y1ubg5g4.fsf@baylibre.com>
-Date:   Thu, 22 Sep 2022 10:52:11 +0200
-Message-ID: <87sfkjg5ac.fsf@baylibre.com>
+ <20220920153055.3465115-3-yangyingliang@huawei.com>
+ <87zgerg5g8.fsf@baylibre.com>
+Date:   Thu, 22 Sep 2022 10:52:28 +0200
+Message-ID: <87pmfng59v.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -86,25 +86,22 @@ On Thu, Sep 22, 2022 at 10:48, Mattijs Korpershoek <mkorpershoek@baylibre.com> w
 >>
 >> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 >> ---
->>  drivers/input/keyboard/gpio_keys_polled.c | 8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
+>>  drivers/input/keyboard/gpio_keys.c | 6 ++----
+>>  1 file changed, 2 insertions(+), 4 deletions(-)
 >>
->> diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
->> index c3937d2fc744..ba00ecfbd343 100644
->> --- a/drivers/input/keyboard/gpio_keys_polled.c
->> +++ b/drivers/input/keyboard/gpio_keys_polled.c
->> @@ -299,13 +299,9 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
->>  							     NULL, GPIOD_IN,
->>  							     button->desc);
->>  			if (IS_ERR(bdata->gpiod)) {
->> -				error = PTR_ERR(bdata->gpiod);
+>> diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+>> index a5dc4ab87fa1..ac74e85006a8 100644
+>> --- a/drivers/input/keyboard/gpio_keys.c
+>> +++ b/drivers/input/keyboard/gpio_keys.c
+>> @@ -530,10 +530,8 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+>>  				 */
+>>  				bdata->gpiod = NULL;
+>>  			} else {
 >> -				if (error != -EPROBE_DEFER)
->> -					dev_err(dev,
->> -						"failed to get gpio: %d\n",
+>> -					dev_err(dev, "failed to get gpio: %d\n",
 >> -						error);
->>  				fwnode_handle_put(child);
 >> -				return error;
->> +				return dev_err_probe(dev, PTR_ERR(bdata->gpiod),
+>> +				return dev_err_probe(dev, error,
 >> +						     "failed to get gpio\n");
 >
 > If we look at the input tree, we can see that there is no occurence of
@@ -127,7 +124,7 @@ Argh, I missed the link. here it is:
 
 >
 >>  			}
->>  		} else if (gpio_is_valid(button->gpio)) {
->>  			/*
+>>  		}
+>>  	} else if (gpio_is_valid(button->gpio)) {
 >> -- 
 >> 2.25.1
