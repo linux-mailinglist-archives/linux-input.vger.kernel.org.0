@@ -2,73 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CEAB5E5FCC
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 12:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC115E5FCD
+	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 12:24:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231321AbiIVKXb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 06:23:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43000 "EHLO
+        id S231251AbiIVKX4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 06:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231494AbiIVKX0 (ORCPT
+        with ESMTP id S231566AbiIVKXt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 06:23:26 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B31FCD826C;
-        Thu, 22 Sep 2022 03:23:22 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 207so8681785pgc.7;
-        Thu, 22 Sep 2022 03:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date;
-        bh=BFG7E5DQJVUzp3LwJ0qUmDTHBE0wFMMStZtZRS9w0FI=;
-        b=p6OgPDiugJa58P2dqy+RxH4tSjw8T8QF9a2cw8mLLSvqwifJPi1Hm41LGHuvtQwvKM
-         WrcowYC7QIaM4d9RX5J3M/dfzZtpg334wbFWAwqnXQC8c7WI82stlg8GVMxwaICMczun
-         /d5nZC/Y0/HV0+2jqTokMAqKRX/xjeE49WS5ImrNwCTaWopsCrDcIYmw9mf0F9jkapoO
-         nJuA7NbpAp54xVOsLDPELaZm4ccCBm8AuF2or/3LpxP2yqK9X2UbvOMn2rTC+3KTAcgl
-         3OIX5Um1rDU/fEK5OYm3EaO2dNpPqiFmwoMQ+RHVnK9h91JaaIPg9sajnh09faScPWZE
-         mFvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=BFG7E5DQJVUzp3LwJ0qUmDTHBE0wFMMStZtZRS9w0FI=;
-        b=RFQNHzlWA1mot7lQfq72mmts8kYRIoJT0wbp1f8wzXRW3L6Opz9pWQ8dMDHt8eOKft
-         Isp/beQRqawcKRgEVEDTAimvOuGSk2LRhIFArDncci9ljuFnXXH4qbz7lKlDQnufvFVa
-         LdUYi7Tqoise8Q1ToZerMoj2dmEJ1X2aWYp09hJYpqGV7y3E46YRaEXrk5o8gvR8yLn1
-         wvUnGNcJzCAXLHC4rSWSf35LmFlFnH7nauNKRhwJjybWJjY/vbxnqibO4XgRxi83EF+2
-         f1eRmF3qKqZ30Fq3woY8+6mlW8+WZyEvLFvR+Vjo/a5zri47uf2ar907fa5b2gJvzZRP
-         +aFg==
-X-Gm-Message-State: ACrzQf1AbxCrn7qUVy7Rwi/aqY7XwDcD5QFs+ysIghriBIziUYHeaL4B
-        qJWbkpN4vBOAtkQt9puv8JzZOUosLPY=
-X-Google-Smtp-Source: AMsMyM464+W1YojxacSNxYCT0+NhdSqCJD0ZmlA5G5L+2pOLg07xJjaoGq0shr8PisYzpGONaPWtMA==
-X-Received: by 2002:a63:e507:0:b0:42c:65d3:f3b6 with SMTP id r7-20020a63e507000000b0042c65d3f3b6mr2405035pgh.395.1663842201521;
-        Thu, 22 Sep 2022 03:23:21 -0700 (PDT)
-Received: from localhost.localdomain ([103.104.171.43])
-        by smtp.gmail.com with ESMTPSA id v16-20020a63f210000000b0042a713dd68csm3422050pgh.53.2022.09.22.03.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 03:23:20 -0700 (PDT)
-From:   Yunlong Jia <ecs.beijing2022@gmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
-        Henry Sun <henrysun@google.com>,
-        Bob Moragues <moragues@chromium.org>,
-        Yunlong Jia <ecs.beijing2022@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v4 4/4] input: touchscreen: elants_i2c: Add eth3915n  touchscreen chip
-Date:   Thu, 22 Sep 2022 10:21:20 +0000
-Message-Id: <20220922101813.v4.4.I0cebec46a06dd3ea8f6b7abde038faed917dd5d4@changeid>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220922101813.v4.1.I3aa360986c0e7377ea5e96c116f014ff1ab8c968@changeid>
-References: <20220922101813.v4.1.I3aa360986c0e7377ea5e96c116f014ff1ab8c968@changeid>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        Thu, 22 Sep 2022 06:23:49 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3C5D8250
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 03:23:47 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MYB946RMqzlXT6;
+        Thu, 22 Sep 2022 18:19:36 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 18:23:45 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 18:23:44 +0800
+Subject: Re: [PATCH -next 1/5] Input: da7280 - Switch to use dev_err_probe()
+ helper
+To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        <linux-input@vger.kernel.org>
+CC:     <dmitry.torokhov@gmail.com>, <thierry.reding@gmail.com>,
+        <u.kleine-koenig@pengutronix.de>
+References: <20220920153656.3486879-1-yangyingliang@huawei.com>
+ <87v8pfg5bm.fsf@baylibre.com>
+From:   Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <468abf76-2049-695f-c3f3-710bc779d806@huawei.com>
+Date:   Thu, 22 Sep 2022 18:23:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <87v8pfg5bm.fsf@baylibre.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,54 +57,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ekth3915 and ekth3500 are almost the same.
+Hi Mattijs,
 
-Signed-off-by: Yunlong Jia <ecs.beijing2022@gmail.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+On 2022/9/22 16:51, Mattijs Korpershoek wrote:
+> Hi Yang,
+>
+> Thank you for your series,
+>
+> On Tue, Sep 20, 2022 at 23:36, Yang Yingliang <yangyingliang@huawei.com> wrote:
+>
+>> In the probe path, dev_err() can be replaced with dev_err_probe()
+>> which will check if error code is -EPROBE_DEFER and prints the
+>> error name. It also sets the defer probe reason which can be
+>> checked later through debugfs.
+>>
+>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>> ---
+>>   drivers/input/misc/da7280.c | 9 +++------
+>>   1 file changed, 3 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
+>> index b08610d6e575..b1ca4fd94e9e 100644
+>> --- a/drivers/input/misc/da7280.c
+>> +++ b/drivers/input/misc/da7280.c
+>> @@ -1166,12 +1166,9 @@ static int da7280_probe(struct i2c_client *client,
+>>   	if (haptics->const_op_mode == DA7280_PWM_MODE) {
+>>   		haptics->pwm_dev = devm_pwm_get(dev, NULL);
+>>   		error = PTR_ERR_OR_ZERO(haptics->pwm_dev);
+>> -		if (error) {
+>> -			if (error != -EPROBE_DEFER)
+>> -				dev_err(dev, "Unable to request PWM: %d\n",
+>> -					error);
+>> -			return error;
+>> -		}
+>> +		if (error)
+>> +			return dev_err_probe(dev, error,
+>> +					     "Unable to request PWM\n");
+> For the whole series:
+>
+> If we look at the input tree, we can see that there is no occurence of
+> dev_err_probe():
+>
+> $ ~/src/linux/drivers/input/ 483fed3b5dc8 grep -rsn dev_err_probe
+> $ ~/src/linux/drivers/input/ 483fed3b5dc8
+>
+> The reason for this is that the input maintainer (Dmitry) dislikes
+> dev_err_probe() as he stated in [1]
+>
+> So I don't think he will apply this.
 
----
+OK, thanks for replying and mentioning it.
 
-(no changes since v1)
-
- drivers/input/touchscreen/elants_i2c.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index c9dd703b0c7d8..a21c9c9ed4d78 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -133,6 +133,7 @@
- enum elants_chip_id {
- 	EKTH3500,
- 	EKTF3624,
-+	EKTH3915,
- };
- 
- enum elants_state {
-@@ -664,6 +665,7 @@ static int elants_i2c_initialize(struct elants_data *ts)
- 
- 	switch (ts->chip_id) {
- 	case EKTH3500:
-+	case EKTH3915:
- 		if (!error)
- 			error = elants_i2c_query_ts_info_ekth(ts);
- 		break;
-@@ -1686,6 +1688,7 @@ static const struct i2c_device_id elants_i2c_id[] = {
- 	{ DEVICE_NAME, EKTH3500 },
- 	{ "ekth3500", EKTH3500 },
- 	{ "ektf3624", EKTF3624 },
-+	{ "ekth3915", EKTH3915 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, elants_i2c_id);
-@@ -1702,6 +1705,7 @@ MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
- static const struct of_device_id elants_of_match[] = {
- 	{ .compatible = "elan,ekth3500", .data = (void *)EKTH3500 },
- 	{ .compatible = "elan,ektf3624", .data = (void *)EKTF3624 },
-+	{ .compatible = "elan,ekth3915", .data = (void *)EKTH3915 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, elants_of_match);
--- 
-2.17.1
-
+>
+> Regards,
+> Mattijs
+>
+> [1] https://lore.kernel.org/r/YWTpg35wyYS1uoFZ@google.com
+>
+>>   		/* Sync up PWM state and ensure it is off. */
+>>   		pwm_init_state(haptics->pwm_dev, &state);
+>> -- 
+>> 2.25.1
+> .
