@@ -2,148 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5BA45E5D8C
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 10:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D125F5E5DD9
+	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 10:47:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbiIVIci (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 04:32:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54048 "EHLO
+        id S230440AbiIVIql (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 04:46:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbiIVIci (ORCPT
+        with ESMTP id S230079AbiIVIqU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 04:32:38 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05F6FE029
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:32:36 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id g3so14226594wrq.13
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:32:35 -0700 (PDT)
+        Thu, 22 Sep 2022 04:46:20 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C351AD0787
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:46:11 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id h130-20020a1c2188000000b003b4cadadce7so855260wmh.3
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:46:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date;
-        bh=w4tcViQqnjkZMSwdvcgkNZF0h1NsjZIwQovOy+zVQ2I=;
-        b=vHOx7wC6aChu35eeWjL5OzPmKV4uVjxDdeYtIsNGR+9jYiv/4bNePy29IcwaGL9pQo
-         gV/8z2Dyv6BSZI/QsPlf+Tz/7z4+B4KLCF8q8sZdvJiltTVY9O60BHaFxucWA88HvRAJ
-         PmM3rZ+hF0kKFA6zgLop1QJPyXVgEYDsVpCWRcwTqGngx+HXz4yhDNkChKYf6D5+9cd4
-         RiooU+CpBQdwFu+NhYIBI/wLEHIcA1oODBnoFqZ6e9hpGZ1WdNFkTZ7h2uw2LOCieFRq
-         zi0xndQuhSCZNYMyszCOdrE4iP3aKj4WHZ6EOXCQoAN9TrdPiaXaEMa1y70DWJ9itNSv
-         53/w==
+        bh=IqZEPUYAc6yhYWluzhh1Q6ZJtHM0YiVcWrrl0ode9l8=;
+        b=MIqmBeHM8SCssyUpCcvRABgh+ehp74QbY9tBm2SX5+nDSbu9vhPWoDWLdGOc/Vg5pC
+         4WImVmMib2UdTirssCURUSwIU4LljMc43ny6z0H5dBtcuS12QcjAIFM4wZU2u4Kzl5f7
+         lbLCbMQBMRKA/UsJfCNZQTxHGnxFGV/HKoYa8u8HLI9fbSwsAW2qFhwJbGIzgyzLLyOr
+         UJt0q7VCNBVQRDOXaH7s2//SppI4YClzmNg6zcV6c7A96t2r8VuJaccRlGuT6bEwEeAZ
+         XE4pt+bCUz3BoXJwLttgXr3lYH4ugWSO+CQHJK5wbehKGdNTF+W5esQyd5/fZk7SlYf4
+         4IUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=w4tcViQqnjkZMSwdvcgkNZF0h1NsjZIwQovOy+zVQ2I=;
-        b=sBVjiJb6/+As0I5nEVyk5ouhyNz48YAWUMuNSK29waU7GamKtbESq4OfU7XVfSlTcu
-         peryv3CVVpVCC59ZLlOIcWCOcLABSk1SaF0O9EXNS7/EFP3jxkWcE/rMm6ph7oiSVirU
-         eBblQqknVwMOnR1S5RzFSKUQEnnSmVEGbfjfus340iMFuNepcNDYFiIoFh3AQNUpyY7C
-         Yad5HZPhyfbvOHTayFTmM2w3fE8R/+C31YyMkcgKsBYBc6f+Kzm+6qXMOeJi0uFs6ZZG
-         QT2LgNQbI2oh4lMbFwHNZnZu72hsX1o25nMbRKeQwCfC48vTraDEuFc6M1Ppg3PC5JyI
-         BGjQ==
-X-Gm-Message-State: ACrzQf2y6SncGHgxtNj/J43p4xgRgviwjsXX9hM/El3pwLHL1v8Zy7Fk
-        unjZGP3e6S2jz6LPiZHgrWnxrg==
-X-Google-Smtp-Source: AMsMyM7qKm9SQA2KImY3Xih62bjMjrAUJWQJi3hfABFOYyK2n67PrvYixF/8esG9ZjvFBF5YT0SnhQ==
-X-Received: by 2002:a5d:6e91:0:b0:226:ea99:7d06 with SMTP id k17-20020a5d6e91000000b00226ea997d06mr1205148wrz.220.1663835554477;
-        Thu, 22 Sep 2022 01:32:34 -0700 (PDT)
+        bh=IqZEPUYAc6yhYWluzhh1Q6ZJtHM0YiVcWrrl0ode9l8=;
+        b=WVcfrpbe1jZUMEYWDE9WnpMcrc3VtmEBXO2WVfb/SWQMbeK/j/ESMm1CoXYzOUi7sX
+         ncKhJkoaqEa4qllhKVmHZDYGDDUlT/ZfELHZYXDghV7p+1ku+ccSbuqhRerZPfQeELx2
+         SGWxxPamTrcT1U87XZ9GfhRBTeS4mVsfQQ178d1zI0mTyIU2PdhppXqtpG6EdhCVM/f8
+         RIAjZ14WwpWKH1ycOpYtToK6xL9VSV+vNb0fLVcdC/XJYXwM102ontowbyUXd4iABZVq
+         RP9yrZ6eEhxXy4hahV0Dhv9OaWGG7wBQ3KIuTaOgPs2HVRYbTFuBHnO8yRzoqx5fe3Cj
+         1s7g==
+X-Gm-Message-State: ACrzQf3bh1UKDIUKnKMbYkUwK5TpQBU6+2huXJq75w0p7C+Q+Qhn1GlM
+        Z3xEV+TEf64tcs1BKk5ej7gwNw==
+X-Google-Smtp-Source: AMsMyM59PH4ClTm88zgCVfG24c5EIrh7K+oFzJ/IPmiKxAVdQUYq6nC8FRS5/jjN2MSiuX5QwAeUhw==
+X-Received: by 2002:a05:600c:3555:b0:3b4:c0fd:918e with SMTP id i21-20020a05600c355500b003b4c0fd918emr1472531wmq.61.1663836369479;
+        Thu, 22 Sep 2022 01:46:09 -0700 (PDT)
 Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id w8-20020a1cf608000000b003a5fa79007fsm5150777wmc.7.2022.09.22.01.32.33
+        by smtp.gmail.com with ESMTPSA id j3-20020a05600c300300b003b4868eb6bbsm5962778wmh.23.2022.09.22.01.46.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 01:32:34 -0700 (PDT)
+        Thu, 22 Sep 2022 01:46:09 -0700 (PDT)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     loongarch@lists.linux.dev, linux-arch@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Huacai Chen <chenhuacai@loongson.cn>
-Subject: Re: [PATCH 2/2] Input: i8042: Add LoongArch support in
- i8042-acpipnpio.h
-In-Reply-To: <20220917064020.1639709-2-chenhuacai@loongson.cn>
-References: <20220917064020.1639709-1-chenhuacai@loongson.cn>
- <20220917064020.1639709-2-chenhuacai@loongson.cn>
-Date:   Thu, 22 Sep 2022 10:32:33 +0200
-Message-ID: <87a66rhkri.fsf@baylibre.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>,
+        linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com
+Subject: Re: [PATCH -next 1/4] Input: adc-joystick - Switch to use
+ dev_err_probe() helper
+In-Reply-To: <20220920153055.3465115-1-yangyingliang@huawei.com>
+References: <20220920153055.3465115-1-yangyingliang@huawei.com>
+Date:   Thu, 22 Sep 2022 10:46:08 +0200
+Message-ID: <877d1vhk4v.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Sep 17, 2022 at 14:40, Huacai Chen <chenhuacai@loongson.cn> wrote:
+Hi Yang,
 
-> LoongArch uses ACPI and nearly the same as X86/IA64 for 8042. So modify
-> i8042-acpipnpio.h slightly and enable it for LoongArch in i8042.h. Then
-> i8042 driver can work well under the ACPI firmware with PNP typed key-
-> board and mouse configured in DSDT.
+Thank you for your patch,
+
+On Tue, Sep 20, 2022 at 23:30, Yang Yingliang <yangyingliang@huawei.com> wrote:
+
+> In the probe path, dev_err() can be replaced with dev_err_probe()
+> which will check if error code is -EPROBE_DEFER and prints the
+> error name. It also sets the defer probe reason which can be
+> checked later through debugfs.
 >
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-
-I would have split the pr_info() move in its own patch since it seems
-like a "valid fix" on its own, but i'm probably too pedantic about this.
-
-So, please take my:
-
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
->  drivers/input/serio/i8042-acpipnpio.h | 8 ++++++--
->  drivers/input/serio/i8042.h           | 2 +-
->  2 files changed, 7 insertions(+), 3 deletions(-)
+>  drivers/input/joystick/adc-joystick.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-> index d14b9fb59d6c..c22151f180bb 100644
-> --- a/drivers/input/serio/i8042-acpipnpio.h
-> +++ b/drivers/input/serio/i8042-acpipnpio.h
-> @@ -2,6 +2,7 @@
->  #ifndef _I8042_ACPIPNPIO_H
->  #define _I8042_ACPIPNPIO_H
+> diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
+> index c0deff5d4282..3590d845e381 100644
+> --- a/drivers/input/joystick/adc-joystick.c
+> +++ b/drivers/input/joystick/adc-joystick.c
+> @@ -201,12 +201,9 @@ static int adc_joystick_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
 >  
-> +#include <linux/acpi.h>
+>  	joy->chans = devm_iio_channel_get_all(dev);
+> -	if (IS_ERR(joy->chans)) {
+> -		error = PTR_ERR(joy->chans);
+> -		if (error != -EPROBE_DEFER)
+> -			dev_err(dev, "Unable to get IIO channels");
+> -		return error;
+> -	}
+> +	if (IS_ERR(joy->chans))
+> +		return dev_err_probe(dev, PTR_ERR(joy->chans),
+> +				     "Unable to get IIO channels\n");
+
+If we look at the input tree, we can see that there is no occurence of
+dev_err_probe():
+
+$ ~/src/linux/drivers/input/ 483fed3b5dc8 grep -rsn dev_err_probe
+$ ~/src/linux/drivers/input/ 483fed3b5dc8
+
+The reason for this is that the input maintainer (Dmitry) dislikes
+dev_err_probe() as he stated in [1]
+
+So I don't think he will apply this.
+
+Regards,
+Mattijs
+
+[1] https://lore.kernel.org/r/YWTpg35wyYS1uoFZ@google.com
+
 >  
->  #ifdef CONFIG_X86
->  #include <asm/x86_init.h>
-> @@ -1449,16 +1450,19 @@ static int __init i8042_pnp_init(void)
->  
->  	if (!i8042_pnp_kbd_devices && !i8042_pnp_aux_devices) {
->  		i8042_pnp_exit();
-> +		pr_info("PNP: No PS/2 controller found.\n");
->  #if defined(__ia64__)
->  		return -ENODEV;
-> +#elif defined(__loongarch__)
-> +		if (acpi_disabled == 0)
-> +			return -ENODEV;
->  #else
-> -		pr_info("PNP: No PS/2 controller found.\n");
->  		if (x86_platform.legacy.i8042 !=
->  				X86_LEGACY_I8042_EXPECTED_PRESENT)
->  			return -ENODEV;
-> +#endif
->  		pr_info("Probing ports directly.\n");
->  		return 0;
-> -#endif
->  	}
->  
->  	if (i8042_pnp_kbd_devices)
-> diff --git a/drivers/input/serio/i8042.h b/drivers/input/serio/i8042.h
-> index bf2592fa9a78..adb5173372d3 100644
-> --- a/drivers/input/serio/i8042.h
-> +++ b/drivers/input/serio/i8042.h
-> @@ -19,7 +19,7 @@
->  #include "i8042-snirm.h"
->  #elif defined(CONFIG_SPARC)
->  #include "i8042-sparcio.h"
-> -#elif defined(CONFIG_X86) || defined(CONFIG_IA64)
-> +#elif defined(CONFIG_X86) || defined(CONFIG_IA64) || defined(CONFIG_LOONGARCH)
->  #include "i8042-acpipnpio.h"
->  #else
->  #include "i8042-io.h"
+>  	error = device_property_read_u32(dev, "poll-interval", &poll_interval);
+>  	if (error) {
 > -- 
-> 2.31.1
+> 2.25.1
