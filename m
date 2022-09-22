@@ -2,63 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BAE95E5DE1
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 10:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E210D5E5DE6
+	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 10:49:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231237AbiIVIsC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 04:48:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47326 "EHLO
+        id S229609AbiIVItH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 04:49:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230410AbiIVIrb (ORCPT
+        with ESMTP id S230309AbiIVIsu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 04:47:31 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C3F56AE92
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:47:13 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id l8so6301742wmi.2
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:47:13 -0700 (PDT)
+        Thu, 22 Sep 2022 04:48:50 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA090D01FA
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:48:42 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id c11so14309917wrp.11
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date;
-        bh=5fCU5qauLKy8hLvwiGjpFkxgJJQSPHSFqxqmchK7Dg0=;
-        b=gKrq6Bu8dk5fjpYqot7TxE+f4q+Onk+AGuJYO5MFXSj4oMg8gHNLPqAb9A1Eq8NF1r
-         yE+TcZdu2XlcZ1GEFWp9Wtk5qv35dXpCkXDmsHH9gXCPeKGGLGhYhupEE7KCqkl3vZxE
-         YwHX69eYvF3ROW1Yrcr8vLTjP15c2+798Uy8srizJ2fAYRFgLfDN6fuIpdJAj9E9pyxE
-         4++XhR3/Uk8J9sD824635Sj8DmS1aV9J9sBWcERI7SoNqooT4SYPb1LiaHXqgX/hyeR3
-         ni21dYKYoxTcBOlCRCu86X1DZRYGAdFC8Q+t+90sLE+NkycuoC7vqV2FBO9rQUXKC4zQ
-         Eugg==
+        bh=114+dNXNYT178Y8PzHoarT07zEpMoHwMnwMSpMyqkpI=;
+        b=IjMirB3YLTKwC1vg7vaR4VDPCxDu1avdWLt68F8fXPiBl4AIzKvTW2r7DiqjbvDt1H
+         /O5t9/vJ3TxOr8fwhejyscZBP3MtRCdORQpSobtqBYx4VU4HaOpdwgFv1pGSoCtaQ6sI
+         xJqtTsK9bfJpr6dS2sQn+Xbk1nYGmFxP6bVJ1dQa1I0i5sqvr1oIdjazSJQ+ryOSKDD4
+         XzusU8/vCDPGmCAB289NOj7NV1yw7mY8JwYx2pBhrLH47eJfnYR9ZbU8MVcoKHbhKOrv
+         +Z3pUErrbV/Fl4L1KvR9a0TExg+ZLGJteQV6RcWHtuSrspwpxcx2YnIlX0qFaDqRrxgo
+         aWsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=5fCU5qauLKy8hLvwiGjpFkxgJJQSPHSFqxqmchK7Dg0=;
-        b=7zA1irPEc4jUqQa2/XD1Bva9+7T8+f8TOxcfLqHvnpeIuI1VrcP1Qrq63Qx3G22eZT
-         1lufVMoyr8JXm7XsgRn6tke+X/Mfll7GtvB2MLADpQqYN3PVq94dzhTO75C8QF9p92b5
-         bEU4xViQxl/Zvo/S74RGDxKfsACE51bg24cJm/eCvDGDIKFpKtoX2lApkiW+aTiOBtzA
-         YSd33kEVrSPwsqxosV5xN/dIV6a/NcBPzWpnoefyUG8vP8AeojEbmV3wTzxPtr2ZeehR
-         cPNOG9GGKXCeMxmSNaQdszcU1J9wPgNluQ2snYuKFsDxaRCG0bV4rXGj1RXlPt+fnLyC
-         mRJg==
-X-Gm-Message-State: ACrzQf07OcjJ3k0FB7EB97z7M9hp+qKPXDQoWhgDyoUOQGS3W629CnLy
-        f0eSC4YGPYKbKFHQwgzH7XHK+b+Mr16RCA==
-X-Google-Smtp-Source: AMsMyM6oC7Bzf2DloPfoZbL/faBYO8qiMuC3ZWPngzdPyq5WNzU3JU5BvfBrNmRwn3sEouVvVlWUWQ==
-X-Received: by 2002:a05:600c:1549:b0:3b4:8fd7:af4 with SMTP id f9-20020a05600c154900b003b48fd70af4mr1482616wmg.100.1663836431412;
-        Thu, 22 Sep 2022 01:47:11 -0700 (PDT)
+        bh=114+dNXNYT178Y8PzHoarT07zEpMoHwMnwMSpMyqkpI=;
+        b=4zuvHnT0L/WfwyerUyu/wXkpdT69UphPbqFxl0k0AmazL3NN0R3OmXe+6Kl/fD6F5X
+         k970kVu3uyK9FjAeLKpbvxCyr7zucNQrcmwJveujImZ3LOPe9FO+bcjbPBT45WflgKHc
+         xQ+mabN295V2HnSL6r6RC9F0BtBITaRhFtKtCd4bqhXnl/V0QJW0GLJatXvSO1ynQgF4
+         QD9OfSZid03j8FWruGMT08bqrPVPI+bz1CeaZY4GobXCL+Ep7L5+2LjgcwEd2sPEfTwV
+         7Bb/mVAg59cDLv2kHz+GrnrCPXjzbU3mU2ps4fy8RFrrVTMDWD9AedzjsT8HdcXBHw1z
+         SElg==
+X-Gm-Message-State: ACrzQf2Pci2cicJDhqwYMbjSxfWSOzOeRlSuPlSgDmNVAm/TtW1YBJK5
+        rVzMyVWX4rvmmrPP08D1M/Jcmw==
+X-Google-Smtp-Source: AMsMyM6W8/4CI0mNX9R1OQ3e7mDmd4yjCRFUe7CJvfOOGRFYDN7efKi0aZEsD7DZkdfWk7mYVRAeHA==
+X-Received: by 2002:a5d:598a:0:b0:22a:f5f9:1fa0 with SMTP id n10-20020a5d598a000000b0022af5f91fa0mr1311234wri.711.1663836520647;
+        Thu, 22 Sep 2022 01:48:40 -0700 (PDT)
 Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id e10-20020a5d6d0a000000b002205a5de337sm5026783wrq.102.2022.09.22.01.47.10
+        by smtp.gmail.com with ESMTPSA id i10-20020a05600c354a00b003b47b80cec3sm5964028wmq.42.2022.09.22.01.48.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 01:47:10 -0700 (PDT)
+        Thu, 22 Sep 2022 01:48:40 -0700 (PDT)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
 To:     Yang Yingliang <yangyingliang@huawei.com>,
         linux-input@vger.kernel.org
 Cc:     dmitry.torokhov@gmail.com
-Subject: Re: [PATCH -next 2/4] Input: bcm-keypad - Switch to use
+Subject: Re: [PATCH -next 3/4] Input: gpio_keys - Switch to use
  dev_err_probe() helper
-In-Reply-To: <20220920153055.3465115-2-yangyingliang@huawei.com>
+In-Reply-To: <20220920153055.3465115-3-yangyingliang@huawei.com>
 References: <20220920153055.3465115-1-yangyingliang@huawei.com>
- <20220920153055.3465115-2-yangyingliang@huawei.com>
-Date:   Thu, 22 Sep 2022 10:47:10 +0200
-Message-ID: <874jwzhk35.fsf@baylibre.com>
+ <20220920153055.3465115-3-yangyingliang@huawei.com>
+Date:   Thu, 22 Sep 2022 10:48:39 +0200
+Message-ID: <87zgerg5g8.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -83,25 +83,23 @@ On Tue, Sep 20, 2022 at 23:30, Yang Yingliang <yangyingliang@huawei.com> wrote:
 >
 > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
->  drivers/input/keyboard/bcm-keypad.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
+>  drivers/input/keyboard/gpio_keys.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/input/keyboard/bcm-keypad.c b/drivers/input/keyboard/bcm-keypad.c
-> index 56a919ec23b5..bc8bd78d74f5 100644
-> --- a/drivers/input/keyboard/bcm-keypad.c
-> +++ b/drivers/input/keyboard/bcm-keypad.c
-> @@ -368,11 +368,9 @@ static int bcm_kp_probe(struct platform_device *pdev)
->  	kp->clk = devm_clk_get(&pdev->dev, "peri_clk");
->  	if (IS_ERR(kp->clk)) {
->  		error = PTR_ERR(kp->clk);
-> -		if (error != -ENOENT) {
-> -			if (error != -EPROBE_DEFER)
-> -				dev_err(&pdev->dev, "Failed to get clock\n");
-> -			return error;
-> -		}
-> +		if (error != -ENOENT)
-> +			return dev_err_probe(&pdev->dev, error,
-> +					     "Failed to get clock\n");
+> diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+> index a5dc4ab87fa1..ac74e85006a8 100644
+> --- a/drivers/input/keyboard/gpio_keys.c
+> +++ b/drivers/input/keyboard/gpio_keys.c
+> @@ -530,10 +530,8 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+>  				 */
+>  				bdata->gpiod = NULL;
+>  			} else {
+> -				if (error != -EPROBE_DEFER)
+> -					dev_err(dev, "failed to get gpio: %d\n",
+> -						error);
+> -				return error;
+> +				return dev_err_probe(dev, error,
+> +						     "failed to get gpio\n");
 
 If we look at the input tree, we can see that there is no occurence of
 dev_err_probe():
@@ -117,10 +115,8 @@ So I don't think he will apply this.
 Regards,
 Mattijs
 
-[1] https://lore.kernel.org/r/YWTpg35wyYS1uoFZ@google.com
-
->  		dev_dbg(&pdev->dev,
->  			"No clock specified. Assuming it's enabled\n");
->  		kp->clk = NULL;
+>  			}
+>  		}
+>  	} else if (gpio_is_valid(button->gpio)) {
 > -- 
 > 2.25.1
