@@ -2,121 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30B8C5E5BA6
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 08:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD2B5E5CDB
+	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 10:04:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbiIVGv5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 02:51:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34438 "EHLO
+        id S229973AbiIVIEv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 04:04:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbiIVGv4 (ORCPT
+        with ESMTP id S229825AbiIVIEt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 02:51:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5C5B2DAF
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 23:51:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663829514;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=m9dathN3dA6k+TEdInmB8gMxW6TSqHdaE9ym8yw3kwI=;
-        b=QDec6F6WkHTO3mV8n2tH+I5LD8jhmCoBn7ASStNcTpFs3vJ5+O43yBnr4/dtEloDDsk47D
-        1yANuUOk/4lvpJfgfGb8bEseqNNFJObXET7+n/lTogblts2+3VevjDMFncO00El8Kyvp9f
-        GktC8jr1M5cyaRNvO3lg2MyACXj+6IE=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-534-AZbVT1ChOkOBwJrMXBxCFg-1; Thu, 22 Sep 2022 02:51:53 -0400
-X-MC-Unique: AZbVT1ChOkOBwJrMXBxCFg-1
-Received: by mail-io1-f69.google.com with SMTP id y1-20020a056602200100b006893cd97da9so4139415iod.1
-        for <linux-input@vger.kernel.org>; Wed, 21 Sep 2022 23:51:53 -0700 (PDT)
+        Thu, 22 Sep 2022 04:04:49 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23983303C5
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:04:47 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id y5so14226702wrh.3
+        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 01:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date;
+        bh=lOzFH3A/Q9h5hUWWrAAtR4RiVuxnmLMm/OrvonGfKs8=;
+        b=CUIhNo+NCHSj5/0/JLVfqp0/qDm7C9X6mXbV/rgs4u8Er459XJzgsNVd5yXsnWQouD
+         epbt/0+yTF+iu3sxJUfrkMrhDUZzeGd5ecp9iYjOxd3nXocEVGrlINHTabKLIUVrQSCA
+         sYrrN1Wb5es7PtdziHKVOGZEqEqcUOQns9YZiZQzSpZ3Url08KSlT/jAELeQKSw+QkMv
+         L0flk6EWRfQu09QkBCaia/WKl0LFFe96+fToKtQoeHzl2lvBFDsyKthCm1kkBPpxEzSX
+         GQrrLHP/BOvHgl8dRpxh+aBD1TfWVx7ko00NlU0JZ6OTdbKdqOzMiPkxKjUgIvoFbWdv
+         Onbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=m9dathN3dA6k+TEdInmB8gMxW6TSqHdaE9ym8yw3kwI=;
-        b=I8E4lFaxkFDCqSpXMVIBwGteNXK5DIjRFt1nlQtjpsp8da9Gy6G4IxDQJcJ+wfeiTF
-         2GFyCVo2ILeqFZQaZ9+0D+8m6+SaYCwBMGYHnJIsuOYcBHbVPKgh+v/i8yQfKDGvxwlx
-         dnr290+svoXQgw6447djIaSpO9hRsVcxBRAoFlDLc2Loqqw/bUMip/wlR7yfzOjB2lA2
-         KOesSEh3ukG2Ggs9taT7tPjZv13m5rB6eN1NguDoKZZC2URlgSORkFGzvqVXmlvMzE3F
-         mkgDc5FBaZzuMUZMJnxOGsutixNcLK7PkOAL34zjrxXIReL8EkMt+yrNxeQrLdoyR0d1
-         hqCQ==
-X-Gm-Message-State: ACrzQf0P1Iaf2Wlh22WqoArioOo2IgVTAZeiHRw6MNxJpxuRugCa59LD
-        QgpjyfjbNxZMKN0kGMRjlKpN8ZiisUJqC+0vAd9bGZJxjgxd3KUCinP46al42ZqQrrToixjQelA
-        zg3o+eBWuxsjJJe6gLeBy5Y40jHB6zX1pbTBIGeU=
-X-Received: by 2002:a05:6602:1592:b0:6a2:1feb:4809 with SMTP id e18-20020a056602159200b006a21feb4809mr904272iow.214.1663829512327;
-        Wed, 21 Sep 2022 23:51:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7+fHWI4kFLUkkQDcyVGoWabvyt2XrxpQfnE2BrPozOLpWfWtGlXXXV698qbPgkNLwTQONyiBP9yfLGU7D2LVU=
-X-Received: by 2002:a05:6602:1592:b0:6a2:1feb:4809 with SMTP id
- e18-20020a056602159200b006a21feb4809mr904265iow.214.1663829512167; Wed, 21
- Sep 2022 23:51:52 -0700 (PDT)
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=lOzFH3A/Q9h5hUWWrAAtR4RiVuxnmLMm/OrvonGfKs8=;
+        b=sbcNfv/O4D8ekNiq00/aZa+PPVKB+h6lSrhpyDWV/slkhYFT/gWEcsJB9F7MywkvHn
+         3exSJ4cKd9mfx6B3dFQRbia6FCRDjieM0BmkSGfyyTwyD6UadNa+8+F+pL7yLhsPQMfN
+         yJ19G/BZThtqlVp3JK82aDW6t+LxJT520VkH8ZK5t9r+an0yMVDSMW3v6NC8ALiZm1qC
+         vp1jbCW13iqsrBM5Pk73O/L+Womt+y8BKVXIVu1NU9WayCe/5cFZfoh49rDpzxouVcD+
+         CyrkseUfcb0Gq5nn7Bkc13ygmE5/PNpUAapNCfcKznq9qawSkq6vHjnqhxwQ2yEV06Tr
+         wVMw==
+X-Gm-Message-State: ACrzQf03h8z98pxQVcywrZgqUmT4ui2qf3xK5SgWpR7iessH5JSSk48H
+        zXFyZm3MCIqKWLLZ/EHxDtvvIQ==
+X-Google-Smtp-Source: AMsMyM6omPbfLHherLBpH2pGb2uuFBvAqie7bz/p/tIHcgQ6ZCDxRGGEdXAWP9fE6G/DuRZ9BBU3tw==
+X-Received: by 2002:a05:6000:81e:b0:228:a17f:92f0 with SMTP id bt30-20020a056000081e00b00228a17f92f0mr1152324wrb.31.1663833885432;
+        Thu, 22 Sep 2022 01:04:45 -0700 (PDT)
+Received: from localhost ([82.66.159.240])
+        by smtp.gmail.com with ESMTPSA id c14-20020a05600c0ace00b003b3180551c8sm5107359wmr.40.2022.09.22.01.04.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Sep 2022 01:04:44 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     loongarch@lists.linux.dev, linux-arch@vger.kernel.org,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Huacai Chen <chenhuacai@loongson.cn>
+Subject: Re: [PATCH 1/2] Input: i8042: Rename i8042-x86ia64io.h to
+ i8042-acpipnpio.h
+In-Reply-To: <20220917064020.1639709-1-chenhuacai@loongson.cn>
+References: <20220917064020.1639709-1-chenhuacai@loongson.cn>
+Date:   Thu, 22 Sep 2022 10:04:44 +0200
+Message-ID: <87czbnhm1v.fsf@baylibre.com>
 MIME-Version: 1.0
-References: <1660559178-5323-1-git-send-email-marge.yang@synaptics.corp-partner.google.com>
- <20220921151143.xrchxekzqrgqlujv@mail.corp.redhat.com> <YyuVbPOt3Iul7s/Y@google.com>
-In-Reply-To: <YyuVbPOt3Iul7s/Y@google.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 22 Sep 2022 08:51:41 +0200
-Message-ID: <CAO-hwJLV7YNMkVJc4kh-Md3fKiVpgsfOo41qfLoZvofkoBXgBg@mail.gmail.com>
-Subject: Re: [PATCH V4] HID: HID-rmi - ignore to rmi_hid_read_block after
- system resumes.
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     margeyang <marge.yang@synaptics.corp-partner.google.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Hans De Goede <hdegoede@redhat.com>, dancarpenter@oracle.com,
-        marge.yang@tw.synaptics.com, derek.cheng@tw.synaptics.com,
-        vincent.huang@tw.synaptics.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 12:51 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Benjamin,
->
-> On Wed, Sep 21, 2022 at 05:11:43PM +0200, Benjamin Tissoires wrote:
-> > On Aug 15 2022, margeyang wrote:
-> > > From: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
-> > >
-> > > The interrupt GPIO will be pulled down once
-> > > after RMI driver reads this command(Report ID:0x0A).
-> > > It will cause "Dark resume test fail" for chromebook device.
-> > > Hence, TP driver will ignore rmi_hid_read_block function once
-> > > after system resumes.
-> > >
-> > > Signed-off-by: Marge Yang<marge.yang@synaptics.corp-partner.google.com>
-> > > ---
-> >
-> > I have fixed your signed-off-by line by adding a space between your name
-> > and address, and converted the C++ style comments into proper multiline
-> > comments, and applied to for-6.1/rmi in hid.git
-> >
-> > Sorry for the delay, this one went through the cracks.
->
-> I think we are rushing with this. There are questions whether the ACPI
-> data for the device is generated properly and also whether we should be
-> smarted when counting wakeup events in case interrupt that is
-> potentially wakeup-capable  happens in the middle of the resume process.
->
-> The patch is not a fix for behavior that affects users, but rather a
-> band-aid to appease a Chrome OS test, which is IMO is a weak reason for
-> accepting the patch.
+On Sat, Sep 17, 2022 at 14:40, Huacai Chen <chenhuacai@loongson.cn> wrote:
 
-All right, fair enough.
+> Now i8042-x86ia64io.h is shared by X86 and IA64, but it can be shared
+> by more platforms (such as LoongArch) with ACPI firmware on which PNP
+> typed keyboard and mouse is configured in DSDT. So rename it to i8042-
+> acpipnpio.h.
+>
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 
-I'll drop it from the for-6.1/rmi branch and for-next then. I thought
-Marge's explanations in v3 were convincing enough but I don't have
-visibility on the ChromeOS bugs.
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
-Cheers,
-Benjamin
-
+> ---
+>  .../input/serio/{i8042-x86ia64io.h => i8042-acpipnpio.h}    | 6 +++---
+>  drivers/input/serio/i8042.h                                 | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>  rename drivers/input/serio/{i8042-x86ia64io.h => i8042-acpipnpio.h} (99%)
+>
+> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-acpipnpio.h
+> similarity index 99%
+> rename from drivers/input/serio/i8042-x86ia64io.h
+> rename to drivers/input/serio/i8042-acpipnpio.h
+> index 4fbec7bbecca..d14b9fb59d6c 100644
+> --- a/drivers/input/serio/i8042-x86ia64io.h
+> +++ b/drivers/input/serio/i8042-acpipnpio.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+> -#ifndef _I8042_X86IA64IO_H
+> -#define _I8042_X86IA64IO_H
+> +#ifndef _I8042_ACPIPNPIO_H
+> +#define _I8042_ACPIPNPIO_H
+>  
+>  
+>  #ifdef CONFIG_X86
+> @@ -1665,4 +1665,4 @@ static inline void i8042_platform_exit(void)
+>  	i8042_pnp_exit();
+>  }
+>  
+> -#endif /* _I8042_X86IA64IO_H */
+> +#endif /* _I8042_ACPIPNPIO_H */
+> diff --git a/drivers/input/serio/i8042.h b/drivers/input/serio/i8042.h
+> index 55381783dc82..bf2592fa9a78 100644
+> --- a/drivers/input/serio/i8042.h
+> +++ b/drivers/input/serio/i8042.h
+> @@ -20,7 +20,7 @@
+>  #elif defined(CONFIG_SPARC)
+>  #include "i8042-sparcio.h"
+>  #elif defined(CONFIG_X86) || defined(CONFIG_IA64)
+> -#include "i8042-x86ia64io.h"
+> +#include "i8042-acpipnpio.h"
+>  #else
+>  #include "i8042-io.h"
+>  #endif
+> -- 
+> 2.31.1
