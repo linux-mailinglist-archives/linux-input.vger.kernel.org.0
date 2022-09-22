@@ -2,305 +2,253 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12F405E5FCF
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 12:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13D225E61CE
+	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 13:56:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231490AbiIVKYb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 06:24:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44510 "EHLO
+        id S229871AbiIVL4i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 07:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231501AbiIVKYZ (ORCPT
+        with ESMTP id S229523AbiIVL4h (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 06:24:25 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89599DB94A;
-        Thu, 22 Sep 2022 03:24:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663842262; x=1695378262;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CGzsM7ZIh9Wlo6rJSidN+iAjfrDp9etHXsQ9S5OUSUo=;
-  b=JghhZwYZj/BIeAnvAnLHVlbBJ4s0cBaI0p/CdjaXvjEwVXawATrIFl3C
-   hYdxZjLzilqNVxcKvuKPeu2UPopeSg5gE4Sr03zae5nk2S1EuPq/oWdQ7
-   QOn9A9Asul+mO5tZAzNXrEmcvF/oOc1MMURPSdHIXIqZ11brp7Swo1cXu
-   wWKDApJ5k4jbGHAokF890qe/HxnrLIsWmXgmc525tO/YNAqdbonFXMFHV
-   T7ylSn+oaoXEZpWq6IZZW2hlVHi+JenqOnnum6pEgAxT5k+ucqBU/IX3H
-   9NWgQ3AyPgR+KTFFLHVGXnAshcuSpmijS4/P2NR2WU0elE+9fw6TxTIOG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="300244717"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
-   d="scan'208";a="300244717"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 03:24:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
-   d="scan'208";a="688244436"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Sep 2022 03:24:20 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1obJNT-0004b6-29;
-        Thu, 22 Sep 2022 10:24:19 +0000
-Date:   Thu, 22 Sep 2022 18:23:51 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Matt Ranostay <matt.ranostay@konsulko.com>, gupt21@gmail.com,
-        jic23@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Matt Ranostay <matt.ranostay@konsulko.com>
-Subject: Re: [PATCH v4 5/5] HID: mcp2221: add ADC/DAC support via iio
- subsystem
-Message-ID: <202209221851.IOfsmA0z-lkp@intel.com>
-References: <20220921063026.89619-6-matt.ranostay@konsulko.com>
+        Thu, 22 Sep 2022 07:56:37 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60082.outbound.protection.outlook.com [40.107.6.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F38BA1D6E;
+        Thu, 22 Sep 2022 04:56:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XgagVrcmXlPRHQpczZln4IVYVw/EmvrV5wTLYkn2wZRX40UM6m58NrgPXVF/LGkRcqYsUoxH3T7gMujl8PIVGA7nvCMc1hWfRkMcNATuWkBpV9o/25sz81NyGBx60OGmTsnLIgj/6u9WkMxhv+7AJwwu9Xe4R8NdTTZCeWjgNd07M+3vepuaSGzU7OiGzQgpg0MHnkUHy2TWEKWDx7pT4VoQ7CgXS8dDwFPOqnOiKIc9xS6Trfbw9XBajPQnaH2qSCXCjL1LmxroutSQHYz00c8XhQyGymjBNja0sFUsG1yFr5rLuO1V5Wz2OmZD5YeHjBq4DOtSW/8nhFKeJOa6OQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oxGAgmC250NqR/N021Cz/FHJAzMjeXc/2NphZcmuGyQ=;
+ b=gbCWWsxv04VBofs7SG1Dw5f8HBRF23O+Ib6nPHPOe8zC0DjkpncmvEQQcBhlA5ZqBMkQFWBUuqTTJnqfs/hgY+i+Vz0BDr5ypde2rr01kro8Do492C1IOI8pNXHU+fjvgWte/F/U3bNQVrhobhctavRmISAdfkV8FG87wOlPER76Jk5Ptg7CAysCaPLSWD+h6tiiQb0strumaqOh+MTjPZk5i/tId9k+yjpMigCVUy2ZWIYfBccs7C8G3wxe78PK/MU3w6cL528hBtv6ZsB2tLFCo4pQlj+pLZYfWYnGzGFNMWQmx2VY+YQVXiDJ/8LmSZe05zcloiAjDsFC3MVfrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oxGAgmC250NqR/N021Cz/FHJAzMjeXc/2NphZcmuGyQ=;
+ b=GyFAbnuEAROxmIVriXQFBEjRGLbMxTcyXgqRLH3t5Apo8derja6Z4YgxHZG2wOJvFG7j/AoTyT5flIUALx9Gsb/Tg/lqaBXDtTcp2okimUpbwvtg6uBwyVXZNBUF7IEnRAaNxM2AhUm5pr/pCK3flH+LvzwOGyW5orM6psX7Pt4pfX2dfjokAmIe1q/z2Iq3QAQ0+v+AxY17M9oHm4vvNBmWZwNCkIHrAyv/TxDfJSFqyrXbEyEQZzZvx1GT9tu7Jwxgs8BIb6U9zJNb4v8IyhPZqBj36YZHoCsGD+PcPVYBltBDpZYrPXt33VQJor4HjcCnxXIPpKj7Yhevpz5rQQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
+ by AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18; Thu, 22 Sep
+ 2022 11:56:32 +0000
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::5e5e:1989:e5ec:c833]) by DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::5e5e:1989:e5ec:c833%3]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
+ 11:56:32 +0000
+Message-ID: <0bc7d14f-6e38-009a-9ec7-46d92042b44b@theobroma-systems.com>
+Date:   Thu, 22 Sep 2022 13:56:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: =?UTF-8?Q?Re=3a_=5bPATCH_2/3=5d_arm64=3a_dts=3a_rockchip=3a_add_PX3?=
+ =?UTF-8?Q?0-=c2=b5Q7_=28Ringneck=29_SoM_with_Haikou_baseboard?=
+Content-Language: en-US
+To:     Quentin Schulz <foss+kernel@0leil.net>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        heiko@sntech.de, dmitry.torokhov@gmail.com,
+        klaus.goger@theobroma-systems.com, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+References: <20220922101211.3215888-1-foss+kernel@0leil.net>
+ <20220922101211.3215888-3-foss+kernel@0leil.net>
+From:   Quentin Schulz <quentin.schulz@theobroma-systems.com>
+In-Reply-To: <20220922101211.3215888-3-foss+kernel@0leil.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0204.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45d::30) To DU2PR04MB8536.eurprd04.prod.outlook.com
+ (2603:10a6:10:2d7::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220921063026.89619-6-matt.ranostay@konsulko.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|AM9PR04MB8906:EE_
+X-MS-Office365-Filtering-Correlation-Id: 172514c8-4104-40b6-04ba-08da9c917d8b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZKZARB7jU7MtKX65o1ZE9q4fo/Z1r24DbUZB4TRN33HV2vtkfvS3uapqN2E/pfmP/R7QNu0fXc5CnDN+qwi6xGKvdvLsS0C2Vfl2JPKUgs5T0lwptkPhyUKj+69vt1WfwcO6Mlw6WFDUMhtHDq0VPBLeJZQozfq0suZ5yPAPBWtK4umdPjCFTIm3xW5zm1S4T/uyVtdaQdsbU6XwDdWQD4SaTGA1JldUn9xfYHZkgi7lzFD1b0UsOS0kL8OqKMq1Fdv/nZPOO1nf62F9+yElri4Rt8IKSxBKKDsQ2JAR72RJy2x5Kj4Hd7o65teesHgQaVKl3D62DrY0sAjpP9227aLx+pKSkcuUSxTeUFUFOEqzK5Wfe2n17HDyL6v76C7fo/rN3tHcP+oQ5FrXE6xcgfwZW7JHzXiGU+QHC6g8Mc2rdP1edUl7ZmRJQM1dN9AdYKVsMzAUD9bNXTGXCZ9i8OV+TsfICd3uTUadOONEYtYhncV8GE9HB71XBgoWDnrDDzb/N/lsVyLqWzyJblyWO1QXC+A2CZa2TkeMmgYidyGZdDnMBnUFLuEkOhm7jF7Nkgk2AQlXxpCXN21vA+0YENo8O+lwsa7di4TI+tV2+AKutAI3spE7dcFIFFG3hSiC1XzGpkrsH1IAP3+OcKBbTFqmj0E5Y/7DtZwWhWl+BjENuWO0Cen8pzis3v9UdsAxFDjkhsN2aUb5I6w8BOhkce60N4PmTL6HP6XFS4VDkjLsUmgNqccNN+MKbpl/No7zJWfk8zevFzKAtKgmtDc23kMA1FXfbm7hDX4oVkq5Kfw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8536.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(396003)(39850400004)(376002)(366004)(346002)(451199015)(224303003)(53546011)(36756003)(31686004)(2906002)(41300700001)(5660300002)(7416002)(8936002)(86362001)(4326008)(31696002)(66476007)(66946007)(66556008)(316002)(186003)(6486002)(83380400001)(44832011)(26005)(478600001)(6506007)(6512007)(2616005)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V1FKakdXdlpRKzg0azliRTZRU0xBWlVmS2RqNnZaVytlOEEzdmRWayswbHFF?=
+ =?utf-8?B?eVA3ZFJrVVlibUlmZlYxelJic1dDMEEzc0hrdzZwbHBCT3ZKWExGUEZpMTls?=
+ =?utf-8?B?NGx3SVh3ZjNUeW9TYlpRblgvZzBBWUZDRWoyRjloR2FPTkFRUFd3aXo2WWpM?=
+ =?utf-8?B?R3lMR01CVllZYll5Q0ZlN1lBTEtxOUdYTDJpbEFSUVVoS0VLN09pWkdFMXNJ?=
+ =?utf-8?B?cEJja1N0K0FGclZMcmRrdjdxaThQSDVuMzN6NjFJaHh6RG1hV1poZmE2Vmgw?=
+ =?utf-8?B?dktBMHRQZmZKUmZVZEI3MVRwUEJEWW1adEdneDgrYXRLQWluRk9GSlNPNS8w?=
+ =?utf-8?B?N01nZGhKRWh1V1gvc3JnV29aUWduT3JvNnNSOWVSWW1nYVNsR0JEelcyVUFs?=
+ =?utf-8?B?ZC8vN1liaHhibU9zZTNoeWo0V1QwU3FINE5vUkJJR0c3ZE1EZklkR1F2d2Ix?=
+ =?utf-8?B?Q3JLd0hTWXF4d2RMVlNSOEF6ZHhtRHhkaEJKdkltMUVRSmtMYVNsQ1N1UDVy?=
+ =?utf-8?B?ZlFnRTRTZXJ0WDNma0dUWGZJYk5vUUh0QWxlZDZBbUpjc3hiVkJmYlk1bUZm?=
+ =?utf-8?B?VmxCOGdseHFSdFgrdG1kT1ltdVhZVmVyVEYrcWpsazN2RndSUEhYZ0NuZmFv?=
+ =?utf-8?B?a2ZGV05Bei9PdVovVmorWmsvUVZPR2tPbWRteHh2Qlkrc1FKK29COWdKdm02?=
+ =?utf-8?B?bWdYdXh6SHNzQURFRXV5SndReWdnaTRaOVA3ajZxaVJvWGROeWhueUg5MGFK?=
+ =?utf-8?B?dzZOZ2xRYmNubFBWYmlPL3VuZ290UEhVU2R4UFU5RVJrU1JsM0w1TkxSTGFB?=
+ =?utf-8?B?cTFPTkE1UGhHbnBza01wbFFwaXhWTXFVV085Qnc5cGxjNG9UeStQNEhSL3Na?=
+ =?utf-8?B?RU5DWi9TL0svWkU5U24za3JFamV5WXpPV1BiT29yRU9UMFRvT0MzUEcwNG1T?=
+ =?utf-8?B?UytNcVYreDllbXVVN1E0MDYwaGV1OHA2N3VIS1FSWDJEcFl4RlhYWDZvQUVL?=
+ =?utf-8?B?c0RYYzg2MGp6RncwUHk5RWFqYkxLQm1tNXF3bWJmU2FMc2dLWEpNL2tDV0hH?=
+ =?utf-8?B?R1ZsZktFd2wyUTNSUStsUjljb1ZoNnVKWTBLSjRQU3JaR2llT2FrVk5HZ2Fm?=
+ =?utf-8?B?L3ZGdEMyN1ZRaTlaOXFaUkpUZU5HTjRpMlVSRG5NQUlrU0VLbjVmR2xJS0pH?=
+ =?utf-8?B?aEExWFpuQmpCeHBYbW5HSGw2UDRDSzNTVFR4TTdqQ0trVU5od3ROOVBNWjgr?=
+ =?utf-8?B?UklkcDhOTVI1STUxQXdxT3FVZmZyU2N4NlpJYWpGK3BEQU1LUDg4SlhyZndI?=
+ =?utf-8?B?aHdiR2RFeUtxOHV1enlldVJHMWY2TWVLUXVXZFFuZHRmaWZMcng2dWkvVGRU?=
+ =?utf-8?B?Z1hEQmhDdlVwcXVJSFhiMmFTOU91VHJTajNKZGsydVQyc2ZFUWFaaEkzblNJ?=
+ =?utf-8?B?QVBBbVJwQVlnVG81dnVpdW5xNFg0UkFqUnNNQkk4QmVFWWQ2cmhNd2NyMjRX?=
+ =?utf-8?B?aDVQTDVUZG9Rdmtua3FsNk82NHZzM2pRSDBTZk53YlZ3ak8yQzByZXhNa1Fo?=
+ =?utf-8?B?b2hPZjg4UXh4QlgycHRjVTFFZUY4V0t0UkkrZndORmJLSW8rQlZGd1VTT3ha?=
+ =?utf-8?B?UklpSlpKdjVJK1B5MnVxd0JyRG9WaDdsYkpDNGlsU1hGbldsZ1RyS1pPTW4y?=
+ =?utf-8?B?QytpdlBZWHZkQW9WOU1pZ1dXRVRLeUlQOE1YUjR1a0NUSlh1RUNsSklyaVdG?=
+ =?utf-8?B?NmM5dTJodTZyelQzNEFvakptcVVVSmlKT0JZcThnZjVHSlVqSmZndDdhNkF1?=
+ =?utf-8?B?VE9qY2RzTFZibHQ5aFJhY0U1ckNUSytXUlZaKzZ0V2ljK0tvWmpSNldwVFFl?=
+ =?utf-8?B?d01PYTNPRnhNN0NpNE1GaFdUNWo3cG83L3pqOG54UVRsUEVreHZFWmlsbFdk?=
+ =?utf-8?B?WHNLb0E3eENTbXJ3ODgxNDNtdWwzUFFwRHZXZmc1S2E3S1Z5UmhxcDVRZm4y?=
+ =?utf-8?B?Vk9EU2JxakpIay96YlFEMzBZTTVjajY2NDBLcmF1QUxEL1kxK0JDdGZmd0ds?=
+ =?utf-8?B?eVpFa244T1ppbGJvQlFhSnkzSDI0QmdncDNyOUxOTVJlOHg0dWVNb05LNkdn?=
+ =?utf-8?B?OVUwME9CSWVLeU5veFBrbFFMc3RKQldiOWRjUFhrMlZaT3NKYmZEeHJ3cFlp?=
+ =?utf-8?Q?XOgDNr0L9WZt95GqQlLd7sk=3D?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 172514c8-4104-40b6-04ba-08da9c917d8b
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 11:56:32.0703
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cip1q1XFL1j1xPIH2JJIIsPPUyXhxRrHIRT8FOMAultchPcgmpcNsxIV4lKDVI56FwNVJps0oSnW6GhnPbTwQVg2/YHzNt0/2T8obVVyGRnVdSdU3gednP6kVms0mY9T
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8906
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Matt,
+Hi all,
 
-I love your patch! Yet something to improve:
+On 9/22/22 12:12, Quentin Schulz wrote:
+[...]
+> diff --git a/arch/arm64/boot/dts/rockchip/px30-ringneck.dtsi b/arch/arm64/boot/dts/rockchip/px30-ringneck.dtsi
+> new file mode 100644
+> index 000000000000..74a7f1182c21
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/rockchip/px30-ringneck.dtsi
+> @@ -0,0 +1,347 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright (c) 2022 Theobroma Systems Design und Consulting GmbH
+> + */
+> +
+> +/dts-v1/;
+> +#include "px30.dtsi"
+> +
+> +/ {
+> +	aliases {
+> +		mmc0 = &emmc;
+> +		mmc1 = &sdio;
+> +		rtc0 = &rtc_twi;
+> +		rtc1 = &rk809;
+> +	};
+> +
+> +	emmc_pwrseq: emmc-pwrseq {
+> +		compatible = "mmc-pwrseq-emmc";
+> +		pinctrl-0 = <&emmc_reset>;
+> +		pinctrl-names = "default";
+> +		reset-gpios = <&gpio1 RK_PB3 GPIO_ACTIVE_HIGH>;
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&module_led_pin>;
+> +		status = "okay";
+> +
+> +		module_led: led-0 {
+> +			label = "module_led";
+> +			gpios = <&gpio1 RK_PB0 GPIO_ACTIVE_HIGH>;
+> +			linux,default-trigger = "heartbeat";
+> +		};
+> +	};
+> +
+> +	vcc5v0_sys: vccsys {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc5v0_sys";
+> +		regulator-always-on;
+> +		regulator-boot-on;
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +	};
+> +};
+> +
+> +&cpu0 {
+> +	cpu-supply = <&vdd_arm>;
+> +};
+> +
+> +&cpu1 {
+> +	cpu-supply = <&vdd_arm>;
+> +};
+> +
+> +&cpu2 {
+> +	cpu-supply = <&vdd_arm>;
+> +};
+> +
+> +&cpu3 {
+> +	cpu-supply = <&vdd_arm>;
+> +};
+> +
+> +&emmc {
+> +	bus-width = <8>;
+> +	cap-mmc-highspeed;
+> +	mmc-hs200-1_8v;
+> +	supports-emmc;
+> +	mmc-pwrseq = <&emmc_pwrseq>;
+> +	non-removable;
+> +	vmmc-supply = <&vcc_3v3>;
+> +	vqmmc-supply = <&vcc_emmc>;
+> +
+> +	status = "okay";
+> +};
+> +
+> +/* On-module TI DP83825I PHY but no connector, enable in carrierboard */
+> +&gmac {
+> +	snps,reset-gpio = <&gpio3 RK_PB0 GPIO_ACTIVE_LOW>;
+> +	snps,reset-active-low;
+> +	snps,reset-delays-us = <0 50000 50000>;
+> +	phy-supply = <&vcc_3v3>;
+> +	clock_in_out = "output";
+> +};
+> +
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on next-20220921]
-[cannot apply to hid/for-next wsa/i2c/for-next linus/master v6.0-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I forgot:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Ranostay/HID-mcp2221-iio-support-and-device-resource-management/20220921-143207
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-config: hexagon-randconfig-r023-20220921 (https://download.01.org/0day-ci/archive/20220922/202209221851.IOfsmA0z-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 791a7ae1ba3efd6bca96338e10ffde557ba83920)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9576b88476cb586e6d9f8ef77969f1acd5e4a241
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matt-Ranostay/HID-mcp2221-iio-support-and-device-resource-management/20220921-143207
-        git checkout 9576b88476cb586e6d9f8ef77969f1acd5e4a241
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/hid/
+&gpio2 {
+         /*
+          * The Qseven BIOS_DISABLE signal on the PX30-µQ7 keeps the 
+on-module
+          * eMMC powered-down initially (in fact it keeps the reset signal
+          * asserted). BIOS_DISABLE_OVERRIDE pin allows to re-enable eMMC.
+          */
+         bios_disable_override {
+                 gpios = <RK_PB5 GPIO_ACTIVE_LOW>;
+                 output-high;
+                 line-name = "bios_disable_override";
+                 gpio-hog;
+         };
+};
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Since I had this change in the bootloader that was enough during my 
+tests, but better not rely on the bootloader whenever/wherever possible :)
 
-All errors (new ones prefixed by >>):
+I'll wait a bit for reviews before sending a v2 just for that.
 
->> drivers/hid/hid-mcp2221.c:879:10: error: no member named 'dac_scale' in 'struct mcp2221'
-                                   mcp->dac_scale = tmp + 4;
-                                   ~~~  ^
-   drivers/hid/hid-mcp2221.c:881:10: error: no member named 'dac_scale' in 'struct mcp2221'
-                                   mcp->dac_scale = 5;
-                                   ~~~  ^
->> drivers/hid/hid-mcp2221.c:886:10: error: no member named 'adc_scale' in 'struct mcp2221'
-                                   mcp->adc_scale = tmp - 1;
-                                   ~~~  ^
-   drivers/hid/hid-mcp2221.c:888:10: error: no member named 'adc_scale' in 'struct mcp2221'
-                                   mcp->adc_scale = 0;
-                                   ~~~  ^
-   4 errors generated.
-
-
-vim +879 drivers/hid/hid-mcp2221.c
-
-   720	
-   721	/*
-   722	 * MCP2221 uses interrupt endpoint for input reports. This function
-   723	 * is called by HID layer when it receives i/p report from mcp2221,
-   724	 * which is actually a response to the previously sent command.
-   725	 *
-   726	 * MCP2221A firmware specific return codes are parsed and 0 or
-   727	 * appropriate negative error code is returned. Delayed response
-   728	 * results in timeout error and stray reponses results in -EIO.
-   729	 */
-   730	static int mcp2221_raw_event(struct hid_device *hdev,
-   731					struct hid_report *report, u8 *data, int size)
-   732	{
-   733		u8 *buf, tmp;
-   734		struct mcp2221 *mcp = hid_get_drvdata(hdev);
-   735	
-   736		switch (data[0]) {
-   737	
-   738		case MCP2221_I2C_WR_DATA:
-   739		case MCP2221_I2C_WR_NO_STOP:
-   740		case MCP2221_I2C_RD_DATA:
-   741		case MCP2221_I2C_RD_RPT_START:
-   742			switch (data[1]) {
-   743			case MCP2221_SUCCESS:
-   744				mcp->status = 0;
-   745				break;
-   746			default:
-   747				mcp->status = mcp_get_i2c_eng_state(mcp, data, 2);
-   748			}
-   749			complete(&mcp->wait_in_report);
-   750			break;
-   751	
-   752		case MCP2221_I2C_PARAM_OR_STATUS:
-   753			switch (data[1]) {
-   754			case MCP2221_SUCCESS:
-   755				if ((mcp->txbuf[3] == MCP2221_I2C_SET_SPEED) &&
-   756					(data[3] != MCP2221_I2C_SET_SPEED)) {
-   757					mcp->status = -EAGAIN;
-   758					break;
-   759				}
-   760				if (data[20] & MCP2221_I2C_MASK_ADDR_NACK) {
-   761					mcp->status = -ENXIO;
-   762					break;
-   763				}
-   764				mcp->status = mcp_get_i2c_eng_state(mcp, data, 8);
-   765	#if IS_REACHABLE(CONFIG_IIO)
-   766				memcpy(&mcp->adc_values, &data[50], sizeof(mcp->adc_values));
-   767	#endif
-   768				break;
-   769			default:
-   770				mcp->status = -EIO;
-   771			}
-   772			complete(&mcp->wait_in_report);
-   773			break;
-   774	
-   775		case MCP2221_I2C_GET_DATA:
-   776			switch (data[1]) {
-   777			case MCP2221_SUCCESS:
-   778				if (data[2] == MCP2221_I2C_ADDR_NACK) {
-   779					mcp->status = -ENXIO;
-   780					break;
-   781				}
-   782				if (!mcp_get_i2c_eng_state(mcp, data, 2)
-   783					&& (data[3] == 0)) {
-   784					mcp->status = 0;
-   785					break;
-   786				}
-   787				if (data[3] == 127) {
-   788					mcp->status = -EIO;
-   789					break;
-   790				}
-   791				if (data[2] == MCP2221_I2C_READ_COMPL) {
-   792					buf = mcp->rxbuf;
-   793					memcpy(&buf[mcp->rxbuf_idx], &data[4], data[3]);
-   794					mcp->rxbuf_idx = mcp->rxbuf_idx + data[3];
-   795					mcp->status = 0;
-   796					break;
-   797				}
-   798				mcp->status = -EIO;
-   799				break;
-   800			default:
-   801				mcp->status = -EIO;
-   802			}
-   803			complete(&mcp->wait_in_report);
-   804			break;
-   805	
-   806		case MCP2221_GPIO_GET:
-   807			switch (data[1]) {
-   808			case MCP2221_SUCCESS:
-   809				if ((data[mcp->gp_idx] == MCP2221_ALT_F_NOT_GPIOV) ||
-   810					(data[mcp->gp_idx + 1] == MCP2221_ALT_F_NOT_GPIOD)) {
-   811					mcp->status = -ENOENT;
-   812				} else {
-   813					mcp->status = !!data[mcp->gp_idx];
-   814					mcp->gpio_dir = data[mcp->gp_idx + 1];
-   815				}
-   816				break;
-   817			default:
-   818				mcp->status = -EAGAIN;
-   819			}
-   820			complete(&mcp->wait_in_report);
-   821			break;
-   822	
-   823		case MCP2221_GPIO_SET:
-   824			switch (data[1]) {
-   825			case MCP2221_SUCCESS:
-   826				if ((data[mcp->gp_idx] == MCP2221_ALT_F_NOT_GPIOV) ||
-   827					(data[mcp->gp_idx - 1] == MCP2221_ALT_F_NOT_GPIOV)) {
-   828					mcp->status = -ENOENT;
-   829				} else {
-   830					mcp->status = 0;
-   831				}
-   832				break;
-   833			default:
-   834				mcp->status = -EAGAIN;
-   835			}
-   836			complete(&mcp->wait_in_report);
-   837			break;
-   838	
-   839		case MCP2221_SET_SRAM_SETTINGS:
-   840			switch (data[1]) {
-   841			case MCP2221_SUCCESS:
-   842				mcp->status = 0;
-   843				break;
-   844			default:
-   845				mcp->status = -EAGAIN;
-   846			}
-   847			complete(&mcp->wait_in_report);
-   848			break;
-   849	
-   850		case MCP2221_GET_SRAM_SETTINGS:
-   851			switch (data[1]) {
-   852			case MCP2221_SUCCESS:
-   853				memcpy(&mcp->mode, &data[22], 4);
-   854	#if IS_REACHABLE(CONFIG_IIO)
-   855				mcp->dac_value = data[6] & GENMASK(4, 0);
-   856	#endif
-   857				mcp->status = 0;
-   858				break;
-   859			default:
-   860				mcp->status = -EAGAIN;
-   861			}
-   862			complete(&mcp->wait_in_report);
-   863			break;
-   864	
-   865		case MCP2221_READ_FLASH_DATA:
-   866			switch (data[1]) {
-   867			case MCP2221_SUCCESS:
-   868				mcp->status = 0;
-   869	
-   870				/* Only handles CHIP SETTINGS subpage currently */
-   871				if (mcp->txbuf[1] != 0) {
-   872					mcp->status = -EIO;
-   873					break;
-   874				}
-   875	
-   876				/* DAC scale value */
-   877				tmp = (data[6] >> 6) & 0x3;
-   878				if ((data[6] & BIT(5)) && tmp)
- > 879					mcp->dac_scale = tmp + 4;
-   880				else
-   881					mcp->dac_scale = 5;
-   882	
-   883				/* ADC scale value */
-   884				tmp = (data[7] >> 3) & 0x3;
-   885				if ((data[7] & BIT(2)) && tmp)
- > 886					mcp->adc_scale = tmp - 1;
-   887				else
-   888					mcp->adc_scale = 0;
-   889	
-   890				break;
-   891			default:
-   892				mcp->status = -EAGAIN;
-   893			}
-   894			complete(&mcp->wait_in_report);
-   895			break;
-   896	
-   897		default:
-   898			mcp->status = -EIO;
-   899			complete(&mcp->wait_in_report);
-   900		}
-   901	
-   902		return 1;
-   903	}
-   904	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Cheers,
+Quentin
