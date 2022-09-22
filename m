@@ -2,96 +2,180 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B263B5E6886
-	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 18:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AABE5E6981
+	for <lists+linux-input@lfdr.de>; Thu, 22 Sep 2022 19:20:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbiIVQfV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Sep 2022 12:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42260 "EHLO
+        id S229716AbiIVRUS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Sep 2022 13:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229926AbiIVQfS (ORCPT
+        with ESMTP id S230281AbiIVRUP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Sep 2022 12:35:18 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A6E198CB3
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 09:35:17 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id e18so14429652edj.3
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 09:35:17 -0700 (PDT)
+        Thu, 22 Sep 2022 13:20:15 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39BC47FE5F;
+        Thu, 22 Sep 2022 10:20:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hpUdcwX0+JTI7+NVJtz99+TuiaFkcYtR6KEmsR9hdH4l97KToWtYCiI/8vp91wFLGC9gRzIZhGcGNZNbd5l/gvGBv8jvimz6JLQ3XSSjvwaJ4EjZ48U6E0QHWrBhJzo6duCZjdwEmDKK1QpmFP5ygn/HU4ffBwAVCOc7iO6GDnCeAD+C4RHm6HZX0juAQeVOauoQ48wbavAjkk/JbFA6ulsWoBb/TsdRSJAijt3yKi1UUHEmG0MKpWiJ6OfYBgioh8rolGK9XifqSlUF361OWTsFg0OP9vJIX7NUMg6sMJ2midwXprZb+0YD9I5KQ+PtuFn00ZLbR1ccszvYInyLVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hsz3hPgSRbQm5yitV+e0UVqtVHNnyb2jH/raRqfF9CU=;
+ b=GLF/Eu3R+hJBZNiZK9nJhnv/tqHb0lAA/Ils4Exnq7rPdaWL5oMaNS1z+s8WUaoDV/qaCGdJLCCI/yogTddlRELZDC3WzwYxUYDEJL3MeuVFeK47zv3UYzZ7VTpjmJc+hOS04p7m+4F0aPNUCuKHjv4LA/ATViI29Qbz3l08hng9ajKEUPaWYzlvfFRGzFjJly5uIE5rt3TbgBljRCnrvSECHDZ+3VfzeN3NCtVEMOBAls5TCMMc1sGgml9rxWvye9u7nUcvFqjllux6RlW8Kns4S9lcdifYkwqL4chiCQ1mQeam58kVXpTfWyLctLrNYL2bpmuU0eNFV0c8zDAlpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=wZaKULsqE6LPfhGn2zZsoD5uf/xGzt0VKkKFX+0TH68=;
-        b=UM+JHRUYPPnGIIYrfOp9SmuYFha6xXnmUVgZxEr0ywxHcy8N9/J2BSrqRRuQc+uAin
-         36pw1bn21loi8UlPSenX+31DU+Dp0JgFyqRxYRuxbEcvvbi1ELpSOBauYHgALMaqnkxr
-         TogNE7SeC9G4XnLJ+v0G/dxG5NzU3e3QSB/xE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=wZaKULsqE6LPfhGn2zZsoD5uf/xGzt0VKkKFX+0TH68=;
-        b=MRhR7U5aFmZ4wl/2sI0iHtRAYkIsXoCDcn+Oz52iHl3bpImPGx7UgIZNDDBlTYO6Ty
-         ju0YdCtab/RBRzoJ/uGWFQYF/4uqTwxrHGyDfplu8pkgh1PFE5jiig5l/vnJBGbhL7Om
-         d0IimNgK99B/BQq+dIFb/vwJSQ4rEO7KUhKW+gPBP9y63Bn863QqrnOH7MMlvsCY3uMX
-         +GdV3lI0hjRZUBJcPs/ZONZx9LfB78GvQtA7FkD/yphlHrPbybVZP2CN9KPdNHuObFY1
-         i8TvUwTkLS8jmIUI4QwvsC6EObl5jWFY7Lfa2UNoI0Fg4fw42Bgyw8h06GJ1Xd+kwbrF
-         lh/A==
-X-Gm-Message-State: ACrzQf2MKjxG/yisl3ucFUZ4RZM2JtBIQiSJiA5ZMq5udyaVvMMwxTOz
-        f3EgYa8knyTJuNO6QQ3Xyr8yfSKB6N4pMvFY
-X-Google-Smtp-Source: AMsMyM4LVFIU/Y6iuGTdNkfJWpubK74xnQAkkIzqqCac0mrf+HVzVkf1LVyx07K8emy8y/Qfg3/9mQ==
-X-Received: by 2002:a05:6402:1910:b0:450:fb10:fddf with SMTP id e16-20020a056402191000b00450fb10fddfmr4154192edz.321.1663864515853;
-        Thu, 22 Sep 2022 09:35:15 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id t22-20020a056402021600b00443d657d8a4sm3876026edv.61.2022.09.22.09.35.14
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Sep 2022 09:35:14 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id r7so16468781wrm.2
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 09:35:14 -0700 (PDT)
-X-Received: by 2002:a05:6000:168c:b0:226:f4c2:d6db with SMTP id
- y12-20020a056000168c00b00226f4c2d6dbmr2591189wrd.659.1663864514135; Thu, 22
- Sep 2022 09:35:14 -0700 (PDT)
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hsz3hPgSRbQm5yitV+e0UVqtVHNnyb2jH/raRqfF9CU=;
+ b=hkLdLDMr/wdybEz8pZlNhTOHZs6lljKX7Wi8/qwVmlCJ7zYawyoTRojIiP3vEBHSmHUfaE4oHwDlcH45uU3uI0kdEAuU1wgdI2sYwGjmy3IFH8njgGhONOTLRQK2+5scsW3Ld3a2o5TEFep1Y+5GcLZskEoA2OagWCCiRVgLlUo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by SA2PR08MB6603.namprd08.prod.outlook.com
+ (2603:10b6:806:11d::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.19; Thu, 22 Sep
+ 2022 17:20:09 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::e9de:97f:447d:1cee]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::e9de:97f:447d:1cee%6]) with mapi id 15.20.5632.021; Thu, 22 Sep 2022
+ 17:20:08 +0000
+Date:   Thu, 22 Sep 2022 12:20:06 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Quentin Schulz <foss+kernel@0leil.net>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        heiko@sntech.de, dmitry.torokhov@gmail.com,
+        klaus.goger@theobroma-systems.com, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Subject: Re: [PATCH 1/3] Input: add `SW_BOOT_ALT`
+Message-ID: <YyyZRt5j180KzGqc@nixie71>
+References: <20220922101211.3215888-1-foss+kernel@0leil.net>
+ <20220922101211.3215888-2-foss+kernel@0leil.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922101211.3215888-2-foss+kernel@0leil.net>
+X-ClientProxiedBy: SN4PR0501CA0010.namprd05.prod.outlook.com
+ (2603:10b6:803:40::23) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
 MIME-Version: 1.0
-References: <20220922101813.v4.1.I3aa360986c0e7377ea5e96c116f014ff1ab8c968@changeid>
- <20220922101813.v4.4.I0cebec46a06dd3ea8f6b7abde038faed917dd5d4@changeid>
-In-Reply-To: <20220922101813.v4.4.I0cebec46a06dd3ea8f6b7abde038faed917dd5d4@changeid>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 22 Sep 2022 09:35:01 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WEa=+Gp5o1YjLnLrYQ7uMPa3QLy1R6m6Cygo0bbugYcg@mail.gmail.com>
-Message-ID: <CAD=FV=WEa=+Gp5o1YjLnLrYQ7uMPa3QLy1R6m6Cygo0bbugYcg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] input: touchscreen: elants_i2c: Add eth3915n
- touchscreen chip
-To:     Yunlong Jia <ecs.beijing2022@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
-        Henry Sun <henrysun@google.com>,
-        Bob Moragues <moragues@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SA2PR08MB6603:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6cbd1e57-4511-4054-0caf-08da9cbeb300
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jmaBGR1LpUE8Fy4n7Qcl7SBSyaS4IQVly7hcG88yXxoWERkUmv2SYMLc7WLhjeiKBGB4eLkReStFbIJ8cL1roRJR/h57onIRzGZFGO6JaDbGaHs6CrGZtKxPUEkhlfRLrgyicFmWSslC8OGtwXSs8WcUnqigQp1pkqQezUsRZbOCIUa5hPvub4NaotH2xRtMKjwfJRntbbDRowuWxxVO4F2UdSKfb7zaETWukuXj4YashaGACF9KkPwsVXBAms5EYA77aQeHEtV8yTk37w0xzgxmcEUCDx8gsUfSJcM2ftOcLZIe3szCBLfmOCBOEsdHNAqoaV/83GROarUgKL+xpzmb90COIqgrNw6vLxBwKLvI2aKsbM8jIfdlf7KzRYIG5F9uWubxcg16npM2xRlndcEqmLBJykrU9UGs4G044hNMPJDJ/cV/Tz6tktEgy5MMlxTTu3znk6b8yxalerQgLS6Topp2mEAnq3b7lK6E3DgnAopKfsIomtCOKV09U4/V6Z7fyRzDWOO39o+FBwCri5dFJVQK7sdEFox7vyUHZ2OwVd1XKnq/pM471/GljbyHUv3gbaEvaaAdCvdhgYGbgJ8W3hDLc6m8SKOWt1IwqKG44ZklZqWQCnECjrFe0FnSaci8oomMQpxyXifPgquiILsTtVol1iWQdJ+/9FW3gwwiffv0sc9B0xhTzYVp3KZhnnLCXGZ7YDacmRmHDOr8l2fFE+unsRMBzZjkSNLQyms4F4nxtVTljIjQXLGkWY1I
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(396003)(376002)(39830400003)(366004)(136003)(346002)(451199015)(38100700002)(2906002)(9686003)(26005)(6512007)(478600001)(83380400001)(186003)(7416002)(8936002)(6506007)(5660300002)(86362001)(8676002)(6486002)(316002)(41300700001)(4326008)(66476007)(66556008)(66946007)(33716001)(81973001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bVY8WjxRKM2dST6jE40AQ974j5JUVSYFn2HjA2wIXrDM0wCg8P44pJcdBbF1?=
+ =?us-ascii?Q?dYinTunXa4OeVON0bU9nBx1MYIo+D/hqL4Lpq+0ZWAG7bJoF0Wrkq5ScNVSC?=
+ =?us-ascii?Q?YffNXh0vnR6hXng1bRX+sddhmJhjnqy7brDtk4Ca2Bn6jNx1RzlIw6lW7bg0?=
+ =?us-ascii?Q?e7//Q7HqjArAiq72O2agdrRhG5nWEZGhsjdI621XLJvUTB1lf6izrdIppEbI?=
+ =?us-ascii?Q?fe3pU4ilCy5e3d+uay4SnnWPS3KrGsnzoU8bhpJWhF+YgMlWkjpuXDjWGy2h?=
+ =?us-ascii?Q?hZrjKYJUKA4SXRxUb1rWrgat//LUzdc2uIwBoQ5iqVaLab3/KzsoEa1vHMin?=
+ =?us-ascii?Q?sMaKq9Qj0/PywMpV5UiJY6s4bX7hcTNaBscgkR9cN5NATMAFVkA29tqb3hLI?=
+ =?us-ascii?Q?qIMLqEOtOlL1DK5i9Ckivv2O/grwpntO5lEWtUb/j3mwn5eWaeUr7SQPsF84?=
+ =?us-ascii?Q?jd2MnD5s4sjZs4kUTpzDryf6QArTJyDx3gWcNo7FdgdaCbzo8nAIBsvQhd9x?=
+ =?us-ascii?Q?HzSNdQLXh/cWRGjbhIr98jWB4ns/KTPkUCV3pv2yMvAcfK4IMNo6lCb6rWq1?=
+ =?us-ascii?Q?UeyR+o5heW/06UM9TVwQ7X+ttGIA053OrFq4eGx2ls5oZ4mflvNHXX1yDMZk?=
+ =?us-ascii?Q?0hxRTMby9Funs62jNCO/q5YKjtc8dOnYIHWMsVNVhr626mTQk921sIRMViaG?=
+ =?us-ascii?Q?UeueBGtU07gMHPMl2m4r4HkUQ2llwbpYOGONm6oEAlQLTnFyvA4k5t7srBTV?=
+ =?us-ascii?Q?3ZwRyvcoiMIZzYuJSueDemdAN2cCJiTDDUm2yUzJgDoS441s2EmfJ7hEbMoO?=
+ =?us-ascii?Q?x7EmqVVYPmoUFL51W+iMA5rwOCUgXOKb07+tZbgX/exPZ9IwTd2C23HHScDe?=
+ =?us-ascii?Q?dUukmRNE8pHYyBm47ZMSXNIOUFiQ90UVDP0TDz1ILtVCXUJnvbBSyrHqmNfi?=
+ =?us-ascii?Q?TXABTRWfHQs0EUtnH1TVdHzg4zc+Z03KQiVgQLINdfkrROzHpX/EIuD5HO9p?=
+ =?us-ascii?Q?iVkeEx8PT5x62wCjTk8NucEsak22ye+/hvlE028p6CHSx0e9xkVNbFNt22fc?=
+ =?us-ascii?Q?QHkIaW9QRCTcmrPr1+CqXbb9/+yWrXhLXbHgVBZtIN6MEwbAWZXwkatDtS5Q?=
+ =?us-ascii?Q?pQbsHjpjuT9OsRST527nm/XOwb0DwWIJX6MqinnNkUX6XLv6UmPVyv9Trxj0?=
+ =?us-ascii?Q?KarKmFaIncllvzfd/EO94DfSBW9kIqr+5n6CyXPzPg1DWlZGgvnIYXgLRrE9?=
+ =?us-ascii?Q?GXNCpYrwH93UxvgO0wsMXjNwYXIinL0yAYg1Kic7g9XZJRV24r8O+vX5W8Fv?=
+ =?us-ascii?Q?z1x2Cr/ViwUKTtJ08WCMsBiWhbjzcLsJoPrmuEnOgAWdXWiwokf1A12wOuGR?=
+ =?us-ascii?Q?RjyrjJrXeSrKF2WGWwyMagCev6ctWqukjICB+k/bIKWPpLTUpvsEQonXvHXd?=
+ =?us-ascii?Q?2ZyA1hchYFwx+3TBUtGe+w6WmK/e2KxsaLEcWA8ehRsounN/4TqZj0AvOYfQ?=
+ =?us-ascii?Q?YoIBN+4ck41CpT+kHhz8c86m2L5hr6NlL3DiInpv+iO6HjxEgCtt/vPpcQjT?=
+ =?us-ascii?Q?OW1KNHNfyAvw4pkhTatQl7qiOUAs926WAHE375F7?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cbd1e57-4511-4054-0caf-08da9cbeb300
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 17:20:08.8909
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zI/wjyRMxD+/OS6sLUti5fIB/B3a49Se+ws3W0cVsJUfOU37OTvoF+SVQPN+5Z+a1KGBUxWP9d4HOaDf4+7Eew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR08MB6603
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Quentin,
 
-On Thu, Sep 22, 2022 at 3:23 AM Yunlong Jia <ecs.beijing2022@gmail.com> wrote:
->
-> The ekth3915 and ekth3500 are almost the same.
->
-> Signed-off-by: Yunlong Jia <ecs.beijing2022@gmail.com>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+On Thu, Sep 22, 2022 at 12:12:09PM +0200, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> 
+> This event code represents the firmware source to use at boot.
+> Value 0 means using "standard" firmware source, value 1 means using
+> "alternative" firmware source.
+> 
+> For example, some hardware has the ability to force the BOOTROM to load
+> the bootloader from a secondary firmware source (say SD card) instead of
+> trying with the standard first and then the secondary. This event allows
+> the userspace to know which firmware source was requested *in hardware*.
+> 
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 
-You shouldn't have added my Reviewed-by here. I haven't seen this patch before.
+This does not seem like the right approach, especially since the switch
+can easily be flipped after the state is already latched.
 
-Also: you should drop this patch. The way we've specified it in the
-bindings you can rely on the "fallback" compatible string for the 3500
-to handle things.
+If the bootloader needs to pass information to the kernel (boot source or
+otherwise), a safer and more flexible approach is to share some variables
+in eMMC, or pass information using the kernel cmdline.
+
+> ---
+>  include/linux/mod_devicetable.h        | 2 +-
+>  include/uapi/linux/input-event-codes.h | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+> index 549590e9c644..009e71376a61 100644
+> --- a/include/linux/mod_devicetable.h
+> +++ b/include/linux/mod_devicetable.h
+> @@ -326,7 +326,7 @@ struct pcmcia_device_id {
+>  #define INPUT_DEVICE_ID_LED_MAX		0x0f
+>  #define INPUT_DEVICE_ID_SND_MAX		0x07
+>  #define INPUT_DEVICE_ID_FF_MAX		0x7f
+> -#define INPUT_DEVICE_ID_SW_MAX		0x10
+> +#define INPUT_DEVICE_ID_SW_MAX		0x11
+>  #define INPUT_DEVICE_ID_PROP_MAX	0x1f
+>  
+>  #define INPUT_DEVICE_ID_MATCH_BUS	1
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index dff8e7f17074..8cd2b58c81d7 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -917,7 +917,8 @@
+>  #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
+>  #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
+>  #define SW_MACHINE_COVER	0x10  /* set = cover closed */
+> -#define SW_MAX			0x10
+> +#define SW_BOOT_ALT		0x11  /* set = alternative boot firmware source */
+> +#define SW_MAX			0x11
+>  #define SW_CNT			(SW_MAX+1)
+>  
+>  /*
+> -- 
+> 2.37.3
+> 
+
+Kind regards,
+Jeff LaBundy
