@@ -2,73 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE9785E7623
-	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 10:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E72CF5E7689
+	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 11:12:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230218AbiIWIrg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Sep 2022 04:47:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60866 "EHLO
+        id S230103AbiIWJMd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Sep 2022 05:12:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230354AbiIWIre (ORCPT
+        with ESMTP id S229631AbiIWJMb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Sep 2022 04:47:34 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1396F12474A;
-        Fri, 23 Sep 2022 01:47:34 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id c7so11617747pgt.11;
-        Fri, 23 Sep 2022 01:47:34 -0700 (PDT)
+        Fri, 23 Sep 2022 05:12:31 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3356912E40E;
+        Fri, 23 Sep 2022 02:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date;
-        bh=SiSDcP/to3fjSrzC1C4LQLMg/foHxyL063KqzxZ+ZfQ=;
-        b=FnAjB1qRX6+QzY4suEaIEjU0Upwk3N9dv1HHDfpfCC6J2zkexZRPXevux0ld2hPMvh
-         eR/bDCG9gMYHqaI3KVNWctowtR1qA8x9msZYt96UEOoj0v0JihhoEVw9WGDGeX2P69F6
-         4ZiaE59XTNd7DSAZik/EdCF4NnUvdlyhrsazgdGtSmrYGLfe73+vlMbyC5fsP1tOvA9X
-         7hc9gJ96vllzrR+PME1OMqetOjb6NRB+HSkDKT9KYva3sg+5Dl3Y5VJ1DPPV4L1GOk5H
-         NXz2tXUbWSkxoiN6+hQX6Yc/f66CrQLt1vXE3A7vAkJXmrUUjDUXMjGZSXlJmHlHxtV4
-         0L+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=SiSDcP/to3fjSrzC1C4LQLMg/foHxyL063KqzxZ+ZfQ=;
-        b=TUxmfiKxTrS8ENHcD4/kt/Oel+ciWYFPdrfpOHYzunHX8NzfXEbH6YIIx07jhxsdvr
-         JRR04k8Jq7YLvxLJ0pHiCt77LaPEnW+JCywgRhayVJFNwcJFPqVjgRUjsnH0AHmSuh9q
-         MgNDA4jfYTReQP+bYiJKkthOluQVl3ncGa0P6qI/UOfITDkDxlS3gzVaIUCXrpRxzF+p
-         cXAsWUOXaXWv4ZcINaLvyrTXVxZuPs4e0xPj+9aN9CbD4hf2RWoseunYRbzeivQuqc6A
-         CMvAe3W7kq7fBdw+5is2krYOuaKxVxNuixUd9Xv+IuSCtRLKms6WESMb57Ke1DDvpc4/
-         O3IA==
-X-Gm-Message-State: ACrzQf1BwnCUkSzH3BdTARWy3sw5kDuPV7y0rsLzNpOFO0BifZ0VQ6ef
-        ytziAQJIK3Z3WluLj/vCRxlQLD3w4GY=
-X-Google-Smtp-Source: AMsMyM7kEWxxkJgeKzd444jcHZoSBw0IgQ3vTQwC5cDZVecv0HnSySCt4KyQ8ySoH4LX3dAzRV9eFg==
-X-Received: by 2002:a05:6a00:170e:b0:550:dc52:4647 with SMTP id h14-20020a056a00170e00b00550dc524647mr7889958pfc.19.1663922853159;
-        Fri, 23 Sep 2022 01:47:33 -0700 (PDT)
-Received: from localhost.localdomain ([103.150.184.130])
-        by smtp.gmail.com with ESMTPSA id j6-20020a17090276c600b001789b724712sm5364986plt.232.2022.09.23.01.47.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 01:47:32 -0700 (PDT)
-From:   Yunlong Jia <ecs.beijing2022@gmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Henry Sun <henrysun@google.com>,
-        Yunlong Jia <yunlong.jia@ecs.com.tw>,
-        Bob Moragues <moragues@chromium.org>,
-        Yunlong Jia <ecs.beijing2022@gmail.com>,
-        David Heidelberg <david@ixit.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH v5 2/3] dt-bindings: input: touchscreen: elants_i2c: Add  eth3915n touchscreen chip
-Date:   Fri, 23 Sep 2022 08:47:17 +0000
-Message-Id: <20220923083657.v5.2.Ic4e8f03868f88b8027a81bc3d414bae68978e6b7@changeid>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220923083657.v5.1.I3aa360986c0e7377ea5e96c116f014ff1ab8c968@changeid>
-References: <20220923083657.v5.1.I3aa360986c0e7377ea5e96c116f014ff1ab8c968@changeid>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1663924350; x=1695460350;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=7crnXgUhmUDKPsinAJs7KiF3E10gRKIRmlXb6HsKEMk=;
+  b=KCyofKMh+kqeVk85vpLLqymkQI6OTuMlP9Jc3T7Tbwxly6P7tljFHgAQ
+   VWGK3m6jKURR3eOSPX1b5r0MS510xbdieSRHwNY7pOw93pQl3RBBvqz2d
+   7kGIAyIB+evUhx0ukmrU1Q5lg4yqG5jVznRGd6knlaspWCmnYsBKnesLK
+   TuNm7S3zbW4iDbo/iH2Yj/GIO/hksk2YSCNLSGeloyXYHi6bW19TfkEKS
+   grgk6MP0kDhLejxp+D7b9Xhwu8kV8QoBkuHV4yUnCa7B4lAqcGk3qqj+f
+   A9+jMcKB6gWkY8AKW2F19hrMs5S4Mi+BfHiBBd140mzlf6ly/r1x0tNhH
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,337,1654552800"; 
+   d="scan'208";a="26356784"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 23 Sep 2022 11:12:27 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 23 Sep 2022 11:12:27 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 23 Sep 2022 11:12:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1663924347; x=1695460347;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=7crnXgUhmUDKPsinAJs7KiF3E10gRKIRmlXb6HsKEMk=;
+  b=iglEljJQIWicaxkwaHinrmworcUuswA/tBTawfotF29tbvhDfFp2jOJk
+   6oq7cV8iPNsaLAE6eyyJuWChB2QNze4/E7KNlJcAxNd4/1XbX0USsS+s/
+   a4VD+Ia77pqhQVPamIFCtTJ3YgcKJlMnsvR29HopT2IdIpDINLuEwqDD+
+   X4pR6BUSat4TGt40vnfVkDgznLr0IaMPA+sIW0HPpCYDimBUNkJEEtpyJ
+   GVI9upFVq/7fHxGx6FV1XXYFkc5KizIfS98rD03EyVa6R27Y1UHui2qgU
+   L6aifLE2aNYkHE9WI4rBZqGF1ZacxJ8DePrFEc17IXDk6mgW6KqBGy4xO
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,337,1654552800"; 
+   d="scan'208";a="26356783"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 23 Sep 2022 11:12:27 +0200
+Received: from schifferm-ubuntu (SCHIFFERM-M2.tq-net.de [10.121.49.14])
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 85D1A280056;
+        Fri, 23 Sep 2022 11:12:27 +0200 (CEST)
+Message-ID: <b2c30a8cd1ad8c40d16a25e3a4f190cab214dc4c.camel@ew.tq-group.com>
+Subject: Re: [PATCH 1/9] Input: synaptics-rmi4 - fix firmware update
+ operations with bootloader v8
+From:   Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To:     Lyude Paul <lyude@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 23 Sep 2022 11:12:25 +0200
+In-Reply-To: <3da8a0c9ae4e6d8a1d772498e4d4186bf969fd76.camel@redhat.com>
+References: <20220608124808.51402-1-matthias.schiffer@ew.tq-group.com>
+         <20220608124808.51402-2-matthias.schiffer@ew.tq-group.com>
+         <3da8a0c9ae4e6d8a1d772498e4d4186bf969fd76.camel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,43 +83,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add an elan touch screen chip eth3915n.
+On Thu, 2022-09-22 at 16:06 -0400, Lyude Paul wrote:
+> Would add a Cc: stable@vger.kernel.org for this
+> 
+> With that fixed: Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Signed-off-by: Yunlong Jia <ecs.beijing2022@gmail.com>
-Suggested-by: Douglas Anderson <dianders@chromium.org>
+Thanks for the review!
 
----
+Should I reroll with the added Cc? In my experience, patches will end
+up queued for stable through AUTOSEL anyways as soon as the word "fix"
+appears somewhere in the commit message.
 
-Changes in v5:
- 1. ekth3915 is the true compatible and ekth3500 is the fallback.
 
-Changes in v4:
- 1. eth3915n dt bindings added in v4.
-
- .../bindings/input/touchscreen/elan,elants_i2c.yaml    | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-index a9b53c2e6f0a..f9053e5e9b24 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-@@ -14,9 +14,13 @@ allOf:
- 
- properties:
-   compatible:
--    enum:
--      - elan,ektf3624
--      - elan,ekth3500
-+    oneOf:
-+      - enum:
-+          - elan,ektf3624
-+          - elan,ekth3500
-+      - items:
-+          - const: elan,ekth3915
-+          - const: elan,ekth3500
- 
-   reg:
-     maxItems: 1
--- 
-2.17.1
+> 
+> On Wed, 2022-06-08 at 14:48 +0200, Matthias Schiffer wrote:
+> > Commit a6977d758fed ("Input: synaptics-rmi4 - support bootloader v8 in
+> > f34v7") allowed the F34v7 driver to probe with bootloader v8, but it did
+> > not update various other bootloader version checks in the F34 code.
+> > 
+> > Fixes: a6977d758fed ("Input: synaptics-rmi4 - support bootloader v8 in f34v7")
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > ---
+> >  drivers/input/rmi4/rmi_f34.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/input/rmi4/rmi_f34.c b/drivers/input/rmi4/rmi_f34.c
+> > index e5dca9868f87..3afc94f679ed 100644
+> > --- a/drivers/input/rmi4/rmi_f34.c
+> > +++ b/drivers/input/rmi4/rmi_f34.c
+> > @@ -370,7 +370,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
+> >  
+> >  	f34 = dev_get_drvdata(&data->f34_container->dev);
+> >  
+> > -	if (f34->bl_version == 7) {
+> > +	if (f34->bl_version >= 7) {
+> >  		if (data->pdt_props & HAS_BSR) {
+> >  			dev_err(dev, "%s: LTS not supported\n", __func__);
+> >  			return -ENODEV;
+> > @@ -382,7 +382,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
+> >  	}
+> >  
+> >  	/* Enter flash mode */
+> > -	if (f34->bl_version == 7)
+> > +	if (f34->bl_version >= 7)
+> >  		ret = rmi_f34v7_start_reflash(f34, fw);
+> >  	else
+> >  		ret = rmi_f34_enable_flash(f34);
+> > @@ -413,7 +413,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
+> >  	f34 = dev_get_drvdata(&data->f34_container->dev);
+> >  
+> >  	/* Perform firmware update */
+> > -	if (f34->bl_version == 7)
+> > +	if (f34->bl_version >= 7)
+> >  		ret = rmi_f34v7_do_reflash(f34, fw);
+> >  	else
+> >  		ret = rmi_f34_update_firmware(f34, fw);
 
