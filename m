@@ -2,103 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18D375E8247
-	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 21:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F84B5E8266
+	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 21:13:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232531AbiIWTDJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Sep 2022 15:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44636 "EHLO
+        id S232641AbiIWTNv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Sep 2022 15:13:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiIWTDG (ORCPT
+        with ESMTP id S231409AbiIWTNn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Sep 2022 15:03:06 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7961231E6;
-        Fri, 23 Sep 2022 12:03:04 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id b23so976881pfp.9;
-        Fri, 23 Sep 2022 12:03:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=9JjiAxbRKO/Cz1ooxAjo8GsGHxSbPrP4gMRHGvd322w=;
-        b=o/qKEZVlLtJisqT+xtfOyv2Yrg6Kag+dmDlK6bT3jhD+QByFikg7uMjqjci/liCZbh
-         7WLmI8XBj8M1HuFPe6gsvib4XeEGtprvzHeB7TxnBgQs8qf3LEROMuJJQlTvKRdUTnYK
-         Y803BRDa+GBujY5JCFp+EJ/bUgxyfxw6RA/NW8c11rJ+QfsKJNf4Gae97B5IMZoTleFp
-         OBq9YyZFeJUAqbIEE7lfvNceOfa5KHVUyleHaQmPBPpkAGXSqsf74Px1a7gYqXD36n8Z
-         J9fXKqTEnIyHivA7IM+gcvjTlBODrDPlsDDDHDo42VFIdjxdqOrR4tc9YAYwyHbBc1+5
-         QusQ==
+        Fri, 23 Sep 2022 15:13:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AF311D611
+        for <linux-input@vger.kernel.org>; Fri, 23 Sep 2022 12:13:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663960420;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1kL1sKvWl7toJq/naTSlRJEPH2yxVO7xF2IQr8yMOBc=;
+        b=Ilk1Vurt1NeIvIw5sMdoWxBXa2ZFncxgvk2LiK7xztBP3K7y7/C6zLVTyg5zQ9zMdvnaCI
+        IM09aOHQNNoxUmTBfFn2wea/gpYUgBFN4EQQvJZQ8cI7BI9ecrd/dsd529FqmWTTwruX1H
+        YMOpRSrTKq30UmMGIms8oZwLcxaQmPk=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-333-42hRUWO5P4u5iQYjziYIYA-1; Fri, 23 Sep 2022 15:13:39 -0400
+X-MC-Unique: 42hRUWO5P4u5iQYjziYIYA-1
+Received: by mail-qk1-f198.google.com with SMTP id n15-20020a05620a294f00b006b5768a0ed0so674004qkp.7
+        for <linux-input@vger.kernel.org>; Fri, 23 Sep 2022 12:13:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=9JjiAxbRKO/Cz1ooxAjo8GsGHxSbPrP4gMRHGvd322w=;
-        b=x/MVg4yescM3cBS+Whulgdr0tX3MrXh/O0dn15r0Q+mM3fn8lFgEDhmKP8Bf1OipyT
-         PdSf51v2+sFvHA9r6b0blFi+P4nQlsbppS5Dx315+jtk3vepVXMGI8dfuTOZlJVUc9/K
-         jwXlSEAloxDhNQKU1tyoGh+OYNIoGN3kVAhwbyqrbpT6PBn2pN6VhnaSgEX+skVCx1wy
-         5tKd53P889PZKtvGRd7N20ciNp0p6Y14CGfWWhBqgTbkuMp+rUdRda849uOHAMYt7ckY
-         lJri7vhDc8EFHSMSfI/seI7Sr3U09/Rgb0PEhw9k6eDgaMplYCisRuscfbYXhccBY19Y
-         GegQ==
-X-Gm-Message-State: ACrzQf1VRoZ55NRE6oy/o4tEMa0zvGiz9FALjY6RnFNqxZDYj6vUSEhX
-        XlmK5WKvx8hVcF90n/l7Nqw=
-X-Google-Smtp-Source: AMsMyM4jlylOD9Lp+oDu1pb5GepRaDIZ5CTRE5tUE09EE9UXAHXPl/9bEV/P6Yki0yVvBmAbzgutdw==
-X-Received: by 2002:aa7:88d0:0:b0:542:d98d:bf1f with SMTP id k16-20020aa788d0000000b00542d98dbf1fmr10596346pff.78.1663959784052;
-        Fri, 23 Sep 2022 12:03:04 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:8b46:be3c:2c54:68a5])
-        by smtp.gmail.com with ESMTPSA id p7-20020a170902e74700b001769cfa5cd4sm6469398plf.49.2022.09.23.12.03.03
+        h=content-transfer-encoding:mime-version:user-agent:organization
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=1kL1sKvWl7toJq/naTSlRJEPH2yxVO7xF2IQr8yMOBc=;
+        b=1k1AW2fA2YP5sz309H8CcQdU7kA2MgRudIeqHtdlPsghzJrZ59ejHsFcbnVoI0xCLF
+         JyfIz2mvt5v/erQIT3Af94vdTv70zuvJ8gc0emtVSSeKZqnGwCEJvyIz7134frfTOVXN
+         hDlYXnbGsWV/xg9mMHkN03/xeEJ8Vx8wByy8VVu1B9SCaBJs+15+PzdghyUlUfG8qLlU
+         ihwi7lhmJXri//19m1361jmYpwSylSc5hmmjHApwpK21aP4yhO5dtko2XVxuavnm4E08
+         N8+/FAXSnMDqmun/GMJR8GpUXC2L6uLzUP8fnLIf2GiuityVNxIKiqHyvmNI5QJU1WWJ
+         pGJQ==
+X-Gm-Message-State: ACrzQf1Xgk4eumM8nodJgxvSi2OawBIBRlAUMdiQ2cSsFex0I3hiw1Sx
+        2xoohNdDdUOhkmuh0se+2KcLW1z5ea4WYmYM1unG2naU71xcTVMRzyNH0ZS4v3kokNz6ZNqDxoA
+        2hvu6R5krbNtH4iNIfrxwIr8=
+X-Received: by 2002:a05:620a:294a:b0:6ce:9944:f65a with SMTP id n10-20020a05620a294a00b006ce9944f65amr6694293qkp.434.1663960418792;
+        Fri, 23 Sep 2022 12:13:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM77DHnyJvaE6za+YOcsEoyOQZgd8Rm22c/EKhemffNRu+daj/GqP44WuMHgeOFroeF2XhsNwQ==
+X-Received: by 2002:a05:620a:294a:b0:6ce:9944:f65a with SMTP id n10-20020a05620a294a00b006ce9944f65amr6694280qkp.434.1663960418592;
+        Fri, 23 Sep 2022 12:13:38 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c48:e00::feb? ([2600:4040:5c48:e00::feb])
+        by smtp.gmail.com with ESMTPSA id y17-20020a37f611000000b006b5cc25535fsm6158496qkj.99.2022.09.23.12.13.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 12:03:03 -0700 (PDT)
-Date:   Fri, 23 Sep 2022 12:03:00 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] Input: matrix_keypad - replace header inclusions
- by forward declarations
-Message-ID: <Yy4C5HH3yxssLMPh@google.com>
-References: <20220923184632.2157-1-andriy.shevchenko@linux.intel.com>
- <20220923184632.2157-2-andriy.shevchenko@linux.intel.com>
+        Fri, 23 Sep 2022 12:13:37 -0700 (PDT)
+Message-ID: <e63a16f8c89e33078966ba518576eafb075b5012.camel@redhat.com>
+Subject: Re: [PATCH 1/9] Input: synaptics-rmi4 - fix firmware update
+ operations with bootloader v8
+From:   Lyude Paul <lyude@redhat.com>
+To:     Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 23 Sep 2022 15:13:36 -0400
+In-Reply-To: <b2c30a8cd1ad8c40d16a25e3a4f190cab214dc4c.camel@ew.tq-group.com>
+References: <20220608124808.51402-1-matthias.schiffer@ew.tq-group.com>
+         <20220608124808.51402-2-matthias.schiffer@ew.tq-group.com>
+         <3da8a0c9ae4e6d8a1d772498e4d4186bf969fd76.camel@redhat.com>
+         <b2c30a8cd1ad8c40d16a25e3a4f190cab214dc4c.camel@ew.tq-group.com>
+Organization: Red Hat Inc.
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220923184632.2157-2-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Sep 23, 2022 at 09:46:32PM +0300, Andy Shevchenko wrote:
-> When the data structure is only referred by pointer, compiler may not need
-> to see the contents of the data type. Thus, we may replace header inclusions
-> by respective forward declarations.
+On Fri, 2022-09-23 at 11:12 +0200, Matthias Schiffer wrote:
+> On Thu, 2022-09-22 at 16:06 -0400, Lyude Paul wrote:
+> > Would add a Cc: stable@vger.kernel.org for this
+> > 
+> > With that fixed: Reviewed-by: Lyude Paul <lyude@redhat.com>
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  include/linux/input/matrix_keypad.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> Thanks for the review!
 > 
-> diff --git a/include/linux/input/matrix_keypad.h b/include/linux/input/matrix_keypad.h
-> index 9476768c3b90..b8d8d69eba29 100644
-> --- a/include/linux/input/matrix_keypad.h
-> +++ b/include/linux/input/matrix_keypad.h
-> @@ -3,8 +3,9 @@
->  #define _MATRIX_KEYPAD_H
->  
->  #include <linux/types.h>
-> -#include <linux/input.h>
-> -#include <linux/of.h>
-> +
-> +struct device;
-> +struct input_dev;
+> Should I reroll with the added Cc? In my experience, patches will end
+> up queued for stable through AUTOSEL anyways as soon as the word "fix"
+> appears somewhere in the commit message.
 
-This results in a ton of compile errors. While I believe this change is
-a good one, we need to fix users of this include first.
+Ahhh, totally forgot about this. Nevermind then, it should be fine as-is :)
 
-Thanks.
+> 
+> 
+> > 
+> > On Wed, 2022-06-08 at 14:48 +0200, Matthias Schiffer wrote:
+> > > Commit a6977d758fed ("Input: synaptics-rmi4 - support bootloader v8 in
+> > > f34v7") allowed the F34v7 driver to probe with bootloader v8, but it did
+> > > not update various other bootloader version checks in the F34 code.
+> > > 
+> > > Fixes: a6977d758fed ("Input: synaptics-rmi4 - support bootloader v8 in f34v7")
+> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > > ---
+> > >  drivers/input/rmi4/rmi_f34.c | 6 +++---
+> > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/input/rmi4/rmi_f34.c b/drivers/input/rmi4/rmi_f34.c
+> > > index e5dca9868f87..3afc94f679ed 100644
+> > > --- a/drivers/input/rmi4/rmi_f34.c
+> > > +++ b/drivers/input/rmi4/rmi_f34.c
+> > > @@ -370,7 +370,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
+> > >  
+> > >  	f34 = dev_get_drvdata(&data->f34_container->dev);
+> > >  
+> > > -	if (f34->bl_version == 7) {
+> > > +	if (f34->bl_version >= 7) {
+> > >  		if (data->pdt_props & HAS_BSR) {
+> > >  			dev_err(dev, "%s: LTS not supported\n", __func__);
+> > >  			return -ENODEV;
+> > > @@ -382,7 +382,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
+> > >  	}
+> > >  
+> > >  	/* Enter flash mode */
+> > > -	if (f34->bl_version == 7)
+> > > +	if (f34->bl_version >= 7)
+> > >  		ret = rmi_f34v7_start_reflash(f34, fw);
+> > >  	else
+> > >  		ret = rmi_f34_enable_flash(f34);
+> > > @@ -413,7 +413,7 @@ static int rmi_firmware_update(struct rmi_driver_data *data,
+> > >  	f34 = dev_get_drvdata(&data->f34_container->dev);
+> > >  
+> > >  	/* Perform firmware update */
+> > > -	if (f34->bl_version == 7)
+> > > +	if (f34->bl_version >= 7)
+> > >  		ret = rmi_f34v7_do_reflash(f34, fw);
+> > >  	else
+> > >  		ret = rmi_f34_update_firmware(f34, fw);
+> 
 
 -- 
-Dmitry
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
