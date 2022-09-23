@@ -2,125 +2,180 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C5A5E73E2
-	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 08:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5188D5E747E
+	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 09:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbiIWGUL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Sep 2022 02:20:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
+        id S229437AbiIWHDZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Sep 2022 03:03:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbiIWGUJ (ORCPT
+        with ESMTP id S230055AbiIWHDX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Sep 2022 02:20:09 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2043.outbound.protection.outlook.com [40.107.223.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E3D2A7AA1
-        for <linux-input@vger.kernel.org>; Thu, 22 Sep 2022 23:20:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xb0bM+QTc0+trOpXYbP3f/evyy9Tmbowl1InTD+vxUoIivt59qxritxETlUnDIEbzNIHNM/xI3ELP0uOBmEYU+QTjgcyJgFCWoSSmMO53a1UG374AQ3q7idWLiqMWgdfPKJWZdmXg7UOWTAH3GeVGGOIq5sGK7s4VNLh8g5aiHvMg6NnJeHtqC99ueYBmg9Vu06rvXgjkF+mxmyHjVw9M8UL9hbL4dwe5ZokGrYZDzaS4rLxEJJZjc5rdPdYO6BlBmx9KNTCLUqP2WRmCtzWKCacEDv/xjGEilJc+l4keFVlnpGxAEejhVc+rg2cqmlg8w1SB2XbZoH7E2BBlLGlog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F0tmahANQcmh/hQzCpEsFCWPcSh7pitOSsVhBELnS1w=;
- b=H8dlhPyyHWhQxZB1iho9zRyPXMfAamfjWf+vrLqtXe3IaL8bS+I1iNDIC9/rCBxo3Et7Vv2D3IzaacsbLOcyjjDnt9J1EVVdkJ14NJQEJzme+cSmKRIYjl+LxiW1GYPBzJuNjDnC4P12e+1t36ZNdNz8DTvgTIXRFMQsRqDLTh8V+HiTGqgrYjV8NPImFOR3Q6L1dDEZ0WHxs/TDsL6ecfz4SSvdUHgAkc4NAmn6MYd+E5rffAgbEzwNmsaxxGsN6mr90AdJE3znDTlwWGd1NS634CFa+z0UckTp995TUJIVIRRR46gZtjXSsfdD3LGFOvmMEIwD8r6ulSlay9WrJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F0tmahANQcmh/hQzCpEsFCWPcSh7pitOSsVhBELnS1w=;
- b=3+rpNnBed9zTqv8oyY+PqK47CXLTJvO0H7x3ooKLHz6hWsZlw4Ao+xLOONOQo2TXSB42RPwkN1B0tmoRQyyGwyYWW/o6l+pk1fSxF6oO5KAUnl9X8sZQlt7iJyGKn49ExJgSXm3sLRP5pAyk6Abn4UYVMbFWnBpOkys/RkKKSc4=
-Received: from MW4PR03CA0269.namprd03.prod.outlook.com (2603:10b6:303:b4::34)
- by SA1PR12MB7344.namprd12.prod.outlook.com (2603:10b6:806:2b7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Fri, 23 Sep
- 2022 06:20:06 +0000
-Received: from CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b4:cafe::32) by MW4PR03CA0269.outlook.office365.com
- (2603:10b6:303:b4::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.19 via Frontend
- Transport; Fri, 23 Sep 2022 06:20:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT058.mail.protection.outlook.com (10.13.174.164) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5654.14 via Frontend Transport; Fri, 23 Sep 2022 06:20:06 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 23 Sep
- 2022 01:20:02 -0500
-From:   Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>
-CC:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Subject: [PATCH 2/2] HID: amd_sfh: Handle condition of "no sensors" for SFH1.1
-Date:   Fri, 23 Sep 2022 11:49:09 +0530
-Message-ID: <20220923061909.636337-3-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220923061909.636337-1-Basavaraj.Natikar@amd.com>
-References: <20220923061909.636337-1-Basavaraj.Natikar@amd.com>
+        Fri, 23 Sep 2022 03:03:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7277211ED57
+        for <linux-input@vger.kernel.org>; Fri, 23 Sep 2022 00:03:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663916599;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WhF4nCz6J0FLg0zxw6EoEvz5+Uahw9QLMXSb+VEZaaQ=;
+        b=Eds5BbKSMT74cuxXpgwFc2Xl1Yo+qKDzE6iWe7lvhY0sx6S8zQuI+ynH1GhqeHu6hdeoMl
+        WShGl8a7vWIvnrYiKwHscj5SUEhn6BNSZDce4bkYtA+zeRQ5Nv/glnf3xHC1Y3lOgWRNdv
+        94JZ9U++1tk22l3ri1mZt9nxZXmxE74=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-54-H9TG80zuMQa1hjsGn9cEsA-1; Fri, 23 Sep 2022 03:03:18 -0400
+X-MC-Unique: H9TG80zuMQa1hjsGn9cEsA-1
+Received: by mail-il1-f200.google.com with SMTP id m5-20020a056e021c2500b002f65685226eso5943334ilh.4
+        for <linux-input@vger.kernel.org>; Fri, 23 Sep 2022 00:03:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=WhF4nCz6J0FLg0zxw6EoEvz5+Uahw9QLMXSb+VEZaaQ=;
+        b=5u/YwH79eWHVDccRN7BqhrDVbRP8nvwaXL6JGLo1v2ryeowTw5yV3itnCtW1FoWkQO
+         V7exewKopTflFNCW+dO/bppz1aWtnFD/LHJ5VxamYTGySVWYXjqQCF/l0BuwwTyJ2XPL
+         RPfg7fGGIvpu05wuASvj8rP5WZeJLmpMeBypLKVxLs7O+DMRfaem8qDOZsAciypda2os
+         fW8AWG0ArKbXHov30tU6NyJAx21s6OiPTBqykJKnfgdyQT87VAuw5IHA9rMhkkzAvCNc
+         iDUQ2dQBKEBxS7yXQy4qwDlLXeF7nlt9MMlRzwfDIQ56RTSEtE9UnebnwckWnCB0lEAf
+         eTMg==
+X-Gm-Message-State: ACrzQf0Cs4u3ONr3RcXX8puRM46H5Ibey4kO4OqGenOLkmm+qfXhaME/
+        VNBPg8Bp7YumbSjITFyfZOnW7d9uWxBhSmE1HLxH/D1MLLrbksr+ssWpqrxnIFtnh30cPTyWfYz
+        mEQzaHD+qQT3uhWlWcR22VM+wBWr6S4DwX1cvZr8=
+X-Received: by 2002:a05:6e02:19cb:b0:2eb:3cd1:105e with SMTP id r11-20020a056e0219cb00b002eb3cd1105emr3334301ill.235.1663916597884;
+        Fri, 23 Sep 2022 00:03:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM53+K2SnALqhdFlbb4G59xccKJB+PFnRwj336JHvd8f3x9tqUxq7UFJu2yzqFVEWgzOZyzmQPnf1bV43pUTa3M=
+X-Received: by 2002:a05:6e02:19cb:b0:2eb:3cd1:105e with SMTP id
+ r11-20020a056e0219cb00b002eb3cd1105emr3334290ill.235.1663916597644; Fri, 23
+ Sep 2022 00:03:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT058:EE_|SA1PR12MB7344:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9fac033d-8c51-4ed6-2728-08da9d2ba8a2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VV7ZhWm6ANaWJAvWM6VXZ5d299Jy/t1moqBFTHOjGLGOuf3wfkZfi1A6Re/gVrp+71Kv6RbXCCsH+AXaUmOfcrAp62PMNaYjWBtJQVARfyCjPCDPn1NNKgAo43LFpX5syWpygWDcMExVBt8nBYs99RNzUgge42uBhkX2WJTIdfWM6p93UeV9ol5RG6PkDPTbl9X02XpL/YA+AmNf0K1raltMArfcRTm6wC/1UfvjDgVzlixGEft1rr5Hvmm07NJNIWhY9qLndxBGNWXuodkIgK1fw9WsHjicMueikBdZYubxcoIKo3AEXD2Z32zT1H+XIfsb67XU7OjBjVs9IzA7yxtcNzKxVYGT481S3ZEZQj1d3FT43vHeZIfdXD6kc4pxixlwWR7GU4B/5AOYJTBi/NV38PsnGskMFdrsspz+gvCKFZ4ZktfsZK3gALAthFDaO0HNE1pNH4IHrkQsDgNbGyz3Jr8Ip5v9a2A1YqQyx6/ymBnvb/5LL2sf6mip5wE22FxJH3/CM7Ba3DYpe1abwqVV+1rfTTyWi2bxRBHzkQXnUNx5byUESzKs0Sf3HLv+P4dPwamw3FoNfgk5s/yRU3EQRSW/CQKKIxVf7z2ny+nIsGggnFmNuWZ7R38EO11dhmC2OWPWIWP8OmJcBM9UQFdLkrILATaxqBkgKZoFGoassMHgLNXZZaIeqbFyHYgtRLrA8ZbtADplBU0Z3//xdYLnXnWXTbICPXcqNMR0fVgfosl8Co3KOmcYawBWu+bZJZ9S4KIqqlBwx5uMULoh76ytt5tbiW7t6bHNVV5eqKU9020EdkDnfbB3QpwoDdxI
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(136003)(396003)(346002)(451199015)(36840700001)(40470700004)(46966006)(81166007)(26005)(4744005)(8936002)(40460700003)(2906002)(41300700001)(47076005)(2616005)(426003)(70206006)(4326008)(110136005)(8676002)(356005)(70586007)(316002)(82740400003)(86362001)(16526019)(40480700001)(82310400005)(5660300002)(186003)(1076003)(7696005)(36860700001)(336012)(36756003)(478600001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 06:20:06.2825
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fac033d-8c51-4ed6-2728-08da9d2ba8a2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7344
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220921063026.89619-1-matt.ranostay@konsulko.com>
+ <20220921063026.89619-5-matt.ranostay@konsulko.com> <20220921080458.3uue5ooc3svcbmxp@mail.corp.redhat.com>
+ <CAJCx=gn0bZp3fToF+LZE+evR2m4nWMueusjysxcrvimH0wRhaA@mail.gmail.com> <CAJCx=gmAyae-_VmYpVw=q4+34zraxQ4d2E3DTjjRX4OWqaWwHg@mail.gmail.com>
+In-Reply-To: <CAJCx=gmAyae-_VmYpVw=q4+34zraxQ4d2E3DTjjRX4OWqaWwHg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 23 Sep 2022 09:03:06 +0200
+Message-ID: <CAO-hwJJrgb+ncG9mSiE4zZ32oRc_vD0OcrsTa+uXBCTBGRL+nw@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] HID: mcp2221: switch i2c registration to devm functions
+To:     Matt Ranostay <matt.ranostay@konsulko.com>
+Cc:     Rishi Gupta <gupt21@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a check for num_hid_devices to handle special case in the situation
-of "no sensors" for SFH1.1.
+On Fri, Sep 23, 2022 at 1:45 AM Matt Ranostay
+<matt.ranostay@konsulko.com> wrote:
+>
+> On Wed, Sep 21, 2022 at 10:57 AM Matt Ranostay
+> <matt.ranostay@konsulko.com> wrote:
+> >
+> > On Wed, Sep 21, 2022 at 1:05 AM Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> > >
+> > > [foreword: please keep Jiri and myself (the HID maintainers) CC-ed to
+> > > the series, as you will need ack from us and we don't necessarily monitor
+> > > every single message on linux-input]
+> > >
+> > > On Sep 20 2022, Matt Ranostay wrote:
+> > > > Switch from i2c_add_adapter() to resource managed devm_i2c_add_adapter()
+> > > > for matching rest of driver initialization, and more concise code.
+> > > >
+> > > > Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+> > > > ---
+> > > >  drivers/hid/hid-mcp2221.c | 45 +++++++++++++++++----------------------
+> > > >  1 file changed, 19 insertions(+), 26 deletions(-)
+> > > >
+> > > > diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+> > > > index de52e9f7bb8c..7ba63bcd66de 100644
+> > > > --- a/drivers/hid/hid-mcp2221.c
+> > > > +++ b/drivers/hid/hid-mcp2221.c
+> > > > @@ -824,6 +824,14 @@ static int mcp2221_raw_event(struct hid_device *hdev,
+> > > >       return 1;
+> > > >  }
+> > > >
+> > > > +static void mcp2221_hid_remove(void *ptr)
+> > > > +{
+> > > > +     struct hid_device *hdev = ptr;
+> > > > +
+> > > > +     hid_hw_close(hdev);
+> > > > +     hid_hw_stop(hdev);
+> > >
+> > > By default, if you remove the .remove() callback, hid_hw_stop() will get
+> > > automatically called by hid-core.c. So we are now calling it twice,
+> > > which, in a way is not a big deal but it might be an issue in the long
+> > > run.
+> > >
+> > > Generally speaking, in the HID subsystem, that situation doesn't happen
+> > > a lot because hid_hw_start() is usually the last command of probe, and
+> > > we don't need to open the device in the driver itself.
+> > >
+> > > Here, I guess as soon as you add the i2c adapter, you might want to have
+> > > the communication channels ready, and thus you need to have it open
+> > > *before* i2c_add_adapter.
+> > >
+> > > I would suggest the following if you want to keep the devm release of
+> > > stop and close: please put a big fat warning before mcp2221_hid_remove()
+> > > explaining that this is called in devm management, *and* add a function
+> > > that would just return 0 as the .remove() callback with another big fat
+> > > warning explaining that we don't want hid-core.c to call hid_hw_stop()
+> > > because we are doing it ourself through devres.
+> > >
+> >
+> > Yeah maybe best to keep the non-devres if it isn't going to affect how the last
+> > change in this series is trying to implement with iio.
+> >
+> > I'll wait for Jonathan to chime in on this thread.
+> >
+> > > Last, in the HID subsystem, we often interleave non devres with devres
+> > > for resource allocation, given that .remove() will be called before any
+> > > devres release. But that is assuming this ordering is OK, which doesn't
+> > > seem to be the case here. We first need to unregister the i2c adapter
+> > > and then close/stop the HID device.
+>
+> On second thought I2C will be unregistered before the HID calls, since
+> unless I'm totally
+> incorrect device resource management unwinds backwards in the order actions are
+> registered.
 
-Fixes: 93ce5e0231d7 ("HID: amd_sfh: Implement SFH1.1 functionality")
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
- drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 2 ++
- 1 file changed, 2 insertions(+)
+Yeah, sorry if it was not clear:
+- .remove() is called *before* any devres action takes place
+- devres action are LIFO, so unwinded backwards as you say
 
-diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-index d840efb4a2e2..4da2f9f62aba 100644
---- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-+++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-@@ -110,6 +110,8 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
- 	amd_sfh1_1_set_desc_ops(mp2_ops);
- 
- 	cl_data->num_hid_devices = amd_sfh_get_sensor_num(privdata, &cl_data->sensor_idx[0]);
-+	if (cl_data->num_hid_devices == 0)
-+		return -ENODEV;
- 
- 	INIT_DELAYED_WORK(&cl_data->work, amd_sfh_work);
- 	INIT_DELAYED_WORK(&cl_data->work_buffer, amd_sfh_work_buffer);
--- 
-2.25.1
+In the general case, a driver does:
+int probe() {
+  void *pointer  = devm_alloc(...)
+  some_more_devm_action(...)
+  hid_hw_start()
+  return 0;
+}
+
+and so the HID start action is the last one, meaning that .remove will
+first call stop and then devres unwind will get called.
+
+But here, in your case, you need hid_hw_start to be called *before*
+devm_i2c_add_adapter(), meaning that the implicit .remove() will mess
+up with the device, so you  are forced to do something about it.
+
+You can either keep a non devm variant, or you can override the
+.remove() of HID to not do anything and do the stop/close in a
+specific devm task, which you did here. You are just missing the
+"let's override .remove() to ensure we keep the device open and
+started while we need it".
+
+Cheers,
+Benjamin
 
