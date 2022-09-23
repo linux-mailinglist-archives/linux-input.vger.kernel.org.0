@@ -2,90 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 471555E81F8
-	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 20:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B64BC5E823E
+	for <lists+linux-input@lfdr.de>; Fri, 23 Sep 2022 21:02:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232095AbiIWSqd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Sep 2022 14:46:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47898 "EHLO
+        id S231653AbiIWTCF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Sep 2022 15:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbiIWSqc (ORCPT
+        with ESMTP id S229520AbiIWTCE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Sep 2022 14:46:32 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9233120583;
-        Fri, 23 Sep 2022 11:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663958791; x=1695494791;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=D42fxf/LEPjQZXKiJb/KVJ5udjtoI05vUX7hP10VSl0=;
-  b=lXHzOqzF2LLhSNr+fgBvz6bC9Bxshs+gX7SXtHTuWKIep+TXV/1zBXKM
-   Q4GHCNf2Yrs2chkghhg106C1FwMn2FbQ/Am8t3N0IXPxPWCWpdmAisfBt
-   pZlK1aDQPVdeCwcqbWllt0L7Yrp3i32JtN5hjX+8OuJPZM7zN9yVjb24+
-   wC046QJdh3AgGMbfEaBNdRH7osqsdIAlm2/inV15MxaFioX7S1Simhh8q
-   gM4c4/2NSHlyK6ees1drQpC7xBYJkOTBnClbiZuv8k4FvFP1ALy5w+yLj
-   b/diHdv8LzxQEBjcgx532gydq+7A321MQPuiMAy8E4qsJf71HPITLpFBN
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="302116091"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="302116091"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 11:46:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="795607571"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 23 Sep 2022 11:46:18 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id BB58E86; Fri, 23 Sep 2022 21:46:36 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [PATCH v1 2/2] Input: matrix_keypad - replace header inclusions by forward declarations
-Date:   Fri, 23 Sep 2022 21:46:32 +0300
-Message-Id: <20220923184632.2157-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220923184632.2157-1-andriy.shevchenko@linux.intel.com>
+        Fri, 23 Sep 2022 15:02:04 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 058E3121E5F;
+        Fri, 23 Sep 2022 12:02:04 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id bh13so1081228pgb.4;
+        Fri, 23 Sep 2022 12:02:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=2k6HWGdDwy1kgtlm0Nt4fQqupyR8236/Bu1w1by3LAs=;
+        b=dVrRFyyuNGoSyIKd5EN9JP6JaufLfb+hAWGRoCqCrISYhk/gq4U6bTsDPFueKEWbWm
+         5/9cBqBNcYnemStf4MKPcyT8w9p5TkmRAWcEOnlxVdi8k8nTZN49hz6UFhwDOGSPxxE1
+         05bmzTSnk/eNwKsZbT7cgfp7uLMdV4/dSUTvjPzVUhLc2+yEbLeTKETOxa+Lxu8MaMK4
+         Byex7s1zT5Bv/YB1iaOa7jciZGkUyMureB3YF2NOpaD3LbRfDCjfkgTLTJjpV5VOx6xf
+         SLt+55+SsZExgY89hl8nOzOTy4Dgmn9VgDAHRgrCT92B7Dff4WKbLXLNvWTymAmBRaF/
+         wsUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=2k6HWGdDwy1kgtlm0Nt4fQqupyR8236/Bu1w1by3LAs=;
+        b=0PB4a5Vr8u+oR2FH2HDK2nQ7YrgUkaicaABSQE2De7n/2dnFgu+KyziQ6HNJzK3AmW
+         tJsCr+GNsfNriDww9g520TfbdsoGiQVYdGbEW2hEBIsZbsiNXH2eoRyIe1iWEMcSpnj8
+         lZjik/u1eSAKvr413JF6ijwZHgR9wGWVG7HcVyAgdVcG+56/9b0Jv+GjTky/3xXicpaS
+         vvM6utBB4rJPugdtM+6kVqvBPbY37s3pcVACya3SrHxryP0qkqpYuGOz2wt+3PTxFP+r
+         cWIv/EL7caaZUQEvrkHpDURL7FW1dIHRjAxjUe8wB6vC/2LuYD5VpEphxSaK8swn5DKO
+         oyoQ==
+X-Gm-Message-State: ACrzQf1XQ/XMmMFFBM09Ial7w7Gy3xE6oiyCYt2uEi1+tocYo+G8zXVQ
+        RSqPv9NOMlhS/l2Dk+5MU4I=
+X-Google-Smtp-Source: AMsMyM6r1vIyoygUuNBLpDm42819FRt1OzlwGdTpj9n71z/BhQxDlC0COTYkXQ/fDNbF56Hsfzp8/g==
+X-Received: by 2002:a05:6a00:1a94:b0:548:8ce8:db93 with SMTP id e20-20020a056a001a9400b005488ce8db93mr10686430pfv.13.1663959723347;
+        Fri, 23 Sep 2022 12:02:03 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:8b46:be3c:2c54:68a5])
+        by smtp.gmail.com with ESMTPSA id d12-20020a170903230c00b00172d0c7edf4sm6380657plh.106.2022.09.23.12.02.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 12:02:02 -0700 (PDT)
+Date:   Fri, 23 Sep 2022 12:01:59 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] Input: matrix_keypad - add missed header inclusion
+Message-ID: <Yy4Cp/BPH/75oFb1@google.com>
 References: <20220923184632.2157-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220923184632.2157-1-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When the data structure is only referred by pointer, compiler may not need
-to see the contents of the data type. Thus, we may replace header inclusions
-by respective forward declarations.
+On Fri, Sep 23, 2022 at 09:46:31PM +0300, Andy Shevchenko wrote:
+> The gpiod_count() API is defined in gpio/consumer.h. Include it.
+> 
+> Fixes: f8f7f47d576f ("Input: matrix_keypad - replace of_gpio_named_count() by gpiod_count()")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/input/matrix_keypad.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Applied, thank you.
 
-diff --git a/include/linux/input/matrix_keypad.h b/include/linux/input/matrix_keypad.h
-index 9476768c3b90..b8d8d69eba29 100644
---- a/include/linux/input/matrix_keypad.h
-+++ b/include/linux/input/matrix_keypad.h
-@@ -3,8 +3,9 @@
- #define _MATRIX_KEYPAD_H
- 
- #include <linux/types.h>
--#include <linux/input.h>
--#include <linux/of.h>
-+
-+struct device;
-+struct input_dev;
- 
- #define MATRIX_MAX_ROWS		32
- #define MATRIX_MAX_COLS		32
 -- 
-2.35.1
-
+Dmitry
