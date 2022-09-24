@@ -2,139 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA2085E8EB1
-	for <lists+linux-input@lfdr.de>; Sat, 24 Sep 2022 18:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2A785E8EB6
+	for <lists+linux-input@lfdr.de>; Sat, 24 Sep 2022 19:00:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233984AbiIXQ6N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 24 Sep 2022 12:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37244 "EHLO
+        id S230009AbiIXRAf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 24 Sep 2022 13:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233946AbiIXQ5s (ORCPT
+        with ESMTP id S230245AbiIXRAe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 24 Sep 2022 12:57:48 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C15691D17
-        for <linux-input@vger.kernel.org>; Sat, 24 Sep 2022 09:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664038667; x=1695574667;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=reUqumL7V5p6zhSWDbGBI1KwDaTxIrXZvynuIb6NX6E=;
-  b=eN5ctcsY8toXG0Y06H/W0DWopokDn2yQxgEmVZ8IOq7aXWmWfBolECIw
-   lQTzNa/5eTGMm+tl97Xz3DCN0dMXAnWWs5xaf44Gcq+DyeBndRkFpIC9p
-   YNxVsAsB6f/WlzlOj+wdePmgZhLPvzPlMCfsmeXAZ4kXZWGcKFKQwqmuP
-   t2dbvkJ3jy4Q4vej1CKKr/CSbEBmgceYv2aCMBdQTRA7FLmIc9gw95obT
-   TP6j24heUOF0kCIPr+VUVjyB35i0aQpb0eR2P+CnBKktbDU7+ySO+tP4d
-   cTjHOtaGJu+XB1urA68OOxPKCMyNpEEVnzx0Ac14FvSwsSsL8R1VFNGi8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10480"; a="362616818"
-X-IronPort-AV: E=Sophos;i="5.93,342,1654585200"; 
-   d="scan'208";a="362616818"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2022 09:57:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,342,1654585200"; 
-   d="scan'208";a="571723686"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Sep 2022 09:57:45 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oc8TJ-0006ny-0W;
-        Sat, 24 Sep 2022 16:57:45 +0000
-Date:   Sun, 25 Sep 2022 00:57:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 87d3d1b1403ba079cf9b1541a247156863af07f0
-Message-ID: <632f3703.3xuwD/8WbuqLtHDv%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 24 Sep 2022 13:00:34 -0400
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B6AB4F1B9;
+        Sat, 24 Sep 2022 10:00:30 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id y2so1865949qkl.11;
+        Sat, 24 Sep 2022 10:00:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=Mv7RZGDha7iDmRE6av7uMPU/L2zibi5cjYqnmme1EJA=;
+        b=78nzq/JUXqGFR5hKltSiykUmvR+PiN9kk7X9yZoKtKZ7NbfoiwBglg5JqzP0qPvhVu
+         usb4KrEWEfCaT1oBp8zKpfbY/NMiJockJNweTUHJ4iIo8ELDYbFQsFguBYtBYgtCTnhX
+         d9SGhRnLYDj9+c7z49V2wn3LTmplQgrro92hTlsHPIisVBh7Lpi6q8yr6wvQ+YYig7Jh
+         Tm+kzZdTzaSh8xlPptFBC8PRjzdUQ8UXDDWsTY24vnVZoowiJy4Ii3W/zM0h1t7Fpxl9
+         Dr+HztpEgcqHxeG3ceuBiw8ltQUEMCMYzZMAeWXVao14E2weI+nQKVkM4gxmpNSmkUNW
+         bk2w==
+X-Gm-Message-State: ACrzQf2xgVxsJcUwJyUwgu1rVOWxYTnTwRtoPAUg5tzIu8tBbpnSL3JS
+        Z4ywjBXDRwTbaecRzROJ6y0gPMOw5HWtP+jeU1I=
+X-Google-Smtp-Source: AMsMyM7V96vRbUfHtrdxXkPZ57kKXudE2UxOP+8P1vkzaxCCb++Gqh+e9RQQknQeG/HtvzrtMpfzD2UNNdNhMZXLZlw=
+X-Received: by 2002:a05:620a:290d:b0:6b6:1a92:d88a with SMTP id
+ m13-20020a05620a290d00b006b61a92d88amr9463711qkp.58.1664038829737; Sat, 24
+ Sep 2022 10:00:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220921155205.1332614-1-rrangel@chromium.org> <20220921094736.v5.8.I7d9202463f08373feccd6e8fd87482c4f40ece5d@changeid>
+In-Reply-To: <20220921094736.v5.8.I7d9202463f08373feccd6e8fd87482c4f40ece5d@changeid>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sat, 24 Sep 2022 19:00:19 +0200
+Message-ID: <CAJZ5v0g57mF-4ZC2ajL5+JE+q9y=fW1G-OXR8tuOk4TYxHPWtQ@mail.gmail.com>
+Subject: Re: [PATCH v5 08/13] ACPI: PM: Take wake IRQ into consideration when
+ entering suspend-to-idle
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Tim Van Patten <timvp@google.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Len Brown <lenb@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 87d3d1b1403ba079cf9b1541a247156863af07f0  Input: synaptics-rmi4 - drop useless gotos in rmi_f34v7_do_reflash()
+On Wed, Sep 21, 2022 at 5:52 PM Raul E Rangel <rrangel@chromium.org> wrote:
+>
+> This change adds support for ACPI devices that use ExclusiveAndWake or
+> SharedAndWake in their _CRS GpioInt definition (instead of using _PRW),
+> and also provide power resources. Previously the ACPI subsystem had no
+> idea if the device had a wake capable interrupt armed. This resulted
+> in the ACPI device PM system placing the device into D3Cold, and thus
+> cutting power to the device. With this change we will now query the
+> _S0W method to figure out the appropriate wake capable D-state.
+>
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> ---
+>
+> Changes in v5:
+> - Go back to using adev->wakeup.flags.valid to keep the diff cleaner
+> - Fix a typo in comment
+>
+>  drivers/acpi/device_pm.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
+> index 9dce1245689ca2..3111fc426e04fd 100644
+> --- a/drivers/acpi/device_pm.c
+> +++ b/drivers/acpi/device_pm.c
+> @@ -681,8 +681,23 @@ static int acpi_dev_pm_get_state(struct device *dev, struct acpi_device *adev,
+>                 d_min = ret;
+>                 wakeup = device_may_wakeup(dev) && adev->wakeup.flags.valid
+>                         && adev->wakeup.sleep_state >= target_state;
+> -       } else {
+> -               wakeup = adev->wakeup.flags.valid;
+> +       } else if (adev->wakeup.flags.valid) {
+> +               /* ACPI GPE specified in _PRW. */
+> +               wakeup = true;
 
-elapsed time: 1251m
+I would retain the "else" clause as it was and just add a new "else
+if" one before it.
 
-configs tested: 58
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-powerpc                           allnoconfig
-arc                                 defconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allmodconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-s390                             allyesconfig
-m68k                             allyesconfig
-arc                  randconfig-r043-20220923
-riscv                randconfig-r042-20220923
-s390                 randconfig-r044-20220923
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-i386                                defconfig
-x86_64                           allyesconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-arm                                 defconfig
-x86_64                        randconfig-a006
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-arm64                            allyesconfig
-x86_64                        randconfig-a002
-arm                              allyesconfig
-i386                          randconfig-a016
-i386                          randconfig-a014
-sh                               allmodconfig
-i386                          randconfig-a012
-x86_64                        randconfig-a004
-i386                             allyesconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-m68k                             allmodconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-ia64                             allmodconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-
-clang tested configs:
-hexagon              randconfig-r045-20220923
-hexagon              randconfig-r041-20220923
-i386                          randconfig-a006
-x86_64                        randconfig-a014
-i386                          randconfig-a002
-x86_64                        randconfig-a005
-x86_64                        randconfig-a012
-i386                          randconfig-a004
-x86_64                        randconfig-a016
-x86_64                        randconfig-a001
-i386                          randconfig-a013
-x86_64                        randconfig-a003
-i386                          randconfig-a011
-i386                          randconfig-a015
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> +       } else if (device_may_wakeup(dev) && dev->power.wakeirq) {
+> +               /*
+> +                * The ACPI subsystem doesn't manage the wake bit for IRQs
+> +                * defined with ExclusiveAndWake and SharedAndWake. Instead we
+> +                * expect them to be managed via the PM subsystem. Drivers
+> +                * should call dev_pm_set_wake_irq to register an IRQ as a wake
+> +                * source.
+> +                *
+> +                * If a device has a wake IRQ attached we need to check the
+> +                * _S0W method to get the correct wake D-state. Otherwise we
+> +                * end up putting the device into D3Cold which will more than
+> +                * likely disable wake functionality.
+> +                */
+> +               wakeup = true;
+>         }
+>
+>         /*
+> --
