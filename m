@@ -2,79 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EC6F5E8B66
-	for <lists+linux-input@lfdr.de>; Sat, 24 Sep 2022 12:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A87415E8E56
+	for <lists+linux-input@lfdr.de>; Sat, 24 Sep 2022 18:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbiIXKQS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 24 Sep 2022 06:16:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58578 "EHLO
+        id S233693AbiIXQFm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 24 Sep 2022 12:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230329AbiIXKQR (ORCPT
+        with ESMTP id S230401AbiIXQFl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 24 Sep 2022 06:16:17 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C8A8A182;
-        Sat, 24 Sep 2022 03:16:16 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id r7so3428598wrm.2;
-        Sat, 24 Sep 2022 03:16:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=QRTSu1O0HIpoXO2imWD0xHZMuEivGpArSWdd+grYI2w=;
-        b=RoshO2+BRIF+C001sPHXQ7DvKmu7ufxWBFGZzhbRYdGwDIpMvMiesVpV394gIJ1sH/
-         nQaxw4IgN9B9slHqzmOqL5K0DdNZzARkhrNAY6ahAnNxFrZYaH06EVAZxRl4eHkPE+DQ
-         d7jYxqlJHb1Z6ehKreUlM4iKeWA0mwNTs0vjG93wW/flfybwLXgC+k7AGxPTPsazL6y5
-         LVxXC6fBA5Vl/PcJbUUWCJhuiU4hijpVw/mePEvNJu7kNSt0fl1emVPAoRGrTakYNccy
-         UfYu0PJ9JCskPOPHVLh2s5bwznYdKrNIl1qUifRqd2cXNtWrkAO2oNATIiwDGdGjgXng
-         myQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=QRTSu1O0HIpoXO2imWD0xHZMuEivGpArSWdd+grYI2w=;
-        b=AqTyqv4jzNpuWGMmQp1bqveoQ0V1QzDeCbbOSoEu+FFP5tpWmP9Yw1SmL4OGPlIGy0
-         zYpsW41lRSLW6AdCxknBy8lccIt4q7e7L7PZh5b1K0Gi0ANl+RqSJvqWn1ZscIBIIr7r
-         7q4UmmYQwdX0XoI25VpKRvWfI2ocHcbvZWLzL49h2c2O6NJKxWb93uBUeAGCeSuFYY5o
-         wI5AkV6Oj+MbAR8daQvnppGROkCrVfsxc2qT7wfeR73H7KIt9RYNhJw6L7XxUxt+t0lU
-         xAU2VZXtA94HvqhJYjznRsSVMYyUrXjtmhBULMb5N/4Y9dVl1xhRTJ2U12syJP/WGnZJ
-         +HdQ==
-X-Gm-Message-State: ACrzQf39i0h45p10WapXN8aDXRFjgNUs7wmvMQJJcSuRUaLZMd5Tsaoj
-        4qh+hy0dBv9/Q2TPIdlmq9zrPrXvbAM=
-X-Google-Smtp-Source: AMsMyM7XmVc9uSASAIp7aoJGsljOtOFMuG78u6WMjg/dVOSdPpAo3pwyjk3EcaPgBuEajhneLJLu4Q==
-X-Received: by 2002:a5d:6d82:0:b0:22b:b9f:d7fb with SMTP id l2-20020a5d6d82000000b0022b0b9fd7fbmr7522130wrs.580.1664014575008;
-        Sat, 24 Sep 2022 03:16:15 -0700 (PDT)
-Received: from localhost.localdomain ([5.25.100.2])
-        by smtp.gmail.com with ESMTPSA id f2-20020a5d6642000000b0022ac61ebb14sm9178253wrw.22.2022.09.24.03.16.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 03:16:14 -0700 (PDT)
-From:   Kerem Karabay <kekrby@gmail.com>
-To:     kekrby@gmail.com
-Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] HID: apple: enable APPLE_ISO_TILDE_QUIRK for the keyboards of Macs with the T2 chip
-Date:   Sat, 24 Sep 2022 13:15:59 +0300
-Message-Id: <20220924101559.10744-1-kekrby@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220910094354.12359-2-kekrby@gmail.com>
-References: <20220910094354.12359-2-kekrby@gmail.com>
+        Sat, 24 Sep 2022 12:05:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA963BC6B;
+        Sat, 24 Sep 2022 09:05:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0CD70B80782;
+        Sat, 24 Sep 2022 16:05:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59FAAC433C1;
+        Sat, 24 Sep 2022 16:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664035537;
+        bh=Bs9NJ0R82GcaSwooJvmvxGQW/0RDf+v/EwvcXxNfKNc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=QogBWn5ugx2RTc98GivhcN1QwRXyxRERBR+g75Sg9EjAXXyAc6G1iE5V44EvSPwsQ
+         tep/1pXpEZOFCFJSXJkaAsOZWApML8c94Cjz7QG2WT1EwCUD/TXnbkJc0N2J0U2Ox9
+         wMocwvDfdLPAn/PjbWexAcAf7Honc8peodN3RBExn1jfMeqmBGPDS979+IUkDb6ROF
+         kJ++9Xaa7ubHj3VOjiVn2XcAVu6rzosPyh8eCGs++y8MBBcdgHqwRXx9cHMTInPIKm
+         kwCahkte4rAEb1idQ42ealkn0Hgavxcc2MbRb2O6+a/3FjgNFJBWdaLaSPhyWhnEuL
+         vO2+nAmZgN2Yw==
+Date:   Sat, 24 Sep 2022 17:05:45 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Matt Ranostay <matt.ranostay@konsulko.com>
+Cc:     gupt21@gmail.com, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v4 2/5] iio: addac: stx104: fix future recursive
+ dependencies
+Message-ID: <20220924170545.0b581e6d@jic23-huawei>
+In-Reply-To: <20220921063026.89619-3-matt.ranostay@konsulko.com>
+References: <20220921063026.89619-1-matt.ranostay@konsulko.com>
+        <20220921063026.89619-3-matt.ranostay@konsulko.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Tue, 20 Sep 2022 23:30:23 -0700
+Matt Ranostay <matt.ranostay@konsulko.com> wrote:
 
-I just sent a new version of this series, containing a bug fix, which can be
-found at https://lore.kernel.org/all/20220924095306.8852-1-kekrby@gmail.com/.
+> When using 'imply IIO' for other configurations which have 'select GPIOLIB'
+> the following recursive dependency is detected for STX1040
+> 
+> Switch from 'select GPIOLIB' to 'depends on GPIOLIB' to avoid this per
+> recommendation in kconfig-language.rst
+> 
+> drivers/gpio/Kconfig:14:error: recursive dependency detected!
+> drivers/gpio/Kconfig:14:        symbol GPIOLIB is selected by STX104
+> drivers/iio/addac/Kconfig:20:   symbol STX104 depends on IIO
+> drivers/iio/Kconfig:6:  symbol IIO is implied by HID_MCP2221
+> drivers/hid/Kconfig:1227:       symbol HID_MCP2221 depends on GPIOLIB
+> 
+> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+Given this wants to go in with the patch that causes the problem (and definitely
+not after it!)- I'll assume this will go via the HID tree.
 
-Best wishes,
-Kerem
+
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> ---
+>  drivers/iio/addac/Kconfig | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iio/addac/Kconfig b/drivers/iio/addac/Kconfig
+> index fcf6d2269bfc..494790816ac7 100644
+> --- a/drivers/iio/addac/Kconfig
+> +++ b/drivers/iio/addac/Kconfig
+> @@ -19,9 +19,8 @@ config AD74413R
+>  
+>  config STX104
+>  	tristate "Apex Embedded Systems STX104 driver"
+> -	depends on PC104 && X86
+> +	depends on PC104 && X86 && GPIOLIB
+>  	select ISA_BUS_API
+> -	select GPIOLIB
+>  	help
+>  	  Say yes here to build support for the Apex Embedded Systems STX104
+>  	  integrated analog PC/104 card.
+
