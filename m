@@ -2,97 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FE645EAF58
-	for <lists+linux-input@lfdr.de>; Mon, 26 Sep 2022 20:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B74C5EB06B
+	for <lists+linux-input@lfdr.de>; Mon, 26 Sep 2022 20:44:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231371AbiIZSMq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Sep 2022 14:12:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46118 "EHLO
+        id S231431AbiIZSor (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Sep 2022 14:44:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbiIZSM0 (ORCPT
+        with ESMTP id S231445AbiIZSoW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Sep 2022 14:12:26 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D582576458;
-        Mon, 26 Sep 2022 11:00:11 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id z25so12145936lfr.2;
-        Mon, 26 Sep 2022 11:00:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=OxspaBouJm9lWuF7hJ+GRzyfh+IHOjJvQkXxQ3ccAI8=;
-        b=nl+E+dsYQCKZ/fldDpa0rqxqYrMjd36KRo6CrkvwQYXc3xR+vmUxVKLhKPRFhcQv1g
-         JIk9dCGYEyCYEenipGYOTJScU+jcCHNcv68mRp384Jvsr49uhag/Aucke3/7+ZN3GJwd
-         d0w709Q1GIkHEsjYOwH7pEqSMdab/79wUYWypJEloEyvMqo8d43sDcGnC9xGxO/EXEY6
-         m+r3GkRbP35hq7LeUdui65leHe7RxweKlndMB6I6szcAm50cRsPMqy3aPAlBc5bdlbTa
-         wZTZ69M4Q8MGDKPVB4F9DMksTRT2DsVhpysK+IV/v81GblV7KSUYbEaHBoEucU5rAVfr
-         6LtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=OxspaBouJm9lWuF7hJ+GRzyfh+IHOjJvQkXxQ3ccAI8=;
-        b=C0fujbHEeKumfJrILiO5rBW6iuaR6gntzN7KT5KfiYm3To3TUFtbNY2YCrLgmG/bxh
-         /Vg+v7YN6I3RLejHNxKFzytQXxe4LnUOmoSfsSIyX+SPzZrBEIEJc/Bgp3X8groZno59
-         aGzeTOPbLuQVefVd28u+4KU2tOBmtKbtBVUkLT0ZFXz7xKieSIlZF62xsNYDHW9oSWqf
-         nH0AqPGGDmDTpdfqFFJowKXpvQD/p7auWg+ybDys60XqWZXCCi/Gu6n+yp/7S0m3GecV
-         rrof/FlFFmPO1LvsXeYbj4+Ua7qNZOTSGIbeIvEruuLEfIXVa4P3x4XjFxVbPHIKwq9r
-         gFvQ==
-X-Gm-Message-State: ACrzQf3FF52eImszKhLq8wvIWxFw49x/CM5ZpPeG0VrcJ1mXYYtMDmgt
-        O7XKcM7iVcLYRe2mr2USk0xIgKiXPUki/g==
-X-Google-Smtp-Source: AMsMyM727+f++4Qi7Ejq3M9ahR8yxFYVlCUBVsFcO1zcq0Mbin5Ek/ur5pME6AY1J98Fsh2cfZlJ8g==
-X-Received: by 2002:a05:6512:10d3:b0:499:cce2:37a8 with SMTP id k19-20020a05651210d300b00499cce237a8mr9150687lfg.169.1664215210174;
-        Mon, 26 Sep 2022 11:00:10 -0700 (PDT)
-Received: from [10.0.0.42] (91-159-150-230.elisa-laajakaista.fi. [91.159.150.230])
-        by smtp.gmail.com with ESMTPSA id o7-20020ac25e27000000b00497a8f04905sm2597239lfg.251.2022.09.26.11.00.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 11:00:09 -0700 (PDT)
-Message-ID: <5a608241-520c-596a-92f0-69ef6589713e@gmail.com>
-Date:   Mon, 26 Sep 2022 21:09:00 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] Input: twl4030-vibra - Drop legacy, non DT boot support
-Content-Language: en-US
+        Mon, 26 Sep 2022 14:44:22 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2E9915CB
+        for <linux-input@vger.kernel.org>; Mon, 26 Sep 2022 11:43:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664217790; x=1695753790;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ypa03rUDrXu2qYVHMUGxqg9Hcm/HfPXmmQcBNUJ8L/o=;
+  b=D5/Ohjrx1Rw8xxFqGotY2RrjPwKlpzIU1jB4ZP7KiBPTumiwIBGhr8WY
+   VUjmJdcf7WJ72h0GF8VyqRf9cJ/84F4Hg5rm2ZSQB6tiAAXN0wWKArrRZ
+   MYNHk/j7FGUPgBESihz+PEXhuuZQ/TipHsnzaiJxCrVLODkAbFwkjPFyQ
+   +Fj1jFsVoZ2Z3aOfgfE7F0wy02FRv6iMjyWtj1aHqNaPBWSFMiZzSke7u
+   mQeYlhOjcF1C7Ywx/egNTjjHQ/IdnMaPCqFM7U/nWILsvHPTlzr5SsfTB
+   ImQwf4gddrNMTs3fu3M5NCjdHZruU98DJPohvx2yxvt0oVuyr9J+wdpLU
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="299831058"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="299831058"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 11:43:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="598851704"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="598851704"
+Received: from lkp-server02.sh.intel.com (HELO dfa2c9fcd321) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 26 Sep 2022 11:43:08 -0700
+Received: from kbuild by dfa2c9fcd321 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oct4N-0000AM-2h;
+        Mon, 26 Sep 2022 18:43:07 +0000
+Date:   Tue, 27 Sep 2022 02:42:46 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     tony@atomide.com, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-References: <20220616153323.29464-1-peter.ujfalusi@gmail.com>
- <Yy/pFF+Y6Fvq3bmd@google.com>
-From:   =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <Yy/pFF+Y6Fvq3bmd@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:gpio-of-cleanups] BUILD SUCCESS
+ 5c6098794cca5ac0a774ee430b72e18b8b98c032
+Message-ID: <6331f2a6.TTcU5XVlhJQWPYty%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git gpio-of-cleanups
+branch HEAD: 5c6098794cca5ac0a774ee430b72e18b8b98c032  mfd: twl6040: drop twl6040_platform_data and associated definitions
 
+elapsed time: 722m
 
-On 9/25/22 08:37, Dmitry Torokhov wrote:
-> On Thu, Jun 16, 2022 at 06:33:23PM +0300, Peter Ujfalusi wrote:
->> Legacy or non DT boot is no longer possible on systems where the
->> tw4030/5030 is used.
->>
->> Drop the support for handling legacy pdata.
->>
->> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-> 
-> Applied, thank you.
-> 
-> I suppose you will be dropping definition of struct twl4030_vibra_data
-> from include/linux/mfd/twl.h as well?
+configs tested: 63
+configs skipped: 2
 
-Yes, that is the plan after all drivers have been cleaned up.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+arc                                 defconfig
+i386                                defconfig
+alpha                               defconfig
+s390                                defconfig
+s390                             allmodconfig
+i386                             allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+x86_64                              defconfig
+s390                             allyesconfig
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-kvm
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
+m68k                             allyesconfig
+m68k                             allmodconfig
+arm                                 defconfig
+i386                 randconfig-a001-20220926
+arm64                            allyesconfig
+arm                              allyesconfig
+i386                 randconfig-a004-20220926
+i386                 randconfig-a005-20220926
+x86_64                           allyesconfig
+powerpc                           allnoconfig
+i386                 randconfig-a006-20220926
+i386                 randconfig-a002-20220926
+powerpc                          allmodconfig
+i386                 randconfig-a003-20220926
+mips                             allyesconfig
+sh                               allmodconfig
+arc                  randconfig-r043-20220925
+x86_64               randconfig-a002-20220926
+x86_64               randconfig-a001-20220926
+riscv                randconfig-r042-20220925
+x86_64               randconfig-a003-20220926
+x86_64               randconfig-a004-20220926
+x86_64               randconfig-a006-20220926
+x86_64               randconfig-a005-20220926
+arc                  randconfig-r043-20220926
+s390                 randconfig-r044-20220925
+ia64                             allmodconfig
+
+clang tested configs:
+x86_64               randconfig-a012-20220926
+x86_64               randconfig-a014-20220926
+i386                 randconfig-a011-20220926
+x86_64               randconfig-a016-20220926
+i386                 randconfig-a014-20220926
+x86_64               randconfig-a013-20220926
+i386                 randconfig-a013-20220926
+i386                 randconfig-a012-20220926
+i386                 randconfig-a015-20220926
+x86_64               randconfig-a011-20220926
+x86_64               randconfig-a015-20220926
+i386                 randconfig-a016-20220926
+hexagon              randconfig-r045-20220925
+hexagon              randconfig-r041-20220926
+hexagon              randconfig-r045-20220926
+hexagon              randconfig-r041-20220925
+riscv                randconfig-r042-20220926
+s390                 randconfig-r044-20220926
 
 -- 
-Péter
+0-DAY CI Kernel Test Service
+https://01.org/lkp
