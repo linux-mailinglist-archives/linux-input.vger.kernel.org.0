@@ -2,182 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59C815EB2A6
-	for <lists+linux-input@lfdr.de>; Mon, 26 Sep 2022 22:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 644075EB382
+	for <lists+linux-input@lfdr.de>; Mon, 26 Sep 2022 23:48:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbiIZUuo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Sep 2022 16:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34306 "EHLO
+        id S230106AbiIZVsg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Sep 2022 17:48:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231145AbiIZUuk (ORCPT
+        with ESMTP id S230055AbiIZVs3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Sep 2022 16:50:40 -0400
-Received: from mail.inka.de (mail.inka.de [IPv6:2a04:c9c7:0:1073:217:a4ff:fe3b:e77c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C80AB418
-        for <linux-input@vger.kernel.org>; Mon, 26 Sep 2022 13:50:37 -0700 (PDT)
-Received: from mail3.berkhan-weisser.de ([2a03:4000:54:b9a::4])
-        by mail.inka.de with esmtpsa 
-        id 1ocudL-003t12-Fi; Mon, 26 Sep 2022 22:23:19 +0200
-Received: from 127.0.0.1 (helo=localhost.localdomain)
-        by mail3.berkhan-weisser.de with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.94.2)
-        (envelope-from <Enrik.Berkhan@inka.de>)
-        id 1ocudL-007Trr-3k; Mon, 26 Sep 2022 22:23:19 +0200
-From:   Enrik Berkhan <Enrik.Berkhan@inka.de>
-To:     linux-input@vger.kernel.org
-Cc:     linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rishi Gupta <gupt21@gmail.com>,
-        Enrik Berkhan <Enrik.Berkhan@inka.de>
-Subject: [PATCH v1 4/4] HID: mcp2221: avoid stale rxbuf pointer
-Date:   Mon, 26 Sep 2022 22:22:39 +0200
-Message-Id: <20220926202239.16379-5-Enrik.Berkhan@inka.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220926202239.16379-1-Enrik.Berkhan@inka.de>
-References: <20220926202239.16379-1-Enrik.Berkhan@inka.de>
+        Mon, 26 Sep 2022 17:48:29 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 017B2A6ADE;
+        Mon, 26 Sep 2022 14:48:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 6DB68CE13C2;
+        Mon, 26 Sep 2022 21:48:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B5ACC433D6;
+        Mon, 26 Sep 2022 21:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664228905;
+        bh=6W0fTeqRvfZnXUSIy2HmwaotV8quNId5t2aiRo7yB4o=;
+        h=Date:From:To:Cc:Subject:From;
+        b=IAMPRMpxF9lO2m+gOdRH1PFJCIdOlIer2cgOdeuDYjBvSpHIU91+gOygNyaH9XPQf
+         k2R2pgi+tF9AbQncVVy3OzTAZ6amCRyZy1wrA+PGymZ1pPKlPefV1k1tr/ZQikTs97
+         k9d0LaHckKkPVfp/THqd42E1Op1kMg36WCV33wpZV2py1MPAWlbFLJV7fDtGBgkT6W
+         sKpxfYoZYegc3g/lbZ2ZT3sDZzuBMulq1iTUsJli2TDy7M9HdGFnrAoVpFH7xFcR60
+         epAOrBn+UDbQD7LGfAxeiGLyqDiyubL8Z3cMABErGATuUKICwXVR058Q8x2hm5IOiP
+         WbNCp/8rZpn7g==
+Date:   Mon, 26 Sep 2022 16:48:21 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH][next] Input: applespi - replace zero-length array with
+ DECLARE_FLEX_ARRAY() helper
+Message-ID: <YzIeJeqU73G+UI8g@work>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In case the MCP2221 driver receives an unexpected read complete report
-from the device, the data should not be copied to mcp->rxbuf. The
-pointer might be NULL or even stale, having been set during an earlier
-transaction.
+Zero-length arrays are deprecated and we are moving towards adopting
+C99 flexible-array members, instead. So, replace zero-length arrays
+declarations in anonymous union with the new DECLARE_FLEX_ARRAY()
+helper macro.
 
-Further, some bounds checking has been added.
+This helper allows for flexible-array members in unions.
 
-Signed-off-by: Enrik Berkhan <Enrik.Berkhan@inka.de>
+Link: https://github.com/KSPP/linux/issues/193
+Link: https://github.com/KSPP/linux/issues/219
+Link: https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/hid/hid-mcp2221.c | 44 +++++++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 9 deletions(-)
+ drivers/input/keyboard/applespi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index d17839e09ebc..faccb3c03d33 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -94,6 +94,7 @@ struct mcp2221 {
- 	u8 *rxbuf;
- 	u8 txbuf[64];
- 	int rxbuf_idx;
-+	int rxbuf_len;
- 	int status;
- 	u8 cur_i2c_clk_div;
- 	struct gpio_chip *gc;
-@@ -286,15 +287,13 @@ static int mcp_i2c_smbus_read(struct mcp2221 *mcp,
- 		total_len = smbus_len;
- 		mcp->rxbuf = smbus_buf;
- 	}
-+	mcp->rxbuf_len = total_len;
-+	mcp->rxbuf_idx = 0;
- 	spin_unlock_bh(&mcp->raw_event_lock);
+diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
+index fab5473ae5da..91a9810f6980 100644
+--- a/drivers/input/keyboard/applespi.c
++++ b/drivers/input/keyboard/applespi.c
+@@ -311,7 +311,7 @@ struct message {
+ 		struct command_protocol_mt_init	init_mt_command;
+ 		struct command_protocol_capsl	capsl_command;
+ 		struct command_protocol_bl	bl_command;
+-		u8				data[0];
++		DECLARE_FLEX_ARRAY(u8, 		data);
+ 	};
+ };
  
- 	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 4);
- 	if (ret)
--		return ret;
--
--	spin_lock_bh(&mcp->raw_event_lock);
--	mcp->rxbuf_idx = 0;
--	spin_unlock_bh(&mcp->raw_event_lock);
-+		goto out_invalidate_rxbuf;
- 
- 	do {
- 		spin_lock_bh(&mcp->raw_event_lock);
-@@ -304,15 +303,22 @@ static int mcp_i2c_smbus_read(struct mcp2221 *mcp,
- 
- 		ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
- 		if (ret)
--			return ret;
-+			goto out_invalidate_rxbuf;
- 
- 		ret = mcp_chk_last_cmd_status(mcp);
- 		if (ret)
--			return ret;
-+			goto out_invalidate_rxbuf;
- 
- 		usleep_range(980, 1000);
- 	} while (mcp->rxbuf_idx < total_len);
- 
-+out_invalidate_rxbuf:
-+	spin_lock_bh(&mcp->raw_event_lock);
-+	mcp->rxbuf = NULL;
-+	mcp->rxbuf_len = 0;
-+	mcp->rxbuf_idx = 0;
-+	spin_unlock_bh(&mcp->raw_event_lock);
-+
- 	return ret;
- }
- 
-@@ -500,9 +506,15 @@ static int mcp_smbus_xfer(struct i2c_adapter *adapter, u16 addr,
- 			spin_lock_bh(&mcp->raw_event_lock);
- 			mcp->rxbuf_idx = 0;
- 			mcp->rxbuf = data->block;
-+			mcp->rxbuf_len = sizeof(data->block);
- 			mcp->txbuf[0] = MCP2221_I2C_GET_DATA;
- 			spin_unlock_bh(&mcp->raw_event_lock);
- 			ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
-+			spin_lock_bh(&mcp->raw_event_lock);
-+			mcp->rxbuf_idx = 0;
-+			mcp->rxbuf = NULL;
-+			mcp->rxbuf_len = 0;
-+			spin_unlock_bh(&mcp->raw_event_lock);
- 			if (ret)
- 				goto exit;
- 		} else {
-@@ -525,9 +537,15 @@ static int mcp_smbus_xfer(struct i2c_adapter *adapter, u16 addr,
- 			spin_lock_bh(&mcp->raw_event_lock);
- 			mcp->rxbuf_idx = 0;
- 			mcp->rxbuf = data->block;
-+			mcp->rxbuf_len = sizeof(data->block);
- 			mcp->txbuf[0] = MCP2221_I2C_GET_DATA;
- 			spin_unlock_bh(&mcp->raw_event_lock);
- 			ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
-+			spin_lock_bh(&mcp->raw_event_lock);
-+			mcp->rxbuf_idx = 0;
-+			mcp->rxbuf = NULL;
-+			mcp->rxbuf_len = 0;
-+			spin_unlock_bh(&mcp->raw_event_lock);
- 			if (ret)
- 				goto exit;
- 		} else {
-@@ -756,6 +774,7 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 				struct hid_report *report, u8 *data, int size)
- {
- 	u8 *buf;
-+	int len;
- 	struct mcp2221 *mcp = hid_get_drvdata(hdev);
- 
- 	spin_lock_bh(&mcp->raw_event_lock);
-@@ -813,9 +832,15 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 				break;
- 			}
- 			if (data[2] == MCP2221_I2C_READ_COMPL) {
-+				if (mcp->rxbuf == NULL || mcp->rxbuf_idx >= mcp->rxbuf_len)
-+					goto out; /* no complete() in this case */
-+
- 				buf = mcp->rxbuf;
--				memcpy(&buf[mcp->rxbuf_idx], &data[4], data[3]);
--				mcp->rxbuf_idx = mcp->rxbuf_idx + data[3];
-+				len = data[3];
-+				if (len > mcp->rxbuf_len - mcp->rxbuf_idx)
-+					len = mcp->rxbuf_len - mcp->rxbuf_idx;
-+				memcpy(&buf[mcp->rxbuf_idx], &data[4], len);
-+				mcp->rxbuf_idx = mcp->rxbuf_idx + len;
- 				mcp->status = 0;
- 				break;
- 			}
-@@ -865,6 +890,7 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 		complete(&mcp->wait_in_report);
- 	}
- 
-+out:
- 	spin_unlock_bh(&mcp->raw_event_lock);
- 
- 	return 1;
 -- 
 2.34.1
 
