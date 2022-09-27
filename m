@@ -2,120 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE9EE5EC89E
-	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 17:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AE385EC8B0
+	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 17:54:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231386AbiI0PxO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Sep 2022 11:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36396 "EHLO
+        id S232116AbiI0Pyq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Sep 2022 11:54:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232140AbiI0Pww (ORCPT
+        with ESMTP id S232364AbiI0PyK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Sep 2022 11:52:52 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 076771B95FC;
-        Tue, 27 Sep 2022 08:52:20 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id z20so2580534plb.10;
-        Tue, 27 Sep 2022 08:52:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=p0YcyRlyNYPjC2yUE5rEWl59Rr2Y1jMOfDRIiIcxunI=;
-        b=dkXzWr3tMEIvoAgqt/Db887cORt7DqQtdkeWbrjlb2qlMwLXEQIaWpbGozZKdyLaVd
-         R1DVx2Z+gxzrYamD8qxUGpiW/IRMrNfIFlXoRpGauQvLS/kH/R9DUuTlOd7zPHb6r0eU
-         NjVb3OtdHd1JgAHb1XLwkrUCOTJnJS7Gt0dj7cl/qa8hapLXHk9JYq6TH3uEzU4OmKvM
-         QWLpQVpba/hi7UWAhhHXbpDyoN7dOuIg2X0TdNiHkLlykXZNPwtGPG3mNgotflsdc+j+
-         TSUffuh88J0HJmoGS8JF9rlUMozrn9weVuQQYbinMqtddwgSa86uULTUVKHSRXKRpyt3
-         ZNKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=p0YcyRlyNYPjC2yUE5rEWl59Rr2Y1jMOfDRIiIcxunI=;
-        b=Rg+sVcmJHbA3UYHF1qbfLjDP/vQeLHlPCDMTu5f6OS8vPlVUtHL754akHTcRkZY/lm
-         Y6YEF4YpzPJvjfZLc6bdPWr9+Fi5sBCDG3EAC2Dh0bKrSoHHB+Ll06v6+iMdXuVNp9an
-         bOGfIH9WaFHCf/OB2D0wPWblW+5mejTab26DQY/sfbqWY65evZ1jOrC7SAuM0X6BrcbW
-         bMjqBIi9oeG+xPev/DknQLmC7/vU72UvwQd8A3FTBX8qAMbt8lfDkXm22pLcuYRUzYsL
-         GKDukWE8FfW1LqwBqA3pfr5cGi2uk0E1aHGhHZeeMfOwqIzbjAYBnW6ynBymz4vIIXKZ
-         lbXw==
-X-Gm-Message-State: ACrzQf2qS+3hdtuHXjYlGJ1n11wdefC3WCwoYRaaVWMObuERtRG8r6G1
-        kgE37R7WFEtC2wt5rsm7yns=
-X-Google-Smtp-Source: AMsMyM4lQReHf55/5V7GZv01jZKvTie0sNuH+pDIoCDbLJjFZzEASOE06VVWXvBuUWH42yBTlZyW8A==
-X-Received: by 2002:a17:903:240b:b0:178:a475:6644 with SMTP id e11-20020a170903240b00b00178a4756644mr28086716plo.96.1664293940295;
-        Tue, 27 Sep 2022 08:52:20 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:9739:ab49:3830:2cbb])
-        by smtp.gmail.com with ESMTPSA id d190-20020a6336c7000000b0041cd2417c66sm1770777pga.18.2022.09.27.08.52.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 08:52:19 -0700 (PDT)
-Date:   Tue, 27 Sep 2022 08:52:15 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jerome Neanne <jneanne@baylibre.com>
-Cc:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-        nm@ti.com, kristo@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, lee@kernel.org,
-        tony@atomide.com, vigneshr@ti.com, bjorn.andersson@linaro.org,
-        shawnguo@kernel.org, geert+renesas@glider.be,
-        dmitry.baryshkov@linaro.org, marcel.ziswiler@toradex.com,
-        vkoul@kernel.org, biju.das.jz@bp.renesas.com, arnd@arndb.de,
-        jeff@labundy.com, afd@ti.com, khilman@baylibre.com,
-        narmstrong@baylibre.com, msp@baylibre.com, j-keerthy@ti.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] Input: Add tps65219 interrupt driven powerbutton
-Message-ID: <YzMcL/wktFyKO06K@google.com>
-References: <20220927083520.15766-1-jneanne@baylibre.com>
- <20220927083520.15766-6-jneanne@baylibre.com>
+        Tue, 27 Sep 2022 11:54:10 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F128FFA43;
+        Tue, 27 Sep 2022 08:54:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664294050; x=1695830050;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u8hRBebfGhAcD/eNs0QVOSD5vi4YYTrgF5ECepiux3I=;
+  b=SL8hUFxNOigX7N9hBLENIETYBEHplj2hDhnnhdBOOOVDSnu3aGufEbeB
+   ySJp/U+RsjXGh5uHa0m+0R49y8BIGSVQ33h1ezKl5JfPmbmdUiiySgiKh
+   n/1pdnAzPDkwSRS5NcjO8F20vaX1hOpCMA7gT0m4zQ2MhpQ5wrifHdNxz
+   Lk38gIfrx+eOT+LVqDrS+SLZgXNM1XtmYEsC7tQQBa0A9Ixss2ZEt/wuo
+   wJp8EexVjTrO1NxLGiDAaGfiWvHoPm7GpB48zY7bR+EMSfew3adAdikTY
+   i+5djJntmy9mSgKcDxOMMnsh7B4OZwIRbJsG216rRcWzcL2ZoNCgJpYxF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="301330170"
+X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
+   d="scan'208";a="301330170"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 08:54:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="654773487"
+X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
+   d="scan'208";a="654773487"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 27 Sep 2022 08:54:05 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1odCuJ-008WBJ-1K;
+        Tue, 27 Sep 2022 18:54:03 +0300
+Date:   Tue, 27 Sep 2022 18:54:03 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Tony Lindgren <tony@atomide.com>, linux-iio@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] iio: adc: twl4030-madc: add missing of.h include
+Message-ID: <YzMcmxYzzCwJ1DTL@smile.fi.intel.com>
+References: <20220927052217.2784593-1-dmitry.torokhov@gmail.com>
+ <20220927052217.2784593-4-dmitry.torokhov@gmail.com>
+ <YzLreedzM3/+2gBh@smile.fi.intel.com>
+ <YzMYdoQmDt6YAvdr@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220927083520.15766-6-jneanne@baylibre.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <YzMYdoQmDt6YAvdr@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jerome,
+On Tue, Sep 27, 2022 at 08:36:22AM -0700, Dmitry Torokhov wrote:
+> On Tue, Sep 27, 2022 at 03:24:25PM +0300, Andy Shevchenko wrote:
+> > On Mon, Sep 26, 2022 at 10:22:16PM -0700, Dmitry Torokhov wrote:
+> > > The driver is using of_device_id and therefore needs to include
+> > > of.h header.
+> > 
+> > As per patch 2 comment, mod_devicetable.h is needed for that.
+> 
+> It also uses of_match_ptr(), so of.h is the one that is needed. I'll
+> adjust the patch description.
 
-On Tue, Sep 27, 2022 at 10:35:19AM +0200, Jerome Neanne wrote:
-> +static int tps65219_pb_probe(struct platform_device *pdev)
-> +{
-> +	struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
-> +	struct device *dev = &pdev->dev;
-> +	struct tps65219_pwrbutton *pwr;
-> +	struct input_dev *idev;
-> +	int error;
-> +	int push_irq;
-> +	int release_irq;
-> +
-> +	pwr = devm_kzalloc(dev, sizeof(*pwr), GFP_KERNEL);
-> +	if (!pwr)
-> +		return -ENOMEM;
-> +
-> +	idev = devm_input_allocate_device(dev);
-> +	if (!idev)
-> +		return -ENOMEM;
-> +
-> +	idev->name = pdev->name;
-> +	snprintf(pwr->phys, sizeof(pwr->phys), "%s/input0",
-> +		 pdev->name);
-> +	idev->phys = pwr->phys;
-> +	idev->dev.parent = dev;
-
-As I mentioned in my previous email, this assignment is not needed given
-that devm_input_allocate_device() is used. Otherwise:
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Please feel free to merge through MFD tree.
-
-Thanks.
+Thank you! In such case feel free to add my tag.
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
