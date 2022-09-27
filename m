@@ -2,94 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AB735EBA93
-	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 08:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0C7A5EBB25
+	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 09:09:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229993AbiI0G0H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Sep 2022 02:26:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46944 "EHLO
+        id S230198AbiI0HJq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Sep 2022 03:09:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbiI0GZu (ORCPT
+        with ESMTP id S230163AbiI0HJp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Sep 2022 02:25:50 -0400
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 204EE5301F;
-        Mon, 26 Sep 2022 23:25:48 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 017EBDFB29;
-        Mon, 26 Sep 2022 23:25:18 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 1rXqicgzvIOQ; Mon, 26 Sep 2022 23:25:17 -0700 (PDT)
-From:   Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-        t=1664259917; bh=elzvasrQIRaQ/TMI2xT9N+8/vihR2HHiUa+rWtzD5sI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oIF4cevGTawKs0GUNKcLE2Nt9u2+LJnf9t2ihXA59s8qrXGs3ugs2iL8/r2OWCFcj
-         WTUVKGhGDuLuZOI3byvD46aCKm4qhPModlg0NCJyOzURJiqub++RkylnDwI5ecDcyw
-         14Zg74OuypULQ+MCm1wWm5Q9E7Wam48lU3deRIoLDeftcab0ZyD5x/r06+tTjn46VE
-         EH7/gno+FrS8+EhSvfd1z9RbfFtMAYd9l99swrxhVtvbAX099TOrtuwQazlf5P8JWf
-         EuxLYrcBLvJsOojL9mgnwerlY+8rfqibAax/mMsSTX2PRRWbFlNkxKrV5bLAly5aZq
-         kge6JgMwglsYw==
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
-        Robin van der Gracht <robin@protonic.nl>,
-        linux-kernel@vger.kernel.org, kernel@puri.sm,
-        Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, stable@vger.kernel.org,
-        Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: [PATCH v2 RESEND] input: keyboard: snvs_pwrkey: Fix SNVS_HPVIDR1 register address
-Date:   Tue, 27 Sep 2022 08:25:12 +0200
-Message-ID: <4599101.ElGaqSPkdT@pliszka>
+        Tue, 27 Sep 2022 03:09:45 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013415720D;
+        Tue, 27 Sep 2022 00:09:44 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id v1so8283409plo.9;
+        Tue, 27 Sep 2022 00:09:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=q4/UCAdrgH5/GRrTWwXDpUGYGeL5LkfX+ixNfTJb3Lg=;
+        b=qC+QP3RPbFkZzcLbuapJk0gP4hBzcd47bB69ZQXPN7qNC8TaR92z+cT6p/RiFhJA0m
+         eQACuVf9Kj1XYyLdyKSEOHcBV6Nd4evipSuYSlMT1u7WZCqaCT5EF+K7QLoO+RS6VPDH
+         yCI8vUIQI3xYa6QQkGdWRxKBPKAj36/1ukrzMFyyywYsfElc5VAp4LECuuNRCMYehW0j
+         XrYdNbsGOOWtiPH15Hi5ILuSaClm4y8GllnBh2LxBCaS7ffbWom67YW7bDka05Vv7xik
+         q/NcSuXta7wlXvNsNFLQ8BoHW7tp346/Zf7ZpX/seopmrqL6pD0Au06XgRWi7sVBE+Rs
+         Z6oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=q4/UCAdrgH5/GRrTWwXDpUGYGeL5LkfX+ixNfTJb3Lg=;
+        b=n1hwBlhAR0xdg4IkwpQbNKi0wg9mUlTHq8BNCFzlD2+ROX5FME3DKIodVr+vmIIomt
+         Wzo9P/aVbzVM6UiLr0UzhZ49fRIzbTuf3/eKzIGD/fjzUnxPd3mjvuFJbkAXKGjFcZL8
+         XN/S4BgBTQ0Y0VEVbPN5kXP9bUWftIbQz/5dTwQta3iekTbsJwbGkpSNyhewYWHFzFsQ
+         htwo3NucwGNWR6gbDYxEkRux7eWM05bkLzrAah2cHDqs1yHEjROqS3S0dW5+tQU7ugW+
+         zh00ozq2II9idwUyg2l+YEWbC3jeg3AWmwJxF/ZiZcHW4xzC/+UKC8v308SFYCtfNxdL
+         GJRA==
+X-Gm-Message-State: ACrzQf0PKc1DOZetAQks8YxloKmlzoPcnMT9qbSc3IskTjAR3sGWrSm8
+        cTxdpr14QNGHQ0UBiq8QHtxa2BUQDDSX3HvxpPI=
+X-Google-Smtp-Source: AMsMyM7SUlyyqHrx8cD7Fo5L27ptsyCu9syK4mNvecV0u3XZxbPawvEy0jMTHKgxEiegttlfDQf3fQ==
+X-Received: by 2002:a17:902:ea11:b0:178:f0a:7472 with SMTP id s17-20020a170902ea1100b001780f0a7472mr25592484plg.46.1664262583225;
+        Tue, 27 Sep 2022 00:09:43 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id j5-20020a62c505000000b005499599ed30sm820554pfg.10.2022.09.27.00.09.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 00:09:43 -0700 (PDT)
+From:   zhangsongyi.cgel@gmail.com
+X-Google-Original-From: zhang.songyi@zte.com.cn
+To:     dmitry.torokhov@gmail.com
+Cc:     zhang.songyi@zte.com.cn, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] Input: synaptics-rmi4 - Convert to use sysfs_emit() APIs
+Date:   Tue, 27 Sep 2022 07:09:36 +0000
+Message-Id: <20220927070936.258300-1-zhang.songyi@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Both i.MX6 and i.MX8 reference manuals list 0xBF8 as SNVS_HPVIDR1
-(chapters 57.9 and 6.4.5 respectively).
+From: zhang songyi <zhang.songyi@zte.com.cn>
 
-Without this, trying to read the revision number results in 0 on
-all revisions, causing the i.MX6 quirk to apply on all platforms,
-which in turn causes the driver to synthesise power button release
-events instead of passing the real one as they happen even on
-platforms like i.MX8 where that's not wanted.
+Follow the advice of the Documentation/filesystems/sysfs.rst and show()
+should only use sysfs_emit() or sysfs_emit_at() when formatting the value
+to be returned to user space.
 
-Fixes: 1a26c920717a ("Input: snvs_pwrkey - send key events for i.MX6 S, DL and Q")
-Cc: <stable@vger.kernel.org>
-Tested-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: zhang songyi <zhang.songyi@zte.com.cn>
 ---
-Resent <20220321171755.656750-1-sebastian.krzyszkowiak@puri.sm>
-v2: augmented commit message; added cc: stable and tested-by
----
- drivers/input/keyboard/snvs_pwrkey.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/rmi4/rmi_f34.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
-index 65286762b02a..ad8660be0127 100644
---- a/drivers/input/keyboard/snvs_pwrkey.c
-+++ b/drivers/input/keyboard/snvs_pwrkey.c
-@@ -20,7 +20,7 @@
- #include <linux/mfd/syscon.h>
- #include <linux/regmap.h>
+diff --git a/drivers/input/rmi4/rmi_f34.c b/drivers/input/rmi4/rmi_f34.c
+index e5dca9868f87..e6e7dde76c5b 100644
+--- a/drivers/input/rmi4/rmi_f34.c
++++ b/drivers/input/rmi4/rmi_f34.c
+@@ -321,11 +321,11 @@ static ssize_t rmi_driver_bootloader_id_show(struct device *dev,
+ 		f34 = dev_get_drvdata(&fn->dev);
  
--#define SNVS_HPVIDR1_REG	0xF8
-+#define SNVS_HPVIDR1_REG	0xBF8
- #define SNVS_LPSR_REG		0x4C	/* LP Status Register */
- #define SNVS_LPCR_REG		0x38	/* LP Control Register */
- #define SNVS_HPSR_REG		0x14
+ 		if (f34->bl_version == 5)
+-			return scnprintf(buf, PAGE_SIZE, "%c%c\n",
++			return sysfs_emit(buf, "%c%c\n",
+ 					 f34->bootloader_id[0],
+ 					 f34->bootloader_id[1]);
+ 		else
+-			return scnprintf(buf, PAGE_SIZE, "V%d.%d\n",
++			return sysfs_emit(buf, "V%d.%d\n",
+ 					 f34->bootloader_id[1],
+ 					 f34->bootloader_id[0]);
+ 	}
+@@ -346,7 +346,7 @@ static ssize_t rmi_driver_configuration_id_show(struct device *dev,
+ 	if (fn) {
+ 		f34 = dev_get_drvdata(&fn->dev);
+ 
+-		return scnprintf(buf, PAGE_SIZE, "%s\n", f34->configuration_id);
++		return sysfs_emit(buf, "%s\n", f34->configuration_id);
+ 	}
+ 
+ 	return 0;
+@@ -499,7 +499,7 @@ static ssize_t rmi_driver_update_fw_status_show(struct device *dev,
+ 	if (data->f34_container)
+ 		update_status = rmi_f34_status(data->f34_container);
+ 
+-	return scnprintf(buf, PAGE_SIZE, "%d\n", update_status);
++	return sysfs_emit(buf, "%d\n", update_status);
+ }
+ 
+ static DEVICE_ATTR(update_fw_status, 0444,
 -- 
-2.35.1
-
-
+2.25.1
 
 
