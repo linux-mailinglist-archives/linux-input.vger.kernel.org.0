@@ -2,59 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB9DA5EB7BE
-	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 04:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E32365EB7BD
+	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 04:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbiI0Ce3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Sep 2022 22:34:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36296 "EHLO
+        id S229453AbiI0Ce0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Sep 2022 22:34:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbiI0Ce1 (ORCPT
+        with ESMTP id S229477AbiI0Ce0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Sep 2022 22:34:27 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40116E953D
-        for <linux-input@vger.kernel.org>; Mon, 26 Sep 2022 19:34:24 -0700 (PDT)
+        Mon, 26 Sep 2022 22:34:26 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EF38E743E
+        for <linux-input@vger.kernel.org>; Mon, 26 Sep 2022 19:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664246064; x=1695782064;
+  t=1664246062; x=1695782062;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yZz/Um/6YwAOwoFoUj599TXev1ZyNRF+4WNeefra4MQ=;
-  b=Z7XHoIKP13RF+qIGwsvkKm3jMi0tiejoxhHCIjS8oFqrHOqW5Ad6aR/q
-   gxk4pAHm67TPKA4obLOWpz28b6tkh2WDufsOOtUwJBiKz77Bgykk5wcVV
-   aWA/ekqRZDUfWUypbAjPH+fDG/ftIUivIIld0CSNpi/gFKYfgQAIAUvnW
-   gVK8xc8DF2e9vDoSuSnQ6PMV2PgwmG8w4tbsJMG9N9QQa7ME8YXFuOzjQ
-   BUlDkQTD13s6UCVFha4dsSqemm8hiIJacqTb/1U0F+tlTqj49+pJBKMEC
-   JoT+rRT0o6h2Udc8cw7J0YXCv4rthjrW3lcYd4SDYUCXiC0759rXvCqtX
+  bh=MhEo+loOnldoBf4dH1H/hgVMRkcTopiDTjCa5roAmaQ=;
+  b=B7t2+pQ41rnkLZfEXVJC9Rgpt1S4DVCbqVWgPSX5E7sO2GFV1fl+u4Ah
+   8z27hh9gPRI/1LoaeFUIZIiNjMcM4HT2p1vvurxOxymGgGHvngsXj1phI
+   lgfbGwLqD0l/oeZtMWrETvsD8QWi6e0ukVUvumwxEqUkouUeMqV1Akuvg
+   QIiJ1ECvFA2kWDTQn+0d1SxoiuWjYWPSXD1vp7TRVgOWNUDiQbuebxoVr
+   iP6FGLT2BCwPVcVjuv3vJYMD+iPUtEQb9JqQRHvZdwv2QzBgYSoFsaKzU
+   BvDA7d5B9jaYRml1GD60AMh4UmGCeT2R7e2o0V3WnQsgYTVOmPcgdQqfi
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="281568836"
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="301177511"
 X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; 
-   d="scan'208";a="281568836"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 19:34:23 -0700
+   d="scan'208";a="301177511"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 19:34:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="950108990"
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="746866196"
 X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; 
-   d="scan'208";a="950108990"
+   d="scan'208";a="746866196"
 Received: from lkp-server02.sh.intel.com (HELO dfa2c9fcd321) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Sep 2022 19:34:20 -0700
+  by orsmga004.jf.intel.com with ESMTP; 26 Sep 2022 19:34:19 -0700
 Received: from kbuild by dfa2c9fcd321 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1od0QN-0000Uh-35;
+        id 1od0QN-0000UW-0k;
         Tue, 27 Sep 2022 02:34:19 +0000
-Date:   Tue, 27 Sep 2022 10:33:40 +0800
+Date:   Tue, 27 Sep 2022 10:33:47 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org
-Subject: [dtor-input:gpio-of-cleanups 5/17]
- arch/mips/lantiq/xway/vmmc.c:68:38: error: unterminated argument list
- invoking macro "dev_err"
-Message-ID: <202209270554.7AuzJV7n-lkp@intel.com>
+Subject: [dtor-input:gpio-of-cleanups 12/17] arch/mips/pci/pci-lantiq.c:65:8:
+ error: unknown type name 'gpio_desc'
+Message-ID: <202209270616.naXjBxsx-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="oynGH36AGvLW1qv7"
+Content-Type: multipart/mixed; boundary="5+vK8lncEKTb+PO0"
 Content-Disposition: inline
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_NONE,UPPERCASE_50_75 autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,22 +63,22 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---oynGH36AGvLW1qv7
+--5+vK8lncEKTb+PO0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git gpio-of-cleanups
 head:   5c6098794cca5ac0a774ee430b72e18b8b98c032
-commit: 4ff604dfddb832ecf5b235906bddd04cfba14b9c [5/17] MIPS: Lantiq: switch vmmc to use gpiod API
+commit: 898163c745e2d3070f1437e65aac0d6e579b3818 [12/17] MIPS: pci: lantiq: switch to using gpiod API
 config: mips-xway_defconfig
 compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?id=4ff604dfddb832ecf5b235906bddd04cfba14b9c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?id=898163c745e2d3070f1437e65aac0d6e579b3818
         git remote add dtor-input https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git
         git fetch --no-tags dtor-input gpio-of-cleanups
-        git checkout 4ff604dfddb832ecf5b235906bddd04cfba14b9c
+        git checkout 898163c745e2d3070f1437e65aac0d6e579b3818
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
@@ -89,94 +88,198 @@ If you fix the issue, kindly add following tag where applicable
 
 All errors (new ones prefixed by >>):
 
-   arch/mips/lantiq/xway/vmmc.c:17:15: warning: no previous prototype for 'ltq_get_cp1_base' [-Wmissing-prototypes]
-      17 | unsigned int *ltq_get_cp1_base(void)
-         |               ^~~~~~~~~~~~~~~~
-   arch/mips/lantiq/xway/vmmc.c: In function 'vmmc_probe':
->> arch/mips/lantiq/xway/vmmc.c:68:38: error: unterminated argument list invoking macro "dev_err"
-      68 | builtin_platform_driver(vmmc_driver);
-         |                                      ^
->> arch/mips/lantiq/xway/vmmc.c:42:25: error: 'dev_err' undeclared (first use in this function); did you mean '_dev_err'?
-      42 |                         dev_err(&pdev->dev,
-         |                         ^~~~~~~
-         |                         _dev_err
-   arch/mips/lantiq/xway/vmmc.c:42:25: note: each undeclared identifier is reported only once for each function it appears in
->> arch/mips/lantiq/xway/vmmc.c:42:32: error: expected ';' at end of input
-      42 |                         dev_err(&pdev->dev,
-         |                                ^
-         |                                ;
-   ......
->> arch/mips/lantiq/xway/vmmc.c:42:25: error: expected declaration or statement at end of input
-      42 |                         dev_err(&pdev->dev,
-         |                         ^~~~~~~
->> arch/mips/lantiq/xway/vmmc.c:42:25: error: expected declaration or statement at end of input
->> arch/mips/lantiq/xway/vmmc.c:42:25: error: expected declaration or statement at end of input
-   arch/mips/lantiq/xway/vmmc.c:42:25: error: no return statement in function returning non-void [-Werror=return-type]
-   arch/mips/lantiq/xway/vmmc.c: At top level:
-   arch/mips/lantiq/xway/vmmc.c:26:12: warning: 'vmmc_probe' defined but not used [-Wunused-function]
-      26 | static int vmmc_probe(struct platform_device *pdev)
-         |            ^~~~~~~~~~
+>> arch/mips/pci/pci-lantiq.c:65:8: error: unknown type name 'gpio_desc'
+      65 | static gpio_desc *reset_gpio;
+         |        ^~~~~~~~~
+   arch/mips/pci/pci-lantiq.c: In function 'ltq_pci_startup':
+>> arch/mips/pci/pci-lantiq.c:126:20: error: assignment to 'int *' from incompatible pointer type 'struct gpio_desc *' [-Werror=incompatible-pointer-types]
+     126 |         reset_gpio = devm_gpiod_get_optional(&pdev->dev, "reset",
+         |                    ^
+>> arch/mips/pci/pci-lantiq.c:128:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+     128 |         ret = PTR_ERR_OR_ZERO(reset_gpio);
+         |         ^~~
+         |         net
+   arch/mips/pci/pci-lantiq.c:128:9: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/mips/pci/pci-lantiq.c:133:33: error: passing argument 1 of 'gpiod_set_consumer_name' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     133 |         gpiod_set_consumer_name(reset_gpio, "pci_reset");
+         |                                 ^~~~~~~~~~
+         |                                 |
+         |                                 int *
+   In file included from arch/mips/pci/pci-lantiq.c:12:
+   include/linux/gpio/consumer.h:168:47: note: expected 'struct gpio_desc *' but argument is of type 'int *'
+     168 | int gpiod_set_consumer_name(struct gpio_desc *desc, const char *name);
+         |                             ~~~~~~~~~~~~~~~~~~^~~~
+>> arch/mips/pci/pci-lantiq.c:196:42: error: passing argument 1 of 'gpiod_set_value_cansleep' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     196 |                 gpiod_set_value_cansleep(reset_gpio, 1);
+         |                                          ^~~~~~~~~~
+         |                                          |
+         |                                          int *
+   include/linux/gpio/consumer.h:143:49: note: expected 'struct gpio_desc *' but argument is of type 'int *'
+     143 | void gpiod_set_value_cansleep(struct gpio_desc *desc, int value);
+         |                               ~~~~~~~~~~~~~~~~~~^~~~
+   arch/mips/pci/pci-lantiq.c:199:42: error: passing argument 1 of 'gpiod_set_value_cansleep' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     199 |                 gpiod_set_value_cansleep(reset_gpio, 0);
+         |                                          ^~~~~~~~~~
+         |                                          |
+         |                                          int *
+   include/linux/gpio/consumer.h:143:49: note: expected 'struct gpio_desc *' but argument is of type 'int *'
+     143 | void gpiod_set_value_cansleep(struct gpio_desc *desc, int value);
+         |                               ~~~~~~~~~~~~~~~~~~^~~~
+   arch/mips/pci/pci-lantiq.c: At top level:
+   arch/mips/pci/pci-lantiq.c:240:12: warning: no previous prototype for 'pcibios_init' [-Wmissing-prototypes]
+     240 | int __init pcibios_init(void)
+         |            ^~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +/dev_err +68 arch/mips/lantiq/xway/vmmc.c
+vim +/gpio_desc +65 arch/mips/pci/pci-lantiq.c
 
-05637f10e719c1 John Crispin      2013-03-13  25  
-05637f10e719c1 John Crispin      2013-03-13  26  static int vmmc_probe(struct platform_device *pdev)
-05637f10e719c1 John Crispin      2013-03-13  27  {
-05637f10e719c1 John Crispin      2013-03-13  28  #define CP1_SIZE       (1 << 20)
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  29  	struct gpio_desc *gpio;
-05637f10e719c1 John Crispin      2013-03-13  30  	int gpio_count;
-05637f10e719c1 John Crispin      2013-03-13  31  	dma_addr_t dma;
-05637f10e719c1 John Crispin      2013-03-13  32  
-05637f10e719c1 John Crispin      2013-03-13  33  	cp1_base =
-74f03104ed465f Christoph Hellwig 2019-02-01  34  		(void *) CPHYSADDR(dma_alloc_coherent(&pdev->dev, CP1_SIZE,
-74f03104ed465f Christoph Hellwig 2019-02-01  35  						    &dma, GFP_KERNEL));
-05637f10e719c1 John Crispin      2013-03-13  36  
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  37  	gpio_count = gpiod_count(&pdev->dev, NULL);
-05637f10e719c1 John Crispin      2013-03-13  38  	while (gpio_count > 0) {
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  39  		gpio = devm_gpiod_get_index(&pdev->dev,
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  40  					    NULL, --gpio_count, GPIOD_OUT_HIGH);
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  41  		if (IS_ERR(gpio)) {
-4ff604dfddb832 Dmitry Torokhov   2022-09-16 @42  			dev_err(&pdev->dev,
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  43  				"failed to request GPIO idx %d: %d\n",
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  44  				gpio_count, PTR_ERR(gpio);
-05637f10e719c1 John Crispin      2013-03-13  45  			continue;
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  46  		}
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  47  
-4ff604dfddb832 Dmitry Torokhov   2022-09-16  48  		gpio_consumer_set_name(gpio, "vmmc-relay");
-05637f10e719c1 John Crispin      2013-03-13  49  	}
-05637f10e719c1 John Crispin      2013-03-13  50  
-05637f10e719c1 John Crispin      2013-03-13  51  	dev_info(&pdev->dev, "reserved %dMB at 0x%p", CP1_SIZE >> 20, cp1_base);
-05637f10e719c1 John Crispin      2013-03-13  52  
-05637f10e719c1 John Crispin      2013-03-13  53  	return 0;
-05637f10e719c1 John Crispin      2013-03-13  54  }
-05637f10e719c1 John Crispin      2013-03-13  55  
-05637f10e719c1 John Crispin      2013-03-13  56  static const struct of_device_id vmmc_match[] = {
-05637f10e719c1 John Crispin      2013-03-13  57  	{ .compatible = "lantiq,vmmc-xway" },
-05637f10e719c1 John Crispin      2013-03-13  58  	{},
-05637f10e719c1 John Crispin      2013-03-13  59  };
-05637f10e719c1 John Crispin      2013-03-13  60  
-05637f10e719c1 John Crispin      2013-03-13  61  static struct platform_driver vmmc_driver = {
-05637f10e719c1 John Crispin      2013-03-13  62  	.probe = vmmc_probe,
-05637f10e719c1 John Crispin      2013-03-13  63  	.driver = {
-05637f10e719c1 John Crispin      2013-03-13  64  		.name = "lantiq,vmmc",
-05637f10e719c1 John Crispin      2013-03-13  65  		.of_match_table = vmmc_match,
-05637f10e719c1 John Crispin      2013-03-13  66  	},
-05637f10e719c1 John Crispin      2013-03-13  67  };
-0008ef9b159598 Paul Gortmaker    2016-08-15 @68  builtin_platform_driver(vmmc_driver);
-
-:::::: The code at line 68 was first introduced by commit
-:::::: 0008ef9b159598fb209c134e111381f4fa263dc4 MIPS: Lantiq: Make vmmc explicitly non-modular
-
-:::::: TO: Paul Gortmaker <paul.gortmaker@windriver.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+    64	
+  > 65	static gpio_desc *reset_gpio;
+    66	static struct clk *clk_pci, *clk_external;
+    67	static struct resource pci_io_resource;
+    68	static struct resource pci_mem_resource;
+    69	static struct pci_ops pci_ops = {
+    70		.read	= ltq_pci_read_config_dword,
+    71		.write	= ltq_pci_write_config_dword
+    72	};
+    73	
+    74	static struct pci_controller pci_controller = {
+    75		.pci_ops	= &pci_ops,
+    76		.mem_resource	= &pci_mem_resource,
+    77		.mem_offset	= 0x00000000UL,
+    78		.io_resource	= &pci_io_resource,
+    79		.io_offset	= 0x00000000UL,
+    80	};
+    81	
+    82	static inline u32 ltq_calc_bar11mask(void)
+    83	{
+    84		u32 mem, bar11mask;
+    85	
+    86		/* BAR11MASK value depends on available memory on system. */
+    87		mem = get_num_physpages() * PAGE_SIZE;
+    88		bar11mask = (0x0ffffff0 & ~((1 << (fls(mem) - 1)) - 1)) | 8;
+    89	
+    90		return bar11mask;
+    91	}
+    92	
+    93	static int ltq_pci_startup(struct platform_device *pdev)
+    94	{
+    95		struct device_node *node = pdev->dev.of_node;
+    96		const __be32 *req_mask, *bus_clk;
+    97		u32 temp_buffer;
+    98	
+    99		/* get our clocks */
+   100		clk_pci = clk_get(&pdev->dev, NULL);
+   101		if (IS_ERR(clk_pci)) {
+   102			dev_err(&pdev->dev, "failed to get pci clock\n");
+   103			return PTR_ERR(clk_pci);
+   104		}
+   105	
+   106		clk_external = clk_get(&pdev->dev, "external");
+   107		if (IS_ERR(clk_external)) {
+   108			clk_put(clk_pci);
+   109			dev_err(&pdev->dev, "failed to get external pci clock\n");
+   110			return PTR_ERR(clk_external);
+   111		}
+   112	
+   113		/* read the bus speed that we want */
+   114		bus_clk = of_get_property(node, "lantiq,bus-clock", NULL);
+   115		if (bus_clk)
+   116			clk_set_rate(clk_pci, *bus_clk);
+   117	
+   118		/* and enable the clocks */
+   119		clk_enable(clk_pci);
+   120		if (of_find_property(node, "lantiq,external-clock", NULL))
+   121			clk_enable(clk_external);
+   122		else
+   123			clk_disable(clk_external);
+   124	
+   125		/* setup reset gpio used by pci */
+ > 126		reset_gpio = devm_gpiod_get_optional(&pdev->dev, "reset",
+   127						     GPIOD_OUT_LOW);
+ > 128		ret = PTR_ERR_OR_ZERO(reset_gpio);
+   129		if (ret) {
+   130			dev_err(&pdev->dev, "failed to request gpio: %d\n", ret);
+   131			return ret;
+   132		}
+ > 133		gpiod_set_consumer_name(reset_gpio, "pci_reset");
+   134	
+   135		/* enable auto-switching between PCI and EBU */
+   136		ltq_pci_w32(0xa, PCI_CR_CLK_CTRL);
+   137	
+   138		/* busy, i.e. configuration is not done, PCI access has to be retried */
+   139		ltq_pci_w32(ltq_pci_r32(PCI_CR_PCI_MOD) & ~(1 << 24), PCI_CR_PCI_MOD);
+   140		wmb();
+   141		/* BUS Master/IO/MEM access */
+   142		ltq_pci_cfg_w32(ltq_pci_cfg_r32(PCI_CS_STS_CMD) | 7, PCI_CS_STS_CMD);
+   143	
+   144		/* enable external 2 PCI masters */
+   145		temp_buffer = ltq_pci_r32(PCI_CR_PC_ARB);
+   146		/* setup the request mask */
+   147		req_mask = of_get_property(node, "req-mask", NULL);
+   148		if (req_mask)
+   149			temp_buffer &= ~((*req_mask & 0xf) << 16);
+   150		else
+   151			temp_buffer &= ~0xf0000;
+   152		/* enable internal arbiter */
+   153		temp_buffer |= (1 << INTERNAL_ARB_ENABLE_BIT);
+   154		/* enable internal PCI master reqest */
+   155		temp_buffer &= (~(3 << PCI_MASTER0_REQ_MASK_2BITS));
+   156	
+   157		/* enable EBU request */
+   158		temp_buffer &= (~(3 << PCI_MASTER1_REQ_MASK_2BITS));
+   159	
+   160		/* enable all external masters request */
+   161		temp_buffer &= (~(3 << PCI_MASTER2_REQ_MASK_2BITS));
+   162		ltq_pci_w32(temp_buffer, PCI_CR_PC_ARB);
+   163		wmb();
+   164	
+   165		/* setup BAR memory regions */
+   166		ltq_pci_w32(0x18000000, PCI_CR_FCI_ADDR_MAP0);
+   167		ltq_pci_w32(0x18400000, PCI_CR_FCI_ADDR_MAP1);
+   168		ltq_pci_w32(0x18800000, PCI_CR_FCI_ADDR_MAP2);
+   169		ltq_pci_w32(0x18c00000, PCI_CR_FCI_ADDR_MAP3);
+   170		ltq_pci_w32(0x19000000, PCI_CR_FCI_ADDR_MAP4);
+   171		ltq_pci_w32(0x19400000, PCI_CR_FCI_ADDR_MAP5);
+   172		ltq_pci_w32(0x19800000, PCI_CR_FCI_ADDR_MAP6);
+   173		ltq_pci_w32(0x19c00000, PCI_CR_FCI_ADDR_MAP7);
+   174		ltq_pci_w32(0x1ae00000, PCI_CR_FCI_ADDR_MAP11hg);
+   175		ltq_pci_w32(ltq_calc_bar11mask(), PCI_CR_BAR11MASK);
+   176		ltq_pci_w32(0, PCI_CR_PCI_ADDR_MAP11);
+   177		ltq_pci_w32(0, PCI_CS_BASE_ADDR1);
+   178		/* both TX and RX endian swap are enabled */
+   179		ltq_pci_w32(ltq_pci_r32(PCI_CR_PCI_EOI) | 3, PCI_CR_PCI_EOI);
+   180		wmb();
+   181		ltq_pci_w32(ltq_pci_r32(PCI_CR_BAR12MASK) | 0x80000000,
+   182			PCI_CR_BAR12MASK);
+   183		ltq_pci_w32(ltq_pci_r32(PCI_CR_BAR13MASK) | 0x80000000,
+   184			PCI_CR_BAR13MASK);
+   185		/*use 8 dw burst length */
+   186		ltq_pci_w32(0x303, PCI_CR_FCI_BURST_LENGTH);
+   187		ltq_pci_w32(ltq_pci_r32(PCI_CR_PCI_MOD) | (1 << 24), PCI_CR_PCI_MOD);
+   188		wmb();
+   189	
+   190		/* setup irq line */
+   191		ltq_ebu_w32(ltq_ebu_r32(LTQ_EBU_PCC_CON) | 0xc, LTQ_EBU_PCC_CON);
+   192		ltq_ebu_w32(ltq_ebu_r32(LTQ_EBU_PCC_IEN) | 0x10, LTQ_EBU_PCC_IEN);
+   193	
+   194		/* toggle reset pin */
+   195		if (reset_gpio) {
+ > 196			gpiod_set_value_cansleep(reset_gpio, 1);
+   197			wmb();
+   198			mdelay(1);
+   199			gpiod_set_value_cansleep(reset_gpio, 0);
+   200		}
+   201		return 0;
+   202	}
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---oynGH36AGvLW1qv7
+--5+vK8lncEKTb+PO0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -3475,4 +3578,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---oynGH36AGvLW1qv7--
+--5+vK8lncEKTb+PO0--
