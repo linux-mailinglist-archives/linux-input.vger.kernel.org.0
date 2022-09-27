@@ -2,70 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A03FE5EBCF5
-	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 10:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D07DF5EBD6B
+	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 10:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231546AbiI0IP4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Sep 2022 04:15:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57158 "EHLO
+        id S231684AbiI0IgQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Sep 2022 04:36:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbiI0IPc (ORCPT
+        with ESMTP id S231668AbiI0Ifm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Sep 2022 04:15:32 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178ABAFAC1
-        for <linux-input@vger.kernel.org>; Tue, 27 Sep 2022 01:12:52 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id i203-20020a1c3bd4000000b003b3df9a5ecbso8935127wma.1
-        for <linux-input@vger.kernel.org>; Tue, 27 Sep 2022 01:12:52 -0700 (PDT)
+        Tue, 27 Sep 2022 04:35:42 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B362312AB5
+        for <linux-input@vger.kernel.org>; Tue, 27 Sep 2022 01:35:27 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id d12-20020a05600c3acc00b003b4c12e47f3so5004565wms.4
+        for <linux-input@vger.kernel.org>; Tue, 27 Sep 2022 01:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date;
-        bh=ZWYEuc1YfYOK9SsTFoMGj0wBsGs5m9ZmF0vJ407XFBM=;
-        b=ge+r2o1aLvQ3NraoYpGfE9LaaLj8GTbgeo8UCuCv7CTBVGwwNBSx4nXgAizxZ7ALxV
-         6LJuCbJlRGPTcOpi+KMQ2oShJHhJlMRCQLJwQt++Hgo7lY+JGn/e01GF7BonGw0v9/ee
-         EnQ/s8lQRWhUPGTF8JXv7UmvjjmZi+yYXOZ7gHxBjZgQQpWLBjObA0YkNb5dLxgXzOsL
-         X0FZFUwrW57Uj+Sy6iX2SpAhn9G/8wDq/T5gvHSE7yzpPQsQeT867lVvpLXn4MgfY6BP
-         vZ9IxV9m01PBy4/BT3aW5haLcKpE5XIJGZ7k0fj0q8QE4qW3JWkwxxW7NkrbZZc9jkOz
-         eOSA==
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=Wgzj4PEma5PTYVT9ZoB1Xyd1riKSuBv/hZE/DnlehtA=;
+        b=dhVS1R/5nouuaVhxiWKee3goPDCx1/Zb9H2ran+I5j0m2f/soQPt4tau/DCtke8DZm
+         4tBmSjPN0W1R9SKYH9wUMzPLh1tX8y+BnNwHfTpef6y2CDRXBzNvs97wqjVWvlqoZrFy
+         blZQ65qCmymBjpQHysBpwu115sn2FUuN3LdFdXAIqZjivi0d6fevLy5hUG53mnVJUsZs
+         bdtP8v8lVNRm4qMb1moZdTUGMUxVTz9SAC0Bk7nrywjzujjX0G64n7WH2poxOmXf3BHh
+         b4z11LEac58P31f438pempIAe+4VozUWPkCHGtNjOKZ9nkWyzXxQyZmMDcEUzkub/UCG
+         Lbaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ZWYEuc1YfYOK9SsTFoMGj0wBsGs5m9ZmF0vJ407XFBM=;
-        b=LBH2QwvqNsTRP4daQnaDd8XyLMzy97xzKvMKp3mxLNbT35XvHeOzkO7DgXGDh1Gx8v
-         /ofV2meHXlt1Vx74EknX2aApwX0fZJzwzHQatULwdBmIZz9KmoQ3GpxYDYKzJh4acbPv
-         kkNHk0+ZlsTSvydEg7ewFuaul+jzdJ+bajD+lcG86grVc3qjmqw53YCYzIIvluroopKz
-         3JtbGHgqFl5rvLmPADZQTGyzWN+f+fztRP3raZPdnxZ7Uhka+ryFiQXV1iaVn+v4L4/D
-         KRF/R5AxH088VHR1TahRxD/OvSCYpftNsAzxhsgMBXuSyWYEvzlhn5w9CpS+HxMSO5//
-         QCOg==
-X-Gm-Message-State: ACrzQf1FnCR/QD++JoWv/AcZF22w5BA/xRW2jJudqK8gqDeOO5VeZ4UU
-        oqWxZ5WpodISKwIuMYyGm3QqKA==
-X-Google-Smtp-Source: AMsMyM5fZUz2xa/hcrWWxqrOvsBz+AH+lsifruKQKHHg23rc/e8c/HXHXvB4Vt/cvu1g/rxAAWCE/w==
-X-Received: by 2002:a05:600c:3cd:b0:3b4:8372:294c with SMTP id z13-20020a05600c03cd00b003b48372294cmr1656061wmd.191.1664266370088;
-        Tue, 27 Sep 2022 01:12:50 -0700 (PDT)
-Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id f10-20020adff58a000000b002285f73f11dsm1298734wro.81.2022.09.27.01.12.49
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=Wgzj4PEma5PTYVT9ZoB1Xyd1riKSuBv/hZE/DnlehtA=;
+        b=pxZSsImLoDP6aHfsF1V1afQW+XvjMJwvjFC48yNA9BV2XuR/IXoMuJkG4ltt5dgBXH
+         ZIXS8mpF6Z7Fwavqyzf4iRmwChx7iRCto3rxXIHrkDUGXG+yhZ1CzV3zvTlxZ2sEPyLu
+         n5MAj91niBi8GCtcM54qgWLrOAZWXLQaGkq2iCDMpyhKNitVt+vF4NHAjvuX/6qdAZD3
+         b5TSCFkma+5nNoxUWW+bRli6WXOfTRBSv3vKi3oo+hxJA8gla6IlSYwWdEVJc5foiSDv
+         yJ9AGz4SnKx0YuiasWgmRTdo6K474rQfHxAKleHKS986Y/3r1bAVZQ9Y+7Q2m8bzsfDR
+         L5rQ==
+X-Gm-Message-State: ACrzQf1iZcmBA1acwESc11bkMLCkGLiHFTo5kIEoC/BS5OZHeuk0HbbG
+        pzKj7BAe9AvcFih6r4zp1YrrNA==
+X-Google-Smtp-Source: AMsMyM7xzvDY5xB8UD85ebsPVp6soLExVLIxGPsyigmSohRtp+2G9pnLZ+jOaw80MTkGpyYvAt5A0A==
+X-Received: by 2002:a7b:c40e:0:b0:3b3:3faa:10c2 with SMTP id k14-20020a7bc40e000000b003b33faa10c2mr1776728wmi.32.1664267726249;
+        Tue, 27 Sep 2022 01:35:26 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id n30-20020a05600c501e00b003b492b30822sm1122120wmr.2.2022.09.27.01.35.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 01:12:49 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
-        Robin van der Gracht <robin@protonic.nl>,
-        linux-kernel@vger.kernel.org, kernel@puri.sm,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, stable@vger.kernel.org,
-        Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: Re: [PATCH v2 RESEND] input: keyboard: snvs_pwrkey: Fix
- SNVS_HPVIDR1 register address
-In-Reply-To: <4599101.ElGaqSPkdT@pliszka>
-References: <4599101.ElGaqSPkdT@pliszka>
-Date:   Tue, 27 Sep 2022 10:12:48 +0200
-Message-ID: <878rm5nslb.fsf@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+        Tue, 27 Sep 2022 01:35:25 -0700 (PDT)
+From:   Jerome Neanne <jneanne@baylibre.com>
+To:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
+        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
+        bjorn.andersson@linaro.org, shawnguo@kernel.org,
+        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
+        marcel.ziswiler@toradex.com, vkoul@kernel.org,
+        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com
+Cc:     afd@ti.com, khilman@baylibre.com, narmstrong@baylibre.com,
+        msp@baylibre.com, j-keerthy@ti.com, jneanne@baylibre.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: [PATCH v5 0/6] Add support for TI TPS65219 PMIC.
+Date:   Tue, 27 Sep 2022 10:35:14 +0200
+Message-Id: <20220927083520.15766-1-jneanne@baylibre.com>
+X-Mailer: git-send-email 2.17.1
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -75,43 +74,57 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 08:25, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm> wrote:
+Hi everyone,
 
-> Both i.MX6 and i.MX8 reference manuals list 0xBF8 as SNVS_HPVIDR1
-> (chapters 57.9 and 6.4.5 respectively).
->
-> Without this, trying to read the revision number results in 0 on
-> all revisions, causing the i.MX6 quirk to apply on all platforms,
-> which in turn causes the driver to synthesise power button release
-> events instead of passing the real one as they happen even on
-> platforms like i.MX8 where that's not wanted.
->
-> Fixes: 1a26c920717a ("Input: snvs_pwrkey - send key events for i.MX6 S, DL and Q")
-> Cc: <stable@vger.kernel.org>
-> Tested-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+Sending again v5 changing deprecated mail for Lee Jones.
+bindings and regulator are already there as it is based on the regulator tree branch for-6.1:
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git
 
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Changes in v5:
+- Remove pm_power_off functionality as it is unused in ARM64 systems
+- Change mfd subject to prefixes matching subsystem
 
-> ---
-> Resent <20220321171755.656750-1-sebastian.krzyszkowiak@puri.sm>
-> v2: augmented commit message; added cc: stable and tested-by
-> ---
->  drivers/input/keyboard/snvs_pwrkey.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
-> index 65286762b02a..ad8660be0127 100644
-> --- a/drivers/input/keyboard/snvs_pwrkey.c
-> +++ b/drivers/input/keyboard/snvs_pwrkey.c
-> @@ -20,7 +20,7 @@
->  #include <linux/mfd/syscon.h>
->  #include <linux/regmap.h>
->  
-> -#define SNVS_HPVIDR1_REG	0xF8
-> +#define SNVS_HPVIDR1_REG	0xBF8
->  #define SNVS_LPSR_REG		0x4C	/* LP Status Register */
->  #define SNVS_LPCR_REG		0x38	/* LP Control Register */
->  #define SNVS_HPSR_REG		0x14
-> -- 
-> 2.35.1
+Validation:
+regulator: tps65219: Fix .bypass_val_on setting
+reported by Axel Lin has been validated on board. 
+
+Regards,
+Jerome
+
+Previous versions:
+v4 - https://lore.kernel.org/lkml/20220825150224.826258-1-msp@baylibre.com/
+v3 - https://lore.kernel.org/lkml/20220805121852.21254-1-jneanne@baylibre.com/
+v2 - https://lore.kernel.org/lkml/20220726103355.17684-1-jneanne@baylibre.com/
+v1 - https://lore.kernel.org/lkml/20220719091742.3221-1-jneanne@baylibre.com/
+
+
+Jerome Neanne (5):
+  DONOTMERGE: arm64: dts: ti: Add TI TPS65219 PMIC support for AM642 SK
+    board.
+  DONOTMERGE: arm64: dts: ti: Add pinmux and irq mapping for TPS65219
+    external interrupts
+  DONOTMERGE: arm64: dts: ti: k3-am642-sk: Enable tps65219 power-button
+  mfd: tps65219: Add driver for TI TPS65219 PMIC
+  arm64: defconfig: Add tps65219 as modules
+
+Markus Schneider-Pargmann (1):
+  Input: Add tps65219 interrupt driven powerbutton
+
+ MAINTAINERS                             |   1 +
+ arch/arm64/boot/dts/ti/k3-am642-sk.dts  | 115 ++++++++
+ arch/arm64/configs/defconfig            |   3 +
+ drivers/input/misc/Kconfig              |  10 +
+ drivers/input/misc/Makefile             |   1 +
+ drivers/input/misc/tps65219-pwrbutton.c | 149 ++++++++++
+ drivers/mfd/Kconfig                     |  14 +
+ drivers/mfd/Makefile                    |   1 +
+ drivers/mfd/tps65219.c                  | 320 ++++++++++++++++++++++
+ include/linux/mfd/tps65219.h            | 345 ++++++++++++++++++++++++
+ 10 files changed, 959 insertions(+)
+ create mode 100644 drivers/input/misc/tps65219-pwrbutton.c
+ create mode 100644 drivers/mfd/tps65219.c
+ create mode 100644 include/linux/mfd/tps65219.h
+
+-- 
+2.17.1
+
