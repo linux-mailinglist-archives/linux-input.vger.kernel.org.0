@@ -2,152 +2,226 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 521065EC703
-	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 16:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0174B5EC73C
+	for <lists+linux-input@lfdr.de>; Tue, 27 Sep 2022 17:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbiI0O4d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Sep 2022 10:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36368 "EHLO
+        id S230203AbiI0PJZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Sep 2022 11:09:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232443AbiI0O4J (ORCPT
+        with ESMTP id S229773AbiI0PJY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Sep 2022 10:56:09 -0400
-Received: from vorpal.se (vorpal.se [151.236.221.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18EF160512;
-        Tue, 27 Sep 2022 07:54:58 -0700 (PDT)
-Received: by vorpal.se (Postfix) with ESMTPSA id 6159E14293;
-        Tue, 27 Sep 2022 14:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vorpal.se; s=2019;
-        t=1664290485; bh=ZMDF6AxLpFRw30JwNzc+ZPcKjRwkI977PeS1iICmxpE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=YtmnwQ3aLJeB6Gb1K+tFA89yK35/b3WnBMPg+LrP/xda9u9kqkr1Cj4kWih/Yh7fb
-         2gtoge3oUHtLoMOhY5+kMEHGFD5UiNdR8/lTaW+gceKBbMrGdIg2NvswvMZ1JYUd1x
-         mLzk4tRucVEOk93DqymCKQ/y0jKsv2AnIGNaTOpq0nhomyt9AJsNrze4zIx8HSZWmb
-         AZlHkpLpthA00+0wgjzFU1cQJ6PVYd/stB52lOKlgCCJNZgoTwlisOfou0dOpNRo/Q
-         YafydpNQX2LIHDk0pkKr/DKhQnJvbA9ZnchBDRNwPl9FNzBTCmqVnPvmqkriBqpLHl
-         VxIjmO49HSj0Q==
-Message-ID: <d1ec9351-7e5c-0f2d-8a67-f640d1105044@vorpal.se>
-Date:   Tue, 27 Sep 2022 16:54:44 +0200
+        Tue, 27 Sep 2022 11:09:24 -0400
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFF8ED5C7;
+        Tue, 27 Sep 2022 08:09:23 -0700 (PDT)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1318443dbdfso2295206fac.3;
+        Tue, 27 Sep 2022 08:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=1ZWmPycHUkkFEQR2ZsGpxQk0g/W60HxvJ1Q7FAci2J4=;
+        b=L+ii6VVKnK5x/FHaKT59G6act7ch4ziRQjVN56BkheM35qKL0hsR8kwh1GJPT3IJ3S
+         FuOta7y30UUN5sCDHfo5Spbsy45RffRYKJNnPqM/kI+Jgt4T1HivV8DFdwHKQt2H4wv/
+         d7LPnC/ODGtk59VkzWU/80ypnoDMUxjoUooifiOxtuxbrhYrxkJZisC1EKbQiEaa2kmX
+         OZw374JlnMNsu1sUb6hasZmW8tCbxuj7/FSPYV7mRv8FMH695JNUOw2lTuPrIHMni/Gn
+         enKAHwDS5ITN25korn8S8OKIVxGr9kuTM3yZQ5C5b2APNuOfW/DqTJhMVpIgmv8efvMN
+         AksQ==
+X-Gm-Message-State: ACrzQf0UfRtf/GmofrUWBps/jBdmFWTX9g2zAEj88rcAt1gbKn0jARm9
+        y/rLT4ADFMUAiL671dr3kA==
+X-Google-Smtp-Source: AMsMyM7APdedr7GTCehozM/Pn4pn3u16sNQkYQCLotrGXzCOPCX9JgcatneA+sxDI36vhFUqMSl67A==
+X-Received: by 2002:a05:6870:ac0d:b0:127:bf92:581f with SMTP id kw13-20020a056870ac0d00b00127bf92581fmr2612535oab.270.1664291362323;
+        Tue, 27 Sep 2022 08:09:22 -0700 (PDT)
+Received: from xps15.herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.googlemail.com with ESMTPSA id br25-20020a056830391900b00654625c0c4dsm780884otb.17.2022.09.27.08.09.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 08:09:22 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: input: Convert hid-over-i2c to DT schema
+Date:   Tue, 27 Sep 2022 10:09:15 -0500
+Message-Id: <20220927150916.1091217-1-robh@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH RFC v2 1/2] platform/x86: quickstart: Add ACPI quickstart
- button (PNP0C32) driver
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-        Len Brown <lenb@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>
-References: <20220922182424.934340-1-lkml@vorpal.se>
- <20220922182424.934340-2-lkml@vorpal.se>
- <4-mkye9NM7L93IKQAGjd8BmHi1_2zEnx4F8L3AvKk9RsNBtuoS5cpNCKV-nyb1Xpb1jmAZQDdpNlyvjoUfrFKkq4V-EOfXo9b_gRbyC1hSs=@protonmail.com>
- <3095147c-844c-42cf-833b-8a2eae5fcc21@vorpal.se>
- <729c5fc1-3bc1-f2f3-9820-a1e84b09aeac@redhat.com>
-From:   Arvid Norlander <lkml@vorpal.se>
-In-Reply-To: <729c5fc1-3bc1-f2f3-9820-a1e84b09aeac@redhat.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Convert the hid-over-i2c binding to DT schema format. The supplies should
+probably be specific to a specific device, but it seems they are already
+in use otherwise. 'wakeup-source' is added as it was not explicitly
+documented.
 
-I think something may be slightly broken. I got the below email twice, once in
-reply to where it should be, once as a reply to the cover letter.
+There's a few warnings for undocumented properties 'vcc-supply' and
+'reset-gpios'. Those remain as they probably should have a specific
+compatible as well.
 
-Best regards,
-Arvid
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+v2:
+ - Fix example dtc warnings
+---
+ .../bindings/input/hid-over-i2c.txt           | 46 ----------
+ .../bindings/input/hid-over-i2c.yaml          | 83 +++++++++++++++++++
+ 2 files changed, 83 insertions(+), 46 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/hid-over-i2c.txt
+ create mode 100644 Documentation/devicetree/bindings/input/hid-over-i2c.yaml
 
-On 2022-09-27 15:49, Hans de Goede wrote:
-> Hi,
-> 
-> On 9/25/22 20:19, Arvid Norlander wrote:
->> Hi,
->>
->> Thank you, I have incorperated your feedback in my local branch.
->>
->> On 2022-09-23 21:24, Barnabás Pőcze wrote:
->>> Hi
->>>
->>> 2022. szeptember 22., csütörtök 20:24 keltezéssel, Arvid Norlander írta:
->>>
->>>> This is loosely based on a previous staging driver that was removed. See
->>>> links below for more info on that driver. The original commit ID was
->>>> 0be013e3dc2ee79ffab8a438bbb4e216837e3d52.
->>>>
->>>> However, here a completely different approach is taken to the user space
->>>> API (which should solve the issues the original driver had). Each PNP0C32
->>>> device is a button, and each such button gets a separate input device
->>>> associated with it (instead of a shared platform input device).
->>>>
->>>> The button ID (as read from ACPI method GHID) is provided via a sysfs file
->>>> "button_id".
->>>>
->>>> If the button caused a wakeup it will "latch" the "wakeup_cause" sysfs file
->>>> to true. This can be reset by a user space process.
->>>>
->>>> Link: https://marc.info/?l=linux-acpi&m=120550727131007
->>>> Link: https://lkml.org/lkml/2010/5/28/327
->>>> Signed-off-by: Arvid Norlander <lkml@vorpal.se>
->>>> ---
->>>> [...]
->>>> diff --git a/drivers/platform/x86/quickstart.c b/drivers/platform/x86/quickstart.c
->>>> new file mode 100644
->>>> index 000000000000..ce51abe012f7
->>>> --- /dev/null
->>>> +++ b/drivers/platform/x86/quickstart.c
->>>> @@ -0,0 +1,320 @@
->>
->> <snip>
->>
->>>> +
->>>> +static ssize_t wakeup_cause_store(struct device *dev,
->>>> +				  struct device_attribute *attr,
->>>> +				  const char *buf, size_t count)
->>>> +{
->>>> +	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
->>>> +
->>>> +	if (count < 2)
->>>> +		return -EINVAL;
->>>> +
->>>> +	if (strncasecmp(buf, "false", 4) != 0)
->>>> +		return -EINVAL;
->>>> +
->>>
->>> If "true"/"false" will be used in the final version, then I think this check
->>> currently is too lax. You could use `sysfs_streq()`. And I think the `count < 2`
->>> check is not needed.
->>
->> Regarding the user space API I don't know, that is one of the open
->> questions in the cover letter. I have yet to get any feedback on any of
->> those questions. That is something that needs to happen before this driver
->> can be included. I would appreciate your feedback on those.
-> 
-> I will reply to this question in my general review of the driver.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
->>
->> <snip>
->>
->>>
->>> Regards,
->>> Barnabás Pőcze
->>
->> Regards,
->> Arvid Norlander
->>
-> 
+diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.txt b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
+deleted file mode 100644
+index 34c43d3bddfd..000000000000
+--- a/Documentation/devicetree/bindings/input/hid-over-i2c.txt
++++ /dev/null
+@@ -1,46 +0,0 @@
+-* HID over I2C Device-Tree bindings
+-
+-HID over I2C provides support for various Human Interface Devices over the
+-I2C bus. These devices can be for example touchpads, keyboards, touch screens
+-or sensors.
+-
+-The specification has been written by Microsoft and is currently available here:
+-http://msdn.microsoft.com/en-us/library/windows/hardware/hh852380.aspx
+-
+-If this binding is used, the kernel module i2c-hid will handle the communication
+-with the device and the generic hid core layer will handle the protocol.
+-
+-Required properties:
+-- compatible: must be "hid-over-i2c"
+-- reg: i2c slave address
+-- hid-descr-addr: HID descriptor address
+-- interrupts: interrupt line
+-
+-Additional optional properties:
+-
+-Some devices may support additional optional properties to help with, e.g.,
+-power sequencing. The following properties can be supported by one or more
+-device-specific compatible properties, which should be used in addition to the
+-"hid-over-i2c" string.
+-
+-- compatible:
+-  * "wacom,w9013" (Wacom W9013 digitizer). Supports:
+-    - vdd-supply (3.3V)
+-    - vddl-supply (1.8V)
+-    - post-power-on-delay-ms
+-
+-- vdd-supply: phandle of the regulator that provides the supply voltage.
+-- post-power-on-delay-ms: time required by the device after enabling its regulators
+-  or powering it on, before it is ready for communication.
+-- touchscreen-inverted-x: See touchscreen.txt
+-- touchscreen-inverted-y: See touchscreen.txt
+-
+-Example:
+-
+-	i2c-hid-dev@2c {
+-		compatible = "hid-over-i2c";
+-		reg = <0x2c>;
+-		hid-descr-addr = <0x0020>;
+-		interrupt-parent = <&gpx3>;
+-		interrupts = <3 2>;
+-	};
+diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.yaml b/Documentation/devicetree/bindings/input/hid-over-i2c.yaml
+new file mode 100644
+index 000000000000..7156b08f7645
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/hid-over-i2c.yaml
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: GPL-2.0-only
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: HID over I2C Devices
++
++maintainers:
++  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
++  - Jiri Kosina <jkosina@suse.cz>
++
++description: |+
++  HID over I2C provides support for various Human Interface Devices over the
++  I2C bus. These devices can be for example touchpads, keyboards, touch screens
++  or sensors.
++
++  The specification has been written by Microsoft and is currently available here:
++  https://msdn.microsoft.com/en-us/library/windows/hardware/hh852380.aspx
++
++  If this binding is used, the kernel module i2c-hid will handle the communication
++  with the device and the generic hid core layer will handle the protocol.
++
++allOf:
++  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - wacom,w9013
++          - const: hid-over-i2c
++      - description: Just "hid-over-i2c" alone is allowed, but not recommended.
++        const: hid-over-i2c
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  hid-descr-addr:
++    description: HID descriptor address
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  post-power-on-delay-ms:
++    description: Time required by the device after enabling its regulators
++      or powering it on, before it is ready for communication.
++
++  touchscreen-inverted-x: true
++
++  touchscreen-inverted-y: true
++
++  vdd-supply:
++    description: 3.3V supply
++
++  vddl-supply:
++    description: 1.8V supply
++
++  wakeup-source: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hid@2c {
++            compatible = "hid-over-i2c";
++            reg = <0x2c>;
++            hid-descr-addr = <0x0020>;
++            interrupts = <3 2>;
++        };
++    };
++...
+-- 
+2.34.1
 
