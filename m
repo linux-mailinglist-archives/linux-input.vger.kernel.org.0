@@ -2,109 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A845ED6DB
-	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 09:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0EEF5EDB23
+	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 13:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233674AbiI1HyM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Sep 2022 03:54:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47726 "EHLO
+        id S233163AbiI1LGu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Sep 2022 07:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233642AbiI1Hxr (ORCPT
+        with ESMTP id S233992AbiI1LGT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Sep 2022 03:53:47 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CEE5F54;
-        Wed, 28 Sep 2022 00:53:16 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id z4so1337273lft.2;
-        Wed, 28 Sep 2022 00:53:16 -0700 (PDT)
+        Wed, 28 Sep 2022 07:06:19 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27D01FAD9D
+        for <linux-input@vger.kernel.org>; Wed, 28 Sep 2022 04:03:29 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id n10so19158454wrw.12
+        for <linux-input@vger.kernel.org>; Wed, 28 Sep 2022 04:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=ou1RRtL4ikO+kz8JCQFnSDz9O1nEB+TVYO09/IQr4n4=;
-        b=W1feMDsUUM8heBYa4vtXawt72yC6wQyMdspOlzS9HApmaYel+dw/cCTks64aiZ0/FB
-         +6HaMDEdCvL7XPWJo9d/WAG97ds1/sNVKE0WlyTUN8iNppFrsOalOmFqNr3RZ0mCN72B
-         D/K7xf5y2C2jjskfDtiTRDV9y/KkuKLStrwUlF5OHGCoC8LvlDfcmN2Jf0H/YngQxNSY
-         OhbqHzxhexu6QkbepGW1gwdf7aAdoSOleG8TI+xIg9AMFpj06gBofrfaT60VvqRhtNL3
-         BvHkPmGWcUh1OXa45Y2seJQKA4mq3NMAZiXa3oWA2J9ADJUjrMSGFD8+ldovA/19mv/e
-         tMsg==
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=hsfgwkohunj2bq+qokQjpwKuMUBKZOCzjqLYVUE9VjlDHQ0ttU9xn0OXOr5TQjcIbd
+         pZUkZFNFrerNpyt/MUrqcb3uHJg+xsYfXWD3zIbmEi36726ik2CodcHZduVOPw2IadTG
+         /XLxOwYhjUflJM0qYMREl8mT4NV2UbLp250UeB0y6h218TWa8CLpg8PDY6s0xDOjWUUD
+         6VB1Iwmy5fwSrsY2oZSHdoESqpE32cpRPh2xpWyH8YsruCCDAuQu7zb0dlSsC05MInco
+         BjvOOkeVVOMUMuBeQjYrDsHSj5DOFz063CB8rDd4ND0tNbVYzu13/Ye3ES/P4xkWKkbP
+         Joug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ou1RRtL4ikO+kz8JCQFnSDz9O1nEB+TVYO09/IQr4n4=;
-        b=U7didk73MATUnkJFhGSyn3AyerhPp+PQNYac9DpdbcR0DnsYwXHBCVFZNx6iCdkQWR
-         XyUS5Aozr0XCAXYhXlvTqzyztvN/FQtQXFY10z8VP/GDBkKmb/KVKLg/tjLE52YsQmu+
-         ZORAHM2Yx1e3Jlh8ElA74vT6kSw1lCSSbdh0nSOZWt5SKC6dKT+zons5OaDBoEvIVCUF
-         LqWhw30SnfOcvaWu3H60lGviDt7MH2SF57I/QxSh+b1q9eMxVR0LPxwdOwHps02IVGBC
-         N5a+7370+IG607wk5I7KbF9oSsgUW8pzu6P0VwH66Ky166wolcG54giiDmUDdYI1pESv
-         bl2w==
-X-Gm-Message-State: ACrzQf1cH49mCm+9O+kmRff5ss148zE8k8Xwoj+1lSI4IbxdNPAYcUiS
-        VuuqTret+1BcxYYsOsIuft3kLxJcWa6NdQ==
-X-Google-Smtp-Source: AMsMyM6SlgLcDWDW36KcWjnBSwnvB9diErjfL5vDaJZ0xj0SmsduFAf+ILDa+2jAC2TVk4RlKzUHSA==
-X-Received: by 2002:a05:6512:3d09:b0:497:ab35:fd12 with SMTP id d9-20020a0565123d0900b00497ab35fd12mr13234719lfv.539.1664351594690;
-        Wed, 28 Sep 2022 00:53:14 -0700 (PDT)
-Received: from localhost.localdomain (82-209-154-112.cust.bredband2.com. [82.209.154.112])
-        by smtp.gmail.com with ESMTPSA id b28-20020a05651c033c00b00261ccf566e3sm357770ljp.65.2022.09.28.00.53.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 00:53:13 -0700 (PDT)
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: [PATCH] HID: hid-sensor-custom: set fixed size for custom attributes
-Date:   Wed, 28 Sep 2022 09:59:13 +0200
-Message-Id: <20220928075913.64125-1-marcus.folkesson@gmail.com>
-X-Mailer: git-send-email 2.37.1
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=n45rzAkTZDTejlnJMZUEZrafAdgkwNi+wcUoBs3NIF/xu6XC3COYgtNYY+m7W+hShb
+         s5rPz2YxE8V8F7QI2xnORLOsCLURRnHeJhFfF5pB6Bma19IXaXkVHofZHOCeYlfXIB7T
+         TXYzg69EbRLNmX7WEznXTBZjtcoYKDy8ugv7vBqD0erPxmyKvH4NieNyltNiwsxytUAS
+         55/CcM/OLIUVrpo2/Tcol50VwuKQZh/ryXlZiu4vYTkeOwt5ofZ4tY9zfdYZhF7jQ9tt
+         siyAThbRrsGCjQNjWjilkkKW2JIasvHntMdgGxnDWtxZW/L3GBd8J+eUKCG+Yvwmn/Kf
+         7gww==
+X-Gm-Message-State: ACrzQf1FToBbvN8OF9J2+fCoWgEAg8wa9EJ6R8vu2YP6+m0eG3bmGQe7
+        NrsIFnvr2jbzyi1befSpqobjxUeMx3VFoWUJxIA=
+X-Google-Smtp-Source: AMsMyM63Y5YTDo/PDSCMK/uJ1s+dnS4eUnLjHedcGz8lbTTof7yKLNXyn/xlq4PeVWbJ5MrApHvoJQzUrk3pnEI0D7Y=
+X-Received: by 2002:a5d:59c4:0:b0:22b:237c:3e23 with SMTP id
+ v4-20020a5d59c4000000b0022b237c3e23mr21002441wry.291.1664363007529; Wed, 28
+ Sep 2022 04:03:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Received: by 2002:adf:e242:0:0:0:0:0 with HTTP; Wed, 28 Sep 2022 04:03:26
+ -0700 (PDT)
+Reply-To: linadavid0089@gmail.com
+From:   Lina David <edithbrown052@gmail.com>
+Date:   Wed, 28 Sep 2022 12:03:26 +0100
+Message-ID: <CAPGw1A69c24H-qjrvaj8ES-J7otOjgin+W=G++pNjVNLG0dh7Q@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:441 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4973]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [linadavid0089[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [edithbrown052[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [edithbrown052[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is no bugfix (so no Fixes: tag is necessary) as it is
-taken care of in hid_sensor_custom_add_attributes().
-
-The motivation for this patch is that:
-hid_sensor_custom_field.attr_name and
-hid_sensor_custom_field.attrs
-has the size of HID_CUSTOM_TOTAL_ATTRS and used in same context.
-
-We compare against HID_CUSTOM_TOTAL_ATTRS when
-looping through hid_custom_attrs.
-
-We will silent the smatch error:
-hid_sensor_custom_add_attributes() error: buffer overflow
-'hid_custom_attrs' 8 <= 10
-
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
- drivers/hid/hid-sensor-custom.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-index 32c2306e240d..602465ad2745 100644
---- a/drivers/hid/hid-sensor-custom.c
-+++ b/drivers/hid/hid-sensor-custom.c
-@@ -62,7 +62,7 @@ struct hid_sensor_sample {
- 	u32 raw_len;
- } __packed;
- 
--static struct attribute hid_custom_attrs[] = {
-+static struct attribute hid_custom_attrs[HID_CUSTOM_TOTAL_ATTRS] = {
- 	{.name = "name", .mode = S_IRUGO},
- 	{.name = "units", .mode = S_IRUGO},
- 	{.name = "unit-expo", .mode = S_IRUGO},
 -- 
-2.37.1
-
+Hello,
+how are you?
