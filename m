@@ -2,154 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CB615EE823
-	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 23:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EC315EE894
+	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 23:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234405AbiI1VQr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Sep 2022 17:16:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
+        id S233134AbiI1VsR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Sep 2022 17:48:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234497AbiI1VQ0 (ORCPT
+        with ESMTP id S231269AbiI1VsP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Sep 2022 17:16:26 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5159C50504
-        for <linux-input@vger.kernel.org>; Wed, 28 Sep 2022 14:10:54 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id y20so2697627plb.2
-        for <linux-input@vger.kernel.org>; Wed, 28 Sep 2022 14:10:54 -0700 (PDT)
+        Wed, 28 Sep 2022 17:48:15 -0400
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA9D590C47;
+        Wed, 28 Sep 2022 14:48:14 -0700 (PDT)
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-131886d366cso7387857fac.10;
+        Wed, 28 Sep 2022 14:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=9t1zC330HUR2z0lQkNzGtWIQnlQT+GzrLYZrL9egK1U=;
-        b=JDX3GYUhPjHCWI9lm9NZcjbU+aMhiRXuYEclhJtT4AZ7VuiPWPseLSUDBsDNdO/Xg/
-         RTeu3E/XB8AoR2yDZEyCK0Cazj/HOIFifbRDPm9EDijegDsq78fkSCnmQZe4OKRlzXCp
-         xCD5SSeVhuf6yuf7sxeUwcIFK0U9QHmM3LN3k=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=aFNSQQkHdIv3eNYnOMb7IChM7MT7DX0ilP6nUO10rBs=;
+        b=imBuE0cdGBJC3sjLmsTrSlLycr1wooEhXrt/z4Xy+SnN+bpXyFCRHZZP79JyiVjyzV
+         11AWJloBV+BL8YgB8Z/Nh3UyNGLtnq+wdBIealRrk9stZsvZAV9T6JlMdRHLA48LphJY
+         lPrFmxDSOtu4NRTs4ZsjF0L4QkTjcmQ3B/xDWI9z8+5VcFQS8H0nJmrAFM9da/1ENph8
+         u/nST4z6clh7GAJT7U/zuprmaMvtrpMcfC6GaMXE1ivfCKhN22tO/uyxzc47SSNuJjjO
+         Q0FfIQr8+UTZuvoFItrOk9CScACFp+XDlTSfXDih6a3120OxruerK4CY+QLfaOp7CxZU
+         QtXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=9t1zC330HUR2z0lQkNzGtWIQnlQT+GzrLYZrL9egK1U=;
-        b=xVz+oMLVJlAsJZfMwXMN5xj5EGQGh732t6TYH7oY5XbWNUy8QpniIWixhDyZESJSq0
-         7adgW18zF5DDCzkVsh8QSdrwJrg4veZEWS3z6V+d84Dz02NIDngxiCQQZZgB8Wn/6EX8
-         HLRqJ0vRJcvc3pF4kuzszb/aQ7y97+U6iQbRitw+pn75xfFTuWP/9hfTSxOl3OLLrpsw
-         jokRq7JsB8b2sVwEMSWvmG9kYGPHaZmC+1BOyUwZvJ7ZDxAly21MIllPpC2yIuPyovzQ
-         XozwKXMJXpOMrseEa7TjqyKECyiYJSoxCgFFL0zjywQ7YEgpFN4q+ZHqCOSiWwE7A4nT
-         uRCQ==
-X-Gm-Message-State: ACrzQf23P2metG8Kk6e0tPov87iXC+taVdN6QVixs2TMMGIT18jybhrs
-        6/kU0d/d7qiQw+Xy6AJstKqKzXFO3/XlLg==
-X-Google-Smtp-Source: AMsMyM4LObYOb4DEXkOqNTawTKV/PZ0anaj6Q/JTlD5qj7bfszsvTJ4gIrAODgolxJlcNxwLK4UsiA==
-X-Received: by 2002:a17:90b:3951:b0:205:ef51:98e3 with SMTP id oe17-20020a17090b395100b00205ef5198e3mr5586857pjb.138.1664399453023;
-        Wed, 28 Sep 2022 14:10:53 -0700 (PDT)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com. [209.85.216.41])
-        by smtp.gmail.com with ESMTPSA id z16-20020a170902ccd000b00172b87d9770sm4177151ple.81.2022.09.28.14.10.52
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Sep 2022 14:10:52 -0700 (PDT)
-Received: by mail-pj1-f41.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so3945060pjq.3
-        for <linux-input@vger.kernel.org>; Wed, 28 Sep 2022 14:10:52 -0700 (PDT)
-X-Received: by 2002:a17:902:f68d:b0:178:41dd:12ad with SMTP id
- l13-20020a170902f68d00b0017841dd12admr1645115plg.25.1664399451471; Wed, 28
- Sep 2022 14:10:51 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=aFNSQQkHdIv3eNYnOMb7IChM7MT7DX0ilP6nUO10rBs=;
+        b=YMya5gTW1xKBtLFMhA5ofXIiwdh7kcSbpJcrLzhs1Fad6nsRrojgMgkIZUyHO5XQSZ
+         h9b59aXNgoVDTegyYDAq5Iy62+Bi2rQLS6m2AFgzZt6cyZofadLDV1VcuaU9uybor/ok
+         JIASCJdBhhMMcUyjeA9RGm8bEgMDnS5IMyI6+S37Sa5JrHXC8zDns6WW2vrf2cvD2y6T
+         AJ4REP/ltrbFiWoC/GxOweSL6D0A3jGYARa3FN8QijL0G85YOIwtWlV9JnWq7diki9bX
+         wuxDRzNWtlc7pdtbXCMDIYyUl4TXbIqRoV1Em/nWQyQrVxhjuO82+9X5FsjbvUmjrM5x
+         Y22Q==
+X-Gm-Message-State: ACrzQf24eV/GgTCT0B8O9Wdy02dhuJu5CLj/aWzNw+GmuCxxtxEqDYnO
+        c+7irte4y55AVaSnzYtcXTlds5wTRgw=
+X-Google-Smtp-Source: AMsMyM7bRb6y+nY3P0ZugUe6N/OBWdL1ZuJ3NMGuIqOoIgiIR2p0i3hRlKYGJD+gxxpu5X2CDg0MtA==
+X-Received: by 2002:a05:6870:460e:b0:12b:14cc:aa0 with SMTP id z14-20020a056870460e00b0012b14cc0aa0mr6489619oao.279.1664401693731;
+        Wed, 28 Sep 2022 14:48:13 -0700 (PDT)
+Received: from wintermute.localdomain (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
+        by smtp.gmail.com with ESMTPSA id m18-20020a9d6452000000b00657a221eb71sm2623211otl.65.2022.09.28.14.48.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 14:48:12 -0700 (PDT)
+From:   Chris Morgan <macroalpha82@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, rydberg@bitmath.org,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/3] Add Hynitron cstxxx Touchscreen
+Date:   Wed, 28 Sep 2022 16:48:03 -0500
+Message-Id: <20220928214806.13572-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220921155205.1332614-1-rrangel@chromium.org>
- <20220921094736.v5.8.I7d9202463f08373feccd6e8fd87482c4f40ece5d@changeid> <CAJZ5v0g57mF-4ZC2ajL5+JE+q9y=fW1G-OXR8tuOk4TYxHPWtQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0g57mF-4ZC2ajL5+JE+q9y=fW1G-OXR8tuOk4TYxHPWtQ@mail.gmail.com>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Wed, 28 Sep 2022 15:10:40 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30BZ5jnTY4DQD5mxpnLcLxn5Oo=izB1+f06JOqXU5VGz_A@mail.gmail.com>
-Message-ID: <CAHQZ30BZ5jnTY4DQD5mxpnLcLxn5Oo=izB1+f06JOqXU5VGz_A@mail.gmail.com>
-Subject: Re: [PATCH v5 08/13] ACPI: PM: Take wake IRQ into consideration when
- entering suspend-to-idle
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Tim Van Patten <timvp@google.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Len Brown <lenb@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Sep 24, 2022 at 11:00 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Wed, Sep 21, 2022 at 5:52 PM Raul E Rangel <rrangel@chromium.org> wrote:
-> >
-> > This change adds support for ACPI devices that use ExclusiveAndWake or
-> > SharedAndWake in their _CRS GpioInt definition (instead of using _PRW),
-> > and also provide power resources. Previously the ACPI subsystem had no
-> > idea if the device had a wake capable interrupt armed. This resulted
-> > in the ACPI device PM system placing the device into D3Cold, and thus
-> > cutting power to the device. With this change we will now query the
-> > _S0W method to figure out the appropriate wake capable D-state.
-> >
-> > Signed-off-by: Raul E Rangel <rrangel@chromium.org>
-> > ---
-> >
-> > Changes in v5:
-> > - Go back to using adev->wakeup.flags.valid to keep the diff cleaner
-> > - Fix a typo in comment
-> >
-> >  drivers/acpi/device_pm.c | 19 +++++++++++++++++--
-> >  1 file changed, 17 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-> > index 9dce1245689ca2..3111fc426e04fd 100644
-> > --- a/drivers/acpi/device_pm.c
-> > +++ b/drivers/acpi/device_pm.c
+From: Chris Morgan <macromorgan@hotmail.com>
 
-> > @@ -681,8 +681,23 @@ static int acpi_dev_pm_get_state(struct device *dev, struct acpi_device *adev,
-> >                 d_min = ret;
-> >                 wakeup = device_may_wakeup(dev) && adev->wakeup.flags.valid
-> >                         && adev->wakeup.sleep_state >= target_state;
-Just an FYI, I didn't update the code that handles the target state >
-S0. I need to get a
-device that has S3 capabilities and the correct firmware to test this.
-I figure I can do
-that as a different patch when I have time to test with an S3 device.
+This series adds support for the Hynitron cstxxx (specifically
+the cst3xx series). The cst3xx supports 5 point multitouch with
+hardware tracking of touch points.
 
-> > -       } else {
-> > -               wakeup = adev->wakeup.flags.valid;
-> > +       } else if (adev->wakeup.flags.valid) {
-> > +               /* ACPI GPE specified in _PRW. */
-> > +               wakeup = true;
+Note that a datasheet was unavailable for this device, so it was
+built based on vendor provided source code that was tagged as GPLv2.
+Some of the register functions were discovered via trial and error
+and labelled as such.
 
->
-> I would retain the "else" clause as it was and just add a new "else
-> if" one before it.
->
-Done
+Chris Morgan (3):
+  dt-bindings: vendor-prefixes: add Hynitron vendor prefix
+  dt-bindings: input: touchscreen: Add Hynitron cstxxx bindings
+  input/touchscreen: Add Hynitron cstxxx touchscreen
 
-> > +       } else if (device_may_wakeup(dev) && dev->power.wakeirq) {
-> > +               /*
-> > +                * The ACPI subsystem doesn't manage the wake bit for IRQs
-> > +                * defined with ExclusiveAndWake and SharedAndWake. Instead we
-> > +                * expect them to be managed via the PM subsystem. Drivers
-> > +                * should call dev_pm_set_wake_irq to register an IRQ as a wake
-> > +                * source.
-> > +                *
-> > +                * If a device has a wake IRQ attached we need to check the
-> > +                * _S0W method to get the correct wake D-state. Otherwise we
-> > +                * end up putting the device into D3Cold which will more than
-> > +                * likely disable wake functionality.
-> > +                */
-> > +               wakeup = true;
-> >         }
-> >
-> >         /*
-> > --
+ .../input/touchscreen/hynitron,cstxxx.yaml    |  65 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/input/touchscreen/Kconfig             |  12 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/hynitron_cstxxx.c   | 483 ++++++++++++++++++
+ 5 files changed, 563 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml
+ create mode 100644 drivers/input/touchscreen/hynitron_cstxxx.c
 
-I'll send out v6 soon unless anyone else has any comments.
+-- 
+2.25.1
+
