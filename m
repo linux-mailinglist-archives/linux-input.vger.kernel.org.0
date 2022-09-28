@@ -2,158 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 295E95EE0E0
-	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 17:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB0D65EE128
+	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 18:02:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233225AbiI1Pup convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 28 Sep 2022 11:50:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36210 "EHLO
+        id S234173AbiI1QCW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Sep 2022 12:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232096AbiI1Puo (ORCPT
+        with ESMTP id S234211AbiI1QCV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Sep 2022 11:50:44 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA78A82627
-        for <linux-input@vger.kernel.org>; Wed, 28 Sep 2022 08:50:42 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-265-epL-6jk9N7WF2cxyMBC7Tg-1; Wed, 28 Sep 2022 16:50:40 +0100
-X-MC-Unique: epL-6jk9N7WF2cxyMBC7Tg-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Wed, 28 Sep
- 2022 16:50:36 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Wed, 28 Sep 2022 16:50:36 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Michael Zaidman' <michael.zaidman@gmail.com>,
-        "jikos@kernel.org" <jikos@kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "Guillaume Champagne" <champagne.guillaume.c@gmail.com>
-Subject: RE: [PATCH v2 2/7] HID: ft260: improve i2c write performance
-Thread-Topic: [PATCH v2 2/7] HID: ft260: improve i2c write performance
-Thread-Index: AQHY00mUw0Kqs3OAvUmX6aS0EWBX1630/Gwg
-Date:   Wed, 28 Sep 2022 15:50:36 +0000
-Message-ID: <f9be53a647cd4b698ed820a70b67b7d4@AcuMS.aculab.com>
-References: <20220928144854.5580-1-michael.zaidman@gmail.com>
- <20220928144854.5580-3-michael.zaidman@gmail.com>
-In-Reply-To: <20220928144854.5580-3-michael.zaidman@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Wed, 28 Sep 2022 12:02:21 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB998DF38D;
+        Wed, 28 Sep 2022 09:02:20 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id u59-20020a17090a51c100b00205d3c44162so2899538pjh.2;
+        Wed, 28 Sep 2022 09:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=xBtPbtpgFKdD1PChx7TQxHSmLi/XgqKNlKbX/Ab3jsU=;
+        b=euGTU+76bMbEWzWwM1ghvRI9QyzkpU6r5r9iCaClPNHEsNTy8XUD8PW/tZeq14MPLB
+         HDOLSvGRTRBP0dsOKwW/RUZBvZ2GUuAlNt/EvTajndVH3iSJSK28W0b1phLlbLapx0NH
+         C7c8wdYaP/JMwjL1/e2OTvQxCrXoguZJEohr0AD+WqmnXDXHADPGE69Ota5/r9UMcs8w
+         6oq+gCEg4wHCnbTetCq5zYv2g9CUFoMqQRhSxCFfmL+rRVXqzO1IRfjGhZ/QTTVhRpFi
+         L15s40DXM6hKXnz5WfL2egKk2Hb1h2kaOPWDVGqz8bUhi2EUxJbYgK+MUfWnkeasqH7J
+         koxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=xBtPbtpgFKdD1PChx7TQxHSmLi/XgqKNlKbX/Ab3jsU=;
+        b=1UciwxJ6dih+JiHZ/VkYiMWJTwliEabgKdE05Wq2eXZzmUrLXrhj6KDAueIsH75JpE
+         NiXtQxUd3/Rt8PHW+FGIT9cKoS3bw5FThxYMhgQpjQmS1FXaFPjTp34ZSvOZHbG1PR5E
+         yBXQ84SbNbE6afw9fwtZjfuL1rVNlB7z5x/FXvUoiSSBKK2kD9rW3bK4+ePRfa42EuCQ
+         Va9dPV+j2Mc1hYgLw0J16F6WP9KoSC4zjXRw7Dzkh9CHZiso513o2LmoaIU8dB46FAw5
+         rwqJMKNLqe5R6KFwVnOhVW19JxhPtXcZW8eX2V7mx3MlwtMaPX2WUH868gFJAVmou/Zu
+         jWtQ==
+X-Gm-Message-State: ACrzQf1O/imacw8XcKHmezt/8q4y3sgYAMNacRKH3e2qQ3nc9A0FI2fO
+        ZNtEDY8Dd905t3Yqzjx7iXClkd5uhRU=
+X-Google-Smtp-Source: AMsMyM7b3aE25+G8dGmrleeeWsrgQ2WVJpG6PMYNP7NAS1z3KVgJrk2iuNm1lDi7FuoRqNw8JlWlig==
+X-Received: by 2002:a17:90b:4c0c:b0:203:1407:809c with SMTP id na12-20020a17090b4c0c00b002031407809cmr11221709pjb.193.1664380940029;
+        Wed, 28 Sep 2022 09:02:20 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:1a91:59b8:faf:7b4f])
+        by smtp.gmail.com with ESMTPSA id d18-20020a170902ced200b0017808db132bsm3960720plg.137.2022.09.28.09.02.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 09:02:19 -0700 (PDT)
+Date:   Wed, 28 Sep 2022 09:02:17 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 1/1] Input: icn8505 - Utilize acpi_get_subsystem_id()
+Message-ID: <YzRwCbU7mTWTRYX6@google.com>
+References: <20220928110548.43955-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220928110548.43955-1-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Michael Zaidman
-> Sent: 28 September 2022 15:49
+On Wed, Sep 28, 2022 at 02:05:48PM +0300, Andy Shevchenko wrote:
+> Replace open coded variant of recently introduced acpi_get_subsystem_id().
 > 
-> The patch improves i2c writing performance by about 30 percent by revising
-> the sleep time in the ft260_hid_output_report_check_status() in the
-> following ways:
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Spinning in kernel for several milliseconds isn't friendly at all.
+Applied, thank you.
 
-	David
-
-> 
-> 1. Reduce the sleep time and start to poll earlier:
-> 
->   Before:
->     $ sudo ./i2cperf -f 2 -o 2 -s 32 -r 0-0xff 13 0x51 -S
-> 
->       Fill block with increment via i2ctransfer by chunks
->       -------------------------------------------------------------------
->       data rate(bps)  efficiency(%)  data size(B)  total IOs   IO size(B)
->       -------------------------------------------------------------------
->       40510           80             256           8           32
-> 
->   After:
->     $ sudo ./i2cperf -f 2 -o 2 -s 32 -r 0-0xff 13 0x51 -S
-> 
->       Fill block with increment via i2ctransfer by chunks
->       -------------------------------------------------------------------
->       data rate(bps)  efficiency(%)  data size(B)  total IOs   IO size(B)
->       -------------------------------------------------------------------
->       52584           80             256           8           32
-> 
-> 2. Do not sleep when the calculated sleep time is below 2 ms:
-> 
->   Before:
->     $ sudo ./i2cperf -f 2 -o 2 -s 16 -r 0-0xff 13 0x51 -S
-> 
->       Fill block with increment via i2ctransfer by chunks
->       -------------------------------------------------------------------
->       data rate(bps)  efficiency(%)  data size(B)  total IOs   IO size(B)
->       -------------------------------------------------------------------
->       26707           73             256           16          16
-> 
->   After:
->     $ sudo ./i2cperf -f 2 -o 2 -s 16 -r 0-0xff 13 0x51 -S
-> 
->       Fill block with increment via i2ctransfer by chunks
->       -------------------------------------------------------------------
->       data rate(bps)  efficiency(%)  data size(B)  total IOs   IO size(B)
->       -------------------------------------------------------------------
->       37034           73             256           16          16
-> 
-> Link to the i2cperf - https://github.com/MichaelZaidman/i2cperf
-> 
-> Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
-> Tested-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
-> ---
->  drivers/hid/hid-ft260.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-> index a35201d68b15..44106cadd746 100644
-> --- a/drivers/hid/hid-ft260.c
-> +++ b/drivers/hid/hid-ft260.c
-> @@ -345,7 +345,7 @@ static int ft260_hid_output_report(struct hid_device *hdev, u8 *data,
->  static int ft260_hid_output_report_check_status(struct ft260_device *dev,
->  						u8 *data, int len)
->  {
-> -	int ret, usec, try = 3;
-> +	int ret, usec, try = 100;
->  	struct hid_device *hdev = dev->hdev;
-> 
->  	ret = ft260_hid_output_report(hdev, data, len);
-> @@ -356,10 +356,14 @@ static int ft260_hid_output_report_check_status(struct ft260_device *dev,
->  		return ret;
->  	}
-> 
-> -	/* transfer time = 1 / clock(KHz) * 10 bits * bytes */
-> -	usec = 10000 / dev->clock * len;
-> -	usleep_range(usec, usec + 100);
-> -	ft260_dbg("wait %d usec, len %d\n", usec, len);
-> +	/* transfer time = 1 / clock(KHz) * 9 bits * bytes */
-> +	usec = len * 9000 / dev->clock;
-> +	if (usec > 2000) {
-> +		usec -= 1500;
-> +		usleep_range(usec, usec + 100);
-> +		ft260_dbg("wait %d usec, len %d\n", usec, len);
-> +	}
-> +
->  	do {
->  		ret = ft260_xfer_status(dev);
->  		if (ret != -EAGAIN)
-> --
-> 2.34.1
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+-- 
+Dmitry
