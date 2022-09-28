@@ -2,68 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B1F35ED26B
-	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 03:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47DB75ED282
+	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 03:12:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbiI1BEb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Sep 2022 21:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36452 "EHLO
+        id S231773AbiI1BMC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Sep 2022 21:12:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbiI1BE3 (ORCPT
+        with ESMTP id S230185AbiI1BMB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Sep 2022 21:04:29 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C171E0C4D
-        for <linux-input@vger.kernel.org>; Tue, 27 Sep 2022 18:04:29 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id b23so11148590pfp.9
-        for <linux-input@vger.kernel.org>; Tue, 27 Sep 2022 18:04:29 -0700 (PDT)
+        Tue, 27 Sep 2022 21:12:01 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 293D3F962B;
+        Tue, 27 Sep 2022 18:11:57 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id e68so11200842pfe.1;
+        Tue, 27 Sep 2022 18:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=gUHOLGJJtszepWK53mpqIg6cE11EZhwhUrj8SWBOZGc=;
-        b=WgGV3xsEHph6cuzdn4IAFvDoi34E5H7r+oNrZQkZB7f6FYoMiGvNMQ0muMK4HWs0+c
-         1mANU74EWCq3yMCINP9kD0JmWKiEsbFhljEKv/zRFFSoe03jY938dFdGg0as0lgpZ2ol
-         Z8fzjKAWjaDu97SXjzHXt9hymjyuGQpgcxXV1w/UvJ8+6pfvO20gs7UgO350R4YNfTY8
-         TrOs38HoJozmXhMmkX1daCpvU6x0HcPLCChGkVmPQnr6KVNpqlYP5+OPAA34Rv41FFKS
-         l4McoBhqFhdO1pn9LCp6ONpe4D3rgKU5aNahuit0DJgydwgXfOCbrWeZSWhj9QS4pAkL
-         TyFA==
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
+        bh=p3eUKwIdS0Bq28zizpdjqkvTnJ0lK5EFcAaTI8E5ocE=;
+        b=EQqnCP+Byb39ss9k7jjdAyjDPPsaSV1L+SpiiY6KhvAKU+xXLo33A3MjrlPgNMjEqS
+         IEzNngKBGC+WYzB/ufJsm06VTYnqT48n4FB1WnSY6gUCftyE79vVT9IdXXg+TKTj91gn
+         a6ZjSQHdAdhjSt9NQ0Zvl7kWUyEqC0J1WTFoB6pzngdERjlr2UV037uKthZJSZHBEjaG
+         IIbtxQVUtDFBTwsd6+wZOU3qifVbtzncHSgDakGZ0lDejJ/GEjA9RNOC5+8XyhQYMtVT
+         XIxg+JcuEB7pKd0cCk5HaKbT0xdyO4Fg8HlAsuVDxGHfzzc8oUsqc1O1hKXttM/tJ7Si
+         aCLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=gUHOLGJJtszepWK53mpqIg6cE11EZhwhUrj8SWBOZGc=;
-        b=W1SdKWdV4gn8+DNonlp+Boo2bWnPFurri5qjZbhl4HdqhnveVfwPUBmYDrNPA8GnGK
-         dU8BYHW4lgpF4VUIbFwOTazNkau8JvJlFgpBjyImROMmlzZE8hn6/+wTsBzAj6EUVjgZ
-         R5lekjhCT+5kR+3W28Ck2MbQ8U5cSAO2te5HlDsvf8KH+HCk9TseqtZJK7d1mSrfDUGA
-         75MSZWLJizHFbd9tLBYSXaNYRVLMY26sXw9r2Ob8476n4yAtkqA4YyO6SfMvyx7LPX9q
-         bsuLVIXr8RpOdgs3zCcnSELGPvyOFeUumobA4fgrrY/opfdPejvC/Ixhnjcepb2lPzxC
-         M2Mw==
-X-Gm-Message-State: ACrzQf0bhkSOUD9Tz35vN71Gg74lTITCLyKLLH/CMieu4HWSuq2qtJgS
-        ubitQaHcedat9cn6xXSXNFg42RJ6ktk=
-X-Google-Smtp-Source: AMsMyM5xcAZTCeC3EHG8LgvPMRgZkMl8vj7mMAGf7akT9bWVwdubM5u0Pl/wH8ZlUrsUDeYngsBMKA==
-X-Received: by 2002:a63:2c8b:0:b0:41c:5f9e:a1d6 with SMTP id s133-20020a632c8b000000b0041c5f9ea1d6mr26428152pgs.601.1664327068458;
-        Tue, 27 Sep 2022 18:04:28 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1a91:59b8:faf:7b4f])
-        by smtp.gmail.com with ESMTPSA id p7-20020a170902e74700b001789ee5c821sm2249444plf.61.2022.09.27.18.04.27
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=p3eUKwIdS0Bq28zizpdjqkvTnJ0lK5EFcAaTI8E5ocE=;
+        b=ngsnn7+TPSyJcZL+gt9QOjZDf6+SJG7axljdIIHi04jYXgayEua9YcI/rbm0LYowUh
+         9b7BnKxbWYOd85bGEl8lyBgeVyUG/bn+l/XGDvGKauv57KPTxHDRAL3l/WaD32kq5dLs
+         Nx0+TXcK0WFNCYY3Sj38kt7seOVkTtKluPrisWgCkHVYXaRzWjKQrxXzoc2ibrO/HfsD
+         WEG4n3P3iVu5mjWfLeIbHR0NnvofkQdw94k5tro7w+kTxHIAhE9FFI8jzpm4eIAnMK2l
+         9NwKZO9SzMUk0dUvb1N/aWc1B4vIX2WuzGPal+9xxGANfoLf0TVMJL8jChNzY00z2Tnr
+         y5Fw==
+X-Gm-Message-State: ACrzQf1zMSIVk56byWEV+eQbBUEOElxSjH3bYdnkHI9fao6EIbbram7U
+        8GSMn7dkWte75izP8Qc9o/4=
+X-Google-Smtp-Source: AMsMyM5gwSSomcUAwgGXmL16kkiohAuqLVNsNyKMW1iSehHnUdSJ7WhAmpVqejH4e1Zf+tpimhq30Q==
+X-Received: by 2002:a05:6a00:cd4:b0:541:3fff:35a4 with SMTP id b20-20020a056a000cd400b005413fff35a4mr31756202pfv.56.1664327516514;
+        Tue, 27 Sep 2022 18:11:56 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id hg9-20020a17090b300900b002008d0df002sm143062pjb.50.2022.09.27.18.11.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 18:04:28 -0700 (PDT)
-Date:   Tue, 27 Sep 2022 18:04:25 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Pavel Rojtberg <rojtberg@gmail.com>
-Cc:     linux-input@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 2/2] Input: xpad - decipher xpadone packages with GIP
- defines
-Message-ID: <YzOdmepnphyV333D@google.com>
-References: <20220913213133.584979-1-rojtberg@gmail.com>
- <20220913213133.584979-3-rojtberg@gmail.com>
+        Tue, 27 Sep 2022 18:11:55 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 27 Sep 2022 18:11:54 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-iio@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] watchdog: twl4030_wdt: add missing
+ mod_devicetable.h include
+Message-ID: <20220928011154.GA1700137@roeck-us.net>
+References: <20220927154611.3330871-1-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220913213133.584979-3-rojtberg@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <20220927154611.3330871-1-dmitry.torokhov@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,16 +79,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 11:31:33PM +0200, Pavel Rojtberg wrote:
-> From: Pavel Rojtberg <rojtberg@gmail.com>
+On Tue, Sep 27, 2022 at 08:46:09AM -0700, Dmitry Torokhov wrote:
+> The driver is using of_device_id and therefore needs to include
+> mod_devicetable.h header. We used to get this definition indirectly via
+> inclusion of matrix_keypad.h from twl.h, but we are cleaning up
+> matrix_keypad.h from unnecessary includes.
 > 
-> only renames, no functional changes. Some of the packets we send
-> seem superfluous now. Unfortunately I dont have the hardware to verify
-> whether they are.
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+> ---
 > 
-> Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
-
-Applied, thank you.
-
--- 
-Dmitry
+> v2: changed from of.h to mod_devicetable.h per Andy Shevchenko
+> 
+>  drivers/watchdog/twl4030_wdt.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/watchdog/twl4030_wdt.c b/drivers/watchdog/twl4030_wdt.c
+> index 355e428c0b99..36b4a660928d 100644
+> --- a/drivers/watchdog/twl4030_wdt.c
+> +++ b/drivers/watchdog/twl4030_wdt.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/types.h>
+>  #include <linux/slab.h>
+>  #include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/watchdog.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/mfd/twl.h>
+> -- 
+> 2.38.0.rc1.362.ged0d419d3c-goog
+> 
