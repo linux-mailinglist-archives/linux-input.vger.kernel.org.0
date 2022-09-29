@@ -2,748 +2,287 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D50A5EFDA9
-	for <lists+linux-input@lfdr.de>; Thu, 29 Sep 2022 21:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 947B45EFDC9
+	for <lists+linux-input@lfdr.de>; Thu, 29 Sep 2022 21:18:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbiI2TM1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Sep 2022 15:12:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57018 "EHLO
+        id S229636AbiI2TSF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Sep 2022 15:18:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiI2TMY (ORCPT
+        with ESMTP id S229507AbiI2TSD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Sep 2022 15:12:24 -0400
-Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr [80.12.242.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E30B1BBB
-        for <linux-input@vger.kernel.org>; Thu, 29 Sep 2022 12:12:21 -0700 (PDT)
-Received: from pop-os.home ([86.243.100.34])
-        by smtp.orange.fr with ESMTPA
-        id dyxHofyPFTLjwdyxHoLqdm; Thu, 29 Sep 2022 21:12:19 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 29 Sep 2022 21:12:19 +0200
-X-ME-IP: 86.243.100.34
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] input: Drop empty comment
-Date:   Thu, 29 Sep 2022 21:11:36 +0200
-Message-Id: <26a2b905b259bfffaf2de5b26f2007b8606970ed.1664478665.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        Thu, 29 Sep 2022 15:18:03 -0400
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458051181C2;
+        Thu, 29 Sep 2022 12:18:02 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id d1so1534840qvs.0;
+        Thu, 29 Sep 2022 12:18:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=+mvcdrexZgPEsB7pufg2uUYhlpSJRrz+jxAdXy+nzs8=;
+        b=vDazVLLVJnCUU/tqYkOB++5IDYNAfg2xjPsak2HkSv01iuNVa48/yKNo2PPa5/mpUd
+         XTauYwk20dnaj8Iz+ofTEmCU8Y4+WlOqtAglYpz95Yfagc2S+0y7p9jMiiJtvpxywvvj
+         6+xoZLf6BoOZB7bYZbG8ZE7AEmvxRDX43MNPzup1VBGg3VKi/tRIhZJ8hszVfm26dFGP
+         9Xwwpdj9cOWwL7jzfGrXe9R6RPC6VSHi/7G7KYDmR8b+JwOzLOLiyfKaQE7ouAihf1wr
+         uMLzZO6cjebAM+y7FRCsExhmZivSSoRE/HTo01PkmgEk49ytjVdKdhyon6T7uhF2CCQI
+         sC2A==
+X-Gm-Message-State: ACrzQf2hk4/AZGVd9luJcXneFJ4Jy610A9gKUfWu0PSF4TZrL8/D7gtx
+        IubqbnTr8G4DLxU96hx6BNVrLHKW1UlApe0qbGc=
+X-Google-Smtp-Source: AMsMyM6iTQXnle5pdazFrQnVBp+T2Fe2jpPzemBoLXFwqe0OcOPw33i7fxEoVOHzYvLS81nr9NWOj9pmVqeZkdm4Nbg=
+X-Received: by 2002:ad4:4ea3:0:b0:4af:646a:9787 with SMTP id
+ ed3-20020ad44ea3000000b004af646a9787mr3868393qvb.15.1664479081257; Thu, 29
+ Sep 2022 12:18:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220929161917.2348231-1-rrangel@chromium.org> <20220929093200.v6.6.I8092e417a8152475d13d8d638eb4c5d8ea12ac7b@changeid>
+In-Reply-To: <20220929093200.v6.6.I8092e417a8152475d13d8d638eb4c5d8ea12ac7b@changeid>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 29 Sep 2022 21:17:50 +0200
+Message-ID: <CAJZ5v0izHjb8vE0ALyYo9yMOExdpCzG8f7-d5SpQnftqJfTEig@mail.gmail.com>
+Subject: Re: [PATCH v6 06/13] ACPI: resources: Add wake_capable parameter to acpi_dev_irq_flags
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Tim Van Patten <timvp@google.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Len Brown <lenb@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Terry Bowman <terry.bowman@amd.com>, Tom Rix <trix@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Commit 1a59d1b8e05e ("treewide: Replace GPLv2 boilerplate/reference with
-SPDX - rule 156") has left some empty comment blocks.
+On Thu, Sep 29, 2022 at 6:19 PM Raul E Rangel <rrangel@chromium.org> wrote:
+>
+> ACPI IRQ/Interrupt resources contain a bit that describes if the
+> interrupt should wake the system. This change exposes that bit via
+> a new IORESOURCE_IRQ_WAKECAPABLE flag. Drivers should check this flag
 
-Remove them to save a few lines of code.
+I would call this IORESOURCE_IRQ_WAKE which is (a) simpler and easier
+to read and (b) it sort of matches the "wakeirq" naming convention.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-All files I've checked were related to 1a59d1b8e05e, but I've not checked
-all.
----
- drivers/input/ff-core.c             | 3 ---
- drivers/input/ff-memless.c          | 3 ---
- drivers/input/gameport/emu10k1-gp.c | 3 ---
- drivers/input/gameport/lightning.c  | 3 ---
- drivers/input/gameport/ns558.c      | 3 ---
- drivers/input/joystick/a3d.c        | 3 ---
- drivers/input/joystick/adi.c        | 3 ---
- drivers/input/joystick/amijoy.c     | 3 ---
- drivers/input/joystick/analog.c     | 3 ---
- drivers/input/joystick/cobra.c      | 3 ---
- drivers/input/joystick/db9.c        | 3 ---
- drivers/input/joystick/gamecon.c    | 3 ---
- drivers/input/joystick/gf2k.c       | 3 ---
- drivers/input/joystick/grip.c       | 3 ---
- drivers/input/joystick/guillemot.c  | 3 ---
- drivers/input/joystick/interact.c   | 3 ---
- drivers/input/joystick/joydump.c    | 3 ---
- drivers/input/joystick/magellan.c   | 3 ---
- drivers/input/joystick/sidewinder.c | 3 ---
- drivers/input/joystick/spaceball.c  | 3 ---
- drivers/input/joystick/spaceorb.c   | 3 ---
- drivers/input/joystick/stinger.c    | 3 ---
- drivers/input/joystick/tmdc.c       | 3 ---
- drivers/input/joystick/turbografx.c | 3 ---
- drivers/input/joystick/twidjoy.c    | 3 ---
- drivers/input/joystick/warrior.c    | 3 ---
- drivers/input/joystick/zhenhua.c    | 3 ---
- drivers/input/keyboard/amikbd.c     | 3 ---
- drivers/input/keyboard/atakbd.c     | 3 ---
- drivers/input/keyboard/lkkbd.c      | 3 ---
- drivers/input/keyboard/newtonkbd.c  | 3 ---
- drivers/input/keyboard/stowaway.c   | 3 ---
- drivers/input/keyboard/sunkbd.c     | 3 ---
- drivers/input/keyboard/xtkbd.c      | 3 ---
- drivers/input/mouse/inport.c        | 3 ---
- drivers/input/mouse/logibm.c        | 3 ---
- drivers/input/mouse/pc110pad.c      | 3 ---
- drivers/input/mouse/sermouse.c      | 3 ---
- drivers/input/mouse/vsxxxaa.c       | 3 ---
- drivers/input/serio/ct82c710.c      | 3 ---
- drivers/input/serio/q40kbd.c        | 3 ---
- drivers/input/serio/rpckbd.c        | 3 ---
- drivers/input/serio/serio.c         | 3 ---
- drivers/input/tablet/acecad.c       | 3 ---
- drivers/input/tablet/hanwang.c      | 3 ---
- drivers/input/touchscreen/gunze.c   | 3 ---
- 46 files changed, 138 deletions(-)
+This is not a big deal if you insist on this name and for a good
+reason, but just something I would do differently.
 
-diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
-index fa8d1a466014..16231fe080b0 100644
---- a/drivers/input/ff-core.c
-+++ b/drivers/input/ff-core.c
-@@ -6,9 +6,6 @@
-  *  Copyright (c) 2006 Dmitry Torokhov <dtor@mail.ru>
-  */
- 
--/*
-- */
--
- /* #define DEBUG */
- 
- #include <linux/input.h>
-diff --git a/drivers/input/ff-memless.c b/drivers/input/ff-memless.c
-index 8229a9006917..c321cdabd214 100644
---- a/drivers/input/ff-memless.c
-+++ b/drivers/input/ff-memless.c
-@@ -6,9 +6,6 @@
-  *  Copyright (c) 2006 Dmitry Torokhov <dtor@mail.ru>
-  */
- 
--/*
-- */
--
- /* #define DEBUG */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/input/gameport/emu10k1-gp.c b/drivers/input/gameport/emu10k1-gp.c
-index 11bbd1edfdb4..76ce41e58df0 100644
---- a/drivers/input/gameport/emu10k1-gp.c
-+++ b/drivers/input/gameport/emu10k1-gp.c
-@@ -7,9 +7,6 @@
-  * EMU10k1 - SB Live / Audigy - gameport driver for Linux
-  */
- 
--/*
-- */
--
- #include <asm/io.h>
- 
- #include <linux/module.h>
-diff --git a/drivers/input/gameport/lightning.c b/drivers/input/gameport/lightning.c
-index 87eeb4b5b5b5..2ce717b25a84 100644
---- a/drivers/input/gameport/lightning.c
-+++ b/drivers/input/gameport/lightning.c
-@@ -7,9 +7,6 @@
-  * PDPI Lightning 4 gamecard driver for Linux.
-  */
- 
--/*
-- */
--
- #include <asm/io.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
-diff --git a/drivers/input/gameport/ns558.c b/drivers/input/gameport/ns558.c
-index 2f80b7f1b736..91a8cd346e9b 100644
---- a/drivers/input/gameport/ns558.c
-+++ b/drivers/input/gameport/ns558.c
-@@ -8,9 +8,6 @@
-  * NS558 based standard IBM game port driver for Linux
-  */
- 
--/*
-- */
--
- #include <asm/io.h>
- 
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/a3d.c b/drivers/input/joystick/a3d.c
-index 68475fad177c..fd1827baf27c 100644
---- a/drivers/input/joystick/a3d.c
-+++ b/drivers/input/joystick/a3d.c
-@@ -7,9 +7,6 @@
-  * FP-Gaming Assassin 3D joystick driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/adi.c b/drivers/input/joystick/adi.c
-index e10d57bf1180..f1a720be458b 100644
---- a/drivers/input/joystick/adi.c
-+++ b/drivers/input/joystick/adi.c
-@@ -7,9 +7,6 @@
-  * Logitech ADI joystick family driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/amijoy.c b/drivers/input/joystick/amijoy.c
-index 12456a196dc7..3752dc2a2086 100644
---- a/drivers/input/joystick/amijoy.c
-+++ b/drivers/input/joystick/amijoy.c
-@@ -7,9 +7,6 @@
-  * Driver for Amiga joysticks for Linux/m68k
-  */
- 
--/*
-- */
--
- #include <linux/types.h>
- #include <linux/errno.h>
- #include <linux/kernel.h>
-diff --git a/drivers/input/joystick/analog.c b/drivers/input/joystick/analog.c
-index 3088c5b829f0..0c9e172a9818 100644
---- a/drivers/input/joystick/analog.c
-+++ b/drivers/input/joystick/analog.c
-@@ -7,9 +7,6 @@
-  * Analog joystick and gamepad driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/cobra.c b/drivers/input/joystick/cobra.c
-index 41e1936a847b..7ff78c9388bd 100644
---- a/drivers/input/joystick/cobra.c
-+++ b/drivers/input/joystick/cobra.c
-@@ -7,9 +7,6 @@
-  * Creative Labs Blaster GamePad Cobra driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/db9.c b/drivers/input/joystick/db9.c
-index 434d265fa2e8..4fba28b1a1e7 100644
---- a/drivers/input/joystick/db9.c
-+++ b/drivers/input/joystick/db9.c
-@@ -10,9 +10,6 @@
-  * Atari, Amstrad, Commodore, Amiga, Sega, etc. joystick driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/delay.h>
-diff --git a/drivers/input/joystick/gamecon.c b/drivers/input/joystick/gamecon.c
-index d37645e496ff..41d5dac05448 100644
---- a/drivers/input/joystick/gamecon.c
-+++ b/drivers/input/joystick/gamecon.c
-@@ -11,9 +11,6 @@
-  *	Raphael Assenat
-  */
- 
--/*
-- */
--
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/kernel.h>
-diff --git a/drivers/input/joystick/gf2k.c b/drivers/input/joystick/gf2k.c
-index 920feba967f6..abefbd1484df 100644
---- a/drivers/input/joystick/gf2k.c
-+++ b/drivers/input/joystick/gf2k.c
-@@ -7,9 +7,6 @@
-  * Genius Flight 2000 joystick driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/grip.c b/drivers/input/joystick/grip.c
-index fe798bc87950..0e86b269a90e 100644
---- a/drivers/input/joystick/grip.c
-+++ b/drivers/input/joystick/grip.c
-@@ -7,9 +7,6 @@
-  * Gravis/Kensington GrIP protocol joystick and gamepad driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/guillemot.c b/drivers/input/joystick/guillemot.c
-index 8eeacdb007c1..205eb6f8b84d 100644
---- a/drivers/input/joystick/guillemot.c
-+++ b/drivers/input/joystick/guillemot.c
-@@ -7,9 +7,6 @@
-  * Guillemot Digital Interface Protocol driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/interact.c b/drivers/input/joystick/interact.c
-index ca22d84e5c84..03a9f0829f7e 100644
---- a/drivers/input/joystick/interact.c
-+++ b/drivers/input/joystick/interact.c
-@@ -10,9 +10,6 @@
-  * InterAct digital gamepad/joystick driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/joydump.c b/drivers/input/joystick/joydump.c
-index 70f63f9550e7..865652a7821d 100644
---- a/drivers/input/joystick/joydump.c
-+++ b/drivers/input/joystick/joydump.c
-@@ -8,9 +8,6 @@
-  * out of the joystick port into the syslog ...
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/gameport.h>
- #include <linux/kernel.h>
-diff --git a/drivers/input/joystick/magellan.c b/drivers/input/joystick/magellan.c
-index edb8e1982e26..017ef8c6170b 100644
---- a/drivers/input/joystick/magellan.c
-+++ b/drivers/input/joystick/magellan.c
-@@ -7,9 +7,6 @@
-  * Magellan and Space Mouse 6dof controller driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
-index 8e9672deb1eb..7282301c3ae7 100644
---- a/drivers/input/joystick/sidewinder.c
-+++ b/drivers/input/joystick/sidewinder.c
-@@ -7,9 +7,6 @@
-  * Microsoft SideWinder joystick family driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/spaceball.c b/drivers/input/joystick/spaceball.c
-index a85a4f33aea8..fa8ec533cd69 100644
---- a/drivers/input/joystick/spaceball.c
-+++ b/drivers/input/joystick/spaceball.c
-@@ -11,9 +11,6 @@
-  * SpaceTec SpaceBall 2003/3003/4000 FLX driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/spaceorb.c b/drivers/input/joystick/spaceorb.c
-index 557171483256..dbbc69f17c89 100644
---- a/drivers/input/joystick/spaceorb.c
-+++ b/drivers/input/joystick/spaceorb.c
-@@ -10,9 +10,6 @@
-  * SpaceTec SpaceOrb 360 and Avenger 6dof controller driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-diff --git a/drivers/input/joystick/stinger.c b/drivers/input/joystick/stinger.c
-index c20425f52bd8..530de468cb61 100644
---- a/drivers/input/joystick/stinger.c
-+++ b/drivers/input/joystick/stinger.c
-@@ -8,9 +8,6 @@
-  * Gravis Stinger gamepad driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/tmdc.c b/drivers/input/joystick/tmdc.c
-index 7416de84b955..93562ecc0ca1 100644
---- a/drivers/input/joystick/tmdc.c
-+++ b/drivers/input/joystick/tmdc.c
-@@ -10,9 +10,6 @@
-  * ThrustMaster DirectConnect (BSP) joystick family driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/turbografx.c b/drivers/input/joystick/turbografx.c
-index dfe7a2cacce2..dfb9c684651f 100644
---- a/drivers/input/joystick/turbografx.c
-+++ b/drivers/input/joystick/turbografx.c
-@@ -10,9 +10,6 @@
-  * TurboGraFX parallel port interface driver for Linux.
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/parport.h>
- #include <linux/input.h>
-diff --git a/drivers/input/joystick/twidjoy.c b/drivers/input/joystick/twidjoy.c
-index 174c69a188fb..9b6792ac27f1 100644
---- a/drivers/input/joystick/twidjoy.c
-+++ b/drivers/input/joystick/twidjoy.c
-@@ -32,9 +32,6 @@
-  * Arndt Schoenewald <arndt@quelltext.com>
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/warrior.c b/drivers/input/joystick/warrior.c
-index 42bdbc28d95d..f66bddf145c2 100644
---- a/drivers/input/joystick/warrior.c
-+++ b/drivers/input/joystick/warrior.c
-@@ -7,9 +7,6 @@
-  * Logitech WingMan Warrior joystick driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/joystick/zhenhua.c b/drivers/input/joystick/zhenhua.c
-index d5531179b01f..3f2460e2b095 100644
---- a/drivers/input/joystick/zhenhua.c
-+++ b/drivers/input/joystick/zhenhua.c
-@@ -28,9 +28,6 @@
-  * coder :-(
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/keyboard/amikbd.c b/drivers/input/keyboard/amikbd.c
-index 09551f64d53f..a20a4e186639 100644
---- a/drivers/input/keyboard/amikbd.c
-+++ b/drivers/input/keyboard/amikbd.c
-@@ -10,9 +10,6 @@
-  * Amiga keyboard driver for Linux/m68k
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/init.h>
- #include <linux/input.h>
-diff --git a/drivers/input/keyboard/atakbd.c b/drivers/input/keyboard/atakbd.c
-index 77ed54630601..07e17e563f9b 100644
---- a/drivers/input/keyboard/atakbd.c
-+++ b/drivers/input/keyboard/atakbd.c
-@@ -21,9 +21,6 @@
-  * This driver only deals with handing key events off to the input layer.
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/init.h>
- #include <linux/input.h>
-diff --git a/drivers/input/keyboard/lkkbd.c b/drivers/input/keyboard/lkkbd.c
-index ea9a1d8834c1..047b654b3752 100644
---- a/drivers/input/keyboard/lkkbd.c
-+++ b/drivers/input/keyboard/lkkbd.c
-@@ -46,9 +46,6 @@
-  * http://www.vt100.net/manx/details?pn=EK-104AA-TM-001;id=21;cp=1
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-diff --git a/drivers/input/keyboard/newtonkbd.c b/drivers/input/keyboard/newtonkbd.c
-index 9742261b2d1a..df00a119aa9a 100644
---- a/drivers/input/keyboard/newtonkbd.c
-+++ b/drivers/input/keyboard/newtonkbd.c
-@@ -7,9 +7,6 @@
-  * Newton keyboard driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <linux/input.h>
-diff --git a/drivers/input/keyboard/stowaway.c b/drivers/input/keyboard/stowaway.c
-index a4977193dd4a..56e784936059 100644
---- a/drivers/input/keyboard/stowaway.c
-+++ b/drivers/input/keyboard/stowaway.c
-@@ -10,9 +10,6 @@
-  *  by Justin Cormack
-  */
- 
--/*
-- */
--
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <linux/input.h>
-diff --git a/drivers/input/keyboard/sunkbd.c b/drivers/input/keyboard/sunkbd.c
-index d450f11b98a7..b123a208ef36 100644
---- a/drivers/input/keyboard/sunkbd.c
-+++ b/drivers/input/keyboard/sunkbd.c
-@@ -7,9 +7,6 @@
-  * Sun keyboard driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/keyboard/xtkbd.c b/drivers/input/keyboard/xtkbd.c
-index 280796df679a..c9d7c2481726 100644
---- a/drivers/input/keyboard/xtkbd.c
-+++ b/drivers/input/keyboard/xtkbd.c
-@@ -7,9 +7,6 @@
-  * XT keyboard driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <linux/input.h>
-diff --git a/drivers/input/mouse/inport.c b/drivers/input/mouse/inport.c
-index df5d1160478c..401d8bff8e84 100644
---- a/drivers/input/mouse/inport.c
-+++ b/drivers/input/mouse/inport.c
-@@ -13,9 +13,6 @@
-  * Inport (ATI XL and Microsoft) busmouse driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/ioport.h>
- #include <linux/init.h>
-diff --git a/drivers/input/mouse/logibm.c b/drivers/input/mouse/logibm.c
-index bd647f9f505a..0aab63dbc30a 100644
---- a/drivers/input/mouse/logibm.c
-+++ b/drivers/input/mouse/logibm.c
-@@ -14,9 +14,6 @@
-  * Logitech Bus Mouse Driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/ioport.h>
-diff --git a/drivers/input/mouse/pc110pad.c b/drivers/input/mouse/pc110pad.c
-index f75574766b85..efa58049f746 100644
---- a/drivers/input/mouse/pc110pad.c
-+++ b/drivers/input/mouse/pc110pad.c
-@@ -10,9 +10,6 @@
-  * IBM PC110 touchpad driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-diff --git a/drivers/input/mouse/sermouse.c b/drivers/input/mouse/sermouse.c
-index caa79c177c55..993f90333380 100644
---- a/drivers/input/mouse/sermouse.c
-+++ b/drivers/input/mouse/sermouse.c
-@@ -7,9 +7,6 @@
-  *  Serial mouse driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/mouse/vsxxxaa.c b/drivers/input/mouse/vsxxxaa.c
-index 3bd6e723a422..8af8e4a15f95 100644
---- a/drivers/input/mouse/vsxxxaa.c
-+++ b/drivers/input/mouse/vsxxxaa.c
-@@ -12,9 +12,6 @@
-  * Later on, I had access to the device's documentation (referenced below).
-  */
- 
--/*
-- */
--
- /*
-  * Building an adaptor to DE9 / DB25 RS232
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-diff --git a/drivers/input/serio/ct82c710.c b/drivers/input/serio/ct82c710.c
-index 752ce60e2211..3da751f4a6bf 100644
---- a/drivers/input/serio/ct82c710.c
-+++ b/drivers/input/serio/ct82c710.c
-@@ -7,9 +7,6 @@
-  *  82C710 C&T mouse port chip driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/delay.h>
- #include <linux/module.h>
- #include <linux/ioport.h>
-diff --git a/drivers/input/serio/q40kbd.c b/drivers/input/serio/q40kbd.c
-index a1c61f5de047..ba04058fc3cb 100644
---- a/drivers/input/serio/q40kbd.c
-+++ b/drivers/input/serio/q40kbd.c
-@@ -10,9 +10,6 @@
-  * Q40 PS/2 keyboard controller driver for Linux/m68k
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/serio.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/input/serio/rpckbd.c b/drivers/input/serio/rpckbd.c
-index 7008bc101415..ce420eb1f51b 100644
---- a/drivers/input/serio/rpckbd.c
-+++ b/drivers/input/serio/rpckbd.c
-@@ -8,9 +8,6 @@
-  * Acorn RiscPC PS/2 keyboard controller driver for Linux/ARM
-  */
- 
--/*
-- */
--
- #include <linux/module.h>
- #include <linux/interrupt.h>
- #include <linux/serio.h>
-diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
-index ec117be3d8d8..15ce3202322f 100644
---- a/drivers/input/serio/serio.c
-+++ b/drivers/input/serio/serio.c
-@@ -7,9 +7,6 @@
-  *  Copyright (c) 2003 Daniele Bellucci
-  */
- 
--/*
-- */
--
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/stddef.h>
-diff --git a/drivers/input/tablet/acecad.c b/drivers/input/tablet/acecad.c
-index 80e06727464d..b20e5a1afbcc 100644
---- a/drivers/input/tablet/acecad.c
-+++ b/drivers/input/tablet/acecad.c
-@@ -9,9 +9,6 @@
-  *      v3.2 - Added sysfs support
-  */
- 
--/*
-- */
--
- #include <linux/kernel.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-diff --git a/drivers/input/tablet/hanwang.c b/drivers/input/tablet/hanwang.c
-index e492a0331b24..9bc631518b92 100644
---- a/drivers/input/tablet/hanwang.c
-+++ b/drivers/input/tablet/hanwang.c
-@@ -5,9 +5,6 @@
-  *  Copyright (c) 2010 Xing Wei <weixing@hanwang.com.cn>
-  */
- 
--/*
-- */
--
- #include <linux/types.h>
- #include <linux/kernel.h>
- #include <linux/slab.h>
-diff --git a/drivers/input/touchscreen/gunze.c b/drivers/input/touchscreen/gunze.c
-index e07e8e0fe8ea..5a5f9da73fa1 100644
---- a/drivers/input/touchscreen/gunze.c
-+++ b/drivers/input/touchscreen/gunze.c
-@@ -7,9 +7,6 @@
-  * Gunze AHL-51S touchscreen driver for Linux
-  */
- 
--/*
-- */
--
- #include <linux/errno.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--- 
-2.34.1
+The patch LGTM otherwise.
 
+> before arming an IRQ to wake the system.
+>
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>
+> ---
+>
+> (no changes since v5)
+>
+> Changes in v5:
+> - Removed clang-format white space changes
+>
+> Changes in v4:
+> - Added Reviewed-by
+> - Reformatted with 96 char limit
+>
+> Changes in v3:
+> - Fixed bad indent
+>
+> Changes in v2:
+> - Added ability to extract wake bit from Interrupt/IRQ resources
+>
+>  drivers/acpi/irq.c             |  8 +++++---
+>  drivers/acpi/resource.c        | 16 +++++++++++-----
+>  drivers/pnp/pnpacpi/rsparser.c |  7 ++++---
+>  include/linux/acpi.h           |  2 +-
+>  include/linux/ioport.h         |  3 ++-
+>  5 files changed, 23 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/acpi/irq.c b/drivers/acpi/irq.c
+> index dabe45eba055d1f..4bb5ab33a5ceb10 100644
+> --- a/drivers/acpi/irq.c
+> +++ b/drivers/acpi/irq.c
+> @@ -147,6 +147,7 @@ struct acpi_irq_parse_one_ctx {
+>   * @polarity: polarity attributes of hwirq
+>   * @polarity: polarity attributes of hwirq
+>   * @shareable: shareable attributes of hwirq
+> + * @wake_capable: wake capable attribute of hwirq
+>   * @ctx: acpi_irq_parse_one_ctx updated by this function
+>   *
+>   * Description:
+> @@ -156,12 +157,13 @@ struct acpi_irq_parse_one_ctx {
+>  static inline void acpi_irq_parse_one_match(struct fwnode_handle *fwnode,
+>                                             u32 hwirq, u8 triggering,
+>                                             u8 polarity, u8 shareable,
+> +                                           u8 wake_capable,
+>                                             struct acpi_irq_parse_one_ctx *ctx)
+>  {
+>         if (!fwnode)
+>                 return;
+>         ctx->rc = 0;
+> -       *ctx->res_flags = acpi_dev_irq_flags(triggering, polarity, shareable);
+> +       *ctx->res_flags = acpi_dev_irq_flags(triggering, polarity, shareable, wake_capable);
+>         ctx->fwspec->fwnode = fwnode;
+>         ctx->fwspec->param[0] = hwirq;
+>         ctx->fwspec->param[1] = acpi_dev_get_irq_type(triggering, polarity);
+> @@ -204,7 +206,7 @@ static acpi_status acpi_irq_parse_one_cb(struct acpi_resource *ares,
+>                 fwnode = acpi_get_gsi_domain_id(irq->interrupts[ctx->index]);
+>                 acpi_irq_parse_one_match(fwnode, irq->interrupts[ctx->index],
+>                                          irq->triggering, irq->polarity,
+> -                                        irq->shareable, ctx);
+> +                                        irq->shareable, irq->wake_capable, ctx);
+>                 return AE_CTRL_TERMINATE;
+>         case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
+>                 eirq = &ares->data.extended_irq;
+> @@ -218,7 +220,7 @@ static acpi_status acpi_irq_parse_one_cb(struct acpi_resource *ares,
+>                                                       eirq->interrupts[ctx->index]);
+>                 acpi_irq_parse_one_match(fwnode, eirq->interrupts[ctx->index],
+>                                          eirq->triggering, eirq->polarity,
+> -                                        eirq->shareable, ctx);
+> +                                        eirq->shareable, eirq->wake_capable, ctx);
+>                 return AE_CTRL_TERMINATE;
+>         }
+>
+> diff --git a/drivers/acpi/resource.c b/drivers/acpi/resource.c
+> index 510cdec375c4d88..81733369f4c1de0 100644
+> --- a/drivers/acpi/resource.c
+> +++ b/drivers/acpi/resource.c
+> @@ -336,8 +336,9 @@ EXPORT_SYMBOL_GPL(acpi_dev_resource_ext_address_space);
+>   * @triggering: Triggering type as provided by ACPI.
+>   * @polarity: Interrupt polarity as provided by ACPI.
+>   * @shareable: Whether or not the interrupt is shareable.
+> + * @wake_capable: Wake capability as provided by ACPI.
+>   */
+> -unsigned long acpi_dev_irq_flags(u8 triggering, u8 polarity, u8 shareable)
+> +unsigned long acpi_dev_irq_flags(u8 triggering, u8 polarity, u8 shareable, u8 wake_capable)
+>  {
+>         unsigned long flags;
+>
+> @@ -351,6 +352,9 @@ unsigned long acpi_dev_irq_flags(u8 triggering, u8 polarity, u8 shareable)
+>         if (shareable == ACPI_SHARED)
+>                 flags |= IORESOURCE_IRQ_SHAREABLE;
+>
+> +       if (wake_capable == ACPI_WAKE_CAPABLE)
+> +               flags |= IORESOURCE_IRQ_WAKECAPABLE;
+> +
+>         return flags | IORESOURCE_IRQ;
+>  }
+>  EXPORT_SYMBOL_GPL(acpi_dev_irq_flags);
+> @@ -442,7 +446,7 @@ static bool acpi_dev_irq_override(u32 gsi, u8 triggering, u8 polarity,
+>
+>  static void acpi_dev_get_irqresource(struct resource *res, u32 gsi,
+>                                      u8 triggering, u8 polarity, u8 shareable,
+> -                                    bool check_override)
+> +                                    u8 wake_capable, bool check_override)
+>  {
+>         int irq, p, t;
+>
+> @@ -475,7 +479,7 @@ static void acpi_dev_get_irqresource(struct resource *res, u32 gsi,
+>                 }
+>         }
+>
+> -       res->flags = acpi_dev_irq_flags(triggering, polarity, shareable);
+> +       res->flags = acpi_dev_irq_flags(triggering, polarity, shareable, wake_capable);
+>         irq = acpi_register_gsi(NULL, gsi, triggering, polarity);
+>         if (irq >= 0) {
+>                 res->start = irq;
+> @@ -523,7 +527,8 @@ bool acpi_dev_resource_interrupt(struct acpi_resource *ares, int index,
+>                 }
+>                 acpi_dev_get_irqresource(res, irq->interrupts[index],
+>                                          irq->triggering, irq->polarity,
+> -                                        irq->shareable, true);
+> +                                        irq->shareable, irq->wake_capable,
+> +                                        true);
+>                 break;
+>         case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
+>                 ext_irq = &ares->data.extended_irq;
+> @@ -534,7 +539,8 @@ bool acpi_dev_resource_interrupt(struct acpi_resource *ares, int index,
+>                 if (is_gsi(ext_irq))
+>                         acpi_dev_get_irqresource(res, ext_irq->interrupts[index],
+>                                          ext_irq->triggering, ext_irq->polarity,
+> -                                        ext_irq->shareable, false);
+> +                                        ext_irq->shareable, ext_irq->wake_capable,
+> +                                        false);
+>                 else
+>                         irqresource_disabled(res, 0);
+>                 break;
+> diff --git a/drivers/pnp/pnpacpi/rsparser.c b/drivers/pnp/pnpacpi/rsparser.c
+> index da78dc77aed32e4..4f05f610391b006 100644
+> --- a/drivers/pnp/pnpacpi/rsparser.c
+> +++ b/drivers/pnp/pnpacpi/rsparser.c
+> @@ -206,7 +206,8 @@ static acpi_status pnpacpi_allocated_resource(struct acpi_resource *res,
+>                 if (i >= 0) {
+>                         flags = acpi_dev_irq_flags(gpio->triggering,
+>                                                    gpio->polarity,
+> -                                                  gpio->shareable);
+> +                                                  gpio->shareable,
+> +                                                  gpio->wake_capable);
+>                 } else {
+>                         flags = IORESOURCE_DISABLED;
+>                 }
+> @@ -315,7 +316,7 @@ static __init void pnpacpi_parse_irq_option(struct pnp_dev *dev,
+>                 if (p->interrupts[i])
+>                         __set_bit(p->interrupts[i], map.bits);
+>
+> -       flags = acpi_dev_irq_flags(p->triggering, p->polarity, p->shareable);
+> +       flags = acpi_dev_irq_flags(p->triggering, p->polarity, p->shareable, p->wake_capable);
+>         pnp_register_irq_resource(dev, option_flags, &map, flags);
+>  }
+>
+> @@ -339,7 +340,7 @@ static __init void pnpacpi_parse_ext_irq_option(struct pnp_dev *dev,
+>                 }
+>         }
+>
+> -       flags = acpi_dev_irq_flags(p->triggering, p->polarity, p->shareable);
+> +       flags = acpi_dev_irq_flags(p->triggering, p->polarity, p->shareable, p->wake_capable);
+>         pnp_register_irq_resource(dev, option_flags, &map, flags);
+>  }
+>
+> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+> index cd7371a5f2839bd..ea2efbdbeee5116 100644
+> --- a/include/linux/acpi.h
+> +++ b/include/linux/acpi.h
+> @@ -495,7 +495,7 @@ bool acpi_dev_resource_address_space(struct acpi_resource *ares,
+>                                      struct resource_win *win);
+>  bool acpi_dev_resource_ext_address_space(struct acpi_resource *ares,
+>                                          struct resource_win *win);
+> -unsigned long acpi_dev_irq_flags(u8 triggering, u8 polarity, u8 shareable);
+> +unsigned long acpi_dev_irq_flags(u8 triggering, u8 polarity, u8 shareable, u8 wake_capable);
+>  unsigned int acpi_dev_get_irq_type(int triggering, int polarity);
+>  bool acpi_dev_resource_interrupt(struct acpi_resource *ares, int index,
+>                                  struct resource *res);
+> diff --git a/include/linux/ioport.h b/include/linux/ioport.h
+> index 616b683563a9704..3baeea4d903bfd1 100644
+> --- a/include/linux/ioport.h
+> +++ b/include/linux/ioport.h
+> @@ -79,7 +79,8 @@ struct resource {
+>  #define IORESOURCE_IRQ_HIGHLEVEL       (1<<2)
+>  #define IORESOURCE_IRQ_LOWLEVEL                (1<<3)
+>  #define IORESOURCE_IRQ_SHAREABLE       (1<<4)
+> -#define IORESOURCE_IRQ_OPTIONAL        (1<<5)
+> +#define IORESOURCE_IRQ_OPTIONAL                (1<<5)
+> +#define IORESOURCE_IRQ_WAKECAPABLE     (1<<6)
+>
+>  /* PnP DMA specific bits (IORESOURCE_BITS) */
+>  #define IORESOURCE_DMA_TYPE_MASK       (3<<0)
+> --
+> 2.37.3.998.g577e59143f-goog
+>
