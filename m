@@ -2,170 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F32415EF040
-	for <lists+linux-input@lfdr.de>; Thu, 29 Sep 2022 10:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 296F95EF301
+	for <lists+linux-input@lfdr.de>; Thu, 29 Sep 2022 12:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234807AbiI2IV2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Sep 2022 04:21:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43274 "EHLO
+        id S234708AbiI2KGp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Sep 2022 06:06:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235392AbiI2IVZ (ORCPT
+        with ESMTP id S234798AbiI2KGo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Sep 2022 04:21:25 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF91112BD9D;
-        Thu, 29 Sep 2022 01:21:23 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id f193so848090pgc.0;
-        Thu, 29 Sep 2022 01:21:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=NjjNdfU7BK4+fCgcb+UZylzDA9M3ULA0OcbRITJqecM=;
-        b=ZEOC/qb5CBW/kvV5MZCRG0+x+ZBkWEqBjstKDrR7uA99IU41DCUbROyAzlmlq0amUl
-         /0S686uPgHKdDsurz8SpizusT/Q4vvk5n3j0t7Te4XgfhsoIS43tjwQXcW0R4xxE3MXo
-         kEbE3zw9u0+LDlXiUVF3bBm90VLzK2+FeJTDgxGo8PeR+UW5KKwa4VneFmD90jNBnJG8
-         sf/JfHQJ9QBKJapQO6A9k/e6SCSWePs/umwPiEge4+Dm4jJUjFM2/W1Girav5Pbv41eD
-         t5BFrnUK+LEwCSyRaGUhkD1KcczsQTDrCalIFpzwaHV9VtAgq4RCx2B0DRl1QRn2vmCA
-         plXQ==
+        Thu, 29 Sep 2022 06:06:44 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45FB142E3B;
+        Thu, 29 Sep 2022 03:06:42 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id g2so517148qkk.1;
+        Thu, 29 Sep 2022 03:06:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=NjjNdfU7BK4+fCgcb+UZylzDA9M3ULA0OcbRITJqecM=;
-        b=6w5zM8VpHEoustKWLMLvGk/fBh7azpJXlUn+KU+64UEHbzTp8rV1o85njpsIUafK6/
-         qEqx1sS50l+zYjsl5a90gwol4kNy1wTLqf0rtvtcVy3FOh8BXaEvEcSLwZU3eN3pRI4t
-         lDL/QybOYG0z1dqyasf/IkTT6YTdiTIlAcPdxR6Nw0MBFXGFloaMZVIXUaSEJYKdKwmc
-         Tsy7cxuYjTjS+rrxMtSkqfbwnjQ15F5eEcw3HILviDqCNQtpR8TlvvRZxTTQWpW173il
-         E+0Evshq5zSbGSHMbw88RutMJIdL0zVi0lVfmEQYCAguZRsewWy47kAhIuEsVOEJ3JXJ
-         01ug==
-X-Gm-Message-State: ACrzQf3vfBOdnn2C9Qg54bDMkeED1MD0/PbLpuskYvmK7jZuJMx3zRXe
-        bR8/huZ39hlvFF7maMkW3oj5hqtu8Y7nnw==
-X-Google-Smtp-Source: AMsMyM4XWKbJsHG/mCz5GtTGkKRrENKjqwkuZxAM2HXH9QI56am5s9gIo3s8aj/LhIuoZ2eupGGnoQ==
-X-Received: by 2002:aa7:8543:0:b0:54b:6ea4:7a12 with SMTP id y3-20020aa78543000000b0054b6ea47a12mr2227453pfn.33.1664439683067;
-        Thu, 29 Sep 2022 01:21:23 -0700 (PDT)
-Received: from dell-void.nyanpasu256.gmail.com.beta.tailscale.net (c-71-202-83-242.hsd1.ca.comcast.net. [71.202.83.242])
-        by smtp.gmail.com with ESMTPSA id p16-20020aa79e90000000b005360da6b26bsm5474476pfq.159.2022.09.29.01.21.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 01:21:22 -0700 (PDT)
-From:   Eirin Nya <nyanpasu256@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] Input: Fix incorrectly halved touchpad range on ELAN v3 touchpads
-Date:   Thu, 29 Sep 2022 01:21:19 -0700
-Message-Id: <20220929082119.22112-4-nyanpasu256@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220929082119.22112-1-nyanpasu256@gmail.com>
-References: <20220929082119.22112-1-nyanpasu256@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=0kCa6jTfE848WGHyQOi/qrbS8sATrhTFphLUVNaFX8Q=;
+        b=dTBNP5KKwzaESHxlZTXaKrEibySV9KBWmhcUP//s3H7c3+sfNGJSUOw5xP8W5lvz7x
+         NpQ+qEHFeiVsYlqG1yiwBwSuW2OwLY9AGwcmbFfKbPEA0VSIJtyCv+rWdo7oRltPbqCK
+         Jyn039kJOaBNxw2BxKsqS7yX456/1o8ZH5WpDFGA16iwYxYpRalSv7lfUF4k7mCcNiLC
+         ooUE1yKLNtlS6P2QoaolxfAib7hHN81CM9JHqi7uEhxTxE2gOjFCL+Hq+YGDXNNlG57Z
+         Ovesjsnq03bsTGQWdgDUtVsw8B4/VX6WAAhuG/2GKU6bcUVaLBULl4snCkAe/9neoTwa
+         uNNA==
+X-Gm-Message-State: ACrzQf19y+rW/EH2Frj8e4aQq00Fv0njy2HuAUXhi7PAlG5F1vQqLqOT
+        2qisxNCtx6fJ5gwwHnVDD33hddpEwh7fBNMaZ38=
+X-Google-Smtp-Source: AMsMyM4t+VHeXvfc0oxR5u5rgQbzvQXJbf+Qmt3ftRYCv7lZgD9+ONOm3P8z3DYu0LifaO4xhboMJzl7GEXLC4lSijk=
+X-Received: by 2002:a05:620a:2988:b0:6ce:cc3f:73b9 with SMTP id
+ r8-20020a05620a298800b006cecc3f73b9mr1503211qkp.9.1664446001328; Thu, 29 Sep
+ 2022 03:06:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220921155205.1332614-1-rrangel@chromium.org>
+ <20220921094736.v5.8.I7d9202463f08373feccd6e8fd87482c4f40ece5d@changeid>
+ <CAJZ5v0g57mF-4ZC2ajL5+JE+q9y=fW1G-OXR8tuOk4TYxHPWtQ@mail.gmail.com> <CAHQZ30BZ5jnTY4DQD5mxpnLcLxn5Oo=izB1+f06JOqXU5VGz_A@mail.gmail.com>
+In-Reply-To: <CAHQZ30BZ5jnTY4DQD5mxpnLcLxn5Oo=izB1+f06JOqXU5VGz_A@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 29 Sep 2022 12:06:29 +0200
+Message-ID: <CAJZ5v0gwU81_QX9JJSRyEVY9NABGxczYpp1w6OrOVGrJ8Xdmcg@mail.gmail.com>
+Subject: Re: [PATCH v5 08/13] ACPI: PM: Take wake IRQ into consideration when
+ entering suspend-to-idle
+To:     Raul Rangel <rrangel@chromium.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Tim Van Patten <timvp@google.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Len Brown <lenb@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Linux 5.19.10, on my laptop (Dell Inspiron 15R SE 7520) with an Elan
-v3 touchpad (dmesg says "with firmware version 0x450f02"), the reported
-size of my touchpad (in userspace by calling mtdev_configure() and
-libevdev_get_abs_maximum(), in kernel space
-elantech_device_info::x_max/y_max, either way 1470 by 700) is half that
-of the actual touch range (2940 by 1400), and the upper half of my
-touchpad reports negative values. As a result, with the Synaptics or
-libinput X11 driver set to edge scrolling mode, the entire right half of
-my touchpad has x-values past evdev's reported maximum size, and acts as
-a giant scrollbar!
+On Wed, Sep 28, 2022 at 11:10 PM Raul Rangel <rrangel@chromium.org> wrote:
+>
+> On Sat, Sep 24, 2022 at 11:00 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> >
+> > On Wed, Sep 21, 2022 at 5:52 PM Raul E Rangel <rrangel@chromium.org> wrote:
+> > >
+> > > This change adds support for ACPI devices that use ExclusiveAndWake or
+> > > SharedAndWake in their _CRS GpioInt definition (instead of using _PRW),
+> > > and also provide power resources. Previously the ACPI subsystem had no
+> > > idea if the device had a wake capable interrupt armed. This resulted
+> > > in the ACPI device PM system placing the device into D3Cold, and thus
+> > > cutting power to the device. With this change we will now query the
+> > > _S0W method to figure out the appropriate wake capable D-state.
+> > >
+> > > Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> > > ---
+> > >
+> > > Changes in v5:
+> > > - Go back to using adev->wakeup.flags.valid to keep the diff cleaner
+> > > - Fix a typo in comment
+> > >
+> > >  drivers/acpi/device_pm.c | 19 +++++++++++++++++--
+> > >  1 file changed, 17 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
+> > > index 9dce1245689ca2..3111fc426e04fd 100644
+> > > --- a/drivers/acpi/device_pm.c
+> > > +++ b/drivers/acpi/device_pm.c
+>
+> > > @@ -681,8 +681,23 @@ static int acpi_dev_pm_get_state(struct device *dev, struct acpi_device *adev,
+> > >                 d_min = ret;
+> > >                 wakeup = device_may_wakeup(dev) && adev->wakeup.flags.valid
+> > >                         && adev->wakeup.sleep_state >= target_state;
+> Just an FYI, I didn't update the code that handles the target state >
+> S0. I need to get a
+> device that has S3 capabilities and the correct firmware to test this.
+> I figure I can do
+> that as a different patch when I have time to test with an S3 device.
 
-The problem is that elantech_setup_ps2() -> elantech_set_absolute_mode()
-sets up absolute mode and doubles the hardware resolution (doubling the
-hardware's maximum reported x/y coordinates and its response to
-ETP_FW_ID_QUERY), *after* elantech_query_info() fetches the touchpad
-coordinate system size using ETP_FW_ID_QUERY, which gets cached and
-reported to userspace through ioctl(fd, EVIOCGABS(ABS_X/Y), ...). So the
-touchpad size reported to userspace (and used to subtract vertical
-coordinates from) is half the maximum position of actual touches.
+That's fine.
 
-This patch splits out a function elantech_query_range_v3() which fetches
-*only* ETP_FW_ID_QUERY (touchpad size), and calls it a second time if
-elantech_set_absolute_mode() enables double-size mode. This means the
-first call is redundant and wasted if a second call occurs, but this
-minimizes the need to restructure the driver.
+> > > -       } else {
+> > > -               wakeup = adev->wakeup.flags.valid;
+> > > +       } else if (adev->wakeup.flags.valid) {
+> > > +               /* ACPI GPE specified in _PRW. */
+> > > +               wakeup = true;
+>
+> >
+> > I would retain the "else" clause as it was and just add a new "else
+> > if" one before it.
+> >
+> Done
 
-Link: https://lore.kernel.org/linux-input/CAL57YxZNutUVxBtvbVWKMw-V2kqeVB5kTQ5BFdJmN=mdPq8Q8Q@mail.gmail.com/
+Thanks!
 
-Signed-off-by: Eirin Nya <nyanpasu256@gmail.com>
----
- drivers/input/mouse/elantech.c | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 263779c031..a2176f0fd3 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1006,6 +1006,9 @@ static void elantech_set_rate_restore_reg_07(struct psmouse *psmouse,
- 		psmouse_err(psmouse, "restoring reg_07 failed\n");
- }
- 
-+static int elantech_query_range_v3(struct psmouse *psmouse,
-+				   struct elantech_device_info *info);
-+
- /*
-  * Put the touchpad into absolute mode
-  */
-@@ -1047,6 +1050,14 @@ static int elantech_set_absolute_mode(struct psmouse *psmouse)
- 		if (elantech_write_reg(psmouse, 0x10, etd->reg_10))
- 			rc = -1;
- 
-+		/*
-+		 * If we boost hardware resolution, we have to re-query
-+		 * info->x_max and y_max.
-+		 */
-+		if (etd->info.set_hw_resolution)
-+			if (elantech_query_range_v3(psmouse, &etd->info))
-+				rc = -1;
-+
- 		break;
- 
- 	case 4:
-@@ -1671,6 +1682,20 @@ static int elantech_set_properties(struct elantech_device_info *info)
- 	return 0;
- }
- 
-+static int elantech_query_range_v3(struct psmouse *psmouse,
-+				   struct elantech_device_info *info)
-+{
-+	unsigned char param[3];
-+
-+	if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
-+		return -EINVAL;
-+
-+	info->x_max = (0x0f & param[0]) << 8 | param[1];
-+	info->y_max = (0xf0 & param[0]) << 4 | param[2];
-+
-+	return 0;
-+}
-+
- static int elantech_query_info(struct psmouse *psmouse,
- 			       struct elantech_device_info *info)
- {
-@@ -1826,11 +1851,8 @@ static int elantech_query_info(struct psmouse *psmouse,
- 		break;
- 
- 	case 3:
--		if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
-+		if (elantech_query_range_v3(psmouse, info))
- 			return -EINVAL;
--
--		info->x_max = (0x0f & param[0]) << 8 | param[1];
--		info->y_max = (0xf0 & param[0]) << 4 | param[2];
- 		break;
- 
- 	case 4:
--- 
-2.37.3
-
+> > > +       } else if (device_may_wakeup(dev) && dev->power.wakeirq) {
+> > > +               /*
+> > > +                * The ACPI subsystem doesn't manage the wake bit for IRQs
+> > > +                * defined with ExclusiveAndWake and SharedAndWake. Instead we
+> > > +                * expect them to be managed via the PM subsystem. Drivers
+> > > +                * should call dev_pm_set_wake_irq to register an IRQ as a wake
+> > > +                * source.
+> > > +                *
+> > > +                * If a device has a wake IRQ attached we need to check the
+> > > +                * _S0W method to get the correct wake D-state. Otherwise we
+> > > +                * end up putting the device into D3Cold which will more than
+> > > +                * likely disable wake functionality.
+> > > +                */
+> > > +               wakeup = true;
+> > >         }
+> > >
+> > >         /*
+> > > --
+>
+> I'll send out v6 soon unless anyone else has any comments.
