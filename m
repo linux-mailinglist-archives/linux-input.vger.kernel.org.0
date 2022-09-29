@@ -2,64 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA4945EECD3
-	for <lists+linux-input@lfdr.de>; Thu, 29 Sep 2022 06:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29AA75EF03E
+	for <lists+linux-input@lfdr.de>; Thu, 29 Sep 2022 10:21:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233488AbiI2Ejv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Sep 2022 00:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
+        id S234887AbiI2IVX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Sep 2022 04:21:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232007AbiI2Ejs (ORCPT
+        with ESMTP id S234807AbiI2IVW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Sep 2022 00:39:48 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E2751A11;
-        Wed, 28 Sep 2022 21:39:47 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id q9so421274pgq.8;
-        Wed, 28 Sep 2022 21:39:47 -0700 (PDT)
+        Thu, 29 Sep 2022 04:21:22 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1D3128495;
+        Thu, 29 Sep 2022 01:21:21 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so5233800pjq.3;
+        Thu, 29 Sep 2022 01:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date;
-        bh=SgLpeag8oLdNSEpmjoCYdWyQS37TeykmADfpP7CNK3E=;
-        b=iwdYbvpkcy9l2triE2iPFxo6PqdYxBNviHmhT6qPXVr1uK7RcempNAF/kVYWaFkB79
-         1XI7tfVoCVf8AV4m2yJHb8RP3ZIXHIY7O0ur0qfsu3tkmXh06qxuVCR474nQjxiUil+U
-         pqOKfCq37y+G+57G0CArPooo6VEWBrH9bomxah7Qjwez/EZmy5JS5WvxhPSIXvmnOkOC
-         rfdvMKtf6cLNyaysFTBRQHq6ijoSuOV9yCYhktA8Y+/jiDp5eG3tY9v3L1w/8WzOsptG
-         2fjcRQlZlVvSFaqfNfQyrhXhqhad42hpAEuQNbjr1WfmPSWqWp3KTpH5gwzVFS57r7VA
-         f3UQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=CuiqeCfMEreF4DTn3VvfAhzBQan3CsNH0VnTzJ+bFVc=;
+        b=WDgRMOKrA5B/cpilZcMHZToi3BvnKtmBAOSFngLJIIxMs0i++40A+d5geGn7t27kV+
+         +x2DRgOMMZjJJrX8WSzMhQZe0YRmtupNiY6fydu7TqJqKBX31UrVo3MejG3UDPxI/xPI
+         eO4Ifa1tA1zfEOLWRZaKDKCTP56NV14AIlEeA2mHOnRxe9JDlIGhQCiHVz8WMoQHb6lY
+         7DhmkRdAM7Dw76zo/0NxZLrAu+8LTt6UB4IERGFjLGv60Tpr4hOFA9d1ioCuZxL9T/5X
+         uY4dcbPfC8o68y5c0JHDkqDQLHCnDKfr5EVUiVpKOteCgAHwKo7znw6mmAs1TK9MalUi
+         GU+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=SgLpeag8oLdNSEpmjoCYdWyQS37TeykmADfpP7CNK3E=;
-        b=seev4vZ8TZX0AAAlwKedNC9pDaprCJlwe8qB7U4WNa00sAVO1bZTevQz9dJh9B/aTK
-         j1wJc/s7c/MxwNucEMySpQ+rD5rIF5uzRVaonOQc1CFikBNr1Ep+dpgx8N/vZvv6T32d
-         bj555OA0S1wYLYIzKIKg4VkeCcmCB+Rig6jOH8eSdEDbC63IU7WT6L0lH/q6HZ9E7SgS
-         BU4MRgjeelpFy492UQGdthNYSaVhN3tJLkOcVyue0Bp53j27BRNyL4KYgLBDSx4NK4BQ
-         uFuhr0Q/sqR2kvKpCIE+KufIZ/rztV9TQ3FW1+f3ugC8pU+MAYJJdPjRtB+nqfXh5f0R
-         y2nA==
-X-Gm-Message-State: ACrzQf3Y0F5VX58c/4WkET5nmVJxCjc8FGy1579yyc/OePxFem1auXYx
-        itvxyd6QuLAM8oXu2IQWlbhv/jTNj48=
-X-Google-Smtp-Source: AMsMyM6hupqNRk49KAfTOmyKM/uFD5Tdext2tWLpVBXyqxh9vDBRI13VMVoesppy+j42g9Zu8bnYKg==
-X-Received: by 2002:a63:2a89:0:b0:439:398f:cb43 with SMTP id q131-20020a632a89000000b00439398fcb43mr1210968pgq.187.1664426387029;
-        Wed, 28 Sep 2022 21:39:47 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:637c:7f23:f348:a9e6])
-        by smtp.gmail.com with ESMTPSA id h4-20020a170902f54400b00176dc67df44sm4727025plf.132.2022.09.28.21.39.46
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=CuiqeCfMEreF4DTn3VvfAhzBQan3CsNH0VnTzJ+bFVc=;
+        b=7xL0fjCOhtNa1Jn/KhqEwLxUUMDhpPHfvr+OhodRaNek0qFIJ1GuR7Ah6pQldVFzPu
+         sspJcG544r1SFSwuaI+6zYBFev2A5nQYawEs1XBTXvxl0wZbyvU7l5BBR+qSImevNQhH
+         Ky9Ma1aJZuY0sUyTFYLxMzjgZJnFN23YJPNDE9SxGs1v9oagIwjI5njfo/jro2e1NGUz
+         WFzit3TtvcSs+SR8K1+CQv8kd83ulWQrDNSS8Qd62XtyIJkNHXRIJdxfcx59mua2Kwy9
+         6dOCh1CDwhTmqgxQ9c9Si7G9on5JRbP1ZecZPPrtAv1hvbDXDqNVckPd6fju9+jcDSbg
+         gOaQ==
+X-Gm-Message-State: ACrzQf2Q0z6zB0tvhaz59at8sh6YQs6vp9KcLtlqvVgCUYIiFIdZayB8
+        VEcSXPa6yMGaQanilml77M+KzUidO8UCVuTL
+X-Google-Smtp-Source: AMsMyM5E/S2sE9Lx8twqXZuhd8j+Jnn/wCmx8hxvjh9vgSE5fFQUFImTm+AR9ajGUH9GyF9nv7PTkw==
+X-Received: by 2002:a17:902:b68f:b0:178:627d:b38d with SMTP id c15-20020a170902b68f00b00178627db38dmr2307824pls.87.1664439680796;
+        Thu, 29 Sep 2022 01:21:20 -0700 (PDT)
+Received: from dell-void.nyanpasu256.gmail.com.beta.tailscale.net (c-71-202-83-242.hsd1.ca.comcast.net. [71.202.83.242])
+        by smtp.gmail.com with ESMTPSA id p16-20020aa79e90000000b005360da6b26bsm5474476pfq.159.2022.09.29.01.21.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 21:39:46 -0700 (PDT)
-Date:   Wed, 28 Sep 2022 21:39:43 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.0-rc7
-Message-ID: <YzUhj0yo9j/IUsvD@google.com>
+        Thu, 29 Sep 2022 01:21:20 -0700 (PDT)
+From:   Eirin Nya <nyanpasu256@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Input: Fix incorrectly halved touchpad range on ELAN v3 touchpads
+Date:   Thu, 29 Sep 2022 01:21:16 -0700
+Message-Id: <20220929082119.22112-1-nyanpasu256@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,45 +67,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+On Linux 5.19.10, on my laptop (Dell Inspiron 15R SE 7520) with an Elan
+v3 touchpad, the reported size of my touchpad (1470 by 700) is half that
+of the actual touch range (2940 by 1400), and the upper half of my
+touchpad reports negative values. As a result, with the Synaptics or
+libinput X11 driver set to edge scrolling mode, the entire right half of
+my touchpad has x-values past evdev's reported maximum size, and acts as
+a giant scrollbar!
 
-Please pull from:
+The problem is that elantech_setup_ps2() -> elantech_set_absolute_mode()
+sets up absolute mode and doubles the hardware resolution (doubling the
+hardware's maximum reported x/y coordinates and its response to
+ETP_FW_ID_QUERY), *after* elantech_query_info() fetches the touchpad
+coordinate system size using ETP_FW_ID_QUERY, which gets cached and
+reported to userspace through ioctl(fd, EVIOCGABS(ABS_X/Y), ...). So the
+touchpad size reported to userspace (and used to subtract vertical
+coordinates from) is half the maximum position of actual touches.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.0-rc7
+This patch series splits out a function elantech_query_range_v3() which
+fetches *only* ETP_FW_ID_QUERY (touchpad size), and calls it a second
+time if elantech_set_absolute_mode() enables double-size mode. This
+means the first call is redundant and wasted if a second call occurs,
+but this minimizes the need to restructure the driver.
 
-to receive updates for the input subsystem. You will get:
+A possible alternative approach is to restructure the driver and set
+resolution before querying touchpad size. I did not attempt this myself,
+and don't know how the Windows Dell Touchpad ELAN driver handles
+double-resolution.
 
-- small fixes for iqs62x-keys and melfas_mip4 drivers
-- corrected register address in snvs_pwrkey driver
-- synaptic driver will stop trying to use intertouch (native) mode on
-  some Lenovo AMD devices.
+Link: https://lore.kernel.org/linux-input/CAL57YxZNutUVxBtvbVWKMw-V2kqeVB5kTQ5BFdJmN=mdPq8Q8Q@mail.gmail.com/
 
-Changelog:
----------
+Eirin Nya (3):
+  Input: Remove redundant field elantech_data::y_max
+  Input: Remove redundant field elantech_data::width
+  Input: Fix incorrectly halved touchpad range on ELAN v3 touchpads
 
-Jeff LaBundy (1):
-      Input: iqs62x-keys - drop unused device node references
-
-Mark Pearson (1):
-      Input: synaptics - disable Intertouch for Lenovo T14 and P14s AMD G1
-
-Sebastian Krzyszkowiak (1):
-      Input: snvs_pwrkey - fix SNVS_HPVIDR1 register address
-
-Yang Yingliang (1):
-      Input: melfas_mip4 - fix return value check in mip4_probe()
-
-Diffstat:
---------
-
- drivers/input/keyboard/iqs62x-keys.c    | 3 +++
- drivers/input/keyboard/snvs_pwrkey.c    | 2 +-
- drivers/input/mouse/synaptics.c         | 1 -
- drivers/input/touchscreen/melfas_mip4.c | 2 +-
- 4 files changed, 5 insertions(+), 3 deletions(-)
-
-Thanks.
+ drivers/input/mouse/elantech.c | 51 +++++++++++++++++++++++-----------
+ drivers/input/mouse/elantech.h |  2 --
+ 2 files changed, 35 insertions(+), 18 deletions(-)
 
 
+base-commit: fff1011a26d6cbf26b18c8ee4c61d99943174f8c
 -- 
-Dmitry
+2.37.3
+
