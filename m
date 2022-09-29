@@ -2,65 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 763E75EE8B0
-	for <lists+linux-input@lfdr.de>; Wed, 28 Sep 2022 23:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C7CE5EEB02
+	for <lists+linux-input@lfdr.de>; Thu, 29 Sep 2022 03:34:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232120AbiI1VyP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Sep 2022 17:54:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44032 "EHLO
+        id S232242AbiI2Bel (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Sep 2022 21:34:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234367AbiI1Vxu (ORCPT
+        with ESMTP id S234386AbiI2BeZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Sep 2022 17:53:50 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3A09B600A;
-        Wed, 28 Sep 2022 14:53:48 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id f193so13445390pgc.0;
-        Wed, 28 Sep 2022 14:53:48 -0700 (PDT)
+        Wed, 28 Sep 2022 21:34:25 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E809F11E5EC;
+        Wed, 28 Sep 2022 18:34:24 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id x1so13178180plv.5;
+        Wed, 28 Sep 2022 18:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=rwxTbqg7Xc3irSvqNgtb9zG62AE7Qip58l/cJQg1XlI=;
-        b=Xt698KYjpjJ84vIuRanpK/wLtkDt7DY3z7LwWCRDcyLW1odzM0rEZobjATnUl+ZIvp
-         pH9Bq5y/PGOaysVA91ZzYOC5D2qMsKSWCSceSaB42SZ6gD24F++VhKOmSSmIUpu8CBys
-         ZSRbH0gm/QCGwybjgwl6BGdCXbWrx5mIxh0ArN7HDXDdUR5/Wp8mhekydGso4ADjfzah
-         wOaJpvje/jLQhXwfhv0llWrPb25kgfkDKKby5eBBqgUYSOg2rl9qrUoxXCF8m0c3My1X
-         8mMpLfRe9dos3PNWwG34AyAinKHwvZpLF1rdQAQWMah0BVwqrq80yZQhsl4UgkZdK/fd
-         4hRg==
+        bh=NZxJcimCXLVWvl+T+yH2DTD79AYos60dAJ+wLL/AOns=;
+        b=T3lUt1qgENC+2DKuD+zvICEpG19ijUbIICzufyC3DJ4sci671Lz6qquPCPDh7cm96z
+         caviaG+FExIvKJVFOW01C10vQhu3VOSpQrkoL2FBvL9wewG5jP9T3zuibTu3Ihuhq/XD
+         bRQL2CNew6ieAjPm1rrWnqyiTTTvvdnsw9PsiK0jsEuAKBDfrIcM7dpazVd0xoWuo8sE
+         1GgVcJ+fuowF4GX8iYMhiTcL4Kq8opLn/fGOzFgnbWNYla1358+bhDDKjEp3magtnKwb
+         yB65ubuGzZJiEQGw8v644A9+yYDjLmqt0o8TrQq8xyVCeD29d+E6INPlW0KU1lKUOTEZ
+         tOrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=rwxTbqg7Xc3irSvqNgtb9zG62AE7Qip58l/cJQg1XlI=;
-        b=DsLAcLbcMZ4vd+cVlLWgsJ9vU1lpLGI/cMSsEa0SXntGYpAdUPvtVcwZBQ4dbrn3eW
-         EG79nNApmbfKCW+33fjqi7XQsK9Ao6Ff9+mC1txmGHtt1AG8wcLnvBnlUkpZPn/MIo13
-         XHfxD9KGF0NqC4PLl2n6HUt0nVQ4NAjDYJ1NDoMp1LkEsXfZvoctK5EVEz/cUukC4aIS
-         5u94PXgA24MH2BDeGQwrq1GLJqrtVhfrTyboChpgocDJNEz8HfX7607I78eTEXmKFWr3
-         jZZ/ZAFjoe39b1UTiHEwKGzal3ksCXnU80mNzDBOCLpVS75t7ojrhiszp2AI9S+Xpxd9
-         ch1A==
-X-Gm-Message-State: ACrzQf2RokPbVguF/HkS6LRNHpsEIUi0n1JW4GQHs+y90GawYtAKN2n0
-        UqzMPqdrgB+sD4UmTZ8fDh7XeYcjZm8=
-X-Google-Smtp-Source: AMsMyM62WoDTbaELfdTYT6DlHU48/X79U3e3xQ+Ym4ogNXlrzZzDA8STmg9JIV8islx0iP+cGEBcwA==
-X-Received: by 2002:a05:6a00:1911:b0:554:9a8d:bb41 with SMTP id y17-20020a056a00191100b005549a8dbb41mr36426424pfi.47.1664402027447;
-        Wed, 28 Sep 2022 14:53:47 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1a91:59b8:faf:7b4f])
-        by smtp.gmail.com with ESMTPSA id f145-20020a623897000000b005366696b735sm4505950pfa.77.2022.09.28.14.53.46
+        bh=NZxJcimCXLVWvl+T+yH2DTD79AYos60dAJ+wLL/AOns=;
+        b=CeMfTxxwuImzEupi4c1Zg3QFVEOVPeMaVW0iZKBlhoMfpfkt3hCAWknJimHRZNoarl
+         DO6J0tzYxW3ux2huR1y8ougFPk+93K2R7P5yOVM2FuVMisGfDg0arUKIP/fdPL4hFZuL
+         3YhSKLAHJCPoRSRJSAs94IVv6d0RriiAZyqTPi1w33G9xGUdfMt2Cmw8cd1+z8x4MEvh
+         Zv4RxG+qlKBNCvOB1Ie6RTrEjAn+gRGahdOnZ1ZUEGpTp4YNLqRhNSsUxU0xA1cSeONA
+         dCcxG9PcnWb753pfC6Fmn3n2boZJKh7hxeiujsKo90geFBTlVHGwgTZNqdH5dxBv1QSw
+         HoBw==
+X-Gm-Message-State: ACrzQf1FxFyb85WBYa3txFBebkcid18/XFCdjpPOYKJGESHUBiDWzMdt
+        d3cxMfA2yKj1iTDNkIpnjMA=
+X-Google-Smtp-Source: AMsMyM74d6NE2XzzWC0POoflHjXzdlavoKR8s/vtRHmBRvghpsj9JJpbJ01AHZZJHLn5VVrQpduqhg==
+X-Received: by 2002:a17:90b:2bd3:b0:203:1a03:6b1b with SMTP id ru19-20020a17090b2bd300b002031a036b1bmr941479pjb.58.1664415264251;
+        Wed, 28 Sep 2022 18:34:24 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:637c:7f23:f348:a9e6])
+        by smtp.gmail.com with ESMTPSA id e11-20020a17090301cb00b00172ea8ff334sm4546657plh.7.2022.09.28.18.34.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 14:53:47 -0700 (PDT)
-Date:   Wed, 28 Sep 2022 14:53:44 -0700
+        Wed, 28 Sep 2022 18:34:23 -0700 (PDT)
+Date:   Wed, 28 Sep 2022 18:34:21 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Colin Ian King <colin.i.king@gmail.com>
-Cc:     linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ims-pcu: Fix spelling mistake "BOOLTLOADER" ->
- "BOOTLOADER"
-Message-ID: <YzTCaCuMadUC0+oh@google.com>
-References: <20220928211003.61872-1-colin.i.king@gmail.com>
+To:     Nate Yocom <nate@yocom.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hadess@hadess.net, benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v6 0/5] Input: joystick: xpad: Add X-Box Adaptive
+ Controller support
+Message-ID: <YzT2HZjEOd/sg1oB@google.com>
+References: <20220908173930.28940-1-nate@yocom.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220928211003.61872-1-colin.i.king@gmail.com>
+In-Reply-To: <20220908173930.28940-1-nate@yocom.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -71,12 +71,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 28, 2022 at 10:10:03PM +0100, Colin Ian King wrote:
-> There is a spelling mistake in a dev_err message. Fix it.
+On Thu, Sep 08, 2022 at 10:39:25AM -0700, Nate Yocom wrote:
+> Adds support for the X-Box Adaptive Controller, which is protocol
+> compatible with the XTYPE_XBOXONE support in the driver with two deltas:
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>  - The X-Box button sets 0x02 as its activation ID, where others set
+>    0x01
+>  - The controller has an additional Profile button with 4 active states,
+>    which this change maps to an Axis control with 4 possible values
+> 
+> Patch series adds device to the supported table, adds support for the
+> Profile button, and adds support for the X-Box button as distinct
+> changes.
+> 
+> Signed-off-by: Nate Yocom <nate@yocom.org>
+> 
+> Nate Yocom (5):
+>   Input: joystick: xpad: Add X-Box Adaptive support
+>   Input: joystick: xpad: Add X-Box Adaptive XBox button
+>   Input: joystick: xpad: Add ABS_PROFILE to uapi
+>   Input: joystick: xpad: Add ABS_PROFILE to Docs
+>   Input: joystick: xpad: Add X-Box Adaptive Profile button
 
-Applied, thank you.
+Combined patches 3 and 4 and applied the lot, thank you.
 
 -- 
 Dmitry
