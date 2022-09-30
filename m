@@ -2,128 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C99A15F0155
-	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 01:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BDBB5F02E7
+	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 04:42:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbiI2XWs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Sep 2022 19:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
+        id S229870AbiI3CmQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Sep 2022 22:42:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiI2XWq (ORCPT
+        with ESMTP id S229743AbiI3CmP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Sep 2022 19:22:46 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD9F135044;
-        Thu, 29 Sep 2022 16:22:45 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id v4so2712707pgi.10;
-        Thu, 29 Sep 2022 16:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=k9iVNCg81C1n4ax6HQVaWzPvcQNvg+2Jo/FvkuXEunA=;
-        b=ZG7Il9MJjhiZYW6rmuir8dLrJp8mtTxzNUqHaNt2KJbdXb0Vqv0ZZwEq4xwit/7/kx
-         hxkzj/nOKCWNHp72GCvO/DCoYljFBbXN3J3vBy/4DJrdwk2amR1P1fOSm3hKsWejd76U
-         lC6h1j4tQfJ9oM03CSqKfETN+fvlytyBlGiw5vXQ6ZEmrG7BA1ISkOg50x7taHsy3tiQ
-         OpCroDSUw+mnxyBOGKwEEuMV4FYnwkyHtdBgcwmHCAyRbwOQH5sYQ4+B23q6EemAOpmE
-         K9dq+jajWeU+uERQ0gYfz1lSFNRLdbgAMsRNs8LcTTmOsD+WfjzKuXR9IcbL2t3/6vtV
-         AWwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=k9iVNCg81C1n4ax6HQVaWzPvcQNvg+2Jo/FvkuXEunA=;
-        b=x93sHllHFUETSWlhwgbyAyMgtXsMD7R3WxjlO7/gykduPnW87cp4LsmjT5VyWu3jE3
-         8Xkzot2cWPUQEnlfCPde4jA+dgp9UT+606vPmK/IVFZOAVg+PdkihQphHhig32rufSfI
-         QWlpCV5vYFwQHhSNwoPWESQiNtr7cJ26UobbL+uvRsjcPMfAptycyazv+RNV7UZ9ChD0
-         QiAVkRe4dJBRvRt8OGXY3wul13z1BBOzHGWXRzIlmmLkVxSrh4auE0xHlEcNqr9wNkSE
-         GNzPEiOViKgUqWeodM+cAivvHntJ3GjYFsOdwxVRg6+KzpsPQNa+XyrKuLterYE42W7M
-         SH+g==
-X-Gm-Message-State: ACrzQf35rX2r2clpxyoTVbaGQdCRFsuPNxF7LbckgFoqaVtZkFFTsNim
-        tWgmTsA91dANT3gW3T8jYNQ=
-X-Google-Smtp-Source: AMsMyM6cJj++MIqaW87//ChnT4eL4aY2b767/mhIM9iIEtDKUNST2lQzIBwjf2ER9kGasWWjIpHLLA==
-X-Received: by 2002:a63:5243:0:b0:43c:96a:8528 with SMTP id s3-20020a635243000000b0043c096a8528mr4982707pgl.47.1664493765171;
-        Thu, 29 Sep 2022 16:22:45 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:637c:7f23:f348:a9e6])
-        by smtp.gmail.com with ESMTPSA id g3-20020a170902d1c300b0017a00216965sm414776plb.218.2022.09.29.16.22.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 16:22:44 -0700 (PDT)
-Date:   Thu, 29 Sep 2022 16:22:41 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Raul Rangel <rrangel@chromium.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Tim Van Patten <timvp@google.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Len Brown <lenb@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Terry Bowman <terry.bowman@amd.com>, Tom Rix <trix@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v6 06/13] ACPI: resources: Add wake_capable parameter to
- acpi_dev_irq_flags
-Message-ID: <YzYowYJpRTImmg4m@google.com>
-References: <20220929161917.2348231-1-rrangel@chromium.org>
- <20220929093200.v6.6.I8092e417a8152475d13d8d638eb4c5d8ea12ac7b@changeid>
- <CAJZ5v0izHjb8vE0ALyYo9yMOExdpCzG8f7-d5SpQnftqJfTEig@mail.gmail.com>
- <CAHQZ30CJyhPK-OriZ5NZ=GjwNbofaCW6GZ_CvPsL0WiJGsxs-Q@mail.gmail.com>
- <CAJZ5v0gcJRoMSODbTevRdK1zaEZHJcPxvG6XMy9-T_jvwxPFBw@mail.gmail.com>
- <CAHQZ30CQd-0YnQgYG_OJVWn9_aUjvDAuT_DRGsxQF-q+bjr5BA@mail.gmail.com>
+        Thu, 29 Sep 2022 22:42:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A455139BD9;
+        Thu, 29 Sep 2022 19:42:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3328DB82705;
+        Fri, 30 Sep 2022 02:42:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5B85C433C1;
+        Fri, 30 Sep 2022 02:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664505731;
+        bh=89J+XT342DOuM16MG6vi3VPlCbMluYda7siQ4WgQfOk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TgYwqSxB1RmxJ2hVL/hIVDZ70dbrdDBEIX295dr+XigaohWEvgEFAJl34Fs6fMgsX
+         a53mC0sfc/OM1sHbLTmxuj13+8DDHkaCscCYZmCdpByyi8CoEc+9+PTwV5QhHHDXAJ
+         hw0mPnkoHvsbQQu4dcqOF2+G3fTXEu+1kQ2SiKXRwQeIcKA8cuxjKp0f2MWQVCxXq3
+         b9LMNpyYE5szGt9quP24jHwXtAe4J80ynccOu0CrAkg+33DlB2LncphHfXUGD+j4VQ
+         E+lIdFO+EusUHooOgb6OuWydkLd2gGcX5Bf0pIxYXLZ/7qEky/G72yDVvgKprRn0rL
+         6OoIasfBsP51w==
+Received: by mail-vs1-f54.google.com with SMTP id m65so3500947vsc.1;
+        Thu, 29 Sep 2022 19:42:11 -0700 (PDT)
+X-Gm-Message-State: ACrzQf00INq3FsugomVH7ot/hd4MQUyZqV72gO7xMAp03qyvS+INCd8h
+        NN/H4Wi8gSWQPynJZTFwVgT+FPXryEToKGWMhok=
+X-Google-Smtp-Source: AMsMyM6l0s42TpcL/m101J48xwB6udwVmDcTuy8DNrZpc0blyfUFDSuufF3zt59VsyIIr36sML9MzAshM/nVlYaON24=
+X-Received: by 2002:a67:d491:0:b0:398:1bbc:bc85 with SMTP id
+ g17-20020a67d491000000b003981bbcbc85mr3198312vsj.59.1664505730773; Thu, 29
+ Sep 2022 19:42:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHQZ30CQd-0YnQgYG_OJVWn9_aUjvDAuT_DRGsxQF-q+bjr5BA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220917064020.1639709-1-chenhuacai@loongson.cn>
+ <20220917064020.1639709-2-chenhuacai@loongson.cn> <87a66rhkri.fsf@baylibre.com>
+In-Reply-To: <87a66rhkri.fsf@baylibre.com>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Fri, 30 Sep 2022 10:41:59 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6YLstS+GqaXv2Y9p_QVAU4x=nrunP_Hd2GeznOWG6q4g@mail.gmail.com>
+Message-ID: <CAAhV-H6YLstS+GqaXv2Y9p_QVAU4x=nrunP_Hd2GeznOWG6q4g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Input: i8042: Add LoongArch support in i8042-acpipnpio.h
+To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        loongarch@lists.linux.dev, linux-arch@vger.kernel.org,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:20:12PM -0600, Raul Rangel wrote:
-> On Thu, Sep 29, 2022 at 1:38 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >
-> > On Thu, Sep 29, 2022 at 9:27 PM Raul Rangel <rrangel@chromium.org> wrote:
-> > >
-> > > On Thu, Sep 29, 2022 at 1:18 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > >
-> > > > On Thu, Sep 29, 2022 at 6:19 PM Raul E Rangel <rrangel@chromium.org> wrote:
-> > > > >
-> > > > > ACPI IRQ/Interrupt resources contain a bit that describes if the
-> > > > > interrupt should wake the system. This change exposes that bit via
-> > > > > a new IORESOURCE_IRQ_WAKECAPABLE flag. Drivers should check this flag
-> > > >
-> > > > I would call this IORESOURCE_IRQ_WAKE which is (a) simpler and easier
-> > > > to read and (b) it sort of matches the "wakeirq" naming convention.
-> > >
-> > > It was Dmitry who originally suggested the name. I personally like the
-> > > CAPABLE in the name. It makes it clear that it's capable of acting as
-> > > a wake source, not to be confused with being enabled as a wake source.
-> >
-> > Well, so be it then.
-> >
-> > As I said elsewhere, I can apply this patch too if that's useful at this point.
-> >
-> 
-> We just need to make sure the ACPI patches 5-8 land before the i2c
-> patches 9-13. The i2c patches 1-4 can land before or after the ACPI
-> changes. I'm not sure how things get coordinated across subsystems.
+Hi, Mattijs,
 
-I am fine with all input stuff going through ACPI tree to ease landing.
-Or I can pick up everything if Rafael and Jiri/Benjamin agree.
+On Thu, Sep 22, 2022 at 4:32 PM Mattijs Korpershoek
+<mkorpershoek@baylibre.com> wrote:
+>
+> On Sat, Sep 17, 2022 at 14:40, Huacai Chen <chenhuacai@loongson.cn> wrote:
+>
+> > LoongArch uses ACPI and nearly the same as X86/IA64 for 8042. So modify
+> > i8042-acpipnpio.h slightly and enable it for LoongArch in i8042.h. Then
+> > i8042 driver can work well under the ACPI firmware with PNP typed key-
+> > board and mouse configured in DSDT.
+> >
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+>
+> I would have split the pr_info() move in its own patch since it seems
+> like a "valid fix" on its own, but i'm probably too pedantic about this.
+>
+> So, please take my:
+>
+> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+I think the pr_info is needed for all architectures, and the moving is
+very simple so I haven't split it. But anyway, if Dmitry also thinks
+this patch should be split, I will send a new version. :)
 
--- 
-Dmitry
+Huacai
+>
+> > ---
+> >  drivers/input/serio/i8042-acpipnpio.h | 8 ++++++--
+> >  drivers/input/serio/i8042.h           | 2 +-
+> >  2 files changed, 7 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+> > index d14b9fb59d6c..c22151f180bb 100644
+> > --- a/drivers/input/serio/i8042-acpipnpio.h
+> > +++ b/drivers/input/serio/i8042-acpipnpio.h
+> > @@ -2,6 +2,7 @@
+> >  #ifndef _I8042_ACPIPNPIO_H
+> >  #define _I8042_ACPIPNPIO_H
+> >
+> > +#include <linux/acpi.h>
+> >
+> >  #ifdef CONFIG_X86
+> >  #include <asm/x86_init.h>
+> > @@ -1449,16 +1450,19 @@ static int __init i8042_pnp_init(void)
+> >
+> >       if (!i8042_pnp_kbd_devices && !i8042_pnp_aux_devices) {
+> >               i8042_pnp_exit();
+> > +             pr_info("PNP: No PS/2 controller found.\n");
+> >  #if defined(__ia64__)
+> >               return -ENODEV;
+> > +#elif defined(__loongarch__)
+> > +             if (acpi_disabled == 0)
+> > +                     return -ENODEV;
+> >  #else
+> > -             pr_info("PNP: No PS/2 controller found.\n");
+> >               if (x86_platform.legacy.i8042 !=
+> >                               X86_LEGACY_I8042_EXPECTED_PRESENT)
+> >                       return -ENODEV;
+> > +#endif
+> >               pr_info("Probing ports directly.\n");
+> >               return 0;
+> > -#endif
+> >       }
+> >
+> >       if (i8042_pnp_kbd_devices)
+> > diff --git a/drivers/input/serio/i8042.h b/drivers/input/serio/i8042.h
+> > index bf2592fa9a78..adb5173372d3 100644
+> > --- a/drivers/input/serio/i8042.h
+> > +++ b/drivers/input/serio/i8042.h
+> > @@ -19,7 +19,7 @@
+> >  #include "i8042-snirm.h"
+> >  #elif defined(CONFIG_SPARC)
+> >  #include "i8042-sparcio.h"
+> > -#elif defined(CONFIG_X86) || defined(CONFIG_IA64)
+> > +#elif defined(CONFIG_X86) || defined(CONFIG_IA64) || defined(CONFIG_LOONGARCH)
+> >  #include "i8042-acpipnpio.h"
+> >  #else
+> >  #include "i8042-io.h"
+> > --
+> > 2.31.1
+>
