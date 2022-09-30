@@ -2,118 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64C205F100A
-	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 18:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23BA95F1094
+	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 19:13:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231685AbiI3QcS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Sep 2022 12:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48262 "EHLO
+        id S231310AbiI3RNv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Sep 2022 13:13:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231492AbiI3QcR (ORCPT
+        with ESMTP id S231605AbiI3RNu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Sep 2022 12:32:17 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256399A9F0
-        for <linux-input@vger.kernel.org>; Fri, 30 Sep 2022 09:32:16 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id c2so1311675lfb.10
-        for <linux-input@vger.kernel.org>; Fri, 30 Sep 2022 09:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Ue4laGY5FoP2Mfg7r8jyegUpo8gtYdbsjMlIFQZ92ks=;
-        b=yk65nk3SPtLKdZIyDHWd3l8fLfdkCbeyz+fArVxfgtoyZ3Qy5RoMDW6I1v1TovY8Wo
-         eYunQBpgx9VDgZob62JmtV9qAS4Xx14SPmJEd7jSJ+NLrvewdUg+kVAtsdvEmooLeeul
-         M9d6moztjz2sXzoHTRMpZMxdqI7yuMt9e6dEcYC5ZoMB87Wbt76pfHlpRcSPm+lOy6bu
-         utuqfcccfhWDJPiE/BHZTVw/wUaSXK5hOqxHWlIrGqpf/DHVf344xbzqxDxlbwewVsRR
-         BhbT/x7eiP4biaorGNlFwLOCCWpPjs43tKwp29pQI5DD9SyWgWNrol/N3w9VKppXpWdW
-         iboQ==
+        Fri, 30 Sep 2022 13:13:50 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF5B1B0E2D;
+        Fri, 30 Sep 2022 10:13:49 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id u28so3205539qku.2;
+        Fri, 30 Sep 2022 10:13:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Ue4laGY5FoP2Mfg7r8jyegUpo8gtYdbsjMlIFQZ92ks=;
-        b=xCg2WltKZ077VgF7zB2feCHOQHFl52HZzoHkBSVXgpc0iVrQ98f8iTjgrG4sUKjry9
-         dAzKGFF5sgfQY8SN1Nps7iIr6MEikUJ2XxL+XaSaN1LppCUA4CxAoizgvvTNXe+J6qoI
-         OOy4VXirk8p6GW9fKmIZ2XENxS9Gqf9ZlZo3m70YYexX3wZ/WAeI5GP6soCfCGdCFgC4
-         ddB1jLe7gfCshh8alLhw7zzhr1LK18hlonLBPhEeIQ1O4ueeWMVFdAw2mvwjPYoUN6cF
-         QGO9bNJFKzsRaiy4x06m3bhlHQn9MCIkwJClKu/A7H8Djpp1sTJy8/BfV3k29wAxSK3V
-         exhw==
-X-Gm-Message-State: ACrzQf0uOD6yVWI4kyU2lxkvZ2yevcAKLKe1ZCFr9GZRH9oBqVtdVYWp
-        e/4NOy8pWJjkKo9T28GBns1RNg==
-X-Google-Smtp-Source: AMsMyM4Wq6E0irIhyr/IETDNH7BruSFrjjpngW0YMyJxLETN7/bgD5zEju3en9kAmwSo+NkxO9WV0Q==
-X-Received: by 2002:ac2:5fac:0:b0:4a1:faff:53a8 with SMTP id s12-20020ac25fac000000b004a1faff53a8mr3458256lfe.587.1664555534421;
-        Fri, 30 Sep 2022 09:32:14 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id p11-20020ac246cb000000b00497a7dfe6a9sm344718lfo.64.2022.09.30.09.32.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 09:32:13 -0700 (PDT)
-Message-ID: <f9eb873a-91b5-1bca-ac7b-109adc3372ae@linaro.org>
-Date:   Fri, 30 Sep 2022 18:32:13 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=/wx9U+dObGcu3vd67LH5xUyn1SE13wYoTWeTVT1V/Xk=;
+        b=GmKkzNK5uL1Yq9YhVBrtlyFfHYHzJ30VTNpFhc2tjyl9fQVRra5xt0pZWp1ndi2xG/
+         M7ymwiGqZ6/HAOFONY3tRqiZHXeUKFFgXjLm9RgUxeR+AIecMdDUbHJcpH/9+HELjTLL
+         7YsYvH/4Dj2ap8YFkpf6E66LPuDPoWvVZEQD9mP9rUGXc5roTM8zvsBK8/bGuwPZIu2c
+         tf2BzAy9kz7f7VVNd2pzvctbctqb2E1TojqJj/1KPd/wjS2sHXlfKuRxvLX4RrNU+ilx
+         u1oJNE0m6LtiN2d054+QkUgEJ1QRjWafcSfWkj3X47YRaPMQsq3q7Mkc9Dhfuk/XrViY
+         5lzA==
+X-Gm-Message-State: ACrzQf1Kk6bzs39kMfDTaJAaYE12HPY8WK/iJz6bDXa15zksI8QwoF7d
+        XIhjYNLXFDRyxkr+IcunrBf1xvaFuIdJjfd3AWs=
+X-Google-Smtp-Source: AMsMyM6JZ4b6gxDDEv2hOrUMsgceqPELInWBc5V8VaaTUwAfQPUvRJjifLHwS5Zy8GMSTiimX+3A1JeQCZkKLJlJsrQ=
+X-Received: by 2002:a05:620a:4008:b0:6ce:8725:cb7 with SMTP id
+ h8-20020a05620a400800b006ce87250cb7mr7047317qko.480.1664558028487; Fri, 30
+ Sep 2022 10:13:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 2/3] dt-bindings: input: touchscreen: Add Hynitron cstxxx
- bindings
-Content-Language: en-US
-To:     Chris Morgan <macromorgan@hotmail.com>
-Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, rydberg@bitmath.org,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        dmitry.torokhov@gmail.com
-References: <20220928214806.13572-1-macroalpha82@gmail.com>
- <20220928214806.13572-3-macroalpha82@gmail.com>
- <bcf0e3fe-ba69-2898-ed99-49afd08d1f72@linaro.org>
- <SN6PR06MB5342305DA33462161BC7020DA5569@SN6PR06MB5342.namprd06.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SN6PR06MB5342305DA33462161BC7020DA5569@SN6PR06MB5342.namprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220929161917.2348231-1-rrangel@chromium.org>
+ <20220929093200.v6.6.I8092e417a8152475d13d8d638eb4c5d8ea12ac7b@changeid>
+ <CAJZ5v0izHjb8vE0ALyYo9yMOExdpCzG8f7-d5SpQnftqJfTEig@mail.gmail.com>
+ <CAHQZ30CJyhPK-OriZ5NZ=GjwNbofaCW6GZ_CvPsL0WiJGsxs-Q@mail.gmail.com>
+ <CAJZ5v0gcJRoMSODbTevRdK1zaEZHJcPxvG6XMy9-T_jvwxPFBw@mail.gmail.com>
+ <CAHQZ30CQd-0YnQgYG_OJVWn9_aUjvDAuT_DRGsxQF-q+bjr5BA@mail.gmail.com> <YzYowYJpRTImmg4m@google.com>
+In-Reply-To: <YzYowYJpRTImmg4m@google.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 30 Sep 2022 19:13:37 +0200
+Message-ID: <CAJZ5v0i+QYcMuqsK9y6qy9qzJdUp503Sidr1e4V_ROyumLKCsw@mail.gmail.com>
+Subject: Re: [PATCH v6 06/13] ACPI: resources: Add wake_capable parameter to acpi_dev_irq_flags
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Raul Rangel <rrangel@chromium.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Tim Van Patten <timvp@google.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Len Brown <lenb@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Terry Bowman <terry.bowman@amd.com>, Tom Rix <trix@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 30/09/2022 17:21, Chris Morgan wrote:
->>> +maintainers:
->>> +  - Chris Morgan <macromorgan@hotmail.com>
->>> +
->>> +allOf:
->>> +  - $ref: touchscreen.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - hynitron,cst3xx
->>
->> Isn't the panel CST3240? No wildcards in compatibles.
->>
-> 
-> The controller IC I'm using is CST348. This driver SHOULD
-> also work with a CST340 and a CST356 (untested though).
-> 
+On Fri, Sep 30, 2022 at 1:22 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, Sep 29, 2022 at 03:20:12PM -0600, Raul Rangel wrote:
+> > On Thu, Sep 29, 2022 at 1:38 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> > >
+> > > On Thu, Sep 29, 2022 at 9:27 PM Raul Rangel <rrangel@chromium.org> wrote:
+> > > >
+> > > > On Thu, Sep 29, 2022 at 1:18 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> > > > >
+> > > > > On Thu, Sep 29, 2022 at 6:19 PM Raul E Rangel <rrangel@chromium.org> wrote:
+> > > > > >
+> > > > > > ACPI IRQ/Interrupt resources contain a bit that describes if the
+> > > > > > interrupt should wake the system. This change exposes that bit via
+> > > > > > a new IORESOURCE_IRQ_WAKECAPABLE flag. Drivers should check this flag
+> > > > >
+> > > > > I would call this IORESOURCE_IRQ_WAKE which is (a) simpler and easier
+> > > > > to read and (b) it sort of matches the "wakeirq" naming convention.
+> > > >
+> > > > It was Dmitry who originally suggested the name. I personally like the
+> > > > CAPABLE in the name. It makes it clear that it's capable of acting as
+> > > > a wake source, not to be confused with being enabled as a wake source.
+> > >
+> > > Well, so be it then.
+> > >
+> > > As I said elsewhere, I can apply this patch too if that's useful at this point.
+> > >
+> >
+> > We just need to make sure the ACPI patches 5-8 land before the i2c
+> > patches 9-13. The i2c patches 1-4 can land before or after the ACPI
+> > changes. I'm not sure how things get coordinated across subsystems.
+>
+> I am fine with all input stuff going through ACPI tree to ease landing.
+> Or I can pick up everything if Rafael and Jiri/Benjamin agree.
 
-Whether drivers works or not is rather orthogonal question. What if
-FreeBSD driver does not work with CST356? What if U-boot driver works
-with all three and few more?
+I think that patches [5-8/13] from this series are significant
+framework changes, so it would make sense to route them via the ACPI
+tree.
 
-> Should I just have 3 compatible strings then, one for each IC?
-> I could also just have cst340 as the compatible and note it
-> should work for the 3 ICs listed.
-
-Choose either:
-1. The only the one compatible for which you have datasheet or hardware.
-2. Choose all three separate compatibles which you believe should have
-same hardware properties thus one binding fits them (based on
-experience, datasheet, other drivers).
-
-
-Best regards,
-Krzysztof
-
+If this is fine with everybody, I will queue them up for merging into
+6.1 (probably in the second half of the upcoming merge window).
