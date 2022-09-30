@@ -2,780 +2,192 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EF1C5F0C3B
-	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 15:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F0405F0EB6
+	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 17:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbiI3NN1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Sep 2022 09:13:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
+        id S231216AbiI3PV3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Sep 2022 11:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbiI3NNZ (ORCPT
+        with ESMTP id S231180AbiI3PV2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Sep 2022 09:13:25 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E921893AB
-        for <linux-input@vger.kernel.org>; Fri, 30 Sep 2022 06:13:13 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id s14so6835442wro.0
-        for <linux-input@vger.kernel.org>; Fri, 30 Sep 2022 06:13:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date;
-        bh=oT5i6IJfZjwAPvCbeXBKLY16doFowUjbBZuf5KMEpE8=;
-        b=h9KvHsBJ/GjglxgrBLry9BnzKmHC7JaY1bR/px8DrgtaylQSDT5VanNO9AQaDonfky
-         MS2d2KndhpkocZWfi7Qmiza882lJubXGySkP9aeOxJskdLpgsBH6IhSmyyOI37uZ2cCh
-         5DZfmD4bxuVFGqAJ8UWwh6tPL8Uycd47sKrHiX3Gy/6V7ch1dgqPPqeYKXP2hBocqnak
-         ZTZh/IeGz7gii4e/Q+IN41/lRyXkb/HuOU6tVhqFBT4RxYjRbWsCa8tlIzGur6HRwzbc
-         HKz0kGEzbn47d+17ynsXkgYiA4qxNfGvlhFMpRKZtZiSuy5lEMOZXdGEctUgb1IVG8il
-         /wQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=oT5i6IJfZjwAPvCbeXBKLY16doFowUjbBZuf5KMEpE8=;
-        b=nEjLJvqh8Y5NGF2wMKY8h6umFhNrC2hxF2yHgC0NRdcBUd933xhQuHD6zpwa8UZX61
-         5Br0OnQOQKNOQx97ha7TmcCkYq+n8sCmxs73qVLpQnHuvcwU5D+Fd1JxyyBgcDyBPeqA
-         atVXVjYdalIm6EVzN4uGwi0d2x37dTs1zSktqt+rULOu/QFjpQj5rsGJFs4Y83SL8NWc
-         /w5DBcMGulD7fhRB6qS+umdEP9x1mKMxXd1N5dZlowGgkm6JYKaROC7pKlJGkl46EWJE
-         8QiQeItCYF7Ra10aYe6k+LRckGjrOoaw6ceCB8pQAEdfl9BIXw5PooL4ONXeM2vacUcL
-         bC7g==
-X-Gm-Message-State: ACrzQf2sLqWrmc/rw3Z6FhRMpDk4jPPez6MTxYkVGsmrD5sF6ItuFITp
-        FFSBjfPqmsrYkppPa69gN44iFA==
-X-Google-Smtp-Source: AMsMyM5RvdLdqVuVoMJdsKxVFcPhIPdiHaoRj33eIHQ59NIjjNvVEv5UdM2LhngpYSbqwe2bmgMlGg==
-X-Received: by 2002:a5d:59a3:0:b0:22a:fc9b:4358 with SMTP id p3-20020a5d59a3000000b0022afc9b4358mr5955334wrr.4.1664543591928;
-        Fri, 30 Sep 2022 06:13:11 -0700 (PDT)
-Received: from localhost ([2a01:cb19:85e6:1900:4f04:36fe:65ec:ecf4])
-        by smtp.gmail.com with ESMTPSA id q5-20020a05600c2e4500b003b50428cf66sm1964323wmf.33.2022.09.30.06.13.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 06:13:11 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: Drop empty comment
-In-Reply-To: <26a2b905b259bfffaf2de5b26f2007b8606970ed.1664478665.git.christophe.jaillet@wanadoo.fr>
-References: <26a2b905b259bfffaf2de5b26f2007b8606970ed.1664478665.git.christophe.jaillet@wanadoo.fr>
-Date:   Fri, 30 Sep 2022 15:13:10 +0200
-Message-ID: <877d1lkntl.fsf@baylibre.com>
+        Fri, 30 Sep 2022 11:21:28 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10olkn2102.outbound.protection.outlook.com [40.92.40.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD7DD169E63;
+        Fri, 30 Sep 2022 08:21:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R6BczkKvN1HNNTVYdhJvYZw0yY3FUBJskYEhll0H7igTuyjErUSxtGrdikbVZ55G0Jt8z3izp8+XV5JCjDFLkBjBiAt4YjSr/uW3o8h4A5M12a9AD6uhdKGDoq/GKLxnZjJLxski6oI5xUieDezDm/Xv6OeZZiwMcqKv1+YyVqGxxHWVrUthWsrbSbyGtucTtDb1S1YIF/i5qGzm+o9tzOkcSa0dCZg2ue54uQ2bFbhWeZSm1lNJSAAcWUnt6rhEZ0VhYCRbV8YypV7qZeR2C1w1xj3KVOPIHdUd99YEYz0EO6UkKZTu8UxycWa0zEPr/JrIiM11kcJQY/dSV+aFPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GCfijvsf5nlN3OXmfgox/GfKHN3KH0rubdPFX36Je1o=;
+ b=hu4kx+m8X6Yl5BCUBNJgsqYSyUuCR7KBZhm9IALsxSdBusXhlguc4Vib8jfce7q2lTYLafPJbl6A98ZfWr8UtPvIGXqrhGrXTnb0me1eobhPKi5CBMs8W5Nf3P99Wq4yNkkPgORbhe/YCV+ZCK83OH2OiuHcGSp/BTCFB+gRsNw6VfR3xNo8fZk79IzKLZESeV+tMb06oAxmFHhPQogsH+EbjLO0l9UAtb8RPnZ6b0QodObpLgrL2REhKs5IZP2ol2ftSzkeSr43glTnfxlNxRUBhcRWUzeZdTcsJtO0KgZimKJ6mMT6jE1PLmnBmF3No2yxkWBxcNuQWu4y6mRq8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GCfijvsf5nlN3OXmfgox/GfKHN3KH0rubdPFX36Je1o=;
+ b=ih1jOPb6HxKvYJhirjNaWFvQa4rOVjkl7y/cKJAWDwq0azX/G+P7lZJYsHtxBrQ5FOYdiPj6NAug5C9KoZq9VAl/UhByDhI8skyPFZy29GHSd2LsTku9VkOkMgOlJc+dPQGd1IlQwFIXb/X1rDjb+t2/gUpulY0JTv31sJvyJEzylhTbWf0IZquwjZoMJsJE4Ds3qKJQQy3sOBBnLpaMd2vOnWk8U/c/rvXoOY8vO3ab7Ly/w5JDvP5acB9B+z3Og9subaKf79EhSt5+Ylzzsk+eQTHoVvSbA5r9baWISFmmZtVr2XhwPajvrUVnNj5Hd/p5eobfWNIxxQ/LXx+jbw==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by BLAPR06MB6866.namprd06.prod.outlook.com (2603:10b6:208:297::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
+ 2022 15:21:26 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::433a:1493:6a39:ee43]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::433a:1493:6a39:ee43%5]) with mapi id 15.20.5676.017; Fri, 30 Sep 2022
+ 15:21:25 +0000
+Date:   Fri, 30 Sep 2022 10:21:21 -0500
+From:   Chris Morgan <macromorgan@hotmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, rydberg@bitmath.org,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com
+Subject: Re: [PATCH 2/3] dt-bindings: input: touchscreen: Add Hynitron cstxxx
+ bindings
+Message-ID: <SN6PR06MB5342305DA33462161BC7020DA5569@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20220928214806.13572-1-macroalpha82@gmail.com>
+ <20220928214806.13572-3-macroalpha82@gmail.com>
+ <bcf0e3fe-ba69-2898-ed99-49afd08d1f72@linaro.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bcf0e3fe-ba69-2898-ed99-49afd08d1f72@linaro.org>
+X-TMN:  [FjWmZsnzKntmfmFYg+CrKIZWYqqGk9Qx]
+X-ClientProxiedBy: DS7PR03CA0174.namprd03.prod.outlook.com
+ (2603:10b6:5:3b2::29) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <20220930152121.GA20@wintermute.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|BLAPR06MB6866:EE_
+X-MS-Office365-Filtering-Correlation-Id: 937485ec-78f2-42c8-0817-08daa2f76f8b
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mXoi2LDyAI9iQYRWocjkl0kmSewFS58j73cSPWQLVLhdyYtwQfQAinKRyOJw48rVj+bNwDiwdwag0ikuTqsXEPJw77VKiBI3/HzMPAzTttQJG16vbW8uNWekRYUjYhhuGMq6XvUCryeRDl0TrtZj2Cr5bsFxDtYz4UrMadgoNZPZSBHgMxhE7PxweXvXWSzCo+4uOZksSLa/3TaGniMWJGBZZm8aaZcIF2bQUZ6gvhkQC8FXBsUvsgGv8Zq/f1OmhR0e0lnfXTCz3SeToYq6u5Fcid5u6XqVEJyUGk3g4PW9zsXymWxoboF7GxLIRXhn8zlyaTz/oSKd3FHJ/sXXIwEwvBbUG85kiVCziqKzgBKJ5noYxzrw5IBi1tjDTND3ymGbGZpxSPrl7eraytKfwb19dZtIfKl9lNGpcnSzur1XvJEA5H8Iqv2GjS3O2/WLOtxUmkk+q6XV7S+s8xqRRhJOF4XI79nrfE6jJmiBxjyxNhtJj67piYX6v6/HkuQUzTNI9ZPtG7lcrLKVCtAMFPiWzBnkzCBl8KoCptaLwn3l5trYnr9hyj/tvKknCCWYEYUb6RM1HWXpCDONKzfNJFCTPkGJR8YtpZjaYUFM2Zl7kiqsC9HfHkt3ArPc+YneZIzERjqPZLFMUGKww7Q7WNRnojkEzByL3VB5PX0DTmfEJXikTpnXtO3bGmZF/IRS
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+B2FkOLhZy+IaTHF3Eo5lj6HoVmZevDoMrlssXlIKwzZ7rK3aSSNPh5fOtrN?=
+ =?us-ascii?Q?fRPf76a+YdqWG0oAx62aJmqFX1VfekZ3WNy6dgeFB4XjWn9ufIN14pHpL6jU?=
+ =?us-ascii?Q?bKGhWGTeDBUpob69RANmWHqMmiAxN4L+XQpF15f1C7/F/87heVMdpb+J2fON?=
+ =?us-ascii?Q?ebdjD/asw+rwju/bVtl2xnaCMDhDDMCnoJ41XJavTPIYpEqfotDneqd6//B5?=
+ =?us-ascii?Q?zvqhMu24B5/Oti4FIszCsbXpHt3gvNL4f4NhCldu5qS4bK4F8IOlfcqxXksL?=
+ =?us-ascii?Q?LGyH0OMQjHjjt99xNYNE25iFEEcDUNupYjnK86Od2wd1TqfUYtr+5HlWwTeP?=
+ =?us-ascii?Q?nSHekbfmnA3ylrwYgLhf/3F3FL8IFef3qOMoD+qyV7UwvQifks3+/VYuRn+B?=
+ =?us-ascii?Q?/xMB02DLnidR5tBuUX5/bGoa2G/BroDcEMb52AJKUkCGqU621X/u+kPWHOx7?=
+ =?us-ascii?Q?N4/bze7gGZA4ND3W3DEzJHDLw9Glpl0j3UF15i2Yi5b/c3xfQ1/cwmwmRzS6?=
+ =?us-ascii?Q?iCifyzcLqZAMdAj8L1tZKtTF831RmIwqCskgrUGCHk4ZQHr6fHeriJ4V7UsN?=
+ =?us-ascii?Q?2lKAHWqyEoVX0Jjf4V5RIW2mmQn2MXhJ+ld1gG7RUeMD44czxzOGV6yZAq+r?=
+ =?us-ascii?Q?eHqnbIvZpmA/XbydQtTqu3FhpPfRLXbDBI5xQ5+F+QzmWQk7t15Ps+xLKfBR?=
+ =?us-ascii?Q?1JtFjT1a/9hZmhNBbE0K03bMQ8PtdqLXl7YDT4RtWmdy3861EflRQfPcIgcV?=
+ =?us-ascii?Q?4naNjGFgUkgDY20J9f6A6JRvPeKLoGnMjLChjPKUCDOmsyE0U3lGB/C50oko?=
+ =?us-ascii?Q?ciOGv/Q57jX0WwDOH8UaMUD+XN1aHrItl7s987hUhpkc+WU/+yBAc1aiDPT6?=
+ =?us-ascii?Q?cflect+XKdzuNqJx3uFkN1iUn6SE+vrYEhI9EYIs5ENlEwaEWx1umP937bTB?=
+ =?us-ascii?Q?Nt9RZFI8A5HcuGlO68pNlwbxcBfv0afM+FsbFMDtLWODhKwGtb5CxJ35IN2y?=
+ =?us-ascii?Q?kGbkSkg4KWrEWq1hMfAIFOf4Afb3ruXkn3JOSBweAq/6AanrEJ7cCBCk8P4W?=
+ =?us-ascii?Q?RwydrpaoW8q74yIlDMosnyA80g613o3WhHCg5zNAdbAWFLMKRjDqghUirBRt?=
+ =?us-ascii?Q?S2q8SNy2Bc85mGbpGtNDxqlRJ5LfVWRTgRQRLGmj/fXZoVba9l+SXxMSByaj?=
+ =?us-ascii?Q?INdflX88Wkfj+LGGNLmq1P1/P03FMCRo+4OIlQqBFYqwn8K4UTndeCT2Vjxh?=
+ =?us-ascii?Q?6C4Ah16dhXLwI5ICiwraUxPoffCxo39n9ZQGpV8mfg=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 937485ec-78f2-42c8-0817-08daa2f76f8b
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 15:21:25.8505
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR06MB6866
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On jeu., sept. 29, 2022 at 21:11, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+On Fri, Sep 30, 2022 at 12:54:34PM +0200, Krzysztof Kozlowski wrote:
+> On 28/09/2022 23:48, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add documentation for the Hynitron cstxxx touchscreen bindings.
+> > Hynitron makes a series of touchscreen controllers, however for
+> > now this is expected to only be compatible with the cst3xx series.
+> 
+> Drop redundant (second) bindings from subject.
 
-> Commit 1a59d1b8e05e ("treewide: Replace GPLv2 boilerplate/reference with
-> SPDX - rule 156") has left some empty comment blocks.
->
-> Remove them to save a few lines of code.
->
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Acknowledged.
 
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> 
+> > 
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> >  .../input/touchscreen/hynitron,cstxxx.yaml    | 65 +++++++++++++++++++
+> >  1 file changed, 65 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml
+> > new file mode 100644
+> > index 000000000000..c98d14e9844a
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cstxxx.yaml
+> > @@ -0,0 +1,65 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: https://nam12.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Finput%2Ftouchscreen%2Fhynitron%2Ccstxxx.yaml%23&amp;data=05%7C01%7C%7C15d98f57ab8a4668227508daa2d22a4f%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C638001320776366532%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=qn5TpFejnoa7B3eo6vM3FkKwoi8kAWo1IgxMlKWCkJM%3D&amp;reserved=0
+> > +$schema: https://nam12.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=05%7C01%7C%7C15d98f57ab8a4668227508daa2d22a4f%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C638001320776366532%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=zdV1diLy%2FujTHO6DB2%2BqMp47Eafi4Uz%2FK1kChij4CiQ%3D&amp;reserved=0
+> > +
+> > +title: Hynitron cstxxx series touchscreen controller bindings
+> 
+> Drop "bindings"
+> 
 
-> ---
-> All files I've checked were related to 1a59d1b8e05e, but I've not checked
-> all.
-> ---
->  drivers/input/ff-core.c             | 3 ---
->  drivers/input/ff-memless.c          | 3 ---
->  drivers/input/gameport/emu10k1-gp.c | 3 ---
->  drivers/input/gameport/lightning.c  | 3 ---
->  drivers/input/gameport/ns558.c      | 3 ---
->  drivers/input/joystick/a3d.c        | 3 ---
->  drivers/input/joystick/adi.c        | 3 ---
->  drivers/input/joystick/amijoy.c     | 3 ---
->  drivers/input/joystick/analog.c     | 3 ---
->  drivers/input/joystick/cobra.c      | 3 ---
->  drivers/input/joystick/db9.c        | 3 ---
->  drivers/input/joystick/gamecon.c    | 3 ---
->  drivers/input/joystick/gf2k.c       | 3 ---
->  drivers/input/joystick/grip.c       | 3 ---
->  drivers/input/joystick/guillemot.c  | 3 ---
->  drivers/input/joystick/interact.c   | 3 ---
->  drivers/input/joystick/joydump.c    | 3 ---
->  drivers/input/joystick/magellan.c   | 3 ---
->  drivers/input/joystick/sidewinder.c | 3 ---
->  drivers/input/joystick/spaceball.c  | 3 ---
->  drivers/input/joystick/spaceorb.c   | 3 ---
->  drivers/input/joystick/stinger.c    | 3 ---
->  drivers/input/joystick/tmdc.c       | 3 ---
->  drivers/input/joystick/turbografx.c | 3 ---
->  drivers/input/joystick/twidjoy.c    | 3 ---
->  drivers/input/joystick/warrior.c    | 3 ---
->  drivers/input/joystick/zhenhua.c    | 3 ---
->  drivers/input/keyboard/amikbd.c     | 3 ---
->  drivers/input/keyboard/atakbd.c     | 3 ---
->  drivers/input/keyboard/lkkbd.c      | 3 ---
->  drivers/input/keyboard/newtonkbd.c  | 3 ---
->  drivers/input/keyboard/stowaway.c   | 3 ---
->  drivers/input/keyboard/sunkbd.c     | 3 ---
->  drivers/input/keyboard/xtkbd.c      | 3 ---
->  drivers/input/mouse/inport.c        | 3 ---
->  drivers/input/mouse/logibm.c        | 3 ---
->  drivers/input/mouse/pc110pad.c      | 3 ---
->  drivers/input/mouse/sermouse.c      | 3 ---
->  drivers/input/mouse/vsxxxaa.c       | 3 ---
->  drivers/input/serio/ct82c710.c      | 3 ---
->  drivers/input/serio/q40kbd.c        | 3 ---
->  drivers/input/serio/rpckbd.c        | 3 ---
->  drivers/input/serio/serio.c         | 3 ---
->  drivers/input/tablet/acecad.c       | 3 ---
->  drivers/input/tablet/hanwang.c      | 3 ---
->  drivers/input/touchscreen/gunze.c   | 3 ---
->  46 files changed, 138 deletions(-)
->
-> diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
-> index fa8d1a466014..16231fe080b0 100644
-> --- a/drivers/input/ff-core.c
-> +++ b/drivers/input/ff-core.c
-> @@ -6,9 +6,6 @@
->   *  Copyright (c) 2006 Dmitry Torokhov <dtor@mail.ru>
->   */
->  
-> -/*
-> - */
-> -
->  /* #define DEBUG */
->  
->  #include <linux/input.h>
-> diff --git a/drivers/input/ff-memless.c b/drivers/input/ff-memless.c
-> index 8229a9006917..c321cdabd214 100644
-> --- a/drivers/input/ff-memless.c
-> +++ b/drivers/input/ff-memless.c
-> @@ -6,9 +6,6 @@
->   *  Copyright (c) 2006 Dmitry Torokhov <dtor@mail.ru>
->   */
->  
-> -/*
-> - */
-> -
->  /* #define DEBUG */
->  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> diff --git a/drivers/input/gameport/emu10k1-gp.c b/drivers/input/gameport/emu10k1-gp.c
-> index 11bbd1edfdb4..76ce41e58df0 100644
-> --- a/drivers/input/gameport/emu10k1-gp.c
-> +++ b/drivers/input/gameport/emu10k1-gp.c
-> @@ -7,9 +7,6 @@
->   * EMU10k1 - SB Live / Audigy - gameport driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <asm/io.h>
->  
->  #include <linux/module.h>
-> diff --git a/drivers/input/gameport/lightning.c b/drivers/input/gameport/lightning.c
-> index 87eeb4b5b5b5..2ce717b25a84 100644
-> --- a/drivers/input/gameport/lightning.c
-> +++ b/drivers/input/gameport/lightning.c
-> @@ -7,9 +7,6 @@
->   * PDPI Lightning 4 gamecard driver for Linux.
->   */
->  
-> -/*
-> - */
-> -
->  #include <asm/io.h>
->  #include <linux/delay.h>
->  #include <linux/errno.h>
-> diff --git a/drivers/input/gameport/ns558.c b/drivers/input/gameport/ns558.c
-> index 2f80b7f1b736..91a8cd346e9b 100644
-> --- a/drivers/input/gameport/ns558.c
-> +++ b/drivers/input/gameport/ns558.c
-> @@ -8,9 +8,6 @@
->   * NS558 based standard IBM game port driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <asm/io.h>
->  
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/a3d.c b/drivers/input/joystick/a3d.c
-> index 68475fad177c..fd1827baf27c 100644
-> --- a/drivers/input/joystick/a3d.c
-> +++ b/drivers/input/joystick/a3d.c
-> @@ -7,9 +7,6 @@
->   * FP-Gaming Assassin 3D joystick driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/adi.c b/drivers/input/joystick/adi.c
-> index e10d57bf1180..f1a720be458b 100644
-> --- a/drivers/input/joystick/adi.c
-> +++ b/drivers/input/joystick/adi.c
-> @@ -7,9 +7,6 @@
->   * Logitech ADI joystick family driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/amijoy.c b/drivers/input/joystick/amijoy.c
-> index 12456a196dc7..3752dc2a2086 100644
-> --- a/drivers/input/joystick/amijoy.c
-> +++ b/drivers/input/joystick/amijoy.c
-> @@ -7,9 +7,6 @@
->   * Driver for Amiga joysticks for Linux/m68k
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/types.h>
->  #include <linux/errno.h>
->  #include <linux/kernel.h>
-> diff --git a/drivers/input/joystick/analog.c b/drivers/input/joystick/analog.c
-> index 3088c5b829f0..0c9e172a9818 100644
-> --- a/drivers/input/joystick/analog.c
-> +++ b/drivers/input/joystick/analog.c
-> @@ -7,9 +7,6 @@
->   * Analog joystick and gamepad driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/cobra.c b/drivers/input/joystick/cobra.c
-> index 41e1936a847b..7ff78c9388bd 100644
-> --- a/drivers/input/joystick/cobra.c
-> +++ b/drivers/input/joystick/cobra.c
-> @@ -7,9 +7,6 @@
->   * Creative Labs Blaster GamePad Cobra driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/db9.c b/drivers/input/joystick/db9.c
-> index 434d265fa2e8..4fba28b1a1e7 100644
-> --- a/drivers/input/joystick/db9.c
-> +++ b/drivers/input/joystick/db9.c
-> @@ -10,9 +10,6 @@
->   * Atari, Amstrad, Commodore, Amiga, Sega, etc. joystick driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/delay.h>
-> diff --git a/drivers/input/joystick/gamecon.c b/drivers/input/joystick/gamecon.c
-> index d37645e496ff..41d5dac05448 100644
-> --- a/drivers/input/joystick/gamecon.c
-> +++ b/drivers/input/joystick/gamecon.c
-> @@ -11,9 +11,6 @@
->   *	Raphael Assenat
->   */
->  
-> -/*
-> - */
-> -
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
->  #include <linux/kernel.h>
-> diff --git a/drivers/input/joystick/gf2k.c b/drivers/input/joystick/gf2k.c
-> index 920feba967f6..abefbd1484df 100644
-> --- a/drivers/input/joystick/gf2k.c
-> +++ b/drivers/input/joystick/gf2k.c
-> @@ -7,9 +7,6 @@
->   * Genius Flight 2000 joystick driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/grip.c b/drivers/input/joystick/grip.c
-> index fe798bc87950..0e86b269a90e 100644
-> --- a/drivers/input/joystick/grip.c
-> +++ b/drivers/input/joystick/grip.c
-> @@ -7,9 +7,6 @@
->   * Gravis/Kensington GrIP protocol joystick and gamepad driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/guillemot.c b/drivers/input/joystick/guillemot.c
-> index 8eeacdb007c1..205eb6f8b84d 100644
-> --- a/drivers/input/joystick/guillemot.c
-> +++ b/drivers/input/joystick/guillemot.c
-> @@ -7,9 +7,6 @@
->   * Guillemot Digital Interface Protocol driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/interact.c b/drivers/input/joystick/interact.c
-> index ca22d84e5c84..03a9f0829f7e 100644
-> --- a/drivers/input/joystick/interact.c
-> +++ b/drivers/input/joystick/interact.c
-> @@ -10,9 +10,6 @@
->   * InterAct digital gamepad/joystick driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/joydump.c b/drivers/input/joystick/joydump.c
-> index 70f63f9550e7..865652a7821d 100644
-> --- a/drivers/input/joystick/joydump.c
-> +++ b/drivers/input/joystick/joydump.c
-> @@ -8,9 +8,6 @@
->   * out of the joystick port into the syslog ...
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/gameport.h>
->  #include <linux/kernel.h>
-> diff --git a/drivers/input/joystick/magellan.c b/drivers/input/joystick/magellan.c
-> index edb8e1982e26..017ef8c6170b 100644
-> --- a/drivers/input/joystick/magellan.c
-> +++ b/drivers/input/joystick/magellan.c
-> @@ -7,9 +7,6 @@
->   * Magellan and Space Mouse 6dof controller driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
-> index 8e9672deb1eb..7282301c3ae7 100644
-> --- a/drivers/input/joystick/sidewinder.c
-> +++ b/drivers/input/joystick/sidewinder.c
-> @@ -7,9 +7,6 @@
->   * Microsoft SideWinder joystick family driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/spaceball.c b/drivers/input/joystick/spaceball.c
-> index a85a4f33aea8..fa8ec533cd69 100644
-> --- a/drivers/input/joystick/spaceball.c
-> +++ b/drivers/input/joystick/spaceball.c
-> @@ -11,9 +11,6 @@
->   * SpaceTec SpaceBall 2003/3003/4000 FLX driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/spaceorb.c b/drivers/input/joystick/spaceorb.c
-> index 557171483256..dbbc69f17c89 100644
-> --- a/drivers/input/joystick/spaceorb.c
-> +++ b/drivers/input/joystick/spaceorb.c
-> @@ -10,9 +10,6 @@
->   * SpaceTec SpaceOrb 360 and Avenger 6dof controller driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/joystick/stinger.c b/drivers/input/joystick/stinger.c
-> index c20425f52bd8..530de468cb61 100644
-> --- a/drivers/input/joystick/stinger.c
-> +++ b/drivers/input/joystick/stinger.c
-> @@ -8,9 +8,6 @@
->   * Gravis Stinger gamepad driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/tmdc.c b/drivers/input/joystick/tmdc.c
-> index 7416de84b955..93562ecc0ca1 100644
-> --- a/drivers/input/joystick/tmdc.c
-> +++ b/drivers/input/joystick/tmdc.c
-> @@ -10,9 +10,6 @@
->   * ThrustMaster DirectConnect (BSP) joystick family driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/turbografx.c b/drivers/input/joystick/turbografx.c
-> index dfe7a2cacce2..dfb9c684651f 100644
-> --- a/drivers/input/joystick/turbografx.c
-> +++ b/drivers/input/joystick/turbografx.c
-> @@ -10,9 +10,6 @@
->   * TurboGraFX parallel port interface driver for Linux.
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/parport.h>
->  #include <linux/input.h>
-> diff --git a/drivers/input/joystick/twidjoy.c b/drivers/input/joystick/twidjoy.c
-> index 174c69a188fb..9b6792ac27f1 100644
-> --- a/drivers/input/joystick/twidjoy.c
-> +++ b/drivers/input/joystick/twidjoy.c
-> @@ -32,9 +32,6 @@
->   * Arndt Schoenewald <arndt@quelltext.com>
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/warrior.c b/drivers/input/joystick/warrior.c
-> index 42bdbc28d95d..f66bddf145c2 100644
-> --- a/drivers/input/joystick/warrior.c
-> +++ b/drivers/input/joystick/warrior.c
-> @@ -7,9 +7,6 @@
->   * Logitech WingMan Warrior joystick driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/joystick/zhenhua.c b/drivers/input/joystick/zhenhua.c
-> index d5531179b01f..3f2460e2b095 100644
-> --- a/drivers/input/joystick/zhenhua.c
-> +++ b/drivers/input/joystick/zhenhua.c
-> @@ -28,9 +28,6 @@
->   * coder :-(
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/keyboard/amikbd.c b/drivers/input/keyboard/amikbd.c
-> index 09551f64d53f..a20a4e186639 100644
-> --- a/drivers/input/keyboard/amikbd.c
-> +++ b/drivers/input/keyboard/amikbd.c
-> @@ -10,9 +10,6 @@
->   * Amiga keyboard driver for Linux/m68k
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/init.h>
->  #include <linux/input.h>
-> diff --git a/drivers/input/keyboard/atakbd.c b/drivers/input/keyboard/atakbd.c
-> index 77ed54630601..07e17e563f9b 100644
-> --- a/drivers/input/keyboard/atakbd.c
-> +++ b/drivers/input/keyboard/atakbd.c
-> @@ -21,9 +21,6 @@
->   * This driver only deals with handing key events off to the input layer.
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/init.h>
->  #include <linux/input.h>
-> diff --git a/drivers/input/keyboard/lkkbd.c b/drivers/input/keyboard/lkkbd.c
-> index ea9a1d8834c1..047b654b3752 100644
-> --- a/drivers/input/keyboard/lkkbd.c
-> +++ b/drivers/input/keyboard/lkkbd.c
-> @@ -46,9 +46,6 @@
->   * http://www.vt100.net/manx/details?pn=EK-104AA-TM-001;id=21;cp=1
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/keyboard/newtonkbd.c b/drivers/input/keyboard/newtonkbd.c
-> index 9742261b2d1a..df00a119aa9a 100644
-> --- a/drivers/input/keyboard/newtonkbd.c
-> +++ b/drivers/input/keyboard/newtonkbd.c
-> @@ -7,9 +7,6 @@
->   * Newton keyboard driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/slab.h>
->  #include <linux/module.h>
->  #include <linux/input.h>
-> diff --git a/drivers/input/keyboard/stowaway.c b/drivers/input/keyboard/stowaway.c
-> index a4977193dd4a..56e784936059 100644
-> --- a/drivers/input/keyboard/stowaway.c
-> +++ b/drivers/input/keyboard/stowaway.c
-> @@ -10,9 +10,6 @@
->   *  by Justin Cormack
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/slab.h>
->  #include <linux/module.h>
->  #include <linux/input.h>
-> diff --git a/drivers/input/keyboard/sunkbd.c b/drivers/input/keyboard/sunkbd.c
-> index d450f11b98a7..b123a208ef36 100644
-> --- a/drivers/input/keyboard/sunkbd.c
-> +++ b/drivers/input/keyboard/sunkbd.c
-> @@ -7,9 +7,6 @@
->   * Sun keyboard driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/sched.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/keyboard/xtkbd.c b/drivers/input/keyboard/xtkbd.c
-> index 280796df679a..c9d7c2481726 100644
-> --- a/drivers/input/keyboard/xtkbd.c
-> +++ b/drivers/input/keyboard/xtkbd.c
-> @@ -7,9 +7,6 @@
->   * XT keyboard driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/slab.h>
->  #include <linux/module.h>
->  #include <linux/input.h>
-> diff --git a/drivers/input/mouse/inport.c b/drivers/input/mouse/inport.c
-> index df5d1160478c..401d8bff8e84 100644
-> --- a/drivers/input/mouse/inport.c
-> +++ b/drivers/input/mouse/inport.c
-> @@ -13,9 +13,6 @@
->   * Inport (ATI XL and Microsoft) busmouse driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/ioport.h>
->  #include <linux/init.h>
-> diff --git a/drivers/input/mouse/logibm.c b/drivers/input/mouse/logibm.c
-> index bd647f9f505a..0aab63dbc30a 100644
-> --- a/drivers/input/mouse/logibm.c
-> +++ b/drivers/input/mouse/logibm.c
-> @@ -14,9 +14,6 @@
->   * Logitech Bus Mouse Driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/delay.h>
->  #include <linux/ioport.h>
-> diff --git a/drivers/input/mouse/pc110pad.c b/drivers/input/mouse/pc110pad.c
-> index f75574766b85..efa58049f746 100644
-> --- a/drivers/input/mouse/pc110pad.c
-> +++ b/drivers/input/mouse/pc110pad.c
-> @@ -10,9 +10,6 @@
->   * IBM PC110 touchpad driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/kernel.h>
->  #include <linux/errno.h>
-> diff --git a/drivers/input/mouse/sermouse.c b/drivers/input/mouse/sermouse.c
-> index caa79c177c55..993f90333380 100644
-> --- a/drivers/input/mouse/sermouse.c
-> +++ b/drivers/input/mouse/sermouse.c
-> @@ -7,9 +7,6 @@
->   *  Serial mouse driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/mouse/vsxxxaa.c b/drivers/input/mouse/vsxxxaa.c
-> index 3bd6e723a422..8af8e4a15f95 100644
-> --- a/drivers/input/mouse/vsxxxaa.c
-> +++ b/drivers/input/mouse/vsxxxaa.c
-> @@ -12,9 +12,6 @@
->   * Later on, I had access to the device's documentation (referenced below).
->   */
->  
-> -/*
-> - */
-> -
->  /*
->   * Building an adaptor to DE9 / DB25 RS232
->   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> diff --git a/drivers/input/serio/ct82c710.c b/drivers/input/serio/ct82c710.c
-> index 752ce60e2211..3da751f4a6bf 100644
-> --- a/drivers/input/serio/ct82c710.c
-> +++ b/drivers/input/serio/ct82c710.c
-> @@ -7,9 +7,6 @@
->   *  82C710 C&T mouse port chip driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/delay.h>
->  #include <linux/module.h>
->  #include <linux/ioport.h>
-> diff --git a/drivers/input/serio/q40kbd.c b/drivers/input/serio/q40kbd.c
-> index a1c61f5de047..ba04058fc3cb 100644
-> --- a/drivers/input/serio/q40kbd.c
-> +++ b/drivers/input/serio/q40kbd.c
-> @@ -10,9 +10,6 @@
->   * Q40 PS/2 keyboard controller driver for Linux/m68k
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/serio.h>
->  #include <linux/interrupt.h>
-> diff --git a/drivers/input/serio/rpckbd.c b/drivers/input/serio/rpckbd.c
-> index 7008bc101415..ce420eb1f51b 100644
-> --- a/drivers/input/serio/rpckbd.c
-> +++ b/drivers/input/serio/rpckbd.c
-> @@ -8,9 +8,6 @@
->   * Acorn RiscPC PS/2 keyboard controller driver for Linux/ARM
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/module.h>
->  #include <linux/interrupt.h>
->  #include <linux/serio.h>
-> diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
-> index ec117be3d8d8..15ce3202322f 100644
-> --- a/drivers/input/serio/serio.c
-> +++ b/drivers/input/serio/serio.c
-> @@ -7,9 +7,6 @@
->   *  Copyright (c) 2003 Daniele Bellucci
->   */
->  
-> -/*
-> - */
-> -
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
->  #include <linux/stddef.h>
-> diff --git a/drivers/input/tablet/acecad.c b/drivers/input/tablet/acecad.c
-> index 80e06727464d..b20e5a1afbcc 100644
-> --- a/drivers/input/tablet/acecad.c
-> +++ b/drivers/input/tablet/acecad.c
-> @@ -9,9 +9,6 @@
->   *      v3.2 - Added sysfs support
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> diff --git a/drivers/input/tablet/hanwang.c b/drivers/input/tablet/hanwang.c
-> index e492a0331b24..9bc631518b92 100644
-> --- a/drivers/input/tablet/hanwang.c
-> +++ b/drivers/input/tablet/hanwang.c
-> @@ -5,9 +5,6 @@
->   *  Copyright (c) 2010 Xing Wei <weixing@hanwang.com.cn>
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/types.h>
->  #include <linux/kernel.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/input/touchscreen/gunze.c b/drivers/input/touchscreen/gunze.c
-> index e07e8e0fe8ea..5a5f9da73fa1 100644
-> --- a/drivers/input/touchscreen/gunze.c
-> +++ b/drivers/input/touchscreen/gunze.c
-> @@ -7,9 +7,6 @@
->   * Gunze AHL-51S touchscreen driver for Linux
->   */
->  
-> -/*
-> - */
-> -
->  #include <linux/errno.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> -- 
-> 2.34.1
+Acknowledged.
+
+> > +
+> > +description: |
+> > +  Bindings for Hynitron cstxxx series multi-touch touchscreen
+> > +  controllers.
+> > +
+> > +maintainers:
+> > +  - Chris Morgan <macromorgan@hotmail.com>
+> > +
+> > +allOf:
+> > +  - $ref: touchscreen.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - hynitron,cst3xx
+> 
+> Isn't the panel CST3240? No wildcards in compatibles.
+> 
+
+The controller IC I'm using is CST348. This driver SHOULD
+also work with a CST340 and a CST356 (untested though).
+
+Should I just have 3 compatible strings then, one for each IC?
+I could also just have cst340 as the compatible and note it
+should work for the 3 ICs listed.
+
+> 
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +
+> 
+> Best regards,
+> Krzysztof
+> 
+
+Once again, thank you for your input.
