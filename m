@@ -2,63 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BDBB5F02E7
-	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 04:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3FE05F0677
+	for <lists+linux-input@lfdr.de>; Fri, 30 Sep 2022 10:31:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiI3CmQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Sep 2022 22:42:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
+        id S230266AbiI3Ib5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Sep 2022 04:31:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229743AbiI3CmP (ORCPT
+        with ESMTP id S230356AbiI3Ibz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Sep 2022 22:42:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A455139BD9;
-        Thu, 29 Sep 2022 19:42:14 -0700 (PDT)
+        Fri, 30 Sep 2022 04:31:55 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0730311265D
+        for <linux-input@vger.kernel.org>; Fri, 30 Sep 2022 01:31:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3328DB82705;
-        Fri, 30 Sep 2022 02:42:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5B85C433C1;
-        Fri, 30 Sep 2022 02:42:11 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F032BB82720
+        for <linux-input@vger.kernel.org>; Fri, 30 Sep 2022 08:31:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2CCC433D7;
+        Fri, 30 Sep 2022 08:31:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664505731;
-        bh=89J+XT342DOuM16MG6vi3VPlCbMluYda7siQ4WgQfOk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TgYwqSxB1RmxJ2hVL/hIVDZ70dbrdDBEIX295dr+XigaohWEvgEFAJl34Fs6fMgsX
-         a53mC0sfc/OM1sHbLTmxuj13+8DDHkaCscCYZmCdpByyi8CoEc+9+PTwV5QhHHDXAJ
-         hw0mPnkoHvsbQQu4dcqOF2+G3fTXEu+1kQ2SiKXRwQeIcKA8cuxjKp0f2MWQVCxXq3
-         b9LMNpyYE5szGt9quP24jHwXtAe4J80ynccOu0CrAkg+33DlB2LncphHfXUGD+j4VQ
-         E+lIdFO+EusUHooOgb6OuWydkLd2gGcX5Bf0pIxYXLZ/7qEky/G72yDVvgKprRn0rL
-         6OoIasfBsP51w==
-Received: by mail-vs1-f54.google.com with SMTP id m65so3500947vsc.1;
-        Thu, 29 Sep 2022 19:42:11 -0700 (PDT)
-X-Gm-Message-State: ACrzQf00INq3FsugomVH7ot/hd4MQUyZqV72gO7xMAp03qyvS+INCd8h
-        NN/H4Wi8gSWQPynJZTFwVgT+FPXryEToKGWMhok=
-X-Google-Smtp-Source: AMsMyM6l0s42TpcL/m101J48xwB6udwVmDcTuy8DNrZpc0blyfUFDSuufF3zt59VsyIIr36sML9MzAshM/nVlYaON24=
-X-Received: by 2002:a67:d491:0:b0:398:1bbc:bc85 with SMTP id
- g17-20020a67d491000000b003981bbcbc85mr3198312vsj.59.1664505730773; Thu, 29
- Sep 2022 19:42:10 -0700 (PDT)
+        s=k20201202; t=1664526709;
+        bh=sbLUUW5CTJybjg/x966X+Ddz3Ld0koFbyTCy3nVLSKQ=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=p6iSBs19WBc0SXQYGQt8tl581TGrbb8bX5Fuf5U2mRAo7W6jdXBty+lgy46wvwEse
+         hZEfsMBG7904C4VghmMVbp/Hwgxf0TvW0dEQ2cNhBkTMwfFVzB24eG54LKITnRvB3e
+         5nKUP02H63NBE9ohRGD0pLXXe3najsomjQUzBrwzKCATIWJm9LsULRDPew4zPqnt29
+         W1wJBW4zJYx9uY/H9iKLNuJdNFg92oM0j/ZdXHSkcE788xOwEx+Mr55ZBhmM78kfkI
+         +RwH35opc1Gr6OVRYOr78X/rVmnV/3t5LadepoMmOvnaHObPK07TAFQu7kSlDKxK4Z
+         GE0wEM9h9udtw==
+Date:   Fri, 30 Sep 2022 10:31:46 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Updates to amd_sfh driver
+In-Reply-To: <20220927102726.1599178-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2209301031410.16823@cbobk.fhfr.pm>
+References: <20220927102726.1599178-1-Basavaraj.Natikar@amd.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20220917064020.1639709-1-chenhuacai@loongson.cn>
- <20220917064020.1639709-2-chenhuacai@loongson.cn> <87a66rhkri.fsf@baylibre.com>
-In-Reply-To: <87a66rhkri.fsf@baylibre.com>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Fri, 30 Sep 2022 10:41:59 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6YLstS+GqaXv2Y9p_QVAU4x=nrunP_Hd2GeznOWG6q4g@mail.gmail.com>
-Message-ID: <CAAhV-H6YLstS+GqaXv2Y9p_QVAU4x=nrunP_Hd2GeznOWG6q4g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: i8042: Add LoongArch support in i8042-acpipnpio.h
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        loongarch@lists.linux.dev, linux-arch@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -68,84 +52,24 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi, Mattijs,
+On Tue, 27 Sep 2022, Basavaraj Natikar wrote:
 
-On Thu, Sep 22, 2022 at 4:32 PM Mattijs Korpershoek
-<mkorpershoek@baylibre.com> wrote:
->
-> On Sat, Sep 17, 2022 at 14:40, Huacai Chen <chenhuacai@loongson.cn> wrote:
->
-> > LoongArch uses ACPI and nearly the same as X86/IA64 for 8042. So modify
-> > i8042-acpipnpio.h slightly and enable it for LoongArch in i8042.h. Then
-> > i8042 driver can work well under the ACPI firmware with PNP typed key-
-> > board and mouse configured in DSDT.
-> >
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
->
-> I would have split the pr_info() move in its own patch since it seems
-> like a "valid fix" on its own, but i'm probably too pedantic about this.
->
-> So, please take my:
->
-> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-I think the pr_info is needed for all architectures, and the moving is
-very simple so I haven't split it. But anyway, if Dmitry also thinks
-this patch should be split, I will send a new version. :)
+> Changes includes to replace dev_err to dev_dbg and to handle
+> "no sensors" case for SFH1.1.
+> 
+> v2:
+>         - Add more verbose changelog 
+> 
+> Basavaraj Natikar (2):
+>   HID: amd_sfh: Change dev_err to dev_dbg for additional debug info
+>   HID: amd_sfh: Handle condition of "no sensors" for SFH1.1
+> 
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 
-Huacai
->
-> > ---
-> >  drivers/input/serio/i8042-acpipnpio.h | 8 ++++++--
-> >  drivers/input/serio/i8042.h           | 2 +-
-> >  2 files changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-> > index d14b9fb59d6c..c22151f180bb 100644
-> > --- a/drivers/input/serio/i8042-acpipnpio.h
-> > +++ b/drivers/input/serio/i8042-acpipnpio.h
-> > @@ -2,6 +2,7 @@
-> >  #ifndef _I8042_ACPIPNPIO_H
-> >  #define _I8042_ACPIPNPIO_H
-> >
-> > +#include <linux/acpi.h>
-> >
-> >  #ifdef CONFIG_X86
-> >  #include <asm/x86_init.h>
-> > @@ -1449,16 +1450,19 @@ static int __init i8042_pnp_init(void)
-> >
-> >       if (!i8042_pnp_kbd_devices && !i8042_pnp_aux_devices) {
-> >               i8042_pnp_exit();
-> > +             pr_info("PNP: No PS/2 controller found.\n");
-> >  #if defined(__ia64__)
-> >               return -ENODEV;
-> > +#elif defined(__loongarch__)
-> > +             if (acpi_disabled == 0)
-> > +                     return -ENODEV;
-> >  #else
-> > -             pr_info("PNP: No PS/2 controller found.\n");
-> >               if (x86_platform.legacy.i8042 !=
-> >                               X86_LEGACY_I8042_EXPECTED_PRESENT)
-> >                       return -ENODEV;
-> > +#endif
-> >               pr_info("Probing ports directly.\n");
-> >               return 0;
-> > -#endif
-> >       }
-> >
-> >       if (i8042_pnp_kbd_devices)
-> > diff --git a/drivers/input/serio/i8042.h b/drivers/input/serio/i8042.h
-> > index bf2592fa9a78..adb5173372d3 100644
-> > --- a/drivers/input/serio/i8042.h
-> > +++ b/drivers/input/serio/i8042.h
-> > @@ -19,7 +19,7 @@
-> >  #include "i8042-snirm.h"
-> >  #elif defined(CONFIG_SPARC)
-> >  #include "i8042-sparcio.h"
-> > -#elif defined(CONFIG_X86) || defined(CONFIG_IA64)
-> > +#elif defined(CONFIG_X86) || defined(CONFIG_IA64) || defined(CONFIG_LOONGARCH)
-> >  #include "i8042-acpipnpio.h"
-> >  #else
-> >  #include "i8042-io.h"
-> > --
-> > 2.31.1
->
+Applied, thanks.
+
+-- 
+Jiri Kosina
+SUSE Labs
+
