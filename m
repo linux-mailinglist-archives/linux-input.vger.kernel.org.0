@@ -2,64 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB7C15F19AE
-	for <lists+linux-input@lfdr.de>; Sat,  1 Oct 2022 05:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39E765F19B8
+	for <lists+linux-input@lfdr.de>; Sat,  1 Oct 2022 06:01:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231766AbiJADqz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Sep 2022 23:46:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56172 "EHLO
+        id S229445AbiJAEBj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 1 Oct 2022 00:01:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiJADqx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Sep 2022 23:46:53 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EC5C128480;
-        Fri, 30 Sep 2022 20:46:53 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id jo24so4907816plb.13;
-        Fri, 30 Sep 2022 20:46:53 -0700 (PDT)
+        with ESMTP id S229505AbiJAEBi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Oct 2022 00:01:38 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D3310F1;
+        Fri, 30 Sep 2022 21:01:37 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id bh13so5675645pgb.4;
+        Fri, 30 Sep 2022 21:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=lBzA4B/TYsozerdKcB4bgC9z78yNHBixXdc+yAYw69M=;
-        b=KsVJ9LVSupF/UjzMVjNCt3Gx2MVlWgNmY6JkgBSI5uLNUc5agx3TIBB1OJvn01vUwE
-         73iOTo6M/XlJuatgldflzAEPcAl/TjyFOlNJXoWC6RC+O6lgZonGaYSPQu7L9666cMce
-         lolhsi5+QjmVNpS97IZexX5NOrhNY+UvRxvOxzRcyWNlrHVEiT/okbfTcZl0h6WSpweF
-         VRAov+MZOrGZc6uthfBevOjVUy2OpDNIjiTagR2fco6RTzvaSPmqg5ZWvsOIvDHP4+Rh
-         X/yGDgB3Qzl/RjrE3djJzhHfJ3bQ7092sG2gnwQ4CGYKf4TtmTq2v6bg31jkToAc/SFk
-         XgSA==
+        bh=xBo/CftijzOZqkXLxJxm2wPfWqBicyrtdJ0UG3wUhMU=;
+        b=UI/pqthtUPhXo5VIroerhfH2ZyqsiF5l31+DScpWPz7xKAZdwX9plXgMyZ4nhgX/5N
+         xgXuvkv8KT0sIDQT7p41dHjlwNH3CIUo6jP1gQJhpCBWE/0+BOSFmYeP92F2dkYi0Deg
+         EEyku0AHPbQ9XogWNRypAGYVgytaFPkZ6CU19UiBmowi6Rr811XcKEcRhj+JgGAdRUL0
+         dbPtIfJPDrMz5xZrslFopaeFpOa1+DF8ymlgnnOhiIzbqOzyKVBm+KiABqjLtZqTAZlu
+         wQo+/D/0l0T8bFDq+8GmzvYZ2kgE/cyODvwcakP9XKdL/Vb3hXUC6KMvoki6xddOcvRF
+         FlLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=lBzA4B/TYsozerdKcB4bgC9z78yNHBixXdc+yAYw69M=;
-        b=rZYTHRPBIvFme2FRKiKHn+0rjiEBz/v1r+yMXVhLqB8xLkWtx1wOD6WGKwQQTZchLJ
-         pYZ97IU4rS5dA8k6/Tgz1/ctD6r8MHduRhPignTb/Ni41Wmy6YJLIYIL41hxpZDTeNCm
-         cZnUEwDRyxm3Jp5DPBxxRbD3jVeC3DRjfUjY2gArWTg04/n2JeT+dcuIMXZrXkJxuH/S
-         D/N0Llw0Reg4211XQihgQIMWDI/xn2aW0M2aAGAxjCnx7lS8YTrZnUpUMMpyLll002Tq
-         Z2zVaM1t88kJjh+wpbg4KUHIg5rO5wkILxCmAvVVPNg38bs4EY4f1dOhpq/dTaddt8Td
-         +rBg==
-X-Gm-Message-State: ACrzQf2n9iUlmgSCPXLHg1DLWyL4DSB+JYDINZOxBVgu4NZS5FHXijny
-        Fum74G0OFBo4yH0+kGnvb4o=
-X-Google-Smtp-Source: AMsMyM7Xb03Z+AgRjWKJRSf7RVCsqto4/oUQ/FYiK09yUSUZuVzST89CWHz75Jnnta0WPzhSkVjI7A==
-X-Received: by 2002:a17:902:b907:b0:178:2898:8084 with SMTP id bf7-20020a170902b90700b0017828988084mr11871814plb.140.1664596012532;
-        Fri, 30 Sep 2022 20:46:52 -0700 (PDT)
+        bh=xBo/CftijzOZqkXLxJxm2wPfWqBicyrtdJ0UG3wUhMU=;
+        b=Q83GVog9wgNNE/b61OmOYByi4C+80PbzZDYkp+Xg4byJRwJCEX9WO/eSMmIm1zEC5V
+         NNbojSLYHEJiyH5T4QfjzmOOJKJW7wmjAZWTzN5Srl6R9iYuMRwIsdnYszK2DJugn6Fg
+         nZJNIwUii42WmYmsa52Pou1q5gW8tf3lUWChQ4ujFDWd3AR88CzdDYHCU9MetMCgqr4f
+         kLahm5hCKR/jvdrBN7VhV5JOzKbOgTXg5+bShkvB7vwqGbXCeEiqCPAXxsO6kUOnVEge
+         +XAQqf9GQBkFPU1D7weQBEwAEdQqk8hEFqSPCkrBURxKbntQIEbB4rNT+iAOs4u9LOyU
+         fcnQ==
+X-Gm-Message-State: ACrzQf2Ny+OCni6UifXZzGxhHEZZnpGXFfwZDeLlHriXbovEeLob6qPG
+        lDm0a86p23eNNo5JuWPsbgM=
+X-Google-Smtp-Source: AMsMyM53DEEQr6ur4zVq8qM9/HPNM7f4ZCkU2XM9jvarIqKUQ86RVfdYQIfMn6uoGfqL1wGSjcYr7g==
+X-Received: by 2002:a63:93:0:b0:439:c1de:3bb3 with SMTP id 141-20020a630093000000b00439c1de3bb3mr10485777pga.319.1664596897029;
+        Fri, 30 Sep 2022 21:01:37 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:63e7:415:943b:4707])
-        by smtp.gmail.com with ESMTPSA id l6-20020a6542c6000000b004277f43b736sm2405422pgp.92.2022.09.30.20.46.51
+        by smtp.gmail.com with ESMTPSA id y6-20020aa78f26000000b00540b3be3bf6sm2618483pfr.196.2022.09.30.21.01.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 20:46:51 -0700 (PDT)
-Date:   Fri, 30 Sep 2022 20:46:49 -0700
+        Fri, 30 Sep 2022 21:01:36 -0700 (PDT)
+Date:   Fri, 30 Sep 2022 21:01:33 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: Drop empty comment
-Message-ID: <Yze4KUiUvcnt+jh5@google.com>
-References: <26a2b905b259bfffaf2de5b26f2007b8606970ed.1664478665.git.christophe.jaillet@wanadoo.fr>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: input: Convert hid-over-i2c to DT schema
+Message-ID: <Yze7nYsh98yGpfxI@google.com>
+References: <20220927150916.1091217-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <26a2b905b259bfffaf2de5b26f2007b8606970ed.1664478665.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220927150916.1091217-1-robh@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -70,13 +71,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 09:11:36PM +0200, Christophe JAILLET wrote:
-> Commit 1a59d1b8e05e ("treewide: Replace GPLv2 boilerplate/reference with
-> SPDX - rule 156") has left some empty comment blocks.
+On Tue, Sep 27, 2022 at 10:09:15AM -0500, Rob Herring wrote:
+> Convert the hid-over-i2c binding to DT schema format. The supplies should
+> probably be specific to a specific device, but it seems they are already
+> in use otherwise. 'wakeup-source' is added as it was not explicitly
+> documented.
 > 
-> Remove them to save a few lines of code.
+> There's a few warnings for undocumented properties 'vcc-supply' and
+> 'reset-gpios'. Those remain as they probably should have a specific
+> compatible as well.
 > 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
 Applied, thank you.
 
