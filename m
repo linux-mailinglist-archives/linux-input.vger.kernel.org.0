@@ -2,116 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E882D5F2076
-	for <lists+linux-input@lfdr.de>; Sun,  2 Oct 2022 00:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604C85F22F3
+	for <lists+linux-input@lfdr.de>; Sun,  2 Oct 2022 13:34:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbiJAWve (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 1 Oct 2022 18:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39622 "EHLO
+        id S229815AbiJBLe4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Oct 2022 07:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbiJAWvV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Oct 2022 18:51:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C200340E1B;
-        Sat,  1 Oct 2022 15:51:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229449AbiJBLew (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 07:34:52 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20CD9165A2;
+        Sun,  2 Oct 2022 04:34:49 -0700 (PDT)
+Received: from mail.onse.fi (87-95-225-209.bb.dnainternet.fi [87.95.225.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5D519B80C01;
-        Sat,  1 Oct 2022 22:51:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6130BC433D6;
-        Sat,  1 Oct 2022 22:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664664670;
-        bh=hrLQYppdb7CqP7xkSUXXw+Qfwy9vLVycX6g7AnyQiXU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MY83KDh/K1C+sxW/JJ+PABlv1x8mKBQaY6/KL4yDlClyQMCvW/0lPkRrjBCSttgoL
-         CkUkU03dhlFprIdaaXrnSIGppnvivMok9p/1tGBcYOyEOepjJ1kGrUVnnCaRuh4zFJ
-         eS7k+qf+5JzpZA0q+48IV+65wqy5nFS+gjRGe10IJrzEI8YLWcjztAvkz33laBEu+0
-         T2ElLnfWRcpJ3fzulmsThKiZYfcplkvON3y6Y2Q/25oDz/3ItrApUrepYa8tP3ONXW
-         iD/2mAOPjrg/JVe3egZohk31KyxAP3goVrgFmnom+F03AthC6kpqaVHO/CUQkoTAlW
-         yUMfaHSQV8YCQ==
-Date:   Sun, 2 Oct 2022 00:51:06 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Raul E Rangel <rrangel@chromium.org>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, dmitry.torokhov@gmail.com,
-        hdegoede@redhat.com, rafael@kernel.org,
-        mika.westerberg@linux.intel.com, mario.limonciello@amd.com,
-        timvp@google.com, linus.walleij@linaro.org, jingle.wu@emc.com.tw,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 07/13] i2c: acpi: Use ACPI wake capability bit to set
- wake_irq
-Message-ID: <YzjEWisPFQ312w90@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Raul E Rangel <rrangel@chromium.org>, linux-acpi@vger.kernel.org,
-        linux-input@vger.kernel.org, andriy.shevchenko@linux.intel.com,
-        dmitry.torokhov@gmail.com, hdegoede@redhat.com, rafael@kernel.org,
-        mika.westerberg@linux.intel.com, mario.limonciello@amd.com,
-        timvp@google.com, linus.walleij@linaro.org, jingle.wu@emc.com.tw,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220929161917.2348231-1-rrangel@chromium.org>
- <20220929093200.v6.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
+        (Authenticated sender: anssi.hannula)
+        by meesny.iki.fi (Postfix) with ESMTPSA id F402220048;
+        Sun,  2 Oct 2022 14:34:45 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1664710486;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=26aK0X8sSRVV4NLxJX755bfG54xzNcdDxpvJf/0n8B0=;
+        b=JcKAw3gVOAUp4eqAtZXBTTSWl18rO+tItfM20urAbXaKYiFhA7PYw8pD6L3L5E3bkC0koa
+        kuAjLacM+1AWP9SXG9iaeaDVpfSop8Qr125G79+OMR5UHhQ/oFAz/sxCpZur9uVo56hDMD
+        O8L7L5zb51Gkejqa9TYc7l2QwMpLAeY=
+Received: from mail.onse.fi (delta.onse.fi [127.0.0.1])
+        by mail.onse.fi (Postfix) with ESMTP id 24BAD3200A4;
+        Sun,  2 Oct 2022 14:34:45 +0300 (EEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.onse.fi 24BAD3200A4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anssih.iki.fi;
+        s=default; t=1664710485;
+        bh=26aK0X8sSRVV4NLxJX755bfG54xzNcdDxpvJf/0n8B0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cAFLN82F1SwCTAlga4a//llHuCGDv+5MyC2MbUP/NS36lVPYfSkeM+NyWeRMKfXyA
+         JOjKnaM3GdHV2m/f4IZfY/Wnkr70GdI7se6oNQmNt33UaQxu6iKZ6pewkscl8Z3Tte
+         8zb9m0C2SmaTb9SG0TjpHVOTb+++7LvD3DDbaFkQ=
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="HQTkTiUnVoPhWCYs"
-Content-Disposition: inline
-In-Reply-To: <20220929093200.v6.7.I8af4282adc72eb9f247adcd03676a43893a020a6@changeid>
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Date:   Sun, 02 Oct 2022 14:34:45 +0300
+From:   Anssi Hannula <anssi.hannula@iki.fi>
+To:     Paul Dino Jones <paul@spacefreak18.xyz>
+Cc:     jikos@kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usbhid: Interpret 0 length ff effects as infinite
+ (0xffff) length effects
+In-Reply-To: <20221001221657.gexisc2egjn3mpog@localhost.localdomain>
+References: <20221001221657.gexisc2egjn3mpog@localhost.localdomain>
+Message-ID: <93f708f3f9ac8b5c94e6d0b86c1efaa3@iki.fi>
+X-Sender: anssi.hannula@iki.fi
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=anssi.hannula smtp.mailfrom=anssi.hannula@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1664710486; a=rsa-sha256; cv=none;
+        b=PuawkDF2iCtKTwxVTv4ZsZh/2WDYC8NH09Pv06qhrcWmaJs6YEzpnjslp3WV/NAqjU2X57
+        Eb3fNOkckltKJBPvjiqIXZNUibqFshCaRdzzXbYJhDgf4LvBjxTvBzgTwnIl2Gpu7Et3iv
+        SCHy/U43bfx3iAWUWWUAqL0+Y2G+iOk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1664710486;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:dkim-signature;
+        bh=26aK0X8sSRVV4NLxJX755bfG54xzNcdDxpvJf/0n8B0=;
+        b=Wk+tzMPM/M0uTPWyHcluiohPfcAmqezqs+W65FYWNChCBt4N6pKnu0MeziNdkFXP/fxWIy
+        HAIZi2IdlfRGmEUVWbwDDOM5wWQ4NGGHVwZ+NAp1UyKxf2DWIqBpxcEFOMRf/906dY0hFo
+        bVcgpE28nQyczgHG/u1SZgfG3cT4WAM=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Paul Dino Jones kirjoitti 2022-10-02 01:16:
+> Greetings,
 
---HQTkTiUnVoPhWCYs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello, and thanks for looking into this!
 
-On Thu, Sep 29, 2022 at 10:19:11AM -0600, Raul E Rangel wrote:
-> Device tree already has a mechanism to pass the wake_irq. It does this
-> by looking for the wakeup-source property and setting the
-> I2C_CLIENT_WAKE flag. This CL adds the ACPI equivalent. It uses the
-> ACPI interrupt wake flag to determine if the interrupt can be used to
-> wake the system. Previously the i2c drivers had to make assumptions and
-> blindly enable the wake IRQ. This can cause spurious wake events. e.g.,
-> If there is a device with an Active Low interrupt and the device gets
-> powered off while suspending, the interrupt line will go low since it's
-> no longer powered and wakes the system. For this reason we should
-> respect the board designers wishes and honor the wake bit defined on the
-> interrupt.
->=20
-> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
-> Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> I started using my Accuforce V2 sim wheel on Linux. I was getting no
+> response from racing simulators through wine, while native linux test
+> tools worked properly. It appears that many real-world applications 
+> will
+> send 0 as the replay length, which was resulting in the behavior I was
+> observing (nothing). The PID document does not explicitly state that 0
+> length effects should be interpreted as infinite, but it does mention
+> null effects being infinite effects.
 
-I assume this goes in with the rest of this series, so:
+Actually, it is Wine that is translating 0xFFFF from the application to 
+0x0000 for the Linux FF API:
+https://gitlab.winehq.org/wine/wine/-/blob/master/dlls/winebus.sys/bus_udev.c#L1124
 
-Acked-by: Wolfram Sang <wsa@kernel.org>
+Unfortunately "infinite" duration is not actually specified at all in 
+our API currently.
+input.h just says that the all durations are in msecs and values above 
+0x7fff cause unspecified results.
+
+We have three places where the duration is handled:
+- ff-memless: Considers 0 as infinite (in ml_get_combo_effect() and 
+calculate_next_time()).
+- iforce-ff: Just passes the duration to HW as-is - it is unknown what 
+counts as infinite, if any.
+- pidff: Just passes the duration to HW as-is, so using the 
+unspecified-by-API 0xffff results in infinite duration (per USB HID PID 
+spec).
+
+So we probably want to specify some value to work as infinite, likely 
+either 0 or 0xFFFF, and explicitly document that in input.h.
+I suspect that ff-memless devices are currently the most popular, and 
+e.g. Wine already assumes 0 is infinite, and I can't think of a reason 
+to have an "actual" 0-duration effect, so I guess 0 would be the most 
+sensible value.
+
+Since iforce is an "ancestor" of HID PID of sorts, it may also support 
+0xffff = infinite.
+I'll try to get hold of one to test, though it may take a couple of 
+weeks...
 
 
---HQTkTiUnVoPhWCYs
-Content-Type: application/pgp-signature; name="signature.asc"
+> This patch will interpret 0 length force feedback effects as 0xffff
+> (infinite) length effects, leaving other values for replay length
+> unchanged.
+> 
+> Signed-off-by: Paul Dino Jones <paul@spacefreak18.xyz>
+> ---
+>  drivers/hid/usbhid/hid-pidff.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/usbhid/hid-pidff.c 
+> b/drivers/hid/usbhid/hid-pidff.c
+> index 3b4ee21cd811..70653451c860 100644
+> --- a/drivers/hid/usbhid/hid-pidff.c
+> +++ b/drivers/hid/usbhid/hid-pidff.c
+> @@ -301,7 +301,7 @@ static void pidff_set_effect_report(struct
+> pidff_device *pidff,
+>  		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
+>  	pidff->set_effect_type->value[0] =
+>  		pidff->create_new_effect_type->value[0];
+> -	pidff->set_effect[PID_DURATION].value[0] = effect->replay.length;
+> +	pidff->set_effect[PID_DURATION].value[0] = effect->replay.length ==
+> 0 ? 0xffff : effect->replay.length;
+>  	pidff->set_effect[PID_TRIGGER_BUTTON].value[0] = 
+> effect->trigger.button;
+>  	pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] =
+>  		effect->trigger.interval;
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmM4xFkACgkQFA3kzBSg
-KbbtMg/+OeOfIdnhO43tSGXnoUHdJyhiRUBhiHgxZ6tCwJncYH1fBBPBW5hAu2CY
-+LD1pDaU5JqerLqTrOd9K/8SOduwPmzP0aOtE3sH0mMDh77pJYri5RacSUI6b+SB
-NC7yQCw6Sgpeht+VWIfe07lvwPZPFe4Mc49vzDEK0tJ859w2LBKOSQc6jfW8GVTY
-zvKtds6bd81I3LC3A1AoPM6p3PzZTuD6SZqEYP8OxAHwyhtv8Le36UL2G9/zACXZ
-X3IHNSCUnMSYder+r0tKAaGvImogEIL9vDjs5rbR6AKwiPu1kHjYDsM9U1UADygP
-xCHlhyanqZnhBt7XyI9Jfb1ah770yO5txqkJGOZ4FUbjbeQvq7rD12sBnt5PI7Vf
-3kDVHavhUtuZwd4QVH6LzJGuvvbndlVH795+Sz0CqLGi2JrsPbJyK2pyUS6rOW6p
-numLwypXGDJ4ymCplMnlONPF9fRxfd3YpvSCzuaZp/6QHr/JTqKBq3buNHHt9VB+
-R2lAow75vsNg605v6vbquQw0OZ+ZH8FMZo81UsnH44Vd6oYpi3w2Ksb7VvK8Z9I4
-vCk5a8tymFk/XI3137GxAwMCKGI269l4JaUQ6haUtALk6vVQ7B4y0ISdbETas8nt
-GaW0TWAYc36Wpw+iq7uRYMwWGqbM9dTSm+21c9MmOoNTH5YLYqA=
-=Xy2M
------END PGP SIGNATURE-----
-
---HQTkTiUnVoPhWCYs--
+-- 
+Anssi Hannula
