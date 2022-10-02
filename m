@@ -2,108 +2,253 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E045F25D6
-	for <lists+linux-input@lfdr.de>; Mon,  3 Oct 2022 00:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 409A55F2604
+	for <lists+linux-input@lfdr.de>; Mon,  3 Oct 2022 00:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbiJBWDT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Oct 2022 18:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40100 "EHLO
+        id S229476AbiJBWoi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Oct 2022 18:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiJBWDS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 18:03:18 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0152C275FC;
-        Sun,  2 Oct 2022 15:03:18 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id a20so5508477qtw.10;
-        Sun, 02 Oct 2022 15:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=Qg4yyErPUncyCJdQ1nvfpMRxyzrZyv+cJzjP7rwEnbM=;
-        b=ak9flzB6kb576roEAB/Tqn1RMvZylEju9CQd9g/lppQGP5pd5OcGDzy7It+HwiyVYG
-         uQaTQOkMrLfMOKv+HL53moNArxsm+/uGG0fyCoyO96eln8K8FDHGwxsrx4e/ze2jhT1U
-         yZUzcNO4S9aEdEPoIo8rbGETjOzEjT3+PsH5y1iMAf+vb6LvBZRpuaOc9NOyYxoFER46
-         JUGKK1fA5yg+MJ72Rf+ALLAfnn44w9MQBki3198Pa0jyxI+ujRlrViQfMUWd4G715jz9
-         PIv59a93blxlU3UlGV0uplHbR9kIVJBTdVaGqICzwnAhLTT61kU+U8hJ0NqUTckinYAm
-         Cmlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=Qg4yyErPUncyCJdQ1nvfpMRxyzrZyv+cJzjP7rwEnbM=;
-        b=lBa9JT33cOSKPrkyBBVIZf2DB8Jz/tHEOTrGWkGk/A6heQaxhw5ANziE1j2e/b4e/X
-         Dl2TDmskb9PfU6u+5wpgqMnxfJkJ3d9insi5VXvUNWfBoJpF05n58rTUWZiqDlrnPb5d
-         uCwcqdONkKvk0jGJbP5ewnHoBHxcF7hVlBacBqdDZllOWAUByooyZfJYp3bbtAc+ohxg
-         gK7YSbgWUvs9kIVSgegdUoWqvpfHBeq+j4iyx4UlZSA3hQdoDWVT+n2RsjsMGsmBmESa
-         UEBQBf0VGrw69ouFEU6zjzIhU0Y8DTEtpxYfg+v/reczrAV67263w5fQwf0+e561tnOz
-         dkvA==
-X-Gm-Message-State: ACrzQf0fGHD0wbiROZbfaANWtmlCeOUwCWL/AeYcudj6JjkNVLcJmW78
-        YsGY21dNSX9JoUSzTDF8m/U=
-X-Google-Smtp-Source: AMsMyM4BsmRrwW9N5x8bCcGDiSwjuPVrqNuyGxSqaW0/rrSYx7gCsbYFSNWkUD9kwIuKLHGCxBNN4A==
-X-Received: by 2002:ac8:5e12:0:b0:35c:bd2e:9ccd with SMTP id h18-20020ac85e12000000b0035cbd2e9ccdmr14016081qtx.522.1664748197146;
-        Sun, 02 Oct 2022 15:03:17 -0700 (PDT)
-Received: from localhost.localdomain ([200.87.153.193])
-        by smtp.googlemail.com with ESMTPSA id v8-20020a05622a144800b0031eddc83560sm8086669qtx.90.2022.10.02.15.03.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Oct 2022 15:03:16 -0700 (PDT)
-From:   Henry Castro <hcvcastro@gmail.com>
-To:     thunderbird2k@gmail.com
-Cc:     Henry Castro <hcvcastro@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drivers: hid: adjust gyro calibration data
-Date:   Sun,  2 Oct 2022 18:03:01 -0400
-Message-Id: <20221002220301.18921-1-hcvcastro@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229496AbiJBWoi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 18:44:38 -0400
+X-Greylist: delayed 489 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 02 Oct 2022 15:44:32 PDT
+Received: from tschumacher.net (tschumacher.net [157.90.113.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE7037409
+        for <linux-input@vger.kernel.org>; Sun,  2 Oct 2022 15:44:32 -0700 (PDT)
+Received: from [10.116.242.58] (unknown [185.209.196.136])
+        by tschumacher.net (Postfix) with ESMTPSA id B21D81BF14C;
+        Mon,  3 Oct 2022 00:36:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tschumacher.net;
+        s=dkim; t=1664750178;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zxdZSKdkUXQFNvb1bCK/YOQS6k7xhx78mYO2/scYdDs=;
+        b=EDrztzDlu+ma1dDcgUPVAjlnhf7r8oEyud3HqckC9A97uIVjliGlTAKtOqYja2uYhsz0XG
+        fGJ6Lfbj5JxDBd4Q2TazTAGKh0WcSywIPb5MKOuLUSVAylaWmZjEhqNZoWrHYPEvqQd1T9
+        bRpKnJuHyXVet0V1R+syQFazwCb3mqc=
+Message-ID: <20db9bf2-e901-5021-c4b2-7b1e7759ba9c@tschumacher.net>
+Date:   Mon, 3 Oct 2022 00:36:17 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+From:   Tim Schumacher <tim@tschumacher.net>
+Subject: [PATCH] hid-logitech-hidpp: holdable_thumb_buttons parameter for
+ Logitech MX Anywhere 3
+To:     linux-input@vger.kernel.org
+Cc:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-For some reason my DualShock 4 get the calibration
-data values equal:
+On the Logitech MX Anywhere 3 the thumb buttons only activate on release.
+This is because the mouse also uses those buttons as modifiers to enable
+horizontal scrolling with the mouse wheel. This patch adds the
+holdable_thumb_buttons module parameter. Users who don't care about
+horizontal scrolling and want properly functioning thumb buttons can set
+this parameter. If it's set we use the feature 0x1b04 (special keys and
+mouse buttons) to divert thumb button events and handle them in software.
 
-	gyro_pitch_plus == gyro_pitch_minus
-
-Probably due to some defect in the DS4 hardware, and cause
-a CPU division exception to crash the linux kernel.
-
-At least with the patch, I can continue play Retroarch
-without using the Gyroscope :)
-
-Signed-off-by: Henry Castro <hcvcastro@gmail.com>
+Signed-off-by: Tim Schumacher <tim@tschumacher.net>
 ---
- drivers/hid/hid-sony.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index 87b538656f64..656caa07b25f 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -1823,6 +1823,15 @@ static int dualshock4_get_calibration_data(struct sony_sc *sc)
- 	acc_z_plus       = get_unaligned_le16(&buf[31]);
- 	acc_z_minus      = get_unaligned_le16(&buf[33]);
- 
-+	if (gyro_pitch_plus == gyro_pitch_minus)
-+		gyro_pitch_minus *= -1;
+Hi,
+
+this is my first kernel patch, please be nice :)
+The reason this can't be done in user space with a tool like xmodmap
+(exception would be a user space driver) is that without making use of
+the 0x1b04 feature the mouse sends nothing whatsoever when the thumb
+buttons are pressed down so we can't handle those events. I discovered
+this because the thumb buttons felt unresponsive on my mouse and it's
+been bugging me since.
+
+I'm not sure if other Logitech devices could benefit from this patch,
+something in the spirit of "thumb buttons only activate on release" has
+been said about the MX Master series mice on the Arch wiki but I'm not
+sure if this is true or if the patch would work as-is. Hope this is not
+too specific to get into the kernel.
+
+Regards,
+Tim
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 81de88ab2..327116fb9 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -41,6 +41,11 @@ module_param(disable_tap_to_click, bool, 0644);
+  MODULE_PARM_DESC(disable_tap_to_click,
+  	"Disable Tap-To-Click mode reporting for touchpads (only on the K400 currently).");
+  
++static bool holdable_thumb_buttons;
++module_param(holdable_thumb_buttons, bool, 0644);
++MODULE_PARM_DESC(holdable_thumb_buttons,
++	"Make it possible to hold down the thumb buttons (only on the MX Anywhere 3 currently).");
 +
-+	if (gyro_yaw_plus == gyro_yaw_minus)
-+		gyro_yaw_minus *= -1;
+  #define REPORT_ID_HIDPP_SHORT			0x10
+  #define REPORT_ID_HIDPP_LONG			0x11
+  #define REPORT_ID_HIDPP_VERY_LONG		0x12
+@@ -64,6 +69,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
+  #define HIDPP_QUIRK_CLASS_K400			BIT(2)
+  #define HIDPP_QUIRK_CLASS_G920			BIT(3)
+  #define HIDPP_QUIRK_CLASS_K750			BIT(4)
++#define HIDPP_QUIRK_CLASS_MX_ANYWHERE_3		BIT(5)
+  
+  /* bits 2..20 are reserved for classes */
+  /* #define HIDPP_QUIRK_CONNECT_EVENTS		BIT(21) disabled */
+@@ -3122,6 +3128,106 @@ static int k400_connect(struct hid_device *hdev, bool connected)
+  	return k400_disable_tap_to_click(hidpp);
+  }
+  
++/* ------------------------------------------------------------------------- */
++/* Logitech MX Anywhere 3                                                    */
++/* ------------------------------------------------------------------------- */
 +
-+	if (gyro_roll_plus == gyro_roll_minus)
-+		gyro_roll_minus *= -1;
++/*
++ * On the Logitech MX Anywhere 3 the thumb buttons only activate on release.
++ * This is because the mouse also uses those buttons as modifiers to enable
++ * horizontal scrolling with the mouse wheel.
++ *
++ * Users who don't care about horizontal scrolling and want properly
++ * functioning thumb buttons can set the holdable_thumb_buttons parameter.
++ * If it's set we use the feature 0x1b04 (special keys and mouse buttons)
++ * to divert thumb button events and handle them in software.
++ */
 +
- 	/* Set gyroscope calibration and normalization parameters.
- 	 * Data values will be normalized to 1/DS4_GYRO_RES_PER_DEG_S degree/s.
- 	 */
++#define HIDPP_PAGE_SPECIAL_KM_BTNS			0x1b04
++#define CMD_SPECIAL_KM_BTNS_SET_CID_REPORTING		0x31
++#define EVENT_SPECIAL_KM_BTNS_DIVERTED_BTNS_EVENT	0x00
++
++struct mx_anywhere_3_private_data {
++	u8 feature_index;
++};
++
++static int mx_anywhere_3_connect(struct hid_device *hdev, bool connected)
++{
++	struct hidpp_device *hidpp = hid_get_drvdata(hdev);
++	struct mx_anywhere_3_private_data *mxa3 = hidpp->private_data;
++	u8 feature_type;
++	int ret;
++	u8 params[5] = { 0 };
++	struct hidpp_report response;
++
++	if (!holdable_thumb_buttons)
++		return 0;
++
++	ret = hidpp_root_get_feature(hidpp, HIDPP_PAGE_SPECIAL_KM_BTNS,
++				     &mxa3->feature_index, &feature_type);
++
++	params[1] = 0x53; // BTN_SIDE
++	params[2] = BIT(1) | BIT(0); // dvalid=1 divert=1
++	ret = hidpp_send_fap_command_sync(hidpp, mxa3->feature_index,
++					  CMD_SPECIAL_KM_BTNS_SET_CID_REPORTING,
++					  params, sizeof(params), &response);
++
++	if (ret)
++		return ret;
++
++	params[1] = 0x56; // BTN_EXTRA
++	return hidpp_send_fap_command_sync(hidpp, mxa3->feature_index,
++					   CMD_SPECIAL_KM_BTNS_SET_CID_REPORTING,
++					   params, sizeof(params), &response);
++}
++
++static int mx_anywhere_3_raw_event(struct hid_device *hdev, u8 *data, int size)
++{
++	struct hidpp_device *hidpp = hid_get_drvdata(hdev);
++	struct mx_anywhere_3_private_data *mxa3 = hidpp->private_data;
++	struct hidpp_report *report = (struct hidpp_report *)data;
++	bool btn_side = 0, btn_extra = 0;
++	int i;
++
++	if (!mxa3->feature_index ||
++	    report->fap.feature_index != mxa3->feature_index ||
++	    report->fap.funcindex_clientid != EVENT_SPECIAL_KM_BTNS_DIVERTED_BTNS_EVENT)
++		return 0;
++
++	for (i = 0; i < 8; i++) {
++		switch (report->fap.params[i]) {
++			case 0x53:
++				btn_side = 1;
++				break;
++			case 0x56:
++				btn_extra = 1;
++				break;
++		}
++	}
++
++	input_report_key(hidpp->input, BTN_SIDE, btn_side);
++	input_report_key(hidpp->input, BTN_EXTRA, btn_extra);
++
++	input_sync(hidpp->input);
++	return 1;
++}
++
++static int mx_anywhere_3_allocate(struct hid_device *hdev)
++{
++	struct hidpp_device *hidpp = hid_get_drvdata(hdev);
++	struct mx_anywhere_3_private_data *mxa3;
++
++	mxa3 = devm_kzalloc(&hdev->dev,
++			    sizeof(struct mx_anywhere_3_private_data),
++			    GFP_KERNEL);
++	if (!mxa3)
++		return -ENOMEM;
++
++	hidpp->private_data = mxa3;
++
++	return 0;
++};
++
+  /* ------------------------------------------------------------------------- */
+  /* Logitech G920 Driving Force Racing Wheel for Xbox One                     */
+  /* ------------------------------------------------------------------------- */
+@@ -3669,6 +3775,8 @@ static int hidpp_raw_event(struct hid_device *hdev, struct hid_report *report,
+  		return wtp_raw_event(hdev, data, size);
+  	else if (hidpp->quirks & HIDPP_QUIRK_CLASS_M560)
+  		return m560_raw_event(hdev, data, size);
++	else if (hidpp->quirks & HIDPP_QUIRK_CLASS_MX_ANYWHERE_3)
++		return mx_anywhere_3_raw_event(hdev, data, size);
+  
+  	return 0;
+  }
+@@ -3880,6 +3988,10 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
+  		ret = k400_connect(hdev, connected);
+  		if (ret)
+  			return;
++	} else if (hidpp->quirks & HIDPP_QUIRK_CLASS_MX_ANYWHERE_3) {
++		ret = mx_anywhere_3_connect(hdev, connected);
++		if (ret)
++			return;
+  	}
+  
+  	if (hidpp->quirks & HIDPP_QUIRK_HIDPP_WHEELS) {
+@@ -4102,6 +4214,10 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+  		ret = k400_allocate(hdev);
+  		if (ret)
+  			return ret;
++	} else if (hidpp->quirks & HIDPP_QUIRK_CLASS_MX_ANYWHERE_3) {
++		ret = mx_anywhere_3_allocate(hdev);
++		if (ret)
++			return ret;
+  	}
+  
+  	INIT_WORK(&hidpp->work, delayed_work_cb);
+@@ -4275,6 +4391,8 @@ static const struct hid_device_id hidpp_devices[] = {
+  	  LDJ_DEVICE(0x4082), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+  	{ /* Mouse Logitech Performance MX */
+  	  LDJ_DEVICE(0x101a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
++	{ /* Mouse Logitech MX Anywhere 3 */
++	  LDJ_DEVICE(0x4090), .driver_data = HIDPP_QUIRK_CLASS_MX_ANYWHERE_3 },
+  	{ /* Keyboard logitech K400 */
+  	  LDJ_DEVICE(0x4024),
+  	  .driver_data = HIDPP_QUIRK_CLASS_K400 },
 -- 
-2.20.1
-
+2.37.3
