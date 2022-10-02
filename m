@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C8E25F25D4
-	for <lists+linux-input@lfdr.de>; Mon,  3 Oct 2022 00:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E045F25D6
+	for <lists+linux-input@lfdr.de>; Mon,  3 Oct 2022 00:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbiJBWBs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Oct 2022 18:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39488 "EHLO
+        id S229493AbiJBWDT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Oct 2022 18:03:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbiJBWBr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 18:01:47 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B38FC275C4;
-        Sun,  2 Oct 2022 15:01:46 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id g2so5730617qkk.1;
-        Sun, 02 Oct 2022 15:01:46 -0700 (PDT)
+        with ESMTP id S229462AbiJBWDS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 18:03:18 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0152C275FC;
+        Sun,  2 Oct 2022 15:03:18 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id a20so5508477qtw.10;
+        Sun, 02 Oct 2022 15:03:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date;
-        bh=tqsBFgL9+rd3um/EuGk7s1FFr8uOtiz3PWtets2qQ/o=;
-        b=MWAoPcamZ4v1KwEokdoQoCumbY9YK2ov0rfoIKs9kOsjbI8q5CyIZWgpwXh/Uxdvwz
-         94WbqhOxEYDQbucWJ/PmpXt4B+Mf6DBvfkmGIXJ4/Ba9fD2yKAej6DHJfcsRS/H0GzzW
-         o5jqrJwJOq+oQNeTakT1rMRHzEACvoHWdMPaiibuX7ojAAZg1MeVem26yix3Um+mBcvj
-         6cQsSw6N3nYgVVlJChNddL2wBYzT66LurEa7J3IWsNRSlf4o+aYlwY4fQ+KhXDpMKF8k
-         ftmBjVMo1N8NZUdUuHpmqd7Dd7TNXM1P6/at1m3tfibeOKLvDKRNJ5pqJBKTEzeriu0A
-         5gtw==
+        bh=Qg4yyErPUncyCJdQ1nvfpMRxyzrZyv+cJzjP7rwEnbM=;
+        b=ak9flzB6kb576roEAB/Tqn1RMvZylEju9CQd9g/lppQGP5pd5OcGDzy7It+HwiyVYG
+         uQaTQOkMrLfMOKv+HL53moNArxsm+/uGG0fyCoyO96eln8K8FDHGwxsrx4e/ze2jhT1U
+         yZUzcNO4S9aEdEPoIo8rbGETjOzEjT3+PsH5y1iMAf+vb6LvBZRpuaOc9NOyYxoFER46
+         JUGKK1fA5yg+MJ72Rf+ALLAfnn44w9MQBki3198Pa0jyxI+ujRlrViQfMUWd4G715jz9
+         PIv59a93blxlU3UlGV0uplHbR9kIVJBTdVaGqICzwnAhLTT61kU+U8hJ0NqUTckinYAm
+         Cmlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=tqsBFgL9+rd3um/EuGk7s1FFr8uOtiz3PWtets2qQ/o=;
-        b=f6IDQJnH6l/VYaN2qyG6KeF5QknrFzEfabGfYdhVhrVTA1KICg6IEAPYmjMq07G2dP
-         YELor/N7qk2zsYZFOMwAKN/Og1a6o/faPpfBRdZzX2CbF2LMvBm8gQ1YV8FxJF2EfWlZ
-         lsjml982QzQ6B9MutaJVABL5vFHXPZ9R/+TS5/5sboQj077if69XhvJBZzLoItIdXuPN
-         FtLeEPdjU2HpKyyPn8TqIuvO1b33N/Jsq2jiq0MSbW0aeTVXVyBdlRo206dkpOfI8Ow8
-         UxLs//pi21jmvXqFW+XRuY+bNrGUbAcrEVuAVV4HQUzrb5J6sBVJuOQQneNwbcxj8RCg
-         su8Q==
-X-Gm-Message-State: ACrzQf0FV1yqXSZ9FQrNMzufKndUMORGXewZJGO1GB3UlwP3rY/Zc9JS
-        FreNTvbM/RbVTIra/heIMJc=
-X-Google-Smtp-Source: AMsMyM7PM+agn6xUv7vCM09UxnYAxHxdJRopGyXQ64rHhiw8sqryFwEN9pG3x+Osq65EXEYFLjwLKw==
-X-Received: by 2002:a05:620a:e81:b0:6cb:d90d:3021 with SMTP id w1-20020a05620a0e8100b006cbd90d3021mr12264061qkm.435.1664748105816;
-        Sun, 02 Oct 2022 15:01:45 -0700 (PDT)
+        bh=Qg4yyErPUncyCJdQ1nvfpMRxyzrZyv+cJzjP7rwEnbM=;
+        b=lBa9JT33cOSKPrkyBBVIZf2DB8Jz/tHEOTrGWkGk/A6heQaxhw5ANziE1j2e/b4e/X
+         Dl2TDmskb9PfU6u+5wpgqMnxfJkJ3d9insi5VXvUNWfBoJpF05n58rTUWZiqDlrnPb5d
+         uCwcqdONkKvk0jGJbP5ewnHoBHxcF7hVlBacBqdDZllOWAUByooyZfJYp3bbtAc+ohxg
+         gK7YSbgWUvs9kIVSgegdUoWqvpfHBeq+j4iyx4UlZSA3hQdoDWVT+n2RsjsMGsmBmESa
+         UEBQBf0VGrw69ouFEU6zjzIhU0Y8DTEtpxYfg+v/reczrAV67263w5fQwf0+e561tnOz
+         dkvA==
+X-Gm-Message-State: ACrzQf0fGHD0wbiROZbfaANWtmlCeOUwCWL/AeYcudj6JjkNVLcJmW78
+        YsGY21dNSX9JoUSzTDF8m/U=
+X-Google-Smtp-Source: AMsMyM4BsmRrwW9N5x8bCcGDiSwjuPVrqNuyGxSqaW0/rrSYx7gCsbYFSNWkUD9kwIuKLHGCxBNN4A==
+X-Received: by 2002:ac8:5e12:0:b0:35c:bd2e:9ccd with SMTP id h18-20020ac85e12000000b0035cbd2e9ccdmr14016081qtx.522.1664748197146;
+        Sun, 02 Oct 2022 15:03:17 -0700 (PDT)
 Received: from localhost.localdomain ([200.87.153.193])
-        by smtp.googlemail.com with ESMTPSA id y3-20020ac81283000000b0035a6b89412bsm7821046qti.46.2022.10.02.15.01.43
+        by smtp.googlemail.com with ESMTPSA id v8-20020a05622a144800b0031eddc83560sm8086669qtx.90.2022.10.02.15.03.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Oct 2022 15:01:45 -0700 (PDT)
+        Sun, 02 Oct 2022 15:03:16 -0700 (PDT)
 From:   Henry Castro <hcvcastro@gmail.com>
 To:     thunderbird2k@gmail.com
 Cc:     Henry Castro <hcvcastro@gmail.com>, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drivers: hid: warn feature report 0x81
-Date:   Sun,  2 Oct 2022 18:01:26 -0400
-Message-Id: <20221002220126.18849-1-hcvcastro@gmail.com>
+Subject: [PATCH 1/2] drivers: hid: adjust gyro calibration data
+Date:   Sun,  2 Oct 2022 18:03:01 -0400
+Message-Id: <20221002220301.18921-1-hcvcastro@gmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,40 +68,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Unfortunately, my PS DualShock 4, does not support
-the feature 0x81 to get the MAC address. Instead,
-use a unique hash to fake a MAC address, so I can
-use DS4 to play Retroarch :)
+For some reason my DualShock 4 get the calibration
+data values equal:
+
+	gyro_pitch_plus == gyro_pitch_minus
+
+Probably due to some defect in the DS4 hardware, and cause
+a CPU division exception to crash the linux kernel.
+
+At least with the patch, I can continue play Retroarch
+without using the Gyroscope :)
 
 Signed-off-by: Henry Castro <hcvcastro@gmail.com>
 ---
- drivers/hid/hid-sony.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/hid/hid-sony.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index 656caa07b25f..e3e9c58887cf 100644
+index 87b538656f64..656caa07b25f 100644
 --- a/drivers/hid/hid-sony.c
 +++ b/drivers/hid/hid-sony.c
-@@ -2641,13 +2641,14 @@ static int sony_check_add(struct sony_sc *sc)
- 				HID_REQ_GET_REPORT);
+@@ -1823,6 +1823,15 @@ static int dualshock4_get_calibration_data(struct sony_sc *sc)
+ 	acc_z_plus       = get_unaligned_le16(&buf[31]);
+ 	acc_z_minus      = get_unaligned_le16(&buf[33]);
  
- 		if (ret != DS4_FEATURE_REPORT_0x81_SIZE) {
--			hid_err(sc->hdev, "failed to retrieve feature report 0x81 with the DualShock 4 MAC address\n");
--			ret = ret < 0 ? ret : -EINVAL;
--			goto out_free;
-+			uint32_t hash = full_name_hash(NULL, dev_name(&sc->hdev->dev),
-+						       strlen(dev_name(&sc->hdev->dev)));
-+			hid_warn(sc->hdev, "failed to retrieve feature report 0x81 with the DualShock 4 MAC address\n");
-+			memcpy(sc->mac_address, &hash, sizeof(hash));
-+		} else {
-+			memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
- 		}
- 
--		memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
--
- 		snprintf(sc->hdev->uniq, sizeof(sc->hdev->uniq),
- 			 "%pMR", sc->mac_address);
- 	} else if ((sc->quirks & SIXAXIS_CONTROLLER_USB) ||
++	if (gyro_pitch_plus == gyro_pitch_minus)
++		gyro_pitch_minus *= -1;
++
++	if (gyro_yaw_plus == gyro_yaw_minus)
++		gyro_yaw_minus *= -1;
++
++	if (gyro_roll_plus == gyro_roll_minus)
++		gyro_roll_minus *= -1;
++
+ 	/* Set gyroscope calibration and normalization parameters.
+ 	 * Data values will be normalized to 1/DS4_GYRO_RES_PER_DEG_S degree/s.
+ 	 */
 -- 
 2.20.1
 
