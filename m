@@ -2,54 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0857D5F2341
-	for <lists+linux-input@lfdr.de>; Sun,  2 Oct 2022 14:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84CCA5F235F
+	for <lists+linux-input@lfdr.de>; Sun,  2 Oct 2022 15:30:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbiJBM5c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Oct 2022 08:57:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54790 "EHLO
+        id S229681AbiJBNaf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Oct 2022 09:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbiJBM5a (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 08:57:30 -0400
+        with ESMTP id S229449AbiJBNae (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 09:30:34 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF1103A171;
-        Sun,  2 Oct 2022 05:57:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285E217E0F;
+        Sun,  2 Oct 2022 06:30:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F6CA60DC7;
-        Sun,  2 Oct 2022 12:57:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3ECC433D6;
-        Sun,  2 Oct 2022 12:57:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B2A4D60EC4;
+        Sun,  2 Oct 2022 13:30:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C53DDC433C1;
+        Sun,  2 Oct 2022 13:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664715449;
-        bh=BQllilL0yrIT5aIzEu6OlhUSxbKarggUU1u0rqNEHMQ=;
+        s=k20201202; t=1664717432;
+        bh=us5hueHqD/j3wWOvKZqHtPA6xEsfRnpIDe6d2mNdKwQ=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TAZsZARA94yrhtHob/xw/7LheieXyFsGn/E56RsdPrls5wW4Dx8c5/vh3m6t+seNt
-         xTVU23pkxkaHH9J7aqOxOsSYw3Ew5ce9WyaCedCdamCyW9Dgv6PwRlJr9xZLmLd+dw
-         ZZ3BzF+dA2V5uB1/wf2Pge3ulT8fyjbVMYHptG5rI+VK6GSXVySqVL0gXyFAhSInSs
-         FisRAlHBbMMH4euuw5DeYeB0S7eIE8h/4TFEKM5h4i/Ff1Rg+gO1bsOYXevf7UY/l8
-         M/UsGFIuJYJV2BPRJ4lhp2C2IOIxESuV6FgWWiujbD4YqQqQrL0xXkV9vMbKcxsW57
-         3xiJ4ToUBGLtA==
-Date:   Sun, 2 Oct 2022 13:57:44 +0100
+        b=OLs61fMBccvbuP12w2NwCeAWBlnxcV+LC94oS/rM9wA/jDJ33FQ22oXjaiAswgqc9
+         rpD1i+/EYWBio1XsRnFSxrNNmSjv92qz2fk3gAC42TolBo75W4cpvH4Cve7XUfjp/c
+         dJ67PRHXNGn6/rc6EGv9oWS8RGnNzL8CmyP7vhSvEpVNBs14Yfz7cAKRly76S6U0Ox
+         Bn1wxOBHodc30YJ6l+Ku+59j/EDfelOuo/k3ssDXST64qFNJVRoeauY+l3/Mq/lPy/
+         05FGXIvuHGC+hwDzWuW1QyJrRp9Gq5RRzxtRHGOs0SKktfQJr65R9rfW3uBys7A6Yi
+         3/0EvQ4DJdS5A==
+Date:   Sun, 2 Oct 2022 14:30:47 +0100
 From:   Jonathan Cameron <jic23@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lee Jones <lee@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Tony Lindgren <tony@atomide.com>, linux-iio@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-input@vger.kernel.org,
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] iio: adc: twl4030-madc: add missing of.h include
-Message-ID: <20221002135744.770ae2fb@jic23-huawei>
-In-Reply-To: <Yzi7sBI+kEHrJjHz@google.com>
-References: <20220927154611.3330871-1-dmitry.torokhov@gmail.com>
-        <20220927154611.3330871-3-dmitry.torokhov@gmail.com>
-        <YzMisM73yj/APB86@smile.fi.intel.com>
-        <20221001180705.7002796a@jic23-huawei>
-        <Yzi7sBI+kEHrJjHz@google.com>
+Subject: Re: [PATCH] HID: hid-sensor-custom: set fixed size for custom
+ attributes
+Message-ID: <20221002143047.7ab1dda5@jic23-huawei>
+In-Reply-To: <20220928075913.64125-1-marcus.folkesson@gmail.com>
+References: <20220928075913.64125-1-marcus.folkesson@gmail.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -63,38 +57,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 1 Oct 2022 15:14:08 -0700
-Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+On Wed, 28 Sep 2022 09:59:13 +0200
+Marcus Folkesson <marcus.folkesson@gmail.com> wrote:
 
-> On Sat, Oct 01, 2022 at 06:07:05PM +0100, Jonathan Cameron wrote:
-> > On Tue, 27 Sep 2022 19:20:00 +0300
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >   
-> > > On Tue, Sep 27, 2022 at 08:46:11AM -0700, Dmitry Torokhov wrote:  
-> > > > The driver is using of_device_id/of_match_ptr() and therefore needs
-> > > > to include of.h header. We used to get this definition indirectly via
-> > > > inclusion of matrix_keypad.h from twl.h, but we are cleaning up
-> > > > matrix_keypad.h from unnecessary includes.    
-> > > 
-> > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>  
-> > Applied to the togreg branch of iio.git and pushed out as testing for
-> > 0-day to take a look.
-> > 
-> > Note that this is 6.2 material now - if that's an issue for the matrix_keypad.h
-> > cleanup then feel free to take it via the input tree with
-> > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > but shout in reply to this so I know to drop it from the iio tree.  
+> This is no bugfix (so no Fixes: tag is necessary) as it is
+> taken care of in hid_sensor_custom_add_attributes().
 > 
-> OK, it is not urgent, but I do not want to lose matrix keypad changes...
+> The motivation for this patch is that:
+> hid_sensor_custom_field.attr_name and
+> hid_sensor_custom_field.attrs
+> has the size of HID_CUSTOM_TOTAL_ATTRS and used in same context.
 > 
-> How about I'll wait to see where the rest of the patches end, and if
-> they end up in 6.1 I'll queue twl4030-madc.c through my tree together
-> with the header change?
+> We compare against HID_CUSTOM_TOTAL_ATTRS when
+> looping through hid_custom_attrs.
 > 
-> Thanks.
+> We will silent the smatch error:
+> hid_sensor_custom_add_attributes() error: buffer overflow
+> 'hid_custom_attrs' 8 <= 10
 > 
-Ok. I'll drop it for now - let me know if I should pick it up once everything
-settles down.
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Slightly ugly fix, but I guess it's the easiest solution.
 
-Jonathan
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> ---
+>  drivers/hid/hid-sensor-custom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+> index 32c2306e240d..602465ad2745 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -62,7 +62,7 @@ struct hid_sensor_sample {
+>  	u32 raw_len;
+>  } __packed;
+>  
+> -static struct attribute hid_custom_attrs[] = {
+> +static struct attribute hid_custom_attrs[HID_CUSTOM_TOTAL_ATTRS] = {
+>  	{.name = "name", .mode = S_IRUGO},
+>  	{.name = "units", .mode = S_IRUGO},
+>  	{.name = "unit-expo", .mode = S_IRUGO},
 
