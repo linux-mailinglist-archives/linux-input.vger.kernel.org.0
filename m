@@ -2,48 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84CCA5F235F
-	for <lists+linux-input@lfdr.de>; Sun,  2 Oct 2022 15:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C83C5F236E
+	for <lists+linux-input@lfdr.de>; Sun,  2 Oct 2022 15:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbiJBNaf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Oct 2022 09:30:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51252 "EHLO
+        id S229699AbiJBNul (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Oct 2022 09:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiJBNae (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 09:30:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285E217E0F;
-        Sun,  2 Oct 2022 06:30:33 -0700 (PDT)
+        with ESMTP id S229640AbiJBNuk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Oct 2022 09:50:40 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67BFB2A702;
+        Sun,  2 Oct 2022 06:50:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B2A4D60EC4;
-        Sun,  2 Oct 2022 13:30:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C53DDC433C1;
-        Sun,  2 Oct 2022 13:30:29 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BA5D2B80025;
+        Sun,  2 Oct 2022 13:50:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DA8DC433C1;
+        Sun,  2 Oct 2022 13:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664717432;
-        bh=us5hueHqD/j3wWOvKZqHtPA6xEsfRnpIDe6d2mNdKwQ=;
+        s=k20201202; t=1664718636;
+        bh=C774BntxTk3Prk2DsQ9puZQrHyY1eCDeBabGqq2Q9gU=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OLs61fMBccvbuP12w2NwCeAWBlnxcV+LC94oS/rM9wA/jDJ33FQ22oXjaiAswgqc9
-         rpD1i+/EYWBio1XsRnFSxrNNmSjv92qz2fk3gAC42TolBo75W4cpvH4Cve7XUfjp/c
-         dJ67PRHXNGn6/rc6EGv9oWS8RGnNzL8CmyP7vhSvEpVNBs14Yfz7cAKRly76S6U0Ox
-         Bn1wxOBHodc30YJ6l+Ku+59j/EDfelOuo/k3ssDXST64qFNJVRoeauY+l3/Mq/lPy/
-         05FGXIvuHGC+hwDzWuW1QyJrRp9Gq5RRzxtRHGOs0SKktfQJr65R9rfW3uBys7A6Yi
-         3/0EvQ4DJdS5A==
-Date:   Sun, 2 Oct 2022 14:30:47 +0100
+        b=HQZToQ41+kdTmLKhf3ph3tdL6QWlnAsMfVOSuwjJ3ZRgMbtK1ZiX9kkxo5WvWZ9Co
+         uaxjP3IPbO9lPG+VTjrTnvRg2iRB0DiL9s1sAhldwaiDLgbrtW8VDMuRiLGDkYe6CZ
+         m/kpdE/YQWgQk/++v9fY8J0Zc84P1irl6eNwYZZiSUHDzwzPnjoP8OsYeFrvDBx5vZ
+         5pnL43xbDjTZfRviUlBEzcelPzBCvrBUEFZGCyZ3MBi4m32IWepQv75VIgP5yW0qpJ
+         RASVBZLXWSzWZ6OnLi+/BqN8qOsHCAWGeGEksO8jZrS8Tcjinqqx5TJPMmNiuTBqlg
+         5dnL0SKEtEk4g==
+Date:   Sun, 2 Oct 2022 14:50:52 +0100
 From:   Jonathan Cameron <jic23@kernel.org>
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: hid-sensor-custom: set fixed size for custom
- attributes
-Message-ID: <20221002143047.7ab1dda5@jic23-huawei>
-In-Reply-To: <20220928075913.64125-1-marcus.folkesson@gmail.com>
-References: <20220928075913.64125-1-marcus.folkesson@gmail.com>
+To:     Matt Ranostay <matt.ranostay@konsulko.com>
+Cc:     gupt21@gmail.com, benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v6 3/3] HID: mcp2221: add ADC/DAC support via iio
+ subsystem
+Message-ID: <20221002145052.036003b5@jic23-huawei>
+In-Reply-To: <20221001005208.8010-4-matt.ranostay@konsulko.com>
+References: <20221001005208.8010-1-matt.ranostay@konsulko.com>
+        <20221001005208.8010-4-matt.ranostay@konsulko.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,44 +55,24 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 28 Sep 2022 09:59:13 +0200
-Marcus Folkesson <marcus.folkesson@gmail.com> wrote:
+On Fri, 30 Sep 2022 17:52:08 -0700
+Matt Ranostay <matt.ranostay@konsulko.com> wrote:
 
-> This is no bugfix (so no Fixes: tag is necessary) as it is
-> taken care of in hid_sensor_custom_add_attributes().
+> Add support for 3x 10-bit ADC and 1x DAC channels registered via the iio
+> subsystem.
 > 
-> The motivation for this patch is that:
-> hid_sensor_custom_field.attr_name and
-> hid_sensor_custom_field.attrs
-> has the size of HID_CUSTOM_TOTAL_ATTRS and used in same context.
+> To prevent breakage and unexpected dependencies this support only is
+> only built if CONFIG_IIO is enabled, and is only weakly referenced by
+> 'imply IIO' within the respective Kconfig.
 > 
-> We compare against HID_CUSTOM_TOTAL_ATTRS when
-> looping through hid_custom_attrs.
+> Additionally the iio device only gets registered if at least one channel
+> is enabled in the power-on configuration read from SRAM.
 > 
-> We will silent the smatch error:
-> hid_sensor_custom_add_attributes() error: buffer overflow
-> 'hid_custom_attrs' 8 <= 10
-> 
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-Slightly ugly fix, but I guess it's the easiest solution.
+> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+I'm never particularly keen on drivers from elsewhere in the tree gaining
+IIO support - but that's just because it can make a bit of a mess of
+changes to the IIO subsystem itself.  Having said that, this code looks fine to me.
 
-> ---
->  drivers/hid/hid-sensor-custom.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-> index 32c2306e240d..602465ad2745 100644
-> --- a/drivers/hid/hid-sensor-custom.c
-> +++ b/drivers/hid/hid-sensor-custom.c
-> @@ -62,7 +62,7 @@ struct hid_sensor_sample {
->  	u32 raw_len;
->  } __packed;
->  
-> -static struct attribute hid_custom_attrs[] = {
-> +static struct attribute hid_custom_attrs[HID_CUSTOM_TOTAL_ATTRS] = {
->  	{.name = "name", .mode = S_IRUGO},
->  	{.name = "units", .mode = S_IRUGO},
->  	{.name = "unit-expo", .mode = S_IRUGO},
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
