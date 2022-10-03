@@ -2,105 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A0945F3283
-	for <lists+linux-input@lfdr.de>; Mon,  3 Oct 2022 17:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B94685F32C2
+	for <lists+linux-input@lfdr.de>; Mon,  3 Oct 2022 17:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbiJCPaK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Oct 2022 11:30:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55938 "EHLO
+        id S229486AbiJCPkt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Oct 2022 11:40:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230192AbiJCPaA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Oct 2022 11:30:00 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D06112AB1;
-        Mon,  3 Oct 2022 08:29:57 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id C04B12187A;
-        Mon,  3 Oct 2022 15:29:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1664810995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Ox4ltjMjfoXYKHNGFlInSfH4y3XOXpGSwEj9RpfYwYs=;
-        b=mgK6MXAy/k6wFGXadHPtSB+wzXevm7/vexrn3H+Lo7bwRZayH6CM3fBiWJyKfSUBE/8THl
-        jqgRMrmRWAJutopgy8p9d30FQ6TDZwkgU1dJNLLmaOrkLi7fe66/pI9Om3+eoi+VqRgwLT
-        I2WOAT3ML2n70l70mMZE18+hiS1EYuQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1664810995;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Ox4ltjMjfoXYKHNGFlInSfH4y3XOXpGSwEj9RpfYwYs=;
-        b=2NZ2/9eX1UNGVm7/oj+qv6Z0AHUG9aRzBAI6EcnXs4tdoEcUM6EdRd7/nW13YLWgdyTfIu
-        y4OC6LFF2LS4nAAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 959141332F;
-        Mon,  3 Oct 2022 15:29:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id G/L8IvP/OmOdfgAAMHmgww
-        (envelope-from <jdelvare@suse.de>); Mon, 03 Oct 2022 15:29:55 +0000
-Date:   Mon, 3 Oct 2022 17:29:53 +0200
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Daniel Hung-yu Wu <hywu@google.com>, linux-input@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: misc - atmel_captouch does not depend on OF
-Message-ID: <20221003172953.30354439@endymion.delvare>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        with ESMTP id S229516AbiJCPkq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Oct 2022 11:40:46 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9EB248CA;
+        Mon,  3 Oct 2022 08:40:43 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id a10so12283316ljq.0;
+        Mon, 03 Oct 2022 08:40:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=7azzMhvCWlbBUnWsIL8gKYMDz75tdp+9lfOKf1YegqY=;
+        b=BCoE7qaaF8gcAkgXdo9llnjy+CplurWz+WJ7fEq3i6ncsmjpIVX8dJIqvRgX/K3UIm
+         AXTpr2IUBmDKd0kJfVKnLjEJyF6KbR4IUFKhpENUPlBc3R2NIv1+2g76Dma0v8lef6oQ
+         vaT5tyKuhkAErqRxXuyh0qgcj3OPM0Nz429/oOJhu9F3aE73pDXhDQzE8bR/58Lu3Bhv
+         dlQLClfNXrPnL1dV0Lptd1tYbQVsyBGafcmof+4W1yCsSFCsTJGI4sRxezZnHq0W3H95
+         MlxmUQZ2o97WF+Aa1KnuryvplzmTPIjeb5FEz7vMj6TuQQ9wTcJsiOIbmk3WIQ+7Vele
+         nGew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=7azzMhvCWlbBUnWsIL8gKYMDz75tdp+9lfOKf1YegqY=;
+        b=hUDji2tO8BjFZ+AXckx1QXiftwVIGgj0hC8vOuSTfsNH1YvkMCo8nrG9G/yhJOLwbt
+         uFO7Dy9CYu+eGIaTVOVehFl6TABQC8ciP48HVsXX4h2ZHIakYEghbcAjXw6YBvcweoYG
+         lTomqDYwiRH0YJ2sb+D5/efrXtwrLOirVMTf31dLStf2LHV+Ey2E+KG5b8Vr6r06h+vb
+         j0TSvev+QF2EwnitRd2elajmTjy7EgSa8avSLEtYkI0N3y5KjimvbFsaEt/4t+i9nv9k
+         jtMoeUEw5OKFUaUHJWGx+Ypno44WJ4yHExam1jEwfP31zrIrsAl7sHnjo224j1tW8cmS
+         IV5Q==
+X-Gm-Message-State: ACrzQf3Av6kRIbxIaIl622ioPTsbQg8gTkrODqXul0f5EqlpF2GLv7rU
+        YjE4EKKlTDcHj1mu3yDBjCU=
+X-Google-Smtp-Source: AMsMyM59dfGDUkV2+ocD6JuR7+SaBlHxhfiHOrUacInEY6KjeVKJMUzjQ6QCGi/cOKeT159XKvRmCg==
+X-Received: by 2002:a2e:924e:0:b0:26c:5dbc:2d80 with SMTP id v14-20020a2e924e000000b0026c5dbc2d80mr7158689ljg.290.1664811642111;
+        Mon, 03 Oct 2022 08:40:42 -0700 (PDT)
+Received: from gmail.com (82-209-154-112.cust.bredband2.com. [82.209.154.112])
+        by smtp.gmail.com with ESMTPSA id x20-20020a2e9c94000000b00261ca0f940esm889238lji.62.2022.10.03.08.40.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Oct 2022 08:40:41 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 17:40:39 +0200
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: alps: Simplify the .remove function
+Message-ID: <YzsCdyPxrNcHE3XF@gmail.com>
+References: <33cf94ec234b88ffc79eb4496c640093aa8c5e70.1664721476.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pXKocOg+64y1zuMP"
+Content-Disposition: inline
+In-Reply-To: <33cf94ec234b88ffc79eb4496c640093aa8c5e70.1664721476.git.christophe.jaillet@wanadoo.fr>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The atmel_captouch driver does not actually depend on OF, it includes
-a non-OF device ID which could be used to instantiate the device, and
-the driver code is already prepared to be built with or without OF. So
-drop the unneeded dependency.
 
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
-Cc: Daniel Hung-yu Wu <hywu@google.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
-The problem I'm trying to solve here is that "depends on OF ||
-COMPILE_TEST" does not make sense since OF can now be enabled on all
-architectures. One way to fix this is by removing the dependency
-altogether (this patch).
+--pXKocOg+64y1zuMP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If the driver is known to be needed only on OF-enabled systems then we
-could leave the dependency on OF and only drop COMPILE_TEST (and
-simplify the driver code accordingly). I have an alternative patch
-doing that already. Tell me what you prefer, I'm fine either way.
+Hi Christophe!
 
- drivers/input/misc/Kconfig |    1 -
- 1 file changed, 1 deletion(-)
-
---- linux-5.19.orig/drivers/input/misc/Kconfig
-+++ linux-5.19/drivers/input/misc/Kconfig
-@@ -107,7 +107,6 @@ config INPUT_ATC260X_ONKEY
- 
- config INPUT_ATMEL_CAPTOUCH
- 	tristate "Atmel Capacitive Touch Button Driver"
--	depends on OF || COMPILE_TEST
- 	depends on I2C
- 	help
- 	  Say Y here if an Atmel Capacitive Touch Button device which
+On Sun, Oct 02, 2022 at 04:38:26PM +0200, Christophe JAILLET wrote:
+> If the .remove function of a 'hid_driver' is NULL, the default behavior is
+> to call hid_hw_stop().
+>=20
+> So alps_remove() can be removed here, it is just hand-writing what
+> already exists.
+>=20
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
 
 
--- 
-Jean Delvare
-SUSE L3 Support
+There is already a patch out there :-)
+
+https://lore.kernel.org/all/20220915123438.520775-1-marcus.folkesson@gmail.=
+com/
+
+Best regards,
+Marcus Folkesson
+
+--pXKocOg+64y1zuMP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmM7AnIACgkQiIBOb1ld
+UjIH0g//Z+V4vf54jymsYpa+FtywfIyaRAaBXn4lJkD9THAzS8MgtwRlRqdkuZWz
+NdqRPwqeBuoOwjh0iOfwFyesw7JFqeVpNKi91R1hP03v+1hS3e2kM7o9exvP0YQX
+Kp1vnPnMBkB/LC6lUFpjIeZ3OLI5tY99nqxKeNY3TLbPylQUFYtQav9/ajhippky
+5uN1MpAQcs7B6OKKp+GB2n0BfaRI1xKe9AlF1BoIhYTA7j59E/FJ74SQQYih5qLx
+LA9U6iZ4Euj2FEq0BT5vYGjkRwnJkxCqoZMccsQXm21rQZSik2lwRUynK+D+Enec
+aqKIsuZoIpA6dZqv0gkQ+fwv8OqE+A7/A8/1Y00WMAB3CHW1uMYBd28I+HWgQsRj
+I7BBfxTk50v2q07SGH0bclApRIQFlAWPjb/VQPAS0qhdgkNXJufAPgoEm1Io1Esx
+aC6L2gMQWizc2xlco9k1sXC/rSyBs8g2HVsgoU3yLo03GJaWgtGZC8QjsYh+yFiB
+RZVdsHuVYEK5l7ZW9SxVgBmEFWeGPRE3cl1JUyOUHnvFU91Asii0B7L9gbxaAx7o
+T9oDsWZKR9eOL+ufy3omcFtcjMabKI1Jhj7Qdm5+AfeVirTkFWZVHj2XKvDtChUA
+T3n2+GC+/J8w5RWRX7qreQc5f7NKJwTM+Y+gcljtOJFRiPX2KDs=
+=9TRx
+-----END PGP SIGNATURE-----
+
+--pXKocOg+64y1zuMP--
