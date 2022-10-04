@@ -1,115 +1,121 @@
 Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 805C85F3BE7
-	for <lists+linux-input@lfdr.de>; Tue,  4 Oct 2022 05:54:58 +0200 (CEST)
+Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 2CF565F3C7A
+	for <lists+linux-input@lfdr.de>; Tue,  4 Oct 2022 07:45:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbiJDDy4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Oct 2022 23:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
+        id S229529AbiJDFpH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Oct 2022 01:45:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiJDDyy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Oct 2022 23:54:54 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6365AA45E;
-        Mon,  3 Oct 2022 20:54:52 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id b2so6714476plc.7;
-        Mon, 03 Oct 2022 20:54:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=t68JD1LRSTUwiOm802DHOi8HVYbNo1SEL5P3KG0KYLk=;
-        b=AWMtfH+JoFgOUei7K3blEpTgsCrHAxADwH6DiHlEkzfPtf6nrbCHPuPejKofUK8GcU
-         kiTkQ90VY+CG0eWUgmMmeq4qzb5l9fz9BFCeuAUw8YMfARYjA6w08ZdFTBvf1Q8auMBo
-         kIci3Z3F0wN7fUABgSCUkYgUPyAfRup4ZekG5HYrjzVbwoxMdTYHAGELdQHG2UJ1YVcN
-         qMBYNs4v7KF5uFsjZsDC0seBmGYnZ9DrroaEgxO0S7QsfFpKXRrXMScADwli9HdxHSm5
-         B49JIOtoO/sry8JweWP9eSfdcqcozm4Mzfh+LOglX7ODY3GviyzgcfnoMc/IHUqAWwvt
-         6sbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=t68JD1LRSTUwiOm802DHOi8HVYbNo1SEL5P3KG0KYLk=;
-        b=BUWcxG3r8kVZ9cVP92UZ9F0lMww3d0eJ7rwS5FlIzzi9nTMUhCHkkTYzLBYR3AtvKC
-         PO6xGTHn+gec8y7RTQFjzBIatF10/QeXGcIqRebfCFGPM/lOUX89Yi6a9aFU9WFgTEHZ
-         jrrygu3ekNYJDMstGgFrzXEjdZxoHYQdJMUPEQjNRtg6UCQA6QsBnpA/18uU/EDoUloZ
-         08dUmtx2GS/DG/quOHkUG1H5KDeJ84pXrETJcV8Ml5WrP+2eyVb5LRmWJNNOHCzWou9x
-         IQXi0YgdRCyYBW/5h9e1Wfs0bjo7iWeBDbClJTKf3vw8XWjGVw8HjNtEp1vvKOB53TsO
-         RNFg==
-X-Gm-Message-State: ACrzQf1Y9WfJlbPNkrVSAjdc7WFuC9f+Va6px0R14LfVbPRDIVfT+dRQ
-        tc7FFd4jJh6RXEpevC4YDIk=
-X-Google-Smtp-Source: AMsMyM7+9TYSUuPCfy6syHO0fgovIAUgA0zhvpmhWV0lyS/dxInXUMCqICYJeLa1DJB9RRcTfGGpIA==
-X-Received: by 2002:a17:90a:4588:b0:205:d605:8bcc with SMTP id v8-20020a17090a458800b00205d6058bccmr15620463pjg.205.1664855691737;
-        Mon, 03 Oct 2022 20:54:51 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:85c4:e70d:dcc0:91e1])
-        by smtp.gmail.com with ESMTPSA id r1-20020a17090a4dc100b001efa9e83927sm10766208pjl.51.2022.10.03.20.54.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 20:54:50 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 20:54:48 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jean Delvare <jdelvare@suse.de>
+        with ESMTP id S229453AbiJDFpG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Oct 2022 01:45:06 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF1B71A830;
+        Mon,  3 Oct 2022 22:45:02 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 8C4D32190B;
+        Tue,  4 Oct 2022 05:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1664862301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QAYzHxW51Wjle631nz2ovLMzm+yY3Bm2JEKRDUI7a/k=;
+        b=Ly1tUEQbd5GLn7BUBBUQZwXV85uyrlZOXyuoCs0NvGKm/kJm4gM/52RVmkRnrhMZ52Dvkz
+        fEtuE3OIzv0e/4jbcke6rqoIGz3kbK1ZcdC75cQhpjexwsNqI+Af9qpK0n2JsYvun7eAXP
+        63Q0oEt/tAxZj/qXACnsLoY4CdmCgY0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1664862301;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QAYzHxW51Wjle631nz2ovLMzm+yY3Bm2JEKRDUI7a/k=;
+        b=rOAhD4zlXHDQFUwD2f2YSRTi0iVsOEAPLIqLBMsyTsj2qIDrydrLEiIUyt1NSrbyD06dBP
+        EvCrXs1fQ3DFsuCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FECD13A8F;
+        Tue,  4 Oct 2022 05:45:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id qkXVFV3IO2ODCwAAMHmgww
+        (envelope-from <jdelvare@suse.de>); Tue, 04 Oct 2022 05:45:01 +0000
+Date:   Tue, 4 Oct 2022 07:44:59 +0200
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Daniel Hung-yu Wu <hywu@google.com>, linux-input@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] Input: misc - atmel_captouch does not depend on OF
-Message-ID: <YzuuiJwdtnHYQK1G@google.com>
+Message-ID: <20221004074459.35b58ed0@endymion.delvare>
+In-Reply-To: <YzuuiJwdtnHYQK1G@google.com>
 References: <20221003172953.30354439@endymion.delvare>
+        <YzuuiJwdtnHYQK1G@google.com>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221003172953.30354439@endymion.delvare>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jean,
-
-On Mon, Oct 03, 2022 at 05:29:53PM +0200, Jean Delvare wrote:
-> The atmel_captouch driver does not actually depend on OF, it includes
-> a non-OF device ID which could be used to instantiate the device, and
-> the driver code is already prepared to be built with or without OF. So
-> drop the unneeded dependency.
+On Mon, 3 Oct 2022 20:54:48 -0700, Dmitry Torokhov wrote:
+> Hi Jean,
 > 
-> Signed-off-by: Jean Delvare <jdelvare@suse.de>
-> Cc: Daniel Hung-yu Wu <hywu@google.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
-> The problem I'm trying to solve here is that "depends on OF ||
-> COMPILE_TEST" does not make sense since OF can now be enabled on all
-> architectures. One way to fix this is by removing the dependency
-> altogether (this patch).
+> On Mon, Oct 03, 2022 at 05:29:53PM +0200, Jean Delvare wrote:
+> > The atmel_captouch driver does not actually depend on OF, it includes
+> > a non-OF device ID which could be used to instantiate the device, and
+> > the driver code is already prepared to be built with or without OF. So
+> > drop the unneeded dependency.
+> > 
+> > Signed-off-by: Jean Delvare <jdelvare@suse.de>
+> > Cc: Daniel Hung-yu Wu <hywu@google.com>
+> > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> > The problem I'm trying to solve here is that "depends on OF ||
+> > COMPILE_TEST" does not make sense since OF can now be enabled on all
+> > architectures. One way to fix this is by removing the dependency
+> > altogether (this patch).
+> > 
+> > If the driver is known to be needed only on OF-enabled systems then we
+> > could leave the dependency on OF and only drop COMPILE_TEST (and
+> > simplify the driver code accordingly). I have an alternative patch
+> > doing that already. Tell me what you prefer, I'm fine either way.  
 > 
-> If the driver is known to be needed only on OF-enabled systems then we
-> could leave the dependency on OF and only drop COMPILE_TEST (and
-> simplify the driver code accordingly). I have an alternative patch
-> doing that already. Tell me what you prefer, I'm fine either way.
+> The driver is not operable on systems without OF:
+> 
+> static int atmel_captouch_probe(...
+> 	...
+> 
+> 	node = dev->of_node;
+> 	if (!node) {
+> 		dev_err(dev, "failed to find matching node in device tree\n");
+> 		return -EINVAL;
+> 	}
+> 
+> 	if (of_property_read_bool(node, "autorepeat"))
+> 
+> So the reason for "depends on OF || COMPILE_TEST" is to avoid prompting
+> users who actually try to configure real systems for drivers that make
+> no sense for them while still allowing people interested in compile
+> coverage to select COMPILE_TEST and enable more drivers.
 
-The driver is not operable on systems without OF:
-
-static int atmel_captouch_probe(...
-	...
-
-	node = dev->of_node;
-	if (!node) {
-		dev_err(dev, "failed to find matching node in device tree\n");
-		return -EINVAL;
-	}
-
-	if (of_property_read_bool(node, "autorepeat"))
-
-So the reason for "depends on OF || COMPILE_TEST" is to avoid prompting
-users who actually try to configure real systems for drivers that make
-no sense for them while still allowing people interested in compile
-coverage to select COMPILE_TEST and enable more drivers.
-
-Thanks.
+OK, thanks for the clarification. Please disregard this patch then,
+I'll send the other one.
 
 -- 
-Dmitry
+Jean Delvare
+SUSE L3 Support
