@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 763975F57B3
-	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 17:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 605E35F57C7
+	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 17:48:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbiJEPmV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Oct 2022 11:42:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33186 "EHLO
+        id S229588AbiJEPs4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Oct 2022 11:48:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiJEPmU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 11:42:20 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A572C671;
-        Wed,  5 Oct 2022 08:42:19 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id o5so11043108wms.1;
-        Wed, 05 Oct 2022 08:42:19 -0700 (PDT)
+        with ESMTP id S229676AbiJEPsz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 11:48:55 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A9D79602;
+        Wed,  5 Oct 2022 08:48:54 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so1287634wmb.0;
+        Wed, 05 Oct 2022 08:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date;
-        bh=oTOMb33OxXfhsJS83LS4blxwTrm8QLVlJ3F0fXKoCCM=;
-        b=FLdl3F4SepxSURBD2OuAKlb1mpe7tD3c06Lez9i/fkxymbtMWAN7zSb4B8Lwi2aEJD
-         U59wptq2IQCA7x02d80iHbU6ey+GLq44pWuqBe7wysp3tC5pUrxO7f1sSHliZ7JsGgU6
-         XMCCZ7h9qACRCLfrwlIum1H5MVeIMY/L0DWSa/CRFxtvpuIk3mRr5NnZ8LFZTUqqVAjk
-         dkUdmjz/qVsiYXBnHYarrGqTKzJnPSCIb4UKoxELelo4foGCgLVLHz7D6wAXbua1ryn/
-         jpNY+dyvEnzi6hlDJIjbv2qODQvXMrzov83adcacKofMk/UcRVUvPcTCK4dQ3vlc2q8U
-         Hi/w==
+        bh=zvdzV5NONJDBCUm21IdAffqRPiRBCG67doUzQ6+6n0M=;
+        b=S1kciJzoCzZUa4tt3vXo7YVeSCxjGaFD1BSLvS0yn+5ccmY2uH2Xtih+RraA+BMYRw
+         +55G3rWaXUJh1Jla9cm508lioJeLPw6UJkCcw6Lwevau8BeeYtyHE3e6Yb3fimx4klD7
+         0EqPVpr0ghLat8si2WI0uSaDKwukEIRDknmFA+eSSr1FzngYjwk04DUavcGR2MoV5BOW
+         P7sFuvBfia2u1hGWiTf9KmUtajxC/WWadbBKE8mZxDLqQrFulIf8fMY61LQj6frCld0D
+         xTMpwK+jIN4AYT7+0hl3FVQKXl7bs3YMhSMzxkz+Du+eVR5TrnG9TZgHZIAjENOewwEq
+         PfuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=oTOMb33OxXfhsJS83LS4blxwTrm8QLVlJ3F0fXKoCCM=;
-        b=cT1iyo7OdYoiPSPE6RSem88eVjAFZhzx5d7DYKlrFEhwdZNivDV/U7OCiiGx5MIX0x
-         v0G5N/+jhGynKJWHpnPLbs7DBaC/Qt39JBFbU3g+rCQxV+zQXt5ZVvCmJUWbS3HP4uQG
-         K22qZVZ8kh6nYcr6aALZnSAianb7SV2hoOL0Pu0z222qPFtqER9R6QMNlnn4/Hx2ef6O
-         6HfW3ChsoxRJuJNAVz1QArrjYPPQ2ugJRHmRWsXv5PvDfAu5Cvy8qtwmwZD7tUjXJsov
-         iFThawSwZuwoTrN5CEwkoF4kmkcuIasdz49ieZ7/aomzMAll8qZIrdfjZq5JRKa/8F0m
-         E8aw==
-X-Gm-Message-State: ACrzQf2Gl3U+L+AZ/sfaakfI2Avh1celTtvGeZ09YufJ43H3w7wwsRgI
-        TYo5eZaMhaPcA603kEf5fNM=
-X-Google-Smtp-Source: AMsMyM64oKatyANTYtAAAztZEOybgVl+YuGxerknER5+ozcpdSKnmHzmax4ABnaAUB9lUhiqD7skBQ==
-X-Received: by 2002:a05:600c:229a:b0:3c0:130d:320d with SMTP id 26-20020a05600c229a00b003c0130d320dmr1398773wmf.51.1664984538064;
-        Wed, 05 Oct 2022 08:42:18 -0700 (PDT)
+        bh=zvdzV5NONJDBCUm21IdAffqRPiRBCG67doUzQ6+6n0M=;
+        b=teQVidXNHK4Bc0vuqOvwuzS7vapGoMkYewB8/rFADyhNWJJ8/wr9/T0+8J/iVmHlH7
+         XtepfHcA8LzJIXxiOZLpjUKdR/TAqElXsh6/zRhlLkeu22Vu42SW13MFQkjYpKYTn7Gt
+         H7XldPdoMgKESja0NS39sHOSm8VuW3cmK8TzEfV74P6bfMhqAGNaAQfil0mpw95sQobV
+         VN22NUFhjvwZ3iDPNbUBTxEGm3TSdJ1TWfxj1d1y4k3/ki7i4yVoboTup5FSs284sJlM
+         acRENWzwjqI2UfLGXzejMTqx3/SAj7afo5oCg0fM95/rjhrFhDPbpNLiHnKbjSXuMn90
+         MagQ==
+X-Gm-Message-State: ACrzQf0moLDVduklZLLW5RynD4FNXCXcu/q6sS8INLFmdVXH5prlTLRS
+        rr1VNqhCUtuO1/3ZE/BwsIs=
+X-Google-Smtp-Source: AMsMyM70b4J3oBB1GdfcnfZoJSjEKLdqnLlJEOP+3HB/DpM4fEkK2ed/MryS26WZ/KsgUxz1AKAb+w==
+X-Received: by 2002:a05:600c:3555:b0:3b4:c0fd:918e with SMTP id i21-20020a05600c355500b003b4c0fd918emr121056wmq.61.1664984933317;
+        Wed, 05 Oct 2022 08:48:53 -0700 (PDT)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id l18-20020a5d6692000000b0022ac1be009esm15511350wru.16.2022.10.05.08.42.17
+        by smtp.gmail.com with ESMTPSA id f6-20020a1c3806000000b003b3365b38f9sm2275751wma.10.2022.10.05.08.48.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 08:42:17 -0700 (PDT)
+        Wed, 05 Oct 2022 08:48:52 -0700 (PDT)
 From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][V2] HID: lenovo: Make array tp10ubkbd_led static const
-Date:   Wed,  5 Oct 2022 16:42:16 +0100
-Message-Id: <20221005154216.319577-1-colin.i.king@gmail.com>
+Subject: [PATCH] Input: dlink-dir685-touchkeys: Make array bl_data static const
+Date:   Wed,  5 Oct 2022 16:48:52 +0100
+Message-Id: <20221005154852.320056-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -69,28 +69,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Don't populate the read-only array tp10ubkbd_led on the stack but instead
+Don't populate the read-only array bl_data on the stack but instead
 make it static const. Also makes the object code a little smaller.
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
-V2: Fix commit message, somehow I fat fingered the first one.
----
- drivers/hid/hid-lenovo.c | 2 +-
+ drivers/input/keyboard/dlink-dir685-touchkeys.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index 9dabd6323234..44763c0da444 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -985,7 +985,7 @@ static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
- 	struct device *dev = led_cdev->dev->parent;
- 	struct hid_device *hdev = to_hid_device(dev);
- 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
--	u8 tp10ubkbd_led[] = { TP10UBKBD_MUTE_LED, TP10UBKBD_MICMUTE_LED };
-+	static const u8 tp10ubkbd_led[] = { TP10UBKBD_MUTE_LED, TP10UBKBD_MICMUTE_LED };
- 	int led_nr = 0;
- 	int ret = 0;
+diff --git a/drivers/input/keyboard/dlink-dir685-touchkeys.c b/drivers/input/keyboard/dlink-dir685-touchkeys.c
+index a69dcc3bd30c..7db7fb175869 100644
+--- a/drivers/input/keyboard/dlink-dir685-touchkeys.c
++++ b/drivers/input/keyboard/dlink-dir685-touchkeys.c
+@@ -64,7 +64,7 @@ static int dir685_tk_probe(struct i2c_client *client,
+ {
+ 	struct dir685_touchkeys *tk;
+ 	struct device *dev = &client->dev;
+-	u8 bl_data[] = { 0xa7, 0x40 };
++	static const u8 bl_data[] = { 0xa7, 0x40 };
+ 	int err;
+ 	int i;
  
 -- 
 2.37.3
