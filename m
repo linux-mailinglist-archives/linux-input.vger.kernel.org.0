@@ -2,108 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB645F571F
-	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 17:09:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EA055F57A6
+	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 17:34:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbiJEPJd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Oct 2022 11:09:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41420 "EHLO
+        id S230360AbiJEPeg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Oct 2022 11:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbiJEPJc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 11:09:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF2E6555C;
-        Wed,  5 Oct 2022 08:09:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9E4FBB81E05;
-        Wed,  5 Oct 2022 15:09:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D912C433D7;
-        Wed,  5 Oct 2022 15:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664982569;
-        bh=t+Sxcbjds/CH5MY19al2gz2FR5p9mkdz/6BYz2fXlU0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GEkW8fKbRTjT2keR2zgUqFVMVniZajgccILAJDNGPN9q1zLxzeoJyXaM2GIYjdARI
-         Ozed+h8b5er4/cHkEcb795e1xmsc9XDtHevgs0ue8OSaKwGLM8cA5/JpFzdJxbmXy0
-         9Bc7kbL6nYDMWWatiSpq6tJ+5ULIn+oG0rPpHF+vrJU+BpC6bFPYVGrbsTYSwiHapL
-         vGhSmvbXtZbOhghP1YDe1rdxdUkO70YFxGM3tvXLWKktvgPTRlr79XAL0wRbrXM+IP
-         knxKwhSWILClq9WetEPyGBjaH4geInJdsonp7TW36QptFF8/jgWrcjhX+vyb2BS6Xo
-         uBOSEsIkk1kJg==
-Date:   Wed, 5 Oct 2022 16:09:22 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Lee Jones <lee@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>
-Subject: Re: [PATCH v2 4/5] regulator: add mt6357 regulator
-Message-ID: <Yz2eIslwcXKNaOfi@sirena.org.uk>
-References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
- <20221005-mt6357-support-v2-4-f17ba2d2d0a9@baylibre.com>
+        with ESMTP id S229819AbiJEPef (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 11:34:35 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBE441A078;
+        Wed,  5 Oct 2022 08:34:32 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id j7so21151740wrr.3;
+        Wed, 05 Oct 2022 08:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=OVjZbIf3Mp+GOHIGoOYCGgXAfUIt0XSmtAjlxqfb9Aw=;
+        b=Iv+S92b8kXmVh6LQOeBspA+kWuuAOLNCSZMTcLFvdNwC3W9IzYzfguhbxlUdnFg2dc
+         znB9B4MRckpRW8U2fi+5KPZOjK/eJCwGmA+ZuadhiatUfMPthuZyimMVJzydQoZgpJhz
+         6wBr+tXu95QhUnPwUBMKRnLuC6q3i57hzDnYhzl3FAozpg6ueoIJY9vc8WmIw1bGoyV8
+         q/oUjDm5Lw3+wx7K6kW4WVnTZa7iVSOrWEn6KXnNwhtI50xuWRdoJmhvzyDH79xnLPGY
+         aCdhZLqeanlDE/SfwR+fY6Y0RiVXc4nuMQnnGaFAqJLHlLHG1Ged/zMknA93dGzXYO1Y
+         XeVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=OVjZbIf3Mp+GOHIGoOYCGgXAfUIt0XSmtAjlxqfb9Aw=;
+        b=PWSkmr4Vun8i80TsYvTW78GOlxENTsQ1g2uBxm70dAYUZeuyRbI8VG5tA7ULEc3xzg
+         cxYkJ0nWmg1LuBldF0Nw8dJ1BmocPACwIH3oufjYQNIZ7/p8TESgZ4Zozd9MeVQHHU+8
+         vOqA3JbCwJoUXmq+Y4kp8TJbjQvCVmgnJsUsG9RXdcG6Z3xlD3CxNGxQUeSHVtTi/NZy
+         r14YAWpd0kEAoM2bZZSbr8y4CMgHWn30Oc3LSuDKs9OcCV1gI48mlIuUiFxS5k0riD2L
+         whWWON46XQX/9GYtaGNiZob9QggLW7IsmCQtczgazC/5dGbYT0O4C7fEvxmkAMWDYf6Q
+         MClQ==
+X-Gm-Message-State: ACrzQf0cAsLY1UscsuMmGtxwsptgNnN3j+OgPGl3t78H+URpsl5mWqav
+        xETFUwjSPOB+tEAtJ2kfLyMozUJySgxfbaya
+X-Google-Smtp-Source: AMsMyM5+cpjtpkWkPVBAo6t/HoKn0NeJkpqnivHRNu1f2aQCJPeb0WQNMbReOUqC9BQxIsqHFEgFDw==
+X-Received: by 2002:a05:6000:1acd:b0:22a:a047:2533 with SMTP id i13-20020a0560001acd00b0022aa0472533mr212051wry.69.1664984071276;
+        Wed, 05 Oct 2022 08:34:31 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id p16-20020a1c5450000000b003c00203fb81sm1094996wmi.7.2022.10.05.08.34.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Oct 2022 08:34:30 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: lenovo: Make array tp10ubkbd_led static const
+Date:   Wed,  5 Oct 2022 16:34:30 +0100
+Message-Id: <20221005153430.319148-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ePzzjg1bOlGADoWy"
-Content-Disposition: inline
-In-Reply-To: <20221005-mt6357-support-v2-4-f17ba2d2d0a9@baylibre.com>
-X-Cookie: Poland has gun control.
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Don't populate the read-onlyAtp10ubkbd_led on the stack but instead
+make it static const. Also makes the object code a little smaller.
 
---ePzzjg1bOlGADoWy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/hid/hid-lenovo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, Oct 05, 2022 at 04:57:24PM +0200, Alexandre Mergnat wrote:
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 9dabd6323234..44763c0da444 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -985,7 +985,7 @@ static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 	struct device *dev = led_cdev->dev->parent;
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+-	u8 tp10ubkbd_led[] = { TP10UBKBD_MUTE_LED, TP10UBKBD_MICMUTE_LED };
++	static const u8 tp10ubkbd_led[] = { TP10UBKBD_MUTE_LED, TP10UBKBD_MICMUTE_LED };
+ 	int led_nr = 0;
+ 	int ret = 0;
+ 
+-- 
+2.37.3
 
-> +static int mt6357_set_voltage_sel(struct regulator_dev *rdev,
-> +				  unsigned int selector)
-> +{
-> +	int idx, ret;
-> +	const u32 *pvol;
-> +	struct mt6357_regulator_info *info = rdev_get_drvdata(rdev);
-> +
-> +	pvol = info->index_table;
-> +
-> +	idx = pvol[selector];
-> +	ret = regmap_update_bits(rdev->regmap, info->desc.vsel_reg,
-> +				 info->desc.vsel_mask,
-> +				 idx << 8);
-> +
-> +	return ret;
-> +}
-
-There's a bunch of other Mediatek drivers doing this and multiple
-instances in this driver, the helper should really be factored out.
-
---ePzzjg1bOlGADoWy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmM9niIACgkQJNaLcl1U
-h9Dhhwf9EYMAixn0Ds9CE5Jhseu04EmZqy92PGrOBlm9jhRXA4+ZGnFamrEUyk6k
-4LfHqEtFGXX7XUsH4OHsp2pJ19RHvzMMPGUAIyKf5IX8wbliO/8HnGy3L/K6a3Bs
-mQqG+YisFR1zOlyvZNklAyNXUrGM+uXOniZPpVxH2TOpWUb1rRdEVn4wmsMNZscp
-L3dMjRwyW+sqipIIkhInS1IqM7DCy82Kf4cYR4HFUPtD/MDRlY5fCyk65WErjZme
-l2jebnqqmEvrWJNrJVN7SJU3LLBr8bdZtLCeLnIwsihBxvRdYTPOPzTllmFr10ZH
-wddR1vLT2rhRPqblO03xX3vjGckx5A==
-=Y+8N
------END PGP SIGNATURE-----
-
---ePzzjg1bOlGADoWy--
