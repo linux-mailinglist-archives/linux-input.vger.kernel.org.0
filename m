@@ -2,94 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 605E35F57C7
-	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 17:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A1455F57EF
+	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 18:02:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbiJEPs4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Oct 2022 11:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41562 "EHLO
+        id S229947AbiJEQC1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Oct 2022 12:02:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbiJEPsz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 11:48:55 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A9D79602;
-        Wed,  5 Oct 2022 08:48:54 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so1287634wmb.0;
-        Wed, 05 Oct 2022 08:48:54 -0700 (PDT)
+        with ESMTP id S229676AbiJEQC0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 12:02:26 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73D67B29C
+        for <linux-input@vger.kernel.org>; Wed,  5 Oct 2022 09:02:23 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id z4so26207694lft.2
+        for <linux-input@vger.kernel.org>; Wed, 05 Oct 2022 09:02:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=zvdzV5NONJDBCUm21IdAffqRPiRBCG67doUzQ6+6n0M=;
-        b=S1kciJzoCzZUa4tt3vXo7YVeSCxjGaFD1BSLvS0yn+5ccmY2uH2Xtih+RraA+BMYRw
-         +55G3rWaXUJh1Jla9cm508lioJeLPw6UJkCcw6Lwevau8BeeYtyHE3e6Yb3fimx4klD7
-         0EqPVpr0ghLat8si2WI0uSaDKwukEIRDknmFA+eSSr1FzngYjwk04DUavcGR2MoV5BOW
-         P7sFuvBfia2u1hGWiTf9KmUtajxC/WWadbBKE8mZxDLqQrFulIf8fMY61LQj6frCld0D
-         xTMpwK+jIN4AYT7+0hl3FVQKXl7bs3YMhSMzxkz+Du+eVR5TrnG9TZgHZIAjENOewwEq
-         PfuA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=nV8sn5fckcM1r2PSkDjQFkbKbz4kB84l0Mkh4PCptDc=;
+        b=biOadCqVTkYihS9A1lwozegpbBCWdVtjyxKTngIIPs12kKTrrqxLkyqBFwbV9Zi5Vp
+         mWjjRHPwcQ1Lfv3PSm/ifX0D44ssDjl9q9WkvYgoCXuee+OugiTH4468hnvddQMr82T1
+         wpsSWEGM8XCqZVMy6x8Fjw1PaJ8uf1gzeILv/SdgXSJVbAFOOmyB3+jy9QQIMv3aMGb4
+         aYm0Q9vGLXxgaCxbPw9SeSAy/HYYRBnIfb+yGu1EMRPlJa922+Ha7nNXJm8RlD13ptH9
+         bxnW3Gv/CODYMekSycuKsZYNqkPe1O9nvGFB7YSyiWC5qqAGhzCZKTKI6XHt5WSTay0/
+         v2dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=zvdzV5NONJDBCUm21IdAffqRPiRBCG67doUzQ6+6n0M=;
-        b=teQVidXNHK4Bc0vuqOvwuzS7vapGoMkYewB8/rFADyhNWJJ8/wr9/T0+8J/iVmHlH7
-         XtepfHcA8LzJIXxiOZLpjUKdR/TAqElXsh6/zRhlLkeu22Vu42SW13MFQkjYpKYTn7Gt
-         H7XldPdoMgKESja0NS39sHOSm8VuW3cmK8TzEfV74P6bfMhqAGNaAQfil0mpw95sQobV
-         VN22NUFhjvwZ3iDPNbUBTxEGm3TSdJ1TWfxj1d1y4k3/ki7i4yVoboTup5FSs284sJlM
-         acRENWzwjqI2UfLGXzejMTqx3/SAj7afo5oCg0fM95/rjhrFhDPbpNLiHnKbjSXuMn90
-         MagQ==
-X-Gm-Message-State: ACrzQf0moLDVduklZLLW5RynD4FNXCXcu/q6sS8INLFmdVXH5prlTLRS
-        rr1VNqhCUtuO1/3ZE/BwsIs=
-X-Google-Smtp-Source: AMsMyM70b4J3oBB1GdfcnfZoJSjEKLdqnLlJEOP+3HB/DpM4fEkK2ed/MryS26WZ/KsgUxz1AKAb+w==
-X-Received: by 2002:a05:600c:3555:b0:3b4:c0fd:918e with SMTP id i21-20020a05600c355500b003b4c0fd918emr121056wmq.61.1664984933317;
-        Wed, 05 Oct 2022 08:48:53 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id f6-20020a1c3806000000b003b3365b38f9sm2275751wma.10.2022.10.05.08.48.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 08:48:52 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: dlink-dir685-touchkeys: Make array bl_data static const
-Date:   Wed,  5 Oct 2022 16:48:52 +0100
-Message-Id: <20221005154852.320056-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=nV8sn5fckcM1r2PSkDjQFkbKbz4kB84l0Mkh4PCptDc=;
+        b=z9hz2+VL4RvwAHjq8l5ssBmIA6Ve2GbdlqrXRVC5TfMHjZdX9y2I77VGbBHIYmAlPT
+         CShifd4PkEuDsPLVvuHs/Iwi4/T6qU0koLcPQkoKza+ekKxUM9pBtZJWQ9dWSAHPpsnu
+         PNgIUFqc9CmkIBMBi942HYGDO0UZsUvsp9LUZ6RgbfuzyoW+S8l+IxC+H+oTRBjUc9qB
+         WXPN93SdhmgktgxlsWjQY1nBG8fukMjLz4izqTEPhe6noVGsOjG3M3dtoiwg3rMC2DpW
+         5t3aalPZIsF9jS5FCZnd/wZAPnQhaAOkepYGWfTyk4BRP+tMWA2vT5DU2HBNXDZxYQ+5
+         KCAA==
+X-Gm-Message-State: ACrzQf1yxph7ray2mh6SyTrhkvUV6KrTrFwrMeEoKBr5heCLiJvMTBha
+        0/X8YZOgBR/QCDA5r97Sna9iRA==
+X-Google-Smtp-Source: AMsMyM5OSRk7h6UVPriBwCMY+CnAJExrUJsFeU6ZP8I38AN34glsQMeVrQOJadHtOCXG6lkgJT58Ew==
+X-Received: by 2002:a05:6512:3996:b0:4a2:1c8c:c9a1 with SMTP id j22-20020a056512399600b004a21c8cc9a1mr213297lfu.230.1664985742272;
+        Wed, 05 Oct 2022 09:02:22 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id j15-20020a056512108f00b0049f87fb416dsm2396484lfg.12.2022.10.05.09.02.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Oct 2022 09:02:21 -0700 (PDT)
+Message-ID: <cdb4e9f7-c7b3-3a1f-bf61-e42bdb021570@linaro.org>
+Date:   Wed, 5 Oct 2022 18:02:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 3/5] dt-bindings: regulator: Add binding schema for
+ mt6357 regulators
+Content-Language: en-US
+To:     Alexandre Mergnat <amergnat@baylibre.com>,
+        Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen Zhong <chen.zhong@mediatek.com>
+Cc:     linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>
+References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
+ <20221005-mt6357-support-v2-3-f17ba2d2d0a9@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221005-mt6357-support-v2-3-f17ba2d2d0a9@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Don't populate the read-only array bl_data on the stack but instead
-make it static const. Also makes the object code a little smaller.
+On 05/10/2022 16:57, Alexandre Mergnat wrote:
+> From: Fabien Parent <fparent@baylibre.com>
+> 
+> Add YAML schema for the MediaTek MT6357 regulators.
+> 
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>  .../regulator/mediatek,mt6357-regulator.yaml       | 284 +++++++++++++++++++++
+>  1 file changed, 284 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml
+> new file mode 100644
+> index 000000000000..83ce2cf287dd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml
+> @@ -0,0 +1,284 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/mediatek,mt6357-regulator.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT6357 Regulators
+> +
+> +maintainers:
+> +  - Fabien Parent <fparent@baylibre.com>
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/input/keyboard/dlink-dir685-touchkeys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The email might be not correct.
 
-diff --git a/drivers/input/keyboard/dlink-dir685-touchkeys.c b/drivers/input/keyboard/dlink-dir685-touchkeys.c
-index a69dcc3bd30c..7db7fb175869 100644
---- a/drivers/input/keyboard/dlink-dir685-touchkeys.c
-+++ b/drivers/input/keyboard/dlink-dir685-touchkeys.c
-@@ -64,7 +64,7 @@ static int dir685_tk_probe(struct i2c_client *client,
- {
- 	struct dir685_touchkeys *tk;
- 	struct device *dev = &client->dev;
--	u8 bl_data[] = { 0xa7, 0x40 };
-+	static const u8 bl_data[] = { 0xa7, 0x40 };
- 	int err;
- 	int i;
- 
--- 
-2.37.3
+> +  - Alexandre Mergnat <amergnat@baylibre.com>
+> +
+> +description: |
+> +  The MT6357 PMIC provides 5 BUCK and 29 LDO.
+> +  Regulators and nodes are named according to the regulator type:
+> +  buck-<name> and ldo-<name>.
+> +  MT6357 regulators node should be sub node of the MT6397 MFD node.
+> +
+> +patternProperties:
+> +  "^buck-v(core|modem|pa|proc|s1)$":
+> +    type: object
+> +    $ref: "regulator.yaml#"
+
+Drop quotes.
+
+> +
+> +    properties:
+> +      regulator-name:
+> +        pattern: "^v(core|modem|pa|proc|s1)$"
+
+Why enforcing particular name of the regulator?
+
+Both comments apply to all other cases.
+
+Best regards,
+Krzysztof
 
