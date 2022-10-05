@@ -2,118 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A8A15F5A1D
-	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 20:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7CF75F5BAA
+	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 23:26:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbiJESvj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Oct 2022 14:51:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59016 "EHLO
+        id S230044AbiJEV0a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Oct 2022 17:26:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbiJESvi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 14:51:38 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE0F6B8E5
-        for <linux-input@vger.kernel.org>; Wed,  5 Oct 2022 11:51:37 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id b4so20303772wrs.1
-        for <linux-input@vger.kernel.org>; Wed, 05 Oct 2022 11:51:37 -0700 (PDT)
+        with ESMTP id S229681AbiJEV03 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 17:26:29 -0400
+X-Greylist: delayed 151 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 05 Oct 2022 14:26:28 PDT
+Received: from resqmta-c1p-023461.sys.comcast.net (resqmta-c1p-023461.sys.comcast.net [IPv6:2001:558:fd00:56::a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC96A74BBA
+        for <linux-input@vger.kernel.org>; Wed,  5 Oct 2022 14:26:28 -0700 (PDT)
+Received: from resomta-c1p-023411.sys.comcast.net ([96.102.18.231])
+        by resqmta-c1p-023461.sys.comcast.net with ESMTP
+        id g8x5o642GPyYFgBrxojv0W; Wed, 05 Oct 2022 21:23:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=wF5bNPXQn5f+v1FMf7+hCwm+T7o8jqjGjlTOS1sYvqs=;
-        b=F0Y7lKNUqhSu3YEGcWSGffVPsYw1lP2HeC4mfjZoJwxGXcMLX6mnAtgJHWoIpO5Ahj
-         dqDo87nGhIDvyYO4zkEk9cLG+YOm8MPYnq/2zcs3vPSA1c6bXy5RTTzMcj0XwqtBfddk
-         rIvyFGnHFbs8fFy7dJOqJ1koyC0Fko1y/comXGoDRVc7baTbSFafQpUa0EFueIeD0qOi
-         Vh3YCjtggpwgKqvcWPymvDjtWO/AkCXTevy1/6gajBle8ForMXG32pdvPJQ5upsaI0vv
-         ZjuHg23yHMd/4qu87/rmcwceXPUE7FH5k83b5KmZjNJSAXJ5EZIk5kyOwXsalY35WzyQ
-         CsBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=wF5bNPXQn5f+v1FMf7+hCwm+T7o8jqjGjlTOS1sYvqs=;
-        b=jJGQIKgqC2JXVGDJCdxIiW4hsXzGcXk4E7jv4VqjL26JZkKbNK900IlzgMZCGtwPFN
-         teZnfeXhCIiWWnzIqlyOvVJr0H8FgBtWsp1rxHwUT6HlO6kGXX1831d2AcG4C6VqfZLs
-         rYJ9HSxwoxxqIeetcKInA/L34uN6RA6qqQL3JdssnaEiwB7x4cYT88ROtexMUbIEqKF3
-         ZPJBDAdegSj3UhSgIkF34xEkFZ+KdsRv2GYdj5FBpHjr9++srgTeEziAeJ1/dqzXdHsk
-         HwipzMoWh7gy0gp/X0nz1BgJ2VJU5nX8mZm9lAYqA1w/JH8yBGMJ67UPlAR53gM/14Ep
-         dkaA==
-X-Gm-Message-State: ACrzQf030apD3CywVTQHv8/F9Mqkd2/PVMtQYQLenrriFp5EeOsXB5aD
-        CDNtRe+fRFY3hmHvNLIclgt3N7dvAxMRbQ==
-X-Google-Smtp-Source: AMsMyM7YISPvvcOQrDoyBYxEEZeucOjmG6g264t6oKR89jyGIG9g1+uzFIMPc3O62jJUMztk6I9llA==
-X-Received: by 2002:adf:eb4c:0:b0:22b:24d5:3786 with SMTP id u12-20020adfeb4c000000b0022b24d53786mr685927wrn.550.1664995896125;
-        Wed, 05 Oct 2022 11:51:36 -0700 (PDT)
-Received: from d1.cmb.bingbong.tech ([95.148.23.155])
-        by smtp.gmail.com with ESMTPSA id f13-20020adfe90d000000b0022e57e66824sm5121554wrm.99.2022.10.05.11.51.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 11:51:35 -0700 (PDT)
-From:   Samuel Bailey <samuel.bailey1@gmail.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Cc:     Samuel Bailey <samuel.bailey1@gmail.com>
-Subject: [PATCH] HID: saitek: add madcatz variant of MMO7 mouse device ID
-Date:   Wed,  5 Oct 2022 19:51:23 +0100
-Message-Id: <20221005185123.22219-1-samuel.bailey1@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        d=comcastmailservice.net; s=20211018a; t=1665005037;
+        bh=6nswR+3d/gnwoaF8K8U30+q9DQCaCZojzetu+lImvbk=;
+        h=Received:Received:Received:Date:From:To:Subject:Message-ID:
+         MIME-Version:Content-Type;
+        b=pocKbTK/eFeOw+wg3eqqQN4as+OOS14HFf7i2oUBptyM9Q+OhhRjo4bMgiaMS+6yw
+         plOjeAAnYFOk/Wn7gjaTM4yFAqnBvVtWvcux0XnqTnB0fn2gJ2b2ZuJZjBWn4DvrIU
+         Twfgmu4iJrRBEl2N7EePGT7DyHZGB6idWitGn7go9d11Bd4QXcN999nlQHMYX89PnO
+         7ydeq5jwTSRUFq6VTjOesQw75Kl/Fc+Ebh86TZz9x+SWygQdYw7DUBVqJ235rYvDDD
+         p5l8NfN3FQJ1EaXpZrKB+KTW0j5x1w7zPLTyksmmIBRdBl+fgr0xTfbCgT06+o+mxB
+         CO7TRY5r+38Rg==
+Received: from Outgoing.brak ([69.249.67.241])
+        by resomta-c1p-023411.sys.comcast.net with ESMTPSA
+        id gBrZoG0Iq563TgBrZo9LmJ; Wed, 05 Oct 2022 21:23:35 +0000
+X-Xfinity-VAAS: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeifedgudehlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucevohhmtggrshhtqdftvghsihdpqfgfvfdppffquffrtefokffrnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfghrlhcuvffnffculddvfedmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgruhhlucffihhnohculfhonhgvshcuoehprghulhesshhprggtvghfrhgvrghkudekrdighiiiqeenucggtffrrghtthgvrhhnpeffieeijedvffekteevtdehffeffeetvdehfeehkeehieevtedthfeuveeugefgveenucffohhmrghinhepghhithhhuhgsrdgtohhmpdifihhnvghhqhdrohhrghenucfkphepieelrddvgeelrdeijedrvdegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopefquhhtghhoihhnghdrsghrrghkpdhinhgvthepieelrddvgeelrdeijedrvdeguddpmhgrihhlfhhrohhmpehprghulhesshhprggtvghfrhgvrghkudekrdighiiipdhnsggprhgtphhtthhopeehpdhrtghpthhtoheprghnshhsihdrhhgrnhhnuhhlrgesihhkihdrfhhipdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnh
+ gvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhushgssehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-Xfinity-VMeta: sc=-77.00;st=legit
+Received: from localhost.localdomain (unknown [172.18.18.119])
+        by Outgoing.brak (Postfix) with ESMTPSA id EE639B38E564;
+        Wed,  5 Oct 2022 21:23:32 +0000 (UTC)
+Date:   Wed, 5 Oct 2022 21:30:21 +0000
+From:   Paul Dino Jones <paul@spacefreak18.xyz>
+To:     Anssi Hannula <anssi.hannula@iki.fi>
+Cc:     jikos@kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usbhid: Interpret 0 length ff effects as infinite
+ (0xffff) length effects
+Message-ID: <20221005213021.adhxibb5ipbrjdnn@localhost.localdomain>
+References: <20221001221657.gexisc2egjn3mpog@localhost.localdomain>
+ <93f708f3f9ac8b5c94e6d0b86c1efaa3@iki.fi>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <93f708f3f9ac8b5c94e6d0b86c1efaa3@iki.fi>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FROM_SUSPICIOUS_NTLD,SPF_HELO_PASS,SPF_SOFTFAIL
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The MadCatz variant of the MMO7 mouse has the ID 0738:1713 and the same
-quirks as the Saitek variant.
+Hello, and thank you for considering this.
 
-Signed-off-by: Samuel Bailey <samuel.bailey1@gmail.com>
+Yes, Wine 7 breaks a lot of stuff for me, and I've been using Wine 5.x
+and 6.x through Proton which isn't ideal when trying to isolate
+problems.
+
+It seems there is atleast some precedence in other force feedback
+drivers for using 0 as some sort of indicator for an infinite effect:
+
+https://github.com/gotzl/hid-fanatecff/blob/next/hid-ftecff.c#L724
+
+https://github.com/berarma/new-lg4ff/blob/master/hid-lg4ff.c#L762
+
+We also discussed this issue at this thread:
+
+https://github.com/berarma/ffbtools/issues/26
+
+I've also read some indication that the SimCube wheel works on Linux, so
+I'd be interested in how that is handling this situation.
+
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- drivers/hid/hid-saitek.c | 2 ++
- 3 files changed, 4 insertions(+)
+Paul Dino Jones
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index f80d6193fca6..0df74aafaf1b 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -867,6 +867,7 @@
- #define USB_DEVICE_ID_MADCATZ_BEATPAD	0x4540
- #define USB_DEVICE_ID_MADCATZ_RAT5	0x1705
- #define USB_DEVICE_ID_MADCATZ_RAT9	0x1709
-+#define USB_DEVICE_ID_MADCATZ_MMO7  0x1713
- 
- #define USB_VENDOR_ID_MCC		0x09db
- #define USB_DEVICE_ID_MCC_PMD1024LS	0x0076
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 70f602c64fd1..50e1c717fc0a 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -620,6 +620,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_MMO7) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_RAT5) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_RAT9) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_MMO7) },
- #endif
- #if IS_ENABLED(CONFIG_HID_SAMSUNG)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAMSUNG, USB_DEVICE_ID_SAMSUNG_IR_REMOTE) },
-diff --git a/drivers/hid/hid-saitek.c b/drivers/hid/hid-saitek.c
-index c7bf14c01960..b84e975977c4 100644
---- a/drivers/hid/hid-saitek.c
-+++ b/drivers/hid/hid-saitek.c
-@@ -187,6 +187,8 @@ static const struct hid_device_id saitek_devices[] = {
- 		.driver_data = SAITEK_RELEASE_MODE_RAT7 },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_MMO7),
- 		.driver_data = SAITEK_RELEASE_MODE_MMO7 },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_MMO7),
-+		.driver_data = SAITEK_RELEASE_MODE_MMO7 },
- 	{ }
- };
- 
--- 
-2.37.3
 
+> Paul Dino Jones kirjoitti 2022-10-02 01:16:
+> > Greetings,
+> 
+> Hello, and thanks for looking into this!
+> 
+> > I started using my Accuforce V2 sim wheel on Linux. I was getting no
+> > response from racing simulators through wine, while native linux test
+> > tools worked properly. It appears that many real-world applications will
+> > send 0 as the replay length, which was resulting in the behavior I was
+> > observing (nothing). The PID document does not explicitly state that 0
+> > length effects should be interpreted as infinite, but it does mention
+> > null effects being infinite effects.
+> 
+> Actually, it is Wine that is translating 0xFFFF from the application to
+> 0x0000 for the Linux FF API:
+> https://gitlab.winehq.org/wine/wine/-/blob/master/dlls/winebus.sys/bus_udev.c#L1124
+> 
+> Unfortunately "infinite" duration is not actually specified at all in our
+> API currently.
+> input.h just says that the all durations are in msecs and values above
+> 0x7fff cause unspecified results.
+> 
+> We have three places where the duration is handled:
+> - ff-memless: Considers 0 as infinite (in ml_get_combo_effect() and
+> calculate_next_time()).
+> - iforce-ff: Just passes the duration to HW as-is - it is unknown what
+> counts as infinite, if any.
+> - pidff: Just passes the duration to HW as-is, so using the
+> unspecified-by-API 0xffff results in infinite duration (per USB HID PID
+> spec).
+> 
+> So we probably want to specify some value to work as infinite, likely either
+> 0 or 0xFFFF, and explicitly document that in input.h.
+> I suspect that ff-memless devices are currently the most popular, and e.g.
+> Wine already assumes 0 is infinite, and I can't think of a reason to have an
+> "actual" 0-duration effect, so I guess 0 would be the most sensible value.
+> 
+> Since iforce is an "ancestor" of HID PID of sorts, it may also support
+> 0xffff = infinite.
+> I'll try to get hold of one to test, though it may take a couple of weeks...
+> 
+> 
+> > This patch will interpret 0 length force feedback effects as 0xffff
+> > (infinite) length effects, leaving other values for replay length
+> > unchanged.
+> > 
+> > Signed-off-by: Paul Dino Jones <paul@spacefreak18.xyz>
+> > ---
+> >  drivers/hid/usbhid/hid-pidff.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/hid/usbhid/hid-pidff.c
+> > b/drivers/hid/usbhid/hid-pidff.c
+> > index 3b4ee21cd811..70653451c860 100644
+> > --- a/drivers/hid/usbhid/hid-pidff.c
+> > +++ b/drivers/hid/usbhid/hid-pidff.c
+> > @@ -301,7 +301,7 @@ static void pidff_set_effect_report(struct
+> > pidff_device *pidff,
+> >  		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
+> >  	pidff->set_effect_type->value[0] =
+> >  		pidff->create_new_effect_type->value[0];
+> > -	pidff->set_effect[PID_DURATION].value[0] = effect->replay.length;
+> > +	pidff->set_effect[PID_DURATION].value[0] = effect->replay.length ==
+> > 0 ? 0xffff : effect->replay.length;
+> >  	pidff->set_effect[PID_TRIGGER_BUTTON].value[0] =
+> > effect->trigger.button;
+> >  	pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] =
+> >  		effect->trigger.interval;
+> 
+> -- 
+> Anssi Hannula
+> 
