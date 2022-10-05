@@ -2,150 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82DF65F56EC
-	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 16:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB645F571F
+	for <lists+linux-input@lfdr.de>; Wed,  5 Oct 2022 17:09:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230297AbiJEO6b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Oct 2022 10:58:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49244 "EHLO
+        id S230136AbiJEPJd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Oct 2022 11:09:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230247AbiJEO6H (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 10:58:07 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB7317CB61
-        for <linux-input@vger.kernel.org>; Wed,  5 Oct 2022 07:57:48 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id b7so18730503wrq.9
-        for <linux-input@vger.kernel.org>; Wed, 05 Oct 2022 07:57:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date;
-        bh=5LEzJ4YCcZTK5iSxuGcCtaKYesf8mH4mh88+OJy8Eek=;
-        b=Z0relTcGaADogcmitxZSOKrdaUpVfsm9MGuGr/CaYAJCr6pD4x6Kuo0vGjhuNUjOR0
-         m4tRsM2rax7gyedn8FMTUFRuHpRkfDRsSO7ffhEH7Cp9f+n2A1e1xVXP77w8sXMfEh0M
-         xR9n/U8mgmIOVtkd4opFpN0i+NmS+ERxxICjyYnQzFAuk9Vx2XUFS9pchGvJaxj3iYTg
-         adElNm9hkda9I/struStqpEsd7/KkjXiw1iEbU3fGBx8hlfEd/4Q84sWtSPJo87RGwrh
-         70aYx0hsI2QEtbXc2cU8q/edTx8UzN4hb89M1vn2m5AhneErnQuKBhh3OfUAEhx9SNK4
-         VHFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=5LEzJ4YCcZTK5iSxuGcCtaKYesf8mH4mh88+OJy8Eek=;
-        b=6cR575CqIp2iR9U8+jQN231tNW8QesmmdJHnx2L3JESoRNV9Kxcda/RDF9IqvFVO4F
-         3HurO22i6HPNFCUcOarGLBIoUW4a9OxQZnFE8uFNbZzPX3tT191Tu5dd/TyFlJ7G634i
-         +eBf2NDhj8XPwgthupHu/qCbt3L2+sri3tJn2VDJ06RReqMRDvaCXrAtTRf1lisKmmYA
-         oc5PSLkoZCQ/+efq/lkcsO1B/S3IOMW/l7uDVlpZS7Tp8HivhrDL245GafSe037DBXWW
-         fmmX7LqXpAkOuyxSGqYrTxCFAUK8wSibTR+frQxUWm2je6cePLUIkvx7CpCW6DGJ/OtK
-         3tag==
-X-Gm-Message-State: ACrzQf2vKFbC/8wCVEW2azPkh0+c4gQiWVDhPjQSKB1arNAQNwZm7uZj
-        HMeO79y9ZWt8l5AHtB80HHBw+pzmJBY3lNQL
-X-Google-Smtp-Source: AMsMyM5RIDOP0SBHTgVz9cIeHQ3xf/675SJ1zg0vkMRJgYQZ0smzOghgKmsChaaTYVdn8lhx3g56VQ==
-X-Received: by 2002:adf:fb05:0:b0:228:6463:b15d with SMTP id c5-20020adffb05000000b002286463b15dmr95901wrr.534.1664981866717;
-        Wed, 05 Oct 2022 07:57:46 -0700 (PDT)
-Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
-        by smtp.googlemail.com with ESMTPSA id k38-20020a05600c1ca600b003a3170a7af9sm2313758wms.4.2022.10.05.07.57.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 07:57:45 -0700 (PDT)
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-Date:   Wed, 05 Oct 2022 16:57:25 +0200
-Subject: [PATCH v2 5/5] Input: mtk-pmic-keys: add MT6357 support
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221005-mt6357-support-v2-5-f17ba2d2d0a9@baylibre.com>
-References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
-In-Reply-To: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
-To:     Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
+        with ESMTP id S229772AbiJEPJc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 11:09:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF2E6555C;
+        Wed,  5 Oct 2022 08:09:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9E4FBB81E05;
+        Wed,  5 Oct 2022 15:09:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D912C433D7;
+        Wed,  5 Oct 2022 15:09:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664982569;
+        bh=t+Sxcbjds/CH5MY19al2gz2FR5p9mkdz/6BYz2fXlU0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GEkW8fKbRTjT2keR2zgUqFVMVniZajgccILAJDNGPN9q1zLxzeoJyXaM2GIYjdARI
+         Ozed+h8b5er4/cHkEcb795e1xmsc9XDtHevgs0ue8OSaKwGLM8cA5/JpFzdJxbmXy0
+         9Bc7kbL6nYDMWWatiSpq6tJ+5ULIn+oG0rPpHF+vrJU+BpC6bFPYVGrbsTYSwiHapL
+         vGhSmvbXtZbOhghP1YDe1rdxdUkO70YFxGM3tvXLWKktvgPTRlr79XAL0wRbrXM+IP
+         knxKwhSWILClq9WetEPyGBjaH4geInJdsonp7TW36QptFF8/jgWrcjhX+vyb2BS6Xo
+         uBOSEsIkk1kJg==
+Date:   Wed, 5 Oct 2022 16:09:22 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Alexandre Mergnat <amergnat@baylibre.com>
+Cc:     Lee Jones <lee@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen Zhong <chen.zhong@mediatek.com>
-Cc:     linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>,
-        Alexandre Mergnat <amergnat@baylibre.com>
-X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1828; i=amergnat@baylibre.com;
- h=from:subject:message-id; bh=K+NtkSoTyty3WNtqny3ZNRZqV9d7SWTjFAQ6sSNyyMw=;
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBjPZtiUzTmaPYNKYUV3W/stU4RFeLEKuVzt2ZzEqp/
- Eq6ivv+JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCYz2bYgAKCRArRkmdfjHURUSiD/
- 9sA4ZHNufNW0mMKCBepfnBrZ6W30ICWNvG+puYQvyX/jwxtj2IuDK+24Mh1zWfMtIUQeSW0T57XDoi
- 0ghn+UGPc1bfvlMsd9/XBIEzfqJBNYOsGZDXJekiMu2RnvOsUDnpwTn5f/mvhXLTURVzqDugUc6Oz3
- /PHQNz/FNtHEo1vN8BPoGboWkKJf7QsfaQzD6yljthQ86IyLobiFeTS0umNxK3d7YRWLsUUoxNdxA+
- 3iLXSyPZc2o1a8bi5CfWL/zvbWSauPcgj3BpN4jY4+GeUSz32+j1PqxE1vkcfO7SAxSPBr3qzUTnC/
- IKwuSMqmMNxoD8NiMcH6tX2CXOSxhNHnTHlyvjOGNDv7krLQyVjGORuKvRS9UVXAO/OCqeOpGNZIhQ
- JciObzKUp3Q1XfnaczjG/Mh3Hk2EDAkCg+lWTC8s6LI9h2kmuJIsomFnAUs5yfqJspDRTPSdYB3u4w
- oQ5kxjH7JMve0b8aqTPkQ6hz2Nftwl5bGl1aPtQUUG8viXIvRaucyPrZjhEWAUUeqKdcC99BLlRJjM
- AmyUMcmlvzo2OwGaVEe8Gw3tIsBer+cDkRvEg3vxGM+Hs2awbUPmNjvBiRI3AzF/JJ1kQ2mYPYYneA
- mrSVR3VxVlZw0HzMwiz0qDW5WY4BVztDoCexJRkFvYB9qLvqWrx1Y+sTWc2A==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>
+Subject: Re: [PATCH v2 4/5] regulator: add mt6357 regulator
+Message-ID: <Yz2eIslwcXKNaOfi@sirena.org.uk>
+References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
+ <20221005-mt6357-support-v2-4-f17ba2d2d0a9@baylibre.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ePzzjg1bOlGADoWy"
+Content-Disposition: inline
+In-Reply-To: <20221005-mt6357-support-v2-4-f17ba2d2d0a9@baylibre.com>
+X-Cookie: Poland has gun control.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Fabien Parent <fparent@baylibre.com>
 
-Add PMIC Keys support on MT6357 SoC.
+--ePzzjg1bOlGADoWy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- drivers/input/keyboard/mtk-pmic-keys.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+On Wed, Oct 05, 2022 at 04:57:24PM +0200, Alexandre Mergnat wrote:
 
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index 9b34da0ec260..2a63e0718eb6 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/mfd/mt6323/registers.h>
- #include <linux/mfd/mt6331/registers.h>
-+#include <linux/mfd/mt6357/registers.h>
- #include <linux/mfd/mt6358/registers.h>
- #include <linux/mfd/mt6397/core.h>
- #include <linux/mfd/mt6397/registers.h>
-@@ -90,6 +91,19 @@ static const struct mtk_pmic_regs mt6331_regs = {
- 	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
- };
- 
-+static const struct mtk_pmic_regs mt6357_regs = {
-+	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-+				   0x2, MT6357_PSC_TOP_INT_CON0, 0x5,
-+				   MTK_PMIC_PWRKEY_RST),
-+	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-+				   0x8, MT6357_PSC_TOP_INT_CON0, 0xa,
-+				   MTK_PMIC_HOMEKEY_INDEX),
-+	.pmic_rst_reg = MT6357_TOP_RST_MISC,
-+	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
-+};
-+
- static const struct mtk_pmic_regs mt6358_regs = {
- 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
- 		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-@@ -276,6 +290,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
- 	}, {
- 		.compatible = "mediatek,mt6331-keys",
- 		.data = &mt6331_regs,
-+	}, {
-+		.compatible = "mediatek,mt6357-keys",
-+		.data = &mt6357_regs,
- 	}, {
- 		.compatible = "mediatek,mt6358-keys",
- 		.data = &mt6358_regs,
+> +static int mt6357_set_voltage_sel(struct regulator_dev *rdev,
+> +				  unsigned int selector)
+> +{
+> +	int idx, ret;
+> +	const u32 *pvol;
+> +	struct mt6357_regulator_info *info = rdev_get_drvdata(rdev);
+> +
+> +	pvol = info->index_table;
+> +
+> +	idx = pvol[selector];
+> +	ret = regmap_update_bits(rdev->regmap, info->desc.vsel_reg,
+> +				 info->desc.vsel_mask,
+> +				 idx << 8);
+> +
+> +	return ret;
+> +}
 
--- 
-b4 0.10.1
+There's a bunch of other Mediatek drivers doing this and multiple
+instances in this driver, the helper should really be factored out.
+
+--ePzzjg1bOlGADoWy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmM9niIACgkQJNaLcl1U
+h9Dhhwf9EYMAixn0Ds9CE5Jhseu04EmZqy92PGrOBlm9jhRXA4+ZGnFamrEUyk6k
+4LfHqEtFGXX7XUsH4OHsp2pJ19RHvzMMPGUAIyKf5IX8wbliO/8HnGy3L/K6a3Bs
+mQqG+YisFR1zOlyvZNklAyNXUrGM+uXOniZPpVxH2TOpWUb1rRdEVn4wmsMNZscp
+L3dMjRwyW+sqipIIkhInS1IqM7DCy82Kf4cYR4HFUPtD/MDRlY5fCyk65WErjZme
+l2jebnqqmEvrWJNrJVN7SJU3LLBr8bdZtLCeLnIwsihBxvRdYTPOPzTllmFr10ZH
+wddR1vLT2rhRPqblO03xX3vjGckx5A==
+=Y+8N
+-----END PGP SIGNATURE-----
+
+--ePzzjg1bOlGADoWy--
