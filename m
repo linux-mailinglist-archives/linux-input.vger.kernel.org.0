@@ -2,126 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15E465F6D85
-	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 20:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD6D65F6E75
+	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 21:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbiJFSbe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Oct 2022 14:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
+        id S232125AbiJFTxz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Oct 2022 15:53:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231819AbiJFSbd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 14:31:33 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72396AA34D;
-        Thu,  6 Oct 2022 11:31:32 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id m81so3008838oia.1;
-        Thu, 06 Oct 2022 11:31:32 -0700 (PDT)
+        with ESMTP id S232116AbiJFTxv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 15:53:51 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9437EA879E
+        for <linux-input@vger.kernel.org>; Thu,  6 Oct 2022 12:53:48 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id r17so6922557eja.7
+        for <linux-input@vger.kernel.org>; Thu, 06 Oct 2022 12:53:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KLSUG+i+YfUxCARVJTD1GslXbH0UKN+cZHn6UsaYzBg=;
-        b=fZg6klCgbal5S5LyLap7E1l92Ytg2/ipGvE3NNsX+Yydh61Jga0Ys2YMOo05+LwPAf
-         8w24PXt5DIXI2SBkAa0tbMa82JRu3QhTrf/rECh2PP+q94awywDtvL1eUCfbHAQLM5cZ
-         fnODJfbNZN+avjTlgrJhAhdbz2kLM/lPkA5gpZfHi1+uih0awjf+TDmeE9R4bTgnpgyv
-         az5yKz/wp6qUVQq6CHa/dB6OsCbSvTz+wa0yfN31Teo/dt4SrTnZ0R2LtsaHJ1v1G3Fq
-         x1z611IkW4QsoEg9uVd9B2nnR0YQ436LVBRgd558w9yeiYmNaqDeMuHQBm7/m5xPMuyv
-         jMYQ==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=unYkvJmsfR6dlOs+zRhOM60bKQNMvgN70UTbGzDFpNU=;
+        b=XeRAWTD6REI3lmaLtlo7kvbRO5Y+EtS7cdn5tS9g95rBJG5rQqfSBch83/nVdYjZkI
+         Z3H7ACRje5Os8DEpv8TmdNlDV9seyAAZlw8sjHyy04jQUv1y/T1Do2nlPr2GYG+B2/fk
+         KBnLAtljSS4ih0sW8CXqu5SZSCAMRrdAlVv4s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KLSUG+i+YfUxCARVJTD1GslXbH0UKN+cZHn6UsaYzBg=;
-        b=NFNgg36lKUofLWVAOJrgOt0VY+a17kVfXo1OfHVG+5X5rhwC8mSiRUlt5kCzKRPk9b
-         KEm3fXsh8ya88x6BeM5hNMxat5okYyIuVTSLO06ZzUwWHsM+D3rnUYKqJng5y/Tx1O/A
-         TxxvVEtf5/17g2WDzOOg9iSGl2+u5rNANTh7qHFU+Jym4+VhjUSElyHie7ylIhLLKXum
-         wY6JLBYUHOuSgd9hmkX95g8t4GB6oNkF9TIruh90n9tk/xS1ctG+0wHeipbhj94Snxc6
-         fJPcuPk/9M1ytRASakvy4OgFPk74N8dFb/pIW4HxoSiYmfPgBLd6/mzHt0HavVc1JWoo
-         l4ag==
-X-Gm-Message-State: ACrzQf1D6xTUNwFl0qBFZpohdoeuX+zHnpAmANb7YB27ZpFGuAd4Y94Y
-        J2nGQMxfLNUd8btXMR+aRLY=
-X-Google-Smtp-Source: AMsMyM6/NVTZ+0fokMyhiCeou3tD8LlJk1ayumLAvEacbx/3wUtCkDP4gg2L2F03C7hL2qv7tdh3jg==
-X-Received: by 2002:a05:6808:1448:b0:350:c8a5:3e7e with SMTP id x8-20020a056808144800b00350c8a53e7emr5767070oiv.234.1665081091752;
-        Thu, 06 Oct 2022 11:31:31 -0700 (PDT)
-Received: from localhost.localdomain ([177.222.37.214])
-        by smtp.googlemail.com with ESMTPSA id 6-20020aca0506000000b003509cc4ad4esm6110429oif.39.2022.10.06.11.31.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Oct 2022 11:31:31 -0700 (PDT)
-From:   Henry Castro <hcvcastro@gmail.com>
-To:     thunderbird2k@gmail.com
-Cc:     Henry Castro <hcvcastro@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drivers: hid: adjust gyro calibration data
-Date:   Thu,  6 Oct 2022 14:31:05 -0400
-Message-Id: <20221006183105.5416-1-hcvcastro@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <CAEc3jaALWiuHTxNz21k3d7f0BMYxCdK0qWmng=tu6w-prej7Jw@mail.gmail.com>
-References: <CAEc3jaALWiuHTxNz21k3d7f0BMYxCdK0qWmng=tu6w-prej7Jw@mail.gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=unYkvJmsfR6dlOs+zRhOM60bKQNMvgN70UTbGzDFpNU=;
+        b=ToQWJhbjMkyNZ1bzKhDzgevhbkAbtFmzQFStRy4gCXfJaVUGdlQADCrX0h85e5H3cD
+         TVyTNLS0hLSZFcucNnqIBpkDMf3rOINg4UVQI5afB68+Q9BFk/kTurWeGaVIfEdwSsnV
+         g8+81jWgOLDt03JTWbPZdESlL5YRaANDhSNvwvS0Ze9OVPlkgNK7v4rMKpUAJF5B4P8D
+         qwx5qRFMh3+8awdXl8eHIYokz4bP2Q/Pbs0RyupVicAn4azNrTwiXaOeEKJxMBsS9JS2
+         le3Z9ltewdDtXpdy5UaWf7+XsF20nKB1fSf43LhZQRKpZUfu8M/QKVvWVzi/Dfk23job
+         nWLQ==
+X-Gm-Message-State: ACrzQf0vOafUFZn9/NZ2VdUqh0W9UaR+GQ9UcvlFpPvVqVzFBz40V+47
+        zeDsO51LBWMWX7J3/zLKY4K0XmClwFJJKwP/
+X-Google-Smtp-Source: AMsMyM4QFR0m13AUKT6WNVNu3sMvo1MfLeZcSSZXC44J+BUswRWUEuQeq85ZrrRNDd1AY86ZMMvQlQ==
+X-Received: by 2002:a17:907:5c2:b0:77e:def7:65d8 with SMTP id wg2-20020a17090705c200b0077edef765d8mr1253255ejb.487.1665086026424;
+        Thu, 06 Oct 2022 12:53:46 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id n2-20020aa7db42000000b0044e7862ab3fsm87844edt.7.2022.10.06.12.53.44
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Oct 2022 12:53:45 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id u10so4279357wrq.2
+        for <linux-input@vger.kernel.org>; Thu, 06 Oct 2022 12:53:44 -0700 (PDT)
+X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
+ b13-20020adff90d000000b0020cde324d35mr997558wrr.583.1665086024696; Thu, 06
+ Oct 2022 12:53:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20221006105823.532336-1-sheng-liang.pan@quanta.corp-partner.google.com>
+ <20221006185333.v7.3.I52e4b4b20e2eb0ae20f2a9bb198aa6410f04cf16@changeid>
+In-Reply-To: <20221006185333.v7.3.I52e4b4b20e2eb0ae20f2a9bb198aa6410f04cf16@changeid>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 6 Oct 2022 12:53:32 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xe0x6pQ+Uq5Vo7cqvS0+O8qpwUwO-e6fWhSyFvdF-_Fg@mail.gmail.com>
+Message-ID: <CAD=FV=Xe0x6pQ+Uq5Vo7cqvS0+O8qpwUwO-e6fWhSyFvdF-_Fg@mail.gmail.com>
+Subject: Re: [PATCH v7 3/4] dt-bindings: input: touchscreen: Add goodix
+ GT7986U touchscreen chip
+To:     Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-For some reason my DualShock 4 get the calibration
-data values equal:
+Hi,
 
-	gyro_pitch_plus == gyro_pitch_minus
+On Thu, Oct 6, 2022 at 3:58 AM Sheng-Liang Pan
+<sheng-liang.pan@quanta.corp-partner.google.com> wrote:
+>
+> Add an goodix touch screen chip GT7986U.
 
-Probably due to some defect in the DS4 hardware, and cause
-a CPU division exception to crash the linux kernel.
-
-At least with the patch, I can continue play Retroarch
-without using the Gyroscope :)
-
-Signed-off-by: Henry Castro <hcvcastro@gmail.com>
----
-
-> Are it only these which are equal or are there are other funky ones?
-> Are all constants in general the same? I'm just trying to figure out
-> if some of this device would even need calibration.
-
-More data logs:
-
-gyro_pitch_plus=8704 giro_pitch_minus=8704
-gyro_yaw_plus=8704 giro_yaw_minus=-8704
-gyro_roll_plus=-8704 giro_roll_minus=-8704
-
-Yes, They are constants values :( I
+In theory you could beef up the commit message explaining that GT7986U
+is expected to be fully compatible with a driver written for GT7375P,
+but I wouldn't spin just for that.
 
 
- drivers/hid/hid-sony.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> Signed-off-by: Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
+> ---
+>
+> Changes in v7:
+> - goodix gt7986 dt bindings added in v7
+>
+>  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+> index fe1c5016f7f31..1c191bc5a1782 100644
+> --- a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+> +++ b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+> @@ -16,8 +16,11 @@ description:
+>
+>  properties:
+>    compatible:
+> -    items:
+> +    oneOf:
+>        - const: goodix,gt7375p
+> +      - items:
+> +          - const: goodix,gt7986u
+> +          - const: goodix,gt7375p
 
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index 87b538656f64..656caa07b25f 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -1823,6 +1823,15 @@ static int dualshock4_get_calibration_data(struct sony_sc *sc)
- 	acc_z_plus       = get_unaligned_le16(&buf[31]);
- 	acc_z_minus      = get_unaligned_le16(&buf[33]);
+I haven't run this through schema validation, but from a visual
+inspection it looks good to me.
 
-+	if (gyro_pitch_plus == gyro_pitch_minus)
-+		gyro_pitch_minus *= -1;
-+
-+	if (gyro_yaw_plus == gyro_yaw_minus)
-+		gyro_yaw_minus *= -1;
-+
-+	if (gyro_roll_plus == gyro_roll_minus)
-+		gyro_roll_minus *= -1;
-+
- 	/* Set gyroscope calibration and normalization parameters.
- 	 * Data values will be normalized to 1/DS4_GYRO_RES_PER_DEG_S degree/s.
- 	 */
---
-2.20.1
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
