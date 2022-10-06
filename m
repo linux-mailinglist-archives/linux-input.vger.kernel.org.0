@@ -2,80 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 034E25F6EA0
-	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 22:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D32AC5F7110
+	for <lists+linux-input@lfdr.de>; Fri,  7 Oct 2022 00:21:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbiJFUIr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Oct 2022 16:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54622 "EHLO
+        id S231989AbiJFWVc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Oct 2022 18:21:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229990AbiJFUIq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 16:08:46 -0400
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADC2ABF8;
-        Thu,  6 Oct 2022 13:08:44 -0700 (PDT)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-12c8312131fso3467456fac.4;
-        Thu, 06 Oct 2022 13:08:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X8F5207qKWTdErH9oHBWKoYirrR+W+bJ9Qiy7Wsdnr0=;
-        b=uJYPgxs8oVM5qXhwONEblEui4r+5zag9eWQdAt4UA2vOTcvVSIdNpZGK7fmtuMvNWq
-         OTkQ/mllKVEhAkvs/ytE4pPD0jsN69OTJP3H9+F7n+lEZEbUerdU/BlRrnOD4VZhZybo
-         ZcvB/ait/VZe3fApsJNYomtkOvb6ee7zIeREbcCXInoJn3L3M5qajWnU86BrzLVdmtnA
-         sivRGgpFtYOEE4jRJv5UtfRdAYQIoVbCWwRGjvdNnbEqfjvcpcyCmPsGKW42MCcKQ5N2
-         Lr3USdFhsukuNFgq9ad9y+QpwkLpvst7Zijep0QDD9qmiL9npQhaIQV/5v2kqqUaeqxc
-         ItFg==
-X-Gm-Message-State: ACrzQf0WcS1pR8hnntn/VfVbYLfz3pX1nowKguYuFfDSfNkcrjKdIe1z
-        WNni9JIST7Ixq2iASBE2cQ==
-X-Google-Smtp-Source: AMsMyM5/X6guZDh/yiFZK1QItP5Pl1xGZJ2HG/voT2jGeJqQrE4zzY0wAuDa5/TYRIENEmIuKGO09Q==
-X-Received: by 2002:a05:6870:958b:b0:132:f094:fc99 with SMTP id k11-20020a056870958b00b00132f094fc99mr791213oao.112.1665086924183;
-        Thu, 06 Oct 2022 13:08:44 -0700 (PDT)
-Received: from robh_at_kernel.org ([2607:fb90:8a65:c536:245:842:a3a4:9017])
-        by smtp.gmail.com with ESMTPSA id x4-20020a056870434400b00132cf083105sm295062oah.7.2022.10.06.13.08.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Oct 2022 13:08:43 -0700 (PDT)
-Received: (nullmailer pid 90139 invoked by uid 1000);
-        Thu, 06 Oct 2022 20:08:39 -0000
-Date:   Thu, 6 Oct 2022 15:08:39 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, dianders@chromium.org,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v7 3/4] dt-bindings: input: touchscreen: Add goodix
- GT7986U touchscreen chip
-Message-ID: <166508689161.89649.5155955593934499402.robh@kernel.org>
-References: <20221006105823.532336-1-sheng-liang.pan@quanta.corp-partner.google.com>
- <20221006185333.v7.3.I52e4b4b20e2eb0ae20f2a9bb198aa6410f04cf16@changeid>
+        with ESMTP id S231875AbiJFWVb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 18:21:31 -0400
+X-Greylist: delayed 506 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Oct 2022 15:21:28 PDT
+Received: from endrift.com (endrift.com [173.255.198.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE06914299C
+        for <linux-input@vger.kernel.org>; Thu,  6 Oct 2022 15:21:28 -0700 (PDT)
+Received: from nebulosa.vulpes.eutheria.net (unknown [50.106.20.54])
+        by endrift.com (Postfix) with ESMTPSA id A1C7CA28C;
+        Thu,  6 Oct 2022 15:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
+        t=1665094381; bh=rBb1SqYi3cJdH+7HPP0CwzWdNK3t9msbBSeEayWvbug=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BlFbbCUcoTWprDm4Q3WkymZAw03EgIv7YGgcYs5+vdpj7aH2EVIY53zQd32VGq426
+         04jL/keVsaRSvBmkQRQmwtdra7uTXiHBBOjH3m6eEQfgk2nqE5GXDyoTVUFwAMOhmG
+         Gp4Ap/1o/tFiS9acHPFRIUyNkwUSwra5XJfbkncotRZbAmBE7JOoRBzddaEMbD1q0Y
+         pjZtmPwinYW/VbdLkR9veudHNQlTQ56PrRosGY2JRDfrC3VckgQ2opUO2bP5t7tvWw
+         aXYHHhjEyiJVX/4SUrlwbbFnofj2DelOdT7WkN+8j5WcGmxyCAcTtbjBetbwaEPJnC
+         IU1dGRmrmuuhw==
+From:   Vicki Pfau <vi@endrift.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Michael Cullen <michael@michaelcullen.name>,
+        Marcos Alano <marcoshalano@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Vicki Pfau <vi@endrift.com>
+Subject: [PATCH] Input: xpad - fix PowerA EnWired Controller guide button
+Date:   Thu,  6 Oct 2022 15:12:09 -0700
+Message-Id: <20221006221209.2016372-1-vi@endrift.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221006185333.v7.3.I52e4b4b20e2eb0ae20f2a9bb198aa6410f04cf16@changeid>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 06 Oct 2022 18:58:22 +0800, Sheng-Liang Pan wrote:
-> Add an goodix touch screen chip GT7986U.
-> 
-> Signed-off-by: Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
-> ---
-> 
-> Changes in v7:
-> - goodix gt7986 dt bindings added in v7
-> 
->  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
+Some Xbox One controllers require more complete versions of the controller
+start-up sequence used in official software in order to function properly.
+This patch adds a usb_set_interface call that matches official startup and
+nominally disabled the audio interface, which isn't supported in the xpad
+driver in the first place.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Vicki Pfau <vi@endrift.com>
+---
+ drivers/input/joystick/xpad.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 18190b529bca..6449665d7b61 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -1509,6 +1509,13 @@ static int xpad_start_input(struct usb_xpad *xpad)
+ 		return -EIO;
+ 
+ 	if (xpad->xtype == XTYPE_XBOXONE) {
++		/* Explicitly disable the audio interface. This is needed for some
++		 * controllers, such as the PowerA Enhanced Wired Controller
++		 * for Series X|S (0x20d6:0x200e) to report the guide button */
++		error = usb_set_interface(xpad->udev, 1, 0);
++		if (error)
++			return error;
++
+ 		error = xpad_start_xbox_one(xpad);
+ 		if (error) {
+ 			usb_kill_urb(xpad->irq_in);
+-- 
+2.38.0
+
