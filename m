@@ -2,70 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 950BD5F64AC
-	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 12:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDA415F67C6
+	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 15:23:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbiJFK6w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Oct 2022 06:58:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45090 "EHLO
+        id S230334AbiJFNXB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Oct 2022 09:23:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231390AbiJFK6r (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 06:58:47 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C71A9B841
-        for <linux-input@vger.kernel.org>; Thu,  6 Oct 2022 03:58:40 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id 10so1446204pli.0
-        for <linux-input@vger.kernel.org>; Thu, 06 Oct 2022 03:58:40 -0700 (PDT)
+        with ESMTP id S230272AbiJFNW7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 09:22:59 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4C97A9277;
+        Thu,  6 Oct 2022 06:22:58 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id m81so2013488oia.1;
+        Thu, 06 Oct 2022 06:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quanta-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DiW8i3DPnjGma7IfUKGltSfwik2WZP+gGKeY6IhjCJo=;
-        b=0L+0OwwlP2myUklbVmYsp5ZyzEz6FHhq8EIV78l1dQRPmOjJvZarWPo0jlKlw3SLJN
-         2E9BpAYENJpbIwLq9ub/6jmSsMrJBbr1htmUF+LgTCBeeMUBDh2GyeESj6QjSpF5ncMF
-         qdFUtNq+qLhXUIaGt9yjCs/HDdvkrMqzQzDlPZ+WPBN6ehKsJ3cocE8PxQ5vi/O3aHNW
-         hAWijg6ZUR2288hNUl5ALOS4EyJVB4eiZs7RajA8ocRD3ogh+9R4NadjEoYs+JFe5Pke
-         rCeEdm3cTIjgO4aQFOAceJteLmVOjOrIS3tOWRWSAw/guTWnJLlhuepjkpaM1O5hDQ5z
-         LLLw==
+        bh=Dmvq8KIE/zpZSMh2g+NahhwyurlwxFIfoRR8ad0sVPs=;
+        b=JJ+nNeKI0ZOFxYlUfd3f0Mxr0tfGkUB582syHapBEi6yb/d2om7T8rrGb7GFlyVS1w
+         lImJdHdZulBPaX3JabDIRn1vLEp/0Dx9FzFc9TmyVI1wgCJDdUngqeHTHhkkenMgJaDQ
+         I297SjxoJ3iOeR9QrTA4Ij7FgjzUhRYMhS/yYRePoFvJZ6vfqmqgJ83o9rcECwnl10J6
+         EqVczBqdIqsrIu2piwpaGw2Df6GXygwAFFghBP2dIUzsEJ4YhlEFBceReg2+atw52a+q
+         RLFPuVBfFB0x5kDBk8oQIcfQTals/oJl0OiUVIMYx2h/vlhwRd+klQV4uXSHH7zXTPiB
+         9Fog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DiW8i3DPnjGma7IfUKGltSfwik2WZP+gGKeY6IhjCJo=;
-        b=NXLLiVSlPXpTqZzwBw5lQ1d++ba7ajVrw3UWOdDB64FvURjC3GjbwAcYB9s0Bm6AjR
-         woEDas1koDCogHIeBMmm0ofRNL5pCyaYX7UweveHHr5S0aQY/hQSEmacG80ciL4/ILrG
-         rZsfQ/ZBT8FcxDG8uKyAoIzkbgztcORF03a7mA8iAjKO8LsvdQZehnLmCfrFOFM+4DQf
-         1WqeH9xZJ3qyBkWjjR2v3G+qvLl3ystxVpR5sURL6hYkAT4JHLEAaJTtMn/e9GUojWGu
-         bXlopL03URBBdId3j5Bam34jKPHy+myze1GxPTYDcQVWPabY54D2nELwB0BAJoYDvTzy
-         Yhig==
-X-Gm-Message-State: ACrzQf25XFqKZJFglTwobCEeUpijkPYV4unu4q+aHjeFQ9oRy81hMtjX
-        iW7mau3+0eTmQzFQyuV7VvVfXQ==
-X-Google-Smtp-Source: AMsMyM5hVgrf4OGJxDnVBNvTwaN7HWXpijuChvg/k3qpDFvBVDDhHdX3ZygN+mwe4qmQJk5Oa1QTLQ==
-X-Received: by 2002:a17:903:1d0:b0:178:1d5b:faf8 with SMTP id e16-20020a17090301d000b001781d5bfaf8mr3857673plh.9.1665053919539;
-        Thu, 06 Oct 2022 03:58:39 -0700 (PDT)
-Received: from liang-Predator-PH517-52.. (60-250-232-247.hinet-ip.hinet.net. [60.250.232.247])
-        by smtp.gmail.com with ESMTPSA id c13-20020a170903234d00b0017d12d86901sm10504297plh.187.2022.10.06.03.58.37
+        bh=Dmvq8KIE/zpZSMh2g+NahhwyurlwxFIfoRR8ad0sVPs=;
+        b=TbeAiOi9PWALSz1LIRkvXJdPsMveHi532ez7bbm/8o7zryhS0XelLGd5xosRkkVTbM
+         xoUs7YLNAxsWon3jEzNIhhzpaegnRfWG6r8/ox86wJ7ZEp0avupx63fuqqDMgQnw5Use
+         radWtB8cnlvbi917q21ySOz7c6A+FLw2gPsoFOPnHuBlBkm+IeZprDnTZM8CRaPMtvvX
+         KXq5fv2rE8Itz0FwWbr4az2TldGVDRfD7HaM7aP8o2p45s99asbNxo+TnOIOduSSAIci
+         YPY25YsFIIYqJZyHzr+2QL4X/xybWhwVNUMrgfhddavU2GeaKBvDY68hLMBKnBjiY06N
+         kE9A==
+X-Gm-Message-State: ACrzQf1Uwp9gYs1axPhPXBhN0dS/QYcUt9fqvpe84n24CTyVY0WW1H47
+        0czFH+mXqkpcu16VumhnsA8=
+X-Google-Smtp-Source: AMsMyM64hY326AropxKvRAnkG37ZybxlGxZIuOJcyXrML4zdtT9KoK6ui8ZdXSpfr4i4d2gNr6H/rw==
+X-Received: by 2002:a05:6808:2001:b0:353:ee38:4641 with SMTP id q1-20020a056808200100b00353ee384641mr4936114oiw.156.1665062578103;
+        Thu, 06 Oct 2022 06:22:58 -0700 (PDT)
+Received: from localhost.localdomain ([177.222.37.214])
+        by smtp.googlemail.com with ESMTPSA id p13-20020a0568708a0d00b001326b043f37sm4741322oaq.36.2022.10.06.06.22.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Oct 2022 03:58:39 -0700 (PDT)
-From:   Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     dianders@chromium.org,
-        Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH v7 3/4] dt-bindings: input: touchscreen: Add goodix GT7986U touchscreen chip
-Date:   Thu,  6 Oct 2022 18:58:22 +0800
-Message-Id: <20221006185333.v7.3.I52e4b4b20e2eb0ae20f2a9bb198aa6410f04cf16@changeid>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221006105823.532336-1-sheng-liang.pan@quanta.corp-partner.google.com>
-References: <20221006105823.532336-1-sheng-liang.pan@quanta.corp-partner.google.com>
+        Thu, 06 Oct 2022 06:22:57 -0700 (PDT)
+From:   Henry Castro <hcvcastro@gmail.com>
+To:     thunderbird2k@gmail.com
+Cc:     Henry Castro <hcvcastro@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] drivers: hid: warn feature report 0x81
+Date:   Thu,  6 Oct 2022 09:22:40 -0400
+Message-Id: <20221006132240.3706-1-hcvcastro@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <CAEc3jaBiN_b_AJGugkYSwxF-ZWHzD6ib4r99tm9Z4RwN2=bgzw@mail.gmail.com>
+References: <CAEc3jaBiN_b_AJGugkYSwxF-ZWHzD6ib4r99tm9Z4RwN2=bgzw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,34 +72,57 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add an goodix touch screen chip GT7986U.
+Unfortunately, my PS DualShock 4, does not support
+the feature 0x81 to get the MAC address. Instead,
+use a unique hash to fake a MAC address, so I can
+use DS4 to play Retroarch :)
 
-Signed-off-by: Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
+Signed-off-by: Henry Castro <hcvcastro@gmail.com>
 ---
 
-Changes in v7:
-- goodix gt7986 dt bindings added in v7
+>> I see in the other email. If it doesn't support this request, it is
+>> likely a clone device. We are about to submit a brand new DS4 driver
+>> (for hid-playstation). It will use a different report (0x12) if I
+>> recall which does the same thing. That's the more mainstream one we
+>> use.
 
- Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I have 2 DualShock 4, I did not notice but I have one DS4 compatible
+(clone, I guess).
 
-diff --git a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
-index fe1c5016f7f31..1c191bc5a1782 100644
---- a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
-+++ b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
-@@ -16,8 +16,11 @@ description:
- 
- properties:
-   compatible:
--    items:
-+    oneOf:
-       - const: goodix,gt7375p
-+      - items:
-+          - const: goodix,gt7986u
-+          - const: goodix,gt7375p
- 
-   reg:
-     enum:
--- 
-2.34.1
+The DS4 Sony -> returns -ETIMEDOUT
+The DS4 clone -> returns -EPIPE
+
+Look great the new DS4 driver :)
+
+
+
+ drivers/hid/hid-sony.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index 656caa07b25f..e3e9c58887cf 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -2641,13 +2641,14 @@ static int sony_check_add(struct sony_sc *sc)
+ 				HID_REQ_GET_REPORT);
+
+ 		if (ret != DS4_FEATURE_REPORT_0x81_SIZE) {
+-			hid_err(sc->hdev, "failed to retrieve feature report 0x81 with the DualShock 4 MAC address\n");
+-			ret = ret < 0 ? ret : -EINVAL;
+-			goto out_free;
++			uint32_t hash = full_name_hash(NULL, dev_name(&sc->hdev->dev),
++						       strlen(dev_name(&sc->hdev->dev)));
++			hid_warn(sc->hdev, "failed to retrieve feature report 0x81 with the DualShock 4 MAC address\n");
++			memcpy(sc->mac_address, &hash, sizeof(hash));
++		} else {
++			memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
+ 		}
+
+-		memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
+-
+ 		snprintf(sc->hdev->uniq, sizeof(sc->hdev->uniq),
+ 			 "%pMR", sc->mac_address);
+ 	} else if ((sc->quirks & SIXAXIS_CONTROLLER_USB) ||
+--
+2.20.1
 
