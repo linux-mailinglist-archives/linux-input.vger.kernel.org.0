@@ -2,64 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E255F5FE2
-	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 06:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CD2A5F61C9
+	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 09:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbiJFEDP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Oct 2022 00:03:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45744 "EHLO
+        id S230339AbiJFHk6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Oct 2022 03:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbiJFECw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 00:02:52 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 405F861108;
-        Wed,  5 Oct 2022 21:02:49 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id y205so835047yby.13;
-        Wed, 05 Oct 2022 21:02:48 -0700 (PDT)
+        with ESMTP id S230317AbiJFHkz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 03:40:55 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4098E98C
+        for <linux-input@vger.kernel.org>; Thu,  6 Oct 2022 00:40:53 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id b4so1346334wrs.1
+        for <linux-input@vger.kernel.org>; Thu, 06 Oct 2022 00:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x3eehCTygRMcGwgA/sYSeNxSxRVYTsgJ/fp198wT1QM=;
-        b=dH1fwDr41VvYjt4mkP8reQT8K4odY+grw3qyrkMvXr+Yrjc5xlRwGnsarS4VPiU2oP
-         yUQPBg6RCuL501kqT6fh/O/5Xdebt5B6FLIHSDopXxAr+NXJNwoB1pWnclWtZ+7sdrHA
-         pFyoZNXGZSBro9LErp9w5sdSWUrNLcArS+jixy13OnPHFO1Tip5qczRvADFkAX2Mprr5
-         VylhLy/u+F7nIFuqjCaoU/d7721deESvggaw7XTO38ld0WZsqaYxRA3e5VreY7h9brap
-         p6EB8jI3alJ6luXsBAvo2SPiLdlXiYtAAG6V1qdBrYxdblbu1SN9JnMNU9I1pcuBSlH8
-         sBMw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=czZIXcSril+0S5W4kqc0onDmBGjrVJmOKnFUKeX4tsk=;
+        b=6qjVyGLzJP2d40EpuWNyVT7l6T1hqaLdgmVpPaEvxGoI3eNCRgjZbGBoV/FQXGFiob
+         p1/snStTlv9rq/9KQBEnbttDzx9aV9UFcCtCpTruw0x3LnutL5LIoByYqspkjd4myhFG
+         o66132ZmNOgdoO+IlS/KPAboWUZ4rxmqEi5tZR2IqESw7F5zea9zC2XndyD0QwNfiMW+
+         /nwbOLPLYFu+/Cky/cDEFK7gRRN0k+BrwlpQEh4ZaKLwj5dIr4NcKkO8p5HwaacjzsA6
+         gZ0TzxilJw76mVoMKbn+T6w4zrLCe+y6EPNId2yu4f5oz1jz2r47ME95GEpCEBO05Q/r
+         AVKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x3eehCTygRMcGwgA/sYSeNxSxRVYTsgJ/fp198wT1QM=;
-        b=KRJ/Mu8DihrEk3o+D6UCJwg1aVXUNTzYpdnY/gv6j/+59dM3nAg+rDtzZ5fF0rbkWZ
-         53LtPAPsGyr0nA1jSoY4Qbwg2Xy3qkuMruTsP/RRedrMdKUs9fqIlgQF7rIj8zo+vlJM
-         9QGexgUHF7Dxa588iUDk/gzT4C8U1JTBQ/FACibC41ruP7D5gk6oIZqwjv7xUzES5dSX
-         fqXShZAiy52TxPDaEOwCPhJpNCo2ZiDvwZBQU13ll/9kn+og7If9zOMQDfhP4Dq0hjU9
-         az072+4oVkvE3wfTCBI4+bhB1kId1MqQPFadPckTbNu5RQ7lnxQqK/ZHsQnlkSbCZYqk
-         c3aA==
-X-Gm-Message-State: ACrzQf35t5uxqbgyhO3EaPxv+ZRzbTp9s1uDH1Z3m1eATbGgvkK7p7tX
-        ye8FWtW5ADHDnNhzKDgW/tf9UWzW7m7CinzxAHM=
-X-Google-Smtp-Source: AMsMyM7fiyr5BM7m9N9mEXoHZ2R9ieURlDQiuyGtzhga3iiXRDNGgKgvDLm8R94/tCeY0388UuL5oZlnyOFTYgHbNg4=
-X-Received: by 2002:a25:bc90:0:b0:6bd:74b:3b7c with SMTP id
- e16-20020a25bc90000000b006bd074b3b7cmr3237174ybk.450.1665028968212; Wed, 05
- Oct 2022 21:02:48 -0700 (PDT)
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=czZIXcSril+0S5W4kqc0onDmBGjrVJmOKnFUKeX4tsk=;
+        b=WszYNctHN0I8vvwS8SLRkNlt3+OxGy0vl8TRyE7IIWVfIeXzCCJ/hESqiZVWqX3F3G
+         7Rfj+ChSY4ZviWUtjBoxH8+PGotqINLyVDamIpsvgmb1+hZARzP6rbrWJBb6kaYhoWsB
+         3b4z8kd16xOtOzfyIjTux8ltpMM3BloSVxhQ4cp8e2O/ogjfsAcV/zjIY1fpDE2GZkTT
+         c6h3yNV0fYc82DmNfTyW1/irZqpVwJOEQlDFKl3cv7yLOLFi2m3RBbCmXh5tj9wBIlDf
+         6xVGMire5PoCYgRAdbskQNPlARomT4DPPHCDNEz9lVJKPSt4BXdr/Gkp9fgv0ICoYVBA
+         87Lw==
+X-Gm-Message-State: ACrzQf3xa8LoDf80re5GctpAk71Al1DVFD2jEXLjjlSF+DmFM6lWTs+K
+        2cagK91KqkpeZT0G8UlPq93SAg==
+X-Google-Smtp-Source: AMsMyM6xxcX+Jw879ZvGrzE2zvbkaNBbDJ39qRVbXxY0XUtG9zHNqjzwrFb8JpJ5s9D9VO54lzi4fg==
+X-Received: by 2002:a5d:404b:0:b0:22e:331e:1cba with SMTP id w11-20020a5d404b000000b0022e331e1cbamr2019320wrp.488.1665042051756;
+        Thu, 06 Oct 2022 00:40:51 -0700 (PDT)
+Received: from localhost ([82.66.159.240])
+        by smtp.gmail.com with ESMTPSA id j6-20020a05600c190600b003a601a1c2f7sm4346819wmq.19.2022.10.06.00.40.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Oct 2022 00:40:51 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Alexandre Mergnat <amergnat@baylibre.com>,
+        Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen Zhong <chen.zhong@mediatek.com>
+Cc:     linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>,
+        Alexandre Mergnat <amergnat@baylibre.com>
+Subject: Re: [PATCH v2 5/5] Input: mtk-pmic-keys: add MT6357 support
+In-Reply-To: <20221005-mt6357-support-v2-5-f17ba2d2d0a9@baylibre.com>
+References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
+ <20221005-mt6357-support-v2-5-f17ba2d2d0a9@baylibre.com>
+Date:   Thu, 06 Oct 2022 09:40:50 +0200
+Message-ID: <87czb5o0vx.fsf@baylibre.com>
 MIME-Version: 1.0
-References: <20221002220126.18849-1-hcvcastro@gmail.com>
-In-Reply-To: <20221002220126.18849-1-hcvcastro@gmail.com>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Wed, 5 Oct 2022 21:02:37 -0700
-Message-ID: <CAEc3jaBiN_b_AJGugkYSwxF-ZWHzD6ib4r99tm9Z4RwN2=bgzw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drivers: hid: warn feature report 0x81
-To:     Henry Castro <hcvcastro@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,51 +78,63 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I see in the other email. If it doesn't support this request, it is
-likely a clone device. We are about to submit a brand new DS4 driver
-(for hid-playstation). It will use a different report (0x12) if I
-recall which does the same thing. That's the more mainstream one we
-use.
+On Wed, Oct 05, 2022 at 16:57, Alexandre Mergnat <amergnat@baylibre.com> wrote:
 
-Thanks,
-Roderick
+> From: Fabien Parent <fparent@baylibre.com>
+>
+> Add PMIC Keys support on MT6357 SoC.
+>
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-On Sun, Oct 2, 2022 at 3:01 PM Henry Castro <hcvcastro@gmail.com> wrote:
->
-> Unfortunately, my PS DualShock 4, does not support
-> the feature 0x81 to get the MAC address. Instead,
-> use a unique hash to fake a MAC address, so I can
-> use DS4 to play Retroarch :)
->
-> Signed-off-by: Henry Castro <hcvcastro@gmail.com>
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+
 > ---
->  drivers/hid/hid-sony.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
+>  drivers/input/keyboard/mtk-pmic-keys.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 >
-> diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-> index 656caa07b25f..e3e9c58887cf 100644
-> --- a/drivers/hid/hid-sony.c
-> +++ b/drivers/hid/hid-sony.c
-> @@ -2641,13 +2641,14 @@ static int sony_check_add(struct sony_sc *sc)
->                                 HID_REQ_GET_REPORT);
+> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+> index 9b34da0ec260..2a63e0718eb6 100644
+> --- a/drivers/input/keyboard/mtk-pmic-keys.c
+> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/mt6323/registers.h>
+>  #include <linux/mfd/mt6331/registers.h>
+> +#include <linux/mfd/mt6357/registers.h>
+>  #include <linux/mfd/mt6358/registers.h>
+>  #include <linux/mfd/mt6397/core.h>
+>  #include <linux/mfd/mt6397/registers.h>
+> @@ -90,6 +91,19 @@ static const struct mtk_pmic_regs mt6331_regs = {
+>  	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
+>  };
+>  
+> +static const struct mtk_pmic_regs mt6357_regs = {
+> +	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+> +		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
+> +				   0x2, MT6357_PSC_TOP_INT_CON0, 0x5,
+> +				   MTK_PMIC_PWRKEY_RST),
+> +	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
+> +		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
+> +				   0x8, MT6357_PSC_TOP_INT_CON0, 0xa,
+> +				   MTK_PMIC_HOMEKEY_INDEX),
+> +	.pmic_rst_reg = MT6357_TOP_RST_MISC,
+> +	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
+> +};
+> +
+>  static const struct mtk_pmic_regs mt6358_regs = {
+>  	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+>  		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
+> @@ -276,6 +290,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
+>  	}, {
+>  		.compatible = "mediatek,mt6331-keys",
+>  		.data = &mt6331_regs,
+> +	}, {
+> +		.compatible = "mediatek,mt6357-keys",
+> +		.data = &mt6357_regs,
+>  	}, {
+>  		.compatible = "mediatek,mt6358-keys",
+>  		.data = &mt6358_regs,
 >
->                 if (ret != DS4_FEATURE_REPORT_0x81_SIZE) {
-> -                       hid_err(sc->hdev, "failed to retrieve feature report 0x81 with the DualShock 4 MAC address\n");
-> -                       ret = ret < 0 ? ret : -EINVAL;
-> -                       goto out_free;
-> +                       uint32_t hash = full_name_hash(NULL, dev_name(&sc->hdev->dev),
-> +                                                      strlen(dev_name(&sc->hdev->dev)));
-> +                       hid_warn(sc->hdev, "failed to retrieve feature report 0x81 with the DualShock 4 MAC address\n");
-> +                       memcpy(sc->mac_address, &hash, sizeof(hash));
-> +               } else {
-> +                       memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
->                 }
->
-> -               memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
-> -
->                 snprintf(sc->hdev->uniq, sizeof(sc->hdev->uniq),
->                          "%pMR", sc->mac_address);
->         } else if ((sc->quirks & SIXAXIS_CONTROLLER_USB) ||
-> --
-> 2.20.1
->
+> -- 
+> b4 0.10.1
