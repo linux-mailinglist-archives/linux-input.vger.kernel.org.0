@@ -2,122 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E697E5F5E8F
-	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 04:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C09D5F5E94
+	for <lists+linux-input@lfdr.de>; Thu,  6 Oct 2022 04:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbiJFCCL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Oct 2022 22:02:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35006 "EHLO
+        id S229602AbiJFCEB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Oct 2022 22:04:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229962AbiJFCCK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 22:02:10 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7DB93F30F
-        for <linux-input@vger.kernel.org>; Wed,  5 Oct 2022 19:02:08 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id b5so593090pgb.6
-        for <linux-input@vger.kernel.org>; Wed, 05 Oct 2022 19:02:08 -0700 (PDT)
+        with ESMTP id S229976AbiJFCCL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Oct 2022 22:02:11 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A0F93C144
+        for <linux-input@vger.kernel.org>; Wed,  5 Oct 2022 19:02:10 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id i7-20020a17090a65c700b0020ad9666a86so3060121pjs.0
+        for <linux-input@vger.kernel.org>; Wed, 05 Oct 2022 19:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=05se/QLxbcZC/U9SJgyBO6TtEpzcC1Jq7/S8OolD1VM=;
-        b=HRviHXRXeKUirb9N5uHMQ4dpr977PHs6a7po5onser1w7SIsWAcCGVmFJC9LltkYnT
-         2l8RTPYq7xnXrF2Yu1xNA7C05VJ3F9MUUiKvJlDzQIi/iyQGaA1yTl1YZVj3GWYilqG9
-         qjI2JyRUKNR5PkwZfvVFOC0KR90C1rrf3Pr2DKeT8JKPv/MJopHyg6HIU2EK+V9hDaiR
-         slXT4/fsi5aZRSlOXkTKM8TEfms9oKSSG3bJwAgoiaEAGKc8pgDNyqh9KvO6da0ROqA6
-         /Yij6e95qEK2FXVa4e5AFM792MPLIVTqp+brQ1EozxEFGcnfH9ete5TGbJ7sul4SHg36
-         e4pg==
+        bh=8URyf7toD6VW6LEocw1K6tFXyPygf2Z5z5Lo24ndB3Y=;
+        b=iGx+6fcLW4Wna41I4K3b839ddgrS0axjRuWbSSJN7v1udpy1hM58MR4vzpVY3l/PY1
+         5SkTqDF93wvlTPb4PDJpCRMQlHqHrkzzwMp/5aj0HdzsOcxubEwG0IGgYkU5aRZoM5Ni
+         PiwjsyqKg3AZj3gR7/US/ew4CRK6CCH45csbZNESqT+I7c8frHg93AM8bYAiC25d40M+
+         xRa4+J/rQtOcbbzLXVN68SUP3cJesnBoEA+FsyqMD30bR8rsIf2/OkcjLxb+nSywCOM8
+         LR6VIOiiJr3RcQBC27a+v1rFnEp9+YNUyxXlPOn8OZ6vqKq8t8V6exxQ1VKO8pfjXxKK
+         AHYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=05se/QLxbcZC/U9SJgyBO6TtEpzcC1Jq7/S8OolD1VM=;
-        b=W5IfODeSwsoVid5awenMQipbrm7dgiIAMIp7K25CKz2F70nKeVKuRybTOAYXv8No4u
-         h7PTukELnRdi0UDw2Iu/4xyRfIW0F0QENDVipIPimdi2h0O3etcTdbcc6q/rWKiKq08H
-         AypANsh75/Wb3MsjQBeM8BmorBKY+0fbbRt/jIgHWCYRLUCOyBMlBQDp4ORVIzL8NO14
-         8AKsVh8rgJOlNwMClzglviptRWmEnDaKNINXN52Yp4jVxdoAbqeS7pucxoYXAdXpRe7Z
-         5HrK5tlyDdRRntISctytb0YqrvbU10qlC/ypwlrMHwwXJr0bcWgMGd5hyzX3klxeICV+
-         lZ5g==
-X-Gm-Message-State: ACrzQf0dQl9NCrD6ngwscwcmfnxNahhZMRMXE1tPuWGZ55EzJkvjnR3F
-        131W/cHAKZKfY3Q66fD+B9srMQ==
-X-Google-Smtp-Source: AMsMyM5XjzTkqUBSbSVuH8sG/Pgz+akZJGYKBC9vDvNsIRdwrZ63ulNRPug+J62l6dbhw5OitrE6PQ==
-X-Received: by 2002:a05:6a00:1249:b0:543:aa0a:9c0a with SMTP id u9-20020a056a00124900b00543aa0a9c0amr2779522pfi.2.1665021728221;
-        Wed, 05 Oct 2022 19:02:08 -0700 (PDT)
+        bh=8URyf7toD6VW6LEocw1K6tFXyPygf2Z5z5Lo24ndB3Y=;
+        b=l7G5MQ6D58SU5BuuAJ1L2EMaQPbM7xzMSpLn6Td3vpeTihqIB1V9xEUsmmtOxBWXgW
+         AqwnmqJOo0g+y5LJE2KIWOywTPc0gYLbuVAhqNYihIGme7x74cAzaZKi33pFBvXTyrEj
+         TBtr1bfQUE5/fR1kWuYxe4FcMnRD9x9w774wgzn2HJepkJ7C7Ts1TOHT5KCV5stm8JWl
+         nhVvhZPd3jZvIGO93icb6zwZTPxRYhOa47B4KA9EnYwS3HjyaZ4c85j1kHEbYnMFNU1Q
+         JqcX3BFlq3CA8CWWSGCsRvWtpP87jI8UWY/vssWbWN67dGYZDD32ARp2u+RcrMm5/Jow
+         aNfw==
+X-Gm-Message-State: ACrzQf3uY1h3Pu6FBc7IkkGK7XwrZHGLU/lfSQwhprIeniICuZEgx53W
+        1e388+4L6PWiVyv7JouV5n5ue8bbeNKB+w==
+X-Google-Smtp-Source: AMsMyM4qAjfY40JqbeoxRBJ1yMJQbOvogb0pyrZADr/N5yqNnpYRBUA5BfM9c3Duld8iWNxNboeLnw==
+X-Received: by 2002:a17:90b:4c8f:b0:202:bcbb:1984 with SMTP id my15-20020a17090b4c8f00b00202bcbb1984mr7872737pjb.64.1665021729809;
+        Wed, 05 Oct 2022 19:02:09 -0700 (PDT)
 Received: from localhost.localdomain (23-122-157-100.lightspeed.irvnca.sbcglobal.net. [23.122.157.100])
-        by smtp.gmail.com with ESMTPSA id w13-20020a63d74d000000b0043be67b6304sm482768pgi.0.2022.10.05.19.02.06
+        by smtp.gmail.com with ESMTPSA id w13-20020a63d74d000000b0043be67b6304sm482768pgi.0.2022.10.05.19.02.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 19:02:07 -0700 (PDT)
+        Wed, 05 Oct 2022 19:02:09 -0700 (PDT)
 From:   Roderick Colenbrander <roderick@gaikai.com>
 X-Google-Original-From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     linux-input@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        stable@vger.kernel.org
-Subject: [PATCH 2/3] HID: playstation: add initial DualSense Edge controller support
-Date:   Wed,  5 Oct 2022 19:01:50 -0700
-Message-Id: <20221006020151.132434-3-roderick.colenbrander@sony.com>
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: [PATCH 3/3] HID: playstation: support updated DualSense rumble mode.
+Date:   Wed,  5 Oct 2022 19:01:51 -0700
+Message-Id: <20221006020151.132434-4-roderick.colenbrander@sony.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221006020151.132434-1-roderick.colenbrander@sony.com>
 References: <20221006020151.132434-1-roderick.colenbrander@sony.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Provide initial support for the DualSense Edge controller. The brings
-support up to the level of the original DualSense, but won't yet provide
-support for new features (e.g. reprogrammable buttons).
+Newer DualSense firmware supports a revised classic rumble mode,
+which feels more similar to rumble as supported on previous PlayStation
+controllers. It has been made the default on PlayStation and non-PlayStation
+devices now (e.g. iOS and Windows). Default to this new mode when
+supported.
 
 Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-CC: stable@vger.kernel.org
 ---
- drivers/hid/hid-ids.h         | 1 +
- drivers/hid/hid-playstation.c | 5 ++++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/hid/hid-playstation.c | 39 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index f80d6193fca6..cd8087ed412c 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1142,6 +1142,7 @@
- #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_2	0x09cc
- #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE	0x0ba0
- #define USB_DEVICE_ID_SONY_PS5_CONTROLLER	0x0ce6
-+#define USB_DEVICE_ID_SONY_PS5_CONTROLLER_2	0x0df2
- #define USB_DEVICE_ID_SONY_MOTION_CONTROLLER	0x03d5
- #define USB_DEVICE_ID_SONY_NAVIGATION_CONTROLLER	0x042f
- #define USB_DEVICE_ID_SONY_BUZZ_CONTROLLER		0x0002
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index d727cd2bf44e..396356b6760a 100644
+index 396356b6760a..e05c61942971 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -1464,7 +1464,8 @@ static int ps_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		goto err_stop;
+@@ -108,6 +108,9 @@ struct ps_led_info {
+ #define DS_STATUS_CHARGING		GENMASK(7, 4)
+ #define DS_STATUS_CHARGING_SHIFT	4
+ 
++/* Feature version from DualSense Firmware Info report. */
++#define DS_FEATURE_VERSION(major, minor) ((major & 0xff) << 8 | (minor & 0xff))
++
+ /*
+  * Status of a DualSense touch point contact.
+  * Contact IDs, with highest bit set are 'inactive'
+@@ -126,6 +129,7 @@ struct ps_led_info {
+ #define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
+ #define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
+ #define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
++#define DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2 BIT(2)
+ #define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
+ #define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
+ 
+@@ -143,6 +147,9 @@ struct dualsense {
+ 	struct input_dev *sensors;
+ 	struct input_dev *touchpad;
+ 
++	/* Update version is used as a feature/capability version. */
++	__le16 update_version;
++
+ 	/* Calibration data for accelerometer and gyroscope. */
+ 	struct ps_calibration_data accel_calib_data[3];
+ 	struct ps_calibration_data gyro_calib_data[3];
+@@ -153,6 +160,7 @@ struct dualsense {
+ 	uint32_t sensor_timestamp_us;
+ 
+ 	/* Compatible rumble state */
++	bool use_vibration_v2;
+ 	bool update_rumble;
+ 	uint8_t motor_left;
+ 	uint8_t motor_right;
+@@ -812,6 +820,14 @@ static int dualsense_get_firmware_info(struct dualsense *ds)
+ 	ds->base.hw_version = get_unaligned_le32(&buf[24]);
+ 	ds->base.fw_version = get_unaligned_le32(&buf[28]);
+ 
++	/* Update version is some kind of feature version. It is distinct from
++	 * the firmware version as there can be many different variations of a
++	 * controller over time with the same physical shell, but with different
++	 * PCBs and other internal changes. The update version (internal name) is
++	 * used as a means to detect what features are available and change behavior.
++	 */
++	ds->update_version = get_unaligned_le16(&buf[44]);
++
+ err_free:
+ 	kfree(buf);
+ 	return ret;
+@@ -974,7 +990,10 @@ static void dualsense_output_worker(struct work_struct *work)
+ 	if (ds->update_rumble) {
+ 		/* Select classic rumble style haptics and enable it. */
+ 		common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT;
+-		common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
++		if (ds->use_vibration_v2)
++			common->valid_flag2 |= DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2;
++		else
++			common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
+ 		common->motor_left = ds->motor_left;
+ 		common->motor_right = ds->motor_right;
+ 		ds->update_rumble = false;
+@@ -1348,6 +1367,24 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+ 		return ERR_PTR(ret);
  	}
  
--	if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER) {
-+	if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER ||
-+		hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) {
- 		dev = dualsense_create(hdev);
- 		if (IS_ERR(dev)) {
- 			hid_err(hdev, "Failed to create dualsense.\n");
-@@ -1499,6 +1500,8 @@ static void ps_remove(struct hid_device *hdev)
- static const struct hid_device_id ps_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, ps_devices);
++#define DS_FEATURE_VERSION(major, minor) ((major & 0xff) << 8 | (minor & 0xff))
++	/* Original DualSense firmware simulated classic controller rumble through
++	 * its new haptics hardware. It felt different from classic rumble users
++	 * were used to. Since then new firmwares were introduced to change behavior
++	 * and make this new 'v2' behavior default on PlayStation and other platforms.
++	 * The original DualSense requires a new enough firmware as bundled with PS5
++	 * software released in 2021. DualSense edge supports it out of the box.
++	 */
++	if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER) {
++		/* Feature version 2.21 introduced new vibration method. */
++		if (ds->update_version < DS_FEATURE_VERSION(2, 21))
++			ds->use_vibration_v2 = false;
++		else
++			ds->use_vibration_v2 = true;
++	} else if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) {
++		ds->use_vibration_v2 = true;
++	}
++
+ 	ret = ps_devices_list_add(ps_dev);
+ 	if (ret)
+ 		return ERR_PTR(ret);
 -- 
 2.37.3
 
