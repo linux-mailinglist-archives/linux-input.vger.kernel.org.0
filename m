@@ -2,80 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0A65F7798
-	for <lists+linux-input@lfdr.de>; Fri,  7 Oct 2022 13:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46C9E5F78AF
+	for <lists+linux-input@lfdr.de>; Fri,  7 Oct 2022 15:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbiJGLnB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Oct 2022 07:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52448 "EHLO
+        id S229625AbiJGNMV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Oct 2022 09:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiJGLnA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Oct 2022 07:43:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58792C58A3
-        for <linux-input@vger.kernel.org>; Fri,  7 Oct 2022 04:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665142977;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rNRWMsdlB09G8q22G7H4np9bkBmZxE1tcc1yXWNcoy4=;
-        b=WEdGwbqlFIgzqVTBeu2Si6ACLrgSfU1T+iBcGjMqIKyeJR44N+wt9i5/o4u2VPQXLQvptn
-        GQVZMQxOg4jLSIsxnIR7rziSfiUl6HPTalt+Ly5Z3lAlYrWefbIlr81UMOo+FegOe4N55k
-        VWNnEdrpCSsUH+FjDgH7Xlhb9wxBVSQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-217-YkU6t1icOQqrA73MFd9DzQ-1; Fri, 07 Oct 2022 07:42:56 -0400
-X-MC-Unique: YkU6t1icOQqrA73MFd9DzQ-1
-Received: by mail-ed1-f69.google.com with SMTP id dz21-20020a0564021d5500b004599f697666so3644986edb.18
-        for <linux-input@vger.kernel.org>; Fri, 07 Oct 2022 04:42:56 -0700 (PDT)
+        with ESMTP id S229730AbiJGNMT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Oct 2022 09:12:19 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8036589816
+        for <linux-input@vger.kernel.org>; Fri,  7 Oct 2022 06:12:16 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id e10-20020a05600c4e4a00b003b4eff4ab2cso4575719wmq.4
+        for <linux-input@vger.kernel.org>; Fri, 07 Oct 2022 06:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=347PdMO1t52lxOitZoY1TTMreDWewNSAxd/+C6diQgE=;
+        b=nUhEImYqAIlkk8RP0SfNyc100OVTBxeDKff9sIj3H25S/y0ekyPxypY6muwjnsgKfE
+         XzUYlq5NKb+iFBbMAp8RQeSZ2W9ev5uqD1+VbsomxgSe0p4sGBvI7DwTAOmGCEgHJzaF
+         ScnrFav0X+6esEnfZHHTepLFvMPRJWjXwZckLW0JBAETGuzw10/PQhYd+2IDT/NtKmoT
+         hoBJSidphV+RUd4yxN3mW8enrnps4L5Mh0t20sPZmFAbqgYz2p5xkXfJg5CiX0zSj3If
+         znKbLUqY9Imh4qyHvDcdQL4XXs1mxJoAdcmOIP97CYlC5L1chW3NZiveDeOlPdDrmfET
+         Ngcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rNRWMsdlB09G8q22G7H4np9bkBmZxE1tcc1yXWNcoy4=;
-        b=6q6pLhHefUNypalsa3DZ5BDt6jkM0VdOGWPmGF8mvDtdcJEZgez2NIeCq9Krs+PzCI
-         U9h7fI0DR7a3UlPzSRbXQJ/cqQNgByWQGF0dfthTNyklczojPK7MsQfSMTMx/VJa1Xv6
-         v5wlnSRodHWYuxNznOc1pS+WQKk19wXmCSvY9DhQTCF8QVc/K3pay+e7Q31arNsyHEcq
-         2cO7esqiBDPnSg7AbGPqXh9l8Oaf7l0uoqKvebUcyUcoA/0qwfy91rVv1C6/PiirYFHb
-         TXWMxxuNAY9Yk38X5LQK1dsTe72zBk+1j5yOxbOzswZQOEWk2AnucvXhay98TXUezWzh
-         EbbQ==
-X-Gm-Message-State: ACrzQf3LxOyN2m/Fu7UKDFR+Ue352MLwQ5WtNlZROFGMf0U68rlHG3K6
-        JDC/qK5pZ2DqckKepTsyTZ4kHF4zSBVX+WJZy101O7yU8VvTid4GAXDv5epjpkjLml3VYxria8h
-        XnWDMvvBIaLlTPjafyATm81E=
-X-Received: by 2002:a17:906:c153:b0:787:abca:d9fa with SMTP id dp19-20020a170906c15300b00787abcad9famr3698338ejc.768.1665142974979;
-        Fri, 07 Oct 2022 04:42:54 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7fEwNSYxdtihyEDwJ9JGET0ibR+FpRUxE2IoZ8/beXZhoD4Z29oXWEspdUf6G0dHqdiKIcSQ==
-X-Received: by 2002:a17:906:c153:b0:787:abca:d9fa with SMTP id dp19-20020a170906c15300b00787abcad9famr3698320ejc.768.1665142974656;
-        Fri, 07 Oct 2022 04:42:54 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id b2-20020aa7c6c2000000b004587f9d3ce8sm1294023eds.56.2022.10.07.04.42.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Oct 2022 04:42:54 -0700 (PDT)
-Message-ID: <5179a1cb-6ff4-2e4c-b1cb-cec53c2f41aa@redhat.com>
-Date:   Fri, 7 Oct 2022 13:42:53 +0200
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=347PdMO1t52lxOitZoY1TTMreDWewNSAxd/+C6diQgE=;
+        b=Hl3PXTlTxgEbbfp0NKzgpp/cK9uGaVmSLX+0WASLhgQDFSFHDJdhmLAqyDlMgU9OCs
+         nOGjZoItKuzI3WU6B5SFBIhk81quTy8EvoiCZp2u5FPCIXG/fvAotmLhEVGJKNKOeqHN
+         k1maQ+zD1VHF09NxId8qFB5KcP/JGzrCV0qcxySwOGLU77sjcilUtSP1rDjvS1DB7guW
+         Fhlq7qyh+ejvt6pAeyWHAotYfuNOPmJn8stmSPuchyopjHs48pFgheEbh64hX7GmM+c0
+         70GZPkoiP8U+R9w7B2RSzVgH1a7s3z0KCaZ1gVKSjeO3nvI4NFU7TavHEaLpbiUyzkw9
+         NEpA==
+X-Gm-Message-State: ACrzQf3X5sIvyWFGr7TdvwGZRmLXYlvRHjy7uhvqquLf7Ac6DmHIRgd4
+        BtpHaI4VbkL4eOjcJ4Y5CEnRkQ==
+X-Google-Smtp-Source: AMsMyM7mcFe6ndvUCap2VnVHf8l8379aMPCpm6ljkqMfFWbspUN+Hlwe7r1nBO+2zZqWfRtu/JvTWQ==
+X-Received: by 2002:a05:600c:34c6:b0:3b4:9643:e46d with SMTP id d6-20020a05600c34c600b003b49643e46dmr3332059wmq.9.1665148334871;
+        Fri, 07 Oct 2022 06:12:14 -0700 (PDT)
+Received: from localhost ([2a01:cb19:85e6:1900:5f1e:d910:dd1e:5b09])
+        by smtp.gmail.com with ESMTPSA id i18-20020adfb652000000b0022e38c93195sm2037367wre.34.2022.10.07.06.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 06:12:14 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Jeff LaBundy <jeff@labundy.com>, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        jeff@labundy.com
+Subject: Re: [PATCH v2 1/7] Input: iqs7222 - drop unused device node references
+In-Reply-To: <YyP77bKCoxMEMyjD@nixie71>
+References: <YyP7l/ts6SFI9iM2@nixie71> <YyP77bKCoxMEMyjD@nixie71>
+Date:   Fri, 07 Oct 2022 15:12:13 +0200
+Message-ID: <87pmf37p76.fsf@mkorpershoek-xps-13-9370.home>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH RFC v2 0/2] Quickstart buttons driver and Toshiba Z830
-Content-Language: en-US, nl
-To:     Arvid Norlander <lkml@vorpal.se>,
-        platform-driver-x86@vger.kernel.org
-Cc:     linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>,
-        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>
-References: <20220922182424.934340-1-lkml@vorpal.se>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220922182424.934340-1-lkml@vorpal.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,283 +68,570 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Thu, Sep 15, 2022 at 23:30, Jeff LaBundy <jeff@labundy.com> wrote:
 
-On 9/22/22 20:24, Arvid Norlander wrote:
-> Hi,
-> 
-> This is version 2 of this patch series, incorporating the various feedback
-> on the first version. However, there are some remaining issues that makes
-> me keep this marked RFC:
-> 1. I tried to get rid of the memory allocation in quickstart_acpi_ghid (as
->    suggested by Barnabás Pőcze), but I could not get that working. I'm not
->    sure why I did wrong, but I kept getting ACPI errors indicating a buffer
->    overflow. I would appreciate knowing how to allocate the buffer on stack
->    properly in this case. The memory leak is at least fixed on the error
->    path though.
+> Each call to device/fwnode_get_named_child_node() must be matched
+> with a call to fwnode_handle_put() once the corresponding node is
+> no longer in use. This ensures a reference count remains balanced
+> in the case of dynamic device tree support.
+>
+> Currently, the driver never calls fwnode_handle_put(). Solve this
+> problem by moving the node handling from iqs7222_parse_props() to
+> the new iqs7222_parse_reg_grp(), leaving the former to do nothing
+> but parse properties. The latter then manages the reference count
+> in a single location and consistent fashion.
+>
+> This change drastically simplifies iqs7222_parse_all(), which can
+> then call iqs7222_parse_reg_grp() on every register group without
+> having to treat each register group differently.
+>
+> For nested event nodes, common parsing code has been factored out
+> to the new iqs7222_parse_event() so as to allow the event node to
+> be dropped from as few locations as possible.
+>
+> As part of this refactor, the 'linux,code' property has been made
+> optional. This enables applications that define an event with the
+> sole purpose of enabling a GPIO.
+>
+> Fixes: e505edaedcb9 ("Input: add support for Azoteq IQS7222A/B/C")
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+> Changes in v2:
+>  - Created new iqs7222_parse_reg_grp() and iqs7222_parse_event() helpers
+>    to prevent multiple goto statements and calls to fwnode_handle_put()
+>  - Updated commit message
+>
+>  drivers/input/misc/iqs7222.c | 326 ++++++++++++++++-------------------
+>  1 file changed, 149 insertions(+), 177 deletions(-)
 
-It can be quite hard to predict how large an object ACPI methods will
-return. Even if you get it right for your laptop model it may fail
-on other models. So using ACPI_ALLOCATE_BUFFER here (which I assume this
-is about) is absolutely fine, I would even say it is a good idea :)
+Hi Jeff,
 
-> 2. The open question mentioned in the original cover letter remains
->    undiscussed. I would still like some feedback on those points as well.
-> 
-> The original cover letter follows:
-> 
-> In the following patch series I implement support for three buttons on
-> the Toshiba Satellite/Portege Z830 (same laptop, different markets).
-> 
-> These buttons work via a PNP0C32 ACPI device. Hans de Goede pointed out
-> an old and flawed attempt to implement this as a staging driver.
-> 
-> With that staging driver as a starting point I have now implemented proper
-> support. I believe I have fixed the flaws with the original staging driver.
-> As it required almost a complete rewrite I have decided to present it as a
-> new driver instead of starting with a revert commit to restore the old
-> driver and then apply fixes on top.
-> 
-> The specification for PNP0C32 devices exists as a Microsoft specification.
-> It was previously available on their web site, but seems to have been taken
-> down during the last month. I had a local copy and I have uploaded it to
-> archive.org. It is available here for anyone interested (including a
-> conversion of the docx to PDF):
-> 
-> https://archive.org/details/microsoft-acpi-dirapplaunch
-> 
-> The old emails about support for these buttons can be found at:
-> https://marc.info/?l=linux-acpi&m=120550727131007
-> https://lkml.org/lkml/2010/5/28/327
-> 
-> Table of contents:
-> 1. Summary of standard
-> 2. Issues
-> 2.1. Issue 1: Wake support
-> 2.2. Issue 2: Button identification
-> 2.3. Issue 3: GHID: 64-bit values?
-> 2.4. Issue 4: MAINTAINERS?
-> 3. User space API
-> 3.1. Input device
-> 3.2. Sysfs file: button_id (Read only)
-> 3.3. Sysfs file: wakeup_cause (Read write)
-> 4. HCI_HOTKEY_EVENT register (toshiba_acpi)
-> 
-> 
-> 1. Summary of standard
-> ======================
-> 
-> Here is a brief high level summary of the standard for PNP0C32. See
-> https://archive.org/details/microsoft-acpi-dirapplaunch for the full
-> standard.
-> 
-> PNP0C32 devices are "Direct Application Launch" buttons. The idea is that
-> they should work while the laptop is in various sleep modes (or even off).
-> The Z830 does not support waking from any sleep mode using these buttons,
-> it only supports them while it is awake.
-> 
-> Each PNP0C32 device represents a single button. Their meaning is completely
-> vendor defined. On Windows you can either:
-> * Make them launch an application when pressed (defined in the registry)
-> * Or an application can subscribe to specific Window messages to get
->   notified when they are pressed (this is how they are used by the Toshiba
->   software).
-> 
-> 2. Issues
-> =========
-> Unfortunately there are a few issues where I would like some input.
-> 
-> On top of that I'm sure there are lots of issues as I'm fairly new to
-> kernel programming!
-> 
-> 2.1. Issue 1: Wake support
-> --------------------------
-> This is untested as the Toshiba Z830 that I have simply does not support
-> this part in the firmware. I left the old behaviour in and only adapted it
-> slightly.
-> 
-> The driver adds a sysfs file "wakeup_cause" to each PNP0C32 device
-> (inspired by old approach) that would read "true" after causing the wakeup.
-> It would be up to user space query this and reset the value to false.
-> This is basically what the old staging driver did, only moved from an
-> (un-needed) platform driver to each ACPI driver.
-> 
-> As I cannot test it (the Z830 does not support the wakeup part of the spec)
-> I'm more inclined to just drop this feature, especially if the current
-> approach is suboptimal. It would then be up to someone else to implement
-> this in the future.
+This is a pretty big change. It was difficult to review so I hope I did
+not miss anything.
 
-Hmm, since you have already written / ported the wakeup_cause code
-I would prefer to retain it.
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
-You could add a module_param (boolean, default off) to enable this using
-a is_visible callback which returns 0 as mode when the boolean is not set
-(thus hiding the wakeup_cause sysfs attribute).
-Then people can easily test this on other models and if it turns out to
-be useful (and works as is) then we can drop the parameter and just
-always enable this.
-
-That is not the prettiest of solutions, but this way we atleast preserve
-the work/functionality from the staging driver.
-
-
-> 2.2. Issue 2: Button identification
-> -----------------------------------
-> There is NO generic way to know what the buttons are "supposed" to do.
-> Each button has a vendor defined ID (an 8-, 16- or 32-bit unsigned integer).
-> This ID can be read with the GHID ACPI method.
-> 
-> As such I map all these to KEY_UNKNOWN. Then suitable hwdb entries can be
-> created for udev that remap these to some sort of meaningful values.
-> 
-> Here is an example hwdb file I created for my laptop:
-> $ cat /etc/udev/hwdb.d/quickstart.hwdb 
-> evdev:name:Quickstart Button 1:dmi:bvn*:bvr*:bd*:svnTOSHIBA:pn*Z830:*
->  KEYBOARD_KEY_01=prog1
-> 
-> evdev:name:Quickstart Button 2:dmi:bvn*:bvr*:bd*:svnTOSHIBA:pn*Z830:*
->  KEYBOARD_KEY_01=prog2
-> 
-> evdev:name:Quickstart Button 3:dmi:bvn*:bvr*:bd*:svnTOSHIBA:pn*Z830:*
->  KEYBOARD_KEY_01=touchpad_toggle
-> 
-> As can be seen I always use the scancode 1 here. Would it be better to use
-> the ID from GHID instead? This can be an arbitrary 32-bit value.
-
-I think it would make sense to use the ID from GHID here, yes, then you
-could simplify your hwdb entry to:
-
-evdev:name:Quickstart Button *:dmi:bvn*:bvr*:bd*:svnTOSHIBA:pn*Z830:*
-  KEYBOARD_KEY_xxxx=prog1
-  KEYBOARD_KEY_xxxx=prog2
-  KEYBOARD_KEY_xxxx=touchpad_toggle
-
-This also looks a bit nicer then needing one entry per button.
-
-Note that if you do this you need to generate the sparse-keymap
-on the fly for it to contain the GHID scancode. Userspace can
-only modify mappings for scancodes which are present in the
-sparse-keymap.
-
-> Note also that prog1 and prog2 are poor approximations of the real buttons.
-> In reality the buttons are "Eco mode" and "Open Windows Mobility center on
-> screen about switching to projection mode". However Linux seem to lack
-> suitable key definitions for these.
-
-Using prog1 / prog2 is fine here. Although I think if you look at all the possible
-keycodes you may find closer matches. E.g. you could use battery / KEY_BATTERY for
-Eco mode and maybe KEY_SWITCHVIDEOMODE for the "switching to projection mode" key.
-
-> 2.3. Issue 3: GHID: 64-bit values?
-> ----------------------------------
-> The old staging driver had support for GHID returning a 64-bit value. It is
-> not clear to me why, as it is not mentioned in the specification. I could
-> not find anything when reading the old emails either. As such, I'm unsure
-> if I should drop it. The variable this gets stored to is just 32-bit
-> anyway.
-> 
-> If we decide to use GHID for scancode (see "Issue 2"), 64-bit values
-> might be a problem, as the scan code field is only 32 bits.
-
-I think replacing the 64 bit code with a warning that 64 bit values
-are not supported is going to be the best thing to do if you chose
-to use the GHID as keycode.
-
-
-> 2.4. Issue 4: MAINTAINERS?
-> --------------------------
-> I got this from checkpatch.pl:
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> 
-> I'm not sure? Advice would be welcome.
-
-If you plan to be available for maintenance / review of this driver
-going forward; then yes please add a MAINTAINERS entry and also consider
-adding your name + email to the MAINTAINERS entry for the toshiba_acpi
-driver.
-
-> 3. User space API
-> =================
-> Currently the user space API is as a sparse keymap input device, plus two
-> unique sysfs files. Discussion on this is welcome!
-> 
-> 3.1. Input device
-> -----------------
-> The device produces KEY_UNKNOWN events when the button is pressed, with
-> the scan code 1. We could change the scan code to the button ID reported
-> by ACPI via GHID. See also "Issue 2" and "Issue 3" above.
-
-I think defaulting to KEY_UNKNOWN here is fine and otherwise this is
-fine too. 
-
-> 3.2. Sysfs file: button_id (Read only)
-> --------------------------
-> This file can be read to get the button ID as reported by GHID. It is
-> returned in human readable ASCII with a trailing newline.
-
-You could drop this if you generate the scancode from the GHID since then
-it will be duplicate info with the scancode. OR if you prefer you may
-keep it. I have a slight preference for dropping it, but your choice.
-
-> 3.3. Sysfs file: wakeup_cause (Read write)
-> -----------------------------
-> Will return "true\n" when read after the button was the wakeup cause.
-> This is latched until user space writes "false" to the file.
-> 
-> See also "Issue 1" above. If this is not a suitable interface I'm inclined
-> to just drop the wakeup handling entirely.
-
-See my answer above.
-
-> 4. HCI_HOTKEY_EVENT register (toshiba_acpi)
-> ============================
-> To enable quickstart hotkeys, the HCI_HOTKEY_EVENT (0x1e) register needs
-> to be set correctly by toshiba_acpi. toshiba_acpi currently sets this to
-> HCI_HOTKEY_ENABLE (0x9) on the Z830. This is not suitable.
-> 
-> * Windows drivers reads the register then sets it to 0x5. Presumably there
->   is some logic going on there.
-> * HCI_GET on HCI_HOTKEY_EVENT returns 0xf before first call to set it when
->   booting Linux on this laptop.
-> * From my testing any value between 1 and 7 (inclusive) gives the correct
->   behaviour for the quickstart buttons. However, for normal hotkeys to work
->   in toshiba_acpi, only values with the least significant bit set work.
-> 
-> Toshiba_acpi already detects some laptops using SCI_KBD_FUNCTION_KEYS. That
-> call is not supported on this laptop (return status TOS_NOT_SUPPORTED).
-> 
-> It is not clear to me how to detect when to use the 0x5 value. In the
-> attached patch I use a quirk table to enable this. There may be a better
-> way to do it.
-
-Extending the existing quirk table for this is fine, I don't see any
-other way to easily do this.
-
-Thank you for your work on this!
-
-Regards,
-
-Hans
-
-
-
-
-
-> 
-> Note! This series is based off the review-hans branch.
-> 
-> Best regards,
-> Arvid Norlander
-> 
-> Arvid Norlander (2):
->   platform/x86: quickstart: Add ACPI quickstart button (PNP0C32) driver
->   platform/x86: toshiba_acpi: Add quirk for buttons on Z830
-> 
->  drivers/platform/x86/Kconfig        |  13 ++
->  drivers/platform/x86/Makefile       |   3 +
->  drivers/platform/x86/quickstart.c   | 320 ++++++++++++++++++++++++++++
->  drivers/platform/x86/toshiba_acpi.c |  36 +++-
->  4 files changed, 369 insertions(+), 3 deletions(-)
->  create mode 100644 drivers/platform/x86/quickstart.c
-> 
-
+>
+> diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
+> index ddb863bf63ee..d39b3fdfb849 100644
+> --- a/drivers/input/misc/iqs7222.c
+> +++ b/drivers/input/misc/iqs7222.c
+> @@ -105,14 +105,14 @@ enum iqs7222_reg_grp_id {
+>  	IQS7222_NUM_REG_GRPS
+>  };
+>  
+> -static const char * const iqs7222_reg_grp_names[] = {
+> +static const char * const iqs7222_reg_grp_names[IQS7222_NUM_REG_GRPS] = {
+>  	[IQS7222_REG_GRP_CYCLE] = "cycle",
+>  	[IQS7222_REG_GRP_CHAN] = "channel",
+>  	[IQS7222_REG_GRP_SLDR] = "slider",
+>  	[IQS7222_REG_GRP_GPIO] = "gpio",
+>  };
+>  
+> -static const unsigned int iqs7222_max_cols[] = {
+> +static const unsigned int iqs7222_max_cols[IQS7222_NUM_REG_GRPS] = {
+>  	[IQS7222_REG_GRP_STAT] = IQS7222_MAX_COLS_STAT,
+>  	[IQS7222_REG_GRP_CYCLE] = IQS7222_MAX_COLS_CYCLE,
+>  	[IQS7222_REG_GRP_GLBL] = IQS7222_MAX_COLS_GLBL,
+> @@ -1567,56 +1567,17 @@ static int iqs7222_gpio_select(struct iqs7222_private *iqs7222,
+>  }
+>  
+>  static int iqs7222_parse_props(struct iqs7222_private *iqs7222,
+> -			       struct fwnode_handle **child_node,
+> -			       int child_index,
+> +			       struct fwnode_handle *reg_grp_node,
+> +			       int reg_grp_index,
+>  			       enum iqs7222_reg_grp_id reg_grp,
+>  			       enum iqs7222_reg_key_id reg_key)
+>  {
+> -	u16 *setup = iqs7222_setup(iqs7222, reg_grp, child_index);
+> +	u16 *setup = iqs7222_setup(iqs7222, reg_grp, reg_grp_index);
+>  	struct i2c_client *client = iqs7222->client;
+> -	struct fwnode_handle *reg_grp_node;
+> -	char reg_grp_name[16];
+>  	int i;
+>  
+> -	switch (reg_grp) {
+> -	case IQS7222_REG_GRP_CYCLE:
+> -	case IQS7222_REG_GRP_CHAN:
+> -	case IQS7222_REG_GRP_SLDR:
+> -	case IQS7222_REG_GRP_GPIO:
+> -	case IQS7222_REG_GRP_BTN:
+> -		/*
+> -		 * These groups derive a child node and return it to the caller
+> -		 * for additional group-specific processing. In some cases, the
+> -		 * child node may have already been derived.
+> -		 */
+> -		reg_grp_node = *child_node;
+> -		if (reg_grp_node)
+> -			break;
+> -
+> -		snprintf(reg_grp_name, sizeof(reg_grp_name), "%s-%d",
+> -			 iqs7222_reg_grp_names[reg_grp], child_index);
+> -
+> -		reg_grp_node = device_get_named_child_node(&client->dev,
+> -							   reg_grp_name);
+> -		if (!reg_grp_node)
+> -			return 0;
+> -
+> -		*child_node = reg_grp_node;
+> -		break;
+> -
+> -	case IQS7222_REG_GRP_GLBL:
+> -	case IQS7222_REG_GRP_FILT:
+> -	case IQS7222_REG_GRP_SYS:
+> -		/*
+> -		 * These groups are not organized beneath a child node, nor are
+> -		 * they subject to any additional processing by the caller.
+> -		 */
+> -		reg_grp_node = dev_fwnode(&client->dev);
+> -		break;
+> -
+> -	default:
+> -		return -EINVAL;
+> -	}
+> +	if (!setup)
+> +		return 0;
+>  
+>  	for (i = 0; i < ARRAY_SIZE(iqs7222_props); i++) {
+>  		const char *name = iqs7222_props[i].name;
+> @@ -1686,11 +1647,66 @@ static int iqs7222_parse_props(struct iqs7222_private *iqs7222,
+>  	return 0;
+>  }
+>  
+> -static int iqs7222_parse_cycle(struct iqs7222_private *iqs7222, int cycle_index)
+> +static int iqs7222_parse_event(struct iqs7222_private *iqs7222,
+> +			       struct fwnode_handle *event_node,
+> +			       int reg_grp_index,
+> +			       enum iqs7222_reg_grp_id reg_grp,
+> +			       enum iqs7222_reg_key_id reg_key,
+> +			       u16 event_enable, u16 event_link,
+> +			       unsigned int *event_type,
+> +			       unsigned int *event_code)
+> +{
+> +	struct i2c_client *client = iqs7222->client;
+> +	int error;
+> +
+> +	error = iqs7222_parse_props(iqs7222, event_node, reg_grp_index,
+> +				    reg_grp, reg_key);
+> +	if (error)
+> +		return error;
+> +
+> +	error = iqs7222_gpio_select(iqs7222, event_node, event_enable,
+> +				    event_link);
+> +	if (error)
+> +		return error;
+> +
+> +	error = fwnode_property_read_u32(event_node, "linux,code", event_code);
+> +	if (error == -EINVAL) {
+> +		return 0;
+> +	} else if (error) {
+> +		dev_err(&client->dev, "Failed to read %s code: %d\n",
+> +			fwnode_get_name(event_node), error);
+> +		return error;
+> +	}
+> +
+> +	if (!event_type) {
+> +		input_set_capability(iqs7222->keypad, EV_KEY, *event_code);
+> +		return 0;
+> +	}
+> +
+> +	error = fwnode_property_read_u32(event_node, "linux,input-type",
+> +					 event_type);
+> +	if (error == -EINVAL) {
+> +		*event_type = EV_KEY;
+> +	} else if (error) {
+> +		dev_err(&client->dev, "Failed to read %s input type: %d\n",
+> +			fwnode_get_name(event_node), error);
+> +		return error;
+> +	} else if (*event_type != EV_KEY && *event_type != EV_SW) {
+> +		dev_err(&client->dev, "Invalid %s input type: %d\n",
+> +			fwnode_get_name(event_node), *event_type);
+> +		return -EINVAL;
+> +	}
+> +
+> +	input_set_capability(iqs7222->keypad, *event_type, *event_code);
+> +
+> +	return 0;
+> +}
+> +
+> +static int iqs7222_parse_cycle(struct iqs7222_private *iqs7222,
+> +			       struct fwnode_handle *cycle_node, int cycle_index)
+>  {
+>  	u16 *cycle_setup = iqs7222->cycle_setup[cycle_index];
+>  	struct i2c_client *client = iqs7222->client;
+> -	struct fwnode_handle *cycle_node = NULL;
+>  	unsigned int pins[9];
+>  	int error, count, i;
+>  
+> @@ -1699,15 +1715,12 @@ static int iqs7222_parse_cycle(struct iqs7222_private *iqs7222, int cycle_index)
+>  	 * channels to cycles is fixed. Properties defined for a cycle impact
+>  	 * both channels tied to the cycle.
+>  	 */
+> -	error = iqs7222_parse_props(iqs7222, &cycle_node, cycle_index,
+> +	error = iqs7222_parse_props(iqs7222, cycle_node, cycle_index,
+>  				    IQS7222_REG_GRP_CYCLE,
+>  				    IQS7222_REG_KEY_NONE);
+>  	if (error)
+>  		return error;
+>  
+> -	if (!cycle_node)
+> -		return 0;
+> -
+>  	/*
+>  	 * Unlike channels which are restricted to a select range of CRx pins
+>  	 * based on channel number, any cycle can claim any of the device's 9
+> @@ -1750,11 +1763,11 @@ static int iqs7222_parse_cycle(struct iqs7222_private *iqs7222, int cycle_index)
+>  	return 0;
+>  }
+>  
+> -static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
+> +static int iqs7222_parse_chan(struct iqs7222_private *iqs7222,
+> +			      struct fwnode_handle *chan_node, int chan_index)
+>  {
+>  	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
+>  	struct i2c_client *client = iqs7222->client;
+> -	struct fwnode_handle *chan_node = NULL;
+>  	int num_chan = dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_row;
+>  	int ext_chan = rounddown(num_chan, 10);
+>  	int error, i;
+> @@ -1762,15 +1775,12 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
+>  	u16 *sys_setup = iqs7222->sys_setup;
+>  	unsigned int val;
+>  
+> -	error = iqs7222_parse_props(iqs7222, &chan_node, chan_index,
+> +	error = iqs7222_parse_props(iqs7222, chan_node, chan_index,
+>  				    IQS7222_REG_GRP_CHAN,
+>  				    IQS7222_REG_KEY_NONE);
+>  	if (error)
+>  		return error;
+>  
+> -	if (!chan_node)
+> -		return 0;
+> -
+>  	if (dev_desc->allow_offset &&
+>  	    fwnode_property_present(chan_node, "azoteq,ulp-allow"))
+>  		sys_setup[dev_desc->allow_offset] &= ~BIT(chan_index);
+> @@ -1892,18 +1902,6 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
+>  		if (!event_node)
+>  			continue;
+>  
+> -		error = iqs7222_parse_props(iqs7222, &event_node, chan_index,
+> -					    IQS7222_REG_GRP_BTN,
+> -					    iqs7222_kp_events[i].reg_key);
+> -		if (error)
+> -			return error;
+> -
+> -		error = iqs7222_gpio_select(iqs7222, event_node,
+> -					    BIT(chan_index),
+> -					    dev_desc->touch_link - (i ? 0 : 2));
+> -		if (error)
+> -			return error;
+> -
+>  		if (!fwnode_property_read_u32(event_node,
+>  					      "azoteq,timeout-press-ms",
+>  					      &val)) {
+> @@ -1919,7 +1917,8 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
+>  			if (val > U8_MAX * 500) {
+>  				dev_err(&client->dev,
+>  					"Invalid %s press timeout: %u\n",
+> -					fwnode_get_name(chan_node), val);
+> +					fwnode_get_name(event_node), val);
+> +				fwnode_handle_put(event_node);
+>  				return -EINVAL;
+>  			}
+>  
+> @@ -1927,49 +1926,16 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
+>  			*setup |= (val / 500 << i * 8);
+>  		}
+>  
+> -		error = fwnode_property_read_u32(event_node, "linux,code",
+> -						 &val);
+> -		if (error) {
+> -			dev_err(&client->dev, "Failed to read %s code: %d\n",
+> -				fwnode_get_name(chan_node), error);
+> +		error = iqs7222_parse_event(iqs7222, event_node, chan_index,
+> +					    IQS7222_REG_GRP_BTN,
+> +					    iqs7222_kp_events[i].reg_key,
+> +					    BIT(chan_index),
+> +					    dev_desc->touch_link - (i ? 0 : 2),
+> +					    &iqs7222->kp_type[chan_index][i],
+> +					    &iqs7222->kp_code[chan_index][i]);
+> +		fwnode_handle_put(event_node);
+> +		if (error)
+>  			return error;
+> -		}
+> -
+> -		iqs7222->kp_code[chan_index][i] = val;
+> -		iqs7222->kp_type[chan_index][i] = EV_KEY;
+> -
+> -		if (fwnode_property_present(event_node, "linux,input-type")) {
+> -			error = fwnode_property_read_u32(event_node,
+> -							 "linux,input-type",
+> -							 &val);
+> -			if (error) {
+> -				dev_err(&client->dev,
+> -					"Failed to read %s input type: %d\n",
+> -					fwnode_get_name(chan_node), error);
+> -				return error;
+> -			}
+> -
+> -			if (val != EV_KEY && val != EV_SW) {
+> -				dev_err(&client->dev,
+> -					"Invalid %s input type: %u\n",
+> -					fwnode_get_name(chan_node), val);
+> -				return -EINVAL;
+> -			}
+> -
+> -			iqs7222->kp_type[chan_index][i] = val;
+> -		}
+> -
+> -		/*
+> -		 * Reference channels can opt out of event reporting by using
+> -		 * KEY_RESERVED in place of a true key or switch code.
+> -		 */
+> -		if (iqs7222->kp_type[chan_index][i] == EV_KEY &&
+> -		    iqs7222->kp_code[chan_index][i] == KEY_RESERVED)
+> -			continue;
+> -
+> -		input_set_capability(iqs7222->keypad,
+> -				     iqs7222->kp_type[chan_index][i],
+> -				     iqs7222->kp_code[chan_index][i]);
+>  
+>  		if (!dev_desc->event_offset)
+>  			continue;
+> @@ -1981,16 +1947,16 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
+>  	 * The following call handles a special pair of properties that apply
+>  	 * to a channel node, but reside within the button (event) group.
+>  	 */
+> -	return iqs7222_parse_props(iqs7222, &chan_node, chan_index,
+> +	return iqs7222_parse_props(iqs7222, chan_node, chan_index,
+>  				   IQS7222_REG_GRP_BTN,
+>  				   IQS7222_REG_KEY_DEBOUNCE);
+>  }
+>  
+> -static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222, int sldr_index)
+> +static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222,
+> +			      struct fwnode_handle *sldr_node, int sldr_index)
+>  {
+>  	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
+>  	struct i2c_client *client = iqs7222->client;
+> -	struct fwnode_handle *sldr_node = NULL;
+>  	int num_chan = dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_row;
+>  	int ext_chan = rounddown(num_chan, 10);
+>  	int count, error, reg_offset, i;
+> @@ -1998,15 +1964,12 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222, int sldr_index)
+>  	u16 *sldr_setup = iqs7222->sldr_setup[sldr_index];
+>  	unsigned int chan_sel[4], val;
+>  
+> -	error = iqs7222_parse_props(iqs7222, &sldr_node, sldr_index,
+> +	error = iqs7222_parse_props(iqs7222, sldr_node, sldr_index,
+>  				    IQS7222_REG_GRP_SLDR,
+>  				    IQS7222_REG_KEY_NONE);
+>  	if (error)
+>  		return error;
+>  
+> -	if (!sldr_node)
+> -		return 0;
+> -
+>  	/*
+>  	 * Each slider can be spread across 3 to 4 channels. It is possible to
+>  	 * select only 2 channels, but doing so prevents the slider from using
+> @@ -2130,46 +2093,37 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222, int sldr_index)
+>  	for (i = 0; i < ARRAY_SIZE(iqs7222_sl_events); i++) {
+>  		const char *event_name = iqs7222_sl_events[i].name;
+>  		struct fwnode_handle *event_node;
+> +		enum iqs7222_reg_key_id reg_key;
+>  
+>  		event_node = fwnode_get_named_child_node(sldr_node, event_name);
+>  		if (!event_node)
+>  			continue;
+>  
+> -		error = iqs7222_parse_props(iqs7222, &event_node, sldr_index,
+> -					    IQS7222_REG_GRP_SLDR,
+> -					    reg_offset ?
+> -					    IQS7222_REG_KEY_RESERVED :
+> -					    iqs7222_sl_events[i].reg_key);
+> -		if (error)
+> -			return error;
+> +		if (reg_offset)
+> +			reg_key = IQS7222_REG_KEY_RESERVED;
+> +		else
+> +			reg_key = iqs7222_sl_events[i].reg_key;
+>  
+>  		/*
+>  		 * The press/release event does not expose a direct GPIO link,
+>  		 * but one can be emulated by tying each of the participating
+>  		 * channels to the same GPIO.
+>  		 */
+> -		error = iqs7222_gpio_select(iqs7222, event_node,
+> +		error = iqs7222_parse_event(iqs7222, event_node, sldr_index,
+> +					    IQS7222_REG_GRP_SLDR, reg_key,
+>  					    i ? iqs7222_sl_events[i].enable
+>  					      : sldr_setup[3 + reg_offset],
+>  					    i ? 1568 + sldr_index * 30
+> -					      : sldr_setup[4 + reg_offset]);
+> +					      : sldr_setup[4 + reg_offset],
+> +					    NULL,
+> +					    &iqs7222->sl_code[sldr_index][i]);
+> +		fwnode_handle_put(event_node);
+>  		if (error)
+>  			return error;
+>  
+>  		if (!reg_offset)
+>  			sldr_setup[9] |= iqs7222_sl_events[i].enable;
+>  
+> -		error = fwnode_property_read_u32(event_node, "linux,code",
+> -						 &val);
+> -		if (error) {
+> -			dev_err(&client->dev, "Failed to read %s code: %d\n",
+> -				fwnode_get_name(sldr_node), error);
+> -			return error;
+> -		}
+> -
+> -		iqs7222->sl_code[sldr_index][i] = val;
+> -		input_set_capability(iqs7222->keypad, EV_KEY, val);
+> -
+>  		if (!dev_desc->event_offset)
+>  			continue;
+>  
+> @@ -2190,19 +2144,64 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222, int sldr_index)
+>  	 * The following call handles a special pair of properties that shift
+>  	 * to make room for a wheel enable control in the case of IQS7222C.
+>  	 */
+> -	return iqs7222_parse_props(iqs7222, &sldr_node, sldr_index,
+> +	return iqs7222_parse_props(iqs7222, sldr_node, sldr_index,
+>  				   IQS7222_REG_GRP_SLDR,
+>  				   dev_desc->wheel_enable ?
+>  				   IQS7222_REG_KEY_WHEEL :
+>  				   IQS7222_REG_KEY_NO_WHEEL);
+>  }
+>  
+> +static int (*iqs7222_parse_extra[IQS7222_NUM_REG_GRPS])
+> +				(struct iqs7222_private *iqs7222,
+> +				 struct fwnode_handle *reg_grp_node,
+> +				 int reg_grp_index) = {
+> +	[IQS7222_REG_GRP_CYCLE] = iqs7222_parse_cycle,
+> +	[IQS7222_REG_GRP_CHAN] = iqs7222_parse_chan,
+> +	[IQS7222_REG_GRP_SLDR] = iqs7222_parse_sldr,
+> +};
+> +
+> +static int iqs7222_parse_reg_grp(struct iqs7222_private *iqs7222,
+> +				 enum iqs7222_reg_grp_id reg_grp,
+> +				 int reg_grp_index)
+> +{
+> +	struct i2c_client *client = iqs7222->client;
+> +	struct fwnode_handle *reg_grp_node;
+> +	int error;
+> +
+> +	if (iqs7222_reg_grp_names[reg_grp]) {
+> +		char reg_grp_name[16];
+> +
+> +		snprintf(reg_grp_name, sizeof(reg_grp_name), "%s-%d",
+> +			 iqs7222_reg_grp_names[reg_grp], reg_grp_index);
+> +
+> +		reg_grp_node = device_get_named_child_node(&client->dev,
+> +							   reg_grp_name);
+> +	} else {
+> +		reg_grp_node = fwnode_handle_get(dev_fwnode(&client->dev));
+> +	}
+> +
+> +	if (!reg_grp_node)
+> +		return 0;
+> +
+> +	if (iqs7222_parse_extra[reg_grp])
+> +		error = iqs7222_parse_extra[reg_grp](iqs7222, reg_grp_node,
+> +						     reg_grp_index);
+> +	else
+> +		error = iqs7222_parse_props(iqs7222, reg_grp_node,
+> +					    reg_grp_index,
+> +					    reg_grp, IQS7222_REG_KEY_NONE);
+> +
+> +	fwnode_handle_put(reg_grp_node);
+> +
+> +	return error;
+> +}
+> +
+>  static int iqs7222_parse_all(struct iqs7222_private *iqs7222)
+>  {
+>  	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
+>  	const struct iqs7222_reg_grp_desc *reg_grps = dev_desc->reg_grps;
+>  	u16 *sys_setup = iqs7222->sys_setup;
+> -	int error, i;
+> +	int error, i, j;
+>  
+>  	if (dev_desc->allow_offset)
+>  		sys_setup[dev_desc->allow_offset] = U16_MAX;
+> @@ -2210,32 +2209,13 @@ static int iqs7222_parse_all(struct iqs7222_private *iqs7222)
+>  	if (dev_desc->event_offset)
+>  		sys_setup[dev_desc->event_offset] = IQS7222_EVENT_MASK_ATI;
+>  
+> -	for (i = 0; i < reg_grps[IQS7222_REG_GRP_CYCLE].num_row; i++) {
+> -		error = iqs7222_parse_cycle(iqs7222, i);
+> -		if (error)
+> -			return error;
+> -	}
+> -
+> -	error = iqs7222_parse_props(iqs7222, NULL, 0, IQS7222_REG_GRP_GLBL,
+> -				    IQS7222_REG_KEY_NONE);
+> -	if (error)
+> -		return error;
+> -
+>  	for (i = 0; i < reg_grps[IQS7222_REG_GRP_GPIO].num_row; i++) {
+> -		struct fwnode_handle *gpio_node = NULL;
+>  		u16 *gpio_setup = iqs7222->gpio_setup[i];
+> -		int j;
+>  
+>  		gpio_setup[0] &= ~IQS7222_GPIO_SETUP_0_GPIO_EN;
+>  		gpio_setup[1] = 0;
+>  		gpio_setup[2] = 0;
+>  
+> -		error = iqs7222_parse_props(iqs7222, &gpio_node, i,
+> -					    IQS7222_REG_GRP_GPIO,
+> -					    IQS7222_REG_KEY_NONE);
+> -		if (error)
+> -			return error;
+> -
+>  		if (reg_grps[IQS7222_REG_GRP_GPIO].num_row == 1)
+>  			continue;
+>  
+> @@ -2258,29 +2238,21 @@ static int iqs7222_parse_all(struct iqs7222_private *iqs7222)
+>  		chan_setup[5] = 0;
+>  	}
+>  
+> -	for (i = 0; i < reg_grps[IQS7222_REG_GRP_CHAN].num_row; i++) {
+> -		error = iqs7222_parse_chan(iqs7222, i);
+> -		if (error)
+> -			return error;
+> -	}
+> -
+> -	error = iqs7222_parse_props(iqs7222, NULL, 0, IQS7222_REG_GRP_FILT,
+> -				    IQS7222_REG_KEY_NONE);
+> -	if (error)
+> -		return error;
+> -
+>  	for (i = 0; i < reg_grps[IQS7222_REG_GRP_SLDR].num_row; i++) {
+>  		u16 *sldr_setup = iqs7222->sldr_setup[i];
+>  
+>  		sldr_setup[0] &= ~IQS7222_SLDR_SETUP_0_CHAN_CNT_MASK;
+> +	}
+>  
+> -		error = iqs7222_parse_sldr(iqs7222, i);
+> -		if (error)
+> -			return error;
+> +	for (i = 0; i < IQS7222_NUM_REG_GRPS; i++) {
+> +		for (j = 0; j < reg_grps[i].num_row; j++) {
+> +			error = iqs7222_parse_reg_grp(iqs7222, i, j);
+> +			if (error)
+> +				return error;
+> +		}
+>  	}
+>  
+> -	return iqs7222_parse_props(iqs7222, NULL, 0, IQS7222_REG_GRP_SYS,
+> -				   IQS7222_REG_KEY_NONE);
+> +	return 0;
+>  }
+>  
+>  static int iqs7222_report(struct iqs7222_private *iqs7222)
+> -- 
+> 2.34.1
