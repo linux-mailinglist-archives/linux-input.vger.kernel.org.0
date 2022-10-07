@@ -2,81 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D32AC5F7110
-	for <lists+linux-input@lfdr.de>; Fri,  7 Oct 2022 00:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30B165F74D7
+	for <lists+linux-input@lfdr.de>; Fri,  7 Oct 2022 09:46:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231989AbiJFWVc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Oct 2022 18:21:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59108 "EHLO
+        id S229921AbiJGHqG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Oct 2022 03:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231875AbiJFWVb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Oct 2022 18:21:31 -0400
-X-Greylist: delayed 506 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Oct 2022 15:21:28 PDT
-Received: from endrift.com (endrift.com [173.255.198.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE06914299C
-        for <linux-input@vger.kernel.org>; Thu,  6 Oct 2022 15:21:28 -0700 (PDT)
-Received: from nebulosa.vulpes.eutheria.net (unknown [50.106.20.54])
-        by endrift.com (Postfix) with ESMTPSA id A1C7CA28C;
-        Thu,  6 Oct 2022 15:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
-        t=1665094381; bh=rBb1SqYi3cJdH+7HPP0CwzWdNK3t9msbBSeEayWvbug=;
-        h=From:To:Cc:Subject:Date:From;
-        b=BlFbbCUcoTWprDm4Q3WkymZAw03EgIv7YGgcYs5+vdpj7aH2EVIY53zQd32VGq426
-         04jL/keVsaRSvBmkQRQmwtdra7uTXiHBBOjH3m6eEQfgk2nqE5GXDyoTVUFwAMOhmG
-         Gp4Ap/1o/tFiS9acHPFRIUyNkwUSwra5XJfbkncotRZbAmBE7JOoRBzddaEMbD1q0Y
-         pjZtmPwinYW/VbdLkR9veudHNQlTQ56PrRosGY2JRDfrC3VckgQ2opUO2bP5t7tvWw
-         aXYHHhjEyiJVX/4SUrlwbbFnofj2DelOdT7WkN+8j5WcGmxyCAcTtbjBetbwaEPJnC
-         IU1dGRmrmuuhw==
-From:   Vicki Pfau <vi@endrift.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Michael Cullen <michael@michaelcullen.name>,
-        Marcos Alano <marcoshalano@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Vicki Pfau <vi@endrift.com>
-Subject: [PATCH] Input: xpad - fix PowerA EnWired Controller guide button
-Date:   Thu,  6 Oct 2022 15:12:09 -0700
-Message-Id: <20221006221209.2016372-1-vi@endrift.com>
-X-Mailer: git-send-email 2.38.0
+        with ESMTP id S229491AbiJGHqF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Oct 2022 03:46:05 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 278B7DED07;
+        Fri,  7 Oct 2022 00:46:03 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id bs18so4790223ljb.1;
+        Fri, 07 Oct 2022 00:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=44mpfHoFiwx2iyX6E3gH6EceYy6f5JbWrB04sIP1c+o=;
+        b=Iaj+Y/jJ74tsjfnMKOyVFppae9gzHCsmcdvFtNM6sBL1cKF5YSuopcCEohMxQaeROb
+         heR5yZzhxPdJXFjO8sXCFeGJJReIc8ApAKeUwlL3FnCSYPyMq9ABEWfcC/YFcZiGuAx/
+         /S6XUNaE4NNIXTrIhQ4+gw9pztJ2WieWIOThAr6smKXcHHHLZMMuA627c27NhySiwVXC
+         bms4TBSHvswkruAtZT31isTOaIeObVHexq7cWpWcFxiQ9lWrnWmvXHxawsK0KYHbXLL1
+         h8f6tvO4FatsgTzXJtSfwhWnAONBEG1yi7Zb10PQxjbvbEzYvVqwDhePBJDSYRF/UD2S
+         zi2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=44mpfHoFiwx2iyX6E3gH6EceYy6f5JbWrB04sIP1c+o=;
+        b=j8kFC9eYQ4yMTpSjoSqfMe2xDKkkyiXPPfVpTJyXrrUxRoaQRI5fPSwtoXV4qeAdL1
+         1lhdMU64bmzQasH+oQdbyCnzLoXN2jqkSLxJsNqn7kaj3b+fiQ9YWkRDAlGmn99jomQh
+         RHzI0Jn/s9FfnSlFPxatA7JgZekUP4AiEJOBnK1tgkw8mRptAeG0YFho2NQr9IOiHRLc
+         qlsyP8J2bgT0DsgaR0/1gJKX35o2L54VOlCa7pkxAxlZqbBwS6R5UoHr4tV/tTtJNUPB
+         NnYiEotiJ2uQGS4Ndk/yGp7bhRTpV3VUQdvt0ae5jpKKogbL8OaiaOJvZ7XU560+HX9j
+         7DcQ==
+X-Gm-Message-State: ACrzQf2IpVyLSrqv46EtfhrJdEkgJeiYcFI6o9/zwhUTb0K9h9A8fx8f
+        RWI+Nt/jDnzDX0hLrppIgzs=
+X-Google-Smtp-Source: AMsMyM739/J//45IHCpcc2Agu2xbk8hjLIJf5h+N9kUdmtTruQgwwrJFLSwBXDDspzGU6CJ9COmptg==
+X-Received: by 2002:a2e:995a:0:b0:26e:3cdf:f80e with SMTP id r26-20020a2e995a000000b0026e3cdff80emr527743ljj.144.1665128761282;
+        Fri, 07 Oct 2022 00:46:01 -0700 (PDT)
+Received: from gmail.com (82-209-154-112.cust.bredband2.com. [82.209.154.112])
+        by smtp.gmail.com with ESMTPSA id w7-20020ac254a7000000b0049ad2619becsm190554lfk.131.2022.10.07.00.46.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 00:46:00 -0700 (PDT)
+Date:   Fri, 7 Oct 2022 09:45:59 +0200
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: hid-alps: use default remove for hid device
+Message-ID: <Yz/ZNzVFoh4zO9sW@gmail.com>
+References: <20220915123438.520775-1-marcus.folkesson@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="FlZxSfG4OPWffxjo"
+Content-Disposition: inline
+In-Reply-To: <20220915123438.520775-1-marcus.folkesson@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some Xbox One controllers require more complete versions of the controller
-start-up sequence used in official software in order to function properly.
-This patch adds a usb_set_interface call that matches official startup and
-nominally disabled the audio interface, which isn't supported in the xpad
-driver in the first place.
 
-Signed-off-by: Vicki Pfau <vi@endrift.com>
----
- drivers/input/joystick/xpad.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+--FlZxSfG4OPWffxjo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 18190b529bca..6449665d7b61 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -1509,6 +1509,13 @@ static int xpad_start_input(struct usb_xpad *xpad)
- 		return -EIO;
- 
- 	if (xpad->xtype == XTYPE_XBOXONE) {
-+		/* Explicitly disable the audio interface. This is needed for some
-+		 * controllers, such as the PowerA Enhanced Wired Controller
-+		 * for Series X|S (0x20d6:0x200e) to report the guide button */
-+		error = usb_set_interface(xpad->udev, 1, 0);
-+		if (error)
-+			return error;
-+
- 		error = xpad_start_xbox_one(xpad);
- 		if (error) {
- 			usb_kill_urb(xpad->irq_in);
--- 
-2.38.0
+Hi,
 
+On Thu, Sep 15, 2022 at 02:34:38PM +0200, Marcus Folkesson wrote:
+> hid_device_remove() will call hid_hw_stop() as default .remove function
+> if no function is specified.
+>=20
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+
+Ping
+
+Best regards,
+Marcus Folkesson
+
+--FlZxSfG4OPWffxjo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmM/2TIACgkQiIBOb1ld
+UjKeSRAAoIn7S2BxCGn52zwbzDzoT8D0BDSN+7Azb7xdFh5s3Wo9aldyYabWkCKM
+7ImIrqoDP0v4L5rIbJggRQUUDFgiPIrh+KveYgDhDodzECwagdmZwuFzSxhQwSac
+cXCgCJSnGIRMNanNiXOL94ek/u59mkH6Q3oLORlo6YUCDolwRE8XxiOVHjRs9+cO
+7Y1ckSAk+RPCwKS1Cs2fgLAYjXtJ/MSs+vW+CVjygO5sGY7l0HWHncPfwZCeqpOg
+76r2iujMXPrBetnvg6TfsPwez/cK+OB+B9e/gOerTU4nlSKZCFtKKH7WBHx+5+H6
+OEQ6a9cRgk2neEIJr3UYpxNLDIHyHFtCKIfq9/vedigqkJHnPENbOvWngnOsFNl0
+n3znYXuStjZvqSHZ9wgGVRGXewiVClQNynr6+gtc4soiS0Gaa1oUTZY+sPEguiaP
+W9na5OkOtj26TVSakTEDVXULXKFXdgY4y+N6j1liitg7eFK7wQrJ6qhZHuITitim
+6cEQuRLP8BfcuWIG8XCYaG5yjfGelfJOUeQxq9IlC2312PY4thKf95zjXPDZhpix
+a7zZF/2WLubgSL8xpX85bCZRhw5O5eIYr4x9b2Vy87YZGxKBcN1RxyO8Pq+Rsk2g
+k7d0PkvO3i480vnPLBgKkg63M7hcC4VBJZsb3QUqNHc5rITN88I=
+=RddR
+-----END PGP SIGNATURE-----
+
+--FlZxSfG4OPWffxjo--
