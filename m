@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D28435FA6E5
-	for <lists+linux-input@lfdr.de>; Mon, 10 Oct 2022 23:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 160585FA6E7
+	for <lists+linux-input@lfdr.de>; Mon, 10 Oct 2022 23:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbiJJVXW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Oct 2022 17:23:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37570 "EHLO
+        id S229776AbiJJVXX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Oct 2022 17:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiJJVXV (ORCPT
+        with ESMTP id S229788AbiJJVXW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Oct 2022 17:23:21 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BAE96B8C7
-        for <linux-input@vger.kernel.org>; Mon, 10 Oct 2022 14:23:20 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id gf8so10795908pjb.5
-        for <linux-input@vger.kernel.org>; Mon, 10 Oct 2022 14:23:20 -0700 (PDT)
+        Mon, 10 Oct 2022 17:23:22 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA1C6BCEC
+        for <linux-input@vger.kernel.org>; Mon, 10 Oct 2022 14:23:21 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id i6so11819031pfb.2
+        for <linux-input@vger.kernel.org>; Mon, 10 Oct 2022 14:23:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/bJ6Ot7VHNqG6fD6NCI1uSX1c2aopkFB+w2rPel+p1s=;
-        b=Ql7z56C2vnkkqAHuGV+MWeBLrVTi9xJt1//Gznt4AguI/dgRZdufRBq22PimF8786i
-         XT7KfR2lkx/DdYgeVZHhSeD0jcBLO8vZbe1B4LhBDnqLny5pJtElYyFquUXjvtNPDUQp
-         9NV8jGFKMjyjh976QOhmMQeJm+jwCpTe7uVTkUR8vdLFK3/tZivOK/pAYRrxNUi2Yfj4
-         IcfqlJtg9GqEkXvFDyBQZSmpRRDzPbsIeY6ZnnUU/YKjs7HwHHHga/boxuyM50h4aAGv
-         7dUkFx5pR5NcclZPnqG7Fc+wLszDmkwA5l2G4liP9b+JeHNBiw16cHnPp/tqA30lZpgh
-         /mqw==
+        bh=05se/QLxbcZC/U9SJgyBO6TtEpzcC1Jq7/S8OolD1VM=;
+        b=vYbM3FK0M1aBaoDw/yrM2w99gA9UTV4/QsqC2J09tWJdCRkxIx/nTYOuTls2kVOzhu
+         2uN45IID81baR/CrTPTBS4veUGoTeNWUTRg0EROk+A0zEOy2KZXydCXaWMAL9g9SsuRh
+         Hvnv1zPcSYyUgG6EE37POeo1Qn9Tf5inrciM+tOHmw6zskygEegZ5q7m0Bd4G7YglwNE
+         XLDAh1r/Y9D37iC2OEbziocGFEPJADhl7r6GytrfOURW+qtwRvU3GW4pLkp9IdwHUL5N
+         aNa0fxNcmybxU1jQS8nXX52BG+tXI0MoDcyF2G+5nR+3HhxfQaCnnd6b9Dz9Es5ODOuF
+         QQXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/bJ6Ot7VHNqG6fD6NCI1uSX1c2aopkFB+w2rPel+p1s=;
-        b=r0k7oNkD96hUM4fBVSQKpY5J4g3UQ2j1QsXsoM/zgnPqVS/deu5LRbksVkU/YZrNTs
-         Gi9Rh+glPaU7jji/uk0rJCf2rvQWhImscSvE6YSpRNWF+SOIOZcXLUXuQv7KOurzTHqg
-         DM23eua39riy34LeBrvzGqqDtgXajRE2T2LjldDHD6wsIbGCR9tNT8EWTgNgbYAH8WuS
-         +qKG+mwChi4arZgJc+6sizjQ8ulqG3us2r3FyfDzMaDlD53V25Tm2/BYSD9PkMhE7pmR
-         aQCLWOcsSZz9WEBxG1+1alde5YoboShyQQA0pxlIZMyFU5BSTkAcdeJxzv7DS95QuU9Y
-         pSGg==
-X-Gm-Message-State: ACrzQf2/R+wgeSdzf7zFH1WUBK0LPCBSjIhXucHkrKZXmfPUVfcMvr+o
-        B+KoVB4ZRYVrtWKwVXJQ9XE4EA==
-X-Google-Smtp-Source: AMsMyM72NSFKNiyUjFQsfybNzV8bKc0sF8mTOHn8rInNO52y1PgXoHpHll1orUvAh6xn/38OUitRbQ==
-X-Received: by 2002:a17:90b:17ce:b0:20b:7cb:9397 with SMTP id me14-20020a17090b17ce00b0020b07cb9397mr27137312pjb.191.1665436999910;
-        Mon, 10 Oct 2022 14:23:19 -0700 (PDT)
+        bh=05se/QLxbcZC/U9SJgyBO6TtEpzcC1Jq7/S8OolD1VM=;
+        b=BtD4NekD8n+tQ1G4FCt7YmZTiRGB0lz+4c2igz/CdF40IIlkAqb9ef6fXTvY1ysV73
+         X/+F7WUrUvHOfkat62u8np5L6kml+PoMYYFVoC5x32SHsCpz/9TYkYRYh6JaG2HojiY3
+         FjQp8dwrZOwnIdSM00tFNzFLXFG8xoA9xgDzKs174NM7879bU8yk7EW5w41zrv4sDKNf
+         Sr2KZK8vuRKQpEDxg+1SeNMEge4OTb6F8yXJrJQC4fJE3fdeah3NvxZQkh5yOcJYiI8F
+         MiDq0W3nyj8fKBfvah9a79aSFE2+yUIN7LWlt9irPFFrSX9q7Yr66iPon+zkYZxksBtg
+         yd/w==
+X-Gm-Message-State: ACrzQf2lJ038gjBfnQFc0I4ie1heZpr/lJr2gKTOxkfc6q1puxScM5y3
+        ZsvtJCZEuqRw+vbftL8/WEUn6PhDTIL9tg==
+X-Google-Smtp-Source: AMsMyM4eOT4VO2Riqb39WbsITGdk0C8AcDEeaV++aLAq+dNy9cyapR4gaVHM6JfrkBj5Lq+ijEy5BQ==
+X-Received: by 2002:a63:d709:0:b0:461:be56:507e with SMTP id d9-20020a63d709000000b00461be56507emr8151215pgg.597.1665437001518;
+        Mon, 10 Oct 2022 14:23:21 -0700 (PDT)
 Received: from localhost.localdomain (23-122-157-100.lightspeed.irvnca.sbcglobal.net. [23.122.157.100])
-        by smtp.gmail.com with ESMTPSA id d17-20020a621d11000000b0054097cb2da6sm7383876pfd.38.2022.10.10.14.23.18
+        by smtp.gmail.com with ESMTPSA id d17-20020a621d11000000b0054097cb2da6sm7383876pfd.38.2022.10.10.14.23.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Oct 2022 14:23:19 -0700 (PDT)
+        Mon, 10 Oct 2022 14:23:20 -0700 (PDT)
 From:   Roderick Colenbrander <roderick@gaikai.com>
 X-Google-Original-From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 To:     Jiri Kosina <jikos@kernel.org>,
@@ -57,166 +57,69 @@ To:     Jiri Kosina <jikos@kernel.org>,
 Cc:     linux-input@vger.kernel.org,
         Roderick Colenbrander <roderick.colenbrander@sony.com>,
         stable@vger.kernel.org
-Subject: [PATCH v2 1/3] HID: playstation: stop DualSense output work on remove.
-Date:   Mon, 10 Oct 2022 14:23:11 -0700
-Message-Id: <20221010212313.78275-2-roderick.colenbrander@sony.com>
+Subject: [PATCH v2 2/3] HID: playstation: add initial DualSense Edge controller support
+Date:   Mon, 10 Oct 2022 14:23:12 -0700
+Message-Id: <20221010212313.78275-3-roderick.colenbrander@sony.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221010212313.78275-1-roderick.colenbrander@sony.com>
 References: <20221010212313.78275-1-roderick.colenbrander@sony.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ensure we don't schedule any new output work on removal and wait
-for any existing work to complete. If we don't do this e.g. rumble
-work can get queued during deletion and we trigger a kernel crash.
+Provide initial support for the DualSense Edge controller. The brings
+support up to the level of the original DualSense, but won't yet provide
+support for new features (e.g. reprogrammable buttons).
 
 Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 CC: stable@vger.kernel.org
 ---
- drivers/hid/hid-playstation.c | 41 ++++++++++++++++++++++++++++++-----
- 1 file changed, 36 insertions(+), 5 deletions(-)
+ drivers/hid/hid-ids.h         | 1 +
+ drivers/hid/hid-playstation.c | 5 ++++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index f80d6193fca6..cd8087ed412c 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1142,6 +1142,7 @@
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_2	0x09cc
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE	0x0ba0
+ #define USB_DEVICE_ID_SONY_PS5_CONTROLLER	0x0ce6
++#define USB_DEVICE_ID_SONY_PS5_CONTROLLER_2	0x0df2
+ #define USB_DEVICE_ID_SONY_MOTION_CONTROLLER	0x03d5
+ #define USB_DEVICE_ID_SONY_NAVIGATION_CONTROLLER	0x042f
+ #define USB_DEVICE_ID_SONY_BUZZ_CONTROLLER		0x0002
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 40050eb85c0a..d727cd2bf44e 100644
+index d727cd2bf44e..396356b6760a 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -46,6 +46,7 @@ struct ps_device {
- 	uint32_t fw_version;
- 
- 	int (*parse_report)(struct ps_device *dev, struct hid_report *report, u8 *data, int size);
-+	void (*remove)(struct ps_device *dev);
- };
- 
- /* Calibration data for playstation motion sensors. */
-@@ -174,6 +175,7 @@ struct dualsense {
- 	struct led_classdev player_leds[5];
- 
- 	struct work_struct output_worker;
-+	bool output_worker_initialized;
- 	void *output_report_dmabuf;
- 	uint8_t output_seq; /* Sequence number for output report. */
- };
-@@ -299,6 +301,7 @@ static const struct {int x; int y; } ps_gamepad_hat_mapping[] = {
- 	{0, 0},
- };
- 
-+static inline void dualsense_schedule_work(struct dualsense *ds);
- static void dualsense_set_lightbar(struct dualsense *ds, uint8_t red, uint8_t green, uint8_t blue);
- 
- /*
-@@ -789,6 +792,7 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
- 	return ret;
- }
- 
-+
- static int dualsense_get_firmware_info(struct dualsense *ds)
- {
- 	uint8_t *buf;
-@@ -878,7 +882,7 @@ static int dualsense_player_led_set_brightness(struct led_classdev *led, enum le
- 	ds->update_player_leds = true;
- 	spin_unlock_irqrestore(&ds->base.lock, flags);
- 
--	schedule_work(&ds->output_worker);
-+	dualsense_schedule_work(ds);
- 
- 	return 0;
- }
-@@ -922,6 +926,16 @@ static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_
+@@ -1464,7 +1464,8 @@ static int ps_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		goto err_stop;
  	}
- }
  
-+static inline void dualsense_schedule_work(struct dualsense *ds)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ds->base.lock, flags);
-+	if (ds->output_worker_initialized)
-+		schedule_work(&ds->output_worker);
-+	spin_unlock_irqrestore(&ds->base.lock, flags);
-+}
-+
- /*
-  * Helper function to send DualSense output reports. Applies a CRC at the end of a report
-  * for Bluetooth reports.
-@@ -1082,7 +1096,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
- 		spin_unlock_irqrestore(&ps_dev->lock, flags);
- 
- 		/* Schedule updating of microphone state at hardware level. */
--		schedule_work(&ds->output_worker);
-+		dualsense_schedule_work(ds);
- 	}
- 	ds->last_btn_mic_state = btn_mic_state;
- 
-@@ -1197,10 +1211,22 @@ static int dualsense_play_effect(struct input_dev *dev, void *data, struct ff_ef
- 	ds->motor_right = effect->u.rumble.weak_magnitude / 256;
- 	spin_unlock_irqrestore(&ds->base.lock, flags);
- 
--	schedule_work(&ds->output_worker);
-+	dualsense_schedule_work(ds);
- 	return 0;
- }
- 
-+static void dualsense_remove(struct ps_device *ps_dev)
-+{
-+	struct dualsense *ds = container_of(ps_dev, struct dualsense, base);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ds->base.lock, flags);
-+	ds->output_worker_initialized = false;
-+	spin_unlock_irqrestore(&ds->base.lock, flags);
-+
-+	cancel_work_sync(&ds->output_worker);
-+}
-+
- static int dualsense_reset_leds(struct dualsense *ds)
- {
- 	struct dualsense_output_report report;
-@@ -1237,7 +1263,7 @@ static void dualsense_set_lightbar(struct dualsense *ds, uint8_t red, uint8_t gr
- 	ds->lightbar_blue = blue;
- 	spin_unlock_irqrestore(&ds->base.lock, flags);
- 
--	schedule_work(&ds->output_worker);
-+	dualsense_schedule_work(ds);
- }
- 
- static void dualsense_set_player_leds(struct dualsense *ds)
-@@ -1260,7 +1286,7 @@ static void dualsense_set_player_leds(struct dualsense *ds)
- 
- 	ds->update_player_leds = true;
- 	ds->player_leds_state = player_ids[player_id];
--	schedule_work(&ds->output_worker);
-+	dualsense_schedule_work(ds);
- }
- 
- static struct ps_device *dualsense_create(struct hid_device *hdev)
-@@ -1299,7 +1325,9 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	ps_dev->battery_capacity = 100; /* initial value until parse_report. */
- 	ps_dev->battery_status = POWER_SUPPLY_STATUS_UNKNOWN;
- 	ps_dev->parse_report = dualsense_parse_report;
-+	ps_dev->remove = dualsense_remove;
- 	INIT_WORK(&ds->output_worker, dualsense_output_worker);
-+	ds->output_worker_initialized = true;
- 	hid_set_drvdata(hdev, ds);
- 
- 	max_output_report_size = sizeof(struct dualsense_output_report_bt);
-@@ -1461,6 +1489,9 @@ static void ps_remove(struct hid_device *hdev)
- 	ps_devices_list_remove(dev);
- 	ps_device_release_player_id(dev);
- 
-+	if (dev->remove)
-+		dev->remove(dev);
-+
- 	hid_hw_close(hdev);
- 	hid_hw_stop(hdev);
- }
+-	if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER) {
++	if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER ||
++		hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) {
+ 		dev = dualsense_create(hdev);
+ 		if (IS_ERR(dev)) {
+ 			hid_err(hdev, "Failed to create dualsense.\n");
+@@ -1499,6 +1500,8 @@ static void ps_remove(struct hid_device *hdev)
+ static const struct hid_device_id ps_devices[] = {
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, ps_devices);
 -- 
 2.37.3
 
