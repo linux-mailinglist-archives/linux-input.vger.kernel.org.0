@@ -2,147 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 241715FA31F
-	for <lists+linux-input@lfdr.de>; Mon, 10 Oct 2022 20:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFF4F5FA43B
+	for <lists+linux-input@lfdr.de>; Mon, 10 Oct 2022 21:32:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbiJJSEd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Oct 2022 14:04:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32950 "EHLO
+        id S229459AbiJJTcr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Oct 2022 15:32:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbiJJSEc (ORCPT
+        with ESMTP id S229517AbiJJTcp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Oct 2022 14:04:32 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B6378206;
-        Mon, 10 Oct 2022 11:04:30 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id y1so4255736pfr.3;
-        Mon, 10 Oct 2022 11:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iqm9CVgn+kW4HfPyiUnaMeFl30Q6IABDDhBs2wPsJt8=;
-        b=A2PJRdVcfbhm6nKDfokFMdxjYrpiSG3A4L5AsylMNB7KWpc04WjyBf1DPB5kO4pZz6
-         FHdpXDhtVD02kl7k145LFNvqafRpExtpXpvtiLiscsljc6GrdVbaMRyU5ZI9O9uuL95Q
-         fVrvfW+B28HFKAPaZsLwIeww/gPenfcO6FdL9ikuvZDW3oBLTvcxAIAcy5Yqolty2SDo
-         SXbpjGzqqFa5U/XEk1HqvY0a6ffFz6ScEQ0sa5HLpv0XcZYsFCLDUsWLTP3KOIi4PX4s
-         BG/fjbo9bPuCikKWtlaZd1kJVUmukbZBGBr0JuAbPMCTzfTJ7q79Radhe1xeQlW+u/Af
-         VLhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iqm9CVgn+kW4HfPyiUnaMeFl30Q6IABDDhBs2wPsJt8=;
-        b=rn17EMxZeY8nElSH6YK1KOjHEgHm0JgVSulfRY3VzH+M1D5uhq9dZLUObg1c3xCxP0
-         hsTzLS+y08fukIxLB6wIrLnahbHApUA6CX471dq0lW/4dEZDExnAJTzqJ/OH7YY8MvY6
-         498IhK3HLQZDAmMmwduQ7KD5gaxpUrPSIszAEN66eeMBnjBAdghzdnS8RdQ9PpUr6CFb
-         t2vR3nn1t3Yz69hqExhI+8i5vWaOQhs8dm9ncshb96b8e/mWNaJxAySkDrGvT+sFpBAd
-         hQOvqxaMykxRrPdstl+6RybaEO8nBp+FogAuEAioz343cBC7gcSUMmEKNgU16RubpNtS
-         1e0g==
-X-Gm-Message-State: ACrzQf3nqOJE2YIiyc9ETiAHXQ6n3FM2h++xghU4wX4V2bsI089nqrS8
-        TvrWsOd+XaNfkh54TWMWZsc=
-X-Google-Smtp-Source: AMsMyM5J5FVo9mNe1Zc+Y7OpqNKgLUl0RAHmsZbJrDII9arkrOq1Q+BsxPnFewT4XfclXkbXoDbWGw==
-X-Received: by 2002:a63:8ac2:0:b0:460:6480:8c59 with SMTP id y185-20020a638ac2000000b0046064808c59mr11102218pgd.472.1665425069945;
-        Mon, 10 Oct 2022 11:04:29 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:bff:9bd3:c2da:5f42])
-        by smtp.gmail.com with ESMTPSA id u6-20020a17090341c600b00178ab008364sm7052943ple.37.2022.10.10.11.04.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Oct 2022 11:04:29 -0700 (PDT)
-Date:   Mon, 10 Oct 2022 11:04:26 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>
-Subject: Re: [PATCH v2 5/5] Input: mtk-pmic-keys: add MT6357 support
-Message-ID: <Y0ReqmnLfKo20HO5@google.com>
-References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
- <20221005-mt6357-support-v2-5-f17ba2d2d0a9@baylibre.com>
+        Mon, 10 Oct 2022 15:32:45 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB5AC4AD40
+        for <linux-input@vger.kernel.org>; Mon, 10 Oct 2022 12:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665430364; x=1696966364;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GCPUaIVTu7rsQW5pXRhwZkfgbaxwWoK5zl3pA6dOgGU=;
+  b=hMrhqBmjVLLI3SUZexVeCfpsBTBC5pcJgDuQ1CJq1s+kuguW9AhMOjQf
+   azJwgN4yKBPf0SpLxzWdb9p7vfPFT+hIIZU3dwnuHUAP5RTwsrfikQRMM
+   ZMoIuInrqklfCveI8oC3/Ux3JRhGQhtcZIVaonPyDvuavHoaV+RaFGK11
+   rou1AxHusqJZFbVWw8DWKLf3osVhLNCcJUGUywsrGYN7yxI8YvWr4rtcn
+   8GSJ9bExJ/bMqnzPJemavU8McLYkvcAjJZpqGlkluF+W3tojtqDVdUFx5
+   dOkoEyKR1FR2R00qfzTC+Bx1xWMJ4v+ncDzgKpOayXHE7CtmYds82TKfK
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="284698378"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="284698378"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 12:32:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="688923853"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="688923853"
+Received: from lkp-server01.sh.intel.com (HELO 2af0a69ca4e0) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 10 Oct 2022 12:32:43 -0700
+Received: from kbuild by 2af0a69ca4e0 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ohyW3-00027O-0L;
+        Mon, 10 Oct 2022 19:32:43 +0000
+Date:   Tue, 11 Oct 2022 03:31:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 5f8f8574c7f5585b09a9623f0f13462e4eb67b4d
+Message-ID: <63447325.q3GGlfVJqyrT9hbN%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221005-mt6357-support-v2-5-f17ba2d2d0a9@baylibre.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 05, 2022 at 04:57:25PM +0200, Alexandre Mergnat wrote:
-> From: Fabien Parent <fparent@baylibre.com>
-> 
-> Add PMIC Keys support on MT6357 SoC.
-> 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 5f8f8574c7f5585b09a9623f0f13462e4eb67b4d  Merge branch 'next' into for-linus
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+elapsed time: 722m
 
-Please merge through MFD tree with the rest of the patches.
+configs tested: 58
+configs skipped: 2
 
-> ---
->  drivers/input/keyboard/mtk-pmic-keys.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-> index 9b34da0ec260..2a63e0718eb6 100644
-> --- a/drivers/input/keyboard/mtk-pmic-keys.c
-> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
-> @@ -10,6 +10,7 @@
->  #include <linux/kernel.h>
->  #include <linux/mfd/mt6323/registers.h>
->  #include <linux/mfd/mt6331/registers.h>
-> +#include <linux/mfd/mt6357/registers.h>
->  #include <linux/mfd/mt6358/registers.h>
->  #include <linux/mfd/mt6397/core.h>
->  #include <linux/mfd/mt6397/registers.h>
-> @@ -90,6 +91,19 @@ static const struct mtk_pmic_regs mt6331_regs = {
->  	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
->  };
->  
-> +static const struct mtk_pmic_regs mt6357_regs = {
-> +	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-> +		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-> +				   0x2, MT6357_PSC_TOP_INT_CON0, 0x5,
-> +				   MTK_PMIC_PWRKEY_RST),
-> +	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-> +		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-> +				   0x8, MT6357_PSC_TOP_INT_CON0, 0xa,
-> +				   MTK_PMIC_HOMEKEY_INDEX),
-> +	.pmic_rst_reg = MT6357_TOP_RST_MISC,
-> +	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
-> +};
-> +
->  static const struct mtk_pmic_regs mt6358_regs = {
->  	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
->  		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-> @@ -276,6 +290,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
->  	}, {
->  		.compatible = "mediatek,mt6331-keys",
->  		.data = &mt6331_regs,
-> +	}, {
-> +		.compatible = "mediatek,mt6357-keys",
-> +		.data = &mt6357_regs,
->  	}, {
->  		.compatible = "mediatek,mt6358-keys",
->  		.data = &mt6358_regs,
-> 
-> -- 
-> b4 0.10.1
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Thanks.
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+arc                                 defconfig
+alpha                               defconfig
+s390                             allmodconfig
+i386                 randconfig-a012-20221010
+i386                 randconfig-a011-20221010
+s390                                defconfig
+i386                 randconfig-a013-20221010
+arm                                 defconfig
+x86_64                          rhel-8.3-func
+x86_64                              defconfig
+x86_64                    rhel-8.3-kselftests
+arc                  randconfig-r043-20221010
+i386                 randconfig-a015-20221010
+i386                 randconfig-a014-20221010
+i386                 randconfig-a016-20221010
+s390                 randconfig-r044-20221010
+s390                             allyesconfig
+riscv                randconfig-r042-20221010
+x86_64               randconfig-a011-20221010
+x86_64                           allyesconfig
+arm                              allyesconfig
+x86_64               randconfig-a016-20221010
+m68k                             allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a014-20221010
+arc                              allyesconfig
+arm64                            allyesconfig
+x86_64               randconfig-a015-20221010
+x86_64                           rhel-8.3-kvm
+x86_64               randconfig-a012-20221010
+alpha                            allyesconfig
+x86_64               randconfig-a013-20221010
+x86_64                         rhel-8.3-kunit
+powerpc                          allmodconfig
+x86_64                               rhel-8.3
+sh                               allmodconfig
+mips                             allyesconfig
+x86_64                           rhel-8.3-syz
+i386                             allyesconfig
+m68k                             allyesconfig
+ia64                             allmodconfig
+i386                                defconfig
+
+clang tested configs:
+i386                 randconfig-a003-20221010
+hexagon              randconfig-r045-20221010
+hexagon              randconfig-r041-20221010
+i386                 randconfig-a002-20221010
+i386                 randconfig-a005-20221010
+i386                 randconfig-a001-20221010
+i386                 randconfig-a006-20221010
+i386                 randconfig-a004-20221010
+x86_64               randconfig-a004-20221010
+x86_64               randconfig-a002-20221010
+x86_64               randconfig-a001-20221010
+x86_64               randconfig-a003-20221010
+x86_64               randconfig-a006-20221010
+x86_64               randconfig-a005-20221010
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://01.org/lkp
