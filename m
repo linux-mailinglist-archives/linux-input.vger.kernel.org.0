@@ -2,417 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF915F9878
-	for <lists+linux-input@lfdr.de>; Mon, 10 Oct 2022 08:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EC9C5F9B75
+	for <lists+linux-input@lfdr.de>; Mon, 10 Oct 2022 10:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbiJJGn7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Oct 2022 02:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59426 "EHLO
+        id S231159AbiJJIzp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Oct 2022 04:55:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231180AbiJJGn6 (ORCPT
+        with ESMTP id S231129AbiJJIzn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Oct 2022 02:43:58 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F7D94E877;
-        Sun,  9 Oct 2022 23:43:57 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id q10-20020a17090a304a00b0020b1d5f6975so8478146pjl.0;
-        Sun, 09 Oct 2022 23:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=baYJeJVbQDrNkkET09we7QWAxR0rQAusNrI+GinuNRc=;
-        b=YcziNhB8wV1Csd5wJNrwe+S8HiXq0ErtbfF2VPSwQDqAjZqt81BNuMmryRWJyiPSeX
-         rikLmFUR/gXVfBUHzvfMGNVpP1fQWGX5hN0xoa8RIYwrEvMOQ2JzQGgLc8k2jQFpmKBl
-         cW9ytlSUR8WD0d4mr0zNbEjWc7ZbUiQVQXNZEW/4JvifT072nsJx989BPm0mbRej6eqe
-         Q9u1Di38EQa5xIwaaBLY+wFb2SLVRtJ5+GWZly+xqA0vniuUbuDjrVEfU3RA3XcbWItL
-         SvQoS1iYZu0dre0aMiprzznuvMPFoNxe3ZDQbeAMzrDKc1gYQl8aOG30p1UAG3KGVddP
-         wg3w==
+        Mon, 10 Oct 2022 04:55:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9F9A631CA
+        for <linux-input@vger.kernel.org>; Mon, 10 Oct 2022 01:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665392138;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7VBUmb4ja5WOJbdR8MKHyKOR+fG8UZ7OpOGyA2nFsWI=;
+        b=JFb+5SrOyYkwx5ABUwSFcP+CFf7m8CZoH4UKvlKwSD4TrtdsjSQexci/eCLmUgsBZ/NyC7
+        JxcvyBiz7/TRDMChG63M8acdoi5XPve+iwAWj8sPCu2tzjFfbipv2ViiD5FQXLVxPqS+MG
+        UNRzSctLatxbk137CFhwGybrOsoQ/wE=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-648-I1F8dm3UPG6JvWdIqHx76Q-1; Mon, 10 Oct 2022 04:55:36 -0400
+X-MC-Unique: I1F8dm3UPG6JvWdIqHx76Q-1
+Received: by mail-io1-f71.google.com with SMTP id h2-20020a056602154200b006bb5f8574afso6903106iow.13
+        for <linux-input@vger.kernel.org>; Mon, 10 Oct 2022 01:55:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=baYJeJVbQDrNkkET09we7QWAxR0rQAusNrI+GinuNRc=;
-        b=xXZ+0PmqNO3WXj3vzRPNBOQ3pPkc8+223EF0/2FsdUVCsn6XHxGBjvyj6sUgLNARXO
-         Cl2mwvyFqPd7YGSGCYveXo8IGzYSFlvmqmZkuQ/p3ymmcJFVd8eWKk7OFHxdtC5tmo1t
-         WZpgsX3xyy4vAjOu6WrxNigIeiUUFN8LLzR0y/JDHXSO/DbAqN3NppoMqAb0zYwNd5U2
-         uQHKpfl2nAYFLygloImsI8LXxMEVfHXXfIv8dCP3qkwGVsAip4cMxKRFvPk+6jVvNPtJ
-         lsZ5x8stq5tP0ubeG99Uk+iexEoxdVV4jF+eQ9OVE07nH8X5BprqGmrUUd/KEzTLNdF7
-         PSXA==
-X-Gm-Message-State: ACrzQf0khddaqFkjR7odwV37HUNoVuTqhvGV3jISFQhillceiWrOQGhT
-        Qyi3Z0bZs7MZPM2qy3d6t1CE7carYb8=
-X-Google-Smtp-Source: AMsMyM5DOaCfxkjEWU6r1g9k+LfWyMsryoXkYZsON0GOXBM+o2DB9uh9H6aCYyrgfU65eJ8098ZAVg==
-X-Received: by 2002:a17:90a:4fe4:b0:20a:629c:e854 with SMTP id q91-20020a17090a4fe400b0020a629ce854mr30820005pjh.30.1665384236288;
-        Sun, 09 Oct 2022 23:43:56 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1bd8:541a:735e:92d5])
-        by smtp.gmail.com with ESMTPSA id f9-20020a636a09000000b004277f43b736sm5504759pgc.92.2022.10.09.23.43.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Oct 2022 23:43:55 -0700 (PDT)
-Date:   Sun, 9 Oct 2022 23:43:53 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.1-rc0
-Message-ID: <Y0O/KXxdj2gc4Sw+@google.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7VBUmb4ja5WOJbdR8MKHyKOR+fG8UZ7OpOGyA2nFsWI=;
+        b=DtKgW/TaPVK7AuNTYkG/Tv3WalRTb2a93MhWmsTzpPhT6xIjUNW5xB/B3iBlvTfsDo
+         D4lsiB0qkNJxVQEX3VTTFxiS4PipRnRbqCmdY5DqtfBuntRT/R5mNgnCG2KkEjLCDygk
+         d1nu0T8ucSrPCnOwof/dCYQNHTeAYZXQbrPbZwlcAruK4SsTbtOtFBmb/xMO92Nj4jSy
+         X/Y0JKf58rfphfmx4Aq4z/BupE5QvPct7g478emiL76agtTHNeErheEvGSXI7kA3W6RV
+         tcMGrMPaJ8THKiphO9tSDVp7GLzwW3rMA0g+HjNkg72mqYodzfEVPfb6cvwC2KZuzwa5
+         5KMw==
+X-Gm-Message-State: ACrzQf27TZdoz/eI84wCWXTrjpsNPVEt5nAWVxyaG/bJppbRE0k19lwY
+        mX6b4EkIuk6hxBWrnMckTrRyNIYBHnzanjEt9Qtc7z6vmM1bM9sD8IJvKQqmMs4+TN5xIUuS7wv
+        7v8FaB+PYJpLY8doP2pBqrKHNFmy+SBitrO3qrR8=
+X-Received: by 2002:a05:6638:168a:b0:35a:6acf:f94 with SMTP id f10-20020a056638168a00b0035a6acf0f94mr8962192jat.106.1665392136090;
+        Mon, 10 Oct 2022 01:55:36 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4PHdnCU+yVqYk4GQszXGKtAsj7Pa3fmjdjqARIJdJVw3uJqtDfqp9TnL+w+ERkrPwDqcN3at+nRjtLn8DTGag=
+X-Received: by 2002:a05:6638:168a:b0:35a:6acf:f94 with SMTP id
+ f10-20020a056638168a00b0035a6acf0f94mr8962164jat.106.1665392135182; Mon, 10
+ Oct 2022 01:55:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <Y0HLPBTodPxVRbe4@octinomon>
+In-Reply-To: <Y0HLPBTodPxVRbe4@octinomon>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 10 Oct 2022 10:55:24 +0200
+Message-ID: <CAO-hwJJebdHvb-JA18XnLAP0LVfvZ6QvOVbskpJ0ZRxPCBmetw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] HID: roccat: Convert snprintf() to sysfs_emit()
+To:     Jules Irenge <jbi.octave@gmail.com>
+Cc:     erazor_de@users.sourceforge.net, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Hi Jules,
 
-Please pull from:
+On Sat, Oct 8, 2022 at 9:11 PM Jules Irenge <jbi.octave@gmail.com> wrote:
+>
+> Coccinnelle reports a warning
+> Warning: Use scnprintf or sprintf
+>
+> Following the advice on kernel documentation
+> https://www.kernel.org/doc/html/latest/filesystems/sysfs.html
+>
+> For show(device *...) functions we should only use sysfs_emit() or sysfs_emit_at()
+> especially when formatting the value to be returned to user space.
+>
+> Convert snprintf() to sysfs_emit()
+>
+> Signed-off-by: Jules Irenge <jules.irenge@postgrad.manchester.ac.uk>
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.1-rc0
+Thanks for the submission, however I see that you sent 5 different
+patches with the exact same commit messages, touching 4 different
+files.
+I suspect 3/3 and 2/2 are the same, so I am a little bit puzzled...
 
-to receive updates for the input subsystem. You will get:
+Would you mind sending a v2 with everything squashed into just one
+patch targeting all of hid-roccat-*?
 
-- a new driver for IBM Operational Panel
-- a new driver for PinePhone keyboards
-- RT5120 PMIC power key support
-- various enhancements and support for new models in xpad (Xbox) driver
-- a new compatible ID for Elan touchscreen driver
-- rework of adp5588-keys driver to support configuring via device
-  properties (OF, ACPI, etc) instead of platform data, and proper support
-  of optional gpiochip functionality (and removal of gpio-adp5588 driver)
-- improvements to firmware update handling in Synaptics RMI4 driver
-- support for double key matrix in mt6779-keypad
-- support for polled mode in adc-joystick driver
-- other assorted driver fixes, cleanups and improvements.
+I think I'll empty the queue regarding all of those sysfs_emit
+conversions in 6.2.
 
-Changelog:
----------
+But please be aware that I can not apply anything 6.2 related right
+now, we are in the merge window of 6.1 and I can not push anything to
+for-next that is 6.2.
 
-Andy Shevchenko (4):
-      Input: clps711x-keypad - get rid of OF_GPIO dependency
-      Input: matrix_keypad - replace of_gpio_named_count() by gpiod_count()
-      Input: matrix_keypad - add missed header inclusion
-      Input: icn8505 - utilize acpi_get_subsystem_id()
+Cheers,
+Benjamin
 
-AngeloGioacchino Del Regno (3):
-      Input: mtk-pmic-keys - add support for MT6331 PMIC keys
-      dt-bindings: input: Convert mtk-pmic-keys to DT schema
-      dt-bindings: input: mediatek,pmic-keys: Add compatible for MT6331 keys
+> ---
+>  drivers/hid/hid-roccat-kone.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/hid/hid-roccat-kone.c b/drivers/hid/hid-roccat-kone.c
+> index 76da04801ca9..f0c35c05e702 100644
+> --- a/drivers/hid/hid-roccat-kone.c
+> +++ b/drivers/hid/hid-roccat-kone.c
+> @@ -403,7 +403,7 @@ static ssize_t kone_sysfs_show_actual_profile(struct device *dev,
+>  {
+>         struct kone_device *kone =
+>                         hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
+> -       return snprintf(buf, PAGE_SIZE, "%d\n", kone->actual_profile);
+> +       return sysfs_emit(buf, "%d\n", kone->actual_profile);
+>  }
+>  static DEVICE_ATTR(actual_profile, 0440, kone_sysfs_show_actual_profile, NULL);
+>
+> @@ -412,7 +412,7 @@ static ssize_t kone_sysfs_show_actual_dpi(struct device *dev,
+>  {
+>         struct kone_device *kone =
+>                         hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
+> -       return snprintf(buf, PAGE_SIZE, "%d\n", kone->actual_dpi);
+> +       return sysfs_emit(buf, "%d\n", kone->actual_dpi);
+>  }
+>  static DEVICE_ATTR(actual_dpi, 0440, kone_sysfs_show_actual_dpi, NULL);
+>
+> @@ -435,7 +435,7 @@ static ssize_t kone_sysfs_show_weight(struct device *dev,
+>
+>         if (retval)
+>                 return retval;
+> -       return snprintf(buf, PAGE_SIZE, "%d\n", weight);
+> +       return sysfs_emit(buf, "%d\n", weight);
+>  }
+>  static DEVICE_ATTR(weight, 0440, kone_sysfs_show_weight, NULL);
+>
+> @@ -444,7 +444,7 @@ static ssize_t kone_sysfs_show_firmware_version(struct device *dev,
+>  {
+>         struct kone_device *kone =
+>                         hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
+> -       return snprintf(buf, PAGE_SIZE, "%d\n", kone->firmware_version);
+> +       return sysfs_emit(buf, "%d\n", kone->firmware_version);
+>  }
+>  static DEVICE_ATTR(firmware_version, 0440, kone_sysfs_show_firmware_version,
+>                    NULL);
+> @@ -454,7 +454,7 @@ static ssize_t kone_sysfs_show_tcu(struct device *dev,
+>  {
+>         struct kone_device *kone =
+>                         hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
+> -       return snprintf(buf, PAGE_SIZE, "%d\n", kone->settings.tcu);
+> +       return sysfs_emit(buf, "%d\n", kone->settings.tcu);
+>  }
+>
+>  static int kone_tcu_command(struct usb_device *usb_dev, int number)
+> @@ -556,7 +556,7 @@ static ssize_t kone_sysfs_show_startup_profile(struct device *dev,
+>  {
+>         struct kone_device *kone =
+>                         hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
+> -       return snprintf(buf, PAGE_SIZE, "%d\n", kone->settings.startup_profile);
+> +       return sysfs_emit(buf, "%d\n", kone->settings.startup_profile);
+>  }
+>
+>  static ssize_t kone_sysfs_set_startup_profile(struct device *dev,
+> --
+> 2.37.3
+>
 
-Cameron Gutman (1):
-      Input: xpad - fix wireless 360 controller breaking after suspend
-
-ChiYuan Huang (1):
-      Input: rt5120 - add power key support
-
-Chris Morgan (2):
-      dt-bindings: adc-joystick: add poll-interval
-      Input: adc-joystick - add polled input device support
-
-Christophe JAILLET (2):
-      Input: bma150 - fix a typo in some comments
-      input: drop empty comment blocks
-
-Christopher Crockett (1):
-      Input: xpad - add support for XBOX One Elite paddles
-
-Colin Ian King (3):
-      Input: tc3589x-keypad - use correct struct names in comment
-      Input: applespi - use correct struct names in comment
-      Input: ims-pcu - fix spelling mistake "BOOLTLOADER" -> "BOOTLOADER"
-
-Dmitry Torokhov (14):
-      Input: atkbd - switch to using dev_groups for driver-specific attributes
-      Input: psmouse - switch to using dev_groups for driver-specific attributes
-      Input: aiptek - switch to using dev_groups for driver-specific attributes
-      Input: auo-pixcir-ts - drop support for platform data
-      Input: auo-pixcir-ts - switch to using gpiod API
-      Input: auo-pixcir-ts - do not force rising edge interrupt trigger
-      Input: auo-pixcir-ts - switch to using generic device properties
-      dt-bindings: input: auo-pixcir-ts: fix gpio and interrupt properties
-      Input: lm8333 - add missing linux/input.h include
-      Input: st-keyscan - add missing linux/input.h and linux/of.h includes
-      Input: mt6779-keypad - add missing linux/input.h include
-      Input: imx_keypad - add missing linux/input.h include
-      Input: ep93xx_keypad - add missing linux/input.h include
-      Input: twl4030-pwrbutton - add missing of.h include
-
-Eddie James (2):
-      dt-bindings: input: Add documentation for IBM Operation Panel
-      Input: Add IBM Operation Panel driver
-
-Francesco Dolcini (1):
-      dt-bindings: input: touchscreen: stmpe: Remove node name requirement
-
-Greg Kroah-Hartman (1):
-      Input: elan_i2c - convert to use dev_groups
-
-Gustavo A. R. Silva (1):
-      Input: applespi - replace zero-length array with DECLARE_FLEX_ARRAY() helper
-
-Huacai Chen (2):
-      Input: i8042 - rename i8042-x86ia64io.h to i8042-acpipnpio.h
-      Input: i8042 - add LoongArch support in i8042-acpipnpio.h
-
-Jason Wang (1):
-      Input: joydev - fix comment typo
-
-Jeff LaBundy (3):
-      Input: iqs7222 - trim force communication command
-      Input: iqs7222 - avoid sending empty SYN_REPORT events
-      Input: iqs7222 - set all ULP entry masks by default
-
-Liang He (1):
-      Input: i8042 - fix refount leak on sparc
-
-Luca Weiss (1):
-      dt-bindings: input: qcom,pm8xxx-vib: convert to yaml
-
-Lyude Paul (1):
-      Input: synaptics - enable InterTouch for the ThinkPad P1 G3
-
-Matthias Schiffer (9):
-      Input: synaptics-rmi4 - fix firmware update operations with bootloader v8
-      Input: synaptics-rmi4 - introduce rmi_f34v7_check_command_status() helper
-      Input: synaptics-rmi4 - fix command completion check for bootloader v7/v8
-      Input: synaptics-rmi4 - rewrite partition table unconditionally
-      Input: synaptics-rmi4 - reset after writing partition table
-      Input: synaptics-rmi4 - make rmi_f34v7_erase_all() use the "erase all" command
-      Input: synaptics-rmi4 - remove unneeded struct register_offset
-      Input: synaptics-rmi4 - simplify rmi_f34v7_start_reflash()
-      Input: synaptics-rmi4 - drop useless gotos in rmi_f34v7_do_reflash()
-
-Mattijs Korpershoek (5):
-      MAINTAINERS: input: add mattijs for mt6779-keypad
-      dt-bindings: mediatek,mt6779-keypad: use unevaluatedProperties
-      dt-bindings: mediatek,mt6779-keypad: add mediatek,keys-per-group
-      Input: mt6779-keypad - prepare double keys support with calc_row_col
-      Input: mt6779-keypad - support double keys matrix
-
-Max Krummenacher (2):
-      Input: colibri-vf50-ts - don't depend on VF610_ADC
-      dt-bindings: input: colibri-vf50-ts: Improve documentation
-
-Nate Yocom (4):
-      Input: xpad - add X-Box Adaptive support
-      Input: xpad - add X-Box Adaptive XBox button
-      Input: add ABS_PROFILE to uapi and documentation
-      Input: xpad - add X-Box Adaptive Profile button
-
-Nuno Sá (10):
-      Input: adp5588-keys - support gpi key events as 'gpio keys'
-      gpio: gpio-adp5588: drop the driver
-      Input: adp5588-keys - bail out on returned error
-      Input: adp5588-keys - add support for fw properties
-      dt-bindings: input: adp5588: add bindings
-      Input: adp5588-keys - do not check for irq presence
-      Input: adp5588-keys - fix coding style warnings
-      Input: adp5588-keys - add optional reset gpio
-      Input: adp5588-keys - add regulator support
-      Input: adp5588-keys - use new PM macros
-
-Pavel Rojtberg (3):
-      Input: xpad - add supported devices as contributed on github
-      Input: xpad - refactor using BIT() macro
-      Input: xpad - decipher xpadone packages with GIP defines
-
-Peter Ujfalusi (1):
-      Input: twl4030-vibra - drop legacy, non DT boot support
-
-Rob Herring (1):
-      dt-bindings: input: Convert hid-over-i2c to DT schema
-
-Samuel Holland (3):
-      dt-bindings: input: Add the PinePhone keyboard binding
-      Input: pinephone-keyboard - add PinePhone keyboard driver
-      Input: pinephone-keyboard - support the proxied I2C bus
-
-Santosh De Massari (1):
-      Input: xpad - Poweroff XBOX360W on mode button long press
-
-Wolfram Sang (2):
-      Input: move from strlcpy with unused retval to strscpy
-      Input: gameport - move from strlcpy with unused retval to strscpy
-
-Yunlong Jia (1):
-      dt-bindings: input: touchscreen: elants_i2c: Add compatible for eth3915n chip
-
-Zeng Heng (1):
-      Input: ibm-panel - add missing MODULE_DEVICE_TABLE
-
-wangjianli (1):
-      Input: hgpk - fix repeated word in a comment
-
-zhang songyi (1):
-      Input: synaptics-rmi4 - convert to use sysfs_emit() APIs
-
-Diffstat:
---------
-
- .../devicetree/bindings/input/adc-joystick.yaml    |   5 +
- .../devicetree/bindings/input/adi,adp5588.yaml     | 111 ++++
- .../devicetree/bindings/input/hid-over-i2c.txt     |  46 --
- .../devicetree/bindings/input/hid-over-i2c.yaml    |  83 +++
- .../devicetree/bindings/input/ibm,op-panel.yaml    |  50 ++
- .../bindings/input/mediatek,mt6779-keypad.yaml     |   8 +-
- .../bindings/input/mediatek,pmic-keys.yaml         | 114 ++++
- .../devicetree/bindings/input/mtk-pmic-keys.txt    |  46 --
- .../bindings/input/pine64,pinephone-keyboard.yaml  |  66 ++
- .../devicetree/bindings/input/qcom,pm8xxx-vib.txt  |  23 -
- .../devicetree/bindings/input/qcom,pm8xxx-vib.yaml |  38 ++
- .../bindings/input/touchscreen/auo_pixcir_ts.txt   |   6 +-
- .../bindings/input/touchscreen/colibri-vf50-ts.txt |  16 +-
- .../input/touchscreen/elan,elants_i2c.yaml         |  10 +-
- .../bindings/input/touchscreen/stmpe.txt           |   3 +-
- Documentation/input/event-codes.rst                |   6 +
- Documentation/input/gamepad.rst                    |   6 +
- MAINTAINERS                                        |  21 +-
- drivers/gpio/Kconfig                               |  14 -
- drivers/gpio/Makefile                              |   1 -
- drivers/gpio/gpio-adp5588.c                        | 446 -------------
- drivers/hid/hid-debug.c                            |   3 +-
- drivers/input/ff-core.c                            |   3 -
- drivers/input/ff-memless.c                         |   3 -
- drivers/input/gameport/emu10k1-gp.c                |   3 -
- drivers/input/gameport/lightning.c                 |   3 -
- drivers/input/gameport/ns558.c                     |   3 -
- drivers/input/joydev.c                             |   2 +-
- drivers/input/joystick/a3d.c                       |   3 -
- drivers/input/joystick/adc-joystick.c              |  65 +-
- drivers/input/joystick/adi.c                       |   3 -
- drivers/input/joystick/amijoy.c                    |   3 -
- drivers/input/joystick/analog.c                    |   3 -
- drivers/input/joystick/cobra.c                     |   3 -
- drivers/input/joystick/db9.c                       |   3 -
- drivers/input/joystick/gamecon.c                   |   3 -
- drivers/input/joystick/gf2k.c                      |   3 -
- drivers/input/joystick/grip.c                      |   3 -
- drivers/input/joystick/guillemot.c                 |   3 -
- drivers/input/joystick/interact.c                  |   3 -
- drivers/input/joystick/joydump.c                   |   3 -
- drivers/input/joystick/magellan.c                  |   3 -
- drivers/input/joystick/sidewinder.c                |   3 -
- drivers/input/joystick/spaceball.c                 |   3 -
- drivers/input/joystick/spaceorb.c                  |   3 -
- drivers/input/joystick/stinger.c                   |   3 -
- drivers/input/joystick/tmdc.c                      |   3 -
- drivers/input/joystick/turbografx.c                |   3 -
- drivers/input/joystick/twidjoy.c                   |   3 -
- drivers/input/joystick/warrior.c                   |   3 -
- drivers/input/joystick/xpad.c                      | 455 +++++++++----
- drivers/input/joystick/zhenhua.c                   |   3 -
- drivers/input/keyboard/Kconfig                     |  18 +-
- drivers/input/keyboard/Makefile                    |   1 +
- drivers/input/keyboard/adp5588-keys.c              | 726 ++++++++++++++-------
- drivers/input/keyboard/amikbd.c                    |   3 -
- drivers/input/keyboard/applespi.c                  |   4 +-
- drivers/input/keyboard/atakbd.c                    |   3 -
- drivers/input/keyboard/atkbd.c                     |  16 +-
- drivers/input/keyboard/clps711x-keypad.c           |  13 +-
- drivers/input/keyboard/ep93xx_keypad.c             |   1 +
- drivers/input/keyboard/imx_keypad.c                |   1 +
- drivers/input/keyboard/lkkbd.c                     |  11 +-
- drivers/input/keyboard/lm8333.c                    |   8 +-
- drivers/input/keyboard/matrix_keypad.c             |   7 +-
- drivers/input/keyboard/mt6779-keypad.c             |  46 +-
- drivers/input/keyboard/mtk-pmic-keys.c             |  21 +
- drivers/input/keyboard/newtonkbd.c                 |   3 -
- drivers/input/keyboard/pinephone-keyboard.c        | 468 +++++++++++++
- drivers/input/keyboard/st-keyscan.c                |  10 +-
- drivers/input/keyboard/stowaway.c                  |   3 -
- drivers/input/keyboard/sunkbd.c                    |   3 -
- drivers/input/keyboard/tc3589x-keypad.c            |   2 +-
- drivers/input/keyboard/xtkbd.c                     |   3 -
- drivers/input/misc/Kconfig                         |  27 +
- drivers/input/misc/Makefile                        |   2 +
- drivers/input/misc/ibm-panel.c                     | 200 ++++++
- drivers/input/misc/ims-pcu.c                       |   2 +-
- drivers/input/misc/iqs7222.c                       |  16 +-
- drivers/input/misc/keyspan_remote.c                |   2 +-
- drivers/input/misc/rt5120-pwrkey.c                 | 120 ++++
- drivers/input/misc/twl4030-pwrbutton.c             |   1 +
- drivers/input/misc/twl4030-vibra.c                 |  13 +-
- drivers/input/mouse/elan_i2c_core.c                |   7 +-
- drivers/input/mouse/hgpk.c                         |   4 +-
- drivers/input/mouse/inport.c                       |   3 -
- drivers/input/mouse/logibm.c                       |   3 -
- drivers/input/mouse/pc110pad.c                     |   3 -
- drivers/input/mouse/psmouse-base.c                 |  22 +-
- drivers/input/mouse/sermouse.c                     |   3 -
- drivers/input/mouse/synaptics.c                    |   5 +-
- drivers/input/mouse/synaptics_usb.c                |   2 +-
- drivers/input/mouse/vsxxxaa.c                      |   7 +-
- drivers/input/rmi4/rmi_f03.c                       |   2 +-
- drivers/input/rmi4/rmi_f34.c                       |  32 +-
- drivers/input/rmi4/rmi_f34.h                       |  17 -
- drivers/input/rmi4/rmi_f34v7.c                     | 349 +++-------
- drivers/input/rmi4/rmi_f54.c                       |   8 +-
- drivers/input/serio/altera_ps2.c                   |   4 +-
- drivers/input/serio/ambakmi.c                      |   4 +-
- drivers/input/serio/ams_delta_serio.c              |   4 +-
- drivers/input/serio/apbps2.c                       |   2 +-
- drivers/input/serio/ct82c710.c                     |   5 +-
- drivers/input/serio/gscps2.c                       |   2 +-
- drivers/input/serio/hyperv-keyboard.c              |   4 +-
- .../serio/{i8042-x86ia64io.h => i8042-acpipnpio.h} |  18 +-
- drivers/input/serio/i8042-sparcio.h                |  27 +-
- drivers/input/serio/i8042.c                        |  14 +-
- drivers/input/serio/i8042.h                        |   4 +-
- drivers/input/serio/olpc_apsp.c                    |   8 +-
- drivers/input/serio/parkbd.c                       |   2 +-
- drivers/input/serio/pcips2.c                       |   4 +-
- drivers/input/serio/ps2-gpio.c                     |   4 +-
- drivers/input/serio/ps2mult.c                      |   2 +-
- drivers/input/serio/q40kbd.c                       |   7 +-
- drivers/input/serio/rpckbd.c                       |   7 +-
- drivers/input/serio/sa1111ps2.c                    |   4 +-
- drivers/input/serio/serio.c                        |   3 -
- drivers/input/serio/serport.c                      |   2 +-
- drivers/input/serio/sun4i-ps2.c                    |   4 +-
- drivers/input/tablet/acecad.c                      |   5 +-
- drivers/input/tablet/aiptek.c                      |  20 +-
- drivers/input/tablet/hanwang.c                     |   5 +-
- drivers/input/tablet/pegasus_notetaker.c           |   2 +-
- drivers/input/touchscreen/Kconfig                  |   2 +-
- drivers/input/touchscreen/atmel_mxt_ts.c           |   8 +-
- drivers/input/touchscreen/auo-pixcir-ts.c          | 155 ++---
- drivers/input/touchscreen/chipone_icn8505.c        |  30 +-
- drivers/input/touchscreen/edt-ft5x06.c             |  12 +-
- drivers/input/touchscreen/gunze.c                  |   3 -
- drivers/input/touchscreen/sur40.c                  |   6 +-
- drivers/input/touchscreen/usbtouchscreen.c         |   2 +-
- drivers/input/touchscreen/wacom_w8001.c            |   6 +-
- include/linux/bma150.h                             |   4 +-
- include/linux/gameport.h                           |   2 +-
- include/linux/input/auo-pixcir-ts.h                |  44 --
- include/linux/platform_data/adp5588.h              | 171 -----
- include/uapi/linux/input-event-codes.h             |   1 +
- 138 files changed, 2633 insertions(+), 1926 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/adi,adp5588.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/hid-over-i2c.txt
- create mode 100644 Documentation/devicetree/bindings/input/hid-over-i2c.yaml
- create mode 100644 Documentation/devicetree/bindings/input/ibm,op-panel.yaml
- create mode 100644 Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
- create mode 100644 Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.txt
- create mode 100644 Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
- delete mode 100644 drivers/gpio/gpio-adp5588.c
- create mode 100644 drivers/input/keyboard/pinephone-keyboard.c
- create mode 100644 drivers/input/misc/ibm-panel.c
- create mode 100644 drivers/input/misc/rt5120-pwrkey.c
- rename drivers/input/serio/{i8042-x86ia64io.h => i8042-acpipnpio.h} (99%)
- delete mode 100644 include/linux/input/auo-pixcir-ts.h
- delete mode 100644 include/linux/platform_data/adp5588.h
-
-Thanks.
-
-
--- 
-Dmitry
