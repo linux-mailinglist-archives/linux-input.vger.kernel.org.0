@@ -2,191 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEEDC5FB24C
-	for <lists+linux-input@lfdr.de>; Tue, 11 Oct 2022 14:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D3D85FB340
+	for <lists+linux-input@lfdr.de>; Tue, 11 Oct 2022 15:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbiJKMUT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Oct 2022 08:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48276 "EHLO
+        id S230135AbiJKNV1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Oct 2022 09:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiJKMUR (ORCPT
+        with ESMTP id S230001AbiJKNVH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Oct 2022 08:20:17 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E7C57275
-        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 05:20:16 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id cj27so8072356qtb.7
-        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 05:20:16 -0700 (PDT)
+        Tue, 11 Oct 2022 09:21:07 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CC036DC2
+        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 06:20:01 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id n12so21551820wrp.10
+        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 06:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/YakFhNpLpumvOh5oHDunclA+gkTRZwRtWWXCJ8zRl8=;
-        b=jhOz86q+hE4Tl/6wOHJGFEWqFbyw8x+EKAvrco08gfgBy80fcwjZipZU2w4+1Lk12g
-         imuWft0S/KkaxjwCRHY1jWIUwzvF+UpZzGnnLYBSXOMalVKtYq8YMYcvNd5Bjz7Wa12s
-         cATv6WR2Ib0WgHHUEdbDPxaYu5kCo/58kmY3tY7CAF01NjR/iOHwMCZNT0n7qKcf0mOs
-         isz4f2ku3VuewEFctR0EF319aMwEaBLIXgZ7w8k+LGFKXHqhW0+6WAeYE5/bLm/t3Agy
-         GLNkifIVQMprhorNHpNbmZKGst0y9Bbn13nDtpzP5VPLu964O02c8oZmng/MXZ39W1/8
-         UejQ==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DvSlLe858PoYsneJVvkvxYmTO/MSQp1hV+RsXdWck/A=;
+        b=y1iSNzXKyjal5MgagjxAqeM0ji/Iie4A+NxTZ1jW8IOEiPkbiiEnReIoSfRFtYsmYf
+         KF/4ZgDpBtSKthGVwuL0r9y5nesTrFJHm3MkiGwsVnHtXd7FkFyiCNGJF08PqUb4JgW3
+         VxE1/AETFIXKbRY02zrXK7X3Ma+OSMtAYeurIhvDd2dZdWZjfZbx1qLwMCATlrlMk3o5
+         CGRVmwpyrDp+EI3CTYmOHo6lnigK6Ppq34uuVRVigFVUFXBa234zF04V1Du6wvhq/BRI
+         xso2JPtZPiSXV2cIl1+qAFiQGQ0wzUzDzCLeuftuxCpwK8OxQdxjzNMn/veo3/qiav6d
+         KoeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/YakFhNpLpumvOh5oHDunclA+gkTRZwRtWWXCJ8zRl8=;
-        b=cb+GH7k8X6WI89tj1N/GuabJeW7UfeKdTEjp35J/R1RgM+Je/PzcpXPlsibWZ0lD+b
-         XOFwQ8hwKGfvZ59Pzn7plawSlzE6Z+g3wnXE7VfUucSa9ocfHhscgDWsnrBPQ2F87/9l
-         9yH7gLccwMOHMA3GBjeyedow03gCtbzVKPdHZ2K5m1yKRAB9jstKsMUWiOmoV9i5m0t5
-         CMCshv5n+ZYqtPHcYIkYdgzK+dzo1nMzmuyHAT4hhdQi9DJbaz6vBZ3wCGuIDUcIRhDX
-         2cmto2Hf1CGCftdj/xXpIJ4w94qpIhR98E6qO89HXWhrEXgans+mfSysg0TgUN4iL6xj
-         mBug==
-X-Gm-Message-State: ACrzQf1u0mtaRI0URArdXplja9T6Chvierf3OrudnUGpgY4OKdqbLhco
-        coHmB5XKcNcXAmqy+CdusLzv5A==
-X-Google-Smtp-Source: AMsMyM6fRbj6X+C2Y6tfih+FThJWoSnfBLJ6Ysf+7CiShQzNRCRB2RKBkJpFjOd2eRKG+uoLu3GezA==
-X-Received: by 2002:ac8:7f4b:0:b0:35c:bfa2:8bd2 with SMTP id g11-20020ac87f4b000000b0035cbfa28bd2mr18401847qtk.644.1665490813776;
-        Tue, 11 Oct 2022 05:20:13 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id dt39-20020a05620a47a700b006ec59941acasm7243990qkb.11.2022.10.11.05.20.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 05:20:13 -0700 (PDT)
-Message-ID: <f479acd6-457c-5242-432b-10fec91f0c3b@linaro.org>
-Date:   Tue, 11 Oct 2022 08:18:02 -0400
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DvSlLe858PoYsneJVvkvxYmTO/MSQp1hV+RsXdWck/A=;
+        b=x+kIaBTuY/Cb73nKXhCws05UjgIBdLzBF1I2DdxSgs//okMYRu+4PofSWRfmmiYmOc
+         UXK/C87tHidOHWOIa8hd8NksPhQ+B/BE1HRPJUpTSk1/3ughBac7cyXxWgj8IvYcqQgY
+         KXER3KsKgwfOpBV4tofasepzxrvx7ZR/EfSq0sOuvrWoJkALGviyJEpTZfB7K8zb2wUx
+         1q8pN1CySTMRQFblrYrfDf1o/ZsaGS0o3Og7IjIXiArMIXiqBhCOer+Xmy5PWo+zSp+b
+         +tr4/husYvQrcyeW43X/5KVCLJHgFfBI37qJjsMaAStINicviYvkKXoHMw5kPZppW/Gg
+         cW1Q==
+X-Gm-Message-State: ACrzQf2dRCcLl5x0MIx7pXtq/Esl1UHcoBtVa1Gg7WOVBRXkPKVSpmYS
+        SyzF7uiukUBGMHWhiYTnZy6JUg==
+X-Google-Smtp-Source: AMsMyM5qzQvUbe8DAK27GyEUlQTMd87aS9E+IBE7m/ZvINPReW/3uEaVLa9sCtITzv+GhHc3Sc+bHg==
+X-Received: by 2002:a5d:47c5:0:b0:22e:6941:81eb with SMTP id o5-20020a5d47c5000000b0022e694181ebmr14827916wrc.408.1665494384571;
+        Tue, 11 Oct 2022 06:19:44 -0700 (PDT)
+Received: from localhost ([82.66.159.240])
+        by smtp.gmail.com with ESMTPSA id j13-20020a5d604d000000b0022ae4f8395dsm11138386wrt.96.2022.10.11.06.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 06:19:43 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Eirin Nya <nyanpasu256@gmail.com>, linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] Input: Fix incorrectly halved touchpad range on
+ ELAN v3 touchpads
+In-Reply-To: <e4438675-d7f6-02f1-79c0-aa9917db8997@gmail.com>
+References: <20220929082119.22112-1-nyanpasu256@gmail.com>
+ <20220929082119.22112-4-nyanpasu256@gmail.com>
+ <87czb37mpb.fsf@mkorpershoek-xps-13-9370.home>
+ <e4438675-d7f6-02f1-79c0-aa9917db8997@gmail.com>
+Date:   Tue, 11 Oct 2022 15:19:42 +0200
+Message-ID: <87fsfu33bl.fsf@baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v6 1/2] dt-bindings: input: document Qualcomm PMI8998
- haptics driver
-Content-Language: en-US
-To:     Caleb Connolly <caleb@connolly.tech>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Rob Herring <robh+dt@kernel.org>, Tom Rix <trix@redhat.com>
-References: <20221010162945.1325770-1-caleb@connolly.tech>
- <20221010162945.1325770-2-caleb@connolly.tech>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221010162945.1325770-2-caleb@connolly.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 10/10/2022 12:30, Caleb Connolly wrote:
-> Add bindings for qcom PMIC PMI8998 haptics driver.
-> 
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> ---
->  .../bindings/input/qcom,pmi8998-haptics.yaml  | 71 +++++++++++++++++++
->  1 file changed, 71 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml b/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
-> new file mode 100644
-> index 000000000000..9f51c527595c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright 2020 Unisoc Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/qcom,pmi8998-haptics.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm PMI8998/PM660 Haptics
-> +
-> +maintainers:
-> +  - Caleb Connolly <caleb@connolly.tech>
-> +
-> +description: |
-> +  Qualcomm SPMI haptics is a peripheral on some QTI PMICs. It supports linear resonant
-> +  actuators and eccentric rotating mass type haptics commonly found in mobile devices.
-> +  It supports multiple sources of wave data such as an internal buffer, direct play
-> +  (from kernel or userspace) as well as an audio output mode.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - qcom,pmi8998-haptics
-> +          - qcom,pm660-charger
-> +          - qcom,pmi8996-haptics
-> +          - qcom,pmi8941-haptics
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 2
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: short
-> +      - const: play
-> +
-> +  qcom,wave-play-rate-us:
+Hi Eirin,
 
-s/rate/duration/
-?
+On Sat, Oct 08, 2022 at 03:38, Eirin Nya <nyanpasu256@gmail.com> wrote:
 
-> +    description: |
-> +      Wave sample duration in microseconds, 1/f where f
-> +      is the resonant frequency of the actuator.
-> +    minimum: 0
-> +    maximum: 20475
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - qcom,wave-play-rate-us
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +      #include <dt-bindings/interrupt-controller/irq.h>
+> On 10/7/22 6:35 AM, Mattijs Korpershoek wrote:
+>> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+>> 
+>> ps: please consider using the proper subject line for input subsystem if
+>> you need to send again.
+>> 
+>> It should be "Input: elantech - Remove redundant field elantech_data::width
+> On 10/7/22 7:06 AM, Mattijs Korpershoek wrote:
+>> This seems like a candidate patch for stable kernels as well.
+>> 
+>> Maybe consider adding the following in the commit message footer:
+>> Fixes: 28f49616113f ("Input: elantech - add v3 hardware support")
+>> 
+>> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+>
+> Should I submit a v2 where I change the subject line for all commits
+> and add a Fixes: tag to patch 3/3 (or 0/3, not sure), but not change
+> the code? Sorry, I'm new to kernel development.
 
-Align it with -| above.
+No worries. It's not a very newcomer friendly process. I'm not that
+experienced myself but i'll try to help you.
 
-> +
-> +      spmi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        pmi8998_haptics: haptics@c000 {
-> +          compatible = "qcom,pmi8998-haptics";
-> +          reg = <0xc000>;
-> +
-> +          interrupts = <0x3 0xc0 0x0 IRQ_TYPE_EDGE_BOTH>,
-> +                      <0x3 0xc0 0x1 IRQ_TYPE_EDGE_BOTH>;
+No need to just re-submit a v2 for changing the subject line.
+If you do have to send a v2, however, please keep in mind to do the change.
 
-Align with previous <
+For the Fixes: tag itself, I think it should only be applied on patch
+[3/3] since that's the one "actually doing the fix"
 
-> +          interrupt-names = "short", "play";
-> +
-> +          qcom,wave-play-rate-us = <4255>;
-> +        };
-> +      };
-> --
-> 2.38.0
-> 
-> 
-
-Best regards,
-Krzysztof
-
+The stable maintainers will detect a Fixes: tag and will eventually pick
+this up once it lands in linus' tree.
