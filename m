@@ -2,68 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3D85FB340
-	for <lists+linux-input@lfdr.de>; Tue, 11 Oct 2022 15:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3825FB408
+	for <lists+linux-input@lfdr.de>; Tue, 11 Oct 2022 16:01:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230135AbiJKNV1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Oct 2022 09:21:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        id S229517AbiJKOBA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Oct 2022 10:01:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbiJKNVH (ORCPT
+        with ESMTP id S229614AbiJKOA7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Oct 2022 09:21:07 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CC036DC2
-        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 06:20:01 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id n12so21551820wrp.10
-        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 06:20:01 -0700 (PDT)
+        Tue, 11 Oct 2022 10:00:59 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6819D67171
+        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 07:00:58 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-136b5dd6655so4126286fac.3
+        for <linux-input@vger.kernel.org>; Tue, 11 Oct 2022 07:00:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DvSlLe858PoYsneJVvkvxYmTO/MSQp1hV+RsXdWck/A=;
-        b=y1iSNzXKyjal5MgagjxAqeM0ji/Iie4A+NxTZ1jW8IOEiPkbiiEnReIoSfRFtYsmYf
-         KF/4ZgDpBtSKthGVwuL0r9y5nesTrFJHm3MkiGwsVnHtXd7FkFyiCNGJF08PqUb4JgW3
-         VxE1/AETFIXKbRY02zrXK7X3Ma+OSMtAYeurIhvDd2dZdWZjfZbx1qLwMCATlrlMk3o5
-         CGRVmwpyrDp+EI3CTYmOHo6lnigK6Ppq34uuVRVigFVUFXBa234zF04V1Du6wvhq/BRI
-         xso2JPtZPiSXV2cIl1+qAFiQGQ0wzUzDzCLeuftuxCpwK8OxQdxjzNMn/veo3/qiav6d
-         KoeA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0FdfxH0/5jERuJy0rEAw2xYwkt0QHu6+m4o6oyghk4c=;
+        b=CaJzUMg5w+2rrbErS3z54Ikn57qBD059KfMlJ7rcr34/wLOIFkhWMh8pk9/2L88fl7
+         8sXk7D66gyMlKJVwOEtUDJ0wJUTfcLcj1n3dX+cxryByMQFNba+W/getCoMbTfCLzzTO
+         0l3a2ZZKrPohc6UclbZf8mzenHXKPmG+GPqFwbhZXUtBxJydQgFUDmZ1ZzJFgRDdsT6X
+         Gp9c8HuFNAZZx1ZHlrVQ4FvME4y561ugkekRizOLvO4jWBw1EHiNCO4y7il+vj6wQySU
+         KrFLWcOFsoNrkPLj45g65znKel5r+i22AdBaCOAleCssQt56DK8x0+6ECJEnc9EWxrxv
+         U3eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DvSlLe858PoYsneJVvkvxYmTO/MSQp1hV+RsXdWck/A=;
-        b=x+kIaBTuY/Cb73nKXhCws05UjgIBdLzBF1I2DdxSgs//okMYRu+4PofSWRfmmiYmOc
-         UXK/C87tHidOHWOIa8hd8NksPhQ+B/BE1HRPJUpTSk1/3ughBac7cyXxWgj8IvYcqQgY
-         KXER3KsKgwfOpBV4tofasepzxrvx7ZR/EfSq0sOuvrWoJkALGviyJEpTZfB7K8zb2wUx
-         1q8pN1CySTMRQFblrYrfDf1o/ZsaGS0o3Og7IjIXiArMIXiqBhCOer+Xmy5PWo+zSp+b
-         +tr4/husYvQrcyeW43X/5KVCLJHgFfBI37qJjsMaAStINicviYvkKXoHMw5kPZppW/Gg
-         cW1Q==
-X-Gm-Message-State: ACrzQf2dRCcLl5x0MIx7pXtq/Esl1UHcoBtVa1Gg7WOVBRXkPKVSpmYS
-        SyzF7uiukUBGMHWhiYTnZy6JUg==
-X-Google-Smtp-Source: AMsMyM5qzQvUbe8DAK27GyEUlQTMd87aS9E+IBE7m/ZvINPReW/3uEaVLa9sCtITzv+GhHc3Sc+bHg==
-X-Received: by 2002:a5d:47c5:0:b0:22e:6941:81eb with SMTP id o5-20020a5d47c5000000b0022e694181ebmr14827916wrc.408.1665494384571;
-        Tue, 11 Oct 2022 06:19:44 -0700 (PDT)
-Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id j13-20020a5d604d000000b0022ae4f8395dsm11138386wrt.96.2022.10.11.06.19.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Oct 2022 06:19:43 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Eirin Nya <nyanpasu256@gmail.com>, linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Input: Fix incorrectly halved touchpad range on
- ELAN v3 touchpads
-In-Reply-To: <e4438675-d7f6-02f1-79c0-aa9917db8997@gmail.com>
-References: <20220929082119.22112-1-nyanpasu256@gmail.com>
- <20220929082119.22112-4-nyanpasu256@gmail.com>
- <87czb37mpb.fsf@mkorpershoek-xps-13-9370.home>
- <e4438675-d7f6-02f1-79c0-aa9917db8997@gmail.com>
-Date:   Tue, 11 Oct 2022 15:19:42 +0200
-Message-ID: <87fsfu33bl.fsf@baylibre.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0FdfxH0/5jERuJy0rEAw2xYwkt0QHu6+m4o6oyghk4c=;
+        b=K0WeHPDA0nr5RUSJ2oPE9juO8cGGAZKNht/zaFVwzK1Rcs+dBULLS6JCyn8eFcnzVm
+         dsc57FU+8g54F2P2hk9KxTJKa9IGB2gsNzQ2t2RkcGi0Nqkr9dK5zZbnMogvs8rC4mc7
+         SEZg+Z0MfGAGn2RE9XZ+UAqhOkASeG72fU17NqMp22Z5YmEV4+/GYCuKk2M/CPIwSe+E
+         T/dIyKY98SmhHxJChIg2XQrAs8OiCH3UssQ0SDN2p0yowpZYqcSU/ow43jbZwACHiO6/
+         Pp7nELvu1jbLWF7lahMOmG4zbGSbC9ncL+fYyZZYETkyfwecmRrxDgtsiW/MzRhdjMqc
+         7K9g==
+X-Gm-Message-State: ACrzQf0bnbinIPd1gXezNwdq3uo2bNYLieErgEvzp91v/0zae8eBQ9tN
+        RyZW8HpcFsd51da3D5ypIBkZRlCvySU7gzF1XUA=
+X-Google-Smtp-Source: AMsMyM4rEHQb97XhvEkH8UpkyB4flzQW2Xti+JfusArc9Q99IQQWbMbTrAYfVpsgcADn6gV9qcBYlSoWyChCXaxqri8=
+X-Received: by 2002:a05:6870:8910:b0:131:2f31:dc1c with SMTP id
+ i16-20020a056870891000b001312f31dc1cmr19057465oao.290.1665496857705; Tue, 11
+ Oct 2022 07:00:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20221010212313.78275-1-roderick.colenbrander@sony.com>
+ <20221010212313.78275-4-roderick.colenbrander@sony.com> <c582cc7d81bbfb2bcf9b397da36324fb84624fa1.camel@hadess.net>
+In-Reply-To: <c582cc7d81bbfb2bcf9b397da36324fb84624fa1.camel@hadess.net>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Tue, 11 Oct 2022 07:00:46 -0700
+Message-ID: <CAEc3jaAoL4cxD04dgq8xMk+dvtgi8sdYkCLxQJxOPJmJ5YjtUw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] HID: playstation: support updated DualSense rumble mode.
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Roderick Colenbrander <roderick@gaikai.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,37 +71,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Eirin,
-
-On Sat, Oct 08, 2022 at 03:38, Eirin Nya <nyanpasu256@gmail.com> wrote:
-
-> On 10/7/22 6:35 AM, Mattijs Korpershoek wrote:
->> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->> 
->> ps: please consider using the proper subject line for input subsystem if
->> you need to send again.
->> 
->> It should be "Input: elantech - Remove redundant field elantech_data::width
-> On 10/7/22 7:06 AM, Mattijs Korpershoek wrote:
->> This seems like a candidate patch for stable kernels as well.
->> 
->> Maybe consider adding the following in the commit message footer:
->> Fixes: 28f49616113f ("Input: elantech - add v3 hardware support")
->> 
->> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+On Tue, Oct 11, 2022 at 3:26 AM Bastien Nocera <hadess@hadess.net> wrote:
 >
-> Should I submit a v2 where I change the subject line for all commits
-> and add a Fixes: tag to patch 3/3 (or 0/3, not sure), but not change
-> the code? Sorry, I'm new to kernel development.
+> On Mon, 2022-10-10 at 14:23 -0700, Roderick Colenbrander wrote:
+> > Newer DualSense firmware supports a revised classic rumble mode,
+> > which feels more similar to rumble as supported on previous
+> > PlayStation
+> > controllers. It has been made the default on PlayStation and non-
+> > PlayStation
+> > devices now (e.g. iOS and Windows). Default to this new mode when
+> > supported.
+>
+> Are there any ways to update the firmware without a PS5? Using LVFS to
+> distribute the firmware, on Linux platforms at least, would be great
+> for end-users.
 
-No worries. It's not a very newcomer friendly process. I'm not that
-experienced myself but i'll try to help you.
+Update mechanisms exist and it is supported on Windows. I don't have
+access to the details and it is very complex from what I saw in the
+past (all over a custom HID protocol). There are so many permutations
+of devices (and subfirmwares), which makes this difficult. Besides, I
+think there are other reasons preventing us from this disclosing this
+part unfortunately.
 
-No need to just re-submit a v2 for changing the subject line.
-If you do have to send a v2, however, please keep in mind to do the change.
-
-For the Fixes: tag itself, I think it should only be applied on patch
-[3/3] since that's the one "actually doing the fix"
-
-The stable maintainers will detect a Fixes: tag and will eventually pick
-this up once it lands in linus' tree.
+If someone wanted to update their device, it might potentially work on
+Wine as it can use hidraw, but at your own risk...
