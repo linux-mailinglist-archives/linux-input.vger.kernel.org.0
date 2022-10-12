@@ -2,125 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA72A5FCA17
-	for <lists+linux-input@lfdr.de>; Wed, 12 Oct 2022 19:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C3F35FCBF2
+	for <lists+linux-input@lfdr.de>; Wed, 12 Oct 2022 22:24:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbiJLR4H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Oct 2022 13:56:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33634 "EHLO
+        id S229633AbiJLUYO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Oct 2022 16:24:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiJLR4G (ORCPT
+        with ESMTP id S229612AbiJLUYN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Oct 2022 13:56:06 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26438D77C7
-        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 10:56:03 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id n7so16966449plp.1
-        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 10:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rn/UDIcscu5abOpP3v+WUHTT/jflHG0HmbSWAfN3l54=;
-        b=4uAbc7fbIErK5qUn9SAy5Jkng45r6O6mebcOQfFPXDS9n30sCnvMd2bwu66lRPOFKN
-         XTKsR/xQAfifYS1nMUKITEX9xpFSYVcZMEq/LSWrJAQY6lWma5wLwE4d+OZkYtIe8Or+
-         5/uvyXEjFfQmFRVROMktn/nNrZSrQoDJ2fHnzgwti4B/C0sXkDmi2dWoGBl+eEkUBYuy
-         Oo0NLkrKyf7qVI6YWXhdS+9JFEkj22AUtFeB9PIOcx7btBOOqspiVy6ibskfNJ2YzOGd
-         JMd/zxLaLtZkiwscZcR69ubsR4sVifHLLmIY9VtxgMpqfkTFSxER1TCwhm5gOVmWDd/p
-         btXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rn/UDIcscu5abOpP3v+WUHTT/jflHG0HmbSWAfN3l54=;
-        b=xU5zvFL52MM6v/uVFeKbE4w5kVABVZOGpGzEit0phywvl3qOSJ+7d6yAN674Qqu6e4
-         zDxZd8sN0ChFQa02p9GuAKfZUWbaQH10IVzCrJ0425nA6h11NJqymEJDAisWoSHCiIHz
-         gzOOSuvdTgu6wcRp9Xr4iAJtFZSl8tQHEU2Qd/3iCqz9v+fb0Mzn4KBrCKCWwSAks55j
-         3txw+lnfRXcjk1Xf1qTlzm3V51SnKEOK1WvSkXkQCceZrXL+oBzmMfUHTchxVaZQruAm
-         xA6ckC9U0bPr+jmWFciycnT0ZKTOi+LjBhWIKU0uc0we+LwVhUvsXHds6mOcQAm89qBB
-         90vQ==
-X-Gm-Message-State: ACrzQf3UBjUnhS4gY32cD4NyW1Ih8DbXpO3KkxdzjcYGmylZXxTpL71G
-        6xlc12B3WxWnOH7LQwPg48A2MA==
-X-Google-Smtp-Source: AMsMyM7zr66pcJj/ae8owjpIzOJuITFx/A8rJzNZeOjMKqUvNZKR6cxqEkmXqJO5rLkZ/6ZIhCu+MA==
-X-Received: by 2002:a17:90b:17cf:b0:20d:72eb:fd0c with SMTP id me15-20020a17090b17cf00b0020d72ebfd0cmr6377751pjb.217.1665597362585;
-        Wed, 12 Oct 2022 10:56:02 -0700 (PDT)
-Received: from localhost ([75.172.140.17])
-        by smtp.gmail.com with ESMTPSA id l6-20020a170902f68600b0017f92246e4dsm11047925plg.181.2022.10.12.10.56.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Oct 2022 10:56:01 -0700 (PDT)
-From:   Kevin Hilman <khilman@baylibre.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        jerome Neanne <jneanne@baylibre.com>, lgirdwood@gmail.com,
-        broonie@kernel.org, robh+dt@kernel.org, nm@ti.com,
-        kristo@kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
-        will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
-        bjorn.andersson@linaro.org, shawnguo@kernel.org,
-        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
-        marcel.ziswiler@toradex.com, vkoul@kernel.org,
-        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com
-Cc:     afd@ti.com, narmstrong@baylibre.com, msp@baylibre.com,
-        j-keerthy@ti.com, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-input@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH v6 6/6] arm64: defconfig: Add tps65219 as modules
-In-Reply-To: <fc1e5799-20ea-de37-6693-e2ea0fb87f13@linaro.org>
-References: <20221011140549.16761-1-jneanne@baylibre.com>
- <20221011140549.16761-7-jneanne@baylibre.com>
- <72b9809e-d6d7-862a-26b8-221d14ea4322@linaro.org>
- <60507e87-cf92-13d9-29d0-83f18a648f4b@baylibre.com>
- <fc1e5799-20ea-de37-6693-e2ea0fb87f13@linaro.org>
-Date:   Wed, 12 Oct 2022 10:56:00 -0700
-Message-ID: <7hzge1hqof.fsf@baylibre.com>
+        Wed, 12 Oct 2022 16:24:13 -0400
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E749748CC;
+        Wed, 12 Oct 2022 13:24:10 -0700 (PDT)
+Date:   Wed, 12 Oct 2022 20:23:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noorman.info;
+        s=protonmail3; t=1665606245; x=1665865445;
+        bh=qrc2MlwsGZBeWu2rGFxLZt1zuU7TmkMkUIqp0/CTDJ0=;
+        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID;
+        b=XJxCkgJ1KHYB5GP2b7kb/AbxIX7+5j7hP4VKrlqSIzghQ0/V2S7F/23HhUP2wYk1F
+         5EZiOgSYozVfte3I3E92eJsYSiB4EPVJtPQw2Zmf102BOw4rOW+TQJgqjAc0uw2wyv
+         PpxL05sG/8rzicWiaHPG3GetzMm3VzzKDolX6biEr65wffPki5YqPPd0TAt6HzwVpl
+         1ieg8Tnf8zN2xDeb9tjVURWgdjx/n2HPgvRn4aUYx8B77lP69fCn51iLPdcAx1/Ydo
+         yODoy6VKpeqRl001eccaaDyU1KA7zbT/g85QGkfP/OUpOnxkZWtO6ePwwuFsFLT5VO
+         YlrrqhR7SD7AQ==
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Henrik Rydberg <rydberg@bitmath.org>
+From:   Job Noorman <job@noorman.info>
+Cc:     Luca Weiss <luca@z3ntu.xyz>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2 0/3] Add Himax hx83112b touchscreen driver
+Message-ID: <20221012202341.295351-1-job@noorman.info>
+Feedback-ID: 14439221:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
+Hi all,
 
-> On 12/10/2022 04:39, jerome Neanne wrote:
->>> You explained what you did, which is easily visible. You did not explain
->>> why you are doing it.
->>>
->>> Best regards,
->>> Krzysztof
->>>
->> Thanks for pointing me to the detailed guidelines
->> I'm new to upstream and not well aware of all good practices.
->> 
->> Would below commit message be more suitable:
->> 
->> Add support for the TPS65219 PMIC by enabling MFD, regulator and 
->> power-button drivers.  All drivers enabled as modules.
->
-> This still says only what you did. I still does not explain why.
+This series adds support for the Himax hx83112b. The hx83112b supports 10
+point multitouch with hardware tracking of touch points. It is the
+touchschreen used by the Fairphone 3.
 
-Jerome, maybe adding a bit of preamble like:
+Note that a datasheet was unavailable for this device, so it was built
+based on the Android driver that was tagged as GPLv2. This series is a
+complete rewrite, though, and the code bears no resemblence to the original
+implementation.
 
-"Development boards from TI include the TPS65219 PMIC.  Add support..."
+It is expected that this driver can be made to work on other hx83xxx
+devices, especially the hx83112a used in the Fairphone 4. However, since we
+have been unable to verify this, this driver only declares compatibility
+with the hx83112b and uses very specific file names.
 
-Krzysztof, I'm the first to argue for descriptive/verbose changelogs,
-but IMO, this is getting a little bit nit-picky.
+Changes since v1:
+- Fix sparse warnings. Reported-by: kernel test robot <lkp@intel.com>.
+- Fix dt_binding_check.
 
-The series adds a new driver, DTS and defconfig patches to enable
-support the new driver.  The "why" for changes to defconfig changes like
-this are kind of implied/obvious, and there is lots of precedent for
-changelogs of defconfig changes for simple drivers to simply say "enable
-X and Y".
+Best regards,
+Job
 
-If my above suggesion is not enough, please make a suggestion for what
-you think would qualify as an appropritate changelong that answers "why"
-for a simple driver change.
+Previous versions:
+- v1: https://lore.kernel.org/lkml/20221011190729.14747-1-job@noorman.info/
 
-Kevin
+Job Noorman (3):
+  dt-bindings: touchscreen: add Himax hx83112b bindings
+  Input: add driver for Himax hx83112b touchscreen devices
+  arm64: dts: qcom: sdm632: fairphone-fp3: add touchscreen
+
+ .../input/touchscreen/himax,hx83112b.yaml     |  61 +++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/qcom/sdm632-fairphone-fp3.dts    |  14 +
+ drivers/input/touchscreen/Kconfig             |  11 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/himax_hx83112b.c    | 377 ++++++++++++++++++
+ 6 files changed, 471 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/him=
+ax,hx83112b.yaml
+ create mode 100644 drivers/input/touchscreen/himax_hx83112b.c
 
 
+base-commit: d4a596eddb90114f5f5f32a440057a175517b090
+--
+2.38.0
 
 
