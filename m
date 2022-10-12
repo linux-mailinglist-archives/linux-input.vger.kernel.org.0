@@ -2,63 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 722925FC343
-	for <lists+linux-input@lfdr.de>; Wed, 12 Oct 2022 11:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 263675FC5C8
+	for <lists+linux-input@lfdr.de>; Wed, 12 Oct 2022 15:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbiJLJsi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Oct 2022 05:48:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42638 "EHLO
+        id S229526AbiJLNAi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Oct 2022 09:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229993AbiJLJsc (ORCPT
+        with ESMTP id S229808AbiJLNAg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Oct 2022 05:48:32 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88246B2DB6
-        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 02:48:29 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id bk15so25396716wrb.13
-        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 02:48:29 -0700 (PDT)
+        Wed, 12 Oct 2022 09:00:36 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8A1ED90
+        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 06:00:34 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id t25so3281786qkm.2
+        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 06:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NB6mG33aDtm6Zk8BktYrxC+8hOs8DwGLvDzn08Z1nM0=;
-        b=Wznf0FrIHwd9yD3BL0jRsJHyh27pJJRjliBl8pb+TQ0a2wOheEFN3cS5kQZzGjnUsx
-         h7Kgw2wAb714Vx0msRAfJdExER0hHksZ73uyPwf0B6PHzfAHHUcY+695IuN7vCVAPJPU
-         9W3Bel+OpP823Q9JZqDCnKEfwpskN2SOdBgLv1FqMUwGevEdCzJiHxiATvKEMf30gfED
-         8ZgzuAuE3kfsWs1l1k+aLHG9ISr7L/Z8C22vSQm//Z6dVMWIjJVcqOQzwK45+MLwOu3Z
-         1QX9dpoF8NImvgx8ocs1ngpqFys9qB8e1cmrHhX/LyD07raVySTomg7VpJtijnIkAliI
-         on6A==
+        bh=S7I3Cz5+U5x6cIXGPA8p9f0gJdwGq7AR9Xznrk5pZ2M=;
+        b=RUfyxSq7fmq5cjgnShru5p1DpyftvUBe1/f4hzQ1PmJ0Q+GHCzHTY5hwtO2C/v6jmA
+         RdI0LdVobKGxBm018dRryOu+/vONbFYUGHH8VK+S6syziEp9u13ceqVcILGEWqE+gB8x
+         pzGZhXVOU9KAEMQ0PqAWNxSgMj9x4I2IG1yHTDSYLgJINCC576qp8CQJMXENZBksoCbC
+         mrSeZySI5K76K1GGVat8g9kSTpEcbayeMVJBZWij4QjvOV/JVIdDZdOkUx8wxGPyzCbO
+         rq079Sc6EayGR5GZE87XrvXw+jkLbvXG2G/Rqr4s09/Mj/r9iWeNZuGTMsR0D2QNDdtT
+         Ulzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NB6mG33aDtm6Zk8BktYrxC+8hOs8DwGLvDzn08Z1nM0=;
-        b=r3lhZHny3xra+tKGqIwl//0bI90rJzZAaMPtxIyT92gFGwV/Meg1BaCdJVyP5Qivd3
-         ojAlsgjCrmgPJDwxxZg/N+C9bICbT/8ACJtI9ZIVaU/Rcj/PpsAv6T1EzMz/BGEuO1dJ
-         QKSQxiiEpe5JGGegZCFTeylJ7Kg9B6BUcjS0n2i1OdUmDR9CfZH03ZZyzTd8aUocu/wN
-         dTXNEHggWspqoZrlv92XAnaRI2QGEjAwMO/olN/7BCJr0bzI2TKhEddH6SsTHDcXpXY8
-         JnW/inyzP13TeZ1BzCWNAEkKMeMkCTabJO9AuLJ4AbDuN1DDh6BICEy+cfkLk8dzYc7/
-         tfxg==
-X-Gm-Message-State: ACrzQf1p1odIqaI++xIcqXYOZ155J8sVF1aY7Oq/ay8UCs/KDwe370/J
-        ILwMSkIQAMyhHJqPEuIKdUyJkg==
-X-Google-Smtp-Source: AMsMyM4Y0dsY1cOpURNMZw4WsCAg5nExJ4wCqKEZj2OCuMoWYv/BIE+7HRScn1kypH278RstTt/ONQ==
-X-Received: by 2002:adf:ea08:0:b0:22e:46e9:2a8a with SMTP id q8-20020adfea08000000b0022e46e92a8amr18228046wrm.636.1665568108087;
-        Wed, 12 Oct 2022 02:48:28 -0700 (PDT)
-Received: from [192.168.1.91] (192.201.68.85.rev.sfr.net. [85.68.201.192])
-        by smtp.gmail.com with ESMTPSA id ck15-20020a5d5e8f000000b0022afe4fb459sm13724434wrb.51.2022.10.12.02.48.26
+        bh=S7I3Cz5+U5x6cIXGPA8p9f0gJdwGq7AR9Xznrk5pZ2M=;
+        b=d9yPbvErN05cS735ZPmFBEAWBllU29beDtFwwcX2sZN28zz6pV+Aa5VqPL7Gy9qONh
+         GkIJ7fwBvnvvHasKC7UKtLIJ6S8Eph4WLoqGI/zd9xUAf25KJTy12FvB5rt6nrzJmpaS
+         ztFTXivYk0pzEcCbEBcwSjlXJ02QifKchVD1CIQ/IbPNeKC3xnRjZ+ASvBPCm0VJjgkd
+         OPwEaC8iolCbBOnYTeDiFQx4nCeb83R3sKEZ+20hAHc95Za0ytC1Sx95IceyewKA7tIQ
+         2OVJWyXgmzlKWlxgBz2MjvyYVICyzrkRIoVjuMVYnU64maNG9VG3/9cDbM52HePZsEGV
+         bXDQ==
+X-Gm-Message-State: ACrzQf1ZZh0IBC5KsixU2CZQ62abLZtm6jvzYNV7D4ixpbnPXSA0qtUo
+        G0fyH8TvCAQi2VedGl3/H8Of7g==
+X-Google-Smtp-Source: AMsMyM4h65oRCdBS2LVLH3asi+Dz8Bht/2Ex4MGomFkxTgfupyoOTY1kejOISNYZo3eiUk2ujujm/g==
+X-Received: by 2002:a05:620a:280d:b0:6cf:ab57:a130 with SMTP id f13-20020a05620a280d00b006cfab57a130mr20372720qkp.749.1665579625333;
+        Wed, 12 Oct 2022 06:00:25 -0700 (PDT)
+Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
+        by smtp.gmail.com with ESMTPSA id s4-20020a05620a254400b006bbc09af9f5sm15488418qko.101.2022.10.12.06.00.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 02:48:27 -0700 (PDT)
-Message-ID: <b0db2f52-6c26-a7e4-e16a-f2d9539c6584@baylibre.com>
-Date:   Wed, 12 Oct 2022 11:48:25 +0200
+        Wed, 12 Oct 2022 06:00:24 -0700 (PDT)
+Message-ID: <fc1e5799-20ea-de37-6693-e2ea0fb87f13@linaro.org>
+Date:   Wed, 12 Oct 2022 09:00:22 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v6 5/6] Input: Add tps65219 interrupt driven powerbutton
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v6 6/6] arm64: defconfig: Add tps65219 as modules
 Content-Language: en-US
-To:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
+To:     jerome Neanne <jneanne@baylibre.com>, lgirdwood@gmail.com,
+        broonie@kernel.org, robh+dt@kernel.org, nm@ti.com,
+        kristo@kernel.org, dmitry.torokhov@gmail.com,
         krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
         will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
         bjorn.andersson@linaro.org, shawnguo@kernel.org,
@@ -70,21 +71,40 @@ Cc:     afd@ti.com, khilman@baylibre.com, narmstrong@baylibre.com,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-input@vger.kernel.org, linux-omap@vger.kernel.org
 References: <20221011140549.16761-1-jneanne@baylibre.com>
- <20221011140549.16761-6-jneanne@baylibre.com>
-From:   jerome Neanne <jneanne@baylibre.com>
-In-Reply-To: <20221011140549.16761-6-jneanne@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20221011140549.16761-7-jneanne@baylibre.com>
+ <72b9809e-d6d7-862a-26b8-221d14ea4322@linaro.org>
+ <60507e87-cf92-13d9-29d0-83f18a648f4b@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <60507e87-cf92-13d9-29d0-83f18a648f4b@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I forgot to add the Acked-by in the commit message:
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On 12/10/2022 04:39, jerome Neanne wrote:
+>> You explained what you did, which is easily visible. You did not explain
+>> why you are doing it.
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> Thanks for pointing me to the detailed guidelines
+> I'm new to upstream and not well aware of all good practices.
+> 
+> Would below commit message be more suitable:
+> 
+> Add support for the TPS65219 PMIC by enabling MFD, regulator and 
+> power-button drivers.  All drivers enabled as modules.
 
-Please feel free to merge through MFD tree.
+This still says only what you did. I still does not explain why.
+
+Best regards,
+Krzysztof
+
