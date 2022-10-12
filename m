@@ -2,225 +2,189 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6D505FCD6D
-	for <lists+linux-input@lfdr.de>; Wed, 12 Oct 2022 23:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 887EC5FCF05
+	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 01:42:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbiJLVmy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Oct 2022 17:42:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60508 "EHLO
+        id S229749AbiJLXm5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Oct 2022 19:42:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbiJLVmu (ORCPT
+        with ESMTP id S229683AbiJLXm4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Oct 2022 17:42:50 -0400
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D801217DA;
-        Wed, 12 Oct 2022 14:42:47 -0700 (PDT)
-Received: from g550jk.arnhem.chello.nl (31-151-115-246.dynamic.upc.nl [31.151.115.246])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id BBBB2C793A;
-        Wed, 12 Oct 2022 21:42:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1665610965; bh=o6ofELXehp79MhXAV2SOQz5UQiBcCxe0c5AqHqoMqGE=;
-        h=From:To:Cc:Subject:Date;
-        b=EiCfIn/rhWnPMz/mq2mmRQnuwX0dro36wxr+eY0+iYW3Wy6xHPSphZQXIFDluba4+
-         UMfYge5Gn8dGzcr+KBN68qVyVEG/42oQEhEsiBFmn2jjZJHxGyIj1ygV9yW+gdmIor
-         PEYGj3H4xTKJamW71jDYZBcs8kxdzT7um27D+StI=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     linux-input@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Luca Weiss <luca@z3ntu.xyz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: input: Convert ti,drv260x to DT schema
-Date:   Wed, 12 Oct 2022 23:42:16 +0200
-Message-Id: <20221012214219.28976-1-luca@z3ntu.xyz>
-X-Mailer: git-send-email 2.38.0
+        Wed, 12 Oct 2022 19:42:56 -0400
+X-Greylist: delayed 25773 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Oct 2022 16:42:53 PDT
+Received: from 14.mo583.mail-out.ovh.net (14.mo583.mail-out.ovh.net [188.165.51.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E6A118750
+        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 16:42:53 -0700 (PDT)
+Received: from player696.ha.ovh.net (unknown [10.111.172.14])
+        by mo583.mail-out.ovh.net (Postfix) with ESMTP id 42E9F22715
+        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 16:33:19 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player696.ha.ovh.net (Postfix) with ESMTPSA id 68B922573F8DE;
+        Wed, 12 Oct 2022 16:33:14 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-101G004926c2626-9614-4700-a3bb-23ab756441d8,
+                    75377E6B882747309559AE06BD3DFEEF97A89409) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Stephen Kitt <steve@sk2.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] drivers/hid: use simple i2c probe
+Date:   Wed, 12 Oct 2022 18:33:00 +0200
+Message-Id: <20221012163300.3928075-1-steve@sk2.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
-        FROM_SUSPICIOUS_NTLD_FP,SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD
-        autolearn=no autolearn_force=no version=3.4.6
+X-Ovh-Tracer-Id: 17027828717298353769
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejkedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkphepuddvjedrtddrtddruddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheekfedpmhhouggvpehsmhhtphhouhht
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert the drv260x haptics binding to DT schema format.
+All these drivers have an i2c probe function which doesn't use the
+"struct i2c_device_id *id" parameter, so they can trivially be
+converted to the "probe_new" style of probe with a single argument.
 
-The only notable change from .txt format is that vbat-supply is not
-actually required, so don't make it a required property.
+This is part of an ongoing transition to single-argument i2c probe
+functions. Old-style probe functions involve a call to i2c_match_id:
+in drivers/i2c/i2c-core-base.c,
 
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+         /*
+          * When there are no more users of probe(),
+          * rename probe_new to probe.
+          */
+         if (driver->probe_new)
+                 status = driver->probe_new(client);
+         else if (driver->probe)
+                 status = driver->probe(client,
+                                        i2c_match_id(driver->id_table, client));
+         else
+                 status = -EINVAL;
+
+Drivers which don't need the second parameter can be declared using
+probe_new instead, avoiding the call to i2c_match_id. Drivers which do
+can still be converted to probe_new-style, calling i2c_match_id
+themselves (as is done currently for of_match_id).
+
+This change was done using the following Coccinelle script, and fixed
+up for whitespace changes:
+
+@ rule1 @
+identifier fn;
+identifier client, id;
+@@
+
+- static int fn(struct i2c_client *client, const struct i2c_device_id *id)
++ static int fn(struct i2c_client *client)
+{
+...when != id
+}
+
+@ rule2 depends on rule1 @
+identifier rule1.fn;
+identifier driver;
+@@
+
+struct i2c_driver driver = {
+-       .probe
++       .probe_new
+                =
+(
+                   fn
+|
+-                  &fn
++                  fn
+)
+                ,
+};
+
+Signed-off-by: Stephen Kitt <steve@sk2.org>
 ---
- .../devicetree/bindings/input/ti,drv260x.txt  | 50 ----------
- .../devicetree/bindings/input/ti,drv260x.yaml | 98 +++++++++++++++++++
- 2 files changed, 98 insertions(+), 50 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.txt
- create mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.yaml
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c   | 5 ++---
+ drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 5 ++---
+ drivers/hid/i2c-hid/i2c-hid-of.c        | 5 ++---
+ 3 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.txt b/Documentation/devicetree/bindings/input/ti,drv260x.txt
-deleted file mode 100644
-index 4c5312eaaa85..000000000000
---- a/Documentation/devicetree/bindings/input/ti,drv260x.txt
-+++ /dev/null
-@@ -1,50 +0,0 @@
--* Texas Instruments - drv260x Haptics driver family
--
--Required properties:
--	- compatible - One of:
--		"ti,drv2604" - DRV2604
--		"ti,drv2605" - DRV2605
--		"ti,drv2605l" - DRV2605L
--	- reg -  I2C slave address
--	- vbat-supply - Required supply regulator
--	- mode - Power up mode of the chip (defined in include/dt-bindings/input/ti-drv260x.h)
--		DRV260X_LRA_MODE - Linear Resonance Actuator mode (Piezoelectric)
--		DRV260X_LRA_NO_CAL_MODE - This is a LRA Mode but there is no calibration
--				sequence during init.  And the device is configured for real
--				time playback mode (RTP mode).
--		DRV260X_ERM_MODE - Eccentric Rotating Mass mode (Rotary vibrator)
--	- library-sel - These are ROM based waveforms pre-programmed into the IC.
--				This should be set to set the library to use at power up.
--				(defined in include/dt-bindings/input/ti-drv260x.h)
--		DRV260X_LIB_EMPTY - Do not use a pre-programmed library
--		DRV260X_ERM_LIB_A - Pre-programmed Library
--		DRV260X_ERM_LIB_B - Pre-programmed Library
--		DRV260X_ERM_LIB_C - Pre-programmed Library
--		DRV260X_ERM_LIB_D - Pre-programmed Library
--		DRV260X_ERM_LIB_E - Pre-programmed Library
--		DRV260X_ERM_LIB_F - Pre-programmed Library
--		DRV260X_LIB_LRA - Pre-programmed LRA Library
--
--Optional properties:
--	- enable-gpio - gpio pin to enable/disable the device.
--	- vib-rated-mv - The rated voltage of the actuator in millivolts.
--			  If this is not set then the value will be defaulted to
--			  3.2 v.
--	- vib-overdrive-mv - The overdrive voltage of the actuator in millivolts.
--			  If this is not set then the value will be defaulted to
--			  3.2 v.
--Example:
--
--haptics: haptics@5a {
--	compatible = "ti,drv2605l";
--	reg = <0x5a>;
--	vbat-supply = <&vbat>;
--	enable-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
--	mode = <DRV260X_LRA_MODE>;
--	library-sel = <DRV260X_LIB_LRA>;
--	vib-rated-mv = <3200>;
--	vib-overdrive-mv = <3200>;
--}
--
--For more product information please see the link below:
--http://www.ti.com/product/drv2605
-diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.yaml b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
-new file mode 100644
-index 000000000000..7d67e815f80d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
-@@ -0,0 +1,98 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/ti,drv260x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments - drv260x Haptics driver family
-+
-+maintainers:
-+  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,drv2604
-+      - ti,drv2605
-+      - ti,drv2605l
-+
-+  reg:
-+    maxItems: 1
-+
-+  vbat-supply:
-+    description: Power supply to the haptic motor
-+
-+  mode:
-+    description: |
-+      Power up mode of the chip
-+      (defined in include/dt-bindings/input/ti-drv260x.h)
-+
-+      DRV260X_LRA_MODE
-+        Linear Resonance Actuator mode (Piezoelectric)
-+
-+      DRV260X_LRA_NO_CAL_MODE
-+        This is a LRA Mode but there is no calibration sequence during init.
-+        And the device is configured for real time playback mode (RTP mode).
-+
-+      DRV260X_ERM_MODE
-+        Eccentric Rotating Mass mode (Rotary vibrator)
-+    enum: [ 0, 1, 2 ]
-+
-+  library-sel:
-+    description: |
-+      These are ROM based waveforms pre-programmed into the IC.
-+      This should be set to set the library to use at power up.
-+      (defined in include/dt-bindings/input/ti-drv260x.h)
-+
-+      DRV260X_LIB_EMPTY - Do not use a pre-programmed library
-+      DRV260X_ERM_LIB_A - Pre-programmed Library
-+      DRV260X_ERM_LIB_B - Pre-programmed Library
-+      DRV260X_ERM_LIB_C - Pre-programmed Library
-+      DRV260X_ERM_LIB_D - Pre-programmed Library
-+      DRV260X_ERM_LIB_E - Pre-programmed Library
-+      DRV260X_ERM_LIB_F - Pre-programmed Library
-+      DRV260X_LIB_LRA - Pre-programmed LRA Library
-+    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-+
-+  enable-gpio:
-+    maxItems: 1
-+
-+  vib-rated-mv:
-+    description: |
-+      The rated voltage of the actuator in millivolts.
-+      If this is not set then the value will be defaulted to 3200 mV.
-+
-+  vib-overdrive-mv:
-+    description: |
-+      The overdrive voltage of the actuator in millivolts.
-+      If this is not set then the value will be defaulted to 3200 mV.
-+
-+required:
-+  - compatible
-+  - reg
-+  - enable-gpio
-+  - mode
-+  - library-sel
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/input/ti-drv260x.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        haptics@5a {
-+            compatible = "ti,drv2605l";
-+            reg = <0x5a>;
-+            vbat-supply = <&vbat>;
-+            enable-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
-+            mode = <DRV260X_LRA_MODE>;
-+            library-sel = <DRV260X_LIB_LRA>;
-+            vib-rated-mv = <3200>;
-+            vib-overdrive-mv = <3200>;
-+        };
-+    };
+diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
+index 2d991325e734..76ddc8be1cbb 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
++++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
+@@ -68,8 +68,7 @@ static void elan_i2c_hid_power_down(struct i2chid_ops *ops)
+ 	regulator_disable(ihid_elan->vcc33);
+ }
+ 
+-static int i2c_hid_of_elan_probe(struct i2c_client *client,
+-				 const struct i2c_device_id *id)
++static int i2c_hid_of_elan_probe(struct i2c_client *client)
+ {
+ 	struct i2c_hid_of_elan *ihid_elan;
+ 
+@@ -119,7 +118,7 @@ static struct i2c_driver elan_i2c_hid_ts_driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.of_match_table = of_match_ptr(elan_i2c_hid_of_match),
+ 	},
+-	.probe		= i2c_hid_of_elan_probe,
++	.probe_new	= i2c_hid_of_elan_probe,
+ 	.remove		= i2c_hid_core_remove,
+ 	.shutdown	= i2c_hid_core_shutdown,
+ };
+diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+index ec6c73f75ffe..29c6cb174032 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
++++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+@@ -87,8 +87,7 @@ static int ihid_goodix_vdd_notify(struct notifier_block *nb,
+ 	return ret;
+ }
+ 
+-static int i2c_hid_of_goodix_probe(struct i2c_client *client,
+-				   const struct i2c_device_id *id)
++static int i2c_hid_of_goodix_probe(struct i2c_client *client)
+ {
+ 	struct i2c_hid_of_goodix *ihid_goodix;
+ 	int ret;
+@@ -167,7 +166,7 @@ static struct i2c_driver goodix_i2c_hid_ts_driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.of_match_table = of_match_ptr(goodix_i2c_hid_of_match),
+ 	},
+-	.probe		= i2c_hid_of_goodix_probe,
++	.probe_new	= i2c_hid_of_goodix_probe,
+ 	.remove		= i2c_hid_core_remove,
+ 	.shutdown	= i2c_hid_core_shutdown,
+ };
+diff --git a/drivers/hid/i2c-hid/i2c-hid-of.c b/drivers/hid/i2c-hid/i2c-hid-of.c
+index 97a27a803f58..10176568133a 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-of.c
++++ b/drivers/hid/i2c-hid/i2c-hid-of.c
+@@ -66,8 +66,7 @@ static void i2c_hid_of_power_down(struct i2chid_ops *ops)
+ 			       ihid_of->supplies);
+ }
+ 
+-static int i2c_hid_of_probe(struct i2c_client *client,
+-			    const struct i2c_device_id *dev_id)
++static int i2c_hid_of_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct i2c_hid_of *ihid_of;
+@@ -138,7 +137,7 @@ static struct i2c_driver i2c_hid_of_driver = {
+ 		.of_match_table = of_match_ptr(i2c_hid_of_match),
+ 	},
+ 
+-	.probe		= i2c_hid_of_probe,
++	.probe_new	= i2c_hid_of_probe,
+ 	.remove		= i2c_hid_core_remove,
+ 	.shutdown	= i2c_hid_core_shutdown,
+ 	.id_table	= i2c_hid_of_id_table,
+
+base-commit: 833477fce7a14d43ae4c07f8ddc32fa5119471a2
 -- 
-2.38.0
+2.30.2
 
