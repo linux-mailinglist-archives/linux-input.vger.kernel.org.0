@@ -2,505 +2,225 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A14DF5FCBF7
-	for <lists+linux-input@lfdr.de>; Wed, 12 Oct 2022 22:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6D505FCD6D
+	for <lists+linux-input@lfdr.de>; Wed, 12 Oct 2022 23:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229678AbiJLUYg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Oct 2022 16:24:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
+        id S229699AbiJLVmy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Oct 2022 17:42:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbiJLUYb (ORCPT
+        with ESMTP id S229704AbiJLVmu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Oct 2022 16:24:31 -0400
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD2DD7E19
-        for <linux-input@vger.kernel.org>; Wed, 12 Oct 2022 13:24:28 -0700 (PDT)
-Date:   Wed, 12 Oct 2022 20:24:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noorman.info;
-        s=protonmail3; t=1665606266; x=1665865466;
-        bh=Gv22iauha7CoE7wntWnH2CHIOmprhO7SSVUjpWeeIkM=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID;
-        b=iHWs769FIxedfTP2PmRXur9YfiaBGNFOMt/vNcH3JMveWXD3vz64cH7MZ1SCwTV1h
-         Ma9jMJUZAcB2p4Ut/6pPmteNioTKqwdf99sA49AClmsOFlssR0iAr97F2YsTrY68Yp
-         PwQ5NJtB3JBxyD9Epx30AnpEqUzxR+45Ob2fjqWTl65ZlYvy5fWHdAg4QN9Pt1P3+r
-         0CkxhUUmZmHSZRmVLclnHb0N06KzqiIjRQLTBXS7GqwaeGSCIL/8O476znjyD+pNta
-         MOjIx6Q4yOr6+x4pm7EyBSFt7dYRzsn6H/u5WglZeOH3EK3coi7av7kb55+PqXLlLZ
-         H75vy1VB4vmag==
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>
-From:   Job Noorman <job@noorman.info>
-Cc:     Luca Weiss <luca@z3ntu.xyz>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2 2/3] Input: add driver for Himax hx83112b touchscreen devices
-Message-ID: <20221012202341.295351-3-job@noorman.info>
-In-Reply-To: <20221012202341.295351-1-job@noorman.info>
-References: <20221012202341.295351-1-job@noorman.info>
-Feedback-ID: 14439221:user:proton
+        Wed, 12 Oct 2022 17:42:50 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D801217DA;
+        Wed, 12 Oct 2022 14:42:47 -0700 (PDT)
+Received: from g550jk.arnhem.chello.nl (31-151-115-246.dynamic.upc.nl [31.151.115.246])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id BBBB2C793A;
+        Wed, 12 Oct 2022 21:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1665610965; bh=o6ofELXehp79MhXAV2SOQz5UQiBcCxe0c5AqHqoMqGE=;
+        h=From:To:Cc:Subject:Date;
+        b=EiCfIn/rhWnPMz/mq2mmRQnuwX0dro36wxr+eY0+iYW3Wy6xHPSphZQXIFDluba4+
+         UMfYge5Gn8dGzcr+KBN68qVyVEG/42oQEhEsiBFmn2jjZJHxGyIj1ygV9yW+gdmIor
+         PEYGj3H4xTKJamW71jDYZBcs8kxdzT7um27D+StI=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     linux-input@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: input: Convert ti,drv260x to DT schema
+Date:   Wed, 12 Oct 2022 23:42:16 +0200
+Message-Id: <20221012214219.28976-1-luca@z3ntu.xyz>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        FROM_SUSPICIOUS_NTLD_FP,SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for Himax hx83112b touchscreen devices. As there
-are no publicly available data sheets for these devices, the
-implementation is based on the driver of the downstream Android kernel
-used in the Fairphone 3. This patch is a complete rewrite, though, and
-the code bears no resemblence to the original implementation.
+Convert the drv260x haptics binding to DT schema format.
 
-The driver has been tested on the aforementioned phone.
+The only notable change from .txt format is that vbat-supply is not
+actually required, so don't make it a required property.
 
-Signed-off-by: Job Noorman <job@noorman.info>
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 ---
- MAINTAINERS                                |   1 +
- drivers/input/touchscreen/Kconfig          |  11 +
- drivers/input/touchscreen/Makefile         |   1 +
- drivers/input/touchscreen/himax_hx83112b.c | 377 +++++++++++++++++++++
- 4 files changed, 390 insertions(+)
- create mode 100644 drivers/input/touchscreen/himax_hx83112b.c
+ .../devicetree/bindings/input/ti,drv260x.txt  | 50 ----------
+ .../devicetree/bindings/input/ti,drv260x.yaml | 98 +++++++++++++++++++
+ 2 files changed, 98 insertions(+), 50 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.txt
+ create mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.yaml
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2418bffe9187..51a03f9586f1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9099,6 +9099,7 @@ M:=09Job Noorman <job@noorman.info>
- L:=09linux-input@vger.kernel.org
- S:=09Maintained
- F:=09Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.ya=
-ml
-+F:=09drivers/input/touchscreen/himax_hx83112b.c
-
- HIPPI
- M:=09Jes Sorensen <jes@trained-monkey.org>
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/=
-Kconfig
-index dc90a3ea51ee..fd710fd8cd53 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -1379,4 +1379,15 @@ config TOUCHSCREEN_ZINITIX
- =09  To compile this driver as a module, choose M here: the
- =09  module will be called zinitix.
-
-+config TOUCHSCREEN_HIMAX_HX83112B
-+=09tristate "Himax hx83112b touchscreen driver"
-+=09depends on I2C
-+=09help
-+=09  Say Y here to enable support for Himax hx83112b touchscreens.
-+
-+=09  If unsure, say N.
-+
-+=09  To compile this driver as a module, choose M here: the
-+=09  module will be called himax_hx83112b.
-+
- endif
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen=
-/Makefile
-index 557f84fd2075..0f8bf79e01fe 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -116,3 +116,4 @@ obj-$(CONFIG_TOUCHSCREEN_ROHM_BU21023)=09+=3D rohm_bu21=
-023.o
- obj-$(CONFIG_TOUCHSCREEN_RASPBERRYPI_FW)=09+=3D raspberrypi-ts.o
- obj-$(CONFIG_TOUCHSCREEN_IQS5XX)=09+=3D iqs5xx.o
- obj-$(CONFIG_TOUCHSCREEN_ZINITIX)=09+=3D zinitix.o
-+obj-$(CONFIG_TOUCHSCREEN_HIMAX_HX83112B)=09+=3D himax_hx83112b.o
-diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input/tou=
-chscreen/himax_hx83112b.c
+diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.txt b/Documentation/devicetree/bindings/input/ti,drv260x.txt
+deleted file mode 100644
+index 4c5312eaaa85..000000000000
+--- a/Documentation/devicetree/bindings/input/ti,drv260x.txt
++++ /dev/null
+@@ -1,50 +0,0 @@
+-* Texas Instruments - drv260x Haptics driver family
+-
+-Required properties:
+-	- compatible - One of:
+-		"ti,drv2604" - DRV2604
+-		"ti,drv2605" - DRV2605
+-		"ti,drv2605l" - DRV2605L
+-	- reg -  I2C slave address
+-	- vbat-supply - Required supply regulator
+-	- mode - Power up mode of the chip (defined in include/dt-bindings/input/ti-drv260x.h)
+-		DRV260X_LRA_MODE - Linear Resonance Actuator mode (Piezoelectric)
+-		DRV260X_LRA_NO_CAL_MODE - This is a LRA Mode but there is no calibration
+-				sequence during init.  And the device is configured for real
+-				time playback mode (RTP mode).
+-		DRV260X_ERM_MODE - Eccentric Rotating Mass mode (Rotary vibrator)
+-	- library-sel - These are ROM based waveforms pre-programmed into the IC.
+-				This should be set to set the library to use at power up.
+-				(defined in include/dt-bindings/input/ti-drv260x.h)
+-		DRV260X_LIB_EMPTY - Do not use a pre-programmed library
+-		DRV260X_ERM_LIB_A - Pre-programmed Library
+-		DRV260X_ERM_LIB_B - Pre-programmed Library
+-		DRV260X_ERM_LIB_C - Pre-programmed Library
+-		DRV260X_ERM_LIB_D - Pre-programmed Library
+-		DRV260X_ERM_LIB_E - Pre-programmed Library
+-		DRV260X_ERM_LIB_F - Pre-programmed Library
+-		DRV260X_LIB_LRA - Pre-programmed LRA Library
+-
+-Optional properties:
+-	- enable-gpio - gpio pin to enable/disable the device.
+-	- vib-rated-mv - The rated voltage of the actuator in millivolts.
+-			  If this is not set then the value will be defaulted to
+-			  3.2 v.
+-	- vib-overdrive-mv - The overdrive voltage of the actuator in millivolts.
+-			  If this is not set then the value will be defaulted to
+-			  3.2 v.
+-Example:
+-
+-haptics: haptics@5a {
+-	compatible = "ti,drv2605l";
+-	reg = <0x5a>;
+-	vbat-supply = <&vbat>;
+-	enable-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
+-	mode = <DRV260X_LRA_MODE>;
+-	library-sel = <DRV260X_LIB_LRA>;
+-	vib-rated-mv = <3200>;
+-	vib-overdrive-mv = <3200>;
+-}
+-
+-For more product information please see the link below:
+-http://www.ti.com/product/drv2605
+diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.yaml b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
 new file mode 100644
-index 000000000000..a7afea795dd5
+index 000000000000..7d67e815f80d
 --- /dev/null
-+++ b/drivers/input/touchscreen/himax_hx83112b.c
-@@ -0,0 +1,377 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Driver for Himax hx83112b touchscreens
-+ *
-+ * Copyright (C) 2022 Job Noorman <job@noorman.info>
-+ *
-+ * This code is based on "Himax Android Driver Sample Code for QCT platfor=
-m":
-+ *
-+ * Copyright (C) 2017 Himax Corporation.
-+ */
-+
-+#include <asm/byteorder.h>
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/regmap.h>
-+
-+#define HIMAX_ID_83112B 0x83112b
-+
-+#define HIMAX_MAX_POINTS 10
-+
-+#define HIMAX_REG_CFG_SET_ADDR 0x00
-+#define HIMAX_REG_CFG_INIT_READ 0x0c
-+#define HIMAX_REG_CFG_READ_VALUE 0x08
-+#define HIMAX_REG_READ_EVENT 0x30
-+
-+#define HIMAX_CFG_PRODUCT_ID 0x900000d0
-+
-+struct himax_event_point {
-+=09__be16 x;
-+=09__be16 y;
-+} __packed;
-+
-+struct himax_event {
-+=09struct himax_event_point points[HIMAX_MAX_POINTS];
-+=09u8 majors[HIMAX_MAX_POINTS];
-+=09u8 pad0[2];
-+=09u8 num_points;
-+=09u8 pad1[2];
-+=09u8 checksum_fix;
-+} __packed;
-+
-+static_assert(sizeof(struct himax_event) =3D=3D 56);
-+
-+struct himax_ts_data {
-+=09struct gpio_desc *gpiod_rst;
-+=09struct input_dev *input_dev;
-+=09struct i2c_client *client;
-+=09struct regmap *regmap;
-+=09struct touchscreen_properties props;
-+};
-+
-+static const struct regmap_config himax_regmap_config =3D {
-+=09.reg_bits =3D 8,
-+=09.val_bits =3D 32,
-+=09.val_format_endian =3D REGMAP_ENDIAN_LITTLE,
-+};
-+
-+static int himax_read_config(struct himax_ts_data *ts, u32 address, u32 *d=
-st)
-+{
-+=09int error =3D 0;
-+
-+=09error =3D regmap_write(ts->regmap, HIMAX_REG_CFG_SET_ADDR, address);
-+=09if (error)
-+=09=09return error;
-+
-+=09error =3D regmap_write(ts->regmap, HIMAX_REG_CFG_INIT_READ, 0x0);
-+=09if (error)
-+=09=09return error;
-+
-+=09return regmap_read(ts->regmap, HIMAX_REG_CFG_READ_VALUE, dst);
-+}
-+
-+static int himax_read_input_event(struct himax_ts_data *ts,
-+=09=09=09=09  struct himax_event *event)
-+{
-+=09return regmap_raw_read(ts->regmap, HIMAX_REG_READ_EVENT, event,
-+=09=09=09       sizeof(*event));
-+}
-+
-+static void himax_reset(struct himax_ts_data *ts)
-+{
-+=09gpiod_set_value(ts->gpiod_rst, 1);
-+=09msleep(20);
-+=09gpiod_set_value(ts->gpiod_rst, 0);
-+}
-+
-+static int himax_read_product_id(struct himax_ts_data *ts, u32 *product_id=
-)
-+{
-+=09int error =3D himax_read_config(ts, HIMAX_CFG_PRODUCT_ID, product_id);
-+
-+=09if (error)
-+=09=09return error;
-+
-+=09*product_id >>=3D 8;
-+=09return 0;
-+}
-+
-+static int himax_check_product_id(struct himax_ts_data *ts)
-+{
-+=09int error;
-+=09u32 product_id;
-+
-+=09error =3D himax_read_product_id(ts, &product_id);
-+=09if (error)
-+=09=09return error;
-+
-+=09dev_dbg(&ts->client->dev, "Product id: %x\n", product_id);
-+
-+=09switch (product_id) {
-+=09case HIMAX_ID_83112B:
-+=09=09return 0;
-+
-+=09default:
-+=09=09return dev_err_probe(&ts->client->dev, -ENODEV,
-+=09=09=09=09     "Unknown product id: %x\n", product_id);
-+=09}
-+}
-+
-+static int himax_setup_gpio(struct himax_ts_data *ts)
-+{
-+=09ts->gpiod_rst =3D
-+=09=09devm_gpiod_get(&ts->client->dev, "reset", GPIOD_OUT_HIGH);
-+=09if (IS_ERR(ts->gpiod_rst)) {
-+=09=09return dev_err_probe(&ts->client->dev, PTR_ERR(ts->gpiod_rst),
-+=09=09=09=09     "Failed to get reset GPIO\n");
-+=09}
-+
-+=09return 0;
-+}
-+
-+static int himax_input_register(struct himax_ts_data *ts)
-+{
-+=09int error;
-+
-+=09ts->input_dev =3D devm_input_allocate_device(&ts->client->dev);
-+=09if (!ts->input_dev) {
-+=09=09return dev_err_probe(&ts->client->dev, -ENOMEM,
-+=09=09=09=09     "Failed to allocate input device\n");
-+=09}
-+
-+=09ts->input_dev->name =3D "Himax Touchscreen";
-+
-+=09input_set_capability(ts->input_dev, EV_ABS, ABS_MT_POSITION_X);
-+=09input_set_capability(ts->input_dev, EV_ABS, ABS_MT_POSITION_Y);
-+=09input_set_abs_params(ts->input_dev, ABS_MT_WIDTH_MAJOR, 0, 200, 0, 0);
-+=09input_set_abs_params(ts->input_dev, ABS_MT_TOUCH_MAJOR, 0, 200, 0, 0);
-+
-+=09touchscreen_parse_properties(ts->input_dev, true, &ts->props);
-+
-+=09error =3D input_mt_init_slots(ts->input_dev, HIMAX_MAX_POINTS,
-+=09=09=09=09    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-+=09if (error) {
-+=09=09return dev_err_probe(&ts->client->dev, error,
-+=09=09=09=09     "Failed to initialize MT slots");
-+=09}
-+
-+=09error =3D input_register_device(ts->input_dev);
-+=09if (error) {
-+=09=09return dev_err_probe(&ts->client->dev, error,
-+=09=09=09=09     "Failed to register input device");
-+=09}
-+
-+=09return 0;
-+}
-+
-+static u8 himax_event_get_num_points(const struct himax_event *event)
-+{
-+=09if (event->num_points =3D=3D 0xff)
-+=09=09return 0;
-+=09else
-+=09=09return event->num_points & 0x0f;
-+}
-+
-+static u16 himax_event_point_get_x(const struct himax_event_point *point)
-+{
-+=09return be16_to_cpu(point->x);
-+}
-+
-+static u16 himax_event_point_get_y(const struct himax_event_point *point)
-+{
-+=09return be16_to_cpu(point->y);
-+}
-+
-+static bool himax_event_point_is_valid(const struct himax_event_point *poi=
-nt)
-+{
-+=09return himax_event_point_get_x(point) !=3D 0xffff &&
-+=09       himax_event_point_get_y(point) !=3D 0xffff;
-+}
-+
-+static bool himax_process_event_point(struct himax_ts_data *ts,
-+=09=09=09=09      const struct himax_event *event,
-+=09=09=09=09      int point_index)
-+{
-+=09const struct himax_event_point *point =3D &event->points[point_index];
-+=09u16 x =3D himax_event_point_get_x(point);
-+=09u16 y =3D himax_event_point_get_y(point);
-+=09u8 w =3D event->majors[point_index];
-+
-+=09if (!himax_event_point_is_valid(point))
-+=09=09return false;
-+
-+=09input_mt_slot(ts->input_dev, point_index);
-+=09input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER, true);
-+=09touchscreen_report_pos(ts->input_dev, &ts->props, x, y, true);
-+=09input_report_abs(ts->input_dev, ABS_MT_TOUCH_MAJOR, w);
-+=09input_report_abs(ts->input_dev, ABS_MT_WIDTH_MAJOR, w);
-+=09return true;
-+}
-+
-+static void himax_process_event(struct himax_ts_data *ts,
-+=09=09=09=09const struct himax_event *event)
-+{
-+=09int i;
-+=09int num_points_left =3D himax_event_get_num_points(event);
-+
-+=09for (i =3D 0; i < HIMAX_MAX_POINTS && num_points_left > 0; i++) {
-+=09=09if (himax_process_event_point(ts, event, i))
-+=09=09=09num_points_left--;
-+=09}
-+
-+=09input_mt_sync_frame(ts->input_dev);
-+=09input_sync(ts->input_dev);
-+}
-+
-+static bool himax_verify_checksum(struct himax_ts_data *ts,
-+=09=09=09=09  const struct himax_event *event)
-+{
-+=09u8 *data =3D (u8 *)event;
-+=09int i;
-+=09u16 checksum =3D 0;
-+
-+=09for (i =3D 0; i < sizeof(*event); i++)
-+=09=09checksum +=3D data[i];
-+
-+=09if ((checksum & 0x00ff) !=3D 0) {
-+=09=09dev_err(&ts->client->dev, "Wrong event checksum: %04x\n",
-+=09=09=09checksum);
-+=09=09return false;
-+=09}
-+
-+=09return true;
-+}
-+
-+static void himax_handle_input(struct himax_ts_data *ts)
-+{
-+=09int error;
-+=09struct himax_event event;
-+
-+=09error =3D himax_read_input_event(ts, &event);
-+=09if (error) {
-+=09=09dev_err(&ts->client->dev, "Failed to read input event: %d\n",
-+=09=09=09error);
-+=09=09return;
-+=09}
-+
-+=09if (!himax_verify_checksum(ts, &event))
-+=09=09return;
-+
-+=09himax_process_event(ts, &event);
-+}
-+
-+static irqreturn_t himax_irq_handler(int irq, void *dev_id)
-+{
-+=09struct himax_ts_data *ts =3D dev_id;
-+
-+=09himax_handle_input(ts);
-+=09return IRQ_HANDLED;
-+}
-+
-+static int himax_request_irq(struct himax_ts_data *ts)
-+{
-+=09struct i2c_client *client =3D ts->client;
-+
-+=09return devm_request_threaded_irq(&client->dev, client->irq, NULL,
-+=09=09=09=09=09 himax_irq_handler, IRQF_ONESHOT,
-+=09=09=09=09=09 client->name, ts);
-+}
-+
-+static int himax_probe(struct i2c_client *client,
-+=09=09       const struct i2c_device_id *id)
-+{
-+=09int error;
-+=09struct device *dev =3D &client->dev;
-+=09struct himax_ts_data *ts;
-+
-+=09if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+=09=09return dev_err_probe(dev, -ENODEV,
-+=09=09=09=09     "I2C check functionality failed\n");
-+=09}
-+
-+=09ts =3D devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-+=09if (!ts)
-+=09=09return -ENOMEM;
-+
-+=09i2c_set_clientdata(client, ts);
-+=09ts->client =3D client;
-+
-+=09ts->regmap =3D devm_regmap_init_i2c(client, &himax_regmap_config);
-+=09if (IS_ERR(ts->regmap)) {
-+=09=09return dev_err_probe(&client->dev, PTR_ERR(ts->regmap),
-+=09=09=09=09     "Failed to initialize regmap");
-+=09}
-+
-+=09error =3D himax_setup_gpio(ts);
-+=09if (error)
-+=09=09return error;
-+
-+=09himax_reset(ts);
-+
-+=09error =3D himax_check_product_id(ts);
-+=09if (error)
-+=09=09return error;
-+
-+=09error =3D himax_input_register(ts);
-+=09if (error)
-+=09=09return error;
-+
-+=09error =3D himax_request_irq(ts);
-+=09if (error)
-+=09=09return error;
-+
-+=09return 0;
-+}
-+
-+static int himax_suspend(struct device *dev)
-+{
-+=09struct himax_ts_data *ts =3D dev_get_drvdata(dev);
-+
-+=09disable_irq(ts->client->irq);
-+=09return 0;
-+}
-+
-+static int himax_resume(struct device *dev)
-+{
-+=09struct himax_ts_data *ts =3D dev_get_drvdata(dev);
-+
-+=09enable_irq(ts->client->irq);
-+=09return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(himax_pm_ops, himax_suspend, himax_resume);
-+
-+static const struct i2c_device_id himax_ts_id[] =3D {
-+=09{ "hx83112b", 0 },
-+=09{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(i2c, himax_ts_id);
-+
-+#ifdef CONFIG_OF
-+static const struct of_device_id himax_of_match[] =3D {
-+=09{ .compatible =3D "himax,hx83112b" },
-+=09{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, himax_of_match);
-+#endif
-+
-+static struct i2c_driver himax_ts_driver =3D {
-+=09.probe =3D himax_probe,
-+=09.id_table =3D himax_ts_id,
-+=09.driver =3D {
-+=09=09.name =3D "Himax-hx83112b-TS",
-+=09=09.of_match_table =3D of_match_ptr(himax_of_match),
-+=09=09.pm =3D &himax_pm_ops,
-+=09},
-+};
-+module_i2c_driver(himax_ts_driver);
-+
-+MODULE_AUTHOR("Job Noorman <job@noorman.info>");
-+MODULE_DESCRIPTION("Himax hx83112b touchscreen driver");
-+MODULE_LICENSE("GPL");
---
++++ b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
+@@ -0,0 +1,98 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/ti,drv260x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments - drv260x Haptics driver family
++
++maintainers:
++  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
++
++properties:
++  compatible:
++    enum:
++      - ti,drv2604
++      - ti,drv2605
++      - ti,drv2605l
++
++  reg:
++    maxItems: 1
++
++  vbat-supply:
++    description: Power supply to the haptic motor
++
++  mode:
++    description: |
++      Power up mode of the chip
++      (defined in include/dt-bindings/input/ti-drv260x.h)
++
++      DRV260X_LRA_MODE
++        Linear Resonance Actuator mode (Piezoelectric)
++
++      DRV260X_LRA_NO_CAL_MODE
++        This is a LRA Mode but there is no calibration sequence during init.
++        And the device is configured for real time playback mode (RTP mode).
++
++      DRV260X_ERM_MODE
++        Eccentric Rotating Mass mode (Rotary vibrator)
++    enum: [ 0, 1, 2 ]
++
++  library-sel:
++    description: |
++      These are ROM based waveforms pre-programmed into the IC.
++      This should be set to set the library to use at power up.
++      (defined in include/dt-bindings/input/ti-drv260x.h)
++
++      DRV260X_LIB_EMPTY - Do not use a pre-programmed library
++      DRV260X_ERM_LIB_A - Pre-programmed Library
++      DRV260X_ERM_LIB_B - Pre-programmed Library
++      DRV260X_ERM_LIB_C - Pre-programmed Library
++      DRV260X_ERM_LIB_D - Pre-programmed Library
++      DRV260X_ERM_LIB_E - Pre-programmed Library
++      DRV260X_ERM_LIB_F - Pre-programmed Library
++      DRV260X_LIB_LRA - Pre-programmed LRA Library
++    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
++
++  enable-gpio:
++    maxItems: 1
++
++  vib-rated-mv:
++    description: |
++      The rated voltage of the actuator in millivolts.
++      If this is not set then the value will be defaulted to 3200 mV.
++
++  vib-overdrive-mv:
++    description: |
++      The overdrive voltage of the actuator in millivolts.
++      If this is not set then the value will be defaulted to 3200 mV.
++
++required:
++  - compatible
++  - reg
++  - enable-gpio
++  - mode
++  - library-sel
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/input/ti-drv260x.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        haptics@5a {
++            compatible = "ti,drv2605l";
++            reg = <0x5a>;
++            vbat-supply = <&vbat>;
++            enable-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
++            mode = <DRV260X_LRA_MODE>;
++            library-sel = <DRV260X_LIB_LRA>;
++            vib-rated-mv = <3200>;
++            vib-overdrive-mv = <3200>;
++        };
++    };
+-- 
 2.38.0
-
 
