@@ -2,49 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F41E5FD069
-	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 02:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E2C05FD183
+	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 02:38:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230503AbiJMA0u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Oct 2022 20:26:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
+        id S232087AbiJMAiE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Oct 2022 20:38:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230502AbiJMAZC (ORCPT
+        with ESMTP id S232085AbiJMAgf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Oct 2022 20:25:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC0F10691C;
-        Wed, 12 Oct 2022 17:24:24 -0700 (PDT)
+        Wed, 12 Oct 2022 20:36:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF1EEB75E;
+        Wed, 12 Oct 2022 17:31:36 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CB53EB81CD7;
-        Thu, 13 Oct 2022 00:20:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B84C433C1;
-        Thu, 13 Oct 2022 00:20:04 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 67089B81CE9;
+        Thu, 13 Oct 2022 00:22:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582D9C433D6;
+        Thu, 13 Oct 2022 00:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620405;
-        bh=UOnueW/PyZnrz3FegMDaggbsCd7whTzND7A2kW84/4M=;
+        s=k20201202; t=1665620548;
+        bh=bxhd877nNScPzSvqcjEFR5dI8yWPxbIbxiRwTlLajwI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tEfNJhPFx30KoXnWkqfvBVXA8754anuzGRS8OV22cH/SayAGDR+uBG7VEipiqah/1
-         WdcQACSBHcEbZNwZlpSNDxDTHYn4w/t0CDXa9wJcFOW+edGh7Jw11tG4IgaTe+MmP5
-         R69XLYA3nUTwwD0ZXaRh6QQp/7TYBnHKWUZJ8VyaaG5E+pb5S6uArAWqyQRRVd43my
-         BFSWv2voBHOrqUsb3hu07UScuHAqxUtFhuBef70WBKXyZCmY1A/cO82HS7oWILIuTE
-         QJugOAlk7GEZZDsjwQche6mxzpq8bxZn8sVdHKSi3iwN5it/VBMwW9ALqkVXrIlo1j
-         awNQM4aWbwWTQ==
+        b=XYOf2ywugkxECKExqiq8ZRNXoo1yrynVnLIfYbzz7mbHvYSVXg2/ZcOk39rM/R/fR
+         c2LMoHmegVq8vA4JaSZWp2Zg0kncLthPLRwWt3FHBdm29f/+bMxDLJqkJS3hVgas5o
+         nLWByay6dj6NRnNJCD0w2cW7+UMH3zzSV8Ba3MQi7rIFku2kq7d6Zjb59onQqvRAYL
+         EzYswrYPBUhQODJN4juz9w8tj9lX45X6QCRbFnWiDsP5+3vnbaixrNCXI9aGrhzmiH
+         uiumUqlhHw7qWf9Fef7Tih0jNHIE+xZpf54QxgG2Gdp52q3eXRMXodp4/zLtRbPJb5
+         gzx1rLIZP/C8w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Johnothan King <johnothanking@protonmail.com>,
-        Arne Wendt <arne.wendt@tuhh.de>,
+Cc:     Harry Stern <harry@harrystern.net>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, djogorchock@gmail.com,
-        jikos@kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 33/63] HID: nintendo: check analog user calibration for plausibility
-Date:   Wed, 12 Oct 2022 20:18:07 -0400
-Message-Id: <20221013001842.1893243-33-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 23/47] hid: topre: Add driver fixing report descriptor
+Date:   Wed, 12 Oct 2022 20:20:58 -0400
+Message-Id: <20221013002124.1894077-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
-References: <20221013001842.1893243-1-sashal@kernel.org>
+In-Reply-To: <20221013002124.1894077-1-sashal@kernel.org>
+References: <20221013002124.1894077-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,125 +57,137 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Johnothan King <johnothanking@protonmail.com>
+From: Harry Stern <harry@harrystern.net>
 
-[ Upstream commit 50503e360eeb968a3d00234c9cc4057d774c3e9a ]
+[ Upstream commit a109d5c45b3d6728b9430716b915afbe16eef27c ]
 
-Arne Wendt writes:
-  Cheap clone controllers may (falsely) report as having a user
-  calibration for the analog sticks in place, but return
-  wrong/impossible values for the actual calibration data.
-  In the present case at mine, the controller reports having a
-  user calibration in place and successfully executes the read
-  commands. The reported user calibration however is
-  min = center = max = 0.
+The Topre REALFORCE R2 firmware incorrectly reports that interface
+descriptor number 1, input report descriptor 2's events are array events
+rather than variable events. That particular report descriptor is used
+to report keypresses when there are more than 6 keys held at a time.
+This bug prevents events from this interface from being registered
+properly, so only 6 keypresses (from a different interface) can be
+registered at once, rather than full n-key rollover.
 
-  This pull request addresses problems of this kind by checking the
-  provided user calibration-data for plausibility (min < center < max)
-  and falling back to the default values if implausible.
+This commit fixes the bug by setting the correct value in a report_fixup
+function.
 
-I'll note that I was experiencing a crash because of this bug when using
-the GuliKit KingKong 2 controller. The crash manifests as a divide by
-zero error in the kernel logs:
-kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
+The original bug report can be found here:
+Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/804
 
-Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
-Link: https://github.com/DanielOgorchock/linux/issues/36
-Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
-Signed-off-by: Johnothan King <johnothanking@protonmail.com>
+Thanks to Benjamin Tissoires for diagnosing the issue with the report
+descriptor.
+
+Signed-off-by: Harry Stern <harry@harrystern.net>
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Link: https://lore.kernel.org/r/gvpL2G6VwXGJPvxX5KRiu9pVjvTivgayug_jdKDY6zfuAaAqncP9BkKLosjwUXNlgVVTMfJSKfwPF1K79cKAkwGComyC21vCV3q9B3EXNkE=@protonmail.com
+Link: https://lore.kernel.org/r/20220911003614.297613-1-harry@harrystern.net
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-nintendo.c | 55 +++++++++++++++++++++-----------------
- 1 file changed, 30 insertions(+), 25 deletions(-)
+ drivers/hid/Kconfig     |  6 +++++
+ drivers/hid/Makefile    |  1 +
+ drivers/hid/hid-ids.h   |  3 +++
+ drivers/hid/hid-topre.c | 49 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 59 insertions(+)
+ create mode 100644 drivers/hid/hid-topre.c
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index f33a03c96ba6..cce324887952 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -761,12 +761,31 @@ static int joycon_read_stick_calibration(struct joycon_ctlr *ctlr, u16 cal_addr,
- 	cal_y->max = cal_y->center + y_max_above;
- 	cal_y->min = cal_y->center - y_min_below;
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 9235ab7161e3..58fcc21bf146 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1057,6 +1057,12 @@ config HID_TOPSEED
+ 	Say Y if you have a TopSeed Cyberlink or BTC Emprex or Conceptronic
+ 	CLLRCMCE remote control.
  
--	return 0;
-+	/* check if calibration values are plausible */
-+	if (cal_x->min >= cal_x->center || cal_x->center >= cal_x->max ||
-+	    cal_y->min >= cal_y->center || cal_y->center >= cal_y->max)
-+		ret = -EINVAL;
++config HID_TOPRE
++	tristate "Topre REALFORCE keyboards"
++	depends on HID
++	help
++	  Say Y for N-key rollover support on Topre REALFORCE R2 108 key keyboards.
 +
-+	return ret;
- }
+ config HID_THINGM
+ 	tristate "ThingM blink(1) USB RGB LED"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index e29efcb1c040..1026ac9e8206 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -117,6 +117,7 @@ obj-$(CONFIG_HID_GREENASIA)	+= hid-gaff.o
+ obj-$(CONFIG_HID_THRUSTMASTER)	+= hid-tmff.o hid-thrustmaster.o
+ obj-$(CONFIG_HID_TIVO)		+= hid-tivo.o
+ obj-$(CONFIG_HID_TOPSEED)	+= hid-topseed.o
++obj-$(CONFIG_HID_TOPRE)	+= hid-topre.o
+ obj-$(CONFIG_HID_TWINHAN)	+= hid-twinhan.o
+ obj-$(CONFIG_HID_U2FZERO)	+= hid-u2fzero.o
+ hid-uclogic-objs		:= hid-uclogic-core.o \
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index cb2b48d6915e..335b13251c0f 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1198,6 +1198,9 @@
+ #define USB_DEVICE_ID_TIVO_SLIDE	0x1201
+ #define USB_DEVICE_ID_TIVO_SLIDE_PRO	0x1203
  
- static const u16 DFLT_STICK_CAL_CEN = 2000;
- static const u16 DFLT_STICK_CAL_MAX = 3500;
- static const u16 DFLT_STICK_CAL_MIN = 500;
-+static void joycon_use_default_calibration(struct hid_device *hdev,
-+					   struct joycon_stick_cal *cal_x,
-+					   struct joycon_stick_cal *cal_y,
-+					   const char *stick, int ret)
++#define USB_VENDOR_ID_TOPRE			0x0853
++#define USB_DEVICE_ID_TOPRE_REALFORCE_R2_108			0x0148
++
+ #define USB_VENDOR_ID_TOPSEED		0x0766
+ #define USB_DEVICE_ID_TOPSEED_CYBERLINK	0x0204
+ 
+diff --git a/drivers/hid/hid-topre.c b/drivers/hid/hid-topre.c
+new file mode 100644
+index 000000000000..88a91cdad5f8
+--- /dev/null
++++ b/drivers/hid/hid-topre.c
+@@ -0,0 +1,49 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ *  HID driver for Topre REALFORCE Keyboards
++ *
++ *  Copyright (c) 2022 Harry Stern <harry@harrystern.net>
++ *
++ *  Based on the hid-macally driver
++ */
++
++#include <linux/hid.h>
++#include <linux/module.h>
++
++#include "hid-ids.h"
++
++MODULE_AUTHOR("Harry Stern <harry@harrystern.net>");
++MODULE_DESCRIPTION("REALFORCE R2 Keyboard driver");
++MODULE_LICENSE("GPL");
++
++/*
++ * Fix the REALFORCE R2's non-boot interface's report descriptor to match the
++ * events it's actually sending. It claims to send array events but is instead
++ * sending variable events.
++ */
++static __u8 *topre_report_fixup(struct hid_device *hdev, __u8 *rdesc,
++				 unsigned int *rsize)
 +{
-+	hid_warn(hdev,
-+		 "Failed to read %s stick cal, using defaults; e=%d\n",
-+		 stick, ret);
-+
-+	cal_x->center = cal_y->center = DFLT_STICK_CAL_CEN;
-+	cal_x->max = cal_y->max = DFLT_STICK_CAL_MAX;
-+	cal_x->min = cal_y->min = DFLT_STICK_CAL_MIN;
++	if (*rsize >= 119 && rdesc[69] == 0x29 && rdesc[70] == 0xe7 &&
++						 rdesc[71] == 0x81 && rdesc[72] == 0x00) {
++		hid_info(hdev,
++			"fixing up Topre REALFORCE keyboard report descriptor\n");
++		rdesc[72] = 0x02;
++	}
++	return rdesc;
 +}
 +
- static int joycon_request_calibration(struct joycon_ctlr *ctlr)
- {
- 	u16 left_stick_addr = JC_CAL_FCT_DATA_LEFT_ADDR;
-@@ -794,38 +813,24 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
- 					    &ctlr->left_stick_cal_x,
- 					    &ctlr->left_stick_cal_y,
- 					    true);
--	if (ret) {
--		hid_warn(ctlr->hdev,
--			 "Failed to read left stick cal, using dflts; e=%d\n",
--			 ret);
--
--		ctlr->left_stick_cal_x.center = DFLT_STICK_CAL_CEN;
--		ctlr->left_stick_cal_x.max = DFLT_STICK_CAL_MAX;
--		ctlr->left_stick_cal_x.min = DFLT_STICK_CAL_MIN;
- 
--		ctlr->left_stick_cal_y.center = DFLT_STICK_CAL_CEN;
--		ctlr->left_stick_cal_y.max = DFLT_STICK_CAL_MAX;
--		ctlr->left_stick_cal_y.min = DFLT_STICK_CAL_MIN;
--	}
-+	if (ret)
-+		joycon_use_default_calibration(ctlr->hdev,
-+					       &ctlr->left_stick_cal_x,
-+					       &ctlr->left_stick_cal_y,
-+					       "left", ret);
- 
- 	/* read the right stick calibration data */
- 	ret = joycon_read_stick_calibration(ctlr, right_stick_addr,
- 					    &ctlr->right_stick_cal_x,
- 					    &ctlr->right_stick_cal_y,
- 					    false);
--	if (ret) {
--		hid_warn(ctlr->hdev,
--			 "Failed to read right stick cal, using dflts; e=%d\n",
--			 ret);
--
--		ctlr->right_stick_cal_x.center = DFLT_STICK_CAL_CEN;
--		ctlr->right_stick_cal_x.max = DFLT_STICK_CAL_MAX;
--		ctlr->right_stick_cal_x.min = DFLT_STICK_CAL_MIN;
- 
--		ctlr->right_stick_cal_y.center = DFLT_STICK_CAL_CEN;
--		ctlr->right_stick_cal_y.max = DFLT_STICK_CAL_MAX;
--		ctlr->right_stick_cal_y.min = DFLT_STICK_CAL_MIN;
--	}
-+	if (ret)
-+		joycon_use_default_calibration(ctlr->hdev,
-+					       &ctlr->right_stick_cal_x,
-+					       &ctlr->right_stick_cal_y,
-+					       "right", ret);
- 
- 	hid_dbg(ctlr->hdev, "calibration:\n"
- 			    "l_x_c=%d l_x_max=%d l_x_min=%d\n"
++static const struct hid_device_id topre_id_table[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
++			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_108) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, topre_id_table);
++
++static struct hid_driver topre_driver = {
++	.name			= "topre",
++	.id_table		= topre_id_table,
++	.report_fixup		= topre_report_fixup,
++};
++
++module_hid_driver(topre_driver);
 -- 
 2.35.1
 
