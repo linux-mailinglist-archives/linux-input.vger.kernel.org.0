@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9657F5FD075
-	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 02:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A85405FD08E
+	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 02:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231296AbiJMA1U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Oct 2022 20:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
+        id S231382AbiJMA2L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Oct 2022 20:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230150AbiJMAZ2 (ORCPT
+        with ESMTP id S231286AbiJMA1S (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Oct 2022 20:25:28 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2935FF2;
-        Wed, 12 Oct 2022 17:24:31 -0700 (PDT)
+        Wed, 12 Oct 2022 20:27:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CADC13E760;
+        Wed, 12 Oct 2022 17:24:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 40DE5B81CE7;
-        Thu, 13 Oct 2022 00:22:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 168BDC433D6;
-        Thu, 13 Oct 2022 00:22:32 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D433F616FA;
+        Thu, 13 Oct 2022 00:24:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7592FC433B5;
+        Thu, 13 Oct 2022 00:24:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620553;
-        bh=D8ozL383GaaeAGtKQvIA9IdpVRSMEvGm6dPoBfIkAio=;
+        s=k20201202; t=1665620660;
+        bh=8/qYxsHz+wByhPi3RJzm2fxQW5BIe7JhLzBjsS0jRfk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o7Ih4Zllw0t35dI72Y0ouVrT8K48CaARYsfUQZpgVYvh2oYSnJlsyT4lYC2hj2wYp
-         p6obxU278covql/uSbBzUW5/aiBJMx9s7hXUzQO1juFMcibg/UAzEqn0U/H9ib2tan
-         OmRVJRsHnQvfAs1nNZ0YVpiIz3vZDSkO/iSXfs4EveYvyAr6S1tJPt8SD3KFnEVya3
-         vMfVikgGFLg5cgeAguXgVKQt8NaDfpp0f0RJkL/ePN8IARxic+gQkwBM6SB578tC3d
-         9jlRyGFhrnop2t7gV9RiQIVhLLpIuKJKSnh8HsbrP39spR3rt0J+dhsTH1Gti5WDN7
-         eoPVbdo/601AQ==
+        b=hwD6KTVj+R63UZ/+dLiuCkwvOaa+ZfePtpOzeC+UYgCqzdCIAl5KOtbgqhO+XNrqG
+         G+W1gRMLYPsfuvEHPa7z0wRz8+72+dBMxkS92lpKv6oml1/y+RXOg4vUxWIhQsGPjS
+         IUurgenO15KBBL7xXjA6nVZQbXxvvM8w3aSXIwg4/R429evxKlKOUH1LE0fIt0FQzq
+         BOJZtEzzJkqTPR4L1He5OGXmi79SxotobCt7Q4YmPwMYlq276iZT2rZg4t5XC9/RZb
+         Sx95UJ57OzG/t82TzYfirWqUhpEQ2+Oo0p+tLVqVvlV0kZgsShTofUGkesZt9N+e13
+         QYgeMxX1QUiKg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hyunwoo Kim <imv4bel@gmail.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>,
-        erazor_de@users.sourceforge.net, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 25/47] HID: roccat: Fix use-after-free in roccat_read()
-Date:   Wed, 12 Oct 2022 20:21:00 -0400
-Message-Id: <20221013002124.1894077-25-sashal@kernel.org>
+Cc:     Harry Stern <harry@harrystern.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 18/33] hid: topre: Add driver fixing report descriptor
+Date:   Wed, 12 Oct 2022 20:23:17 -0400
+Message-Id: <20221013002334.1894749-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013002124.1894077-1-sashal@kernel.org>
-References: <20221013002124.1894077-1-sashal@kernel.org>
+In-Reply-To: <20221013002334.1894749-1-sashal@kernel.org>
+References: <20221013002334.1894749-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,106 +57,137 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hyunwoo Kim <imv4bel@gmail.com>
+From: Harry Stern <harry@harrystern.net>
 
-[ Upstream commit cacdb14b1c8d3804a3a7d31773bc7569837b71a4 ]
+[ Upstream commit a109d5c45b3d6728b9430716b915afbe16eef27c ]
 
-roccat_report_event() is responsible for registering
-roccat-related reports in struct roccat_device.
+The Topre REALFORCE R2 firmware incorrectly reports that interface
+descriptor number 1, input report descriptor 2's events are array events
+rather than variable events. That particular report descriptor is used
+to report keypresses when there are more than 6 keys held at a time.
+This bug prevents events from this interface from being registered
+properly, so only 6 keypresses (from a different interface) can be
+registered at once, rather than full n-key rollover.
 
-int roccat_report_event(int minor, u8 const *data)
-{
-	struct roccat_device *device;
-	struct roccat_reader *reader;
-	struct roccat_report *report;
-	uint8_t *new_value;
+This commit fixes the bug by setting the correct value in a report_fixup
+function.
 
-	device = devices[minor];
+The original bug report can be found here:
+Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/804
 
-	new_value = kmemdup(data, device->report_size, GFP_ATOMIC);
-	if (!new_value)
-		return -ENOMEM;
+Thanks to Benjamin Tissoires for diagnosing the issue with the report
+descriptor.
 
-	report = &device->cbuf[device->cbuf_end];
-
-	/* passing NULL is safe */
-	kfree(report->value);
-	...
-
-The registered report is stored in the struct roccat_device member
-"struct roccat_report cbuf[ROCCAT_CBUF_SIZE];".
-If more reports are received than the "ROCCAT_CBUF_SIZE" value,
-kfree() the saved report from cbuf[0] and allocates a new reprot.
-Since there is no lock when this kfree() is performed,
-kfree() can be performed even while reading the saved report.
-
-static ssize_t roccat_read(struct file *file, char __user *buffer,
-		size_t count, loff_t *ppos)
-{
-	struct roccat_reader *reader = file->private_data;
-	struct roccat_device *device = reader->device;
-	struct roccat_report *report;
-	ssize_t retval = 0, len;
-	DECLARE_WAITQUEUE(wait, current);
-
-	mutex_lock(&device->cbuf_lock);
-
-	...
-
-	report = &device->cbuf[reader->cbuf_start];
-	/*
-	 * If report is larger than requested amount of data, rest of report
-	 * is lost!
-	 */
-	len = device->report_size > count ? count : device->report_size;
-
-	if (copy_to_user(buffer, report->value, len)) {
-		retval = -EFAULT;
-		goto exit_unlock;
-	}
-	...
-
-The roccat_read() function receives the device->cbuf report and
-delivers it to the user through copy_to_user().
-If the N+ROCCAT_CBUF_SIZE th report is received while copying of
-the Nth report->value is in progress, the pointer that copy_to_user()
-is working on is kfree()ed and UAF read may occur. (race condition)
-
-Since the device node of this driver does not set separate permissions,
-this is not a security vulnerability, but because it is used for
-requesting screen display of profile or dpi settings,
-a user using the roccat device can apply udev to this device node or
-There is a possibility to use it by giving.
-
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Harry Stern <harry@harrystern.net>
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Link: https://lore.kernel.org/r/20220911003614.297613-1-harry@harrystern.net
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-roccat.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/hid/Kconfig     |  6 +++++
+ drivers/hid/Makefile    |  1 +
+ drivers/hid/hid-ids.h   |  3 +++
+ drivers/hid/hid-topre.c | 49 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 59 insertions(+)
+ create mode 100644 drivers/hid/hid-topre.c
 
-diff --git a/drivers/hid/hid-roccat.c b/drivers/hid/hid-roccat.c
-index 26373b82fe81..6da80e442fdd 100644
---- a/drivers/hid/hid-roccat.c
-+++ b/drivers/hid/hid-roccat.c
-@@ -257,6 +257,8 @@ int roccat_report_event(int minor, u8 const *data)
- 	if (!new_value)
- 		return -ENOMEM;
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index f8ad3b2be0bf..2dd5c7944019 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1010,6 +1010,12 @@ config HID_TOPSEED
+ 	Say Y if you have a TopSeed Cyberlink or BTC Emprex or Conceptronic
+ 	CLLRCMCE remote control.
  
-+	mutex_lock(&device->cbuf_lock);
++config HID_TOPRE
++	tristate "Topre REALFORCE keyboards"
++	depends on HID
++	help
++	  Say Y for N-key rollover support on Topre REALFORCE R2 108 key keyboards.
 +
- 	report = &device->cbuf[device->cbuf_end];
+ config HID_THINGM
+ 	tristate "ThingM blink(1) USB RGB LED"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 4acb583c92a6..09830511909c 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -114,6 +114,7 @@ obj-$(CONFIG_HID_GREENASIA)	+= hid-gaff.o
+ obj-$(CONFIG_HID_THRUSTMASTER)	+= hid-tmff.o
+ obj-$(CONFIG_HID_TIVO)		+= hid-tivo.o
+ obj-$(CONFIG_HID_TOPSEED)	+= hid-topseed.o
++obj-$(CONFIG_HID_TOPRE)	+= hid-topre.o
+ obj-$(CONFIG_HID_TWINHAN)	+= hid-twinhan.o
+ obj-$(CONFIG_HID_U2FZERO)	+= hid-u2fzero.o
+ hid-uclogic-objs		:= hid-uclogic-core.o \
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index bb096dfb7b36..ab439aa4c4cb 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1166,6 +1166,9 @@
+ #define USB_DEVICE_ID_TIVO_SLIDE	0x1201
+ #define USB_DEVICE_ID_TIVO_SLIDE_PRO	0x1203
  
- 	/* passing NULL is safe */
-@@ -276,6 +278,8 @@ int roccat_report_event(int minor, u8 const *data)
- 			reader->cbuf_start = (reader->cbuf_start + 1) % ROCCAT_CBUF_SIZE;
- 	}
- 
-+	mutex_unlock(&device->cbuf_lock);
++#define USB_VENDOR_ID_TOPRE			0x0853
++#define USB_DEVICE_ID_TOPRE_REALFORCE_R2_108			0x0148
 +
- 	wake_up_interruptible(&device->wait);
- 	return 0;
- }
+ #define USB_VENDOR_ID_TOPSEED		0x0766
+ #define USB_DEVICE_ID_TOPSEED_CYBERLINK	0x0204
+ 
+diff --git a/drivers/hid/hid-topre.c b/drivers/hid/hid-topre.c
+new file mode 100644
+index 000000000000..88a91cdad5f8
+--- /dev/null
++++ b/drivers/hid/hid-topre.c
+@@ -0,0 +1,49 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ *  HID driver for Topre REALFORCE Keyboards
++ *
++ *  Copyright (c) 2022 Harry Stern <harry@harrystern.net>
++ *
++ *  Based on the hid-macally driver
++ */
++
++#include <linux/hid.h>
++#include <linux/module.h>
++
++#include "hid-ids.h"
++
++MODULE_AUTHOR("Harry Stern <harry@harrystern.net>");
++MODULE_DESCRIPTION("REALFORCE R2 Keyboard driver");
++MODULE_LICENSE("GPL");
++
++/*
++ * Fix the REALFORCE R2's non-boot interface's report descriptor to match the
++ * events it's actually sending. It claims to send array events but is instead
++ * sending variable events.
++ */
++static __u8 *topre_report_fixup(struct hid_device *hdev, __u8 *rdesc,
++				 unsigned int *rsize)
++{
++	if (*rsize >= 119 && rdesc[69] == 0x29 && rdesc[70] == 0xe7 &&
++						 rdesc[71] == 0x81 && rdesc[72] == 0x00) {
++		hid_info(hdev,
++			"fixing up Topre REALFORCE keyboard report descriptor\n");
++		rdesc[72] = 0x02;
++	}
++	return rdesc;
++}
++
++static const struct hid_device_id topre_id_table[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
++			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_108) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, topre_id_table);
++
++static struct hid_driver topre_driver = {
++	.name			= "topre",
++	.id_table		= topre_id_table,
++	.report_fixup		= topre_report_fixup,
++};
++
++module_hid_driver(topre_driver);
 -- 
 2.35.1
 
