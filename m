@@ -2,68 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 900CA5FD5EE
-	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 10:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB0E95FD938
+	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 14:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbiJMIHg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Oct 2022 04:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55428 "EHLO
+        id S229652AbiJMMc4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Oct 2022 08:32:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbiJMIHP (ORCPT
+        with ESMTP id S229577AbiJMMcz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Oct 2022 04:07:15 -0400
-Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8E6149DD5
-        for <linux-input@vger.kernel.org>; Thu, 13 Oct 2022 01:07:13 -0700 (PDT)
-Received: by mail.fadrush.pl (Postfix, from userid 1002)
-        id AD41923A4D; Thu, 13 Oct 2022 08:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
-        t=1665648432; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
-        h=Date:From:To:Subject:From;
-        b=UPnZVtYMmVtV01jAjhUtfogghfSN7mbImsRG7L2xjQy31k2mPA4e+GlilpK75YKtN
-         zEa4jutiuLPAROAbgcK4ckGCtKJyH4rfMlfk0fWzYaF+XneTq877R0HOflPMYxjyVk
-         rkgxgpBXhP4CMa1FmU06DR/R7Ug2QhOu7t5z02Z1pY3/lnWsZb3R/txX3sSIL+UwB+
-         MzEeY/PJsIyKIUJIPR0EkiXmysTIt3zLmDoaKwfb+zwFG4DlZIC597FTQLwgP8El78
-         AyxTZ00fQsn2BEE2IkRZnDhJalfs4/UmokTFGr1SN7WcoVb7oHYzjvMi/V7TTxwFb6
-         feWyMoECpyu+Q==
-Received: by mail.fadrush.pl for <linux-input@vger.kernel.org>; Thu, 13 Oct 2022 08:05:54 GMT
-Message-ID: <20221013064500-0.1.27.lx6g.0.al1c4ae0uq@fadrush.pl>
-Date:   Thu, 13 Oct 2022 08:05:54 GMT
-From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
-X-Mailer: mail.fadrush.pl
+        Thu, 13 Oct 2022 08:32:55 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28A2411B2E6
+        for <linux-input@vger.kernel.org>; Thu, 13 Oct 2022 05:32:54 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id s3so845732qtn.12
+        for <linux-input@vger.kernel.org>; Thu, 13 Oct 2022 05:32:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K9/tYfzo17fxLFOcvb7w4ZSv+9JYtZRmBZDcx1r51RQ=;
+        b=T8PR2tbP2asBfPQ/sPK7BXRCjTnXv7MbrGu6XACJj7n5bOLtJO1scp5X5Pg95HDtSU
+         LX88dulxsHzuUS4qhA7+Rk92DSgMWUUTpWwkyW9z65GjqHJYQRvieFZtzR+alSdsB/ME
+         1Lu6Bd9vx5A/i258W++UPk1L14KM6AMWkbV0cOl5PCb8hpJRJ0sd2DNs5nPjgWlujXrE
+         8PisCB6Ot2YFWI5w1XCs5tKHe4cbyNvZSSnDjFnRxJiFH1iYcJjtUvtRiP4mEBl3R/vB
+         L7PvSM3x7yzClY80o9bvSqf/tOpc4kz2QTJCvL0DZFoDQbzKQ2nDKRUyti8Z6XVeKrXZ
+         7+6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K9/tYfzo17fxLFOcvb7w4ZSv+9JYtZRmBZDcx1r51RQ=;
+        b=YKV8BHaWVrdI261TTrUQXFD6lZpEReKZj6WyA0ShwIlyCfS78gBvlTynPdv/kLIXXL
+         3DNSF4mThHdocCXtvmm67+kSUVj72y1UiYYvmb6AeQs1A1oGOcski4KrK5twMeakPN55
+         TSDRmvK5INlLsP/9AVKhZWUKuOZROpGiupw2tn5KIlCK8WjdCJNKs0eBw5hVNcxbnlVK
+         8AzxWoUWnBhiP/AjVgquC9U8rop1viTYdecXTu3re3N3xSGsA5smYLPmCxKbjsC1FxgD
+         LzMkQ7asWU95MwWy3CATvoytJvME4z7BxsM03UeT7OMrwcKGeh/7OwMbH6MXcA8tvg9g
+         pNRA==
+X-Gm-Message-State: ACrzQf03scI3DqTYuBZKj9zIjSBLp0yGHW2/3+GfQQ/9ikZnQ7B6nM8V
+        5Mg3ljDoxUFF51hcIILhUm1SOw==
+X-Google-Smtp-Source: AMsMyM6odUD07MJbJEAOtrPomHyrhKE2DOIYANh7IOcMSsMD88ZCbgJDBPZ1duhCai51wYvDAvDioA==
+X-Received: by 2002:a05:622a:546:b0:393:7334:65de with SMTP id m6-20020a05622a054600b00393733465demr27887490qtx.504.1665664373240;
+        Thu, 13 Oct 2022 05:32:53 -0700 (PDT)
+Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
+        by smtp.gmail.com with ESMTPSA id k11-20020a05620a0b8b00b006cbc6e1478csm17498265qkh.57.2022.10.13.05.32.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Oct 2022 05:32:52 -0700 (PDT)
+Message-ID: <8d27a5f6-461a-5b28-1560-07bb4ddcaa8a@linaro.org>
+Date:   Thu, 13 Oct 2022 08:32:49 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v6 6/6] arm64: defconfig: Add tps65219 as modules
+Content-Language: en-US
+To:     Kevin Hilman <khilman@baylibre.com>,
+        jerome Neanne <jneanne@baylibre.com>, lgirdwood@gmail.com,
+        broonie@kernel.org, robh+dt@kernel.org, nm@ti.com,
+        kristo@kernel.org, dmitry.torokhov@gmail.com,
+        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
+        bjorn.andersson@linaro.org, shawnguo@kernel.org,
+        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
+        marcel.ziswiler@toradex.com, vkoul@kernel.org,
+        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com
+Cc:     afd@ti.com, narmstrong@baylibre.com, msp@baylibre.com,
+        j-keerthy@ti.com, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-omap@vger.kernel.org
+References: <20221011140549.16761-1-jneanne@baylibre.com>
+ <20221011140549.16761-7-jneanne@baylibre.com>
+ <72b9809e-d6d7-862a-26b8-221d14ea4322@linaro.org>
+ <60507e87-cf92-13d9-29d0-83f18a648f4b@baylibre.com>
+ <fc1e5799-20ea-de37-6693-e2ea0fb87f13@linaro.org>
+ <7hzge1hqof.fsf@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <7hzge1hqof.fsf@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On 12/10/2022 13:56, Kevin Hilman wrote:
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
+> 
+>> On 12/10/2022 04:39, jerome Neanne wrote:
+>>>> You explained what you did, which is easily visible. You did not explain
+>>>> why you are doing it.
+>>>>
+>>>> Best regards,
+>>>> Krzysztof
+>>>>
+>>> Thanks for pointing me to the detailed guidelines
+>>> I'm new to upstream and not well aware of all good practices.
+>>>
+>>> Would below commit message be more suitable:
+>>>
+>>> Add support for the TPS65219 PMIC by enabling MFD, regulator and 
+>>> power-button drivers.  All drivers enabled as modules.
+>>
+>> This still says only what you did. I still does not explain why.
+> 
+> Jerome, maybe adding a bit of preamble like:
+> 
+> "Development boards from TI include the TPS65219 PMIC.  Add support..."
 
-kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
-proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
-stwa firmie stabilny rozw=C3=B3j.=20
+I would propose: "Development boards from TI with xxx SoC include the
+..." because the point is that you use this defconfig for boards for
+given SoC (supported by upstream).
 
-Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
-a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
-nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
-po rozwoju firmy.
+Other way would be "Foo-bar development board includes the TP..."
 
-Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
-nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
-adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
-j=C4=85 je innym.
+> 
+> Krzysztof, I'm the first to argue for descriptive/verbose changelogs,
+> but IMO, this is getting a little bit nit-picky.
+> 
+> The series adds a new driver, DTS and defconfig patches to enable
+> support the new driver.  The "why" for changes to defconfig changes like
+> this are kind of implied/obvious, and there is lots of precedent for
+> changelogs of defconfig changes for simple drivers to simply say "enable
+> X and Y".
 
-Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
-o=C5=9Bwiadczonego doradcy finansowego?
+While I understand the entire patchset, the defconfig goes via separate
+tree/branch and must stand on its own. Later (one month, one year, one
+decade) someone will look at history and wonder why the heck we enabled
+TPS65219.
 
+> 
+> If my above suggesion is not enough, please make a suggestion for what
+> you think would qualify as an appropritate changelong that answers "why"
+> for a simple driver change.
 
-Pozdrawiam
-Jakub Olejniczak
+It is enough :)
+
+Best regards,
+Krzysztof
+
