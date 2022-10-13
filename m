@@ -2,45 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE0F35FD04C
-	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 02:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F41E5FD069
+	for <lists+linux-input@lfdr.de>; Thu, 13 Oct 2022 02:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbiJMAZc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Oct 2022 20:25:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56146 "EHLO
+        id S230503AbiJMA0u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Oct 2022 20:26:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbiJMAXO (ORCPT
+        with ESMTP id S230502AbiJMAZC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Oct 2022 20:23:14 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9739C125729;
-        Wed, 12 Oct 2022 17:20:22 -0700 (PDT)
+        Wed, 12 Oct 2022 20:25:02 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC0F10691C;
+        Wed, 12 Oct 2022 17:24:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 14205B81CDC;
-        Thu, 13 Oct 2022 00:20:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2E0BC433C1;
-        Thu, 13 Oct 2022 00:19:59 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CB53EB81CD7;
+        Thu, 13 Oct 2022 00:20:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B84C433C1;
+        Thu, 13 Oct 2022 00:20:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620400;
-        bh=D8ozL383GaaeAGtKQvIA9IdpVRSMEvGm6dPoBfIkAio=;
+        s=k20201202; t=1665620405;
+        bh=UOnueW/PyZnrz3FegMDaggbsCd7whTzND7A2kW84/4M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WbP7SmlFRTDanM/FBi0bd0/hH+nxDQ+GzqmTZIwRbgC5+hTjxHQoO296ypEgBhKMO
-         iDZ+3QdXpjQQjMCD9aWiZj6CVoK9+iRqq430cMM8RiUl818lKFKZ/JG1deapADU7+v
-         fmJNbYc/Oq7MPhi8DUHEqOVBqmZs2roHNdCEvu5hZL/N0KECEpjUeUer/PGnpvl+pF
-         Xcn/9n86yFSPeRKC9+rNeN69sJJq/vO0sLZeISiH2++Zn5ftMxirkuBWTkWwB6hrCt
-         ctha5v8l5Kb/zzJ8cO+dUlsNUrmDx6tZT+jMBtKObn1UtKS7xAafeuVxgFnwhBjfZ1
-         a659Qw4QXqy7g==
+        b=tEfNJhPFx30KoXnWkqfvBVXA8754anuzGRS8OV22cH/SayAGDR+uBG7VEipiqah/1
+         WdcQACSBHcEbZNwZlpSNDxDTHYn4w/t0CDXa9wJcFOW+edGh7Jw11tG4IgaTe+MmP5
+         R69XLYA3nUTwwD0ZXaRh6QQp/7TYBnHKWUZJ8VyaaG5E+pb5S6uArAWqyQRRVd43my
+         BFSWv2voBHOrqUsb3hu07UScuHAqxUtFhuBef70WBKXyZCmY1A/cO82HS7oWILIuTE
+         QJugOAlk7GEZZDsjwQche6mxzpq8bxZn8sVdHKSi3iwN5it/VBMwW9ALqkVXrIlo1j
+         awNQM4aWbwWTQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hyunwoo Kim <imv4bel@gmail.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>,
-        erazor_de@users.sourceforge.net, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 31/63] HID: roccat: Fix use-after-free in roccat_read()
-Date:   Wed, 12 Oct 2022 20:18:05 -0400
-Message-Id: <20221013001842.1893243-31-sashal@kernel.org>
+Cc:     Johnothan King <johnothanking@protonmail.com>,
+        Arne Wendt <arne.wendt@tuhh.de>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, djogorchock@gmail.com,
+        jikos@kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 33/63] HID: nintendo: check analog user calibration for plausibility
+Date:   Wed, 12 Oct 2022 20:18:07 -0400
+Message-Id: <20221013001842.1893243-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
 References: <20221013001842.1893243-1-sashal@kernel.org>
@@ -57,106 +58,125 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hyunwoo Kim <imv4bel@gmail.com>
+From: Johnothan King <johnothanking@protonmail.com>
 
-[ Upstream commit cacdb14b1c8d3804a3a7d31773bc7569837b71a4 ]
+[ Upstream commit 50503e360eeb968a3d00234c9cc4057d774c3e9a ]
 
-roccat_report_event() is responsible for registering
-roccat-related reports in struct roccat_device.
+Arne Wendt writes:
+  Cheap clone controllers may (falsely) report as having a user
+  calibration for the analog sticks in place, but return
+  wrong/impossible values for the actual calibration data.
+  In the present case at mine, the controller reports having a
+  user calibration in place and successfully executes the read
+  commands. The reported user calibration however is
+  min = center = max = 0.
 
-int roccat_report_event(int minor, u8 const *data)
-{
-	struct roccat_device *device;
-	struct roccat_reader *reader;
-	struct roccat_report *report;
-	uint8_t *new_value;
+  This pull request addresses problems of this kind by checking the
+  provided user calibration-data for plausibility (min < center < max)
+  and falling back to the default values if implausible.
 
-	device = devices[minor];
+I'll note that I was experiencing a crash because of this bug when using
+the GuliKit KingKong 2 controller. The crash manifests as a divide by
+zero error in the kernel logs:
+kernel: divide error: 0000 [#1] PREEMPT SMP NOPTI
 
-	new_value = kmemdup(data, device->report_size, GFP_ATOMIC);
-	if (!new_value)
-		return -ENOMEM;
-
-	report = &device->cbuf[device->cbuf_end];
-
-	/* passing NULL is safe */
-	kfree(report->value);
-	...
-
-The registered report is stored in the struct roccat_device member
-"struct roccat_report cbuf[ROCCAT_CBUF_SIZE];".
-If more reports are received than the "ROCCAT_CBUF_SIZE" value,
-kfree() the saved report from cbuf[0] and allocates a new reprot.
-Since there is no lock when this kfree() is performed,
-kfree() can be performed even while reading the saved report.
-
-static ssize_t roccat_read(struct file *file, char __user *buffer,
-		size_t count, loff_t *ppos)
-{
-	struct roccat_reader *reader = file->private_data;
-	struct roccat_device *device = reader->device;
-	struct roccat_report *report;
-	ssize_t retval = 0, len;
-	DECLARE_WAITQUEUE(wait, current);
-
-	mutex_lock(&device->cbuf_lock);
-
-	...
-
-	report = &device->cbuf[reader->cbuf_start];
-	/*
-	 * If report is larger than requested amount of data, rest of report
-	 * is lost!
-	 */
-	len = device->report_size > count ? count : device->report_size;
-
-	if (copy_to_user(buffer, report->value, len)) {
-		retval = -EFAULT;
-		goto exit_unlock;
-	}
-	...
-
-The roccat_read() function receives the device->cbuf report and
-delivers it to the user through copy_to_user().
-If the N+ROCCAT_CBUF_SIZE th report is received while copying of
-the Nth report->value is in progress, the pointer that copy_to_user()
-is working on is kfree()ed and UAF read may occur. (race condition)
-
-Since the device node of this driver does not set separate permissions,
-this is not a security vulnerability, but because it is used for
-requesting screen display of profile or dpi settings,
-a user using the roccat device can apply udev to this device node or
-There is a possibility to use it by giving.
-
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Link: https://github.com/nicman23/dkms-hid-nintendo/pull/25
+Link: https://github.com/DanielOgorchock/linux/issues/36
+Co-authored-by: Arne Wendt <arne.wendt@tuhh.de>
+Signed-off-by: Johnothan King <johnothanking@protonmail.com>
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Link: https://lore.kernel.org/r/gvpL2G6VwXGJPvxX5KRiu9pVjvTivgayug_jdKDY6zfuAaAqncP9BkKLosjwUXNlgVVTMfJSKfwPF1K79cKAkwGComyC21vCV3q9B3EXNkE=@protonmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-roccat.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/hid/hid-nintendo.c | 55 +++++++++++++++++++++-----------------
+ 1 file changed, 30 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/hid/hid-roccat.c b/drivers/hid/hid-roccat.c
-index 26373b82fe81..6da80e442fdd 100644
---- a/drivers/hid/hid-roccat.c
-+++ b/drivers/hid/hid-roccat.c
-@@ -257,6 +257,8 @@ int roccat_report_event(int minor, u8 const *data)
- 	if (!new_value)
- 		return -ENOMEM;
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index f33a03c96ba6..cce324887952 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -761,12 +761,31 @@ static int joycon_read_stick_calibration(struct joycon_ctlr *ctlr, u16 cal_addr,
+ 	cal_y->max = cal_y->center + y_max_above;
+ 	cal_y->min = cal_y->center - y_min_below;
  
-+	mutex_lock(&device->cbuf_lock);
+-	return 0;
++	/* check if calibration values are plausible */
++	if (cal_x->min >= cal_x->center || cal_x->center >= cal_x->max ||
++	    cal_y->min >= cal_y->center || cal_y->center >= cal_y->max)
++		ret = -EINVAL;
 +
- 	report = &device->cbuf[device->cbuf_end];
- 
- 	/* passing NULL is safe */
-@@ -276,6 +278,8 @@ int roccat_report_event(int minor, u8 const *data)
- 			reader->cbuf_start = (reader->cbuf_start + 1) % ROCCAT_CBUF_SIZE;
- 	}
- 
-+	mutex_unlock(&device->cbuf_lock);
-+
- 	wake_up_interruptible(&device->wait);
- 	return 0;
++	return ret;
  }
+ 
+ static const u16 DFLT_STICK_CAL_CEN = 2000;
+ static const u16 DFLT_STICK_CAL_MAX = 3500;
+ static const u16 DFLT_STICK_CAL_MIN = 500;
++static void joycon_use_default_calibration(struct hid_device *hdev,
++					   struct joycon_stick_cal *cal_x,
++					   struct joycon_stick_cal *cal_y,
++					   const char *stick, int ret)
++{
++	hid_warn(hdev,
++		 "Failed to read %s stick cal, using defaults; e=%d\n",
++		 stick, ret);
++
++	cal_x->center = cal_y->center = DFLT_STICK_CAL_CEN;
++	cal_x->max = cal_y->max = DFLT_STICK_CAL_MAX;
++	cal_x->min = cal_y->min = DFLT_STICK_CAL_MIN;
++}
++
+ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+ {
+ 	u16 left_stick_addr = JC_CAL_FCT_DATA_LEFT_ADDR;
+@@ -794,38 +813,24 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+ 					    &ctlr->left_stick_cal_x,
+ 					    &ctlr->left_stick_cal_y,
+ 					    true);
+-	if (ret) {
+-		hid_warn(ctlr->hdev,
+-			 "Failed to read left stick cal, using dflts; e=%d\n",
+-			 ret);
+-
+-		ctlr->left_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+-		ctlr->left_stick_cal_x.max = DFLT_STICK_CAL_MAX;
+-		ctlr->left_stick_cal_x.min = DFLT_STICK_CAL_MIN;
+ 
+-		ctlr->left_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+-		ctlr->left_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+-		ctlr->left_stick_cal_y.min = DFLT_STICK_CAL_MIN;
+-	}
++	if (ret)
++		joycon_use_default_calibration(ctlr->hdev,
++					       &ctlr->left_stick_cal_x,
++					       &ctlr->left_stick_cal_y,
++					       "left", ret);
+ 
+ 	/* read the right stick calibration data */
+ 	ret = joycon_read_stick_calibration(ctlr, right_stick_addr,
+ 					    &ctlr->right_stick_cal_x,
+ 					    &ctlr->right_stick_cal_y,
+ 					    false);
+-	if (ret) {
+-		hid_warn(ctlr->hdev,
+-			 "Failed to read right stick cal, using dflts; e=%d\n",
+-			 ret);
+-
+-		ctlr->right_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+-		ctlr->right_stick_cal_x.max = DFLT_STICK_CAL_MAX;
+-		ctlr->right_stick_cal_x.min = DFLT_STICK_CAL_MIN;
+ 
+-		ctlr->right_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+-		ctlr->right_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+-		ctlr->right_stick_cal_y.min = DFLT_STICK_CAL_MIN;
+-	}
++	if (ret)
++		joycon_use_default_calibration(ctlr->hdev,
++					       &ctlr->right_stick_cal_x,
++					       &ctlr->right_stick_cal_y,
++					       "right", ret);
+ 
+ 	hid_dbg(ctlr->hdev, "calibration:\n"
+ 			    "l_x_c=%d l_x_max=%d l_x_min=%d\n"
 -- 
 2.35.1
 
