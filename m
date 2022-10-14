@@ -2,62 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 938355FEE62
-	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 15:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAAB05FEE6F
+	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 15:14:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiJNNK1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Oct 2022 09:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38388 "EHLO
+        id S229567AbiJNNON (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Oct 2022 09:14:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbiJNNKZ (ORCPT
+        with ESMTP id S229507AbiJNNOL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Oct 2022 09:10:25 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E89BA57235
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 06:10:16 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id y10so3064317wma.0
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 06:10:16 -0700 (PDT)
+        Fri, 14 Oct 2022 09:14:11 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77FE91CD68F
+        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 06:14:09 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id bp11so7494592wrb.9
+        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 06:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+xnO2B5cHjyO/AQiFWnb7UyUibEsrm4oL4Nn9hNakaM=;
-        b=YsoYCgV5azIHxnfJ2SUOElWvZzhuE0j4AdRJ1Wc5P/ksheRKHFrzdEj+is+Gn1Bw3a
-         zKNA+F8cFfcyrnsl3tdWdCcORs52WlVS5y0Ab+cwXRNfnDoakDWEGMoeX1j1Gea9I0LR
-         PwdFVS19SMYsgWrF98txnoidhZdcAVtr2DNI+kyMyUCjS8VdpOPtarmNX+I8+lH8ScWO
-         HVQ8B3s6TubxFWEI9WpnZywrRQxaIYsq5dyxWJcaGPJxBCv/TAtRgBO9nnXGu2qcBvBH
-         O0w6/eKGvewZrQ/m14AWjCw8alGUqKxRbape1elY8DhhjFjPvcvLu21COJJzFsrSSHox
-         xqzw==
+        bh=Ttfwpv3od4S8wuyU5OU4GrW6tNlN69ASPbVjG9BX2oE=;
+        b=s9kOzNpa4pwS7IERtn9V6HweVHpclzhghK6AmcLrEl3aonb33oHwFFsOosrJFyS9wn
+         gfdzCLeSmBiMzMz/2JXXCSG9ntYCI0HN+Nyvhg1k86DqweRrYLCFu2Z5hfoAiBaR3pMb
+         F6x+JEtO3Rq3iuP9lk64eXss3GwmNqP24H5dRuK6wXANlzEBpru9GQXYD96RvBs6glm6
+         g89xDaJ+1AyzjZa0KLEDr3VeKLvVSTRVGE9pbZnpFlPaUULp3DEwJoAgosZE0UdHKBlE
+         bD7tQ57JU1G5kfcJu+3mXS89BDA5V+yMcY62v6s/T6z0azhz/gpwtRMwtsDeUxRJhWrv
+         wT1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+xnO2B5cHjyO/AQiFWnb7UyUibEsrm4oL4Nn9hNakaM=;
-        b=u+0O+oNV5q+3hYGwYY/b1vvDE4wi9NqNg9w0GW2+qVOzJ0oEjF3fniSzyPo6MITrR0
-         3ApAa1BHVQAPloaO4jZ6Kc/58kXQ9b+T1XR2ekxf0KlAqkVN6f0Wu6fKYzhKGjxXcTvO
-         vFa2mV7MFzwE9wg4o4+UtNH3wnqokGS+EaXi3RyT9soQN+0rl02sk42jMihWooINAWiA
-         EXYoBdShnkZNAFypph0dUdBPDAaF533PCiVHc2oAPijF7Ogk/eTzaMRFU0lscRJlSSBi
-         Q3aaUpca7jNnVF1CKo8Zj4qCJAJyD7sY8QeO76ajEqz7Ooiz95M7N3hl74dit17sQrKZ
-         dSmA==
-X-Gm-Message-State: ACrzQf3JOtwNIf8tPhA6yPin3IgzXUaS7XsNtOdGDlZYJqhLz0MM69Po
-        9ULeIaVBQ/Kk6hX/l3tdmuw5Hw==
-X-Google-Smtp-Source: AMsMyM57BaI6rSU4GH54qmPjLJHUpirV5Zjo/roVmgVgTAKBm6h97wLIXAGwbhfaYDqfnKxWOUe4OQ==
-X-Received: by 2002:a05:600c:19d2:b0:3b4:a4cb:2416 with SMTP id u18-20020a05600c19d200b003b4a4cb2416mr3608821wmq.6.1665753014557;
-        Fri, 14 Oct 2022 06:10:14 -0700 (PDT)
+        bh=Ttfwpv3od4S8wuyU5OU4GrW6tNlN69ASPbVjG9BX2oE=;
+        b=POcLWT03sEfCoLtxrxKb67bDKDLPzZZUQYsUxgr0kJxXPOk7Tm0qxgTYy6Rayc9tCw
+         xm5ZbkHEjJRjzSd5RWa9bM0uR9SxJNFjoHTzKr6WnlXIuj5Yzj0s/vwS2CuVa78tDA6r
+         CKC6XbgeIMbmpGXixPXLd+dKkSmERV5QZ0PZ4lM2wcxsFTNgrmql0Xd0po0f9GzojKo2
+         7n7VfW4sr0cMAsSjFR4SHGt/3owQDU51e37TTNud9tF6RNDAR47q8LR74JzJGcW4x8N6
+         RBaFWRin/fScO6/lZ4bFNUeUj7l2ce8wDJGXKVWRdvgo+XYdvlGE/d4hEr8e8z5zpPEN
+         Q0PQ==
+X-Gm-Message-State: ACrzQf3X/TIdmNFu1PoxlhRZ4tqbpPRNlvPylmVuw0Rozl7zjCXy1YKD
+        qGDxDA+OExum/D2Blb6h7Q5vBHf0xLdnbA==
+X-Google-Smtp-Source: AMsMyM4/cUSu2+HrIIlq1ZDBS5vTlvzzOt2skk2AMy8jVwKHZRSJ8FryPuAOXpGYfGEHQGZAEsn7uQ==
+X-Received: by 2002:adf:e549:0:b0:22d:b410:d0ed with SMTP id z9-20020adfe549000000b0022db410d0edmr3518701wrm.633.1665753247976;
+        Fri, 14 Oct 2022 06:14:07 -0700 (PDT)
 Received: from localhost ([2a01:cb19:8ae2:e700:f916:30c4:a44d:8229])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05600c430700b003b492338f45sm1975893wme.39.2022.10.14.06.10.13
+        by smtp.gmail.com with ESMTPSA id m18-20020a056000009200b0022e0580b7a9sm1915765wrx.17.2022.10.14.06.14.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 06:10:13 -0700 (PDT)
+        Fri, 14 Oct 2022 06:14:07 -0700 (PDT)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
 To:     Eirin Nya <nyanpasu256@gmail.com>, linux-input@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Eirin Nya <nyanpasu256@gmail.com>
-Subject: Re: [PATCH V2 1/3] Input: elantech - Remove redundant field
- elantech_data::y_max
-In-Reply-To: <20221014111533.908-2-nyanpasu256@gmail.com>
+Subject: Re: [PATCH V2 2/3] Input: elantech - Remove redundant field
+ elantech_data::width
+In-Reply-To: <20221014111533.908-3-nyanpasu256@gmail.com>
 References: <20221014111533.908-1-nyanpasu256@gmail.com>
- <20221014111533.908-2-nyanpasu256@gmail.com>
-Date:   Fri, 14 Oct 2022 15:10:12 +0200
-Message-ID: <87sfjqzh3f.fsf@baylibre.com>
+ <20221014111533.908-3-nyanpasu256@gmail.com>
+Date:   Fri, 14 Oct 2022 15:14:06 +0200
+Message-ID: <87o7uezgwx.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -71,140 +71,54 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Fri, Oct 14, 2022 at 04:15, Eirin Nya <nyanpasu256@gmail.com> wrote:
 
-> elantech_data::y_max is copied from elantech_device_info::y_max, and
+> elantech_data::width is copied from elantech_device_info::width, and
 > neither is mutated after initialization. So remove the redundant
-> variable to prevent future bugs when updating y_max.
+> variable to prevent future bugs.
 >
 > Signed-off-by: Eirin Nya <nyanpasu256@gmail.com>
 
-Hi Eirin,
-
-Thank you for v2. I know you're new to kernel development so here is
-some more "process feedback".
-
-I've already reviewed this in v1:
-https://lore.kernel.org/all/87ilkv7ogc.fsf@mkorpershoek-xps-13-9370.home/
-
-After getting a "Reviewed-by" reply on one of the patches, it is
-customary to add that in the commit message footer, if the patch is
-unchanged. This encourages reviewers and gives them some credit for
-their review :)
-
-This is documented at:
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#reviewer-s-statement-of-oversight
-
-To quote the doc:
-> Both Tested-by and Reviewed-by tags, once received on mailing list from
-> tester or reviewer, should be added by author to the applicable patches
-> when sending next versions.
-
-So please, if you have to send a v3 at some point, please add:
+Same remark as for patch v2 1/3: I already reviewed v1.
 
 Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
-Note that it's not needed to send a v3 *JUST* to include the trailers.
-The maintainer will pick them up if he decides to merge this.
-
 > ---
->  drivers/input/mouse/elantech.c | 17 ++++++++---------
->  drivers/input/mouse/elantech.h |  1 -
->  2 files changed, 8 insertions(+), 10 deletions(-)
+>  drivers/input/mouse/elantech.c | 4 +---
+>  drivers/input/mouse/elantech.h | 1 -
+>  2 files changed, 1 insertion(+), 4 deletions(-)
 >
 > diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-> index ece97f8c6a..79e31611fc 100644
+> index 79e31611fc..263779c031 100644
 > --- a/drivers/input/mouse/elantech.c
 > +++ b/drivers/input/mouse/elantech.c
-> @@ -360,7 +360,7 @@ static void elantech_report_absolute_v1(struct psmouse *psmouse)
->  		input_report_abs(dev, ABS_X,
->  			((packet[1] & 0x0c) << 6) | packet[2]);
->  		input_report_abs(dev, ABS_Y,
-> -			etd->y_max - (((packet[1] & 0x03) << 8) | packet[3]));
-> +			etd->info.y_max - (((packet[1] & 0x03) << 8) | packet[3]));
->  	}
+> @@ -691,7 +691,7 @@ static void process_packet_head_v4(struct psmouse *psmouse)
+>  	input_report_abs(dev, ABS_MT_POSITION_X, etd->mt[id].x);
+>  	input_report_abs(dev, ABS_MT_POSITION_Y, etd->mt[id].y);
+>  	input_report_abs(dev, ABS_MT_PRESSURE, pres);
+> -	input_report_abs(dev, ABS_MT_TOUCH_MAJOR, traces * etd->width);
+> +	input_report_abs(dev, ABS_MT_TOUCH_MAJOR, traces * etd->info.width);
+>  	/* report this for backwards compatibility */
+>  	input_report_abs(dev, ABS_TOOL_WIDTH, traces);
 >  
->  	input_report_key(dev, BTN_TOOL_FINGER, fingers == 1);
-> @@ -435,7 +435,7 @@ static void elantech_report_absolute_v2(struct psmouse *psmouse)
->  		 * byte 4:  .   .   .   .  y11 y10 y9  y8
->  		 * byte 5: y7  y6  y5  y4  y3  y2  y1  y0
->  		 */
-> -		y1 = etd->y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
-> +		y1 = etd->info.y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
->  
->  		pres = (packet[1] & 0xf0) | ((packet[4] & 0xf0) >> 4);
->  		width = ((packet[0] & 0x30) >> 2) | ((packet[3] & 0x30) >> 4);
-> @@ -450,7 +450,7 @@ static void elantech_report_absolute_v2(struct psmouse *psmouse)
->  		 */
->  		x1 = (((packet[0] & 0x10) << 4) | packet[1]) << 2;
->  		/* byte 2: ay7 ay6 ay5 ay4 ay3 ay2 ay1 ay0 */
-> -		y1 = etd->y_max -
-> +		y1 = etd->info.y_max -
->  			((((packet[0] & 0x20) << 3) | packet[2]) << 2);
->  		/*
->  		 * byte 3:  .   .  by8 bx8  .   .   .   .
-> @@ -458,7 +458,7 @@ static void elantech_report_absolute_v2(struct psmouse *psmouse)
->  		 */
->  		x2 = (((packet[3] & 0x10) << 4) | packet[4]) << 2;
->  		/* byte 5: by7 by8 by5 by4 by3 by2 by1 by0 */
-> -		y2 = etd->y_max -
-> +		y2 = etd->info.y_max -
->  			((((packet[3] & 0x20) << 3) | packet[5]) << 2);
->  
->  		/* Unknown so just report sensible values */
-> @@ -579,7 +579,7 @@ static void elantech_report_absolute_v3(struct psmouse *psmouse,
->  		 * byte 4:  .   .   .   .  y11 y10 y9  y8
->  		 * byte 5: y7  y6  y5  y4  y3  y2  y1  y0
->  		 */
-> -		y1 = etd->y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
-> +		y1 = etd->info.y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
->  		break;
->  
->  	case 2:
-> @@ -593,7 +593,7 @@ static void elantech_report_absolute_v3(struct psmouse *psmouse,
->  			 * byte 4:   .    .    .    .  ay11 ay10 ay9  ay8
->  			 * byte 5: ay7  ay6  ay5  ay4  ay3  ay2  ay1  ay0
->  			 */
-> -			etd->mt[0].y = etd->y_max -
-> +			etd->mt[0].y = etd->info.y_max -
->  				(((packet[4] & 0x0f) << 8) | packet[5]);
->  			/*
->  			 * wait for next packet
-> @@ -605,7 +605,7 @@ static void elantech_report_absolute_v3(struct psmouse *psmouse,
->  		x1 = etd->mt[0].x;
->  		y1 = etd->mt[0].y;
->  		x2 = ((packet[1] & 0x0f) << 8) | packet[2];
-> -		y2 = etd->y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
-> +		y2 = etd->info.y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
->  		break;
->  	}
->  
-> @@ -681,7 +681,7 @@ static void process_packet_head_v4(struct psmouse *psmouse)
->  		return;
->  
->  	etd->mt[id].x = ((packet[1] & 0x0f) << 8) | packet[2];
-> -	etd->mt[id].y = etd->y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
-> +	etd->mt[id].y = etd->info.y_max - (((packet[4] & 0x0f) << 8) | packet[5]);
->  	pres = (packet[1] & 0xf0) | ((packet[4] & 0xf0) >> 4);
->  	traces = (packet[0] & 0xf0) >> 4;
->  
-> @@ -1253,7 +1253,6 @@ static int elantech_set_input_params(struct psmouse *psmouse)
+> @@ -1253,8 +1253,6 @@ static int elantech_set_input_params(struct psmouse *psmouse)
 >  		input_abs_set_res(dev, ABS_MT_POSITION_Y, info->y_res);
 >  	}
 >  
-> -	etd->y_max = y_max;
->  	etd->width = width;
->  
+> -	etd->width = width;
+> -
 >  	return 0;
+>  }
+>  
 > diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
-> index 571e6ca11d..1ec004f72d 100644
+> index 1ec004f72d..fb093134ea 100644
 > --- a/drivers/input/mouse/elantech.h
 > +++ b/drivers/input/mouse/elantech.h
 > @@ -180,7 +180,6 @@ struct elantech_data {
 >  	unsigned char reg_25;
 >  	unsigned char reg_26;
 >  	unsigned int single_finger_reports;
-> -	unsigned int y_max;
->  	unsigned int width;
+> -	unsigned int width;
 >  	struct finger_pos mt[ETP_MAX_FINGERS];
 >  	unsigned char parity[256];
+>  	struct elantech_device_info info;
 > -- 
 > 2.38.0
