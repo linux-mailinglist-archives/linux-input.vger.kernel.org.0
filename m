@@ -2,179 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7FE55FED13
-	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 13:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D76925FED4E
+	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 13:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiJNLQ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Oct 2022 07:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58528 "EHLO
+        id S229826AbiJNLpC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Oct 2022 07:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbiJNLQ1 (ORCPT
+        with ESMTP id S229578AbiJNLpB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Oct 2022 07:16:27 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFD71119E5;
-        Fri, 14 Oct 2022 04:16:25 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id d7-20020a17090a2a4700b0020d268b1f02so7626746pjg.1;
-        Fri, 14 Oct 2022 04:16:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IQ9x1DKTDjWXt2rrutxCXuZDyQghZxj5+fEV2TfvAvs=;
-        b=GGR9QAAHAfGR9wweKWtDevR/eOldcfQ/e3droNg75WCBIpN/C/lma0OPWhc8Hd4U9V
-         YjnZxHcC9hcfeFfwycH8GwZRAdKsHsj+yD0uazhdKYcbsGCd+kMPULTc8spBWEAZQ3uX
-         jvP9oHCKS3C5VWdxjNLJoppUf4j7M9WWQYzw//4O/fqseNDD81EwxfP/PgAY+O/6/C2i
-         7vjmV5PM9vz9VqLfe5xWXLUUCFj5T9apYLbLdcmTHSZuXY+M+xiB0JEol8+ShyZLsUxb
-         PKOpZgyih+6xnf8kXEMaB/esQNABS/qy38N9Dx8VejPPQYP3S4DJtEO6goan4wWikLVp
-         Dd9Q==
+        Fri, 14 Oct 2022 07:45:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E969521E1B
+        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 04:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665747896;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+SaMoWTI1va/GeQPVZGv1GV3k10aJeG+I3b8tcuOi4k=;
+        b=Kc8O1g//Qe0f40n6JjCIUmAMNc6Cl6tinWG3kBs6S5BSkIwY9QEoPrCQPxakrTjBVxJWVM
+        mzuBJk1sD7AlHKIQTUUps4S0VFcZk2LuoQCVtvKp4ABq/lFl4YeXea0ykvWMcHyCWVCvCw
+        HESBjRzOtIHQ+zZY4/eD4ndGijI6KKw=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-63-JXYk8BqDOUO61PvZVeCfkQ-1; Fri, 14 Oct 2022 07:44:55 -0400
+X-MC-Unique: JXYk8BqDOUO61PvZVeCfkQ-1
+Received: by mail-io1-f70.google.com with SMTP id b12-20020a5d804c000000b006b723722d4eso2906426ior.17
+        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 04:44:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IQ9x1DKTDjWXt2rrutxCXuZDyQghZxj5+fEV2TfvAvs=;
-        b=DL6nvpwxrOsyO+UZQFvKXjW+GDQTkgXzHz5SY5vH2fqdgUA+jeZVEPIePewlBSp1tl
-         g5+idqpdCYFuZo4rBS+wEeOO80jTqjqnO8hl5ka43hYcCzeRLqi3kEkWd8cPf4i6XrGD
-         e+LsgddLiawlu8aSl8CSaLd740wV+uYhaHZLh3Jq1isNbCxskRj8Mf7JU1lrSdrSrGAg
-         gxdDsG76SNEhqoFYLhwmO5EnPt+vypXDi1KT7OhUmxjEC1RrZxAzV6+vU+4b/tonV+fp
-         5XZLcpmyoR+b61HcEDcqW7fWLEb+HkspE34Bl5Ke5ZItPO4i9VOk9pQNd+kz76mj0s88
-         nx+Q==
-X-Gm-Message-State: ACrzQf1YzJvJQc5EIPxEmrC0f58SPcHEJkBCO4JfTWk98K1bDaldE0aG
-        dBX2/es442cuhPqY6mWQIhaD46Q5lVRTVw==
-X-Google-Smtp-Source: AMsMyM7aDREuTHl33wnQ/JXerAa++TTxykddWXni6Bj6WI5JVwfUP0KF13Cqh5ADZVOarFqL0oCiKg==
-X-Received: by 2002:a17:90b:400f:b0:20a:9965:ef08 with SMTP id ie15-20020a17090b400f00b0020a9965ef08mr5338283pjb.155.1665746185246;
-        Fri, 14 Oct 2022 04:16:25 -0700 (PDT)
-Received: from dell-void.nyanpasu256.gmail.com.beta.tailscale.net (c-71-202-83-242.hsd1.ca.comcast.net. [71.202.83.242])
-        by smtp.gmail.com with ESMTPSA id n9-20020a17090aab8900b001fd6066284dsm1304628pjq.6.2022.10.14.04.16.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 04:16:24 -0700 (PDT)
-From:   Eirin Nya <nyanpasu256@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Eirin Nya <nyanpasu256@gmail.com>
-Subject: [PATCH V2 3/3] Input: elantech - Fix incorrectly halved touchpad range on ELAN v3 touchpads
-Date:   Fri, 14 Oct 2022 04:15:33 -0700
-Message-Id: <20221014111533.908-4-nyanpasu256@gmail.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221014111533.908-1-nyanpasu256@gmail.com>
-References: <20221014111533.908-1-nyanpasu256@gmail.com>
+        bh=+SaMoWTI1va/GeQPVZGv1GV3k10aJeG+I3b8tcuOi4k=;
+        b=rUpVy65kZF+ti0AAWT0Q9COKUyi3+MEKMgzqbQn1xXOL1h7XKXQFViMS7Y7NbU7zmG
+         f0bhHCqkJEBw46QO4z7VPDcivYCot7sXBNY8ra+YvLRYR0WYgTCLgng8fmOXYcl1ThT4
+         QKHZLyZ/6qvA111ISG8JFBKoEItLBJmA7GqwvBecdnsEZ6CO2oMQ+r6FjJzpTW5t8vw2
+         dA8N65RwFfVV0b5FODBpau1/8V439kQBoLRhU5coEIr6ulOrqXruS9QMUNYKTOJXxqVZ
+         fhjxkxw9ysL7VTYK3KgQEEG8DSgHdSafwL5U86vepYbBHl0kHNG3owjOz2DhwJvINiV5
+         MkxQ==
+X-Gm-Message-State: ACrzQf0FZeyUKNDLWQ48R4+91GThQst4zCXmPTJYnNKU/mvs+Q5mDQ+O
+        nziSQunTbV+BBlOo6eK1ls0N0qGvrs3xxcIIKBu/RIVAt0xGp+EKhJeE00LH2FTN7tjFJbdOkmC
+        O2ys/5ekkJy71aJB8QNhV250WZXuiUFlW/wXDI7w=
+X-Received: by 2002:a05:6e02:1ba3:b0:2fa:3547:477a with SMTP id n3-20020a056e021ba300b002fa3547477amr2333627ili.34.1665747895140;
+        Fri, 14 Oct 2022 04:44:55 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6bwkw/YLVKENVtQ5QSSOSYDV5uyqFVv+l7NGeCxPr7b/ll4YvLxvKADWuES9vE93ktW2TZnt4eeMdL4zO9Gmg=
+X-Received: by 2002:a05:6e02:1ba3:b0:2fa:3547:477a with SMTP id
+ n3-20020a056e021ba300b002fa3547477amr2333619ili.34.1665747894973; Fri, 14 Oct
+ 2022 04:44:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20221009182747.90730-1-jose.exposito89@gmail.com>
+In-Reply-To: <20221009182747.90730-1-jose.exposito89@gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 14 Oct 2022 13:44:43 +0200
+Message-ID: <CAO-hwJKJ8SROR5WVyogAAh=L3jyuHuJwLi6B1C9wGD=14PjYGA@mail.gmail.com>
+Subject: Re: [PATCH] HID: magicmouse: Do not set BTN_MOUSE on double report
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     jikos@kernel.org, rydberg@bitmath.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Nulo <git@nulo.in>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Linux 5.19.10, on my laptop (Dell Inspiron 15R SE 7520) with an Elan
-v3 touchpad (dmesg says "with firmware version 0x450f02"), the reported
-size of my touchpad (in userspace by calling mtdev_configure() and
-libevdev_get_abs_maximum(), in kernel space
-elantech_device_info::x_max/y_max, either way 1470 by 700) is half that
-of the actual touch range (2940 by 1400), and the upper half of my
-touchpad reports negative values. As a result, with the Synaptics or
-libinput X11 driver set to edge scrolling mode, the entire right half of
-my touchpad has x-values past evdev's reported maximum size, and acts as
-a giant scrollbar!
+On Sun, Oct 9, 2022 at 8:28 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
+il.com> wrote:
+>
+> Under certain conditions the Magic Trackpad can group 2 reports in a
+> single packet. The packet is split and the raw event function is
+> invoked recursively for each part.
+>
+> However, after processing each part, the BTN_MOUSE status is updated,
+> sending multiple click events. [1]
+>
+> Return after processing double reports to avoid this issue.
+>
+> Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/811  # [1=
+]
+> Fixes: a462230e16ac ("HID: magicmouse: enable Magic Trackpad support")
+> Reported-by: Nulo <git@nulo.in>
+> Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
+> ---
 
-The problem is that elantech_setup_ps2() -> elantech_set_absolute_mode()
-sets up absolute mode and doubles the hardware resolution (doubling the
-hardware's maximum reported x/y coordinates and its response to
-ETP_FW_ID_QUERY), *after* elantech_query_info() fetches the touchpad
-coordinate system size using ETP_FW_ID_QUERY, which gets cached and
-reported to userspace through ioctl(fd, EVIOCGABS(ABS_X/Y), ...). So the
-touchpad size reported to userspace (and used to subtract vertical
-coordinates from) is half the maximum position of actual touches.
+Applied to for-6.1/upstream-fixes, thanks for spotting that old bug :)
 
-This patch splits out a function elantech_query_range_v3() which fetches
-*only* ETP_FW_ID_QUERY (touchpad size), and calls it a second time if
-elantech_set_absolute_mode() enables double-size mode. This means the
-first call is redundant and wasted if a second call occurs, but this
-minimizes the need to restructure the driver.
+Cheers,
+Benjamin
 
-Link: https://lore.kernel.org/linux-input/CAL57YxZNutUVxBtvbVWKMw-V2kqeVB5kTQ5BFdJmN=mdPq8Q8Q@mail.gmail.com/
-Link: https://lore.kernel.org/linux-input/20221008093437.72d0f6b0@dell-void.nyanpasu256.gmail.com.beta.tailscale.net/
-Fixes: 37548659bb22 ("Input: elantech - query the min/max information beforehand too")
-Signed-off-by: Eirin Nya <nyanpasu256@gmail.com>
----
-
-Notes:
-    Should we move (elantech_set_absolute_mode ->
-    elantech_write_reg(...0x0b or 0x01)) *earlier* into elantech_query_info()
-    before "query range information"? See discussion at
-    https://lore.kernel.org/linux-input/20221008093437.72d0f6b0@dell-void.nyanpasu256.gmail.com.beta.tailscale.net/
-
- drivers/input/mouse/elantech.c | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 263779c031..a2176f0fd3 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1006,6 +1006,9 @@ static void elantech_set_rate_restore_reg_07(struct psmouse *psmouse,
- 		psmouse_err(psmouse, "restoring reg_07 failed\n");
- }
- 
-+static int elantech_query_range_v3(struct psmouse *psmouse,
-+				   struct elantech_device_info *info);
-+
- /*
-  * Put the touchpad into absolute mode
-  */
-@@ -1047,6 +1050,14 @@ static int elantech_set_absolute_mode(struct psmouse *psmouse)
- 		if (elantech_write_reg(psmouse, 0x10, etd->reg_10))
- 			rc = -1;
- 
-+		/*
-+		 * If we boost hardware resolution, we have to re-query
-+		 * info->x_max and y_max.
-+		 */
-+		if (etd->info.set_hw_resolution)
-+			if (elantech_query_range_v3(psmouse, &etd->info))
-+				rc = -1;
-+
- 		break;
- 
- 	case 4:
-@@ -1671,6 +1682,20 @@ static int elantech_set_properties(struct elantech_device_info *info)
- 	return 0;
- }
- 
-+static int elantech_query_range_v3(struct psmouse *psmouse,
-+				   struct elantech_device_info *info)
-+{
-+	unsigned char param[3];
-+
-+	if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
-+		return -EINVAL;
-+
-+	info->x_max = (0x0f & param[0]) << 8 | param[1];
-+	info->y_max = (0xf0 & param[0]) << 4 | param[2];
-+
-+	return 0;
-+}
-+
- static int elantech_query_info(struct psmouse *psmouse,
- 			       struct elantech_device_info *info)
- {
-@@ -1826,11 +1851,8 @@ static int elantech_query_info(struct psmouse *psmouse,
- 		break;
- 
- 	case 3:
--		if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
-+		if (elantech_query_range_v3(psmouse, info))
- 			return -EINVAL;
--
--		info->x_max = (0x0f & param[0]) << 8 | param[1];
--		info->y_max = (0xf0 & param[0]) << 4 | param[2];
- 		break;
- 
- 	case 4:
--- 
-2.38.0
+>  drivers/hid/hid-magicmouse.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+> index 664a624a363d..c9c968d4b36a 100644
+> --- a/drivers/hid/hid-magicmouse.c
+> +++ b/drivers/hid/hid-magicmouse.c
+> @@ -480,7 +480,7 @@ static int magicmouse_raw_event(struct hid_device *hd=
+ev,
+>                 magicmouse_raw_event(hdev, report, data + 2, data[1]);
+>                 magicmouse_raw_event(hdev, report, data + 2 + data[1],
+>                         size - 2 - data[1]);
+> -               break;
+> +               return 0;
+>         default:
+>                 return 0;
+>         }
+> --
+> 2.25.1
+>
 
