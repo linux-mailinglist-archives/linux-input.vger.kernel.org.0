@@ -2,187 +2,180 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 178515FF086
-	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 16:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC8A65FF411
+	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 21:24:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbiJNOqN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Oct 2022 10:46:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
+        id S231167AbiJNTYQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Oct 2022 15:24:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbiJNOqM (ORCPT
+        with ESMTP id S230119AbiJNTYP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Oct 2022 10:46:12 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8DDF5CE1
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 07:46:11 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id i21so3460589ljh.12
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 07:46:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SGo+4kRRTlzwCKx24qt83WDE3yT0UWI2PCAzs83oGes=;
-        b=dMQgsLU+QieqHEimQA9THMh5SHMPaex3sk3d0l24fiQc6jWUDNtS6d5md+C3S3QCWg
-         dlTI4GKnF4mRkTH33mSkIOGC1OwH9lpVqWQJYjbWSmRDj7H4D0k7i2mDTMhTOWn2i5uc
-         QC9Jj96zivJ3tTsj/Gnkv8Yuo2b445rxES3qmUGwdNwqYN2YPZMSOXFLDjzmYQZ575Md
-         t32OZphBLnW3mOjw/I5RRFMk4mYkVJr6x9R/Bj23RhvTuq0buq7+maWN+wI1BJhKX+1v
-         pbiC4NeP5MWuv8d+1zYMULuAjXoDgOXi2v5ohadPrRMrgNXAq7FPO8i56/Hnn34JbBSo
-         jejQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SGo+4kRRTlzwCKx24qt83WDE3yT0UWI2PCAzs83oGes=;
-        b=I1Bg2KQxU93ckDVrA17oI9AGp27nTpBS8nn93Xw0QNoVapCkpsWvUQFM8AvqiITnZ7
-         yV3l27+lg0ScIlotxhuVmB58RXKNJx8QlXqZUYce+7odyNqGYHTl9BmqI8tnynzsEUiG
-         C5hrpmYvXpQjC36NqwkQy21wXHUrxVD8DbN0U5RPPqNCEcU5Sf8xZb/VcXm9NgNxkBQV
-         Rq7EQvHhIGsWHfeLo/RIZPKOL+wR7vKToA+zgSAm7MHZr3rz5m0HiDtGr9E0vhFBuXUy
-         j5Mt2d5Lup+k36rjpfbIf/8isMr/WRlsvVxfrriszVstvcjwFTdm1RA7jcsRgWmqyjB5
-         ltRQ==
-X-Gm-Message-State: ACrzQf1x/i6+6N+M8lx4yh+Hut9TRajem3nLNQI0MNDvCEBenoMJk8jR
-        V/6//qzOvwZFggJpiW3XFZInVSBQ9tmbWTLgP4o=
-X-Google-Smtp-Source: AMsMyM7NurE/DGzcGpMGDgtNJv6uDkSTsidbO+pjXa+fIZyI5vaCYLgvbNVAmdyZIYc6tAEukIoXISPK9SGFyKAtlGw=
-X-Received: by 2002:a05:651c:88a:b0:26c:81e1:57dc with SMTP id
- d10-20020a05651c088a00b0026c81e157dcmr2125239ljq.236.1665758769391; Fri, 14
- Oct 2022 07:46:09 -0700 (PDT)
+        Fri, 14 Oct 2022 15:24:15 -0400
+Received: from mail1.bemta35.messagelabs.com (mail1.bemta35.messagelabs.com [67.219.250.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E221B6CAB
+        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 12:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com;
+        s=Selector; t=1665775454; i=@lenovo.com;
+        bh=9zCtI6iQOG5q0Q/3G2f9JQXozgJ6PrdZuQ44o9wRI0g=;
+        h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+         In-Reply-To:Content-Type:Content-Transfer-Encoding;
+        b=NIMAiviDsConWvkimYoSuDf4M3lC0raIcXN32ID9UQ5idyK4YOwuScodZK7/URjRR
+         /Kz1hV7Sp9WaPrQZp2LNQF8bWfYs6gwHRPqedRZJm5s2De89XYYr6j1fFVUrnimRwc
+         xPlSEE9oqGWq4pwiROTfsg8BYE8UtyHfTyaeCNwNDqzgDiUUHwt3fjrg72bdOn2agA
+         TlzWJknd1ZcTXKlvsUPK8IVH0jXMwNj5x9z/PPXP8UziD2GwokWL+wSf4Yt2uL04+H
+         mEv+yJFgyTc+WpwbSNkrI+zjOS9deEOafQHBM/J25isUlxVTMlK1NfmfNGz56gFN0U
+         nxeTW/GiMtQ0A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHJsWRWlGSWpSXmKPExsWSoS+Vpxu33TP
+  ZYL2jxeFFLxgtbn76xmrxe8cWNouNh3+wOrB47Jx1l91jz3Jfj8+b5AKYo1gz85LyKxJYM45t
+  vMBc8Jqr4uv3HawNjG84uhi5OBgFljJLHO5ZywzhLGKVeLq+ix3C6WOSmLn9NSuIIyQwn0mi4
+  cpPJgjnKJPEntszwBwJgeOMEt2H1kFlOhklfrw6xQLhTGKS2DjpFjOE84RR4v+RhVDOA0aJnz
+  PuMXYxcnLwCthK3Dz+kBXEZhFQlbjy9xM7RFxQ4uTMJywgtqhApMS+lWfAaoQFfCU2HvwDFmc
+  WEJe49WQ+E4gtIqAoMePsfqh4sMT/BRPBbCGBUIk9R++zgdhsAtoSW7b8ArM5BawlXtzaxwRR
+  rynRuv03O4QtL7H97RxmiF5liV/958FsCaD4paPToOwEieYpRxkhbEmJazcvsEPYshJHz85hg
+  bDtJa5eugFV7ysxd/EGqLicxKnec0wwM3duvM0ygVFnFpKXZyF5bRaS82YhOW8BI8sqRrPi1K
+  Ky1CJdIwO9pKLM9IyS3MTMHL3EKt1EvdJi3fLU4hJdI73E8mK91OJiveLK3OScFL281JJNjMC
+  ElFKUYLeDsX/ZH71DjJIcTEqivBlbPJOF+JLyUyozEosz4otKc1KLDzHKcHAoSfAybgXKCRal
+  pqdWpGXmAJMjTFqCg0dJhPd5N1Cat7ggMbc4Mx0idYrRnuPKtr17mTnO79wPJB+cOAkkr61fs
+  I9ZiCUvPy9VSpzXcRtQmwBIW0ZpHtxQWDK/xCgrJczLyMDAIMRTkFqUm1mCKv+KUZyDUUmYd9
+  NmoCk8mXklcLtfAZ3FBHTW0lNuIGeVJCKkpBqYOCq9VT5UfdPb/7V67c2LeeoitxQjTn35XN9
+  Yrv/Na33IvLpHs24FqNbe+M5VeeS7/APLU0fttz2O87PhaZo1sUT1wfQo7VlPqm2+bNi+upE5
+  a4JvrMVcgxf1sQdnpH/pn335WVPalI7l6t89mi/ubNW/b7r57ZuSPxca7u3KZVskumFmh8VVc
+  afbmlXcuws+cbtJTZ5+w2ipmnmdvab1ctclpqUul/5duHW2MDJr2uz2Y/PNE5RnqDx9nb1k7/
+  L8rS/m2rxglNKOeViq+ehny57DP7g7ZBoP+la4iS9bUs4RYnsjRVivsve/wRGuOUnNce2OG8R
+  fmEqejnPRX8fXyi3uqHhgl/29V8cEeCyXKrEUZyQaajEXFScCAAvb8u9hBAAA
+X-Env-Sender: markpearson@lenovo.com
+X-Msg-Ref: server-9.tower-655.messagelabs.com!1665775452!386986!1
+X-Originating-IP: [104.47.26.110]
+X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.87.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 17691 invoked from network); 14 Oct 2022 19:24:13 -0000
+Received: from mail-sgaapc01lp2110.outbound.protection.outlook.com (HELO APC01-SG2-obe.outbound.protection.outlook.com) (104.47.26.110)
+  by server-9.tower-655.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 14 Oct 2022 19:24:13 -0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bVong4M0Ep1xyJZf6m7E7yhtn7iVy74kxmhSTMiDEZmdxOwkU/VrDphUsWzuhLAuV8b7ePGci5iivZn2YtL9OwgGca2WWJHr9/tjLpuThSQlTrIo5ALy9O3em00mA5odvO9Sz8IyFdC49ER46o834Np9pnw5FDml1SLrEUxcOZfpTCsAuPgAoYLla+opSuRc5PQkKU+GQSoiIPvHRtmVYYVx3hXJqHrKrhLBCqabQnUEadthMqHE78s/W21srfihI1bavQqh4nDgKUakAXgNcn+dbWUDyR6QDTr4XYqBV2hQaRejI8CIt9a4/CUQdkeMgl5Svz4dalb6AA10sSg16A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9zCtI6iQOG5q0Q/3G2f9JQXozgJ6PrdZuQ44o9wRI0g=;
+ b=gsVnfn/zPYpIWUaIX4h6iLzh/5F9gBTgJIXIIX4KhBjdwlGT8HCxwm5L2BQtCuLN403I3TvDHX13v14SM4RhL+mdTY0+yYRDQBDq5maBr4gscSywVbRR7HbzFcI7YYacgWZdRhIZkkCLgcVa1WnQncQG7oH+aBiwrSUB1OsdWF3LnSoLczL6EVQs/lHQflN9B6dtT4v3Zwz/ZwNcudr7qV1wcTm5ZwUguabhU8OZe+eEQ1WAMWpNe4AOQrtI0wFOMteqTud36+ICxPJHt8f3STRK3KLFjURzHyM/JQT4rB9IT+UDktvdOL24BI8XPRPmbL66+G6g+RkA+MwIwKrHJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 104.232.225.7) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=lenovo.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=lenovo.com;
+ dkim=none (message not signed); arc=none
+Received: from TYAPR01CA0239.jpnprd01.prod.outlook.com (2603:1096:404:11e::35)
+ by TYZPR03MB6496.apcprd03.prod.outlook.com (2603:1096:400:1c7::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.8; Fri, 14 Oct
+ 2022 19:24:11 +0000
+Received: from TYZAPC01FT012.eop-APC01.prod.protection.outlook.com
+ (2603:1096:404:11e:cafe::44) by TYAPR01CA0239.outlook.office365.com
+ (2603:1096:404:11e::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30 via Frontend
+ Transport; Fri, 14 Oct 2022 19:24:11 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 104.232.225.7) smtp.mailfrom=lenovo.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=lenovo.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ lenovo.com discourages use of 104.232.225.7 as permitted sender)
+Received: from mail.lenovo.com (104.232.225.7) by
+ TYZAPC01FT012.mail.protection.outlook.com (10.118.152.146) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5723.20 via Frontend Transport; Fri, 14 Oct 2022 19:24:11 +0000
+Received: from reswpmail01.lenovo.com (10.62.32.20) by mail.lenovo.com
+ (10.62.123.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.31; Fri, 14 Oct
+ 2022 15:24:09 -0400
+Received: from [10.38.98.42] (10.38.98.42) by reswpmail01.lenovo.com
+ (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.31; Fri, 14 Oct
+ 2022 15:24:08 -0400
+Message-ID: <eef66090-15ac-a53e-4677-f1f2620fb965@lenovo.com>
+Date:   Fri, 14 Oct 2022 15:24:07 -0400
 MIME-Version: 1.0
-References: <20221010212313.78275-1-roderick.colenbrander@sony.com>
- <20221010212313.78275-4-roderick.colenbrander@sony.com> <CAO-hwJKp2gzgPaCivT1Ak4=NZOcb0wyWbOyWnhsyDQgx1UC9AA@mail.gmail.com>
-In-Reply-To: <CAO-hwJKp2gzgPaCivT1Ak4=NZOcb0wyWbOyWnhsyDQgx1UC9AA@mail.gmail.com>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Fri, 14 Oct 2022 07:45:56 -0700
-Message-ID: <CAEc3jaBe7d7K3zQpmSvWpzEpZJvvMW-es0+JfQEBKR3pJ7=-JQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] HID: playstation: support updated DualSense rumble mode.
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Roderick Colenbrander <roderick@gaikai.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH] Input: Disable Intertouch for Lenovo T14 and P14s AMD G1
+Content-Language: en-US
+To:     <linux-input@vger.kernel.org>
+CC:     <snafu109@gmail.com>, <dmitry.torokhov@gmail.com>,
+        <mpearson-lenovo@squebb.ca>
+References: <markpearson@lenovo.com,>
+ <20220920193936.8709-1-markpearson@lenovo.com>
+From:   Mark Pearson <markpearson@lenovo.com>
+In-Reply-To: <20220920193936.8709-1-markpearson@lenovo.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.38.98.42]
+X-ClientProxiedBy: reswpmail01.lenovo.com (10.62.32.20) To
+ reswpmail01.lenovo.com (10.62.32.20)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZAPC01FT012:EE_|TYZPR03MB6496:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d85165a-214d-42fa-5405-08daae19ac4f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bRySHr34lWtM3iAg453ULNkhjflXuhH3GszIWIa4f8AaDpQWN4nRDoMXjuHVZv4n062d5ETyRxSYIU/vAi4WFEfMdl3izVsylmeuQ7kPplOdzHFhPxbefyKzjzowLMv08UhU/dzuvOBK70e3ezM0tHuo8u9CwQTj3Q/83awYBx4dxFXvzub7zL9+CzvzKvE5X6togtl4duUnPz9S/eyS7a0KmndDSw3HVTC9QCNtDxnQoJ4PGf3DYjcWtxov2w4M/6WNW82eHP3WNzYk392uyGD3WQzYR1zCCQ8HhsnuNo23uUoxJQ7qlr4LqmfxALXgA9iwhK+2FmQ4WrC9GPSr1MfE3tSMu/ryxEN9PX9ElPC6/A39a2tFXSIyiEEa8O8oystErDnlwnmNxT+EaC4/po2yUFzRJoYKfBa26LRn1ffR5RFfWSrE70eDi6lX4fXo+KJfB5Rsv6Uqnac/FBxoz0PVe8i/pWqCX5Fg62JUUraIwNwUlvI6fTj9p9/s50GTK8RHRvGvSXOnHPVBpaeq4boTRGKVuJhsGYjtU0GX78nKUT6qujHCFq3H7QwzsEMmz/3Fw0BJ4BFhsR+fDZGbdwg+MDBe7Edkv7GAG1vi33nSOAS9tKoknQzDi1lH79kh3ygk6WlZYw3DAvQR3kaLoqAhQ62LsCypVOlkIYOWbpTkcqT4O4E57kOpz8CcbPxjRKAWD2XUb9MA2+my2fQW8iHa0+ExH1iJMkZrsfKzx8IeMhw+YpbW7EVNeeJGKfqmnNFQWTn5AJ7+iYC0Te0JJq6cRp+dAbpmjl4oB2Z7RlyckGrGPx0i9opbBJaXAowiqSYmqIYgkiKvt8oLIHr6m4q1EnlnDjHaFZLdSYwgfos=
+X-Forefront-Antispam-Report: CIP:104.232.225.7;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.lenovo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(346002)(39860400002)(376002)(451199015)(46966006)(36840700001)(40470700004)(16576012)(36906005)(316002)(478600001)(31686004)(6916009)(54906003)(4326008)(8676002)(70206006)(70586007)(53546011)(41300700001)(356005)(81166007)(26005)(8936002)(2616005)(186003)(16526019)(426003)(336012)(2906002)(47076005)(5660300002)(36756003)(83380400001)(36860700001)(82310400005)(82740400003)(82960400001)(40460700003)(40480700001)(86362001)(31696002)(3940600001)(43740500002)(36900700001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: lenovo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2022 19:24:11.0736
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d85165a-214d-42fa-5405-08daae19ac4f
+X-MS-Exchange-CrossTenant-Id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5c7d0b28-bdf8-410c-aa93-4df372b16203;Ip=[104.232.225.7];Helo=[mail.lenovo.com]
+X-MS-Exchange-CrossTenant-AuthSource: TYZAPC01FT012.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB6496
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 4:48 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Mon, Oct 10, 2022 at 11:23 PM Roderick Colenbrander
-> <roderick@gaikai.com> wrote:
-> >
-> > Newer DualSense firmware supports a revised classic rumble mode,
-> > which feels more similar to rumble as supported on previous PlayStation
-> > controllers. It has been made the default on PlayStation and non-PlayStation
-> > devices now (e.g. iOS and Windows). Default to this new mode when
-> > supported.
-> >
-> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > ---
-> >  drivers/hid/hid-playstation.c | 37 ++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 36 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-> > index 396356b6760a..2a9870a62301 100644
-> > --- a/drivers/hid/hid-playstation.c
-> > +++ b/drivers/hid/hid-playstation.c
-> > @@ -108,6 +108,9 @@ struct ps_led_info {
-> >  #define DS_STATUS_CHARGING             GENMASK(7, 4)
-> >  #define DS_STATUS_CHARGING_SHIFT       4
-> >
-> > +/* Feature version from DualSense Firmware Info report. */
-> > +#define DS_FEATURE_VERSION(major, minor) ((major & 0xff) << 8 | (minor & 0xff))
-> > +
-> >  /*
-> >   * Status of a DualSense touch point contact.
-> >   * Contact IDs, with highest bit set are 'inactive'
-> > @@ -126,6 +129,7 @@ struct ps_led_info {
-> >  #define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
-> >  #define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
-> >  #define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
-> > +#define DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2 BIT(2)
-> >  #define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
-> >  #define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
-> >
-> > @@ -143,6 +147,9 @@ struct dualsense {
-> >         struct input_dev *sensors;
-> >         struct input_dev *touchpad;
-> >
-> > +       /* Update version is used as a feature/capability version. */
-> > +       uint16_t update_version;
-> > +
-> >         /* Calibration data for accelerometer and gyroscope. */
-> >         struct ps_calibration_data accel_calib_data[3];
-> >         struct ps_calibration_data gyro_calib_data[3];
-> > @@ -153,6 +160,7 @@ struct dualsense {
-> >         uint32_t sensor_timestamp_us;
-> >
-> >         /* Compatible rumble state */
-> > +       bool use_vibration_v2;
-> >         bool update_rumble;
-> >         uint8_t motor_left;
-> >         uint8_t motor_right;
-> > @@ -812,6 +820,15 @@ static int dualsense_get_firmware_info(struct dualsense *ds)
-> >         ds->base.hw_version = get_unaligned_le32(&buf[24]);
-> >         ds->base.fw_version = get_unaligned_le32(&buf[28]);
-> >
-> > +       /* Update version is some kind of feature version. It is distinct from
-> > +        * the firmware version as there can be many different variations of a
-> > +        * controller over time with the same physical shell, but with different
-> > +        * PCBs and other internal changes. The update version (internal name) is
-> > +        * used as a means to detect what features are available and change behavior.
-> > +        * Note: the version is different between DualSense and DualSense Edge.
-> > +        */
-> > +       ds->update_version = get_unaligned_le16(&buf[44]);
-> > +
-> >  err_free:
-> >         kfree(buf);
-> >         return ret;
-> > @@ -974,7 +991,10 @@ static void dualsense_output_worker(struct work_struct *work)
-> >         if (ds->update_rumble) {
-> >                 /* Select classic rumble style haptics and enable it. */
-> >                 common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT;
-> > -               common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
-> > +               if (ds->use_vibration_v2)
-> > +                       common->valid_flag2 |= DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2;
-> > +               else
-> > +                       common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
-> >                 common->motor_left = ds->motor_left;
-> >                 common->motor_right = ds->motor_right;
-> >                 ds->update_rumble = false;
-> > @@ -1348,6 +1368,21 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
-> >                 return ERR_PTR(ret);
-> >         }
-> >
-> > +       /* Original DualSense firmware simulated classic controller rumble through
-> > +        * its new haptics hardware. It felt different from classic rumble users
-> > +        * were used to. Since then new firmwares were introduced to change behavior
-> > +        * and make this new 'v2' behavior default on PlayStation and other platforms.
-> > +        * The original DualSense requires a new enough firmware as bundled with PS5
-> > +        * software released in 2021. DualSense edge supports it out of the box.
-> > +        * Both devices also support the old mode, but it is not really used.
-> > +        */
-> > +       if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER) {
-> > +               /* Feature version 2.21 introduced new vibration method. */
-> > +               ds->use_vibration_v2 = ds->update_version >= DS_FEATURE_VERSION(2, 21) ? true : false;
->
-> I have removed the extra "? true : false" and applied the full series
-> to for-6.1/upstream-fixes.
->
-> I'll let things in for-next for a few days and hopefully send it to
-> Linus next week.
->
-> Cheers,
-> Benjamin
->
+Resending as I hadn't seen any reviews. I think this didn't make it on
+the list as I can't see it on the archives :(
 
-Thanks! I will pull in the changes locally and rebase all the new DS4
-driver work, which I will send out soon. That will be quite a large
-update.
+Please let me know if there are any concerns.
 
-Thanks,
-Roderick
+Thanks
+Mark
+
+On 2022-09-20 15:39, Mark Pearson wrote:
+> Since intertouch was enabled for the T14 and P14s AMD G1 laptops there
+> have been a number of reports of touchpads not working well.
+> 
+> Debugging this with Synaptics they noted that intertouch should not be
+> enabled as SMBUS host notify is not available on these laptops.
+> 
+> Reverting the previous commit (e4ce4d3a939d97bea045eafa13ad1195695f91ce)
+> to restore functionality back to what it was.
+> 
+> Note - we are working with Synaptics to see if there is a better
+> solution, but nothing is confirmed as yet.
+> 
+> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+> ---
+>  drivers/input/mouse/synaptics.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> index 434d48ae4b12..ffad142801b3 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -186,7 +186,6 @@ static const char * const smbus_pnp_ids[] = {
+>  	"LEN2044", /* L470  */
+>  	"LEN2054", /* E480 */
+>  	"LEN2055", /* E580 */
+> -	"LEN2064", /* T14 Gen 1 AMD / P14s Gen 1 AMD */
+>  	"LEN2068", /* T14 Gen 1 */
+>  	"SYN3052", /* HP EliteBook 840 G4 */
+>  	"SYN3221", /* HP 15-ay000 */
+
