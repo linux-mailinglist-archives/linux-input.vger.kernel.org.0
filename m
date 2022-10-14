@@ -2,184 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3EF05FEE91
-	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 15:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 178515FF086
+	for <lists+linux-input@lfdr.de>; Fri, 14 Oct 2022 16:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbiJNN0y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Oct 2022 09:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44296 "EHLO
+        id S230049AbiJNOqN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Oct 2022 10:46:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbiJNN0y (ORCPT
+        with ESMTP id S229573AbiJNOqM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Oct 2022 09:26:54 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40ABC1B8678
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 06:26:52 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id b4so7605950wrs.1
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 06:26:52 -0700 (PDT)
+        Fri, 14 Oct 2022 10:46:12 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8DDF5CE1
+        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 07:46:11 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id i21so3460589ljh.12
+        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 07:46:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/GHu+ziSUV29nmvLkGLJbg1F4rBhSSEZw5KsC3lsNw=;
-        b=Hbf/GVK7V5vgZtbGpoWOFbBqM3ffi4GGIkdMZL1OOkraAEUJCAkVlZirqJrltrtDpT
-         OnNPFIBa/Qi3Zrv5SPkMVCaI5FeW12tG8k3l/ptD7aLnS9ZqAnR/Fzsbzf+/aAMmoxUc
-         Fzf3fegRgbTIcH3Vv6zOicA8ZiXC0Dy3l28ypsIuVYbHPYWmGrN9Ceb3WGNziujFOPtW
-         +gH9OFeONhmc9j0xfUWuSKOzGYtoJgb2I22y4SLCouKOwLN7nAnHH6dwyPANKpkJbX7q
-         V0OPpDNwDGxVGaTPSH/+BBNp0bTvtKseVi+k4leJq+6ldIm0YbpeALnVLW5uRF8cETwI
-         nCkg==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SGo+4kRRTlzwCKx24qt83WDE3yT0UWI2PCAzs83oGes=;
+        b=dMQgsLU+QieqHEimQA9THMh5SHMPaex3sk3d0l24fiQc6jWUDNtS6d5md+C3S3QCWg
+         dlTI4GKnF4mRkTH33mSkIOGC1OwH9lpVqWQJYjbWSmRDj7H4D0k7i2mDTMhTOWn2i5uc
+         QC9Jj96zivJ3tTsj/Gnkv8Yuo2b445rxES3qmUGwdNwqYN2YPZMSOXFLDjzmYQZ575Md
+         t32OZphBLnW3mOjw/I5RRFMk4mYkVJr6x9R/Bj23RhvTuq0buq7+maWN+wI1BJhKX+1v
+         pbiC4NeP5MWuv8d+1zYMULuAjXoDgOXi2v5ohadPrRMrgNXAq7FPO8i56/Hnn34JbBSo
+         jejQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/GHu+ziSUV29nmvLkGLJbg1F4rBhSSEZw5KsC3lsNw=;
-        b=wYvzHx9exam9XhvMLULonoBfD5p0L8yxxtJP6yi8aecmWT1qSGD/i4Vrg7820EinO0
-         EMo5RjknAUyEZhXvrSsMqFTWB9UNdxqR4dV2Onpf6LIbY5MwrMua2GQM9kpciN0vG8L6
-         rczH6TVymDp4ikSbiG/Ak8/N7lEWfwnFKL+yuPPWsgkd6J1dzGVJXLJoAiUJUu1poUET
-         JXH3k9CWF324P8qiyY9k64XJquK8rtahDmnsaTYeGQq7eZhUCPUcYPFIL1RAcFJ/CgY6
-         TgkIGU/Nml0YooksxIL7j6i2jZSnBmkAvUf2hvr8sL028HnRMoIa8qISz2D0azUf0u2d
-         Ze4w==
-X-Gm-Message-State: ACrzQf1Uq1D1jbjfdYgQ4RPimi0QwF1XIf70uknQXk6IqA0qJQcTlT2X
-        ysp0VJzo2T/a9MI+vhrtfst9vg==
-X-Google-Smtp-Source: AMsMyM5Sbw0Z3l0lsGeYdlOm3v3uxHvDzjV99vu0kFQJo5cbDBgnkBYhh8MoiEnmB+oKOG1cjZsWvw==
-X-Received: by 2002:a5d:6a42:0:b0:22e:6706:647b with SMTP id t2-20020a5d6a42000000b0022e6706647bmr3459027wrw.58.1665754010654;
-        Fri, 14 Oct 2022 06:26:50 -0700 (PDT)
-Received: from localhost ([2a01:cb19:8ae2:e700:f916:30c4:a44d:8229])
-        by smtp.gmail.com with ESMTPSA id fc12-20020a05600c524c00b003a342933727sm7998084wmb.3.2022.10.14.06.26.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 06:26:50 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Eirin Nya <nyanpasu256@gmail.com>, linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Eirin Nya <nyanpasu256@gmail.com>
-Subject: Re: [PATCH V2 3/3] Input: elantech - Fix incorrectly halved
- touchpad range on ELAN v3 touchpads
-In-Reply-To: <20221014111533.908-4-nyanpasu256@gmail.com>
-References: <20221014111533.908-1-nyanpasu256@gmail.com>
- <20221014111533.908-4-nyanpasu256@gmail.com>
-Date:   Fri, 14 Oct 2022 15:26:49 +0200
-Message-ID: <87k052zgbq.fsf@baylibre.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SGo+4kRRTlzwCKx24qt83WDE3yT0UWI2PCAzs83oGes=;
+        b=I1Bg2KQxU93ckDVrA17oI9AGp27nTpBS8nn93Xw0QNoVapCkpsWvUQFM8AvqiITnZ7
+         yV3l27+lg0ScIlotxhuVmB58RXKNJx8QlXqZUYce+7odyNqGYHTl9BmqI8tnynzsEUiG
+         C5hrpmYvXpQjC36NqwkQy21wXHUrxVD8DbN0U5RPPqNCEcU5Sf8xZb/VcXm9NgNxkBQV
+         Rq7EQvHhIGsWHfeLo/RIZPKOL+wR7vKToA+zgSAm7MHZr3rz5m0HiDtGr9E0vhFBuXUy
+         j5Mt2d5Lup+k36rjpfbIf/8isMr/WRlsvVxfrriszVstvcjwFTdm1RA7jcsRgWmqyjB5
+         ltRQ==
+X-Gm-Message-State: ACrzQf1x/i6+6N+M8lx4yh+Hut9TRajem3nLNQI0MNDvCEBenoMJk8jR
+        V/6//qzOvwZFggJpiW3XFZInVSBQ9tmbWTLgP4o=
+X-Google-Smtp-Source: AMsMyM7NurE/DGzcGpMGDgtNJv6uDkSTsidbO+pjXa+fIZyI5vaCYLgvbNVAmdyZIYc6tAEukIoXISPK9SGFyKAtlGw=
+X-Received: by 2002:a05:651c:88a:b0:26c:81e1:57dc with SMTP id
+ d10-20020a05651c088a00b0026c81e157dcmr2125239ljq.236.1665758769391; Fri, 14
+ Oct 2022 07:46:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20221010212313.78275-1-roderick.colenbrander@sony.com>
+ <20221010212313.78275-4-roderick.colenbrander@sony.com> <CAO-hwJKp2gzgPaCivT1Ak4=NZOcb0wyWbOyWnhsyDQgx1UC9AA@mail.gmail.com>
+In-Reply-To: <CAO-hwJKp2gzgPaCivT1Ak4=NZOcb0wyWbOyWnhsyDQgx1UC9AA@mail.gmail.com>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Fri, 14 Oct 2022 07:45:56 -0700
+Message-ID: <CAEc3jaBe7d7K3zQpmSvWpzEpZJvvMW-es0+JfQEBKR3pJ7=-JQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] HID: playstation: support updated DualSense rumble mode.
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Roderick Colenbrander <roderick@gaikai.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 04:15, Eirin Nya <nyanpasu256@gmail.com> wrote:
+On Fri, Oct 14, 2022 at 4:48 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> On Mon, Oct 10, 2022 at 11:23 PM Roderick Colenbrander
+> <roderick@gaikai.com> wrote:
+> >
+> > Newer DualSense firmware supports a revised classic rumble mode,
+> > which feels more similar to rumble as supported on previous PlayStation
+> > controllers. It has been made the default on PlayStation and non-PlayStation
+> > devices now (e.g. iOS and Windows). Default to this new mode when
+> > supported.
+> >
+> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > ---
+> >  drivers/hid/hid-playstation.c | 37 ++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 36 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> > index 396356b6760a..2a9870a62301 100644
+> > --- a/drivers/hid/hid-playstation.c
+> > +++ b/drivers/hid/hid-playstation.c
+> > @@ -108,6 +108,9 @@ struct ps_led_info {
+> >  #define DS_STATUS_CHARGING             GENMASK(7, 4)
+> >  #define DS_STATUS_CHARGING_SHIFT       4
+> >
+> > +/* Feature version from DualSense Firmware Info report. */
+> > +#define DS_FEATURE_VERSION(major, minor) ((major & 0xff) << 8 | (minor & 0xff))
+> > +
+> >  /*
+> >   * Status of a DualSense touch point contact.
+> >   * Contact IDs, with highest bit set are 'inactive'
+> > @@ -126,6 +129,7 @@ struct ps_led_info {
+> >  #define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
+> >  #define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
+> >  #define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
+> > +#define DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2 BIT(2)
+> >  #define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
+> >  #define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
+> >
+> > @@ -143,6 +147,9 @@ struct dualsense {
+> >         struct input_dev *sensors;
+> >         struct input_dev *touchpad;
+> >
+> > +       /* Update version is used as a feature/capability version. */
+> > +       uint16_t update_version;
+> > +
+> >         /* Calibration data for accelerometer and gyroscope. */
+> >         struct ps_calibration_data accel_calib_data[3];
+> >         struct ps_calibration_data gyro_calib_data[3];
+> > @@ -153,6 +160,7 @@ struct dualsense {
+> >         uint32_t sensor_timestamp_us;
+> >
+> >         /* Compatible rumble state */
+> > +       bool use_vibration_v2;
+> >         bool update_rumble;
+> >         uint8_t motor_left;
+> >         uint8_t motor_right;
+> > @@ -812,6 +820,15 @@ static int dualsense_get_firmware_info(struct dualsense *ds)
+> >         ds->base.hw_version = get_unaligned_le32(&buf[24]);
+> >         ds->base.fw_version = get_unaligned_le32(&buf[28]);
+> >
+> > +       /* Update version is some kind of feature version. It is distinct from
+> > +        * the firmware version as there can be many different variations of a
+> > +        * controller over time with the same physical shell, but with different
+> > +        * PCBs and other internal changes. The update version (internal name) is
+> > +        * used as a means to detect what features are available and change behavior.
+> > +        * Note: the version is different between DualSense and DualSense Edge.
+> > +        */
+> > +       ds->update_version = get_unaligned_le16(&buf[44]);
+> > +
+> >  err_free:
+> >         kfree(buf);
+> >         return ret;
+> > @@ -974,7 +991,10 @@ static void dualsense_output_worker(struct work_struct *work)
+> >         if (ds->update_rumble) {
+> >                 /* Select classic rumble style haptics and enable it. */
+> >                 common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT;
+> > -               common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
+> > +               if (ds->use_vibration_v2)
+> > +                       common->valid_flag2 |= DS_OUTPUT_VALID_FLAG2_COMPATIBLE_VIBRATION2;
+> > +               else
+> > +                       common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
+> >                 common->motor_left = ds->motor_left;
+> >                 common->motor_right = ds->motor_right;
+> >                 ds->update_rumble = false;
+> > @@ -1348,6 +1368,21 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+> >                 return ERR_PTR(ret);
+> >         }
+> >
+> > +       /* Original DualSense firmware simulated classic controller rumble through
+> > +        * its new haptics hardware. It felt different from classic rumble users
+> > +        * were used to. Since then new firmwares were introduced to change behavior
+> > +        * and make this new 'v2' behavior default on PlayStation and other platforms.
+> > +        * The original DualSense requires a new enough firmware as bundled with PS5
+> > +        * software released in 2021. DualSense edge supports it out of the box.
+> > +        * Both devices also support the old mode, but it is not really used.
+> > +        */
+> > +       if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER) {
+> > +               /* Feature version 2.21 introduced new vibration method. */
+> > +               ds->use_vibration_v2 = ds->update_version >= DS_FEATURE_VERSION(2, 21) ? true : false;
+>
+> I have removed the extra "? true : false" and applied the full series
+> to for-6.1/upstream-fixes.
+>
+> I'll let things in for-next for a few days and hopefully send it to
+> Linus next week.
+>
+> Cheers,
+> Benjamin
+>
 
-> On Linux 5.19.10, on my laptop (Dell Inspiron 15R SE 7520) with an Elan
-> v3 touchpad (dmesg says "with firmware version 0x450f02"), the reported
-> size of my touchpad (in userspace by calling mtdev_configure() and
-> libevdev_get_abs_maximum(), in kernel space
-> elantech_device_info::x_max/y_max, either way 1470 by 700) is half that
-> of the actual touch range (2940 by 1400), and the upper half of my
-> touchpad reports negative values. As a result, with the Synaptics or
-> libinput X11 driver set to edge scrolling mode, the entire right half of
-> my touchpad has x-values past evdev's reported maximum size, and acts as
-> a giant scrollbar!
->
-> The problem is that elantech_setup_ps2() -> elantech_set_absolute_mode()
-> sets up absolute mode and doubles the hardware resolution (doubling the
-> hardware's maximum reported x/y coordinates and its response to
-> ETP_FW_ID_QUERY), *after* elantech_query_info() fetches the touchpad
-> coordinate system size using ETP_FW_ID_QUERY, which gets cached and
-> reported to userspace through ioctl(fd, EVIOCGABS(ABS_X/Y), ...). So the
-> touchpad size reported to userspace (and used to subtract vertical
-> coordinates from) is half the maximum position of actual touches.
->
-> This patch splits out a function elantech_query_range_v3() which fetches
-> *only* ETP_FW_ID_QUERY (touchpad size), and calls it a second time if
-> elantech_set_absolute_mode() enables double-size mode. This means the
-> first call is redundant and wasted if a second call occurs, but this
-> minimizes the need to restructure the driver.
->
-> Link: https://lore.kernel.org/linux-input/CAL57YxZNutUVxBtvbVWKMw-V2kqeVB5kTQ5BFdJmN=mdPq8Q8Q@mail.gmail.com/
-> Link: https://lore.kernel.org/linux-input/20221008093437.72d0f6b0@dell-void.nyanpasu256.gmail.com.beta.tailscale.net/
-> Fixes: 37548659bb22 ("Input: elantech - query the min/max information beforehand too")
-> Signed-off-by: Eirin Nya <nyanpasu256@gmail.com>
-> ---
->
-> Notes:
->     Should we move (elantech_set_absolute_mode ->
->     elantech_write_reg(...0x0b or 0x01)) *earlier* into elantech_query_info()
->     before "query range information"? See discussion at
->     https://lore.kernel.org/linux-input/20221008093437.72d0f6b0@dell-void.nyanpasu256.gmail.com.beta.tailscale.net/
+Thanks! I will pull in the changes locally and rebase all the new DS4
+driver work, which I will send out soon. That will be quite a large
+update.
 
-I don't think it's a problem to query twice. To me the patch looks fine
-as is.
-
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
->
->  drivers/input/mouse/elantech.c | 30 ++++++++++++++++++++++++++----
->  1 file changed, 26 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-> index 263779c031..a2176f0fd3 100644
-> --- a/drivers/input/mouse/elantech.c
-> +++ b/drivers/input/mouse/elantech.c
-> @@ -1006,6 +1006,9 @@ static void elantech_set_rate_restore_reg_07(struct psmouse *psmouse,
->  		psmouse_err(psmouse, "restoring reg_07 failed\n");
->  }
->  
-> +static int elantech_query_range_v3(struct psmouse *psmouse,
-> +				   struct elantech_device_info *info);
-> +
->  /*
->   * Put the touchpad into absolute mode
->   */
-> @@ -1047,6 +1050,14 @@ static int elantech_set_absolute_mode(struct psmouse *psmouse)
->  		if (elantech_write_reg(psmouse, 0x10, etd->reg_10))
->  			rc = -1;
->  
-> +		/*
-> +		 * If we boost hardware resolution, we have to re-query
-> +		 * info->x_max and y_max.
-> +		 */
-> +		if (etd->info.set_hw_resolution)
-> +			if (elantech_query_range_v3(psmouse, &etd->info))
-> +				rc = -1;
-> +
->  		break;
->  
->  	case 4:
-> @@ -1671,6 +1682,20 @@ static int elantech_set_properties(struct elantech_device_info *info)
->  	return 0;
->  }
->  
-> +static int elantech_query_range_v3(struct psmouse *psmouse,
-> +				   struct elantech_device_info *info)
-> +{
-> +	unsigned char param[3];
-> +
-> +	if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
-> +		return -EINVAL;
-> +
-> +	info->x_max = (0x0f & param[0]) << 8 | param[1];
-> +	info->y_max = (0xf0 & param[0]) << 4 | param[2];
-> +
-> +	return 0;
-> +}
-> +
->  static int elantech_query_info(struct psmouse *psmouse,
->  			       struct elantech_device_info *info)
->  {
-> @@ -1826,11 +1851,8 @@ static int elantech_query_info(struct psmouse *psmouse,
->  		break;
->  
->  	case 3:
-> -		if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
-> +		if (elantech_query_range_v3(psmouse, info))
->  			return -EINVAL;
-> -
-> -		info->x_max = (0x0f & param[0]) << 8 | param[1];
-> -		info->y_max = (0xf0 & param[0]) << 4 | param[2];
->  		break;
->  
->  	case 4:
-> -- 
-> 2.38.0
+Thanks,
+Roderick
