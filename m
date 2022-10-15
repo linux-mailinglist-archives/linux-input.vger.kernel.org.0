@@ -2,87 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFCBD5FF667
-	for <lists+linux-input@lfdr.de>; Sat, 15 Oct 2022 00:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 414575FFB4E
+	for <lists+linux-input@lfdr.de>; Sat, 15 Oct 2022 18:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbiJNWhr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Oct 2022 18:37:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
+        id S229703AbiJOQ4R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Oct 2022 12:56:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbiJNWhr (ORCPT
+        with ESMTP id S229702AbiJOQ4Q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Oct 2022 18:37:47 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9085060F1
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 15:37:46 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id d26so13337052eje.10
-        for <linux-input@vger.kernel.org>; Fri, 14 Oct 2022 15:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b1V4e9jqqTdVFZtiW+buOhqrGLm37lTJlpJ17VPVjGk=;
-        b=UTRgEXtU9PKREtgFBjuD3uzXsOS5kS2CX6O/jA7AVh+U09kK+3I1WSOil93+EcIac4
-         3sW9zyBXJmMHiXxb719zxwznNFZdjdC4lJtClWB30eQSi5A9r9sVE1O2M+Aj8yNhX9ei
-         kw7z/1GQsrz1QY/S+5v6ZV/tGGIuC+NPF5OkK1SXKli3tsjQav+I6J2aU9R2wSkI8yDv
-         mJDq75x8CdEdH6inWvPUs4u5DtbsD/ID0IxoDt9WPZ89dQjt3pfjHDhsjCCAwEQ4jQTn
-         IM8o1aureJZWjgmMeFrvJvEDqXyBDKByjo8RTLNcVd0gZkZL6OKVqgfv5wQbVJ3ySP4/
-         wJpg==
+        Sat, 15 Oct 2022 12:56:16 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F4C4A82D;
+        Sat, 15 Oct 2022 09:56:15 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id f22so5519726qto.3;
+        Sat, 15 Oct 2022 09:56:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b1V4e9jqqTdVFZtiW+buOhqrGLm37lTJlpJ17VPVjGk=;
-        b=PUQWnT/S8MxPPXheRUQARda2NpQtZzoGCWIVJq+NOM+RxY8JcreiGi/S35Sks+GgaL
-         RSuDhSUc1QEKZgCwA6Y0qkFSXaPE3VW2nuOoLF/BqxRxe7KkT8DK+Zxt6XVUildLADHR
-         28mPH/+unzRqU23k4IqPqyyN5j5C4HDboDgd3+JfboaRHYqGacFESxjLsxwM8fChQVN9
-         oT4evqA4HHNgMAbJ18bl3qccz2DQ+gNe83dNlSfsz0cbrLz+dmGPNY9K07uQVEVXOY5U
-         6WuvNsIhQXJsZCxVJwa7nZEj1R4jP9XP97N70tErAqlmYBGq3zC1L8sdZluybr3SxnWQ
-         apYQ==
-X-Gm-Message-State: ACrzQf1U3qWxlH+qaT2hSiHKgnE7RR4uuuvz00NVU+wfiGjSmEFVRjn6
-        c25G8WnrkZIiWO7g1JJnIUI=
-X-Google-Smtp-Source: AMsMyM6/GvljkCPttbnzHEn8IBx67/gD2CfwZ20vxX2IfGabyrjO42aFvxOyr9SOuYbX7nEec5dj3A==
-X-Received: by 2002:a17:907:970b:b0:78d:8d70:e4e8 with SMTP id jg11-20020a170907970b00b0078d8d70e4e8mr134799ejc.614.1665787064910;
-        Fri, 14 Oct 2022 15:37:44 -0700 (PDT)
-Received: from penguin ([57.190.1.13])
-        by smtp.gmail.com with ESMTPSA id 18-20020a170906211200b00779cde476e4sm2180427ejt.62.2022.10.14.15.37.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 15:37:44 -0700 (PDT)
-Date:   Fri, 14 Oct 2022 15:37:23 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Mark Pearson <markpearson@lenovo.com>
-Cc:     linux-input@vger.kernel.org, snafu109@gmail.com,
-        mpearson-lenovo@squebb.ca
-Subject: Re: [PATCH] Input: Disable Intertouch for Lenovo T14 and P14s AMD G1
-Message-ID: <Y0nIdgy9BKpIKsfP@penguin>
-References: <markpearson@lenovo.com,>
- <20220920193936.8709-1-markpearson@lenovo.com>
- <eef66090-15ac-a53e-4677-f1f2620fb965@lenovo.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h1kGMyZ8iPn6jxS1RJptkgeK4wGXJYpfTtGZVw/vNYE=;
+        b=OAHyOVWJ3B+spXrMUUgSWBrY+EC9Woc50xcs4SbAgIQWmEvrgFtNQA61kkWkAcgat3
+         utwNtoforuVZjEYZf99l0xQJ7tw7CrhNsRuN3hBXp2CVSK1Jrsxep/cAvqR4j9gdWDVo
+         a3vpCX1zIda9WN2d1P//B4cUQjDVatMROYTtn1HtJw8w8RTNE6OzZ9vP/fWXvDNdVEMt
+         6jDcqtKffiVqc4NYetaDFMBo1obMp63WmNFU8Fht7KQpw+KmANPX4bvor74eZFQ3lw4j
+         PqHpO4bTF8QtlGyB83NBUySq67bc95f7/Aa2eelX58I7IKVS2BidI8Be91uNsH3xpVS7
+         sAwQ==
+X-Gm-Message-State: ACrzQf3UIGkkyuG91wvqcdS83T5a8kzh2cJk0WFAkiXx/7+2NJFZuitF
+        0Fytlm8P/LbAKit1E8wOGLN00O6Qq53NX6KiRL0=
+X-Google-Smtp-Source: AMsMyM5VpXNSDHG6hH+avu+LLqK1F1gCjNc62IhcpK3HG0VAkIbFT/UxIhJSbkA8ILrSffofXqNATnqaVHOyZGSQocM=
+X-Received: by 2002:ac8:5ac1:0:b0:39a:123c:9df5 with SMTP id
+ d1-20020ac85ac1000000b0039a123c9df5mr2595647qtd.27.1665852974906; Sat, 15 Oct
+ 2022 09:56:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eef66090-15ac-a53e-4677-f1f2620fb965@lenovo.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220929161917.2348231-1-rrangel@chromium.org>
+ <20220929093200.v6.6.I8092e417a8152475d13d8d638eb4c5d8ea12ac7b@changeid>
+ <CAJZ5v0izHjb8vE0ALyYo9yMOExdpCzG8f7-d5SpQnftqJfTEig@mail.gmail.com>
+ <CAHQZ30CJyhPK-OriZ5NZ=GjwNbofaCW6GZ_CvPsL0WiJGsxs-Q@mail.gmail.com>
+ <CAJZ5v0gcJRoMSODbTevRdK1zaEZHJcPxvG6XMy9-T_jvwxPFBw@mail.gmail.com>
+ <CAHQZ30CQd-0YnQgYG_OJVWn9_aUjvDAuT_DRGsxQF-q+bjr5BA@mail.gmail.com>
+ <YzYowYJpRTImmg4m@google.com> <CAJZ5v0i+QYcMuqsK9y6qy9qzJdUp503Sidr1e4V_ROyumLKCsw@mail.gmail.com>
+ <YzcqdTxLMF5028yz@smile.fi.intel.com> <YzcthIfnpi8E6XVk@google.com>
+In-Reply-To: <YzcthIfnpi8E6XVk@google.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sat, 15 Oct 2022 18:56:04 +0200
+Message-ID: <CAJZ5v0iKXWBGYPmmg9__g3oHK2GhY+xFMnSA6c5KctOv2kTfNQ@mail.gmail.com>
+Subject: Re: [PATCH v6 06/13] ACPI: resources: Add wake_capable parameter to acpi_dev_irq_flags
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Raul Rangel <rrangel@chromium.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Tim Van Patten <timvp@google.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "jingle.wu" <jingle.wu@emc.com.tw>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Len Brown <lenb@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Terry Bowman <terry.bowman@amd.com>, Tom Rix <trix@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Mark,
+On Fri, Sep 30, 2022 at 7:55 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Fri, Sep 30, 2022 at 08:42:13PM +0300, Andy Shevchenko wrote:
+> > On Fri, Sep 30, 2022 at 07:13:37PM +0200, Rafael J. Wysocki wrote:
+> > > On Fri, Sep 30, 2022 at 1:22 AM Dmitry Torokhov
+> > > <dmitry.torokhov@gmail.com> wrote:
+> >
+> > ...
+> >
+> > > I think that patches [5-8/13] from this series are significant
+> > > framework changes, so it would make sense to route them via the ACPI
+> > > tree.
+> > >
+> > > If this is fine with everybody, I will queue them up for merging into
+> > > 6.1 (probably in the second half of the upcoming merge window).
+> >
+> > I believe it's fine from GPIO ACPI perspective (there shouldn't be conflict,
+> > but if you wish you always may take this PR [1] to your tree (it's already in
+> > GPIO tree pending v6.1), it may be considered as immutable tag.
+> >
+> > [1]: https://lore.kernel.org/linux-gpio/Yym%2Fj+Y9MBOIhWtK@black.fi.intel.com/
+>
+> Yeah, having an immutable branch hanging off 6.0-rcN would be awesome -
+> I could pull it and this would avoid any potential conflicts later.
 
-On Fri, Oct 14, 2022 at 03:24:07PM -0400, Mark Pearson wrote:
-> Resending as I hadn't seen any reviews. I think this didn't make it on
-> the list as I can't see it on the archives :(
+This material is in the mainline now, but the branch is still there in
+case you need it:
 
-I believe this is commit 2fd003ee8ade6b7f2777becc6f9917d7c313784f and it
-should be part of 6.0 release.
+ git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+ acpi-wakeup
 
-Thanks.
-
--- 
-Dmitry
+It won't be necessary any more after 6.1-rc1 is out, though, I suppose.
