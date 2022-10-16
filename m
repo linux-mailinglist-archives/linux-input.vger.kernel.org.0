@@ -2,78 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65460600068
-	for <lists+linux-input@lfdr.de>; Sun, 16 Oct 2022 17:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A0AC600410
+	for <lists+linux-input@lfdr.de>; Mon, 17 Oct 2022 00:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbiJPPJQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 16 Oct 2022 11:09:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50912 "EHLO
+        id S229808AbiJPW61 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 16 Oct 2022 18:58:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiJPPJP (ORCPT
+        with ESMTP id S229802AbiJPW6Z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Oct 2022 11:09:15 -0400
-Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [IPv6:2001:67c:2050:103:465::111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B86B42D4C;
-        Sun, 16 Oct 2022 08:09:13 -0700 (PDT)
-Received: from smtp102.mailbox.org (unknown [91.198.250.119])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4Mr3S46tpPz9tM5;
-        Sun, 16 Oct 2022 17:09:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noorman.info;
-        s=MBO0001; t=1665932949;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BwnvJmYklKb2+UBlQ9rYbd4a798S+TwPnf4/wOdXb8Q=;
-        b=N/if0YtRFwuNvLmMwtm5NHC8Y4mZeD33HEV96X1NJo0JZbbn0QiMD8LeLLSrojqsPRs+JC
-        9voFab7Jfd6vb+Ei68y+dOLm6Z0U/OAf8bMIcCbUZy6K7JkzAJrCVL4TUxncLWQs37HbOo
-        CtM7rOkZq+WN9j4UhMXu5o0NHsyvktJl8DXX38K33c7KbfmGMwtIMs6P67P+LyFGdlekn5
-        uJUnSPl59bw9OTOMLDpNg5qdWyOeMOJdQh8nw9gUk9D+D+dkze/SHSJWSawksFVIPF/dSG
-        1TthsSYOXafnTaCQ3tHAGRgkDQrsp08cK65vqM5mbeSvSSNHiL8lVBpQbRt/rA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Sun, 16 Oct 2022 17:09:07 +0200
-Message-Id: <CNNFXYM20GK5.3O8PV4IRMP2HH@ancom>
-Subject: Re: [PATCH v3 1/3] dt-bindings: touchscreen: add Himax hx83112b
- bindings
-From:   "Job Noorman" <job@noorman.info>
-To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>
-Cc:     "Luca Weiss" <luca@z3ntu.xyz>, <linux-input@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20221016102756.40345-1-job@noorman.info>
- <20221016102756.40345-2-job@noorman.info>
- <08a98921-592f-fe70-1591-367f9c4063b6@linaro.org>
-In-Reply-To: <08a98921-592f-fe70-1591-367f9c4063b6@linaro.org>
-X-Rspamd-Queue-Id: 4Mr3S46tpPz9tM5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 16 Oct 2022 18:58:25 -0400
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5253532D8D;
+        Sun, 16 Oct 2022 15:58:24 -0700 (PDT)
+Received: by mail-oi1-f180.google.com with SMTP id w196so10473562oiw.8;
+        Sun, 16 Oct 2022 15:58:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JbWnEAg2SsNDRgsWcVmOmhtdqCGa97ZPW4mtEP7xswI=;
+        b=Z7wCrbACL8CIrlNvIBRAmaajuDRPNPs9+vpaZDUUxco8asE0BBnwzM4tKU0KHZ/VS6
+         Qs0ebR0aeDyHB/DQIiPCcMdxq/zrLtphIwCJFgfgtnqRsTl9yK2Dz0x/iLczY0lfGV0l
+         CF/nMyPzAQap5gxW35MYPW+mnTPLNgYph0V7X48hc4kFUkrjVojw9sNDbQ/idhb+EUI4
+         YjWgfCB+955KYSZO+bnctDj2NQA522gc5Qjr9aXrHtZkt3gz2Su5H9mG6wMEI2qjYhcQ
+         ftAC7j3xZucBoYj4PV+sUAxoMHKqp+O29yDjUEnWoHS5jpuT6x2m4R9DSy+g1AOjQkHR
+         wcPA==
+X-Gm-Message-State: ACrzQf0nSSlbhvBB+jXDusjHyL4YYu9rcPs0zX7cwjEbTIEMQZyF8j37
+        J4L82brwdwpL/bA1FmRNwg==
+X-Google-Smtp-Source: AMsMyM5DZEcLmoIsH9mR3NcXBcaWogJ6YxxwoyjU1pdlK/LhDADAEonvdWGthzXuvxjU3uP3KayFtQ==
+X-Received: by 2002:a05:6808:2107:b0:354:6fd3:af02 with SMTP id r7-20020a056808210700b003546fd3af02mr3738887oiw.176.1665961103599;
+        Sun, 16 Oct 2022 15:58:23 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bh19-20020a056808181300b0035468f2d410sm3662748oib.55.2022.10.16.15.58.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Oct 2022 15:58:23 -0700 (PDT)
+Received: (nullmailer pid 3904630 invoked by uid 1000);
+        Sun, 16 Oct 2022 22:58:18 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Caleb Connolly <caleb@connolly.tech>
+Cc:     linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        krzysztof.kozlowski@linaro.org, devicetree@vger.kernel.org,
+        Tom Rix <trix@redhat.com>, linux-input@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Jeff LaBundy <jeff@labundy.com>,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        linux-arm-msm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        llvm@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>
+In-Reply-To: <20221015172915.1436236-2-caleb@connolly.tech>
+References: <20221015172915.1436236-1-caleb@connolly.tech> <20221015172915.1436236-2-caleb@connolly.tech>
+Message-Id: <166596080545.3896335.8438401170127513761.robh@kernel.org>
+Subject: Re: [PATCH v7 1/2] dt-bindings: input: document Qualcomm PMI8998 haptics driver
+Date:   Sun, 16 Oct 2022 17:58:18 -0500
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun Oct 16, 2022 at 5:00 PM CEST, Krzysztof Kozlowski wrote:
-> On 16/10/2022 06:27, Job Noorman wrote:
-> > This patch adds device tree bindings for Himax 83112b touchscreen
-> > devices.
-> >=20
-> > Signed-off-by: Job Noorman <job@noorman.info>
->
-> You got here tag from Rob, so keep it. The change was minor so did not
-> justify tag-drop.
+On Sat, 15 Oct 2022 17:30:35 +0000, Caleb Connolly wrote:
+> Add bindings for qcom PMIC PMI8998 haptics driver.
+> 
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> ---
+>  .../bindings/input/qcom,pmi8998-haptics.yaml  | 73 +++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
+> 
 
-Thanks for the info, I wasn't sure if this would be considered minor. Will
-add the tag in the next revision.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Best regards,
-Job
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.example.dtb: haptics@c000: 'qcom,wave-play-rate-us' does not match any of the regexes: 'pinctrl-[0-9]+'
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
