@@ -2,83 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4205600A8D
-	for <lists+linux-input@lfdr.de>; Mon, 17 Oct 2022 11:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49A8E600AB6
+	for <lists+linux-input@lfdr.de>; Mon, 17 Oct 2022 11:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbiJQJ0N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Oct 2022 05:26:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49016 "EHLO
+        id S230187AbiJQJao (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Oct 2022 05:30:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231220AbiJQJ0K (ORCPT
+        with ESMTP id S230075AbiJQJam (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Oct 2022 05:26:10 -0400
-Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [IPv6:2001:67c:2050:103:465::209])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21CCB1572E;
-        Mon, 17 Oct 2022 02:26:03 -0700 (PDT)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4MrWng1gwgz9tcv;
-        Mon, 17 Oct 2022 11:25:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noorman.info;
-        s=MBO0001; t=1665998759;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eqG+FnY6cgw2Y7pCQVtHWPTcq9pUdNMukJJetYXzLCw=;
-        b=Jiyoawga2QgnFZvz0FlLSxSiCwExRZ5QZtx4aPU/wUs8axLDU0G2fE940CtTyFlIJjp9gt
-        UIV6nfSsGHC5qIl7mk6UC5dvOZsx/XRqOO+yPD6stc0w509ukfRUQgpnKeSnOhXcgLg8ep
-        r/C9Iy6EZNovrTtVZbwitC3M3zgS7sZfofqwyix3J1qnW3KCYpJDm8fIiLkO93Q/eeWUmI
-        3L887kT1LxDZz+KTlq6IrhlAaOfQRwgxnwQVsdf3OffL1DJufU+OdnP5ZLbWqj7nVd9AKQ
-        okDTG0I5Jllknc957rsrov3EpyPh4eGtEtH+wjSs2FkEPWi5panZvJUuLEwcWA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 17 Oct 2022 11:25:57 +0200
-Message-Id: <CNO39RACPFL9.13SXHBXOMYMT2@ancom>
-Cc:     "Henrik Rydberg" <rydberg@bitmath.org>,
-        "Luca Weiss" <luca@z3ntu.xyz>, <linux-kernel@vger.kernel.org>,
-        <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] Input: add driver for Himax hx83112b touchscreen
- devices
-From:   "Job Noorman" <job@noorman.info>
-To:     "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-References: <20221016102756.40345-1-job@noorman.info>
- <20221016102756.40345-3-job@noorman.info> <Y0zX0e6WbLaRuTqv@penguin>
-In-Reply-To: <Y0zX0e6WbLaRuTqv@penguin>
-X-Rspamd-Queue-Id: 4MrWng1gwgz9tcv
+        Mon, 17 Oct 2022 05:30:42 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E660F186DC;
+        Mon, 17 Oct 2022 02:30:41 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id h185so9932157pgc.10;
+        Mon, 17 Oct 2022 02:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rM95b+lprcA9+IBLMDF1xffisgCBjIYYF9osRjetg7c=;
+        b=ThJ4ieVN61+E41mdaF9bnScV8EbGmdfmwDs+xkIiPqOBjTaOztvpnnLEySALiJrs/q
+         OTPi0TaGXbnBgYVYZftNtFDmzAhQdbJhRi/Tc6KPimdkKHJ2QNzUUQ86nuUwEmcK3YiE
+         FzBKhYTR5uP1C6IrxVOp3f8q9+o0XzOmpu1yBT3fo9Nw0kgtZdDMTRv5dy6EAcR+C0CX
+         W1LRj3hwbKq7py3NJgCiVff7ekY4r5hvmhSi/doSFKD340rE35T6G2cCKGO2i2ZbOiCJ
+         9UgvRCDVqq31Gr6YfRrhdEQzgb3rrpiv8Oe+Q2k29recJbt5ZsFwUoa4KiAlfo1uPLhu
+         DLQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rM95b+lprcA9+IBLMDF1xffisgCBjIYYF9osRjetg7c=;
+        b=zOdYAcwp0+gDGcZfWK4CU6B10x/C0qAYSaRG3lUulZ1NTjApPMYzGYgpssU7l2ir7J
+         Dvh2rgRV6OKY0h9xyajh5H0g82PLF9UmR2JmenglhZ/YaAQCrvlvY8LPBTZBHEPY7hpZ
+         j2UXVzg5ckmYg2VaLr+mRVMuHmcLqPaUBG4hlTXL6q2OOMP6TxjaxZkdbhrrRpGTZFRp
+         AuLZ4ve+FMy5T688kQmHycWHompsBoLDvWCDOLQn+Jhg8vSMAlzLKpbKGDkfSSVA2vC0
+         MMAoL32eNrm33BxvUkdr8oRNbZr5vl6ON/5gZEelkQ9N+S/rmtdiE7NAJUpdTRDYGOVh
+         LAvQ==
+X-Gm-Message-State: ACrzQf1NE/a1dTc+KQZ2AFv4mO+jW6Cz0dLlCR0pG3VGjruKy3KOSGXB
+        h+9t1Xi6w8FXWAkXbJ52SmgpZNRbOqO27A==
+X-Google-Smtp-Source: AMsMyM5aRPItposyqZJVKykHnnA3U2YC1YgIJxSjJ57ZAxZxZTi5Tl5HsWTnkwZJ2HnfVOT0VdcjhA==
+X-Received: by 2002:a05:6a00:a22:b0:54e:6a90:fbef with SMTP id p34-20020a056a000a2200b0054e6a90fbefmr11555589pfh.53.1665999041347;
+        Mon, 17 Oct 2022 02:30:41 -0700 (PDT)
+Received: from mail.google.com (122-58-209-93-fibre.sparkbb.co.nz. [122.58.209.93])
+        by smtp.gmail.com with ESMTPSA id p3-20020a170902780300b001811a197797sm6105820pll.194.2022.10.17.02.30.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Oct 2022 02:30:40 -0700 (PDT)
+Date:   Mon, 17 Oct 2022 22:30:33 +1300
+From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-hyperv@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] [next] HID: hyperv: Replace one-element array with
+ flexible-array member
+Message-ID: <Y00guZiaxDbFaGhX@mail.google.com>
+References: <Y00JenqCzKRrcTiF@mail.google.com>
+ <CAO-hwJ+q+fsmjKY=BjDazBjUDD3755VhRxWw628=xxC9ePWzqA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJ+q+fsmjKY=BjDazBjUDD3755VhRxWw628=xxC9ePWzqA@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Mon, Oct 17, 2022 at 10:30:54AM +0200, Benjamin Tissoires wrote:
+> On Mon, Oct 17, 2022 at 9:51 AM Paulo Miguel Almeida
+> <paulo.miguel.almeida.rodenas@gmail.com> wrote:
+> >
+> > One-element arrays are deprecated, and we are replacing them with
+> > flexible array members instead. So, replace one-element array with
+> > flexible-array member in structs synthhid_msg, synthhid_input_report,
+> > pipe_prt_msg and refactor the rest of the code accordingly.
+> >
+> > This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> > routines on memcpy() and help us make progress towards globally
+> > enabling -fstrict-flex-arrays=3 [1].
+> >
+> > Link: https://github.com/KSPP/linux/issues/79
+> > Link: https://github.com/KSPP/linux/issues/210
+> > Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
+> >
+> > Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> > ---
+> 
+> FWIW, this is
+> Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> 
+Thanks for reviewing this patch :-)
 
-Thanks for your review! I've addressed all your comments and will send an
-update momentarily. I just have a small reply below.
+> > +++ b/drivers/hid/hid-hyperv.c
+> > @@ -61,7 +61,7 @@ struct synthhid_msg_hdr {
+> >
+> >  struct synthhid_msg {
+> >         struct synthhid_msg_hdr header;
+> > -       char data[1]; /* Enclosed message */
+> > +       char data[]; /* Enclosed message */
+> >  };
+> 
+> IMO that struct has no real use. We just use it in
+> mousevsc_on_receive() to dereference the first field only, the header.
+> So how about we have a followup cleanup patch that just removes it and
+> in mousevsc_on_receive() we convert those usages directly to struct
+> synthhid_msg_hdr?
+> 
+> Cheers,
+> Benjamin
 
-On Mon Oct 17, 2022 at 6:19 AM CEST, Dmitry Torokhov wrote:
-> > +struct himax_event {
-> > +	struct himax_event_point points[HIMAX_MAX_POINTS];
-> > +	u8 majors[HIMAX_MAX_POINTS];
-> > +	u8 pad0[2];
-> > +	u8 num_points;
-> > +	u8 pad1[2];
-> > +	u8 checksum_fix;
-> > +} __packed;
-> > +
-> > +static_assert(sizeof(struct himax_event) =3D=3D 56);
->
-> Is this different from BUILD_BUG_ON()?
+I'm happy to send a followup cleanup patch for that.
 
-Their intent is the same but BUILD_BUG_ON() cannot be used at the global
-scope. Hence, static_assert() is necessary here.
-
-Best regards,
-Job
+Paulo A.
