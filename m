@@ -2,108 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27F68600F79
-	for <lists+linux-input@lfdr.de>; Mon, 17 Oct 2022 14:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC1A0601014
+	for <lists+linux-input@lfdr.de>; Mon, 17 Oct 2022 15:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230313AbiJQMs5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Oct 2022 08:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52004 "EHLO
+        id S230056AbiJQNTC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Oct 2022 09:19:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbiJQMs5 (ORCPT
+        with ESMTP id S230147AbiJQNS5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Oct 2022 08:48:57 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF735C97E;
-        Mon, 17 Oct 2022 05:48:49 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 5E1EE1C0023; Mon, 17 Oct 2022 14:48:47 +0200 (CEST)
-Date:   Mon, 17 Oct 2022 14:48:46 +0200
-From:   Pavel Machek <pavel@denx.de>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Harry Stern <harry@harrystern.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        jikos@kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 4.9 03/10] hid: topre: Add driver fixing report
- descriptor
-Message-ID: <20221017124846.GB13227@duo.ucw.cz>
-References: <20221013002802.1896096-1-sashal@kernel.org>
- <20221013002802.1896096-3-sashal@kernel.org>
+        Mon, 17 Oct 2022 09:18:57 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC9B61D9B;
+        Mon, 17 Oct 2022 06:18:54 -0700 (PDT)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 584C51C0018;
+        Mon, 17 Oct 2022 13:18:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1666012732;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AR6gsO3KItGs+h4qoIrNM9fVvOyOHbuFkGe+loBQDqo=;
+        b=HIIwvvT6IvL65SaDL4XZUfSSG0BhY5o4T9I33GNOgwRebSOvDwbgUfICTQLT4iSNd4X1NJ
+        a4u6ypmSh4TRYTykVfoJJ7x9qKK9y3mrM4Zt+uLofma3isuticm0CXdpkPlfVDGNRf9N/1
+        GrvTfpWkQoiAuSjxOFFDUrWaYWV26rkqb+ObpvGeuRIaUrMkw+iXmu/4xFBXefQmhQ1ksa
+        4cmHCKPWdUmQ25nrOwNBRY2GhBIrYP8dcfw79kRfFrCn2N4gFNFf/H1uAGWZRU6crlTwWp
+        EcFcjOvLoYr/LseCzCHL8pVxmdWAgh7Xat0mmgdjYOBpQDbY4mCqDJ84gMI0eQ==
+Date:   Mon, 17 Oct 2022 15:18:51 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Rob Herring <robh+dt@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 09/11] rtc: pm8xxx: drop unused pm8018 compatible
+Message-ID: <Y01WO7IoSmPLgcfe@mail.local>
+References: <20220928-mdm9615-dt-schema-fixes-v3-0-531da552c354@linaro.org>
+ <20220928-mdm9615-dt-schema-fixes-v3-9-531da552c354@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="24zk1gE8NUlDmwG9"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221013002802.1896096-3-sashal@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NEUTRAL autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220928-mdm9615-dt-schema-fixes-v3-9-531da552c354@linaro.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 17/10/2022 11:45:34+0200, Neil Armstrong wrote:
+> The PM8018 compatible is always used with PM8921 fallback, so PM8018
+> compatible can be safely removed from device ID table
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
---24zk1gE8NUlDmwG9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> From: Harry Stern <harry@harrystern.net>
->=20
-> [ Upstream commit a109d5c45b3d6728b9430716b915afbe16eef27c ]
->=20
-> The Topre REALFORCE R2 firmware incorrectly reports that interface
-> descriptor number 1, input report descriptor 2's events are array events
-> rather than variable events. That particular report descriptor is used
-> to report keypresses when there are more than 6 keys held at a time.
-> This bug prevents events from this interface from being registered
-> properly, so only 6 keypresses (from a different interface) can be
-> registered at once, rather than full n-key rollover.
->=20
-> This commit fixes the bug by setting the correct value in a report_fixup
-> function.
->=20
-> The original bug report can be found here:
-> Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/804
->=20
-> Thanks to Benjamin Tissoires for diagnosing the issue with the report
-> descriptor.
-
-Come on, whole new driver to work around hw problem that is not really
-serious. Plus this won't really do anything unless people enable it in
-config.
-
-This should not be in stable.
-
-Best regards,
-								Pavel
-
-> Signed-off-by: Harry Stern <harry@harrystern.net>
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Link: https://lore.kernel.org/r/20220911003614.297613-1-harry@harrystern.=
-net
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
 > ---
->  drivers/hid/Kconfig     |  6 +++++
->  drivers/hid/Makefile    |  1 +
->  drivers/hid/hid-ids.h   |  3 +++
->  drivers/hid/hid-topre.c | 49 +++++++++++++++++++++++++++++++++++++++++
+>  drivers/rtc/rtc-pm8xxx.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/rtc/rtc-pm8xxx.c b/drivers/rtc/rtc-pm8xxx.c
+> index dc6d1476baa5..716e5d9ad74d 100644
+> --- a/drivers/rtc/rtc-pm8xxx.c
+> +++ b/drivers/rtc/rtc-pm8xxx.c
+> @@ -461,7 +461,6 @@ static const struct pm8xxx_rtc_regs pmk8350_regs = {
+>   */
+>  static const struct of_device_id pm8xxx_id_table[] = {
+>  	{ .compatible = "qcom,pm8921-rtc", .data = &pm8921_regs },
+> -	{ .compatible = "qcom,pm8018-rtc", .data = &pm8921_regs },
+>  	{ .compatible = "qcom,pm8058-rtc", .data = &pm8058_regs },
+>  	{ .compatible = "qcom,pm8941-rtc", .data = &pm8941_regs },
+>  	{ .compatible = "qcom,pmk8350-rtc", .data = &pmk8350_regs },
+> 
+> -- 
+> b4 0.10.1
 
---=20
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---24zk1gE8NUlDmwG9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY01PLgAKCRAw5/Bqldv6
-8kdsAJ9lvQoxJ3ffIjkIWlnFNChhUI+/iQCfVZLCVxHpaAXYQsfAQV6JKd5A8yw=
-=YMaE
------END PGP SIGNATURE-----
-
---24zk1gE8NUlDmwG9--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
