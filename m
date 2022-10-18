@@ -2,47 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EB31602C46
-	for <lists+linux-input@lfdr.de>; Tue, 18 Oct 2022 15:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16069602E16
+	for <lists+linux-input@lfdr.de>; Tue, 18 Oct 2022 16:14:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230326AbiJRNAi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Oct 2022 09:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
+        id S230071AbiJROOT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Oct 2022 10:14:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbiJRNAg (ORCPT
+        with ESMTP id S230057AbiJROOS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Oct 2022 09:00:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CC8895CC;
-        Tue, 18 Oct 2022 06:00:35 -0700 (PDT)
+        Tue, 18 Oct 2022 10:14:18 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0410424BFD;
+        Tue, 18 Oct 2022 07:14:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 986556153F;
-        Tue, 18 Oct 2022 13:00:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8312C433C1;
-        Tue, 18 Oct 2022 13:00:33 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id AE376CE1DE4;
+        Tue, 18 Oct 2022 14:14:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA89C433D6;
+        Tue, 18 Oct 2022 14:14:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666098035;
-        bh=hJkmyb0el7q4g4MjHB/cF/uww5w6exRobS/z6T4Jn8Q=;
+        s=k20201202; t=1666102449;
+        bh=R2fJ5DmOV9x1HfJqlfZC/8dktnSxhk/IVxJxuL/mLFA=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=AZT+UP1XWTvk0ZuZsKot3x2PUBpE1KwBfxVJqUl5QtYtQhX6LhcIPNx+OwrwaEuYX
-         PeELTwcj3uMPlX2KRYazDOf09yCJs2lBxE7Ed6h5EBFC+CDnoDainRKLUKCaYrrdVA
-         1/hLBV6o+dodkym8uMWNHTAlwTPDwGkTUoZXhg8Iy7bvzcZfeDRLUO9qCoDY5hoTRF
-         659D3aw9ifbe7WLgorwva1xKMjuSdr29tjJXgxgVW9l884XEjg4sjiDdgjPCFu2byS
-         VCUXcHo3CIEUM+7EI6M84b7jr4Nmj9XrHftepojH5N8B+qeCrvse+JgKZOy7d/2uuP
-         FtclvoFo5EAVw==
-Date:   Tue, 18 Oct 2022 15:00:31 +0200 (CEST)
+        b=SacDykjoX1uUaKe4ku9qTs+de5fB8UhGUkEa0hpCFmD3tVWlICm/HjbC7EBumrOmy
+         TS9e6YXlyHMTrSQRQ7dKV1e3FklMrm5QuejPH2ohRWaXAQq0BnCsCI1k5oZ77izNR+
+         Nu6wP4ckjMTwmqw0Tad+QNYplDLWKg39lNc+jgqEOLcK3EsM778kNuT262uw6DzEzr
+         SdWFGYEsPQJWG1qLZqye9QTXxppxiaokcEq1c9p4P1H0V3EVtIcT1L4QnUcIGwTe71
+         0RCVqfiHwv8+Mh2UWKAIqreJ3s5TaF3SkJEnHjrksVihlSJDckV2TiGClHfNirLSI/
+         KdXRrnkUm8YzQ==
+Date:   Tue, 18 Oct 2022 16:14:06 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Jonathan Cameron <jic23@kernel.org>
-cc:     Matt Ranostay <matt.ranostay@konsulko.com>, gupt21@gmail.com,
-        benjamin.tissoires@redhat.com, linux-iio@vger.kernel.org,
+To:     Stephen Kitt <steve@sk2.org>
+cc:     linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] HID: mcp2221: add ADC/DAC support via iio
- subsystem
-In-Reply-To: <20221002145052.036003b5@jic23-huawei>
-Message-ID: <nycvar.YFH.7.76.2210181500130.29912@cbobk.fhfr.pm>
-References: <20221001005208.8010-1-matt.ranostay@konsulko.com> <20221001005208.8010-4-matt.ranostay@konsulko.com> <20221002145052.036003b5@jic23-huawei>
+Subject: Re: [PATCH] drivers/hid: use simple i2c probe
+In-Reply-To: <20221012163300.3928075-1-steve@sk2.org>
+Message-ID: <nycvar.YFH.7.76.2210181613540.29912@cbobk.fhfr.pm>
+References: <20221012163300.3928075-1-steve@sk2.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,27 +54,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 2 Oct 2022, Jonathan Cameron wrote:
+On Wed, 12 Oct 2022, Stephen Kitt wrote:
 
-> > Add support for 3x 10-bit ADC and 1x DAC channels registered via the 
-> > iio subsystem.
-> > 
-> > To prevent breakage and unexpected dependencies this support only is
-> > only built if CONFIG_IIO is enabled, and is only weakly referenced by
-> > 'imply IIO' within the respective Kconfig.
-> > 
-> > Additionally the iio device only gets registered if at least one channel
-> > is enabled in the power-on configuration read from SRAM.
-> > 
-> > Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+> All these drivers have an i2c probe function which doesn't use the
+> "struct i2c_device_id *id" parameter, so they can trivially be
+> converted to the "probe_new" style of probe with a single argument.
 > 
-> I'm never particularly keen on drivers from elsewhere in the tree gaining
-> IIO support - but that's just because it can make a bit of a mess of
-> changes to the IIO subsystem itself.  Having said that, this code looks fine to me.
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> This is part of an ongoing transition to single-argument i2c probe
+> functions. Old-style probe functions involve a call to i2c_match_id:
+> in drivers/i2c/i2c-core-base.c,
 
-Thanks. Applied for 6.2.
+Applied, thanks.
 
 -- 
 Jiri Kosina
