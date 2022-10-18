@@ -2,71 +2,166 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16069602E16
-	for <lists+linux-input@lfdr.de>; Tue, 18 Oct 2022 16:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 879D6603275
+	for <lists+linux-input@lfdr.de>; Tue, 18 Oct 2022 20:29:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbiJROOT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Oct 2022 10:14:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34156 "EHLO
+        id S229977AbiJRS3n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Oct 2022 14:29:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbiJROOS (ORCPT
+        with ESMTP id S229869AbiJRS3h (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Oct 2022 10:14:18 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0410424BFD;
-        Tue, 18 Oct 2022 07:14:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id AE376CE1DE4;
-        Tue, 18 Oct 2022 14:14:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA89C433D6;
-        Tue, 18 Oct 2022 14:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666102449;
-        bh=R2fJ5DmOV9x1HfJqlfZC/8dktnSxhk/IVxJxuL/mLFA=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=SacDykjoX1uUaKe4ku9qTs+de5fB8UhGUkEa0hpCFmD3tVWlICm/HjbC7EBumrOmy
-         TS9e6YXlyHMTrSQRQ7dKV1e3FklMrm5QuejPH2ohRWaXAQq0BnCsCI1k5oZ77izNR+
-         Nu6wP4ckjMTwmqw0Tad+QNYplDLWKg39lNc+jgqEOLcK3EsM778kNuT262uw6DzEzr
-         SdWFGYEsPQJWG1qLZqye9QTXxppxiaokcEq1c9p4P1H0V3EVtIcT1L4QnUcIGwTe71
-         0RCVqfiHwv8+Mh2UWKAIqreJ3s5TaF3SkJEnHjrksVihlSJDckV2TiGClHfNirLSI/
-         KdXRrnkUm8YzQ==
-Date:   Tue, 18 Oct 2022 16:14:06 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Stephen Kitt <steve@sk2.org>
-cc:     linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] drivers/hid: use simple i2c probe
-In-Reply-To: <20221012163300.3928075-1-steve@sk2.org>
-Message-ID: <nycvar.YFH.7.76.2210181613540.29912@cbobk.fhfr.pm>
-References: <20221012163300.3928075-1-steve@sk2.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Tue, 18 Oct 2022 14:29:37 -0400
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258251A80E;
+        Tue, 18 Oct 2022 11:29:31 -0700 (PDT)
+Date:   Tue, 18 Oct 2022 18:29:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1666117769; x=1666376969;
+        bh=39j/N8FEDTlg592aMy449d8TbNb26ue3BrX+9fClMEM=;
+        h=Date:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID;
+        b=Qpcad0zWnJwbQrjv1rdxAt5LKpcayscF7lm64ACGbl5l7l/uQayJSBgXpzh6Zc6vi
+         520RxBhqtNNxC/RgCVhxYGnaSVaPqdl4vA9CsehNB/ULSbWdSsAwkt8hH8QmkLpB+X
+         4hB2Wv+ASQsbEBztvIzLrPcTGiRC90f9SngAovCk=
+From:   Caleb Connolly <caleb@connolly.tech>
+Cc:     krzysztof.kozlowski@linaro.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Rob Herring <robh+dt@kernel.org>, Tom Rix <trix@redhat.com>
+Subject: Re: [PATCH v7 1/2] dt-bindings: input: document Qualcomm PMI8998 haptics driver
+Message-ID: <e588abdb-6817-25cf-dd9e-be23044e1e94@connolly.tech>
+In-Reply-To: <20221015172915.1436236-2-caleb@connolly.tech>
+References: <20221015172915.1436236-1-caleb@connolly.tech> <20221015172915.1436236-2-caleb@connolly.tech>
+Feedback-ID: 10753939:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MISSING_HEADERS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 12 Oct 2022, Stephen Kitt wrote:
 
-> All these drivers have an i2c probe function which doesn't use the
-> "struct i2c_device_id *id" parameter, so they can trivially be
-> converted to the "probe_new" style of probe with a single argument.
-> 
-> This is part of an ongoing transition to single-argument i2c probe
-> functions. Old-style probe functions involve a call to i2c_match_id:
-> in drivers/i2c/i2c-core-base.c,
 
-Applied, thanks.
+On 15/10/2022 18:30, Caleb Connolly wrote:
+> Add bindings for qcom PMIC PMI8998 haptics driver.
+>
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> ---
+>   .../bindings/input/qcom,pmi8998-haptics.yaml  | 73 +++++++++++++++++++
+>   1 file changed, 73 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/input/qcom,pmi8998=
+-haptics.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics=
+.yaml b/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
+> new file mode 100644
+> index 000000000000..d43324cceb89
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright 2020 Unisoc Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/qcom,pmi8998-haptics.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm PMI8998/PM660 Haptics
+> +
+> +maintainers:
+> +  - Caleb Connolly <caleb@connolly.tech>
+> +
+> +description: |
+> +  Qualcomm SPMI haptics is a peripheral on some QTI PMICs. It supports l=
+inear resonant
+> +  actuators and eccentric rotating mass type haptics commonly found in m=
+obile devices.
+> +  It supports multiple sources of wave data such as an internal buffer, =
+direct play
+> +  (from kernel or userspace) as well as an audio output mode.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - qcom,pmi8998-haptics
+> +          - qcom,pm660-charger
 
--- 
-Jiri Kosina
-SUSE Labs
+I've just noticed this typo! Will respin and fix...
+
+> +          - qcom,pmi8996-haptics
+> +          - qcom,pmi8941-haptics
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 2
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: short
+> +      - const: play
+> +
+> +  qcom,wave-play-duration-us:
+> +    description: |
+> +      Wave sample duration in microseconds, 1/f where f
+> +      is the resonant frequency of the actuator.
+> +      This property is named qcom,wave-play-rate-us in
+> +      downstream kernels.
+> +    minimum: 0
+> +    maximum: 20475
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - qcom,wave-play-rate-us
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    spmi {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +      pmi8998_haptics: haptics@c000 {
+> +        compatible =3D "qcom,pmi8998-haptics";
+> +        reg =3D <0xc000>;
+> +
+> +        interrupts =3D <0x3 0xc0 0x0 IRQ_TYPE_EDGE_BOTH>,
+> +                     <0x3 0xc0 0x1 IRQ_TYPE_EDGE_BOTH>;
+> +        interrupt-names =3D "short", "play";
+> +
+> +        qcom,wave-play-rate-us =3D <4255>;
+> +      };
+> +    };
+> --
+> 2.38.0
+>
+
+--
+Kind Regards,
+Caleb
 
