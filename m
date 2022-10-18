@@ -2,54 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A12E602C3A
-	for <lists+linux-input@lfdr.de>; Tue, 18 Oct 2022 14:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EB31602C46
+	for <lists+linux-input@lfdr.de>; Tue, 18 Oct 2022 15:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbiJRM4d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Oct 2022 08:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60714 "EHLO
+        id S230326AbiJRNAi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Oct 2022 09:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbiJRM4b (ORCPT
+        with ESMTP id S230119AbiJRNAg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Oct 2022 08:56:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FAE9733FD;
-        Tue, 18 Oct 2022 05:56:27 -0700 (PDT)
+        Tue, 18 Oct 2022 09:00:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CC8895CC;
+        Tue, 18 Oct 2022 06:00:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E4136153F;
-        Tue, 18 Oct 2022 12:56:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15559C433C1;
-        Tue, 18 Oct 2022 12:56:23 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 986556153F;
+        Tue, 18 Oct 2022 13:00:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8312C433C1;
+        Tue, 18 Oct 2022 13:00:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666097786;
-        bh=/vHNygegziKCA4VNx1TW5Fmp5dKqLbj1UZYsAAqZAeo=;
+        s=k20201202; t=1666098035;
+        bh=hJkmyb0el7q4g4MjHB/cF/uww5w6exRobS/z6T4Jn8Q=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=EtZTt+G9DOU4CSgbn8arUlALvx79zUkfj+olr5bhKDXDfLPy1T06DiJOymCNdQ7JY
-         WSveE5OEC5STK4QoCWaVtx6k/E0FWgfnmjXml0P3PGMGK0zuNEMQUnUmtyE3UsBLEL
-         TT+rlXUo3QFn5Nh8XZnybCd8KH5R27cUVTgnMdilHJnPuL2ALn66OUEsQfZu4JTsZT
-         C5NhvNOCkEVrLIFyzXCbpg2qXemLTar1JzAIp9pHA9pcEvZTfvYddRwkjV2+hcC3nY
-         86AtVLZDtyA2jTTeMP7rUkM5eSWYiSmkGhlF/UwEoTqrBfMnJdPMXFYFMmS0a1JS1I
-         jO3Azr+4B1y9A==
-Date:   Tue, 18 Oct 2022 14:56:21 +0200 (CEST)
+        b=AZT+UP1XWTvk0ZuZsKot3x2PUBpE1KwBfxVJqUl5QtYtQhX6LhcIPNx+OwrwaEuYX
+         PeELTwcj3uMPlX2KRYazDOf09yCJs2lBxE7Ed6h5EBFC+CDnoDainRKLUKCaYrrdVA
+         1/hLBV6o+dodkym8uMWNHTAlwTPDwGkTUoZXhg8Iy7bvzcZfeDRLUO9qCoDY5hoTRF
+         659D3aw9ifbe7WLgorwva1xKMjuSdr29tjJXgxgVW9l884XEjg4sjiDdgjPCFu2byS
+         VCUXcHo3CIEUM+7EI6M84b7jr4Nmj9XrHftepojH5N8B+qeCrvse+JgKZOy7d/2uuP
+         FtclvoFo5EAVw==
+Date:   Tue, 18 Oct 2022 15:00:31 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-cc:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
-Subject: RE: [PATCH] [next] HID: hyperv: Replace one-element array with
- flexible-array member
-In-Reply-To: <SN6PR2101MB1693AFDA151C35DE148FECAAD7299@SN6PR2101MB1693.namprd21.prod.outlook.com>
-Message-ID: <nycvar.YFH.7.76.2210181456150.29912@cbobk.fhfr.pm>
-References: <Y00JenqCzKRrcTiF@mail.google.com> <SN6PR2101MB1693AFDA151C35DE148FECAAD7299@SN6PR2101MB1693.namprd21.prod.outlook.com>
+To:     Jonathan Cameron <jic23@kernel.org>
+cc:     Matt Ranostay <matt.ranostay@konsulko.com>, gupt21@gmail.com,
+        benjamin.tissoires@redhat.com, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v6 3/3] HID: mcp2221: add ADC/DAC support via iio
+ subsystem
+In-Reply-To: <20221002145052.036003b5@jic23-huawei>
+Message-ID: <nycvar.YFH.7.76.2210181500130.29912@cbobk.fhfr.pm>
+References: <20221001005208.8010-1-matt.ranostay@konsulko.com> <20221001005208.8010-4-matt.ranostay@konsulko.com> <20221002145052.036003b5@jic23-huawei>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -62,102 +55,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 17 Oct 2022, Michael Kelley (LINUX) wrote:
+On Sun, 2 Oct 2022, Jonathan Cameron wrote:
 
-> > One-element arrays are deprecated, and we are replacing them with
-> > flexible array members instead. So, replace one-element array with
-> > flexible-array member in structs synthhid_msg, synthhid_input_report,
-> > pipe_prt_msg and refactor the rest of the code accordingly.
+> > Add support for 3x 10-bit ADC and 1x DAC channels registered via the 
+> > iio subsystem.
 > > 
-> > This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> > routines on memcpy() and help us make progress towards globally
-> > enabling -fstrict-flex-arrays=3 [1].
+> > To prevent breakage and unexpected dependencies this support only is
+> > only built if CONFIG_IIO is enabled, and is only weakly referenced by
+> > 'imply IIO' within the respective Kconfig.
 > > 
-> > Link: https://github.com/KSPP/linux/issues/79
-> > Link: https://github.com/KSPP/linux/issues/210
-> > Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
+> > Additionally the iio device only gets registered if at least one channel
+> > is enabled in the power-on configuration read from SRAM.
 > > 
-> > Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> > ---
-> >  drivers/hid/hid-hyperv.c | 17 +++++++----------
-> >  1 file changed, 7 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-> > index e0bc73124196..208cf8d981a5 100644
-> > --- a/drivers/hid/hid-hyperv.c
-> > +++ b/drivers/hid/hid-hyperv.c
-> > @@ -61,7 +61,7 @@ struct synthhid_msg_hdr {
-> > 
-> >  struct synthhid_msg {
-> >  	struct synthhid_msg_hdr header;
-> > -	char data[1]; /* Enclosed message */
-> > +	char data[]; /* Enclosed message */
-> >  };
-> > 
-> >  union synthhid_version {
-> > @@ -99,7 +99,7 @@ struct synthhid_device_info_ack {
-> > 
-> >  struct synthhid_input_report {
-> >  	struct synthhid_msg_hdr header;
-> > -	char buffer[1];
-> > +	char buffer[];
-> >  };
-> > 
-> >  #pragma pack(pop)
-> > @@ -118,7 +118,7 @@ enum pipe_prot_msg_type {
-> >  struct pipe_prt_msg {
-> >  	enum pipe_prot_msg_type type;
-> >  	u32 size;
-> > -	char data[1];
-> > +	char data[];
-> >  };
-> > 
-> >  struct  mousevsc_prt_msg {
-> > @@ -232,7 +232,7 @@ static void mousevsc_on_receive_device_info(struct
-> > mousevsc_dev *input_device,
-> > 
-> >  	ret = vmbus_sendpacket(input_device->device->channel,
-> >  			&ack,
-> > -			sizeof(struct pipe_prt_msg) - sizeof(unsigned char) +
-> > +			sizeof(struct pipe_prt_msg) +
-> >  			sizeof(struct synthhid_device_info_ack),
-> >  			(unsigned long)&ack,
-> >  			VM_PKT_DATA_INBAND,
-> > @@ -271,16 +271,14 @@ static void mousevsc_on_receive(struct hv_device *device,
-> >  		 * malicious/buggy hypervisor/host, add a check here to
-> >  		 * ensure we don't corrupt memory.
-> >  		 */
-> > -		if ((pipe_msg->size + sizeof(struct pipe_prt_msg)
-> > -			- sizeof(unsigned char))
-> > +		if (struct_size(pipe_msg, data, pipe_msg->size)
-> >  			> sizeof(struct mousevsc_prt_msg)) {
-> >  			WARN_ON(1);
-> >  			break;
-> >  		}
-> > 
-> >  		memcpy(&input_dev->protocol_resp, pipe_msg,
-> > -		       pipe_msg->size + sizeof(struct pipe_prt_msg) -
-> > -		       sizeof(unsigned char));
-> > +				struct_size(pipe_msg, data, pipe_msg->size));
-> >  		complete(&input_dev->wait_event);
-> >  		break;
-> > 
-> > @@ -359,8 +357,7 @@ static int mousevsc_connect_to_vsp(struct hv_device *device)
-> >  	request->request.version_requested.version = SYNTHHID_INPUT_VERSION;
-> > 
-> >  	ret = vmbus_sendpacket(device->channel, request,
-> > -				sizeof(struct pipe_prt_msg) -
-> > -				sizeof(unsigned char) +
-> > +				sizeof(struct pipe_prt_msg) +
-> >  				sizeof(struct synthhid_protocol_request),
-> >  				(unsigned long)request,
-> >  				VM_PKT_DATA_INBAND,
-> > --
-> > 2.37.3
+> > Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
 > 
-> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+> I'm never particularly keen on drivers from elsewhere in the tree gaining
+> IIO support - but that's just because it can make a bit of a mess of
+> changes to the IIO subsystem itself.  Having said that, this code looks fine to me.
+> 
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Thanks, applied.
+Thanks. Applied for 6.2.
 
 -- 
 Jiri Kosina
