@@ -2,128 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC312605122
-	for <lists+linux-input@lfdr.de>; Wed, 19 Oct 2022 22:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCCF46051DB
+	for <lists+linux-input@lfdr.de>; Wed, 19 Oct 2022 23:21:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbiJSUPR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Oct 2022 16:15:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39222 "EHLO
+        id S230216AbiJSVVI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Oct 2022 17:21:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbiJSUPP (ORCPT
+        with ESMTP id S230428AbiJSVVH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Oct 2022 16:15:15 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0798B118741;
-        Wed, 19 Oct 2022 13:15:06 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id x13so11488083qkg.11;
-        Wed, 19 Oct 2022 13:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=P6ehJmZtaKjHfWDooxLByyg7Qm8nO8821wCtlJKz2+4=;
-        b=TybltSlWY2qkowVbGkbhGUhl8GW5569umxbF7Wp6iG+ZXAuhuOylG8yjLXPo43vTZA
-         dAabbW135Irpmk/ZJVBz1w3a4szDvKd7Dqfim+MtPKw7HA6Q6rElVHH1UEeH+Bwq16qk
-         qtW6K4LiAVNCwVj+YAVZK2AVdn05XYfHM+5Zisi1UnbBb4mgqL/djqPx60S1WgFMFGxf
-         DT8E7ijLIq5TjewGJ6yZvF33qampqKD28bJPN/sHzTIgAu7pKWqfOL0WwZGdiC77iomF
-         uV6PwFQBRaOKse1ujXcu1EBwRjxIiPRbXDvBDCURMMUnwQne/kqKCqQ443yFSL/XonOU
-         vKcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P6ehJmZtaKjHfWDooxLByyg7Qm8nO8821wCtlJKz2+4=;
-        b=OJhk5LFjxE3jj6DE/fBEBzVbtLWdj/gNptX5PwYI12o77EF3pP1CUJ3MHLkPBCq3wU
-         kW9A0vMUlcv5l2TFgEjX36sKH1aFfHV58Sf45mWTSw9Loe/jwWbPjmZnYr1e3j828OFH
-         DNdYWaweiZj8JmlXkS+WKnvEk+oO7bd5IJ4zygFCaaIgayspVuWfbwFe/QCRL5E+en2g
-         tmNeTTMiN9lnJ4MIYyzYI6tqnqB+8lGSueCvDJI8ty1F+LZJRrTVtipkE9HyOew18+LL
-         9ugaQAvE1EexNTGMJle46J4ShVnxGYugNVUpYQNZFOEvv4F1Hj5T/hLGf1HPvoQ8LOIm
-         Z54A==
-X-Gm-Message-State: ACrzQf12LKkUiVZteGdV8rpj9fdgY6vzzhDpUZU5jf4rdNzQqcSHilOX
-        L9FgC48/MTlO4K9PbQctLdlJwAL9MdQ=
-X-Google-Smtp-Source: AMsMyM4ZHmOVoj5agvIt9yLlHK+ps82y567FzoPncwvnc5+QX6N88fZlpsF0dCXNDa/n+eOBD4dBCg==
-X-Received: by 2002:a05:620a:3708:b0:6ee:d16f:b780 with SMTP id de8-20020a05620a370800b006eed16fb780mr6861107qkb.144.1666210505337;
-        Wed, 19 Oct 2022 13:15:05 -0700 (PDT)
-Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:ba27:ebff:fee8:ce27])
-        by smtp.gmail.com with ESMTPSA id bj3-20020a05620a190300b006eeca296c00sm5813448qkb.104.2022.10.19.13.15.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 13:15:04 -0700 (PDT)
-From:   Jason Andryuk <jandryuk@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     xen-devel@lists.xenproject.org, Jason Andryuk <jandryuk@gmail.com>,
-        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Input: xen-kbdfront - drop keys to shrink modalias
-Date:   Wed, 19 Oct 2022 16:14:57 -0400
-Message-Id: <20221019201458.21803-1-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        Wed, 19 Oct 2022 17:21:07 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 19 Oct 2022 14:21:04 PDT
+Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C71D318B49F
+        for <linux-input@vger.kernel.org>; Wed, 19 Oct 2022 14:21:04 -0700 (PDT)
+Received: from sopl295.home ([109.220.248.156])
+        by smtp.orange.fr with ESMTPA
+        id lGNMo1N0Kg7y2lGNMocFLS; Wed, 19 Oct 2022 23:13:31 +0200
+X-ME-Helo: sopl295.home
+X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
+X-ME-Date: Wed, 19 Oct 2022 23:13:31 +0200
+X-ME-IP: 109.220.248.156
+From:   Robert Jarzmik <jarzmik.robert@orange.fr>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        stern@rowland.harvard.edu, alexandre.belloni@bootlin.com,
+        brgl@bgdev.pl, damien.lemoal@opensource.wdc.com,
+        dmitry.torokhov@gmail.com, linux@dominikbrodowski.net,
+        balbi@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de,
+        perex@perex.cz, jingoohan1@gmail.com, lee@kernel.org,
+        kernel@wantstofly.org, lgirdwood@gmail.com,
+        linus.walleij@linaro.org, marek.vasut@gmail.com,
+        broonie@kernel.org, mkpetch@internode.on.net,
+        miquel.raynal@bootlin.com, lost.distance@yahoo.com,
+        philipp.zabel@gmail.com, linux@armlinux.org.uk, sre@kernel.org,
+        slapin@ossfans.org, s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com,
+        tiwai@suse.com, ulf.hansson@linaro.org, vigneshr@ti.com,
+        viresh.kumar@linaro.org, wsa+renesas@sang-engineering.com,
+        linux-pm@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
+References: <20221019161831.3864786-1-arnd@kernel.org>
+X-URL:  http://belgarath.falguerolles.org/
+Date:   Wed, 19 Oct 2022 23:13:20 +0200
+In-Reply-To: <20221019161831.3864786-1-arnd@kernel.org> (Arnd Bergmann's
+        message of "Wed, 19 Oct 2022 18:17:53 +0200")
+Message-ID: <m2sfjjh5zj.fsf@sopl295.home>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-xen kbdfront registers itself as being able to deliver *any* key since
-it doesn't know what keys the backend may produce.
+Arnd Bergmann <arnd@kernel.org> writes:
 
-Unfortunately, the generated modalias gets too large and uevent creation
-fails with -ENOMEM.
+> From: Arnd Bergmann <arnd@arndb.de>
+...zip...
 
-This can lead to gdm not using the keyboard since there is no seat
-associated [1] and the debian installer crashing [2].
+> A good number of drivers become impossible to select after this, so
+> each of these also get dropped. I'm including the driver patches in the
+> series here and can either merge them through the soc tree, or they
+> can get picked up by the individual subsystem maintainers. Since both
+> the platform and the drivers get removed, the order should not matter.
+This part is a bit ... bothering.
+I at least identified these :
+>  delete mode 100644 drivers/input/touchscreen/wm9705.c
+>  delete mode 100644 drivers/input/touchscreen/wm9712.c
+>  delete mode 100644 drivers/input/touchscreen/wm9713.c
+>  delete mode 100644 drivers/input/touchscreen/wm97xx-core.c
+>  delete mode 100644 drivers/mfd/wm97xx-core.c
+>  delete mode 100644 sound/ac97/bus.c
+>  delete mode 100644 sound/ac97/codec.c
+>  delete mode 100644 sound/ac97/snd_ac97_compat.c
 
-Trim the ranges of key capabilities by removing some BTN_* ranges.
-While doing this, some neighboring undefined ranges are removed to trim
-it further.
+For the existing platforms working with devicetree support (mioa701 for
+example), the wm9713 was properly used, providing both sound support and input
+touchscreen.
+So was the a97 part, providing a framework to make the wm9713 work.
 
-This removes:
-BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
-Empty space 0x224..0x229
+So I'm wondering how the choice to chop these drivers was done, and it is
+necessary to remove them. If so, maybe pxa support in the kernel should be
+removed all together, as people playing with it loose part of the working DT
+platforms they had.
 
-Emtpy space 0x2bd..0x2bf
-BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
-Empty space 0x2e8..0x2ff
+As for the removal of defconfigs and arch-pxa, sure, this was PXA's destiny.
 
-The modalias shrinks from 2082 to 1754 bytes.
+Cheers.
 
-[1] https://github.com/systemd/systemd/issues/22944
-[2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net/T/
+--
+Robert
 
-Cc: Phillip Susi <phill@thesusis.net>
-Cc: stable@vger.kernel.org
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
----
- drivers/input/misc/xen-kbdfront.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
-index 8d8ebdc2039b..23f37211be78 100644
---- a/drivers/input/misc/xen-kbdfront.c
-+++ b/drivers/input/misc/xen-kbdfront.c
-@@ -256,7 +256,14 @@ static int xenkbd_probe(struct xenbus_device *dev,
- 		__set_bit(EV_KEY, kbd->evbit);
- 		for (i = KEY_ESC; i < KEY_UNKNOWN; i++)
- 			__set_bit(i, kbd->keybit);
--		for (i = KEY_OK; i < KEY_MAX; i++)
-+		/* In theory we want to go KEY_OK..KEY_MAX, but that grows the
-+		 * modalias line too long.  KEY_KBD_LCD_MENU5 is the last
-+		 * defined non-button key. There is a gap of buttons from
-+		 * BTN_DPAD_UP..BTN_DPAD_RIGHT and KEY_ALS_TOGGLE is the next
-+		 * defined. */
-+		for (i = KEY_OK; i < BTN_DPAD_UP; i++)
-+			__set_bit(i, kbd->keybit);
-+		for (i = KEY_ALS_TOGGLE; i <= KEY_KBD_LCD_MENU5; i++)
- 			__set_bit(i, kbd->keybit);
- 
- 		ret = input_register_device(kbd);
--- 
-2.37.3
-
+PS: If this mail is sent twice, sorry in advance, my mailer is a bad mood
+lately.
