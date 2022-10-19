@@ -2,81 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5927960509D
-	for <lists+linux-input@lfdr.de>; Wed, 19 Oct 2022 21:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC312605122
+	for <lists+linux-input@lfdr.de>; Wed, 19 Oct 2022 22:15:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbiJSTke (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Oct 2022 15:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
+        id S230095AbiJSUPR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Oct 2022 16:15:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230315AbiJSTkb (ORCPT
+        with ESMTP id S230393AbiJSUPP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Oct 2022 15:40:31 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C927371B4;
-        Wed, 19 Oct 2022 12:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1666208426;
-        bh=hK/WYgdBJ9DDoiv5VK5AkPFkbq2bs+zp695HMZjr2ik=;
-        h=X-UI-Sender-Class:References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=GjWbN6ZXickaUb9VSo6DXHkN8q7zkCv4eILARW6EUK4PI8y5JTKoq+gGglblqsg8w
-         Jutx70UPgIg6bH1FQRPKyXNLRfDu5+iNB7zbBKzk3pMw3ha62ajElunz756lvtJDyY
-         3gxWHu0tvrLVoCOMeaYCXMdm1BjG+kqUOsU44b08=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from mail-ed1-f54.google.com ([209.85.208.54]) by mail.gmx.net
- (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MO9z7-1oRdkB25YP-00ObD2; Wed, 19 Oct 2022 21:40:26 +0200
-Received: by mail-ed1-f54.google.com with SMTP id r14so26801511edc.7;
-        Wed, 19 Oct 2022 12:40:26 -0700 (PDT)
-X-Gm-Message-State: ACrzQf28zV4W6udvgvpV6rB6Jd4EoVpuPFnsgNoWOF+hTPu9jFHpCs2y
-        IfvyehBELoft0EdmET1DcCjT3BLHGz+XbdBjD98=
-X-Google-Smtp-Source: AMsMyM5OuA0l6x3iqaAD7ZXEr7Eq43dy294gZvwNqcl+PM07Q9C/kajAOSEJaLs4501pk3MgcLohyhky7klvopWUTLM=
-X-Received: by 2002:a05:6402:440f:b0:45d:297b:c70a with SMTP id
- y15-20020a056402440f00b0045d297bc70amr9100037eda.187.1666208426153; Wed, 19
- Oct 2022 12:40:26 -0700 (PDT)
+        Wed, 19 Oct 2022 16:15:15 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0798B118741;
+        Wed, 19 Oct 2022 13:15:06 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id x13so11488083qkg.11;
+        Wed, 19 Oct 2022 13:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P6ehJmZtaKjHfWDooxLByyg7Qm8nO8821wCtlJKz2+4=;
+        b=TybltSlWY2qkowVbGkbhGUhl8GW5569umxbF7Wp6iG+ZXAuhuOylG8yjLXPo43vTZA
+         dAabbW135Irpmk/ZJVBz1w3a4szDvKd7Dqfim+MtPKw7HA6Q6rElVHH1UEeH+Bwq16qk
+         qtW6K4LiAVNCwVj+YAVZK2AVdn05XYfHM+5Zisi1UnbBb4mgqL/djqPx60S1WgFMFGxf
+         DT8E7ijLIq5TjewGJ6yZvF33qampqKD28bJPN/sHzTIgAu7pKWqfOL0WwZGdiC77iomF
+         uV6PwFQBRaOKse1ujXcu1EBwRjxIiPRbXDvBDCURMMUnwQne/kqKCqQ443yFSL/XonOU
+         vKcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P6ehJmZtaKjHfWDooxLByyg7Qm8nO8821wCtlJKz2+4=;
+        b=OJhk5LFjxE3jj6DE/fBEBzVbtLWdj/gNptX5PwYI12o77EF3pP1CUJ3MHLkPBCq3wU
+         kW9A0vMUlcv5l2TFgEjX36sKH1aFfHV58Sf45mWTSw9Loe/jwWbPjmZnYr1e3j828OFH
+         DNdYWaweiZj8JmlXkS+WKnvEk+oO7bd5IJ4zygFCaaIgayspVuWfbwFe/QCRL5E+en2g
+         tmNeTTMiN9lnJ4MIYyzYI6tqnqB+8lGSueCvDJI8ty1F+LZJRrTVtipkE9HyOew18+LL
+         9ugaQAvE1EexNTGMJle46J4ShVnxGYugNVUpYQNZFOEvv4F1Hj5T/hLGf1HPvoQ8LOIm
+         Z54A==
+X-Gm-Message-State: ACrzQf12LKkUiVZteGdV8rpj9fdgY6vzzhDpUZU5jf4rdNzQqcSHilOX
+        L9FgC48/MTlO4K9PbQctLdlJwAL9MdQ=
+X-Google-Smtp-Source: AMsMyM4ZHmOVoj5agvIt9yLlHK+ps82y567FzoPncwvnc5+QX6N88fZlpsF0dCXNDa/n+eOBD4dBCg==
+X-Received: by 2002:a05:620a:3708:b0:6ee:d16f:b780 with SMTP id de8-20020a05620a370800b006eed16fb780mr6861107qkb.144.1666210505337;
+        Wed, 19 Oct 2022 13:15:05 -0700 (PDT)
+Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:ba27:ebff:fee8:ce27])
+        by smtp.gmail.com with ESMTPSA id bj3-20020a05620a190300b006eeca296c00sm5813448qkb.104.2022.10.19.13.15.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 13:15:04 -0700 (PDT)
+From:   Jason Andryuk <jandryuk@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     xen-devel@lists.xenproject.org, Jason Andryuk <jandryuk@gmail.com>,
+        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] Input: xen-kbdfront - drop keys to shrink modalias
+Date:   Wed, 19 Oct 2022 16:14:57 -0400
+Message-Id: <20221019201458.21803-1-jandryuk@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <b1309e015d07abc47a2cf987e229a87f533430b5.camel@hadess.net>
-In-Reply-To: <b1309e015d07abc47a2cf987e229a87f533430b5.camel@hadess.net>
-From:   Andreas Bergmeier <abergmeier@gmx.net>
-Date:   Wed, 19 Oct 2022 21:40:14 +0200
-X-Gmail-Original-Message-ID: <CABfF9mP90VyDk9BwCA8uZPDHCStwE18s+EM=EeQyKGhs_WNtxQ@mail.gmail.com>
-Message-ID: <CABfF9mP90VyDk9BwCA8uZPDHCStwE18s+EM=EeQyKGhs_WNtxQ@mail.gmail.com>
-Subject: Re: Litra Glow on Linux
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        linux-input@vger.kernel.org,
-        USB mailing list <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:O/ZMyxIEfNnw+ryC7IJsbQiQUZQ0rHd71l9ucM0/nWt+gLrP2Nd
- 7px7SwIlVIe6sFoRblR/A/MpDgQ25QMoST0Au2xxqSwdeg7dc9hM05su63qCa5ad9t2jDC+
- EOLDSmG08CPb/kM+ORK4FfI9UxjPeYdjKRZCru7EnTuXx3XPmm8yEH2QMWmovXC9ROtNVl+
- 9s6AAxZdXebPKOmCGueuQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X8ncLm57Hxk=:Hf4vfUZNQ8DEZcM2ThuR6P
- umFDtfcXl0dS8W+B5i7Lej/FAoQ4dl11/zR/REx8v3xN8ZlI6mxki92Mws9QCGELp+UZPPllf
- 1EJHWx6LxDkgGxLi7W898KbH+ImRncd+wKiCk3teW/iiqG5Prf9J1PWHLPV7yozpsmhe6ZgKL
- KForPktvi7TIwAOSifcd9+E6h9DTq15Lym/yzcWNxl5x7MiEydazbEZp8GE5kiYoRUkM4gM5P
- o63xc6tesEIPn+LpA3QaiDYGeFZlGDo3qJbnLe7Hr+JebNGqfeILVLq2JJkv2QXpDbcY2cbJi
- Vr72pzfEwWxQZ60XivTnUSS1Eqw+rBmsOxBJHJuEqDxe5vteZlm6BxZW4F98wFCVd0MHa6+7s
- gSuL9hAMBzGwUuXTSopP9VaOXIBF4hS1fkoYJSHG1R4mwO6OE7WwbKkca4P+8TWV/NyLIFmm8
- Miz/qHj0UnQnOzSLyDdBqrANY1s8+Fkv2XsodtqQVlLyLKRcT5Ep8OHZ4n9qEssKV/20pjIX2
- /CYKgw6le2FH/dfF7LbqeTpWVhjHMfCphAyHa6SbSQUfc/g0ijsbfiS+X6JW0NOXeaGAJ26Ij
- 843uF1iI9WNuGZfnPNsMRGVO5DGCOZZEeyhdgZj0/YkIfSphpWJ8X99st1pYeF3Mif42lDz6t
- DB1T53c4q+o5kbGFghyKbrPog4uiLaAs+dL3FnRlqx13eA7LUchh52TaScWASbJIZRx2L3AZf
- bTxGI/Wbs/K984MdOMbJ/7O/2aH1PXvJpRZqcbKXHXrSjNBBFmFSSCMpIqKlCLvegJq1A+l2K
- QO3jiEjcjTgiJMzbxVgdyROQTUy0+Qg1pxQISkE6aCbuCmgxuPCUmpLiUJqqT244UL+6glJKu
- DFndp+GVzCuMMFe9d/uxottjzFBfTEjPS8m/fu0GCiJabR8tBEG4BMQVbHO0wGy3x9MaeVOkM
- t9gejhM8XMJksi7CqzJk3UzxXVJmE4JPPFDQQNt+OghNigz9z48fSR/TMfs8OQzIbpOiCRy2d
- xakAhg0WnE1j9op8LQg75ClyN1pbhjoBPiW5+t+k9JIDSGxP46YNRnmCQ3oKFWVInGsvYkWwD
- qNKFjVsQCdDhtrc4BHGzV9nFfvX8XAQz/EW55QIRgE+6+w9RvjFhld6JBbWzwkuVmloLucFp6
- 7VKaC/CgZJwoA/7c0FvPGsyVWP1r7DKmcZZACAlCIUHiPmRYd6MlMsTuYFtu9WSFcPLRH9sBe
- lr97jkD9f/VObdv7lV1zxhjGRzjjr98cj1uuwy3TE9UkbGuNR8f3VZwfyKyNSGHMrN1HO9uNd
- iu38VPmJADDRl2yRjOVzf71cc5dbijfnkDYLeu4jzpKUVSOcWthqNGhQ7eyQFtCdmqU3gdOO0
- +iuNMy5jNfioXWO5yDUiiSW3b17jxV1BsK7DRr6Q4ieiNZlwNahHKXml00Eemn2+ZK7h9lDfg
- TL3NGIt+z8cInOrGqWGOvXaINjrwd0uywnLdgNlLgyKfIZapm09OdbEQPy59X2U3w4H5Dy1fM
- NiikRAdGZNJKQ0ESFYg1wwAiy9AM9KP4X2zFdA3QPc8C1
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,19 +71,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 19 Oct 2022 at 17:49, Bastien Nocera <hadess@hadess.net> wrote:
->
-> On Wed, 2022-10-19 at 11:17 -0400, Alan Stern wrote:
-> > Via (hardware) buttons you can switch the device on, regulate the
-> > color temperature as well as the brightness.
-> > I know of no way to fully control the device from my computer and
-> > would like to change that.
->
-> Anything that those libraries and tools can't do?
->
-> https://github.com/search?q=litra+glow
+xen kbdfront registers itself as being able to deliver *any* key since
+it doesn't know what keys the backend may produce.
 
-From the code I have looked into it seems like some Mac libraries
-might be able to do all that. Why, I am not yet clear on.
-I have a _feeling_ that maybe Windows and macOS do a different HID
-mapping/processing than Linux.
+Unfortunately, the generated modalias gets too large and uevent creation
+fails with -ENOMEM.
+
+This can lead to gdm not using the keyboard since there is no seat
+associated [1] and the debian installer crashing [2].
+
+Trim the ranges of key capabilities by removing some BTN_* ranges.
+While doing this, some neighboring undefined ranges are removed to trim
+it further.
+
+This removes:
+BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
+Empty space 0x224..0x229
+
+Emtpy space 0x2bd..0x2bf
+BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
+Empty space 0x2e8..0x2ff
+
+The modalias shrinks from 2082 to 1754 bytes.
+
+[1] https://github.com/systemd/systemd/issues/22944
+[2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net/T/
+
+Cc: Phillip Susi <phill@thesusis.net>
+Cc: stable@vger.kernel.org
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+---
+ drivers/input/misc/xen-kbdfront.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
+index 8d8ebdc2039b..23f37211be78 100644
+--- a/drivers/input/misc/xen-kbdfront.c
++++ b/drivers/input/misc/xen-kbdfront.c
+@@ -256,7 +256,14 @@ static int xenkbd_probe(struct xenbus_device *dev,
+ 		__set_bit(EV_KEY, kbd->evbit);
+ 		for (i = KEY_ESC; i < KEY_UNKNOWN; i++)
+ 			__set_bit(i, kbd->keybit);
+-		for (i = KEY_OK; i < KEY_MAX; i++)
++		/* In theory we want to go KEY_OK..KEY_MAX, but that grows the
++		 * modalias line too long.  KEY_KBD_LCD_MENU5 is the last
++		 * defined non-button key. There is a gap of buttons from
++		 * BTN_DPAD_UP..BTN_DPAD_RIGHT and KEY_ALS_TOGGLE is the next
++		 * defined. */
++		for (i = KEY_OK; i < BTN_DPAD_UP; i++)
++			__set_bit(i, kbd->keybit);
++		for (i = KEY_ALS_TOGGLE; i <= KEY_KBD_LCD_MENU5; i++)
+ 			__set_bit(i, kbd->keybit);
+ 
+ 		ret = input_register_device(kbd);
+-- 
+2.37.3
+
