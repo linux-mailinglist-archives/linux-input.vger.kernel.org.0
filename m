@@ -2,71 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89D82604C65
-	for <lists+linux-input@lfdr.de>; Wed, 19 Oct 2022 17:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3C1E604CFD
+	for <lists+linux-input@lfdr.de>; Wed, 19 Oct 2022 18:19:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232076AbiJSPzZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Oct 2022 11:55:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44588 "EHLO
+        id S230185AbiJSQTM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Oct 2022 12:19:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232285AbiJSPyx (ORCPT
+        with ESMTP id S231467AbiJSQTB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Oct 2022 11:54:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8FA17E81B;
-        Wed, 19 Oct 2022 08:52:39 -0700 (PDT)
+        Wed, 19 Oct 2022 12:19:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D76F1BE407;
+        Wed, 19 Oct 2022 09:18:50 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 565D261844;
-        Wed, 19 Oct 2022 15:51:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBA7AC433D6;
-        Wed, 19 Oct 2022 15:51:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C8C3C61959;
+        Wed, 19 Oct 2022 16:18:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37834C433C1;
+        Wed, 19 Oct 2022 16:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666194707;
-        bh=eqTrY4H4gnTgNtOLkl/PKGnR0u/ijjGY8yZ03RnlQ/k=;
+        s=k20201202; t=1666196329;
+        bh=IIsqfO0M1kEnWIHVM8ozETERi3deaPrfSAjSYM22NSE=;
         h=From:To:Cc:Subject:Date:From;
-        b=lrbgq4B9Ai4N3HqsC2E5OGoxHcz7GQSv408l8Am1Jx9QFrrnCymzf3UgVaisbQkeM
-         ZP6H03N/ADs7smh308X0lIhD5MuRzQ2ugTMxeomOUAHtEa4u+O11MDmg0qd0/04lY0
-         pelYTiK+Db7iK2WBLnvZQWopigbxcPo5Fl/ppXQwWNhhLlL8h5V1MBdg+MkINWHmDk
-         BaU3fs3Tw7W2ehkiO6cU370AQDzOkVXRmmx7Hir7ZgNtfPC7rOzGwsOUJJeABjvp9/
-         1/eaokm0a5Ghroc/48TeMwRNgGXLDQB9FHPmPioGCbdfWwjNDgw1Nao5KRZVaMXCR7
-         ubrK39+7sg2VA==
+        b=gHTRrtKOriArLJ+AJTVbRb9LchPA2YgOshSftBY4laB1vAfaMfC074LJG+khl2Of1
+         wHABlcTTqrH9HNijBs98UJepm+is0zQPf8l2F3uSCOO9OoNyC3Om25kIu/KKXSI+LZ
+         qi6sd86kreGvaUrKmmOBIeMAN4NslIIMW/Kd4Cmy5e7A9gwaT7DLgMQoF9eCLl78Bg
+         f59mLUSOGna+Owm6A7lfJOXU9KTrnED0hx+0WdVGwL5MOmSlkiOkvh9Miq9DNQckDf
+         snUDj5O1pvNfW8AXANm9gKOxROzTCw0pEvttQaRwWxSrOzqG3axV6+35AhE4SkTH7d
+         UPqd4l47bVSEQ==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     linux-arm-kernel@lists.infradead.org,
         Daniel Mack <daniel@zonque.org>,
         Haojian Zhuang <haojian.zhuang@gmail.com>,
         Robert Jarzmik <robert.jarzmik@free.fr>
 Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-        Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
-        Lennert Buytenhek <kernel@wantstofly.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Petchkovsky <mkpetch@internode.on.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sebastian Reichel <sre@kernel.org>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        stern@rowland.harvard.edu, alexandre.belloni@bootlin.com,
+        brgl@bgdev.pl, damien.lemoal@opensource.wdc.com,
+        dmitry.torokhov@gmail.com, linux@dominikbrodowski.net,
+        balbi@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de,
+        perex@perex.cz, jingoohan1@gmail.com, lee@kernel.org,
+        kernel@wantstofly.org, lgirdwood@gmail.com,
+        linus.walleij@linaro.org, marek.vasut@gmail.com,
+        broonie@kernel.org, mkpetch@internode.on.net,
+        miquel.raynal@bootlin.com, lost.distance@yahoo.com,
+        philipp.zabel@gmail.com, linux@armlinux.org.uk, sre@kernel.org,
+        slapin@ossfans.org, s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com,
+        tiwai@suse.com, ulf.hansson@linaro.org, vigneshr@ti.com,
+        viresh.kumar@linaro.org, wsa+renesas@sang-engineering.com,
         linux-pm@vger.kernel.org, linux-ide@vger.kernel.org,
         linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
         patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
@@ -75,8 +59,8 @@ Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
         linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
 Subject: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
-Date:   Wed, 19 Oct 2022 17:50:54 +0200
-Message-Id: <20221019155129.3861230-1-arnd@kernel.org>
+Date:   Wed, 19 Oct 2022 18:17:53 +0200
+Message-Id: <20221019161831.3864786-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -147,40 +131,40 @@ Arnd Bergmann (30):
   w1: remove ds1wm driver
   mfd: remove htc-pasic3 driver
 
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Daniel Mack <daniel@zonque.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Lennert Buytenhek <kernel@wantstofly.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Marek Vasut <marek.vasut@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Michael Petchkovsky <mkpetch@internode.on.net>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Paul Parsons <lost.distance@yahoo.com>
-Cc: Philipp Zabel <philipp.zabel@gmail.com>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Sebastian Reichel <sre@kernel.org>
-Cc: Sergey Lapin <slapin@ossfans.org>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: stern@rowland.harvard.edu
+Cc: alexandre.belloni@bootlin.com
+Cc: brgl@bgdev.pl
+Cc: damien.lemoal@opensource.wdc.com
+Cc: daniel@zonque.org
+Cc: dmitry.torokhov@gmail.com
+Cc: linux@dominikbrodowski.net
+Cc: balbi@kernel.org
+Cc: gregkh@linuxfoundation.org
+Cc: haojian.zhuang@gmail.com
+Cc: deller@gmx.de
+Cc: perex@perex.cz
+Cc: jingoohan1@gmail.com
+Cc: lee@kernel.org
+Cc: kernel@wantstofly.org
+Cc: lgirdwood@gmail.com
+Cc: linus.walleij@linaro.org
+Cc: marek.vasut@gmail.com
+Cc: broonie@kernel.org
+Cc: mkpetch@internode.on.net
+Cc: miquel.raynal@bootlin.com
+Cc: lost.distance@yahoo.com
+Cc: philipp.zabel@gmail.com
+Cc: robert.jarzmik@free.fr
+Cc: linux@armlinux.org.uk
+Cc: sre@kernel.org
+Cc: slapin@ossfans.org
+Cc: s.shtylyov@omp.ru
+Cc: sudipm.mukherjee@gmail.com
+Cc: tiwai@suse.com
+Cc: ulf.hansson@linaro.org
+Cc: vigneshr@ti.com
+Cc: viresh.kumar@linaro.org
+Cc: wsa+renesas@sang-engineering.com
 Cc: linux-pm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org
