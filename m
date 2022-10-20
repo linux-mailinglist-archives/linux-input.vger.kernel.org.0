@@ -2,101 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8951D605743
-	for <lists+linux-input@lfdr.de>; Thu, 20 Oct 2022 08:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E280C605812
+	for <lists+linux-input@lfdr.de>; Thu, 20 Oct 2022 09:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbiJTGUK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Oct 2022 02:20:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
+        id S230217AbiJTHNf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Oct 2022 03:13:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230096AbiJTGUI (ORCPT
+        with ESMTP id S230209AbiJTHNM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Oct 2022 02:20:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4EEEC50F
-        for <linux-input@vger.kernel.org>; Wed, 19 Oct 2022 23:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666246804;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=uku82WDcQAVczpv9Rg/4HorCI0YOcf70Ao8obtRgY6Q=;
-        b=jAzG+armSt5L1sEGQFN/eZIR5ouIvvYMvV6sFUGQweqtk2fxvCWSa4L8Wn+cOY9zmP8OFP
-        kQGqx4hdH3j4a8PtUPR4MzXsbS2yzpDJuRg3nNAwchg6hkNolvqF0KYd2ZUG7pvPwVvI7F
-        +asiPywSvJryoKEYM3FhkP19wQ5q6tc=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-270-KUBs4F5WMPe2VtERtmGMog-1; Thu, 20 Oct 2022 02:20:02 -0400
-X-MC-Unique: KUBs4F5WMPe2VtERtmGMog-1
-Received: by mail-lj1-f200.google.com with SMTP id h21-20020a05651c125500b0026fbb460154so8029333ljh.20
-        for <linux-input@vger.kernel.org>; Wed, 19 Oct 2022 23:20:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uku82WDcQAVczpv9Rg/4HorCI0YOcf70Ao8obtRgY6Q=;
-        b=sUV2XxRmKsLsndhCaadOGRRhko1ZosvIyIp/Gm3nDO8ChFdYOuIV53URG1/9oDppbW
-         AF72cBD7BkX3mf8tqflBV42IcwdB8w9rM/1NQPfKAkhObT6mfg5e3lHwAqKIkqKlDGKz
-         Htdzd+a7Gvio9I2Ky6gP+52krkwWKr3hxHqUFCvmYsMgXE5+Z9xkGDGyfBp4B26E9omT
-         fnb3p7rK7QEpzpd06sJt9oTt8wGZl3G11A1OMHyatL9gSDzbQZfHhhWFone50wj40R6Q
-         eWU4In8vzUab3wvdXUddKuTwJy8JyE1XdBHtJIgZrRxBUL5rSho/2A9RvpEyuTTkc7pC
-         sNrw==
-X-Gm-Message-State: ACrzQf10+iDTI9C4SdNOBMwBFzcbLLHzhD04kZfwO6nnwb1Xz63hZZa9
-        62sH83EnoazasJpeW4dPpWUYh8sSRj3AaFYI9Re2JJKnc6SXyyvuEqG8dxQfHZ/DPfCWk7Rx83e
-        vLeZPsyq8oV1pxthgivEEGin2R+wSBshxZDgFkqcgn9/MZzuiC+joj0Va+aQvkzous2Q7yOZ/0Q
-        ==
-X-Received: by 2002:a2e:82c8:0:b0:26d:e8d6:1edb with SMTP id n8-20020a2e82c8000000b0026de8d61edbmr4009308ljh.509.1666246801261;
-        Wed, 19 Oct 2022 23:20:01 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5SP9WdyS8Ep/7MBoq5nMUqd3+6qsmCFal/+aI5CdYcrsXPZKzZLh0Ktq3iI5S7Oos/HPNLXQ==
-X-Received: by 2002:a2e:82c8:0:b0:26d:e8d6:1edb with SMTP id n8-20020a2e82c8000000b0026de8d61edbmr4009302ljh.509.1666246801019;
-        Wed, 19 Oct 2022 23:20:01 -0700 (PDT)
-Received: from mjp-Z390-AORUS-MASTER.redhat.com (91-145-109-188.bb.dnainternet.fi. [91.145.109.188])
-        by smtp.gmail.com with ESMTPSA id 6-20020ac25f46000000b00492d064e8f8sm2578304lfz.263.2022.10.19.23.20.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 23:20:00 -0700 (PDT)
-From:   mpenttil@redhat.com
-To:     linux-input@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com,
-        =?UTF-8?q?Mika=20Penttil=C3=A4?= <mpenttil@redhat.com>
-Subject: [PATCH] MAINTAINERS: change sis_i2c maintainer email address.
-Date:   Thu, 20 Oct 2022 09:19:48 +0300
-Message-Id: <20221020061948.10221-1-mpenttil@redhat.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 20 Oct 2022 03:13:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF34160204;
+        Thu, 20 Oct 2022 00:13:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 266A761A30;
+        Thu, 20 Oct 2022 07:13:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6806C433D6;
+        Thu, 20 Oct 2022 07:12:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666249983;
+        bh=DWD/+a3tWspqd9R6eZBRIia+z4497qxbwbDyZj76oLI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PMsAEFVD9WkedPvZ+l9oQhe6aKnlJ5QLEE/RAQL9Hdcc42aiZpvKQTxC305JfTGC7
+         HIiBFiyvAsNadm37u8Hfx9NL0Nj1ovVYawfZFWjT1jHyBqLcaoEzE81tld4QRTQcRq
+         1sNrMwbOaEFU4cFBzyCu2yq8+QF/+T8uUuezBvAaVCLvMo+hQZNXbbrO5Bt1qnKPOA
+         g4FpFI4xvJ0seaFCmivcPDcVBVicUidY1B3W/JQo0AkYB93UbthGLj9zxp5tjjv3bX
+         WHNv0zjG+ItGUccu+GqbSLjLpERRSZOjraiWPPAD9FrnYnJaB7fbLDBRWdnEJDSzbh
+         r1FvJA9rT3QGg==
+Date:   Thu, 20 Oct 2022 08:12:50 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        stern@rowland.harvard.edu, alexandre.belloni@bootlin.com,
+        brgl@bgdev.pl, damien.lemoal@opensource.wdc.com,
+        dmitry.torokhov@gmail.com, linux@dominikbrodowski.net,
+        balbi@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de,
+        perex@perex.cz, jingoohan1@gmail.com, kernel@wantstofly.org,
+        lgirdwood@gmail.com, linus.walleij@linaro.org,
+        marek.vasut@gmail.com, broonie@kernel.org,
+        mkpetch@internode.on.net, miquel.raynal@bootlin.com,
+        lost.distance@yahoo.com, philipp.zabel@gmail.com,
+        linux@armlinux.org.uk, sre@kernel.org, slapin@ossfans.org,
+        s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com, tiwai@suse.com,
+        ulf.hansson@linaro.org, vigneshr@ti.com, viresh.kumar@linaro.org,
+        wsa+renesas@sang-engineering.com, linux-pm@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
+Message-ID: <Y1D08tpbdE52x7hN@google.com>
+References: <20221019161831.3864786-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221019161831.3864786-1-arnd@kernel.org>
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Mika Penttilä <mpenttil@redhat.com>
+On Wed, 19 Oct 2022, Arnd Bergmann wrote:
 
-Signed-off-by: Mika Penttilä <mpenttil@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Most of the legacy PXA board files were marked as unused in linux-5.19 and
+> can get removed in linux-6.2. There is support for pxa250/pxa270/pxa300
+> using devicetree already, which supports a number of boards, but progress
+> on converting the remaining ones has stalled over the past few years.
+> 
+> The two boards that are left in the tree for now are the three 'sharpsl'
+> variants (spitz/akita/borzoi) and the 'gumstix' family of machines.
+> Both of these are supported by qemu, which can be helpful for completing
+> the DT conversion.
+> 
+> Only PXA25x and PXA27x are left with full boardfile support, so PXA300
+> can get a lot simpler while still working with DT, and PXA310/320/93x
+> can be removed entirely.
+> 
+> A good number of drivers become impossible to select after this, so
+> each of these also get dropped. I'm including the driver patches in the
+> series here and can either merge them through the soc tree, or they
+> can get picked up by the individual subsystem maintainers. Since both
+> the platform and the drivers get removed, the order should not matter.
+> 
+> Note that the patches here are generated with 'git format-patch -D'
+> and don't contain the contents of removed files because of the
+> significant size (the first patch is close to a megabyte).
+> 
+> Arnd Bergmann (30):
+>   ARM: pxa: remove unused board files
+>   ARM: pxa: remove irda leftover
+>   ARM: pxa: remove unused pxa3xx-ulpi
+>   ARM: pxa: drop pxa310/pxa320/pxa93x support
+>   ARM: pxa: prune unused device support
+>   power: remove z2_battery driver
+>   power: remove tosa_battery driver
+>   ata: remove palmld pata driver
+>   backlight: remove pxa tosa support
+>   input: remove pxa930_trkball driver
+>   input: remove pxa930_rotary keyboard driver
+>   input: remove zylonite touchscreen driver
+>   pcmcia: remove unused pxa/sa1100 drivers
+>   ASoC: pxa: remove unused board support
+>   ALSA: remove ac97 bus support
+>   mfd: remove wm97xx driver
+>   input: remove wm97xx support
+>   parport: remove ax88796 driver
+>   power: remove pda_power supply driver
+>   rtc: remove v3020 driver
+>   mfd: remove toshiba tmio drivers
+>   mfd: remove ucb1400 support
+>   mtd: remove tmio_nand driver
+>   mmc: remove tmio_mmc driver
+>   fbdev: remove tmiofb driver
+>   fbdev: remove w100fb driver
+>   leds: remove asic3 driver
+>   usb: remove ohci-tmio driver
+>   w1: remove ds1wm driver
+>   mfd: remove htc-pasic3 driver
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ca063a504026..f773da0662f1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18890,7 +18890,7 @@ F:	drivers/video/fbdev/sis/
- F:	include/video/sisfb.h
- 
- SIS I2C TOUCHSCREEN DRIVER
--M:	Mika Penttilä <mika.penttila@nextfour.com>
-+M:	Mika Penttilä <mpenttil@redhat.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/input/touchscreen/sis_i2c.txt
+Are you sure these went out?
+
+They do not appear to be in my inbox, nor lore.
+
 -- 
-2.17.1
-
+Lee Jones [李琼斯]
