@@ -2,121 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AB74606489
-	for <lists+linux-input@lfdr.de>; Thu, 20 Oct 2022 17:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 781D1606582
+	for <lists+linux-input@lfdr.de>; Thu, 20 Oct 2022 18:14:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbiJTPaw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Oct 2022 11:30:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55156 "EHLO
+        id S229908AbiJTQOc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Oct 2022 12:14:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230464AbiJTPaf (ORCPT
+        with ESMTP id S229880AbiJTQOb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Oct 2022 11:30:35 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B026E14EC52
-        for <linux-input@vger.kernel.org>; Thu, 20 Oct 2022 08:30:22 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id z5-20020a17090a8b8500b00210a3a2364fso2617029pjn.0
-        for <linux-input@vger.kernel.org>; Thu, 20 Oct 2022 08:30:22 -0700 (PDT)
+        Thu, 20 Oct 2022 12:14:31 -0400
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412C4D2CA
+        for <linux-input@vger.kernel.org>; Thu, 20 Oct 2022 09:14:29 -0700 (PDT)
+Received: by mail-pj1-x1049.google.com with SMTP id o11-20020a17090aac0b00b0020625062cbaso2290939pjq.2
+        for <linux-input@vger.kernel.org>; Thu, 20 Oct 2022 09:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vtWFlgHeVLIcgszEX3flHZnMq+ff54nK2nEe6Uwrz/o=;
-        b=BOspPNzDA55Fc0Dnl+fV9GJtyS2F685mxp9ZW5T6xDxNNpriknB1RMS6EkOvelR/Ru
-         HJgc1D9fYrYEwC4x68oomFLZ7AdEWEw0NWLWNJdSKpsq/v/LGsU/dliHiz1y8dyVB/b+
-         nfN7oCBZU2ViR0mDL5555BaPu29rXupHh72M4=
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hkX5nKlhQ/TrI2mbSx0miDUCy9S+/kM4hXZnMa/gNZs=;
+        b=LBnxNhJE5Ik9FjyUR6Uw01rjCvO4wgUO+BCw9GX/+ayIWVLOkx3bCwr2ETERe66Eo+
+         xjw2IWH2V+0nl0rgUX0g7s6bB4mse2E6XRC29GHmSomTfJJnwZALGJJyhZWPlZnaOZbx
+         BKct+2L7uWOeyL4tjBBeTYYBbY6rjB2eo+KXrTrBolSW44U+lnfuAEu6ocrjyNl19XZX
+         L3juAmNUi4GcF/a6PTXdQzPkajHgX0q7QPkKU7HONItJzoHwF7fLbiDJdyd0oIAyw3se
+         ACdAJkywSHGKPGkez3dkCufZwGl18lQGMliWsWm46z7CQByMCxwvjnGklzglEROIlTvT
+         RotQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vtWFlgHeVLIcgszEX3flHZnMq+ff54nK2nEe6Uwrz/o=;
-        b=Jbrm5aJh5fpfCCJXn3boREIzPoBYFHbJu7q/RM5DD9QuFInD+KXKSJbjLMGtTHrAKg
-         A1j2pnGIpHUq2lMRlG3+0UB/0WtSuFicW/zpMm7s7xk9JZCiG5Cb0QYoWc9AxYoizEuf
-         jwIZnbWjx8ZC8BS7D+lfMhu5ltoEgWatM2XGKTN9/Soa6KFfK9NYYUj/pnT/XV3Lt7FL
-         j2sBOnMiMdnumAgLDtuPcX/avIy+tlVHRj7150WEB2N1A9ubuGWHFCWaq702Cfdgy43k
-         goAePKYJ1o+o3sE2GnONU9kiLhc69nL8bypiakNaC03GLCzKuxYR1HCwZ+bV+juBfN4C
-         v0+A==
-X-Gm-Message-State: ACrzQf1UVNF6PQsQ1HhYo1Br+i/An93p4gZXFhj0dwSynzEWaNr0GeIq
-        SsjU1W9vFv1HkYDhYgJwL8tfxyn6xPhEsMF4cK8=
-X-Google-Smtp-Source: AMsMyM6KWPhkYRlTgssiPrJgt9Pbxfw7BMQgVS5CkT763o2nXVUzgkyW71nyKSuz+v4ZZIXI4//Vvg==
-X-Received: by 2002:a17:90b:2247:b0:20d:a2be:95ae with SMTP id hk7-20020a17090b224700b0020da2be95aemr46792148pjb.244.1666279811633;
-        Thu, 20 Oct 2022 08:30:11 -0700 (PDT)
-Received: from roguebox.lan ([164.92.70.235])
-        by smtp.gmail.com with ESMTPSA id y16-20020a17090264d000b0016c50179b1esm12965573pli.152.2022.10.20.08.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 08:30:11 -0700 (PDT)
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-To:     jikos@kernel.org, jic23@kernel.org
-Cc:     linux-input@vger.kernel.org,
-        Matt Ranostay <matt.ranostay@konsulko.com>
-Subject: [PATCH 2/2] HID: mcp2221: correct undefined references when CONFIG_GPIOLIB isn't defined
-Date:   Thu, 20 Oct 2022 23:30:00 +0800
-Message-Id: <20221020153000.30874-3-matt.ranostay@konsulko.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221020153000.30874-1-matt.ranostay@konsulko.com>
-References: <20221020153000.30874-1-matt.ranostay@konsulko.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hkX5nKlhQ/TrI2mbSx0miDUCy9S+/kM4hXZnMa/gNZs=;
+        b=TwgL2KxhZbrmzpoParWFcIlkGYn4JvyWjTyQ7+bjErgQeF47X/tEyyPuzeylzf9nvN
+         Gci9KIPCm6hnazXcWk9iIrM2oVCUNd+OmEMj3+XsDMNfvJOVSb59ywf2bO0H8UWB2n0F
+         hTPuxYFPh2Wgcj5d72fAwh2ZpwQFil6AQGGRmVfAtxUEtF49C/JcF9n+NJdTFNd7KLqI
+         X1X7tU3Ju5vDCY5BILGuRdNBJAHsAxzHJAngDKW+GY2K5ZibA/U/fsCi0k0gcRBehFH7
+         mNeJruRRqWZlkUhgw8WJUWYTSzGiftn+WXqJyJjrO2g1Uxp0v0HJNI1+X/pb984KjtCq
+         XFzQ==
+X-Gm-Message-State: ACrzQf1mj5poRt5OQqkgmDSSj3ZItsQB+OuAOrP39MsczytlyvbxXO6H
+        qE3xrf0kmMSi5p/TWQsGlj6qBV4=
+X-Google-Smtp-Source: AMsMyM7T+fFcJkP1w/E13ym1azio4l49QEJ9D+j2qYquJ7qqA+6cxLumXVBGVl+L3p6PuCzC/vNJIwM=
+X-Received: from svv0.mtv.corp.google.com ([2620:15c:211:202:b62c:23f0:d55a:5c42])
+ (user=svv job=sendgmr) by 2002:a63:6b83:0:b0:460:c07c:553b with SMTP id
+ g125-20020a636b83000000b00460c07c553bmr12370283pgc.209.1666282468718; Thu, 20
+ Oct 2022 09:14:28 -0700 (PDT)
+Date:   Thu, 20 Oct 2022 09:14:01 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
+Message-ID: <20221020161401.941927-1-svv@google.com>
+Subject: [PATCH] Add rumble support to latest xbox controllers
+From:   Siarhei Vishniakou <svv@google.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Siarhei Vishniakou <svv@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Singular #ifdef IS_REACHABLE(CONFIG_GPIOLIB) weren't covering all the
-gpiolib functions that were being referenced.
+Currently, rumble is only supported via bluetooth on a single xbox
+controller, called 'model 1708'. On the back of the device, it's named
+'wireless controller for xbox one'. However, in 2021, Microsoft released
+a firmware update for this controller. As part of this update, the HID
+descriptor of the device changed. The product ID was also changed from
+0x02fd to 0x0b20. On this controller, rumble was supported via
+hid-microsoft, which matched against the old product id (0x02fd). As a
+result, the firmware update broke rumble support on this controller.
 
-Update the code regions that are commented out when CONFIG_GPIOLIB isn't
-enabled to avoid errors.
+The hid-microsoft driver actually supports rumble on the new firmware,
+as well. So simply adding new product id is sufficient to bring back
+this support.
 
-Fixes: 960f9df7c620 ("HID: mcp2221: add ADC/DAC support via iio subsystem")
-Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+After discussing further with the xbox team, it was pointed out that
+other xbox controllers, such as xbox elite, should also be possible to
+support in a similar way. However, I could only verify this on 2
+controllers so far.
+
+In this patch, add rumble support for the following 2 controllers:
+1. 'wireless controller for xbox one', model 1708, after applying the
+   most recent firmware update as of 2022-10-20.
+2. 'xbox wireless controller', model 1914. This is also sometimes
+   referred to as 'xbox series S|X'.
+
+I verified rumble support on both bluetooth and usb.
+
+Signed-off-by: Siarhei Vishniakou <svv@google.com>
 ---
- drivers/hid/hid-mcp2221.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/hid/hid-ids.h       | 2 ++
+ drivers/hid/hid-microsoft.c | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index 3014932c8cef..5886543b17f3 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -585,6 +585,7 @@ static const struct i2c_algorithm mcp_i2c_algo = {
- 	.functionality = mcp_i2c_func,
- };
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index da86565f04d4..e9c7eae849b6 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -914,6 +914,8 @@
+ #define USB_DEVICE_ID_MS_POWER_COVER     0x07da
+ #define USB_DEVICE_ID_MS_SURFACE3_COVER		0x07de
+ #define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER	0x02fd
++#define USB_DEVICE_ID_MS_XBOX_ONE_S_2021_FIRMWARE 0x0b20
++#define USB_DEVICE_ID_MS_XBOX_WIRELESS_CONTROLLER 0x0b13
+ #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
+ #define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
  
-+#if IS_REACHABLE(CONFIG_GPIOLIB)
- static int mcp_gpio_get(struct gpio_chip *gc,
- 				unsigned int offset)
- {
-@@ -688,6 +689,7 @@ static int mcp_gpio_get_direction(struct gpio_chip *gc,
- 
- 	return GPIO_LINE_DIRECTION_OUT;
- }
-+#endif
- 
- /* Gives current state of i2c engine inside mcp2221 */
- static int mcp_get_i2c_eng_state(struct mcp2221 *mcp,
-@@ -1153,6 +1155,7 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	}
- 	i2c_set_adapdata(&mcp->adapter, mcp);
- 
-+#if IS_REACHABLE(CONFIG_GPIOLIB)
- 	/* Setup GPIO chip */
- 	mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
- 	if (!mcp->gc)
-@@ -1169,7 +1172,6 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	mcp->gc->can_sleep = 1;
- 	mcp->gc->parent = &hdev->dev;
- 
--#if IS_REACHABLE(CONFIG_GPIOLIB)
- 	ret = devm_gpiochip_add_data(&hdev->dev, mcp->gc, mcp);
- 	if (ret)
- 		return ret;
+diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
+index 071fd093a5f4..2973e91fc7a1 100644
+--- a/drivers/hid/hid-microsoft.c
++++ b/drivers/hid/hid-microsoft.c
+@@ -448,6 +448,10 @@ static const struct hid_device_id ms_devices[] = {
+ 		.driver_data = MS_SURFACE_DIAL },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER),
+ 		.driver_data = MS_QUIRK_FF },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_ONE_S_2021_FIRMWARE),
++		.driver_data = MS_QUIRK_FF },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_WIRELESS_CONTROLLER),
++		.driver_data = MS_QUIRK_FF },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
+ 		.driver_data = MS_QUIRK_FF },
+ 	{ }
 -- 
-2.30.2
+2.38.0.135.g90850a2211-goog
 
