@@ -2,66 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67D71607781
-	for <lists+linux-input@lfdr.de>; Fri, 21 Oct 2022 15:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 866FE6078B2
+	for <lists+linux-input@lfdr.de>; Fri, 21 Oct 2022 15:42:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbiJUNEq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Oct 2022 09:04:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37680 "EHLO
+        id S231147AbiJUNmW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Oct 2022 09:42:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiJUNEp (ORCPT
+        with ESMTP id S230235AbiJUNmV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Oct 2022 09:04:45 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413F84B0CA
-        for <linux-input@vger.kernel.org>; Fri, 21 Oct 2022 06:04:43 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id b4so4801218wrs.1
-        for <linux-input@vger.kernel.org>; Fri, 21 Oct 2022 06:04:43 -0700 (PDT)
+        Fri, 21 Oct 2022 09:42:21 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE71D251D69
+        for <linux-input@vger.kernel.org>; Fri, 21 Oct 2022 06:42:19 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id mx8so1813795qvb.8
+        for <linux-input@vger.kernel.org>; Fri, 21 Oct 2022 06:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ub/Q3aGASlrAXKX6JbBno3sJc5izj2B9kHx5Vfj31no=;
-        b=gEJ6INl1uo2EhdrqvpQPhIeMhpnTp/XTU+JHgRvsZWO7q0dliF+YoqCWZGjqTDPHmV
-         NZH1YUUL4hRBFfUiUbBxtJlGJEGGhg+dCZZ5CXddKxrwdK8Y/zY35MWxxyY+6rJdfWjg
-         CnbFzh/3uiviFDfs2zHAudI3cY/42hpKZeJehUUk9xx3FSp3PBuGwS/5p4sFoknG0opI
-         gVV94ui6Y5m95IH2FzeDetax+EyO183Vv4HjyeOnWa/m0s6DKjbB4cyPxwYDCFH386sI
-         xHdi6c3J+arK/FjKtZNzt6ZtvYDD8D58x/R8xf4TT33C6TWaVCThCozrmMCQ0Arl9o/Y
-         x6Yw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CSSKAbFidtN+JuP6esBpkcx5JT2iYAaDI4sbSOLtKiY=;
+        b=nJTj3nEcSrpxLbSFde7UT1KRIaocFjAQvt/7hgYtpBsi963etkFaNDfA4lSQAoTcmT
+         fYuNoNAVWvgpu5hGOqHy+83BPu+2BgYotRR7DFIg20yqlqUeWxuE4/imxbnFteP4Z6UO
+         HThN5xbXReii3DnQGrPY4rWEw+42mxkvBPwxJDR2P98UGtyRbIL/mTxc/w0tyeyD7Pmn
+         08rtKxw7Ji3qjb45g5H7u1XQ5QG4crD03JWvkz6bJmSGZfQrBczmjbUs8WJmC2fckgII
+         tixAtn2DKLCvp7X2G/6acX/HcCrOFtO0I4NAUqfKQKKlFqXgh/rZLP1EZ3KzluQPB9cP
+         PCgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ub/Q3aGASlrAXKX6JbBno3sJc5izj2B9kHx5Vfj31no=;
-        b=n1e/ppCP/S3EkttOfGJRbAl2O/6kObqryHFljiS8ElkSrNjkbr29LLks4DGSYII5GO
-         I4fwXou5PEqNf4l3wSLAhtZ5gn6bRZ6HgjncjzIcAo4Kx0tnGfR37Uvu2JwA/i8kQR5f
-         IhH9fZGi+E0wfDkkVq7tEj34piaaFv5VBBtAeHFmWlUgw+Dniotk5kg6sRSP2N2u1a24
-         ft/4Lch8ltVWmoH87KfafqH2bxZCwpDiqyZMiljBWgzYhPTCAGBRa/Ck2oSxoO1jwV/4
-         uosGtnygkPyqpYKPVSO+Ap37YxFu09DVfXdRnweOmssrAjUwnh6P0ffOQ2vv3CsNDPNJ
-         RAtA==
-X-Gm-Message-State: ACrzQf14r2o0h00pZ3t5Lsj3G6qejFVtkkYSC4IyBVzhhtgFXTLSsLt2
-        5yYR6mjEJBwTLhRFbfVTv5/ZoA==
-X-Google-Smtp-Source: AMsMyM7Upp2advF48Gmvc7xuqXWi5BXIj28tAi5l0CGstD4rPMbCg2nWp/QDAkA7mw9jbyrpjk+Z9w==
-X-Received: by 2002:adf:fa05:0:b0:22e:362a:ce57 with SMTP id m5-20020adffa05000000b0022e362ace57mr12200802wrr.96.1666357481661;
-        Fri, 21 Oct 2022 06:04:41 -0700 (PDT)
-Received: from localhost ([2a01:cb19:8b2c:5e00:becf:29f6:2774:7ce2])
-        by smtp.gmail.com with ESMTPSA id c5-20020a05600c0a4500b003bdd2add8fcsm2878337wmq.24.2022.10.21.06.04.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 06:04:41 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Colin Ian King <colin.i.king@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: tps6507x-ts: remove variable loops
-In-Reply-To: <20221020181642.24417-1-colin.i.king@gmail.com>
-References: <20221020181642.24417-1-colin.i.king@gmail.com>
-Date:   Fri, 21 Oct 2022 15:04:39 +0200
-Message-ID: <87y1t9pbtk.fsf@baylibre.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CSSKAbFidtN+JuP6esBpkcx5JT2iYAaDI4sbSOLtKiY=;
+        b=1rvJwWg1fP9SSMouKhmXkdSebWzmglaBwUG9tz7qbD218DQXXKVGCmXmTkaVKiYzId
+         9KNhHHGDTLWXhyVQQVl93DLRWuyUTjmONI/I3hbEYfRv+cBpjLXwLnmBa6r5U0Fwty+7
+         L1F8OcbPmVdXpEJtZ0lkjo3cUxm+gmxAsyBqyav4CzQ5CCVNqyOwVs8R2Xcb92MGcXPw
+         lKSuhF7Cre9xLre80chWznKCMCqFI/llGsFwlQomWyhmhF/kDvDu1wqEziNstliAx7/p
+         ulcMoU4JryPaZKL8U5S9BKTh8uQoXz9PJoEH8T0/gFXro1NhSs/cQTs530fAftfPA3h0
+         E6dg==
+X-Gm-Message-State: ACrzQf3mhETv9DyQiRPwOxEhHMzv4J+VxZ0qWmpL34N3btQukugkN3TI
+        H0xkTWKU/94pnG7FhewQBLgojA==
+X-Google-Smtp-Source: AMsMyM4Vcxg7MVFIpTWQU1GxWzjtFkF8Yb5+716oUkVhod5UbyMBDqc31ZOscBoqkLBkomECOw3R/A==
+X-Received: by 2002:ad4:4ee2:0:b0:4b1:a6ac:83e1 with SMTP id dv2-20020ad44ee2000000b004b1a6ac83e1mr16847734qvb.20.1666359738683;
+        Fri, 21 Oct 2022 06:42:18 -0700 (PDT)
+Received: from [192.168.10.124] (pool-72-83-177-149.washdc.east.verizon.net. [72.83.177.149])
+        by smtp.gmail.com with ESMTPSA id bc11-20020a05622a1ccb00b0039a372fbaa5sm8003978qtb.69.2022.10.21.06.42.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Oct 2022 06:42:17 -0700 (PDT)
+Message-ID: <76eca66c-5449-a125-23eb-c872324f321b@linaro.org>
+Date:   Fri, 21 Oct 2022 09:42:16 -0400
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v4 02/11] arm: dts: qcom: mdm9615*: add
+ SPDX-License-Identifier
+Content-Language: en-US
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Gross <agross@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>
+Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
+ <20220928-mdm9615-dt-schema-fixes-v4-2-dac2dfaac703@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220928-mdm9615-dt-schema-fixes-v4-2-dac2dfaac703@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,38 +88,16 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 19:16, Colin Ian King <colin.i.king@gmail.com> wrote:
+On 21/10/2022 05:06, Neil Armstrong wrote:
+> Replace the license blob by a clean SPDX-License-Identifier with GPL2+
+> or MIT even if X11 is specified in the original blob since the actual
+> license text corresponds to a MIT license.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-> The variable loops is being incremented but is never referenced,
-> it is redundant and can be removed.
->
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> ---
->  drivers/input/touchscreen/tps6507x-ts.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/input/touchscreen/tps6507x-ts.c b/drivers/input/touchscreen/tps6507x-ts.c
-> index 357a3108f2e5..f48871767763 100644
-> --- a/drivers/input/touchscreen/tps6507x-ts.c
-> +++ b/drivers/input/touchscreen/tps6507x-ts.c
-> @@ -119,7 +119,6 @@ static s32 tps6507x_adc_conversion(struct tps6507x_ts *tsc,
->  static s32 tps6507x_adc_standby(struct tps6507x_ts *tsc)
->  {
->  	s32 ret;
-> -	s32 loops = 0;
->  	u8 val;
->  
->  	ret = tps6507x_write_u8(tsc,  TPS6507X_REG_ADCONFIG,
-> @@ -141,7 +140,6 @@ static s32 tps6507x_adc_standby(struct tps6507x_ts *tsc)
->  		ret = tps6507x_read_u8(tsc, TPS6507X_REG_INT, &val);
->  		if (ret)
->  			return ret;
-> -		loops++;
->  	}
->  
->  	return ret;
-> -- 
-> 2.37.3
+Best regards,
+Krzysztof
+
