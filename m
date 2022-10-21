@@ -2,69 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDD7A6069FA
-	for <lists+linux-input@lfdr.de>; Thu, 20 Oct 2022 23:02:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DB20606CD2
+	for <lists+linux-input@lfdr.de>; Fri, 21 Oct 2022 03:05:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbiJTVC3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Oct 2022 17:02:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47062 "EHLO
+        id S229779AbiJUBFS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Oct 2022 21:05:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbiJTVCX (ORCPT
+        with ESMTP id S229541AbiJUBFR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Oct 2022 17:02:23 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56E6CABC0;
-        Thu, 20 Oct 2022 14:02:21 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id a3so1540312wrt.0;
-        Thu, 20 Oct 2022 14:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xb9OuFfShbk1zmBdU9t2whIn89Cs7N05c9hSHXwNLbg=;
-        b=Vjn+gBOxO00mhNYMVLOiGaVG772I20ExWGLjR2PfAwqYrX+NfyJ8/67fCRkI+vAo6a
-         m5dPyHI7dqCzIHM4YD0cpeUop++eoFFWehwhb0iWsx/allnct96GpJjHyfkSvp/YpXoy
-         auHGEbKFA6FEr/z0gGztBwKSTDCG6KGST93hAh+ecgQvIqXMn6CxYtmhGiS4bUpLcfPZ
-         oZD2puw+zt/6y1Fx6sxuMU7HO4UlszkEFic8hm1c7ao2fDQt+xcCmgsceuxSBm6CB7Yh
-         V8Lm3WYDwtax9aUeuM0GqvMAwig+4KRT6kL6EXcCd1Ij/IkXez29iV2Rz+8im5zAXe8u
-         DeSA==
+        Thu, 20 Oct 2022 21:05:17 -0400
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AAE7C06BD;
+        Thu, 20 Oct 2022 18:05:12 -0700 (PDT)
+Received: by mail-ot1-f54.google.com with SMTP id t4-20020a9d7f84000000b00661c3d864f9so910268otp.10;
+        Thu, 20 Oct 2022 18:05:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xb9OuFfShbk1zmBdU9t2whIn89Cs7N05c9hSHXwNLbg=;
-        b=4sagYl5UIje8Bcq9STn5K+JKpGViR6s6rtH2bSVVtmVlnZ3Qm7dH5zOStF7H1lTQx4
-         YcpoGvsZYyqRb+GWCpC1e5ZEv2v2ldCwmZTvGIEJJ6gXeXBbN1b9O6PJvrD9/69JWjk2
-         PlMtLaXrsm4x1e0RFGYZWcUg9wZCfgjPrkC750lIkL9CUcbukdtQ2B7L6QLb4NiO7ZKi
-         3O4mCMiBQj4/v0XKOeuiEO5+6M8oWAfQnd9KVN+Pt2YFdxpwCR+VQnv4nZqh1BPMyzgn
-         S7w12eBMlckf9vw3UcPoMALHOY+xQJfBM/+chAnJbxqMl4syewJxTYfmir28KX+jlmVd
-         ZHZA==
-X-Gm-Message-State: ACrzQf1N115JgMxVIFCuWLXrWRm/bzpsylB+h1lOpydupOazMhHNSQKW
-        Mp5uvJFHmjjnybwfOMAqblQ=
-X-Google-Smtp-Source: AMsMyM5NaTQoqsewNFR9sI+PSyt9Ke9RhPVAXOTiK5PjsWmhgGLCtl3uLs5s9V/N28WheaHc80flNg==
-X-Received: by 2002:adf:f1c9:0:b0:236:49ee:8598 with SMTP id z9-20020adff1c9000000b0023649ee8598mr2243627wro.481.1666299740494;
-        Thu, 20 Oct 2022 14:02:20 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id bi19-20020a05600c3d9300b003c70191f267sm786923wmb.39.2022.10.20.14.02.19
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ecocDdlY9HD0dckWSi58lakyiwrmabIaEHlrxIT6WH0=;
+        b=OPVrwIQWo1WfGYF/ZiSMdmCHZ6Pf0kEEVvbRGSx5p0G+IispvY/Ec3KYJt1rj0NLq1
+         1HFWtIGgUm0wHlmDlm0bbkh5PbEdgAZVj3MX+TvNXlJKzHg6kFzJgYrN2AIx8G0kfGTz
+         fezVS/vfsQiMdjzhr7wu0GF3zXcwqdGNBjFulXWX8wWOcMoNr1PxdLy1ed5h5hS1n4Zb
+         Esu297TMxX8ysCuJDL7I+9I2luAUvoj9ndcXlZFUmYBIEGJ9X6BbH/DflEzP6s0wSEba
+         9xV0Gzxd4iJHRY9dHvAr87sf3Jy8Y9HJICI34OQ8reh8esLhyhot2TGNf8akZWb99Nsw
+         wsDQ==
+X-Gm-Message-State: ACrzQf1iB7WdokcGhxCcFS70kDZSuYXZu1zZ0y1bw0WGaPwRIvvCbCNo
+        QFHPZmTb/EkspAYyS134BMEdrKXAXg==
+X-Google-Smtp-Source: AMsMyM6tI/gHEPMEf2U2laKjn7zNaO032RwU8qbztdEvs2i2nyjTJbwEI06MkMtaR9Ee3w9ADVSNZg==
+X-Received: by 2002:a05:6830:1644:b0:661:8b9f:16c3 with SMTP id h4-20020a056830164400b006618b9f16c3mr8477769otr.235.1666314311664;
+        Thu, 20 Oct 2022 18:05:11 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s64-20020acaa943000000b00353fe4fb4casm550566oie.48.2022.10.20.18.05.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 14:02:20 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Even Xu <even.xu@intel.com>, linux-input@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][V2] hid: intel-ish-hid: ishtp: remove variable rb_count
-Date:   Thu, 20 Oct 2022 22:02:19 +0100
-Message-Id: <20221020210219.45131-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        Thu, 20 Oct 2022 18:05:11 -0700 (PDT)
+Received: (nullmailer pid 2100343 invoked by uid 1000);
+        Fri, 21 Oct 2022 01:05:12 -0000
+Date:   Thu, 20 Oct 2022 20:05:12 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Alexandre Mergnat <amergnat@baylibre.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] dt-bindings: regulator: Add binding schema for
+ mt6357 regulators
+Message-ID: <20221021010512.GA1974104-robh@kernel.org>
+References: <20221005-mt6357-support-v3-0-7e0bd7c315b2@baylibre.com>
+ <20221005-mt6357-support-v3-3-7e0bd7c315b2@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221005-mt6357-support-v3-3-7e0bd7c315b2@baylibre.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,38 +78,102 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The variable rb_count is being incremented but it
-is never referenced, it is redundant and can be removed.
+On Thu, Oct 20, 2022 at 06:20:47PM +0200, Alexandre Mergnat wrote:
+> From: Fabien Parent <fparent@baylibre.com>
+> 
+> Add YAML schema for the MediaTek MT6357 regulators.
+> 
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>  .../regulator/mediatek,mt6357-regulator.yaml       | 292 +++++++++++++++++++++
+>  1 file changed, 292 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml
+> new file mode 100644
+> index 000000000000..8dc1245304be
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml
+> @@ -0,0 +1,292 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/mediatek,mt6357-regulator.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT6357 Regulators
+> +
+> +maintainers:
+> +  - Fabien Parent <fabien.parent@linaro.org>
+> +  - Alexandre Mergnat <amergnat@baylibre.com>
+> +
+> +description: |
+> +  The MT6357 PMIC provides 5 BUCK and 29 LDO.
+> +  Regulators and nodes are named according to the regulator type:
+> +  buck-<name> and ldo-<name>.
+> +  MT6357 regulators node should be sub node of the MT6397 MFD node.
+> +
+> +patternProperties:
+> +  "^buck-v(core|modem|pa|proc|s1)$":
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +    description:
+> +      Properties for single BUCK regulator.
+> +
+> +    required:
+> +      - regulator-name
+> +      - regulator-min-microvolt
+> +      - regulator-max-microvolt
+> +
+> +  "^ldo-v(aud28|aux18|cama|camd|cn18|cn28|cn33-bt|cn33-wifi|dram)$":
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +    description:
+> +      Properties for single LDO regulator.
+> +
+> +    required:
+> +      - regulator-name
+> +      - regulator-min-microvolt
+> +      - regulator-max-microvolt
+> +
+> +  "^ldo-v(efuse|emc|ibr|io18|io28|ldo28|mch|rf12|rf18)$":
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
-V2: Fix commit message.
----
- drivers/hid/intel-ish-hid/ishtp/client.c | 3 ---
- 1 file changed, 3 deletions(-)
+vf12 and rf18 are covered by regulator-fixed binding.
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/client.c b/drivers/hid/intel-ish-hid/ishtp/client.c
-index df0a825694f5..2d92fc129ce4 100644
---- a/drivers/hid/intel-ish-hid/ishtp/client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/client.c
-@@ -841,7 +841,6 @@ void recv_ishtp_cl_msg(struct ishtp_device *dev,
- 	unsigned char *buffer = NULL;
- 	struct ishtp_cl_rb *complete_rb = NULL;
- 	unsigned long	flags;
--	int	rb_count;
- 
- 	if (ishtp_hdr->reserved) {
- 		dev_err(dev->devc, "corrupted message header.\n");
-@@ -855,9 +854,7 @@ void recv_ishtp_cl_msg(struct ishtp_device *dev,
- 	}
- 
- 	spin_lock_irqsave(&dev->read_list_spinlock, flags);
--	rb_count = -1;
- 	list_for_each_entry(rb, &dev->read_list.list, list) {
--		++rb_count;
- 		cl = rb->cl;
- 		if (!cl || !(cl->host_client_id == ishtp_hdr->host_addr &&
- 				cl->fw_client_id == ishtp_hdr->fw_addr) ||
--- 
-2.37.3
 
+
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +    description:
+> +      Properties for single LDO regulator.
+> +
+> +    required:
+> +      - regulator-name
+> +      - regulator-min-microvolt
+> +      - regulator-max-microvolt
+> +
+> +  "^ldo-v(xo22|sim1,sim2|sram-others|sram-proc|usb33|xo22)$":
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +    description:
+> +      Properties for single LDO regulator.
+> +
+> +    required:
+> +      - regulator-name
+> +      - regulator-min-microvolt
+> +      - regulator-max-microvolt
+> +
+> +additionalProperties: false
+
+vfe28 is not listed, and this would cause an error if the schema was 
+applied, but it is not as Krzysztof pointed out.
+
+
+The MFD binding really needs to be converted so it can reference this 
+schema. Otherwise, when it is, then all the issues have to be fixed.
+
+Rob
