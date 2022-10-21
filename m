@@ -2,86 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 511B96071A2
-	for <lists+linux-input@lfdr.de>; Fri, 21 Oct 2022 10:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D8C4607310
+	for <lists+linux-input@lfdr.de>; Fri, 21 Oct 2022 10:57:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiJUIEx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Oct 2022 04:04:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33854 "EHLO
+        id S230389AbiJUI5k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Oct 2022 04:57:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbiJUIEw (ORCPT
+        with ESMTP id S230392AbiJUI5i (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Oct 2022 04:04:52 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1491399E1;
-        Fri, 21 Oct 2022 01:04:49 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 909F366023A6;
-        Fri, 21 Oct 2022 09:04:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1666339488;
-        bh=+8v8j3CmYy0V5Wq2wkndR69HIDwbqZQ5C7fQX3ELlVw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=IWs9rC9m98Q1I1estZybthcBQOSBE+OnVNazeYA1948VDQQXN8XQqxWemscEG0Nqy
-         3kfk0NXb5GZZtGPuhEtt5sLk+BNVlBix6UAB1y9XDJHwC1C11Njr/1c0ixmz2OnZ99
-         S6w1nkdpeRLTaCtONxRZmjCiI/FfNdo1e+a2ieDDJG2ASGsMkUYAIKpAi2udqAm3ii
-         oUW3fiah3Ei/7k7YcebxiviKy+rvsT6hItVdpGIVrq15qjqJGyANhfJ9bAMD336LiO
-         Gyn3vYOrHQl1JvOyywhPO9cSutpH70MdGB/ng2RHyhEJUrBqKiVNxQuBOCKH2q6EYo
-         doOzPANMiecNQ==
-Message-ID: <5b62a132-df41-6da2-4cb5-c15f9dc53801@collabora.com>
-Date:   Fri, 21 Oct 2022 10:04:45 +0200
+        Fri, 21 Oct 2022 04:57:38 -0400
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B62250EC0;
+        Fri, 21 Oct 2022 01:57:35 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R741e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0VSikoqm_1666342652;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VSikoqm_1666342652)
+          by smtp.aliyun-inc.com;
+          Fri, 21 Oct 2022 16:57:33 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     gupt21@gmail.com
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next RESEND] HID: mcp2221: Remove unneeded semicolon
+Date:   Fri, 21 Oct 2022 16:57:27 +0800
+Message-Id: <20221021085727.118133-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 2/5] dt-bindings: input: mtk-pmic-keys: add binding for
- MT6357 PMIC
-Content-Language: en-US
-To:     Alexandre Mergnat <amergnat@baylibre.com>,
-        Mark Brown <broonie@kernel.org>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Fabien Parent <fparent@baylibre.com>,
-        Rob Herring <robh@kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org
-References: <20221005-mt6357-support-v3-0-7e0bd7c315b2@baylibre.com>
- <20221005-mt6357-support-v3-2-7e0bd7c315b2@baylibre.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221005-mt6357-support-v3-2-7e0bd7c315b2@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Il 20/10/22 18:20, Alexandre Mergnat ha scritto:
-> From: Fabien Parent <fparent@baylibre.com>
-> 
-> Add binding documentation for the PMIC keys on MT6357.
-> 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+./drivers/hid/hid-mcp2221.c:1019:3-4: Unneeded semicolon
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2485
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/hid/hid-mcp2221.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index b3eaf170f0ec..9287730aab27 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -1019,7 +1019,7 @@ static int mcp_iio_channels(struct mcp2221 *mcp)
+ 			break;
+ 		default:
+ 			continue;
+-		};
++		}
+ 
+ 		chan->type = IIO_VOLTAGE;
+ 		chan->indexed = 1;
+-- 
+2.20.1.7.g153144c
 
