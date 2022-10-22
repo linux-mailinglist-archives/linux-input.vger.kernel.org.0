@@ -2,130 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35E92608F64
-	for <lists+linux-input@lfdr.de>; Sat, 22 Oct 2022 21:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBDC8609038
+	for <lists+linux-input@lfdr.de>; Sun, 23 Oct 2022 00:05:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229945AbiJVTsx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 22 Oct 2022 15:48:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41718 "EHLO
+        id S229799AbiJVWFi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 Oct 2022 18:05:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbiJVTsq (ORCPT
+        with ESMTP id S229615AbiJVWFg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 22 Oct 2022 15:48:46 -0400
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F5412D80A;
-        Sat, 22 Oct 2022 12:48:44 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 6AD1458012A;
-        Sat, 22 Oct 2022 15:48:41 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Sat, 22 Oct 2022 15:48:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1666468121; x=1666475321; bh=UGS1Mg1RbR
-        rjg7l/C4uODk6tRvKSFxQmBze4CDiRUok=; b=R769R20cvAUvCJzdLxBnDkwPBp
-        EbTpyCnh90ePwkW/W271GgnujcaxKPNlKUZTD1QiMzbOX6UUmX5GBGQy5YnoG3Hz
-        7bIbm4GGSebbV6RK2kBgjxCEhVjRMxNaLgKsw+7i5e4f4W2C2HsQFTmKv8S+gZdE
-        jcEJHfdX99rjFuuQuzOPTEkJYLvC3gJ1f7jx+9U6cwktdP6NSfqNvxTgarEWxD1c
-        GFRrikCndHmtZnFVFspin0GH0nBuno9DFl/vX1YEuWJJ1DmabcJBI+QgW+pFl13L
-        PUlTUh21czWS+IFSiTNJyGJ4p7ipLzCb7UJepNPQ1EVgfsLevgq5To41FFEw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1666468121; x=1666475321; bh=UGS1Mg1RbRrjg7l/C4uODk6tRvKS
-        FxQmBze4CDiRUok=; b=DZdlxJQ1/OPf/Y6KDYWPfdC+mu56NzIOlbXghWxjCj9D
-        9CPMuzFO6wSIpYXaVVKO5ogBmtK5zrRUpai6gPg5qF7aq51p1Tf8zgVV+aEGQIpg
-        Le7lvLJR+05feR3Q+7owk4RsmE3rzpsqGg/UOGa7xGgp5BzvreC3G8OxhZ0WzoTZ
-        kHVkLu1P+KTSJm4dYCrODRLVTVeSHwuFqAuyI9eyO0UD5B3tL3/NipBn2AFumQvr
-        +xjvFjLrJEOmbNOFedB+o0knlGPPR7li0EwNxPvDXhDL0DJhj4plmQqEZJg8uEWZ
-        ljUtVQj8llXCVqwnpTmY8Mpk0y+FjFMyLlNEuZEfiA==
-X-ME-Sender: <xms:GElUY9vt3ItviEp5AJXQjYcX0YyV47YTITTgtkGjjNw0aSie0vzYkg>
-    <xme:GElUY2cknoJTeDpYvjbC4RFS-FtPGbyfFDbbyjNFIChdDqrc0xYFVavFYI99vu8kl
-    0KtHqNspAg1e6vBhwY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedttddgudegtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:GElUYwxiXoqPMILm1SZ_32__qu1Q5l_zrlV4KYN9jBrAlex9SwSKIg>
-    <xmx:GElUY0PzOcbbrTlSQkCZ5j1lrS1Cnv1p6FZXhLQlA1lHQyiDXRQGng>
-    <xmx:GElUY9-JQg9pRkXJG00aarf_3pC2T4jG_plPdMl-YxzKsRcEtsxZ9g>
-    <xmx:GUlUYyKFp-5FR5wwM3xl6nutJeKlKU0pfMGHX_pxDvaIG8i-amMB_w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 90C24B60086; Sat, 22 Oct 2022 15:48:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
-Mime-Version: 1.0
-Message-Id: <7c4531b8-a296-4ea3-9564-b094704d10b2@app.fastmail.com>
-In-Reply-To: <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
-References: <20221021202254.4142411-1-arnd@kernel.org>
- <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
-Date:   Sat, 22 Oct 2022 21:48:19 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        "Arnd Bergmann" <arnd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, "Ben Dooks" <ben-linux@fluff.org>,
-        "Simtec Linux Team" <linux@simtec.co.uk>,
-        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
-        linux-mtd@lists.infradead.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 22 Oct 2022 18:05:36 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A37BF5972A;
+        Sat, 22 Oct 2022 15:05:35 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id bu30so10052824wrb.8;
+        Sat, 22 Oct 2022 15:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G2Not6vWEj/EXAhyq7bMF/7ChA29esth2VpSlZbgOZw=;
+        b=SFQVJESBnmW6WPrWGvgWwUJTgDxkoKS9I29HLdL1dIwy/11LEof4cFph9B4UheCBrA
+         E/AAwP1ioFmAXRunR1+tgc49nCu5bHEQZ0WvGwRxx8loQRXSWszOLO5B4+aijp1xal/e
+         Kf0t4+MV7qN6IOSWd7nKcry+IADtnntty3fZLnyZ2e96JFjlf5cblU7fONB5wlIBwh8E
+         ULklPni6rloZGNw8laDCdTk50TtfMAlHZSKEz1IRGG6QhsOGjJF0aEZpEeBW5AQ+BmsV
+         2x/uqyeb+0CE/uCDvF2u5wN9e2XVTcpo/lHqrAiRYFzG3WhQGb3d/O4zFFqKsDb77guc
+         4rHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G2Not6vWEj/EXAhyq7bMF/7ChA29esth2VpSlZbgOZw=;
+        b=f/S6XsQyAwDu2lUYNuVw0+iWusl7Q9zKDAXFS0lWCEX06XirLSXIkq/Oug0G7EGmG9
+         PhXQQCIAZun5jm/ixtn/mSP/OEfhNFXTME5Tt2HBRey269LHgW3liATQnjJgA0Ir2rAO
+         0YlAumu3GNr0kJnRlz4CyYmtXbT4YFXdEEiSG2BPu1o6mzv93OpLoggtDWqpla9ZftTl
+         BFDPyN1vcGfoTeOlGrHu8lMWalx0/SfpfSof+5Cjs2kUq7PpTcVtDVv7RhwfZPtC214r
+         cCWICe9F+b3Wdi0xVBaP9hctBZ35hgR1hej5o9CSAYA1Bw+9suNkllMxs+IH1D8ie4uo
+         JYiQ==
+X-Gm-Message-State: ACrzQf2fbsGlK/w94GiW4DMuTQB7qs6yp5sN54lTx8CoAlpeLhhpiGWS
+        QwgqsuY9aMI73IihRml30cV+FlNEILRbUg==
+X-Google-Smtp-Source: AMsMyM6nZYjAQAh4Z5ESRtpk0ycubeRqy+oXlHNqX/IMvXXWPLoA0vsIK9tjOIFqvFlWt6heAcuBfw==
+X-Received: by 2002:a05:6000:1051:b0:22e:5d8a:d3d5 with SMTP id c17-20020a056000105100b0022e5d8ad3d5mr16321206wrx.476.1666476334126;
+        Sat, 22 Oct 2022 15:05:34 -0700 (PDT)
+Received: from localhost.localdomain (37.94.131.77.rev.sfr.net. [77.131.94.37])
+        by smtp.gmail.com with ESMTPSA id bv16-20020a0560001f1000b0022e6f0d0d7csm26825100wrb.18.2022.10.22.15.05.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Oct 2022 15:05:33 -0700 (PDT)
+From:   Benoit Maurin <maurinbe@gmail.com>
+Cc:     Benoit Maurin <maurinbe@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] input/xpad: LED controllable through input events
+Date:   Sun, 23 Oct 2022 00:05:07 +0200
+Message-Id: <20221022220508.37489-1-maurinbe@gmail.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Oct 22, 2022, at 17:18, Krzysztof Kozlowski wrote:
-> On 21/10/2022 16:22, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> The s3c24xx platform was marked as deprecated a while ago,
->> and for the s3c64xx platform, we marked all except one legacy
->> board file as unused.
->> 
->> This series removes all of those, leaving only s3c64xx support
->> for DT based boots as well as the cragg6410 board file.
->> 
->> About half of the s3c specific drivers were only used on
->> the now removed machines, so these drivers can be retired
->> as well. I can either merge the driver removal patches through
->> the soc tree along with the board file patches, or subsystem
->> maintainers can pick them up into their own trees, whichever
->> they prefer.
->
-> Just to be sure - do you expect me to ack the series, or rather as usual
-> pick them up?
+(EV_LED, LED_MISC, #VALUE) can now be used to control leds on the
+xpad gamepad (was only possible through /sys/class/leds/xpad0/brightness)
+with permissions of /dev/input/xxx
 
-I think in this case it is easier if I pick them up with your
-Ack along with the other platforms I posted, as there are
-some minor conflicts between Makefile/Kconfig changes where
-I remove adjacent lines.
+To test the code (xpad can be compiled out-of-tree with some slight
+tweaks):
 
-       Arnd
+```
+import evdev
+device = evdev.InputDevice('/dev/input/event15') # not js0
+device.set_led(8, 2)
+device.set_led(8, 0) # this won't be delivered
+device.set_led(8, 16) # must do this instead
+device.set_led(8, 15)
+```
+
+Signed-off-by: Benoit Maurin <maurinbe@gmail.com>
+---
+ drivers/input/joystick/xpad.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 2959d80f7..fcf4d2c8f 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -1646,6 +1646,7 @@ static int xpad_led_probe(struct usb_xpad *xpad)
+ 		goto err_free_mem;
+ 	}
+ 
++	input_set_capability(xpad->dev, EV_LED, LED_MISC);
+ 	snprintf(led->name, sizeof(led->name), "xpad%d", xpad->pad_nr);
+ 	led->xpad = xpad;
+ 
+@@ -1824,6 +1825,28 @@ static void xpad_deinit_input(struct usb_xpad *xpad)
+ 	}
+ }
+ 
++static int xpad_event(struct input_dev *dev, unsigned int type,
++		      unsigned int code, int value)
++{
++	struct usb_xpad *xpad = input_get_drvdata(dev);
++
++	if (type != EV_LED || xpad->led == NULL)
++		return 0;
++	xpad_send_led_command(xpad, value);
++	xpad->led->led_cdev.brightness = value;
++	/* Bit clearing is necessary otherwise two events with
++	 * different non-null values will deliver only the first one.
++	 * To work around this, we clear the bit to indicate that the
++	 * current value is zero. The downside is that events with zero
++	 * value won't be delivered. It's not a big deal since a value of
++	 * 16 can be sent which is the same as 0
++	 * See xpad_send_led_command, command %= 16
++	 */
++
++	clear_bit(code, xpad->dev->led);
++	return 0;
++}
++
+ static int xpad_init_input(struct usb_xpad *xpad)
+ {
+ 	struct input_dev *input_dev;
+@@ -1851,6 +1874,7 @@ static int xpad_init_input(struct usb_xpad *xpad)
+ 		input_dev->open = xpad_open;
+ 		input_dev->close = xpad_close;
+ 	}
++	input_dev->event = xpad_event;
+ 
+ 	if (!(xpad->mapping & MAP_STICKS_TO_NULL)) {
+ 		/* set up axes */
+-- 
+2.38.1
+
