@@ -2,106 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E87E609097
-	for <lists+linux-input@lfdr.de>; Sun, 23 Oct 2022 02:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40858609099
+	for <lists+linux-input@lfdr.de>; Sun, 23 Oct 2022 02:57:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229967AbiJWA4m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 22 Oct 2022 20:56:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50404 "EHLO
+        id S229968AbiJWA46 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 Oct 2022 20:56:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229964AbiJWA4m (ORCPT
+        with ESMTP id S229964AbiJWA45 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 22 Oct 2022 20:56:42 -0400
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2055.outbound.protection.outlook.com [40.107.101.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5AE56FC48;
-        Sat, 22 Oct 2022 17:56:40 -0700 (PDT)
+        Sat, 22 Oct 2022 20:56:57 -0400
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2045.outbound.protection.outlook.com [40.107.101.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F916FC53;
+        Sat, 22 Oct 2022 17:56:53 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=asDnbDMxVf3yEp59TALqztvGuoDQF6yMeFdJzcBtautpYW6obQ+hPshUHOUCoP5sCdMlFSu0cWt7cHHiA2vbbcyVAqRgXej5TLI3wvJr/oW85hJsduWzc1jf+0f+4JKSTG6eRVAf5UpXuAFWqbRBZti8I+wYbUY0fWHBPrj5v/l2wjvbVQlxysMfcAfXC7zHlEVHJ52BZ+7eNxhcg/yDm/mCH8jvANFiyT0Qtqs5XRBwcwqjoSLMxXJhfo25m6qTavSr0JaHXDc17G/Z6gBhaAW3OzJpMSnMgoIuNosx5Tx2NSdfsUmM2g1bLCkevABgUJaRfC1C7+VK/3rA/G9U3Q==
+ b=LG/EntL/dh3fZurqQucP9Vg+Lp+TMyILiKrSO0SYMbOXDOr/BKc+NhIplvqzec+F+EMMaZNaENrm+EPDpTCXIdsMtBGESn4z5BikvcjRfvTioTqjc3R2RbAvYBn2L4w1uW5ieNctzPWeuhBnQlBpEoART0ryl/1S72YvlqGRpLidR9ovgd+xYOQyuPffmkH58wcnlGzZPERbxVVuVtN6iRxB03K/IIxySwG84t8AzGCr+SKe9eNXRLvmb3/DGXzsBwkwI8YWtDsc901dzN+dWBBtZoh7M5JCLm5LvoXerMy34TVsUJI4ZCwmMHSt6EnWJPfm3/duZg9Rsrbfp/wPMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OlqgKOB8aNVo5fNMNN74kblYaAtlgWRCsTRYWo6EN6A=;
- b=MsfHrzhOBZwgCKQFzVMYaihq+gyH4wATvvU19RnxImJbaDuDtpUm1y++yIzaTA7lL1VFP9qeNfTmacjNbnklnovTmZ9MQjYCFQgvj6QMO3Px1I+VKVrG696nLa/gUuDGGVrzDyuuZp+ds3MXCQRWHFQk6CxiPvEFO+JHT3d93GJIq39ovp03Dd/6Sq0I4/ftvPomcLdRXKRsaCTX+OAL9QxKGpH8Mfu44k1HY4lNJrf+Mpvr+dRdP+GT1l3RMFEeAZYNVs66XL/tXFLq+9gzXGminix7HTRWTuhnth2aGbOODRxBG+h590GqRsBRgtPpdV33xMTx+QtLrhLccPDQ0g==
+ bh=Bv7ACRtHxLiqz2slFo425iQreJljEZ1CamuAqvbf7oo=;
+ b=SWKHIgnZae5LblvTJ7v15HNiauXCKYHQSE8BpRKUectduDc+XVvv/DIBjBqFxHXZsBWF4eDsk1Pzayp1+XuRJXJYDZNqeLV8wM3uJcotB/5PShknRVtR49064quX49jnqEvH4S2qXo1SNIltxjM9stxZ6qhhbQpeebtHJyJkH5z77/7jl5RPfu1Qvl15ZQbm7FOV/KjITYIO7DE0DCkC7I9Pp4+8HwAXKPEvQI3KvQWRuv3b5/fbEiJN0FaBXaHm28RUZhOKsTH/S4DohDiL58wPY89igfm801486+DyJjzQUl5uimGbi52QCxcHTwfQJqDgls/O0UN6cNv1H6seIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OlqgKOB8aNVo5fNMNN74kblYaAtlgWRCsTRYWo6EN6A=;
- b=r7+rE9fE+9J1EHsO8zoj7GDBJZ2yvT4xNaeLYRZn7X4SmUjusl5FSwoEZF+iQKcgjPpBIgwxsLchJiZcj7ai9uanEO/m8yUZPMRH+59Qc3euCNS80e+FDU3csEgn+/kH80yT4mXOtfcvFVzuf9d8K+rLTytKIHd9Bjq2fx3Cuo0=
+ bh=Bv7ACRtHxLiqz2slFo425iQreJljEZ1CamuAqvbf7oo=;
+ b=rm7uqrn6liZkj/Im05EdZ/z4RGTKWK3QpqU5P0yfwOLP2lMdloJhfqDig70UtvH0ZY/N/PITa4iaH+UFO8KCPhaFRUxkRkoO9+DtKnTOwuL7dDButpry3UwsinsO16J76KhewTlXUImtx6HD9SBKexExRbJXDQq3Bku017f3FTM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21) by SN6PR08MB4896.namprd08.prod.outlook.com
  (2603:10b6:805:69::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Sun, 23 Oct
- 2022 00:56:39 +0000
+ 2022 00:56:52 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::afa7:70e3:c2c9:b680]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::afa7:70e3:c2c9:b680%7]) with mapi id 15.20.5723.034; Sun, 23 Oct 2022
- 00:56:39 +0000
-Date:   Sat, 22 Oct 2022 19:56:38 -0500
+ 00:56:52 +0000
+Date:   Sat, 22 Oct 2022 19:56:51 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         jeff@labundy.com
-Subject: [PATCH v3 3/7] Input: iqs7222 - report malformed properties
-Message-ID: <Y1SRRrpQXvkETjfm@nixie71>
+Subject: [PATCH v3 4/7] dt-bindings: input: iqs7222: Correct minimum slider
+ size
+Message-ID: <Y1SRU37t74wRvZv3@nixie71>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: Y1SQ2t6yUvdaIQPG@nixie71
 References: Y1SQ2t6yUvdaIQPG@nixie71
-X-ClientProxiedBy: SN7PR04CA0101.namprd04.prod.outlook.com
- (2603:10b6:806:122::16) To SN4PR0801MB3774.namprd08.prod.outlook.com
+X-ClientProxiedBy: SN6PR2101CA0004.namprd21.prod.outlook.com
+ (2603:10b6:805:106::14) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SN6PR08MB4896:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91fb898f-0e37-43a9-4d4a-08dab4917175
+X-MS-Office365-Filtering-Correlation-Id: 78643cfc-c656-45e0-2a30-08dab4917956
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LhlWnLHnE5qYlW0RcHbsxsqr89aZc+RvO+ncPy7JAEEv5J8YRtgIyskxJvi/NnkQcAMDW7mt9b4z8O/xyZphd3srrZJFhc7+i+qzURoncTsAmNsHR0hRmkYoIxZ+FyYYcPydqxqetAbD/oNyWaqCLdN2rHTKCpp5KGqlhQdAesr9DAQX81UH8g/TCX0JgeykL/g54i77k3I4igEycxgBdruXs1VQ726W+H7vpPFw9q1rEGBvzLy1Sf16YOPTjXvQq5W5elaKmk4ai7L6tFORFjjEOaeWww+s2ydCYhujkmcIqznTqL8HtwnL4XwgVk97IhlGE6+uHTyhhY19gX69tBLunheIo31t26tkn96lznLNau92PMkD5AItNPQ9+kbEIbVNdIRPsKg/Fo469poRCDK9iHvlK0AHj5+Eo9P71ypz8d45+Ecwv3DoseznK9KyiT6H6+GIFFmhHCq55ipw7kv/tIGwaVHYPjGOm+6+yNgrkOP3yHvcYpZIKHmrijNtdkktkL165HRfy7pwLB0v1nNNi4VM7zTJi9TlXUjTN3HTpBpA0nvthX1svoXR6x7WYOHpEGjPdY8Zq3NpRIIkauwX+Hdyo8LV2Q6UVCvmhjkD6dE6JvAkGW8K4X5wrL9p9D7z1a9SBz0P/bTsBs0ZMf+jo2DIAXxkk0mZmB+kpK+q9erTBrlO1bmaXHbnP0u3VBgvh4CIu1XZedYFXe1kGA==
+X-Microsoft-Antispam-Message-Info: Wxbz1UasrEmTGXnkSwSIRGeaOppQhMdTpdnavWom+Pw6tkclAK3QQMn1kV8bHIPrL7/NH2S3zp4D+Q9nSWTPx2LQyZGajMckI2eTgnxFjeWdW56BB28rpdVU0Pmyks+fliJL2vUlVcIZ1HtcU0jaj905jmz5rd/fQqkWqq5ncS4KXLcOUjvCenQgDQJqrQYS7lhPAdgw45rqdG2yB+mGrf63nROwj9vBLkzEUOUXjeCkC2Poxmlbq/ZnyNgQLhJglmHwCndtcxOpLHchCWGJXws258aVQ6FtXHy/Fom2Y9sM5EPhaVKdmdrgYKygthUmp4Z1Q6vkuidc7cS0uW8TuKQr79sOiZFBkFpOoYjC8jEKklMYUqGQroj69hOBxW1WOAFY+aBcCwbgbUagsJBM5kIDjBNg7fZZ9BL5mvmhQ19xRFkA0Y3XwMqAdqDeNPXrbFTcu28s2m+eDt1AO4E7GiWmavi1rCBLE6v82L7rAgQibd30Y7Gqxmm+hft2pN61q0026vt9Io7f1Lm/2sXyrkgcP5eFao16U+6UTNtXkxqaE3Se0DtE9nUPjksxbJO9WOdt02tmzXQQKC2u4/GYOew1GnadBSC0VN43AWczJC2PJs4ZUh1kQWnQJgRrNagTmn31DURNItg9FA0vOuNEGkg8kVDna3yRFTsyhWaHxwEfjyn8ia8sTrRxCeD3cVG+6Gds5QSuaPkvf8OjgUEdeg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(376002)(396003)(136003)(346002)(39830400003)(366004)(451199015)(8936002)(2906002)(38100700002)(186003)(6506007)(6512007)(9686003)(26005)(5660300002)(41300700001)(86362001)(33716001)(83380400001)(478600001)(316002)(6486002)(107886003)(4326008)(8676002)(66556008)(66476007)(66946007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GPan9Ks/H2L7F224EFU5+pAI4eCz50Kzvrkxuhfr9Pcny1rW2kc9ESq7sP6Q?=
- =?us-ascii?Q?dyI1etRQyc0mbcpGDpKiKqT4p1guS7D+Dmrd1R6nriwZQ71n/9IdNmu2DQ8O?=
- =?us-ascii?Q?pQ8AHVm/uctCufVCEQQM0B9f9C8z0lYxhtnOhHefckqyBIE2I3Y2NGL2DTK/?=
- =?us-ascii?Q?lYRhQla97oQGFUt9TT5UQXzNyVPmDDNN6gcKe1N7MaLVFqv7OewuPhfILeIp?=
- =?us-ascii?Q?ZiIjYELsu2+2tvDd2tLLfqinWv7YHaKYvWloPQ5m071HQHzB7wscHBOTT6UR?=
- =?us-ascii?Q?h/pl6Cwct6gz1va2e/ChYc+2fMfxhfXRMHz/vSiPVKaz0+NBCOAaVMO9OTDm?=
- =?us-ascii?Q?gQRBe3Ue2fMoBfcW6nlYZOvV4CL6dBkVwUqc1cgR9iocSU4Eccd/K4zRysq8?=
- =?us-ascii?Q?AUX/XR8o+vXpLWguPUt4jnsmK2/fmcsqb17IMrvQ1vMuek4JTNJmtGyjp1cF?=
- =?us-ascii?Q?2rAGvvTF5whElbA6NK5pGCU4mYYccWHJtw5rVQqFRXyWTnNp7iIT5AwkTEHr?=
- =?us-ascii?Q?Wp/SZOx2/TFcbo2/hYHDOlvbxFTozmJBE427+0v1l3km01DYnL009EMPZSeE?=
- =?us-ascii?Q?TttsWICqWsqO9duLiP1lsIQwXbLBdvxXSnA/s5KtQHHnAIRhZuFBuYEbV80p?=
- =?us-ascii?Q?+fhhJXU6WIoqxAe2y0+x9MzjfheyArj6jGB1eGYO07TNTM0TizcxUPlbo3H7?=
- =?us-ascii?Q?jtZD6nx2MNMQJkV2GLBP/gjY5T9nsDpizOdjeHPN/jfuSlZQt1JgGIiGLa4k?=
- =?us-ascii?Q?A3GJs3BNfYY+rbF2Ph0hn7+D3Es0Z1hSFTXltHOdQkoV1nijTikW8zG5q8hM?=
- =?us-ascii?Q?7hB9ZcOBvV/2H2WmqfGCBT1GQr3kcicWKMfRsW0Kzvgf9xPRS2D8wpYBtgdF?=
- =?us-ascii?Q?t7+5bBhCPcio06dHTjlc6yUII05dMWnXEGQQw6/8VKuhzigc19hif4Un1IBF?=
- =?us-ascii?Q?StSG/XqbeTUPZDTk4SvL1SnHv2YK6dYjZDdbtcrk+71PV/BJEzF/kpRUkyM0?=
- =?us-ascii?Q?OZWjBn24T6MmjHga1+IMicnMsq/D699uiBp5XJNQZ4+r7Rw1uKtLEZ9Fawgf?=
- =?us-ascii?Q?uJar7Jgq2CwiK+Ffox7jFobn6NZ8hL6y9FgJgyA4Avpb0PwgtWOcMyIyhHaR?=
- =?us-ascii?Q?Vggt7Z58WM14TQnKIqJwAUT1OyMtMM7dUbRHYVOF5Kyl+90PgDUWBev2eX7j?=
- =?us-ascii?Q?R9wzZgTuJfHGvL5aKh/53Qyx0Shq1kcqXAAJLH3PRAjpdUkhJpeppd7zHQUy?=
- =?us-ascii?Q?O5AJhtBFmIWv7fj/b0yLAjZTP8EJad09TEeyOoaCW2r5yh/AbteiMvtwSI9a?=
- =?us-ascii?Q?M+OG3JAHSANpx2tD1EW8pYikA9kjFEES90+c13suMulDus+qkwiWGtB09W1p?=
- =?us-ascii?Q?zQESSx4k87kCvj5kFmk48VdRKrOtqm0cbtKST1wOfzBt9oLLTdRZErjx4IPE?=
- =?us-ascii?Q?hz9TN4CCVGcWiBJDJVRC6Xbrtp2zSMiTec4UlfEi0FgrjpvKYSsN8/xOZm2f?=
- =?us-ascii?Q?gByA86jLmRMhkEU18raFGYTbR2wCJQtqXUBpCeqnOaRj8VVSs00MCwaKyCcp?=
- =?us-ascii?Q?q7XXwV5RTB6HoXv7tZWN03Yz9eo2lHgWbH1+wkEN?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4A3ZK/qRLr7zvDG9jpYBJl+gTH/t9c1UaKqz+OzMS3Js9QjKbDptr8rXqRC4?=
+ =?us-ascii?Q?5F1ks3YRxH/9A6pBmovDJGVEegR1klEm2XX/4C2OwbX7EAbrh2fvM6uniHsC?=
+ =?us-ascii?Q?Fi70YLsG0o6wQzKNvYUKvVUQmjRHicAKGZ6n5qeY8rajp0VD+nr3rX0/a9rm?=
+ =?us-ascii?Q?8JjjuilzYBQhRV9ktYw/bBQXCZuaE9r09/BuX3x5d4jh661BjtLKprewgQ1l?=
+ =?us-ascii?Q?hdDki9bqclgG5lSd0NauX1tWZy0zwMkNpTpHCfHWD7yJUveJ6OYcTAJ4j6F6?=
+ =?us-ascii?Q?fhehkaCBaVLWjUo0zo6sWOA4xP5v/kZhfdAuffszvbYVXK9BM6SXe7G8lZn/?=
+ =?us-ascii?Q?Uq4MqazYiTqflReh7YDkFz5NO3YMncKwqfUcHIWEz2lLKCC0sHl4y0rKXlXC?=
+ =?us-ascii?Q?ce/bFGwB0IlijaNK+zWqx1ZNLuxEyNEMfn6AJyqdLRAm1n9Cs2O0EtwB9JFN?=
+ =?us-ascii?Q?JW5y77y0d6SsgFkp3oOVX4hJFBx+u5KhZuC0GDBhVnY+bpyAz5LjMe/0Pmik?=
+ =?us-ascii?Q?phuWkTgho8cGRfVCDCEXERpjygAC5MsMf9xTWZ3H7S2wS7qN9wr02jBDbebM?=
+ =?us-ascii?Q?ygCl/FZpMGU9LDT/Xi1+ycomitzT67wVs7WDc/WEZsdmLAnlZG5QDVncQBpm?=
+ =?us-ascii?Q?W70tC0fJGxueDBvaV+LuA1PTrE8X7gqQuJ0ZX4dX1jv5IWF/eE6zTKaTN0qH?=
+ =?us-ascii?Q?+4Nq03axx1uHwwGt7oUrno702zhEpKqUa6N6k/Zm1vFcHVf3b5vDDJRIDagJ?=
+ =?us-ascii?Q?GPpcMYJHwa5xvgXoXiWV7L0m0vxfqx41rrRvH8NOhW7vLAlxMmaWAqXtVu9Q?=
+ =?us-ascii?Q?rRywyRUz41/zwsr0fX6vxNSi1yyMdIfCkfB0+hwoeros/y60Wrif/KdE2Kum?=
+ =?us-ascii?Q?kxie8HsNNcct8sZIL0EmCtQK2ceZs2RTSkoz+aiG8OWETdfUK8IMn4T3t39Z?=
+ =?us-ascii?Q?dU1F3zO9kSbeUqQswZHQMkVf6K4K94Qc5EDiyDrkzErvg1X9d2P1Z0Pl6ees?=
+ =?us-ascii?Q?WClh0UB+paxO4EbvVulc+RQDb1duHPuScqwDGsSHbO0vT749VMqNK0L8BVWP?=
+ =?us-ascii?Q?eOYGQwxv2h3FJL0uUOf+cnrUm3N9Lds2F/No1Ub1joXZ/faSFq6WCru9GlNN?=
+ =?us-ascii?Q?Cq6qeGyK0YDYxWjir9qLBg/gkY6RjmnwPxOy9iIr2PFO2DktPFfkvVs+a5DJ?=
+ =?us-ascii?Q?ZaGxZR3yllWYpIxhanFDUPdyIS5ftbDR/0K/KtAUt/kfBE1p0XsXC2orbZ91?=
+ =?us-ascii?Q?bbWJ5tHSP1ejEYeMk8k5iRf+VbkjksFKGZU6L/X0lkHUpFIxoieMXtvy4G5o?=
+ =?us-ascii?Q?Fow8Lu+UeeuXiJdLfsxjBxQynWyvYLt4F+9PNvEl8qg85HghiZuzrPq0mMSt?=
+ =?us-ascii?Q?Orif0z7zDg0SxQzK2MaLGdaD7TPeOg4qfodCyjK5C8i1dlr/kLZ1gjGzvlSO?=
+ =?us-ascii?Q?/cB9UD2pkeIVPYskV4mOyoOvvg/7atc4BdQKs6zN06V+P2f3X49uHtwtUg6a?=
+ =?us-ascii?Q?hNUZ0Tq041an+XXD+hnnLEJsEBm7eCjCDrIiZAbS2KhiP7+uxpxrWjpzm4gK?=
+ =?us-ascii?Q?1FsU64X/mDPN1B3r+NXgZhjyU1BtM85Fjl7PYFMh?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91fb898f-0e37-43a9-4d4a-08dab4917175
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78643cfc-c656-45e0-2a30-08dab4917956
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2022 00:56:39.4054
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2022 00:56:52.6231
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CoJelbemc1gnKpHiPTF4WYtqDdNHzbMkG5rVHdMEaXFs1vrTqnIrqTi+9ZBlBVyBK93422xP2BxKTMkP2L2gog==
+X-MS-Exchange-CrossTenant-UserPrincipalName: AOwkoAOrdgAAcZopG1a60x21rgpQ7nKumnnp8TM6gZTJ+OcmEbszmMT0kc1mrXQHSyUEzjUc/MSeU25lrcfUsA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB4896
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
@@ -112,138 +113,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Nonzero return values of several calls to fwnode_property_read_u32()
-are silently ignored, leaving no way to know the properties were not
-applied in the event of an error.
+The minimum slider size enforced by the driver is 1 or 16 for the
+IQS7222C or IQS7222A, respectively.
 
-Solve this problem by evaluating fwnode_property_read_u32()'s return
-value, and reporting an error for any nonzero return value not equal
-to -EINVAL which indicates the property was absent altogether.
-
-Fixes: e505edaedcb9 ("Input: add support for Azoteq IQS7222A/B/C")
+Fixes: 44dc42d254bf ("dt-bindings: input: Add bindings for Azoteq IQS7222A/B/C")
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
 Changes in v3:
- - Added missing call to fwnode_handle_put()
- - Added Reviewed-by
+ - None
 
 Changes in v2:
- - Used -EINVAL returned by fwnode_property_read_u32() to indicate an absent
-   optional property as opposed to calling fwnode_property_present()
- - Updated commit message
+ - Added Acked-by
 
- drivers/input/misc/iqs7222.c | 44 +++++++++++++++++++++++++++++-------
- 1 file changed, 36 insertions(+), 8 deletions(-)
+ Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
-index ca02fea9be59..a5c08b1d9c9b 100644
---- a/drivers/input/misc/iqs7222.c
-+++ b/drivers/input/misc/iqs7222.c
-@@ -1807,8 +1807,9 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222,
- 		chan_setup[0] |= IQS7222_CHAN_SETUP_0_REF_MODE_FOLLOW;
- 		chan_setup[4] = val * 42 + 1048;
+diff --git a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+index b4eb650dbcb8..913fd2da9862 100644
+--- a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
++++ b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+@@ -498,7 +498,7 @@ patternProperties:
  
--		if (!fwnode_property_read_u32(chan_node, "azoteq,ref-weight",
--					      &val)) {
-+		error = fwnode_property_read_u32(chan_node, "azoteq,ref-weight",
-+						 &val);
-+		if (!error) {
- 			if (val > U16_MAX) {
- 				dev_err(&client->dev,
- 					"Invalid %s reference weight: %u\n",
-@@ -1817,6 +1818,11 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222,
- 			}
+       azoteq,slider-size:
+         $ref: /schemas/types.yaml#/definitions/uint32
+-        minimum: 0
++        minimum: 1
+         maximum: 65535
+         description:
+           Specifies the slider's one-dimensional resolution, equal to the
+@@ -687,6 +687,7 @@ allOf:
+           properties:
+             azoteq,slider-size:
+               multipleOf: 16
++              minimum: 16
+               maximum: 4080
  
- 			chan_setup[5] = val;
-+		} else if (error != -EINVAL) {
-+			dev_err(&client->dev,
-+				"Failed to read %s reference weight: %d\n",
-+				fwnode_get_name(chan_node), error);
-+			return error;
- 		}
- 
- 		/*
-@@ -1889,9 +1895,10 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222,
- 		if (!event_node)
- 			continue;
- 
--		if (!fwnode_property_read_u32(event_node,
--					      "azoteq,timeout-press-ms",
--					      &val)) {
-+		error = fwnode_property_read_u32(event_node,
-+						 "azoteq,timeout-press-ms",
-+						 &val);
-+		if (!error) {
- 			/*
- 			 * The IQS7222B employs a global pair of press timeout
- 			 * registers as opposed to channel-specific registers.
-@@ -1911,6 +1918,12 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222,
- 
- 			*setup &= ~(U8_MAX << i * 8);
- 			*setup |= (val / 500 << i * 8);
-+		} else if (error != -EINVAL) {
-+			dev_err(&client->dev,
-+				"Failed to read %s press timeout: %d\n",
-+				fwnode_get_name(event_node), error);
-+			fwnode_handle_put(event_node);
-+			return error;
- 		}
- 
- 		error = iqs7222_parse_event(iqs7222, event_node, chan_index,
-@@ -2009,7 +2022,8 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222,
- 	if (fwnode_property_present(sldr_node, "azoteq,use-prox"))
- 		sldr_setup[4 + reg_offset] -= 2;
- 
--	if (!fwnode_property_read_u32(sldr_node, "azoteq,slider-size", &val)) {
-+	error = fwnode_property_read_u32(sldr_node, "azoteq,slider-size", &val);
-+	if (!error) {
- 		if (!val || val > dev_desc->sldr_res) {
- 			dev_err(&client->dev, "Invalid %s size: %u\n",
- 				fwnode_get_name(sldr_node), val);
-@@ -2023,9 +2037,14 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222,
- 			sldr_setup[2] |= (val / 16 <<
- 					  IQS7222_SLDR_SETUP_2_RES_SHIFT);
- 		}
-+	} else if (error != -EINVAL) {
-+		dev_err(&client->dev, "Failed to read %s size: %d\n",
-+			fwnode_get_name(sldr_node), error);
-+		return error;
- 	}
- 
--	if (!fwnode_property_read_u32(sldr_node, "azoteq,top-speed", &val)) {
-+	error = fwnode_property_read_u32(sldr_node, "azoteq,top-speed", &val);
-+	if (!error) {
- 		if (val > (reg_offset ? U16_MAX : U8_MAX * 4)) {
- 			dev_err(&client->dev, "Invalid %s top speed: %u\n",
- 				fwnode_get_name(sldr_node), val);
-@@ -2038,9 +2057,14 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222,
- 			sldr_setup[2] &= ~IQS7222_SLDR_SETUP_2_TOP_SPEED_MASK;
- 			sldr_setup[2] |= (val / 4);
- 		}
-+	} else if (error != -EINVAL) {
-+		dev_err(&client->dev, "Failed to read %s top speed: %d\n",
-+			fwnode_get_name(sldr_node), error);
-+		return error;
- 	}
- 
--	if (!fwnode_property_read_u32(sldr_node, "linux,axis", &val)) {
-+	error = fwnode_property_read_u32(sldr_node, "linux,axis", &val);
-+	if (!error) {
- 		u16 sldr_max = sldr_setup[3] - 1;
- 
- 		if (!reg_offset) {
-@@ -2054,6 +2078,10 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222,
- 
- 		input_set_abs_params(iqs7222->keypad, val, 0, sldr_max, 0, 0);
- 		iqs7222->sl_axis[sldr_index] = val;
-+	} else if (error != -EINVAL) {
-+		dev_err(&client->dev, "Failed to read %s axis: %d\n",
-+			fwnode_get_name(sldr_node), error);
-+		return error;
- 	}
- 
- 	if (dev_desc->wheel_enable) {
+             azoteq,top-speed:
 -- 
 2.34.1
 
