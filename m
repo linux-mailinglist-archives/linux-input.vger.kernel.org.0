@@ -2,108 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C4F160B548
-	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 20:19:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9F5160BBBF
+	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 23:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230505AbiJXSTr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Oct 2022 14:19:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41516 "EHLO
+        id S232465AbiJXVLu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Oct 2022 17:11:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231254AbiJXSTe (ORCPT
+        with ESMTP id S231933AbiJXVLW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Oct 2022 14:19:34 -0400
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7A92717
-        for <linux-input@vger.kernel.org>; Mon, 24 Oct 2022 10:00:22 -0700 (PDT)
-Received: by mail-io1-f48.google.com with SMTP id 137so8202334iou.9
-        for <linux-input@vger.kernel.org>; Mon, 24 Oct 2022 10:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VpFxVbNlUVx4khx8wR7XZ3WqQqzobxqL9P5HDrXvqlc=;
-        b=VtmMvdAmjbQlupNcboZB0rYkr/vfgXXmpLysoK7V5k6cOP3hZENoSlDJcCHANlahB8
-         UIoG0JHOiXdlN4kBaXY4TH5I1k8MZUxKzDcmFd41zxisSMb/oaM9JkFjAdMOdgztd2kE
-         CmWIxolWQwmB2kmV4aPHXnTfE/VHN7fi/wTu2dKbUvO1pm+UXg4gibOU6vfj9DlfZKPq
-         M8+PUy2IKVoBb0mCYs15vttJG0xGVXb+ywbmjjhDbGKS0zkZgUR8CTKQLWCdiZFnwZXB
-         3OAq55fsKwpxhjOI63LrU9jcuHfR3oKCbAVXHwUs8ioSPq52PM284h5BtT6FWl5ghBp8
-         bxtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VpFxVbNlUVx4khx8wR7XZ3WqQqzobxqL9P5HDrXvqlc=;
-        b=4fW92h0vB0+LWMBZWeJ3zdpaZfDng3zU/LW9CrwDKdO4S9pMNHVDtBIPelcZzkTEbB
-         P9Aa8JDXzXJbeQoA9xLSLAzdk6uiexssoDJjHwQhbHmSYUdvkI5zzM7W9db9q4UEUrOJ
-         KMQ58yRWkRL0mC9RIZAk571RJvV+a7nvh9aj4+al5A7F/Tx7f7CViPXVXBCq1eZEzqAU
-         0FNpIhandD+V88hbkkqWlhT+4vpcS+afpgN0VT9Clvmcu4D7niVmXos9wylfC145Gs1/
-         9tuYn9c/RQN+FSs239FEbi1RHc2D95qvNOuvQ6NFb5svnND/17jSIHLHqPPk49RcneoU
-         ABhg==
-X-Gm-Message-State: ACrzQf0lTS5JHlirNf9PlGspBc3WspVKkBiDI2bZbqjW4zpL9wPP8gmW
-        E6+jFwQFuti5PTo/VklfHvY3fW8EHLLHcw==
-X-Google-Smtp-Source: AMsMyM4N7VSQhNGDlB28vU1BJ0fiLgP+WhtT+9B869oCikzicsq0fwHB+QI2//H2iNap7alEzCxiog==
-X-Received: by 2002:ac8:5c49:0:b0:39c:d73f:a7cd with SMTP id j9-20020ac85c49000000b0039cd73fa7cdmr28269946qtj.317.1666630081466;
-        Mon, 24 Oct 2022 09:48:01 -0700 (PDT)
-Received: from [192.168.1.8] ([64.57.193.93])
-        by smtp.gmail.com with ESMTPSA id l12-20020ac8458c000000b00397e97baa96sm266984qtn.0.2022.10.24.09.47.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 09:48:00 -0700 (PDT)
-Message-ID: <db92a42c-e362-e40d-67a1-b003f8bcab55@linaro.org>
-Date:   Mon, 24 Oct 2022 12:47:59 -0400
+        Mon, 24 Oct 2022 17:11:22 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6373A2D038F;
+        Mon, 24 Oct 2022 12:17:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5D728B817B0;
+        Mon, 24 Oct 2022 12:51:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E0DC433D6;
+        Mon, 24 Oct 2022 12:51:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666615874;
+        bh=4cT1AgEscL+bDejuGY6uubW9ABwIZGuR4hZ++Wp8v4w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kq3W0qANSUbPg7Xp/RRLV7VbWyzUd4fFQfb2glXmct6bX6PIhetoQgY85xKNVeA+J
+         G6jvtiH0AxGM35AE0jkcMeu8B3ip0EwROrkAQfDl6VVWPpT19T544nwG7qFVCop0VI
+         HDNSyETZfrbbhPwwU7JyS7whFHvKU4rqL4Qy4qZsH6Z9upRjNew40drv8HnH1wbgMW
+         I/bZPHsz9Gi23tSc8LlxSOnHWY6O4v9KT3nTwLO3zW6yfkolKWKQwH4wnwT3LBcdsn
+         W+D1mLFp2BV/5+TXP/f9FolibKs2KNirfCEyZNpHUj20JdWj8iYfZvGEUe+miHsp/n
+         ip4jPJQHClUqA==
+Date:   Mon, 24 Oct 2022 13:51:07 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Alexandre Mergnat <amergnat@baylibre.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: mfd: mt6397: add binding for MT6357
+Message-ID: <Y1aKOxGTNAsb2vgz@google.com>
+References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
+ <20221005-mt6357-support-v2-1-f17ba2d2d0a9@baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v9 3/4] ARM: imx_v6_v7_defconfig: Enable the cyttsp5
- touchscreen
-Content-Language: en-US
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     Alistair Francis <alistair@alistair23.me>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linus.walleij@linaro.org, s.hauer@pengutronix.de,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        alistair23@gmail.com, dmitry.torokhov@gmail.com,
-        rydberg@bitmath.org, shawnguo@kernel.org
-References: <20221024111017.43859-1-alistair@alistair23.me>
- <20221024111017.43859-4-alistair@alistair23.me>
- <08cb81ce-7ebd-d79f-3f5c-4df596b5cb95@linaro.org>
- <20221024170232.6b0175df@aktux>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221024170232.6b0175df@aktux>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221005-mt6357-support-v2-1-f17ba2d2d0a9@baylibre.com>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 24/10/2022 11:02, Andreas Kemnade wrote:
-> Hi,
-> 
-> I want to get that thing in, so I am tring to help as much as possible.
-> 
-> On Mon, 24 Oct 2022 08:21:45 -0400
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> 
->> On 24/10/2022 07:10, Alistair Francis wrote:
->>> Signed-off-by: Alistair Francis <alistair@alistair23.me>  
->>
->> you miss here commit msg explaining why you want to enable this.
->>
-> proposal:
-> The imx6/7 based devices Remarkable 2, Kobo Clara HD, Kobo Libra H2O,
-> Tolino Shine 3, Tolino Vision 5 all cantain a Cypress TT2100
-> touchscreen so enable the corresponding driver.
+On Wed, 05 Oct 2022, Alexandre Mergnat wrote:
 
-Sounds great!
+> From: Fabien Parent <fparent@baylibre.com>
+> 
+> Add binding documentation for the MT6357 PMIC.
+> 
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/mfd/mt6397.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
+> index 0088442efca1..518986c44880 100644
+> --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
+> +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
+> @@ -21,6 +21,7 @@ Required properties:
+>  compatible:
+>  	"mediatek,mt6323" for PMIC MT6323
+>  	"mediatek,mt6331" for PMIC MT6331 and MT6332
+> +	"mediatek,mt6357" for PMIC MT6357
+>  	"mediatek,mt6358" for PMIC MT6358 and MT6366
+>  	"mediatek,mt6359" for PMIC MT6359
+>  	"mediatek,mt6397" for PMIC MT6397
 
-Best regards,
-Krzysztof
+Let me know when it's safe to merge this.
 
+-- 
+Lee Jones [李琼斯]
