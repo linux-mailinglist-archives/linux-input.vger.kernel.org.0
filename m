@@ -2,68 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 562D960B5D1
-	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 20:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C4F160B548
+	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 20:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232177AbiJXSlD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Oct 2022 14:41:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59426 "EHLO
+        id S230505AbiJXSTr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Oct 2022 14:19:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232213AbiJXSkd (ORCPT
+        with ESMTP id S231254AbiJXSTe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Oct 2022 14:40:33 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C0FC1759A;
-        Mon, 24 Oct 2022 10:22:23 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id k8so8624610wrh.1;
-        Mon, 24 Oct 2022 10:22:23 -0700 (PDT)
+        Mon, 24 Oct 2022 14:19:34 -0400
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7A92717
+        for <linux-input@vger.kernel.org>; Mon, 24 Oct 2022 10:00:22 -0700 (PDT)
+Received: by mail-io1-f48.google.com with SMTP id 137so8202334iou.9
+        for <linux-input@vger.kernel.org>; Mon, 24 Oct 2022 10:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jYf7cTB4wDVQpysigBRvPC/XQ9ZNHdrnvPwPX4mSzYs=;
-        b=ZtbjaQFrkNjsUuUy2r1veI7zdJmUQBlKdcg8EY691iFQsz4/fvFVeHJL0JZ5Z5+WMe
-         8t24dv6AwIwCv71gQfgEOwq0jm9Q6LJ9rAVawleQ/KrrNErlGgEcEJkorwXT5Boy8n5c
-         GwX02Jh7vMyjQR3cF65f0siOmQUp/wcjTCzKnslrriz5psty1cJ3U5FWABv7MDzInSeY
-         ZzxH+kpCsf8c3vEcZp5nP2WfO9QfUjkBN3xt/1MQrDUTpirv82tDA8fvChKCOi4ozdoB
-         42ztCXuut/sb/17z2BhpuZ2DyGxBw/6cjHdY1aT7lKl2JlIgYIkLnl3Jxt7mV/vHXNkf
-         1o6Q==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VpFxVbNlUVx4khx8wR7XZ3WqQqzobxqL9P5HDrXvqlc=;
+        b=VtmMvdAmjbQlupNcboZB0rYkr/vfgXXmpLysoK7V5k6cOP3hZENoSlDJcCHANlahB8
+         UIoG0JHOiXdlN4kBaXY4TH5I1k8MZUxKzDcmFd41zxisSMb/oaM9JkFjAdMOdgztd2kE
+         CmWIxolWQwmB2kmV4aPHXnTfE/VHN7fi/wTu2dKbUvO1pm+UXg4gibOU6vfj9DlfZKPq
+         M8+PUy2IKVoBb0mCYs15vttJG0xGVXb+ywbmjjhDbGKS0zkZgUR8CTKQLWCdiZFnwZXB
+         3OAq55fsKwpxhjOI63LrU9jcuHfR3oKCbAVXHwUs8ioSPq52PM284h5BtT6FWl5ghBp8
+         bxtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jYf7cTB4wDVQpysigBRvPC/XQ9ZNHdrnvPwPX4mSzYs=;
-        b=avGNW09O+bSG6GhzuZL+QJ4ZhIOxmdNRL/uXWf3YKK/y11CflDu4B95MaJYZhQI5Qc
-         60kBeZExamxwHid97nML6UvwOAnpJZJuflZggQBykocGssUq/aQPanOzfCNMrosjEXTe
-         3phNjgWfuJ5I5YoQch4fDi3bjii7kmDoqZI8zedP38CIsbHUe7FPB47b/xcVQ0Kw03q7
-         BBwqy4wrZFUKPP2vCDRb85LDcIQ9Byal4T+anw8bZbSE+RNfOdcWAZ6QUnscxNaFkDmL
-         gWGnLLHgNbR4K4bZw9VwTVPZTt0dajwjc7XcciejY2aDqs3Bqh2Z4OckO3mhgkcUmKqz
-         dR1g==
-X-Gm-Message-State: ACrzQf3AoFD13izflUJ7MkqBh7VP/jv7pd0WiuqSZ6HGgW9eIiETKMYr
-        b4FOosuRBYjA3aGQPprnvyzvN6wDti/DClDF
-X-Google-Smtp-Source: AMsMyM6aq2UQDlHmeTkXIJvJ9kWzInvPWV2UA72I3i2TsH9IXL+6obK98pW6NhB5zlKTxgDbROWQAg==
-X-Received: by 2002:a05:6000:788:b0:22e:412b:7959 with SMTP id bu8-20020a056000078800b0022e412b7959mr21871223wrb.491.1666627863318;
-        Mon, 24 Oct 2022 09:11:03 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id r13-20020a05600c458d00b003c6f3f6675bsm8873808wmo.26.2022.10.24.09.11.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 09:11:02 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: asus: Remove variable count
-Date:   Mon, 24 Oct 2022 17:11:02 +0100
-Message-Id: <20221024161102.2171702-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VpFxVbNlUVx4khx8wR7XZ3WqQqzobxqL9P5HDrXvqlc=;
+        b=4fW92h0vB0+LWMBZWeJ3zdpaZfDng3zU/LW9CrwDKdO4S9pMNHVDtBIPelcZzkTEbB
+         P9Aa8JDXzXJbeQoA9xLSLAzdk6uiexssoDJjHwQhbHmSYUdvkI5zzM7W9db9q4UEUrOJ
+         KMQ58yRWkRL0mC9RIZAk571RJvV+a7nvh9aj4+al5A7F/Tx7f7CViPXVXBCq1eZEzqAU
+         0FNpIhandD+V88hbkkqWlhT+4vpcS+afpgN0VT9Clvmcu4D7niVmXos9wylfC145Gs1/
+         9tuYn9c/RQN+FSs239FEbi1RHc2D95qvNOuvQ6NFb5svnND/17jSIHLHqPPk49RcneoU
+         ABhg==
+X-Gm-Message-State: ACrzQf0lTS5JHlirNf9PlGspBc3WspVKkBiDI2bZbqjW4zpL9wPP8gmW
+        E6+jFwQFuti5PTo/VklfHvY3fW8EHLLHcw==
+X-Google-Smtp-Source: AMsMyM4N7VSQhNGDlB28vU1BJ0fiLgP+WhtT+9B869oCikzicsq0fwHB+QI2//H2iNap7alEzCxiog==
+X-Received: by 2002:ac8:5c49:0:b0:39c:d73f:a7cd with SMTP id j9-20020ac85c49000000b0039cd73fa7cdmr28269946qtj.317.1666630081466;
+        Mon, 24 Oct 2022 09:48:01 -0700 (PDT)
+Received: from [192.168.1.8] ([64.57.193.93])
+        by smtp.gmail.com with ESMTPSA id l12-20020ac8458c000000b00397e97baa96sm266984qtn.0.2022.10.24.09.47.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 09:48:00 -0700 (PDT)
+Message-ID: <db92a42c-e362-e40d-67a1-b003f8bcab55@linaro.org>
+Date:   Mon, 24 Oct 2022 12:47:59 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v9 3/4] ARM: imx_v6_v7_defconfig: Enable the cyttsp5
+ touchscreen
+Content-Language: en-US
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linus.walleij@linaro.org, s.hauer@pengutronix.de,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        alistair23@gmail.com, dmitry.torokhov@gmail.com,
+        rydberg@bitmath.org, shawnguo@kernel.org
+References: <20221024111017.43859-1-alistair@alistair23.me>
+ <20221024111017.43859-4-alistair@alistair23.me>
+ <08cb81ce-7ebd-d79f-3f5c-4df596b5cb95@linaro.org>
+ <20221024170232.6b0175df@aktux>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221024170232.6b0175df@aktux>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,43 +84,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Variable count is just being incremented and it's never used
-anywhere else. The variable and the increment are redundant so
-remove it.
+On 24/10/2022 11:02, Andreas Kemnade wrote:
+> Hi,
+> 
+> I want to get that thing in, so I am tring to help as much as possible.
+> 
+> On Mon, 24 Oct 2022 08:21:45 -0400
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> 
+>> On 24/10/2022 07:10, Alistair Francis wrote:
+>>> Signed-off-by: Alistair Francis <alistair@alistair23.me>  
+>>
+>> you miss here commit msg explaining why you want to enable this.
+>>
+> proposal:
+> The imx6/7 based devices Remarkable 2, Kobo Clara HD, Kobo Libra H2O,
+> Tolino Shine 3, Tolino Vision 5 all cantain a Cypress TT2100
+> touchscreen so enable the corresponding driver.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/hid/hid-asus.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Sounds great!
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index b59c3dafa6a4..f99752b998f3 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -219,14 +219,13 @@ static void asus_report_tool_width(struct asus_drvdata *drvdat)
- {
- 	struct input_mt *mt = drvdat->input->mt;
- 	struct input_mt_slot *oldest;
--	int oldid, count, i;
-+	int oldid, i;
- 
- 	if (drvdat->tp->contact_size < 5)
- 		return;
- 
- 	oldest = NULL;
- 	oldid = mt->trkid;
--	count = 0;
- 
- 	for (i = 0; i < mt->num_slots; ++i) {
- 		struct input_mt_slot *ps = &mt->slots[i];
-@@ -238,7 +237,6 @@ static void asus_report_tool_width(struct asus_drvdata *drvdat)
- 			oldest = ps;
- 			oldid = id;
- 		}
--		count++;
- 	}
- 
- 	if (oldest) {
--- 
-2.37.3
+Best regards,
+Krzysztof
 
