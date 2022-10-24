@@ -2,71 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 939DD6097A3
-	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 02:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA656609FD6
+	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 13:10:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbiJXA5x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Oct 2022 20:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
+        id S230062AbiJXLKl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Oct 2022 07:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbiJXA5w (ORCPT
+        with ESMTP id S230089AbiJXLKh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Oct 2022 20:57:52 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED330664D6;
-        Sun, 23 Oct 2022 17:57:51 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id m14-20020a17090a3f8e00b00212dab39bcdso5160245pjc.0;
-        Sun, 23 Oct 2022 17:57:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RBbdDR1qIfFWCpyIS3gw2RrXMuQd+FyAZp7BhoIptWw=;
-        b=TfEmQ5FkG7x5JVWSdQrIO7kb0R69TpMR/fvg6OYBSHscSA9xaBfnhT8ppaBNJgGEn+
-         79xUr8P7YLN1DNjFnUpxV+Dl6V2GKbQS2mKxv8aRFV+1ImEwOFsgRm15PAwn+UsOMsyY
-         hcKQKpSGl8hJsGpTRfVaGTkvhHoPdU2dkmUMRdS9jQWi9vfungHi15Yck1e00OG6tHdZ
-         T2IEhgTowvYXT+U+qNEWUP8yZeUKQiBedMU6+JG7nU8Oyqmv/hhRVGejiRWK9sXseSuS
-         9a5Gg8lqPnDtpzNdTIowRYihe3rK3YarBfeAA/c6ibYdKr+qvrt4PE/gAlwP5AqinvS7
-         /aRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RBbdDR1qIfFWCpyIS3gw2RrXMuQd+FyAZp7BhoIptWw=;
-        b=npllcqXoNE8LhkIvc3+N8nXgnObSTy57ZARmtsu63bZmnp4mAkk2NesCrjNvaoln4R
-         XuQxMnELyE2GdWC4eBBwX1Lhyb2h+jDfbUDlyOz+qnRjQpd7BElrxOyXrJNOxNe1mSIP
-         lfMQvKLCDd0PGnhbwlhcZMGnRRQwjhUdGoA1VkhjLWWAWeMvsvOaixG8fosn7NbEalzB
-         kfv8Sm0GAiyUVzoQvYYREfc12sPY+4OJC/0fglxFF1YnRKFdjbDEiCKakL8CSy+T1foY
-         89ue1SyHzQfW1rwT3jR9gGf4s25XnUw2s8GeJOwiJGvSutf5SBhn5J8whyX8aoZ2ze4V
-         4HAw==
-X-Gm-Message-State: ACrzQf27ssuBUj1zmVt+GXklOkXVr0zyM5QNtSVrPQAvQsDQWAKqFKzv
-        9bCpb6l1cbEprTYL/H2DTo8=
-X-Google-Smtp-Source: AMsMyM4OpxA+GdWGSITBBcSmsb5WMO3k/s7ppi2dR0aT9zvC6QCviENvDIFS5HrQFOL6cPrBsTFc3Q==
-X-Received: by 2002:a17:90b:254a:b0:200:53f:891d with SMTP id nw10-20020a17090b254a00b00200053f891dmr35813118pjb.168.1666573071288;
-        Sun, 23 Oct 2022 17:57:51 -0700 (PDT)
-Received: from mail.google.com (122-58-209-93-fibre.sparkbb.co.nz. [122.58.209.93])
-        by smtp.gmail.com with ESMTPSA id oj17-20020a17090b4d9100b00205d85cfb30sm3235486pjb.20.2022.10.23.17.57.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Oct 2022 17:57:50 -0700 (PDT)
-Date:   Mon, 24 Oct 2022 13:57:42 +1300
-From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To:     "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        paulo.miguel.almeida.rodenas@gmail.com
-Subject: [PATCH] [next] HID: hyperv: remove unused struct synthhid_msg
-Message-ID: <Y1XjBjiE39bPNj1d@mail.google.com>
+        Mon, 24 Oct 2022 07:10:37 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4FA38478;
+        Mon, 24 Oct 2022 04:10:34 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id CFEAE320092A;
+        Mon, 24 Oct 2022 07:10:32 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 24 Oct 2022 07:10:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=cc:cc:content-transfer-encoding:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1666609832; x=1666696232; bh=gb
+        hK/eMcTlKbenVeIyYgpWT6RRs4ePlOWO1qBGWrAKg=; b=cYSOFk+XBLFUytwYYW
+        k8sZ52HdfuVanKe7QeCD11V0YG8oWV+WfXOsh44ndupJIeBsEpMtqt0XzzYRoHkm
+        T6Wh0SUwDOp2toWrUMt23Gkk+hqJ5R7ojdMSmhl2yo5FF1yqlvrxkRafSgtDcgL5
+        jyJCM5PvGgT5H4NazJ3euvcHzEz5rSVo8kDs2M0V5IawWvjJkRRsQPIT7bas3LjI
+        S69vP85lYZoh8a0n+wMmmgwW5L7qXHqsrVtw8TLpEN7GyOa3lECLrzJo1xbVRkgj
+        VjxODEqZrl4tdd9G2x+t41LjhCuoLO8cg7BBUKJFHSuzgruZPBigvbJUle8a9KX4
+        jSlw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1666609832; x=1666696232; bh=gbhK/eMcTlKbe
+        nVeIyYgpWT6RRs4ePlOWO1qBGWrAKg=; b=oBCu9z2eauloy/0TjSHQq2tIMrAwk
+        9Km027WomJnOG9tl6XEtM/fi2qp31kT681CfU8Z2UnOeiLORtFbD+tX/0qWmDVek
+        M1emND0dUIJVrmMA3zJ2rmGiD1v26gEtw51M8x9Rzu2270AAeLiDBjyh2f0CQuwv
+        oAKpV7iXFTxpa2GKFLm7X61bHLmINB+fyRn4OXh/fEDDuA4q6Q2vUL6N6gd7fiB7
+        zQo+VSMi6K5yMp8OeMb0MfYiF07JYcSWedBdhf5NjgJ/Fi1pBG4Ye65oseLRK3yg
+        kglp3mKOJpT5ajccMeWYzUJvr4DRDOxHJuA5JOlSRPJpbTnVZg+n2Ol8w==
+X-ME-Sender: <xms:p3JWY5Jvdxsc9Wn1ERvEXUdosGwwfUQT-W3QClAl_EIMJ3b1oD5pbw>
+    <xme:p3JWY1LJpb5sts9buVLIcQi8utH7Bg_pgNpZQpYzLqnLabi8eOI5YWPXTVQsU5InN
+    rTWFM9i8bSQj30as3Y>
+X-ME-Received: <xmr:p3JWYxu8bspXPYqKieY1K-O9thAk45poNUmliAKam2Lg05rHFqkfLCc8JUehMgbfxOvpZyZB6SNY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgfeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekre
+    dtredtjeenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
+    ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeegtddvffefff
+    ejkeeggfegteffffdtueevkeefvdejveetvdeuuddvvddtiefgleenucffohhmrghinhep
+    lhifnhdrnhgvthdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrghirhdvfedr
+    mhgv
+X-ME-Proxy: <xmx:p3JWY6bF7cXjXpzCACQMoF7MwYsnJkKKK1nNSnfsLH1GmAysLFjD-w>
+    <xmx:p3JWYwYQHEtXf8ySwCm9oSB0sJCI06orNCH9iCZQn3IS2NPXh1r5zg>
+    <xmx:p3JWY-DSxquRdzVgWp-7qPJQiAPHDe5BGK0G8-pN1gEHA0Ixacodpw>
+    <xmx:qHJWY8Qg-_g8mhXnbwQqZB--D68y8j7ph2HER2mVF5c50ke5z_vD6Q>
+Feedback-ID: ifd214418:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 24 Oct 2022 07:10:22 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     linus.walleij@linaro.org, s.hauer@pengutronix.de,
+        robh+dt@kernel.org, andreas@kemnade.info,
+        krzysztof.kozlowski+dt@linaro.org, alistair23@gmail.com,
+        dmitry.torokhov@gmail.com, rydberg@bitmath.org,
+        shawnguo@kernel.org, Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v9 0/4] Add support for the Cypress cyttsp5
+Date:   Mon, 24 Oct 2022 21:10:13 +1000
+Message-Id: <20221024111017.43859-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,77 +88,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-struct synthhid_msg was meant to be a generic representation of the
-possible protocol messages sent through VMBus. In practice, only the
-header is read and depending on the message type, a cast to the actual
-type is done. Also, SYNTHHID_MAX_INPUT_REPORT_SIZE constant isn't used
-which I suspect is a leftover from the refactoring made while this
-driver was at the staging folder.
+This patch series builds on top of [1] and adds support for the cyttsp5
+touchscreen controller for the reMarkable 2.
 
-This patch removes struct synthhid_msg and refactor the code
-accordingly.
+I first tried to add an I2C HID device. Although the cyttsp5 has some HID
+looking aspects it is not HID compatible. Just in trying to probe the device
+I found:
+ - The HID descriptor has extra padding
+ - The HID descriptor sets the high bytes of the descriptor length
+ - The HID descriptor has extra unrecognised tags
+ - The HID reset command doesn't appear to work
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
----
- drivers/hid/hid-hyperv.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+I don't think there is a way to use the I2C HID framework with the cyttsp5.
+For anyone interested you can see the work here [2]. In that branch though I
+can only obtain a HID descriptor, nothing else works without more core
+changes.
 
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index 208cf8d981a5..0be717bb09d4 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -22,9 +22,6 @@ struct hv_input_dev_info {
- 	unsigned short reserved[11];
- };
- 
--/* The maximum size of a synthetic input message. */
--#define SYNTHHID_MAX_INPUT_REPORT_SIZE 16
--
- /*
-  * Current version
-  *
-@@ -59,11 +56,6 @@ struct synthhid_msg_hdr {
- 	u32 size;
- };
- 
--struct synthhid_msg {
--	struct synthhid_msg_hdr header;
--	char data[]; /* Enclosed message */
--};
--
- union synthhid_version {
- 	struct {
- 		u16 minor_version;
-@@ -251,7 +243,7 @@ static void mousevsc_on_receive(struct hv_device *device,
- 				struct vmpacket_descriptor *packet)
- {
- 	struct pipe_prt_msg *pipe_msg;
--	struct synthhid_msg *hid_msg;
-+	struct synthhid_msg_hdr *hid_msg_hdr;
- 	struct mousevsc_dev *input_dev = hv_get_drvdata(device);
- 	struct synthhid_input_report *input_report;
- 	size_t len;
-@@ -262,9 +254,9 @@ static void mousevsc_on_receive(struct hv_device *device,
- 	if (pipe_msg->type != PIPE_MESSAGE_DATA)
- 		return;
- 
--	hid_msg = (struct synthhid_msg *)pipe_msg->data;
-+	hid_msg_hdr = (struct synthhid_msg_hdr *)pipe_msg->data;
- 
--	switch (hid_msg->header.type) {
-+	switch (hid_msg_hdr->type) {
- 	case SYNTH_HID_PROTOCOL_RESPONSE:
- 		/*
- 		 * While it will be impossible for us to protect against
-@@ -309,7 +301,7 @@ static void mousevsc_on_receive(struct hv_device *device,
- 		break;
- 	default:
- 		pr_err("unsupported hid msg type - type %d len %d\n",
--		       hid_msg->header.type, hid_msg->header.size);
-+		       hid_msg_hdr->type, hid_msg_hdr->size);
- 		break;
- 	}
- 
+So instead I rebased the series from [1]. Converted to the new yaml DTS
+documentation, added regulator support and fixed a x/y miscalculation bug.
+
+1: https://lwn.net/ml/linux-kernel/20180703094309.18514-1-mylene.josserand@bootlin.com/
+2: https://github.com/alistair23/linux/commits/rM2-mainline-cyttsp5-hid
+
+v9:
+ - Fixup kernel robot failures
+v8:
+ - Rebase and resend
+v7:
+ - Fix device tree warnings
+v6:
+ - Use reg for the button properties
+v5:
+ - Address review comments from v4
+
+Alistair Francis (4):
+  Input: Add driver for Cypress Generation 5 touchscreen
+  dt-bindings: input: Add Cypress TT2100 touchscreen controller
+  ARM: imx_v6_v7_defconfig: Enable the cyttsp5 touchscreen
+  ARM: dts: imx7d-remarkable2: Enable the cyttsp5
+
+ .../input/touchscreen/cypress,tt21000.yaml    | 100 ++
+ arch/arm/boot/dts/imx7d-remarkable2.dts       | 100 ++
+ arch/arm/configs/imx_v6_v7_defconfig          |   1 +
+ drivers/input/touchscreen/Kconfig             |  16 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/cyttsp5.c           | 902 ++++++++++++++++++
+ 6 files changed, 1120 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+ create mode 100644 drivers/input/touchscreen/cyttsp5.c
+
 -- 
 2.37.3
 
