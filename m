@@ -2,149 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFA1F60BAF3
-	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 22:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2214060B93F
+	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 22:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235039AbiJXUnS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Oct 2022 16:43:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58740 "EHLO
+        id S233238AbiJXUGs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Oct 2022 16:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234933AbiJXUmn (ORCPT
+        with ESMTP id S233239AbiJXUGO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Oct 2022 16:42:43 -0400
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66C95B1B83;
-        Mon, 24 Oct 2022 11:50:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=rxB2FjaZ9ZC5MOe8rAcEH+DbpA4H6kqr69ZwAxYWy3w=; b=2SpxXp+WJxWYA+TqzODzh8lOqr
-        qmj9cDaJSvrb7PleUO7oOYPnoUNim0LDb8BgOUadHv+4kQUSr3ZgtaJ7O25Ws4hjyTOz+G1qJt+M8
-        wWzCteWwy70L8CMrulJUPpUNt6UpWFEbcKGlhrFaqeYwgz5ITqEuUb767QmUjdpcvIwUCnegfIk5M
-        5IgIIyvuF/CAktILfPovYkzUrx/INUq2G6G4U4rZz6oh8NBxssQjakU1yVHMyTR8fgLrLxKUrVMrO
-        BASBlGQPKI8+6N34iDiGnwJSLZptb7tGfWPEugWeGKJUXjDPPPj9PoySdzwZ93YHHblk/uJM6bjme
-        kIi5JJuQ==;
-Received: from p200300ccff06c5001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff06:c500:1a3d:a2ff:febf:d33a] helo=aktux)
-        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <andreas@kemnade.info>)
-        id 1on1Oe-0003lA-1x; Mon, 24 Oct 2022 19:37:56 +0200
-Date:   Mon, 24 Oct 2022 19:37:54 +0200
-From:   Andreas Kemnade <andreas@kemnade.info>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linus.walleij@linaro.org, s.hauer@pengutronix.de,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        alistair23@gmail.com, dmitry.torokhov@gmail.com,
-        rydberg@bitmath.org, shawnguo@kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v9 2/4] dt-bindings: input: Add Cypress TT2100
- touchscreen controller
-Message-ID: <20221024193754.2c3163fa@aktux>
-In-Reply-To: <20221024111017.43859-3-alistair@alistair23.me>
-References: <20221024111017.43859-1-alistair@alistair23.me>
-        <20221024111017.43859-3-alistair@alistair23.me>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Mon, 24 Oct 2022 16:06:14 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD1D297F25
+        for <linux-input@vger.kernel.org>; Mon, 24 Oct 2022 11:26:34 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id g16so4234083pfr.12
+        for <linux-input@vger.kernel.org>; Mon, 24 Oct 2022 11:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
+        b=1O1ZHqYiBlXY2fwJNdkh+vQ/VNUVsNL1SE/FLAfOhoxD5MPiaq4El7Qm3wHo+8cgb3
+         gl9aeVRIggYlqbyizkSb3bBtxGG+NDi5jQPFLC5t5vcs2zVF6v3XXS2LwIAxKpdiwggC
+         n0PBC2uHZpCn05uEfUStTvJ1YOjR10a1WhlYwJ1EMZXodMLzQ2LjYg7xigqwXSPkiO03
+         194iUFBYOfLlARIf+xoEZo/W0V34QwVqxfhOTk30UjgjuOg0gjGBGTFOiN2O2yCX/CJd
+         B7mqvd4VripHn5nnSvfz8dNOkV/MSTcHE9+6t9xVPrjJY5DORvB26GRhxou4kxGlK326
+         FM1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
+        b=fuQfUVkW9LXtJhwprgvr85XWVWrlCjpVZvG3V6wjw0UsTWSxoTFVEg+XOBmvwHH58T
+         4lDPcNxzVlCffMxEfA1zGfna97a+o0KhSLfKDGcUpYeQ80OilmYnj8wnKnECQvDVBUQu
+         4TrcN/83xJn78QqRR42HfjYLwcBZ+CFfIH12rJqfvz4tmnv3SXU+TWzuYISLNTHUpxj4
+         ZH1SVJw4H3rFkO9eCowwBYAZIkgyzapnF8Y2UcCozl1upTyhIqWK5OlN9sjS7YpuRlXD
+         +bgoEpBaLJG1nMY6Vbccp1/AJNBTdm60M4zTS1B9LyHeF9iD3X8YbtHB3/aUFbN/ihZr
+         uaQQ==
+X-Gm-Message-State: ACrzQf27Ni/EdnxN+My3O43FKB+xDuo0+PbPf1pVnyrVO1f4LPuWd4yA
+        OIBQIuFjGmaQRCpavTLkjSdIjw==
+X-Google-Smtp-Source: AMsMyM5NJO1kEdsQTHB/8tQPhUzIwVroAro5GyKcBeo3+9Tpkq+lfovTaDaocHC24z3Nm955Wr4NWg==
+X-Received: by 2002:aa7:81cc:0:b0:563:4e53:c08b with SMTP id c12-20020aa781cc000000b005634e53c08bmr34743652pfn.19.1666635958991;
+        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
+Received: from localhost ([75.172.140.17])
+        by smtp.gmail.com with ESMTPSA id z11-20020a170903018b00b00177f4ef7970sm72911plg.11.2022.10.24.11.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Arnd Bergmann <arnd@kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        David Lechner <david@lechnology.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bin Liu <b-liu@ti.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        linux-media@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-usb@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/14] ARM: remove unused davinci board & drivers
+In-Reply-To: <20221019152947.3857217-1-arnd@kernel.org>
+References: <20221019152947.3857217-1-arnd@kernel.org>
+Date:   Mon, 24 Oct 2022 11:25:57 -0700
+Message-ID: <7h7d0phydm.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -1.0 (-)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Arnd Bergmann <arnd@kernel.org> writes:
 
-this should go in, I am tired of carrying it around...
-to make the bot happy, the following things need to be changed.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> As part of removing all board files that were previously marked as unused,
+> I looked through the davinci platform and recursively removed everything
+> that has now become unused.
+>
+> In particular, this is for all dm3xx support, in addition to the dm64xx
+> support removed previously. The remaining support is now for da8xx using
+> devicetree only, which means a lot of the da8xx specific device support
+> can also go away.
 
-On Mon, 24 Oct 2022 21:10:15 +1000
-Alistair Francis <alistair@alistair23.me> wrote:
+Acked-by: Kevin Hilman <khilman@baylibre.com>
 
-> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
-> documentation. It can use I2C or SPI bus.
-> This touchscreen can handle some defined zone that are designed and
-> sent as button. To be able to customize the keycode sent, the
-> "linux,code" property in a "button" sub-node can be used.
-> 
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../input/touchscreen/cypress,tt21000.yaml    | 100 ++++++++++++++++++
->  1 file changed, 100 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml b/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> new file mode 100644
-> index 000000000000..0913b585af5c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> @@ -0,0 +1,100 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/cypress,tt21000.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cypress TT2100 touchscreen controller
-> +
-TT21000
-
-> +description: The Cypress TT2100 series (also known as "CYTTSP5" after
-TT21000 (also in the subject)
-
-> +  the marketing name Cypress TrueTouch Standard Product series 5).
-> +
-> +maintainers:
-> +  - Alistair Francis <alistair@alistair23.me>
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: cypress,tt21000
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-
-'#address-cells':
-  const: 1
-
-'#size-cells':
-  const: 0
-
-
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: Regulator for voltage.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  linux,keycodes:
-> +    description: EV_ABS specific event code generated by the axis.
-> +
-> +patternProperties:
-> +  "^button@[0-9]+$":
-> +    type: object
-> +    $ref: input.yaml#
-$ref: ../input.yaml#
-
-
-Regards,
-Andreas
-
+Kevin
