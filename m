@@ -2,95 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9F5160BBBF
-	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 23:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DDCA60BAA1
+	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 22:40:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232465AbiJXVLu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Oct 2022 17:11:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55642 "EHLO
+        id S234338AbiJXUjX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Oct 2022 16:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbiJXVLW (ORCPT
+        with ESMTP id S234590AbiJXUil (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Oct 2022 17:11:22 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6373A2D038F;
-        Mon, 24 Oct 2022 12:17:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5D728B817B0;
-        Mon, 24 Oct 2022 12:51:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E0DC433D6;
-        Mon, 24 Oct 2022 12:51:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666615874;
-        bh=4cT1AgEscL+bDejuGY6uubW9ABwIZGuR4hZ++Wp8v4w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kq3W0qANSUbPg7Xp/RRLV7VbWyzUd4fFQfb2glXmct6bX6PIhetoQgY85xKNVeA+J
-         G6jvtiH0AxGM35AE0jkcMeu8B3ip0EwROrkAQfDl6VVWPpT19T544nwG7qFVCop0VI
-         HDNSyETZfrbbhPwwU7JyS7whFHvKU4rqL4Qy4qZsH6Z9upRjNew40drv8HnH1wbgMW
-         I/bZPHsz9Gi23tSc8LlxSOnHWY6O4v9KT3nTwLO3zW6yfkolKWKQwH4wnwT3LBcdsn
-         W+D1mLFp2BV/5+TXP/f9FolibKs2KNirfCEyZNpHUj20JdWj8iYfZvGEUe+miHsp/n
-         ip4jPJQHClUqA==
-Date:   Mon, 24 Oct 2022 13:51:07 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, Fabien Parent <fparent@baylibre.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: mfd: mt6397: add binding for MT6357
-Message-ID: <Y1aKOxGTNAsb2vgz@google.com>
-References: <20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com>
- <20221005-mt6357-support-v2-1-f17ba2d2d0a9@baylibre.com>
+        Mon, 24 Oct 2022 16:38:41 -0400
+X-Greylist: delayed 10720 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Oct 2022 11:49:23 PDT
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E635DA473;
+        Mon, 24 Oct 2022 11:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=OHz6g3l6swEzAB25k6thjApk8AJUduADmk1VTYLxLyA=; b=zogi2wkweX+Yln0/3JmVg5tcBs
+        MpaFBmkh0Z4Q4IFNImIM0friJaCV4gbxl9Jaw8CGpe006xmBikiykcAsw96ZUqa3Xj8TlyX4PbivG
+        19ca6ygqdA5ZwQ52jhs5Lsy6z48oWI3dzolEF5yjEvc8lfFj0Xt0l6Gbvk1DnS4THo7dczedsP3nt
+        iMHZb2lZwjfTweaFtrFvFsY4IQWkEQj+0nPp4pRX8tAsrFCriA88mA58Vr43sNjuuK8Ajax4mXe2Y
+        EKYc1nWt527aTnsmAFQJ7QfVS90boRqB6QNh+xelNi6YnZpbJ3n6sTcd35v9+ixnoZkpp54RC2HSr
+        MIeVAbWg==;
+Received: from p200300ccff06c5001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff06:c500:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1omyyH-0003Tc-OL; Mon, 24 Oct 2022 17:02:33 +0200
+Date:   Mon, 24 Oct 2022 17:02:32 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linus.walleij@linaro.org, s.hauer@pengutronix.de,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        alistair23@gmail.com, dmitry.torokhov@gmail.com,
+        rydberg@bitmath.org, shawnguo@kernel.org
+Subject: Re: [PATCH v9 3/4] ARM: imx_v6_v7_defconfig: Enable the cyttsp5
+ touchscreen
+Message-ID: <20221024170232.6b0175df@aktux>
+In-Reply-To: <08cb81ce-7ebd-d79f-3f5c-4df596b5cb95@linaro.org>
+References: <20221024111017.43859-1-alistair@alistair23.me>
+        <20221024111017.43859-4-alistair@alistair23.me>
+        <08cb81ce-7ebd-d79f-3f5c-4df596b5cb95@linaro.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221005-mt6357-support-v2-1-f17ba2d2d0a9@baylibre.com>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 05 Oct 2022, Alexandre Mergnat wrote:
+Hi,
 
-> From: Fabien Parent <fparent@baylibre.com>
-> 
-> Add binding documentation for the MT6357 PMIC.
-> 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/mfd/mt6397.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> index 0088442efca1..518986c44880 100644
-> --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
-> +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> @@ -21,6 +21,7 @@ Required properties:
->  compatible:
->  	"mediatek,mt6323" for PMIC MT6323
->  	"mediatek,mt6331" for PMIC MT6331 and MT6332
-> +	"mediatek,mt6357" for PMIC MT6357
->  	"mediatek,mt6358" for PMIC MT6358 and MT6366
->  	"mediatek,mt6359" for PMIC MT6359
->  	"mediatek,mt6397" for PMIC MT6397
+I want to get that thing in, so I am tring to help as much as possible.
 
-Let me know when it's safe to merge this.
+On Mon, 24 Oct 2022 08:21:45 -0400
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
--- 
-Lee Jones [李琼斯]
+> On 24/10/2022 07:10, Alistair Francis wrote:
+> > Signed-off-by: Alistair Francis <alistair@alistair23.me>  
+> 
+> you miss here commit msg explaining why you want to enable this.
+> 
+proposal:
+The imx6/7 based devices Remarkable 2, Kobo Clara HD, Kobo Libra H2O,
+Tolino Shine 3, Tolino Vision 5 all cantain a Cypress TT2100
+touchscreen so enable the corresponding driver.
+
+Regards,
+Andreas
