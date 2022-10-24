@@ -2,77 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 607B160AE5F
-	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 16:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5F3F60AE69
+	for <lists+linux-input@lfdr.de>; Mon, 24 Oct 2022 17:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbiJXO7a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Oct 2022 10:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51770 "EHLO
+        id S232116AbiJXPAF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Oct 2022 11:00:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231149AbiJXO6j (ORCPT
+        with ESMTP id S231733AbiJXO7d (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Oct 2022 10:58:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F32127924;
-        Mon, 24 Oct 2022 06:35:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F343A6133A;
-        Mon, 24 Oct 2022 13:29:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4706FC433C1;
-        Mon, 24 Oct 2022 13:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666618149;
-        bh=U1pNoBuIsIrExwJDjLtiHnNqQQfx2eDzrYReKYQoZ6Q=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=mCMPRAzxB37qBXEUSaLJsoak5S6iq9Mj2xUcw969M8txWB28BGpykxaigbhh68y8A
-         n4wd8v64FHf9J4FxMYvcJSiItOyIJ5pDlv2Dc9Zo3AlErMZZdwGn71tyi+ZJhzpeV2
-         5HvGknqpCnE5hXtYS2+9kV3MFWUQxEbNBeHef27D/e3W7mta4+jre9pDzgL72eIshQ
-         FwnY4gcnMw7g0lXZFgDG/haRvnvNRN7A08nfqlbBd95FK9yXnWAsKy+TKwlYAgd99u
-         FjD8fohSJS3kSgQyjcrbkc7JnvyezPtO+8XrQz5nIqCC1InlxaDi/yn87Epw20S2LB
-         PrZZEIE7TzJGA==
-Date:   Mon, 24 Oct 2022 15:29:05 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [next] HID: hyperv: remove unused struct synthhid_msg
-In-Reply-To: <Y1XjBjiE39bPNj1d@mail.google.com>
-Message-ID: <nycvar.YFH.7.76.2210241528550.29912@cbobk.fhfr.pm>
-References: <Y1XjBjiE39bPNj1d@mail.google.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 24 Oct 2022 10:59:33 -0400
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 352DA12FFB6;
+        Mon, 24 Oct 2022 06:36:51 -0700 (PDT)
+Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-13ba86b5ac0so3210614fac.1;
+        Mon, 24 Oct 2022 06:36:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jt2lFq6dbGdtBXekxOfaNEZN/Q3vZqwLHuw1ZuGP6SI=;
+        b=ROKv94ke9wBlRPHup/6BG2oxiMGJt+NrAwhUwJsBDlJNQ9nNLFsW1cWlLh/a1fhkg4
+         KVbE+ytiVb/PX2dBzwKp9H/GtphmxRGpubh5J6YKQDTtbuY4k/D2LxoA+Vt3LUk01Vyx
+         5/onBG1IyyGbTSjAoIFF6hsj5RXXjYoAw498ZYL5AwpYb/CSSzj3+qvNDvQoDUz/9d4S
+         nScT04nfAfcvWCvJ74ASw85ulhjU0vcGeGtpj0NhVEgthN+co76PlRj/BjUlZVDvEAuj
+         2E2VGiLZi2ktnCbInLyu8mD8oA3NijIomMypW/hx62JD/AxzY1pZsekeqeiURelLV3Mz
+         bdKA==
+X-Gm-Message-State: ACrzQf3fxLgK8Lj8SHiT3m5a6YRFEv3lsldV5JWMcIB/YtHeIN3zvaaf
+        Kak1B+jnIN/NMMj7OmvuVQ==
+X-Google-Smtp-Source: AMsMyM65vyCZmrc6iE43AdD0YaQicAamKi0gPl15tMyryUnDapOZDkfhwpb+7+SFF1/+YvncsLwmmA==
+X-Received: by 2002:a05:6870:d285:b0:12b:cdce:63d8 with SMTP id d5-20020a056870d28500b0012bcdce63d8mr36138626oae.140.1666618205246;
+        Mon, 24 Oct 2022 06:30:05 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id v5-20020a05683024a500b0066102eb189fsm4381512ots.26.2022.10.24.06.30.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 06:30:04 -0700 (PDT)
+Received: (nullmailer pid 1686095 invoked by uid 1000);
+        Mon, 24 Oct 2022 13:30:04 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     s.hauer@pengutronix.de, dmitry.torokhov@gmail.com,
+        linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        andreas@kemnade.info, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org,
+        linux-input@vger.kernel.org, linus.walleij@linaro.org,
+        alistair23@gmail.com, shawnguo@kernel.org, rydberg@bitmath.org
+In-Reply-To: <20221024111017.43859-3-alistair@alistair23.me>
+References: <20221024111017.43859-1-alistair@alistair23.me> <20221024111017.43859-3-alistair@alistair23.me>
+Message-Id: <166661790048.1678635.3297196935905640224.robh@kernel.org>
+Subject: Re: [PATCH v9 2/4] dt-bindings: input: Add Cypress TT2100 touchscreen controller
+Date:   Mon, 24 Oct 2022 08:30:04 -0500
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 24 Oct 2022, Paulo Miguel Almeida wrote:
-
-> struct synthhid_msg was meant to be a generic representation of the
-> possible protocol messages sent through VMBus. In practice, only the
-> header is read and depending on the message type, a cast to the actual
-> type is done. Also, SYNTHHID_MAX_INPUT_REPORT_SIZE constant isn't used
-> which I suspect is a leftover from the refactoring made while this
-> driver was at the staging folder.
+On Mon, 24 Oct 2022 21:10:15 +1000, Alistair Francis wrote:
+> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
+> documentation. It can use I2C or SPI bus.
+> This touchscreen can handle some defined zone that are designed and
+> sent as button. To be able to customize the keycode sent, the
+> "linux,code" property in a "button" sub-node can be used.
 > 
-> This patch removes struct synthhid_msg and refactor the code
-> accordingly.
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../input/touchscreen/cypress,tt21000.yaml    | 100 ++++++++++++++++++
+>  1 file changed, 100 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+> 
 
-Applied, thanks.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
--- 
-Jiri Kosina
-SUSE Labs
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+./Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml: Unable to find schema file matching $id: http://devicetree.org/schemas/input/touchscreen/input.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dtb: touchscreen@24: button@0: False schema does not allow {'reg': [[0]], 'linux,keycodes': [[172]]}
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dtb: touchscreen@24: button@1: False schema does not allow {'reg': [[1]], 'linux,keycodes': [[139]]}
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dtb: touchscreen@24: button@2: False schema does not allow {'reg': [[2]], 'linux,keycodes': [[158]]}
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dtb: touchscreen@24: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
