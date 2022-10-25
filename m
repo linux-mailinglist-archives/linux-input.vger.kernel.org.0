@@ -2,266 +2,165 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB6A460C21C
-	for <lists+linux-input@lfdr.de>; Tue, 25 Oct 2022 05:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B0C060C5C1
+	for <lists+linux-input@lfdr.de>; Tue, 25 Oct 2022 09:46:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230327AbiJYDME (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Oct 2022 23:12:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48326 "EHLO
+        id S231998AbiJYHqw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Oct 2022 03:46:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbiJYDMA (ORCPT
+        with ESMTP id S231953AbiJYHqs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Oct 2022 23:12:00 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D05A2F647
-        for <linux-input@vger.kernel.org>; Mon, 24 Oct 2022 20:11:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666667519; x=1698203519;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4Xp3xFxdHMxXRdkrSE631JvmTk4le9FP9Ut8Bqwfb4E=;
-  b=SafXDKYa757o/xokpQRlO4Y8NtPp5u7hCT45hDeNF+3iSTxvZ0D3HaGF
-   bo0TeZ504uCHK6wuoUUvd5IuNKjXCDcwzh9FPj4JmwyK19MWX5IQNLXMN
-   ZZ9GJkvTgPxkzYwBUCnEXhpONrVKfbZgBm8+qpSfFWFZ/kY4E9xVxp9+F
-   OSjRTfo9MZD2AkboqIT8UAU4G5zAoqgmbt920C6sCkg/Oths9WI2RSClJ
-   bsVZSO8rC3kY7CS/+BYEqA8mQ129LhqZZpmLzdWCO8SPoqI23byzCqAgz
-   JfftPN823hnh799dL4tHAkxpDDlin5qt26lL5qjPvnKwDQpKc+JEy7526
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="306306879"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
-   d="scan'208";a="306306879"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 20:11:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="694792596"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
-   d="scan'208";a="694792596"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Oct 2022 20:11:57 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1onAM9-0005rd-0z;
-        Tue, 25 Oct 2022 03:11:57 +0000
-Date:   Tue, 25 Oct 2022 11:11:28 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD REGRESSION
- 8b96465c93a8c0f85ead5b3f8d4305beac97899e
-Message-ID: <635753e0.qTC5aInvIme6F1Fv%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 25 Oct 2022 03:46:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC0F815F92A
+        for <linux-input@vger.kernel.org>; Tue, 25 Oct 2022 00:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666684004;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=o8DX+bDypOZe/6PD1GV8jba1dm1lR5pWc1QrfOh/LAI=;
+        b=F+2SZryiSVfIPaOmdGDrPMvWJgF3uYGXQPvn9dE+jtP/9lyH48dNq6wzKgY7es4103uqY8
+        3zDS/gdLq8DXZB6foTg0Wxcms1ltQ6HcCQk+XU0alJDGsTRzfTWHug+GXjPfmCPJ9VCgJ2
+        4yut7PU7FLFGfZ0CfUW9c8OGgVlTL/c=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-98-7ftosxS8M-e2QDJ-W9fYBw-1; Tue, 25 Oct 2022 03:46:36 -0400
+X-MC-Unique: 7ftosxS8M-e2QDJ-W9fYBw-1
+Received: by mail-lj1-f200.google.com with SMTP id x7-20020a2ea7c7000000b002770aeb6d15so2159875ljp.13
+        for <linux-input@vger.kernel.org>; Tue, 25 Oct 2022 00:46:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o8DX+bDypOZe/6PD1GV8jba1dm1lR5pWc1QrfOh/LAI=;
+        b=cA4O2D0uOQGQb0n4YWbPbOQQAn8HJrFX97Zz99EA78iEaa7UAxQyk8qvupzBLBpdKY
+         jvgqaVAmKv2j5V/pinej7ocPRb4B+zWiFz1mGAKaJaCLAHLQZOcq0IoiuZJBDsRiSMyi
+         ycX8TV26Cpr16y6lZq0fL196Pxc4Yh4dA1tqnvMiw9tWIc+1HhyEjOCTBUhYoCD5hJv1
+         8jv1d/IGVNj84TbSJ+ytix+Hn0b0dBUQFOSJeBVSrmUMrX6PyIBo0sA6FHSwcNjICTXS
+         kBKEen8IsthIOgohhFJwtyD3JIA4O/ww6ZSSTY/JBg5VsLtq0a0YVXLkjlRgx3O8q450
+         rA6g==
+X-Gm-Message-State: ACrzQf24gXowX30j8CTJwhFa6j/bRFiATb1yhPGd7XU8LTIgs3UvOJnv
+        t5A818IInNnefw8boB2HAY6ALQR8GsAlqfjxWUKc8gmEapGiEXxL1PnMJMDidYYnmJGfYuIrGQ6
+        jH7Mpp1Oc41K2qfSSZ5oglI9Rq2tYI4SrJkKIKfU=
+X-Received: by 2002:a05:6512:3606:b0:4a2:71df:7938 with SMTP id f6-20020a056512360600b004a271df7938mr14037332lfs.279.1666683993758;
+        Tue, 25 Oct 2022 00:46:33 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Og/NiHMUvnQkaY4GNgwlTseDziPVSkZKgPKQ/dnl0SSpgTzBTkBLm0sDarb+h2edHlO9oDi0J6zBw2lLZ1Pc=
+X-Received: by 2002:a05:6512:3606:b0:4a2:71df:7938 with SMTP id
+ f6-20020a056512360600b004a271df7938mr14037325lfs.279.1666683993574; Tue, 25
+ Oct 2022 00:46:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com>
+In-Reply-To: <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 25 Oct 2022 09:46:21 +0200
+Message-ID: <CAO-hwJJ7cF-4kd8Mi6bb5n-k5LuMrWbpdMqFs82y7iQOscr-7g@mail.gmail.com>
+Subject: Re: Litra Glow on Linux
+To:     Andreas Bergmeier <abergmeier@gmx.net>
+Cc:     linux-input@vger.kernel.org,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 8b96465c93a8c0f85ead5b3f8d4305beac97899e  Input: matrix_keypad - replace header inclusions by forward declarations
+Hi Andreas,
 
-Error/Warning: (recently discovered and may have been fixed)
+On Sat, Oct 22, 2022 at 2:48 PM Andreas Bergmeier <abergmeier@gmx.net> wrote:
+>
+> > Date: Mon, 17 Oct 2022 18:45:30 +0200
+> > From: Andreas Bergmeier <abergmeier@gmx.net>
+> > To: linux-usb@vger.kernel.org
+> > Subject: Litra Glow on Linux
+> >
+> > On my Ubuntu machine i am running 5.15.0. Now when I plugin in my
+> > Logitech Litra Glow, it gets detected and the following shows up in my
+> > dmesg:
+> >
+> > ```
+> > input: Logi Litra Glow Consumer Control as
+> > /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4.2/3-4.2:1.0/0003:046D:C900.000B/input/input75
+> > hid-generic 0003:046D:C900.000B: input,hiddev0,hidraw2: USB HID v1.11
+> > Device [Logi Litra Glow] on usb-0000:00:14.0-4.2/input0
+> > ```
+> >
+> > Via (hardware) buttons you can switch the device on, regulate the
+> > color temperature as well as the brightness.
+> So I looked into the sources of `hid-input` and `hig-lg` and I hope
+> that I have a halfway decent
+> understanding why the linux modules/dev nodes handle the way they do.
+> What I do not yet understand is how to map the device to input "primitives".
 
-drivers/input/keyboard/stmpe-keypad.c:353:9: error: implicit declaration of function 'of_property_read_u32' [-Werror=implicit-function-declaration]
-drivers/input/keyboard/stmpe-keypad.c:355:33: error: implicit declaration of function 'of_property_read_bool' [-Werror=implicit-function-declaration]
+Depending on how the device presents itself, we might have to use
+hid-logitech-hidpp, not hid-lg FWIW.
 
-Error/Warning ids grouped by kconfigs:
+And to answer the question "how to map the device to input
+"primitives".", it all depends on how the device exports itself.
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- arc-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- arc-buildonly-randconfig-r004-20221025
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- arm-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- arm-buildonly-randconfig-r005-20221023
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- arm-randconfig-r036-20221024
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- arm64-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- csky-randconfig-c004-20221025
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- i386-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- ia64-allmodconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- ia64-randconfig-r033-20221024
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- m68k-allmodconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- m68k-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- mips-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- nios2-randconfig-r025-20221023
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- s390-allyesconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-|   `-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_u32
-|-- sh-allmodconfig
-|   |-- drivers-input-keyboard-stmpe-keypad.c:error:implicit-declaration-of-function-of_property_read_bool
-clang_recent_errors
-`-- arm64-randconfig-r023-20221023
-    |-- drivers-input-keyboard-stmpe-keypad.c:error:call-to-undeclared-function-of_property_read_bool-ISO-C99-and-later-do-not-support-implicit-function-declarations
-    `-- drivers-input-keyboard-stmpe-keypad.c:error:call-to-undeclared-function-of_property_read_u32-ISO-C99-and-later-do-not-support-implicit-function-declarations
+> To recap there are 5 hardware buttons and 3 states:
+> - State: "Color temperature in range [u, x]" Button: up
+> - State: "Color temperature in range [u, x]" Button: down
+> - State/Button On/Off
+> - State "Brightness in range [y, z]" Button: up
+> - State "Brightness in range [y, z]" Button: down
 
-elapsed time: 727m
+FWIW, you should be able to use hid-recorder[0] (as root) to record
+traces of the events, and to parse them on the fly. Also, if you
+provide us the output, we can replay the traces locally as if we
+virtually plugged in the device.
 
-configs tested: 123
-configs skipped: 2
+>
+> What would be a best practice to expose these correctly via HID (as
+> e.g. ABS_WHEEL?)?
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                             allyesconfig
-s390                                defconfig
-sh                               allmodconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-powerpc                          allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-m68k                             allyesconfig
-i386                                defconfig
-i386                 randconfig-a016-20221024
-i386                 randconfig-a014-20221024
-i386                 randconfig-a013-20221024
-x86_64                              defconfig
-alpha                            allyesconfig
-i386                 randconfig-a012-20221024
-arc                  randconfig-r043-20221024
-arc                              allyesconfig
-i386                 randconfig-a011-20221024
-x86_64                           rhel-8.3-syz
-i386                 randconfig-a015-20221024
-x86_64               randconfig-k001-20221024
-x86_64                           rhel-8.3-kvm
-riscv                randconfig-r042-20221024
-s390                 randconfig-r044-20221024
-arc                  randconfig-r043-20221023
-x86_64                         rhel-8.3-kunit
-m68k                             allmodconfig
-ia64                             allmodconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-i386                             allyesconfig
-i386                          randconfig-c001
-x86_64               randconfig-a014-20221024
-x86_64               randconfig-a015-20221024
-x86_64               randconfig-a016-20221024
-x86_64               randconfig-a013-20221024
-x86_64               randconfig-a012-20221024
-x86_64               randconfig-a011-20221024
-powerpc                   motionpro_defconfig
-csky                             alldefconfig
-powerpc                 mpc837x_rdb_defconfig
-openrisc                            defconfig
-arm                        mini2440_defconfig
-sh                         ecovec24_defconfig
-m68k                            mac_defconfig
-m68k                            q40_defconfig
-m68k                        m5307c3_defconfig
-powerpc                      cm5200_defconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                       omap2plus_defconfig
-powerpc                 mpc85xx_cds_defconfig
-arm                        spear6xx_defconfig
-powerpc                      tqm8xx_defconfig
-powerpc                 mpc834x_mds_defconfig
-mips                            gpr_defconfig
-sh                        sh7763rdp_defconfig
-ia64                             allyesconfig
-sh                             shx3_defconfig
-arc                      axs103_smp_defconfig
-mips                        vocore2_defconfig
-sh                         ap325rxa_defconfig
-ia64                      gensparse_defconfig
-arm                          pxa910_defconfig
-i386                 randconfig-c001-20221024
-parisc                generic-64bit_defconfig
-sh                           se7712_defconfig
-arc                              alldefconfig
-sh                        dreamcast_defconfig
-sh                          polaris_defconfig
-riscv                    nommu_k210_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                      chrp32_defconfig
-sh                          lboxre2_defconfig
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-m68k                       m5249evb_defconfig
-arm                       aspeed_g5_defconfig
-powerpc                  storcenter_defconfig
-powerpc                 canyonlands_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-sparc                               defconfig
-xtensa                           allyesconfig
-csky                                defconfig
-sparc                            allyesconfig
-x86_64                                  kexec
-powerpc                     tqm8555_defconfig
+This doesn't look like a wheel at all, but more like simple buttons
+from your description. We should let userspace deal with the
+representation as a slider by its own.
 
-clang tested configs:
-hexagon              randconfig-r045-20221023
-riscv                randconfig-r042-20221023
-hexagon              randconfig-r045-20221024
-s390                 randconfig-r044-20221023
-hexagon              randconfig-r041-20221023
-hexagon              randconfig-r041-20221024
-i386                 randconfig-a004-20221024
-i386                 randconfig-a006-20221024
-i386                 randconfig-a002-20221024
-i386                 randconfig-a003-20221024
-i386                 randconfig-a001-20221024
-i386                 randconfig-a005-20221024
-x86_64               randconfig-a005-20221024
-x86_64               randconfig-a002-20221024
-x86_64               randconfig-a006-20221024
-x86_64               randconfig-a001-20221024
-x86_64               randconfig-a004-20221024
-x86_64               randconfig-a003-20221024
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-mips                     loongson2k_defconfig
-arm                          moxart_defconfig
-arm                         s3c2410_defconfig
+Also, are the buttons configuring the hardware directly or do you need
+some software to actually change the brightness/color?
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+And FWIW, the device looks like we should probably just export it as a
+led class device, with brightness and color support.
+
+> Or at least - what are the canonical options?
+>
+> Since the exposed Record interface seems "wrong" I assume I need to
+> write code to fix the device handling.
+> Now, is this better suited in `hid-input` or `hid-lg`?
+
+Again, it depends. If the device speaks the same high level interface
+as other consumer Logitech devices (mice, keyboards, etc...)
+hid-logitech-hidpp is the best way forward, but if not, hid-lg would
+be the place to start.
+
+> The former currently tries to handle the device (wrongly) and the
+> latter yet ignores the device but seems to be
+> the one stop to fix Logitech devices.
+>
+>
+> > I know of no way to fully control the device from my computer and
+> > would like to change that.
+> By now I am confident that I will soon have the full device control figured out.
+>
+
+Glad to hear that. But again, we need to know the device a little bit more.
+FWIW, if the first byte you have to send to control the LED is 0x10,
+0x11 or 0x12 then this is a HID++ device that needs to go in
+hid-logitech-hidpp and a lot of groundwork is already done in the
+kernel for it.
+
+Cheers,
+Benjamin
+
