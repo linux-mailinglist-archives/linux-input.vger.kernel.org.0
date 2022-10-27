@@ -2,140 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DBE161010C
-	for <lists+linux-input@lfdr.de>; Thu, 27 Oct 2022 21:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472D96101EC
+	for <lists+linux-input@lfdr.de>; Thu, 27 Oct 2022 21:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbiJ0TC5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Oct 2022 15:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43186 "EHLO
+        id S236317AbiJ0Tnl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Oct 2022 15:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235971AbiJ0TCz (ORCPT
+        with ESMTP id S236423AbiJ0Tni (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Oct 2022 15:02:55 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E6222513
-        for <linux-input@vger.kernel.org>; Thu, 27 Oct 2022 12:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666897372; x=1698433372;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=x8S4ON823IRZQZNfu97omtKDvf9vU/7loWHIa30bXts=;
-  b=GIjq13KN1t4W3p6Thl7JJa7cmmBck8z8PgMAZGtUbwYZYyIEkVT1CeCk
-   2B1jNtGPWe26GDN7u/pWXRigJoiBWpS6accAXcLMcYdtSXaA7upVSCiNh
-   mxhUgWBvA4S3U4eVqpOsDw4h+aVHMUc+z7gceu7uJL4kW6awXOWOREf/Z
-   0IJY9VZ1mgnEhOaE0vLVac4G3CAHyNEhClv2YONX2y5NSEiBWio7U07uM
-   WSLG93Hd13tfpmhEe8cXhbdyjXVGXLtLYkN1sMja8L55W4T431U/hQDOu
-   pAHKooNwjQpkBk1L99XqnLqlQBFA1NT8/vh45FAxkfDx/afQgPg3zmYrq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="288033409"
-X-IronPort-AV: E=Sophos;i="5.95,218,1661842800"; 
-   d="scan'208";a="288033409"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 12:02:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="775106940"
-X-IronPort-AV: E=Sophos;i="5.95,218,1661842800"; 
-   d="scan'208";a="775106940"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Oct 2022 12:02:26 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oo893-00095L-2v;
-        Thu, 27 Oct 2022 19:02:25 +0000
-Date:   Fri, 28 Oct 2022 03:01:37 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:tmp-gpiolib-swnode] BUILD SUCCESS
- 27103fbbe0c396313c7b89742b8dae15cd9d16ea
-Message-ID: <635ad591.NpnYOpBHgxYl/6kP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 27 Oct 2022 15:43:38 -0400
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1680580BD8;
+        Thu, 27 Oct 2022 12:43:37 -0700 (PDT)
+Date:   Thu, 27 Oct 2022 19:43:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1666899814; x=1667159014;
+        bh=ecgD3ocjBEk+64IIiypXst5XSaocPXz3+0qtVTaMWVI=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=cMLCdIjgewQmJOSr9cpH7ECdKF4NZgyINOCz1RjriHSVAx+XP9spIUfAdYfmsBJBM
+         /vBC5lxVAeeKro4izPbktEgGmat9nEoSBbzD8kXpG2RWINpK8kx2DTQkku1DPPapYc
+         GnQ6PDkNO8TUO0aKPDbDWgU8V1c5uiS88Yduwk7aNInKS7JysqyXo35XsjXcPKKX1s
+         GdzXZ8XrSHZKKv0I5FYOd+/acVfhcW94XNV4DCfIgdQMcsLR77RNujCT/eaTELMbfi
+         mEdfObfstqCzwie8K3UNMxHobTBlMGzjDYwQkXXRZ9G6BIquAFpI2BUsmJuADmxS8A
+         0AImlSC+vTHTA==
+To:     =?utf-8?Q?Eray_Or=C3=A7unus?= <erayorcunus@gmail.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, ike.pan@canonical.com,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        dmitry.torokhov@gmail.com, hdegoede@redhat.com,
+        mgross@linux.intel.com
+Subject: Re: [PATCH 5/6] platform/x86: ideapad-laptop: Expose camera_power only if supported
+Message-ID: <NVuCQsVF6HONw3-eRplxrMgWlvEu6AwKlrXqouYOw1FSFucZ9oprZoUeXzBCsrdzFStLjWP4DSl9wOXTe1pS19MZovS9fDmmtVuRD_prCvQ=@protonmail.com>
+In-Reply-To: <20221026190106.28441-6-erayorcunus@gmail.com>
+References: <20221026190106.28441-1-erayorcunus@gmail.com> <20221026190106.28441-6-erayorcunus@gmail.com>
+Feedback-ID: 20568564:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tmp-gpiolib-swnode
-branch HEAD: 27103fbbe0c396313c7b89742b8dae15cd9d16ea  gpiolib: add support for software nodes
+Hi
 
-elapsed time: 724m
 
-configs tested: 58
-configs skipped: 2
+2022. okt=C3=B3ber 26., szerda 21:01 keltez=C3=A9ssel, Eray Or=C3=A7unus =
+=C3=ADrta:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> IdeaPads dropped support for VPCCMD_W_CAMERA somewhere between 2014-2016,
+> none of the IdeaPads produced after that I tested supports it. Fortunatel=
+y
+> I found a way to check it; if the DSDT has camera device(s) defined, it
+> shouldn't have working VPCCMD_W_CAMERA, thus camera_power shouldn't be
+> exposed to sysfs. To accomplish this, walk the ACPI namespace in
+> ideapad_check_features and check the devices starting with "CAM".
+> Tested on 520-15IKB and Legion Y520, which successfully didn't expose
+> the camera_power attribute.
+>=20
+> Link: https://www.spinics.net/lists/platform-driver-x86/msg26147.html
+> Signed-off-by: Eray Or=C3=A7unus <erayorcunus@gmail.com>
+> ---
+>  drivers/platform/x86/ideapad-laptop.c | 53 ++++++++++++++++++++++++++-
+>  1 file changed, 52 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86=
+/ideapad-laptop.c
+> index f3d4f2beda07..65eea2e65bbe 100644
+> --- a/drivers/platform/x86/ideapad-laptop.c
+> +++ b/drivers/platform/x86/ideapad-laptop.c
+> @@ -149,6 +149,7 @@ struct ideapad_private {
+>  =09=09bool fn_lock              : 1;
+>  =09=09bool hw_rfkill_switch     : 1;
+>  =09=09bool kbd_bl               : 1;
+> +=09=09bool cam_ctrl_via_ec      : 1;
+>  =09=09bool touchpad_ctrl_via_ec : 1;
+>  =09=09bool usb_charging         : 1;
+>  =09} features;
+> @@ -163,6 +164,26 @@ static bool no_bt_rfkill;
+>  module_param(no_bt_rfkill, bool, 0444);
+>  MODULE_PARM_DESC(no_bt_rfkill, "No rfkill for bluetooth.");
+>=20
+> +static char *cam_device_prefix =3D "CAM";
+> +
+> +static acpi_status acpi_find_device_callback(acpi_handle handle, u32 lev=
+el,
+> +=09=09=09=09=09     void *context, void **return_value)
+> +{
+> +=09char buffer[8];
+> +=09struct acpi_buffer ret_buf;
+> +
+> +=09ret_buf.length =3D sizeof(buffer);
+> +=09ret_buf.pointer =3D buffer;
+> +
+> +=09if (ACPI_SUCCESS(acpi_get_name(handle, ACPI_SINGLE_NAME, &ret_buf)))
+> +=09=09if (strncmp(ret_buf.pointer, context, strlen(context)) =3D=3D 0) {
 
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                         rhel-8.3-kunit
-s390                                defconfig
-s390                             allmodconfig
-x86_64                           rhel-8.3-kvm
-x86_64                        randconfig-a006
-ia64                             allmodconfig
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-i386                          randconfig-a014
-powerpc                           allnoconfig
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-powerpc                          allmodconfig
-mips                             allyesconfig
-i386                          randconfig-a012
-i386                                defconfig
-s390                             allyesconfig
-alpha                            allyesconfig
-riscv                randconfig-r042-20221026
-arm                                 defconfig
-x86_64                        randconfig-a015
-arc                  randconfig-r043-20221026
-i386                          randconfig-a016
-s390                 randconfig-r044-20221026
-x86_64                               rhel-8.3
-sh                               allmodconfig
-arc                              allyesconfig
-m68k                             allyesconfig
-i386                          randconfig-a001
-x86_64                          rhel-8.3-func
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-m68k                             allmodconfig
-i386                          randconfig-a003
-i386                          randconfig-a005
-arm                              allyesconfig
-arm64                            allyesconfig
-i386                             allyesconfig
+Please use `strstarts()` here. Is there any reason why you decided not to
+simply "inline" the "CAM" string here (or even in the function call)?
 
-clang tested configs:
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a013
-i386                          randconfig-a015
-hexagon              randconfig-r045-20221026
-i386                          randconfig-a011
-x86_64                        randconfig-a012
-hexagon              randconfig-r041-20221026
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> +=09=09=09*return_value =3D handle;
+> +=09=09=09return AE_CTRL_TERMINATE;
+> +=09=09}
+> +
+> +=09return AE_OK;
+> +}
+> +
+>  /*
+>   * ACPI Helpers
+>   */
+> @@ -675,7 +696,7 @@ static umode_t ideapad_is_visible(struct kobject *kob=
+j,
+>  =09bool supported =3D true;
+>=20
+>  =09if (attr =3D=3D &dev_attr_camera_power.attr)
+> -=09=09supported =3D test_bit(CFG_CAP_CAM_BIT, &priv->cfg);
+> +=09=09supported =3D priv->features.cam_ctrl_via_ec;
+>  =09else if (attr =3D=3D &dev_attr_conservation_mode.attr)
+>  =09=09supported =3D priv->features.conservation_mode;
+>  =09else if (attr =3D=3D &dev_attr_fan_mode.attr)
+> @@ -1523,10 +1544,40 @@ static const struct dmi_system_id hw_rfkill_list[=
+] =3D {
+>  static void ideapad_check_features(struct ideapad_private *priv)
+>  {
+>  =09acpi_handle handle =3D priv->adev->handle;
+> +=09acpi_handle pci_handle;
+> +=09acpi_handle temp_handle =3D NULL;
+>  =09unsigned long val;
+> +=09acpi_status status;
+
+It is a small thing, but I believe it is best to define these variables
+in the block of that `if` since they are not used outside of it.
+
+
+>=20
+>  =09priv->features.hw_rfkill_switch =3D dmi_check_system(hw_rfkill_list);
+>=20
+> +=09/*
+> +=09 * Some IdeaPads have camera switch via EC (mostly older ones),
+> +=09 * some don't. Fortunately we know that if DSDT contains device
+> +=09 * object for the camera, camera isn't switchable via EC.
+> +=09 * So, let's walk the namespace and try to find CAM* object.
+> +=09 * If we can't find it, set cam_ctrl_via_ec to true.
+> +=09 */
+> +
+> +=09priv->features.cam_ctrl_via_ec =3D false;
+> +
+> +=09if (test_bit(CFG_CAP_CAM_BIT, &priv->cfg)) {
+> +=09=09status =3D acpi_get_handle(handle, "^^^", &pci_handle);
+> +=09=09if (ACPI_SUCCESS(status)) {
+> +=09=09=09status =3D acpi_walk_namespace(ACPI_TYPE_DEVICE, pci_handle,
+> +=09=09=09=09=09=09     ACPI_UINT32_MAX,
+> +=09=09=09=09=09=09     acpi_find_device_callback,
+> +=09=09=09=09=09=09     NULL, cam_device_prefix,
+> +=09=09=09=09=09=09     &temp_handle);
+> +
+> +=09=09=09if (ACPI_SUCCESS(status) && temp_handle =3D=3D NULL)
+> +=09=09=09=09priv->features.cam_ctrl_via_ec =3D true;
+> +
+> +=09=09} else
+> +=09=09=09dev_warn(&priv->platform_device->dev,
+> +=09=09=09=09"Could not find PCI* node in the namespace\n");
+> +=09}
+> +
+>  =09/* Most ideapads with ELAN0634 touchpad don't use EC touchpad switch =
+*/
+>  =09priv->features.touchpad_ctrl_via_ec =3D !acpi_dev_present("ELAN0634",=
+ NULL, -1);
+>=20
+> --
+> 2.34.1
+>=20
+
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
