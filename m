@@ -2,70 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 181EB60F16E
-	for <lists+linux-input@lfdr.de>; Thu, 27 Oct 2022 09:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1EBA60F1A0
+	for <lists+linux-input@lfdr.de>; Thu, 27 Oct 2022 09:56:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbiJ0Hr6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Oct 2022 03:47:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43686 "EHLO
+        id S234316AbiJ0H4B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Oct 2022 03:56:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233971AbiJ0Hrp (ORCPT
+        with ESMTP id S234150AbiJ0Hz6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Oct 2022 03:47:45 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563D4169CCE;
-        Thu, 27 Oct 2022 00:47:33 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id y4so632158plb.2;
-        Thu, 27 Oct 2022 00:47:33 -0700 (PDT)
+        Thu, 27 Oct 2022 03:55:58 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D42C28D220;
+        Thu, 27 Oct 2022 00:55:54 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id w189so743220pfw.4;
+        Thu, 27 Oct 2022 00:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MPFuBE4E9kW+bYrPyyrowXtRIsOozuoW5hrinvbPpzM=;
-        b=eiHbwOfI86K5EUY2CDGsGfsLuduchKoPDVtYnIxj3jtV6JNMiHsSuRUp/+AbwAlZg/
-         3ZDf9+XfNsMPE3vsN1xyiDOF33A/2akzhA+s4U300CgqMpq4Nev+MhhnoisfiIHWdBcc
-         2/eS1wRkjhbdhXZuaTAYhqT6jIrtI9yt5EWlThMmEqdGGSnz1jtgJI4SlDFD77M6Cae9
-         pv+AYG03zKnjF94Zq7sCn9AQ/bwbuOD/F8th+xp7o8OTX4tLHuz2HfRjBBmIgwGSOheU
-         iQGFX7yImc37oA7FR45li53Wci0ArpBljAOTkEdAzlP/WvID/xC3+hkOS6qB1PI8kIFZ
-         G7wA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OJAEKndr3m6wkfHwUrnC0w/oTWY26XXJ7PxMYSqorLA=;
+        b=F0KKv+ad3qoKlO1BO7vEexO8niWP4K3suGfjq2soz7HeZjjCp+RCqX69vAAE4H0l3G
+         JjRa2lEKbrZ87cgPlqasGGxBPQOV1Sb8CRg9wJZh4wtTWP7jZXV1ogOeNLWzVibP7s/O
+         8TdEh2sP0bsFR/CyDsJD8HrOnHaVsRFRtTCC5nnaaT9e7CJChFvkkoTr9i1lZbImstoP
+         w0F8fNhT6nkeLNW9cHUP7qt7bPkGjWc6p9Jtq+twr0JcBEZA0Cw5H86toRxrWoYjt3za
+         Mpyme/IvITrGdk2wRYtxyTI5B3S3ayYvYMnimGqEQX/8wJT43/6Jkq5hh2MvMOHuhwTU
+         pf8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MPFuBE4E9kW+bYrPyyrowXtRIsOozuoW5hrinvbPpzM=;
-        b=2Kv46d+2r3QQquzac0s3kl/IjBpGRDw2gFFEgWqccKdu7FAsgvSLVSh9C9Cn2M6eQI
-         7xwb0BRobPvls5dgSIT+leoqzUV2Ga7pNDxcEghtlTZ1BBxp4+NpUeD7pth8xqPQgS1Q
-         9oEqdUwgY8wN+DzGGXebpBaC3VRvNv9exuuN+OmzPPOTaMhR9KxZcnyXulHbmEA9+DRJ
-         ajBkQt+iqXk6/XYScrf23m8iXR9R++OYZQ1g/pAzpRdBKx/aAgdxwtvugtrQFvJ/DRzm
-         hh8PgkcX7+3aslPuUG2DuglSK8rl7JWilwzLlRPpnHELJMYBH8SlKQrRTlI4sVhDPb4L
-         0K0w==
-X-Gm-Message-State: ACrzQf2dZQSgzxfmJvGFZO+FSG623mbdSYXt69lM+Pl1Rv952mV434n9
-        rGx1rLFADrO7GW+aKwRDAxo=
-X-Google-Smtp-Source: AMsMyM6xa8Lta67AJWp6N9Y1WAPd8h/FnJ9YZEt5csSK5XrKvsxSLXkcDPV2s9a+oaqwHqZugE4+0w==
-X-Received: by 2002:a17:902:8215:b0:178:6946:a282 with SMTP id x21-20020a170902821500b001786946a282mr48749884pln.162.1666856852603;
-        Thu, 27 Oct 2022 00:47:32 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OJAEKndr3m6wkfHwUrnC0w/oTWY26XXJ7PxMYSqorLA=;
+        b=dBvRN1/AJeuG8esA3uWSPZCmix8na1RNrTpbFxHQYJHCjwTEoACG3Ft8QHc7LwQWul
+         R49DbnYcZlgmpvZNdyJUxCWDuzbM2uy/eRfPUfsqLhueIMcJrh4BHmgzoocu0L8lFX0K
+         iuOohWZxdt/ASS/y1/a0rLJfQeHO54576dfDmqMp49af3dxM1c0OXtY9yT79XH7OsCQq
+         Jg4Jmp+IRyadsTHqBq2CLwjfJh/RW/Q3DhGBd0Wg6HngoUr4mCeUcvVTvE3WWoHJYuFR
+         wUaywvjZ/SoG8NVLTQ+OKy2OljD5rVcbp3TQzE+mGqS32wFCHRqs1hHnV4cQRxrRUnX2
+         dS1w==
+X-Gm-Message-State: ACrzQf3Xt1LKrS9Lhezy68yqsUdW4/72cF8kkReSrAw2Fkt+kPjv8LI4
+        b2V9G3VGGrI2LirB2A37RUA=
+X-Google-Smtp-Source: AMsMyM4RuXf3SFWGHbEF/qs8moP9zk6bojXHDwIAw0jrPBotzHFLCqlixCAZlEmHMoAsFj6N/fwnpw==
+X-Received: by 2002:a63:4307:0:b0:464:a24d:8201 with SMTP id q7-20020a634307000000b00464a24d8201mr41524700pga.116.1666857353905;
+        Thu, 27 Oct 2022 00:55:53 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:99d6:ae15:f9aa:1819])
-        by smtp.gmail.com with ESMTPSA id h6-20020a17090aea8600b00209a12b3879sm496984pjz.37.2022.10.27.00.47.31
+        by smtp.gmail.com with ESMTPSA id s24-20020a170902b19800b0017b264a2d4asm588191plr.44.2022.10.27.00.55.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Oct 2022 00:47:32 -0700 (PDT)
-Date:   Thu, 27 Oct 2022 00:47:29 -0700
+        Thu, 27 Oct 2022 00:55:53 -0700 (PDT)
+Date:   Thu, 27 Oct 2022 00:55:49 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Eray =?iso-8859-1?Q?Or=E7unus?= <erayorcunus@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, ike.pan@canonical.com,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        hdegoede@redhat.com, mgross@linux.intel.com
-Subject: Re: [PATCH 2/6] HID: add mapping for camera access keys
-Message-ID: <Y1o3kVxNCWBbdXJr@google.com>
-References: <20221026190106.28441-1-erayorcunus@gmail.com>
- <20221026190106.28441-3-erayorcunus@gmail.com>
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Bjorn Andersson <andersson@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Gross <agross@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 06/11] dt-bindings: input: qcom,pm8921-pwrkey: convert
+ to dt-schema
+Message-ID: <Y1o5hYAnBuf1akJ9@google.com>
+References: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
+ <20220928-mdm9615-dt-schema-fixes-v4-6-dac2dfaac703@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221026190106.28441-3-erayorcunus@gmail.com>
+In-Reply-To: <20220928-mdm9615-dt-schema-fixes-v4-6-dac2dfaac703@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -76,70 +84,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 26, 2022 at 10:01:02PM +0300, Eray Orçunus wrote:
-> HUTRR72 added 3 new usage codes for keys that are supposed to enable,
-> disable and toggle camera access. These are useful, considering many
-> laptops today have key(s) for toggling access to camera.
+On Fri, Oct 21, 2022 at 11:06:42AM +0200, Neil Armstrong wrote:
+> Convert input/qcom,pm8xxx-pwrkey.txt to YAML, and take in account that
+> the PM8921 pwrkey compatible is used as fallback for the PM8018 pwrkey.
 > 
-> This patch adds new key definitions for KEY_CAMERA_ACCESS_ENABLE,
-> KEY_CAMERA_ACCESS_DISABLE and KEY_CAMERA_ACCESS_TOGGLE. Additionally
-> hid-debug is adjusted to recognize this new usage codes as well.
-> 
-> Signed-off-by: Eray Orçunus <erayorcunus@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Should I merge this through my tree or you want all these changes to go
+together through some particular tree?
 
-> ---
->  drivers/hid/hid-debug.c                | 3 +++
->  drivers/hid/hid-input.c                | 3 +++
->  include/uapi/linux/input-event-codes.h | 3 +++
->  3 files changed, 9 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-> index f48d3534e020..991f880fdbd4 100644
-> --- a/drivers/hid/hid-debug.c
-> +++ b/drivers/hid/hid-debug.c
-> @@ -936,6 +936,9 @@ static const char *keys[KEY_MAX + 1] = {
->  	[KEY_ASSISTANT] = "Assistant",
->  	[KEY_KBD_LAYOUT_NEXT] = "KbdLayoutNext",
->  	[KEY_EMOJI_PICKER] = "EmojiPicker",
-> +	[KEY_CAMERA_ACCESS_ENABLE] = "CameraAccessEnable",
-> +	[KEY_CAMERA_ACCESS_DISABLE] = "CameraAccessDisable",
-> +	[KEY_CAMERA_ACCESS_TOGGLE] = "CameraAccessToggle",
->  	[KEY_DICTATE] = "Dictate",
->  	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
->  	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index f197aed6444a..f8e6513e77b8 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -995,6 +995,9 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
->  		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
->  
-> +		case 0x0d5: map_key_clear(KEY_CAMERA_ACCESS_ENABLE);		break;
-> +		case 0x0d6: map_key_clear(KEY_CAMERA_ACCESS_DISABLE);		break;
-> +		case 0x0d7: map_key_clear(KEY_CAMERA_ACCESS_TOGGLE);		break;
->  		case 0x0d8: map_key_clear(KEY_DICTATE);		break;
->  		case 0x0d9: map_key_clear(KEY_EMOJI_PICKER);	break;
->  
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 7989d9483ea7..ef392d0f943f 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -614,6 +614,9 @@
->  #define KEY_KBD_LAYOUT_NEXT	0x248	/* AC Next Keyboard Layout Select */
->  #define KEY_EMOJI_PICKER	0x249	/* Show/hide emoji picker (HUTRR101) */
->  #define KEY_DICTATE		0x24a	/* Start or Stop Voice Dictation Session (HUTRR99) */
-> +#define KEY_CAMERA_ACCESS_ENABLE	0x24b	/* Enables programmatic access to camera devices. (HUTRR72) */
-> +#define KEY_CAMERA_ACCESS_DISABLE	0x24c	/* Disables programmatic access to camera devices. (HUTRR72) */
-> +#define KEY_CAMERA_ACCESS_TOGGLE	0x24d	/* Toggles the current state of the camera access control. (HUTRR72) */
->  
->  #define KEY_BRIGHTNESS_MIN		0x250	/* Set Brightness to Minimum */
->  #define KEY_BRIGHTNESS_MAX		0x251	/* Set Brightness to Maximum */
-> -- 
-> 2.34.1
-> 
+Thanks.
 
 -- 
 Dmitry
