@@ -2,97 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8FE0610477
-	for <lists+linux-input@lfdr.de>; Thu, 27 Oct 2022 23:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4E26106FB
+	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 02:53:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236971AbiJ0Vcm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Oct 2022 17:32:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32894 "EHLO
+        id S235396AbiJ1Axa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Oct 2022 20:53:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236980AbiJ0Vcl (ORCPT
+        with ESMTP id S234810AbiJ1Ax3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Oct 2022 17:32:41 -0400
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 820C26C755
-        for <linux-input@vger.kernel.org>; Thu, 27 Oct 2022 14:32:40 -0700 (PDT)
-Date:   Thu, 27 Oct 2022 21:32:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1666906356; x=1667165556;
-        bh=y8VadYs6trzDqNdreMr2m0RjqduX0bvbUVP70tUtncI=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=VI1qHMFNbMDcQLOps0FfTUHG23xrAgQ+o2A3EC8ncdDsmEcxgBOH1o1bZw3swGQTm
-         G+2dKqsBPJ/8pGyXJA53PX3Jg2FDzAB+TC+91i6Ob6pHX5lLTg5J07q8IjYLP2dUv2
-         xYiMY+OTwVYc0/qS6r0OGtyrY7zn4p9oEglaP+FS7couaVKwvmZVG9WpqscIeqxWnZ
-         D61RhQlWmXKmMUsAwVMQVKDDJLL4JASi+GQFYQWMWZvwbPF8l8F6AEvThHZDkIhq+f
-         9d0D2AL8uYqn0RdaQq/QrnP/bbw98K9Zp2uBEbYJ0unS/2q1FJVNCv43H36Q8Zpbfg
-         6yhXopvIpWAmQ==
-To:     =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mia Kanashi <chad@redpilled.dev>,
-        Andreas Grosse <andig.mail@t-online.de>
-Subject: Re: [PATCH] HID: uclogic: Add support for XP-PEN Deco LW
-Message-ID: <2m7M7XFEGHGOu6Le-GK_9kDuuA3BltmE1I17zDsok382TFmgO2oDamLv7cWcXjYLdzdgwQli7Qe98xoe0tuVc4bg7sRbFG2LFZ6iYn0s3Fk=@protonmail.com>
-In-Reply-To: <20221027211021.230325-1-jose.exposito89@gmail.com>
-References: <20221027211021.230325-1-jose.exposito89@gmail.com>
-Feedback-ID: 20568564:user:proton
+        Thu, 27 Oct 2022 20:53:29 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519A0A3F73;
+        Thu, 27 Oct 2022 17:53:26 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id r61-20020a17090a43c300b00212f4e9cccdso8364960pjg.5;
+        Thu, 27 Oct 2022 17:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BTLDGG1JfCbcJjNOZkikvC8f7AaHQJjjKAzvQey3fqs=;
+        b=YnAdcvuXVzFEKYlYf+iaNqeO54C1FKncfcUPJNMcb9fT3kuLTBm1UToeqsx0dAmz3w
+         YIU1Kk3Af0qMH7kR5YnVFhLLbyG1FR3Z7PuKnPUyVzfL3LtPVEs5BLP3+tHdHJcc8dkh
+         l1N2kRSl+QuKM3DEayZicbnVHgQqQKTjGRJgVRsV45fV5suhfQpIm/6z8LKgrYu7EnTb
+         po3Mtx06BVaoGcxu8k3H+tovzxKoKxzg5V2gf3LmWmdwGokt1y/pPUO3CsYWoZyHz63l
+         gXwoQWf3wkd+Bvcyr7Cavb1POamSpm1W8P6XR7A/XjJOGxm1XHl4rJ4c6KH/dpxj0eCc
+         dndw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BTLDGG1JfCbcJjNOZkikvC8f7AaHQJjjKAzvQey3fqs=;
+        b=K4w4GnidSTQPrAsWtnI0XJ7/K/2gyrQarNd0RssVC6kxBx+YixBtCcl9YuO6q797He
+         n7d8/h62Aibk0nL88KYLIBrDYClhkoHkD0tQWdAEIXJINIJjRH8qqc0L/sThLR2fLnNp
+         9vADgq9Pu/qxt4k+S+TKiO3Ajea7O3NFg2K5uyK26US6TKdIC3odTn4CbAMzZVqSrI8C
+         cgWa4hhcU7vty6YFQ8IEI9W1LY3s0fUJM63hu7CusRTn2H8m56T892uQAPpt8NJoInzs
+         j9iyZzJxK2qpLIEFocxralbiGistcPTNZ8h5RK5ywKAhAh5rnNMMXKW4JCWZssJ1e1Q8
+         LT3Q==
+X-Gm-Message-State: ACrzQf2iLxWow8fW3KZ7vwN+0AIwpGkc2HSmYeB+p606dtnN7ZUUyMaM
+        U0YsgHtoGfkqp1JLtm8Gm3wttTHpGIk=
+X-Google-Smtp-Source: AMsMyM4MlDLg14I1SS17xTsY8wvg4fC9kOv0osvlxi1GA2wcy5gtR5CrX6S1qEjfxC6MYC0rgq4mEg==
+X-Received: by 2002:a17:902:f710:b0:184:7a4c:fdc1 with SMTP id h16-20020a170902f71000b001847a4cfdc1mr51902574plo.27.1666918405546;
+        Thu, 27 Oct 2022 17:53:25 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:ea9a:801b:ed52:2db1])
+        by smtp.gmail.com with ESMTPSA id a17-20020a170902ecd100b00176b3d7db49sm1843475plh.0.2022.10.27.17.53.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 17:53:24 -0700 (PDT)
+Date:   Thu, 27 Oct 2022 17:53:21 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     neil.armstrong@linaro.org, Bjorn Andersson <andersson@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Gross <agross@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 06/11] dt-bindings: input: qcom,pm8921-pwrkey: convert
+ to dt-schema
+Message-ID: <Y1soAaUqIHb6+I8T@google.com>
+References: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
+ <20220928-mdm9615-dt-schema-fixes-v4-6-dac2dfaac703@linaro.org>
+ <Y1o5hYAnBuf1akJ9@google.com>
+ <e8f53c8a-2842-9e6e-75bd-e099db3fe6f3@linaro.org>
+ <68f6d58e-8b7a-1032-4a3d-c4c74b82d111@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68f6d58e-8b7a-1032-4a3d-c4c74b82d111@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+On Thu, Oct 27, 2022 at 08:43:20AM -0400, Krzysztof Kozlowski wrote:
+> On 27/10/2022 08:39, Neil Armstrong wrote:
+> > Hi,
+> > 
+> > On 27/10/2022 09:55, Dmitry Torokhov wrote:
+> >> On Fri, Oct 21, 2022 at 11:06:42AM +0200, Neil Armstrong wrote:
+> >>> Convert input/qcom,pm8xxx-pwrkey.txt to YAML, and take in account that
+> >>> the PM8921 pwrkey compatible is used as fallback for the PM8018 pwrkey.
+> >>>
+> >>> Reviewed-by: Rob Herring <robh@kernel.org>
+> >>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> >>
+> >> Should I merge this through my tree or you want all these changes to go
+> >> together through some particular tree?
+> > 
+> > I have no preference,
+> > Krzysztof will you take it and prepare a branch to Bjorn ?
+> 
+> No, I did not plan on doing it.
+> 
+> Dmitry,
+> Please grab it (assuming there are no dependencies).
 
+Applied, thank you.
 
-2022. okt=C3=B3ber 27., cs=C3=BCt=C3=B6rt=C3=B6k 23:10 keltez=C3=A9ssel, Jo=
-s=C3=A9 Exp=C3=B3sito =C3=ADrta:
-
-> [...]
-> +/**
-> + * uclogic_params_ugee_v2_has_battery() - check whether a UGEE v2 device=
- has
-> + * battery or not.
-> + * @hdev:=09The HID device of the tablet interface.
-> + *
-> + * Returns:
-> + *=09True if the device has battery, false otherwise.
-> + */
-> +static bool uclogic_params_ugee_v2_has_battery(struct hid_device *hdev)
-> +{
-> +=09/* The XP-PEN Deco LW vendor, product and version are identical to th=
-e
-> +=09 * Deco L. The only difference reported by their firmware is the prod=
-uct
-> +=09 * name. Add a quirk to support battery reporting on the wireless
-> +=09 * version.
-> +=09 */
-> +=09if (hdev->vendor =3D=3D USB_VENDOR_ID_UGEE &&
-> +=09    hdev->product =3D=3D USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L) {
-> +=09=09struct usb_device *udev =3D hid_to_usb_dev(hdev);
-> +=09=09const char *lw_name =3D "Deco LW";
-> +
-> +=09=09if (strncmp(udev->product, lw_name, strlen(lw_name)) =3D=3D 0)
-
-Please use `strstarts()` here instead.
-
-
-> +=09=09=09return true;
-> +=09}
-> +
-> +=09return false;
-> +}
-> [...]
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
+-- 
+Dmitry
