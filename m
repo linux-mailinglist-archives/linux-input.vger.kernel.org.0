@@ -2,71 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AFB7611753
-	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 18:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3FC7611776
+	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 18:23:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbiJ1QQ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Oct 2022 12:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59646 "EHLO
+        id S230183AbiJ1QXV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Oct 2022 12:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230487AbiJ1QPy (ORCPT
+        with ESMTP id S230163AbiJ1QXT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Oct 2022 12:15:54 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE1BA43AFB;
-        Fri, 28 Oct 2022 09:14:59 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id b5so5237489pgb.6;
-        Fri, 28 Oct 2022 09:14:59 -0700 (PDT)
+        Fri, 28 Oct 2022 12:23:19 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406CD1DEC19;
+        Fri, 28 Oct 2022 09:23:18 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id fy4so14115316ejc.5;
+        Fri, 28 Oct 2022 09:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TD5l30vG1rtUw0AaFjv0iTM9qtrwO/l/Nk+Ie5csbe8=;
-        b=EUrKK9bg8T1QLJ5Zj2yVqYDVvcip00wqonolJcThqUmT0naR9aUR55CTJT6UVJGnXv
-         sfoYiBTyU1uj5d7tCXKkW8UMgk5vlTw/hIPVOI862wb5bn6xwYDXKThiFtgUmYqzGS5+
-         5RzAqYlt8QS2DfOkDKr/Aq0onMabCuaC7tgbw5osXjs/dF8zcYQI69lNDWGqIBE41XW6
-         4m3WRvbmCaLx6wfG6psP2IXOqlTq1vhT2yBhOVFKZhVQhTQo5aQXLEf5Zp94AD0Ir7HR
-         mEd6BYEEX++Bu9gLItJL9fCqzTK3jn56gViic6zKaBbkhxpBcyq+oDlrLPhT/Yz+oRyz
-         mRgQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=43IXkrBvhJMjTYYaSy9C6G880H4PyNNIIiDB/uxTIJA=;
+        b=iVnAWSYn34kjfTHNy3nIZtYnYq5Tsj0LT1wqqTorR6HuhvRcB4NNohue3zuRC8UzyC
+         Fjg6bZ4T0JMde4iCl7jsd1vHper8Q0sCGSfuE9TNa4Tk8b7J1pHIp0mmAz3R8zOWS2UP
+         UBMvJgNR7Bqkm5CtpZCZ3tHafj0cJPKI2ujYNAYYiDg+MgJdIzT9gUqKKeclaEkxjDQj
+         h03hT6TzDgsK8U6fkUp8wW8bJTKq+S40YmtXEfVtbn7j0RK6yDtiahHL4/cjLbxmxC6j
+         C/EOOMK2p86GWwQtWPutLQJARG+uJpPtJiPBUtSPJ2C/0OUSDMPFF6NiaTwjDD9Ck6G7
+         mRFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TD5l30vG1rtUw0AaFjv0iTM9qtrwO/l/Nk+Ie5csbe8=;
-        b=s16RtHA3jIUIyjY0Xe5cSJRZMp33ZJwG9ae83DmQe5PVEQlToXi21dvZS2yWwRNVjl
-         cSB1x53YXZ0/h7fskklDKxloZM1ILzi6Bc4a11Rgrx4GV956qEEMHPwX/GVFwujIRm7y
-         Eq2ZgWSzVQI+F445FvwLTMQP18Vb2iHDQzXQRJBUDMxSHHnlO8sr1I4L4AeEkho6A2Bk
-         OrOshdfmrIHqSxIa9EI3vcoNzLKErJMvkZosKCaxh/YrJWQj8fXut3KGbDBe7woQpp3V
-         sdeoTow0Fb0b3dBCkFgtyCYdjio2rICJUcpEePULLpws6Qjda5LHKfUDpOWitLs2j84y
-         Ed1g==
-X-Gm-Message-State: ACrzQf06Ep2ylU6jaN+SAzyvB/gThWuw3V3CdKiXcxz5HytHCZ1rpo77
-        NmtfimGKqgeEGpg/KlrPtzg=
-X-Google-Smtp-Source: AMsMyM44iW1ux3scVaTcg0/Px0zZdci6OAaImQc97HaK4C2wibO4X0F0WOyLMkejM3ZmP5JVZdFmKA==
-X-Received: by 2002:a05:6a00:b82:b0:56c:d5bf:1019 with SMTP id g2-20020a056a000b8200b0056cd5bf1019mr3934873pfj.72.1666973698850;
-        Fri, 28 Oct 2022 09:14:58 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:ea9a:801b:ed52:2db1])
-        by smtp.gmail.com with ESMTPSA id y27-20020a63181b000000b0041cd5ddde6fsm2863268pgl.76.2022.10.28.09.14.57
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=43IXkrBvhJMjTYYaSy9C6G880H4PyNNIIiDB/uxTIJA=;
+        b=O97Vllgwo2ejvnhyumqbLjlma1QN1bWyTkvHJrj2P3azQXvcxzrOayfSp2VOgLMnR4
+         wYyV8tgtn3tMjuhNkNCc/F3o/pU3PpWZdGx5eHpfRDwvOzeCqj6TbZnaYCLvjWu8mmub
+         g9QeOJQyUmws+CP0TwO6t3FrzjJXH202pxseDrmybff4dz3gR53pyE4TFepvhQ2p1Wnk
+         bWTzw7TmY6IzMLcNDndHHTGGaH61FtDfUfJDanRRyP/EKIiKANJvRb9yUXLj83W0hAeR
+         8rx4P0vPpckhj6Z0YMxoNpFkXpN3XOVSgDivpf9pGZRoqRbHJMvkdUD1MEdZDqIml504
+         wijA==
+X-Gm-Message-State: ACrzQf0f5a15arwCOriQ8uu3OOiMS4BN9JQLaTMYOC1eoy/UAylMgmVK
+        X7WDpfltCvElVx5/0RTxows=
+X-Google-Smtp-Source: AMsMyM42XCNA5AF7L70F/2Fb1twGetD6QuXX9asJ4OFTfi/0GJPHTVVIp8/eZyCBKMm6Vp4fKgFY5g==
+X-Received: by 2002:a17:907:1dda:b0:7a6:8ffc:7dc with SMTP id og26-20020a1709071dda00b007a68ffc07dcmr121847ejc.163.1666974196606;
+        Fri, 28 Oct 2022 09:23:16 -0700 (PDT)
+Received: from eray-Lenovo-Z50-70.. ([188.132.247.187])
+        by smtp.googlemail.com with ESMTPSA id c15-20020aa7c74f000000b0043bbb3535d6sm2878090eds.66.2022.10.28.09.23.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 09:14:57 -0700 (PDT)
-Date:   Fri, 28 Oct 2022 09:14:54 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        robh+dt@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] Additional fixes for Azoteq IQS7222A/B/C
-Message-ID: <Y1v//k6MfHUd46F7@google.com>
-References: <Y1SQ2t6yUvdaIQPG@nixie71>
- <87pmectm8a.fsf@baylibre.com>
- <Y1vYM0Fe323qZupM@nixie71>
+        Fri, 28 Oct 2022 09:23:16 -0700 (PDT)
+From:   =?UTF-8?q?Eray=20Or=C3=A7unus?= <erayorcunus@gmail.com>
+To:     pobrn@protonmail.com
+Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        erayorcunus@gmail.com, hdegoede@redhat.com, ike.pan@canonical.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mgross@linux.intel.com,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 5/6] platform/x86: ideapad-laptop: Expose camera_power only if supported
+Date:   Fri, 28 Oct 2022 19:23:14 +0300
+Message-Id: <20221028162314.15490-1-erayorcunus@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <NVuCQsVF6HONw3-eRplxrMgWlvEu6AwKlrXqouYOw1FSFucZ9oprZoUeXzBCsrdzFStLjWP4DSl9wOXTe1pS19MZovS9fDmmtVuRD_prCvQ=@protonmail.com>
+References: <20221026190106.28441-1-erayorcunus@gmail.com> <20221026190106.28441-6-erayorcunus@gmail.com> <NVuCQsVF6HONw3-eRplxrMgWlvEu6AwKlrXqouYOw1FSFucZ9oprZoUeXzBCsrdzFStLjWP4DSl9wOXTe1pS19MZovS9fDmmtVuRD_prCvQ=@protonmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="xnmABysITro+lN+6"
-Content-Disposition: inline
-In-Reply-To: <Y1vYM0Fe323qZupM@nixie71>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLY,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,179 +75,106 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, 27 Oct 2022 19:43:29 +0000 Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com> wrote:
 
---xnmABysITro+lN+6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Oct 28, 2022 at 08:25:07AM -0500, Jeff LaBundy wrote:
-> Hi Mattijs,
+> Hi
 > 
-> Thank you for reaching out and helping to review this series.
 > 
-> On Fri, Oct 28, 2022 at 09:56:37AM +0200, Mattijs Korpershoek wrote:
-> > On sam., oct. 22, 2022 at 19:54, Jeff LaBundy <jeff@labundy.com> wrote:
-> > 
-> > > This series comprises a second round of fixes that result from
-> > > continued testing and updated guidance from the vendor.
-> > >
-> > > Jeff LaBundy (7):
-> > >   Input: iqs7222 - drop unused device node references
-> > >   dt-bindings: input: iqs7222: Reduce 'linux,code' to optional
-> > >   Input: iqs7222 - report malformed properties
-> > >   dt-bindings: input: iqs7222: Correct minimum slider size
-> > >   Input: iqs7222 - protect against undefined slider size
-> > >   dt-bindings: input: iqs7222: Add support for IQS7222A v1.13+
-> > >   Input: iqs7222 - add support for IQS7222A v1.13+
-> > >
-> > >  .../bindings/input/azoteq,iqs7222.yaml        |  25 +-
-> > >  drivers/input/misc/iqs7222.c                  | 504 +++++++++++-------
-> > >  2 files changed, 311 insertions(+), 218 deletions(-)
-> > 
-> > Not sure this requires a re-send, but the series seems ill-formatted.
-> > all patches are posted separately to the list instead of replying to the
-> > cover letter. Is that expected?
+> 2022. okt=C3=B3ber 26., szerda 21:01 keltez=C3=A9ssel, Eray Or=C3=A7unus =
+> =C3=ADrta:
 > 
-> Yes, this was a goof on my part. I see that the series is threaded
-> properly on Patchwork but not on lore.kernel.org.
+> > IdeaPads dropped support for VPCCMD_W_CAMERA somewhere between 2014-2016,
+> > none of the IdeaPads produced after that I tested supports it. Fortunatel=
+> y
+> > I found a way to check it; if the DSDT has camera device(s) defined, it
+> > shouldn't have working VPCCMD_W_CAMERA, thus camera_power shouldn't be
+> > exposed to sysfs. To accomplish this, walk the ACPI namespace in
+> > ideapad_check_features and check the devices starting with "CAM".
+> > Tested on 520-15IKB and Legion Y520, which successfully didn't expose
+> > the camera_power attribute.
+> >=20
+> > Link: https://www.spinics.net/lists/platform-driver-x86/msg26147.html
+> > Signed-off-by: Eray Or=C3=A7unus <erayorcunus@gmail.com>
+> > ---
+> >  drivers/platform/x86/ideapad-laptop.c | 53 ++++++++++++++++++++++++++-
+> >  1 file changed, 52 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86=
+> /ideapad-laptop.c
+> > index f3d4f2beda07..65eea2e65bbe 100644
+> > --- a/drivers/platform/x86/ideapad-laptop.c
+> > +++ b/drivers/platform/x86/ideapad-laptop.c
+> > @@ -149,6 +149,7 @@ struct ideapad_private {
+> >  =09=09bool fn_lock              : 1;
+> >  =09=09bool hw_rfkill_switch     : 1;
+> >  =09=09bool kbd_bl               : 1;
+> > +=09=09bool cam_ctrl_via_ec      : 1;
+> >  =09=09bool touchpad_ctrl_via_ec : 1;
+> >  =09=09bool usb_charging         : 1;
+> >  =09} features;
+> > @@ -163,6 +164,26 @@ static bool no_bt_rfkill;
+> >  module_param(no_bt_rfkill, bool, 0444);
+> >  MODULE_PARM_DESC(no_bt_rfkill, "No rfkill for bluetooth.");
+> >=20
+> > +static char *cam_device_prefix =3D "CAM";
+> > +
+> > +static acpi_status acpi_find_device_callback(acpi_handle handle, u32 lev=
+> el,
+> > +=09=09=09=09=09     void *context, void **return_value)
+> > +{
+> > +=09char buffer[8];
+> > +=09struct acpi_buffer ret_buf;
+> > +
+> > +=09ret_buf.length =3D sizeof(buffer);
+> > +=09ret_buf.pointer =3D buffer;
+> > +
+> > +=09if (ACPI_SUCCESS(acpi_get_name(handle, ACPI_SINGLE_NAME, &ret_buf)))
+> > +=09=09if (strncmp(ret_buf.pointer, context, strlen(context)) =3D=3D 0) {
 > 
-> Much to my dismay, my mail service recently began enforcing OAuth2
-> but declined to enable app-specific passwords as Gmail and others
-> do. I can therefore no longer use git send-email directly and I am
+> Please use `strstarts()` here. Is there any reason why you decided not to
+> simply "inline" the "CAM" string here (or even in the function call)?
 
-You can teach git to work with OAuth - I am using Gmail without
-application specific passwords. You simply need to use the credential
-helper that would give the token instead of a password.
+I may use this function to find other devices in future
+(thus the name `acpi_find_device_callback`) and I've found a code in the kernel
+which use static global initialization like that, so I decided to go for it in here.
+But now I will create the "CAM" string inline, and I will also use `strstarts()`
+(I didn't know such a function existed), thank you.
 
-I have the following in my .gitconfig:
-
-[credential]
-	helper = cache --timeout=3000
-	helper = local-helper
-
-and I am using the attached script that gets client ID and refresh token
-from the disk and generates authentication token. The script is using
-Google OAUTH library and endpoint, but since you taught mutt how to work
-with your provider you should be able to adjust it as needed.
-
-And please do not judge me for this script ;)
-
-> instead emulating it with a script that tunnels patches through mutt.
 > 
-> In this last series, my script inadvertenly dropped the '< >' from
-> the cover letter's message ID, so some mailers may see this series
-> as seven separate threads. This is fixed now.
 > 
-> That being said, I see this series was already applied earlier this
-> week; I think a mail simply did not go out. So no further action is
-> needed.
+> > +=09=09=09*return_value =3D handle;
+> > +=09=09=09return AE_CTRL_TERMINATE;
+> > +=09=09}
+> > +
+> > +=09return AE_OK;
+> > +}
+> > +
+> >  /*
+> >   * ACPI Helpers
+> >   */
+> > @@ -675,7 +696,7 @@ static umode_t ideapad_is_visible(struct kobject *kob=
+> j,
+> >  =09bool supported =3D true;
+> >=20
+> >  =09if (attr =3D=3D &dev_attr_camera_power.attr)
+> > -=09=09supported =3D test_bit(CFG_CAP_CAM_BIT, &priv->cfg);
+> > +=09=09supported =3D priv->features.cam_ctrl_via_ec;
+> >  =09else if (attr =3D=3D &dev_attr_conservation_mode.attr)
+> >  =09=09supported =3D priv->features.conservation_mode;
+> >  =09else if (attr =3D=3D &dev_attr_fan_mode.attr)
+> > @@ -1523,10 +1544,40 @@ static const struct dmi_system_id hw_rfkill_list[=
+> ] =3D {
+> >  static void ideapad_check_features(struct ideapad_private *priv)
+> >  {
+> >  =09acpi_handle handle =3D priv->adev->handle;
+> > +=09acpi_handle pci_handle;
+> > +=09acpi_handle temp_handle =3D NULL;
+> >  =09unsigned long val;
+> > +=09acpi_status status;
+> 
+> It is a small thing, but I believe it is best to define these variables
+> in the block of that `if` since they are not used outside of it.
 
-Sorry, my bad, I forgot to send the notice.
+Ok, will do in next revision, thank you.
 
-Thanks.
-
--- 
-Dmitry
-
---xnmABysITro+lN+6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=git-credential-local-helper
-
-#!/usr/bin/env python3
-
-import argparse
-import gnupg
-import os
-import sys
-from google.oauth2.credentials import Credentials as Oauth2Creds
-from google.auth.transport.requests import Request as AuthRequest
-
-def eprint(*args, **kwargs):
-    print(*args, file=sys.stderr, **kwargs)
-
-class SMTPCredential(object):
-    CONFIG_DICT = {
-        'dtor@chromium.org' : ('Chromium', False),
-        'dtor@google.com' : ('Google', False),
-        'dmitry.torokhov@gmail.com' : ('Gmail', True),
-        'dtor@kernel.org' : ('Kernel.org', False),
-    }
-
-    def __init__(self):
-        self.gpg = gnupg.GPG(gpgbinary="gpg2", use_agent=True)
-        self.data_path = os.path.expanduser('~/.mutt/passwords/')
-
-    def get_unencrypted_data(self, config_name):
-        file_name = os.path.join(self.data_path, config_name)
-        with open(file_name, 'r') as fp:
-            lines = fp.read().splitlines()
-            return next(iter(lines), None)
-
-    def get_encrypted_data(self, config_name):
-        file_name = os.path.join(self.data_path, config_name)
-        with open(file_name, 'rb') as fp:
-            crypt = self.gpg.decrypt_file(fp)
-            if crypt.ok:
-                lines = crypt.data.splitlines()
-                return next(iter(lines), None)
-
-    def get_password(self, config_name):
-        return self.get_encrypted_data(config_name)
-
-    def get_oauth2_creds(self, config_name):
-        client_id = self.get_unencrypted_data(config_name + ".oauth.client")
-        client_secret = self.get_encrypted_data(config_name + ".oauth.secret")
-        refresh_token = self.get_encrypted_data(config_name + ".oauth.refresh")
-        if client_id and client_secret and refresh_token:
-            return Oauth2Creds(None,
-                               refresh_token=refresh_token,
-                               token_uri='https://oauth2.googleapis.com/token',
-                               client_id=client_id,
-                               client_secret=client_secret)
-
-    def get_oauth2_token(self, config_name):
-        creds = self.get_oauth2_creds(config_name)
-        if creds:
-            creds.refresh(AuthRequest())
-            return creds.token
-
-    def get(self, username, **kwargs):
-        (name, oauth2) = self.CONFIG_DICT[username]
-        secret = self.get_oauth2_token(name) if oauth2 \
-                 else self.get_password(name)
-        if secret:
-            print("password={0}".format(secret))
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('operation', action="store", type=str,
-            help="Git action to be performed (get|store|erase)")
-    # parse all arguments
-    arguments = parser.parse_args()
-
-    myvars = {}
-    for line in sys.stdin:
-        name, val = line.partition("=")[::2]
-        myvars[name.strip()] = val.strip()
-
-    if arguments.operation == "get":
-        try:
-            protocol = myvars.pop('protocol')
-            username = myvars.pop('username')
-            cred_class = globals()[protocol.upper() + "Credential"]
-            cred = cred_class()
-            cred.get(username, **myvars)
-        except:
-            eprint("Failed to get credential")
-            raise
-    elif arguments.operation == "store":
-        pass
-    elif arguments.operation == "erase":
-        pass
-    else:
-        eprint("Invalid git operation")
-
-if __name__ == "__main__":
-    main()
-
---xnmABysITro+lN+6--
+-eray
