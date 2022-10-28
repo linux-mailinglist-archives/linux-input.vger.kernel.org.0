@@ -2,95 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92516610BB4
-	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 09:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03392610C14
+	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 10:19:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbiJ1H4m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Oct 2022 03:56:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
+        id S229536AbiJ1ITp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Oct 2022 04:19:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbiJ1H4l (ORCPT
+        with ESMTP id S229456AbiJ1ITn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Oct 2022 03:56:41 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF5E1C2E81
-        for <linux-input@vger.kernel.org>; Fri, 28 Oct 2022 00:56:40 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id h9so5951677wrt.0
-        for <linux-input@vger.kernel.org>; Fri, 28 Oct 2022 00:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qlSi8PH3eVeYd3bX9Ru0Pui06IajHpzfRcMdACEVQ8A=;
-        b=gsq80RuFrk+xdyjHYrHlXn+MFPYfTkRIH6hTt9rPAcQypDp+mR1lZ+B09Ei+JVobqI
-         CzjGNLquWCFM6D6NKYtfMW/q7zukGKyaZWkmvzpHjzdYMy3wLn2p+y93RKqeSIpdCG7k
-         7a1/Pq0RMD12qQIBOjnL6kPPswn4MiUlYXxBJ92tr1b6uQHpAjzkobkbrl63JCmPjXF0
-         ALjiGqbLb77qH1xjLz9HS+jj5QLhf+fFaA8mSOATKotwCIIAKMQTJpS6a92sizyCAZjr
-         Lx73WNGh4NUM3jRg2EbMZ6CqKzsVpHMfOcbBwzMP3vmP2rZmwsXtCIK3WwAbg09PaJp5
-         Dy3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qlSi8PH3eVeYd3bX9Ru0Pui06IajHpzfRcMdACEVQ8A=;
-        b=T53E2TTi8R7Svq7kcZ4WAcIH0QvriSdbqQjMvaOBgY1mozqQ0F71V+Q8scHkpkPwnF
-         7rmT/1/XG+GEl67bCIy867T7O/SiX7oavuAcjPaorrPmelp9TMRhzCsrqB1AX2SH+0+G
-         SOK6J7xoK87eVWrLXunoKJ8jdo6ppqF49cLRAMvWMrJkmuFand6fyOlASIOvhQtZMGVv
-         BykmYWp3kHb1duapr7/AsmQiHXzbcZRFOCfG6VxMIuZWgwBzaPjTLF4ZznlcbrBbnZnP
-         Xfx5pE5OJHFttE0KxgLb4jEmtnugXB0xwECQCbgvWkfBJtVfS7hdX7RuyAcTmf+f+4NT
-         WL6Q==
-X-Gm-Message-State: ACrzQf1LjSJRF92TttdPUveac6yhcjFhXpleAIamGO8i+EoQLt4KJJ0e
-        7zb0rWY3r8dgl7RXpIi5RZO08Q==
-X-Google-Smtp-Source: AMsMyM6AoDUdwOvmMCKifPvi+YQKGqXFkn7HNJguNAI3aN8Lviu6GyuDycuD5fjuPprP6Jd+yTI6ow==
-X-Received: by 2002:a05:6000:3cf:b0:231:6ed6:e978 with SMTP id b15-20020a05600003cf00b002316ed6e978mr33607533wrg.500.1666943798821;
-        Fri, 28 Oct 2022 00:56:38 -0700 (PDT)
-Received: from localhost ([2a01:cb19:85e6:1900:98b2:dc79:fe90:6dad])
-        by smtp.gmail.com with ESMTPSA id f13-20020adff8cd000000b00228692033dcsm3011649wrq.91.2022.10.28.00.56.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 00:56:38 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Jeff LaBundy <jeff@labundy.com>, dmitry.torokhov@gmail.com,
-        robh+dt@kernel.org
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        jeff@labundy.com
-Subject: Re: [PATCH v3 0/7] Additional fixes for Azoteq IQS7222A/B/C
-In-Reply-To: <Y1SQ2t6yUvdaIQPG@nixie71>
-References: <Y1SQ2t6yUvdaIQPG@nixie71>
-Date:   Fri, 28 Oct 2022 09:56:37 +0200
-Message-ID: <87pmectm8a.fsf@baylibre.com>
+        Fri, 28 Oct 2022 04:19:43 -0400
+X-Greylist: delayed 531 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Oct 2022 01:19:39 PDT
+Received: from mail.slidebizcompany.com (mail.slidebizcompany.com [135.125.235.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C46FFF0D
+        for <linux-input@vger.kernel.org>; Fri, 28 Oct 2022 01:19:38 -0700 (PDT)
+Received: by mail.slidebizcompany.com (Postfix, from userid 1002)
+        id 91CB9A2CF6; Fri, 28 Oct 2022 08:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=slidebizcompany.com;
+        s=mail; t=1666944645;
+        bh=f01OOv7iZ6eKP39nAJoyJ+/Cmpugf6hkYKbYNn4lotU=;
+        h=Date:From:To:Subject:From;
+        b=zKaDlkMonhZaihu9S+LdpJyeRTTH8trxo/2LddEYHmWv36foU4lyOhvZK+bl3zKCA
+         XXa6d0wUxUVbunb/MjiQWY+I8/CIeHgCufTRZt786KiyPoCzYhuGT7GYBx22vCURCj
+         GswRDb5B4Q3WOGtIGibGS4scgLbH2yeb0yP7IInCAnHOzWOV9NZtvao700pjAIYUCH
+         CJl92p0+sLqd3PIrhXQT0aSi6jBT30o9Yi8YpN/DZqCGa+mB+Lfh8eUHSNu98kKz92
+         Ofhg416GrszPfwBFUkdjivelFm4y32Ui0/HaCSugnzn3USvr/I4gh/eeKupk6w3hq8
+         srBHdigweph4w==
+Received: by mail.slidebizcompany.com for <linux-input@vger.kernel.org>; Fri, 28 Oct 2022 08:10:16 GMT
+Message-ID: <20221028064500-0.1.3v.1e4ri.0.nwu2naiy6l@slidebizcompany.com>
+Date:   Fri, 28 Oct 2022 08:10:16 GMT
+From:   "Miguel Garcia" <miguel.garcia@slidebizcompany.com>
+To:     <linux-input@vger.kernel.org>
+Subject: Servicio de la flota
+X-Mailer: mail.slidebizcompany.com
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On sam., oct. 22, 2022 at 19:54, Jeff LaBundy <jeff@labundy.com> wrote:
+Buenos d=C3=ADas:
 
-> This series comprises a second round of fixes that result from
-> continued testing and updated guidance from the vendor.
->
-> Jeff LaBundy (7):
->   Input: iqs7222 - drop unused device node references
->   dt-bindings: input: iqs7222: Reduce 'linux,code' to optional
->   Input: iqs7222 - report malformed properties
->   dt-bindings: input: iqs7222: Correct minimum slider size
->   Input: iqs7222 - protect against undefined slider size
->   dt-bindings: input: iqs7222: Add support for IQS7222A v1.13+
->   Input: iqs7222 - add support for IQS7222A v1.13+
->
->  .../bindings/input/azoteq,iqs7222.yaml        |  25 +-
->  drivers/input/misc/iqs7222.c                  | 504 +++++++++++-------
->  2 files changed, 311 insertions(+), 218 deletions(-)
+Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
+mercado.
 
-Not sure this requires a re-send, but the series seems ill-formatted.
-all patches are posted separately to the list instead of replying to the
-cover letter. Is that expected?
+La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
+uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
+e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
+iciente.
 
->
-> -- 
-> 2.34.1
+=C2=BFQuiere conocer los detalles?
+
+
+Atentamente,
+Miguel Garcia
