@@ -2,179 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3FC7611776
-	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 18:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D17726119D9
+	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 20:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230183AbiJ1QXV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Oct 2022 12:23:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48664 "EHLO
+        id S229588AbiJ1SDx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Oct 2022 14:03:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230163AbiJ1QXT (ORCPT
+        with ESMTP id S229500AbiJ1SDv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Oct 2022 12:23:19 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406CD1DEC19;
-        Fri, 28 Oct 2022 09:23:18 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id fy4so14115316ejc.5;
-        Fri, 28 Oct 2022 09:23:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=43IXkrBvhJMjTYYaSy9C6G880H4PyNNIIiDB/uxTIJA=;
-        b=iVnAWSYn34kjfTHNy3nIZtYnYq5Tsj0LT1wqqTorR6HuhvRcB4NNohue3zuRC8UzyC
-         Fjg6bZ4T0JMde4iCl7jsd1vHper8Q0sCGSfuE9TNa4Tk8b7J1pHIp0mmAz3R8zOWS2UP
-         UBMvJgNR7Bqkm5CtpZCZ3tHafj0cJPKI2ujYNAYYiDg+MgJdIzT9gUqKKeclaEkxjDQj
-         h03hT6TzDgsK8U6fkUp8wW8bJTKq+S40YmtXEfVtbn7j0RK6yDtiahHL4/cjLbxmxC6j
-         C/EOOMK2p86GWwQtWPutLQJARG+uJpPtJiPBUtSPJ2C/0OUSDMPFF6NiaTwjDD9Ck6G7
-         mRFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=43IXkrBvhJMjTYYaSy9C6G880H4PyNNIIiDB/uxTIJA=;
-        b=O97Vllgwo2ejvnhyumqbLjlma1QN1bWyTkvHJrj2P3azQXvcxzrOayfSp2VOgLMnR4
-         wYyV8tgtn3tMjuhNkNCc/F3o/pU3PpWZdGx5eHpfRDwvOzeCqj6TbZnaYCLvjWu8mmub
-         g9QeOJQyUmws+CP0TwO6t3FrzjJXH202pxseDrmybff4dz3gR53pyE4TFepvhQ2p1Wnk
-         bWTzw7TmY6IzMLcNDndHHTGGaH61FtDfUfJDanRRyP/EKIiKANJvRb9yUXLj83W0hAeR
-         8rx4P0vPpckhj6Z0YMxoNpFkXpN3XOVSgDivpf9pGZRoqRbHJMvkdUD1MEdZDqIml504
-         wijA==
-X-Gm-Message-State: ACrzQf0f5a15arwCOriQ8uu3OOiMS4BN9JQLaTMYOC1eoy/UAylMgmVK
-        X7WDpfltCvElVx5/0RTxows=
-X-Google-Smtp-Source: AMsMyM42XCNA5AF7L70F/2Fb1twGetD6QuXX9asJ4OFTfi/0GJPHTVVIp8/eZyCBKMm6Vp4fKgFY5g==
-X-Received: by 2002:a17:907:1dda:b0:7a6:8ffc:7dc with SMTP id og26-20020a1709071dda00b007a68ffc07dcmr121847ejc.163.1666974196606;
-        Fri, 28 Oct 2022 09:23:16 -0700 (PDT)
-Received: from eray-Lenovo-Z50-70.. ([188.132.247.187])
-        by smtp.googlemail.com with ESMTPSA id c15-20020aa7c74f000000b0043bbb3535d6sm2878090eds.66.2022.10.28.09.23.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 09:23:16 -0700 (PDT)
-From:   =?UTF-8?q?Eray=20Or=C3=A7unus?= <erayorcunus@gmail.com>
-To:     pobrn@protonmail.com
-Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
-        erayorcunus@gmail.com, hdegoede@redhat.com, ike.pan@canonical.com,
-        jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mgross@linux.intel.com,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 5/6] platform/x86: ideapad-laptop: Expose camera_power only if supported
-Date:   Fri, 28 Oct 2022 19:23:14 +0300
-Message-Id: <20221028162314.15490-1-erayorcunus@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <NVuCQsVF6HONw3-eRplxrMgWlvEu6AwKlrXqouYOw1FSFucZ9oprZoUeXzBCsrdzFStLjWP4DSl9wOXTe1pS19MZovS9fDmmtVuRD_prCvQ=@protonmail.com>
-References: <20221026190106.28441-1-erayorcunus@gmail.com> <20221026190106.28441-6-erayorcunus@gmail.com> <NVuCQsVF6HONw3-eRplxrMgWlvEu6AwKlrXqouYOw1FSFucZ9oprZoUeXzBCsrdzFStLjWP4DSl9wOXTe1pS19MZovS9fDmmtVuRD_prCvQ=@protonmail.com>
+        Fri, 28 Oct 2022 14:03:51 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A86821128D
+        for <linux-input@vger.kernel.org>; Fri, 28 Oct 2022 11:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666980230; x=1698516230;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rGRH7fKm7eC9oI5KIZut83ZjExedAhFfJzhIvMrUQW8=;
+  b=Yz4TfWAsXSKxZAvN6oMqMnIxRd7v1BVGhn6F6lkm73M6NyhMnge0WsRb
+   /eLjWy2t2cQc+CJ1uAZjhHI/jeDfWvYh59qkz4/wGRkaBDfF7OiLjEaTW
+   KJXRKfWJizJp64a0AGUqrRx+nWWR3eIAsiFvSJpaw2/E4J44DNOVYlOfT
+   8x5rg7PSJwael2bBGSykKlxupyypQaSgNFuwK953LpcUMcnCzQhBaa/wQ
+   JQq1BCZ8fqcEkFpdYF/VRdl4BSdiEoWnVJTCZvCTOtoZq107W1N6shey5
+   1dMEZlcRCdYfJ2Kjyim1ZVIoz5oJjVQ+VHPc/4IXttz9JLdlzJ603NhRI
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="372766727"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="372766727"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 11:03:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="584004789"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="584004789"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 28 Oct 2022 11:03:48 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ooThr-000A7G-2c;
+        Fri, 28 Oct 2022 18:03:47 +0000
+Date:   Sat, 29 Oct 2022 02:03:44 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:tmp-gpiolib-of-quirks] BUILD REGRESSION
+ 1c47bdc8ffacb79e05472c796f4da7daf8389eab
+Message-ID: <635c1980.5ELU0hAoxwzKCHOp%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 27 Oct 2022 19:43:29 +0000 Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com> wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tmp-gpiolib-of-quirks
+branch HEAD: 1c47bdc8ffacb79e05472c796f4da7daf8389eab  ASoC: tlv320aic32x4: switch to using gpiod API
 
-> Hi
-> 
-> 
-> 2022. okt=C3=B3ber 26., szerda 21:01 keltez=C3=A9ssel, Eray Or=C3=A7unus =
-> =C3=ADrta:
-> 
-> > IdeaPads dropped support for VPCCMD_W_CAMERA somewhere between 2014-2016,
-> > none of the IdeaPads produced after that I tested supports it. Fortunatel=
-> y
-> > I found a way to check it; if the DSDT has camera device(s) defined, it
-> > shouldn't have working VPCCMD_W_CAMERA, thus camera_power shouldn't be
-> > exposed to sysfs. To accomplish this, walk the ACPI namespace in
-> > ideapad_check_features and check the devices starting with "CAM".
-> > Tested on 520-15IKB and Legion Y520, which successfully didn't expose
-> > the camera_power attribute.
-> >=20
-> > Link: https://www.spinics.net/lists/platform-driver-x86/msg26147.html
-> > Signed-off-by: Eray Or=C3=A7unus <erayorcunus@gmail.com>
-> > ---
-> >  drivers/platform/x86/ideapad-laptop.c | 53 ++++++++++++++++++++++++++-
-> >  1 file changed, 52 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86=
-> /ideapad-laptop.c
-> > index f3d4f2beda07..65eea2e65bbe 100644
-> > --- a/drivers/platform/x86/ideapad-laptop.c
-> > +++ b/drivers/platform/x86/ideapad-laptop.c
-> > @@ -149,6 +149,7 @@ struct ideapad_private {
-> >  =09=09bool fn_lock              : 1;
-> >  =09=09bool hw_rfkill_switch     : 1;
-> >  =09=09bool kbd_bl               : 1;
-> > +=09=09bool cam_ctrl_via_ec      : 1;
-> >  =09=09bool touchpad_ctrl_via_ec : 1;
-> >  =09=09bool usb_charging         : 1;
-> >  =09} features;
-> > @@ -163,6 +164,26 @@ static bool no_bt_rfkill;
-> >  module_param(no_bt_rfkill, bool, 0444);
-> >  MODULE_PARM_DESC(no_bt_rfkill, "No rfkill for bluetooth.");
-> >=20
-> > +static char *cam_device_prefix =3D "CAM";
-> > +
-> > +static acpi_status acpi_find_device_callback(acpi_handle handle, u32 lev=
-> el,
-> > +=09=09=09=09=09     void *context, void **return_value)
-> > +{
-> > +=09char buffer[8];
-> > +=09struct acpi_buffer ret_buf;
-> > +
-> > +=09ret_buf.length =3D sizeof(buffer);
-> > +=09ret_buf.pointer =3D buffer;
-> > +
-> > +=09if (ACPI_SUCCESS(acpi_get_name(handle, ACPI_SINGLE_NAME, &ret_buf)))
-> > +=09=09if (strncmp(ret_buf.pointer, context, strlen(context)) =3D=3D 0) {
-> 
-> Please use `strstarts()` here. Is there any reason why you decided not to
-> simply "inline" the "CAM" string here (or even in the function call)?
+Error/Warning reports:
 
-I may use this function to find other devices in future
-(thus the name `acpi_find_device_callback`) and I've found a code in the kernel
-which use static global initialization like that, so I decided to go for it in here.
-But now I will create the "CAM" string inline, and I will also use `strstarts()`
-(I didn't know such a function existed), thank you.
+https://lore.kernel.org/oe-kbuild-all/202210271750.BWb6m6Ea-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202210272003.lma6nxlm-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202210280222.12tylowe-lkp@intel.com
 
-> 
-> 
-> > +=09=09=09*return_value =3D handle;
-> > +=09=09=09return AE_CTRL_TERMINATE;
-> > +=09=09}
-> > +
-> > +=09return AE_OK;
-> > +}
-> > +
-> >  /*
-> >   * ACPI Helpers
-> >   */
-> > @@ -675,7 +696,7 @@ static umode_t ideapad_is_visible(struct kobject *kob=
-> j,
-> >  =09bool supported =3D true;
-> >=20
-> >  =09if (attr =3D=3D &dev_attr_camera_power.attr)
-> > -=09=09supported =3D test_bit(CFG_CAP_CAM_BIT, &priv->cfg);
-> > +=09=09supported =3D priv->features.cam_ctrl_via_ec;
-> >  =09else if (attr =3D=3D &dev_attr_conservation_mode.attr)
-> >  =09=09supported =3D priv->features.conservation_mode;
-> >  =09else if (attr =3D=3D &dev_attr_fan_mode.attr)
-> > @@ -1523,10 +1544,40 @@ static const struct dmi_system_id hw_rfkill_list[=
-> ] =3D {
-> >  static void ideapad_check_features(struct ideapad_private *priv)
-> >  {
-> >  =09acpi_handle handle =3D priv->adev->handle;
-> > +=09acpi_handle pci_handle;
-> > +=09acpi_handle temp_handle =3D NULL;
-> >  =09unsigned long val;
-> > +=09acpi_status status;
-> 
-> It is a small thing, but I believe it is best to define these variables
-> in the block of that `if` since they are not used outside of it.
+Error/Warning: (recently discovered and may have been fixed)
 
-Ok, will do in next revision, thank you.
+drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c:505:38: error: 'struct panel_drv_data' has no member named 'reset'
+sound/soc/codecs/wcd938x.c:4043:15: error: variable 'wcd_irq_chip' has initializer but incomplete type
+sound/soc/codecs/wcd938x.c:4043:24: error: storage size of 'wcd_irq_chip' isn't known
+sound/soc/codecs/wcd938x.c:4044:10: error: 'struct irq_chip' has no member named 'name'
+sound/soc/codecs/wcd938x.c:4044:17: warning: excess elements in struct initializer
+sound/soc/codecs/wcd938x.c:4050:55: error: 'handle_simple_irq' undeclared (first use in this function)
+sound/soc/codecs/wcd938x.c:4050:9: error: implicit declaration of function 'irq_set_chip_and_handler' [-Werror=implicit-function-declaration]
+sound/soc/codecs/wcd938x.c:4051:9: error: implicit declaration of function 'irq_set_nested_thread' [-Werror=implicit-function-declaration]
+sound/soc/codecs/wcd938x.c:4052:9: error: implicit declaration of function 'irq_set_noprobe' [-Werror=implicit-function-declaration]
 
--eray
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- i386-allyesconfig
+|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
+|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
+|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
+|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
+|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
+|-- s390-allyesconfig
+|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
+|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
+|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
+|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
+|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
+|-- sh-allmodconfig
+|   `-- drivers-video-fbdev-omap2-omapfb-displays-panel-tpo-td043mtea1.c:error:struct-panel_drv_data-has-no-member-named-reset
+|-- sparc-allyesconfig
+|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
+|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
+|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
+|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
+|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
+|-- x86_64-allmodconfig
+|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
+|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
+|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
+|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
+|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
+|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
+`-- x86_64-allyesconfig
+    |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
+    |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
+    |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
+    |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
+    |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
+    |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
+    |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
+    `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
+
+elapsed time: 726m
+
+configs tested: 58
+configs skipped: 2
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+i386                                defconfig
+arc                                 defconfig
+s390                             allmodconfig
+alpha                               defconfig
+x86_64                        randconfig-a002
+m68k                             allmodconfig
+x86_64                               rhel-8.3
+arc                              allyesconfig
+powerpc                           allnoconfig
+x86_64                           allyesconfig
+x86_64                        randconfig-a013
+x86_64                           rhel-8.3-kvm
+s390                                defconfig
+x86_64                         rhel-8.3-kunit
+s390                             allyesconfig
+arc                  randconfig-r043-20221027
+x86_64                        randconfig-a011
+x86_64                           rhel-8.3-syz
+ia64                             allmodconfig
+x86_64                        randconfig-a015
+arm                                 defconfig
+alpha                            allyesconfig
+x86_64                        randconfig-a006
+i386                             allyesconfig
+x86_64                          rhel-8.3-func
+x86_64                        randconfig-a004
+m68k                             allyesconfig
+x86_64                    rhel-8.3-kselftests
+i386                          randconfig-a001
+sh                               allmodconfig
+powerpc                          allmodconfig
+i386                          randconfig-a003
+mips                             allyesconfig
+i386                          randconfig-a005
+i386                          randconfig-a014
+arm                              allyesconfig
+i386                          randconfig-a012
+i386                          randconfig-a016
+arm64                            allyesconfig
+
+clang tested configs:
+x86_64                        randconfig-a014
+x86_64                        randconfig-a012
+x86_64                        randconfig-a016
+x86_64                        randconfig-a001
+hexagon              randconfig-r045-20221027
+s390                 randconfig-r044-20221027
+x86_64                        randconfig-a003
+riscv                randconfig-r042-20221027
+x86_64                        randconfig-a005
+hexagon              randconfig-r041-20221027
+i386                          randconfig-a013
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a011
+i386                          randconfig-a006
+i386                          randconfig-a015
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
