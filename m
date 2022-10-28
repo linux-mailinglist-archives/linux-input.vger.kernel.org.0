@@ -2,275 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CF0F610C1F
-	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 10:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E9D661120C
+	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 14:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbiJ1IYV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Oct 2022 04:24:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39884 "EHLO
+        id S229842AbiJ1M6n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Oct 2022 08:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbiJ1IYU (ORCPT
+        with ESMTP id S230131AbiJ1M6l (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Oct 2022 04:24:20 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FDA01A910B;
-        Fri, 28 Oct 2022 01:24:17 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id bp11so5967778wrb.9;
-        Fri, 28 Oct 2022 01:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UA56Mr5eWDjoCMJrOIJHr/TFK+0C4nc1jCQBHOTppyI=;
-        b=km3iE5zCvQUty2zCCys6EoNZXIH4f5FMu0H+hQHuXw816PyRxLmb0VTOTrwxRQpCHQ
-         MFQoGMHRA1zWiW7KcjIylL9DSSDWz2GKbk4cX94pI2chzYMLHji16EIDmoy3QFK0X7f+
-         rSA2KRTs0GhB1aKorQ9Ee5aKfKshejmugrP6Kz18HrjlGc2p4q4gSpnsa9rk6lQP3Yid
-         tY5IWywx7nLiKv9EncZnmlsT8VEeP/13WqlIWAScqZxuRKqfpTjBC+QSqPbUvGG67OMa
-         GPZrre1ZJw/dnwl1CD5zIXFtPW6ThZC8w3eX5bY0jD6v6mFCceQYEir+NAQWsrGyyq+9
-         8SXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UA56Mr5eWDjoCMJrOIJHr/TFK+0C4nc1jCQBHOTppyI=;
-        b=629AedF+32eJl5wm+qeBGNtvzG/P9JyjxjdPxuPwcjbGqYe7MZ5JjMikMALmL5Wlba
-         K3IzuJu92B+c97LQ9Lm4hJWGtpIPXrVGAopGlG/YPUNsVeCYFrP/8qJskbdZsRyU2UDa
-         ne+dyokb03jxExI2vYE7tF4bnbpOWCkjhFBxAmdkxZEwTbs+tDOTjU647qE6yKrJQgJp
-         ipzeqdMQ4DpvpB0E1GBhKD/Otq0qzxDNlAx6SHF5p4Y6UFRwZxbABE7xOEltM4CQg2Zb
-         b9ZdIoLBZ4L6EiRyDvK6rrmhTuI5fxscBiBL5E8EwsMvoLAe+KvXU/hpxnIyuAL2sMAB
-         zaeA==
-X-Gm-Message-State: ACrzQf25oVKJ6WBrJPK+hwb4D43KQcs7lHG56hx7gz365ARcoxvEXsOt
-        3GBUYLuG5rsEzmK7PrrNLT4=
-X-Google-Smtp-Source: AMsMyM6fFUU82reVQx2S0RM3OQPbIRdRP40/eADeZjqhVdnCdSpmuup6A8vY2aHMZAxaZ+gCyU7Q4Q==
-X-Received: by 2002:adf:e7c8:0:b0:236:6a30:cb2e with SMTP id e8-20020adfe7c8000000b002366a30cb2emr18924037wrn.12.1666945455447;
-        Fri, 28 Oct 2022 01:24:15 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.35.109])
-        by smtp.gmail.com with ESMTPSA id p28-20020a05600c1d9c00b003cf55844453sm3165254wms.22.2022.10.28.01.24.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 01:24:14 -0700 (PDT)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        pobrn@protonmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Mia Kanashi <chad@redpilled.dev>,
-        Andreas Grosse <andig.mail@t-online.de>
-Subject: [PATCH v2] HID: uclogic: Add support for XP-PEN Deco LW
-Date:   Fri, 28 Oct 2022 10:23:48 +0200
-Message-Id: <20221028082348.22386-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 28 Oct 2022 08:58:41 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A2D91D29BE
+        for <linux-input@vger.kernel.org>; Fri, 28 Oct 2022 05:58:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666961921; x=1698497921;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fGHQ5mdgCFHpDQjwX7hKvbm7k3vSQ7OPCEjwev2jXxs=;
+  b=C4K8/sqGA0inBvJHDzTgX1higyk4Q1EMTyRN9d1aTXljico9OXVH9KcN
+   nP1al/A0NDrvE94gpn5Cm2ku2uk/Nl3wTAwOLEq8NNT3iPvJ6t7iPwArK
+   TCa76hirsazn1xwkmRyBmtfo2gau8T0xs38hIT1vJRulD/KsjMke79o08
+   p6RlaBaQA1XeDfyd9BZqYD4q/HoASAVZ/FeeM7fW+3/popNSSd2v1c40s
+   VAxadbUsyrvzNjZx0X8Wh2OAgYcgxsif30CIt+00xfpIHRXac4XgB0gSQ
+   tE7Hr6mgWpFq3cq3tlKkp0wlo4awmDEIzeS/VWhfjwg3CHeRGnhxpyeQZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="307209265"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="307209265"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 05:58:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="696209818"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="696209818"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 28 Oct 2022 05:58:39 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ooOwZ-0009vL-0K;
+        Fri, 28 Oct 2022 12:58:39 +0000
+Date:   Fri, 28 Oct 2022 20:58:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD REGRESSION
+ 8deb2ff9f756dad75851039c88afad7a0e1fd666
+Message-ID: <635bd1ef.xA9vq1rYMJ6XKPe6%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The XP-PEN Deco LW is a UGEE v2 device with a frame with 8 buttons.
-Its pen has 2 buttons, supports tilt and pressure.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 8deb2ff9f756dad75851039c88afad7a0e1fd666  dt-bindings: input: qcom,pm8921-pwrkey: convert to dt-schema
 
-It can be connected by USB cable or using a USB Bluetooth dongle to use
-it in wireless mode. When it is connected using the dongle, the device
-battery is used to power it.
+Error/Warning: (recently discovered and may have been fixed)
 
-Its vendor, product and version are identical to the Deco L. The only
-difference reported by its firmware is the product name.
-In order to add support for battery reporting, add a new HID descriptor
-and a quirk to detect the wireless version of the tablet.
+arch/arm/mach-s3c/mach-crag6410.c:183:19: error: 'KEY_VOLUMEUP' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:184:19: error: 'KEY_HOME' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:185:19: error: 'KEY_VOLUMEDOWN' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:186:19: error: 'KEY_HELP' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:187:19: error: 'KEY_MENU' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:188:19: error: 'KEY_MEDIA' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:190:19: error: 'KEY_DOWN' undeclared here (not in a function); did you mean 'KEY_ROW'?
+arch/arm/mach-s3c/mach-crag6410.c:191:19: error: 'KEY_LEFT' undeclared here (not in a function); did you mean 'KERN_ALERT'?
+arch/arm/mach-s3c/mach-crag6410.c:192:19: error: 'KEY_UP' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:193:19: error: 'KEY_RIGHT' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:194:19: error: 'KEY_CAMERA' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:210:27: error: 'KEY_SUSPEND' undeclared here (not in a function); did you mean 'PMSG_SUSPEND'?
+arch/arm/mach-s3c/mach-crag6410.c:212:27: error: 'EV_KEY' undeclared here (not in a function); did you mean 'PF_KEY'?
+arch/arm/mach-s3c/mach-crag6410.c:217:27: error: 'SW_FRONT_PROXIMITY' undeclared here (not in a function)
+arch/arm/mach-s3c/mach-crag6410.c:219:27: error: 'EV_SW' undeclared here (not in a function)
 
-Link: https://github.com/DIGImend/digimend-kernel-drivers/issues/635
-Tested-by: Mia Kanashi <chad@redpilled.dev>
-Tested-by: Andreas Grosse <andig.mail@t-online.de>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Error/Warning ids grouped by kconfigs:
 
----
+gcc_recent_errors
+`-- arm-allyesconfig
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:EV_KEY-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:EV_SW-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_CAMERA-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_DOWN-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_HELP-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_HOME-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_LEFT-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_MEDIA-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_MENU-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_RIGHT-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_SUSPEND-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_UP-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_VOLUMEDOWN-undeclared-here-(not-in-a-function)
+    |-- arch-arm-mach-s3c-mach-crag6410.c:error:KEY_VOLUMEUP-undeclared-here-(not-in-a-function)
+    `-- arch-arm-mach-s3c-mach-crag6410.c:error:SW_FRONT_PROXIMITY-undeclared-here-(not-in-a-function)
 
-v1 -> v2: https://lore.kernel.org/linux-input/20221028081656.GA19766@elementary/T/
+elapsed time: 720m
 
- - Barnabás Pőcze: Use strstarts() instead of a custom implementation
----
- drivers/hid/hid-uclogic-params.c | 73 ++++++++++++++++++++++++++++++++
- drivers/hid/hid-uclogic-rdesc.c  | 34 +++++++++++++++
- drivers/hid/hid-uclogic-rdesc.h  |  7 +++
- 3 files changed, 114 insertions(+)
+configs tested: 70
+configs skipped: 2
 
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index 34fa991e6267..cd1233d7e253 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -18,6 +18,7 @@
- #include "usbhid/usbhid.h"
- #include "hid-ids.h"
- #include <linux/ctype.h>
-+#include <linux/string.h>
- #include <asm/unaligned.h>
- 
- /**
-@@ -1211,6 +1212,69 @@ static int uclogic_params_ugee_v2_init_frame_mouse(struct uclogic_params *p)
- 	return rc;
- }
- 
-+/**
-+ * uclogic_params_ugee_v2_has_battery() - check whether a UGEE v2 device has
-+ * battery or not.
-+ * @hdev:	The HID device of the tablet interface.
-+ *
-+ * Returns:
-+ *	True if the device has battery, false otherwise.
-+ */
-+static bool uclogic_params_ugee_v2_has_battery(struct hid_device *hdev)
-+{
-+	/* The XP-PEN Deco LW vendor, product and version are identical to the
-+	 * Deco L. The only difference reported by their firmware is the product
-+	 * name. Add a quirk to support battery reporting on the wireless
-+	 * version.
-+	 */
-+	if (hdev->vendor == USB_VENDOR_ID_UGEE &&
-+	    hdev->product == USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L) {
-+		struct usb_device *udev = hid_to_usb_dev(hdev);
-+
-+		if (strstarts(udev->product, "Deco LW"))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+/**
-+ * uclogic_params_ugee_v2_init_battery() - initialize UGEE v2 battery reporting.
-+ * @hdev:	The HID device of the tablet interface, cannot be NULL.
-+ * @p:		Parameters to fill in, cannot be NULL.
-+ *
-+ * Returns:
-+ *	Zero, if successful. A negative errno code on error.
-+ */
-+static int uclogic_params_ugee_v2_init_battery(struct hid_device *hdev,
-+					       struct uclogic_params *p)
-+{
-+	int rc = 0;
-+
-+	if (!hdev || !p)
-+		return -EINVAL;
-+
-+	/* Some tablets contain invalid characters in hdev->uniq, throwing a
-+	 * "hwmon: '<name>' is not a valid name attribute, please fix" error.
-+	 * Use the device vendor and product IDs instead.
-+	 */
-+	snprintf(hdev->uniq, sizeof(hdev->uniq), "%x-%x", hdev->vendor,
-+		 hdev->product);
-+
-+	rc = uclogic_params_frame_init_with_desc(&p->frame_list[1],
-+						 uclogic_rdesc_ugee_v2_battery_template_arr,
-+						 uclogic_rdesc_ugee_v2_battery_template_size,
-+						 UCLOGIC_RDESC_UGEE_V2_BATTERY_ID);
-+	if (rc)
-+		return rc;
-+
-+	p->frame_list[1].suffix = "Battery";
-+	p->pen.subreport_list[1].value = 0xf2;
-+	p->pen.subreport_list[1].id = UCLOGIC_RDESC_UGEE_V2_BATTERY_ID;
-+
-+	return rc;
-+}
-+
- /**
-  * uclogic_params_ugee_v2_init() - initialize a UGEE graphics tablets by
-  * discovering their parameters.
-@@ -1334,6 +1398,15 @@ static int uclogic_params_ugee_v2_init(struct uclogic_params *params,
- 	if (rc)
- 		goto cleanup;
- 
-+	/* Initialize the battery interface*/
-+	if (uclogic_params_ugee_v2_has_battery(hdev)) {
-+		rc = uclogic_params_ugee_v2_init_battery(hdev, &p);
-+		if (rc) {
-+			hid_err(hdev, "error initializing battery: %d\n", rc);
-+			goto cleanup;
-+		}
-+	}
-+
- output:
- 	/* Output parameters */
- 	memcpy(params, &p, sizeof(*params));
-diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
-index 4bd54c4fb5b0..6524b4b61b25 100644
---- a/drivers/hid/hid-uclogic-rdesc.c
-+++ b/drivers/hid/hid-uclogic-rdesc.c
-@@ -1035,6 +1035,40 @@ const __u8 uclogic_rdesc_ugee_v2_frame_mouse_template_arr[] = {
- const size_t uclogic_rdesc_ugee_v2_frame_mouse_template_size =
- 			sizeof(uclogic_rdesc_ugee_v2_frame_mouse_template_arr);
- 
-+/* Fixed report descriptor template for UGEE v2 battery reports */
-+const __u8 uclogic_rdesc_ugee_v2_battery_template_arr[] = {
-+	0x05, 0x01,         /*  Usage Page (Desktop),                   */
-+	0x09, 0x07,         /*  Usage (Keypad),                         */
-+	0xA1, 0x01,         /*  Collection (Application),               */
-+	0x85, UCLOGIC_RDESC_UGEE_V2_BATTERY_ID,
-+			    /*      Report ID,                          */
-+	0x75, 0x08,         /*      Report Size (8),                    */
-+	0x95, 0x02,         /*      Report Count (2),                   */
-+	0x81, 0x01,         /*      Input (Constant),                   */
-+	0x05, 0x84,         /*      Usage Page (Power Device),          */
-+	0x05, 0x85,         /*      Usage Page (Battery System),        */
-+	0x09, 0x65,         /*      Usage Page (AbsoluteStateOfCharge), */
-+	0x75, 0x08,         /*      Report Size (8),                    */
-+	0x95, 0x01,         /*      Report Count (1),                   */
-+	0x15, 0x00,         /*      Logical Minimum (0),                */
-+	0x26, 0xff, 0x00,   /*      Logical Maximum (255),              */
-+	0x81, 0x02,         /*      Input (Variable),                   */
-+	0x75, 0x01,         /*      Report Size (1),                    */
-+	0x95, 0x01,         /*      Report Count (1),                   */
-+	0x15, 0x00,         /*      Logical Minimum (0),                */
-+	0x25, 0x01,         /*      Logical Maximum (1),                */
-+	0x09, 0x44,         /*      Usage Page (Charging),              */
-+	0x81, 0x02,         /*      Input (Variable),                   */
-+	0x95, 0x07,         /*      Report Count (7),                   */
-+	0x81, 0x01,         /*      Input (Constant),                   */
-+	0x75, 0x08,         /*      Report Size (8),                    */
-+	0x95, 0x07,         /*      Report Count (7),                   */
-+	0x81, 0x01,         /*      Input (Constant),                   */
-+	0xC0                /*  End Collection                          */
-+};
-+const size_t uclogic_rdesc_ugee_v2_battery_template_size =
-+			sizeof(uclogic_rdesc_ugee_v2_battery_template_arr);
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- const __u8 uclogic_rdesc_ugee_ex07_frame_arr[] = {
- 	0x05, 0x01,             /*  Usage Page (Desktop),                   */
-diff --git a/drivers/hid/hid-uclogic-rdesc.h b/drivers/hid/hid-uclogic-rdesc.h
-index 0502a0656496..a1f78c07293f 100644
---- a/drivers/hid/hid-uclogic-rdesc.h
-+++ b/drivers/hid/hid-uclogic-rdesc.h
-@@ -161,6 +161,9 @@ extern const size_t uclogic_rdesc_v2_frame_dial_size;
- /* Device ID byte offset in v2 frame dial reports */
- #define UCLOGIC_RDESC_V2_FRAME_DIAL_DEV_ID_BYTE	0x4
- 
-+/* Report ID for tweaked UGEE v2 battery reports */
-+#define UCLOGIC_RDESC_UGEE_V2_BATTERY_ID 0xba
-+
- /* Fixed report descriptor template for UGEE v2 pen reports */
- extern const __u8 uclogic_rdesc_ugee_v2_pen_template_arr[];
- extern const size_t uclogic_rdesc_ugee_v2_pen_template_size;
-@@ -177,6 +180,10 @@ extern const size_t uclogic_rdesc_ugee_v2_frame_dial_template_size;
- extern const __u8 uclogic_rdesc_ugee_v2_frame_mouse_template_arr[];
- extern const size_t uclogic_rdesc_ugee_v2_frame_mouse_template_size;
- 
-+/* Fixed report descriptor template for UGEE v2 battery reports */
-+extern const __u8 uclogic_rdesc_ugee_v2_battery_template_arr[];
-+extern const size_t uclogic_rdesc_ugee_v2_battery_template_size;
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- extern const __u8 uclogic_rdesc_ugee_ex07_frame_arr[];
- extern const size_t uclogic_rdesc_ugee_ex07_frame_size;
+gcc tested configs:
+um                             i386_defconfig
+arc                                 defconfig
+um                           x86_64_defconfig
+alpha                               defconfig
+i386                                defconfig
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+x86_64                              defconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+s390                                defconfig
+powerpc                           allnoconfig
+x86_64                    rhel-8.3-kselftests
+s390                             allmodconfig
+x86_64                        randconfig-a013
+x86_64                               rhel-8.3
+arc                  randconfig-r043-20221028
+x86_64                        randconfig-a011
+x86_64                        randconfig-a006
+x86_64                          rhel-8.3-func
+s390                             allyesconfig
+s390                 randconfig-r044-20221026
+powerpc                          allmodconfig
+ia64                             allmodconfig
+x86_64                        randconfig-a015
+x86_64                           allyesconfig
+i386                          randconfig-a012
+sh                               allmodconfig
+mips                             allyesconfig
+i386                          randconfig-a016
+i386                          randconfig-a014
+m68k                             allmodconfig
+riscv                randconfig-r042-20221026
+arc                  randconfig-r043-20221026
+riscv                randconfig-r042-20221028
+arc                              allyesconfig
+s390                 randconfig-r044-20221028
+i386                             allyesconfig
+alpha                            allyesconfig
+arm                                 defconfig
+i386                          randconfig-a005
+i386                          randconfig-a003
+i386                          randconfig-a001
+m68k                             allyesconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+csky                                defconfig
+openrisc                            defconfig
+i386                          randconfig-c001
+
+clang tested configs:
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+i386                          randconfig-a013
+x86_64                        randconfig-a012
+i386                          randconfig-a011
+hexagon              randconfig-r041-20221028
+hexagon              randconfig-r045-20221026
+x86_64                        randconfig-a014
+hexagon              randconfig-r045-20221028
+x86_64                        randconfig-a016
+i386                          randconfig-a015
+hexagon              randconfig-r041-20221026
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+arm                         hackkit_defconfig
+arm                         socfpga_defconfig
+mips                      bmips_stb_defconfig
+powerpc                     tqm5200_defconfig
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
