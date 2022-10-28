@@ -2,206 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D17726119D9
-	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 20:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E031611A04
+	for <lists+linux-input@lfdr.de>; Fri, 28 Oct 2022 20:19:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbiJ1SDx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Oct 2022 14:03:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42852 "EHLO
+        id S230232AbiJ1STB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Oct 2022 14:19:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbiJ1SDv (ORCPT
+        with ESMTP id S230244AbiJ1SS4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Oct 2022 14:03:51 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A86821128D
-        for <linux-input@vger.kernel.org>; Fri, 28 Oct 2022 11:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666980230; x=1698516230;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rGRH7fKm7eC9oI5KIZut83ZjExedAhFfJzhIvMrUQW8=;
-  b=Yz4TfWAsXSKxZAvN6oMqMnIxRd7v1BVGhn6F6lkm73M6NyhMnge0WsRb
-   /eLjWy2t2cQc+CJ1uAZjhHI/jeDfWvYh59qkz4/wGRkaBDfF7OiLjEaTW
-   KJXRKfWJizJp64a0AGUqrRx+nWWR3eIAsiFvSJpaw2/E4J44DNOVYlOfT
-   8x5rg7PSJwael2bBGSykKlxupyypQaSgNFuwK953LpcUMcnCzQhBaa/wQ
-   JQq1BCZ8fqcEkFpdYF/VRdl4BSdiEoWnVJTCZvCTOtoZq107W1N6shey5
-   1dMEZlcRCdYfJ2Kjyim1ZVIoz5oJjVQ+VHPc/4IXttz9JLdlzJ603NhRI
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="372766727"
-X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
-   d="scan'208";a="372766727"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 11:03:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="584004789"
-X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
-   d="scan'208";a="584004789"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 28 Oct 2022 11:03:48 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ooThr-000A7G-2c;
-        Fri, 28 Oct 2022 18:03:47 +0000
-Date:   Sat, 29 Oct 2022 02:03:44 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:tmp-gpiolib-of-quirks] BUILD REGRESSION
- 1c47bdc8ffacb79e05472c796f4da7daf8389eab
-Message-ID: <635c1980.5ELU0hAoxwzKCHOp%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 28 Oct 2022 14:18:56 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93091242CBC;
+        Fri, 28 Oct 2022 11:18:55 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id a14so7663363wru.5;
+        Fri, 28 Oct 2022 11:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xTd7QHpRwaFlwM3D6sCRxq+myWnOhn/dTLU+GwmNwfk=;
+        b=itB+P1b1zBZGfDEpZN8M9NNhLm57lG05jZqTWw+FVQ7ERHFIP62aeSs+hLS8U2D+Oh
+         uItUtbTv2mgTAgRrb0VUeL6Vm1yjEbB4mxTQOBlb0+KjC+vzrKkLpbSHDJDfdcMWqhe8
+         8LxQZtrKl/cVRPF78JYHiGkz4IkvB1eir6kAk/bhpk5+kLcfg5zemUQhK1hTcvt91Xyi
+         T8PZpQEqoWwjmysDQU0LgAFvGQlM3XF0CRroq7BfBGVTp8Gz52nu34g/73Tf8SVr1rvt
+         OsG1Ciri2xVHoS7GxLP0PuMSP75eQXyGDNfedxXg63MMLCkDGT1aJubJ7YMke0oJpqwW
+         aNzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xTd7QHpRwaFlwM3D6sCRxq+myWnOhn/dTLU+GwmNwfk=;
+        b=1j8/z/FR4UzPFiYQGid8s0PJzpX4jnLUhwpCQ8SMLuk0QdbWVnpok7JHNCg+N/y1Wf
+         Lfn/3VbdblbEzHXaD3ijnlDnpo/87wC2SOfMoYfFoJQ8x5DCfqACpGXY08eAM892Fwkz
+         Z/XpGHazwV/8rOiIief4wq1iq0gn+nPvT4hSaC+Sxf6YCjPGfB2jKDLVwYsB9tjAQCst
+         RsR5EGn0MnZGg9nHL0XmcSnv/AMRK5q/KDFQIH5Lt5/awZbdCy9XhIXDRgQrgS+PjnrF
+         b4k396lX85zYpw7r9e2C9PRUShkZ61TofZktnBjZvCXuHkBxHWKvGS+P66EysxNOAg3X
+         10xw==
+X-Gm-Message-State: ACrzQf0tm1EATSRYMwTVWRNIYXEVHnIljTE5/AXeFtFcWAlgvL/zTIQg
+        f9Yd6Bx61lpb6zl7syg14nU=
+X-Google-Smtp-Source: AMsMyM76JTY/PtQ3imnoTKBLTf988R7i0RUukewLRwDKDKIC7zqHN2Vh+67mMrM2aEjgavyIf2WcJA==
+X-Received: by 2002:adf:e3cc:0:b0:235:95b1:2124 with SMTP id k12-20020adfe3cc000000b0023595b12124mr380838wrm.693.1666981134010;
+        Fri, 28 Oct 2022 11:18:54 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.35.109])
+        by smtp.gmail.com with ESMTPSA id iv9-20020a05600c548900b003cf483ee8e0sm8689221wmb.24.2022.10.28.11.18.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Oct 2022 11:18:53 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
+        chad@redpilled.dev, davidgow@google.com,
+        linux-input@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/1] HID: input: map battery system charging
+Date:   Fri, 28 Oct 2022 20:18:48 +0200
+Message-Id: <20221028181849.23157-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tmp-gpiolib-of-quirks
-branch HEAD: 1c47bdc8ffacb79e05472c796f4da7daf8389eab  ASoC: tlv320aic32x4: switch to using gpiod API
+Hi everyone,
 
-Error/Warning reports:
+This patch adds support for reporting battery status (charging/discharging)
+for devices with a charging usage in their HID descriptor:
 
-https://lore.kernel.org/oe-kbuild-all/202210271750.BWb6m6Ea-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202210272003.lma6nxlm-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202210280222.12tylowe-lkp@intel.com
+	0x05, 0x85,         /*      Usage Page (Battery System),    */
+	0x09, 0x44,         /*      Usage Page (Charging),          */
 
-Error/Warning: (recently discovered and may have been fixed)
+I tested it on Apple hardware (mouse, trackpad and keyboard) as well as
+on UCLogic tablets with battery [1].
 
-drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c:505:38: error: 'struct panel_drv_data' has no member named 'reset'
-sound/soc/codecs/wcd938x.c:4043:15: error: variable 'wcd_irq_chip' has initializer but incomplete type
-sound/soc/codecs/wcd938x.c:4043:24: error: storage size of 'wcd_irq_chip' isn't known
-sound/soc/codecs/wcd938x.c:4044:10: error: 'struct irq_chip' has no member named 'name'
-sound/soc/codecs/wcd938x.c:4044:17: warning: excess elements in struct initializer
-sound/soc/codecs/wcd938x.c:4050:55: error: 'handle_simple_irq' undeclared (first use in this function)
-sound/soc/codecs/wcd938x.c:4050:9: error: implicit declaration of function 'irq_set_chip_and_handler' [-Werror=implicit-function-declaration]
-sound/soc/codecs/wcd938x.c:4051:9: error: implicit declaration of function 'irq_set_nested_thread' [-Werror=implicit-function-declaration]
-sound/soc/codecs/wcd938x.c:4052:9: error: implicit declaration of function 'irq_set_noprobe' [-Werror=implicit-function-declaration]
+On other hardware (HID_DC_BATTERYSTRENGTH or digitizers with battery)
+discharging should be reported for backwards compatibility.
+I did my best to keep the old behaviour by adding KUnit tests; However,
+I don't own any of those devices, so I'd appreciate any help testing
+the patch from someone with the actual hardware.
 
-Error/Warning ids grouped by kconfigs:
+Best wishes,
+José Expósito
 
-gcc_recent_errors
-|-- i386-allyesconfig
-|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
-|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
-|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
-|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
-|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
-|-- s390-allyesconfig
-|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
-|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
-|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
-|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
-|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
-|-- sh-allmodconfig
-|   `-- drivers-video-fbdev-omap2-omapfb-displays-panel-tpo-td043mtea1.c:error:struct-panel_drv_data-has-no-member-named-reset
-|-- sparc-allyesconfig
-|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
-|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
-|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
-|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
-|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
-|-- x86_64-allmodconfig
-|   |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
-|   |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
-|   |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
-|   |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
-|   |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
-|   `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
-`-- x86_64-allyesconfig
-    |-- sound-soc-codecs-wcd938x.c:error:handle_simple_irq-undeclared-(first-use-in-this-function)
-    |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_chip_and_handler
-    |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_nested_thread
-    |-- sound-soc-codecs-wcd938x.c:error:implicit-declaration-of-function-irq_set_noprobe
-    |-- sound-soc-codecs-wcd938x.c:error:storage-size-of-wcd_irq_chip-isn-t-known
-    |-- sound-soc-codecs-wcd938x.c:error:struct-irq_chip-has-no-member-named-name
-    |-- sound-soc-codecs-wcd938x.c:error:variable-wcd_irq_chip-has-initializer-but-incomplete-type
-    `-- sound-soc-codecs-wcd938x.c:warning:excess-elements-in-struct-initializer
+[1] https://lore.kernel.org/linux-input/20221028082348.22386-1-jose.exposito89@gmail.com/T/
 
-elapsed time: 726m
+José Expósito (1):
+  HID: input: map battery system charging
 
-configs tested: 58
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-i386                                defconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-x86_64                        randconfig-a002
-m68k                             allmodconfig
-x86_64                               rhel-8.3
-arc                              allyesconfig
-powerpc                           allnoconfig
-x86_64                           allyesconfig
-x86_64                        randconfig-a013
-x86_64                           rhel-8.3-kvm
-s390                                defconfig
-x86_64                         rhel-8.3-kunit
-s390                             allyesconfig
-arc                  randconfig-r043-20221027
-x86_64                        randconfig-a011
-x86_64                           rhel-8.3-syz
-ia64                             allmodconfig
-x86_64                        randconfig-a015
-arm                                 defconfig
-alpha                            allyesconfig
-x86_64                        randconfig-a006
-i386                             allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                        randconfig-a004
-m68k                             allyesconfig
-x86_64                    rhel-8.3-kselftests
-i386                          randconfig-a001
-sh                               allmodconfig
-powerpc                          allmodconfig
-i386                          randconfig-a003
-mips                             allyesconfig
-i386                          randconfig-a005
-i386                          randconfig-a014
-arm                              allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a016
-arm64                            allyesconfig
-
-clang tested configs:
-x86_64                        randconfig-a014
-x86_64                        randconfig-a012
-x86_64                        randconfig-a016
-x86_64                        randconfig-a001
-hexagon              randconfig-r045-20221027
-s390                 randconfig-r044-20221027
-x86_64                        randconfig-a003
-riscv                randconfig-r042-20221027
-x86_64                        randconfig-a005
-hexagon              randconfig-r041-20221027
-i386                          randconfig-a013
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a011
-i386                          randconfig-a006
-i386                          randconfig-a015
+ drivers/hid/.kunitconfig     |  1 +
+ drivers/hid/Kconfig          |  1 +
+ drivers/hid/hid-input-test.c | 80 ++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-input.c      | 36 +++++++++++++++-
+ include/linux/hid.h          |  2 +
+ 5 files changed, 118 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/hid/hid-input-test.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
