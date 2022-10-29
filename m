@@ -2,107 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2373B6124D9
-	for <lists+linux-input@lfdr.de>; Sat, 29 Oct 2022 20:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37DD46124F2
+	for <lists+linux-input@lfdr.de>; Sat, 29 Oct 2022 20:49:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbiJ2SNt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 29 Oct 2022 14:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37074 "EHLO
+        id S229441AbiJ2StK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Oct 2022 14:49:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiJ2SNr (ORCPT
+        with ESMTP id S229515AbiJ2StJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 29 Oct 2022 14:13:47 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0BC423156;
-        Sat, 29 Oct 2022 11:13:46 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id r186-20020a1c44c3000000b003cf4d389c41so5620854wma.3;
-        Sat, 29 Oct 2022 11:13:46 -0700 (PDT)
+        Sat, 29 Oct 2022 14:49:09 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15534459B3
+        for <linux-input@vger.kernel.org>; Sat, 29 Oct 2022 11:49:09 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id m2so7259861pjr.3
+        for <linux-input@vger.kernel.org>; Sat, 29 Oct 2022 11:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MDxO2pKvT3MS7KSv5X7lg9vi1ecnoaB+3SxtNFM477k=;
-        b=ExgcMbiKmgJavYnBYUqphuJGb5VETIz2vRLZCZyRJ/p1K71m+apneLA7LQtskXEoil
-         FXU23Wx1omcTPnZ/x+MYntBhs1ICzmHDHhuzjCkZQmeAeZb4A3VxF7wVOpcuIx50GJ8p
-         ZJ18/wKiWsy1u3iHtbMplh+wZox5gB+IrPTyAJJYsZ2dSbpLO5uBwIFonVwctIWMYg3y
-         WVIG/pS3YZPsdbkQZzdJdDHRUmuXIJz7vPk/2wcC003c4NHCIRS+JBwEtNEZetQNgIHr
-         N+U98cQ1qB14v/osnnm/+nFGiY/UEwXUoeMwI5Oilsx8x901lAawyGtweCI/pvuZn2PK
-         rJEA==
+        d=gaikai-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1b7LfWZ2ITMD1+SmMQvapY5vGNVmve0DctXm2sGHjB0=;
+        b=Pl8kJSSIm3/8pIu8TrRkAggjiHH69NDpYttH5FJD5dnEINt5FPe+VrX1IG7FpF9JFz
+         +4temhn8cx3y9T1W171ddDvF3D578rUEzEXtlkuKFFT5KtXxPpeyIjfMmwlJd61f6vKF
+         1bnUN7Hhyp4Dxj/ybMtEJzKMLT5JZL84PIo6DEoGAYP19bFHCJ768fadnQm510+Na52B
+         ffDvANMd37R3/Ksl+zMOydDeIxR9FATDAxcyMEFdkp6/hE30zE6D3rY4CRAzbi3zAhQJ
+         CIRTO7TaYSggErsElvh2Z+BTsqBuKv1S/S8/Id5wmxBCBdkawUpZ9piPoIpOGrywi7js
+         JgIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MDxO2pKvT3MS7KSv5X7lg9vi1ecnoaB+3SxtNFM477k=;
-        b=F7sTEP6sTzs8BHkT9rf4W7uUSbsEKPqNYtfetxtHuLNNj/ACpeDXBNzgv+ACBab2VQ
-         he0kdJrl0+c79yzlGoFA1Yfar15t+X9dwSQ8NiXOEgh5B2gUIJPWuUhEEhNPihTch5T5
-         54pGetOh0Ha0Ksg4Q+BgKWumpFfmq1t80mG6E/yEn0lH8qYzbu/AQMKQ/jYd9+7KE4WR
-         JidTUsrogz12cawVfKSUAvpLwuymQktz81h6GWXoJ3P514tzanLKdgrypOyQ2650FCmn
-         vDBO4VXeKQnzwxGirbsIoTDMNO66YSqhg0z6KD3huDTer1tp6YY47QvfGVQyquzxg+K4
-         sEMg==
-X-Gm-Message-State: ACrzQf249GsTo20xGKpZTI/zzvBDL8uvo5d+oyogHqRYS1/ZQmZ+AUmX
-        G8zZrtupOgBihJ+707gcIDY=
-X-Google-Smtp-Source: AMsMyM7w6VKyKCNXDJ/GIHrfDJ7B1rro3BXI5f92u4GLjY3/8Ts3bc3wRCSKkTUzpds3ESpxPXBigw==
-X-Received: by 2002:a05:600c:6008:b0:3c6:c3fa:c173 with SMTP id az8-20020a05600c600800b003c6c3fac173mr3210012wmb.190.1667067225065;
-        Sat, 29 Oct 2022 11:13:45 -0700 (PDT)
-Received: from elementary ([94.73.35.109])
-        by smtp.gmail.com with ESMTPSA id j6-20020a05600c42c600b003c6deb5c1edsm2407563wme.45.2022.10.29.11.13.44
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1b7LfWZ2ITMD1+SmMQvapY5vGNVmve0DctXm2sGHjB0=;
+        b=OlD7BA0I7nCHXNceuICUKs7yYnfSXyGVCbt6M4YybbjCbscbHAgP78q9jxNdM5VTfF
+         7q7pd5KHw/HcX7XO69ulPGuV9qI/LLbQ91DvrMAeFzVezBTVZK78cTeIwJHwtphL40LA
+         L9uynPPNXSZGd3sC2x7si2/umiYhOvUtUwvQ6E9be1Xi9PCs+TJ/Mh9A7Yk6lUGcjcS+
+         Hr7ZF4fUuEUOXbmGFuezhhF+WCJol9cTEq7pjJqlqgUxO38p4ZM4feA+lfzpHCN3hLBx
+         NzQMeib6pLenVhIu4hyXJf31ktuQ3vs70emssk5VyT8rBxnlMX1SE8i6+XBXB5PUoA1f
+         inNw==
+X-Gm-Message-State: ACrzQf2RAJqVZY2cC/2/AVaS6WY6AToGzBCynTS/hJjO5sXK/CmtCuTc
+        n4P0/z30mH7XKwNSjbsBeGFOzg==
+X-Google-Smtp-Source: AMsMyM7zomF9hC5LF+WnkyzjyznpKrSxxMDyjN94J3Kvi7RBPXF87mjw8rln+/Yh+kKJGfCdHg2gLg==
+X-Received: by 2002:a17:90b:3e88:b0:213:6442:5614 with SMTP id rj8-20020a17090b3e8800b0021364425614mr17408107pjb.58.1667069348553;
+        Sat, 29 Oct 2022 11:49:08 -0700 (PDT)
+Received: from localhost.localdomain ([76.242.116.65])
+        by smtp.gmail.com with ESMTPSA id gb7-20020a17090b060700b0020d9306e735sm1377566pjb.20.2022.10.29.11.49.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Oct 2022 11:13:44 -0700 (PDT)
-Date:   Sat, 29 Oct 2022 20:13:43 +0200
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Mia Kanashi <chad@redpilled.dev>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        pobrn@protonmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] HID: input: do not query XP-PEN Deco LW battery
-Message-ID: <20221029181343.GA145588@elementary>
-References: <20221029161240.15548-1-jose.exposito89@gmail.com>
- <20221029161240.15548-2-jose.exposito89@gmail.com>
- <1701DB3A-5538-4B58-8232-E6705B9C70DF@redpilled.dev>
+        Sat, 29 Oct 2022 11:49:07 -0700 (PDT)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+X-Google-Original-From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: [PATCH 00/13] hid: playstation: add DualShock4 support
+Date:   Sat, 29 Oct 2022 11:48:38 -0700
+Message-Id: <20221029184851.282366-1-roderick.colenbrander@sony.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1701DB3A-5538-4B58-8232-E6705B9C70DF@redpilled.dev>
-X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
+Hi,
 
-On Sat, Oct 29, 2022 at 08:34:46PM +0300, Mia Kanashi wrote:
-> On 29 October 2022 19:12:39 EEST, "José Expósito" <jose.exposito89@gmail.com> wrote:
-> >The XP-PEN Deco LW drawing tablet can be connected by USB cable or using
-> >a USB Bluetooth dongle. When it is connected using the dongle, there
-> >might be a small delay until the tablet is paired with the dongle.
-> >
-> >Fetching the device battery during this delay results in random battery
-> >percentage values.
-> >
-> >Add a quirk to avoid actively querying the battery percentage and wait
-> >for the device to report it on its own.
-> >
-> >Reported-by: Mia Kanashi <chad@redpilled.dev>
-> >Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> >
-> > [...]
-> 
-> I've tested this patch and now power supply status is correctly set to Unknown and capacity is set to 0 initially.
-> 
-> Just a note that that issue occured not only with the dongle, but a cable also.
-> It seems that tablet just doesn't respond to the query.
-> 
-> Thank you for the work!
+Last year, we introduced hid-playstation as the start of a new driver
+for officially supported PlayStation peripherals. The driver initially
+only supported DualSense devices, but we promised to also bring support
+for at least DualShock4 as well.
 
-Thanks a lot for testing it, I'm glad it's working :D
+This patch series adds DualShock4 support to hid-playstation. It should
+be considered a brand new driver written from scratch in the same design
+as hid-playstation. The driver is more documented and uses structures
+instead of byte offsets with magical values. The driver should be more
+clear and easier to follow. A few little sections of code cary over, which
+Sony contributed before for sensor calibration or dongle support.
 
-Jose
+Functionality wise the driver is equivalent to hid-sony. The only subtle
+change is in the naming of the lightbar LEDs. Previously they used a naming
+scheme like '<mac_address>:<color>", which doesn't follow the LED class standards.
+The new scheme uses '<device_name>:<color>' (e.g. input10:red), which is more
+compliant. Due to backwards compatibility in particular for Android, we couldn't
+make it fully compliant. Nor were we able to use the new multicolor LED class.
+
+Aside from the LED code, the other features behave the same way. The hid-tools
+tests all pass as well. One small change is that we use a different HID report
+0x12 to get the MAC address in USB mode. This report is the official one even
+though other ones can get the info too, but e.g. clone devices don't tend to
+support it.
+
+Thanks,
+Roderick Colenbrander
+Sony Interactive Entertainment, LLC
+
+Roderick Colenbrander (13):
+  HID: playstation: initial DualShock4 USB support.
+  HID: playstation: report DualShock4 hardware and firmware version.
+  HID: playstation: add DualShock4 battery support.
+  HID: playstation: add DualShock4 touchpad support.
+  HID: playstation: add DualShock4 accelerometer and gyroscope support.
+  HID: playstation: Add DualShock4 rumble support.
+  HID: playstation: make LED brightness adjustable in ps_led_register.
+  HID: playstation: support DualShock4 lightbar.
+  HID: playstation: support DualShock4 lightbar blink.
+  HID: playstation: add option to ignore CRC in ps_get_report.
+  HID: playstation: add DualShock4 bluetooth support.
+  HID: playstation: set default DualShock4 BT poll interval to 4ms.
+  HID: playstation: add DualShock4 dongle support.
+
+ drivers/hid/hid-playstation.c | 1135 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 1120 insertions(+), 15 deletions(-)
+
+-- 
+2.37.3
+
