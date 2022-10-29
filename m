@@ -2,43 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 989066124B3
-	for <lists+linux-input@lfdr.de>; Sat, 29 Oct 2022 19:35:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE3416124D6
+	for <lists+linux-input@lfdr.de>; Sat, 29 Oct 2022 20:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbiJ2Re6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 29 Oct 2022 13:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50248 "EHLO
+        id S229489AbiJ2SHC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Oct 2022 14:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbiJ2Re4 (ORCPT
+        with ESMTP id S229457AbiJ2SHC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 29 Oct 2022 13:34:56 -0400
-Received: from redpilled.dev (redpilled.dev [IPv6:2a01:4f8:1c1c:f8e2::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C92EC10FCC;
-        Sat, 29 Oct 2022 10:34:51 -0700 (PDT)
-Date:   Sat, 29 Oct 2022 20:34:46 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redpilled.dev;
-        s=mail; t=1667064889;
-        bh=h3mGwizRktjW9xsjaOG3vg/Kh6l2SlXpVsNYlVEB6Ig=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References;
-        b=WCmOSJPh1IPrj1M5MhGQU5TNW+qJCtok//7gmFlCbO5VfR7HK1d8GYcoTfMwt/CCZ
-         oVmCXpBkPXAD+fyZVCU2GY34tiYxXQSpJVV+fSjZMQpQ/F/9c2NgJkH076HHcMcuVx
-         tVVaWybV1gNA0TUkSTa8L7MFPIthVY7Erdl9AVZ4=
-From:   Mia Kanashi <chad@redpilled.dev>
-To:     =?ISO-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        jikos@kernel.org
-CC:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        pobrn@protonmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] HID: input: do not query XP-PEN Deco LW battery
-In-Reply-To: <20221029161240.15548-2-jose.exposito89@gmail.com>
-References: <20221029161240.15548-1-jose.exposito89@gmail.com> <20221029161240.15548-2-jose.exposito89@gmail.com>
-Message-ID: <1701DB3A-5538-4B58-8232-E6705B9C70DF@redpilled.dev>
+        Sat, 29 Oct 2022 14:07:02 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 707C720BD4
+        for <linux-input@vger.kernel.org>; Sat, 29 Oct 2022 11:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667066821; x=1698602821;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vapkPjqudnyjMqY5phbbRvGp1vzICDEIn5Lc7Eydzfo=;
+  b=eetMsOTGrcpylNcDkNaW7uRMSL2+F/nQh7yDccAqm13G9X1CxtHvFGwF
+   5eBIG1ug0cMM6XShCV9tThqFr9p7VXnYKRGo6dbm6svlMA42nrG62tg/v
+   5t+6TpAMNCnzGRLYW35njwOMjAAXrHkEQMHcCukNTMG2tsLfisj6eqiIe
+   UGaOfZeOu8dIJJ2RLIgqY0rpUhWdzWFrAC+h7zSztGa3LWYXbtXUBi63a
+   Rid8OOCZilcBgh9kvQifSyaWvvhjYmsqkPfdFClsaRfY7UQOKhHU8/arB
+   UjSb6Bgqs69ndKbMxX/h6ceQftr6nyAd/CPz5uXhEIpR02wD5+c27UG07
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10515"; a="296094023"
+X-IronPort-AV: E=Sophos;i="5.95,224,1661842800"; 
+   d="scan'208";a="296094023"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 11:07:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10515"; a="962360177"
+X-IronPort-AV: E=Sophos;i="5.95,224,1661842800"; 
+   d="scan'208";a="962360177"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 29 Oct 2022 11:06:54 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ooqEQ-000BH5-0Q;
+        Sat, 29 Oct 2022 18:06:54 +0000
+Date:   Sun, 30 Oct 2022 02:06:34 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:master] BUILD SUCCESS
+ b78272b5fd9616e611dfb6da216d056223b7a6fd
+Message-ID: <635d6baa./C8nw2gngfpJ9Um0%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,69 +64,93 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 29 October 2022 19:12:39 EEST, "Jos=C3=A9 Exp=C3=B3sito" <jose=2Eexposit=
-o89@gmail=2Ecom> wrote:
->The XP-PEN Deco LW drawing tablet can be connected by USB cable or using
->a USB Bluetooth dongle=2E When it is connected using the dongle, there
->might be a small delay until the tablet is paired with the dongle=2E
->
->Fetching the device battery during this delay results in random battery
->percentage values=2E
->
->Add a quirk to avoid actively querying the battery percentage and wait
->for the device to report it on its own=2E
->
->Reported-by: Mia Kanashi <chad@redpilled=2Edev>
->Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose=2Eexposito89@gmail=2Ecom>
->---
-> drivers/hid/hid-input=2Ec | 6 ++++++
-> 1 file changed, 6 insertions(+)
->
->diff --git a/drivers/hid/hid-input=2Ec b/drivers/hid/hid-input=2Ec
->index 859aeb07542e=2E=2Ed728a94c642e 100644
->--- a/drivers/hid/hid-input=2Ec
->+++ b/drivers/hid/hid-input=2Ec
->@@ -340,6 +340,7 @@ static enum power_supply_property hidinput_battery_pr=
-ops[] =3D {
-> #define HID_BATTERY_QUIRK_PERCENT	(1 << 0) /* always reports percent */
-> #define HID_BATTERY_QUIRK_FEATURE	(1 << 1) /* ask for feature report */
-> #define HID_BATTERY_QUIRK_IGNORE	(1 << 2) /* completely ignore the batte=
-ry */
->+#define HID_BATTERY_QUIRK_AVOID_QUERY	(1 << 3) /* do not query the batte=
-ry */
->=20
-> static const struct hid_device_id hid_battery_quirks[] =3D {
-> 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
->@@ -373,6 +374,8 @@ static const struct hid_device_id hid_battery_quirks[=
-] =3D {
-> 	  HID_BATTERY_QUIRK_IGNORE },
-> 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550VE_TOUCHSC=
-REEN),
-> 	  HID_BATTERY_QUIRK_IGNORE },
->+	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE, USB_DEVICE_ID_UGEE_XPPEN_TABLET_DE=
-CO_L),
->+	  HID_BATTERY_QUIRK_AVOID_QUERY },
-> 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15),
-> 	  HID_BATTERY_QUIRK_IGNORE },
-> 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15T_DR1=
-00),
->@@ -554,6 +557,9 @@ static int hidinput_setup_battery(struct hid_device *=
-dev, unsigned report_type,
-> 	dev->battery_avoid_query =3D report_type =3D=3D HID_INPUT_REPORT &&
-> 				   field->physical =3D=3D HID_DG_STYLUS;
->=20
->+	if (quirks & HID_BATTERY_QUIRK_AVOID_QUERY)
->+		dev->battery_avoid_query =3D true;
->+
-> 	dev->battery =3D power_supply_register(&dev->dev, psy_desc, &psy_cfg);
-> 	if (IS_ERR(dev->battery)) {
-> 		error =3D PTR_ERR(dev->battery);
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: b78272b5fd9616e611dfb6da216d056223b7a6fd  Input: add driver for Hynitron cstxxx touchscreens
 
-I've tested this patch and now power supply status is correctly set to Unk=
-nown and capacity is set to 0 initially=2E
+elapsed time: 720m
 
-Just a note that that issue occured not only with the dongle, but a cable =
-also=2E
-It seems that tablet just doesn't respond to the query=2E
+configs tested: 72
+configs skipped: 2
 
-Thank you for the work!
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                               rhel-8.3
+arc                                 defconfig
+s390                             allmodconfig
+m68k                             allyesconfig
+i386                          randconfig-a005
+x86_64                           allyesconfig
+i386                          randconfig-a016
+i386                                defconfig
+x86_64                        randconfig-a006
+alpha                               defconfig
+arm                                 defconfig
+x86_64                         rhel-8.3-kunit
+arc                  randconfig-r043-20221028
+s390                                defconfig
+s390                             allyesconfig
+x86_64                           rhel-8.3-kvm
+sh                               allmodconfig
+riscv                randconfig-r042-20221028
+x86_64                           rhel-8.3-syz
+alpha                            allyesconfig
+s390                 randconfig-r044-20221028
+arm64                            allyesconfig
+arm                              allyesconfig
+arc                              allyesconfig
+x86_64                        randconfig-a015
+mips                             allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+i386                          randconfig-a014
+i386                          randconfig-a012
+m68k                             allmodconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+i386                             allyesconfig
+ia64                             allmodconfig
+m68k                         apollo_defconfig
+m68k                       m5249evb_defconfig
+arm                       multi_v4t_defconfig
+sh                           se7722_defconfig
+arm                        spear6xx_defconfig
+xtensa                  nommu_kc705_defconfig
+sparc64                          alldefconfig
+sh                            titan_defconfig
+powerpc                      mgcoge_defconfig
+arm                          pxa3xx_defconfig
+sh                        dreamcast_defconfig
+i386                          randconfig-c001
+
+clang tested configs:
+i386                          randconfig-a002
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a003
+hexagon              randconfig-r041-20221028
+hexagon              randconfig-r045-20221028
+i386                          randconfig-a013
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a015
+s390                 randconfig-r044-20221029
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-k001
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
