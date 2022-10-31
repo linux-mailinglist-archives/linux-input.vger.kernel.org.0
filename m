@@ -2,242 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EB936139CD
-	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 16:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF171613A0A
+	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 16:31:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231441AbiJaPOr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Oct 2022 11:14:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44896 "EHLO
+        id S231478AbiJaPbu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Oct 2022 11:31:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230486AbiJaPOq (ORCPT
+        with ESMTP id S231500AbiJaPbu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Oct 2022 11:14:46 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8CC11456
-        for <linux-input@vger.kernel.org>; Mon, 31 Oct 2022 08:14:44 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id w14so16399632wru.8
-        for <linux-input@vger.kernel.org>; Mon, 31 Oct 2022 08:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cq37D+aG9RuZDRpw1wGP0MX3DtBta7wQtRmL2GXhPb4=;
-        b=jhEY/rH4R0H5Jw0+aK8ofpuUTm3LequKrN89nkw9m8UyuCrWEncYeG/MIC/Q/BcJ5C
-         cZKWafPttdd+RzhHys+cQ8ZAj3iGC66Dkv4ARaCytE7fJTKjvWXxGfzY48cJu0pstmcV
-         vYvmGW2kM3V3ddY4K+BVFcwZoXyjhW8nxnr2ohaYqK2JQHDzbwpac7Fh/4DP9fgAPZoK
-         iuWerTIRtLWjRoIiJCMV1xeLuWXbxb5ptIDs0apbFK56Gh3HpVh1yvsEYVyD7qfOu5K5
-         p6zU1TsGQwlyeSAQvBLe/NH3p7WWW97glUweqVvCakFYISidN6j7cHLmcN1SBI+y05Sr
-         qKhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cq37D+aG9RuZDRpw1wGP0MX3DtBta7wQtRmL2GXhPb4=;
-        b=R2KWxBqiPqvENGu4eZpPYlTrGtpVx6r3wYVKv4UgWJ4WOwfcLIemeCfBKP1PQ8Dk3S
-         l31HDRGDjWO/XNIPwNjouDl+9D6mF3R1s4dLT2t/2iRpxj7JrsB0O07EgjFbBZ2MtOJd
-         oGCxnScD8GcJMpy4wWp+/aVOKk3sw1YHivtSTdh30+BmOLz0pcWzJd6ylgpjvxK7BxyX
-         vVRMhpzhAGUjcM3lZz1iVk6sVtS/h7rr8PMlVNdFpMuV6KXzZYfZloBQ/p2gfYtaT93S
-         VPSDNThKcyLWupLQ1d0vdcr3CxIHipbGbiaSmgITfGEpMppQ6Ic6CyhGRX5iwv8vPmx2
-         7ruQ==
-X-Gm-Message-State: ACrzQf39CSj+k40uXpT6qx/BKbXnGfF2KphUtu+97+OPJTZNAvDr9oA0
-        Iqxh3CiNmMZuWoACHUpbybY9fA==
-X-Google-Smtp-Source: AMsMyM4sXtzCevkx80TqZWjZyuYqrrzcc02J3pYnVDrKqdj1012o/P1qJje9tqqi88CEhob6+59a8g==
-X-Received: by 2002:a05:6000:54e:b0:236:5818:d432 with SMTP id b14-20020a056000054e00b002365818d432mr8582721wrf.37.1667229282996;
-        Mon, 31 Oct 2022 08:14:42 -0700 (PDT)
-Received: from [192.168.1.47] (242.155.4.93.rev.sfr.net. [93.4.155.242])
-        by smtp.gmail.com with ESMTPSA id t16-20020adff610000000b0023538fb27c1sm7398137wrp.85.2022.10.31.08.14.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 08:14:42 -0700 (PDT)
-Message-ID: <b251290f-d490-97f2-5642-9f801f6c68af@baylibre.com>
-Date:   Mon, 31 Oct 2022 16:14:38 +0100
+        Mon, 31 Oct 2022 11:31:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BEA2EE0C;
+        Mon, 31 Oct 2022 08:31:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DCD23612CE;
+        Mon, 31 Oct 2022 15:31:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5173EC433D6;
+        Mon, 31 Oct 2022 15:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667230308;
+        bh=BMMxQzRtp0/nturtlwUebCCckGXZgOIXStC5INUt4Wc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CqHJPzrYFCSFFf/lpPRROOPr4SeOsbXvWbOyJmFGfnDbPDqKNexEufBFRjOlT3/9e
+         Fd7Vmku4erJDalY2VikqCNHLCaYc6VYA6AXktbkZ2abZedDThhD8VBU2sAIAdG4jc+
+         GplHL7IwYP/R1CUCVr78o15wVngFIsAnwdBIouWojayG4e0MLr0mJmorQZhhr8+6EI
+         eNc9Y6aiNWtu9NZ1rAqf4aIlJz7dMUgGceyDNnSvzsrq4V2PE1Csp9J0s/XFskGZvC
+         hmCHbvrBFjaOBRsUrejtKZOGL9rJtf9fk3kSMk5MVYXruHXuZkDJhc25ZNAH+6UIOg
+         80m1XvZeBDYHw==
+Date:   Mon, 31 Oct 2022 15:31:41 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Bjorn Andersson <andersson@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Gross <agross@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 05/11] dt-bindings: mfd: qcom-pm8xxx: document
+ qcom,pm8921 as fallback of qcom,pm8018
+Message-ID: <Y1/qXQxVQce246Ct@google.com>
+References: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
+ <20220928-mdm9615-dt-schema-fixes-v4-5-dac2dfaac703@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v5 4/6] mfd: tps65219: Add driver for TI TPS65219 PMIC
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>, "nm@ti.com" <nm@ti.com>,
-        "kristo@kernel.org" <kristo@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "tony@atomide.com" <tony@atomide.com>,
-        "vigneshr@ti.com" <vigneshr@ti.com>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "marcel.ziswiler@toradex.com" <marcel.ziswiler@toradex.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jeff@labundy.com" <jeff@labundy.com>
-Cc:     "afd@ti.com" <afd@ti.com>,
-        "khilman@baylibre.com" <khilman@baylibre.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "msp@baylibre.com" <msp@baylibre.com>,
-        "j-keerthy@ti.com" <j-keerthy@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
-References: <20220914140758.7582-1-jneanne@baylibre.com>
- <20220914140758.7582-5-jneanne@baylibre.com>
- <OS0PR01MB59221A8415766E7E3615F39E86379@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <a2000dfa-6872-fdf5-c636-755ae5a82728@baylibre.com>
- <OS0PR01MB59225CD0FF691E169F25F56886379@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   jerome Neanne <jneanne@baylibre.com>
-In-Reply-To: <OS0PR01MB59225CD0FF691E169F25F56886379@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220928-mdm9615-dt-schema-fixes-v4-5-dac2dfaac703@linaro.org>
+X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, 21 Oct 2022, Neil Armstrong wrote:
 
-
-On 31/10/2022 15:48, Biju Das wrote:
->> Subject: Re: [PATCH v5 4/6] mfd: tps65219: Add driver for TI TPS65219
->> PMIC
->>
->>
->>
->> On 31/10/2022 12:13, Biju Das wrote:
->>> Hi,
->>>
->>>> Subject: [PATCH v5 4/6] mfd: tps65219: Add driver for TI TPS65219
->>>> PMIC
->>>>
->>>> The TPS65219 is a power management IC PMIC designed to supply a
->> wide
->>>> range of SoCs in both portable and stationary applications. Any SoC
->>>> can control
->>>> TPS65219 over a standard I2C interface.
->>>>
->>>> It contains the following components:
->>>> - Regulators.
->>>> - Over Temperature warning and Shut down.
->>>> - GPIOs
->>>> - Multi Function Pins (MFP)
->>>> - power-button
->>>>
->>>> This patch adds support for tps65219 PMIC. At this time only the
->>>> functionalities listed below are made available:
->>>>
->>>> - Regulators probe and functionalities
->>>> - warm and cold reset support
->>>> - SW shutdown support
->>>> - Regulator warnings via IRQs
->>>> - Power-button via IRQ
->>>>
->>>> Signed-off-by: Jerome Neanne <jneanne@baylibre.com>
->>>> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
->>>> ---
->>>>    MAINTAINERS                  |   1 +
->>>>    drivers/mfd/Kconfig          |  14 ++
->>>>    drivers/mfd/Makefile         |   1 +
->>>>    drivers/mfd/tps65219.c       | 320
->> ++++++++++++++++++++++++++++++++
->>>>    include/linux/mfd/tps65219.h | 345
->> +++++++++++++++++++++++++++++++++++
->>>>    5 files changed, 681 insertions(+)
->>>>    create mode 100644 drivers/mfd/tps65219.c  create mode 100644
->>>> include/linux/mfd/tps65219.h
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS index
->>>> f35b29ffd5fb..960df879c635 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -14926,6 +14926,7 @@ F:	drivers/mfd/menelaus.c
->>>>    F:	drivers/mfd/palmas.c
->>>>    F:	drivers/mfd/tps65217.c
->>>>    F:	drivers/mfd/tps65218.c
->>>> +F:	drivers/mfd/tps65219.c
->>>>    F:	drivers/mfd/tps65910.c
->>>>    F:	drivers/mfd/twl-core.[ch]
->>>>    F:	drivers/mfd/twl4030*.c
->>>> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig index
->>>> abb58ab1a1a4..1a846c7dd0c2 100644
->>>> --- a/drivers/mfd/Kconfig
->>>> +++ b/drivers/mfd/Kconfig
->>>> @@ -1576,6 +1576,20 @@ config MFD_TPS65218
->>>>    	  This driver can also be built as a module.  If so, the module
->>>>    	  will be called tps65218.
->>>>
->>>> +config MFD_TPS65219
->>>> +	tristate "TI TPS65219 Power Management IC"
->>>> +	depends on I2C && OF
->>>> +	select MFD_CORE
->>>> +	select REGMAP_I2C
->>>> +	select REGMAP_IRQ
->>>> +	help
->>>> +	  If you say yes here you get support for the TPS65219 series of
->>>> Power
->>>> +	  Management ICs. These include voltage regulators, GPIOs and
->>>> +	  push/power button that are often used in portable devices.
->>>> +
->>>> +	  This driver can also be built as a module. If so, the module
->>>> +	  will be called tps65219.
->>>> +
->>>>    config MFD_TPS6586X
->>>>    	bool "TI TPS6586x Power Management chips"
->>>>    	depends on I2C=y
->>>> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile index
->>>> 858cacf659d6..a8ff3d6ea3ab 100644
->>>> --- a/drivers/mfd/Makefile
->>>> +++ b/drivers/mfd/Makefile
->>>> @@ -101,6 +101,7 @@ obj-$(CONFIG_TPS6507X)		+= tps6507x.o
->>>>    obj-$(CONFIG_MFD_TPS65086)	+= tps65086.o
->>>>    obj-$(CONFIG_MFD_TPS65217)	+= tps65217.o
->>>>    obj-$(CONFIG_MFD_TPS65218)	+= tps65218.o
->>>> +obj-$(CONFIG_MFD_TPS65219)	+= tps65219.o
->>>>    obj-$(CONFIG_MFD_TPS65910)	+= tps65910.o
->>>>    obj-$(CONFIG_MFD_TPS65912)	+= tps65912-core.o
->>>>    obj-$(CONFIG_MFD_TPS65912_I2C)	+= tps65912-i2c.o
->>>> diff --git a/drivers/mfd/tps65219.c b/drivers/mfd/tps65219.c new
->> file
->>>> mode
->>>> 100644 index 000000000000..c1638483e069
->>>> --- /dev/null
->>>> +++ b/drivers/mfd/tps65219.c
->>>> @@ -0,0 +1,320 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +//
->>>> +// Driver for TPS65219 Integrated Power Management Integrated
->> Chips
->>>> +(PMIC) // // Copyright (C) 2022 BayLibre Incorporated -
->>>> +
->>>> +
->>>> +static int tps65219_restart(struct notifier_block *this,
->>>> +			    unsigned long reboot_mode, void *cmd) {
->>>> +	struct tps65219 *tps;
->>>> +
->>>> +	tps = container_of(this, struct tps65219, nb);
->>>> +	if (!tps) {
->>>> +		pr_err("tps65219: Restarting failed because the pointer to
->>>> tps65219 is invalid\n");
->>> Why not dev_error?
->> Because I can't get correct device then: if !tps, I can't get tps->dev
->> Then can't reference device in dev_error. Do you have a better
->> suggestion than this pr_err?
+> The PM8018 is used as compatible with PM8921 on the MDM9615, document this situation,
+> and an example section to validate this change.
 > 
-> How container_of can fail?
->
-Good point. This check sounds useless. I'll just remove then...
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../devicetree/bindings/mfd/qcom-pm8xxx.yaml       | 33 ++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 5 deletions(-)
 
-Thanks for highlighting this.
+Applied, thanks.
 
-Jerome.
+-- 
+Lee Jones [李琼斯]
