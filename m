@@ -2,132 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71E98613A20
-	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 16:35:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EF21613B91
+	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 17:43:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbiJaPft (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Oct 2022 11:35:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41384 "EHLO
+        id S231721AbiJaQne (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Oct 2022 12:43:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231686AbiJaPfr (ORCPT
+        with ESMTP id S230234AbiJaQnd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Oct 2022 11:35:47 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B84246355
-        for <linux-input@vger.kernel.org>; Mon, 31 Oct 2022 08:35:44 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id y16so16480976wrt.12
-        for <linux-input@vger.kernel.org>; Mon, 31 Oct 2022 08:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:reply-to:organization:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=TsXJSVmpsfRwUaoUkQeZoN5vrNGuaXJ+yHnFyn7q25I=;
-        b=kNDVSruV16A9lm4yIH6ED5p3NglZj4zIWm6IWzCXkUhLysu/9kFqTnjIKo0B5mdWtE
-         bVkze8vz56g3cNUjHYUhdd2HSRi3Lr77pdsuZdu/ZSMft7E+XFsIZcNWXo6s6H0+dMVH
-         x5hy2kxnN7LVX3Yki1W5sEdlWJRu5LnLP0Z30WQ5M4r6Xw4Aq0ROJk3qcBp2JfWxarBl
-         zZTGvO9QBblm1HmA+daQtS4fyx7f1QGrlVWeziluZvNx7LQ0REWS2xw6IZ/EyUs2cjDK
-         ZxxhWhPVf2FcTxe9wbNDK87W4N6DD4Gjf4lnkHIyHwncXHxqgu0zsO1XLUNAzjCI0n2i
-         /RwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:reply-to:organization:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TsXJSVmpsfRwUaoUkQeZoN5vrNGuaXJ+yHnFyn7q25I=;
-        b=LXlsmGEJQZyylZOT40tftDN9BZx9kax061F9dxrtFl0yWbXj9MHHFG4IcLp1cYEWj2
-         hZuz4eWOQwoTOvIlBFldlIg6i52GZHmW8hgUa+AGM8dZQOPELbmRxiinZZgHF9fmQIy1
-         QqJw0pKqjMnqz/HqBZtWWi+ePGqxHs0QJLMpWRQJCPFnnEKaPpJJsVFO2x5MrV7Y922l
-         +LBtpYAumovJHONs2HwYg6U/mPT7wFAgr23YlgxyPGTPhXqbR1NHUfwQtOtoi3izS4Uq
-         +vbRbJ9NKaLXq9YohaPwltVTxWzSPC5iir4v2SBE7/b16QWQGOdlwuNYCj7SD0XPEHm0
-         1ujQ==
-X-Gm-Message-State: ACrzQf16logmYCcx0m0rtTCxbU1ul3/FckPYSDxqlbuEJlfqHVHnqCfY
-        cWKi2OKrrK+9Kez+dC2iteFXmA==
-X-Google-Smtp-Source: AMsMyM73Wi/PfFl19dSX+YB0TWP0LDVvL+RVag0yoxDj3CQC07pDBzEctGykPU2rWEpvK1FkJgWkuQ==
-X-Received: by 2002:adf:f4c7:0:b0:236:c415:c707 with SMTP id h7-20020adff4c7000000b00236c415c707mr5202241wrp.24.1667230543206;
-        Mon, 31 Oct 2022 08:35:43 -0700 (PDT)
-Received: from ?IPV6:2a0d:e487:34f:ed70:97ca:71f8:f780:5cf1? ([2a0d:e487:34f:ed70:97ca:71f8:f780:5cf1])
-        by smtp.gmail.com with ESMTPSA id i6-20020a05600c070600b003cf483ee8e0sm7306730wmn.24.2022.10.31.08.35.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 08:35:42 -0700 (PDT)
-Message-ID: <6858acf3-eb90-41aa-b714-a2ceb6afe9db@linaro.org>
-Date:   Mon, 31 Oct 2022 16:35:38 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v4 08/11] mfd: qcom-pm8xxx: drop unused PM8018 compatible
-Content-Language: en-US
-To:     Lee Jones <lee@kernel.org>
-Cc:     Bjorn Andersson <andersson@kernel.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Mon, 31 Oct 2022 12:43:33 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C7ECD4;
+        Mon, 31 Oct 2022 09:43:32 -0700 (PDT)
+Received: from g550jk.arnhem.chello.nl (31-151-115-246.dynamic.upc.nl [31.151.115.246])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id BA143C6FDC;
+        Mon, 31 Oct 2022 16:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1667234610; bh=M53toyw0XjOLokY+OGsj+ziubQl095Z+dltFG/nkEnY=;
+        h=From:To:Cc:Subject:Date;
+        b=gFL/XGPsApW1UnCQGDwnDD1UCUp8MJELdkzcN781/Q/H3PYyVaD0h6z7BkO+y8WHm
+         sqcT6iHZNqFEz+Z1HqfzEkEKuvGErJpQpRkyol3WJoBlXoSZsROlqUQwmUZ/zEhuu2
+         FIgXr2prD8cr+QKtsUvZbgeYJC8XNT+IE5LBVYao=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     linux-input@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        afd@ti.com, Luca Weiss <luca@z3ntu.xyz>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Gross <agross@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
- <20220928-mdm9615-dt-schema-fixes-v4-8-dac2dfaac703@linaro.org>
- <Y1/qnCyav/S35mRo@google.com>
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-Reply-To: neil.armstrong@linaro.org
-In-Reply-To: <Y1/qnCyav/S35mRo@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: input: Convert ti,drv260x to DT schema
+Date:   Mon, 31 Oct 2022 17:41:41 +0100
+Message-Id: <20221031164141.919134-1-luca@z3ntu.xyz>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        FROM_SUSPICIOUS_NTLD_FP,PDS_OTHER_BAD_TLD,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Convert the drv260x haptics binding to DT schema format.
 
-On 31/10/2022 16:32, Lee Jones wrote:
-> On Fri, 21 Oct 2022, Neil Armstrong wrote:
-> 
->> The PM8018 compatible is always used with PM8921 fallback, so PM8018
->> compatible can be safely removed from device ID table
->>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> 
-> Tags should appear chronologically.
+The only notable change from .txt format is that vbat-supply is not
+actually required, so don't make it a required property.
 
-Indeed, they were added by b4, I'll report this.
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+@Andrew Davis: You maintain some other TI bindings, would you be willing
+to also maintain this one? It was originally written by Dan Murphy but
+apparently Dan no longer works for TI.
 
-Thanks,
-Neil
+Changes since v1:
+* add $ref to types as suggested by Rob
+* change maintainer
 
-> 
-> I've fixed this up and applied the patch, thanks.
-> 
->> ---
->>   drivers/mfd/qcom-pm8xxx.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/mfd/qcom-pm8xxx.c b/drivers/mfd/qcom-pm8xxx.c
->> index 2f2734ba5273..601106580e2e 100644
->> --- a/drivers/mfd/qcom-pm8xxx.c
->> +++ b/drivers/mfd/qcom-pm8xxx.c
->> @@ -497,7 +497,6 @@ static const struct pm_irq_data pm8821_data = {
->>   };
->>   
->>   static const struct of_device_id pm8xxx_id_table[] = {
->> -	{ .compatible = "qcom,pm8018", .data = &pm8xxx_data},
->>   	{ .compatible = "qcom,pm8058", .data = &pm8xxx_data},
->>   	{ .compatible = "qcom,pm8821", .data = &pm8821_data},
->>   	{ .compatible = "qcom,pm8921", .data = &pm8xxx_data},
->>
-> 
+ .../devicetree/bindings/input/ti,drv260x.txt  |  50 ---------
+ .../devicetree/bindings/input/ti,drv260x.yaml | 102 ++++++++++++++++++
+ 2 files changed, 102 insertions(+), 50 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.txt
+ create mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.txt b/Documentation/devicetree/bindings/input/ti,drv260x.txt
+deleted file mode 100644
+index 4c5312eaaa85..000000000000
+--- a/Documentation/devicetree/bindings/input/ti,drv260x.txt
++++ /dev/null
+@@ -1,50 +0,0 @@
+-* Texas Instruments - drv260x Haptics driver family
+-
+-Required properties:
+-	- compatible - One of:
+-		"ti,drv2604" - DRV2604
+-		"ti,drv2605" - DRV2605
+-		"ti,drv2605l" - DRV2605L
+-	- reg -  I2C slave address
+-	- vbat-supply - Required supply regulator
+-	- mode - Power up mode of the chip (defined in include/dt-bindings/input/ti-drv260x.h)
+-		DRV260X_LRA_MODE - Linear Resonance Actuator mode (Piezoelectric)
+-		DRV260X_LRA_NO_CAL_MODE - This is a LRA Mode but there is no calibration
+-				sequence during init.  And the device is configured for real
+-				time playback mode (RTP mode).
+-		DRV260X_ERM_MODE - Eccentric Rotating Mass mode (Rotary vibrator)
+-	- library-sel - These are ROM based waveforms pre-programmed into the IC.
+-				This should be set to set the library to use at power up.
+-				(defined in include/dt-bindings/input/ti-drv260x.h)
+-		DRV260X_LIB_EMPTY - Do not use a pre-programmed library
+-		DRV260X_ERM_LIB_A - Pre-programmed Library
+-		DRV260X_ERM_LIB_B - Pre-programmed Library
+-		DRV260X_ERM_LIB_C - Pre-programmed Library
+-		DRV260X_ERM_LIB_D - Pre-programmed Library
+-		DRV260X_ERM_LIB_E - Pre-programmed Library
+-		DRV260X_ERM_LIB_F - Pre-programmed Library
+-		DRV260X_LIB_LRA - Pre-programmed LRA Library
+-
+-Optional properties:
+-	- enable-gpio - gpio pin to enable/disable the device.
+-	- vib-rated-mv - The rated voltage of the actuator in millivolts.
+-			  If this is not set then the value will be defaulted to
+-			  3.2 v.
+-	- vib-overdrive-mv - The overdrive voltage of the actuator in millivolts.
+-			  If this is not set then the value will be defaulted to
+-			  3.2 v.
+-Example:
+-
+-haptics: haptics@5a {
+-	compatible = "ti,drv2605l";
+-	reg = <0x5a>;
+-	vbat-supply = <&vbat>;
+-	enable-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
+-	mode = <DRV260X_LRA_MODE>;
+-	library-sel = <DRV260X_LIB_LRA>;
+-	vib-rated-mv = <3200>;
+-	vib-overdrive-mv = <3200>;
+-}
+-
+-For more product information please see the link below:
+-http://www.ti.com/product/drv2605
+diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.yaml b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
+new file mode 100644
+index 000000000000..d8b9b9d5d9d9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
+@@ -0,0 +1,102 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/ti,drv260x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments - drv260x Haptics driver family
++
++maintainers:
++  - Andrew Davis <afd@ti.com>
++
++properties:
++  compatible:
++    enum:
++      - ti,drv2604
++      - ti,drv2605
++      - ti,drv2605l
++
++  reg:
++    maxItems: 1
++
++  vbat-supply:
++    description: Power supply to the haptic motor
++
++  mode:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      Power up mode of the chip
++      (defined in include/dt-bindings/input/ti-drv260x.h)
++
++      DRV260X_LRA_MODE
++        Linear Resonance Actuator mode (Piezoelectric)
++
++      DRV260X_LRA_NO_CAL_MODE
++        This is a LRA Mode but there is no calibration sequence during init.
++        And the device is configured for real time playback mode (RTP mode).
++
++      DRV260X_ERM_MODE
++        Eccentric Rotating Mass mode (Rotary vibrator)
++    enum: [ 0, 1, 2 ]
++
++  library-sel:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      These are ROM based waveforms pre-programmed into the IC.
++      This should be set to set the library to use at power up.
++      (defined in include/dt-bindings/input/ti-drv260x.h)
++
++      DRV260X_LIB_EMPTY - Do not use a pre-programmed library
++      DRV260X_ERM_LIB_A - Pre-programmed Library
++      DRV260X_ERM_LIB_B - Pre-programmed Library
++      DRV260X_ERM_LIB_C - Pre-programmed Library
++      DRV260X_ERM_LIB_D - Pre-programmed Library
++      DRV260X_ERM_LIB_E - Pre-programmed Library
++      DRV260X_ERM_LIB_F - Pre-programmed Library
++      DRV260X_LIB_LRA - Pre-programmed LRA Library
++    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
++
++  enable-gpio:
++    maxItems: 1
++
++  vib-rated-mv:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      The rated voltage of the actuator in millivolts.
++      If this is not set then the value will be defaulted to 3200 mV.
++
++  vib-overdrive-mv:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      The overdrive voltage of the actuator in millivolts.
++      If this is not set then the value will be defaulted to 3200 mV.
++
++required:
++  - compatible
++  - reg
++  - enable-gpio
++  - mode
++  - library-sel
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/input/ti-drv260x.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        haptics@5a {
++            compatible = "ti,drv2605l";
++            reg = <0x5a>;
++            vbat-supply = <&vbat>;
++            enable-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
++            mode = <DRV260X_LRA_MODE>;
++            library-sel = <DRV260X_LIB_LRA>;
++            vib-rated-mv = <3200>;
++            vib-overdrive-mv = <3200>;
++        };
++    };
+-- 
+2.38.1
 
