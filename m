@@ -2,66 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F3BC613872
-	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 14:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFED0613928
+	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 15:43:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231254AbiJaNxu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Oct 2022 09:53:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48996 "EHLO
+        id S231654AbiJaOnC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 31 Oct 2022 10:43:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231252AbiJaNxt (ORCPT
+        with ESMTP id S231381AbiJaOnB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Oct 2022 09:53:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F6DF2C4;
-        Mon, 31 Oct 2022 06:53:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0AB8D60FFA;
-        Mon, 31 Oct 2022 13:53:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEDAAC433D6;
-        Mon, 31 Oct 2022 13:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667224427;
-        bh=pTy7t7Q8QOwX1bSA4Jd5z2ewZ2NvD0qcR1QWYdy44rY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AECja8WxEAHVraIRg2PtlfXZEnzCsq0KVf/wn77pDT1Afy9ppuHT1z9uGvIljxogY
-         C73SyMCwEW6Gl/L3Hk4jnxvi9MO/RohHWhUQM1Walr0v3pzqaPiQ4gCnyS9M1qaOMO
-         sFY3ouaKCFc2OcHQlbfxFwcEWStGCg0k88IhobOqX6Ql3aiUPL4vkrFY95ypFu4yEI
-         RjuVfVrbPSdzMg6Svb1iVdi1P2DC1zEwyEsfBX47ZYXjYVVrqA6LrGfMFcjJyVLjM4
-         CN96eUnPeEinFXSjhC3zcNBNG63JBJVh9Acdj4leaX5pgGM/2ryAvH2GUAkbSwJGcE
-         0Ro5UfrXJDr7Q==
-Date:   Mon, 31 Oct 2022 13:53:40 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        Rob Herring <robh@kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 1/5] dt-bindings: mfd: mt6397: add binding for MT6357
-Message-ID: <Y1/TZEMBF3OI+XSa@google.com>
-References: <20221005-mt6357-support-v3-0-7e0bd7c315b2@baylibre.com>
- <20221005-mt6357-support-v3-1-7e0bd7c315b2@baylibre.com>
+        Mon, 31 Oct 2022 10:43:01 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E829D64
+        for <linux-input@vger.kernel.org>; Mon, 31 Oct 2022 07:43:00 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id C837720005;
+        Mon, 31 Oct 2022 14:42:57 +0000 (UTC)
+Message-ID: <0ad614f5c69bae7bf7081b32660d41bf4edd906c.camel@hadess.net>
+Subject: Re: [PATCH 1/4] Input: goodix - Try resetting the controller when
+ no config is set
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Date:   Mon, 31 Oct 2022 15:42:57 +0100
+In-Reply-To: <20221025122930.421377-2-hdegoede@redhat.com>
+References: <20221025122930.421377-1-hdegoede@redhat.com>
+         <20221025122930.421377-2-hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.0 (3.46.0-2.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221005-mt6357-support-v3-1-7e0bd7c315b2@baylibre.com>
-X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,20 +41,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 20 Oct 2022, Alexandre Mergnat wrote:
+On Tue, 2022-10-25 at 14:29 +0200, Hans de Goede wrote:
+> On ACPI systems (irq_pin_access_method == IRQ_PIN_ACCESS_ACPI_*) the
+> driver
+> does not reset the controller at probe time, because sometimes the
+> system
+> firmware loads a config and resetting might loose this config.
 
-> From: Fabien Parent <fparent@baylibre.com>
-> 
-> Add binding documentation for the MT6357 PMIC.
-> 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/mfd/mt6397.txt | 1 +
->  1 file changed, 1 insertion(+)
+"lose".
 
-Applied, thanks.
+You can add
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+to all 4 patches in this patchset that don't already have it.
 
--- 
-Lee Jones [李琼斯]
+Cheers
