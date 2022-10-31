@@ -2,106 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 422F361405F
-	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 23:05:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A35E6141F3
+	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 00:49:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbiJaWFz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Oct 2022 18:05:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56434 "EHLO
+        id S229589AbiJaXtg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Oct 2022 19:49:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbiJaWFy (ORCPT
+        with ESMTP id S229441AbiJaXtf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Oct 2022 18:05:54 -0400
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8339D14033;
-        Mon, 31 Oct 2022 15:05:53 -0700 (PDT)
-Received: by mail-oi1-f176.google.com with SMTP id c129so2384522oia.0;
-        Mon, 31 Oct 2022 15:05:53 -0700 (PDT)
+        Mon, 31 Oct 2022 19:49:35 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2BF05F66;
+        Mon, 31 Oct 2022 16:49:34 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id s196so12031977pgs.3;
+        Mon, 31 Oct 2022 16:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dtSyeHeLvKwwxtU0oKKaUmty6E8Ll59rUEslMaWX0ew=;
+        b=EqqrJ2/D+WPfHi87zSwMrXiL5g9koV8rAoMZ9GhhOfGr0TrVFtVcL6Xg/6c5KPd05W
+         N8CENYp27DnAuZR4D3B4p/G2mtgSkI1K048ZcREifSA/8Wcat6rW/d2vXAxsyLTAZe4p
+         Op9/X+L279UyhnXivmkkKsmG087aDCHP7IzojUoTpH8uKvthm9yaUPamBG1Wsrq3AUgj
+         SB9JVUtd35Ju95d4Kz7e4uD2mNKrIRZ5aWhggmsYDM1futnyQpczuLeyCdWRds03wtcL
+         UrmpKhEXKlyf620Z1FfIrcFx912SdrGghdUIMforaoEG3Jh8u4YMk9bbG5quYteEJAJz
+         OEeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=g911tlmgvN5ufOFb9qyP/qkib0bVxpbZxc7IFgmkXZg=;
-        b=yl/t5NE/Rk8qqm2ofJbOVVPnXoXQYcc9rkMMP/EAq104ipgQyyRtjTu8+e4V8mMZQy
-         9pQrHzvkckLEko6hfl+2bhFzyl1XZA2X8kr3HxEOHSPue82ANrXOYfDew/ZP2tTFvlI+
-         XbU9W1GEhLOcSakKgdTZh5T8Vbompb5utELPj6k9SFs7Wvhe0qcOSzsj30xxD7edDuf+
-         1bl1V+vLEtcLqEilPg5/aEazqrt3XqFQni5VBwG/KULn1tskJkA/micvxGrqpdW3JrmP
-         FUM6ySMa7MAz9BKzxAPnVifEFPJ6osDhgszHYKoN7C4BGn1xpdHlht5g8Crf2w9ifKaI
-         nDYQ==
-X-Gm-Message-State: ACrzQf3ULCGq0SgYPaPcdL9gf5Xj9zzruVKtl607HBk2UX414AjpgRpd
-        rXpN8aA6TBHjAqXNzB/Hlw==
-X-Google-Smtp-Source: AMsMyM66qoL2OgLtgzN5Q8sOmcXp17lptXkhAHxy1Rrkuzj/LcsXTI9p4SdAXPPI8FsBwx+6Egs75w==
-X-Received: by 2002:a05:6808:189d:b0:354:cf1f:a426 with SMTP id bi29-20020a056808189d00b00354cf1fa426mr16282255oib.219.1667253952738;
-        Mon, 31 Oct 2022 15:05:52 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id fp42-20020a05687065aa00b0013bc95650c8sm3613744oab.54.2022.10.31.15.05.51
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dtSyeHeLvKwwxtU0oKKaUmty6E8Ll59rUEslMaWX0ew=;
+        b=4z1ayeXMTcWHGLGpYy9trp5wlm1wqYW2iVWy9DUdTWGe2ATq62MDUdFfBXqkLbM4ru
+         AhE5jyqTA7QtJJEjGYHnHyxkMVKZe4OwgbkzQmTueIcgWJNac1YnyH5Qd+AC9kaT82pe
+         a7eHDi7P0lcv5pg2IxFE0mtC/Yia2daUxtAnjNt1n0bSefBu12j8XK/qXvrBxTh4aPgQ
+         G41rBTWEw7oxPb5h2ZM/FeTxXe4nW/qYY4e+/MbIK/wflWT1CA9oBEaWRcWS7LzZOdsn
+         78mjzIKKwNjr6XvwKzogyb7fefx1/GdD1S1fXFnEL7ArLIQkqDOqX9rXKbKJ37ccqjyz
+         RtAg==
+X-Gm-Message-State: ACrzQf3Ms1JPu//DFZJgQM9NvIsLeBYILfAkOgcq4C8BF/DU4YsnK3SK
+        J/6GlIRzDIV7Aiez1jKPye0=
+X-Google-Smtp-Source: AMsMyM6/zv7Ymxlb97cwlTS61ftfAX+fN1DVFl6js7slcpFR1t4e1llvyniBrl0BU4t4YAOHFZl2TA==
+X-Received: by 2002:a63:4753:0:b0:462:b3f0:a984 with SMTP id w19-20020a634753000000b00462b3f0a984mr14496000pgk.501.1667260174125;
+        Mon, 31 Oct 2022 16:49:34 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id x6-20020a626306000000b00565c8634e55sm5141014pfb.135.2022.10.31.16.49.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 15:05:52 -0700 (PDT)
-Received: (nullmailer pid 3649865 invoked by uid 1000);
-        Mon, 31 Oct 2022 22:05:54 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+        Mon, 31 Oct 2022 16:49:33 -0700 (PDT)
+Date:   Mon, 31 Oct 2022 16:49:30 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linus.walleij@linaro.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, rydberg@bitmath.org,
+        alistair23@gmail.com, s.hauer@pengutronix.de, andreas@kemnade.info,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v10 2/4] dt-bindings: input: Add Cypress TT21000
+ touchscreen controller
+Message-ID: <Y2BfCkVhE9GNdjWI@google.com>
+References: <20221026114908.191472-1-alistair@alistair23.me>
+ <20221026114908.191472-3-alistair@alistair23.me>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Siarhei Volkau <lis8215@gmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
-        Artur Rojek <contact@artur-rojek.eu>
-In-Reply-To: <20221031190159.1341027-2-lis8215@gmail.com>
-References: <20221031190159.1341027-1-lis8215@gmail.com>
- <20221031190159.1341027-2-lis8215@gmail.com>
-Message-Id: <166725358721.3638147.11464755727689545438.robh@kernel.org>
-Subject: Re: [RFC PATCH 1/2] dt-bindings: adc-joystick: add valid-range
-Date:   Mon, 31 Oct 2022 17:05:54 -0500
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221026114908.191472-3-alistair@alistair23.me>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-On Mon, 31 Oct 2022 22:01:58 +0300, Siarhei Volkau wrote:
-> The valid-range property aims to cover detachable/lock-able
-> joysticks where measured value goes outside valid-range.
+On Wed, Oct 26, 2022 at 09:49:06PM +1000, Alistair Francis wrote:
+> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
+> documentation. It can use I2C or SPI bus.
+> This touchscreen can handle some defined zone that are designed and
+> sent as button. To be able to customize the keycode sent, the
+> "linux,code" property in a "button" sub-node can be used.
 > 
-> Signed-off-by: Siarhei Volkau <lis8215@gmail.com>
-> ---
->  .../bindings/input/adc-joystick.yaml          | 62 +++++++++++++++++++
->  1 file changed, 62 insertions(+)
-> 
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Applied, thank you.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/input/adc-joystick.example.dts:82.28-104.11: ERROR (duplicate_label): /example-1/joystick: Duplicate label 'joystick' on /example-1/joystick and /example-0/adc-joystick
-ERROR: Input tree has errors, aborting (use -f to force output)
-make[1]: *** [scripts/Makefile.lib:406: Documentation/devicetree/bindings/input/adc-joystick.example.dtb] Error 2
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1492: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+-- 
+Dmitry
