@@ -2,111 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC22C613D33
-	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 19:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CD0C613DF6
+	for <lists+linux-input@lfdr.de>; Mon, 31 Oct 2022 20:02:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbiJaSTN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Oct 2022 14:19:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53850 "EHLO
+        id S229799AbiJaTCe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Oct 2022 15:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiJaSTM (ORCPT
+        with ESMTP id S229677AbiJaTCd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Oct 2022 14:19:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D070F65C6
-        for <linux-input@vger.kernel.org>; Mon, 31 Oct 2022 11:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667240298;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tCXgHf9H3leaoQEtBaimVIYh137pWKTTSQFOhwtVCag=;
-        b=IGDiO2H9G+nGQmckGqJ/aHucnw7azDCXClPhGpOA1Eg9r68GCIAUyzkym2e5pIiga9lKU3
-        Pv+tfjtk2aVm2l4zQdZvUIEsSuIVQY5EoFqcJR7pELcOrxRxz42995/qAHyzpGshENZASO
-        Fd8AKd+IvwYKNUYq3bmAnM7KLBZIf6g=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-277-Fk5cs8RnM860g23dxthzUA-1; Mon, 31 Oct 2022 14:18:14 -0400
-X-MC-Unique: Fk5cs8RnM860g23dxthzUA-1
-Received: by mail-ed1-f70.google.com with SMTP id y20-20020a056402271400b004630f3a32c3so3854698edd.15
-        for <linux-input@vger.kernel.org>; Mon, 31 Oct 2022 11:18:13 -0700 (PDT)
+        Mon, 31 Oct 2022 15:02:33 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 734E79589;
+        Mon, 31 Oct 2022 12:02:32 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so2420513wmg.2;
+        Mon, 31 Oct 2022 12:02:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MAKY7AptcCVQIhtmA9wqKe7QLZb3fkZHYHjCZEkjfqI=;
+        b=eBYn5yVs3gG4F0A2V+BGvTOlxeDyXHO7zxEKqyxQzgq0MRpwiVlymwpZVQsOpyWjGj
+         2NfEagpA+IG5N0tWUz9phvK46FAKiPHrQKUFrjtnQGDEtjwMZffZcSTBpcSB7M3Xfhtp
+         Y11i7ZqwOpMwNbJl/TD0JnJ2NnZO/1H0/6+tLZjl2mfRlZQLHpvzXNoPQ/K9UXoIXPNy
+         ylg676C2UDbxJZFgEl3zmI/Ug6VihVYv+6uEDwun5raEVjT+8gSO13UukiaaQ+WQr89c
+         GzdhAApmFOP32ukb2kPk1B3b8bfirxlZyFgPXZDlPFZmcpOcqDzfmgfTgxFc8Poyuj48
+         JZDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tCXgHf9H3leaoQEtBaimVIYh137pWKTTSQFOhwtVCag=;
-        b=ja0dinCHP3xoQoQsa54mW9/poQdUwGsNyb0Be15S2I2YMdj20KDfkVZW1TyLgtHnwd
-         1veclHLtXHv20tQqvA0oBrvevmm0UGsW3ilk4tVC/NvTliNHEaJqhJ6ftP75fnH6MuPX
-         AmTEsA4LGSI7SV1S55xQz4BzXA6qhOJxpslt2wmMKLMQKo2gFIPCY1l6fS9yeBjxbAdZ
-         wppCTlIjcz9X/Ir5vkjBaopej5dvvjcNqrNIlgrC8wRZxSb89dbWwjk1fpoL5cVNL4xv
-         oAkUlsW0+O5A++CadP+tR9oI8KgHnVnKfndok4oL9ThaJz2F0SyiuWIxKawVfyQPpHF8
-         Aipw==
-X-Gm-Message-State: ACrzQf2pIiPmOm/iweegkmAJIX5gs3n9YvVOoMAvajbuO4JyWOcsx5H6
-        dJOKZVInllzWoxfhFZcmsIAjSB/n//nkKVSmhWvezbAhORj83dM9rw1yHf0yw8AQxKGpIsXRAD5
-        2uSbxdKuwhdCjWnhga3uDPv8=
-X-Received: by 2002:a17:907:7faa:b0:7ad:e8e4:6ac7 with SMTP id qk42-20020a1709077faa00b007ade8e46ac7mr641348ejc.21.1667240292553;
-        Mon, 31 Oct 2022 11:18:12 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5q7sSvjBaYyFk/xIkLjJGW3wYK5v00mlxja+vj93/4TKqB3gtSzWTjLsEGOMlMSzlHJwYjlQ==
-X-Received: by 2002:a17:907:7faa:b0:7ad:e8e4:6ac7 with SMTP id qk42-20020a1709077faa00b007ade8e46ac7mr641333ejc.21.1667240292363;
-        Mon, 31 Oct 2022 11:18:12 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id ce24-20020a170906b25800b007a7f9b6318asm3277936ejb.50.2022.10.31.11.18.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 11:18:11 -0700 (PDT)
-Message-ID: <9137979f-5d11-5050-0718-39e9fb0cb6f9@redhat.com>
-Date:   Mon, 31 Oct 2022 19:18:11 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MAKY7AptcCVQIhtmA9wqKe7QLZb3fkZHYHjCZEkjfqI=;
+        b=hoZ67oNf4M58UC1QLyk6WhNpkeCqrTvXE27rkts+83wQQnNLh3jNqVhPt3LyuC3dwc
+         2YXnf/yUtkFJtbobl02+oGrqRDTOBgHWxtBrAXzUq6UI55HlQuUNawbqm2V4JlZ50MxM
+         HEK6hoSZgxs2CFLA3N3OGklQeBQh/mQks5ndB/RrZHkboI3hpCCGWpgC1r10YmlFSx78
+         +BKTJ3PVILr/8WGwfymEHYNPKGcQjGveMA97h1XFJLu8aZCBXk2hmoGOxX+4R4voOfil
+         7hMPT3TSwQJ2TV8J4mSE0SiniubjNDrdwm7lnWrd3DOiMAjNC0JVYMZG8V3pPE//TtXu
+         td9A==
+X-Gm-Message-State: ACrzQf2ZFnGQEICG/sFvHkaNStM0JqCuBCWg57a8l1n/nESal7wNpA40
+        AKE0I6Gko1GG+HsbraORE3o/nIWYm4Naj48b
+X-Google-Smtp-Source: AMsMyM7+5plAp3z1yti3XUxEnR/4Pb7z3zLSdjihTsF2sW/Z1Vcc2yePj8G1yJw4I7bSnFL9ZSzwWw==
+X-Received: by 2002:a05:600c:3b82:b0:3cf:6cc7:5b7b with SMTP id n2-20020a05600c3b8200b003cf6cc75b7bmr5721776wms.126.1667242950941;
+        Mon, 31 Oct 2022 12:02:30 -0700 (PDT)
+Received: from hp-power-15.localdomain (mm-167-8-212-37.vitebsk.dynamic.pppoe.byfly.by. [37.212.8.167])
+        by smtp.gmail.com with ESMTPSA id l13-20020a05600c2ccd00b003a2f2bb72d5sm9141750wmc.45.2022.10.31.12.02.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 12:02:30 -0700 (PDT)
+From:   Siarhei Volkau <lis8215@gmail.com>
+Cc:     Paul Cercueil <paul@crapouillou.net>,
+        Siarhei Volkau <lis8215@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/2] Input: adc-joystick: add detachable devices support
+Date:   Mon, 31 Oct 2022 22:01:57 +0300
+Message-Id: <20221031190159.1341027-1-lis8215@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 1/4] Input: goodix - Try resetting the controller when no
- config is set
-Content-Language: en-US, nl
-To:     Bastien Nocera <hadess@hadess.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-References: <20221025122930.421377-1-hdegoede@redhat.com>
- <20221025122930.421377-2-hdegoede@redhat.com>
- <0ad614f5c69bae7bf7081b32660d41bf4edd906c.camel@hadess.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <0ad614f5c69bae7bf7081b32660d41bf4edd906c.camel@hadess.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+For detachable or lock-able joysticks the ADC lanes might
+be biased to GND or AVDD when the joystick is detached/locked.
 
-On 10/31/22 15:42, Bastien Nocera wrote:
-> On Tue, 2022-10-25 at 14:29 +0200, Hans de Goede wrote:
->> On ACPI systems (irq_pin_access_method == IRQ_PIN_ACCESS_ACPI_*) the
->> driver
->> does not reset the controller at probe time, because sometimes the
->> system
->> firmware loads a config and resetting might loose this config.
-> 
-> "lose".
-> 
-> You can add
-> Reviewed-by: Bastien Nocera <hadess@hadess.net>
-> to all 4 patches in this patchset that don't already have it.
+One such kind of joystick is found in the Ritmix RZX-50 handheld.
+The joystick is non-detachable, although ADC lane biased to power
+supply when the "Hold" switch is activated.
 
-Thank you.
+To avoid reporting old/broken measurements valid-range is introduced.
+When measured value is outside valid-range the driver reports
+safe center position for corresponding axis.
 
-Dmitry, I assume you can fix the small spelling error in the
-commit msg while applying this?
+Siarhei Volkau (2):
+  dt-bindings: adc-joystick: add valid-range
+  Input: adc-joystick - add detachable devices support
 
-Regards,
+ .../bindings/input/adc-joystick.yaml          | 62 +++++++++++++++++++
+ drivers/input/joystick/adc-joystick.c         | 58 ++++++++++++++++-
+ 2 files changed, 119 insertions(+), 1 deletion(-)
 
-Hans
-
+-- 
+2.36.1
 
