@@ -2,73 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80961614582
-	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 09:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 045BF6147DE
+	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 11:45:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbiKAIPM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Nov 2022 04:15:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49842 "EHLO
+        id S229457AbiKAKpT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Nov 2022 06:45:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbiKAIPM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 04:15:12 -0400
-Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A7011260E;
-        Tue,  1 Nov 2022 01:15:07 -0700 (PDT)
-Received: from ([60.208.111.195])
-        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id WLR00100;
-        Tue, 01 Nov 2022 16:15:00 +0800
-Received: from localhost.localdomain (10.200.104.97) by
- jtjnmail201603.home.langchao.com (10.100.2.3) with Microsoft SMTP Server id
- 15.1.2507.12; Tue, 1 Nov 2022 16:15:01 +0800
-From:   Bo Liu <liubo03@inspur.com>
-To:     <dmitry.torokhov@gmail.com>
-CC:     <michael@amarulasolutions.com>,
-        <dario.binacchi@amarulasolutions.com>,
-        <wsa+renesas@sang-engineering.com>,
-        <oliver.graute@kococonnector.com>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Bo Liu <liubo03@inspur.com>
-Subject: [PATCH] Input: edt-ft5x06 - replace DEFINE_SIMPLE_ATTRIBUTE with DEFINE_DEBUGFS_ATTRIBUTE
-Date:   Tue, 1 Nov 2022 04:14:58 -0400
-Message-ID: <20221101081458.8119-1-liubo03@inspur.com>
-X-Mailer: git-send-email 2.18.2
+        with ESMTP id S229452AbiKAKpS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 06:45:18 -0400
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03DE415733;
+        Tue,  1 Nov 2022 03:45:18 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id bg9-20020a05600c3c8900b003bf249616b0so9633954wmb.3;
+        Tue, 01 Nov 2022 03:45:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dwwjXDojYpfAe9pWWX8Ysi5XeTkAjvd2ATF6N/1wGPU=;
+        b=NahdesqsLHr7+wi56zRaWBqCEWzA2xPKCqRFZQVtFozC/59gAYk7HxBsT+hQMeJV+c
+         YTIsLURDCp7YHNq/J4egrl4OuKMLekR3kLJI+EV6Sujv7p6RpWHJZHcyH1aNYW1+98l/
+         zZRpoPNE7UQ7u2NkpAFum2q+20qgfXvhI0Qyw+lkuXl4iZuqNyceTLTR8pu0MI25ir4J
+         dHDktygSlUZoYvUxHuI04CmjCi6eQV5Msd7Q24T1XWrH0vRRB4O1Edi6QCaG+1/gR/HR
+         cDtMrHU6mAIo1xCxeLwOnUEyaZfGOtM9ig0xS/dqUZkiJ3VwmFguGkjSiy0zJ0gg5gWf
+         pytw==
+X-Gm-Message-State: ACrzQf29/bERmBqrkhV2FYpiCF2qTkpDMvv5xDuYXJ/gnUwGmShXrTcA
+        5bg5s9MoPUSAPetKXlTSzfYCkcH25dY=
+X-Google-Smtp-Source: AMsMyM4QVo1hkD6PZp/72zLlcjK1kd7Up4LxynAOQ+/xozzUVFv50W1pWtxajjYts2Ncd6DfOpuQGg==
+X-Received: by 2002:a05:600c:3506:b0:3cf:70ac:7039 with SMTP id h6-20020a05600c350600b003cf70ac7039mr6890113wmq.145.1667299516499;
+        Tue, 01 Nov 2022 03:45:16 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id w11-20020a5d404b000000b002258235bda3sm9609057wrp.61.2022.11.01.03.45.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Nov 2022 03:45:15 -0700 (PDT)
+Date:   Tue, 1 Nov 2022 10:45:10 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, jkosina@suse.cz
+Subject: Re: [PATCH] HID: hyperv: fix possible memory leak in mousevsc_probe()
+Message-ID: <Y2D4ts1quAg3VZQU@liuwe-devbox-debian-v2>
+References: <20221028134043.1152629-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.200.104.97]
-tUid:   20221101161500c5e451d4bbc87ab63752f659c0e9ec61
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221028134043.1152629-1-yangyingliang@huawei.com>
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix the following coccicheck warning:
-  drivers/input/touchscreen/edt-ft5x06.c:756:0-23: WARNING:
-    debugfs_mode_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
+On Fri, Oct 28, 2022 at 09:40:43PM +0800, Yang Yingliang wrote:
+> If hid_add_device() returns error, it should call hid_destroy_device()
+> to free hid_dev which is allocated in hid_allocate_device().
+> 
+> Fixes: 74c4fb058083 ("HID: hv_mouse: Properly add the hid device")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 
-Signed-off-by: Bo Liu <liubo03@inspur.com>
----
- drivers/input/touchscreen/edt-ft5x06.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 9ac1378610bc..a184425b6985 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -753,7 +753,7 @@ static int edt_ft5x06_debugfs_mode_set(void *data, u64 mode)
- 	return retval;
- };
- 
--DEFINE_SIMPLE_ATTRIBUTE(debugfs_mode_fops, edt_ft5x06_debugfs_mode_get,
-+DEFINE_DEBUGFS_ATTRIBUTE(debugfs_mode_fops, edt_ft5x06_debugfs_mode_get,
- 			edt_ft5x06_debugfs_mode_set, "%llu\n");
- 
- static ssize_t edt_ft5x06_debugfs_raw_data_read(struct file *file,
--- 
-2.27.0
-
+Reviewed-by: Wei Liu <wei.liu@kernel.org>
