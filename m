@@ -2,78 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 560756141F9
-	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 00:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F8776142A5
+	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 02:08:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbiJaXwT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Oct 2022 19:52:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40300 "EHLO
+        id S229772AbiKABIp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Oct 2022 21:08:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbiJaXwT (ORCPT
+        with ESMTP id S229823AbiKABIf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Oct 2022 19:52:19 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C71B6359;
-        Mon, 31 Oct 2022 16:52:18 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id c2so12097246plz.11;
-        Mon, 31 Oct 2022 16:52:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=42AbG1h8Q807JEzTQryQyQ9tPqe9/mahuEB1baBD2AY=;
-        b=PQ9VmZCEeFS001ML/ftJM2a+ZGORsh/gT/DeyU6McJhioai5BxxsVsB/p26iJJxm+F
-         67buR21uq9P3TJlfD4H588hXJknwW9hNE+OwXwqcM7tfI3q2ZDFHpJYgKHqV55aXTKh9
-         T9U21zMrcD9D+h8QZDmhWJ6XmLW1XcsYA9eGjiJUkhwx8zftukokB7vPsXPIN6hWGf2/
-         BhNMoUA6XQugDvJTin/AwbDyPquZArmJEQViCzdjtk5ukNCcUYdiK5lSB/dOMFIePYw/
-         BCrq/XlOsNsA4bxMec13/2vv/lg1Z+ZBxU9COBE83CM7xvk3nJaZFZb5/qDVZtdIDJCR
-         5GYA==
+        Mon, 31 Oct 2022 21:08:35 -0400
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3433167CC;
+        Mon, 31 Oct 2022 18:08:33 -0700 (PDT)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-13bd19c3b68so15320643fac.7;
+        Mon, 31 Oct 2022 18:08:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=42AbG1h8Q807JEzTQryQyQ9tPqe9/mahuEB1baBD2AY=;
-        b=qJ1wYvSYcXWYgPrKOCF1DP+vW3WTmf21U63XTYovwYZKXD5q+/nHZJnQnBkPwxiepx
-         D+QhaOreSSO9+YxVDpf+PcPl9xvivBk1HnXQpT7cXUU19si/LseVRcCGKiokOS3Z64Jh
-         qWxjK07NNk6LSz665cMJdm99Cy+Qeg+cpXI5oRKBPdxx4HP0MJH0KUNYBHAK8Z/q4wo4
-         YpE84yBPXVG/203PHpn1+eaptVW+siRd898ZwmIJE0alY/x+0FufSz/Cmqvp4SwejUmG
-         Pv5rtHmSUhJOvnNfcfDjdgxlaGe99bq5Qo8S9YDy5BpH26cVR+Whe0u0W9xVtcGXn09o
-         UZzg==
-X-Gm-Message-State: ACrzQf1KsTCrZNywdkAhNga7mRXLaxo0P1wphkD5Y0HTCxLQ8Vbx3JOg
-        2QKW2hdni20UMYgxCMWmt/jC0gALqkM=
-X-Google-Smtp-Source: AMsMyM6buq6tm3rfrpcHR9T3a0NkKhTf4Px/kWe+0WsvqcQdbJtE2i21xJKGvrcigAoEm/pE6RPayg==
-X-Received: by 2002:a17:90a:ac03:b0:213:9515:c41f with SMTP id o3-20020a17090aac0300b002139515c41fmr20696394pjq.171.1667260337649;
-        Mon, 31 Oct 2022 16:52:17 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id f1-20020a170902f38100b00176ab6a0d5fsm4987864ple.54.2022.10.31.16.52.16
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rkVZqxjemZWhoVabZk5YcbL3H9P5S1HNJrfIuS+Jm2Q=;
+        b=DPS6/8/GpGlIYZRwAo8w8ABq20QsNVUw03TKiTUWPjXYOWCoEWFwY3KEITSEAGOdPx
+         +FdEUZGQVZtQFApSMTQDjkZFvRAxcWN212K4NpINkEiRODelqX8VY38AY+T3TPmnepgi
+         QLW2bZyMQ2yUgJ+oGjTmr8U2FgCmSGHP7dLjV5rcl7Rhrh5YxSllZ4h0fp4k6Crak0jX
+         1/l2UhtP/l43k7tkL8RhY9PQIzveMCWqKKzE912rXf1dLtK3PmOJ/+hQwui7cMoKgWv6
+         57jnQJKPy0PaX+/PxKYdPp2+c0Gw5Cu7sbNy8go3eR8fIjkeECai6aY7w8ZzZYYDDkIA
+         XKDw==
+X-Gm-Message-State: ACrzQf0ezFKJ3DT7kyzEu9+hfwkSpJr0Z+Sx2kjtUcmbPCKMhf1myUKq
+        D2wrwWvwcW1gaMCUtbJCqvMaStFJeQ==
+X-Google-Smtp-Source: AMsMyM5s/TLtNmTf6pyI0/TB4FnK1lstOfBUqUGcVIlbjL/cr2l0qlAgnrdhOoeXpc4AiV6ipkm/fA==
+X-Received: by 2002:a05:6870:4390:b0:13d:2be6:dac with SMTP id r16-20020a056870439000b0013d2be60dacmr1435983oah.3.1667264912818;
+        Mon, 31 Oct 2022 18:08:32 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bj23-20020a056808199700b00353ef11d6c9sm2912777oib.19.2022.10.31.18.08.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 16:52:17 -0700 (PDT)
-Date:   Mon, 31 Oct 2022 16:52:13 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linus.walleij@linaro.org,
-        robh+dt@kernel.org, shawnguo@kernel.org, rydberg@bitmath.org,
-        alistair23@gmail.com, s.hauer@pengutronix.de, andreas@kemnade.info,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
-        <mylene.josserand@bootlin.com>, Peter Geis <pgwipeout@gmail.com>
-Subject: Re: [PATCH v10 1/4] Input: Add driver for Cypress Generation 5
- touchscreen
-Message-ID: <Y2BfrUx9gzaNhb4I@google.com>
-References: <20221026114908.191472-1-alistair@alistair23.me>
- <20221026114908.191472-2-alistair@alistair23.me>
+        Mon, 31 Oct 2022 18:08:32 -0700 (PDT)
+Received: (nullmailer pid 4035896 invoked by uid 1000);
+        Tue, 01 Nov 2022 01:08:34 -0000
+Date:   Mon, 31 Oct 2022 20:08:34 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Siarhei Volkau <lis8215@gmail.com>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+        Artur Rojek <contact@artur-rojek.eu>
+Subject: Re: [RFC PATCH 1/2] dt-bindings: adc-joystick: add valid-range
+Message-ID: <20221101010834.GA4034975-robh@kernel.org>
+References: <20221031190159.1341027-1-lis8215@gmail.com>
+ <20221031190159.1341027-2-lis8215@gmail.com>
+ <166725358721.3638147.11464755727689545438.robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221026114908.191472-2-alistair@alistair23.me>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <166725358721.3638147.11464755727689545438.robh@kernel.org>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,25 +69,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 26, 2022 at 09:49:05PM +1000, Alistair Francis wrote:
-> This is the basic driver for the Cypress TrueTouch Gen5 touchscreen
-> controllers. This driver supports only the I2C bus but it uses regmap
-> so SPI support could be added later.
-> The touchscreen can retrieve some defined zone that are handled as
-> buttons (according to the hardware). That is why it handles
-> button and multitouch events.
+On Mon, Oct 31, 2022 at 05:05:54PM -0500, Rob Herring wrote:
 > 
-> Reviewed-by: Maxime Ripard <maxime.ripard@bootlin.com>
-> Signed-off-by: Mylène Josserand <mylene.josserand@bootlin.com>
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> Tested-by: Andreas Kemnade <andreas@kemnade.info> # Kobo Clara HD
-> Tested-by: Peter Geis <pgwipeout@gmail.com>
+> On Mon, 31 Oct 2022 22:01:58 +0300, Siarhei Volkau wrote:
+> > The valid-range property aims to cover detachable/lock-able
+> > joysticks where measured value goes outside valid-range.
+> > 
+> > Signed-off-by: Siarhei Volkau <lis8215@gmail.com>
+> > ---
+> >  .../bindings/input/adc-joystick.yaml          | 62 +++++++++++++++++++
+> >  1 file changed, 62 insertions(+)
+> > 
+> 
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/input/adc-joystick.example.dts:82.28-104.11: ERROR (duplicate_label): /example-1/joystick: Duplicate label 'joystick' on /example-1/joystick and /example-0/adc-joystick
+> ERROR: Input tree has errors, aborting (use -f to force output)
+> make[1]: *** [scripts/Makefile.lib:406: Documentation/devicetree/bindings/input/adc-joystick.example.dtb] Error 2
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1492: dt_binding_check] Error 2
 
-While I wish we did not have to parse what is essentially HID data
-ourselves and basically repeated what i2c-hid does, I understand that
-the firmware is not exactly i2c-hid compatible...
+The examples aren't completely independent, so you can't use the same 
+labels.
 
-Applied, thank you.
+Rob
 
--- 
-Dmitry
