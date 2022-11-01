@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84A8E6148C9
-	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 12:29:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D182A61491D
+	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 12:32:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbiKAL3p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Nov 2022 07:29:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35200 "EHLO
+        id S229601AbiKALcn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Nov 2022 07:32:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbiKAL3S (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 07:29:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B2886272;
-        Tue,  1 Nov 2022 04:28:36 -0700 (PDT)
+        with ESMTP id S230418AbiKALbr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 07:31:47 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D001AF33;
+        Tue,  1 Nov 2022 04:30:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 39EB4615DB;
-        Tue,  1 Nov 2022 11:28:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBE2BC433D6;
-        Tue,  1 Nov 2022 11:28:34 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BBD9FB81CC3;
+        Tue,  1 Nov 2022 11:29:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891DDC433D7;
+        Tue,  1 Nov 2022 11:29:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667302115;
-        bh=0Dey/UFhuf0OrEo/sloIPYEVTEtorlx8N38Ma/FUBUs=;
+        s=k20201202; t=1667302197;
+        bh=2aw4lyjmEGeiSkjajOJZd+NWq6sF6awRiAj9M6Ot8TI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rstczm31Im5rPjomugKPvOGBYWLcSBtZgN35blM79gKLQK4XL7+LzgXtxQ+K7+0QM
-         yy33zsbbbMmNiia+eazKjvcciyGkFv6ruj0Bcj3B12x11Hv49HkECGe9gZegPdGzJO
-         oY6py6P/I7yUfA7giWGv51oOVpimnZ8PTjK3bjX9EJzmUpvWBF5rHnJ4kNz2Fj6gpL
-         +y4EbORr7LEvJ9h4hMCMtiw2JFUC6l2rsQ0k7rmQqMpZqpOHQvSsk0gJO2Djl+eV9i
-         VSEEO4baPgR0m8H6XDh5Tw452DFXfai4vXmmdMhdRyJAc9i5DW16J03XPZASCiK1mG
-         yTtcQsRY+0RcA==
+        b=bBpW6f0BPwMG/W0R8OqeOQaMruWXKhKLaV0a4HBC0bHfXrI/BZ5bKo4MdeMZg+uNA
+         WwfmWixaq7LGQZDTSN2Ks7hpzT/5kmlL9Oa2fmyiRQyTUkPcKcew424SzK17+c+jdu
+         mZHNmvIy5dgXbxMopvy0YemIdnn5OcoI5X/JmaYQphTZMafk+K/oJHFQmZW4lDW3Rz
+         ljy+vFmeM59haTtzm4WUJFCeWi2JE7n+sjB0jOltCiWuh+kQ3wguKJhJgboh64OqY8
+         S5YF0dhppy1vGhXPqjqILQ0YJ3YeeZV9uc+8K/OZAFoYhx/EPtlEKSmMT8GbgvElT3
+         giWZb9fwA03NA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Samuel Bailey <samuel.bailey1@gmail.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 25/34] HID: saitek: add madcatz variant of MMO7 mouse device ID
-Date:   Tue,  1 Nov 2022 07:27:17 -0400
-Message-Id: <20221101112726.799368-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 16/19] HID: saitek: add madcatz variant of MMO7 mouse device ID
+Date:   Tue,  1 Nov 2022 07:29:16 -0400
+Message-Id: <20221101112919.799868-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221101112726.799368-1-sashal@kernel.org>
-References: <20221101112726.799368-1-sashal@kernel.org>
+In-Reply-To: <20221101112919.799868-1-sashal@kernel.org>
+References: <20221101112919.799868-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 4 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 043cf1cc8794..256795ed6247 100644
+index cb2b48d6915e..2c83151334ab 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -867,6 +867,7 @@
+@@ -845,6 +845,7 @@
  #define USB_DEVICE_ID_MADCATZ_BEATPAD	0x4540
  #define USB_DEVICE_ID_MADCATZ_RAT5	0x1705
  #define USB_DEVICE_ID_MADCATZ_RAT9	0x1709
@@ -85,10 +85,10 @@ index 043cf1cc8794..256795ed6247 100644
  #define USB_VENDOR_ID_MCC		0x09db
  #define USB_DEVICE_ID_MCC_PMD1024LS	0x0076
 diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 70f602c64fd1..50e1c717fc0a 100644
+index 544d1197aca4..8d36cb7551cf 100644
 --- a/drivers/hid/hid-quirks.c
 +++ b/drivers/hid/hid-quirks.c
-@@ -620,6 +620,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+@@ -608,6 +608,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
  	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_MMO7) },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_RAT5) },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_RAT9) },
