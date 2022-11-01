@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC09661496F
-	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 12:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7810B614958
+	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 12:36:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbiKALh3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Nov 2022 07:37:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46020 "EHLO
+        id S231261AbiKALgT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Nov 2022 07:36:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231171AbiKALhG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 07:37:06 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49CAD1D328;
-        Tue,  1 Nov 2022 04:32:02 -0700 (PDT)
+        with ESMTP id S231313AbiKALfq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 07:35:46 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324461CFEB;
+        Tue,  1 Nov 2022 04:31:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5444FB81CD1;
-        Tue,  1 Nov 2022 11:31:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B421C433D6;
-        Tue,  1 Nov 2022 11:31:14 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CB634B81CC3;
+        Tue,  1 Nov 2022 11:31:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A823BC433B5;
+        Tue,  1 Nov 2022 11:31:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667302275;
-        bh=L9aQ73/4PQIxYU6PJzWji8OE/jJa6y6rkGYuYWnYiko=;
+        s=k20201202; t=1667302291;
+        bh=pcwYCcHp1F2nlPx0ZHtK8KuH4q/blx8O+3O0+fbRhfU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LkX6AvLDN+FabWKcZfQ8JsWeXuv9vLb8sxzg+mQbTuCI8BHIMVM9NEVdrc4kop8Yq
-         yfPmiu4OvUbue237hH+/7d5PPdobcZP0Mkj4LTY9BDneNxWgHBMVDKjDZmneMtp8sC
-         qq5fuzqXIfY3R8f5S6QuP5HqCY8fGB7mqwy04Q8Scy3lGXMrNunFIHJwP8fjVgMe8b
-         i69EiPasv/CdjBJXoeO5Wy3gtFzwNYwmTvb93ySTvv+ZYHbigEs5GfjP0Iwp486NKQ
-         zngm2ZR2eDrBFOtzH5UhxosUYVb5Ar0ImFyGRwUDbisZc21gKJPQmdfgfh05CqC4XD
-         ahYbuK3eHuOdg==
+        b=hB/DxBocCna35kE8pqVgW7F/Xi0x8RVoH3mLBch3iXEh6+ilXVWWrzXD9ehzFh4vh
+         CBVvrjPgfFzzx0LhrFSmfJPuYYzq77BdJZjNv8I7AfoFRjwM/AdItkJSRmQTND7KnP
+         eo8fdhB5RoMnjRS3fakDu2l82gjN/TXlTfFdnyMkkBuuowIKSD4lYprdyj4wX1tsfN
+         Z9IWAIe3eB+K/oK/+JE0WSaT5pJP3+ismR+taaY6U5SxZ6tEoZkHL8sQr9hHh4nmsD
+         z8len75RHlDkuyvBoM7TK3n96ZcoW3hy3nwmmcpDUtKjucUw9h2CLr9MKV3DDnVD6s
+         HpasPkQ3mvaig==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Samuel Bailey <samuel.bailey1@gmail.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 7/8] HID: saitek: add madcatz variant of MMO7 mouse device ID
-Date:   Tue,  1 Nov 2022 07:30:56 -0400
-Message-Id: <20221101113059.800777-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 5/6] HID: saitek: add madcatz variant of MMO7 mouse device ID
+Date:   Tue,  1 Nov 2022 07:31:15 -0400
+Message-Id: <20221101113118.800889-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221101113059.800777-1-sashal@kernel.org>
-References: <20221101113059.800777-1-sashal@kernel.org>
+In-Reply-To: <20221101113118.800889-1-sashal@kernel.org>
+References: <20221101113118.800889-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 4 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index c587a77d493c..d6cd94cad571 100644
+index 70079d29822b..00943ddbe417 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -818,6 +818,7 @@
+@@ -793,6 +793,7 @@
  #define USB_DEVICE_ID_MADCATZ_BEATPAD	0x4540
  #define USB_DEVICE_ID_MADCATZ_RAT5	0x1705
  #define USB_DEVICE_ID_MADCATZ_RAT9	0x1709
@@ -85,10 +85,10 @@ index c587a77d493c..d6cd94cad571 100644
  #define USB_VENDOR_ID_MCC		0x09db
  #define USB_DEVICE_ID_MCC_PMD1024LS	0x0076
 diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 45eba224cdc7..89e236b71ddf 100644
+index c1b76ba85fb4..8de294aa3184 100644
 --- a/drivers/hid/hid-quirks.c
 +++ b/drivers/hid/hid-quirks.c
-@@ -615,6 +615,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+@@ -620,6 +620,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
  	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_MMO7) },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_RAT5) },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MADCATZ, USB_DEVICE_ID_MADCATZ_RAT9) },
@@ -97,10 +97,10 @@ index 45eba224cdc7..89e236b71ddf 100644
  #if IS_ENABLED(CONFIG_HID_SAMSUNG)
  	{ HID_USB_DEVICE(USB_VENDOR_ID_SAMSUNG, USB_DEVICE_ID_SAMSUNG_IR_REMOTE) },
 diff --git a/drivers/hid/hid-saitek.c b/drivers/hid/hid-saitek.c
-index c7bf14c01960..b84e975977c4 100644
+index 683861f324e3..95e004d9b110 100644
 --- a/drivers/hid/hid-saitek.c
 +++ b/drivers/hid/hid-saitek.c
-@@ -187,6 +187,8 @@ static const struct hid_device_id saitek_devices[] = {
+@@ -191,6 +191,8 @@ static const struct hid_device_id saitek_devices[] = {
  		.driver_data = SAITEK_RELEASE_MODE_RAT7 },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_MMO7),
  		.driver_data = SAITEK_RELEASE_MODE_MMO7 },
