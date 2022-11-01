@@ -2,94 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 934A06149F5
-	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 12:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48472614AB0
+	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 13:30:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231418AbiKALw7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Nov 2022 07:52:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40232 "EHLO
+        id S230329AbiKAMaQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Nov 2022 08:30:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230316AbiKALwf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 07:52:35 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B7FE1BEA1;
-        Tue,  1 Nov 2022 04:50:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229574AbiKAMaO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 08:30:14 -0400
+Received: from butterbrot.org (butterbrot.org [176.9.106.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A759BE0A7;
+        Tue,  1 Nov 2022 05:30:12 -0700 (PDT)
+Received: from [192.168.117.72] (77.241.129.138.mobile.3.dk [77.241.129.138])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A0C12B81CC1;
-        Tue,  1 Nov 2022 11:50:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B42DC43142;
-        Tue,  1 Nov 2022 11:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667303434;
-        bh=b9DuYeJ8UAyKN4iunSt8QITKWhgj/OI7HXDzc4+2l1s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UYRKmAH9YdIMxLU8EIhuvvnbpOp7f11/bypSfTgAnJ565eqzNIZhOubyyXnOkFswX
-         rhxW/gDb/p+cg9Lu0k0BFY9UoeX9g+O320lJ4oyNnP39nPcim7deDVUf6OcbZAz/i3
-         zHvY+drmkwx21kwgXW1OfmfPT0Te1NND2AK6kynHuFF0rqSGxEqrD629HK7QXRFz+V
-         Le522I8ivpz1IgpVuvWozjhySVwzSABDDZkwEjdKqI51HxP9ORUYEvx7pXo+rTWQ9l
-         aMxApK4Kt9dNwjIF60jmsZlHYfRYvz0WxGzXm2ghiWZpCemYMCfygsCZWQ0pFASGoR
-         CsU8sKuJgpGYw==
-Received: by mail-lf1-f52.google.com with SMTP id t4so10102074lfp.2;
-        Tue, 01 Nov 2022 04:50:34 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3ExM1ZhFcAohp/pUws3qOdk8rf+u8UQzY+GN/iaD5Z/lCN6vZo
-        TbPe/bkf+K3WtSfuQGtHPFYwSNuyiVzMSPQLZw==
-X-Google-Smtp-Source: AMsMyM5KpWl/s5M/2RwB97O0OoBTIFMD/4tFktgErD2EfbHM6BU8nZZywCB3++o+IvLHYAQ1WNuxKb0WTeinXEUk2sM=
-X-Received: by 2002:a05:6512:3e10:b0:4a2:48c1:8794 with SMTP id
- i16-20020a0565123e1000b004a248c18794mr6906292lfv.17.1667303432390; Tue, 01
- Nov 2022 04:50:32 -0700 (PDT)
+        by butterbrot.org (Postfix) with ESMTPSA id CE2CB65829EB;
+        Tue,  1 Nov 2022 13:30:09 +0100 (CET)
+Message-ID: <702aa771-2dcd-1b26-76a1-7acb1a3bed0e@butterbrot.org>
+Date:   Tue, 1 Nov 2022 13:30:07 +0100
 MIME-Version: 1.0
-References: <20221026114908.191472-1-alistair@alistair23.me>
- <20221026114908.191472-3-alistair@alistair23.me> <Y2BfCkVhE9GNdjWI@google.com>
-In-Reply-To: <Y2BfCkVhE9GNdjWI@google.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 1 Nov 2022 06:50:23 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKppGZ2Dm3GiDY-e4TvLSvcc-EHwafXNwfoSD1AHzz=GA@mail.gmail.com>
-Message-ID: <CAL_JsqKppGZ2Dm3GiDY-e4TvLSvcc-EHwafXNwfoSD1AHzz=GA@mail.gmail.com>
-Subject: Re: [PATCH v10 2/4] dt-bindings: input: Add Cypress TT21000
- touchscreen controller
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Alistair Francis <alistair@alistair23.me>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linus.walleij@linaro.org,
-        shawnguo@kernel.org, rydberg@bitmath.org, alistair23@gmail.com,
-        s.hauer@pengutronix.de, andreas@kemnade.info
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: (very old) regression in sur40.ko
+Content-Language: en-GB
+From:   Florian Echtler <floe@butterbrot.org>
+To:     linux-input <linux-input@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Martin Kaltenbrunner <modin@yuri.at>,
+        Raphael Wimmer <raphael.wimmer@ur.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
+In-Reply-To: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xE061Vj88LCuyLyJwDvirPGM"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 31, 2022 at 6:49 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Wed, Oct 26, 2022 at 09:49:06PM +1000, Alistair Francis wrote:
-> > Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
-> > documentation. It can use I2C or SPI bus.
-> > This touchscreen can handle some defined zone that are designed and
-> > sent as button. To be able to customize the keycode sent, the
-> > "linux,code" property in a "button" sub-node can be used.
-> >
-> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
->
-> Applied, thank you.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xE061Vj88LCuyLyJwDvirPGM
+Content-Type: multipart/mixed; boundary="------------856vdkG5jSsou0Xybhf4ybmv";
+ protected-headers="v1"
+From: Florian Echtler <floe@butterbrot.org>
+To: linux-input <linux-input@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Martin Kaltenbrunner <modin@yuri.at>,
+ Raphael Wimmer <raphael.wimmer@ur.de>, Hans Verkuil
+ <hans.verkuil@cisco.com>, Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-ID: <702aa771-2dcd-1b26-76a1-7acb1a3bed0e@butterbrot.org>
+Subject: Re: (very old) regression in sur40.ko
+References: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
+In-Reply-To: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
 
-It looks like you applied v8, not this version. linux-next now has a warning:
+--------------856vdkG5jSsou0Xybhf4ybmv
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dtb:
-touchscreen@24: Unevaluated properties are not allowed
-('#address-cells', '#size-cells' were unexpected)
-        From schema:
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+W2ZvcmdvdCBDQyB0byBDaHJpc3RvcGggSGVsbHdpZyBhbmQgR3JlZyBLSCB3aG8gYXV0aG9y
+ZWQgdGhlIGNvbW1pdCBpbiBxdWVzdGlvbl0NCg0KT24gMzEuMTAuMjIgMTE6MTMsIEZsb3Jp
+YW4gRWNodGxlciB3cm90ZToNCj4gSGVsbG8gZXZlcnlvbmUsDQo+IA0KPiBJIGRpZG4ndCB1
+c2UgbXkgc3VyNDAgZm9yIHF1aXRlIHNvbWUgdGltZSwgYnV0IHJlY2VudGx5IHBpY2tlZCB1
+cCB3b3JrIG9uIGl0IA0KPiBhZ2Fpbi4gQWZ0ZXIgYSBrZXJuZWwgdXBkYXRlIHRvIDUuMTUs
+IEkgbm90aWNlZCB0aGF0IHRoZSB2aWRlbyBjb21wb25lbnQgb2YgdGhlIA0KPiBpbi10cmVl
+IHN1cjQwIGRyaXZlciBoYWQgYXBwYXJlbnRseSBzdG9wcGVkIHdvcmtpbmcgYWZ0ZXIgNS45
+ICh0aGlzIHdhcyBhY3R1YWxseSANCj4gbm90aWNlZCBieSBAcndpbW1lciBhIHllYXIgYWdv
+LCBidXQgSSBkaWRuJ3QgcHJvcGVybHkgZm9sbG93IHVwIGF0IHRoZSB0aW1lKS4NCj4gDQo+
+IFRoaXMgdGltZSwgSSBkaWQgZmluYWxseSBnbyB0aHJvdWdoIHdpdGggYSB2ZXJ5IHRlZGlv
+dXMgMTQtc3RlcCBiaXNlY3Rpb24gb2YgdGhlIA0KPiBpc3N1ZSBhbmQgZW5kZWQgdXAgYXQg
+dGhpcyBjb21taXQ6DQo+IA0KPiBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgv
+Y29tbWl0LzZlYjAyMzNlYzJkMGRmMjg4ZmU4NTE1ZDViMGIyYjE1NTYyZTA1YmINCj4gDQo+
+IFRoZSBpc3N1ZSBtYW5pZmVzdHMgYXMgYSBrZXJuZWwgb29wcyBpbiB2YjJfZG1hX3NnX2Fs
+bG9jLCByZXN1bHRpbmcgaW4gYSBmYWlsZWQgDQo+IHVzYl9zZ19pbml0IGNhbGwgKHByb2Jh
+Ymx5IGJlY2F1c2UgZG1hX21hc2sgYW5kIGRtYV9wZm5fb2Zmc2V0IGFyZSBub3cgdW5zZXQp
+LiANCj4gSG93IHdvdWxkIEkgaGF2ZSB0byB1c2UgdGhlICpfc2dfKiBmdW5jdGlvbnMgaW4g
+bXkgZHJpdmVyIHRvIGZpeCB0aGlzPw0KPiANCj4gRm9yIHJlZmVyZW5jZSwgdGhlIGNvZGUg
+aW4gcXVlc3Rpb24gaXM6DQo+IA0KPiAgwqDCoMKgwqByZXN1bHQgPSB1c2Jfc2dfaW5pdCgm
+c2dyLCBzdXI0MC0+dXNiZGV2LA0KPiAgwqDCoMKgwqDCoMKgwqAgdXNiX3JjdmJ1bGtwaXBl
+KHN1cjQwLT51c2JkZXYsIFZJREVPX0VORFBPSU5UKSwgMCwNCj4gIMKgwqDCoMKgwqDCoMKg
+IHNndC0+c2dsLCBzZ3QtPm5lbnRzLCBzdXI0MC0+cGl4X2ZtdC5zaXplaW1hZ2UsIDApOw0K
+PiANCj4gIEZyb20gbG9va2luZyBhdCB0aGUgb3RoZXIgdXNlcyBvZiB1c2Jfc2dfaW5pdCwg
+d291bGQgaXQgYmUgc3VmZmljaWVudCB0byBjaGFuZ2UgDQo+IHRoZSB2ZXJ5IGxhc3QgcGFy
+YW1ldGVyIGZyb20gMCB0byBlaXRoZXIgR0ZQX0tFUk5FTCBvciBHRlBfTk9JTz8gSWYgeWVz
+LCB3aGljaCANCj4gb25lIGlzIGNvcnJlY3Q/DQo+IA0KPiBCZXN0LCBGbG9yaWFuDQoNCi0t
+IA0KU0VOVCBGUk9NIE1ZIERFQyBWVDUwIFRFUk1JTkFMDQoNCg==
 
->
-> --
-> Dmitry
+--------------856vdkG5jSsou0Xybhf4ybmv--
+
+--------------xE061Vj88LCuyLyJwDvirPGM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wmMEABEIACMWIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCY2ERUAUDAAAAAAAKCRDsLPKyEa9q2MmL
+AKCtXOoBGCgkG/KQ/DE+i6LMR90NugCg1P4jJ33zvNNT+aUcZG5W8WbMbG4=
+=84O+
+-----END PGP SIGNATURE-----
+
+--------------xE061Vj88LCuyLyJwDvirPGM--
