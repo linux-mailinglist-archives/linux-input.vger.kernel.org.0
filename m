@@ -2,112 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48472614AB0
-	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 13:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8431F614C67
+	for <lists+linux-input@lfdr.de>; Tue,  1 Nov 2022 15:17:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230329AbiKAMaQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Nov 2022 08:30:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44466 "EHLO
+        id S230253AbiKAORY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Nov 2022 10:17:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbiKAMaO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 08:30:14 -0400
-Received: from butterbrot.org (butterbrot.org [176.9.106.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A759BE0A7;
-        Tue,  1 Nov 2022 05:30:12 -0700 (PDT)
-Received: from [192.168.117.72] (77.241.129.138.mobile.3.dk [77.241.129.138])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by butterbrot.org (Postfix) with ESMTPSA id CE2CB65829EB;
-        Tue,  1 Nov 2022 13:30:09 +0100 (CET)
-Message-ID: <702aa771-2dcd-1b26-76a1-7acb1a3bed0e@butterbrot.org>
-Date:   Tue, 1 Nov 2022 13:30:07 +0100
+        with ESMTP id S230269AbiKAORV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Nov 2022 10:17:21 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1F0EE1B78A;
+        Tue,  1 Nov 2022 07:17:21 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 326CB1FB;
+        Tue,  1 Nov 2022 07:17:27 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 43F673F703;
+        Tue,  1 Nov 2022 07:17:19 -0700 (PDT)
+From:   Andre Przywara <andre.przywara@arm.com>
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        Icenowy Zheng <uwu@icenowy.me>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH 8/9] dt-bindings: input: sun4i-lradc-keys: Add F1C100s compatible
+Date:   Tue,  1 Nov 2022 14:16:57 +0000
+Message-Id: <20221101141658.3631342-9-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221101141658.3631342-1-andre.przywara@arm.com>
+References: <20221101141658.3631342-1-andre.przywara@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: (very old) regression in sur40.ko
-Content-Language: en-GB
-From:   Florian Echtler <floe@butterbrot.org>
-To:     linux-input <linux-input@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Martin Kaltenbrunner <modin@yuri.at>,
-        Raphael Wimmer <raphael.wimmer@ur.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
-In-Reply-To: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------xE061Vj88LCuyLyJwDvirPGM"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xE061Vj88LCuyLyJwDvirPGM
-Content-Type: multipart/mixed; boundary="------------856vdkG5jSsou0Xybhf4ybmv";
- protected-headers="v1"
-From: Florian Echtler <floe@butterbrot.org>
-To: linux-input <linux-input@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Martin Kaltenbrunner <modin@yuri.at>,
- Raphael Wimmer <raphael.wimmer@ur.de>, Hans Verkuil
- <hans.verkuil@cisco.com>, Christoph Hellwig <hch@lst.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-ID: <702aa771-2dcd-1b26-76a1-7acb1a3bed0e@butterbrot.org>
-Subject: Re: (very old) regression in sur40.ko
-References: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
-In-Reply-To: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
+The Allwinner F1C100s series of SoCs contain a LRADC (aka. KEYADC)
+compatible to the version in other SoCs.
+The manual doesn't mention the ratio of the input voltage that is used,
+but comparing actual measurements with the values in the register
+suggests that it is 3/4 of Vref.
 
---------------856vdkG5jSsou0Xybhf4ybmv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Add an F1C100s compatible string to the list, and pair it with the
+A83T fallback. Since the A64 is the same, combined both using an enum.
 
-W2ZvcmdvdCBDQyB0byBDaHJpc3RvcGggSGVsbHdpZyBhbmQgR3JlZyBLSCB3aG8gYXV0aG9y
-ZWQgdGhlIGNvbW1pdCBpbiBxdWVzdGlvbl0NCg0KT24gMzEuMTAuMjIgMTE6MTMsIEZsb3Jp
-YW4gRWNodGxlciB3cm90ZToNCj4gSGVsbG8gZXZlcnlvbmUsDQo+IA0KPiBJIGRpZG4ndCB1
-c2UgbXkgc3VyNDAgZm9yIHF1aXRlIHNvbWUgdGltZSwgYnV0IHJlY2VudGx5IHBpY2tlZCB1
-cCB3b3JrIG9uIGl0IA0KPiBhZ2Fpbi4gQWZ0ZXIgYSBrZXJuZWwgdXBkYXRlIHRvIDUuMTUs
-IEkgbm90aWNlZCB0aGF0IHRoZSB2aWRlbyBjb21wb25lbnQgb2YgdGhlIA0KPiBpbi10cmVl
-IHN1cjQwIGRyaXZlciBoYWQgYXBwYXJlbnRseSBzdG9wcGVkIHdvcmtpbmcgYWZ0ZXIgNS45
-ICh0aGlzIHdhcyBhY3R1YWxseSANCj4gbm90aWNlZCBieSBAcndpbW1lciBhIHllYXIgYWdv
-LCBidXQgSSBkaWRuJ3QgcHJvcGVybHkgZm9sbG93IHVwIGF0IHRoZSB0aW1lKS4NCj4gDQo+
-IFRoaXMgdGltZSwgSSBkaWQgZmluYWxseSBnbyB0aHJvdWdoIHdpdGggYSB2ZXJ5IHRlZGlv
-dXMgMTQtc3RlcCBiaXNlY3Rpb24gb2YgdGhlIA0KPiBpc3N1ZSBhbmQgZW5kZWQgdXAgYXQg
-dGhpcyBjb21taXQ6DQo+IA0KPiBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgv
-Y29tbWl0LzZlYjAyMzNlYzJkMGRmMjg4ZmU4NTE1ZDViMGIyYjE1NTYyZTA1YmINCj4gDQo+
-IFRoZSBpc3N1ZSBtYW5pZmVzdHMgYXMgYSBrZXJuZWwgb29wcyBpbiB2YjJfZG1hX3NnX2Fs
-bG9jLCByZXN1bHRpbmcgaW4gYSBmYWlsZWQgDQo+IHVzYl9zZ19pbml0IGNhbGwgKHByb2Jh
-Ymx5IGJlY2F1c2UgZG1hX21hc2sgYW5kIGRtYV9wZm5fb2Zmc2V0IGFyZSBub3cgdW5zZXQp
-LiANCj4gSG93IHdvdWxkIEkgaGF2ZSB0byB1c2UgdGhlICpfc2dfKiBmdW5jdGlvbnMgaW4g
-bXkgZHJpdmVyIHRvIGZpeCB0aGlzPw0KPiANCj4gRm9yIHJlZmVyZW5jZSwgdGhlIGNvZGUg
-aW4gcXVlc3Rpb24gaXM6DQo+IA0KPiAgwqDCoMKgwqByZXN1bHQgPSB1c2Jfc2dfaW5pdCgm
-c2dyLCBzdXI0MC0+dXNiZGV2LA0KPiAgwqDCoMKgwqDCoMKgwqAgdXNiX3JjdmJ1bGtwaXBl
-KHN1cjQwLT51c2JkZXYsIFZJREVPX0VORFBPSU5UKSwgMCwNCj4gIMKgwqDCoMKgwqDCoMKg
-IHNndC0+c2dsLCBzZ3QtPm5lbnRzLCBzdXI0MC0+cGl4X2ZtdC5zaXplaW1hZ2UsIDApOw0K
-PiANCj4gIEZyb20gbG9va2luZyBhdCB0aGUgb3RoZXIgdXNlcyBvZiB1c2Jfc2dfaW5pdCwg
-d291bGQgaXQgYmUgc3VmZmljaWVudCB0byBjaGFuZ2UgDQo+IHRoZSB2ZXJ5IGxhc3QgcGFy
-YW1ldGVyIGZyb20gMCB0byBlaXRoZXIgR0ZQX0tFUk5FTCBvciBHRlBfTk9JTz8gSWYgeWVz
-LCB3aGljaCANCj4gb25lIGlzIGNvcnJlY3Q/DQo+IA0KPiBCZXN0LCBGbG9yaWFuDQoNCi0t
-IA0KU0VOVCBGUk9NIE1ZIERFQyBWVDUwIFRFUk1JTkFMDQoNCg==
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml        | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---------------856vdkG5jSsou0Xybhf4ybmv--
+diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+index 5d631f7137e78..5efceb3138791 100644
+--- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
++++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+@@ -16,7 +16,9 @@ properties:
+       - const: allwinner,sun4i-a10-lradc-keys
+       - const: allwinner,sun8i-a83t-r-lradc
+       - items:
+-          - const: allwinner,sun50i-a64-lradc
++          - enum:
++              - allwinner,suniv-f1c100s-lradc
++              - allwinner,sun50i-a64-lradc
+           - const: allwinner,sun8i-a83t-r-lradc
+       - const: allwinner,sun50i-r329-lradc
+       - items:
+-- 
+2.25.1
 
---------------xE061Vj88LCuyLyJwDvirPGM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wmMEABEIACMWIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCY2ERUAUDAAAAAAAKCRDsLPKyEa9q2MmL
-AKCtXOoBGCgkG/KQ/DE+i6LMR90NugCg1P4jJ33zvNNT+aUcZG5W8WbMbG4=
-=84O+
------END PGP SIGNATURE-----
-
---------------xE061Vj88LCuyLyJwDvirPGM--
