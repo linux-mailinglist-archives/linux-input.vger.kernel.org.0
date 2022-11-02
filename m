@@ -2,44 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6DE3616349
-	for <lists+linux-input@lfdr.de>; Wed,  2 Nov 2022 14:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E02616369
+	for <lists+linux-input@lfdr.de>; Wed,  2 Nov 2022 14:11:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbiKBNDk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Nov 2022 09:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43742 "EHLO
+        id S230298AbiKBNLk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Nov 2022 09:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbiKBNDk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Nov 2022 09:03:40 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C47ABCAE;
-        Wed,  2 Nov 2022 06:03:39 -0700 (PDT)
+        with ESMTP id S230005AbiKBNLj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Nov 2022 09:11:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D219C2A278;
+        Wed,  2 Nov 2022 06:11:38 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5563AB82213;
-        Wed,  2 Nov 2022 13:03:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F189DC433C1;
-        Wed,  2 Nov 2022 13:03:35 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 71E1761961;
+        Wed,  2 Nov 2022 13:11:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9765BC433D7;
+        Wed,  2 Nov 2022 13:11:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667394217;
-        bh=QobtvX60ddRtfbopQpHBxhaxwuftQtyQo7jI5rT+2gA=;
+        s=k20201202; t=1667394697;
+        bh=PwLPF38SQ68KPHSo/edAK/nii2BZZ+nmTOGG5coVmB4=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=soeCkfd25ehokqnkxC6gZLcMNPhcvsGg/xnQ7jlQne6I+N8tHXLGztEA7ROTb3CqA
-         A5TzgEMmOlp6WNCDECBb/aldI3nur0dxMH6Q6z8o+1uR3NrMp+DL1XZaG1sKwe0/lL
-         goI2It6mTXOcIaJR/W4HPfP0RnqstHmZUuS8Xba0rfKzVrD54IXjVbbkJG7FGgNlBf
-         0H3y53+Dnany7rcxToE/eO0oQpgjxO9Rcpl5BiNj1rwJBlSbK7flO+e95FExeYeh49
-         H7NnvmeFYE5PbkO+v7kBdiBai9oGSfHSBaF4SrGewCTTxs6Rc7EjRkxr51Qrmnh8md
-         G0JyhnmA4KESg==
-Date:   Wed, 2 Nov 2022 14:03:34 +0100 (CET)
+        b=drDLJ2FAAU//GqeOW1L5uJ5HL16Z31tGhov+yjPeAr3vwGAKNg3f/a3Ri6EqwZR6r
+         GKIzIAXsko4/sVpm7A91yY7fcvopL1uGew7iGtIkp5J1ozT1w8opCT0Tf4fuvlMJkn
+         +s57pI+4JJJET51S68KnZisP6hN4jCNzwRCdhx6BNcv2gPPql8tDu8F9hL5jjgH3hn
+         dXjaTyvxmRUD5r19kj3qYe5DJWvlzJkRlpTbL0VGZwSNu3jGRhhw+dLF9enMQpMZ50
+         sylSvRAxvrvH5gkQ2yYqIInPHw4tIztWARFFP7zonhfhuK7VjvcDB4eizQGQZwWhbR
+         DIyTFCyfmyjYA==
+Date:   Wed, 2 Nov 2022 14:11:34 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Kerem Karabay <kekrby@gmail.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+To:     Colin Ian King <colin.i.king@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] Version 2 of hid-apple fixes
-In-Reply-To: <20220924095306.8852-1-kekrby@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211021402500.29912@cbobk.fhfr.pm>
-References: <20220924095306.8852-1-kekrby@gmail.com>
+Subject: Re: [PATCH] HID: asus: Remove variable count
+In-Reply-To: <20221024161102.2171702-1-colin.i.king@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2211021411290.29912@cbobk.fhfr.pm>
+References: <20221024161102.2171702-1-colin.i.king@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,31 +53,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 24 Sep 2022, Kerem Karabay wrote:
+On Mon, 24 Oct 2022, Colin Ian King wrote:
 
-> From: kekrby <kekrby@gmail.com>
+> Variable count is just being incremented and it's never used
+> anywhere else. The variable and the increment are redundant so
+> remove it.
 > 
-> Hi all,
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  drivers/hid/hid-asus.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> This patch series is an updated version of this one:
-> https://lore.kernel.org/all/20220910094354.12359-2-kekrby@gmail.com/.
-> 
-> # Changes since v1:
-> 
-> - Fixed loading the module with the `swap_fn_leftctrl` option set to 1,
->   which would make the Fn key cease to function. (Setting the option
->   after loading the module still worked, which is why the bug was not
->   caught while testing.)
-> 
-> Kerem Karabay (2):
->   HID: apple: fix key translations where multiple quirks attempt to
->     translate the same key and the ones that depend on other
->     translations
->   HID: apple: enable APPLE_ISO_TILDE_QUIRK for the keyboards of Macs
->     with the T2 chip
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index b59c3dafa6a4..f99752b998f3 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -219,14 +219,13 @@ static void asus_report_tool_width(struct asus_drvdata *drvdat)
+>  {
+>  	struct input_mt *mt = drvdat->input->mt;
+>  	struct input_mt_slot *oldest;
+> -	int oldid, count, i;
+> +	int oldid, i;
+>  
+>  	if (drvdat->tp->contact_size < 5)
+>  		return;
+>  
+>  	oldest = NULL;
+>  	oldid = mt->trkid;
+> -	count = 0;
+>  
+>  	for (i = 0; i < mt->num_slots; ++i) {
+>  		struct input_mt_slot *ps = &mt->slots[i];
+> @@ -238,7 +237,6 @@ static void asus_report_tool_width(struct asus_drvdata *drvdat)
+>  			oldest = ps;
+>  			oldid = id;
+>  		}
+> -		count++;
+>  	}
 
-I have shortened the shortlog of the first patch a little bit :) and 
-applied, thanks.
+Applied, thanks.
 
 -- 
 Jiri Kosina
