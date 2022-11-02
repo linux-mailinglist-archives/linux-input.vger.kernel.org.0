@@ -2,84 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 333CC6163E6
-	for <lists+linux-input@lfdr.de>; Wed,  2 Nov 2022 14:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF96616483
+	for <lists+linux-input@lfdr.de>; Wed,  2 Nov 2022 15:10:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbiKBNeN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Nov 2022 09:34:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38846 "EHLO
+        id S231356AbiKBOKf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Nov 2022 10:10:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbiKBNeL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Nov 2022 09:34:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1E3C29C8B;
-        Wed,  2 Nov 2022 06:34:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 461AE619A0;
-        Wed,  2 Nov 2022 13:34:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05A33C433D7;
-        Wed,  2 Nov 2022 13:34:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667396049;
-        bh=UugxPTRum3GA6NT3cV3LetQcbxjAn1RP+8kL4YGxnKM=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=YXMF0zgqbQvF/pjj2HxQQQa9J9bzI3/R6OTwLzgKVRsHbi1W3SN9ZGEz2u9bHCRfJ
-         pL4ihMstlNP7fJnmBQ5joVf01nLu+6YQnkkp75zt6SfG1JmvoB0xr1/NkBN86G8lNk
-         3pv8/848z86RukEOGXNA1dN/6hAIBJqKrGqhnuK2zmCKLE5MQ9YUcqmR/Ebs8S3gnv
-         KFtQ1ORomZtA1l7eH6Xz8vDg/YuDraoBdJOqBlJAB6YOD2G6G8wk+hAYG8xErZ1mb0
-         sfXLwghCd63lyu9LpL73mP5z6e45eVZDQfIdpVj/m9VpjOf0Dav1tOj4+H8K09Z26O
-         ODZga04GvBR7Q==
-Date:   Wed, 2 Nov 2022 14:34:06 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-cc:     linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org
-Subject: Re: [PATCH] HID: hyperv: fix possible memory leak in
- mousevsc_probe()
-In-Reply-To: <20221028134043.1152629-1-yangyingliang@huawei.com>
-Message-ID: <nycvar.YFH.7.76.2211021433580.29912@cbobk.fhfr.pm>
-References: <20221028134043.1152629-1-yangyingliang@huawei.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S231338AbiKBOKd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Nov 2022 10:10:33 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B62B1D30D
+        for <linux-input@vger.kernel.org>; Wed,  2 Nov 2022 07:10:31 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id hh9so11334989qtb.13
+        for <linux-input@vger.kernel.org>; Wed, 02 Nov 2022 07:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r3baLHNRjybhUwz1VU0EpNO+mXmWZFbwxaMY2qdvCTY=;
+        b=DjhE16/tTUTVdFjgcA3BT/LtmSUuv28pvQFIpl8ORPofZEozhGnObHSwmFZBGObNSi
+         hzZnR9IRHQEJYRfxDXJhI/YyjT04AnAq879/iczPm3+pr8+yKiNmP5yDXpFp32k5+ZAs
+         O8M70dWjOzVfoF3c2vfzHE3lg39oneXBo3w0jrE5NFlvyPx4mxkZ89jQiWQX9a9qmyKc
+         hA7tGLgXHI8MU1645wPN0iHjeTtd3N4wfLjierTYe49bPwE+EyBV4qw/tnkIKYPH3soO
+         ZZGjcRoTzwLAyfVaNwKZ0Gg3P/weB5NYm9DWga6U7cSAOQGdYmAhdkyDuwvpma9kycDz
+         cvHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r3baLHNRjybhUwz1VU0EpNO+mXmWZFbwxaMY2qdvCTY=;
+        b=mCPVXEjo4I/dsz7YJubiI/pSaVvDQ7wToCC6ndcDKLgr2GyeizcL+SaCLTwg4eVmgI
+         ni/nLQdnOE/Pjy8ghlgycCjPov0Q3h6hqeh4MrEOiLdapaBJgac4PXdBMwcIGuG/mIuo
+         Ajo97wIcOZVbG5uNgRNqipSqB9jsbZ9Bdn+mRvV30LR2ohiFubCKmdgFqW0qFo9gBs8N
+         Yj09LPauYZxPJ9Vb5CuAZGS5aFazZ4RHljN8OA9X27JVxi4IOeiNGO/jStXxkEAXfrm2
+         4uV7eJx+JjoWt+KfcFUXsoUDtRkUfPLgu8NsyhlSaG6eUvvHL9KezOrJFSvzyQA3wI4j
+         cWIA==
+X-Gm-Message-State: ACrzQf3PHmBoG5OhWvwGoKhWM3JKFjANAcJcIAaNDKff0Lmi4rwre/p2
+        ALc33ct285t+GB7ioranNdsn3g==
+X-Google-Smtp-Source: AMsMyM7AK3jlPObOnz/rPlu+Up2ji8ZFVw+pIdHlReQDzjpBxb2W96SkuyWtnj/IOe72KUZ9Bx+5tQ==
+X-Received: by 2002:ac8:5d89:0:b0:3a4:f465:9434 with SMTP id d9-20020ac85d89000000b003a4f4659434mr19797213qtx.459.1667398230631;
+        Wed, 02 Nov 2022 07:10:30 -0700 (PDT)
+Received: from ?IPV6:2601:586:5000:570:28d9:4790:bc16:cc93? ([2601:586:5000:570:28d9:4790:bc16:cc93])
+        by smtp.gmail.com with ESMTPSA id bs6-20020a05620a470600b006b61b2cb1d2sm8623326qkb.46.2022.11.02.07.10.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Nov 2022 07:10:30 -0700 (PDT)
+Message-ID: <69d57d4e-8a43-f8f5-f491-916197f6f4a8@linaro.org>
+Date:   Wed, 2 Nov 2022 10:10:23 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v4 08/11] mfd: qcom-pm8xxx: drop unused PM8018 compatible
+Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Bjorn Andersson <andersson@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Gross <agross@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
+ <20220928-mdm9615-dt-schema-fixes-v4-8-dac2dfaac703@linaro.org>
+ <Y1/qnCyav/S35mRo@google.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y1/qnCyav/S35mRo@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 28 Oct 2022, Yang Yingliang wrote:
-
-> If hid_add_device() returns error, it should call hid_destroy_device()
-> to free hid_dev which is allocated in hid_allocate_device().
+On 31/10/2022 11:32, Lee Jones wrote:
+> On Fri, 21 Oct 2022, Neil Armstrong wrote:
 > 
-> Fixes: 74c4fb058083 ("HID: hv_mouse: Properly add the hid device")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/hid/hid-hyperv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>> The PM8018 compatible is always used with PM8921 fallback, so PM8018
+>> compatible can be safely removed from device ID table
+>>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > 
-> diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-> index e0bc73124196..ab57b49a44ed 100644
-> --- a/drivers/hid/hid-hyperv.c
-> +++ b/drivers/hid/hid-hyperv.c
-> @@ -499,7 +499,7 @@ static int mousevsc_probe(struct hv_device *device,
->  
->  	ret = hid_add_device(hid_dev);
->  	if (ret)
-> -		goto probe_err1;
-> +		goto probe_err2;
->  
+> Tags should appear chronologically.
+> 
 
-Good catch, applied, thank you.
+I would assume that as well, but `b4 trailers` disagrees. It documents
+even this behavior (the chain of custody) here:
+https://b4.docs.kernel.org/en/latest/config.html
 
--- 
-Jiri Kosina
-SUSE Labs
+So while I agree with you, I also prefer the tools to make the decision
+instead of humans (to follow the process, assuming the tool implements
+the process). Either the tool should be fixed or the tool's decision is
+correct.
+
+Best regards,
+Krzysztof
 
