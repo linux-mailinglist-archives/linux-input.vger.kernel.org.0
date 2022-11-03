@@ -2,271 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 940116188C2
-	for <lists+linux-input@lfdr.de>; Thu,  3 Nov 2022 20:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 382866188C1
+	for <lists+linux-input@lfdr.de>; Thu,  3 Nov 2022 20:28:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiKCT3M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Nov 2022 15:29:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38228 "EHLO
+        id S229600AbiKCT2v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Nov 2022 15:28:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbiKCT3L (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Nov 2022 15:29:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA30111D
-        for <linux-input@vger.kernel.org>; Thu,  3 Nov 2022 12:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667503694;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gz4zS1KdXNqNJZTibUfSdn0hVdKZM6F53BZQrYWL0P8=;
-        b=QNDextNbkFG2zP0TQi25Dt78d6QxbuYZ3CLsxp0s6GdYzuQblnWv25XIod1DUP43lDH9zX
-        x7lZvR450+FEgXw4vKm1vo1ayb0RseP3FRO5lg8eqBDjgpr6U0bltCopBlpu9N/I6WGJTa
-        +e12DOX9yQKbmgxZ56LCqq6iZmzDMVY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-411-OOYgZF7-OB6X3uuiWvLF1g-1; Thu, 03 Nov 2022 15:28:12 -0400
-X-MC-Unique: OOYgZF7-OB6X3uuiWvLF1g-1
-Received: by mail-ed1-f69.google.com with SMTP id z9-20020a05640235c900b0046358415c4fso2031260edc.9
-        for <linux-input@vger.kernel.org>; Thu, 03 Nov 2022 12:28:12 -0700 (PDT)
+        with ESMTP id S229567AbiKCT2v (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Nov 2022 15:28:51 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC854E0E1
+        for <linux-input@vger.kernel.org>; Thu,  3 Nov 2022 12:28:48 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id io19so2874751plb.8
+        for <linux-input@vger.kernel.org>; Thu, 03 Nov 2022 12:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ss4jSWJMRWCPiCM/dUbakKH9sPQ6TjaGAPCCuUjyIFE=;
+        b=jHT/iJS2i8jb57DIHw/Xsd/yAuHUvq+9f85Sl4RVYqkOi3v8rXXpi3u+aWKNTuxleV
+         0ezB7efOU3GpvtBpQ2Ap0Z1VSx6No8ZzKEbpwOq/kkuvMJH4OO4uFjO5xd8mmPQurYz7
+         +kS6/sn4Suhrqcs+jwpdPcVymYvditsIxMR+XxnULUwcuZC4XOw5ltBJy97fROypMJqR
+         UKtgutpSu4ta7uvIsRCYxWhEaYcbUctK2GkJKYFfIy7kQaUv7BddDhDqECIzNmLWOLZ6
+         Kp9LxdWev5YBX6nd1q4AR4d7qOfGThqRm4LrleIeEmJ5UBSzfZ/BuB+EvW9KORxAdhxb
+         kBow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gz4zS1KdXNqNJZTibUfSdn0hVdKZM6F53BZQrYWL0P8=;
-        b=DLyz4p/SBRZ5uXf5hkSS55hkuFT9mwktuCIoG6JWI1/cVOLTg/F/egSclCXxhQrRgC
-         tYllHAyzsSAx2AzLZ7pS3gO60DMsQSpxKYNo+lGx/6Zv8zSLkOMKqay6HQ1/y5hjAitN
-         Hd/mKOLSwIYnqHFQxPHsfKFIBEzoz85qS6hiXa9wtyDjh4lHOGw/RoRoQXF9cNCVAkYd
-         66BIYjq1nF2E/5f6MWgsdrEDRbbvPfcWtt4yMBstGz5stUU0dq3qHbNxXes9DBXhQTj5
-         niua0rWZzcz4DjobRq/oTSPUVLGMpy6F6D3Y+3acC+FC+/TC0qSa0X1UQoDr6eYjl/b6
-         zv5Q==
-X-Gm-Message-State: ACrzQf1EVgYpXPwxr63YCWueoLNqg0t9E/80iVbiX7M4tv10lJPfjYJ/
-        cR9eFN+5EWVTtcSHyy+N60/j7Zzoz7MUWsVifKupzCkM8Co5hsaQkB0zgRttl+4nfwvVMcNzz+N
-        ogBJn0FF+XEwjGp5oq3qa5j4=
-X-Received: by 2002:a17:907:1c10:b0:791:a716:5089 with SMTP id nc16-20020a1709071c1000b00791a7165089mr30674796ejc.672.1667503691349;
-        Thu, 03 Nov 2022 12:28:11 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4FFvhMMcWk6ugM5YzsdFgcwYIF01cv7PrvQbzStqZS4m950VhbZ7UFRMRaUZYFgCAHzSFMSQ==
-X-Received: by 2002:a17:907:1c10:b0:791:a716:5089 with SMTP id nc16-20020a1709071c1000b00791a7165089mr30674767ejc.672.1667503691090;
-        Thu, 03 Nov 2022 12:28:11 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id qo14-20020a170907874e00b00770880dfc4fsm871702ejc.29.2022.11.03.12.28.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 12:28:10 -0700 (PDT)
-Message-ID: <16c7f876-102c-60e1-4a81-3378b6c726fb@redhat.com>
-Date:   Thu, 3 Nov 2022 20:28:09 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ss4jSWJMRWCPiCM/dUbakKH9sPQ6TjaGAPCCuUjyIFE=;
+        b=VwOUdNUKZlWMc3Ckh8CNF2VHSzd+OHMkxmfEhQdaXBQdNi8n6XiETsPFcMWlIm9JNS
+         b9H2cl44AYUNqjQF3G7IDlHOQqUZTR80mTw9cdNNrwK3RbGrlGp5OxoOQuNtlO9bAGbh
+         A09kta2X+9XdgDTcJVtDeievx3PRGM+kL8LQOQEtLsyf7/jq+7g8pLg6p/iEmnJjg+hV
+         48aQovwOJcP/8JCYqy6SsozGsMBunU0fIrSdv4eWO1mv3OZTT5jPDMi59pmtOuJylVWC
+         aOzYj7HIclMm+r/2XD9lGWoJg0VmjoBhi0eXgafVSUFnnb6kBm3x5dPkjb4Gz5hQeiUm
+         wQMA==
+X-Gm-Message-State: ACrzQf36ezDrX/47iidVIF0wx9fdI+PAe7pikW5q4vYiRCAaS61aJwDG
+        JHW4paqr39FYbwSjWbq6CBo=
+X-Google-Smtp-Source: AMsMyM42Mx/oqXP3pMpUmSPsabhlftzRfgFGr+nLKQcs6P1mdPkq+bya38qHPyn8TbGxvyLe0K52Cw==
+X-Received: by 2002:a17:90b:198b:b0:213:2574:7e0e with SMTP id mv11-20020a17090b198b00b0021325747e0emr32092631pjb.177.1667503728354;
+        Thu, 03 Nov 2022 12:28:48 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id b12-20020a621b0c000000b0054ee4b632dasm1096255pfb.169.2022.11.03.12.28.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 12:28:47 -0700 (PDT)
+Date:   Thu, 3 Nov 2022 12:28:44 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 2/4] Input: touchscreen - Extend
+ touchscreen_parse_properties() to allow overriding settings with a module
+ option
+Message-ID: <Y2QWbMFzBvc2JzwD@google.com>
+References: <20221025122930.421377-1-hdegoede@redhat.com>
+ <20221025122930.421377-3-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [RFC PATCH 1/7] Input: goodix - fix reset polarity
-Content-Language: en-US, nl
-To:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Quentin Schulz <foss+kernel@0leil.net>, hadess@hadess.net,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@somainline.org,
-        heiko@sntech.de, linux-input@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-mail-list <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
-References: <20221103-upstream-goodix-reset-v1-0-87b49ae589f1@theobroma-systems.com>
- <20221103-upstream-goodix-reset-v1-1-87b49ae589f1@theobroma-systems.com>
- <1fa371bd-78a6-bb7c-4692-1d8132ec2ab1@redhat.com>
- <Y2P7SsPa04975Rkm@google.com>
- <692fd16e-4183-d58d-802e-2b83563aee4b@redhat.com>
- <267de96a-0129-a97d-9bf6-e1001b422a1a@theobroma-systems.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <267de96a-0129-a97d-9bf6-e1001b422a1a@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221025122930.421377-3-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Quentin,
+Hi Hans,
 
-On 11/3/22 19:41, Quentin Schulz wrote:
-> Hi all,
+On Tue, Oct 25, 2022 at 02:29:28PM +0200, Hans de Goede wrote:
+> On x86/ACPI platforms touchscreens mostly just work without needing any
+> device/model specific configuration. But in some cases (mostly with Silead
+> and Goodix touchscreens) it is still necessary to manually specify various
+> touchscreen-properties on a per model basis.
 > 
-> On 11/3/22 18:45, Hans de Goede wrote:
->> Hi,
->>
->> On 11/3/22 18:32, Dmitry Torokhov wrote:
->>> Hi Hans,
->>>
->>> On Thu, Nov 03, 2022 at 03:58:47PM +0100, Hans de Goede wrote:
->>>> Hi Quentin,
->>>>
->>>> On 11/3/22 15:43, Quentin Schulz wrote:
->>>>> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->>>>>
->>>>> The reset line is asserted for selecting the I2C target address and then
->>>>> deasserted.
->>>>
->>>> It is not asserted/deasserted, asserted/deasserted is reset-controller/
->>>> reset-framework (drivers/reset/*) terminology.
->>>>
->>>> We are driving GPIOs here and those are driven low/high.
->>>
->>> Not quite. GPIOD API operates on a logival level (think of them as
->>> active/inactive) and allows platform/firmware to specify polarity from
->>> the AP point of view (as opposed to device). This important if the
->>> peripheral is not attached directly, but potentially through an inverter
->>> or something similar).
->>
->> Right and if a line runs through an inverting buffer then marking
->> the pin as active-low in the DT makes a lot of sense here.
->>
+> This is handled by drivers/platform/x86/touchscreen_dmi.c which contains
+> a large list of per-model touchscreen properties which it attaches to the
+> (i2c)device before the touchscreen driver's probe() method gets called.
+> This means that ATM changing these settings requires recompiling the
+> kernel. This makes figuring out what settings/properties a specific
+> touchscreen needs very hard for normal users to do.
 > 
-> It doesn't to me. /me shrugs
+> Add a new, optional, settings_override string argument to
+> touchscreen_parse_properties(), which takes a list of ; separated
+> property-name=value pairs, e.g. :
+> "touchscreen-size-x=1665;touchscreen-size-y=1140;touchscreen-swapped-x-y".
 > 
->> But as I mentioned before the datasheet spells out a very specific
->> init-sequence.
->>
+> This new argument can be used by drivers to implement a module option which
+> allows users to easily specify alternative settings for testing.
 > 
-> As Dmitry pointed out, we're talking about logical vs physical level. The driver tries to enforce physical level (on the touchscreen controller side) by expecting the logical level (of the gpio controller) to match.
-> 
->> By default marking all the direct-attached RST pin connections as
->> active-low (1) to then invert the value again in the driver
->> (from the datasheet init sequence specified values pov) IMHO
->> just makes the driver code harder to read when putting it side
->> to side by the init-sequence specified in the datasheet.
->>
-> 
-> When I want to put a device into reset mode, I activate/assert the line so that its logical state is "active". For Goodix, its reset line is active low. I do a "positive" action, so I activate something. If it was called nreset, that would be a different story. If it was named enable-gpios, I would understand. I just don't get the current implementation with reset-gpios in DT.
-> 
-> Reading:
-> reset-gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
-> means that I need to set the logical output to HIGH to have a HW reset, which is not what happens for this driver.
-> 
->> I don't see how playing this double-invert game is going to help
->> us / gives us any added value, in any way.
->>
-> 
-> The current implementation is playing the double-invert game for me.
-> 
-> So clearly, we do not agree on what, at least in the DT, the level of a reset gpio should mean.
+> The 2 new touchscreen_property_read_u32() and
+> touchscreen_property_read_bool() helpers are also exported so that
+> drivers can use these to add settings-override support to the code
+> for driver-specific properties.
 
-It would seem that way. Anyways lets agree to disagree here.
+I totally understand the motivation for this, but I do not think that
+having special handling for only touchscreen properties is the right
+thing to do. I would very much prefer is we had a more generic approach
+of adding/overriding properties (via an swnode?).
 
-It seems that Dmitry is in favor of the change you suggest, so
-lets just focus on making sure these changes don't break AcPI
-support.
+Thanks.
 
->> And in all the ACPI tables the GPIOs are marked as active-high
->> so changing this to have the driver now all of a sudden expect
->> the reset-gpio to be marked as active-low at the gpio-subsys
->> level will be quite cumbersome since normally the active-low vs
->> -high info comes from the firmware-tables and now all of a sudden
->> we need to override this.
->>
-> 
-> We have the information from which standard we got the GPIO, so we could always invert the flag we get from DT to match whatever is in ACPI.
-> 
-> Blindly ignoring the DT flag is not an option since the HW design could actually require an inversion (GPIO connected to a transistor for example). I'm not sure what exactly could be done on the gpio-subsys level to deal with this. I think we just disagree on what the reset "active state" should mean and no amount of code would fix that?
-
-I would prefer for the gpiod_direction_output(ts->gpiod_rst, x)
-calls to have x actually matching the timing diagrams in
-the datasheet.
-
-At a minimum when you invert those from the datasheet, please
-add a comment that the values are inverted from the timing
-diagram because the GPIO is marked as active-low in their
-gpio_desc ?
-
->> During all my work on the goodix driver I have always been very
->> careful to not introduce any behavior changes for the DT users
->> of the drivers. It would be nice if this courtesy could also
->> be extended in the other direction.
->>
-> 
-> This RFC is clearly breaking ACPI support. I have zero knowledge about ACPI and didn't know that devm_gpiod_get_optional fetches from OF or ACPI. It was not my intention to break ACPI, sorry if it came this way.
-> 
-> I frankly didn't expect this to be an easy discussion, since changing the DT is usually a no-go, but as is making the DT binding implementation-specific (which is the current state of affairs), e.g. we'll need U-Boot/BSD/whatever driver to also use the same logic. I want to be noted that I like none of the options I offered so far.
-
-Yes breaking the existing DT bindings / existing DTB files is
-probably also going to be a problem. I'm going to defer reviewing
-that part of these changes to other people.
-
-> As I was surprised by the (for me) inverted logic of the GPIO state, I preferred fixing the driver and DT to match what my expectations were.
-> 
-> I'm looking for guidance on how we can deal with this, I do not claim what I suggest is what we should absolutely go for.
-
-Ok, so I've been taking a look at how we can invert the 'x' passed
-to the gpiod_direction_output(ts->gpiod_rst, x) calls and not break
-things with ACPI.
-
-The rst pin is looked up through a acpi_gpio_mapping which
-contains acpi_gpio_params as one of the per pin parameters
-and that does have an active_low flag.
-
-After (re)reading the gpiolib code to fresh up my memory
-of how this all fits together that flag should do what it
-says on the tin.
-
-So if we want to revert the value of x for all the:
-
-gpiod_direction_output(ts->gpiod_rst, x);
-
-calls, then something like the following should work to get
-gpiolib to invert that again to turn it into a no-op:
-
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index a33cc7950cf5..5c294c56a20d 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -797,23 +797,26 @@ static int goodix_reset(struct goodix_ts_data *ts)
- }
- 
- #ifdef ACPI_GPIO_SUPPORT
--static const struct acpi_gpio_params first_gpio = { 0, 0, false };
--static const struct acpi_gpio_params second_gpio = { 1, 0, false };
-+static const struct acpi_gpio_params int_first_gpio = { 0, 0, false };
-+static const struct acpi_gpio_params int_second_gpio = { 1, 0, false };
-+
-+static const struct acpi_gpio_params rst_first_gpio = { 0, 0, true };
-+static const struct acpi_gpio_params rst_second_gpio = { 1, 0, true };
- 
- static const struct acpi_gpio_mapping acpi_goodix_int_first_gpios[] = {
--	{ GOODIX_GPIO_INT_NAME "-gpios", &first_gpio, 1 },
--	{ GOODIX_GPIO_RST_NAME "-gpios", &second_gpio, 1 },
-+	{ GOODIX_GPIO_INT_NAME "-gpios", &int_first_gpio, 1 },
-+	{ GOODIX_GPIO_RST_NAME "-gpios", &rst_second_gpio, 1 },
- 	{ },
- };
- 
- static const struct acpi_gpio_mapping acpi_goodix_int_last_gpios[] = {
--	{ GOODIX_GPIO_RST_NAME "-gpios", &first_gpio, 1 },
--	{ GOODIX_GPIO_INT_NAME "-gpios", &second_gpio, 1 },
-+	{ GOODIX_GPIO_RST_NAME "-gpios", &rst_first_gpio, 1 },
-+	{ GOODIX_GPIO_INT_NAME "-gpios", &int_second_gpio, 1 },
- 	{ },
- };
- 
- static const struct acpi_gpio_mapping acpi_goodix_reset_only_gpios[] = {
--	{ GOODIX_GPIO_RST_NAME "-gpios", &first_gpio, 1 },
-+	{ GOODIX_GPIO_RST_NAME "-gpios", &rst_first_gpio, 1 },
- 	{ },
- };
- 
-Note this is missing the actual inverting of the
-gpiod_direction_output(ts->gpiod_rst, x) calls!
-
-Regards,
-
-Hans
-
-
+-- 
+Dmitry
