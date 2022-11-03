@@ -2,69 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB3561863F
-	for <lists+linux-input@lfdr.de>; Thu,  3 Nov 2022 18:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 534E0618793
+	for <lists+linux-input@lfdr.de>; Thu,  3 Nov 2022 19:33:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbiKCRdc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Nov 2022 13:33:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49552 "EHLO
+        id S232086AbiKCSdG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Nov 2022 14:33:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbiKCRdc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Nov 2022 13:33:32 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C63BF68;
-        Thu,  3 Nov 2022 10:33:30 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id q9so7372777ejd.0;
-        Thu, 03 Nov 2022 10:33:30 -0700 (PDT)
+        with ESMTP id S232011AbiKCScl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Nov 2022 14:32:41 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC0271DA78
+        for <linux-input@vger.kernel.org>; Thu,  3 Nov 2022 11:32:04 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id d20so1676692plr.10
+        for <linux-input@vger.kernel.org>; Thu, 03 Nov 2022 11:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=E1KPnHOoHgunNf2Z2nlvgRnG5EDripdp4eLkNsH8GUM=;
-        b=VaLzOp4kKnmHrAshzTXuWR1JAztmWi3xAwAnenqOLjgRseNLpcC2BcBsI9O/sjnwKJ
-         KzYNO0TosFBCKqzvkRMyr3ZUsbWF/ErpMFMSlM6Qfa3YRA+WwWJpbEwHRklaXba4xGsm
-         SUrDSsHIPZJ9a/gShpELnYm1+bRvxsg7kaqzDv+yxAtwA5+0i0KP9Tyh1R8ZxHVtKj6A
-         J6mETPD6Bu5kBp/ZFPBYlZ9b042BQxxtAYwGUePOt26YudWHgy/Ephk9IbPc0dVx/3hu
-         bsAqo23HhnY7VqPgkssUJo7cypTRp3s6f4VH0I0KWJsnDxfSy+JFOun8P+l8BuAB+Z0V
-         8u4w==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uwlF1iEY/Y6SHqPIIy3Y7RBx74GRRtS5TmhpUmuKpas=;
+        b=AE5sF8mQfIl1uTUoaPc1fprStZFde3rslMbGso9bRxQx3Zy+Hhygh5oACmOMnUne9/
+         D06y5CywYINqI2G1PibSby8pQemYA+RWwG9GDZLHS1dyLhHj5tnsR2QSmC/dPdKYFiC+
+         7PrgpV2uhkERcJMWQaWHn3HnIeIrgHHrS183ohy5h8RCyk9r29svW8QiM/eKoE81tQ8U
+         qg63LaTm3mivrLJ56CdUFNXkCpCNXhwuCJrrVuq0qtShiTxthQcCgIMdKqALFIn5adTk
+         IgQi9e5o4CXc14QnqR9cjQIpbX8Xz/z4PfcasHNJqolWjTpI4Y6QYlNS8IZzMxMVxWd/
+         CEIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E1KPnHOoHgunNf2Z2nlvgRnG5EDripdp4eLkNsH8GUM=;
-        b=hgldsPzYH5FMVG1HCTu9S11ACwLUQG3bq9CJBKz8H3UzmEYwvlgFGtEvXGAk6mPDBQ
-         7PQrsRVmPgmvq3WVpAiZnbjBO3Vi349BgpcA+oHwPfLiLol/dX+/L7D0JpxhZoqxeVpl
-         +TDifWWgsjr1zCfUReDQx3YMOHNbc9SDdeLDZRivZ9y2/jOOEBZjEyDZMmb/MfN3miOG
-         ljNWEoocWX71ir0LuyUonXgh+UY7jeiwD/ZqFJW69NyjJvSGEwClT+bNp/7soK0af8Wd
-         oJKITRwB54HuswGIMdmxydL7BB3cxzjIJ3hjSGjJ3JPo6Ss6HYB5eBoAoMDpAIMNTRNb
-         +RTw==
-X-Gm-Message-State: ACrzQf0j5+PcIpPM1wsSbmqUD/jq5VXvZL86LW9He7ztoloWRDonxWyl
-        FUeliqs7JbQRVlWsyQ23jrGewhlnI7c=
-X-Google-Smtp-Source: AMsMyM5kEQmCcVa4zZU4TVWPKSRkPdgKG+8viUGxjh75voccKbl6TwZm1LQFEkomx7YlPkLjod5+yQ==
-X-Received: by 2002:a17:907:25c9:b0:77b:a343:bd62 with SMTP id ae9-20020a17090725c900b0077ba343bd62mr31921182ejc.660.1667496808370;
-        Thu, 03 Nov 2022 10:33:28 -0700 (PDT)
-Received: from localhost.localdomain (71-34-90-11.ptld.qwest.net. [71.34.90.11])
-        by smtp.gmail.com with ESMTPSA id y18-20020a056402135200b0045b3853c4b7sm768063edw.51.2022.11.03.10.33.25
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uwlF1iEY/Y6SHqPIIy3Y7RBx74GRRtS5TmhpUmuKpas=;
+        b=GtceZBpeHbOY3if5KfpwAv2Vhqit375m4chFs48jLTj15ZJFG7LYr0D0tHUyuOwbqA
+         XjXz+F9c3LEUrsWRqrZ1hxfEkykgRSnHUT/+mV/Gu7wPKHBQYoYqx0cC3mjb8THJwfEz
+         yN4Pa2y5fHBg1kDUGpWB1o0ZBW4e6DdWfiau1OZOs+rWNFulqog0hmNo7GOoDqLwWHi2
+         iR6UY/4yce9zUncS4+tc4PVXwXpjLFPG5Jrnf1kZ6fDZ03RQqOM5IpPTOzryGegiiNcA
+         2RLH1SAdhmOUQLEDcvq+805LZzpd03hobsbW/kBdpoGGxxtv8XjhQGPmU2dRKh6aXlNo
+         WcNA==
+X-Gm-Message-State: ACrzQf2F/QxA4f4mylo40DS4y7ehM187IPFOfpEJ7e8dftHhwbPJT7g1
+        /GtTqfXqT/XRKJlCvsNkwYA=
+X-Google-Smtp-Source: AMsMyM6CiZueTn0IBNpZ0dKnM9W+te7RlmAHURbZNxqAufIpzXn/EVeVqVn0YaIaTcP7NKcbx7xCEw==
+X-Received: by 2002:a17:90b:3144:b0:215:db2e:bc6e with SMTP id ip4-20020a17090b314400b00215db2ebc6emr7001813pjb.12.1667500323989;
+        Thu, 03 Nov 2022 11:32:03 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id l10-20020a170903120a00b0017f57787a4asm954717plh.229.2022.11.03.11.32.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 10:33:27 -0700 (PDT)
-From:   Jason Gerecke <killertofu@gmail.com>
-X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Jason Gerecke <killertofu@gmail.com>, stable@vger.kernel.org,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Joshua Dickens <joshua.dickens@wacom.com>,
-        Ping Cheng <ping.cheng@wacom.com>
-Subject: [PATCH] HID: wacom: Fix logic used for 3rd barrel switch emulation
-Date:   Thu,  3 Nov 2022 10:33:04 -0700
-Message-Id: <20221103173304.128651-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.38.1
+        Thu, 03 Nov 2022 11:32:03 -0700 (PDT)
+Date:   Thu, 3 Nov 2022 11:32:00 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/4] Input: goodix - Try resetting the controller when no
+ config is set
+Message-ID: <Y2QJIK445jj1s9FB@google.com>
+References: <20221025122930.421377-1-hdegoede@redhat.com>
+ <20221025122930.421377-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221025122930.421377-2-hdegoede@redhat.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -73,52 +71,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Gerecke <killertofu@gmail.com>
+On Tue, Oct 25, 2022 at 02:29:27PM +0200, Hans de Goede wrote:
+> On ACPI systems (irq_pin_access_method == IRQ_PIN_ACCESS_ACPI_*) the driver
+> does not reset the controller at probe time, because sometimes the system
+> firmware loads a config and resetting might loose this config.
+> 
+> On the Nanote UMPC-01 device OTOH the config is in flash of the controller,
+> the controller needs a reset to load this; and the system firmware does not
+> reset the controller on a cold boot.
+> 
+> To fix the Nanote UMPC-01 touchscreen not working on a cold boot, try
+> resetting the controller and then re-reading the config when encountering
+> a config with 0 width/height/max_touch_num value and the controller has
+> not already been reset by goodix_ts_probe().
+> 
+> This should be safe to do in general because normally we should never
+> encounter a config with 0 width/height/max_touch_num. Doing this in
+> general not only avoids the need for a DMI quirk, but also might help
+> other systems.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-When support was added for devices using an explicit 3rd barrel switch,
-the logic used by devices emulating this feature was broken. The 'if'
-statement / block that was introduced only handles the case where the
-button is pressed (i.e. 'barrelswitch' and 'barrelswitch2' are both set)
-but not the case where it is released (i.e. one or both being cleared).
-This results in a BTN_STYLUS3 "down" event being sent when the button
-is pressed, but no "up" event ever being sent afterwards.
+Applied, thank you.
 
-This patch restores the previously-used logic for determining button
-states in the emulated case so that switches are reported correctly
-again.
-
-Link: https://github.com/linuxwacom/xf86-input-wacom/issues/292
-Fixes: 6d09085b38e5 ("HID: wacom: Adding Support for new usages")
-CC: stable@vger.kernel.org #v5.19+
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-Tested-by: Joshua Dickens <joshua.dickens@wacom.com>
-Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
----
- drivers/hid/wacom_wac.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 77486962a773f..0f3d57b426846 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2520,11 +2520,12 @@ static void wacom_wac_pen_report(struct hid_device *hdev,
- 
- 	if (!delay_pen_events(wacom_wac) && wacom_wac->tool[0]) {
- 		int id = wacom_wac->id[0];
--		if (wacom_wac->features.quirks & WACOM_QUIRK_PEN_BUTTON3 &&
--		    wacom_wac->hid_data.barrelswitch & wacom_wac->hid_data.barrelswitch2) {
--			wacom_wac->hid_data.barrelswitch = 0;
--			wacom_wac->hid_data.barrelswitch2 = 0;
--			wacom_wac->hid_data.barrelswitch3 = 1;
-+		if (wacom_wac->features.quirks & WACOM_QUIRK_PEN_BUTTON3) {
-+			int sw_state = wacom_wac->hid_data.barrelswitch |
-+				       (wacom_wac->hid_data.barrelswitch2 << 1);
-+			wacom_wac->hid_data.barrelswitch = sw_state == 1;
-+			wacom_wac->hid_data.barrelswitch2 = sw_state == 2;
-+			wacom_wac->hid_data.barrelswitch3 = sw_state == 3;
- 		}
- 		input_report_key(input, BTN_STYLUS, wacom_wac->hid_data.barrelswitch);
- 		input_report_key(input, BTN_STYLUS2, wacom_wac->hid_data.barrelswitch2);
 -- 
-2.38.1
-
+Dmitry
