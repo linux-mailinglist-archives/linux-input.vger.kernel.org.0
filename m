@@ -2,93 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6109619E25
-	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 18:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C955619FC1
+	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 19:24:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbiKDRHV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Nov 2022 13:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53984 "EHLO
+        id S231861AbiKDSYF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Nov 2022 14:24:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231401AbiKDRHT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 13:07:19 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34AA33E0B5
-        for <linux-input@vger.kernel.org>; Fri,  4 Nov 2022 10:07:18 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id e15so3610095qvo.4
-        for <linux-input@vger.kernel.org>; Fri, 04 Nov 2022 10:07:18 -0700 (PDT)
+        with ESMTP id S231945AbiKDSXi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 14:23:38 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6941F2650;
+        Fri,  4 Nov 2022 11:23:22 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id m14-20020a17090a3f8e00b00212dab39bcdso9012735pjc.0;
+        Fri, 04 Nov 2022 11:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
-        b=TyCMiI4ARMPxd18RVlEv+qm2LWR7zC104Hlivn40qb5lZJslIeDFuCNMNvjneFE/Nj
-         LFwCX5vAwmEX/R8qjGO9x9K9/hgdwoRd2q59WUqMzWoiDvISQjer+tTT1jJ7UfSLA8Vn
-         fR3VeAjk206NeR5DC2lSXJH82ZME8JVM9jplc=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K+T+zRU50EyoybWvV9puA2CX5+7utUDve2uCmkWDcVU=;
+        b=B2rp+yRal5VNyXSQzC2EFgINuD2kzVlVD2TOyfvjlWRzcAb4YSFfMY4ye+pMbKRllC
+         v2BUcdOoHBp/xD2OvPQ5xZy/OZuiBwALvcBl0w9iEJiDDDelF4obf/bXEy+9rcUkxXzr
+         F1O/VrabWitRCKzGUHE9RiwT3nI0KUrAFAThs3BwGfcL1QJpuyXvGenl5+9/qxfyzYNg
+         CsHEHLz4mh9zakPLY/u8tsb6Ml44itWPbePiC7gHgmstF/tA+dzZkK06a5Pp5v9CAD7w
+         oZh70tyhggS/PDYgoMPJq/NrUXl9DMkUC8TkQVa/FhUMVIKi7TnjdPlRlfg7e34ZCW73
+         jONA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
-        b=G2Qs2snyNwW/fXLQDDuKXu7FU4TiBNVY+OWUp5FHrpBQGgnKyQ5aEazXwQXhxtNBoh
-         2s9YF0yUuQbM+mCkCyjvifUL9zHse/rxkG4T0gOQOJ+P3IxFxij+rVhYPwYm8g/huuON
-         F/nWihK/q9U4yTwi13LZrtD8+OmWFbBSRxVwQq97TubnBZ4uv3GQ96fmlCY92Y8Q1sDs
-         Ap7zCg7kwFx9qMaS9VcBfhO1Xx3990D8ZjO9RTbrpwZWVQp7gj7jsa61YmcrNHp4chxX
-         y4Uj0FM/BtJya0Soyt7mGF5HJmxXg5SU5dz6vZ4wcl1ja9wjj4gQQ2ChvLlY5q2bSkVR
-         +epA==
-X-Gm-Message-State: ACrzQf1IDT6QB51+Bdr7wSqfOVlJTS6lW6+Q7hm00Trfbflo/+FNHpI3
-        ZNVNd6li85wVxh6UIVun63DA0d3PTuEdVQ==
-X-Google-Smtp-Source: AMsMyM699shYfPJRZjtvf0WrZwlCnv5GC1QwyMrsX2HwUGYEowHxp1U8T59chHhbf0HcdmHR6GxRVA==
-X-Received: by 2002:a0c:e1c7:0:b0:4b7:e275:d023 with SMTP id v7-20020a0ce1c7000000b004b7e275d023mr33172977qvl.100.1667581637064;
-        Fri, 04 Nov 2022 10:07:17 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id x19-20020a376313000000b006e2d087fd63sm3189561qkb.63.2022.11.04.10.07.16
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 10:07:16 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id z192so6586092yba.0
-        for <linux-input@vger.kernel.org>; Fri, 04 Nov 2022 10:07:16 -0700 (PDT)
-X-Received: by 2002:a81:8241:0:b0:370:5fad:47f0 with SMTP id
- s62-20020a818241000000b003705fad47f0mr27409344ywf.441.1667581219811; Fri, 04
- Nov 2022 10:00:19 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K+T+zRU50EyoybWvV9puA2CX5+7utUDve2uCmkWDcVU=;
+        b=Fkv91CnAjczGi8Gn2Q1g1Ha1QsQAScEXT90UPR739trDPgn/EDkHgDUE5TJa+0MAn0
+         mfeyiPPNqFFsaMtmu5WbDXr+nWOk/HarNckoql9sMkV9CBOVGD6DEdmuPQq/5Zwea4/z
+         h3kdsFCsiaTDp/BvMVs+nmhrrRxxr7oyqAq5Q07wqqrloHHDztPhyuMsMzEtBTC0bju2
+         P/HzekmGOgDYPfxTyy1k1dUqRORG9aZgsLfhfFHSYEb3BFBt9BN3KMzXssr17Co55VHP
+         5hK271QTvxkQyBMDjfQWTWIvHwVIubd0UAqMbSURGjkbcWdONdzeTKt/8l5jVVUmrePG
+         IIZQ==
+X-Gm-Message-State: ACrzQf2KHGETZAOsLPkmoAELkaIHfZHN8mdCEIWiLps3q8jWalemi8C5
+        iCVQxk53pQ+HK6s0PkKiDFY=
+X-Google-Smtp-Source: AMsMyM79Bzl/Axmwa1kFNk0sPDD6LGvI/Yhj+RoJh9H5Dh0Z4cCObAKCw+U7+fCVPO0/eZJ84pH/Lg==
+X-Received: by 2002:a17:902:bf01:b0:188:571f:3756 with SMTP id bi1-20020a170902bf0100b00188571f3756mr8870909plb.171.1667586201548;
+        Fri, 04 Nov 2022 11:23:21 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id p3-20020a170902e74300b0017a0668befasm73545plf.124.2022.11.04.11.23.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 11:23:20 -0700 (PDT)
+Date:   Fri, 4 Nov 2022 11:23:17 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Kunbo Zhang <absoler@smail.nju.edu.cn>, tiwai@suse.de,
+        wsa+renesas@sang-engineering.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, security@kernel.org
+Subject: Re: [PATCH] input: i8042 - fix a double-fetch vulnerability
+ introduced by GCC
+Message-ID: <Y2VYlc8RxOsKxbmm@google.com>
+References: <20221104072347.74314-1-absoler@smail.nju.edu.cn>
+ <Y2TtXAW1LhOwlE64@kroah.com>
 MIME-Version: 1.0
-References: <20221104054053.431922658@goodmis.org>
-In-Reply-To: <20221104054053.431922658@goodmis.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 4 Nov 2022 10:00:03 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
-Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
-Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
- freeing timers
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bluetooth@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2TtXAW1LhOwlE64@kroah.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,32 +73,24 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 3, 2022 at 10:48 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> Ideally, I would have the first patch go into this rc cycle, which is mostly
-> non functional as it will allow the other patches to come in via the respective
-> subsystems in the next merge window.
+Hi Greg,
 
-Ack.
+On Fri, Nov 04, 2022 at 11:45:48AM +0100, Greg KH wrote:
+> On Fri, Nov 04, 2022 at 03:23:47PM +0800, Kunbo Zhang wrote:
+> > As in the source code, the global variable is tested (at line 408) before three assignments of irq_bit, disable_bit and port_name.
+> > However, as shown in the following disassembly of i8042_port_close(), 
+> > the variable (0x0(%rip)) is fetched and tested three times for each 
+> > assignment of irq_bit, disable_bit and port_name.
+> 
+> There should not be any problem with this as that value does not ever
+> change except in rare cases (shutdown or init).
 
-I also wonder if we could do the completely trivially correct
-conversions immediately.
+We use this chunk only to establish identity of the port, we do not
+expect instances to change while driver operates, so I do not think
+there is any concern with re-fetching/re-checking the port while it is
+being closed.
 
-I'm talking about the scripted ones where it's currently a
-"del_timer_sync()", and the very next action is freeing whatever data
-structure the timer is in (possibly with something like free_irq() in
-between - my point is that there's an unconditional free that is very
-clear and unambiguous), so that there is absolutely no question about
-whether they should use "timer_shutdown_sync()" or not.
+Thanks.
 
-IOW, things like patches 03, 17 and 31, and at least parts others in
-this series.
-
-This series clearly has several much more complex cases that need
-actual real code review, and I think it would help to have the
-completely unambiguous cases out of the way, just to get rid of noise.
-
-So I'd take that first patch, and a scripted set of "this cannot
-change any semantics" patches early.
-
-                Linus
+-- 
+Dmitry
