@@ -2,122 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A549F619B76
-	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 16:24:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D1FB619D2F
+	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 17:26:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232601AbiKDPYC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Nov 2022 11:24:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35130 "EHLO
+        id S230194AbiKDQ0w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Nov 2022 12:26:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231680AbiKDPXx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 11:23:53 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071332B26A
-        for <linux-input@vger.kernel.org>; Fri,  4 Nov 2022 08:23:41 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id a14so7527293wru.5
-        for <linux-input@vger.kernel.org>; Fri, 04 Nov 2022 08:23:40 -0700 (PDT)
+        with ESMTP id S231364AbiKDQ0t (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 12:26:49 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA36A31EF6;
+        Fri,  4 Nov 2022 09:26:47 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id l39-20020a05600c1d2700b003cf93c8156dso1976097wms.4;
+        Fri, 04 Nov 2022 09:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HKLm3c0Ax0RwyQg3Vkst8SF6fjIBP0oMiPrQPMQRGn8=;
-        b=EST0Mno6ZcUNn35RK6/5T01htqzKrIy4DsFvjxw4NO45a0Pd7ld77pc1bAkwv2l8sq
-         JqCD2+3nWNt/Ujg26yi2xFhxlB/SpwdLF6nYI6Hx05NCoL1TKgRFYkdhCzyUd/bpRGe5
-         XzMP/HWHrjxUKBCtWJaw5YpNCozlDxNSmnO25z53F0nr94rMUWnG2Gp+1P56wzhpMbjV
-         ANzJbH6tvLP0NMwTaF5Erl0o5rTR5kPlvYCrE4gix9arMK3S8ts2y5HlKwEwWl0CGuYa
-         HmZwmWnMUDdEsqZ0GpNqP6WP/ohceRhe1emscNA4097HM4hTiEwON2gGRjFRcDipbjw8
-         j8xQ==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2fhgP41PsL/y3ZYnL/j3Up8uTJqyMHNAuWy+KZ/ETPA=;
+        b=UgMuHWFXGSx2QnjrIO8j7TMtMqpbJkh00y2iwVE2YvQsCYsp/3j5pfHti1iNYtK7SE
+         1m5fZG6PJjSHFr4Uocgnj/aw0qy+V/P1Q/IEqwR2j/Dzy7lqQfNyLtEX+pzdUCEoBauM
+         6byUjX2RQZHeu17JpxomH8DvxU1KoLOmwfVomGSiylX2zL6QFctBctfkN7zQjYwC+O2M
+         H4emA7akCk44OrMblohWs+BIm2SPPDxMNP7x93hC7GkXdv8/WAmbcNu0nSdNOfPhyd7Y
+         ulVaZB7F0d+0T6YqiKQF64hea18f0rPEsxIU/LWJ6HZve9t/SufVPZ4/2GVeSss3Laac
+         XSKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HKLm3c0Ax0RwyQg3Vkst8SF6fjIBP0oMiPrQPMQRGn8=;
-        b=XHp/mMh+uUCrpK348McxKoyUSjX/aBiFhERZSum4OX018NQrhbDB9DIEkodYsr0InH
-         g33BWLY5aFhhM0gebTlWKAdjIbuNf/rZSnxaezOdt0UuhaWQT7vhZ8Knmm73K25C9Nir
-         UKV5J3gcDbZAzUHcXIXNOyJ7sCweCN47f87wd3g7YILdNE+kIE5JNG61XaqnLK6KIH8r
-         eHuH95wdWiJ1KZx6IF9Za4gptaujre4mpMS37d6YTKleP47i1YY0fqqotenlU/OQlQL3
-         t77rCQ0dNpCNzxmy38XcwQOtJ0H8MvF0B8/VUeZa1YiO3SDK1tygtjDmzndito2HsbvR
-         No7w==
-X-Gm-Message-State: ACrzQf3J+jbLAX52wyVTWG7y4GE1o2V7BokSSekChvnmBuC6qu83E2wr
-        Xx9pVPJPyac5eQdQQVXwTS1ULw==
-X-Google-Smtp-Source: AMsMyM5plT1v0BxoKm5y6MF2smf9QgdX0jb8O87uviwA0mbP2P7KKSRz+mtBkq42k0Mc6hxqG+3Odg==
-X-Received: by 2002:adf:dbc6:0:b0:236:c090:905d with SMTP id e6-20020adfdbc6000000b00236c090905dmr19908171wrj.132.1667575420565;
-        Fri, 04 Nov 2022 08:23:40 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id l41-20020a05600c08a900b003b4935f04a4sm3689764wmp.5.2022.11.04.08.23.38
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2fhgP41PsL/y3ZYnL/j3Up8uTJqyMHNAuWy+KZ/ETPA=;
+        b=byxiFXi9dmxxaaBhs/OEN+My1sDGfwEx5w5Idj4NqB4kFi5FBmOXH41tNgH5boZzHe
+         FapDwvRO7hjG5Uu9r+GdtCzS0R3AHd/6bXdNo9+LNhopaC9YHx5X+aSxBvQVKIQmkAVH
+         SU+XEhKSd3iZM7TC9cWAc2GjVd/0hz7CJU9aYgyoILwbLD5ytbwSci5W1bTgrEc9tA4E
+         PzntYZvg1h/mEu27SGbp/gOeksJPHLOV6VVPKgq7xRWzyUnUJB+fR46Fu7ZnkP6M1Fao
+         FTY7Bp4MhjUmmy1UrzlEllBZ/joGyEcn2iWh/cU9a11oaQ1IwuYH1ZfSGKVb5u6qhCZR
+         Hy8Q==
+X-Gm-Message-State: ACrzQf0fdYtp3mnROWS3YVjRFfhF90o3MQu9NRvEPicd4fckrhxelsgu
+        0Q997x6dPULc8Op7d7nOOEs=
+X-Google-Smtp-Source: AMsMyM5xuNuKyVDObOFxlfvOoLwQFOgy7bHhuE+ae1u88Xp1TQiUAOGG6Cl88SlQx0iR0gdwCMZL5A==
+X-Received: by 2002:a05:600c:154f:b0:3cc:767a:4653 with SMTP id f15-20020a05600c154f00b003cc767a4653mr35350951wmg.70.1667579206254;
+        Fri, 04 Nov 2022 09:26:46 -0700 (PDT)
+Received: from elementary ([94.73.35.109])
+        by smtp.gmail.com with ESMTPSA id bw26-20020a0560001f9a00b0023659925b2asm3758370wrb.51.2022.11.04.09.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 08:23:40 -0700 (PDT)
-From:   Jerome Neanne <jneanne@baylibre.com>
-To:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
-        will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
-        shawnguo@kernel.org, geert+renesas@glider.be,
-        dmitry.baryshkov@linaro.org, marcel.ziswiler@toradex.com,
-        vkoul@kernel.org, biju.das.jz@bp.renesas.com, arnd@arndb.de,
-        jeff@labundy.com
-Cc:     afd@ti.com, khilman@baylibre.com, narmstrong@baylibre.com,
-        msp@baylibre.com, j-keerthy@ti.com, jneanne@baylibre.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: [PATCH v7 6/6] arm64: defconfig: Add tps65219 as modules
-Date:   Fri,  4 Nov 2022 16:23:11 +0100
-Message-Id: <20221104152311.1098603-7-jneanne@baylibre.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221104152311.1098603-1-jneanne@baylibre.com>
-References: <20221104152311.1098603-1-jneanne@baylibre.com>
+        Fri, 04 Nov 2022 09:26:45 -0700 (PDT)
+Date:   Fri, 4 Nov 2022 17:26:43 +0100
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Mia Kanashi <chad@redpilled.dev>, benjamin.tissoires@redhat.com,
+        spbnick@gmail.com, pobrn@protonmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] HID: input: do not query XP-PEN Deco LW battery
+Message-ID: <20221104162643.GA6601@elementary>
+References: <20221029161240.15548-1-jose.exposito89@gmail.com>
+ <20221029161240.15548-2-jose.exposito89@gmail.com>
+ <1701DB3A-5538-4B58-8232-E6705B9C70DF@redpilled.dev>
+ <nycvar.YFH.7.76.2211041412500.29912@cbobk.fhfr.pm>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <nycvar.YFH.7.76.2211041412500.29912@cbobk.fhfr.pm>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Development boards from TI: SK-AM64 PROC1004 include the TPS65219 PMIC.
-Add support for the TPS65219 PMIC by enabling MFD, regulator and
-power-button drivers.  All drivers enabled as modules.
+On Fri, Nov 04, 2022 at 02:13:34PM +0100, Jiri Kosina wrote:
+> On Sat, 29 Oct 2022, Mia Kanashi wrote:
+> 
+> > >The XP-PEN Deco LW drawing tablet can be connected by USB cable or using
+> > >a USB Bluetooth dongle. When it is connected using the dongle, there
+> > >might be a small delay until the tablet is paired with the dongle.
+> > >
+> > >Fetching the device battery during this delay results in random battery
+> > >percentage values.
+> > >
+> > >Add a quirk to avoid actively querying the battery percentage and wait
+> > >for the device to report it on its own.
+> > >
+> > >Reported-by: Mia Kanashi <chad@redpilled.dev>
+> > >Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> 
+> [ ... snip ... ]
+> 
+> > I've tested this patch and now power supply status is correctly set to 
+> > Unknown and capacity is set to 0 initially.
+> > 
+> > Just a note that that issue occured not only with the dongle, but a 
+> > cable also. It seems that tablet just doesn't respond to the query.
+> > 
+> > Thank you for the work!
+> 
+> Based on this, can I assume that I can turn
+> 
+> 	Reported-by: Mia Kanashi <chad@redpilled.dev>
+> 
+> into
+> 
+> 	Reported-and-tested-by: Mia Kanashi <chad@redpilled.dev>
+> 
+> for the final version?
+> 
+> Thanks,
+> 
+> -- 
+> Jiri Kosina
+> SUSE Labs
+> 
 
-Signed-off-by: Jerome Neanne <jneanne@baylibre.com>
-Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
----
- arch/arm64/configs/defconfig | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks for adding the tags and reviewing and merging the patches Jiří!
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 0b6af3348e79..61ae9c0326ca 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -415,6 +415,7 @@ CONFIG_TOUCHSCREEN_GOODIX=m
- CONFIG_TOUCHSCREEN_EDT_FT5X06=m
- CONFIG_INPUT_MISC=y
- CONFIG_INPUT_PM8941_PWRKEY=y
-+CONFIG_INPUT_TPS65219_PWRBUTTON=m
- CONFIG_INPUT_PM8XXX_VIBRATOR=m
- CONFIG_INPUT_PWM_BEEPER=m
- CONFIG_INPUT_PWM_VIBRA=m
-@@ -653,6 +654,7 @@ CONFIG_MFD_SPMI_PMIC=y
- CONFIG_MFD_RK808=y
- CONFIG_MFD_SEC_CORE=y
- CONFIG_MFD_SL28CPLD=y
-+CONFIG_MFD_TPS65219=m
- CONFIG_MFD_ROHM_BD718XX=y
- CONFIG_MFD_WCD934X=m
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
-@@ -680,6 +682,7 @@ CONFIG_REGULATOR_QCOM_SPMI=y
- CONFIG_REGULATOR_RK808=y
- CONFIG_REGULATOR_S2MPS11=y
- CONFIG_REGULATOR_TPS65132=m
-+CONFIG_REGULATOR_TPS65219=m
- CONFIG_REGULATOR_VCTRL=m
- CONFIG_RC_CORE=m
- CONFIG_RC_DECODERS=y
--- 
-2.25.1
-
+Jose
