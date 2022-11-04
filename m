@@ -2,84 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B81A61903F
-	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 06:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEA2A6191CE
+	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 08:26:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231406AbiKDFs5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Nov 2022 01:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
+        id S229978AbiKDH0R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Nov 2022 03:26:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231304AbiKDFsx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 01:48:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF66D28724;
-        Thu,  3 Nov 2022 22:48:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 326AE620C6;
-        Fri,  4 Nov 2022 05:48:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BC21C43145;
-        Fri,  4 Nov 2022 05:48:48 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.96)
-        (envelope-from <rostedt@goodmis.org>)
-        id 1oqpZq-00715d-21;
-        Fri, 04 Nov 2022 01:49:14 -0400
-Message-ID: <20221104054914.458495869@goodmis.org>
-User-Agent: quilt/0.66
-Date:   Fri, 04 Nov 2022 01:41:07 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: [RFC][PATCH v3 14/33] timers: HID: Use timer_shutdown_sync() before freeing timer
-References: <20221104054053.431922658@goodmis.org>
+        with ESMTP id S229779AbiKDH0Q (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 03:26:16 -0400
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2176518363;
+        Fri,  4 Nov 2022 00:26:08 -0700 (PDT)
+X-QQ-mid: bizesmtp75t1667546649tv9fay8q
+Received: from localhost.localdomain ( [58.213.8.169])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Fri, 04 Nov 2022 15:24:08 +0800 (CST)
+X-QQ-SSF: 0140000000000030B000000A0000000
+X-QQ-FEAT: FVl8EHhfVR5sZRNRY9/DeJL8TZ/JzmaTzPbfcQeUkmkwgHG3TgzG7YguMkqwy
+        yaQfw+EnjutXfftW/VCbeBl/TfaZCKBW2+Tai+grdWNRQ7bVMqRo8eL5hj9XDxKwdnWVJa4
+        3xp1I/AsLqrRDSXgrca14LAlBItPg97/+NoX/VhKn3jX2MiM0qBumuYrJx8lkRKC4kNRKY9
+        PfgdnibQfjejhJ+eZZQkH71Qc4KY5e0m0y9gvNbDdeLcu9lW97h4P1sz051DZacDRatllrx
+        bJWCDDK7cMDQ6rmSheAYzwzwahFpX4UL85BoK2x8Mni1J9E3ASq/Va5D7FUW42JeNQ/O/MS
+        zEFNu67stA7otbGcPr/cJY/mlSuvovGkzZlA2pvnM944vlf/Okkl2i7p57MPTaKMyRWQR9M
+X-QQ-GoodBg: 1
+From:   Kunbo Zhang <absoler@smail.nju.edu.cn>
+To:     dmitry.torokhov@gmail.com, tiwai@suse.de,
+        wsa+renesas@sang-engineering.com
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        security@kernel.org, Kunbo Zhang <absoler@smail.nju.edu.cn>
+Subject: [PATCH] input: i8042 - fix a double-fetch vulnerability introduced by GCC
+Date:   Fri,  4 Nov 2022 15:23:47 +0800
+Message-Id: <20221104072347.74314-1-absoler@smail.nju.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:smail.nju.edu.cn:qybglogicsvr:qybglogicsvr6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_PASS,T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+We found GCC (at least 9.4.0 and 12.1) introduces a double-fetch of `i8042_ports[I8042_AUX_PORT_NO].serio` at drivers/input/serio/i8042.c:408.
 
-Before a timer is freed, timer_shutdown_sync() must be called.
+One comparison of the global variable `i8042_ports[I8042_AUX_PORT_NO].serio` has been compiled to three ones,
+and thus two extra fetches are introduced.
+As in the source code, the global variable is tested (at line 408) before three assignments of irq_bit, disable_bit and port_name.
+However, as shown in the following disassembly of i8042_port_close(), 
+the variable (0x0(%rip)) is fetched and tested three times for each 
+assignment of irq_bit, disable_bit and port_name.
 
-Link: https://lore.kernel.org/all/20220407161745.7d6754b3@gandalf.local.home/
+0000000000000e50 <i8042_port_close>:
+i8042_port_close():
+./drivers/input/serio/i8042.c:408
+     e50:	48 39 3d 00 00 00 00    cmp    %rdi,0x0(%rip)        # first load
+./drivers/input/serio/i8042.c:403
+     e57:	41 54                   push   %r12
+./drivers/input/serio/i8042.c:408
+     e59:	b8 ef ff ff ff          mov    $0xffffffef,%eax
+     e5e:	49 c7 c4 00 00 00 00    mov    $0x0,%r12
+./drivers/input/serio/i8042.c:403
+     e65:	55                      push   %rbp
+./drivers/input/serio/i8042.c:408
+     e66:	48 c7 c2 00 00 00 00    mov    $0x0,%rdx
+./drivers/input/serio/i8042.c:419
+     e6d:	be 60 10 00 00          mov    $0x1060,%esi
+./drivers/input/serio/i8042.c:403
+     e72:	53                      push   %rbx
+./drivers/input/serio/i8042.c:408
+     e73:	bb df ff ff ff          mov    $0xffffffdf,%ebx
+     e78:	0f 45 d8                cmovne %eax,%ebx
+     e7b:	0f 95 c0                setne  %al
+     e7e:	83 e8 03                sub    $0x3,%eax
+     e81:	48 39 3d 00 00 00 00    cmp    %rdi,0x0(%rip)        # second load
+     e88:	40 0f 94 c5             sete   %bpl
+     e8c:	83 c5 01                add    $0x1,%ebp
+     e8f:	48 39 3d 00 00 00 00    cmp    %rdi,0x0(%rip)        # third load
+./drivers/input/serio/i8042.c:419
+     e96:	48 c7 c7 00 00 00 00    mov    $0x0,%rdi
+./drivers/input/serio/i8042.c:408
+     e9d:	4c 0f 45 e2             cmovne %rdx,%r12
 
-Cc: David Rheinsberg <david.rheinsberg@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+We have not found any lock protection for the three fetches of `i8042_ports[I8042_AUX_PORT_NO].serio` yet.
+If the value of this global variable is modified concurrently among the three fetches, the corresponding assignment of 
+disable_bit or port_name will possibly be incorrect.
+
+This patch fixs this by saving the checked value in advance and using a barrier() to prevent compiler optimizations.
+This is inspired by a similar compiler-introduced double fetch situation [1] in driver/xen (?).
+
+[1] GitHub link of commit <8135cf8b092723dbfcc611fe6fdcb3a36c9951c5> ( Save xen_pci_op commands before processing it )
 ---
- drivers/hid/hid-wiimote-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/serio/i8042.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-wiimote-core.c b/drivers/hid/hid-wiimote-core.c
-index 4399d6c6afef..2c94308dda3c 100644
---- a/drivers/hid/hid-wiimote-core.c
-+++ b/drivers/hid/hid-wiimote-core.c
-@@ -1764,7 +1764,7 @@ static void wiimote_destroy(struct wiimote_data *wdata)
- 	spin_unlock_irqrestore(&wdata->state.lock, flags);
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index f9486495baef..554a2340ca84 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -405,7 +405,9 @@ static void i8042_port_close(struct serio *serio)
+ 	int disable_bit;
+ 	const char *port_name;
  
- 	cancel_work_sync(&wdata->init_worker);
--	del_timer_sync(&wdata->timer);
-+	timer_shutdown_sync(&wdata->timer);
- 
- 	device_remove_file(&wdata->hdev->dev, &dev_attr_devtype);
- 	device_remove_file(&wdata->hdev->dev, &dev_attr_extension);
+-	if (serio == i8042_ports[I8042_AUX_PORT_NO].serio) {
++	struct serio *tmp = i8042_ports[I8042_AUX_PORT_NO].serio;
++	barrier();
++	if (serio == tmp) {
+ 		irq_bit = I8042_CTR_AUXINT;
+ 		disable_bit = I8042_CTR_AUXDIS;
+ 		port_name = "AUX";
+
+Signed-off-by: Kunbo Zhang <absoler@smail.nju.edu.cn>
+
 -- 
-2.35.1
+2.25.1
+
