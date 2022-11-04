@@ -2,149 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E45FB6198B6
-	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 15:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B301619A73
+	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 15:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231356AbiKDOE7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Nov 2022 10:04:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51630 "EHLO
+        id S230375AbiKDOrR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Nov 2022 10:47:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231302AbiKDOE6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 10:04:58 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2152240B5
-        for <linux-input@vger.kernel.org>; Fri,  4 Nov 2022 07:04:55 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id t1so3091462wmi.4
-        for <linux-input@vger.kernel.org>; Fri, 04 Nov 2022 07:04:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WrEOdMf1GMkeq1OQaiBOBbaVxySuKCCitXKqPe1eQto=;
-        b=KGXICG13fLDFm+7bgCOZWXNar1xBVbaxRtiz6EPXDpBfWd38sj2NDk1kIe0pVd5hIg
-         W9ursfTmfTA3AJO093ue/+AukqBaTCMKmURvA5eTz9XrNRPk34tu8mDZupfZY16b9Iwn
-         zBKLEtqNLOELjpUcA5xA3h46yGwp8Oo5soQyhyPGEHHYpOQzGHuAbEOlAu66We4zONog
-         53o7hruoSqu6fy6QWl+QCJCtVxn60sMc7BrEQd9djr6t/n0tNmgDZlC4Iq21iiLY95Yl
-         SK7131s+znheqj3IbPzeyHxZ979BDPZKx0cRLmLSRnRFJoajA4FPebofk21ha2ont9om
-         79vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WrEOdMf1GMkeq1OQaiBOBbaVxySuKCCitXKqPe1eQto=;
-        b=3EWQHqCXDFpYCqLa+idncaY/pTo8Z6QlDD46kpjjreHMVZBlzvga7Ypw+8CRc11g44
-         NIf3tf4iHygLXxJpu/0VAlS77C9uoaob22Q4lYb5f06zPxIQWQX1YCsjz1c/Bg8+Yg+j
-         FR6d8Down8AxF8uejk1TbkZ9wvqmAvZ52ZSDH7WMIiqONIeSxil0v50xBrbgiTXBplj+
-         TAAHeWdd/uujqrdGMShN9xy4KIYdkk0vhi/1G4HOPks+iC8VnCgQFHE5P5+t6tkvbfkp
-         NdltGL7DzOpgdVqMJVb2GnTxf8fvEtM2hc4QdoReaE07rdyKpfpVRrqbGC8TppKZ2NQ5
-         7NrA==
-X-Gm-Message-State: ACrzQf3eWzQ9JHXQeUP59h5HQsAiy9xZkDwlmO21W1ZlVFX0uKAvdACF
-        3DS8k6LVeXHr9pqM0Xq7MGhURg==
-X-Google-Smtp-Source: AMsMyM5/Tel7T8Pg26XJyrSPh1iMst0IIxFHJJStp9WKC67bo+jAc3KoL4hvw99NGNuI6el3zC3Y4Q==
-X-Received: by 2002:a05:600c:4587:b0:3c6:f645:dbc2 with SMTP id r7-20020a05600c458700b003c6f645dbc2mr34442198wmo.83.1667570694310;
-        Fri, 04 Nov 2022 07:04:54 -0700 (PDT)
-Received: from [10.101.1.4] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id z18-20020a5d44d2000000b002365254ea42sm3626048wrr.1.2022.11.04.07.04.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 07:04:53 -0700 (PDT)
-Message-ID: <6af9d462-885a-df77-2c83-588363026e7f@baylibre.com>
-Date:   Fri, 4 Nov 2022 15:04:49 +0100
+        with ESMTP id S229496AbiKDOrO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 10:47:14 -0400
+Received: from redpilled.dev (redpilled.dev [195.201.122.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C1B21AF;
+        Fri,  4 Nov 2022 07:47:13 -0700 (PDT)
+Date:   Fri, 04 Nov 2022 16:47:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redpilled.dev;
+        s=mail; t=1667573231;
+        bh=MziWuBgQ66eSbh3PGJQDWRP49x0Q4k+wM89oAdBOOMk=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References;
+        b=g/rQi9JszwhwgYPFyR8DLVTg1kdOKge31I8r1LLIUPEl8vErhvvK9dWs1YGWO+XRX
+         s9WMWBWwD2qWdzjg2S80nSbDyJpRe+Fsif8oup3yB4Rr+7DBHMXPh3LnLAp0nn8uMD
+         NERlLprCYmB3nCfnbqh1jZbZ3Rz+/DeoHCacMv1Q=
+From:   Mia Kanashi <chad@redpilled.dev>
+To:     Jiri Kosina <jikos@kernel.org>
+CC:     =?ISO-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        pobrn@protonmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] HID: input: do not query XP-PEN Deco LW battery
+In-Reply-To: <nycvar.YFH.7.76.2211041412500.29912@cbobk.fhfr.pm>
+References: <20221029161240.15548-1-jose.exposito89@gmail.com> <20221029161240.15548-2-jose.exposito89@gmail.com> <1701DB3A-5538-4B58-8232-E6705B9C70DF@redpilled.dev> <nycvar.YFH.7.76.2211041412500.29912@cbobk.fhfr.pm>
+Message-ID: <705A1972-A2D4-4659-BAD0-7053492478C9@redpilled.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v6 4/6] mfd: tps65219: Add driver for TI TPS65219 PMIC
-Content-Language: en-US
-To:     Lee Jones <lee@kernel.org>
-Cc:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
-        will@kernel.org, tony@atomide.com, vigneshr@ti.com,
-        bjorn.andersson@linaro.org, shawnguo@kernel.org,
-        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
-        marcel.ziswiler@toradex.com, vkoul@kernel.org,
-        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com,
-        afd@ti.com, khilman@baylibre.com, narmstrong@baylibre.com,
-        msp@baylibre.com, j-keerthy@ti.com, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-input@vger.kernel.org, linux-omap@vger.kernel.org
-References: <20221011140549.16761-1-jneanne@baylibre.com>
- <20221011140549.16761-5-jneanne@baylibre.com> <Y1+q2Usm9ecicXqp@google.com>
- <1383fd22-c720-811e-a2bb-be2151675089@baylibre.com>
- <Y2UaCq+EL0f2mJ3p@google.com>
-From:   jerome Neanne <jneanne@baylibre.com>
-In-Reply-To: <Y2UaCq+EL0f2mJ3p@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 4 November 2022 15:13:34 EET, Jiri Kosina <jikos@kernel=2Eorg> wrote:
+>Based on this, can I assume that I can turn
+>
+>	Reported-by: Mia Kanashi <chad@redpilled=2Edev>
+>
+>into
+>
+>	Reported-and-tested-by: Mia Kanashi <chad@redpilled=2Edev>
+>
+>for the final version?
+>
+>Thanks,
 
+Yes, but maintainer docs don't recommend using combined tags=2E :)
 
-On 04/11/2022 14:56, Lee Jones wrote:
-> On Fri, 04 Nov 2022, jerome Neanne wrote:
-> 
->>
->>
->> On 31/10/2022 12:00, Lee Jones wrote:
->>>> diff --git a/include/linux/mfd/tps65219.h b/include/linux/mfd/tps65219.h
->>>> new file mode 100644
->>>> index 000000000000..2c1cf92e92ac
->>>> --- /dev/null
->>>> +++ b/include/linux/mfd/tps65219.h
->>
->>>> +/**
->>>> + * struct tps65219 - tps65219 sub-driver chip access routines
->>>> + *
->>>> + * Device data may be used to access the TPS65219 chip
->>>> + *
->>>> + * @dev MFD device
->>>> + * @regmap Regmap for accessing the device registers
->>>> + * @irq_data Regmap irq data used for the irq chip
->>>> + * @nb notifier block for the restart handler
->>>> + */
->>>
->>> This header needs work.
->> I'm not sure to get your point here. Just something like below to match
->> format or do you expect more:
->>
->> /**
->>   * struct tps65219 - tps65219 sub-driver chip access routines
->>   *
->>   * Device data may be used to access the TPS65219 chip
->>   *
->>   * @dev: MFD device
->>   * @regmap: Regmap for accessing the device registers
->>   * @irq_data: Regmap irq data used for the irq chip
->>   * @nb: notifier block for the restart handler
->>   */
->>
->>>
->>> Can you try an compile with W=1 please.
->> This raise one warning on mfd:
-> 
-> Is that before or after the header was fixed-up?
-After the header was fixed-up.
-> 
->> drivers/mfd/tps65219.c:28:12: warning: ‘tps65219_soft_shutdown’ defined but
->> not used [-Wunused-function]
->>     28 | static int tps65219_soft_shutdown(struct tps65219 *tps)
->>        |            ^~~~~~~~~~~~~~~~~~~~~~
->> soft_shutdown has been validated and is used in TI baseline even if not
->> hooked in upstream version further to this review:
->> https://lore.kernel.org/lkml/20220825150224.826258-5-msp@baylibre.com/
-> 
-> Will tps65219_soft_shutdown() be used?
-> 
-> I think it should be removed until it's utilised in Mainline.
-> 
-I'll remove then
+  Please do not use combined tags, e=2Eg=2E Reported-and-tested-by,=20
+  as they just complicate automated extraction of tags=2E
 
-Thanks for your feedback
+link: https://www=2Ekernel=2Eorg/doc/html/latest/process/maintainer-tip=2E=
+html?highlight=3DReported-and-tested-by#ordering-of-commit-tags
