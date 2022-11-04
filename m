@@ -2,82 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10C4461A1F0
-	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 21:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 299F161A23E
+	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 21:38:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbiKDUMu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Nov 2022 16:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55782 "EHLO
+        id S230022AbiKDUil (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Nov 2022 16:38:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbiKDUMt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 16:12:49 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB6E72C66E;
-        Fri,  4 Nov 2022 13:12:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=kaPTClNPEmFEytPts+Xev/fPtAp5vUFNC52w26Gma5E=; b=sHtTCJfSRMFnnX6gmSmuGISc5Q
-        NlCQkuSFQAYT5n6OuRbayMx3ZdId54XLkYxluzgKseZyhzWyMDo9vrt/859Rq93RgXBBAqe7K4tF7
-        hbnLp5KXI7iXa7pwjmX4F4apIVjiq45mztC5BQV4hBay5qd1P/CuHb5cfwdO4Sgsx6cqAsDph2T/2
-        3zQsae+IsivTibRTrkiVS+sEVrTaMcYhtRoWR5hv3ebMiZx26aHp1DThLoNa8mLHzPa1Ez67XB613
-        pbrCcoEJl7Lv0LVSDzA0JW1S6cNc4VJGTnp/+5nwOXDWWyGJR2kR7wkVMUQEfoBJD86gtla1fDNHj
-        4bdaI4Qg==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1or33Y-007dUQ-F9; Fri, 04 Nov 2022 20:12:48 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Paul Gazzillo <paul@pgazz.com>,
-        Necip Fazil Yildiran <fazilyildiran@gmail.com>
-Subject: [PATCH] Input: joystick - fix Kconfig warning for JOYSTICK_ADC
-Date:   Fri,  4 Nov 2022 13:12:38 -0700
-Message-Id: <20221104201238.31628-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.38.0
+        with ESMTP id S229459AbiKDUij (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 16:38:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4409D2BB26;
+        Fri,  4 Nov 2022 13:38:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AD78962332;
+        Fri,  4 Nov 2022 20:38:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93F91C433D6;
+        Fri,  4 Nov 2022 20:38:35 +0000 (UTC)
+Date:   Fri, 4 Nov 2022 16:38:34 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bluetooth@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
+ freeing timers
+Message-ID: <20221104154355.578ab689@rorschach.local.home>
+In-Reply-To: <20221104154209.21b26782@rorschach.local.home>
+References: <20221104054053.431922658@goodmis.org>
+        <20221104192232.GA2520396@roeck-us.net>
+        <20221104154209.21b26782@rorschach.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix a Kconfig warning for JOYSTICK_ADC by also selecting
-IIO_BUFFER.
+On Fri, 4 Nov 2022 15:42:09 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-WARNING: unmet direct dependencies detected for IIO_BUFFER_CB
-  Depends on [n]: IIO [=y] && IIO_BUFFER [=n]
-  Selected by [y]:
-  - JOYSTICK_ADC [=y] && INPUT [=y] && INPUT_JOYSTICK [=y] && IIO [=y]
+> $ git grep '\btimer_shutdown'
+> arch/arm/mach-spear/time.c:static inline void timer_shutdown(struct clock_event_device *evt)
+> arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+> arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+> arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+> drivers/clocksource/arm_arch_timer.c:static __always_inline int timer_shutdown(const int access,
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_VIRT_ACCESS, clk);
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_PHYS_ACCESS, clk);
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_VIRT_ACCESS, clk);
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_PHYS_ACCESS, clk);
+> drivers/clocksource/timer-fttmr010.c:   int (*timer_shutdown)(struct clock_event_device *evt);
 
-Fixes: 2c2b364fddd5 ("Input: joystick - add ADC attached joystick driver.")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Artur Rojek <contact@artur-rojek.eu>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>
-Cc: Necip Fazil Yildiran <fazilyildiran@gmail.com>
----
- drivers/input/joystick/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
 
-diff -- a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -46,6 +46,7 @@ config JOYSTICK_A3D
- config JOYSTICK_ADC
- 	tristate "Simple joystick connected over ADC"
- 	depends on IIO
-+	select IIO_BUFFER
- 	select IIO_BUFFER_CB
- 	help
- 	  Say Y here if you have a simple joystick connected over ADC.
+
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+> drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = ast2600_timer_shutdown;
+> drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = fttmr010_timer_shutdown;
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.set_state_shutdown = fttmr010->timer_shutdown;
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.tick_resume = fttmr010->timer_shutdown;
+
+I won't touch structure fields though.
+
+-- Steve
+
+
+> drivers/clocksource/timer-sp804.c:static inline void timer_shutdown(struct clock_event_device *evt)
+> drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
+> drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
