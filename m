@@ -2,82 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89CB2619A99
-	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 15:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 832B9619B5E
+	for <lists+linux-input@lfdr.de>; Fri,  4 Nov 2022 16:23:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbiKDOyP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Nov 2022 10:54:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39010 "EHLO
+        id S232198AbiKDPXY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Nov 2022 11:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiKDOyN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 10:54:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD212EF48;
-        Fri,  4 Nov 2022 07:54:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 26BD8B82E10;
-        Fri,  4 Nov 2022 14:54:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78C4EC433C1;
-        Fri,  4 Nov 2022 14:54:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667573649;
-        bh=GI0z9yOWEheAT9rWm3eZD+z+H5fsvDLn/t0L/B+368E=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=GXuGtyGbs3aFDrbSF7fgR5dmfYYA0qAjxxfw9NWqWQu2+wVvr9TR3Zc8/mktkO69/
-         Lzormhb+/KogWJvqBqg/eQvqhOYfmYhpY8bYUpU/qJPe+qJ5hCNMP7WaO0OifRMMtl
-         M+R3WToZEdXefdI0ek55M7TdFSM1MB3U5228Mr5+h0VFQgHEdqnBCU4K/UMs4pl1+I
-         xiF7plN0w9/8k549+1FUoZLXfutv61xpKTW++gRGnMXOcDw85c4Spx5SrYxGEK02T5
-         xsnwXtiQsJb7CNHgnh74JALwC7aiz0r+as/HkroP+gLaHRCbVEihaM63wX/MXARokW
-         ul7XGEtbOsC9w==
-Date:   Fri, 4 Nov 2022 15:54:06 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        pobrn@protonmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Add support for XP-PEN Deco LW
-In-Reply-To: <20221029161240.15548-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211041553500.29912@cbobk.fhfr.pm>
-References: <20221029161240.15548-1-jose.exposito89@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S231833AbiKDPXX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Nov 2022 11:23:23 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E398A1EC69
+        for <linux-input@vger.kernel.org>; Fri,  4 Nov 2022 08:23:19 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5so3240440wmo.1
+        for <linux-input@vger.kernel.org>; Fri, 04 Nov 2022 08:23:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ffzbfhF3JArv7StgArm/RAFAqMlZRvQlnFlIWw7AfHE=;
+        b=u9WdLqJ7Y3Il1XZzawnfIogEzoT2KbWmJgZrl4NV5G82E3vrA85NkOLlEXuzyRGFr3
+         RihCxDkNrspkw0QbcklMFaFzNg7gsE1LS4YsXr8KGyjLe4gV6n/D3GoXOOMrCBbRk8cJ
+         g9lbLIK6YjwTkNnj8mYV0mVhvMtazHkScwLA9hh8kuPdcrssApjroi5DsFQq43efJ97n
+         ZIqMZX9iCBlvK4VCnDYrma7ECAp3qGzE/K2hzrSffcpTIkweNxvfyXb4ITE350tP23Ly
+         cJcMx3JL77Wwf7OdjQwVbPkoQqxBeglYDyvqIRqSEkrqtdOOVPFhgQxVPxM704fjGRo6
+         JAVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ffzbfhF3JArv7StgArm/RAFAqMlZRvQlnFlIWw7AfHE=;
+        b=UsCOMhj+GWzrUuzHlg3ZKf+6SOkHQItN8KxaB5lPPKymA6BC9p8t1foZXIiMwwwyCL
+         87LIrjcjJEEElhpF5CnWcM6mB7Io9vocztbiLgx06CbzyRh2MVCDr34iJ4K3pvO4ameO
+         EEUvhLq9lBx4QaDeYPr6SA5ddrNEVTP3UCoMPXrEuXg6Wjx1W1gQHLCnfleRXVwiTSBS
+         nosgDpIrls9ojT1uSbfOa8FAu9zKrGBKVsq97cgZjprwtWSTWI9xPrppyMDAbjGSSqsy
+         TVLsJOe7RKqEwwfymAHXo/HXkmIKPrdb5VXuGUAH4kzxbXRjbRR/yqNfPiJQIpdCAuBA
+         JJJQ==
+X-Gm-Message-State: ACrzQf0V7DlU4hvzAlLjNPp0bXeFGE1PZUeS73KjrDLjhnZknDNolTtM
+        qCoGOxH70pnJSyP4N3EyA3yW3A==
+X-Google-Smtp-Source: AMsMyM45TVc9nPqMJY2z6TPt7mcR5KZMm/yEkKf6aLpRWwtO/5VCzvKONKn6EGt02j+W+L5GApDM2w==
+X-Received: by 2002:a05:600c:3c8e:b0:3b4:d224:addf with SMTP id bg14-20020a05600c3c8e00b003b4d224addfmr34469845wmb.132.1667575398358;
+        Fri, 04 Nov 2022 08:23:18 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id l41-20020a05600c08a900b003b4935f04a4sm3689764wmp.5.2022.11.04.08.23.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 08:23:17 -0700 (PDT)
+From:   Jerome Neanne <jneanne@baylibre.com>
+To:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
+        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
+        shawnguo@kernel.org, geert+renesas@glider.be,
+        dmitry.baryshkov@linaro.org, marcel.ziswiler@toradex.com,
+        vkoul@kernel.org, biju.das.jz@bp.renesas.com, arnd@arndb.de,
+        jeff@labundy.com
+Cc:     afd@ti.com, khilman@baylibre.com, narmstrong@baylibre.com,
+        msp@baylibre.com, j-keerthy@ti.com, jneanne@baylibre.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: [PATCH v7 0/6] Add support for TI TPS65219 PMIC.
+Date:   Fri,  4 Nov 2022 16:23:05 +0100
+Message-Id: <20221104152311.1098603-1-jneanne@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 29 Oct 2022, José Expósito wrote:
+From: Jerome NEANNE <jneanne@baylibre.com>
 
-> v1 -> v2: https://lore.kernel.org/linux-input/20221028081656.GA19766@elementary/T/
-> 
->  - Barnabás Pőcze: Use strstarts() instead of a custom implementation
-> 
-> v2 -> v3: https://lore.kernel.org/linux-input/20221029145511.GA7941@elementary/T/
-> 
->  - Mia Kanashi: When using the USB dongle, do not fetch battery until
->    the tablet is paired
-> 
-> José Expósito (2):
->   HID: input: do not query XP-PEN Deco LW battery
->   HID: uclogic: Add support for XP-PEN Deco LW
-> 
->  drivers/hid/hid-input.c          |  6 +++
->  drivers/hid/hid-uclogic-params.c | 73 ++++++++++++++++++++++++++++++++
->  drivers/hid/hid-uclogic-rdesc.c  | 34 +++++++++++++++
->  drivers/hid/hid-uclogic-rdesc.h  |  7 +++
->  4 files changed, 120 insertions(+)
+Hi everyone,
 
-Now in hid.git#for-6.2/uclogic.
+bindings and regulator are already there, it has been rebased on master
+6.1:
+git@github.com:torvalds/linux.git
+commit 8f71a2b3f435f29b787537d1abedaa7d8ebe6647
+
+All review feedback have been integrated.
+
+Changes in v7:
+- defconfig: change commit message to indicate why (Krzysztof Kozlowski).
+- mfd: integrate all feedback from Lee Jones and Biju Das.  
+
+Regards,
+Jerome
+
+Previous versions:i
+v6 - https://lore.kernel.org/all/20221011140549.16761-1-jneanne@baylibre.com/
+v5 - https://lore.kernel.org/lkml/20220913121419.15420-1-jneanne@baylibre.com/
+v4 - https://lore.kernel.org/lkml/20220825150224.826258-1-msp@baylibre.com/
+v3 - https://lore.kernel.org/lkml/20220805121852.21254-1-jneanne@baylibre.com/
+v2 - https://lore.kernel.org/lkml/20220726103355.17684-1-jneanne@baylibre.com/
+v1 - https://lore.kernel.org/lkml/20220719091742.3221-1-jneanne@baylibre.com/
+
+Jerome NEANNE (1):
+  DONOTMERGE: arm64: dts: ti: Add TI TPS65219 PMIC support for AM642 SK
+    board.
+
+Jerome Neanne (4):
+  DONOTMERGE: arm64: dts: ti: Add pinmux and irq mapping for TPS65219
+    external interrupts
+  DONOTMERGE: arm64: dts: ti: k3-am642-sk: Enable tps65219 power-button
+  mfd: tps65219: Add driver for TI TPS65219 PMIC
+  arm64: defconfig: Add tps65219 as modules
+
+Markus Schneider-Pargmann (1):
+  Input: Add tps65219 interrupt driven powerbutton
+
+ MAINTAINERS                             |   1 +
+ arch/arm64/boot/dts/ti/k3-am642-sk.dts  | 115 ++++++++
+ arch/arm64/configs/defconfig            |   3 +
+ drivers/input/misc/Kconfig              |  10 +
+ drivers/input/misc/Makefile             |   1 +
+ drivers/input/misc/tps65219-pwrbutton.c | 148 ++++++++++
+ drivers/mfd/Kconfig                     |  14 +
+ drivers/mfd/Makefile                    |   1 +
+ drivers/mfd/tps65219.c                  | 299 ++++++++++++++++++++
+ include/linux/mfd/tps65219.h            | 345 ++++++++++++++++++++++++
+ 10 files changed, 937 insertions(+)
+ create mode 100644 drivers/input/misc/tps65219-pwrbutton.c
+ create mode 100644 drivers/mfd/tps65219.c
+ create mode 100644 include/linux/mfd/tps65219.h
 
 -- 
-Jiri Kosina
-SUSE Labs
+2.25.1
 
