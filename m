@@ -2,79 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98E9461DE27
-	for <lists+linux-input@lfdr.de>; Sat,  5 Nov 2022 22:03:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 153BA61DE43
+	for <lists+linux-input@lfdr.de>; Sat,  5 Nov 2022 22:12:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbiKEVDg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Nov 2022 17:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53184 "EHLO
+        id S229669AbiKEVM2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Nov 2022 17:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiKEVDe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Nov 2022 17:03:34 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BADDFB2;
-        Sat,  5 Nov 2022 14:03:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 54DF4B808BF;
-        Sat,  5 Nov 2022 21:03:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FADC433D6;
-        Sat,  5 Nov 2022 21:03:26 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Ek158U/I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1667682204;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eqdLYS8BDcnZ1CTVSLTL2V9mpBrsInljjeWX569KabI=;
-        b=Ek158U/IwAdzp/7JgxH8/niYIDD2c7iDpM/q00frrsf+kptgL3uCiSQ7Xlb7SIQ9YvTtg5
-        hlBVvQrg9GahoQxIsHXxgh/CGzM4sTACdo/WX2PYJwuZbLx0SZ+njeVN3snq9LgpG5MQMr
-        EBxmnADIwq+lyFhZU+rPI7l5k3bHDuo=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f7ca4808 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Sat, 5 Nov 2022 21:03:23 +0000 (UTC)
-Date:   Sat, 5 Nov 2022 22:03:18 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bluetooth@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing
- timers
-Message-ID: <Y2bPlllkHo5DUmLY@zx2c4.com>
-References: <20221105060024.598488967@goodmis.org>
- <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
- <20221105123642.596371c7@rorschach.local.home>
+        with ESMTP id S229551AbiKEVM2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Nov 2022 17:12:28 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 220BC26C6;
+        Sat,  5 Nov 2022 14:12:27 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id r14so12256660edc.7;
+        Sat, 05 Nov 2022 14:12:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3dsR8X2EmvQmPsnNDXOyBSO7+PY7curypuTHe1fWaZk=;
+        b=hQddjFJ3MQQsnPvqHHlR+vaH+L+2qogLwaq9Wk3FRgAmnhKXAOtdWZNPNhi8sfUNO+
+         Bi4kSepLPBHPqDcDKhQg4ywBsHqifQhsJKe9KLjc69xNMtOZJFHQNmk7HktgXzhUGdZF
+         MARQRUlpJdVACEQ41TBSh8sR7tOiBV2gttyy30VgDtyMF3GNUWa00YJbcckIbsVI4fDV
+         lgMN7b+AtbBPAIVdmwRpramKur58ET6ZbjhA3FitbIExjXufCxlWYU/yDbD5UecpKDK7
+         wQPXueMwuKeib0DrxPMO6teFDpp7Uzk3Ji58/9kkKfWFryxXdyvY1/k1eg37aNzLJ5fx
+         Z8Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3dsR8X2EmvQmPsnNDXOyBSO7+PY7curypuTHe1fWaZk=;
+        b=AswKFB3QmtmSFl02lO+y6uIrXTxzpsiDVg+RWL/tjHFTSI/PdTENsHGEhjtl7pbRAF
+         XmcmBJHEWun/9FTqrZBSnnwSP7Vdh83UdVsfWgi5R2SXw1f6y2EnwwVWAoXaSzJh0QYK
+         /GDmwRn0EdH45f+2wYWg8+KucSgwx5lNYvJFcpiV6LDxUWXibcj80eVQmTuX4a2hUop6
+         y4gA8uef6OkcA/j0+H5E1dSaEDsH5zYlnBbVhzuqVZkXpNJ7FKkcRFl0RhuAzOP5yaRc
+         g5UIjFXo0sHT+kF0A0lMucMrF0PNXj2PnZTPM0yS5qnupljg9qr38l5VHsn2SCiKeibP
+         Ferw==
+X-Gm-Message-State: ACrzQf2+vBrnCAlp/ZR+IAOY2ZWwXUk3sqyEzEl16sAcgpwtIM3cQMOM
+        0uDOFzxWSF3VebArHFWZHXz71pToKJNMoQ==
+X-Google-Smtp-Source: AMsMyM4hDa066bR0vLgFWexsHhYBqTuOOigtsm8+2KddvJDBHpcwxxypfGE8ygkbbVKb7w8NM8t3IQ==
+X-Received: by 2002:a05:6402:1619:b0:462:b059:9655 with SMTP id f25-20020a056402161900b00462b0599655mr41234424edv.316.1667682745447;
+        Sat, 05 Nov 2022 14:12:25 -0700 (PDT)
+Received: from michael-VirtualBox.. (89-138-220-136.bb.netvision.net.il. [89.138.220.136])
+        by smtp.googlemail.com with ESMTPSA id ta19-20020a1709078c1300b0073d796a1043sm1323502ejc.123.2022.11.05.14.12.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Nov 2022 14:12:24 -0700 (PDT)
+From:   Michael Zaidman <michael.zaidman@gmail.com>
+To:     jikos@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Enrik.Berkhan@inka.de,
+        Michael Zaidman <michael.zaidman@gmail.com>
+Subject: [PATCH v4 00/13] HID: ft260: fixes and performance improvements
+Date:   Sat,  5 Nov 2022 23:11:38 +0200
+Message-Id: <20221105211151.7094-1-michael.zaidman@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221105123642.596371c7@rorschach.local.home>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,31 +70,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Nov 05, 2022 at 12:36:42PM -0400, Steven Rostedt wrote:
-> ----------------------8<------------------------
-> @@
-> identifier ptr, timer, rfield, slab;
-> @@
-> (
-> -	del_timer(&ptr->timer);
-> +	timer_shutdown(&ptr->timer);
-> |
-> -	del_timer_sync(&ptr->timer);
-> +	timer_shutdown_sync(&ptr->timer);
-> )
->     ...
-> (
-> 	kfree_rcu(ptr, rfield);
-> |
-> 	kmem_cache_free(slab, ptr);
-> |
-> 	kfree(ptr);
-> )
-> ---------------------->8------------------------
+This patch series is an updated version of this one:
+https://lore.kernel.org/all/20221030203403.4637-1-michael.zaidman@gmail.com/
 
-Something that might help here is changing the `...` into
-`... when exists` or into `... when != ptr` or similar.
-See this section of the manual:
-https://coccinelle.gitlabpages.inria.fr/website/docs/main_grammar004.html
+Changes since v3:
+  - Fixes for the kernel CI bot warnings
+  - We now do not miss NACK on the wakeup from the power saving mode
+    on the KVM installation reported by Enrik. For details, see
+    https://github.com/MichaelZaidman/hid-ft260/pull/7
 
-Jason
+Changes since v2:
+
+  - Remove SMBus Quick command support
+  - Missed NACK from big i2c read
+  - Wake up device from power saving mode
+  - Fix a NULL pointer dereference in ft260_i2c_write
+  - Missed NACK from busy device
+
+Changes since v1:
+
+  - Do not populate hidraw device
+  - Avoid stale read buffer pointer
+
+Michael Zaidman (13):
+  HID: ft260: ft260_xfer_status routine cleanup
+  HID: ft260: improve i2c write performance
+  HID: ft260: support i2c writes larger than HID report size
+  HID: ft260: support i2c reads greater than HID report size
+  HID: ft260: improve i2c large reads performance
+  HID: ft260: do not populate /dev/hidraw device
+  HID: ft260: skip unexpected HID input reports
+  HID: ft260: remove SMBus Quick command support
+  HID: ft260: missed NACK from big i2c read
+  HID: ft260: wake up device from power saving mode
+  HID: ft260: fix a NULL pointer dereference in ft260_i2c_write
+  HID: ft260: missed NACK from busy device
+  HID: ft260: fix sparse warnings
+
+ drivers/hid/hid-ft260.c | 325 +++++++++++++++++++++++-----------------
+ 1 file changed, 191 insertions(+), 134 deletions(-)
+
+-- 
+2.34.1
+
