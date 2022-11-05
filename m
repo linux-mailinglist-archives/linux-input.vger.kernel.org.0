@@ -2,105 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5853061DF11
-	for <lists+linux-input@lfdr.de>; Sat,  5 Nov 2022 23:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A3D61DFB8
+	for <lists+linux-input@lfdr.de>; Sun,  6 Nov 2022 00:39:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbiKEWe4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Nov 2022 18:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48004 "EHLO
+        id S229791AbiKEXjo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Nov 2022 19:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229888AbiKEWe4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Nov 2022 18:34:56 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED9B11154;
-        Sat,  5 Nov 2022 15:34:54 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id h12so11098835ljg.9;
-        Sat, 05 Nov 2022 15:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6CtIVQWP+Kxh/6X4LVIIdMYVxRHCgpX/NmfsfTqOY7k=;
-        b=UIPJcAD9s4TdNFm9zVg2P/mZ0ZQlI3XcjxuMV21bO0DdBw8M8wwStfipvihaD7rtzP
-         wPxH4DYR2D+cPmO8gtC7VZWSws0s4qrsYx+bX7Ae0OGPG/FsKehC2JrCAxN18j6W7ruK
-         We3u1M3asut7zASyfQQCdHGSXNFekALPKrkk4xcxxJU55Tazs+Do521YzUXAUyejbTCZ
-         6AGybtRgYLe4i/iftNdP6mWQZweqeuDvOy9nYjHLsGg2vBBqhAyaXRlN+R1TxEDGcVGN
-         lYTukvEUbEfVVwrzJyk7Mr8kPoazydoMbe0/zf19ZWVlZH5YleOzwwZ8SusyMZCh2dNV
-         tMUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6CtIVQWP+Kxh/6X4LVIIdMYVxRHCgpX/NmfsfTqOY7k=;
-        b=B59rtbnHfX/BhoRjMhBqWt3pK4q5/6nx0jEtAsap8hrCuRE6kbBpAcBP5nLpAUPU1H
-         1kHYQ3xzOlHuzMtv2OWWeJ1wbIYsIWrBd64xrS2l7Ku7F/qpgWUdEeDE2Zh6BV26PLdb
-         Xb4ctxf0NPvvvNt5xwPF98e1GjPtgejlS38a+FpHFYGWJVLx/14jfBaqs+SNCBbjQ6T1
-         Jzqief3SRJURQYk/IJsKAd+NZD3scfNGNuoamJo23nizIv5170Apo+ydeDHAFNRXvNfV
-         3iUefPQ8Go9EvOvwLzF+/XZ0ME+rEXMrgUZX0xxacBiVrHR6vRb9jtghScwrr/IgSi89
-         kAjw==
-X-Gm-Message-State: ACrzQf0XVMBE1MTooZXnJK9dGvIAp3/vcuNlHcpbIhdM488kCyAjVSNp
-        2VnVwJuMdxDlQpjALsoUg9cWqwJ4xyg=
-X-Google-Smtp-Source: AMsMyM6BXFpVv8PLWvJZIV2gTYX18Gxsz76ZzOnmTC4d4zkF5p/PE4dhpWDIvZ9P4Zm3JHlPuMbMag==
-X-Received: by 2002:a2e:94cf:0:b0:26c:5d14:6ec7 with SMTP id r15-20020a2e94cf000000b0026c5d146ec7mr16455809ljh.237.1667687692019;
-        Sat, 05 Nov 2022 15:34:52 -0700 (PDT)
-Received: from localhost.localdomain (cl-78-158-27-188.fastlink.lt. [78.158.27.188])
-        by smtp.gmail.com with ESMTPSA id a5-20020ac25e65000000b0049a5a59aa68sm447889lfr.10.2022.11.05.15.34.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 15:34:50 -0700 (PDT)
-Received: from jek by localhost.localdomain with local (Exim 4.96)
-        (envelope-from <jekhor@gmail.com>)
-        id 1orRkX-001kZF-2v;
-        Sun, 06 Nov 2022 00:34:49 +0200
-From:   Yauhen Kharuzhy <jekhor@gmail.com>
-To:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        with ESMTP id S229551AbiKEXjn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Nov 2022 19:39:43 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039FC11812;
+        Sat,  5 Nov 2022 16:39:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1667691581; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TQiKfRULmK1hj+zlGpiThAJN9Uxdpi3uc4dM1+9bipo=;
+        b=iqSAaf0aowSzmeyVPxe2oKONAr15pthW+n6zNr12B1OYjg/FDoi+Pvne5AWc+6sEPRkIdC
+        a0ZTs3440jYB1w1+uvsKiHBSTz11jPvpPc7nmRz5QGLcE+y4OybG/ghmNUMpe7EAhp4HBP
+        GgoO42T5bxdjQDEF4QphI/w9VoVPCF4=
+Date:   Sat, 05 Nov 2022 23:39:32 +0000
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [RFC PATCH 0/2] Input: adc-joystick: add detachable devices
+ support
+To:     Siarhei Volkau <lis8215@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Yauhen Kharuzhy <jekhor@gmail.com>
-Subject: [PATCH] HID: hid-sensor-custom: Allow more than one hinge angle sensor
-Date:   Sun,  6 Nov 2022 00:34:22 +0200
-Message-Id: <20221105223422.417316-1-jekhor@gmail.com>
-X-Mailer: git-send-email 2.38.1
+Message-Id: <W1FWKR.P26T1W42X3ND@crapouillou.net>
+In-Reply-To: <20221031190159.1341027-1-lis8215@gmail.com>
+References: <20221031190159.1341027-1-lis8215@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some devices has two sets of accelerometers and the sensor hub exports
-two hinge angle 'sensors' based on accelerometer values. To allow more
-than one sensor of the same type, use PLATFORM_DEVID_AUTO instead of
-PLATFORM_DEVID_NONE when registering platform device for it.
+Hi Siarhei,
 
-Checked on the Lenovo Yoga Book YB1-X91L tablet.
+Le lun. 31 oct. 2022 =E0 22:01:57 +0300, Siarhei Volkau=20
+<lis8215@gmail.com> a =E9crit :
+> For detachable or lock-able joysticks the ADC lanes might
+> be biased to GND or AVDD when the joystick is detached/locked.
+>=20
+> One such kind of joystick is found in the Ritmix RZX-50 handheld.
+> The joystick is non-detachable, although ADC lane biased to power
+> supply when the "Hold" switch is activated.
 
-Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
----
- drivers/hid/hid-sensor-custom.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But the RZX-50 has no joystick...
+Or is the d-pad actually wired to the ADC instead of GPIOs?
 
-diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-index 32c2306e240d6..a6fc89ee1287c 100644
---- a/drivers/hid/hid-sensor-custom.c
-+++ b/drivers/hid/hid-sensor-custom.c
-@@ -862,7 +862,7 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
- 		return ERR_PTR(-ENOMEM);
- 
- 	custom_pdev = platform_device_register_data(pdev->dev.parent, dev_name,
--						    PLATFORM_DEVID_NONE, hsdev,
-+						    PLATFORM_DEVID_AUTO, hsdev,
- 						    sizeof(*hsdev));
- 	kfree(dev_name);
- 	return custom_pdev;
--- 
-2.38.1
+> To avoid reporting old/broken measurements valid-range is introduced.
+> When measured value is outside valid-range the driver reports
+> safe center position for corresponding axis.
+
+First of all, you already have a "valid range", it is called=20
+"abs-range"; no need for a new one.
+
+Then, the driver has no business doing events filtering. Notice that=20
+when you activate the "hold" button and your joystick values go way=20
+off-range, you still get input events in userspace: that's because the=20
+kernel is not responsible for enforcing the deadzone, the userspace is.
+
+In your case, you need to update your userspace applications/libraries=20
+so that when the joystick values are way off-range, the assumed=20
+position is the center.
+
+Cheers,
+-Paul
+
 
