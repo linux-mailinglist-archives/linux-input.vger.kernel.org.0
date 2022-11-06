@@ -2,80 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DEE661E2EE
-	for <lists+linux-input@lfdr.de>; Sun,  6 Nov 2022 16:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA45061E4EE
+	for <lists+linux-input@lfdr.de>; Sun,  6 Nov 2022 18:36:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbiKFPXH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Nov 2022 10:23:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39706 "EHLO
+        id S230100AbiKFRgz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Nov 2022 12:36:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbiKFPXG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Nov 2022 10:23:06 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BE9FB4B7;
-        Sun,  6 Nov 2022 07:23:05 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id b2so7083921iof.12;
-        Sun, 06 Nov 2022 07:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=44PsP8SOIiCswDT5K4o42rLEZaaZzQNbPBW6TrKP04o=;
-        b=eyBa6JB/IDL26n9TDfnHoG882zJmEjN2bZTTDe6uIR3eI2eXIKA3n2VWURkHiFcIW9
-         hvSWHB7Ert6GuouyQYL5oC6AOm1LBJaWfywu3WAXEnztdqCBvl1G42TRf257lLDyvVI4
-         2EG6jehGGUQlkJDqv/rvT83pcrt2V/o1iZpbnnwygSvFOi2vFZsFVc2DB2aU672ejyya
-         qbubbVKrs7ZIz1epdx7uhV9l5EfmtPQ7G9Um4dhyeVFtwa/hNqVuZrwsQr1jurn5uLVu
-         1yP/BN4g2erUpIxYsQ6o9K7AGUsRJ4pDT5pW1gP4BZaXWWPV8uWBcUCIfX3ugqa807lO
-         uWig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=44PsP8SOIiCswDT5K4o42rLEZaaZzQNbPBW6TrKP04o=;
-        b=QrmXHq57TOC8WfoHVWVYiRfCJFUkc36dag2bHOb0kMonKoOqPyTPO7C4+flUfWqIkp
-         Ljj1LU6YiapIm5CasJlO1hsV818TPVqDxn1LUC79D9gShGMd67lQ7ug/Co4Us8SaUnse
-         d6JTK7HEHJNmhe0puCl7q4BDoCdczhVKBwQcOtPNbKKyWhgQxUppZtA03vnmR8t3ygJH
-         DmKO0XQPV4+GMeMDAqrkxqxDzUrcNXwLAIjn/fvQBR17P24CH4rUEMbXE8oDaTUN/fL5
-         3qkgrMFH3qrWMuP7KNQg5H8py1GwOkViQxq1IM/9UZJbdUBOls8fz42Jjb9tSqfo5KDH
-         ImAA==
-X-Gm-Message-State: ACrzQf2XkFhWDD+rYWbUXSqsw1yXg1IhiKP0qj9TQSgPIuDRl009mzcT
-        YzZTMwajE5K53B/o9X4UsmjpzGtQm+Dytd97PtA=
-X-Google-Smtp-Source: AMsMyM4TNtRxx4c5y4g4E04hMXUCF9dxCC+dUpUWR2LSo2A5OrKyDeKlKMUh+T0AGh4BIthY5cMURJI13uCYBHEX39U=
-X-Received: by 2002:a05:6638:204e:b0:375:94ad:5492 with SMTP id
- t14-20020a056638204e00b0037594ad5492mr8905676jaj.44.1667748184751; Sun, 06
- Nov 2022 07:23:04 -0800 (PST)
+        with ESMTP id S229919AbiKFRgy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Nov 2022 12:36:54 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDD25FC4;
+        Sun,  6 Nov 2022 09:36:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7B9EF60CEF;
+        Sun,  6 Nov 2022 17:36:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A223C433C1;
+        Sun,  6 Nov 2022 17:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667756212;
+        bh=KFkAfIG8I6dG0L+fuoOEwux4EkDFFug6VihBxtyS6bQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oNe9f+dwYwBu5Ihh/ExrBplWFCqMJSg6AEC2sA9NieXzrO+p3mRVkHFygWwqjoxhe
+         bDTx3H+z4nmn7nj4HOmjpnYwfGBLQ6BToGQwSrv7a1c2WZnB9v6/v3QlTpBRd7WpF6
+         vPGPYCrDAlnRvC+AjXnh4DKsbTFD+6EVaxdlzZxw1zuOnDEXwg8bbsWVns4zatnEzL
+         WpC7dl1CWGRrWRv6WlO8UjaEGPnC/NoLrmmIHR0RINGvsux69G+2UpYENvcMDP+M7v
+         mfMsrdFPQnGDMikanoa4nEhCdr4oXOaK3VTMFzIm4BB2RGtYveDyxCo/VpFCy/nq3C
+         2bgFd41j1QZvg==
+Date:   Sun, 6 Nov 2022 17:36:43 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Yauhen Kharuzhy <jekhor@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: Re: [PATCH] HID: hid-sensor-custom: Allow more than one hinge angle
+ sensor
+Message-ID: <20221106173643.5b4f2a0b@jic23-huawei>
+In-Reply-To: <20221105223422.417316-1-jekhor@gmail.com>
+References: <20221105223422.417316-1-jekhor@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20221031190159.1341027-1-lis8215@gmail.com> <W1FWKR.P26T1W42X3ND@crapouillou.net>
- <CAKNVLfaK+XOSzJLurv5pDobvFqS+jAiub4P6n0DgO5RpUnw-hg@mail.gmail.com>
-In-Reply-To: <CAKNVLfaK+XOSzJLurv5pDobvFqS+jAiub4P6n0DgO5RpUnw-hg@mail.gmail.com>
-From:   Siarhei Volkau <lis8215@gmail.com>
-Date:   Sun, 6 Nov 2022 18:22:53 +0300
-Message-ID: <CAKNVLfZfq2p1FGEFsTE3u3KtCnFZRL7Bh5SJH8BO_ZxaDZY8=A@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/2] Input: adc-joystick: add detachable devices support
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> Not sure how to hide the real joystick device from libraries like SDL
+On Sun,  6 Nov 2022 00:34:22 +0200
+Yauhen Kharuzhy <jekhor@gmail.com> wrote:
 
-Got it, EVIOCGRAB ioctl shall do the job.
+> Some devices has two sets of accelerometers and the sensor hub exports
+> two hinge angle 'sensors' based on accelerometer values. To allow more
+> than one sensor of the same type, use PLATFORM_DEVID_AUTO instead of
+> PLATFORM_DEVID_NONE when registering platform device for it.
+> 
+> Checked on the Lenovo Yoga Book YB1-X91L tablet.
+> 
+> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
 
-Thank you all !
+Purely for curiosity sake, but where are the two sets of sensors?
+Doesn't look like it has two hinges at first glance!
 
-BR,
-Siarhei
+Jonathan
+
+> ---
+>  drivers/hid/hid-sensor-custom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+> index 32c2306e240d6..a6fc89ee1287c 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -862,7 +862,7 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
+>  		return ERR_PTR(-ENOMEM);
+>  
+>  	custom_pdev = platform_device_register_data(pdev->dev.parent, dev_name,
+> -						    PLATFORM_DEVID_NONE, hsdev,
+> +						    PLATFORM_DEVID_AUTO, hsdev,
+>  						    sizeof(*hsdev));
+>  	kfree(dev_name);
+>  	return custom_pdev;
+
