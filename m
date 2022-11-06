@@ -2,147 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EC5D61E5CC
-	for <lists+linux-input@lfdr.de>; Sun,  6 Nov 2022 21:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F4E61E68D
+	for <lists+linux-input@lfdr.de>; Sun,  6 Nov 2022 22:26:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbiKFUAV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Nov 2022 15:00:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51120 "EHLO
+        id S230333AbiKFV0f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Nov 2022 16:26:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiKFUAU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Nov 2022 15:00:20 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B3910FF7;
-        Sun,  6 Nov 2022 12:00:18 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id z24so13407460ljn.4;
-        Sun, 06 Nov 2022 12:00:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YdIXD62YRYwd2o9Gpu39oSjQE9YhzoJodAvTFDp9pKc=;
-        b=U5DOEN7gFVqJ6jH+vtI8yJP+hq91bUZ0eQseTZCqbvW/ecO5gwtvcwwa9xHT4IXO+9
-         G3/jWYbXho+5ZpGDiO7BHuAdHDMHI14cCA6oMAPWc45YyhZ9Ys6J+W/3Zjcw1G/fE2QI
-         fGYF1J6wIwmMJMV7QUrpJoY3vGrGdsZMcdIoUxq6Z/M53AKoukK0LoGYPflYVNyPHJtj
-         dE4bxl0sN8lEB/lg/6REU/nOU9JdY12SAZo3szKAOzlipzM/F0osRMs5WCV0y1SUFtH8
-         j2UN+jhztd8eHrhC4tU+fRwWyoWqSxTfwCEv71po66+mllAgrusJMFZTFV/YdEu9W3QV
-         whTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YdIXD62YRYwd2o9Gpu39oSjQE9YhzoJodAvTFDp9pKc=;
-        b=20OO0UadjBqJx0mw63QyDFzscZpaY63oXvXEXqUA3Qkq4WabfamjUeDzT9KS5aZaq0
-         HquyGZgl+xmFG4M/Nryv31CCyHAzkJdUgFUdD28OJXByfmHkLOapBQU3nggxAvMn3+BZ
-         LEUZTOYD+M2XGuUQo47OTryy39P6oQ46pcqL5fkAeaDVXN3h6EeEUGAwRV5eeRA6mIU1
-         MvccjSqtyeSvkIcjLtaO7wN7mIS/qGcrd/8n4gO5CSk3xCAUCfkd92yXHR/cJsPPZ9Av
-         XB6j2oqVvjdR/33VZd9jaZZ/KF/ugnrc9zzwKcioMyjLrpl82QY4sLIVje59e4S/uE+H
-         wPAQ==
-X-Gm-Message-State: ACrzQf2gzp04md3SaN4sc1piLdMjSgKcgZr/k2iNaAfPwl5kztflFQDJ
-        k4YL3Eyb5f+sPYupHj8Jm0eBuTpGa96pMQ==
-X-Google-Smtp-Source: AMsMyM6bDLdQ7R2/7Gr7AP+9+4wrZNd37DLf3MWHlSURnzLv+D+uxSArxN7Ed2zNLCl+vNW7ilWAeg==
-X-Received: by 2002:a05:651c:110e:b0:277:4a04:ad9a with SMTP id e14-20020a05651c110e00b002774a04ad9amr15371286ljo.379.1667764815944;
-        Sun, 06 Nov 2022 12:00:15 -0800 (PST)
-Received: from localhost.localdomain (static.9.224.99.88.clients.your-server.de. [88.99.224.9])
-        by smtp.gmail.com with ESMTPSA id o13-20020ac24e8d000000b0048aa9d67483sm841196lfr.160.2022.11.06.12.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 12:00:15 -0800 (PST)
-Received: from jek by localhost.localdomain with local (Exim 4.96)
-        (envelope-from <jekhor@gmail.com>)
-        id 1orlmO-001x4s-07;
-        Sun, 06 Nov 2022 21:58:04 +0200
-Date:   Sun, 6 Nov 2022 21:58:04 +0200
-From:   Yauhen Kharuzhy <jekhor@gmail.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH] HID: hid-sensor-custom: Allow more than one hinge angle
- sensor
-Message-ID: <Y2gRzHpH5FwNVBoO@jeknote.loshitsa1.net>
-References: <20221105223422.417316-1-jekhor@gmail.com>
- <20221106173643.5b4f2a0b@jic23-huawei>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221106173643.5b4f2a0b@jic23-huawei>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229973AbiKFV0d (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Nov 2022 16:26:33 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9383A7648;
+        Sun,  6 Nov 2022 13:26:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 21D3660DC7;
+        Sun,  6 Nov 2022 21:26:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C35DC433C1;
+        Sun,  6 Nov 2022 21:26:31 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.96)
+        (envelope-from <rostedt@goodmis.org>)
+        id 1ornAT-008Cga-2Z;
+        Sun, 06 Nov 2022 16:27:01 -0500
+Message-ID: <20221106212427.739928660@goodmis.org>
+User-Agent: quilt/0.66
+Date:   Sun, 06 Nov 2022 16:24:27 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
+        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: [PATCH v6a 0/5] timers: Use timer_shutdown*() before freeing timers
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Nov 06, 2022 at 05:36:43PM +0000, Jonathan Cameron wrote:
-> On Sun,  6 Nov 2022 00:34:22 +0200
-> Yauhen Kharuzhy <jekhor@gmail.com> wrote:
-> 
-> > Some devices has two sets of accelerometers and the sensor hub exports
-> > two hinge angle 'sensors' based on accelerometer values. To allow more
-> > than one sensor of the same type, use PLATFORM_DEVID_AUTO instead of
-> > PLATFORM_DEVID_NONE when registering platform device for it.
-> > 
-> > Checked on the Lenovo Yoga Book YB1-X91L tablet.
-> > 
-> > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> 
-> Purely for curiosity sake, but where are the two sets of sensors?
-> Doesn't look like it has two hinges at first glance!
+del_timer_sync() is often called before the object that owns the timer is
+freed. But sometimes there's a race that enables the timer again before it is
+freed and causes a use after free when that timer triggers. This patch set
+adds a new "shutdown" timer state, which is set on the new timer_shutdown()
+API. Once a timer is in this state, it can not be re-armed and if it is, it
+will warn.
 
-It sounds crazy, yes :)
+The first three patches change existing timer_shutdown() functions used
+locally in ARM and some drivers to better namespace names.
 
-The Lenovo Yoga Book YB1-X91L looks to be strange device in many ways.
+The fourth patch implements the new API.
 
-There are two accelerometers at display side and two at keyboard side (for
-detecting the rotation movement as I understand). For
-some reasons ISH exposed two virtual hinge angle sensors (I guess that
-one for each pair of accelerometers):
+The fifth patch is now a treewide patch that uses a coccinelle script to
+convert the trivial locations where a del_timer*() is called on a timer of an
+object that is freed immediately afterward (or at least in the same function).
 
-...
-[    6.230627] Registering platform device 'HID-SENSOR-INT-020b.35.auto'. Parent at 001F:8087:0AC2.0005
-[    6.230658] device: 'HID-SENSOR-INT-020b.35.auto': device_add
-[    6.230705] bus: 'platform': add device HID-SENSOR-INT-020b.35.auto
-[    6.230737] PM: Adding info for platform:HID-SENSOR-INT-020b.35.auto
-...
-[    6.249248] Registering platform device 'HID-SENSOR-INT-020b.36.auto'. Parent at 001F:8087:8AC2.0006
-[    6.249266] device: 'HID-SENSOR-INT-020b.36.auto': device_add
-[    6.249295] bus: 'platform': add device HID-SENSOR-INT-020b.36.auto
-[    6.249394] PM: Adding info for platform:HID-SENSOR-INT-020b.36.auto
+Changes since v5a: https://lore.kernel.org/all/20221106054535.709068702@goodmis.org/
 
-This is senseless but it is what it is. Moreover, this 'sensor' is always
-returns 360 degrees angle, although display and keyboard 'absolute' angles are
-reported correctly.
+ - Updated the script to make ptr and slab into expressions instead of
+   using identifiers (Julia Lawall and Linus Torvalds)
 
-In any way, this patch is generic and will be useful for other custom HID
-sensors if they will be added in the future.
+Steven Rostedt (Google) (5):
+      ARM: spear: Do not use timer namespace for timer_shutdown() function
+      clocksource/drivers/arm_arch_timer: Do not use timer namespace for timer_shutdown() function
+      clocksource/drivers/sp804: Do not use timer namespace for timer_shutdown() function
+      timers: Add timer_shutdown_sync() and timer_shutdown() to be called before freeing timers
+      treewide: Convert del_timer*() to timer_shutdown*()
 
-> 
-> Jonathan
-> 
-> > ---
-> >  drivers/hid/hid-sensor-custom.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-> > index 32c2306e240d6..a6fc89ee1287c 100644
-> > --- a/drivers/hid/hid-sensor-custom.c
-> > +++ b/drivers/hid/hid-sensor-custom.c
-> > @@ -862,7 +862,7 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
-> >  		return ERR_PTR(-ENOMEM);
-> >  
-> >  	custom_pdev = platform_device_register_data(pdev->dev.parent, dev_name,
-> > -						    PLATFORM_DEVID_NONE, hsdev,
-> > +						    PLATFORM_DEVID_AUTO, hsdev,
-> >  						    sizeof(*hsdev));
-> >  	kfree(dev_name);
-> >  	return custom_pdev;
-> 
-
--- 
-Yauhen Kharuzhy
+----
+ .../RCU/Design/Requirements/Requirements.rst       |  2 +-
+ Documentation/core-api/local_ops.rst               |  2 +-
+ Documentation/kernel-hacking/locking.rst           |  5 ++
+ arch/arm/mach-spear/time.c                         |  8 +--
+ arch/sh/drivers/push-switch.c                      |  2 +-
+ block/blk-iocost.c                                 |  2 +-
+ block/blk-iolatency.c                              |  2 +-
+ block/kyber-iosched.c                              |  2 +-
+ drivers/acpi/apei/ghes.c                           |  2 +-
+ drivers/atm/idt77252.c                             |  6 +-
+ drivers/block/drbd/drbd_main.c                     |  2 +-
+ drivers/block/loop.c                               |  2 +-
+ drivers/bluetooth/hci_bcsp.c                       |  2 +-
+ drivers/bluetooth/hci_qca.c                        |  4 +-
+ drivers/clocksource/arm_arch_timer.c               | 12 ++--
+ drivers/clocksource/timer-sp804.c                  |  6 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c               |  2 +-
+ drivers/hid/hid-wiimote-core.c                     |  2 +-
+ drivers/input/keyboard/locomokbd.c                 |  2 +-
+ drivers/input/keyboard/omap-keypad.c               |  2 +-
+ drivers/input/mouse/alps.c                         |  2 +-
+ drivers/isdn/mISDN/l1oip_core.c                    |  4 +-
+ drivers/isdn/mISDN/timerdev.c                      |  4 +-
+ drivers/leds/trigger/ledtrig-activity.c            |  2 +-
+ drivers/leds/trigger/ledtrig-heartbeat.c           |  2 +-
+ drivers/leds/trigger/ledtrig-pattern.c             |  2 +-
+ drivers/leds/trigger/ledtrig-transient.c           |  2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c               |  2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c            | 16 +++---
+ drivers/media/usb/s2255/s2255drv.c                 |  4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c        |  6 +-
+ drivers/net/ethernet/marvell/sky2.c                |  2 +-
+ drivers/net/ethernet/sun/sunvnet.c                 |  2 +-
+ drivers/net/usb/sierra_net.c                       |  2 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/btcoex.c  |  2 +-
+ drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c   |  2 +-
+ drivers/net/wireless/intel/iwlwifi/mvm/sta.c       |  2 +-
+ drivers/net/wireless/intersil/hostap/hostap_ap.c   |  2 +-
+ drivers/net/wireless/marvell/mwifiex/main.c        |  2 +-
+ drivers/net/wireless/microchip/wilc1000/hif.c      |  6 +-
+ drivers/nfc/pn533/pn533.c                          |  2 +-
+ drivers/nfc/pn533/uart.c                           |  2 +-
+ drivers/pcmcia/bcm63xx_pcmcia.c                    |  2 +-
+ drivers/pcmcia/electra_cf.c                        |  2 +-
+ drivers/pcmcia/omap_cf.c                           |  2 +-
+ drivers/pcmcia/pd6729.c                            |  4 +-
+ drivers/pcmcia/yenta_socket.c                      |  4 +-
+ drivers/scsi/qla2xxx/qla_edif.c                    |  4 +-
+ drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |  2 +-
+ drivers/tty/n_gsm.c                                |  2 +-
+ drivers/tty/sysrq.c                                |  2 +-
+ drivers/usb/gadget/udc/m66592-udc.c                |  2 +-
+ drivers/usb/serial/garmin_gps.c                    |  2 +-
+ drivers/usb/serial/mos7840.c                       |  4 +-
+ fs/ext4/super.c                                    |  2 +-
+ fs/nilfs2/segment.c                                |  2 +-
+ include/linux/timer.h                              | 62 +++++++++++++++++++--
+ kernel/time/timer.c                                | 64 ++++++++++++----------
+ net/802/garp.c                                     |  2 +-
+ net/802/mrp.c                                      |  4 +-
+ net/bridge/br_multicast.c                          |  8 +--
+ net/bridge/br_multicast_eht.c                      |  4 +-
+ net/core/gen_estimator.c                           |  2 +-
+ net/ipv4/ipmr.c                                    |  2 +-
+ net/ipv6/ip6mr.c                                   |  2 +-
+ net/mac80211/mesh_pathtbl.c                        |  2 +-
+ net/netfilter/ipset/ip_set_list_set.c              |  2 +-
+ net/netfilter/ipvs/ip_vs_lblc.c                    |  2 +-
+ net/netfilter/ipvs/ip_vs_lblcr.c                   |  2 +-
+ net/netfilter/xt_IDLETIMER.c                       |  4 +-
+ net/netfilter/xt_LED.c                             |  2 +-
+ net/rxrpc/conn_object.c                            |  2 +-
+ net/sched/cls_flow.c                               |  2 +-
+ net/sunrpc/svc.c                                   |  2 +-
+ net/tipc/discover.c                                |  2 +-
+ net/tipc/monitor.c                                 |  2 +-
+ sound/i2c/other/ak4117.c                           |  2 +-
+ sound/synth/emux/emux.c                            |  2 +-
+ 78 files changed, 207 insertions(+), 148 deletions(-)
