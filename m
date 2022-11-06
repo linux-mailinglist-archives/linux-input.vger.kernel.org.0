@@ -2,85 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A3D61DFB8
-	for <lists+linux-input@lfdr.de>; Sun,  6 Nov 2022 00:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CACB61E0DA
+	for <lists+linux-input@lfdr.de>; Sun,  6 Nov 2022 09:26:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbiKEXjo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Nov 2022 19:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36420 "EHLO
+        id S229678AbiKFI0A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Nov 2022 03:26:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiKEXjn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Nov 2022 19:39:43 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039FC11812;
-        Sat,  5 Nov 2022 16:39:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1667691581; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TQiKfRULmK1hj+zlGpiThAJN9Uxdpi3uc4dM1+9bipo=;
-        b=iqSAaf0aowSzmeyVPxe2oKONAr15pthW+n6zNr12B1OYjg/FDoi+Pvne5AWc+6sEPRkIdC
-        a0ZTs3440jYB1w1+uvsKiHBSTz11jPvpPc7nmRz5QGLcE+y4OybG/ghmNUMpe7EAhp4HBP
-        GgoO42T5bxdjQDEF4QphI/w9VoVPCF4=
-Date:   Sat, 05 Nov 2022 23:39:32 +0000
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [RFC PATCH 0/2] Input: adc-joystick: add detachable devices
- support
-To:     Siarhei Volkau <lis8215@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        with ESMTP id S229668AbiKFIZ7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Nov 2022 03:25:59 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66BDFA47C;
+        Sun,  6 Nov 2022 01:25:58 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id q9so23128244ejd.0;
+        Sun, 06 Nov 2022 01:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iMkkVzTjokrGWbF60wePAUHPChBzzzz4VP13xe+Pvl4=;
+        b=VkQHyBRVLM3X/7q9r4x+KFZ3krHyQtPrjhPFn7ae/KZ/TqT2OmbLJEkqSy1gPyWiZs
+         o+/X0cLgik/Yf7Vgkb021OCvwActcxXhFDyrfkykPBJ4k/pmFjpkWIP/yrUnMxMPWrt5
+         zJ5OOrkjVE8k5Jsk9OXuS0TfUWIg6HERB5HR4ayxdMU6A7ff/uO62lviQ9rX4kvBTwut
+         uJ2XsryPQFVxCfaMOPLEuDlRz/Kmravra1aLuwzJXQmrZPZWE/kw+qb1f/gy3WYP5rb1
+         6ZLXbWoOLNc/EZTzrT29YmS/quh4w5/2YcATJlpjV4X2H4JTEGGf6xAh7g6ZI610oOFg
+         xnmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iMkkVzTjokrGWbF60wePAUHPChBzzzz4VP13xe+Pvl4=;
+        b=QGSFo2lG9/wiba5lFWmC834hR5vHFO7BOV8BIBbPe1SrbN4zWsljSOkMdMSPkrNYz3
+         68DSQ452YFJf+p5mEQxgAFTKbNDVCV9QRXI/xqILKJ1YQaRYE5FEiMvkE4n4xbxL429a
+         4eeQtJChAiGWgE8Q6xCL90MWdYMEh5Vm6Iy59Q27h7orCuRcrhVoYJhItBWYD5uamXcD
+         nxn2ceBaR7fJTY71hTc2Q7ZMQwZRQblYSxG4SnnX7YnR2p/NqyCCOIPLGtkjfQ//mc6O
+         cosmhtGDjtEnCJ+EeoOaID35sickaIsq3Cl7PqYFPgqnTbg3gc86A8Vur8I473Pq8Aru
+         eCGQ==
+X-Gm-Message-State: ACrzQf2PM+jY0MbuWbfEuRac1V+N5zIYXBb/CRn2d8ORN6y0anrRwXXi
+        6W0V2JSubEPkOvGW0UuK0b8=
+X-Google-Smtp-Source: AMsMyM47mGYqM7uM25Nj6eKtulEjXm3wNmW2uNtAL8wo8j6Up4cBvqLEI6qqJbWvwFQXObbvEik9mA==
+X-Received: by 2002:a17:906:9bd4:b0:7ad:2d86:418c with SMTP id de20-20020a1709069bd400b007ad2d86418cmr42896478ejc.380.1667723156918;
+        Sun, 06 Nov 2022 01:25:56 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id em3-20020a056402364300b00458824aee80sm2334858edb.38.2022.11.06.01.25.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 01:25:56 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Message-Id: <W1FWKR.P26T1W42X3ND@crapouillou.net>
-In-Reply-To: <20221031190159.1341027-1-lis8215@gmail.com>
-References: <20221031190159.1341027-1-lis8215@gmail.com>
+        Andre Przywara <andre.przywara@arm.com>
+Cc:     devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        Icenowy Zheng <uwu@icenowy.me>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 9/9] ARM: dts: suniv: f1c100s: add LRADC node
+Date:   Sun, 06 Nov 2022 09:25:55 +0100
+Message-ID: <45074583.fMDQidcC6G@jernej-laptop>
+In-Reply-To: <20221101141658.3631342-10-andre.przywara@arm.com>
+References: <20221101141658.3631342-1-andre.przywara@arm.com> <20221101141658.3631342-10-andre.przywara@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Siarhei,
+Dne torek, 01. november 2022 ob 15:16:58 CET je Andre Przywara napisal(a):
+> The Allwinner F1C100s series of SoCs contain a LRADC (aka. KEYADC)
+> compatible to the version in other SoCs.
+> The manual doesn't mention the ratio of the input voltage that is used,
+> but comparing actual measurements with the values in the register
+> suggests that it is 3/4 of Vref.
+> 
+> Add the DT node describing the base address and interrupt. As in the
+> older SoCs, there is no explicit reset or clock gate, also there is a
+> dedicated, non-multiplexed pin, so need for more properties.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/boot/dts/suniv-f1c100s.dtsi | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> b/arch/arm/boot/dts/suniv-f1c100s.dtsi index d29b48f23b89a..03592c8e63fed
+> 100644
+> --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> @@ -262,6 +262,14 @@ ir: ir@1c22c00 {
+>  			status = "disabled";
+>  		};
+> 
+> +		lradc: lradc@1c23400 {
+> +			compatible = "allwinner,suniv-f1c100s-
+lradc",
+> +				     "allwinner,sun8i-a83t-r-
+lradc";
+> +			reg = <0x01c23400 0x100>;
 
-Le lun. 31 oct. 2022 =E0 22:01:57 +0300, Siarhei Volkau=20
-<lis8215@gmail.com> a =E9crit :
-> For detachable or lock-able joysticks the ADC lanes might
-> be biased to GND or AVDD when the joystick is detached/locked.
->=20
-> One such kind of joystick is found in the Ritmix RZX-50 handheld.
-> The joystick is non-detachable, although ADC lane biased to power
-> supply when the "Hold" switch is activated.
+User manual says 0x400 is reserved for this peripheral. With that fixed:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-But the RZX-50 has no joystick...
-Or is the d-pad actually wired to the ADC instead of GPIOs?
+Best regards,
+Jernej
 
-> To avoid reporting old/broken measurements valid-range is introduced.
-> When measured value is outside valid-range the driver reports
-> safe center position for corresponding axis.
+> +			interrupts = <22>;
+> +			status = "disabled";
+> +		};
+> +
+>  		uart0: serial@1c25000 {
+>  			compatible = "snps,dw-apb-uart";
+>  			reg = <0x01c25000 0x400>;
 
-First of all, you already have a "valid range", it is called=20
-"abs-range"; no need for a new one.
 
-Then, the driver has no business doing events filtering. Notice that=20
-when you activate the "hold" button and your joystick values go way=20
-off-range, you still get input events in userspace: that's because the=20
-kernel is not responsible for enforcing the deadzone, the userspace is.
-
-In your case, you need to update your userspace applications/libraries=20
-so that when the joystick values are way off-range, the assumed=20
-position is the center.
-
-Cheers,
--Paul
 
 
