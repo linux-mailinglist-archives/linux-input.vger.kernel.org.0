@@ -2,86 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E98861E810
-	for <lists+linux-input@lfdr.de>; Mon,  7 Nov 2022 01:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF51461E962
+	for <lists+linux-input@lfdr.de>; Mon,  7 Nov 2022 04:15:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230162AbiKGA4V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Nov 2022 19:56:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58816 "EHLO
+        id S230160AbiKGDPE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Nov 2022 22:15:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbiKGA4U (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Nov 2022 19:56:20 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ED0B4CE1D;
-        Sun,  6 Nov 2022 16:56:18 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE43323A;
-        Sun,  6 Nov 2022 16:56:24 -0800 (PST)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D1503F703;
-        Sun,  6 Nov 2022 16:56:16 -0800 (PST)
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
-        Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2 07/10] ARM: dts: suniv: f1c100s: add LRADC node
-Date:   Mon,  7 Nov 2022 00:54:30 +0000
-Message-Id: <20221107005433.11079-8-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.5
-In-Reply-To: <20221107005433.11079-1-andre.przywara@arm.com>
-References: <20221107005433.11079-1-andre.przywara@arm.com>
+        with ESMTP id S230417AbiKGDO1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Nov 2022 22:14:27 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D604A12639;
+        Sun,  6 Nov 2022 19:13:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 41FC760EA3;
+        Mon,  7 Nov 2022 03:13:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E51DC433D7;
+        Mon,  7 Nov 2022 03:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667790795;
+        bh=0C/zbEncLKIgdwTUgPdnJzB1OdI/BNrdVQy8KMAVTnQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=rzKEHCYTm6agWkPhLLAlZIT8HDWZmylleqE+pLE5GDaVzmWR9BuSGQ/Bu+D2JAXHu
+         7Y8AiNYgXrEpl72oyueU+IEB+LGdEWJGMtivC0/TA8o9L+pIn2MYICjdBXoBAL8dMJ
+         8oEwnkRl7qOo8rF4ZZBadbN0C8gDk/R3zez07spjI8/15iNKEADJCIX98DG53pqoLh
+         bSFNe5Vm7wshc4eyLXYIDXX+KT3XOAooItL0gnZB6V0qVYzoLQYFQic1NI7Wz+LmwU
+         JHuoleNNFJlZiLM/cGtYDzaGWZZTvISSWwrPRroGhwnk8qBd13Q+/FxiemGTO3iwc4
+         hx9gmjwAwAfVQ==
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     krzysztof.kozlowski+dt@linaro.org,
+        Rob Herring <robh+dt@kernel.org>, a.zummo@towertech.it,
+        konrad.dybcio@somainline.org, alexandre.belloni@bootlin.com,
+        dmitry.torokhov@gmail.com, lee@kernel.org,
+        quic_c_skakit@quicinc.com, Andy Gross <agross@kernel.org>,
+        neil.armstrong@linaro.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v4 00/11] arm: qcom: mdm9615: first round of bindings and DT fixes
+Date:   Sun,  6 Nov 2022 21:12:32 -0600
+Message-Id: <166779074262.500303.9983316398546692832.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
+References: <20220928-mdm9615-dt-schema-fixes-v4-0-dac2dfaac703@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Allwinner F1C100s series of SoCs contain a LRADC (aka. KEYADC)
-compatible to the version in other SoCs.
-The manual doesn't mention the ratio of the input voltage that is used,
-but comparing actual measurements with the values in the register
-suggests that it is 3/4 of Vref.
+On Fri, 21 Oct 2022 11:06:36 +0200, Neil Armstrong wrote:
+> This is a first round of trivial bindings & DT fixes for the MDM9615 platform.
+> 
+> This first round focuses on trivial changes, the remaining work will
+> mainly be .txt to .yaml transition of old qcom pmic & co device bindings.
+> 
+> 
 
-Add the DT node describing the base address and interrupt. As in the
-older SoCs, there is no explicit reset or clock gate, also there is a
-dedicated, non-multiplexed pin, so need for more properties.
+Applied, thanks!
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+[01/11] dt-bindings: arm: qcom: move swir,mangoh-green-wp8548 board documentation to qcom.yaml
+        commit: f4ec5f28af13e2b8e62ae173cb6827e137cdd8cc
+[02/11] arm: dts: qcom: mdm9615*: add SPDX-License-Identifier
+        commit: c69af934db18ad165b1dc84f5450fa55afb34acb
+[03/11] arm: dts: qcom: mdm9615: add missing reg in cpu@0 node
+        commit: e58bdf93db08c16dd06bc1967e978708b44d9c83
+[04/11] arm: dts: qcom: mdm9615: remove invalid spi-max-frequency gsbi3_spi node
+        commit: 75353420d0d0abe3a57cedf4a6cfa00ea05842a3
+[10/11] arm: dts: qcom: mdm9615: remove invalid interrupt-names from pl18x mmc nodes
+        commit: 3627dd180c67d3e589c38a10b4be29a0352a70b6
+[11/11] arm: dts: qcom: mdm9615: remove useless amba subnode
+        commit: 10de96ba6d4287220962cdd82826b6a14af90e2e
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index c04cd175f743..111f8bbc2a80 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -280,6 +280,14 @@ ir: ir@1c22c00 {
- 			status = "disabled";
- 		};
- 
-+		lradc: lradc@1c23400 {
-+			compatible = "allwinner,suniv-f1c100s-lradc",
-+				     "allwinner,sun8i-a83t-r-lradc";
-+			reg = <0x01c23400 0x400>;
-+			interrupts = <22>;
-+			status = "disabled";
-+		};
-+
- 		uart0: serial@1c25000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x01c25000 0x400>;
+Best regards,
 -- 
-2.35.5
-
+Bjorn Andersson <andersson@kernel.org>
