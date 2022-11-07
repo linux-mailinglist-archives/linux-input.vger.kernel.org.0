@@ -2,72 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9359761FECF
-	for <lists+linux-input@lfdr.de>; Mon,  7 Nov 2022 20:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E37F06200E3
+	for <lists+linux-input@lfdr.de>; Mon,  7 Nov 2022 22:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbiKGTkq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Nov 2022 14:40:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35328 "EHLO
+        id S233068AbiKGVS2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Nov 2022 16:18:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232153AbiKGTkp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Nov 2022 14:40:45 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D73193D9;
-        Mon,  7 Nov 2022 11:40:44 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so10814552pjs.4;
-        Mon, 07 Nov 2022 11:40:44 -0800 (PST)
+        with ESMTP id S233555AbiKGVSE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Nov 2022 16:18:04 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5687731DD0
+        for <linux-input@vger.kernel.org>; Mon,  7 Nov 2022 13:14:53 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id k22so11845248pfd.3
+        for <linux-input@vger.kernel.org>; Mon, 07 Nov 2022 13:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Lr2LJh1ynsT6o7QECxrCpd8COAMFXtNJpOsEdVPq6mA=;
-        b=Jr9uTsc3hShwQ7UX2Tm2tx7F4XmAu9jfoZX9sYL1gH4GV0IK0c7jM2ADozP+FVLK3f
-         Y2Eg2BUdbWvwaNL4BCY2BOMc4a/NxJ2qn3phYseVokjP7f9+/LgaO0P1E+Hn9G+WH2wq
-         4kasZWGcR5RUgGz7bh3Yeutr9FijqrFbbRi9n+NBJPxUrANZG1Q9BJn18SJBjnxUVz3y
-         8Jy1TqwaL+Sv5q/ewqUzH0+pC6gT9KZIVdv2ACMxaPkqfzeGwNBUkP43aXSueCgRTr61
-         L04ukJ5uLTzY0cJkybksbAvC3VRHVKdb7WxfU9dvCZ3u4zO9OQtrMYIpFneaW6fx5eNB
-         dLrg==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5sT7hyCzk9AIqzLbGef+IZ6oJ71RYXWRSZsmUSzO4Yg=;
+        b=P39f7quD853DqM9BBAZi7j1TweO0zXhBFPBLff8eSw0GyPIz2vlyw2NVWhiVuCc9on
+         ZwVgJzNNqjm3e5FZtd6E7iux1mqK/TfXu9YuFK8up7u7ux+VO6b7VNSQk7Mxs3rH6eJN
+         Z7Cd+eLOaD6B3EbEqKVnzXjDCYTHNRcGg43OpYLgICerBRLns7ZVbqpDb5gute1wLruH
+         aJHq2V7yN1f0vRjwa8TwiapmnSZxbOB6B8/GOHUq+PQL/5p6MgBTnMuWz+FCYu+JieUH
+         VbiIsg7WjXHu8Wws2UzTZvODI36Ihj6SCAykvT91K+3xGAQfxqn/5jCOFNzwwPHzMu4L
+         goTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lr2LJh1ynsT6o7QECxrCpd8COAMFXtNJpOsEdVPq6mA=;
-        b=M9x9l3Ws3P4KB4uvb7FGdLCKDwHd6CgBctPDNdj4XcIGSqOpGUegB0ui0n6DlaQX9D
-         1NrAe2XLMSal0mdrI9Mxp6FTBe2yQVsPPTXQKK7Kl16NhkkY5ryje7/9EnUNkWQbs//g
-         nGFG1VT9oUJb0DZijK15E0iAKklv/Yu59/nLIHUEYsEi4ikovnQbhLVC9PFOL5iZlhe4
-         ypYHeD8UhG8bPLbcsrC7Zec/RFWjL3rNqA+D5jirqPnBijnJjRwuapTXzS0g8yPbMQb9
-         ieXiqVvESuU5npDEudeQg3HVhlzx1+SieDS/QYpKmYmwOH7UG1TfXEpaiOj30hH6ui0V
-         oDiQ==
-X-Gm-Message-State: ACrzQf2Ng/dVJQA77B8yNbGR1/YUnNHbejvrL8JTRRfc4E7f2sjBzUxP
-        zd7ihnSvjdBUsWpiNLvSZCU=
-X-Google-Smtp-Source: AMsMyM4Z1WSLG/2s+85sT5YwneM/XauDZnGvse8TolrZ9Zs1DIAvczdZAQ2Z5UH9Z7fHC4PrnIbGWA==
-X-Received: by 2002:a17:902:da82:b0:186:ee5a:47c7 with SMTP id j2-20020a170902da8200b00186ee5a47c7mr52582931plx.82.1667850044133;
-        Mon, 07 Nov 2022 11:40:44 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:626:eb80:9eb9:1fd7])
-        by smtp.gmail.com with ESMTPSA id x1-20020a633101000000b00464858cf6b0sm4510500pgx.54.2022.11.07.11.40.42
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5sT7hyCzk9AIqzLbGef+IZ6oJ71RYXWRSZsmUSzO4Yg=;
+        b=jTheCexsPKRltbu+aM57okmdJ5OejtYhQ7wUM2eoDJMph4c+d+Vni/OiSkZiZ/3ded
+         2ZsUhK13FWIHQKD3I56re60bUhWtqgB7ET8+z4XXB0N7LZksia9uojc+uEVYfkiiMnb2
+         Ou9rOzA3YMaePn4Ahnuc7tSA0GpG3IU2XxyNrJ2t5PZy/a1f6haRApnvF+2+QyOZLAHd
+         D4HBtHLYvUS1QVCsJI3iIyZ9PrK5T3vXbGDuN5ow1+M9aPsOulyEuKQmyy9qQvYCUnmI
+         5blFV2hrEnI6mQNZLx0SMsbpkgPyWllRL/If/Uz3imjxPj4/ZOqSAM31sQNeSHUpSR3+
+         btFQ==
+X-Gm-Message-State: ACrzQf2DDQmg114N0dWrsZBy8EB8IWgk6HVWJd/xalMBRSOlcIiWdK7e
+        7W21NeAjlQ870t9jLc1FsCT5vw==
+X-Google-Smtp-Source: AMsMyM4fNroJ8un5Wi3EJ604VEP8sq2WlbsGxu3Ax4KtJVEcz4IY0/3AIrVFwaBzallESNsw1/AyxQ==
+X-Received: by 2002:a63:5811:0:b0:46f:a710:1b77 with SMTP id m17-20020a635811000000b0046fa7101b77mr39853531pgb.392.1667855692494;
+        Mon, 07 Nov 2022 13:14:52 -0800 (PST)
+Received: from localhost ([75.172.139.56])
+        by smtp.gmail.com with ESMTPSA id a10-20020a63cd4a000000b0043941566481sm4624005pgj.39.2022.11.07.13.14.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 11:40:43 -0800 (PST)
-Date:   Mon, 7 Nov 2022 11:40:40 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 12/30] input: Use kstrtobool() instead of strtobool()
-Message-ID: <Y2lfOBAFo7jcpeTO@google.com>
-References: <cover.1667336095.git.christophe.jaillet@wanadoo.fr>
- <4311e9cb62687449f4175e2b062abcd77aada059.1667336095.git.christophe.jaillet@wanadoo.fr>
- <Y2Qowvjn+7jT767t@google.com>
- <a0a59528-6af4-adb2-e4e2-cb4cbe15e986@wanadoo.fr>
+        Mon, 07 Nov 2022 13:14:52 -0800 (PST)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Nishanth Menon <nm@ti.com>, jerome Neanne <jneanne@baylibre.com>
+Cc:     Lee Jones <lee@kernel.org>, lgirdwood@gmail.com,
+        broonie@kernel.org, robh+dt@kernel.org, kristo@kernel.org,
+        dmitry.torokhov@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, tony@atomide.com,
+        vigneshr@ti.com, bjorn.andersson@linaro.org, shawnguo@kernel.org,
+        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
+        marcel.ziswiler@toradex.com, vkoul@kernel.org,
+        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com,
+        afd@ti.com, narmstrong@baylibre.com, msp@baylibre.com,
+        j-keerthy@ti.com, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH v6 4/6] mfd: tps65219: Add driver for TI TPS65219 PMIC
+In-Reply-To: <20221105000104.rtj3r6ufqwqmepon@keenly>
+References: <20221011140549.16761-1-jneanne@baylibre.com>
+ <20221011140549.16761-5-jneanne@baylibre.com>
+ <Y1+q2Usm9ecicXqp@google.com>
+ <1383fd22-c720-811e-a2bb-be2151675089@baylibre.com>
+ <20221105000104.rtj3r6ufqwqmepon@keenly>
+Date:   Mon, 07 Nov 2022 13:14:51 -0800
+Message-ID: <7heduewjp0.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a0a59528-6af4-adb2-e4e2-cb4cbe15e986@wanadoo.fr>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,34 +84,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 10:37:19PM +0100, Christophe JAILLET wrote:
-> Le 03/11/2022 à 21:46, Dmitry Torokhov a écrit :
-> > On Tue, Nov 01, 2022 at 10:14:00PM +0100, Christophe JAILLET wrote:
-> > > strtobool() is the same as kstrtobool().
-> > > However, the latter is more used within the kernel.
-> > > 
-> > > In order to remove strtobool() and slightly simplify kstrtox.h, switch to
-> > > the other function name.
-> > > 
-> > > While at it, include the corresponding header file (<linux/kstrtox.h>)
-> > > 
-> > > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> > 
-> > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > 
-> > Please feel free to merge with the rest of the series. Or let me know if
-> > you want me to pick just this one through my tree.
-> > 
-> > Thanks.
-> > 
-> 
-> Hi,
-> 
-> the patch can go through your tree.
-> There is no plan to merge the whole serie at once, and some other
-> maintainers have asked for some patches to be re-sent as individual patches.
+Nishanth Menon <nm@ti.com> writes:
 
-OK, applied, thank you.
+> On 13:58-20221104, jerome Neanne wrote:
+>>=20
+> [...]
+>
+>>=20
+>> >=20
+>> > Can you try an compile with W=3D1 please.
+>> This raise one warning on mfd:
+>> drivers/mfd/tps65219.c:28:12: warning: =E2=80=98tps65219_soft_shutdown=
+=E2=80=99 defined but
+>> not used [-Wunused-function]
+>>    28 | static int tps65219_soft_shutdown(struct tps65219 *tps)
+>>       |            ^~~~~~~~~~~~~~~~~~~~~~
+>> soft_shutdown has been validated and is used in TI baseline even if not
+>> hooked in upstream version further to this review:
+>> https://lore.kernel.org/lkml/20220825150224.826258-5-msp@baylibre.com/
+>>=20
+>> It was a TI requirement to implement it...
+>> Let me know if you want me to remove this function or if we can keep it =
+like
+>> this.
+>
+> There are platforms without psci, correct? I think the comment was to
+> drop the force override with system-power-controller property,
+>
+> if (!pm_power_off) {
+> 	tps65219_i2c_client =3D client;
+> 	pm_power_off =3D &tps65219_pm_power_off;
+> }
+>
+> Could still be valid for such platforms, no? I do see that the
+> capability that the PMIC has - which is software shutdown is a valid
+> feature that we support in many different PMIC drivers. Is'nt the job of
+> the driver to introduce the functionality in a manner that is
+> appropriate to the OS framework?
 
--- 
-Dmitry
+Yeah, I think Nishanth is right here.
+
+We should probably keep the `if (!pm_power_off)` part so the PMIC will
+be used if PSCI is not, but it also allows an easy way to test/use the PMIC
+shutdown functionality downstream if needed.
+
+Kevin
