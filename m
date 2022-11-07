@@ -2,51 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26FD361EF58
-	for <lists+linux-input@lfdr.de>; Mon,  7 Nov 2022 10:43:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A7AD61F002
+	for <lists+linux-input@lfdr.de>; Mon,  7 Nov 2022 11:11:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231374AbiKGJnp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Nov 2022 04:43:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37486 "EHLO
+        id S231324AbiKGKL2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Nov 2022 05:11:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231175AbiKGJnn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Nov 2022 04:43:43 -0500
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 437255F66
-        for <linux-input@vger.kernel.org>; Mon,  7 Nov 2022 01:43:42 -0800 (PST)
-Received: by mail-il1-f200.google.com with SMTP id d2-20020a056e020be200b00300ecc7e0d4so5832428ilu.5
-        for <linux-input@vger.kernel.org>; Mon, 07 Nov 2022 01:43:42 -0800 (PST)
+        with ESMTP id S231995AbiKGKLO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Nov 2022 05:11:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 942E212D12
+        for <linux-input@vger.kernel.org>; Mon,  7 Nov 2022 02:10:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1667815820;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=VrtSGzs6KIPr9uzMHcL16iDM7kdFVmPcu2NVjsMq2pc=;
+        b=HU54Vez2e5i5kgjhkI2L4HOuHYQimuXhEUYOZ1xssnUukiDjjK43pCNf5LjJFkUYuxC9ED
+        RHBnjvgU87m4WhMiR7vZ0U9tcADH8RFi5qP8VljKhQi6GoB2Zdqn7iuQYWQyj/QVk5oTqw
+        q+QASBQ3VDCilFag/XortfSdRuhROxk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-12-UD5jN9mSPlWFkWDpyN_pMA-1; Mon, 07 Nov 2022 05:10:19 -0500
+X-MC-Unique: UD5jN9mSPlWFkWDpyN_pMA-1
+Received: by mail-ed1-f72.google.com with SMTP id i17-20020a05640242d100b0044f18a5379aso8077356edc.21
+        for <linux-input@vger.kernel.org>; Mon, 07 Nov 2022 02:10:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LeTjeIApLS5/nObgZE1J+Sv2xng4QNqwVUT1nwGcsBU=;
-        b=X/w7TPevc7d2EuanMJLQQpzyazYFGJiqOyoqmZbsRw/AgS+oHPoCnutGl/4eilLURX
-         TLfTJ7na8Fe1GSVBF+Sittsl1nAmyc8y9c7tDJEBKHeWj+40uh/ZElztgZPrbkE6SINF
-         EFPA0r3h7y8mK3DH3iSD/eBDRLgEMtk7bFAA3lPszezl+WYoGhs4enKYH+oH/r2rpfz9
-         4rUPqldXAc/z0AhWztrRWJ92m2CxfyKpDnIeqHmlHIp68w9iXwcOLvNB3VtwpPHgBVjT
-         pAxXe5c4mj1WBu2AX3NpgXPPeGBMCkgDsxV5FsgXfC4zlMaCjsGbTANjf/0v3+b0AwXP
-         1Rig==
-X-Gm-Message-State: ANoB5pm2jEy3xaC+RsHdINjKqRkbF9N91t3na+8Ca64OYRdH2tAVi5Mw
-        8IBkL3eWGSKmWlfx2GuP4uQxPgu/wrNdpzRWrMGklaqgLVy4
-X-Google-Smtp-Source: AA0mqf4xJC86btC9Mxa5as5flMcCHNpvCr+f9RIZqTpEPs6+yF6EQdHBnhR/Ajl6w9NNmfYv0ftkhQ8NAPFaAJJtISg7vx0knkyh
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VrtSGzs6KIPr9uzMHcL16iDM7kdFVmPcu2NVjsMq2pc=;
+        b=lza69qQGwV+02uFERxdh/vUiYkus0y/p6EKW45XLA27fLp9zL2XCHTE75VgHJ7cf2g
+         Tz4g4GXnKoji2KkHy/M490VMnliijQ32cyWWJQRx4h4nBhMHaMYES4w80UXJfVS5ywCp
+         cRM035LloaFE10PpAy1QK1HL5WtpRRlFn7bHwGBAONHsaYg6xfG9Onu11WExMJCcOqWs
+         IN55tFmpq6HmIG25ywnOBfM5eiU00KTangCKPSWoipI7ruPRGYpPviZ5C/yViZlCmfQV
+         piCJZyMvRRXqE8hyCxa/6t16c6Xu2HUSgtVzCi9PjZSQ4stQjByzXqwlnLuP0OTuGh/r
+         cqkQ==
+X-Gm-Message-State: ACrzQf1nqKlw1MgB1RubuXPONhn1uGkO/ILuePXQIakx9lGubnuMS6bZ
+        kBBJmJgJcYx1BSVGsgVMRmHII+90hC0DjgWv3MALIBazIdWDnUarWmSaQBOsNcsOBFilJYHRsQu
+        +qU3s5PBkIFyLJ5dFrDmRehs=
+X-Received: by 2002:a17:906:1c0e:b0:7ad:c648:a4af with SMTP id k14-20020a1709061c0e00b007adc648a4afmr42296758ejg.277.1667815817910;
+        Mon, 07 Nov 2022 02:10:17 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM49yD5grGzJV3/R4j3otuN2m9CrC0LxSWMHIqb5jc0DYQHNvImuX3u6tT6W9Bf/TSAEznEBUw==
+X-Received: by 2002:a17:906:1c0e:b0:7ad:c648:a4af with SMTP id k14-20020a1709061c0e00b007adc648a4afmr42296743ejg.277.1667815817718;
+        Mon, 07 Nov 2022 02:10:17 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id k14-20020a056402048e00b00456c6b4b777sm3936300edv.69.2022.11.07.02.10.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Nov 2022 02:10:17 -0800 (PST)
+Message-ID: <ae50236e-1ce8-b526-9c17-7bc0463ebb86@redhat.com>
+Date:   Mon, 7 Nov 2022 11:10:16 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:104:b0:6da:eb2f:d6d9 with SMTP id
- s4-20020a056602010400b006daeb2fd6d9mr3052159iot.47.1667814221600; Mon, 07 Nov
- 2022 01:43:41 -0800 (PST)
-Date:   Mon, 07 Nov 2022 01:43:41 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003adfa805ecde42f8@google.com>
-Subject: [syzbot] KMSAN: uninit-value in iforce_init_device (2)
-From:   syzbot <syzbot+4dd880c1184280378821@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, glider@google.com,
-        greg.iforce@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_DIGITS,
-        FROM_LOCAL_HEX,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Content-Language: en-US
+To:     Benjamin Tissoires <btissoir@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: Detecting if a laptop is using a i2c/smbus or a ps/2 attached
+ touchpad?
+Cc:     Manyi Li <limanyi@uniontech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,79 +78,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Hi Benjamin, et. al.,
 
-syzbot found the following issue on:
+I have just merged a patch which adds a couple of DMI quirks to disable
+the touchpad on/off functionality of the ideapad-laptop module on some models,
+because it is causing issues there.
 
-HEAD commit:    968c2729e576 x86: kmsan: fix comment in kmsan_shadow.c
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=14efb852880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=131312b26465c190
-dashboard link: https://syzkaller.appspot.com/bug?extid=4dd880c1184280378821
-compiler:       clang version 15.0.0 (https://github.com/llvm/llvm-project.git 610139d2d9ce6746b3c617fb3e2f7886272d26ff), GNU ld (GNU Binutils for Debian) 2.35.2
+Patch:      https://lore.kernel.org/platform-driver-x86/20221018095323.14591-1-limanyi@uniontech.com/
+Discussion: https://lore.kernel.org/platform-driver-x86/fdceb6d2-c38c-e8ff-4c19-b01521ca46c0@redhat.com/
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Rather then using DMI quirks I would prefer to just disable it everywhere
+where a i2c-attached touchpad is used. Be it either one only attached to
+i2c, or one of the synaptics intertouch thingies. I'm still trying to
+figure out why the ideapad-laptop module's touchpad control (which
+uses the EC + enabling/disabling the i8042 aux-port) matters for
+i2c-attached touchpads at all, so I suspect that intertouch might be
+a part of it.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/56b19fc61d98/disk-968c2729.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/b048b309a6e5/vmlinux-968c2729.xz
+So now I'm wondering if there is some nice way for the ideapad-laptop
+code to check if the touchpad is intertouch and/or if it is i2c-attached
+only ...
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4dd880c1184280378821@syzkaller.appspotmail.com
+Any ideas?
 
-iforce 1-1:0.0: usb_submit_urb failed: -71
-iforce 1-1:0.0: usb_submit_urb failed: -71
-iforce 1-1:0.0: usb_submit_urb failed: -71
-=====================================================
-BUG: KMSAN: uninit-value in iforce_init_device+0x1bd5/0x2010 drivers/input/joystick/iforce/iforce-main.c:297
- iforce_init_device+0x1bd5/0x2010 drivers/input/joystick/iforce/iforce-main.c:297
- iforce_usb_probe+0xc86/0x11c0 drivers/input/joystick/iforce/iforce-usb.c:238
- usb_probe_interface+0xc4b/0x11f0 drivers/usb/core/driver.c:396
- really_probe+0x506/0x1000 drivers/base/dd.c:639
- __driver_probe_device+0x2fa/0x3d0 drivers/base/dd.c:778
- driver_probe_device+0x72/0x7a0 drivers/base/dd.c:808
- __device_attach_driver+0x548/0x8e0 drivers/base/dd.c:936
- bus_for_each_drv+0x1fc/0x360 drivers/base/bus.c:427
- __device_attach+0x42a/0x720 drivers/base/dd.c:1008
- device_initial_probe+0x2e/0x40 drivers/base/dd.c:1057
- bus_probe_device+0x13c/0x3b0 drivers/base/bus.c:487
- device_add+0x1d4b/0x26c0 drivers/base/core.c:3517
- usb_set_configuration+0x30f8/0x37e0 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0x105/0x290 drivers/usb/core/generic.c:238
- usb_probe_device+0x288/0x490 drivers/usb/core/driver.c:293
- really_probe+0x506/0x1000 drivers/base/dd.c:639
- __driver_probe_device+0x2fa/0x3d0 drivers/base/dd.c:778
- driver_probe_device+0x72/0x7a0 drivers/base/dd.c:808
- __device_attach_driver+0x548/0x8e0 drivers/base/dd.c:936
- bus_for_each_drv+0x1fc/0x360 drivers/base/bus.c:427
- __device_attach+0x42a/0x720 drivers/base/dd.c:1008
- device_initial_probe+0x2e/0x40 drivers/base/dd.c:1057
- bus_probe_device+0x13c/0x3b0 drivers/base/bus.c:487
- device_add+0x1d4b/0x26c0 drivers/base/core.c:3517
- usb_new_device+0x17ac/0x2370 drivers/usb/core/hub.c:2573
- hub_port_connect drivers/usb/core/hub.c:5353 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
- port_event drivers/usb/core/hub.c:5653 [inline]
- hub_event+0x5589/0x8080 drivers/usb/core/hub.c:5735
- process_one_work+0xb27/0x13e0 kernel/workqueue.c:2289
- worker_thread+0x1076/0x1d60 kernel/workqueue.c:2436
- kthread+0x31b/0x430 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30
+Regards,
 
-Local variable buf created at:
- iforce_init_device+0x5a/0x2010 drivers/input/joystick/iforce/iforce-main.c:217
- iforce_usb_probe+0xc86/0x11c0 drivers/input/joystick/iforce/iforce-usb.c:238
+Hans
 
-CPU: 0 PID: 15409 Comm: kworker/0:2 Not tainted 6.0.0-rc5-syzkaller-48543-g968c2729e576 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
-Workqueue: usb_hub_wq hub_event
-=====================================================
+p.s.
 
+Is it possible that Elan touchpads use something similar to intertouch,
+or is that a synaptics thing only (under Linux)  ?
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
