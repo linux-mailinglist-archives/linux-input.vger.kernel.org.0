@@ -2,87 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3206207DD
-	for <lists+linux-input@lfdr.de>; Tue,  8 Nov 2022 04:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0C26620846
+	for <lists+linux-input@lfdr.de>; Tue,  8 Nov 2022 05:36:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbiKHD43 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Nov 2022 22:56:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36526 "EHLO
+        id S232308AbiKHEgg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Nov 2022 23:36:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbiKHD42 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Nov 2022 22:56:28 -0500
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC131264A1;
-        Mon,  7 Nov 2022 19:56:27 -0800 (PST)
-Received: from [192.168.43.35] (42-72-159-215.emome-ip.hinet.net [42.72.159.215])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S232307AbiKHEgf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Nov 2022 23:36:35 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A771220D6;
+        Mon,  7 Nov 2022 20:36:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 75C36422BF;
-        Tue,  8 Nov 2022 03:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1667879785;
-        bh=0lAmA2xZiuustTD5Iab19OKJCMRHWwA7na99usxYrVE=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=JWm2j9VQOM6i+yoby3P9rQcPwjGqokH3TQTGxhy+Or6yXtxlYu6LHRRiIN0cSVu8j
-         N6PquUbxeazlilTKSx3DWvjuhjufR7xqCFHu8Wa/ODifE8V6H0eEj8Xv9vrRfBrK5T
-         uurHs/btVuXXdGDtGrXCoB0G0X7J8TnC015VnK0tNqPVpIkf1KoFB1aazHVe33FIEd
-         SucMLJOdeyHRWfkuPbnwnN+vWrtQgrCmR9K58bLCGJdgiR90zzDzV3hSeAvUx9nfU9
-         /a48AtAbmqVCNwsQY4tp86JWFMdm+eQMnAgl4NGEpdKkVXCkLLQvc0BELGp+Lzjels
-         gHuSrB2AIRFjA==
-Message-ID: <0b298830-47cc-bb94-0e73-493e4e9244f7@canonical.com>
-Date:   Tue, 8 Nov 2022 11:56:14 +0800
+        by ams.source.kernel.org (Postfix) with ESMTPS id B0DDDB818F7;
+        Tue,  8 Nov 2022 04:36:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A5EDC4347C;
+        Tue,  8 Nov 2022 04:36:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667882192;
+        bh=l9ph8ckWx4YlAC89hByp72hKFrJFFjF3pTK7kkfaqtU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=g6YNkDehv0PROg5Daw47bjPLCQfmD+lOefEqz0jUXWwau7rU/OdTAVroVPPfvE693
+         QDeXnp9AoJ1Ir+WPvfoZCmrfBf67qZoP4/SqcalxNSY9w6NxCMD6FzkS9bWGx7wpA/
+         doRodPbWzBduXf2uHxhCTe4NpOPJAs0oJNcemjzJRCuV49ldhxZuuOen73TD8HISXF
+         P1oFqEBiVfOXZJfT6Wf1mAdz/jwtt3zNubCfvSS4V+DPsJbxujvfW5G3E8A/1cV3cz
+         9pe//2f4obIA0NGIatN4QECX6k7Hbeo7eYh8pDPBfAs3iR1DQg47x7HtwiFngzzAdt
+         VS5CFcaUqBJ+g==
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     dmitry.torokhov@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+        job@noorman.info, robh+dt@kernel.org,
+        Henrik Rydberg <rydberg@bitmath.org>, agross@kernel.org
+Cc:     krzysztof.kozlowski@linaro.org, luca@z3ntu.xyz,
+        devicetree@vger.kernel.org, konrad.dybcio@somainline.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: (subset) [PATCH RESEND v6 3/3] arm64: dts: qcom: sdm632: fairphone-fp3: add touchscreen
+Date:   Mon,  7 Nov 2022 22:36:26 -0600
+Message-Id: <166788218323.625965.12217737552806429204.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20221107105604.26541-4-job@noorman.info>
+References: <20221107105604.26541-1-job@noorman.info> <20221107105604.26541-4-job@noorman.info>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 0/7] Add camera access keys, IdeaPad driver
- improvements
-Content-Language: en-US
-To:     =?UTF-8?Q?Eray_Or=c3=a7unus?= <erayorcunus@gmail.com>,
-        platform-driver-x86@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        dmitry.torokhov@gmail.com, hdegoede@redhat.com,
-        mgross@linux.intel.com, pobrn@protonmail.com
-References: <20221029120311.11152-1-erayorcunus@gmail.com>
-From:   Ike Panhc <ike.pan@canonical.com>
-In-Reply-To: <20221029120311.11152-1-erayorcunus@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 10/29/22 20:03, Eray Orçunus wrote:
-> Nowadays many laptops have camera access keys, yet there is no usage codes
-> mapped to them, even though it's introduced in HUTRR72. Start point of
-> this patch series was adding it and making IdeaPads send it to userspace.
-> But later I discovered that camera_power attribute of ideapad-laptop
-> driver on my IdeaPad 520-15IKB doesn't work, so I can't toggle it with
-> that. I managed to find a way to check whether an IdeaPad supports
-> camera_power attribute (which sends VPCCMD_W_CAMERA to EC), don't expose
-> it to sysfs so userspace will know that it can't toggle camera access via
-> camera_power, in my case, after receiving KEY_CAMERA_ACCESS_TOGGLE.
+On Mon, 7 Nov 2022 11:56:04 +0100, Job Noorman wrote:
+> Add Himax hx83112b touchscreen to the FP3 DT.
 > 
-> Along the way I discovered that old IdeaPads, like S10-3, may not be able
-> to toggle their touchpad as a regression of a commit aimed for newer
-> IdeaPads, so I reverted it.
 > 
-> Also I noticed that I can get/set the state of my keyboard light,
-> so one of the patches also adds supports for this kind of keyboard lights,
-> which I call "partially supported keyboard lights". I expect that commit
-> to add keyboard light support for 520-15IKB, 330-17ICH, 5 (15) and more.
-> Currently only tested on 520-15IKB.
 
-Thanks. Also test on my ideapad s410 and it looks good.
+Applied, thanks!
 
-Acked-by: Ike Panhc <ike.pan@canonical.com>
+[3/3] arm64: dts: qcom: sdm632: fairphone-fp3: add touchscreen
+      commit: 6d9a666d49bf57c6a176e5fcf1b39046ee6a728f
 
-
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
