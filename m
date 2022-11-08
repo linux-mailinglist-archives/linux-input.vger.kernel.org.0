@@ -2,67 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9136A621AAA
-	for <lists+linux-input@lfdr.de>; Tue,  8 Nov 2022 18:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6945621C23
+	for <lists+linux-input@lfdr.de>; Tue,  8 Nov 2022 19:44:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234108AbiKHRbh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Nov 2022 12:31:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
+        id S232048AbiKHSoR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Nov 2022 13:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234522AbiKHRbf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Nov 2022 12:31:35 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A911E21827;
-        Tue,  8 Nov 2022 09:31:34 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id r18so13961501pgr.12;
-        Tue, 08 Nov 2022 09:31:34 -0800 (PST)
+        with ESMTP id S231720AbiKHSoQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Nov 2022 13:44:16 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B67711D0DE
+        for <linux-input@vger.kernel.org>; Tue,  8 Nov 2022 10:44:13 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id bk15so22368305wrb.13
+        for <linux-input@vger.kernel.org>; Tue, 08 Nov 2022 10:44:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t0H4adOijjNqijdNgVvvEHYfjJqDCB5srsjIOvFZOw0=;
-        b=ZqTEJ90xelHKa0fL8oXwDT466llWgiuptNThuod1N2qyEisflmX8u8/pUTGhy3Q5a1
-         FR70sscCsHno1LY6f/q05V9ooUBuIrULhSHzNkSlKkvgEWd2JsEmCfxo2wRL8hlWd3Cc
-         ZborFQi0eXqqsnMvH/1nn4gL3rdukb3TcHK/uUFFqVFJqgmCUZ+O9a7UZgaP9EpZoRjD
-         t4/PbBogqan5ehmBHBT9RWMINqUbPCtWC7AzUe9qX5Me/zGxCd2fo3PTMdKWAp1DN/mh
-         VDqTy0PY1u1cnqEetIpEiUU0ZuArVgTNLOEeaIjvjAaob3JxRveUgluvwbH2y2S1WR3t
-         Rwig==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8D9/RVdDuV2pZ+DNXsZtuBB7adAeFFAlhmnbxTXvqk=;
+        b=iDzrfTO37pnnR9yFxcVEXrrx3BRg8hTzeGl4FJPU8DrxThdnB1m3KAyRjmlBGlPAE1
+         Vg+PPP/BBYQmb0F06+dmDnjqRgUR8w5BZfHgxWOsLbxJFkCRLSVjKn4St8c/syMKc896
+         jGOZlwWSVg1ld+da7GDNWmKl6YlVedoR2a/h8wHKfVqVKnMkL4YfA6TNrTz6QdDsKYi8
+         N/oPFLTQEbjRAXtRjHBr2YYIwAY1U5INPJ0LHMo695essxg4dDZ6YwsV71RZ8jRPfoT3
+         P3glPEzs1TzxnWYGYsiVKZPL4JxCQhrEaVZKIBwIDwvdKvPYMURdEyQ+EUN1wE3aC4D4
+         ZYEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t0H4adOijjNqijdNgVvvEHYfjJqDCB5srsjIOvFZOw0=;
-        b=jq2XIjM3AhPeqKJEbOIIye+XF0UcIKvv+wXKQ+28msXMCk7m7WNcH+uGrIvvRv7C7o
-         /STshA8xugvfnLSJk11ZVbdwqy6LqIiD3H0gDXc9iSGkRC3ftlp2ZA0s28swz4DfBAZB
-         pRLE1UtZgJrKP9aqJwlMjeW/y/dGCo57kht1It51Y8Xd0u3bQWSbW6PIYFmX5KGnQ73x
-         llGoHWKdLUPKRX+QUD/1Oob/2CxMmMNwFhImi34BoSsGgNtGb05SelVMh8L9gDCwh4Of
-         QPVSontl9nNfhzWbHkI8R797EMvsW9hW8kH8PrJfpossdcL6wW8J03ZCBmDvztsKbU7I
-         Reyw==
-X-Gm-Message-State: ACrzQf3W9fMD1FW+WMObxUv0Q5cU9xVr9qiNRWj1DzigdC9PA8CI/74M
-        etP/Xx6j/T4Z6uXbgnX64bg=
-X-Google-Smtp-Source: AMsMyM75+JkMtPaXuOEkZdNu3ya8LG6mkj6PpvauFxRCX50MGK1eRYMW2kWqxAU3LRUVg21M9a1w5g==
-X-Received: by 2002:a63:82c3:0:b0:470:9d9:c2a9 with SMTP id w186-20020a6382c3000000b0047009d9c2a9mr30084096pgd.255.1667928693898;
-        Tue, 08 Nov 2022 09:31:33 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:fb10:b5b0:232e:4afb])
-        by smtp.gmail.com with ESMTPSA id t17-20020a17090a5d9100b00209a12b3879sm6282247pji.37.2022.11.08.09.31.32
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8D9/RVdDuV2pZ+DNXsZtuBB7adAeFFAlhmnbxTXvqk=;
+        b=LSxnlifmZvHiQUtKRoNrevNRrmHV6VqhBQGFK6wyuoM2thDv7G4MWlFiNhXnmpPkxR
+         I5KNdXZaqLB1L8gdUrCKhoh3Tf5JVzXGFRSjoM6Fssqnvv5zFL0Iia4hwKWVkTbIon1f
+         RlHEgiLnu8iKY02SQSN3xuki2YplpU+Vulle6aj5aVtkV8M6CMa6SZPpZ5x+xaCmrQWG
+         0qnlZQ4m1L3VM3HIQei6GL7WzybPpClkiIk68e1Rh+wJ3LWHhymT3C1aEi3u69oeeBko
+         T1JPNV8fEhF0DzedFDYB1Vn2KcCok1Bd3QZgCy4j9xyMJ7HTwIdfFTHhitaofvlSRtvr
+         K/PA==
+X-Gm-Message-State: ACrzQf0z9PO6Obu0xJ39OMAhc1NmSfurnv+T9FZfrXa28a/T8gFGzfXH
+        HSWWSnJsUQWpVXly1Ik/h/qd7w==
+X-Google-Smtp-Source: AMsMyM4Pw/a88iDUdk91jriygXBbx7vziA1KcjbvhTwJTXjUkMQH6uF7UqE6JwKcAvueEVc7v1EWuw==
+X-Received: by 2002:adf:df82:0:b0:236:563b:6f5d with SMTP id z2-20020adfdf82000000b00236563b6f5dmr769877wrl.532.1667933052138;
+        Tue, 08 Nov 2022 10:44:12 -0800 (PST)
+Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+        by smtp.googlemail.com with ESMTPSA id m6-20020a05600c3b0600b003cf6c2f9513sm13564009wms.2.2022.11.08.10.44.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 09:31:33 -0800 (PST)
-Date:   Tue, 8 Nov 2022 09:31:30 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] Input: i8042 - Apply probe defer to more ASUS
- ZenBook models
-Message-ID: <Y2qScl9UeyBHteh3@google.com>
-References: <20221108142027.28480-1-tiwai@suse.de>
+        Tue, 08 Nov 2022 10:44:11 -0800 (PST)
+Subject: [PATCH v4 0/9] Add MediaTek MT6357 PMIC support
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221108142027.28480-1-tiwai@suse.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAFejamMC/33NTQrCMBAF4KtI1kbSiTHVlfcQF/mZ2kCblKQNlNK7O7gUdDW8B++bjRXMAQu7HT
+ aWsYYSUqRwPh6Y6018IQ+eMgMB0Aih+DhfpNK8LNOU8syVkqK1LaCUHaORNQW5zSa6nmZxGQYq+1Dm
+ lNfPkwp0Hj+9ClzwrtHWgAcvzPVuzToEm/Hk0siepFX5X5AkaBTWaycbZeFL2Pf9DS0ZTUj2AAAA
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+Date:   Tue, 08 Nov 2022 19:43:35 +0100
+Message-Id: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
+To:     Fabien Parent <fabien.parent@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-leds@vger.kernel.org,
+        Alexandre Mergnat <amergnat@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+X-Mailer: b4 0.10.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5627; i=amergnat@baylibre.com;
+ h=from:subject:message-id; bh=KMqIoFMw2ZsnI4pz2WvDUoOJVAdC7AJXJ4JZ68KdWV4=;
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBjaqN6igOZ3wPkALb9neByKV7+WaSiq7dQaGyZmrOz
+ uMI+cTKJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCY2qjegAKCRArRkmdfjHURWWXD/
+ 0SjwYliYD6yObuoeJtg0IJfpDmts8BUvvTNZwhie1u73bGZ+++aqfHjmB5UkQiOq/m8TYBXWc75PJ1
+ KnZTV97qxdUDHrTqQSWV1rqsiLEc3gCUw/5vq8UI5S1tKHafrSoLZJRwT4nQBHe/+gdZlDIhy9coHh
+ bSmYYS48rStiXayUrH9sCwTT5w8vhlokrOp9C4F/ZHc8ml+bTLTJG5jUstA3Ji851lxN1HHg/LgAzD
+ la4e42RFpkZ0BMvUPrfWo8iEFC7Y1jO0GwmRmNBaaCt/G9Wg6Dx6geaDG0MpWwbnE49sy7j9E1sMci
+ VmQVPWlzVvmDn0LrUiUNmn+ruoZfON8tE3BYKwjkoYMW6XToEbp1gehV8H4Y0/DRW4Ks4hXLdjrMnW
+ RzKOaWin6APvF0RkFz96LX2KJJPZzmOE3uEuRfhRKl+U9VAKxXKUSLSYCS4GJrpzRXTimN7qRPtaf7
+ aeKkTNPsHMcokHfJ+7ZbEdz0g+un7jngXPCU53bXs+QXHREc+pGNP6u4dlexOTcv7rcIfD1ARUKNo+
+ FasIgRhDtGsYEo0zl5NEyiWNnpjoVqCUKJovCcd87/zQPi3/zrPgu/tMdMTI2l+38p8YydymE3xg/v
+ d3J4M9igDBzDA5WLdNi071vG+AOuUP9lQW1LVTHBvZKGt5Qb6Gc5wjh/Yxmw==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,16 +105,135 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 08, 2022 at 03:20:27PM +0100, Takashi Iwai wrote:
-> There are yet a few more ASUS ZenBook models that require the deferred
-> probe.  At least, there are different ZenBook UX325x and UX425x
-> models.  Let's extend the DMI matching table entries for adapting
-> those missing models.
-> 
-> Link: https://bugzilla.suse.com/show_bug.cgi?id=1190256
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Hi,
+This patch series adds MFD, PMIC keys, and regulator support for MT6357.
+MT6357 is a MediaTek PMIC very similar to MT6358.
 
-Applied, thank you.
+Currently, MTK bindings related to the PMICs are not converted yet (still .txt):
 
+soc/mediatek/pwrap.txt (all PMIC parent)
+      |
+      V
+mfd/mt6397.txt (support lot of mt63XX PMIC)
+      +---------------+----------------+---...
+      V               V                V
+regulator/...      rtc/...          codec/...
+
+1) Convert pwrap to yaml is ok.
+
+2) For the PMIC bindings, there are two option:
+- Convert mt6397.txt to mediatek,mt6397.yaml and continue to support multiple
+  PMIC with only one file. IMO, the file will be hard to read because
+  the supported features aren't the same for each PMIC.
+
+- Make a binding file for each PMIC ref:
+    - mfd/mediatek,mt6357.yaml
+    - mfd/mediatek,mt6358.yaml
+    - ...
+
+3) All PMIC daughter bindings (regulator, rtc, codec, led, ...) aren't fully
+converted yet. Refering to the two PMIC convertion options above:
+- To be clean, all daughter bindings should be converted. This is hard because
+  a good understanding of each device is requiered to write efficient bindings.
+- Only daughter bindings supported by the added PMIC should be converted, that
+  allows to do the task conversion step by step.
+
+In the V4 of this serie, I chose the second option.
+
+Regards,
+Alex
+
+Changes in v4:
+- "dt-bindings: mfd: mt6397: add binding for MT6357" has been applied
+  by Lee Jones
+- All fixed regulator are now refering to fixed-regulator.yaml
+- vfe28 and vcamio18 regulators have been added
+- pwrap binding has been converted and mt8365 support has been added
+- Change node names for mt8173 and mt6358 SoC to be consistent with
+  pwrap documentation.
+- mt6357 PMIC binding has been created
+- mt6397 RTC binding has been converted and mt6357 support has been added
+- Link to v3: https://lore.kernel.org/r/20221005-mt6357-support-v3-0-7e0bd7c315b2@baylibre.com
+
+Changes in v3:
+- To be consistent with regulator/driver.h and helper.c, shift
+  variables have been removed and the mask values have been directly shifted.
+- Remove index tables and rework volt tables to use set/get helper functions.
+- Add comment to structure and function.
+- Fix Fabien Parent mail address.
+- Link to v2: https://lore.kernel.org/r/20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com
+
+Changes in v2:
+- Rebase
+- Fix typo
+- Remove dependencies with https://lore.kernel.org/all/20220415153629.1817202-1-fparent@baylibre.com/
+  which is no longer relevant.
+
+Previous versions:
+v1 - https://lore.kernel.org/all/20220531124959.202787-1-fparent@baylibre.com/
+
+To: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Chen Zhong <chen.zhong@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Fabien Parent <fabien.parent@linaro.org>
+To: Alessandro Zummo <a.zummo@towertech.it>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sean Wang <sean.wang@mediatek.com>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: Fabien Parent <fparent@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+
+---
+Alexandre Mergnat (5):
+      dt-bindings: rtc: mediatek: convert MT6397 rtc documentation
+      dt-bindings: mfd: mediatek: Add bindings for MT6357 PMIC
+      dt-bindings: soc: mediatek: convert pwrap documentation
+      arm64: dts: mt6358: change node names
+      arm64: dts: mt8173: change node name
+
+Fabien Parent (4):
+      dt-bindings: input: mtk-pmic-keys: add binding for MT6357 PMIC
+      dt-bindings: regulator: Add binding schema for mt6357 regulators
+      regulator: add mt6357 regulator
+      Input: mtk-pmic-keys: add MT6357 support
+
+ .../bindings/input/mediatek,pmic-keys.yaml         |   1 +
+ .../devicetree/bindings/leds/leds-mt6323.txt       |   2 +-
+ .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 102 +++++
+ Documentation/devicetree/bindings/mfd/mt6397.txt   |   4 +-
+ .../regulator/mediatek,mt6357-regulator.yaml       | 292 +++++++++++++
+ .../bindings/rtc/mediatek,mt6397-rtc.yaml          |  40 ++
+ .../devicetree/bindings/rtc/rtc-mt6397.txt         |  31 --
+ .../bindings/soc/mediatek/mediatek,pwrap.yaml      | 158 +++++++
+ .../devicetree/bindings/soc/mediatek/pwrap.txt     |  75 ----
+ arch/arm64/boot/dts/mediatek/mt6358.dtsi           |   6 +-
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi       |   2 +-
+ arch/arm64/boot/dts/mediatek/mt8173-evb.dts        |   2 +-
+ drivers/input/keyboard/mtk-pmic-keys.c             |  17 +
+ drivers/regulator/Kconfig                          |   9 +
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/mt6357-regulator.c               | 453 +++++++++++++++++++++
+ include/linux/regulator/mt6357-regulator.h         |  51 +++
+ 17 files changed, 1132 insertions(+), 114 deletions(-)
+---
+base-commit: e7f535c0775b896befb4f6765c02bc065fd26156
+change-id: 20221005-mt6357-support-55308b82e33f
+
+Best regards,
 -- 
-Dmitry
+Alexandre Mergnat <amergnat@baylibre.com>
