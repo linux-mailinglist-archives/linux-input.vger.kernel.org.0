@@ -2,256 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5B43620E5F
-	for <lists+linux-input@lfdr.de>; Tue,  8 Nov 2022 12:15:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC805620ED3
+	for <lists+linux-input@lfdr.de>; Tue,  8 Nov 2022 12:24:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233103AbiKHLPT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Nov 2022 06:15:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56986 "EHLO
+        id S233917AbiKHLYK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Nov 2022 06:24:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233655AbiKHLPR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Nov 2022 06:15:17 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DCE211179
-        for <linux-input@vger.kernel.org>; Tue,  8 Nov 2022 03:15:15 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id d3so20592821ljl.1
-        for <linux-input@vger.kernel.org>; Tue, 08 Nov 2022 03:15:14 -0800 (PST)
+        with ESMTP id S233860AbiKHLYG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Nov 2022 06:24:06 -0500
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3930030F72
+        for <linux-input@vger.kernel.org>; Tue,  8 Nov 2022 03:24:00 -0800 (PST)
+Received: by mail-io1-xd35.google.com with SMTP id p184so11162592iof.11
+        for <linux-input@vger.kernel.org>; Tue, 08 Nov 2022 03:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P3ZLCmxWvOh6TEjZjrnrV0zDBY9aQOqVbQrPCQaVAEk=;
-        b=WlHPlygiKtyT62slIvPbpfz+YDg3uwUYL7kuUpr0P4ikg+xjHYRdvsRpoOUFMUl/VR
-         nNCxYLM/ia4qVZuLlr3QB76vsCqD7JhhbJYMBPjbnWpAlgzMj9fMGLvuS99I4Myqtl48
-         AOBOIU2yFSAwSycSlW1K49U30XNmOudUQNtQn8YN4lVVXY5cvwzCoyR2vGBfzmpH9P2P
-         mfmw9WqVyD0BQ1Ko2O+I45oVecEwoSIm7KP/7n3tvTy6r1f//lr8HPLCj7LO5K3ZbjH7
-         vVvEFRiiSiLDHI9Gpc4FZVwIrZGSgGvPNuUZXqffZJMiL2SpsCasBtzLxvFL3DfvE0aL
-         7h/A==
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5B7dfi7xVJ3OslQ0ALi00lhJojz9IHhiYsVHA/RHqOE=;
+        b=Z2xz0F62PYjCBDaPJAMQlwAdSUUQxdVmjdSE1e/TEz5D6nfB7qYhDRauEt75dK7gsB
+         gtVoTdjw0oTaDS+z3idasRk9nIwydmI3O/a8UQatcsDJqkbGbIVyT1SuNX1kSLffYta+
+         MRaPM04Hv5NGx1PX+KL+YO7lfN7BHKCLYUZEhYaO6bT3eGqzCEeqoQdWOoaKJxxIWVcR
+         X5vaz/veLMrOj/9U4MKzAbNWDLkTVcyykPfCiQUtOALLeK724DexTS9gS8OIc8PPRbY4
+         YNmg+MP12x4a8uFh/63hJCJOP6eBt/pwec9yaAniUfCEq02k0DzqkBqfTrX2eYh/P4iT
+         mINw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=to:subject:message-id:date:from:reply-to:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P3ZLCmxWvOh6TEjZjrnrV0zDBY9aQOqVbQrPCQaVAEk=;
-        b=QXbgAtrZ4jpSholc6FiItvWXnA/33L2DuZ6OFsAyiEZ9tv73/ktuMXOqZS/pE4Yqlc
-         QFhf0whZc44o/IJuLOfhWD1MMEOVWuxVIKZ1fg9OSsvZC8Lv9NG5wKHodn6dAMl3jPuh
-         N2vIn2bcKfNkEKl3yWi3AKuRTug/Dr6KHX4Oqej3g0t00qna6kY9z3dGhvarPmB7Pd4+
-         u5a5Jm/ite+sHBigY+e/bbPZny1MCaCthTH/NSeOnjNT1gnW5XHfauWYkz5X2ZcqKAnk
-         Zk1VTnCiwjaA++oc6nE91/Imf9QA1jnlGEgZ2cEyVizJF5iLU1+xbM5Th/8wZl9coj3c
-         /QWw==
-X-Gm-Message-State: ACrzQf2wWZFxB9sTGbDJOmRrqZQ5oxp6F1MylgwsQj6zsr2dPKZx02Wh
-        GQoGInd6MRJ7mN2oG9FMKemSbg7KgDS8lQ==
-X-Google-Smtp-Source: AMsMyM6C8QkOCZEfi1KXMfCOZLj5buP/8v1j6qCGkx9gYNA11mZiiiWjFjNA7/XWUJ6g/M4rGe+7OA==
-X-Received: by 2002:a05:651c:1c4:b0:277:5059:8298 with SMTP id d4-20020a05651c01c400b0027750598298mr17627642ljn.325.1667906113246;
-        Tue, 08 Nov 2022 03:15:13 -0800 (PST)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id f8-20020a2ea0c8000000b0025ebaef9570sm1698045ljm.40.2022.11.08.03.15.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Nov 2022 03:15:12 -0800 (PST)
-Message-ID: <1166e892-d630-fcd4-6931-212081819493@linaro.org>
-Date:   Tue, 8 Nov 2022 12:15:11 +0100
+        bh=5B7dfi7xVJ3OslQ0ALi00lhJojz9IHhiYsVHA/RHqOE=;
+        b=VbOR+C6ckTjcdQxJz94pdvxfx7usyQZMe3LbqOGaWnEpkid+kIYW0ScWhCCfuDfurb
+         4ySFKxsn/vfyq9W3myhH8dAw8/5LoYXP2gmnaBnBALQF3T6OX4akVnJckZtV/yh6WtFu
+         sXky1VxZnqMveSduFhaX3jyYm3HzFqG5ULLBSo1fPFbo150817shOcH6stuhtn8upOXV
+         Q0YoFFiFQ58LG3BagxlTBOLQGGxtkAjyY66dQfM7tsAOOpPKlon5ha+sJTfduG3F6D+5
+         XAEYfxFr3HdKdrHZIeN6Qo06LytwtK2WAhDNwrMWUhcPx4nlPXTAjWyndV5sWo+JgW1q
+         5pBQ==
+X-Gm-Message-State: ACrzQf0GImmVFPiA2Jf4zpaLKOSduod3bb6CkicjdFumCoLxQfNDYTrH
+        yW9nScvylXEOz2a+f29UK7bFbD/kORPftqo0PZ8=
+X-Google-Smtp-Source: AMsMyM5kag4nOyXiv058CAI4vKxtxp06JiPON4WELDl5Ot316dAXYP1rZp27aB4pLGdFMhJREf8MTcDs+CaUCGO8K58=
+X-Received: by 2002:a05:6602:2b06:b0:67f:fdf6:ffc2 with SMTP id
+ p6-20020a0566022b0600b0067ffdf6ffc2mr34602043iov.111.1667906639638; Tue, 08
+ Nov 2022 03:23:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3] dt-bindings: input: Convert ti,drv260x to DT schema
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Luca Weiss <luca@z3ntu.xyz>
-Cc:     linux-input@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        phone-devel@vger.kernel.org, Andrew Davis <afd@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221105141707.92652-1-luca@z3ntu.xyz>
- <Y2ldc33ByZB/T+kZ@google.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y2ldc33ByZB/T+kZ@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:6638:1921:0:0:0:0 with HTTP; Tue, 8 Nov 2022 03:23:59
+ -0800 (PST)
+Reply-To: mrinvest1010@gmail.com
+From:   "K. A. Mr. Kairi" <ctocik10@gmail.com>
+Date:   Tue, 8 Nov 2022 03:23:59 -0800
+Message-ID: <CAEbPynvH+BZ99HK-COU1=n6MNs96giewbsO80XYSawcxKUtHrA@mail.gmail.com>
+Subject: Re: My Response..
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:d35 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrinvest1010[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [ctocik10[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [ctocik10[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 07/11/2022 20:33, Dmitry Torokhov wrote:
-> On Sat, Nov 05, 2022 at 03:17:06PM +0100, Luca Weiss wrote:
->> Convert the drv260x haptics binding to DT schema format.
->>
->> The only notable change from .txt format is that vbat-supply is not
->> actually required, so don't make it a required property.
->>
->> Acked-by: Andrew Davis <afd@ti.com>
->> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
->> ---
->> Changes since v2:
->> * add default values for vib-*-mv
->> * add note about 'mode' property
->> * add enable-gpios, deprecate enable-gpio
->>
->>  .../devicetree/bindings/input/ti,drv260x.txt  |  50 --------
->>  .../devicetree/bindings/input/ti,drv260x.yaml | 109 ++++++++++++++++++
->>  2 files changed, 109 insertions(+), 50 deletions(-)
->>  delete mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.txt
->>  create mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.txt b/Documentation/devicetree/bindings/input/ti,drv260x.txt
->> deleted file mode 100644
->> index 4c5312eaaa85..000000000000
->> --- a/Documentation/devicetree/bindings/input/ti,drv260x.txt
->> +++ /dev/null
->> @@ -1,50 +0,0 @@
->> -* Texas Instruments - drv260x Haptics driver family
->> -
->> -Required properties:
->> -	- compatible - One of:
->> -		"ti,drv2604" - DRV2604
->> -		"ti,drv2605" - DRV2605
->> -		"ti,drv2605l" - DRV2605L
->> -	- reg -  I2C slave address
->> -	- vbat-supply - Required supply regulator
->> -	- mode - Power up mode of the chip (defined in include/dt-bindings/input/ti-drv260x.h)
->> -		DRV260X_LRA_MODE - Linear Resonance Actuator mode (Piezoelectric)
->> -		DRV260X_LRA_NO_CAL_MODE - This is a LRA Mode but there is no calibration
->> -				sequence during init.  And the device is configured for real
->> -				time playback mode (RTP mode).
->> -		DRV260X_ERM_MODE - Eccentric Rotating Mass mode (Rotary vibrator)
->> -	- library-sel - These are ROM based waveforms pre-programmed into the IC.
->> -				This should be set to set the library to use at power up.
->> -				(defined in include/dt-bindings/input/ti-drv260x.h)
->> -		DRV260X_LIB_EMPTY - Do not use a pre-programmed library
->> -		DRV260X_ERM_LIB_A - Pre-programmed Library
->> -		DRV260X_ERM_LIB_B - Pre-programmed Library
->> -		DRV260X_ERM_LIB_C - Pre-programmed Library
->> -		DRV260X_ERM_LIB_D - Pre-programmed Library
->> -		DRV260X_ERM_LIB_E - Pre-programmed Library
->> -		DRV260X_ERM_LIB_F - Pre-programmed Library
->> -		DRV260X_LIB_LRA - Pre-programmed LRA Library
->> -
->> -Optional properties:
->> -	- enable-gpio - gpio pin to enable/disable the device.
->> -	- vib-rated-mv - The rated voltage of the actuator in millivolts.
->> -			  If this is not set then the value will be defaulted to
->> -			  3.2 v.
->> -	- vib-overdrive-mv - The overdrive voltage of the actuator in millivolts.
->> -			  If this is not set then the value will be defaulted to
->> -			  3.2 v.
->> -Example:
->> -
->> -haptics: haptics@5a {
->> -	compatible = "ti,drv2605l";
->> -	reg = <0x5a>;
->> -	vbat-supply = <&vbat>;
->> -	enable-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
->> -	mode = <DRV260X_LRA_MODE>;
->> -	library-sel = <DRV260X_LIB_LRA>;
->> -	vib-rated-mv = <3200>;
->> -	vib-overdrive-mv = <3200>;
->> -}
->> -
->> -For more product information please see the link below:
->> -http://www.ti.com/product/drv2605
->> diff --git a/Documentation/devicetree/bindings/input/ti,drv260x.yaml b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
->> new file mode 100644
->> index 000000000000..63230977043e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/ti,drv260x.yaml
->> @@ -0,0 +1,109 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/ti,drv260x.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Texas Instruments - drv260x Haptics driver family
->> +
->> +maintainers:
->> +  - Andrew Davis <afd@ti.com>
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,drv2604
->> +      - ti,drv2605
->> +      - ti,drv2605l
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  vbat-supply:
->> +    description: Power supply to the haptic motor
->> +
->> +  # TODO: Deprecate 'mode' in favor of differently named property
->> +  mode:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: |
->> +      Power up mode of the chip
->> +      (defined in include/dt-bindings/input/ti-drv260x.h)
->> +
->> +      DRV260X_LRA_MODE
->> +        Linear Resonance Actuator mode (Piezoelectric)
->> +
->> +      DRV260X_LRA_NO_CAL_MODE
->> +        This is a LRA Mode but there is no calibration sequence during init.
->> +        And the device is configured for real time playback mode (RTP mode).
->> +
->> +      DRV260X_ERM_MODE
->> +        Eccentric Rotating Mass mode (Rotary vibrator)
->> +    enum: [ 0, 1, 2 ]
->> +
->> +  library-sel:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: |
->> +      These are ROM based waveforms pre-programmed into the IC.
->> +      This should be set to set the library to use at power up.
->> +      (defined in include/dt-bindings/input/ti-drv260x.h)
->> +
->> +      DRV260X_LIB_EMPTY - Do not use a pre-programmed library
->> +      DRV260X_ERM_LIB_A - Pre-programmed Library
->> +      DRV260X_ERM_LIB_B - Pre-programmed Library
->> +      DRV260X_ERM_LIB_C - Pre-programmed Library
->> +      DRV260X_ERM_LIB_D - Pre-programmed Library
->> +      DRV260X_ERM_LIB_E - Pre-programmed Library
->> +      DRV260X_ERM_LIB_F - Pre-programmed Library
->> +      DRV260X_LIB_LRA - Pre-programmed LRA Library
->> +    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
->> +
->> +  enable-gpio:
->> +    maxItems: 1
->> +    deprecated: true
->> +
->> +  enable-gpios:
->> +    maxItems: 1
->> +
->> +  vib-rated-mv:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: |
->> +      The rated voltage of the actuator in millivolts.
->> +      If this is not set then the value will be defaulted to 3200 mV.
->> +    default: 3200
->> +
->> +  vib-overdrive-mv:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: |
->> +      The overdrive voltage of the actuator in millivolts.
->> +      If this is not set then the value will be defaulted to 3200 mV.
->> +    default: 3200
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - enable-gpio
-> 
-> It is weird to have a deprecated property listed in required list and
-> also in the example...
+-- 
+Dear
 
-Yep, this should be fixed.
+How are you, I have a serious client, whom will be interested to
+invest in your country, I got your Details through the Investment
+Network and world Global Business directory.
 
-Best regards,
-Krzysztof
+Let me know if you are interested for more details.....
 
+Sincerely,
+Mr. Kairi Andrew
