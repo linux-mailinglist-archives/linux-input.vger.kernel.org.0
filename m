@@ -2,120 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4E8C621F55
-	for <lists+linux-input@lfdr.de>; Tue,  8 Nov 2022 23:30:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42F006222B6
+	for <lists+linux-input@lfdr.de>; Wed,  9 Nov 2022 04:43:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbiKHWar (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Nov 2022 17:30:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58674 "EHLO
+        id S229846AbiKIDnb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Nov 2022 22:43:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiKHWa1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Nov 2022 17:30:27 -0500
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF19A21A4;
-        Tue,  8 Nov 2022 14:30:13 -0800 (PST)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-13ba86b5ac0so17864096fac.1;
-        Tue, 08 Nov 2022 14:30:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EIyu2ScaB3AbxUJeW+TW/jRCR8cvhLIs+eO6qwh9G40=;
-        b=P8XlboiwnUurHAMOyeikQaRC5CJ4M8kL+K/8obGiuJPAe2wJ7Ez8W422laA/K7knyJ
-         J75/QXoeUImcyB0SqjfoxmZ+lhVtJCcri3HAMv36/IKh7MTZ+B5zli6cik6BLKZCWk6i
-         ICHraCDo05J/F5c/LiooaR8SJy+VSJXbRl2c6fwvgjQuHO/tQCQ+yK3fqqFxoInKVqxv
-         ZCYyTeI2+ap+ktkRFR572eKlF4Wue4FyshpvYv8BLaAgK0LndKdSHFxQivcx8Vnj7Nbm
-         OWG7dLp/o5CB3SN6OHA2ZcoqL2j5+Q1/DtM+ftjlh+GFn8jmMmntqJlJppLfMnL8lK9M
-         +SdA==
-X-Gm-Message-State: ACrzQf0CYcLfnyq9/FUvzcnZffwl1IsFBD7CYs3V1xtVorxmrJiCm9qY
-        Scpaiu/J9aUDyEPmu11eF4KUf9X9iw==
-X-Google-Smtp-Source: AMsMyM4ErTAiEBhhWUnCfkse1uPFXHKxuqvHukpK8jfMZpw4aZEAx3TQfjnc7l2d+tka0EwpvviWtQ==
-X-Received: by 2002:a05:6870:15d0:b0:13c:2aa5:d967 with SMTP id k16-20020a05687015d000b0013c2aa5d967mr34222286oad.143.1667946612838;
-        Tue, 08 Nov 2022 14:30:12 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 89-20020a9d0c62000000b00661946468c6sm4574509otr.31.2022.11.08.14.30.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 14:30:12 -0800 (PST)
-Received: (nullmailer pid 4095486 invoked by uid 1000);
-        Tue, 08 Nov 2022 22:30:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229898AbiKIDn0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Nov 2022 22:43:26 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3A13A2;
+        Tue,  8 Nov 2022 19:43:24 -0800 (PST)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N6W5G1mNhzHvbX;
+        Wed,  9 Nov 2022 11:42:58 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 9 Nov 2022 11:43:22 +0800
+Received: from mdc.huawei.com (10.175.112.208) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 9 Nov 2022 11:43:22 +0800
+From:   Chen Jun <chenjun102@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <dmitry.torokhov@gmail.com>, <tiwai@suse.de>
+CC:     <xuqiang36@huawei.com>
+Subject: [PATCH] Input: i8042: remove the modifications to i8042_platform_device
+Date:   Wed, 9 Nov 2022 03:41:48 +0000
+Message-ID: <20221109034148.23821-1-chenjun102@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Sean Wang <sean.wang@mediatek.com>, linux-rtc@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-leds@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Fabien Parent <fparent@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
-References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
- <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
-Message-Id: <166794645623.4092225.9597102589319285416.robh@kernel.org>
-Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
- documentation
-Date:   Tue, 08 Nov 2022 16:30:08 -0600
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+i8042_platform_device can be changed in i8042_{probe|remove}.
+This could leave a i8042 device on the platform bus and release resources
+unexpectedly when i8042.ko is re-probed.
 
-On Tue, 08 Nov 2022 19:43:37 +0100, Alexandre Mergnat wrote:
-> - Convert rtc/rtc-mt6397.txt to rtc/mt6397-rtc.yaml
-> - Add mediatek,mt6357-rtc compatible.
-> - Add maintainer
-> - Remove the .txt binding file
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/mfd/mt6397.txt   |  2 +-
->  .../bindings/rtc/mediatek,mt6397-rtc.yaml          | 40 ++++++++++++++++++++++
->  .../devicetree/bindings/rtc/rtc-mt6397.txt         | 31 -----------------
->  3 files changed, 41 insertions(+), 32 deletions(-)
-> 
+Fixes: 9222ba68c3f4 ("Input: i8042 - add deferred probe support")
+Signed-off-by: Chen Jun <chenjun102@huawei.com>
+---
+ drivers/input/serio/i8042.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.example.dtb:0:0: /example-0/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index f9486495baef..6dac7c1853a5 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -1543,8 +1543,6 @@ static int i8042_probe(struct platform_device *dev)
+ {
+ 	int error;
+ 
+-	i8042_platform_device = dev;
+-
+ 	if (i8042_reset == I8042_RESET_ALWAYS) {
+ 		error = i8042_controller_selftest();
+ 		if (error)
+@@ -1582,7 +1580,6 @@ static int i8042_probe(struct platform_device *dev)
+ 	i8042_free_aux_ports();	/* in case KBD failed but AUX not */
+ 	i8042_free_irqs();
+ 	i8042_controller_reset(false);
+-	i8042_platform_device = NULL;
+ 
+ 	return error;
+ }
+@@ -1592,7 +1589,6 @@ static int i8042_remove(struct platform_device *dev)
+ 	i8042_unregister_ports();
+ 	i8042_free_irqs();
+ 	i8042_controller_reset(false);
+-	i8042_platform_device = NULL;
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
 
