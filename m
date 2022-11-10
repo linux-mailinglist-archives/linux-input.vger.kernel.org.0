@@ -2,168 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F8CF6247CF
-	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 18:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F401624827
+	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 18:20:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232764AbiKJRAw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Nov 2022 12:00:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60296 "EHLO
+        id S231147AbiKJRU1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Nov 2022 12:20:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232602AbiKJRAv (ORCPT
+        with ESMTP id S229958AbiKJRU0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Nov 2022 12:00:51 -0500
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537C2240AB
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 09:00:49 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id s196so2382642pgs.3
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 09:00:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XC+lREAOJlgLAcs2t3gy8jxyqE4WrBSZDVI49YPP4fc=;
-        b=S5R1Gt3RrGgwgt3s/LT2AXQscV4vOG8upTFNo8MgkAl6O7TApdBoYKAwbHsq7jss1p
-         bG/1mPBWn+VPwUtsRejiM4X3U98qiWE5klSog/7MfLZuH/9HP+UwwS2hxJE7uDccNNdP
-         FT65CeXjtLAn/QIN+HhC4VLynXa2rAlqaiYOh6IspOGP0tDKiJPlYaG5t1D0nhPqLL9o
-         YH3Trd0yj2i18Gwqmq8cxj7gGJywTwaJz6SXuYMNE+M2W2FTGeAudnBgYZDVqwCoKbD2
-         P4ciY9DDWaPFHRxiy2sSnrgNg4O1xXbxj9mBd4jxF5gMg7HmK8DdPpsp5Pt8KZ68P/vN
-         RIfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XC+lREAOJlgLAcs2t3gy8jxyqE4WrBSZDVI49YPP4fc=;
-        b=7mFFvI04aThXkJd5+h0VbwgGCSHlTCr2yhFG13fjOFcZU+qXMZga1ANkl1tz8CqHzL
-         66vMGBoutXU+g57kal008TdMT51SmQgg5mufW6SYzt1c58/nSnyUquQKzA6OxHn27ZLK
-         KUqu4V3dZVQCOfvn8xHGIem3/wMsSrfT7l7jUuP+14K3zoUlwZemHU1IH9Ub3ILQMj7s
-         b2Ys5F8tzjZHmvwJKzQpqNW38niMaNReTJhdLJsQgq6tCaggueLl33+3z3lVtk77Sg/m
-         eKh+xpNMAiKXbqwqRy0GBfUWhIeP9ZDBV9wZ/Q1WZsVfbnJCPPYwHNG1rmAIwgxhMAGw
-         69mg==
-X-Gm-Message-State: ACrzQf2dLYOklHNvEUFtCdPufegZZT0O0p7DMMqIltC/L5vF3reAXJN1
-        iXOcHm2xOMZozT7+wrrfJubSmQ==
-X-Google-Smtp-Source: AMsMyM40/tH7wKNr79mtqwVgiRRQXZbl5E1ywpoLKjNAapv719barK355ow9dO35ObkfeKmQbjVrnw==
-X-Received: by 2002:a05:6a00:794:b0:56c:318a:f808 with SMTP id g20-20020a056a00079400b0056c318af808mr3005893pfu.11.1668099648683;
-        Thu, 10 Nov 2022 09:00:48 -0800 (PST)
-Received: from localhost ([75.172.139.56])
-        by smtp.gmail.com with ESMTPSA id u15-20020a170903124f00b0017e64da44c5sm11529104plh.203.2022.11.10.09.00.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 09:00:47 -0800 (PST)
-From:   Kevin Hilman <khilman@baylibre.com>
-To:     jerome Neanne <jneanne@baylibre.com>, Andrew Davis <afd@ti.com>,
-        Nishanth Menon <nm@ti.com>
-Cc:     Lee Jones <lee@kernel.org>, lgirdwood@gmail.com,
-        broonie@kernel.org, robh+dt@kernel.org, kristo@kernel.org,
-        dmitry.torokhov@gmail.com, krzysztof.kozlowski+dt@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, tony@atomide.com,
-        vigneshr@ti.com, bjorn.andersson@linaro.org, shawnguo@kernel.org,
-        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
-        marcel.ziswiler@toradex.com, vkoul@kernel.org,
-        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com,
-        narmstrong@baylibre.com, msp@baylibre.com, j-keerthy@ti.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: Re: [PATCH v6 4/6] mfd: tps65219: Add driver for TI TPS65219 PMIC
-In-Reply-To: <1267bf43-618c-7347-be3a-2792c656d9b6@baylibre.com>
-References: <20221011140549.16761-1-jneanne@baylibre.com>
- <20221011140549.16761-5-jneanne@baylibre.com>
- <Y1+q2Usm9ecicXqp@google.com>
- <1383fd22-c720-811e-a2bb-be2151675089@baylibre.com>
- <20221105000104.rtj3r6ufqwqmepon@keenly> <7heduewjp0.fsf@baylibre.com>
- <5418ac3b-04d7-5e77-7612-c8f168e24621@ti.com>
- <1267bf43-618c-7347-be3a-2792c656d9b6@baylibre.com>
-Date:   Thu, 10 Nov 2022 09:00:47 -0800
-Message-ID: <7hk042agn4.fsf@baylibre.com>
+        Thu, 10 Nov 2022 12:20:26 -0500
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15B21E1;
+        Thu, 10 Nov 2022 09:20:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1668100805; bh=+T5Oar/BbpgMPrOdAhsBtmkmjp5KzTsLrhLyKGfz9YM=;
+        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+         MIME-Version:Content-Transfer-Encoding;
+        b=W10MYXnUcjBvhPW8wikmbCFnsB1u4LjQnoNHVQJn0Z7vwrSCMSMFwxtA2EXQm01Ps
+         ZuEtLaSR8zPBSqmOPbo6dUaUINHOHp/1rYkPwxRmF5J2lbJc8SuZzox1/eo4IRFWCh
+         GENZOb3gS93xsvCfDXqsNI3cKR4Q5sMFJ6oybEAU=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+        via proxy.mailoo.org [213.182.55.207]
+        Thu, 10 Nov 2022 18:20:05 +0100 (CET)
+X-EA-Auth: 79NPVASxzui63w1gVP//v3siC7pPGN3FPMDMOM9zstfdA7p6ZJjTxRNS6NZ/CTYl0g26Ot4hzaLinc4vOR3R8IHvHbjSV9JtmNVefMBFAlw=
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     w.david0@protonmail.com, stephan@gerhold.net,
+        phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH v4 0/5] Input: msg2638: Add support for msg2138 and key
+Date:   Thu, 10 Nov 2022 18:19:43 +0100
+Message-Id: <20221110171952.34207-1-vincent.knecht@mailoo.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-jerome Neanne <jneanne@baylibre.com> writes:
+This is a resend of [1] with no changes, like v3 which didn't mae it to
+mailing lists for some reason.
 
-> On 09/11/2022 22:59, Andrew Davis wrote:
->> On 11/7/22 3:14 PM, Kevin Hilman wrote:
->>> Nishanth Menon <nm@ti.com> writes:
->>>
->>>> On 13:58-20221104, jerome Neanne wrote:
->>>>>
->>>> [...]
->>>>
->>>>>
->>>>>>
->>>>>> Can you try an compile with W=3D1 please.
->>>>> This raise one warning on mfd:
->>>>> drivers/mfd/tps65219.c:28:12: warning: =E2=80=98tps65219_soft_shutdow=
-n=E2=80=99=20
->>>>> defined but
->>>>> not used [-Wunused-function]
->>>>> =C2=A0=C2=A0=C2=A0 28 | static int tps65219_soft_shutdown(struct tps6=
-5219 *tps)
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~~~~
->>>>> soft_shutdown has been validated and is used in TI baseline even if n=
-ot
->>>>> hooked in upstream version further to this review:
->>>>> https://lore.kernel.org/lkml/20220825150224.826258-5-msp@baylibre.com/
->>>>>
->>>>> It was a TI requirement to implement it...
->>>>> Let me know if you want me to remove this function or if we can keep=
-=20
->>>>> it like
->>>>> this.
->>>>
->>>> There are platforms without psci, correct? I think the comment was to
->>>> drop the force override with system-power-controller property,
->>>>
->>>> if (!pm_power_off) {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0tps65219_i2c_client =3D client;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0pm_power_off =3D &tps65219_pm_power_off;
->>>> }
->>>>
->>>> Could still be valid for such platforms, no? I do see that the
->>>> capability that the PMIC has - which is software shutdown is a valid
->>>> feature that we support in many different PMIC drivers. Is'nt the job =
-of
->>>> the driver to introduce the functionality in a manner that is
->>>> appropriate to the OS framework?
->>>
->>> Yeah, I think Nishanth is right here.
->>>
->>> We should probably keep the `if (!pm_power_off)` part so the PMIC will
->>> be used if PSCI is not, but it also allows an easy way to test/use the=
-=20
->>> PMIC
->>> shutdown functionality downstream if needed.
->>>
->>=20
->> Then should be using the sys-off handler API[0] so it doesn't block PSCI
->> which is also switching over[1].
->>=20
->> Andrew
->>=20
->> [0] https://lwn.net/Articles/894511/
->> [1] https://www.spinics.net/lists/arm-kernel/msg1024127.html
-> Can we go for upstream with v7 without tps65219_soft_shutdown. Then if=20
-> everyone agrees with Andrew proposal, I'll submit a separate patch which=
-=20
-> adds implementation of tps65219_soft_shutdown support through sys-off=20
-> handler.
->
-> So that we are not blocking upstream in case further=20
-> discussions/alignment are required.
+This series:
+- moves max fingers number and irqhandler settings in a struct
+- adds support for msg2138 touchscreen
+- adds support for buttons, which were only seen with msg2138 as of yet
 
-Seems OK to me.  Nishanth?  Andrew?
+Big thanks to Stephan Gerhold <stephan@gerhold.net> for the help with
+deciphering the downstream driver [2] and writing clean and working code.
 
-But I think you'll need to at least submit a v8 without the unused
-code/dead code that Lee pointed out.
+[1] https://lore.kernel.org/linux-input/20220124212611.752603-1-vincent.knecht@mailoo.org/
+[2] https://github.com/LineageOS/android_kernel_huawei_msm8916/blob/2f24fa58086a969687434b40f237cb589a1f324f/drivers/input/touchscreen/mstar/msg2138_qc.c
 
-Kevin
+Vincent Knecht (5):
+  Input: msg2638 - Set max finger number and irqhandler from driver data
+  dt-bindings: input: touchscreen: msg2638: Document msg2138 support
+  Input: msg2638 - Add support for msg2138
+  dt-bindings: input: touchscreen: msg2638: Document keys support
+  Input: msg2638 - Add support for msg2138 key events
+
+ .../input/touchscreen/mstar,msg2638.yaml      |   8 +-
+ drivers/input/touchscreen/msg2638.c           | 182 ++++++++++++++++--
+ 2 files changed, 175 insertions(+), 15 deletions(-)
+
+-- 
+2.38.1
+
+
+
