@@ -2,182 +2,167 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A96D624364
-	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 14:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A246A6243F6
+	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 15:14:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbiKJNkS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Nov 2022 08:40:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56030 "EHLO
+        id S231378AbiKJOOm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Nov 2022 09:14:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbiKJNkR (ORCPT
+        with ESMTP id S231359AbiKJOOX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Nov 2022 08:40:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A882165A5
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 05:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668087563;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aByhD+u7e5ysEhGwu8joJIq9fuZ918iDvc+dlsbuQzI=;
-        b=Em38wTuFC+HFBu6tbO096tDM8dsUNG8yLctrGa3Wkk6P0s7z0dbatRpeps2Gsh2kY6Y3HQ
-        ELpZsJbAX8k/H+FiZMnooaPQ/y38A0V4DQnEY3mLCxl+qq8sY63JiBYGRPTbaiH1L6GI2X
-        0kr+eIoxDnAMk++mtO6Y4OERqeqtdFw=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-314-WE8F2GnQNPyzKamzBOtjZg-1; Thu, 10 Nov 2022 08:39:22 -0500
-X-MC-Unique: WE8F2GnQNPyzKamzBOtjZg-1
-Received: by mail-lf1-f70.google.com with SMTP id m25-20020a195219000000b004b40c1d5566so554454lfb.4
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 05:39:22 -0800 (PST)
+        Thu, 10 Nov 2022 09:14:23 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30E3C7721E
+        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 06:14:05 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id l12so3480186lfp.6
+        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 06:14:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3Bnc98wbgCB157XtXlJ5NroBNxycOACeQVxm/1SPVs4=;
+        b=Rc8RZYG1UdjHBqHXSpcw7c7Fl3OJIs+mgExR8ZEe+5iDezQTN7XCfKOzGLV02/GFzS
+         f/trH0orM0q51kSUF73Jh+5teXTHMGgop3zKei6pVMxbmjbWjTYs9lq2vQs2RnjphnQ3
+         LgSP8Bc4k/E3y8YRK+/mnx8OBi+H+tM54YOVRgKfdccfzllR8qzxjpbYGQH0mCZgOhUe
+         UhMDSyIlPoNcKmkFND1CIVA6MF+tt9bS735B5d2iMMgsDtOchwiUlt5TpwtcsjOobjzs
+         HDfDXm+QzsaftiReSvZqrCYSwatcVOQ01Beaep3NFZlgzJJJpUKFonaZqqpxfM3s9B+V
+         yfig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aByhD+u7e5ysEhGwu8joJIq9fuZ918iDvc+dlsbuQzI=;
-        b=Sr39EcMTk4ZAxUlHNSPTf9j1tTA6pXBLQ8nBS7TykIDFkzg7UwoMK3zsiRGtp6yucO
-         6XA18E43ExeG9UYQcEBPsSTz1mlAz1+XUnvuhTDUb2+/Vh96KqhQokkJq+T2BXL6dW7R
-         MdfJDTaFQcM1cZuYHsXWP6acazYTjgyaWKYET6n1pIuO6NPB2rqZv441GAHrDTA/EAXo
-         zX0jquqyQd01A6hGioiJ2zgQRwbM8gXqW6iQO+KD8qxaCUcAHu0Iuj4gcL134dqBgou5
-         MiC9EU5BOP12pNR2yjTXYBNM0mzWdUKPogSoCMVZNC4WAFNJFxu/shMMBkz+Q4LiG+al
-         iJVQ==
-X-Gm-Message-State: ACrzQf33hyFS1Nld/wydCAYgnswKqXHATD5Jc0nfatyfI6rsnHYd85Dc
-        vjbzpkl7jyG311slqve4Z2etCz3idUDFAh0rCNvLIRkaql+6Om+iLUfTor1bLEBuajo5nwfUVrb
-        OFz1XllMtZYdB2Lf6CZlkzzGpkBHWmM3empjpNJg=
-X-Received: by 2002:a19:430c:0:b0:4a9:e27a:1cfa with SMTP id q12-20020a19430c000000b004a9e27a1cfamr1384823lfa.147.1668087560534;
-        Thu, 10 Nov 2022 05:39:20 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5FC1Lj4JEW/VC+s1AS66k2fT2JcDAvUzNE7OVcS/2LY94i+gEjzbK0TImWm8Km08AgxmjPomWFTbR6r4qSu7Y=
-X-Received: by 2002:a19:430c:0:b0:4a9:e27a:1cfa with SMTP id
- q12-20020a19430c000000b004a9e27a1cfamr1384819lfa.147.1668087560288; Thu, 10
- Nov 2022 05:39:20 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Bnc98wbgCB157XtXlJ5NroBNxycOACeQVxm/1SPVs4=;
+        b=Lt2CJyl4wY3IQgUgXcoNb7uWxBkhmnBC4ZEgqIrrti2LdLJgUEuCT8cc3LM5hi/8m9
+         y8G7a3cmmT9WiS4dTQR9mHTm1VDLFhAX5HXOIDQ7CDV3NP+CADFuB0Bpegm74N1DCovB
+         xa1/b3+lhYrby2ot686I54Se1ut7pFQ+XfYg22A2PBY93yMtnuEJ1IyLRRKbqIy6bwsK
+         fLuX1Fz6k5n5akXtIVEx43a3YiXVRb/jg/+CtJdqkaXd5r3yPgd+Yt9YSWAE07YoJXp/
+         9AT6WmbLlKWTptTAG5Eu0yCkIsnOuaqghkKabuzHWmzLeL6m+tP7EfLq2QOlL+wCqCPM
+         Q9UQ==
+X-Gm-Message-State: ACrzQf2tsZJj8T3bgOiwIxdvvIJjkBCviIrDL4oVWAeJcQMjYAQaOgFy
+        NniTlmi3Zsz0qTFb1fqUOsL65Q==
+X-Google-Smtp-Source: AMsMyM4Zc2mDjlY+RRgIUEdLQhsv+UxcTsSgJuQjuIQHS1FrmkKKXs/oNCb5HFgDi7jqXQw2KQ4odg==
+X-Received: by 2002:a05:6512:32b7:b0:4aa:8d5a:2f53 with SMTP id q23-20020a05651232b700b004aa8d5a2f53mr21028085lfe.362.1668089643827;
+        Thu, 10 Nov 2022 06:14:03 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id r26-20020ac25c1a000000b00499aefcf68esm2746842lfp.292.2022.11.10.06.14.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Nov 2022 06:14:02 -0800 (PST)
+Message-ID: <adf8bc44-4cbc-af2a-4ec8-1859a98146d7@linaro.org>
+Date:   Thu, 10 Nov 2022 15:14:01 +0100
 MIME-Version: 1.0
-References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com>
- <CAO-hwJJ7cF-4kd8Mi6bb5n-k5LuMrWbpdMqFs82y7iQOscr-7g@mail.gmail.com>
- <CABfF9mNfU=swmpVXfVr7pYWs72jrd-HDY8+_NXyBDAKa4CWG5Q@mail.gmail.com>
- <CAO-hwJ+i3zd=CyU0T+Nb1vGfZfenMBH16ern_ncTTKEpyGAuBA@mail.gmail.com>
- <CABfF9mNrMx2BzU5tbBeapY15M4Ls_5xYBGfVB=Up5TJu=eWCcg@mail.gmail.com>
- <CAO-hwJJGAWkhZgGeLBruqCoskY5PBP-STs4kh-P6fBvpuSgpUw@mail.gmail.com>
- <CABfF9mO3SQZvkQGOC09H5s7EEd2UGhpE=GYB46g_zF3aEOVn=Q@mail.gmail.com>
- <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com>
- <CAO-hwJ+PysPKFG=a9+L8vwhiw4uY3F3DZmg4FwgPWGZ7LPt4EA@mail.gmail.com> <2a20d7d1-55df-4861-5cf1-dee19536ed5@9300>
-In-Reply-To: <2a20d7d1-55df-4861-5cf1-dee19536ed5@9300>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 10 Nov 2022 14:39:08 +0100
-Message-ID: <CAO-hwJJDE-8TL2MbTX2xX3RfKEeh8H5h24UkcZJJhH5ptdpRaQ@mail.gmail.com>
-Subject: Re: Litra Glow on Linux
-To:     Andreas Bergmeier <abergmeier@gmx.net>
-Cc:     linux-input@vger.kernel.org,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jiri Kosina <jikos@kernel.org>, linux-leds@vger.kernel.org,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
+ documentation
+Content-Language: en-US
+To:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     Alexandre Mergnat <amergnat@baylibre.com>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Pavel Machek <pavel@ucw.cz>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-rtc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        devicetree@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
+ <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
+ <20221109222916.GA2985917-robh@kernel.org> <Y2wwUOJ0KZdt1tZ6@mail.local>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y2wwUOJ0KZdt1tZ6@mail.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 1:24 PM Andreas Bergmeier <abergmeier@gmx.net> wrote:
->
->
->
-> On Thu, 10 Nov 2022, Benjamin Tissoires wrote:
->
-> > On Thu, Nov 10, 2022 at 4:29 AM Andreas Bergmeier <abergmeier@gmx.net> wrote:
-> > >
-> > > On Wed, 9 Nov 2022 at 21:27, Andreas Bergmeier <abergmeier@gmx.net> wrote:
-> > > >
-> > > > Finally I have an environment where I can test my kernel code.
-> > > >
-> > > > On Mon, 31 Oct 2022 at 10:29, Benjamin Tissoires
-> > > > <benjamin.tissoires@redhat.com> wrote:
-> > > > > For identifying the GLOW device you should be adding an id in the
-> > > > > table of hid-logitech-hidpp, with a driver data that tells the driver
-> > > > > to look for 0x1990.
-> > > > >
-> > > > > >
-> > > > > > > - you need to add a hook in connect_event to register the led class
-> > > > > > > device that will hook on to the actual LED of the device
-> > > > Sadly my tests did not go very far. The code fails already when
-> > > > calling the `probe` callback (`hidpp_probe`).
-> > > > When it calls into `hidpp_root_get_protocol_version` it seems to
-> > > > receive `HIDPP_ERROR_RESOURCE_ERROR`.
-> > > > Which then leads to an error message: Device not connected
-> > > > Upon looking at `HIDPP_ERROR_RESOURCE_ERROR` (9) there is no
-> > > > documentation what it means in code.
-> > > > From a look into the docs it says that 9 is UNSUPPORTED error for 2.0
-> > > > devices. Thus I am wondering how the code knows
-> > > > that it is a problem with connectivity.
-> >
-> > From the top of my memory, this was told to us that this is the way we
-> > detect if the device was connected or not in the unifying case. Though
-> > in your case, it's a USB device, so there is no such thing as "not
-> > connected"...
-> So isn't the current error handling at a minimum misleading?
->
+On 09/11/2022 23:57, Alexandre Belloni wrote:
+> On 09/11/2022 16:29:16-0600, Rob Herring wrote:
+>> On Tue, Nov 08, 2022 at 07:43:37PM +0100, Alexandre Mergnat wrote:
+>>> - Convert rtc/rtc-mt6397.txt to rtc/mt6397-rtc.yaml
+>>> - Add mediatek,mt6357-rtc compatible.
+>>> - Add maintainer
+>>> - Remove the .txt binding file
+>>>
+>>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/mfd/mt6397.txt   |  2 +-
+>>>  .../bindings/rtc/mediatek,mt6397-rtc.yaml          | 40 ++++++++++++++++++++++
+>>>  .../devicetree/bindings/rtc/rtc-mt6397.txt         | 31 -----------------
+>>>  3 files changed, 41 insertions(+), 32 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
+>>> index 0088442efca1..79aaf21af8e9 100644
+>>> --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
+>>> +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
+>>> @@ -33,7 +33,7 @@ Optional subnodes:
+>>>  		- compatible: "mediatek,mt6331-rtc"
+>>>  		- compatible: "mediatek,mt6358-rtc"
+>>>  		- compatible: "mediatek,mt6397-rtc"
+>>> -	For details, see ../rtc/rtc-mt6397.txt
+>>> +	For details, see ../rtc/mediatek,mt6397-rtc.yaml
+>>>  - regulators
+>>>  	Required properties:
+>>>  		- compatible: "mediatek,mt6323-regulator"
+>>> diff --git a/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml b/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml
+>>> new file mode 100644
+>>> index 000000000000..bb48c0150f95
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml
+>>> @@ -0,0 +1,40 @@
+>>> + # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/rtc/mediatek,mt6397-rtc.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: MediaTek MT6397/MT6366/MT6358/MT6357/MT6323 RTC
+>>> +
+>>> +maintainers:
+>>> +  - Alexandre Mergnat <amergnat@baylibre.com>
+>>> +
+>>> +description: |
+>>> +  MediaTek PMIC based RTC is an independent function of MediaTek PMIC that works
+>>> +  as a type of multi-function device (MFD). The RTC can be configured and set up
+>>> +  with PMIC wrapper bus which is a common resource shared with the other
+>>> +  functions found on the same PMIC.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - mediatek,mt6323-rtc
+>>> +      - mediatek,mt6357-rtc
+>>> +      - mediatek,mt6358-rtc
+>>> +      - mediatek,mt6366-rtc
+>>> +      - mediatek,mt6397-rtc
+>>
+>> As this is only a compatible string, just fold this into the MFD schema 
+>> doc.
+> 
+> Actually, it probably also supports the start-year property
 
-Maybe, but this is the first time we have that error on a non wireless
-device... so it is not for the supported devices :)
+What about rest of rtc.yaml schema?
 
->
-> > > > Couldn't it also mean that the
-> > > > device is not supporting getting the protocol version?
-> >
-> > Probably. What happens if you comment out that protocol version
-> > request and force connected to be true?
-> Well I went the other way around. I had a look at the hidpp utility
-> sources:
-> https://github.com/cvuchener/hidpp/blob/057407fbb7248bbc6cefcfaa860758d0711c01b9/src/libhidpp/hidpp/Device.cpp#L82
-> Which seems to do a similar thing. From the top of my head the only
-> difference seems to be that they are sending `0x1` as a ping value instead
-> of `0x5a`. Might give that a shot next.
-> Anyway hidpp-list-features successfully reads the protocol version in
-> userspace (4, 2) as seen here:
-> https://github.com/abergmeier/litra_glow_linux/blob/main/hidpp-list-features
-
-Hmm... It would seem wrong for me if the firmware suddenly expects to
-have a specific ping value.
-If it works in userspace, it might also mean that the timing is not
-right and we are talking to the device too early, and it can't answer
-yet.
-
->
-> > In your case though, it would be interesting to know if we should
-> > bypass that verification.
-> Since reading the protocol version seems generally possible I think we
-> should understand what logitech-hidpp does wrong first.
->
->
-> > > Also, looking into `supported_reports` turned out to be 2 (very long).
-> >
-> > Oops, you mistook the bit definition with the value:
-> > #define HIDPP_REPORT_SHORT_SUPPORTED  BIT(0)  -> value of 1
-> > #define HIDPP_REPORT_LONG_SUPPORTED  BIT(1)  -> value of 2
-> > #define HIDPP_REPORT_VERY_LONG_SUPPORTED  BIT(2)  -> value of 4
-> Ah indeed, thx.
->
-> > And this is expected because you don't have VERY_LONG support on your device.
-> True. The question remains whether the upgrade from LONG to VERY_LONG
-> could be needed should a device only support VERY_LONG.
->
-
-I don't think we want that. AFAICT, devices supporting VERY_LONG are
-not very common, and also the length of the report makes it not
-convenient for the generic protocol to be used there. I am not in the
-head of Logitech's engineers, but removing the 20 bytes long report in
-favor of 64 bytes long seems a little bit overkill (the 7 bytes long
-is a different story).
-
-And given that we generally add manual support of new devices, I think
-we are safe not implementing something we haven't seen in the wild.
-
-Cheers,
-Benjamin
+Best regards,
+Krzysztof
 
