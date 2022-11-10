@@ -2,180 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA9F3624838
-	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 18:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA5FA62487B
+	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 18:41:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232182AbiKJRUx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Nov 2022 12:20:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45402 "EHLO
+        id S230173AbiKJRlC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Nov 2022 12:41:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231702AbiKJRUt (ORCPT
+        with ESMTP id S229757AbiKJRlB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Nov 2022 12:20:49 -0500
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EABFCF594;
-        Thu, 10 Nov 2022 09:20:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-        t=1668100832; bh=Kf0fNlGsDsRSuOjAAsDcc4gChjhmw9Z/lyP6jAa/dFA=;
-        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
-         References:MIME-Version:Content-Transfer-Encoding;
-        b=fajgFlZhaaiXbLn7jT1pv3w2mXklLWRyqmN/a7uwL6sTKPFR1nUih3YozHVx7gxc7
-         CePbAwQ6ITgrxFCG/mc1CSOLPgu3k4X1o+eJDA1s3RYvsQvaeLxbwY2JhQL+EWxTI1
-         T2JUlGfuHLFswsFU+MsQG6buMnfzLAD6yQ3tKbIA=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-        via proxy.mailoo.org [213.182.55.207]
-        Thu, 10 Nov 2022 18:20:31 +0100 (CET)
-X-EA-Auth: lcPdtQDwbd5WixXkQaMO8eww4IHjNcYBnAZRusvFKb7KqcKeV38ldXy9DypC7TYRab1ocfB4+uOgl1VWkSVrXkhWvjNPaZhZMTp/gIubwGY=
-From:   Vincent Knecht <vincent.knecht@mailoo.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Vincent Knecht <vincent.knecht@mailoo.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     w.david0@protonmail.com, stephan@gerhold.net,
-        phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: [PATCH v4 5/5] Input: msg2638 - Add support for msg2138 key events
-Date:   Thu, 10 Nov 2022 18:19:48 +0100
-Message-Id: <20221110171952.34207-6-vincent.knecht@mailoo.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221110171952.34207-1-vincent.knecht@mailoo.org>
-References: <20221110171952.34207-1-vincent.knecht@mailoo.org>
+        Thu, 10 Nov 2022 12:41:01 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C821627FD8;
+        Thu, 10 Nov 2022 09:41:00 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id v1so3303146wrt.11;
+        Thu, 10 Nov 2022 09:41:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Up6hiDVLuWAaCEN91nYS7vd27XRu7U8JIDCkwO+t6lI=;
+        b=E0uv4fSb9P0wlitTRStqfRsf0aV2OKoYbr14lqt/oMRU+SON8yHHC1Jk85u31a8szc
+         deN20WYp7dTMccJoFy1hk7/ZZ23WxWDYLAV3HGv7nelChydO9rkmKHkzlUJJC5ZPjg9X
+         se5IXrPIGDaZ9DfmfOFYaklSCcfxulgcauEAIXJpg/RRoOjYkHnrUPXv76g7c7YFFqVz
+         b310a6EnhQf2R1ekUr9quG72BQ+EcCx9RZVCUTXEq8rHGzNUYlYbT9Vr30ovG2ksBAVL
+         3XuKvcoRuTMyQuwvffx01qnVS4rZuq0hm9nAbeX0jF4MKTwFkva6BV26wtY6jt6s2co8
+         OE0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Up6hiDVLuWAaCEN91nYS7vd27XRu7U8JIDCkwO+t6lI=;
+        b=chqw6jA+QCF+kM77MVmwowI3wSCNK5f37BzEkmH8MdjGyYm6l/mVvurFjjhKkkglOs
+         GkHwTvhmoLsyAmVBiFvkQjhJOETtQahRe3mxkVd/FFYd85D4LQpWn5wFotSanx3vDaH2
+         iKGooo4PMi7g5bjl79g9zevIali/inOVBUpjHXVscxm+lvB9g5BeYJ8uiIkBNmlcZ0lh
+         Q/fCaPvgYFLFJ6J3cM4Txykzq6ZAiTwemsBHpEW//MxVY6dueIl+hA4qbTwYle6cQ1WX
+         ucQOdN5UUnFRkCR+G/NrkkMVJsTG65p2G4V2JBhGdgrEAwnps0Qqz1ItXrc/1djyaiCF
+         YPSA==
+X-Gm-Message-State: ANoB5pnB9yElhs5kipffc4zWkokK4366zadIQSFhkqBHa2icc+WrMKMN
+        CrquQVqF+AdpWTBC4/wNuYJyYdH8TF5gEg==
+X-Google-Smtp-Source: AA0mqf4wMA+98QzusmPHP9MzmidlM23GOI6GGkj5zD+NTQeANkRWYvlz5MW+idM0YOworZkVsW+Oog==
+X-Received: by 2002:a5d:6248:0:b0:23e:245b:edf1 with SMTP id m8-20020a5d6248000000b0023e245bedf1mr676186wrv.142.1668102059257;
+        Thu, 10 Nov 2022 09:40:59 -0800 (PST)
+Received: from localhost.localdomain ([94.73.35.109])
+        by smtp.gmail.com with ESMTPSA id n10-20020a5d420a000000b0023682011c1dsm16268026wrq.104.2022.11.10.09.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Nov 2022 09:40:58 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, openglfreak@googlemail.com,
+        alex@alexyzhang.dev, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/1] HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
+Date:   Thu, 10 Nov 2022 18:40:55 +0100
+Message-Id: <20221110174056.393697-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some devices with msg2138 have back/menu/home keys.
-Add support for them.
+Hi everyone,
 
-Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
----
- drivers/input/touchscreen/msg2638.c | 53 +++++++++++++++++++++++++----
- 1 file changed, 47 insertions(+), 6 deletions(-)
+About 3 months ago, Torge Matthies sent a patch fixing an issue with
+his XP-Pen Star G640 [1].
 
-diff --git a/drivers/input/touchscreen/msg2638.c b/drivers/input/touchscreen/msg2638.c
-index 73e1b4d550fb..36069b30ab9b 100644
---- a/drivers/input/touchscreen/msg2638.c
-+++ b/drivers/input/touchscreen/msg2638.c
-@@ -29,6 +29,8 @@
- #define MSG2138_MAX_FINGERS		2
- #define MSG2638_MAX_FINGERS		5
- 
-+#define MAX_BUTTONS			4
-+
- #define CHIP_ON_DELAY_MS		15
- #define FIRMWARE_ON_DELAY_MS		50
- #define RESET_DELAY_MIN_US		10000
-@@ -72,6 +74,8 @@ struct msg2638_ts_data {
- 	struct regulator_bulk_data supplies[2];
- 	struct gpio_desc *reset_gpiod;
- 	int max_fingers;
-+	u32 keycodes[MAX_BUTTONS];
-+	int num_keycodes;
- };
- 
- static u8 msg2638_checksum(u8 *data, u32 length)
-@@ -85,6 +89,19 @@ static u8 msg2638_checksum(u8 *data, u32 length)
- 	return (u8)((-sum) & 0xFF);
- }
- 
-+static void msg2138_report_keys(struct msg2638_ts_data *msg2638, u8 keys)
-+{
-+	int i;
-+
-+	/* keys can be 0x00 or 0xff when all keys have been released */
-+	if (keys == 0xff)
-+		keys = 0;
-+
-+	for (i = 0; i < msg2638->num_keycodes; ++i)
-+		input_report_key(msg2638->input_dev, msg2638->keycodes[i],
-+				 !!(keys & BIT(i)));
-+}
-+
- static irqreturn_t msg2138_ts_irq_handler(int irq, void *msg2638_handler)
- {
- 	struct msg2638_ts_data *msg2638 = msg2638_handler;
-@@ -121,9 +138,12 @@ static irqreturn_t msg2138_ts_irq_handler(int irq, void *msg2638_handler)
- 	p0 = &touch_event.pkt[0];
- 	p1 = &touch_event.pkt[1];
- 
--	/* Ignore non-pressed finger data */
--	if (p0->xy_hi == 0xFF && p0->x_low == 0xFF && p0->y_low == 0xFF)
-+	/* Ignore non-pressed finger data, but check for key code */
-+	if (p0->xy_hi == 0xFF && p0->x_low == 0xFF && p0->y_low == 0xFF) {
-+		if (p1->xy_hi == 0xFF && p1->y_low == 0xFF)
-+			msg2138_report_keys(msg2638, p1->x_low);
- 		goto report;
-+	}
- 
- 	x = (((p0->xy_hi & 0xF0) << 4) | p0->x_low);
- 	y = (((p0->xy_hi & 0x0F) << 8) | p0->y_low);
-@@ -283,6 +303,7 @@ static int msg2638_init_input_dev(struct msg2638_ts_data *msg2638)
- 	struct device *dev = &msg2638->client->dev;
- 	struct input_dev *input_dev;
- 	int error;
-+	int i;
- 
- 	input_dev = devm_input_allocate_device(dev);
- 	if (!input_dev) {
-@@ -299,6 +320,14 @@ static int msg2638_init_input_dev(struct msg2638_ts_data *msg2638)
- 	input_dev->open = msg2638_input_open;
- 	input_dev->close = msg2638_input_close;
- 
-+	if (msg2638->num_keycodes) {
-+		input_dev->keycode = msg2638->keycodes;
-+		input_dev->keycodemax = msg2638->num_keycodes;
-+		input_dev->keycodesize = sizeof(msg2638->keycodes[0]);
-+		for (i = 0; i < msg2638->num_keycodes; i++)
-+			input_set_capability(input_dev, EV_KEY, msg2638->keycodes[i]);
-+	}
-+
- 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
- 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
- 
-@@ -367,10 +396,16 @@ static int msg2638_ts_probe(struct i2c_client *client)
- 		return error;
- 	}
- 
--	error = msg2638_init_input_dev(msg2638);
--	if (error) {
--		dev_err(dev, "Failed to initialize input device: %d\n", error);
--		return error;
-+	msg2638->num_keycodes =
-+		of_property_read_variable_u32_array(dev->of_node, "linux,keycodes",
-+						    msg2638->keycodes, 0,
-+						    ARRAY_SIZE(msg2638->keycodes));
-+	if (msg2638->num_keycodes == -EINVAL) {
-+		msg2638->num_keycodes = 0;
-+	} else if (msg2638->num_keycodes < 0) {
-+		dev_err(dev, "Unable to parse linux,keycodes property: %d\n",
-+			msg2638->num_keycodes);
-+		return msg2638->num_keycodes;
- 	}
- 
- 	error = devm_request_threaded_irq(dev, client->irq,
-@@ -382,6 +417,12 @@ static int msg2638_ts_probe(struct i2c_client *client)
- 		return error;
- 	}
- 
-+	error = msg2638_init_input_dev(msg2638);
-+	if (error) {
-+		dev_err(dev, "Failed to initialize input device: %d\n", error);
-+		return error;
-+	}
-+
- 	return 0;
- }
- 
+His patch changes the IS_INPUT_APPLICATION() macro to accept
+HID_DG_DIGITIZER. However, it looks like it is not being merged because
+of the possible side effects that changing that macro could generate.
+
+This patch aims to fix the same issue but using a more conservative
+approach hoping that the bug can be fixed.
+
+Torge, Alexander, could you test it and confirm that it fixes your
+issues, please?
+
+Thanks a lot in advance,
+José Expósito
+
+[1] https://lore.kernel.org/linux-input/20220804151832.30373-1-openglfreak@googlemail.com/
+
+José Expósito (1):
+  HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
+
+ drivers/hid/hid-uclogic-core.c | 1 +
+ 1 file changed, 1 insertion(+)
+
 -- 
-2.38.1
-
-
+2.25.1
 
