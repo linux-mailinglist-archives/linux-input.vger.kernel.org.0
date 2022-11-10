@@ -2,187 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D8276244A1
-	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 15:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F8CF6247CF
+	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 18:00:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231177AbiKJOrx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Nov 2022 09:47:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38576 "EHLO
+        id S232764AbiKJRAw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Nov 2022 12:00:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230498AbiKJOrw (ORCPT
+        with ESMTP id S232602AbiKJRAv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Nov 2022 09:47:52 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 270CE69DE1;
-        Thu, 10 Nov 2022 06:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1668091667; bh=bpYJ9YkKNX8WoviwYTZ9tryk6v+46qbustwpE9UpUTI=;
-        h=X-UI-Sender-Class:Date:From:To:Subject;
-        b=Em+63HnxgO4mXyG9QqIQl392EUlQijez/4mo/Pde5skQV8PM2KtIJJ0UjeyagmZcp
-         4tiWcZnxusiz+r6Fd35/djSdnlWqsB8PItTrhya4aiNoYkum5KIm/llwh3M5QOCXWa
-         HpGATUSQtMXwkcxRfeDzEg2WDUmP0trqNvaojZSvWdItKces/M0pEVTRdSlQ3o/m5v
-         1+dxYlZBrbxkagTNgQYVGTkrf99qvDvYP/1KRqhRkk2YywQxmsIMg7Te3pE4i1rpAn
-         Xu2rHP1fKLnjliOqK+FwNNDgE3xB+O5PAuSq1mVQ08uehfdI8/pYi8jzw+H0RtMtFB
-         7jEt78f669tTA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from 9300 ([93.221.18.29]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFKKh-1omJDu1ZmL-00FlFw; Thu, 10
- Nov 2022 15:47:47 +0100
-Date:   Thu, 10 Nov 2022 15:47:47 +0100 (CET)
-From:   Andreas Bergmeier <abergmeier@gmx.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Subject: PATCH: Simplify hidpp_send_rap_command_sync calls
-Message-ID: <4b871484-b19-95b8-f973-bfebcb5348ab@9300>
+        Thu, 10 Nov 2022 12:00:51 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537C2240AB
+        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 09:00:49 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id s196so2382642pgs.3
+        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 09:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XC+lREAOJlgLAcs2t3gy8jxyqE4WrBSZDVI49YPP4fc=;
+        b=S5R1Gt3RrGgwgt3s/LT2AXQscV4vOG8upTFNo8MgkAl6O7TApdBoYKAwbHsq7jss1p
+         bG/1mPBWn+VPwUtsRejiM4X3U98qiWE5klSog/7MfLZuH/9HP+UwwS2hxJE7uDccNNdP
+         FT65CeXjtLAn/QIN+HhC4VLynXa2rAlqaiYOh6IspOGP0tDKiJPlYaG5t1D0nhPqLL9o
+         YH3Trd0yj2i18Gwqmq8cxj7gGJywTwaJz6SXuYMNE+M2W2FTGeAudnBgYZDVqwCoKbD2
+         P4ciY9DDWaPFHRxiy2sSnrgNg4O1xXbxj9mBd4jxF5gMg7HmK8DdPpsp5Pt8KZ68P/vN
+         RIfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XC+lREAOJlgLAcs2t3gy8jxyqE4WrBSZDVI49YPP4fc=;
+        b=7mFFvI04aThXkJd5+h0VbwgGCSHlTCr2yhFG13fjOFcZU+qXMZga1ANkl1tz8CqHzL
+         66vMGBoutXU+g57kal008TdMT51SmQgg5mufW6SYzt1c58/nSnyUquQKzA6OxHn27ZLK
+         KUqu4V3dZVQCOfvn8xHGIem3/wMsSrfT7l7jUuP+14K3zoUlwZemHU1IH9Ub3ILQMj7s
+         b2Ys5F8tzjZHmvwJKzQpqNW38niMaNReTJhdLJsQgq6tCaggueLl33+3z3lVtk77Sg/m
+         eKh+xpNMAiKXbqwqRy0GBfUWhIeP9ZDBV9wZ/Q1WZsVfbnJCPPYwHNG1rmAIwgxhMAGw
+         69mg==
+X-Gm-Message-State: ACrzQf2dLYOklHNvEUFtCdPufegZZT0O0p7DMMqIltC/L5vF3reAXJN1
+        iXOcHm2xOMZozT7+wrrfJubSmQ==
+X-Google-Smtp-Source: AMsMyM40/tH7wKNr79mtqwVgiRRQXZbl5E1ywpoLKjNAapv719barK355ow9dO35ObkfeKmQbjVrnw==
+X-Received: by 2002:a05:6a00:794:b0:56c:318a:f808 with SMTP id g20-20020a056a00079400b0056c318af808mr3005893pfu.11.1668099648683;
+        Thu, 10 Nov 2022 09:00:48 -0800 (PST)
+Received: from localhost ([75.172.139.56])
+        by smtp.gmail.com with ESMTPSA id u15-20020a170903124f00b0017e64da44c5sm11529104plh.203.2022.11.10.09.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Nov 2022 09:00:47 -0800 (PST)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     jerome Neanne <jneanne@baylibre.com>, Andrew Davis <afd@ti.com>,
+        Nishanth Menon <nm@ti.com>
+Cc:     Lee Jones <lee@kernel.org>, lgirdwood@gmail.com,
+        broonie@kernel.org, robh+dt@kernel.org, kristo@kernel.org,
+        dmitry.torokhov@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, tony@atomide.com,
+        vigneshr@ti.com, bjorn.andersson@linaro.org, shawnguo@kernel.org,
+        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
+        marcel.ziswiler@toradex.com, vkoul@kernel.org,
+        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com,
+        narmstrong@baylibre.com, msp@baylibre.com, j-keerthy@ti.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: Re: [PATCH v6 4/6] mfd: tps65219: Add driver for TI TPS65219 PMIC
+In-Reply-To: <1267bf43-618c-7347-be3a-2792c656d9b6@baylibre.com>
+References: <20221011140549.16761-1-jneanne@baylibre.com>
+ <20221011140549.16761-5-jneanne@baylibre.com>
+ <Y1+q2Usm9ecicXqp@google.com>
+ <1383fd22-c720-811e-a2bb-be2151675089@baylibre.com>
+ <20221105000104.rtj3r6ufqwqmepon@keenly> <7heduewjp0.fsf@baylibre.com>
+ <5418ac3b-04d7-5e77-7612-c8f168e24621@ti.com>
+ <1267bf43-618c-7347-be3a-2792c656d9b6@baylibre.com>
+Date:   Thu, 10 Nov 2022 09:00:47 -0800
+Message-ID: <7hk042agn4.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Provags-ID: V03:K1:f+3M3pKNUx7pXo9WDtoR5Bhrk2oN923t6QwdI6TxRPF6ZHgjRun
- E0G5rya+Xkh2XRO6df2BLxm20EYwaRyi54Y5IDFhxAVzhQx5ynrrGqTvuVK1bggR+nexY/3
- EFXvBzL2L6d0WYLXwafnQLrJZyGRRI+/QundNWItB4/Git+0mbd8CCMwPoughoMwZe9MFKS
- PYgICFcMIjQUUnQFfTWZA==
-UI-OutboundReport: notjunk:1;M01:P0:lnC/lPsLVOs=;BToMMPeISI7pFR39Tg/8YEvBpf6
- /dZkMec8JO5x1/waEoP/V1dygRS+Dx+VnZ6hLuuVMZNrSUidTI+G6Layg4YpyU1JhOe78oj6z
- +NvF1K+jUoWXovjAN5XMq+zaleAkG5bYUipL4XPMsbNQ5s/5cLMsTJ1y/vE7wmtemfeuZ2fJ6
- ZvyWZqyO1TROD9rBg+MqDztgjmrdvUtZuV4FJ50X4nLEvkdGj1QrHrUX+cKYhrTwtIHe0g5Z8
- pbU2ZNC1YaDmWGBaTAKfkQ6xL3v28iCW9jcVD+1dNx1IWhHPizPlZv0pg3zNAMG3ZPRQBdcJC
- 8RZE+Z0tfPZUQDRUFTvzkbeCy0eHMOl62xW8pUJKShqAb0c7JquErv1Jr2LtUerSTyH0KYoTF
- ysLVs09yHp9LgWpmZtQu1lOE5huFlfmB/RrbjPLnoTp50Gq0dWOuG8s19sGfqKu9Dl24Lm3Jd
- gaNf69nkn+kY9V9p8dVLrab1r9AXgb6C56cEn2OlYHg2tj1e8KYUMIlV56IypgzbeJj+Dc8c8
- Fus4mWLGE2g/Qw+cFj5ujEBwk8wSapZSBkvOIKeCrJfIX4zot2wCxi8Zozwf0koxjhRdjiAIk
- 5LqR+37zgcmxKNCtyG0RLvnwTc/9wPMLAGtr1T7Buy/SOmFPhjYdeFVMKBjzM5K3CiiTjrvbQ
- cM+5TzTLNO2vSRnNTXvV8xX+i5yVHgN6uyHf9lscsxmEv9ekFnqnBKyzfakPgw2vL8TTl8h2l
- GU38RQyPdyJx0p/DV4MIs1EKL/JOzzpMw0vbI7AQsXRzC6GfFU1Ivz1eiAUKWGiEdJ0q2ahXq
- MMMlg17D3kNt8xvQcGejTuw77g3pgdNXQ7jqlTLembHWSsR1hEeOAD5RzwzGlyQl3wNT8FvqK
- ZQubf0FEWaVtgps3TC7X5WZDwElwxQRnGAvJYGYEQPWgT/9tthvHx3R3w18qH1M7svnDvKL0b
- XZ334Q==
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Inside function, report_id might get overwritten.
-Only REPORT_ID_HIDPP_SHORT is ever passed in.
-So there seems to be no point in passing report_id in the first place.
-Just directly evaluate which report_id to use in the function itself.
+jerome Neanne <jneanne@baylibre.com> writes:
 
-Signed-off-by: Andreas Bergmeier <abergmeier@gmx.net>
+> On 09/11/2022 22:59, Andrew Davis wrote:
+>> On 11/7/22 3:14 PM, Kevin Hilman wrote:
+>>> Nishanth Menon <nm@ti.com> writes:
+>>>
+>>>> On 13:58-20221104, jerome Neanne wrote:
+>>>>>
+>>>> [...]
+>>>>
+>>>>>
+>>>>>>
+>>>>>> Can you try an compile with W=3D1 please.
+>>>>> This raise one warning on mfd:
+>>>>> drivers/mfd/tps65219.c:28:12: warning: =E2=80=98tps65219_soft_shutdow=
+n=E2=80=99=20
+>>>>> defined but
+>>>>> not used [-Wunused-function]
+>>>>> =C2=A0=C2=A0=C2=A0 28 | static int tps65219_soft_shutdown(struct tps6=
+5219 *tps)
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~~~~
+>>>>> soft_shutdown has been validated and is used in TI baseline even if n=
+ot
+>>>>> hooked in upstream version further to this review:
+>>>>> https://lore.kernel.org/lkml/20220825150224.826258-5-msp@baylibre.com/
+>>>>>
+>>>>> It was a TI requirement to implement it...
+>>>>> Let me know if you want me to remove this function or if we can keep=
+=20
+>>>>> it like
+>>>>> this.
+>>>>
+>>>> There are platforms without psci, correct? I think the comment was to
+>>>> drop the force override with system-power-controller property,
+>>>>
+>>>> if (!pm_power_off) {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0tps65219_i2c_client =3D client;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0pm_power_off =3D &tps65219_pm_power_off;
+>>>> }
+>>>>
+>>>> Could still be valid for such platforms, no? I do see that the
+>>>> capability that the PMIC has - which is software shutdown is a valid
+>>>> feature that we support in many different PMIC drivers. Is'nt the job =
+of
+>>>> the driver to introduce the functionality in a manner that is
+>>>> appropriate to the OS framework?
+>>>
+>>> Yeah, I think Nishanth is right here.
+>>>
+>>> We should probably keep the `if (!pm_power_off)` part so the PMIC will
+>>> be used if PSCI is not, but it also allows an easy way to test/use the=
+=20
+>>> PMIC
+>>> shutdown functionality downstream if needed.
+>>>
+>>=20
+>> Then should be using the sys-off handler API[0] so it doesn't block PSCI
+>> which is also switching over[1].
+>>=20
+>> Andrew
+>>=20
+>> [0] https://lwn.net/Articles/894511/
+>> [1] https://www.spinics.net/lists/arm-kernel/msg1024127.html
+> Can we go for upstream with v7 without tps65219_soft_shutdown. Then if=20
+> everyone agrees with Andrew proposal, I'll submit a separate patch which=
+=20
+> adds implementation of tps65219_soft_shutdown support through sys-off=20
+> handler.
+>
+> So that we are not blocking upstream in case further=20
+> discussions/alignment are required.
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c
-b/drivers/hid/hid-logitech-hidpp.c
-index 898691a77a58..20ae7f73ef08 100644
-=2D-- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -360,15 +360,16 @@ static int hidpp_send_fap_command_sync(struct
-hidpp_device *hidpp,
- }
+Seems OK to me.  Nishanth?  Andrew?
 
- static int hidpp_send_rap_command_sync(struct hidpp_device *hidpp_dev,
--	u8 report_id, u8 sub_id, u8 reg_address, u8 *params, int
-param_count,
-+	u8 sub_id, u8 reg_address, u8 *params, int param_count,
- 	struct hidpp_report *response)
- {
- 	struct hidpp_report *message;
- 	int ret, max_count;
-+	u8 report_id;
+But I think you'll need to at least submit a v8 without the unused
+code/dead code that Lee pointed out.
 
--	/* Send as long report if short reports are not supported. */
--	if (report_id =3D=3D REPORT_ID_HIDPP_SHORT &&
--	    !(hidpp_dev->supported_reports &
-HIDPP_REPORT_SHORT_SUPPORTED))
-+	if (hidpp_dev->supported_reports & HIDPP_REPORT_SHORT_SUPPORTED)
-+		report_id =3D REPORT_ID_HIDPP_SHORT;
-+	else
- 		report_id =3D REPORT_ID_HIDPP_LONG;
-
- 	switch (report_id) {
-@@ -549,7 +550,6 @@ static int hidpp10_set_register(struct hidpp_device
-*hidpp_dev,
- 	u8 params[3] =3D { 0 };
-
- 	ret =3D hidpp_send_rap_command_sync(hidpp_dev,
--					  REPORT_ID_HIDPP_SHORT,
- 					  HIDPP_GET_REGISTER,
- 					  register_address,
- 					  NULL, 0, &response);
-@@ -562,7 +562,6 @@ static int hidpp10_set_register(struct hidpp_device
-*hidpp_dev,
- 	params[byte] |=3D value & mask;
-
- 	return hidpp_send_rap_command_sync(hidpp_dev,
--					   REPORT_ID_HIDPP_SHORT,
- 					   HIDPP_SET_REGISTER,
- 					   register_address,
- 					   params, 3, &response);
-@@ -658,7 +657,6 @@ static int hidpp10_query_battery_status(struct
-hidpp_device *hidpp)
- 	int ret, status;
-
- 	ret =3D hidpp_send_rap_command_sync(hidpp,
--					REPORT_ID_HIDPP_SHORT,
- 					HIDPP_GET_REGISTER,
- 					HIDPP_REG_BATTERY_STATUS,
- 					NULL, 0, &response);
-@@ -710,7 +708,6 @@ static int hidpp10_query_battery_mileage(struct
-hidpp_device *hidpp)
- 	int ret, status;
-
- 	ret =3D hidpp_send_rap_command_sync(hidpp,
--					REPORT_ID_HIDPP_SHORT,
- 					HIDPP_GET_REGISTER,
- 					HIDPP_REG_BATTERY_MILEAGE,
- 					NULL, 0, &response);
-@@ -782,7 +779,6 @@ static char *hidpp_unifying_get_name(struct
-hidpp_device *hidpp_dev)
- 	int len;
-
- 	ret =3D hidpp_send_rap_command_sync(hidpp_dev,
--					REPORT_ID_HIDPP_SHORT,
- 					HIDPP_GET_LONG_REGISTER,
- 					HIDPP_REG_PAIRING_INFORMATION,
- 					params, 1, &response);
-@@ -816,7 +812,6 @@ static int hidpp_unifying_get_serial(struct
-hidpp_device *hidpp, u32 *serial)
- 	u8 params[1] =3D { HIDPP_EXTENDED_PAIRING };
-
- 	ret =3D hidpp_send_rap_command_sync(hidpp,
--					REPORT_ID_HIDPP_SHORT,
- 					HIDPP_GET_LONG_REGISTER,
- 					HIDPP_REG_PAIRING_INFORMATION,
- 					params, 1, &response);
-@@ -900,7 +895,6 @@ static int hidpp_root_get_protocol_version(struct
-hidpp_device *hidpp)
- 	int ret;
-
- 	ret =3D hidpp_send_rap_command_sync(hidpp,
--			REPORT_ID_HIDPP_SHORT,
- 			HIDPP_PAGE_ROOT_IDX,
- 			CMD_ROOT_GET_PROTOCOL_VERSION,
- 			ping_data, sizeof(ping_data), &response);
-@@ -3180,7 +3174,6 @@ static int m560_send_config_command(struct
-hid_device *hdev, bool connected)
-
- 	return hidpp_send_rap_command_sync(
- 		hidpp_dev,
--		REPORT_ID_HIDPP_SHORT,
- 		M560_SUB_ID,
- 		M560_BUTTON_MODE_REGISTER,
- 		(u8 *)m560_config_parameter,
-@@ -3719,7 +3712,6 @@ static int hidpp_initialize_hires_scroll(struct
-hidpp_device *hidpp)
- 		struct hidpp_report response;
-
- 		ret =3D hidpp_send_rap_command_sync(hidpp,
--						  REPORT_ID_HIDPP_SHORT,
- 						  HIDPP_GET_REGISTER,
-
-HIDPP_ENABLE_FAST_SCROLL,
- 						  NULL, 0, &response);
-
+Kevin
