@@ -2,77 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D6ED624892
-	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 18:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9266A624898
+	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 18:49:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiKJRsO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Nov 2022 12:48:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60140 "EHLO
+        id S230438AbiKJRta (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Nov 2022 12:49:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbiKJRsN (ORCPT
+        with ESMTP id S231268AbiKJRt0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Nov 2022 12:48:13 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEE631DC2
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 09:48:12 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso3981375wme.5
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 09:48:11 -0800 (PST)
+        Thu, 10 Nov 2022 12:49:26 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06E2303D1;
+        Thu, 10 Nov 2022 09:49:22 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id z14so3352984wrn.7;
+        Thu, 10 Nov 2022 09:49:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ztUcoZwxxS4L3rEP12M4QSVDQliIB232GyZ8cQU3hfs=;
-        b=EM2UPKAzSIQO5A8fjI7qne7aQoEMryYsdrZqIJx67Fv1ynaIj1oTwbXU+bfxRrAbgV
-         +Qv9Sx3xBoWKWeIwNI7hE47YvKXPrl2B8Ev8oj9n+8frKKuh+BLI7Unb4SvGR8v60f35
-         pFyO/ahsIH0xh1od+9sPoESsGvbgnc9/bh62RH/2fGSFDbVZWxBVHhaD0j2VPwLLCeXD
-         mKjESLnFqdK5gWaoISGf+Q0DR0U68cPuwCZV5DJuQjIzAMkD/TRJEMxPFvsU2/BRRPjM
-         mX1QgzkV3IDCByhz4mtOkiqu7jkzUl7vEULWg07qO2o/ajRmD2RbdXsuJYHPDLFGB2zc
-         uC+A==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=thGe8bZx3s7qyOvNmBFIp26dCpE+t2vRJmjbPbSwWv0=;
+        b=ONWFwgQtbmGHXBn7m4CDmFUN8u4iYggFrjuIAlbFOjpj9pX4+79TmwMN2eKg8UdiCK
+         ZXlfmQgGh0kEVLd7LkfPivlGNcY+JMflMpXi76UbNuyyXOKbBjAWQWa79psuAnkZZM2r
+         bJ4lDirw7RSEe8J6otLMxkYPdadH/P2Vf/59UGVOOwBuL2b914/n9bSeSkl/lxggFlYO
+         N9ktFPDAqFXnEsGPSNUfDQfU2mONd9JSnBG0/Yfd3jSWSMRZRESpbwALySPnYjOqRL9X
+         BEfnlrIWJx0RJePuWL+k8SOtJGvQQcNnqojPV0oAlLrgkzbKn6sIa4zKZzIrHYAeGOSd
+         mnww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ztUcoZwxxS4L3rEP12M4QSVDQliIB232GyZ8cQU3hfs=;
-        b=Z5H+LG0GjORj0FZwZ+AKrVWMRoIddqSWdU0cDAGFFWbWQ52qkHc1YBCAwYPVSWvYZW
-         wxvrV/HVbybVBD5smZw20FpuyO1knG+OgBewX0UJoc4uV9H8hMR6/eNv7tCHjSozFlA9
-         S2F8JwGJ6TdO0mkxc+C5pegkGwWXFxcTZBOusioS4gTSWSmCSvm7N1g7z1PjwWP7OmqO
-         y1g1yQdd2v186UT/LvRT8RPjDNbmTwhevXLbO2tczeNNrv32x64vNxGn4le9JMnzAgR4
-         u0kFMQd3NCpl4q/R9eTpPcOVButZH85PCLTblDZY7IPo/WTtjKkUvTWcH22EemljPmEB
-         bfmA==
-X-Gm-Message-State: ACrzQf1+893GvNiivMgijLP1UCGc+RqCsMqlNeJuMpJIzn2GuWozZjZl
-        0GtP6fG0153wPG6p1Ar+hrE=
-X-Google-Smtp-Source: AMsMyM5A7UqaErRF+QBbccloM6AZxHcZ4KGKTbR2L2/Pi14M1oPz6/1kZa2iA2slwoPEQaEKTj+NJQ==
-X-Received: by 2002:a05:600c:2287:b0:3cf:4dfb:c223 with SMTP id 7-20020a05600c228700b003cf4dfbc223mr51117050wmf.19.1668102490581;
-        Thu, 10 Nov 2022 09:48:10 -0800 (PST)
-Received: from elementary ([94.73.35.109])
-        by smtp.gmail.com with ESMTPSA id g9-20020a05600c310900b003a2f2bb72d5sm7616974wmo.45.2022.11.10.09.48.09
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=thGe8bZx3s7qyOvNmBFIp26dCpE+t2vRJmjbPbSwWv0=;
+        b=QsfP1lbCp/M2mczOry+b826vyyG+AsEjDuPm2pDGIWjgNIHfvHiQuvKZyz5LyGG5Su
+         sctNLrGBHd+RQ/82gPIW17rqBZsLe4tRVQYUUt5UvZ7C1FL9Vx65lr2I1rEDxlMU3P5j
+         2ttqbHj3Bj2BDW0OkpRpiXgUP2JXMhdrnN1LVZ8uybBhhnFW1XlP+Qjj8xOvYzTkFXdv
+         9IaokHUyeKjRIPrEAi6+ikkMF/acWYVHv/8F/jxUsBqkDowPYCsEFae8aiKzbzCmSI8W
+         lvMpv8MwfdD+KmLWN6zIdVntebt471XrfpQ94XNhYxX8b/+j1vrd9gTcuquD+jVzv1mJ
+         57WA==
+X-Gm-Message-State: ACrzQf04e4ZoXsMIx4aauY1X1dhswe25x9aCsZPBY20CpR3sz3L1vWkn
+        RH0U09EUCjXmafCBubwkahU=
+X-Google-Smtp-Source: AMsMyM7GOFqvbSex/OjoybeLzzYGUl8kDvi3szHgtgktjtIQunMzp0PmBnsxDKIvxRCGQ7kwzouBpw==
+X-Received: by 2002:adf:f78f:0:b0:236:992b:1f62 with SMTP id q15-20020adff78f000000b00236992b1f62mr40767234wrp.605.1668102561570;
+        Thu, 10 Nov 2022 09:49:21 -0800 (PST)
+Received: from localhost.localdomain ([94.73.35.109])
+        by smtp.gmail.com with ESMTPSA id z9-20020a5d6409000000b00228d67db06esm16438611wru.21.2022.11.10.09.49.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 09:48:10 -0800 (PST)
-Date:   Thu, 10 Nov 2022 18:48:08 +0100
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Alexander Zhang <alex@alexyzhang.dev>
-Cc:     Thorsten Leemhuis <regressions@leemhuis.info>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Torge Matthies <openglfreak@googlemail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-Subject: Re: [PATCH] HID: Accept Digitizers as input devices
-Message-ID: <20221110174808.GA396731@elementary>
-References: <20220804151832.30373-1-openglfreak@googlemail.com>
- <20220804180038.GA8906@elementary>
- <CAO-hwJJsKC=fyeFLCmdXMRkxEQFVGZ189GKphTVK83QJWc=udA@mail.gmail.com>
- <2717adbe-e9b2-3c5a-7ccf-3d851a55744c@alexyzhang.dev>
- <1db88d01-1004-0e42-b9aa-3e0bb2b22cdb@leemhuis.info>
- <b1536115-1d4b-67dd-197e-4b6ed8e5cbc6@alexyzhang.dev>
+        Thu, 10 Nov 2022 09:49:21 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH] HID: uclogic: Fix frame templates for big endian architectures
+Date:   Thu, 10 Nov 2022 18:49:18 +0100
+Message-Id: <20221110174918.398567-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1536115-1d4b-67dd-197e-4b6ed8e5cbc6@alexyzhang.dev>
 X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -83,66 +71,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
+When parsing a frame template with a placeholder indicating the number
+of buttons present on the frame its value was incorrectly set on big
+endian architectures due to double little endian conversion.
 
-> > On 27.10.22 00:42, Alexander Zhang wrote:
-> > > On 8/11/22 8:27 AM, Benjamin Tissoires wrote:
-> > > > On Thu, Aug 4, 2022 at 8:00 PM JosÈ ExpÛsito
-> > > > <jose.exposito89@gmail.com> wrote:
-> > > > > On Thu, Aug 04, 2022 at 05:18:32PM +0200, Torge Matthies wrote:
-> > > > > > Commit f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for
-> > > > > > styluses") broke input from my XP-Pen Star G640. This is because the
-> > > > > > "Digitizer" usage is not recognized as a valid usage for input devices.
-> > > > > > 
-> > > > > > This patch changes the IS_INPUT_APPLICATION macro so that the
-> > > > > > "Digitizer"
-> > > > > > (HID_DG_DIGITIZER) usage is recognized as an input device usage.
-> > > > > > 
-> > > > > > Fixes: f7d8e387d9ae ("HID: uclogic: Switch to Digitizer usage for
-> > > > > > styluses")
-> > > > > > Signed-off-by: Torge Matthies <openglfreak@googlemail.com>
-> > > > > > ---
-> > > > > > This patch could be risky, because any digitizer devices that were
-> > > > > > previously not treated as input devices are now used for input.
-> > > > > > Alternatively the linked commit could be reverted, but that would
-> > > > > > re-introduce the problem detailed in its commit message.
-> > > > > > 
-> > > > > >  † include/linux/hid.h | 2 +-
-> > > > > >  † 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > I hesitated about this when I sent the patch you mentioned. In the end,
-> > > > > I didn't include any fix because the digitizer use was tested for 2
-> > > > > years in DIGImend, so I (wrongly) assumed that it was safe enough.
-> > > > > 
-> > > > > However, my initial thought was to add in uclogic_probe():
-> > > > > 
-> > > > >  †††††††† hdev->quirks |= HID_QUIRK_HIDINPUT_FORCE;
-> > > > > +†††††† hdev->quirks |= HID_QUIRK_HIDINPUT_FORCE;
-> > > > > 
-> > > > > Let's see if we can hear more opinions, but if you are worried about
-> > > > > affecting other drivers, that could be a good solution.
-> > > > 
-> > > > Sadly, my automated regression tests are broken for a while and I
-> > > > haven't checked if that patch is introducing errors in hid-multitouch.
-> > > > 
-> > > > FWIW, this part has always been painful because some tablets were not
-> > > > using the correct usages. And so that's why we are ending up in that
-> > > > weird situation.
-> > > > 
-> > > > Anyway, just to mention that any code that touches this part should be
-> > > > tested against the hid regression tests suite[0], because that's the
-> > > > only way to find out if the change is affecting other devices.
+In order to reproduce the issue and verify the fix, run the HID KUnit
+tests on the PowerPC architecture:
 
-Since it seems like this patch is kind of stuck, I sent you a different
-patch [1] that aims to fix the same issue but using a more conservative
-approach.
+  $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/hid \
+    --arch=powerpc --cross_compile=powerpc64-linux-gnu-
 
-Could you test it and confirm that it fixes your problem, please?
+Fixes: 867c89254425 ("HID: uclogic: Allow to generate frame templates")
+Signed-off-by: Jos√© Exp√≥sito <jose.exposito89@gmail.com>
+---
+ drivers/hid/hid-uclogic-rdesc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hopefully, we'd manage to get it merged as the risk of doing so would
-be smaller.
-
-Jose
-
-[1] https://lore.kernel.org/linux-input/20221110174056.393697-1-jose.exposito89@gmail.com/T/
+diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
+index 4bd54c4fb5b0..6b73eb0df6bd 100644
+--- a/drivers/hid/hid-uclogic-rdesc.c
++++ b/drivers/hid/hid-uclogic-rdesc.c
+@@ -1193,7 +1193,7 @@ __u8 *uclogic_rdesc_template_apply(const __u8 *template_ptr,
+ 			   p[sizeof(btn_head)] < param_num) {
+ 			v = param_list[p[sizeof(btn_head)]];
+ 			put_unaligned((__u8)0x2A, p); /* Usage Maximum */
+-			put_unaligned_le16((__force u16)cpu_to_le16(v), p + 1);
++			put_unaligned((__force u16)cpu_to_le16(v), (s16 *)(p + 1));
+ 			p += sizeof(btn_head) + 1;
+ 		} else {
+ 			p++;
+-- 
+2.25.1
 
