@@ -2,115 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60E8D623A6C
-	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 04:29:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3C74623C78
+	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 08:15:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232504AbiKJD3x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Nov 2022 22:29:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41026 "EHLO
+        id S232827AbiKJHPc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Nov 2022 02:15:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232426AbiKJD3w (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Nov 2022 22:29:52 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B54A1ADBB;
-        Wed,  9 Nov 2022 19:29:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1668050988; bh=Dn25TDAi743E2aB7e66zeKUGnRW9bsP67aus5L5K+68=;
-        h=X-UI-Sender-Class:References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=dCd99CjqZ6xcEWdrKQHDL3kiuUYPh1AWe51oXb1jyH7fpnjVoiyxCaksv2mfu6d4k
-         pCyNc2WJNfwtnIbj6M0CqodozRQe+WsWZol8mxoluXM1DmumO/y+8jt6OtkBQKnnUv
-         LJRET+L7/q6Hq8+Puh6PtWZWQuxVJj/ZHpKpqe5Tx8oZWjXpucKZ94+Voe/pALBsxu
-         NbgEQkdM8TzmabPsN3HL3c23t2N8xgi10jbBaZoQBuNxqemPgeJTzmVXcRtLyO0G7M
-         htnogB2qDRXfqW+ENr6/O2yt832epQpVy8FOkyDcqxYR/QPWgDxG05FtokPAcIYvEv
-         66Di4IsIN7J7Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mail-ej1-f42.google.com ([209.85.218.42]) by mail.gmx.net
- (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1M9nxt-1owXAP1iE9-005t4E; Thu, 10 Nov 2022 04:29:48 +0100
-Received: by mail-ej1-f42.google.com with SMTP id q9so2004463ejd.0;
-        Wed, 09 Nov 2022 19:29:48 -0800 (PST)
-X-Gm-Message-State: ACrzQf3Do5vYwrgumY1fAKh4fo07SeCfJISI08XMkXBM4asyj/vfZM50
-        gh0b7mbndpQJnkLvxQOkwNMf1z29+kl6unklvpE=
-X-Google-Smtp-Source: AMsMyM4r7FXSGSTWHrkii3EKJv+k8ERelT4VoHJ7mS64++RFsodc+4q07n+wm7wmbterYi20f3BWggwUWV0MYd+wCYw=
-X-Received: by 2002:a17:906:40c6:b0:78d:4ba6:f65a with SMTP id
- a6-20020a17090640c600b0078d4ba6f65amr2186907ejk.186.1668050987983; Wed, 09
- Nov 2022 19:29:47 -0800 (PST)
+        with ESMTP id S232791AbiKJHNT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 10 Nov 2022 02:13:19 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D227B31F8A
+        for <linux-input@vger.kernel.org>; Wed,  9 Nov 2022 23:12:47 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id j15so946244wrq.3
+        for <linux-input@vger.kernel.org>; Wed, 09 Nov 2022 23:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JZHBIAsduIpLZAGr957MixGoNnkjIIF3w+4h6AJbGtg=;
+        b=uronP4ZRqhYXYsRo6aUos+70AxdqTrzphzLe3xHiGZ9cVcvroNyDdeUDYy8fO7cJTX
+         /C4GCST9lJDlea09kVl/gBH8Vybcip1ugS6RdAKj/R7kee2FJvqRdM25UE+p8v/F2hc5
+         NIsFlmtkj1w4Y7eQilGrslxCwkP7f/CbHcKYi1LzEFARhpF0PORaoQbro8xJJ+2YFXis
+         E5alciTtUse37488fd+M9q7TRUvzcuTPmIsucmYhb3dj86TwEATCZGCIkFGiimHcgO+X
+         yPwHIbZ1fWq1h0mfBy9nwHr6JCl80Xu2ivqmOb8tYMbMumD95YRFrKav+WxZPM9oZld5
+         PQUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JZHBIAsduIpLZAGr957MixGoNnkjIIF3w+4h6AJbGtg=;
+        b=rkmwfyOjNyczfc9SWL12TaLdlzdftGjMeukcHjz3FIQ2unxAebGDaLeouTDcEe+0+M
+         n949OWu7UU5crJuVjveWMSLr/e1vJr9KCf7ScWDFLu6k31RWtijB2m4J9FCNqfj4LynE
+         57/RZq8f889cDLvdzrlTDxN/zPh21GxNQ5DmEPcWSuMLQb51nz0Bfu2MZi4yojLNsjlG
+         Lnz9hFw5GpCQ8xrBzhxjk3dCCcEAwEPRQIG0myCvzNQC+PvkirHjZ5NMK/7wfBX2UBJn
+         +SCEdVIt3uS8fzMkG6s5my5uW7yAv7oWXPrp5IMNWCjiMsg5ojtZy4Kl5HEnsrTrpeJ5
+         4ebw==
+X-Gm-Message-State: ACrzQf3XUMYDc6jue/QKCQ4obE+yzKmnwoJe9J3g/c1CVMtgDDz4xyhM
+        bTXG01SdSi2Z3lnAOxuB3/g8ww==
+X-Google-Smtp-Source: AMsMyM61VRTRaEX3VIu4ke6jRK4GkClgTxznoQx/Os1ZBw3Wbtkf7K1hL6m+rFXCxUEKiMM4k9xewg==
+X-Received: by 2002:adf:f04e:0:b0:236:5d8d:8a1e with SMTP id t14-20020adff04e000000b002365d8d8a1emr40711618wro.392.1668064366300;
+        Wed, 09 Nov 2022 23:12:46 -0800 (PST)
+Received: from [10.101.1.4] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id iw2-20020a05600c54c200b003cf77e6091bsm3901962wmb.11.2022.11.09.23.12.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Nov 2022 23:12:45 -0800 (PST)
+Message-ID: <1267bf43-618c-7347-be3a-2792c656d9b6@baylibre.com>
+Date:   Thu, 10 Nov 2022 08:12:40 +0100
 MIME-Version: 1.0
-References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com>
- <CAO-hwJJ7cF-4kd8Mi6bb5n-k5LuMrWbpdMqFs82y7iQOscr-7g@mail.gmail.com>
- <CABfF9mNfU=swmpVXfVr7pYWs72jrd-HDY8+_NXyBDAKa4CWG5Q@mail.gmail.com>
- <CAO-hwJ+i3zd=CyU0T+Nb1vGfZfenMBH16ern_ncTTKEpyGAuBA@mail.gmail.com>
- <CABfF9mNrMx2BzU5tbBeapY15M4Ls_5xYBGfVB=Up5TJu=eWCcg@mail.gmail.com>
- <CAO-hwJJGAWkhZgGeLBruqCoskY5PBP-STs4kh-P6fBvpuSgpUw@mail.gmail.com> <CABfF9mO3SQZvkQGOC09H5s7EEd2UGhpE=GYB46g_zF3aEOVn=Q@mail.gmail.com>
-In-Reply-To: <CABfF9mO3SQZvkQGOC09H5s7EEd2UGhpE=GYB46g_zF3aEOVn=Q@mail.gmail.com>
-From:   Andreas Bergmeier <abergmeier@gmx.net>
-Date:   Thu, 10 Nov 2022 04:29:35 +0100
-X-Gmail-Original-Message-ID: <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com>
-Message-ID: <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com>
-Subject: Re: Litra Glow on Linux
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jiri Kosina <jikos@kernel.org>, linux-leds@vger.kernel.org,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:CduAreEgIvBa5+VcPGZyYTXyphIl1+J2e47s5K9LSBl2nHE2Vg2
- mCfej749CwF+EC08iMNH2vdlF+lyYxnvNehi1Ha709BjFLJAWzEkfBlCMT19FdMqZ3wGWPf
- yjDSsumxwnYyO9+CUOolAaV708GYVM6mWLVeLNNcDCj0hQNFR/NFmDDzVvBajq07i5Ka5kd
- IMbKdFTeJf1U4Li3nwX9A==
-UI-OutboundReport: notjunk:1;M01:P0:v2tdjNsKgWY=;JPw36RwZF1SG/33Qkv90/yEeaRd
- SJfuCrWo2ARRh71WRSP+K7oCIze7ryXPE900vM28AvmixVK6a5KUqONEyraYhay2M+98SNhhR
- dM9AcmqkKBz9kyWBr4QKNchwzP1xlhWxgY0TdMSZZSHP/+5pwWgrXnV26PixwCtYxg4Lf6Y3n
- 6LYIUqccj7NUtghNlH2Wv6DxIM8RkEC5K540P3sZeBc7NNgH7PAuGx4s6LIWa7XutUo0snj1h
- gFdFLWjpm3gew32vD9nlKooFdyMM+re5A6Dh48EuX8DaiyeLFIHzlR87DgVMO638Mea5jrngO
- oOUZuMdV5CAEDxN42I+4UyqK6Q39K8uj6RX7ACnFa71x8hOgSdkeh63C4uiiIYKP8tKn3GvtJ
- c/gL5pNU+nnPw/v+4Tp/93vnvgKlKFDDAPNvbe9E25eZVu+KbMZEhN6st+gNFe/hAhY1+WFup
- HcjJpxvVpjgWwjje/t1t0P0Jd1yUrZeYzVoP00OUUYw+Zia5Rf/RXAiyRBBwqfMfU0mZqo8tn
- sl44wkDcaDNiS+gXbnV496co5ILXxESrKDenzIMPgkq82mVQtFslDwK5WTCVxwdpBgfAiz4Cv
- sFNo98NtGywPoY4ehM1fXTbOVtr34nz9cDbYtLBiTkowgp5l/rqn6o06cj0XDSnabpVbQXCo8
- 6T2jg5b9N1exj/1ZXy912IUV6EcKWQrmFdbrjS8PlxviZRWtD1qVq9Od1YgrmWg1PaayOIn+I
- 5CIaRu21bI0MEIWjKS4Fm1MDv9516/gImfiype5hwe3CnTfiwdcG3fQ7FuNdZ0KsL77767Oxg
- IZmRsx3Z3zoQCqWGhdi3XImjeinwr6gP3bPOqBkiOA51lfw9X6gkQAXmFleSWjJRvnRxzVXd6
- vb1slOlPQqsCF7N8BsJhs1FAKM6PbJTTTZ0my1ZhoO4hAaJy0dBlGTbwora+OVEdVNTcTHsuc
- tfHGOzbDbrhvrD+cUtlWMiXQb3c=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v6 4/6] mfd: tps65219: Add driver for TI TPS65219 PMIC
+Content-Language: en-US
+To:     Andrew Davis <afd@ti.com>, Kevin Hilman <khilman@baylibre.com>,
+        Nishanth Menon <nm@ti.com>
+Cc:     Lee Jones <lee@kernel.org>, lgirdwood@gmail.com,
+        broonie@kernel.org, robh+dt@kernel.org, kristo@kernel.org,
+        dmitry.torokhov@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, tony@atomide.com,
+        vigneshr@ti.com, bjorn.andersson@linaro.org, shawnguo@kernel.org,
+        geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
+        marcel.ziswiler@toradex.com, vkoul@kernel.org,
+        biju.das.jz@bp.renesas.com, arnd@arndb.de, jeff@labundy.com,
+        narmstrong@baylibre.com, msp@baylibre.com, j-keerthy@ti.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org
+References: <20221011140549.16761-1-jneanne@baylibre.com>
+ <20221011140549.16761-5-jneanne@baylibre.com> <Y1+q2Usm9ecicXqp@google.com>
+ <1383fd22-c720-811e-a2bb-be2151675089@baylibre.com>
+ <20221105000104.rtj3r6ufqwqmepon@keenly> <7heduewjp0.fsf@baylibre.com>
+ <5418ac3b-04d7-5e77-7612-c8f168e24621@ti.com>
+From:   jerome Neanne <jneanne@baylibre.com>
+In-Reply-To: <5418ac3b-04d7-5e77-7612-c8f168e24621@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 9 Nov 2022 at 21:27, Andreas Bergmeier <abergmeier@gmx.net> wrote:
->
-> Finally I have an environment where I can test my kernel code.
->
-> On Mon, 31 Oct 2022 at 10:29, Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> > For identifying the GLOW device you should be adding an id in the
-> > table of hid-logitech-hidpp, with a driver data that tells the driver
-> > to look for 0x1990.
-> >
-> > >
-> > > > - you need to add a hook in connect_event to register the led class
-> > > > device that will hook on to the actual LED of the device
-> Sadly my tests did not go very far. The code fails already when
-> calling the `probe` callback (`hidpp_probe`).
-> When it calls into `hidpp_root_get_protocol_version` it seems to
-> receive `HIDPP_ERROR_RESOURCE_ERROR`.
-> Which then leads to an error message: Device not connected
-> Upon looking at `HIDPP_ERROR_RESOURCE_ERROR` (9) there is no
-> documentation what it means in code.
-> From a look into the docs it says that 9 is UNSUPPORTED error for 2.0
-> devices. Thus I am wondering how the code knows
-> that it is a problem with connectivity. Couldn't it also mean that the
-> device is not supporting getting the protocol version?
-> And why is protocol version only enforced for non unifying devices?
-Also, looking into `supported_reports` turned out to be 2 (very long).
-Inside of `hidpp_root_get_protocol_version` it does upgrade SHORT to
-LONG if the former is not supported.
-On a whim I then added upgrade of LONG to VERY LONG if the former is
-not supported. Sadly, the results stayed the same.
+
+
+On 09/11/2022 22:59, Andrew Davis wrote:
+> On 11/7/22 3:14 PM, Kevin Hilman wrote:
+>> Nishanth Menon <nm@ti.com> writes:
+>>
+>>> On 13:58-20221104, jerome Neanne wrote:
+>>>>
+>>> [...]
+>>>
+>>>>
+>>>>>
+>>>>> Can you try an compile with W=1 please.
+>>>> This raise one warning on mfd:
+>>>> drivers/mfd/tps65219.c:28:12: warning: ‘tps65219_soft_shutdown’ 
+>>>> defined but
+>>>> not used [-Wunused-function]
+>>>>     28 | static int tps65219_soft_shutdown(struct tps65219 *tps)
+>>>>        |            ^~~~~~~~~~~~~~~~~~~~~~
+>>>> soft_shutdown has been validated and is used in TI baseline even if not
+>>>> hooked in upstream version further to this review:
+>>>> https://lore.kernel.org/lkml/20220825150224.826258-5-msp@baylibre.com/
+>>>>
+>>>> It was a TI requirement to implement it...
+>>>> Let me know if you want me to remove this function or if we can keep 
+>>>> it like
+>>>> this.
+>>>
+>>> There are platforms without psci, correct? I think the comment was to
+>>> drop the force override with system-power-controller property,
+>>>
+>>> if (!pm_power_off) {
+>>>     tps65219_i2c_client = client;
+>>>     pm_power_off = &tps65219_pm_power_off;
+>>> }
+>>>
+>>> Could still be valid for such platforms, no? I do see that the
+>>> capability that the PMIC has - which is software shutdown is a valid
+>>> feature that we support in many different PMIC drivers. Is'nt the job of
+>>> the driver to introduce the functionality in a manner that is
+>>> appropriate to the OS framework?
+>>
+>> Yeah, I think Nishanth is right here.
+>>
+>> We should probably keep the `if (!pm_power_off)` part so the PMIC will
+>> be used if PSCI is not, but it also allows an easy way to test/use the 
+>> PMIC
+>> shutdown functionality downstream if needed.
+>>
+> 
+> Then should be using the sys-off handler API[0] so it doesn't block PSCI
+> which is also switching over[1].
+> 
+> Andrew
+> 
+> [0] https://lwn.net/Articles/894511/
+> [1] https://www.spinics.net/lists/arm-kernel/msg1024127.html
+Can we go for upstream with v7 without tps65219_soft_shutdown. Then if 
+everyone agrees with Andrew proposal, I'll submit a separate patch which 
+adds implementation of tps65219_soft_shutdown support through sys-off 
+handler.
+
+So that we are not blocking upstream in case further 
+discussions/alignment are required.
+
+Jerome
