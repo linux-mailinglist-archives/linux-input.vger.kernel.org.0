@@ -2,167 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A246A6243F6
-	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 15:14:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8276244A1
+	for <lists+linux-input@lfdr.de>; Thu, 10 Nov 2022 15:47:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231378AbiKJOOm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Nov 2022 09:14:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47516 "EHLO
+        id S231177AbiKJOrx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Nov 2022 09:47:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231359AbiKJOOX (ORCPT
+        with ESMTP id S230498AbiKJOrw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Nov 2022 09:14:23 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30E3C7721E
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 06:14:05 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id l12so3480186lfp.6
-        for <linux-input@vger.kernel.org>; Thu, 10 Nov 2022 06:14:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3Bnc98wbgCB157XtXlJ5NroBNxycOACeQVxm/1SPVs4=;
-        b=Rc8RZYG1UdjHBqHXSpcw7c7Fl3OJIs+mgExR8ZEe+5iDezQTN7XCfKOzGLV02/GFzS
-         f/trH0orM0q51kSUF73Jh+5teXTHMGgop3zKei6pVMxbmjbWjTYs9lq2vQs2RnjphnQ3
-         LgSP8Bc4k/E3y8YRK+/mnx8OBi+H+tM54YOVRgKfdccfzllR8qzxjpbYGQH0mCZgOhUe
-         UhMDSyIlPoNcKmkFND1CIVA6MF+tt9bS735B5d2iMMgsDtOchwiUlt5TpwtcsjOobjzs
-         HDfDXm+QzsaftiReSvZqrCYSwatcVOQ01Beaep3NFZlgzJJJpUKFonaZqqpxfM3s9B+V
-         yfig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Bnc98wbgCB157XtXlJ5NroBNxycOACeQVxm/1SPVs4=;
-        b=Lt2CJyl4wY3IQgUgXcoNb7uWxBkhmnBC4ZEgqIrrti2LdLJgUEuCT8cc3LM5hi/8m9
-         y8G7a3cmmT9WiS4dTQR9mHTm1VDLFhAX5HXOIDQ7CDV3NP+CADFuB0Bpegm74N1DCovB
-         xa1/b3+lhYrby2ot686I54Se1ut7pFQ+XfYg22A2PBY93yMtnuEJ1IyLRRKbqIy6bwsK
-         fLuX1Fz6k5n5akXtIVEx43a3YiXVRb/jg/+CtJdqkaXd5r3yPgd+Yt9YSWAE07YoJXp/
-         9AT6WmbLlKWTptTAG5Eu0yCkIsnOuaqghkKabuzHWmzLeL6m+tP7EfLq2QOlL+wCqCPM
-         Q9UQ==
-X-Gm-Message-State: ACrzQf2tsZJj8T3bgOiwIxdvvIJjkBCviIrDL4oVWAeJcQMjYAQaOgFy
-        NniTlmi3Zsz0qTFb1fqUOsL65Q==
-X-Google-Smtp-Source: AMsMyM4Zc2mDjlY+RRgIUEdLQhsv+UxcTsSgJuQjuIQHS1FrmkKKXs/oNCb5HFgDi7jqXQw2KQ4odg==
-X-Received: by 2002:a05:6512:32b7:b0:4aa:8d5a:2f53 with SMTP id q23-20020a05651232b700b004aa8d5a2f53mr21028085lfe.362.1668089643827;
-        Thu, 10 Nov 2022 06:14:03 -0800 (PST)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id r26-20020ac25c1a000000b00499aefcf68esm2746842lfp.292.2022.11.10.06.14.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Nov 2022 06:14:02 -0800 (PST)
-Message-ID: <adf8bc44-4cbc-af2a-4ec8-1859a98146d7@linaro.org>
-Date:   Thu, 10 Nov 2022 15:14:01 +0100
+        Thu, 10 Nov 2022 09:47:52 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 270CE69DE1;
+        Thu, 10 Nov 2022 06:47:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1668091667; bh=bpYJ9YkKNX8WoviwYTZ9tryk6v+46qbustwpE9UpUTI=;
+        h=X-UI-Sender-Class:Date:From:To:Subject;
+        b=Em+63HnxgO4mXyG9QqIQl392EUlQijez/4mo/Pde5skQV8PM2KtIJJ0UjeyagmZcp
+         4tiWcZnxusiz+r6Fd35/djSdnlWqsB8PItTrhya4aiNoYkum5KIm/llwh3M5QOCXWa
+         HpGATUSQtMXwkcxRfeDzEg2WDUmP0trqNvaojZSvWdItKces/M0pEVTRdSlQ3o/m5v
+         1+dxYlZBrbxkagTNgQYVGTkrf99qvDvYP/1KRqhRkk2YywQxmsIMg7Te3pE4i1rpAn
+         Xu2rHP1fKLnjliOqK+FwNNDgE3xB+O5PAuSq1mVQ08uehfdI8/pYi8jzw+H0RtMtFB
+         7jEt78f669tTA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from 9300 ([93.221.18.29]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFKKh-1omJDu1ZmL-00FlFw; Thu, 10
+ Nov 2022 15:47:47 +0100
+Date:   Thu, 10 Nov 2022 15:47:47 +0100 (CET)
+From:   Andreas Bergmeier <abergmeier@gmx.net>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Subject: PATCH: Simplify hidpp_send_rap_command_sync calls
+Message-ID: <4b871484-b19-95b8-f973-bfebcb5348ab@9300>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
- documentation
-Content-Language: en-US
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     Alexandre Mergnat <amergnat@baylibre.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Pavel Machek <pavel@ucw.cz>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-rtc@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        devicetree@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>
-References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
- <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
- <20221109222916.GA2985917-robh@kernel.org> <Y2wwUOJ0KZdt1tZ6@mail.local>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y2wwUOJ0KZdt1tZ6@mail.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Provags-ID: V03:K1:f+3M3pKNUx7pXo9WDtoR5Bhrk2oN923t6QwdI6TxRPF6ZHgjRun
+ E0G5rya+Xkh2XRO6df2BLxm20EYwaRyi54Y5IDFhxAVzhQx5ynrrGqTvuVK1bggR+nexY/3
+ EFXvBzL2L6d0WYLXwafnQLrJZyGRRI+/QundNWItB4/Git+0mbd8CCMwPoughoMwZe9MFKS
+ PYgICFcMIjQUUnQFfTWZA==
+UI-OutboundReport: notjunk:1;M01:P0:lnC/lPsLVOs=;BToMMPeISI7pFR39Tg/8YEvBpf6
+ /dZkMec8JO5x1/waEoP/V1dygRS+Dx+VnZ6hLuuVMZNrSUidTI+G6Layg4YpyU1JhOe78oj6z
+ +NvF1K+jUoWXovjAN5XMq+zaleAkG5bYUipL4XPMsbNQ5s/5cLMsTJ1y/vE7wmtemfeuZ2fJ6
+ ZvyWZqyO1TROD9rBg+MqDztgjmrdvUtZuV4FJ50X4nLEvkdGj1QrHrUX+cKYhrTwtIHe0g5Z8
+ pbU2ZNC1YaDmWGBaTAKfkQ6xL3v28iCW9jcVD+1dNx1IWhHPizPlZv0pg3zNAMG3ZPRQBdcJC
+ 8RZE+Z0tfPZUQDRUFTvzkbeCy0eHMOl62xW8pUJKShqAb0c7JquErv1Jr2LtUerSTyH0KYoTF
+ ysLVs09yHp9LgWpmZtQu1lOE5huFlfmB/RrbjPLnoTp50Gq0dWOuG8s19sGfqKu9Dl24Lm3Jd
+ gaNf69nkn+kY9V9p8dVLrab1r9AXgb6C56cEn2OlYHg2tj1e8KYUMIlV56IypgzbeJj+Dc8c8
+ Fus4mWLGE2g/Qw+cFj5ujEBwk8wSapZSBkvOIKeCrJfIX4zot2wCxi8Zozwf0koxjhRdjiAIk
+ 5LqR+37zgcmxKNCtyG0RLvnwTc/9wPMLAGtr1T7Buy/SOmFPhjYdeFVMKBjzM5K3CiiTjrvbQ
+ cM+5TzTLNO2vSRnNTXvV8xX+i5yVHgN6uyHf9lscsxmEv9ekFnqnBKyzfakPgw2vL8TTl8h2l
+ GU38RQyPdyJx0p/DV4MIs1EKL/JOzzpMw0vbI7AQsXRzC6GfFU1Ivz1eiAUKWGiEdJ0q2ahXq
+ MMMlg17D3kNt8xvQcGejTuw77g3pgdNXQ7jqlTLembHWSsR1hEeOAD5RzwzGlyQl3wNT8FvqK
+ ZQubf0FEWaVtgps3TC7X5WZDwElwxQRnGAvJYGYEQPWgT/9tthvHx3R3w18qH1M7svnDvKL0b
+ XZ334Q==
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 09/11/2022 23:57, Alexandre Belloni wrote:
-> On 09/11/2022 16:29:16-0600, Rob Herring wrote:
->> On Tue, Nov 08, 2022 at 07:43:37PM +0100, Alexandre Mergnat wrote:
->>> - Convert rtc/rtc-mt6397.txt to rtc/mt6397-rtc.yaml
->>> - Add mediatek,mt6357-rtc compatible.
->>> - Add maintainer
->>> - Remove the .txt binding file
->>>
->>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
->>> ---
->>>  Documentation/devicetree/bindings/mfd/mt6397.txt   |  2 +-
->>>  .../bindings/rtc/mediatek,mt6397-rtc.yaml          | 40 ++++++++++++++++++++++
->>>  .../devicetree/bindings/rtc/rtc-mt6397.txt         | 31 -----------------
->>>  3 files changed, 41 insertions(+), 32 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
->>> index 0088442efca1..79aaf21af8e9 100644
->>> --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
->>> +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
->>> @@ -33,7 +33,7 @@ Optional subnodes:
->>>  		- compatible: "mediatek,mt6331-rtc"
->>>  		- compatible: "mediatek,mt6358-rtc"
->>>  		- compatible: "mediatek,mt6397-rtc"
->>> -	For details, see ../rtc/rtc-mt6397.txt
->>> +	For details, see ../rtc/mediatek,mt6397-rtc.yaml
->>>  - regulators
->>>  	Required properties:
->>>  		- compatible: "mediatek,mt6323-regulator"
->>> diff --git a/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml b/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml
->>> new file mode 100644
->>> index 000000000000..bb48c0150f95
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml
->>> @@ -0,0 +1,40 @@
->>> + # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/rtc/mediatek,mt6397-rtc.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: MediaTek MT6397/MT6366/MT6358/MT6357/MT6323 RTC
->>> +
->>> +maintainers:
->>> +  - Alexandre Mergnat <amergnat@baylibre.com>
->>> +
->>> +description: |
->>> +  MediaTek PMIC based RTC is an independent function of MediaTek PMIC that works
->>> +  as a type of multi-function device (MFD). The RTC can be configured and set up
->>> +  with PMIC wrapper bus which is a common resource shared with the other
->>> +  functions found on the same PMIC.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - mediatek,mt6323-rtc
->>> +      - mediatek,mt6357-rtc
->>> +      - mediatek,mt6358-rtc
->>> +      - mediatek,mt6366-rtc
->>> +      - mediatek,mt6397-rtc
->>
->> As this is only a compatible string, just fold this into the MFD schema 
->> doc.
-> 
-> Actually, it probably also supports the start-year property
+Inside function, report_id might get overwritten.
+Only REPORT_ID_HIDPP_SHORT is ever passed in.
+So there seems to be no point in passing report_id in the first place.
+Just directly evaluate which report_id to use in the function itself.
 
-What about rest of rtc.yaml schema?
+Signed-off-by: Andreas Bergmeier <abergmeier@gmx.net>
 
-Best regards,
-Krzysztof
+diff --git a/drivers/hid/hid-logitech-hidpp.c
+b/drivers/hid/hid-logitech-hidpp.c
+index 898691a77a58..20ae7f73ef08 100644
+=2D-- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -360,15 +360,16 @@ static int hidpp_send_fap_command_sync(struct
+hidpp_device *hidpp,
+ }
+
+ static int hidpp_send_rap_command_sync(struct hidpp_device *hidpp_dev,
+-	u8 report_id, u8 sub_id, u8 reg_address, u8 *params, int
+param_count,
++	u8 sub_id, u8 reg_address, u8 *params, int param_count,
+ 	struct hidpp_report *response)
+ {
+ 	struct hidpp_report *message;
+ 	int ret, max_count;
++	u8 report_id;
+
+-	/* Send as long report if short reports are not supported. */
+-	if (report_id =3D=3D REPORT_ID_HIDPP_SHORT &&
+-	    !(hidpp_dev->supported_reports &
+HIDPP_REPORT_SHORT_SUPPORTED))
++	if (hidpp_dev->supported_reports & HIDPP_REPORT_SHORT_SUPPORTED)
++		report_id =3D REPORT_ID_HIDPP_SHORT;
++	else
+ 		report_id =3D REPORT_ID_HIDPP_LONG;
+
+ 	switch (report_id) {
+@@ -549,7 +550,6 @@ static int hidpp10_set_register(struct hidpp_device
+*hidpp_dev,
+ 	u8 params[3] =3D { 0 };
+
+ 	ret =3D hidpp_send_rap_command_sync(hidpp_dev,
+-					  REPORT_ID_HIDPP_SHORT,
+ 					  HIDPP_GET_REGISTER,
+ 					  register_address,
+ 					  NULL, 0, &response);
+@@ -562,7 +562,6 @@ static int hidpp10_set_register(struct hidpp_device
+*hidpp_dev,
+ 	params[byte] |=3D value & mask;
+
+ 	return hidpp_send_rap_command_sync(hidpp_dev,
+-					   REPORT_ID_HIDPP_SHORT,
+ 					   HIDPP_SET_REGISTER,
+ 					   register_address,
+ 					   params, 3, &response);
+@@ -658,7 +657,6 @@ static int hidpp10_query_battery_status(struct
+hidpp_device *hidpp)
+ 	int ret, status;
+
+ 	ret =3D hidpp_send_rap_command_sync(hidpp,
+-					REPORT_ID_HIDPP_SHORT,
+ 					HIDPP_GET_REGISTER,
+ 					HIDPP_REG_BATTERY_STATUS,
+ 					NULL, 0, &response);
+@@ -710,7 +708,6 @@ static int hidpp10_query_battery_mileage(struct
+hidpp_device *hidpp)
+ 	int ret, status;
+
+ 	ret =3D hidpp_send_rap_command_sync(hidpp,
+-					REPORT_ID_HIDPP_SHORT,
+ 					HIDPP_GET_REGISTER,
+ 					HIDPP_REG_BATTERY_MILEAGE,
+ 					NULL, 0, &response);
+@@ -782,7 +779,6 @@ static char *hidpp_unifying_get_name(struct
+hidpp_device *hidpp_dev)
+ 	int len;
+
+ 	ret =3D hidpp_send_rap_command_sync(hidpp_dev,
+-					REPORT_ID_HIDPP_SHORT,
+ 					HIDPP_GET_LONG_REGISTER,
+ 					HIDPP_REG_PAIRING_INFORMATION,
+ 					params, 1, &response);
+@@ -816,7 +812,6 @@ static int hidpp_unifying_get_serial(struct
+hidpp_device *hidpp, u32 *serial)
+ 	u8 params[1] =3D { HIDPP_EXTENDED_PAIRING };
+
+ 	ret =3D hidpp_send_rap_command_sync(hidpp,
+-					REPORT_ID_HIDPP_SHORT,
+ 					HIDPP_GET_LONG_REGISTER,
+ 					HIDPP_REG_PAIRING_INFORMATION,
+ 					params, 1, &response);
+@@ -900,7 +895,6 @@ static int hidpp_root_get_protocol_version(struct
+hidpp_device *hidpp)
+ 	int ret;
+
+ 	ret =3D hidpp_send_rap_command_sync(hidpp,
+-			REPORT_ID_HIDPP_SHORT,
+ 			HIDPP_PAGE_ROOT_IDX,
+ 			CMD_ROOT_GET_PROTOCOL_VERSION,
+ 			ping_data, sizeof(ping_data), &response);
+@@ -3180,7 +3174,6 @@ static int m560_send_config_command(struct
+hid_device *hdev, bool connected)
+
+ 	return hidpp_send_rap_command_sync(
+ 		hidpp_dev,
+-		REPORT_ID_HIDPP_SHORT,
+ 		M560_SUB_ID,
+ 		M560_BUTTON_MODE_REGISTER,
+ 		(u8 *)m560_config_parameter,
+@@ -3719,7 +3712,6 @@ static int hidpp_initialize_hires_scroll(struct
+hidpp_device *hidpp)
+ 		struct hidpp_report response;
+
+ 		ret =3D hidpp_send_rap_command_sync(hidpp,
+-						  REPORT_ID_HIDPP_SHORT,
+ 						  HIDPP_GET_REGISTER,
+
+HIDPP_ENABLE_FAST_SCROLL,
+ 						  NULL, 0, &response);
 
