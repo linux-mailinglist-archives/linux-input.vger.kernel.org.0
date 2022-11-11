@@ -2,71 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7547D62602E
-	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 18:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F2CC626254
+	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 20:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233859AbiKKRN0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Nov 2022 12:13:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53136 "EHLO
+        id S234071AbiKKTqN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Nov 2022 14:46:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233762AbiKKRNZ (ORCPT
+        with ESMTP id S233851AbiKKTqM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Nov 2022 12:13:25 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828A727D;
-        Fri, 11 Nov 2022 09:13:23 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id r186-20020a1c44c3000000b003cfa97c05cdso88697wma.4;
-        Fri, 11 Nov 2022 09:13:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WR4ZsPco/CVzRRsDXNuvPlkKAJC2kjEvAa/rMERYHO4=;
-        b=M3AEbeqXZHuWqEwxLOhiuRHLEVS/grmK5UD/bw1c3c5u1jSf5cVZkkl9a7x15JGFrp
-         EeOHFz9J+hzamMY6qzAXGQvXU1T21qXVihfY9Mi717h0bnN1aPBdJmtqBzPB7gPdon7c
-         QJ1Wb0YrPNg6Ceiiwvh0TACZfMWy9fffqMGhRGJYRBdrA9smS6FfuFIlhDMhydvaszVz
-         xn5Be5/ZMgtI44TokbRN7I/4WDzs5f6k7u7kalVqdxcXcHKri0gesrf+T6dq/+/tu8d/
-         lX/EnMThYOOhngSscebq+z81kljBCjXpj3OoE2TEcZtrpkQwhc2KXFmzxAXEXhOb87Uc
-         HjQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WR4ZsPco/CVzRRsDXNuvPlkKAJC2kjEvAa/rMERYHO4=;
-        b=Ps4iImRVMLi1Yq5dKNK5lenjrNB7w9BjsycM4Gzb4nk8ua4csvtUQDN/uierVmnOW4
-         xNcB2dTmQEO/YkRp4WlAgg1RLktokqcwYhiunNnbgP3wcoiGpy9MrROf3+m4k1XZf506
-         UYxehqfUdVC0HFOw/mHArHDheZPt5GuUPTz1aMEFY95fSDg/bTCG//g5ryhvPvlN/irV
-         2LnSIwVf0B9GBOeR8x1zP1knHYHUBVO6Rk9ag6Te6nVqjqA3+/JBe8/7Ob7mwKcsMnKV
-         lsFontxOIVyhYTuUIV1TfsqjvES7qCqPtNM+4NsSOKLVqS5eSKN5eZPtnI4kBmqPZ7LJ
-         ZfgQ==
-X-Gm-Message-State: ANoB5pmGtuEQuYJ5kgzCQzyHbKWN6jIVPq73oUO+0T3Pzj1aro7gqrFe
-        aJCGbtidkCJJlf5FGg5cUunvGF5oSRAo6g==
-X-Google-Smtp-Source: AA0mqf4brqlgDjFtqDK/8Sg9349i3GnsKYIQNV5QeNn0nBxE9Gri9+6KjqmRGBXfAF6pA9feV28GvQ==
-X-Received: by 2002:a05:600c:4e4d:b0:3cf:81b1:bc7b with SMTP id e13-20020a05600c4e4d00b003cf81b1bc7bmr1933783wmq.121.1668186801919;
-        Fri, 11 Nov 2022 09:13:21 -0800 (PST)
-Received: from michael-VirtualBox (89-139-102-221.bb.netvision.net.il. [89.139.102.221])
-        by smtp.gmail.com with ESMTPSA id p5-20020a05600c358500b003c6b9749505sm10370124wmq.30.2022.11.11.09.13.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 09:13:21 -0800 (PST)
-Date:   Fri, 11 Nov 2022 19:13:18 +0200
-From:   Michael Zaidman <michael.zaidman@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Enrik.Berkhan@inka.de,
-        Michael Zaidman <michael.zaidman@gmail.com>,
-        Andrew Robertson <andrew.robertson@ftdichip.com>
-Subject: Re: [PATCH v4 00/13] HID: ft260: fixes and performance improvements
-Message-ID: <Y26CrhASiOuPXOl3@michael-VirtualBox>
-References: <20221105211151.7094-1-michael.zaidman@gmail.com>
- <nycvar.YFH.7.76.2211111109490.6045@cbobk.fhfr.pm>
+        Fri, 11 Nov 2022 14:46:12 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77879637C;
+        Fri, 11 Nov 2022 11:46:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1668195958; bh=yIQdbqKmMk0fkcfdZ1ob+a4oeQtt5Pk2MeJErVokxpA=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=ZykDxtrJ8EzugdFIPCZHEtHKaixIt3j3ejnbcTgELV5ISMfBRvF/hsNC21ruYTJ1i
+         poRKi+jFbuumhl6Ng2xLj9FCLlMKF7DvQndpMBM5O3IlezT76rLUUQYvn94aCoPhMv
+         BqqG73TLs5rj1U5+5UwL8tiNu0qqmw8NlJrYgYlnIkAkOnxc/VwcKdTf5ogaOZhGW1
+         AqIZT1LAk/JVQQlMOn28C72N7NvHedpfamkL7lzRH2NWJjlq5sRr4e3HLU/T2x5NF1
+         zL0FmkttNeb8RFitDMaQYxFL/ggwBYBqyXKIVW3L3dVrKAvdscfMrD6d5X7Va6Mlvo
+         uJlHuoXIEnS4g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from 9300.fritz.box ([93.221.18.29]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MrQEx-1pMqIr10BL-00oWkI; Fri, 11
+ Nov 2022 20:45:58 +0100
+From:   Andreas Bergmeier <abergmeier@gmx.net>
+To:     lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] HID: Send SwID in GetProtocolVersion
+Date:   Fri, 11 Nov 2022 20:45:26 +0100
+Message-Id: <20221111194526.1375601-1-abergmeier@gmx.net>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2211111109490.6045@cbobk.fhfr.pm>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:bjKnsDkSjTyFeheKeU4NmzzGKoiSRrwSuvhF8eUmOTtxxAAWrCy
+ Rx8nYLXkhLhP7PjHjRIPQp60GZXrjAnEMAkNo5APKAdms/8bdMm0AZLO2rgOmwTxlssXK9U
+ SuSM7Z90T2Zwo8pg7XdFckQEsw/lOBzP/k/w1kvTF0v2k44EJTaQAG2fY0EGEBCNQ4pDgbF
+ orq1XJaJ15lgAkhRu/IqQ==
+UI-OutboundReport: notjunk:1;M01:P0:rZd/KR+GrhA=;49kZDaL0yTQk8UUmnM//4WnDzqB
+ ClGtvsIoaVA+3CBjQMme/92ICy+VrXlb+QzZraEvS+WXWHZuKdtZe9OIxE2qPypJ973qs2AIX
+ Vk314JZ68o9i/VNShyVUxA5kgWAOECaYrjM9g1IicY+CZ/9BaGIIyA8xe1Q4//eKZ1JP8OCYm
+ P3X6ckaH50Q7rBJ7QB/GGU08QuPiu3I2dqPARJ0u5pSvMQY5ZCxjCWFJ+NuvvkBx2KjjqxQdo
+ uv3hNXyyre0d+Z4rltLy+rKd9XaQ8F5kdgRahDKaO/8oY0OJWylrwvVgJyUqvEJBF5AgbYxKf
+ 1IKL7dfnry1MtR1VpU3mijvnYmkX2SxNkEL57JtJswlb94dg3F44pnmmYhMXHBuRZFRaJD4H7
+ cYkzPjbafSuCVzxXyTzO8L4I8BvBj2TpAYdTMthrlLkciOPEjLRMFWIlMjsteU3F8fJMu+y89
+ feV9f2HObszh9WMdZjd/KlUSv25Y+5M7p6FqOdoHr+ZLwi1PL2Z58qFZsJ5IekJLSsE1qVqai
+ MdNdxx+FVun7rXl6W9USlv+8wPUzI31s6b9HwVddpj0RIhh7qa8ntoCacEJa6U88cLLtnY6jH
+ SezsPByVvyEjK40SurU8WzkBNtm3gKbSaq/I9ahLYGt5wohd1ITI7boodZ8aaNFxCBcmDdOxv
+ VFdnnRqOb6pzMZEuJpuH8aNg3WYNnHeEQ14F5bY0l21EcW9felHLaoqnDmJB5fcrVADYAxYvi
+ cBUzJfozGgZ9Qm02nRLiD9NOtpcW3X6UzEGhtfW/zTlOe/avewIuNJqNs/MNNj4KHwIz18Cd2
+ 2+zw4SnzXg7xiMY5+fKoljtTLBJOluTEKTwYY8LTEouet9mg4hZ494m/jXfHfWtCxgS4qrigh
+ C0awdxiv2QU60RPWpK9bKse0VcHFOZ27Syo8ZD5iHtdC02PSvvR6sd6khw4Peu6A7Yeh8PEm+
+ ErEFPx96CG1qwxcgZUTRTLamhoM=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,58 +66,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Nov 11, 2022 at 11:19:32AM +0100, Jiri Kosina wrote:
-> On Sat, 5 Nov 2022, Michael Zaidman wrote:
-> 
-> > This patch series is an updated version of this one:
-> > https://lore.kernel.org/all/20221030203403.4637-1-michael.zaidman@gmail.com/
-> > 
-> > Changes since v3:
-> >   - Fixes for the kernel CI bot warnings
-> >   - We now do not miss NACK on the wakeup from the power saving mode
-> >     on the KVM installation reported by Enrik. For details, see
-> >     https://github.com/MichaelZaidman/hid-ft260/pull/7
-> > 
-> > Changes since v2:
-> > 
-> >   - Remove SMBus Quick command support
-> >   - Missed NACK from big i2c read
-> >   - Wake up device from power saving mode
-> >   - Fix a NULL pointer dereference in ft260_i2c_write
-> >   - Missed NACK from busy device
-> > 
-> > Changes since v1:
-> > 
-> >   - Do not populate hidraw device
-> >   - Avoid stale read buffer pointer
-> > 
-> > Michael Zaidman (13):
-> >   HID: ft260: ft260_xfer_status routine cleanup
-> >   HID: ft260: improve i2c write performance
-> >   HID: ft260: support i2c writes larger than HID report size
-> >   HID: ft260: support i2c reads greater than HID report size
-> >   HID: ft260: improve i2c large reads performance
-> >   HID: ft260: do not populate /dev/hidraw device
-> >   HID: ft260: skip unexpected HID input reports
-> >   HID: ft260: remove SMBus Quick command support
-> >   HID: ft260: missed NACK from big i2c read
-> >   HID: ft260: wake up device from power saving mode
-> >   HID: ft260: fix a NULL pointer dereference in ft260_i2c_write
-> >   HID: ft260: missed NACK from busy device
-> >   HID: ft260: fix sparse warnings
-> 
-> Hi Michael,
-> 
-> this is now queued in hid.git#for-6.2/ft260.
-> 
-> Thanks,
-> 
-> -- 
-> Jiri Kosina
-> SUSE Labs
-> 
+According to docs a SwID should be sent for GetProtocolVersion.
+> 0x10.DeviceIndex.0x00.0x1n
+where n is SwID
 
-Thanks, Jiri! Much appreciated.
+Signed-off-by: Andreas Bergmeier <abergmeier@gmx.net>
+=2D--
+ drivers/hid/hid-logitech-hidpp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Michael
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-h=
+idpp.c
+index a0c148a8df6c..964a523c3de7 100644
+=2D-- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -896,7 +896,7 @@ static int hidpp_root_get_protocol_version(struct hidp=
+p_device *hidpp)
+
+ 	ret =3D hidpp_send_rap_command_sync(hidpp,
+ 			HIDPP_PAGE_ROOT_IDX,
+-			CMD_ROOT_GET_PROTOCOL_VERSION,
++			CMD_ROOT_GET_PROTOCOL_VERSION | LINUX_KERNEL_SW_ID,
+ 			ping_data, sizeof(ping_data), &response);
+
+ 	if (ret =3D=3D HIDPP_ERROR_INVALID_SUBID) {
+=2D-
+2.34.1
 
