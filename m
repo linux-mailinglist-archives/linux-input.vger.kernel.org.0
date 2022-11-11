@@ -2,332 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AACC1625D90
-	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 15:55:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EAF2626014
+	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 18:07:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234736AbiKKOzp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Nov 2022 09:55:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58280 "EHLO
+        id S234159AbiKKRHe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Nov 2022 12:07:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234618AbiKKOzj (ORCPT
+        with ESMTP id S231300AbiKKRHa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Nov 2022 09:55:39 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 409AE5D6AE
-        for <linux-input@vger.kernel.org>; Fri, 11 Nov 2022 06:55:33 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id k19so4792246lji.2
-        for <linux-input@vger.kernel.org>; Fri, 11 Nov 2022 06:55:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QUK6bHkDVdgLCEUSVhwc07h/pDswnVflCYbBO9SRoQ8=;
-        b=I+9q+K5wP3Pg3adbS6tbXjkABMa3d9i1Ii8llyfS4/d7Cwh81N5w8wU1qplOhidRl/
-         ySwP2YF4QuSViOpxNI9PV5ZOP48kSuiFUC85t98fXGc1XJBI8wY+yPWEf0i7PPECvvYc
-         WMiBYuXpuyBjJZj3XtOzsa9NTvFqxdtZ+88uI5hT9Y6v8KLWeCMBmuFhf1rx6wYaXeY0
-         BSIDXJzh6DJtM+WxF2nXm6ihXRFia07tTwWMGsX/WS4HhEPirqLE8TXhCXHBlIoYyh+a
-         WrYTXK9BSKpZEJy62iL/P9Y3WWBuUI8dytHGjy5LIODcEpFkBKBlVfnBq73gFM5r2SAJ
-         in5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QUK6bHkDVdgLCEUSVhwc07h/pDswnVflCYbBO9SRoQ8=;
-        b=tNQeMiwrqCWkgtau4Tcb14Knbo0uXJ34TEwNAmUf6a5EFrRAbHVh1QLTIRVnfEWwP3
-         uLWhuEBLvlm1uJpy93nFT0Dv54UOA4qDu66GQnbvEVRua1yxtsunyHXfWn+e8f6h7N//
-         ePDLVHHpoVirQQUpGvadTNwNZWjLSjYRqsK7bBgehHhR6JlwFuGta/Hmard41BUhNw6j
-         2TPAARk6U0u4itY47YK2qr3cxaKIItghbwZYyDPFKravwNVLgzRPYuw+twzVxSMdLqEf
-         rCGx812d9p3qcoZZHySXxPVnUnIrEu3cD8jExxPLV/qBBvJrTm1+YmussfNQINRxeqWm
-         laIw==
-X-Gm-Message-State: ANoB5pm/BD1eRmRYeVlwMbWl71VVORDP99wCEwVbVPrxo/cOOjwikYoV
-        /ISURHKiz4OW7lQQkBOlFEJD4Q==
-X-Google-Smtp-Source: AA0mqf7UZzo3L76bpD0k3WtR+JJCEm2TdMGbPxlpzZwHGeV4G32oR+aSTROWib5J0YRsTSids6iUaw==
-X-Received: by 2002:a2e:5703:0:b0:26f:a35a:8459 with SMTP id l3-20020a2e5703000000b0026fa35a8459mr767985ljb.205.1668178531525;
-        Fri, 11 Nov 2022 06:55:31 -0800 (PST)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id j6-20020a056512344600b004978e51b691sm356437lfr.266.2022.11.11.06.55.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Nov 2022 06:55:30 -0800 (PST)
-Message-ID: <931bbdec-5155-9b26-0cfd-b29a5406d20b@linaro.org>
-Date:   Fri, 11 Nov 2022 15:55:29 +0100
+        Fri, 11 Nov 2022 12:07:30 -0500
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB6D83B94
+        for <linux-input@vger.kernel.org>; Fri, 11 Nov 2022 09:07:01 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 2273A5C0121;
+        Fri, 11 Nov 2022 12:06:59 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Fri, 11 Nov 2022 12:06:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        joshtriplett.org; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1668186419; x=1668272819; bh=tXQ1icX6ct
+        MG9VnKVr8kAueS0xK+9gotsh/mdgpsebU=; b=x1+ANy3TmyUCxY8n43NNZF8ipd
+        5k/n1cJ4q0NcRoXJlO9jU7y8rJUzkKKFfCe7mqUxUzwQSrQi2+w8euvyKgijndiB
+        PztYMuUhkDEk43tylv9UdVTEMV33IC1Nch4behZALT8LEGr4UV4vv8ECkgp2z0rv
+        SImFp4voucoNhR+V7oRHGS/PnXzoO5TXFYr9dHmJJnsEGcK4Ef4VFP+GB1yJRRY5
+        4QtCsxnEw70X86LiAj+dvIRPk+LgdbYXi7OSRRbS1k6xeS3htaUnBhuFjlKnUVEp
+        0pYUXnWHjVe2MyEu5JORaOVNmtO2wgZhdCn9u2MvbK+57oTYQcXqxvkpwyuA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:message-id:mime-version
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668186419; x=
+        1668272819; bh=tXQ1icX6ctMG9VnKVr8kAueS0xK+9gotsh/mdgpsebU=; b=s
+        Kld5xZrVpW38xaYbN8MGXDEUSdztVnj1ssF5kCb4i/ehMcv0pbX7C2T6ta6AfGpi
+        uzD6NzMm2RIjJo19NkStn0gP853t3ebzzd6O60xp1WuCz2i1DNcP+8bdYwJuhly6
+        bATj2eLpcCHi4xMECVYKI/Rc9o16pzPJPIlyoxr8ZH3fQqq2mEgm9kb89B+qQy7L
+        Phck5VNsgwpNUUP1FYOrYDm3axTx2ExPCaeYistrS6Ad7GqAjo4nilQG37/zCbsf
+        y2b+PglnSCB6CLTgmQrAY/RQVCu9MGCut1q5cCq+iQP2Ywg9dx2szT/8iDcf2AXc
+        kW4OOZ7U9TvcSS+8zj9dA==
+X-ME-Sender: <xms:MoFuY1YTjsDWz-RePC9Uyg9cRCKUT6UN4fWp_eN5uPD16xC-7nNaCQ>
+    <xme:MoFuY8abG1GdKAeLi8RqkyKQEQRYb_lr1kSbT55agURSvcKNyyvnpaRavIxwby4fX
+    k67Y-83jjhio8YsQSY>
+X-ME-Received: <xmr:MoFuY3-PnZwDpwd6pc_x7AXpSeWEqaHUfF1Le-7LnqpNuWd4FYq86snA6oc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeigdeljecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkgggtugesthdtredttd
+    dtvdenucfhrhhomheplfhoshhhucfvrhhiphhlvghtthcuoehjohhshhesjhhoshhhthhr
+    ihhplhgvthhtrdhorhhgqeenucggtffrrghtthgvrhhnpeduvdelheettdfgvddvleegue
+    efudegudevffekjeegffefvdeikeehvdehleekhfenucevlhhushhtvghrufhiiigvpedt
+    necurfgrrhgrmhepmhgrihhlfhhrohhmpehjohhshhesjhhoshhhthhrihhplhgvthhtrd
+    horhhg
+X-ME-Proxy: <xmx:MoFuYzqf-e2d1nZOu5gkbFocSm1NrHvBJoopap4vgDdGMYf71OVZww>
+    <xmx:MoFuYwqsEurIgMpHk0emiYj0hNYNgUQDjwqLuBnyTV3d230_DO2Zxg>
+    <xmx:MoFuY5TYojbaPxgw-SV1wkSOYxor3ZrxDTawQSC8BvDYSfb2UvAS5w>
+    <xmx:M4FuY9CXy9vAmXbuhxNEy79PNPwYwAF34eZMTBVUhESgI8i6X4yLMQ>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 11 Nov 2022 12:06:58 -0500 (EST)
+Date:   Fri, 11 Nov 2022 09:06:57 -0800
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     linux-input@vger.kernel.org, Jamie Lentin <jm@lentin.co.uk>
+Cc:     1006251@bugs.debian.org
+Subject: USB Lenovo ThinkPad Compact Keyboard has fn_lock inverted
+Message-ID: <Y26BMXn15Kbt6a2u@localhost>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 5/9] dt-bindings: soc: mediatek: convert pwrap
- documentation
-Content-Language: en-US
-To:     Alexandre Mergnat <amergnat@baylibre.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>
-References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
- <20221005-mt6357-support-v4-5-5d2bb58e6087@baylibre.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221005-mt6357-support-v4-5-5d2bb58e6087@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 08/11/2022 19:43, Alexandre Mergnat wrote:
-> - Convert soc/mediatek/pwrap.txt to soc/mediatek/mediatek,pwrap.yaml
-> - MT8365 SoC has 2 additional clock items and a yaml schema for its PMIC
-> - Remove pwrap.txt file
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  .../devicetree/bindings/leds/leds-mt6323.txt       |   2 +-
->  Documentation/devicetree/bindings/mfd/mt6397.txt   |   2 +-
->  .../bindings/soc/mediatek/mediatek,pwrap.yaml      | 158 +++++++++++++++++++++
->  .../devicetree/bindings/soc/mediatek/pwrap.txt     |  75 ----------
->  4 files changed, 160 insertions(+), 77 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-mt6323.txt b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
-> index 45bf9f7d85f3..73353692efa1 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-mt6323.txt
-> +++ b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
-> @@ -9,7 +9,7 @@ MT6323 PMIC hardware.
->  For MT6323 MFD bindings see:
->  Documentation/devicetree/bindings/mfd/mt6397.txt
->  For MediaTek PMIC wrapper bindings see:
-> -Documentation/devicetree/bindings/soc/mediatek/pwrap.txt
-> +Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
->  
->  Required properties:
->  - compatible : Must be "mediatek,mt6323-led"
-> diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> index 79aaf21af8e9..3bee4a42555d 100644
-> --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
-> +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> @@ -13,7 +13,7 @@ MT6397/MT6323 is a multifunction device with the following sub modules:
->  It is interfaced to host controller using SPI interface by a proprietary hardware
->  called PMIC wrapper or pwrap. MT6397/MT6323 MFD is a child device of pwrap.
->  See the following for pwarp node definitions:
-> -../soc/mediatek/pwrap.txt
-> +../soc/mediatek/mediatek,pwrap.yaml
->  
->  This document describes the binding for MFD device and its sub module.
->  
-> diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
-> new file mode 100644
-> index 000000000000..fe83458b801a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
-> @@ -0,0 +1,158 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek PMIC Wrapper
-> +
-> +maintainers:
-> +  - Alexandre Mergnat <amergnat@baylibre.com>
-> +
-> +description: |
-> +  On MediaTek SoCs the PMIC is connected via SPI. The SPI master interface
-> +  is not directly visible to the CPU, but only through the PMIC wrapper
-> +  inside the SoC. The communication between the SoC and the PMIC can
-> +  optionally be encrypted. Also a non standard Dual IO SPI mode can be
-> +  used to increase speed.
-> +
-> +  IP Pairing
-> +
-> +  On MT8135 the pins of some SoC internal peripherals can be on the PMIC.
-> +  The signals of these pins are routed over the SPI bus using the pwrap
-> +  bridge. In the binding description below the properties needed for bridging
-> +  are marked with "IP Pairing". These are optional on SoCs which do not support
-> +  IP Pairing
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt2701-pwrap
-> +              - mediatek,mt6765-pwrap
-> +              - mediatek,mt6779-pwrap
-> +              - mediatek,mt6797-pwrap
-> +              - mediatek,mt6873-pwrap
-> +              - mediatek,mt7622-pwrap
-> +              - mediatek,mt8135-pwrap
-> +              - mediatek,mt8173-pwrap
-> +              - mediatek,mt8183-pwrap
-> +              - mediatek,mt8188-pwrap
+I have an external ThinkPad USB keyboard:
 
-Why no mt8195?
+$ lsusb | grep -i keyboard
+Bus 003 Device 022: ID 17ef:6047 Lenovo ThinkPad Compact Keyboard with TrackPoint
 
-> +              - mediatek,mt8365-pwrap
-> +              - mediatek,mt8516-pwrap
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8186-pwrap
-> +              - mediatek,mt8195-pwrap
-> +          - const: syscon
-> +
-> +  reg:
-> +    minItems: 1
-> +    items:
-> +      - description: PMIC wrapper registers (mandatory)
+The Linux kernel exposes a fn_lock attribute in sysfs for this keyboard:
 
-Drop "(mandatory)"
+$ cat
+sys/devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5.4/3-5.4.3/3-5.4.3:1.1/0003:17EF:6047.000F/fn_lock
+1
 
-> +      - description: IP pairing registers
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    items:
-> +      - const: pwrap
-> +      - const: pwrap-bridge
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: IRQ for pwrap in SOC
+However, this attribute appears inverted for this particular keyboard:
+it seems to be 1 when FnLock is *disabled* and 0 when FnLock is
+*enabled*. In order to enable FnLock, I have to write 0 to this file.
 
-Drop description.
-
-> +
-> +  clocks: true
-
-minItems:2
-maxItems: 4
-
-> +
-> +  clock-names: true
-
-Ditto
-
-> +
-> +  resets:
-> +    minItems: 1
-> +    items:
-> +      - description: PMIC wrapper reset
-> +      - description: IP pairing reset
-> +
-> +  reset-names:
-> +    minItems: 1
-> +    items:
-> +      - const: pwrap
-> +      - const: pwrap-bridge
-> +
-> +  pmic:
-> +    type: object
-> +
-
-Required properties go here.
-
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8365-pwrap
-> +    then:
-> +      properties:
-> +        pmic:
-> +          $ref: /schemas/mfd/mediatek,mt6357.yaml#
-> +
-> +        clocks:
-> +          items:
-> +            - description: SPI bus clock
-> +            - description: Main module clock
-> +            - description: System module clock
-> +            - description: Timer module clock
-> +        clock-names:
-> +          items:
-> +            - const: spi
-> +            - const: wrap
-> +            - const: sys
-> +            - const: tmr
-> +    else:
-> +      properties:
-> +        pmic:
-> +          description: |
-> +            List of child nodes that specify the regulators.
-
-This is not correct description.
-
-> +            See ../../mfd/mt6397.txt for more details.
-> +
-> +        clocks:
-> +          items:
-> +            - description: SPI bus clock
-> +            - description: Main module clock
-> +        clock-names:
-> +          items:
-> +            - const: spi
-> +            - const: wrap
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: true
-
-This must be false.
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/reset/mt8135-resets.h>
-> +
-> +    soc {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +      pwrap@1000f000 {
-> +          compatible = "mediatek,mt8135-pwrap";
-> +          reg = <0 0x1000f000 0 0x1000>, <0 0x11017000 0 0x1000>;
-> +          reg-names = "pwrap", "pwrap-bridge";
-> +          interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>;
-> +          resets = <&infracfg MT8135_INFRA_PMIC_WRAP_RST>,
-> +              <&pericfg MT8135_PERI_PWRAP_BRIDGE_SW_RST>;
-
-Align.
-
-> +          reset-names = "pwrap", "pwrap-bridge";
-> +          clocks = <&clk26m>, <&clk26m>;
-> +          clock-names = "spi", "wrap";
-> +
-> +          pmic {
-> +            compatible = "mediatek,mt6397";
-
-Messed up indentation.
-
-> +          };
-
-Best regards,
-Krzysztof
-
+(Also, separately from that, it would be nice if the kernel could handle
+fn_lock toggling *internally*, rather than expecting userspace to do it.
+As far as I can tell, it does handle similar things for some keyboards,
+but not this one.)
