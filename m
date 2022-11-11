@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ACEF62579F
-	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 11:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 950C1625810
+	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 11:21:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232851AbiKKKIf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Nov 2022 05:08:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48808 "EHLO
+        id S233414AbiKKKVR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Nov 2022 05:21:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbiKKKIf (ORCPT
+        with ESMTP id S233528AbiKKKU4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Nov 2022 05:08:35 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB51F038
-        for <linux-input@vger.kernel.org>; Fri, 11 Nov 2022 02:08:32 -0800 (PST)
+        Fri, 11 Nov 2022 05:20:56 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6933FCD9;
+        Fri, 11 Nov 2022 02:19:35 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BD8B9B824E9
-        for <linux-input@vger.kernel.org>; Fri, 11 Nov 2022 10:08:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55037C433C1;
-        Fri, 11 Nov 2022 10:08:28 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0ACEB61F35;
+        Fri, 11 Nov 2022 10:19:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF4EC433C1;
+        Fri, 11 Nov 2022 10:19:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668161309;
-        bh=vpBKKcNhfmt40M0+zprnSSmTz0TDPOLvLj2tKkGUppo=;
+        s=k20201202; t=1668161974;
+        bh=DXhROdy+PjJiSJ7BatXvwLtvxHZ/t1J6Qmp5cL8Yp9k=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=AxaBuF70mdJodb4FBRDZb2LD6HlRGQKUm6cokm5A3bEjfppaRZ22Az/ipbMLbUrla
-         w/Pq8yKDtrz/Ybr9jDzYTaGF4rertPeTyhoXju/dCAKAJJGa0+uGfWMus09dj+l61q
-         7oY0Hcsq5sWOxs/AkrLRc5CiPES3sskAN9+SDdXt+ujcfEGGqkq6yCvCtC3hnY0smn
-         KOQpS7DodwedxEIBLsi/lKmsiIOiH1oeLd4MDhlQ3ZbbXZOHvYIVIJRQH1YH0SBS5i
-         VeIyr4kNFh5rFIbir/u6P4VSeS5jWOENi328ikgQv9MtG/QYdZic4nVocTKGbtcu2t
-         e1pdclVNXct2g==
-Date:   Fri, 11 Nov 2022 11:08:27 +0100 (CET)
+        b=u6gxR/TFfwSONUhno5bia+Plyc06oESwlcVNmVsD8AiQ9dSbAPKb8H1ZUFl8H2tEt
+         XY9Qx6EXe8+4kBTAL8rjYtPzh+v6Wa0CvstjlFUstA5t3zWVlB10XNeQ16E94lb81G
+         YbT8z9o9rQ63WXXMaykCUN9sIBoWHBN+QC6YejUn5qYixMSoDvuwbPsvPCjGIEvfGD
+         t6W2qZV8CQcLhHfG0H7T5dfpGNJbOqHGfpVYOGAUgecU2U5LWZsOPX5y4XpRFfcFAQ
+         HfxKpFEE+FyF2wSPEv0DJYYeTDfsXKPUs6DqWjpaALw/JJRqhRtQqIdzx1nAnRjO5f
+         zOZbOZh6BJWrA==
+Date:   Fri, 11 Nov 2022 11:19:32 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Roderick Colenbrander <roderick@gaikai.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH 00/13] hid: playstation: add DualShock4 support
-In-Reply-To: <20221029184851.282366-1-roderick.colenbrander@sony.com>
-Message-ID: <nycvar.YFH.7.76.2211111108000.6045@cbobk.fhfr.pm>
-References: <20221029184851.282366-1-roderick.colenbrander@sony.com>
+To:     Michael Zaidman <michael.zaidman@gmail.com>
+cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Enrik.Berkhan@inka.de
+Subject: Re: [PATCH v4 00/13] HID: ft260: fixes and performance
+ improvements
+In-Reply-To: <20221105211151.7094-1-michael.zaidman@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2211111109490.6045@cbobk.fhfr.pm>
+References: <20221105211151.7094-1-michael.zaidman@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,40 +54,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 29 Oct 2022, Roderick Colenbrander wrote:
+On Sat, 5 Nov 2022, Michael Zaidman wrote:
 
-> Hi,
+> This patch series is an updated version of this one:
+> https://lore.kernel.org/all/20221030203403.4637-1-michael.zaidman@gmail.com/
 > 
-> Last year, we introduced hid-playstation as the start of a new driver
-> for officially supported PlayStation peripherals. The driver initially
-> only supported DualSense devices, but we promised to also bring support
-> for at least DualShock4 as well.
+> Changes since v3:
+>   - Fixes for the kernel CI bot warnings
+>   - We now do not miss NACK on the wakeup from the power saving mode
+>     on the KVM installation reported by Enrik. For details, see
+>     https://github.com/MichaelZaidman/hid-ft260/pull/7
 > 
-> This patch series adds DualShock4 support to hid-playstation. It should
-> be considered a brand new driver written from scratch in the same design
-> as hid-playstation. The driver is more documented and uses structures
-> instead of byte offsets with magical values. The driver should be more
-> clear and easier to follow. A few little sections of code cary over, which
-> Sony contributed before for sensor calibration or dongle support.
+> Changes since v2:
 > 
-> Functionality wise the driver is equivalent to hid-sony. The only subtle
-> change is in the naming of the lightbar LEDs. Previously they used a naming
-> scheme like '<mac_address>:<color>", which doesn't follow the LED class standards.
-> The new scheme uses '<device_name>:<color>' (e.g. input10:red), which is more
-> compliant. Due to backwards compatibility in particular for Android, we couldn't
-> make it fully compliant. Nor were we able to use the new multicolor LED class.
+>   - Remove SMBus Quick command support
+>   - Missed NACK from big i2c read
+>   - Wake up device from power saving mode
+>   - Fix a NULL pointer dereference in ft260_i2c_write
+>   - Missed NACK from busy device
 > 
-> Aside from the LED code, the other features behave the same way. The hid-tools
-> tests all pass as well. One small change is that we use a different HID report
-> 0x12 to get the MAC address in USB mode. This report is the official one even
-> though other ones can get the info too, but e.g. clone devices don't tend to
-> support it.
+> Changes since v1:
+> 
+>   - Do not populate hidraw device
+>   - Avoid stale read buffer pointer
+> 
+> Michael Zaidman (13):
+>   HID: ft260: ft260_xfer_status routine cleanup
+>   HID: ft260: improve i2c write performance
+>   HID: ft260: support i2c writes larger than HID report size
+>   HID: ft260: support i2c reads greater than HID report size
+>   HID: ft260: improve i2c large reads performance
+>   HID: ft260: do not populate /dev/hidraw device
+>   HID: ft260: skip unexpected HID input reports
+>   HID: ft260: remove SMBus Quick command support
+>   HID: ft260: missed NACK from big i2c read
+>   HID: ft260: wake up device from power saving mode
+>   HID: ft260: fix a NULL pointer dereference in ft260_i2c_write
+>   HID: ft260: missed NACK from busy device
+>   HID: ft260: fix sparse warnings
 
-Hi Roderick,
+Hi Michael,
 
-this is now queued in hid.git#for-6.2/sony.
+this is now queued in hid.git#for-6.2/ft260.
 
-Thanks for all the work on this,
+Thanks,
 
 -- 
 Jiri Kosina
