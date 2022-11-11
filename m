@@ -2,100 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EAF2626014
-	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 18:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7547D62602E
+	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 18:13:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234159AbiKKRHe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Nov 2022 12:07:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
+        id S233859AbiKKRN0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Nov 2022 12:13:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231300AbiKKRHa (ORCPT
+        with ESMTP id S233762AbiKKRNZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Nov 2022 12:07:30 -0500
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB6D83B94
-        for <linux-input@vger.kernel.org>; Fri, 11 Nov 2022 09:07:01 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 2273A5C0121;
-        Fri, 11 Nov 2022 12:06:59 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Fri, 11 Nov 2022 12:06:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        joshtriplett.org; h=cc:cc:content-type:date:date:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1668186419; x=1668272819; bh=tXQ1icX6ct
-        MG9VnKVr8kAueS0xK+9gotsh/mdgpsebU=; b=x1+ANy3TmyUCxY8n43NNZF8ipd
-        5k/n1cJ4q0NcRoXJlO9jU7y8rJUzkKKFfCe7mqUxUzwQSrQi2+w8euvyKgijndiB
-        PztYMuUhkDEk43tylv9UdVTEMV33IC1Nch4behZALT8LEGr4UV4vv8ECkgp2z0rv
-        SImFp4voucoNhR+V7oRHGS/PnXzoO5TXFYr9dHmJJnsEGcK4Ef4VFP+GB1yJRRY5
-        4QtCsxnEw70X86LiAj+dvIRPk+LgdbYXi7OSRRbS1k6xeS3htaUnBhuFjlKnUVEp
-        0pYUXnWHjVe2MyEu5JORaOVNmtO2wgZhdCn9u2MvbK+57oTYQcXqxvkpwyuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:message-id:mime-version
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668186419; x=
-        1668272819; bh=tXQ1icX6ctMG9VnKVr8kAueS0xK+9gotsh/mdgpsebU=; b=s
-        Kld5xZrVpW38xaYbN8MGXDEUSdztVnj1ssF5kCb4i/ehMcv0pbX7C2T6ta6AfGpi
-        uzD6NzMm2RIjJo19NkStn0gP853t3ebzzd6O60xp1WuCz2i1DNcP+8bdYwJuhly6
-        bATj2eLpcCHi4xMECVYKI/Rc9o16pzPJPIlyoxr8ZH3fQqq2mEgm9kb89B+qQy7L
-        Phck5VNsgwpNUUP1FYOrYDm3axTx2ExPCaeYistrS6Ad7GqAjo4nilQG37/zCbsf
-        y2b+PglnSCB6CLTgmQrAY/RQVCu9MGCut1q5cCq+iQP2Ywg9dx2szT/8iDcf2AXc
-        kW4OOZ7U9TvcSS+8zj9dA==
-X-ME-Sender: <xms:MoFuY1YTjsDWz-RePC9Uyg9cRCKUT6UN4fWp_eN5uPD16xC-7nNaCQ>
-    <xme:MoFuY8abG1GdKAeLi8RqkyKQEQRYb_lr1kSbT55agURSvcKNyyvnpaRavIxwby4fX
-    k67Y-83jjhio8YsQSY>
-X-ME-Received: <xmr:MoFuY3-PnZwDpwd6pc_x7AXpSeWEqaHUfF1Le-7LnqpNuWd4FYq86snA6oc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeigdeljecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkgggtugesthdtredttd
-    dtvdenucfhrhhomheplfhoshhhucfvrhhiphhlvghtthcuoehjohhshhesjhhoshhhthhr
-    ihhplhgvthhtrdhorhhgqeenucggtffrrghtthgvrhhnpeduvdelheettdfgvddvleegue
-    efudegudevffekjeegffefvdeikeehvdehleekhfenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpehjohhshhesjhhoshhhthhrihhplhgvthhtrd
-    horhhg
-X-ME-Proxy: <xmx:MoFuYzqf-e2d1nZOu5gkbFocSm1NrHvBJoopap4vgDdGMYf71OVZww>
-    <xmx:MoFuYwqsEurIgMpHk0emiYj0hNYNgUQDjwqLuBnyTV3d230_DO2Zxg>
-    <xmx:MoFuY5TYojbaPxgw-SV1wkSOYxor3ZrxDTawQSC8BvDYSfb2UvAS5w>
-    <xmx:M4FuY9CXy9vAmXbuhxNEy79PNPwYwAF34eZMTBVUhESgI8i6X4yLMQ>
-Feedback-ID: i83e94755:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Nov 2022 12:06:58 -0500 (EST)
-Date:   Fri, 11 Nov 2022 09:06:57 -0800
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     linux-input@vger.kernel.org, Jamie Lentin <jm@lentin.co.uk>
-Cc:     1006251@bugs.debian.org
-Subject: USB Lenovo ThinkPad Compact Keyboard has fn_lock inverted
-Message-ID: <Y26BMXn15Kbt6a2u@localhost>
+        Fri, 11 Nov 2022 12:13:25 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828A727D;
+        Fri, 11 Nov 2022 09:13:23 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id r186-20020a1c44c3000000b003cfa97c05cdso88697wma.4;
+        Fri, 11 Nov 2022 09:13:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WR4ZsPco/CVzRRsDXNuvPlkKAJC2kjEvAa/rMERYHO4=;
+        b=M3AEbeqXZHuWqEwxLOhiuRHLEVS/grmK5UD/bw1c3c5u1jSf5cVZkkl9a7x15JGFrp
+         EeOHFz9J+hzamMY6qzAXGQvXU1T21qXVihfY9Mi717h0bnN1aPBdJmtqBzPB7gPdon7c
+         QJ1Wb0YrPNg6Ceiiwvh0TACZfMWy9fffqMGhRGJYRBdrA9smS6FfuFIlhDMhydvaszVz
+         xn5Be5/ZMgtI44TokbRN7I/4WDzs5f6k7u7kalVqdxcXcHKri0gesrf+T6dq/+/tu8d/
+         lX/EnMThYOOhngSscebq+z81kljBCjXpj3OoE2TEcZtrpkQwhc2KXFmzxAXEXhOb87Uc
+         HjQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WR4ZsPco/CVzRRsDXNuvPlkKAJC2kjEvAa/rMERYHO4=;
+        b=Ps4iImRVMLi1Yq5dKNK5lenjrNB7w9BjsycM4Gzb4nk8ua4csvtUQDN/uierVmnOW4
+         xNcB2dTmQEO/YkRp4WlAgg1RLktokqcwYhiunNnbgP3wcoiGpy9MrROf3+m4k1XZf506
+         UYxehqfUdVC0HFOw/mHArHDheZPt5GuUPTz1aMEFY95fSDg/bTCG//g5ryhvPvlN/irV
+         2LnSIwVf0B9GBOeR8x1zP1knHYHUBVO6Rk9ag6Te6nVqjqA3+/JBe8/7Ob7mwKcsMnKV
+         lsFontxOIVyhYTuUIV1TfsqjvES7qCqPtNM+4NsSOKLVqS5eSKN5eZPtnI4kBmqPZ7LJ
+         ZfgQ==
+X-Gm-Message-State: ANoB5pmGtuEQuYJ5kgzCQzyHbKWN6jIVPq73oUO+0T3Pzj1aro7gqrFe
+        aJCGbtidkCJJlf5FGg5cUunvGF5oSRAo6g==
+X-Google-Smtp-Source: AA0mqf4brqlgDjFtqDK/8Sg9349i3GnsKYIQNV5QeNn0nBxE9Gri9+6KjqmRGBXfAF6pA9feV28GvQ==
+X-Received: by 2002:a05:600c:4e4d:b0:3cf:81b1:bc7b with SMTP id e13-20020a05600c4e4d00b003cf81b1bc7bmr1933783wmq.121.1668186801919;
+        Fri, 11 Nov 2022 09:13:21 -0800 (PST)
+Received: from michael-VirtualBox (89-139-102-221.bb.netvision.net.il. [89.139.102.221])
+        by smtp.gmail.com with ESMTPSA id p5-20020a05600c358500b003c6b9749505sm10370124wmq.30.2022.11.11.09.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Nov 2022 09:13:21 -0800 (PST)
+Date:   Fri, 11 Nov 2022 19:13:18 +0200
+From:   Michael Zaidman <michael.zaidman@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Enrik.Berkhan@inka.de,
+        Michael Zaidman <michael.zaidman@gmail.com>,
+        Andrew Robertson <andrew.robertson@ftdichip.com>
+Subject: Re: [PATCH v4 00/13] HID: ft260: fixes and performance improvements
+Message-ID: <Y26CrhASiOuPXOl3@michael-VirtualBox>
+References: <20221105211151.7094-1-michael.zaidman@gmail.com>
+ <nycvar.YFH.7.76.2211111109490.6045@cbobk.fhfr.pm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <nycvar.YFH.7.76.2211111109490.6045@cbobk.fhfr.pm>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I have an external ThinkPad USB keyboard:
+On Fri, Nov 11, 2022 at 11:19:32AM +0100, Jiri Kosina wrote:
+> On Sat, 5 Nov 2022, Michael Zaidman wrote:
+> 
+> > This patch series is an updated version of this one:
+> > https://lore.kernel.org/all/20221030203403.4637-1-michael.zaidman@gmail.com/
+> > 
+> > Changes since v3:
+> >   - Fixes for the kernel CI bot warnings
+> >   - We now do not miss NACK on the wakeup from the power saving mode
+> >     on the KVM installation reported by Enrik. For details, see
+> >     https://github.com/MichaelZaidman/hid-ft260/pull/7
+> > 
+> > Changes since v2:
+> > 
+> >   - Remove SMBus Quick command support
+> >   - Missed NACK from big i2c read
+> >   - Wake up device from power saving mode
+> >   - Fix a NULL pointer dereference in ft260_i2c_write
+> >   - Missed NACK from busy device
+> > 
+> > Changes since v1:
+> > 
+> >   - Do not populate hidraw device
+> >   - Avoid stale read buffer pointer
+> > 
+> > Michael Zaidman (13):
+> >   HID: ft260: ft260_xfer_status routine cleanup
+> >   HID: ft260: improve i2c write performance
+> >   HID: ft260: support i2c writes larger than HID report size
+> >   HID: ft260: support i2c reads greater than HID report size
+> >   HID: ft260: improve i2c large reads performance
+> >   HID: ft260: do not populate /dev/hidraw device
+> >   HID: ft260: skip unexpected HID input reports
+> >   HID: ft260: remove SMBus Quick command support
+> >   HID: ft260: missed NACK from big i2c read
+> >   HID: ft260: wake up device from power saving mode
+> >   HID: ft260: fix a NULL pointer dereference in ft260_i2c_write
+> >   HID: ft260: missed NACK from busy device
+> >   HID: ft260: fix sparse warnings
+> 
+> Hi Michael,
+> 
+> this is now queued in hid.git#for-6.2/ft260.
+> 
+> Thanks,
+> 
+> -- 
+> Jiri Kosina
+> SUSE Labs
+> 
 
-$ lsusb | grep -i keyboard
-Bus 003 Device 022: ID 17ef:6047 Lenovo ThinkPad Compact Keyboard with TrackPoint
+Thanks, Jiri! Much appreciated.
 
-The Linux kernel exposes a fn_lock attribute in sysfs for this keyboard:
+Michael
 
-$ cat
-sys/devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5.4/3-5.4.3/3-5.4.3:1.1/0003:17EF:6047.000F/fn_lock
-1
-
-However, this attribute appears inverted for this particular keyboard:
-it seems to be 1 when FnLock is *disabled* and 0 when FnLock is
-*enabled*. In order to enable FnLock, I have to write 0 to this file.
-
-(Also, separately from that, it would be nice if the kernel could handle
-fn_lock toggling *internally*, rather than expecting userspace to do it.
-As far as I can tell, it does handle similar things for some keyboards,
-but not this one.)
