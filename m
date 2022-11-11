@@ -2,104 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 950C1625810
-	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 11:21:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BACA1625AE6
+	for <lists+linux-input@lfdr.de>; Fri, 11 Nov 2022 14:05:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233414AbiKKKVR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Nov 2022 05:21:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53902 "EHLO
+        id S233687AbiKKNFb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Nov 2022 08:05:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233528AbiKKKU4 (ORCPT
+        with ESMTP id S233217AbiKKNFb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Nov 2022 05:20:56 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6933FCD9;
-        Fri, 11 Nov 2022 02:19:35 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0ACEB61F35;
-        Fri, 11 Nov 2022 10:19:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF4EC433C1;
-        Fri, 11 Nov 2022 10:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668161974;
-        bh=DXhROdy+PjJiSJ7BatXvwLtvxHZ/t1J6Qmp5cL8Yp9k=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=u6gxR/TFfwSONUhno5bia+Plyc06oESwlcVNmVsD8AiQ9dSbAPKb8H1ZUFl8H2tEt
-         XY9Qx6EXe8+4kBTAL8rjYtPzh+v6Wa0CvstjlFUstA5t3zWVlB10XNeQ16E94lb81G
-         YbT8z9o9rQ63WXXMaykCUN9sIBoWHBN+QC6YejUn5qYixMSoDvuwbPsvPCjGIEvfGD
-         t6W2qZV8CQcLhHfG0H7T5dfpGNJbOqHGfpVYOGAUgecU2U5LWZsOPX5y4XpRFfcFAQ
-         HfxKpFEE+FyF2wSPEv0DJYYeTDfsXKPUs6DqWjpaALw/JJRqhRtQqIdzx1nAnRjO5f
-         zOZbOZh6BJWrA==
-Date:   Fri, 11 Nov 2022 11:19:32 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Michael Zaidman <michael.zaidman@gmail.com>
-cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Enrik.Berkhan@inka.de
-Subject: Re: [PATCH v4 00/13] HID: ft260: fixes and performance
- improvements
-In-Reply-To: <20221105211151.7094-1-michael.zaidman@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211111109490.6045@cbobk.fhfr.pm>
-References: <20221105211151.7094-1-michael.zaidman@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Fri, 11 Nov 2022 08:05:31 -0500
+X-Greylist: delayed 602 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Nov 2022 05:05:29 PST
+Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22B411A01
+        for <linux-input@vger.kernel.org>; Fri, 11 Nov 2022 05:05:29 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id D69661864572;
+        Fri, 11 Nov 2022 15:55:23 +0300 (MSK)
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id lrwncELfyS6b; Fri, 11 Nov 2022 15:55:23 +0300 (MSK)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id 7F5C618637F2;
+        Fri, 11 Nov 2022 15:55:23 +0300 (MSK)
+X-Virus-Scanned: amavisd-new at astralinux.ru
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id MgC1RnOcxzqF; Fri, 11 Nov 2022 15:55:23 +0300 (MSK)
+Received: from rbta-msk-lt-106062.astralinux.ru (unknown [10.177.20.20])
+        by mail.astralinux.ru (Postfix) with ESMTPSA id 17CC418642A3;
+        Fri, 11 Nov 2022 15:55:23 +0300 (MSK)
+From:   Anastasia Belova <abelova@astralinux.ru>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Anastasia Belova <abelova@astralinux.ru>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?q?Michal=20Mal=C3=BD?= <madcatxster@devoid-pointer.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: [PATCH] HID: hid-lg4ff: Add check for empty lbuf
+Date:   Fri, 11 Nov 2022 15:55:11 +0300
+Message-Id: <20221111125511.28676-1-abelova@astralinux.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 5 Nov 2022, Michael Zaidman wrote:
+If an empty buf is received, lbuf is also empty. So lbuf is=20
+accessed by index -1.
 
-> This patch series is an updated version of this one:
-> https://lore.kernel.org/all/20221030203403.4637-1-michael.zaidman@gmail.com/
-> 
-> Changes since v3:
->   - Fixes for the kernel CI bot warnings
->   - We now do not miss NACK on the wakeup from the power saving mode
->     on the KVM installation reported by Enrik. For details, see
->     https://github.com/MichaelZaidman/hid-ft260/pull/7
-> 
-> Changes since v2:
-> 
->   - Remove SMBus Quick command support
->   - Missed NACK from big i2c read
->   - Wake up device from power saving mode
->   - Fix a NULL pointer dereference in ft260_i2c_write
->   - Missed NACK from busy device
-> 
-> Changes since v1:
-> 
->   - Do not populate hidraw device
->   - Avoid stale read buffer pointer
-> 
-> Michael Zaidman (13):
->   HID: ft260: ft260_xfer_status routine cleanup
->   HID: ft260: improve i2c write performance
->   HID: ft260: support i2c writes larger than HID report size
->   HID: ft260: support i2c reads greater than HID report size
->   HID: ft260: improve i2c large reads performance
->   HID: ft260: do not populate /dev/hidraw device
->   HID: ft260: skip unexpected HID input reports
->   HID: ft260: remove SMBus Quick command support
->   HID: ft260: missed NACK from big i2c read
->   HID: ft260: wake up device from power saving mode
->   HID: ft260: fix a NULL pointer dereference in ft260_i2c_write
->   HID: ft260: missed NACK from busy device
->   HID: ft260: fix sparse warnings
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Hi Michael,
+Fixes: f31a2de3fe36 ("HID: hid-lg4ff: Allow switching of Logitech gaming =
+wheels between compatibility modes")
 
-this is now queued in hid.git#for-6.2/ft260.
+Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+---
+ drivers/hid/hid-lg4ff.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
+diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
+index 5e6a0cef2a06..e3fcf1353fb3 100644
+--- a/drivers/hid/hid-lg4ff.c
++++ b/drivers/hid/hid-lg4ff.c
+@@ -872,6 +872,12 @@ static ssize_t lg4ff_alternate_modes_store(struct de=
+vice *dev, struct device_att
+ 		return -ENOMEM;
+=20
+ 	i =3D strlen(lbuf);
++
++	if (i =3D=3D 0) {
++		kfree(lbuf);
++		return -EINVAL;
++	}
++
+ 	if (lbuf[i-1] =3D=3D '\n') {
+ 		if (i =3D=3D 1) {
+ 			kfree(lbuf);
+--=20
+2.30.2
 
