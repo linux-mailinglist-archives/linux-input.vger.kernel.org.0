@@ -2,137 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23F22626A44
-	for <lists+linux-input@lfdr.de>; Sat, 12 Nov 2022 16:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2350626A73
+	for <lists+linux-input@lfdr.de>; Sat, 12 Nov 2022 17:09:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235012AbiKLPhS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 12 Nov 2022 10:37:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35156 "EHLO
+        id S231534AbiKLQJo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 12 Nov 2022 11:09:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231404AbiKLPhS (ORCPT
+        with ESMTP id S230257AbiKLQJn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 12 Nov 2022 10:37:18 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2FF1758F;
-        Sat, 12 Nov 2022 07:37:16 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 871126068A;
-        Sat, 12 Nov 2022 15:37:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94205C433C1;
-        Sat, 12 Nov 2022 15:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668267435;
-        bh=QflFnRa/zdMTL17M319ygZkJ5mADdj1qWoRO1wd8ejM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=liKvT+yD9NTJ+NGE4LMcQ4EV2XrDkEoB9/cWYTKDDPs4buJfPrqI+RDyNue2lQ461
-         3LUWlhHy7R/bJ61QgeI2FlQEaNAFv5Qkz7r+Bqh4ZGj4xasS22GITMcRH208XH6LtC
-         jZ6BKjENQy/repG4/yGHkkpTqCKZ4Uhg4v+xUf35HI3/rGScwz+101oQ22sp5ytEsq
-         9FOzZi+8L5eRJfSxqa7PjMK2d2807Hb+GdpgXohL/RrUrswoVIiFmksowiUb9H/iqn
-         qSGuvUSh0DbteyFuJVWKx+qcoAMcRRQ6R/GLB1H9pTHKwISwT+GRZKhj9ge10BcH1x
-         g1HHGQnuMxBWg==
-Date:   Sat, 12 Nov 2022 15:49:31 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Yauhen Kharuzhy <jekhor@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>
+        Sat, 12 Nov 2022 11:09:43 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D9A101DA;
+        Sat, 12 Nov 2022 08:09:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668269383; x=1699805383;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=NhaN+BDPmF2eKeW73xN887VbxSfqdp+cpLWncxJ2vNc=;
+  b=iVNEQdLKv0t0COw8Qymo/ys6AoF0ETsefTamudeWdCwb7GXxPCWHPXQU
+   1lnbZQBF4c6c4WuxGJM1e+fUbBRUvQcdJy3M4agHqQvlUf2y8/7YtSBeW
+   EBIttmkzPetCbrP+zR0ChcxK+UKfpfMWefA4u0sG2SStesNH0qAqMWRT1
+   tq28R1c36hMGZ8x9bAtttZYGAz1kIPvZg0u4UA9p+I2sc3droak39ETdv
+   VdMkq15s+5rjh8aYHem7kv5FHa6aSyMwtrpUv5I+SLkffmdoeoDhD4gKn
+   5SRMmrYobZ3rr9exNCmK8PEyAatZdkjl7o6UQWXNUnUVmG6jJQEzW3zeD
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10529"; a="373867466"
+X-IronPort-AV: E=Sophos;i="5.96,160,1665471600"; 
+   d="scan'208";a="373867466"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2022 08:09:42 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10529"; a="615762209"
+X-IronPort-AV: E=Sophos;i="5.96,160,1665471600"; 
+   d="scan'208";a="615762209"
+Received: from shambhav-mobl.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.251.12.9])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2022 08:09:42 -0800
+Message-ID: <386734b3660eb3298cfbd5245f18994777a3296c.camel@linux.intel.com>
 Subject: Re: [PATCH] HID: hid-sensor-custom: Allow more than one hinge angle
  sensor
-Message-ID: <20221112154931.7023bc11@jic23-huawei>
-In-Reply-To: <Y2gRzHpH5FwNVBoO@jeknote.loshitsa1.net>
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Yauhen Kharuzhy <jekhor@gmail.com>, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>
+Date:   Sat, 12 Nov 2022 08:09:42 -0800
+In-Reply-To: <20221105223422.417316-1-jekhor@gmail.com>
 References: <20221105223422.417316-1-jekhor@gmail.com>
-        <20221106173643.5b4f2a0b@jic23-huawei>
-        <Y2gRzHpH5FwNVBoO@jeknote.loshitsa1.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 6 Nov 2022 21:58:04 +0200
-Yauhen Kharuzhy <jekhor@gmail.com> wrote:
+On Sun, 2022-11-06 at 00:34 +0200, Yauhen Kharuzhy wrote:
+> Some devices has two sets of accelerometers and the sensor hub
+> exports
+> two hinge angle 'sensors' based on accelerometer values. To allow
+> more
+> than one sensor of the same type, use PLATFORM_DEVID_AUTO instead of
+> PLATFORM_DEVID_NONE when registering platform device for it.
+> 
+> Checked on the Lenovo Yoga Book YB1-X91L tablet.
+> 
+> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-> On Sun, Nov 06, 2022 at 05:36:43PM +0000, Jonathan Cameron wrote:
-> > On Sun,  6 Nov 2022 00:34:22 +0200
-> > Yauhen Kharuzhy <jekhor@gmail.com> wrote:
-> >   
-> > > Some devices has two sets of accelerometers and the sensor hub exports
-> > > two hinge angle 'sensors' based on accelerometer values. To allow more
-> > > than one sensor of the same type, use PLATFORM_DEVID_AUTO instead of
-> > > PLATFORM_DEVID_NONE when registering platform device for it.
-> > > 
-> > > Checked on the Lenovo Yoga Book YB1-X91L tablet.
-> > > 
-> > > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>  
-> > 
-> > Purely for curiosity sake, but where are the two sets of sensors?
-> > Doesn't look like it has two hinges at first glance!  
+> ---
+>  drivers/hid/hid-sensor-custom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> It sounds crazy, yes :)
-> 
-> The Lenovo Yoga Book YB1-X91L looks to be strange device in many ways.
-> 
-> There are two accelerometers at display side and two at keyboard side (for
-> detecting the rotation movement as I understand). For
-> some reasons ISH exposed two virtual hinge angle sensors (I guess that
-> one for each pair of accelerometers):
-> 
-> ...
-> [    6.230627] Registering platform device 'HID-SENSOR-INT-020b.35.auto'. Parent at 001F:8087:0AC2.0005
-> [    6.230658] device: 'HID-SENSOR-INT-020b.35.auto': device_add
-> [    6.230705] bus: 'platform': add device HID-SENSOR-INT-020b.35.auto
-> [    6.230737] PM: Adding info for platform:HID-SENSOR-INT-020b.35.auto
-> ...
-> [    6.249248] Registering platform device 'HID-SENSOR-INT-020b.36.auto'. Parent at 001F:8087:8AC2.0006
-> [    6.249266] device: 'HID-SENSOR-INT-020b.36.auto': device_add
-> [    6.249295] bus: 'platform': add device HID-SENSOR-INT-020b.36.auto
-> [    6.249394] PM: Adding info for platform:HID-SENSOR-INT-020b.36.auto
-> 
-> This is senseless but it is what it is. Moreover, this 'sensor' is always
-> returns 360 degrees angle, although display and keyboard 'absolute' angles are
-> reported correctly.
-> 
-> In any way, this patch is generic and will be useful for other custom HID
-> sensors if they will be added in the future.
-
-Thanks for the explanation.
-
-Far as I'm concerned patch seems sensible.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> 
-> > 
-> > Jonathan
-> >   
-> > > ---
-> > >  drivers/hid/hid-sensor-custom.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-> > > index 32c2306e240d6..a6fc89ee1287c 100644
-> > > --- a/drivers/hid/hid-sensor-custom.c
-> > > +++ b/drivers/hid/hid-sensor-custom.c
-> > > @@ -862,7 +862,7 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
-> > >  		return ERR_PTR(-ENOMEM);
-> > >  
-> > >  	custom_pdev = platform_device_register_data(pdev->dev.parent, dev_name,
-> > > -						    PLATFORM_DEVID_NONE, hsdev,
-> > > +						    PLATFORM_DEVID_AUTO, hsdev,
-> > >  						    sizeof(*hsdev));
-> > >  	kfree(dev_name);
-> > >  	return custom_pdev;  
-> >   
-> 
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
+> sensor-custom.c
+> index 32c2306e240d6..a6fc89ee1287c 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -862,7 +862,7 @@ hid_sensor_register_platform_device(struct
+> platform_device *pdev,
+>                 return ERR_PTR(-ENOMEM);
+>  
+>         custom_pdev = platform_device_register_data(pdev->dev.parent,
+> dev_name,
+> -                                                  
+> PLATFORM_DEVID_NONE, hsdev,
+> +                                                  
+> PLATFORM_DEVID_AUTO, hsdev,
+>                                                     sizeof(*hsdev));
+>         kfree(dev_name);
+>         return custom_pdev;
 
