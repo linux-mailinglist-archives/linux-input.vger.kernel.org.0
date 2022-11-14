@@ -2,48 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0D06628205
-	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 15:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCAF0628214
+	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 15:10:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236816AbiKNOJF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 09:09:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
+        id S236797AbiKNOKT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 09:10:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236843AbiKNOJE (ORCPT
+        with ESMTP id S236989AbiKNOKO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 09:09:04 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DE8D2AE0;
-        Mon, 14 Nov 2022 06:09:03 -0800 (PST)
+        Mon, 14 Nov 2022 09:10:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4097A27FFA;
+        Mon, 14 Nov 2022 06:10:12 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CF03E611BE;
-        Mon, 14 Nov 2022 14:09:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12D01C433C1;
-        Mon, 14 Nov 2022 14:09:00 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D251EB80EC1;
+        Mon, 14 Nov 2022 14:10:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8349C433D7;
+        Mon, 14 Nov 2022 14:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668434942;
-        bh=nc57LEG5jYTS9ueM1mkZq7Psxs0hzm5AUlc0Xu2jMjw=;
+        s=k20201202; t=1668435009;
+        bh=A0ZwOggcbbyNc4CyAe2Gofgj9hJDkNUjxhYuuJas9X8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=lvmTPGJP+pq6k8dwEaDeV5llMxQi20DQNpDeff+eY54E0HuuxHX2PQuPXq5XaE0KS
-         ZQyzGXiE+m8FPm8f+BWk2EwHE6o1Ib+5Qo1kL2bRfzqffdbYEBVaKhZ1MAePUzmzfy
-         ZKzyAHtg9tjb1g3zlYKWyuhLxe8XHEWHFo2iyr5ERXF1QvWRnFI2syCDuhDaGMdVpO
-         sk+OpZZ2nWzpcNidIeCwckjlYoa0EIwugQSUCACCyRz5GAbHDH73/VvUjNKw4zCvPs
-         Zqiv2tjqbFomwTjvxWD5Sr67RqB+9S+Dxg3NXjw0ND39PwRZXO/l2ELK1Dh8E0i4DZ
-         eXfDmylS+0t6g==
-Date:   Mon, 14 Nov 2022 15:09:00 +0100 (CET)
+        b=Ux0Hm9AYdG/6xj5nJqH3tGtK10oRmZkWuQVi+wFJTnRaHf1gaSo/5e6D4VVnIV3gQ
+         SKSkr9z6g/PdreCsQeV9imnyxEZX043YI8GybwXIuZjI0gbF9LtMeitJiqa7WieOGN
+         azqYvUqgHOA08iP4AajNiOXWn/uZ+LyBRlVVa704GNd46uxpUBrbxC7InedbihIuf2
+         iMf6nGolm2WyOENv6C2RYZ8Wgxm96GTc/VPLugpgwhW5Fhx3GHqThB6940cgHs7FCd
+         uQSiCZpqtu9Yg/qgGHV/SOZM5Xz6bTlLo520qqxT7FQdgYpxM5JSzAurS8WoCAv01S
+         8RQlgGPBHWcdw==
+Date:   Mon, 14 Nov 2022 15:10:07 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Andreas Bergmeier <abergmeier@gmx.net>
-cc:     lains@riseup.net, benjamin.tissoires@redhat.com,
+To:     Alexander Zhang <alex@alexyzhang.dev>
+cc:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        benjamin.tissoires@redhat.com, openglfreak@googlemail.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] HID: Print specific timeout error in probe
-In-Reply-To: <20221110204131.1354704-1-abergmeier@gmx.net>
-Message-ID: <nycvar.YFH.7.76.2211141507380.6045@cbobk.fhfr.pm>
-References: <20221110204131.1354704-1-abergmeier@gmx.net>
+Subject: Re: [PATCH 0/1] HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
+In-Reply-To: <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
+Message-ID: <nycvar.YFH.7.76.2211141509340.6045@cbobk.fhfr.pm>
+References: <20221110174056.393697-1-jose.exposito89@gmail.com> <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -53,44 +55,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 10 Nov 2022, Andreas Bergmeier wrote:
+On Thu, 10 Nov 2022, Alexander Zhang wrote:
 
-> When -ETIMEOUT gets reported ensure that the error message mentiones
-> timeout.
+> Hi José,
 > 
-> Signed-off-by: Andreas Bergmeier <abergmeier@gmx.net>
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> On 11/10/22 9:40 AM, José Expósito wrote:
+> > Hi everyone,
+> > 
+> > About 3 months ago, Torge Matthies sent a patch fixing an issue with
+> > his XP-Pen Star G640 [1].
+> > 
+> > His patch changes the IS_INPUT_APPLICATION() macro to accept
+> > HID_DG_DIGITIZER. However, it looks like it is not being merged because
+> > of the possible side effects that changing that macro could generate.
+> > 
+> > This patch aims to fix the same issue but using a more conservative
+> > approach hoping that the bug can be fixed.
+> > 
+> > Torge, Alexander, could you test it and confirm that it fixes your
+> > issues, please?
 > 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index 20ae7f73ef08..a0c148a8df6c 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -4438,12 +4438,16 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	if (hidpp->quirks & HIDPP_QUIRK_UNIFYING)
->  		hidpp_unifying_init(hidpp);
-> 
-> -	connected = hidpp_root_get_protocol_version(hidpp) == 0;
-> +	ret = hidpp_root_get_protocol_version(hidpp);
-> +	connected = ret == 0;
->  	atomic_set(&hidpp->connected, connected);
->  	if (!(hidpp->quirks & HIDPP_QUIRK_UNIFYING)) {
->  		if (!connected) {
-> +			if (ret == -ETIMEDOUT)
-> +				hid_err(hdev, "Device connection timed out");
-> +			else
-> +				hid_err(hdev, "Device not connected");
->  			ret = -ENODEV;
-> -			hid_err(hdev, "Device not connected");
+> I tested the patch on commit 4bbf3422df78 and it fixes the issue.
 
-Printing as specific error as possible makes sense to me.
+I will add
 
-I am however wondering whether the better aproach (covering all the cases, 
-not just ETIMEDOUT specifically) wouldn't be to convert all the dbg_hid() 
-in hidpp_send_message_sync() to be proper error messages instead? That 
-would cover also your case, as ETIMEDOUT is handled there as well with 
-debugging message.
+	Tested-by: Alexander Zhang <alex@alexyzhang.dev>
+
+to the commit; please speak up if you disagree.
 
 Thanks,
 
