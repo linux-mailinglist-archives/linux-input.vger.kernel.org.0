@@ -2,103 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A220628B11
-	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 22:09:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01782628C4E
+	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 23:48:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237686AbiKNVJF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 16:09:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46018 "EHLO
+        id S230109AbiKNWsz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 17:48:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237580AbiKNVIu (ORCPT
+        with ESMTP id S229733AbiKNWsz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 16:08:50 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DACCBE18;
-        Mon, 14 Nov 2022 13:08:43 -0800 (PST)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id CCBD540002;
-        Mon, 14 Nov 2022 21:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668460122;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WUcN8Hyfr1CcrMqYvHeNHTB6GPer8+O1tgop6jO/i4o=;
-        b=LoY2BISB89oKKYW3bgqoV/6ifu5d0aCRaj643or12/Zq89QFtRZr3S3ZrVgAij0TEk8XXQ
-        AhUZdvHzKr7WlOZYmyp79CsK6/2kgZ7LuKbnTNhEy/2F00YleILJTTbt4XWLv6EcWHkddO
-        07N+3CbUW3UjsWpTpWswfjJa5YcWwUPAbHvRjcx+CRzClWi6Oemsy2iDr6ntRAimB6b9qB
-        xqyjY+iJaKWSW//kWkKE5ce0oW0tNfg2vyhksnqzqDD/LLdbUHis+e1Roj4fwu7T+UZ4Iq
-        g/nCFdH3jroKXyOxlPcbfVVZki+yfk+NVUNqr6/xsMpotUg6GrfrQW179o9zdQ==
-Date:   Mon, 14 Nov 2022 22:08:38 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>, Sekhar Nori <nsekhar@ti.com>,
-        Arnd Bergmann <arnd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     linux-staging@lists.linux.dev,
-        Russell King <linux@armlinux.org.uk>,
-        linux-clk@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-media@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Kevin Hilman <khilman@baylibre.com>,
-        David Lechner <david@lechnology.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mark Brown <broonie@kernel.org>, linux-rtc@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        alsa-devel@alsa-project.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        linux-ide@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Bin Liu <b-liu@ti.com>, Takashi Iwai <tiwai@suse.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>
-Subject: Re: [PATCH 00/14] ARM: remove unused davinci board & drivers
-Message-ID: <166846004404.2111985.9223963351202037616.b4-ty@bootlin.com>
-References: <20221019152947.3857217-1-arnd@kernel.org>
+        Mon, 14 Nov 2022 17:48:55 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A38FD135;
+        Mon, 14 Nov 2022 14:48:54 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2FCF0B815AA;
+        Mon, 14 Nov 2022 22:48:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD37DC433C1;
+        Mon, 14 Nov 2022 22:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668466131;
+        bh=rZiO8iZy4/uE+ODGO5RTZb2K1BOcOBg2m0IscJfaxoE=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=snWI9rHZRyYZI1J7KBFb6/Z9WPiFEGK+jbv9yTpx4ZghkUOzx0v+PVuBjD7oruqXy
+         fuswg2ExAj1altPtwmbKNB5+TUD3Uy2Gu8l69YRh0mb66DwHUVnLtAxR8AyFJ8nfCJ
+         3/RvoKzuTNvnPtXWmbWRFJUp1XemZkeK3PPYDDnY1zZpH1IO+eId5yNlnNrPepk8W7
+         CwzLDxrXK1EwNixUxhT4wVy3SiaLp+KTZEG6d5epaezZS3CxST/UgjrBuz6spTMT98
+         MUhrVWOPv0p1bDEQPyTfciDc1/AhT2J0xv1vbBLhd1HMFsgMhshtP5m4s9g8/8ce7j
+         WhFMcUbqPG4gQ==
+Date:   Mon, 14 Nov 2022 23:48:49 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Aditya Garg <gargaditya08@live.com>
+cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH] HID: apple: Swap Control and Command keys on Apple
+ keyboards
+In-Reply-To: <7AC64680-44F7-4605-95E9-B5FF97A78D2A@live.com>
+Message-ID: <nycvar.YFH.7.76.2211142347000.6045@cbobk.fhfr.pm>
+References: <7AC64680-44F7-4605-95E9-B5FF97A78D2A@live.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221019152947.3857217-1-arnd@kernel.org>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 19 Oct 2022 17:29:26 +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> As part of removing all board files that were previously marked as unused,
-> I looked through the davinci platform and recursively removed everything
-> that has now become unused.
-> 
-> In particular, this is for all dm3xx support, in addition to the dm64xx
-> support removed previously. The remaining support is now for da8xx using
-> devicetree only, which means a lot of the da8xx specific device support
-> can also go away.
-> 
-> [...]
+On Fri, 4 Nov 2022, Aditya Garg wrote:
 
-Applied, thanks!
+> From: Aditya Garg <gargaditya08@live.com>
+> 
+> This patch allows users to swap the control and command keys. This can be
+> useful for the Mac users who are used to using Command instead of Control
+> in macOS for various commonly used shortcuts.
+> 
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
 
-[08/14] rtc: remove davinci rtc driver
-        commit: 6274ef3c7eb5e9792a708c23757e16b444e4267f
+Applied, thanks.
 
-Best regards,
+The number of module parameters the apple driver has been acquiring over 
+years is becoming a little bit worrisome ... I am not sure that the actual 
+users are keeping track. Is there any userspace utlizing it in a friendly 
+manner?
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Jiri Kosina
+SUSE Labs
+
