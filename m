@@ -2,52 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751B66281D6
-	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 15:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DB006281E3
+	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 15:03:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbiKNOBk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 09:01:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
+        id S236625AbiKNODd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 09:03:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234132AbiKNOBj (ORCPT
+        with ESMTP id S236719AbiKNODT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 09:01:39 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C435222BE;
-        Mon, 14 Nov 2022 06:01:38 -0800 (PST)
+        Mon, 14 Nov 2022 09:03:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0BC2AC75;
+        Mon, 14 Nov 2022 06:03:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C83D961184;
-        Mon, 14 Nov 2022 14:01:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3185C433C1;
-        Mon, 14 Nov 2022 14:01:35 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 82B46B80F91;
+        Mon, 14 Nov 2022 14:03:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33777C433C1;
+        Mon, 14 Nov 2022 14:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668434497;
-        bh=LgDnjseORhZExlo2nhe2J78gfD34hpPFA6GxeMuZ/lI=;
+        s=k20201202; t=1668434596;
+        bh=MUvSTgHOHNFDpAL2hFpOgTLtI7jmWOp30r5+jRyuvvg=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=My/UbDj0YwGchhbSPgdtOYMXRFNPOXQ9AvQgRMhUkws/fU5YlQAwbUOZMXelHYgKD
-         lqEci54UQs5uXXO9q5zcI6aUJ2xBDoWc9rGtZ6ctBuuoveuViRe01e150GdqhB0llO
-         phAQ1tOkRMUWLTsZ7gabgn3sWQH7q20BSsRVl6FZe2SBmQ4nUuuD53xXVvz9rT8yVe
-         k81ZWRfinyZ3AWCOX15m4Dl8mP6gS/tEu06BDRkqEN7jJKzM8DEQDkb9Zj2195DV92
-         hD4IzdmKF5sq/7cUx0dkZDg2aBl2oqGe0Ii+nYTq19NZ5xjrbsiV0dCa++hxNLuFLb
-         y4zJrUnKyTpLQ==
-Date:   Mon, 14 Nov 2022 15:01:34 +0100 (CET)
+        b=cli7xA2q8GmnA1bTRkzFFKoYOEy8ffVbJ4oO3j5hmsuNRKUVmlAUxXtaQrgq+yZOG
+         3hKXdBS36zkhDnDLmRkA1WTcfD6XA2qil5PkNTiQSrd/rQk8v46YKh4UnhdqR36f1V
+         lWIEPWheqkOhkrqsqJbssb7eVvWadWzi8shpkENyox15O4Fz2LdCY3hpMIlCngKu10
+         hZ5j5hS5Q73bmCBc+mMz/vssRhtXJHB2VZJu6LlJCm0A0wnM7kyAtbhx9YTohM50XZ
+         eseTZjrhb1E+ofCT9Q7ql/9bk4hidD5vtH23GJP2jQWAXqBpw25QX2Qw35iFcntwdn
+         11rRbiA9imf2Q==
+Date:   Mon, 14 Nov 2022 15:03:14 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Yauhen Kharuzhy <jekhor@gmail.com>
-cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH] HID: hid-sensor-custom: Allow more than one hinge angle
- sensor
-In-Reply-To: <20221105223422.417316-1-jekhor@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211141501290.6045@cbobk.fhfr.pm>
-References: <20221105223422.417316-1-jekhor@gmail.com>
+To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: uclogic: Fix frame templates for big endian
+ architectures
+In-Reply-To: <20221110174918.398567-1-jose.exposito89@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2211141503020.6045@cbobk.fhfr.pm>
+References: <20221110174918.398567-1-jose.exposito89@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -57,35 +55,38 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 6 Nov 2022, Yauhen Kharuzhy wrote:
+On Thu, 10 Nov 2022, José Expósito wrote:
 
-> Some devices has two sets of accelerometers and the sensor hub exports
-> two hinge angle 'sensors' based on accelerometer values. To allow more
-> than one sensor of the same type, use PLATFORM_DEVID_AUTO instead of
-> PLATFORM_DEVID_NONE when registering platform device for it.
+> When parsing a frame template with a placeholder indicating the number
+> of buttons present on the frame its value was incorrectly set on big
+> endian architectures due to double little endian conversion.
 > 
-> Checked on the Lenovo Yoga Book YB1-X91L tablet.
+> In order to reproduce the issue and verify the fix, run the HID KUnit
+> tests on the PowerPC architecture:
 > 
-> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+>   $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/hid \
+>     --arch=powerpc --cross_compile=powerpc64-linux-gnu-
+> 
+> Fixes: 867c89254425 ("HID: uclogic: Allow to generate frame templates")
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 > ---
->  drivers/hid/hid-sensor-custom.c | 2 +-
+>  drivers/hid/hid-uclogic-rdesc.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-> index 32c2306e240d6..a6fc89ee1287c 100644
-> --- a/drivers/hid/hid-sensor-custom.c
-> +++ b/drivers/hid/hid-sensor-custom.c
-> @@ -862,7 +862,7 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
->  		return ERR_PTR(-ENOMEM);
->  
->  	custom_pdev = platform_device_register_data(pdev->dev.parent, dev_name,
-> -						    PLATFORM_DEVID_NONE, hsdev,
-> +						    PLATFORM_DEVID_AUTO, hsdev,
->  						    sizeof(*hsdev));
->  	kfree(dev_name);
->  	return custom_pdev;
+> diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
+> index 4bd54c4fb5b0..6b73eb0df6bd 100644
+> --- a/drivers/hid/hid-uclogic-rdesc.c
+> +++ b/drivers/hid/hid-uclogic-rdesc.c
+> @@ -1193,7 +1193,7 @@ __u8 *uclogic_rdesc_template_apply(const __u8 *template_ptr,
+>  			   p[sizeof(btn_head)] < param_num) {
+>  			v = param_list[p[sizeof(btn_head)]];
+>  			put_unaligned((__u8)0x2A, p); /* Usage Maximum */
+> -			put_unaligned_le16((__force u16)cpu_to_le16(v), p + 1);
+> +			put_unaligned((__force u16)cpu_to_le16(v), (s16 *)(p + 1));
+>  			p += sizeof(btn_head) + 1;
+>  		} else {
 
-Applied, thanks.
+Applied to hid.git#for-6.1/upstream-fixes, thanks José.
 
 -- 
 Jiri Kosina
