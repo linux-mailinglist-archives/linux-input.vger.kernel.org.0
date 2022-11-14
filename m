@@ -2,47 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01782628C4E
-	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 23:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BCFD628C62
+	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 23:55:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230109AbiKNWsz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 17:48:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43448 "EHLO
+        id S237765AbiKNWzw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 17:55:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbiKNWsz (ORCPT
+        with ESMTP id S230212AbiKNWzw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 17:48:55 -0500
+        Mon, 14 Nov 2022 17:55:52 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A38FD135;
-        Mon, 14 Nov 2022 14:48:54 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88F71AD9E
+        for <linux-input@vger.kernel.org>; Mon, 14 Nov 2022 14:55:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2FCF0B815AA;
-        Mon, 14 Nov 2022 22:48:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD37DC433C1;
-        Mon, 14 Nov 2022 22:48:50 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7BB69B815AE
+        for <linux-input@vger.kernel.org>; Mon, 14 Nov 2022 22:55:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 125EFC433C1;
+        Mon, 14 Nov 2022 22:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668466131;
-        bh=rZiO8iZy4/uE+ODGO5RTZb2K1BOcOBg2m0IscJfaxoE=;
+        s=k20201202; t=1668466549;
+        bh=AnVA/fVOCmQFt0NgA0qPvspGh8TUsl//bTyeP3JcY/k=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=snWI9rHZRyYZI1J7KBFb6/Z9WPiFEGK+jbv9yTpx4ZghkUOzx0v+PVuBjD7oruqXy
-         fuswg2ExAj1altPtwmbKNB5+TUD3Uy2Gu8l69YRh0mb66DwHUVnLtAxR8AyFJ8nfCJ
-         3/RvoKzuTNvnPtXWmbWRFJUp1XemZkeK3PPYDDnY1zZpH1IO+eId5yNlnNrPepk8W7
-         CwzLDxrXK1EwNixUxhT4wVy3SiaLp+KTZEG6d5epaezZS3CxST/UgjrBuz6spTMT98
-         MUhrVWOPv0p1bDEQPyTfciDc1/AhT2J0xv1vbBLhd1HMFsgMhshtP5m4s9g8/8ce7j
-         WhFMcUbqPG4gQ==
-Date:   Mon, 14 Nov 2022 23:48:49 +0100 (CET)
+        b=oTiT+Uowi0YijpUWAtYcyxL4hMRkm0wcf6q+b0HfU6WR79qMJKxmmXEjek5YEkyJh
+         KozjIDjggcDVqO/sNofHSWXH73bBHXiIHMO+az+qb485Ynu/SO8v75Xm15ZLY9qyIc
+         GWOKi5qIHPoiNiPaA2aunbJ0e8UaZEDHKn/peVqLwBVjpfeO3ZkhfcdP/eg9y/YQoK
+         hzLekVAuzWQVzDGqLqjts0RJn6dqAek+Op0JroQkyY3lZt4ZlWYq/NTQQMB9rR2MDn
+         IoMYhZ55msWluvQmQ3WXYUT2lheCc7ZVk3LuGVAy93WN9AY2BkO1lQqVWMpPkDYCB8
+         2zmYQEQDVl+OQ==
+Date:   Mon, 14 Nov 2022 23:55:47 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Aditya Garg <gargaditya08@live.com>
-cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH] HID: apple: Swap Control and Command keys on Apple
- keyboards
-In-Reply-To: <7AC64680-44F7-4605-95E9-B5FF97A78D2A@live.com>
-Message-ID: <nycvar.YFH.7.76.2211142347000.6045@cbobk.fhfr.pm>
-References: <7AC64680-44F7-4605-95E9-B5FF97A78D2A@live.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Rudolf Polzer <rpolzer@google.com>
+Subject: Re: [PATCH] HID: ite: Enable QUIRK_TOUCHPAD_ON_OFF_REPORT on Acer
+ Aspire Switch V 10
+In-Reply-To: <20221108151350.107055-1-hdegoede@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2211142355360.6045@cbobk.fhfr.pm>
+References: <20221108151350.107055-1-hdegoede@redhat.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,22 +54,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 4 Nov 2022, Aditya Garg wrote:
+On Tue, 8 Nov 2022, Hans de Goede wrote:
 
-> From: Aditya Garg <gargaditya08@live.com>
+> The Acer Aspire Switch V 10 (SW5-017)'s keyboard-dock uses the same
+> ITE controller setup as other Acer Switch 2-in-1's.
 > 
-> This patch allows users to swap the control and command keys. This can be
-> useful for the Mac users who are used to using Command instead of Control
-> in macOS for various commonly used shortcuts.
+> This needs special handling for the wifi on/off toggle hotkey as well as
+> to properly report touchpad on/off keypresses.
 > 
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> Add the USB-ids for the SW5-017's keyboard-dock with a quirk setting of
+> QUIRK_TOUCHPAD_ON_OFF_REPORT to fix both issues.
+> 
+> Cc: Rudolf Polzer <rpolzer@google.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Applied, thanks.
-
-The number of module parameters the apple driver has been acquiring over 
-years is becoming a little bit worrisome ... I am not sure that the actual 
-users are keeping track. Is there any userspace utlizing it in a friendly 
-manner?
+Applied, thanks Hans.
 
 -- 
 Jiri Kosina
