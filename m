@@ -2,52 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCAF0628214
-	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 15:10:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC3A628235
+	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 15:19:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236797AbiKNOKT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 09:10:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54368 "EHLO
+        id S236244AbiKNOTP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 09:19:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236989AbiKNOKO (ORCPT
+        with ESMTP id S236738AbiKNOTO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 09:10:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4097A27FFA;
-        Mon, 14 Nov 2022 06:10:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D251EB80EC1;
-        Mon, 14 Nov 2022 14:10:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8349C433D7;
-        Mon, 14 Nov 2022 14:10:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668435009;
-        bh=A0ZwOggcbbyNc4CyAe2Gofgj9hJDkNUjxhYuuJas9X8=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Ux0Hm9AYdG/6xj5nJqH3tGtK10oRmZkWuQVi+wFJTnRaHf1gaSo/5e6D4VVnIV3gQ
-         SKSkr9z6g/PdreCsQeV9imnyxEZX043YI8GybwXIuZjI0gbF9LtMeitJiqa7WieOGN
-         azqYvUqgHOA08iP4AajNiOXWn/uZ+LyBRlVVa704GNd46uxpUBrbxC7InedbihIuf2
-         iMf6nGolm2WyOENv6C2RYZ8Wgxm96GTc/VPLugpgwhW5Fhx3GHqThB6940cgHs7FCd
-         uQSiCZpqtu9Yg/qgGHV/SOZM5Xz6bTlLo520qqxT7FQdgYpxM5JSzAurS8WoCAv01S
-         8RQlgGPBHWcdw==
-Date:   Mon, 14 Nov 2022 15:10:07 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Alexander Zhang <alex@alexyzhang.dev>
-cc:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        benjamin.tissoires@redhat.com, openglfreak@googlemail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/1] HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
-In-Reply-To: <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
-Message-ID: <nycvar.YFH.7.76.2211141509340.6045@cbobk.fhfr.pm>
-References: <20221110174056.393697-1-jose.exposito89@gmail.com> <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Mon, 14 Nov 2022 09:19:14 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4434E264A5;
+        Mon, 14 Nov 2022 06:19:13 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id D7E07C000E;
+        Mon, 14 Nov 2022 14:19:09 +0000 (UTC)
+Message-ID: <9e77ba98322873ba8790d4fb7904c844db2d085d.camel@hadess.net>
+Subject: Re: [PATCH 1/1] HID: Send SwID in GetProtocolVersion
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Andreas Bergmeier <abergmeier@gmx.net>, lains@riseup.net,
+        jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 14 Nov 2022 15:19:09 +0100
+In-Reply-To: <20221111194526.1375601-1-abergmeier@gmx.net>
+References: <20221111194526.1375601-1-abergmeier@gmx.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.0 (3.46.0-2.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,37 +39,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 10 Nov 2022, Alexander Zhang wrote:
-
-> Hi José,
-> 
-> On 11/10/22 9:40 AM, José Expósito wrote:
-> > Hi everyone,
-> > 
-> > About 3 months ago, Torge Matthies sent a patch fixing an issue with
-> > his XP-Pen Star G640 [1].
-> > 
-> > His patch changes the IS_INPUT_APPLICATION() macro to accept
-> > HID_DG_DIGITIZER. However, it looks like it is not being merged because
-> > of the possible side effects that changing that macro could generate.
-> > 
-> > This patch aims to fix the same issue but using a more conservative
-> > approach hoping that the bug can be fixed.
-> > 
-> > Torge, Alexander, could you test it and confirm that it fixes your
-> > issues, please?
-> 
-> I tested the patch on commit 4bbf3422df78 and it fixes the issue.
-
-I will add
-
-	Tested-by: Alexander Zhang <alex@alexyzhang.dev>
-
-to the commit; please speak up if you disagree.
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
+T24gRnJpLCAyMDIyLTExLTExIGF0IDIwOjQ1ICswMTAwLCBBbmRyZWFzIEJlcmdtZWllciB3cm90
+ZToKPiBBY2NvcmRpbmcgdG8gZG9jcyBhIFN3SUQgc2hvdWxkIGJlIHNlbnQgZm9yIEdldFByb3Rv
+Y29sVmVyc2lvbi4KPiA+IDB4MTAuRGV2aWNlSW5kZXguMHgwMC4weDFuCj4gd2hlcmUgbiBpcyBT
+d0lECgpJIHdvdWxkIG1lbnRpb24gdGhlIHZhbHVlIG9mIENNRF9ST09UX0dFVF9QUk9UT0NPTF9W
+RVJTSU9OICgweDEwKSBpbgp0aGUgY29tbWl0IG1lc3NhZ2UsIGJ1dCBvdGhlcndpc2UgbG9va3Mg
+Z29vZCB0byBtZS4KClJldmlld2VkLWJ5OiBCYXN0aWVuIE5vY2VyYSA8aGFkZXNzQGhhZGVzcy5u
+ZXQ+Cgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFuZHJlYXMgQmVyZ21laWVyIDxhYmVyZ21laWVyQGdt
+eC5uZXQ+Cj4gLS0tCj4gwqBkcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyB8IDIgKy0K
+PiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyBiL2RyaXZlcnMvaGlk
+L2hpZC0KPiBsb2dpdGVjaC1oaWRwcC5jCj4gaW5kZXggYTBjMTQ4YThkZjZjLi45NjRhNTIzYzNk
+ZTcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMKPiArKysg
+Yi9kcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYwo+IEBAIC04OTYsNyArODk2LDcgQEAg
+c3RhdGljIGludCBoaWRwcF9yb290X2dldF9wcm90b2NvbF92ZXJzaW9uKHN0cnVjdAo+IGhpZHBw
+X2RldmljZSAqaGlkcHApCj4gCj4gwqDCoMKgwqDCoMKgwqDCoHJldCA9IGhpZHBwX3NlbmRfcmFw
+X2NvbW1hbmRfc3luYyhoaWRwcCwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBISURQUF9QQUdFX1JPT1RfSURYLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgQ01EX1JPT1RfR0VUX1BST1RPQ09MX1ZFUlNJT04s
+Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBDTURfUk9P
+VF9HRVRfUFJPVE9DT0xfVkVSU0lPTiB8Cj4gTElOVVhfS0VSTkVMX1NXX0lELAo+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBpbmdfZGF0YSwgc2l6ZW9m
+KHBpbmdfZGF0YSksICZyZXNwb25zZSk7Cj4gCj4gwqDCoMKgwqDCoMKgwqDCoGlmIChyZXQgPT0g
+SElEUFBfRVJST1JfSU5WQUxJRF9TVUJJRCkgewo+IC0tCj4gMi4zNC4xCj4gCgo=
 
