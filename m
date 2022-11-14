@@ -2,76 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36D57628C70
-	for <lists+linux-input@lfdr.de>; Mon, 14 Nov 2022 23:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59E83628DC5
+	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 00:54:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236796AbiKNW57 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 17:57:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48030 "EHLO
+        id S231837AbiKNXyw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 18:54:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbiKNW56 (ORCPT
+        with ESMTP id S230041AbiKNXyv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 17:57:58 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 961FA19029;
-        Mon, 14 Nov 2022 14:57:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4002CB815AE;
-        Mon, 14 Nov 2022 22:57:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83FB7C433C1;
-        Mon, 14 Nov 2022 22:57:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668466674;
-        bh=yYxb7lkhJQO3wOgQZvR1fzAfNCWNW6OMqcHmEYFa0sc=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=XHgqF2WMU9e9gTvbjDNhsav42s9QwDRE+3h3EyKBVE1C3Lw2p2QyVL77BmNF597Y9
-         FcCQbHnCfqbeL+RaKPbpo1D90V/Z4HLAKRzcgLyOe4FLu8kHQn3FeMCh11gGVAYnL0
-         eKNga4zVtYEPLNRpMDcrUYG3DPIT0fdzWZ436E0QhWryooaZ+pfLd+er6+nGoa7EjZ
-         RG7wQiJXonZgGTG/EfU4Gr9MsnfNZvjNEU5xFOVdGmT1qRnkgrMMMZIsowVeaXev4Y
-         sFD6waWJQHR7b/pqWUkAdcDZlzQnB0sgsqTLDrEf3L8dcERvn43DHHAdxg+mdOKuLG
-         8FA/87OAbMRhw==
-Date:   Mon, 14 Nov 2022 23:57:52 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Anastasia Belova <abelova@astralinux.ru>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        =?ISO-8859-15?Q?Michal_Mal=FD?= <madcatxster@devoid-pointer.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lvc-project@linuxtesting.org
-Subject: Re: [PATCH] HID: hid-lg4ff: Add check for empty lbuf
-In-Reply-To: <20221111125511.28676-1-abelova@astralinux.ru>
-Message-ID: <nycvar.YFH.7.76.2211142357170.6045@cbobk.fhfr.pm>
-References: <20221111125511.28676-1-abelova@astralinux.ru>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Mon, 14 Nov 2022 18:54:51 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73837FCFB;
+        Mon, 14 Nov 2022 15:54:48 -0800 (PST)
+Date:   Tue, 15 Nov 2022 00:54:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1668470085;
+        bh=Dz7/xSqh2npEbI5YMon1IgZkkovoLxEkmwyrvIsKcfY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sZQl1shnd/0ONXKAOB995YO/xSeXAuy2n3V0lHSrG000Y3kCEhAO3x5L82dszODRP
+         /4W2589c3L2cBdRz4VkUE2TNSA4zUan4TamKaOu9vtqTsKsP6hL6jRlbjky+X6Y0v/
+         5XvqQKeoIiWUL894SRs3sMVLCofVdfoYOzocjjbo=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Franz Sirl <Franz.Sirl-kernel@lauterbach.com>,
+        linux-input@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] macintosh/mac_hid.c: don't load by default
+Message-ID: <9255deb3-6c66-444d-940d-77e721d950e5@t-8ch.de>
+References: <20221113033022.2639-1-linux@weissschuh.net>
+ <Y3KJ6SOD5PEwj1oe@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y3KJ6SOD5PEwj1oe@google.com>
+Jabber-ID: thomas@t-8ch.de
+X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
+X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 11 Nov 2022, Anastasia Belova wrote:
+Cc Franz who wrote the driver originally.
+(I hope I got the correct one)
 
-> If an empty buf is received, lbuf is also empty. So lbuf is 
-> accessed by index -1.
+Hi Dmitry,
 
-Good catch, thanks!
-
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+On 2022-11-14 10:33-0800, Dmitry Torokhov wrote:
+> On Sun, Nov 13, 2022 at 04:30:22AM +0100, Thomas Weißschuh wrote:
+>> There should be no need to automatically load this driver on *all*
+>> machines with a keyboard.
+>> 
+>> This driver is of very limited utility and has to be enabled by the user
+>> explicitly anyway.
+>> Furthermore its own header comment has deprecated it for 17 years.
 > 
-> Fixes: f31a2de3fe36 ("HID: hid-lg4ff: Allow switching of Logitech gaming wheels between compatibility modes")
-> 
-> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+> I think if someone does not need a driver they can either not enable it
+> or blacklist it in /etc/modprobe.d/... There is no need to break
+> module loading in the kernel.
 
-I've put the Fixes: line into the SOB/metadata space, and applied. Thank 
-you,
+But nobody needs the driver as it is autoloaded in its current state.
+Without manual configuration after loading the driver does not provide any
+functionality.
 
--- 
-Jiri Kosina
-SUSE Labs
+Furthermore the autoloading should load the driver for a specific
+hardware/resource that it can provide additional functionality for.
+Right now the driver loads automatically for any system that has an input
+device with a key and then just does nothing.
 
+It only wastes memory and confuses users why it is loaded.
+
+If somebody really needs this (fringe) driver it should be on them to load it
+it instead of everybody else having to disable it.
+
+Furthermore the file has the following comment since the beginning of the git
+history in 2005:
+
+    Copyright (C) 2000 Franz Sirl
+
+    This file will soon be removed in favor of an uinput userspace tool.
+
+>> Fixes: 99b089c3c38a ("Input: Mac button emulation - implement as an input filter")
+>> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+>> ---
+>>  drivers/macintosh/mac_hid.c | 2 --
+>>  1 file changed, 2 deletions(-)
+>> 
+>> diff --git a/drivers/macintosh/mac_hid.c b/drivers/macintosh/mac_hid.c
+>> index d8c4d5664145..d01d28890db4 100644
+>> --- a/drivers/macintosh/mac_hid.c
+>> +++ b/drivers/macintosh/mac_hid.c
+>> @@ -149,8 +149,6 @@ static const struct input_device_id mac_hid_emumouse_ids[] = {
+>>  	{ },
+>>  };
+>>  
+>> -MODULE_DEVICE_TABLE(input, mac_hid_emumouse_ids);
+>> -
+>>  static struct input_handler mac_hid_emumouse_handler = {
+>>  	.filter		= mac_hid_emumouse_filter,
+>>  	.connect	= mac_hid_emumouse_connect,
+>> 
+>> base-commit: fef7fd48922d11b22620e19f9c9101647bfe943d
+>> -- 
+>> 2.38.1
