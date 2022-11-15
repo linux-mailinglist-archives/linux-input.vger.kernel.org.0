@@ -2,106 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A543B629D9A
-	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 16:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AFE0629DCE
+	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 16:41:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbiKOPc7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Nov 2022 10:32:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34586 "EHLO
+        id S229650AbiKOPl3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Nov 2022 10:41:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbiKOPc6 (ORCPT
+        with ESMTP id S238393AbiKOPlR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Nov 2022 10:32:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A57273D;
-        Tue, 15 Nov 2022 07:32:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3424A6186A;
-        Tue, 15 Nov 2022 15:32:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85459C433C1;
-        Tue, 15 Nov 2022 15:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668526376;
-        bh=1L1PU7LcHMQLmP0fJq+V++VPtvtxdQUZkoNlMGwb9ak=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=vRNceK0H3tC4sH60FIUi3KHtxLfKL2+LlqanFddHdF0qPXoEuTLRIc+/jPZcnPbGk
-         Sa+DKJEqt8k6gL3fB8fuPq4lEk/xKDhK9oboCgkFrj+d8+dDwtvbld9VQVD/Kque37
-         UGHbwcpfFe6VJ/Up0MDBKzUojO/m7YYPPxmaVsneLaWfgLN9+8JkNTsiNSgkqyfkIQ
-         y8lG7JU5lOZ9uBhuCvCMEVAgu/plH0LNibtWTSiTodcDNjmUUd/48UjG214HX1Ymvd
-         ZyyEoxH1SdjHzgQx75l26nb5TCMu8qsQcSBkUxDfyvDUSmT5Zvq7ZkYJ/wJzP1ljJR
-         VnkyHbjxKfeLg==
-Date:   Tue, 15 Nov 2022 16:32:53 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH hid v12 00/15] Introduce eBPF support for HID devices
-In-Reply-To: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2211151631060.6045@cbobk.fhfr.pm>
-References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Tue, 15 Nov 2022 10:41:17 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970902C659;
+        Tue, 15 Nov 2022 07:41:16 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id ud5so37053267ejc.4;
+        Tue, 15 Nov 2022 07:41:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uHMRqOt47L6ujRv/jyT4aFt+Qk8f0ZhiaQpy1RyL+lg=;
+        b=L96/5GX0Q2toIyrXZ12bwo7+frDpMical49EPMLddUG6R3/s22JBgdEFELezo4kDoZ
+         gPVcvlVu0jEIpggfS2BxKdp1dE6zmW3kYx4PAOqoYihozXpdusuiY3kL3/yGTo8TjGob
+         ZRDXIMpOxUjvAl0rRCbjY+79HMzUsrrfUw/TFrTBtY0+VOikYn5A2HNMPEu/tKv+9pC+
+         NxREFuwaH+D2ZfxF1HlohAlBhbEg8Yp7xoEDbUYGfTuG/iokEuIPjrv0oYpIsO6h6IzI
+         KpN7BFAbGJZyhAlLPZUI1p1YkGrF33NtSCf0OXZzEj51LEWR3hY4oarRoDvUa7OyBASB
+         kryA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uHMRqOt47L6ujRv/jyT4aFt+Qk8f0ZhiaQpy1RyL+lg=;
+        b=goZB3GSfYUj1JDqAsd4RQ5QGxJQh8Cr8c9acjYa64M3Hlp2jEvpsxQzC6lxmazizhw
+         6PAxTfLHuDFPRaJVIDDZ7Tyfk50G8bVd0tcmZ+F0XWiUEgdLuqbSVGMFqmzN8jjVedXA
+         /AoRB2mYB5XIpD7teFlrgevrw0Rvko1HHOyTkVgJm0iRHtRa+sX32Le0f3h8EAMbzSda
+         faXnO0m76QK7twWmfjIL7bCCZ8aiX+iYuI4KYcG0ZZs8oRmvsAOCxW98YsKl/JHLhiZQ
+         sIfEVWOkW/PIeRM6WrqOpobZw4a1nw6exSQf2+1AKBZis050qW2rldCThRz8fxYp9hWc
+         QIqQ==
+X-Gm-Message-State: ANoB5pmlpgQU90b24sdPgTwYnTb9O8JvItD/05aG+VVzB8DKAo3CyXGv
+        ji+cU7H8wtIodwURy+wyjXBoa2GBXKxR4Hi868Q=
+X-Google-Smtp-Source: AA0mqf4umbT2P2RED6nkHbHeJSlf8XXdjmexdOZALAq2vLOfi1l6MaZUAQDb70ZBL+8+6yg/PvG4v9uWUaw5gdWb9Rc=
+X-Received: by 2002:a17:906:e24d:b0:7ad:934f:abc2 with SMTP id
+ gq13-20020a170906e24d00b007ad934fabc2mr13216386ejb.690.1668526875049; Tue, 15
+ Nov 2022 07:41:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221115053920.65318-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20221115053920.65318-1-jiapeng.chong@linux.alibaba.com>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Tue, 15 Nov 2022 07:41:02 -0800
+Message-ID: <CAEc3jaBVw40YU9DTFY0nr_bqBSHdvbqFZBgyXwTGKLOQkuzxEw@mail.gmail.com>
+Subject: Re: [PATCH] HID: playstation: remove unreachable code
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     roderick.colenbrander@sony.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, rydberg@bitmath.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Abaci Robot <abaci@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 3 Nov 2022, Benjamin Tissoires wrote:
+On Mon, Nov 14, 2022 at 9:40 PM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> The function dualshock4_get_calibration_data cannot execute hid_err,
+> delete the invalid code.
+>
+> drivers/hid/hid-playstation.c:1766 dualshock4_get_calibration_data() warn: ignoring unreachable code.
+>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3073
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/hid/hid-playstation.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> index bae3e712a562..a4106f760d1f 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -1763,8 +1763,6 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+>                                         ret = -EILSEQ;
+>                                         goto err_free;
+>                                 }
+> -                               hid_err(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
+> -                               goto err_free;
+>                         } else {
+>                                 break;
+>                         }
+> --
+> 2.20.1.7.g153144c
+>
 
-> Hi,
-> 
-> and here comes the v12 of the HID-BPF series.
-> 
-> Again, for a full explanation of HID-BPF, please refer to the last patch
-> in this series (15/15).
-> 
-> This revision contains most notably few fixes from the various kernel CI
-> bots. I also took Alexei's review into account, and we do not pollute
-> tools/include with useless hid headers.
-> 
-> I also removed most of the last checkpatch complains about adding
-> external kfunc declarations in C files. And this led me to also show in
-> samples/ how we can link together 2 BPF object files. Impressive how
-> easy it is :)
-> 
-> Cheers,
-> Benjamin
-> 
-> Benjamin Tissoires (15):
->   HID: fix I2C_HID not selected when I2C_HID_OF_ELAN is
->   HID: Kconfig: split HID support and hid-core compilation
->   HID: initial BPF implementation
->   selftests: add tests for the HID-bpf initial implementation
->   HID: bpf jmp table: simplify the logic of cleaning up programs
->   HID: bpf: allocate data memory for device_event BPF programs
->   selftests/hid: add test to change the report size
->   HID: bpf: introduce hid_hw_request()
->   selftests/hid: add tests for bpf_hid_hw_request
->   HID: bpf: allow to change the report descriptor
->   selftests/hid: add report descriptor fixup tests
->   selftests/hid: Add a test for BPF_F_INSERT_HEAD
->   samples/hid: add new hid BPF example
->   samples/hid: add Surface Dial example
->   Documentation: add HID-BPF docs
+Thanks for pointing this out. The error message is actually needed and
+should be moved either in the else statement or we just take the else
+statement.
 
-This (apart from the first patch, which I've carved out into the fixes 
-branch) is now in hid.git#for-6.2/hid-bpf
-
-Thanks a lot for all the effort invested into this, Benjamin!
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Thanks,
+Roderick
