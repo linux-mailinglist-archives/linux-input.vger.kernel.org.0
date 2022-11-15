@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F04D628F01
-	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 02:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC91628F17
+	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 02:17:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231993AbiKOBP1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 20:15:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58270 "EHLO
+        id S236559AbiKOBRj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 20:17:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231774AbiKOBPZ (ORCPT
+        with ESMTP id S236432AbiKOBRX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 20:15:25 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550CF140B4;
-        Mon, 14 Nov 2022 17:15:24 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id o7so11943733pjj.1;
-        Mon, 14 Nov 2022 17:15:24 -0800 (PST)
+        Mon, 14 Nov 2022 20:17:23 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1D31B9F0;
+        Mon, 14 Nov 2022 17:17:20 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id j12so11740930plj.5;
+        Mon, 14 Nov 2022 17:17:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hB5Kxtwkzy2WQ2B6FnTtD5MnijvpxL0Nr18t1+rbyuI=;
-        b=X0BAYPLGZC6QLMCHKDZ+9jlyLGC2tKlNDJ2qkNuliDg+2TxYVO7lkUn78qE4ptrp0r
-         oH0qWTB4bTXzPCNpVBKIEf8QM4VarlNLG4+nR0x24UtjMljvEtIdHUzirNv/ul1cIR3b
-         mLm8CXetvxB7ABJ0VRqmPpA/EPnjYsB+iRNTh2066ETdCj9ndsg8msUwf+g34+49WSiv
-         4Xh3U8yYDDqVmbKkf2Pj2std0A98eCfVcJG5OPhe6OueEl5y47IuSVea1seetuGG6NHi
-         kKBXE2qiHcVRa1GiNcEiIjbko11rv8f57Rp44upjlEcNFlW9OfDbvNyGrxk6/WI35+XR
-         Tezw==
+        bh=BUIpc8OohuRwXXTymHuQYeof5fwY+3ojN2l9M9GcprA=;
+        b=oUtVIOmA+hDrwfw6hXBGXEWEiUNMsAHXNCb1DogIAutUo3yWYa8OVEQlDCZYPxMRjL
+         p7A9Mt0lsHTpvaTKR7AqJWuOEfJ4MgRFMpwrSYJjR/OOimc0Yd62WEVqiF38mCq9qHFV
+         hibrRm2vl1oyYrKZSIUUcv0b2GDP8/lMq6ctyy6BcZ3D+8pytwo+MaqYRpQQtCKELnqb
+         KhasTnP8z/67muakDUzLJ6Z7Bm5YiLfBipxYGSaES1pw+pdaz+bBWdUlSpXT3U8Tc0ZI
+         b1ccr3lM9Xh527XRmGAJGyyCsKhbPp9HSlkzYwYVjhDDVEkdNq8OCCUXpTOIJD4YzWdo
+         I1GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hB5Kxtwkzy2WQ2B6FnTtD5MnijvpxL0Nr18t1+rbyuI=;
-        b=PD6hs/Qa7yvmWBDLk+HUrYApFbyE/GhE0Qr5gUF2x+oehDKEgBURFkcgT2NmHCfgq6
-         8bH+Knv3vFVng9ugGylWubjiuVNdJwJfot/akEzVYbTnF3ARhvkiZMgp7xmegWUngMDp
-         3LLwLT43x4L1lFbpMaWg4iUl3XVddm3tbDWwLVxYV4gQdGOgQEger0Iwbp75ehht6iZT
-         X2BpD2tDxu8pHOcNrFwG5o8o3kFMF6P2nJzuT3C/ipEXJ0BVtNlMCQAxdkyodhgDbaEP
-         qj6ebm9RLk5Vw0oW4RhyNsJi2O5JIZfpC/wzc+vfS/ztjG+TMrfqnBuJX+vr8LDBBoA2
-         ff+w==
-X-Gm-Message-State: ANoB5pmipA0qctGyw5kO3MVKCLDtvBunasxmzK8SWU6fLjagOL16Sk/Q
-        8WcvK+dKkg+vNphFlKsQGX8=
-X-Google-Smtp-Source: AA0mqf652OGjmHkx+nSTAsYgDw7Kr/ZKqZIw8v4TGdrpx2sY1yn63zY7cHinmrWY1R0cl0zOcNm2Vw==
-X-Received: by 2002:a17:902:f790:b0:186:6180:fb89 with SMTP id q16-20020a170902f79000b001866180fb89mr1632383pln.142.1668474923457;
-        Mon, 14 Nov 2022 17:15:23 -0800 (PST)
+        bh=BUIpc8OohuRwXXTymHuQYeof5fwY+3ojN2l9M9GcprA=;
+        b=lZNm25aHROzkkxlWxmn7shOVXXE8OW8Z1yYiKL8xdHQg8ZiNO3krlG0dXDfpHdaaft
+         KJrHHPpa9dlZvpSLA5Rl8uqBud9rJgcexX+Yhdl2VhXvbk1bdcv/wFhCQME9aBsQIaGm
+         wkr/zM2ZALe1vFchazsj5h7UXmnZbC4hmwlgfButXTSXBwyPUKzP/HcxRZrFmiSH6AQ2
+         +9pEmtNNNBBf5hizwW+0XMg/d5Grnn+6CZ6WL1ozx6XC1wXTCEH6BdWuLQvLZwGFUofP
+         YJVHNX67z5g+zwarHAO1A4hBS1koH0wOWU82nEvZVZpKiQ4poaA+ym+kLWaNHgSHSi7P
+         60QQ==
+X-Gm-Message-State: ANoB5pkj8FQ2eCDS7ZYFsFoKZpKgYm6XJ7F4ltMaTfGt3dIHu70SR2i4
+        ZLz5VJcE+Fr+zPj+8wXzUkM=
+X-Google-Smtp-Source: AA0mqf7AYFxLloZV1/xCKWZzDYS0lMqASczojZNKvBWAniq5L2uJ5HHmbKWbZ+2tWum2MmizzLjblA==
+X-Received: by 2002:a17:903:26c1:b0:186:9852:b9e4 with SMTP id jg1-20020a17090326c100b001869852b9e4mr1849835plb.52.1668475040137;
+        Mon, 14 Nov 2022 17:17:20 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:718:95ee:2678:497])
-        by smtp.gmail.com with ESMTPSA id t6-20020a170902e84600b001785fa792f4sm8280725plg.243.2022.11.14.17.15.21
+        by smtp.gmail.com with ESMTPSA id f88-20020a17090a28e100b002137030f652sm7238569pjd.12.2022.11.14.17.17.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 17:15:22 -0800 (PST)
-Date:   Mon, 14 Nov 2022 17:15:19 -0800
+        Mon, 14 Nov 2022 17:17:19 -0800 (PST)
+Date:   Mon, 14 Nov 2022 17:17:16 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Vincent Knecht <vincent.knecht@mailoo.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -58,14 +58,15 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         linux-kernel@vger.kernel.org, w.david0@protonmail.com,
         stephan@gerhold.net, phone-devel@vger.kernel.org,
         ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v4 3/5] Input: msg2638 - Add support for msg2138
-Message-ID: <Y3LoJ6KketQZAXvM@google.com>
+Subject: Re: [PATCH v4 5/5] Input: msg2638 - Add support for msg2138 key
+ events
+Message-ID: <Y3LonDibllKkTmPs@google.com>
 References: <20221110171952.34207-1-vincent.knecht@mailoo.org>
- <20221110171952.34207-4-vincent.knecht@mailoo.org>
+ <20221110171952.34207-6-vincent.knecht@mailoo.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221110171952.34207-4-vincent.knecht@mailoo.org>
+In-Reply-To: <20221110171952.34207-6-vincent.knecht@mailoo.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -76,16 +77,116 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 06:19:46PM +0100, Vincent Knecht wrote:
-> msg2138 only supports 2 fingers presses, and needs different processing
-> since second finger press is encoded as a delta position wrt. first one
-> and the packet/touch_event structs are not the same as msg2638.
-> 
-> Add support for it by implementing distinct structs and irq handler.
+On Thu, Nov 10, 2022 at 06:19:48PM +0100, Vincent Knecht wrote:
+> Some devices with msg2138 have back/menu/home keys.
+> Add support for them.
 > 
 > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> ---
+>  drivers/input/touchscreen/msg2638.c | 53 +++++++++++++++++++++++++----
+>  1 file changed, 47 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/msg2638.c b/drivers/input/touchscreen/msg2638.c
+> index 73e1b4d550fb..36069b30ab9b 100644
+> --- a/drivers/input/touchscreen/msg2638.c
+> +++ b/drivers/input/touchscreen/msg2638.c
+> @@ -29,6 +29,8 @@
+>  #define MSG2138_MAX_FINGERS		2
+>  #define MSG2638_MAX_FINGERS		5
+>  
+> +#define MAX_BUTTONS			4
+> +
+>  #define CHIP_ON_DELAY_MS		15
+>  #define FIRMWARE_ON_DELAY_MS		50
+>  #define RESET_DELAY_MIN_US		10000
+> @@ -72,6 +74,8 @@ struct msg2638_ts_data {
+>  	struct regulator_bulk_data supplies[2];
+>  	struct gpio_desc *reset_gpiod;
+>  	int max_fingers;
+> +	u32 keycodes[MAX_BUTTONS];
+> +	int num_keycodes;
+>  };
+>  
+>  static u8 msg2638_checksum(u8 *data, u32 length)
+> @@ -85,6 +89,19 @@ static u8 msg2638_checksum(u8 *data, u32 length)
+>  	return (u8)((-sum) & 0xFF);
+>  }
+>  
+> +static void msg2138_report_keys(struct msg2638_ts_data *msg2638, u8 keys)
+> +{
+> +	int i;
+> +
+> +	/* keys can be 0x00 or 0xff when all keys have been released */
+> +	if (keys == 0xff)
+> +		keys = 0;
+> +
+> +	for (i = 0; i < msg2638->num_keycodes; ++i)
+> +		input_report_key(msg2638->input_dev, msg2638->keycodes[i],
+> +				 !!(keys & BIT(i)));
 
-Applied, thank you.
+No need to do double-negation here, input_report_key() does it already.
+
+> +}
+> +
+>  static irqreturn_t msg2138_ts_irq_handler(int irq, void *msg2638_handler)
+>  {
+>  	struct msg2638_ts_data *msg2638 = msg2638_handler;
+> @@ -121,9 +138,12 @@ static irqreturn_t msg2138_ts_irq_handler(int irq, void *msg2638_handler)
+>  	p0 = &touch_event.pkt[0];
+>  	p1 = &touch_event.pkt[1];
+>  
+> -	/* Ignore non-pressed finger data */
+> -	if (p0->xy_hi == 0xFF && p0->x_low == 0xFF && p0->y_low == 0xFF)
+> +	/* Ignore non-pressed finger data, but check for key code */
+> +	if (p0->xy_hi == 0xFF && p0->x_low == 0xFF && p0->y_low == 0xFF) {
+> +		if (p1->xy_hi == 0xFF && p1->y_low == 0xFF)
+> +			msg2138_report_keys(msg2638, p1->x_low);
+>  		goto report;
+> +	}
+>  
+>  	x = (((p0->xy_hi & 0xF0) << 4) | p0->x_low);
+>  	y = (((p0->xy_hi & 0x0F) << 8) | p0->y_low);
+> @@ -283,6 +303,7 @@ static int msg2638_init_input_dev(struct msg2638_ts_data *msg2638)
+>  	struct device *dev = &msg2638->client->dev;
+>  	struct input_dev *input_dev;
+>  	int error;
+> +	int i;
+>  
+>  	input_dev = devm_input_allocate_device(dev);
+>  	if (!input_dev) {
+> @@ -299,6 +320,14 @@ static int msg2638_init_input_dev(struct msg2638_ts_data *msg2638)
+>  	input_dev->open = msg2638_input_open;
+>  	input_dev->close = msg2638_input_close;
+>  
+> +	if (msg2638->num_keycodes) {
+> +		input_dev->keycode = msg2638->keycodes;
+> +		input_dev->keycodemax = msg2638->num_keycodes;
+> +		input_dev->keycodesize = sizeof(msg2638->keycodes[0]);
+> +		for (i = 0; i < msg2638->num_keycodes; i++)
+> +			input_set_capability(input_dev, EV_KEY, msg2638->keycodes[i]);
+> +	}
+> +
+>  	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
+>  	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
+>  
+> @@ -367,10 +396,16 @@ static int msg2638_ts_probe(struct i2c_client *client)
+>  		return error;
+>  	}
+>  
+> -	error = msg2638_init_input_dev(msg2638);
+> -	if (error) {
+> -		dev_err(dev, "Failed to initialize input device: %d\n", error);
+> -		return error;
+> +	msg2638->num_keycodes =
+> +		of_property_read_variable_u32_array(dev->of_node, "linux,keycodes",
+> +						    msg2638->keycodes, 0,
+> +						    ARRAY_SIZE(msg2638->keycodes));
+
+Please do not use OF-specific API, use generic device property API (yes,
+you will need 2 calls, one to get the count, and another to actually
+fill the array).
+
+Thanks.
 
 -- 
 Dmitry
