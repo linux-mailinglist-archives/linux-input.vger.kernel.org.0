@@ -2,137 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4A0629B03
-	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 14:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6BFF629B28
+	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 14:50:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbiKONsK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Nov 2022 08:48:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
+        id S238537AbiKONux (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Nov 2022 08:50:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237567AbiKONsJ (ORCPT
+        with ESMTP id S238517AbiKONu0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:48:09 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670BC23BEA
-        for <linux-input@vger.kernel.org>; Tue, 15 Nov 2022 05:48:08 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id t25-20020a1c7719000000b003cfa34ea516so1042669wmi.1
-        for <linux-input@vger.kernel.org>; Tue, 15 Nov 2022 05:48:08 -0800 (PST)
+        Tue, 15 Nov 2022 08:50:26 -0500
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1CE2B60A
+        for <linux-input@vger.kernel.org>; Tue, 15 Nov 2022 05:49:51 -0800 (PST)
+Received: by mail-lf1-x132.google.com with SMTP id p8so24486155lfu.11
+        for <linux-input@vger.kernel.org>; Tue, 15 Nov 2022 05:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gIS5eHal+qUifmyZdRDNhM3XXOTFE+aF0LiTFx6wdc8=;
-        b=k0TbOs70XxoAf2pRgXC/zOwru86DBZYxRcfP7Ll85++IM7nQhMima5aYm+PZ7HSQBK
-         zXWDzCnrA0PutGSqpMF6/JTJSSBrasp1tEaGlBL5i+0449J6ni6J3meVUH7bmzlzVqbe
-         vvVrCszzpo8gd/vpS13zCMO+F4qd/V385kmqH/9VJN0up0lrvxMI87DAcb/+rEUsiDJw
-         NX2sr5WQQN4KOufDSLA5BSEqEscTeYRl6H66B9UI/gQulJxgU7s5Ti0jOnkFYYLbtbwu
-         I2zNhL4WyiXmXXL9XgrNMe0/6aC2JwAl29L4yHc2JUTr2ZANLMDhsJQQls+Qbg34jekq
-         Ri0g==
+        bh=83HRjZKoyBhiQsQuC/2fimMYvWtEYyPCZTwB6HczlYU=;
+        b=U8aNfCV8mQrF6+8xUdV+q1DsV+b4rovI818ppeddszlbjp3ubxcnLzMH/ZKp/GV5CV
+         WqprIGc12o1WqT1enKPpTj+fFsbBNfFsRvFXB3A6iLwW0YjmguEY9dWOD91hoVQHja5N
+         bH+LMyA8vFfleHQJO2H0Su2/6fhpHECFf3GaxoSQ+Ki2VrRAICyhdymSGlVfvfjiwj9H
+         prrmSrf2iDSpt9owuBHRQg/LT4JczPXiMqNTtJEg+lPV7WvtzNkoKxbJ3KvnhAfBtuzE
+         ekUPmQdYhjp7nrd19MVz5LD253YiMUNvMvI4nGJrL5Job5/tpnfxr3uQbEwrJhZGqngA
+         nIiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gIS5eHal+qUifmyZdRDNhM3XXOTFE+aF0LiTFx6wdc8=;
-        b=iQEti9JwWytvibeX08i/9rtPxxo1kg4vDq9P2sGsp8oW2wj2pNO4mTFy6RieOTmyuV
-         wMKegQ7tBB6RMSskylG/Ix1wJ3mR95RR4BEVIm62718+YRYq4pbdqlOcePWHeHcTnu1C
-         Gimk20tKP7TS6s1a3hgZsNJetJYOWUdFR/OTeGekD/L4lPYcZ4us//R3+6YyJjpgf2xa
-         0TfqxX/OuWv485Nevgf38nqJOyghzDw+AThJx+DRTxcvWg8KUl3SJ6VW2uHAHmpfTRc6
-         cglLhGql+XRPVF+0Ahtf1kHA3xbC0hLrFpdWZqjcZANvfwiy3vNYOVyuexK6UA2nHxho
-         NLpw==
-X-Gm-Message-State: ANoB5pn8W/ylw4io59EXtTjm+dkqoRYgc5uExHQ6SufEnbV9rRDbh7JF
-        5+J3kD7fRL4cGvsdRj/cSs0=
-X-Google-Smtp-Source: AA0mqf42e2gmlO+u1YYw09KsCsZilSO/IAJPgs0z0p/xyul/pi1AHWq+yv3KG/24Hu8LfgLrGsflNQ==
-X-Received: by 2002:a7b:c40a:0:b0:3cf:b1c2:c92c with SMTP id k10-20020a7bc40a000000b003cfb1c2c92cmr1567918wmi.193.1668520086914;
-        Tue, 15 Nov 2022 05:48:06 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n10-20020adff08a000000b002368f6b56desm14721850wro.18.2022.11.15.05.48.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 05:48:06 -0800 (PST)
-Date:   Tue, 15 Nov 2022 16:48:03 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     roderick@gaikai.com
-Cc:     linux-input@vger.kernel.org
-Subject: [bug report] HID: playstation: add DualShock4 accelerometer and
- gyroscope support.
-Message-ID: <Y3OYkwNSevtPP2B2@kili>
+        bh=83HRjZKoyBhiQsQuC/2fimMYvWtEYyPCZTwB6HczlYU=;
+        b=q1lxR6Of3VuhF8pL8y4mV1iMlbxh0gBFxU8eHGn6AxEo0Y6MO5XaDMvYatJeVWGdaV
+         8ULJLgBn2Z4xFqsqDBWJq+9r220Mz+sVEXMLcdaIReXpun7YeRtwnq2DSVufSNjMZQFV
+         QdkYU88104+nM7USNo8oyr3cYaXVI4AgEe7WJjgozMtxi1UfGKzbB3pb8lNHKZIFeAcr
+         M7YehOf6WZtjkMb5+QXXmt1NZkZlxkps61cLBO4PkyTDPoMoN176Ox8u+gyoQphpXtgu
+         9ebgmKEHuTE7l11Yh77pr+v0E8gUPeKZhIYl9TYbtgAd1jdsSWbB7rwFvUhP3ahIcCr1
+         cgMA==
+X-Gm-Message-State: ANoB5pk6vUSDCDjoJdOTIYk0Z4hLl23gyeyjwqdCUwDbyji2jYY56+KF
+        0yfpbsTf3w4ZHbLY7zDdkWf+qw==
+X-Google-Smtp-Source: AA0mqf5HS5gfxzBVMqFriEE4HJoPWmEr5IGzGDfjoRndsB7SSJmPfMrJ7RjHxXmJSplQzZN4BQIGTQ==
+X-Received: by 2002:ac2:5c10:0:b0:4b4:6ca6:c658 with SMTP id r16-20020ac25c10000000b004b46ca6c658mr6341920lfp.359.1668520189681;
+        Tue, 15 Nov 2022 05:49:49 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id t14-20020a2e8e6e000000b0026bf0d71b1esm2508099ljk.93.2022.11.15.05.49.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 05:49:49 -0800 (PST)
+Message-ID: <dcb65352-64c7-774f-3933-42f9dfe95cba@linaro.org>
+Date:   Tue, 15 Nov 2022 14:49:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
+ documentation
+Content-Language: en-US
+To:     Alexandre Mergnat <amergnat@baylibre.com>
+Cc:     a.zummo@towertech.it, alexandre.belloni@bootlin.com,
+        angelogioacchino.delregno@collabora.com, broonie@kernel.org,
+        chen.zhong@mediatek.com, devicetree@vger.kernel.org,
+        dmitry.torokhov@gmail.com, fabien.parent@linaro.org,
+        fparent@baylibre.com, krzysztof.kozlowski+dt@linaro.org,
+        lee@kernel.org, lgirdwood@gmail.com,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-rtc@vger.kernel.org,
+        matthias.bgg@gmail.com, mkorpershoek@baylibre.com, pavel@ucw.cz,
+        robh@kernel.org, sean.wang@mediatek.com
+References: <09495553-e563-e12b-056e-bed95531ab6b@linaro.org>
+ <ba0901a0-56c5-4e60-49b3-356899921934@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ba0901a0-56c5-4e60-49b3-356899921934@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Roderick Colenbrander,
+On 15/11/2022 11:34, Alexandre Mergnat wrote:
+> I think I understand my error.
+> Actually, the RTC (HW) support the "start-year" feature, then I suggest
+> to fix the binding like that:
+> 
+> allOf:
+>    - $ref: "rtc.yaml#"
 
-The patch 12882ed83c58: "HID: playstation: add DualShock4
-accelerometer and gyroscope support." from Oct 29, 2022, leads to the
-following Smatch static checker warning:
+No quotes.
 
-	drivers/hid/hid-playstation.c:1766 dualshock4_get_calibration_data()
-	warn: ignoring unreachable code.
 
-drivers/hid/hid-playstation.c
-    1727 static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
-    1728 {
-    1729         struct hid_device *hdev = ds4->base.hdev;
-    1730         short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
-    1731         short gyro_yaw_bias, gyro_yaw_plus, gyro_yaw_minus;
-    1732         short gyro_roll_bias, gyro_roll_plus, gyro_roll_minus;
-    1733         short gyro_speed_plus, gyro_speed_minus;
-    1734         short acc_x_plus, acc_x_minus;
-    1735         short acc_y_plus, acc_y_minus;
-    1736         short acc_z_plus, acc_z_minus;
-    1737         int speed_2x;
-    1738         int range_2g;
-    1739         int ret = 0;
-    1740         uint8_t *buf;
-    1741 
-    1742         if (ds4->base.hdev->bus == BUS_USB) {
-    1743                 int retries;
-    1744 
-    1745                 buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
-    1746                 if (!buf)
-    1747                         return -ENOMEM;
-    1748 
-    1749                 /* We should normally receive the feature report data we asked
-    1750                  * for, but hidraw applications such as Steam can issue feature
-    1751                  * reports as well. In particular for Dongle reconnects, Steam
-    1752                  * and this function are competing resulting in often receiving
-    1753                  * data for a different HID report, so retry a few times.
-    1754                  */
-    1755                 for (retries = 0; retries < 3; retries++) {
-    1756                         ret = ps_get_report(hdev, DS4_FEATURE_REPORT_CALIBRATION, buf,
-    1757                                         DS4_FEATURE_REPORT_CALIBRATION_SIZE, true);
-    1758                         if (ret) {
-    1759                                 if (retries < 2) {
-    1760                                         hid_warn(hdev, "Retrying DualShock 4 get calibration report (0x02) request\n");
-    1761                                         continue;
-                                                 ^^^^^^^^^
-    1762                                 } else {
-    1763                                         ret = -EILSEQ;
-    1764                                         goto err_free;
-                                                 ^^^^^^^^^^^^^^
-    1765                                 }
---> 1766                                 hid_err(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
-    1767                                 goto err_free;
+Best regards,
+Krzysztof
 
-Dead code.
-
-    1768                         } else {
-    1769                                 break;
-    1770                         }
-    1771                 }
-    1772         } else { /* Bluetooth */
-    1773                 buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_BT_SIZE, GFP_KERNEL);
-    1774                 if (!buf)
-    1775                         return -ENOMEM;
-    1776 
-
-regards,
-dan carpenter
