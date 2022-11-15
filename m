@@ -2,179 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59E79629B50
-	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 14:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 680AB629BCD
+	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 15:18:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230172AbiKON7M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Nov 2022 08:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57736 "EHLO
+        id S230313AbiKOOSJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Nov 2022 09:18:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbiKON7L (ORCPT
+        with ESMTP id S229596AbiKOOSI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:59:11 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FCB8399
-        for <linux-input@vger.kernel.org>; Tue, 15 Nov 2022 05:59:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668520750; x=1700056750;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lFTBX9nbZwFhU2mkAqgpkJBHn6PZqn8oStQpZ8ABriU=;
-  b=K0aZW/IZeVbGAR6NdSv285n16xGUS4AhcrXAIthqy9Ad549BUDYPLZ4p
-   XWRBzEOkhYvcPOas2BkE2v2J6S3NOxk3LIWBAr6AvvXyKpbnIEqWvvgBL
-   a9pMHs/AEvLdlZEYA4h7L6QgABUJCTGxY3kalPJkjaJlVrnRcUkDzy9Tx
-   ijtROK/5sxe3eC03MwSQfgfbve2clkvJ/jMubSYkEHifj4fQjtWvGSBme
-   xImUOpy1vqzGwKkia/+U4Y3e91jv/JWoF/X/BV1yPSgOcR4sN150pRpoh
-   p+ipC46gtesuk6Va+jtq1D0qsHJbk5u/heL9PHlg9b8McnAuWQXxcDHBP
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="398546468"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; 
-   d="scan'208";a="398546468"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 05:59:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="744600064"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; 
-   d="scan'208";a="744600064"
-Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2022 05:59:08 -0800
-Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ouwSx-0001PF-1m;
-        Tue, 15 Nov 2022 13:59:07 +0000
-Date:   Tue, 15 Nov 2022 21:58:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- ae6b18e631d6afb4beaec9288a3245a77b22c06a
-Message-ID: <63739b05.p8Y7xPpLt5t/P8dF%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 15 Nov 2022 09:18:08 -0500
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DBD6F09
+        for <linux-input@vger.kernel.org>; Tue, 15 Nov 2022 06:18:07 -0800 (PST)
+Received: by mail-lf1-x132.google.com with SMTP id d6so24603851lfs.10
+        for <linux-input@vger.kernel.org>; Tue, 15 Nov 2022 06:18:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Fjl1nyklvmbUWAqy2NCYV73rfZ4GVtAe9RZ6ef7L2Y0=;
+        b=kktnKZbk/wYqI1XXAvaLTfAGHnue0EYLsoCc4n10GlO+qbBrqglGT0Zu/vESOvx0ew
+         iMpg22+o0WdTD1coyylUUIsTezFd7/3h5mVoI8e8xhNF1bwnt9ZbB8rbltbLQet4iRvu
+         DQjXbUA3jh8FTrpfbBUTnxDzOY+O3y9xV9RY2CfHKPMHjHK+kWSt1crMFNb80JVmsb1w
+         WrmExEmJ7zve9/ucCN2xeRB43XI7Mi7I2QzXKUa093H2zVzvtfpBGeMRvq3hTqbkLA/F
+         Hw3jPA/eD/hexsuk9a5hONbJOXi289XagRzVJN8sgTcPYovqmq9hvSz4s1kHrCdgpXGJ
+         8o+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fjl1nyklvmbUWAqy2NCYV73rfZ4GVtAe9RZ6ef7L2Y0=;
+        b=fMxkJNdSgbQJ29uzhbVpiZSdqU5H/NybQjJJmOiiNqyDQKZy5Qgw+6qEEUgV1l4wzZ
+         gxy1kfH8TSijlnRY8sEchh3ofEZDhhxvnSoJ7eSLcas+YGwTvrIhfhKQ/E2IC8N1Vtfs
+         CMoSRtis1gQOg5qRlNmwdISttSTAW7jJcxDhpsOVH5DVN7C6L217OOznEUDrHu89ynXh
+         5sDFtlqdhrvQ3XXYdPNfFHhNl77bclPdw2KIykH9WH/RkrNdFoLxIDuagk0n5uUSn5dL
+         5+idSRfzdNHbn9E9TaMomVBC9nPWF4KPfm37ou7rLCJdoLJ/O2SKSdbMBsSan9OOC+zA
+         lQ6A==
+X-Gm-Message-State: ANoB5pk3onOuTxdg94X9MYqj2YOSvumenkRI+3Mpl0ZwXQ0Gjq/NbEhG
+        i1bedhPvg67qTcxT3yoOXRxDow==
+X-Google-Smtp-Source: AA0mqf5N00F5rAhEqY0apB6eFiFRPswarOnAVSPpRwwKMxwKjHmpmNxqwDSJHMbz3HdSxA2K7w+B5g==
+X-Received: by 2002:ac2:4bd5:0:b0:4a2:776f:f3c6 with SMTP id o21-20020ac24bd5000000b004a2776ff3c6mr5425071lfq.302.1668521885588;
+        Tue, 15 Nov 2022 06:18:05 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id x11-20020a056512130b00b004a608ec6d8csm2230929lfu.27.2022.11.15.06.18.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 06:18:05 -0800 (PST)
+Message-ID: <c426918a-8d63-5c40-4340-6c918296814f@linaro.org>
+Date:   Tue, 15 Nov 2022 15:18:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 5/9] dt-bindings: soc: mediatek: convert pwrap
+ documentation
+Content-Language: en-US
+To:     Alexandre Mergnat <amergnat@baylibre.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Fabien Parent <fabien.parent@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
+ <20221005-mt6357-support-v4-5-5d2bb58e6087@baylibre.com>
+ <fe898d24-54fa-56bb-8067-b422a3a52ff5@collabora.com>
+ <CAFGrd9r70XRd=4Ogei+U2QXQny7LhWr9bDCRNYco+Bsy+2XqrA@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAFGrd9r70XRd=4Ogei+U2QXQny7LhWr9bDCRNYco+Bsy+2XqrA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: ae6b18e631d6afb4beaec9288a3245a77b22c06a  Input: msg2638 - add support for msg2138
+On 15/11/2022 14:54, Alexandre Mergnat wrote:
+> Hi Angelo,
+> 
+> Le mer. 9 nov. 2022 à 10:55, AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> a écrit :
+>>
+>> Il 08/11/22 19:43, Alexandre Mergnat ha scritto:
+>>> +maintainers:
+>>> +  - Alexandre Mergnat <amergnat@baylibre.com>
+>>
+>> I say that the maintainer for pwrap is Flora Fu <flora.fu@mediatek.com>....
+> 
+> Flora Fu is the driver maintainer. As described in
+> Documentation/devicetree/bindings/writing-schema.rst:
+> maintainers
+>   A DT specific property. Contains a list of email address(es)
+>   for maintainers of this binding.
+> 
+> My  understanding is this field is only for binding maintainers, but
+> not related driver maintainers. Are we aligned ?
 
-elapsed time: 726m
+Usually driver maintainer should be also binding maintainer. You can
+have more binding maintainers than drivers (and vice versa), but it's
+less usual to maintain driver and do not care about its Devicetree
+binding (unless driver is also for ACPI etc. but that's not the case here?).
 
-configs tested: 97
-configs skipped: 3
+Best regards,
+Krzysztof
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-arc                                 defconfig
-alpha                               defconfig
-s390                             allmodconfig
-s390                                defconfig
-sh                               allmodconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-mips                             allyesconfig
-powerpc                          allmodconfig
-arc                  randconfig-r043-20221114
-s390                             allyesconfig
-alpha                            allyesconfig
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-arc                              allyesconfig
-x86_64                           rhel-8.3-syz
-m68k                             allyesconfig
-x86_64                               rhel-8.3
-i386                 randconfig-a005-20221114
-m68k                             allmodconfig
-x86_64               randconfig-a002-20221114
-i386                 randconfig-a006-20221114
-i386                                defconfig
-x86_64                              defconfig
-x86_64               randconfig-a001-20221114
-x86_64               randconfig-a004-20221114
-x86_64               randconfig-a005-20221114
-i386                 randconfig-a002-20221114
-x86_64               randconfig-a006-20221114
-i386                 randconfig-a003-20221114
-x86_64               randconfig-a003-20221114
-i386                 randconfig-a001-20221114
-i386                 randconfig-a004-20221114
-ia64                             allmodconfig
-x86_64                           allyesconfig
-i386                             allyesconfig
-x86_64                            allnoconfig
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-xtensa                         virt_defconfig
-sh                            shmin_defconfig
-xtensa                              defconfig
-mips                        vocore2_defconfig
-parisc                generic-32bit_defconfig
-sh                     magicpanelr2_defconfig
-mips                           gcw0_defconfig
-powerpc                     stx_gp3_defconfig
-sh                           sh2007_defconfig
-loongarch                        allmodconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-c001
-arm                           sunxi_defconfig
-arm                               allnoconfig
-loongarch                 loongson3_defconfig
-arc                         haps_hs_defconfig
-arm                          pxa3xx_defconfig
-m68k                       m5475evb_defconfig
-sh                            hp6xx_defconfig
-mips                  decstation_64_defconfig
-powerpc                    sam440ep_defconfig
-sparc64                          alldefconfig
-m68k                          atari_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc                        cell_defconfig
-
-clang tested configs:
-s390                 randconfig-r044-20221114
-hexagon              randconfig-r041-20221114
-hexagon              randconfig-r045-20221114
-riscv                randconfig-r042-20221114
-x86_64               randconfig-a012-20221114
-x86_64               randconfig-a016-20221114
-x86_64               randconfig-a015-20221114
-x86_64               randconfig-a013-20221114
-x86_64               randconfig-a011-20221114
-x86_64               randconfig-a014-20221114
-i386                 randconfig-a011-20221114
-i386                 randconfig-a014-20221114
-i386                          randconfig-a013
-i386                 randconfig-a013-20221114
-i386                          randconfig-a011
-i386                 randconfig-a012-20221114
-i386                 randconfig-a015-20221114
-i386                 randconfig-a016-20221114
-i386                          randconfig-a015
-arm                        magician_defconfig
-x86_64               randconfig-k001-20221114
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
