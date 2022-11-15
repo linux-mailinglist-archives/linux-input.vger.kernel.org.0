@@ -2,191 +2,255 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CC91628F17
-	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 02:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7AB4629084
+	for <lists+linux-input@lfdr.de>; Tue, 15 Nov 2022 04:08:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236559AbiKOBRj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Nov 2022 20:17:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
+        id S237805AbiKODIf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Nov 2022 22:08:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236432AbiKOBRX (ORCPT
+        with ESMTP id S237908AbiKODIK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Nov 2022 20:17:23 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1D31B9F0;
-        Mon, 14 Nov 2022 17:17:20 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id j12so11740930plj.5;
-        Mon, 14 Nov 2022 17:17:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BUIpc8OohuRwXXTymHuQYeof5fwY+3ojN2l9M9GcprA=;
-        b=oUtVIOmA+hDrwfw6hXBGXEWEiUNMsAHXNCb1DogIAutUo3yWYa8OVEQlDCZYPxMRjL
-         p7A9Mt0lsHTpvaTKR7AqJWuOEfJ4MgRFMpwrSYJjR/OOimc0Yd62WEVqiF38mCq9qHFV
-         hibrRm2vl1oyYrKZSIUUcv0b2GDP8/lMq6ctyy6BcZ3D+8pytwo+MaqYRpQQtCKELnqb
-         KhasTnP8z/67muakDUzLJ6Z7Bm5YiLfBipxYGSaES1pw+pdaz+bBWdUlSpXT3U8Tc0ZI
-         b1ccr3lM9Xh527XRmGAJGyyCsKhbPp9HSlkzYwYVjhDDVEkdNq8OCCUXpTOIJD4YzWdo
-         I1GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BUIpc8OohuRwXXTymHuQYeof5fwY+3ojN2l9M9GcprA=;
-        b=lZNm25aHROzkkxlWxmn7shOVXXE8OW8Z1yYiKL8xdHQg8ZiNO3krlG0dXDfpHdaaft
-         KJrHHPpa9dlZvpSLA5Rl8uqBud9rJgcexX+Yhdl2VhXvbk1bdcv/wFhCQME9aBsQIaGm
-         wkr/zM2ZALe1vFchazsj5h7UXmnZbC4hmwlgfButXTSXBwyPUKzP/HcxRZrFmiSH6AQ2
-         +9pEmtNNNBBf5hizwW+0XMg/d5Grnn+6CZ6WL1ozx6XC1wXTCEH6BdWuLQvLZwGFUofP
-         YJVHNX67z5g+zwarHAO1A4hBS1koH0wOWU82nEvZVZpKiQ4poaA+ym+kLWaNHgSHSi7P
-         60QQ==
-X-Gm-Message-State: ANoB5pkj8FQ2eCDS7ZYFsFoKZpKgYm6XJ7F4ltMaTfGt3dIHu70SR2i4
-        ZLz5VJcE+Fr+zPj+8wXzUkM=
-X-Google-Smtp-Source: AA0mqf7AYFxLloZV1/xCKWZzDYS0lMqASczojZNKvBWAniq5L2uJ5HHmbKWbZ+2tWum2MmizzLjblA==
-X-Received: by 2002:a17:903:26c1:b0:186:9852:b9e4 with SMTP id jg1-20020a17090326c100b001869852b9e4mr1849835plb.52.1668475040137;
-        Mon, 14 Nov 2022 17:17:20 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:718:95ee:2678:497])
-        by smtp.gmail.com with ESMTPSA id f88-20020a17090a28e100b002137030f652sm7238569pjd.12.2022.11.14.17.17.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 17:17:19 -0800 (PST)
-Date:   Mon, 14 Nov 2022 17:17:16 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Vincent Knecht <vincent.knecht@mailoo.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, w.david0@protonmail.com,
-        stephan@gerhold.net, phone-devel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v4 5/5] Input: msg2638 - Add support for msg2138 key
- events
-Message-ID: <Y3LonDibllKkTmPs@google.com>
-References: <20221110171952.34207-1-vincent.knecht@mailoo.org>
- <20221110171952.34207-6-vincent.knecht@mailoo.org>
+        Mon, 14 Nov 2022 22:08:10 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFDA61B9CA;
+        Mon, 14 Nov 2022 19:07:58 -0800 (PST)
+Date:   Tue, 15 Nov 2022 04:07:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1668481676;
+        bh=XwukAzEMkrKOLhwHxnYIHJWTurGUZY8bv9JS6huuNUQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Xk5L4wmBCSU913s1llA/SpI1JY6RdkkltupJrVhUV/2nHrG5Y7Z8uXFiS/f/A/J54
+         wiiF6I6K/UAMNUrU0eDbnzFvOkPVG0XYlWODm+MtETmX96kWTx2avZsrSja3n2PA2w
+         9M2yqXiYm4CD3ru7LLDLaGpDxDoN/5+vS1QjpP3A=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Franz Sirl <Franz.Sirl-kernel@lauterbach.com>,
+        linux-input@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] macintosh/mac_hid.c: don't load by default
+Message-ID: <cf4c9402-189f-4ff7-a130-c61ccfc99a08@t-8ch.de>
+References: <20221113033022.2639-1-linux@weissschuh.net>
+ <Y3KJ6SOD5PEwj1oe@google.com>
+ <9255deb3-6c66-444d-940d-77e721d950e5@t-8ch.de>
+ <Y3LaTeMxTa/7Rv7H@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="t5LQKshz+W68qyxN"
 Content-Disposition: inline
-In-Reply-To: <20221110171952.34207-6-vincent.knecht@mailoo.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y3LaTeMxTa/7Rv7H@google.com>
+Jabber-ID: thomas@t-8ch.de
+X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
+X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 06:19:48PM +0100, Vincent Knecht wrote:
-> Some devices with msg2138 have back/menu/home keys.
-> Add support for them.
+
+--t5LQKshz+W68qyxN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+On 2022-11-14 16:16-0800, Dmitry Torokhov wrote:
+> On Tue, Nov 15, 2022 at 12:54:41AM +0100, Thomas Weißschuh wrote:
+>> Cc Franz who wrote the driver originally.
+>> (I hope I got the correct one)
+>> 
+>> Hi Dmitry,
+>> 
+>> On 2022-11-14 10:33-0800, Dmitry Torokhov wrote:
+>>> On Sun, Nov 13, 2022 at 04:30:22AM +0100, Thomas Weißschuh wrote:
+>>>> There should be no need to automatically load this driver on *all*
+>>>> machines with a keyboard.
+>>>> 
+>>>> This driver is of very limited utility and has to be enabled by the user
+>>>> explicitly anyway.
+>>>> Furthermore its own header comment has deprecated it for 17 years.
+>>> 
+>>> I think if someone does not need a driver they can either not enable it
+>>> or blacklist it in /etc/modprobe.d/... There is no need to break
+>>> module loading in the kernel.
+>> 
+>> But nobody needs the driver as it is autoloaded in its current state.
+>> Without manual configuration after loading the driver does not provide any
+>> functionality.
+>> 
+>> Furthermore the autoloading should load the driver for a specific
+>> hardware/resource that it can provide additional functionality for.
+>> Right now the driver loads automatically for any system that has an input
+>> device with a key and then just does nothing.
+>> 
+>> It only wastes memory and confuses users why it is loaded.
+>> 
+>> If somebody really needs this (fringe) driver it should be on them to load it
+>> it instead of everybody else having to disable it.
 > 
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> ---
->  drivers/input/touchscreen/msg2638.c | 53 +++++++++++++++++++++++++----
->  1 file changed, 47 insertions(+), 6 deletions(-)
+> The driver is not enabled by default, so somebody has to enable it in
+> the first place. How did you end up with it?
+
+My distro kernel configured it to be enabled as module.
+So people who want to use it can do so. It would be nice if the rest of us
+wouldn't have to care about it.
+
+>> Furthermore the file has the following comment since the beginning of the git
+>> history in 2005:
+>> 
+>>     Copyright (C) 2000 Franz Sirl
+>> 
+>>     This file will soon be removed in favor of an uinput userspace tool.
 > 
-> diff --git a/drivers/input/touchscreen/msg2638.c b/drivers/input/touchscreen/msg2638.c
-> index 73e1b4d550fb..36069b30ab9b 100644
-> --- a/drivers/input/touchscreen/msg2638.c
-> +++ b/drivers/input/touchscreen/msg2638.c
-> @@ -29,6 +29,8 @@
->  #define MSG2138_MAX_FINGERS		2
->  #define MSG2638_MAX_FINGERS		5
->  
-> +#define MAX_BUTTONS			4
-> +
->  #define CHIP_ON_DELAY_MS		15
->  #define FIRMWARE_ON_DELAY_MS		50
->  #define RESET_DELAY_MIN_US		10000
-> @@ -72,6 +74,8 @@ struct msg2638_ts_data {
->  	struct regulator_bulk_data supplies[2];
->  	struct gpio_desc *reset_gpiod;
->  	int max_fingers;
-> +	u32 keycodes[MAX_BUTTONS];
-> +	int num_keycodes;
->  };
->  
->  static u8 msg2638_checksum(u8 *data, u32 length)
-> @@ -85,6 +89,19 @@ static u8 msg2638_checksum(u8 *data, u32 length)
->  	return (u8)((-sum) & 0xFF);
->  }
->  
-> +static void msg2138_report_keys(struct msg2638_ts_data *msg2638, u8 keys)
-> +{
-> +	int i;
-> +
-> +	/* keys can be 0x00 or 0xff when all keys have been released */
-> +	if (keys == 0xff)
-> +		keys = 0;
-> +
-> +	for (i = 0; i < msg2638->num_keycodes; ++i)
-> +		input_report_key(msg2638->input_dev, msg2638->keycodes[i],
-> +				 !!(keys & BIT(i)));
+> OK, that is a separate topic, if there are no users we can remove the
+> driver. Do we know if this tool ever came into existence?
 
-No need to do double-negation here, input_report_key() does it already.
+One interpretation of it is attached as "mac_hid_userspace.c".
 
-> +}
-> +
->  static irqreturn_t msg2138_ts_irq_handler(int irq, void *msg2638_handler)
->  {
->  	struct msg2638_ts_data *msg2638 = msg2638_handler;
-> @@ -121,9 +138,12 @@ static irqreturn_t msg2138_ts_irq_handler(int irq, void *msg2638_handler)
->  	p0 = &touch_event.pkt[0];
->  	p1 = &touch_event.pkt[1];
->  
-> -	/* Ignore non-pressed finger data */
-> -	if (p0->xy_hi == 0xFF && p0->x_low == 0xFF && p0->y_low == 0xFF)
-> +	/* Ignore non-pressed finger data, but check for key code */
-> +	if (p0->xy_hi == 0xFF && p0->x_low == 0xFF && p0->y_low == 0xFF) {
-> +		if (p1->xy_hi == 0xFF && p1->y_low == 0xFF)
-> +			msg2138_report_keys(msg2638, p1->x_low);
->  		goto report;
-> +	}
->  
->  	x = (((p0->xy_hi & 0xF0) << 4) | p0->x_low);
->  	y = (((p0->xy_hi & 0x0F) << 8) | p0->y_low);
-> @@ -283,6 +303,7 @@ static int msg2638_init_input_dev(struct msg2638_ts_data *msg2638)
->  	struct device *dev = &msg2638->client->dev;
->  	struct input_dev *input_dev;
->  	int error;
-> +	int i;
->  
->  	input_dev = devm_input_allocate_device(dev);
->  	if (!input_dev) {
-> @@ -299,6 +320,14 @@ static int msg2638_init_input_dev(struct msg2638_ts_data *msg2638)
->  	input_dev->open = msg2638_input_open;
->  	input_dev->close = msg2638_input_close;
->  
-> +	if (msg2638->num_keycodes) {
-> +		input_dev->keycode = msg2638->keycodes;
-> +		input_dev->keycodemax = msg2638->num_keycodes;
-> +		input_dev->keycodesize = sizeof(msg2638->keycodes[0]);
-> +		for (i = 0; i < msg2638->num_keycodes; i++)
-> +			input_set_capability(input_dev, EV_KEY, msg2638->keycodes[i]);
-> +	}
-> +
->  	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
->  	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
->  
-> @@ -367,10 +396,16 @@ static int msg2638_ts_probe(struct i2c_client *client)
->  		return error;
->  	}
->  
-> -	error = msg2638_init_input_dev(msg2638);
-> -	if (error) {
-> -		dev_err(dev, "Failed to initialize input device: %d\n", error);
-> -		return error;
-> +	msg2638->num_keycodes =
-> +		of_property_read_variable_u32_array(dev->of_node, "linux,keycodes",
-> +						    msg2638->keycodes, 0,
-> +						    ARRAY_SIZE(msg2638->keycodes));
+> What I do not want is to break the autoload for one single driver
+> because somebody enabled it without intending to use and now tries to
+> implement a one-off.
 
-Please do not use OF-specific API, use generic device property API (yes,
-you will need 2 calls, one to get the count, and another to actually
-fill the array).
+Is an autoloaded driver that then does not (ever) automatically provide any
+functionality not broken by definition?
+It was enabled by the distro. Which seems correct, because maybe somebody will
+use it.
 
-Thanks.
+Taken to an illogical extreme: If it is fine for modules to load automatically
+even if they are not useful, why not just always load all available modules?
 
--- 
-Dmitry
+
+Maybe we can take the removal of the autoload as a first step of deprecation
+and finally removal of the module.
+To quote you:
+
+    "I'd rather we did not promote from drivers/macintosh to other platforms,
+     but rather removed it. The same functionality can be done from
+     userspace." [0]
+
+>>>> Fixes: 99b089c3c38a ("Input: Mac button emulation - implement as an input filter")
+>>>> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+>>>> ---
+>>>>  drivers/macintosh/mac_hid.c | 2 --
+>>>>  1 file changed, 2 deletions(-)
+>>>> 
+>>>> diff --git a/drivers/macintosh/mac_hid.c b/drivers/macintosh/mac_hid.c
+>>>> index d8c4d5664145..d01d28890db4 100644
+>>>> --- a/drivers/macintosh/mac_hid.c
+>>>> +++ b/drivers/macintosh/mac_hid.c
+>>>> @@ -149,8 +149,6 @@ static const struct input_device_id mac_hid_emumouse_ids[] = {
+>>>>  	{ },
+>>>>  };
+>>>>  
+>>>> -MODULE_DEVICE_TABLE(input, mac_hid_emumouse_ids);
+>>>> -
+>>>>  static struct input_handler mac_hid_emumouse_handler = {
+>>>>  	.filter		= mac_hid_emumouse_filter,
+>>>>  	.connect	= mac_hid_emumouse_connect,
+>>>> 
+>>>> base-commit: fef7fd48922d11b22620e19f9c9101647bfe943d
+>>>> -- 
+>>>> 2.38.1
+
+Thanks,
+Thomas
+
+[0] https://lore.kernel.org/all/20170510004327.GA32584@dtor-ws/
+
+--t5LQKshz+W68qyxN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment; filename="mac_hid_userspace.c"
+Content-Transfer-Encoding: 8bit
+
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Userspace replacement for mac_hid.c from Linux.
+ *
+ * Copyright (C) 2022 Thomas Weißschuh
+ */
+
+/* cc $(pkg-config --cflags libevdev) $(pkg-config --libs libevdev) mac_hid_userspace.c -o mac_hid_userspace */
+
+#define _GNU_SOURCE
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <assert.h>
+#include <stdlib.h>
+
+#include <libevdev/libevdev.h>
+#include <libevdev/libevdev-uinput.h>
+#include <linux/input-event-codes.h>
+
+static void update_name(struct libevdev *dev)
+{
+	char *name;
+	int rc = asprintf(&name, "%s (mac_hid)", libevdev_get_name(dev));
+	assert(rc > 0);
+	libevdev_set_name(dev, name);
+	free(name);
+}
+
+int main(int argc, char **argv)
+{
+	int button2 = KEY_RIGHTCTRL;
+	int button3 = KEY_RIGHTALT;
+
+	if (argc != 2 && argc != 4) {
+		fprintf(stderr, "usage: %s DEVICE [BUTTON2 BUTTON3]\n",
+				argv[0]);
+		return 1;
+	}
+	if (argc == 4) {
+		char *endptr;
+		button2 = strtol(argv[2], &endptr, 0);
+		assert(!*endptr);
+		button3 = strtol(argv[3], &endptr, 0);
+		assert(!*endptr);
+	}
+
+	struct libevdev *dev;
+	int fd = open(argv[1], O_RDONLY);
+	assert(fd != -1);
+	int rc = libevdev_new_from_fd(fd, &dev);
+	assert(rc == 0);
+
+	libevdev_enable_event_type(dev, EV_KEY);
+	libevdev_enable_event_code(dev, EV_KEY, BTN_MIDDLE, NULL);
+	libevdev_enable_event_code(dev, EV_KEY, BTN_RIGHT, NULL);
+
+	update_name(dev);
+
+	struct libevdev_uinput *uinput_dev;
+	rc = libevdev_uinput_create_from_device(
+			dev,
+			LIBEVDEV_UINPUT_OPEN_MANAGED,
+			&uinput_dev);
+	assert(rc == 0);
+
+	rc = libevdev_grab(dev, LIBEVDEV_GRAB);
+	assert(rc == 0);
+
+	while (1) {
+		struct input_event ev;
+		rc = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_NORMAL, &ev);
+		assert(rc == 0);
+		if (ev.type == EV_KEY) {
+			if (ev.code == button2)
+				ev.code = BTN_MIDDLE;
+			else if (ev.code == button3)
+				ev.code = BTN_RIGHT;
+		}
+		rc = libevdev_uinput_write_event(uinput_dev, ev.type, ev.code, ev.value);
+		assert(rc == 0);
+	}
+
+	libevdev_uinput_destroy(uinput_dev);
+	libevdev_free(dev);
+}
+
+--t5LQKshz+W68qyxN--
