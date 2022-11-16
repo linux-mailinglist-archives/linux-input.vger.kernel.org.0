@@ -2,121 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C8262B378
-	for <lists+linux-input@lfdr.de>; Wed, 16 Nov 2022 07:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B56462B6B5
+	for <lists+linux-input@lfdr.de>; Wed, 16 Nov 2022 10:39:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230142AbiKPGtM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Nov 2022 01:49:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57008 "EHLO
+        id S232019AbiKPJju (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Nov 2022 04:39:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbiKPGtL (ORCPT
+        with ESMTP id S231806AbiKPJjr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Nov 2022 01:49:11 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F9D624F;
-        Tue, 15 Nov 2022 22:49:09 -0800 (PST)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NBtpR5zL9zqST6;
-        Wed, 16 Nov 2022 14:45:19 +0800 (CST)
-Received: from kwepemm600020.china.huawei.com (7.193.23.147) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 14:49:07 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- kwepemm600020.china.huawei.com (7.193.23.147) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 14:49:05 +0800
-From:   Peng Zhang <zhangpeng362@huawei.com>
-To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-        <gregkh@suse.de>, <marcel@holtmann.org>, <jkosina@suse.cz>,
-        <rdunlap@infradead.org>, <jirislaby@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        ZhangPeng <zhangpeng362@huawei.com>,
-        <syzbot+8b1641d2f14732407e23@syzkaller.appspotmail.com>
-Subject: [PATCH] HID: core: fix shift-out-of-bounds in hid_report_raw_event
-Date:   Wed, 16 Nov 2022 07:14:28 +0000
-Message-ID: <20221116071428.191437-1-zhangpeng362@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 16 Nov 2022 04:39:47 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCB7F26489;
+        Wed, 16 Nov 2022 01:39:45 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id p13-20020a05600c468d00b003cf8859ed1bso1034415wmo.1;
+        Wed, 16 Nov 2022 01:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8+VhJIT56E3eyqauVp2za8R6dR/zAfRqC25svBjA2II=;
+        b=gL7KASVfMY7yKpFvv4CgNTMJMNncFBVfLkz96aQRcU/bjdkksCfmvgS0rinIkpt3OW
+         sdLJyAjRuJyREdrMmLBINLLpBTHzrPOYZGenei3C1oCEJqvvi5jaS9t3psKRHuoUyxs1
+         te3QCEHFDgr4yabNxKm5zFkk/jloW8yJaSxJ657HVjPsTPeMRxTwb9sq85wytgB9cizx
+         y93FaSoibF/FhV6jwHhi4XH3QVo9C3nKn0cINmXpcIiCKjgF83CeMIPlrcCYw1jsZrKH
+         yjO7WLFYiNsJ21Nif1l4TJZoyEutqx9ezmq2Kons8f0yHfrdGpEgRp0qkD+NfqnX0od6
+         7m0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8+VhJIT56E3eyqauVp2za8R6dR/zAfRqC25svBjA2II=;
+        b=xIzHNdfkBqATPuAKakDbsPUe87hEy640nIjWWUW1uv2nsQWkNEUrQ5pK+To7vxfduF
+         TDmIBlIL+WfyzEql5G0KuOSZCmah2KddJZlN+1jkvFsHCO9msERncNc/l4+rQ9BhCUcU
+         TjIe6/jIjf1UZtDQKPVap7cZ3PMVXy7BRlJ2Qie9EoTHMFqQqzqDydgEzJo/l+dbCMKT
+         iccDnoA2dr790BRswI9ZtZKEda5nDQ5QQA8nJG8B6tX3sU8GW9Ha6560e+GCVjjr9XY/
+         Ft6SMZNPHJ7seoy4F5JhGfvx4NHa6rBG5HO2CU2V0GV7HwCKXYAWuNzVqUeTEngKyPiL
+         O62g==
+X-Gm-Message-State: ANoB5pke3eyS4N+lofhkpQCbO8l/fxx5WxMFHJ7RHHGUcB+/vgm93M9o
+        zTJNsZJzfRd66vVZBzDztaQ=
+X-Google-Smtp-Source: AA0mqf4sk015FT734mG6coyeEbpO+oFWeDewcyacn59OPoYlwasoeOwPsCRbs37SJd7D6KWGY+z7Tw==
+X-Received: by 2002:a05:600c:4fc3:b0:3cf:7d3e:f985 with SMTP id o3-20020a05600c4fc300b003cf7d3ef985mr1636855wmq.7.1668591584286;
+        Wed, 16 Nov 2022 01:39:44 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id n1-20020a05600c4f8100b003cf78aafdd7sm1607050wmq.39.2022.11.16.01.39.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 01:39:43 -0800 (PST)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] samples/hid: Fix spelling mistake "wihout" -> "without"
+Date:   Wed, 16 Nov 2022 09:39:43 +0000
+Message-Id: <20221116093943.597572-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600020.china.huawei.com (7.193.23.147)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: ZhangPeng <zhangpeng362@huawei.com>
+There is a spelling mistake in a comment and a usage message. Fix them.
 
-Syzbot reported shift-out-of-bounds in hid_report_raw_event.
-
-microsoft 0003:045E:07DA.0001: hid_field_extract() called with n (128) >
-32! (swapper/0)
-======================================================================
-UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:1323:20
-shift exponent 127 is too large for 32-bit type 'int'
-CPU: 0 PID: 0 Comm: swapper/0 Not tainted
-6.1.0-rc4-syzkaller-00159-g4bbf3422df78 #0
-Hardware name: Google Compute Engine/Google Compute Engine, BIOS
-Google 10/26/2022
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1e3/0x2cb lib/dump_stack.c:106
- ubsan_epilogue lib/ubsan.c:151 [inline]
- __ubsan_handle_shift_out_of_bounds+0x3a6/0x420 lib/ubsan.c:322
- snto32 drivers/hid/hid-core.c:1323 [inline]
- hid_input_fetch_field drivers/hid/hid-core.c:1572 [inline]
- hid_process_report drivers/hid/hid-core.c:1665 [inline]
- hid_report_raw_event+0xd56/0x18b0 drivers/hid/hid-core.c:1998
- hid_input_report+0x408/0x4f0 drivers/hid/hid-core.c:2066
- hid_irq_in+0x459/0x690 drivers/hid/usbhid/hid-core.c:284
- __usb_hcd_giveback_urb+0x369/0x530 drivers/usb/core/hcd.c:1671
- dummy_timer+0x86b/0x3110 drivers/usb/gadget/udc/dummy_hcd.c:1988
- call_timer_fn+0xf5/0x210 kernel/time/timer.c:1474
- expire_timers kernel/time/timer.c:1519 [inline]
- __run_timers+0x76a/0x980 kernel/time/timer.c:1790
- run_timer_softirq+0x63/0xf0 kernel/time/timer.c:1803
- __do_softirq+0x277/0x75b kernel/softirq.c:571
- __irq_exit_rcu+0xec/0x170 kernel/softirq.c:650
- irq_exit_rcu+0x5/0x20 kernel/softirq.c:662
- sysvec_apic_timer_interrupt+0x91/0xb0 arch/x86/kernel/apic/apic.c:1107
-======================================================================
-
-If the size of the integer (unsigned n) is bigger than 32 in snto32(),
-shift exponent will be too large for 32-bit type 'int', resulting in a
-shift-out-of-bounds bug.
-Fix this by adding a check on the size of the integer (unsigned n) in
-snto32(). To add support for n greater than 32 bits, set n to 32, if n
-is greater than 32.
-
-Reported-by: syzbot+8b1641d2f14732407e23@syzkaller.appspotmail.com
-Fixes: dde5845a529f ("[PATCH] Generic HID layer - code split")
-Signed-off-by: ZhangPeng <zhangpeng362@huawei.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/hid/hid-core.c | 3 +++
- 1 file changed, 3 insertions(+)
+ samples/hid/hid_surface_dial.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 9c1d31f63f85..bd47628da6be 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1315,6 +1315,9 @@ static s32 snto32(__u32 value, unsigned n)
- 	if (!value || !n)
- 		return 0;
- 
-+	if (n > 32)
-+		n = 32;
-+
- 	switch (n) {
- 	case 8:  return ((__s8)value);
- 	case 16: return ((__s16)value);
+diff --git a/samples/hid/hid_surface_dial.c b/samples/hid/hid_surface_dial.c
+index bceea53d39b0..4bc97373a708 100644
+--- a/samples/hid/hid_surface_dial.c
++++ b/samples/hid/hid_surface_dial.c
+@@ -4,7 +4,7 @@
+  * This program will morph the Microsoft Surface Dial into a mouse,
+  * and depending on the chosen resolution enable or not the haptic feedback:
+  * - a resolution (-r) of 3600 will report 3600 "ticks" in one full rotation
+- *   wihout haptic feedback
++ *   without haptic feedback
+  * - any other resolution will report N "ticks" in a full rotation with haptic
+  *   feedback
+  *
+@@ -57,7 +57,7 @@ static void usage(const char *prog)
+ 		"This program will morph the Microsoft Surface Dial into a mouse,\n"
+ 		"and depending on the chosen resolution enable or not the haptic feedback:\n"
+ 		"- a resolution (-r) of 3600 will report 3600 'ticks' in one full rotation\n"
+-		"  wihout haptic feedback\n"
++		"  without haptic feedback\n"
+ 		"- any other resolution will report N 'ticks' in a full rotation with haptic\n"
+ 		"  feedback\n"
+ 		"\n"
 -- 
-2.25.1
+2.38.1
 
