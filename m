@@ -2,91 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 427F062E80E
-	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 23:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB3F862E892
+	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 23:39:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235047AbiKQWR3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Nov 2022 17:17:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54750 "EHLO
+        id S240291AbiKQWjQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Nov 2022 17:39:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235103AbiKQWRU (ORCPT
+        with ESMTP id S235163AbiKQWjM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Nov 2022 17:17:20 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CA7781A1;
-        Thu, 17 Nov 2022 14:17:19 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id 62so3310323pgb.13;
-        Thu, 17 Nov 2022 14:17:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h+T+yCR4pz9N337uQvPoNcZUchUUEmXxrQWO0IVxYKg=;
-        b=R9ZqaUP8/hhLT39Iz2NOnc33IPF9Q4S6BV6vSvAuRU+g8Xy2gwa6HT31gjljbcvhaD
-         TI9Md1XwB0SP5UPYkILAWLhUW4IQLVOGJutnO6f8cR4SYe3g+ltlJr0i6cVKfH32AIPI
-         aP+3ADV2PjMpI7sAHeuzQ8yIjbgYqekSUp4eSQWM9v1KwDm//pH30RdLszAi2B+DTJ0y
-         LVBrG4rqKc3JT7xjmyh5HYlZezVI5xSBDSOzm5LpI6Tb9TFa/9J5L4nU1qGjT94odwmd
-         RC65vYt5VtIXZKsQi3e645V3aOAOos3p8uS6xg1VWpcJChP99Xv64caLunsxXRX7S3lq
-         QfCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h+T+yCR4pz9N337uQvPoNcZUchUUEmXxrQWO0IVxYKg=;
-        b=TpJ6Ikc4B0fSSsydhRTClEeC58LRftfsbaVAMIDIhJzcE1SlKL7bMaiG8zXfb6nawv
-         EeQRiFL81tIJYCD9PKBUm5APHSB1cCHMcNfuaIm+L2QNE1j5fKKsdsD844EZBZIxZ83l
-         HXzMkwxAiAYG34aDAcxinJ1SLzOYl5lUqsms/bOsss6UXUdzg2Bfw7rn8XkgN5NHIXcV
-         eGqV+oNBfkZZXxkznA5/l4bjmrUhNDLgs+daA2qUp8oxPdb0fa3W1X5KCwrPd/K8riu5
-         fi4xI2m/iqdACTVxAMo0wHW3yE/n6wDGKyYwDv6zu/wfA214fHvfQfc5UMJl43QRmuSj
-         MGyA==
-X-Gm-Message-State: ANoB5plzkHEGPz0qiyLFRY8vo6WTEWucvt0lbvaie7EKjL16wuaCjmgM
-        rFE/aGll2ScpOz0nAqBWP7E=
-X-Google-Smtp-Source: AA0mqf7jJSeAEhyF4cchyzNzr7k6ot4JKA3SYOjtu77Jff+AJii+HO9h/Wf/dbqY4kjM9HgXwVhkOA==
-X-Received: by 2002:a62:36c7:0:b0:563:8011:e9e4 with SMTP id d190-20020a6236c7000000b005638011e9e4mr4837948pfa.76.1668723439358;
-        Thu, 17 Nov 2022 14:17:19 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:e4c5:c31d:4c68:97a0])
-        by smtp.gmail.com with ESMTPSA id h13-20020a170902680d00b001837b19ebb8sm1854089plk.244.2022.11.17.14.17.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 14:17:18 -0800 (PST)
-Date:   Thu, 17 Nov 2022 14:17:15 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
-Cc:     linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alistair Francis <alistair@alistair23.me>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+        Thu, 17 Nov 2022 17:39:12 -0500
+Received: from mail-40140.protonmail.ch (mail-40140.protonmail.ch [185.70.40.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 267238DA54
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 14:39:10 -0800 (PST)
+Date:   Thu, 17 Nov 2022 22:39:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1668724748; x=1668983948;
+        bh=gWBsEHP+8dLHoXfYc95d09Xo3xz2BaOFXCljQcHLH/A=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=qDAGGL1JRa0p73hyKNfJLxJH41zn5VRBVnN5PeGhh8y+bFtADgi38Cmlffn1kkJkF
+         moJPnpF+WczR8idYoulZl0usk7xfXOQABINy3XOBHtGy/ekwiEZaQ2bYpSv4qegImc
+         f4Lo34IG6P9ybvtp6+5qmGMOErScyCKxWTrNTeIvDsLN1q4V1ZNrYJwmTk3EHppSom
+         W37vmUL3lNuZKKg/qEK8/6AZ+2//1PY5j/ihVRM0AiXxonWCww6FKnEDkayhEGNgr6
+         MBlTfwvI+A4uuS+2LCpNSNYP6B1c/1DCAgU7+j0dPvMQfeii0dNBNI5/AHre5wFxow
+         eObpEDmL8lqFA==
+To:     dmitry.torokhov@gmail.com
+From:   "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
+Cc:     alistair@alistair23.me, devicetree@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linmengbo0689@protonmail.com,
+        linus.walleij@linaro.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org
 Subject: Re: [PATCH 2/2] Input: cyttsp5 - add vddio regulator
-Message-ID: <Y3ay6zgq7JiWDR/Z@google.com>
-References: <20221117190507.87535-1-linmengbo0689@protonmail.com>
- <20221117190507.87535-3-linmengbo0689@protonmail.com>
+Message-ID: <20221117223850.187999-1-linmengbo0689@protonmail.com>
+In-Reply-To: <Y3ay6zgq7JiWDR/Z@google.com>
+References: <20221117190507.87535-1-linmengbo0689@protonmail.com> <20221117190507.87535-3-linmengbo0689@protonmail.com> <Y3ay6zgq7JiWDR/Z@google.com>
+Feedback-ID: 40467236:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221117190507.87535-3-linmengbo0689@protonmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 07:05:41PM +0000, Lin, Meng-Bo wrote:
-> The Samsung touchscreen controllers are often used with external pull-up
-> for the interrupt line and the I2C lines, so we might need to enable
-> a regulator to bring the lines into usable state. Otherwise, this might
-> cause spurious interrupts and reading from I2C will fail.
-> 
-> Implement support for a "vddio-supply" that is enabled by the cyttsp5
-> driver so that the regulator gets enabled when needed.
+Hi Dmitry,
 
-This needs binding update.
+> This needs binding update.=20
 
-Thanks.
+Please have a look at the binding update in
+https://lore.kernel.org/all/20221117190507.87535-2-linmengbo0689@protonmail=
+.com/
+if you don't receive it.
 
--- 
-Dmitry
+Regards,
+Lin
+
