@@ -2,216 +2,403 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2D5B62E21B
-	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 17:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B87B62E2CC
+	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 18:19:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234053AbiKQQhc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Nov 2022 11:37:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47230 "EHLO
+        id S235019AbiKQRTl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Nov 2022 12:19:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240107AbiKQQgb (ORCPT
+        with ESMTP id S240456AbiKQRTT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Nov 2022 11:36:31 -0500
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DAFB1A056
-        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 08:35:33 -0800 (PST)
-Date:   Thu, 17 Nov 2022 16:35:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1668702929; x=1668962129;
-        bh=ZA1st/D2bOJO8psxoWwnXrvaoM+06eI7cmwLGnc8W7k=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=Cg/Rlu/2jqHXfQSr7sNItLVNNQ8xw1yzzKzYf8K5EMSh151LtJXqRwMonFpaWvGT+
-         m3VRhU2bAOT/WAu5KJYxYAQCooAAzfWXaISejENCgIP3HHawXBNfehg2onZfMB5avX
-         VD7T8+Ld08rrX9oOYs8Q5viqVR0/fVBUy/oE1tJVkBC7FFv2WAgmn7ZKLJWthjPcqP
-         L1H7wuODL+BlaLInXICffS8CRknC4tXCUouXmJ5vWGYc2NmGLLuWwiwJQ3Fji1zCfq
-         cEMI1UzELsmhHgAQhuZlkWy/P7jSj0d3fDhrJE/Z9q0rJeREuKORvYXuVoD+c954wX
-         tuIsz4dOurcPw==
-To:     linux-kernel@vger.kernel.org
-From:   "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
-Cc:     Markuss Broks <markuss.broks@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>
-Subject: [PATCH 3/3] input/touchscreen: imagis: Add supports for Imagis IST3038 and IST30XXB
-Message-ID: <20221117163440.23394-4-linmengbo0689@protonmail.com>
-In-Reply-To: <20221117163440.23394-1-linmengbo0689@protonmail.com>
-References: <20221117163440.23394-1-linmengbo0689@protonmail.com>
-Feedback-ID: 40467236:user:proton
+        Thu, 17 Nov 2022 12:19:19 -0500
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDA3A73BAA;
+        Thu, 17 Nov 2022 09:19:15 -0800 (PST)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-14263779059so2101174fac.1;
+        Thu, 17 Nov 2022 09:19:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ger9SGrgkV6b0BuoQgNoj57O/fFgpDxNQNvEFGM4s8I=;
+        b=iBt5GQEFfYartDKJC/bbU8NAL9IYxBGbwlqHxmtF6aUisnGC2dj5dSC4o6GMSo4uDJ
+         ddDKkm536HUp/lBkkUPC3gXbXq5DLRHuzOk7HaPUdDqiW0s1pjJLpi0wNk+OBNlDIGUM
+         13S2tVHgQSHfLyr4bize0PCxfioEWKIatweY85OF8Zo0ecTrfL41KF8uqJYR0lh0coO9
+         xmakotnCSL4b4QICWY538yl51DEmoGvXePI2aOkLme0G2g6IqaTjuHa3F+tNTdW7F2ub
+         QczIjYW7sqcxXuTvVzvfUg7F3EwB/mgFPXzMHPRBODybvCDqb/wsuCBcNYO3DwYr4bnX
+         quDA==
+X-Gm-Message-State: ANoB5plmXUua6/a2zqCz9lrJVF9XIJXVRRPmsOaVEEibf7WwO56AuDeA
+        rLwgWwGhCaGw/SoWy6Okm9hZCrvKnA==
+X-Google-Smtp-Source: AA0mqf5o4jhybeWewZl1XsiHOYq27Zp40VjC+VJXS9jK8YZdF+6zxmV04y0HajzNF6q5aF4D8E/GCg==
+X-Received: by 2002:a05:6870:4625:b0:13c:c80:6b46 with SMTP id z37-20020a056870462500b0013c0c806b46mr1850617oao.194.1668705555052;
+        Thu, 17 Nov 2022 09:19:15 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id q22-20020a9d6556000000b0066b9a6bf3bcsm558133otl.12.2022.11.17.09.19.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 09:19:14 -0800 (PST)
+Received: (nullmailer pid 3122049 invoked by uid 1000);
+        Thu, 17 Nov 2022 17:19:16 -0000
+Date:   Thu, 17 Nov 2022 11:19:16 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [RFC PATCH 1/9] dt-bindings: drop redundant part of title of
+ shared bindings
+Message-ID: <20221117171916.GA3116476-robh@kernel.org>
+References: <20221117123850.368213-1-krzysztof.kozlowski@linaro.org>
+ <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Markuss Broks <markuss.broks@gmail.com>
+On Thu, Nov 17, 2022 at 01:38:42PM +0100, Krzysztof Kozlowski wrote:
+> The Devicetree bindings document does not have to say in the title that
+> it is a "binding", but instead just describe the hardware.  For shared
+> (re-usable) schemas, name them all as "common properties".
 
-Imagis IST3038 and IST30XXB are other variants of Imagis IST3038 IC, which
-have a different register interface from IST3038C (possibly firmware
-defined).
+It's titles, so capitalize 'Common Properties'. Someday we may generate 
+a document from all the schemas.
 
-This should also work for IST3044B (though untested), however other
-variants using this interface/protocol(IST3026, IST3032, IST3026B,
-IST3032B) have a different format for coordinates, and they'd need
-additional effort to be supported by this driver.
-
-Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-[Use IST3038C_REG_CHIPID_BASE]
-Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
----
- drivers/input/touchscreen/imagis.c | 71 +++++++++++++++++++++++++-----
- 1 file changed, 60 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen=
-/imagis.c
-index b667914a44f1..ac07b24496eb 100644
---- a/drivers/input/touchscreen/imagis.c
-+++ b/drivers/input/touchscreen/imagis.c
-@@ -13,7 +13,8 @@
-=20
- #define IST3038C_HIB_ACCESS=09=09(0x800B << 16)
- #define IST3038C_DIRECT_ACCESS=09=09BIT(31)
--#define IST3038C_REG_CHIPID=09=090x40001000
-+#define IST3038C_REG_CHIPID_BASE=090x40001000
-+#define IST3038C_REG_CHIPID(base)=09(base | IST3038C_DIRECT_ACCESS)
- #define IST3038C_REG_HIB_BASE=09=090x30000100
- #define IST3038C_REG_TOUCH_STATUS=09(IST3038C_REG_HIB_BASE | IST3038C_HIB_=
-ACCESS)
- #define IST3038C_REG_TOUCH_COORD=09(IST3038C_REG_HIB_BASE | IST3038C_HIB_A=
-CCESS | 0x8)
-@@ -31,8 +32,24 @@
- #define IST3038C_FINGER_COUNT_SHIFT=0912
- #define IST3038C_FINGER_STATUS_MASK=09GENMASK(9, 0)
-=20
-+#define IST30XX_REG_STATUS=09=090x20
-+#define IST30XXB_REG_CHIPID_BASE=090x40000000
-+#define IST30XX_WHOAMI=09=09=090x30003000
-+#define IST30XXA_WHOAMI=09=09=090x300a300a
-+#define IST30XXB_WHOAMI=09=09=090x300b300b
-+#define IST3038_WHOAMI=09=09=090x30383038
-+
-+struct imagis_properties {
-+=09unsigned int interrupt_msg_cmd;
-+=09unsigned int touch_coord_cmd;
-+=09unsigned int chipid_base;
-+=09unsigned int whoami_val;
-+=09bool protocol_b;
-+};
-+
- struct imagis_ts {
- =09struct i2c_client *client;
-+=09const struct imagis_properties *tdata;
- =09struct input_dev *input_dev;
- =09struct touchscreen_properties prop;
- =09struct regulator_bulk_data supplies[2];
-@@ -84,8 +101,7 @@ static irqreturn_t imagis_interrupt(int irq, void *dev_i=
-d)
- =09int i;
- =09int error;
-=20
--=09error =3D imagis_i2c_read_reg(ts, IST3038C_REG_INTR_MESSAGE,
--=09=09=09=09    &intr_message);
-+=09error =3D imagis_i2c_read_reg(ts, ts->tdata->interrupt_msg_cmd, &intr_m=
-essage);
- =09if (error) {
- =09=09dev_err(&ts->client->dev,
- =09=09=09"failed to read the interrupt message: %d\n", error);
-@@ -104,9 +120,13 @@ static irqreturn_t imagis_interrupt(int irq, void *dev=
-_id)
- =09finger_pressed =3D intr_message & IST3038C_FINGER_STATUS_MASK;
-=20
- =09for (i =3D 0; i < finger_count; i++) {
--=09=09error =3D imagis_i2c_read_reg(ts,
--=09=09=09=09=09    IST3038C_REG_TOUCH_COORD + (i * 4),
--=09=09=09=09=09    &finger_status);
-+=09=09if (ts->tdata->protocol_b)
-+=09=09=09error =3D imagis_i2c_read_reg(ts,
-+=09=09=09=09=09=09    ts->tdata->touch_coord_cmd, &finger_status);
-+=09=09else
-+=09=09=09error =3D imagis_i2c_read_reg(ts,
-+=09=09=09=09=09=09    ts->tdata->touch_coord_cmd + (i * 4),
-+=09=09=09=09=09=09    &finger_status);
- =09=09if (error) {
- =09=09=09dev_err(&ts->client->dev,
- =09=09=09=09"failed to read coordinates for finger %d: %d\n",
-@@ -261,6 +281,12 @@ static int imagis_probe(struct i2c_client *i2c)
-=20
- =09ts->client =3D i2c;
-=20
-+=09ts->tdata =3D device_get_match_data(dev);
-+=09if (!ts->tdata) {
-+=09=09dev_err(dev, "missing chip data\n");
-+=09=09return -EINVAL;
-+=09}
-+
- =09error =3D imagis_init_regulators(ts);
- =09if (error) {
- =09=09dev_err(dev, "regulator init error: %d\n", error);
-@@ -279,15 +305,13 @@ static int imagis_probe(struct i2c_client *i2c)
- =09=09return error;
- =09}
-=20
--=09error =3D imagis_i2c_read_reg(ts,
--=09=09=09IST3038C_REG_CHIPID | IST3038C_DIRECT_ACCESS,
--=09=09=09&chip_id);
-+=09error =3D imagis_i2c_read_reg(ts, IST3038C_REG_CHIPID(ts->tdata->chipid=
-_base), &chip_id);
- =09if (error) {
- =09=09dev_err(dev, "chip ID read failure: %d\n", error);
- =09=09return error;
- =09}
-=20
--=09if (chip_id !=3D IST3038C_WHOAMI) {
-+=09if (chip_id !=3D ts->tdata->whoami_val) {
- =09=09dev_err(dev, "unknown chip ID: 0x%x\n", chip_id);
- =09=09return -EINVAL;
- =09}
-@@ -343,9 +367,34 @@ static int __maybe_unused imagis_resume(struct device =
-*dev)
-=20
- static SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
-=20
-+static const struct imagis_properties imagis_3038_data =3D {
-+=09.interrupt_msg_cmd =3D IST30XX_REG_STATUS,
-+=09.touch_coord_cmd =3D IST30XX_REG_STATUS,
-+=09.chipid_base =3D IST30XXB_REG_CHIPID_BASE,
-+=09.whoami_val =3D IST3038_WHOAMI,
-+=09.protocol_b =3D true,
-+};
-+
-+static const struct imagis_properties imagis_3038c_data =3D {
-+=09.interrupt_msg_cmd =3D IST3038C_REG_INTR_MESSAGE,
-+=09.touch_coord_cmd =3D IST3038C_REG_TOUCH_COORD,
-+=09.chipid_base =3D IST3038C_REG_CHIPID_BASE,
-+=09.whoami_val =3D IST3038C_WHOAMI,
-+};
-+
-+static const struct imagis_properties imagis_30xxb_data =3D {
-+=09.interrupt_msg_cmd =3D IST30XX_REG_STATUS,
-+=09.touch_coord_cmd =3D IST30XX_REG_STATUS,
-+=09.chipid_base =3D IST30XXB_REG_CHIPID_BASE,
-+=09.whoami_val =3D IST30XXB_WHOAMI,
-+=09.protocol_b =3D true,
-+};
-+
- #ifdef CONFIG_OF
- static const struct of_device_id imagis_of_match[] =3D {
--=09{ .compatible =3D "imagis,ist3038c", },
-+=09{ .compatible =3D "imagis,ist3038", .data =3D &imagis_3038_data },
-+=09{ .compatible =3D "imagis,ist3038c", .data =3D &imagis_3038c_data },
-+=09{ .compatible =3D "imagis,ist30xxb", .data =3D &imagis_30xxb_data },
- =09{ },
- };
- MODULE_DEVICE_TABLE(of, imagis_of_match);
---=20
-2.30.2
-
-
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/clock/qcom,gcc.yaml         | 2 +-
+>  Documentation/devicetree/bindings/dma/dma-common.yaml         | 2 +-
+>  Documentation/devicetree/bindings/dma/dma-controller.yaml     | 4 ++--
+>  Documentation/devicetree/bindings/dma/dma-router.yaml         | 4 ++--
+>  Documentation/devicetree/bindings/iio/adc/adc.yaml            | 2 +-
+>  .../devicetree/bindings/media/video-interface-devices.yaml    | 2 +-
+>  Documentation/devicetree/bindings/media/video-interfaces.yaml | 2 +-
+>  Documentation/devicetree/bindings/mmc/mmc-controller.yaml     | 2 +-
+>  Documentation/devicetree/bindings/mtd/nand-chip.yaml          | 2 +-
+>  Documentation/devicetree/bindings/mtd/nand-controller.yaml    | 2 +-
+>  .../bindings/net/bluetooth/bluetooth-controller.yaml          | 2 +-
+>  Documentation/devicetree/bindings/net/can/can-controller.yaml | 2 +-
+>  .../devicetree/bindings/net/ethernet-controller.yaml          | 2 +-
+>  Documentation/devicetree/bindings/net/ethernet-phy.yaml       | 2 +-
+>  Documentation/devicetree/bindings/net/mdio.yaml               | 2 +-
+>  Documentation/devicetree/bindings/opp/opp-v2-base.yaml        | 2 +-
+>  .../devicetree/bindings/power/reset/restart-handler.yaml      | 2 +-
+>  Documentation/devicetree/bindings/rtc/rtc.yaml                | 2 +-
+>  .../devicetree/bindings/soundwire/soundwire-controller.yaml   | 2 +-
+>  Documentation/devicetree/bindings/spi/spi-controller.yaml     | 2 +-
+>  Documentation/devicetree/bindings/watchdog/watchdog.yaml      | 2 +-
+>  21 files changed, 23 insertions(+), 23 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/qcom,gcc.yaml b/Documentation/devicetree/bindings/clock/qcom,gcc.yaml
+> index 1ab416c83c8d..d2de3d128b73 100644
+> --- a/Documentation/devicetree/bindings/clock/qcom,gcc.yaml
+> +++ b/Documentation/devicetree/bindings/clock/qcom,gcc.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/clock/qcom,gcc.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Qualcomm Global Clock & Reset Controller Common Bindings
+> +title: Qualcomm Global Clock & Reset Controller common parts
+>  
+>  maintainers:
+>    - Stephen Boyd <sboyd@kernel.org>
+> diff --git a/Documentation/devicetree/bindings/dma/dma-common.yaml b/Documentation/devicetree/bindings/dma/dma-common.yaml
+> index ad06d36af208..9b7b94fdbb0b 100644
+> --- a/Documentation/devicetree/bindings/dma/dma-common.yaml
+> +++ b/Documentation/devicetree/bindings/dma/dma-common.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/dma/dma-common.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: DMA Engine Generic Binding
+> +title: DMA Engine common properties
+>  
+>  maintainers:
+>    - Vinod Koul <vkoul@kernel.org>
+> diff --git a/Documentation/devicetree/bindings/dma/dma-controller.yaml b/Documentation/devicetree/bindings/dma/dma-controller.yaml
+> index 6d3727267fa8..225a141c7b5c 100644
+> --- a/Documentation/devicetree/bindings/dma/dma-controller.yaml
+> +++ b/Documentation/devicetree/bindings/dma/dma-controller.yaml
+> @@ -4,13 +4,13 @@
+>  $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: DMA Controller Generic Binding
+> +title: DMA Controller common properties
+>  
+>  maintainers:
+>    - Vinod Koul <vkoul@kernel.org>
+>  
+>  allOf:
+> -  - $ref: "dma-common.yaml#"
+> +  - $ref: dma-common.yaml#
+>  
+>  # Everything else is described in the common file
+>  properties:
+> diff --git a/Documentation/devicetree/bindings/dma/dma-router.yaml b/Documentation/devicetree/bindings/dma/dma-router.yaml
+> index 4b817f5dc30e..0ebd7bc6232b 100644
+> --- a/Documentation/devicetree/bindings/dma/dma-router.yaml
+> +++ b/Documentation/devicetree/bindings/dma/dma-router.yaml
+> @@ -4,13 +4,13 @@
+>  $id: http://devicetree.org/schemas/dma/dma-router.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: DMA Router Generic Binding
+> +title: DMA Router common properties
+>  
+>  maintainers:
+>    - Vinod Koul <vkoul@kernel.org>
+>  
+>  allOf:
+> -  - $ref: "dma-common.yaml#"
+> +  - $ref: dma-common.yaml#
+>  
+>  description:
+>    DMA routers are transparent IP blocks used to route DMA request
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adc.yaml b/Documentation/devicetree/bindings/iio/adc/adc.yaml
+> index db348fcbb52c..bd0f5fae256e 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adc.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adc.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/iio/adc/adc.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Generic IIO bindings for ADC channels
+> +title: IIO common properties for ADC channels
+>  
+>  maintainers:
+>    - Jonathan Cameron <jic23@kernel.org>
+> diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> index 4527f56a5a6e..bd719cb1813e 100644
+> --- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> +++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/media/video-interface-devices.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Common bindings for video receiver and transmitter devices
+> +title: Common properties for video receiver and transmitter devices
+>  
+>  maintainers:
+>    - Jacopo Mondi <jacopo@jmondi.org>
+> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> index 68c3b9871cf3..e8cf73794772 100644
+> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/media/video-interfaces.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Common bindings for video receiver and transmitter interface endpoints
+> +title: Common properties for video receiver and transmitter interface endpoints
+>  
+>  maintainers:
+>    - Sakari Ailus <sakari.ailus@linux.intel.com>
+> diff --git a/Documentation/devicetree/bindings/mmc/mmc-controller.yaml b/Documentation/devicetree/bindings/mmc/mmc-controller.yaml
+> index 802e3ca8be4d..a17f49738abd 100644
+> --- a/Documentation/devicetree/bindings/mmc/mmc-controller.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/mmc-controller.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/mmc/mmc-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: MMC Controller Generic Binding
+> +title: MMC Controller common properties
+>  
+>  maintainers:
+>    - Ulf Hansson <ulf.hansson@linaro.org>
+> diff --git a/Documentation/devicetree/bindings/mtd/nand-chip.yaml b/Documentation/devicetree/bindings/mtd/nand-chip.yaml
+> index 97ac3a3fbb52..20b195ef9b70 100644
+> --- a/Documentation/devicetree/bindings/mtd/nand-chip.yaml
+> +++ b/Documentation/devicetree/bindings/mtd/nand-chip.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/mtd/nand-chip.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: NAND Chip and NAND Controller Generic Binding
+> +title: NAND Chip and NAND Controller common properties
+>  
+>  maintainers:
+>    - Miquel Raynal <miquel.raynal@bootlin.com>
+> diff --git a/Documentation/devicetree/bindings/mtd/nand-controller.yaml b/Documentation/devicetree/bindings/mtd/nand-controller.yaml
+> index 359a015d4e5a..a004efc42842 100644
+> --- a/Documentation/devicetree/bindings/mtd/nand-controller.yaml
+> +++ b/Documentation/devicetree/bindings/mtd/nand-controller.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: NAND Chip and NAND Controller Generic Binding
+> +title: NAND Chip and NAND Controller common properties
+>  
+>  maintainers:
+>    - Miquel Raynal <miquel.raynal@bootlin.com>
+> diff --git a/Documentation/devicetree/bindings/net/bluetooth/bluetooth-controller.yaml b/Documentation/devicetree/bindings/net/bluetooth/bluetooth-controller.yaml
+> index 9309dc40f54f..8715adff5eaf 100644
+> --- a/Documentation/devicetree/bindings/net/bluetooth/bluetooth-controller.yaml
+> +++ b/Documentation/devicetree/bindings/net/bluetooth/bluetooth-controller.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/net/bluetooth/bluetooth-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Bluetooth Controller Generic Binding
+> +title: Bluetooth Controller common properties
+>  
+>  maintainers:
+>    - Marcel Holtmann <marcel@holtmann.org>
+> diff --git a/Documentation/devicetree/bindings/net/can/can-controller.yaml b/Documentation/devicetree/bindings/net/can/can-controller.yaml
+> index 1f0e98051074..3747b46cf9b6 100644
+> --- a/Documentation/devicetree/bindings/net/can/can-controller.yaml
+> +++ b/Documentation/devicetree/bindings/net/can/can-controller.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/net/can/can-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: CAN Controller Generic Binding
+> +title: CAN Controller common properties
+>  
+>  maintainers:
+>    - Marc Kleine-Budde <mkl@pengutronix.de>
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> index 3aef506fa158..26502c0f2aff 100644
+> --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Ethernet Controller Generic Binding
+> +title: Ethernet Controller common properties
+>  
+>  maintainers:
+>    - David S. Miller <davem@davemloft.net>
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> index ad808e9ce5b9..0aa1b60e78cc 100644
+> --- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> +++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Ethernet PHY Generic Binding
+> +title: Ethernet PHY common properties
+>  
+>  maintainers:
+>    - Andrew Lunn <andrew@lunn.ch>
+> diff --git a/Documentation/devicetree/bindings/net/mdio.yaml b/Documentation/devicetree/bindings/net/mdio.yaml
+> index b5706d4e7e38..b184689dd6b2 100644
+> --- a/Documentation/devicetree/bindings/net/mdio.yaml
+> +++ b/Documentation/devicetree/bindings/net/mdio.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/net/mdio.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: MDIO Bus Generic Binding
+> +title: MDIO Bus common properties
+>  
+>  maintainers:
+>    - Andrew Lunn <andrew@lunn.ch>
+> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-base.yaml b/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
+> index cf9c2f7bddc2..20ac432dc683 100644
+> --- a/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
+> +++ b/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/opp/opp-v2-base.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Generic OPP (Operating Performance Points) Common Binding
+> +title: Generic OPP (Operating Performance Points) common parts
+>  
+>  maintainers:
+>    - Viresh Kumar <viresh.kumar@linaro.org>
+> diff --git a/Documentation/devicetree/bindings/power/reset/restart-handler.yaml b/Documentation/devicetree/bindings/power/reset/restart-handler.yaml
+> index 1f9a2aac53c0..8b52fd156d4c 100644
+> --- a/Documentation/devicetree/bindings/power/reset/restart-handler.yaml
+> +++ b/Documentation/devicetree/bindings/power/reset/restart-handler.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/power/reset/restart-handler.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Restart and shutdown handler generic binding
+> +title: Restart and shutdown handler common properties
+>  
+>  maintainers:
+>    - Sebastian Reichel <sre@kernel.org>
+> diff --git a/Documentation/devicetree/bindings/rtc/rtc.yaml b/Documentation/devicetree/bindings/rtc/rtc.yaml
+> index 0ec3551f12dd..00848a5a409e 100644
+> --- a/Documentation/devicetree/bindings/rtc/rtc.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/rtc.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/rtc/rtc.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: RTC Generic Binding
+> +title: Real Time Clock common properties
+>  
+>  maintainers:
+>    - Alexandre Belloni <alexandre.belloni@bootlin.com>
+> diff --git a/Documentation/devicetree/bindings/soundwire/soundwire-controller.yaml b/Documentation/devicetree/bindings/soundwire/soundwire-controller.yaml
+> index 4aad121eff3f..2176033850dc 100644
+> --- a/Documentation/devicetree/bindings/soundwire/soundwire-controller.yaml
+> +++ b/Documentation/devicetree/bindings/soundwire/soundwire-controller.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/soundwire/soundwire-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: SoundWire Controller Generic Binding
+> +title: SoundWire Controller common properties
+>  
+>  maintainers:
+>    - Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> diff --git a/Documentation/devicetree/bindings/spi/spi-controller.yaml b/Documentation/devicetree/bindings/spi/spi-controller.yaml
+> index 01042a7f382e..6bbe073f894b 100644
+> --- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
+> +++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/spi/spi-controller.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: SPI Controller Generic Binding
+> +title: SPI Controller common properties
+>  
+>  maintainers:
+>    - Mark Brown <broonie@kernel.org>
+> diff --git a/Documentation/devicetree/bindings/watchdog/watchdog.yaml b/Documentation/devicetree/bindings/watchdog/watchdog.yaml
+> index e3dfb02f0ca5..6875cf1c3159 100644
+> --- a/Documentation/devicetree/bindings/watchdog/watchdog.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/watchdog.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/watchdog/watchdog.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Watchdog Generic Bindings
+> +title: Watchdog common properties
+>  
+>  maintainers:
+>    - Guenter Roeck <linux@roeck-us.net>
+> -- 
+> 2.34.1
+> 
+> 
