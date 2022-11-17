@@ -2,76 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1954062DC9F
-	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 14:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87DC062DE13
+	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 15:28:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240003AbiKQNYK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Nov 2022 08:24:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41348 "EHLO
+        id S234786AbiKQO2u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Nov 2022 09:28:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240016AbiKQNYA (ORCPT
+        with ESMTP id S240311AbiKQO2l (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Nov 2022 08:24:00 -0500
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC9F67F5F;
-        Thu, 17 Nov 2022 05:23:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=+G6PrQX4WZ0clAFOG+6oorGnE1VikHeuERGrZVmD//k=; b=vgwvpEFQBvBPGJ4l5Fdl5ZljTl
-        ypo25jDbsASqpcWo44PsikMJUyEh/j8+KuNKwMVnNYUK8cne4i1X7nrUciBY+tVcS/iiHdJ2HFZ/H
-        2esnkjM/ujU0Xuz3sce+hbgODPmYjA5uixlRGmvbn4lmRkP+O1N9/KY5ao9XxabklPQ0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1overO-002grq-5j; Thu, 17 Nov 2022 14:23:18 +0100
-Date:   Thu, 17 Nov 2022 14:23:18 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        linux-can@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [RFC PATCH 1/9] dt-bindings: drop redundant part of title of
- shared bindings
-Message-ID: <Y3Y1xjOjijBsQLZA@lunn.ch>
-References: <20221117123850.368213-1-krzysztof.kozlowski@linaro.org>
- <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
+        Thu, 17 Nov 2022 09:28:41 -0500
+Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4A11261B
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 06:28:37 -0800 (PST)
+Date:   Thu, 17 Nov 2022 14:28:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1668695315; x=1668954515;
+        bh=h8QUQMuBeId16fwT8sIh6ZqutzDewiMZtFIp21P7mOY=;
+        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+        b=cLYLHTMvI4pQQtyVvzPKzaE42SZoN0qoVPQeQLANiJ77ipklFCAlKAu9C2fUV9eQn
+         B+dBlatkXMTkQhcJxLeUiX5os+iXkuE6Dny9XEf+idfQzdHupDpmBG/f6/MHmuA7Lr
+         XEd9hN5wfk4hjQEfPv1xyMlEAh3lnNglucGJ2Xdk43Vwhsz2JpZFKojtMoU4tDd1lf
+         YP3z2yogAUeXhmE3lTxsdYliSWbIy5uNXp1g7nrsotbj8VmDvtOGHEq5ekFX3m6LdO
+         i1eJuzY10Jz64eFubqo79KYtQfTU/717jpWZI7ABXH9twBqmoSps8Uow3PsOpbOHes
+         aCVnYVrwm/oQw==
+To:     linux-input@vger.kernel.org
+From:   "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Corey Minyard <cminyard@mvista.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Nikita Travkin <nikita@trvn.ru>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH] Input: stmfts - retry commands after timeout
+Message-ID: <20221117142753.2477-1-linmengbo0689@protonmail.com>
+Feedback-ID: 40467236:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
->  allOf:
-> -  - $ref: "dma-common.yaml#"
-> +  - $ref: dma-common.yaml#
->  
->  
->  allOf:
-> -  - $ref: "dma-common.yaml#"
-> +  - $ref: dma-common.yaml#
+Add #define STMFTS_RETRY_COUNT 3 to retry stmfts_command() 3 times.
+Without it, STMFTS_SYSTEM_RESET or STMFTS_SLEEP_OUT may return -110 to
+failed attempt due to no event received for completion.
 
-Looks like some other automated change made its way into this patch.
+Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
+---
+ drivers/input/touchscreen/stmfts.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-      Andrew
+diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen=
+/stmfts.c
+index d5bd170808fb..22de34966373 100644
+--- a/drivers/input/touchscreen/stmfts.c
++++ b/drivers/input/touchscreen/stmfts.c
+@@ -68,6 +68,7 @@
+ #define STMFTS_DATA_MAX_SIZE=09(STMFTS_EVENT_SIZE * STMFTS_STACK_DEPTH)
+ #define STMFTS_MAX_FINGERS=0910
+ #define STMFTS_DEV_NAME=09=09"stmfts"
++#define STMFTS_RETRY_COUNT=093
+=20
+ enum stmfts_regulators {
+ =09STMFTS_REGULATOR_VDD,
+@@ -317,19 +318,20 @@ static irqreturn_t stmfts_irq_handler(int irq, void *=
+dev)
+=20
+ static int stmfts_command(struct stmfts_data *sdata, const u8 cmd)
+ {
+-=09int err;
++=09int err, retry;
+=20
+ =09reinit_completion(&sdata->cmd_done);
+=20
+-=09err =3D i2c_smbus_write_byte(sdata->client, cmd);
+-=09if (err)
+-=09=09return err;
+-
+-=09if (!wait_for_completion_timeout(&sdata->cmd_done,
+-=09=09=09=09=09 msecs_to_jiffies(1000)))
+-=09=09return -ETIMEDOUT;
++=09for (retry =3D 0; retry < STMFTS_RETRY_COUNT; retry++) {
++=09=09err =3D i2c_smbus_write_byte(sdata->client, cmd);
++=09=09if (err)
++=09=09=09return err;
+=20
+-=09return 0;
++=09=09if (wait_for_completion_timeout(&sdata->cmd_done,
++=09=09=09=09=09=09msecs_to_jiffies(1000)))
++=09=09=09return 0;
++=09}
++=09return -ETIMEDOUT;
+ }
+=20
+ static int stmfts_input_open(struct input_dev *dev)
+--=20
+2.30.2
+
+
