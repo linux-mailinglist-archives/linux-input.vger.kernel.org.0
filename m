@@ -2,128 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B8362E6DA
-	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 22:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4B862E7F4
+	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 23:13:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240980AbiKQVTZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Nov 2022 16:19:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60880 "EHLO
+        id S230287AbiKQWNn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Nov 2022 17:13:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239916AbiKQVSm (ORCPT
+        with ESMTP id S231194AbiKQWNm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Nov 2022 16:18:42 -0500
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3BE8D488
-        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 13:16:43 -0800 (PST)
-Received: from [192.168.1.18] ([86.243.100.34])
-        by smtp.orange.fr with ESMTPA
-        id vmFUoQx51FUJ3vmFUoimeH; Thu, 17 Nov 2022 22:16:41 +0100
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 17 Nov 2022 22:16:41 +0100
-X-ME-IP: 86.243.100.34
-Message-ID: <4fe0c7c3-f5eb-4c01-8607-ce79a768cb06@wanadoo.fr>
-Date:   Thu, 17 Nov 2022 22:16:40 +0100
+        Thu, 17 Nov 2022 17:13:42 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C28B46376;
+        Thu, 17 Nov 2022 14:13:41 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso3103130pjt.0;
+        Thu, 17 Nov 2022 14:13:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f06cqSRJWJq7tzA4zFWcNI3yf20+OmliN5HlU3NPwBg=;
+        b=kIDW4IG0NXahblHZ+J9OHofWLjPQX/rflmieQg9t0L3fpCknXE3kM/jf+yeTz1/ZtP
+         59XjoEKvi8ZufmQrmDCps36RQY8RQ8LcSD4PQsjEBoDfo9Q9DEBldCMe2lcFAjc0Mi6M
+         PwzZVo3x8EPmc0fXTpSo++I/CDL3vjGrpG5XYnTGLXZoAyHvodu+cQhuDtgL9r1nYtEa
+         T2Fj68OP9mlxVwQZZnp/rqLnPt00y3LTdraBTdN2Nb0zIc7R2cncOPzPlwSguPvYYHQb
+         ic3ywhdWmemRh9X5kPZRSQA3+dL4NXrQ4dXzB4rv8TRiq0UAliBSRHHgl04OlTTTP+rQ
+         SSVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f06cqSRJWJq7tzA4zFWcNI3yf20+OmliN5HlU3NPwBg=;
+        b=yp0sYbYmwtiAxSmMvO6seJxnSwHkeYHPiY1DjmmngISk7tVg+O9a6G3qUC0BHwgmaJ
+         YY93WLQ+JZWnqfAto2+9aKposmpTrkXaUW1mV2TMdeKsYCBMAgk/C7DsjfJ2Y8RulsJI
+         E952NdcqeSzZKtJgb4ECSfXFiUYkKYf47u7lPUbHgAcDXgknVFugQtpclQFP+fo7IrOL
+         vCBpT9YAGofLlVAD0ZrvYXH+f2ZoBMB68hCKDdHe2ik9LzFLuMBjWceI40rLsX/uRUb8
+         1FIwIBPGsWf1CXGH9FmmxsVoLyIZEgjcjEZgLTA2prWz9EPosgQtMthqh54UerjWfTTC
+         MG4A==
+X-Gm-Message-State: ANoB5plmT2YQv4cGeJAys51JsMy6XHOvSbgeOf0q5kGW6K3UStB8p3k8
+        eFiKfLNQHH8Q4igM2mL6HW4=
+X-Google-Smtp-Source: AA0mqf43FrXDE+6wKKa2X5G/31I/6kOkI9kyNqrRRQw/mzu7UkBb7oxm5w9ytGlOr1K+rri6xGa1IA==
+X-Received: by 2002:a17:902:a508:b0:17c:7aaa:c67d with SMTP id s8-20020a170902a50800b0017c7aaac67dmr4499159plq.171.1668723221142;
+        Thu, 17 Nov 2022 14:13:41 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:e4c5:c31d:4c68:97a0])
+        by smtp.gmail.com with ESMTPSA id j23-20020a63e757000000b0047063eb4098sm1527256pgk.37.2022.11.17.14.13.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 14:13:40 -0800 (PST)
+Date:   Thu, 17 Nov 2022 14:13:37 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Douglas Anderson <dianders@chromium.org>
+Cc:     Benson Leung <bleung@chromium.org>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        Scott Liu <scott.liu@emc.com.tw>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: elants_i2c: Properly handle the reset GPIO when
+ power is off
+Message-ID: <Y3ayEc8sFCLahOT3@google.com>
+References: <20221117123805.1.I9959ac561dd6e1e8e1ce7085e4de6167b27c574f@changeid>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 2/2] Input: cyttsp5 - add vddio regulator
-Content-Language: fr, en-US
-To:     linmengbo0689@protonmail.com
-Cc:     alistair@alistair23.me, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, krzysztof.kozlowski+dt@linaro.org,
-        linus.walleij@linaro.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org
-References: <20221117190507.87535-1-linmengbo0689@protonmail.com>
- <20221117190507.87535-3-linmengbo0689@protonmail.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20221117190507.87535-3-linmengbo0689@protonmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221117123805.1.I9959ac561dd6e1e8e1ce7085e4de6167b27c574f@changeid>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 17/11/2022 à 20:05, Lin, Meng-Bo a écrit :
-> The Samsung touchscreen controllers are often used with external pull-up
-> for the interrupt line and the I2C lines, so we might need to enable
-> a regulator to bring the lines into usable state. Otherwise, this might
-> cause spurious interrupts and reading from I2C will fail.
+On Thu, Nov 17, 2022 at 12:38:23PM -0800, Douglas Anderson wrote:
+> As can be seen in elants_i2c_power_off(), we want the reset GPIO
+> asserted when power is off. The reset GPIO is active low so we need
+> the reset line logic low when power is off to avoid leakage.
 > 
-> Implement support for a "vddio-supply" that is enabled by the cyttsp5
-> driver so that the regulator gets enabled when needed.
+> We have a problem, though, at probe time. At probe time we haven't
+> powered the regulators on yet but we have:
+>   devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
 > 
-> Signed-off-by: Lin, Meng-Bo <linmengbo0689-g/b1ySJe57IN+BqQ9rBEUg@public.gmane.org>
-> ---
->   drivers/input/touchscreen/cyttsp5.c | 19 ++++++++++++-------
->   1 file changed, 12 insertions(+), 7 deletions(-)
+> While that _looks_ right, it turns out that it's not. The
+> GPIOD_OUT_LOW doesn't mean to init the GPIO to low. It means init the
+> GPIO to "not asserted". Since this is an active low GPIO that inits it
+> to be high.
 > 
-> diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-> index 24ab1df9fc07..d02fdb940edf 100644
-> --- a/drivers/input/touchscreen/cyttsp5.c
-> +++ b/drivers/input/touchscreen/cyttsp5.c
-> @@ -190,7 +190,7 @@ struct cyttsp5 {
->   	int num_prv_rec;
->   	struct regmap *regmap;
->   	struct touchscreen_properties prop;
-> -	struct regulator *vdd;
-> +	struct regulator_bulk_data supplies[2];
->   };
->   
->   /*
-> @@ -767,7 +767,7 @@ static void cyttsp5_cleanup(void *data)
->   {
->   	struct cyttsp5 *ts = data;
->   
-> -	regulator_disable(ts->vdd);
-> +	regulator_bulk_disable(ARRAY_SIZE(ts->supplies), ts->supplies);
->   }
->   
->   static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
-> @@ -790,9 +790,12 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
->   	init_completion(&ts->cmd_done);
->   
->   	/* Power up the device */
-> -	ts->vdd = devm_regulator_get(dev, "vdd");
-> -	if (IS_ERR(ts->vdd)) {
-> -		error = PTR_ERR(ts->vdd);
-> +	ts->supplies[0].supply = "vdd";
-> +	ts->supplies[1].supply = "vddio";
-> +	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(ts->supplies),
-> +				      ts->supplies);
-> +	if (error < 0) {
-> +		dev_err(ts->dev, "Failed to get regulators, error %d\n", error);
+> Let's fix this to properly init the GPIO. Now after both probe and
+> power off the state of the GPIO is consistent (it's "asserted" or
+> level low).
+> 
+> Once we fix this, we can see that at power on time we no longer to
+> assert the reset GPIO as the first thing. The reset GPIO is _always_
+> asserted before powering on. Let's fix powering on to account for
+> this.
 
-Hi,
+I kind of like that elants_i2c_power_on() is self-contained and does the
+full power sequence. Can we simply change devm_gpiod_get() to use
+GPIOD_ASIS to avoid the momentary spike in reset line state (assuming
+that the firmware initializes the reset line sanely because if it does
+not we have much longer time where we are leaking into the controller)?
 
-dev_err_probe()?
-I think that devm_regulator_bulk_get() can return -EPROBE_DEFER;
+Thanks.
 
->   		return error;
->   	}
->   
-> @@ -800,9 +803,11 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
->   	if (error)
->   		return error;
->   
-> -	error = regulator_enable(ts->vdd);
-> -	if (error)
-> +	error = regulator_bulk_enable(ARRAY_SIZE(ts->supplies), ts->supplies);
-> +	if (error < 0) {
-> +		dev_err(ts->dev, "Failed to enable regulators, error %d\n", error);
-
-Eventually, the same here in order to be consistent.
-
-CJ
-
->   		return error;
-> +	}
->   
->   	ts->input = devm_input_allocate_device(dev);
->   	if (!ts->input) {
-
+-- 
+Dmitry
