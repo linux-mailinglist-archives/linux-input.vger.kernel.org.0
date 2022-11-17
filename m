@@ -2,41 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EA3F62E216
-	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 17:36:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2D5B62E21B
+	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 17:37:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240709AbiKQQgg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Nov 2022 11:36:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44084 "EHLO
+        id S234053AbiKQQhc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Nov 2022 11:37:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240638AbiKQQgP (ORCPT
+        with ESMTP id S240107AbiKQQgb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Nov 2022 11:36:15 -0500
+        Thu, 17 Nov 2022 11:36:31 -0500
 Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F260274A95
-        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 08:35:20 -0800 (PST)
-Date:   Thu, 17 Nov 2022 16:35:08 +0000
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DAFB1A056
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 08:35:33 -0800 (PST)
+Date:   Thu, 17 Nov 2022 16:35:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1668702916; x=1668962116;
-        bh=T794GTPNQYc9tJalhy0LCsNElYleSnXWekOIp9tkVi0=;
+        s=protonmail3; t=1668702929; x=1668962129;
+        bh=ZA1st/D2bOJO8psxoWwnXrvaoM+06eI7cmwLGnc8W7k=;
         h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
          Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
          Message-ID:BIMI-Selector;
-        b=gwkXwMZwxr4Avx4oXTOoKywGukieqd7ts3LOAGkWKLd6fsJJzdyBPn099Y4jm/2KU
-         v5hbnHhlv5LIumBS7L5F9JGJzfsvGI6iCTGRnv2Wzlsn4U2jySV6RYjCtuSGfkTgvi
-         o0KxlyrxWicBL50lDvJQdOLK2uvq8magN75kPT0BXvR7N/7vfxnAydfpYgJGfQyowh
-         Fb9GMxLZx7kBSOZCSzY0jsGiBSDm9WnuUVh6pTaG4pi7iYHzVXgNUVHwi+DxDptDHm
-         /ZYwSNDKRcBFlCPIKKC82cK5QR1tH+AcZExLRGdWXhMJz5Xax+3gvUDfVpaVfUwd+9
-         TllrvZV4mDkoA==
+        b=Cg/Rlu/2jqHXfQSr7sNItLVNNQ8xw1yzzKzYf8K5EMSh151LtJXqRwMonFpaWvGT+
+         m3VRhU2bAOT/WAu5KJYxYAQCooAAzfWXaISejENCgIP3HHawXBNfehg2onZfMB5avX
+         VD7T8+Ld08rrX9oOYs8Q5viqVR0/fVBUy/oE1tJVkBC7FFv2WAgmn7ZKLJWthjPcqP
+         L1H7wuODL+BlaLInXICffS8CRknC4tXCUouXmJ5vWGYc2NmGLLuWwiwJQ3Fji1zCfq
+         cEMI1UzELsmhHgAQhuZlkWy/P7jSj0d3fDhrJE/Z9q0rJeREuKORvYXuVoD+c954wX
+         tuIsz4dOurcPw==
 To:     linux-kernel@vger.kernel.org
 From:   "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
 Cc:     Markuss Broks <markuss.broks@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
         "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
         <linux-input@vger.kernel.org>
-Subject: [PATCH 2/3] input/touchscreen: imagis: Correct the maximum touch area value
-Message-ID: <20221117163440.23394-3-linmengbo0689@protonmail.com>
+Subject: [PATCH 3/3] input/touchscreen: imagis: Add supports for Imagis IST3038 and IST30XXB
+Message-ID: <20221117163440.23394-4-linmengbo0689@protonmail.com>
 In-Reply-To: <20221117163440.23394-1-linmengbo0689@protonmail.com>
 References: <20221117163440.23394-1-linmengbo0689@protonmail.com>
 Feedback-ID: 40467236:user:proton
@@ -55,30 +54,163 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Markuss Broks <markuss.broks@gmail.com>
 
-As specified in downstream IST3038/IST30XXB driver and proved by testing,
-the correct maximum reported value of touch area is 16.
+Imagis IST3038 and IST30XXB are other variants of Imagis IST3038 IC, which
+have a different register interface from IST3038C (possibly firmware
+defined).
+
+This should also work for IST3044B (though untested), however other
+variants using this interface/protocol(IST3026, IST3032, IST3026B,
+IST3032B) have a different format for coordinates, and they'd need
+additional effort to be supported by this driver.
 
 Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-[Change from IST3038B to IST3038 and IST30XXB]
+[Use IST3038C_REG_CHIPID_BASE]
 Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
 ---
- drivers/input/touchscreen/imagis.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/touchscreen/imagis.c | 71 +++++++++++++++++++++++++-----
+ 1 file changed, 60 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen=
 /imagis.c
-index e2697e6c6d2a..b667914a44f1 100644
+index b667914a44f1..ac07b24496eb 100644
 --- a/drivers/input/touchscreen/imagis.c
 +++ b/drivers/input/touchscreen/imagis.c
-@@ -210,7 +210,7 @@ static int imagis_init_input_dev(struct imagis_ts *ts)
+@@ -13,7 +13,8 @@
 =20
- =09input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
- =09input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
--=09input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-+=09input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 16, 0, 0);
+ #define IST3038C_HIB_ACCESS=09=09(0x800B << 16)
+ #define IST3038C_DIRECT_ACCESS=09=09BIT(31)
+-#define IST3038C_REG_CHIPID=09=090x40001000
++#define IST3038C_REG_CHIPID_BASE=090x40001000
++#define IST3038C_REG_CHIPID(base)=09(base | IST3038C_DIRECT_ACCESS)
+ #define IST3038C_REG_HIB_BASE=09=090x30000100
+ #define IST3038C_REG_TOUCH_STATUS=09(IST3038C_REG_HIB_BASE | IST3038C_HIB_=
+ACCESS)
+ #define IST3038C_REG_TOUCH_COORD=09(IST3038C_REG_HIB_BASE | IST3038C_HIB_A=
+CCESS | 0x8)
+@@ -31,8 +32,24 @@
+ #define IST3038C_FINGER_COUNT_SHIFT=0912
+ #define IST3038C_FINGER_STATUS_MASK=09GENMASK(9, 0)
 =20
- =09touchscreen_parse_properties(input_dev, true, &ts->prop);
- =09if (!ts->prop.max_x || !ts->prop.max_y) {
++#define IST30XX_REG_STATUS=09=090x20
++#define IST30XXB_REG_CHIPID_BASE=090x40000000
++#define IST30XX_WHOAMI=09=09=090x30003000
++#define IST30XXA_WHOAMI=09=09=090x300a300a
++#define IST30XXB_WHOAMI=09=09=090x300b300b
++#define IST3038_WHOAMI=09=09=090x30383038
++
++struct imagis_properties {
++=09unsigned int interrupt_msg_cmd;
++=09unsigned int touch_coord_cmd;
++=09unsigned int chipid_base;
++=09unsigned int whoami_val;
++=09bool protocol_b;
++};
++
+ struct imagis_ts {
+ =09struct i2c_client *client;
++=09const struct imagis_properties *tdata;
+ =09struct input_dev *input_dev;
+ =09struct touchscreen_properties prop;
+ =09struct regulator_bulk_data supplies[2];
+@@ -84,8 +101,7 @@ static irqreturn_t imagis_interrupt(int irq, void *dev_i=
+d)
+ =09int i;
+ =09int error;
+=20
+-=09error =3D imagis_i2c_read_reg(ts, IST3038C_REG_INTR_MESSAGE,
+-=09=09=09=09    &intr_message);
++=09error =3D imagis_i2c_read_reg(ts, ts->tdata->interrupt_msg_cmd, &intr_m=
+essage);
+ =09if (error) {
+ =09=09dev_err(&ts->client->dev,
+ =09=09=09"failed to read the interrupt message: %d\n", error);
+@@ -104,9 +120,13 @@ static irqreturn_t imagis_interrupt(int irq, void *dev=
+_id)
+ =09finger_pressed =3D intr_message & IST3038C_FINGER_STATUS_MASK;
+=20
+ =09for (i =3D 0; i < finger_count; i++) {
+-=09=09error =3D imagis_i2c_read_reg(ts,
+-=09=09=09=09=09    IST3038C_REG_TOUCH_COORD + (i * 4),
+-=09=09=09=09=09    &finger_status);
++=09=09if (ts->tdata->protocol_b)
++=09=09=09error =3D imagis_i2c_read_reg(ts,
++=09=09=09=09=09=09    ts->tdata->touch_coord_cmd, &finger_status);
++=09=09else
++=09=09=09error =3D imagis_i2c_read_reg(ts,
++=09=09=09=09=09=09    ts->tdata->touch_coord_cmd + (i * 4),
++=09=09=09=09=09=09    &finger_status);
+ =09=09if (error) {
+ =09=09=09dev_err(&ts->client->dev,
+ =09=09=09=09"failed to read coordinates for finger %d: %d\n",
+@@ -261,6 +281,12 @@ static int imagis_probe(struct i2c_client *i2c)
+=20
+ =09ts->client =3D i2c;
+=20
++=09ts->tdata =3D device_get_match_data(dev);
++=09if (!ts->tdata) {
++=09=09dev_err(dev, "missing chip data\n");
++=09=09return -EINVAL;
++=09}
++
+ =09error =3D imagis_init_regulators(ts);
+ =09if (error) {
+ =09=09dev_err(dev, "regulator init error: %d\n", error);
+@@ -279,15 +305,13 @@ static int imagis_probe(struct i2c_client *i2c)
+ =09=09return error;
+ =09}
+=20
+-=09error =3D imagis_i2c_read_reg(ts,
+-=09=09=09IST3038C_REG_CHIPID | IST3038C_DIRECT_ACCESS,
+-=09=09=09&chip_id);
++=09error =3D imagis_i2c_read_reg(ts, IST3038C_REG_CHIPID(ts->tdata->chipid=
+_base), &chip_id);
+ =09if (error) {
+ =09=09dev_err(dev, "chip ID read failure: %d\n", error);
+ =09=09return error;
+ =09}
+=20
+-=09if (chip_id !=3D IST3038C_WHOAMI) {
++=09if (chip_id !=3D ts->tdata->whoami_val) {
+ =09=09dev_err(dev, "unknown chip ID: 0x%x\n", chip_id);
+ =09=09return -EINVAL;
+ =09}
+@@ -343,9 +367,34 @@ static int __maybe_unused imagis_resume(struct device =
+*dev)
+=20
+ static SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
+=20
++static const struct imagis_properties imagis_3038_data =3D {
++=09.interrupt_msg_cmd =3D IST30XX_REG_STATUS,
++=09.touch_coord_cmd =3D IST30XX_REG_STATUS,
++=09.chipid_base =3D IST30XXB_REG_CHIPID_BASE,
++=09.whoami_val =3D IST3038_WHOAMI,
++=09.protocol_b =3D true,
++};
++
++static const struct imagis_properties imagis_3038c_data =3D {
++=09.interrupt_msg_cmd =3D IST3038C_REG_INTR_MESSAGE,
++=09.touch_coord_cmd =3D IST3038C_REG_TOUCH_COORD,
++=09.chipid_base =3D IST3038C_REG_CHIPID_BASE,
++=09.whoami_val =3D IST3038C_WHOAMI,
++};
++
++static const struct imagis_properties imagis_30xxb_data =3D {
++=09.interrupt_msg_cmd =3D IST30XX_REG_STATUS,
++=09.touch_coord_cmd =3D IST30XX_REG_STATUS,
++=09.chipid_base =3D IST30XXB_REG_CHIPID_BASE,
++=09.whoami_val =3D IST30XXB_WHOAMI,
++=09.protocol_b =3D true,
++};
++
+ #ifdef CONFIG_OF
+ static const struct of_device_id imagis_of_match[] =3D {
+-=09{ .compatible =3D "imagis,ist3038c", },
++=09{ .compatible =3D "imagis,ist3038", .data =3D &imagis_3038_data },
++=09{ .compatible =3D "imagis,ist3038c", .data =3D &imagis_3038c_data },
++=09{ .compatible =3D "imagis,ist30xxb", .data =3D &imagis_30xxb_data },
+ =09{ },
+ };
+ MODULE_DEVICE_TABLE(of, imagis_of_match);
 --=20
 2.30.2
 
