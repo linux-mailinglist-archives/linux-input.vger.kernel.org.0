@@ -2,49 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB3F862E892
-	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 23:39:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EAE762E9D5
+	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 00:48:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240291AbiKQWjQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Nov 2022 17:39:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43328 "EHLO
+        id S233865AbiKQXse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Nov 2022 18:48:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235163AbiKQWjM (ORCPT
+        with ESMTP id S233780AbiKQXse (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Nov 2022 17:39:12 -0500
-Received: from mail-40140.protonmail.ch (mail-40140.protonmail.ch [185.70.40.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 267238DA54
-        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 14:39:10 -0800 (PST)
-Date:   Thu, 17 Nov 2022 22:39:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1668724748; x=1668983948;
-        bh=gWBsEHP+8dLHoXfYc95d09Xo3xz2BaOFXCljQcHLH/A=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=qDAGGL1JRa0p73hyKNfJLxJH41zn5VRBVnN5PeGhh8y+bFtADgi38Cmlffn1kkJkF
-         moJPnpF+WczR8idYoulZl0usk7xfXOQABINy3XOBHtGy/ekwiEZaQ2bYpSv4qegImc
-         f4Lo34IG6P9ybvtp6+5qmGMOErScyCKxWTrNTeIvDsLN1q4V1ZNrYJwmTk3EHppSom
-         W37vmUL3lNuZKKg/qEK8/6AZ+2//1PY5j/ihVRM0AiXxonWCww6FKnEDkayhEGNgr6
-         MBlTfwvI+A4uuS+2LCpNSNYP6B1c/1DCAgU7+j0dPvMQfeii0dNBNI5/AHre5wFxow
-         eObpEDmL8lqFA==
-To:     dmitry.torokhov@gmail.com
-From:   "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
-Cc:     alistair@alistair23.me, devicetree@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linmengbo0689@protonmail.com,
-        linus.walleij@linaro.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org
-Subject: Re: [PATCH 2/2] Input: cyttsp5 - add vddio regulator
-Message-ID: <20221117223850.187999-1-linmengbo0689@protonmail.com>
-In-Reply-To: <Y3ay6zgq7JiWDR/Z@google.com>
-References: <20221117190507.87535-1-linmengbo0689@protonmail.com> <20221117190507.87535-3-linmengbo0689@protonmail.com> <Y3ay6zgq7JiWDR/Z@google.com>
-Feedback-ID: 40467236:user:proton
+        Thu, 17 Nov 2022 18:48:34 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C906634E
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 15:48:33 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id ud5so9110577ejc.4
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 15:48:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=z3mPD0EkSC7Adcy7hDuBH4FB8RYIrp9aVOpCxQKz9XM=;
+        b=gvzYiwmC5Usie4K8x8fmGF5PQz59G3pBnzjLLnBfw0wezFFVFeTv9KHN5vqOrlrxh6
+         5X6arL4hwtdiCBAeZd/YvDvfLUPGj/alNej9nOZIUSwjNcRMz4xchg5F55f8T0CgcqL5
+         58KC/dH/1eYW44i3wmJSESBm8ejzkEXckQ1Tk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z3mPD0EkSC7Adcy7hDuBH4FB8RYIrp9aVOpCxQKz9XM=;
+        b=ToUSMjYDy1k6sN/FfTVbzrwC4QB1YtLBkwZLltqjIXZJZc6rgSEc8g+1SgOR9t3XAP
+         jpDdHA40jEgIX7YrXIgXHYOitGzTpyIUMXv4k/e8adSQxTJ+1iOhTCzLtKbdt63Krw7u
+         zFagHDKB/O8pYMRgpgMMkAf7G4h0mv2HXCiFqAaFlze+zh4GYSvZO1u8pz9LuDlBd1OT
+         BxgiamtSVZ1wtchIDZcb2O98K2qteJiZYwR9YKC8agQYa87SEx51vghC7A3YuL9VkcA1
+         s6L9Pt4LyKp40FqsetpKcT85vSLZfaE0z2wHbxSagJnvRNklbA6qIHZe3aBVPx85t83a
+         Ap3A==
+X-Gm-Message-State: ANoB5pkyqqdglqRbdcYrvrAnq777FYpBl/yOmCYYgU2J/ZU0dqfQBzaO
+        7wWQH1ewRi9jPuBiUz2gdbEdyq8OPt9Yw/Q2
+X-Google-Smtp-Source: AA0mqf7UUvEwRw5Gz6WReEnmM2ZKlBXvkEtvq9DzeC0SAFY+GbfjcNMjKZ87OjPHcefaAuWAa4Xc0w==
+X-Received: by 2002:a17:906:480b:b0:78d:9f25:6103 with SMTP id w11-20020a170906480b00b0078d9f256103mr4038333ejq.168.1668728910602;
+        Thu, 17 Nov 2022 15:48:30 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
+        by smtp.gmail.com with ESMTPSA id eq5-20020a056402298500b00461cdda400esm1106971edb.4.2022.11.17.15.48.29
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Nov 2022 15:48:30 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id o7-20020a05600c510700b003cffc0b3374so2683179wms.0
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 15:48:29 -0800 (PST)
+X-Received: by 2002:a05:600c:1e12:b0:3cf:9ad3:a20e with SMTP id
+ ay18-20020a05600c1e1200b003cf9ad3a20emr3301736wmb.151.1668728909254; Thu, 17
+ Nov 2022 15:48:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no
+References: <20221117123805.1.I9959ac561dd6e1e8e1ce7085e4de6167b27c574f@changeid>
+ <Y3ayEc8sFCLahOT3@google.com>
+In-Reply-To: <Y3ayEc8sFCLahOT3@google.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 17 Nov 2022 15:48:17 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UuLKgM+0UNfRZBij1EkEZs0nQHOkY3Xp9BE2bbJWcdqQ@mail.gmail.com>
+Message-ID: <CAD=FV=UuLKgM+0UNfRZBij1EkEZs0nQHOkY3Xp9BE2bbJWcdqQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: elants_i2c: Properly handle the reset GPIO when
+ power is off
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Benson Leung <bleung@chromium.org>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        Scott Liu <scott.liu@emc.com.tw>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,15 +78,76 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hi,
 
-> This needs binding update.=20
+On Thu, Nov 17, 2022 at 2:13 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, Nov 17, 2022 at 12:38:23PM -0800, Douglas Anderson wrote:
+> > As can be seen in elants_i2c_power_off(), we want the reset GPIO
+> > asserted when power is off. The reset GPIO is active low so we need
+> > the reset line logic low when power is off to avoid leakage.
+> >
+> > We have a problem, though, at probe time. At probe time we haven't
+> > powered the regulators on yet but we have:
+> >   devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
+> >
+> > While that _looks_ right, it turns out that it's not. The
+> > GPIOD_OUT_LOW doesn't mean to init the GPIO to low. It means init the
+> > GPIO to "not asserted". Since this is an active low GPIO that inits it
+> > to be high.
+> >
+> > Let's fix this to properly init the GPIO. Now after both probe and
+> > power off the state of the GPIO is consistent (it's "asserted" or
+> > level low).
+> >
+> > Once we fix this, we can see that at power on time we no longer to
+> > assert the reset GPIO as the first thing. The reset GPIO is _always_
+> > asserted before powering on. Let's fix powering on to account for
+> > this.
+>
+> I kind of like that elants_i2c_power_on() is self-contained and does the
+> full power sequence. Can we simply change devm_gpiod_get() to use
+> GPIOD_ASIS to avoid the momentary spike in reset line state (assuming
+> that the firmware initializes the reset line sanely because if it does
+> not we have much longer time where we are leaking into the controller)?
 
-Please have a look at the binding update in
-https://lore.kernel.org/all/20221117190507.87535-2-linmengbo0689@protonmail=
-.com/
-if you don't receive it.
+I'm not sure I see the benefit of elants_i2c_power_on() initting the
+reset GPIO. In general that function _has_ to make assumptions about
+the state of the world before it's called. Otherwise the function
+should start:
 
-Regards,
-Lin
+if (ts->did_I_inexplicably_turn_vcc33_on) {
+  regulator_disable(ts->vcc33);
+  ts->did_I_inexplicably_turn_vcc33_on = false;
+}
 
+if (ts->did_I_inexplicably_turn_vccio_on) {
+  regulator_disable(ts->vccio);
+  ts->did_I_inexplicably_turn_vccio_on = false;
+}
+
+Said another way: we already need to rely on the regulators being in a
+reasonable state when the function starts.  Why is that different from
+relying on the reset GPIO being in a reasonable state? The reset GPIO
+needs to be sequenced together with the regulators. It should always
+be "asserted" (driven low) when the regulators are off and only ever
+deasserted (driven high) when the regulators are on.
+
+I'll also note that, as coded today (without my patch), the
+elants_i2c_power_on() is actively doing the _wrong_ thing in its error
+handling. Specifically if either of the regulators fail to turn on it
+will explicitly de-assert the reset again which, since it's active
+low, will set the GPIO to high and start leaking power / backdriving
+the touchscreen. We could remove this bit of error handling but then
+we're suddenly not undoing the things that the function did. ;-) It
+feels cleaner to me to just make it a requirement that the reset GPIO
+is always asserted (low) when the regulators are off.
+
+I guess one last note is that if you use GPIOD_ASIS you still
+officially need to change the output later. The docs for GPIOD_ASIS
+say: "The direction must be set later with one of the dedicated
+functions." So I guess then you'd have to set the direction in
+elants_i2c_power_on() ?
+
+-Doug
