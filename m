@@ -2,94 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0634262D9EA
-	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 12:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB2BE62DA5C
+	for <lists+linux-input@lfdr.de>; Thu, 17 Nov 2022 13:11:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233865AbiKQLxY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Nov 2022 06:53:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55430 "EHLO
+        id S239943AbiKQML4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Nov 2022 07:11:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234518AbiKQLxQ (ORCPT
+        with ESMTP id S239982AbiKQMLw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Nov 2022 06:53:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A84D1141;
-        Thu, 17 Nov 2022 03:53:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC58261303;
-        Thu, 17 Nov 2022 11:53:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B06DC433D6;
-        Thu, 17 Nov 2022 11:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668685994;
-        bh=ShqTe1CG2H2vpLDKDFV7iYYR2HXYxDuYRyuDgEafb10=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c1BvFloj9U+G4l3s5fB0S3s6wd9nDJWAKF9jgAlxVb07mREgj3TvGzY/NFV8OQxDI
-         55Ub+0cRUU+qG0C85Dh85mLvCZWM+4jKMrHQuP/F+tLn/3OX9E4w08s1R+ENbD6bZz
-         nR/LKmEs0o2k8PNPS1J10WpjgmXNOJWSpVJut5I55oLwVhYUuqjOqcLTT4UV1F+iTh
-         37hpbCxE3i+x2o2Pt5HW0ezQEKQxFff/cJ84NhJkVuZtmrHKMky4DefsVUfZwrg/mw
-         oFrLaOuNUPV3LKC8JOONjknV4SCwOcSFMS7jYQPGQya54TdZrVxUdcstunUlmUi71c
-         XuASjz1yeh7BA==
-Date:   Thu, 17 Nov 2022 11:53:05 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Jerome Neanne <jneanne@baylibre.com>
-Cc:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
-        will@kernel.org, tony@atomide.com, vigneshr@ti.com,
-        shawnguo@kernel.org, geert+renesas@glider.be,
-        dmitry.baryshkov@linaro.org, marcel.ziswiler@toradex.com,
-        vkoul@kernel.org, biju.das.jz@bp.renesas.com, arnd@arndb.de,
-        jeff@labundy.com, afd@ti.com, khilman@baylibre.com,
-        narmstrong@baylibre.com, msp@baylibre.com, j-keerthy@ti.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: Re: [PATCH v7 5/6] Input: Add tps65219 interrupt driven powerbutton
-Message-ID: <Y3YgocGss54KIMRi@google.com>
-References: <20221104152311.1098603-1-jneanne@baylibre.com>
- <20221104152311.1098603-6-jneanne@baylibre.com>
+        Thu, 17 Nov 2022 07:11:52 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E93346E579;
+        Thu, 17 Nov 2022 04:11:50 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id a29so2439555lfj.9;
+        Thu, 17 Nov 2022 04:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fvAW3QWfUB+ZRXw7GQnabgmGHjk0bbcFTzdS5NeGHzY=;
+        b=C7uJ0cx9ggyreToG9gcrAMQhBSyIzs+ls96OriZEul48TPbg1IgQyPPIze5fsrTx84
+         7Hj4kz7BsIMz62520ZnJI7gQyy6S7tuv/dKfFFtAPH7GTc3or1R0JN8gQEuwkycNCAN3
+         1K/mIN5aOAxCdwoIp5s0HWIeLofo+UyQR01k1m8VMGfU6xbMyUL724myAYKfKyioc+JT
+         rDdEsmK9AY64yQy2LshJEuw2scY1Ad8YP0oC9YT4YP027Vf4BC3AOH5ruZmsD9H+Fwfy
+         nHmxvR0wRWUpavG8RRu0OMD94GDr8CXAw2yvqyf9PTvNC+ebh7WVNhXtp0v+AMyGaLWJ
+         Br8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fvAW3QWfUB+ZRXw7GQnabgmGHjk0bbcFTzdS5NeGHzY=;
+        b=sWhU8zbMp6p+CIuD3H7s6grIbGXdg4UO3dXO0q018oxQ4oHOflea8WPkyoisGeHPFT
+         qJDhbjfLss94jSOUt9jQi40jQepQnCWJxPO/jHmBMeMsdQ1K4O07i+kbSziUmggzFc5G
+         OJrs+jBZQc6ESFjegZCMLewlP8L82ADjTTafn7cmjSALtEkPCDRkC8xg3qxRcQC9xCcZ
+         Td0D1989p5ty+13DTRSVH3NlL32ITswK43x6DEBl9xQNAHhnUcGvsEgxBUs4w4gu2xwC
+         EUX6KibDU/NGld/+N5RxMMudksWm7oKN8Irtwkuqekf2n662eIyJqeckFgWJvZxwdID2
+         DNcQ==
+X-Gm-Message-State: ANoB5pkroCrLsGMwES0VE3xDhcQ93fddbnBHPeRIiDrck0+gLUpNlGoQ
+        V9gK3McieWPHxfdNd2610lw=
+X-Google-Smtp-Source: AA0mqf5GhB75MjBiceXBvCuZIH5c3Zh03VDGGyqDfDC8g1rB4okdbuRRnRi+kIpynfNLDfCudrygaA==
+X-Received: by 2002:a05:6512:3084:b0:4aa:83e6:53e4 with SMTP id z4-20020a056512308400b004aa83e653e4mr761123lfd.13.1668687109201;
+        Thu, 17 Nov 2022 04:11:49 -0800 (PST)
+Received: from localhost.localdomain (82-209-154-112.cust.bredband2.com. [82.209.154.112])
+        by smtp.gmail.com with ESMTPSA id s15-20020a056512214f00b004a8b9c68735sm121152lfr.102.2022.11.17.04.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 04:11:48 -0800 (PST)
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v2] HID: hid-cmedia: use device managed resources
+Date:   Thu, 17 Nov 2022 13:13:04 +0100
+Message-Id: <20221117121304.5516-1-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221104152311.1098603-6-jneanne@baylibre.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 04 Nov 2022, Jerome Neanne wrote:
+When we do not need to free() any memory in .remove, we can remove
+cmhid_remove as well.
+hid_device_remove() will call hid_hw_stop() as default .remove function
+if no function is specified.
 
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> TPS65219 has different interrupts compared to other TPS6521* chips.
-> TPS65219 defines two interrupts for the powerbutton one for push and one
-> for release.
-> 
-> This driver is very simple in that it maps the push interrupt to a key
-> input and the release interrupt to a key release.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Jerome Neanne <jneanne@baylibre.com>
-> 
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> 
-> Please feel free to merge through MFD tree.
-> ---
->  drivers/input/misc/Kconfig              |  10 ++
->  drivers/input/misc/Makefile             |   1 +
->  drivers/input/misc/tps65219-pwrbutton.c | 148 ++++++++++++++++++++++++
->  3 files changed, 159 insertions(+)
->  create mode 100644 drivers/input/misc/tps65219-pwrbutton.c
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
+ drivers/hid/hid-cmedia.c | 27 +++++----------------------
+ 1 file changed, 5 insertions(+), 22 deletions(-)
 
-Applied, thanks.
-
+diff --git a/drivers/hid/hid-cmedia.c b/drivers/hid/hid-cmedia.c
+index cab42047bc99..8b0007168afb 100644
+--- a/drivers/hid/hid-cmedia.c
++++ b/drivers/hid/hid-cmedia.c
+@@ -145,11 +145,9 @@ static int cmhid_probe(struct hid_device *hid, const struct hid_device_id *id)
+ 	int ret;
+ 	struct cmhid *cm;
+ 
+-	cm = kzalloc(sizeof(struct cmhid), GFP_KERNEL);
+-	if (!cm) {
+-		ret = -ENOMEM;
+-		goto allocfail;
+-	}
++	cm = devm_kzalloc(&hid->dev, sizeof(struct cmhid), GFP_KERNEL);
++	if (!cm)
++		return -ENOMEM;
+ 
+ 	cm->hid = hid;
+ 
+@@ -159,30 +157,16 @@ static int cmhid_probe(struct hid_device *hid, const struct hid_device_id *id)
+ 	ret = hid_parse(hid);
+ 	if (ret) {
+ 		hid_err(hid, "parse failed\n");
+-		goto fail;
++		return ret;
+ 	}
+ 
+ 	ret = hid_hw_start(hid, HID_CONNECT_DEFAULT | HID_CONNECT_HIDDEV_FORCE);
+-	if (ret) {
++	if (ret)
+ 		hid_err(hid, "hw start failed\n");
+-		goto fail;
+-	}
+ 
+-	return 0;
+-fail:
+-	kfree(cm);
+-allocfail:
+ 	return ret;
+ }
+ 
+-static void cmhid_remove(struct hid_device *hid)
+-{
+-	struct cmhid *cm = hid_get_drvdata(hid);
+-
+-	hid_hw_stop(hid);
+-	kfree(cm);
+-}
+-
+ static const struct hid_device_id cmhid_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM6533) },
+ 	{ }
+@@ -195,7 +179,6 @@ static struct hid_driver cmhid_driver = {
+ 	.raw_event = cmhid_raw_event,
+ 	.input_configured = cmhid_input_configured,
+ 	.probe = cmhid_probe,
+-	.remove = cmhid_remove,
+ 	.input_mapping = cmhid_input_mapping,
+ };
+ 
 -- 
-Lee Jones [李琼斯]
+2.38.1
+
