@@ -2,31 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8783630223
-	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 23:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D42C06301C6
+	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 23:53:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235273AbiKRW41 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 17:56:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51804 "EHLO
+        id S234759AbiKRWxp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 17:53:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235013AbiKRWz2 (ORCPT
+        with ESMTP id S234050AbiKRWxL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 17:55:28 -0500
+        Fri, 18 Nov 2022 17:53:11 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0DC21B7
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 14:48:30 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A79BE262
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 14:47:49 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8U-000271-TS; Fri, 18 Nov 2022 23:47:02 +0100
+        id 1owA8V-0002Ar-Lg; Fri, 18 Nov 2022 23:47:03 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8R-0058Q4-Ud; Fri, 18 Nov 2022 23:47:00 +0100
+        id 1owA8T-0058QX-8w; Fri, 18 Nov 2022 23:47:02 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8S-00006i-5y; Fri, 18 Nov 2022 23:47:00 +0100
+        id 1owA8S-00006o-Ie; Fri, 18 Nov 2022 23:47:00 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
@@ -38,9 +38,9 @@ Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 232/606] Input: cy8ctma140 - Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:39:26 +0100
-Message-Id: <20221118224540.619276-233-uwe@kleine-koenig.org>
+Subject: [PATCH 234/606] Input: cyttsp4 - Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:39:28 +0100
+Message-Id: <20221118224540.619276-235-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -67,32 +67,32 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/touchscreen/cy8ctma140.c | 5 ++---
+ drivers/input/touchscreen/cyttsp4_i2c.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/touchscreen/cy8ctma140.c b/drivers/input/touchscreen/cy8ctma140.c
-index a9be29139cbf..3a91d948b7f6 100644
---- a/drivers/input/touchscreen/cy8ctma140.c
-+++ b/drivers/input/touchscreen/cy8ctma140.c
-@@ -198,8 +198,7 @@ static void cy8ctma140_power_off_action(void *d)
- 	cy8ctma140_power_down(ts);
- }
- 
--static int cy8ctma140_probe(struct i2c_client *client,
--			    const struct i2c_device_id *id)
-+static int cy8ctma140_probe(struct i2c_client *client)
- {
- 	struct cy8ctma140 *ts;
- 	struct input_dev *input;
-@@ -344,7 +343,7 @@ static struct i2c_driver cy8ctma140_driver = {
- 		.of_match_table = cy8ctma140_of_match,
- 	},
- 	.id_table	= cy8ctma140_idtable,
--	.probe		= cy8ctma140_probe,
-+	.probe_new	= cy8ctma140_probe,
+diff --git a/drivers/input/touchscreen/cyttsp4_i2c.c b/drivers/input/touchscreen/cyttsp4_i2c.c
+index 28ae7c15397a..c260bab0c62c 100644
+--- a/drivers/input/touchscreen/cyttsp4_i2c.c
++++ b/drivers/input/touchscreen/cyttsp4_i2c.c
+@@ -27,8 +27,7 @@ static const struct cyttsp4_bus_ops cyttsp4_i2c_bus_ops = {
+ 	.read           = cyttsp_i2c_read_block_data,
  };
- module_i2c_driver(cy8ctma140_driver);
  
+-static int cyttsp4_i2c_probe(struct i2c_client *client,
+-				      const struct i2c_device_id *id)
++static int cyttsp4_i2c_probe(struct i2c_client *client)
+ {
+ 	struct cyttsp4 *ts;
+ 
+@@ -61,7 +60,7 @@ static struct i2c_driver cyttsp4_i2c_driver = {
+ 		.name	= CYTTSP4_I2C_NAME,
+ 		.pm	= &cyttsp4_pm_ops,
+ 	},
+-	.probe		= cyttsp4_i2c_probe,
++	.probe_new	= cyttsp4_i2c_probe,
+ 	.remove		= cyttsp4_i2c_remove,
+ 	.id_table	= cyttsp4_i2c_id,
+ };
 -- 
 2.38.1
 
