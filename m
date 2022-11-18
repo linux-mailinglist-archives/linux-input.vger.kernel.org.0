@@ -2,73 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F92C62ED7A
-	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 07:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF6C62ED7E
+	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 07:12:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235200AbiKRGI5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 01:08:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37616 "EHLO
+        id S240920AbiKRGME (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 01:12:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231768AbiKRGIz (ORCPT
+        with ESMTP id S229451AbiKRGMB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 01:08:55 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAEAF58BFB;
-        Thu, 17 Nov 2022 22:08:54 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id k2-20020a17090a4c8200b002187cce2f92so2209343pjh.2;
-        Thu, 17 Nov 2022 22:08:54 -0800 (PST)
+        Fri, 18 Nov 2022 01:12:01 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F1254090D
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 22:11:59 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id k7so3710042pll.6
+        for <linux-input@vger.kernel.org>; Thu, 17 Nov 2022 22:11:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1/9CyA/O/ffk/WiLLBbijHh3undgK2iph5RhrshJgM=;
-        b=ZGb+G5BgLZYRveyI+o9fJn5GxmvDjIYMmnZqG5Z1fsvqC75MUFvchqEr2FgEPIn+6h
-         0cfqfTF+WPWKlHMaDz45TpWWenvEWtrWthl5EbYyK8x2VtxhSj0ub1/2kZ98XyK49B33
-         lyVPX3cI1ktc1uiO8KMiAvx6UZWLEwqZl9uZCfpH1glB4SqytvTy8eLOIrKvdINDk7au
-         vMslP2yqbuBAkOIVNqyyurv6FTbbdV8SFbv8mezeKHbM6C3JpdmvwjQhur8iFm5iZTd/
-         swKJbHYgzOt0OpFQhFo7jE4KpDoW42FMoraIKzEBDSJWJZX2BgSdLKs8D15D4pgmWdVL
-         nUMw==
+        bh=a9KLdj5PztcCw0IycA4UcaK++RIfFFqYN3KXUUhzE3Q=;
+        b=nOLgciT5FgtxSOUGcJJ6sFqttPnjc6zOnnPNljPaDejAndWYelAp23umQ7WsR96XBm
+         2af+kH4t1g+NpwkLZWv2zjtUGPN2Gvbz8AlHx2YTYYgfYGXzP/75RzoaGgsolV/t+uQk
+         t+uK74lm+addVQZ4uqf98s8tmaV8d/JSM0+nLNs0oCunluvk29e2ZBd6hd6oW6Zvj7Ur
+         vo/4CcQPpiXS0oLD26J6frQIid4AiG4jiDBziotGs5xSPNmy/ZbZwLeptwvq5fx5xfHB
+         p7T71CvFl4ITVj2GRIsWpN607KMyqt0js33gOk0xnDfRrfG3Xrn67aIJTmqgO5hQ045E
+         48Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f1/9CyA/O/ffk/WiLLBbijHh3undgK2iph5RhrshJgM=;
-        b=f0OOb8q1B8LuWidc7fkqQ6KVkJZ+Q+LQ7TLC57jtumC/LepmDq3J/R4v7cl90MNwnB
-         YcIUs8in3yXcYC+dJuF5uMxmRnVqfyo8g8TSxnBF9TkwB033sze1evbaloyHbMuyCVqZ
-         TcvlMEcdC54DYq9EWIeB0y9Zi8Y6ErV9eDxvvLxpyLfFVx6rBCqcm/KytXU5r9NH9c1G
-         QK5FCKAHGSeR+902LzaATGKyhTdv0ygmfvrg7QZIOvpImTKOh526Qtb3A72Y11PoTagG
-         i5jp/FWp025BqtQ4mg+P+MBvaIXz/v5SzKwMXhMRIgHD5HysicEBdnlMRMKelb+a57Up
-         NKNw==
-X-Gm-Message-State: ANoB5pnEJxs69v/RhRNHHpSQFd/kptOY4G81Cr5eBSAXguG4e/t8OqOq
-        0Y4YRNdDfu7bgAAZLrW33V0=
-X-Google-Smtp-Source: AA0mqf5bBM/zQclPqWbgyWJyKksOjHrLKvrLvP782+r1jZPbC/4yYuW15tHmNp+/2JQ+cJo/YDAhmQ==
-X-Received: by 2002:a17:902:b58c:b0:188:64b7:e433 with SMTP id a12-20020a170902b58c00b0018864b7e433mr6193855pls.17.1668751734099;
-        Thu, 17 Nov 2022 22:08:54 -0800 (PST)
+        bh=a9KLdj5PztcCw0IycA4UcaK++RIfFFqYN3KXUUhzE3Q=;
+        b=aRrGSQTv9Ztgp2bc4hDDJGR07H40rIayu6ZqtPmpaFe7oiSa5AkB1j4ZH2WW17jp+n
+         aoHW551BC5zvxiBgfaZp9l6uvoGBL2tyxfz1BZffEPGFjmKCaKAnpDErYwxmvEOlsAjv
+         ssraITafPhDlrWa5Y+ZjWgDuDAbWDwfHaE4HH968ju7Opy9uEpx4J0bbyLhlMR7IdphN
+         lXUac/5y+YqWWpfQF5gHlycnofts5k+l4PvKmYfSsLK5G6srphnx0YFw6Rh7ijW4HlnC
+         PZYjdcKStbxfHtNX80msEzRcF7PDGAYHRjhRalBJhQDEg4Vzr1qWpFBFcDqgGZIC7ZZD
+         V16A==
+X-Gm-Message-State: ANoB5plW5Bc5jH2PR3ex6yFO//aqMc7vjHvbAkWhO/SiQkYYRAk8Hurv
+        OUAtMl3z+gHlUijgeKYEUdM=
+X-Google-Smtp-Source: AA0mqf4W3haw+1WirGsZ2g9RnwZsFJI0OaXA4SHyqacDhCQKHZV42+Q7AAh+ChZOpX6zPG+39qs6YA==
+X-Received: by 2002:a17:90a:8a82:b0:210:7cd5:db0e with SMTP id x2-20020a17090a8a8200b002107cd5db0emr6584067pjn.30.1668751918811;
+        Thu, 17 Nov 2022 22:11:58 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:e4c5:c31d:4c68:97a0])
-        by smtp.gmail.com with ESMTPSA id jg15-20020a17090326cf00b001868d4600b8sm2556448plb.158.2022.11.17.22.08.52
+        by smtp.gmail.com with ESMTPSA id t9-20020a170902b20900b0018099c9618esm2530991plr.231.2022.11.17.22.11.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 22:08:53 -0800 (PST)
-Date:   Thu, 17 Nov 2022 22:08:50 -0800
+        Thu, 17 Nov 2022 22:11:57 -0800 (PST)
+Date:   Thu, 17 Nov 2022 22:11:54 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Nikita Travkin <nikita@trvn.ru>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [RESNED PATCH 1/3] dt-bindings: input/touchscreen: Add
- compatible for IST3038 and IST30XXB
-Message-ID: <Y3chclOgvZSDqRGu@google.com>
-References: <20221117191436.87938-1-linmengbo0689@protonmail.com>
- <20221117191436.87938-2-linmengbo0689@protonmail.com>
+To:     Chris Morgan <macroalpha82@gmail.com>
+Cc:     linux-input@vger.kernel.org,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] hynitron_cstxxx: Initialize tmp to 0 to fix
+ uninitialized variable issue
+Message-ID: <Y3ciKoAJWdFoCXIX@google.com>
+References: <20221117195921.2291-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221117191436.87938-2-linmengbo0689@protonmail.com>
+In-Reply-To: <20221117195921.2291-1-macroalpha82@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -79,34 +73,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 07:15:03PM +0000, Lin, Meng-Bo wrote:
-> From: Markuss Broks <markuss.broks@gmail.com>
+On Thu, Nov 17, 2022 at 01:59:21PM -0600, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Imagis IST3038 and IST30XXB are variants (firmware?) of Imagis IST3038 IC,
-> add the compatible for them to the IST3038C bindings.
+> In the very unlikely event the cst3xx_i2c_write() fails inside of the
+> cst3xx_bootloader_enter() function 5 times in a row, the uninitalized
+> value of tmp will get compared to CST3XX_BOOTLDR_CHK_VAL. Initialize
+> the value of tmp to 0 so that in this unlikely event we are comparing
+> 0 instead of an uninitalized variable.
 > 
-> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-> [Change from IST3038B to IST3038 and IST30XXB]
-> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
-> ---
->  .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml  | 2 ++
->  1 file changed, 2 insertions(+)
+> Fixes: 66603243f528 ("Input: add driver for Hynitron cstxxx touchscreens")
 > 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-> index e3a2b871e50c..85390f6ffe36 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-> @@ -18,7 +18,9 @@ properties:
->  
->    compatible:
->      enum:
-> +      - imagis,ist3038
->        - imagis,ist3038c
-> +      - imagis,ist30xxb
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
 
-I do not believe wildcard compatibles are allowed.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
