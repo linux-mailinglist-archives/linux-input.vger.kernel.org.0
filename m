@@ -2,44 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9AAA6301C4
-	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 23:53:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9CE6301BD
+	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 23:53:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234742AbiKRWxo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 17:53:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51226 "EHLO
+        id S234728AbiKRWxj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 17:53:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234567AbiKRWxH (ORCPT
+        with ESMTP id S234476AbiKRWw5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 17:53:07 -0500
+        Fri, 18 Nov 2022 17:52:57 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3B6BE259
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 14:47:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14827BCE5A
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 14:47:47 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8U-00023U-2l; Fri, 18 Nov 2022 23:47:02 +0100
+        id 1owA8U-000272-Qu; Fri, 18 Nov 2022 23:47:02 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8Q-0058Pm-TW; Fri, 18 Nov 2022 23:46:59 +0100
+        id 1owA8R-0058Q3-Uf; Fri, 18 Nov 2022 23:47:00 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8R-00006N-6K; Fri, 18 Nov 2022 23:46:59 +0100
+        id 1owA8S-00006e-0l; Fri, 18 Nov 2022 23:47:00 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>, Nick Dyer <nick@shmanahar.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 227/606] Input: atmel_mxt_ts - Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:39:21 +0100
-Message-Id: <20221118224540.619276-228-uwe@kleine-koenig.org>
+Subject: [PATCH 231/606] Input: chipone_icn8318 - Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:39:25 +0100
+Message-Id: <20221118224540.619276-232-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -66,31 +67,32 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/chipone_icn8318.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index ccecd1441f0b..39ef2664b852 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3129,7 +3129,7 @@ static const struct dmi_system_id chromebook_T9_suspend_dmi[] = {
- 	{ }
+diff --git a/drivers/input/touchscreen/chipone_icn8318.c b/drivers/input/touchscreen/chipone_icn8318.c
+index f2fb41fb031e..f6769e4bd4f2 100644
+--- a/drivers/input/touchscreen/chipone_icn8318.c
++++ b/drivers/input/touchscreen/chipone_icn8318.c
+@@ -176,8 +176,7 @@ static int icn8318_resume(struct device *dev)
+ 
+ static SIMPLE_DEV_PM_OPS(icn8318_pm_ops, icn8318_suspend, icn8318_resume);
+ 
+-static int icn8318_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int icn8318_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct icn8318_data *data;
+@@ -267,7 +266,7 @@ static struct i2c_driver icn8318_driver = {
+ 		.pm	= &icn8318_pm_ops,
+ 		.of_match_table = icn8318_of_match,
+ 	},
+-	.probe = icn8318_probe,
++	.probe_new = icn8318_probe,
+ 	.id_table = icn8318_i2c_id,
  };
  
--static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
-+static int mxt_probe(struct i2c_client *client)
- {
- 	struct mxt_data *data;
- 	int error;
-@@ -3377,7 +3377,7 @@ static struct i2c_driver mxt_driver = {
- 		.acpi_match_table = ACPI_PTR(mxt_acpi_id),
- 		.pm	= &mxt_pm_ops,
- 	},
--	.probe		= mxt_probe,
-+	.probe_new	= mxt_probe,
- 	.remove		= mxt_remove,
- 	.id_table	= mxt_id,
- };
 -- 
 2.38.1
 
