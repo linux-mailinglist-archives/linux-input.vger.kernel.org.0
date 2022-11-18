@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 008E462F70F
-	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 15:19:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FAFD62F713
+	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 15:19:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235297AbiKROTF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 09:19:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49264 "EHLO
+        id S242260AbiKROTW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 09:19:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242230AbiKROSm (ORCPT
+        with ESMTP id S242265AbiKROTS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 09:18:42 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABD04646D
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 06:18:40 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id j16so8388171lfe.12
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 06:18:40 -0800 (PST)
+        Fri, 18 Nov 2022 09:19:18 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1CB2DD
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 06:19:17 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id r12so8451516lfp.1
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 06:19:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=47uUJ1rSQsietKEVLcYW7wfhoN5/4R7ZRzOSfe6CNVM=;
-        b=p4IIvzIXlmyGxBdE1c0AnPo9oJv0zT8vNConUFHGiNm7i3lZuGsuuKsNkZvVnKqTgK
-         On8qDc7hl6YWnBa5yVBAzrsW9SrrKqGJPaX0ivkyZEyJi2VXvfee4sl+B16YYQJ9JXAd
-         tRVqnYYm1vDgsBpAb/s800YVgk2/mYCYdsPcskyT+QC87/W+ouLNTcjEhWsvoXTLMSAU
-         M57F6CcVXILTUlt1t6vyR2oo+3plXUyVqttTPoeKpWnNjn9OFdwTbjHcC9CLgvH4pEG0
-         6e7ZdGIORU147DrAWiBDUwMsSI1hWo1SeoOaUb46ST1xr9LtgYkXZcSN7NgwgGILgFWu
-         H89A==
+        bh=JgA8yw24O2i30NCYTg1/JIIAnOY+Wu0LNbmyEIpvXuU=;
+        b=wtPXLTlDYRv7ezb5DYtk3NuzdsUJn/t61NvLx3m4yBP2vADjQ/MIKaR6PNoc6qiOQM
+         +++k8vvln3incuN+OMA7HhA8qB0ANJTGfEsl4VfHMLO+v/jP5A8nnxQixnSdm24/clYp
+         z2udqjb/GLeUPtCSRn/P9QQOXB5aeK6liTbqHOseDdkTRDS4TQt2eO8jkFto9UG54tTj
+         IouItXBlddBdFVIgz/9lx9h972Bcnq534DAQqRvUZlP2q4z+FkVJnYkvuFDXEc9ZAn71
+         szrViWwk1XrwygDQtEl9afHWWBTIElJnt6/pUywzoZP0WwCeI7Oztdf/i9YeazWTZdLy
+         CD/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=47uUJ1rSQsietKEVLcYW7wfhoN5/4R7ZRzOSfe6CNVM=;
-        b=3TAS/oTEEdco8paiGiSZrhxdubkVZ8mr4fc/ojY3AvAT9CHriattcX9wzu3A2q+l2x
-         cDn0Ba4t6ABtBQNJ+1miycBAdHJfZZPJdvwjzDQ5w3TvJwhzxqhfxEMqxwG3sZ39K+/M
-         JuRoYQaUXZEYYVx33jVXXiPCJWtPXmjKaxeuU/8uhd7E7ziUSC1N4ikBOKLVU+qAPOgu
-         EwbVwVsrdfWMIQq+gMC6gtH40TYEn60fjzZ81NrxbJTluJ008Qr30Ivn8i2llX8o68Hk
-         jI+ftBFoEmFEK86k0aXIuldBIWuLWhCzzshGNY2ONmmgWUaWCgbuhuN+GcENGSH4c1//
-         Y9cg==
-X-Gm-Message-State: ANoB5pmb5N/KNErfL2kK0Bi9Tn4v0CJ+nBGsjnOHV+oN5/kN7AJ9Cnuj
-        qhu6w5TeOyJx65SYTmWUHOvq/pzuduoxCIa6
-X-Google-Smtp-Source: AA0mqf6kTAmfu1Qzou07Pfde51WjI3d77r6jj6OLnG4XTcMztbWXTvuP+DDy7OkRdutrvx/J8+tjQA==
-X-Received: by 2002:a19:f713:0:b0:498:f36a:76fa with SMTP id z19-20020a19f713000000b00498f36a76famr2617957lfe.532.1668781118606;
-        Fri, 18 Nov 2022 06:18:38 -0800 (PST)
+        bh=JgA8yw24O2i30NCYTg1/JIIAnOY+Wu0LNbmyEIpvXuU=;
+        b=68nOJaaqYAH9MVS0p7MR3Qdkju8/uu6aUHEGbvkiBXTHEpij56hppKSqfIqfIc1z5o
+         W6qrTN8p/F89rieIAOxvGEu6H4VP2tcmW5FRL8w1PD4kKc+NS+KFBPPIqwxHBn1JRZF/
+         5nR/ijEIFlvUS6NFMvYQSqTDDsd4evZhtfSdoE8L3I4jwFWkrRPyPkWYyXWssBQpgs9H
+         0e7rGeEPXKMaTMvMbfy8ADvpisSw4RSg1CXLmZMOJD9xcaAssNEIJ5CqxEQi7zmMv6mh
+         3Z0wuMLV9AFJPEO7gpDgfgor1DK8EWYh3h26rDk0Uh8TK0PIvhDpH3XvR9oLfNMsgKDV
+         U78A==
+X-Gm-Message-State: ANoB5pnsqTHl/jhRRcYVn6G9/T/66WdU3MYPJfD6mQ9JARIAtmgKtzX3
+        YwKrYA/01B6NB5lLN1sFCxrFP/RYRw1gnaOe
+X-Google-Smtp-Source: AA0mqf7TlmTWJziGrMLeJAgmh4qdlTOIPnh6RCz7Z3zW1Mofbv35K1UxHMtFKgjO4oBVMcUGe/sWEg==
+X-Received: by 2002:a05:6512:324c:b0:4a2:2e51:85c1 with SMTP id c12-20020a056512324c00b004a22e5185c1mr2394064lfr.658.1668781155414;
+        Fri, 18 Nov 2022 06:19:15 -0800 (PST)
 Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id a17-20020a2e9811000000b0026dc7b59d8esm675289ljj.22.2022.11.18.06.18.37
+        by smtp.gmail.com with ESMTPSA id s12-20020a056512314c00b004b0317a1035sm678035lfi.109.2022.11.18.06.19.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Nov 2022 06:18:38 -0800 (PST)
-Message-ID: <956e7470-a531-79e6-9f3a-d764d2af9421@linaro.org>
-Date:   Fri, 18 Nov 2022 15:18:37 +0100
+        Fri, 18 Nov 2022 06:19:14 -0800 (PST)
+Message-ID: <3796bfa6-9d39-f0ca-55a4-6f03bf578a6e@linaro.org>
+Date:   Fri, 18 Nov 2022 15:19:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/3] dt-bindings: input/touchscreen: Add compatible for
- IST3038 and IST30XXB
+Subject: Re: [RESNED PATCH 1/3] dt-bindings: input/touchscreen: Add compatible
+ for IST3038 and IST30XXB
 Content-Language: en-US
 To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
         linux-kernel@vger.kernel.org
@@ -64,14 +64,14 @@ Cc:     Markuss Broks <markuss.broks@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-References: <20221117163440.23394-1-linmengbo0689@protonmail.com>
- <20221117163440.23394-2-linmengbo0689@protonmail.com>
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Nikita Travkin <nikita@trvn.ru>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20221117191436.87938-1-linmengbo0689@protonmail.com>
+ <20221117191436.87938-2-linmengbo0689@protonmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221117163440.23394-2-linmengbo0689@protonmail.com>
+In-Reply-To: <20221117191436.87938-2-linmengbo0689@protonmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -83,7 +83,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 17/11/2022 17:34, Lin, Meng-Bo wrote:
+On 17/11/2022 20:15, Lin, Meng-Bo wrote:
 > From: Markuss Broks <markuss.broks@gmail.com>
 > 
 > Imagis IST3038 and IST30XXB are variants (firmware?) of Imagis IST3038 IC,
@@ -91,9 +91,6 @@ On 17/11/2022 17:34, Lin, Meng-Bo wrote:
 > 
 > Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
 > [Change from IST3038B to IST3038 and IST30XXB]
-
-So IST30XXB is not a real device name?
-
 > Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
 > ---
 >  .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml  | 2 ++
@@ -111,7 +108,7 @@ So IST30XXB is not a real device name?
 >        - imagis,ist3038c
 > +      - imagis,ist30xxb
 
-No wildcards. Real model numbers.
+I don't get why this is a resend, but comments from v1 apply.
 
 Best regards,
 Krzysztof
