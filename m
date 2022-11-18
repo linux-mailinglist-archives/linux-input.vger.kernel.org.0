@@ -2,44 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5916304FB
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 00:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CE38630565
+	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 00:54:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234098AbiKRXuL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 18:50:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
+        id S232123AbiKRXyZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 18:54:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234451AbiKRXtX (ORCPT
+        with ESMTP id S236956AbiKRXwt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 18:49:23 -0500
+        Fri, 18 Nov 2022 18:52:49 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FC7EC0A0
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 15:26:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3BBCC75BC
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 15:27:39 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8U-00024F-3i; Fri, 18 Nov 2022 23:47:02 +0100
+        id 1owA8V-00029C-EM; Fri, 18 Nov 2022 23:47:03 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8R-0058Pr-4F; Fri, 18 Nov 2022 23:47:00 +0100
+        id 1owA8S-0058QK-Jt; Fri, 18 Nov 2022 23:47:01 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8Q-00006J-VJ; Fri, 18 Nov 2022 23:46:58 +0100
+        id 1owA8R-00006S-F0; Fri, 18 Nov 2022 23:46:59 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Grant Likely <grant.likely@linaro.org>,
         Wolfram Sang <wsa@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>
 Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 226/606] Input: ar1021_i2c - Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:39:20 +0100
-Message-Id: <20221118224540.619276-227-uwe@kleine-koenig.org>
+Subject: [PATCH 228/606] Input: auo-pixcir-ts - Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:39:22 +0100
+Message-Id: <20221118224540.619276-229-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -66,32 +67,32 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/touchscreen/ar1021_i2c.c | 5 ++---
+ drivers/input/touchscreen/auo-pixcir-ts.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ar1021_i2c.c b/drivers/input/touchscreen/ar1021_i2c.c
-index dc6a85362a40..25bcc677e98b 100644
---- a/drivers/input/touchscreen/ar1021_i2c.c
-+++ b/drivers/input/touchscreen/ar1021_i2c.c
-@@ -87,8 +87,7 @@ static void ar1021_i2c_close(struct input_dev *dev)
- 	disable_irq(client->irq);
+diff --git a/drivers/input/touchscreen/auo-pixcir-ts.c b/drivers/input/touchscreen/auo-pixcir-ts.c
+index 2deae5a6823a..a4a1d58aeeac 100644
+--- a/drivers/input/touchscreen/auo-pixcir-ts.c
++++ b/drivers/input/touchscreen/auo-pixcir-ts.c
+@@ -482,8 +482,7 @@ static void auo_pixcir_reset(void *data)
+ 	gpiod_set_value_cansleep(ts->gpio_rst, 1);
  }
  
--static int ar1021_i2c_probe(struct i2c_client *client,
+-static int auo_pixcir_probe(struct i2c_client *client,
 -			    const struct i2c_device_id *id)
-+static int ar1021_i2c_probe(struct i2c_client *client)
++static int auo_pixcir_probe(struct i2c_client *client)
  {
- 	struct ar1021_i2c *ar1021;
- 	struct input_dev *input;
-@@ -182,7 +181,7 @@ static struct i2c_driver ar1021_i2c_driver = {
- 		.of_match_table = ar1021_i2c_of_match,
+ 	struct auo_pixcir_ts *ts;
+ 	struct input_dev *input_dev;
+@@ -637,7 +636,7 @@ static struct i2c_driver auo_pixcir_driver = {
+ 		.pm	= &auo_pixcir_pm_ops,
+ 		.of_match_table	= of_match_ptr(auo_pixcir_ts_dt_idtable),
  	},
- 
--	.probe		= ar1021_i2c_probe,
-+	.probe_new	= ar1021_i2c_probe,
- 	.id_table	= ar1021_i2c_id,
+-	.probe		= auo_pixcir_probe,
++	.probe_new	= auo_pixcir_probe,
+ 	.id_table	= auo_pixcir_idtable,
  };
- module_i2c_driver(ar1021_i2c_driver);
+ 
 -- 
 2.38.1
 
