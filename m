@@ -2,31 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79B1F6306DE
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 01:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E026306C5
+	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 01:14:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237509AbiKSAQY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 19:16:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32902 "EHLO
+        id S237537AbiKSAOY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 19:14:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237507AbiKSAQB (ORCPT
+        with ESMTP id S237612AbiKSANu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 19:16:01 -0500
+        Fri, 18 Nov 2022 19:13:50 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BE0F7379
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 15:35:20 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D516F4CD1
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 15:34:43 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8O-0001kH-G9; Fri, 18 Nov 2022 23:46:56 +0100
+        id 1owA8O-0001l8-VZ; Fri, 18 Nov 2022 23:46:57 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8L-0058Ny-Fs; Fri, 18 Nov 2022 23:46:54 +0100
+        id 1owA8L-0058O3-Mp; Fri, 18 Nov 2022 23:46:54 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8L-00004s-Eb; Fri, 18 Nov 2022 23:46:53 +0100
+        id 1owA8L-00004w-N2; Fri, 18 Nov 2022 23:46:53 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
@@ -37,9 +37,9 @@ Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 204/606] Input: tca8418_keypad - Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:38:58 +0100
-Message-Id: <20221118224540.619276-205-uwe@kleine-koenig.org>
+Subject: [PATCH 205/606] Input: tm2-touchkey - Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:38:59 +0100
+Message-Id: <20221118224540.619276-206-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -66,32 +66,32 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/keyboard/tca8418_keypad.c | 5 ++---
+ drivers/input/keyboard/tm2-touchkey.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/keyboard/tca8418_keypad.c b/drivers/input/keyboard/tca8418_keypad.c
-index 3bbd7e652533..3d7492f38337 100644
---- a/drivers/input/keyboard/tca8418_keypad.c
-+++ b/drivers/input/keyboard/tca8418_keypad.c
-@@ -259,8 +259,7 @@ static int tca8418_configure(struct tca8418_keypad *keypad_data,
- 	return error;
+diff --git a/drivers/input/keyboard/tm2-touchkey.c b/drivers/input/keyboard/tm2-touchkey.c
+index 632cd6c1c8d4..086aafaf0418 100644
+--- a/drivers/input/keyboard/tm2-touchkey.c
++++ b/drivers/input/keyboard/tm2-touchkey.c
+@@ -181,8 +181,7 @@ static irqreturn_t tm2_touchkey_irq_handler(int irq, void *devid)
+ 	return IRQ_HANDLED;
  }
  
--static int tca8418_keypad_probe(struct i2c_client *client,
--				const struct i2c_device_id *id)
-+static int tca8418_keypad_probe(struct i2c_client *client)
+-static int tm2_touchkey_probe(struct i2c_client *client,
+-			      const struct i2c_device_id *id)
++static int tm2_touchkey_probe(struct i2c_client *client)
  {
- 	struct device *dev = &client->dev;
- 	struct tca8418_keypad *keypad_data;
-@@ -371,7 +370,7 @@ static struct i2c_driver tca8418_keypad_driver = {
- 		.name	= "tca8418_keypad",
- 		.of_match_table = tca8418_dt_ids,
+ 	struct device_node *np = client->dev.of_node;
+ 	struct tm2_touchkey_data *touchkey;
+@@ -357,7 +356,7 @@ static struct i2c_driver tm2_touchkey_driver = {
+ 		.pm = &tm2_touchkey_pm_ops,
+ 		.of_match_table = of_match_ptr(tm2_touchkey_of_match),
  	},
--	.probe		= tca8418_keypad_probe,
-+	.probe_new	= tca8418_keypad_probe,
- 	.id_table	= tca8418_id,
+-	.probe = tm2_touchkey_probe,
++	.probe_new = tm2_touchkey_probe,
+ 	.id_table = tm2_touchkey_id_table,
  };
- 
+ module_i2c_driver(tm2_touchkey_driver);
 -- 
 2.38.1
 
