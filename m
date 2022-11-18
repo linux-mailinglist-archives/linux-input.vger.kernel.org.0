@@ -2,31 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8F846303BC
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 00:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74153630490
+	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 00:43:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233943AbiKRXdZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 18:33:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
+        id S236109AbiKRXnK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 18:43:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236228AbiKRXcS (ORCPT
+        with ESMTP id S236958AbiKRXmR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 18:32:18 -0500
+        Fri, 18 Nov 2022 18:42:17 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA717CFE
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 15:19:59 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 404C8F005
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 15:23:39 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8W-0002BI-Dx; Fri, 18 Nov 2022 23:47:04 +0100
+        id 1owA8W-0002CE-Po; Fri, 18 Nov 2022 23:47:04 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8T-0058Qi-GK; Fri, 18 Nov 2022 23:47:02 +0100
+        id 1owA8T-0058Qn-RM; Fri, 18 Nov 2022 23:47:02 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8T-000073-E6; Fri, 18 Nov 2022 23:47:01 +0100
+        id 1owA8T-00007C-Te; Fri, 18 Nov 2022 23:47:01 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
@@ -37,9 +37,9 @@ Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 238/606] Input: eeti_ts - Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:39:32 +0100
-Message-Id: <20221118224540.619276-239-uwe@kleine-koenig.org>
+Subject: [PATCH 240/606] Input: ektf2127 - Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:39:34 +0100
+Message-Id: <20221118224540.619276-241-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -66,32 +66,32 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/touchscreen/eeti_ts.c | 5 ++---
+ drivers/input/touchscreen/ektf2127.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/touchscreen/eeti_ts.c b/drivers/input/touchscreen/eeti_ts.c
-index a639ba7e56ea..c8ab03f49227 100644
---- a/drivers/input/touchscreen/eeti_ts.c
-+++ b/drivers/input/touchscreen/eeti_ts.c
-@@ -158,8 +158,7 @@ static void eeti_ts_close(struct input_dev *dev)
- 	eeti_ts_stop(eeti);
+diff --git a/drivers/input/touchscreen/ektf2127.c b/drivers/input/touchscreen/ektf2127.c
+index 2d01a8cbfcc6..328841eaa1b7 100644
+--- a/drivers/input/touchscreen/ektf2127.c
++++ b/drivers/input/touchscreen/ektf2127.c
+@@ -244,8 +244,7 @@ static int ektf2127_query_dimension(struct i2c_client *client, bool width)
+ 	return (((buf[3] & 0xf0) << 4) | buf[2]) - 1;
  }
  
--static int eeti_ts_probe(struct i2c_client *client,
--			 const struct i2c_device_id *idp)
-+static int eeti_ts_probe(struct i2c_client *client)
+-static int ektf2127_probe(struct i2c_client *client,
+-			  const struct i2c_device_id *id)
++static int ektf2127_probe(struct i2c_client *client)
  {
  	struct device *dev = &client->dev;
- 	struct eeti_ts *eeti;
-@@ -292,7 +291,7 @@ static struct i2c_driver eeti_ts_driver = {
- 		.pm = &eeti_ts_pm,
- 		.of_match_table = of_match_ptr(of_eeti_ts_match),
+ 	struct ektf2127_ts *ts;
+@@ -352,7 +351,7 @@ static struct i2c_driver ektf2127_driver = {
+ 		.pm	= &ektf2127_pm_ops,
+ 		.of_match_table = of_match_ptr(ektf2127_of_match),
  	},
--	.probe = eeti_ts_probe,
-+	.probe_new = eeti_ts_probe,
- 	.id_table = eeti_ts_id,
+-	.probe = ektf2127_probe,
++	.probe_new = ektf2127_probe,
+ 	.id_table = ektf2127_i2c_id,
  };
- 
+ module_i2c_driver(ektf2127_driver);
 -- 
 2.38.1
 
