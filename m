@@ -2,54 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A760162EFD5
-	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 09:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1BA462F30B
+	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 11:55:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241117AbiKRIoQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 03:44:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
+        id S235142AbiKRKz4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 05:55:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241089AbiKRIoE (ORCPT
+        with ESMTP id S233999AbiKRKzy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 03:44:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB647208D
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 00:43:04 -0800 (PST)
+        Fri, 18 Nov 2022 05:55:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C266691529
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 02:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668760983;
+        s=mimecast20190719; t=1668768896;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=0xP3BnY5Oo5jPdgLVmQFsxOPOuyQzhEeHptpu8Dd8M0=;
-        b=OmXj7Yysd2FCJcQS4BolbcivWnUhj7vpci4SjOjvqgGLinQUaf5DyJ0XX4kryky1pL8a/M
-        mRpJsPG5suPr4OvISCC0ollsJ4vlP/8uQvkCm1pmO+x29UDK8Wg4F5n+qQm7OloipSqQAU
-        lqtJ5lCIwujIdJOe94tjSUTbr4lBo3M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=Wu17TcJ/U0Y0VZBclAW0Sq9CIDRhj4hveCM90UJ+Snk=;
+        b=JbCIf9XmZOjqIfwWNcsrEfJcQeZ2jImVBhU2Yf2IDQITwasaxKXiClrx9ZMeSnVw8LwnVc
+        bZaZr/1Hk8rWJerNajsSonPevUv+XfI89f2fZHSOQKgfUsZo9DpRz0/poChiMGLAP0PLpf
+        +cZiiTAz5HqIeOihLzcloHjRdnLONlU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-usdEjcDrMzC56z2QGN2WKQ-1; Fri, 18 Nov 2022 03:43:02 -0500
-X-MC-Unique: usdEjcDrMzC56z2QGN2WKQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-610-mhLQDY96P9q4bNonwfwG2Q-1; Fri, 18 Nov 2022 05:54:54 -0500
+X-MC-Unique: mhLQDY96P9q4bNonwfwG2Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4A2085A59D;
-        Fri, 18 Nov 2022 08:43:01 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75B4E1C05AAE;
+        Fri, 18 Nov 2022 10:54:54 +0000 (UTC)
 Received: from plouf.redhat.com (unknown [10.39.194.179])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7098F1415119;
-        Fri, 18 Nov 2022 08:43:00 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8DB152027063;
+        Fri, 18 Nov 2022 10:54:53 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Marcel Holtmann <marcel@holtmann.org>,
-        Jiri Kosina <jkosina@suse.cz>
-Cc:     linux-bluetooth@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         kernel test robot <lkp@intel.com>
-Subject: [PATCH hid-next] HID: fix BT_HIDP Kconfig dependencies
-Date:   Fri, 18 Nov 2022 09:42:54 +0100
-Message-Id: <20221118084254.1880165-1-benjamin.tissoires@redhat.com>
+Subject: [PATCH for-6.2/hid-bpf] HID: force HID depending on INPUT
+Date:   Fri, 18 Nov 2022 11:54:48 +0100
+Message-Id: <20221118105448.1888750-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
@@ -60,34 +58,40 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If HID_SUPPORT is not selected, BT_HIDP should not be available, simply
-because we disallowed the HID bus entirely.
+In most configurations, INPUT is actually a boolean: either y or disabled,
+but when it's disabled, you can't do much on your average laptop.
 
-Add a new depends and actually revert this file back to where it was 10
-years ago before it was changed by commit 1f41a6a99476 ("HID: Fix the
-generic Kconfig options").
+But it turns out that there is a possibility to have INPUT as a module:
+you have to disable VT and TTY (of course), but also enable EXPERT.
+I'll leave how to disable VT and TTY as an exercise for the bravest.
+
+Anyway, if INPUT is m, we can still configure HID as y, which is not
+correct because hid-input.c depends on the input API, meaning that
+vmlinuz can not link.
+
+So: add depends on INPUT too at the HID level, to ensure that if INPUT=m,
+HID can only be m or disabled.
 
 Fixes: 25621bcc8976 ("HID: Kconfig: split HID support and hid-core compilation")
 Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/r/202211181514.fLhaiS7o-lkp@intel.com/
+Link: https://lore.kernel.org/r/202211181742.QYJY6Gug-lkp@intel.com
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 ---
- net/bluetooth/hidp/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/bluetooth/hidp/Kconfig b/net/bluetooth/hidp/Kconfig
-index 14100f341f33..6746be07e222 100644
---- a/net/bluetooth/hidp/Kconfig
-+++ b/net/bluetooth/hidp/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config BT_HIDP
- 	tristate "HIDP protocol support"
--	depends on BT_BREDR && INPUT
-+	depends on BT_BREDR && INPUT && HID_SUPPORT
- 	select HID
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index ff40c18f4a2b..b345bbfb57bf 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -15,6 +15,7 @@ if HID_SUPPORT
+ config HID
+ 	tristate "HID bus core support"
+ 	default y
++	depends on INPUT
  	help
- 	  HIDP (Human Interface Device Protocol) is a transport layer
+ 	  A human interface device (HID) is a type of computer device that
+ 	  interacts directly with and takes input from humans. The term "HID"
 -- 
 2.38.1
 
