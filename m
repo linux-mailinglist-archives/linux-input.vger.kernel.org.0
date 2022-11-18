@@ -2,45 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D09D06301C7
-	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 23:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2CC96301CD
+	for <lists+linux-input@lfdr.de>; Fri, 18 Nov 2022 23:53:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233394AbiKRWxq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 17:53:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51300 "EHLO
+        id S234807AbiKRWxu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 17:53:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234079AbiKRWxL (ORCPT
+        with ESMTP id S234637AbiKRWxQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 17:53:11 -0500
+        Fri, 18 Nov 2022 17:53:16 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83A11BE264
-        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 14:47:50 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0ECBE274
+        for <linux-input@vger.kernel.org>; Fri, 18 Nov 2022 14:47:52 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8Y-0002GJ-47; Fri, 18 Nov 2022 23:47:06 +0100
+        id 1owA8a-0002MG-Au; Fri, 18 Nov 2022 23:47:08 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8V-0058RP-Fn; Fri, 18 Nov 2022 23:47:04 +0100
+        id 1owA8X-0058S9-QX; Fri, 18 Nov 2022 23:47:06 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8V-00007j-NL; Fri, 18 Nov 2022 23:47:03 +0100
+        id 1owA8X-00008H-Kd; Fri, 18 Nov 2022 23:47:05 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Grant Likely <grant.likely@linaro.org>,
         Wolfram Sang <wsa@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jeff LaBundy <jeff@labundy.com>
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+        Crt Mori <cmo@melexis.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 247/606] Input: iqs5xx - Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:39:41 +0100
-Message-Id: <20221118224540.619276-248-uwe@kleine-koenig.org>
+Subject: [PATCH 256/606] Input: s6sy761 - Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:39:50 +0100
+Message-Id: <20221118224540.619276-257-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -53,7 +56,7 @@ X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to f
 X-PTX-Original-Recipient: linux-input@vger.kernel.org
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,32 +70,32 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/touchscreen/iqs5xx.c | 5 ++---
+ drivers/input/touchscreen/s6sy761.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-index 34c4cca57d13..dc3137a34f35 100644
---- a/drivers/input/touchscreen/iqs5xx.c
-+++ b/drivers/input/touchscreen/iqs5xx.c
-@@ -1019,8 +1019,7 @@ static int __maybe_unused iqs5xx_resume(struct device *dev)
+diff --git a/drivers/input/touchscreen/s6sy761.c b/drivers/input/touchscreen/s6sy761.c
+index 1a7d00289b4c..cc417c03aaca 100644
+--- a/drivers/input/touchscreen/s6sy761.c
++++ b/drivers/input/touchscreen/s6sy761.c
+@@ -389,8 +389,7 @@ static void s6sy761_power_off(void *data)
+ 						sdata->regulators);
+ }
  
- static SIMPLE_DEV_PM_OPS(iqs5xx_pm, iqs5xx_suspend, iqs5xx_resume);
- 
--static int iqs5xx_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int iqs5xx_probe(struct i2c_client *client)
+-static int s6sy761_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int s6sy761_probe(struct i2c_client *client)
  {
- 	struct iqs5xx_private *iqs5xx;
- 	int error;
-@@ -1094,7 +1093,7 @@ static struct i2c_driver iqs5xx_i2c_driver = {
- 		.pm		= &iqs5xx_pm,
+ 	struct s6sy761_data *sdata;
+ 	unsigned int max_x, max_y;
+@@ -540,7 +539,7 @@ static struct i2c_driver s6sy761_driver = {
+ 		.of_match_table = of_match_ptr(s6sy761_of_match),
+ 		.pm = &s6sy761_pm_ops,
  	},
- 	.id_table	= iqs5xx_id,
--	.probe		= iqs5xx_probe,
-+	.probe_new	= iqs5xx_probe,
+-	.probe = s6sy761_probe,
++	.probe_new = s6sy761_probe,
+ 	.remove = s6sy761_remove,
+ 	.id_table = s6sy761_id,
  };
- module_i2c_driver(iqs5xx_i2c_driver);
- 
 -- 
 2.38.1
 
