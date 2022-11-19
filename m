@@ -2,62 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D330D63102B
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 18:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48E5263106C
+	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 20:18:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234001AbiKSRrS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Nov 2022 12:47:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60968 "EHLO
+        id S233943AbiKSTSJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Nov 2022 14:18:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235274AbiKSRrR (ORCPT
+        with ESMTP id S231683AbiKSTSI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Nov 2022 12:47:17 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137071A3B0;
-        Sat, 19 Nov 2022 09:47:15 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id 62so7620268pgb.13;
-        Sat, 19 Nov 2022 09:47:15 -0800 (PST)
+        Sat, 19 Nov 2022 14:18:08 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE1413DD0;
+        Sat, 19 Nov 2022 11:18:07 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id t17so6545370pjo.3;
+        Sat, 19 Nov 2022 11:18:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7H6DJKCfHixnPFAkTLAl8E83OdjF7PB5hMUCcb4RgU=;
-        b=J0OnoI0a9KLtfnySwMotBzRojT7zBwvZp1Lrf+GlwgI0OKsXtB3xIr9k0HER3vXyx2
-         b7yyvFR+vsOgiXVF7OQFPYvs6M2OaElGJ7FHPrgwkaVpNDvuIlE6RpZTbLLVWwS0knto
-         ckzNWiWKcnqWEqLZjyIIu+FBZOrLz2MBsjyN5b339f5wUIDwCUM6o79S5fZ7tjuoB7ec
-         3wouCMydnnUUb7ZzMXVFPo1545IqoymFwpiqAPozJMsbTuAdpsf5wsozE4vV2uWOHsVb
-         L2EhXfq4sOltoh8j3HOBCtuEhIA7sbnC7Vt+2teUpQeAic1sddM2y1Vbri4czIkLI3qA
-         pP3A==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1jd34oDE5tgW7Xr0uL0ebPFGuoLTNlNOFzZ6YlWV6+E=;
+        b=i6Phvx4jIgrzuShLY17ZTwNYjckbrdwx4NAFiBxKZjhI3TJauv422CIATV7U1Al4ma
+         MYcy5VdhfLxUqbV3QeNIcfECZ5mlPWyJQBSB8QpTsPvI/Ci52Le4hxVDfch514s69uiI
+         u6ikIRZmn2/BpzkLz1aYd7yEZLT7VBI5DUdyu6dbNC1NtTdEcZnm/mPs2Po5bR4tf3vz
+         BrTSnI/iT2i1yTfCns+QTnkJBtpsEczO+Hw42/5n6g7EGDhyr8FQQpe3d2gvcWZEGoUy
+         yibrajT76AzCkL1AexBRCAZo8kT3+/zi0F2cSxVEJU2Asgl6dYxTIwqkm2kALwgqm8j2
+         khCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H7H6DJKCfHixnPFAkTLAl8E83OdjF7PB5hMUCcb4RgU=;
-        b=n6OEnQYfivep9WcSRSe0XbHkUKumwDD+ic6LZRmSVRQkSRgghxrmpqFUH75ESBnYpl
-         APhqvL0AaVBu21I8hOXKH3h7UR/fu4lBKyeMUmX8lpn1lCQMuiV87OGVjOYJer3AKTNX
-         cc8ZeVcws2L4u7LghtBfEJYEPZD9pPRsZHSoWUjh8EoOFZIExyB6RpeOMcycOOOBZhU1
-         RWIZSoKl4cBrRl28wnG2anKyTY2Le+d3DE0o4vJsydNGpMMPuCaiIDD6TDxp32tdckzp
-         A3l1HNLEcCatxsVZ+6NGxsEfR8OLzyl4LgrInmZCRZ3PL8v5LMdQCFmqL+HiNg1OyicE
-         gnJw==
-X-Gm-Message-State: ANoB5plCg5/diDQ4i2YCwRD1IwSUabhxJ2p9Vc2xLXrw4z4gRNUVQjRv
-        qn6Tknh9ovPtpdAd+UDjXK8=
-X-Google-Smtp-Source: AA0mqf6+F6iusHSvqWPZA/PLKMR5HsR7O1Z62/fMGS1gIpZX/1NivDOKF09TZ0Nja+azJZYoHoyD6Q==
-X-Received: by 2002:a63:cc15:0:b0:476:ccde:6694 with SMTP id x21-20020a63cc15000000b00476ccde6694mr11104234pgf.603.1668880034424;
-        Sat, 19 Nov 2022 09:47:14 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1jd34oDE5tgW7Xr0uL0ebPFGuoLTNlNOFzZ6YlWV6+E=;
+        b=z8vRxM3WahU7P2eO5FYbwGlnyCk3vSP0vaYMZJEfyStRiLkG1Mu0CASH7MlCpXYl7s
+         IQ9O/G1tnVPPiTyNl0a0IMwcs+wN26WDYLh8TVkAMbxG2FCx9y2Kzy4hA0+W9LCWD78Z
+         x+dwJ9XHhDgJi0o9sYaaoFCqBrCOewUcy2DyWdm34Fq4WRfZxDgeA6gObfEuHVsvH3Ku
+         VXyOERdKJloorv625vHiYYp7cSj+kRKSEzsF2PTyJmlFD6GFB215Ma+JZeB6RGTeMYEK
+         I1ssnRuAFT8kBbeC37TrBcbF6+GwxgfCXQpWfhIRbzXaxTHaHn7hFWl/xkCAvz4YyH/1
+         +9Kw==
+X-Gm-Message-State: ANoB5pnHfX925T4mkWG5nBKDljZpQzDmHEsFlC73dhC3s0AieohFECr9
+        qXwoAqOV7u4eeNuDfaP587GfBCmxzsECvdiUPoY=
+X-Google-Smtp-Source: AA0mqf5IPdueyz05VOpxsWYoOkmrea1QBDPsZP/c5Dd5YprJsQ5DFRfuIT5edjShAj6XbCSMUks2mw==
+X-Received: by 2002:a17:903:2305:b0:188:f3b9:7146 with SMTP id d5-20020a170903230500b00188f3b97146mr5030581plh.91.1668885486921;
+        Sat, 19 Nov 2022 11:18:06 -0800 (PST)
 Received: from y.home.yangfl.dn42 ([8.45.41.20])
-        by smtp.gmail.com with ESMTPSA id q15-20020aa7842f000000b0056b9df2a15esm5392491pfn.62.2022.11.19.09.47.09
+        by smtp.gmail.com with ESMTPSA id y15-20020a17090264cf00b00188f7ad561asm4965355pli.249.2022.11.19.11.18.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Nov 2022 09:47:13 -0800 (PST)
+        Sat, 19 Nov 2022 11:18:06 -0800 (PST)
 From:   David Yang <mmyangfl@gmail.com>
 To:     mmyangfl@gmail.com
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: kye: Add support for MousePen M508X
-Date:   Sun, 20 Nov 2022 01:46:55 +0800
-Message-Id: <20221119174656.83976-1-mmyangfl@gmail.com>
+Subject: [PATCH v2] HID: kye: Add support for MousePen M508X
+Date:   Sun, 20 Nov 2022 03:17:42 +0800
+Message-Id: <20221119191743.6466-1-mmyangfl@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221119174656.83976-1-mmyangfl@gmail.com>
+References: <20221119174656.83976-1-mmyangfl@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -75,9 +78,11 @@ default. This patch replaces it with a corrected one.
 
 Signed-off-by: David Yang <mmyangfl@gmail.com>
 ---
- drivers/hid/hid-ids.h |   1 +
- drivers/hid/hid-kye.c | 152 +++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 144 insertions(+), 9 deletions(-)
+v2: add missing hid-quirks.c entry
+ drivers/hid/hid-ids.h    |   1 +
+ drivers/hid/hid-kye.c    | 152 ++++++++++++++++++++++++++++++++++++---
+ drivers/hid/hid-quirks.c |   1 +
+ 3 files changed, 145 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
 index dad953f66..45f49b9be 100644
@@ -92,7 +97,7 @@ index dad953f66..45f49b9be 100644
  
  #define USB_VENDOR_ID_LABTEC		0x1020
 diff --git a/drivers/hid/hid-kye.c b/drivers/hid/hid-kye.c
-index da903138e..ef36599af 100644
+index da903138e..97e209c1f 100644
 --- a/drivers/hid/hid-kye.c
 +++ b/drivers/hid/hid-kye.c
 @@ -480,6 +480,131 @@ static __u8 pensketch_m912_rdesc_fixed[] = {
@@ -201,7 +206,7 @@ index da903138e..ef36599af 100644
 +	0xA1, 0x01,                   /*  Collection (Application),       */
 +	0x85, 0x12,                   /*    Report ID (18),               */
 +	0x0A, 0x01, 0x02,             /*    Usage (AC New),               */
-+	0x0B, 0x76, 0x00, 0x0D, 0x00, /*    Usage (Digitizer Brush),      */
++	0x09, 0x40,                   /*    Usage (Menu),                 */
 +	0x0A, 0x6A, 0x02,             /*    Usage (AC Delete),            */
 +	0x0A, 0x1A, 0x02,             /*    Usage (AC Undo),              */
 +	0x14,                         /*    Logical Minimum (0),          */
@@ -289,6 +294,18 @@ index da903138e..ef36599af 100644
  	{ }
  };
  MODULE_DEVICE_TABLE(hid, kye_devices);
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 50e1c717f..c70bbdc1a 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -108,6 +108,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M912), HID_QUIRK_MULTI_INPUT },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_M508X), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
 -- 
 2.35.1
 
