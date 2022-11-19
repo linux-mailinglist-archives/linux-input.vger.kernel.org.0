@@ -2,152 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37260630E40
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 12:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BF29630ED3
+	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 13:58:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbiKSLKV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Nov 2022 06:10:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
+        id S231865AbiKSM6M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Nov 2022 07:58:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiKSLKS (ORCPT
+        with ESMTP id S230471AbiKSM6K (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Nov 2022 06:10:18 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F3F6B9E9;
-        Sat, 19 Nov 2022 03:10:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 99C4960A1F;
-        Sat, 19 Nov 2022 11:10:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763BCC433C1;
-        Sat, 19 Nov 2022 11:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668856217;
-        bh=ene1SzTvsJEbW7r9yE4HzkF6rHfAR+aLIm+4UV/wgpo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AwWwg8hTEvU1lRotHevSh1bppQ+LWfLwM9aU/yyuaFSoeFCmSwjJ4hNXPYNKPqyxF
-         RwoQt69tGMzjEml+0YwDwVnLfETtKSINebD6ZDDIjJG2YZ26iP67zsjgz4cgG6uGnz
-         NeH6bx6FUo9hgiiy06aaBkM2k9pRw5peXY9fXGbpIdefsltNF4FVq05z66zkCjnicj
-         f/YnghTN3aq/ykMs6EmMfO5tnMvkQz4JaZBC1pmyIfU8l5HPFc7Qkk3nYySibldc2a
-         4zm4rXtEkUSkKLdGBy0DoGhHf7XI5Gph/tChnTnqwzMKjNhd3aisTxqnB1pP+2RhuX
-         Z5WZrjjMLqJaQ==
-Date:   Sat, 19 Nov 2022 12:10:11 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-media@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-actions@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
-        linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <Y3i5kz6IL7tFbVwX@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Sat, 19 Nov 2022 07:58:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641479E0AE
+        for <linux-input@vger.kernel.org>; Sat, 19 Nov 2022 04:57:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668862635;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3ZLrYgChEilRNXcz3x7R3l8Y3PsKaP5ZzhNykAinpEw=;
+        b=D8yQOnqe0yRMJC55VrDHl1byFK5UWMcouqDx9cgATH5Z9Nni0C0hf+vcUCC0lqIBKtqvqz
+        oZS8OD+uMyi8KSxCjh372EPaRkIY5/YNnkkvhWU3z4hsNUoYcqWPYVQ4WJz4N3GkyNn6rp
+        THGNlkxEJ1xTEOm8eriC8SCzp5dITZQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-354-sMnqNsmVNCqctU2LvgBPfQ-1; Sat, 19 Nov 2022 07:57:14 -0500
+X-MC-Unique: sMnqNsmVNCqctU2LvgBPfQ-1
+Received: by mail-ej1-f69.google.com with SMTP id jg27-20020a170907971b00b007ad9892f5f6so4655500ejc.7
+        for <linux-input@vger.kernel.org>; Sat, 19 Nov 2022 04:57:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ZLrYgChEilRNXcz3x7R3l8Y3PsKaP5ZzhNykAinpEw=;
+        b=2h7MeJgKlKrZLKz9NZsWgXbudI2E5e/GqoX6knfh/yPsDXTiZWrBXVd/wMWjrZ3xb0
+         AvFmhlhSQYEFVOurOME939qjAqADAzVxoot1q29T/PSRkUiUcZLVhU7LT1Mr8SE+mWM1
+         UFWCuDMVOow1UOEqMcZdVhtHCedtOgwFT/I0p0YwG+9fiZWUs1JC1He++SCQXz3Ry7jk
+         YHsYpE31WR0rUzQ/cpFuJX5Eb/LuFswoG5RylXXmNbvcfc8n4x2prdeJjltIS6RJvLYS
+         nbQtdSjnq97aUMYFRNH0qsfoM/Qz2Dc3ZbHRZVbFa1njDbk3vMwgsAqO8ss5pnn+7q3y
+         nGBQ==
+X-Gm-Message-State: ANoB5pmDidaY9dB4WkMT8ZJPx0YrI1x0gObEedRFiksf0Q9HJEoAzdNX
+        Ewi1sorWOYHtVHG3eLaWE90ZSDpMIqSQ11hVQ9KayorLBevdhymEu0TwGFS30TSeHaFw0JS8Jem
+        7o+Wu+spV5JfVmBWilVL+pa4=
+X-Received: by 2002:a17:906:5fd5:b0:7ac:2e16:a8d3 with SMTP id k21-20020a1709065fd500b007ac2e16a8d3mr9732531ejv.667.1668862633184;
+        Sat, 19 Nov 2022 04:57:13 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6HDkDtWh48gl/FrRJ3EIAftfWdoS4Smgp3VaG7iQJdTKGPoTQRnsYwFEM94VzW3+nHMG1JQg==
+X-Received: by 2002:a17:906:5fd5:b0:7ac:2e16:a8d3 with SMTP id k21-20020a1709065fd500b007ac2e16a8d3mr9732519ejv.667.1668862633025;
+        Sat, 19 Nov 2022 04:57:13 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id v19-20020aa7dbd3000000b0045b910b0542sm2896451edt.15.2022.11.19.04.57.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Nov 2022 04:57:12 -0800 (PST)
+Message-ID: <884b308e-2775-4817-372b-a622cf382b72@redhat.com>
+Date:   Sat, 19 Nov 2022 13:57:11 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 221/606] Input: elan_i2c_core - Convert to i2c's
+ .probe_new()
+Content-Language: en-US, nl
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
         Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>, linux-i2c@vger.kernel.org,
-        kernel@pengutronix.de, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-media@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-actions@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
-        linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net
+        Grant Likely <grant.likely@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xRatB1/o2GNYTDWD"
-Content-Disposition: inline
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <20221118224540.619276-222-uwe@kleine-koenig.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221118224540.619276-222-uwe@kleine-koenig.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---xRatB1/o2GNYTDWD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 11/18/22 23:39, Uwe Kleine-König wrote:
+> From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> 
+> The probe function doesn't make use of the i2c_device_id * parameter so it
+> can be trivially converted.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Hi Uwe,
+Thanks, patch looks good to me:
 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-Thanks for this work, really, but oh my poor inbox...
+Regards,
 
-> I don't think it's feasable to apply this series in one go, so I ask the
-> maintainers of the changed files to apply via their tree.
-
-This seems reasonable. It would have made sense to send "patch series
-per subsystem" then. So people only see the subset they are interested
-in. I know filename-to-subsys mapping is hardly ever perfect. But in my
-experience, even imperfect, it is more convenient than such a huge patch
-series.
-
-Happy hacking,
-
-   Wolfram
+Hans
 
 
---xRatB1/o2GNYTDWD
-Content-Type: application/pgp-signature; name="signature.asc"
+> ---
+>  drivers/input/mouse/elan_i2c_core.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index d4eb59b55bf1..a25d5b055553 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -1188,8 +1188,7 @@ static void elan_disable_regulator(void *_data)
+>  	regulator_disable(data->vcc);
+>  }
+>  
+> -static int elan_probe(struct i2c_client *client,
+> -		      const struct i2c_device_id *dev_id)
+> +static int elan_probe(struct i2c_client *client)
+>  {
+>  	const struct elan_transport_ops *transport_ops;
+>  	struct device *dev = &client->dev;
+> @@ -1438,7 +1437,7 @@ static struct i2c_driver elan_driver = {
+>  		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+>  		.dev_groups = elan_sysfs_groups,
+>  	},
+> -	.probe		= elan_probe,
+> +	.probe_new	= elan_probe,
+>  	.id_table	= elan_id,
+>  };
+>  
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmN4uY8ACgkQFA3kzBSg
-KbYEfw/+L6nVN4bUDqiN6AeU0yv+Wq/oAFkIUgM8TLT/4gzeEwPsCcTwHBaHQFEF
-sO9yZWukjVYlt2YlcEZglBVIAl7Ha17oQfv2HbWzZXl4cv8PEMfodh6PuOpcPuna
-P+RjiB40nPPxUt5hZ7EjiOpqML0Xy9G8X9Uzs5rA4Yt2OSXcGSYhCZb+U/Vygwlo
-VmLhSQhUnluCyhMZlbTn+bnmVCSHW8Bk5YBKOWygj8K7/LRYKfcNKXjMV35OsBix
-3rezawgwT9KZlZ6ABJZ6U/o5Lp91OP/XeUfhMp76fmAOBcrh25HhWcunmbfRNto7
-gsYho2Ov6yLtz3/Gq4gsDB2HULSajZW1behtfyfufpmkyGd8+C5+/uUjfltWtpqm
-qaAL4YC+kjzarFDRKtIINCqlixjh0VUUKCkf6c4IDCNoLD4HW5KGevjvMvG0kJ9S
-ftPKDwBpZ+cMZtpTcYgRQRiEb30VekQVyWM8SL+350sLO2dVhy7tjAX1jTnWZ843
-4L3c6tSTioFtNmuIREzKl4EX2xkZUq6ajI4QeAcleHXAsBKHB5kvDpfKYIfGZ49X
-mvIEEWRaUXGZAyqx2tMBXvuSA2aL+Gk9hrW3cvCHoBh6EkGfa6R4flw7yN0RkYHR
-Fzq+Jpg1jOHfQhNDoZ8yqFo2xQZQpp1oDdVAjW70IRrE5KPvV0k=
-=eSNj
------END PGP SIGNATURE-----
-
---xRatB1/o2GNYTDWD--
