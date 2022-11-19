@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 733EA6309EE
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 03:21:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 571F4630A49
+	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 03:24:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235568AbiKSCU7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 21:20:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58020 "EHLO
+        id S235813AbiKSCYl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 21:24:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234750AbiKSCUM (ORCPT
+        with ESMTP id S235382AbiKSCW6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 21:20:12 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407372CDF0;
-        Fri, 18 Nov 2022 18:14:35 -0800 (PST)
+        Fri, 18 Nov 2022 21:22:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A735C6223;
+        Fri, 18 Nov 2022 18:15:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DF967B8267C;
-        Sat, 19 Nov 2022 02:14:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C54F8C43146;
-        Sat, 19 Nov 2022 02:14:22 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C1EC162832;
+        Sat, 19 Nov 2022 02:15:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76919C43470;
+        Sat, 19 Nov 2022 02:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668824063;
-        bh=byvrxZJaj1l/XHn81nDgB0ZoJzO1qFy058Lqec5jzrU=;
+        s=k20201202; t=1668824123;
+        bh=SqsKySvKD3lBPFNaijXqMwh/KmrYMvYdDYfzg8IAPfY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d5HyeACbQxFwS96hEquMpHl196Y6RYTwxQjGp/eeOyW8KdHznu64pPHTYYCQ0//J5
-         CM+lxryIU8LD7Q2K5ZKazbfb5VgSZ85VnZa9JRC31WrD7XlPvD8vCCaoArIZs023oG
-         DFlcCCHx4+Vta9Ri1sfHQqkOHXnvYSWl1dLy0b9u36X0eoITZ0i/Ye9t0o1wYQsiYg
-         qUkQJm+silNhYe3wscQG1u7R6BBtNYcdLoHs/AHQDwqgfUnhBn6tpa66TGUCrKuEO7
-         LInROcOHCSyHKb9r7jK7dvoWw1ayJML5xZMnUcFcImSDpIHCe6PLFsKSwCwTR4oIRQ
-         8Qh3fL2Bpr3IA==
+        b=qqOt/IhEJR6waemzmz5nGt7NJwj+VaLlkQP00pJTYcGh6jxS4Fg94ikQvpcqjnpQ9
+         mpFChYoav8IB7T90gF+4QSK++D69NxUpKmQX5LPzHpfEibr1OeVWZdcu6uL41xSqAW
+         MX903McyQVaqFgLn914LNxB4KPzc7oV04DHrpSwX53oP/kp+RMSSCV3GON5GpKoFGw
+         axEoO5xQRmlmqqsCxZMEC7bUxlyhvuJn0iu7VXk0+xMVs2bixdDhjIvl6vPeUeCGI/
+         LPR2DiwUHjhudojr3ALknaQ4U0V/q+6Cw7uqYCkWqm9wu8iC4jfTEWXehDuEaYqBy5
+         g/S7rQ1uUZmoQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
         linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 15/27] platform/x86: touchscreen_dmi: Add info for the RCA Cambio W101 v2 2-in-1
-Date:   Fri, 18 Nov 2022 21:13:40 -0500
-Message-Id: <20221119021352.1774592-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 11/18] platform/x86: touchscreen_dmi: Add info for the RCA Cambio W101 v2 2-in-1
+Date:   Fri, 18 Nov 2022 21:14:52 -0500
+Message-Id: <20221119021459.1775052-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221119021352.1774592-1-sashal@kernel.org>
-References: <20221119021352.1774592-1-sashal@kernel.org>
+In-Reply-To: <20221119021459.1775052-1-sashal@kernel.org>
+References: <20221119021459.1775052-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -71,10 +71,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 25 insertions(+)
 
 diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index c608078538a7..3d0790263fa7 100644
+index ab6a9369649d..110ff1e6ef81 100644
 --- a/drivers/platform/x86/touchscreen_dmi.c
 +++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -773,6 +773,22 @@ static const struct ts_dmi_data predia_basic_data = {
+@@ -756,6 +756,22 @@ static const struct ts_dmi_data predia_basic_data = {
  	.properties	= predia_basic_props,
  };
  
@@ -97,7 +97,7 @@ index c608078538a7..3d0790263fa7 100644
  static const struct property_entry rwc_nanote_p8_props[] = {
  	PROPERTY_ENTRY_U32("touchscreen-min-y", 46),
  	PROPERTY_ENTRY_U32("touchscreen-size-x", 1728),
-@@ -1394,6 +1410,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+@@ -1341,6 +1357,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
  			DMI_EXACT_MATCH(DMI_BOARD_NAME, "0E57"),
  		},
  	},
