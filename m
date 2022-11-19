@@ -2,125 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A99D6308C3
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 02:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E010630914
+	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 03:06:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233350AbiKSBvd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Nov 2022 20:51:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
+        id S231757AbiKSCGI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Nov 2022 21:06:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233478AbiKSBvK (ORCPT
+        with ESMTP id S231925AbiKSCFw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Nov 2022 20:51:10 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56BBABF588;
-        Fri, 18 Nov 2022 17:26:38 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id v3so6441149pgh.4;
-        Fri, 18 Nov 2022 17:26:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b13YnJSN+Dro2FOesT9TTNasbIlBrkbmQwEz7zWWNSg=;
-        b=UJDfM/MjB6gKPirL+rTWVIwRJvkomxu0q7M3eFzwCMhDXKZnNJFCh9UJyjyQzTGsew
-         SNY3hFPNUMEvMrhUQf73So7TC/bHvQVV1hH8q8Uytg+EWPsodWo4CVT8W3q/anAizaKa
-         s1V8tI3hy1vRN9JJQM9modnDZ5Nf7Oej49G9bhN1Fcdvci9Hl23N8tttJuBP29XN/FIG
-         QYvKQWNyusE40UjEVh4ZuMjdjVKoirQi4EXr91KwSKopUCrbt0DadnLf3xkEYivUrFkO
-         dtfjRH0UAzi+7clf0LMvXg5TTTVTRiPRek16bBgzze2GZ/BkJo+SiwVe/L3MtZw7poWw
-         aEaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b13YnJSN+Dro2FOesT9TTNasbIlBrkbmQwEz7zWWNSg=;
-        b=AP15r5O6Xq/mP1IEpYzsO7CMNB7KL7+UF+c7qYUAJTW9o3Tuh2ImZcAeb/9NkKaNxQ
-         nqcfm3O0sIJkzWFPU4uxZ8z/4Op+iiVHUr0YOxPuTDd+rpULz+2ZIAjDcsO7uKQ1vLaK
-         X4MQS2RGfhKr2m3UCo5W3vnzDT2inxNE7tOewksPvvNJXsfmJKOLVYoC5vuxqfz1JIoh
-         TFTAe18/0/y1g02wLEBTsx4mvxeB+N+U3btRgSRbDpmB1wWCAwEESHJkiyl8NjW0SFfl
-         GVpVojuxufpAwdmhnr4iNLhDOQqB7FOp3pREoqjxCerTj5LlUNqhdZcblvxdybc50ir1
-         w8iQ==
-X-Gm-Message-State: ANoB5pnDHx7MUC+JTyoL+EFk+0mr15adEk7NTTZ+zWtm9E03pg1tU38j
-        tikBrwAkSq4IUp88a30+K5XcHfUS40U=
-X-Google-Smtp-Source: AA0mqf5CO2z6QTJdSBKwQNlvXhefGikS98CFDAqX9AzWHh7QA4reJFqNablT7JpxWsxczEvVSr/Wtg==
-X-Received: by 2002:a63:64b:0:b0:43c:2e57:9636 with SMTP id 72-20020a63064b000000b0043c2e579636mr8933800pgg.81.1668821197595;
-        Fri, 18 Nov 2022 17:26:37 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:6aac:8482:2371:80a3])
-        by smtp.gmail.com with ESMTPSA id u8-20020a1709026e0800b001745662d568sm4288018plk.278.2022.11.18.17.26.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 17:26:36 -0800 (PST)
-Date:   Fri, 18 Nov 2022 17:26:33 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.1-rc5
-Message-ID: <Y3gwySzRvhCwdSgW@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 18 Nov 2022 21:05:52 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511D712F;
+        Fri, 18 Nov 2022 18:04:51 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E3BC362762;
+        Sat, 19 Nov 2022 02:04:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 52E27C433D6;
+        Sat, 19 Nov 2022 02:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668823490;
+        bh=LOnZjTnTkOE5q87hJ6EM3N5CHtVVoQvcOlcsiZH4VTU=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=lFwBRVxPE+WtL4ML4BdVeAvoVqt8YtYMGPxuYeUwcB34wRvz5dmodSiGmhK3UbYVY
+         k1Zk2J71elLKptddn4HmGVg0kaX+YYhk28dMO8TxgTXUSmLHJoJIwg02N1+dTorehH
+         pqsgNLoZQWJXAIz2hIHgJYjunMH9pT3D3FmaigcD1R74uEW+QbJ5BlodWofc9324f4
+         oRvQma8SM+yCE3M/GyA7nmVx2r1eEcIE26e6vgcA0gnmbZJC5KYyyw+KJdy3g5htoh
+         fwGkzhaKbgsL5XdyEz4pvow4JrWcWMJDEQ3XF+433XemYKvZu2gEM7T4ssp8MrP/pa
+         p5ftIEYveTvZw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 40A19E270F6;
+        Sat, 19 Nov 2022 02:04:50 +0000 (UTC)
+Subject: Re: [git pull] Input updates for v6.1-rc5
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <Y3gwySzRvhCwdSgW@google.com>
+References: <Y3gwySzRvhCwdSgW@google.com>
+X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Y3gwySzRvhCwdSgW@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.1-rc5
+X-PR-Tracked-Commit-Id: 81cd7e8489278d28794e7b272950c3e00c344e44
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: fe24a97cf2543e8832e7a2124802e5c32aac05aa
+Message-Id: <166882349025.5277.9788348641672149029.pr-tracker-bot@kernel.org>
+Date:   Sat, 19 Nov 2022 02:04:50 +0000
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+The pull request you sent on Fri, 18 Nov 2022 17:26:33 -0800:
 
-Please pull from:
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.1-rc5
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.1-rc5
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/fe24a97cf2543e8832e7a2124802e5c32aac05aa
 
-to receive updates for the input subsystem. You will get:
-
-- a fix for 8042 to stop leaking platform device on unload
-- a fix for Goodix touchscreens on devices like Nanote UMPC-01 where we
-  need to reset controller to load config from firmware
-- a workaround for Acer Switch to avoid interrupt storm from home and
-  power buttons
-- a workaround for more ASUS ZenBook models to detect keyboard cnotroller
-- a fix for iforce driver to properly handle communication errors
-- touchpad on HP Laptop 15-da3001TU switched to RMI mode
-
-Changelog:
----------
-
-Aman Dhoot (1):
-      Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to RMI mode
-
-Chen Jun (1):
-      Input: i8042 - fix leaking of platform device on module removal
-
-Hans de Goede (3):
-      Input: goodix - try resetting the controller when no config is set
-      Input: soc_button_array - add use_low_level_irq module parameter
-      Input: soc_button_array - add Acer Switch V 10 to dmi_use_low_level_irq[]
-
-Sheng-Liang Pan (1):
-      dt-bindings: input: touchscreen: Add compatible for Goodix GT7986U chip
-
-Takashi Iwai (1):
-      Input: i8042 - apply probe defer to more ASUS ZenBook models
-
-Tetsuo Handa (1):
-      Input: iforce - invert valid length check when fetching device IDs
-
-Diffstat:
---------
-
- .../devicetree/bindings/input/goodix,gt7375p.yaml          |  5 ++++-
- drivers/input/joystick/iforce/iforce-main.c                |  8 ++++----
- drivers/input/misc/soc_button_array.c                      | 14 +++++++++++++-
- drivers/input/mouse/synaptics.c                            |  1 +
- drivers/input/serio/i8042-acpipnpio.h                      |  8 ++++----
- drivers/input/serio/i8042.c                                |  4 ----
- drivers/input/touchscreen/goodix.c                         | 11 +++++++++++
- 7 files changed, 37 insertions(+), 14 deletions(-)
-
-Thanks.
-
+Thank you!
 
 -- 
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
