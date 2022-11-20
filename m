@@ -2,65 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0CAD6310FC
-	for <lists+linux-input@lfdr.de>; Sat, 19 Nov 2022 21:51:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 266ED631219
+	for <lists+linux-input@lfdr.de>; Sun, 20 Nov 2022 02:22:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232528AbiKSUvO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Nov 2022 15:51:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53828 "EHLO
+        id S229456AbiKTBWA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Nov 2022 20:22:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231757AbiKSUvN (ORCPT
+        with ESMTP id S229437AbiKTBV7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Nov 2022 15:51:13 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2998712D1E;
-        Sat, 19 Nov 2022 12:51:11 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id 4so7444530pli.0;
-        Sat, 19 Nov 2022 12:51:11 -0800 (PST)
+        Sat, 19 Nov 2022 20:21:59 -0500
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F03B6B20;
+        Sat, 19 Nov 2022 17:21:57 -0800 (PST)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-13bd19c3b68so10162815fac.7;
+        Sat, 19 Nov 2022 17:21:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5bAqgYnbP6qZL1afAcbM3Tf3M3J5IQhHIXMvEmd2gsw=;
-        b=EkSPsKG4ndYR5SLcMSVAU0v6JNyoDCo/QZaNMARfsRA6A7WvsVUvL4IB84ODtba7G5
-         IR4pQR0o3PWSj7J5T+iWeLrOTYHVvYFyboRx1UGI6DmZssYw7cJLaMY1VGywcQPRsVFW
-         5hHeoW5ldChFawxZPgzjaR7i7xtGxB7mqIc3Ayvoj8OWEbVzRoGBdndcrvG4yUSiQ4yR
-         GkIW3mmmFqkgi9clwFL0OoxXUDrKQw8NMT8zipH/wEsLifAaPTg+R1y2PXmR6Gv+geVy
-         aMIZhOgJULwqiPtzc6A/nMmpaSIaMRtaJLc9ICfkudostkDr2jBFgPUs4qVjeRz5qRP3
-         2q2Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+HS+CfYox7ld6+b2/m9ST36+4P+3OQ4EfiKHVDdYhrA=;
+        b=agx4J5BmC6z1crsZDXUGsUeaCSjPpReKTEdjAbryGghhU+2b07IEgol7fPcGM/6Wi+
+         ZH2hY2bXaEHQ/ZiCRBCknKlHW52A/Fba4R7OHklPCJb0S+2OhAOFz/ugNNFYSvPmIAho
+         IyoWlaTFitotzyD1CNBnqtgd5HQpCW7urxVKfCEiMoP9oCiRZ6YFcK8n2BHe/aPdIUq3
+         bPs0t+hIsrAwlVNp2G8FUX2Gv+USj0G31NhC2/bM7cQ1GzAgSbTz/Tqt2+MOV0egaaIS
+         6LuVRf3uIhVcNIM0dH4xYH8HxHGdGW7Ao8GXA4thjpOzVmJPZF4dXiJms5hjnk9KxoN8
+         UAQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5bAqgYnbP6qZL1afAcbM3Tf3M3J5IQhHIXMvEmd2gsw=;
-        b=gis6Nq52bvuG+tyaq+02mal/g4n1eohHN5p4uaqvIrvYk9cSYU30xygG2epXfRIlJ3
-         BzZniiZ63WH+X3W/3ZN9d1QM97GveUviywEeaaSwTJazE2bBLigxNRLbubWLGyqNJwqZ
-         fdqXkcsoq8QtkWcOxbbPETeMXfOOM0kl9de+2CGb6LQ+E5aCnplMPPS8H1Qyc9NkmMMD
-         ciEU5JxuqAPxJRyN7I7Eh1tbjKqmkA0DX1Lwu2yciy1zyrVWI46vawazKHX1CtHtRgq+
-         JT6GA2j0kUF6ztG+2mdPXCB7ZXtWe3hBCfGR35EWEerjt5M1iyhhwWVX9W2JR6UhFlYk
-         pAuQ==
-X-Gm-Message-State: ANoB5pmr2WxxwzcIvTx8YTXPcYXwGYD6QeXCPcrAeL4Djf0ouLlSOfBn
-        bV4QRPdJma3SRS4S2IJ4vt4=
-X-Google-Smtp-Source: AA0mqf6gVt7oSpxV+jWy9y5qHmJEIvXMx5GK2SUuAKAvlKfk7XLpmgqTnT6/KOHt4Hm/YhifP8PW6w==
-X-Received: by 2002:a17:902:9889:b0:182:e9dd:936d with SMTP id s9-20020a170902988900b00182e9dd936dmr5412197plp.6.1668891070537;
-        Sat, 19 Nov 2022 12:51:10 -0800 (PST)
-Received: from y.home.yangfl.dn42 ([8.45.41.20])
-        by smtp.gmail.com with ESMTPSA id p2-20020a1709027ec200b00176b3d7db49sm6207505plb.0.2022.11.19.12.51.05
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+HS+CfYox7ld6+b2/m9ST36+4P+3OQ4EfiKHVDdYhrA=;
+        b=s/oaHm1HNeiyXyR5cow3rEB6rR7xMmoKCA3AwJAmK8n6yXpPLXt3bRU1WxXz0MNxMT
+         ImBqasOiljlrqqS4fGFL3DVevLKNGsRXqQ900JglqFdLF/wPZR4r2pAwx8QZrFe05TcC
+         pzYTx6Q5O1O4b5ZfO00n6Hv7+C36H6j9+1eboyJgvi6oAf/GDgNOoK/nH9kkRoI0SiEj
+         J9W6l6lA1S3nKxMpQcmlZE1OcXQ/bZPOUl1MtsrRuO1Ic9c2TxnywGYQ97HUFDbxdLfK
+         PDnRBl65PKFdhqV+IRD4zIMFZWklTYMABbfllCE9p+ynJXve7jqw23Gv0kaErxJhJY+o
+         KiSA==
+X-Gm-Message-State: ANoB5pmSA+RQUU20nMCk5TSUCnHr2+qwqVDAf9KKkGi2Nz1WErJwMlLl
+        WWLica0kcShK2JWY/X9e5VA=
+X-Google-Smtp-Source: AA0mqf4u5nVfhqn1A5b7kAP+RrtRWjUR+1pInZ/TDdDd0McqCSBXNw0Mc0a0SssJjWoyNquhHYhXHw==
+X-Received: by 2002:a05:6870:d784:b0:13a:ec33:4ed with SMTP id bd4-20020a056870d78400b0013aec3304edmr1228418oab.56.1668907316977;
+        Sat, 19 Nov 2022 17:21:56 -0800 (PST)
+Received: from localhost.localdomain ([2804:14c:485:4b69:2f06:7c46:ee05:7e79])
+        by smtp.gmail.com with ESMTPSA id t21-20020a056870f21500b0010d7242b623sm4146472oao.21.2022.11.19.17.21.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Nov 2022 12:51:10 -0800 (PST)
-From:   David Yang <mmyangfl@gmail.com>
-To:     mmyangfl@gmail.com
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] HID: kye: Add support for MousePen M508X
-Date:   Sun, 20 Nov 2022 04:50:56 +0800
-Message-Id: <20221119205057.11694-1-mmyangfl@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221119191743.6466-1-mmyangfl@gmail.com>
-References: <20221119191743.6466-1-mmyangfl@gmail.com>
+        Sat, 19 Nov 2022 17:21:56 -0800 (PST)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] dt-bindings: input: gpio-beeper: Convert to yaml schema
+Date:   Sat, 19 Nov 2022 22:21:35 -0300
+Message-Id: <20221120012135.2085631-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -73,240 +70,76 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Genius MousePen M508X digitizer tablet sends incorrect report descriptor by
-default. This patch replaces it with a corrected one.
+From: Fabio Estevam <festevam@denx.de>
 
-Signed-off-by: David Yang <mmyangfl@gmail.com>
+Convert the bindings from plain text to yaml schema.
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
-v2: add missing hid-quirks.c entry
-v3: minor fix of descriptor
- drivers/hid/hid-ids.h    |   1 +
- drivers/hid/hid-kye.c    | 152 ++++++++++++++++++++++++++++++++++++---
- drivers/hid/hid-quirks.c |   1 +
- 3 files changed, 145 insertions(+), 9 deletions(-)
+ .../devicetree/bindings/input/gpio-beeper.txt | 13 --------
+ .../bindings/input/gpio-beeper.yaml           | 33 +++++++++++++++++++
+ 2 files changed, 33 insertions(+), 13 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/gpio-beeper.txt
+ create mode 100644 Documentation/devicetree/bindings/input/gpio-beeper.yaml
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index dad953f66..45f49b9be 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -716,6 +716,7 @@
- #define USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2	0x501a
- #define USB_DEVICE_ID_KYE_EASYPEN_M610X	0x5013
- #define USB_DEVICE_ID_KYE_PENSKETCH_M912	0x5015
-+#define USB_DEVICE_ID_KYE_MOUSEPEN_M508X	0x5017
- #define USB_DEVICE_ID_KYE_EASYPEN_M406XE	0x5019
- 
- #define USB_VENDOR_ID_LABTEC		0x1020
-diff --git a/drivers/hid/hid-kye.c b/drivers/hid/hid-kye.c
-index da903138e..805d30c39 100644
---- a/drivers/hid/hid-kye.c
-+++ b/drivers/hid/hid-kye.c
-@@ -480,6 +480,131 @@ static __u8 pensketch_m912_rdesc_fixed[] = {
- 	0xC0                          /*  End Collection                  */
- };
- 
-+/* Original MousePen M508X report descriptor size */
-+#define MOUSEPEN_M508X_RDESC_ORIG_SIZE	482
+diff --git a/Documentation/devicetree/bindings/input/gpio-beeper.txt b/Documentation/devicetree/bindings/input/gpio-beeper.txt
+deleted file mode 100644
+index a5086e37fce6..000000000000
+--- a/Documentation/devicetree/bindings/input/gpio-beeper.txt
++++ /dev/null
+@@ -1,13 +0,0 @@
+-* GPIO beeper device tree bindings
+-
+-Register a beeper connected to GPIO pin.
+-
+-Required properties:
+-- compatible:	Should be "gpio-beeper".
+-- gpios:	From common gpio binding; gpio connection to beeper enable pin.
+-
+-Example:
+-	beeper: beeper {
+-		compatible = "gpio-beeper";
+-		gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
+-	};
+diff --git a/Documentation/devicetree/bindings/input/gpio-beeper.yaml b/Documentation/devicetree/bindings/input/gpio-beeper.yaml
+new file mode 100644
+index 000000000000..5fd57a8940df
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/gpio-beeper.yaml
+@@ -0,0 +1,33 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/gpio-beeper.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+/* Fixed MousePen M508X report descriptor */
-+static __u8 mousepen_m508x_rdesc_fixed[] = {
-+	0x06, 0x00, 0xFF,             /*  Usage Page (FF00h),             */
-+	0x09, 0x01,                   /*  Usage (01h),                    */
-+	0xA1, 0x01,                   /*  Collection (Application),       */
-+	0x85, 0x05,                   /*    Report ID (5),                */
-+	0x09, 0x01,                   /*    Usage (01h),                  */
-+	0x15, 0x81,                   /*    Logical Minimum (-127),       */
-+	0x25, 0x7F,                   /*    Logical Maximum (127),        */
-+	0x75, 0x08,                   /*    Report Size (8),              */
-+	0x95, 0x07,                   /*    Report Count (7),             */
-+	0xB1, 0x02,                   /*    Feature (Variable),           */
-+	0xC0,                         /*  End Collection,                 */
-+	0x05, 0x0D,                   /*  Usage Page (Digitizer),         */
-+	0x09, 0x01,                   /*  Usage (Digitizer),              */
-+	0xA1, 0x01,                   /*  Collection (Application),       */
-+	0x85, 0x10,                   /*    Report ID (16),               */
-+	0x09, 0x20,                   /*    Usage (Stylus),               */
-+	0xA1, 0x00,                   /*    Collection (Physical),        */
-+	0x09, 0x42,                   /*      Usage (Tip Switch),         */
-+	0x09, 0x44,                   /*      Usage (Barrel Switch),      */
-+	0x09, 0x46,                   /*      Usage (Tablet Pick),        */
-+	0x14,                         /*      Logical Minimum (0),        */
-+	0x25, 0x01,                   /*      Logical Maximum (1),        */
-+	0x75, 0x01,                   /*      Report Size (1),            */
-+	0x95, 0x03,                   /*      Report Count (3),           */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0x95, 0x04,                   /*      Report Count (4),           */
-+	0x81, 0x01,                   /*      Input (Constant),           */
-+	0x09, 0x32,                   /*      Usage (In Range),           */
-+	0x95, 0x01,                   /*      Report Count (1),           */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0x75, 0x10,                   /*      Report Size (16),           */
-+	0xA4,                         /*      Push,                       */
-+	0x05, 0x01,                   /*      Usage Page (Desktop),       */
-+	0x09, 0x30,                   /*      Usage (X),                  */
-+	0x27, 0x00, 0xA0, 0x00, 0x00, /*      Logical Maximum (40960),    */
-+	0x34,                         /*      Physical Minimum (0),       */
-+	0x45, 0x16,                   /*      Physical Maximum (22),      */
-+	0x65, 0x11,                   /*      Unit (Centimeter),          */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0x09, 0x31,                   /*      Usage (Y),                  */
-+	0x26, 0x00, 0x64,             /*      Logical Maximum (25600),    */
-+	0x46, 0x8F, 0x00,             /*      Physical Maximum (143),     */
-+	0x55, 0xFF,                   /*      Unit Exponent (-1),         */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0xB4,                         /*      Pop,                        */
-+	0x09, 0x30,                   /*      Usage (Tip Pressure),       */
-+	0x26, 0xFF, 0x07,             /*      Logical Maximum (2047),     */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0xC0,                         /*    End Collection,               */
-+	0xC0,                         /*  End Collection,                 */
-+	0x05, 0x0D,                   /*  Usage Page (Digitizer),         */
-+	0x09, 0x21,                   /*  Usage (Puck),                   */
-+	0xA1, 0x01,                   /*  Collection (Application),       */
-+	0x85, 0x11,                   /*    Report ID (17),               */
-+	0x09, 0x21,                   /*    Usage (Puck),                 */
-+	0xA0,                         /*    Collection (Physical),        */
-+	0x05, 0x09,                   /*      Usage Page (Button),        */
-+	0x19, 0x01,                   /*      Usage Minimum (01h),        */
-+	0x29, 0x03,                   /*      Usage Maximum (03h),        */
-+	0x14,                         /*      Logical Minimum (0),        */
-+	0x25, 0x01,                   /*      Logical Maximum (1),        */
-+	0x75, 0x01,                   /*      Report Size (1),            */
-+	0x95, 0x03,                   /*      Report Count (3),           */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0x95, 0x04,                   /*      Report Count (4),           */
-+	0x81, 0x01,                   /*      Input (Constant),           */
-+	0x05, 0x0D,                   /*      Usage Page (Digitizer),     */
-+	0x09, 0x32,                   /*      Usage (In Range),           */
-+	0x95, 0x01,                   /*      Report Count (1),           */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0x05, 0x01,                   /*      Usage Page (Desktop),       */
-+	0xA4,                         /*      Push,                       */
-+	0x09, 0x30,                   /*      Usage (X),                  */
-+	0x27, 0x00, 0xA0, 0x00, 0x00, /*      Logical Maximum (40960),    */
-+	0x34,                         /*      Physical Minimum (0),       */
-+	0x45, 0x16,                   /*      Physical Maximum (22),      */
-+	0x65, 0x11,                   /*      Unit (Centimeter),          */
-+	0x75, 0x10,                   /*      Report Size (16),           */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0x09, 0x31,                   /*      Usage (Y),                  */
-+	0x26, 0x00, 0x64,             /*      Logical Maximum (25600),    */
-+	0x46, 0x8F, 0x00,             /*      Physical Maximum (143),     */
-+	0x55, 0xFF,                   /*      Unit Exponent (-1),         */
-+	0x81, 0x02,                   /*      Input (Variable),           */
-+	0xB4,                         /*      Pop,                        */
-+	0x09, 0x38,                   /*      Usage (Wheel),              */
-+	0x15, 0xFF,                   /*      Logical Minimum (-1),       */
-+	0x75, 0x08,                   /*      Report Size (8),            */
-+	0x81, 0x06,                   /*      Input (Variable, Relative), */
-+	0x81, 0x01,                   /*      Input (Constant),           */
-+	0xC0,                         /*    End Collection,               */
-+	0xC0,                         /*  End Collection,                 */
-+	0x05, 0x0C,                   /*  Usage Page (Consumer),          */
-+	0x09, 0x01,                   /*  Usage (Consumer Control),       */
-+	0xA1, 0x01,                   /*  Collection (Application),       */
-+	0x85, 0x12,                   /*    Report ID (18),               */
-+	0x0A, 0x01, 0x02,             /*    Usage (AC New),               */
-+	0x09, 0x40,                   /*    Usage (Menu),                 */
-+	0x0A, 0x6A, 0x02,             /*    Usage (AC Delete),            */
-+	0x0A, 0x1A, 0x02,             /*    Usage (AC Undo),              */
-+	0x14,                         /*    Logical Minimum (0),          */
-+	0x25, 0x01,                   /*    Logical Maximum (1),          */
-+	0x75, 0x01,                   /*    Report Size (1),              */
-+	0x95, 0x04,                   /*    Report Count (4),             */
-+	0x81, 0x02,                   /*    Input (Variable),             */
-+	0x81, 0x01,                   /*    Input (Constant),             */
-+	0x15, 0xFF,                   /*    Logical Minimum (-1),         */
-+	0x75, 0x08,                   /*    Report Size (8),              */
-+	0x95, 0x02,                   /*    Report Count (2),             */
-+	0x81, 0x01,                   /*    Input (Constant),             */
-+	0x0A, 0x35, 0x02,             /*    Usage (AC Scroll),            */
-+	0x0A, 0x2F, 0x02,             /*    Usage (AC Zoom),              */
-+	0x0A, 0x38, 0x02,             /*    Usage (AC Pan),               */
-+	0x95, 0x03,                   /*    Report Count (3),             */
-+	0x81, 0x06,                   /*    Input (Variable, Relative),   */
-+	0x95, 0x01,                   /*    Report Count (1),             */
-+	0x81, 0x01,                   /*    Input (Constant),             */
-+	0xC0                          /*  End Collection                  */
-+};
++title: GPIO controlled beeper
 +
- /* Original EasyPen M406XE report descriptor size */
- #define EASYPEN_M406XE_RDESC_ORIG_SIZE	476
- 
-@@ -626,18 +751,24 @@ static __u8 *kye_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 			*rsize = sizeof(easypen_m610x_rdesc_fixed);
- 		}
- 		break;
--	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
--		if (*rsize == EASYPEN_M406XE_RDESC_ORIG_SIZE) {
--			rdesc = easypen_m406xe_rdesc_fixed;
--			*rsize = sizeof(easypen_m406xe_rdesc_fixed);
--		}
--		break;
- 	case USB_DEVICE_ID_KYE_PENSKETCH_M912:
- 		if (*rsize == PENSKETCH_M912_RDESC_ORIG_SIZE) {
- 			rdesc = pensketch_m912_rdesc_fixed;
- 			*rsize = sizeof(pensketch_m912_rdesc_fixed);
- 		}
- 		break;
-+	case USB_DEVICE_ID_KYE_MOUSEPEN_M508X:
-+		if (*rsize == MOUSEPEN_M508X_RDESC_ORIG_SIZE) {
-+			rdesc = mousepen_m508x_rdesc_fixed;
-+			*rsize = sizeof(mousepen_m508x_rdesc_fixed);
-+		}
-+		break;
-+	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
-+		if (*rsize == EASYPEN_M406XE_RDESC_ORIG_SIZE) {
-+			rdesc = easypen_m406xe_rdesc_fixed;
-+			*rsize = sizeof(easypen_m406xe_rdesc_fixed);
-+		}
-+		break;
- 	case USB_DEVICE_ID_GENIUS_GILA_GAMING_MOUSE:
- 		rdesc = kye_consumer_control_fixup(hdev, rdesc, rsize, 104,
- 					"Genius Gila Gaming Mouse");
-@@ -721,8 +852,9 @@ static int kye_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	case USB_DEVICE_ID_KYE_MOUSEPEN_I608X:
- 	case USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2:
- 	case USB_DEVICE_ID_KYE_EASYPEN_M610X:
--	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
- 	case USB_DEVICE_ID_KYE_PENSKETCH_M912:
-+	case USB_DEVICE_ID_KYE_MOUSEPEN_M508X:
-+	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
- 		ret = kye_tablet_enable(hdev);
- 		if (ret) {
- 			hid_err(hdev, "tablet enabling failed\n");
-@@ -756,6 +888,10 @@ static const struct hid_device_id kye_devices[] = {
- 				USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
- 				USB_DEVICE_ID_KYE_EASYPEN_M610X) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-+				USB_DEVICE_ID_KYE_PENSKETCH_M912) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-+				USB_DEVICE_ID_KYE_MOUSEPEN_M508X) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
- 				USB_DEVICE_ID_KYE_EASYPEN_M406XE) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-@@ -764,8 +900,6 @@ static const struct hid_device_id kye_devices[] = {
- 				USB_DEVICE_ID_GENIUS_GX_IMPERATOR) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
- 				USB_DEVICE_ID_GENIUS_MANTICORE) },
--	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
--				USB_DEVICE_ID_KYE_PENSKETCH_M912) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, kye_devices);
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 50e1c717f..c70bbdc1a 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -108,6 +108,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M912), HID_QUIRK_MULTI_INPUT },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_M508X), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
++maintainers:
++  - Fabio Estevam <festevam@denx.de>
++
++properties:
++  compatible:
++    const: gpio-beeper
++
++  gpios:
++    maxItems: 1
++    description:
++      GPIO that drives the beeper.
++
++required:
++  - compatible
++  - gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    beeper {
++        compatible = "gpio-beeper";
++        gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
++    };
 -- 
-2.35.1
+2.25.1
 
