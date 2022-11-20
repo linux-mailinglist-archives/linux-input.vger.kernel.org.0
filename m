@@ -2,65 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33AA463126A
-	for <lists+linux-input@lfdr.de>; Sun, 20 Nov 2022 04:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E856312C3
+	for <lists+linux-input@lfdr.de>; Sun, 20 Nov 2022 08:01:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbiKTDfF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Nov 2022 22:35:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55500 "EHLO
+        id S229514AbiKTHBM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Nov 2022 02:01:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiKTDfE (ORCPT
+        with ESMTP id S229454AbiKTHBL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Nov 2022 22:35:04 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38685FF5
-        for <linux-input@vger.kernel.org>; Sat, 19 Nov 2022 19:35:02 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id v3-20020a17090ac90300b00218441ac0f6so10818769pjt.0
-        for <linux-input@vger.kernel.org>; Sat, 19 Nov 2022 19:35:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4n91bNIbfWP5I/fcxWuzLsE6ZQT/buxAzn7+lWv7Euw=;
-        b=fx06l9QYxkQnOdQP1HuF3L5UpGJRHFR+jOMgRVUQzAUyEzOrz1wmq4BnxElYhPHIgT
-         guaNuOEbiuWzfaIY9qS3LKhnk3QFjsq3dQo8R1VGZGNJzgTORBrEs/8/qkGELi2i3vo3
-         MPzxBooGhonvLCUw+bL4P/SPjP5SZ7XXA5RYgMpZJxd1OTCcy5GGVRtlRXHEc0Q8KelU
-         Jbd/b2MkipDI1HnplQfgMBdiwcdZcJ3aoLqZ1uUT+n06YnFAt9QhVOWankMQV8sDgo2t
-         hnGJlgfKAcczt64u7KyFsFBWTvG3ns40n0lbUXMd5kKGynOuOjzFzvA5JTnZFCimqPyt
-         WBaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4n91bNIbfWP5I/fcxWuzLsE6ZQT/buxAzn7+lWv7Euw=;
-        b=3K97vyjJ7oCtLd8dWxsqbWDK1apvnYk1qHTbWVRMJpTFGQIwRi7HkkY5DGSUMIQo/p
-         1ac9JCG1pPypyGWczIUOlXWce3ZsgsmHbrkD21EzmblxG3MiyrEcU4D9Z/knM8Fjajf7
-         jqVhbBdWhBzYh+7R9qbs0CtWAFEbwOPqLfor2Sgg4C5gRNpLxVb9qvvJ4LR3IQknqt2/
-         32XKcw40NM1nvTg+johEsU9VoRGaRaMS25W1/9Ca4PFrJvOe1bs7nlI0+Y1aZhKBnBi1
-         TvJ0/hbqSlfKpWD3j2gBolAOuHFj7EauRd+nSzJxzkkZl2KkJ4H+F534J2AU+Ymssa1Z
-         Gb8Q==
-X-Gm-Message-State: ANoB5pnjNS6GKtIBPR+Wu7bf+1SdmjAmjoMymVZp1VX98X7LC0W7k4i1
-        41vtN2KgKzEtAzcLGpG4vao=
-X-Google-Smtp-Source: AA0mqf6xm3Vm5ZUTW2fEf2pxCgV7DLEJhFT5wTzRoSxduy6K5eOlAnKGs/BQmB8r2A7ouu1xevMyjA==
-X-Received: by 2002:a17:902:6ac4:b0:186:bb44:946d with SMTP id i4-20020a1709026ac400b00186bb44946dmr6460060plt.11.1668915302398;
-        Sat, 19 Nov 2022 19:35:02 -0800 (PST)
-Received: from localhost.localdomain ([220.244.252.98])
-        by smtp.gmail.com with ESMTPSA id y65-20020a626444000000b0056d73ef41fdsm5859130pfb.75.2022.11.19.19.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Nov 2022 19:35:01 -0800 (PST)
-From:   Albert Zhou <albert.zhou.50@gmail.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org
-Subject: [PATCH] hid: add info to Kconfig
-Date:   Sun, 20 Nov 2022 14:34:56 +1100
-Message-Id: <20221120033456.4332-1-albert.zhou.50@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sun, 20 Nov 2022 02:01:11 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE082A1A37;
+        Sat, 19 Nov 2022 23:01:08 -0800 (PST)
+Received: (Authenticated sender: alex@alexyzhang.dev)
+        by mail.gandi.net (Postfix) with ESMTPSA id 33A6AFF80F;
+        Sun, 20 Nov 2022 07:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alexyzhang.dev;
+        s=gm1; t=1668927665;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xl+tWVY+Atk085UDczWmuRowQVekdiN/GKtVTpKhRRk=;
+        b=OC3gz2K3mtM2/AcEJ3WDTleiivbIGZs+X09/m3e2HwX0QBc6tL3Urb1m1lj+o9Lga+Sk0o
+        O0YLjM8lID+7nwAxtQ6whUkVZJzJTTohpN+2NqUbqCYEBpnqiaeEwgfqPYP/b1L4HIvRGe
+        41FsrXCaudCpA/SjXKHRXyk3uvGGdQgZ8uwOdSYr7v1V0M2sDHOJilCVobGvFSflJhC7kC
+        L6uWtC0+TGvCxR+L0JiHiGUzY2RQgFOCnjlNgIt1uUGz8bKRs78ZNAJl/nsJ2VTWDPJNyA
+        lu47qlrwxm0kwz/awmz1A1KSLiN8Ja66RAL0w+2Ou3RbjxrKqoiSIfBIgZiTqQ==
+Message-ID: <d08049f2-443b-f769-cfde-629cdfb96fc0@alexyzhang.dev>
+Date:   Sat, 19 Nov 2022 23:01:00 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 0/1] HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        benjamin.tissoires@redhat.com, openglfreak@googlemail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221110174056.393697-1-jose.exposito89@gmail.com>
+ <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
+ <nycvar.YFH.7.76.2211141509340.6045@cbobk.fhfr.pm>
+Content-Language: en-US
+From:   Alexander Zhang <alex@alexyzhang.dev>
+In-Reply-To: <nycvar.YFH.7.76.2211141509340.6045@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,30 +58,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Nowadays many laptops use multitouch for their touchpads. This is now
-indicated in the help message for HID_MULTITOUCH in the Kconfig.
+On 11/14/22 6:10 AM, Jiri Kosina wrote:
+> On Thu, 10 Nov 2022, Alexander Zhang wrote:
+> 
+>> Hi José,
+>>
+>> On 11/10/22 9:40 AM, José Expósito wrote:
+>>> Hi everyone,
+>>>
+>>> About 3 months ago, Torge Matthies sent a patch fixing an issue with
+>>> his XP-Pen Star G640 [1].
+>>>
+>>> His patch changes the IS_INPUT_APPLICATION() macro to accept
+>>> HID_DG_DIGITIZER. However, it looks like it is not being merged because
+>>> of the possible side effects that changing that macro could generate.
+>>>
+>>> This patch aims to fix the same issue but using a more conservative
+>>> approach hoping that the bug can be fixed.
+>>>
+>>> Torge, Alexander, could you test it and confirm that it fixes your
+>>> issues, please?
+>>
+>> I tested the patch on commit 4bbf3422df78 and it fixes the issue.
+> 
+> I will add
+> 
+> 	Tested-by: Alexander Zhang <alex@alexyzhang.dev>
+> 
+> to the commit; please speak up if you disagree.
 
-Signed-off-by: Albert Zhou <albert.zhou.50@gmail.com>
----
- drivers/hid/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I'm not sure if you're still waiting for a response from me but I'm fine 
+with that.
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 185a077d59cd..86f65258a912 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -697,7 +697,8 @@ config HID_MONTEREY
- config HID_MULTITOUCH
- 	tristate "HID Multitouch panels"
- 	help
--	  Generic support for HID multitouch panels.
-+	  Generic support for HID multitouch panels. Many newer laptops (like
-+	  the Dell XPS 13 9360) use multitouch for their touchpads.
- 
- 	  Say Y here if you have one of the following devices:
- 	  - 3M PCT touch screens
-
-base-commit: fe24a97cf2543e8832e7a2124802e5c32aac05aa
--- 
-2.34.1
-
+Thanks,
+Alexander Zhang
