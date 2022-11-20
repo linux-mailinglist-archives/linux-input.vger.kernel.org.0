@@ -2,109 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A2136315B7
-	for <lists+linux-input@lfdr.de>; Sun, 20 Nov 2022 19:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC9CC6315EC
+	for <lists+linux-input@lfdr.de>; Sun, 20 Nov 2022 20:43:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbiKTSs2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Nov 2022 13:48:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34284 "EHLO
+        id S229680AbiKTTnv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Nov 2022 14:43:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbiKTSs2 (ORCPT
+        with ESMTP id S229449AbiKTTns (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Nov 2022 13:48:28 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0B26DED0
-        for <linux-input@vger.kernel.org>; Sun, 20 Nov 2022 10:48:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xcrk5kV6ISHlg+DbXUS8k4uGvcR4tKr/2HAIH+aMRtSiTyLjbg+fRw7x4seXtxnWr+JhgMHnKCqKfcCovc5BGUNLsx2VaS8/gaKXFsD/ad2dOrTHeJtt+cUBdETh34TQiw4Kb4YwqLXExEdCUrUYFk2q/xwwgIhTpoaBIXLU4+OFxXi5/+gB3rcJLfQJcL5GloCKy68p43w7wb7FSy/MZ8fnmrLE47yj1wZaYBkogau31Z44v5ixwYU2lHE6ALUZczrH3nyy7KAlC5YiQsSqO5MzZ662OGa2yx61rbBMDsqEjVY81+ydWcJk4/LQMpMlOZ7zHhLsTHNRqoz2E2QXuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MpumkZN/yhOlmcZoUAJDOvAKVBRyWJS2DIofGEc3ai0=;
- b=S1qmpUIc9coiMnaDJPiEfH+Dw+JVeuMJf+dHKHy0WTZaHywo5unz610N+7eiZ9uOkl0eEDLMsdVEbbXqPqhg9qP+n8Yo11Q8gaOzA+5ZZB4BytBk7kZ5qmnvHorBhkls4LB6C1mK/T1MiufqI+tuvPND/EGXc0GOSYUBZgbwJ9OoF8tzpFyteZraHGREmdpkyYu/r4NqxEEIcsgKJhCqR6CdcHrlhBHNMGeLY5XB5btk239NwdvdixbZXhqFOhlUIAL+0UiOoLN4pFkoWmgjBMt1x3guSuFJAvF8qVREImyuBM2wUJ7qZ/4Rm6nNlPVJ1asT4lXuUeix0iYJp/VV/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MpumkZN/yhOlmcZoUAJDOvAKVBRyWJS2DIofGEc3ai0=;
- b=gYiWDXeO/Tlave4cRqctlvUavag4C+ROzNSxfnON1NHtjWhzwgAxt/WV+wxWNRYnSIrY0XbPmI1SeZLHYnvfY9L89sB/KBog+6qqyzVTMsoaFOG7O0CloryKJpg75Qx2r5TcOicHCtoR8G3I1Rk7qhQwUpQMojTC3lWoZyJUln4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by BYAPR08MB6007.namprd08.prod.outlook.com
- (2603:10b6:a03:cd::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Sun, 20 Nov
- 2022 18:48:21 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ea42:ebaf:dd18:6a4c]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ea42:ebaf:dd18:6a4c%4]) with mapi id 15.20.5813.019; Sun, 20 Nov 2022
- 18:48:21 +0000
-Date:   Sun, 20 Nov 2022 12:48:19 -0600
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Albert Zhou <albert.zhou.50@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] hid: add info to Kconfig
-Message-ID: <Y3p2czhlHeg5Rf/l@nixie71>
-References: <20221120033456.4332-1-albert.zhou.50@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221120033456.4332-1-albert.zhou.50@gmail.com>
-X-ClientProxiedBy: SA9PR03CA0001.namprd03.prod.outlook.com
- (2603:10b6:806:20::6) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+        Sun, 20 Nov 2022 14:43:48 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 703BD1EC46;
+        Sun, 20 Nov 2022 11:43:47 -0800 (PST)
+Received: from mercury (unknown [185.209.196.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 981D16602381;
+        Sun, 20 Nov 2022 19:43:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1668973425;
+        bh=T3nU7r4TDRBfUE21qBPtx6/vbbqNd5aTZrUhEKVEpe8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eTDOl2wCVRsu/tyZH+YPJZtqzX+lTk+zyDWIOt7B5OERtVQXV05JqgkECzvZaxhvq
+         GWHynwzbAdTGjQc4EiizPb4JzuNJErOOA6MGMcIE1OOBJsR2nJxdyKqik4rZXW8I8S
+         YL9hLYJH9B0qYNlv0ofE25pkedfO3Zr0ukRr6nTWoiYIF0ElBn0uG1ehB/KKpnJkB6
+         LmHZCe95IKsjPugXIHsbUyR3TPbe/Uz/FTgEe5YV5fHfIiRZ+dwYB8lU4/MgAmu4vM
+         BZjO4bgM9A0wAKu6Ub+wy7zE/lgrgtzyeA/1iFwakjmg/vd8UL0auYvToqpQCZqsxv
+         +Bmg67/Ow+Rwg==
+Received: by mercury (Postfix, from userid 1000)
+        id 1C1D2106F223; Sun, 20 Nov 2022 20:43:43 +0100 (CET)
+Date:   Sun, 20 Nov 2022 20:43:43 +0100
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Grant Likely <grant.likely@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        kernel@pengutronix.de, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-media@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-actions@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
+        linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net
+Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-ID: <20221120194343.nnpzhgjapep7iwqk@mercury.elektranox.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|BYAPR08MB6007:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8d4324c-8abc-400a-747c-08dacb27cc0e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /nvHLN9pDhqLcZpgMlisN6y07+CsNd+RS++Tso1swBp1IwfXTHazoEzQ3kwNYyzE87vuADBXFFTuqnwPa2voWkV9RsfkDJN130kc/xNbMhc3vgXfg/Kjx/b56792cXAHaQoYHU42IX5sB0wxWDxWzVhoOHFyqmBAYHqIxkGuAZZUEqT/iY05ucYMOBGO9KJNB50XNvvneOS2N9oXS1HF2xsQX/CW9Riuo16H/8Yg33Jn6ymBplO6NkDttfXPojz9T4SPeSsApz2M+np2VsuRhh/hNJQ1ai08SwKlXw0OUigrS5eKtL4Q725ktuR/6xtsWiJLncVuLX0lvv3KxKNy5oRrfK6ZfL9cMorNSvH7MeGeiNV8HpRSdj5k37VIBAEHq2/eLwHt8zHogBd/JEWVeRSGfI6/VSPplJTTckEX/Xn40v+r8SXODODCGJfa9pAA5cbxaG7YvTsMaxhow/6pMsusxSnMCswU8azyY8MrvH9gNzjpQa5r6qgE0KWMOLfeYrfS8THxhhdnmYenp055NgwipS7Nfp/BFGfDBYdPfvm7kZoF9pZqLrUgA3xveD9L9xphJpLUkAlr1q4NkpxwxIPEoEypEFnhcVrdHZp+jXPOVYmPoPaI4xgWm0N+F+Up4SCoa7ngvEXRdaQVpv2d8w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(346002)(376002)(136003)(396003)(366004)(39830400003)(451199015)(6506007)(316002)(6486002)(6916009)(66946007)(6512007)(9686003)(4326008)(8676002)(66556008)(66476007)(26005)(478600001)(5660300002)(8936002)(83380400001)(2906002)(41300700001)(186003)(33716001)(38100700002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L9C2BdZnlChu/aHEf/3HNsSPnTkLCU/3cHoZAIRd2N3OYQ8rpcn7RBOwXsHa?=
- =?us-ascii?Q?AsnE0CPjq41tvucaYsACuHCLVdE2Lwj5ZlXn6yVRuOt3hbkjIf0F4wSmChbr?=
- =?us-ascii?Q?xIVnFz3DSMhAggZlorfLjVi6DMd6OVSQsq9ElMhsOPKWgiyHvd/ijLFWKnZt?=
- =?us-ascii?Q?fNrJqFC1DwjZBtp/a3UR+io+DGSDn//RRtVLi3ud2zA01HiCc62eqOd8z6uD?=
- =?us-ascii?Q?jR/lpV5UUzsyBv3HELAeSfoOO20qZ+eLLFVG8oLIMPegw0Krj7vlkBkl0cud?=
- =?us-ascii?Q?2XIt/Cg26iYJDco9raO0NQQ3IOM2L1PrEybk25IE3PAa2ldHtLxg/UqXjMnA?=
- =?us-ascii?Q?b6o+nXG4G6wKjtPuzgDjvPHXISe7L19aPPckUfuXDyVH0Eqc/iqJ7UTeAiP2?=
- =?us-ascii?Q?zyfzonND1t7+w8hQg695/Ayd2GosE6/EWJwhRGDl0bnlBC2rZQGrbRfxwRJv?=
- =?us-ascii?Q?ZkrRsN1xSRaNH5xsKGmCvShudUa0Gm9++TqMVqhMOfmcxQYHKRowxpe4JyUk?=
- =?us-ascii?Q?Z8EQgnwxl5cWLcR2eBI4UPadzzokK6PCocm5lkHM7y/CZ2Y4NV3sypCgzQKV?=
- =?us-ascii?Q?pmn4I9waDEog6dKWdMBkDX5spnbmrwM7EhiCL0gdVqi3dO3mh+Ox7x/fj4b7?=
- =?us-ascii?Q?Z8Q8ey/o4t197ybk7CDepyu5Cy53Oe8Hf/tiR1etTp97yoqsSROoiZCzifX3?=
- =?us-ascii?Q?qNuGwQudkLQLtf+O4YZc2hWQJsJt4njoES0OljMYJZmLU1dTltKoYA55SOqx?=
- =?us-ascii?Q?0u5w9YKtrfvrUuukLdcvpN5yn9MB96JHsaFg8R8V+VfHT8KXQ5WdJ7n3CPM7?=
- =?us-ascii?Q?eXQYDhXMsQo2NCAckini+FLpQsp7e4r5ZAJI7nIPm5n5g5Oqrh1ncIPx1ypE?=
- =?us-ascii?Q?UxRjKSpGgdx+AFAFuG+KAG1Di57rhOKlVdCK7p8WCjMzMjOtGutV+e1ytYpV?=
- =?us-ascii?Q?sDl+afVkZKkG46Jp/dV7Ez8cuNVPwcETEVJFnHbtCAaitBI0xsNgum9A5FJ9?=
- =?us-ascii?Q?aS+NvZeekBnMk1KU6Vb4TIK4nfzuNtEQK8RChtO9pdBLCM5c/1hdpH7T4B15?=
- =?us-ascii?Q?c4RzzZwwVYSBSaakpGjuvC15LG1Bas2+IkclAILtl83KuMPmRPu7D9TsrA4x?=
- =?us-ascii?Q?gy8ddHn9u9opvP8maEU53hEI5GAkoXjurTdLelMs84RUOHVP68woT8w5CFFO?=
- =?us-ascii?Q?soLUvkTUR+6xsurevDl9gvSUoeE4vx4DE9AN26UwgpNfPx6GxZj6WaQRWwLF?=
- =?us-ascii?Q?+Z2M+Sop8IvfOF+o5ODnbWgSpt5Q7g1MU8eVD6/TUQvcK7/bnwknIba4Njzp?=
- =?us-ascii?Q?pg61bjLu6wYJlmUg9+HjMzstAC6GLYrRq47s0/A3zAOCTFxwJoRw6Q0RINzX?=
- =?us-ascii?Q?j57/QqllPgkpiqN3Tuwii5eDhX4ZtR+krPUr72nGmZ4dzhP7dPCchB7UjtE4?=
- =?us-ascii?Q?17Nq6SER/e6/laxqbhxdfhFwu7DQ9rsUh6Y5QJYaT43HbX1zT2Eu7vevGoNT?=
- =?us-ascii?Q?fJvQWzR9+6ubZ/fVR8vrYUPxO/XbaZ7aiSjtAkeoeDwmKeAWigSIa47I3MNF?=
- =?us-ascii?Q?MywWP/hf3DcdTC86ISSZOsdI+kg2BmPg9t74zUGW?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8d4324c-8abc-400a-747c-08dacb27cc0e
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2022 18:48:21.5415
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2KzQWZa1pI7kanvdkpraQGxFsUQo/F28e2w0LjluvGiL9fOI2/N6vTDsfPRKEt7ZJBRLfbSmINdPDviwPGfKQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR08MB6007
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wvm2z6appxwdd5fa"
+Content-Disposition: inline
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -112,45 +80,98 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Albert,
 
-On Sun, Nov 20, 2022 at 02:34:56PM +1100, Albert Zhou wrote:
-> Nowadays many laptops use multitouch for their touchpads. This is now
-> indicated in the help message for HID_MULTITOUCH in the Kconfig.
-> 
-> Signed-off-by: Albert Zhou <albert.zhou.50@gmail.com>
-> ---
->  drivers/hid/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index 185a077d59cd..86f65258a912 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -697,7 +697,8 @@ config HID_MONTEREY
->  config HID_MULTITOUCH
->  	tristate "HID Multitouch panels"
->  	help
-> -	  Generic support for HID multitouch panels.
-> +	  Generic support for HID multitouch panels. Many newer laptops (like
-> +	  the Dell XPS 13 9360) use multitouch for their touchpads.
+--wvm2z6appxwdd5fa
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is just my opinion, but the intent is to describe what
-the feature does, not make claims about what products might
-happen to use it as of today.
+Hi,
 
-Furthermore, "newer" is relative. This statement won't have
-the same meaning years from now. I think the description is
-fine as-is.
+On Fri, Nov 18, 2022 at 11:35:34PM +0100, Uwe Kleine-K=F6nig wrote:
+> Hello,
+>=20
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
+>=20
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch t=
+hat
+> you can pull into your tree to get it:
+>=20
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client=
+_device_id_helper-immutable
+>=20
+> I don't think it's feasable to apply this series in one go, so I ask the
+> maintainers of the changed files to apply via their tree. I guess it
+> will take a few kernel release iterations until all patch are in, but I
+> think a single tree creates too much conflicts.
+>=20
+> The last patch changes i2c_driver::probe, all non-converted drivers will
+> fail to compile then. So I hope the build bots will tell me about any
+> driver I missed to convert. This patch is obviously not for application
+> now.
+>=20
+> I dropped most individuals from the recipents of this mail to not
+> challenge the mail servers and mailing list filters too much. Sorry if
+> you had extra efforts to find this mail.
+>=20
+> Best regards
+> Uwe
 
->  
->  	  Say Y here if you have one of the following devices:
->  	  - 3M PCT touch screens
-> 
-> base-commit: fe24a97cf2543e8832e7a2124802e5c32aac05aa
-> -- 
-> 2.34.1
-> 
+=2E..
 
-Kind regards,
-Jeff LaBundy
+>   power: supply: adp5061: Convert to i2c's .probe_new()
+>   power: supply: bq2415x: Convert to i2c's .probe_new()
+>   power: supply: bq24190: Convert to i2c's .probe_new()
+>   power: supply: bq24257: Convert to i2c's .probe_new()
+>   power: supply: bq24735: Convert to i2c's .probe_new()
+>   power: supply: bq2515x: Convert to i2c's .probe_new()
+>   power: supply: bq256xx: Convert to i2c's .probe_new()
+>   power: supply: bq25890: Convert to i2c's .probe_new()
+>   power: supply: bq25980: Convert to i2c's .probe_new()
+>   power: supply: bq27xxx: Convert to i2c's .probe_new()
+>   power: supply: ds2782: Convert to i2c's .probe_new()
+>   power: supply: lp8727: Convert to i2c's .probe_new()
+>   power: supply: ltc2941: Convert to i2c's .probe_new()
+>   power: supply: ltc4162-l: Convert to i2c's .probe_new()
+>   power: supply: max14656: Convert to i2c's .probe_new()
+>   power: supply: max17040: Convert to i2c's .probe_new()
+>   power: supply: max17042_battery: Convert to i2c's .probe_new()
+>   power: supply: rt5033_battery: Convert to i2c's .probe_new()
+>   power: supply: rt9455: Convert to i2c's .probe_new()
+>   power: supply: sbs: Convert to i2c's .probe_new()
+>   power: supply: sbs-manager: Convert to i2c's .probe_new()
+>   power: supply: smb347: Convert to i2c's .probe_new()
+>   power: supply: ucs1002: Convert to i2c's .probe_new()
+>   power: supply: z2_battery: Convert to i2c's .probe_new()
+>   [...]
+
+Thanks, I queued patches 513-536 to the power-supply subsystem.
+
+-- Sebastian
+
+--wvm2z6appxwdd5fa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmN6g2YACgkQ2O7X88g7
++pocPA/+MG7rp45xJuAH0zlIFTM8ovBviXnLvra0hpvK+vMB8SVdh4K8vRCAoeoT
+lxML9oRVfhraHzo/3X6+7V87cw+QzEx3GZbYsIasGqic46MoFYkbA2i3Q8s8hS5y
+qpAcKn/efXJaBtdIxWQnOc0xU0YCiteiIik8Idb9MjHFupUspLxtIjCzTAmvKQ0k
+hJ5u5cqv3d/MP6VpsOCUYPDet9nS9ByPeg8Kr9Ux1a0WEldPYUO+dU0ObqRdhliZ
+agftaEtCvFYkfO9k8ubBL/x00gTn002xOB7gp+5s0V0D3wKfT5EPVYOoUZbeYMIu
+QOZaLHkNkBtV85kGm18h7IFdQZQY9ahcaGTYZplyz/YzHlK/AlfjA2umKS1+rs5m
+A+DDqnAkuWw9fLg0MJ4dLSPwOSPX3VfgmVS3By3Do2gotQkCqXsRdhrG1cIoE1aL
+AZYpSwLTn2rAYF59poL3rgSqx/MhgrLwmKQOH3fjwZ3R7PIAWFhYP1We2UtKdCEM
+Gjpr7QfAUiOuXDKi5OrBbWr4m2eX26A4uifwR62OyldwH8pUWAq3umgkw3rotQAA
+hdwOOPM+cHTyLbtP8kaP1XSR6u0ybuTbw8OQE/XPDNVceoMqR4XxUSYbs0Q0UzY6
+fwljGfbakuGbaNlb7s2LBsy0ESZuiz64Za/0gfJhI5rP1eNRR1U=
+=Dh+o
+-----END PGP SIGNATURE-----
+
+--wvm2z6appxwdd5fa--
