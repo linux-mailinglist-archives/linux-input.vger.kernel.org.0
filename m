@@ -2,50 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80CE7632E8D
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78FE5632E9D
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:17:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbiKUVO0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 16:14:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40562 "EHLO
+        id S231395AbiKUVRp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 16:17:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbiKUVOZ (ORCPT
+        with ESMTP id S231302AbiKUVRj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 16:14:25 -0500
+        Mon, 21 Nov 2022 16:17:39 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6819D1B7A6;
-        Mon, 21 Nov 2022 13:14:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A60D5A1B8;
+        Mon, 21 Nov 2022 13:17:37 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0F389B81626;
-        Mon, 21 Nov 2022 21:14:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0754FC433C1;
-        Mon, 21 Nov 2022 21:14:19 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 59C0AB81636;
+        Mon, 21 Nov 2022 21:17:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23FC3C433C1;
+        Mon, 21 Nov 2022 21:17:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669065261;
-        bh=joUmK9IVGh+nke5W6ci9J36oOowc8GoGYbGdGWzwDJ4=;
+        s=k20201202; t=1669065455;
+        bh=tTnHsLcJ45Pykkgdlf5D4zGgI3hdA2fsDCJrGM5RR1Q=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=ldy672TjeQEgRX6Y0gKoZK7TXFKaj/3Rpm75glNNUgXTqdguLq7jEUDtvzmnocwuC
-         fyfmLYWYzIUepqRpLED1oQ3kPYXxQYW5xFCOqjoveM90+RncL0RxCe8BllGte3jCdH
-         IFHOZP/gmqyNGIiFv8bcfO3OzAEbbil2j/o3niOyOvM+1D/ZV4Flurrp7lOG3Jjn2J
-         EEF5lxBDhCBZXMTMg734qUAuRO5IeRIQfO/hqNE0KdtlZzGV5Mb60pwvJXD2L0g0B6
-         WXmLYIt1Gj+GupRqArKalIM49Eqlp4VD14UT+l9u+uDnE0k8co7sOR2Q1ANZKs13pD
-         Zt2MINEXzN3tw==
-Date:   Mon, 21 Nov 2022 22:14:19 +0100 (CET)
+        b=i4He++5dfUqj9x0v0ECTasfwdNU4FknwaVmcFvZ5PdFBQncfB07BzT3jk7hE/TCOz
+         5v9hUAbMSh177xg/dUaK/vrmOfgudEXajAxL+GOl/NhojnHHkuvXXc5avQiJaWqCAn
+         9VxXJtRgmyar7j0KzY7K1wRUmqRGMTIOvDsLlh3gk++rmwmW8MR43lA3JGxe80QVcI
+         6Uue3BgArRtgfjFW5R8nRdndGVcGslps+dNKVpfhEiwZbJwKy/awQDdJ6INJJXSdXH
+         gCkdlkGrr5MPKoBLGmUwXhKmVoajfECCRErHeXWpCMhithNlJQHtdU+g3S/Yv9oVDy
+         PhO7Tiklgm9MA==
+Date:   Mon, 21 Nov 2022 22:17:33 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
 To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-cc:     Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2] HID: hid-sensor-custom: set fixed size for custom
- attributes
-In-Reply-To: <20221117121326.5621-1-marcus.folkesson@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211212214080.6045@cbobk.fhfr.pm>
-References: <20221117121326.5621-1-marcus.folkesson@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH RESEND] HID: hid-elan: use default remove for hid
+ device
+In-Reply-To: <20221117121314.5577-1-marcus.folkesson@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2211212217270.6045@cbobk.fhfr.pm>
+References: <20221117121314.5577-1-marcus.folkesson@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -60,25 +56,12 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Thu, 17 Nov 2022, Marcus Folkesson wrote:
 
-> This is no bugfix (so no Fixes: tag is necessary) as it is
-> taken care of in hid_sensor_custom_add_attributes().
-> 
-> The motivation for this patch is that:
-> hid_sensor_custom_field.attr_name and
-> hid_sensor_custom_field.attrs
-> has the size of HID_CUSTOM_TOTAL_ATTRS and used in same context.
-> 
-> We compare against HID_CUSTOM_TOTAL_ATTRS when
-> looping through hid_custom_attrs.
-> 
-> We will silent the smatch error:
-> hid_sensor_custom_add_attributes() error: buffer overflow
-> 'hid_custom_attrs' 8 <= 10
+> hid_device_remove() will call hid_hw_stop() as default .remove function
+> if no function is specified.
 > 
 > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Applied to hid.git#for-6.2/sensor. Thanks,
+Applied.
 
 -- 
 Jiri Kosina
