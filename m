@@ -2,114 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5844632ACE
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 18:20:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 531B0632B1E
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 18:36:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231475AbiKURT5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 12:19:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41310 "EHLO
+        id S230389AbiKURg6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 12:36:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230497AbiKURT0 (ORCPT
+        with ESMTP id S230368AbiKURg4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 12:19:26 -0500
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA296D2887;
-        Mon, 21 Nov 2022 09:18:27 -0800 (PST)
-Received: (Authenticated sender: foss@0leil.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id ECFB16000B;
-        Mon, 21 Nov 2022 17:18:20 +0000 (UTC)
-From:   Quentin Schulz <foss+kernel@0leil.net>
-To:     Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Samuel Holland <samuel@sholland.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        devicetree@vger.kernel.org
-Subject: [PATCH RFC v2 7/7] arm64: dts: rockchip: fix touchscreen reset GPIO polarity
-Date:   Mon, 21 Nov 2022 18:17:24 +0100
-Message-Id: <20221103-upstream-goodix-reset-v2-7-2c38fb03a300@theobroma-systems.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
-References: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
+        Mon, 21 Nov 2022 12:36:56 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60EC9CEBAA;
+        Mon, 21 Nov 2022 09:36:55 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BB5D7B8123A;
+        Mon, 21 Nov 2022 17:36:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD2A1C433D6;
+        Mon, 21 Nov 2022 17:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669052212;
+        bh=NQjSwgUDT/c7wh4R1lYEuESLykGc+qlQRR0SRX0+IWg=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=WLl5HrN1dCOyEVFxsrOGEEpsb4jtJDNE9mdho8tJZTJhHLYgeC7+pAa4/FOdWVuPH
+         akH4eQ7I7btKQyB6QVpcUBPuV0X4x/JWEnmGIF4brKXQfSbMtAE3f4ucVRoO0+Onyo
+         c6cE14AcfKxwnvg8HNGdKQdZUbvNaD3rCg7L0y6iED/psh3M2G7vhsWaBQeoMiqwTu
+         YCTKqtl+Tki8tK1gV56ZD34Va/xo1IamvOaVv0Mq0lsWfnoNSZSKqi6qO9kl12wJmM
+         pxBMWrDaspS67iyqJBsf40OuPLAOUtRRIGC6QvEDFuUpa4+Bo+2pNtPVTYSVgiAm19
+         vapP3vwMN3zdA==
+Date:   Mon, 21 Nov 2022 18:36:50 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Marcel Holtmann <marcel@holtmann.org>,
+        linux-bluetooth@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH hid-next] HID: fix BT_HIDP Kconfig dependencies
+In-Reply-To: <20221118084254.1880165-1-benjamin.tissoires@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2211211836260.6045@cbobk.fhfr.pm>
+References: <20221118084254.1880165-1-benjamin.tissoires@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.10.1
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+On Fri, 18 Nov 2022, Benjamin Tissoires wrote:
 
-The reset line is active low for the Goodix touchscreen controller so
-let's fix the polarity in the Device Tree node.
+> If HID_SUPPORT is not selected, BT_HIDP should not be available, simply
+> because we disallowed the HID bus entirely.
+> 
+> Add a new depends and actually revert this file back to where it was 10
+> years ago before it was changed by commit 1f41a6a99476 ("HID: Fix the
+> generic Kconfig options").
+> 
+> Fixes: 25621bcc8976 ("HID: Kconfig: split HID support and hid-core compilation")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/r/202211181514.fLhaiS7o-lkp@intel.com/
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
----
- arch/arm64/boot/dts/rockchip/px30-evb.dts          | 2 +-
- arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi | 2 +-
- arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/rockchip/px30-evb.dts b/arch/arm64/boot/dts/rockchip/px30-evb.dts
-index 07008d84434c1..7ecd38566e7e4 100644
---- a/arch/arm64/boot/dts/rockchip/px30-evb.dts
-+++ b/arch/arm64/boot/dts/rockchip/px30-evb.dts
-@@ -420,7 +420,7 @@ touchscreen@14 {
- 		interrupt-parent = <&gpio0>;
- 		interrupts = <RK_PA5 IRQ_TYPE_LEVEL_LOW>;
- 		irq-gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
--		reset-gpios = <&gpio0 RK_PB4 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&gpio0 RK_PB4 GPIO_ACTIVE_LOW>;
- 		VDDIO-supply = <&vcc3v3_lcd>;
- 	};
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-index 78157521e9449..e63491fb443be 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-@@ -588,7 +588,7 @@ touch: touchscreen@5d {
- 		AVDD28-supply = <&vcc3v0_touch>;
- 		VDDIO-supply = <&vcc3v0_touch>;
- 		irq-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
--		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_LOW>;
- 		status = "disabled";
- 	};
- };
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-index 674792567fa6e..234531aaa430a 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-@@ -495,7 +495,7 @@ touchscreen0: goodix@14 {
- 		irq-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&touch_int &touch_rst>;
--		reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_LOW>;
- 		VDDIO-supply = <&vcc3v3_lcd0_n>;
- 	};
- };
+Applied to for-6.2/hid-bpf.
 
 -- 
-b4 0.10.1
+Jiri Kosina
+SUSE Labs
+
