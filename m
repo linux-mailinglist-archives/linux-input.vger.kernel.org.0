@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78FE5632E9D
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:17:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AEFE632E9F
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:18:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbiKUVRp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 16:17:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42352 "EHLO
+        id S231390AbiKUVSH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 16:18:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231302AbiKUVRj (ORCPT
+        with ESMTP id S231388AbiKUVRy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 16:17:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A60D5A1B8;
-        Mon, 21 Nov 2022 13:17:37 -0800 (PST)
+        Mon, 21 Nov 2022 16:17:54 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3641741D;
+        Mon, 21 Nov 2022 13:17:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 59C0AB81636;
-        Mon, 21 Nov 2022 21:17:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23FC3C433C1;
-        Mon, 21 Nov 2022 21:17:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 95AB261470;
+        Mon, 21 Nov 2022 21:17:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01C50C433D7;
+        Mon, 21 Nov 2022 21:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669065455;
-        bh=tTnHsLcJ45Pykkgdlf5D4zGgI3hdA2fsDCJrGM5RR1Q=;
+        s=k20201202; t=1669065467;
+        bh=9rMZqi6MTAkHx1NSuetSTwbMG0Y1rlHqENVtRTUctaw=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=i4He++5dfUqj9x0v0ECTasfwdNU4FknwaVmcFvZ5PdFBQncfB07BzT3jk7hE/TCOz
-         5v9hUAbMSh177xg/dUaK/vrmOfgudEXajAxL+GOl/NhojnHHkuvXXc5avQiJaWqCAn
-         9VxXJtRgmyar7j0KzY7K1wRUmqRGMTIOvDsLlh3gk++rmwmW8MR43lA3JGxe80QVcI
-         6Uue3BgArRtgfjFW5R8nRdndGVcGslps+dNKVpfhEiwZbJwKy/awQDdJ6INJJXSdXH
-         gCkdlkGrr5MPKoBLGmUwXhKmVoajfECCRErHeXWpCMhithNlJQHtdU+g3S/Yv9oVDy
-         PhO7Tiklgm9MA==
-Date:   Mon, 21 Nov 2022 22:17:33 +0100 (CET)
+        b=fDqgZeSgtwgMon/Junx9uN/u4GZU8c2wrXcuS6T7AdMjTP3iMsAA4rgRspN/+7MhH
+         PtbLnF2hW975S53Aa5cYEbr3npQclxWlNNuTn64EW/guzlRFchtPPVVU7ZmyvzXWLZ
+         qz9H8WQLOsfwsg7Iu9nCpar24sQjWUtJgqk4QfGvRFFRN6mqGfjK8Ah7rNgG8DADT8
+         s6SDfWBXYNbo2K3wSmolQqF7PZrqPb9FqFoR+LQCQX6sDhZcHlsjZJ2pRhS7dpZTJ5
+         w1Eeic7/IHnjcNk6i2c78sICghvrjgWVqUAQxnl1PxmNpb1AVQgReof/KocSacf/JS
+         vmV0bqx6xJTrA==
+Date:   Mon, 21 Nov 2022 22:17:45 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
 To:     Marcus Folkesson <marcus.folkesson@gmail.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH RESEND] HID: hid-elan: use default remove for hid
+Subject: Re: [PATCH RESEND] HID: hid-alps: use default remove for hid
  device
-In-Reply-To: <20221117121314.5577-1-marcus.folkesson@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211212217270.6045@cbobk.fhfr.pm>
-References: <20221117121314.5577-1-marcus.folkesson@gmail.com>
+In-Reply-To: <20221117121322.5608-1-marcus.folkesson@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2211212217390.6045@cbobk.fhfr.pm>
+References: <20221117121322.5608-1-marcus.folkesson@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -60,8 +60,36 @@ On Thu, 17 Nov 2022, Marcus Folkesson wrote:
 > if no function is specified.
 > 
 > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+>  drivers/hid/hid-alps.c | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
+> index 2b986d0dbde4..9abaff6f3afb 100644
+> --- a/drivers/hid/hid-alps.c
+> +++ b/drivers/hid/hid-alps.c
+> @@ -820,11 +820,6 @@ static int alps_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  	return 0;
+>  }
+>  
+> -static void alps_remove(struct hid_device *hdev)
+> -{
+> -	hid_hw_stop(hdev);
+> -}
+> -
+>  static const struct hid_device_id alps_id[] = {
+>  	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY,
+>  		USB_VENDOR_ID_ALPS_JP, HID_DEVICE_ID_ALPS_U1_DUAL) },
+> @@ -840,7 +835,6 @@ static struct hid_driver alps_driver = {
+>  	.name = "hid-alps",
+>  	.id_table		= alps_id,
+>  	.probe			= alps_probe,
+> -	.remove			= alps_remove,
+>  	.raw_event		= alps_raw_event,
+>  	.input_mapping		= alps_input_mapping,
+>  	.input_configured	= alps_input_configured,
 
-Applied.
+Applied, thanks.
 
 -- 
 Jiri Kosina
