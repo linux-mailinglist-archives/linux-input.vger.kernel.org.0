@@ -2,160 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8B36631990
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 06:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E759D6319DF
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 07:50:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbiKUFmK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 00:42:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45532 "EHLO
+        id S229502AbiKUGud (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 01:50:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbiKUFmH (ORCPT
+        with ESMTP id S229436AbiKUGuc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 00:42:07 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE191145E
-        for <linux-input@vger.kernel.org>; Sun, 20 Nov 2022 21:42:06 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id g10so9612695plo.11
-        for <linux-input@vger.kernel.org>; Sun, 20 Nov 2022 21:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZGvG+W/40zPsPbCCeJjKB2j+plitC/P5Yq0/drbFvEE=;
-        b=QWrKSIQ2b3y7RnEJNexlfDV3/d0Tn1isJkoJkMS87Gny5eeFX07XzYkkyKVpQp5vso
-         eOML69fFfVOIc+Nr5h1CU3G7fOYL+SsUyILykZHtLjLl27v6ZLFtrtbLTVp39akhdprn
-         YbKvvXaLKOUY4xped7+nH5WhJDqoNbj2xW1k5F74bPwGgTGw9cVsAS/4lwHEoCrmQ3RX
-         XMM5jGa+AAOTdGsQxJLrjeoOWQbyjTwXXIkNJM8xjUWjCUomAz0/cq+nDz3xhrbbwycF
-         VFAU5Dg79yC/8PGBb2RehdvHlUpdLCGO9uS27M7CIUopxmVVrjm2S0qczjzCbyx1TpFN
-         HCAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZGvG+W/40zPsPbCCeJjKB2j+plitC/P5Yq0/drbFvEE=;
-        b=ZiRJlG6RBRHLVLoiT8GeS0URNUm1Bfj2mfvKVwrkHl4h3Wfq/F/QTuWi1KCGX+yKC8
-         YIzyfWKn88pFSmFn1BT2AGnTuHZ69YmeT6U5kmHRlODQjJlz1X5VmYyy1pjK/yYIRFp8
-         iBHGJNBL3dj1tkciwC1w/b0Zy+mBbm7Zu/ovQYSF3rcZ9KtUPdaXCjRIOyrI09TRzkOu
-         gofccZim6WsBuO9EAIL5E/mKYDt4WF4ooldPmxpa9KFV9V6/FYbOtreeqGgU4F35kVWm
-         2cWiryQx3i/Y3tTVI2p+a9ug+QOXYueB1Vt+/ZXE2ilPij7IW2rJpOPzwvWcUemImQhN
-         qlIQ==
-X-Gm-Message-State: ANoB5pk1acVOWTbL3cC3iu6DPNbcAFTFz4wcgNK1D+wVaFlEbxPDo1cg
-        oLjip1AHNhSFMAQ2nGMN3aNQ0YbEssy7RQ==
-X-Google-Smtp-Source: AA0mqf4UZB2xM/ve3vUjerWckTf9MrJakDUWN3dPKZp2dxwL1ERUhfaFdsuF5tiJA5NMJ7B3GvXuQA==
-X-Received: by 2002:a17:902:ab46:b0:186:8502:cde5 with SMTP id ij6-20020a170902ab4600b001868502cde5mr10481747plb.121.1669009326029;
-        Sun, 20 Nov 2022 21:42:06 -0800 (PST)
-Received: from [10.1.1.173] ([220.244.252.98])
-        by smtp.gmail.com with ESMTPSA id b1-20020a62a101000000b0056cc538baf0sm7638571pff.114.2022.11.20.21.42.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Nov 2022 21:42:05 -0800 (PST)
-Message-ID: <1cba8dde-cf86-9e44-296b-aefaf0a8b21b@gmail.com>
-Date:   Mon, 21 Nov 2022 16:42:00 +1100
+        Mon, 21 Nov 2022 01:50:32 -0500
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-eopbgr140083.outbound.protection.outlook.com [40.107.14.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCC713CD7;
+        Sun, 20 Nov 2022 22:50:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jTHbfLJXEOTEXKrq+lod1aa00Srx2Pc9bH+yf5oYv/rEq9w6cVmlyYa/IFzyj9oRiMDBHoM1zlqBpfF5XT5VTN0uVDVOz6bKcECNqcq03UziCuMOhoPepbFsDnmsJYv2JHn/Bm8i7b3Fay1kvEKEk6uXzbb9NtslxHyaIu2egDJECjGiR7busN0c7RHj99XBVr4TQ5YtoTzopT+Dh2c59pLI07Hf8owdaqEWefNK8yuHKqY5RJeT34vMU+xftoZEJ2E0zwHXuMYjiuEIm0/x1qOPTRH3WUyQSDPtSqyGS7/wXLkxhSW9KfxSc+7B4EFWoUqfGtqhlMoybdRqIAcvxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3z1ySkrBqQZVr6vY4is14M2zP9QqijDioFf8dn0K0/0=;
+ b=Ez1rgef8QdSN69nLPPmnG4Xen1vnBCdNX5r7bdwnDw+GG2ZaT2dBhyPNPsq2fwfRBe8dV5VSeZ5vMROcn7Xy8390M0eKYZUqxnaQU9ZIYvKQh3vANta03/e87vL8NZnx+hGcXmb8TGCsK55rjnLoMLijw/6fvZvwxhGnPeCRY6chgu1BZDeDl+8GxT7XuOobMR9cLJDXPjIm4g0kJidRZG/ywkLDu4/HP8l3nmWB8cN5j97tZi+dlSncBXuBhGAHYatVmjusWeNPVexGuugXjvjhUH1md4rA5TvuaFFurTt6/bvEozrC9c0f3xwun35EFbNk51MGMAlH6ZdFkrRM8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3z1ySkrBqQZVr6vY4is14M2zP9QqijDioFf8dn0K0/0=;
+ b=Q6eSllmgwMDjjIDhOiBwEszU4q2hMwd3z3xQV69SWllzjPd10hjuqCsQoTOJE6IucGfqKxd8NXShwLbWwzIMP+1lzbePtfAJrCYz+Be3BRj13Z6m5NIQ4Xe1PS/j6n06wvcPUi3E8/SgDTXLS2rB8qL/6cGrLIoYJqhVJrj/22U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS8PR04MB8642.eurprd04.prod.outlook.com (2603:10a6:20b:429::24)
+ by AM7PR04MB7142.eurprd04.prod.outlook.com (2603:10a6:20b:113::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Mon, 21 Nov
+ 2022 06:50:27 +0000
+Received: from AS8PR04MB8642.eurprd04.prod.outlook.com
+ ([fe80::9ded:65b7:9d51:d37a]) by AS8PR04MB8642.eurprd04.prod.outlook.com
+ ([fe80::9ded:65b7:9d51:d37a%8]) with mapi id 15.20.5834.011; Mon, 21 Nov 2022
+ 06:50:27 +0000
+From:   Jacky Bai <ping.bai@nxp.com>
+To:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, dmitry.torokhov@gmail.com,
+        a.zummo@towertech.it, alexandre.belloni@bootlin.com
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
+        kernel@pengutronix.de, linux-imx@nxp.com, festevam@gmail.com
+Subject: [PATCH 0/4] Add nxp bbnsm module support
+Date:   Mon, 21 Nov 2022 14:51:40 +0800
+Message-Id: <20221121065144.3667658-1-ping.bai@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR02CA0123.apcprd02.prod.outlook.com
+ (2603:1096:4:188::22) To AS8PR04MB8642.eurprd04.prod.outlook.com
+ (2603:10a6:20b:429::24)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] hid: add info to Kconfig
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-References: <20221120033456.4332-1-albert.zhou.50@gmail.com>
- <Y3p2czhlHeg5Rf/l@nixie71>
-Content-Language: en-AU
-From:   Albert Zhou <albert.zhou.50@gmail.com>
-Autocrypt: addr=albert.zhou.50@gmail.com; keydata=
- xjMEYkX5gxYJKwYBBAHaRw8BAQdAsW8QQjKnmpKC5G1d1QFYNvd9ddMxwYZs+xTT0dyqvtbN
- JkFsYmVydCBaaG91IDxhbGJlcnQuemhvdS41MEBnbWFpbC5jb20+wosEExYIADMWIQRLx2w8
- czp1EBJaieEhj+NExaaGfQUCYkX5gwIbAwULCQgHAgYVCAkKCwIFFgIDAQAACgkQIY/jRMWm
- hn2rKAEAlOVVAsYIpmGTEng+e/HHT7JJjCjcX4lh+pFZdUy2DGgBAM/EwKNYoNB43H5EJpb8
- I68MS+ZZSQ3swJWAu1OJKXIJzjgEYkX5gxIKKwYBBAGXVQEFAQEHQNk/Nf/E1Uttgm29quUB
- Xgc9RDwqKTHbtHLS5SOkZzhUAwEIB8J4BBgWCAAgFiEES8dsPHM6dRASWonhIY/jRMWmhn0F
- AmJF+YMCGwwACgkQIY/jRMWmhn0KRwD7Bv1kWYB2m8c5tRQUg7i3zIaJ4kpfqMj4bwYQ9xEk
- e3oA/11CMCzdPMcoveB279og31mtUISG5mXMDJmiE4y61akN
-In-Reply-To: <Y3p2czhlHeg5Rf/l@nixie71>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------FjbuYMu0gqiCMZ9GdkfYxnFs"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8642:EE_|AM7PR04MB7142:EE_
+X-MS-Office365-Filtering-Correlation-Id: e94fd821-fd27-427a-16a9-08dacb8cabea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: d2WtqyZkUo7Mvpdf1JTAj6oyGdIQEHmuUIP7u14zRZGzSjt9hoa2kaS9f8XjlLN7jYTHeNF0AwyaLE1r+jKi0bg+ycMm2n2gkWOJSIKbbmHijkX7G7a61t0fEEujEBvGfs06ye1UzIi3sDMx49bVbRDs4oaW+PXDpU4bhJsyISp7wpVSBTrRbDgmy5YzWX3ptDf4mVOz2rONyABQFw8LyyZXmK8JNvM3/WfOD5jxPaCIB6p9nQnjBXGUl2PzO16CYmjOSl1qQZyVqfzxjqOW8KYN+3MjCbCZgRxWDJ32oVfQrGOpzRXXspjFl4QrAaHNh5m+LZsFrNbGKnPOoN1MtgEcADc4FAQ/hgNO+lFFht8U8+VUsVo/2OGJzN2Jcd2ePQ+okuMlXOA26RikIstN8kXiI/jgElJj+rh0ddeVCCNte4R2phiTCTWOAqZbV8FzQiSSOmakKNk2hkOXT0QS4fCR0iZtBHEaYWlJv63OVEGpnKDZIYcLob/niJlqOxZyZLm40nFFcc/nSpM1Pfyb6XGbJqcl2Ta9gCCiugtfhae6BuekTz/33XZxFYWr+m4KmOYtI5JoOGO9m+EzmPA5nxdxBwal24AR5k6oA2BGVYVBJL57Dmp3QPEr5d2FlBJEP80U5q4PKJ3Qyf/op0KprspMeJ1Rbd6sjBEQZXdaxrOT2N5Mo+xPwm3Xg8Cee5LSZKu+p/b3wzfbvh0AoKzijg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(451199015)(36756003)(38100700002)(38350700002)(41300700001)(2906002)(86362001)(66476007)(8676002)(4326008)(66556008)(316002)(6486002)(66946007)(6512007)(26005)(186003)(1076003)(8936002)(5660300002)(7416002)(478600001)(6506007)(2616005)(52116002)(6666004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HcmLAyKtNluxC7hsvdLMhJtDaX2pUgVSvAT8qupCzO+0g0cILjQCYKPBKsLr?=
+ =?us-ascii?Q?Nb/lxEC7XwuMzvI7VbmRP3hGQuFF0tA1kSZXzJj0i43ShwEQxberGey1UXhv?=
+ =?us-ascii?Q?LH/9clMILGLH1ZqUA/fcWgGNdb4nEciH5BGzwKs8BPm+n3WawzD5/QjdQ0wp?=
+ =?us-ascii?Q?QJQYTUI25xSicbBF5OcEAYKB4f82pW1gtZD1802/LNzTk3WyCZFlEm0zA8qV?=
+ =?us-ascii?Q?PVBor9Mc63Ifz31AWWhkgywkLtzbDqopYeaw0WW+D4IvptL+0arMWZDWwoz0?=
+ =?us-ascii?Q?PrUizrNW75xte85BK/YTCeQMPDaWBWcNRfzP+NA4mkVrPmbKV4e2j5JF/5IA?=
+ =?us-ascii?Q?S2Jodfh0BOMG2Pzqi4Cr1V7koUEgTxuhPSkb5CJ9lf7515863nCA3925Z9jd?=
+ =?us-ascii?Q?Ss6+VHNvmM+FyV63LpifejjwScqMlx6Q2fGguRde1r7+eNvAoAHSDb0Sjgpu?=
+ =?us-ascii?Q?BpeHSjBYM6hUsrzKngVU57olycz12csmL3Gaoqh9g9l/x7mlQr/k8hzU4Oql?=
+ =?us-ascii?Q?1o2no7dkwLbeNYKMJFbCerRPe95VlfhyrBF0kwxYoaWFF6tqc+xFo+nYUfGm?=
+ =?us-ascii?Q?nIDjIZZEUnxQmd9apcvjJak1As1/u8Lvr4Soylt+fdD05dnNykkewtH1TaVc?=
+ =?us-ascii?Q?oct4G+fGVMWG8KWZ1j/gt7586OuHWU4uuCVnrqGYfmMtaMvZmSqqTmQ8Q5AN?=
+ =?us-ascii?Q?WtS3degg2k7fjKZ5vo00CwPXaVHFaK3lSx521NKNOiYAA/ZkvXUmYpUt9Iw3?=
+ =?us-ascii?Q?x/7Red0CkspLmiW1YUmwYPDNald4BXHl6FDgjewn+ftrcCI+8a7UUtbRNYdo?=
+ =?us-ascii?Q?IAFcq1sBh2KTbq3PDt7Iurk+K2PxqUx2xk4rk+HgSUZl25wH4HT146gmizeJ?=
+ =?us-ascii?Q?xodSQ7hmFuQnB8W+dbov/MD1K+/FBoer+ABat+MBoF+SmLGMlZoE5YptBKGa?=
+ =?us-ascii?Q?TfmJQa8YjPj0WGojoQhhSTseGmz4ycjynfAmEriVTmDPYWiq0uzCfhGCxPpX?=
+ =?us-ascii?Q?0X6S4Z8Mk/w6NIOHBzEKEHhDFRvq5CzvBxGErB0W92+OCJDkWzjwt1+0XIw1?=
+ =?us-ascii?Q?MslTFlbecFIpLXkq4G6gzEbGVhgIhUo6gBBJX1py+BAAFFHMs+jjp7oJu5Bq?=
+ =?us-ascii?Q?jylo5fymz1dbbx2dX2ChBlnAa7AtEbdGCMA6qJlboSw/4f6z8YMT1IlpCbGT?=
+ =?us-ascii?Q?MC1EGwYsEhMi9lZ3yFfrP1cqImpnJhxzjIcUZ06d8l4dbHixciNBLAEM2PiY?=
+ =?us-ascii?Q?fU460j2x7KKRDePANLJzE8olXlMTTR3/Yd0D0GjrrqShbVulo8ITWe1/YyKc?=
+ =?us-ascii?Q?dkPxqeyM4INwAroI8+RaQ/x9IsasHgs54YgUCCfYCe601AQ+m3iCq6yOcs1y?=
+ =?us-ascii?Q?+vZTOwSDTTBYrCxcEDOxihOqBk37C9VPAGFhFnS1dZM0GQJ6/2QfjWFfgfFl?=
+ =?us-ascii?Q?XdkUJeka+fxn34vO+mgjhay1X3S6V50sItCu2XP7FZU9RbPd/IM6uZYpt1WM?=
+ =?us-ascii?Q?MAfLB/hs8cBJqj9EgvXgBSJAp9phufUxyrHZF+BRIxpRXzUbeA095TQgddug?=
+ =?us-ascii?Q?/LPoo4nFsDl6B/mWHwBH9b0x0hZxdZy6w6Ucqxvm?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e94fd821-fd27-427a-16a9-08dacb8cabea
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 06:50:26.9888
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n0dHGVUOj2oFO05yS7ceaK3bjqYJkkB10Nh/q+v8pIgpd9vQelNmGYurjyoI3Ydi1i9hevO1z87svvpmlSlFfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7142
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------FjbuYMu0gqiCMZ9GdkfYxnFs
-Content-Type: multipart/mixed; boundary="------------7cCVyPHWvChcNonosbhqx5QP";
- protected-headers="v1"
-From: Albert Zhou <albert.zhou.50@gmail.com>
-To: Jeff LaBundy <jeff@labundy.com>
-Cc: jikos@kernel.org, benjamin.tissoires@redhat.com,
- linux-input@vger.kernel.org
-Message-ID: <1cba8dde-cf86-9e44-296b-aefaf0a8b21b@gmail.com>
-Subject: Re: [PATCH] hid: add info to Kconfig
-References: <20221120033456.4332-1-albert.zhou.50@gmail.com>
- <Y3p2czhlHeg5Rf/l@nixie71>
-In-Reply-To: <Y3p2czhlHeg5Rf/l@nixie71>
+NXP BBNSM (Battery-Backed Non-Secure Module) serves as non-volatile
+logic and storage for the system. it provides some similar functions
+like RTC and ON/OFF support as previous SNVS module found on legacy
+i.MX SoCs. The BBNSM is replacement of previous SNVS module, and more
+likely it will be used on all the future i.MX SoC or other SoCs from
+NXP.
 
---------------7cCVyPHWvChcNonosbhqx5QP
-Content-Type: multipart/mixed; boundary="------------0qrqpEtvxpPGr0LYmk0lONrv"
+This patchset add the basic support for BBNSM that found on i.MX93.
 
---------------0qrqpEtvxpPGr0LYmk0lONrv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Jacky Bai (4):
+  dt-bindings: mfd: nxp,bbnsm: Add binding for nxp bbnsm
+  input: bbnsm_pwrkey: Add bbnsm power key support
+  rtc: bbnsm: Add the bbnsm rtc support
+  arm64: dts: imx93: Add the bbnsm dts node
 
-T24gMjEvMTEvMjIgMDU6NDgsIEplZmYgTGFCdW5keSB3cm90ZToNCj4gVGhpcyBpcyBqdXN0
-IG15IG9waW5pb24sIGJ1dCB0aGUgaW50ZW50IGlzIHRvIGRlc2NyaWJlIHdoYXQNCj4gdGhl
-IGZlYXR1cmUgZG9lcywgbm90IG1ha2UgY2xhaW1zIGFib3V0IHdoYXQgcHJvZHVjdHMgbWln
-aHQNCj4gaGFwcGVuIHRvIHVzZSBpdCBhcyBvZiB0b2RheS4NCj4gDQo+IEZ1cnRoZXJtb3Jl
-LCAibmV3ZXIiIGlzIHJlbGF0aXZlLiBUaGlzIHN0YXRlbWVudCB3b24ndCBoYXZlDQo+IHRo
-ZSBzYW1lIG1lYW5pbmcgeWVhcnMgZnJvbSBub3cuIEkgdGhpbmsgdGhlIGRlc2NyaXB0aW9u
-IGlzDQo+IGZpbmUgYXMtaXMuDQoNCkhpIEplZmYsDQoNCkN1cnJlbnRseSB0aGUgbG9uZyBs
-aXN0IG9mIHN1cHBvcnRlZCBwcm9kdWN0cyBjb25zaXN0cyBhbG1vc3QNCmV4Y2x1c2l2ZWx5
-IG9mIHRvdWNoc2NyZWVuIGRldmljZXMsIGdpdmluZyB0aGUgZmFsc2UgaW1wcmVzc2lvbiBp
-dCdzIG5vdA0KcmVsZXZhbnQgZm9yIGxhcHRvcCB0b3VjaHBhZHMuDQoNCkFjdHVhbGx5IEkg
-dHVybmVkIHRoaXMgb2ZmIGJlY2F1c2UgSSB0aG91Z2h0IEkgd291bGRuJ3QgbmVlZCBpdCwg
-YnV0DQpsYXRlciBJIGRpc2NvdmVyZWQgaXQncyB1c2VkIGZvciBteSB0b3VjaHBhZCwgd2hp
-Y2ggaXMgd2h5IEkgdGhvdWdodCBpdA0KbWlnaHQgYmUgdXNlZnVsIHRvIGFkZCB0aGlzIHRv
-IHRoZSBoZWxwIG1lc3NhZ2UuDQoNCiBGcm9tIEFsYmVydCBaaG91DQo=
---------------0qrqpEtvxpPGr0LYmk0lONrv
-Content-Type: application/pgp-keys; name="OpenPGP_0x218FE344C5A6867D.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x218FE344C5A6867D.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+ .../devicetree/bindings/mfd/nxp,bbnsm.yaml    | 103 ++++++++
+ arch/arm64/boot/dts/freescale/imx93.dtsi      |  18 ++
+ drivers/input/keyboard/Kconfig                |  11 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/bbnsm_pwrkey.c         | 196 +++++++++++++++
+ drivers/rtc/Kconfig                           |  12 +
+ drivers/rtc/Makefile                          |   1 +
+ drivers/rtc/rtc-bbnsm.c                       | 223 ++++++++++++++++++
+ 8 files changed, 565 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml
+ create mode 100644 drivers/input/keyboard/bbnsm_pwrkey.c
+ create mode 100644 drivers/rtc/rtc-bbnsm.c
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+-- 
+2.37.1
 
-xjMEYkX5gxYJKwYBBAHaRw8BAQdAsW8QQjKnmpKC5G1d1QFYNvd9ddMxwYZs+xTT
-0dyqvtbNJkFsYmVydCBaaG91IDxhbGJlcnQuemhvdS41MEBnbWFpbC5jb20+wosE
-ExYIADMWIQRLx2w8czp1EBJaieEhj+NExaaGfQUCYkX5gwIbAwULCQgHAgYVCAkK
-CwIFFgIDAQAACgkQIY/jRMWmhn2rKAEAlOVVAsYIpmGTEng+e/HHT7JJjCjcX4lh
-+pFZdUy2DGgBAM/EwKNYoNB43H5EJpb8I68MS+ZZSQ3swJWAu1OJKXIJzjgEYkX5
-gxIKKwYBBAGXVQEFAQEHQNk/Nf/E1Uttgm29quUBXgc9RDwqKTHbtHLS5SOkZzhU
-AwEIB8J4BBgWCAAgFiEES8dsPHM6dRASWonhIY/jRMWmhn0FAmJF+YMCGwwACgkQ
-IY/jRMWmhn0KRwD7Bv1kWYB2m8c5tRQUg7i3zIaJ4kpfqMj4bwYQ9xEke3oA/11C
-MCzdPMcoveB279og31mtUISG5mXMDJmiE4y61akN
-=3D+2qf
------END PGP PUBLIC KEY BLOCK-----
-
---------------0qrqpEtvxpPGr0LYmk0lONrv--
-
---------------7cCVyPHWvChcNonosbhqx5QP--
-
---------------FjbuYMu0gqiCMZ9GdkfYxnFs
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQRLx2w8czp1EBJaieEhj+NExaaGfQUCY3sPqAUDAAAAAAAKCRAhj+NExaaGfZX8
-AP4qdNFONX8U/r39kMsgAl7xJYAjYs2NI38SfJ7d0rH7NwEAvAlzE/327FWLFgEifddLGuIJbBA/
-EqdXhadRMLGAPg8=
-=hLSi
------END PGP SIGNATURE-----
-
---------------FjbuYMu0gqiCMZ9GdkfYxnFs--
