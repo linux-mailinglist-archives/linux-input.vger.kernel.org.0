@@ -2,216 +2,226 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D945F631A7C
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 08:42:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2997631C84
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 10:10:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbiKUHm1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 02:42:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53982 "EHLO
+        id S230206AbiKUJKD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 04:10:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbiKUHmT (ORCPT
+        with ESMTP id S230108AbiKUJJo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 02:42:19 -0500
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2076.outbound.protection.outlook.com [40.107.20.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C4052F397;
-        Sun, 20 Nov 2022 23:42:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RqK9DPoNIbQ1KqH98uEKmATUsu1O4XDMGQ6qvZgg3Q8+qCvk9jJxh1DGkc6Uoe2bdTaeEjostkiEKuTlwlKYxWajCUZapO6NF6hUwABoK0KzN5huKiLOEzZUqIsq15FPjWfxcA05wga4c4HQraCPfBYiEuF1vv+g7bND9rn1FlG/mM7uaZj3ZMUHo1rAlH8xrt2lbHSsx0PB+DKE0hvDKWT0T3tbeZqVY5L0s+R7vjhBL9shl7XTcaw5uv+ZcP/jU/HE8Naznm02Ewq8OrAR7LzlcysbBTGXyWS9HPmBzJOMTEi1Z9ebWxVNe3/yVOTU6Vw0NWcukZMQjwkqxwQqpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/6gk0fy8DpImhS1Af8EuVFy+58YOfUyRACsIETT6g6s=;
- b=L3HMfgCJt64nCP9Twq+esIVXED990w4a39yhupHwWU/+/4cPOln14fOmzqbDTN1fNeRarRaVqAMA5+O5Ag8QI9GaIF+RHO2UloisnH44Yp2s73kzHIfGUbw/AoLZz9ep+yzpstFn0WdJz1Qcjrzbbnzua5da1sQAGI+OWhAngDKOA4LuzoiQPk6fob5rxwk5s9qcPCYXYRdJR06aZ4XrJ9Pmo94ytgYubvjNJPmeKAAvgfeoeCSAuPPRZ315wUAjT4GrbizB04lJRI/E5RdG0XLvMGM3LjiKuFkxaqDOZhi6Has/N855yowF3sYYg7v8voNafr/cEKnNfydwGj5Xow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kococonnector.com; dmarc=pass action=none
- header.from=kococonnector.com; dkim=pass header.d=kococonnector.com; arc=none
+        Mon, 21 Nov 2022 04:09:44 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6EF8FB08
+        for <linux-input@vger.kernel.org>; Mon, 21 Nov 2022 01:09:43 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id r8so3180674ljn.8
+        for <linux-input@vger.kernel.org>; Mon, 21 Nov 2022 01:09:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=KoCoConnector.onmicrosoft.com; s=selector2-KoCoConnector-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/6gk0fy8DpImhS1Af8EuVFy+58YOfUyRACsIETT6g6s=;
- b=DqdEymwX10zXnNmk3V47HgApEYmvEHp12SoI+3UFAbP5NRNUgDhhuaYeiEHnC3j9mQdeY5ghJaH/G2o8sJihvnEhGieg0n8EWNL25CmjCFLu+FUZEdDSgxvjlNt5RDAPOdsNluNtn+qonyblKdB+n34TZ9GZ47yDoC4KuQOJ+xY=
-Received: from AM9PR09MB4884.eurprd09.prod.outlook.com (2603:10a6:20b:281::9)
- by DU2PR09MB5373.eurprd09.prod.outlook.com (2603:10a6:10:276::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Mon, 21 Nov
- 2022 07:42:15 +0000
-Received: from AM9PR09MB4884.eurprd09.prod.outlook.com
- ([fe80::707e:3312:93f6:f84f]) by AM9PR09MB4884.eurprd09.prod.outlook.com
- ([fe80::707e:3312:93f6:f84f%9]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
- 07:42:15 +0000
-From:   Oliver Graute <oliver.graute@kococonnector.com>
-To:     =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <uwe@kleine-koenig.org>
-CC:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 237/606] Input: edt-ft5x06 - Convert to i2c's .probe_new()
-Thread-Topic: [PATCH 237/606] Input: edt-ft5x06 - Convert to i2c's
- .probe_new()
-Thread-Index: AQHY+5+zYrTZRZozzkuq8a6718hVna5JAjYA
-Date:   Mon, 21 Nov 2022 07:42:15 +0000
-Message-ID: <DCD9AF01-5C45-46A0-A687-F894DC282CAB@kococonnector.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-238-uwe@kleine-koenig.org>
-In-Reply-To: <20221118224540.619276-238-uwe@kleine-koenig.org>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.200.110.1.12)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kococonnector.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR09MB4884:EE_|DU2PR09MB5373:EE_
-x-ms-office365-filtering-correlation-id: 0c66ccfa-a615-489e-3ca0-08dacb93e8b3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xVTr23qPfUPnZzy1U3Mn//VMM/OBRLTIv24LtF+UVrOzxTeze1Sa5rKEpW9ZYK6ENqkE8m3K3ZnVrrZOXo2ruTys4DIiME8THVq9P1C1Ue8WLrFwKYzgcNP2a1WWjoyCeBHudTnkRqsVM9yKHYJhPuAqpatry2AV+pyOUBRWwMan6yeaNLa3N3oEVHkLSC39FoOBs+TRclQigID6KeYH7EzW/o4KgoUdzUGqEacBQE/QLV/vwy5W3jQNiMK/9Ho1PHtL8nLXhvX2vdVRAF+cn6csCuhecySRAw3ruyZTNU2Xcv02BP/ZNLIh9MfehOyHhQ4NHqa+khi4VqEKabdt17tI3uH6l2l8WIMODoiyXzFgRr8NeJ94UTveo2G6U91Q8B/mKOYB57U5SOIFIwGzTS1uIEHo6BpnWI4Je3OmkscW5KU1jUZPqkhDbZNuwYZkeM4LAuWrmdddvOJr6MCDMPgK6MgHpcxeyBIdeG+g+bwn9wDA1Uw7x11/5jwFLKuiwpfXQou83xWJ7d6Ll7kWpOcw1i+KbhschALVOhxj2orNjL1XFC67IYwFuWRfd/cmoEKJ0GSo/rvlK2s3TgT+bazlnFY0wZVpJ/YkzaD7R2Whsr/EGOmaXIei6UcE+7BqwZB+c78mN+gu00n7BpSxefxD0XNK05zLxIGHJRmVsJb9nfEcEYN6b1RFBarL9SVCJkIb++A7VZhlGpYEqoqbw3DDxUu+svo7VENL9qfHrZMedPfIvgI58Q+lm/bwB9YE
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR09MB4884.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(136003)(376002)(396003)(346002)(39830400003)(451199015)(86362001)(66946007)(33656002)(91956017)(66476007)(66556008)(76116006)(2616005)(36756003)(41300700001)(6506007)(186003)(4326008)(8676002)(7416002)(5660300002)(6512007)(478600001)(71200400001)(316002)(26005)(44832011)(6486002)(8936002)(54906003)(6916009)(38100700002)(66446008)(122000001)(38070700005)(64756008)(99936003)(83380400001)(2906002)(142923001)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SG9jSlBiYzdWQXZOc3dxam54enBWcS9peFRmQTFmRDF0SUJRMDFnZ1lFeVZS?=
- =?utf-8?B?VXZWTm1TZjREejRkdk13bXFKZ2h3blpVajJyWkVZd3FicGRvV3VDZVpVejV6?=
- =?utf-8?B?b1ZxQmZQVHU4YnFIZWw0UGw4T21ZdXMybi9xQ1J0eURRcjVObUdRaTJFVnlM?=
- =?utf-8?B?V0xJT2tsbkxCRm03cFUybVEvSEZlemZxVGE2cDMwWVRPV3FKM3Q4aUdNTXl5?=
- =?utf-8?B?RHR3bSt0R0orRHVodU05U1QxdzdhSzQxV00zNG5KbFNldjlmL2poZm1zK3Yv?=
- =?utf-8?B?VkVQY1ZKd0lZdXFZNFM0M1hWeVVhSk5qSDRqVzA2SDhTN3E4MVJqR1gxNmxq?=
- =?utf-8?B?dHlnbjF5UmRYZUpkdUIwR1lhSEtCQVZMUGlUMFJkMUIrblZSZ0ljZVJ3YXZz?=
- =?utf-8?B?anlEemJFWEJVMTRDTmNlaS84ZVlETTNITTFITVZ4RHhFcE83a2hYUUxZdkkv?=
- =?utf-8?B?dVE4WERYNVlKSENjaHprMUgzSUIzeWRtN2g4TDdDY2JiZ2RXVWE0bXRlY1Rz?=
- =?utf-8?B?b09VYlVJalVhRVpSOXVaY3k4WEFCemxTa2F5aitLTU5BZXJ2Z1ZnTW9ncE5S?=
- =?utf-8?B?cCtPeFVONzdoQnR4YlBPNVZ3d09vQlBaMTVUbkJMakZpVEdjZW84M3dBckk2?=
- =?utf-8?B?ZTdhUEE1b1dPMFliTkUwdThpOURwS2lkYjluTzJwRko5aVZFRm9qYWhpUXNn?=
- =?utf-8?B?amQycy9GTzdnM09EWUxsbHYvU3FscFI5RkF0NDhXZXNoaTNvVERyUy9WcjI0?=
- =?utf-8?B?OVNMZWk3MXB2NHFwYSs1bFZ3b0M5K0pjaVlBVkdvUTJpRWtvbk5ES1JXeis0?=
- =?utf-8?B?bmU3R3VQeStDbWI1UFB1bTFYbUw4Qmx2aTBtOTBRQkVsWVRRWHQxN2Y1S1Iy?=
- =?utf-8?B?YWhJL09vbktjUnF0bklZd3ZsLzkzTzVFZDhSbGtSeS9jbW5XTGJaN3dtcW1X?=
- =?utf-8?B?STR2SlB5RjB3VUdiYXlVZDN5QUtmVU1aQjBORE5CRmlwbjZrS3VXakQ2bjkx?=
- =?utf-8?B?MDR1em45Uzc3TXJVenR5cFZ5bG9yRkFqT0RveVZ5OVlaWGtsOTVqM1JQMkRP?=
- =?utf-8?B?N3JYYW10Rm9ScHdwYUx0aG1SeVdCaXNCb21id0dDR01NWlNMNU9ocDROUmhh?=
- =?utf-8?B?RjhJeFE0b3RUcjh3KzJwZFE5eXIrVStDbUg2L2Zic3VDamgxcTVaTXpMaGhK?=
- =?utf-8?B?d1UxcEtMUStRZk50VWtkWG5wcUJqNTRaN1lmb2tHOWRHMGFQNS9wMG1DNlpU?=
- =?utf-8?B?anRqQWpKVVNkbVdWemQ5TXVBRjlMckdaMkVtRGp1RDBUR3pSNnhST2ZybVFk?=
- =?utf-8?B?TUFEVjBFUGo5N1pSWlV4NGlDL0syb05EMWZGb1o4MUp3QVFXdW9sazM3Mzk2?=
- =?utf-8?B?ZXZNMy9SL1REb214ZDZFUmhwc2FBemUyTFBZRzRsK0RGaEVremJBOCtZNlB3?=
- =?utf-8?B?MnpkUEdLV2UxTW9Nd0ZTV1lTT01NSmZhMHpuVzlqMG9iUitYRDlVSGNPc0ha?=
- =?utf-8?B?R3Z5b3VPOW5MZlNDY1loNStOU1cvSXY3QkFrTmd3Q002R0dJK3QvcVl0UCt3?=
- =?utf-8?B?M21wcGd6UWNYOTdraXUwZDFVNTV2cW04ZmRtM2VqNWdNSk5NeEQ0OXVqdWhl?=
- =?utf-8?B?aUJiSHQ3WHQ1UHpqbURrR3huSFh2alZtL2Ixc24zMnJOMEdQa3psdkFlZEVU?=
- =?utf-8?B?dklFaTQzWHltV1RlenhxaUkwV1UxaS9Yc3pkdXkvczVncXFCdHpVdWlYMDlY?=
- =?utf-8?B?bjlKMW9hWi9zclk4L1IyWXJ1K2F6TmZMZUdIcERCTVhXaGlkbGN6bWFxa1o1?=
- =?utf-8?B?WU4rWmdoVGVPMUVIRDZtVkNTeGQyUjhuQUZFbUlKd2ZNajNVSEhsTnJpM3Vi?=
- =?utf-8?B?ZHlYak8wcUpVcGxBZEdHVXhkMVFzamNtS0MvOVNqcUdPQWNES2x6TEprdDg0?=
- =?utf-8?B?ZENFc29kNHNHWlJEazBzMXBZK0t1YVJEN3lObnZEc0pIa3BqQ210YzU1N3hq?=
- =?utf-8?B?RGM2YVJQMTlSZHlmUDBEVlcwc0dsVWZYTlAwclFBVmc0VGRwQXY2RUFBWkpE?=
- =?utf-8?B?bnFYVlB0ZFgxWmJZV3J6RE1ML0ZVK1BoVGVQK3R3NkxMdFFqczFJZlJDMVla?=
- =?utf-8?B?S1h0Y01wS0xQZFpzL3dibVljTWtIK0tBMXZoM2xTMHVwNDlJWXBTK1dRUFRW?=
- =?utf-8?Q?LH4MzLwpb3T6sI6cSBvY0fI=3D?=
-Content-Type: multipart/signed;
-        boundary="Apple-Mail=_F1DC4C64-8A03-44CE-BD50-D5D3B2ECA483";
-        protocol="application/pgp-signature";
-        micalg=pgp-sha256
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5iEe7fRY9UI3AIlY+2BLLJv3AGvgsuX2GD1a9szCu9I=;
+        b=q7Pr41DBl6rR/A4TtHdH/roj5GaCx8EvAhpS1JRx+Tbe/ThGfLRmzQbrEh3VauzIh0
+         CSEgjoGSGGpzrB3A7mokXemHhqloLKOLbxgtWvAav7It9nhHYOnS2Gpfc0rUJlw7y+dc
+         p8uPnPU0IQumuIROmAsjH1O72Py6JizpXaJVzgXJm0dpr28zHm9xAhFmwxJZ45OAMEK2
+         0v0WWm56qvo3+FjNKL020M0+suQ8Molq682RWRt7JHEtzdbPNo2ikUhb/OZ3TxZAwkzq
+         fvP7od2XrVub1Ec4mFVA0kgNnqhj8bJLED+TslRlCMpvbi4MJ8hkVQ/qTGp1kpGuJjmy
+         Pb9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5iEe7fRY9UI3AIlY+2BLLJv3AGvgsuX2GD1a9szCu9I=;
+        b=PYoQjst5gb6htyMNFQDkX+2LIgJq9WY+/OENCqZnsfpc6BNylWLoCWgjspmbIUT5V6
+         RKG0vx9RofQzQE1t+NA8wL9IrVFfSvNea65SOP0BLrybY64yask+fZYE3zXFhahzkcxc
+         pdNuA4VOCI7g7t1aWwVoTxB3NkGOm7TG4xPyXc5pAcI2o/mZq5aoNeNzk09Uxoasf+Tv
+         UDuCdF0pCWJjh838DpIkTesGDYfCzlDgBGkrBT76bZP6oAuTJgW8KqL9ReqM/kNv2l+J
+         F/M1cX4/74Z427fp73S9SgSGKJ803LAtYVjzPcu+F83o7JGPn/meNieWvUaZiakasRs8
+         PyyA==
+X-Gm-Message-State: ANoB5pktDhbPurX570rUo51s7YQjY/w/ZSgE7PkiVo5N7F17EDBUhqny
+        64nVxSwh9nZ0a7JujqfWgE2ahA==
+X-Google-Smtp-Source: AA0mqf65tf5iX3QXgYL+eDW+B/MJ19SGQIBINQ1kkLBTydy+/a8Q+euTpQhHxseu7DMQRo+st/RVMg==
+X-Received: by 2002:a2e:bd17:0:b0:277:50a:bd5c with SMTP id n23-20020a2ebd17000000b00277050abd5cmr5364778ljq.6.1669021782081;
+        Mon, 21 Nov 2022 01:09:42 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id a25-20020a056512021900b004a9b9ccfbe6sm1956656lfo.51.2022.11.21.01.09.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Nov 2022 01:09:41 -0800 (PST)
+Message-ID: <2aeb0590-4fd0-5bb4-5e68-0378953a94c3@linaro.org>
+Date:   Mon, 21 Nov 2022 10:09:40 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: kococonnector.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4884.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c66ccfa-a615-489e-3ca0-08dacb93e8b3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Nov 2022 07:42:15.0725
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 59845429-0644-4099-bd7e-17fba65a2f2b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QDg/6YyycZ91ZTc+al1EtAvqWJXooCugcW4TOrgg4rOGq14uUQNbSdVaCA63HB9dp6QKGEvMB3WLLBm+9TxVUTQ5CtxXnd1z/NhKG5l8neg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR09MB5373
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/4] dt-bindings: mfd: nxp,bbnsm: Add binding for nxp
+ bbnsm
+Content-Language: en-US
+To:     Jacky Bai <ping.bai@nxp.com>, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, dmitry.torokhov@gmail.com,
+        a.zummo@towertech.it, alexandre.belloni@bootlin.com
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
+        kernel@pengutronix.de, linux-imx@nxp.com, festevam@gmail.com
+References: <20221121065144.3667658-1-ping.bai@nxp.com>
+ <20221121065144.3667658-2-ping.bai@nxp.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221121065144.3667658-2-ping.bai@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---Apple-Mail=_F1DC4C64-8A03-44CE-BD50-D5D3B2ECA483
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-
-
-> Am 18.11.2022 um 23:39 schrieb Uwe Kleine-K=C3=B6nig =
-<uwe@kleine-koenig.org>:
->=20
-> From: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
->=20
-> .probe_new() doesn't get the i2c_device_id * parameter, so determine
-> that explicitly in the probe function.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-
-Acked-by: Oliver Graute <oliver.graute@kococonnector.com>
-
+On 21/11/2022 07:51, Jacky Bai wrote:
+> Add binding for NXP BBNSM(Battery-Backed Non-Secure Module).
+> 
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
 > ---
-> drivers/input/touchscreen/edt-ft5x06.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/input/touchscreen/edt-ft5x06.c =
-b/drivers/input/touchscreen/edt-ft5x06.c
-> index 9ac1378610bc..ddd0f1f62458 100644
-> --- a/drivers/input/touchscreen/edt-ft5x06.c
-> +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> @@ -1131,9 +1131,9 @@ static void edt_ft5x06_disable_regulators(void =
-*arg)
-> regulator_disable(data->iovcc);
-> }
->=20
-> -static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> - const struct i2c_device_id *id)
-> +static int edt_ft5x06_ts_probe(struct i2c_client *client)
-> {
-> + const struct i2c_device_id *id =3D i2c_client_get_device_id(client);
-> const struct edt_i2c_chip_data *chip_data;
-> struct edt_ft5x06_ts_data *tsdata;
-> u8 buf[2] =3D { 0xfc, 0x00 };
-> @@ -1504,7 +1504,7 @@ static struct i2c_driver edt_ft5x06_ts_driver =3D =
-{
-> .probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
-> },
-> .id_table =3D edt_ft5x06_ts_id,
-> - .probe    =3D edt_ft5x06_ts_probe,
-> + .probe_new =3D edt_ft5x06_ts_probe,
-> .remove   =3D edt_ft5x06_ts_remove,
-> };
->=20
-> --
-> 2.38.1
->=20
+>  .../devicetree/bindings/mfd/nxp,bbnsm.yaml    | 103 ++++++++++++++++++
+>  1 file changed, 103 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml b/Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml
+> new file mode 100644
+> index 000000000000..b3f22b0daea6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/nxp,bbnsm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP Battery-Backed Non-Secure Module bindings
+> +
+> +maintainers:
+> +  - Jacky Bai <ping.bai@nxp.com>
+> +
+> +description: |
+> +  NXP BBNSM serves as non-volatile logic and storage for the system.
+> +  it Intergrates RTC & ON/OFF control.
+> +  The RTC can retain its state and continues counting even when the
+> +  main chip is power down. A time alarm is generated once the most
+> +  significant 32 bits of the real-time counter match the value in the
+> +  Time Alarm register.
+> +  The ON/OFF logic inside the BBNSM allows for connecting directly to
+> +  a PMIC or other voltage regulator device. both smart PMIC mode and
+> +  Dumb PMIC mode supported.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - nxp,bbnsm
+> +      - const: syscon
+> +      - const: simple-mfd
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  rtc:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: nxp,bbnsm-rtc
 
 
---Apple-Mail=_F1DC4C64-8A03-44CE-BD50-D5D3B2ECA483
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
+Missing ref to rtc.yaml.
 
------BEGIN PGP SIGNATURE-----
+> +
+> +      regmap:
 
-iHUEARYIAB0WIQThJdQ+vZ33cLI00t00OmbS7pnyNQUCY3srxAAKCRA0OmbS7pny
-NdezAP0Rh0xA23U5/EBoCCwZHWMECvg+BXubNjVfLUzGzomGZgEA02RiqFGqLZ2a
-b4m50eP51hRxCINcGBy71E8o1HI7sA8=
-=W7mG
------END PGP SIGNATURE-----
+Use vendor prefix, descriptive name and description. Where is the type
+of 'regmap' defined?
 
---Apple-Mail=_F1DC4C64-8A03-44CE-BD50-D5D3B2ECA483--
+> +        maxItems: 1
+
+I don't think this is correct. Rob explained the simple-mfd means
+children do not depend on anything from the parent, but taking a regmap
+from its parent contradicts it.
+
+> +
+> +      interrupts:
+> +        maxItems: 1
+
+You have same interrupt and same address space used by two devices.
+
+Both arguments (depending on parent regmap, sharing interrupt) suggests
+that this is one device block, so describing it with simple-mfd is quite
+unflexible.
+
+> +
+> +    required:
+> +      - compatible
+> +      - regmap
+> +      - interrupts
+> +
+> +    additionalProperties: false
+> +
+> +  pwrkey:
+> +    type: object
+> +    $ref: /schemas/input/input.yaml#
+> +
+> +    properties:
+> +      compatible:
+> +        const: nxp,bbnsm-pwrkey
+> +
+> +      regmap:
+> +        maxItems: 1
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      linux,code: true
+> +
+> +    required:
+> +      - compatible
+> +      - regmap
+> +      - interrupts
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - rtc
+> +  - pwrkey
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    bbnsm: bbnsm@44440000 {
+> +      compatible = "nxp,bbnsm", "syscon", "simple-mfd";
+> +      reg = <0x44440000 0x10000>;
+> +
+> +      bbnsm_rtc: rtc {
+> +        compatible = "nxp,bbnsm-rtc";
+
+Use 4 spaces for example indentation.
+
+> +        regmap = <&bbnsm>;
+> +        interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+> +      };
+> +
+> +      bbnsm_pwrkey: pwrkey {
+> +         compatible = "nxp,bbnsm-pwrkey";
+> +         regmap = <&bbnsm>;
+> +         interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+> +         linux,code = <KEY_POWER>;
+> +       };
+> +    };
+
+Best regards,
+Krzysztof
+
