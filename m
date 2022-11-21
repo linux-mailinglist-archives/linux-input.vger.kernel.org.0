@@ -2,46 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AEFE632E9F
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A874B632EE6
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:35:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231390AbiKUVSH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 16:18:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42838 "EHLO
+        id S231148AbiKUVfX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 16:35:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231388AbiKUVRy (ORCPT
+        with ESMTP id S229836AbiKUVfW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 16:17:54 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3641741D;
-        Mon, 21 Nov 2022 13:17:48 -0800 (PST)
+        Mon, 21 Nov 2022 16:35:22 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05461120;
+        Mon, 21 Nov 2022 13:35:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 95AB261470;
-        Mon, 21 Nov 2022 21:17:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01C50C433D7;
-        Mon, 21 Nov 2022 21:17:45 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B7E02B8162A;
+        Mon, 21 Nov 2022 21:35:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB45C433D6;
+        Mon, 21 Nov 2022 21:35:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669065467;
-        bh=9rMZqi6MTAkHx1NSuetSTwbMG0Y1rlHqENVtRTUctaw=;
+        s=k20201202; t=1669066519;
+        bh=YEQ8ohadopjckWt8+QV41eVRdbP4ife13YuNAz6zfJM=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=fDqgZeSgtwgMon/Junx9uN/u4GZU8c2wrXcuS6T7AdMjTP3iMsAA4rgRspN/+7MhH
-         PtbLnF2hW975S53Aa5cYEbr3npQclxWlNNuTn64EW/guzlRFchtPPVVU7ZmyvzXWLZ
-         qz9H8WQLOsfwsg7Iu9nCpar24sQjWUtJgqk4QfGvRFFRN6mqGfjK8Ah7rNgG8DADT8
-         s6SDfWBXYNbo2K3wSmolQqF7PZrqPb9FqFoR+LQCQX6sDhZcHlsjZJ2pRhS7dpZTJ5
-         w1Eeic7/IHnjcNk6i2c78sICghvrjgWVqUAQxnl1PxmNpb1AVQgReof/KocSacf/JS
-         vmV0bqx6xJTrA==
-Date:   Mon, 21 Nov 2022 22:17:45 +0100 (CET)
+        b=YzdZ1cEBTWDQXEfKo3RhTsjn50b+dqxPrsx+H0+y95Zq5tCDAoxNQSBV8b8qzHXah
+         cMInPdY+5ThjNBw9tDtPqMyokPHdW2ov9vFqQdMmXO1Ejyh54Bx0rZJ566K2hrBeLm
+         nxQd0+wQaYtr4MES89G4WrhCxFmpvXcnoc2Rig9nN8KBom1nWQpTamWauU68c3D/Ot
+         5giHaPbkLV2EghblJtdLB3Rhx1c48kLOVCYpfRlmDw6HbgveTucozUyKdcIMO19+Hb
+         vjk6H7hVzKOCqdlsUt9JJgb63jfFsqHeimC1f0CutmUIdOuhGju3Zm8MltjLWlfUJf
+         D7jc1q3mI5/og==
+Date:   Mon, 21 Nov 2022 22:35:18 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH RESEND] HID: hid-alps: use default remove for hid
- device
-In-Reply-To: <20221117121322.5608-1-marcus.folkesson@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211212217390.6045@cbobk.fhfr.pm>
-References: <20221117121322.5608-1-marcus.folkesson@gmail.com>
+To:     Andreas Bergmeier <abergmeier@gmx.net>
+cc:     lains@riseup.net, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] HID: Send SwID in GetProtocolVersion
+In-Reply-To: <20221111194526.1375601-1-abergmeier@gmx.net>
+Message-ID: <nycvar.YFH.7.76.2211212235120.6045@cbobk.fhfr.pm>
+References: <20221111194526.1375601-1-abergmeier@gmx.net>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,42 +53,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 17 Nov 2022, Marcus Folkesson wrote:
+On Fri, 11 Nov 2022, Andreas Bergmeier wrote:
 
-> hid_device_remove() will call hid_hw_stop() as default .remove function
-> if no function is specified.
+> According to docs a SwID should be sent for GetProtocolVersion.
+> > 0x10.DeviceIndex.0x00.0x1n
+> where n is SwID
 > 
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> Signed-off-by: Andreas Bergmeier <abergmeier@gmx.net>
 > ---
->  drivers/hid/hid-alps.c | 6 ------
->  1 file changed, 6 deletions(-)
+>  drivers/hid/hid-logitech-hidpp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
-> index 2b986d0dbde4..9abaff6f3afb 100644
-> --- a/drivers/hid/hid-alps.c
-> +++ b/drivers/hid/hid-alps.c
-> @@ -820,11 +820,6 @@ static int alps_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	return 0;
->  }
->  
-> -static void alps_remove(struct hid_device *hdev)
-> -{
-> -	hid_hw_stop(hdev);
-> -}
-> -
->  static const struct hid_device_id alps_id[] = {
->  	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY,
->  		USB_VENDOR_ID_ALPS_JP, HID_DEVICE_ID_ALPS_U1_DUAL) },
-> @@ -840,7 +835,6 @@ static struct hid_driver alps_driver = {
->  	.name = "hid-alps",
->  	.id_table		= alps_id,
->  	.probe			= alps_probe,
-> -	.remove			= alps_remove,
->  	.raw_event		= alps_raw_event,
->  	.input_mapping		= alps_input_mapping,
->  	.input_configured	= alps_input_configured,
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index a0c148a8df6c..964a523c3de7 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -896,7 +896,7 @@ static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
+> 
+>  	ret = hidpp_send_rap_command_sync(hidpp,
+>  			HIDPP_PAGE_ROOT_IDX,
+> -			CMD_ROOT_GET_PROTOCOL_VERSION,
+> +			CMD_ROOT_GET_PROTOCOL_VERSION | LINUX_KERNEL_SW_ID,
+>  			ping_data, sizeof(ping_data), &response);
+> 
+>  	if (ret == HIDPP_ERROR_INVALID_SUBID) {
 
-Applied, thanks.
+Applied, thanks Andreas.
 
 -- 
 Jiri Kosina
