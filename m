@@ -2,45 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B83632B28
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 18:37:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 071A4632B91
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 18:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbiKURhr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 12:37:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58930 "EHLO
+        id S229489AbiKUR5D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 12:57:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230353AbiKURhg (ORCPT
+        with ESMTP id S230456AbiKUR45 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 12:37:36 -0500
+        Mon, 21 Nov 2022 12:56:57 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DA7355BE;
-        Mon, 21 Nov 2022 09:37:28 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6547BD06E6;
+        Mon, 21 Nov 2022 09:56:57 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C00F261368;
-        Mon, 21 Nov 2022 17:37:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26EFDC433D7;
-        Mon, 21 Nov 2022 17:37:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0143B61374;
+        Mon, 21 Nov 2022 17:56:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE74BC433D6;
+        Mon, 21 Nov 2022 17:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669052247;
-        bh=9enBFwgR2NIy3a2Lit41uD3LnCDTMa1hHFgRnJhNdcw=;
+        s=k20201202; t=1669053416;
+        bh=GAP9lZfZvw9SH0sTlqysmIgXbX9sAMna+OEKuPsLI2k=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=XqqIxTHBhUkdUGveugaIUMfes/xX2QQ/6kaqWGUXjIMQwJUzRqpK7BV3nOBKsOYWq
-         DvzsoIlklnkqs5y5g/EvlqUMmWapX+qPyEKj7uMHylCkYkKTrsjpOrR6SBlTSpPKHl
-         yiG/CKk5NQ87SZe2n/WqlPm6ijJm5zSZggOlI2G2raBsqhZbiHv2jWG4NOnGbCC6AP
-         UMYXXO6tewDWKC5blQSsy1/ejJ1fp7clKtN/r6MIOCjIzGP4usQQGrb0X+IN1Bc6kj
-         Wb+lw5e7TEhVBSpBIgv+xMB4TtXhEKUMlXvOqGss3AYBXYuarV/VCXSd3q+ceF311e
-         OKoluADM8qiBA==
-Date:   Mon, 21 Nov 2022 18:37:25 +0100 (CET)
+        b=BbZP6mzKyM0ZOHwkukBlO9k5XDMMjiwg+Ds8zBt1IoylrtKQtAdTrY9Z6EJ9fVkGX
+         btdhBAQlbIy1LiVLIgqxC1Vhp8XN+VxgQFd0mZ/U3V/HE81OseVlTKxVPvoPHR5qIr
+         0IcRVascHSK+/4nLKmMDm+QiXpnQERoQ5pj7H4qo9NC3ySDXXyCf1OwtF4pKrAXwVf
+         6a+mGJjPQWDau31DcpmCebJcvgUaqcRDlOvrql/VSXu3eD/0TgOV9EvVbxI5KAI9ua
+         OobOHz64SeuNJUWDmQXCPFlXYfAAg7HAtW22F4pzVXHstd8vRJP/9m+R1YUo61b0Lt
+         mXfxpJNvapMmQ==
+Date:   Mon, 21 Nov 2022 18:56:54 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH for-6.2/hid-bpf] HID: force HID depending on INPUT
-In-Reply-To: <20221118105448.1888750-1-benjamin.tissoires@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2211211837100.6045@cbobk.fhfr.pm>
-References: <20221118105448.1888750-1-benjamin.tissoires@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Marge Yang <Marge.Yang@tw.synaptics.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hid: i2c: let RMI devices decide what constitutes wakeup
+ event
+In-Reply-To: <Y3e6tcmg1YAKsj9c@google.com>
+Message-ID: <nycvar.YFH.7.76.2211211856450.6045@cbobk.fhfr.pm>
+References: <Y3e6tcmg1YAKsj9c@google.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,28 +57,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 18 Nov 2022, Benjamin Tissoires wrote:
+On Fri, 18 Nov 2022, Dmitry Torokhov wrote:
 
-> In most configurations, INPUT is actually a boolean: either y or disabled,
-> but when it's disabled, you can't do much on your average laptop.
+> HID-RMI is special in the sense that it does not carry HID events
+> directly, but rather uses HID protocol as a wrapper/transport for RMI
+> protocol.  Therefore we should not assume that all data coming from the
+> device via interrupt is associated with user activity and report wakeup
+> event indiscriminately, but rather let HID-RMI do that when appropriate.
 > 
-> But it turns out that there is a possibility to have INPUT as a module:
-> you have to disable VT and TTY (of course), but also enable EXPERT.
-> I'll leave how to disable VT and TTY as an exercise for the bravest.
+> HID-RMI devices tag responses to the commands issued by the host as
+> RMI_READ_DATA_REPORT_ID whereas motion and other input events from the
+> device are tagged as RMI_ATTN_REPORT_ID. Change hid-rmi to report wakeup
+> events when receiving the latter packets. This allows ChromeOS to
+> accurately identify wakeup source and make correct decision on the mode
+> of the resume the system should take ("dark" where the display stays off
+> vs normal one).
 > 
-> Anyway, if INPUT is m, we can still configure HID as y, which is not
-> correct because hid-input.c depends on the input API, meaning that
-> vmlinuz can not link.
-> 
-> So: add depends on INPUT too at the HID level, to ensure that if INPUT=m,
-> HID can only be m or disabled.
-> 
-> Fixes: 25621bcc8976 ("HID: Kconfig: split HID support and hid-core compilation")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/r/202211181742.QYJY6Gug-lkp@intel.com
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Fixes: d951ae1ce803 ("HID: i2c-hid: Report wakeup events")
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Applied as well to for-6.2/hid-bpf. Thanks,
+Applied, thanks Dmitry.
 
 -- 
 Jiri Kosina
