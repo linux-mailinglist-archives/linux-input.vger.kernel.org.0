@@ -2,47 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE680632E86
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:12:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80CE7632E8D
+	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:14:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbiKUVMX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 16:12:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38650 "EHLO
+        id S229631AbiKUVO0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Nov 2022 16:14:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiKUVMW (ORCPT
+        with ESMTP id S229482AbiKUVOZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 16:12:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F61C6BC6;
-        Mon, 21 Nov 2022 13:12:21 -0800 (PST)
+        Mon, 21 Nov 2022 16:14:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6819D1B7A6;
+        Mon, 21 Nov 2022 13:14:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F2A961460;
-        Mon, 21 Nov 2022 21:12:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A86F4C433D6;
-        Mon, 21 Nov 2022 21:12:19 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0F389B81626;
+        Mon, 21 Nov 2022 21:14:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0754FC433C1;
+        Mon, 21 Nov 2022 21:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669065140;
-        bh=nmHwTBfz9HEKEVrdiVd0LFXO9AZHdMs3tAKcRRLdUsc=;
+        s=k20201202; t=1669065261;
+        bh=joUmK9IVGh+nke5W6ci9J36oOowc8GoGYbGdGWzwDJ4=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=jKHBwzpxmQ5FiiNuMm8BVyYSu3oKFsWkh70TNQvQ0XH7jXQOshAjKEtZPQqgQE9yK
-         JYdFTwRlIjFFM13MMNPD13eFrMyC1sffarJLNovyELS6IaiJ19kXGktDQed20S6JZe
-         FJzkHWmX2VhYm2cMSV0FGyQibklpIEG3h6azgLIEgxs9XIXVGm8z/OyOkj+Mg5aXLf
-         iA3d7eYtPgtfw0ubDQQ9xFUgodsSrqf6FRdMUAU37FiBqdDeokSLxfX0WC5Wwnj6JK
-         SmAoPPrHCKLVUP7JW8uvkAV0TQBjFTCAYjdAINZgf375hV7GJcfKSu+pfjR1wiGrrC
-         MeJjO52z4x1Hg==
-Date:   Mon, 21 Nov 2022 22:12:19 +0100 (CET)
+        b=ldy672TjeQEgRX6Y0gKoZK7TXFKaj/3Rpm75glNNUgXTqdguLq7jEUDtvzmnocwuC
+         fyfmLYWYzIUepqRpLED1oQ3kPYXxQYW5xFCOqjoveM90+RncL0RxCe8BllGte3jCdH
+         IFHOZP/gmqyNGIiFv8bcfO3OzAEbbil2j/o3niOyOvM+1D/ZV4Flurrp7lOG3Jjn2J
+         EEF5lxBDhCBZXMTMg734qUAuRO5IeRIQfO/hqNE0KdtlZzGV5Mb60pwvJXD2L0g0B6
+         WXmLYIt1Gj+GupRqArKalIM49Eqlp4VD14UT+l9u+uDnE0k8co7sOR2Q1ANZKs13pD
+         Zt2MINEXzN3tw==
+Date:   Mon, 21 Nov 2022 22:14:19 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Colin Ian King <colin.i.king@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] samples/hid: Fix spelling mistake "wihout" ->
- "without"
-In-Reply-To: <20221116093943.597572-1-colin.i.king@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2211212212100.6045@cbobk.fhfr.pm>
-References: <20221116093943.597572-1-colin.i.king@gmail.com>
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>
+cc:     Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2] HID: hid-sensor-custom: set fixed size for custom
+ attributes
+In-Reply-To: <20221117121326.5621-1-marcus.folkesson@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2211212214080.6045@cbobk.fhfr.pm>
+References: <20221117121326.5621-1-marcus.folkesson@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,38 +58,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 16 Nov 2022, Colin Ian King wrote:
+On Thu, 17 Nov 2022, Marcus Folkesson wrote:
 
-> There is a spelling mistake in a comment and a usage message. Fix them.
+> This is no bugfix (so no Fixes: tag is necessary) as it is
+> taken care of in hid_sensor_custom_add_attributes().
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->  samples/hid/hid_surface_dial.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> The motivation for this patch is that:
+> hid_sensor_custom_field.attr_name and
+> hid_sensor_custom_field.attrs
+> has the size of HID_CUSTOM_TOTAL_ATTRS and used in same context.
 > 
-> diff --git a/samples/hid/hid_surface_dial.c b/samples/hid/hid_surface_dial.c
-> index bceea53d39b0..4bc97373a708 100644
-> --- a/samples/hid/hid_surface_dial.c
-> +++ b/samples/hid/hid_surface_dial.c
-> @@ -4,7 +4,7 @@
->   * This program will morph the Microsoft Surface Dial into a mouse,
->   * and depending on the chosen resolution enable or not the haptic feedback:
->   * - a resolution (-r) of 3600 will report 3600 "ticks" in one full rotation
-> - *   wihout haptic feedback
-> + *   without haptic feedback
->   * - any other resolution will report N "ticks" in a full rotation with haptic
->   *   feedback
->   *
-> @@ -57,7 +57,7 @@ static void usage(const char *prog)
->  		"This program will morph the Microsoft Surface Dial into a mouse,\n"
->  		"and depending on the chosen resolution enable or not the haptic feedback:\n"
->  		"- a resolution (-r) of 3600 will report 3600 'ticks' in one full rotation\n"
-> -		"  wihout haptic feedback\n"
-> +		"  without haptic feedback\n"
->  		"- any other resolution will report N 'ticks' in a full rotation with haptic\n"
->  		"  feedback\n"
+> We compare against HID_CUSTOM_TOTAL_ATTRS when
+> looping through hid_custom_attrs.
+> 
+> We will silent the smatch error:
+> hid_sensor_custom_add_attributes() error: buffer overflow
+> 'hid_custom_attrs' 8 <= 10
+> 
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Applied, thanks.
+Applied to hid.git#for-6.2/sensor. Thanks,
 
 -- 
 Jiri Kosina
