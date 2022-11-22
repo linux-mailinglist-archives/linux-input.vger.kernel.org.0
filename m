@@ -2,70 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F61D63390A
-	for <lists+linux-input@lfdr.de>; Tue, 22 Nov 2022 10:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D29E633871
+	for <lists+linux-input@lfdr.de>; Tue, 22 Nov 2022 10:29:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233410AbiKVJvK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Nov 2022 04:51:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51630 "EHLO
+        id S232516AbiKVJ3l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Nov 2022 04:29:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233412AbiKVJvD (ORCPT
+        with ESMTP id S232333AbiKVJ3k (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Nov 2022 04:51:03 -0500
-X-Greylist: delayed 1200 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 01:51:02 PST
-Received: from mail.axisfairfi.com (mail.axisfairfi.com [94.177.230.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 895B151C15
-        for <linux-input@vger.kernel.org>; Tue, 22 Nov 2022 01:51:02 -0800 (PST)
-Received: by mail.axisfairfi.com (Postfix, from userid 1001)
-        id EF7958265E; Tue, 22 Nov 2022 09:15:29 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=axisfairfi.com;
-        s=mail; t=1669108530;
-        bh=0BgaW9t8GFER5QecxVkFsHrVi3gO/4V5KAZgJaiRYBs=;
-        h=Date:From:To:Subject:From;
-        b=eKHil8jlgoU5tVUYBEZg13nU3sDOJPjifA1yk35Oy+/YUdhq0rVlmO7kmqaey5drx
-         aJwOT9lmp23BTORy3hYGRmasEqqyLP/DG+G9rXLa8KBYLJTPt+kULMrP6Aw1oZXJeA
-         42XzBCZyrvqWtFo5qsDEIcPc4D2GlIBS58/q6I9v+N36RpTi2vMrBcYoPync9P8kmx
-         OdQVxXk9OxKslzCCtinDGGy+GPOrLLfaWEMWfW20mV+uLeBy52lrNVB7X/Au0heUNC
-         1eAq70T6OMVU7IRHwDEj6qxgyvw5onZLUIOSPB7zlXSFJypK2PNqveRP6bqozxbLeM
-         Pb1WPc7svHDOw==
-Received: by mail.axisfairfi.com for <linux-input@vger.kernel.org>; Tue, 22 Nov 2022 09:15:27 GMT
-Message-ID: <20221122074500-0.1.d.o9b.0.61t0fhl3ew@axisfairfi.com>
-Date:   Tue, 22 Nov 2022 09:15:27 GMT
-From:   "Zbynek Spacek" <zbynek.spacek@axisfairfi.com>
-To:     <linux-input@vger.kernel.org>
-Subject: Silikonmischungen
-X-Mailer: mail.axisfairfi.com
+        Tue, 22 Nov 2022 04:29:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C925F2F668;
+        Tue, 22 Nov 2022 01:29:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5BEE9615CC;
+        Tue, 22 Nov 2022 09:29:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC3D4C433D7;
+        Tue, 22 Nov 2022 09:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669109378;
+        bh=gHG9zTs3gcESCSIEtqzL0lojXTHhoW87qwPZ4/mUsqI=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=hr1v7X8/YDlU4k+8beXAtBMShpzVe9doUgHh8gGi2gCcHQV98gVtgMYgimPxTG1I+
+         0vTunFKIbqqgT5aeEvHWOTzto20Errnjq2imWnqLaPbdRasnrF6jGoYUj9pfnyO0+6
+         fRVn8z+LV4hSKip9QseLi1sWpi72ZJY6SCBYJUet2nb09AGuOrmGE9fZwkG+m4YXuS
+         7UxrlTRf8PlJPCA5zSW8h19BkWxW0wQAOnEZWWm0jdUC8uVLQsJmakt0mRbPfz05B7
+         JPB7j3/pzCIhHfQgmlRpNxHkJQi6Jh7W8ertn43uUYzjp66jO9ByDp/Td1RbJxJWV/
+         g8gV923AHaLoQ==
+Date:   Tue, 22 Nov 2022 10:29:37 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     David Yang <mmyangfl@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] HID: kye: Add support for MousePen M508X
+In-Reply-To: <20221119205057.11694-1-mmyangfl@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2211221028170.6045@cbobk.fhfr.pm>
+References: <20221119191743.6466-1-mmyangfl@gmail.com> <20221119205057.11694-1-mmyangfl@gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM14,
-        SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Good morning,
+On Sun, 20 Nov 2022, David Yang wrote:
 
-do you need intermediates for processing, plastics (e.g. rubber) or silic=
-one mixtures?
+> Genius MousePen M508X digitizer tablet sends incorrect report descriptor by
+> default. This patch replaces it with a corrected one.
+> 
+> Signed-off-by: David Yang <mmyangfl@gmail.com>
 
-We provide a wide range of silicone rubbers with various properties, sili=
-cone mixtures from renowned manufacturers such as Wacker, Elastosil LR an=
-d dyes, stabilizers, primers and anti-adhesive additives.
+Thanks for the fix. A few comments below.
 
-We also produce technical silicone compounds with increased resistance to=
- oils, resistant to high temperatures and water vapor, conductive and man=
-y more.
+> @@ -626,18 +751,24 @@ static __u8 *kye_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+>  			*rsize = sizeof(easypen_m610x_rdesc_fixed);
+>  		}
+>  		break;
+> -	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
+> -		if (*rsize == EASYPEN_M406XE_RDESC_ORIG_SIZE) {
+> -			rdesc = easypen_m406xe_rdesc_fixed;
+> -			*rsize = sizeof(easypen_m406xe_rdesc_fixed);
+> -		}
+> -		break;
+>  	case USB_DEVICE_ID_KYE_PENSKETCH_M912:
+>  		if (*rsize == PENSKETCH_M912_RDESC_ORIG_SIZE) {
+>  			rdesc = pensketch_m912_rdesc_fixed;
+>  			*rsize = sizeof(pensketch_m912_rdesc_fixed);
+>  		}
+>  		break;
+> +	case USB_DEVICE_ID_KYE_MOUSEPEN_M508X:
+> +		if (*rsize == MOUSEPEN_M508X_RDESC_ORIG_SIZE) {
+> +			rdesc = mousepen_m508x_rdesc_fixed;
+> +			*rsize = sizeof(mousepen_m508x_rdesc_fixed);
+> +		}
+> +		break;
+> +	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
+> +		if (*rsize == EASYPEN_M406XE_RDESC_ORIG_SIZE) {
+> +			rdesc = easypen_m406xe_rdesc_fixed;
+> +			*rsize = sizeof(easypen_m406xe_rdesc_fixed);
+> +		}
+> +		break;
 
-We provide fast order fulfillment, timely deliveries and cost optimizatio=
-n.
+What is the reason for moving USB_DEVICE_ID_KYE_EASYPEN_M406XE around?
 
-Can I introduce what we can offer you?
+>  	case USB_DEVICE_ID_GENIUS_GILA_GAMING_MOUSE:
+>  		rdesc = kye_consumer_control_fixup(hdev, rdesc, rsize, 104,
+>  					"Genius Gila Gaming Mouse");
+> @@ -721,8 +852,9 @@ static int kye_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  	case USB_DEVICE_ID_KYE_MOUSEPEN_I608X:
+>  	case USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2:
+>  	case USB_DEVICE_ID_KYE_EASYPEN_M610X:
+> -	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
+>  	case USB_DEVICE_ID_KYE_PENSKETCH_M912:
+> +	case USB_DEVICE_ID_KYE_MOUSEPEN_M508X:
+> +	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
 
+Same here.
 
-Zbynek Spacek
+>  		ret = kye_tablet_enable(hdev);
+>  		if (ret) {
+>  			hid_err(hdev, "tablet enabling failed\n");
+> @@ -756,6 +888,10 @@ static const struct hid_device_id kye_devices[] = {
+>  				USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
+>  				USB_DEVICE_ID_KYE_EASYPEN_M610X) },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
+> +				USB_DEVICE_ID_KYE_PENSKETCH_M912) },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
+> +				USB_DEVICE_ID_KYE_MOUSEPEN_M508X) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
+>  				USB_DEVICE_ID_KYE_EASYPEN_M406XE) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
+> @@ -764,8 +900,6 @@ static const struct hid_device_id kye_devices[] = {
+>  				USB_DEVICE_ID_GENIUS_GX_IMPERATOR) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
+>  				USB_DEVICE_ID_GENIUS_MANTICORE) },
+> -	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE,
+> -				USB_DEVICE_ID_KYE_PENSKETCH_M912) },
+
+This looks unrelated and incorrect, why are you dropping 
+USB_DEVICE_ID_KYE_PENSKETCH_M912 from the device table?
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
