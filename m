@@ -2,67 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33FF0633BE7
-	for <lists+linux-input@lfdr.de>; Tue, 22 Nov 2022 12:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B8D9633CCD
+	for <lists+linux-input@lfdr.de>; Tue, 22 Nov 2022 13:47:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233545AbiKVL4F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Nov 2022 06:56:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44130 "EHLO
+        id S233035AbiKVMrQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Nov 2022 07:47:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233532AbiKVL4B (ORCPT
+        with ESMTP id S233237AbiKVMrH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Nov 2022 06:56:01 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D38E1275D9;
-        Tue, 22 Nov 2022 03:55:59 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id s4so9067125qtx.6;
-        Tue, 22 Nov 2022 03:55:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r8Q3/gFuGykAVEgTB/rfpTsANTf7AyXepd36i+RSjl8=;
-        b=idlg8C90K+l7TIE201+hn0CdjZFTFHwQhvh28zO0qgPmqQwbeK/5Pp0c0zNW01+lFq
-         9dc6PzsrYN4e6wio8bGlA95mqtiJlwPzxlCbng6P2eCuJMuz+E5QqRV26Sfqg7TJOUWd
-         CGft56Qc7x14vdk8HHmgLTHx75TjVVLLpEyKSNCuk4HBNGhJaiCTJCHqFBiIaBw9z+Lh
-         QTo2CsrvmHEWV8BDYTG/rsukUBDCBBzjgYMe0TBnM6Rr6yC5ZmndyJc+8lqXFMZOn1SZ
-         uU36zKpFlvniFL3CR6Cfx5z6SE03lneR+dqh5HolghLUU69PnmCjaP1zma+BDIfDK1Tc
-         pT6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r8Q3/gFuGykAVEgTB/rfpTsANTf7AyXepd36i+RSjl8=;
-        b=Ud4VeAuViYCTJtGl3nsFiuQbWcSXKyZ1w8RHrRWbOb/LQxaw8vzuZICp6AYCxX2bGS
-         jokHd6pom9W0OTj16XWwmg15p+zaM21XmjMaD370LBl5SqJcl4f5JPn/A1Iv26eIICED
-         odA+MVP62q4DtSn3Camlk+8B8PxvQjOfKRn21gGtR1NOMXenOqc2N5p2iTz8hTJ+tLT5
-         8QFQSNnpOHkmJfkVpge+Bs98t4pvfxoCF27KPr2LiSoHnFyaFGyeLxs28ZtCR7UFUjNS
-         vID1G9AEI883jm6lgQ2r6DAbI/fJd40//Sc7ixsUw73I62iI7orLaWGiegbfe1ezI1a3
-         GgtA==
-X-Gm-Message-State: ANoB5plZeN3ahOxmmFRn0DfP2jVZRIUGSH2PzCddNG6grdj0izQGLJrO
-        SIU2x7iaeKvwa5VfvTNHwCSZoCll8Z+f8EhARy1wrG6y4fQub0O7
-X-Google-Smtp-Source: AA0mqf42lKjOUPBhLC5cHOGGrx9Ye1UJajYXLLHDIOWO36fd3kqaahER5lOTISCYegB539EhxodCv4Mwk0KZl4wsbTc=
-X-Received: by 2002:a05:622a:22a9:b0:394:a30:b606 with SMTP id
- ay41-20020a05622a22a900b003940a30b606mr21602353qtb.159.1669118158995; Tue, 22
- Nov 2022 03:55:58 -0800 (PST)
+        Tue, 22 Nov 2022 07:47:07 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7773B5BD47;
+        Tue, 22 Nov 2022 04:47:06 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C9BE1FB;
+        Tue, 22 Nov 2022 04:47:12 -0800 (PST)
+Received: from [10.57.71.118] (unknown [10.57.71.118])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AED973F73B;
+        Tue, 22 Nov 2022 04:47:01 -0800 (PST)
+Message-ID: <916a6953-d9b4-c257-c08b-f5277ead71af@arm.com>
+Date:   Tue, 22 Nov 2022 12:46:56 +0000
 MIME-Version: 1.0
-References: <20221119191743.6466-1-mmyangfl@gmail.com> <20221119205057.11694-1-mmyangfl@gmail.com>
- <nycvar.YFH.7.76.2211221028170.6045@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2211221028170.6045@cbobk.fhfr.pm>
-From:   Yangfl <mmyangfl@gmail.com>
-Date:   Tue, 22 Nov 2022 19:55:22 +0800
-Message-ID: <CAAXyoMP3xCFD8hRJDxxaGun4i3SWsj51PorPq9kZAM91MSeHdA@mail.gmail.com>
-Subject: Re: [PATCH v3] HID: kye: Add support for MousePen M508X
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH RFC v2 5/7] arm64: dts: imx: fix touchscreen reset GPIO
+ polarity
+Content-Language: en-GB
+To:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        David Jander <david@protonic.nl>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Quentin Schulz <foss+kernel@0leil.net>,
+        "Angus Ainslie (Purism)" <angus@akkea.ca>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Samuel Holland <samuel@sholland.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        devicetree@vger.kernel.org
+References: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
+ <20221103-upstream-goodix-reset-v2-5-2c38fb03a300@theobroma-systems.com>
+ <CAOMZO5BzWsHAy7KjZe+KEiXVq-Mfpggqjk0vswuzx7nkups3gA@mail.gmail.com>
+ <20221122081851.6cb762d8@erd992>
+ <907b9321-14dc-dc99-80fc-e1a20ee33a1e@theobroma-systems.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <907b9321-14dc-dc99-80fc-e1a20ee33a1e@theobroma-systems.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,102 +72,99 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Jiri Kosina <jikos@kernel.org> =E4=BA=8E2022=E5=B9=B411=E6=9C=8822=E6=97=A5=
-=E5=91=A8=E4=BA=8C 17:29=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sun, 20 Nov 2022, David Yang wrote:
->
-> > Genius MousePen M508X digitizer tablet sends incorrect report descripto=
-r by
-> > default. This patch replaces it with a corrected one.
-> >
-> > Signed-off-by: David Yang <mmyangfl@gmail.com>
->
-> Thanks for the fix. A few comments below.
->
-> > @@ -626,18 +751,24 @@ static __u8 *kye_report_fixup(struct hid_device *=
-hdev, __u8 *rdesc,
-> >                       *rsize =3D sizeof(easypen_m610x_rdesc_fixed);
-> >               }
-> >               break;
-> > -     case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
-> > -             if (*rsize =3D=3D EASYPEN_M406XE_RDESC_ORIG_SIZE) {
-> > -                     rdesc =3D easypen_m406xe_rdesc_fixed;
-> > -                     *rsize =3D sizeof(easypen_m406xe_rdesc_fixed);
-> > -             }
-> > -             break;
-> >       case USB_DEVICE_ID_KYE_PENSKETCH_M912:
-> >               if (*rsize =3D=3D PENSKETCH_M912_RDESC_ORIG_SIZE) {
-> >                       rdesc =3D pensketch_m912_rdesc_fixed;
-> >                       *rsize =3D sizeof(pensketch_m912_rdesc_fixed);
-> >               }
-> >               break;
-> > +     case USB_DEVICE_ID_KYE_MOUSEPEN_M508X:
-> > +             if (*rsize =3D=3D MOUSEPEN_M508X_RDESC_ORIG_SIZE) {
-> > +                     rdesc =3D mousepen_m508x_rdesc_fixed;
-> > +                     *rsize =3D sizeof(mousepen_m508x_rdesc_fixed);
-> > +             }
-> > +             break;
-> > +     case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
-> > +             if (*rsize =3D=3D EASYPEN_M406XE_RDESC_ORIG_SIZE) {
-> > +                     rdesc =3D easypen_m406xe_rdesc_fixed;
-> > +                     *rsize =3D sizeof(easypen_m406xe_rdesc_fixed);
-> > +             }
-> > +             break;
->
-> What is the reason for moving USB_DEVICE_ID_KYE_EASYPEN_M406XE around?
->
+On 2022-11-22 09:58, Quentin Schulz wrote:
+> Hi David,
+> 
+> Thanks Fabio for the Cc.
+> 
+> On 11/22/22 08:18, David Jander wrote:
+>> On Mon, 21 Nov 2022 15:18:32 -0300
+>> Fabio Estevam <festevam@gmail.com> wrote:
+>>
+>>> [Adding Angus and David]
+>>
+>> Thanks. This was apparently necessary ;-)
+>>
+>>> On Mon, Nov 21, 2022 at 3:12 PM Quentin Schulz 
+>>> <foss+kernel@0leil.net> wrote:
+>>>>
+>>>> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>>>
+>>>> The reset line is active low for the Goodix touchscreen controller so
+>>>> let's fix the polarity in the Device Tree node.
+>>>>
+>>>> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>>> ---
+>>>>   arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts         | 2 +-
+>>>>   arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts | 2 +-
+>>>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts 
+>>>> b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+>>>> index 9fbbbb556c0b3..df7e5ae9698e1 100644
+>>>> --- a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+>>>> +++ b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+>>>> @@ -107,7 +107,7 @@ touchscreeen@5d {
+>>>>                  interrupt-parent = <&gpio1>;
+>>>>                  interrupts = <8 IRQ_TYPE_NONE>;
+>>>>                  irq-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+>>>> -               reset-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+>>>> +               reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
+>>
+>> NACK!
+>>
+>> The PRT8MM has an inverter in the reset line. The reason for that is 
+>> that the
+>> reset line needs to be inactive when the driving side is unpowered.
+>> The DT was correct, this change will break it.
+>>
+> 
+> The DT was correct. The implementation in the driver is changed (the 
+> polarity is swapped) in this patch series, therefore the DT isn't 
+> correct anymore, hence this patch.
 
-Reorder to match the sequence of device ids in hid-ids.h. Same below.
+I'm not sure it's quite that simple... FWIW I'm using an add-on LCD 
+module with a GT9271[1] (and I won't be the only one - Raspberry Pi and 
+other SBC users using DT overlays or custom-built DTBs are a whole other 
+can of worms here), where GPIO_ACTIVE_LOW is correctly specified per the 
+schematics, thus "wrong" for the current driver behaviour, yet it *is* 
+working OK as-is. I guess that's because /RSTB ends up driven low for 
+long enough between the current "deassertion" by 
+gpiod_direction_output(1) and gpiod_direction_input() allowing the 
+external pull-up to take it high again.
 
-> >       case USB_DEVICE_ID_GENIUS_GILA_GAMING_MOUSE:
-> >               rdesc =3D kye_consumer_control_fixup(hdev, rdesc, rsize, =
-104,
-> >                                       "Genius Gila Gaming Mouse");
-> > @@ -721,8 +852,9 @@ static int kye_probe(struct hid_device *hdev, const=
- struct hid_device_id *id)
-> >       case USB_DEVICE_ID_KYE_MOUSEPEN_I608X:
-> >       case USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2:
-> >       case USB_DEVICE_ID_KYE_EASYPEN_M610X:
-> > -     case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
-> >       case USB_DEVICE_ID_KYE_PENSKETCH_M912:
-> > +     case USB_DEVICE_ID_KYE_MOUSEPEN_M508X:
-> > +     case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
->
-> Same here.
->
-> >               ret =3D kye_tablet_enable(hdev);
-> >               if (ret) {
-> >                       hid_err(hdev, "tablet enabling failed\n");
-> > @@ -756,6 +888,10 @@ static const struct hid_device_id kye_devices[] =
-=3D {
-> >                               USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2) },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-> >                               USB_DEVICE_ID_KYE_EASYPEN_M610X) },
-> > +     { HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-> > +                             USB_DEVICE_ID_KYE_PENSKETCH_M912) },
-> > +     { HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-> > +                             USB_DEVICE_ID_KYE_MOUSEPEN_M508X) },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-> >                               USB_DEVICE_ID_KYE_EASYPEN_M406XE) },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-> > @@ -764,8 +900,6 @@ static const struct hid_device_id kye_devices[] =3D=
- {
-> >                               USB_DEVICE_ID_GENIUS_GX_IMPERATOR) },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-> >                               USB_DEVICE_ID_GENIUS_MANTICORE) },
-> > -     { HID_USB_DEVICE(USB_VENDOR_ID_KYE,
-> > -                             USB_DEVICE_ID_KYE_PENSKETCH_M912) },
->
-> This looks unrelated and incorrect, why are you dropping
-> USB_DEVICE_ID_KYE_PENSKETCH_M912 from the device table?
->
+Robin.
 
-USB_DEVICE_ID_KYE_PENSKETCH_M912 is moved upward, see -756,6 +888,10.
+[1] 
+https://www.friendlyelec.com/index.php?route=product/product&path=81&product_id=230
 
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
+> 
+> See 
+> https://lore.kernel.org/linux-input/20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com/ for the whole patch series.
+> 
+> This DT patch alone is obviously incorrect, but the context around it 
+> matters. I could/should have made it all into one big patch, the 
+> question is then how this big tree-crossing patch would be merged into 
+> Linux (if there's consensus). We're not there yet.
+> 
+> For some additional background on the discussion that was had in the v1:
+> https://lore.kernel.org/all/267de96a-0129-a97d-9bf6-e1001b422a1a@theobroma-systems.com/
+> I messed up the Cc list in the v1, apologies for the missing context in 
+> the archived mails, I think one should be able to understand the 
+> important bits by reading the answers in-mail. There, Dmitry, Hans and I 
+> discussed the meaning of the active level of GPIOs/reset lines and I 
+> expressed the reasons for such a change (which are also listed in the 
+> cover letter of this patch series).
+> 
+> As stated in v1 cover letter, no implementation will satisfy every one. 
+> We either make the DT binding implementation specific (which is what it 
+> shouldn't be), or we swap the polarity in the Linux implementation and 
+> thus the DT but then break DT backward compatibility.
+> 
+> Cheers,
+> Quentin
+> 
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
