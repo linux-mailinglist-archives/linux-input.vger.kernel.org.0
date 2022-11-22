@@ -2,85 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A874B632EE6
-	for <lists+linux-input@lfdr.de>; Mon, 21 Nov 2022 22:35:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0F466335E3
+	for <lists+linux-input@lfdr.de>; Tue, 22 Nov 2022 08:35:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231148AbiKUVfX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Nov 2022 16:35:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55774 "EHLO
+        id S232389AbiKVHfF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Nov 2022 02:35:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbiKUVfW (ORCPT
+        with ESMTP id S229507AbiKVHfD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Nov 2022 16:35:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05461120;
-        Mon, 21 Nov 2022 13:35:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B7E02B8162A;
-        Mon, 21 Nov 2022 21:35:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB45C433D6;
-        Mon, 21 Nov 2022 21:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669066519;
-        bh=YEQ8ohadopjckWt8+QV41eVRdbP4ife13YuNAz6zfJM=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=YzdZ1cEBTWDQXEfKo3RhTsjn50b+dqxPrsx+H0+y95Zq5tCDAoxNQSBV8b8qzHXah
-         cMInPdY+5ThjNBw9tDtPqMyokPHdW2ov9vFqQdMmXO1Ejyh54Bx0rZJ566K2hrBeLm
-         nxQd0+wQaYtr4MES89G4WrhCxFmpvXcnoc2Rig9nN8KBom1nWQpTamWauU68c3D/Ot
-         5giHaPbkLV2EghblJtdLB3Rhx1c48kLOVCYpfRlmDw6HbgveTucozUyKdcIMO19+Hb
-         vjk6H7hVzKOCqdlsUt9JJgb63jfFsqHeimC1f0CutmUIdOuhGju3Zm8MltjLWlfUJf
-         D7jc1q3mI5/og==
-Date:   Mon, 21 Nov 2022 22:35:18 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Andreas Bergmeier <abergmeier@gmx.net>
-cc:     lains@riseup.net, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] HID: Send SwID in GetProtocolVersion
-In-Reply-To: <20221111194526.1375601-1-abergmeier@gmx.net>
-Message-ID: <nycvar.YFH.7.76.2211212235120.6045@cbobk.fhfr.pm>
-References: <20221111194526.1375601-1-abergmeier@gmx.net>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Tue, 22 Nov 2022 02:35:03 -0500
+X-Greylist: delayed 963 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Nov 2022 23:35:01 PST
+Received: from smtp15.bhosted.nl (smtp15.bhosted.nl [IPv6:2a02:9e0:8000::26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E5B1704A
+        for <linux-input@vger.kernel.org>; Mon, 21 Nov 2022 23:35:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=protonic.nl; s=202111;
+        h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+         message-id:subject:cc:to:from:date:from;
+        bh=Irzd9p8+2HaCNO0Vn7tqqCeUCmTdBbt/zWJHz9qjP1c=;
+        b=lJrIorXCx0ilwJuwWQE/gouCXs9jdvjGu2hOJkQ4Ozi495WYG+B4K2lUOcPD9V78Zmd7aL2nqx+m5
+         137Wx+2DAej8WLMp6457IMwMuDJP2u1Ap8bqEZhUXqcOSAFXkialwQAsIPl46fyAGeWrr2HOZICnYZ
+         7YtkjKhHbW8B3kr4bFX7MtA30XHMPuI/eWCYK0ebioDU1Fx+dpe9pjK97O8EgY6pFXAybWQGLass3C
+         ivcNX99Zo+ifr1rHGo2Xb3ykEb9W5FjAtoCEKZjw8/IixQRLODygQ4r26xKxORp+j11TG3mRAo5gJj
+         FS+4hRfSJpSeIvCpBkvR+mtWSyfXVjQ==
+X-MSG-ID: ea7fdbdd-6a35-11ed-b61c-0050569d3a82
+Date:   Tue, 22 Nov 2022 08:18:51 +0100
+From:   David Jander <david@protonic.nl>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Quentin Schulz <foss+kernel@0leil.net>,
+        "Angus Ainslie (Purism)" <angus@akkea.ca>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Samuel Holland <samuel@sholland.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH RFC v2 5/7] arm64: dts: imx: fix touchscreen reset GPIO
+ polarity
+Message-ID: <20221122081851.6cb762d8@erd992>
+In-Reply-To: <CAOMZO5BzWsHAy7KjZe+KEiXVq-Mfpggqjk0vswuzx7nkups3gA@mail.gmail.com>
+References: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
+        <20221103-upstream-goodix-reset-v2-5-2c38fb03a300@theobroma-systems.com>
+        <CAOMZO5BzWsHAy7KjZe+KEiXVq-Mfpggqjk0vswuzx7nkups3gA@mail.gmail.com>
+Organization: Protonic Holland
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 11 Nov 2022, Andreas Bergmeier wrote:
+On Mon, 21 Nov 2022 15:18:32 -0300
+Fabio Estevam <festevam@gmail.com> wrote:
 
-> According to docs a SwID should be sent for GetProtocolVersion.
-> > 0x10.DeviceIndex.0x00.0x1n
-> where n is SwID
-> 
-> Signed-off-by: Andreas Bergmeier <abergmeier@gmx.net>
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index a0c148a8df6c..964a523c3de7 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -896,7 +896,7 @@ static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
-> 
->  	ret = hidpp_send_rap_command_sync(hidpp,
->  			HIDPP_PAGE_ROOT_IDX,
-> -			CMD_ROOT_GET_PROTOCOL_VERSION,
-> +			CMD_ROOT_GET_PROTOCOL_VERSION | LINUX_KERNEL_SW_ID,
->  			ping_data, sizeof(ping_data), &response);
-> 
->  	if (ret == HIDPP_ERROR_INVALID_SUBID) {
+> [Adding Angus and David]
 
-Applied, thanks Andreas.
+Thanks. This was apparently necessary ;-)
+
+> On Mon, Nov 21, 2022 at 3:12 PM Quentin Schulz <foss+kernel@0leil.net> wrote:
+> >
+> > From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> >
+> > The reset line is active low for the Goodix touchscreen controller so
+> > let's fix the polarity in the Device Tree node.
+> >
+> > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> > ---
+> >  arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts         | 2 +-
+> >  arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+> > index 9fbbbb556c0b3..df7e5ae9698e1 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+> > @@ -107,7 +107,7 @@ touchscreeen@5d {
+> >                 interrupt-parent = <&gpio1>;
+> >                 interrupts = <8 IRQ_TYPE_NONE>;
+> >                 irq-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+> > -               reset-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+> > +               reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
+
+NACK!
+
+The PRT8MM has an inverter in the reset line. The reason for that is that the
+reset line needs to be inactive when the driving side is unpowered.
+The DT was correct, this change will break it.
+
+> >         };
+> >
+> >         temp-sense@70 {
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts b/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
+> > index 6445c6b90b5bb..b038300812b1e 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
+> > @@ -542,7 +542,7 @@ touchscreen@5d {
+> >                 pinctrl-0 = <&pinctrl_ts>;
+> >                 interrupt-parent = <&gpio3>;
+> >                 interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+> > -               reset-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
+> > +               reset-gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
+> >                 irq-gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;
+> >                 touchscreen-size-x = <720>;
+> >                 touchscreen-size-y = <1440>;
+> >
+> > --
+> > b4 0.10.1  
+
+Best regards,
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+David Jander
+Protonic Holland.
