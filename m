@@ -2,98 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E0AB633E26
-	for <lists+linux-input@lfdr.de>; Tue, 22 Nov 2022 14:53:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87C65634064
+	for <lists+linux-input@lfdr.de>; Tue, 22 Nov 2022 16:37:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232291AbiKVNxm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Nov 2022 08:53:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50288 "EHLO
+        id S233944AbiKVPhp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Nov 2022 10:37:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233922AbiKVNxl (ORCPT
+        with ESMTP id S233856AbiKVPhd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Nov 2022 08:53:41 -0500
-X-Greylist: delayed 308 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 05:53:39 PST
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2165B66CAC;
-        Tue, 22 Nov 2022 05:53:38 -0800 (PST)
-Received: from localhost.localdomain (unknown [124.16.138.125])
-        by APP-05 (Coremail) with SMTP id zQCowAD3_Owo03xjp0jmAA--.15220S2;
-        Tue, 22 Nov 2022 21:48:24 +0800 (CST)
-From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To:     srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH] HID: intel_ish-hid: Add check for ishtp_dma_tx_map
-Date:   Tue, 22 Nov 2022 21:48:23 +0800
-Message-Id: <20221122134823.540-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+        Tue, 22 Nov 2022 10:37:33 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D47910B6
+        for <linux-input@vger.kernel.org>; Tue, 22 Nov 2022 07:37:28 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id n20so36807763ejh.0
+        for <linux-input@vger.kernel.org>; Tue, 22 Nov 2022 07:37:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ivYiES9sG14knWzvtjTCoJ1RoaioJgEMHFOyqeNjfZM=;
+        b=naVdW0+iM/irGeY01Hv1M1HkCwp49rOoym6hI1RT3vHD/OSogrNQi1/s9J6qi6CayR
+         zdaYyIAwDxLhtMTL7CefzThSXMbU7784fZ8U9cLxWPegw9Imz3oOogKztkxfqWBt0gHW
+         eySOyWfPEBPwUhv2k/Fsgyq/f1jy+52wQWqv/P2z7wWNe/KIR3CfT3Ljk3G52+/lOvNn
+         B7AG93ZJxenUgcWkV64Im/MT6EQfzii2fQny1jgDbwVAUFllistigQyM4doz+WOO72Py
+         58/3jGOI/oFZR+Nv8POqmgkAFh1gS/2XDDU4bqDK1vEt395Balnuwb0Y7tVQ/Y9ZpSDU
+         8LtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ivYiES9sG14knWzvtjTCoJ1RoaioJgEMHFOyqeNjfZM=;
+        b=5JkWexAg67iOYvXs4xXyFTDwgEhNJF5ulPYmqScFYNYN92mLRKMhQQa0TwssbWLXnb
+         dIOtRHrCyMWGaA9VOILXl89l8EateE0B6l7o63f3+UqUDh1fBCUI3lrUTdN9Om/pd+4V
+         7PyKGr8XPxdE//B5J/NoyZTD/zMpzTpFVkOQxDEw9tl6EUFtasbjZgF6gRL9KzIA/B9H
+         x8vLtHkSN9OJUghOZSNB86dYb9Ass3Emh/KZ+QKg8NFFxjJovi/cFPZqH7mpKENYEnzg
+         6ZvChDlGDZnx0DyFh6wVHy0WXukh04GE9lJ9xPmumntPTb/icF22KmHx58UGbTWc6gJO
+         mWzg==
+X-Gm-Message-State: ANoB5pm4LCGYOO5eDqmumhTgayFQwUmxdFUJfG1XyzQeBGz4Vy+iVGMI
+        xqu3gzs0x7ptum9TkcchFC/Mj12wD4wjvzJ4cDOIhw==
+X-Google-Smtp-Source: AA0mqf5lVD8Rk2AxeSj7tZ0Ls4Vp26eTLbI5+h+t7YH4u9mCkuwwfrmqgRV3Rsv9A3b2Gl79AHZFVdIXaWEGPf/ipBI=
+X-Received: by 2002:a17:906:52c8:b0:7ad:ba1e:1bac with SMTP id
+ w8-20020a17090652c800b007adba1e1bacmr20202651ejn.528.1669131447035; Tue, 22
+ Nov 2022 07:37:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD3_Owo03xjp0jmAA--.15220S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CFW8Aw4rXFyDCr43tF43Wrg_yoW8GFW5pF
-        4rJFyYkryjvw1xu34xJ3W5u3WruwnYgrW8GrZ7Kw1UZ3W3tF1UG3WDJFyYgr1vgF45J34I
-        9FsIyay3CF48XaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkS14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Xr4l
-        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-        4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-        6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUjyxRUUUUU
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221005-mt6357-support-v5-0-8210d955dd3d@baylibre.com>
+ <20221005-mt6357-support-v5-6-8210d955dd3d@baylibre.com> <47ae0770-1cd4-cfea-7222-f91d1d85f133@gmail.com>
+In-Reply-To: <47ae0770-1cd4-cfea-7222-f91d1d85f133@gmail.com>
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+Date:   Tue, 22 Nov 2022 16:37:15 +0100
+Message-ID: <CAFGrd9rhKfMjGMeER4SBsU27qgN8P-axzG=gRtN=szBiV5jhvQ@mail.gmail.com>
+Subject: Re: [PATCH v5 06/10] dt-bindings: soc: mediatek: convert pwrap documentation
+To:     Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Flora Fu <flora.fu@mediatek.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-leds@vger.kernel.org, Fabien Parent <fparent@baylibre.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-As the kcalloc may return NULL pointer,
-it should be better to check the ishtp_dma_tx_map
-before use in order to avoid NULL pointer dereference.
+Le jeu. 17 nov. 2022 =C3=A0 17:06, Matthias Brugger
+<matthias.bgg@gmail.com> a =C3=A9crit :
+> On 16/11/2022 13:33, Alexandre Mergnat wrote:
+> > - Convert soc/mediatek/pwrap.txt to soc/mediatek/mediatek,pwrap.yaml
+> > - MT8365 SoC has 2 additional clock items and a yaml schema for its PMI=
+C
+>
+> Should be an extra commit.
 
-Fixes: 3703f53b99e4 ("HID: intel_ish-hid: ISH Transport layer")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/hid/intel-ish-hid/ishtp/dma-if.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/hid/intel-ish-hid/ishtp/dma-if.c b/drivers/hid/intel-ish-hid/ishtp/dma-if.c
-index 40554c8daca0..00046cbfd4ed 100644
---- a/drivers/hid/intel-ish-hid/ishtp/dma-if.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/dma-if.c
-@@ -104,6 +104,11 @@ void *ishtp_cl_get_dma_send_buf(struct ishtp_device *dev,
- 	int required_slots = (size / DMA_SLOT_SIZE)
- 		+ 1 * (size % DMA_SLOT_SIZE != 0);
- 
-+	if (!dev->ishtp_dma_tx_map) {
-+		dev_err(dev->devc, "Fail to allocate Tx map\n");
-+		return NULL;
-+	}
-+
- 	spin_lock_irqsave(&dev->ishtp_dma_tx_lock, flags);
- 	for (i = 0; i <= (dev->ishtp_dma_num_slots - required_slots); i++) {
- 		free = 1;
-@@ -150,6 +155,11 @@ void ishtp_cl_release_dma_acked_mem(struct ishtp_device *dev,
- 		return;
- 	}
- 
-+	if (!dev->ishtp_dma_tx_map) {
-+		dev_err(dev->devc, "Fail to allocate Tx map\n");
-+		return;
-+	}
-+
- 	i = (msg_addr - dev->ishtp_host_dma_tx_buf) / DMA_SLOT_SIZE;
- 	spin_lock_irqsave(&dev->ishtp_dma_tx_lock, flags);
- 	for (j = 0; j < acked_slots; j++) {
--- 
-2.25.1
-
+It was explained in pwrap.txt. I've done extra work for the previous
+version but removed it for the current one. I think I can remove this
+line from the commit message.
