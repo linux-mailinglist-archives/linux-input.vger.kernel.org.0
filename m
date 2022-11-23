@@ -2,188 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC7BB63625A
-	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 15:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A9A663626D
+	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 15:53:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237558AbiKWOtx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Nov 2022 09:49:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49316 "EHLO
+        id S238054AbiKWOxY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Nov 2022 09:53:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237580AbiKWOtv (ORCPT
+        with ESMTP id S237907AbiKWOxN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Nov 2022 09:49:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE036B383
-        for <linux-input@vger.kernel.org>; Wed, 23 Nov 2022 06:48:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669214933;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XVwsHMkeuOJlctKFKAb4Da/8dTubU4VpbLh+0BeUA34=;
-        b=XHcWS4/sHyXelC1GCNqeIT/Yp/tY7Xh0S73ueC/xdqQB2mUoUNcMb0QaO8YH+IJG9dCUT+
-        4CM919R4Gw29+6HMSOdQ0Thv+G9s69OCHrIqVwoPD+A9e56NTPH7AueYthNOoiy1gvVqLQ
-        PyPKptfkkdb4PPx8R/Sj2L4QoE+TGFk=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-557-JHYGdcrYNam6Bem0umN0BA-1; Wed, 23 Nov 2022 09:48:51 -0500
-X-MC-Unique: JHYGdcrYNam6Bem0umN0BA-1
-Received: by mail-il1-f199.google.com with SMTP id s1-20020a056e021a0100b003026adad6a9so13128345ild.18
-        for <linux-input@vger.kernel.org>; Wed, 23 Nov 2022 06:48:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XVwsHMkeuOJlctKFKAb4Da/8dTubU4VpbLh+0BeUA34=;
-        b=JAXyFlDuC7J3DuKzo8cFuonlL28plIH3iRvorcg2MSCYcNPyOTqHSGRaPzYifBKLr/
-         1pXcmWjxQsL4/34loBQkRBa3u8vTLuf/SEcXWLY6Yn5XO9xZPQtpYN/V2hOmOiURWPtx
-         RTs0BwSwZVYeV5vYyD+IdL4Jd4ZUrgWopiIUwRxRU9e/PFjulPKB5ikCHhPInKuwdyJA
-         zGdJ3Hvi2DTWJE8jPaW1ek7J7bnpvNAZJ+mkCG/BOyR6w5oAZ1j8TfluBh5Apm0KHkSp
-         tc5c2HtqDsiUw7LTZZGiBFC21zgpB8GWM77KK0yTXGvnDxFSMQdLSAHarygSMLTRWnMj
-         X4cw==
-X-Gm-Message-State: ANoB5pmE1jSxrYLitCKpYIgO0KQivdcwwSfe5zfRDxAJutK/9Xn50Abd
-        RHID9ROxrOU5ZjcmcwUAFjpjdGQ1djBnPFy4j6kv3hFbPFEK5nPnxZvHntUHJBpBrt60LN58XlK
-        lwkfrxc+y1rawHd0nim6xfevKsmb4o9mrDzHWqn4=
-X-Received: by 2002:a92:c691:0:b0:302:75c9:5d55 with SMTP id o17-20020a92c691000000b0030275c95d55mr4126270ilg.34.1669214931051;
-        Wed, 23 Nov 2022 06:48:51 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7t6tBPN8sYXy8dh8uHxD1HawZPKG6isYlau3hUqFJFGOIk/LhU7kZ8leId0LJjjgLzaxuDzjr+0sIG2p/qtrU=
-X-Received: by 2002:a92:c691:0:b0:302:75c9:5d55 with SMTP id
- o17-20020a92c691000000b0030275c95d55mr4126263ilg.34.1669214930760; Wed, 23
- Nov 2022 06:48:50 -0800 (PST)
+        Wed, 23 Nov 2022 09:53:13 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E471EEF2;
+        Wed, 23 Nov 2022 06:53:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=d34IWNksyN/fUaMdJSyNyFr5/NYJSUamcGjA6pAMtuA=; b=caDYBku0DlKozdr16VvQx2Pf47
+        2FemMLhC3IcrPQOUzURzAZnbhstHNQck3oc9tp/PXObEiBO1MfrwTzqTVM4sWneDrW/0ivZt02rfR
+        GJ97qbtKp6invRyg7JlLsZYl3ZG3vWExlD7hzk57S+mKdQTrPuVtfzCSbDoVVJ8FxhHKtoRSJ0jtU
+        XYB3KakhM7UNmV0lB+Oflj6FYMkeTc2cxN2tMw87mvmQsXCHH2Ve1EXgve0TduL0q7RtvwUTii1c5
+        R8WonwObHfVSic7ZLMDFLvXv3RjVaPGgy5xWCwSrWbCPm+c1AWWTPP+4n4zTi5sjodPbwnBYZMh7x
+        2Km029GQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oxr7T-007j3f-RC; Wed, 23 Nov 2022 14:53:00 +0000
+Date:   Wed, 23 Nov 2022 14:52:59 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
+ const *
+Message-ID: <Y34zyzdbRUdyOSkA@casper.infradead.org>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+ <20221123122523.1332370-3-gregkh@linuxfoundation.org>
+ <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
+ <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
+ <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
 MIME-Version: 1.0
-References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
- <20221103155756.687789-4-benjamin.tissoires@redhat.com> <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
-In-Reply-To: <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 23 Nov 2022 15:48:39 +0100
-Message-ID: <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com>
-Subject: Re: [PATCH hid v12 03/15] HID: initial BPF implementation
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jon,
+On Wed, Nov 23, 2022 at 02:59:00PM +0100, Maximilian Luz wrote:
+> On 11/23/22 14:34, Andy Shevchenko wrote:
+> > On Wed, Nov 23, 2022 at 02:14:31PM +0100, Maximilian Luz wrote:
+> > > On 11/23/22 13:25, Greg Kroah-Hartman wrote:
+> > > > The uevent() callback in struct device_type should not be modifying the
+> > > > device that is passed into it, so mark it as a const * and propagate the
+> > > > function signature changes out into all relevant subsystems that use
+> > > > this callback.
+> > 
+> > [...]
+> > 
+> > > > -static inline struct ssam_device *to_ssam_device(struct device *d)
+> > > > +static inline struct ssam_device *to_ssam_device(const struct device *d)
+> > > >    {
+> > > >    	return container_of(d, struct ssam_device, dev);
+> > > >    }
+> > > 
+> > > I am slightly conflicted about this change as that now more or less
+> > > implicitly drops the const. So I'm wondering if it wouldn't be better to
+> > > either create a function specifically for const pointers or to just
+> > > open-code it in the instance above.
+> > > 
+> > > I guess we could also convert this to a macro. Then at least there
+> > > wouldn't be an explicit and potentially misleading const-conversion
+> > > indicated in the function signature.
+> > 
+> > This is an intermediate step as far as I know since moving container_of to
+> > recognize const is a bit noisy right now. I guess you can find a discussion
+> > on the topic between Greg and Sakari.
+> 
+> Thanks! I assume you are referring to the following?
+> 
+> 	https://lore.kernel.org/lkml/4218173bd72b4f1899d4c41a8e251f0d@AcuMS.aculab.com/T/
+> 
+> As far as I can tell this is only a warning in documentation, not
+> compile time (which would probably be impossible?).
+> 
+> As I've said I'd be fine with converting the function to a macro (and
+> preferably adding a similar warning like the one proposed in that
+> thread). The point that irks me up is just that, as proposed, the
+> function signature would now advertise a conversion that should never be
+> happening.
+> 
+> Having two separate functions would create a compile-time guarantee, so
+> I'd prefer that, but I can understand if that might be considered too
+> noisy in code. Or if there is a push to make container_of() emit a
+> compile-time warning I'd also be perfectly happy with converting it to a
+> macro now as that'd alleviate the need for functions in the future.
 
-On Wed, Nov 23, 2022 at 2:25 PM Jon Hunter <jonathanh@nvidia.com> wrote:
->
->
-> On 03/11/2022 15:57, Benjamin Tissoires wrote:
-> > Declare an entry point that can use fmod_ret BPF programs, and
-> > also an API to access and change the incoming data.
-> >
-> > A simpler implementation would consist in just calling
-> > hid_bpf_device_event() for any incoming event and let users deal
-> > with the fact that they will be called for any event of any device.
-> >
-> > The goal of HID-BPF is to partially replace drivers, so this situation
-> > can be problematic because we might have programs which will step on
-> > each other toes.
-> >
-> > For that, we add a new API hid_bpf_attach_prog() that can be called
-> > from a syscall and we manually deal with a jump table in hid-bpf.
-> >
-> > Whenever we add a program to the jump table (in other words, when we
-> > attach a program to a HID device), we keep the number of time we added
-> > this program in the jump table so we can release it whenever there are
-> > no other users.
-> >
-> > HID devices have an RCU protected list of available programs in the
-> > jump table, and those programs are called one after the other thanks
-> > to bpf_tail_call().
-> >
-> > To achieve the detection of users losing their fds on the programs we
-> > attached, we add 2 tracing facilities on bpf_prog_release() (for when
-> > a fd is closed) and bpf_free_inode() (for when a pinned program gets
-> > unpinned).
-> >
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> ...
->
-> > +static int __init hid_bpf_init(void)
-> > +{
-> > +     int err;
-> > +
-> > +     /* Note: if we exit with an error any time here, we would entirely break HID, which
-> > +      * is probably not something we want. So we log an error and return success.
-> > +      *
-> > +      * This is not a big deal: the syscall allowing to attach a BPF program to a HID device
-> > +      * will not be available, so nobody will be able to use the functionality.
-> > +      */
-> > +
-> > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &hid_bpf_kfunc_set);
-> > +     if (err) {
-> > +             pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
-> > +             return 0;
-> > +     }
-> > +
-> > +     err = hid_bpf_preload_skel();
-> > +     if (err) {
-> > +             pr_warn("error while preloading HID BPF dispatcher: %d", err);
-> > +             return 0;
-> > +     }
-> > +
-> > +     /* register syscalls after we are sure we can load our preloaded bpf program */
-> > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &hid_bpf_syscall_kfunc_set);
-> > +     if (err) {
-> > +             pr_warn("error while setting HID BPF syscall kfuncs: %d", err);
-> > +             return 0;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
->
->
-> We have a kernel test that checks for new warning and error messages on
-> boot and with this change I am now seeing the following error message on
-> our Tegra platforms ...
->
->   WARNING KERN hid_bpf: error while preloading HID BPF dispatcher: -13
->
-> I have a quick look at the code, but I can't say I am familiar with
-> this. So I wanted to ask if a way to fix this or avoid this? I see the
-> code returns 0, so one option would be to make this an informational or
-> debug print.
+Can't we do:
 
-I am not in favor of debug in that case, because I suspect it'll hide
-too much when getting a bug report. Informational could do, yes.
-
-However, before that, I'd like to dig a little bit more on why it is
-failing. I thought arm64 now has support of tracing bpf programs, so I
-would not expect this to fail.
-
-Would you mind sending me your .config so I can check in it if you are
-missing anything? I am thinking that maybe I need to also depend on
-BPF_JIT.
-
-Cheers,
-Benjamin
-
->
-> Thanks
-> Jon
->
-> --
-> nvpublic
->
+static inline const struct ssam_device *to_ssam_device(const struct device *d)
+{
+	return container_of(d, const struct ssam_device, dev);
+}
 
