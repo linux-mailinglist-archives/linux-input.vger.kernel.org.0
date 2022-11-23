@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F0EA635E68
-	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 13:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE81635DF9
+	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 13:56:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237750AbiKWMvd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Nov 2022 07:51:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34008 "EHLO
+        id S238206AbiKWMxm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Nov 2022 07:53:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238166AbiKWMu6 (ORCPT
+        with ESMTP id S238303AbiKWMwG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Nov 2022 07:50:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8F037D51A;
-        Wed, 23 Nov 2022 04:44:10 -0800 (PST)
+        Wed, 23 Nov 2022 07:52:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8BF86A7F;
+        Wed, 23 Nov 2022 04:44:37 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A54B961BDC;
-        Wed, 23 Nov 2022 12:44:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55603C433D7;
-        Wed, 23 Nov 2022 12:44:03 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2201F61C63;
+        Wed, 23 Nov 2022 12:44:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 971D5C433C1;
+        Wed, 23 Nov 2022 12:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669207444;
-        bh=r8taBK0juFTsm9rFk+xkwG9CEgBXIN5Wo0LyZmOehcg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=J311Z/fm4i++2JDkele8Id6eq1Cuq5WbE0I0WGIxAzhqwFMt/StSqy11FJFeCq/nO
-         4TBKEMuYPmLcckVQa7P1LFJPNl/qfdy+cCb2blSgjCmeTpPdB+JXDvMcTISFUGk4h6
-         pLUW0z8EBKa8+FVNq5DnT9Sjk5CPVdlRh+u2fWu3w5r7a/o+6eTiwq6CSZwtPHdIgc
-         Ozo+sYpKxwKWMO7zWulvft5ARkcmiGJOfA3u+wVWqe15AGWliWAvnhAFaQEcnxUilb
-         RrwdmRGY/mslHp+qWGQIZuct2jEEV2xjHOlXqtYTQeL543zbL2Z1MaWyXU8di2PcYf
-         c8zBbyoD/5AUQ==
+        s=k20201202; t=1669207470;
+        bh=cYb27BGY8SejQ3AIoV3asHQMvxsSPUbpmRYdgDbOY+I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OPXU3TetrnoLiOOUnrzYoE/KTURIAyQ7U4b5kgTOXo4a3yoLIiAHO8PDQ+vCY3eea
+         hZijpQaU5MSmayv+Ul2QAvZ3fUhTla3BuzQwTRc3YNIvG21Fc8/gR7NGIwPyjrrgLO
+         8lVJFhUEIWGiWS3TdThZW/W6HctKATqlAyTFGhIoBp/0cEkdDmAfLAJogRpRSoV/l8
+         pwBJSXNyqAXStpOhMn9RG3GS5I5Lxjue2GuH9oPL5Sa7p0O1/dBDUHxUA5gEiuf9yZ
+         FuM+J/HrfiKuB94aEOpa7q7pGTZAIjF1g0ReLkshZuRZFjmrXa0FITdurCeDBVwP7T
+         wk609XxpDynCQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+Cc:     Aman Dhoot <amandhoot12@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, mail@mariushoch.de,
-        andriy.shevchenko@linux.intel.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 08/22] Input: soc_button_array - add Acer Switch V 10 to dmi_use_low_level_irq[]
-Date:   Wed, 23 Nov 2022 07:43:23 -0500
-Message-Id: <20221123124339.265912-8-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>,
+        wsa+renesas@sang-engineering.com, lyude@redhat.com,
+        markpearson@lenovo.com, snafu109@gmail.com,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 01/15] Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to RMI mode
+Date:   Wed, 23 Nov 2022 07:44:11 -0500
+Message-Id: <20221123124427.266286-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221123124339.265912-1-sashal@kernel.org>
-References: <20221123124339.265912-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,43 +57,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Aman Dhoot <amandhoot12@gmail.com>
 
-[ Upstream commit e13757f52496444b994a7ac67b6e517a15d89bbc ]
+[ Upstream commit ac5408991ea6b06e29129b4d4861097c4c3e0d59 ]
 
-Like on the Acer Switch 10 SW5-012, the Acer Switch V 10 SW5-017's _LID
-method messes with home- and power-button GPIO IRQ settings, causing an
-IRQ storm.
+The device works fine in native RMI mode, there is no reason to use legacy
+PS/2 mode with it.
 
-Add a quirk entry for the Acer Switch V 10 to the dmi_use_low_level_irq[]
-DMI quirk list, to use low-level IRQs on this model, fixing the IRQ storm.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20221106215320.67109-2-hdegoede@redhat.com
+Signed-off-by: Aman Dhoot <amandhoot12@gmail.com>
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/misc/soc_button_array.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 46ba8218de99..31c02c2019c1 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -77,6 +77,13 @@ static const struct dmi_system_id dmi_use_low_level_irq[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire SW5-012"),
- 		},
- 	},
-+	{
-+		/* Acer Switch V 10 SW5-017, same issue as Acer Switch 10 SW5-012. */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "SW5-017"),
-+		},
-+	},
- 	{
- 		/*
- 		 * Acer One S1003. _LID method messes with power-button GPIO
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 4b81b2d0fe06..05b007d0a89b 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -189,6 +189,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"SYN3221", /* HP 15-ay000 */
+ 	"SYN323d", /* HP Spectre X360 13-w013dx */
+ 	"SYN3257", /* HP Envy 13-ad105ng */
++	"SYN3286", /* HP Laptop 15-da3001TU */
+ 	NULL
+ };
+ 
 -- 
 2.35.1
 
