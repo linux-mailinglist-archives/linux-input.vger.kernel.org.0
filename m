@@ -2,149 +2,180 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B34C1636983
-	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 20:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42DCF636A9B
+	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 21:14:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239604AbiKWTGZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Nov 2022 14:06:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36268 "EHLO
+        id S232734AbiKWUOD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Nov 2022 15:14:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236590AbiKWTGY (ORCPT
+        with ESMTP id S235486AbiKWUOC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Nov 2022 14:06:24 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC46F922D2;
-        Wed, 23 Nov 2022 11:06:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 586E161EBE;
-        Wed, 23 Nov 2022 19:06:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7968C433D6;
-        Wed, 23 Nov 2022 19:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1669230382;
-        bh=imibZHjJL9cpBpAGiGFcUllw5xFRNIsDuHu6Y+fwag4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V2GZdWHPvr+u9NV42kW3apisS1jk4Cp6h19MZ6qfaWIUGIVJV5gV2ha39zpYgwqP7
-         WIt60wd9b8FvKniDUGYZZUiLCvZQFxPf+YdmrcSFnI46/b/EWX33zlFDz2TQxA125f
-         2aOS9p5Y/Iiz28acyMaujccSu8U/Ol2yQw6Symkw=
-Date:   Wed, 23 Nov 2022 20:06:20 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Ming Lei <ming.lei@redhat.com>,
-        Jilin Yuan <yuanjilin@cdjrlc.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
- const *
-Message-ID: <Y35vLAWWfezPvGSm@kroah.com>
-References: <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
- <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
- <Y34zyzdbRUdyOSkA@casper.infradead.org>
- <Y34+V2bCDdqujBDk@kroah.com>
- <Y35JfNJDppRp5bLX@ziepe.ca>
- <Y35R+/eQJYI7VaDS@kroah.com>
- <Y35YlI93UBuTfgYy@ziepe.ca>
- <Y35dMIaNYSE0Cykd@casper.infradead.org>
- <Y35iKfYf3ThdVvaR@kroah.com>
- <Y35lt+0jXrOKynL5@ziepe.ca>
+        Wed, 23 Nov 2022 15:14:02 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF09BCAB;
+        Wed, 23 Nov 2022 12:14:00 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id ha10so8884260ejb.3;
+        Wed, 23 Nov 2022 12:14:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1UyFy5Drye4uBDXMkB6oFaPbJiRKFehIbLKezTRaZmo=;
+        b=YI9BrK5aA2o9y1J1/iG3EG/zL3T4BSwOkjW6ukianRmlbfo5q2KxX4JjrPoB2lGwl9
+         LDJ+tfuSRb5TkXE6GtBss6dczu8GwJW6SL2cGRgt3jCacyMnEkAFGj2MF7pmG/LsPOhD
+         9oQh6Vmr8MEKECg8EkbXP4ruUgzilW04RmyFPp5ZZu6eWQ/DDXG9ocqHvmD8UXfVhoGE
+         FKzf3UPvLfX93hdtFVb7mz50/aAdT1urRA6RVyfMFMbfRSVuhGRt4nldKUIgsbKxE9+G
+         enWGg+o4A1D6GblcUaik6+DZrB83Wos6McYxFqiiyQ9BWVC27qtfZCIGk6R8zQQARuAY
+         CIpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1UyFy5Drye4uBDXMkB6oFaPbJiRKFehIbLKezTRaZmo=;
+        b=bgNlZz0xqKTpCAw8MYaI2G1oMK4b0AFmGJwK6KaiknLnaZ1JNaQumoqzN+ki5LsIso
+         8rpYvH5iseRsZXCxLoQgUpv/+EXfsaa4QQ+3Cgd9kxZLSxVlbkLV8IUtcvO/SBwKUZkM
+         nCyY49qb/Odx3BU5U5txbnWZSg0bLrIIWB65gW/6jXPCmggPUzLWQ+aYTpg4Gy03rDEh
+         yybZ+KkmxXyCPJJlbB5U4j6Ia3cnVVkFTe17C0Ovau59eU/PIzup8qpXo1xUkU/z9AfJ
+         O+31LJipMGy1cnvMxHio9mPpGBNy2kn2PCtNyOcGOvhq8aBXe+FYq7ASAtIK/lthdmmq
+         LvDg==
+X-Gm-Message-State: ANoB5plZHVEmlyM9plw4CAIfbQp0Ul/U1OCvhZFh83lX9YeHcluzEac+
+        xDZideSwyNNwZOk7nQ8QmBBPkRlz8tmKmgARzOk=
+X-Google-Smtp-Source: AA0mqf5F17GGSffbGy3BvG2UOX3tDyNGk+5NF7l+Uw4Yk21/CigF6vqJPyNaUknoNsP+323hIcxGpEu2k2WMxgoPnGA=
+X-Received: by 2002:a17:906:34d0:b0:78d:c16e:dfc9 with SMTP id
+ h16-20020a17090634d000b0078dc16edfc9mr25447270ejb.327.1669234438938; Wed, 23
+ Nov 2022 12:13:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y35lt+0jXrOKynL5@ziepe.ca>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
+ <20221103155756.687789-4-benjamin.tissoires@redhat.com> <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
+ <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com>
+In-Reply-To: <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Wed, 23 Nov 2022 12:13:47 -0800
+Message-ID: <CAADnVQ+kE+EJ9LAfwge9ksC0LR8r+ShQNYi5g-MDajufXq8Yxw@mail.gmail.com>
+Subject: Re: [PATCH hid v12 03/15] HID: initial BPF implementation
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Florent Revest <revest@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        KP Singh <kpsingh@kernel.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 02:25:59PM -0400, Jason Gunthorpe wrote:
-> On Wed, Nov 23, 2022 at 07:10:49PM +0100, Greg Kroah-Hartman wrote:
-> > On Wed, Nov 23, 2022 at 05:49:36PM +0000, Matthew Wilcox wrote:
-> > > On Wed, Nov 23, 2022 at 01:29:56PM -0400, Jason Gunthorpe wrote:
-> > > > #define generic_container_of(in_type, in, out_type, out_member) \
-> > > > 	_Generic(in,                                        \
-> > > >                   const in_type *: ((const out_type *)container_of(in, out_type, out_member)),   \
-> > > >                   in_type *: ((out_type *)container_of(in, out_type, out_member)) \
-> > > > 		  )
-> > > 
-> > > There's a neat trick I found in seqlock.h:
-> > > 
-> > > #define generic_container_of(in_t, in, out_t, m)			\
-> > > 	_Generic(*(in),							\
-> > > 		const in_t: ((const out_t *)container_of(in, out_t, m)), \
-> > > 		in_t: ((out_t *)container_of(in, out_type, m))	\
-> > > 	)
-> > > 
-> > > and now it fits in 80 columns ;-)
-> > 
-> > Nice trick!  Dropping the inline functions is a bit different, let me
-> > see if that still gives a sane error if we pass an incorrect type or
-> > mess with the const * the wrong way.  I'll run some tests tomorrow
-> > afternoon...
-> 
-> The errors in some cases are very verbose, but it is somewhat
-> understandable - the worst is when _Generic fails to match anything,
-> but also at least clang partially expanded container_of and it throws
-> other assertions too.
-> 
-> I also wonder if this could just be rolled into the normal
-> container_of.
+On Wed, Nov 23, 2022 at 6:53 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi Jon,
+>
+> On Wed, Nov 23, 2022 at 2:25 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+> >
+> >
+> > On 03/11/2022 15:57, Benjamin Tissoires wrote:
+> > > Declare an entry point that can use fmod_ret BPF programs, and
+> > > also an API to access and change the incoming data.
+> > >
+> > > A simpler implementation would consist in just calling
+> > > hid_bpf_device_event() for any incoming event and let users deal
+> > > with the fact that they will be called for any event of any device.
+> > >
+> > > The goal of HID-BPF is to partially replace drivers, so this situation
+> > > can be problematic because we might have programs which will step on
+> > > each other toes.
+> > >
+> > > For that, we add a new API hid_bpf_attach_prog() that can be called
+> > > from a syscall and we manually deal with a jump table in hid-bpf.
+> > >
+> > > Whenever we add a program to the jump table (in other words, when we
+> > > attach a program to a HID device), we keep the number of time we added
+> > > this program in the jump table so we can release it whenever there are
+> > > no other users.
+> > >
+> > > HID devices have an RCU protected list of available programs in the
+> > > jump table, and those programs are called one after the other thanks
+> > > to bpf_tail_call().
+> > >
+> > > To achieve the detection of users losing their fds on the programs we
+> > > attached, we add 2 tracing facilities on bpf_prog_release() (for when
+> > > a fd is closed) and bpf_free_inode() (for when a pinned program gets
+> > > unpinned).
+> > >
+> > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > ...
+> >
+> > > +static int __init hid_bpf_init(void)
+> > > +{
+> > > +     int err;
+> > > +
+> > > +     /* Note: if we exit with an error any time here, we would entirely break HID, which
+> > > +      * is probably not something we want. So we log an error and return success.
+> > > +      *
+> > > +      * This is not a big deal: the syscall allowing to attach a BPF program to a HID device
+> > > +      * will not be available, so nobody will be able to use the functionality.
+> > > +      */
+> > > +
+> > > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &hid_bpf_kfunc_set);
+> > > +     if (err) {
+> > > +             pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     err = hid_bpf_preload_skel();
+> > > +     if (err) {
+> > > +             pr_warn("error while preloading HID BPF dispatcher: %d", err);
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     /* register syscalls after we are sure we can load our preloaded bpf program */
+> > > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &hid_bpf_syscall_kfunc_set);
+> > > +     if (err) {
+> > > +             pr_warn("error while setting HID BPF syscall kfuncs: %d", err);
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +}
+> >
+> >
+> > We have a kernel test that checks for new warning and error messages on
+> > boot and with this change I am now seeing the following error message on
+> > our Tegra platforms ...
+> >
+> >   WARNING KERN hid_bpf: error while preloading HID BPF dispatcher: -13
+> >
+> > I have a quick look at the code, but I can't say I am familiar with
+> > this. So I wanted to ask if a way to fix this or avoid this? I see the
+> > code returns 0, so one option would be to make this an informational or
+> > debug print.
+>
+> I am not in favor of debug in that case, because I suspect it'll hide
+> too much when getting a bug report. Informational could do, yes.
+>
+> However, before that, I'd like to dig a little bit more on why it is
+> failing. I thought arm64 now has support of tracing bpf programs, so I
+> would not expect this to fail.
 
-I think we might be able to now, my previous attempts with inline
-functions prevented that.  I'll beat on that tomorrow...
-
-> in_type would have to be derived like:
-> 
->   in_type = typeof((out_type *)NULL)->out_member)
-> 
-> But I don't know if you can use typeof in a generic type matching expression..
-
-Maybe that is what threw me before, I can't remember.  I do know we
-tried a number of different attempts, can't recall the failed ones...
-
-thanks,
-
-greg k-h
+Unfortunately the patches to add support for such tracing bpf progs got stuck.
+Florent/Mark can probably share the latest status.
