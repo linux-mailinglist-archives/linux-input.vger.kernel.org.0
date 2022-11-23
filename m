@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6D94635E13
-	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 13:56:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9DB7635E4F
+	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 13:57:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238199AbiKWMxl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Nov 2022 07:53:41 -0500
+        id S238607AbiKWMza (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Nov 2022 07:55:30 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238545AbiKWMwu (ORCPT
+        with ESMTP id S237811AbiKWMx2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Nov 2022 07:52:50 -0500
+        Wed, 23 Nov 2022 07:53:28 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 205088B849;
-        Wed, 23 Nov 2022 04:45:03 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD6B58EB66;
+        Wed, 23 Nov 2022 04:45:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BAC24B81F3A;
-        Wed, 23 Nov 2022 12:45:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0C6C433D6;
-        Wed, 23 Nov 2022 12:45:00 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 798A6B81F5E;
+        Wed, 23 Nov 2022 12:45:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48FDAC433D6;
+        Wed, 23 Nov 2022 12:45:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669207501;
-        bh=pjV+YzoeVY7nvyOqe8WbShBBG5zI+yI93RPzfb2bX6A=;
+        s=k20201202; t=1669207523;
+        bh=a/8J8LHjuPFLkVSYb1lDYZ6PYLQFXbQAJ9J+/WRbQWM=;
         h=From:To:Cc:Subject:Date:From;
-        b=NoYdPI8YEfHHuewTa/FlWKV+fPYRUDxhV/+wQNorRG/ylYQcDSxiI+G4KxIqrbPg7
-         Bphbm6oDEE7nj+t/uyXl33wntzawuO8G/fWVmtNJOAI99MFek3bFRFPXcg1LIYmJ9g
-         uyTEM6gq3E5kjZdx21PPzs7hHNf7XZeEX4C88GGcEJs18AMxZUyoK448wBhjqeU1hx
-         g5dWqoDuCS/Ui81HwJAXCg/t7GgESEDP6goO6WDp+cX6XW6FAuyRXIp39b98gFbIj6
-         YDulRJvehMuWebBXL3sa4tynRBWCR0qWPdU3Vkh7rPpAg9g9e96IVbizeMq1BH9oTL
-         lk3p8IaZ+Wq/Q==
+        b=jR+/WicN0F+V7XTJDBatJqKWS3bTLc8TRgTFZd5yZ/+/9jiiDvUJbSPfbql4qsjPe
+         T04Z2qKrVyhYA/vANccChkQ0RHJ6UyzYj6KTDhcws3a8NzR0DLonuFwq1MQXOOYcCV
+         BFjB3lQEEGWTNfpwRVvcHab+gH9texu1EotQ314NH2Ux4DVMDle5FxunRwVRK67rz+
+         QHCe/i744W3UUXLgnbcmsP3C6YM2LDBKNd+xelsfSH/nUaoaBd9xEJ9TtsA09ubaC0
+         TdCq4xgKm3Atkc1zrd8sdTO87mgyKM8V78pUa1SRPyGj48Sdhcl0qt50hqnABsfyZD
+         1mvlyQ3m2OEWQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Aman Dhoot <amandhoot12@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, markpearson@lenovo.com,
-        lyude@redhat.com, wsa+renesas@sang-engineering.com,
-        snafu109@gmail.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/11] Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to RMI mode
-Date:   Wed, 23 Nov 2022 07:44:46 -0500
-Message-Id: <20221123124458.266492-1-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, snafu109@gmail.com,
+        markpearson@lenovo.com, lyude@redhat.com,
+        wsa+renesas@sang-engineering.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 01/10] Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to RMI mode
+Date:   Wed, 23 Nov 2022 07:45:09 -0500
+Message-Id: <20221123124520.266643-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 X-stable: review
@@ -71,7 +71,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index c6d393114502..7dc8ca5fd75f 100644
+index 0714d572e49a..53bd449a5e49 100644
 --- a/drivers/input/mouse/synaptics.c
 +++ b/drivers/input/mouse/synaptics.c
 @@ -192,6 +192,7 @@ static const char * const smbus_pnp_ids[] = {
