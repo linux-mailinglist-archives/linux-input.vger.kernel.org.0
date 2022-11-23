@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE81635DF9
-	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 13:56:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8394D635DEA
+	for <lists+linux-input@lfdr.de>; Wed, 23 Nov 2022 13:56:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238206AbiKWMxm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Nov 2022 07:53:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48456 "EHLO
+        id S237154AbiKWMxj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Nov 2022 07:53:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238303AbiKWMwG (ORCPT
+        with ESMTP id S238538AbiKWMwt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Nov 2022 07:52:06 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8BF86A7F;
-        Wed, 23 Nov 2022 04:44:37 -0800 (PST)
+        Wed, 23 Nov 2022 07:52:49 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09FE8C480;
+        Wed, 23 Nov 2022 04:45:01 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2201F61C63;
-        Wed, 23 Nov 2022 12:44:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 971D5C433C1;
-        Wed, 23 Nov 2022 12:44:29 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9A4EAB81F31;
+        Wed, 23 Nov 2022 12:44:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7644C43148;
+        Wed, 23 Nov 2022 12:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669207470;
-        bh=cYb27BGY8SejQ3AIoV3asHQMvxsSPUbpmRYdgDbOY+I=;
-        h=From:To:Cc:Subject:Date:From;
-        b=OPXU3TetrnoLiOOUnrzYoE/KTURIAyQ7U4b5kgTOXo4a3yoLIiAHO8PDQ+vCY3eea
-         hZijpQaU5MSmayv+Ul2QAvZ3fUhTla3BuzQwTRc3YNIvG21Fc8/gR7NGIwPyjrrgLO
-         8lVJFhUEIWGiWS3TdThZW/W6HctKATqlAyTFGhIoBp/0cEkdDmAfLAJogRpRSoV/l8
-         pwBJSXNyqAXStpOhMn9RG3GS5I5Lxjue2GuH9oPL5Sa7p0O1/dBDUHxUA5gEiuf9yZ
-         FuM+J/HrfiKuB94aEOpa7q7pGTZAIjF1g0ReLkshZuRZFjmrXa0FITdurCeDBVwP7T
-         wk609XxpDynCQ==
+        s=k20201202; t=1669207483;
+        bh=gZAGDOC14xpWs4EDGcpvxgwCZxQUQ5u09dHXPzt/E+A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PhYhjqgwM8iuVsPLTGQd61Wu7doviMSz4I1Ldt34KfMWikqWGLBAgGT31Uvzxn76c
+         3RM57PRUm0/JrI8yOTDuN4A+d7WYD/4vufS411c9Tj75I5lPju7NkNPH81ECVlo3Eo
+         SpVnwwFCY0NDyCkzsUcKx2HD2WVEGnK2n4k6Dnrvt3yUF0U0jf0f6SF5Gusnyp4S5d
+         /rBmhJa/Akp+nBP/1WtRK7VpO52SKqCh2TTfXyDV9jWJbJtS45tR9vJ//AP0TYNqr7
+         tHM0EVFyLuPPErDXTpp0VN+B+b+ZGIvSe3W6DQVXSpJEU12r2U8TOmhRIVDm7bQBpG
+         neoSEYcXLEzPQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Aman Dhoot <amandhoot12@gmail.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Bastien Nocera <hadess@hadess.net>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>,
-        wsa+renesas@sang-engineering.com, lyude@redhat.com,
-        markpearson@lenovo.com, snafu109@gmail.com,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/15] Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to RMI mode
-Date:   Wed, 23 Nov 2022 07:44:11 -0500
-Message-Id: <20221123124427.266286-1-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 05/15] Input: goodix - try resetting the controller when no config is set
+Date:   Wed, 23 Nov 2022 07:44:15 -0500
+Message-Id: <20221123124427.266286-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221123124427.266286-1-sashal@kernel.org>
+References: <20221123124427.266286-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,32 +57,66 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Aman Dhoot <amandhoot12@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit ac5408991ea6b06e29129b4d4861097c4c3e0d59 ]
+[ Upstream commit c7e37cc6240767f794678d11704935d49cc81d59 ]
 
-The device works fine in native RMI mode, there is no reason to use legacy
-PS/2 mode with it.
+On ACPI systems (irq_pin_access_method == IRQ_PIN_ACCESS_ACPI_*) the driver
+does not reset the controller at probe time, because sometimes the system
+firmware loads a config and resetting might loose this config.
 
-Signed-off-by: Aman Dhoot <amandhoot12@gmail.com>
+On the Nanote UMPC-01 device OTOH the config is in flash of the controller,
+the controller needs a reset to load this; and the system firmware does not
+reset the controller on a cold boot.
+
+To fix the Nanote UMPC-01 touchscreen not working on a cold boot, try
+resetting the controller and then re-reading the config when encountering
+a config with 0 width/height/max_touch_num value and the controller has
+not already been reset by goodix_ts_probe().
+
+This should be safe to do in general because normally we should never
+encounter a config with 0 width/height/max_touch_num. Doing this in
+general not only avoids the need for a DMI quirk, but also might help
+other systems.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Link: https://lore.kernel.org/r/20221025122930.421377-2-hdegoede@redhat.com
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/mouse/synaptics.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/touchscreen/goodix.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 4b81b2d0fe06..05b007d0a89b 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -189,6 +189,7 @@ static const char * const smbus_pnp_ids[] = {
- 	"SYN3221", /* HP 15-ay000 */
- 	"SYN323d", /* HP Spectre X360 13-w013dx */
- 	"SYN3257", /* HP Envy 13-ad105ng */
-+	"SYN3286", /* HP Laptop 15-da3001TU */
- 	NULL
- };
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index 3c9cdb87770f..9fd898b4f170 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -775,6 +775,7 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ 	input_set_abs_params(ts->input_dev, ABS_MT_WIDTH_MAJOR, 0, 255, 0, 0);
+ 	input_set_abs_params(ts->input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
  
++retry_read_config:
+ 	/* Read configuration and apply touchscreen parameters */
+ 	goodix_read_config(ts);
+ 
+@@ -782,6 +783,16 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ 	touchscreen_parse_properties(ts->input_dev, true, &ts->prop);
+ 
+ 	if (!ts->prop.max_x || !ts->prop.max_y || !ts->max_touch_num) {
++		if (!ts->reset_controller_at_probe &&
++		    ts->irq_pin_access_method != IRQ_PIN_ACCESS_NONE) {
++			dev_info(&ts->client->dev, "Config not set, resetting controller\n");
++			/* Retry after a controller reset */
++			ts->reset_controller_at_probe = true;
++			error = goodix_reset(ts);
++			if (error)
++				return error;
++			goto retry_read_config;
++		}
+ 		dev_err(&ts->client->dev,
+ 			"Invalid config (%d, %d, %d), using defaults\n",
+ 			ts->prop.max_x, ts->prop.max_y, ts->max_touch_num);
 -- 
 2.35.1
 
