@@ -2,62 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41D6A637E91
-	for <lists+linux-input@lfdr.de>; Thu, 24 Nov 2022 18:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B37B637EB8
+	for <lists+linux-input@lfdr.de>; Thu, 24 Nov 2022 18:59:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbiKXRuY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Nov 2022 12:50:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43446 "EHLO
+        id S229558AbiKXR76 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Nov 2022 12:59:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbiKXRuN (ORCPT
+        with ESMTP id S229542AbiKXR75 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Nov 2022 12:50:13 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3492914FEEC;
-        Thu, 24 Nov 2022 09:50:05 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id i12so3525012wrb.0;
-        Thu, 24 Nov 2022 09:50:05 -0800 (PST)
+        Thu, 24 Nov 2022 12:59:57 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 614AD69AA9;
+        Thu, 24 Nov 2022 09:59:56 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id i64-20020a1c3b43000000b003d016c21100so4447885wma.3;
+        Thu, 24 Nov 2022 09:59:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tgu1S+TzWjxezuwZWvW8G0xaAwqhwcK2Xvhbfkdzhnw=;
-        b=TPz63x7AorUW6wbH1Kvue2WrHoN/ALDD3ZtKdx89/Z7iLzg39IR2+BpAGtA88VLr9I
-         WoS/MPiEBruqKqjbKJgXNtsaZakNbylBc5M/dti/nS4M1pKFmVghHVwiNdMdaBm49ag3
-         /EpRytkPwgJTiBYXcKsN5T8Fog7B86duO4OA5y1zWWGyHWzc+TcAX8cl582bTXv78KSc
-         ZaZaKpvt6z1C+qI2DFp9wwfwJrn9IKwB3rlpDLY6I3pPZjJWJstzQwdlDDIwmEK9HnhZ
-         x707pEio0DZENNY7vuQEPzVTK3/0q4HLdjoN1QjsRQJXfTczH9Rb5RNP1Xs3ulrdfM9W
-         eEUg==
+        bh=wFryhuzqqlfrdXm8Yqe5E1QW6Qi9B17446w+hn0n96Q=;
+        b=LEYOK0dHustuLUDHHcTB+Blka+IkUMFLAk5sceqqAXbwR/fHgOJ8ZbpeSPDJnubZLP
+         hc38ufRiCsnYSdPqCYCG76UZyFw+/W90abU5qAwqJfsqgIzf6GtcqhXi2wAH4ry/ifyi
+         FytyuYp0sjEQ/+AbMTgUFvLg5wVhfbTkmSSvVHjA1K/cWisi34dBeEWVrqNqR8aJHBb8
+         zraAPlEBeodHjKjm0C02vqnAawkR4vgY8KxzvDua/Z8iBDOF/1hk9OddxXnHiukVjgbc
+         MM3Bbka37QFYelzXv7wwtdAQcIAXYVEhCP1ij1N2A3lfKhzsadiW/pOhcANoWusGOBW5
+         g0FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tgu1S+TzWjxezuwZWvW8G0xaAwqhwcK2Xvhbfkdzhnw=;
-        b=0IrBnQYtnu/WnneQJroSrAMPf5m2zx24byLkEHr64b9mZxMQCO1OUrgeEJOukxhVae
-         B22qoDWAy7YOMD2xOpQIGThq2KT93TbjslfRBtYv/SFpFBexOPnRK3pLAw23+yrZVBiu
-         kO15rg5i7AjTQ8cx/+a2gBDFgL97pXdSJIszL/QaMZ2ZrsmeBaK8lB4ey/dxWkW3z4Mb
-         q4vO9Nr/aVTFc56uT/3VqOTXIKbj6PoSHXqQTc+DDUYbfCRBiqu8KqyLDmh2n1b7AILT
-         sFjxCVGYZYaU2QMX8yrwHs4/9vWyPEbJ15ejULPKnM6t2jrz6AB58wPym+xUm1pIj9Os
-         OYaw==
-X-Gm-Message-State: ANoB5pmuw6GqLszHZM2xZwOdO6uEsoaSOMAOW0g1r9Kb5sAlnAaEGAW2
-        EdA8GqWLf+whfgFpsEmUAIU=
-X-Google-Smtp-Source: AA0mqf7MKdg1stNETI4jVnUqm17O2uLzWe8qzl3w/DHLd50mP4BguLxu8bxVoaptqX63/TkgHhx1EQ==
-X-Received: by 2002:adf:e7c3:0:b0:241:dfce:9bfc with SMTP id e3-20020adfe7c3000000b00241dfce9bfcmr9613111wrn.697.1669312203442;
-        Thu, 24 Nov 2022 09:50:03 -0800 (PST)
+        bh=wFryhuzqqlfrdXm8Yqe5E1QW6Qi9B17446w+hn0n96Q=;
+        b=2xrH1HXoU/IswUG0H3VNxlxHS2k0xtXO8a2SNlxYtrWTfgUbjOh099i7RI9a+Mo0Sg
+         78OcfUjStcM5di1YS3ODMUvAm/2ZGQOUd9A512RJyMkH0FHYXvbQrfldZbWYZcyDhHPc
+         LKlGkBHp+0Cfoz3xUChbuJ7rxT/FM2/zDgo8kokcBwn3yALewpxDO37DsAblk7wB3N2O
+         oY+xZe3UJ7gT/V6duNMfmoEcmZBoqR/jf2QzpNI0GXb3loL1FCOvu+Vx+DRkBQf63Wfp
+         IheiQfYg1jzjl+jjBDDTIXi36ffU2H6/noyc4d//kLzi2yPc83wbaOYudkzEHSlTX/it
+         IeyQ==
+X-Gm-Message-State: ANoB5pm944RJSuZkgEOAfzZvo30MwMNzyjhR53wdOaMSOkUxGV6Nupfc
+        yMFMzOQXUnEyW86e4SBGeuY=
+X-Google-Smtp-Source: AA0mqf6NKrLGQaoCPEEtEULQxb/N1IQWGU26OzYoZlqaV4vK37zjZaEJU+AUim4ZE5eqTy5m3fH+0w==
+X-Received: by 2002:a05:600c:4fd6:b0:3cf:d952:db2b with SMTP id o22-20020a05600c4fd600b003cfd952db2bmr8469774wmq.19.1669312794852;
+        Thu, 24 Nov 2022 09:59:54 -0800 (PST)
 Received: from localhost.localdomain ([94.73.35.229])
-        by smtp.gmail.com with ESMTPSA id z14-20020a7bc7ce000000b003cf78aafdd7sm2351142wmk.39.2022.11.24.09.50.02
+        by smtp.gmail.com with ESMTPSA id l1-20020a05600c4f0100b003c6f3f6675bsm7094865wmq.26.2022.11.24.09.59.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Nov 2022 09:50:03 -0800 (PST)
+        Thu, 24 Nov 2022 09:59:54 -0800 (PST)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To:     jikos@kernel.org
 Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Ioannis Iliopoulos <jxftw2424@gmail.com>
-Subject: [PATCH] HID: Ignore HP Envy x360 eu0009nv stylus battery
-Date:   Thu, 24 Nov 2022 18:49:32 +0100
-Message-Id: <20221124174932.6105-1-jose.exposito89@gmail.com>
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH RESEND 0/1] HID: input: map battery system charging
+Date:   Thu, 24 Nov 2022 18:59:36 +0100
+Message-Id: <20221124175937.7631-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -72,45 +71,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Battery status is reported for the HP Envy x360 eu0009nv stylus even
-though it does not have battery.
+Hi everyone,
 
-Prevent it from always reporting the battery as low (1%).
+This patch adds support for reporting battery status (charging/discharging)
+for devices with a charging usage in their HID descriptor:
 
-Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/823
-Reported-by: Ioannis Iliopoulos <jxftw2424@gmail.com>
-Tested-by: Ioannis Iliopoulos <jxftw2424@gmail.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
+	0x05, 0x85,         /*      Usage Page (Battery System),    */
+	0x09, 0x44,         /*      Usage Page (Charging),          */
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index dad953f66996..1423441be6dc 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -411,6 +411,7 @@
- #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
- #define I2C_DEVICE_ID_HP_ENVY_X360_15	0x2d05
- #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
-+#define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_15	0x2817
- #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
- #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 859aeb07542e..a4841fee092b 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -377,6 +377,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
+I tested it on Apple hardware (mouse, trackpad and keyboard) as well as
+on UCLogic tablets with battery [1].
+
+On other hardware (HID_DC_BATTERYSTRENGTH or digitizers with battery)
+discharging should be reported for backwards compatibility.
+I did my best to keep the old behaviour by adding KUnit tests; However,
+I don't own any of those devices, so I'd appreciate any help testing
+the patch from someone with the actual hardware.
+
+Best wishes,
+José Expósito
+
+[1] https://lore.kernel.org/linux-input/20221029161240.15548-2-jose.exposito89@gmail.com/
+
+José Expósito (1):
+  HID: input: map battery system charging
+
+ drivers/hid/.kunitconfig     |  1 +
+ drivers/hid/Kconfig          |  1 +
+ drivers/hid/hid-input-test.c | 80 ++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-input.c      | 36 +++++++++++++++-
+ include/linux/hid.h          |  2 +
+ 5 files changed, 118 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/hid/hid-input-test.c
+
 -- 
 2.38.1
 
