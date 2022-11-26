@@ -2,85 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6DD06392CB
-	for <lists+linux-input@lfdr.de>; Sat, 26 Nov 2022 01:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE1796394BD
+	for <lists+linux-input@lfdr.de>; Sat, 26 Nov 2022 10:00:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230134AbiKZAfH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Nov 2022 19:35:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46008 "EHLO
+        id S229536AbiKZJAL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Nov 2022 04:00:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbiKZAfG (ORCPT
+        with ESMTP id S229450AbiKZJAK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Nov 2022 19:35:06 -0500
-X-Greylist: delayed 423 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 25 Nov 2022 16:35:03 PST
-Received: from mail.psssf.go.tz (mail.psssf.go.tz [196.11.255.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 150185B5B5;
-        Fri, 25 Nov 2022 16:35:02 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.psssf.go.tz (Postfix) with ESMTP id DDA6D10040BC;
-        Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-Received: from mail.psssf.go.tz ([127.0.0.1])
-        by localhost (mail.psssf.go.tz [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id KnMoM5RKyMME; Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.psssf.go.tz (Postfix) with ESMTP id 9A60E1004111;
-        Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.psssf.go.tz 9A60E1004111
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=psssf.go.tz;
-        s=psssfdkim; t=1669422375;
-        bh=GgFYceHPfP/4Ju84fndFJB/TSJ1oqCCcVK78ii2DXwQ=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=Cy+/TibqOsRDZ+tAWqJVJv+eocn6iERHIJTFBXHXsPQUdmiNAqwmCLrjm/3NldWy1
-         JSSWGfNF1Pf2eRuK1RlSkoupqD7VX4kI+EXxvIwIgkFJHP4M6LXysskMgBw7US91eR
-         4ZIsbSb52tqcddIW8sOcyqyg/GCXTz4LQrE44u5i3wkDTdLW8MrDxJxYZW52hrHrW0
-         oZxo3i2tlZFbIcj/P4dbwD6UEi+WJvV1LYa10e51JfCN+IFmlyiBMvNoQh+vl6OCS8
-         G+osRr2Kt7pqJ1pPFGUhmlJWcbfn/Q6HLMxQnxRPqXuLfQwfgCwWZqRpfcMDCMbjV7
-         EJoySyF48aSQw==
-X-Virus-Scanned: amavisd-new at mail.psssf.go.tz
-Received: from mail.psssf.go.tz ([127.0.0.1])
-        by localhost (mail.psssf.go.tz [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id J-KYvJzBHMaE; Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-Received: from EC2AMAZ-O7KPIJ2.ec2.internal (ec2-3-238-242-41.compute-1.amazonaws.com [3.238.242.41])
-        by mail.psssf.go.tz (Postfix) with ESMTPSA id 6537B10040BC;
-        Sat, 26 Nov 2022 03:26:10 +0300 (EAT)
-Content-Type: text/plain; charset="iso-8859-1"
+        Sat, 26 Nov 2022 04:00:10 -0500
+X-Greylist: delayed 1290 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 26 Nov 2022 01:00:05 PST
+Received: from sp13.canonet.ne.jp (sp13.canonet.ne.jp [210.134.168.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BBC802098C;
+        Sat, 26 Nov 2022 01:00:05 -0800 (PST)
+Received: from csp13.canonet.ne.jp (unknown [172.21.160.133])
+        by sp13.canonet.ne.jp (Postfix) with ESMTP id 099161E03D3;
+        Sat, 26 Nov 2022 17:17:37 +0900 (JST)
+Received: from echeck13.canonet.ne.jp ([172.21.160.123])
+        by csp3 with ESMTP
+        id yqNVovGVhxJr5yqNVocUA4; Sat, 26 Nov 2022 17:17:37 +0900
+X-CNT-CMCheck-Reason: "undefined", "v=2.4 cv=S49nfKgP c=1 sm=1 tr=0
+ ts=6381cba1 cx=g_jp:t_eml p=JJaDG7uySNsA:10 p=Ik1pXvdftEAPl7FGfynI:22
+ a=c8wCX2VJ6RehaN9m5YqYzw==:117 a=yr9NA9NbXb0B05yJHQEWeQ==:17
+ a=PlGk70OYzacA:10 a=kj9zAlcOel0A:10 a=9xFQ1JgjjksA:10 a=x7bEGLp0ZPQA:10
+ a=JQiPw2jszkcqZPIXoVMA:9 a=CjuIK1q_8ugA:10"
+X-CNT-CMCheck-Score: 100.00
+Received: from echeck13.canonet.ne.jp (localhost [127.0.0.1])
+        by esets.canonet.ne.jp (Postfix) with ESMTP id 9B11A1C0251;
+        Sat, 26 Nov 2022 17:17:37 +0900 (JST)
+X-Virus-Scanner: This message was checked by ESET Mail Security
+        for Linux/BSD. For more information on ESET Mail Security,
+        please, visit our website: http://www.eset.com/.
+Received: from smtp13.canonet.ne.jp (unknown [172.21.160.103])
+        by echeck13.canonet.ne.jp (Postfix) with ESMTP id 6BA4E1C0263;
+        Sat, 26 Nov 2022 17:17:37 +0900 (JST)
+Received: from eikohnet.co.jp (webmail.canonet.ne.jp [210.134.169.250])
+        by smtp13.canonet.ne.jp (Postfix) with ESMTPA id A506115F964;
+        Sat, 26 Nov 2022 17:17:36 +0900 (JST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: 
-To:     Recipients <lusajo.anderson@psssf.go.tz>
-From:   "Rowell" <lusajo.anderson@psssf.go.tz>
-Date:   Fri, 25 Nov 2022 19:27:45 -0500
-Reply-To: rowellhm0192@gmail.com
-Message-Id: <20221126002610.6537B10040BC@mail.psssf.go.tz>
-X-Spam-Status: Yes, score=5.8 required=5.0 tests=BAYES_99,BAYES_999,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
-        *      [196.11.255.52 listed in wl.mailspike.net]
-        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-        *      [score: 0.9993]
-        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 0.9993]
+Message-ID: <20221126081736.00001C7B.0156@eikohnet.co.jp>
+Date:   Sat, 26 Nov 2022 17:17:36 +0900
+From:   "Mrs Zainab Abbas" <toda@eikohnet.co.jp>
+To:     <Inbox@eikohnet.co.jp>
+Reply-To: <mrs.zainababbas75@gmail.com>
+Subject: Hi
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+ORGANIZATION: Mrs Zainab Abbas
+X-MAILER: Active! mail
+X-EsetResult: clean, %VIRUSNAME%
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1669450657;VERSION=7940;MC=3218539519;TRN=0;CRV=0;IPC=210.134.169.250;SP=4;SIPS=1;PI=5;F=0
+X-I-ESET-AS: RN=0;RNP=
+X-ESET-Antispam: OK
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,HK_NAME_MR_MRS,
+        SPF_HELO_NONE,SPF_PASS,UNRESOLVED_TEMPLATE,XPRIO_SHORT_SUBJ
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5018]
         * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  1.3 UNRESOLVED_TEMPLATE Headers contain an unresolved template
         *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
         *      digit
-        *      [rowellhm0192[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *      [mrs.zainababbas75[at]gmail.com]
+        *  1.0 HK_NAME_MR_MRS No description available.
         *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *****
+        *  2.4 XPRIO_SHORT_SUBJ Has X Priority header + short subject
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hope you get my mail
+
+Hello,
+Good day, I am still waiting for your reply to my previous email, hope you see the email?
+
+Regards
+Mrs Zainab Abbas
+
+
