@@ -2,132 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED0E6396DA
-	for <lists+linux-input@lfdr.de>; Sat, 26 Nov 2022 16:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 570A5639A01
+	for <lists+linux-input@lfdr.de>; Sun, 27 Nov 2022 12:04:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbiKZPoJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Nov 2022 10:44:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
+        id S229506AbiK0LEV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Nov 2022 06:04:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiKZPoI (ORCPT
+        with ESMTP id S229498AbiK0LEV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Nov 2022 10:44:08 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E0EF7A;
-        Sat, 26 Nov 2022 07:44:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669477447; x=1701013447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=TYZva1qhZaDDzx7ssD6565IlpCg24ayIFbcaC7tY8Tc=;
-  b=afaV5wieNPUjxu0caJC6JdakAXQOqaG+mJP11E9sBOfdvxW/FCdDmoSq
-   uszGkpjb5nf3De548PRwyr8tA0gjYkdzZijT5eCkTI9MaUL7wuDEK5FNd
-   DHxxEedinEuG50v1wryTy8tuS2GfxLpPE0gycyCpJAkwIvhrwC+gn8YZP
-   vqGEDAZKZz5uKM+4zWczaOB+RJUrHWVl1v9DiPG/G1MsaoSG/5NPhScuG
-   JcNKVf2MOUenZM/iTJdfierEPIRgcSWgA7CVeokYeMdRvPe3t3BpDN/xD
-   57LDEQ+dPBOukc9S9pF7aZDWoHCdzdL+VmK/32YN6VaBwDrOJGpoZ9vaZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="376747252"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="376747252"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 07:44:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="620587303"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="620587303"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 26 Nov 2022 07:43:54 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1oyxLL-000Bco-1n;
-        Sat, 26 Nov 2022 17:43:51 +0200
-Date:   Sat, 26 Nov 2022 17:43:51 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
-        linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Grant Likely <grant.likely@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
-        Angel Iglesias <ang.iglesiasg@gmail.com>,
-        gregkh@linuxfoundation.org, linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Purism Kernel Team <kernel@puri.sm>,
-        patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
-        kernel@pengutronix.de, netdev@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <Y4I0N3KpU/LSJYpd@smile.fi.intel.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221122185818.3740200d@jic23-huawei>
- <20221122201654.5rdaisqho33buibj@pengutronix.de>
+        Sun, 27 Nov 2022 06:04:21 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF0811829;
+        Sun, 27 Nov 2022 03:04:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1669547051; bh=j5x/YM8Ee+FDaAMjtTqVMDmvqJNc8X54OUCWd4hc4cA=;
+        h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:References;
+        b=ds7yHmw5KYLe6cXeDK5wyFgfOEiXvRPItGqPvv4U/HmvxUw5QvUyKAlk95RTLfML6
+         PZC+nr9LXZpz6fddvIROX6HCN5NIQfA9ykypM7joBrD3qAQmxGIENa/mYckzpp2fGD
+         0iPVZsZGlHUpwrxg4Fd/taX/1zBdAV7k70B2TvFrygztMVkZ5mDk5Nddtd1Hx4WbYl
+         t4BvWgUsf/0EaOADsllN2RxseWkEHszLz1blCMG/5Iq4+6+355ZdpvN8pub1ZbNMCE
+         QOMtGJbcOk9DetGjvuXtjtySszrbR7EWjnuSzHyXXGJ6HGKxitkrd/eXRnasqnuocK
+         TLXYjsSdd0Fjg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from 9300 ([93.221.18.29]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MJVDW-1pIzGE3OSu-00JpuS; Sun, 27
+ Nov 2022 12:04:10 +0100
+Date:   Sun, 27 Nov 2022 12:04:09 +0100 (CET)
+From:   Andreas Bergmeier <abergmeier@gmx.net>
+To:     Andreas Bergmeier <abergmeier@gmx.net>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jiri Kosina <jikos@kernel.org>, linux-leds@vger.kernel.org,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Subject: Re: Litra Glow on Linux
+In-Reply-To: <e6cb795-e8c4-4570-7a7b-3bbd133b98cb@9300>
+Message-ID: <5ea1b921-d4b3-403c-64cd-58939571c638@9300>
+References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com> <CAO-hwJJ7cF-4kd8Mi6bb5n-k5LuMrWbpdMqFs82y7iQOscr-7g@mail.gmail.com> <CABfF9mNfU=swmpVXfVr7pYWs72jrd-HDY8+_NXyBDAKa4CWG5Q@mail.gmail.com>
+ <CAO-hwJ+i3zd=CyU0T+Nb1vGfZfenMBH16ern_ncTTKEpyGAuBA@mail.gmail.com> <CABfF9mNrMx2BzU5tbBeapY15M4Ls_5xYBGfVB=Up5TJu=eWCcg@mail.gmail.com> <CAO-hwJJGAWkhZgGeLBruqCoskY5PBP-STs4kh-P6fBvpuSgpUw@mail.gmail.com> <CABfF9mO3SQZvkQGOC09H5s7EEd2UGhpE=GYB46g_zF3aEOVn=Q@mail.gmail.com>
+ <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com> <CAO-hwJ+PysPKFG=a9+L8vwhiw4uY3F3DZmg4FwgPWGZ7LPt4EA@mail.gmail.com> <2a20d7d1-55df-4861-5cf1-dee19536ed5@9300> <CAO-hwJJDE-8TL2MbTX2xX3RfKEeh8H5h24UkcZJJhH5ptdpRaQ@mail.gmail.com>
+ <e6cb795-e8c4-4570-7a7b-3bbd133b98cb@9300>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221122201654.5rdaisqho33buibj@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Provags-ID: V03:K1:rVo0zLsnEub5jUisHHE/8DViIpvORT2yKsvPAPj9cpu4Rt2qWzi
+ 0h3zwJJ3Z9y0BM0BZN0/Ji3Dz2d1d656QUKSjIOOx+ayKqNai3xua1TqqH6OIHxK4yZTB6w
+ eDlnT8TeTWdgWbxlXqmUzcMYsp8tXjb+Q7GwCXw0Hya+XRQdfE0aXELditY+k/ceB+UCfD8
+ FkSQMHaGRPF5SnW8UboHA==
+UI-OutboundReport: notjunk:1;M01:P0:tcliyAm9XJk=;vtYs//Q6vNXaqYFGze1HXLlM+eN
+ e8oVYTjtC4J9nA7AfwvWeXGac9ktzw+yyG9ABkilVsuVgiX65xZrJyD9ssBQdux8MWIZtGSwl
+ sosigBqQQwTuSyJenklGIK+XGaXDdBat7UzkiJlD2J0UvR+CCVZ8tFs/2SM+k6DtG7pJmVJJD
+ kYmZ0MxV/QBxFITMNC/uhizXYWRwW/QdJyFdJ/ZyAqbQJbams8bxaxpsmzzgtOw/qcheMXxs2
+ 8/KaBhM9ol8SgkA8gk2E44saIWfszE7O1tebI7cAysiRLw6qQKrfGSScGRBqAMgd9/+nvO+pW
+ Lsn+EBsbelGGgzk2KEKDT+W2TkQuixt/YA2kDwJTQYEfWdo4RYkx8R4ZzAxJvAJOnAcpbmEpW
+ DyCqgRQlp+U82phYuCZLipy8+Xe6cinc/zfT8PeNZqBstTqZYMdnHrhAPWBciuuQnyXad6WHT
+ qwuOxvSGGoT/+dFt4Mrh3Lqh3W6XRy/syyrB65ROqkHYABe0dNinI+J1zcaLIYlCEVQKBTR8A
+ 8ODuw3V0H/13osPGIU6woDotVOlqkXVsAN7zU+abIHXHuyfoQuO9LKtngIHzk9L4D0NmdHmrW
+ T+aViIWFMh7G/2QbPV7e9ZgNOXhJKxlkZFZQho1er2+8Lf1LQDdPD9QOlZ+xUJOnYQLbSOf7r
+ odjVdvlTRxTy7Jv9kxzXSrECsJtW+w6fqeVRcFlpzlH7TEuyJOUeVMxaWCrxNEiEARRdxyaKO
+ TIAnDvNL7qEADkrYxbagmgdLL542SfarPPif6dYEGbaUEwWwziI2iT510WVZvIC0DL7AOaSqJ
+ TXo5YoISaZWOzkqFkC2dvnknoS2YipYA42TNfUg4wGi0FzM0QE/XvJ+SMTaZTjZzY44Y9+3Oe
+ fwBYDLH7A4TgXfx8ZOM6QCunaziaBPA/5ouQVdpraQMegt7U86SsgoCIhNz0BGjQy70mXTwvK
+ YjYFRQ==
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        MALFORMED_FREEMAIL,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 22, 2022 at 09:16:54PM +0100, Uwe Kleine-König wrote:
-> On Tue, Nov 22, 2022 at 06:58:18PM +0000, Jonathan Cameron wrote:
 
-> > Queued all of the below:
-> > with one tweaked as per your suggestion and the highlighted one dropped on basis
-> > I was already carrying the equivalent - as you pointed out.
-> > 
-> > I was already carrying the required dependency.
-> > 
-> > Includes the IIO ones in staging.
-> > 
+On Sat, 19 Nov 2022, Andreas Bergmeier wrote:
 
-> > p.s. I perhaps foolishly did this in a highly manual way so as to
-> > also pick up Andy's RB.  So might have dropped one...
-> 
-> You could have done:
-> 
-> 	H=$(git rev-parse @)
-> 	b4 am -P 49-190 20221118224540.619276-1-uwe@kleine-koenig.org
-> 	git am ...
-> 	git filter-branch -f --msg-filter "grep -v 'Signed-off-by: Jonathan'; echo 'Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>'; echo 'Signed-off-by: Jonathan Cameron <jic23@kernel.org>'" $H..
-> 
-> (untested, but you get the idea).
+> So after some tinkering I have code now that succeeds in retrieving stat=
+e
+> via sending reports once. After that all following sends time out.
+> I am at a loss what I am doing wrong, tbh. RFC below.
+I noticed that by default hidraw, hiddev and hid-input are loaded for
+Glow. Probably because it exposes a Consumer Control page in Reports.
+Is it possible that hid-input interferes with hid-logitech-hidpp?
+I was trying to disable hid-input using
+- HIDPP_QUIRK_NO_HIDINPUT
+- hid_ignore_list
 
-That's, for example (just last from the history as is), how I usually do it
-(tested):
-
- git filter-branch --msg-filter 'sed -e "/Signed-off-by: Andy Shevchenko/ a Tested-by: Daniel Scally <dan.scally@ideasonboard.com>"' -f HEAD~4..HEAD
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+For the former it still seems to load hid-input.
+For the latter it doesn't seem to load hid-logitech-hidpp.
+I couldn't yet untangle all the hid driver indirections and loading.
