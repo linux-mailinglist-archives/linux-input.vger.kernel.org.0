@@ -2,119 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F14E6639AED
-	for <lists+linux-input@lfdr.de>; Sun, 27 Nov 2022 14:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C7BF639B5C
+	for <lists+linux-input@lfdr.de>; Sun, 27 Nov 2022 15:28:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbiK0NNS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Nov 2022 08:13:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49046 "EHLO
+        id S229581AbiK0O24 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Nov 2022 09:28:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbiK0NNS (ORCPT
+        with ESMTP id S229555AbiK0O24 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Nov 2022 08:13:18 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26D17C0
-        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 05:13:16 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id d6so13558563lfs.10
-        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 05:13:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ymMQqhpUEMJO+b52K8VIsBNlBPxjfHjs+nxko8CCAkA=;
-        b=JSJGXxblDGy1qS3qoTAjnackIDa+wZQBCsH0kr+qVnprwKK4TvbG4yjfrTjRMcLql1
-         1/e+fiJF3Z/UVAeIUWKRj6FaNjBu9wi9TrKIRBtQxz/IZqBeGexTtdjndE7H5zu6iqO9
-         7lXjgqaJXGArz2D0S4kx3cW8vYTaGZ0lDqJv7aNL9FkECn4XUPIicchnBYJX4sM0vE15
-         ATZw2hWO7+IGJTSvZaatmyjY/pFguaRyguEdPBt/uSX106j6vbVhNh6EE12222/w6SBM
-         24tGqUVwQIkAJDrip3cPHR6Y5HcWJxtWyj4tRTOnxuY9YpevZ2nvnY8vuljqbbwEH9Di
-         Z7ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ymMQqhpUEMJO+b52K8VIsBNlBPxjfHjs+nxko8CCAkA=;
-        b=tmgD4ibr92dTAs/E1cyqyWALjGBJWrDzhYxuZxlgBz3+slpv8rc2Qvg5rJpPp/QqL2
-         1ZJ/10eNpz5TSmnmnBJgNSkRHrWiyYF5Z0kkso3oN1lKa7H+kPBf5qGqooDOAXRk6GNr
-         pJPLshqVdI2V+K8RbWDDzASSB8ib87U5khsOTsODSCmT9qwBICib9khXhfAKnAkkCJ3u
-         ExxPt/o7hYLaqzzdvdvAPXpio1NuLX8ifqQuwKbW7Yb16nOgP3dk9OTWJplTSzeyZ2mi
-         mTs07e6+NhHnfS29nbPd4QCJAc9onj4OthHP8M5oSrYJimjR+tu3yw2laUT0YS1v2Jgb
-         wNkg==
-X-Gm-Message-State: ANoB5pm/Ioku6BdCViYk68/DK5xxuT7FDW2c3xsc7W6CExhZvEA8hfaI
-        IZy6xVyDo2/eV277wW9ndEWguQ==
-X-Google-Smtp-Source: AA0mqf7qTvx4Q0DD8LmdqDNmzQypbQWAj1Cy/SzOTvxmHHY8KN/okl4/hczpu04jclcNSh1fjuMl9g==
-X-Received: by 2002:ac2:58d7:0:b0:4b4:fbce:606b with SMTP id u23-20020ac258d7000000b004b4fbce606bmr4336087lfo.27.1669554794552;
-        Sun, 27 Nov 2022 05:13:14 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id 6-20020ac25f46000000b004ac393ecc32sm1297941lfz.304.2022.11.27.05.13.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Nov 2022 05:13:13 -0800 (PST)
-Message-ID: <f893330f-8fcd-044b-5bc9-f2c80813bb40@linaro.org>
-Date:   Sun, 27 Nov 2022 14:13:12 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v6 06/10] dt-bindings: mfd: mediatek: Add bindings for
- MT6357 PMIC
-Content-Language: en-US
-To:     Alexandre Mergnat <amergnat@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Mark Brown <broonie@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Flora Fu <flora.fu@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        Sun, 27 Nov 2022 09:28:56 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A15DFEA
+        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 06:28:55 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6BB7AB80937
+        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 14:28:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14E06C433D6;
+        Sun, 27 Nov 2022 14:28:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669559332;
+        bh=SUfkTCjmddHQS1Ae8/38ICWYV5AzELyNJzsWbGO+hQM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=h03ImGjy57YVY5HfkOSMe/HcCtpe98w+E5ucBGHAmgk4RzQUZX8rfA5hnLjPs0EXY
+         /1thdYGqhsxR4+JonqlpntDiuout+Sy+NL9RAALQC//qcsjPHm6t404bmdLYG11aOJ
+         PrG46Poe5EtpUheyN5Wju1sAtVJciQxgKvEIn1nA2XTmEgQjD49kDnpLqdHN+tSSdk
+         xYMvW6ESEQQp5tCMOq25yFwzC1K9vd5Wlc5BhHwEqCgbCD8JLhk3M08Uve2VjIO21A
+         jhKPSWnI+AS88EBNU4T2cwW6f6PRFL3lfHCem4P/yG2NA4GDm9TbdTknnTJlnJTFJl
+         AVqTf2+7UaiQw==
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Rob Herring <robh@kernel.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org
-References: <20221005-mt6357-support-v6-0-4f589756befa@baylibre.com>
- <20221005-mt6357-support-v6-6-4f589756befa@baylibre.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221005-mt6357-support-v6-6-4f589756befa@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Tomohiro Yoshidomi <sylph23k@gmail.com>,
+        Javier Martinez Canillas <javier@dowhile0.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Lauri Kasanen <cand@gmx.com>,
+        Daniel Hung-yu Wu <hywu@google.com>
+Subject: [PATCH 0/9] Input: Fix insufficent DMA alignment.
+Date:   Sun, 27 Nov 2022 14:41:07 +0000
+Message-Id: <20221127144116.1418083-1-jic23@kernel.org>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 25/11/2022 16:10, Alexandre Mergnat wrote:
-> Currently, almost all MT63XX PMIC are documented mfd/mt6397.txt.
-> Unfortunately, the PMICs haven't always similar HW sub-features.
-> To have a better human readable schema, I chose to make one PMIC schema
-> to match the exact HW capabilities instead of convert mt6397.txt to
-> mediatek,mt63xx.yaml and put a bunch of properties behind
-> "if contain ... then ..."
-> 
-> - add interrupt property
-> - change property refs to match with new yaml documentation
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
+This problem was discovered in IIO as a side effect of the discussions about
+relaxing kmalloc alignment on arm64 and resulted in a series of large
+patch sets.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+https://lore.kernel.org/linux-iio/20220508175712.647246-1-jic23@kernel.org/
 
-Best regards,
-Krzysztof
+Unsurprisingly there are cases of it in other subsystems.
+
+The short version of this is that there are a few known arm64 chips where
+___cacheline_aligned enforces 64 byte alignment which is what we typically
+want for performance optimization as the size of the L1 cache lines.
+However, further out in the cache hierarchy we have caches with 128 byte
+lines.  Those are the ones that matter for DMA safety.
+So we need the larger alignment guarantees of ARCH_KMALLOC_MINALIGN which
+in this case is 128 bytes.
+
+There is one other use of ____cacheline_aligned in input:
+joystick/iforce/iforce-usb.c
+
+Whilst suspicious I'm not sure enough of the requirements of USB to
+know if they are there for DMA safety or some other constraint.
+
+Jonathan
+
+Cc: Daniel Mack <daniel@zonque.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>
+Cc: Tomohiro Yoshidomi <sylph23k@gmail.com>
+Cc: Javier Martinez Canillas <javier@dowhile0.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Lauri Kasanen <cand@gmx.com>
+Cc: Daniel Hung-yu Wu <hywu@google.com>
+
+Jonathan Cameron (9):
+  Input: psxpad - Fix padding for DMA safe buffers.
+  Input: ad714x - Fix padding for DMA safe buffers.
+  Input: ad7887 - Fix padding for DMA safe buffers.
+  Input: ads7846 - Fix padding for DMA safe buffers.
+  Input: cyttsp - Fix padding for DMA safe buffers.
+  Input: surface3 - Fix padding for DMA safe buffers.
+  Input: n64joy - Fix DMA buffer alignment.
+  Input: atmel_captouch - Avoid suspect DMA buffer alignment.
+  Input: elants - Fix suspect DMA buffer alignment
+
+ drivers/input/joystick/n64joy.c          | 6 +++---
+ drivers/input/joystick/psxpad-spi.c      | 4 ++--
+ drivers/input/misc/ad714x.h              | 2 +-
+ drivers/input/misc/atmel_captouch.c      | 2 +-
+ drivers/input/touchscreen/ad7877.c       | 4 ++--
+ drivers/input/touchscreen/ads7846.c      | 4 ++--
+ drivers/input/touchscreen/cyttsp_core.h  | 2 +-
+ drivers/input/touchscreen/elants_i2c.c   | 2 +-
+ drivers/input/touchscreen/surface3_spi.c | 2 +-
+ 9 files changed, 14 insertions(+), 14 deletions(-)
+
+-- 
+2.38.1
 
