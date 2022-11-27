@@ -2,111 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 583B4639BA5
-	for <lists+linux-input@lfdr.de>; Sun, 27 Nov 2022 17:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51EC7639BC6
+	for <lists+linux-input@lfdr.de>; Sun, 27 Nov 2022 17:35:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbiK0QOM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Nov 2022 11:14:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60100 "EHLO
+        id S229469AbiK0Qf1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Nov 2022 11:35:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiK0QOM (ORCPT
+        with ESMTP id S229436AbiK0Qf0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Nov 2022 11:14:12 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A89CCBCB0
-        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 08:14:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D24460DD7
-        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 16:14:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 956E9C433D6;
-        Sun, 27 Nov 2022 16:14:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669565650;
-        bh=Yfnru+ngYd5IAPFV/iB+8H0i+Oxh9nndiG25JkVjV1Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=EoiIWkZGwi2E+1a9uqmlCk81hHabDBkzTegMHKjgxXERJ0I58ghQHD2/U303EU33V
-         FJ08l6+WfX6O2m8nhYldrck+TC+FXo1tiFCGRIfoF0VEOszTN/QRQoIBfxRA+kUjkC
-         zzVXgNO9Qv0nPr23u9ypBKjeEzNr4NGBi9LwrhojkMKQeCyoMnI3Nk/t3U5TskVMUr
-         +ZpmB0WCA33NhWUqJSad3VRV7JlIuBF/AR8e1KdyglLLG2mHe6HwmItLiexRUokbWj
-         0HS6YPlJ2Ufcx7iEo9M51NK6f4ZDKujJJm3u/T99At5PDnQSUaCbrIZ7ayVmVlH7lu
-         LfztLXbhnYVig==
-Date:   Sun, 27 Nov 2022 16:26:48 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH 6/9] Input: surface3 - Fix padding for DMA safe buffers.
-Message-ID: <20221127162648.258144cc@jic23-huawei>
-In-Reply-To: <20221127144116.1418083-7-jic23@kernel.org>
-References: <20221127144116.1418083-1-jic23@kernel.org>
-        <20221127144116.1418083-7-jic23@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        Sun, 27 Nov 2022 11:35:26 -0500
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9ABB60FF
+        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 08:35:25 -0800 (PST)
+Received: by mail-ed1-x544.google.com with SMTP id z92so2075754ede.1
+        for <linux-input@vger.kernel.org>; Sun, 27 Nov 2022 08:35:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r+fJQhFzRnXsk67H2zRbV9y9HsjlNSmn0w/VxDtZpo8=;
+        b=dTqgLPehIV3rUgdwnGWK1qqTi8P5VfT4UiUR2SASu2h6vm3Cwg4C2wHvJbfNRKuPJE
+         Swcu0tSLAzO7KSXBNU8nY32tFfpDOEbNcVNs2jxA2oFcj+yoc+bfBnl9M3bQElO0pOjM
+         T0v96ORYDpwvJqi0sdOJ6AgOEO17zzC/SbgfRSPedu11qIBMouMKSXly/QHebSvAZlps
+         CDljLf28kFZT3QzyJHUwmc+7KhofsLGHuoQeIEddUoDGQ5VLfWb3/zuBClD54305nW3j
+         XUfSYkol0sD/QzC+oO4h+XX6G0YO3MsqjRRgWtl9uB26kE6cKkPZPo4P4qpYzh9rUHtR
+         divQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r+fJQhFzRnXsk67H2zRbV9y9HsjlNSmn0w/VxDtZpo8=;
+        b=4eknqc+7yUNFJ7nqcpBsKJ3M6lhsahgvymqE/UZyPEZh3TwIJoUJjBWuqUpHsiUVEC
+         3OlWLcM9dLMkYwvbFjCjQX2iXillec2PVcLbZ4V6hzmkUjhPnAPIBSKXPDELAIYhTErc
+         T9Bc4T3MP4BSWPyQyDzDUwk0HdR7xYOeFdcLoZBxQ6YdcKD/nyBVIc2Y89qwZg9NfOQJ
+         byd29eCWpVeeyKJV5TYlspiHje2S3xYHcizY2bZ/z1EryTGOMHpzu+sGF9TrJd/Xfhdc
+         3P60ejv7fZ0XvJFblhdVvsbWhC7SEZVhcJwemO0FGnl3A8QOo/wrC3FCbxBaW6KupgDh
+         ZaXw==
+X-Gm-Message-State: ANoB5plGjggDxhsQa69mRM4B3k/qVqjyuGFZuG26G54KCNYhUKFUMcPr
+        sKa9vRk+bQ0XFra2m4M4/Vd6JEPXVPBHDqDU6C4=
+X-Google-Smtp-Source: AA0mqf4JBO3H30PIwllLkJoFyjoogvLQwpkgIFRhMNLL2y2ysrg+qnPhTtPYDHjYt5vf8A9otjDu+TUjPyjABsgBRFM=
+X-Received: by 2002:a05:6402:25c6:b0:461:b825:d7cb with SMTP id
+ x6-20020a05640225c600b00461b825d7cbmr21010239edb.167.1669566924302; Sun, 27
+ Nov 2022 08:35:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6f02:905:b0:24:877f:7460 with HTTP; Sun, 27 Nov 2022
+ 08:35:22 -0800 (PST)
+Reply-To: thajxoa@gmail.com
+From:   Thaj Xoa <rw36223@gmail.com>
+Date:   Sun, 27 Nov 2022 16:35:22 +0000
+Message-ID: <CABnv2bsVX2K_mBqQLGNKGMm0pQWkFiJ-2wskydno7S2atKvBjQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 27 Nov 2022 14:41:13 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+-- 
+Dear Friend,
 
-> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> On some architectures (e.g. arm64), ____cachline_aligned only aligns
-> to the cacheline size of the L1 cache size. L1_CACHE_BYTES in
-> arch64/include/asm/cache.h  Unfortunately DMA safety on these
-> architectures requires the buffer no share a last level cache cacheline
-> given by ARCH_DMA_MINALIGN which has a greater granularity.
-> ARCH_DMA_MINALIGN is not defined for all architectures, but when it is
-> defined it is used to set the size of ARCH_KMALLOC_MINALIGN
-> to allow DMA safe buffer allocations.
-> 
-> As such the correct alignment requirement is
-> __aligned(ARCH_KMALLOC_MINALIGN).
-> This has recently been fixed in other subsystems such as IIO.
-> 
-> Presumably this part is little used on boards where this could actually
-> matter so this is mostly about removing code that might be coppied
-> elsewhere.
-> 
-> Fixes: 4feacbc24eea ("Input: add new driver for the Surface 3")
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+I have an important message for you.
 
-Sigh. Sunday afternoon incompetence on my part...
+Sincerely,
 
-Dmitry, if everything else is fine with this series I can resend this
-or if you are feeling generous feel free to fix it up whilst applying ;)
-
-Jonathan
-
-> ---
->  drivers/input/touchscreen/surface3_spi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/surface3_spi.c b/drivers/input/touchscreen/surface3_spi.c
-> index 1da23e5585a0..6c884fc2b332 100644
-> --- a/drivers/input/touchscreen/surface3_spi.c
-> +++ b/drivers/input/touchscreen/surface3_spi.c
-> @@ -32,7 +32,7 @@ struct surface3_ts_data {
->  	struct input_dev *pen_input_dev;
->  	int pen_tool;
->  
-> -	u8 rd_buf[SURFACE3_PACKET_SIZE]		____cacheline_aligned;
-> +	u8 rd_buf[SURFACE3_PACKET_SIZE] __aligned(ARCH_KMALLOC_MINALIGN;
-
-Missing bracket.
-
->  };
->  
->  struct surface3_ts_data_finger {
-
+Mr thaj xoa
