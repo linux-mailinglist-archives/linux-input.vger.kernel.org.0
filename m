@@ -2,77 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53B9463AA0C
-	for <lists+linux-input@lfdr.de>; Mon, 28 Nov 2022 14:51:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DDC863AA5D
+	for <lists+linux-input@lfdr.de>; Mon, 28 Nov 2022 15:03:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232141AbiK1NvP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Nov 2022 08:51:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47392 "EHLO
+        id S232280AbiK1ODy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Nov 2022 09:03:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232133AbiK1NvO (ORCPT
+        with ESMTP id S232267AbiK1ODw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Nov 2022 08:51:14 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D9261EC40
-        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 05:51:12 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id o7-20020a05600c510700b003cffc0b3374so8410371wms.0
-        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 05:51:12 -0800 (PST)
+        Mon, 28 Nov 2022 09:03:52 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1826EBF72
+        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 06:03:50 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id m19so14316196edj.8
+        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 06:03:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A4qIw9CSlOm6ggm9ciNJN1TeZJOcMp5IoO7x7apMWbY=;
-        b=PUheZR1NpZnwy4KRhNf7nnLwIkGHB+FvPg3d4NllsEb6kJdBq7yONBrs3hMeyWlnn1
-         zq7ZDz79pngmWJGbOOpg7tjdv722XGMIA04Jsft2i512lr13vEq85Gy8pUH0PKhRieln
-         XQS+nVeEIzJPmfy5m7XTKjGQ6VRITUaWFNyBu5tcAumfrmGV5H5nWfrykIKNxDbwpvTB
-         8hgO296977TfbN+W61Ok9Fi/tYwiQfR/1wUcsq3pyTu5Pn6o+ohkdoHtkmUZPSdSZ+qq
-         Sv+9WnU8J0Vs/sWd7h/Pqtpe60IPEmIyYYHgzk8Y67wIP/PY01VQyNFEVT2hCPxE01im
-         /Qug==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zygFH3C0HCyE/GmLBlI4erRi5TTs6QvY4G7d/Jx5gtk=;
+        b=Dn0wZMFZCBiSUOy3MR8qgPiAfaoxuvZkJTAsFiSrMLVeGFxV9Repk5BiwfPTy3N8XT
+         W9M+0YX8+efYC4xDqmVtNcgexKzjUIL6BPzynngSPCSEId9T+l1GwNc4F2cbOrOIHKjJ
+         wzImkn5Oxu6LkxnQ8nO061HWlzpn5Y3kGlnLE0Bj7byBj+tIEEc3W6bHUYhgOH0vEj14
+         1DyL1CF/DKXYYANdii68cyHjJ8LAnivhF2G3d+oujcYFfqamwUwxaunxpR1HyZp/7zyX
+         TYQB4U+JnOMsrcTOEDej79HpPMXuU6Yhd9uDObPA7efbLEwFfaRDxnbdjbuTI6FQoKOk
+         Qe6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A4qIw9CSlOm6ggm9ciNJN1TeZJOcMp5IoO7x7apMWbY=;
-        b=dI8OSmpsZHktzoUszhJZF5l+3xlpagL1duCtS1SiolhTdjzEpItho/eewwDLC74IJ1
-         GlxULyII8pyCmLGxHynQ7tffLdkNo8IhSsS3MiL+PvMu0/aCm1i1cDxHRyvn3uR/WJWY
-         wIaO+b/yQ0Rq+Bm/ms1be0ZxRccQyYIwQMuhGFUpVS3LV7GMEnwnH6hbNWGQgNeJqbu+
-         5WuhsHXICK/gvn3OVnu3z8jHs/7JlIWQgqU5QOZ2uemwbEl1m7m2nKlqKJXnuoGTbEva
-         NnMDa8EljVM0vyI13Gkuq7fZ2qdvcqH+/d2lqsvv6oDacN6dhvvSpKkVIyJ4z45owEKC
-         G8TA==
-X-Gm-Message-State: ANoB5pkoeLAbyN/RbwRSuT5O1W8AYUUlBKwrP5JVZziavY9fTFFQQowV
-        NbbuJyuJf7dSWAUYfcP9GOvNuA==
-X-Google-Smtp-Source: AA0mqf6nkBPng31LSUbczvahgKFmzQ1kx1CywnM+9hcT4gIL7Y/Lh2Y4uDKbcBxCZeQ9OdymBWy/Ug==
-X-Received: by 2002:a1c:f606:0:b0:3b4:bf6d:f9ba with SMTP id w6-20020a1cf606000000b003b4bf6df9bamr37179147wmc.133.1669643471076;
-        Mon, 28 Nov 2022 05:51:11 -0800 (PST)
-Received: from localhost ([2a01:cb19:85e6:1900:2bf7:7388:731d:c4e1])
-        by smtp.gmail.com with ESMTPSA id g6-20020a5d5406000000b00241d2df4960sm10884840wrv.17.2022.11.28.05.51.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 05:51:10 -0800 (PST)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Corey Minyard <cminyard@mvista.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Nikita Travkin <nikita@trvn.ru>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH] Input: stmfts - retry commands after timeout
-In-Reply-To: <20221117142753.2477-1-linmengbo0689@protonmail.com>
-References: <20221117142753.2477-1-linmengbo0689@protonmail.com>
-Date:   Mon, 28 Nov 2022 14:51:09 +0100
-Message-ID: <87wn7frxv6.fsf@baylibre.com>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zygFH3C0HCyE/GmLBlI4erRi5TTs6QvY4G7d/Jx5gtk=;
+        b=vWCB1GGJTH9dlOQv3jHUTuqineiyVRNq8uac3AVNgbqoi7ORnAwB3bRwwlU0OSuq3H
+         H3me8efcV3iAv35uCiXnJy1t9INJJKppTF3gXR2MS1kfIWwWMDRw1Sr9HHXrnNS+lIHU
+         UGdEjNbSUzS2OWFrw2rfk8kBXzjA3Gq2BTC39+zhIpBt2OAGyUev/uvdomYxyy3tLgfo
+         1BLgLCPVBU4OPxjdP+ToFBQ39yhnqM4belcniVYfQwetCMFE0rDqxwV0IWGmSAn1UjLT
+         AO3XCm+DoPVqeoFiKGcmMe1SMuVOulN8ajfj+HLIWvy1xdqk0OPNtM6FRgCf8lVcwJIV
+         xGHg==
+X-Gm-Message-State: ANoB5pmyUx1R0Gy11Ef6KyeF/ObiNA5qP0aCu54bEoyv2G7l2Mv0bqGo
+        396Rnnz8bj4YiHmB6MqYCpJ2XRqsex1jvHndqejkdg==
+X-Google-Smtp-Source: AA0mqf4G4fhVU8w+DttZ3I3UxPAgiaBDQuB51NYNfRQ3JXQ1lw3xInj3Qa9i3uU5+uGApZakiSG/gtoAil6IEl2XlDc=
+X-Received: by 2002:aa7:dbc3:0:b0:461:6b61:81ae with SMTP id
+ v3-20020aa7dbc3000000b004616b6181aemr47156519edt.62.1669644222784; Mon, 28
+ Nov 2022 06:03:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20221005-mt6357-support-v6-0-4f589756befa@baylibre.com>
+ <20221005-mt6357-support-v6-5-4f589756befa@baylibre.com> <a9a47e08-1a08-abe5-1dbe-1537d3414af6@linaro.org>
+ <c94d15bf-c5ed-b400-abdf-8cca4102b078@linaro.org>
+In-Reply-To: <c94d15bf-c5ed-b400-abdf-8cca4102b078@linaro.org>
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+Date:   Mon, 28 Nov 2022 15:03:31 +0100
+Message-ID: <CAFGrd9pueans7Z_GHassY7ouGOwDmj4oJHAXS4ZtbYK4KH58Bw@mail.gmail.com>
+Subject: Re: [PATCH v6 05/10] dt-bindings: soc: mediatek: convert pwrap documentation
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Mark Brown <broonie@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Flora Fu <flora.fu@mediatek.com>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Rob Herring <robh@kernel.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -82,61 +91,89 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 14:28, "Lin, Meng-Bo" <linmengbo0689@protonmail.com> wrote:
-
-> Add #define STMFTS_RETRY_COUNT 3 to retry stmfts_command() 3 times.
-> Without it, STMFTS_SYSTEM_RESET or STMFTS_SLEEP_OUT may return -110 to
-> failed attempt due to no event received for completion.
+Le dim. 27 nov. 2022 =C3=A0 14:11, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> a =C3=A9crit :
 >
-> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
-
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
-> ---
->  drivers/input/touchscreen/stmfts.c | 20 +++++++++++---------
->  1 file changed, 11 insertions(+), 9 deletions(-)
+> >> +  pmic:
+> >> +    type: object
+> >
+> > What's here? Other schema? If not then maybe compatible? What about
+> > description?
 >
-> diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-> index d5bd170808fb..22de34966373 100644
-> --- a/drivers/input/touchscreen/stmfts.c
-> +++ b/drivers/input/touchscreen/stmfts.c
-> @@ -68,6 +68,7 @@
->  #define STMFTS_DATA_MAX_SIZE	(STMFTS_EVENT_SIZE * STMFTS_STACK_DEPTH)
->  #define STMFTS_MAX_FINGERS	10
->  #define STMFTS_DEV_NAME		"stmfts"
-> +#define STMFTS_RETRY_COUNT	3
->  
->  enum stmfts_regulators {
->  	STMFTS_REGULATOR_VDD,
-> @@ -317,19 +318,20 @@ static irqreturn_t stmfts_irq_handler(int irq, void *dev)
->  
->  static int stmfts_command(struct stmfts_data *sdata, const u8 cmd)
->  {
-> -	int err;
-> +	int err, retry;
->  
->  	reinit_completion(&sdata->cmd_done);
->  
-> -	err = i2c_smbus_write_byte(sdata->client, cmd);
-> -	if (err)
-> -		return err;
-> -
-> -	if (!wait_for_completion_timeout(&sdata->cmd_done,
-> -					 msecs_to_jiffies(1000)))
-> -		return -ETIMEDOUT;
-> +	for (retry = 0; retry < STMFTS_RETRY_COUNT; retry++) {
-> +		err = i2c_smbus_write_byte(sdata->client, cmd);
-> +		if (err)
-> +			return err;
->  
-> -	return 0;
-> +		if (wait_for_completion_timeout(&sdata->cmd_done,
-> +						msecs_to_jiffies(1000)))
-> +			return 0;
-> +	}
-> +	return -ETIMEDOUT;
->  }
->  
->  static int stmfts_input_open(struct input_dev *dev)
-> -- 
-> 2.30.2
+> I guess this was comment from Rob, so it's fine.
+
+Yes it is.
+
+> >> +allOf:
+> >> +  - if:
+> >> +      properties:
+> >> +        compatible:
+> >> +          contains:
+> >> +            const: mediatek,mt8365-pwrap
+> >> +    then:
+> >> +      properties:
+> >> +        clocks:
+> >> +          minItems: 4
+> >> +
+> >> +        clock-names:
+> >> +          minItems: 4
+> >
+> > else:
+> > ???
+>
+> Actually this looks less complete than your previous patch.
+>
+> else:
+>   clocks:
+>     maxItems: 2
+> same for clock-names
+>
+
+I think I=E2=80=99ve followed the feedback done here [1]
+I=E2=80=99ve declared `minItems: 2` globally and override it to 4 if
+mediatek,mt8365-pwrap is used. Isn=E2=80=99t it the right way to implement =
+it
+?
+
+> >> +            compatible =3D "mediatek,mt8135-pwrap";
+> >> +            reg =3D <0 0x1000f000 0 0x1000>,
+> >
+> > This does not match your unit address. No warnings when compile testing=
+?
+> >
+
+There are no warnings when compile testing. I will fix the unit
+address anyway, sorry.
+
+> >> +                  <0 0x11017000 0 0x1000>;
+> >> +            reg-names =3D "pwrap", "pwrap-bridge";
+> >> +            interrupts =3D <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>;
+> >> +            clocks =3D <&clk26m>, <&clk26m>;
+> >> +            clock-names =3D "spi", "wrap";
+> >> +            resets =3D <&infracfg MT8135_INFRA_PMIC_WRAP_RST>,
+> >> +                     <&pericfg MT8135_PERI_PWRAP_BRIDGE_SW_RST>;
+> >> +            reset-names =3D "pwrap", "pwrap-bridge";
+> >
+> > Missing pmic. Make your example complete.
+>
+> Probably pmic should be skipped, I understand it is described in MFD
+> binding.
+>
+
+Put the pmic in the example have 2 constraints:
+- The original pmic "mediatek,mt6397" isn=E2=80=99t supported by a yaml
+schema, so I=E2=80=99ve a dt_binding_check fail: `failed to match any schem=
+a
+with compatible: ['mediatek,mt6397']`
+- If I put another pmic that supports a yaml schema, I need to put all
+required properties for the pmic, which I thought was unnecessary
+since it=E2=80=99s already done in its own schema and can change for anothe=
+r
+pmic, so less consistent.
+
+Then yes, IMHO, PMIC should be skipped in the example.
+
+[1] https://lore.kernel.org/all/fe898d24-54fa-56bb-8067-b422a3a52ff5@collab=
+ora.com/
+
+Alex
