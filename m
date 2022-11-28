@@ -2,64 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF7363A9D9
-	for <lists+linux-input@lfdr.de>; Mon, 28 Nov 2022 14:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53B9463AA0C
+	for <lists+linux-input@lfdr.de>; Mon, 28 Nov 2022 14:51:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232000AbiK1NoI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Nov 2022 08:44:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
+        id S232141AbiK1NvP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Nov 2022 08:51:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232010AbiK1Nnz (ORCPT
+        with ESMTP id S232133AbiK1NvO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Nov 2022 08:43:55 -0500
+        Mon, 28 Nov 2022 08:51:14 -0500
 Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BBC1186EC
-        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 05:43:51 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id r66-20020a1c4445000000b003d05a3775d4so2200091wma.3
-        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 05:43:51 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D9261EC40
+        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 05:51:12 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id o7-20020a05600c510700b003cffc0b3374so8410371wms.0
+        for <linux-input@vger.kernel.org>; Mon, 28 Nov 2022 05:51:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ChUfSWQpkOka3RMz7cPvl08M1UjHNcAjTkOzZNPTkY=;
-        b=2MbRZysf3dn8Urie3wAa0AvPIYlTIWpdWJ6UamVEs4LdmH0b4ZJW+nsjnICtyUazbs
-         WCplKvHRzDelinWd3fM3TRNRbYkeAipFNDylleHY/a69xENlgIUllMwtjVAB/JH2FCXx
-         Udbc3pDIsmF6EARybXvCDuvy8XUy9e9dySnl9bnLwQ7DJclfgb8jLA3BDd620mOiHguV
-         9p6kLvjTSVBtOfNSJ6hoM8+IKNFB5hfS+Sp+fv60ncVMyzfrvhCV4qAJMA5SbT3cekuM
-         R1F1UpNuuhLC6KNTF5D6omzJpnMUAlvXf7okl+/q7OkMb83CCRb3SWKKbseW1gx7iWK5
-         klLA==
+        bh=A4qIw9CSlOm6ggm9ciNJN1TeZJOcMp5IoO7x7apMWbY=;
+        b=PUheZR1NpZnwy4KRhNf7nnLwIkGHB+FvPg3d4NllsEb6kJdBq7yONBrs3hMeyWlnn1
+         zq7ZDz79pngmWJGbOOpg7tjdv722XGMIA04Jsft2i512lr13vEq85Gy8pUH0PKhRieln
+         XQS+nVeEIzJPmfy5m7XTKjGQ6VRITUaWFNyBu5tcAumfrmGV5H5nWfrykIKNxDbwpvTB
+         8hgO296977TfbN+W61Ok9Fi/tYwiQfR/1wUcsq3pyTu5Pn6o+ohkdoHtkmUZPSdSZ+qq
+         Sv+9WnU8J0Vs/sWd7h/Pqtpe60IPEmIyYYHgzk8Y67wIP/PY01VQyNFEVT2hCPxE01im
+         /Qug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ChUfSWQpkOka3RMz7cPvl08M1UjHNcAjTkOzZNPTkY=;
-        b=i2YrIgiU11rg+EHJbHWTza2vQpscsONPEVRtm88Jge5glGn2mL6v6SrjA2S0bAfmTC
-         aZYhD8GwCfwDExK27cVc1bQJHQdODVqyuRJOrRHTEjK4q5ifHuOSDARaOb44OgO/u7O0
-         UC+/XZvQVh4R48P6bRpdfBmpD+CgfhVt1wSy+8f+4aeybnZxivshZnP375YHHusBcxWX
-         19EWx1Y+JX7CO7VwLayg6sewn7KFRScybY9Mcqe9l1EmFEvbN73OkWe+6SNUiaMWiu7W
-         uXx/bCcot40codbKv4i3hZjWffkInXqpjZNR2Gq78xP1X37hgIKu0EUKb1z9ZHY00m4L
-         ZlNw==
-X-Gm-Message-State: ANoB5pnOp6C/6jOGlnfKJZBC0jVnKx9KlVrBFbI4IAH0U5fFpqui+KL4
-        XyOO/4HOXgYuoiqw51npl+FwhA==
-X-Google-Smtp-Source: AA0mqf7+pGd1Tmh2TNxuXqVhZz2XJErK3tFsf8y8oT9K0s/TgzJMSEVtSTshpM4fupYCXE2i5gSDjQ==
-X-Received: by 2002:a05:600c:3514:b0:3cf:e0ef:1f6c with SMTP id h20-20020a05600c351400b003cfe0ef1f6cmr30175183wmq.75.1669643030449;
-        Mon, 28 Nov 2022 05:43:50 -0800 (PST)
+        bh=A4qIw9CSlOm6ggm9ciNJN1TeZJOcMp5IoO7x7apMWbY=;
+        b=dI8OSmpsZHktzoUszhJZF5l+3xlpagL1duCtS1SiolhTdjzEpItho/eewwDLC74IJ1
+         GlxULyII8pyCmLGxHynQ7tffLdkNo8IhSsS3MiL+PvMu0/aCm1i1cDxHRyvn3uR/WJWY
+         wIaO+b/yQ0Rq+Bm/ms1be0ZxRccQyYIwQMuhGFUpVS3LV7GMEnwnH6hbNWGQgNeJqbu+
+         5WuhsHXICK/gvn3OVnu3z8jHs/7JlIWQgqU5QOZ2uemwbEl1m7m2nKlqKJXnuoGTbEva
+         NnMDa8EljVM0vyI13Gkuq7fZ2qdvcqH+/d2lqsvv6oDacN6dhvvSpKkVIyJ4z45owEKC
+         G8TA==
+X-Gm-Message-State: ANoB5pkoeLAbyN/RbwRSuT5O1W8AYUUlBKwrP5JVZziavY9fTFFQQowV
+        NbbuJyuJf7dSWAUYfcP9GOvNuA==
+X-Google-Smtp-Source: AA0mqf6nkBPng31LSUbczvahgKFmzQ1kx1CywnM+9hcT4gIL7Y/Lh2Y4uDKbcBxCZeQ9OdymBWy/Ug==
+X-Received: by 2002:a1c:f606:0:b0:3b4:bf6d:f9ba with SMTP id w6-20020a1cf606000000b003b4bf6df9bamr37179147wmc.133.1669643471076;
+        Mon, 28 Nov 2022 05:51:11 -0800 (PST)
 Received: from localhost ([2a01:cb19:85e6:1900:2bf7:7388:731d:c4e1])
-        by smtp.gmail.com with ESMTPSA id y7-20020a1c4b07000000b003b4c979e6bcsm18187855wma.10.2022.11.28.05.43.49
+        by smtp.gmail.com with ESMTPSA id g6-20020a5d5406000000b00241d2df4960sm10884840wrv.17.2022.11.28.05.51.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 05:43:49 -0800 (PST)
+        Mon, 28 Nov 2022 05:51:10 -0800 (PST)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dan Carpenter <error27@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>
-Cc:     Dan Carpenter <error27@gmail.com>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] Input: elants_i2c - delete some dead code
-In-Reply-To: <Y33BD9xkRC9euIdO@kili>
-References: <Y33BD9xkRC9euIdO@kili>
-Date:   Mon, 28 Nov 2022 14:43:49 +0100
-Message-ID: <87zgcbry7e.fsf@baylibre.com>
+To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Corey Minyard <cminyard@mvista.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Nikita Travkin <nikita@trvn.ru>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH] Input: stmfts - retry commands after timeout
+In-Reply-To: <20221117142753.2477-1-linmengbo0689@protonmail.com>
+References: <20221117142753.2477-1-linmengbo0689@protonmail.com>
+Date:   Mon, 28 Nov 2022 14:51:09 +0100
+Message-ID: <87wn7frxv6.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -71,36 +82,61 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 09:43, Dan Carpenter <error27@gmail.com> wrote:
+On Thu, Nov 17, 2022 at 14:28, "Lin, Meng-Bo" <linmengbo0689@protonmail.com> wrote:
 
-> We shuffled the error handling around so this condition is dead code
-> now.  The "error" variable is always zero.
+> Add #define STMFTS_RETRY_COUNT 3 to retry stmfts_command() 3 times.
+> Without it, STMFTS_SYSTEM_RESET or STMFTS_SLEEP_OUT may return -110 to
+> failed attempt due to no event received for completion.
 >
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
 
 Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
 > ---
-> No Fixes tag because this does not fix a bug but if we were to assign
-> a tag it would be:
+>  drivers/input/touchscreen/stmfts.c | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
 >
-> Fixes: a85fbd649844 ("Input: elants_i2c - properly handle the reset GPIO when power is off")
->
->  drivers/input/touchscreen/elants_i2c.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-> index e1308e179dd6..af1dc43e988c 100644
-> --- a/drivers/input/touchscreen/elants_i2c.c
-> +++ b/drivers/input/touchscreen/elants_i2c.c
-> @@ -1353,8 +1353,6 @@ static int elants_i2c_power_on(struct elants_data *ts)
->  	udelay(ELAN_POWERON_DELAY_USEC);
+> diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
+> index d5bd170808fb..22de34966373 100644
+> --- a/drivers/input/touchscreen/stmfts.c
+> +++ b/drivers/input/touchscreen/stmfts.c
+> @@ -68,6 +68,7 @@
+>  #define STMFTS_DATA_MAX_SIZE	(STMFTS_EVENT_SIZE * STMFTS_STACK_DEPTH)
+>  #define STMFTS_MAX_FINGERS	10
+>  #define STMFTS_DEV_NAME		"stmfts"
+> +#define STMFTS_RETRY_COUNT	3
 >  
->  	gpiod_set_value_cansleep(ts->reset_gpio, 0);
-> -	if (error)
-> -		return error;
+>  enum stmfts_regulators {
+>  	STMFTS_REGULATOR_VDD,
+> @@ -317,19 +318,20 @@ static irqreturn_t stmfts_irq_handler(int irq, void *dev)
 >  
->  	msleep(ELAN_RESET_DELAY_MSEC);
+>  static int stmfts_command(struct stmfts_data *sdata, const u8 cmd)
+>  {
+> -	int err;
+> +	int err, retry;
 >  
+>  	reinit_completion(&sdata->cmd_done);
+>  
+> -	err = i2c_smbus_write_byte(sdata->client, cmd);
+> -	if (err)
+> -		return err;
+> -
+> -	if (!wait_for_completion_timeout(&sdata->cmd_done,
+> -					 msecs_to_jiffies(1000)))
+> -		return -ETIMEDOUT;
+> +	for (retry = 0; retry < STMFTS_RETRY_COUNT; retry++) {
+> +		err = i2c_smbus_write_byte(sdata->client, cmd);
+> +		if (err)
+> +			return err;
+>  
+> -	return 0;
+> +		if (wait_for_completion_timeout(&sdata->cmd_done,
+> +						msecs_to_jiffies(1000)))
+> +			return 0;
+> +	}
+> +	return -ETIMEDOUT;
+>  }
+>  
+>  static int stmfts_input_open(struct input_dev *dev)
 > -- 
-> 2.35.1
+> 2.30.2
