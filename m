@@ -2,84 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A84A63DA5B
-	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 17:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4CE263DBA9
+	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 18:13:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbiK3QQP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Nov 2022 11:16:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
+        id S230374AbiK3RNb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Nov 2022 12:13:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbiK3QQP (ORCPT
+        with ESMTP id S230395AbiK3RNB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Nov 2022 11:16:15 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F5112E9C5;
-        Wed, 30 Nov 2022 08:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=U1UGXTBuI5LcEIN1P/dpWOejfackW5xFI0KcjLxKSCI=; b=ZtRU2cro5RUk1ONUC7elbnZ/eM
-        siye03T7Pw4SjTDd0piVWmIV8G9OwgjMtVeyuVvoYoO+NNby5wlzMoOZNFfMVlr3mjwqjWvjXGt4h
-        VNABbDZkUS5ke0oznl1gp86o0QOTyWAR5/uMAkx9sZiDhZhIF8X9CD+c+TpwPhnJ+iSp304qdwYCn
-        J+u1+AUccE1UX38xv3SKvxrpYakcWTuUbvJQt5utq8i8+130Agh7YIelTBiktQQMFnPVyusuKsxoB
-        il8HXW/BdWG2gT7BxqaESwnnpNpCXRVp0Bv/iFDYL+01dLfy82J7XYwQrYLn0V7iW2c4Ff5Fqce4f
-        44FAP1eg==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1p0Pku-00F7o4-3j; Wed, 30 Nov 2022 16:16:16 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Richard Weinberger <richard@nod.at>,
+        Wed, 30 Nov 2022 12:13:01 -0500
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDBB8B186;
+        Wed, 30 Nov 2022 09:09:07 -0800 (PST)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-14286d5ebc3so21767711fac.3;
+        Wed, 30 Nov 2022 09:09:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yZGjfXWGP2AzRUdq3pVVndzAw3sxyvCWjlEcVt3nu7E=;
+        b=QFpycQSsMTwhqc8SclnpIdPwrjO3c0n06cYYvUmhHN4jwG2z9SSS2aFrHq/fzYmtv9
+         Ju5LzESdoBxRWTOBTD0uPFt9q26RpKBMGfuFj/AGvkRWliAv8eLrOg7WDzWkOjz5RzV3
+         HqHcNH9QJiMHOJ86Dng/5ZrHwBTVk/4slAXiQnOqilLARgzXpcT5J111NDnD5jMUI0sD
+         qlhItc2ZBqfZDHkppEqxnVRH4zzMY0pxCmPrIXy1+dl96/GsVZMN+f8+E88udAyMwQpI
+         DID+saaWA/UCUZolYBujLfJwc12M3TmrZdTJJlDlBrMhg47VFg7oyFkTYV8a9QO5JuCB
+         9t6A==
+X-Gm-Message-State: ANoB5pmJAMF2bWuDEQLKhLXx7Z4ToI6VjA329+Xf8ylcKBmcrIoKC5vQ
+        29Q6F+H/jnQsrTqWfhEtKw==
+X-Google-Smtp-Source: AA0mqf5NogTdghJJR30Thmn+fVMr7pF6s8gWLgPlvLoTPPv/xeMWqjs0deU7LszWBkE+i6++tvXbsw==
+X-Received: by 2002:a05:6870:60a4:b0:132:79b1:f85 with SMTP id t36-20020a05687060a400b0013279b10f85mr26890824oae.274.1669828147028;
+        Wed, 30 Nov 2022 09:09:07 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r129-20020acaa887000000b00359ba124b07sm826585oie.36.2022.11.30.09.09.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 09:09:06 -0800 (PST)
+Received: (nullmailer pid 2459261 invoked by uid 1000);
+        Wed, 30 Nov 2022 17:09:05 -0000
+Date:   Wed, 30 Nov 2022 11:09:05 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        devicetree@vger.kernel.org, Andrew Davis <afd@ti.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Miloslav Trmac <mitr@volny.cz>, linux-input@vger.kernel.org,
-        linux-um@lists.infradead.org
-Subject: [PATCH] input/misc: wistron_btns: disable on UML
-Date:   Wed, 30 Nov 2022 08:16:04 -0800
-Message-Id: <20221130161604.1879-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.38.1
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v4] dt-bindings: input: Convert ti,drv260x to DT schema
+Message-ID: <166982814519.2459212.9752110415413633511.robh@kernel.org>
+References: <20221118174831.69793-1-luca@z3ntu.xyz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221118174831.69793-1-luca@z3ntu.xyz>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The wistron_btns driver calls rtc_cmos_read(), which isn't
-available with UML builds, so disable this driver on UML.
 
-Prevents this build error:
+On Fri, 18 Nov 2022 18:48:29 +0100, Luca Weiss wrote:
+> Convert the drv260x haptics binding to DT schema format.
+> 
+> The only notable change from .txt format is that vbat-supply is not
+> actually required, so don't make it a required property.
+> 
+> Acked-by: Andrew Davis <afd@ti.com>
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> ---
+> Changes in v4:
+> * use non-deprecated enable-gpios for 'required' and example
+> 
+>  .../devicetree/bindings/input/ti,drv260x.txt  |  50 --------
+>  .../devicetree/bindings/input/ti,drv260x.yaml | 109 ++++++++++++++++++
+>  2 files changed, 109 insertions(+), 50 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/ti,drv260x.yaml
+> 
 
-ld: drivers/input/misc/wistron_btns.o: in function `poll_bios':
-wistron_btns.c:(.text+0x4be): undefined reference to `rtc_cmos_read'
-
-Fixes: 0bbadafdc49d ("um: allow disabling NO_IOMEM") # v5.14+
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Johannes Berg <johannes.berg@intel.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Miloslav Trmac <mitr@volny.cz>
-Cc: linux-input@vger.kernel.org
-Cc: linux-um@lists.infradead.org
----
- drivers/input/misc/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff -- a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -330,7 +330,7 @@ config INPUT_CPCAP_PWRBUTTON
- 
- config INPUT_WISTRON_BTNS
- 	tristate "x86 Wistron laptop button interface"
--	depends on X86_32
-+	depends on X86_32 && !UML
- 	select INPUT_SPARSEKMAP
- 	select NEW_LEDS
- 	select LEDS_CLASS
+Reviewed-by: Rob Herring <robh@kernel.org>
