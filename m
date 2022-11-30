@@ -2,191 +2,221 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9518A63D10E
-	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 09:50:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C94F63D2CE
+	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 11:08:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233842AbiK3Iu0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Nov 2022 03:50:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55164 "EHLO
+        id S235505AbiK3KIW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Nov 2022 05:08:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234406AbiK3IuY (ORCPT
+        with ESMTP id S234125AbiK3KIU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Nov 2022 03:50:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77FD2CC83
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 00:49:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669798170;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xANXvbQ7iywMEyVlB4xJE5gylEi2EmdID1HL+8vvXPE=;
-        b=bXyxVlwbzwYJUFxpfuec6MiMM71X/irfy+2cf5O0nO2lGAh8YO0yl/4ayCIZtPW/2Vdd5D
-        HofymkUeylojGda3MhsNetolDxpWfyO4X5BfkzvjyPNnwb8MRNfQE2FNZz9ytwbUZ4abJW
-        5QFugRwQ40wIRIXBz2I3OnErJQDtBvg=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-644-dScpTuBTP0SJmYMyCAM2wQ-1; Wed, 30 Nov 2022 03:49:28 -0500
-X-MC-Unique: dScpTuBTP0SJmYMyCAM2wQ-1
-Received: by mail-il1-f200.google.com with SMTP id n8-20020a056e021ba800b00302c73f42d9so14514922ili.8
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 00:49:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xANXvbQ7iywMEyVlB4xJE5gylEi2EmdID1HL+8vvXPE=;
-        b=p8IQMwGEh7OLGVEgJkghiyZbQlb1H/i89TaTtlhbNxoAWUBKQxa1sgVXoyjBYIo9wD
-         opRpTSyLRjgJch38+IAJ6XRr8fgaFuK1wlYmpt2dbuo85N44YXUXk6MFSq6leWor4OL7
-         SBK7NY64AHRBjMN7Fb5DoeSfNdHHpcyJrM4+6iP9O8ylcpu/M2xWFhgGq7c7Ad1JHqhD
-         qRSIPxfupLR7qyvjHn6ZxN4WMCro5YkWT1Ntn3vf5M3YRsliBxM9My4ADRbiirtZGll6
-         gSEYsi5d1Y1stJ1De8opsvQilhyQMM+RYwHQmOm8zNwNQFwE6YHhOS/7QBhqe9qBAqxL
-         kY+A==
-X-Gm-Message-State: ANoB5pkonCZLTmxxBpxk84m62IvmIOyAjyoal+i3lfIQzy1485lXsNKC
-        uNNqIRxDaAXYPteFu41GbZPGgUoFshr8APwDoAU9Gjshq3Iimr9PV0+1F67A4ybTzGIKrN5fNeD
-        /xHnR0JdOMTT7J28ePZGVq3YC0GepMsZGYj8FQoQ=
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id h23-20020a02c737000000b003751c5f3127mr19645297jao.251.1669798167859;
-        Wed, 30 Nov 2022 00:49:27 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7SN6S5FthjsMHHZOOe/zeRLlQAj+dr+Vd7yWgLU3oWLPsaRFF+jtmM/MiCe0/FyZMhWdA7awXCX70M14aatZE=
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id
- h23-20020a02c737000000b003751c5f3127mr19645276jao.251.1669798167237; Wed, 30
- Nov 2022 00:49:27 -0800 (PST)
+        Wed, 30 Nov 2022 05:08:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B463B248EB;
+        Wed, 30 Nov 2022 02:08:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BF5261AA2;
+        Wed, 30 Nov 2022 10:08:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7617C433D7;
+        Wed, 30 Nov 2022 10:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669802896;
+        bh=9FvSvVLzySD8LbTfnoYpcK38CCZwnNYjsIckhInqktQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P0Yd5YZnMurOBSMnc+1boBGbX7+HW/x6DAtfPeXD3vOX+NZu9c/rTJbwa3nYtQfC1
+         5jh51yyT0/rdJ4UyhXfKtJHzmPV9i89AaDWJnydAV4vGaKLbcY0Y5LlPeXTqt9cqvP
+         jFQownQSEWgOAUhX3swf4M67FWa8XssUy2yhee7Z2hpva2KCXq/6vWJSqS59m1nf3W
+         Dze7SR7/FcFULDdvElVuJkbbbgDokuz4ek9aJFqaI2NpZ/nXNu7gNbWqdh2W2b+6AS
+         2nDwZOiWdgh8LV5V5V48cKLdEvX2/0sglK4kNObcAoltdrMboWzfzMN0uXeG2yndoH
+         POpULBl8lpocA==
+Date:   Wed, 30 Nov 2022 10:08:07 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Alexandre Mergnat <amergnat@baylibre.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Flora Fu <flora.fu@mediatek.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-mediatek@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v7 4/8] dt-bindings: mfd: mediatek: Add bindings for
+ MT6357 PMIC
+Message-ID: <Y4crh0Ob3sz20s5T@google.com>
+References: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
+ <20221005-mt6357-support-v7-4-477e60126749@baylibre.com>
 MIME-Version: 1.0
-References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
- <20221103155756.687789-4-benjamin.tissoires@redhat.com> <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
- <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com>
- <CAADnVQ+kE+EJ9LAfwge9ksC0LR8r+ShQNYi5g-MDajufXq8Yxw@mail.gmail.com>
- <CAO-hwJJGxvrLRGSt7g0T1rYiuCCigVzQ-L6yKLM1-44EpYqmsQ@mail.gmail.com> <CABRcYmKyRchQhabi1Vd9RcMQFCcb=EtWyEbFDFRTc-L-U8WhgA@mail.gmail.com>
-In-Reply-To: <CABRcYmKyRchQhabi1Vd9RcMQFCcb=EtWyEbFDFRTc-L-U8WhgA@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 30 Nov 2022 09:49:16 +0100
-Message-ID: <CAO-hwJJz8KpWYbnbK6eJQDzwcY2zsBzEyACnEQ3GzEbMZSiA7g@mail.gmail.com>
-Subject: Re: [PATCH hid v12 03/15] HID: initial BPF implementation
-To:     Florent Revest <revest@chromium.org>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221005-mt6357-support-v7-4-477e60126749@baylibre.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 7:00 PM Florent Revest <revest@chromium.org> wrote:
->
-> On Thu, Nov 24, 2022 at 4:50 PM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > On Wed, Nov 23, 2022 at 9:14 PM Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-> > >
-> > > On Wed, Nov 23, 2022 at 6:53 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
-> > > >
-> > > > Hi Jon,
-> > > >
-> > > > On Wed, Nov 23, 2022 at 2:25 PM Jon Hunter <jonathanh@nvidia.com> wrote:
-> > > > >
-> > > > > We have a kernel test that checks for new warning and error messages on
-> > > > > boot and with this change I am now seeing the following error message on
-> > > > > our Tegra platforms ...
-> > > > >
-> > > > >   WARNING KERN hid_bpf: error while preloading HID BPF dispatcher: -13
-> > > > >
-> > > > > I have a quick look at the code, but I can't say I am familiar with
-> > > > > this. So I wanted to ask if a way to fix this or avoid this? I see the
-> > > > > code returns 0, so one option would be to make this an informational or
-> > > > > debug print.
-> > > >
-> > > > I am not in favor of debug in that case, because I suspect it'll hide
-> > > > too much when getting a bug report. Informational could do, yes.
-> > > >
-> > > > However, before that, I'd like to dig a little bit more on why it is
-> > > > failing. I thought arm64 now has support of tracing bpf programs, so I
-> > > > would not expect this to fail.
->
-> We have BPF trampolines on arm64 already but no ftrace direct calls
-> right now. (so trampolines get jitted but don't get called eheh :)) So
-> indeed BPF tracing programs (fentry/fexit/fmod_ret) do not work on
-> arm64 at the moment.
+On Tue, 29 Nov 2022, Alexandre Mergnat wrote:
 
-Oh, OK. Thanks for the explanation.
+> Currently, almost all MT63XX PMIC are documented mfd/mt6397.txt.
+> Unfortunately, the PMICs haven't always similar HW sub-features.
+> To have a better human readable schema, I chose to make one PMIC schema
+> to match the exact HW capabilities instead of convert mt6397.txt to
+> mediatek,mt63xx.yaml and put a bunch of properties behind
+> "if contain ... then ..."
+> 
+> - add interrupt property
+> - change property refs to match with new yaml documentation
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
->
-> > > Unfortunately the patches to add support for such tracing bpf progs got stuck.
-> > > Florent/Mark can probably share the latest status.
->
-> We are working on an implementation of ftrace direct calls that would
-> fit within the constraints of arm64 and play nice with the other users
-> of the ftrace call site. Hopefully we have a patch to share in the
-> next couple of weeks I'd say!
+Acked-by: Lee Jones <lee@kernel.org>
 
-yay!
+> ---
+>  .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 111 +++++++++++++++++++++
+>  1 file changed, 111 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+> new file mode 100644
+> index 000000000000..837a77013d57
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+> @@ -0,0 +1,111 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/mediatek,mt6357.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT6357 PMIC
+> +
+> +maintainers:
+> +  - Flora Fu <flora.fu@mediatek.com>
+> +  - Alexandre Mergnat <amergnat@baylibre.com>
+> +
+> +description: |
+> +  MT6357 is a power management system chip containing 5 buck
+> +  converters and 29 LDOs. Supported features are audio codec,
+> +  USB battery charging, fuel gauge, RTC
+> +
+> +  This is a multifunction device with the following sub modules:
+> +  - Regulator
+> +  - RTC
+> +  - Keys
+> +
+> +  It is interfaced to host controller using SPI interface by a proprietary hardware
+> +  called PMIC wrapper or pwrap. This MFD is a child device of pwrap.
+> +  See the following for pwrap node definitions:
+> +  Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt6357
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  "#interrupt-cells":
+> +    const: 2
+> +
+> +  regulators:
+> +    type: object
+> +    $ref: /schemas/regulator/mediatek,mt6357-regulator.yaml
+> +    description:
+> +      List of MT6357 BUCKs and LDOs regulators.
+> +
+> +  rtc:
+> +    type: object
+> +    $ref: /schemas/rtc/rtc.yaml#
+> +    description:
+> +      MT6357 Real Time Clock.
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mt6357-rtc
+> +      start-year: true
+> +    required:
+> +      - compatible
+> +
+> +  keys:
+> +    type: object
+> +    $ref: /schemas/input/mediatek,pmic-keys.yaml
+> +    description:
+> +      MT6357 power and home keys.
+> +
+> +required:
+> +  - compatible
+> +  - regulators
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    pwrap {
+> +        pmic {
+> +            compatible = "mediatek,mt6357";
+> +
+> +            interrupt-parent = <&pio>;
+> +            interrupts = <145 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-controller;
+> +            #interrupt-cells = <2>;
+> +
+> +            regulators {
+> +                mt6357_vproc_reg: buck-vproc {
+> +                    regulator-name = "vproc";
+> +                    regulator-min-microvolt = <518750>;
+> +                    regulator-max-microvolt = <1312500>;
+> +                    regulator-ramp-delay = <6250>;
+> +                    regulator-enable-ramp-delay = <220>;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                // ...
+> +
+> +                mt6357_vusb33_reg: ldo-vusb33 {
+> +                    regulator-name = "vusb33";
+> +                    regulator-min-microvolt = <3000000>;
+> +                    regulator-max-microvolt = <3100000>;
+> +                    regulator-enable-ramp-delay = <264>;
+> +                };
+> +            };
+> +
+> +            rtc {
+> +                compatible = "mediatek,mt6357-rtc";
+> +            };
+> +
+> +            keys {
+> +                compatible = "mediatek,mt6357-keys";
+> +            };
+> +        };
+> +    };
+> 
 
->
-> > Oh... I noticed Jon's config was lacking CONFIG_FTRACE. So should I
-> > also add a depends on CONFIG_FTRACE to enable HID-BPF?
->
-> If HID-BPF fundamentally depends on a fmod_ret program being attached
-> to function, it seems to me that it should depend on both:
->     CONFIG_DYNAMIC_FTRACE_WITH_DIRECT_CALLS (CONFIG_FTRACE or even
-> CONFIG_DYNAMIC_FTRACE aren't enough, there can be architectures that
-> do not support direct calls. here you noticed it on arm64 which
-> luckily should get fixed someday soon but there could be other
-> architectures with that issue too)
-> and
-
-OK
-
->     CONFIG_FUNCTION_ERROR_INJECTION (since [1] error injection needs
-> to be explicitly opted-in, it's easy to miss it and fail to attach
-> fmod_ret programs in mysterious ways)
-
-Ok as well.
-
->
-> I'm thinking that maybe encoding these two dependencies in the
-> CONFIG_HID_BPF is leaking too much of the bpf tracing abstraction to
-> the user. Maybe the BPF Kconfig could provide "proxy" configs like
-> HAVE_BPF_FENTRY_FEXIT, HAVE_BPF_FMOD_RET (naming is hard) to expose
-> these dependencies better ?
-
-That would be nice, but requires some sort of synchronization between
-our 2 trees, so I'll take the 2 configs in the HID tree, and try to
-submit a patch for the bpf tree with the macro. Then I can reattach to
-that macro when it hits Linus'.
-
->
-> 1: https://lore.kernel.org/lkml/20221121104403.1545f9b5@gandalf.local.home/
->
-
-That thread is a little bit worrying to me. HID-BPF relies on
-CONFIG_FUNCTION_ERROR_INJECTION, and I would definitely like to see
-HID-BPF in production kernels. I don't really care about cloud
-servers, but chromebooks are something I'd like to have enabled. We'll
-see how this thread goes I guess.
-
-Anyway, thanks a lot for the deep explanation and understanding of my code :)
-
-Cheers,
-Benjamin
-
+-- 
+Lee Jones [李琼斯]
