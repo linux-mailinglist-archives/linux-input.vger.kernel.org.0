@@ -2,95 +2,218 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C9E863D44D
-	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 12:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 862E163D461
+	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 12:23:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234395AbiK3LUq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Nov 2022 06:20:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42644 "EHLO
+        id S234890AbiK3LXw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Nov 2022 06:23:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234424AbiK3LTy (ORCPT
+        with ESMTP id S234919AbiK3LXJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Nov 2022 06:19:54 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAE2D2AE05
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 03:19:18 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id k79so2002637pfd.7
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 03:19:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BATu+UcqlwtwfiH4MTWO+KZsAE1c6RkNGAfFiYngKsc=;
-        b=MWUGFgJ3pPP+HjfH6nVLwvKypRF6J+Sr9LNGi4Tezu8OkPBBJC/D4s+9zBJX9IhKk9
-         LHv2LkBJfJabLZ00leMhDqXsvyi/rCK3AIOrXcGF3p+VY3TKh9m3okvgUAEJMUnBpevF
-         7seCtYq7oQbml4ZQOO0QIqUZoK5fbAg7nQsCQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BATu+UcqlwtwfiH4MTWO+KZsAE1c6RkNGAfFiYngKsc=;
-        b=1xedA+vbeJLYSho18xGeak4zTxs8J511nRZM0nVfWRQ9dGwutIE+1E9qZjXngwn90w
-         6G2mzXXPM3FMlESpk0uioRPD69Cn3upsFDWMSNPaOaEmByaWE2LbTX3I01QrS4k3CYbd
-         bTZS0y6OwJWxHyLbbUAkRtVA4AnMNGn1RRZYEo5WpCoKVThtQhNviNeEmHWE0SOUeKF2
-         kQRhombBL3cNg3X5hHnj0laht0NgrDoLQToWky/8GLzi2Kn8P4yBAWiD/UWFzerpTyRf
-         ptTaxSZF/J6++MwOEZfdkEVyecbwwzXwPSsTyFyEXc5qDNuYkX1lDHyyXbhm9mK8GHct
-         KFMg==
-X-Gm-Message-State: ANoB5pmvYKd4dHIYhAuL7zXH7DPONLE75X81IkhS1U57Ra1FbTiZfbiH
-        fjT/ClQaWj/0twoONptjAOPwp3Bhmfw9Z7JX6c5gqA==
-X-Google-Smtp-Source: AA0mqf5jySgZgQzui4HtwIX1shh1/LW1UBionDIXDLn/xObKoTzJveFzh3gM2+BL/Q8jj8n2pkBDQVBIeobfFvYc6Gw=
-X-Received: by 2002:a05:6a00:1812:b0:575:19b6:dfe9 with SMTP id
- y18-20020a056a00181200b0057519b6dfe9mr16659744pfa.16.1669807158350; Wed, 30
- Nov 2022 03:19:18 -0800 (PST)
+        Wed, 30 Nov 2022 06:23:09 -0500
+Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D3D48F52
+        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 03:22:36 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,206,1665417600"; 
+   d="scan'208";a="1046875"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 30 Nov 2022 19:22:28 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(171689:0:AUTH_RELAY)
+        (envelope-from <phoenix@emc.com.tw>); Wed, 30 Nov 2022 19:22:25 +0800 (CST)
+Received: from 192.168.33.13
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(128282:0:AUTH_LOGIN)
+        (envelope-from <phoenix@emc.com.tw>); Wed, 30 Nov 2022 19:22:25 +0800 (CST)
+From:   "phoenix" <phoenix@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        "'Eirin Nya'" <nyanpasu256@gmail.com>
+Cc:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "'Josh.Chen'" <josh.chen@emc.com.tw>
+References: <20221014111533.908-1-nyanpasu256@gmail.com> <20221014111533.908-4-nyanpasu256@gmail.com> <Y4T2nygbxkhAQRvM@google.com> <Y4T21vl0mJocdpdV@google.com> 
+In-Reply-To: 
+Subject: RE: [PATCH V2 3/3] Input: elantech - Fix incorrectly halved touchpad range on ELAN v3 touchpads
+Date:   Wed, 30 Nov 2022 19:22:25 +0800
+Message-ID: <003201d904ae$05d38870$117a9950$@emc.com.tw>
 MIME-Version: 1.0
-References: <20221130101021.1868764-1-benjamin.tissoires@redhat.com>
-In-Reply-To: <20221130101021.1868764-1-benjamin.tissoires@redhat.com>
-From:   Florent Revest <revest@chromium.org>
-Date:   Wed, 30 Nov 2022 12:19:07 +0100
-Message-ID: <CABRcYmK3x0+1kCe-yJSjKS57t1aLJxRiZRt+tSzzQ0aeuoMvMw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] HID-BPF: Kconfig fix
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQDbt+ppC1xC+keScPeVlOENSMuCUQN/vwKcAiwO8jQCAyhLLLASYmNwgAHaGDA=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcODgwNTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy00MzI0ZDdhMS03MGExLTExZWQtYTkzZi04OGQ3ZjY1ODJkZmNcYW1lLXRlc3RcNDMyNGQ3YTItNzBhMS0xMWVkLWE5M2YtODhkN2Y2NTgyZGZjYm9keS50eHQiIHN6PSI2MjQzIiB0PSIxMzMxNDI4MDk0NDc2NDQ0ODciIGg9IldZY2RwMGVrWDI1aDFBS24vSGJTdmFJMytBYz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 11:10 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi,
->
-> As discussed in [1], we need to add some more dependencies to HID-BPF in
-> the Kconfig. This way, when fmod_ret will be available on arm64, HID-BPF
-> will get enabled automatically.
->
-> Jon, would you mind giving a shot at that patch on your test system and
-> confirm the error disappeard?
->
-> Cheers,
-> Benjamin
->
->
->
-> [1] https://lore.kernel.org/r/CABRcYmKyRchQhabi1Vd9RcMQFCcb=EtWyEbFDFRTc-L-U8WhgA@mail.gmail.com
->
-> Benjamin Tissoires (2):
->   HID: bpf: enforce HID_BPF dependencies
->   selftests: hid: ensures we have the proper requirements in config
->
->  drivers/hid/bpf/Kconfig            | 4 +++-
->  tools/testing/selftests/hid/config | 2 ++
->  2 files changed, 5 insertions(+), 1 deletion(-)
->
-> --
-> 2.38.1
+Consulted with FW team, we suggest re-querying x/y resolution after setting
+absolute mode.
 
-Reviewed-by: Florent Revest <revest@chromium.org>
+-----Original Message-----
+From: phoenix [mailto:phoenix@emc.com.tw] 
+Sent: Tuesday, November 29, 2022 11:47 AM
+To: 'Dmitry Torokhov' <dmitry.torokhov@gmail.com>; 'Eirin Nya'
+<nyanpasu256@gmail.com>
+Cc: 'linux-input@vger.kernel.org' <linux-input@vger.kernel.org>;
+'linux-kernel@vger.kernel.org' <linux-kernel@vger.kernel.org>; 'Josh.Chen'
+<josh.chen@emc.com.tw>
+Subject: RE: [PATCH V2 3/3] Input: elantech - Fix incorrectly halved
+touchpad range on ELAN v3 touchpads
+
+Loop Josh
+
+-----Original Message-----
+From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com]
+Sent: Tuesday, November 29, 2022 1:59 AM
+To: Eirin Nya <nyanpasu256@gmail.com>; Phoenix Huang <phoenix@emc.com.tw>
+Cc: linux-input@vger.kernel.org; linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 3/3] Input: elantech - Fix incorrectly halved
+touchpad range on ELAN v3 touchpads
+
+On Mon, Nov 28, 2022 at 09:57:51AM -0800, Dmitry Torokhov wrote:
+> On Fri, Oct 14, 2022 at 04:15:33AM -0700, Eirin Nya wrote:
+> > On Linux 5.19.10, on my laptop (Dell Inspiron 15R SE 7520) with an 
+> > Elan
+> > v3 touchpad (dmesg says "with firmware version 0x450f02"), the 
+> > reported size of my touchpad (in userspace by calling
+> > mtdev_configure() and libevdev_get_abs_maximum(), in kernel space 
+> > elantech_device_info::x_max/y_max, either way 1470 by 700) is half 
+> > that of the actual touch range (2940 by 1400), and the upper half of 
+> > my touchpad reports negative values. As a result, with the Synaptics 
+> > or libinput X11 driver set to edge scrolling mode, the entire right 
+> > half of my touchpad has x-values past evdev's reported maximum size, 
+> > and acts as a giant scrollbar!
+> > 
+> > The problem is that elantech_setup_ps2() ->
+> > elantech_set_absolute_mode() sets up absolute mode and doubles the 
+> > hardware resolution (doubling the hardware's maximum reported x/y 
+> > coordinates and its response to ETP_FW_ID_QUERY), *after*
+> > elantech_query_info() fetches the touchpad coordinate system size 
+> > using ETP_FW_ID_QUERY, which gets cached and reported to userspace 
+> > through ioctl(fd, EVIOCGABS(ABS_X/Y), ...). So the touchpad size 
+> > reported to userspace (and used to subtract vertical coordinates from)
+is half the maximum position of actual touches.
+> > 
+> > This patch splits out a function elantech_query_range_v3() which 
+> > fetches
+> > *only* ETP_FW_ID_QUERY (touchpad size), and calls it a second time 
+> > if
+> > elantech_set_absolute_mode() enables double-size mode. This means 
+> > the first call is redundant and wasted if a second call occurs, but 
+> > this minimizes the need to restructure the driver.
+> 
+> If the setting is indeed double resolution, can we simply multiply 
+> x_max and y_max by 2 instead of re-querying it?
+> 
+> Also let's try adding one of Elan engineers for their take in this.
+> Phoenix, do you have any suggestions please?
+
+Argh, adding Phoenix for real now.
+
+> 
+> > 
+> > Link: 
+> > https://lore.kernel.org/linux-input/CAL57YxZNutUVxBtvbVWKMw-V2kqeVB5
+> > kTQ5BFdJmN=mdPq8Q8Q@mail.gmail.com/
+> > Link: 
+> > https://lore.kernel.org/linux-input/20221008093437.72d0f6b0@dell-voi
+> > d.nyanpasu256.gmail.com.beta.tailscale.net/
+> > Fixes: 37548659bb22 ("Input: elantech - query the min/max 
+> > information beforehand too")
+> > Signed-off-by: Eirin Nya <nyanpasu256@gmail.com>
+> > ---
+> > 
+> > Notes:
+> >     Should we move (elantech_set_absolute_mode ->
+> >     elantech_write_reg(...0x0b or 0x01)) *earlier* into
+elantech_query_info()
+> >     before "query range information"? See discussion at
+> >     
+> > https://lore.kernel.org/linux-input/20221008093437.72d0f6b0@dell-voi
+> > d.nyanpasu256.gmail.com.beta.tailscale.net/
+> > 
+> >  drivers/input/mouse/elantech.c | 30 ++++++++++++++++++++++++++----
+> >  1 file changed, 26 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/input/mouse/elantech.c 
+> > b/drivers/input/mouse/elantech.c index 263779c031..a2176f0fd3 100644
+> > --- a/drivers/input/mouse/elantech.c
+> > +++ b/drivers/input/mouse/elantech.c
+> > @@ -1006,6 +1006,9 @@ static void
+elantech_set_rate_restore_reg_07(struct psmouse *psmouse,
+> >  		psmouse_err(psmouse, "restoring reg_07 failed\n");  }
+> >  
+> > +static int elantech_query_range_v3(struct psmouse *psmouse,
+> > +				   struct elantech_device_info *info);
+> > +
+> >  /*
+> >   * Put the touchpad into absolute mode
+> >   */
+> > @@ -1047,6 +1050,14 @@ static int elantech_set_absolute_mode(struct
+psmouse *psmouse)
+> >  		if (elantech_write_reg(psmouse, 0x10, etd->reg_10))
+> >  			rc = -1;
+> >  
+> > +		/*
+> > +		 * If we boost hardware resolution, we have to re-query
+> > +		 * info->x_max and y_max.
+> > +		 */
+> > +		if (etd->info.set_hw_resolution)
+> > +			if (elantech_query_range_v3(psmouse, &etd->info))
+> > +				rc = -1;
+> > +
+> >  		break;
+> >  
+> >  	case 4:
+> > @@ -1671,6 +1682,20 @@ static int elantech_set_properties(struct
+elantech_device_info *info)
+> >  	return 0;
+> >  }
+> >  
+> > +static int elantech_query_range_v3(struct psmouse *psmouse,
+> > +				   struct elantech_device_info *info) {
+> > +	unsigned char param[3];
+> > +
+> > +	if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
+> > +		return -EINVAL;
+> > +
+> > +	info->x_max = (0x0f & param[0]) << 8 | param[1];
+> > +	info->y_max = (0xf0 & param[0]) << 4 | param[2];
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int elantech_query_info(struct psmouse *psmouse,
+> >  			       struct elantech_device_info *info)  { @@
+-1826,11 +1851,8 
+> > @@ static int elantech_query_info(struct psmouse *psmouse,
+> >  		break;
+> >  
+> >  	case 3:
+> > -		if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
+> > +		if (elantech_query_range_v3(psmouse, info))
+> >  			return -EINVAL;
+> > -
+> > -		info->x_max = (0x0f & param[0]) << 8 | param[1];
+> > -		info->y_max = (0xf0 & param[0]) << 4 | param[2];
+> >  		break;
+> >  
+> >  	case 4:
+> > --
+> > 2.38.0
+> > 
+> 
+> Thanks.
+> 
+> --
+> Dmitry
+
+--
+Dmitry
+
