@@ -2,175 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F55963D730
-	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 14:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F3CD63D96C
+	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 16:29:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbiK3NvX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Nov 2022 08:51:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53786 "EHLO
+        id S229629AbiK3P3I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Nov 2022 10:29:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229991AbiK3NvW (ORCPT
+        with ESMTP id S229612AbiK3P3H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Nov 2022 08:51:22 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B3E31340
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 05:51:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669816278; x=1701352278;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OboYa7wPxZ9+uJE235yjr38ScEuH/aj60mPYmill4nM=;
-  b=FI3RsfeXOgKwUZKCZ7K8hXKnClmgvgQaTNTD/ubgzZleo5K/HLru1iP8
-   mYmVT/OHpofy9LzaG75HlYwW1LD6J+xI8NYcFr1mRgxHl0Njc4TUbUgta
-   GlahL36kabSs/9vedXPIwoSKw15q/JPAesbkGhMTGzOtSx+bojc0ql1wX
-   Ex6wAnVKin9owsVHnIetyB/pdCV8aEND4GolVqf4DsqxZfGU9RMTOsseH
-   werPBi5IBhZuBUKQFXVCVGgNlO5f2zQVWj1p9GxJtYZz/5GgrpbTnbclW
-   FxWynbfiCGtf/95Vz0o/sbtN0tYRdlBgbuowpcVmkiw9JdfJ2pxbfGdE+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="377557696"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="377557696"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 05:51:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="818634451"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="818634451"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 Nov 2022 05:51:14 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p0NUX-000BDb-2n;
-        Wed, 30 Nov 2022 13:51:13 +0000
-Date:   Wed, 30 Nov 2022 21:50:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 80fb249da98e6b9e7c3d356da912a67757e92e75
-Message-ID: <63875fb5.ZYFu3a6S3CZ1wqUF%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 30 Nov 2022 10:29:07 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 710034F1B5
+        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 07:29:05 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id r133-20020a1c448b000000b003d076ee89d6so644542wma.0
+        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 07:29:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eQCpZrxqU0ZqG/1E2Wjcht6dOxw6xUsArEFbqi/+8ts=;
+        b=0Dp90JwB/2ZIk2gWx0KqZMnNZC0AKQJWM5ZOueXBESuy8E3RzZLvr95qNZdP3WBMmp
+         Dmy0CXN0YTD2jRyay0+Y/AQZQQppBhuIfFOF6BarptLwkA3i/OVnie9x6A11L3QmbgqC
+         V7GjZsSjRdrjSZtwmApAUuNZOYoj4qs2D5/FOuG3PMBYC+8mzkoVDTBqb9n03GtHLjsp
+         d5YpDl+QUOBdcsLBsUs/3FXWkKDJXyuOXwuAbdNuoupH7CW86z+SbtAf7ylFn7mQrevB
+         4xlVD2izJVlJ/zwqD5I3DyaEpmtosMJgPjLpZqo0GA80Ea3szFrTHAH4wfTcelToOT3G
+         9SNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eQCpZrxqU0ZqG/1E2Wjcht6dOxw6xUsArEFbqi/+8ts=;
+        b=U0ys70I28gXudQ/VwryL01AOwCeaSbTkS7Rn8r0YAOEk+yvAdFSzmEf24+ukZxP4aT
+         m8sAAlfNygvhvScf47fFdyjCQyEeNXLdjy++tntKmarorWjbfsYP3R+hK98WwCF9Z129
+         Ayjq2bvhN8wHIgBuLfLW5hBZPOyNyIOdZYSnI/UuE8MLHropsskML64k9z9vVmWXVGGJ
+         HRBjW41o3K0I8EJVRVJXiZF8NJXJeZ389bOC1RnkJDK8jrJYMRYjppgoVQxeD0EhQh6e
+         FX4ytUR8RSHzvch+pE7fsjnzRYYI394J+YoaIkIziDheCEQN/Z7LwX8LdboaOzuEXN8Q
+         al2g==
+X-Gm-Message-State: ANoB5pm+S9w2m5Vj2nGEXBUWzuXyZfVfulb1iXHlEdyzEjHab1kfNb3F
+        byw1RcLSwt4oSyDfqhKGbNXgKA==
+X-Google-Smtp-Source: AA0mqf5q9pp4E8hM3VW/7izBhrDQJ55xiEwMWxY/lg0MlGr4j3c7kOQPB4CRcd4gyZiaLZkawD7y6Q==
+X-Received: by 2002:a05:600c:2193:b0:3cf:a323:bfe6 with SMTP id e19-20020a05600c219300b003cfa323bfe6mr38289027wme.86.1669822143903;
+        Wed, 30 Nov 2022 07:29:03 -0800 (PST)
+Received: from localhost ([2a01:cb19:85e6:1900:2bf7:7388:731d:c4e1])
+        by smtp.gmail.com with ESMTPSA id fn9-20020a05600c688900b003cf75213bb9sm5821176wmb.8.2022.11.30.07.29.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 07:29:03 -0800 (PST)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Fabio Estevam <festevam@gmail.com>, dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH] dt-bindings: input: gpio-beeper: Convert to yaml schema
+In-Reply-To: <20221120012135.2085631-1-festevam@gmail.com>
+References: <20221120012135.2085631-1-festevam@gmail.com>
+Date:   Wed, 30 Nov 2022 16:29:02 +0100
+Message-ID: <87o7sosbpd.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 80fb249da98e6b9e7c3d356da912a67757e92e75  Input: elants_i2c - delete some dead code
+On Sat, Nov 19, 2022 at 22:21, Fabio Estevam <festevam@gmail.com> wrote:
 
-elapsed time: 730m
+> From: Fabio Estevam <festevam@denx.de>
+>
+> Convert the bindings from plain text to yaml schema.
+>
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 
-configs tested: 93
-configs skipped: 2
+Small nit below, but I don't think it matters, so:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allmodconfig
-um                             i386_defconfig
-s390                             allyesconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-i386                                defconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-sh                               allmodconfig
-i386                             allyesconfig
-mips                             allyesconfig
-m68k                             allyesconfig
-powerpc                          allmodconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                            allnoconfig
-sh                        sh7763rdp_defconfig
-powerpc                         ps3_defconfig
-xtensa                  cadence_csp_defconfig
-mips                      maltasmvp_defconfig
-ia64                             allmodconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                 randconfig-a001-20221128
-i386                 randconfig-a005-20221128
-i386                 randconfig-a006-20221128
-i386                 randconfig-a004-20221128
-i386                 randconfig-a003-20221128
-i386                 randconfig-a002-20221128
-i386                          randconfig-c001
-x86_64               randconfig-a002-20221128
-x86_64               randconfig-a001-20221128
-x86_64               randconfig-a004-20221128
-x86_64               randconfig-a006-20221128
-x86_64               randconfig-a005-20221128
-x86_64               randconfig-a003-20221128
-arm                       omap2plus_defconfig
-sh                               j2_defconfig
-mips                           ci20_defconfig
-sh                          sdk7786_defconfig
-arc                     haps_hs_smp_defconfig
-powerpc                      cm5200_defconfig
-arm                          lpd270_defconfig
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-sh                           se7750_defconfig
-sh                             espt_defconfig
-sparc64                          alldefconfig
-powerpc                   currituck_defconfig
-arc                               allnoconfig
-csky                                defconfig
-nios2                               defconfig
-mips                           gcw0_defconfig
-xtensa                    xip_kc705_defconfig
-arm                        oxnas_v6_defconfig
-sh                          lboxre2_defconfig
-loongarch                           defconfig
-loongarch                         allnoconfig
-loongarch                        allmodconfig
+> ---
+>  .../devicetree/bindings/input/gpio-beeper.txt | 13 --------
+>  .../bindings/input/gpio-beeper.yaml           | 33 +++++++++++++++++++
+>  2 files changed, 33 insertions(+), 13 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/gpio-beeper.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/gpio-beeper.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/input/gpio-beeper.txt b/Documentation/devicetree/bindings/input/gpio-beeper.txt
+> deleted file mode 100644
+> index a5086e37fce6..000000000000
+> --- a/Documentation/devicetree/bindings/input/gpio-beeper.txt
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -* GPIO beeper device tree bindings
+> -
+> -Register a beeper connected to GPIO pin.
+> -
+> -Required properties:
+> -- compatible:	Should be "gpio-beeper".
+> -- gpios:	From common gpio binding; gpio connection to beeper enable pin.
+> -
+> -Example:
+> -	beeper: beeper {
+> -		compatible = "gpio-beeper";
+> -		gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/input/gpio-beeper.yaml b/Documentation/devicetree/bindings/input/gpio-beeper.yaml
+> new file mode 100644
+> index 000000000000..5fd57a8940df
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/gpio-beeper.yaml
+> @@ -0,0 +1,33 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/gpio-beeper.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: GPIO controlled beeper
+> +
+> +maintainers:
+> +  - Fabio Estevam <festevam@denx.de>
+> +
+> +properties:
+> +  compatible:
+> +    const: gpio-beeper
+> +
+> +  gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO that drives the beeper.
 
-clang tested configs:
-i386                 randconfig-a012-20221128
-i386                 randconfig-a011-20221128
-i386                 randconfig-a013-20221128
-i386                 randconfig-a015-20221128
-i386                 randconfig-a016-20221128
-i386                 randconfig-a014-20221128
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-s390                 randconfig-r044-20221128
-hexagon              randconfig-r041-20221128
-riscv                randconfig-r042-20221128
-hexagon              randconfig-r045-20221128
-x86_64               randconfig-k001-20221128
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-arm                      tct_hammer_defconfig
-arm                        vexpress_defconfig
+We can join these lines:
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+description: GPIO that drives the beeper.
+
+> +
+> +required:
+> +  - compatible
+> +  - gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    beeper {
+> +        compatible = "gpio-beeper";
+> +        gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
+> +    };
+> -- 
+> 2.25.1
