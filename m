@@ -2,98 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF03763DCAE
-	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 19:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C3CA63E1E2
+	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 21:25:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbiK3SHW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Nov 2022 13:07:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60914 "EHLO
+        id S229472AbiK3UY6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Nov 2022 15:24:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229929AbiK3SHP (ORCPT
+        with ESMTP id S229748AbiK3UYt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Nov 2022 13:07:15 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D5F83EAA
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 10:07:10 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id w37so11665498pga.5
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 10:07:10 -0800 (PST)
+        Wed, 30 Nov 2022 15:24:49 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9413325F4
+        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 12:24:48 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id i80so1874500ioa.0
+        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 12:24:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=U/XxTMPICDie9ymNdj/MdgVV0xGRFOD3AAJXtRn0C+A=;
-        b=BUG7pdc6PPVgQrMC7CiGj2Cl3eIK6wgTQyCCd4Dbienm0CJNV7xL6LPRfKROL+QbPy
-         PUZ3tiRzLrEDxwF860wzhgXU5H2SbuQDAg7vva0vZRvRLq+N0atW72fRVeTH17CMqkdx
-         bZTV7NunSIMjvQ/f/p08lsxbdONCK/g78arTY=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2sxzUichrAi82VjKkKQWDQ6j9zxGhtCMEiA1yqxp9Fo=;
+        b=EjrvDHb/jG7Y+r6I8bistfGoy7Z9Ei+wTxKXPk8GLZU4kRL+LSG9Ac2kdJ6t5HCIZ9
+         cx/DvxIdSRUX+Dj51M8NixDsEG5JQTr+YXDGzlznHeX0IIyqSsq4ob/XROWw2SKJF1Kf
+         wlI15k4ig5GEdl1Ud5uJgzCQ0KrvsXwDXVLPLBAdgRzroXGl9sAFuarA5vytbxHte5JE
+         VsskbuC77F2APeDiGwFxhKg0c62ex0ZszbFHJo4712Fe0iRAeaF2z7EzgVJoPIJBHMNE
+         cY2MDJcaF/VES6KeUQc+IChEvvS0XqKpS5JsznAEIbfeneye34dFZZskBqerwxfhWkui
+         qv3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U/XxTMPICDie9ymNdj/MdgVV0xGRFOD3AAJXtRn0C+A=;
-        b=i0fz7ibjUO+taNZV3DLQhYT/Xhwf+QpzVZZjHs/3h14yueQvXRMVZprS00WbqJm/mB
-         XuyCwzZGRbj229yqHpHhk4j3OYaqSue9C/TfW4L0z5t9TAoXfTUZ/p7IR8ZUBFRevThM
-         O/7thjHww1Y7yA8j6ozGXCAN0gPRMH6j2P1cpXQPsZZN2MJvPNlUu2JjS6iisytoAqbC
-         3bR7I0FSQJw5swDymLhwm0HxOs6pugtS1mJqd9xDEALvQgDhojJJi2GLcHXRRJX0V3c1
-         9wmvw4MQPsVApHFfbKd5J8Cj1gcUDoN2+8s4UngHoEFUae3jbaUbwso71/0pDn4Gwxw2
-         AHPw==
-X-Gm-Message-State: ANoB5pmYX1mnCPLhpt4lTdCSBmzNeF6q4A81q0Ou+KQs1XumCpGYHMMU
-        zTJDlNM7w6ltPlTbY9hfCu4hvrJj7kBebA==
-X-Google-Smtp-Source: AA0mqf509gKvo6FHfMrESQaxmWMz34LOc5mbpP0Vywn0hOGttWElaMItP1ylax6K7+H6RoEULw278A==
-X-Received: by 2002:a65:460e:0:b0:478:cae:3097 with SMTP id v14-20020a65460e000000b004780cae3097mr16610391pgq.389.1669831630220;
-        Wed, 30 Nov 2022 10:07:10 -0800 (PST)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com. [209.85.215.176])
-        by smtp.gmail.com with ESMTPSA id t15-20020a170902e84f00b00188c9c11559sm1848827plg.1.2022.11.30.10.07.09
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2sxzUichrAi82VjKkKQWDQ6j9zxGhtCMEiA1yqxp9Fo=;
+        b=ThTPqC17fxBfAkMKJVXO3lc9X5h4cpmz9UtspYP56f+9aS6/uSo9iPqjAucwkRyCRy
+         +ay8/wGoYRZoMCwNFnZPBBzEeLlZmBb3zo7xQE5ldxn0iMpEvl7KExO4Ndvj+tY9B7Xk
+         IXX3m9NguSuJ3HC4yAUnt/zoPmbZNjmPxOTq67d9/TG3gOZaqz74yx9xVolFNjEWHn/c
+         TmRM514GaKENp34onCRa6XJb8C/EEQiAwIpF7kTxt6DSZ06Pb3p6Xh4HODFmo2sjwHl2
+         NIro/A5u+HdRE9HUiqIvV3oEZjIxt2iHIQpmnMkZnI7iKIBS2nHUQe/kIScrqwIW8KKX
+         WEfg==
+X-Gm-Message-State: ANoB5pmBNwGGDisdIuLpDZjXWfCCSSrh/RhnUF13jan3EQ0DcwBN7yFn
+        DOwHFZP3oV67s7PoBsuMiE67Ju+fzxI=
+X-Google-Smtp-Source: AA0mqf7DpMDcradw4pw4TRycjaYqSyw57nFXV/O+FcW8yfPhbUTE1W7AfqGssXwSTiuaJ/aqNNhkCg==
+X-Received: by 2002:a02:a312:0:b0:389:f80a:2cb5 with SMTP id q18-20020a02a312000000b00389f80a2cb5mr3662884jai.40.1669839887775;
+        Wed, 30 Nov 2022 12:24:47 -0800 (PST)
+Received: from [192.168.0.32] (97-116-62-120.mpls.qwest.net. [97.116.62.120])
+        by smtp.gmail.com with ESMTPSA id n7-20020a02a907000000b00389e7fde6fdsm892842jam.116.2022.11.30.12.24.47
         for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 10:07:10 -0800 (PST)
-Received: by mail-pg1-f176.google.com with SMTP id h193so16789591pgc.10
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 10:07:09 -0800 (PST)
-X-Received: by 2002:aa7:81cb:0:b0:56e:1092:1272 with SMTP id
- c11-20020aa781cb000000b0056e10921272mr44887867pfn.31.1669831629238; Wed, 30
- Nov 2022 10:07:09 -0800 (PST)
+        Wed, 30 Nov 2022 12:24:47 -0800 (PST)
+Message-ID: <61f9fd69-b7c9-6e13-c750-416e6c3f8167@gmail.com>
+Date:   Wed, 30 Nov 2022 14:24:46 -0600
 MIME-Version: 1.0
-References: <20220929161917.2348231-1-rrangel@chromium.org>
- <20220929093200.v6.9.I2efb7f551e0aa2dc4c53b5fd5bbea91a1cdd9b32@changeid> <Y3uP+Kx1xLWRVUAX@smile.fi.intel.com>
-In-Reply-To: <Y3uP+Kx1xLWRVUAX@smile.fi.intel.com>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Wed, 30 Nov 2022 11:06:57 -0700
-X-Gmail-Original-Message-ID: <CAHQZ30CArSjaJUt2pg-3MQpbK4Zux7WXnr5E8vmnDrMyj0sN5w@mail.gmail.com>
-Message-ID: <CAHQZ30CArSjaJUt2pg-3MQpbK4Zux7WXnr5E8vmnDrMyj0sN5w@mail.gmail.com>
-Subject: Re: [PATCH v6 09/13] HID: i2c-hid: acpi: Stop setting wakeup_capable
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, hdegoede@redhat.com, rafael@kernel.org,
-        mika.westerberg@linux.intel.com, mario.limonciello@amd.com,
-        timvp@google.com, linus.walleij@linaro.org, jingle.wu@emc.com.tw,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Alistair Francis <alistair@alistair23.me>,
-        Jiri Kosina <jikos@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Content-Language: en-US
+To:     linux-input@vger.kernel.org
+From:   "Joshua E. Roybal" <u4ysev@gmail.com>
+Subject: psmouse serio1: synaptics: Touchpad model: 1, fw: 8.1, id: 0x1e2b1,
+ caps: 0xd00123/0x840300/0x26c00/0x0, board id: 2382, fw id: 1238635
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 21, 2022 at 7:49 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Sep 29, 2022 at 10:19:13AM -0600, Raul E Rangel wrote:
-> > This is now handled by the i2c-core driver.
->
-> What happened to this patch? I don't see it in the Linux Next...
->
+[    6.989906] psmouse serio1: synaptics: queried max coordinates: x 
+[..5674], y [..4754]
+[    7.046093] psmouse serio1: synaptics: queried min coordinates: x 
+[1268..], y [1098..]
+[    7.048081] psmouse serio1: synaptics: Your touchpad (PNP: DLL0667 
+PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are 
+not used, you might want to try setting psmouse.synaptics_intertouch to 
+1 and report this to linux-input@vger.kernel.org.
+[    7.169633] psmouse serio1: synaptics: Touchpad model: 1, fw: 8.1, 
+id: 0x1e2b1, caps: 0xd00123/0x840300/0x26c00/0x0, board id: 2382, fw id: 
+1238635
 
-This was just merged into dtor's next branch a few days ago:
-https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?id=1796f808e4bb2c074824dc32258ed1e719370cb3
-
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
