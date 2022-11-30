@@ -2,86 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C3CA63E1E2
-	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 21:25:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A48A263E26A
+	for <lists+linux-input@lfdr.de>; Wed, 30 Nov 2022 22:02:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbiK3UY6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Nov 2022 15:24:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37572 "EHLO
+        id S229741AbiK3VC0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Nov 2022 16:02:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbiK3UYt (ORCPT
+        with ESMTP id S229461AbiK3VCZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Nov 2022 15:24:49 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9413325F4
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 12:24:48 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id i80so1874500ioa.0
-        for <linux-input@vger.kernel.org>; Wed, 30 Nov 2022 12:24:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2sxzUichrAi82VjKkKQWDQ6j9zxGhtCMEiA1yqxp9Fo=;
-        b=EjrvDHb/jG7Y+r6I8bistfGoy7Z9Ei+wTxKXPk8GLZU4kRL+LSG9Ac2kdJ6t5HCIZ9
-         cx/DvxIdSRUX+Dj51M8NixDsEG5JQTr+YXDGzlznHeX0IIyqSsq4ob/XROWw2SKJF1Kf
-         wlI15k4ig5GEdl1Ud5uJgzCQ0KrvsXwDXVLPLBAdgRzroXGl9sAFuarA5vytbxHte5JE
-         VsskbuC77F2APeDiGwFxhKg0c62ex0ZszbFHJo4712Fe0iRAeaF2z7EzgVJoPIJBHMNE
-         cY2MDJcaF/VES6KeUQc+IChEvvS0XqKpS5JsznAEIbfeneye34dFZZskBqerwxfhWkui
-         qv3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2sxzUichrAi82VjKkKQWDQ6j9zxGhtCMEiA1yqxp9Fo=;
-        b=ThTPqC17fxBfAkMKJVXO3lc9X5h4cpmz9UtspYP56f+9aS6/uSo9iPqjAucwkRyCRy
-         +ay8/wGoYRZoMCwNFnZPBBzEeLlZmBb3zo7xQE5ldxn0iMpEvl7KExO4Ndvj+tY9B7Xk
-         IXX3m9NguSuJ3HC4yAUnt/zoPmbZNjmPxOTq67d9/TG3gOZaqz74yx9xVolFNjEWHn/c
-         TmRM514GaKENp34onCRa6XJb8C/EEQiAwIpF7kTxt6DSZ06Pb3p6Xh4HODFmo2sjwHl2
-         NIro/A5u+HdRE9HUiqIvV3oEZjIxt2iHIQpmnMkZnI7iKIBS2nHUQe/kIScrqwIW8KKX
-         WEfg==
-X-Gm-Message-State: ANoB5pmBNwGGDisdIuLpDZjXWfCCSSrh/RhnUF13jan3EQ0DcwBN7yFn
-        DOwHFZP3oV67s7PoBsuMiE67Ju+fzxI=
-X-Google-Smtp-Source: AA0mqf7DpMDcradw4pw4TRycjaYqSyw57nFXV/O+FcW8yfPhbUTE1W7AfqGssXwSTiuaJ/aqNNhkCg==
-X-Received: by 2002:a02:a312:0:b0:389:f80a:2cb5 with SMTP id q18-20020a02a312000000b00389f80a2cb5mr3662884jai.40.1669839887775;
-        Wed, 30 Nov 2022 12:24:47 -0800 (PST)
-Received: from [192.168.0.32] (97-116-62-120.mpls.qwest.net. [97.116.62.120])
-        by smtp.gmail.com with ESMTPSA id n7-20020a02a907000000b00389e7fde6fdsm892842jam.116.2022.11.30.12.24.47
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 12:24:47 -0800 (PST)
-Message-ID: <61f9fd69-b7c9-6e13-c750-416e6c3f8167@gmail.com>
-Date:   Wed, 30 Nov 2022 14:24:46 -0600
+        Wed, 30 Nov 2022 16:02:25 -0500
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC5E837ED;
+        Wed, 30 Nov 2022 13:02:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1669842142; bh=gVzGEYVjD0h5I9/deBEqHQ2NmlqOqDxgiAHZGpIxWVs=;
+        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+         MIME-Version:Content-Transfer-Encoding;
+        b=es000FQP0pFBzLOxjLEKQGFCpMCpBPeA1m8bPE18E83gRC2rDVCcsTRpkNX/xykqy
+         u0R9Vc2d/fURgLSQ0jHuSA1ipydXQ0/ncba3Q/ujjaE77zXYQPOtwst4p9e5FPsK1c
+         C8p3kqoYxW+pOAxHsvr2W9YMRnYlNwofscc6Z9eQ=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+        via proxy.mailoo.org [213.182.55.207]
+        Wed, 30 Nov 2022 22:02:22 +0100 (CET)
+X-EA-Auth: npvI2yDxuBEDTjMfik9gmG6DPGyCOW1KAjRF/d2wxd+dCF6U1o7QEM8BkGz24Rpc5tGn+OzxDalVUMg9V87xLqHwwKFl14OZrfqD0Fr253Y=
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     w.david0@protonmail.com, stephan@gerhold.net,
+        phone-devel@vger.kernel.org
+Subject: [PATCH RESEND] Input: msg2638 - only read linux,keycodes array if necessary
+Date:   Wed, 30 Nov 2022 22:01:59 +0100
+Message-Id: <20221130210202.2069213-1-vincent.knecht@mailoo.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Content-Language: en-US
-To:     linux-input@vger.kernel.org
-From:   "Joshua E. Roybal" <u4ysev@gmail.com>
-Subject: psmouse serio1: synaptics: Touchpad model: 1, fw: 8.1, id: 0x1e2b1,
- caps: 0xd00123/0x840300/0x26c00/0x0, board id: 2382, fw id: 1238635
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[    6.989906] psmouse serio1: synaptics: queried max coordinates: x 
-[..5674], y [..4754]
-[    7.046093] psmouse serio1: synaptics: queried min coordinates: x 
-[1268..], y [1098..]
-[    7.048081] psmouse serio1: synaptics: Your touchpad (PNP: DLL0667 
-PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are 
-not used, you might want to try setting psmouse.synaptics_intertouch to 
-1 and report this to linux-input@vger.kernel.org.
-[    7.169633] psmouse serio1: synaptics: Touchpad model: 1, fw: 8.1, 
-id: 0x1e2b1, caps: 0xd00123/0x840300/0x26c00/0x0, board id: 2382, fw id: 
-1238635
+The linux,keycodes property is optional.
+Fix the driver not probing when it's not specified.
+
+Fixes: c18ef50346f2 ("Input: msg2638 - add support for msg2138 key events")
+Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+---
+Resending because of mailing issue,
+ie. not appearing on mailing lists.
+---
+ drivers/input/touchscreen/msg2638.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/input/touchscreen/msg2638.c b/drivers/input/touchscreen/msg2638.c
+index 51b1c0e8a761..4c0816b09d33 100644
+--- a/drivers/input/touchscreen/msg2638.c
++++ b/drivers/input/touchscreen/msg2638.c
+@@ -412,13 +412,15 @@ static int msg2638_ts_probe(struct i2c_client *client)
+ 		msg2638->num_keycodes = ARRAY_SIZE(msg2638->keycodes);
+ 	}
+ 
+-	error = device_property_read_u32_array(dev, "linux,keycodes",
+-					       msg2638->keycodes,
+-					       msg2638->num_keycodes);
+-	if (error) {
+-		dev_err(dev, "Unable to read linux,keycodes values: %d\n",
+-			error);
+-		return error;
++	if (msg2638->num_keycodes > 0) {
++		error = device_property_read_u32_array(dev, "linux,keycodes",
++						       msg2638->keycodes,
++						       msg2638->num_keycodes);
++		if (error) {
++			dev_err(dev, "Unable to read linux,keycodes values: %d\n",
++				error);
++			return error;
++		}
+ 	}
+ 
+ 	error = devm_request_threaded_irq(dev, client->irq,
+-- 
+2.38.1
+
+
 
