@@ -2,95 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B43363EA95
-	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 08:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D942063EAF8
+	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 09:25:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbiLAHzE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Dec 2022 02:55:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34058 "EHLO
+        id S229696AbiLAIZi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Dec 2022 03:25:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbiLAHzD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Dec 2022 02:55:03 -0500
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106F251316;
-        Wed, 30 Nov 2022 23:55:02 -0800 (PST)
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NN7dw5857z4xVng;
-        Thu,  1 Dec 2022 15:55:00 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.40.50])
-        by mse-fl1.zte.com.cn with SMTP id 2B17sjnm013390;
-        Thu, 1 Dec 2022 15:54:45 +0800 (+08)
-        (envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-        by mapi (Zmail) with MAPI id mid31;
-        Thu, 1 Dec 2022 15:54:47 +0800 (CST)
-Date:   Thu, 1 Dec 2022 15:54:47 +0800 (CST)
-X-Zmail-TransId: 2af963885dc71a3191d5
-X-Mailer: Zmail v1.0
-Message-ID: <202212011554474934696@zte.com.cn>
-Mime-Version: 1.0
-From:   <ye.xingchen@zte.com.cn>
-To:     <dmitry.torokhov@gmail.com>
-Cc:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIXSBJbnB1dDogdXNlIHN5c2ZzX2VtaXQoKSB0byBpbnN0ZWFkIG9mIHNjbnByaW50Zigp?=
-Content-Type: text/plain;
-        charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 2B17sjnm013390
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID 63885DD4.002 by FangMail milter!
-X-FangMail-Envelope: 1669881300/4NN7dw5857z4xVng/63885DD4.002/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<ye.xingchen@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 63885DD4.002/4NN7dw5857z4xVng
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S229678AbiLAIZd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Dec 2022 03:25:33 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68CD164540
+        for <linux-input@vger.kernel.org>; Thu,  1 Dec 2022 00:25:32 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0esk-0003w4-D6; Thu, 01 Dec 2022 09:25:22 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0esg-001WHz-Uj; Thu, 01 Dec 2022 09:25:19 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0esh-001i9B-0r; Thu, 01 Dec 2022 09:25:19 +0100
+Date:   Thu, 1 Dec 2022 09:25:18 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     ye.xingchen@zte.com.cn
+Cc:     dmitry.torokhov@gmail.com, nick@shmanahar.org,
+        giulio.benetti@benettiengineering.com,
+        dario.binacchi@amarulasolutions.com, michael@amarulasolutions.com,
+        oliver.graute@kococonnector.com, wsa+renesas@sang-engineering.com,
+        jeff@labundy.com, johan@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: touchscreen: use sysfs_emit() to instead of??
+ scnprintf()
+Message-ID: <20221201082518.xuarbpjk3ajvydqv@pengutronix.de>
+References: <202212011553311204647@zte.com.cn>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="m5r7msitbq3i675d"
+Content-Disposition: inline
+In-Reply-To: <202212011553311204647@zte.com.cn>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
 
-Replace the open-code with sysfs_emit() to simplify the code.
+--m5r7msitbq3i675d
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
----
- drivers/input/input.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Thu, Dec 01, 2022 at 03:53:31PM +0800, ye.xingchen@zte.com.cn wrote:
+> From: ye xingchen <ye.xingchen@zte.com.cn>
+>=20
+> Replace the open-code with sysfs_emit() to simplify the code.
+>=20
+> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index ca2e3dd7188b..4e4643e74ac5 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -1362,7 +1362,7 @@ static ssize_t input_dev_show_##name(struct device *dev,		\
- {									\
- 	struct input_dev *input_dev = to_input_dev(dev);		\
- 									\
--	return scnprintf(buf, PAGE_SIZE, "%s\n",			\
-+	return sysfs_emit(buf, "%s\n",			\
- 			 input_dev->name ? input_dev->name : "");	\
- }									\
- static DEVICE_ATTR(name, S_IRUGO, input_dev_show_##name, NULL)
-@@ -1455,7 +1455,7 @@ static ssize_t inhibited_show(struct device *dev,
- {
- 	struct input_dev *input_dev = to_input_dev(dev);
+The Subject contains two questionmarks that don't belong there.
 
--	return scnprintf(buf, PAGE_SIZE, "%d\n", input_dev->inhibited);
-+	return sysfs_emit(buf, "%d\n", input_dev->inhibited);
- }
+The patch looks fine.
 
- static ssize_t inhibited_store(struct device *dev,
-@@ -1502,7 +1502,7 @@ static ssize_t input_dev_show_id_##name(struct device *dev,		\
- 					char *buf)			\
- {									\
- 	struct input_dev *input_dev = to_input_dev(dev);		\
--	return scnprintf(buf, PAGE_SIZE, "%04x\n", input_dev->id.name);	\
-+	return sysfs_emit(buf, "%04x\n", input_dev->id.name);	\
- }									\
- static DEVICE_ATTR(name, S_IRUGO, input_dev_show_id_##name, NULL)
+Best regards
+Uwe
 
--- 
-2.25.1
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--m5r7msitbq3i675d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOIZOwACgkQwfwUeK3K
+7AnhCQgAj9c9leKiwLNhwKK5vdK3N8HDz/+D0hdEG0ONlYWO+9GfRXWB22TulIAj
+p4mXHwFSI6LucuKpV0GyoVW7yl5gqETf0EIv4Py6ndqn/BsU0yqYCsqmJOX6d3uY
+r90MnnbCYuAGDqKq3Ag3Q58DrHSBAFiAHuHh7Oke1MYKQxBW6pCpoH+WfDqMPNa4
+ll8kAW3RKRsDTHyZII4sD8BPr3cRwdMWl+cg3SOHqrTb+FVdH0J3/peyn40h75+G
+NCooPGlH3VkILeNEdOO7mucLNQjNbQ99meLd6PDmKfMcNWbRIzBccG5eDYhiCV/n
+E/Qb6z1vtbvgXiRJ75rFSe+eUfufkg==
+=+ztd
+-----END PGP SIGNATURE-----
+
+--m5r7msitbq3i675d--
