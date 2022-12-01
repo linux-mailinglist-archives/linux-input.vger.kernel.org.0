@@ -2,143 +2,228 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADD1F63ED40
-	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 11:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E2A363EED0
+	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 12:05:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbiLAKJU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Dec 2022 05:09:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41234 "EHLO
+        id S229624AbiLALFk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Dec 2022 06:05:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbiLAKIq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Dec 2022 05:08:46 -0500
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F78252178;
-        Thu,  1 Dec 2022 02:08:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VrDgPMrpzTDhsnUXjFNPFg9BYkZRvJDZ/ot7bwIkpcCVn96kE2LLcqbheOmj1fVxRBs1zLT06TtjY5x1kr8xBvAtxdfQCcKVwQDF62hYkG8TWO/pJnZTXpVuRsIT9f+nCdkSgDUmk4j8ugYESp5Fg+jCfd4XeNW08gcvJ0DdfTNh5EctK1wHyg04H9mCbQ82C2aFRWQF7nrH3WzzoT68po6kNCfg3dvNThWBio1otrOdmrIImgsZ9btGJB1OudYZv/j3uj+lG0u5Yu/6QZlb3i1QW03NT/5X2k7mCzilp10XD47JgNuko6dmUrtzr3UnPq77o+dlJa+f5pAq4gKBNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NJutWvxJfpgA5ZTa6bvfsMMJ44aWj4P5azOPbBFEin4=;
- b=j/mGl3uCW4HvxRUxbE2Ca0krFC2jB7Oh4sQAl7ISySSZb4PujVw2iaLf6WEvXfL6Ud45oZDoQyWvecaoZB/R0AMi0sPfb8afOd8KbonZLWOcVLvgNCKm60TlB1pcHxTRpZpeZOvb6B1cNr4k+kPwMvwXL6vmwS7JeQpskdcxJjERG3+8ZQldMlsAzbxxzR5OEhOqT7qjqtDihKhlitTeaAzCsxENmtNDlutQ/Xs1oQvH7VH9InA3x9L+Zx8lX0tMqXlpw0aZhdYrrMU6kxEtB59ViAiIG1j1nVb78j+rJWq1qlb/sMz70Cl4kYBsh3QIWsKBHaraU0Ovp6FHO3Wt9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NJutWvxJfpgA5ZTa6bvfsMMJ44aWj4P5azOPbBFEin4=;
- b=a5pyIEpWP8tc1znG5Z8a8lx4MP/qRYxQENHO9HzvFCy6h5xAOLw3GoIGlYTt0VKiF4yzDvZrHl8Ibeg98lw41KI4kksxiylvFKweSlkU2+ak4RGo5LgLCkxleYlgdz0RxJ5CINLdWB266fWYfsGdM3kDf4YdEdxm4tGuZrek0k0FJXvIWGXKsIL2DpHL6OD8aQfrEuncMS1HuLJZ3IOLh8lSdhHr6HxMXEQrt4UQ4iPDy7QYlRnIO9yJxoYgApZDiJybXyvte+rA7JR8RslE5jJxjz8PZW/2jM4zwnyc+Bh25BXPEwq9bAga2Ad1xbK4cpDhqOZWMvfLc5kCHPC/aQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- IA1PR12MB8334.namprd12.prod.outlook.com (2603:10b6:208:3ff::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17; Thu, 1 Dec
- 2022 10:08:44 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::f1be:5d:f297:e2f]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::f1be:5d:f297:e2f%6]) with mapi id 15.20.5880.008; Thu, 1 Dec 2022
- 10:08:43 +0000
-Message-ID: <459f7d59-18dd-e611-e183-8ec03fbea910@nvidia.com>
-Date:   Thu, 1 Dec 2022 10:08:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/2] HID-BPF: Kconfig fix
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Florent Revest <revest@chromium.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221130101021.1868764-1-benjamin.tissoires@redhat.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <20221130101021.1868764-1-benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0108.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:c::24) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|IA1PR12MB8334:EE_
-X-MS-Office365-Filtering-Correlation-Id: a34b7063-7458-4b50-c2e2-08dad3840701
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: v3o3pAi8kfQhq6RzHELNWh33gn92wywgNgeuu33ask0q6JEdCPABH9mlH3VkWT+rFE7gtCt0z6TIDVDyX5ycJd53PeBVMGQPAunEtW2GxmKADyzvacH65kBIpFGyJDyQ2FD8FT8Cmb4CqQrU1ZBMN9wj2N1kdwwEFeoKTEYarBX/Yp0HshyfmJaWRseGEY8baKINB05AEqfY+dX6J5eNpwb6dpTZryvowaDI4N4wQN0CeawkDrydu7duacoCtEH9JbWd8CIYEmKm128c+zywXSWi3KW2Rk3voWZ7Je+fKGgSHEet1/JdUbGFyy70vTltsXl47KQBg8UsyZJZz5AzkuA6me36ZfK3cy8OHqhzExWoM2MFtqJu0pi59+1kChLGfbT56evulXD4GJtf4Co8mygEL6nkyPZfNnkh/l3fkrLzfwFcomXcF8IqpUMo/b+jPGlsYt5lXl7c+S+OOb3AYBT0GHN05OuPwJlEMi50Nnc/d6haEZ/Ze9TnagIfNtYKf+DH2r7cXLkqFSQYDJM2MiqLlkSkp2AHR+oQfVFi5oqpLZY512O6ciDWv+ghw9S0Vh53DcNelcFrLQINQ1bXw7x0UybTYOueuaZ3PW3uNIpXRJAs5VPEsTIb/TUMKbm5pFqFlEmEpqc0WnW0lL44sTQozJlfmwC+o1L9/tpCj86pTHfxXqPRoE7DCttrhxI+Dv7/89ysXtwh8OuDBDtyQ+K0c9zT+5mAzGgFwkTVPiI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(346002)(136003)(366004)(376002)(451199015)(6506007)(5660300002)(66476007)(31686004)(8676002)(4326008)(41300700001)(66946007)(66556008)(316002)(110136005)(38100700002)(2906002)(186003)(86362001)(6486002)(478600001)(55236004)(36756003)(31696002)(53546011)(6666004)(8936002)(6512007)(4744005)(2616005)(26005)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUdRbXJwS2c5c01Obm5xb2ZFM2pLZWZqYklwOThUMGlCSU56b0dkaVZaZzZy?=
- =?utf-8?B?bkhQSGVmT2NESE8zWXJiNWNyOG5BL1ptblpOT2MyQjhXc3BEZFRoc1U5YjVk?=
- =?utf-8?B?OHUreHpHanorU2V3WDZWejVqYWhMNmdhZGhMUWVEWWF4Q1BCSFJScDIzTkE3?=
- =?utf-8?B?cmlINlA3dEpXUHBja0VhSTBjc0VUZjJJU0hPS2Nyek90VlRRTmViSUpzNENK?=
- =?utf-8?B?MjM4eGxoYXUvSmtLZzZnVnVSRi8xNGtCZUU3Um5zdlRwSm50V3krMVN2VlMz?=
- =?utf-8?B?dHhkd2RSejhRcHh6TG5UVGJETU9rVzM5Um43cnIwSTd0VEpJdmJMdEt0N3Fq?=
- =?utf-8?B?VFg5RmIvbjVHUk9aL0lKUUlzLzRaSk1tYU9ldDhMZm95TzM2cUF1RjFyOUN4?=
- =?utf-8?B?YzQveGpweE9lZVRoelNyeldid09FWE5sZnR3MUdQajBidVFkYVNtbFc3L3BY?=
- =?utf-8?B?NGY4MVE4ZXVEazJucDdDa285L3FET3M4dWJlcFQ2YUxiL0FiRkxjVDNhYXow?=
- =?utf-8?B?OTlqL3haSlVrNUpWOU83MDZSNlZPeFM5YnN1YUtndmJ3ZUVOVjNSRmtYOGpn?=
- =?utf-8?B?MVpiNDI2UW9heG9oOEhCcXVrN29SdGJqYXB5WE5KRUpNVzZPRm9DQlViYkQ1?=
- =?utf-8?B?ZUQvNUlmVjV0SUZ5ZG5tSWxNWFVSYzE1TG44UWJEVkIveDBTRTBaWEdoT0ZY?=
- =?utf-8?B?Zk55SG9YMFdyWlJtTk5IV1JQVkJ2bjI4b3VRNFhDTysrSnJqWTZxR015YTlJ?=
- =?utf-8?B?SDFzQ3hHUGpBdHhtSTdyeitSYmpzUTk3Y2o2ODBQY2NtaTQ2czUveUJxNHJs?=
- =?utf-8?B?ZzFydDM4S2RNQnFkdS9PaEJNZG90VWZncUllRG9FZzBzOVZDN0EreFFPeVE5?=
- =?utf-8?B?c0xOallyOThHRHNHMEJNM0YyUFlNcHEwa1FLYnRlc2NJR1lwY05rbnhrSm96?=
- =?utf-8?B?bVhzSDl2Zk1OL2dGNXA1eW5mUWxGc3Z3ZUh6WFlSQnB1c3JTcGtlaXBWVG9M?=
- =?utf-8?B?MVlDWGJ6VzZXT1cwVTdYRGkyVE1pak1FZTVGR0FRNmtuR3daSG9hQWJWT3hP?=
- =?utf-8?B?SHJvR2c4Yzh1Z091NE9GQWIzSkJBeC9IQy9DRHV4djdYMzJQbU5tYkptM0li?=
- =?utf-8?B?KzJRckV2MVQyMWxqRmk5akpocE1tRVZlMEJlWjdUT3hFc2NReW41L01PTWE4?=
- =?utf-8?B?ZGpmUk1HMno1YjFrR2dWRXQ1eVp4NWhrdUZZVXBnSk56eGVUUityT2pIQW1y?=
- =?utf-8?B?aHdOcStrdlV0a2U5VmdBUEJuMU1hUWZXbi8yQW5vSEV5S1dwRjdpSDBUSXpT?=
- =?utf-8?B?UUFGaVJsVWJPL1lnTlVXZTYrY1dQZjZVNUk2OWlOa3JhZWhiNWtXZlZBRVE0?=
- =?utf-8?B?QmdMU2RpY2RDWXArV2ZzbnBBcGdIWHhsSytsblZ0R2lUeW0vc0VPdnpLckY1?=
- =?utf-8?B?QjkyQ0dFTWtuNkV6dVhiTWZPamFjdmpUeCtxUXVIMWY0czNkRW1FSlRXZ1dR?=
- =?utf-8?B?NytGMjRZbUE2VlFHK21iOUcwcUdYcmFyRk5LazFvemVIVkFFczNtcjF4YmRp?=
- =?utf-8?B?TVNZV0w3TGZiQ3pzQU5FY1h0c2c5UldGSGFaZ2FmRmJadTRSSi91ZlZoQVU3?=
- =?utf-8?B?UEdERUs5eXMxVk9tOHZkK0w3bmlvQml2eW55TmVwT3hsQW5qS0dvQkQxaTBN?=
- =?utf-8?B?cjNIYmFVRy9QYWJVNjJ6eVo5cVY4aStVU0pZdWFBTitOWWtWRXBsQllLYzBq?=
- =?utf-8?B?ZERXVXA0OEN6d0U1c2FmaGdhSjZucDlNdlJxZ2RWcTZFLzR1Z2RPb3VTbkty?=
- =?utf-8?B?eTRhR3dIeThMbXl0ZHFBYnh0U0JQcTVtU0NTQ2pmaTF5VFZXZkdlaHBOeVI5?=
- =?utf-8?B?dCtTNytOVG5NbTlWOFNvd1krcEtHUmxIWmJKSkc2ZHZWZ202VUoza2REUUd4?=
- =?utf-8?B?TnUvaTZ3NDRnekFYTm9ibHNTbEQrdmloaDNjV1laMlc0dit3OHZEekwxVVp0?=
- =?utf-8?B?KzJjNGlqVlBXaTBITjBoWFQ4ZXhBeVBnMmNTb2I5bmdJS2Y4Zm5IeGlWTXNB?=
- =?utf-8?B?eHAxOXkrclJINEd4UjRtWlZSSzBCZkZjeW1rNFJWdCtJMWlMKzVNSmxJY1NH?=
- =?utf-8?Q?k388pzLnyjgQD6fv+8zSptj5b?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a34b7063-7458-4b50-c2e2-08dad3840701
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 10:08:43.7255
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iRLxzMB7nHLoJf4sOq94waBM6CHk35evnGO96CKPbOsn8p2AeCkyQtCDL0Bd+ahcU9vh0pxWfI/KA4SrdCDXUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8334
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+        with ESMTP id S230257AbiLALEa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Dec 2022 06:04:30 -0500
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F81303D6;
+        Thu,  1 Dec 2022 03:04:27 -0800 (PST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NNCrT2Nqvz5BNRf;
+        Thu,  1 Dec 2022 19:04:25 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.40.50])
+        by mse-fl2.zte.com.cn with SMTP id 2B1B4GFx055613;
+        Thu, 1 Dec 2022 19:04:16 +0800 (+08)
+        (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+        by mapi (Zmail) with MAPI id mid31;
+        Thu, 1 Dec 2022 19:04:19 +0800 (CST)
+Date:   Thu, 1 Dec 2022 19:04:19 +0800 (CST)
+X-Zmail-TransId: 2af963888a331aa5b09b
+X-Mailer: Zmail v1.0
+Message-ID: <202212011904193038898@zte.com.cn>
+Mime-Version: 1.0
+From:   <ye.xingchen@zte.com.cn>
+To:     <dmitry.torokhov@gmail.com>
+Cc:     <nick@shmanahar.org>, <giulio.benetti@benettiengineering.com>,
+        <dario.binacchi@amarulasolutions.com>,
+        <michael@amarulasolutions.com>, <oliver.graute@kococonnector.com>,
+        <wsa+renesas@sang-engineering.com>,
+        <u.kleine-koenig@pengutronix.de>, <jeff@labundy.com>,
+        <johan@kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIIHYyXSBJbnB1dDogdG91Y2hzY3JlZW46IHVzZSBzeXNmc19lbWl0KCkgdG8gaW5zdGVhZCBvZsKgc2NucHJpbnRmKCk=?=
+Content-Type: text/plain;
+        charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 2B1B4GFx055613
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID 63888A39.000 by FangMail milter!
+X-FangMail-Envelope: 1669892665/4NNCrT2Nqvz5BNRf/63888A39.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 63888A39.000/4NNCrT2Nqvz5BNRf
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-On 30/11/2022 10:10, Benjamin Tissoires wrote:
-> Hi,
-> 
-> As discussed in [1], we need to add some more dependencies to HID-BPF in
-> the Kconfig. This way, when fmod_ret will be available on arm64, HID-BPF
-> will get enabled automatically.
-> 
-> Jon, would you mind giving a shot at that patch on your test system and
-> confirm the error disappeard?
+Replace the open-code with sysfs_emit() to simplify the code.
 
-Yes will test today. Thanks!
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+---
+v1 -> v2
+fix the Subject.
+ drivers/input/touchscreen/atmel_mxt_ts.c   | 4 ++--
+ drivers/input/touchscreen/edt-ft5x06.c     | 2 +-
+ drivers/input/touchscreen/hideep.c         | 4 ++--
+ drivers/input/touchscreen/hycon-hy46xx.c   | 2 +-
+ drivers/input/touchscreen/ilitek_ts_i2c.c  | 4 ++--
+ drivers/input/touchscreen/iqs5xx.c         | 2 +-
+ drivers/input/touchscreen/usbtouchscreen.c | 2 +-
+ drivers/input/touchscreen/wdt87xx_i2c.c    | 6 +++---
+ 8 files changed, 13 insertions(+), 13 deletions(-)
 
-Jon
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index ccecd1441f0b..daad47c7823f 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -2761,7 +2761,7 @@ static ssize_t mxt_fw_version_show(struct device *dev,
+ {
+ 	struct mxt_data *data = dev_get_drvdata(dev);
+ 	struct mxt_info *info = data->info;
+-	return scnprintf(buf, PAGE_SIZE, "%u.%u.%02X\n",
++	return sysfs_emit(buf, "%u.%u.%02X\n",
+ 			 info->version >> 4, info->version & 0xf, info->build);
+ }
+
+@@ -2771,7 +2771,7 @@ static ssize_t mxt_hw_version_show(struct device *dev,
+ {
+ 	struct mxt_data *data = dev_get_drvdata(dev);
+ 	struct mxt_info *info = data->info;
+-	return scnprintf(buf, PAGE_SIZE, "%u.%u\n",
++	return sysfs_emit(buf, "%u.%u\n",
+ 			 info->family_id, info->variant_id);
+ }
+
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index 9ac1378610bc..b2ec2e04f943 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -445,7 +445,7 @@ static ssize_t edt_ft5x06_setting_show(struct device *dev,
+ 		*field = val;
+ 	}
+
+-	count = scnprintf(buf, PAGE_SIZE, "%d\n", val);
++	count = sysfs_emit(buf, "%d\n", val);
+ out:
+ 	mutex_unlock(&tsdata->mutex);
+ 	return error ?: count;
+diff --git a/drivers/input/touchscreen/hideep.c b/drivers/input/touchscreen/hideep.c
+index e9547ee29756..c0d72ba3c44a 100644
+--- a/drivers/input/touchscreen/hideep.c
++++ b/drivers/input/touchscreen/hideep.c
+@@ -922,7 +922,7 @@ static ssize_t hideep_fw_version_show(struct device *dev,
+ 	ssize_t len;
+
+ 	mutex_lock(&ts->dev_mutex);
+-	len = scnprintf(buf, PAGE_SIZE, "%04x\n",
++	len = sysfs_emit(buf, "%04x\n",
+ 			be16_to_cpu(ts->dwz_info.release_ver));
+ 	mutex_unlock(&ts->dev_mutex);
+
+@@ -937,7 +937,7 @@ static ssize_t hideep_product_id_show(struct device *dev,
+ 	ssize_t len;
+
+ 	mutex_lock(&ts->dev_mutex);
+-	len = scnprintf(buf, PAGE_SIZE, "%04x\n",
++	len = sysfs_emit(buf, "%04x\n",
+ 			be16_to_cpu(ts->dwz_info.product_id));
+ 	mutex_unlock(&ts->dev_mutex);
+
+diff --git a/drivers/input/touchscreen/hycon-hy46xx.c b/drivers/input/touchscreen/hycon-hy46xx.c
+index 891d0430083e..2d34959cb510 100644
+--- a/drivers/input/touchscreen/hycon-hy46xx.c
++++ b/drivers/input/touchscreen/hycon-hy46xx.c
+@@ -202,7 +202,7 @@ static ssize_t hycon_hy46xx_setting_show(struct device *dev,
+ 		*field = val;
+ 	}
+
+-	count = scnprintf(buf, PAGE_SIZE, "%d\n", val);
++	count = sysfs_emit(buf, "%d\n", val);
+
+ out:
+ 	mutex_unlock(&tsdata->mutex);
+diff --git a/drivers/input/touchscreen/ilitek_ts_i2c.c b/drivers/input/touchscreen/ilitek_ts_i2c.c
+index c5d259c76adc..114dceb13b77 100644
+--- a/drivers/input/touchscreen/ilitek_ts_i2c.c
++++ b/drivers/input/touchscreen/ilitek_ts_i2c.c
+@@ -512,7 +512,7 @@ static ssize_t firmware_version_show(struct device *dev,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct ilitek_ts_data *ts = i2c_get_clientdata(client);
+
+-	return scnprintf(buf, PAGE_SIZE,
++	return sysfs_emit(buf,
+ 			 "fw version: [%02X%02X.%02X%02X.%02X%02X.%02X%02X]\n",
+ 			 ts->firmware_ver[0], ts->firmware_ver[1],
+ 			 ts->firmware_ver[2], ts->firmware_ver[3],
+@@ -527,7 +527,7 @@ static ssize_t product_id_show(struct device *dev,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct ilitek_ts_data *ts = i2c_get_clientdata(client);
+
+-	return scnprintf(buf, PAGE_SIZE, "product id: [%04X], module: [%s]\n",
++	return sysfs_emit(buf, "product id: [%04X], module: [%s]\n",
+ 			 ts->mcu_ver, ts->product_id);
+ }
+ static DEVICE_ATTR_RO(product_id);
+diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
+index 34c4cca57d13..9119e6b5c44f 100644
+--- a/drivers/input/touchscreen/iqs5xx.c
++++ b/drivers/input/touchscreen/iqs5xx.c
+@@ -943,7 +943,7 @@ static ssize_t fw_info_show(struct device *dev,
+ 	if (!iqs5xx->dev_id_info.bl_status)
+ 		return -ENODATA;
+
+-	return scnprintf(buf, PAGE_SIZE, "%u.%u.%u.%u:%u.%u\n",
++	return sysfs_emit(buf, "%u.%u.%u.%u:%u.%u\n",
+ 			 be16_to_cpu(iqs5xx->dev_id_info.prod_num),
+ 			 be16_to_cpu(iqs5xx->dev_id_info.proj_num),
+ 			 iqs5xx->dev_id_info.major_ver,
+diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
+index d6d04b9f04fc..4b2606805240 100644
+--- a/drivers/input/touchscreen/usbtouchscreen.c
++++ b/drivers/input/touchscreen/usbtouchscreen.c
+@@ -456,7 +456,7 @@ static ssize_t mtouch_firmware_rev_show(struct device *dev,
+ 	struct usbtouch_usb *usbtouch = usb_get_intfdata(intf);
+ 	struct mtouch_priv *priv = usbtouch->priv;
+
+-	return scnprintf(output, PAGE_SIZE, "%1x.%1x\n",
++	return sysfs_emit(output, "%1x.%1x\n",
+ 			 priv->fw_rev_major, priv->fw_rev_minor);
+ }
+ static DEVICE_ATTR(firmware_rev, 0444, mtouch_firmware_rev_show, NULL);
+diff --git a/drivers/input/touchscreen/wdt87xx_i2c.c b/drivers/input/touchscreen/wdt87xx_i2c.c
+index 166edeb77776..8f1b45ec2618 100644
+--- a/drivers/input/touchscreen/wdt87xx_i2c.c
++++ b/drivers/input/touchscreen/wdt87xx_i2c.c
+@@ -887,7 +887,7 @@ static ssize_t config_csum_show(struct device *dev,
+ 	cfg_csum = wdt->param.xmls_id1;
+ 	cfg_csum = (cfg_csum << 16) | wdt->param.xmls_id2;
+
+-	return scnprintf(buf, PAGE_SIZE, "%x\n", cfg_csum);
++	return sysfs_emit(buf, "%x\n", cfg_csum);
+ }
+
+ static ssize_t fw_version_show(struct device *dev,
+@@ -896,7 +896,7 @@ static ssize_t fw_version_show(struct device *dev,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct wdt87xx_data *wdt = i2c_get_clientdata(client);
+
+-	return scnprintf(buf, PAGE_SIZE, "%x\n", wdt->param.fw_id);
++	return sysfs_emit(buf, "%x\n", wdt->param.fw_id);
+ }
+
+ static ssize_t plat_id_show(struct device *dev,
+@@ -905,7 +905,7 @@ static ssize_t plat_id_show(struct device *dev,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct wdt87xx_data *wdt = i2c_get_clientdata(client);
+
+-	return scnprintf(buf, PAGE_SIZE, "%x\n", wdt->param.plat_id);
++	return sysfs_emit(buf, "%x\n", wdt->param.plat_id);
+ }
+
+ static ssize_t update_config_store(struct device *dev,
 -- 
-nvpublic
+2.25.1
