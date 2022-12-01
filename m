@@ -2,94 +2,200 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B977D63E8C5
-	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 05:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAF9063EA82
+	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 08:49:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbiLAEKy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Nov 2022 23:10:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
+        id S229497AbiLAHtB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Dec 2022 02:49:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbiLAEKS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Nov 2022 23:10:18 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D069F48E;
-        Wed, 30 Nov 2022 20:10:06 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id fp23so2063qtb.0;
-        Wed, 30 Nov 2022 20:10:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iwiLrcYqrOHeSqU5MKCU589ont+JTVo09KPZ5wBCLIk=;
-        b=KtVbLWyOMJwJD4azBChn8YETOryZRilnVsPexgHPbMr1TuGDPv/DiFTW5xEL01Iv7K
-         AhAHUBkKHiGhxRtPWc5xzM0bLSlQbI0FYBZxGMDfwGjhAq8obat7Bb4+sdzJKK/GcgyI
-         bGmsc2aKiU3sghAiDjtirUweHrL4pHEQa8ufyrVtThCVUU9nIBaNULGjoWCxXSdAbpGm
-         X4RV2ADFhBwaboGgeVD2cBTyj+II25NWJ+TEbsx3e3igZ5VThnPNydQ6eTDTRqVb6xFg
-         FyYPm+VrEWmX+Iyc8Vu9rKnFi/yAB4ow6SOdYjjSh4+JY959aaAU4OgX6nDm934hxMFX
-         nrpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iwiLrcYqrOHeSqU5MKCU589ont+JTVo09KPZ5wBCLIk=;
-        b=S/rtrzPCDbgD2O7rBgpg6vzM3ahRJoCYPnu97F6K68s6SWf1bShwPIkEjD+JeK0v/V
-         zZige21VJ8qb4oLUN6aBnUN0XDT+5GKE335gGWIuwDfzZ47ctWdB7LsA8INxbKxYtNLr
-         v98mw2PLz7gLe+pmRJc4Flkb6F5+ARlI03ecalMifxqJX9BDD9HlQpS4MHN1bNOMVhx3
-         yBCpEPBd1CWmiSGj1Bc4P3Kqv1bNEeMmfiRY58nD5pXt9L0VKLZOzCmhuawRvbGSuE5J
-         k4HsSf0HddxVWft70jTN0mT0ACMQ6IOE+6Y6AyhUanw28fh0G8hW3pi4v7OxCENijsMz
-         vY/g==
-X-Gm-Message-State: ANoB5pm81lRUQCB124zbZaAToMwZ0vQS0G5JKUFuQYVWLuLUvEykAkKF
-        C+uS2rScDS1Asc9s93O+DtuWO1oc/sU=
-X-Google-Smtp-Source: AA0mqf4Aqs7A+jPKMXnqK/COz9IEVPQsemdujtANqZqbf2ue3olEhmBpg8+DJMQepELzayz7YLpYEw==
-X-Received: by 2002:a05:622a:1e1b:b0:3a4:30bc:849a with SMTP id br27-20020a05622a1e1b00b003a430bc849amr59180635qtb.524.1669867805478;
-        Wed, 30 Nov 2022 20:10:05 -0800 (PST)
-Received: from jesse-desktop.jtp-bos.lab ([96.237.180.62])
-        by smtp.gmail.com with ESMTPSA id w21-20020a05620a445500b006fa4ac86bfbsm2586704qkp.55.2022.11.30.20.10.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 20:10:04 -0800 (PST)
-From:   Jesse Taube <mr.bossman075@gmail.com>
-X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-input@vger.kernel.org, lee@kernel.org, lee.jones@linaro.org,
-        Mr.Bossman075@gmail.com
-Subject: [PATCH v1] drivers/mfd: simple-mfd-i2c: Add generic compatible
-Date:   Wed, 30 Nov 2022 23:10:04 -0500
-Message-Id: <20221201041004.1220467-1-Mr.Bossman075@gmail.com>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229512AbiLAHs7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Dec 2022 02:48:59 -0500
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A544043858;
+        Wed, 30 Nov 2022 23:48:48 -0800 (PST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NN7Vk6t5yz4xVnZ;
+        Thu,  1 Dec 2022 15:48:46 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.40.50])
+        by mse-fl2.zte.com.cn with SMTP id 2B17maTK013822;
+        Thu, 1 Dec 2022 15:48:36 +0800 (+08)
+        (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+        by mapi (Zmail) with MAPI id mid31;
+        Thu, 1 Dec 2022 15:48:38 +0800 (CST)
+Date:   Thu, 1 Dec 2022 15:48:38 +0800 (CST)
+X-Zmail-TransId: 2af963885c56ffffffff81a0d858
+X-Mailer: Zmail v1.0
+Message-ID: <202212011548387254492@zte.com.cn>
+Mime-Version: 1.0
+From:   <ye.xingchen@zte.com.cn>
+To:     <dmitry.torokhov@gmail.com>
+Cc:     <colin.i.king@gmail.com>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBJbnB1dDogbWlzYzogdXNlIHN5c2ZzX2VtaXQoKSB0byBpbnN0ZWFkIG9mIHNjbnByaW50Zigp?=
+Content-Type: text/plain;
+        charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 2B17maTK013822
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID 63885C5E.000 by FangMail milter!
+X-FangMail-Envelope: 1669880926/4NN7Vk6t5yz4xVnZ/63885C5E.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 63885C5E.000/4NN7Vk6t5yz4xVnZ
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some devices may want to use this driver without having a specific
-compatible string. Add a generic compatible string to allow this.
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+Replace the open-code with sysfs_emit() to simplify the code.
+
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
- drivers/mfd/simple-mfd-i2c.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/misc/ims-pcu.c | 10 +++++-----
+ drivers/input/misc/iqs269a.c | 18 +++++++++---------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
-index f4c8fc3ee463..cf2829f703e2 100644
---- a/drivers/mfd/simple-mfd-i2c.c
-+++ b/drivers/mfd/simple-mfd-i2c.c
-@@ -73,6 +73,7 @@ static const struct simple_mfd_data silergy_sy7636a = {
- };
- 
- static const struct of_device_id simple_mfd_i2c_of_match[] = {
-+	{ .compatible = "generic-simple-mfd-i2c" },
- 	{ .compatible = "kontron,sl28cpld" },
- 	{ .compatible = "silergy,sy7636a", .data = &silergy_sy7636a},
- 	{}
+diff --git a/drivers/input/misc/ims-pcu.c b/drivers/input/misc/ims-pcu.c
+index b2f1292e27ef..6e8cc28debd9 100644
+--- a/drivers/input/misc/ims-pcu.c
++++ b/drivers/input/misc/ims-pcu.c
+@@ -1050,7 +1050,7 @@ static ssize_t ims_pcu_attribute_show(struct device *dev,
+ 			container_of(dattr, struct ims_pcu_attribute, dattr);
+ 	char *field = (char *)pcu + attr->field_offset;
+
+-	return scnprintf(buf, PAGE_SIZE, "%.*s\n", attr->field_length, field);
++	return sysfs_emit(buf, "%.*s\n", attr->field_length, field);
+ }
+
+ static ssize_t ims_pcu_attribute_store(struct device *dev,
+@@ -1206,7 +1206,7 @@ ims_pcu_update_firmware_status_show(struct device *dev,
+ 	struct usb_interface *intf = to_usb_interface(dev);
+ 	struct ims_pcu *pcu = usb_get_intfdata(intf);
+
+-	return scnprintf(buf, PAGE_SIZE, "%d\n", pcu->update_firmware_status);
++	return sysfs_emit(buf, "%d\n", pcu->update_firmware_status);
+ }
+
+ static DEVICE_ATTR(update_firmware_status, S_IRUGO,
+@@ -1309,7 +1309,7 @@ static ssize_t ims_pcu_ofn_reg_data_show(struct device *dev,
+ 	if (error)
+ 		return error;
+
+-	return scnprintf(buf, PAGE_SIZE, "%x\n", data);
++	return sysfs_emit(buf, "%x\n", data);
+ }
+
+ static ssize_t ims_pcu_ofn_reg_data_store(struct device *dev,
+@@ -1344,7 +1344,7 @@ static ssize_t ims_pcu_ofn_reg_addr_show(struct device *dev,
+ 	int error;
+
+ 	mutex_lock(&pcu->cmd_mutex);
+-	error = scnprintf(buf, PAGE_SIZE, "%x\n", pcu->ofn_reg_addr);
++	error = sysfs_emit(buf, "%x\n", pcu->ofn_reg_addr);
+ 	mutex_unlock(&pcu->cmd_mutex);
+
+ 	return error;
+@@ -1397,7 +1397,7 @@ static ssize_t ims_pcu_ofn_bit_show(struct device *dev,
+ 	if (error)
+ 		return error;
+
+-	return scnprintf(buf, PAGE_SIZE, "%d\n", !!(data & (1 << attr->nr)));
++	return sysfs_emit(buf, "%d\n", !!(data & (1 << attr->nr)));
+ }
+
+ static ssize_t ims_pcu_ofn_bit_store(struct device *dev,
+diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
+index a348247d3d38..e4d5cea51f39 100644
+--- a/drivers/input/misc/iqs269a.c
++++ b/drivers/input/misc/iqs269a.c
+@@ -1332,7 +1332,7 @@ static ssize_t counts_show(struct device *dev,
+ 	if (error)
+ 		return error;
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", le16_to_cpu(counts));
++	return sysfs_emit(buf, "%u\n", le16_to_cpu(counts));
+ }
+
+ static ssize_t hall_bin_show(struct device *dev,
+@@ -1369,7 +1369,7 @@ static ssize_t hall_bin_show(struct device *dev,
+ 		return -EINVAL;
+ 	}
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
++	return sysfs_emit(buf, "%u\n", val);
+ }
+
+ static ssize_t hall_enable_show(struct device *dev,
+@@ -1377,7 +1377,7 @@ static ssize_t hall_enable_show(struct device *dev,
+ {
+ 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", iqs269->hall_enable);
++	return sysfs_emit(buf, "%u\n", iqs269->hall_enable);
+ }
+
+ static ssize_t hall_enable_store(struct device *dev,
+@@ -1407,7 +1407,7 @@ static ssize_t ch_number_show(struct device *dev,
+ {
+ 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", iqs269->ch_num);
++	return sysfs_emit(buf, "%u\n", iqs269->ch_num);
+ }
+
+ static ssize_t ch_number_store(struct device *dev,
+@@ -1435,7 +1435,7 @@ static ssize_t rx_enable_show(struct device *dev,
+ {
+ 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n",
++	return sysfs_emit(buf, "%u\n",
+ 			 iqs269->ch_reg[iqs269->ch_num].rx_enable);
+ }
+
+@@ -1475,7 +1475,7 @@ static ssize_t ati_mode_show(struct device *dev,
+ 	if (error)
+ 		return error;
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
++	return sysfs_emit(buf, "%u\n", val);
+ }
+
+ static ssize_t ati_mode_store(struct device *dev,
+@@ -1508,7 +1508,7 @@ static ssize_t ati_base_show(struct device *dev,
+ 	if (error)
+ 		return error;
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
++	return sysfs_emit(buf, "%u\n", val);
+ }
+
+ static ssize_t ati_base_store(struct device *dev,
+@@ -1541,7 +1541,7 @@ static ssize_t ati_target_show(struct device *dev,
+ 	if (error)
+ 		return error;
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
++	return sysfs_emit(buf, "%u\n", val);
+ }
+
+ static ssize_t ati_target_store(struct device *dev,
+@@ -1568,7 +1568,7 @@ static ssize_t ati_trigger_show(struct device *dev,
+ {
+ 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
+
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", iqs269->ati_current);
++	return sysfs_emit(buf, "%u\n", iqs269->ati_current);
+ }
+
+ static ssize_t ati_trigger_store(struct device *dev,
 -- 
-2.38.1
-
+2.25.1
