@@ -2,51 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAF9063EA82
-	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 08:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BCB463EA8A
+	for <lists+linux-input@lfdr.de>; Thu,  1 Dec 2022 08:50:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbiLAHtB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Dec 2022 02:49:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57036 "EHLO
+        id S229717AbiLAHuc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Dec 2022 02:50:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbiLAHs7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Dec 2022 02:48:59 -0500
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A544043858;
-        Wed, 30 Nov 2022 23:48:48 -0800 (PST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+        with ESMTP id S229711AbiLAHub (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Dec 2022 02:50:31 -0500
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B342849B53;
+        Wed, 30 Nov 2022 23:50:29 -0800 (PST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NN7Vk6t5yz4xVnZ;
-        Thu,  1 Dec 2022 15:48:46 +0800 (CST)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NN7Xh2vh0z8RV6L;
+        Thu,  1 Dec 2022 15:50:28 +0800 (CST)
 Received: from xaxapp01.zte.com.cn ([10.88.40.50])
-        by mse-fl2.zte.com.cn with SMTP id 2B17maTK013822;
-        Thu, 1 Dec 2022 15:48:36 +0800 (+08)
+        by mse-fl1.zte.com.cn with SMTP id 2B17oFIc005759;
+        Thu, 1 Dec 2022 15:50:15 +0800 (+08)
         (envelope-from ye.xingchen@zte.com.cn)
 Received: from mapi (xaxapp01[null])
         by mapi (Zmail) with MAPI id mid31;
-        Thu, 1 Dec 2022 15:48:38 +0800 (CST)
-Date:   Thu, 1 Dec 2022 15:48:38 +0800 (CST)
-X-Zmail-TransId: 2af963885c56ffffffff81a0d858
+        Thu, 1 Dec 2022 15:50:17 +0800 (CST)
+Date:   Thu, 1 Dec 2022 15:50:17 +0800 (CST)
+X-Zmail-TransId: 2af963885cb9ffffffff8cf1090a
 X-Mailer: Zmail v1.0
-Message-ID: <202212011548387254492@zte.com.cn>
+Message-ID: <202212011550176254553@zte.com.cn>
 Mime-Version: 1.0
 From:   <ye.xingchen@zte.com.cn>
 To:     <dmitry.torokhov@gmail.com>
-Cc:     <colin.i.king@gmail.com>, <linux-input@vger.kernel.org>,
+Cc:     <jiangjian@cdjrlc.com>, <linux-input@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIXSBJbnB1dDogbWlzYzogdXNlIHN5c2ZzX2VtaXQoKSB0byBpbnN0ZWFkIG9mIHNjbnByaW50Zigp?=
+Subject: =?UTF-8?B?W1BBVENIXSBJbnB1dDogbW91c2U6IHVzZSBzeXNmc19lbWl0KCkgdG8gaW5zdGVhZCBvZiBzY25wcmludGYoKQ==?=
 Content-Type: text/plain;
         charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 2B17maTK013822
+X-MAIL: mse-fl1.zte.com.cn 2B17oFIc005759
 X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID 63885C5E.000 by FangMail milter!
-X-FangMail-Envelope: 1669880926/4NN7Vk6t5yz4xVnZ/63885C5E.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 63885CC4.000 by FangMail milter!
+X-FangMail-Envelope: 1669881028/4NN7Xh2vh0z8RV6L/63885CC4.000/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<ye.xingchen@zte.com.cn>
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 63885C5E.000/4NN7Vk6t5yz4xVnZ
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Fangmail-MID-QID: 63885CC4.000/4NN7Xh2vh0z8RV6L
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -59,143 +59,109 @@ Replace the open-code with sysfs_emit() to simplify the code.
 
 Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
- drivers/input/misc/ims-pcu.c | 10 +++++-----
- drivers/input/misc/iqs269a.c | 18 +++++++++---------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/input/mouse/cyapa.c      | 14 +++++++-------
+ drivers/input/mouse/cyapa_gen3.c |  2 +-
+ drivers/input/mouse/cyapa_gen5.c |  2 +-
+ drivers/input/mouse/cyapa_gen6.c |  2 +-
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/input/misc/ims-pcu.c b/drivers/input/misc/ims-pcu.c
-index b2f1292e27ef..6e8cc28debd9 100644
---- a/drivers/input/misc/ims-pcu.c
-+++ b/drivers/input/misc/ims-pcu.c
-@@ -1050,7 +1050,7 @@ static ssize_t ims_pcu_attribute_show(struct device *dev,
- 			container_of(dattr, struct ims_pcu_attribute, dattr);
- 	char *field = (char *)pcu + attr->field_offset;
+diff --git a/drivers/input/mouse/cyapa.c b/drivers/input/mouse/cyapa.c
+index 77cc653edca2..d32643ab9ed1 100644
+--- a/drivers/input/mouse/cyapa.c
++++ b/drivers/input/mouse/cyapa.c
+@@ -756,15 +756,15 @@ static ssize_t cyapa_show_suspend_scanrate(struct device *dev,
 
--	return scnprintf(buf, PAGE_SIZE, "%.*s\n", attr->field_length, field);
-+	return sysfs_emit(buf, "%.*s\n", attr->field_length, field);
- }
+ 	switch (pwr_cmd) {
+ 	case PWR_MODE_BTN_ONLY:
+-		len = scnprintf(buf, PAGE_SIZE, "%s\n", BTN_ONLY_MODE_NAME);
++		len = sysfs_emit(buf, "%s\n", BTN_ONLY_MODE_NAME);
+ 		break;
 
- static ssize_t ims_pcu_attribute_store(struct device *dev,
-@@ -1206,7 +1206,7 @@ ims_pcu_update_firmware_status_show(struct device *dev,
- 	struct usb_interface *intf = to_usb_interface(dev);
- 	struct ims_pcu *pcu = usb_get_intfdata(intf);
+ 	case PWR_MODE_OFF:
+-		len = scnprintf(buf, PAGE_SIZE, "%s\n", OFF_MODE_NAME);
++		len = sysfs_emit(buf, "%s\n", OFF_MODE_NAME);
+ 		break;
 
--	return scnprintf(buf, PAGE_SIZE, "%d\n", pcu->update_firmware_status);
-+	return sysfs_emit(buf, "%d\n", pcu->update_firmware_status);
- }
+ 	default:
+-		len = scnprintf(buf, PAGE_SIZE, "%u\n",
++		len = sysfs_emit(buf, "%u\n",
+ 				cyapa->gen == CYAPA_GEN3 ?
+ 					cyapa_pwr_cmd_to_sleep_time(pwr_cmd) :
+ 					sleep_time);
+@@ -877,7 +877,7 @@ static ssize_t cyapa_show_rt_suspend_scanrate(struct device *dev,
 
- static DEVICE_ATTR(update_firmware_status, S_IRUGO,
-@@ -1309,7 +1309,7 @@ static ssize_t ims_pcu_ofn_reg_data_show(struct device *dev,
- 	if (error)
- 		return error;
-
--	return scnprintf(buf, PAGE_SIZE, "%x\n", data);
-+	return sysfs_emit(buf, "%x\n", data);
- }
-
- static ssize_t ims_pcu_ofn_reg_data_store(struct device *dev,
-@@ -1344,7 +1344,7 @@ static ssize_t ims_pcu_ofn_reg_addr_show(struct device *dev,
- 	int error;
-
- 	mutex_lock(&pcu->cmd_mutex);
--	error = scnprintf(buf, PAGE_SIZE, "%x\n", pcu->ofn_reg_addr);
-+	error = sysfs_emit(buf, "%x\n", pcu->ofn_reg_addr);
- 	mutex_unlock(&pcu->cmd_mutex);
-
- 	return error;
-@@ -1397,7 +1397,7 @@ static ssize_t ims_pcu_ofn_bit_show(struct device *dev,
- 	if (error)
- 		return error;
-
--	return scnprintf(buf, PAGE_SIZE, "%d\n", !!(data & (1 << attr->nr)));
-+	return sysfs_emit(buf, "%d\n", !!(data & (1 << attr->nr)));
- }
-
- static ssize_t ims_pcu_ofn_bit_store(struct device *dev,
-diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
-index a348247d3d38..e4d5cea51f39 100644
---- a/drivers/input/misc/iqs269a.c
-+++ b/drivers/input/misc/iqs269a.c
-@@ -1332,7 +1332,7 @@ static ssize_t counts_show(struct device *dev,
- 	if (error)
- 		return error;
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", le16_to_cpu(counts));
-+	return sysfs_emit(buf, "%u\n", le16_to_cpu(counts));
- }
-
- static ssize_t hall_bin_show(struct device *dev,
-@@ -1369,7 +1369,7 @@ static ssize_t hall_bin_show(struct device *dev,
- 		return -EINVAL;
- 	}
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-+	return sysfs_emit(buf, "%u\n", val);
- }
-
- static ssize_t hall_enable_show(struct device *dev,
-@@ -1377,7 +1377,7 @@ static ssize_t hall_enable_show(struct device *dev,
- {
- 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", iqs269->hall_enable);
-+	return sysfs_emit(buf, "%u\n", iqs269->hall_enable);
- }
-
- static ssize_t hall_enable_store(struct device *dev,
-@@ -1407,7 +1407,7 @@ static ssize_t ch_number_show(struct device *dev,
- {
- 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", iqs269->ch_num);
-+	return sysfs_emit(buf, "%u\n", iqs269->ch_num);
- }
-
- static ssize_t ch_number_store(struct device *dev,
-@@ -1435,7 +1435,7 @@ static ssize_t rx_enable_show(struct device *dev,
- {
- 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
+ 	mutex_unlock(&cyapa->state_sync_lock);
 
 -	return scnprintf(buf, PAGE_SIZE, "%u\n",
 +	return sysfs_emit(buf, "%u\n",
- 			 iqs269->ch_reg[iqs269->ch_num].rx_enable);
+ 			 cyapa->gen == CYAPA_GEN3 ?
+ 				cyapa_pwr_cmd_to_sleep_time(pwr_cmd) :
+ 				sleep_time);
+@@ -988,7 +988,7 @@ static ssize_t cyapa_show_fm_ver(struct device *dev,
+ 	error = mutex_lock_interruptible(&cyapa->state_sync_lock);
+ 	if (error)
+ 		return error;
+-	error = scnprintf(buf, PAGE_SIZE, "%d.%d\n", cyapa->fw_maj_ver,
++	error = sysfs_emit(buf, "%d.%d\n", cyapa->fw_maj_ver,
+ 			 cyapa->fw_min_ver);
+ 	mutex_unlock(&cyapa->state_sync_lock);
+ 	return error;
+@@ -1004,7 +1004,7 @@ static ssize_t cyapa_show_product_id(struct device *dev,
+ 	error = mutex_lock_interruptible(&cyapa->state_sync_lock);
+ 	if (error)
+ 		return error;
+-	size = scnprintf(buf, PAGE_SIZE, "%s\n", cyapa->product_id);
++	size = sysfs_emit(buf, "%s\n", cyapa->product_id);
+ 	mutex_unlock(&cyapa->state_sync_lock);
+ 	return size;
  }
-
-@@ -1475,7 +1475,7 @@ static ssize_t ati_mode_show(struct device *dev,
+@@ -1209,7 +1209,7 @@ static ssize_t cyapa_show_mode(struct device *dev,
  	if (error)
  		return error;
 
--	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-+	return sysfs_emit(buf, "%u\n", val);
- }
+-	size = scnprintf(buf, PAGE_SIZE, "gen%d %s\n",
++	size = sysfs_emit(buf, "gen%d %s\n",
+ 			cyapa->gen, cyapa_state_to_string(cyapa));
 
- static ssize_t ati_mode_store(struct device *dev,
-@@ -1508,7 +1508,7 @@ static ssize_t ati_base_show(struct device *dev,
+ 	mutex_unlock(&cyapa->state_sync_lock);
+diff --git a/drivers/input/mouse/cyapa_gen3.c b/drivers/input/mouse/cyapa_gen3.c
+index a97f4acb6452..60c83bc71d84 100644
+--- a/drivers/input/mouse/cyapa_gen3.c
++++ b/drivers/input/mouse/cyapa_gen3.c
+@@ -860,7 +860,7 @@ static ssize_t cyapa_gen3_show_baseline(struct device *dev,
+
+ 	dev_dbg(dev, "Baseline report successful. Max: %d Min: %d\n",
+ 		max_baseline, min_baseline);
+-	ret = scnprintf(buf, PAGE_SIZE, "%d %d\n", max_baseline, min_baseline);
++	ret = sysfs_emit(buf, "%d %d\n", max_baseline, min_baseline);
+
+ out:
+ 	return ret;
+diff --git a/drivers/input/mouse/cyapa_gen5.c b/drivers/input/mouse/cyapa_gen5.c
+index abf42f77b4c5..4c57036e4281 100644
+--- a/drivers/input/mouse/cyapa_gen5.c
++++ b/drivers/input/mouse/cyapa_gen5.c
+@@ -2418,7 +2418,7 @@ static ssize_t cyapa_gen5_show_baseline(struct device *dev,
+ 		return resume_error ? resume_error : error;
+
+ 	/* 12. Output data strings */
+-	size = scnprintf(buf, PAGE_SIZE, "%d %d %d %d %d %d %d %d %d %d %d ",
++	size = sysfs_emit(buf, "%d %d %d %d %d %d %d %d %d %d %d ",
+ 		gidac_mutual_min, gidac_mutual_max, gidac_mutual_ave,
+ 		lidac_mutual_min, lidac_mutual_max, lidac_mutual_ave,
+ 		gidac_self_rx, gidac_self_tx,
+diff --git a/drivers/input/mouse/cyapa_gen6.c b/drivers/input/mouse/cyapa_gen6.c
+index 0caaf3e64215..b6f7c77c96c2 100644
+--- a/drivers/input/mouse/cyapa_gen6.c
++++ b/drivers/input/mouse/cyapa_gen6.c
+@@ -629,7 +629,7 @@ static ssize_t cyapa_gen6_show_baseline(struct device *dev,
  	if (error)
- 		return error;
+ 		goto resume_scanning;
 
--	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-+	return sysfs_emit(buf, "%u\n", val);
- }
-
- static ssize_t ati_base_store(struct device *dev,
-@@ -1541,7 +1541,7 @@ static ssize_t ati_target_show(struct device *dev,
- 	if (error)
- 		return error;
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-+	return sysfs_emit(buf, "%u\n", val);
- }
-
- static ssize_t ati_target_store(struct device *dev,
-@@ -1568,7 +1568,7 @@ static ssize_t ati_trigger_show(struct device *dev,
- {
- 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", iqs269->ati_current);
-+	return sysfs_emit(buf, "%u\n", iqs269->ati_current);
- }
-
- static ssize_t ati_trigger_store(struct device *dev,
+-	size = scnprintf(buf, PAGE_SIZE, "%d %d %d %d %d %d ",
++	size = sysfs_emit(buf, "%d %d %d %d %d %d ",
+ 			data[0],  /* RX Attenuator Mutual */
+ 			data[1],  /* IDAC Mutual */
+ 			data[2],  /* RX Attenuator Self RX */
 -- 
 2.25.1
