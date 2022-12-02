@@ -2,119 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 846AB6400D0
-	for <lists+linux-input@lfdr.de>; Fri,  2 Dec 2022 08:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C919A6401B8
+	for <lists+linux-input@lfdr.de>; Fri,  2 Dec 2022 09:13:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231904AbiLBHEL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Dec 2022 02:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51786 "EHLO
+        id S232797AbiLBINC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Dec 2022 03:13:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230163AbiLBHEL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Dec 2022 02:04:11 -0500
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC4EBEE36;
-        Thu,  1 Dec 2022 23:04:09 -0800 (PST)
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+        with ESMTP id S232726AbiLBIMq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Dec 2022 03:12:46 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CBFC2A706;
+        Fri,  2 Dec 2022 00:12:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mxct.zte.com.cn (FangMail) with ESMTPS id 4NNkSm1BnXz501Qh;
-        Fri,  2 Dec 2022 15:04:08 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.40.50])
-        by mse-fl1.zte.com.cn with SMTP id 2B2743YH020599;
-        Fri, 2 Dec 2022 15:04:04 +0800 (+08)
-        (envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-        by mapi (Zmail) with MAPI id mid31;
-        Fri, 2 Dec 2022 15:04:06 +0800 (CST)
-Date:   Fri, 2 Dec 2022 15:04:06 +0800 (CST)
-X-Zmail-TransId: 2af96389a36634a2bc70
-X-Mailer: Zmail v1.0
-Message-ID: <202212021504062431427@zte.com.cn>
-Mime-Version: 1.0
-From:   <ye.xingchen@zte.com.cn>
-To:     <dmitry.torokhov@gmail.com>
-Cc:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <jeff@labundy.com>
-Subject: =?UTF-8?B?W1BBVENIIHYyXSBJbnB1dDogcm1pNDogdXNlIHN5c2ZzX2VtaXQoKSB0byBpbnN0ZWFkIG9mIHNjbnByaW50Zigp?=
-Content-Type: text/plain;
-        charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 2B2743YH020599
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.251.13.novalocal with ID 6389A368.000 by FangMail milter!
-X-FangMail-Envelope: 1669964648/4NNkSm1BnXz501Qh/6389A368.000/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<ye.xingchen@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6389A368.000/4NNkSm1BnXz501Qh
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1CA8AB820F2;
+        Fri,  2 Dec 2022 08:12:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80EDDC433C1;
+        Fri,  2 Dec 2022 08:12:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669968759;
+        bh=1YHxaPfn8M9jQ9cv60wp0gSTaug3FBn0xd2YrhV7jFE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FYP2iZk3IazuD58r2b1YB2eThdPH7+E9tkUrp/bYL0LJjHSzr1Ps36EnuLz3TJD6E
+         u/nUeLeLwU/Xv80EOMVitVb+DqTHy+Uy3N5VnTo3bqyjboGu30AVYs32RUrPHvl5n2
+         FAZdPwGxQ1HXe1YbnuZfQHz03GVkBrl3svnKj8DBLWe4MKcmD+leML0aut6jRBH4H6
+         TEjvr3crz9a9nk8/QMhHojo71lr2Rf7hqMJ0+otoOWdrggLrTAdSsgOS1i9ps4y2o2
+         MptM2J6MVAYb8llwVPvQjAd0rJORjVOhBQxdTNRkq/reLkfjWGzuz5/XbXd32eR+h7
+         G08dYXXQdowxA==
+Date:   Fri, 2 Dec 2022 08:12:35 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Jesse Taube <mr.bossman075@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        lee.jones@linaro.org
+Subject: Re: [PATCH v1] drivers/mfd: simple-mfd-i2c: Add generic compatible
+Message-ID: <Y4mzc7DieBNrYBpy@google.com>
+References: <20221201041004.1220467-1-Mr.Bossman075@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221201041004.1220467-1-Mr.Bossman075@gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+On Wed, 30 Nov 2022, Jesse Taube wrote:
 
-Replace the open-code with sysfs_emit() to simplify the code.
+> Some devices may want to use this driver without having a specific
+> compatible string. Add a generic compatible string to allow this.
 
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
----
-v1 -> v2
-Fix the code style.
- drivers/input/rmi4/rmi_f01.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+I actually really like this idea.
 
-diff --git a/drivers/input/rmi4/rmi_f01.c b/drivers/input/rmi4/rmi_f01.c
-index d7603c50f864..29f3ba1599e8 100644
---- a/drivers/input/rmi4/rmi_f01.c
-+++ b/drivers/input/rmi4/rmi_f01.c
-@@ -267,8 +267,7 @@ static ssize_t rmi_driver_manufacturer_id_show(struct device *dev,
- 	struct rmi_driver_data *data = dev_get_drvdata(dev);
- 	struct f01_data *f01 = dev_get_drvdata(&data->f01_container->dev);
+Perhaps kontron,sl28cpld could also be converted too.
 
--	return scnprintf(buf, PAGE_SIZE, "%d\n",
--			 f01->properties.manufacturer_id);
-+	return sysfs_emit(buf, "%d\n", f01->properties.manufacturer_id);
- }
+Please reverse the nomenclature though:
 
- static DEVICE_ATTR(manufacturer_id, 0444,
-@@ -280,7 +279,7 @@ static ssize_t rmi_driver_dom_show(struct device *dev,
- 	struct rmi_driver_data *data = dev_get_drvdata(dev);
- 	struct f01_data *f01 = dev_get_drvdata(&data->f01_container->dev);
+  simple-mfd-i2c-generic
 
--	return scnprintf(buf, PAGE_SIZE, "%s\n", f01->properties.dom);
-+	return sysfs_emit(buf, "%s\n", f01->properties.dom);
- }
+> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+> ---
+>  drivers/mfd/simple-mfd-i2c.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
+> index f4c8fc3ee463..cf2829f703e2 100644
+> --- a/drivers/mfd/simple-mfd-i2c.c
+> +++ b/drivers/mfd/simple-mfd-i2c.c
+> @@ -73,6 +73,7 @@ static const struct simple_mfd_data silergy_sy7636a = {
+>  };
+>  
+>  static const struct of_device_id simple_mfd_i2c_of_match[] = {
+> +	{ .compatible = "generic-simple-mfd-i2c" },
+>  	{ .compatible = "kontron,sl28cpld" },
+>  	{ .compatible = "silergy,sy7636a", .data = &silergy_sy7636a},
+>  	{}
 
- static DEVICE_ATTR(date_of_manufacture, 0444, rmi_driver_dom_show, NULL);
-@@ -292,7 +291,7 @@ static ssize_t rmi_driver_product_id_show(struct device *dev,
- 	struct rmi_driver_data *data = dev_get_drvdata(dev);
- 	struct f01_data *f01 = dev_get_drvdata(&data->f01_container->dev);
-
--	return scnprintf(buf, PAGE_SIZE, "%s\n", f01->properties.product_id);
-+	return sysfs_emit(buf, "%s\n", f01->properties.product_id);
- }
-
- static DEVICE_ATTR(product_id, 0444, rmi_driver_product_id_show, NULL);
-@@ -304,7 +303,7 @@ static ssize_t rmi_driver_firmware_id_show(struct device *dev,
- 	struct rmi_driver_data *data = dev_get_drvdata(dev);
- 	struct f01_data *f01 = dev_get_drvdata(&data->f01_container->dev);
-
--	return scnprintf(buf, PAGE_SIZE, "%d\n", f01->properties.firmware_id);
-+	return sysfs_emit(buf, "%d\n", f01->properties.firmware_id);
- }
-
- static DEVICE_ATTR(firmware_id, 0444, rmi_driver_firmware_id_show, NULL);
-@@ -318,8 +317,8 @@ static ssize_t rmi_driver_package_id_show(struct device *dev,
-
- 	u32 package_id = f01->properties.package_id;
-
--	return scnprintf(buf, PAGE_SIZE, "%04x.%04x\n",
--			 package_id & 0xffff, (package_id >> 16) & 0xffff);
-+	return sysfs_emit(buf, "%04x.%04x\n",
-+			package_id & 0xffff, (package_id >> 16) & 0xffff);
- }
-
- static DEVICE_ATTR(package_id, 0444, rmi_driver_package_id_show, NULL);
 -- 
-2.25.1
+Lee Jones [李琼斯]
