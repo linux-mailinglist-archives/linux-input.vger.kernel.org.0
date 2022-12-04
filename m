@@ -2,43 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9427D641E50
-	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 18:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBA72641E52
+	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 18:56:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbiLDR4O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Dec 2022 12:56:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41384 "EHLO
+        id S230209AbiLDR4Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Dec 2022 12:56:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230268AbiLDR4N (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 12:56:13 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C008140D0
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 09:56:12 -0800 (PST)
+        with ESMTP id S230268AbiLDR4P (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 12:56:15 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81766140D0
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 09:56:14 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1AAA6B80B8E
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E789CC433D7;
-        Sun,  4 Dec 2022 17:56:09 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4340FB80886
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45DF0C433C1;
+        Sun,  4 Dec 2022 17:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670176570;
-        bh=rP4CzG0/AcVjdoHGkquS0ZRSwA95mBNSbJ3ZVt6rlLg=;
+        s=k20201202; t=1670176572;
+        bh=XlqaHO4DKK4/tExXGHlwiTmpl72Ain9+PidTnAzVTzA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JiBAvo5FWT1laJ4HYAuF/i51q9yMH6EKG7q5tji+6mFadLlsv56KuRltrkpW5sPqE
-         jJVVvJlSCr8uh3itOABMCzkjpwcIGuzTr4tvo4Gm4Hiw0vJjQf6nppONJe0vAfnkMj
-         cuMbcM1TzDfX11E72SGLsnbrPoCXvsxMoCW43yn6cZCoLHKfjCb0V6EW0Tm1VQ+s4L
-         o46pp8bVoWrj4NO1E9G8orxxDF2oGUDp0kyFsL2PXiNcjUm9vP8+5BVH5U5oEa4RHD
-         E6h5q4FdGuDVfLm5fvWr24GrDCK9yTQxzzDEHflbaaXyvJLshzgnR45Cunu4w/Wo15
-         5GqX3eFP7+ivw==
+        b=cc3QqKQliuAClX/k5qsL4MJLkXvi3vMoCCFlNlYUS2Qpy/5Dq0DNFyucmn+eajCrN
+         So4xWcuzcV7NHWCvRlM/SkSnUbZdsvQihz6Z2/oTO+xDAD2yOA5IOi2v0QJb/7JT8o
+         6DPE14Of5yjfdCf9ameRVlScMZwB6UzcJPU4a1Pogbb+MULuV08QlEtBU/uLDawCEC
+         dCLjnLlZZTJ8q16Tni23gr+n//1te1IJ+i32dcutSqF/A4MePYFceXk8WrzW6ZkDFZ
+         AT5FLI0dPWVHEbR2PG7Gmp/WKLfNRtoFynmVjbrBIi3+iJ2jR+2CuWwE41IumpmLSv
+         BRw6n+uITTxNQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Yassine Oudjana <y.oudjana@protonmail.com>
-Subject: [PATCH 04/32] Input: cypress-sf - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Sun,  4 Dec 2022 18:08:13 +0000
-Message-Id: <20221204180841.2211588-5-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 05/32] Input: ep39xx-keypad - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Sun,  4 Dec 2022 18:08:14 +0000
+Message-Id: <20221204180841.2211588-6-jic23@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204180841.2211588-1-jic23@kernel.org>
 References: <20221204180841.2211588-1-jic23@kernel.org>
@@ -62,53 +61,52 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Yassine Oudjana <y.oudjana@protonmail.com>
 ---
- drivers/input/keyboard/cypress-sf.c | 10 +++++-----
+ drivers/input/keyboard/ep93xx_keypad.c | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/keyboard/cypress-sf.c b/drivers/input/keyboard/cypress-sf.c
-index 9a23eed6a4f4..686388f40317 100644
---- a/drivers/input/keyboard/cypress-sf.c
-+++ b/drivers/input/keyboard/cypress-sf.c
-@@ -168,7 +168,7 @@ static int cypress_sf_probe(struct i2c_client *client)
- 	return 0;
- };
+diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
+index f5bf7524722a..55075addcac2 100644
+--- a/drivers/input/keyboard/ep93xx_keypad.c
++++ b/drivers/input/keyboard/ep93xx_keypad.c
+@@ -178,7 +178,7 @@ static void ep93xx_keypad_close(struct input_dev *pdev)
+ }
  
--static int __maybe_unused cypress_sf_suspend(struct device *dev)
-+static int cypress_sf_suspend(struct device *dev)
+ 
+-static int __maybe_unused ep93xx_keypad_suspend(struct device *dev)
++static int ep93xx_keypad_suspend(struct device *dev)
  {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct cypress_sf_data *touchkey = i2c_get_clientdata(client);
-@@ -187,7 +187,7 @@ static int __maybe_unused cypress_sf_suspend(struct device *dev)
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
+@@ -196,7 +196,7 @@ static int __maybe_unused ep93xx_keypad_suspend(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused cypress_sf_resume(struct device *dev)
-+static int cypress_sf_resume(struct device *dev)
+-static int __maybe_unused ep93xx_keypad_resume(struct device *dev)
++static int ep93xx_keypad_resume(struct device *dev)
  {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct cypress_sf_data *touchkey = i2c_get_clientdata(client);
-@@ -205,8 +205,8 @@ static int __maybe_unused cypress_sf_resume(struct device *dev)
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
+@@ -217,8 +217,8 @@ static int __maybe_unused ep93xx_keypad_resume(struct device *dev)
  	return 0;
  }
  
--static SIMPLE_DEV_PM_OPS(cypress_sf_pm_ops,
--			 cypress_sf_suspend, cypress_sf_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(cypress_sf_pm_ops,
-+				cypress_sf_suspend, cypress_sf_resume);
+-static SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
+-			 ep93xx_keypad_suspend, ep93xx_keypad_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
++				ep93xx_keypad_suspend, ep93xx_keypad_resume);
  
- static struct i2c_device_id cypress_sf_id_table[] = {
- 	{ CYPRESS_SF_DEV_NAME, 0 },
-@@ -225,7 +225,7 @@ MODULE_DEVICE_TABLE(of, cypress_sf_of_match);
- static struct i2c_driver cypress_sf_driver = {
- 	.driver = {
- 		.name = CYPRESS_SF_DEV_NAME,
--		.pm = &cypress_sf_pm_ops,
-+		.pm = pm_sleep_ptr(&cypress_sf_pm_ops),
- 		.of_match_table = of_match_ptr(cypress_sf_of_match),
+ static void ep93xx_keypad_release_gpio_action(void *_pdev)
+ {
+@@ -318,7 +318,7 @@ static int ep93xx_keypad_remove(struct platform_device *pdev)
+ static struct platform_driver ep93xx_keypad_driver = {
+ 	.driver		= {
+ 		.name	= "ep93xx-keypad",
+-		.pm	= &ep93xx_keypad_pm_ops,
++		.pm	= pm_sleep_ptr(&ep93xx_keypad_pm_ops),
  	},
- 	.id_table = cypress_sf_id_table,
+ 	.probe		= ep93xx_keypad_probe,
+ 	.remove		= ep93xx_keypad_remove,
 -- 
 2.38.1
 
