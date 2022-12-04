@@ -2,42 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D175641E63
-	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 18:57:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEAD6641E61
+	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 18:57:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230331AbiLDR4z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S230292AbiLDR4z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sun, 4 Dec 2022 12:56:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41490 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230292AbiLDR4a (ORCPT
+        with ESMTP id S230288AbiLDR4a (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 12:56:30 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F02140D2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80859140CD
         for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 09:56:29 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 64A80B80B8A
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65529C433B5;
-        Sun,  4 Dec 2022 17:56:26 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1AEBD60EE7
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90DABC433C1;
+        Sun,  4 Dec 2022 17:56:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670176587;
-        bh=1uYTSA3Wuayjm+Jl/K7BBz072B6EuiSzLKQAvcY0wsw=;
+        s=k20201202; t=1670176588;
+        bh=2WR9kOo0nY7FrtMJ1hCnsomQ+6lvIodIoy2y8BxPUyU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Sn+fzMS28oYN/OjneVqmw0loXTvNRykExEEVDxgA0rt9EIvHkPGhaPUR+zS3pybSS
-         lJ/5yDN1mX5jnctao2fumkAsSStcCnYVcJCl54l+T9kfcpBIxMyoz0EhBi60isD50U
-         s2VD1z6QZ66d/hpehXmMRPI3/rjape7t1PAbm1VSwjxX6QCEd55ur6lCNI2W194gam
-         I7AP5P4dbGZnoyfZu46TepWD/dCOTjgLSstkEi0sInebhO+BsN4Wo7wTO9KNtuyKPw
-         ZDtdl32LYFiBIMfVtncvANFt3zLwvxgjPn92cUhfzc5LQYRkZ8ciYP4nqy7ph4JtJU
-         g73ncV4hCrA8g==
+        b=FrqI9cXcbZFTkX3L4alWa1YHpS/PyQ331z605Hj1Q1TEu4cY0lJvXdYpHpv/kZIri
+         BXrGJFkOpKiOTmI/XfwdG2hYUq6xzqUxOIfcLd4sNXkXH5F2l0CwynR8Pf2oyJKNUD
+         pX6Ct2dGEQIkJz3uX5TlDREthzd2EbHL5RhG8YKjn1MBo0a5v1Da1zXBdx0pdHQW1D
+         STtXnEsgGM0WN2vLkTCXfLdk7AcoM6QjwZ5gCW21kvl4/liVMat+OuMGGs5fMtbykh
+         BPBdHHUws6pYx1D/4skpIR4Yw+xTezn/Cfc5dsFuH/eQfvToBmtTOiY/p25AEzWMBK
+         2m1/orX/B0Jww==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 17/32] Input: mcs-touchkey - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Sun,  4 Dec 2022 18:08:26 +0000
-Message-Id: <20221204180841.2211588-18-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 18/32] Input: nomadik-ske-keypad - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Sun,  4 Dec 2022 18:08:27 +0000
+Message-Id: <20221204180841.2211588-19-jic23@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204180841.2211588-1-jic23@kernel.org>
 References: <20221204180841.2211588-1-jic23@kernel.org>
@@ -61,44 +62,42 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the ifdef guards.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/input/keyboard/mcs_touchkey.c | 8 +++-----
+ drivers/input/keyboard/nomadik-ske-keypad.c | 8 +++-----
  1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/keyboard/mcs_touchkey.c b/drivers/input/keyboard/mcs_touchkey.c
-index 34683458524c..d414e19e4559 100644
---- a/drivers/input/keyboard/mcs_touchkey.c
-+++ b/drivers/input/keyboard/mcs_touchkey.c
-@@ -213,7 +213,6 @@ static void mcs_touchkey_shutdown(struct i2c_client *client)
- 		data->poweron(false);
+diff --git a/drivers/input/keyboard/nomadik-ske-keypad.c b/drivers/input/keyboard/nomadik-ske-keypad.c
+index 0d55a95347f1..970f2a671c2e 100644
+--- a/drivers/input/keyboard/nomadik-ske-keypad.c
++++ b/drivers/input/keyboard/nomadik-ske-keypad.c
+@@ -388,7 +388,6 @@ static int ske_keypad_remove(struct platform_device *pdev)
+ 	return 0;
  }
  
 -#ifdef CONFIG_PM_SLEEP
- static int mcs_touchkey_suspend(struct device *dev)
+ static int ske_keypad_suspend(struct device *dev)
  {
- 	struct mcs_touchkey_data *data = dev_get_drvdata(dev);
-@@ -243,10 +242,9 @@ static int mcs_touchkey_resume(struct device *dev)
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -416,15 +415,14 @@ static int ske_keypad_resume(struct device *dev)
  
  	return 0;
  }
 -#endif
  
--static SIMPLE_DEV_PM_OPS(mcs_touchkey_pm_ops,
--			 mcs_touchkey_suspend, mcs_touchkey_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(mcs_touchkey_pm_ops,
-+				mcs_touchkey_suspend, mcs_touchkey_resume);
+-static SIMPLE_DEV_PM_OPS(ske_keypad_dev_pm_ops,
+-			 ske_keypad_suspend, ske_keypad_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(ske_keypad_dev_pm_ops,
++				ske_keypad_suspend, ske_keypad_resume);
  
- static const struct i2c_device_id mcs_touchkey_id[] = {
- 	{ "mcs5000_touchkey", MCS5000_TOUCHKEY },
-@@ -258,7 +256,7 @@ MODULE_DEVICE_TABLE(i2c, mcs_touchkey_id);
- static struct i2c_driver mcs_touchkey_driver = {
+ static struct platform_driver ske_keypad_driver = {
  	.driver = {
- 		.name	= "mcs_touchkey",
--		.pm	= &mcs_touchkey_pm_ops,
-+		.pm	= pm_sleep_ptr(&mcs_touchkey_pm_ops),
+ 		.name = "nmk-ske-keypad",
+-		.pm = &ske_keypad_dev_pm_ops,
++		.pm = pm_sleep_ptr(&ske_keypad_dev_pm_ops),
  	},
- 	.probe_new	= mcs_touchkey_probe,
- 	.remove		= mcs_touchkey_remove,
+ 	.remove = ske_keypad_remove,
+ };
 -- 
 2.38.1
 
