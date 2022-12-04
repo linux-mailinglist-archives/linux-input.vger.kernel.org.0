@@ -2,143 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 249E8641689
-	for <lists+linux-input@lfdr.de>; Sat,  3 Dec 2022 13:08:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99E8E641AB0
+	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 05:38:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbiLCMI5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 3 Dec 2022 07:08:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53636 "EHLO
+        id S229928AbiLDEiX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 3 Dec 2022 23:38:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbiLCMI4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 3 Dec 2022 07:08:56 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 967D4178A7
-        for <linux-input@vger.kernel.org>; Sat,  3 Dec 2022 04:08:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670069336; x=1701605336;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZXEUkWi22IAFeHaaOaZIzjeowWfsNdanMP2L6/bEyRc=;
-  b=IyOzKbg5nYhq0zbdSkRZoI38tBWZ3xnNw94+UefKBOJhJxBkWdi/XXW1
-   7DFBpEhKWIQrmu9bFJceT14WQL4ifINjmXi7NobwAEn3ZnJuhk+tbX6U2
-   vDLppd+Z54aBrqj0GGvV+fWWWxVuoVsnuIoanakebMw/BHze2tsUc51HQ
-   K/XSKS5+wTjeREGquWC84vEqLN0s+qNOXjvVz0h9+nt8lnI4mLHQn4M17
-   3IKAMmrIwunj3SEQSr4B6MVWPWlIIxEbBAoFd3n3NosWDhUDcl9P8XcQf
-   QRXfCjCxzzDWXZOfjL7svPKBaWGOcgMckJV0KXe54DiPM5IZoNJSp38DE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="317973707"
-X-IronPort-AV: E=Sophos;i="5.96,214,1665471600"; 
-   d="scan'208";a="317973707"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2022 04:08:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="751599686"
-X-IronPort-AV: E=Sophos;i="5.96,214,1665471600"; 
-   d="scan'208";a="751599686"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2022 04:08:52 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p1RK7-000EWD-32;
-        Sat, 03 Dec 2022 12:08:51 +0000
-Date:   Sat, 03 Dec 2022 20:08:09 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:master] BUILD SUCCESS
- 56232e933dd6a930167f0147463e8d07851278ec
-Message-ID: <638b3c29.JSpDrmHwQ6ObAl3b%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229579AbiLDEiW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 3 Dec 2022 23:38:22 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F8071707B;
+        Sat,  3 Dec 2022 20:38:21 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so11878723pjc.3;
+        Sat, 03 Dec 2022 20:38:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ql7eeabIEDFl5mJRnEM5jNb8uyqkgLCXuNSUvQMj8Hw=;
+        b=g5uA1YVYXTC0hlJX7lqKIMn3LSbLY1wBmlspTGs4/qdc2Nmbe7Ll/0NgpiqA4WNryB
+         ZNBVFzSO/kZmidZjdb7mnnT5AtaZh9eMonqJ/6kFFp1nQ4ZYrQT6I82sYtWlx0ykGe7+
+         MBra2KizAR3pTXZhLqWgPtWVYLjdGu3DBobAgcHvbQgbqwkbuKm3hNnLEYumLP6SLc0C
+         FIMn1GMGZy0uBkkLgbtsMW/n2bPvfLY39JSal1cynxWo+XXaf4EblxCLTJn+ZVTnIjuR
+         jcdesMPVwWdGi8WOXde47cR8DDVFYt7SDeSVMwL72ZYPjpA64n17JQ0CV4YuS2wqPR8O
+         2uvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ql7eeabIEDFl5mJRnEM5jNb8uyqkgLCXuNSUvQMj8Hw=;
+        b=NpCkRx9LpDv0LHVbSUpmtI2YhKt3O7QL2EAAu3A+w3Mn+5JWPqbHJzO+Fbu/xdHf8Z
+         ViEkPkK6dwza1yjXK9NAbxdCyggXtQGdWwuB/uPTPowMhLAr9STmGGDwA+QZ7TproXf6
+         VZEehzj0FEeA2BBQanu2pLA3JsVjAkGSYA1m83VmiXzuYKsXDphFVjMBFzid09ygIHCG
+         WxsBsv6L2BDNgYLhFOIXb2pgcjf1oOxa4YjEm2CmqAd7tqKG+w7r/228fQ7Q3017L3cf
+         ew977Ibe8900oyx2LMoNu9J8IsH7WuFj++y9BFMcdKyeELOkU3ijMLTmlLtJ6o654GZA
+         jT+g==
+X-Gm-Message-State: ANoB5pnAQy1nGps8mCaDu9rA1dzsrU1a4b0NSDL/w9x4P3mlVgRu/M5G
+        X+E0dM8n+Fk/cmTKwHBAVTU0g6zibn4=
+X-Google-Smtp-Source: AA0mqf4zTJ2LzXQ/YZY51al7HMp/hCXFTOn33d2VcCsQ6nCZFOz5ibkxR3asHfKU4sZvPyGHwuvBDw==
+X-Received: by 2002:a17:90a:6582:b0:219:2638:42d0 with SMTP id k2-20020a17090a658200b00219263842d0mr9910696pjj.186.1670128700177;
+        Sat, 03 Dec 2022 20:38:20 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:50bf:ab09:e932:bfd2])
+        by smtp.gmail.com with ESMTPSA id l12-20020a170902e2cc00b00176a6ba5969sm2318645plc.98.2022.12.03.20.38.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Dec 2022 20:38:19 -0800 (PST)
+Date:   Sat, 3 Dec 2022 20:38:16 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.1-rc7
+Message-ID: <Y4wkOCD1YCcchwv+@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: 56232e933dd6a930167f0147463e8d07851278ec  Input: zforce_ts - Convert to i2c's .probe_new()
+Hi Linus,
 
-elapsed time: 720m
+Please pull from:
 
-configs tested: 62
-configs skipped: 2
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.1-rc7
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+to receive updates for the input subsystem. You will get:
 
-gcc tested configs:
-x86_64                    rhel-8.3-kselftests
-x86_64                          rhel-8.3-func
-powerpc                           allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-sh                               allmodconfig
-mips                             allyesconfig
-x86_64                        randconfig-a011
-powerpc                          allmodconfig
-x86_64                        randconfig-a015
-x86_64                           rhel-8.3-syz
-x86_64                        randconfig-a013
-x86_64                         rhel-8.3-kunit
-arc                  randconfig-r043-20221201
-x86_64                           rhel-8.3-kvm
-ia64                             allmodconfig
-s390                 randconfig-r044-20221201
-x86_64                        randconfig-a004
-arc                                 defconfig
-x86_64                        randconfig-a002
-s390                             allmodconfig
-alpha                               defconfig
-riscv                randconfig-r042-20221201
-s390                                defconfig
-m68k                             allmodconfig
-x86_64                        randconfig-a006
-x86_64                              defconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-s390                             allyesconfig
-m68k                             allyesconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-i386                                defconfig
-i386                          randconfig-a016
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-i386                          randconfig-a014
-i386                             allyesconfig
-i386                          randconfig-a012
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-x86_64                            allnoconfig
-i386                          randconfig-c001
+- a fix to Raydium touchscreen driver to stop leaking memory when
+  sending commands to the chip.
 
-clang tested configs:
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-hexagon              randconfig-r045-20221201
-hexagon              randconfig-r041-20221201
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a015
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a013
-i386                          randconfig-a004
-i386                          randconfig-a011
-arm                       spear13xx_defconfig
-arm                          ep93xx_defconfig
+Changelog:
+---------
+
+Zhang Xiaoxu (1):
+      Input: raydium_ts_i2c - fix memory leak in raydium_i2c_send()
+
+Diffstat:
+--------
+
+ drivers/input/touchscreen/raydium_i2c_ts.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Dmitry
