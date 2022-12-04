@@ -2,72 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49C55641FD3
-	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 22:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 088AD641FFE
+	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 23:21:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230353AbiLDVZo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Dec 2022 16:25:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49134 "EHLO
+        id S230149AbiLDWVX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Dec 2022 17:21:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230404AbiLDVZk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 16:25:40 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8634413D1D;
-        Sun,  4 Dec 2022 13:25:37 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1C6FE601D7;
-        Sun,  4 Dec 2022 21:25:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 81E4BC433D6;
-        Sun,  4 Dec 2022 21:25:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670189136;
-        bh=X8+ld/353+AbHmmH8N3deZVQR2MDIjN8csNVyOOonu0=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=N5bfx9TlijI/NAwl//VLKmtgyAGKXvWklllp8CKjV3Pu1JFPfL/d/xsi036ttv5q3
-         tWXXDUrYTriyWbW70+oP0s9CoRhFPNVJcXiWlVIJzlOs2xen1pbB6GDcp+tK71b8Kf
-         Ep5ITT1JF7EhHXfo3JEbEpfZDeWw2z7/AqDHuSNc5DBASMQAsGMFo9Lyzm18BQ0yj7
-         wYUem3xuhG182O0OXJ+2P3YPadkCev4CzVOxCJvu8IHR8yok64ltPNySJ80TcP8jJO
-         c591EaIixaH8/xK3iKwAwZege3YVjhiwPPgQSTMEy9HS9GWZeNL2ZHz3fJ1wHQuh1a
-         r3tj0pMUhS68Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6F294C395EE;
-        Sun,  4 Dec 2022 21:25:36 +0000 (UTC)
-Subject: Re: [git pull] Input updates for v6.1-rc7
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <Y4wkOCD1YCcchwv+@google.com>
-References: <Y4wkOCD1YCcchwv+@google.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y4wkOCD1YCcchwv+@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.1-rc7
-X-PR-Tracked-Commit-Id: 8c9a59939deb4bfafdc451100c03d1e848b4169b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 50f36c5aa12c8d0f2adca662e0c106212ea897a8
-Message-Id: <167018913644.1549.14784126415807357199.pr-tracker-bot@kernel.org>
-Date:   Sun, 04 Dec 2022 21:25:36 +0000
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229949AbiLDWVW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 17:21:22 -0500
+X-Greylist: delayed 337 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 04 Dec 2022 14:21:17 PST
+Received: from mail.cock.li (unknown [37.120.193.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9048B1208E
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 14:21:17 -0800 (PST)
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tfwno.gf; s=mail;
+        t=1670192137; bh=3oqF4dzN41HMYjT9vl0o2CmZ5wATpqP5E46+SXGrtJE=;
+        h=Date:From:To:Subject:From;
+        b=l+dh3uB0wLBCF4bU2St/fj/lQDCeup/hJYgMddgSpTk2EgVvBo5vKxZ2D2zfrr6/z
+         98+Y7nCSkRgmWFlQnvy0yXViCiFlJ2oKUhw9cpgg4vmgbUkAFr036UctTFumQiiql7
+         YA2c1Uq1SXSPrgovEmztnUHZfTRmMZNUxFMCjt0bxGK4KGH1V/NpKtCTkk21AMNWpK
+         qAAxIaqlv2r5huUArJ8eyBZrSK8e2tm2P3Cdx1wmLGd/ptBwmPX1H5/0wTHa/Pe3Ij
+         VB1OsHQAZwOCmLJktInSW4fYdLDMjeM0+21sV+F+wA8rI8XQmkFgYAy+9u3MQyEjEy
+         xgh+4BhYmtPQQ==
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Sun, 04 Dec 2022 22:15:37 +0000
+From:   ns@tfwno.gf
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Bug: atkbd partially stops working after using raw input
+Message-ID: <e37a43eb03aca34b8ea3e8755f6b46b9@tfwno.gf>
+X-Sender: ns@tfwno.gf
+User-Agent: Roundcube Webmail/1.3.17
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The pull request you sent on Sat, 3 Dec 2022 20:38:16 -0800:
+Greetings,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.1-rc7
+The builtin keyboard on my laptop (a ThinkPad T480), which is driven by
+the atkbd driver, can occasionally stop working after I use the
+application prboom-plus[1] for a few minutes. As the title suggests, it
+doesn't entirely stop working, but rather some keys like g, h, the up
+arrow, & Escape (on ANSI QWERTY, & might be worth mentioning that it is
+these keys specifically that get screwed up every time; maybe some
+others I'm not aware of, but it's always the same ones) simply do not do
+anything. The problem persists after I exit prboom-plus, in all
+applications, including Wayland but also even fbcon & kmscon[2].
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/50f36c5aa12c8d0f2adca662e0c106212ea897a8
+Sometimes the keys start working again practically randomly after some
+30 minutes (average) of continued use of the machine after I have closed
+prboom-plus. Why this happens is utterly beyond me. When it starts
+working again I sometimes hold the key, & this results in my (very fast)
+autorepeat being much slower than usual, which I think is an indication
+of randomly dropped inputs. Whether I rapidly press a key or just give
+it a single press every 5 seconds, it doesn't seem to make a difference
+(basically just starts working again whenever it feels like it).
 
-Thank you!
+I use this machine for many hours at a time under Wayland (so libinput
+for the input stuff), & I was not able to reproduce this without running
+prboom-plus, ever. A reboot always fixes this issue, which is the only
+consistent way of fixing it I've found; IOW if you run prboom-plus on
+that boot, your keyboard is screwed the entire time until you reboot,
+or if the keyboard is feeling in the mood to fix itself up (as detailed
+in the last paragraph). So I'm somewhat convinced this is
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+  - a kernel issue
+  - a problem that occurs when using raw input, which I imagine
+    prboom-plus, an SDL2-based application, does.
+
+Also, do note that evdev access is still mediated. Maybe I'm not using
+the right terms for this, so what I mean is:
+
+  % cat /dev/input/event4 # my keyboard
+  coreutils: /dev/input/event4: Permission denied
+
+Despite this, I don't think it's a problem with my userspace, because
+again, it affects fbcon too, even when you kill any other userspace
+using the input device.
+
+Other notes:
+  - I cannot trigger the bug immediately; you've gotta keep using
+    prboom-plus for (AFAIK) at least 2m up to potentially 7m before it
+    happens.
+  - prboom-plus suffers from the bug just as much as every application,
+    made very obvious when it becomes impossible to pause the game (yup,
+    that's Escape not delivering any inputs)
+  - other inputs like USB HID devices (USB keyboards, as well as USB mice
+    & so on) are not affected by this at all; I cannot reproduce this bug
+    with them even if I follow the reproducer entirely on the USB
+    keyboard instead of the builtin keyboard. Well, precisely, the bug
+    will still hit the builtin keyboard even though I didn't use it,
+    but the USB keyboard's inputs will still be unaffected.
+  - I have not been able to find a simpler reproducer yet; part of it is
+    that it takes so long to hit the bug to begin with
+
+Kernel version is c2bf05db6c78f53ca5cd4b48f3b9b71f78d215f1 on
+torvalds/linux.git, but I can reproduce this bug even on mainline 5.19.
+
+I can patch my kernel & tweak its configuration pretty easily, so I am
+very much open to experimental patches & using testing subsystems to
+obtain any information you might need.
+
+[1]: https://github.com/coelckers/prboom-plus
+[2]: https://github.com/Aetf/kmscon
+
+Regards,
