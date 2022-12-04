@@ -2,43 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3D0E641E56
-	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 18:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FBB9641E57
+	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 18:56:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230123AbiLDR4V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Dec 2022 12:56:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
+        id S229960AbiLDR4v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Dec 2022 12:56:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiLDR4U (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 12:56:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 924E7140CD
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 09:56:19 -0800 (PST)
+        with ESMTP id S229983AbiLDR4X (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 12:56:23 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C14140D0
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 09:56:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DEBD60EDD
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D65C433D6;
-        Sun,  4 Dec 2022 17:56:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1A255B80B8D
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03034C433C1;
+        Sun,  4 Dec 2022 17:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670176578;
-        bh=PLyI93Tj2D3ZXvAGonBYuVmFq83B08FPwkoUUbRdQzg=;
+        s=k20201202; t=1670176579;
+        bh=lNtXRtqMGslc3byALBZnfjx/EhEkMCwXUqmIRqPRA88=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eYUNF/7DTRLPlssZ+lt6V4jj1e9Lu57al1k7r/nY6o6uC4LxlNBk8s92JahuIYPjN
-         +t30kE5z5FKk51mKgve00iHV6vPZ7uQSHeZducdM2XN6S61SBmN0ZRanjIeLgATfoB
-         MEbNIJkh9JhgRqOmmq9lA4Z3CD6e4BR9ooZ1wp7+3RERMWuTHMJE+AsaRDeMa7adGp
-         7XKBoV15pHEqS675QLdu0TtzZ52U3xGl0ynQFb5P9f/Foh+92H6ItdWOZdVSJkPkfl
-         JEbVzFhpC+UMHcYwlq3vNp2dGlnhfWUvows6QktjSllaIWx+tvawR6Yq8jl4m1dIBT
-         aSGcxraFl+szQ==
+        b=fb6XAWLxJxqH6fzZSn+fiLGXbZ4MpLoGE7ysre2nvdCaI+sI1GP8HBdj7/2rEAJes
+         UzOrD3ybNrTxneLIKqGxmbN0Ay8OgR3zCiyQhhDjp2MYC52etZ4fCYrDVnamR0D/tu
+         vJWdNHcz6w4sDX1sDZhgr5Bz2Xd77y4qNGY3whUj1AdYvysqO9fhhytuGIXi3VR0cA
+         H8x+aKO7yGcU03hQNRachwpN5xfuuvEfofPTIXiDwD7vpKmvSptYhlYez6gd/ReGbD
+         T/wEru7ptpgRQTMesHx/x4BnbPwdcTSKdPNlJzwkidlH41DGF3jha72aG6a2bdBOl7
+         5VFLLmWT91jBQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH 10/32] Input: qt1050 - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Sun,  4 Dec 2022 18:08:19 +0000
-Message-Id: <20221204180841.2211588-11-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 11/32] Input: spear-keyboard - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Sun,  4 Dec 2022 18:08:20 +0000
+Message-Id: <20221204180841.2211588-12-jic23@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204180841.2211588-1-jic23@kernel.org>
 References: <20221204180841.2211588-1-jic23@kernel.org>
@@ -62,50 +61,50 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Marco Felsch <m.felsch@pengutronix.de>
 ---
- drivers/input/keyboard/qt1050.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/input/keyboard/spear-keyboard.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/keyboard/qt1050.c b/drivers/input/keyboard/qt1050.c
-index 403060d05c3b..317fe2b1f827 100644
---- a/drivers/input/keyboard/qt1050.c
-+++ b/drivers/input/keyboard/qt1050.c
-@@ -547,7 +547,7 @@ static int qt1050_probe(struct i2c_client *client)
+diff --git a/drivers/input/keyboard/spear-keyboard.c b/drivers/input/keyboard/spear-keyboard.c
+index 9838c79cb288..4bb7c533147c 100644
+--- a/drivers/input/keyboard/spear-keyboard.c
++++ b/drivers/input/keyboard/spear-keyboard.c
+@@ -284,7 +284,7 @@ static int spear_kbd_remove(struct platform_device *pdev)
  	return 0;
  }
  
--static int __maybe_unused qt1050_suspend(struct device *dev)
-+static int qt1050_suspend(struct device *dev)
+-static int __maybe_unused spear_kbd_suspend(struct device *dev)
++static int spear_kbd_suspend(struct device *dev)
  {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct qt1050_priv *ts = i2c_get_clientdata(client);
-@@ -563,7 +563,7 @@ static int __maybe_unused qt1050_suspend(struct device *dev)
- 			    device_may_wakeup(dev) ? 125 : 0);
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct spear_kbd *kbd = platform_get_drvdata(pdev);
+@@ -337,7 +337,7 @@ static int __maybe_unused spear_kbd_suspend(struct device *dev)
+ 	return 0;
  }
  
--static int __maybe_unused qt1050_resume(struct device *dev)
-+static int qt1050_resume(struct device *dev)
+-static int __maybe_unused spear_kbd_resume(struct device *dev)
++static int spear_kbd_resume(struct device *dev)
  {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct qt1050_priv *ts = i2c_get_clientdata(client);
-@@ -574,7 +574,7 @@ static int __maybe_unused qt1050_resume(struct device *dev)
- 	return regmap_write(ts->regmap, QT1050_LPMODE, 2);
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct spear_kbd *kbd = platform_get_drvdata(pdev);
+@@ -364,7 +364,8 @@ static int __maybe_unused spear_kbd_resume(struct device *dev)
+ 	return 0;
  }
  
--static SIMPLE_DEV_PM_OPS(qt1050_pm_ops, qt1050_suspend, qt1050_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(qt1050_pm_ops, qt1050_suspend, qt1050_resume);
+-static SIMPLE_DEV_PM_OPS(spear_kbd_pm_ops, spear_kbd_suspend, spear_kbd_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(spear_kbd_pm_ops,
++				spear_kbd_suspend, spear_kbd_resume);
  
- static const struct of_device_id __maybe_unused qt1050_of_match[] = {
- 	{ .compatible = "microchip,qt1050", },
-@@ -586,7 +586,7 @@ static struct i2c_driver qt1050_driver = {
- 	.driver	= {
- 		.name = "qt1050",
- 		.of_match_table = of_match_ptr(qt1050_of_match),
--		.pm = &qt1050_pm_ops,
-+		.pm = pm_sleep_ptr(&qt1050_pm_ops),
+ #ifdef CONFIG_OF
+ static const struct of_device_id spear_kbd_id_table[] = {
+@@ -379,7 +380,7 @@ static struct platform_driver spear_kbd_driver = {
+ 	.remove		= spear_kbd_remove,
+ 	.driver		= {
+ 		.name	= "keyboard",
+-		.pm	= &spear_kbd_pm_ops,
++		.pm	= pm_sleep_ptr(&spear_kbd_pm_ops),
+ 		.of_match_table = of_match_ptr(spear_kbd_id_table),
  	},
- 	.probe_new = qt1050_probe,
  };
 -- 
 2.38.1
