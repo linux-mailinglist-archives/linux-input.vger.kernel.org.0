@@ -2,43 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97D79641E5D
+	by mail.lfdr.de (Postfix) with ESMTP id E3D7E641E5E
 	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 18:57:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbiLDR4x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Dec 2022 12:56:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41464 "EHLO
+        id S230329AbiLDR4y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Dec 2022 12:56:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230286AbiLDR41 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 12:56:27 -0500
+        with ESMTP id S230287AbiLDR43 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 12:56:29 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65C1C140CD
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 09:56:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85983140CD
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 09:56:28 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 205D8B80B8A
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7283C433C1;
-        Sun,  4 Dec 2022 17:56:23 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3A156B80B89
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:56:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36468C433D6;
+        Sun,  4 Dec 2022 17:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670176584;
-        bh=9lLSaUUPEH0GXqgySigGjoaOcjTG/JbDCrjpOyjkK7w=;
+        s=k20201202; t=1670176586;
+        bh=zF6amAXTX9YciA6NiuXXHgBN8jTQyFOrZOg9yvy/vnA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kmyuIFv73eUxAwCekcJa2Gujopt5XGcrUWQdcvHIBGXRo6sw2VghlfKuaPB8xNNRV
-         JYP/x3S6nI7PF2ls5zp1jvw9DSzNRc3LwOmObHGp68cMycon+OJFARh4zyZGPGfQoI
-         TZb7U8l06VpkzhgmZY7g4qly6zczDpaj/LKxv5y3YWPvhxosnGcFOKN85zJR9zNIhZ
-         RpGrHEdXn8Jmq/xvc6iuWNVplSR1dE2KR+i+rCj7Uw8vUFn5o5xQS0LivYh5fYa43Y
-         t2qsYH3Uri9swZlQPdpI7WY0aJGNJtWyNVUJi39SjKkJ0ZY42yggWQqQ4NRalbp356
-         4Q+s+/JeEU08Q==
+        b=IKCHkix1F2I0qj2ZYmq+QOq8CR0SRi62THiKdiUAUU2kiecl5C8GjyReQEpKfHNrB
+         SnA/z/MrlQHQImn2SneUnvvKalscB0cNudA8FMWKut/8rtp+eBxIW4gzEoNw54aYHw
+         mT7tSvwVUv5nzsnEODBv/PreRs6wS05gK/I8BBX+AamHDRwgr5lpFdzopFJPqyVhXN
+         3a6X9osmm82QLlkGLh2qRwCdGT2BfOZc35uOwnwunBdik+l2yMvdZSg8fYXnZuDvsK
+         GJqTu0jy+jaT//vpeaGxgaRPmcifdSdb7JRhGh7O3tOhyssNHziYfRXpsRR+J01Tcb
+         0SmP4S+KqO/EA==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Marek Vasut <marek.vasut@gmail.com>
-Subject: [PATCH 15/32] Input: matrix-keypad - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Sun,  4 Dec 2022 18:08:24 +0000
-Message-Id: <20221204180841.2211588-16-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 16/32] Input: max7359-keypad - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Sun,  4 Dec 2022 18:08:25 +0000
+Message-Id: <20221204180841.2211588-17-jic23@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204180841.2211588-1-jic23@kernel.org>
 References: <20221204180841.2211588-1-jic23@kernel.org>
@@ -62,45 +61,42 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the ifdef guards.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Marek Vasut <marek.vasut@gmail.com>
 ---
- drivers/input/keyboard/matrix_keypad.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/input/keyboard/max7359_keypad.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-index b4c0325bbf1a..203310727d88 100644
---- a/drivers/input/keyboard/matrix_keypad.c
-+++ b/drivers/input/keyboard/matrix_keypad.c
-@@ -230,7 +230,6 @@ static void matrix_keypad_stop(struct input_dev *dev)
- 	disable_row_irqs(keypad);
+diff --git a/drivers/input/keyboard/max7359_keypad.c b/drivers/input/keyboard/max7359_keypad.c
+index 1bba11ed4132..b363749d02e2 100644
+--- a/drivers/input/keyboard/max7359_keypad.c
++++ b/drivers/input/keyboard/max7359_keypad.c
+@@ -242,7 +242,6 @@ static int max7359_probe(struct i2c_client *client)
+ 	return 0;
  }
  
 -#ifdef CONFIG_PM_SLEEP
- static void matrix_keypad_enable_wakeup(struct matrix_keypad *keypad)
+ static int max7359_suspend(struct device *dev)
  {
- 	const struct matrix_keypad_platform_data *pdata = keypad->pdata;
-@@ -299,10 +298,9 @@ static int matrix_keypad_resume(struct device *dev)
+ 	struct i2c_client *client = to_i2c_client(dev);
+@@ -267,9 +266,8 @@ static int max7359_resume(struct device *dev)
  
  	return 0;
  }
 -#endif
  
--static SIMPLE_DEV_PM_OPS(matrix_keypad_pm_ops,
--			 matrix_keypad_suspend, matrix_keypad_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(matrix_keypad_pm_ops,
-+				matrix_keypad_suspend, matrix_keypad_resume);
+-static SIMPLE_DEV_PM_OPS(max7359_pm, max7359_suspend, max7359_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(max7359_pm, max7359_suspend, max7359_resume);
  
- static int matrix_keypad_init_gpio(struct platform_device *pdev,
- 				   struct matrix_keypad *keypad)
-@@ -577,7 +575,7 @@ static struct platform_driver matrix_keypad_driver = {
- 	.remove		= matrix_keypad_remove,
- 	.driver		= {
- 		.name	= "matrix-keypad",
--		.pm	= &matrix_keypad_pm_ops,
-+		.pm	= pm_sleep_ptr(&matrix_keypad_pm_ops),
- 		.of_match_table = of_match_ptr(matrix_keypad_dt_match),
+ static const struct i2c_device_id max7359_ids[] = {
+ 	{ "max7359", 0 },
+@@ -280,7 +278,7 @@ MODULE_DEVICE_TABLE(i2c, max7359_ids);
+ static struct i2c_driver max7359_i2c_driver = {
+ 	.driver = {
+ 		.name = "max7359",
+-		.pm   = &max7359_pm,
++		.pm   = pm_sleep_ptr(&max7359_pm),
  	},
- };
+ 	.probe_new	= max7359_probe,
+ 	.id_table	= max7359_ids,
 -- 
 2.38.1
 
