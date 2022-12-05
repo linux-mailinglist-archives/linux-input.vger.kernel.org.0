@@ -2,59 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 615F464306A
-	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 19:31:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CEDF643658
+	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 22:05:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233599AbiLESbh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 13:31:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52974 "EHLO
+        id S233727AbiLEVFR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 16:05:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233550AbiLESbM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 13:31:12 -0500
-X-Greylist: delayed 620 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 05 Dec 2022 10:26:56 PST
-Received: from smtp-out-12.comm2000.it (smtp-out-12.comm2000.it [212.97.32.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D97926AFD;
-        Mon,  5 Dec 2022 10:26:56 -0800 (PST)
-Received: from francesco-nb.int.toradex.com (31-10-206-125.static.upc.ch [31.10.206.125])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: francesco@dolcini.it)
-        by smtp-out-12.comm2000.it (Postfix) with ESMTPSA id 024E7BA10E3;
-        Mon,  5 Dec 2022 19:08:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailserver.it;
-        s=mailsrv; t=1670263752;
-        bh=s9xvT9QJ++he7kg+7ITHZewgZ6NKoOKKzsBGG+A5AzU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=gjFV2BX/su1Ecg6HJzd18+TwytswlAj17WYH/MOf3o0rpS/Lh+tM0huNKwzLNyNbE
-         DMqvHDqKMufWAIGAQUmE+rfPXB+ztbidi/Y5dH0UZVYVjNezGGAzh6jJ1vivzlhcuT
-         bEM6N9IEN+UkQwBqoD/QrXnxdjzeqAFl/FscGlBbXBNYkU1FTIRf3Jl6RPJRXSTcUg
-         zxDasfDid2ujoe+hE+hOSL8DirobUevTDp8HVuIpipHHgSBAi7+Qo0K8Sq34gMd5qK
-         jj8XK6G3+a8ZiuMLScCHEkVR4LhXnl1exaUCNNrRTQs6mCpX6h1Jml1BUOb7XsyRZ0
-         SBiJhrY/j2CVw==
-Date:   Mon, 5 Dec 2022 19:08:53 +0100
-From:   Francesco Dolcini <francesco@dolcini.it>
-To:     Jerome Neanne <jneanne@baylibre.com>
-Cc:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
-        will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
-        shawnguo@kernel.org, geert+renesas@glider.be,
-        dmitry.baryshkov@linaro.org, marcel.ziswiler@toradex.com,
-        vkoul@kernel.org, biju.das.jz@bp.renesas.com, arnd@arndb.de,
-        jeff@labundy.com, afd@ti.com, khilman@baylibre.com,
-        narmstrong@baylibre.com, msp@baylibre.com, j-keerthy@ti.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: Re: [PATCH v7 0/6] Add support for TI TPS65219 PMIC.
-Message-ID: <Y44ztV+2j4krM8mp@francesco-nb.int.toradex.com>
-References: <20221104152311.1098603-1-jneanne@baylibre.com>
+        with ESMTP id S233823AbiLEVEq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 16:04:46 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8AC82B253;
+        Mon,  5 Dec 2022 13:04:15 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id r18so11549025pgr.12;
+        Mon, 05 Dec 2022 13:04:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w5Jm5k6LfpuLvqA9lN9xZn31w5E121NW4HZgJoVdqNQ=;
+        b=WYw1ISFLdZW3LzB+DW3KAeQ+1LWi2nLXXgYomdqfNC0ZeZgVOlIMaMQVootOf0AHov
+         YoUcvz6WrnCfnLBb3OTXRlWykyS7iqMjgoQREu6zc7ik7AIwM0UPUQJOUIcBjUF+XGua
+         J84WuImkEXM3x48gL0narYljldnvTorNcy9u9YLSOV9HJdhF03exi1s0a/CbTaWxH0nI
+         Qe/bAlcOpqfSMKIb9K16guwNJzGM22LKuvRdVDYIQ79THl+EE2VK4CDHc0gCR9MoaUzn
+         J4rR51bcF8cJRUtXL2Y5KLmxL9BRPJJLW5NYM/R+YYYsdCXnxJ9DuptnYho4YCg52cl4
+         8jbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w5Jm5k6LfpuLvqA9lN9xZn31w5E121NW4HZgJoVdqNQ=;
+        b=OvFk86hxO7dUaTi1QUpbmanaJNkFnoGn4Vl6KTTswrB2ICxR3txycbRLEz8+DoqP2S
+         1GZlNKIJAlSZvylqtD/rT/7f44zge9VGc7t60T/GTm5/gFGk70wbXUbFVdvziDehobvB
+         p5y0Qkv+az1+Ah6mEC60Vy5C23GZIVBkKAarh06h4GWNnhdQ4MSLireIVP22mFcW0qtM
+         JjGpAd5v3WUfv2TLFxe4sX/VaK0y3bCvTqtJOrZrRHy5lsW7Ff4EjVJorUBHLi7Y3QAY
+         TZwhBHcKFYO7I+osHmmeu4fa+Xd5FDJGL9dygBc8gat7Trx8UNzvoq9zKfRqBXB1Yb1x
+         2iAA==
+X-Gm-Message-State: ANoB5pnTMzSjdKk7CTFv4rSCa6jwjTca9fJwtj0kya3i9+VYAVLIjrME
+        kA8xQl+ZbwTf1cwJGOkpa24+t6hIUwg=
+X-Google-Smtp-Source: AA0mqf5k2No38pec4N/pv3oiLA5jZB7GguT7NZxViDiYmlC+p2j/65J9FQoQpeHhVYpz0i8yUHOPug==
+X-Received: by 2002:a63:d742:0:b0:478:bc19:a511 with SMTP id w2-20020a63d742000000b00478bc19a511mr5852942pgi.380.1670274254867;
+        Mon, 05 Dec 2022 13:04:14 -0800 (PST)
+Received: from charizard.lan (c-67-183-167-205.hsd1.wa.comcast.net. [67.183.167.205])
+        by smtp.gmail.com with ESMTPSA id b13-20020a170903228d00b0017ec1b1bf9fsm3209863plh.217.2022.12.05.13.04.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Dec 2022 13:04:13 -0800 (PST)
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [RFC PATCH 0/2] Handling of non-numbered feature reports by hidraw
+Date:   Mon,  5 Dec 2022 13:03:52 -0800
+Message-Id: <20221205210354.11846-1-andrew.smirnov@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104152311.1098603-1-jneanne@baylibre.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,11 +71,25 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 04:23:05PM +0100, Jerome Neanne wrote:
-> Hi everyone,
-Hello Jerome,
 
-are you planning to have also gpio support added to the driver?
+Hi everyone,
 
-Francesco
+I'm working on a firmware of a device that exposes a HID interface via
+USB and/or BLE and uses, among other things, non-numbered feature
+reports. Included in this series are two paches I had to create in
+order for hidraw devices created for aforementioned subsystems to
+behave in the same way when exerciesd by the same test tool.
 
+I don't know if the patches are acceptable as-is WRT to not breaking
+existing userspace, hence the RFC tag.
+
+Andrey Smirnov (2):
+  HID: uhid: Don't send the report ID if it's zero
+  HID: usbhid: Don't include report ID zero into returned data
+
+ drivers/hid/uhid.c            | 15 ++++++++++++---
+ drivers/hid/usbhid/hid-core.c | 14 --------------
+ 2 files changed, 12 insertions(+), 17 deletions(-)
+
+--
+2.34.1
