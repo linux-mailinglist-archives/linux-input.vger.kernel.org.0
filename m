@@ -2,72 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B16E364254A
-	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 10:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DC9964254C
+	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 10:02:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232435AbiLEJB3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 04:01:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47752 "EHLO
+        id S231641AbiLEJCV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 04:02:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231742AbiLEJAp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 04:00:45 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEA9F18341
-        for <linux-input@vger.kernel.org>; Mon,  5 Dec 2022 00:59:11 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id vv4so26022594ejc.2
-        for <linux-input@vger.kernel.org>; Mon, 05 Dec 2022 00:59:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFVG2GHKql4mObap2ourAu7QFKuQou+XwSrycPDhCj4=;
-        b=h0mnTCNOjIf3URNf8DcO22NFH34k+ScsW5BQAoDEFdCuHnl5B1JZhm9PA5niOgIBeH
-         5+d5a0WEeZbzqX044JciEYRXR4sz9I2SVL0NMHIxbDh0/trQbfTOOja0p8DfqkdVbG76
-         ssFwjAtjDjrdwYLcSMayNxcfux3pweAH1CMCc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFVG2GHKql4mObap2ourAu7QFKuQou+XwSrycPDhCj4=;
-        b=X7EPIpbRHGeEtjwB/XPW6HI0Hi6hRXuU0EFtelyQxNUAKOdSi2+SAzr4Quoth0I22d
-         nO8IN5X5FJckV9vS1KDQqSQjGNouOg+pUAZQS6BDzaAMtVbq37fEvulm9uS+P3Gmhikn
-         K2PaJPsGUNYCFY4srH06bdFTxapTp0TvVBr5ZL/bivrE0SZVKyyLuM+wcp0h4YiD3Mw3
-         E0qsermOhEzHuHBorYsu16piFkXKpNdB6dnPol3+PBq00sH/26/VGxp7R6pBF78kEwos
-         KWVRQlupmFKYxs9MFFgggAQWOpxo3QqYORzrgMcJJEiy+hDSVKBR2KvnPTt3ifIxp9NL
-         ptMQ==
-X-Gm-Message-State: ANoB5pnxwC0xXIaxMN9jU5bdwV2WGnu5WvRXZDykC4WlNH6iF63uMHm9
-        twbxedS7XqkwWhsQwbYk2PWK6A==
-X-Google-Smtp-Source: AA0mqf4qIT7jRbrwZ33Vg9jF3l0QT6efgVndCgFN9dWGR81zwv/iapk5WBmvw1GEVILBSLdIZgsv9Q==
-X-Received: by 2002:a17:906:7e4c:b0:7c0:e990:27c4 with SMTP id z12-20020a1709067e4c00b007c0e99027c4mr4789870ejr.677.1670230750347;
-        Mon, 05 Dec 2022 00:59:10 -0800 (PST)
-Received: from [172.16.11.74] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id l4-20020aa7c304000000b00458dc7e8ecasm5946590edq.72.2022.12.05.00.59.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 00:59:09 -0800 (PST)
-Message-ID: <58ec9951-32d7-6967-3571-d18c667ae478@rasmusvillemoes.dk>
-Date:   Mon, 5 Dec 2022 09:59:08 +0100
+        with ESMTP id S232004AbiLEJBI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 04:01:08 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 326EF111C
+        for <linux-input@vger.kernel.org>; Mon,  5 Dec 2022 00:59:38 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1p27K4-0006mZ-Mc; Mon, 05 Dec 2022 09:59:36 +0100
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1p27K4-0007vV-D9; Mon, 05 Dec 2022 09:59:36 +0100
+Date:   Mon, 5 Dec 2022 09:59:36 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH 10/32] Input: qt1050 - switch to
+ DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Message-ID: <20221205085936.hmyfznvuapmr5vdz@pengutronix.de>
+References: <20221204180841.2211588-1-jic23@kernel.org>
+ <20221204180841.2211588-11-jic23@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] Input: edt-ft5x06 - always do msleep(300) during
- initialization
-Content-Language: en-US, da
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        broonie@kernel.org
-References: <20221202105800.653982-1-linux@rasmusvillemoes.dk>
- <Y4pCtm4J3HWhYl8/@nixie71>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-In-Reply-To: <Y4pCtm4J3HWhYl8/@nixie71>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221204180841.2211588-11-jic23@kernel.org>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,64 +50,69 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 02/12/2022 19.23, Jeff LaBundy wrote:
-> + Mark
-> 
-> Hi Rasmus,
-> 
-> On Fri, Dec 02, 2022 at 11:57:59AM +0100, Rasmus Villemoes wrote:
->> We have a board with an FT5446, which is close enough to a
->> FT5506 (i.e. it also supports up to 10 touch points and has similar
->> register layout) for this driver to work. However, on our board the
->> iovcc and vcc regulators are indeed controllable (so not always-on),
->> but there is no reset or wakeup gpio hooked up.
->>
->> Without a large enough delay between the regulator_enable() calls and
->> edt_ft5x06_ts_identify(), the first edt_ft5x06_ts_readwrite() call
->> fails with -ENXIO and thus the device fails to probe. So
->> unconditionally do an mdelay(300) instead of only when a reset-gpio is
->> present.
->>
->> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> 
-> This is just my $.02, but it does not seem we are on the correct path
-> here. 300 ms sounds more like bulk capacitor charge time rather than
-> anything to do with this specific IC; is that a reasonable assumption?
-> 
-> Normally, we want to do the following:
-> 
-> 1. Enable regulator
-> 2. Wait for voltage rail to stabilize (RC time constant)
-> 3. Wait for any applicable POR delay (IC datasheet)
-> 4. Deassert reset
-> 5. Wait for any applicable reset delay (IC datasheet)
-> 6. Start communication
-> 
-> Here we are dealing with step (2), 
+Hi Jonathan,
 
-Nope, we are really essentially dealing with step 5, even if there's no
-reset gpio that we've flipped around. The data sheet says to wait 200 ms
-(and I don't know why the driver does 300, perhaps there's some other
-chip in the family with that value, or perhaps it was just a
-belt-and-suspenders choice) after releasing reset. It's just that
-"releasing reset" is, in my case, effectively happens at the same time
-as the regulators are enabled.
+thanks for the patch.
 
-I also played around with some smaller values. As I wrote, with no
-delay, I would get -ENXIO, but with both 50 and 100, the chip would
-"respond", but the values were essentially garbage (and not reproducible
-from one boot to the next). So even if it's a rather long time, it most
-definitely is a hard requirement to wait that long - perhaps we could
-make it 200, but I'd rather not reduce that time when I don't know if
-other variants have that 300 as a requirement.
+On 22-12-04, Jonathan Cameron wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
+> against unused function warnings.  The new combination of pm_sleep_ptr()
+> and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
+> thus suppressing the warning, but still allowing the unused code to be
+> removed. Thus also drop the __maybe_unused markings.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Even if we could interrogate the regulator and ask it if "are you
-actually always-on", I'd rather not make the delay conditional on that;
-we cannot know if it has been on for 300+ ms, and since the device does
-respond, but not correctly, we could end up with probing and
-initializing the device, but in a wrong state. That's a recipe for
-impossible debugging (add a single printk somewhere earlier and the
-timing changes so that suddenly it gets initialized correctly...).
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
-Rasmus
-
+> Cc: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+>  drivers/input/keyboard/qt1050.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/qt1050.c b/drivers/input/keyboard/qt1050.c
+> index 403060d05c3b..317fe2b1f827 100644
+> --- a/drivers/input/keyboard/qt1050.c
+> +++ b/drivers/input/keyboard/qt1050.c
+> @@ -547,7 +547,7 @@ static int qt1050_probe(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int __maybe_unused qt1050_suspend(struct device *dev)
+> +static int qt1050_suspend(struct device *dev)
+>  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct qt1050_priv *ts = i2c_get_clientdata(client);
+> @@ -563,7 +563,7 @@ static int __maybe_unused qt1050_suspend(struct device *dev)
+>  			    device_may_wakeup(dev) ? 125 : 0);
+>  }
+>  
+> -static int __maybe_unused qt1050_resume(struct device *dev)
+> +static int qt1050_resume(struct device *dev)
+>  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct qt1050_priv *ts = i2c_get_clientdata(client);
+> @@ -574,7 +574,7 @@ static int __maybe_unused qt1050_resume(struct device *dev)
+>  	return regmap_write(ts->regmap, QT1050_LPMODE, 2);
+>  }
+>  
+> -static SIMPLE_DEV_PM_OPS(qt1050_pm_ops, qt1050_suspend, qt1050_resume);
+> +static DEFINE_SIMPLE_DEV_PM_OPS(qt1050_pm_ops, qt1050_suspend, qt1050_resume);
+>  
+>  static const struct of_device_id __maybe_unused qt1050_of_match[] = {
+>  	{ .compatible = "microchip,qt1050", },
+> @@ -586,7 +586,7 @@ static struct i2c_driver qt1050_driver = {
+>  	.driver	= {
+>  		.name = "qt1050",
+>  		.of_match_table = of_match_ptr(qt1050_of_match),
+> -		.pm = &qt1050_pm_ops,
+> +		.pm = pm_sleep_ptr(&qt1050_pm_ops),
+>  	},
+>  	.probe_new = qt1050_probe,
+>  };
+> -- 
+> 2.38.1
+> 
+> 
