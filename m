@@ -2,69 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CD7A642964
-	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 14:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5792C642995
+	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 14:41:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232288AbiLEN3F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 08:29:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52970 "EHLO
+        id S231421AbiLENlH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 08:41:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232158AbiLEN24 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 08:28:56 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B36E0A5
-        for <linux-input@vger.kernel.org>; Mon,  5 Dec 2022 05:28:54 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id o5so18601430wrm.1
-        for <linux-input@vger.kernel.org>; Mon, 05 Dec 2022 05:28:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n6J+5H0KWEWYqjfx5EbQcfYsdjvKQnnhpjVdr0SMdxo=;
-        b=KajtrDYkbGXekCAhlvBExpgniFq8X1oDyJALi1+eg+V7l2f/ImbF6FdsgoBk3rqrlW
-         I5hqw4k2BmO6BBlttVXW/TDdiCK90mBsqe6AxSn3/kiyGOFYLKPPz5WMIRWo9W17uBt5
-         Gjv+AUM0J8GhAONtLiyMwfQsZVniEShDX7PzSR5klCzqiskjBf0bV5kUplydwMhit5Kl
-         8LTbJYOf64NAXABAhxHl5yHv2KoKu5outTvAs/LRCiN7tqNeQ2J0ij/shUlutXV/dImR
-         O6RG/U7CASUyoE1c600wvJneN74tNMM/l7CLtICFQRPkqe/SG0rfge9o21v16H07HhRd
-         gc+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n6J+5H0KWEWYqjfx5EbQcfYsdjvKQnnhpjVdr0SMdxo=;
-        b=fELEAb+chLkt6lDRFovskF346L1Bz7vob83Ct4yYHMFdTW7Bn4X9ppXa1JsIS6I3ga
-         6JVpqjYtLAq89xlkLeK9rT1bbWq7BiT3W7MoE8zsur1mO54EUpp3DjhDYaeMO2/sM9kJ
-         7Zy9K1PvuCFmnUPKGQknjoCeFbevxEdqstI00Twk/uaG1616rRHmeNo55Yl1Er9+wnUv
-         lAjiQ7NMFcpoum0L68hhmDNaKKYV6De272gtZIGVG4uF8mEcrJTYAMA0b+zR2SYyBSoI
-         5Htto6YQVbuSWNPbg/JgLvLPdBnUm9aHpeliQaceI06MFsOsIra73BjSYKqzg4umrwms
-         qqng==
-X-Gm-Message-State: ANoB5plL4BWi0SlXiuf2M/pMICi6SN0k+mGSIIFi0K7X3GGcLM9FxvZR
-        jDAwJY9tOyEyAcrJuEhhyiAV+w==
-X-Google-Smtp-Source: AA0mqf5oN5IoGcH2Dda7EcklO+hxEGRSsULwk9da/QmVIVa2SIRbH1iJO1nCE6ZTZl0bT6vFV+fNxA==
-X-Received: by 2002:adf:b610:0:b0:231:9b9f:652b with SMTP id f16-20020adfb610000000b002319b9f652bmr42911196wre.421.1670246933335;
-        Mon, 05 Dec 2022 05:28:53 -0800 (PST)
-Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id h130-20020a1c2188000000b003b4fdbb6319sm21294013wmh.21.2022.12.05.05.28.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 05:28:52 -0800 (PST)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Eirin Nya <nyanpasu256@gmail.com>, phoenix <phoenix@emc.com.tw>
-Cc:     'Dmitry Torokhov' <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "'Josh.Chen'" <josh.chen@emc.com.tw>
-Subject: Re: [PATCH V2 3/3] Input: elantech - Fix incorrectly halved
- touchpad range on ELAN v3 touchpads
-In-Reply-To: <20221202234206.6527835a.nyanpasu256@gmail.com>
-References: <20221014111533.908-1-nyanpasu256@gmail.com>
- <20221014111533.908-4-nyanpasu256@gmail.com> <Y4T2nygbxkhAQRvM@google.com>
- <Y4T21vl0mJocdpdV@google.com> <003201d904ae$05d38870$117a9950$@emc.com.tw>
- <20221202234206.6527835a.nyanpasu256@gmail.com>
-Date:   Mon, 05 Dec 2022 14:28:51 +0100
-Message-ID: <877cz6rncc.fsf@baylibre.com>
+        with ESMTP id S229954AbiLENlG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 08:41:06 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53912DF5C;
+        Mon,  5 Dec 2022 05:41:02 -0800 (PST)
+Received: (Authenticated sender: foss@0leil.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 0ED2BFF807;
+        Mon,  5 Dec 2022 13:40:47 +0000 (UTC)
+From:   Quentin Schulz <foss+kernel@0leil.net>
+To:     Samuel Holland <samuel@sholland.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Angus Ainslie <angus@akkea.ca>,
+        Ondrej Jirman <megous@megous.com>,
+        Icenowy Zheng <icenowy@aosc.io>,
+        Andy Gross <agross@kernel.org>,
+        Aleksei Mamlin <mamlinav@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        David Jander <david@protonic.nl>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Lukasz Majewski <lukma@denx.de>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Subject: [PATCH v3 0/9] fix reset line polarity for Goodix touchscreen controllers
+Date:   Mon,  5 Dec 2022 14:40:29 +0100
+Message-Id: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.10.1
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,31 +70,127 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Eirin,
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 
-On Fri, Dec 02, 2022 at 23:42, Eirin Nya <nyanpasu256@gmail.com> wrote:
+The Goodix touchscreen controller has a reset line active low. It happens to
+also be used to configure its i2c address at runtime. If the reset line is
+incorrectly asserted, the address will be wrongly configured. This cost me a few
+hours, trying to figure out why the touchscreen wouldn't work.
 
->> If the setting is indeed double resolution, can we simply multiply 
->> x_max and y_max by 2 instead of re-querying it?
->
-> Perhaps in some laptops, x_max or y_max is odd when resolution is
-> doubled, and rounded up or down in half-resolution mode, so multiplying
-> the half-resolution size by 2 results in a slightly incorrect full
-> size. I don't know if that's the case in other touchpads, but my
-> laptop's touchpad has even size in full-resolution (doubled) mode,
-> meaning it doesn't round its size in half-resolution mode (so
-> multiplying both values by 2 would work on my machine).
->
-> On Wed, 30 Nov 2022 19:22:25 +0800
-> "phoenix" <phoenix@emc.com.tw> wrote:
->
->> Consulted with FW team, we suggest re-querying x/y resolution after
->> setting absolute mode.
->
-> My current patch re-queries x/y resolution after setting absolute mode.
-> If this is the process that Elan's FW team recommends, should the patch
-> be kept as-is?
+The driver is "asserting" this reset GPIO by setting its output to 0, probably
+to reflect the physical state of the line. However, this relies on the fact that
+the Device Tree node setting the reset line polarity to active high, which is
+incorrect since the reset is active low in hardware.
 
-Yes, I think you can keep it the way it is. Dmitry will either pick it
-up or suggest additional changes.
+To fix this inconsistency, the polarity is inverted to not confuse the user
+about the reset line polarity. This obviously requires to fix the DT since most
+users had the "incorrect" value in there, it needs to be inverted.
+Note that the v2 highlighted that I was not the only one that got confused since
+PRT8MM board has the "correct" HW representation for this line in DT (which does
+not match what the driver was expecting).
 
+This is marked as RFC because I can neither test ACPI support nor boards I don't
+own. Please test on the boards you have that are impacted by this patchset and
+give your Tested-By.
+Do we also make this patch series only one patchset since the DT patches depend
+on the driver patch and vice-versa? In which tree would this go?
+
+Thanks,
+Quentin
+
+To: Bastien Nocera <hadess@hadess.net>
+To: Hans de Goede <hdegoede@redhat.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Shawn Guo <shawnguo@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pengutronix Kernel Team <kernel@pengutronix.de>
+To: Fabio Estevam <festevam@gmail.com>
+To: NXP Linux Team <linux-imx@nxp.com>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+To: Andy Gross <agross@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: Heiko Stuebner <heiko@sntech.de>
+To: David Jander <david@protonic.nl>
+To: Angus Ainslie <angus@akkea.ca>
+To: Peter Geis <pgwipeout@gmail.com>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+To: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+To: Guido Günther <agx@sigxcpu.org>
+To: Jagan Teki <jagan@amarulasolutions.com>
+To: Ondrej Jirman <megous@megous.com>
+To: Icenowy Zheng <icenowy@aosc.io>
+To: Aleksei Mamlin <mamlinav@gmail.com>
+To: Lukasz Majewski <lukma@denx.de>
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org
+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+---
+Changes in v3:
+- Cc'ing people who contributed to DTS of impacted boards,
+- removed PRT8MM DTS change since it's been reported the polarity is actually
+  correct (goes through an inverter), keeping the appropriate folks in Cc though
+  since it'd be a good idea to check this patch series anyways,
+- added ACPI_GPIO_QUIRK_NO_IO_RESTRICTION to acpi_gpio_mapping quirks to make
+  gpiolib-acpi core respect GPIOD_ASIS flag in gpiod_get,
+- checked schematics of:
+  - pinephone: https://files.pine64.org/doc/PinePhone/PinePhone%20v1.2%20Released%20Schematic.pdf
+  - pinetab: https://files.pine64.org/doc/PineTab/PineTab%20Schematic%20v1.2-20191125.pdf
+  - px30 evb: https://opensource.rock-chips.com/images/d/db/Px30_mini_evb_v10_20180528.pdf
+  - rockpro64: https://files.pine64.org/doc/rockpro64/rockpro64_v21-SCH.pdf
+  - librem5 devkit: https://source.puri.sm/Librem5/dvk-mx8m-bsb/blob/master/dvk-mx8m-bsb.pdf
+
+  All seems to be directly connected to the GPIO on the SoC side, without an
+  inverter on the line.
+- Link to v2: https://lore.kernel.org/r/20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com
+
+Changes in v2:
+- implemented ACPI support as suggested by Hans,
+- removed Qcom SC7180 Trogdor-based devices changes as they are not using this Goodix driver,
+- added comment on how to read gpiod_request_output and the GPIO DT polarity,
+- Link to v1: https://lore.kernel.org/r/20221103-upstream-goodix-reset-v1-0-87b49ae589f1@theobroma-systems.com
+
+---
+Quentin Schulz (9):
+      Input: goodix - add macro for gpio mapping
+      Input: goodix - make gpiod_get honor GPIOD_ASIS
+      Input: goodix - fix reset polarity
+      ARM: dts: imx: fix touchscreen reset GPIO polarity
+      ARM: dts: sunxi: fix touchscreen reset GPIO polarity on Wexler TAB7200 tablet
+      arm64: dts: allwinner: fix touchscreen reset GPIO polarity
+      arm64: dts: librem5: fix touchscreen reset GPIO polarity
+      arm64: dts: qcom: msm8998-fxtec: fix touchscreen reset GPIO polarity
+      arm64: dts: rockchip: fix touchscreen reset GPIO polarity
+
+ arch/arm/boot/dts/imx6q-kp.dtsi                    |  2 +-
+ arch/arm/boot/dts/imx6ul-kontron-bl-43.dts         |  2 +-
+ arch/arm/boot/dts/sun7i-a20-wexler-tab7200.dts     |  2 +-
+ .../dts/allwinner/sun50i-a64-amarula-relic.dts     |  2 +-
+ .../allwinner/sun50i-a64-oceanic-5205-5inmfd.dts   |  2 +-
+ .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi   |  2 +-
+ .../boot/dts/allwinner/sun50i-a64-pinetab.dts      |  2 +-
+ .../boot/dts/freescale/imx8mq-librem5-devkit.dts   |  2 +-
+ arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts    |  2 +-
+ arch/arm64/boot/dts/rockchip/px30-evb.dts          |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts   |  2 +-
+ drivers/input/touchscreen/goodix.c                 | 54 ++++++++++++++++++----
+ 13 files changed, 56 insertions(+), 22 deletions(-)
+---
+base-commit: 76dcd734eca23168cb008912c0f69ff408905235
+change-id: 20221103-upstream-goodix-reset-aa1c65994f57
+
+Best regards,
+-- 
+Quentin Schulz <quentin.schulz@theobroma-systems.com>
