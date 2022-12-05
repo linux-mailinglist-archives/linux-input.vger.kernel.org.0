@@ -2,118 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 088AD641FFE
-	for <lists+linux-input@lfdr.de>; Sun,  4 Dec 2022 23:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15704642109
+	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 02:24:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbiLDWVX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Dec 2022 17:21:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47312 "EHLO
+        id S231249AbiLEBYJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Dec 2022 20:24:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbiLDWVW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 17:21:22 -0500
-X-Greylist: delayed 337 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 04 Dec 2022 14:21:17 PST
-Received: from mail.cock.li (unknown [37.120.193.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9048B1208E
-        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 14:21:17 -0800 (PST)
+        with ESMTP id S231132AbiLEBYI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Dec 2022 20:24:08 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D5FE101CC
+        for <linux-input@vger.kernel.org>; Sun,  4 Dec 2022 17:24:07 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id 3-20020a17090a098300b00219041dcbe9so9952948pjo.3
+        for <linux-input@vger.kernel.org>; Sun, 04 Dec 2022 17:24:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igorinstitute-com.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=udJjLFsIsuNM+D3lyGnLy0JwlIO+NVedMCgCplH0XXs=;
+        b=2sodOIYqDSiSgt9c4aOcnZzMycrCLMB+S0oc/UblasgK8rW84vy4R/wwVZEnNlVY93
+         dVOmV12xvGZ4Oujmwz1r3dUvMOPMVaD0UHuC7nxTuYX1ZsR1ZxnqJL9/U86lKZ3CsYC0
+         wRRuLNZhYVg+RkW7uXJjyINUWtDmDvcslOU+/WpBe+vPm2tI/jkIT7jDr84wBsQW6PZ/
+         577d1OB826wBRXpLZlfIqClwq+/M5pT9pYUA/GGVIdbpLxheD6C67ZXr2wucXtLnWNXx
+         mESa5q578cQ3zESImbIxA0wk1glfr0h4sQZ8FbmVYghHbA94d3IbJjd5o2j6gfbDSPfB
+         NMBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=udJjLFsIsuNM+D3lyGnLy0JwlIO+NVedMCgCplH0XXs=;
+        b=dz/0/j3B1oONkuDJ8ogSmOyKvl0MDxsGAvp1CRuyEHiExj4eNBHvYUufV+IL88ODpd
+         UvtzgQFGaaoeAHcwW7o48CM2n3+krFjCMBowAnsZsBY/cUoqjtuTGRBqddGVf53790mC
+         U/7TvkTzE9HQ34Q6zHxu6mQ1nhnQVSxZ8fW/8DPNMoGS7siGOHd5O/eNaxwraP4jAgKi
+         rRu84xKnDnu64X3WexwraYCugJkEgRPvjkk/dqEaiKE1uqlzMrqOZmAIYkUIsnB39XK+
+         gVqxy5gpRs77OYyyKTFebSfmHw+LasbkEpGRfw8axKwJ3CLcN5j7+qaA7xuOWzxXfyxS
+         zR1w==
+X-Gm-Message-State: ANoB5pkqH3fSLN4pg7BHDMsm/Csqh7PYY5tJ1IhL/4WXo6RHCOK2+QIp
+        c2HikqlCYf1ey32gZlsC9yBZxZYPDXtiXHayhLI=
+X-Google-Smtp-Source: AA0mqf5qIK01sWvLtVrvTGJppmqa9AVW7iYDN5qPvMB9YJRe16Mwf2rVSwykwYB2y8WjCGkUQH5HtQ==
+X-Received: by 2002:a17:902:8604:b0:186:fe2d:f3cb with SMTP id f4-20020a170902860400b00186fe2df3cbmr66231522plo.132.1670203446986;
+        Sun, 04 Dec 2022 17:24:06 -0800 (PST)
+Received: from localhost ([121.99.145.49])
+        by smtp.gmail.com with ESMTPSA id r13-20020aa7962d000000b00576d4d69909sm1481840pfg.8.2022.12.04.17.24.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Dec 2022 17:24:06 -0800 (PST)
+Date:   Mon, 5 Dec 2022 14:24:03 +1300
+From:   Daniel Beer <daniel.beer@igorinstitute.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org,
+        Michael Zaidman <michael.zaidman@gmail.com>,
+        Christina Quast <contact@christina-quast.de>,
+        linux-serial@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH] hid-ft260: add UART support.
+Message-ID: <20221205012403.GA14904@nyquist.nev>
+References: <638c51a2.170a0220.3af16.18f8@mx.google.com>
+ <Y4xX7ILXMFHZtJkv@kroah.com>
+ <20221204091247.GA11195@nyquist.nev>
+ <Y4xqyRERBdr8fT7F@kroah.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tfwno.gf; s=mail;
-        t=1670192137; bh=3oqF4dzN41HMYjT9vl0o2CmZ5wATpqP5E46+SXGrtJE=;
-        h=Date:From:To:Subject:From;
-        b=l+dh3uB0wLBCF4bU2St/fj/lQDCeup/hJYgMddgSpTk2EgVvBo5vKxZ2D2zfrr6/z
-         98+Y7nCSkRgmWFlQnvy0yXViCiFlJ2oKUhw9cpgg4vmgbUkAFr036UctTFumQiiql7
-         YA2c1Uq1SXSPrgovEmztnUHZfTRmMZNUxFMCjt0bxGK4KGH1V/NpKtCTkk21AMNWpK
-         qAAxIaqlv2r5huUArJ8eyBZrSK8e2tm2P3Cdx1wmLGd/ptBwmPX1H5/0wTHa/Pe3Ij
-         VB1OsHQAZwOCmLJktInSW4fYdLDMjeM0+21sV+F+wA8rI8XQmkFgYAy+9u3MQyEjEy
-         xgh+4BhYmtPQQ==
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Sun, 04 Dec 2022 22:15:37 +0000
-From:   ns@tfwno.gf
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Bug: atkbd partially stops working after using raw input
-Message-ID: <e37a43eb03aca34b8ea3e8755f6b46b9@tfwno.gf>
-X-Sender: ns@tfwno.gf
-User-Agent: Roundcube Webmail/1.3.17
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y4xqyRERBdr8fT7F@kroah.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings,
+On Sun, Dec 04, 2022 at 10:39:21AM +0100, Greg Kroah-Hartman wrote:
+> > Thanks for reviewing. This device is quite strange -- it presents itself
+> > as a USB HID, but it provides both an I2C master and a UART. The
+> > existing driver supports only the I2C functionality currently.
+> 
+> Lots of devices are a "fake HID" device as other operating systems make
+> it easy to write userspace drivers that way.  Linux included.  What
+> userspace programs are going to want to interact with this device and
+> what api are they going to use?
 
-The builtin keyboard on my laptop (a ThinkPad T480), which is driven by
-the atkbd driver, can occasionally stop working after I use the
-application prboom-plus[1] for a few minutes. As the title suggests, it
-doesn't entirely stop working, but rather some keys like g, h, the up
-arrow, & Escape (on ANSI QWERTY, & might be worth mentioning that it is
-these keys specifically that get screwed up every time; maybe some
-others I'm not aware of, but it's always the same ones) simply do not do
-anything. The problem persists after I exit prboom-plus, in all
-applications, including Wayland but also even fbcon & kmscon[2].
+Hi Greg,
 
-Sometimes the keys start working again practically randomly after some
-30 minutes (average) of continued use of the machine after I have closed
-prboom-plus. Why this happens is utterly beyond me. When it starts
-working again I sometimes hold the key, & this results in my (very fast)
-autorepeat being much slower than usual, which I think is an indication
-of randomly dropped inputs. Whether I rapidly press a key or just give
-it a single press every 5 seconds, it doesn't seem to make a difference
-(basically just starts working again whenever it feels like it).
+The application I'm looking at uses it as a debug console, so personally
+I'd like to be able to use it with picocom and other terminal programs.
 
-I use this machine for many hours at a time under Wayland (so libinput
-for the input stuff), & I was not able to reproduce this without running
-prboom-plus, ever. A reboot always fixes this issue, which is the only
-consistent way of fixing it I've found; IOW if you run prboom-plus on
-that boot, your keyboard is screwed the entire time until you reboot,
-or if the keyboard is feeling in the mood to fix itself up (as detailed
-in the last paragraph). So I'm somewhat convinced this is
+> > > > --- a/include/uapi/linux/major.h
+> > > > +++ b/include/uapi/linux/major.h
+> > > > @@ -175,4 +175,6 @@
+> > > >  #define BLOCK_EXT_MAJOR		259
+> > > >  #define SCSI_OSD_MAJOR		260	/* open-osd's OSD scsi device */
+> > > >  
+> > > > +#define FT260_MAJOR		261
+> > > 
+> > > A whole new major for just a single tty port?  Please no, use dynamic
+> > > majors if you have to, or better yet, tie into the usb-serial
+> > > implementation (this is a USB device, right?) and then you don't have to
+> > > mess with this at all.
+> > 
+> > As far as I understand it, I don't think usb-serial is usable, due to
+> > the fact that this is already an HID driver.
+> 
+> That should not be a restriction at all.  You are adding a tty device to
+> this driver, no reason you can't interact with usb-serial instead.  That
+> way you share the correct userspace tty name and major/minor numbers and
+> all userspace tools should "just work" as they know that name and how to
+> interact with it already.
+> 
+> Try doing that instead of your own "raw" tty device please.
 
-  - a kernel issue
-  - a problem that occurs when using raw input, which I imagine
-    prboom-plus, an SDL2-based application, does.
+Maybe I've misunderstood something. The reason I thought usb-serial was
+unusable in this instance was that I couldn't see a way to create a port
+except via usb-serial's own probe function (otherwise, the API looked
+fine).
 
-Also, do note that evdev access is still mediated. Maybe I'm not using
-the right terms for this, so what I mean is:
+I don't know whether I'm looking at a serial or an I2C interface until
+after it's already been probed by HID core, I have a struct hid_device
+and I've asked what type of interface it is via an HID feature report.
+This can't be determined otherwise, because strapping pins affect the
+presentation of interfaces.
 
-  % cat /dev/input/event4 # my keyboard
-  coreutils: /dev/input/event4: Permission denied
+At that point, I (currently) call uart_add_one_port. I might have missed
+it, but I didn't see anything analogous in the usb-serial API. Am I
+going about this the wrong way?
 
-Despite this, I don't think it's a problem with my userspace, because
-again, it affects fbcon too, even when you kill any other userspace
-using the input device.
+Cheers,
+Daniel
 
-Other notes:
-  - I cannot trigger the bug immediately; you've gotta keep using
-    prboom-plus for (AFAIK) at least 2m up to potentially 7m before it
-    happens.
-  - prboom-plus suffers from the bug just as much as every application,
-    made very obvious when it becomes impossible to pause the game (yup,
-    that's Escape not delivering any inputs)
-  - other inputs like USB HID devices (USB keyboards, as well as USB mice
-    & so on) are not affected by this at all; I cannot reproduce this bug
-    with them even if I follow the reproducer entirely on the USB
-    keyboard instead of the builtin keyboard. Well, precisely, the bug
-    will still hit the builtin keyboard even though I didn't use it,
-    but the USB keyboard's inputs will still be unaffected.
-  - I have not been able to find a simpler reproducer yet; part of it is
-    that it takes so long to hit the bug to begin with
-
-Kernel version is c2bf05db6c78f53ca5cd4b48f3b9b71f78d215f1 on
-torvalds/linux.git, but I can reproduce this bug even on mainline 5.19.
-
-I can patch my kernel & tweak its configuration pretty easily, so I am
-very much open to experimental patches & using testing subsystems to
-obtain any information you might need.
-
-[1]: https://github.com/coelckers/prboom-plus
-[2]: https://github.com/Aetf/kmscon
-
-Regards,
+-- 
+Daniel Beer
+Firmware Engineer at Igor Institute
+daniel.beer@igorinstitute.com or +64-27-420-8101
+Offices in Seattle, San Francisco, and Vancouver BC or (206) 494-3312
