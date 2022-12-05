@@ -2,68 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15DAA64365D
-	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 22:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 587C164378A
+	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 22:59:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233835AbiLEVFZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 16:05:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33458 "EHLO
+        id S230317AbiLEV7r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 16:59:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233708AbiLEVEs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 16:04:48 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173CB10F;
-        Mon,  5 Dec 2022 13:04:21 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id c13so5505490pfp.5;
-        Mon, 05 Dec 2022 13:04:21 -0800 (PST)
+        with ESMTP id S230154AbiLEV7q (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 16:59:46 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0840819A;
+        Mon,  5 Dec 2022 13:59:45 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id t11-20020a17090a024b00b0021932afece4so16186980pje.5;
+        Mon, 05 Dec 2022 13:59:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TpZoCNuVtqWmqXfOBYxoJCLHU/tCYzYlfr7fdZ1HLBU=;
-        b=PC0oDyi/tmGrc1uhDSRSEHyMY+H+R9uB+dmHF3Y35EYWmpVS2VY+Xrv+sssREll6lq
-         KttFq0viN82AH9/OKk8DWaa5QQK5ITu/FGFnPaWo9T5LoNcWu4JgQ/t7xCCmrcFH/YqH
-         ga0N38vcc6CnlDsoxLkPblh8QNaxgUeBdq48dpKPheV6rGGoymBeHbxEYLJykrEqyvnx
-         taVNEOLElceyej6h+5pnu+EXV1mO/UBcm0nW7pzjXmi15UfUryXUkLjuufdfbShiAjYf
-         L++8MxBQTBq4c7EwPMxFF0V1lCVC19SK/3ArAuunrKXHJhV1ub+9rk8sTm/wuR9MxKUV
-         hiMQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sXTgHGkIn9AhAzxhCQIsbw3eRAhTdrwQh9s5Ax3GiLA=;
+        b=IKzztMWjAp+1B2x3JkBXLdVmjR66kLJOW1rd0oWVobJgKA1Gw+jY6XShIg3njUIYg5
+         Pze2gEMMik+x9MgDtUO6r2tWlo3V9Ag/q3X6iHOadeOb/zZoUi7OqcIvM9UPnGuvohJO
+         9tfACJFsVcGdn5mbSeJ/ZF/VBHvJfdXEBPV+V41P4YX+9Y6YXfZeTHK2iNHiIvL3dnJj
+         GIwYVGV5jetCdhOE3av5PpdE5VMN5yuqNeF+k1wvyeQtmngXbwkQQBkK/CUxkGAUqrUZ
+         Fl6uV5Wg0D0o5mwZss2nfiTG4cpErP2i3FcU+oloz47y/Bvy5szmJy4gYLrm6Uo7nwNp
+         2jUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TpZoCNuVtqWmqXfOBYxoJCLHU/tCYzYlfr7fdZ1HLBU=;
-        b=V7MrBsWYPCjhQRkotbS3yDL4rOl1zi4xbIcnf+bVupPNVrvq8i+RPzkmvUXdziyyQU
-         gtXsPuYmnZLw1mi32NPo0AqRpK7jFDPTCQ/LfX5HywOmclwqsDsxPv8fRUryPyjO5aQO
-         UJ/50/LHd/+hDw8FbDn/drycsB+U0mgefWOdYbth6XpXGMnnx1EB8M1FbdNPrht40Fnw
-         Pfl0tEi9RxDMf/yvvtYszg0IA6PR7b2Dh4tGjz9ymBvSALiMjWW5Pp+b41m/HY2+KOn5
-         PfM+DFnZMg8dqNJZMwDSJYBDYmTaV8NOCVTsY+m3J3glwov/XJm7w6wY+ykuJSVE/RFT
-         UobQ==
-X-Gm-Message-State: ANoB5pkpbsOxs55nzua0L2xwpA3PUtFIMoGTUu1IK+/RygB7ADYQJrkI
-        LitVxDpUXgKz3DHmVnl/TvEi+OLBKjM=
-X-Google-Smtp-Source: AA0mqf7BOcx8t21C04DWALOygV4H7r6nlIrgg9PhDxbAEYd1rUS67q8msfI3NTisCzD6lpfLLjlSNQ==
-X-Received: by 2002:a63:ea17:0:b0:477:9a46:f57b with SMTP id c23-20020a63ea17000000b004779a46f57bmr58686536pgi.319.1670274260086;
-        Mon, 05 Dec 2022 13:04:20 -0800 (PST)
-Received: from charizard.lan (c-67-183-167-205.hsd1.wa.comcast.net. [67.183.167.205])
-        by smtp.gmail.com with ESMTPSA id b13-20020a170903228d00b0017ec1b1bf9fsm3209863plh.217.2022.12.05.13.04.18
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sXTgHGkIn9AhAzxhCQIsbw3eRAhTdrwQh9s5Ax3GiLA=;
+        b=4SrsekAYsGH4yNAlC9MQuW6hu747kBB8Z60tJZhS5NQ7fX84PNNZZvNGnIlgNSR7zI
+         ke+FS+c9tZqRjIRa0FQwzLA+ISIN0vP6cEvumQmR/F35DuOUUAPM/YZ7/Sc4IWAmoZe7
+         dbqBflN+vJ7wXlNY7r17dyYBQ9b4Kf/0GZaWxByyYz98IMXOn1e7LpyBSkBiV72SuEHw
+         cfas0NvpfoKdTBtBDfeVD+pUMKcDMWw5qtt4xNtfyCNPk030UJIeVeo2B4nfXoAYEcK+
+         p7NqkyxdyYA/mkZ4aw+TI6YjaFJfJQyN1tWeOKMt7nBgpolKnJHanaMiFlUHE7RgVNkm
+         hjIg==
+X-Gm-Message-State: ANoB5pl19OJbNSikYYKFaIURyzp2oVU207+Ng2Sh2XFZqNhs6BnG1eS4
+        0GuYipoNrF5XSy1AqTI76rA=
+X-Google-Smtp-Source: AA0mqf4sXm/lDSJ+nfmn3ME0dNTpUezIOtnE0o0XXZBahaRtrZPmYhBo83v6CHngYspslj/HlrCjWg==
+X-Received: by 2002:a17:902:ef85:b0:189:c8ff:f260 with SMTP id iz5-20020a170902ef8500b00189c8fff260mr12052416plb.24.1670277584296;
+        Mon, 05 Dec 2022 13:59:44 -0800 (PST)
+Received: from macbook-pro-6.dhcp.thefacebook.com ([2620:10d:c090:400::5:11da])
+        by smtp.gmail.com with ESMTPSA id jc18-20020a17090325d200b001891a17bd93sm11127565plb.43.2022.12.05.13.59.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 13:04:19 -0800 (PST)
-From:   Andrey Smirnov <andrew.smirnov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [RFC PATCH 2/2] HID: usbhid: Don't include report ID zero into returned data
-Date:   Mon,  5 Dec 2022 13:03:54 -0800
-Message-Id: <20221205210354.11846-3-andrew.smirnov@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221205210354.11846-1-andrew.smirnov@gmail.com>
-References: <20221205210354.11846-1-andrew.smirnov@gmail.com>
+        Mon, 05 Dec 2022 13:59:43 -0800 (PST)
+Date:   Mon, 5 Dec 2022 13:59:39 -0800
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Florent Revest <revest@chromium.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+        netdev@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH HID for-next v2 1/4] bpf: do not rely on
+ ALLOW_ERROR_INJECTION for fmod_ret
+Message-ID: <Y45py14LVP/bn2r5@macbook-pro-6.dhcp.thefacebook.com>
+References: <20221205164856.705656-1-benjamin.tissoires@redhat.com>
+ <20221205164856.705656-2-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221205164856.705656-2-benjamin.tissoires@redhat.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -74,62 +77,130 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Report ID of zero is a special case for ID-less reports, which by
-definition do not have report ID as a part of their payload. Not
-returning an extra zero also matches hidraw documentation,
-specifically:
+On Mon, Dec 05, 2022 at 05:48:53PM +0100, Benjamin Tissoires wrote:
+> The current way of expressing that a non-bpf kernel component is willing
+> to accept that bpf programs can be attached to it and that they can change
+> the return value is to abuse ALLOW_ERROR_INJECTION.
+> This is debated in the link below, and the result is that it is not a
+> reasonable thing to do.
+> 
+> Reuse the kfunc declaration structure to also tag the kernel functions
+> we want to be fmodret. This way we can control from any subsystem which
+> functions are being modified by bpf without touching the verifier.
+> 
+> 
+> Link: https://lore.kernel.org/all/20221121104403.1545f9b5@gandalf.local.home/
+> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> ---
+>  include/linux/btf.h   |  3 +++
+>  kernel/bpf/btf.c      | 41 +++++++++++++++++++++++++++++++++++++++++
+>  kernel/bpf/verifier.c | 17 +++++++++++++++--
+>  net/bpf/test_run.c    | 14 +++++++++++---
+>  4 files changed, 70 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/btf.h b/include/linux/btf.h
+> index f9aababc5d78..f71cfb20b9bf 100644
+> --- a/include/linux/btf.h
+> +++ b/include/linux/btf.h
+> @@ -412,8 +412,11 @@ struct btf *bpf_prog_get_target_btf(const struct bpf_prog *prog);
+>  u32 *btf_kfunc_id_set_contains(const struct btf *btf,
+>  			       enum bpf_prog_type prog_type,
+>  			       u32 kfunc_btf_id);
+> +u32 *btf_kern_func_is_modify_return(const struct btf *btf,
+> +				    u32 kfunc_btf_id);
+>  int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
+>  			      const struct btf_kfunc_id_set *s);
+> +int register_btf_fmodret_id_set(const struct btf_kfunc_id_set *kset);
+>  s32 btf_find_dtor_kfunc(struct btf *btf, u32 btf_id);
+>  int register_btf_id_dtor_kfuncs(const struct btf_id_dtor_kfunc *dtors, u32 add_cnt,
+>  				struct module *owner);
+> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> index 35c07afac924..a22f3f45aca3 100644
+> --- a/kernel/bpf/btf.c
+> +++ b/kernel/bpf/btf.c
+> @@ -204,6 +204,7 @@ enum btf_kfunc_hook {
+>  	BTF_KFUNC_HOOK_STRUCT_OPS,
+>  	BTF_KFUNC_HOOK_TRACING,
+>  	BTF_KFUNC_HOOK_SYSCALL,
+> +	BTF_KFUNC_HOOK_FMODRET,
+>  	BTF_KFUNC_HOOK_MAX,
+>  };
+>  
+> @@ -7448,6 +7449,19 @@ u32 *btf_kfunc_id_set_contains(const struct btf *btf,
+>  	return __btf_kfunc_id_set_contains(btf, hook, kfunc_btf_id);
+>  }
+>  
+> +/* Caution:
+> + * Reference to the module (obtained using btf_try_get_module) corresponding to
+> + * the struct btf *MUST* be held when calling this function from verifier
+> + * context. This is usually true as we stash references in prog's kfunc_btf_tab;
+> + * keeping the reference for the duration of the call provides the necessary
+> + * protection for looking up a well-formed btf->kfunc_set_tab.
+> + */
 
-      For devices which do not use numbered reports, set the first
-      byte to 0.  The returned report buffer will contain the report
-      number in the first byte, followed by the report data read from
-      the device.  For devices which do not use numbered reports, the
-      report data will begin at the first byte of the returned buffer.
+There is no need to copy paste that comment from btf_kfunc_id_set_contains().
+One place is enough.
 
-Cc: David Rheinsberg <david.rheinsberg@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
----
- drivers/hid/usbhid/hid-core.c | 14 --------------
- 1 file changed, 14 deletions(-)
+> +u32 *btf_kern_func_is_modify_return(const struct btf *btf,
+> +				    u32 kfunc_btf_id)
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index be4c731aaa65..575f09003602 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -874,18 +874,8 @@ static int usbhid_get_raw_report(struct hid_device *hid,
- 	struct usb_device *dev = hid_to_usb_dev(hid);
- 	struct usb_interface *intf = usbhid->intf;
- 	struct usb_host_interface *interface = intf->cur_altsetting;
--	int skipped_report_id = 0;
- 	int ret;
- 
--	/* Byte 0 is the report number. Report data starts at byte 1.*/
--	buf[0] = report_number;
--	if (report_number == 0x0) {
--		/* Offset the return buffer by 1, so that the report ID
--		   will remain in byte 0. */
--		buf++;
--		count--;
--		skipped_report_id = 1;
--	}
- 	ret = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
- 		HID_REQ_GET_REPORT,
- 		USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
-@@ -893,10 +883,6 @@ static int usbhid_get_raw_report(struct hid_device *hid,
- 		interface->desc.bInterfaceNumber, buf, count,
- 		USB_CTRL_SET_TIMEOUT);
- 
--	/* count also the report id */
--	if (ret > 0 && skipped_report_id)
--		ret++;
--
- 	return ret;
- }
- 
--- 
-2.34.1
+How about btf_kfunc_is_modify_return ? 
+For consistency.
 
+> +{
+> +	return __btf_kfunc_id_set_contains(btf, BTF_KFUNC_HOOK_FMODRET, kfunc_btf_id);
+> +}
+> +
+>  /* This function must be invoked only from initcalls/module init functions */
+>  int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
+>  			      const struct btf_kfunc_id_set *kset)
+> @@ -7478,6 +7492,33 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
+>  }
+>  EXPORT_SYMBOL_GPL(register_btf_kfunc_id_set);
+>  
+> +/* This function must be invoked only from initcalls/module init functions */
+> +int register_btf_fmodret_id_set(const struct btf_kfunc_id_set *kset)
+> +{
+> +	struct btf *btf;
+> +	int ret;
+> +
+> +	btf = btf_get_module_btf(kset->owner);
+> +	if (!btf) {
+> +		if (!kset->owner && IS_ENABLED(CONFIG_DEBUG_INFO_BTF)) {
+> +			pr_err("missing vmlinux BTF, cannot register kfuncs\n");
+> +			return -ENOENT;
+> +		}
+> +		if (kset->owner && IS_ENABLED(CONFIG_DEBUG_INFO_BTF_MODULES)) {
+> +			pr_err("missing module BTF, cannot register kfuncs\n");
+> +			return -ENOENT;
+> +		}
+> +		return 0;
+> +	}
+> +	if (IS_ERR(btf))
+> +		return PTR_ERR(btf);
+> +
+> +	ret = btf_populate_kfunc_set(btf, BTF_KFUNC_HOOK_FMODRET, kset->set);
+> +	btf_put(btf);
+> +	return ret;
+> +}
+
+This is a bit too much copy-paste from register_btf_kfunc_id_set().
+Please share the code. Like:
+
+int __register_btf_kfunc_id_set(enum btf_kfunc_hook hook, const struct btf_kfunc_id_set *kset)
+{
+  ...
+}
+
+int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
+                              const struct btf_kfunc_id_set *kset)
+{
+  hook = bpf_prog_type_to_kfunc_hook(prog_type);
+  return __register_btf_kfunc_id_set(hook, kset);
+}
+
+int register_btf_fmodret_id_set(const struct btf_kfunc_id_set *kset)
+{
+  return __register_btf_kfunc_id_set(BTF_KFUNC_HOOK_FMODRET, kset);
+}
