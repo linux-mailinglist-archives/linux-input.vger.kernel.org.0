@@ -2,77 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4648E642DA3
-	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 17:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 615F464306A
+	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 19:31:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231779AbiLEQuU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 11:50:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46850 "EHLO
+        id S233599AbiLESbh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 13:31:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232160AbiLEQts (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 11:49:48 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BD22180F
-        for <linux-input@vger.kernel.org>; Mon,  5 Dec 2022 08:49:04 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso8840929wmb.0
-        for <linux-input@vger.kernel.org>; Mon, 05 Dec 2022 08:49:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
-        b=Z2wBWagY9UnEZ+M5YPDdGkg6nVUsQfYS1BhjpcwGEao2GhG01+Mm/qvV+1fKOq1lbu
-         EFS78qR+UGfEwXQVt6IRXk6jTGT8mo+KAwwjj0fZxBmjE1jztugOoJP4/rka0x6XFhxu
-         W6iUCvsIDO6eHcdCHFvdIDlIVpJCsES5SD3xSnapoHClZmLcHlXbjXoeix+TX99ab7ry
-         BqOOHDFzUlmJeyU3OvUitATOsPkFA0DOczbi/Afsjm9NHI/YtApk72ny0qjFhFTXO+XP
-         yKXAtBeMHMlIwSKvmuRpEfOfWiK9b959mo8P7Fx64Ot+uHxQXUUrd10S+RG2s/yWLOX2
-         BSUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
-        b=k1eUL9JYHL1I/SsO/1PeDnQrC0AL3vnr7cXqGnnglfCg/uJDzGq7D0mvIMdxWTbEul
-         eFdERzPrJEGawNwso+x94ybLn81HIOp15l8rgJ6jsZbYAFYSce2BQhe9qtMxO/Gwqhga
-         tOl9Y1x1EmAnmOHu4tEY+F8P9TnUhlPexiTdpVQpMPcC+9K6EGsGiJwz7tqhRRZWCaXN
-         EyG4AISen8xyw1f8ZzKfUhtKL56pVgGCOupixfjOjQJeVKoJZY6eAhfGuEgUY/U59psU
-         ql5QhrVQOZLBaBKaWL21+wj6iaVC7xSr52i6Hj+PlIJkfnNhUCEgvO85dZ82LL09xR/v
-         rz5w==
-X-Gm-Message-State: ANoB5pnbg1ws+1F7ApoUNOO5/aCh5GYgVQ3UE4W761t8F53yXziCeGkE
-        iOYyIfTTInnx71f7OZ1Gclf+FHiqfVke97pdBfA=
-X-Google-Smtp-Source: AA0mqf6LlThRqxALxahU+d5CDCL5XgA0Iri4oQFEx6hETTBFBZxUw9iI5CXyM5b3WvWotoaM22oBvK+CwFtVO/zgxX4=
-X-Received: by 2002:a7b:c8d0:0:b0:3cf:ca91:7094 with SMTP id
- f16-20020a7bc8d0000000b003cfca917094mr60628535wml.24.1670258943314; Mon, 05
- Dec 2022 08:49:03 -0800 (PST)
+        with ESMTP id S233550AbiLESbM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 13:31:12 -0500
+X-Greylist: delayed 620 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 05 Dec 2022 10:26:56 PST
+Received: from smtp-out-12.comm2000.it (smtp-out-12.comm2000.it [212.97.32.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D97926AFD;
+        Mon,  5 Dec 2022 10:26:56 -0800 (PST)
+Received: from francesco-nb.int.toradex.com (31-10-206-125.static.upc.ch [31.10.206.125])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: francesco@dolcini.it)
+        by smtp-out-12.comm2000.it (Postfix) with ESMTPSA id 024E7BA10E3;
+        Mon,  5 Dec 2022 19:08:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailserver.it;
+        s=mailsrv; t=1670263752;
+        bh=s9xvT9QJ++he7kg+7ITHZewgZ6NKoOKKzsBGG+A5AzU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=gjFV2BX/su1Ecg6HJzd18+TwytswlAj17WYH/MOf3o0rpS/Lh+tM0huNKwzLNyNbE
+         DMqvHDqKMufWAIGAQUmE+rfPXB+ztbidi/Y5dH0UZVYVjNezGGAzh6jJ1vivzlhcuT
+         bEM6N9IEN+UkQwBqoD/QrXnxdjzeqAFl/FscGlBbXBNYkU1FTIRf3Jl6RPJRXSTcUg
+         zxDasfDid2ujoe+hE+hOSL8DirobUevTDp8HVuIpipHHgSBAi7+Qo0K8Sq34gMd5qK
+         jj8XK6G3+a8ZiuMLScCHEkVR4LhXnl1exaUCNNrRTQs6mCpX6h1Jml1BUOb7XsyRZ0
+         SBiJhrY/j2CVw==
+Date:   Mon, 5 Dec 2022 19:08:53 +0100
+From:   Francesco Dolcini <francesco@dolcini.it>
+To:     Jerome Neanne <jneanne@baylibre.com>
+Cc:     lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+        nm@ti.com, kristo@kernel.org, dmitry.torokhov@gmail.com,
+        krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, lee@kernel.org, tony@atomide.com, vigneshr@ti.com,
+        shawnguo@kernel.org, geert+renesas@glider.be,
+        dmitry.baryshkov@linaro.org, marcel.ziswiler@toradex.com,
+        vkoul@kernel.org, biju.das.jz@bp.renesas.com, arnd@arndb.de,
+        jeff@labundy.com, afd@ti.com, khilman@baylibre.com,
+        narmstrong@baylibre.com, msp@baylibre.com, j-keerthy@ti.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: Re: [PATCH v7 0/6] Add support for TI TPS65219 PMIC.
+Message-ID: <Y44ztV+2j4krM8mp@francesco-nb.int.toradex.com>
+References: <20221104152311.1098603-1-jneanne@baylibre.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6000:5c1:0:0:0:0 with HTTP; Mon, 5 Dec 2022 08:49:02
- -0800 (PST)
-Reply-To: phmanu14@hotmail.com
-From:   Philip Manul <zagbamdjala@gmail.com>
-Date:   Mon, 5 Dec 2022 08:49:02 -0800
-Message-ID: <CAPCnorG0wZz4L65xmUUzHEvxvuhrsq0nQnSPJqno3Ah89AhSwA@mail.gmail.com>
-Subject: REP:
-To:     in <in@proposal.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221104152311.1098603-1-jneanne@baylibre.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=20
-Guten tag,
-Mein Name ist Philip Manul. Ich bin von Beruf Rechtsanwalt. Ich habe
-einen verstorbenen Kunden, der zuf=C3=A4llig denselben Namen mit Ihnen
-teilt. Ich habe alle Papierdokumente in meinem Besitz. Ihr Verwandter,
-mein verstorbener Kunde, hat hier in meinem Land einen nicht
-beanspruchten Fonds zur=C3=BCckgelassen. Ich warte auf Ihre Antwort zum
-Verfahren.
-Philip Manul.
+On Fri, Nov 04, 2022 at 04:23:05PM +0100, Jerome Neanne wrote:
+> Hi everyone,
+Hello Jerome,
+
+are you planning to have also gpio support added to the driver?
+
+Francesco
+
