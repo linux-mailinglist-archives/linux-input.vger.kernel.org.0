@@ -2,74 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 587C164378A
-	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 22:59:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0401D6437A0
+	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 23:04:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230317AbiLEV7r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 16:59:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34592 "EHLO
+        id S231555AbiLEWEh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 17:04:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbiLEV7q (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 16:59:46 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0840819A;
-        Mon,  5 Dec 2022 13:59:45 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id t11-20020a17090a024b00b0021932afece4so16186980pje.5;
-        Mon, 05 Dec 2022 13:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sXTgHGkIn9AhAzxhCQIsbw3eRAhTdrwQh9s5Ax3GiLA=;
-        b=IKzztMWjAp+1B2x3JkBXLdVmjR66kLJOW1rd0oWVobJgKA1Gw+jY6XShIg3njUIYg5
-         Pze2gEMMik+x9MgDtUO6r2tWlo3V9Ag/q3X6iHOadeOb/zZoUi7OqcIvM9UPnGuvohJO
-         9tfACJFsVcGdn5mbSeJ/ZF/VBHvJfdXEBPV+V41P4YX+9Y6YXfZeTHK2iNHiIvL3dnJj
-         GIwYVGV5jetCdhOE3av5PpdE5VMN5yuqNeF+k1wvyeQtmngXbwkQQBkK/CUxkGAUqrUZ
-         Fl6uV5Wg0D0o5mwZss2nfiTG4cpErP2i3FcU+oloz47y/Bvy5szmJy4gYLrm6Uo7nwNp
-         2jUA==
+        with ESMTP id S231895AbiLEWEg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 17:04:36 -0500
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C13D211470;
+        Mon,  5 Dec 2022 14:04:35 -0800 (PST)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-14449b7814bso10197411fac.3;
+        Mon, 05 Dec 2022 14:04:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sXTgHGkIn9AhAzxhCQIsbw3eRAhTdrwQh9s5Ax3GiLA=;
-        b=4SrsekAYsGH4yNAlC9MQuW6hu747kBB8Z60tJZhS5NQ7fX84PNNZZvNGnIlgNSR7zI
-         ke+FS+c9tZqRjIRa0FQwzLA+ISIN0vP6cEvumQmR/F35DuOUUAPM/YZ7/Sc4IWAmoZe7
-         dbqBflN+vJ7wXlNY7r17dyYBQ9b4Kf/0GZaWxByyYz98IMXOn1e7LpyBSkBiV72SuEHw
-         cfas0NvpfoKdTBtBDfeVD+pUMKcDMWw5qtt4xNtfyCNPk030UJIeVeo2B4nfXoAYEcK+
-         p7NqkyxdyYA/mkZ4aw+TI6YjaFJfJQyN1tWeOKMt7nBgpolKnJHanaMiFlUHE7RgVNkm
-         hjIg==
-X-Gm-Message-State: ANoB5pl19OJbNSikYYKFaIURyzp2oVU207+Ng2Sh2XFZqNhs6BnG1eS4
-        0GuYipoNrF5XSy1AqTI76rA=
-X-Google-Smtp-Source: AA0mqf4sXm/lDSJ+nfmn3ME0dNTpUezIOtnE0o0XXZBahaRtrZPmYhBo83v6CHngYspslj/HlrCjWg==
-X-Received: by 2002:a17:902:ef85:b0:189:c8ff:f260 with SMTP id iz5-20020a170902ef8500b00189c8fff260mr12052416plb.24.1670277584296;
-        Mon, 05 Dec 2022 13:59:44 -0800 (PST)
-Received: from macbook-pro-6.dhcp.thefacebook.com ([2620:10d:c090:400::5:11da])
-        by smtp.gmail.com with ESMTPSA id jc18-20020a17090325d200b001891a17bd93sm11127565plb.43.2022.12.05.13.59.42
+        bh=X0o74DAKGRH7Cm9VJkIU43IM86KKjNPrQtB4w12QWbA=;
+        b=sGqzU9+ZxURRohoE2SNQ/14EyCb2k0Cy+7lOJyErZfYbkAFcsDoPIpvnNQVexFgN2s
+         ediQ3fzehZrnF3pD8emD2MfLQfCmgmYomjQu/dNlmS1G+ZawUO1vVx1u2GmfRfwCfzDe
+         h4yUJH70sSA9oUesf48iCdYunkIOWjo+6TyXr2drgU5DQEyoE6htbINVA3EmZXJWgS9J
+         LIKMTf3EQXXZlYhlTZPoSWHIgcXWeZHN9fralygXCnzEmEp3+3Y4OHAO/G8I4m1R63En
+         Ph6kRJdcbOh2/kSz4vzDu73nRrbU2go8CjEQPFk5KQqwiVCvtweC4i+hmkxHXAgeQp3K
+         KC3w==
+X-Gm-Message-State: ANoB5pl9yAenJ6Igg5VkfNU+EZkZPRZyb9E0+PQiVnICx0SN6P8kk//Y
+        wFdfhsVCrmRVcuO3Gqj+yg==
+X-Google-Smtp-Source: AA0mqf5+j5X2a2K39tY4PrzDbQKhAY0J9u3F+3pE3tsRI6votXOld4GH5/oZPKPKFAfPEktnYb/4qg==
+X-Received: by 2002:a05:6870:ea81:b0:144:6881:d7e6 with SMTP id s1-20020a056870ea8100b001446881d7e6mr6088539oap.94.1670277875064;
+        Mon, 05 Dec 2022 14:04:35 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r127-20020aca4485000000b0034d9042758fsm7461646oia.24.2022.12.05.14.04.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 13:59:43 -0800 (PST)
-Date:   Mon, 5 Dec 2022 13:59:39 -0800
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Florent Revest <revest@chromium.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-        netdev@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH HID for-next v2 1/4] bpf: do not rely on
- ALLOW_ERROR_INJECTION for fmod_ret
-Message-ID: <Y45py14LVP/bn2r5@macbook-pro-6.dhcp.thefacebook.com>
-References: <20221205164856.705656-1-benjamin.tissoires@redhat.com>
- <20221205164856.705656-2-benjamin.tissoires@redhat.com>
+        Mon, 05 Dec 2022 14:04:34 -0800 (PST)
+Received: (nullmailer pid 2709108 invoked by uid 1000);
+        Mon, 05 Dec 2022 22:04:33 -0000
+Date:   Mon, 5 Dec 2022 16:04:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: input: qcom,pm8921-keypad: convert
+ to YAML format
+Message-ID: <20221205220433.GA2684995-robh@kernel.org>
+References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
+ <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221205164856.705656-2-benjamin.tissoires@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,130 +73,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 05, 2022 at 05:48:53PM +0100, Benjamin Tissoires wrote:
-> The current way of expressing that a non-bpf kernel component is willing
-> to accept that bpf programs can be attached to it and that they can change
-> the return value is to abuse ALLOW_ERROR_INJECTION.
-> This is debated in the link below, and the result is that it is not a
-> reasonable thing to do.
+On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
+> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
+> PM8058 PMICs from text to YAML format.
 > 
-> Reuse the kfunc declaration structure to also tag the kernel functions
-> we want to be fmodret. This way we can control from any subsystem which
-> functions are being modified by bpf without touching the verifier.
-> 
-> 
-> Link: https://lore.kernel.org/all/20221121104403.1545f9b5@gandalf.local.home/
-> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> ---
->  include/linux/btf.h   |  3 +++
->  kernel/bpf/btf.c      | 41 +++++++++++++++++++++++++++++++++++++++++
->  kernel/bpf/verifier.c | 17 +++++++++++++++--
->  net/bpf/test_run.c    | 14 +++++++++++---
->  4 files changed, 70 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/btf.h b/include/linux/btf.h
-> index f9aababc5d78..f71cfb20b9bf 100644
-> --- a/include/linux/btf.h
-> +++ b/include/linux/btf.h
-> @@ -412,8 +412,11 @@ struct btf *bpf_prog_get_target_btf(const struct bpf_prog *prog);
->  u32 *btf_kfunc_id_set_contains(const struct btf *btf,
->  			       enum bpf_prog_type prog_type,
->  			       u32 kfunc_btf_id);
-> +u32 *btf_kern_func_is_modify_return(const struct btf *btf,
-> +				    u32 kfunc_btf_id);
->  int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
->  			      const struct btf_kfunc_id_set *s);
-> +int register_btf_fmodret_id_set(const struct btf_kfunc_id_set *kset);
->  s32 btf_find_dtor_kfunc(struct btf *btf, u32 btf_id);
->  int register_btf_id_dtor_kfuncs(const struct btf_id_dtor_kfunc *dtors, u32 add_cnt,
->  				struct module *owner);
-> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> index 35c07afac924..a22f3f45aca3 100644
-> --- a/kernel/bpf/btf.c
-> +++ b/kernel/bpf/btf.c
-> @@ -204,6 +204,7 @@ enum btf_kfunc_hook {
->  	BTF_KFUNC_HOOK_STRUCT_OPS,
->  	BTF_KFUNC_HOOK_TRACING,
->  	BTF_KFUNC_HOOK_SYSCALL,
-> +	BTF_KFUNC_HOOK_FMODRET,
->  	BTF_KFUNC_HOOK_MAX,
->  };
->  
-> @@ -7448,6 +7449,19 @@ u32 *btf_kfunc_id_set_contains(const struct btf *btf,
->  	return __btf_kfunc_id_set_contains(btf, hook, kfunc_btf_id);
->  }
->  
-> +/* Caution:
-> + * Reference to the module (obtained using btf_try_get_module) corresponding to
-> + * the struct btf *MUST* be held when calling this function from verifier
-> + * context. This is usually true as we stash references in prog's kfunc_btf_tab;
-> + * keeping the reference for the duration of the call provides the necessary
-> + * protection for looking up a well-formed btf->kfunc_set_tab.
-> + */
+> While doing the conversion also change linux,keypad-no-autorepeat
+> property to linux,input-no-autorepeat. The former property was never
+> used by DT and was never handled by the driver.
 
-There is no need to copy paste that comment from btf_kfunc_id_set_contains().
-One place is enough.
+Changing from the documented one to one some drivers use. I guess 
+that's a slight improvement. Please see this discussion[1]. 
 
-> +u32 *btf_kern_func_is_modify_return(const struct btf *btf,
-> +				    u32 kfunc_btf_id)
+Rob
 
-How about btf_kfunc_is_modify_return ? 
-For consistency.
-
-> +{
-> +	return __btf_kfunc_id_set_contains(btf, BTF_KFUNC_HOOK_FMODRET, kfunc_btf_id);
-> +}
-> +
->  /* This function must be invoked only from initcalls/module init functions */
->  int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
->  			      const struct btf_kfunc_id_set *kset)
-> @@ -7478,6 +7492,33 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
->  }
->  EXPORT_SYMBOL_GPL(register_btf_kfunc_id_set);
->  
-> +/* This function must be invoked only from initcalls/module init functions */
-> +int register_btf_fmodret_id_set(const struct btf_kfunc_id_set *kset)
-> +{
-> +	struct btf *btf;
-> +	int ret;
-> +
-> +	btf = btf_get_module_btf(kset->owner);
-> +	if (!btf) {
-> +		if (!kset->owner && IS_ENABLED(CONFIG_DEBUG_INFO_BTF)) {
-> +			pr_err("missing vmlinux BTF, cannot register kfuncs\n");
-> +			return -ENOENT;
-> +		}
-> +		if (kset->owner && IS_ENABLED(CONFIG_DEBUG_INFO_BTF_MODULES)) {
-> +			pr_err("missing module BTF, cannot register kfuncs\n");
-> +			return -ENOENT;
-> +		}
-> +		return 0;
-> +	}
-> +	if (IS_ERR(btf))
-> +		return PTR_ERR(btf);
-> +
-> +	ret = btf_populate_kfunc_set(btf, BTF_KFUNC_HOOK_FMODRET, kset->set);
-> +	btf_put(btf);
-> +	return ret;
-> +}
-
-This is a bit too much copy-paste from register_btf_kfunc_id_set().
-Please share the code. Like:
-
-int __register_btf_kfunc_id_set(enum btf_kfunc_hook hook, const struct btf_kfunc_id_set *kset)
-{
-  ...
-}
-
-int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
-                              const struct btf_kfunc_id_set *kset)
-{
-  hook = bpf_prog_type_to_kfunc_hook(prog_type);
-  return __register_btf_kfunc_id_set(hook, kset);
-}
-
-int register_btf_fmodret_id_set(const struct btf_kfunc_id_set *kset)
-{
-  return __register_btf_kfunc_id_set(BTF_KFUNC_HOOK_FMODRET, kset);
-}
+[1] https://lore.kernel.org/all/YowEgvwBOSEK+kd2@google.com/
