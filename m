@@ -2,198 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 806516439EB
-	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 01:26:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50737643A6C
+	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 01:49:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230282AbiLFA0Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 19:26:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45602 "EHLO
+        id S231516AbiLFAtU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 19:49:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiLFA0P (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 19:26:15 -0500
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC4C1EAFD;
-        Mon,  5 Dec 2022 16:26:14 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 164663200949;
-        Mon,  5 Dec 2022 19:26:08 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 05 Dec 2022 19:26:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm2; t=1670286367; x=
-        1670372767; bh=3CGH9HhcetAdOgZSRwrfM5MD0lJuEd9B/GIe9kj/hzo=; b=n
-        697w9xePqnt2Zr3AVOYOpv1h7X1AQmkS04kXCqeNZHLbJXdt9PnmsJPqluA6y6ie
-        DXdn9kuXkvIyy1DTDYK1+bG6fUqVs/Lr9bb4KkFlliQiBOOZmfoSC9Z5nVO6dJPR
-        vUs+s2ilSQr++aq6Ke+AgwmTaXhj3EkmoPG+6SFh0QqB2CeV/zlJBq/FAlyapcqx
-        5wxc4b8fF4NSiWqehCSuFGdN/h6eNKqwc50j4EsfKRhapoAPZMCq3kinMNW+E9Fj
-        MMiJFCGzGJnCgQskmbFvaEQfvWK55jC5hKIwwPz+UwO6oLb8UZ8eU/HmKZJKwgpH
-        D0bK4WEnxrHtYYqsvOfDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670286367; x=
-        1670372767; bh=3CGH9HhcetAdOgZSRwrfM5MD0lJuEd9B/GIe9kj/hzo=; b=O
-        em+0VDYY/AXEgAj7nY65hj0uJYXOL785k8+91di15IoD1U2+jVdHzau7G1xGoi8z
-        qBqFfxFereUCg0wfonbB/+SIgz4+cl3qvCK3y7H6mYS5R/Weki1S8XtxhvPwceYl
-        ZPNL11seHwZpKVxqu+gRCw1Sf04CaYx0yYwpxelk6PtUZm3QJsMTE8Hrhr0fVZsN
-        IWcVomtJ1qhhUYjor787JHQQHOTdmsvSyTuZQqDTI8oQ+Enzyjt83PAXBDOWy8iv
-        BwWXnxc7ewwgVi3oJKrR8Rm0fwCdvo3dUKmE8s/BGPxCjzdzMFAPb1yh01lrL1Uy
-        X49CGSCATWlSeIbVtaNEw==
-X-ME-Sender: <xms:HYyOYwsO7GWFkR7v6vKER5mxp7Ziy4rt6W0xVjT7AoQUCSPzJOVsqQ>
-    <xme:HYyOY9f4OT4eUTy3q3uz3x0Lw8ZLWJH86oiBAsHVefsGSGkaUavM9Gh0MY9Y8Vx2Z
-    iznm9OZXVmwzlUuvw>
-X-ME-Received: <xmr:HYyOY7x11GOALng9029pCIVpTVajcn-IK5ua9-TXXHnZ45Cr7f_jYtIwCF_kmTaUah6dbW1iZcI3sY1bGM1joYBLTtVc7ZWeGCgiQBm6_wCQ5viH_5XFIa1X5w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehgddvvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
-    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:HYyOYzN1cDkTRtlUiCITJiIuL6oNrli1quZxUCK-r53n-GMpSr2I1g>
-    <xmx:HYyOYw99df9U5mgzoIWdzSMyiUloHMH1unQh-DoY_7VhDA_2r6-zTA>
-    <xmx:HYyOY7VVHCBDiKt_1-5_42hClQ65j-GuZJ4azHghgi525HtyZBgqjw>
-    <xmx:H4yOYyye-CmZk9os8yvj-jdcmxMzJKm3FZwbx5VaSf-i7gUK0IXNrg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 5 Dec 2022 19:26:03 -0500 (EST)
-Message-ID: <a0c767d5-eb55-3479-c4bc-1029809027f5@sholland.org>
-Date:   Mon, 5 Dec 2022 18:26:02 -0600
+        with ESMTP id S229936AbiLFAtT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 19:49:19 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD1171B7AD;
+        Mon,  5 Dec 2022 16:49:17 -0800 (PST)
+Received: (Authenticated sender: alex@alexyzhang.dev)
+        by mail.gandi.net (Postfix) with ESMTPSA id A77A0240003;
+        Tue,  6 Dec 2022 00:49:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alexyzhang.dev;
+        s=gm1; t=1670287755;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=A+PjSyDCFr/3XIz4V2NNmkUhvkPTvwX282wMPuLzm4c=;
+        b=BiGcc39XIdtvKnCQ/6EtcVS/7ZIkJ5gExJpoA3tKerelRAQIRZpNaj5rH9gnmpiqO+s/I1
+        HsP+0P40ua6+Tw8/8VStvpPczvol/NhkAyGuWHmjI+E8UQbyJ9MukNYQE7GDB9D3epYXU7
+        KF8DyO2U0Q/U21CfgTHRl/1YvdrKKUWGsHgtkfi4H9TgC+aV5qsUiVp2BtmWlQxwGt/viT
+        B1h40uhDxieOgwqInRs+pShLhG1LHgfdTNn7yn7KVaE0PU7SrmmEY9qRdIJMZnn6wey2gY
+        tovVyW78yNW0dEJ+BnNQ5vUU3niqL073VdMT0v4Fre9D8JXOm8TfFC6L4FJKZg==
+Message-ID: <1dc9d0ba-4836-dfc6-8bf2-322ce3b5c24d@alexyzhang.dev>
+Date:   Mon, 5 Dec 2022 16:49:10 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 6/9] arm64: dts: allwinner: fix touchscreen reset GPIO
- polarity
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 0/1] HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
 Content-Language: en-US
-To:     Quentin Schulz <foss+kernel@0leil.net>
-Cc:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Bastien Nocera <hadess@hadess.net>,
-        =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Angus Ainslie <angus@akkea.ca>,
-        Ondrej Jirman <megous@megous.com>,
-        Icenowy Zheng <icenowy@aosc.io>,
-        Andy Gross <agross@kernel.org>,
-        Aleksei Mamlin <mamlinav@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        David Jander <david@protonic.nl>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Lukasz Majewski <lukma@denx.de>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
- <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
-From:   Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From:   Alexander Zhang <alex@alexyzhang.dev>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        benjamin.tissoires@redhat.com, openglfreak@googlemail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221110174056.393697-1-jose.exposito89@gmail.com>
+ <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
+ <nycvar.YFH.7.76.2211141509340.6045@cbobk.fhfr.pm>
+ <d08049f2-443b-f769-cfde-629cdfb96fc0@alexyzhang.dev>
+In-Reply-To: <d08049f2-443b-f769-cfde-629cdfb96fc0@alexyzhang.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Quentin,
+Hello,
 
-On 12/5/22 07:40, Quentin Schulz wrote:
-> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+On 11/19/22 11:01 PM, Alexander Zhang wrote:
+> On 11/14/22 6:10 AM, Jiri Kosina wrote:
+>> On Thu, 10 Nov 2022, Alexander Zhang wrote:
+>>
+>>> Hi José,
+>>>
+>>> On 11/10/22 9:40 AM, José Expósito wrote:
+>>>> Hi everyone,
+>>>>
+>>>> About 3 months ago, Torge Matthies sent a patch fixing an issue with
+>>>> his XP-Pen Star G640 [1].
+>>>>
+>>>> His patch changes the IS_INPUT_APPLICATION() macro to accept
+>>>> HID_DG_DIGITIZER. However, it looks like it is not being merged because
+>>>> of the possible side effects that changing that macro could generate.
+>>>>
+>>>> This patch aims to fix the same issue but using a more conservative
+>>>> approach hoping that the bug can be fixed.
+>>>>
+>>>> Torge, Alexander, could you test it and confirm that it fixes your
+>>>> issues, please?
+>>>
+>>> I tested the patch on commit 4bbf3422df78 and it fixes the issue.
+>>
+>> I will add
+>>
+>>     Tested-by: Alexander Zhang <alex@alexyzhang.dev>
+>>
+>> to the commit; please speak up if you disagree.
 > 
-> The reset line is active low for the Goodix touchscreen controller so
-> let's fix the polarity in the Device Tree node.
-> 
-> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts       | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi          | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts             | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-> index 8233582f62881..5fd581037d987 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-> @@ -122,7 +122,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
-> -		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH8 */
-> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH8 */
+> I'm not sure if you're still waiting for a response from me but I'm fine 
+> with that.
 
-You are changing the DT binding here, in a way that breaks backward
-compatibility with existing devicetrees. NACK.
+Is there something preventing this patch from being merged? I'm not very 
+familiar with the kernel development process.
 
-Regards,
-Samuel
-
->  		touchscreen-inverted-x;
->  		touchscreen-inverted-y;
->  	};
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-> index 577f9e1d08a14..990f042f5a5b1 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-> @@ -45,7 +45,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
-> -		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH11 */
-> +		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH11 */
->  		touchscreen-inverted-x;
->  		touchscreen-inverted-y;
->  	};
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> index 87847116ab6d9..97359cc7f13e2 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> @@ -167,7 +167,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-> -		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
-> +		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>; /* PH11 */
->  		AVDD28-supply = <&reg_ldo_io0>;
->  		VDDIO-supply = <&reg_ldo_io0>;
->  		touchscreen-size-x = <720>;
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-> index 0a5607f73049e..c0eccc753e3f5 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-> @@ -189,7 +189,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-> -		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
->  		AVDD28-supply = <&reg_ldo_io1>;
->  	};
->  };
-> 
-
+Best,
+Alexander Zhang
