@@ -2,58 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78EAB6441E2
-	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 12:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D124644211
+	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 12:27:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232324AbiLFLLQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Dec 2022 06:11:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54004 "EHLO
+        id S230480AbiLFL07 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Dec 2022 06:26:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232001AbiLFLLO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Dec 2022 06:11:14 -0500
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2069.outbound.protection.outlook.com [40.107.6.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3900124F17;
-        Tue,  6 Dec 2022 03:11:13 -0800 (PST)
+        with ESMTP id S230459AbiLFL0d (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Dec 2022 06:26:33 -0500
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2123.outbound.protection.outlook.com [40.107.6.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 804F527B0F;
+        Tue,  6 Dec 2022 03:25:36 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=apd4RdPcMP1Z6qeVNFR9vleLtdbf7ncrNll4I/rKgCJucSQ5wtGu3mQp4Lw/nPWL/yfPwgWPTI0NvWsocMn6VGuTGE3fVBstQ2CEA50gsitA5NpQH3eTbBW2zPy/9Hqy/O679tw/n6Dlr8+K5Xjfg4BBhbHESywDkK+UncTobP/pMfrOuUBE1nl62bvFI2Ym5YssGlxeI8ncXT5ARwKFa3RA0DU0D63rbsZ0a5//OqoXa5etbaBDrYDd8GZmubxnB8gQjoPkHv3F55EnGdVq/qZZdvC9NstFshgTNW9cdVAQNL4SmdCQm6GYDZ1JLRIyPlx7qLxB1kVawq1AMQjfEw==
+ b=NpMlpsVaCQfUdCCWauHhrR7IK+D4wYv6ekEFR6bYXdDhSI8uui5IyIseBFxs0fkPPQdNDJVOI4DL9pCZ3Y2QpXkfhl36XAYQvToeBqvVQJ/a3xLoh5ifTxGgCQXY8nW+PYubV5fQrfPdOHDTlh8lwT6QGMpES+hKOJURBu/Ml2ihhZfdquVQicL/rimZVtSdphpBwqSVWY4yhk3abvir37SHQC4iw763bakjlZHCUb5KQDGM4mLpT2zT7sm+0vrve363HSL+1s2Jt3TxYt32PKumNgX+BsLGKF8x8FjwpTc7bafOjgzX6hruEU3H3Q/gssTU30S1qCiPnqguwxC1pA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G9JxxRpT5ZjSIIGphlXLZuN0R4MVAgo2M31KkD+TE6Y=;
- b=RNfqfTZ/M6J3gE1QGXs8s8Y1NJFugCkhS9StOy09FUyPcDyO7DWOzL0nKpAC15/jf4aS/eQamQo+KfDp/u0L1pA5N6HaZhw5tUWQfQSW7PM4Bh8WBbE4ybIloK8hvPfLKJCiIiOzKEUefINM79R/jqXe76o6CwpVTghVgC1NxX+OYkPi7YKWkAyBgxCphCHS0MCA7JTcX6CUIXRaKN7Y7HbcSycRUoX7yIhSw87vc5Ic/qIY39xexpeS3nthaDPhWxns5p+asczN07Ah3+xdv7xSaMA4fm/pOIYMTG4S9sG2IuAT9whtfNI/4TxvqcaCGDm8dBhyvI63/o/5HuFwjw==
+ bh=FE2ZyYjd2tO+FxYg8/3Ezo4quS+dXd6Jb387hhZAQTQ=;
+ b=nv0hzG7yCwZBY8JVzzhBvEtklALEqhLvVuXx5WXUukE6eFi/vxO3dOTQsbEkShU8nkvx1ldfdutBHKKm3FSakOHpUPWObTFgCNyX0OHizvK5ukyFO3NzGbt39fWxvS7rsYXaINwvSKJhZAd88ZR/8TNiGSV+pAbPB5/84wSVDixwvbMWSu8rSaDqqp+Fu1yylBHcXLBW0bh67UJxTGJZ4/Fy9VxJ/cHpQ7mRJ9EP4OnRPSffxFsHY3A59TpCl05FVuZbLe/rytTvjpOrI9wyJXgZ7ONPI3it82biP2BOvcU7vYFiP4l8CVgyC0m4OrPC2W5jCFykkWCkHsA4813eOw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
- s=selector1;
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
+ s=selector2-mysnt-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G9JxxRpT5ZjSIIGphlXLZuN0R4MVAgo2M31KkD+TE6Y=;
- b=OSRWFDpBjiDfTyt3Fg7sFH3pZLrkBCSOt6MYZw86ixYDjk6B3wFHrpIDLZM5SDRwLvXsuZyPtWAoCpDHydD4LLODkaP80AAvOuMvBHL8hkOzMkLZGElZBfNI9wXga/t096feGKTmQnh8V9YwylyaCEXHvbrr+Et+KpPCS1AIDea7cgqoLr+U84VZjT+fjsnle1K70DPBQURGEwzb0ET91Jh0WL0dFGgvdfTyrWka4JwNmCM2T1CcW6QLihCBEK5LggofdpIYn2rHl2U7yTZnsMG1N5D6c5X7X+QpIkpkJXRLypGFd6oIezpBBhh19tzk1TrKSm9uTD3S22YR5RrbjA==
+ bh=FE2ZyYjd2tO+FxYg8/3Ezo4quS+dXd6Jb387hhZAQTQ=;
+ b=egf4LrOHMbEHSxMFDVfsnNGTascd9K1U4Egv8di1PRJ9+LKRM41M12BCa2bbToYl5vzPqboUIr21tXIoa2MhQuiPttDmE2LzXCk/TREac6ZO9teQb+raoxpAHdJyj9zUupRjlQaG8g9d5enxaYAQqi1afn/KPTzdYz05W5ZX7EU=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
- by PAXPR04MB8782.eurprd04.prod.outlook.com (2603:10a6:102:20d::22) with
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by DBAPR10MB4027.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:1b4::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Tue, 6 Dec
- 2022 11:11:10 +0000
-Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
- ([fe80::9ebd:cd48:9396:76f6]) by DU2PR04MB8536.eurprd04.prod.outlook.com
- ([fe80::9ebd:cd48:9396:76f6%6]) with mapi id 15.20.5880.014; Tue, 6 Dec 2022
- 11:11:10 +0000
-Message-ID: <cdfb3f44-4400-1386-42cb-0fb7b30e45db@theobroma-systems.com>
-Date:   Tue, 6 Dec 2022 12:11:06 +0100
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
+ 2022 11:25:34 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f209:bc86:3574:2ae6]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f209:bc86:3574:2ae6%6]) with mapi id 15.20.5880.013; Tue, 6 Dec 2022
+ 11:25:34 +0000
+Message-ID: <b37272ae-a939-1dce-de47-e237c6363a0f@kontron.de>
+Date:   Tue, 6 Dec 2022 12:25:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3 6/9] arm64: dts: allwinner: fix touchscreen reset GPIO
- polarity
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v3 4/9] ARM: dts: imx: fix touchscreen reset GPIO polarity
 Content-Language: en-US
-To:     Samuel Holland <samuel@sholland.org>,
-        Quentin Schulz <foss+kernel@0leil.net>
-Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
+To:     Quentin Schulz <foss+kernel@0leil.net>,
+        Samuel Holland <samuel@sholland.org>,
         Bastien Nocera <hadess@hadess.net>,
         =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
@@ -65,7 +59,6 @@ Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         Aleksei Mamlin <mamlinav@gmail.com>,
         Fabio Estevam <festevam@gmail.com>,
         David Jander <david@protonic.nl>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@somainline.org>,
         Peter Geis <pgwipeout@gmail.com>,
@@ -83,189 +76,130 @@ Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         Hans de Goede <hdegoede@redhat.com>,
         Jagan Teki <jagan@amarulasolutions.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
 References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
- <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
- <a0c767d5-eb55-3479-c4bc-1029809027f5@sholland.org>
-From:   Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <a0c767d5-eb55-3479-c4bc-1029809027f5@sholland.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0185.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::18) To DU2PR04MB8536.eurprd04.prod.outlook.com
- (2603:10a6:10:2d7::10)
+ <20221103-upstream-goodix-reset-v3-4-0975809eb183@theobroma-systems.com>
+From:   Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <20221103-upstream-goodix-reset-v3-4-0975809eb183@theobroma-systems.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0117.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::7) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|PAXPR04MB8782:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2350755d-186f-424e-4132-08dad77a93a4
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DBAPR10MB4027:EE_
+X-MS-Office365-Filtering-Correlation-Id: 760605ec-c539-4cbb-1011-08dad77c972a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: InTMHXK/3YCgTEtNZoYwzxu+ubsusGgyicnm4kK9cra5L7Qn8YAs8Y1iHC99nya1vUqQhp8ldGspvrdBYohPz4TRA0p/Hqj0QoNo6RNzEgnjt/5Zff+TMuRPWdpifj+L2cvFt6WOJn502KQzoQnQsCgrjiF/NBdcHZygwBMQ9yoDXKN83dMyS/SQjSjMX7ITqhhHvLmGOgBjgIuw9rpR74NpU/Ir7SiOw7EnmWS4xYkjyDWcbjayf1+nuYWq8WtlU95mFrxTedHVgL6fFLTuOQ73Eew6+4rBiwrA0xB8gCkAKKrLnuZq16Qp6xgXgDeeXHXKukM63EDCs5LgFFr74KPV/LFJODyBf/UZtee+5gTVAwMR9Oro1pjq2EUoH2gTynZICbKDHJvCG2++ui/ZDfnW9nt4SESGUwDqVi54sTHrmFjjpw5KEMtmTUg7dsimRYi7cyX3mVSEP4ODFnOj7LEVZp4CEwjOcu0oRNRiFId2zwcbOUWCBP6yN4kkqOx+qrWxHvprXsas+ngO5vC1UVlP++c6DB7ED2BsCfhRR0rpQt5IdjVhF5dbtWd0+y6tQ6AzIvjcNBxdk0ojE7PVMtjjxzjNqjaozE5++2vCq35qgwmpj45yhhNRL0ZxUmVdBclVKqMybpBwahPeLnh6VlIM9fCSqao9TC5iEqcTBuNxGAGzwzSxnAsVvJhUbOxYH1FJ2iFfMVwVlobgDJK+HLcJNUoz6rxesO73C19k1no58Lgfr0b2PCF2NvahU/MIJBYCzTnhPuEfizyUxObUew==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8536.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(366004)(396003)(39850400004)(451199015)(36756003)(31686004)(7416002)(38100700002)(5660300002)(86362001)(31696002)(8936002)(2906002)(44832011)(41300700001)(4326008)(7406005)(83380400001)(478600001)(66556008)(6486002)(54906003)(66476007)(2616005)(110136005)(316002)(66946007)(8676002)(6666004)(53546011)(186003)(26005)(6512007)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: wWZmjOT8RRHUlJsT1m5MGrQYSU1nwlGUWJm10HFnqEj0UUhdd+BmIOZQBpQp+hdQOG/UCrTVhLtMsM27mZgsGg5qKGuVaEc5vPCfjNpanZ/oqseeliYOjlUnRhWxPwqYRh5PH5inx/S/7i2Vtd8yGquekNFZpZqK53He1j4XmzOrBWwre6YQmCh57iiPw4QY8i1wApGZaucgtuSjh9bbwCfrqxN0AIYi6NQGfbov2cYcy8ecKZitdL/e4/C5Glwz6PAnql/GDB5yLPCK1ctQ2Je4LYX9o8UJqpMifC0fQKU7A65giu+2pUiW7Ck/1isshdmPNOwfz/uEd3mUqHc6DYmwc8OTgCOkdVR+LxMHmczBbxQGM5aFN3ALbqfNQzctBmTDnyugY4vc++H3NwKFUTBp25MYx5FxWiG0coXa6SyJM8UldxpAK98rZAwy29ubBuCQ42wgtUuiz0R6Od7KClO+rqt6hFJeIpwKXrq4bZbHisxjwX+cbeaJgygYuiThhx41wQMIwBwxf6+Qnfp1DIOXKOb2IG03LpVssESpDO+Plp4MWXt/8MKU6YYLAhC7e5oQ4wFdnwzC++/6Nk6dR3NZT1R8GXegDjH4OIyXLOf4iqfRVUGP+d3ONUt5C0PiiqUB//0FI8rhN2bTdkv04Q6YzMep18K8bbmsWruhA5VwBsTPAoG24EohYhEvOE/HP6VoRbb0WhPVQmls3rouwwgqfLNYOuSeKPX8qOrvexyBqB0zQi7e3+rqJQGtFxkV
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(136003)(39860400002)(366004)(396003)(451199015)(316002)(4326008)(26005)(6512007)(110136005)(8936002)(2906002)(7416002)(44832011)(83380400001)(5660300002)(7406005)(66946007)(41300700001)(186003)(36756003)(8676002)(66476007)(2616005)(66556008)(6666004)(31686004)(478600001)(6486002)(38100700002)(53546011)(921005)(6506007)(86362001)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z1c4Y3lMMDFLN2RSTjVKdkQ0K1F0Y2oyekxZUTdaeXQ5VGVqOXdsbXlUUWkr?=
- =?utf-8?B?NDZWTnd3clIzelBBOVVlOVM2KzkyRTlITkhrUmpLeFB5eUZRYkczMnNFTFk5?=
- =?utf-8?B?UTVaTWlNemtyNXBLakQvaFEwbC9HWTlRTHpTM0pKZzZOL3dxUHUzZEZjcFVQ?=
- =?utf-8?B?bzA5STFLS0lGMDdlTkpNOWgxbnRWcEt1QUdEZndod2ZLWEtOaTVjL2FzZUd6?=
- =?utf-8?B?MHQwUERPT0lWSE9tb3ZpWlJOM3VZdG4yaVFoSGsyckdKYzF6ZFBjbkhLL1p2?=
- =?utf-8?B?VlFzcXJZMHdrb21aaURGSlRtWWZSWVNaVkp4UVpCL2hUYTBYT3V0Ump4YWtl?=
- =?utf-8?B?Q0JNNFBadWZvNzZEdnp4TWtlOVh5bVFSWFNlWXVqNDFlYWNJZXptY2MwVDRG?=
- =?utf-8?B?Y2hRZFUrcFpXY2NnRFpZbGVJSEJrUkJDTTI2cHdYTzVGdzRFV0lGbkdIY1Qy?=
- =?utf-8?B?VHZ3anVvWWVmaGVNdTVlSEtCa291bDJtTS9naUdoUDlpc21rTm1nejRwOCtP?=
- =?utf-8?B?d1ZEQ21lZFdVOGNadHlQYW1LR1FqSlNUMnNEOVMrQzRzenl1K2Y5YTl4ZENK?=
- =?utf-8?B?bEd5aXVRWnR0VjQ3NFpwQW51YUE3NDFwaytlR3FIQ21PWHFYajVJc2xRZVcv?=
- =?utf-8?B?OHZra2x2TFFxQkZtSkRpdVJKeGVJVnQ3cmd6LzhGZytSMlZCZUp4VGIvSmVn?=
- =?utf-8?B?aEI3N1VrOHhvRVkxTHE3Q0xXalZkVkhZMnptd3d4bVpxbE5SS1ZpU0dxYkhO?=
- =?utf-8?B?Z1UxLytoa1VLcmdEY015QXpVYTJKWnBGRFBnU1JwcEpDamMzZVlJZHdwT1Bx?=
- =?utf-8?B?LzV4VHhIQWFTc0hvZi9WeDN4TXQ4NmFCTENDSjJkNi9PWTk1aWZDVVNyemtt?=
- =?utf-8?B?b0xIQ3ZvdWlsdVVLY0YwakNjV2UrR091cE94a3hNYWN2eXlERXFOdFR3d1JW?=
- =?utf-8?B?dDdVRlVadXZvSXdEQ1p2andqUDNkNkd4czI2YUh4VlVmWlQwN1prMnZYWXIv?=
- =?utf-8?B?N3J6cytoeVIzeHZsL25qQVZTZ1hEdHgwYmU3bFBiT2dSL0NtOFpST1RJQkVE?=
- =?utf-8?B?RHlZRTJSYUhEa3diQm1hVHhGSjdzRTdkMzkzTEZ3UExwVkUyWHJpK2JIZHBa?=
- =?utf-8?B?d2hEOFBQaVl6VlI4MXM5RXVBbFVwRnlwdmlCWUozTTZaZGpSUUtPeFFVcWpG?=
- =?utf-8?B?anpOeDVHVTF1LzZnVDMwdnArTktjTHZSMEx1WVNkbUxiTUEzYkhpclFiQnQ1?=
- =?utf-8?B?UlV1UllyTWJrWFFOYXQ4L1lZcTdsRkx4L3hIWlhsemE0NmhpcVBoTmxlZ0dj?=
- =?utf-8?B?Zm8vM2NFRy9TZVJ5TmFKQzRMZFVVbnZ2YWhUdmttMVNjOWYrMFYxR3NiYlhS?=
- =?utf-8?B?SEtNLzV5R0w1WW5PYllEaVJUSEI1QU9MNGFvNVBrUndBSmJLQzdMRDFDa2hB?=
- =?utf-8?B?QnNOZ3RQczFoM2IzSm5KNWROR2pwODFCNmJ6SWM3ZGVVNTlQeGFzSG1vY0E2?=
- =?utf-8?B?M1M1Ry94cDNuWGdrSWp4SlgxRFZmYks0SmkxeHU2aEtsQ2tQT3BhaVRQOUZp?=
- =?utf-8?B?cnJHYWIxdVdmMWV1Wk9PUWN6NE1JeTlOOUxRa1hSc016c3diS2pLdTVhRGZx?=
- =?utf-8?B?NUtaT3BtR1BzenNZNUpSMEpvdXhkT1VYK2tYUjVRL0RHbFN5d29IOFd1Yklx?=
- =?utf-8?B?ZCtSSEdnbUNuMElERFpNbjNjaC9hU3k3dUtmTmVFL0RTMkNnTHpvSlc3S0dq?=
- =?utf-8?B?QXEvWUVvcEJETFF2WEJwOXBJMkRmN2Qxck9lTURqcTFueUo5bWoyaTdqRHlH?=
- =?utf-8?B?UHd6SFlCQmVwM1J2eEg1RVhKZjZHSm5XN052SWFzb0phaWZxZDM2c1BtTnpy?=
- =?utf-8?B?YXRra05xQWF3L0JSZHFsbmtXcTZZN0FiWHhLVUJZUDFzWkkwUVJDeThuc3Iz?=
- =?utf-8?B?RlRUOFdlY3pTbVZYa1dFYTg4aTE0cFFVTHZaM0pxUDVwZUJQbVNOcm5wa1hO?=
- =?utf-8?B?ZFFSME9kb1ZOaVZnb3VMb2lCNU5wUmppVHhObmhjMzYyVHp6WmphZkphSWpM?=
- =?utf-8?B?d0duTy9yeW1uQm11bklCMVI2L0RhV2RQZ2JnVlBpaWtCT1VaYWtIM1ZRUXdt?=
- =?utf-8?B?SE9PUHZrYnZXTEpPVWFMTUttK3Ewam8rQTl1WksvK3ZhaTRyenZBREdSQ3VZ?=
- =?utf-8?Q?qNpVdXyRlIeMGoygxcS9icA=3D?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2350755d-186f-424e-4132-08dad77a93a4
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXQyd1JBaUNReUFsNGNyMlJRTXNEZG5ieVhlZTBNRWl6Z0NZUGhqc0wxU09r?=
+ =?utf-8?B?dFhrWkNRalY5bDczMTZZV3VJV1MvQ1dDa3ZRSW9BZ0JRSkNQUy9qdENNMnd1?=
+ =?utf-8?B?TTdKUDdIUzFVeEdGZm9Fd0hqa2t2ZWhwZG55RVB5ZDhCeFlObWlaUDd4K3NW?=
+ =?utf-8?B?Rk5ucVU1SDVrTTJSeklhTDFaZ0RNb3JxNmlpd0l0blljUzlmU2lldnhRWHZP?=
+ =?utf-8?B?RnJOWEc3bjVZVjdkUHViZXVOemswb2Zma1F2amJsVWJ2dlFFYjducmw1QUQr?=
+ =?utf-8?B?L29GSU5ENmxzVXRwWFZxQlBsN2haWTRXWVd3OUNmM3pBQXhHT3hOYk1wdTFI?=
+ =?utf-8?B?WTVWOG5CTFk3WEtBRTFJTWRuaVdCdWxWaGt3c2sxS2pEazhNcFJCK1Nsc0RQ?=
+ =?utf-8?B?ZnFRZkxGOEpWY2VmRXI4NFdzRGw3N2xnRGNhb3l6emw3N21pbUppMU5WU1dZ?=
+ =?utf-8?B?cXVCbU1jS0JRVGx5UzdFRkNlNTVWTzBBRFhGcE9oWHRhMzRJWXowcEd5OHF1?=
+ =?utf-8?B?c1Ivam0rdG12OUd0MVh1MURoZVZPSVhDZ1VYZVpSYnFVNHJ5TVgwcG11Y0hW?=
+ =?utf-8?B?MVN4bUxQTmR4aWl5UnBLWHBuRElUTnZIYkc0Q3JJSm1ibWFTdE5uMWVpaGZF?=
+ =?utf-8?B?YnRENzJuNUFMWHNySEhYaDA4L29GdDV3aUpMRW9xM2dIdU1Hcmc2VXRiMU5W?=
+ =?utf-8?B?K0czZEJjS2I5R24rWEtrZVZWQmdKOXdKbnZYNnBPU0RyUVljczlESXBYdDVQ?=
+ =?utf-8?B?eWQvVVpRR214THhoYVMveXhEVUNUaGNEK1NhUXltQVRjTTFuRmhzTUNiT2ND?=
+ =?utf-8?B?TmdSL2dwYkFERlVmbjM5NjZzN0dGYWR6cU5iR2hidWhjZUJtQkU5U0hoOXRx?=
+ =?utf-8?B?NWpkV2xQUWVMMkdQS3BiZ1BCZStsb2VEZFRmMHoxNGg3Z0wvVXkvVGFEeXBV?=
+ =?utf-8?B?SGxLQThxL0s4L1BPVytvSjd2V2FjMzBTbklFZ2xKTDFlMkt2UEkzTytub2N3?=
+ =?utf-8?B?RnBHdndHTlpRY2JhNnoxdmVEMktQTTRNaFpuRHFUSDdpN0prMVIxWXNkMitE?=
+ =?utf-8?B?Q21HdXpuay9wMElsczJsejVKNmpBL1dkOTBXMnd0V3ZncGg2LzBNZ2xPMEJR?=
+ =?utf-8?B?TWlmNnFNWDZLZFRrV2hoaVRhZG9PQzg2UlZ3OWp6d1JrR0dUSnFMeXljUTFh?=
+ =?utf-8?B?VDZESWFmbnNkMnUvdFYydnVvN2lPQ25kc3ZDNnJCWkZDZktRVVI0aVZhWTBL?=
+ =?utf-8?B?Yk5QT2JGYngrZU90eEd3ZlN4ZDRHSGFsalhYeDZSSFd0SEZFZEpSTExhOXd0?=
+ =?utf-8?B?VnNtSHkvUEx0ZzVLNlMzTUF6WFpjYWZwQkxpTGlTdnZXQlBzSUFEMFF6M1Zq?=
+ =?utf-8?B?ekpqRHdyM0xTdXpvZWsvU1p4MnBDRWIyYmR3b3Q3NTh6RU9iVUJDYnp6aVpM?=
+ =?utf-8?B?VEtpV00rM0Izc1Z3cm1QM1MyamlNV0pSSE5teHk1Y1JuRWJxUGtpNU53M0dt?=
+ =?utf-8?B?TTVnZ255MjJVWjBwWGhZdWpFaGZnVU1naGFxSi93WHVIL1o4TkppUXgvdWs1?=
+ =?utf-8?B?dHJLS3M1dDR3SUNucVpuS2E3UWNrKzdIZTl0NDN4MzZwc05IV1FySzF4MWhO?=
+ =?utf-8?B?YzlIOUJDRHp6SW83TXRlMUZOZmoxUVNlNXNiVlM2VWtsLzNVWU5OVkhqYjJz?=
+ =?utf-8?B?RS9Cd3UrSUx6NGw1WlF5cEp6RGgxZVNyNFNHRWU1VW5KZU5tTnhKa3lvdHd6?=
+ =?utf-8?B?UVBRNG5CUTJEZVVZdWp2dGttNzNtcHN2dkxJWEhLTnIxaFNKQzBGTUN4ejJO?=
+ =?utf-8?B?REZpLzEyWC95UzdKTGplaVRIYlBIY1IyVkxYeS9VZlNZMGtXbnZxZXBXVnZS?=
+ =?utf-8?B?dENkblRuOHVsUVEyaGxMWmtpWUI4eC9CcEZuaEorYjVvYlJSTndkakc1NEtU?=
+ =?utf-8?B?MWh1M3E0RnZOcndpRmRnWHM0N2o2emtldmpUU2N6bU5zazR1QllET1VhNmJr?=
+ =?utf-8?B?QVdaK244clU3WUs1SkE2RDBadzNvT2FoTnBtUWtDTkJ6dGQvNFk3a2pzRUFO?=
+ =?utf-8?B?SFF3b2dlYzNuZDJZOW5mTk5MRVAza1R3YlpiL1p2d0ZkMUhKNnZLUCtFYlkw?=
+ =?utf-8?B?UC81aVJVTW9SWUhJK1BGVHNkTUQ5M24xSk83R2dBNTNzRXhaRVlwWVRBQ0d4?=
+ =?utf-8?B?bWc9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 760605ec-c539-4cbb-1011-08dad77c972a
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 11:11:10.7157
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 11:25:33.9785
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dNRvWMEsLAtxPQRO+hbxmMA2rmQb0iupD/UqJ+5tURePBEcAU7Y3W6Bmy7tEnPcBgPMYgeagLPqbA37nXVpTExqpdqWSbYKbRwboWSDNQHle0M54s+mxEMhYgz6K3eLm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8782
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: I1UfdtVZ4rD5MuFzpdkVY/VVoK5CC0St3HB79xaYsS8d35p+KuLTn+VnZ5jaG5IlOgEFrmH7R8WyNBKwlil1cP02dp4WYbxdbyR5U7mJaHw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR10MB4027
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Samuel,
-
-On 12/6/22 01:26, Samuel Holland wrote:
-> Hi Quentin,
+On 05.12.22 14:40, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > 
-> On 12/5/22 07:40, Quentin Schulz wrote:
->> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->>
->> The reset line is active low for the Goodix touchscreen controller so
->> let's fix the polarity in the Device Tree node.
->>
->> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->> ---
->>   arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts       | 2 +-
->>   arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts | 2 +-
->>   arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi          | 2 +-
->>   arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts             | 2 +-
->>   4 files changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
->> index 8233582f62881..5fd581037d987 100644
->> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
->> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
->> @@ -122,7 +122,7 @@ touchscreen@5d {
->>   		interrupt-parent = <&pio>;
->>   		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
->>   		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
->> -		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH8 */
->> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH8 */
+> The reset line is active low for the Goodix touchscreen controller so
+> let's fix the polarity in the Device Tree node.
 > 
-> You are changing the DT binding here, in a way that breaks backward
-> compatibility with existing devicetrees. NACK.
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> ---
+>  arch/arm/boot/dts/imx6q-kp.dtsi            | 2 +-
+>  arch/arm/boot/dts/imx6ul-kontron-bl-43.dts | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/arch/arm/boot/dts/imx6q-kp.dtsi b/arch/arm/boot/dts/imx6q-kp.dtsi
+> index 1ade0bff681d6..dae14aaf803a8 100644
+> --- a/arch/arm/boot/dts/imx6q-kp.dtsi
+> +++ b/arch/arm/boot/dts/imx6q-kp.dtsi
+> @@ -188,7 +188,7 @@ touchscreen@5d {
+>  		interrupt-parent = <&gpio1>;
+>  		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
+>  		irq-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+> -		reset-gpios = <&gpio5 2 GPIO_ACTIVE_HIGH>;
+> +		reset-gpios = <&gpio5 2 GPIO_ACTIVE_LOW>;
+>  	};
+>  
+>  	ds1307: rtc@32 {
+> diff --git a/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts b/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts
+> index 0c643706a158b..767ef5da76136 100644
+> --- a/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts
+> +++ b/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts
+> @@ -29,7 +29,7 @@ touchscreen@5d {
+>  		pinctrl-0 = <&pinctrl_cap_touch>;
+>  		interrupt-parent = <&gpio5>;
+>  		interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
+> -		reset-gpios = <&gpio5 8 GPIO_ACTIVE_HIGH>;
+> +		reset-gpios = <&gpio5 8 GPIO_ACTIVE_LOW>;
+>  		irq-gpios = <&gpio5 6 GPIO_ACTIVE_HIGH>;
+>  	};
+>  };
 
-Yes.
+The imx6ul-kontron-bl-43.dts misses a working panel node, so I'm pretty
+sure it is not used and nobody will bother about change breaking
+compatibility. I don't have the hardware at hand at the moment to
+perform a test, so for now:
 
-Some boards will get their DT binding broken, there's no way around it 
-sadly.
-
-We know already that the PRT8MM DT binding was written with a different 
-understanding than for other boards. There are some board schematics I 
-don't have access to so maybe the same applies to those.
-
-A reminder that even if you got your polarity wrong, it could still work 
-in some cases (timings right today but nothing guaranteed it'll stay 
-this way forever).
-
-with the current driver, what I assume we should get for an "incorrect" 
-polarity (with GPIO_ACTIVE_LOW) is:
-             ___________________
-INT _______|                   |___________
-
-     ____________           __________________
-RST             |_________|
-
-    ^
-    L__ pull-up on RST so high by default
-         ^
-         L___ gpiod_direction_output(0) (deassert GPIO active-low, so high)
-            ^
-            L____ goodix_irq_direction_output
-                 ^
-                 L___ gpiod_direction_output(1) (assert GPIO active-low, 
-so low)
-                           ^
-                           L____ gpiod_direction_input() (floating, 
-pull-up on RST so high)
-
-This works because of the pull-up on RST and that what matters is that 
-the INT lane is configured 100µs before a rising edge on RST line (for 
-at least 5ms). However, the init sequence is not properly followed and 
-might get broken in the future since it is not something that we 
-explicitly support.
-
-With the proposed patch:
-             ___________________
-INT _______|                   |___________
-
-     ____         __________________
-RST     |_______|
-
-    ^
-    L__ pull-up on RST so high by default
-         ^
-         L___ gpiod_direction_output(1) (assert GPIO active-low, so low)
-            ^
-            L____ goodix_irq_direction_output
-                 ^
-                 L___ gpiod_direction_output(1) (deassert GPIO 
-active-low, so high)
-                           ^
-                           L____ gpiod_direction_input() (floating, 
-pull-up on RST so high)
-
-This should work too and does not rely on some side effects/timings and 
-should be future-proof.
-
-The other option would be to only fix known "broken" boards (e.g. 
-PRT8MM, maybe others) and specify in the DT binding documentation that 
-the reset-gpios polarity is "inverted" (that is, the reset is asserted 
-when the reset-gpios as specified in the DT is deasserted). This makes 
-the DT binding documentation **implementation specific** which is 
-everything the DT binding is trying to avoid.
-
-Something needs to be done, and no solution will make everyone happy.
-
-Cheers,
-Quentin
+Acked-by: Frieder Schrempf <frieder.schrempf@kontron.de> #
+imx6ul-kontron-bl-43.dts
