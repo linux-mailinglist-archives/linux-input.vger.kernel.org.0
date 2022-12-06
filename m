@@ -2,69 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E785A6437F2
-	for <lists+linux-input@lfdr.de>; Mon,  5 Dec 2022 23:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 806516439EB
+	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 01:26:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231375AbiLEWU1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 17:20:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49342 "EHLO
+        id S230282AbiLFA0Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 19:26:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233413AbiLEWUZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 17:20:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210641A21E
-        for <linux-input@vger.kernel.org>; Mon,  5 Dec 2022 14:19:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670278762;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=r/SpJiKMRZzsA13nt/vHo0GTokdNpO5dXKV/2C5VsvI=;
-        b=ih586JWuZPX0OoQKho9f4XX9XuxHjI05ii0gItXWIGhvtPBM/uZU5dpOUnS12GSu7Edjcx
-        imZ7ZHXkZN6HpeHSfuMQTS5uSlFtJSJkdPFXCtAHcw81soa+dv1IiXcthoo6Zw3qzgaKhK
-        INzJbeaje+n3BxiTKDrZfvHIVxxccmM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-444-rwganA59Nz-PjErwAlpsrQ-1; Mon, 05 Dec 2022 17:19:20 -0500
-X-MC-Unique: rwganA59Nz-PjErwAlpsrQ-1
-Received: by mail-ed1-f69.google.com with SMTP id g14-20020a056402090e00b0046790cd9082so6849878edz.21
-        for <linux-input@vger.kernel.org>; Mon, 05 Dec 2022 14:19:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r/SpJiKMRZzsA13nt/vHo0GTokdNpO5dXKV/2C5VsvI=;
-        b=TAaB0WGVosEXyyC80WXxxmphLOYrAndlT8OJRHkLNiDR28MmauV+q2oJwPDxXubRkV
-         6zB6tKX6E/f/oEcNV//ZTIoROj+fi9xGGHNRx9nqX/T0jaBoK01WfbzX/4h7eKmVSMRj
-         GBHbYukUNkQbwgncQ2NLxDnW0sCYM5tm7nFpQYZSXYvT13E9IEorjrEDFoawSMztLIJZ
-         vJa0Q/CvVxVN0Inoac7XYA+4nHTmoxAhMs1HWObwhautFg2Hb0v3ynyQaItvF+9yMnyl
-         NQGdmTRa0aZ0shSWNnPIjZrL3zUaI71F/xf3o4yVCrY05SCF8jJXuT5Ki9wwwevjIaNi
-         vUNA==
-X-Gm-Message-State: ANoB5pm+qn7q4cz1B2b4aGUIH6BP/ly+NAompsGHK13DMxFJF/iJpgQj
-        rUolAcYKrpr4BtaYhXNObVXXkB9TIvd5XRXasAUXKEVxtIHBGcimeIKUUAIcrUqw0L1wOm/8ukR
-        94fDAIUXmYra19AYxr3LE8Z0=
-X-Received: by 2002:a17:906:402:b0:7a6:fc0f:6fe6 with SMTP id d2-20020a170906040200b007a6fc0f6fe6mr68328943eja.694.1670278759577;
-        Mon, 05 Dec 2022 14:19:19 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4/AZjHdk4blrYZTy+WUNqF0ehBqnPpjtR2Q0U1GDaaqR6yRlJDcKawBK9sFngjEIEqwh3gGA==
-X-Received: by 2002:a17:906:402:b0:7a6:fc0f:6fe6 with SMTP id d2-20020a170906040200b007a6fc0f6fe6mr68328906eja.694.1670278759272;
-        Mon, 05 Dec 2022 14:19:19 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id g26-20020a056402181a00b004618a89d273sm286672edy.36.2022.12.05.14.19.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 14:19:18 -0800 (PST)
-Message-ID: <2186e672-8795-8da0-32a3-e6dba00ff504@redhat.com>
-Date:   Mon, 5 Dec 2022 23:19:17 +0100
+        with ESMTP id S229456AbiLFA0P (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 19:26:15 -0500
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC4C1EAFD;
+        Mon,  5 Dec 2022 16:26:14 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 164663200949;
+        Mon,  5 Dec 2022 19:26:08 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 05 Dec 2022 19:26:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1670286367; x=
+        1670372767; bh=3CGH9HhcetAdOgZSRwrfM5MD0lJuEd9B/GIe9kj/hzo=; b=n
+        697w9xePqnt2Zr3AVOYOpv1h7X1AQmkS04kXCqeNZHLbJXdt9PnmsJPqluA6y6ie
+        DXdn9kuXkvIyy1DTDYK1+bG6fUqVs/Lr9bb4KkFlliQiBOOZmfoSC9Z5nVO6dJPR
+        vUs+s2ilSQr++aq6Ke+AgwmTaXhj3EkmoPG+6SFh0QqB2CeV/zlJBq/FAlyapcqx
+        5wxc4b8fF4NSiWqehCSuFGdN/h6eNKqwc50j4EsfKRhapoAPZMCq3kinMNW+E9Fj
+        MMiJFCGzGJnCgQskmbFvaEQfvWK55jC5hKIwwPz+UwO6oLb8UZ8eU/HmKZJKwgpH
+        D0bK4WEnxrHtYYqsvOfDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670286367; x=
+        1670372767; bh=3CGH9HhcetAdOgZSRwrfM5MD0lJuEd9B/GIe9kj/hzo=; b=O
+        em+0VDYY/AXEgAj7nY65hj0uJYXOL785k8+91di15IoD1U2+jVdHzau7G1xGoi8z
+        qBqFfxFereUCg0wfonbB/+SIgz4+cl3qvCK3y7H6mYS5R/Weki1S8XtxhvPwceYl
+        ZPNL11seHwZpKVxqu+gRCw1Sf04CaYx0yYwpxelk6PtUZm3QJsMTE8Hrhr0fVZsN
+        IWcVomtJ1qhhUYjor787JHQQHOTdmsvSyTuZQqDTI8oQ+Enzyjt83PAXBDOWy8iv
+        BwWXnxc7ewwgVi3oJKrR8Rm0fwCdvo3dUKmE8s/BGPxCjzdzMFAPb1yh01lrL1Uy
+        X49CGSCATWlSeIbVtaNEw==
+X-ME-Sender: <xms:HYyOYwsO7GWFkR7v6vKER5mxp7Ziy4rt6W0xVjT7AoQUCSPzJOVsqQ>
+    <xme:HYyOY9f4OT4eUTy3q3uz3x0Lw8ZLWJH86oiBAsHVefsGSGkaUavM9Gh0MY9Y8Vx2Z
+    iznm9OZXVmwzlUuvw>
+X-ME-Received: <xmr:HYyOY7x11GOALng9029pCIVpTVajcn-IK5ua9-TXXHnZ45Cr7f_jYtIwCF_kmTaUah6dbW1iZcI3sY1bGM1joYBLTtVc7ZWeGCgiQBm6_wCQ5viH_5XFIa1X5w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehgddvvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:HYyOYzN1cDkTRtlUiCITJiIuL6oNrli1quZxUCK-r53n-GMpSr2I1g>
+    <xmx:HYyOYw99df9U5mgzoIWdzSMyiUloHMH1unQh-DoY_7VhDA_2r6-zTA>
+    <xmx:HYyOY7VVHCBDiKt_1-5_42hClQ65j-GuZJ4azHghgi525HtyZBgqjw>
+    <xmx:H4yOYyye-CmZk9os8yvj-jdcmxMzJKm3FZwbx5VaSf-i7gUK0IXNrg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Dec 2022 19:26:03 -0500 (EST)
+Message-ID: <a0c767d5-eb55-3479-c4bc-1029809027f5@sholland.org>
+Date:   Mon, 5 Dec 2022 18:26:02 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3 0/9] fix reset line polarity for Goodix touchscreen
- controllers
-Content-Language: en-US, nl
-To:     Quentin Schulz <foss+kernel@0leil.net>,
-        Samuel Holland <samuel@sholland.org>,
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v3 6/9] arm64: dts: allwinner: fix touchscreen reset GPIO
+ polarity
+Content-Language: en-US
+To:     Quentin Schulz <foss+kernel@0leil.net>
+Cc:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
         Bastien Nocera <hadess@hadess.net>,
         =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
@@ -91,22 +102,18 @@ To:     Quentin Schulz <foss+kernel@0leil.net>,
         Rob Herring <robh+dt@kernel.org>,
         NXP Linux Team <linux-imx@nxp.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
         Jagan Teki <jagan@amarulasolutions.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
 References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+ <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
+From:   Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -115,147 +122,78 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Quentin,
 
-On 12/5/22 14:40, Quentin Schulz wrote:
+On 12/5/22 07:40, Quentin Schulz wrote:
 > From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > 
-> The Goodix touchscreen controller has a reset line active low. It happens to
-> also be used to configure its i2c address at runtime. If the reset line is
-> incorrectly asserted, the address will be wrongly configured. This cost me a few
-> hours, trying to figure out why the touchscreen wouldn't work.
+> The reset line is active low for the Goodix touchscreen controller so
+> let's fix the polarity in the Device Tree node.
 > 
-> The driver is "asserting" this reset GPIO by setting its output to 0, probably
-> to reflect the physical state of the line. However, this relies on the fact that
-> the Device Tree node setting the reset line polarity to active high, which is
-> incorrect since the reset is active low in hardware.
-> 
-> To fix this inconsistency, the polarity is inverted to not confuse the user
-> about the reset line polarity. This obviously requires to fix the DT since most
-> users had the "incorrect" value in there, it needs to be inverted.
-> Note that the v2 highlighted that I was not the only one that got confused since
-> PRT8MM board has the "correct" HW representation for this line in DT (which does
-> not match what the driver was expecting).
-> 
-> This is marked as RFC because I can neither test ACPI support nor boards I don't
-> own. Please test on the boards you have that are impacted by this patchset and
-> give your Tested-By.
-
-I have tested this on a x86/ACPI device where we actually need to reset
-the controller at boot to get it to work and things still work fine there
-after this series.
-
-I've also reviewd patches 1-3 and they look good to me to.
-
-So for patches 1-3 you may add my:
-
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
-
-
-> Do we also make this patch series only one patchset since the DT patches depend
-> on the driver patch and vice-versa? In which tree would this go?
-> 
-> Thanks,
-> Quentin
-> 
-> To: Bastien Nocera <hadess@hadess.net>
-> To: Hans de Goede <hdegoede@redhat.com>
-> To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> To: Rob Herring <robh+dt@kernel.org>
-> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> To: Shawn Guo <shawnguo@kernel.org>
-> To: Sascha Hauer <s.hauer@pengutronix.de>
-> To: Pengutronix Kernel Team <kernel@pengutronix.de>
-> To: Fabio Estevam <festevam@gmail.com>
-> To: NXP Linux Team <linux-imx@nxp.com>
-> To: Chen-Yu Tsai <wens@csie.org>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Samuel Holland <samuel@sholland.org>
-> To: Andy Gross <agross@kernel.org>
-> To: Bjorn Andersson <andersson@kernel.org>
-> To: Konrad Dybcio <konrad.dybcio@somainline.org>
-> To: Heiko Stuebner <heiko@sntech.de>
-> To: David Jander <david@protonic.nl>
-> To: Angus Ainslie <angus@akkea.ca>
-> To: Peter Geis <pgwipeout@gmail.com>
-> To: Michael Riesch <michael.riesch@wolfvision.net>
-> To: Konrad Dybcio <konrad.dybcio@somainline.org>
-> To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> To: Guido Günther <agx@sigxcpu.org>
-> To: Jagan Teki <jagan@amarulasolutions.com>
-> To: Ondrej Jirman <megous@megous.com>
-> To: Icenowy Zheng <icenowy@aosc.io>
-> To: Aleksei Mamlin <mamlinav@gmail.com>
-> To: Lukasz Majewski <lukma@denx.de>
-> To: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-rockchip@lists.infradead.org
 > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > ---
-> Changes in v3:
-> - Cc'ing people who contributed to DTS of impacted boards,
-> - removed PRT8MM DTS change since it's been reported the polarity is actually
->   correct (goes through an inverter), keeping the appropriate folks in Cc though
->   since it'd be a good idea to check this patch series anyways,
-> - added ACPI_GPIO_QUIRK_NO_IO_RESTRICTION to acpi_gpio_mapping quirks to make
->   gpiolib-acpi core respect GPIOD_ASIS flag in gpiod_get,
-> - checked schematics of:
->   - pinephone: https://files.pine64.org/doc/PinePhone/PinePhone%20v1.2%20Released%20Schematic.pdf
->   - pinetab: https://files.pine64.org/doc/PineTab/PineTab%20Schematic%20v1.2-20191125.pdf
->   - px30 evb: https://opensource.rock-chips.com/images/d/db/Px30_mini_evb_v10_20180528.pdf
->   - rockpro64: https://files.pine64.org/doc/rockpro64/rockpro64_v21-SCH.pdf
->   - librem5 devkit: https://source.puri.sm/Librem5/dvk-mx8m-bsb/blob/master/dvk-mx8m-bsb.pdf
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts       | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi          | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts             | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
 > 
->   All seems to be directly connected to the GPIO on the SoC side, without an
->   inverter on the line.
-> - Link to v2: https://lore.kernel.org/r/20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
+> index 8233582f62881..5fd581037d987 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
+> @@ -122,7 +122,7 @@ touchscreen@5d {
+>  		interrupt-parent = <&pio>;
+>  		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
+>  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
+> -		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH8 */
+> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH8 */
+
+You are changing the DT binding here, in a way that breaks backward
+compatibility with existing devicetrees. NACK.
+
+Regards,
+Samuel
+
+>  		touchscreen-inverted-x;
+>  		touchscreen-inverted-y;
+>  	};
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
+> index 577f9e1d08a14..990f042f5a5b1 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
+> @@ -45,7 +45,7 @@ touchscreen@5d {
+>  		interrupt-parent = <&pio>;
+>  		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
+>  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
+> -		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH11 */
+> +		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH11 */
+>  		touchscreen-inverted-x;
+>  		touchscreen-inverted-y;
+>  	};
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> index 87847116ab6d9..97359cc7f13e2 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> @@ -167,7 +167,7 @@ touchscreen@5d {
+>  		interrupt-parent = <&pio>;
+>  		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
+>  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
+> -		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
+> +		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>; /* PH11 */
+>  		AVDD28-supply = <&reg_ldo_io0>;
+>  		VDDIO-supply = <&reg_ldo_io0>;
+>  		touchscreen-size-x = <720>;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+> index 0a5607f73049e..c0eccc753e3f5 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+> @@ -189,7 +189,7 @@ touchscreen@5d {
+>  		interrupt-parent = <&pio>;
+>  		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
+>  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
+> -		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
+> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
+>  		AVDD28-supply = <&reg_ldo_io1>;
+>  	};
+>  };
 > 
-> Changes in v2:
-> - implemented ACPI support as suggested by Hans,
-> - removed Qcom SC7180 Trogdor-based devices changes as they are not using this Goodix driver,
-> - added comment on how to read gpiod_request_output and the GPIO DT polarity,
-> - Link to v1: https://lore.kernel.org/r/20221103-upstream-goodix-reset-v1-0-87b49ae589f1@theobroma-systems.com
-> 
-> ---
-> Quentin Schulz (9):
->       Input: goodix - add macro for gpio mapping
->       Input: goodix - make gpiod_get honor GPIOD_ASIS
->       Input: goodix - fix reset polarity
->       ARM: dts: imx: fix touchscreen reset GPIO polarity
->       ARM: dts: sunxi: fix touchscreen reset GPIO polarity on Wexler TAB7200 tablet
->       arm64: dts: allwinner: fix touchscreen reset GPIO polarity
->       arm64: dts: librem5: fix touchscreen reset GPIO polarity
->       arm64: dts: qcom: msm8998-fxtec: fix touchscreen reset GPIO polarity
->       arm64: dts: rockchip: fix touchscreen reset GPIO polarity
-> 
->  arch/arm/boot/dts/imx6q-kp.dtsi                    |  2 +-
->  arch/arm/boot/dts/imx6ul-kontron-bl-43.dts         |  2 +-
->  arch/arm/boot/dts/sun7i-a20-wexler-tab7200.dts     |  2 +-
->  .../dts/allwinner/sun50i-a64-amarula-relic.dts     |  2 +-
->  .../allwinner/sun50i-a64-oceanic-5205-5inmfd.dts   |  2 +-
->  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi   |  2 +-
->  .../boot/dts/allwinner/sun50i-a64-pinetab.dts      |  2 +-
->  .../boot/dts/freescale/imx8mq-librem5-devkit.dts   |  2 +-
->  arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts    |  2 +-
->  arch/arm64/boot/dts/rockchip/px30-evb.dts          |  2 +-
->  arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi |  2 +-
->  arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts   |  2 +-
->  drivers/input/touchscreen/goodix.c                 | 54 ++++++++++++++++++----
->  13 files changed, 56 insertions(+), 22 deletions(-)
-> ---
-> base-commit: 76dcd734eca23168cb008912c0f69ff408905235
-> change-id: 20221103-upstream-goodix-reset-aa1c65994f57
-> 
-> Best regards,
 
