@@ -2,196 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D07B8643B99
-	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 04:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD90643BD0
+	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 04:20:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233672AbiLFDA2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Dec 2022 22:00:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34162 "EHLO
+        id S233846AbiLFDUZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Dec 2022 22:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233908AbiLFDAV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 22:00:21 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2083.outbound.protection.outlook.com [40.107.92.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940F425C4C;
-        Mon,  5 Dec 2022 19:00:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FuEo6quRC7xSwqa7JMMQ9JxhXh9bCtvRkXQcb4B7gbDv5VZkWr7nCU+K2pSymgoMSnK78OgtG2V/OeROpD+jmepPd4KylaR3/1B9GVe2KEWjuWCB+pxot/XtixlzzyDMu7SDU1rPs5NExD5afjL0yUF2Yvx81y0dLDs8gN8xuqz9/oHF1RGhSkgtSEZ+1tUrQsoSYhqw1+W5lebJjbFmQ+TIJHhzDohXoqpMDZs0defciewl+1lQZ0SMFKuycfTtQp6x8w86UAPrRQeKdi8Luy7VGsLJTbvoVR7ikfLIMaddhPdOsAnwJfDGcz3P/VQSdmkNG+Ywh4QSjQFKtbtKLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=juWqf7nEt/Q1I7riLid9xBLM4l/YfoSJNadP9QUktA8=;
- b=muXQcv5kGlZzjdNRSHzQOHYFUaeLfe99po1qHoAXMhK+x0G4b6fq0WdYXqAsQJSUrMyuH6fWww+4+r+TBHgX1/jotnA3jFjMCnm0/XhTHxwuFgaPb9mEAUdDE984qn2mH9el6ZmAaMl2qnUGkKdPe+UARq3shSdL4GvlvZQdUZboWW5TAyfGs5DhWWr1Yyxm7mY6uqUTLeNRTFfmw6mLI4FxAed6r7uwerQRk9rTovRlCN6CoK8CHK4cPhoTlHQN0tQLY2HWuZ6rQPpifbOEwDHETFGg0u7Z4BVyPUaMCFN91imHY4BeCvBH/DRTfQCnqpkI/kgnt0tYD24Y5TksZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+        with ESMTP id S233037AbiLFDUY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Dec 2022 22:20:24 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732C6222B4
+        for <linux-input@vger.kernel.org>; Mon,  5 Dec 2022 19:20:23 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id b9so15769483ljr.5
+        for <linux-input@vger.kernel.org>; Mon, 05 Dec 2022 19:20:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=juWqf7nEt/Q1I7riLid9xBLM4l/YfoSJNadP9QUktA8=;
- b=GjNcnPMuwqgFfjmReVkWQcd1E6CLNj8uZqDP/UwJGv/aaA1gUY3CBFV0hm0NKt1uCxp11/ZgA3pvflhF6wNh5HsUtO3GNfZdhxzx92k9D8F5m0cU1oBmRk5vM5zMgRtYflYyhcmASYygQ7qK7uwqNHHKqV1AJAS5Sm+BY0fCZ2E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by MWHPR08MB3536.namprd08.prod.outlook.com
- (2603:10b6:301:66::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
- 2022 03:00:14 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ea42:ebaf:dd18:6a4c]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ea42:ebaf:dd18:6a4c%4]) with mapi id 15.20.5880.013; Tue, 6 Dec 2022
- 03:00:14 +0000
-Date:   Mon, 5 Dec 2022 21:00:02 -0600
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        broonie@kernel.org
-Subject: Re: [PATCH] Input: edt-ft5x06 - always do msleep(300) during
- initialization
-Message-ID: <Y46wMrS7iN6yBsBf@nixie71>
-References: <20221202105800.653982-1-linux@rasmusvillemoes.dk>
- <Y4pCtm4J3HWhYl8/@nixie71>
- <58ec9951-32d7-6967-3571-d18c667ae478@rasmusvillemoes.dk>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <58ec9951-32d7-6967-3571-d18c667ae478@rasmusvillemoes.dk>
-X-ClientProxiedBy: SA9PR13CA0069.namprd13.prod.outlook.com
- (2603:10b6:806:23::14) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=oiALkO4rnC9Gu1nW7FKSVg0MUO2Gu598TIaBBm3UFKo=;
+        b=rCBcl63/F6Niuy708YAPQul4O7KNWWu8j2jvlpkOlOMMtqO5pGi9Dd79n37g4h9qPE
+         af00f1jmXlSKao1P1zswJVUsxmBAvlVQEdE3VdKYZxD5xkZDZCE/b9RSX0V04UVXS5Qh
+         rx+6TiDDq36V212RATgVv5bRH2TEz73fITM+n9iJ64jxIM3zAkt8JMQMFFdpATm3+d3A
+         leA3+cEx9YKVEDXzhmkXJbVvJEeVHzfDP/o8N+x45cchcilZqzesv9a4MoKol1qcGwS6
+         cvMG3iTO1gCfE2AEc5Zzi68rvqGg5PFs2jHlms+mYJpRYegJ36BuvljPbuwcutHV+Q1t
+         +aYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oiALkO4rnC9Gu1nW7FKSVg0MUO2Gu598TIaBBm3UFKo=;
+        b=OkwTClOObLUdB1NkOgr/OlRcoQh/eqf7qGSjQN/Prm7o12Jcq2N1xTj5siJpTk4Amp
+         YJYMuA+VKGsLxXKVTSOorfE0MOooYUXHBqcWDhfwgjCHi0RaIeEQ2zHhMX01JZjEJEtK
+         hOWExE4QVQcWyrMOcZ8LIt1Wy+Gus+NgkNhAuR4M/zxQH/eZIqBrKCTZQzbDxSwOCcKR
+         KS+y8w/KvuMoQkRfjDmf/8JPXa30CYrGj4glkuHYJkPJCkFpjnSnMpaUzwgW55pk/MqV
+         khsOpQS2YKYn8kH4pZVRXYjsIZKhW6V1sBQpvZgpL0PhI+NvX4C9foQbtxshrGVASXVq
+         fbjw==
+X-Gm-Message-State: ANoB5pl3e3/asRerqoF3JfcHp9j8uEhwsYH9wovdVqk8nbjA/a18ABac
+        GWr25f/xkij+rmTCiM6/vo5e8g==
+X-Google-Smtp-Source: AA0mqf42AaD6LXyoTAuOcqwduDBkwv9Bu13Ho9T18SDcaeo2qdQeywTEBcOV7564vcTH9ojn5OoI0g==
+X-Received: by 2002:a05:651c:b26:b0:277:9847:286a with SMTP id b38-20020a05651c0b2600b002779847286amr20542523ljr.309.1670296821664;
+        Mon, 05 Dec 2022 19:20:21 -0800 (PST)
+Received: from [127.0.0.1] (85-76-34-181-nat.elisa-mobile.fi. [85.76.34.181])
+        by smtp.gmail.com with ESMTPSA id z1-20020a2ebcc1000000b0027711dbd000sm1031505ljp.69.2022.12.05.19.20.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Dec 2022 19:20:21 -0800 (PST)
+Date:   Tue, 06 Dec 2022 05:20:16 +0200
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+CC:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/4=5D_dt-bindings=3A_input=3A_q?= =?US-ASCII?Q?com=2Cpm8921-keypad=3A_convert_to_YAML_format?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20221205220433.GA2684995-robh@kernel.org>
+References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org> <20221204061555.1355453-2-dmitry.baryshkov@linaro.org> <20221205220433.GA2684995-robh@kernel.org>
+Message-ID: <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|MWHPR08MB3536:EE_
-X-MS-Office365-Filtering-Correlation-Id: 302c9a3a-7417-44d0-0906-08dad735ff70
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pab3MGMlIMzwE+1C2ncjUYm2ONaDqcvdAOpqX7yfzL7TpYJNSN2gILqJ3s4bGzSZf6ITOpEwdTFi/RqiJqgudQ5fQbOCsQp20XKFllSAdqklEHZnD6nUeHwIOWwNL6xFyzaI8iGCJaCHwWlTnoo5Pj+TvmrGHC6MnFOtlV9v/5PCryJMgY0Aya88e0GVcIraHr9xbI+1/xUb7APZKbZrHO2ag4dlyx094BhJViLyRcQ4VcH2gQXepIXRjDNOy85hjOEMMYOmXaVh0Zlv35GcBQ3rb7RyoHs9msAyWmLq0aDfK9tHROkk3x5cy6PP7Qc/P51A7Le7CtaMHrOrLQPsUReZb6+UIjPFv9SAuX4MdW4vk8/mvimn4fteWhaX9Q35nMkGSZZHkYyKBCKmZvnLTOOtzNnOcnHWSP45aJrhYmHSN1uGanv+u25kGtxgJQ6HjjbW0PxueqLEO85hDqvdRr8+FLQuDm1eo3hqZTCSTi0Pc6goAnO9sVIKzdHVJ2g61H6lQfhmT9SFLM9l+/3ERMSvobfNVp4/10kZyx/z96ezpJkIFjmfIKIMPXnhEoIttzW7/LujzsQx6LUQcp+O3p28qshPvejtCGYh6SrOQQBP3P8ano02fnDriE0GY866nhE6PMYgc5X929uo2CxdFQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(346002)(396003)(376002)(39830400003)(366004)(136003)(451199015)(2906002)(6486002)(186003)(6512007)(6666004)(26005)(9686003)(478600001)(6506007)(38100700002)(86362001)(33716001)(83380400001)(4326008)(8936002)(66899015)(66476007)(8676002)(66946007)(41300700001)(66556008)(5660300002)(6916009)(316002)(54906003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IcswwBbvv9qjDOG7QtYtS/Rp6n/V9hdc0QMKc3CiJfsrNQ8sH4PytfMW7jjy?=
- =?us-ascii?Q?NIiirvztf64yXZvtkWchmYeV9/jX3g3JrOA8t8ZzKoFcIKcFgd+C6hR1bRjb?=
- =?us-ascii?Q?UnevkvkbO4jjq12/Z4Vner8SefBeORn3L9DJMlmAvGvKpSzuo1s6eg4Kt2/x?=
- =?us-ascii?Q?45khYhlii3ddrlOQ/lN0ovkGd0/JIaznjJv3AEUv8Js9r7HSnRon4p4B624L?=
- =?us-ascii?Q?hLdVmOacTpswd8CztF0fezbVGBgcYtUyfuZLVpTLwwFrrI7Wn9+bfRh/xK2s?=
- =?us-ascii?Q?IRLlFMOquW5zndwQMiMwL5vFOW1aN2IryW6F6iWs7pa8/ovp7xH1KTa/maFx?=
- =?us-ascii?Q?PD2ljW+t0dzT1QzP0axa+RxNTZWfh5SR7v8VhTF52jcMNr04pi8F/fDHYAZu?=
- =?us-ascii?Q?yiIso+Fj9tC8THRo74ZVQJdjzXNm/MDU85jp/FmS1a+pxKFZaS0Abw5r4Gga?=
- =?us-ascii?Q?8HDJuNybIVkNqN23Oy8OSaeLzbf1kW+zd7iCeGOZHCB+IYd3xFu3wCTlBidR?=
- =?us-ascii?Q?MSnPbzapJDZm4dR+5E961J7Lnucml6qraDv17DzkpCt1bk5+vW5+loFk/Na9?=
- =?us-ascii?Q?y65bMAPNTbE/nR/L9v8N2VSZbNGr+aE/KnzP7qfIp2i4l3K7HMWa4IZ6xdnh?=
- =?us-ascii?Q?12Z3/JKYFCWz+q8LZJsItX2cts/tsjFgIXAdsLGDMZ7EZxhWY7/evkDitqB2?=
- =?us-ascii?Q?GR5IHhz7tGZ1r+zJ2ABZ1Vvvxt4yDcXmScl/h41/r7Qo7VEneq6ruaSuVjdQ?=
- =?us-ascii?Q?7ACLLiXgZb3WqF9/ffClLlLNiSuNJ2+70PYE2n+hCbfMVDG32aBAoyZL/Oxg?=
- =?us-ascii?Q?fnH7DJ7O4rJR5+sMGXBReEIYbolH5v3OaJ/r0MVwPHnsw2T4swvLVpfrHj9o?=
- =?us-ascii?Q?LxaTOmXu/r7b/cSEmgAtasWlk/910i9+8NivPDG6W3vJCACwBAl4hHv/hZsd?=
- =?us-ascii?Q?Yw4gFhHXadLN0qoU4Ib+d2cKTEsBb3SLjkKSzGvDA22W2aBzAB+nqAi0IHxI?=
- =?us-ascii?Q?j1U5Lm0raF8cf29VTE1aci0JgilvwiPwN4RxKwNON5d14uP52TjwkSxZZVjs?=
- =?us-ascii?Q?kUbmEBJ5o5Mtt0xSneHYqYLJND7zEsfTJKck7zp9lOdE3hDCU0fXj7n93BEg?=
- =?us-ascii?Q?8IpGp4ChhTwD/w+kn0o9MlQ4IgsrBT0xnVvfZML+up1n0xT5cMWH5XysjaIJ?=
- =?us-ascii?Q?W4y3Whwf43jA6u0VAC3VsZUJX7Ikzyq93qgMUh8n7U/OfdXtJ8S7C5cVJAhG?=
- =?us-ascii?Q?aYgYnILhM6abm2Vnw2pSr5tQFd+vtT+k6blqk6xh8JJhnXtPfrgzwVgPEaOg?=
- =?us-ascii?Q?5COTRAbX7ZUe/1KG1PZxmxgXWwtHCGPW/Yjv4O2N0d+BiDaEWefuHaoMUrZC?=
- =?us-ascii?Q?vwi5OJvFjjjEEeCmpyFlYFG+ZbapRrp4PrVMYRqTuK+Dex2KllCliLuuKglZ?=
- =?us-ascii?Q?3kHDHnC0RsCqW2M6+41TmKfbPsymXjmFelkT348bUwMIoLQIXO7T0aQYWv9E?=
- =?us-ascii?Q?xpy40KrVqqXZqdNPB+si4vhoUiHQHZtyNszLA5Q+9DFNwiIqxxaQyGVwvGOv?=
- =?us-ascii?Q?kqxlVfcpddcx/lvgRits0YftL64nEkEvk5efOCR4?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 302c9a3a-7417-44d0-0906-08dad735ff70
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 03:00:14.6367
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +4hIMTOmobBXx5ZUAaXwtJ/Y4+eOabHvedLs7WT7cEqVpZAXpaySbTUrsTGK2A0yQVYcct8SwGNdS+TDKGg6Rw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR08MB3536
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rasmus,
+6 =D0=B4=D0=B5=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2022 =D0=B3=2E 00:04:33 GMT+02=
+:00, Rob Herring <robh@kernel=2Eorg> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
+>> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
+>> PM8058 PMICs from text to YAML format=2E
+>>=20
+>> While doing the conversion also change linux,keypad-no-autorepeat
+>> property to linux,input-no-autorepeat=2E The former property was never
+>> used by DT and was never handled by the driver=2E
+>
+>Changing from the documented one to one some drivers use=2E I guess=20
+>that's a slight improvement=2E Please see this discussion[1]=2E=20
 
-On Mon, Dec 05, 2022 at 09:59:08AM +0100, Rasmus Villemoes wrote:
-> On 02/12/2022 19.23, Jeff LaBundy wrote:
-> > + Mark
-> > 
-> > Hi Rasmus,
-> > 
-> > On Fri, Dec 02, 2022 at 11:57:59AM +0100, Rasmus Villemoes wrote:
-> >> We have a board with an FT5446, which is close enough to a
-> >> FT5506 (i.e. it also supports up to 10 touch points and has similar
-> >> register layout) for this driver to work. However, on our board the
-> >> iovcc and vcc regulators are indeed controllable (so not always-on),
-> >> but there is no reset or wakeup gpio hooked up.
-> >>
-> >> Without a large enough delay between the regulator_enable() calls and
-> >> edt_ft5x06_ts_identify(), the first edt_ft5x06_ts_readwrite() call
-> >> fails with -ENXIO and thus the device fails to probe. So
-> >> unconditionally do an mdelay(300) instead of only when a reset-gpio is
-> >> present.
-> >>
-> >> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> > 
-> > This is just my $.02, but it does not seem we are on the correct path
-> > here. 300 ms sounds more like bulk capacitor charge time rather than
-> > anything to do with this specific IC; is that a reasonable assumption?
-> > 
-> > Normally, we want to do the following:
-> > 
-> > 1. Enable regulator
-> > 2. Wait for voltage rail to stabilize (RC time constant)
-> > 3. Wait for any applicable POR delay (IC datasheet)
-> > 4. Deassert reset
-> > 5. Wait for any applicable reset delay (IC datasheet)
-> > 6. Start communication
-> > 
-> > Here we are dealing with step (2), 
-> 
-> Nope, we are really essentially dealing with step 5, even if there's no
-> reset gpio that we've flipped around. The data sheet says to wait 200 ms
-> (and I don't know why the driver does 300, perhaps there's some other
-> chip in the family with that value, or perhaps it was just a
-> belt-and-suspenders choice) after releasing reset. It's just that
-> "releasing reset" is, in my case, effectively happens at the same time
-> as the regulators are enabled.
-> 
-> I also played around with some smaller values. As I wrote, with no
-> delay, I would get -ENXIO, but with both 50 and 100, the chip would
-> "respond", but the values were essentially garbage (and not reproducible
-> from one boot to the next). So even if it's a rather long time, it most
-> definitely is a hard requirement to wait that long - perhaps we could
-> make it 200, but I'd rather not reduce that time when I don't know if
-> other variants have that 300 as a requirement.
-> 
-> Even if we could interrogate the regulator and ask it if "are you
-> actually always-on", I'd rather not make the delay conditional on that;
-> we cannot know if it has been on for 300+ ms, and since the device does
-> respond, but not correctly, we could end up with probing and
-> initializing the device, but in a wrong state. That's a recipe for
-> impossible debugging (add a single printk somewhere earlier and the
-> timing changes so that suddenly it gets initialized correctly...).
+Well, the problem is that the documentation is misleading=2E The driver do=
+esn't handle the documented property, so we should change either the driver=
+, or the docs=2E Which change is the preferred one?
 
-Thank you for these additional details, especially with my having taken
-us on a tangent :) Perhaps the controller requires so much time because
-it is loading firmware internally. Based on this information, the patch
-seems reasonable to me.
+>
+>Rob
+>
+>[1] https://lore=2Ekernel=2Eorg/all/YowEgvwBOSEK+kd2@google=2Ecom/
 
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
-
-That being said, I like Dmitry's idea but realize it's out of scope for
-this particular issue.
-
-> 
-> Rasmus
-> 
-
-Kind regards,
-Jeff LaBundy
