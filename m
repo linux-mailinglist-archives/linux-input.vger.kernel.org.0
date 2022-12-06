@@ -2,102 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1942644D76
-	for <lists+linux-input@lfdr.de>; Tue,  6 Dec 2022 21:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 759B8644FC4
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 00:43:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbiLFUsS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Dec 2022 15:48:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
+        id S229489AbiLFXnT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Dec 2022 18:43:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbiLFUsB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Dec 2022 15:48:01 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A4C2614;
-        Tue,  6 Dec 2022 12:47:59 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id fc4so9221686ejc.12;
-        Tue, 06 Dec 2022 12:47:59 -0800 (PST)
+        with ESMTP id S229449AbiLFXnS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Dec 2022 18:43:18 -0500
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3B3E0F4
+        for <linux-input@vger.kernel.org>; Tue,  6 Dec 2022 15:43:17 -0800 (PST)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-3bf4ade3364so169336647b3.3
+        for <linux-input@vger.kernel.org>; Tue, 06 Dec 2022 15:43:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GAFKa0B2H6/6w0dZm7aNy9JXnPwcNQKFrtyaRPOt4YU=;
-        b=cG23+e+VAgZFD5pniBKKHjKlAS5M0vzmeBJ41ucPyhDlJYTX4Hf4aeq2rKXZcEuZxN
-         aUu3KcITn/NFEA0V+nIHXAlaiFc9ZkhA55pdNlnbLq+9mgitglmcXYip8KUWzodPb+iD
-         aopk7bBZaDs97BcSnMQPqx3ZH2w/bdjOB+zDYxRNOrIzPxacx29gY2GRc+5selB0ULbD
-         gzmqmrOvN96mVCjlBcBjUyxiX8HeZhi7UanP6BfyMQpTzBmfqerYe8WVYpMrh3SUoya9
-         8VZvdr4BtdJWIhF4+XoM833QkrQEPbGXgwnUavHnisi8WyPUsoQh/PLc2wgg2KVfRdfO
-         nmKg==
+        bh=WDBy1ZX9QysH28XJNbL9bzLXcSLcYyJdYFWOUapLf1Q=;
+        b=flf3AcRtIil+hMBL7fdAmYr9xL/0ACmpWrEca2yY7nASAo0OcRPiuv0BOfUqaccfUm
+         MsD2T6eWjLo8iI8zXxHRgTchUutUdpBmXryUzdMDJKcCi8zx5kXS4fETChZDe52Af9zC
+         8mk3qVW1wmTkE7UbecFEM81zrEcFvofAddh2DXU8+Ir+BFttAAu56w1pRSrfaSZONEH2
+         y6CvxbdGhTt2/lumLqYWCi5gN2X843kM3yks8MXmKQsA4rRwcSFfkxDWT1BL7pnYh0cL
+         XF6Db1NqtrgtY6F8ggoiBKQtdR+0ohtqNHWyK/fsHLoTD0sAYi+JFT/TPelJFPu+8AWR
+         1iPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GAFKa0B2H6/6w0dZm7aNy9JXnPwcNQKFrtyaRPOt4YU=;
-        b=Obtj5tNcZk5xiQE4XnwedPOTDU9UYauUFKAe+APKJWnchCtkZWgotTATb5mdr+6I9e
-         k71yGPURmT+huhUd7kUTiXPhbbyCFFTPy59cevO+pES+ilsarvKNKYOHp8QhHxo/0yaJ
-         ZNGZ9CJhyRBNLFjPksWDG6NSityyo+x3BFNA0tT1Dz6xoSdgFKe/Yg85pXf7GZJebVlq
-         H6sgGUtGwFhd6yW/lfBq1ztgqnv5XoYFxlqpwa/tsmHv+6SPsGH2QEMZswjhF+N4PUlH
-         YOQuma9MoCqjdKUX/1RFceSxfoBcZcRl2/DwOchtids/BZ0fnDerEVoB5YaSO7reEKn5
-         RMyQ==
-X-Gm-Message-State: ANoB5pnlSTHb2K5Vx2K5gBdJDcI/51HxgoVOGbA6b4AU/3oQzB6pGSS8
-        AJagitBuZUuQCUgt23xfo1AD67WiRP7+0lHsvNE=
-X-Google-Smtp-Source: AA0mqf5/CzGdIF2RvANNjyLWBnuvFbiOFe/om863zc7GXRF8WqatzYmvTX1GkO6cT99Qc/xoyAliP5jsh880a3rjtS8=
-X-Received: by 2002:a17:906:fc5:b0:7c0:8b4c:e30f with SMTP id
- c5-20020a1709060fc500b007c08b4ce30fmr29322582ejk.502.1670359678327; Tue, 06
- Dec 2022 12:47:58 -0800 (PST)
+        bh=WDBy1ZX9QysH28XJNbL9bzLXcSLcYyJdYFWOUapLf1Q=;
+        b=Rf7vdFNtyXAoqPRzieaupxkZu/+h2dCPsedoqAyIQLpkSg4FhU/I/mm1C5Tu2Jxf+P
+         p1Y/XlEZaVxyeh/G9jP8DntWHiLzSDD3jtSBojWvo1Xx8ndotatzFz1sf7l6NEdhoBJM
+         EB5WOvC+gEPVzxidN5m9e+swOYXJTxuWhLd5fGyY8A/rWOxIMARmQj5swX1bMAaTnVbE
+         AL5hK/lDIkoyumRAZcLjGcJOCZUZT9cPiM+rX0vERHj2rJqiwzTFs/dz8rgY0NUulk/0
+         8rE1kWFkMSIR7yr+IMvuZrdOzK3ovuBAeDaJipPcumW9ovh0m8mu2pBLg5vF8ThGh+yN
+         H/jg==
+X-Gm-Message-State: ANoB5pkTyLRWnIUojYYYHkpp3RTu2KyJkp5J8Xf0yjuk8l94GxAygWbo
+        vHf9BfqC92gGEpGMrQkXOf1cp/MC5ACFsHcG0kJ8Mw==
+X-Google-Smtp-Source: AA0mqf7GkLf5jrHq65j2MC+bn2XgCoMtXuJfZVHBH0fEqL7IZXfo8GbAkF3Wen9oiLlWp+O7rxfrQoXfzfDfFLwRpcs=
+X-Received: by 2002:a81:65c1:0:b0:376:f7e2:4b12 with SMTP id
+ z184-20020a8165c1000000b00376f7e24b12mr66827194ywb.0.1670370196679; Tue, 06
+ Dec 2022 15:43:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20221206145936.922196-1-benjamin.tissoires@redhat.com> <20221206145936.922196-2-benjamin.tissoires@redhat.com>
-In-Reply-To: <20221206145936.922196-2-benjamin.tissoires@redhat.com>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Tue, 6 Dec 2022 12:47:47 -0800
-Message-ID: <CAADnVQKTQMo3wvJWajQSgT5fTsH-rNsz1z8n9yeM3fx+015-jA@mail.gmail.com>
-Subject: Re: [PATCH HID for-next v3 1/5] bpf: do not rely on
- ALLOW_ERROR_INJECTION for fmod_ret
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Florent Revest <revest@chromium.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+References: <20221204180841.2211588-1-jic23@kernel.org> <20221204180841.2211588-8-jic23@kernel.org>
+In-Reply-To: <20221204180841.2211588-8-jic23@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 7 Dec 2022 00:43:05 +0100
+Message-ID: <CACRpkdb31DtE77pYzLvpzkVXvp3PSSx-aLGpAHVNKUDxE9EFnw@mail.gmail.com>
+Subject: Re: [PATCH 07/32] Input: ipaq-micro-keys - switch to
+ DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 6, 2022 at 6:59 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> The current way of expressing that a non-bpf kernel component is willing
-> to accept that bpf programs can be attached to it and that they can change
-> the return value is to abuse ALLOW_ERROR_INJECTION.
-> This is debated in the link below, and the result is that it is not a
-> reasonable thing to do.
->
-> Reuse the kfunc declaration structure to also tag the kernel functions
-> we want to be fmodret. This way we can control from any subsystem which
-> functions are being modified by bpf without touching the verifier.
->
->
-> Link: https://lore.kernel.org/all/20221121104403.1545f9b5@gandalf.local.home/
-> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+On Sun, Dec 4, 2022 at 6:56 PM Jonathan Cameron <jic23@kernel.org> wrote:
 
-BPF CI couldn't do its job because of a merge conflict.
-CI only tries to apply the whole series.
-But I tested the patch 1 manually.
-Everything is green on x86-64 and the patch looks good.
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>
+> SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
+> against unused function warnings.  The new combination of pm_sleep_ptr()
+> and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
+> thus suppressing the warning, but still allowing the unused code to be
+> removed. Thus also drop the __maybe_unused markings.
+>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
 
-Acked-by: Alexei Starovoitov <ast@kernel.org>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Please send the set during the merge window.
-If not we can take just this patch,
-since the series from Viktor Malik would need this patch too.
+Yours,
+Linus Walleij
