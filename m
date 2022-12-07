@@ -2,149 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7370964612F
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 19:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 353C16461C3
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 20:32:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbiLGSgT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 13:36:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
+        id S229694AbiLGTcZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Dec 2022 14:32:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbiLGSgS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 13:36:18 -0500
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4768C1FCDA
-        for <linux-input@vger.kernel.org>; Wed,  7 Dec 2022 10:36:16 -0800 (PST)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-3c090251d59so195940007b3.4
-        for <linux-input@vger.kernel.org>; Wed, 07 Dec 2022 10:36:16 -0800 (PST)
+        with ESMTP id S229576AbiLGTcY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 14:32:24 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE3C663DC;
+        Wed,  7 Dec 2022 11:32:23 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id q1so17241586pgl.11;
+        Wed, 07 Dec 2022 11:32:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YkCBMDlB3hXmQeitr6CrurlYhqpOvhf1O6xFonNtxQo=;
-        b=Pj0CG1pyIpr6pqsivNG2FWlrW0K3xiy1hT4jNSjQvJHjeS6GZBsRrFqo9647GWmaiw
-         JSPjPZZRUFvAnVbiUhBimguRFOXzVJwfb7ZngeznjR025w4IK6yDuCeIhKG5/HV0BeQb
-         n3+WxW0n2ez+vrvcXYsegtuJVlDgD9tdis73WkkpQSXANiSEP4SetrLZrDHhPwk+hV+X
-         dqpx5h03FurSXVxNt95ojrqYSAcPjbuYPL+yDe0FOOrcFn3UKImHOcjjS+HHDPI+6miF
-         OkORjEdDExI0LWMAs5paMqseoVeIQ7nlGQ08/5MN0rzmw9Piywr1vcBFsD7DwxaHE5K2
-         ESaQ==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CJ93t0qOhK77peLQli38loBDZSZoHQBfLCudn8XKKkU=;
+        b=SXJMcwQ/DX/x1scl/JInhAOMSXhTgG6NMqn0+f7F4uJvfw1ENl1Owc16iAdMtuKYZV
+         +eUJ6MG53Lh01wqJMd6+BBLGW+ASLyrTILLY/k8fcy3T1q3c0G2guTpUxDEZ+Cw7xiwq
+         5nv71OjcKpcKe1o8yphT4VWCfosowXpVq8F5taWYUqk/X0jcJiSsHJEcfPvqzh70Md7I
+         pVJu4/p2YnToPdRxt7oQFXliv+t6JQHRnhBtkIWmA1PpDjP5ebiwdFx3ie9dbI1oq7T/
+         fVANQn9sC5L4Sogum8Mi1HJ4qls2Do89SgYD/trpNdfJjBuDX56pZV6W0HB7hvxFRpoE
+         /x9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YkCBMDlB3hXmQeitr6CrurlYhqpOvhf1O6xFonNtxQo=;
-        b=VG40f/7WvPdsHmyx3orJRHZDPZxRCiQEVxtcXanwdJRju7y/AkZ+ptkVbzARJ+3sw6
-         iut5vieMr9LGFyYhCDs2aa9Is3Oo82Z+qHyjt7MrzgNvbjjDs4/fY1QbT0/R5brtMvbW
-         s/A/5WmHC5sgW2oHD/P2/ZUad7la76XZxzmwwMaGTemqw9cnd9QP+vtW0tZEiOqBgGvz
-         G91PZxr75f1vTeLf6tcDOWpjXLfuQmMhbtYpupT9fUrxYvLvBYwFyZMD63BxarmWoJYz
-         wXsW882MwTxxRTRKKElZunwd0447jAa6SQ8tFuDWb5uZ4aSB0MYxlvnJNtXH2tP6CZ3K
-         p3Rw==
-X-Gm-Message-State: ANoB5pnGEteKTQfpAiXXSQTovExY85PlSFnZzS+WqWHQ5LCvvcrDx621
-        5MZCrHuLrTkgNGXgo4nBmpuBdb26qhAg3GpTGYyMrg==
-X-Google-Smtp-Source: AA0mqf4m5wZ2kYRrz+V6Su/X0hXGCCxugC1U+MQcs7ps/3PXHRak9VUu+C2HY/CsHAxhi0AWrkS67g/lonIWB716Wek=
-X-Received: by 2002:a81:6c52:0:b0:370:4c23:eacc with SMTP id
- h79-20020a816c52000000b003704c23eaccmr21656043ywc.127.1670438175478; Wed, 07
- Dec 2022 10:36:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
- <20221204061555.1355453-2-dmitry.baryshkov@linaro.org> <20221205220433.GA2684995-robh@kernel.org>
- <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org> <20221207170753.GA2402110-robh@kernel.org>
-In-Reply-To: <20221207170753.GA2402110-robh@kernel.org>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Wed, 7 Dec 2022 20:36:04 +0200
-Message-ID: <CAA8EJpoOuJqK7zGsU2C9Y1ZB-Lb5TvXcL30be6uVodOy=M6T5g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: input: qcom,pm8921-keypad: convert to
- YAML format
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CJ93t0qOhK77peLQli38loBDZSZoHQBfLCudn8XKKkU=;
+        b=P/NlZFRX/34uBIbzxctF94PRLIi1Lhstjs0drm2pHdGq6XsJCSmHYjqb7Tk0zWQRQT
+         zx9K4QMQigwFTLGy0Dp37knnEKH5ugtZTFh7vX432b6fdZPGFGGnWaI0VrlHNHJDXp9k
+         iECYCjLd87GWaNZ027FFQpGQ2TSvP4VVQsB83LSsDiNUWNwUom5vpspaDezPPPRlMvrz
+         5uXiWnTeeL6uItSLepU6q90MMc+f8xUHgIpDkB0sOp7IrlJiyjaKAB0ivDNMl9ChQE4r
+         Z93PQHaZ4PmY+/x1eE4oGzpCMIbfPKNp7nHI/OrARjLM95am1DFfeOo2bl8Z+WQtadAp
+         bJJw==
+X-Gm-Message-State: ANoB5pnPX0XBgM92mEpTOzNX2Z9jyWraiLuVjeiDmt5CWDkJpquJWHO2
+        5ajb+r3D+VY+fzzORthd/d4=
+X-Google-Smtp-Source: AA0mqf5S9Wbej7daA71TN/mdshSxOTWOgPe3L9BDEC6euYukOmVdhOpbd6Jrdw3mr8NfWxb0vDjJEQ==
+X-Received: by 2002:a62:1b05:0:b0:576:91fa:8ed0 with SMTP id b5-20020a621b05000000b0057691fa8ed0mr22190841pfb.15.1670441543186;
+        Wed, 07 Dec 2022 11:32:23 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:7a61:38c7:d37a:7f43])
+        by smtp.gmail.com with ESMTPSA id l16-20020a170903121000b0018157b415dbsm15089573plh.63.2022.12.07.11.32.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 11:32:22 -0800 (PST)
+Date:   Wed, 7 Dec 2022 11:32:19 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
         Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: input: qcom,pm8921-keypad: convert
+ to YAML format
+Message-ID: <Y5DqQywrM6WjqwWA@google.com>
+References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
+ <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
+ <20221205220433.GA2684995-robh@kernel.org>
+ <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
+ <20221207170753.GA2402110-robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221207170753.GA2402110-robh@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 7 Dec 2022 at 19:07, Rob Herring <robh@kernel.org> wrote:
->
+On Wed, Dec 07, 2022 at 11:07:53AM -0600, Rob Herring wrote:
 > On Tue, Dec 06, 2022 at 05:20:16AM +0200, Dmitry Baryshkov wrote:
-> > 6 =D0=B4=D0=B5=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2022 =D0=B3. 00:04:33 GMT+=
-02:00, Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > 6 декабря 2022 г. 00:04:33 GMT+02:00, Rob Herring <robh@kernel.org> пишет:
 > > >On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
-> > >> Convert the bindings for the keypad subdevices of Qualcomm PM8921 an=
-d
+> > >> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
 > > >> PM8058 PMICs from text to YAML format.
-> > >>
+> > >> 
 > > >> While doing the conversion also change linux,keypad-no-autorepeat
 > > >> property to linux,input-no-autorepeat. The former property was never
 > > >> used by DT and was never handled by the driver.
 > > >
-> > >Changing from the documented one to one some drivers use. I guess
-> > >that's a slight improvement. Please see this discussion[1].
-> >
-> > Well, the problem is that the documentation is misleading. The driver
-> > doesn't handle the documented property, so we should change either
+> > >Changing from the documented one to one some drivers use. I guess 
+> > >that's a slight improvement. Please see this discussion[1]. 
+> > 
+> > Well, the problem is that the documentation is misleading. The driver 
+> > doesn't handle the documented property, so we should change either 
 > > the driver, or the docs. Which change is the preferred one?
->
-> The preference is autorepeat is not the default and setting
-> 'autorepeat' enables it. You can't really change that unless you don't
-> really need autorepeat by default. I can't see why it would be
+> 
+> The preference is autorepeat is not the default and setting 
+> 'autorepeat' enables it. You can't really change that unless you don't 
+> really need autorepeat by default. I can't see why it would be 
 > needed for the power button, but I haven't looked what else you have.
-
-It's not a pon/resin. this is a full-fledged keypad. For example for
-apq8060-dragonboard:
-
-linux,keymap =3D <
-        MATRIX_KEY(0, 0, KEY_MENU)
-        MATRIX_KEY(0, 2, KEY_1)
-        MATRIX_KEY(0, 3, KEY_4)
-        MATRIX_KEY(0, 4, KEY_7)
-        MATRIX_KEY(1, 0, KEY_UP)
-        MATRIX_KEY(1, 1, KEY_LEFT)
-        MATRIX_KEY(1, 2, KEY_DOWN)
-        MATRIX_KEY(1, 3, KEY_5)
-        MATRIX_KEY(1, 3, KEY_8)
-        MATRIX_KEY(2, 0, KEY_HOME)
-        MATRIX_KEY(2, 1, KEY_REPLY)
-        MATRIX_KEY(2, 2, KEY_2)
-        MATRIX_KEY(2, 3, KEY_6)
-        MATRIX_KEY(3, 0, KEY_VOLUMEUP)
-        MATRIX_KEY(3, 1, KEY_RIGHT)
-        MATRIX_KEY(3, 2, KEY_3)
-        MATRIX_KEY(3, 3, KEY_9)
-        MATRIX_KEY(3, 4, KEY_SWITCHVIDEOMODE)
-        MATRIX_KEY(4, 0, KEY_VOLUMEDOWN)
-        MATRIX_KEY(4, 1, KEY_BACK)
-        MATRIX_KEY(4, 2, KEY_CAMERA)
-        MATRIX_KEY(4, 3, KEY_KBDILLUMTOGGLE)
-                                        >;
-
-> Of all the no autorepeat options, I prefer 'linux,no-autorepeat' as I
-> find 'input' or 'keypad' redundant. But Dmitry T. didn't think it should
+> 
+> Of all the no autorepeat options, I prefer 'linux,no-autorepeat' as I 
+> find 'input' or 'keypad' redundant. But Dmitry T. didn't think it should 
 > be a common property at the time.
 
-We have not used any of the options in the in-kernel DTs. However the
-driver for the keypad has supported the 'linux,input-no-autorepeat'
-since March 2014. I'm just changing the docs to document the correct
-option. I can split the patch into two distinct patches (one for the
-bugfix, one for conversion), if you think that it would be better.
+Right, I would prefer for new bindings we used assertive "autorepeat",
+instead of negating "no-autorepeat". However here we are dealing with
+existing binding.
 
+The issue is complicated with the driver using one option, binding
+specifying another, and existing in-kernel DTSes not using any and thus
+activating autorepeat as the default driver behavior.
 
---=20
-With best wishes
+Do we have an idea if there are out-of-tree users of this? If we are
+reasonable sure there are not we could converge on the standard
+"autorepeat" property.
+
+-- 
 Dmitry
