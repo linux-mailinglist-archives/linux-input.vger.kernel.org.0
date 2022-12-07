@@ -2,77 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36764645D18
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 15:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 115FE645D25
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 16:01:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbiLGO7g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 09:59:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43824 "EHLO
+        id S230139AbiLGPBc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Dec 2022 10:01:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229703AbiLGO7I (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 09:59:08 -0500
+        with ESMTP id S230157AbiLGPBF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 10:01:05 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC42261BA5
-        for <linux-input@vger.kernel.org>; Wed,  7 Dec 2022 06:57:15 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30ABD61BBB
+        for <linux-input@vger.kernel.org>; Wed,  7 Dec 2022 06:58:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670425034;
+        s=mimecast20190719; t=1670425114;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=qgLLD1AmPKqAai8Ygo30PiMsV/3lKBgVy2t7StpKc5Q=;
-        b=UVzZRnBoB2Uug3JxdVjKoRIboyvYIFN3zmtxGkQfLwGrAhxIsXw3XpOQdg9OziYUm/Sb7F
-        CcU3zNqeeGjJrQOm1reYc8VvfZP0VITyWu1cBuxMxAJ6KLUb4IiN3xUrKlPoXYxVg752T0
-        nTRPSmyGr2AQqFzDzypDOSivMjxJcmI=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=81tx4Qu/i7V9KBQ9lAK66Q8QPlDEub1zKKTdHJd3xZc=;
+        b=N/RrsmV9Xk/zo3xcdthUJVkvjtyu8L2n9NcOZoEvloWtM9rAQ0Hn8vQznVqMkVCSJeBu3w
+        6uG9jKG3+WTmE/ytH9IoAYwcMvoO7DIflD4fGuwBX/18SM8KblSilA6/iKeyOTIaBOCF3t
+        iWXk+f/hqaS0DnoRqcc/lWnMEJe9fk0=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-399-dnmIbhEUOxGB6oJid3oR2w-1; Wed, 07 Dec 2022 09:57:13 -0500
-X-MC-Unique: dnmIbhEUOxGB6oJid3oR2w-1
-Received: by mail-il1-f200.google.com with SMTP id 7-20020a056e0220c700b0030386f0d0e6so396844ilq.3
-        for <linux-input@vger.kernel.org>; Wed, 07 Dec 2022 06:57:13 -0800 (PST)
+ us-mta-645-VIiKCqTFOACdF7lQNHP_qQ-1; Wed, 07 Dec 2022 09:58:33 -0500
+X-MC-Unique: VIiKCqTFOACdF7lQNHP_qQ-1
+Received: by mail-il1-f199.google.com with SMTP id d6-20020a056e02214600b00303620c6e39so6781582ilv.6
+        for <linux-input@vger.kernel.org>; Wed, 07 Dec 2022 06:58:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qgLLD1AmPKqAai8Ygo30PiMsV/3lKBgVy2t7StpKc5Q=;
-        b=fKv5hYjK0oWdnwHebgCUyByoyvLqKJJ9bXkByoC8u59XVK5OeS/R4/7XeC4Ro97br+
-         hEilDtxNvBCjEYbKXmQfL7eYrIqy/o4z+HH5qJ1e0tmq141QopvdML2Unz/YlD/ybQvP
-         tuHQfeTiqrWdlwGfWPyMXIqMqGXiBHqQDPjccLDvTTQGyjYKkw15gENWgYJKBx3ALcSV
-         2dx7Q5cz9Mx8oRQT/E6wDJuIL2hhs4p3zX3snmmR9yGr/7dqpWPmKa2pLhtY6qkdIffT
-         tde/tBfjht60uxaRmL4W/+J7QdEFMceOwLS+7QE/xtnGAKTzpchD/2g3dJ6vhnpASQoH
-         K30A==
-X-Gm-Message-State: ANoB5pm1MYjOW5qPtZOfF7c+A8yqcmfIfSaccgbKT5SWf+fjapC+LhuU
-        Q7iWAxz8ncqtkCztjNf2YgbmPTq8DOI63NHrqMmYttSTRqT6Hqa5Zrf38mgosJi/jzXhEaoRXv1
-        fHZC+7+BisTldSTQt729zAhCYin0edDkseo7K3zc=
-X-Received: by 2002:a05:6602:3945:b0:6df:bfeb:f15d with SMTP id bt5-20020a056602394500b006dfbfebf15dmr14207512iob.122.1670425032752;
-        Wed, 07 Dec 2022 06:57:12 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7tglNnK6fahWd5fgDVfEgUNwOxoaL7Bt8CugO23uz1Bqs430ygY9Cbsjf5rhZQaMlEETOG7Rtw94u5g+0ay4g=
-X-Received: by 2002:a05:6602:3945:b0:6df:bfeb:f15d with SMTP id
- bt5-20020a056602394500b006dfbfebf15dmr14207508iob.122.1670425032518; Wed, 07
- Dec 2022 06:57:12 -0800 (PST)
+        bh=81tx4Qu/i7V9KBQ9lAK66Q8QPlDEub1zKKTdHJd3xZc=;
+        b=jN3YeNUpkZBWntokKY6+yXpvrgFmQ6sTIqCMnlHzJW9+euhO+iG+5jGqndA6l0n4af
+         p3yNhgI951f2bDSGA5EUwWmHmAcG0Cv6XeRE8zx77rPWrjou2a29zuBgFs0SjUMrQuin
+         gclaINOfnP/ABGSmTS+0xlobQLLvFuWrNusotZQEBIgeJfe3WNw31JGD8yjj2Sa++TKy
+         UXCTajqoRLUUXnqn8iuCNHmm4QqlRSmV/qDKgewAuvU6KKic2iMByvh7UqxIhYhW5YHk
+         giAPwJRIisXNR8a5Qnod7ST7oq0IC9PnzfbDlA/pfNM759CJzYLtC3/9fPh9DPslYRbH
+         jewQ==
+X-Gm-Message-State: ANoB5pnRxc6ujJoqguZWk7Z86aI/LCoxfMsgyt89C06GYmIe0T/AWXGH
+        GTLQJdE84lijwv+6Fxqcy2yhhMENI5UwIJHHm/mPnkV1IiTfNDhjKyg93ty1LUyq9dTHlY8jRms
+        3QWm14QxT/dK4xY+9dgnPK7vJavSXjQ2DCNTyXvQ=
+X-Received: by 2002:a02:cc31:0:b0:389:f21d:ec44 with SMTP id o17-20020a02cc31000000b00389f21dec44mr16621886jap.106.1670425112455;
+        Wed, 07 Dec 2022 06:58:32 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4kM7WVmrniMvBfEcxbq+UC0cEZ9wYd5nOJPAwF5eggKPwWUOBHz/nl3G5o4x/8P8WXHDfEVEplpo9f2kjZxWE=
+X-Received: by 2002:a02:cc31:0:b0:389:f21d:ec44 with SMTP id
+ o17-20020a02cc31000000b00389f21dec44mr16621879jap.106.1670425112254; Wed, 07
+ Dec 2022 06:58:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20221206145936.922196-1-benjamin.tissoires@redhat.com>
- <20221206145936.922196-2-benjamin.tissoires@redhat.com> <CAADnVQKTQMo3wvJWajQSgT5fTsH-rNsz1z8n9yeM3fx+015-jA@mail.gmail.com>
-In-Reply-To: <CAADnVQKTQMo3wvJWajQSgT5fTsH-rNsz1z8n9yeM3fx+015-jA@mail.gmail.com>
+References: <20221206145936.922196-1-benjamin.tissoires@redhat.com> <20221206145936.922196-4-benjamin.tissoires@redhat.com>
+In-Reply-To: <20221206145936.922196-4-benjamin.tissoires@redhat.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 7 Dec 2022 15:57:01 +0100
-Message-ID: <CAO-hwJJAGkcJnZ-q28zKBCX49cvSmp5b1qWJ33i0Ma-zZAi8ZQ@mail.gmail.com>
-Subject: Re: [PATCH HID for-next v3 1/5] bpf: do not rely on
- ALLOW_ERROR_INJECTION for fmod_ret
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+Date:   Wed, 7 Dec 2022 15:58:21 +0100
+Message-ID: <CAO-hwJJq23V+ceJvX8zz-wGB6VgByuMY-xGu8VukiOmP+FfXHA@mail.gmail.com>
+Subject: Re: [PATCH HID for-next v3 3/5] HID: bpf: enforce HID_BPF dependencies
+To:     Jiri Kosina <jikos@kernel.org>,
         Florent Revest <revest@chromium.org>,
         Jon Hunter <jonathanh@nvidia.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
         Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        Andrii Nakryiko <andrii@kernel.org>
+Cc:     bpf@vger.kernel.org, netdev@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,51 +77,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 6, 2022 at 9:48 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Tue, Dec 6, 2022 at 3:59 PM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> On Tue, Dec 6, 2022 at 6:59 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > The current way of expressing that a non-bpf kernel component is willing
-> > to accept that bpf programs can be attached to it and that they can change
-> > the return value is to abuse ALLOW_ERROR_INJECTION.
-> > This is debated in the link below, and the result is that it is not a
-> > reasonable thing to do.
-> >
-> > Reuse the kfunc declaration structure to also tag the kernel functions
-> > we want to be fmodret. This way we can control from any subsystem which
-> > functions are being modified by bpf without touching the verifier.
-> >
-> >
-> > Link: https://lore.kernel.org/all/20221121104403.1545f9b5@gandalf.local.home/
-> > Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> As mentioned in the link below, having JIT and BPF is not enough to
+> have fentry/fexit/fmod_ret APIs. This resolves the error that
+> happens on a system without tracing enabled when hid-bpf tries to
+> load itself.
 >
-> BPF CI couldn't do its job because of a merge conflict.
-> CI only tries to apply the whole series.
-> But I tested the patch 1 manually.
-> Everything is green on x86-64 and the patch looks good.
+> Link: https://lore.kernel.org/r/CABRcYmKyRchQhabi1Vd9RcMQFCcb=EtWyEbFDFRTc-L-U8WhgA@mail.gmail.com
+> Fixes: f5c27da4e3c8 ("HID: initial BPF implementation")
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 >
-> Acked-by: Alexei Starovoitov <ast@kernel.org>
+> ---
 >
-> Please send the set during the merge window.
-> If not we can take just this patch,
-> since the series from Viktor Malik would need this patch too.
+> no changes in v3
 >
+> changes in v2:
+> - dropped ALLOW_ERROR_INJECTION requirement
 
-Thanks a lot for the quick review/tests Alexei.
+Florent, can I keep your reviewed-by on this patch?
 
-I have now taken this patch and the next into the hid tree.
-
-I actually took this patch through a branch attached to our hid.git
-master branch so compared to Linus, it only has this one patch. I also
-tagged (and signed) that very same branch with "for-alexei-2022120701"
-in case you also want to bring this one in through the bpf tree too.
-
-Full path is at
-https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/tree/?h=for-alexei-2022120701
+Jon, may I ask you to do one more testing with the full v3 applied on
+top of for-next?
 
 Cheers,
 Benjamin
+
+> ---
+>  drivers/hid/bpf/Kconfig | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/bpf/Kconfig b/drivers/hid/bpf/Kconfig
+> index 298634fc3335..03f52145b83b 100644
+> --- a/drivers/hid/bpf/Kconfig
+> +++ b/drivers/hid/bpf/Kconfig
+> @@ -4,7 +4,8 @@ menu "HID-BPF support"
+>  config HID_BPF
+>         bool "HID-BPF support"
+>         default HID_SUPPORT
+> -       depends on BPF && BPF_SYSCALL
+> +       depends on BPF && BPF_SYSCALL && \
+> +                  DYNAMIC_FTRACE_WITH_DIRECT_CALLS
+>         help
+>         This option allows to support eBPF programs on the HID subsystem.
+>         eBPF programs can fix HID devices in a lighter way than a full
+> --
+> 2.38.1
+>
 
