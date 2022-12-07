@@ -2,103 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76226645F9F
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 18:08:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFB0D645FFC
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 18:19:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbiLGRIB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 12:08:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50474 "EHLO
+        id S229437AbiLGRTt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 7 Dec 2022 12:19:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiLGRIA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 12:08:00 -0500
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F366241;
-        Wed,  7 Dec 2022 09:07:56 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id v82so21419890oib.4;
-        Wed, 07 Dec 2022 09:07:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3dhTLX0YWvTThjW6CLFbWou1O6zjrrg1N0tlAu9uVwI=;
-        b=w7TlCsbtvANRT+/VRGthb1isjQ0L38Vqn9rmoQ4eXqoleQmXEIOE84jw7Div7GBjFm
-         EYS3CdfgRE255GOcvEAUS6P4QWmVzJTSoWYgrE85kcm2MZaiFI0dCijIooF+KSB1etjj
-         PEBKAdqcqy/mT+xd189UgrZjlZ5mN35gIckNiei/dpF7DUVDH+11ZzY+FIdZlyT26h9R
-         5xAU4cor5mviZc01ZMQgfhOOQwxbp6lNoC8qv/PNw7ZY8uYGIPKQ5IynS6u1r7Gm3oxY
-         OULt1NrBbhM9x+eBESMgd3OTA2+e/CqNnTkS4GoB7yehLHpY3v7vo6Fw/270x94Iu21H
-         qM2A==
-X-Gm-Message-State: ANoB5pnUKVsWMO6kVUl+aHFoyT6KIeozuaejSV5A4KM1NQJ63jXcJkTo
-        BMRBnNbsf1MutfFNVIal0Yi6ojjHMg==
-X-Google-Smtp-Source: AA0mqf72nM70OyfM4u2USqQW4Ue06dnO2WYGcrsj9lY4SEcHSDXVdL0lGz6S91qY48kM8cYJ+U6NKw==
-X-Received: by 2002:aca:3654:0:b0:35b:e564:a51b with SMTP id d81-20020aca3654000000b0035be564a51bmr13366679oia.6.1670432875239;
-        Wed, 07 Dec 2022 09:07:55 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id s5-20020a05683004c500b0066d2fc495a4sm10603632otd.48.2022.12.07.09.07.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 09:07:54 -0800 (PST)
-Received: (nullmailer pid 2415984 invoked by uid 1000);
-        Wed, 07 Dec 2022 17:07:53 -0000
-Date:   Wed, 7 Dec 2022 11:07:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: input: qcom,pm8921-keypad: convert
- to YAML format
-Message-ID: <20221207170753.GA2402110-robh@kernel.org>
-References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
- <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
- <20221205220433.GA2684995-robh@kernel.org>
- <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
+        with ESMTP id S229962AbiLGRTf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 12:19:35 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDBBD218E;
+        Wed,  7 Dec 2022 09:19:33 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7DD24E0003;
+        Wed,  7 Dec 2022 17:19:30 +0000 (UTC)
+Message-ID: <91367d07a72ecb2065faebe974c54ebd966e0d59.camel@hadess.net>
+Subject: Re: [Regression] Logitech BT mouse unusable after commit
+ 532223c8ac57 (still in 6.1-rc8)
+From:   Bastien Nocera <hadess@hadess.net>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Thorsten Leemhuis <regressions@leemhuis.info>
+Date:   Wed, 07 Dec 2022 18:19:29 +0100
+In-Reply-To: <CAJZ5v0gRm1NG=QuDFDFdcZgTu7Q0Z3cW3fwGg09sD+3BBV8E1A@mail.gmail.com>
+References: <2262737.ElGaqSPkdT@kreacher>
+         <1df12728a2e788788fd387588bac62023e123d16.camel@hadess.net>
+         <2145955.irdbgypaU6@kreacher>
+         <CAJZ5v0ic+pm+NWD8g4O2MwQEvi+xuB-W9Wpd6c1RhprhoxuK1g@mail.gmail.com>
+         <8281ddcc16cc950f9cde4b196cf208adcc798319.camel@hadess.net>
+         <CAJZ5v0gjAGZFS6ap+NAbsi96hq7y9MRGE0h_A-n6xfB1CMs=2g@mail.gmail.com>
+         <cd8b2a2160f5d36d1b73bc0567cd0f6e7e5751c4.camel@hadess.net>
+         <CAJZ5v0gRm1NG=QuDFDFdcZgTu7Q0Z3cW3fwGg09sD+3BBV8E1A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 06, 2022 at 05:20:16AM +0200, Dmitry Baryshkov wrote:
-> 6 декабря 2022 г. 00:04:33 GMT+02:00, Rob Herring <robh@kernel.org> пишет:
-> >On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
-> >> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
-> >> PM8058 PMICs from text to YAML format.
-> >> 
-> >> While doing the conversion also change linux,keypad-no-autorepeat
-> >> property to linux,input-no-autorepeat. The former property was never
-> >> used by DT and was never handled by the driver.
-> >
-> >Changing from the documented one to one some drivers use. I guess 
-> >that's a slight improvement. Please see this discussion[1]. 
-> 
-> Well, the problem is that the documentation is misleading. The driver 
-> doesn't handle the documented property, so we should change either 
-> the driver, or the docs. Which change is the preferred one?
+On Wed, 2022-12-07 at 12:07 +0100, Rafael J. Wysocki wrote:
+> # hidpp-list-features /dev/hidraw1
+> Bluetooth Mouse M336/M337/M535 (046d:b016) is a HID++ 4.5 device
+> Feature 0x01: [0x0001] Feature set
+> Feature 0x02: [0x0003] Device FW version
+> Feature 0x03: [0x0005] Device name
+> Feature 0x04: [0x0020] Reset
+> Feature 0x05: [0x1e00] Enable hidden features (hidden)
+> Feature 0x06: [0x1800] Generic Test (hidden, internal)
+> Feature 0x07: [0x1000] Battery status
+> Feature 0x08: [0x1b04] Reprog controls v4
+> Feature 0x09: [0x2100] Vertical scrolling
+> Feature 0x0a: [0x2200] Mouse pointer
+> Feature 0x0b: [0x2205] Pointer speed
+> Feature 0x0c: [0x18b1] ? (hidden, internal)
+> Feature 0x0d: [0x2121] Hi-res wheel
+> Feature 0x0e: [0x1f03] ? (hidden, internal)
 
-The preference is autorepeat is not the default and setting 
-'autorepeat' enables it. You can't really change that unless you don't 
-really need autorepeat by default. I can't see why it would be 
-needed for the power button, but I haven't looked what else you have.
+Would you be able to enable debugging for the hid subsystem to get some
+debug data when getting the version from the device fails?
 
-Of all the no autorepeat options, I prefer 'linux,no-autorepeat' as I 
-find 'input' or 'keypad' redundant. But Dmitry T. didn't think it should 
-be a common property at the time.
+I can't see any problems in there that wouldn't also have impacted all
+the other Logitech Bluetooth devices listed in the support devices
+list.
 
-Rob
+If the problem is a timeout, maybe we should lower the timeouts we
+currently have (5*HZ = 5 seconds, right?), so we can retry 5 times one
+second instead.
+
+Still, as I mentioned earlier, I can't reproduce the problem on another
+Bluetooth Classic device...
