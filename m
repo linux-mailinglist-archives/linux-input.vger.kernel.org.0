@@ -2,64 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C27B2645D55
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 16:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0E69645F60
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 17:57:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbiLGPMC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 10:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55606 "EHLO
+        id S229604AbiLGQ5x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Dec 2022 11:57:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbiLGPLy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 10:11:54 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D4361B83
-        for <linux-input@vger.kernel.org>; Wed,  7 Dec 2022 07:11:51 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id 21so17705399pfw.4
-        for <linux-input@vger.kernel.org>; Wed, 07 Dec 2022 07:11:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lN+y24HtPTtYsU4nJrvB6CVlWdApjZBrH5S1DCC2kXg=;
-        b=IFcVuLFIXQyhqB7xwRNHbt8wlXk/GKwZ+NAtI2ye9vGnU3euJUumbJIKXGyssRypFI
-         /xeN15jHdNFC+Nznb5rWm+oOs14M/9PXLMCqWXEa/mcxJyZp6a+XNMIG8ImuXsDpyl50
-         fByLpxnsTKAZu7FCkhxvobLNcqkoQHxtpIC7s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lN+y24HtPTtYsU4nJrvB6CVlWdApjZBrH5S1DCC2kXg=;
-        b=zoZtw1/2138iZNvT9kxA2YV9Oj2K19Z0OKTYmth8JC4/vwDoVcadRrDFgRuLBSAyYh
-         h4471yhPFu7Ng4OC5KQ4VoV8oTKS/Y/8bOJSYlCFSGO9YlSmWYhbbKkJN1bAwAb1Syzo
-         LC3n+CeJZ1ouwT2NwVbHWckc25QYcfHmK1ZXf/Xhrs5QldWc4xMg0fy+V/5jD2P45r30
-         E34QNI5lRXSCsFQ5mNXZwZbqlFEgYu70gCqA3lPq9c/R4+ZpjQKTnm/fWy/1LvLdM4VV
-         2+2wKhMB8tNYCBwGT1lSqvafXwioDMuLe4gSv8oPtdDxZS2Y1mO8VNgiJeVu/2UdV85X
-         5vLg==
-X-Gm-Message-State: ANoB5pkj6hzWR82OcGlBD362horyNPwOHUfBm9ja6bYKYwFOmVKzeiHA
-        g+hV1ETOgGrMqd7bq86b579AyfRfgZquQmIraVBmAA==
-X-Google-Smtp-Source: AA0mqf7aWAEOQCVyJoQT+sLcmLykvW+jmp5tFrVTULLQMFDGR0lVkdnDP5crGEOtMJ5nf8lGxlhb53dFKh5Q0j7rRrA=
-X-Received: by 2002:a63:180a:0:b0:470:63e5:5c59 with SMTP id
- y10-20020a63180a000000b0047063e55c59mr63840166pgl.172.1670425910989; Wed, 07
- Dec 2022 07:11:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20221206145936.922196-1-benjamin.tissoires@redhat.com>
- <20221206145936.922196-4-benjamin.tissoires@redhat.com> <CAO-hwJJq23V+ceJvX8zz-wGB6VgByuMY-xGu8VukiOmP+FfXHA@mail.gmail.com>
-In-Reply-To: <CAO-hwJJq23V+ceJvX8zz-wGB6VgByuMY-xGu8VukiOmP+FfXHA@mail.gmail.com>
-From:   Florent Revest <revest@chromium.org>
-Date:   Wed, 7 Dec 2022 16:11:39 +0100
-Message-ID: <CABRcYmL_hAyH0QY7bP1Eh7atXeFDYg3-orht=KK1Zjcj9RNpqg@mail.gmail.com>
-Subject: Re: [PATCH HID for-next v3 3/5] HID: bpf: enforce HID_BPF dependencies
+        with ESMTP id S229806AbiLGQ5w (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 11:57:52 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C594B775;
+        Wed,  7 Dec 2022 08:57:50 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 85FB7B81B90;
+        Wed,  7 Dec 2022 16:57:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C41C433D6;
+        Wed,  7 Dec 2022 16:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670432268;
+        bh=IGp2hmZyOcCMcEh2LddZyGh6DbOd/8iqx5oEvJCkAZU=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=nKBXPl7Q7HM4H5wyfBknQh+CEOoxlF9rmbwwCIW3iBA5uSIUBlUwxvGjUB0538Orh
+         CsVX5T+1mQ5zxuwjsmd9+aBTyGzn6fjt9RE5Mv7gtKOPBM9MNad2okmzInig8h0ild
+         xly170EcyaOeUCaUsli0q7134Ks8ZHkYsMgLyBQVXaYRUmX5+gIDOiVy8n0sZTFYB4
+         b/bjPLcX/1s9zOgKYuZ/k5qSeaVZs1NxzGllFvkFays3mmfVwyyUFTmkcq3KK06+2p
+         e/JBmU5aZHUk466ZvmFlOCeqk0+MjObo5CaEsLQzow5c76qErJOR1HCE5pvmJWVbBz
+         VpR5UCBMqYreg==
+Date:   Wed, 7 Dec 2022 17:57:47 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-        netdev@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+cc:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Thorsten Leemhuis <regressions@leemhuis.info>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/2] HID: Revert catchall handling of Bluetooth device
+ in hid-logitech-hidpp
+In-Reply-To: <20221207142433.1158329-1-benjamin.tissoires@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2212071757220.6045@cbobk.fhfr.pm>
+References: <20221207142433.1158329-1-benjamin.tissoires@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,41 +56,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 7, 2022 at 3:58 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Tue, Dec 6, 2022 at 3:59 PM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > As mentioned in the link below, having JIT and BPF is not enough to
-> > have fentry/fexit/fmod_ret APIs. This resolves the error that
-> > happens on a system without tracing enabled when hid-bpf tries to
-> > load itself.
-> >
-> > Link: https://lore.kernel.org/r/CABRcYmKyRchQhabi1Vd9RcMQFCcb=EtWyEbFDFRTc-L-U8WhgA@mail.gmail.com
-> > Fixes: f5c27da4e3c8 ("HID: initial BPF implementation")
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >
-> > ---
-> >
-> > no changes in v3
-> >
-> > changes in v2:
-> > - dropped ALLOW_ERROR_INJECTION requirement
->
-> Florent, can I keep your reviewed-by on this patch?
+On Wed, 7 Dec 2022, Benjamin Tissoires wrote:
 
-Yes! :)
-Reviewed-by: Florent Revest <revest@chromium.org>
+> We are basically too late in the 6.1 cycle to be able to do anything
+> else. Let's revert these 2 patches as we are in a situation where we
+> would break too many users.
+> 
+> We will reintroduce them during the next cycle with proper fixes in the
+> driver.
 
-Thank you for the updated series, I think it's cleaner than relying on
-error injection indeed.
+Rafael,
 
-I still believe that, in the future, BPF should offer a proxy config
-to expose if BPF tracing is supported because 1- the implementation of
-BPF tracing could someday change 2- to be exactly correct, ftrace
-direct call isn't _really_ a sufficient condition either: the BPF JIT
-also needs to implement the arch_prepare_bpf_trampoline function.
-Currently, there is no config to check if that feature is available.
-But as agreed in a previous thread, that consolidation can be done
-separately. For now your patch looks good enough to me already.
+it would be nice to get
+
+	Reported-by:
+	Tested-by:
+
+for these reverts if possible.
+
+Thanks!
+
+-- 
+Jiri Kosina
+SUSE Labs
+
