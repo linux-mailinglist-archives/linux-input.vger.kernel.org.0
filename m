@@ -2,109 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90584646289
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 21:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1522646362
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 22:47:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbiLGUnX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 15:43:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56918 "EHLO
+        id S229523AbiLGVrO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Dec 2022 16:47:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbiLGUnW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 15:43:22 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C632B218BD;
-        Wed,  7 Dec 2022 12:43:20 -0800 (PST)
-Received: (Authenticated sender: alex@alexyzhang.dev)
-        by mail.gandi.net (Postfix) with ESMTPSA id D4CB5E0002;
-        Wed,  7 Dec 2022 20:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alexyzhang.dev;
-        s=gm1; t=1670445799;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2N9hnmu56AlKFNM0m8698mHeE5RNpS8O5eMCSU1Yeqw=;
-        b=SGMLJz1dBVEdAZ7W38DQGlw5LUdwQx+IPQTQg+fWFKk60lLU8I2FCWINXXb8C9rPN9rfqW
-        6AHVOWaLMxEOT4mZ1XrpJ40eDtHIGgPJOC907Kjp4o9hQhARXKm+y3JgtgzKyRC63UaI7q
-        yadISaGLTDVililEWOy/s7Ic2jOnufEv646WLOw021QTNAyfNt+Z5DFZG6e/4UmPiP1ulx
-        eF0zIy6Vhw6iRTiExvXc6lcfkdV5lA+K1UZhDu9B7gZqYUHVPV8mRcCx8FZBkk4C0whfS7
-        f5dfPCndwLB+H/x6EabqA9TBS72CViAAnRGRrjuUWCKgdcD9K7qu3yFx+3lhpA==
-Message-ID: <63d1ea8f-ded9-ed6b-31d9-0d3b8d8cd998@alexyzhang.dev>
-Date:   Wed, 7 Dec 2022 12:43:13 -0800
+        with ESMTP id S229486AbiLGVrO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 16:47:14 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79977813B1
+        for <linux-input@vger.kernel.org>; Wed,  7 Dec 2022 13:47:13 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id q15so17912750pja.0
+        for <linux-input@vger.kernel.org>; Wed, 07 Dec 2022 13:47:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QeCNoJO1ElaOD/IrQO62gHBtbT08iN7jT/UoXhy3boM=;
+        b=DSoDYQOfBjUeakHtOJwrumCMOOMDeW7jGiirIpPu0wmKTJI0QOc99nvgRGTcamtjkT
+         OpazOezR1GKBiONCfKkvBRqyf6CxwQe43HF3p38R+SaEtLywuCAhsKQDMMToSiGe+fwq
+         bzZB1mHPAgvUWP5qCGDjGIlVTTMWXPusl/PgOKnjIuDApvO4ujXVeZSP/F2yqnCqzoNg
+         vIHUOkpclYeVTrTKBbZUsNrYNfdcAEFILBVAv1HbsE9mWalwWwaOpPjm6PtM8eyXtqU8
+         O6af/K+0pm49UOekhp+m635KL9FqkmbPIPOXrt+QXYBx31ehkyGU0LO/dv50UP9rJv7q
+         5rmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QeCNoJO1ElaOD/IrQO62gHBtbT08iN7jT/UoXhy3boM=;
+        b=BhLkKmx1TMEKfGEIkKFfIgiREf8gwcIVun9MhhMk5m/DOskrbrB7lQTtGg73HPZhw2
+         J70lsQL05H1ALXCefZGqL+XWYfxu7DvyCWawONz8K8GzefZiVafZxCCNU80LDpUxbV1o
+         rp1tPczUdB1Ytauf+1MPJoQ/DSjrxPKE8GFEwK/CqaV1GeU+IhrE1MgFRppTTzVNxHCY
+         iRMe+kPVfOTPoMYbt/1H3obRNk9qjqj9m6DaejODw79QrMaWfA+LO3pRBAb1UOlECqFz
+         F/9TYG2AELDLTcCB50nPHkQf68zWdR3rakya+JfMJzu3XB4bq9tHoNoKi9gjRIgUsxD5
+         YZhg==
+X-Gm-Message-State: ANoB5pmiNlvDBs8muwNAmH2eMSDs3vZ7l0YBbVC8sebbpY4lyscx5P5m
+        /QixsjcYYjWqw33DsM4eLzw=
+X-Google-Smtp-Source: AA0mqf5bzoX/3dd7KpTqhjPyYZ16NNjka5OQh+PuozZYKvspj278ZzyemLrs7hedBcl1kI1apizupw==
+X-Received: by 2002:a17:90a:9312:b0:218:6f4b:8366 with SMTP id p18-20020a17090a931200b002186f4b8366mr103783807pjo.137.1670449632819;
+        Wed, 07 Dec 2022 13:47:12 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:524a:9944:58ed:e916])
+        by smtp.gmail.com with ESMTPSA id w17-20020a63f511000000b00478e7f87f3bsm2650723pgh.67.2022.12.07.13.47.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 13:47:12 -0800 (PST)
+Date:   Wed, 7 Dec 2022 13:47:08 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     linux-input@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Tomohiro Yoshidomi <sylph23k@gmail.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Marek Vasut <marek.vasut@gmail.com>
+Subject: Re: [PATCH 00/32] Input: Joystick keyboard switch to
+ DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <Y5EJ3PyXaoZbWTVH@google.com>
+References: <20221204180841.2211588-1-jic23@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 0/1] HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
-        openglfreak@googlemail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221110174056.393697-1-jose.exposito89@gmail.com>
- <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
- <nycvar.YFH.7.76.2211141509340.6045@cbobk.fhfr.pm>
- <d08049f2-443b-f769-cfde-629cdfb96fc0@alexyzhang.dev>
- <1dc9d0ba-4836-dfc6-8bf2-322ce3b5c24d@alexyzhang.dev>
- <Y5B0gwGZJ/PQyV4+@fedora>
-Content-Language: en-US
-From:   Alexander Zhang <alex@alexyzhang.dev>
-In-Reply-To: <Y5B0gwGZJ/PQyV4+@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221204180841.2211588-1-jic23@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/7/22 3:09 AM, José Expósito wrote:
-> Hi Alexander,
+On Sun, Dec 04, 2022 at 06:08:09PM +0000, Jonathan Cameron wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > 
-> On Mon, Dec 05, 2022 at 04:49:10PM -0800, Alexander Zhang wrote:
->> Hello,
->>
->> On 11/19/22 11:01 PM, Alexander Zhang wrote:
->>> On 11/14/22 6:10 AM, Jiri Kosina wrote:
->>>> On Thu, 10 Nov 2022, Alexander Zhang wrote:
->>>>
->>>>> Hi José,
->>>>>
->>>>> On 11/10/22 9:40 AM, José Expósito wrote:
->>>>>> Hi everyone,
->>>>>>
->>>>>> About 3 months ago, Torge Matthies sent a patch fixing an issue with
->>>>>> his XP-Pen Star G640 [1].
->>>>>>
->>>>>> His patch changes the IS_INPUT_APPLICATION() macro to accept
->>>>>> HID_DG_DIGITIZER. However, it looks like it is not being merged because
->>>>>> of the possible side effects that changing that macro could generate.
->>>>>>
->>>>>> This patch aims to fix the same issue but using a more conservative
->>>>>> approach hoping that the bug can be fixed.
->>>>>>
->>>>>> Torge, Alexander, could you test it and confirm that it fixes your
->>>>>> issues, please?
->>>>>
->>>>> I tested the patch on commit 4bbf3422df78 and it fixes the issue.
->>>>
->>>> I will add
->>>>
->>>>      Tested-by: Alexander Zhang <alex@alexyzhang.dev>
->>>>
->>>> to the commit; please speak up if you disagree.
->>>
->>> I'm not sure if you're still waiting for a response from me but I'm fine
->>> with that.
->>
->> Is there something preventing this patch from being merged? I'm not very
->> familiar with the kernel development process.
+> As part of recent changes to the macros in linux/pm.h, the
+> SIMPLE_DEV_PM_OPS() macro is deprecated in favor of the comination
+> of DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().
+> More details in the relevant commit message.
 > 
-> The patch is already applied in the for-next branch, you can find it here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-next&id=3405a4beaaa8
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1a3c7bb088266fa2db017be299f91f1c1894c857
+> 
+> The main advantage of the new versions is that they allow the compiler
+> to 'see' the callbacks registered, thus avoiding the need to either
+> protect them with ifdef guards or to mark them __maybe_unused.
+> The compiler then removes the structure and the callbacks as dead code
+> in event of !CONFIG_PM_SLEEP.
+> 
+> Ultimately to clean up the old macros the change needs to be done to
+> all instances of the SIMPLE_DEV_PM_OPS() in the kernel. There are similar
+> changes to be done for runtime PM macros and more complex PM handling.
+> This set is just meant to switch over some of the low hanging fruit in
+> a bite sized chunk.
+> 
+> Also included at the end of this series are:
+> * a warning fix for pxspad
+> * allowing various drivers to be build with CONFIG_COMPILE_TEST.
+> 
+> There was one case that really is architecture specific for which I
+> did only a partial build test.  I pushed these out in a branch that
+> 0-day build and it didn't see any problems.
 
-I see, thank you very much!
+Applied the lot, thank you.
 
-Best,
-Alexander Zhang
+-- 
+Dmitry
