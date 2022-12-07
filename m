@@ -2,134 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D62C645671
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 10:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64D2F64567B
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 10:29:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbiLGJ2o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 04:28:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42772 "EHLO
+        id S230077AbiLGJ3f convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 7 Dec 2022 04:29:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbiLGJ2n (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 04:28:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B4E23E90
-        for <linux-input@vger.kernel.org>; Wed,  7 Dec 2022 01:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670405270;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vnpcakF0D2N+ctDD2M8NYlXoYAPqqKbAo8NR+IyVtOk=;
-        b=P+deOssZpXtNnmqDGHy7yk6qHvFy45pirMqyD3WhCkPWL6MJPRvyiZfklCrbBEUeckvNBB
-        j2SXx57eAHeUJEN74CWKgVKx1//4GYVDzi9tZqEZGxgImej/6QpoHbznQ+fkh69Obo5J50
-        lHxHvKFOxMp4hIU41M0rIi6dCmFahDs=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-227-pom2IHWSPCyOOEDUg0985Q-1; Wed, 07 Dec 2022 04:27:49 -0500
-X-MC-Unique: pom2IHWSPCyOOEDUg0985Q-1
-Received: by mail-io1-f70.google.com with SMTP id n8-20020a6b4108000000b006de520dc5c9so13359499ioa.19
-        for <linux-input@vger.kernel.org>; Wed, 07 Dec 2022 01:27:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vnpcakF0D2N+ctDD2M8NYlXoYAPqqKbAo8NR+IyVtOk=;
-        b=fV6A7aqm3TERt3HFcWNmEtvUyLEPwkz2sG0VQOGbqx3K9NRGbeUXEQWBAghtv1PUDe
-         /h2drcudlKx7+Fw9VXtjI0EwcYNP9oTynRH/p8prVV4II1XpsnPn+bVySXTItPt1OVQ4
-         pYa0Q0CSFHRp7EKl2fIWteHdNApQVE43xbrrNFpNFrj+T+d2fnaKThkfokwpGWwPsc+l
-         H4Yv28D6nKGZTPEQWany2/8jkb8j7bLldCN9gmFLSf3CYR41mWd7/szW3QzYmuGtHUXy
-         VehE3eMplKirUMLf9AeXAk6el0jEN1vIXku9M2VSE2HUlcezmU5dINX2gZ/CfrmvvJqK
-         348w==
-X-Gm-Message-State: ANoB5pmyhOQM2xBL7CG/gxSIaIMcAdKaJEUhH29tN8yK/1b8RO1wVNxR
-        5cUlfEC3n2SzHtwRXHgDXk9aULlOWj6J5gqlMh1Bj3GJ92eIltXppL6KZi6RRbaGdpAWSENtgqv
-        m+NLo0lE4DzmA6DIQUxYErp5RgD0/nQaHtGQ60P4=
-X-Received: by 2002:a02:a089:0:b0:375:2a78:73fd with SMTP id g9-20020a02a089000000b003752a7873fdmr40641362jah.217.1670405269228;
-        Wed, 07 Dec 2022 01:27:49 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5WxD50Jy8iY8xEumADCWBZxkrPAX9Ius1TK3asOoKktQM+CQvnTZKEtEsVRmuLXZeJp5mWivYYisdFbM4ndyI=
-X-Received: by 2002:a02:a089:0:b0:375:2a78:73fd with SMTP id
- g9-20020a02a089000000b003752a7873fdmr40641352jah.217.1670405269012; Wed, 07
- Dec 2022 01:27:49 -0800 (PST)
-MIME-Version: 1.0
-References: <2262737.ElGaqSPkdT@kreacher> <5647715.DvuYhMxLoT@kreacher> <4809717.31r3eYUQgx@kreacher>
-In-Reply-To: <4809717.31r3eYUQgx@kreacher>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 7 Dec 2022 10:27:37 +0100
-Message-ID: <CAO-hwJJkWOn3N-UrhjFxiKh7jxPk_BLeL-wj6fnD+mcgHMEHfg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] HID: generic: Add ->match() check to __check_hid_generic()
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Jiri Kosina <jikos@kernel.org>, Bastien Nocera <hadess@hadess.net>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+        with ESMTP id S229988AbiLGJ3b (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 04:29:31 -0500
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 218C23D93B;
+        Wed,  7 Dec 2022 01:29:21 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 99A352000C;
+        Wed,  7 Dec 2022 09:29:16 +0000 (UTC)
+Message-ID: <e7eb0e0c9aea30c0e3205b2f3d96b74a52283b40.camel@hadess.net>
+Subject: Re: [PATCH v1 2/2] HID: logitech-hidpp: Add Bluetooth Mouse
+ M336/M337/M535 to unhandled_hidpp_devices[]
+From:   Bastien Nocera <hadess@hadess.net>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Thorsten Leemhuis <regressions@leemhuis.info>
+Date:   Wed, 07 Dec 2022 10:29:16 +0100
+In-Reply-To: <2283816.ElGaqSPkdT@kreacher>
+References: <2262737.ElGaqSPkdT@kreacher> <5647715.DvuYhMxLoT@kreacher>
+         <2283816.ElGaqSPkdT@kreacher>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 7, 2022 at 10:13 AM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->
+On Wed, 2022-12-07 at 10:12 +0100, Rafael J. Wysocki wrote:
 > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> Some special HID drivers (for example, hid-logitech-hidpp) use ->match()
-> callbacks to reject specific devices that otherwise would match the
-> driver's device ID list, with the expectation that those devices will
-> be handled by some other drivers.  However, this doesn't work if
-> hid-generic is expected to bind to the given device, because its
-> ->match() callback, hid_generic_match(), rejects all devices that match
-> device ID lists of the other HID drivers regardless of what is returned
-> by the other drivers' ->match() callbacks.
+> 
+> Evidently, Logitech Bluetooth Mouse M336/M337/M535 (0xb016) does not
+> work when HID++ is enabled for it,
 
-Thanks Rafael for spotting that corner case in the ->match() processing.
+This needs the output of the hidpp-list-features tool mentioned earlier
+in the thread so we can avoid words like "evidently" and provide
+concrete proof.
 
->
-> To make it work, amend the function used by hid_generic_match() for
-> checking an individual driver, __check_hid_generic(), with a check
-> involving the given driver's ->match() callback, so 0 is returned
-> when that callback rejects the device in question.
+But why is it needed in this case? We purposefully try to avoid blanket
+blocklists. The lack of HID++ can be probed, so the device should work
+just as it used to (if the fallback code works).
 
-Shouldn't we add that logic to hid_match_device() directly in
-hid-core.c instead?
-It feels wrong to have a function named "hid_match_device()" and have
-to manually call later "->match()" on the driver itself.
+We should only list devices that need special handling, and the ones
+that don't work once HID++ was probed unsuccessfully.
 
-Ack on the general idea anyway.
-
->
-> Fixes: 532223c8ac57 ("HID: logitech-hidpp: Enable HID++ for all the Logitech Bluetooth devices")
+>  so add it to the list of devices
+> that are not handled by logitech-hidpp.
+> 
+> Fixes: 532223c8ac57 ("HID: logitech-hidpp: Enable HID++ for all the
+> Logitech Bluetooth devices")
 > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > ---
->  drivers/hid/hid-generic.c |    8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> Index: linux-pm/drivers/hid/hid-generic.c
+>  drivers/hid/hid-logitech-hidpp.c |    1 +
+>  1 file changed, 1 insertion(+)
+> 
+> Index: linux-pm/drivers/hid/hid-logitech-hidpp.c
 > ===================================================================
-> --- linux-pm.orig/drivers/hid/hid-generic.c
-> +++ linux-pm/drivers/hid/hid-generic.c
-> @@ -31,7 +31,13 @@ static int __check_hid_generic(struct de
->         if (hdrv == &hid_generic)
->                 return 0;
->
-> -       return hid_match_device(hdev, hdrv) != NULL;
-> +       if (!hid_match_device(hdev, hdrv))
-> +               return 0;
-> +
-> +       if (hdrv->match)
-> +               return hdrv->match(hdev, false);
-> +
-> +       return 1;
->  }
->
->  static bool hid_generic_match(struct hid_device *hdev,
->
->
->
+> --- linux-pm.orig/drivers/hid/hid-logitech-hidpp.c
+> +++ linux-pm/drivers/hid/hid-logitech-hidpp.c
+> @@ -4274,6 +4274,7 @@ static const struct hid_device_id unhand
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
+> USB_DEVICE_ID_LOGITECH_HARMONY_PS3) },
+>         /* Handled in hid-generic */
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
+> USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD) },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb016) },
+>         {}
+>  };
+>  
+> 
+> 
+> 
 
