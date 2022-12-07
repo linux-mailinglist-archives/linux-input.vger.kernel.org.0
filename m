@@ -2,74 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1E4164589C
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 12:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 417EF645A15
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 13:43:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbiLGLKt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 06:10:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55392 "EHLO
+        id S229785AbiLGMnc convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 7 Dec 2022 07:43:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229876AbiLGLKE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 06:10:04 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393B122BC0;
-        Wed,  7 Dec 2022 03:09:59 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id m14so27560571wrh.7;
-        Wed, 07 Dec 2022 03:09:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ICFciUzqeiA5TCqnWMy+yTZQrd2p8LuMqKRatp5gkOM=;
-        b=q6xZGM8wdEgdRT+AAi2IGnwmA/DLvQBFChaF3gfYESHoY5CTsovDMps1EQ09MJzzUI
-         RzcKqAI5MPmrANbwiAARTOIppoWsTwg/Wltf23xvsBfnoXi2UlAjj4/EkSKUceM045Dg
-         gFBQ3K8Z1/EqONclWrihhQO/CeaLa7M+bz4V0K6Wf4y1Y/Z7Eb1kGTBPwtyuN2ClQ2Hh
-         aKNfdfR+ZnFGUY28WpKMUI7b2gnnhEI70h/IERmyuYMCxMepiBkaccGE+J1NdVZ0m/s/
-         eespEJwYpCgKWnbfRcgxwVJNF0b3hRqZnnb5Af+WZbdsMcARNnAojVGJXBfWQFFAjmvj
-         nCfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ICFciUzqeiA5TCqnWMy+yTZQrd2p8LuMqKRatp5gkOM=;
-        b=lCYzuJDrkvER+5EPy6J9rGZ2aIOr7Qo0kC84g0CQiUZDUrjvAFhoi0a7BUZlm2pCMy
-         vyUb6LPktn+/6rMkLScR+/SIU/gg6lD9DzNaQLTiga7AJpC+zRFiTuyn92Y0xK+5k1+e
-         ZyVe0ZXOdl1d9IpRN+wqE5NC+p37fpNJN04lnXScKIMx3R3NV+ZtBAVFXI5vO6SZ5bcl
-         P7YvXJ+O3YvIpDszy1VRi1sXJ4zaFD4mghL8rcPzJNVpZK7PHiXJTuc+JguhwPh/c97j
-         A2R7vTGusIkoXodokjjlhcsX36AJguDqDUXTp1mCzp0yzPvAbWmjWVQvjncr98mLA2PS
-         HX6A==
-X-Gm-Message-State: ANoB5pkMiDcnSgMdSjS+vBgBj1gVpVttHmcHvuYIQZ9BJzLiM9LjWJFW
-        hrZj0FeC2pHcOEJVxgJgwdM=
-X-Google-Smtp-Source: AA0mqf7iWewb8CjBGIvYjTdV48Sin4KSCqRo5q788eaoVU/JLiAQSeAGP1fRLC/4BocEFsM0E+82jw==
-X-Received: by 2002:a5d:49c5:0:b0:242:2fe2:ffa1 with SMTP id t5-20020a5d49c5000000b002422fe2ffa1mr18548975wrs.96.1670411397546;
-        Wed, 07 Dec 2022 03:09:57 -0800 (PST)
-Received: from fedora ([94.73.32.229])
-        by smtp.gmail.com with ESMTPSA id o15-20020a05600c4fcf00b003cf483ee8e0sm1548479wmq.24.2022.12.07.03.09.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 03:09:57 -0800 (PST)
-Date:   Wed, 7 Dec 2022 12:09:55 +0100
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Alexander Zhang <alex@alexyzhang.dev>
-Cc:     Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
-        openglfreak@googlemail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/1] HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE quirk
-Message-ID: <Y5B0gwGZJ/PQyV4+@fedora>
-References: <20221110174056.393697-1-jose.exposito89@gmail.com>
- <e1daf0a9-b699-affd-0d14-e46981733096@alexyzhang.dev>
- <nycvar.YFH.7.76.2211141509340.6045@cbobk.fhfr.pm>
- <d08049f2-443b-f769-cfde-629cdfb96fc0@alexyzhang.dev>
- <1dc9d0ba-4836-dfc6-8bf2-322ce3b5c24d@alexyzhang.dev>
+        with ESMTP id S229489AbiLGMn2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 07:43:28 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 941C342F75;
+        Wed,  7 Dec 2022 04:43:27 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7E73310000A;
+        Wed,  7 Dec 2022 12:43:23 +0000 (UTC)
+Message-ID: <f0ccee0d2f85099c146ee682b25d30c832155fa3.camel@hadess.net>
+Subject: Re: [PATCH v1 2/2] HID: logitech-hidpp: Add Bluetooth Mouse
+ M336/M337/M535 to unhandled_hidpp_devices[]
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Thorsten Leemhuis <regressions@leemhuis.info>
+Date:   Wed, 07 Dec 2022 13:43:23 +0100
+In-Reply-To: <nycvar.YFH.7.76.2212071117420.6045@cbobk.fhfr.pm>
+References: <2262737.ElGaqSPkdT@kreacher> <5647715.DvuYhMxLoT@kreacher>
+         <2283816.ElGaqSPkdT@kreacher>
+         <e7eb0e0c9aea30c0e3205b2f3d96b74a52283b40.camel@hadess.net>
+         <CAJZ5v0ibpzoBLXKiqzciYv1Htks0=4+4_XGLvpH7MCyFoYJiDg@mail.gmail.com>
+         <CAO-hwJL7n7HFk4MTKvLcvBPSLDwm9pHqLaZvmuwvSNDVWUF76g@mail.gmail.com>
+         <nycvar.YFH.7.76.2212071117420.6045@cbobk.fhfr.pm>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1dc9d0ba-4836-dfc6-8bf2-322ce3b5c24d@alexyzhang.dev>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,51 +49,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alexander,
-
-On Mon, Dec 05, 2022 at 04:49:10PM -0800, Alexander Zhang wrote:
-> Hello,
+On Wed, 2022-12-07 at 11:19 +0100, Jiri Kosina wrote:
+> On Wed, 7 Dec 2022, Benjamin Tissoires wrote:
 > 
-> On 11/19/22 11:01 PM, Alexander Zhang wrote:
-> > On 11/14/22 6:10 AM, Jiri Kosina wrote:
-> > > On Thu, 10 Nov 2022, Alexander Zhang wrote:
-> > > 
-> > > > Hi José,
-> > > > 
-> > > > On 11/10/22 9:40 AM, José Expósito wrote:
-> > > > > Hi everyone,
-> > > > > 
-> > > > > About 3 months ago, Torge Matthies sent a patch fixing an issue with
-> > > > > his XP-Pen Star G640 [1].
-> > > > > 
-> > > > > His patch changes the IS_INPUT_APPLICATION() macro to accept
-> > > > > HID_DG_DIGITIZER. However, it looks like it is not being merged because
-> > > > > of the possible side effects that changing that macro could generate.
-> > > > > 
-> > > > > This patch aims to fix the same issue but using a more conservative
-> > > > > approach hoping that the bug can be fixed.
-> > > > > 
-> > > > > Torge, Alexander, could you test it and confirm that it fixes your
-> > > > > issues, please?
-> > > > 
-> > > > I tested the patch on commit 4bbf3422df78 and it fixes the issue.
-> > > 
-> > > I will add
-> > > 
-> > >     Tested-by: Alexander Zhang <alex@alexyzhang.dev>
-> > > 
-> > > to the commit; please speak up if you disagree.
-> > 
-> > I'm not sure if you're still waiting for a response from me but I'm fine
-> > with that.
+> > Agree, but OTOH, Rafael, your mouse is not brand new AFAICT, so I
+> > am 
+> > worried that you won't be the only one complaining we just killed
+> > their 
+> > mouse. So I think the even wiser solution would be to delay (and so
+> > revert in 6.1 or 6.2) the 2 patches that enable hid++ on all
+> > logitech 
+> > mice (8544c812e43ab7bdf40458411b83987b8cba924d and 
+> > 532223c8ac57605a10e46dc0ab23dcf01c9acb43).
 > 
-> Is there something preventing this patch from being merged? I'm not very
-> familiar with the kernel development process.
+> If we were not at -rc8 timeframe, I'd be in favor to coming up with
+> proper 
+> fix still for 6.1. But as things currently are, let's just revert
+> those 
+> and reschedule them with proper fix for 6.2+.
 
-The patch is already applied in the for-next branch, you can find it here:
-https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-next&id=3405a4beaaa8
+Has anyone seen any other reports?
 
-Jose
-
-> Best,
-> Alexander Zhang
+Because, honestly, seeing work that adds support for dozens of devices
+getting tossed out at the last minute based on a single report with no
+opportunity to fix the problem is really frustrating.
