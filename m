@@ -2,81 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0E69645F60
-	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 17:57:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76226645F9F
+	for <lists+linux-input@lfdr.de>; Wed,  7 Dec 2022 18:08:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbiLGQ5x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Dec 2022 11:57:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43324 "EHLO
+        id S229812AbiLGRIB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Dec 2022 12:08:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbiLGQ5w (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 11:57:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C594B775;
-        Wed,  7 Dec 2022 08:57:50 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 85FB7B81B90;
-        Wed,  7 Dec 2022 16:57:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C41C433D6;
-        Wed,  7 Dec 2022 16:57:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670432268;
-        bh=IGp2hmZyOcCMcEh2LddZyGh6DbOd/8iqx5oEvJCkAZU=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=nKBXPl7Q7HM4H5wyfBknQh+CEOoxlF9rmbwwCIW3iBA5uSIUBlUwxvGjUB0538Orh
-         CsVX5T+1mQ5zxuwjsmd9+aBTyGzn6fjt9RE5Mv7gtKOPBM9MNad2okmzInig8h0ild
-         xly170EcyaOeUCaUsli0q7134Ks8ZHkYsMgLyBQVXaYRUmX5+gIDOiVy8n0sZTFYB4
-         b/bjPLcX/1s9zOgKYuZ/k5qSeaVZs1NxzGllFvkFays3mmfVwyyUFTmkcq3KK06+2p
-         e/JBmU5aZHUk466ZvmFlOCeqk0+MjObo5CaEsLQzow5c76qErJOR1HCE5pvmJWVbBz
-         VpR5UCBMqYreg==
-Date:   Wed, 7 Dec 2022 17:57:47 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Thorsten Leemhuis <regressions@leemhuis.info>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] HID: Revert catchall handling of Bluetooth device
- in hid-logitech-hidpp
-In-Reply-To: <20221207142433.1158329-1-benjamin.tissoires@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2212071757220.6045@cbobk.fhfr.pm>
-References: <20221207142433.1158329-1-benjamin.tissoires@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S229604AbiLGRIA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Dec 2022 12:08:00 -0500
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F366241;
+        Wed,  7 Dec 2022 09:07:56 -0800 (PST)
+Received: by mail-oi1-f174.google.com with SMTP id v82so21419890oib.4;
+        Wed, 07 Dec 2022 09:07:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3dhTLX0YWvTThjW6CLFbWou1O6zjrrg1N0tlAu9uVwI=;
+        b=w7TlCsbtvANRT+/VRGthb1isjQ0L38Vqn9rmoQ4eXqoleQmXEIOE84jw7Div7GBjFm
+         EYS3CdfgRE255GOcvEAUS6P4QWmVzJTSoWYgrE85kcm2MZaiFI0dCijIooF+KSB1etjj
+         PEBKAdqcqy/mT+xd189UgrZjlZ5mN35gIckNiei/dpF7DUVDH+11ZzY+FIdZlyT26h9R
+         5xAU4cor5mviZc01ZMQgfhOOQwxbp6lNoC8qv/PNw7ZY8uYGIPKQ5IynS6u1r7Gm3oxY
+         OULt1NrBbhM9x+eBESMgd3OTA2+e/CqNnTkS4GoB7yehLHpY3v7vo6Fw/270x94Iu21H
+         qM2A==
+X-Gm-Message-State: ANoB5pnUKVsWMO6kVUl+aHFoyT6KIeozuaejSV5A4KM1NQJ63jXcJkTo
+        BMRBnNbsf1MutfFNVIal0Yi6ojjHMg==
+X-Google-Smtp-Source: AA0mqf72nM70OyfM4u2USqQW4Ue06dnO2WYGcrsj9lY4SEcHSDXVdL0lGz6S91qY48kM8cYJ+U6NKw==
+X-Received: by 2002:aca:3654:0:b0:35b:e564:a51b with SMTP id d81-20020aca3654000000b0035be564a51bmr13366679oia.6.1670432875239;
+        Wed, 07 Dec 2022 09:07:55 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s5-20020a05683004c500b0066d2fc495a4sm10603632otd.48.2022.12.07.09.07.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 09:07:54 -0800 (PST)
+Received: (nullmailer pid 2415984 invoked by uid 1000);
+        Wed, 07 Dec 2022 17:07:53 -0000
+Date:   Wed, 7 Dec 2022 11:07:53 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: input: qcom,pm8921-keypad: convert
+ to YAML format
+Message-ID: <20221207170753.GA2402110-robh@kernel.org>
+References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
+ <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
+ <20221205220433.GA2684995-robh@kernel.org>
+ <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 7 Dec 2022, Benjamin Tissoires wrote:
-
-> We are basically too late in the 6.1 cycle to be able to do anything
-> else. Let's revert these 2 patches as we are in a situation where we
-> would break too many users.
+On Tue, Dec 06, 2022 at 05:20:16AM +0200, Dmitry Baryshkov wrote:
+> 6 декабря 2022 г. 00:04:33 GMT+02:00, Rob Herring <robh@kernel.org> пишет:
+> >On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
+> >> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
+> >> PM8058 PMICs from text to YAML format.
+> >> 
+> >> While doing the conversion also change linux,keypad-no-autorepeat
+> >> property to linux,input-no-autorepeat. The former property was never
+> >> used by DT and was never handled by the driver.
+> >
+> >Changing from the documented one to one some drivers use. I guess 
+> >that's a slight improvement. Please see this discussion[1]. 
 > 
-> We will reintroduce them during the next cycle with proper fixes in the
-> driver.
+> Well, the problem is that the documentation is misleading. The driver 
+> doesn't handle the documented property, so we should change either 
+> the driver, or the docs. Which change is the preferred one?
 
-Rafael,
+The preference is autorepeat is not the default and setting 
+'autorepeat' enables it. You can't really change that unless you don't 
+really need autorepeat by default. I can't see why it would be 
+needed for the power button, but I haven't looked what else you have.
 
-it would be nice to get
+Of all the no autorepeat options, I prefer 'linux,no-autorepeat' as I 
+find 'input' or 'keypad' redundant. But Dmitry T. didn't think it should 
+be a common property at the time.
 
-	Reported-by:
-	Tested-by:
-
-for these reverts if possible.
-
-Thanks!
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Rob
