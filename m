@@ -2,121 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61BD5646C57
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 11:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 079536470D0
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 14:33:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbiLHKCo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 05:02:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47776 "EHLO
+        id S229517AbiLHNdY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 08:33:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiLHKCn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 05:02:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8B9511475;
-        Thu,  8 Dec 2022 02:02:41 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7B25AB821EB;
-        Thu,  8 Dec 2022 10:02:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2286C433C1;
-        Thu,  8 Dec 2022 10:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1670493759;
-        bh=Gy+VgX0A4ENpBxacWi8qufdiwf6E1nyIHkyJFa2kRvo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S1zrO28RXl8xwIP2Ft5ugtlkCew3ye1WFfBtszRmbL9ok+4nuZfBVCEffyrccbCEa
-         CDQwpA55KrzTDhJ0gfDlxtY51ZNsrZnorZVH31dEuPbCibcK7wCBNsbgLN9cJjdkJM
-         DX3LYQnu40eskXmUlUk5F76TqjTU115nYx9nva1Y=
-Date:   Thu, 8 Dec 2022 11:02:36 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Johan Hovold <johan@kernel.org>,
-        Daniel Beer <daniel.beer@igorinstitute.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-i2c@vger.kernel.org,
-        Michael Zaidman <michael.zaidman@gmail.com>,
-        Christina Quast <contact@christina-quast.de>,
-        linux-serial@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>
-Subject: Re: [PATCH] hid-ft260: add UART support.
-Message-ID: <Y5G2PBEprjPp3FKR@kroah.com>
-References: <638c51a2.170a0220.3af16.18f8@mx.google.com>
- <Y4xX7ILXMFHZtJkv@kroah.com>
- <20221204091247.GA11195@nyquist.nev>
- <Y4xqyRERBdr8fT7F@kroah.com>
- <20221205012403.GA14904@nyquist.nev>
+        with ESMTP id S229501AbiLHNdX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 08:33:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA66A88B5D
+        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 05:32:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670506348;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=r2Y2q8xXkweyHb7q+LdaF3QQfL2xTZoL/8BGcjmlxh0=;
+        b=J97WSX3v3WSOLRKu2RMUOtr0bGSrLyazoRhquClf405eYV7I7Udpap040JiWtkCJyTh05k
+        t6syP4m0dC1cq1Yq2aPxFgyKYLgrBtpBD8z0L2E9E0lna1/GmyXPQWo225pXJVn2OVMgaj
+        bAUQ8kt85btXwDFdW+pGyyfiPvs5I5w=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-154-kqeRLVWAOQCaB5iQikXaHQ-1; Thu, 08 Dec 2022 08:32:27 -0500
+X-MC-Unique: kqeRLVWAOQCaB5iQikXaHQ-1
+Received: by mail-il1-f199.google.com with SMTP id n15-20020a056e021baf00b0030387c2e1d3so1119153ili.5
+        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 05:32:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r2Y2q8xXkweyHb7q+LdaF3QQfL2xTZoL/8BGcjmlxh0=;
+        b=cXc+aDwrnqrHo1P1XPQJ+1vFPClSCRuJa6c8vxzXUNIwDtnrulCwaGJ3M5R4cizwRe
+         y4xtbR57hYFPjeesnnkqCx31VoiM/rtmo3SgCBjMIsLJL8qtc2wJvHnL5bAHRrlTGkSC
+         kdl3vChVCB1jcqFGtW11UAM8F9m7XONOd34W3k33GWgdcQAHtvfy9slc1a4g1KvaRMmu
+         ZFb9Ta+sEzxtNTosbT4JYO60Wver5JCAO0Tdu7dr9bU1f3L3xYyej4IFIC9owjtLHSrv
+         iKVQbPD6D4d7zvpsOxNXOe+UqVwTp1ZzA28dTQHmCiSHYcVUUhYtDNfXpfMze2v5upMa
+         njWw==
+X-Gm-Message-State: ANoB5pmJjBJ3BzYnLSQAPiAeIBn5E777SkrV5x9gbqSvSO1lZDn7PLU6
+        VXketZtde/yQoBZT6G6p9WfzDcqymxnBx+iGleuVEGX6p1pj/OrcDIIjDAz348KsG7L77KrmPLt
+        aWFlgdrhojFawGVYXsPqIu03JaPZrIgOZT3ruGD8=
+X-Received: by 2002:a05:6602:418b:b0:6dd:813a:bfaa with SMTP id bx11-20020a056602418b00b006dd813abfaamr34563944iob.146.1670506346284;
+        Thu, 08 Dec 2022 05:32:26 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7zMSooRXlr4Posz/K2aHy6BiWNhWiEb2ADqwEFUNsUAPtJeFCgZxCy96OWNwpvW54MEYGv7AxIPPX4bTVseZA=
+X-Received: by 2002:a05:6602:418b:b0:6dd:813a:bfaa with SMTP id
+ bx11-20020a056602418b00b006dd813abfaamr34563933iob.146.1670506345920; Thu, 08
+ Dec 2022 05:32:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221205012403.GA14904@nyquist.nev>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <2262737.ElGaqSPkdT@kreacher> <5647715.DvuYhMxLoT@kreacher>
+ <2283816.ElGaqSPkdT@kreacher> <e7eb0e0c9aea30c0e3205b2f3d96b74a52283b40.camel@hadess.net>
+ <CAJZ5v0ibpzoBLXKiqzciYv1Htks0=4+4_XGLvpH7MCyFoYJiDg@mail.gmail.com>
+ <CAO-hwJL7n7HFk4MTKvLcvBPSLDwm9pHqLaZvmuwvSNDVWUF76g@mail.gmail.com>
+ <nycvar.YFH.7.76.2212071117420.6045@cbobk.fhfr.pm> <f0ccee0d2f85099c146ee682b25d30c832155fa3.camel@hadess.net>
+ <8c28a60ede7b568352141d2aae2952d2923234a7.camel@hadess.net>
+In-Reply-To: <8c28a60ede7b568352141d2aae2952d2923234a7.camel@hadess.net>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 8 Dec 2022 14:32:14 +0100
+Message-ID: <CAO-hwJLTeNXAYQdVBgo4=VrS53=9YAtpCY8puvXQAvQWGA20bQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] HID: logitech-hidpp: Add Bluetooth Mouse
+ M336/M337/M535 to unhandled_hidpp_devices[]
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 05, 2022 at 02:24:03PM +1300, Daniel Beer wrote:
-> On Sun, Dec 04, 2022 at 10:39:21AM +0100, Greg Kroah-Hartman wrote:
-> > > Thanks for reviewing. This device is quite strange -- it presents itself
-> > > as a USB HID, but it provides both an I2C master and a UART. The
-> > > existing driver supports only the I2C functionality currently.
-> > 
-> > Lots of devices are a "fake HID" device as other operating systems make
-> > it easy to write userspace drivers that way.  Linux included.  What
-> > userspace programs are going to want to interact with this device and
-> > what api are they going to use?
-> 
-> Hi Greg,
-> 
-> The application I'm looking at uses it as a debug console, so personally
-> I'd like to be able to use it with picocom and other terminal programs.
-> 
-> > > > > --- a/include/uapi/linux/major.h
-> > > > > +++ b/include/uapi/linux/major.h
-> > > > > @@ -175,4 +175,6 @@
-> > > > >  #define BLOCK_EXT_MAJOR		259
-> > > > >  #define SCSI_OSD_MAJOR		260	/* open-osd's OSD scsi device */
-> > > > >  
-> > > > > +#define FT260_MAJOR		261
-> > > > 
-> > > > A whole new major for just a single tty port?  Please no, use dynamic
-> > > > majors if you have to, or better yet, tie into the usb-serial
-> > > > implementation (this is a USB device, right?) and then you don't have to
-> > > > mess with this at all.
-> > > 
-> > > As far as I understand it, I don't think usb-serial is usable, due to
-> > > the fact that this is already an HID driver.
-> > 
-> > That should not be a restriction at all.  You are adding a tty device to
-> > this driver, no reason you can't interact with usb-serial instead.  That
-> > way you share the correct userspace tty name and major/minor numbers and
-> > all userspace tools should "just work" as they know that name and how to
-> > interact with it already.
-> > 
-> > Try doing that instead of your own "raw" tty device please.
-> 
-> Maybe I've misunderstood something. The reason I thought usb-serial was
-> unusable in this instance was that I couldn't see a way to create a port
-> except via usb-serial's own probe function (otherwise, the API looked
-> fine).
-> 
-> I don't know whether I'm looking at a serial or an I2C interface until
-> after it's already been probed by HID core, I have a struct hid_device
-> and I've asked what type of interface it is via an HID feature report.
-> This can't be determined otherwise, because strapping pins affect the
-> presentation of interfaces.
-> 
-> At that point, I (currently) call uart_add_one_port. I might have missed
-> it, but I didn't see anything analogous in the usb-serial API. Am I
-> going about this the wrong way?
+On Wed, Dec 7, 2022 at 3:24 PM Bastien Nocera <hadess@hadess.net> wrote:
+>
+> On Wed, 2022-12-07 at 13:43 +0100, Bastien Nocera wrote:
+> > On Wed, 2022-12-07 at 11:19 +0100, Jiri Kosina wrote:
+> > > On Wed, 7 Dec 2022, Benjamin Tissoires wrote:
+> > >
+> > > > Agree, but OTOH, Rafael, your mouse is not brand new AFAICT, so I
+> > > > am
+> > > > worried that you won't be the only one complaining we just killed
+> > > > their
+> > > > mouse. So I think the even wiser solution would be to delay (and
+> > > > so
+> > > > revert in 6.1 or 6.2) the 2 patches that enable hid++ on all
+> > > > logitech
+> > > > mice (8544c812e43ab7bdf40458411b83987b8cba924d and
+> > > > 532223c8ac57605a10e46dc0ab23dcf01c9acb43).
+> > >
+> > > If we were not at -rc8 timeframe, I'd be in favor to coming up with
+> > > proper
+> > > fix still for 6.1. But as things currently are, let's just revert
+> > > those
+> > > and reschedule them with proper fix for 6.2+.
+> >
+> > Has anyone seen any other reports?
+> >
+> > Because, honestly, seeing work that adds support for dozens of
+> > devices
+> > getting tossed out at the last minute based on a single report with
+> > no
+> > opportunity to fix the problem is really frustrating.
+>
+> FWIW, I went out to buy a Logitech device that uses Bluetooth Classic,
+> the only one I could find in 2 different shops among dozens of Logitech
+> devices, tested it, and it worked correctly.
 
-I thought that this could be done, but I might be wrong.  Johan, any
-ideas?
+Again, I understand the frustration. But the problem is not so much
+that we might or might not ever need another entry in that list. The
+problem is that some devices were supported previously (not in a fancy
+way), and now we have a chance to just disable those devices. Of
+course, we could say "just rmmod hid-logitech-hidpp". I have already
+been through that as well, and then you fight for 10 years on some
+forums where everybody says that if you have an issue with your
+touchscreen, just disable <insert any driver here> when the particular
+touchscreen is *not* using that driver at all.
 
-thanks,
+Anyway, let me write down my thoughts since yesterday:
+1. Rafael already realized that the ->match() function was not working
+outside any other driver than hid-generic (and this was the design at
+the time)
+2. We have an issue in hid-logitech-hidpp where during probe calling
+hidpp_root_get_protocol_version() returns an error, when userspace
+tools are working fine for the exact same command
+3. IMO, the way hid-logitech-hidpp probe function is behaving is not
+resilient enough to be able to have a generic catch-all, because there
+is a non-zero chance the probe returns -ENODEV (see all the exit paths
+that return -ENODEV in probe).
 
-greg k-h
+To solve 1, it needs a little bit of tinkering and Rafael already sent
+a v1 for that. IMO we should refine it, but that's an already ongoing
+process
+
+To solve 2, Bastien already mentioned one piece of the puzzle (the
+error code not being correctly reported and the signification changed
+between HID++ 1.0 and 2.0). But I am still yet to understand why there
+is a difference between userspace call of the function, and kernel
+space.
+
+To solve 3, I initially started to work on a simple, more resilient
+probe in hid-logitech-hidpp. I thought that we could regroup all
+device initialization we do in a hidpp_preinit() call, and if that
+call fails, revert to the generic hid processing.
+
+But then, looking at the bigger picture, it would make sense to not do
+that exactly. Instead of returning 0 and handling the device through
+hid-logitech-hidpp, maybe we should actually return -ENODEV, and have
+a fallback mechanism in hid-core that says "it seems I have tried all
+possible drivers, all of them failed, let's force hid-generic for this
+one".
+
+And as I type those lines, how about the cases when we actually want
+to disable a USB interface from HID because it is legitimate to do so?
+
+I'll need to think about this a little bit more.
+
+To be able to reintroduce the bluetooth catch-all, I think we need to
+solve 1 and 3. 2 would be nice to understand but is not preventing the
+series from being merged back.
+
+Cheers,
+Benjamin
+
