@@ -2,147 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A17EA6471BE
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 15:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9312B6472C0
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 16:22:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbiLHO1K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 09:27:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
+        id S229501AbiLHPWU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 8 Dec 2022 10:22:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbiLHO0B (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 09:26:01 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA5799504
-        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 06:25:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670509547; x=1702045547;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Uq/6jaJNEGsuqqwonbUODwL5wfku1nT0iwhd36A+OaQ=;
-  b=PLD+np3vmKVAsm997q6ie1jEyY1aCZ7FGSxlh+HCF7KXD1mBdAIAEADz
-   BAoCjN+N/NKyCJi1aIVkynD3iwyWIS+I6FU6sh1E/ExdByiLsopUIsy/G
-   8aoFNpxfZCSy9UA46ArJ/GQpNjr27YhEPe8WKXMGSorELwlpun1Moeglb
-   EcOvX704odhzS1TNkXg8YkWZFRv+N/PE88awQaRoPbluF3Hd0t7jfhXJ7
-   RF7+mvVYXCFvAadLXGZjQl70ZBCJ8ZdZCsOPi7vkAIiblrIzu8tc2tp6g
-   c9FRXW6FBctxgsBk9ZSDC+EUmiGcqw3QvQ6cjb2FeDc66Ljpjvljovfkg
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="296871286"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="296871286"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 06:25:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="892246188"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="892246188"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2022 06:25:46 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p3HqL-0001Bb-12;
-        Thu, 08 Dec 2022 14:25:45 +0000
-Date:   Thu, 08 Dec 2022 22:25:27 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- de4b8d201666b332034f8117b0995a43534b57d3
-Message-ID: <6391f3d7.i7aj+PBLTnnV5fws%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S230248AbiLHPVf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 10:21:35 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA489686B0;
+        Thu,  8 Dec 2022 07:20:52 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7C4BB240008;
+        Thu,  8 Dec 2022 15:20:49 +0000 (UTC)
+Message-ID: <b356b5684cc631513c0498f18d7c185b77416f85.camel@hadess.net>
+Subject: Re: [Regression] Logitech BT mouse unusable after commit
+ 532223c8ac57 (still in 6.1-rc8)
+From:   Bastien Nocera <hadess@hadess.net>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Thorsten Leemhuis <regressions@leemhuis.info>
+Date:   Thu, 08 Dec 2022 16:20:48 +0100
+In-Reply-To: <CAJZ5v0ghW2DdC0quVQ-+Oad7bR95Pyp4Uhd9=XUYk9SQrXKj5w@mail.gmail.com>
+References: <2262737.ElGaqSPkdT@kreacher>
+         <1df12728a2e788788fd387588bac62023e123d16.camel@hadess.net>
+         <2145955.irdbgypaU6@kreacher>
+         <CAJZ5v0ic+pm+NWD8g4O2MwQEvi+xuB-W9Wpd6c1RhprhoxuK1g@mail.gmail.com>
+         <8281ddcc16cc950f9cde4b196cf208adcc798319.camel@hadess.net>
+         <CAJZ5v0gjAGZFS6ap+NAbsi96hq7y9MRGE0h_A-n6xfB1CMs=2g@mail.gmail.com>
+         <cd8b2a2160f5d36d1b73bc0567cd0f6e7e5751c4.camel@hadess.net>
+         <CAJZ5v0gRm1NG=QuDFDFdcZgTu7Q0Z3cW3fwGg09sD+3BBV8E1A@mail.gmail.com>
+         <91367d07a72ecb2065faebe974c54ebd966e0d59.camel@hadess.net>
+         <CAJZ5v0ghW2DdC0quVQ-+Oad7bR95Pyp4Uhd9=XUYk9SQrXKj5w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: de4b8d201666b332034f8117b0995a43534b57d3  Input: pxspad - fix unused data warning when force feedback not enabled
+On Wed, 2022-12-07 at 18:44 +0100, Rafael J. Wysocki wrote:
+> On Wed, Dec 7, 2022 at 6:19 PM Bastien Nocera <hadess@hadess.net>
+> wrote:
+> > 
+> > On Wed, 2022-12-07 at 12:07 +0100, Rafael J. Wysocki wrote:
+> > > # hidpp-list-features /dev/hidraw1
+> > > Bluetooth Mouse M336/M337/M535 (046d:b016) is a HID++ 4.5 device
+> > > Feature 0x01: [0x0001] Feature set
+> > > Feature 0x02: [0x0003] Device FW version
+> > > Feature 0x03: [0x0005] Device name
+> > > Feature 0x04: [0x0020] Reset
+> > > Feature 0x05: [0x1e00] Enable hidden features (hidden)
+> > > Feature 0x06: [0x1800] Generic Test (hidden, internal)
+> > > Feature 0x07: [0x1000] Battery status
+> > > Feature 0x08: [0x1b04] Reprog controls v4
+> > > Feature 0x09: [0x2100] Vertical scrolling
+> > > Feature 0x0a: [0x2200] Mouse pointer
+> > > Feature 0x0b: [0x2205] Pointer speed
+> > > Feature 0x0c: [0x18b1] ? (hidden, internal)
+> > > Feature 0x0d: [0x2121] Hi-res wheel
+> > > Feature 0x0e: [0x1f03] ? (hidden, internal)
+> > 
+> > Would you be able to enable debugging for the hid subsystem to get
+> > some
+> > debug data when getting the version from the device fails?
+> 
+> I guess I could, but I think that the device is just quirky.
+> 
+> At least the BT layer appears to think that it is connected.
+> 
+> Anyway, what exactly do you need?
+> 
+> > I can't see any problems in there that wouldn't also have impacted
+> > all
+> > the other Logitech Bluetooth devices listed in the support devices
+> > list.
+> > 
+> > If the problem is a timeout, maybe we should lower the timeouts we
+> > currently have (5*HZ = 5 seconds, right?), so we can retry 5 times
+> > one
+> > second instead.
+> 
+> No, it doesn't take 5 sec to get a response from it.  It rather looks
+> like __hidpp_send_report() returns an error.
 
-elapsed time: 722m
+Adding "debug" on the kernel command-line should be enough to get debug
+out of hidpp_send_message_sync():
+https://stackoverflow.com/a/63682160
 
-configs tested: 66
-configs skipped: 2
+Either that or turn all the dbg_hid() into hid_err() if you're going to
+be compiling the kernel.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+We're mainly interested in the error code from the device, as that's
+what I'm guessing is caused the error to propagate.
 
-gcc tested configs:
-x86_64                        randconfig-a002
-x86_64                        randconfig-a004
-x86_64                        randconfig-a006
-arc                                 defconfig
-um                             i386_defconfig
-s390                             allmodconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-alpha                               defconfig
-sh                               allmodconfig
-s390                                defconfig
-x86_64                               rhel-8.3
-x86_64                              defconfig
-mips                             allyesconfig
-s390                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-powerpc                          allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-x86_64                           allyesconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-x86_64                        randconfig-a013
-i386                                defconfig
-x86_64                          rhel-8.3-func
-s390                 randconfig-r044-20221207
-i386                          randconfig-a016
-x86_64                          rhel-8.3-rust
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-x86_64                    rhel-8.3-kselftests
-i386                          randconfig-a014
-i386                          randconfig-a012
-arc                  randconfig-r043-20221207
-arm                                 defconfig
-i386                          randconfig-a001
-i386                             allyesconfig
-riscv                randconfig-r042-20221207
-i386                          randconfig-a003
-i386                          randconfig-a005
-arm                              allyesconfig
-ia64                             allmodconfig
-arm64                            allyesconfig
-x86_64                            allnoconfig
-i386                          randconfig-c001
+> > Still, as I mentioned earlier, I can't reproduce the problem on
+> > another
+> > Bluetooth Classic device...
 
-clang tested configs:
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-x86_64                        randconfig-a014
-x86_64                        randconfig-a012
-x86_64                        randconfig-a016
-i386                          randconfig-a006
-arm                  randconfig-r046-20221207
-i386                          randconfig-a013
-i386                          randconfig-a011
-hexagon              randconfig-r041-20221207
-hexagon              randconfig-r045-20221207
-i386                          randconfig-a015
-i386                          randconfig-a002
-i386                          randconfig-a004
-x86_64                        randconfig-k001
-arm                           omap1_defconfig
-powerpc                    ge_imp3a_defconfig
-arm                         socfpga_defconfig
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
