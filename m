@@ -2,73 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06947647628
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 20:25:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68002647797
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 21:59:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbiLHTZ1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 14:25:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48498 "EHLO
+        id S229479AbiLHU7K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 15:59:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiLHTZ0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 14:25:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5208460B5E;
-        Thu,  8 Dec 2022 11:25:24 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 81E1662040;
-        Thu,  8 Dec 2022 19:25:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F24CC433D2;
-        Thu,  8 Dec 2022 19:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670527500;
-        bh=BBTAhUw2RvKZdchFoZ87jLjuy60S8Cxau2TjZ8ywoN4=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=n2w8CI7zCKC7EHtznLxuPvTPKc82xeekDHjZHsir+BuSb421nLGbcY3Aft0/Qomn3
-         lfdjcEIqFCzbhiM2SMGVSwLMVWS4vYl+m2kKYpJ849crSW7Pbw81kqBFWUGY7BfTpT
-         G5rMKBHHIHGN0lznDAEfrrgaWGGV6ZThWYKpd0Yxfyjahsxaang0uFjyiFlfvzXTlB
-         dZI+r8l8nogjTgTdBbRF42wqq161zY0v3xSsY6GlNLZRNdarK4+VFDgdoFl5V3Wn11
-         ukp7sxfe6G1o85wVoal5HPK16t+sKAk/s5Ewnel5I95Cx2gn33A/UXMIDxWhh9PDpC
-         T9BKpuKRZPUIQ==
-Date:   Thu, 8 Dec 2022 20:24:53 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Thorsten Leemhuis <regressions@leemhuis.info>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] HID: Revert catchall handling of Bluetooth device
- in hid-logitech-hidpp
-In-Reply-To: <20221207142433.1158329-1-benjamin.tissoires@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2212082019370.9000@cbobk.fhfr.pm>
-References: <20221207142433.1158329-1-benjamin.tissoires@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S229649AbiLHU7H (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 15:59:07 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9887726FC;
+        Thu,  8 Dec 2022 12:59:06 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id n21so6870515ejb.9;
+        Thu, 08 Dec 2022 12:59:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2uWthW/PoKfC02t1PaCjD6R5HbN1AuXQTJXkZCHE+YY=;
+        b=MmnxtYapb1tWKOt5UnNiQ50t6JfjSaObmvZa9LHlnCnsyJLPhgzfbg0O+ARqNk1b2T
+         Iibz2OIB+1N9V+0Ptw1fa+ywzBwARGYBCNCLZOyGv3BEba2lXVw+SgGgL8Qz3twBv+uO
+         5inxZ7C3lgG64UliXO9ETDOP1UzM4HzoCGeMR3Bb7XbrIJYLuaymbfIFcdl3+uuWddAD
+         dnBDfQ6CcbGyc2Wo9j5Aib2LW5kIDOCsDGbadJga9MRYFgJfUWX0LFNeg+J6LqlmsSg0
+         oKmSSBKI5aBbm/tHxZlPGCVNcJeGVUEuq+cpoRdczZnCXGHlKoT/mIw5Q+emTMhHjgCD
+         SUBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2uWthW/PoKfC02t1PaCjD6R5HbN1AuXQTJXkZCHE+YY=;
+        b=Ua+B6R4KP9TrudNGzHTdYUqUy2j3UhHuJyXRfdKfBNnJKhc8gxhKWcecx4u6+Zg+rK
+         7KP5vjL7jXwYrmOKpl89F5959zbjfV0deMoCSW//44YCB/G2RtUGLF1svurrH/+tAVH1
+         YYF+KOar4t7ZsOLMJeitJyHpec+vVYCGrSClqq7dJWmMVTo+C7jP+mUOJZStJRCJzGCX
+         8AJlxsGNq5vr8hbJMrtFZKIn6LBZhQTtdQglqjhT0Sl9CCCYC9ZMDuzHE8meGDvZgFmh
+         Hobmq7DIOufrenDCNDn1KrvyAOCWzodM6LHsVRQrXZjJzy7B+cGwYQYYmzO8mB8CI9hj
+         Q3Zg==
+X-Gm-Message-State: ANoB5plRa5vthy94yoMV0slCGXCI6gUWveuAJSWepgK5VNwFoShEKKk8
+        V909OoF3xI68CTCD/LOGN+ZKVCdKq8gwc4EbjdQ=
+X-Google-Smtp-Source: AA0mqf4TZbKeyFx4CKL8mJSNkg1i0m8ENpo9jfVK5zMkFq9D/i/Tbc9xNhHkPb/J8xrS0UtiJUz5Ipmfcj/xQEyAwC0=
+X-Received: by 2002:a17:906:a083:b0:7b2:b15e:322f with SMTP id
+ q3-20020a170906a08300b007b2b15e322fmr76404842ejy.75.1670533144943; Thu, 08
+ Dec 2022 12:59:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221205210354.11846-1-andrew.smirnov@gmail.com> <CADyDSO4uh6b+sSZTkZ2_DR923=bA=kXgK1LqUMkknCMzf_DSwQ@mail.gmail.com>
+In-Reply-To: <CADyDSO4uh6b+sSZTkZ2_DR923=bA=kXgK1LqUMkknCMzf_DSwQ@mail.gmail.com>
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+Date:   Thu, 8 Dec 2022 12:58:53 -0800
+Message-ID: <CAHQ1cqGaL5v4PARTZU6_0tfSCz3=9b1THz-D-Bg1G64hBV+_Wg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] Handling of non-numbered feature reports by hidraw
+To:     David Rheinsberg <david.rheinsberg@gmail.com>
+Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 7 Dec 2022, Benjamin Tissoires wrote:
+On Thu, Dec 8, 2022 at 7:46 AM David Rheinsberg
+<david.rheinsberg@gmail.com> wrote:
+>
+> Hi
+>
+> On Mon, 5 Dec 2022 at 22:04, Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
+> > I'm working on a firmware of a device that exposes a HID interface via
+> > USB and/or BLE and uses, among other things, non-numbered feature
+> > reports. Included in this series are two paches I had to create in
+> > order for hidraw devices created for aforementioned subsystems to
+> > behave in the same way when exerciesd by the same test tool.
+> >
+> > I don't know if the patches are acceptable as-is WRT to not breaking
+> > existing userspace, hence the RFC tag.
+>
+> Can you elaborate why you remove the special handling from USBHID but
+> add it to UHID? They both operate logically on the same level, so
+> shouldn't we simply adjust uhid to include the report-id in buf[0]?
+>
+> Also, you override buf[0] in UHID, so I wonder what UHID currently
+> returns there?
+>
+> IOW, can you elaborate a bit what the current behavior of each of the
+> involved modules is, and what behavior you would expect? This would
+> allow to better understand what you are trying to achieve. The more
+> context you can give, the easier it is to understand what happens
+> there.
+>
 
-> We are basically too late in the 6.1 cycle to be able to do anything
-> else. Let's revert these 2 patches as we are in a situation where we
-> would break too many users.
-> 
-> We will reintroduce them during the next cycle with proper fixes in the
-> driver.
+Sorry it's not very clear, so the difference between the cases is that
+in the case of UHID the report ID ends up being included as a part of
+"SET_FEATURE", so BlueZ checks UHID_DEV_NUMBERED_FEATURE_REPORTS,
+which is not set (correctly) and tries to send the whole payload. This
+ends up as a maxlen + 1 (extra byte) write to a property that is
+maxlen long, which gets rejected by device's BLE stack.
 
-I have now queued this in for-6.1/upstream-fixes and will urgently send it 
-to Linus so that we don't have the regression in 6.1 final.
+In the case of USBHID the problem happens in "GET_FEATURE" path. When
+userspace reads the expected data back it gets an extra 0 prepended to
+the payload, so all of the actual payload has an offset of 1. This
+doesn't happen with UHID, which I think is the correct behavior here.
 
--- 
-Jiri Kosina
-SUSE Labs
-
+Hopefully that explains the difference, let me know if something is unclear
