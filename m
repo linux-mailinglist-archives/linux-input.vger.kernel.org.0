@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2C0D647A08
-	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 00:34:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A9D647A2F
+	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 00:39:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbiLHXd6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 18:33:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
+        id S230310AbiLHXjH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 18:39:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbiLHXd4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 18:33:56 -0500
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3442A6ACD4
-        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 15:33:56 -0800 (PST)
-Received: by mail-il1-x136.google.com with SMTP id o13so1906665ilc.7
-        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 15:33:56 -0800 (PST)
+        with ESMTP id S230325AbiLHXim (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 18:38:42 -0500
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2576DAC6C7
+        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 15:37:13 -0800 (PST)
+Received: by mail-il1-x12c.google.com with SMTP id o13so1909344ilc.7
+        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 15:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pKD0z1maEkr8LN0VfjE0onCG1Voz2tMlAbquW+aI4PQ=;
-        b=iSoc4pbq9Do4IAFoykJi1KZ7vMe8vtdeeGGq5uZtTBdEV1CaLocmDJjg8KfSho38xH
-         1FUG5kP/1iOT51Xx8FULwhkyjdC4wCgFiVDjFbUNs0q3d7eAfTXbT+XahCwcZJchaBA4
-         sfgOW3bGfdZnzBWHxO6y3ULK2wpIcwrF9V0mI=
+        bh=XB9uJ+lkRW+tWnK3/uWjQyTrX44g4B5OMTJxdQGorGQ=;
+        b=ej1d3i78+fxsuwG+t+/ZsOtCWLxOw1VQ6hBnCjrixMih/PFvYFobeC3lvFX7h4vxXf
+         s6iazg1FbHEFq7Oe2x1Y12vH2x7eTvUa7I2GQ7rEGm7cF44W3a1lz9cC81t0VEC6qwzY
+         qxHYrg1M+Bv6c7g1fzq+RKijllHpux2RYDrdU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pKD0z1maEkr8LN0VfjE0onCG1Voz2tMlAbquW+aI4PQ=;
-        b=Nzg2CBH3ADVbiQZnVLLRZEiaVGPCHqZ30V9J/7Wv40i8IDiN+ErBRR0q9o5Eqob0Xw
-         Nzub5ci1YBvzxegocxe98rst4tKItihWR9VoE2QdrKVQCa4JLtNaLhphSnuKEq3fWMaX
-         76VlF1uzI+8Ry9xOG/xZwmQheNISy0CqIojAmqQMf0ATVpoSqYMwyP+x5HWjLUw8veid
-         xf0WSFyzl6Rc0O+Yp2pwIyuGCVIEGV9u23nSy1KGCbEwjZbqPf1TDpd9XCLe5xPnjD/1
-         yOXzn3TfTaV1DWHxWhwTfH3qbB4lERiHQwnbcxriEAo2aeho16K2OT7ZkR+vGC660q+Q
-         Uy7Q==
-X-Gm-Message-State: ANoB5pnTRK2/UVpLip2qMOht4GDY8Hzn9X6mr8a1EVvmBo/eOeiP45LO
-        c5TtZADCEaQwbQmMhFkQZ76LUA==
-X-Google-Smtp-Source: AA0mqf5dzgNqV8tMzXnKMA0Xtxo+nx2jWlFnmxrgaHS3Hl7qDg7Di+cWg4Y0Oa6P18edB25yxnAprw==
-X-Received: by 2002:a92:4a10:0:b0:302:ab04:915c with SMTP id m16-20020a924a10000000b00302ab04915cmr2025685ilf.24.1670542435623;
-        Thu, 08 Dec 2022 15:33:55 -0800 (PST)
+        bh=XB9uJ+lkRW+tWnK3/uWjQyTrX44g4B5OMTJxdQGorGQ=;
+        b=oKQcnin0GZLZiTgs07eaDbdUyjTBWcGGj91mQ+PYdg4/BXIfWqHTreTQSgyR908v8r
+         H1hOqqGQKW4noDWs6SCOjW+zJ9bmdzMDctQwrwJzsuys9FtJJYvM4BqzIh6BrxctBtzk
+         ia1qXoqPqFzbk+NiSR4/cvv/zNDAruD+CaXiRm4VQC19/E8gamS0yQk/fICPcqebxhLz
+         0dqMiGtP+yGV5OUOhVLEWnBoS6BWGuqQvVn1v3n/7ToH0K2UXrycN6RJgcQSaW/msj2+
+         GHUU8SZ+H89A9N6hbO0dEdArI11OYx7w89PgwIy0ma79T3CXwZFzcOQmCbcLLU5rzIMQ
+         en7g==
+X-Gm-Message-State: ANoB5pn7/D73RP3MEN2SpztwaMFnsjktN5jC/EOmKjPh6E06ANuhxGHV
+        DYtR5lZ2+RymoqOJFlSuSsOIqA==
+X-Google-Smtp-Source: AA0mqf4YOtBRIbMzEvISzpxe835AwFTH9p2fLkeELjKV9KbhJF4qMNDQy7LrDD9CD5e/f6b6JxHkjg==
+X-Received: by 2002:a05:6e02:806:b0:303:608d:b34d with SMTP id u6-20020a056e02080600b00303608db34dmr2175715ilm.18.1670542603516;
+        Thu, 08 Dec 2022 15:36:43 -0800 (PST)
 Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id e33-20020a026d61000000b00363ad31c149sm9096965jaf.110.2022.12.08.15.33.54
+        by smtp.gmail.com with UTF8SMTPSA id s5-20020a92cb05000000b002f4d91546fbsm1199390ilo.6.2022.12.08.15.36.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 15:33:55 -0800 (PST)
-Date:   Thu, 8 Dec 2022 23:33:54 +0000
+        Thu, 08 Dec 2022 15:36:42 -0800 (PST)
+Date:   Thu, 8 Dec 2022 23:36:42 +0000
 From:   Matthias Kaehlcke <mka@chromium.org>
 To:     Douglas Anderson <dianders@chromium.org>
 Cc:     Bjorn Andersson <andersson@kernel.org>,
@@ -58,15 +58,14 @@ Cc:     Bjorn Andersson <andersson@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] arm64: dts: qcom: sc7180: Start the trogdor
- eDP/touchscreen regulator on
-Message-ID: <Y5J0YqLPtjIJ3Lpc@google.com>
+Subject: Re: [PATCH 4/5] arm64: dts: qcom: sc7180: Add pazquel360 touschreen
+Message-ID: <Y5J1CrQ/suo3okdr@google.com>
 References: <20221208192006.1070898-1-dianders@chromium.org>
- <20221208111910.3.I7050a61ba3a48e44b86053f265265b5e3c0cee31@changeid>
+ <20221208111910.4.Id132522bda31fd97684cb076a44a0907cd28097d@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221208111910.3.I7050a61ba3a48e44b86053f265265b5e3c0cee31@changeid>
+In-Reply-To: <20221208111910.4.Id132522bda31fd97684cb076a44a0907cd28097d@changeid>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -76,25 +75,9 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 08, 2022 at 11:20:04AM -0800, Douglas Anderson wrote:
-> Now that we've added the `off-on-delay-us` for the touchpanel
-> regulator, we can see that we're actually hitting that delay at
-> bootup. I saw about 200 ms of delay.
-> 
-> Let's avoid that delay by starting the regulator on. We'll only do
-> this for eDP devices for the time being.
-> 
-> NOTE: we _won't_ do this for homestar. Homestar's panel really likes
-> to be power cycled. It's why the Linux driver for this panel has a
-> pm_runtime_put_sync_suspend() when the panel is being unprepared but
-> the normal panel-edp driver doesn't. It's also why this hardware has a
-> separate power rail for eDP vs. touchscreen, unlike all the other
-> trogdor boards. We won't start homestar's regulator on. While this
-> could mean a slight delay on homestar, it is probably a _correct_
-> delay. The bootloader might have left the regulator on (it does so in
-> dev and recovery modes), so if we turned the regulator off at probe
-> time and we actually hit the delay then we were probably violating T12
-> in the panel spec.
+On Thu, Dec 08, 2022 at 11:20:05AM -0800, Douglas Anderson wrote:
+> The touchscreen was supposed to have been added when pazquel360 first
+> was added upstream but was missed. Add it now.
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
