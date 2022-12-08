@@ -2,169 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14918647584
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 19:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACAC564760D
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 20:20:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbiLHS0s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 13:26:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44592 "EHLO
+        id S229592AbiLHTUc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 14:20:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbiLHS0r (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 13:26:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE5ED8B1A1
-        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 10:25:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670523952;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+1VVUcW2d/r4TNKwvpnKWV11TO1c/pvTjCV/IvxcjRo=;
-        b=bDaKKiYUThiSyvLczpdv6vWHVVEki1k/CNUulEaqtfpjLtj+hkSLWAx16j3CuLNBcTuSzI
-        FJ39aVhpDKDri3fFPqoNZYJZBASPz0VY6Ru1PDdCsg9rkrJa173N2ws44YqouOIE4cDD4/
-        Olb0jQjfrFB1aLy1Lzbu+3+gBODZiTo=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-634-CP95HdbuNe2NddDBY8tOqQ-1; Thu, 08 Dec 2022 13:25:48 -0500
-X-MC-Unique: CP95HdbuNe2NddDBY8tOqQ-1
-Received: by mail-il1-f197.google.com with SMTP id g4-20020a92cda4000000b00301ff06da14so2057070ild.11
-        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 10:25:48 -0800 (PST)
+        with ESMTP id S229470AbiLHTUb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 14:20:31 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B41C28F0B3
+        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 11:20:30 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id d7so2464230pll.9
+        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 11:20:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ifQ3Jav6VsSh1zyTRvbz7pDkhV+r1K5wCw7Us/t45o0=;
+        b=X5atqoLOC95H8hGG6aBCNBoodKm+iMf7Ug0EuydjqLq5lc+FvwdCwRWqKzn+D6ITYD
+         sHDDLbefyapJJE5aWPeT2ZnrzctfSZmI4BdUvu7Tsm8IfbmyXCAitOp0ICvAWYCLohSr
+         /WxClb5RXALcnX5LBwlGxTkiMGVRtouhYKSc8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+1VVUcW2d/r4TNKwvpnKWV11TO1c/pvTjCV/IvxcjRo=;
-        b=dLAASEVXmZARjrKK0kJORR7krCqngtmKxbYlExhrQgbYrzD52bt/ETpFJ6oQVWy82x
-         1WG1iO17e70TmyLddMxEz+Y9Nu7kP0ZUULLzTEgZsUfmij6yLzGxNO8DtoaZRkmRq+HF
-         HEPPsAnLAjGCbQhKHimeVqlvd8S55wxROXRVt9EFq+ufC9KDDhFBl8hZtf8JIYmJAA2d
-         ETAXLK3MC3dFxqsGTzTKZd6BeFYGKwmnbtiv+fnjn90bjOB4bABscxoZPtqUrUsXU2ER
-         HQDv5u82JfmiasO15XGABNdqCJh22f+O1yTzHtPMqQe5N7J656XC+gnYVj7+d+m+Xf11
-         myxA==
-X-Gm-Message-State: ANoB5pn95obfOKq4zaGOe3KDGP4t/2Cdc9Ak8gx7hFwzqX/Ncr3sPK4N
-        j4AX9o6s7Mu7NGdeMQqaDHCuKgKlm0c2GzJcSE7d3zIR7YddFN4nN/cJtiXcg29SbvV7F/hlQxj
-        GxALgiXbZWG/w4dpFYUc2qY0hWef7k5z9uRa8qD4=
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id h23-20020a02c737000000b003751c5f3127mr35668691jao.251.1670523948073;
-        Thu, 08 Dec 2022 10:25:48 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7XCBcc0cLWH0jfXhA5ZbFHiNTG82whiCD4Mw1h1hz6rEL64t1cqCthrqMh8k4p9AolzPHI251n+gp0C6VYXbE=
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id
- h23-20020a02c737000000b003751c5f3127mr35668682jao.251.1670523947849; Thu, 08
- Dec 2022 10:25:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20221202223327.690880-1-luzmaximilian@gmail.com>
- <c09c9cef-14ac-2ab3-5e01-13189823a053@redhat.com> <CAO-hwJLHzRCJF96gKJwj7zCCPxRLoEw=cQ2w8=yLBOfyZz-c8w@mail.gmail.com>
- <304bce39-2ece-863c-33b3-b432685faa2d@gmail.com>
-In-Reply-To: <304bce39-2ece-863c-33b3-b432685faa2d@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 8 Dec 2022 19:25:36 +0100
-Message-ID: <CAO-hwJJ3MLvSeEkqdT_aj6kHLWzk2sVNRVsaeyfk4VpTdzK5Gw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] platform/surface: aggregator: Improve target/source
- handling in SSH messages
-To:     Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+        bh=ifQ3Jav6VsSh1zyTRvbz7pDkhV+r1K5wCw7Us/t45o0=;
+        b=8FCjsOXVGY3DW9pAukspJiPtELbGO0OjZijH4+eUD+xo2fNQtletK+7F2abJJA1/55
+         RDWnDa/nB165l8GxJYLmAd46OG2PcWz1I8pscNA28pSo0L2x5DiBp9coCjLsJFqYMAuy
+         kjjYx0/pJDd8W+ruygVpkRkxJmyuz9YgSwC48jpVReESk5evHBS+DUKR/GxQ6i0ej3rc
+         qCNHonmn+CFT2IDntJ92lvXQJ/4ckpqVn5z8Stm5pAtrEKLdSvTvXQ6oXlet/92feYz0
+         yonO9CMXkMw6iFcLDxrlE4g408SRf78iDPCcKHq7WNg4QHE56FKmkfBnFQ0QyH0rUdkV
+         eGrw==
+X-Gm-Message-State: ANoB5pmc3Q6Y1ElZ83BmN+s2Lmn5HvgOUYazSWyAV9/jhQMKsVMJf5Io
+        sbqbSEyU47ewfiDGMXQnMcVCRA==
+X-Google-Smtp-Source: AA0mqf70cATti+xb7wjPXJuFUg5RS0zjxNnJbgQkzNAyfUDBsVP2zR8uCcSgJ32j6So/RiOaMZCGuA==
+X-Received: by 2002:a17:902:c745:b0:189:9519:87b6 with SMTP id q5-20020a170902c74500b00189951987b6mr2423967plq.5.1670527230259;
+        Thu, 08 Dec 2022 11:20:30 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:3aa1:2c62:9ac:4468])
+        by smtp.gmail.com with ESMTPSA id u5-20020a170902e5c500b00186a2274382sm17112019plf.76.2022.12.08.11.20.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 11:20:29 -0800 (PST)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Bjorn Andersson <andersson@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     mka@chromium.org, swboyd@chromium.org,
+        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+        Yunlong Jia <ecs.beijing2022@gmail.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Andy Gross <agross@kernel.org>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH 0/5] arm64: dts: qcom: sc7180: Make pazquel360's touchscreen work
+Date:   Thu,  8 Dec 2022 11:20:01 -0800
+Message-Id: <20221208192006.1070898-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 8, 2022 at 5:49 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
->
-> On 12/8/22 17:24, Benjamin Tissoires wrote:
-> > On Thu, Dec 8, 2022 at 5:03 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Hi Maximilian,
-> >>
-> >> On 12/2/22 23:33, Maximilian Luz wrote:
-> >>> We have some new insights into the Serial Hub protocol, obtained through
-> >>> reverse engineering. In particular, regarding the command structure. The
-> >>> input/output target IDs actually represent source and target IDs of
-> >>> (what looks like) physical entities (specifically: host, SAM EC, KIP EC,
-> >>> debug connector, and SurfLink connector).
-> >>>
-> >>> This series aims to improve handling of messages with regards to those
-> >>> new findings and, mainly, improve clarity of the documentation and usage
-> >>> around those fields.
-> >>>
-> >>> See the discussion in
-> >>>
-> >>>      https://github.com/linux-surface/surface-aggregator-module/issues/64
-> >>>
-> >>> for more details.
-> >>>
-> >>> There are a couple of standouts:
-> >>>
-> >>> - Patch 1 ensures that we only handle commands actually intended for us.
-> >>>    It's possible that we receive messages not intended for us when we
-> >>>    enable debugging. I've kept it intentionally minimal to simplify
-> >>>    backporting. The rest of the series patch 9 focuses more on clarity
-> >>>    and documentation, which is probably too much to backport.
-> >>>
-> >>> - Patch 8 touches on multiple subsystems. The intention is to enforce
-> >>>    proper usage and documentation of target IDs in the SSAM_SDEV() /
-> >>>    SSAM_VDEV() macros. As it directly touches those macros I
-> >>>    unfortunately can't split it up by subsystem.
-> >>>
-> >>> - Patch 9 is a loosely connected cleanup for consistency.
-> >>
-> >> Thank you for the patches. Unfortunately I don't have time atm to
-> >> review this.
-> >>
-> >> And the next 2 weeks are the merge window, followed by 2 weeks
-> >> of christmas vacation.
-> >>
-> >> So I'm afraid that I likely won't get around to reviewing
-> >> this until the week of January 9th.
-> >>
-> >>> Hans, Jiri, Benjamin, Sebastian: While patch 8 ("platform/surface:
-> >>> aggregator: Enforce use of target-ID enum in device ID macros") touches
-> >>> multiple subsystems, it should be possible to take the whole series
-> >>> through the pdx86 tree. The changes in other subsystems are fairly
-> >>> limited.
-> >>
-> >> I agree that it will be best to take all of this upstream through the
-> >> pdx86 tree. Sebastian thank you for the ack for patch 8/9.
-> >>
-> >> Jiri or Benjamin may we have your ack for merging patch 7/9 + 8/9
-> >> through the pdx86 tree ?
-> >
-> > I can give you an ack for taking those through your tree, but I can
-> > not review the patches themselves because I was only CC-ed to those 2,
-> > and so was linux-input. Given that SSAM_SSH_TID_KIP is not in my
-> > current tree I assume it comes from this series.
-> >
-> > Anyway, enough ranting :)
->
-> Apologies for that. I should have included you in the CC on at least
-> patch 2 as well, which introduces this symbol.
+This series of patches adds / fixes problems with pazquel360's
+touchscreen. A few notes here:
 
-No need to apologize. There is a tight balance between not annoying
-people with too many emails and then having those people wanting to
-have all of the series :)
+1. Originally the touchscreen was supposed to be added as part of the
+first landing of the pazquel360 device tree. ...but the fact that
+Yunlong changed email addresses seems to have messed up Bjorn's
+scripts. What landed was v3 [1] instead of v5 [2]. The pazquel360 part
+of this series is that diff.
 
-I have enough trust in Hans to know that when he reviewed the series,
-he did it correctly.
+2. We delayed sending the fixup till now because soon after the series
+landed upstream we found that some laptops were having trouble
+initting the touchscreen in cases where the eDP/touchscreen regulator
+was left on by the bootloader. We've been struggling to make sense of
+all of this. As part of this investigation we landed a85fbd649844
+("Input: elants_i2c - properly handle the reset GPIO when power is
+off") but that wasn't enough. That fix, together with the fixes in
+this series, is enough though.
 
->
-> FWIW, here's the patchwork link to this series:
->
->    https://patchwork.kernel.org/project/platform-driver-x86/list/?series=701392
+3. This series is mostly device tree changes with one more change to
+the Elan driver. They are fine to land in separate trees. It turns out
+that with _just_ the device tree changes things are actually working
+OK but the timing is tight, so getting a little extra breathing room
+from the Linux driver is nice.
 
-thanks!
+4. Despite the fact that we did debugging here on pazquel360, many of
+the changes here are made in general for trogdor devices. I believe
+that this will make the timing more correct on those devices even if
+we weren't actually seeing problems.
 
-Cheers,
-Benjamin
+[1] https://lore.kernel.org/r/20220901024827.v3.2.Iea2d2918adfff2825b87d428b5732717425c196f@changeid
+[2] https://lore.kernel.org/r/20220923083657.v5.3.Iea2d2918adfff2825b87d428b5732717425c196f@changeid
+
+
+Douglas Anderson (5):
+  arm64: dts: qcom: sc7180: Bump up trogdor ts_reset_l drive strength
+  arm64: dts: qcom: sc7180: Add trogdor eDP/touchscreen regulator
+    off-on-time
+  arm64: dts: qcom: sc7180: Start the trogdor eDP/touchscreen regulator
+    on
+  arm64: dts: qcom: sc7180: Add pazquel360 touschreen
+  Input: elants_i2c: Delay longer with reset asserted
+
+ .../dts/qcom/sc7180-trogdor-homestar.dtsi     | 18 ++++++++++++++++
+ .../qcom/sc7180-trogdor-parade-ps8640.dtsi    | 20 ++++++++++++++++++
+ .../dts/qcom/sc7180-trogdor-pazquel360.dtsi   | 21 +++++++++++++++++++
+ .../dts/qcom/sc7180-trogdor-ti-sn65dsi86.dtsi | 20 ++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  | 10 ++++++++-
+ drivers/input/touchscreen/elants_i2c.c        |  2 +-
+ 6 files changed, 89 insertions(+), 2 deletions(-)
+
+-- 
+2.39.0.rc1.256.g54fd8350bd-goog
 
