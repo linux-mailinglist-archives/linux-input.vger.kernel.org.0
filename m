@@ -2,174 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 079536470D0
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 14:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A17EA6471BE
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 15:27:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbiLHNdY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 08:33:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46830 "EHLO
+        id S229656AbiLHO1K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 09:27:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiLHNdX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 08:33:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA66A88B5D
-        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 05:32:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670506348;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=r2Y2q8xXkweyHb7q+LdaF3QQfL2xTZoL/8BGcjmlxh0=;
-        b=J97WSX3v3WSOLRKu2RMUOtr0bGSrLyazoRhquClf405eYV7I7Udpap040JiWtkCJyTh05k
-        t6syP4m0dC1cq1Yq2aPxFgyKYLgrBtpBD8z0L2E9E0lna1/GmyXPQWo225pXJVn2OVMgaj
-        bAUQ8kt85btXwDFdW+pGyyfiPvs5I5w=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-154-kqeRLVWAOQCaB5iQikXaHQ-1; Thu, 08 Dec 2022 08:32:27 -0500
-X-MC-Unique: kqeRLVWAOQCaB5iQikXaHQ-1
-Received: by mail-il1-f199.google.com with SMTP id n15-20020a056e021baf00b0030387c2e1d3so1119153ili.5
-        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 05:32:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r2Y2q8xXkweyHb7q+LdaF3QQfL2xTZoL/8BGcjmlxh0=;
-        b=cXc+aDwrnqrHo1P1XPQJ+1vFPClSCRuJa6c8vxzXUNIwDtnrulCwaGJ3M5R4cizwRe
-         y4xtbR57hYFPjeesnnkqCx31VoiM/rtmo3SgCBjMIsLJL8qtc2wJvHnL5bAHRrlTGkSC
-         kdl3vChVCB1jcqFGtW11UAM8F9m7XONOd34W3k33GWgdcQAHtvfy9slc1a4g1KvaRMmu
-         ZFb9Ta+sEzxtNTosbT4JYO60Wver5JCAO0Tdu7dr9bU1f3L3xYyej4IFIC9owjtLHSrv
-         iKVQbPD6D4d7zvpsOxNXOe+UqVwTp1ZzA28dTQHmCiSHYcVUUhYtDNfXpfMze2v5upMa
-         njWw==
-X-Gm-Message-State: ANoB5pmJjBJ3BzYnLSQAPiAeIBn5E777SkrV5x9gbqSvSO1lZDn7PLU6
-        VXketZtde/yQoBZT6G6p9WfzDcqymxnBx+iGleuVEGX6p1pj/OrcDIIjDAz348KsG7L77KrmPLt
-        aWFlgdrhojFawGVYXsPqIu03JaPZrIgOZT3ruGD8=
-X-Received: by 2002:a05:6602:418b:b0:6dd:813a:bfaa with SMTP id bx11-20020a056602418b00b006dd813abfaamr34563944iob.146.1670506346284;
-        Thu, 08 Dec 2022 05:32:26 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7zMSooRXlr4Posz/K2aHy6BiWNhWiEb2ADqwEFUNsUAPtJeFCgZxCy96OWNwpvW54MEYGv7AxIPPX4bTVseZA=
-X-Received: by 2002:a05:6602:418b:b0:6dd:813a:bfaa with SMTP id
- bx11-20020a056602418b00b006dd813abfaamr34563933iob.146.1670506345920; Thu, 08
- Dec 2022 05:32:25 -0800 (PST)
+        with ESMTP id S230114AbiLHO0B (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 09:26:01 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA5799504
+        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 06:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670509547; x=1702045547;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Uq/6jaJNEGsuqqwonbUODwL5wfku1nT0iwhd36A+OaQ=;
+  b=PLD+np3vmKVAsm997q6ie1jEyY1aCZ7FGSxlh+HCF7KXD1mBdAIAEADz
+   BAoCjN+N/NKyCJi1aIVkynD3iwyWIS+I6FU6sh1E/ExdByiLsopUIsy/G
+   8aoFNpxfZCSy9UA46ArJ/GQpNjr27YhEPe8WKXMGSorELwlpun1Moeglb
+   EcOvX704odhzS1TNkXg8YkWZFRv+N/PE88awQaRoPbluF3Hd0t7jfhXJ7
+   RF7+mvVYXCFvAadLXGZjQl70ZBCJ8ZdZCsOPi7vkAIiblrIzu8tc2tp6g
+   c9FRXW6FBctxgsBk9ZSDC+EUmiGcqw3QvQ6cjb2FeDc66Ljpjvljovfkg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="296871286"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
+   d="scan'208";a="296871286"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 06:25:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="892246188"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
+   d="scan'208";a="892246188"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2022 06:25:46 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1p3HqL-0001Bb-12;
+        Thu, 08 Dec 2022 14:25:45 +0000
+Date:   Thu, 08 Dec 2022 22:25:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ de4b8d201666b332034f8117b0995a43534b57d3
+Message-ID: <6391f3d7.i7aj+PBLTnnV5fws%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <2262737.ElGaqSPkdT@kreacher> <5647715.DvuYhMxLoT@kreacher>
- <2283816.ElGaqSPkdT@kreacher> <e7eb0e0c9aea30c0e3205b2f3d96b74a52283b40.camel@hadess.net>
- <CAJZ5v0ibpzoBLXKiqzciYv1Htks0=4+4_XGLvpH7MCyFoYJiDg@mail.gmail.com>
- <CAO-hwJL7n7HFk4MTKvLcvBPSLDwm9pHqLaZvmuwvSNDVWUF76g@mail.gmail.com>
- <nycvar.YFH.7.76.2212071117420.6045@cbobk.fhfr.pm> <f0ccee0d2f85099c146ee682b25d30c832155fa3.camel@hadess.net>
- <8c28a60ede7b568352141d2aae2952d2923234a7.camel@hadess.net>
-In-Reply-To: <8c28a60ede7b568352141d2aae2952d2923234a7.camel@hadess.net>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 8 Dec 2022 14:32:14 +0100
-Message-ID: <CAO-hwJLTeNXAYQdVBgo4=VrS53=9YAtpCY8puvXQAvQWGA20bQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] HID: logitech-hidpp: Add Bluetooth Mouse
- M336/M337/M535 to unhandled_hidpp_devices[]
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 7, 2022 at 3:24 PM Bastien Nocera <hadess@hadess.net> wrote:
->
-> On Wed, 2022-12-07 at 13:43 +0100, Bastien Nocera wrote:
-> > On Wed, 2022-12-07 at 11:19 +0100, Jiri Kosina wrote:
-> > > On Wed, 7 Dec 2022, Benjamin Tissoires wrote:
-> > >
-> > > > Agree, but OTOH, Rafael, your mouse is not brand new AFAICT, so I
-> > > > am
-> > > > worried that you won't be the only one complaining we just killed
-> > > > their
-> > > > mouse. So I think the even wiser solution would be to delay (and
-> > > > so
-> > > > revert in 6.1 or 6.2) the 2 patches that enable hid++ on all
-> > > > logitech
-> > > > mice (8544c812e43ab7bdf40458411b83987b8cba924d and
-> > > > 532223c8ac57605a10e46dc0ab23dcf01c9acb43).
-> > >
-> > > If we were not at -rc8 timeframe, I'd be in favor to coming up with
-> > > proper
-> > > fix still for 6.1. But as things currently are, let's just revert
-> > > those
-> > > and reschedule them with proper fix for 6.2+.
-> >
-> > Has anyone seen any other reports?
-> >
-> > Because, honestly, seeing work that adds support for dozens of
-> > devices
-> > getting tossed out at the last minute based on a single report with
-> > no
-> > opportunity to fix the problem is really frustrating.
->
-> FWIW, I went out to buy a Logitech device that uses Bluetooth Classic,
-> the only one I could find in 2 different shops among dozens of Logitech
-> devices, tested it, and it worked correctly.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: de4b8d201666b332034f8117b0995a43534b57d3  Input: pxspad - fix unused data warning when force feedback not enabled
 
-Again, I understand the frustration. But the problem is not so much
-that we might or might not ever need another entry in that list. The
-problem is that some devices were supported previously (not in a fancy
-way), and now we have a chance to just disable those devices. Of
-course, we could say "just rmmod hid-logitech-hidpp". I have already
-been through that as well, and then you fight for 10 years on some
-forums where everybody says that if you have an issue with your
-touchscreen, just disable <insert any driver here> when the particular
-touchscreen is *not* using that driver at all.
+elapsed time: 722m
 
-Anyway, let me write down my thoughts since yesterday:
-1. Rafael already realized that the ->match() function was not working
-outside any other driver than hid-generic (and this was the design at
-the time)
-2. We have an issue in hid-logitech-hidpp where during probe calling
-hidpp_root_get_protocol_version() returns an error, when userspace
-tools are working fine for the exact same command
-3. IMO, the way hid-logitech-hidpp probe function is behaving is not
-resilient enough to be able to have a generic catch-all, because there
-is a non-zero chance the probe returns -ENODEV (see all the exit paths
-that return -ENODEV in probe).
+configs tested: 66
+configs skipped: 2
 
-To solve 1, it needs a little bit of tinkering and Rafael already sent
-a v1 for that. IMO we should refine it, but that's an already ongoing
-process
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-To solve 2, Bastien already mentioned one piece of the puzzle (the
-error code not being correctly reported and the signification changed
-between HID++ 1.0 and 2.0). But I am still yet to understand why there
-is a difference between userspace call of the function, and kernel
-space.
+gcc tested configs:
+x86_64                        randconfig-a002
+x86_64                        randconfig-a004
+x86_64                        randconfig-a006
+arc                                 defconfig
+um                             i386_defconfig
+s390                             allmodconfig
+um                           x86_64_defconfig
+powerpc                           allnoconfig
+alpha                               defconfig
+sh                               allmodconfig
+s390                                defconfig
+x86_64                               rhel-8.3
+x86_64                              defconfig
+mips                             allyesconfig
+s390                             allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+powerpc                          allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+x86_64                           allyesconfig
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+x86_64                        randconfig-a013
+i386                                defconfig
+x86_64                          rhel-8.3-func
+s390                 randconfig-r044-20221207
+i386                          randconfig-a016
+x86_64                          rhel-8.3-rust
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+x86_64                    rhel-8.3-kselftests
+i386                          randconfig-a014
+i386                          randconfig-a012
+arc                  randconfig-r043-20221207
+arm                                 defconfig
+i386                          randconfig-a001
+i386                             allyesconfig
+riscv                randconfig-r042-20221207
+i386                          randconfig-a003
+i386                          randconfig-a005
+arm                              allyesconfig
+ia64                             allmodconfig
+arm64                            allyesconfig
+x86_64                            allnoconfig
+i386                          randconfig-c001
 
-To solve 3, I initially started to work on a simple, more resilient
-probe in hid-logitech-hidpp. I thought that we could regroup all
-device initialization we do in a hidpp_preinit() call, and if that
-call fails, revert to the generic hid processing.
+clang tested configs:
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+x86_64                        randconfig-a014
+x86_64                        randconfig-a012
+x86_64                        randconfig-a016
+i386                          randconfig-a006
+arm                  randconfig-r046-20221207
+i386                          randconfig-a013
+i386                          randconfig-a011
+hexagon              randconfig-r041-20221207
+hexagon              randconfig-r045-20221207
+i386                          randconfig-a015
+i386                          randconfig-a002
+i386                          randconfig-a004
+x86_64                        randconfig-k001
+arm                           omap1_defconfig
+powerpc                    ge_imp3a_defconfig
+arm                         socfpga_defconfig
 
-But then, looking at the bigger picture, it would make sense to not do
-that exactly. Instead of returning 0 and handling the device through
-hid-logitech-hidpp, maybe we should actually return -ENODEV, and have
-a fallback mechanism in hid-core that says "it seems I have tried all
-possible drivers, all of them failed, let's force hid-generic for this
-one".
-
-And as I type those lines, how about the cases when we actually want
-to disable a USB interface from HID because it is legitimate to do so?
-
-I'll need to think about this a little bit more.
-
-To be able to reintroduce the bluetooth catch-all, I think we need to
-solve 1 and 3. 2 would be nice to understand but is not preventing the
-series from being merged back.
-
-Cheers,
-Benjamin
-
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
