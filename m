@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A83764761B
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 20:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A61D6647621
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 20:21:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbiLHTUk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 14:20:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45328 "EHLO
+        id S229749AbiLHTVN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 14:21:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiLHTUh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 14:20:37 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 127D29953A
-        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 11:20:37 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id d7so2464538pll.9
-        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 11:20:37 -0800 (PST)
+        with ESMTP id S229776AbiLHTUw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 14:20:52 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDFB9AE25
+        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 11:20:38 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id jl24so2468819plb.8
+        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 11:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SghZa+kW7wIj2RUcdePRPR1tV1IHuHFiC2Ew9exQVO0=;
-        b=ak7msN6Am+PYdy9SBwDyO8HiaGzwCdF79wcoo7pb8KdOw8kNKiwvT04KD8UeG3l4yf
-         GHh80N84AQqX/dKIQiW+9jBDoDh48Vvk/EYWPaYl9SreZxA583cg2J/RuMvZaT2uBUXF
-         DerpsC3NQVtxvjdcQP0Sp8sv2U5KgcCeb+5A4=
+        bh=qBUYq/f5W1QpvWQ1L0owj+9liBAfVOZ5HyYf2BUvGw4=;
+        b=Yq20ujLHdDmxfsm6nXV56O+R5s3byqsOzEHjK+WiS1J/KE/7s2Me27w3dKPKEBUPXj
+         EBxaZvKRup2jGETzG6pHkC4C/xO67Cr3V2UFuWIZ7iYRcD+t8/x/7b6NpJY4r9h9ugBF
+         i2f52c853182eqqlzGcIlS/0+SsTPdNlNu2oo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SghZa+kW7wIj2RUcdePRPR1tV1IHuHFiC2Ew9exQVO0=;
-        b=OhUMxmkM5rhiMvXlulPtXxvPjvk82NHgiAFCe3Hbr9G/bfr38ck8EK3iH0eSB9nMJC
-         lgqY41UaR0RezpWGOO3RHk6UKO96w78FV5Gr1WEE/iO/VHQTMRaI5C6mKZ58w2ZdcdKx
-         Vyf8Obe21kG59Eoqg+EvRBkGUcE90oYtjOg8i01ehR6M5s4mFVAFajs+LJWKW0tzYGvT
-         zlOpO2gtQqIwZbtSwr0/om2xDNc9IE2u5dEQ4aeX3Gn0ST7eerl+QoEZw6SRHUh7jogX
-         WWTimhd6hIwajoR3dvw29c2lSEHBQcCXtIYM9YRBkjE8yltoe2Yb7PEK1GCIu2HLq0vP
-         LYcw==
-X-Gm-Message-State: ANoB5pnSIblTK6RpPIGFLyHzDnqk9cqjB4BNsjnBlfbVeLnoHO5GwTiJ
-        qGGvQoZDWzXYjhhtLVaBxvNMMw==
-X-Google-Smtp-Source: AA0mqf4m92QMQvWjvOsl2lEdbxbWHxT+FcSa9B07bLEQjj7z+eqgTBCjsv8IKmgo4AM2FSVhzN8t3w==
-X-Received: by 2002:a17:902:f7ca:b0:189:b203:9e2f with SMTP id h10-20020a170902f7ca00b00189b2039e2fmr2971988plw.56.1670527236814;
-        Thu, 08 Dec 2022 11:20:36 -0800 (PST)
+        bh=qBUYq/f5W1QpvWQ1L0owj+9liBAfVOZ5HyYf2BUvGw4=;
+        b=3GGqgrMNBkQhxTkIjR7WdZOSyy8nhClx77i0p4v2KEniM4NryR+Kq2fo0Nfr1HXvyP
+         gJy6ys3nkoAtlWwfNf4SX6gu/5eBZJiTM3OhC/MPQecTor7SeoKDHQI3QWMcpEPvZTrW
+         aq3Vo8Vz6Nqcy/AwXRG6FESuJHdZOhQ2By6HGTGuhnMGDJy8/MzfBPrUGa2pXa14vnCO
+         wgKEbB/2C899CbApTaImOypebOKxz+/7V5DgepqwI1UqTjYL8UhI3wk6s1nu41yhZ/bY
+         90BaZpqVfuNOqO4oUZLisCAtw4IDMc8ENBYLXLKvZ5w22T341d2a9ubbzN87BD/3UCGC
+         x1Pg==
+X-Gm-Message-State: ANoB5pnWGQ7ddnOfUaq+lO7qjEz9Q9P2lbqE380LRmpqT1O3KuvbGZMn
+        Be13a139PdPpfupqNOkaLo+fAQ==
+X-Google-Smtp-Source: AA0mqf7pK4FpReUS3h/Hh2p63l51HOF6nGWZ47zSsvE4GtKIA0vxz1NbgiSFJHh7GgCAGq05255THA==
+X-Received: by 2002:a17:903:40cf:b0:189:ccb2:f20a with SMTP id t15-20020a17090340cf00b00189ccb2f20amr3555544pld.49.1670527238392;
+        Thu, 08 Dec 2022 11:20:38 -0800 (PST)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:3aa1:2c62:9ac:4468])
-        by smtp.gmail.com with ESMTPSA id u5-20020a170902e5c500b00186a2274382sm17112019plf.76.2022.12.08.11.20.35
+        by smtp.gmail.com with ESMTPSA id u5-20020a170902e5c500b00186a2274382sm17112019plf.76.2022.12.08.11.20.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 11:20:36 -0800 (PST)
+        Thu, 08 Dec 2022 11:20:37 -0800 (PST)
 From:   Douglas Anderson <dianders@chromium.org>
 To:     Bjorn Andersson <andersson@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
@@ -54,13 +54,11 @@ Cc:     mka@chromium.org, swboyd@chromium.org,
         Yunlong Jia <ecs.beijing2022@gmail.com>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Douglas Anderson <dianders@chromium.org>,
-        Andy Gross <agross@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] arm64: dts: qcom: sc7180: Add pazquel360 touschreen
-Date:   Thu,  8 Dec 2022 11:20:05 -0800
-Message-Id: <20221208111910.4.Id132522bda31fd97684cb076a44a0907cd28097d@changeid>
+Subject: [PATCH 5/5] Input: elants_i2c: Delay longer with reset asserted
+Date:   Thu,  8 Dec 2022 11:20:06 -0800
+Message-Id: <20221208111910.5.I6edfb3f459662c041563a54e5b7df727c27caaba@changeid>
 X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
 In-Reply-To: <20221208192006.1070898-1-dianders@chromium.org>
 References: <20221208192006.1070898-1-dianders@chromium.org>
@@ -75,47 +73,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The touchscreen was supposed to have been added when pazquel360 first
-was added upstream but was missed. Add it now.
+The elan touchscreen datasheet says that the reset GPIO only needs to
+be asserted for 500us in order to reset the regulator. The problem is
+that some boards need a level shifter between the signals on the GPIO
+controller and the signals on the touchscreen. All of these extra
+components on the line can slow the transition of the signals. On one
+board, we measured the reset line and saw that it took almost 1.8ms to
+go low. Even after we bumped up the "drive strength" of the signal
+from the default 2mA to 8mA we still saw it take 421us for the signal
+to go low.
+
+In order to account for this we let's lengthen the amount of time that
+we keep the reset asserted. Let's bump it up from 500us to 5000us.
+That's still a relatively short amount of time and is much safer.
+
+It should be noted that this fixes real problems. Case in point:
+1. The touchscreen power rail may be shared with another device (like
+   an eDP panel). That means that at probe time power might already be
+   on.
+2. In probe we grab the reset GPIO and assert it (make it low).
+3. We turn on power (a noop since it was already on).
+4. We wait 500us.
+5. We deassert the reset GPIO.
+
+With the above case and only a 500us delay we saw only a partial reset
+asserted, which is bad. Giving it 5ms is overkill but feels safer in
+case someone else has a different level shifter setup.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- .../dts/qcom/sc7180-trogdor-pazquel360.dtsi   | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/input/touchscreen/elants_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-pazquel360.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-pazquel360.dtsi
-index 5702325d0c7b..54b89def8402 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-pazquel360.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-pazquel360.dtsi
-@@ -14,6 +14,27 @@ &alc5682 {
- 	realtek,dmic-clk-rate-hz = <2048000>;
- };
+diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+index 879a4d984c90..377adf89b25c 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -114,7 +114,7 @@
+ /* calibration timeout definition */
+ #define ELAN_CALI_TIMEOUT_MSEC	12000
  
-+ap_ts_pen_1v8: &i2c4 {
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	ap_ts: touchscreen@10 {
-+		compatible = "elan,ekth3915", "elan,ekth3500";
-+		reg = <0x10>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&ts_int_l>, <&ts_reset_l>;
-+
-+		interrupt-parent = <&tlmm>;
-+		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
-+
-+		hid-descr-addr = <0x0001>;
-+
-+		vcc33-supply = <&pp3300_ts>;
-+		vccio-supply = <&pp1800_l10a>;
-+		reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
-+	};
-+};
-+
- &keyboard_controller {
- 	function-row-physmap = <
- 		MATRIX_KEY(0x00, 0x02, 0)	/* T1 */
+-#define ELAN_POWERON_DELAY_USEC	500
++#define ELAN_POWERON_DELAY_USEC	5000
+ #define ELAN_RESET_DELAY_MSEC	20
+ 
+ /* FW boot code version */
 -- 
 2.39.0.rc1.256.g54fd8350bd-goog
 
