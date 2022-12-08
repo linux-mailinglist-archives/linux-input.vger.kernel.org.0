@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A9D647A2F
-	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 00:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA55647A3A
+	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 00:42:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbiLHXjH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 18:39:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
+        id S230208AbiLHXma (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 18:42:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230325AbiLHXim (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 18:38:42 -0500
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2576DAC6C7
-        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 15:37:13 -0800 (PST)
-Received: by mail-il1-x12c.google.com with SMTP id o13so1909344ilc.7
-        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 15:37:13 -0800 (PST)
+        with ESMTP id S230491AbiLHXmL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 18:42:11 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63159FCB
+        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 15:39:46 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id z144so1222311iof.3
+        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 15:39:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XB9uJ+lkRW+tWnK3/uWjQyTrX44g4B5OMTJxdQGorGQ=;
-        b=ej1d3i78+fxsuwG+t+/ZsOtCWLxOw1VQ6hBnCjrixMih/PFvYFobeC3lvFX7h4vxXf
-         s6iazg1FbHEFq7Oe2x1Y12vH2x7eTvUa7I2GQ7rEGm7cF44W3a1lz9cC81t0VEC6qwzY
-         qxHYrg1M+Bv6c7g1fzq+RKijllHpux2RYDrdU=
+        bh=DJeoCLQFLEcXPKMOTThWiocjzfFiXa/lSgHVK2Nng0s=;
+        b=QVdu5FC4oPAX8RxYvYIUWE1y4Q/ilXurCHFLGc3Tc4dGFGvxcUoOf9xt+86BYVutW4
+         oYe3qgOWxfVKg7Ww5lqd5r1tJ6RPh21l6AUE333JsjjanctNwrHEj/Nr0Djp99ZSsd0t
+         0cPZow6eza44fW1eyjYIOuOlev6TUd4XxBZAM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XB9uJ+lkRW+tWnK3/uWjQyTrX44g4B5OMTJxdQGorGQ=;
-        b=oKQcnin0GZLZiTgs07eaDbdUyjTBWcGGj91mQ+PYdg4/BXIfWqHTreTQSgyR908v8r
-         H1hOqqGQKW4noDWs6SCOjW+zJ9bmdzMDctQwrwJzsuys9FtJJYvM4BqzIh6BrxctBtzk
-         ia1qXoqPqFzbk+NiSR4/cvv/zNDAruD+CaXiRm4VQC19/E8gamS0yQk/fICPcqebxhLz
-         0dqMiGtP+yGV5OUOhVLEWnBoS6BWGuqQvVn1v3n/7ToH0K2UXrycN6RJgcQSaW/msj2+
-         GHUU8SZ+H89A9N6hbO0dEdArI11OYx7w89PgwIy0ma79T3CXwZFzcOQmCbcLLU5rzIMQ
-         en7g==
-X-Gm-Message-State: ANoB5pn7/D73RP3MEN2SpztwaMFnsjktN5jC/EOmKjPh6E06ANuhxGHV
-        DYtR5lZ2+RymoqOJFlSuSsOIqA==
-X-Google-Smtp-Source: AA0mqf4YOtBRIbMzEvISzpxe835AwFTH9p2fLkeELjKV9KbhJF4qMNDQy7LrDD9CD5e/f6b6JxHkjg==
-X-Received: by 2002:a05:6e02:806:b0:303:608d:b34d with SMTP id u6-20020a056e02080600b00303608db34dmr2175715ilm.18.1670542603516;
-        Thu, 08 Dec 2022 15:36:43 -0800 (PST)
+        bh=DJeoCLQFLEcXPKMOTThWiocjzfFiXa/lSgHVK2Nng0s=;
+        b=PT3bJtoWuR+3WsnxO9+CkAd+leDGK5vnHGCqS34f3HAKgW57Fp/XSPuN6gp5cdu4R2
+         tQNqW+PxCddiOUaMm3TNtkVUnbbuU9GUy3qSSh1q9ranD+Ti6BBD98XJb+NI6lpywJGu
+         DpFUn7O308JbxEczWiIlCHe99KU+QGrn7aB56CwTW84ADojIdGAvrIPvkB0C5kVfPPP1
+         HDww7QvpxbMPvZjz00bcHAX7enupX3D+orXVPi4/gMc+Qez+WFJSXEQ766827BLChjXG
+         wOuyo2+eMWWWg0yLv+fJ4EycUnCgFDRfRYWvOysjiSeMBta08uZU7zLNm/mUY283Kkyz
+         IeTw==
+X-Gm-Message-State: ANoB5pknCR50uCjEFmhh57l1+3w/GssCa2KDpTYYV1V4atgl4LCbOmwq
+        b9+j1mbt1i7Zl+1MqiqKUkeicA==
+X-Google-Smtp-Source: AA0mqf61PL4z/iiDUVDUG4rHyolbpLtgVRGJ1pxGqY65GsUZCF5KiyCH6Vg3DF3vr2wfeHsAAeEqfw==
+X-Received: by 2002:a5d:9acd:0:b0:6df:e175:74c1 with SMTP id x13-20020a5d9acd000000b006dfe17574c1mr2752887ion.21.1670542786303;
+        Thu, 08 Dec 2022 15:39:46 -0800 (PST)
 Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id s5-20020a92cb05000000b002f4d91546fbsm1199390ilo.6.2022.12.08.15.36.42
+        by smtp.gmail.com with UTF8SMTPSA id ca6-20020a0566381c0600b0038a6d03db70sm1957617jab.34.2022.12.08.15.39.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 15:36:42 -0800 (PST)
-Date:   Thu, 8 Dec 2022 23:36:42 +0000
+        Thu, 08 Dec 2022 15:39:45 -0800 (PST)
+Date:   Thu, 8 Dec 2022 23:39:45 +0000
 From:   Matthias Kaehlcke <mka@chromium.org>
 To:     Douglas Anderson <dianders@chromium.org>
 Cc:     Bjorn Andersson <andersson@kernel.org>,
@@ -54,30 +54,58 @@ Cc:     Bjorn Andersson <andersson@kernel.org>,
         linux-input@vger.kernel.org,
         Yunlong Jia <ecs.beijing2022@gmail.com>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] arm64: dts: qcom: sc7180: Add pazquel360 touschreen
-Message-ID: <Y5J1CrQ/suo3okdr@google.com>
+Subject: Re: [PATCH 5/5] Input: elants_i2c: Delay longer with reset asserted
+Message-ID: <Y5J1wY/TzbU6BheD@google.com>
 References: <20221208192006.1070898-1-dianders@chromium.org>
- <20221208111910.4.Id132522bda31fd97684cb076a44a0907cd28097d@changeid>
+ <20221208111910.5.I6edfb3f459662c041563a54e5b7df727c27caaba@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221208111910.4.Id132522bda31fd97684cb076a44a0907cd28097d@changeid>
+In-Reply-To: <20221208111910.5.I6edfb3f459662c041563a54e5b7df727c27caaba@changeid>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 08, 2022 at 11:20:05AM -0800, Douglas Anderson wrote:
-> The touchscreen was supposed to have been added when pazquel360 first
-> was added upstream but was missed. Add it now.
+On Thu, Dec 08, 2022 at 11:20:06AM -0800, Douglas Anderson wrote:
+> The elan touchscreen datasheet says that the reset GPIO only needs to
+> be asserted for 500us in order to reset the regulator. The problem is
+> that some boards need a level shifter between the signals on the GPIO
+> controller and the signals on the touchscreen. All of these extra
+> components on the line can slow the transition of the signals. On one
+> board, we measured the reset line and saw that it took almost 1.8ms to
+> go low. Even after we bumped up the "drive strength" of the signal
+> from the default 2mA to 8mA we still saw it take 421us for the signal
+> to go low.
+> 
+> In order to account for this we let's lengthen the amount of time that
+
+nit: s/we let's/we/ || s/we let's/let's/
+
+no need to re-spin just for this
+
+> we keep the reset asserted. Let's bump it up from 500us to 5000us.
+> That's still a relatively short amount of time and is much safer.
+> 
+> It should be noted that this fixes real problems. Case in point:
+> 1. The touchscreen power rail may be shared with another device (like
+>    an eDP panel). That means that at probe time power might already be
+>    on.
+> 2. In probe we grab the reset GPIO and assert it (make it low).
+> 3. We turn on power (a noop since it was already on).
+> 4. We wait 500us.
+> 5. We deassert the reset GPIO.
+> 
+> With the above case and only a 500us delay we saw only a partial reset
+> asserted, which is bad. Giving it 5ms is overkill but feels safer in
+> case someone else has a different level shifter setup.
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
