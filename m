@@ -2,157 +2,227 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E43E164749F
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 17:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ED1A6474C7
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 17:59:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbiLHQtD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 11:49:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54876 "EHLO
+        id S230130AbiLHQ7M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 11:59:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiLHQtC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 11:49:02 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E3A484B7B;
-        Thu,  8 Dec 2022 08:49:01 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id bg10so1545705wmb.1;
-        Thu, 08 Dec 2022 08:49:01 -0800 (PST)
+        with ESMTP id S230237AbiLHQ7K (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 11:59:10 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 150817680D
+        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 08:59:09 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id w23so2055236ply.12
+        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 08:59:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hsMzTABogzUqVL36MXI4Bwqt7GP8Ha0onsCnHRYRh2Q=;
-        b=e+OlhxTZHCHii+mvM9NfCnSblX7FBij0qENhHrczpDVDiCwFtRHDuAdo6XWJ5QF3JE
-         7Rv7ISBUuPaQnkTavXdh8PZpXUsyQ5X/rFCbQN6Qi3KSVOst/Hne2jk5T5J/b/4X9L9c
-         zRjZsEOwAALYowiKHRW0U3ytsQ75K0Hgf/JEVL56gOyggrjHopg/Oi3Jw5+Er2aeXoMQ
-         LxPN54jur8VssuTAOCD7Flubto77DxtNNm/0wCKhZatrNMgRvnHDXDkx2hzpf9c3wKnx
-         +p8W7lt7zEGWPaEI29gmfoE6UoAIRs9kmHYvRhchB/b+RLoBX+z6UXaEmyE+xHU/n5We
-         uP7Q==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ASRKRaXrVIIOkZO1WIOXBaqyzBqar9YDmRMNGtlTR7g=;
+        b=F9SEm1rXTKd7sKeT3rZSAkqCyUcAEVmPRbNAQFQ/9Sx3d0S7kaXh1U83V2OAW2O+8y
+         DnbWhxZcP0JOyKCqa67l+5okwUd6INAUxaArnjy3eqMR/vaYNWyS42ktlyzS661tOruv
+         cxLRBi7Pa6Q7FPIZQmMfaD/lkRK59BnQFek+s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hsMzTABogzUqVL36MXI4Bwqt7GP8Ha0onsCnHRYRh2Q=;
-        b=O3iWD/nh5Zurjbzdblg0baL5BtOJPIFhjBwBHg3v8CcnqWD5109wE+kAOkQCGVnFhP
-         QLHnFYeqXVK69mXMUEpTgzxa8b9vkY98DsBcOezmQcl5LISaXpW/fKbaWcJCfGJu6j3B
-         ABGdyZfiglogq4fKEAuMZzAnLFpbnsnQWy6PhQf9aWcrKqj/mwcriJ6bJ7vlPMWIIy0a
-         kGEBARjyfxWQv/lIecjt/VfiGV9YuGpqrTBPrVonHa5GF/keZoFP3kMKC6qMwufR04nI
-         Xtdz36lKBd8lxjAoHBjm0OU58yo2RNaWQgaAk5SHKVABraf1n0OOXclTl25PSMYK2v4+
-         pflA==
-X-Gm-Message-State: ANoB5pkztUKmSlJyyhldOWtzbHAU3PFpBwt6qQJtsDyBCGao/dVIsRGw
-        dwbyJmpap15ro32zhsOqOckuMnqD/Bw=
-X-Google-Smtp-Source: AA0mqf5QDcku8ZmuMe+If076NirJOAg6E6rKq1NI+0ipqaoHovwlZ8rCjVLB2oZhe6DwAhF1Qm7V1Q==
-X-Received: by 2002:a05:600c:3592:b0:3d1:bc32:2447 with SMTP id p18-20020a05600c359200b003d1bc322447mr2413839wmq.21.1670518140088;
-        Thu, 08 Dec 2022 08:49:00 -0800 (PST)
-Received: from [10.20.0.4] ([89.36.76.136])
-        by smtp.gmail.com with ESMTPSA id t15-20020a7bc3cf000000b003a3170a7af9sm5452003wmj.4.2022.12.08.08.48.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 08:48:59 -0800 (PST)
-Message-ID: <304bce39-2ece-863c-33b3-b432685faa2d@gmail.com>
-Date:   Thu, 8 Dec 2022 17:48:58 +0100
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ASRKRaXrVIIOkZO1WIOXBaqyzBqar9YDmRMNGtlTR7g=;
+        b=v25YI/sDDRyfIf7soLS337Dgzfk43MQLS8Fd10HyiZfgDIopSQHyqT0neS9nyFT17p
+         Ut/UH/GRRAuZeyKzo95rrjB6UXR5vBI+B3GyuA/d2bdyHxADhWBsjp8tT3IwogE6iFJi
+         /AC/Pp4HhAYZsh9KGDC8uVy4EfqYWvBAOBD4XyH+wS5tvnRXNTVLgW1DlZaDb59/bVqp
+         Z3FsSBgbkoOHU7XsFvbCeG53dh0iWWHnPBQ/DWTmsDw/479lc12kqVoWvMs27oIc2X24
+         TyXGHWXlXQoumims5X2LbW8CJt6fQi5zWmjIdssSxV9IlxF0O20/CofQWhJdBHjC0tKg
+         98jQ==
+X-Gm-Message-State: ANoB5pkDcuN+6W4z3okvGx/WCc4CAJyMEPx/dUWB/dn2PTZaYT7gKY1f
+        QnFfdJTaWGQ6bnlimiYAKsjxcQ==
+X-Google-Smtp-Source: AA0mqf5m4JmgZSGbe85/oxXWpGL20n55etjxV4/ljtbD3IXY6GVMut8BfJf1vkGHH5Y40WE9BYacbQ==
+X-Received: by 2002:a17:902:ab97:b0:189:315f:1d40 with SMTP id f23-20020a170902ab9700b00189315f1d40mr2663330plr.69.1670518748522;
+        Thu, 08 Dec 2022 08:59:08 -0800 (PST)
+Received: from ballway1.c.googlers.com.com (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
+        by smtp.gmail.com with ESMTPSA id e8-20020a17090301c800b00189b2b8dbedsm14944923plh.228.2022.12.08.08.59.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 08:59:07 -0800 (PST)
+From:   Allen Ballway <ballway@chromium.org>
+To:     dtor@chromium.org
+Cc:     ballway@chromium.org, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rydberg@bitmath.org
+Subject: [PATCH v2] HID: multitouch: Add quirks for flipped axes
+Date:   Thu,  8 Dec 2022 16:58:36 +0000
+Message-Id: <20221208165145.1.I69657e84c0606b2e5ccfa9fedbf42b7676a1e129@changeid>
+X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
+In-Reply-To: <CAE_wzQ-WrjOgSADCn4v80ESwicOFif_Trn3Wrq=5toy2+y+q=g@mail.gmail.com>
+References: <CAE_wzQ-WrjOgSADCn4v80ESwicOFif_Trn3Wrq=5toy2+y+q=g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 0/9] platform/surface: aggregator: Improve target/source
- handling in SSH messages
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221202223327.690880-1-luzmaximilian@gmail.com>
- <c09c9cef-14ac-2ab3-5e01-13189823a053@redhat.com>
- <CAO-hwJLHzRCJF96gKJwj7zCCPxRLoEw=cQ2w8=yLBOfyZz-c8w@mail.gmail.com>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-In-Reply-To: <CAO-hwJLHzRCJF96gKJwj7zCCPxRLoEw=cQ2w8=yLBOfyZz-c8w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/8/22 17:24, Benjamin Tissoires wrote:
-> On Thu, Dec 8, 2022 at 5:03 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi Maximilian,
->>
->> On 12/2/22 23:33, Maximilian Luz wrote:
->>> We have some new insights into the Serial Hub protocol, obtained through
->>> reverse engineering. In particular, regarding the command structure. The
->>> input/output target IDs actually represent source and target IDs of
->>> (what looks like) physical entities (specifically: host, SAM EC, KIP EC,
->>> debug connector, and SurfLink connector).
->>>
->>> This series aims to improve handling of messages with regards to those
->>> new findings and, mainly, improve clarity of the documentation and usage
->>> around those fields.
->>>
->>> See the discussion in
->>>
->>>      https://github.com/linux-surface/surface-aggregator-module/issues/64
->>>
->>> for more details.
->>>
->>> There are a couple of standouts:
->>>
->>> - Patch 1 ensures that we only handle commands actually intended for us.
->>>    It's possible that we receive messages not intended for us when we
->>>    enable debugging. I've kept it intentionally minimal to simplify
->>>    backporting. The rest of the series patch 9 focuses more on clarity
->>>    and documentation, which is probably too much to backport.
->>>
->>> - Patch 8 touches on multiple subsystems. The intention is to enforce
->>>    proper usage and documentation of target IDs in the SSAM_SDEV() /
->>>    SSAM_VDEV() macros. As it directly touches those macros I
->>>    unfortunately can't split it up by subsystem.
->>>
->>> - Patch 9 is a loosely connected cleanup for consistency.
->>
->> Thank you for the patches. Unfortunately I don't have time atm to
->> review this.
->>
->> And the next 2 weeks are the merge window, followed by 2 weeks
->> of christmas vacation.
->>
->> So I'm afraid that I likely won't get around to reviewing
->> this until the week of January 9th.
->>
->>> Hans, Jiri, Benjamin, Sebastian: While patch 8 ("platform/surface:
->>> aggregator: Enforce use of target-ID enum in device ID macros") touches
->>> multiple subsystems, it should be possible to take the whole series
->>> through the pdx86 tree. The changes in other subsystems are fairly
->>> limited.
->>
->> I agree that it will be best to take all of this upstream through the
->> pdx86 tree. Sebastian thank you for the ack for patch 8/9.
->>
->> Jiri or Benjamin may we have your ack for merging patch 7/9 + 8/9
->> through the pdx86 tree ?
-> 
-> I can give you an ack for taking those through your tree, but I can
-> not review the patches themselves because I was only CC-ed to those 2,
-> and so was linux-input. Given that SSAM_SSH_TID_KIP is not in my
-> current tree I assume it comes from this series.
-> 
-> Anyway, enough ranting :)
+Certain touchscreen devices, such as the ELAN9034, are oriented
+incorrectly and report touches on opposite points on the X and Y axes.
+For example, a 100x200 screen touched at (10,20) would report (90, 180)
+and vice versa.
 
-Apologies for that. I should have included you in the CC on at least
-patch 2 as well, which introduces this symbol.
+This is fixed by adding device quirks to transform the touch points
+into the correct spaces, from X -> MAX(X) - X, and Y -> MAX(Y) - Y.
 
-FWIW, here's the patchwork link to this series:
+Signed-off-by: Allen Ballway <ballway@chromium.org>
+---
+V1 -> V2: Address review comments, change to use DMI match. Confirmed
+MT_TOOL_X/Y require transformation and update orientation based on
+flipped axes.
 
-   https://patchwork.kernel.org/project/platform-driver-x86/list/?series=701392
+ drivers/hid/hid-multitouch.c | 72 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 67 insertions(+), 5 deletions(-)
 
-Regards,
-Max
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 91a4d3fc30e08..8a4f77e534a75 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -39,6 +39,7 @@
+ #include <linux/jiffies.h>
+ #include <linux/string.h>
+ #include <linux/timer.h>
++#include <linux/dmi.h>
+
+
+ MODULE_AUTHOR("Stephane Chatty <chatty@enac.fr>");
+@@ -71,6 +72,8 @@ MODULE_LICENSE("GPL");
+ #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
+ #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
+ #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
++#define MT_QUIRK_FLIP_X			BIT(22)
++#define MT_QUIRK_FLIP_Y			BIT(23)
+
+ #define MT_INPUTMODE_TOUCHSCREEN	0x02
+ #define MT_INPUTMODE_TOUCHPAD		0x03
+@@ -212,6 +215,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+ #define MT_CLS_GOOGLE				0x0111
+ #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
+ #define MT_CLS_SMART_TECH			0x0113
++#define MT_CLS_ELAN_FLIPPED			0x0114
+
+ #define MT_DEFAULT_MAXCONTACT	10
+ #define MT_MAX_MAXCONTACT	250
+@@ -396,9 +400,36 @@ static const struct mt_class mt_classes[] = {
+ 			MT_QUIRK_CONTACT_CNT_ACCURATE |
+ 			MT_QUIRK_SEPARATE_APP_REPORT,
+ 	},
++	{ .name = MT_CLS_ELAN_FLIPPED,
++		.quirks = MT_QUIRK_ALWAYS_VALID |
++			MT_QUIRK_IGNORE_DUPLICATES |
++			MT_QUIRK_HOVERING |
++			MT_QUIRK_CONTACT_CNT_ACCURATE |
++			MT_QUIRK_STICKY_FINGERS |
++			MT_QUIRK_WIN8_PTP_BUTTONS |
++			MT_QUIRK_FLIP_X |
++			MT_QUIRK_FLIP_Y,
++		.export_all_inputs = true },
++
+ 	{ }
+ };
+
++/*
++ * This list contains devices which have specific issues based on the system
++ * they're on and not just the device itself.
++ */
++static const struct dmi_system_id mt_devices_dmi_override_table[] = {
++	{
++		.ident = "DynaBook K50/FR",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dynabook Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "dynabook K50/FR"),
++		},
++		.driver_data = (void *)MT_CLS_ELAN_FLIPPED,
++	},
++	{ }	/* Terminate list */
++};
++
+ static ssize_t mt_show_quirks(struct device *dev,
+ 			   struct device_attribute *attr,
+ 			   char *buf)
+@@ -1086,6 +1117,10 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 		int orientation = wide;
+ 		int max_azimuth;
+ 		int azimuth;
++		int x;
++		int y;
++		int cx;
++		int cy;
+
+ 		if (slot->a != DEFAULT_ZERO) {
+ 			/*
+@@ -1104,6 +1139,16 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			if (azimuth > max_azimuth * 2)
+ 				azimuth -= max_azimuth * 4;
+ 			orientation = -azimuth;
++
++			/* Orientation is inverted if the X or Y axes are
++			 * flipped, but normalized if both are inverted.
++			 */
++			if (quirks & (MT_QUIRK_FLIP_X | MT_QUIRK_FLIP_Y) &&
++			    !((quirks & MT_QUIRK_FLIP_X)
++			      && (quirks & MT_QUIRK_FLIP_Y))) {
++				orientation = -orientation;
++			}
++
+ 		}
+
+ 		if (quirks & MT_QUIRK_TOUCH_SIZE_SCALING) {
+@@ -1115,10 +1160,23 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			minor = minor >> 1;
+ 		}
+
+-		input_event(input, EV_ABS, ABS_MT_POSITION_X, *slot->x);
+-		input_event(input, EV_ABS, ABS_MT_POSITION_Y, *slot->y);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_X, *slot->cx);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_Y, *slot->cy);
++		x = quirks & MT_QUIRK_FLIP_X ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
++			*slot->x;
++		y = quirks & MT_QUIRK_FLIP_Y ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->y :
++			*slot->y;
++		cx = quirks & MT_QUIRK_FLIP_X ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->cx :
++			*slot->cx;
++		cy = quirks & MT_QUIRK_FLIP_Y ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->cy :
++			*slot->cy;
++
++		input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
++		input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
++		input_event(input, EV_ABS, ABS_MT_TOOL_X, cx);
++		input_event(input, EV_ABS, ABS_MT_TOOL_Y, cy);
+ 		input_event(input, EV_ABS, ABS_MT_DISTANCE, !*slot->tip_state);
+ 		input_event(input, EV_ABS, ABS_MT_ORIENTATION, orientation);
+ 		input_event(input, EV_ABS, ABS_MT_PRESSURE, *slot->p);
+@@ -1711,9 +1769,13 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	int ret, i;
+ 	struct mt_device *td;
+ 	const struct mt_class *mtclass = mt_classes; /* MT_CLS_DEFAULT */
++	const struct dmi_system_id *system_id
++			= dmi_first_match(mt_devices_dmi_override_table);
++	const long driver_data_name = system_id ?
++			(long)(system_id->driver_data) : id->driver_data;
+
+ 	for (i = 0; mt_classes[i].name ; i++) {
+-		if (id->driver_data == mt_classes[i].name) {
++		if (driver_data_name == mt_classes[i].name) {
+ 			mtclass = &(mt_classes[i]);
+ 			break;
+ 		}
+--
+2.39.0.rc1.256.g54fd8350bd-goog
+
