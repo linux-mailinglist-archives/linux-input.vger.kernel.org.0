@@ -2,111 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9312B6472C0
-	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 16:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F155364736F
+	for <lists+linux-input@lfdr.de>; Thu,  8 Dec 2022 16:46:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbiLHPWU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 8 Dec 2022 10:22:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37880 "EHLO
+        id S229758AbiLHPqV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 10:46:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230248AbiLHPVf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 10:21:35 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA489686B0;
-        Thu,  8 Dec 2022 07:20:52 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7C4BB240008;
-        Thu,  8 Dec 2022 15:20:49 +0000 (UTC)
-Message-ID: <b356b5684cc631513c0498f18d7c185b77416f85.camel@hadess.net>
-Subject: Re: [Regression] Logitech BT mouse unusable after commit
- 532223c8ac57 (still in 6.1-rc8)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Thorsten Leemhuis <regressions@leemhuis.info>
-Date:   Thu, 08 Dec 2022 16:20:48 +0100
-In-Reply-To: <CAJZ5v0ghW2DdC0quVQ-+Oad7bR95Pyp4Uhd9=XUYk9SQrXKj5w@mail.gmail.com>
-References: <2262737.ElGaqSPkdT@kreacher>
-         <1df12728a2e788788fd387588bac62023e123d16.camel@hadess.net>
-         <2145955.irdbgypaU6@kreacher>
-         <CAJZ5v0ic+pm+NWD8g4O2MwQEvi+xuB-W9Wpd6c1RhprhoxuK1g@mail.gmail.com>
-         <8281ddcc16cc950f9cde4b196cf208adcc798319.camel@hadess.net>
-         <CAJZ5v0gjAGZFS6ap+NAbsi96hq7y9MRGE0h_A-n6xfB1CMs=2g@mail.gmail.com>
-         <cd8b2a2160f5d36d1b73bc0567cd0f6e7e5751c4.camel@hadess.net>
-         <CAJZ5v0gRm1NG=QuDFDFdcZgTu7Q0Z3cW3fwGg09sD+3BBV8E1A@mail.gmail.com>
-         <91367d07a72ecb2065faebe974c54ebd966e0d59.camel@hadess.net>
-         <CAJZ5v0ghW2DdC0quVQ-+Oad7bR95Pyp4Uhd9=XUYk9SQrXKj5w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        with ESMTP id S229658AbiLHPqS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 10:46:18 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16F3D442E6;
+        Thu,  8 Dec 2022 07:46:17 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id vv4so5032336ejc.2;
+        Thu, 08 Dec 2022 07:46:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hx136BtekxTmwLZD7bGGNVUmasUyrecFxbV6zXvxhlw=;
+        b=VsLhZdFkHAAdY6gwdApujYzePoiaYntbpwi0+Kpqh2ZMQTXk4rFn3/ssggKjWUiTmR
+         wNeYEiBX09HLYGcVur473K7hngdnLnLLzKxSsZ0NiMqN51CBpYhd4xEuarsx2H0GOkPT
+         v79U47ce3Vkm75isoZKkb2bVz0O6H9x4lGWFgsX+tvAlyR6MAOSfIj+OeJuRjtOpgLRx
+         rTluIfO19Ef2Ygr5RZOHHppeza48PZwAdnRI7LnAz2eastqvD2ZSsMac1l+FuGppfhCw
+         jEmMP2CZZbTagifxtKUNQl4lMGMjrc8lXSLQDAGE3JMU6TTIHagnS2iQB5ppTWgQPFHL
+         7vGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hx136BtekxTmwLZD7bGGNVUmasUyrecFxbV6zXvxhlw=;
+        b=jI+XKzYfomLxAoKF029hyCWPYWdKzPYFYyelAv0XB2pdodQVE9/mukOAxjx2NxWRWT
+         PE07Pbq03sM/hhP0hGJr7L8zj0hUfpLQIDt7KzwFJXMio27c2S59rXP5A0rZVBK7PHJV
+         /rhwbZ1MrSQCh/rwfIiG2Tz10KI8X11M/0gYg/QB7rCkDmqINNZm7xEGtFtS8PC8Pvop
+         YquYsis79xBLXsh9dr5mqaM5wP+7SRp+zd2qbNC/wgNQKIH13abYPV+I8V5xhZnW2F+v
+         xI6o4MGxuca4pPEUfdQ44JHQ1tLceK4h4PAOKnXChvHHiMKAVS6JR5lFLamYCXpfCjSq
+         BC8g==
+X-Gm-Message-State: ANoB5plAGDT66h+IkNVvn+nFGoP7K55aV0OEBCMwEq7ItWXnSG5z6wL0
+        AtVyjWUBf87s2v19fnT6oWvrg7COFQ2CQDULalo=
+X-Google-Smtp-Source: AA0mqf7hgGmmHaoKTJH7Ov6Q2Esx/9X+AVoDk7pjmrQlT+a1dcKvC5wjZUe63LaiZ+oN7xMTcf9/hyZZYTPFEu8qByo=
+X-Received: by 2002:a17:906:4bc4:b0:78d:6325:356 with SMTP id
+ x4-20020a1709064bc400b0078d63250356mr78824050ejv.6.1670514375534; Thu, 08 Dec
+ 2022 07:46:15 -0800 (PST)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221205210354.11846-1-andrew.smirnov@gmail.com>
+In-Reply-To: <20221205210354.11846-1-andrew.smirnov@gmail.com>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Thu, 8 Dec 2022 16:46:04 +0100
+Message-ID: <CADyDSO4uh6b+sSZTkZ2_DR923=bA=kXgK1LqUMkknCMzf_DSwQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] Handling of non-numbered feature reports by hidraw
+To:     Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2022-12-07 at 18:44 +0100, Rafael J. Wysocki wrote:
-> On Wed, Dec 7, 2022 at 6:19 PM Bastien Nocera <hadess@hadess.net>
-> wrote:
-> > 
-> > On Wed, 2022-12-07 at 12:07 +0100, Rafael J. Wysocki wrote:
-> > > # hidpp-list-features /dev/hidraw1
-> > > Bluetooth Mouse M336/M337/M535 (046d:b016) is a HID++ 4.5 device
-> > > Feature 0x01: [0x0001] Feature set
-> > > Feature 0x02: [0x0003] Device FW version
-> > > Feature 0x03: [0x0005] Device name
-> > > Feature 0x04: [0x0020] Reset
-> > > Feature 0x05: [0x1e00] Enable hidden features (hidden)
-> > > Feature 0x06: [0x1800] Generic Test (hidden, internal)
-> > > Feature 0x07: [0x1000] Battery status
-> > > Feature 0x08: [0x1b04] Reprog controls v4
-> > > Feature 0x09: [0x2100] Vertical scrolling
-> > > Feature 0x0a: [0x2200] Mouse pointer
-> > > Feature 0x0b: [0x2205] Pointer speed
-> > > Feature 0x0c: [0x18b1] ? (hidden, internal)
-> > > Feature 0x0d: [0x2121] Hi-res wheel
-> > > Feature 0x0e: [0x1f03] ? (hidden, internal)
-> > 
-> > Would you be able to enable debugging for the hid subsystem to get
-> > some
-> > debug data when getting the version from the device fails?
-> 
-> I guess I could, but I think that the device is just quirky.
-> 
-> At least the BT layer appears to think that it is connected.
-> 
-> Anyway, what exactly do you need?
-> 
-> > I can't see any problems in there that wouldn't also have impacted
-> > all
-> > the other Logitech Bluetooth devices listed in the support devices
-> > list.
-> > 
-> > If the problem is a timeout, maybe we should lower the timeouts we
-> > currently have (5*HZ = 5 seconds, right?), so we can retry 5 times
-> > one
-> > second instead.
-> 
-> No, it doesn't take 5 sec to get a response from it.  It rather looks
-> like __hidpp_send_report() returns an error.
+Hi
 
-Adding "debug" on the kernel command-line should be enough to get debug
-out of hidpp_send_message_sync():
-https://stackoverflow.com/a/63682160
+On Mon, 5 Dec 2022 at 22:04, Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
+> I'm working on a firmware of a device that exposes a HID interface via
+> USB and/or BLE and uses, among other things, non-numbered feature
+> reports. Included in this series are two paches I had to create in
+> order for hidraw devices created for aforementioned subsystems to
+> behave in the same way when exerciesd by the same test tool.
+>
+> I don't know if the patches are acceptable as-is WRT to not breaking
+> existing userspace, hence the RFC tag.
 
-Either that or turn all the dbg_hid() into hid_err() if you're going to
-be compiling the kernel.
+Can you elaborate why you remove the special handling from USBHID but
+add it to UHID? They both operate logically on the same level, so
+shouldn't we simply adjust uhid to include the report-id in buf[0]?
 
-We're mainly interested in the error code from the device, as that's
-what I'm guessing is caused the error to propagate.
+Also, you override buf[0] in UHID, so I wonder what UHID currently
+returns there?
 
-> > Still, as I mentioned earlier, I can't reproduce the problem on
-> > another
-> > Bluetooth Classic device...
+IOW, can you elaborate a bit what the current behavior of each of the
+involved modules is, and what behavior you would expect? This would
+allow to better understand what you are trying to achieve. The more
+context you can give, the easier it is to understand what happens
+there.
 
+Thanks!
+David
