@@ -2,172 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38250648206
-	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 13:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E9FD6483B6
+	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 15:26:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbiLIMAr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Dec 2022 07:00:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37342 "EHLO
+        id S229674AbiLIO0k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Dec 2022 09:26:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbiLIMAn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Dec 2022 07:00:43 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE74303CE
-        for <linux-input@vger.kernel.org>; Fri,  9 Dec 2022 04:00:38 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id qk9so10997256ejc.3
-        for <linux-input@vger.kernel.org>; Fri, 09 Dec 2022 04:00:38 -0800 (PST)
+        with ESMTP id S229478AbiLIO0j (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Dec 2022 09:26:39 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0112018E3B;
+        Fri,  9 Dec 2022 06:26:39 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id z12so684301qtv.5;
+        Fri, 09 Dec 2022 06:26:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
-        b=blV6eki9f/dE3yt8k9vQjmYbdmKqtjXhWL8aRDi0+PTy9DZ7PoASn6Hb4YDawt6/Pq
-         TOTWkNyJ1bQ0LXeAOKmZsgrohPEAxg4I9Vxq8Iql4MCfOpzd9bk59Kg8A1l2aCabzc1i
-         Pwb8zUD5pTagBDWz9wlqw8be8RXHOe4ntLhBEh7HXgPppKgizTPX68btz3fJ69iSfJef
-         zAFAyKFjvCY4s0mBfuw+77i/sj6ivMcyXsKkk5Q+7miuQY1uqqYMcxvazgbad3gQhSeN
-         osKwSC1CYREx2mikz7Rsbjiro/V/gVq1uBZVJYbtUMGcexuFEHFb/xJK0jJPCO1YVyoF
-         GpZg==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z26CJkV4bYBR7Igz8UtlKjC+5Be28A36hbOcGnHeAHA=;
+        b=lOXPlqVDsCU/iT7WgJtYT6+UXxMsr9qT3EOt0VEoisMXgRg2R6Cue68/yFc610oSNh
+         QnEoyGDMtbIXZ0bcGN7E9cL+XqHtaulIlfCJ0SrkEn1pk0KCvOb68uQDaVEEyvCs58xN
+         iP0YGW9B+VQG0wWOE4wnxp/GFMyOLOlHRRYGrOvkYDAvxI6ra/Ckgj1Po8LdgacBnJ/q
+         5/XMqgDXCxsb8uI9/IVSBogDGas/MITu53Pz8u8YEn0nyhweWfxfITv4XODmPn/pzoS7
+         ql5V6+gmKsRgqwaGRdIxKnH/74vE3hD8AEUEPiqyCMnv3Du3zlp6FVPDvVf7G09I8/0e
+         hK3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
-        b=Mawc9DersSrozpo/smYi/hZzeWCAS+qojb+n7TxQ13CqLluo3Rbwn7mm29P6CTQH7J
-         UcCZW0X6bt9gGAg3eAK0q3BgNx09Vk968wBAPNnPK6hMAjEqodAmAlg3WCw/It51UTaP
-         basKFwFIJTLRG0iOKnjf2SEURuJoXKxXpKJa08G+hkp1KY9GrrEAI4WRatDGWL2+JUYz
-         Nzula2UkVLg7G6zJUC8wcTm2vpyPr48c7h3mZxEdV2gcswArYUleEFE+f4UgjfH0R7++
-         RrdRf4sf2FfKu6VsvArhU+JL8/1q8Dm1+vgF+4sfoVhWq9RVtIhmKX00p6BOJXjyMpXM
-         akzg==
-X-Gm-Message-State: ANoB5pn0Yz8/g6zHMzmX/Nmb/BWMEmx7O/iJdwcblPSnjsImIcTgruXc
-        c6VPWny0TLi3SAME0bBmDtbL/g==
-X-Google-Smtp-Source: AA0mqf7P1uuFrcKToZQL1Qs7OSMRUELHntqUphTx86r+y9eGx8OMntNtg5Twtz4wxSVo6DNFFYUZgg==
-X-Received: by 2002:a17:906:4907:b0:7c0:d4fa:3151 with SMTP id b7-20020a170906490700b007c0d4fa3151mr4765674ejq.17.1670587236522;
-        Fri, 09 Dec 2022 04:00:36 -0800 (PST)
-Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
-        by smtp.gmail.com with ESMTPSA id o23-20020a170906861700b007c0a7286c0asm489597ejx.58.2022.12.09.04.00.34
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z26CJkV4bYBR7Igz8UtlKjC+5Be28A36hbOcGnHeAHA=;
+        b=A5wludngEY7viUz7Jp2QoISKmlLsW8oVlhCnRmJCACmi1McKgFME6XxbKsonqLm2Gt
+         llvnjNHI9UTNPmZ0tvxFOWlKRqtpCMIlRrmyL+h70hD10iW9YKYXKbRvAFyoX+qBwgL6
+         GFxan6hSDMZkyfmzqI5EX1tFBR2kZ91QTdB5vVB9ITzIBd+uJznmKXKK0S5RSqNBw8Ml
+         IXnzIakmv6JsCJp5abQVpkeWY1+v/xXaQmuGBYI7RBvlh34xe8aYohV0vMBClND3a03F
+         yQrAHWqvUe9qiAAetMpp0yBh9AnkCs6ZKTRpkDQsXWofCPhhLyT4wQzXqYG3mFBustHK
+         Mslw==
+X-Gm-Message-State: ANoB5pk09SHftm0er3iUtSKpYW9N9BJ6jPeYJKKwQnptRGMZ7Vl7iK1F
+        VLupZvmIznLbvONYMDF3wJMdx7b2JrI=
+X-Google-Smtp-Source: AA0mqf7cBf3HtEfnMTHbn2B9g1hb6GZYhiARbmje9pr3rZIgEL0K9R+JMsEs+TSJ3w/N9SLufELTUQ==
+X-Received: by 2002:a05:622a:1e11:b0:3a5:fa33:917f with SMTP id br17-20020a05622a1e1100b003a5fa33917fmr8841541qtb.37.1670595997584;
+        Fri, 09 Dec 2022 06:26:37 -0800 (PST)
+Received: from pm2-ws13.praxislan02.com (207-172-141-204.s8906.c3-0.slvr-cbr1.lnh-slvr.md.cable.rcncustomer.com. [207.172.141.204])
+        by smtp.gmail.com with ESMTPSA id bb12-20020a05622a1b0c00b003a530a32f67sm944094qtb.65.2022.12.09.06.26.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 04:00:35 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Grant Likely <grant.likely@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-spi@vger.kernel.org, kernel@pengutronix.de,
-        Purism Kernel Team <kernel@puri.sm>,
-        linux-rpi-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
-        linux-actions@lists.infradead.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-staging@lists.linux.dev, chrome-platform@lists.linux.dev,
-        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-fbdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linuxppc-dev@lists.ozlabs.org, patches@opensource.cirrus.com,
-        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Date:   Fri,  9 Dec 2022 13:00:14 +0100
-Message-Id: <167058708567.1651663.18170722235132459286.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+        Fri, 09 Dec 2022 06:26:36 -0800 (PST)
+From:   Jason Andryuk <jandryuk@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     xen-devel@lists.xenproject.org, Jason Andryuk <jandryuk@gmail.com>,
+        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH v2] Input: xen-kbdfront - drop keys to shrink modalias
+Date:   Fri,  9 Dec 2022 09:26:14 -0500
+Message-Id: <20221209142615.33574-1-jandryuk@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
-> 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> [...]
+xen kbdfront registers itself as being able to deliver *any* key since
+it doesn't know what keys the backend may produce.
 
-Applied all patches that build.
+Unfortunately, the generated modalias gets too large and uevent creation
+fails with -ENOMEM.
 
-Patches excluded:
- - ps8622
- - ti-sn65dsi83
- - adv7511
+This can lead to gdm not using the keyboard since there is no seat
+associated [1] and the debian installer crashing [2].
 
-Repo: https://cgit.freedesktop.org/drm/drm-misc/
+Trim the ranges of key capabilities by removing some BTN_* ranges.
+While doing this, some neighboring undefined ranges are removed to trim
+it further.
 
+An upper limit of KEY_KBD_LCD_MENU5 is still too large.  Use an upper
+limit of KEY_BRIGHTNESS_MENU.
 
-[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
-          (no commit info)
-[015/606] drm/bridge/analogix/anx6345: Convert to i2c's .probe_new()
-          (no commit info)
-[016/606] drm/bridge/analogix/anx78xx: Convert to i2c's .probe_new()
-          (no commit info)
-[017/606] drm/bridge: anx7625: Convert to i2c's .probe_new()
-          (no commit info)
-[018/606] drm/bridge: icn6211: Convert to i2c's .probe_new()
-          (no commit info)
-[019/606] drm/bridge: chrontel-ch7033: Convert to i2c's .probe_new()
-          commit: 8dc6de280f01c0f7b8d40435736f3c975368ad70
-[020/606] drm/bridge: it6505: Convert to i2c's .probe_new()
-          (no commit info)
-[021/606] drm/bridge: it66121: Convert to i2c's .probe_new()
-          (no commit info)
-[022/606] drm/bridge: lt8912b: Convert to i2c's .probe_new()
-          (no commit info)
-[023/606] drm/bridge: lt9211: Convert to i2c's .probe_new()
-          (no commit info)
-[024/606] drm/bridge: lt9611: Convert to i2c's .probe_new()
-          (no commit info)
-[025/606] drm/bridge: lt9611uxc: Convert to i2c's .probe_new()
-          (no commit info)
-[026/606] drm/bridge: megachips: Convert to i2c's .probe_new()
-          (no commit info)
-[027/606] drm/bridge: nxp-ptn3460: Convert to i2c's .probe_new()
-          (no commit info)
-[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
-          (no commit info)
-[029/606] drm/bridge: sii902x: Convert to i2c's .probe_new()
-          (no commit info)
-[030/606] drm/bridge: sii9234: Convert to i2c's .probe_new()
-          (no commit info)
-[031/606] drm/bridge: sii8620: Convert to i2c's .probe_new()
-          (no commit info)
-[032/606] drm/bridge: tc358767: Convert to i2c's .probe_new()
-          (no commit info)
-[033/606] drm/bridge: tc358768: Convert to i2c's .probe_new()
-          (no commit info)
-[034/606] drm/bridge/tc358775: Convert to i2c's .probe_new()
-          (no commit info)
-[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
-          (no commit info)
-[037/606] drm/bridge: tfp410: Convert to i2c's .probe_new()
-          (no commit info)
+This removes:
+BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
+Empty space 0x224..0x229
 
+Empty space 0x28a..0x28f
+KEY_MACRO1(0x290)..KEY_MACRO30(0x2ad)
+KEY_MACRO_RECORD_START          0x2b0
+KEY_MACRO_RECORD_STOP           0x2b1
+KEY_MACRO_PRESET_CYCLE          0x2b2
+KEY_MACRO_PRESET1(0x2b3)..KEY_MACRO_PRESET3(0xb5)
+Empty space 0x2b6..0x2b7
+KEY_KBD_LCD_MENU1(0x2b8)..KEY_KBD_LCD_MENU5(0x2bc)
+Empty space 0x2bd..0x2bf
+BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
+Empty space 0x2e8..0x2ff
 
+The modalias shrinks from 2082 to 1550 bytes.
 
-rob
+A chunk of keys need to be removed to allow the keyboard to be used.
+This may break some functionality, but the hope is these macro keys are
+uncommon and don't affect any users.
+
+[1] https://github.com/systemd/systemd/issues/22944
+[2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net/T/
+
+Cc: Phillip Susi <phill@thesusis.net>
+Cc: stable@vger.kernel.org
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+---
+ drivers/input/misc/xen-kbdfront.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+v2:
+Remove more keys: v1 didn't remove enough and modalias was still broken.
+
+diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
+index 8d8ebdc2039b..4ecb579df748 100644
+--- a/drivers/input/misc/xen-kbdfront.c
++++ b/drivers/input/misc/xen-kbdfront.c
+@@ -256,7 +256,14 @@ static int xenkbd_probe(struct xenbus_device *dev,
+ 		__set_bit(EV_KEY, kbd->evbit);
+ 		for (i = KEY_ESC; i < KEY_UNKNOWN; i++)
+ 			__set_bit(i, kbd->keybit);
+-		for (i = KEY_OK; i < KEY_MAX; i++)
++		/* In theory we want to go KEY_OK..KEY_MAX, but that grows the
++		 * modalias line too long.  There is a gap of buttons from
++		 * BTN_DPAD_UP..BTN_DPAD_RIGHT and KEY_ALS_TOGGLE is the next
++		 * defined. Then continue up to KEY_BRIGHTNESS_MENU as an upper
++		 * limit. */
++		for (i = KEY_OK; i < BTN_DPAD_UP; i++)
++			__set_bit(i, kbd->keybit);
++		for (i = KEY_ALS_TOGGLE; i <= KEY_BRIGHTNESS_MENU; i++)
+ 			__set_bit(i, kbd->keybit);
+ 
+ 		ret = input_register_device(kbd);
+-- 
+2.38.1
 
