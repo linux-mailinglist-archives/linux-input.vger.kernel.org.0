@@ -2,54 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEA55647A3A
-	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 00:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C24D4647B8A
+	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 02:38:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbiLHXma (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Dec 2022 18:42:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
+        id S229758AbiLIBig (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Dec 2022 20:38:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230491AbiLHXmL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 18:42:11 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63159FCB
-        for <linux-input@vger.kernel.org>; Thu,  8 Dec 2022 15:39:46 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id z144so1222311iof.3
-        for <linux-input@vger.kernel.org>; Thu, 08 Dec 2022 15:39:46 -0800 (PST)
+        with ESMTP id S229685AbiLIBif (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Dec 2022 20:38:35 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F139C389D8;
+        Thu,  8 Dec 2022 17:38:32 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id k79so2660437pfd.7;
+        Thu, 08 Dec 2022 17:38:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DJeoCLQFLEcXPKMOTThWiocjzfFiXa/lSgHVK2Nng0s=;
-        b=QVdu5FC4oPAX8RxYvYIUWE1y4Q/ilXurCHFLGc3Tc4dGFGvxcUoOf9xt+86BYVutW4
-         oYe3qgOWxfVKg7Ww5lqd5r1tJ6RPh21l6AUE333JsjjanctNwrHEj/Nr0Djp99ZSsd0t
-         0cPZow6eza44fW1eyjYIOuOlev6TUd4XxBZAM=
+        bh=gdUrO4Vj0WpEBGdoSL51EYLyXJXFaKz3pHSmds694To=;
+        b=W4SnNW/rgY1OgOH5yjRt+PniOQ5lp33EO2mncjn9cRosI9fDluB5dyikWK/32mtxqA
+         UMkt1Q3KJtnU/5Q7sZV1/H1irJdb/wbKnkau5qyMgfsYew4z+zwfO24DJGHzbzErfqEA
+         sb17bazJvcbhjvw8rFZ2G1eauJlRkuFjf2uwLi17DKgRVNvCsTkvUuMW5un5zUQwJaSl
+         Erx8iNfoHVfeUtVTdGqApFBUwvipVbIaGEgKz6K1yV1vRi0cxcjgfsmP+BtnJ97sJPYg
+         2AwmwMJheWMvVDwySA9+THgf7FYoJ3S9ShWpay5pc3JZJMfpoQcoBhBG1ytPxEKXPe0Y
+         r7Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DJeoCLQFLEcXPKMOTThWiocjzfFiXa/lSgHVK2Nng0s=;
-        b=PT3bJtoWuR+3WsnxO9+CkAd+leDGK5vnHGCqS34f3HAKgW57Fp/XSPuN6gp5cdu4R2
-         tQNqW+PxCddiOUaMm3TNtkVUnbbuU9GUy3qSSh1q9ranD+Ti6BBD98XJb+NI6lpywJGu
-         DpFUn7O308JbxEczWiIlCHe99KU+QGrn7aB56CwTW84ADojIdGAvrIPvkB0C5kVfPPP1
-         HDww7QvpxbMPvZjz00bcHAX7enupX3D+orXVPi4/gMc+Qez+WFJSXEQ766827BLChjXG
-         wOuyo2+eMWWWg0yLv+fJ4EycUnCgFDRfRYWvOysjiSeMBta08uZU7zLNm/mUY283Kkyz
-         IeTw==
-X-Gm-Message-State: ANoB5pknCR50uCjEFmhh57l1+3w/GssCa2KDpTYYV1V4atgl4LCbOmwq
-        b9+j1mbt1i7Zl+1MqiqKUkeicA==
-X-Google-Smtp-Source: AA0mqf61PL4z/iiDUVDUG4rHyolbpLtgVRGJ1pxGqY65GsUZCF5KiyCH6Vg3DF3vr2wfeHsAAeEqfw==
-X-Received: by 2002:a5d:9acd:0:b0:6df:e175:74c1 with SMTP id x13-20020a5d9acd000000b006dfe17574c1mr2752887ion.21.1670542786303;
-        Thu, 08 Dec 2022 15:39:46 -0800 (PST)
-Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id ca6-20020a0566381c0600b0038a6d03db70sm1957617jab.34.2022.12.08.15.39.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 15:39:45 -0800 (PST)
-Date:   Thu, 8 Dec 2022 23:39:45 +0000
-From:   Matthias Kaehlcke <mka@chromium.org>
+        bh=gdUrO4Vj0WpEBGdoSL51EYLyXJXFaKz3pHSmds694To=;
+        b=Vruw5lqLM1kPxqqf/I/t8kst2FMSWqlTPPZvWkKp4NacDM8IfKlgVKkfDXa2JaAPPW
+         vRoxBpM2NWLl4ffvV2IlxXRbErg0Bjv+GASBAjVIaxUUHCVv0dbSqOPNJJhrz7uHWUDG
+         0e/1szJLqEiYIrPxMi596/Kz4EHnjeWsjmaNrssBVlC/18D+DIW31aVC0Nbzsdu+b8ri
+         D/WB57zqn01B/EB2ivRTBND+cxQPOQrKi8/VhF+Btyw+1HW+VZ/GCo9c+sLHDwKpgWtT
+         lz4oYqFV9hkzXNKmd7LteGM7+ASaBxoXeHoGes6LZpOHiG9jiFjwZKada1qcYb7GwWsi
+         lZnw==
+X-Gm-Message-State: ANoB5pl5x5CGVtUApJF4t0N9TL92nuxTbvD/9pBxGR7QFuDv9Cdhx6CA
+        /mhWirYMp5S2Eex6byNQzm4=
+X-Google-Smtp-Source: AA0mqf5RPIgDj3Hmn7YPOhgMYmk4lfHIIcDcDc7GA1P1ukud6zegHOgxJlCgw5PfFggaji5wYOxb4w==
+X-Received: by 2002:aa7:864a:0:b0:56d:1bb6:af75 with SMTP id a10-20020aa7864a000000b0056d1bb6af75mr3344659pfo.4.1670549912342;
+        Thu, 08 Dec 2022 17:38:32 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:5853:f1e8:694c:1488])
+        by smtp.gmail.com with ESMTPSA id w11-20020aa7954b000000b00528a097aeffsm132178pfq.118.2022.12.08.17.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 17:38:31 -0800 (PST)
+Date:   Thu, 8 Dec 2022 17:38:28 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Douglas Anderson <dianders@chromium.org>
-Cc:     Bjorn Andersson <andersson@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc:     Bjorn Andersson <andersson@kernel.org>, mka@chromium.org,
         swboyd@chromium.org, linux-arm-msm@vger.kernel.org,
         linux-input@vger.kernel.org,
         Yunlong Jia <ecs.beijing2022@gmail.com>,
@@ -57,17 +59,17 @@ Cc:     Bjorn Andersson <andersson@kernel.org>,
         Johnny Chuang <johnny.chuang.emc@gmail.com>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 5/5] Input: elants_i2c: Delay longer with reset asserted
-Message-ID: <Y5J1wY/TzbU6BheD@google.com>
+Message-ID: <Y5KRlNvoVo6ZWV24@google.com>
 References: <20221208192006.1070898-1-dianders@chromium.org>
  <20221208111910.5.I6edfb3f459662c041563a54e5b7df727c27caaba@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20221208111910.5.I6edfb3f459662c041563a54e5b7df727c27caaba@changeid>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -86,11 +88,6 @@ On Thu, Dec 08, 2022 at 11:20:06AM -0800, Douglas Anderson wrote:
 > to go low.
 > 
 > In order to account for this we let's lengthen the amount of time that
-
-nit: s/we let's/we/ || s/we let's/let's/
-
-no need to re-spin just for this
-
 > we keep the reset asserted. Let's bump it up from 500us to 5000us.
 > That's still a relatively short amount of time and is much safer.
 > 
@@ -109,4 +106,7 @@ no need to re-spin just for this
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+Applied, thank you.
+
+-- 
+Dmitry
