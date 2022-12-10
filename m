@@ -2,123 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E509648E07
-	for <lists+linux-input@lfdr.de>; Sat, 10 Dec 2022 10:45:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38A28648E53
+	for <lists+linux-input@lfdr.de>; Sat, 10 Dec 2022 12:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiLJJpV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Dec 2022 04:45:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34436 "EHLO
+        id S229674AbiLJLFq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Dec 2022 06:05:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229732AbiLJJpN (ORCPT
+        with ESMTP id S229529AbiLJLFp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Dec 2022 04:45:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1218918E2D
-        for <linux-input@vger.kernel.org>; Sat, 10 Dec 2022 01:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670665443;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sEgMOXB1URkPfrDg7A7bvT1ZlUj5a168oU8az7r9NzI=;
-        b=gAeYlbwjWj2S5ZjZtAvAbAZXBk8p7FZ+8afaL7TDLs01fPHbzMts5wj7LKS6IqDN/5QH3v
-        izZ/08eofQ9nxb/P0P7bqNACUwQoyTqRMGrZmxprO8XEiu4Ds8VERBY3x8eeR71vCy/LDq
-        hfkeCvo3b1sgTC2RFEOPjF/FHQLbncE=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-216-NylJw1vnP-Wd-3aSOKpP3A-1; Sat, 10 Dec 2022 04:43:59 -0500
-X-MC-Unique: NylJw1vnP-Wd-3aSOKpP3A-1
-Received: by mail-il1-f200.google.com with SMTP id w15-20020a056e021a6f00b00303520bff1dso1548975ilv.20
-        for <linux-input@vger.kernel.org>; Sat, 10 Dec 2022 01:43:59 -0800 (PST)
+        Sat, 10 Dec 2022 06:05:45 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671B014D29
+        for <linux-input@vger.kernel.org>; Sat, 10 Dec 2022 03:05:42 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id s10so7519913ljg.1
+        for <linux-input@vger.kernel.org>; Sat, 10 Dec 2022 03:05:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QXt9l3h8UvC056p18+migPDLHDHm/JWJnpRirDbc2MY=;
+        b=C82qGunJQ2dy9pwQdHEanL/NMVDY0YXEC6y+Dl0CoxD3IEhUtbTDVOGF+KZL3nUG78
+         qLcFNyDAYiQEaffD4fJSd9K0L7lMhUxkWj+EMeBLUuHF13eZMssi8EkyP+63ziVoSsPm
+         DbV3fdtWynxgFeuDjrNfzNhUD/QLhC4eASJXSB/Az4z6RAoozaqTXAkrUldN6dokx3AB
+         sR2fxtOKbC1I0kOtnICRc5Di/+v2HEO9Vkx9dwa+/ktyk8Bd/Lsd13Zxf1l6ehWNEDF1
+         ZcXhLjz+fAuE1ZXZSamZzMYcHD+e/KcBVYPPaIiud55+R4BgwNerJZpGR/T48ttnlc5v
+         QH3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sEgMOXB1URkPfrDg7A7bvT1ZlUj5a168oU8az7r9NzI=;
-        b=F1pZaR8WS0xo2lbL54GsXsZr7QBTXVNcqYtTLaPpxjYr+x5bwkW4nSHMYlAl7Gw8K7
-         W6s9bIcmJCht0tAxqlHNKBJXrxMoG0aPwh/pqzB5uViQ/ey6He1imhu/veocvYcEJUSI
-         K0lO9qpGM7xrfvSNL4dbOIAuTkHBKOs43q2osgKsvcuf4wghv6DdNb8/fv/p0TVovC8r
-         62mWGLAyB+cPiZb/z4xztH8bLCjt0RA6SUnycEMc/poIKSW0YeDlluWsfiwl6IohyqtY
-         hcaERev/C3jbT5byKaoM2/Ekp+1Bt90j9H0xY8UaQKQPd4w6InXOdBkDQFtLbcisKZHC
-         QcsQ==
-X-Gm-Message-State: ANoB5pkZPeZT+/AjHMeoh/7oexV6xqWOO/4MM1phLajheEJpxgz7lZNj
-        y765XavQ6jOznrjXpGDrf1SRHQ+XEf/MnQAg/1qO5qm5QOSpM9dGSEiBG8E3Evz1+rfzpiivURx
-        O3P7l6jwr9GkXqUW7CS7SyFSBjQqfbzR4rvQ0vg0=
-X-Received: by 2002:a92:ca8d:0:b0:302:de10:7ae1 with SMTP id t13-20020a92ca8d000000b00302de107ae1mr34308971ilo.15.1670665438872;
-        Sat, 10 Dec 2022 01:43:58 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5TlEH6Q+lQ8NRkKblbnwcwT1gZItOWRjjchWox0DLfgEdFskgB/z+cMXoGsiXedca8YsKeiNpW7W9gxGIeWdM=
-X-Received: by 2002:a92:ca8d:0:b0:302:de10:7ae1 with SMTP id
- t13-20020a92ca8d000000b00302de107ae1mr34308964ilo.15.1670665438684; Sat, 10
- Dec 2022 01:43:58 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QXt9l3h8UvC056p18+migPDLHDHm/JWJnpRirDbc2MY=;
+        b=gBDDublLSpp39GqMxrJnasjNvcENjhr5aRig6roILYcTRvouY+pFB8WZxIE/vXKKDM
+         fqjVHogxvGkroF/ZFmN+3r40cDL1BsKv/gZb9nMw/cqQ6+l/HWNcTrQtMYzwovxe2aB/
+         JexGHXoq3bFBAiKcQ76w+fmL6hIjpGWG6V+r+ovWnS7jxQ1frDSsw/aRQSvhkPu22d69
+         /mwifl3xihqmtjv2LazN6++5IxSBQ/kyyRut55x2VOKnkw880/WXvFyI9vCYY7vecI1J
+         RG4pJ2aewiFdr+ozYdj0HrsOci6/pjFqYtOacU8SPQ7+CF3yMdLLAA9t8eqAqtx9Yz+M
+         N4IA==
+X-Gm-Message-State: ANoB5plossK9V0D9xrSvzi0dpYH4sAUgkkUUjRxSdCKcWL2/ZnfEI8tN
+        UniAnrMmzPY8HdAqyM6IGJIgoQ==
+X-Google-Smtp-Source: AA0mqf5Si5nKtGdnoatbchxOVi5LIC4FAgomZdP25gPowAC+O+GoQWEt5Yh3XnXrEgFDwaKkXOG7Dg==
+X-Received: by 2002:a05:651c:894:b0:277:9f5:1e16 with SMTP id d20-20020a05651c089400b0027709f51e16mr3462870ljq.4.1670670340636;
+        Sat, 10 Dec 2022 03:05:40 -0800 (PST)
+Received: from [192.168.1.101] (abxh44.neoplus.adsl.tpnet.pl. [83.9.1.44])
+        by smtp.gmail.com with ESMTPSA id a25-20020a2e8619000000b00279b292115asm538527lji.109.2022.12.10.03.05.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Dec 2022 03:05:40 -0800 (PST)
+Message-ID: <a333fef9-2cff-9a42-9368-b908f282137b@linaro.org>
+Date:   Sat, 10 Dec 2022 12:05:38 +0100
 MIME-Version: 1.0
-References: <20221206145936.922196-1-benjamin.tissoires@redhat.com> <nycvar.YFH.7.76.2212101007030.9000@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2212101007030.9000@cbobk.fhfr.pm>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Sat, 10 Dec 2022 10:43:47 +0100
-Message-ID: <CAO-hwJJkDBeHrqzuNUOe72osOsM+W3ySc6yygt0rPqDzFi=v-A@mail.gmail.com>
-Subject: Re: [PATCH HID for-next v3 0/5] HID: bpf: remove the need for
- ALLOW_ERROR_INJECTION and Kconfig fixes
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Florent Revest <revest@chromium.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-        netdev@vger.kernel.org, linux-input@vger.kernel.org,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v3 1/4] arm64: dts: qcom: sc7180: Bump up trogdor
+ ts_reset_l drive strength
+Content-Language: en-US
+To:     Douglas Anderson <dianders@chromium.org>,
+        Bjorn Andersson <andersson@kernel.org>
+Cc:     swboyd@chromium.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        mka@chromium.org, Yunlong Jia <ecs.beijing2022@gmail.com>,
+        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20221209171240.1614904-1-dianders@chromium.org>
+ <20221209091234.v3.1.I39c387f1e3176fcf340039ec12d54047de9f8526@changeid>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20221209091234.v3.1.I39c387f1e3176fcf340039ec12d54047de9f8526@changeid>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Dec 10, 2022 at 10:07 AM Jiri Kosina <jikos@kernel.org> wrote:
->
-> On Tue, 6 Dec 2022, Benjamin Tissoires wrote:
->
-> > Compared to v2, I followed the review from Alexei which cleaned up the
-> > code a little bit.
-> >
-> > I also got a kbuild test bot complaining[3] so add a fix for that too.
-> >
-> > For reference, here is the previous cover letter:
-> >
-> > So this patch series aims at solving both [0] and [1].
-> >
-> > The first one is bpf related and concerns the ALLOW_ERROR_INJECTION API.
-> > It is considered as a hack to begin with, so introduce a proper kernel
-> > API to declare when a BPF hook can have its return value changed.
-> >
-> > The second one is related to the fact that
-> > DYNAMIC_FTRACE_WITH_DIRECT_CALLS is currently not enabled on arm64, and
-> > that means that the current HID-BPF implementation doesn't work there
-> > for now.
-> >
-> > The first patch actually touches the bpf core code, but it would be
-> > easier if we could merge it through the hid tree in the for-6.2/hid-bpf
-> > branch once we get the proper acks.
->
-> For the series:
->
->         Reviewed-by: Jiri Kosina <jkosina@suse.cz>
 
-Thanks. I have applied the rest of the series to for-6.2/hid-bpf.
 
-Cheers,
-Benjamin
+On 9.12.2022 18:12, Douglas Anderson wrote:
+> On at least one board (pazquel360) the reset line for the touchscreen
+> was scoped and found to take almost 2 ms to fall when we drove it
+> low. This wasn't great because the Linux driver for the touchscreen
+> (the elants_i2c driver) thinks it can do a 500 us reset pulse. If we
+> bump the drive strength to 8 mA then the reset line went down in ~421
+> us.
+> 
+> NOTE: we could apply this fix just for pazquel360, but:
+> * Probably other trogdor devices have similar timings and it's just
+>   that nobody has noticed it before.
+> * There are other trogdor boards using the same elan driver that tries
+>   to do 500 us reset pulses.
+> * Bumping the drive strength to 8mA across the board won't hurt. This
+>   isn't a high speed signal or anything.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
->
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
-
+Konrad
+> 
+> (no changes since v1)
+> 
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> index f1defb94d670..ff1c7aa6a722 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> @@ -1376,7 +1376,15 @@ ts_reset_l: ts-reset-l-state {
+>  		pins = "gpio8";
+>  		function = "gpio";
+>  		bias-disable;
+> -		drive-strength = <2>;
+> +
+> +		/*
+> +		 * The reset GPIO to the touchscreen takes almost 2ms to drop
+> +		 * at the default drive strength. When we bump it up to 8mA it
+> +		 * falls in under 500us. We want this to be fast since the Elan
+> +		 * datasheet (and any drivers written based on it) talk about using
+> +		 * a 500 us reset pulse.
+> +		 */
+> +		drive-strength = <8>;
+>  	};
+>  
+>  	sdc1_on: sdc1-on-state {
