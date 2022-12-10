@@ -2,180 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9707B6488FA
-	for <lists+linux-input@lfdr.de>; Fri,  9 Dec 2022 20:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31DC8648DD3
+	for <lists+linux-input@lfdr.de>; Sat, 10 Dec 2022 10:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbiLITbX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Dec 2022 14:31:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58488 "EHLO
+        id S229568AbiLJJMd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Dec 2022 04:12:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiLITbW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Dec 2022 14:31:22 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E35BAC6DF
-        for <linux-input@vger.kernel.org>; Fri,  9 Dec 2022 11:31:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670614281; x=1702150281;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=E39n+Ljh+UwyfJySplcTkORqP4/innbMNWWe+gfpKt8=;
-  b=Y0cPtwqHwtKKpqB5NsuQoWvkqV8B/ZzGNCMQkzZJpQh2ZIbneHYuL+lv
-   vXQ0seTqwiZZ/utObDwbV8uWMFYmNP8IcLkPnU1J052utfh1/5DaIsmLb
-   zqq8UqRcwFA74fQxPpAz9AzNJR0Oqyr9SMl8qzop4GJ/4ovBNJqQngFVd
-   YfHFBZleieFDgxguYhKv1h+7VyOq64JKybWiemJ9RNz1pcdLHOKYviK3j
-   YsAuD62AfLG6CzlnWLz7XkFS0h/rS4ps8ZlCJ9urFQ82++zOLY5HeyN6Z
-   2E9vYR1y+ZdD/dCezWTHUhikmlBOBfxCovE6oFQDCSorFcYFh9fwn/Pt1
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="317561557"
-X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
-   d="scan'208";a="317561557"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 11:31:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="754147539"
-X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
-   d="scan'208";a="754147539"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2022 11:31:19 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p3j5b-00022l-0y;
-        Fri, 09 Dec 2022 19:31:19 +0000
-Date:   Sat, 10 Dec 2022 03:31:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- c3991107a28a5ad0bd90660ca3bbf8c2c220ea98
-Message-ID: <63938cfc.KrIZ45GebRVuPafN%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S230018AbiLJJLg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 10 Dec 2022 04:11:36 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9FD536C4C;
+        Sat, 10 Dec 2022 01:07:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 35CC56023A;
+        Sat, 10 Dec 2022 09:07:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6384EC433EF;
+        Sat, 10 Dec 2022 09:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670663252;
+        bh=NaFpxIBHcluX/faYQxP/qdXrH/73a3B6ENni/WCKJgM=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=NVfD/EYy+R1kCJB7/QK2PNnA70zrogehL0NBbqhZ97QhRjJCr5dHIZe/t6yDCvSja
+         uJ553qfzFDaaPjuDO4ArWKXFSbtuDhKK08IKpr8+QW43lWeNABA9Zx3TlY9yEh/xMs
+         HoFrWq0ALv5QFBPw45xSgL5sLbNFcnoBqRkxYv7iZiZ/qDLZCnbm7rTF0Bn1MaK/FS
+         bh1Tsl1HmAGgq/EDWYjHtM+J8qgBfv1o9wZF59d9J7NO504xX+YVXadBQ90+/jTFpG
+         AQNaBuaVflWPtrsZQlB9dGgs1siTbtvNMFtSkKx2GKKGwazKWV4Z3mfs6ZtYwqILA/
+         3GK8KSTrTZamQ==
+Date:   Sat, 10 Dec 2022 10:07:31 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Florent Revest <revest@chromium.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+        netdev@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH HID for-next v3 0/5] HID: bpf: remove the need for
+ ALLOW_ERROR_INJECTION and Kconfig fixes
+In-Reply-To: <20221206145936.922196-1-benjamin.tissoires@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2212101007030.9000@cbobk.fhfr.pm>
+References: <20221206145936.922196-1-benjamin.tissoires@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: c3991107a28a5ad0bd90660ca3bbf8c2c220ea98  Input: elants_i2c - delay longer with reset asserted
+On Tue, 6 Dec 2022, Benjamin Tissoires wrote:
 
-elapsed time: 1016m
+> Compared to v2, I followed the review from Alexei which cleaned up the
+> code a little bit.
+> 
+> I also got a kbuild test bot complaining[3] so add a fix for that too.
+> 
+> For reference, here is the previous cover letter:
+> 
+> So this patch series aims at solving both [0] and [1].
+> 
+> The first one is bpf related and concerns the ALLOW_ERROR_INJECTION API.
+> It is considered as a hack to begin with, so introduce a proper kernel
+> API to declare when a BPF hook can have its return value changed.
+> 
+> The second one is related to the fact that
+> DYNAMIC_FTRACE_WITH_DIRECT_CALLS is currently not enabled on arm64, and
+> that means that the current HID-BPF implementation doesn't work there
+> for now.
+> 
+> The first patch actually touches the bpf core code, but it would be
+> easier if we could merge it through the hid tree in the for-6.2/hid-bpf
+> branch once we get the proper acks.
 
-configs tested: 99
-configs skipped: 2
+For the series:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+	Reviewed-by: Jiri Kosina <jkosina@suse.cz>
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                                 defconfig
-alpha                               defconfig
-s390                             allmodconfig
-s390                                defconfig
-powerpc                           allnoconfig
-s390                             allyesconfig
-x86_64                          rhel-8.3-rust
-arc                  randconfig-r043-20221207
-x86_64                    rhel-8.3-kselftests
-x86_64                               rhel-8.3
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-riscv                randconfig-r042-20221207
-sh                               allmodconfig
-x86_64                        randconfig-a002
-s390                 randconfig-r044-20221207
-x86_64                           allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-mips                             allyesconfig
-x86_64                        randconfig-a013
-powerpc                          allmodconfig
-ia64                             allmodconfig
-x86_64                        randconfig-a011
-i386                                defconfig
-i386                          randconfig-a001
-x86_64                        randconfig-a015
-i386                          randconfig-a003
-i386                          randconfig-a005
-arm                  randconfig-r046-20221208
-arc                  randconfig-r043-20221208
-alpha                            allyesconfig
-arm                                 defconfig
-arc                              allyesconfig
-i386                          randconfig-a016
-i386                          randconfig-a014
-m68k                             allyesconfig
-i386                          randconfig-a012
-arm64                            allyesconfig
-arm                              allyesconfig
-i386                             allyesconfig
-x86_64                            allnoconfig
-arm                            lart_defconfig
-arc                    vdk_hs38_smp_defconfig
-powerpc                      cm5200_defconfig
-arm                        oxnas_v6_defconfig
-x86_64                           rhel-8.3-bpf
-i386                          randconfig-c001
-arm                            zeus_defconfig
-nios2                         3c120_defconfig
-m68k                             allmodconfig
-arc                  randconfig-r043-20221209
-riscv                randconfig-r042-20221209
-s390                 randconfig-r044-20221209
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-arm                  randconfig-c002-20221209
-x86_64                        randconfig-c001
-loongarch                           defconfig
-loongarch                         allnoconfig
-loongarch                        allmodconfig
-
-clang tested configs:
-arm                  randconfig-r046-20221207
-hexagon              randconfig-r041-20221207
-hexagon              randconfig-r045-20221207
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a014
-x86_64                        randconfig-a005
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-i386                          randconfig-a002
-hexagon              randconfig-r045-20221208
-hexagon              randconfig-r041-20221208
-riscv                randconfig-r042-20221208
-i386                          randconfig-a004
-i386                          randconfig-a006
-s390                 randconfig-r044-20221208
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-arm                           sama7_defconfig
-powerpc                   microwatt_defconfig
-powerpc                      ppc44x_defconfig
-arm                       mainstone_defconfig
-mips                          rm200_defconfig
-powerpc                  mpc885_ads_defconfig
-x86_64                        randconfig-k001
+Thanks,
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Jiri Kosina
+SUSE Labs
+
