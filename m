@@ -2,134 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A28648E53
-	for <lists+linux-input@lfdr.de>; Sat, 10 Dec 2022 12:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87297649334
+	for <lists+linux-input@lfdr.de>; Sun, 11 Dec 2022 09:41:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiLJLFq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Dec 2022 06:05:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52546 "EHLO
+        id S229886AbiLKIl5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 11 Dec 2022 03:41:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiLJLFp (ORCPT
+        with ESMTP id S229475AbiLKIl4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Dec 2022 06:05:45 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671B014D29
-        for <linux-input@vger.kernel.org>; Sat, 10 Dec 2022 03:05:42 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id s10so7519913ljg.1
-        for <linux-input@vger.kernel.org>; Sat, 10 Dec 2022 03:05:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QXt9l3h8UvC056p18+migPDLHDHm/JWJnpRirDbc2MY=;
-        b=C82qGunJQ2dy9pwQdHEanL/NMVDY0YXEC6y+Dl0CoxD3IEhUtbTDVOGF+KZL3nUG78
-         qLcFNyDAYiQEaffD4fJSd9K0L7lMhUxkWj+EMeBLUuHF13eZMssi8EkyP+63ziVoSsPm
-         DbV3fdtWynxgFeuDjrNfzNhUD/QLhC4eASJXSB/Az4z6RAoozaqTXAkrUldN6dokx3AB
-         sR2fxtOKbC1I0kOtnICRc5Di/+v2HEO9Vkx9dwa+/ktyk8Bd/Lsd13Zxf1l6ehWNEDF1
-         ZcXhLjz+fAuE1ZXZSamZzMYcHD+e/KcBVYPPaIiud55+R4BgwNerJZpGR/T48ttnlc5v
-         QH3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QXt9l3h8UvC056p18+migPDLHDHm/JWJnpRirDbc2MY=;
-        b=gBDDublLSpp39GqMxrJnasjNvcENjhr5aRig6roILYcTRvouY+pFB8WZxIE/vXKKDM
-         fqjVHogxvGkroF/ZFmN+3r40cDL1BsKv/gZb9nMw/cqQ6+l/HWNcTrQtMYzwovxe2aB/
-         JexGHXoq3bFBAiKcQ76w+fmL6hIjpGWG6V+r+ovWnS7jxQ1frDSsw/aRQSvhkPu22d69
-         /mwifl3xihqmtjv2LazN6++5IxSBQ/kyyRut55x2VOKnkw880/WXvFyI9vCYY7vecI1J
-         RG4pJ2aewiFdr+ozYdj0HrsOci6/pjFqYtOacU8SPQ7+CF3yMdLLAA9t8eqAqtx9Yz+M
-         N4IA==
-X-Gm-Message-State: ANoB5plossK9V0D9xrSvzi0dpYH4sAUgkkUUjRxSdCKcWL2/ZnfEI8tN
-        UniAnrMmzPY8HdAqyM6IGJIgoQ==
-X-Google-Smtp-Source: AA0mqf5Si5nKtGdnoatbchxOVi5LIC4FAgomZdP25gPowAC+O+GoQWEt5Yh3XnXrEgFDwaKkXOG7Dg==
-X-Received: by 2002:a05:651c:894:b0:277:9f5:1e16 with SMTP id d20-20020a05651c089400b0027709f51e16mr3462870ljq.4.1670670340636;
-        Sat, 10 Dec 2022 03:05:40 -0800 (PST)
-Received: from [192.168.1.101] (abxh44.neoplus.adsl.tpnet.pl. [83.9.1.44])
-        by smtp.gmail.com with ESMTPSA id a25-20020a2e8619000000b00279b292115asm538527lji.109.2022.12.10.03.05.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Dec 2022 03:05:40 -0800 (PST)
-Message-ID: <a333fef9-2cff-9a42-9368-b908f282137b@linaro.org>
-Date:   Sat, 10 Dec 2022 12:05:38 +0100
+        Sun, 11 Dec 2022 03:41:56 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12olkn2067.outbound.protection.outlook.com [40.92.22.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA4E312095;
+        Sun, 11 Dec 2022 00:41:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M0hj/ynTA17cP/51HwPyKdj85P53zNLrCrxSOjhQ0Tx1dOhQbQi7BboC34U3ocxxmqkJWH0w8L5wuIlUiYf8GK24pdgF49VkFf0Klszj958JEa14uwtTlV4ho0jTQQDG9sBBX+Ow+1Nj2Hj462hUxvhZRoe+5H5pPPtQEijgU0Q5Uiyn7upuyNlRwKkdOEbxeFlamkegejGdyPm1asF8AuJAxLAJmj7XRteIOT6pubNhs3V3fsD0ktvo1yCBly8Y0JzzjrsGEadxw1LvGSjMb/KAcPQe59eyDeBUyxkBEJrggYAQxg4Bo8P0ZCbM6FFtoNgum9p5NAN6o8N7dnlBIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2z8yZa3MBYSHLL67aTDBLgpsTYf2yjah9chvTfC4f0A=;
+ b=nAWnOThfv67mV5fmuP8PA+V1928nseSOZHrlvoD0gLqro6+tnrqw5nkP+8VMWPZMlucWyd5KvcAkWsqf5ozan2bvu6sK0EgRpT7qE/u3gvlOzSa3jaXhOQwZMM/sTPbzW69UnJfKih4EhA83c7rVR7lsLA3eviTGPIVMRZnRCqs6XraXpybHa2wjs0JloCIud7MhnAu13jXMnxVdcGrUb65DLWw+H3Th3I9h+MLLzo0G7R/KI+6rUV0UF7VoO4vy+hXbmbwltnjb1AeKGpP02HpC7aiG0RPntv+yhPnMLjYnaUen8r/K8vHH73/6FUNaAfn1JXbhEDq9zCbTJIu37A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2z8yZa3MBYSHLL67aTDBLgpsTYf2yjah9chvTfC4f0A=;
+ b=clJjGCyohcODurIkwuEY4UOq6Vk4bUP2nvd/4AFzHYahwQrpYJM8+dy/KaaU98q1nE5yvB68ldra61h/YZbnOYUTcqWogaETbNn7ujXUwPWVs+DR1Va77rjto3OUjqjMBD4zehsdsriTT9PkU8qEJ1AGHyoTQMTXGNbYArrIQv4+Ecb+v4JvVQWzh5g4E6xhFrDgDLPTQL1NFlSV4C6gKo+ubJ5ju2Jh8YBbCglMRvjoqMVdWHDorKAQvIHx7ZM4HTEtZTHrfgmv5iAMHzY4PxzuaoClGoRARfu6r5CjKFK9/7DdHtu/GToCV+Mg+NXZ0EWQhCWPytrpAYx264A/Zw==
+Received: from PH7PR20MB4962.namprd20.prod.outlook.com (2603:10b6:510:1fa::6)
+ by IA0PR20MB6260.namprd20.prod.outlook.com (2603:10b6:208:40a::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.6; Sun, 11 Dec
+ 2022 08:41:53 +0000
+Received: from PH7PR20MB4962.namprd20.prod.outlook.com
+ ([fe80::f892:b1e5:165b:c2ce]) by PH7PR20MB4962.namprd20.prod.outlook.com
+ ([fe80::f892:b1e5:165b:c2ce%9]) with mapi id 15.20.5880.019; Sun, 11 Dec 2022
+ 08:41:53 +0000
+From:   Inochi Amaoto <inochiama@outlook.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Inochi Amaoto <inochiama@outlook.com>
+Subject: [PATCH] HID: uclogic: Add support for recent Huion tablets
+Date:   Sun, 11 Dec 2022 16:37:34 +0800
+Message-ID: <PH7PR20MB49624FFCDF1F9382886933D3BB1E9@PH7PR20MB4962.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [4uZkW4fJMWZeP9zV3tfzo7Of6Ov2XGjz7y/US5qKn8Q=]
+X-ClientProxiedBy: BYAPR07CA0028.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::41) To PH7PR20MB4962.namprd20.prod.outlook.com
+ (2603:10b6:510:1fa::6)
+X-Microsoft-Original-Message-ID: <20221211083734.1504212-1-inochiama@outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v3 1/4] arm64: dts: qcom: sc7180: Bump up trogdor
- ts_reset_l drive strength
-Content-Language: en-US
-To:     Douglas Anderson <dianders@chromium.org>,
-        Bjorn Andersson <andersson@kernel.org>
-Cc:     swboyd@chromium.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        mka@chromium.org, Yunlong Jia <ecs.beijing2022@gmail.com>,
-        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-        Andy Gross <agross@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221209171240.1614904-1-dianders@chromium.org>
- <20221209091234.v3.1.I39c387f1e3176fcf340039ec12d54047de9f8526@changeid>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221209091234.v3.1.I39c387f1e3176fcf340039ec12d54047de9f8526@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR20MB4962:EE_|IA0PR20MB6260:EE_
+X-MS-Office365-Filtering-Correlation-Id: 142d12a4-bdad-4168-7c78-08dadb538d5f
+X-MS-Exchange-SLBlob-MailProps: 9IecXKUgicB5qK9jKkWuStJwctdoPmcF4GArdOMPFFhSJEVIDZi4KjxGCcQuqlSIasvaNqjsvm9kFTYHaT21Uv9B1RhlClHyaAdabEJQyLj38+LOmOta0ad7L6qDP835vj/j/NfogTwsInFCKNkBREDO/kCmAhqIct1JzzjOsHSKxadkWSBQkphGnb3PR54bpCQBJ4+59rvXy6fg3jwA3Obvbyg+spPMQArlOKDPsb13+9OlVq4b96yvRa0/aGaUp9x5RHo/XuJMSLJJFR478QzSTY8kPojwA7jArlgmk0gz6HRTZZutbWEfFsPEJ4cEOSy/vRar//whOvGSckkOYHG+IvBocxlEDC8bYq3I9zSctCuvzPQ5esA0OuWb5u/vLGLw+I1LzvhOmaP2liNToIhUc0/4j3vPAfYSmGmd2aGbtH/dKEy3rjtOWR7+/3NkW49i8+XsniB/C2mpFh8JtEyl8n4FFLd/pqO2X5Q1Sv9MZKTE/tlejvvSKvN3pEMm6ChHlzuIzbIGVvAV5RuQyb6XjLujq+khX6OTLw58Qm0Y2iH5QQsN0AfqrUB8TEFtNS3lG/33vwyu4/iHwcTbpkRtl/QNw8xgoKO9sabfWF9dEBeZkoF148GO+nsS3ogF/mEU6+lJ9DnV9UwVJE0ph31NjFUCSnzxWieU27vWXtp9H68EF2UDSJjrW+6XXD/fCEHqx6oqqDzGWm2/08HlN0U1HsHYHXW+qF7/8ULhMFMpJe2i74a0/w==
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dKISgd4fmTqlqpJwdy18Hl44jicAJ1T0Wq+LS60LjTrjvueGhu1uGFIUoWMnjtJkruIB8FAt4jaqDpMol71ZLvFBMTzeufOxrg5gY5VAOYnkfv/21m1XScpmSXfpKIk9Aq2cAsVf8GITnlUrtHSHcI0sD+q2w7opsxJfcE/rI4A1SMQ87iIPxlrNYsjGW+/hw101sLXfUusymQkQHW2Uc1GrBI30uGmR7yArdGy/nvTIgDlTuQqRygHJ6faPpMv/8WIQwFRhVf7DJ9kPvSkZLgxGrlEBaWTNj5ye1wCcMcVSGAl02FBA493mMZZP5pRDJYMRGZIqzL96RbH3+yXkOj/gVKuC5V3GiRtCi8K3SLD4uXekTwmZNPg9uepbf1Y/BMoKaVgC+HUftV+PI6hCa7IBwVKcjlVK8v3cjHm/JQyUySjWlSJAI3znXwyMtzcl6/GRdyYV+AzdLePzdbeJanylpBCwABA4HmITOgTViuu9RgiG3gwSclEyUS+mjRV/hfaotf0d4/Ph/61MvWUKFt+yY14rY8w8fM7zoiruVjbLOIupC9XM21tGvvZx8PPDTQilJbniTq9ZDCUdBkqTTJ6y+0XVdQxr9eKYdtwfWQBirTEfg64XS8HNXkZcByCrE18YAGzcfLElTndH3ikSKg==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U0CjRBqMRRU8q8RHpB9aJ6uLkPJ0eehjU958qJ0npMbXoZ/ltf8kZ+D4Idth?=
+ =?us-ascii?Q?iq0evkHlN2YEiq+U0cYygibMDgdJQkGS/tF6C5v6Trsd4G7RIUvrZa6/bn73?=
+ =?us-ascii?Q?oGIWf49IryNUXCOQoez47dhl8xlk+BHcOnA6h6l6IoPI5UtQQfhiq4OBeY2z?=
+ =?us-ascii?Q?i1KA3S6klApj92G/NyL27SGQbtQA9xQtFQXeCXA34QEV0DAmTEQEcOjkEHUl?=
+ =?us-ascii?Q?EYMVZhvqdAfct6xAz8Gwpu04jiXe3+20NfTYUX6vlMi5n+lTLMXjR9z7nWkE?=
+ =?us-ascii?Q?LGTGAn6DCF4KHH+rHf4nigDYWNk3d2wWrXB13HulR09XycHNoGSeSf3hw+pW?=
+ =?us-ascii?Q?MILdrDUYpdWJr+EfoyDv4ZZpbQVT0doM6FrS139YedORRba3TbMnOqCHv0ns?=
+ =?us-ascii?Q?HePoBNn97UetPGPz9X2KLeCV86fkgT2SNJ1Xnk2SsJWUzBEkh+kdvXQ9Ptc2?=
+ =?us-ascii?Q?nBzldYI3+x7pdNvnb71DR7itMp582Kdrse7pHakTHsEOdzD+PJbdfpWpw1Pl?=
+ =?us-ascii?Q?JIRLOuXvbdaDtaGxhkPjCwxRkAK2CVjUbZS76IpRPM/6OcBjGOXs7Ffo8pNG?=
+ =?us-ascii?Q?Rk9wdDiIsDO4BxMqaHGMHVQuflnLB7vtoDNsD5jz1q54lCBAOKINRVSnXtVv?=
+ =?us-ascii?Q?8NDmY3W5NLDi3gqXRD0Aqem+vqe/6czrHrLB2KyRhcf6f4tdCgpEkjijkopO?=
+ =?us-ascii?Q?0w3+xRTX2qwcdWuK6hiWueyVh8pJno7tcRE4outMZVtg+B0evO4jHS/TguvQ?=
+ =?us-ascii?Q?ADA3yVu0wXN3DJHfO0GbzfP8sSU+Ct6qnyXbc7+pehMl64YZC+ejHh3PjQ8a?=
+ =?us-ascii?Q?tvg/DhDzAeiE6S8mrj+biDTCdx3E+CvI3EqsqJXc15rt3FwGjCj3M+jGjb3i?=
+ =?us-ascii?Q?1cTT1OBQroQPBbUExQA0EcHnXDgHQZY+gw8pcWDy+iQn2MdI2Jk8Hod9PUAZ?=
+ =?us-ascii?Q?YKDOJW+Xhl+YxXJmrrVeEbO4Jp6/+bNVTwIFkh2KkstufzbHkSdKaLOmZ59+?=
+ =?us-ascii?Q?GmOjwXd1/BpWRN9GQmBF2/uLgBq6uUpfn4YhjhZhTrwyjJ2OZW+lR6Rj2bRU?=
+ =?us-ascii?Q?v0069dYypS3NbXXgbt1i7kG8Ir3Afh1PpzO2n2PBy5SbsiigzBHv8/6Bfa91?=
+ =?us-ascii?Q?TdKZdeZgLvkhp+pUgIVaGZo0/U7MVpb8ZobOODBvJngppQlZV1tdZWmVK6H3?=
+ =?us-ascii?Q?Y8i01Us05PlswJvwj2xC9XDOAGXkTUbIQQCPfUOXGv4XDh5UjXYtV3tH6uNI?=
+ =?us-ascii?Q?E2vpaqpl0MWUriUJpqESStEMzdsZ9B9uuPxS6erL91eLfHnQn5HUm3Pz+RxE?=
+ =?us-ascii?Q?aRc=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 142d12a4-bdad-4168-7c78-08dadb538d5f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR20MB4962.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2022 08:41:53.3188
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR20MB6260
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Since Huion uses a new device id for recent tablets, add a new
+device id 0x0064 to support recent Huion tablets.
 
+At least these tablets are using device id 0x0064:
 
-On 9.12.2022 18:12, Douglas Anderson wrote:
-> On at least one board (pazquel360) the reset line for the touchscreen
-> was scoped and found to take almost 2 ms to fall when we drove it
-> low. This wasn't great because the Linux driver for the touchscreen
-> (the elants_i2c driver) thinks it can do a 500 us reset pulse. If we
-> bump the drive strength to 8 mA then the reset line went down in ~421
-> us.
-> 
-> NOTE: we could apply this fix just for pazquel360, but:
-> * Probably other trogdor devices have similar timings and it's just
->   that nobody has noticed it before.
-> * There are other trogdor boards using the same elan driver that tries
->   to do 500 us reset pulses.
-> * Bumping the drive strength to 8mA across the board won't hurt. This
->   isn't a high speed signal or anything.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Gaomon 1060 Pro (0x256c:0x0064)
+Gaomon M6       (0x256c:0x0064)
+Huion KD200     (0x256c:0x0064)
+Huion KD100     (0x256c:0x0064)
 
-Konrad
-> 
-> (no changes since v1)
-> 
->  arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-> index f1defb94d670..ff1c7aa6a722 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-> @@ -1376,7 +1376,15 @@ ts_reset_l: ts-reset-l-state {
->  		pins = "gpio8";
->  		function = "gpio";
->  		bias-disable;
-> -		drive-strength = <2>;
-> +
-> +		/*
-> +		 * The reset GPIO to the touchscreen takes almost 2ms to drop
-> +		 * at the default drive strength. When we bump it up to 8mA it
-> +		 * falls in under 500us. We want this to be fast since the Elan
-> +		 * datasheet (and any drivers written based on it) talk about using
-> +		 * a 500 us reset pulse.
-> +		 */
-> +		drive-strength = <8>;
->  	};
->  
->  	sdc1_on: sdc1-on-state {
+This patch was tested on Gaomon 1060 Pro and Huion KD200. This patch
+may affect other models with the same id, however, it's seems that the
+other models of Huion do not have incompatible hardware changes, so
+this patch should still work.
+
+Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+---
+ drivers/hid/hid-ids.h            | 1 +
+ drivers/hid/hid-uclogic-core.c   | 2 ++
+ drivers/hid/hid-uclogic-params.c | 2 ++
+ 3 files changed, 5 insertions(+)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 8f58c3c1bec3..142186a6c14d 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -620,6 +620,7 @@
+ #define USB_VENDOR_ID_HUION		0x256c
+ #define USB_DEVICE_ID_HUION_TABLET	0x006e
+ #define USB_DEVICE_ID_HUION_TABLET2	0x006d
++#define USB_DEVICE_ID_HUION_TABLET3	0x0064
+ 
+ #define USB_VENDOR_ID_IBM					0x04b3
+ #define USB_DEVICE_ID_IBM_SCROLLPOINT_III			0x3100
+diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+index 7fa6fe04f1b2..0c31c13bfbfd 100644
+--- a/drivers/hid/hid-uclogic-core.c
++++ b/drivers/hid/hid-uclogic-core.c
+@@ -493,6 +493,8 @@ static const struct hid_device_id uclogic_devices[] = {
+ 				USB_DEVICE_ID_HUION_TABLET) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HUION,
+ 				USB_DEVICE_ID_HUION_TABLET2) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_HUION,
++				USB_DEVICE_ID_HUION_TABLET3) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_TRUST,
+ 				USB_DEVICE_ID_TRUST_PANORA_TABLET) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC,
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index 34fa991e6267..f27292d71b6d 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -1514,6 +1514,8 @@ int uclogic_params_init(struct uclogic_params *params,
+ 		     USB_DEVICE_ID_HUION_TABLET):
+ 	case VID_PID(USB_VENDOR_ID_HUION,
+ 		     USB_DEVICE_ID_HUION_TABLET2):
++	case VID_PID(USB_VENDOR_ID_HUION,
++		     USB_DEVICE_ID_HUION_TABLET3):
+ 	case VID_PID(USB_VENDOR_ID_UCLOGIC,
+ 		     USB_DEVICE_ID_HUION_TABLET):
+ 	case VID_PID(USB_VENDOR_ID_UCLOGIC,
+-- 
+2.38.1
+
