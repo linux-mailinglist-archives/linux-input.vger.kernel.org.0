@@ -2,81 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1231B64A56C
-	for <lists+linux-input@lfdr.de>; Mon, 12 Dec 2022 18:04:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FBCE64A58D
+	for <lists+linux-input@lfdr.de>; Mon, 12 Dec 2022 18:08:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232859AbiLLREJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Dec 2022 12:04:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56914 "EHLO
+        id S232579AbiLLRI0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Dec 2022 12:08:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232790AbiLLREG (ORCPT
+        with ESMTP id S232537AbiLLRIX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Dec 2022 12:04:06 -0500
-Received: from cloudserver094114.home.pl (cloudserver094114.home.pl [79.96.170.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79362266C;
-        Mon, 12 Dec 2022 09:03:11 -0800 (PST)
-Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
- by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 5.1.0)
- id 0d00e512b03bd770; Mon, 12 Dec 2022 18:03:09 +0100
-Received: from kreacher.localnet (unknown [213.134.182.252])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Mon, 12 Dec 2022 12:08:23 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05A9726E6;
+        Mon, 12 Dec 2022 09:08:23 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by v370.home.net.pl (Postfix) with ESMTPSA id 6DC506E6927;
-        Mon, 12 Dec 2022 18:03:08 +0100 (CET)
-Authentication-Results: v370.home.net.pl; dmarc=none (p=none dis=none) header.from=rjwysocki.net
-Authentication-Results: v370.home.net.pl; spf=fail smtp.mailfrom=rjwysocki.net
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Thorsten Leemhuis <regressions@leemhuis.info>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] HID: Revert catchall handling of Bluetooth device in hid-logitech-hidpp
-Date:   Mon, 12 Dec 2022 18:03:07 +0100
-Message-ID: <4787931.31r3eYUQgx@kreacher>
-In-Reply-To: <nycvar.YFH.7.76.2212071757220.6045@cbobk.fhfr.pm>
-References: <20221207142433.1158329-1-benjamin.tissoires@redhat.com> <nycvar.YFH.7.76.2212071757220.6045@cbobk.fhfr.pm>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 967C060F1A;
+        Mon, 12 Dec 2022 17:08:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1462C433D2;
+        Mon, 12 Dec 2022 17:08:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670864902;
+        bh=2ahBXUJDAK2WR3lhgschSHf1DqybChKQYpTaViFEUFI=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=YzEMZW4YK13QRhfLLVHauaj5+qXYPAZCMdfk/G4b2C57WLp8hl/3qUB23QATOJeev
+         r/FLXZYpLUHF03IBD4PMGBV5zvq0THkMjRWcz4XMx4Qf7cLf2nbx6/7oXGBLwu6x49
+         ArDeMJsChUFK+CIhkngu+3EsuRQKCHt4PrsiUwM2+DlTjGdu68ngLjW8VQlsWrfOdt
+         wKSu2Xr5hJoQ7ba+3Q5WrfZnGRUQg3t0XwWDlFGeRmQ1lX8oytYhZOmEGmZqtGXQ9m
+         3lMR6rT1TlbENUP5r/Zz9kxHPGDwB6B0g+AGeHKo8hk9IQHz7rGTjJEhczpgX525Ew
+         /okYoikCnvTZA==
+Date:   Mon, 12 Dec 2022 18:08:20 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH hid v12 05/15] HID: bpf jmp table: simplify the logic of
+ cleaning up programs
+In-Reply-To: <CAO-hwJ+fYvpD5zbDNq-f-gUEVpxsrdJ7K-ceNd37nLxzBxYL+g@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2212121806440.9000@cbobk.fhfr.pm>
+References: <20221103155756.687789-1-benjamin.tissoires@redhat.com> <20221103155756.687789-6-benjamin.tissoires@redhat.com> <CAO-hwJ+fYvpD5zbDNq-f-gUEVpxsrdJ7K-ceNd37nLxzBxYL+g@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
-X-CLIENT-IP: 213.134.182.252
-X-CLIENT-HOSTNAME: 213.134.182.252
-X-VADE-SPAMSTATE: clean
-X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkjghfggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpedvffeuiedtgfdvtddugeeujedtffetteegfeekffdvfedttddtuefhgeefvdejhfenucfkphepvddufedrudefgedrudekvddrvdehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvudefrddufeegrddukedvrddvhedvpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqpdhnsggprhgtphhtthhopeejpdhrtghpthhtohepsggvnhhjrghmihhnrdhtihhsshhoihhrvghssehrvgguhhgrthdrtghomhdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrghinhhssehrihhsvghuphdrnhgvthdprhgtphhtthhopehhrgguvghssheshhgruggvshhsrdhnvghtpdhrtghpthhtoheprhgvghhrvghsshhiohhnsheslhgvvghmhhhu
- ihhsrdhinhhfohdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-DCC--Metrics: v370.home.net.pl 1024; Body=7 Fuz1=7 Fuz2=7
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wednesday, December 7, 2022 5:57:47 PM CET Jiri Kosina wrote:
-> On Wed, 7 Dec 2022, Benjamin Tissoires wrote:
-> 
-> > We are basically too late in the 6.1 cycle to be able to do anything
-> > else. Let's revert these 2 patches as we are in a situation where we
-> > would break too many users.
-> > 
-> > We will reintroduce them during the next cycle with proper fixes in the
-> > driver.
-> 
-> Rafael,
-> 
-> it would be nice to get
-> 
-> 	Reported-by:
-> 	Tested-by:
-> 
-> for these reverts if possible.
+On Mon, 12 Dec 2022, Benjamin Tissoires wrote:
 
-I had been offline for the previous 3 days, sorry.
+> If I compile the kernel with LLVM=1, the function 
+> bpf_prog_put_deferred() is optimized in a weird way: if we are not in 
+> irq, the function is inlined into __bpf_prog_put(), but if we are, the 
+> function is still kept around as it is called in a scheduled work item.
+> 
+> This is something I completely overlooked: I assume that if the function 
+> would be inlined, the HID entrypoint BPF preloaded object would not be 
+> able to bind, thus deactivating HID-BPF safely. But if a function can be 
+> both inlined and not inlined, then I have no guarantees that my cleanup 
+> call will be called. Meaning that a HID device might believe there is 
+> still a bpf function to call. And things will get messy, with kernel 
+> crashes and others.
+> 
+> An easy "fix" would be to tag bpf_prog_put_deferred() with "noinline",
+> but it just feels wrong to have that for this specific reason.
+> 
+> AFAICT, gcc is not doing that optimisation, but nothing prevents it
+> from doing it, and suddenly that will be a big whole in the kernel.
 
-I'll test 6.1 and let you know.
+It's not doing it on this particular function, but in general it's 
+actually quite common for gcc to inline a function in some callsites and 
+leave it out-of-line in others (we are dealing with that in livepatching), 
+so I agree it has to be taken into account irrespective of the compiler 
+used.
 
+> As much as I wish I had another option, I think for the sake of everyone 
+> (and for my future holidays) I'll postpone HID-BPF to 6.3.
 
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
