@@ -2,62 +2,282 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E12264B232
-	for <lists+linux-input@lfdr.de>; Tue, 13 Dec 2022 10:21:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4384564B22F
+	for <lists+linux-input@lfdr.de>; Tue, 13 Dec 2022 10:21:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234275AbiLMJVj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Dec 2022 04:21:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52102 "EHLO
+        id S234465AbiLMJVi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Dec 2022 04:21:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234799AbiLMJUl (ORCPT
+        with ESMTP id S234762AbiLMJUi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Dec 2022 04:20:41 -0500
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C925FBF
-        for <linux-input@vger.kernel.org>; Tue, 13 Dec 2022 01:20:40 -0800 (PST)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id E6A9F85A9F; Tue, 13 Dec 2022 09:18:26 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1670923198; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=pOecnAQK1swn0OIlixMD30UyW1GRUHOS/uNvGs+5g09NWisX3tKvZ3E7Q+kb1Sghh
-         nPDgdz8CxW189gn+fjR9DwZ0s1+R6Il4wDfpmtNazR+ZrdiYOZsUGaNUNhcKsEAnB2
-         15EAKdaXLqtWkTHjgV4962V/S2N6TK4+TE2mpgVoFMxXKe3CuK18+V0eHGnBaez+r1
-         0XKNYbcdpBOMAMdba1hmQaAZRgThSUMFpvfMWb/ofnfezC8ni+/yuRXmHHWZwqML/A
-         Kc5Xl2B+YBxGh2qv6z2C0Cla7EIV1sQc5gwtHZ7I2c7db1IPvZJb4kWuuWmy9gikJm
-         E+20wWFWjuQ+w==
-Received: by mail.lokoho.com for <linux-input@vger.kernel.org>; Tue, 13 Dec 2022 09:17:13 GMT
-Message-ID: <20221213074501-0.1.2s.95zl.0.ggqhj8asd7@lokoho.com>
-Date:   Tue, 13 Dec 2022 09:17:13 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-input@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        Tue, 13 Dec 2022 04:20:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2557EBC0
+        for <linux-input@vger.kernel.org>; Tue, 13 Dec 2022 01:19:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670923153;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Aeq323qfS8Bn2ZyewA1Gt180pHSM6rovNGR+/lMKQfQ=;
+        b=LW/NfK8ClQhz0CO0i+FsTTqMZH+CX/smZdk6sUG6gpR/M+VGcQz2MUE1ybw89CUJs/81gX
+        nae/daBi0SwBgTgqMnntKkbtau9t16fc5OIQnBK3vempheota6pHSagF+IYyMnIHcMEuoZ
+        Iu3BRD3cCi65hyPlUfeEn9ex5gO1JEA=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-7-egUq3zy2OPOzWkbCb6OfBw-1; Tue, 13 Dec 2022 04:19:12 -0500
+X-MC-Unique: egUq3zy2OPOzWkbCb6OfBw-1
+Received: by mail-il1-f199.google.com with SMTP id h9-20020a92c269000000b00303494c4f3eso7011082ild.15
+        for <linux-input@vger.kernel.org>; Tue, 13 Dec 2022 01:19:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Aeq323qfS8Bn2ZyewA1Gt180pHSM6rovNGR+/lMKQfQ=;
+        b=8E4TjRr3b7/vhJ+45X635ttPJT7VJ9lXGdOpLxenCy5o/JtO1moswQG+C8v0tdJoiA
+         V+XJPOGBuDivflf1+VdyUAGfPTIHHX8Z2OyqD8D6FdHOV/N8OsQVfMR509Wqf8g8xOh1
+         D0YQQR2jym27wsXaIHfvUb6Hi3mHv8nGvRe6RTq3B8KcjnActTkMkFGcF8Mq8henXvU9
+         BJj607V4BgI6uRPxTyjd/cuM49ZATf4+Iq7dlABVuPAKX51goNM7TnUU/HZuFkzHN8Aa
+         JTKuLnRWB8jx1NPilqb18kuPrBBoRo1BG3yTlKbeJKSp7m9ZeXEsiJ9pdj/vLbxAHCkO
+         7+HQ==
+X-Gm-Message-State: ANoB5pnLyMtJ5qoSP0/81VCmQWB7WjaKI2vMpzu2vlNNBp89pzJdTuBD
+        nFlp5K59CLySuKjh4mw41exChzgLAvPXDCT/UZfz8MPzu0SGMriU0lULps/sPP/tWupWchd2QLX
+        r788Xxv5haeGViroknFS1By6bs2gi96RuXMPZdts=
+X-Received: by 2002:a92:db42:0:b0:303:26c0:e1fe with SMTP id w2-20020a92db42000000b0030326c0e1femr19765493ilq.102.1670923151817;
+        Tue, 13 Dec 2022 01:19:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf69D4fGPduF0vuiMIoH7Lc/5GI3I9pzG527KNnDiwQUGMbgwMqSVFJaOVNehI4DqgsLZxw3D1vROI8zYgQFPHs=
+X-Received: by 2002:a92:db42:0:b0:303:26c0:e1fe with SMTP id
+ w2-20020a92db42000000b0030326c0e1femr19765485ilq.102.1670923151515; Tue, 13
+ Dec 2022 01:19:11 -0800 (PST)
 MIME-Version: 1.0
+References: <Y5d29JwIxku9ubVb@google.com> <20221213010112.3394537-1-ballway@chromium.org>
+In-Reply-To: <20221213010112.3394537-1-ballway@chromium.org>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 13 Dec 2022 10:19:00 +0100
+Message-ID: <CAO-hwJ+2-BgppwAyD2mXbkZjZcFv3TnnGLT+3kLCDxX0SUr9Pw@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: multitouch: Add quirks for flipped axes
+To:     Allen Ballway <ballway@chromium.org>
+Cc:     dmitry.torokhov@gmail.com, dtor@chromium.org, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rydberg@bitmath.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SORTED_RECIPS,SPF_HELO_NONE,SPF_NONE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Tue, Dec 13, 2022 at 2:01 AM Allen Ballway <ballway@chromium.org> wrote:
+>
+> Certain touchscreen devices, such as the ELAN9034, are oriented
+> incorrectly and report touches on opposite points on the X and Y axes.
+> For example, a 100x200 screen touched at (10,20) would report (90, 180)
+> and vice versa.
+>
+> This changed fixes the issue by adding device quirks to transform
+> the touch points into the correct spaces, from X -> MAX(X) - X,
+> and Y -> MAX(Y) - Y. These quirks are added in hid-quirks checking
+> both DMI information and device vendor and product IDs. The quirk
+> is handled in hid-multitouch to do the actual transformation.
+>
+> Signed-off-by: Allen Ballway <ballway@chromium.org>
+> ---
+> V2 -> V3: Use existing HID_QUIRK_*_INVERT and match the quirk in
+> hid-quirk, passing down to hid-multitouch through the hid device.
+>
+> V1 -> V2: Address review comments, change to use DMI match. Confirmed
+> MT_TOOL_X/Y require transformation and update orientation based on
+> flipped axes.
+>
+>
+>  drivers/hid/hid-multitouch.c | 43 ++++++++++++++++++++++++++++++++----
+>  drivers/hid/hid-quirks.c     | 33 +++++++++++++++++++++++++++
+>  2 files changed, 72 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 91a4d3fc30e08..1f4c2aa511359 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -71,6 +71,8 @@ MODULE_LICENSE("GPL");
+>  #define MT_QUIRK_SEPARATE_APP_REPORT   BIT(19)
+>  #define MT_QUIRK_FORCE_MULTI_INPUT     BIT(20)
+>  #define MT_QUIRK_DISABLE_WAKEUP                BIT(21)
+> +#define MT_QUIRK_X_INVERT              BIT(22)
+> +#define MT_QUIRK_Y_INVERT              BIT(23)
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+Why duplicate the already available quirks in struct hid_device?
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+>
+>  #define MT_INPUTMODE_TOUCHSCREEN       0x02
+>  #define MT_INPUTMODE_TOUCHPAD          0x03
+> @@ -1086,6 +1088,10 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+>                 int orientation = wide;
+>                 int max_azimuth;
+>                 int azimuth;
+> +               int x;
+> +               int y;
+> +               int cx;
+> +               int cy;
+>
+>                 if (slot->a != DEFAULT_ZERO) {
+>                         /*
+> @@ -1104,6 +1110,16 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+>                         if (azimuth > max_azimuth * 2)
+>                                 azimuth -= max_azimuth * 4;
+>                         orientation = -azimuth;
+> +
+> +                       /* Orientation is inverted if the X or Y axes are
+> +                        * flipped, but normalized if both are inverted.
+> +                        */
+> +                       if (quirks & (MT_QUIRK_X_INVERT | MT_QUIRK_Y_INVERT) &&
+> +                           !((quirks & MT_QUIRK_X_INVERT)
+> +                             && (quirks & MT_QUIRK_Y_INVERT))) {
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+This is done in every finger slot in every report. We should probably
+cache that information somewhere.
 
+> +                               orientation = -orientation;
+> +                       }
+> +
+>                 }
+>
+>                 if (quirks & MT_QUIRK_TOUCH_SIZE_SCALING) {
+> @@ -1115,10 +1131,23 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+>                         minor = minor >> 1;
+>                 }
+>
+> -               input_event(input, EV_ABS, ABS_MT_POSITION_X, *slot->x);
+> -               input_event(input, EV_ABS, ABS_MT_POSITION_Y, *slot->y);
+> -               input_event(input, EV_ABS, ABS_MT_TOOL_X, *slot->cx);
+> -               input_event(input, EV_ABS, ABS_MT_TOOL_Y, *slot->cy);
+> +               x = quirks & MT_QUIRK_X_INVERT ?
+> +                       input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
+> +                       *slot->x;
+> +               y = quirks & MT_QUIRK_Y_INVERT ?
+> +                       input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->y :
+> +                       *slot->y;
+> +               cx = quirks & MT_QUIRK_X_INVERT ?
+> +                       input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->cx :
+> +                       *slot->cx;
+> +               cy = quirks & MT_QUIRK_Y_INVERT ?
+> +                       input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->cy :
+> +                       *slot->cy;
 
-Pozdrawiam
-Adam Charachuta
+I can't help but think that there must be a better way of doing that.
+If I didn't postpone HID-BPF to 6.3 I would have asked you to do this
+as a BPF program.
+
+Still, the whole point of the slot pointers was to remove the data
+copy everywhere, and you are adding it back.  Not to mention that the
+same tests and accesses to variables are called multiple times.
+
+> +
+> +               input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
+> +               input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
+> +               input_event(input, EV_ABS, ABS_MT_TOOL_X, cx);
+> +               input_event(input, EV_ABS, ABS_MT_TOOL_Y, cy);
+>                 input_event(input, EV_ABS, ABS_MT_DISTANCE, !*slot->tip_state);
+>                 input_event(input, EV_ABS, ABS_MT_ORIENTATION, orientation);
+>                 input_event(input, EV_ABS, ABS_MT_PRESSURE, *slot->p);
+> @@ -1735,6 +1764,12 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>         if (id->vendor == HID_ANY_ID && id->product == HID_ANY_ID)
+>                 td->serial_maybe = true;
+>
+> +       if (hdev->quirks & HID_QUIRK_X_INVERT)
+> +               td->mtclass.quirks |= MT_QUIRK_X_INVERT;
+> +
+> +       if (hdev->quirks & HID_QUIRK_Y_INVERT)
+> +               td->mtclass.quirks |= MT_QUIRK_Y_INVERT;
+
+As mentioned above, I don't see the point in doing that duplication of quirks.
+
+> +
+>         /* This allows the driver to correctly support devices
+>          * that emit events over several HID messages.
+>          */
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+
+AFAICT, Dmitry told you twice to use i2c-hid, not hid-quirks.c.
+
+We already have i2c-hid-dmi-quirks.c that you could extend. The
+rationale is that this way, the dmi check will be done only for
+internal peripherals, leaving aside the USB ones.
+
+Cheers,
+Benjamin
+
+> index 0e9702c7f7d6c..47c6cd62f019a 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/export.h>
+>  #include <linux/slab.h>
+>  #include <linux/mutex.h>
+> +#include <linux/dmi.h>
+>  #include <linux/input/elan-i2c-ids.h>
+>
+>  #include "hid-ids.h"
+> @@ -957,6 +958,29 @@ static const struct hid_device_id hid_mouse_ignore_list[] = {
+>         { }
+>  };
+>
+> +static const struct hid_device_id elan_flipped_quirks[] = {
+> +       { HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8, USB_VENDOR_ID_ELAN, 0x2dcd),
+> +               HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT },
+> +       { }
+> +};
+> +
+> +/*
+> + * This list contains devices which have specific issues based on the system
+> + * they're on and not just the device itself. The driver_data will have a
+> + * specific hid device to match against.
+> + */
+> +static const struct dmi_system_id dmi_override_table[] = {
+> +       {
+> +               .ident = "DynaBook K50/FR",
+> +               .matches = {
+> +                       DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dynabook Inc."),
+> +                       DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "dynabook K50/FR"),
+> +               },
+> +               .driver_data = (void *)elan_flipped_quirks,
+> +       },
+> +       { }     /* Terminate list */
+> +};
+> +
+>  bool hid_ignore(struct hid_device *hdev)
+>  {
+>         int i;
+> @@ -1238,6 +1262,7 @@ static unsigned long hid_gets_squirk(const struct hid_device *hdev)
+>  {
+>         const struct hid_device_id *bl_entry;
+>         unsigned long quirks = 0;
+> +       const struct dmi_system_id *system_id;
+>
+>         if (hid_match_id(hdev, hid_ignore_list))
+>                 quirks |= HID_QUIRK_IGNORE;
+> @@ -1249,6 +1274,14 @@ static unsigned long hid_gets_squirk(const struct hid_device *hdev)
+>         if (bl_entry != NULL)
+>                 quirks |= bl_entry->driver_data;
+>
+> +       system_id = dmi_first_match(dmi_override_table);
+> +       if (system_id != NULL) {
+> +               bl_entry = hid_match_id(hdev, system_id->driver_data);
+> +               if (bl_entry != NULL)
+> +                       quirks |= bl_entry->driver_data;
+> +       }
+> +
+> +
+>         if (quirks)
+>                 dbg_hid("Found squirk 0x%lx for HID device 0x%04x:0x%04x\n",
+>                         quirks, hdev->vendor, hdev->product);
+> --
+> 2.39.0.rc1.256.g54fd8350bd-goog
+>
+
