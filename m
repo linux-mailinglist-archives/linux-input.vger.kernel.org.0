@@ -2,106 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4604B64AEA1
-	for <lists+linux-input@lfdr.de>; Tue, 13 Dec 2022 05:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E686B64AEB9
+	for <lists+linux-input@lfdr.de>; Tue, 13 Dec 2022 05:49:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233891AbiLMEVd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Dec 2022 23:21:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34232 "EHLO
+        id S233100AbiLMEtq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Dec 2022 23:49:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234095AbiLMEV2 (ORCPT
+        with ESMTP id S231334AbiLMEtn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Dec 2022 23:21:28 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D2D81E711;
-        Mon, 12 Dec 2022 20:21:27 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id 3-20020a17090a098300b00219041dcbe9so2239542pjo.3;
-        Mon, 12 Dec 2022 20:21:27 -0800 (PST)
+        Mon, 12 Dec 2022 23:49:43 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1A381C92A
+        for <linux-input@vger.kernel.org>; Mon, 12 Dec 2022 20:49:41 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id jn7so14367065plb.13
+        for <linux-input@vger.kernel.org>; Mon, 12 Dec 2022 20:49:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dR2fAWpK4Jduu9OnCz3aentaZielUuEwej706VgPyF0=;
-        b=nQyCrClrPJ5Hys33YUwIF867NMsA1hM033Z9vVpx70fOgctVZ8RgX3sIh/buBexmvO
-         0KnxERpHb/e3lqjKZOPGmmG55JG/5TijucCb/rYnSqjPI3EuA+rOyoBRsr6qpXMANdHa
-         7O4A0yTpFkoUYzssH17b0TKkD8zFIhdn56K7nmE+hPvbvhJiiPEhZOq9hHysEyO+IEJm
-         KYzVp3PNL6oKmkJ9wtDP48U8Ns2h8Ml4RiSNBS87bRE3+8FhwIyKTWLxpBct2n6jS+kU
-         Y7cmGavwJTnZ2iBXr9EHXKwLNqD21UCKUMClNeCCtpf+HC+dKWMF5xngl2VTMU4bvd9T
-         BYbQ==
+        d=gaikai-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Po7qbWkchaA8ToVHh9wdBX19vrTjunJ8/33H4ww5D5s=;
+        b=Ip4cRO0c1P5D8O/SNWlzvMEZT398NFEcXHTm6a5l1eKYZiMlItcAM/42hotUfPfjp4
+         97M885DYFGT9jHMAB0Hek5O4F8ms1nNaXwabsmiGQ/HF2zqrVuDprAyw7cGSmEVVMxrN
+         P9pj4RE3qXq6WxPHTvkZQA7+1ZedWr582bG8rkN4s1Cr36YL4RuxEHGnhOWAayOZDJcc
+         qfLK1FNn5h8QOv3WDFsNtbhxCA0jDdDJ6sNu3MkQ2esCJhyhpLr0kmv/FLFsSxT0vYLi
+         2HBa6NOm7H7ub0ccuFi6e/g7SYQJDO1gUnlVvt7rSW6e4lEb0+BPndWNxcQLUHojPqqz
+         rA2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dR2fAWpK4Jduu9OnCz3aentaZielUuEwej706VgPyF0=;
-        b=qu/+WtENs7JqRacaD6EMVgj0tKdoUy7sQ13huHZjRvMlZvLbXpG2njN5ntxT7E9c0I
-         mkSqn8DChP7NaHWHlF4ZnMTU6uk7D8NzxBm4IB00vKRRzjavNfu1Ik+nB9BtgiyXTcmr
-         QxBBOkugV74zmscBh9rhalOJ3o/EEDNip3j4QpaR2gXEaTCNcQD8efMaOdHKQKDlV07D
-         cj2wTCjcipx78yF+6AwXovYi217RBW6Mdk7G0N6zG0uJKEfRD6vJ33Qs38ePOUGbjiUR
-         b9znIWmZZwOozeygO/TXXmmB+7dIGN+rlVV7tKeZZDCU2iY5vj2Ey98tfuJHi4mlLyey
-         KhSQ==
-X-Gm-Message-State: ANoB5pl5TVMXa5Lgw7vjgTSu5JCW14aoA6fYlYNLe0y+/51BPTj2XXeP
-        Le5ZauMIa4szvcWMjKAUU/nY9+sIxJ0=
-X-Google-Smtp-Source: AA0mqf6L6a4loKroUhF9sVmk0iZK6rTjW14KOtZ9v9tOZG6m4KFJcKClqw6BGaRL80WDEGwc53ePAg==
-X-Received: by 2002:a17:902:d4cb:b0:189:d0b4:52d0 with SMTP id o11-20020a170902d4cb00b00189d0b452d0mr27106679plg.46.1670905286538;
-        Mon, 12 Dec 2022 20:21:26 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-6.three.co.id. [180.214.233.6])
-        by smtp.gmail.com with ESMTPSA id j16-20020a170902da9000b0018975488514sm7194246plx.126.2022.12.12.20.21.25
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Po7qbWkchaA8ToVHh9wdBX19vrTjunJ8/33H4ww5D5s=;
+        b=tkcHJGaydt6b7Ol4X9lhC9V5naDCvwVq/zK/fR5E3KEovWBfH3dh2PkhNKzNW0HTav
+         yY6YVZ3oTOCYAJ/6IdGuAnWwl3Xz9T3rP9vIG6b+XlOGnPYH6fSi1DXJZYE1gJBoh4NV
+         4oEBnq9JumZ0W3pauM7KCJigH7Hn1oFizuiV1OONJnk/uONDlIqWKS00eZpFlQdli0cL
+         4FKyjZzVyWV8DQAUq80oR/XeyHEN3v4VKI4wHV+2XOA5pT1Txq78W6CphFv0IIdiibay
+         QnXaNG1z9otseiIBd0LaIp0jBEhzVroA5JBFztFw7u7WjC1zdEW0zwSMFtRbuWY+8Tai
+         Fj0w==
+X-Gm-Message-State: ANoB5plsLOwhISkPjVccpENHWLhiUPwpFOvSpqXNar9pniSgZcltBCPl
+        CwYH6Ecvgy8hCfFL7BKwYxgZfSGByRWcQXIt
+X-Google-Smtp-Source: AA0mqf4Xl8I/IEUpWjL9krGQGwcsh380SiewzDLxIu/HivvWJWiBXeXLDptHtMoFcskJx4Xsq0TDow==
+X-Received: by 2002:a17:902:b105:b0:189:41c7:693f with SMTP id q5-20020a170902b10500b0018941c7693fmr21129769plr.68.1670906981244;
+        Mon, 12 Dec 2022 20:49:41 -0800 (PST)
+Received: from localhost.localdomain (23-122-157-100.lightspeed.irvnca.sbcglobal.net. [23.122.157.100])
+        by smtp.gmail.com with ESMTPSA id t13-20020a17090340cd00b00176acd80f69sm7280522pld.102.2022.12.12.20.49.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 20:21:25 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 82705100E30; Tue, 13 Dec 2022 11:21:22 +0700 (WIB)
-Date:   Tue, 13 Dec 2022 11:21:22 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jingyuan Liang <jingyliang@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org
-Cc:     hbarnor@chromium.org, dtor@chromium.org, seobrien@chromium.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH] HID: Add Mapping for System Microphone Mute
-Message-ID: <Y5f9wmKPQrYYFGuz@debian.me>
-References: <20221123234619.91313-1-jingyliang@chromium.org>
+        Mon, 12 Dec 2022 20:49:40 -0800 (PST)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+X-Google-Original-From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: [PATCH 0/1] HID: playstation: DS4 fixes
+Date:   Mon, 12 Dec 2022 20:49:34 -0800
+Message-Id: <20221213044935.1775499-1-roderick.colenbrander@sony.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kM6uoharBzp3sV1P"
-Content-Disposition: inline
-In-Reply-To: <20221123234619.91313-1-jingyliang@chromium.org>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---kM6uoharBzp3sV1P
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Apparently on some Android ARM platforms, the Bluetooth DS4
+path was crashing due to an undefined pointer value.
+For some reasons (compile flags, compiler, x86?) I didn't
+hit this issue yet. The patch fixes the issue.
 
-On Wed, Nov 23, 2022 at 11:46:19PM +0000, Jingyuan Liang wrote:
-> This patch maps the new usage code(0x01 0xa9) to keycode KEY_MICMUTE.
-> Additionally hid-debug is adjusted to recognize this keycode as well.
+Thanks,
+Roderick Colenbrander
 
-s/This patch maps/Map/
+Roderick Colenbrander (1):
+  HID: playstation: fix free of uninialized pointer for DS4 in
+    Bluetooth.
 
-See Documentation/process/submitting-patches.rst for why.
+ drivers/hid/Kconfig           | 2 +-
+ drivers/hid/hid-playstation.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
---=20
-An old man doll... just what I always wanted! - Clara
+-- 
+2.38.1
 
---kM6uoharBzp3sV1P
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5f9tgAKCRD2uYlJVVFO
-o00OAP9OulGcLefqwb3Eis9P9pUvvUA3fcC/vPlheXhUr7I5awEAlUR6oIUoghNy
-BIWlvbu4P55UzUsJgyV26benwsTl7ww=
-=q9FS
------END PGP SIGNATURE-----
-
---kM6uoharBzp3sV1P--
