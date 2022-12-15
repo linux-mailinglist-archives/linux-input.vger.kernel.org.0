@@ -2,117 +2,303 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A61A64DE3A
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 17:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D8FB64DF9A
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 18:27:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiLOQL6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 11:11:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42512 "EHLO
+        id S229549AbiLOR04 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 12:26:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbiLOQLy (ORCPT
+        with ESMTP id S230366AbiLOR0z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 11:11:54 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F701658B
-        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 08:11:53 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id bx10so3652010wrb.0
-        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 08:11:53 -0800 (PST)
+        Thu, 15 Dec 2022 12:26:55 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53172F002
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 09:26:54 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id a9so7567372pld.7
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 09:26:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5GllUlIDpXau0l2xEgc9SWI+sBV48rCRB1n9ph8iFkE=;
-        b=d1iNuBETgZxSJPNmN4hHrBDFqeHAbOqV5FARXpn4WMOB5U08XEIViwYrZENzMTrWzY
-         u6/OvJfqWE6u0fK9b5xmOH0GSd0yMSNiFWJZSjTlmWnvXFDkdlznCyTmZMdtF8F1x2eF
-         W0+I4JfqUDKZy+BfAzw74gFiFFHkBZ0c/QOrVLqZRjjimCTbD58bt4dZ9su/2hRqExQ2
-         GKdAZMiT3KgrR64eLhbyhKiqKbEKHJS/BDffHThQgfBSlVlxUnrmbZ7oQ0y9agXt6/eb
-         zS2554ung8aj/rvAIiPnEPFwG7/oQVIJKPXvwMitawk8kfK6Kb9x73cCYXzX4JeS2Nw2
-         hZaA==
+        bh=ZZtOedLV/QlyXTghqPz+ASgSdVaeqyqAQ4U3JRPc5GU=;
+        b=i+WKoSrnH8ita2jterSOZ0Hd1U94TBZC3RiGtrtyxQHAgF3sFT3O2l0g+tcEgYKDGF
+         LcpH8ECS98fZw9T6bDccQJEQ49nLgAl41QluIBA/w4yePbXvEvX0tnh5mOQFl4QZ3BBP
+         sUXi2E5vIb+qd8S10yGsneb5r6gekVMLo8K60=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5GllUlIDpXau0l2xEgc9SWI+sBV48rCRB1n9ph8iFkE=;
-        b=TqeGl8Pm2vAtzEkkGMzwjW8GP2/UC47XbSSg8jpwQxm3JMoMXm6vYhG/7NxzQtB6YB
-         /VvIQJNts0CyXUTBJ8y8qV0YjuYKOvsvuBbFdjNf9eSfj+yhDy+UClyHIV1xPNqhn6FG
-         gaMKoTjFK+S6//p722jjNqvxl7oV1P+k25J14qAufHOao5suPPDc6vt0P8E0wi9t0Rtf
-         QVLwoCUNedlfUMHm7AUPD1Qh12an57cGtQflXeHjWRtEeieZUl0qBpnFFVXEcsA+Gkm7
-         XppYBZV4G7hHFcza+D4iqR95gCguhW4csKuCt6T2cmfC4KLdrmn37lPFX5+25WkghR4o
-         Qx4A==
-X-Gm-Message-State: ANoB5pl9jtlKJDeMpcH2M+KEF0tLGcoCJicx0xx1fswEDkCj7Tjw8X+Z
-        ZpKA4G5jeZgqTCnVJnW/IpWET/+4Aw+nKte0KRM=
-X-Google-Smtp-Source: AA0mqf44hSCI9P7LyaxNoja04BFOTE2pCQe+f2LOJKxVT0q73fDik7hh16+jDPJ2NycTiYTvTapo2yCEJuElPOrm1SM=
-X-Received: by 2002:adf:fad0:0:b0:24f:b97d:861d with SMTP id
- a16-20020adffad0000000b0024fb97d861dmr445930wrs.201.1671120712298; Thu, 15
- Dec 2022 08:11:52 -0800 (PST)
+        bh=ZZtOedLV/QlyXTghqPz+ASgSdVaeqyqAQ4U3JRPc5GU=;
+        b=AljsjWmwvO4+Rc4sFsXcIIjWQq/JKrdDkjBGDBlfaNeido7g1BZmsVyK11Cf4o1Olq
+         lqyN+uRJuKFHmOGOAkxaedvFHUv1BXxGGp9irTcqJOnjvDrbR7xXJeLmqFCPH6cLvWv1
+         7hm8FgACkYfj1tbDKhRh6sY7knEg+n1WWjfTIPnF3FVGwaEvyzCv5+2LNKvR8Yqkzbhu
+         xRzmZDD0cCYmkm90fBeTA49pZe+y+moqnJw5qmc+xmtaileGWsP3y0JdMQCK2w4GZe7p
+         RoPnkGX3Xl0dItrYut7p8GiUx1Te3xsFiSoIh2uc8FA3GtHV2/KGd98GggyuDH21pnD2
+         kmvQ==
+X-Gm-Message-State: ANoB5pm0OaBkogtjBE94Tdf50pIX0MNbERlVTHO0kEJ7s5krE5cM5M4I
+        sRizlvi33ZFjE/pPmBuL1ppOuQ==
+X-Google-Smtp-Source: AA0mqf5Jn2JphekoKOtk/pdStxxBBRBF+vfe1kHyk1gZeBtrLsXy6YSUME9j8Nszia7L80YR0qk+3g==
+X-Received: by 2002:a05:6a20:6d9f:b0:af:7d08:6703 with SMTP id gl31-20020a056a206d9f00b000af7d086703mr6218942pzb.27.1671125214242;
+        Thu, 15 Dec 2022 09:26:54 -0800 (PST)
+Received: from ballway1.c.googlers.com.com (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
+        by smtp.gmail.com with ESMTPSA id m9-20020a654389000000b0047696938911sm1844761pgp.74.2022.12.15.09.26.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Dec 2022 09:26:53 -0800 (PST)
+From:   Allen Ballway <ballway@chromium.org>
+To:     ballway@chromium.org
+Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        dtor@chromium.org, jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rydberg@bitmath.org
+Subject: [PATCH v6] HID: multitouch: Add quirks for flipped axes
+Date:   Thu, 15 Dec 2022 17:26:44 +0000
+Message-Id: <20221215172644.688044-1-ballway@chromium.org>
+X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
+In-Reply-To: <20221214234531.508881-1-ballway@chromium.org>
+References: <20221214234531.508881-1-ballway@chromium.org>
 MIME-Version: 1.0
-References: <CANRwn3QZfeu4Oonw2-bFHzDajxDJRD6+G5HXr1WJ7bJuXddf2Q@mail.gmail.com>
- <20221203114318.10103-1-jose.exposito89@gmail.com>
-In-Reply-To: <20221203114318.10103-1-jose.exposito89@gmail.com>
-From:   Jason Gerecke <killertofu@gmail.com>
-Date:   Thu, 15 Dec 2022 08:11:40 -0800
-Message-ID: <CANRwn3S=6S+mtzL5eFUP=z6K0m=1LO3gyvS4eWHugB8n_3NBhw@mail.gmail.com>
-Subject: Re: [PATCH] HID: Recognize "Digitizer" as a valid input application
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     benjamin.tissoires@redhat.com, jason.gerecke@wacom.com,
-        jikos@kernel.org, joshua@joshua-dickens.com,
-        linux-input@vger.kernel.org, ping.cheng@wacom.com,
-        pinglinux@gmail.com, skomra@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks for the response, Jose.
+Certain touchscreen devices, such as the ELAN9034, are oriented
+incorrectly and report touches on opposite points on the X and Y axes.
+For example, a 100x200 screen touched at (10,20) would report (90, 180)
+and vice versa.
 
-Unfortunately this isn't an issue that we can fix in the Wacom driver
-since it affects devices that don't use the Wacom driver. While we
-could theoretically adopt affected VID:PIDs into the Wacom driver on a
-case-by-case basis, there would be a large time lag between us
-adopting a device and users running the required kernel. This should
-really be something that is fixed in the hid-generic driver, even if
-it means some pain trying to ensure we don't break things in the
-process... I'm still hoping to hear something back from Benjamin about
-my hid-tools test results or if additional testing is needed.
+This is fixed by adding device quirks to transform the touch points
+into the correct spaces, from X -> MAX(X) - X, and Y -> MAX(Y) - Y.
 
-Jason
+Signed-off-by: Allen Ballway <ballway@chromium.org>
 ---
-Now instead of four in the eights place /
-you=E2=80=99ve got three, =E2=80=98Cause you added one  /
-(That is to say, eight) to the two,     /
-But you can=E2=80=99t take seven from three,    /
-So you look at the sixty-fours....
+V5 -> V6: Add another IS_ENABLED check for CONFIG_I2C_DMI_CORE because
+the module may not be there at all.
 
-On Sat, Dec 3, 2022 at 3:43 AM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
-il.com> wrote:
->
-> Hi Jason,
->
-> > Still waiting to hear back about this. Are positive results from the
-> > hid-tools tests sufficient, or is there additional work that should be
-> > done for this patch?
->
-> A while ago a similar patch was sent [1] and it was in a similar status
-> to your patch for a while, so I decided to fix the issue in the UCLogic
-> driver [2].
->
-> I can not tell you if this patch needs additional work, but you might be
-> interested in fixing it in the Wacom driver, where it'd be easier for you
-> to test that no regressions are introduced.
->
-> I hope this helps a bit,
-> Jose
->
-> [1] https://lore.kernel.org/linux-input/20220804151832.30373-1-openglfrea=
-k@googlemail.com/
-> [2] https://lore.kernel.org/linux-input/d08049f2-443b-f769-cfde-629cdfb96=
-fc0@alexyzhang.dev/T/
+V4 -> V5: Add IS_ENABLED check for CONFIG_DMI to prevent linker error.
+
+V3 -> V4: Move quirk logic to i2c_hid_get_dmi_quirks and remove
+duplicate quirks from hid-multitouch.
+
+V2 -> V3: Use existing HID_QUIRK_*_INVERT and match the quirk in
+hid-quirk, passing down to hid-multitouch through the hid device.
+
+V1 -> V2: Address review comments, change to use DMI match. Confirmed
+MT_TOOL_X/Y require transformation and update orientation based on
+flipped axes.
+
+
+ drivers/hid/hid-multitouch.c             | 39 ++++++++++++++++++---
+ drivers/hid/hid-quirks.c                 |  6 ++++
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 43 ++++++++++++++++++++++++
+ drivers/hid/i2c-hid/i2c-hid.h            |  3 ++
+ 4 files changed, 87 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 91a4d3fc30e08..622fe6928104c 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -71,6 +71,7 @@ MODULE_LICENSE("GPL");
+ #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
+ #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
+ #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
++#define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
+
+ #define MT_INPUTMODE_TOUCHSCREEN	0x02
+ #define MT_INPUTMODE_TOUCHPAD		0x03
+@@ -1009,6 +1010,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			    struct mt_usages *slot)
+ {
+ 	struct input_mt *mt = input->mt;
++	struct hid_device *hdev = td->hdev;
+ 	__s32 quirks = app->quirks;
+ 	bool valid = true;
+ 	bool confidence_state = true;
+@@ -1086,6 +1088,10 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 		int orientation = wide;
+ 		int max_azimuth;
+ 		int azimuth;
++		int x;
++		int y;
++		int cx;
++		int cy;
+
+ 		if (slot->a != DEFAULT_ZERO) {
+ 			/*
+@@ -1104,6 +1110,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			if (azimuth > max_azimuth * 2)
+ 				azimuth -= max_azimuth * 4;
+ 			orientation = -azimuth;
++			if (quirks & MT_QUIRK_ORIENTATION_INVERT)
++				orientation = -orientation;
++
+ 		}
+
+ 		if (quirks & MT_QUIRK_TOUCH_SIZE_SCALING) {
+@@ -1115,10 +1124,23 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			minor = minor >> 1;
+ 		}
+
+-		input_event(input, EV_ABS, ABS_MT_POSITION_X, *slot->x);
+-		input_event(input, EV_ABS, ABS_MT_POSITION_Y, *slot->y);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_X, *slot->cx);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_Y, *slot->cy);
++		x = hdev->quirks & HID_QUIRK_X_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
++			*slot->x;
++		y = hdev->quirks & HID_QUIRK_Y_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->y :
++			*slot->y;
++		cx = hdev->quirks & HID_QUIRK_X_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->cx :
++			*slot->cx;
++		cy = hdev->quirks & HID_QUIRK_Y_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->cy :
++			*slot->cy;
++
++		input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
++		input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
++		input_event(input, EV_ABS, ABS_MT_TOOL_X, cx);
++		input_event(input, EV_ABS, ABS_MT_TOOL_Y, cy);
+ 		input_event(input, EV_ABS, ABS_MT_DISTANCE, !*slot->tip_state);
+ 		input_event(input, EV_ABS, ABS_MT_ORIENTATION, orientation);
+ 		input_event(input, EV_ABS, ABS_MT_PRESSURE, *slot->p);
+@@ -1735,6 +1757,15 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	if (id->vendor == HID_ANY_ID && id->product == HID_ANY_ID)
+ 		td->serial_maybe = true;
+
++
++	/* Orientation is inverted if the X or Y axes are
++	 * flipped, but normalized if both are inverted.
++	 */
++	if (hdev->quirks & (HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT) &&
++	    !((hdev->quirks & HID_QUIRK_X_INVERT)
++	      && (hdev->quirks & HID_QUIRK_Y_INVERT)))
++		td->mtclass.quirks = MT_QUIRK_ORIENTATION_INVERT;
++
+ 	/* This allows the driver to correctly support devices
+ 	 * that emit events over several HID messages.
+ 	 */
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 0e9702c7f7d6c..78452faf3c9b4 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -19,6 +19,7 @@
+ #include <linux/input/elan-i2c-ids.h>
+
+ #include "hid-ids.h"
++#include "i2c-hid/i2c-hid.h"
+
+ /*
+  * Alphabetically sorted by vendor then product.
+@@ -1298,6 +1299,11 @@ unsigned long hid_lookup_quirk(const struct hid_device *hdev)
+ 		quirks = hid_gets_squirk(hdev);
+ 	mutex_unlock(&dquirks_lock);
+
++	/* Get quirks specific to I2C devices */
++	if (IS_ENABLED(CONFIG_I2C_DMI_CORE) && IS_ENABLED(CONFIG_DMI) &&
++	    hdev->bus == BUS_I2C)
++		quirks |= i2c_hid_get_dmi_quirks(hdev->vendor, hdev->product);
++
+ 	return quirks;
+ }
+ EXPORT_SYMBOL_GPL(hid_lookup_quirk);
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index 8e0f67455c098..554a7dc285365 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -10,8 +10,10 @@
+ #include <linux/types.h>
+ #include <linux/dmi.h>
+ #include <linux/mod_devicetable.h>
++#include <linux/hid.h>
+
+ #include "i2c-hid.h"
++#include "../hid-ids.h"
+
+
+ struct i2c_hid_desc_override {
+@@ -416,6 +418,28 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 	{ }	/* Terminate list */
+ };
+
++static const struct hid_device_id i2c_hid_elan_flipped_quirks = {
++	HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8, USB_VENDOR_ID_ELAN, 0x2dcd),
++		HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT
++};
++
++/*
++ * This list contains devices which have specific issues based on the system
++ * they're on and not just the device itself. The driver_data will have a
++ * specific hid device to match against.
++ */
++static const struct dmi_system_id i2c_hid_dmi_quirk_table[] = {
++	{
++		.ident = "DynaBook K50/FR",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dynabook Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "dynabook K50/FR"),
++		},
++		.driver_data = (void *)&i2c_hid_elan_flipped_quirks,
++	},
++	{ }	/* Terminate list */
++};
++
+
+ struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
+ {
+@@ -450,3 +474,22 @@ char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 	*size = override->hid_report_desc_size;
+ 	return override->hid_report_desc;
+ }
++
++u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
++{
++	u32 quirks = 0;
++	const struct dmi_system_id *system_id =
++			dmi_first_match(i2c_hid_dmi_quirk_table);
++
++	if (system_id) {
++		const struct hid_device_id *device_id =
++				(struct hid_device_id *)(system_id->driver_data);
++
++		if (device_id && device_id->vendor == vendor &&
++		    device_id->product == product)
++			quirks = device_id->driver_data;
++	}
++
++	return quirks;
++}
++EXPORT_SYMBOL_GPL(i2c_hid_get_dmi_quirks);
+diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
+index 96c75510ad3f1..2c7b66d5caa0f 100644
+--- a/drivers/hid/i2c-hid/i2c-hid.h
++++ b/drivers/hid/i2c-hid/i2c-hid.h
+@@ -9,6 +9,7 @@
+ struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name);
+ char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 					       unsigned int *size);
++u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product);
+ #else
+ static inline struct i2c_hid_desc
+ 		   *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
+@@ -16,6 +17,8 @@ static inline struct i2c_hid_desc
+ static inline char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 							     unsigned int *size)
+ { return NULL; }
++static inline u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
++{ return 0; }
+ #endif
+
+ /**
+--
+2.39.0.rc1.256.g54fd8350bd-goog
+
