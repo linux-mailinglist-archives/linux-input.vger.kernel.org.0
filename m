@@ -2,61 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C47C264D91C
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 10:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EABF164D93E
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 11:07:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbiLOJzX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 04:55:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50520 "EHLO
+        id S229786AbiLOKHz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 05:07:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230270AbiLOJzF (ORCPT
+        with ESMTP id S229629AbiLOKHx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 04:55:05 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62535446F
-        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 01:55:02 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id h12so2438898wrv.10
-        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 01:55:02 -0800 (PST)
+        Thu, 15 Dec 2022 05:07:53 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BC40B1E
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 02:07:51 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id i7so2484348wrv.8
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 02:07:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dEboVQqkxtlNjsg8IwyA57JCH93pgfOrLO1t6HicO8U=;
-        b=nG0IwklcS0HhP7dFCzDNzuffnpbceqYAtjhHcXDNXJIb1cwT3HJTxkRhwMLBac3CDj
-         Vg7DvhvlgNWvCBjnC2H47o1BO8jLZFGKA6XeNa1FCJmsxfE3h1/4A2TuahPDIfQoGhFS
-         y9gsmy5iLP5fZKOZBTvp7jEA2zng9PFauYA+AsUPwAlDIwAmeyKdmdjUPfiz9y90DLkM
-         yBlcJMX2TOXUYvokdwtTjPjl3PhYIoMY8aMGxyLBRH67ixX7owZNs2mCPCgxLoWzw2GZ
-         /XF0c2ZhGe0x/PYlp9Ly2izBytwbY2SbTr0m2v2fFsoTDVUcF/+oIbKeCFOS9YD2WBEb
-         N92w==
+        bh=RSv3G96/4PAOLp1M9lgOUmVxhOppz2QwnN8wjGypRsE=;
+        b=orRazjGm7yt4FEK61Hdiiqpp++xCv0wDWuWTZ6gVvV/tBrdiddxcW3cMQ5vDAJXltb
+         AHLMwKFOJkfpvIQEfNmuhlawmW88uktZl60mG5cJwktT8w5zpPtHpID2ZarPqt+IqZou
+         6U8MfvBxbxoG7PtiCSnR6Z6lyIKzvEms2Oos3sn48MJNCXrQhFFQOfkqCg3GgRk7bCAW
+         WUYqBU/sVznscESbao5z0BsON++BrgttJk0H2mQu7k5FBgQ9x8W7cGMkxFHalAdcUa0o
+         G+aBV4YJi7jtGyv0f62w9KTrRlwQ6Ph8BESttjAL9MtSOvuy469lMqGyizIw/oBUxTBs
+         /pcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dEboVQqkxtlNjsg8IwyA57JCH93pgfOrLO1t6HicO8U=;
-        b=zxMwP3fmekmvC9tTcnwGFDc0PBwmNZbRPo1HTEvOX4gRwwy3y60ktpBiugkmrVXRyC
-         TQGk/KVLjBr1DMBIhs9i27R7EEmm+ni/SqqonKAGEbc1kxkHI7e5v73Bgy/xUY8eO3ib
-         aR8xVMwpmD48SgSlBlIJvVDQ83jv57+ntFcHL8PvqOxx+MhlgcEgNM+6mcsMZ4zzx+T/
-         93T2DcGNPQDpRjelEybZhq/HZarM0P658SoodtMLaGvjE9ErIQIbMZlCvIVgpGC0B7tw
-         CgJcXhJVKrSlQCmWPEEEESlz7l4pDK2gCNUW1049pT3NSpuIEvCcT4V3a8MdDAgDHLgz
-         e6ew==
-X-Gm-Message-State: ANoB5pmsxjLP2L52GcZBVFYK1fjRq+3DDSEHzI320wu9uup3ek4ZYwbu
-        NR/eOl2iuyO1akl++zmWON4q04FlMVdBZmOr
-X-Google-Smtp-Source: AA0mqf5Dnb+oon8Pp8pftkns7He+FANWMiMy9XLsxP34+ZpXjWfP1zBGwm2QOfyPIysFSvPiILmG4w==
-X-Received: by 2002:a5d:5610:0:b0:242:1ad2:15e1 with SMTP id l16-20020a5d5610000000b002421ad215e1mr15874823wrv.2.1671098101402;
-        Thu, 15 Dec 2022 01:55:01 -0800 (PST)
+        bh=RSv3G96/4PAOLp1M9lgOUmVxhOppz2QwnN8wjGypRsE=;
+        b=2zIYinEhFl2fLFzWj5wqDjTHBH4ewGIGo/GdoQB/U78N4ixVnOF9hE9Ut5rl0IxGGg
+         JZ/kRmftJV+ivsZo0rr6kKIm9AxkL7yo+nhEpAOYkYhUtyWgboiGR6EQeCRc9umsIe62
+         OfZCw+qYkvZIpOqS3iBTeb3Csrtq753LsR2sFgFchq0YtH8ZM+s5LDQ3dYTO22vUUnRK
+         GSEeDiWtA5/ZOYEX1c3i2M5mUQeXn3+A/+Oomou3b16sdAbESesscCzGaDFoiRi44pDR
+         zg3SHwPrcS+2X+8RCEy16x5wfXBkscoC0onPmGbq/5AKqI+pubvL6jSuKPpHcRAbWuE5
+         w6ig==
+X-Gm-Message-State: ANoB5pkx7ykIK9EAqsuPYznbf0Km2pQMur2e3R0sZcWZk5+zEtWGYvNU
+        Ujpp9i53QDQ8Y7DbrqqdUAKdiA==
+X-Google-Smtp-Source: AA0mqf7w6auO5x/tV70C52h/ZFKATEe9yVS1YBIy3Cft/40PvV+zfA/sYqSTCpNFyiPvXZxpF70bPw==
+X-Received: by 2002:adf:cc85:0:b0:242:713c:7f65 with SMTP id p5-20020adfcc85000000b00242713c7f65mr18184629wrj.55.1671098869769;
+        Thu, 15 Dec 2022 02:07:49 -0800 (PST)
 Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id o2-20020a5d4a82000000b002366dd0e030sm5398654wrq.68.2022.12.15.01.55.00
+        by smtp.gmail.com with ESMTPSA id b1-20020a05600c4e0100b003d1cc0464a2sm5912897wmq.8.2022.12.15.02.07.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 01:55:01 -0800 (PST)
+        Thu, 15 Dec 2022 02:07:49 -0800 (PST)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
 To:     Jeff LaBundy <jeff@labundy.com>, dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, jeff@labundy.com
-Subject: Re: [PATCH 3/5] Input: iqs269a - configure device with a single
- block write
-In-Reply-To: <Y4V2UUxc94P9YYyc@nixie71>
-References: <Y4V16ey6osEaaZJ/@nixie71> <Y4V2UUxc94P9YYyc@nixie71>
-Date:   Thu, 15 Dec 2022 10:55:00 +0100
-Message-ID: <87o7s5j8jv.fsf@baylibre.com>
+Subject: Re: [PATCH 4/5] Input: iqs269a - do not poll during suspend or resume
+In-Reply-To: <Y4V2XUtLVkOHvi6C@nixie71>
+References: <Y4V16ey6osEaaZJ/@nixie71> <Y4V2XUtLVkOHvi6C@nixie71>
+Date:   Thu, 15 Dec 2022 11:07:48 +0100
+Message-ID: <87len9j7yj.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -70,16 +69,20 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Mon, Nov 28, 2022 at 21:02, Jeff LaBundy <jeff@labundy.com> wrote:
 
-> Unless it is being done as part of servicing a soft reset interrupt,
-> configuring channels on-the-fly (as is the case when writing to the
-> ati_trigger attribute) may cause GPIO3 (which reflects the state of
-> touch for a selected channel) to be inadvertently asserted.
+> Polling the device while it transitions from automatic to manual
+> power mode switching may keep the device from actually finishing
+> the transition. The process appears to time out depending on the
+> polling rate and the device's core clock frequency.
 >
-> To solve this problem, follow the vendor's recommendation and write
-> all channel configuration as well as the REDO_ATI register field as
-> part of a single block write. This ensures the device has been told
-> to re-calibrate itself following an I2C stop condition, after which
-> sensing resumes and GPIO3 may be asserted.
+> This is ultimately unnecessary in the first place; instead it is
+> sufficient to write the desired mode during initialization, then
+> disable automatic switching at suspend. This eliminates the need
+> to ensure the device is prepared for a manual change and removes
+> the 'suspend_mode' variable.
+>
+> Similarly, polling the device while it transitions from one mode
+> to another under manual control may time out as well. This added
+> step does not appear to be necessary either, so drop it.
 >
 > Fixes: 04e49867fad1 ("Input: add support for Azoteq IQS269A")
 > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
@@ -87,290 +90,190 @@ On Mon, Nov 28, 2022 at 21:02, Jeff LaBundy <jeff@labundy.com> wrote:
 Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
 > ---
->  drivers/input/misc/iqs269a.c | 98 ++++++++++++++----------------------
->  1 file changed, 39 insertions(+), 59 deletions(-)
+>  drivers/input/misc/iqs269a.c | 118 +++++++++--------------------------
+>  1 file changed, 31 insertions(+), 87 deletions(-)
 >
 > diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
-> index 711e67db71a4..0eb3cff177e5 100644
+> index 0eb3cff177e5..eca680bf8c20 100644
 > --- a/drivers/input/misc/iqs269a.c
 > +++ b/drivers/input/misc/iqs269a.c
-> @@ -96,8 +96,6 @@
->  #define IQS269_MISC_B_TRACKING_UI_ENABLE	BIT(4)
->  #define IQS269_MISC_B_FILT_STR_SLIDER		GENMASK(1, 0)
+> @@ -148,9 +148,6 @@
+>  #define IQS269_ATI_POLL_TIMEOUT_US		(iqs269->delay_mult * 500000)
+>  #define IQS269_ATI_STABLE_DELAY_MS		(iqs269->delay_mult * 150)
 >  
-> -#define IQS269_CHx_SETTINGS			0x8C
+> -#define IQS269_PWR_MODE_POLL_SLEEP_US		IQS269_ATI_POLL_SLEEP_US
+> -#define IQS269_PWR_MODE_POLL_TIMEOUT_US		IQS269_ATI_POLL_TIMEOUT_US
 > -
->  #define IQS269_CHx_ENG_A_MEAS_CAP_SIZE		BIT(15)
->  #define IQS269_CHx_ENG_A_RX_GND_INACTIVE	BIT(13)
->  #define IQS269_CHx_ENG_A_LOCAL_CAP_SIZE		BIT(12)
-> @@ -245,6 +243,18 @@ struct iqs269_ver_info {
->  	u8 padding;
->  } __packed;
+>  #define iqs269_irq_wait()			usleep_range(200, 250)
 >  
-> +struct iqs269_ch_reg {
-> +	u8 rx_enable;
-> +	u8 tx_enable;
-> +	__be16 engine_a;
-> +	__be16 engine_b;
-> +	__be16 ati_comp;
-> +	u8 thresh[3];
-> +	u8 hyst;
-> +	u8 assoc_select;
-> +	u8 assoc_weight;
-> +} __packed;
-> +
->  struct iqs269_sys_reg {
->  	__be16 general;
->  	u8 active;
-> @@ -266,18 +276,7 @@ struct iqs269_sys_reg {
->  	u8 timeout_swipe;
->  	u8 thresh_swipe;
->  	u8 redo_ati;
-> -} __packed;
-> -
-> -struct iqs269_ch_reg {
-> -	u8 rx_enable;
-> -	u8 tx_enable;
-> -	__be16 engine_a;
-> -	__be16 engine_b;
-> -	__be16 ati_comp;
-> -	u8 thresh[3];
-> -	u8 hyst;
-> -	u8 assoc_select;
-> -	u8 assoc_weight;
-> +	struct iqs269_ch_reg ch_reg[IQS269_NUM_CH];
->  } __packed;
->  
->  struct iqs269_flags {
-> @@ -292,7 +291,6 @@ struct iqs269_private {
->  	struct regmap *regmap;
->  	struct mutex lock;
->  	struct iqs269_switch_desc switches[ARRAY_SIZE(iqs269_events)];
-> -	struct iqs269_ch_reg ch_reg[IQS269_NUM_CH];
->  	struct iqs269_sys_reg sys_reg;
+>  enum iqs269_local_cap_size {
+> @@ -295,7 +292,6 @@ struct iqs269_private {
 >  	struct input_dev *keypad;
 >  	struct input_dev *slider[IQS269_NUM_SL];
-> @@ -307,6 +305,7 @@ struct iqs269_private {
->  static int iqs269_ati_mode_set(struct iqs269_private *iqs269,
->  			       unsigned int ch_num, unsigned int mode)
->  {
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	u16 engine_a;
+>  	unsigned int keycode[ARRAY_SIZE(iqs269_events) * IQS269_NUM_CH];
+> -	unsigned int suspend_mode;
+>  	unsigned int delay_mult;
+>  	unsigned int ch_num;
+>  	bool hall_enable;
+> @@ -773,17 +769,6 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
+>  	iqs269->hall_enable = device_property_present(&client->dev,
+>  						      "azoteq,hall-enable");
 >  
->  	if (ch_num >= IQS269_NUM_CH)
-> @@ -317,12 +316,12 @@ static int iqs269_ati_mode_set(struct iqs269_private *iqs269,
->  
->  	mutex_lock(&iqs269->lock);
->  
-> -	engine_a = be16_to_cpu(iqs269->ch_reg[ch_num].engine_a);
-> +	engine_a = be16_to_cpu(ch_reg[ch_num].engine_a);
->  
->  	engine_a &= ~IQS269_CHx_ENG_A_ATI_MODE_MASK;
->  	engine_a |= (mode << IQS269_CHx_ENG_A_ATI_MODE_SHIFT);
->  
-> -	iqs269->ch_reg[ch_num].engine_a = cpu_to_be16(engine_a);
-> +	ch_reg[ch_num].engine_a = cpu_to_be16(engine_a);
->  	iqs269->ati_current = false;
->  
->  	mutex_unlock(&iqs269->lock);
-> @@ -333,13 +332,14 @@ static int iqs269_ati_mode_set(struct iqs269_private *iqs269,
->  static int iqs269_ati_mode_get(struct iqs269_private *iqs269,
->  			       unsigned int ch_num, unsigned int *mode)
->  {
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	u16 engine_a;
->  
->  	if (ch_num >= IQS269_NUM_CH)
->  		return -EINVAL;
->  
->  	mutex_lock(&iqs269->lock);
-> -	engine_a = be16_to_cpu(iqs269->ch_reg[ch_num].engine_a);
-> +	engine_a = be16_to_cpu(ch_reg[ch_num].engine_a);
->  	mutex_unlock(&iqs269->lock);
->  
->  	engine_a &= IQS269_CHx_ENG_A_ATI_MODE_MASK;
-> @@ -351,6 +351,7 @@ static int iqs269_ati_mode_get(struct iqs269_private *iqs269,
->  static int iqs269_ati_base_set(struct iqs269_private *iqs269,
->  			       unsigned int ch_num, unsigned int base)
->  {
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	u16 engine_b;
->  
->  	if (ch_num >= IQS269_NUM_CH)
-> @@ -379,12 +380,12 @@ static int iqs269_ati_base_set(struct iqs269_private *iqs269,
->  
->  	mutex_lock(&iqs269->lock);
->  
-> -	engine_b = be16_to_cpu(iqs269->ch_reg[ch_num].engine_b);
-> +	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
->  
->  	engine_b &= ~IQS269_CHx_ENG_B_ATI_BASE_MASK;
->  	engine_b |= base;
->  
-> -	iqs269->ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
-> +	ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
->  	iqs269->ati_current = false;
->  
->  	mutex_unlock(&iqs269->lock);
-> @@ -395,13 +396,14 @@ static int iqs269_ati_base_set(struct iqs269_private *iqs269,
->  static int iqs269_ati_base_get(struct iqs269_private *iqs269,
->  			       unsigned int ch_num, unsigned int *base)
->  {
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	u16 engine_b;
->  
->  	if (ch_num >= IQS269_NUM_CH)
->  		return -EINVAL;
->  
->  	mutex_lock(&iqs269->lock);
-> -	engine_b = be16_to_cpu(iqs269->ch_reg[ch_num].engine_b);
-> +	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
->  	mutex_unlock(&iqs269->lock);
->  
->  	switch (engine_b & IQS269_CHx_ENG_B_ATI_BASE_MASK) {
-> @@ -429,6 +431,7 @@ static int iqs269_ati_base_get(struct iqs269_private *iqs269,
->  static int iqs269_ati_target_set(struct iqs269_private *iqs269,
->  				 unsigned int ch_num, unsigned int target)
->  {
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	u16 engine_b;
->  
->  	if (ch_num >= IQS269_NUM_CH)
-> @@ -439,12 +442,12 @@ static int iqs269_ati_target_set(struct iqs269_private *iqs269,
->  
->  	mutex_lock(&iqs269->lock);
->  
-> -	engine_b = be16_to_cpu(iqs269->ch_reg[ch_num].engine_b);
-> +	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
->  
->  	engine_b &= ~IQS269_CHx_ENG_B_ATI_TARGET_MASK;
->  	engine_b |= target / 32;
->  
-> -	iqs269->ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
-> +	ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
->  	iqs269->ati_current = false;
->  
->  	mutex_unlock(&iqs269->lock);
-> @@ -455,13 +458,14 @@ static int iqs269_ati_target_set(struct iqs269_private *iqs269,
->  static int iqs269_ati_target_get(struct iqs269_private *iqs269,
->  				 unsigned int ch_num, unsigned int *target)
->  {
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	u16 engine_b;
->  
->  	if (ch_num >= IQS269_NUM_CH)
->  		return -EINVAL;
->  
->  	mutex_lock(&iqs269->lock);
-> -	engine_b = be16_to_cpu(iqs269->ch_reg[ch_num].engine_b);
-> +	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
->  	mutex_unlock(&iqs269->lock);
->  
->  	*target = (engine_b & IQS269_CHx_ENG_B_ATI_TARGET_MASK) * 32;
-> @@ -531,13 +535,7 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
->  	if (fwnode_property_present(ch_node, "azoteq,slider1-select"))
->  		iqs269->sys_reg.slider_select[1] |= BIT(reg);
->  
-> -	ch_reg = &iqs269->ch_reg[reg];
+> -	if (!device_property_read_u32(&client->dev, "azoteq,suspend-mode",
+> -				      &val)) {
+> -		if (val > IQS269_SYS_SETTINGS_PWR_MODE_MAX) {
+> -			dev_err(&client->dev, "Invalid suspend mode: %u\n",
+> -				val);
+> -			return -EINVAL;
+> -		}
 > -
-> -	error = regmap_raw_read(iqs269->regmap,
-> -				IQS269_CHx_SETTINGS + reg * sizeof(*ch_reg) / 2,
-> -				ch_reg, sizeof(*ch_reg));
-> -	if (error)
-> -		return error;
-> +	ch_reg = &iqs269->sys_reg.ch_reg[reg];
->  
->  	error = iqs269_parse_mask(ch_node, "azoteq,rx-enable",
->  				  &ch_reg->rx_enable);
-> @@ -1048,10 +1046,8 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
->  
->  static int iqs269_dev_init(struct iqs269_private *iqs269)
->  {
-> -	struct iqs269_sys_reg *sys_reg = &iqs269->sys_reg;
-> -	struct iqs269_ch_reg *ch_reg;
->  	unsigned int val;
-> -	int error, i;
-> +	int error;
->  
->  	mutex_lock(&iqs269->lock);
->  
-> @@ -1061,27 +1057,8 @@ static int iqs269_dev_init(struct iqs269_private *iqs269)
->  	if (error)
->  		goto err_mutex;
->  
-> -	for (i = 0; i < IQS269_NUM_CH; i++) {
-> -		if (!(sys_reg->active & BIT(i)))
-> -			continue;
-> -
-> -		ch_reg = &iqs269->ch_reg[i];
-> -
-> -		error = regmap_raw_write(iqs269->regmap,
-> -					 IQS269_CHx_SETTINGS + i *
-> -					 sizeof(*ch_reg) / 2, ch_reg,
-> -					 sizeof(*ch_reg));
-> -		if (error)
-> -			goto err_mutex;
+> -		iqs269->suspend_mode = val;
 > -	}
 > -
-> -	/*
-> -	 * The REDO-ATI and ATI channel selection fields must be written in the
-> -	 * same block write, so every field between registers 0x80 through 0x8B
-> -	 * (inclusive) must be written as well.
-> -	 */
-> -	error = regmap_raw_write(iqs269->regmap, IQS269_SYS_SETTINGS, sys_reg,
-> -				 sizeof(*sys_reg));
-> +	error = regmap_raw_write(iqs269->regmap, IQS269_SYS_SETTINGS,
-> +				 &iqs269->sys_reg, sizeof(iqs269->sys_reg));
+>  	error = regmap_raw_read(iqs269->regmap, IQS269_SYS_SETTINGS, sys_reg,
+>  				sizeof(*sys_reg));
 >  	if (error)
->  		goto err_mutex;
+> @@ -1011,6 +996,17 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
+>  	general &= ~IQS269_SYS_SETTINGS_DIS_AUTO;
+>  	general &= ~IQS269_SYS_SETTINGS_PWR_MODE_MASK;
 >  
-> @@ -1355,6 +1332,7 @@ static ssize_t hall_bin_show(struct device *dev,
->  			     struct device_attribute *attr, char *buf)
->  {
->  	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	struct i2c_client *client = iqs269->client;
->  	unsigned int val;
->  	int error;
-> @@ -1369,8 +1347,8 @@ static ssize_t hall_bin_show(struct device *dev,
->  	if (error)
->  		return error;
->  
-> -	switch (iqs269->ch_reg[IQS269_CHx_HALL_ACTIVE].rx_enable &
-> -		iqs269->ch_reg[IQS269_CHx_HALL_INACTIVE].rx_enable) {
-> +	switch (ch_reg[IQS269_CHx_HALL_ACTIVE].rx_enable &
-> +		ch_reg[IQS269_CHx_HALL_INACTIVE].rx_enable) {
->  	case IQS269_HALL_PAD_R:
->  		val &= IQS269_CAL_DATA_A_HALL_BIN_R_MASK;
->  		val >>= IQS269_CAL_DATA_A_HALL_BIN_R_SHIFT;
-> @@ -1450,9 +1428,10 @@ static ssize_t rx_enable_show(struct device *dev,
->  			      struct device_attribute *attr, char *buf)
->  {
->  	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  
->  	return scnprintf(buf, PAGE_SIZE, "%u\n",
-> -			 iqs269->ch_reg[iqs269->ch_num].rx_enable);
-> +			 ch_reg[iqs269->ch_num].rx_enable);
+> +	if (!device_property_read_u32(&client->dev, "azoteq,suspend-mode",
+> +				      &val)) {
+> +		if (val > IQS269_SYS_SETTINGS_PWR_MODE_MAX) {
+> +			dev_err(&client->dev, "Invalid suspend mode: %u\n",
+> +				val);
+> +			return -EINVAL;
+> +		}
+> +
+> +		general |= (val << IQS269_SYS_SETTINGS_PWR_MODE_SHIFT);
+> +	}
+> +
+>  	if (!device_property_read_u32(&client->dev, "azoteq,ulp-update",
+>  				      &val)) {
+>  		if (val > IQS269_SYS_SETTINGS_ULP_UPDATE_MAX) {
+> @@ -1693,59 +1689,30 @@ static int iqs269_probe(struct i2c_client *client)
+>  	return error;
 >  }
 >  
->  static ssize_t rx_enable_store(struct device *dev,
-> @@ -1460,6 +1439,7 @@ static ssize_t rx_enable_store(struct device *dev,
->  			       size_t count)
+> +static u16 iqs269_general_get(struct iqs269_private *iqs269)
+> +{
+> +	u16 general = be16_to_cpu(iqs269->sys_reg.general);
+> +
+> +	general &= ~IQS269_SYS_SETTINGS_REDO_ATI;
+> +	general &= ~IQS269_SYS_SETTINGS_ACK_RESET;
+> +
+> +	return general | IQS269_SYS_SETTINGS_DIS_AUTO;
+> +}
+> +
+>  static int __maybe_unused iqs269_suspend(struct device *dev)
 >  {
 >  	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
-> +	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
->  	unsigned int val;
+>  	struct i2c_client *client = iqs269->client;
+> -	unsigned int val;
 >  	int error;
+> +	u16 general = iqs269_general_get(iqs269);
 >  
-> @@ -1472,7 +1452,7 @@ static ssize_t rx_enable_store(struct device *dev,
+> -	if (!iqs269->suspend_mode)
+> +	if (!(general & IQS269_SYS_SETTINGS_PWR_MODE_MASK))
+>  		return 0;
 >  
->  	mutex_lock(&iqs269->lock);
+>  	disable_irq(client->irq);
 >  
-> -	iqs269->ch_reg[iqs269->ch_num].rx_enable = val;
-> +	ch_reg[iqs269->ch_num].rx_enable = val;
->  	iqs269->ati_current = false;
+> -	/*
+> -	 * Automatic power mode switching must be disabled before the device is
+> -	 * forced into any particular power mode. In this case, the device will
+> -	 * transition into normal-power mode.
+> -	 */
+> -	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
+> -				   IQS269_SYS_SETTINGS_DIS_AUTO, ~0);
+> -	if (error)
+> -		goto err_irq;
+> -
+> -	/*
+> -	 * The following check ensures the device has completed its transition
+> -	 * into normal-power mode before a manual mode switch is performed.
+> -	 */
+> -	error = regmap_read_poll_timeout(iqs269->regmap, IQS269_SYS_FLAGS, val,
+> -					!(val & IQS269_SYS_FLAGS_PWR_MODE_MASK),
+> -					 IQS269_PWR_MODE_POLL_SLEEP_US,
+> -					 IQS269_PWR_MODE_POLL_TIMEOUT_US);
+> -	if (error)
+> -		goto err_irq;
+> -
+> -	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
+> -				   IQS269_SYS_SETTINGS_PWR_MODE_MASK,
+> -				   iqs269->suspend_mode <<
+> -				   IQS269_SYS_SETTINGS_PWR_MODE_SHIFT);
+> -	if (error)
+> -		goto err_irq;
+> -
+> -	/*
+> -	 * This last check ensures the device has completed its transition into
+> -	 * the desired power mode to prevent any spurious interrupts from being
+> -	 * triggered after iqs269_suspend has already returned.
+> -	 */
+> -	error = regmap_read_poll_timeout(iqs269->regmap, IQS269_SYS_FLAGS, val,
+> -					 (val & IQS269_SYS_FLAGS_PWR_MODE_MASK)
+> -					 == (iqs269->suspend_mode <<
+> -					     IQS269_SYS_FLAGS_PWR_MODE_SHIFT),
+> -					 IQS269_PWR_MODE_POLL_SLEEP_US,
+> -					 IQS269_PWR_MODE_POLL_TIMEOUT_US);
+> +	error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS, general);
 >  
->  	mutex_unlock(&iqs269->lock);
+> -err_irq:
+>  	iqs269_irq_wait();
+>  	enable_irq(client->irq);
+>  
+> @@ -1756,43 +1723,20 @@ static int __maybe_unused iqs269_resume(struct device *dev)
+>  {
+>  	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
+>  	struct i2c_client *client = iqs269->client;
+> -	unsigned int val;
+>  	int error;
+> +	u16 general = iqs269_general_get(iqs269);
+>  
+> -	if (!iqs269->suspend_mode)
+> +	if (!(general & IQS269_SYS_SETTINGS_PWR_MODE_MASK))
+>  		return 0;
+>  
+>  	disable_irq(client->irq);
+>  
+> -	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
+> -				   IQS269_SYS_SETTINGS_PWR_MODE_MASK, 0);
+> -	if (error)
+> -		goto err_irq;
+> -
+> -	/*
+> -	 * This check ensures the device has returned to normal-power mode
+> -	 * before automatic power mode switching is re-enabled.
+> -	 */
+> -	error = regmap_read_poll_timeout(iqs269->regmap, IQS269_SYS_FLAGS, val,
+> -					!(val & IQS269_SYS_FLAGS_PWR_MODE_MASK),
+> -					 IQS269_PWR_MODE_POLL_SLEEP_US,
+> -					 IQS269_PWR_MODE_POLL_TIMEOUT_US);
+> -	if (error)
+> -		goto err_irq;
+> -
+> -	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
+> -				   IQS269_SYS_SETTINGS_DIS_AUTO, 0);
+> -	if (error)
+> -		goto err_irq;
+> -
+> -	/*
+> -	 * This step reports any events that may have been "swallowed" as a
+> -	 * result of polling PWR_MODE (which automatically acknowledges any
+> -	 * pending interrupts).
+> -	 */
+> -	error = iqs269_report(iqs269);
+> +	error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS,
+> +			     general & ~IQS269_SYS_SETTINGS_PWR_MODE_MASK);
+> +	if (!error)
+> +		error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS,
+> +				     general & ~IQS269_SYS_SETTINGS_DIS_AUTO);
+>  
+> -err_irq:
+>  	iqs269_irq_wait();
+>  	enable_irq(client->irq);
+>  
 > -- 
 > 2.34.1
