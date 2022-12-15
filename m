@@ -2,77 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 254AB64D65F
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 07:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88EC164D758
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 08:40:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbiLOGQA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 01:16:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34738 "EHLO
+        id S229731AbiLOHkE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 02:40:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiLOGP6 (ORCPT
+        with ESMTP id S229910AbiLOHj5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 01:15:58 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 356CE23BE5
-        for <linux-input@vger.kernel.org>; Wed, 14 Dec 2022 22:15:57 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id v3so3520735pgh.4
-        for <linux-input@vger.kernel.org>; Wed, 14 Dec 2022 22:15:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=msi-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oq3Q/v9M0FAAcv8VLfjvpMkPjVB7ciFNfjJzo2R39JA=;
-        b=Nb0Tfua7iHs2FKnbAkBK9JzNJN6bQVRvQ/+pXZ/vH64jrmUtv9uadwXIn/sfOOqlNl
-         Q+s1X1FtC2vGOk0x5XRecrs89EM3rGNGzvHLDdMaMS7ufvbrvimRydIDNVdd5K+dNiH9
-         UNsObvVgYTnfxUVaA0k7lh65UcxJDDAxan6kIBOfR2TDwz3GNDTy/Plo6wIPPGaCh3+P
-         X4VewwRQ5tHy/e90IHMSS9T2dC6/4Z7PqhbQCCIw86eHqdbYMJD+xsS4PG4Cc+dNdGfj
-         cjVGO6nne6dxWbliUQyXGZS4x5nB2y1jNC0lsKgWNxbDVboWrumD5gAl1kbOV6zdhChh
-         4MwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oq3Q/v9M0FAAcv8VLfjvpMkPjVB7ciFNfjJzo2R39JA=;
-        b=FgfV1tZTsUVq5W0J9iCC7lrw111OvvIY9PQyTKPXxaS6gq1ubcDq2nTqayktbPhewp
-         i9M/Ijm+aoXOUWS9rngiRiw2rQIB7X6bWMNNlVkPptCBSPewwMx/Bev3PRgW/7Iu1j5K
-         4QplgnhwUoML6FMVW9CyaSVdmDCGqwbaTB/9CsoN4BbVOTUPrew68x1KII20z8qqozC0
-         36CeMC4gywUE2YOnrX26V2Qcub0ra8y15md2f94TZGs8SrBG1baL2J6tMn/o+zKgBIab
-         zBEtYYI6PBMOcOKgFrEzYm8sIrNPdVt7IRY4OzT1W4qzWBHI1utLkQVFWqrvc6zRn1jP
-         Adpw==
-X-Gm-Message-State: ANoB5pl3iaeZ+8cspRSqtM7KCuWMSfbi8pqk2gkwgEbOMuv9zYAwV98z
-        3bLorFLfwhEFKR7GCrxf//j+tQ==
-X-Google-Smtp-Source: AA0mqf4Tre6vus0as+TQKxU+lOQjbKJDNFZ/xjCFePHJF5Sh1oduDluiMfbz+lXJwzYK3RhRjP4q0A==
-X-Received: by 2002:a05:6a00:1a42:b0:572:4ea8:30b9 with SMTP id h2-20020a056a001a4200b005724ea830b9mr34315547pfv.15.1671084956700;
-        Wed, 14 Dec 2022 22:15:56 -0800 (PST)
-Received: from localhost.localdomain (211-20-230-25.hinet-ip.hinet.net. [211.20.230.25])
-        by smtp.gmail.com with ESMTPSA id 125-20020a620483000000b00576670cc16dsm804901pfe.197.2022.12.14.22.15.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Dec 2022 22:15:56 -0800 (PST)
-From:   Joe Wu <joewu@msi.corp-partner.google.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Stephen Boyd <swboyd@chromium.org>,
-        Xiang wangx <wangxiang@cdjrlc.com>,
-        linux-input@vger.kernel.org, Derek Huang <derekhuang@google.com>,
-        Joe Wu <joewu@msi.corp-partner.google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benson Leung <bleung@chromium.org>,
-        Daisuke Nojiri <dnojiri@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>,
-        Furquan Shaikh <furquan@chromium.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        chrome-platform@lists.linux.dev,
-        Douglas Anderson <dianders@chromium.org>,
-        "Dustin L . Howett" <dustin@howett.net>,
+        Thu, 15 Dec 2022 02:39:57 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C67752D1F8;
+        Wed, 14 Dec 2022 23:39:55 -0800 (PST)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1p5iqQ-0006Su-Cb; Thu, 15 Dec 2022 08:39:54 +0100
+Message-ID: <95b6739b-6d8e-dc41-b637-e366ac883829@leemhuis.info>
+Date:   Thu, 15 Dec 2022 08:39:53 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [git pull] Input updates for v6.1-rc5
+Content-Language: en-US, de-DE
+To:     Aman Dhoot <amandhoot12@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
-Date:   Thu, 15 Dec 2022 14:15:50 +0800
-Message-Id: <20221215061550.18993-1-joewu@msi.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        Jiri Slaby <jirislaby@kernel.org>
+References: <Y3gwySzRvhCwdSgW@google.com>
+ <824effa5-8b9a-c28a-82bb-9b0ab24623e1@kernel.org>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <824effa5-8b9a-c28a-82bb-9b0ab24623e1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1671089995;3188d7e9;
+X-HE-SMSGID: 1p5iqQ-0006Su-Cb
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,58 +47,79 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch is to add extra 3 buttons: 'brightness up',
-'brightness down' and 'leave PC(cros) mode' to support
-monitor navigation function.
+Hi, this is your Linux kernel regression tracker.
 
-Signed-off-by: Joe Wu <joewu@msi.corp-partner.google.com>
+On 13.12.22 12:41, Jiri Slaby wrote:
+> On 19. 11. 22, 2:26, Dmitry Torokhov wrote:
+>> to receive updates for the input subsystem. You will get:
+>>
+>> - a fix for 8042 to stop leaking platform device on unload
+>> - a fix for Goodix touchscreens on devices like Nanote UMPC-01 where we
+>>    need to reset controller to load config from firmware
+>> - a workaround for Acer Switch to avoid interrupt storm from home and
+>>    power buttons
+>> - a workaround for more ASUS ZenBook models to detect keyboard cnotroller
+>> - a fix for iforce driver to properly handle communication errors
+>> - touchpad on HP Laptop 15-da3001TU switched to RMI mode
+>>
+>> Changelog:
+>> ---------
+>>
+>> Aman Dhoot (1):
+>>        Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to
+>> RMI mode
+> 
+> This appears to break keyboard on HP's 15-da1xxx which appears to have
+> the same ID: SYN3286. This happens on 6.0.12.
 
----
+Thx for forwarding that report. CCing Aman, who authored that commit
+(ac5408991ea6 in mainline, but it was backported to many stable kernels,
+too)
 
- drivers/input/keyboard/cros_ec_keyb.c          | 15 +++++++++++++++
- include/linux/platform_data/cros_ec_commands.h |  3 +++
- 2 files changed, 18 insertions(+)
+Aman, could you look at this? If there is no easy fix in sight I wonder
+if it might be the best to revert this soonish, so that Greg can pick up
+that revert to stable quickly afterwards.
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index c14136b733a9..bf1cf0b782d2 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -100,6 +100,21 @@ static const struct cros_ec_bs_map cros_ec_keyb_bs[] = {
- 		.code		= KEY_VOLUMEDOWN,
- 		.bit		= EC_MKBP_VOL_DOWN,
- 	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_BRIGHTNESSUP,
-+		.bit            = EC_MKBP_BRI_UP,
-+	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_BRIGHTNESSDOWN,
-+		.bit            = EC_MKBP_BRI_DOWN,
-+	},
-+	{
-+		.ev_type        = EV_KEY,
-+		.code           = KEY_F13,
-+		.bit            = EC_MKBP_CROS_LEAVE,
-+	},
- 
- 	/* Switches */
- 	{
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 5744a2d746aa..79218da8a8cb 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -3471,6 +3471,9 @@ struct ec_response_get_next_event_v1 {
- #define EC_MKBP_VOL_UP		1
- #define EC_MKBP_VOL_DOWN	2
- #define EC_MKBP_RECOVERY	3
-+#define EC_MKBP_BRI_UP          4
-+#define EC_MKBP_BRI_DOWN        5
-+#define EC_MKBP_CROS_LEAVE      6
- 
- /* Switches */
- #define EC_MKBP_LID_OPEN	0
--- 
-2.17.1
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
+
+> synaptics excerpt from dmesg:
+> psmouse serio1: synaptics: Trying to set up SMBus access
+> psmouse serio1: synaptics: SMbus companion is not ready yet
+> ...
+> psmouse serio1: synaptics: queried max coordinates: x [..5648], y [..4826]
+> psmouse serio1: synaptics: queried min coordinates: x [1292..], y [1026..]
+> psmouse serio1: synaptics: Trying to set up SMBus access
+> rmi4_smbus 6-002c: registering SMbus-connected sensor
+> rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics,
+> product: TM3320-003, fw id: 2659795
+> input: Synaptics TM3320-003 as
+> /devices/pci0000:00/0000:00:1f.4/i2c-6/6-002c/rmi4-00/input/input21
+> 
+> This was reported downstream as a regression between 6.0.10 and 6.0.12:
+> https://bugzilla.suse.com/show_bug.cgi?id=1206358
+> 
+> Full dmesgs available there too.
+> 
+> 
+> 6.0.10 has this instead of the above:
+> psmouse serio1: synaptics: queried max coordinates: x [..5648], y [..4826]
+> psmouse serio1: synaptics: queried min coordinates: x [1292..], y [1026..]
+> psmouse serio1: synaptics: Your touchpad (PNP: SYN3286 PNP0f13) says it
+> can support a different bus. If i2c-hid and hid-rmi are not used, you
+> might want to try setting psmouse.synaptics_intertouch to 1 and report
+> this to linux-input@vger.kernel.org.
+> psmouse serio1: synaptics: Touchpad model: 1, fw: 8.16, id: 0x1e2b1,
+> caps: 0xf00323/0x840300/0x2e800/0x400000, board id: 3320, fw id: 2659795
+
+P.P.S.: I for now assume that it's a problem that also is present in
+mainline and thus will track it as such.
+
+#regzbot introduced ac5408991ea6
+https://bugzilla.suse.com/show_bug.cgi?id=1206358
+#regzbot title input: synaptics: keyboard broken on HP's 15-da1xxx
+#regzbot ignore-activity
