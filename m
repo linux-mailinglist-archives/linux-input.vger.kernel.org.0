@@ -2,88 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D328964DDF6
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 16:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82E7164DE14
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 16:51:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbiLOPoW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 10:44:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60080 "EHLO
+        id S230207AbiLOPvt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 10:51:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbiLOPoV (ORCPT
+        with ESMTP id S229979AbiLOPvq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 10:44:21 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F300E01E;
-        Thu, 15 Dec 2022 07:44:20 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2D1C4E000C;
-        Thu, 15 Dec 2022 15:44:16 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: [PATCH] HID: logitech-hidpp: Guard FF init code against non-USB devices
-Date:   Thu, 15 Dec 2022 16:44:16 +0100
-Message-Id: <20221215154416.111704-1-hadess@hadess.net>
-X-Mailer: git-send-email 2.38.1
+        Thu, 15 Dec 2022 10:51:46 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD392EF3C
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 07:51:44 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id o15so14095837wmr.4
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 07:51:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V2cRcfojGiF9qQEX9U8QFOzZLig/2FAjtxG+CBJEBFo=;
+        b=bVgJyDTvQ2d+crPVf0qEjj/SXvuxIZeFKQITUxl2atDfl2hEcbxwgt9LyrHVid2lUS
+         uIF78Zw09fK3Za5eMw03H0Tfgf6xXFVAtee5guOt6PU2dIgML8wI/QVuit8Kpmhi6p+1
+         7bUZH4srlxGuaBfE+k/GGTcv8bnM0yct37Jn0ECFYZBNGKN+iTW6Ywj/ZylY81SWbP2V
+         QpkDpq3+HsdbmHK82gn970aupr7h8L9oJ1NUJJ+/MMGtzIzYOKxxDYdOiBJcCyjpEMpG
+         kHPXwZUDFjkvO7DfXHxYcIdZZRWmVCvGHASdRW2D4gDqAFhfKzhuwUguMqzgVE/38a7Y
+         bqzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V2cRcfojGiF9qQEX9U8QFOzZLig/2FAjtxG+CBJEBFo=;
+        b=Kk3IZ+ZeZg2EdVjIsvBr0pnnDEsDU6rm4feQJxZHxEjiIfHj/uOuYc7qJGNRsK5Seb
+         m/EvbPxhFMu3XSSTErO+D/3yhE+KID1NB9ikAxi75+HMj+mh2CpSDn91WlhOC06MwH8i
+         e5Aao8ZzJgGIdetjFNiOk8BDJWpLa5vFPxTBpyIi8YwvxhDXdA3xe6CAgIyyFaNGvnOt
+         wgnF4SmSfVldzXsIV764uwbAQHR5n99aI3gPIgjiJjbi/wIcIHXssULHIOv1Me+tWx1P
+         BQRvZ3U7D3HFYfyA1bmtRbfk9S6SxodYhNE2y4p/P280JpUFiLZJev82C2ZRXvsHfYQc
+         XHTg==
+X-Gm-Message-State: ANoB5pmwrFRDFxkK9KbSqO8BDRgVbZHzO/b3UY7+69MAAabPUw1tBbAj
+        mzauQZzcfMNx20hHxU4HmEtCMw==
+X-Google-Smtp-Source: AA0mqf5T28A1fwwJEdZX35EQu5OSksBT6KKYLBeLzZpR+52DmK8gZxNd3JNVBBNn8gPpdSKSQ71WGQ==
+X-Received: by 2002:a05:600c:2101:b0:3cf:e850:4451 with SMTP id u1-20020a05600c210100b003cfe8504451mr22559864wml.9.1671119502537;
+        Thu, 15 Dec 2022 07:51:42 -0800 (PST)
+Received: from [192.168.1.91] (192.201.68.85.rev.sfr.net. [85.68.201.192])
+        by smtp.gmail.com with ESMTPSA id n7-20020a05600c4f8700b003d1e90717ccsm8522883wmq.30.2022.12.15.07.51.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Dec 2022 07:51:41 -0800 (PST)
+Message-ID: <e2bc53fe-3a0c-cf24-8b29-ca377aba3721@baylibre.com>
+Date:   Thu, 15 Dec 2022 16:51:40 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 1/6] DONOTMERGE: arm64: dts: ti: Add TI TPS65219 PMIC
+ support for AM642 SK board.
+Content-Language: en-US
+To:     Wadim Egorov <W.Egorov@phytec.de>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>, "nm@ti.com" <nm@ti.com>,
+        "kristo@kernel.org" <kristo@kernel.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "tony@atomide.com" <tony@atomide.com>,
+        "vigneshr@ti.com" <vigneshr@ti.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+        "marcel.ziswiler@toradex.com" <marcel.ziswiler@toradex.com>,
+        "vkoul@kernel.org" <vkoul@kernel.org>,
+        "biju.das.jz@bp.renesas.com" <biju.das.jz@bp.renesas.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jeff@labundy.com" <jeff@labundy.com>
+Cc:     "afd@ti.com" <afd@ti.com>,
+        "khilman@baylibre.com" <khilman@baylibre.com>,
+        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+        "msp@baylibre.com" <msp@baylibre.com>,
+        "j-keerthy@ti.com" <j-keerthy@ti.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
+References: <20221104152311.1098603-1-jneanne@baylibre.com>
+ <20221104152311.1098603-2-jneanne@baylibre.com>
+ <d0d7e315-ce86-0420-8ef5-fe2e4aefd5b4@phytec.de>
+From:   jerome Neanne <jneanne@baylibre.com>
+In-Reply-To: <d0d7e315-ce86-0420-8ef5-fe2e4aefd5b4@phytec.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Force Feedback code assumes that all the devices passed to it will
-be USB devices, but that might not be the case for emulated devices.
-Guard against a crash by checking the device type before poking at USB
-properties.
 
-Reported-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
- drivers/hid/hid-logitech-hidpp.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 7075c887ec50..08ad19097e9e 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -2746,12 +2746,17 @@ static int hidpp_ff_init(struct hidpp_device *hidpp,
- 	struct hid_device *hid = hidpp->hid_dev;
- 	struct hid_input *hidinput;
- 	struct input_dev *dev;
--	const struct usb_device_descriptor *udesc = &(hid_to_usb_dev(hid)->descriptor);
--	const u16 bcdDevice = le16_to_cpu(udesc->bcdDevice);
-+	struct usb_device_descriptor *udesc;
-+	u16 bcdDevice;
- 	struct ff_device *ff;
- 	int error, j, num_slots = data->num_effects;
- 	u8 version;
- 
-+	if (!hid_is_usb(hid)) {
-+		hid_err(hid, "device is not USB\n");
-+		return -ENODEV;
-+	}
-+
- 	if (list_empty(&hid->inputs)) {
- 		hid_err(hid, "no inputs found\n");
- 		return -ENODEV;
-@@ -2765,6 +2770,8 @@ static int hidpp_ff_init(struct hidpp_device *hidpp,
- 	}
- 
- 	/* Get firmware release */
-+	udesc = &(hid_to_usb_dev(hid)->descriptor);
-+	bcdDevice = le16_to_cpu(udesc->bcdDevice);
- 	version = bcdDevice & 255;
- 
- 	/* Set supported force feedback capabilities */
--- 
-2.38.1
+On 15/12/2022 16:09, Wadim Egorov wrote:
+> Hi Jerome,
+> 
+> is this setup working for you on the AM642 SK board?
+> 
+> I am testing your PMIC patches on a AM62 based board with a similar setup and
+> running into the following error
+> 
+>      VDDSHV5_SDIO: bypassed regulator has no supply!
+>      VDDSHV5_SDIO: will resolve supply early: ldo1
+>      VDDSHV5_SDIO: supplied by regulator-dummy
+>      VDDSHV5_SDIO: failed to get the current voltage: -EINVAL
+> 
+> Have you noticed problems with LDO1 and bypass mode?
 
+Wadim,
+
+I did not noticed this on am642 board but IIRC this rail was not used. I 
+heard about similar issue reported to me by Nishanth M with a fix 
+proposal here:
+https://gist.github.com/nmenon/e4dd6ef6afe31bc9750fa6cbee8d3e25
+
+I did not have time yet to investigate on this but will do soon.
+
+Regards,
+Jerome
