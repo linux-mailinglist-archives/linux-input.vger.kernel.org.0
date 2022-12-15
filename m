@@ -2,115 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD96664D88E
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 10:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F2AB64D89F
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 10:32:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbiLOJ2Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 04:28:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34678 "EHLO
+        id S229480AbiLOJcV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 04:32:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbiLOJ2D (ORCPT
+        with ESMTP id S230033AbiLOJbd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 04:28:03 -0500
-X-Greylist: delayed 134053 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Dec 2022 01:28:02 PST
-Received: from freundtech.com (freundtech.com [IPv6:2a01:4f8:c17:2d66::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EDC44B989;
-        Thu, 15 Dec 2022 01:28:01 -0800 (PST)
-Received: from [IPV6:2a00:1398:9:fb03:bb56:abd8:c620:48e2] (unknown [IPv6:2a00:1398:9:fb03:bb56:abd8:c620:48e2])
-        by freundtech.com (Postfix) with ESMTPSA id C83461E38E3;
-        Thu, 15 Dec 2022 10:27:59 +0100 (CET)
-Message-ID: <3447483d-11bc-8ab2-8aba-96870b42281b@freund.io>
-Date:   Thu, 15 Dec 2022 10:27:59 +0100
+        Thu, 15 Dec 2022 04:31:33 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C1FA262B
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 01:31:30 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id r83-20020a1c4456000000b003d1e906ca23so607153wma.3
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 01:31:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/yrWwIz+X4XNa4X4E55r8TlVUKYWq6C3gyUpvUfom8=;
+        b=shHutoT4qGNYdXCrtBKTJGBt96pmTH6sPDKob9R+hx7YCob2zNk2vwdTefYMHkmee5
+         bl8QTlsDbXDSwjfa50cTM/mx1THFgf2//ztwr5rpy4MPDnGKEyGjG22SzpBT0qiMlIKY
+         LlhykvpPZBJcte6Q2GWplb7P5MB/xQmxtkB0d8OE4X1Jjd+yMKxw9gQ0cCTTdyKNlUGy
+         xVtYbMH+dm3yGe/eMF/EtuoXyw/MtjWed9ElqTviSB6k1GjhowlNFMUOm5kYdN+18xH4
+         EFMVK8tyLXZKPsauHRXvb2zBJyPP4R//1jgRT/iNIt036HMnAw7PtvZ/uSUWriw6OzQS
+         xrmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/yrWwIz+X4XNa4X4E55r8TlVUKYWq6C3gyUpvUfom8=;
+        b=JIuRFBQYEPmXktUu3CEe0LV1vPKWCLoY9h9bFiiWorkgm7rzJiMr2lkJX4HUKs6xRI
+         IqOTgHyJOLEa6oY2nRUVvOEM9mmrPrIDFf/RtZ/5N1xEeS6UJkNDntCB4E7YmXpLTICQ
+         qmse5gkxZv04zmJmvyEcxJljgQL2JCoI5zc8UjdEof9SmNPSmNRzJNvbrJvvGo1fk74i
+         h+crrNqR8SUK8Oqc4DlWw8v3VmEf9LLVCyl2lDPud5IstCLgqZpCMtTXQOtYuZhIpTR8
+         xctDBaBP8nwP8etbSL8Wnzd5xp5cAluDFHTy4IkwbxAHfkDTvu7IemP5kT369FsBKejy
+         N5kA==
+X-Gm-Message-State: ANoB5pkGaU6UMNRS+YOXRSQpGDRmn4xzgXvZta4l+G+KQqohzyglB7pr
+        3HrzRA3Tj4wHlzZppVTzzWpb4jxguuggBQYL
+X-Google-Smtp-Source: AA0mqf7Ygo7G1PA6MeEuq06su89ecSilupy81n3WsyxmBSU1uNFxz8qq+53mlv0DDzA2zDkrKeQdfg==
+X-Received: by 2002:a05:600c:6543:b0:3d1:fcca:ce24 with SMTP id dn3-20020a05600c654300b003d1fccace24mr20115559wmb.32.1671096688943;
+        Thu, 15 Dec 2022 01:31:28 -0800 (PST)
+Received: from localhost ([82.66.159.240])
+        by smtp.gmail.com with ESMTPSA id z11-20020a1c4c0b000000b003c21ba7d7d6sm5398128wmf.44.2022.12.15.01.31.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Dec 2022 01:31:28 -0800 (PST)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Jeff LaBundy <jeff@labundy.com>, dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, jeff@labundy.com
+Subject: Re: [PATCH 1/5] Input: iqs269a - drop unused device node references
+In-Reply-To: <Y4V2OSN35Yio9JN/@nixie71>
+References: <Y4V16ey6osEaaZJ/@nixie71> <Y4V2OSN35Yio9JN/@nixie71>
+Date:   Thu, 15 Dec 2022 10:31:27 +0100
+Message-ID: <87tu1xj9n4.fsf@baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] HID: amd_sfh: Add support for tablet-mode-switch sensor
-To:     kernel test robot <lkp@intel.com>, linux-input@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ivan Dovgal <iv.dovg@gmail.com>,
-        "Luke D . Jones" <luke@ljones.dev>
-References: <20221214214127.15347-1-adrian@freund.io>
- <202212151621.e3OmYctb-lkp@intel.com>
-Content-Language: en-US
-From:   Adrian Freund <adrian@freund.io>
-In-Reply-To: <202212151621.e3OmYctb-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/15/22 09:22, kernel test robot wrote:
-> Hi Adrian,
+On Mon, Nov 28, 2022 at 21:02, Jeff LaBundy <jeff@labundy.com> wrote:
+
+> Each call to device/fwnode_get_named_child_node() must be matched
+> with a call to fwnode_handle_put() once the corresponding node is
+> no longer in use. This ensures a reference count remains balanced
+> in the case of dynamic device tree support.
 >
-> Thank you for the patch! Perhaps something to improve:
+> Currently, the driver does not call fwnode_handle_put() on nested
+> event nodes. This patch solves this problem by adding the missing
+> instances of fwnode_handle_put().
 >
-> [auto build test WARNING on hid/for-next]
-> [also build test WARNING on linus/master v6.1 next-20221215]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> As part of this change, the logic which parses each channel's key
+> code is gently refactored in order to reduce the number of places
+> from which fwnode_handle_put() is called.
 >
-> url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Freund/HID-amd_sfh-Add-support-for-tablet-mode-switch-sensor/20221215-054325
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-> patch link:    https://lore.kernel.org/r/20221214214127.15347-1-adrian%40freund.io
-> patch subject: [PATCH] HID: amd_sfh: Add support for tablet-mode-switch sensor
-> config: x86_64-allyesconfig
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->          # https://github.com/intel-lab-lkp/linux/commit/9523955771c5517417b71bdcb1a19d8fadbc946d
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Adrian-Freund/HID-amd_sfh-Add-support-for-tablet-mode-switch-sensor/20221215-054325
->          git checkout 9523955771c5517417b71bdcb1a19d8fadbc946d
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hid/amd-sfh-hid/
+> Fixes: 04e49867fad1 ("Input: add support for Azoteq IQS269A")
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+
+> ---
+>  drivers/input/misc/iqs269a.c | 24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
 >
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
->     In file included from drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c:15:
->>> drivers/hid/amd-sfh-hid/sfh1_1/../hid_descriptor/amd_sfh_hid_report_desc.h:649:17: warning: 'tms_report_descriptor' defined but not used [-Wunused-const-variable=]
->       649 | static const u8 tms_report_descriptor[] = {
->           |                 ^~~~~~~~~~~~~~~~~~~~~
-hid_descriptor/amd_sfh_hid_report_desc.h is included from both 
-hid_descriptor/amd_sfh_hid_desc.c and sfh1_1/amd_sfh_desc.c, the first 
-of which has 4 usages of tms_report_descriptor. The later is for sensor 
-fusion hub 1.1. I don't have access to a devices using sfh1.1, so I 
-can't add support for the tablet mode switch there, causing the variable 
-to be unused for that import.
->
-> vim +/tms_report_descriptor +649 drivers/hid/amd-sfh-hid/sfh1_1/../hid_descriptor/amd_sfh_hid_report_desc.h
->
->     646	
->     647	
->     648	/* TABLET MODE SWITCH */
->   > 649	static const u8 tms_report_descriptor[] = {
->     650	0x06, 0x43, 0xFF,  // Usage Page (Vendor Defined 0xFF43)
->     651	0x0A, 0x02, 0x02,  // Usage (0x0202)
->     652	0xA1, 0x01, // Collection (Application)
->     653	0x85, 0x11, //   Report ID (17)
->     654	0x15, 0x00, //   Logical Minimum (0)
->     655	0x25, 0x01, //   Logical Maximum (1)
->     656	0x35, 0x00, //   Physical Minimum (0)
->     657	0x45, 0x01, //   Physical Maximum (1)
->     658	0x65, 0x00, //   Unit (None)
->     659	0x55, 0x00, //   Unit Exponent (0)
->     660	0x75, 0x01, //   Report Size (1)
->     661	0x95, 0x98, //   Report Count (-104)
->     662	0x81, 0x03, //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
->     663	0x91, 0x03, //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
->     664	0xC1, 0x00, // End Collection
->     665	};
->     666	
->
-Adrian
+> diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
+> index a348247d3d38..5620a009bf55 100644
+> --- a/drivers/input/misc/iqs269a.c
+> +++ b/drivers/input/misc/iqs269a.c
+> @@ -694,7 +694,8 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
+>  				dev_err(&client->dev,
+>  					"Invalid channel %u threshold: %u\n",
+>  					reg, val);
+> -				return -EINVAL;
+> +				error = -EINVAL;
+> +				break;
+>  			}
+>  
+>  			ch_reg->thresh[iqs269_events[i].th_offs] = val;
+> @@ -707,7 +708,8 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
+>  				dev_err(&client->dev,
+>  					"Invalid channel %u hysteresis: %u\n",
+>  					reg, val);
+> -				return -EINVAL;
+> +				error = -EINVAL;
+> +				break;
+>  			}
+>  
+>  			if (i == IQS269_EVENT_DEEP_DN ||
+> @@ -721,8 +723,19 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
+>  			}
+>  		}
+>  
+> -		if (fwnode_property_read_u32(ev_node, "linux,code", &val))
+> +		error = fwnode_property_read_u32(ev_node, "linux,code", &val);
+> +		if (error && error != -EINVAL) {
+> +			dev_err(&client->dev,
+> +				"Failed to read channel %u code: %d\n", reg,
+> +				error);
+> +			break;
+> +		}
+> +
+> +		fwnode_handle_put(ev_node);
+> +		if (error) {
+> +			error = 0;
+>  			continue;
+> +		}
+>  
+>  		switch (reg) {
+>  		case IQS269_CHx_HALL_ACTIVE:
+> @@ -744,7 +757,10 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
+>  		iqs269->sys_reg.event_mask &= ~iqs269_events[i].mask;
+>  	}
+>  
+> -	return 0;
+> +	if (error)
+> +		fwnode_handle_put(ev_node);
+> +
+> +	return error;
+>  }
+>  
+>  static int iqs269_parse_prop(struct iqs269_private *iqs269)
+> -- 
+> 2.34.1
