@@ -2,63 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BFBD64D84E
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 10:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD96664D88E
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 10:28:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiLOJLK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 04:11:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52694 "EHLO
+        id S229898AbiLOJ2Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 04:28:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiLOJLI (ORCPT
+        with ESMTP id S230033AbiLOJ2D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 04:11:08 -0500
-Received: from mail.slidebizcompany.com (mail.slidebizcompany.com [135.125.235.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B07E17AB8
-        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 01:11:07 -0800 (PST)
-Received: by mail.slidebizcompany.com (Postfix, from userid 1002)
-        id D52CBA2F31; Thu, 15 Dec 2022 09:10:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=slidebizcompany.com;
-        s=mail; t=1671095459;
-        bh=f01OOv7iZ6eKP39nAJoyJ+/Cmpugf6hkYKbYNn4lotU=;
-        h=Date:From:To:Subject:From;
-        b=1mFsHyVmnF9a3Kj3vFNLpOTuSsZAWfB+hgyNaEC7KcJtY5+aQ/FkEPNUvgTfGLXGu
-         VKNdPqNcN0wiWVR6YBnwYwV+47fcO1wB7QgmXSwCLmuHfg+Tao3l1pPbYPtf0DTdPP
-         26KVHJUEYqi8YUXSGvjyqhxWql+1yFOPHgDeylK4p7duXyuxo+8WDM71LStCpJWS40
-         6mcP4dkq5lIqCgK+9sgCsq8Q5WwVZj7sAYt+/+BUYniw3JEMA/Nn6LpLqDqp31r9Q3
-         Gkidwbe0va3YNW9iLWL+Zlh9xSvAmbP02MiLv8O8A6ZMAMAO9PN8vRhgXIS58HTIKa
-         BrLMTVxkzzIzA==
-Received: by mail.slidebizcompany.com for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 09:10:12 GMT
-Message-ID: <20221215074500-0.1.4r.1m3qi.0.0l32hhnbg1@slidebizcompany.com>
-Date:   Thu, 15 Dec 2022 09:10:12 GMT
-From:   "Miguel Garcia" <miguel.garcia@slidebizcompany.com>
-To:     <linux-input@vger.kernel.org>
-Subject: Servicio de la flota
-X-Mailer: mail.slidebizcompany.com
+        Thu, 15 Dec 2022 04:28:03 -0500
+X-Greylist: delayed 134053 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Dec 2022 01:28:02 PST
+Received: from freundtech.com (freundtech.com [IPv6:2a01:4f8:c17:2d66::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EDC44B989;
+        Thu, 15 Dec 2022 01:28:01 -0800 (PST)
+Received: from [IPV6:2a00:1398:9:fb03:bb56:abd8:c620:48e2] (unknown [IPv6:2a00:1398:9:fb03:bb56:abd8:c620:48e2])
+        by freundtech.com (Postfix) with ESMTPSA id C83461E38E3;
+        Thu, 15 Dec 2022 10:27:59 +0100 (CET)
+Message-ID: <3447483d-11bc-8ab2-8aba-96870b42281b@freund.io>
+Date:   Thu, 15 Dec 2022 10:27:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] HID: amd_sfh: Add support for tablet-mode-switch sensor
+To:     kernel test robot <lkp@intel.com>, linux-input@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ivan Dovgal <iv.dovg@gmail.com>,
+        "Luke D . Jones" <luke@ljones.dev>
+References: <20221214214127.15347-1-adrian@freund.io>
+ <202212151621.e3OmYctb-lkp@intel.com>
+Content-Language: en-US
+From:   Adrian Freund <adrian@freund.io>
+In-Reply-To: <202212151621.e3OmYctb-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Buenos d=C3=ADas:
-
-Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
-mercado.
-
-La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
-uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
-e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
-iciente.
-
-=C2=BFQuiere conocer los detalles?
-
-
-Atentamente,
-Miguel Garcia
+On 12/15/22 09:22, kernel test robot wrote:
+> Hi Adrian,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on hid/for-next]
+> [also build test WARNING on linus/master v6.1 next-20221215]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Freund/HID-amd_sfh-Add-support-for-tablet-mode-switch-sensor/20221215-054325
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+> patch link:    https://lore.kernel.org/r/20221214214127.15347-1-adrian%40freund.io
+> patch subject: [PATCH] HID: amd_sfh: Add support for tablet-mode-switch sensor
+> config: x86_64-allyesconfig
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=1 build):
+>          # https://github.com/intel-lab-lkp/linux/commit/9523955771c5517417b71bdcb1a19d8fadbc946d
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Adrian-Freund/HID-amd_sfh-Add-support-for-tablet-mode-switch-sensor/20221215-054325
+>          git checkout 9523955771c5517417b71bdcb1a19d8fadbc946d
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hid/amd-sfh-hid/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+>     In file included from drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c:15:
+>>> drivers/hid/amd-sfh-hid/sfh1_1/../hid_descriptor/amd_sfh_hid_report_desc.h:649:17: warning: 'tms_report_descriptor' defined but not used [-Wunused-const-variable=]
+>       649 | static const u8 tms_report_descriptor[] = {
+>           |                 ^~~~~~~~~~~~~~~~~~~~~
+hid_descriptor/amd_sfh_hid_report_desc.h is included from both 
+hid_descriptor/amd_sfh_hid_desc.c and sfh1_1/amd_sfh_desc.c, the first 
+of which has 4 usages of tms_report_descriptor. The later is for sensor 
+fusion hub 1.1. I don't have access to a devices using sfh1.1, so I 
+can't add support for the tablet mode switch there, causing the variable 
+to be unused for that import.
+>
+> vim +/tms_report_descriptor +649 drivers/hid/amd-sfh-hid/sfh1_1/../hid_descriptor/amd_sfh_hid_report_desc.h
+>
+>     646	
+>     647	
+>     648	/* TABLET MODE SWITCH */
+>   > 649	static const u8 tms_report_descriptor[] = {
+>     650	0x06, 0x43, 0xFF,  // Usage Page (Vendor Defined 0xFF43)
+>     651	0x0A, 0x02, 0x02,  // Usage (0x0202)
+>     652	0xA1, 0x01, // Collection (Application)
+>     653	0x85, 0x11, //   Report ID (17)
+>     654	0x15, 0x00, //   Logical Minimum (0)
+>     655	0x25, 0x01, //   Logical Maximum (1)
+>     656	0x35, 0x00, //   Physical Minimum (0)
+>     657	0x45, 0x01, //   Physical Maximum (1)
+>     658	0x65, 0x00, //   Unit (None)
+>     659	0x55, 0x00, //   Unit Exponent (0)
+>     660	0x75, 0x01, //   Report Size (1)
+>     661	0x95, 0x98, //   Report Count (-104)
+>     662	0x81, 0x03, //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+>     663	0x91, 0x03, //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
+>     664	0xC1, 0x00, // End Collection
+>     665	};
+>     666	
+>
+Adrian
