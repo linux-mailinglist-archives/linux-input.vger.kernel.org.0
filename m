@@ -2,82 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D362864D981
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 11:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6735464DC83
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 14:54:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229626AbiLOK0t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 05:26:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40908 "EHLO
+        id S229629AbiLONy3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 08:54:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiLOK0t (ORCPT
+        with ESMTP id S229480AbiLONy2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 05:26:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570532E4;
-        Thu, 15 Dec 2022 02:26:48 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B5C5061D51;
-        Thu, 15 Dec 2022 10:26:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3973EC433EF;
-        Thu, 15 Dec 2022 10:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671100007;
-        bh=BLExdwvBmXZ2P7ZABWJyTRWc1Fir1N+SQnl5ofyV3SE=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=JPHsIO6wbV1ihtJBhWXaHpaO+7bDOmFEVsqT098twHxMWuGJCEXjpPg6E3IW7v7qg
-         2gd4w7yzvJ2ixeTQckUdZ2MIH2446e+OW/auL39wtNxmJqFGJZvfOEaqxnYNlgAmgL
-         QF7u5yg2vJOnphO2o+U6HWuDXZYgT1GIWaTiEZmoez1jRER+1DpcVLorhYcy2yzB7p
-         SI8NYL4AhKqMe4n8RUaXgFxGNaKbCupxAFmA8bdCTRAl9PgnNy7ZGN7WRhwDYmCUgy
-         RJs4HvS95uALvbPFlSn9Q0rDpm4h5EvKGb6VWljkpCLzO2061fkqiOWpZJZB94rwgj
-         +vykIuQ5yotrA==
-Date:   Thu, 15 Dec 2022 11:26:46 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Adrian Freund <adrian@freund.io>
-cc:     kernel test robot <lkp@intel.com>, linux-input@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ivan Dovgal <iv.dovg@gmail.com>,
-        "Luke D . Jones" <luke@ljones.dev>
-Subject: Re: [PATCH] HID: amd_sfh: Add support for tablet-mode-switch
- sensor
-In-Reply-To: <3447483d-11bc-8ab2-8aba-96870b42281b@freund.io>
-Message-ID: <nycvar.YFH.7.76.2212151125090.9000@cbobk.fhfr.pm>
-References: <20221214214127.15347-1-adrian@freund.io> <202212151621.e3OmYctb-lkp@intel.com> <3447483d-11bc-8ab2-8aba-96870b42281b@freund.io>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Thu, 15 Dec 2022 08:54:28 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CB12B182
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 05:54:25 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so1767504wma.1
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 05:54:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9OTgqMJ72hTY8DmgwqYKfCFn5Uuqu5CGzMqc6diHDoY=;
+        b=uRvXA3sWZXvyIXrliOdhwK6HbALAYO1yJfHGmadQChubshMyKVuUMe1LaRyVZT/p6g
+         vD2RwRQVrzQUTjhNkNbDq3VU6SmxfYEJc5woUO4YwpxrZJ+gvCjzWoRQLihCNmre8M6u
+         I+Pfo122gPGAO3HQHXnpaJuuuPb7fFOB7TihTG6uEWHvXMtMN4wOs9Mmkg1vdU5oR26O
+         fdcp+P/UxjHHsyZbh2Qww9sA6XIRYc6RKkpgI+ggCB0Xb3E0L8CjT5GXOiE7ERlWxpik
+         LQ47MaHFDob5Pzq3mfuoa4BXA0TIB8xpBOMytHBvQmZBizGh0iUo+FQOdRXV3nvnAK19
+         JAjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9OTgqMJ72hTY8DmgwqYKfCFn5Uuqu5CGzMqc6diHDoY=;
+        b=sMXY1G78KipYAtYtM6GdtyZJCfv0zzSpzC6XQHBm1WMlCW70XyVSbqMvWHpyDWjyBL
+         9vGCo7WdEQfmuBYSnMGNkOHBhTOyuKEz+MpVA1DR8qrpE6Ecf+r+wR0C2bMvXn2U6iXJ
+         ZQC20TsWN9MbCJ8MVt//IvjLML/OChVTNph74iTuaDlrvrFLf+cIBugc9W28GmSefG+D
+         wpzAg4katHDx4eGMv+5Y/bdZBw4DXzpzXZD15kVGS+8LwJKqEIQogS/aor51GuwBdKZQ
+         5ROoejtRfmtPI5Bev3YEOABFdykP1DHGlaTl04Imtrzbk0X3/t6df+2bR4pLNBCYMuyn
+         8+ig==
+X-Gm-Message-State: ANoB5pknNla4HmF1m+hNA/qjePN99kG1V/Vj6KllsVCI/nP/m+Kg2q58
+        SjlrflAt5p4lG+PDXYmPe8aukQ==
+X-Google-Smtp-Source: AA0mqf7JVIcTPYdeX+DwIlk55rlpMShtycDHmgZrVZxgWpoACaOHyPw1OWw+dIhhtCWJetqZGFJ0Vg==
+X-Received: by 2002:a05:600c:3c92:b0:3cf:a851:d2f2 with SMTP id bg18-20020a05600c3c9200b003cfa851d2f2mr22167012wmb.21.1671112463881;
+        Thu, 15 Dec 2022 05:54:23 -0800 (PST)
+Received: from localhost ([82.66.159.240])
+        by smtp.gmail.com with ESMTPSA id w23-20020a05600c099700b003d1de805de5sm5632729wmp.16.2022.12.15.05.54.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Dec 2022 05:54:23 -0800 (PST)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Jason Andryuk <jandryuk@gmail.com>, linux-kernel@vger.kernel.org
+Cc:     xen-devel@lists.xenproject.org, Jason Andryuk <jandryuk@gmail.com>,
+        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] Input: xen-kbdfront - drop keys to shrink modalias
+In-Reply-To: <20221209142615.33574-1-jandryuk@gmail.com>
+References: <20221209142615.33574-1-jandryuk@gmail.com>
+Date:   Thu, 15 Dec 2022 14:54:22 +0100
+Message-ID: <87359gkc1d.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 15 Dec 2022, Adrian Freund wrote:
+On Fri, Dec 09, 2022 at 09:26, Jason Andryuk <jandryuk@gmail.com> wrote:
 
-> >     In file included from drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c:15:
-> >>> drivers/hid/amd-sfh-hid/sfh1_1/../hid_descriptor/amd_sfh_hid_report_desc.h:649:17:
-> >>> warning: 'tms_report_descriptor' defined but not used
-> >>> [-Wunused-const-variable=]
-> >       649 | static const u8 tms_report_descriptor[] = {
-> >           |                 ^~~~~~~~~~~~~~~~~~~~~
-> hid_descriptor/amd_sfh_hid_report_desc.h is included from both
-> hid_descriptor/amd_sfh_hid_desc.c and sfh1_1/amd_sfh_desc.c, the first of
-> which has 4 usages of tms_report_descriptor. The later is for sensor fusion
-> hub 1.1. I don't have access to a devices using sfh1.1, so I can't add support
-> for the tablet mode switch there, causing the variable to be unused for that
-> import.
+> xen kbdfront registers itself as being able to deliver *any* key since
+> it doesn't know what keys the backend may produce.
+>
+> Unfortunately, the generated modalias gets too large and uevent creation
+> fails with -ENOMEM.
+>
+> This can lead to gdm not using the keyboard since there is no seat
+> associated [1] and the debian installer crashing [2].
+>
+> Trim the ranges of key capabilities by removing some BTN_* ranges.
+> While doing this, some neighboring undefined ranges are removed to trim
+> it further.
+>
+> An upper limit of KEY_KBD_LCD_MENU5 is still too large.  Use an upper
+> limit of KEY_BRIGHTNESS_MENU.
+>
+> This removes:
+> BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
+> Empty space 0x224..0x229
+>
+> Empty space 0x28a..0x28f
+> KEY_MACRO1(0x290)..KEY_MACRO30(0x2ad)
+> KEY_MACRO_RECORD_START          0x2b0
+> KEY_MACRO_RECORD_STOP           0x2b1
+> KEY_MACRO_PRESET_CYCLE          0x2b2
+> KEY_MACRO_PRESET1(0x2b3)..KEY_MACRO_PRESET3(0xb5)
+> Empty space 0x2b6..0x2b7
+> KEY_KBD_LCD_MENU1(0x2b8)..KEY_KBD_LCD_MENU5(0x2bc)
+> Empty space 0x2bd..0x2bf
+> BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
+> Empty space 0x2e8..0x2ff
+>
+> The modalias shrinks from 2082 to 1550 bytes.
+>
+> A chunk of keys need to be removed to allow the keyboard to be used.
+> This may break some functionality, but the hope is these macro keys are
+> uncommon and don't affect any users.
+>
+> [1] https://github.com/systemd/systemd/issues/22944
+> [2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net/T/
+>
+> Cc: Phillip Susi <phill@thesusis.net>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
 
-I'd say either move the rdesc directly to 
-hid_descriptor/amd_sfh_hid_desc.c, or alternatively mark it with 
-__attribute__((used)).
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
--- 
-Jiri Kosina
-SUSE Labs
-
+> ---
+>  drivers/input/misc/xen-kbdfront.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> v2:
+> Remove more keys: v1 didn't remove enough and modalias was still broken.
+>
+> diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
+> index 8d8ebdc2039b..4ecb579df748 100644
+> --- a/drivers/input/misc/xen-kbdfront.c
+> +++ b/drivers/input/misc/xen-kbdfront.c
+> @@ -256,7 +256,14 @@ static int xenkbd_probe(struct xenbus_device *dev,
+>  		__set_bit(EV_KEY, kbd->evbit);
+>  		for (i = KEY_ESC; i < KEY_UNKNOWN; i++)
+>  			__set_bit(i, kbd->keybit);
+> -		for (i = KEY_OK; i < KEY_MAX; i++)
+> +		/* In theory we want to go KEY_OK..KEY_MAX, but that grows the
+> +		 * modalias line too long.  There is a gap of buttons from
+> +		 * BTN_DPAD_UP..BTN_DPAD_RIGHT and KEY_ALS_TOGGLE is the next
+> +		 * defined. Then continue up to KEY_BRIGHTNESS_MENU as an upper
+> +		 * limit. */
+> +		for (i = KEY_OK; i < BTN_DPAD_UP; i++)
+> +			__set_bit(i, kbd->keybit);
+> +		for (i = KEY_ALS_TOGGLE; i <= KEY_BRIGHTNESS_MENU; i++)
+>  			__set_bit(i, kbd->keybit);
+>  
+>  		ret = input_register_device(kbd);
+> -- 
+> 2.38.1
