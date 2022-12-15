@@ -2,134 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C759464DE36
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 17:10:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A61A64DE3A
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 17:12:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiLOQKF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 11:10:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41286 "EHLO
+        id S229484AbiLOQL6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 11:11:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229762AbiLOQKE (ORCPT
+        with ESMTP id S229939AbiLOQLy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 11:10:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9030731DF9;
-        Thu, 15 Dec 2022 08:10:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 417ADB81AAC;
-        Thu, 15 Dec 2022 16:10:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46F1C433D2;
-        Thu, 15 Dec 2022 16:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671120599;
-        bh=75qsygyEYXqcr+pywz0PhGBqH3J09FtbdMv+diptvgQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B+Asg/OGm1kVbP/PG/O1rChNh7cpi9x6sxLebrbSjW6v387faHJ1TWdeW4q3ptQWB
-         wnlzTWGLB4QM+fVfCO7+AvUxUt7UDsUpa8Cu+nhyuiFfP0oo0JmguJzSgV0W+1QbJA
-         UH/VzOuVigptGEZBwr7AIEET8J5cn5gn7fX8DTtuT4CqUc+wZADQFxuPBDBGoT8Gee
-         /Q31eYblIFnigfqf4mCedQcpDa0zucn/7L4rj2zl5VX5jrJbdy+tzei6O/dwmM3jy7
-         BSrePBvVEC7ah2ZwvuLf2Xc6E1UnFXqsj9he9sOuuICS9AbBl71gkDhEqo/MBo3K9b
-         6u6+QQ/FcuZJA==
-Date:   Thu, 15 Dec 2022 16:09:50 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     jerome Neanne <jneanne@baylibre.com>
-Cc:     Wadim Egorov <W.Egorov@phytec.de>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>, "nm@ti.com" <nm@ti.com>,
-        "kristo@kernel.org" <kristo@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "tony@atomide.com" <tony@atomide.com>,
-        "vigneshr@ti.com" <vigneshr@ti.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "marcel.ziswiler@toradex.com" <marcel.ziswiler@toradex.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "biju.das.jz@bp.renesas.com" <biju.das.jz@bp.renesas.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jeff@labundy.com" <jeff@labundy.com>, "afd@ti.com" <afd@ti.com>,
-        "khilman@baylibre.com" <khilman@baylibre.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "msp@baylibre.com" <msp@baylibre.com>,
-        "j-keerthy@ti.com" <j-keerthy@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
-Subject: Re: [PATCH v7 1/6] DONOTMERGE: arm64: dts: ti: Add TI TPS65219 PMIC
- support for AM642 SK board.
-Message-ID: <Y5tGzjgcAWPqdFNE@sirena.org.uk>
-References: <20221104152311.1098603-1-jneanne@baylibre.com>
- <20221104152311.1098603-2-jneanne@baylibre.com>
- <d0d7e315-ce86-0420-8ef5-fe2e4aefd5b4@phytec.de>
- <e2bc53fe-3a0c-cf24-8b29-ca377aba3721@baylibre.com>
+        Thu, 15 Dec 2022 11:11:54 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F701658B
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 08:11:53 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id bx10so3652010wrb.0
+        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 08:11:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5GllUlIDpXau0l2xEgc9SWI+sBV48rCRB1n9ph8iFkE=;
+        b=d1iNuBETgZxSJPNmN4hHrBDFqeHAbOqV5FARXpn4WMOB5U08XEIViwYrZENzMTrWzY
+         u6/OvJfqWE6u0fK9b5xmOH0GSd0yMSNiFWJZSjTlmWnvXFDkdlznCyTmZMdtF8F1x2eF
+         W0+I4JfqUDKZy+BfAzw74gFiFFHkBZ0c/QOrVLqZRjjimCTbD58bt4dZ9su/2hRqExQ2
+         GKdAZMiT3KgrR64eLhbyhKiqKbEKHJS/BDffHThQgfBSlVlxUnrmbZ7oQ0y9agXt6/eb
+         zS2554ung8aj/rvAIiPnEPFwG7/oQVIJKPXvwMitawk8kfK6Kb9x73cCYXzX4JeS2Nw2
+         hZaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5GllUlIDpXau0l2xEgc9SWI+sBV48rCRB1n9ph8iFkE=;
+        b=TqeGl8Pm2vAtzEkkGMzwjW8GP2/UC47XbSSg8jpwQxm3JMoMXm6vYhG/7NxzQtB6YB
+         /VvIQJNts0CyXUTBJ8y8qV0YjuYKOvsvuBbFdjNf9eSfj+yhDy+UClyHIV1xPNqhn6FG
+         gaMKoTjFK+S6//p722jjNqvxl7oV1P+k25J14qAufHOao5suPPDc6vt0P8E0wi9t0Rtf
+         QVLwoCUNedlfUMHm7AUPD1Qh12an57cGtQflXeHjWRtEeieZUl0qBpnFFVXEcsA+Gkm7
+         XppYBZV4G7hHFcza+D4iqR95gCguhW4csKuCt6T2cmfC4KLdrmn37lPFX5+25WkghR4o
+         Qx4A==
+X-Gm-Message-State: ANoB5pl9jtlKJDeMpcH2M+KEF0tLGcoCJicx0xx1fswEDkCj7Tjw8X+Z
+        ZpKA4G5jeZgqTCnVJnW/IpWET/+4Aw+nKte0KRM=
+X-Google-Smtp-Source: AA0mqf44hSCI9P7LyaxNoja04BFOTE2pCQe+f2LOJKxVT0q73fDik7hh16+jDPJ2NycTiYTvTapo2yCEJuElPOrm1SM=
+X-Received: by 2002:adf:fad0:0:b0:24f:b97d:861d with SMTP id
+ a16-20020adffad0000000b0024fb97d861dmr445930wrs.201.1671120712298; Thu, 15
+ Dec 2022 08:11:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="anoyA9LaY/gDcS8e"
-Content-Disposition: inline
-In-Reply-To: <e2bc53fe-3a0c-cf24-8b29-ca377aba3721@baylibre.com>
-X-Cookie: Today is what happened to yesterday.
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <CANRwn3QZfeu4Oonw2-bFHzDajxDJRD6+G5HXr1WJ7bJuXddf2Q@mail.gmail.com>
+ <20221203114318.10103-1-jose.exposito89@gmail.com>
+In-Reply-To: <20221203114318.10103-1-jose.exposito89@gmail.com>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Thu, 15 Dec 2022 08:11:40 -0800
+Message-ID: <CANRwn3S=6S+mtzL5eFUP=z6K0m=1LO3gyvS4eWHugB8n_3NBhw@mail.gmail.com>
+Subject: Re: [PATCH] HID: Recognize "Digitizer" as a valid input application
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     benjamin.tissoires@redhat.com, jason.gerecke@wacom.com,
+        jikos@kernel.org, joshua@joshua-dickens.com,
+        linux-input@vger.kernel.org, ping.cheng@wacom.com,
+        pinglinux@gmail.com, skomra@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Thanks for the response, Jose.
 
---anoyA9LaY/gDcS8e
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Unfortunately this isn't an issue that we can fix in the Wacom driver
+since it affects devices that don't use the Wacom driver. While we
+could theoretically adopt affected VID:PIDs into the Wacom driver on a
+case-by-case basis, there would be a large time lag between us
+adopting a device and users running the required kernel. This should
+really be something that is fixed in the hid-generic driver, even if
+it means some pain trying to ensure we don't break things in the
+process... I'm still hoping to hear something back from Benjamin about
+my hid-tools test results or if additional testing is needed.
 
-On Thu, Dec 15, 2022 at 04:51:40PM +0100, jerome Neanne wrote:
-> On 15/12/2022 16:09, Wadim Egorov wrote:
+Jason
+---
+Now instead of four in the eights place /
+you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+(That is to say, eight) to the two,     /
+But you can=E2=80=99t take seven from three,    /
+So you look at the sixty-fours....
 
-> > I am testing your PMIC patches on a AM62 based board with a similar set=
-up and
-> > running into the following error
-
-> >   =A0=A0 VDDSHV5_SDIO: bypassed regulator has no supply!
-> >   =A0=A0 VDDSHV5_SDIO: will resolve supply early: ldo1
-> >   =A0=A0 VDDSHV5_SDIO: supplied by regulator-dummy
-> >   =A0=A0 VDDSHV5_SDIO: failed to get the current voltage: -EINVAL
-
-> > Have you noticed problems with LDO1 and bypass mode?
-
-> I did not noticed this on am642 board but IIRC this rail was not used. I
-> heard about similar issue reported to me by Nishanth M with a fix proposal
-> here:
-> https://gist.github.com/nmenon/e4dd6ef6afe31bc9750fa6cbee8d3e25
-
-That proposal looks really non-idiomatic and quite unusual, if there's a
-fixed voltage supply to the LDO I'd expect to see it modeled as a fixed
-voltage regulator.  I'm not sure what the use of bypass here is trying
-to accomplish TBH.
-
---anoyA9LaY/gDcS8e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmObRs0ACgkQJNaLcl1U
-h9DROwf7Blis2co9b1vk/lwNjHztgy0KnqViuctcaTlTVYkb+V6RhFAqjiLnCPef
-CjaaHwcJJIi4NYJcpDPR2BjKxrKbbKtCtcGez4QGNvRXwvQLqtuxNhYV8+Z5uxFi
-cwlGtOdiwfGmpci42d7e6Uc2R/mlTKUVi6W3qgjMNIkX/mR9fYljdEmR3/zOZ/Cx
-A3ogZf79cpQm86Cq4bq0xUkqIk4iniLOJGjRHU7iXPew163il5JRSElLvmkIx96n
-VDhX7JAHQwVMmg4lvVeBT7+MFm2NF4VrE87ULtBxb1SbBHl7+etRlst4eCUvdvLD
-dyuEsKTAvt6hU329mYRXcbe1VgAvOA==
-=Dq0K
------END PGP SIGNATURE-----
-
---anoyA9LaY/gDcS8e--
+On Sat, Dec 3, 2022 at 3:43 AM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
+il.com> wrote:
+>
+> Hi Jason,
+>
+> > Still waiting to hear back about this. Are positive results from the
+> > hid-tools tests sufficient, or is there additional work that should be
+> > done for this patch?
+>
+> A while ago a similar patch was sent [1] and it was in a similar status
+> to your patch for a while, so I decided to fix the issue in the UCLogic
+> driver [2].
+>
+> I can not tell you if this patch needs additional work, but you might be
+> interested in fixing it in the Wacom driver, where it'd be easier for you
+> to test that no regressions are introduced.
+>
+> I hope this helps a bit,
+> Jose
+>
+> [1] https://lore.kernel.org/linux-input/20220804151832.30373-1-openglfrea=
+k@googlemail.com/
+> [2] https://lore.kernel.org/linux-input/d08049f2-443b-f769-cfde-629cdfb96=
+fc0@alexyzhang.dev/T/
