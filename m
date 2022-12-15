@@ -2,143 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEBC464E097
-	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 19:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A8A564E281
+	for <lists+linux-input@lfdr.de>; Thu, 15 Dec 2022 21:44:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiLOSWo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Dec 2022 13:22:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49740 "EHLO
+        id S229789AbiLOUon (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Dec 2022 15:44:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbiLOSWg (ORCPT
+        with ESMTP id S229524AbiLOUom (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Dec 2022 13:22:36 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB8284667B;
-        Thu, 15 Dec 2022 10:22:35 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 66E76B81C37;
-        Thu, 15 Dec 2022 18:22:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17311C433D2;
-        Thu, 15 Dec 2022 18:22:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671128553;
-        bh=dAaOdWTPCc7tzr5zLW6fD/haLwLpJykRK4uPP26zcfE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ovOmvcVJK+pbxmzyzMfETbt5Usv3hISJzTZuEcW6r2mdgU2XcS3x12pTd4d0PlVRU
-         9DBk+sUxP3gx5LgyKL2Tr2mzDMr3O816aAGA5Xzi6ZcTcsnh58amiUMPtZ+IBk10hY
-         cbPLO4nb695Dz84nkN9F7A443FHrzxWaqxrZ8/Ve91MpHB1j8kQPpOriaGjZ0YxglU
-         NFZ1BPt5mKyVOkXqDkvARlu2vJEENCGr5fuWuu7alGuBOq6pINzLnBNAP74aX7kwRY
-         ysZqnH0fNwe5fz4G5u5d0GP6MO0+6DQpxNMB6DAc3ymieYUFXHwqSVKgPuFIJEoLlB
-         xn7MuS3Ca33Jw==
-Date:   Thu, 15 Dec 2022 18:22:23 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Nishanth Menon <nm@ti.com>
-Cc:     jerome Neanne <jneanne@baylibre.com>,
-        Wadim Egorov <W.Egorov@phytec.de>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kristo@kernel.org" <kristo@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "tony@atomide.com" <tony@atomide.com>,
-        "vigneshr@ti.com" <vigneshr@ti.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "marcel.ziswiler@toradex.com" <marcel.ziswiler@toradex.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "biju.das.jz@bp.renesas.com" <biju.das.jz@bp.renesas.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jeff@labundy.com" <jeff@labundy.com>, "afd@ti.com" <afd@ti.com>,
-        "khilman@baylibre.com" <khilman@baylibre.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "msp@baylibre.com" <msp@baylibre.com>,
-        "j-keerthy@ti.com" <j-keerthy@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
-Subject: Re: [PATCH v7 1/6] DONOTMERGE: arm64: dts: ti: Add TI TPS65219 PMIC
- support for AM642 SK board.
-Message-ID: <Y5tl3+2pJispcXy6@sirena.org.uk>
-References: <20221104152311.1098603-1-jneanne@baylibre.com>
- <20221104152311.1098603-2-jneanne@baylibre.com>
- <d0d7e315-ce86-0420-8ef5-fe2e4aefd5b4@phytec.de>
- <e2bc53fe-3a0c-cf24-8b29-ca377aba3721@baylibre.com>
- <Y5tGzjgcAWPqdFNE@sirena.org.uk>
- <20221215175411.znxy3d6ussq2iq5h@grieving>
+        Thu, 15 Dec 2022 15:44:42 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9AB24A5AE;
+        Thu, 15 Dec 2022 12:44:41 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id fc4so1363591ejc.12;
+        Thu, 15 Dec 2022 12:44:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EpH1P3RlFxyKcBx3qkk+aQuDUHsrkTX+VkNJj0MZ9nk=;
+        b=AgXfi8McxnsNqZ8GZGCsYsgQTdu7EDDMtLK28lLAUziqm8EPL6B8vLha8g1i3lF0O3
+         PNfsK35HiYK4IUkDDth7EVp04YQYwDKAFbL7l35TEJMlDAUYy0RbQSEz/uxuX3xalmhi
+         YeU1Wc866Omt2a6x/urZHGckziTcE0nl4ECIbu3cH3oGc/ytGU1b2eqkHqE/JIN8LhYM
+         SjdNs5Azz2+FPc6ihBCcY7vCiWJQDfl+7nw4RVkxwFcuDbtqGOArpaDpFf2qSUHRF2Ns
+         eAGfJ0yDolA2kjcl+vL9ShLqCPi90j40DH4Hk6UD36GTl/TT0aNoH7yEkOlzgcYpDnHM
+         xfzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EpH1P3RlFxyKcBx3qkk+aQuDUHsrkTX+VkNJj0MZ9nk=;
+        b=AuQPSrCN3oz6YuQ7e9Ais2LW7+cfRNgbLY9zbu1XcRxf4qPixBWTc52dTml7z0rAFh
+         zeokKgvGrtgmKb7+cqdqp2UmJRLLXbIRSAzukS1poAeGhywSagc9e0xbrujkuYR7RpzT
+         u2uVIxoKi6C6nGJwO6ZuNSYsrKgq4UsbkePZ3EDUT2t0EbI8Gy+pxd8GW65rwU3G7dGR
+         3biCQSEC30K76fl1BRwHGCe1p6pJyExfKnesYCOsnbaZfHy4gwfry+p6tzL5L184t1r5
+         fzmq8bf3LnVc1z/if+PxTd1gkBpRuiz+emNwJRw0beDUWYOB8uAxmmhrPPzBlVlqU4dw
+         p8PQ==
+X-Gm-Message-State: ANoB5pmcRdlIBLoBakpMFFzZ9VU1OFBEzx4KKnCM2yhXjb5GCWQfi8w3
+        dICaNkIYBzlce7Cgp0+X78XJOJaila88c1iAi0kKr9NL1JY=
+X-Google-Smtp-Source: AA0mqf4syn4QkydfKh4/1mkewiJ/X+OZHLDFxoQMOKXTJQVzy8lgz6F901sz0OOKMDtbeceZiP3PE5iZbuGAu7vB1fQ=
+X-Received: by 2002:a17:906:5dcd:b0:7c1:80c2:4b69 with SMTP id
+ p13-20020a1709065dcd00b007c180c24b69mr950458ejv.75.1671137080032; Thu, 15 Dec
+ 2022 12:44:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Ou+aT4tEkmn4+pSU"
-Content-Disposition: inline
-In-Reply-To: <20221215175411.znxy3d6ussq2iq5h@grieving>
-X-Cookie: Today is what happened to yesterday.
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221205210354.11846-1-andrew.smirnov@gmail.com>
+ <20221205210354.11846-2-andrew.smirnov@gmail.com> <CADyDSO6EBuKNZFTvuuhS9VM+dy8t8HOcHyodiQR8o_uXd8gXww@mail.gmail.com>
+In-Reply-To: <CADyDSO6EBuKNZFTvuuhS9VM+dy8t8HOcHyodiQR8o_uXd8gXww@mail.gmail.com>
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+Date:   Thu, 15 Dec 2022 12:44:28 -0800
+Message-ID: <CAHQ1cqE17T+8Jvo1RnQ=KB77-nf9xBJFq+h6SQDJCmbUXG=GdA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] HID: uhid: Don't send the report ID if it's zero
+To:     David Rheinsberg <david.rheinsberg@gmail.com>
+Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+)
 
---Ou+aT4tEkmn4+pSU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, Dec 12, 2022 at 7:23 AM David Rheinsberg
+<david.rheinsberg@gmail.com> wrote:
+>
+> Hi
+>
+> On Mon, 5 Dec 2022 at 22:04, Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
+> >
+> > Report ID of zero is a special case handling ID-less reports and in
+> > that case we should omit report ID from the payload being sent to the
+> > backend.
+> >
+> > Without this change UHID_DEV_NUMBERED_{FEATURE,OUTPUT}_REPORTS doesn't
+> > represent a semantical difference.
+> >
+> > Cc: David Rheinsberg <david.rheinsberg@gmail.com>
+> > Cc: Jiri Kosina <jikos@kernel.org>
+> > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > Cc: linux-input@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-usb@vger.kernel.org
+> > Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+> > ---
+> >  drivers/hid/uhid.c | 15 ++++++++++++---
+> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
+> > index 2a918aeb0af1..7551120215e8 100644
+> > --- a/drivers/hid/uhid.c
+> > +++ b/drivers/hid/uhid.c
+> > @@ -273,11 +273,11 @@ static int uhid_hid_get_report(struct hid_device *hid, unsigned char rnum,
+> >  }
+> >
+> >  static int uhid_hid_set_report(struct hid_device *hid, unsigned char rnum,
+> > -                              const u8 *buf, size_t count, u8 rtype)
+> > +                              u8 *buf, size_t count, u8 rtype)
+> >  {
+> >         struct uhid_device *uhid = hid->driver_data;
+> >         struct uhid_event *ev;
+> > -       int ret;
+> > +       int ret, skipped_report_id = 0;
+> >
+> >         if (!READ_ONCE(uhid->running) || count > UHID_DATA_MAX)
+> >                 return -EIO;
+> > @@ -286,6 +286,15 @@ static int uhid_hid_set_report(struct hid_device *hid, unsigned char rnum,
+> >         if (!ev)
+> >                 return -ENOMEM;
+> >
+> > +       /* Byte 0 is the report number. Report data starts at byte 1.*/
+> > +       buf[0] = rnum;
+> > +       if (buf[0] == 0x0) {
+> > +               /* Don't send the Report ID */
+> > +               buf++;
+> > +               count--;
+> > +               skipped_report_id = 1;
+> > +       }
+> > +
+>
+> In HID core, the buffer is filled by a call to hid_output_report() in
+> __hid_request(). And hid_output_report() only writes the ID if it is
+> non-zero. So your patch looks like it is duplicating this logic?
 
-On Thu, Dec 15, 2022 at 11:54:11AM -0600, Nishanth Menon wrote:
-> On 16:09-20221215, Mark Brown wrote:
+It would be in this scenario. But then I think it also means that
+USBHID will incorrectly strip an extra byte of the payload if it's
+zero for reports that don't have a report id, right? So maybe the fix
+for this is to get rid of payload adjustment in set/send paths in
+USBHID and move the adjustment to hidraw?
 
-> > That proposal looks really non-idiomatic and quite unusual, if there's a
-> > fixed voltage supply to the LDO I'd expect to see it modeled as a fixed
-> > voltage regulator.  I'm not sure what the use of bypass here is trying
-> > to accomplish TBH.
+> In which scenario is the report-ID not skipped exactly?
 
-> The problem is this - the default NVM in the PMIC is setup such that
-> VSET value =3.3v and bypass bit set (makes sense since the vin=3.3v).
+The call chain in my use case is as follows:
 
-This implies no voltage drop over the LDO?  Sounds a bit suspect.
+hidraw_ioctl(HIDIOCSFEATURE) -> hid_hw_raw_request() ->
+uhid_hid_raw_request() -> uhid_hid_set_report()
 
-> Now the constraint is bypass bit cannot be changed without the LDO
-> being switched off.
+>
+> Regardless, if you want to mess with the buffer, you should do that
+> after the memcpy(). I don't see why we should mess with the buffer
+> from HID core, when we have our own, anyway.
+>
 
-> regulator-allow-bypass property allows us to control bypass bit, but we
-> should'nt toggle it when LDO is active. Not providing the property
-> implies the bit wont be toggled by regulator core either.
+I was just mimicking code from USBHID, to make it clear it served the
+same purpose, that
 
-> What we need is a scheme that will disable the bypass bit with the
-> intent of operating the LDO with just the vset field. I did'nt find it
-> possible atm.. unless I am mistaken..
+buf[0] = rnum;
 
-Can the consumer just disable the supply as part of startup?  Though
-that's starting to feel rather board specific.  There's not really a
-good place to put a board specific setup process like that in the kernel
-at the minute, you'd ideally want the firmware to leave the device at
-least disabled if not actually out of bypass on startup so we don't have
-to deal with this.  Ugh...
-
---Ou+aT4tEkmn4+pSU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmObZd8ACgkQJNaLcl1U
-h9BH+QgAgXSqInlA7GNyvDv3vqe3E5eleoOCrAa5Ti6K31e7Nvrrr1eDU3YoFQHF
-T1gPkwcmB8T5CvtTK7gWQi5Yv8HAXerZRJXZHYw3cm682lyi+FDUUtq6nAU9Py0G
-wKuNxyD0r5s4VU0IEKMq3AmxpfpDAR1O1X+J17M1qpA7hRTWS2gOvtdFp9f5Qv6M
-7DcL8RN3/kL8lbypTL4D2gFAmxcDSStYOtbNYzzf+ScPXb3FJp0lqn5oFuQzjRuv
-GbcR1e9FRnMNGVZAUfmY8vhSICzHLwMzHZMLZhgNqR20tNc5NrVhEGFfb3BWxU8Q
-9SSKv8RBqU1QqLYxzYC6GkpsKtNcVw==
-=rWw5
------END PGP SIGNATURE-----
-
---Ou+aT4tEkmn4+pSU--
+isn't strictly necessary and could be dropped.
