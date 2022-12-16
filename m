@@ -2,39 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9988C64ECD9
-	for <lists+linux-input@lfdr.de>; Fri, 16 Dec 2022 15:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F72F64F1A4
+	for <lists+linux-input@lfdr.de>; Fri, 16 Dec 2022 20:19:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbiLPO1k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Dec 2022 09:27:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50854 "EHLO
+        id S229754AbiLPTTT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Dec 2022 14:19:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbiLPO1j (ORCPT
+        with ESMTP id S229896AbiLPTTS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Dec 2022 09:27:39 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B509F50D77;
-        Fri, 16 Dec 2022 06:27:37 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 826E610000C;
-        Fri, 16 Dec 2022 14:27:34 +0000 (UTC)
-Message-ID: <b787798328560ef3627ba3f8634114d78d3f249a.camel@hadess.net>
-Subject: Re: [PATCH] hid: Support for Litra Glow
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Andreas Bergmeier <abergmeier@gmx.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 16 Dec 2022 15:27:33 +0100
-In-Reply-To: <8f00ae9463b07fbd789af3840cd59a9e99caff34.camel@hadess.net>
-References: <9fca69c7-cc24-63d0-98f6-80c28fc69a5@9300>
-         <8f00ae9463b07fbd789af3840cd59a9e99caff34.camel@hadess.net>
-Content-Type: multipart/mixed; boundary="=-OvH/z0DPZjhe91+lGS7D"
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        Fri, 16 Dec 2022 14:19:18 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72FAE2D1C4;
+        Fri, 16 Dec 2022 11:19:15 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id a9so3249563pld.7;
+        Fri, 16 Dec 2022 11:19:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ugxhu4FBglbjLikh6uPAoaI4HXZLlk6yZaGG1+Cep5g=;
+        b=KpRVudeGJv5pInD4KE6reKMeoy7bEoFZkTE5+v0monRQ3zmXFq5dovn8JOTOOJ3T5F
+         7pdEOoZ/ewKwnFVRu67o5PjkXZ7aAgNqcKBC2WcYae4d33643212lNx+hz/BVCX5LP6r
+         XC2Jr17sgy+Dwech521QgenQokCQjWBxZtdEyD8/ZJZmrNg9jvgLh6FXLgtAFQwcI0/5
+         dqhE9RKq6vKsgwlyuFwFQ9Iq0epO6Bcw+AjFB8mV7N6GeOaDY4v7RZOHXjb+AR1Dn0Js
+         3334OqgTu7HcG5QFf3am08OWTyDRzph8NZFekyTxPP50Bgvorb1QiMg1yOzN5emwz+JE
+         OPTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ugxhu4FBglbjLikh6uPAoaI4HXZLlk6yZaGG1+Cep5g=;
+        b=X2NXMsC15Dq3x/20CZhfIm2rAeXBE7kDVbhgbqypt/iNtqFugAYpkOh9DfqsqpH8ee
+         2vnJQTy6ekq7sUpO6Vf5Aq0ju47vHKiUdcGVqo4PRYD34vtDrOlTeiu46NM2NASa/Cv1
+         v6j8MhwvsnQuBPDuAhK3CPDfPuPf6Nk4u+fJWlFMrOfnvBJDZpxDkmKV0MnI5L1tOvIv
+         1hHByp4ymr2pB52SOh1HzQm1oL6+zum1w0MmCbSREyxmnSQ2/N7ENNv59cIYNqQSD7tF
+         gqLlkrpn2+VbANT6qsjm10qzJ6QsTl27q+/qVxO307DXroJUuokatrsb/bcuBGZwBzgu
+         yjGA==
+X-Gm-Message-State: ANoB5pkdXXDj5koFyqtU5ZcXYr7eL91+VW5CHH2oP+4etNhjM2ddjj5I
+        Hv4ymqPJIujPgGMmlBPar+s=
+X-Google-Smtp-Source: AA0mqf5ys3ffyGNG5TUwnGwvLlXiSwadMSQRypX2wPbuEjQZOw8vjGmraT9nAai3RFFJWPDspwGNzg==
+X-Received: by 2002:a17:903:1302:b0:189:7e2f:d64c with SMTP id iy2-20020a170903130200b001897e2fd64cmr33022272plb.55.1671218354525;
+        Fri, 16 Dec 2022 11:19:14 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:211:6b31:5f6:6aef])
+        by smtp.gmail.com with ESMTPSA id o9-20020a170903210900b00186b138706fsm2013870ple.13.2022.12.16.11.19.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 11:19:13 -0800 (PST)
+Date:   Fri, 16 Dec 2022 11:19:10 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     =?utf-8?B?am9ld3Uo5ZCz5Luy5oyvKQ==?= <joewu@msi.com>
+Cc:     Joe Wu <joewu@msi.corp-partner.google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Xiang wangx <wangxiang@cdjrlc.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Derek Huang <derekhuang@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>,
+        Daisuke Nojiri <dnojiri@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        Furquan Shaikh <furquan@chromium.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        "chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
+        Douglas Anderson <dianders@chromium.org>,
+        "Dustin L . Howett" <dustin@howett.net>,
+        Guenter Roeck <groeck@chromium.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Message-ID: <Y5zErm1YuXlBBHYw@google.com>
+References: <20221215061550.18993-1-joewu@msi.corp-partner.google.com>
+ <Y5uZNVzEgsKzlPD0@google.com>
+ <5f36a68518ca44aa9566a5df801bccaa@msi.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f36a68518ca44aa9566a5df801bccaa@msi.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,103 +91,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=-OvH/z0DPZjhe91+lGS7D
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Dec 16, 2022 at 01:36:24AM +0000, joewu(吳仲振) wrote:
+> Hi Dmitry,
+> 
+> Thank you for comments. I will try to give a clear description and sent the patch again.
+> Actually, the function of "leave PC(cros) mode" button is to implement 'lock the screen' in chromeOS.
+> Google suggests us to sent 'F13' key to lock the screen, could we do it or do you have any suggestion? 
 
-On Fri, 2022-12-16 at 10:53 +0100, Bastien Nocera wrote:
-> On Thu, 2022-12-15 at 22:09 +0100, Andreas Bergmeier wrote:
-> > Tries to implement as general support for Illumination Light as
-> > possible. Note that it is singular, which means by Logitech spec we
-> > are
-> > fine off with just handling one capability/device.
->=20
-> Your email client absolutely trashed the patch's indentation, it's
-> unreadable as-is.
->=20
-> > Implementation currently only exposes Brightness and On/Off
-> > controls.
-> > Does currently not expose Color Temperature because LEDs does not
-> > support it.
-> >=20
-> > Introduces HIDPP_QUIRK_CLASS_SIMPLE_START to prevent reconnect on
-> > startup. Could not get Glow to work with that.
->=20
-> I'd really rather we didn't introduce a new quirk, but instead fixed
-> the fact that we need to restart the HID transport to support 3 (!)
-> devices.
->=20
-> Would something like the attached patch work? I haven't tested it
-> yet,
-> but if it works for you, I'll test it on the devices I have here.
+Is this different from the normal power button? If it is the key with
+"padlock" glyph you want to map it to KEY_SLEEP or KEY_SCREENLOCK.
 
-A tested version attached. I'll need to test it against a T650 before
-sending it for review.
+We should no longer use or recommend overriding F13 for this.  Is there
+an internal Google bug for this? Could you add dtor@google.com there?
 
---=-OvH/z0DPZjhe91+lGS7D
-Content-Disposition: attachment;
-	filename*0=0001-HID-logitech-hidpp-Don-t-restart-communication-if-no.pat;
-	filename*1=ch
-Content-Type: text/x-patch;
-	name="0001-HID-logitech-hidpp-Don-t-restart-communication-if-no.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+Thanks.
 
-RnJvbSBiZWFlMmRlMDg2NTQ2ZjZhMzE4N2EzMWYyZjQwNmIxZTNmZTIxZjVlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCYXN0aWVuIE5vY2VyYSA8aGFkZXNzQGhhZGVzcy5uZXQ+CkRh
-dGU6IEZyaSwgMTYgRGVjIDIwMjIgMTA6NDE6MTYgKzAxMDAKU3ViamVjdDogW1BBVENIXSBISUQ6
-IGxvZ2l0ZWNoLWhpZHBwOiBEb24ndCByZXN0YXJ0IGNvbW11bmljYXRpb24gaWYgbm90CiBuZWNl
-c3NhcnkKCkRvbid0IHN0b3AgYW5kIHJlc3RhcnQgY29tbXVuaWNhdGlvbiB3aXRoIHRoZSBkZXZp
-Y2UgdW5sZXNzIHdlIG5lZWQgdG8KbW9kaWZ5IHRoZSBjb25uZWN0IGZsYWdzIHVzZWQgYmVjYXVz
-ZSBvZiBhIGRldmljZSBxdWlyay4KLS0tCiBkcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAu
-YyB8IDMxICsrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAx
-OSBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2hp
-ZC9oaWQtbG9naXRlY2gtaGlkcHAuYyBiL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1oaWRwcC5j
-CmluZGV4IDdmOTE4NzIwMTkxMy4uYjRlNGE4Yzc5Yzc1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2hp
-ZC9oaWQtbG9naXRlY2gtaGlkcHAuYworKysgYi9kcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlk
-cHAuYwpAQCAtNDMxMCw2ICs0MzEwLDcgQEAgc3RhdGljIGludCBoaWRwcF9wcm9iZShzdHJ1Y3Qg
-aGlkX2RldmljZSAqaGRldiwgY29uc3Qgc3RydWN0IGhpZF9kZXZpY2VfaWQgKmlkKQogCWJvb2wg
-Y29ubmVjdGVkOwogCXVuc2lnbmVkIGludCBjb25uZWN0X21hc2sgPSBISURfQ09OTkVDVF9ERUZB
-VUxUOwogCXN0cnVjdCBoaWRwcF9mZl9wcml2YXRlX2RhdGEgZGF0YTsKKwlib29sIHdpbGxfcmVz
-dGFydCA9IGZhbHNlOwogCiAJLyogcmVwb3J0X2ZpeHVwIG5lZWRzIGRydmRhdGEgdG8gYmUgc2V0
-IGJlZm9yZSB3ZSBjYWxsIGhpZF9wYXJzZSAqLwogCWhpZHBwID0gZGV2bV9remFsbG9jKCZoZGV2
-LT5kZXYsIHNpemVvZigqaGlkcHApLCBHRlBfS0VSTkVMKTsKQEAgLTQzNjAsNiArNDM2MSw5IEBA
-IHN0YXRpYyBpbnQgaGlkcHBfcHJvYmUoc3RydWN0IGhpZF9kZXZpY2UgKmhkZXYsIGNvbnN0IHN0
-cnVjdCBoaWRfZGV2aWNlX2lkICppZCkKIAkJCXJldHVybiByZXQ7CiAJfQogCisJaWYgKGhpZHBw
-LT5xdWlya3MgJiBISURQUF9RVUlSS19ERUxBWUVEX0lOSVQpCisJCXdpbGxfcmVzdGFydCA9IHRy
-dWU7CisKIAlJTklUX1dPUksoJmhpZHBwLT53b3JrLCBkZWxheWVkX3dvcmtfY2IpOwogCW11dGV4
-X2luaXQoJmhpZHBwLT5zZW5kX211dGV4KTsKIAlpbml0X3dhaXRxdWV1ZV9oZWFkKCZoaWRwcC0+
-d2FpdCk7CkBAIC00Mzc0LDcgKzQzNzgsNyBAQCBzdGF0aWMgaW50IGhpZHBwX3Byb2JlKHN0cnVj
-dCBoaWRfZGV2aWNlICpoZGV2LCBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCiAJICog
-UGxhaW4gVVNCIGNvbm5lY3Rpb25zIG5lZWQgdG8gYWN0dWFsbHkgY2FsbCBzdGFydCBhbmQgb3Bl
-bgogCSAqIG9uIHRoZSB0cmFuc3BvcnQgZHJpdmVyIHRvIGFsbG93IGluY29taW5nIGRhdGEuCiAJ
-ICovCi0JcmV0ID0gaGlkX2h3X3N0YXJ0KGhkZXYsIDApOworCXJldCA9IGhpZF9od19zdGFydCho
-ZGV2LCB3aWxsX3Jlc3RhcnQgPyAwIDogY29ubmVjdF9tYXNrKTsKIAlpZiAocmV0KSB7CiAJCWhp
-ZF9lcnIoaGRldiwgImh3IHN0YXJ0IGZhaWxlZFxuIik7CiAJCWdvdG8gaGlkX2h3X3N0YXJ0X2Zh
-aWw7CkBAIC00NDExLDYgKzQ0MTUsNyBAQCBzdGF0aWMgaW50IGhpZHBwX3Byb2JlKHN0cnVjdCBo
-aWRfZGV2aWNlICpoZGV2LCBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCiAJCQloaWRw
-cC0+d2lyZWxlc3NfZmVhdHVyZV9pbmRleCA9IDA7CiAJCWVsc2UgaWYgKHJldCkKIAkJCWdvdG8g
-aGlkX2h3X2luaXRfZmFpbDsKKwkJcmV0ID0gMDsKIAl9CiAKIAlpZiAoY29ubmVjdGVkICYmICho
-aWRwcC0+cXVpcmtzICYgSElEUFBfUVVJUktfQ0xBU1NfV1RQKSkgewpAQCAtNDQyNSwxOSArNDQz
-MCwyMSBAQCBzdGF0aWMgaW50IGhpZHBwX3Byb2JlKHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LCBj
-b25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCiAKIAloaWRwcF9jb25uZWN0X2V2ZW50KGhp
-ZHBwKTsKIAotCS8qIFJlc2V0IHRoZSBISUQgbm9kZSBzdGF0ZSAqLwotCWhpZF9kZXZpY2VfaW9f
-c3RvcChoZGV2KTsKLQloaWRfaHdfY2xvc2UoaGRldik7Ci0JaGlkX2h3X3N0b3AoaGRldik7CisJ
-aWYgKHdpbGxfcmVzdGFydCkgeworCQkvKiBSZXNldCB0aGUgSElEIG5vZGUgc3RhdGUgKi8KKwkJ
-aGlkX2RldmljZV9pb19zdG9wKGhkZXYpOworCQloaWRfaHdfY2xvc2UoaGRldik7CisJCWhpZF9o
-d19zdG9wKGhkZXYpOwogCi0JaWYgKGhpZHBwLT5xdWlya3MgJiBISURQUF9RVUlSS19OT19ISURJ
-TlBVVCkKLQkJY29ubmVjdF9tYXNrICY9IH5ISURfQ09OTkVDVF9ISURJTlBVVDsKKwkJaWYgKGhp
-ZHBwLT5xdWlya3MgJiBISURQUF9RVUlSS19OT19ISURJTlBVVCkKKwkJCWNvbm5lY3RfbWFzayAm
-PSB+SElEX0NPTk5FQ1RfSElESU5QVVQ7CiAKLQkvKiBOb3cgZXhwb3J0IHRoZSBhY3R1YWwgaW5w
-dXRzIGFuZCBoaWRyYXcgbm9kZXMgdG8gdGhlIHdvcmxkICovCi0JcmV0ID0gaGlkX2h3X3N0YXJ0
-KGhkZXYsIGNvbm5lY3RfbWFzayk7Ci0JaWYgKHJldCkgewotCQloaWRfZXJyKGhkZXYsICIlczpo
-aWRfaHdfc3RhcnQgcmV0dXJuZWQgZXJyb3JcbiIsIF9fZnVuY19fKTsKLQkJZ290byBoaWRfaHdf
-c3RhcnRfZmFpbDsKKwkJLyogTm93IGV4cG9ydCB0aGUgYWN0dWFsIGlucHV0cyBhbmQgaGlkcmF3
-IG5vZGVzIHRvIHRoZSB3b3JsZCAqLworCQlyZXQgPSBoaWRfaHdfc3RhcnQoaGRldiwgY29ubmVj
-dF9tYXNrKTsKKwkJaWYgKHJldCkgeworCQkJaGlkX2VycihoZGV2LCAiJXM6aGlkX2h3X3N0YXJ0
-IHJldHVybmVkIGVycm9yXG4iLCBfX2Z1bmNfXyk7CisJCQlnb3RvIGhpZF9od19zdGFydF9mYWls
-OworCQl9CiAJfQogCiAJaWYgKGhpZHBwLT5xdWlya3MgJiBISURQUF9RVUlSS19DTEFTU19HOTIw
-KSB7Ci0tIAoyLjM4LjEKCg==
-
-
---=-OvH/z0DPZjhe91+lGS7D--
+-- 
+Dmitry
