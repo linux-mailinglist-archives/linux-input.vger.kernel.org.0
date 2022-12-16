@@ -2,163 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FFA864E7B4
-	for <lists+linux-input@lfdr.de>; Fri, 16 Dec 2022 08:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67BF364E8ED
+	for <lists+linux-input@lfdr.de>; Fri, 16 Dec 2022 10:54:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbiLPH2c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Dec 2022 02:28:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46642 "EHLO
+        id S230325AbiLPJyK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Dec 2022 04:54:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiLPH2c (ORCPT
+        with ESMTP id S230326AbiLPJxs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Dec 2022 02:28:32 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F9A128704
-        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 23:28:30 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id co23so1624335wrb.4
-        for <linux-input@vger.kernel.org>; Thu, 15 Dec 2022 23:28:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5mW7QVt5GH3e598iWydxa74nESqdi2JjbfGI/OH0/N4=;
-        b=HzPqlS3pSJKX/mWg1aDPh3gvD5j5vVwFrI1oPVhVq0OU90pjIL4AHCWuTX6FwdrH29
-         UC1oZF5oNlBEnUfHZOh3y5JsKjFOXQQ8xuYJ0gcP2UzgC/d08zbXfLvS2z0ofXLelTxq
-         gn7z21Gmim6PrUf1gMW5fgojW1UV/HRNWvLz3ZGQY4RPufEy75lvMvJRWo/I2Gj1rNI5
-         V5h1Oqb8Mi2jOhHPWUCmhg458gzCQP3M4znlhdWMsOB6Y3r8i9v6AcxqURgtPHlSeCGw
-         3Gm8d46jhoI98aGwJibETXxGvINhzNvnNhJ/2HoDgZrmnnf+rFtro8E8tKq5QiFs6cOW
-         2DTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mW7QVt5GH3e598iWydxa74nESqdi2JjbfGI/OH0/N4=;
-        b=V5ISbx1z80FQF0oHnN9thocsT2eI70goGGrThsOPf5ELka0eptVxLV01CQGvM+FTpo
-         PLXodcL6SV1UYVGEhHfQ9MKn60aqT3HZvJNoAu7bS8YKY7Ib9RvE9QdVi/NC9t8Ve2R8
-         8gzyQw5fP8ihfBiTLppYY25BL53EVutrTcDZ9IkDxf5peRv++sZeDzTyHnVyih7eAwoC
-         /E0HxA2CtQNCdG7KuRBiXN7hiT0oIqPfc9wn+WIo+ORGQmoaMSNjd+pi3KNjK6md9y5F
-         sjkxFlwTzC8M4N1nyTBPupzFbpXVfpstc0FImUwNQX4X8QOy21wKDt1hy9vQdSe8FCrR
-         zrOQ==
-X-Gm-Message-State: ANoB5pkjBr76w+DNNJvFYrinYSrkS6HtEyhpQArsoNfG3/9XcW8busdM
-        rM71dzEZ6VAU2AP2ENupAxm6kw==
-X-Google-Smtp-Source: AA0mqf4v6cBApCiabUT5dWKT5Iaw++KpSoED6jqDXvZelej5Hfe95uM7HEGCGLzAfd0oCYIw/fYf1w==
-X-Received: by 2002:a5d:6a0c:0:b0:242:4bbe:2d20 with SMTP id m12-20020a5d6a0c000000b002424bbe2d20mr18379863wru.42.1671175708861;
-        Thu, 15 Dec 2022 23:28:28 -0800 (PST)
-Received: from [192.168.1.91] (192.201.68.85.rev.sfr.net. [85.68.201.192])
-        by smtp.gmail.com with ESMTPSA id c10-20020a5d4cca000000b0024278304ef6sm1498230wrt.13.2022.12.15.23.28.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Dec 2022 23:28:28 -0800 (PST)
-Message-ID: <c2014039-f1e8-6976-33d6-52e2dd4e7b66@baylibre.com>
-Date:   Fri, 16 Dec 2022 08:28:26 +0100
+        Fri, 16 Dec 2022 04:53:48 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC79950D79;
+        Fri, 16 Dec 2022 01:53:41 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2D56D1C000D;
+        Fri, 16 Dec 2022 09:53:37 +0000 (UTC)
+Message-ID: <8f00ae9463b07fbd789af3840cd59a9e99caff34.camel@hadess.net>
+Subject: Re: [PATCH] hid: Support for Litra Glow
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Andreas Bergmeier <abergmeier@gmx.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 16 Dec 2022 10:53:37 +0100
+In-Reply-To: <9fca69c7-cc24-63d0-98f6-80c28fc69a5@9300>
+References: <9fca69c7-cc24-63d0-98f6-80c28fc69a5@9300>
+Content-Type: multipart/mixed; boundary="=-Sr8f35irKMU9aZI4Whjo"
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v7 1/6] DONOTMERGE: arm64: dts: ti: Add TI TPS65219 PMIC
- support for AM642 SK board.
-Content-Language: en-US
-To:     Vignesh Raghavendra <vigneshr@ti.com>, Nishanth Menon <nm@ti.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Wadim Egorov <W.Egorov@phytec.de>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kristo@kernel.org" <kristo@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "tony@atomide.com" <tony@atomide.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "marcel.ziswiler@toradex.com" <marcel.ziswiler@toradex.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "biju.das.jz@bp.renesas.com" <biju.das.jz@bp.renesas.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jeff@labundy.com" <jeff@labundy.com>, "afd@ti.com" <afd@ti.com>,
-        "khilman@baylibre.com" <khilman@baylibre.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "msp@baylibre.com" <msp@baylibre.com>,
-        "j-keerthy@ti.com" <j-keerthy@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
-References: <20221104152311.1098603-1-jneanne@baylibre.com>
- <20221104152311.1098603-2-jneanne@baylibre.com>
- <d0d7e315-ce86-0420-8ef5-fe2e4aefd5b4@phytec.de>
- <e2bc53fe-3a0c-cf24-8b29-ca377aba3721@baylibre.com>
- <Y5tGzjgcAWPqdFNE@sirena.org.uk> <20221215175411.znxy3d6ussq2iq5h@grieving>
- <Y5tl3+2pJispcXy6@sirena.org.uk> <20221215214149.whcjdphxxvvedrih@affront>
- <b6ea8cb7-38c4-13cf-a08a-ece973859342@ti.com>
-From:   jerome Neanne <jneanne@baylibre.com>
-In-Reply-To: <b6ea8cb7-38c4-13cf-a08a-ece973859342@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+--=-Sr8f35irKMU9aZI4Whjo
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 2022-12-15 at 22:09 +0100, Andreas Bergmeier wrote:
+> Tries to implement as general support for Illumination Light as
+> possible. Note that it is singular, which means by Logitech spec we
+> are
+> fine off with just handling one capability/device.
+
+Your email client absolutely trashed the patch's indentation, it's
+unreadable as-is.
+
+> Implementation currently only exposes Brightness and On/Off controls.
+> Does currently not expose Color Temperature because LEDs does not
+> support it.
+>=20
+> Introduces HIDPP_QUIRK_CLASS_SIMPLE_START to prevent reconnect on
+> startup. Could not get Glow to work with that.
+
+I'd really rather we didn't introduce a new quirk, but instead fixed
+the fact that we need to restart the HID transport to support 3 (!)
+devices.
+
+Would something like the attached patch work? I haven't tested it yet,
+but if it works for you, I'll test it on the devices I have here.
+
+Cheers
+
+--=-Sr8f35irKMU9aZI4Whjo
+Content-Disposition: attachment;
+	filename*0=0001-HID-logitech-hidpp-Don-t-restart-communication-if-no.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-HID-logitech-hidpp-Don-t-restart-communication-if-no.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+RnJvbSBlZDY2NmIwMjk4MzZiNjVjODJmNjFiN2EyMTE3YzJjMTQ0ZTJiZTVkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBCYXN0aWVuIE5vY2VyYSA8aGFkZXNzQGhhZGVzcy5uZXQ+CkRh
+dGU6IEZyaSwgMTYgRGVjIDIwMjIgMTA6NDE6MTYgKzAxMDAKU3ViamVjdDogW1BBVENIXSBISUQ6
+IGxvZ2l0ZWNoLWhpZHBwOiBEb24ndCByZXN0YXJ0IGNvbW11bmljYXRpb24gaWYgbm90CiBuZWNl
+c3NhcnkKCkRvbid0IHN0b3AgYW5kIHJlc3RhcnQgY29tbXVuaWNhdGlvbiB3aXRoIHRoZSBkZXZp
+Y2UgdW5sZXNzIHdlIG5lZWQgdG8KbW9kaWZ5IHRoZSBjb25uZWN0IGZsYWdzIHVzZWQgYmVjYXVz
+ZSBvZiBhIGRldmljZSBxdWlyay4KLS0tCiBkcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAu
+YyB8IDMwICsrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDE4
+IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlk
+L2hpZC1sb2dpdGVjaC1oaWRwcC5jIGIvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMK
+aW5kZXggN2Y5MTg3MjAxOTEzLi4wNTUzMmVkZmEwMWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaGlk
+L2hpZC1sb2dpdGVjaC1oaWRwcC5jCisrKyBiL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1oaWRw
+cC5jCkBAIC00MzEwLDYgKzQzMTAsNyBAQCBzdGF0aWMgaW50IGhpZHBwX3Byb2JlKHN0cnVjdCBo
+aWRfZGV2aWNlICpoZGV2LCBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCiAJYm9vbCBj
+b25uZWN0ZWQ7CiAJdW5zaWduZWQgaW50IGNvbm5lY3RfbWFzayA9IEhJRF9DT05ORUNUX0RFRkFV
+TFQ7CiAJc3RydWN0IGhpZHBwX2ZmX3ByaXZhdGVfZGF0YSBkYXRhOworCWJvb2wgd2lsbF9yZXN0
+YXJ0ID0gZmFsc2U7CiAKIAkvKiByZXBvcnRfZml4dXAgbmVlZHMgZHJ2ZGF0YSB0byBiZSBzZXQg
+YmVmb3JlIHdlIGNhbGwgaGlkX3BhcnNlICovCiAJaGlkcHAgPSBkZXZtX2t6YWxsb2MoJmhkZXYt
+PmRldiwgc2l6ZW9mKCpoaWRwcCksIEdGUF9LRVJORUwpOwpAQCAtNDM2MCw2ICs0MzYxLDkgQEAg
+c3RhdGljIGludCBoaWRwcF9wcm9iZShzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwgY29uc3Qgc3Ry
+dWN0IGhpZF9kZXZpY2VfaWQgKmlkKQogCQkJcmV0dXJuIHJldDsKIAl9CiAKKwlpZiAoaGlkcHAt
+PnF1aXJrcyAmIEhJRFBQX1FVSVJLX0RFTEFZRURfSU5JVCkKKwkJd2lsbF9yZXN0YXJ0ID0gdHJ1
+ZTsKKwogCUlOSVRfV09SSygmaGlkcHAtPndvcmssIGRlbGF5ZWRfd29ya19jYik7CiAJbXV0ZXhf
+aW5pdCgmaGlkcHAtPnNlbmRfbXV0ZXgpOwogCWluaXRfd2FpdHF1ZXVlX2hlYWQoJmhpZHBwLT53
+YWl0KTsKQEAgLTQzNzQsNyArNDM3OCw3IEBAIHN0YXRpYyBpbnQgaGlkcHBfcHJvYmUoc3RydWN0
+IGhpZF9kZXZpY2UgKmhkZXYsIGNvbnN0IHN0cnVjdCBoaWRfZGV2aWNlX2lkICppZCkKIAkgKiBQ
+bGFpbiBVU0IgY29ubmVjdGlvbnMgbmVlZCB0byBhY3R1YWxseSBjYWxsIHN0YXJ0IGFuZCBvcGVu
+CiAJICogb24gdGhlIHRyYW5zcG9ydCBkcml2ZXIgdG8gYWxsb3cgaW5jb21pbmcgZGF0YS4KIAkg
+Ki8KLQlyZXQgPSBoaWRfaHdfc3RhcnQoaGRldiwgMCk7CisJcmV0ID0gaGlkX2h3X3N0YXJ0KGhk
+ZXYsIHdpbGxfcmVzdGFydCA/IDAgOiBjb25uZWN0X21hc2spOwogCWlmIChyZXQpIHsKIAkJaGlk
+X2VycihoZGV2LCAiaHcgc3RhcnQgZmFpbGVkXG4iKTsKIAkJZ290byBoaWRfaHdfc3RhcnRfZmFp
+bDsKQEAgLTQ0MjUsMTkgKzQ0MjksMjEgQEAgc3RhdGljIGludCBoaWRwcF9wcm9iZShzdHJ1Y3Qg
+aGlkX2RldmljZSAqaGRldiwgY29uc3Qgc3RydWN0IGhpZF9kZXZpY2VfaWQgKmlkKQogCiAJaGlk
+cHBfY29ubmVjdF9ldmVudChoaWRwcCk7CiAKLQkvKiBSZXNldCB0aGUgSElEIG5vZGUgc3RhdGUg
+Ki8KLQloaWRfZGV2aWNlX2lvX3N0b3AoaGRldik7Ci0JaGlkX2h3X2Nsb3NlKGhkZXYpOwotCWhp
+ZF9od19zdG9wKGhkZXYpOworCWlmICh3aWxsX3Jlc3RhcnQpIHsKKwkJLyogUmVzZXQgdGhlIEhJ
+RCBub2RlIHN0YXRlICovCisJCWhpZF9kZXZpY2VfaW9fc3RvcChoZGV2KTsKKwkJaGlkX2h3X2Ns
+b3NlKGhkZXYpOworCQloaWRfaHdfc3RvcChoZGV2KTsKIAotCWlmIChoaWRwcC0+cXVpcmtzICYg
+SElEUFBfUVVJUktfTk9fSElESU5QVVQpCi0JCWNvbm5lY3RfbWFzayAmPSB+SElEX0NPTk5FQ1Rf
+SElESU5QVVQ7CisJCWlmIChoaWRwcC0+cXVpcmtzICYgSElEUFBfUVVJUktfTk9fSElESU5QVVQp
+CisJCQljb25uZWN0X21hc2sgJj0gfkhJRF9DT05ORUNUX0hJRElOUFVUOwogCi0JLyogTm93IGV4
+cG9ydCB0aGUgYWN0dWFsIGlucHV0cyBhbmQgaGlkcmF3IG5vZGVzIHRvIHRoZSB3b3JsZCAqLwot
+CXJldCA9IGhpZF9od19zdGFydChoZGV2LCBjb25uZWN0X21hc2spOwotCWlmIChyZXQpIHsKLQkJ
+aGlkX2VycihoZGV2LCAiJXM6aGlkX2h3X3N0YXJ0IHJldHVybmVkIGVycm9yXG4iLCBfX2Z1bmNf
+Xyk7Ci0JCWdvdG8gaGlkX2h3X3N0YXJ0X2ZhaWw7CisJCS8qIE5vdyBleHBvcnQgdGhlIGFjdHVh
+bCBpbnB1dHMgYW5kIGhpZHJhdyBub2RlcyB0byB0aGUgd29ybGQgKi8KKwkJcmV0ID0gaGlkX2h3
+X3N0YXJ0KGhkZXYsIGNvbm5lY3RfbWFzayk7CisJCWlmIChyZXQpIHsKKwkJCWhpZF9lcnIoaGRl
+diwgIiVzOmhpZF9od19zdGFydCByZXR1cm5lZCBlcnJvclxuIiwgX19mdW5jX18pOworCQkJZ290
+byBoaWRfaHdfc3RhcnRfZmFpbDsKKwkJfQogCX0KIAogCWlmIChoaWRwcC0+cXVpcmtzICYgSElE
+UFBfUVVJUktfQ0xBU1NfRzkyMCkgewotLSAKMi4zOC4xCgo=
 
 
-On 16/12/2022 07:21, Vignesh Raghavendra wrote:
-> 
-> 
-> On 16/12/22 03:11, Nishanth Menon wrote:
->> On 18:22-20221215, Mark Brown wrote:
->>> On Thu, Dec 15, 2022 at 11:54:11AM -0600, Nishanth Menon wrote:
->>>> On 16:09-20221215, Mark Brown wrote:
->>>
->>>>> That proposal looks really non-idiomatic and quite unusual, if there's a
->>>>> fixed voltage supply to the LDO I'd expect to see it modeled as a fixed
->>>>> voltage regulator.  I'm not sure what the use of bypass here is trying
->>>>> to accomplish TBH.
->>>
->>>> The problem is this - the default NVM in the PMIC is setup such that
->>>> VSET value =3.3v and bypass bit set (makes sense since the vin=3.3v).
->>>
->>> This implies no voltage drop over the LDO?  Sounds a bit suspect.
->>
->> Not the choice I'd probably have made ;)
->>
->>>
->>>> Now the constraint is bypass bit cannot be changed without the LDO
->>>> being switched off.
->>>
-> 
-> Per https://www.ti.com/lit/ds/symlink/tps65219.pdf (7.3.6 Linear
-> Regulators).
-> 
-> LDOs have two modes:
-> 
-> 1. Load switch mode: in this case, output voltages of 1.5V up to 5.5V
-> are supported.
-> 
-> 2 Linear regulator LDO mode where output voltage is programmable in the
-> range of 0.6V to 3.4V in 50mV-steps with possibility of bypass.
-> 
-> (CAUTION on page 25):
-> A mode change between LDO(/bypass) and LSW-mode must only be performed,
-> when this regulator is disabled!
-> A change between LDO and bypass-mode (supported by LDO1 and LDO2 only)
-> is supported during operation.
-> 
-> So, seems like bypass can be toggled even with LDO on?
->I possibly miss-interpreted this caution statement which leads to that 
-situation.
-
-Your understanding sounds correct. My mistake... Sorry for that
-
-
-Regards,
-Jerome.
+--=-Sr8f35irKMU9aZI4Whjo--
