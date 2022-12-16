@@ -2,120 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA51B64EB9E
-	for <lists+linux-input@lfdr.de>; Fri, 16 Dec 2022 13:53:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0793164EC2F
+	for <lists+linux-input@lfdr.de>; Fri, 16 Dec 2022 14:42:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbiLPMxH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Dec 2022 07:53:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
+        id S230030AbiLPNmH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Dec 2022 08:42:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230064AbiLPMxG (ORCPT
+        with ESMTP id S229627AbiLPNmG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Dec 2022 07:53:06 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2622496C;
-        Fri, 16 Dec 2022 04:53:05 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id i187-20020a1c3bc4000000b003d1e906ca23so1127802wma.3;
-        Fri, 16 Dec 2022 04:53:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BheHA0Tcwm6n8ymyQljk2z1vC+8TH8hh+YD/X0C4MfE=;
-        b=AKseIkBZZBrqaCfkNwNc+eOqwfrvP1xB5qgAOduMfqvnWa/fl4el+6xifzPzoHdoMu
-         dThO83kul7JlQEUalQSJI9PwHrXOloc9BXy1SaNNYS+GTaohbapvDJ2iA7c17ImUR/pL
-         Uk2j6bXGXuATvNUy2eCZTxPY2QaZYRDXNaKGCW3EXp8C7VYgmqmHT3UDXn5ON4P5VoWj
-         tODxHPhQ6dk0TlV8sn3u7JzozL5n+Gxdh7d+nJQj8+lj0M+EKpOCdv5zjTNYG56tqWzs
-         T9KTGXJaolmbqw9gWZlSp+8ctPAfsp7jDTmRNpJnAxZQmafMXgXusal93noxxC/XvI/j
-         nmKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BheHA0Tcwm6n8ymyQljk2z1vC+8TH8hh+YD/X0C4MfE=;
-        b=C8iwDwwUVz0aFhDn0LKPLvaTRdXNdHqxulbUiiA7LUQ+XC3IcfNpN4QceKNYoHTuCG
-         rLZ16HAGhkHkwSZQhUdotjr6eIySIuOb6Za4Y75d/N5W0c8ZtDX8Bebsl4dnyR+dggXK
-         frt62kcXb9N5HrHntl+0TC+7z45tZXozy8SCxHJs1fq3LDN7BFIxL7hEobgQBEQCet45
-         QgrThJ86Z1UBthh/9/1Tte4rgscwi0hPkXvcoK1zxj+4Ud6qOoLb3s3VwHgwTrWeBVEd
-         j1VPLgTfAxerb2hJIsvDx2wH/cwMobgD4BZmak9bNcEwKrc4X7FnhangiRtebW2atTDN
-         VVpQ==
-X-Gm-Message-State: ANoB5pmfWuZxqcqEKlXPpfvhK26w6X/4ESvQsE7s2abb0wTUt41/V9f1
-        EPk6xT3xzcn7xzVKTQBEeb0=
-X-Google-Smtp-Source: AA0mqf479L304eL8/K8VJH98TvI/FZlxuU1K4BcjUM7FJGorT7BHd3K5GAGOp5+Y4o4yWCg6c9hDig==
-X-Received: by 2002:a7b:cd17:0:b0:3d2:2d2a:d58f with SMTP id f23-20020a7bcd17000000b003d22d2ad58fmr13121323wmj.2.1671195183537;
-        Fri, 16 Dec 2022 04:53:03 -0800 (PST)
-Received: from [192.168.1.132] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id k11-20020a05600c0b4b00b003c5571c27a1sm2870571wmr.32.2022.12.16.04.53.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Dec 2022 04:53:02 -0800 (PST)
-Message-ID: <0fc0217e-f1dd-d64c-d43c-cd47a8acbfd4@gmail.com>
-Date:   Fri, 16 Dec 2022 13:53:00 +0100
+        Fri, 16 Dec 2022 08:42:06 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE32167E7;
+        Fri, 16 Dec 2022 05:42:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 08554CE1E58;
+        Fri, 16 Dec 2022 13:42:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB36C433EF;
+        Fri, 16 Dec 2022 13:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671198122;
+        bh=2ta2ZSy/1DnFNJh/pelUUCAUc6BGdkCTfxCfkwD0h90=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kQN0C0k8g3tw/U2Df1O4kusm7rjJC90FfErN6s9R7utn3dzkZ/ZaadgST7NvTr2aD
+         W4jcRD/OR/rAKVunSkwqDzBOT7+hck23uKNJTnJN2KD3UcolrP1VlUTeEzmGn34qZL
+         AyJcfP9pEHN84Zw59XPGo0AzQzXUqPQkaBYDcrliM061gIqqbHWxnqlsXqatLpx4Yp
+         rmxQFjI6/LG0/YsIfjo8EdQHnf6i8v8TFUWXehnDK3YeCm0FS7FF4U4/sNQ7QdxLqL
+         TtDu8w+VeQBeOPBsHxftA/ZdUFgebSbJX72vpRPAzNBu4xp9LhRt6jJ95mCh/3+DkJ
+         L+m/1JjE2pABQ==
+Date:   Fri, 16 Dec 2022 13:41:52 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Nishanth Menon <nm@ti.com>
+Cc:     jerome Neanne <jneanne@baylibre.com>,
+        Wadim Egorov <W.Egorov@phytec.de>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kristo@kernel.org" <kristo@kernel.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "tony@atomide.com" <tony@atomide.com>,
+        "vigneshr@ti.com" <vigneshr@ti.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+        "marcel.ziswiler@toradex.com" <marcel.ziswiler@toradex.com>,
+        "vkoul@kernel.org" <vkoul@kernel.org>,
+        "biju.das.jz@bp.renesas.com" <biju.das.jz@bp.renesas.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jeff@labundy.com" <jeff@labundy.com>, "afd@ti.com" <afd@ti.com>,
+        "khilman@baylibre.com" <khilman@baylibre.com>,
+        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+        "msp@baylibre.com" <msp@baylibre.com>,
+        "j-keerthy@ti.com" <j-keerthy@ti.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
+Subject: Re: [PATCH v7 1/6] DONOTMERGE: arm64: dts: ti: Add TI TPS65219 PMIC
+ support for AM642 SK board.
+Message-ID: <Y5x1oAzezZGqyZSx@sirena.org.uk>
+References: <20221104152311.1098603-1-jneanne@baylibre.com>
+ <20221104152311.1098603-2-jneanne@baylibre.com>
+ <d0d7e315-ce86-0420-8ef5-fe2e4aefd5b4@phytec.de>
+ <e2bc53fe-3a0c-cf24-8b29-ca377aba3721@baylibre.com>
+ <Y5tGzjgcAWPqdFNE@sirena.org.uk>
+ <20221215175411.znxy3d6ussq2iq5h@grieving>
+ <Y5tl3+2pJispcXy6@sirena.org.uk>
+ <20221215214149.whcjdphxxvvedrih@affront>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v7 0/8] Add MediaTek MT6357 PMIC support
-Content-Language: en-US
-To:     Kevin Hilman <khilman@kernel.org>,
-        Alexandre Mergnat <amergnat@baylibre.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Rob Herring <robh+dt@kernel.org>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Flora Fu <flora.fu@mediatek.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-mediatek@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-leds@vger.kernel.org
-References: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
- <7hr0xe56uf.fsf@baylibre.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <7hr0xe56uf.fsf@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VapHQVuQho8X7pjH"
+Content-Disposition: inline
+In-Reply-To: <20221215214149.whcjdphxxvvedrih@affront>
+X-Cookie: No passing.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Kevin,
-Hi Alexandre,
 
-On 05/12/2022 14:16, Kevin Hilman wrote:
-> Matthias,
-> 
-> Alexandre Mergnat <amergnat@baylibre.com> writes:
-> 
->> This patch series adds MFD, PMIC keys, and regulator support for MT6357.
->> MT6357 is a MediaTek PMIC very similar to MT6358.
-> 
-> The regulator driver (and bindings) were merged by Mark.  Could you take
-> the rest of this series via your mediatek tree?  The input driver (and
-> bindings) are ack'd by Dmitry.
-> 
+--VapHQVuQho8X7pjH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Yes I can do that but 3/8 does not apply cleanly. Could you please rebase on top 
-of v6.2-tmp/soc?
+On Thu, Dec 15, 2022 at 03:41:49PM -0600, Nishanth Menon wrote:
 
-Thanks
-Matthias
+> Yeah - this happens to be SDcard supply (at least in my case).. I'd
+> rather not change the mmc host or core layer to handle a case where
+> LDO happened to be in bypass. it is a regulator driver's problem, IMHO
+> how to provide the stated voltage OR fail to transition the voltage.
+
+Well, if the regulator is in bypass mode then it is by definition not
+regulating and so it's like programming the voltage while switched off,
+setting the target for when it starts regulating again.  It's a weirder
+use case but it does feel like the consistent thing to do at least.
+The driver shouldn't enter/leave bypass without being explicitly told to
+so since there'll be a performance impact.
+
+> b) If I wanted the LDO to poweroff the bypass bit at start (define the
+>    startup hardware condition), I dont seem to have a description for
+>    that either.
+
+That's something we could add in constraints, though the actual process
+of implementing it might get messy if there's restrictions like having
+to power off (though from further down the thread I see that might not
+apply to this device).
+
+--VapHQVuQho8X7pjH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOcdaAACgkQJNaLcl1U
+h9Dq1Af/ddHVFwSXOlqEfFOhIBYoXPlYIzskhgSQ37/fzbM3GgG8OYyBV3+uzWg7
+UDcaFwuPoRpQs2FLQ69ODsy1PueJJoZw2O3yJ2684T+TYQzS9CKGkRx2VcbAWJVp
+719ILyvgo0ZAHQD8Hl/jJgl1+at59wyTBaSNdtGC1HP68SpvPwrg2Iwh2yElD/IR
+bO6qHZmL1MqJi5YMfjpHtwpH7Wg5NSfBkIm0B7jAcltYMG9e1DYfF6NxtZe5HFx9
+LPo/V+Y6UkgqI5/yTdxF6VtHfMiLxBUfwnQM4YynGmfLb1hId9JU7UBLVB7JScxW
+wkKBppC21IAR9aRDl9C8lsnbXE2FIg==
+=h3Av
+-----END PGP SIGNATURE-----
+
+--VapHQVuQho8X7pjH--
