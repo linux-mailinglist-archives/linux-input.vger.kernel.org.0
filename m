@@ -2,52 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A841E64FFD7
-	for <lists+linux-input@lfdr.de>; Sun, 18 Dec 2022 17:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 997A6650129
+	for <lists+linux-input@lfdr.de>; Sun, 18 Dec 2022 17:25:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231450AbiLRQGd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 18 Dec 2022 11:06:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35004 "EHLO
+        id S232018AbiLRQZB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Dec 2022 11:25:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbiLRQE6 (ORCPT
+        with ESMTP id S231822AbiLRQXi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 18 Dec 2022 11:04:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82A08B4BB;
-        Sun, 18 Dec 2022 08:03:36 -0800 (PST)
+        Sun, 18 Dec 2022 11:23:38 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2C9B13E2C;
+        Sun, 18 Dec 2022 08:09:37 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 121BE60DCB;
-        Sun, 18 Dec 2022 16:03:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FE3C433F1;
-        Sun, 18 Dec 2022 16:03:34 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D42C60DCC;
+        Sun, 18 Dec 2022 16:08:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC11FC433F1;
+        Sun, 18 Dec 2022 16:08:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671379415;
-        bh=Nfs8AStVoXtuJLiwJLbWWDkqY/o4XJz9nMnz2BkHqWU=;
+        s=k20201202; t=1671379726;
+        bh=8cNekZ4Ly99pLxeUE847IppAKRmEzQ5qOYdrADTmNG4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tUIWusX8oxz9yuqkVo/CLVXYdNOlBQSAabnp2ANCzNDYkxw3YfXkZSCZiGjSwui2+
-         C6eqt5+zv8IvCjspFOPd+2S0PIjrz8K5+ivCzDl6Ya2Lo/UEfiY0oCjTTuck3MlZaU
-         mcVo1uRPGSQFghWYkzRQUdczyigbYpUt8PBjbVQVHvc39EC9+iOfcVyF5rjEfCvYGP
-         HE2dUeVQ4/ChfazEYsusheGiRU6pY1doIzKTcAxmy/eU5CqRh+LkP37OlYGXiOsTIC
-         0N+O1cgBKdKVZl5DxaazeBZBLXHeuMnPRujQ2VnsUlDnAZyFyhCVz4ImI3T8sH53uS
-         G8XF5M4vaOUeg==
+        b=YJ4LsjQFxfV8kqHvNRUCrdvgkQLcvQ+LcMmRibYTyndDht/DcW+19vymCvWc6qYCY
+         LRrD01Wtdv0PwOMCjVEm5jha9pnz3MSWUPBiGd5Nc9NN/ugX6aWQ5WNzGr66ZMqe2f
+         fQ55LAQcwEoJ5T+mchV4kHeI0Ss9dg4cqAFVZqp7cdYeOEzuKVZzl+RVBmE1Z0t3BN
+         j21yxX/WPD0Jul+zJ1nM0cEHiILixRWElASfhOyGsCHJbWf7qWM/NVJAXMY4k8j/2K
+         pjrbb5MopWj/4h9MDI0r8BSDJqTdQcjXvG4yhf1jZTgZbN6mFlaStHyPUcz7ZJ6StV
+         pA0Uo7so+LcRg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Mia Kanashi <chad@redpilled.dev>,
-        Andreas Grosse <andig.mail@t-online.de>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 29/85] HID: uclogic: Add support for XP-PEN Deco LW
-Date:   Sun, 18 Dec 2022 11:00:46 -0500
-Message-Id: <20221218160142.925394-29-sashal@kernel.org>
+Cc:     Kerem Karabay <kekrby@gmail.com>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 15/73] HID: apple: fix key translations where multiple quirks attempt to translate the same key
+Date:   Sun, 18 Dec 2022 11:06:43 -0500
+Message-Id: <20221218160741.927862-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218160142.925394-1-sashal@kernel.org>
-References: <20221218160142.925394-1-sashal@kernel.org>
+In-Reply-To: <20221218160741.927862-1-sashal@kernel.org>
+References: <20221218160741.927862-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -60,203 +56,242 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: José Expósito <jose.exposito89@gmail.com>
+From: Kerem Karabay <kekrby@gmail.com>
 
-[ Upstream commit f9ce4db0ec2b6301f4264ba8627863e2632c922b ]
+[ Upstream commit 5476fcf7f7b901db1cea92acb1abdd12609e30e1 ]
 
-The XP-PEN Deco LW is a UGEE v2 device with a frame with 8 buttons.
-Its pen has 2 buttons, supports tilt and pressure.
+The hid-apple driver does not support chaining translations or
+dependencies on other translations. This creates two problems:
 
-It can be connected by USB cable or using a USB Bluetooth dongle to use
-it in wireless mode. When it is connected using the dongle, the device
-battery is used to power it.
+1 - In Non-English keyboards of Macs, KEY_102ND and KEY_GRAVE are
+swapped and the APPLE_ISO_TILDE_QUIRK is used to work around this
+problem. The quirk is not set for the Macs where these bugs happen yet
+(see the 2nd patch for that), but this can be forced by setting the
+iso_layout parameter. Unfortunately, this only partially works.
+KEY_102ND gets translated to KEY_GRAVE, but KEY_GRAVE does not get
+translated to KEY_102ND, so both of them end up functioning as
+KEY_GRAVE. This is because the driver translates the keys as if Fn was
+pressed and the original is sent if it is not pressed, without any
+further translations happening on the key[#463]. KEY_GRAVE is present at
+macbookpro_no_esc_fn_keys[#195], so this is what happens:
 
-Its vendor, product and version are identical to the Deco L. The only
-difference reported by its firmware is the product name.
-In order to add support for battery reporting, add a new HID descriptor
-and a quirk to detect the wireless version of the tablet.
+    - KEY_GRAVE -> KEY_ESC (as if Fn is pressed)
+    - KEY_GRAVE is returned (Fn isn't pressed, so translation is discarded)
+    - KEY_GRAVE -> KEY_102ND (this part is not reached!)
+    ...
 
-Link: https://github.com/DIGImend/digimend-kernel-drivers/issues/635
-Tested-by: Mia Kanashi <chad@redpilled.dev>
-Tested-by: Andreas Grosse <andig.mail@t-online.de>
-Tested-by: Mia Kanashi <chad@redpilled.dev>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+2 - In case the touchbar does not work, the driver supports sending
+Escape when Fn+KEY_GRAVE is pressed. As mentioned previously, KEY_102ND
+is actually KEY_GRAVE and needs to be translated before this happens.
+
+Normally, these are the steps that should happen:
+
+    - KEY_102ND -> KEY_GRAVE
+    - KEY_GRAVE -> KEY_ESC (Fn is pressed)
+    - KEY_ESC is returned
+
+Though this is what happens instead, as dependencies on other
+translations are not supported:
+
+    - KEY_102ND -> KEY_ESC (Fn is pressed)
+    - KEY_ESC is returned
+
+This patch fixes both bugs by ordering the translations correctly and by
+making the translations continue and not return immediately after
+translating a key so that chained translations work and translations can
+depend on other ones.
+
+This patch also simplifies the implementation of the swap_fn_leftctrl
+option a little bit, as it makes it simply use a normal translation
+instead adding extra code to translate a key to KEY_FN[#381]. This change
+wasn't put in another patch as the code that translates the Fn key needs
+to be changed because of the changes in the patch, and those changes
+would be discarded with the next patch anyway (the part that originally
+translates KEY_FN to KEY_LEFTCTRL needs to be made an else-if branch of
+the part that transltes KEY_LEFTCTRL to KEY_FN).
+
+Note: Line numbers (#XYZ) are for drivers/hid/hid-apple.c at commit
+20afcc462579 ("HID: apple: Add "GANSS" to the non-Apple list").
+
+Note: These bugs are only present on Macs with a keyboard with no
+dedicated escape key and a non-English layout.
+
+Signed-off-by: Kerem Karabay <kekrby@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-uclogic-params.c | 73 ++++++++++++++++++++++++++++++++
- drivers/hid/hid-uclogic-rdesc.c  | 34 +++++++++++++++
- drivers/hid/hid-uclogic-rdesc.h  |  7 +++
- 3 files changed, 114 insertions(+)
+ drivers/hid/hid-apple.c | 102 +++++++++++++++++-----------------------
+ 1 file changed, 44 insertions(+), 58 deletions(-)
 
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index 34fa991e6267..cd1233d7e253 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -18,6 +18,7 @@
- #include "usbhid/usbhid.h"
- #include "hid-ids.h"
- #include <linux/ctype.h>
-+#include <linux/string.h>
- #include <asm/unaligned.h>
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 6970797cdc56..e86bbf85b87e 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -314,6 +314,7 @@ static const struct apple_key_translation swapped_option_cmd_keys[] = {
  
- /**
-@@ -1211,6 +1212,69 @@ static int uclogic_params_ugee_v2_init_frame_mouse(struct uclogic_params *p)
- 	return rc;
+ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
+ 	{ KEY_FN, KEY_LEFTCTRL },
++	{ KEY_LEFTCTRL, KEY_FN },
+ 	{ }
+ };
+ 
+@@ -375,24 +376,40 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 	struct apple_sc *asc = hid_get_drvdata(hid);
+ 	const struct apple_key_translation *trans, *table;
+ 	bool do_translate;
+-	u16 code = 0;
++	u16 code = usage->code;
+ 	unsigned int real_fnmode;
+ 
+-	u16 fn_keycode = (swap_fn_leftctrl) ? (KEY_LEFTCTRL) : (KEY_FN);
+-
+-	if (usage->code == fn_keycode) {
+-		asc->fn_on = !!value;
+-		input_event_with_scancode(input, usage->type, KEY_FN,
+-				usage->hid, value);
+-		return 1;
+-	}
+-
+ 	if (fnmode == 3) {
+ 		real_fnmode = (asc->quirks & APPLE_IS_NON_APPLE) ? 2 : 1;
+ 	} else {
+ 		real_fnmode = fnmode;
+ 	}
+ 
++	if (swap_fn_leftctrl) {
++		trans = apple_find_translation(swapped_fn_leftctrl_keys, code);
++
++		if (trans)
++			code = trans->to;
++	}
++
++	if (iso_layout > 0 || (iso_layout < 0 && (asc->quirks & APPLE_ISO_TILDE_QUIRK) &&
++			hid->country == HID_COUNTRY_INTERNATIONAL_ISO)) {
++		trans = apple_find_translation(apple_iso_keyboard, code);
++
++		if (trans)
++			code = trans->to;
++	}
++
++	if (swap_opt_cmd) {
++		trans = apple_find_translation(swapped_option_cmd_keys, code);
++
++		if (trans)
++			code = trans->to;
++	}
++
++	if (code == KEY_FN)
++		asc->fn_on = !!value;
++
+ 	if (real_fnmode) {
+ 		if (hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI ||
+ 		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO ||
+@@ -430,15 +447,18 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 		else
+ 			table = apple_fn_keys;
+ 
+-		trans = apple_find_translation (table, usage->code);
++		trans = apple_find_translation(table, code);
+ 
+ 		if (trans) {
+-			if (test_bit(trans->from, input->key))
++			bool from_is_set = test_bit(trans->from, input->key);
++			bool to_is_set = test_bit(trans->to, input->key);
++
++			if (from_is_set)
+ 				code = trans->from;
+-			else if (test_bit(trans->to, input->key))
++			else if (to_is_set)
+ 				code = trans->to;
+ 
+-			if (!code) {
++			if (!(from_is_set || to_is_set)) {
+ 				if (trans->flags & APPLE_FLAG_FKEY) {
+ 					switch (real_fnmode) {
+ 					case 1:
+@@ -455,62 +475,31 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 					do_translate = asc->fn_on;
+ 				}
+ 
+-				code = do_translate ? trans->to : trans->from;
++				if (do_translate)
++					code = trans->to;
+ 			}
+-
+-			input_event_with_scancode(input, usage->type, code,
+-					usage->hid, value);
+-			return 1;
+ 		}
+ 
+ 		if (asc->quirks & APPLE_NUMLOCK_EMULATION &&
+-				(test_bit(usage->code, asc->pressed_numlock) ||
++				(test_bit(code, asc->pressed_numlock) ||
+ 				test_bit(LED_NUML, input->led))) {
+-			trans = apple_find_translation(powerbook_numlock_keys,
+-					usage->code);
++			trans = apple_find_translation(powerbook_numlock_keys, code);
+ 
+ 			if (trans) {
+ 				if (value)
+-					set_bit(usage->code,
+-							asc->pressed_numlock);
++					set_bit(code, asc->pressed_numlock);
+ 				else
+-					clear_bit(usage->code,
+-							asc->pressed_numlock);
++					clear_bit(code, asc->pressed_numlock);
+ 
+-				input_event_with_scancode(input, usage->type,
+-						trans->to, usage->hid, value);
++				code = trans->to;
+ 			}
+-
+-			return 1;
+ 		}
+ 	}
+ 
+-	if (iso_layout > 0 || (iso_layout < 0 && (asc->quirks & APPLE_ISO_TILDE_QUIRK) &&
+-			hid->country == HID_COUNTRY_INTERNATIONAL_ISO)) {
+-		trans = apple_find_translation(apple_iso_keyboard, usage->code);
+-		if (trans) {
+-			input_event_with_scancode(input, usage->type,
+-					trans->to, usage->hid, value);
+-			return 1;
+-		}
+-	}
++	if (usage->code != code) {
++		input_event_with_scancode(input, usage->type, code, usage->hid, value);
+ 
+-	if (swap_opt_cmd) {
+-		trans = apple_find_translation(swapped_option_cmd_keys, usage->code);
+-		if (trans) {
+-			input_event_with_scancode(input, usage->type,
+-					trans->to, usage->hid, value);
+-			return 1;
+-		}
+-	}
+-
+-	if (swap_fn_leftctrl) {
+-		trans = apple_find_translation(swapped_fn_leftctrl_keys, usage->code);
+-		if (trans) {
+-			input_event_with_scancode(input, usage->type,
+-					trans->to, usage->hid, value);
+-			return 1;
+-		}
++		return 1;
+ 	}
+ 
+ 	return 0;
+@@ -640,9 +629,6 @@ static void apple_setup_input(struct input_dev *input)
+ 	apple_setup_key_translation(input, apple2021_fn_keys);
+ 	apple_setup_key_translation(input, macbookpro_no_esc_fn_keys);
+ 	apple_setup_key_translation(input, macbookpro_dedicated_esc_fn_keys);
+-
+-	if (swap_fn_leftctrl)
+-		apple_setup_key_translation(input, swapped_fn_leftctrl_keys);
  }
  
-+/**
-+ * uclogic_params_ugee_v2_has_battery() - check whether a UGEE v2 device has
-+ * battery or not.
-+ * @hdev:	The HID device of the tablet interface.
-+ *
-+ * Returns:
-+ *	True if the device has battery, false otherwise.
-+ */
-+static bool uclogic_params_ugee_v2_has_battery(struct hid_device *hdev)
-+{
-+	/* The XP-PEN Deco LW vendor, product and version are identical to the
-+	 * Deco L. The only difference reported by their firmware is the product
-+	 * name. Add a quirk to support battery reporting on the wireless
-+	 * version.
-+	 */
-+	if (hdev->vendor == USB_VENDOR_ID_UGEE &&
-+	    hdev->product == USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L) {
-+		struct usb_device *udev = hid_to_usb_dev(hdev);
-+
-+		if (strstarts(udev->product, "Deco LW"))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+/**
-+ * uclogic_params_ugee_v2_init_battery() - initialize UGEE v2 battery reporting.
-+ * @hdev:	The HID device of the tablet interface, cannot be NULL.
-+ * @p:		Parameters to fill in, cannot be NULL.
-+ *
-+ * Returns:
-+ *	Zero, if successful. A negative errno code on error.
-+ */
-+static int uclogic_params_ugee_v2_init_battery(struct hid_device *hdev,
-+					       struct uclogic_params *p)
-+{
-+	int rc = 0;
-+
-+	if (!hdev || !p)
-+		return -EINVAL;
-+
-+	/* Some tablets contain invalid characters in hdev->uniq, throwing a
-+	 * "hwmon: '<name>' is not a valid name attribute, please fix" error.
-+	 * Use the device vendor and product IDs instead.
-+	 */
-+	snprintf(hdev->uniq, sizeof(hdev->uniq), "%x-%x", hdev->vendor,
-+		 hdev->product);
-+
-+	rc = uclogic_params_frame_init_with_desc(&p->frame_list[1],
-+						 uclogic_rdesc_ugee_v2_battery_template_arr,
-+						 uclogic_rdesc_ugee_v2_battery_template_size,
-+						 UCLOGIC_RDESC_UGEE_V2_BATTERY_ID);
-+	if (rc)
-+		return rc;
-+
-+	p->frame_list[1].suffix = "Battery";
-+	p->pen.subreport_list[1].value = 0xf2;
-+	p->pen.subreport_list[1].id = UCLOGIC_RDESC_UGEE_V2_BATTERY_ID;
-+
-+	return rc;
-+}
-+
- /**
-  * uclogic_params_ugee_v2_init() - initialize a UGEE graphics tablets by
-  * discovering their parameters.
-@@ -1334,6 +1398,15 @@ static int uclogic_params_ugee_v2_init(struct uclogic_params *params,
- 	if (rc)
- 		goto cleanup;
- 
-+	/* Initialize the battery interface*/
-+	if (uclogic_params_ugee_v2_has_battery(hdev)) {
-+		rc = uclogic_params_ugee_v2_init_battery(hdev, &p);
-+		if (rc) {
-+			hid_err(hdev, "error initializing battery: %d\n", rc);
-+			goto cleanup;
-+		}
-+	}
-+
- output:
- 	/* Output parameters */
- 	memcpy(params, &p, sizeof(*params));
-diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
-index 6b73eb0df6bd..fb40775f5f5b 100644
---- a/drivers/hid/hid-uclogic-rdesc.c
-+++ b/drivers/hid/hid-uclogic-rdesc.c
-@@ -1035,6 +1035,40 @@ const __u8 uclogic_rdesc_ugee_v2_frame_mouse_template_arr[] = {
- const size_t uclogic_rdesc_ugee_v2_frame_mouse_template_size =
- 			sizeof(uclogic_rdesc_ugee_v2_frame_mouse_template_arr);
- 
-+/* Fixed report descriptor template for UGEE v2 battery reports */
-+const __u8 uclogic_rdesc_ugee_v2_battery_template_arr[] = {
-+	0x05, 0x01,         /*  Usage Page (Desktop),                   */
-+	0x09, 0x07,         /*  Usage (Keypad),                         */
-+	0xA1, 0x01,         /*  Collection (Application),               */
-+	0x85, UCLOGIC_RDESC_UGEE_V2_BATTERY_ID,
-+			    /*      Report ID,                          */
-+	0x75, 0x08,         /*      Report Size (8),                    */
-+	0x95, 0x02,         /*      Report Count (2),                   */
-+	0x81, 0x01,         /*      Input (Constant),                   */
-+	0x05, 0x84,         /*      Usage Page (Power Device),          */
-+	0x05, 0x85,         /*      Usage Page (Battery System),        */
-+	0x09, 0x65,         /*      Usage Page (AbsoluteStateOfCharge), */
-+	0x75, 0x08,         /*      Report Size (8),                    */
-+	0x95, 0x01,         /*      Report Count (1),                   */
-+	0x15, 0x00,         /*      Logical Minimum (0),                */
-+	0x26, 0xff, 0x00,   /*      Logical Maximum (255),              */
-+	0x81, 0x02,         /*      Input (Variable),                   */
-+	0x75, 0x01,         /*      Report Size (1),                    */
-+	0x95, 0x01,         /*      Report Count (1),                   */
-+	0x15, 0x00,         /*      Logical Minimum (0),                */
-+	0x25, 0x01,         /*      Logical Maximum (1),                */
-+	0x09, 0x44,         /*      Usage Page (Charging),              */
-+	0x81, 0x02,         /*      Input (Variable),                   */
-+	0x95, 0x07,         /*      Report Count (7),                   */
-+	0x81, 0x01,         /*      Input (Constant),                   */
-+	0x75, 0x08,         /*      Report Size (8),                    */
-+	0x95, 0x07,         /*      Report Count (7),                   */
-+	0x81, 0x01,         /*      Input (Constant),                   */
-+	0xC0                /*  End Collection                          */
-+};
-+const size_t uclogic_rdesc_ugee_v2_battery_template_size =
-+			sizeof(uclogic_rdesc_ugee_v2_battery_template_arr);
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- const __u8 uclogic_rdesc_ugee_ex07_frame_arr[] = {
- 	0x05, 0x01,             /*  Usage Page (Desktop),                   */
-diff --git a/drivers/hid/hid-uclogic-rdesc.h b/drivers/hid/hid-uclogic-rdesc.h
-index 0502a0656496..a1f78c07293f 100644
---- a/drivers/hid/hid-uclogic-rdesc.h
-+++ b/drivers/hid/hid-uclogic-rdesc.h
-@@ -161,6 +161,9 @@ extern const size_t uclogic_rdesc_v2_frame_dial_size;
- /* Device ID byte offset in v2 frame dial reports */
- #define UCLOGIC_RDESC_V2_FRAME_DIAL_DEV_ID_BYTE	0x4
- 
-+/* Report ID for tweaked UGEE v2 battery reports */
-+#define UCLOGIC_RDESC_UGEE_V2_BATTERY_ID 0xba
-+
- /* Fixed report descriptor template for UGEE v2 pen reports */
- extern const __u8 uclogic_rdesc_ugee_v2_pen_template_arr[];
- extern const size_t uclogic_rdesc_ugee_v2_pen_template_size;
-@@ -177,6 +180,10 @@ extern const size_t uclogic_rdesc_ugee_v2_frame_dial_template_size;
- extern const __u8 uclogic_rdesc_ugee_v2_frame_mouse_template_arr[];
- extern const size_t uclogic_rdesc_ugee_v2_frame_mouse_template_size;
- 
-+/* Fixed report descriptor template for UGEE v2 battery reports */
-+extern const __u8 uclogic_rdesc_ugee_v2_battery_template_arr[];
-+extern const size_t uclogic_rdesc_ugee_v2_battery_template_size;
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- extern const __u8 uclogic_rdesc_ugee_ex07_frame_arr[];
- extern const size_t uclogic_rdesc_ugee_ex07_frame_size;
+ static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
 -- 
 2.35.1
 
