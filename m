@@ -2,62 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47134650D10
-	for <lists+linux-input@lfdr.de>; Mon, 19 Dec 2022 15:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F29C6514FC
+	for <lists+linux-input@lfdr.de>; Mon, 19 Dec 2022 22:37:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231474AbiLSOMG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Dec 2022 09:12:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55100 "EHLO
+        id S231702AbiLSVg7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Dec 2022 16:36:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232109AbiLSOMG (ORCPT
+        with ESMTP id S229464AbiLSVg6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Dec 2022 09:12:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D745F5A4
-        for <linux-input@vger.kernel.org>; Mon, 19 Dec 2022 06:11:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671459079;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UEaKv7yOU9BXWyw4wC4hTR9UVbDzcTvgjzbUbtvzYDQ=;
-        b=J8MbbqLvK1WCV3fwcXYb16hxMaFWnirt5PeMkZQSRaYGEVILtQlGmCxjKKSsMwJy8tUDP+
-        aTqea5fU3Nk3+HZ10/+c1G8rruDgH00PGdasZwGXMk3Nf7JgdGtSFA2SvAavTmzamwYI7G
-        PkX9f9GvVAOVkO6aoGpyvoqeTiaVETI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-66-fF1zjqy-NbSq2otPhmIJMA-1; Mon, 19 Dec 2022 09:11:14 -0500
-X-MC-Unique: fF1zjqy-NbSq2otPhmIJMA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21C49802C1D;
-        Mon, 19 Dec 2022 14:11:14 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.39.195.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E03822026D4B;
-        Mon, 19 Dec 2022 14:11:12 +0000 (UTC)
-Date:   Mon, 19 Dec 2022 15:11:10 +0100
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Enrik Berkhan <Enrik.Berkhan@inka.de>
-Cc:     linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Sven =?utf-8?Q?Z=C3=BChlsdorf?= <sven.zuehlsdorf@vigem.de>,
-        linux-kernel@vger.kernel.org, Rishi Gupta <gupt21@gmail.com>
-Subject: Re: [PATCH v2 1/3] HID: mcp2221: don't connect hidraw
-Message-ID: <20221219141110.svhxnmanmzf5fke3@mail.corp.redhat.com>
-References: <20220926202239.16379-1-Enrik.Berkhan@inka.de>
- <20221103222714.21566-1-Enrik.Berkhan@inka.de>
- <20221103222714.21566-2-Enrik.Berkhan@inka.de>
+        Mon, 19 Dec 2022 16:36:58 -0500
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E08B8FC6
+        for <linux-input@vger.kernel.org>; Mon, 19 Dec 2022 13:36:57 -0800 (PST)
+Received: from pop-os.home ([86.243.100.34])
+        by smtp.orange.fr with ESMTPA
+        id 7Nodpo3YfP7YW7NodprsHy; Mon, 19 Dec 2022 22:36:56 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 19 Dec 2022 22:36:56 +0100
+X-ME-IP: 86.243.100.34
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] Input: fm801-gp - Fix an error handling path
+Date:   Mon, 19 Dec 2022 22:36:47 +0100
+Message-Id: <2d4f01f3a721b0dcd34669ab01aff9eddaad53dc.1671485791.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221103222714.21566-2-Enrik.Berkhan@inka.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,69 +42,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Nov 03 2022, Enrik Berkhan wrote:
-> The MCP2221 driver should not connect to the hidraw userspace interface,
-> as it needs exclusive access to the chip.
-> 
-> If you want to use /dev/hidrawX with the MCP2221, you need to avoid
-> binding this driver to the device and use the hid generic driver instead
-> (e.g. using udev rules).
-> 
-> Signed-off-by: Enrik Berkhan <Enrik.Berkhan@inka.de>
-> ---
+This looks odd to call release_resource() for something allocated with
+request_region().
+Use release_region() instead.
 
-Given the NULL pointer deference report at
-https://lore.kernel.org/all/79152feb-bcbc-9e3e-e776-13170ae4ef40@vigem.de/
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+This patch is speculative and compile tested only.
+---
+ drivers/input/gameport/fm801-gp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have added:
-Reported-by: Sven Zühlsdorf <sven.zuehlsdorf@vigem.de>
-And applied this one only in the series in for-6.2/upstream-fixes.
-
-Before applying the rest I'd rather have some external reviews of this
-series.
-
-Cheers,
-Benjamin
-
->  drivers/hid/hid-mcp2221.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-> index 5886543b17f3..e61dd039354b 100644
-> --- a/drivers/hid/hid-mcp2221.c
-> +++ b/drivers/hid/hid-mcp2221.c
-> @@ -1110,12 +1110,19 @@ static int mcp2221_probe(struct hid_device *hdev,
->  		return ret;
->  	}
->  
-> -	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
-> +	/*
-> +	 * This driver uses the .raw_event callback and therefore does not need any
-> +	 * HID_CONNECT_xxx flags.
-> +	 */
-> +	ret = hid_hw_start(hdev, 0);
->  	if (ret) {
->  		hid_err(hdev, "can't start hardware\n");
->  		return ret;
->  	}
->  
-> +	hid_info(hdev, "USB HID v%x.%02x Device [%s] on %s\n", hdev->version >> 8,
-> +			hdev->version & 0xff, hdev->name, hdev->phys);
-> +
->  	ret = hid_hw_open(hdev);
->  	if (ret) {
->  		hid_err(hdev, "can't open device\n");
-> @@ -1145,8 +1152,7 @@ static int mcp2221_probe(struct hid_device *hdev,
->  	mcp->adapter.retries = 1;
->  	mcp->adapter.dev.parent = &hdev->dev;
->  	snprintf(mcp->adapter.name, sizeof(mcp->adapter.name),
-> -			"MCP2221 usb-i2c bridge on hidraw%d",
-> -			((struct hidraw *)hdev->hidraw)->minor);
-> +			"MCP2221 usb-i2c bridge");
->  
->  	ret = devm_i2c_add_adapter(&hdev->dev, &mcp->adapter);
->  	if (ret) {
-> -- 
-> 2.34.1
-> 
+diff --git a/drivers/input/gameport/fm801-gp.c b/drivers/input/gameport/fm801-gp.c
+index e785d36b1926..90ef1935084a 100644
+--- a/drivers/input/gameport/fm801-gp.c
++++ b/drivers/input/gameport/fm801-gp.c
+@@ -118,7 +118,7 @@ static void fm801_gp_remove(struct pci_dev *pci)
+ 	struct fm801_gp *gp = pci_get_drvdata(pci);
+ 
+ 	gameport_unregister_port(gp->gameport);
+-	release_resource(gp->res_port);
++	release_region(gp->gameport->io, 0x10);
+ 	kfree(gp);
+ 
+ 	pci_disable_device(pci);
+-- 
+2.34.1
 
