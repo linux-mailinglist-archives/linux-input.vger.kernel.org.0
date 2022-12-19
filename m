@@ -2,247 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE3766504D9
-	for <lists+linux-input@lfdr.de>; Sun, 18 Dec 2022 22:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4522E6509A6
+	for <lists+linux-input@lfdr.de>; Mon, 19 Dec 2022 10:56:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230481AbiLRVrz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 18 Dec 2022 16:47:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37698 "EHLO
+        id S231136AbiLSJ4v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Dec 2022 04:56:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbiLRVry (ORCPT
+        with ESMTP id S231648AbiLSJ4k (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 18 Dec 2022 16:47:54 -0500
-Received: from freundtech.com (freundtech.com [IPv6:2a01:4f8:c17:2d66::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B18A5BC9A;
-        Sun, 18 Dec 2022 13:47:51 -0800 (PST)
-Received: from arch-desktop.fritz.box (unknown [IPv6:2a02:8071:2b80:7760:fecd:7e78:31fb:a087])
-        by freundtech.com (Postfix) with ESMTPSA id 4E3ED1E2F15;
-        Sun, 18 Dec 2022 22:47:49 +0100 (CET)
-From:   Adrian Freund <adrian@freund.io>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Luke D. Jones" <luke@ljones.dev>, Ivan Dovgal <iv.dovg@gmail.com>,
-        Adrian Freund <adrian@freund.io>
-Subject: [PATCH v2] HID: amd_sfh: Add support for tablet-mode-switch sensor
-Date:   Sun, 18 Dec 2022 22:47:23 +0100
-Message-Id: <20221218214723.14735-1-adrian@freund.io>
+        Mon, 19 Dec 2022 04:56:40 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1BFEDF90;
+        Mon, 19 Dec 2022 01:56:37 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so8399987wma.1;
+        Mon, 19 Dec 2022 01:56:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z1TlFpfwh1cUd7lasdS0TJdXaV+NBpfvZMgaG1RnRCc=;
+        b=BWm/sIHRswTmWEZZLPp1W/fvUnN3b157Lrxe7mS/VkGevKdiAp/ElMDCQFflTVJtVw
+         haw1JXcwoSIpmuPocTFyV/eFF5N4ZEjqOHHdrWjMe0npZLDikDLegNc8XTge/zq6OKMq
+         Kpp7muFroZJ/eHZPQhKA5poV+q74PwCfrU7wyxUlL66oEYfLxrP4WlvdeXEYln3ifRPt
+         QLKsQEycw8LjslWncqAFQCyPQufYfl+a8s60HQ8HYhMN4NOowXUmu1AwymzkgU/6bCSj
+         gWMotaBbq4HFRSL+dBcI6qJc4+2JpFeNwD63E0tikhJVnL2hUItkU8oDlE5CkTjS2NH0
+         JxUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z1TlFpfwh1cUd7lasdS0TJdXaV+NBpfvZMgaG1RnRCc=;
+        b=olbQWPCwO12ri+qzLxfyZMDnaOpwM10nEbOvFoebmSGyeeSI3B+84sF8/gNtUMo2mI
+         cJsrpQ7nmHpDHL2NCPZoCt5s9l7rn6onxFiPzULMvP6c6vE2P1Ed5RLVwYDLhaCiJ+UK
+         fw+SNDH6bJInzHW/5bdAi5dVA/giNrVEzDc3Ril1PEigdL9RVAyi8kmqVPd3CZbQi0vo
+         1GifN8vJcSOc+XaIxBf1NJMu82CvZLv94C70cAuIy/Ga1+81v0FrYNVnJv4XDU7Np9FC
+         RPupsunKM49j6wKO1Nu1i0EBdUnNZl8mYQLftD1iQkJkRYInuin2uAHkmXwx9SqsC9KU
+         b3xQ==
+X-Gm-Message-State: AFqh2kq3GKAxeXFxCjeUpmGGz3vzozpTMLryQ2vMysWBX7UJiWgIQBhI
+        Hd6KhtAGl0D0mk+QO7vLqgMM0dAlTmpsSA==
+X-Google-Smtp-Source: AMrXdXv74oUVOrYWxuoZI16hN522voe8GCvlJaUisrJbX64uo9dZdf5inm1MOJ4rTcsMoXF5dlc7dg==
+X-Received: by 2002:a05:600c:54ed:b0:3d3:3c74:dbd0 with SMTP id jb13-20020a05600c54ed00b003d33c74dbd0mr10736723wmb.13.1671443796444;
+        Mon, 19 Dec 2022 01:56:36 -0800 (PST)
+Received: from localhost.localdomain ([94.73.32.212])
+        by smtp.gmail.com with ESMTPSA id z19-20020a05600c221300b003a3170a7af9sm11674608wml.4.2022.12.19.01.56.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Dec 2022 01:56:36 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     inochiama@outlook.com
+Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: uclogic: Add support for recent Huion tablets
+Date:   Mon, 19 Dec 2022 10:56:22 +0100
+Message-Id: <20221219095622.255134-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <PH7PR20MB49624FFCDF1F9382886933D3BB1E9@PH7PR20MB4962.namprd20.prod.outlook.com>
+References: <PH7PR20MB49624FFCDF1F9382886933D3BB1E9@PH7PR20MB4962.namprd20.prod.outlook.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for the tablet mode switch sensors on
-convertible devices where that sensor is managed by AMD SFH, like the
-Asus Flow X13 and the Lenovo ThinkPad L13 Yoga Gen2 (AMD).
+Hi Inochi and thanks for the patch!
 
-Co-developed-by: Ivan Dovgal <iv.dovg@gmail.com>
-Signed-off-by: Ivan Dovgal <iv.dovg@gmail.com>
-Co-developed-by: Luke D. Jones <luke@ljones.dev>
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
-Signed-off-by: Adrian Freund <adrian@freund.io>
----
-v2:
-* Fixed build warning reported by kernel test robot <lkp@intel.com>
+> Since Huion uses a new device id for recent tablets, add a new
+> device id 0x0064 to support recent Huion tablets.
+> 
+> At least these tablets are using device id 0x0064:
+> 
+> Gaomon 1060 Pro (0x256c:0x0064)
+> Gaomon M6       (0x256c:0x0064)
+> Huion KD200     (0x256c:0x0064)
+> Huion KD100     (0x256c:0x0064)
+> 
+> This patch was tested on Gaomon 1060 Pro and Huion KD200. This patch
+> may affect other models with the same id, however, it's seems that the
+> other models of Huion do not have incompatible hardware changes, so
+> this patch should still work.
 
- drivers/hid/amd-sfh-hid/amd_sfh_client.c      |  2 ++
- drivers/hid/amd-sfh-hid/amd_sfh_hid.h         |  2 +-
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  4 +++
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.h        |  1 +
- .../hid_descriptor/amd_sfh_hid_desc.c         | 27 +++++++++++++++++++
- .../hid_descriptor/amd_sfh_hid_desc.h         |  7 +++++
- .../hid_descriptor/amd_sfh_hid_report_desc.h  | 21 +++++++++++++++
- 7 files changed, 63 insertions(+), 1 deletion(-)
+While this patch is correct, HUION always reuse the same vendor/product 
+IDs, meaning that it'll affect a fairly big number of devices.
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-index 8275bba63611..83dd0402933c 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-@@ -146,6 +146,8 @@ static const char *get_sensor_name(int idx)
- 		return "gyroscope";
- 	case mag_idx:
- 		return "magnetometer";
-+	case tms_idx:
-+		return "tablet-mode-switch";
- 	case als_idx:
- 		return "ALS";
- 	case HPD_IDX:
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
-index 3754fb423e3a..f10ec16bb8aa 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
-@@ -11,7 +11,7 @@
- #ifndef AMDSFH_HID_H
- #define AMDSFH_HID_H
- 
--#define MAX_HID_DEVICES		5
-+#define MAX_HID_DEVICES		6
- #define AMD_SFH_HID_VENDOR	0x1022
- #define AMD_SFH_HID_PRODUCT	0x0001
- 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 47774b9ab3de..cfda797f0a62 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -27,6 +27,7 @@
- #define ACEL_EN		BIT(0)
- #define GYRO_EN		BIT(1)
- #define MAGNO_EN	BIT(2)
-+#define TMS_EN		BIT(15)
- #define HPD_EN		BIT(16)
- #define ALS_EN		BIT(19)
- 
-@@ -227,6 +228,9 @@ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
- 	if (MAGNO_EN & activestatus)
- 		sensor_id[num_of_sensors++] = mag_idx;
- 
-+	if (TMS_EN & activestatus)
-+		sensor_id[num_of_sensors++] = tms_idx;
-+
- 	if (ALS_EN & activestatus)
- 		sensor_id[num_of_sensors++] = als_idx;
- 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-index dfb7cabd82ef..e18ceee9e5db 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-@@ -78,6 +78,7 @@ enum sensor_idx {
- 	accel_idx = 0,
- 	gyro_idx = 1,
- 	mag_idx = 2,
-+	tms_idx = 15,
- 	als_idx = 19
- };
- 
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
-index f9a8c02d5a7b..181973f35f05 100644
---- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
-@@ -47,6 +47,11 @@ static int get_report_descriptor(int sensor_idx, u8 *rep_desc)
- 		memcpy(rep_desc, comp3_report_descriptor,
- 		       sizeof(comp3_report_descriptor));
- 		break;
-+	case tms_idx: /* tablet mode switch */
-+		memset(rep_desc, 0, sizeof(tms_report_descriptor));
-+		memcpy(rep_desc, tms_report_descriptor,
-+		       sizeof(tms_report_descriptor));
-+		break;
- 	case als_idx: /* ambient light sensor */
- 		memset(rep_desc, 0, sizeof(als_report_descriptor));
- 		memcpy(rep_desc, als_report_descriptor,
-@@ -96,6 +101,16 @@ static u32 get_descr_sz(int sensor_idx, int descriptor_name)
- 			return sizeof(struct magno_feature_report);
- 		}
- 		break;
-+	case tms_idx:
-+		switch (descriptor_name) {
-+		case descr_size:
-+			return sizeof(tms_report_descriptor);
-+		case input_size:
-+			return sizeof(struct tms_input_report);
-+		case feature_size:
-+			return sizeof(struct tms_feature_report);
-+		}
-+		break;
- 	case als_idx:
- 		switch (descriptor_name) {
- 		case descr_size:
-@@ -138,6 +153,7 @@ static u8 get_feature_report(int sensor_idx, int report_id, u8 *feature_report)
- 	struct accel3_feature_report acc_feature;
- 	struct gyro_feature_report gyro_feature;
- 	struct magno_feature_report magno_feature;
-+	struct tms_feature_report tms_feature;
- 	struct hpd_feature_report hpd_feature;
- 	struct als_feature_report als_feature;
- 	u8 report_size = 0;
-@@ -173,6 +189,11 @@ static u8 get_feature_report(int sensor_idx, int report_id, u8 *feature_report)
- 		memcpy(feature_report, &magno_feature, sizeof(magno_feature));
- 		report_size = sizeof(magno_feature);
- 		break;
-+	case tms_idx:  /* tablet mode switch */
-+		get_common_features(&tms_feature.common_property, report_id);
-+		memcpy(feature_report, &tms_feature, sizeof(tms_feature));
-+		report_size = sizeof(tms_feature);
-+		break;
- 	case als_idx:  /* ambient light sensor */
- 		get_common_features(&als_feature.common_property, report_id);
- 		als_feature.als_change_sesnitivity = HID_DEFAULT_SENSITIVITY;
-@@ -211,6 +232,7 @@ static u8 get_input_report(u8 current_index, int sensor_idx, int report_id,
- 	struct accel3_input_report acc_input;
- 	struct gyro_input_report gyro_input;
- 	struct hpd_input_report hpd_input;
-+	struct tms_input_report tms_input;
- 	struct als_input_report als_input;
- 	struct hpd_status hpdstatus;
- 	u8 report_size = 0;
-@@ -244,6 +266,11 @@ static u8 get_input_report(u8 current_index, int sensor_idx, int report_id,
- 		memcpy(input_report, &magno_input, sizeof(magno_input));
- 		report_size = sizeof(magno_input);
- 		break;
-+	case tms_idx: /* tablet mode switch */
-+		get_common_inputs(&tms_input.common_property, report_id);
-+		report_size = sizeof(tms_input);
-+		memcpy(input_report, &tms_input, sizeof(tms_input));
-+		break;
- 	case als_idx: /* Als */
- 		get_common_inputs(&als_input.common_property, report_id);
- 		/* For ALS ,V2 Platforms uses C2P_MSG5 register instead of DRAM access method */
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-index ebd55675eb62..b22068a47429 100644
---- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-@@ -111,4 +111,11 @@ struct hpd_input_report {
- 	u8 human_presence;
- } __packed;
- 
-+struct tms_feature_report {
-+	struct common_feature_property common_property;
-+} __packed;
-+
-+struct tms_input_report {
-+	struct common_input_property common_property;
-+} __packed;
- #endif
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
-index 697f2791ea9c..96cbc1e5b9a7 100644
---- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
-@@ -644,6 +644,27 @@ static const u8 als_report_descriptor[] = {
- 0xC0			/* HID end collection */
- };
- 
-+
-+/* TABLET MODE SWITCH */
-+__maybe_unused // Used by sfh1.0, but not yet implemented in sfh1.1
-+static const u8 tms_report_descriptor[] = {
-+0x06, 0x43, 0xFF,  // Usage Page (Vendor Defined 0xFF43)
-+0x0A, 0x02, 0x02,  // Usage (0x0202)
-+0xA1, 0x01, // Collection (Application)
-+0x85, 0x11, //   Report ID (17)
-+0x15, 0x00, //   Logical Minimum (0)
-+0x25, 0x01, //   Logical Maximum (1)
-+0x35, 0x00, //   Physical Minimum (0)
-+0x45, 0x01, //   Physical Maximum (1)
-+0x65, 0x00, //   Unit (None)
-+0x55, 0x00, //   Unit Exponent (0)
-+0x75, 0x01, //   Report Size (1)
-+0x95, 0x98, //   Report Count (-104)
-+0x81, 0x03, //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-+0x91, 0x03, //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
-+0xC1, 0x00, // End Collection
-+};
-+
- /* BIOMETRIC PRESENCE*/
- static const u8 hpd_report_descriptor[] = {
- 0x05, 0x20,          /* Usage page */
--- 
-2.38.1
+Checking some comments in DIGImend's issue tracker [1], users report
+that their tablet works applying a similar patch. However, I think that 
+it could be a good idea if you could build a version of the driver
+including your patch and request them to test it.
+
+I'm pretty sure it'll work, but it might be a good idea to test it on
+more devices before merging it.
+
+Best wishes,
+Jose
+
+[1] https://github.com/DIGImend/digimend-kernel-drivers/issues?q=0064
 
