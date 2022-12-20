@@ -2,133 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA46F651FF1
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 12:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DE4D65204F
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 13:20:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230184AbiLTLxC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Dec 2022 06:53:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54508 "EHLO
+        id S233249AbiLTMUu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 07:20:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbiLTLxB (ORCPT
+        with ESMTP id S230235AbiLTMUo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 06:53:01 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A3163DD;
-        Tue, 20 Dec 2022 03:53:01 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id m4so12022943pls.4;
-        Tue, 20 Dec 2022 03:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lso547JX5vTY2uG06uoFIFztgpYecJYWXqOFJKfCq9A=;
-        b=NZBmBWT0pXX5TaRDccE1wmua0oWib2GxgHdFapwRZJovA6yEJLwSuHqnjdnlGzvdFx
-         sbJoX6yb8Ubb1qa/54JSFrn8/KVPrk6Zgz6ksxwgK7Hge+QQx4JOp44XYTbyOv7c4QrN
-         9dmddS+pG07psJp1LojSHEDz6xCj+gviFXyTAPvuGbyard1kB/iP+sfVUeNMN05dsEKw
-         a4LoQ/J+rOjMQgkXk7qHVIwsgnkqkVeZENxlDA/NMfH20WJ9u/+M3Di90NUfk9/r76RN
-         6+MJ9C/BG2GMl8fCxkMRohgwfz6z8QRM3msAgJv1RLsrde9Niq4pBZ11iPtgjvhGD3BP
-         BX6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lso547JX5vTY2uG06uoFIFztgpYecJYWXqOFJKfCq9A=;
-        b=AGcuIoxtEJDvEqzVXux+3AKB9iqro+Iwq+zJA/Zy+29Jgs7BpgfcFObrPiDWSsP97e
-         w34Rsmx4VNT75qip9xgDbPUGEBjoAgRKP4tzN9MVMeUH1BiY7VBP2osqairxI3dp2Pfp
-         YVwUMbT+EgxiTU0g/G9jKUm4fAC8jG+sXgpXpQwC+nnu0rdKf0oIN7f5EzI+PkcOrZR/
-         yGKFrnvofaet+Ee2U+N7z9XZvex6PQIBNqMt4LQxvvp/3aZXp8GZAh6B9oJjcmPUn8jL
-         TLztXZmyQ7oC/cWOc+ZZrcvbxoBSjFOK5J105u2DzPLXuSfn8/2l7LO60eAArnQfWssd
-         CKCw==
-X-Gm-Message-State: ANoB5pkGisgo6dpC/Hr8TwzXBm2xhRDJhrJOqpNC0wYe4Z7gxT4saA5X
-        gxanCK/BT4eEfS9UbBzlryc=
-X-Google-Smtp-Source: AA0mqf74eIrv2LcbZ4UdOuZq35RVyjX2oL4FLp5h/Guu7OQyM9gJa2Y4Kvx4rn4wBkEUJM22lye9Ug==
-X-Received: by 2002:a17:903:515:b0:189:ec2d:89c0 with SMTP id jn21-20020a170903051500b00189ec2d89c0mr46662475plb.59.1671537180573;
-        Tue, 20 Dec 2022 03:53:00 -0800 (PST)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id j5-20020a170902c3c500b00172fad607b3sm9140276plj.207.2022.12.20.03.52.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 03:52:59 -0800 (PST)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Eric Anholt <eric@anholt.net>, linux-input@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] input: raspberrypi-ts: Fix refcount leak in rpi_ts_probe
-Date:   Tue, 20 Dec 2022 15:52:43 +0400
-Message-Id: <20221220115246.1522054-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 20 Dec 2022 07:20:44 -0500
+X-Greylist: delayed 569 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 20 Dec 2022 04:20:37 PST
+Received: from mx.mvz-labor-lb.de (mx.mvz-labor-lb.de [IPv6:2a01:4f8:c2c:899::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA2D18B05;
+        Tue, 20 Dec 2022 04:20:37 -0800 (PST)
+Received: from webmail.labor (p57803e15.dip0.t-ipconnect.de [87.128.62.21])
+        (using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx.mvz-labor-lb.de (Postfix) with ESMTPSA id 9D07B3E8A6;
+        Tue, 20 Dec 2022 13:11:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mvz-labor-lb.de;
+        s=mvz1903; t=1671538265;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=MeF+loUfLla3SLpOMCygh1/fpaH0ayyGK6IQfRkdgm4=;
+        b=I9UHBq/v2G0mw3TRViJ+kz895YLKuZjmnzFJUn/XBYQ0QNWIbUWXcrXcFgris490OqDZAG
+        iIPh91gJ+PPEwdQSjnW0Ypd7TCwp/E9B3zGsNc38lbu/Vk0+caJoPRHHkXi5xaww6OI37U
+        Be7wQgA5/K4lnbMbpt6Xi/GzQ0kTI1I=
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by webmail.labor (Postfix) with ESMTP id 144A4300C002;
+        Tue, 20 Dec 2022 13:11:05 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mvz-labor-lb.de
+Received: from webmail.labor ([127.0.0.1])
+        by localhost (webmail.labor [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id sidZv4dgWY0o; Tue, 20 Dec 2022 13:11:05 +0100 (CET)
+Received: from LLGMVZLB-0037 (LLGMVZLB-0037.mvz.labor [10.30.4.35])
+        by webmail.labor (Postfix) with ESMTPS id E7E30300C001;
+        Tue, 20 Dec 2022 13:11:04 +0100 (CET)
+Date:   Tue, 20 Dec 2022 13:11:03 +0100
+From:   Michael Klein <m.klein@mvz-labor-lb.de>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the CSL Panther
+ Tab HD
+Message-ID: <20221220121103.uiwn5l7fii2iggct@LLGMVZLB-0037>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-rpi_firmware_get() take reference, we need to release it in error paths
-as well. Add missing rpi_firmware_put() in the error handling to fix it.
+Add touchscreen info for the CSL Panther Tab HD.
 
-Fixes: 0b9f28fed3f7 ("Input: add official Raspberry Pi's touchscreen driver")
-Fixes: 3b8ddff780b7 ("input: raspberrypi-ts: Release firmware handle when not needed")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Signed-off-by: Michael Klein <m.klein@mvz-labor-lb.de>
 ---
- drivers/input/touchscreen/raspberrypi-ts.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/input/touchscreen/raspberrypi-ts.c b/drivers/input/touchscreen/raspberrypi-ts.c
-index 5000f5fd9ec3..114237c76378 100644
---- a/drivers/input/touchscreen/raspberrypi-ts.c
-+++ b/drivers/input/touchscreen/raspberrypi-ts.c
-@@ -140,21 +140,24 @@ static int rpi_ts_probe(struct platform_device *pdev)
- 		return -EPROBE_DEFER;
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index baae3120efd0..f00995390fdf 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -264,6 +264,23 @@ static const struct ts_dmi_data connect_tablet9_data = {
+ 	.properties     = connect_tablet9_props,
+ };
  
- 	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
--	if (!ts)
--		return -ENOMEM;
-+	if (!ts) {
-+		error = -ENOMEM;
-+		goto err_put_fw;
-+	}
- 	ts->pdev = pdev;
- 
- 	ts->fw_regs_va = dma_alloc_coherent(dev, PAGE_SIZE, &ts->fw_regs_phys,
- 					    GFP_KERNEL);
- 	if (!ts->fw_regs_va) {
- 		dev_err(dev, "failed to dma_alloc_coherent\n");
--		return -ENOMEM;
-+		error = -ENOMEM;
-+		goto err_put_fw;
- 	}
- 
- 	error = devm_add_action_or_reset(dev, rpi_ts_dma_cleanup, ts);
- 	if (error) {
- 		dev_err(dev, "failed to devm_add_action_or_reset, %d\n", error);
--		return error;
-+		goto err_put_fw;
- 	}
- 
- 	touchbuf = (u32)ts->fw_regs_phys;
-@@ -206,6 +209,10 @@ static int rpi_ts_probe(struct platform_device *pdev)
- 	}
- 
- 	return 0;
++static const struct property_entry csl_panther_tab_hd_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 20),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1526),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-csl-panther-tab-hd.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	{ }
++};
 +
-+err_put_fw:
-+	rpi_firmware_put(fw);
-+	return error;
- }
- 
- static const struct of_device_id rpi_ts_match[] = {
++static const struct ts_dmi_data csl_panther_tab_hd_data = {
++	.acpi_name      = "MSSL1680:00",
++	.properties     = csl_panther_tab_hd_props,
++};
++
+ static const struct property_entry cube_iwork8_air_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
+ 	PROPERTY_ENTRY_U32("touchscreen-min-y", 3),
+@@ -1124,6 +1141,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Tablet 9"),
+ 		},
+ 	},
++	{
++		/* CSL Panther Tab HD */
++		.driver_data = (void *)&csl_panther_tab_hd_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "CSL Computer GmbH & Co. KG"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "CSL Panther Tab HD"),
++		},
++	},
+ 	{
+ 		/* CUBE iwork8 Air */
+ 		.driver_data = (void *)&cube_iwork8_air_data,
 -- 
-2.25.1
+2.37.2
 
