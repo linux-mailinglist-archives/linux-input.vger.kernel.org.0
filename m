@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 922BE65229D
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 15:32:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D850F6522A9
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 15:33:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234139AbiLTOcV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Dec 2022 09:32:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57428 "EHLO
+        id S233816AbiLTOdl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 09:33:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234046AbiLTObY (ORCPT
+        with ESMTP id S233984AbiLTOdU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 09:31:24 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF06F1B782;
-        Tue, 20 Dec 2022 06:31:22 -0800 (PST)
+        Tue, 20 Dec 2022 09:33:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B16193DC;
+        Tue, 20 Dec 2022 06:33:04 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 569E6B815CF;
-        Tue, 20 Dec 2022 14:31:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB19FC433D2;
-        Tue, 20 Dec 2022 14:31:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 51DAB61476;
+        Tue, 20 Dec 2022 14:33:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B691C433D2;
+        Tue, 20 Dec 2022 14:33:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671546680;
-        bh=oix6jCKBIRd4Jchx3qGUz2mMR6jkFXMwNkKxKvweSs8=;
+        s=k20201202; t=1671546783;
+        bh=tZNFDPg0mFgt2/Hth7zp3gZmrGcMTXVqX6ZJS/WH95Q=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Fg8XoC6CLThJ3btHF1n1G5bB8DueBBrq7hyOcf4oAYFL4YoLjfI6DHZjaHWE2bfU6
-         bQBasAOd3/8K3jIGVazW9jAe5qn9uwbk329gHOhxI6p/67cO/Yk1RtwLXL4feV4oBX
-         F5VdyX+tVmxm77pBszpuZ6acwFVe6S/Qy0RERtDOLvLrT7eXMHBVPyAO9n3swU28AY
-         DqFiVV2uMR+NM2MYCeFVLYlXqJ/EtlUSIM9RUc/jlw4wCgI+YMsPiWk5ineb7fSI6r
-         WVRmjMteia5Tp/X38BrWneqrEBXzpOv+GIPMt4IBkYZ3hridsR5qJbtAARvaZILn1B
-         TxIQlTT5pI6ow==
-Date:   Tue, 20 Dec 2022 15:31:20 +0100 (CET)
+        b=XsbwpQRqt8TUNKDp7x/OKqlcn+PiqnMzvJr/9FDWudSRI/6F4sGTIsMEu/GX0PjGT
+         wUj4KYqretKAIdfS5yu2U2qFIJZwg1ShMEIbWQc42fdilTA33SO4h0VfG6Zy6YLT+K
+         i74/3ShapcDlGywloRgT4b/XFKzmdwUS+GMphLZy6I/4gPMASqYKC3hdVnLQHdW802
+         LscNkFzymdT/FeXmt2leNsg0culb965SKl3GtGgCKyR6RwEubaBccaiXoGOKj7Hc5y
+         wtb0k6msB9aFgxihYqGEwRg9H0C8EMPQOReZrMHfD17iazh4OQiWTkZ9w3blMTLskk
+         v1Al7oxRy2UVQ==
+Date:   Tue, 20 Dec 2022 15:33:03 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND 0/1] HID: input: map battery system charging
-In-Reply-To: <20221124175937.7631-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2212201530500.9000@cbobk.fhfr.pm>
-References: <20221124175937.7631-1-jose.exposito89@gmail.com>
+To:     Jingyuan Liang <jingyliang@chromium.org>
+cc:     LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org,
+        seobrien@chromium.org, dtor@chromium.org, hbarnor@chromium.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH v2] HID: Add Mapping for System Microphone Mute
+In-Reply-To: <20221213225328.3538581-1-jingyliang@chromium.org>
+Message-ID: <nycvar.YFH.7.76.2212201532550.9000@cbobk.fhfr.pm>
+References: <20221213225328.3538581-1-jingyliang@chromium.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -54,29 +54,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 24 Nov 2022, José Expósito wrote:
+On Tue, 13 Dec 2022, Jingyuan Liang wrote:
 
-> Hi everyone,
+> HUTRR110 added a new usage code for a key that is supposed to
+> mute/unmute microphone system-wide.
 > 
-> This patch adds support for reporting battery status (charging/discharging)
-> for devices with a charging usage in their HID descriptor:
+> Map the new usage code(0x01 0xa9) to keycode KEY_MICMUTE.
+> Additionally hid-debug is adjusted to recognize this keycode as well.
 > 
-> 	0x05, 0x85,         /*      Usage Page (Battery System),    */
-> 	0x09, 0x44,         /*      Usage Page (Charging),          */
-> 
-> I tested it on Apple hardware (mouse, trackpad and keyboard) as well as
-> on UCLogic tablets with battery [1].
-> 
-> On other hardware (HID_DC_BATTERYSTRENGTH or digitizers with battery)
-> discharging should be reported for backwards compatibility.
-> I did my best to keep the old behaviour by adding KUnit tests; However,
-> I don't own any of those devices, so I'd appreciate any help testing
-> the patch from someone with the actual hardware.
+> Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
 
-I have applied this to hid.git#for-6.3/hid-core so that we get early 
-testing coverage in linux-next as soon as 6.2-rc1 is out.
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
