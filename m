@@ -2,71 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CC8C6526A1
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 19:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 025DE6526AD
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 20:00:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbiLTSzg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Dec 2022 13:55:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42320 "EHLO
+        id S233255AbiLTS71 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 13:59:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233411AbiLTSze (ORCPT
+        with ESMTP id S229741AbiLTS71 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 13:55:34 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CBAC1ADB4;
-        Tue, 20 Dec 2022 10:55:32 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id v13-20020a17090a6b0d00b00219c3be9830so13092290pjj.4;
-        Tue, 20 Dec 2022 10:55:31 -0800 (PST)
+        Tue, 20 Dec 2022 13:59:27 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415751B1E2;
+        Tue, 20 Dec 2022 10:59:26 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id w26so9134215pfj.6;
+        Tue, 20 Dec 2022 10:59:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sXGgkWFMp3OYd+RGGfsh3gEVvYrFeFbPd9DXXHvfsjQ=;
-        b=ZgsnDg1f1DNDu3MgDBR3XN53JFItQCKtWD8HtQlnIwzB98ZfS/XDhuiOZhSBOK8Uay
-         ezFCq7qaaQO10tN6Xwww3ps4dqqV38QWRObXkZ/yV2ohMfNY2LRHuAGJORJpGji9l0eM
-         orua+wVlR76QibMP+A8uEVAmOCvAmasYP7nWm24tEL8sMtrwwZCh1k9G0+OkN1nHqUs0
-         ekofGjdiIOnq+1HECH/llMXhhVbnsfjBKdjiMvD/OaFYSnsz+83HRMwP+oFvOH2zau4n
-         BYimmUK2eY0ObMzfbVtoAeb0wXuhK7Dm8j99AIL17uCULJ6o18rHf4dt/aR4BA0AKK0H
-         v8kQ==
+        bh=dBWAV6mPvRgKPCAJVlW6TB8VEgAk8q8OnRK0EpMiohs=;
+        b=cDurWDHM8sRetRDZFkI5MeOy9ihnMMpmqsnytFtPLxOpzSNS6GSu2/l7rhHOGOnO1X
+         RyL5z2SEXXiA/IWeCS1qwfRJQ6AVBcypZU0+BeEGysouLmMjJkRLZ3weaoElOMtFgIPj
+         yswJLxXbtEyRNSLYeuYNTM+egI4t0RQ1ibYoapv10odUIy0sStFI5kbfTsDkmffY7kG+
+         tQn5oxGvxGpkA+hMRQ9xl1w+3AttjyjKqzVRYiwAYTBSucIivOA+aJ/ZQDIlTYxYoIW+
+         JMhuSwrWoMwBWbjsgXxi/W9eugoTUuDjfuXZ0NQQPJLDGMaaTtKnHp/BJSohWsfblceo
+         VIOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sXGgkWFMp3OYd+RGGfsh3gEVvYrFeFbPd9DXXHvfsjQ=;
-        b=lWE7Aa6ptt9P0//U2dmodtfL62yeiF4+gpwGkpZFoqumKxRIvFVLuW3Wk5RjPReqkw
-         R65dhvbeQdAWPy5gCehICywW6ccIYLiwS9UbT4by8+hqFrMW0z71uHD6WN8SN/C9tpAL
-         4JGptogtX8P3dyOk+nnf/enTQQ6fEVEcqpsnxpJStibrddOcMIAYOqwvDmOLuSka7luR
-         LB/6vk+zbZ+hlz6saM0N1JslgIZBeKehhep4kJ0scm3b/AGNh3z8PZ+ews4X6iXwKuWJ
-         qeVOCt84LOC9t2Tt8oOlx4kdp3cy9jYVO804zllgzqaSvQ+cL3iacGgxWA+7dm0sbV8V
-         +8KQ==
-X-Gm-Message-State: AFqh2kpBtzJVOSIFgvS8JInbSdyeNQbxjnaqADrb3Dj7QOFbfwRZGK80
-        uxmT+9U6P9jKnQ8ZttGVgDQ=
-X-Google-Smtp-Source: AMrXdXuu1a9NYzQV1O5vigsN0o5UqEJeUN2vzKdV1ann8aOQ2vVRrmffGmZ7gpynQ7wpBZc6VC/EIQ==
-X-Received: by 2002:a17:902:7613:b0:18f:9b13:5fb9 with SMTP id k19-20020a170902761300b0018f9b135fb9mr13274425pll.60.1671562531357;
-        Tue, 20 Dec 2022 10:55:31 -0800 (PST)
+        bh=dBWAV6mPvRgKPCAJVlW6TB8VEgAk8q8OnRK0EpMiohs=;
+        b=4hmsDTmtOnTn+sronDYd6+tL63CyxJAqkAK81MO8PdoSJip1CWGLCdNHuunOzX6sWF
+         8pcZt2xqZPvFTLAiWbemTsitbpOz+fI9uelvrly/Bh+gsBqVVerW30b7Jk0fWfFMXdOM
+         MNAguMNnjOqgH7nv/gyYJEQHZo6f4lqGOTmKeCueXdpZCmrjSNt/SQpzTjjL5m2q9PI7
+         gbEePHG9q47aWOTKPcWiDi3dAlwX8jVXbW7jvhnlZoWUd/oxisfytFL9fqVlIf4IzR2n
+         AwI/b57xtimJYsDJPf08YYtXiF2l67yBECPKMdcDZkFeCK2tsgdCrVnvQJiLeo26suJ7
+         gmVw==
+X-Gm-Message-State: ANoB5pnPCX76jMUXP+5gQD81F72UZuXmFUecFVGCkaiwkMM0F6i+smUQ
+        gWTQoNzKyTzDf4G1Szfi0j/XI6USNJY=
+X-Google-Smtp-Source: AA0mqf4kEDgTidFKfZQ0Nxnf0RmG5OCyWuiN2591xupEvfSQGRQ5aeEdKJ7spc7NqXGCM2GlHpt2GQ==
+X-Received: by 2002:a62:1bd6:0:b0:578:e56:f57b with SMTP id b205-20020a621bd6000000b005780e56f57bmr42484658pfb.28.1671562765617;
+        Tue, 20 Dec 2022 10:59:25 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:7206:404e:4820:d175])
-        by smtp.gmail.com with ESMTPSA id i18-20020a17090332d200b00188ef3ea2b6sm9700453plr.262.2022.12.20.10.55.29
+        by smtp.gmail.com with ESMTPSA id y28-20020aa78f3c000000b005774d225353sm8979966pfr.137.2022.12.20.10.59.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 10:55:30 -0800 (PST)
-Date:   Tue, 20 Dec 2022 10:55:27 -0800
+        Tue, 20 Dec 2022 10:59:24 -0800 (PST)
+Date:   Tue, 20 Dec 2022 10:59:22 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Miaoqian Lin <linmq006@gmail.com>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Rob Herring <robh@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Eric Anholt <eric@anholt.net>, linux-input@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] input: raspberrypi-ts: Fix refcount leak in rpi_ts_probe
-Message-ID: <Y6IFHzJOM4qDyoWk@google.com>
-References: <20221220115246.1522054-1-linmq006@gmail.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: fm801-gp - Fix an error handling path
+Message-ID: <Y6IGCtw1CHgcBwbB@google.com>
+References: <2d4f01f3a721b0dcd34669ab01aff9eddaad53dc.1671485791.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221220115246.1522054-1-linmq006@gmail.com>
+In-Reply-To: <2d4f01f3a721b0dcd34669ab01aff9eddaad53dc.1671485791.git.christophe.jaillet@wanadoo.fr>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -77,15 +71,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 03:52:43PM +0400, Miaoqian Lin wrote:
-> rpi_firmware_get() take reference, we need to release it in error paths
-> as well. Add missing rpi_firmware_put() in the error handling to fix it.
+Hi Christophe,
 
-Hmm, it used not to take a reference, but now it does... OK.
+On Mon, Dec 19, 2022 at 10:36:47PM +0100, Christophe JAILLET wrote:
+> This looks odd to call release_resource() for something allocated with
+> request_region().
+> Use release_region() instead.
 
-But I see there is devm_rpi_firmware_get() variant, we should be using
-it instead of mixing up manual and devm-controller resources to ensure
-proper release order.
+I do not see why it is weird. request_region() gives you an instance of
+"resource" structure which can later be freed. If we indeed want to use
+release_region() (and hardcode the length in both places) then we should
+also remove gp->res_port member. But I really do not find anything wrong
+nor do I want to touch these old drivers...
 
 Thanks.
 
