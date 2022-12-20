@@ -2,113 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DE4D65204F
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 13:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9A4A652295
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 15:31:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233249AbiLTMUu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Dec 2022 07:20:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38718 "EHLO
+        id S233960AbiLTObA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 09:31:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230235AbiLTMUo (ORCPT
+        with ESMTP id S230074AbiLTOag (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 07:20:44 -0500
-X-Greylist: delayed 569 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 20 Dec 2022 04:20:37 PST
-Received: from mx.mvz-labor-lb.de (mx.mvz-labor-lb.de [IPv6:2a01:4f8:c2c:899::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA2D18B05;
-        Tue, 20 Dec 2022 04:20:37 -0800 (PST)
-Received: from webmail.labor (p57803e15.dip0.t-ipconnect.de [87.128.62.21])
-        (using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 20 Dec 2022 09:30:36 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD0B186ED;
+        Tue, 20 Dec 2022 06:29:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx.mvz-labor-lb.de (Postfix) with ESMTPSA id 9D07B3E8A6;
-        Tue, 20 Dec 2022 13:11:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mvz-labor-lb.de;
-        s=mvz1903; t=1671538265;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=MeF+loUfLla3SLpOMCygh1/fpaH0ayyGK6IQfRkdgm4=;
-        b=I9UHBq/v2G0mw3TRViJ+kz895YLKuZjmnzFJUn/XBYQ0QNWIbUWXcrXcFgris490OqDZAG
-        iIPh91gJ+PPEwdQSjnW0Ypd7TCwp/E9B3zGsNc38lbu/Vk0+caJoPRHHkXi5xaww6OI37U
-        Be7wQgA5/K4lnbMbpt6Xi/GzQ0kTI1I=
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by webmail.labor (Postfix) with ESMTP id 144A4300C002;
-        Tue, 20 Dec 2022 13:11:05 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mvz-labor-lb.de
-Received: from webmail.labor ([127.0.0.1])
-        by localhost (webmail.labor [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id sidZv4dgWY0o; Tue, 20 Dec 2022 13:11:05 +0100 (CET)
-Received: from LLGMVZLB-0037 (LLGMVZLB-0037.mvz.labor [10.30.4.35])
-        by webmail.labor (Postfix) with ESMTPS id E7E30300C001;
-        Tue, 20 Dec 2022 13:11:04 +0100 (CET)
-Date:   Tue, 20 Dec 2022 13:11:03 +0100
-From:   Michael Klein <m.klein@mvz-labor-lb.de>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the CSL Panther
- Tab HD
-Message-ID: <20221220121103.uiwn5l7fii2iggct@LLGMVZLB-0037>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3C605B81544;
+        Tue, 20 Dec 2022 14:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D9BC433EF;
+        Tue, 20 Dec 2022 14:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671546573;
+        bh=UpuzXOOwZs/NV2IUnN+0K9e9seG0tvY+bi0SqVPpbV4=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=NknLAKqa2ouuaAl7QOcccbkv7hks/4MoiSc1MkD0fawpN63QHxiGxngEklza0gWdE
+         CWNhwUBXCGIAhVvl5Yb+10utM51fJUKbd6wSv6fUbVReDxE+08Clu7hGwq96Y68MA2
+         0MTGn31kUiZOOKvH8JPEOzLNWnwoiEFSbsyhqZTLWZ5pIpm3xR7Heqs5kcQR5bkPDD
+         wb8z8XpC1FtSV3ZnYAFGuStmSmKhqzvCeIHY2R3dccd85/ZZ17EY5QbyJPuCVPvHhw
+         Po9NpbOl8AiOuV2GLLQ+lAHw3nAMTK6KWYq6XCv4gKGWBSn2tDfiT/UhHKgOxHWiyg
+         XwV/Uwz2hlR/Q==
+Date:   Tue, 20 Dec 2022 15:29:33 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        "Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] HID: wacom: Ensure bootloader PID is usable in hidraw
+ mode
+In-Reply-To: <20221201231141.112916-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2212201529260.9000@cbobk.fhfr.pm>
+References: <20221201231141.112916-1-jason.gerecke@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add touchscreen info for the CSL Panther Tab HD.
+On Thu, 1 Dec 2022, Jason Gerecke wrote:
 
-Signed-off-by: Michael Klein <m.klein@mvz-labor-lb.de>
----
- drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+> From: Jason Gerecke <killertofu@gmail.com>
+> 
+> Some Wacom devices have a special "bootloader" mode that is used for
+> firmware flashing. When operating in this mode, the device cannot be
+> used for input, and the HID descriptor is not able to be processed by
+> the driver. The driver generates an "Unknown device_type" warning and
+> then returns an error code from wacom_probe(). This is a problem because
+> userspace still needs to be able to interact with the device via hidraw
+> to perform the firmware flash.
+> 
+> This commit adds a non-generic device definition for 056a:0094 which
+> is used when devices are in "bootloader" mode. It marks the devices
+> with a special BOOTLOADER type that is recognized by wacom_probe() and
+> wacom_raw_event(). When we see this type we ensure a hidraw device is
+> created and otherwise keep our hands off so that userspace is in full
+> control.
+> 
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Tested-by: Tatsunosuke Tobita <tatsunosuke.tobita@wacom.com>
+> Cc: <stable@vger.kernel.org>
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index baae3120efd0..f00995390fdf 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -264,6 +264,23 @@ static const struct ts_dmi_data connect_tablet9_data = {
- 	.properties     = connect_tablet9_props,
- };
- 
-+static const struct property_entry csl_panther_tab_hd_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y", 20),
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1526),
-+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-+	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-csl-panther-tab-hd.fw"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data csl_panther_tab_hd_data = {
-+	.acpi_name      = "MSSL1680:00",
-+	.properties     = csl_panther_tab_hd_props,
-+};
-+
- static const struct property_entry cube_iwork8_air_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 3),
-@@ -1124,6 +1141,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Tablet 9"),
- 		},
- 	},
-+	{
-+		/* CSL Panther Tab HD */
-+		.driver_data = (void *)&csl_panther_tab_hd_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "CSL Computer GmbH & Co. KG"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "CSL Panther Tab HD"),
-+		},
-+	},
- 	{
- 		/* CUBE iwork8 Air */
- 		.driver_data = (void *)&cube_iwork8_air_data,
+Applied, thanks.
+
 -- 
-2.37.2
+Jiri Kosina
+SUSE Labs
 
