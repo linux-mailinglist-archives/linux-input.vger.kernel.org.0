@@ -2,81 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC4D1651D39
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 10:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 061B5651E95
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 11:15:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbiLTJXY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 20 Dec 2022 04:23:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35854 "EHLO
+        id S233690AbiLTKPh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 05:15:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233382AbiLTJXF (ORCPT
+        with ESMTP id S233265AbiLTKP2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 04:23:05 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CBC4186AB;
-        Tue, 20 Dec 2022 01:22:57 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0279D1BF20B;
-        Tue, 20 Dec 2022 09:22:53 +0000 (UTC)
-Message-ID: <1b466138b931e7c149551a3f5bfcf0edb4eb7932.camel@hadess.net>
-Subject: Re: [PATCH] hid: Support for Litra Glow
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Andreas Bergmeier <abergmeier@gmx.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 20 Dec 2022 10:22:53 +0100
-In-Reply-To: <b787798328560ef3627ba3f8634114d78d3f249a.camel@hadess.net>
-References: <9fca69c7-cc24-63d0-98f6-80c28fc69a5@9300>
-         <8f00ae9463b07fbd789af3840cd59a9e99caff34.camel@hadess.net>
-         <b787798328560ef3627ba3f8634114d78d3f249a.camel@hadess.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        Tue, 20 Dec 2022 05:15:28 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98D5F2653;
+        Tue, 20 Dec 2022 02:15:23 -0800 (PST)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1p7Zeb-0008Ua-WB; Tue, 20 Dec 2022 11:15:22 +0100
+Message-ID: <343bc8a5-a426-8f6a-70b9-3877f53c003f@leemhuis.info>
+Date:   Tue, 20 Dec 2022 11:15:21 +0100
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [git pull] Input updates for v6.1-rc5 #forregzbot
+Content-Language: en-US, de-DE
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+References: <Y3gwySzRvhCwdSgW@google.com>
+ <824effa5-8b9a-c28a-82bb-9b0ab24623e1@kernel.org>
+ <95b6739b-6d8e-dc41-b637-e366ac883829@leemhuis.info>
+In-Reply-To: <95b6739b-6d8e-dc41-b637-e366ac883829@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1671531323;f87be96b;
+X-HE-SMSGID: 1p7Zeb-0008Ua-WB
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 2022-12-16 at 15:27 +0100, Bastien Nocera wrote:
-> On Fri, 2022-12-16 at 10:53 +0100, Bastien Nocera wrote:
-> > On Thu, 2022-12-15 at 22:09 +0100, Andreas Bergmeier wrote:
-> > > Tries to implement as general support for Illumination Light as
-> > > possible. Note that it is singular, which means by Logitech spec
-> > > we
-> > > are
-> > > fine off with just handling one capability/device.
-> > 
-> > Your email client absolutely trashed the patch's indentation, it's
-> > unreadable as-is.
-> > 
-> > > Implementation currently only exposes Brightness and On/Off
-> > > controls.
-> > > Does currently not expose Color Temperature because LEDs does not
-> > > support it.
-> > > 
-> > > Introduces HIDPP_QUIRK_CLASS_SIMPLE_START to prevent reconnect on
-> > > startup. Could not get Glow to work with that.
-> > 
-> > I'd really rather we didn't introduce a new quirk, but instead
-> > fixed
-> > the fact that we need to restart the HID transport to support 3 (!)
-> > devices.
-> > 
-> > Would something like the attached patch work? I haven't tested it
-> > yet,
-> > but if it works for you, I'll test it on the devices I have here.
+[Note: this mail contains only information for Linux kernel regression
+tracking. Mails like these contain '#forregzbot' in the subject to make
+then easy to spot and filter out. The author also tried to remove most
+or all individuals from the list of recipients to spare them the hassle.]
+
+On 15.12.22 08:39, Thorsten Leemhuis wrote:
+
+>> This was reported downstream as a regression between 6.0.10 and 6.0.12:
+>> https://bugzilla.suse.com/show_bug.cgi?id=1206358
+>>
+>> Full dmesgs available there too.
+>>
+>>
+>> 6.0.10 has this instead of the above:
+>> psmouse serio1: synaptics: queried max coordinates: x [..5648], y [..4826]
+>> psmouse serio1: synaptics: queried min coordinates: x [1292..], y [1026..]
+>> psmouse serio1: synaptics: Your touchpad (PNP: SYN3286 PNP0f13) says it
+>> can support a different bus. If i2c-hid and hid-rmi are not used, you
+>> might want to try setting psmouse.synaptics_intertouch to 1 and report
+>> this to linux-input@vger.kernel.org.
+>> psmouse serio1: synaptics: Touchpad model: 1, fw: 8.16, id: 0x1e2b1,
+>> caps: 0xf00323/0x840300/0x2e800/0x400000, board id: 3320, fw id: 2659795
 > 
-> A tested version attached. I'll need to test it against a T650 before
-> sending it for review.
+> P.P.S.: I for now assume that it's a problem that also is present in
+> mainline and thus will track it as such.
+> 
+> #regzbot introduced ac5408991ea6
+> https://bugzilla.suse.com/show_bug.cgi?id=1206358
+> #regzbot title input: synaptics: keyboard broken on HP's 15-da1xxx
+> #regzbot ignore-activity
 
-I've tested it with a T650, and it works, so I sent it for review.
 
-Would be great to know if it helps simplify your driver.
-
-Cheers
+#regzbot fix: Revert "Input: synaptics - switch touchpad on HP Laptop
+15-da3001TU to RMI mode"
