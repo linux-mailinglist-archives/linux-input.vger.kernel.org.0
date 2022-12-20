@@ -2,96 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB55D6523E4
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 16:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C3E465254E
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 18:12:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233945AbiLTPod convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 20 Dec 2022 10:44:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
+        id S234026AbiLTRMB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 12:12:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233912AbiLTPoQ (ORCPT
+        with ESMTP id S234178AbiLTRLY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 10:44:16 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2288917E35;
-        Tue, 20 Dec 2022 07:44:12 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1AE2040003;
-        Tue, 20 Dec 2022 15:44:09 +0000 (UTC)
-Message-ID: <db717b228dabc53b5d726c6e57076917dfecba37.camel@hadess.net>
-Subject: Re: [PATCH 1/3] Revert "HID: logitech-hidpp: add a module parameter
- to keep firmware gestures"
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Date:   Tue, 20 Dec 2022 16:44:09 +0100
-In-Reply-To: <20221220092207.428640-1-hadess@hadess.net>
-References: <20221220092207.428640-1-hadess@hadess.net>
+        Tue, 20 Dec 2022 12:11:24 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1C8DF41;
+        Tue, 20 Dec 2022 09:11:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671556267; x=1703092267;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=UArxLVUf4dXhZTAq10N5OIewA40pAGd9cB0Plmqz5lQ=;
+  b=nvLJjbSFIwIRuH0+XhK+YCrYh0rdAD6ToMJssmqBPo6BIpQzCJAAVilN
+   +B/ipGgHhA6IeMFxFZXpa1HgQEQHKcTEUAiFsDECMwJAro7y1tAJ6KmkM
+   Sr4zu1bBqSJc16pfZ/67OkBCXxgir7Et4id6fyQa13Sm+p8mhhcvgpJ9g
+   DPIOMtX9Fodk6jttuCFNxe4hVoWR4debbIg2uOfQunPP5SD9I5BIOw+15
+   p56tUWppxDuGLbQyEj+QNmVimR0LuZQpOw9JnGfmLeOcUYWw3QEzSKRGD
+   ODsbLNX/p3uqd3tsvQnlcus4Xm/ODitCBkH0wabcWh1shu3zOlwcnlO/7
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="405906779"
+X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
+   d="scan'208";a="405906779"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 09:08:04 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="644525709"
+X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
+   d="scan'208";a="644525709"
+Received: from kjayadev-mobl.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.251.27.109])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 09:08:04 -0800
+Message-ID: <c8e7fdb0e29b975537551ed6331f91b76e426246.camel@linux.intel.com>
+Subject: Re: [PATCH] HID: intel_ish-hid: Add check for ishtp_dma_tx_map
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, Even Xu <even.xu@intel.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 20 Dec 2022 09:08:03 -0800
+In-Reply-To: <20221122134823.540-1-jiasheng@iscas.ac.cn>
+References: <20221122134823.540-1-jiasheng@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2022-12-20 at 10:22 +0100, Bastien Nocera wrote:
-> Now that we're in 2022, and the majority of desktop environments can
-> and
-> should support touchpad gestures through libinput, remove the legacy
-> module parameter that made it possible to use gestures implemented in
-> firmware.
+On Tue, 2022-11-22 at 21:48 +0800, Jiasheng Jiang wrote:
+> As the kcalloc may return NULL pointer,
+> it should be better to check the ishtp_dma_tx_map
+> before use in order to avoid NULL pointer dereference.
 > 
-> This will eventually allow simplifying the driver's initialisation
-> code.
-> 
-> This reverts commit 9188dbaed68a4b23dc96eba165265c08caa7dc2a.
-
-Forgot the signed-off-by, resent as v2.
-
+> Fixes: 3703f53b99e4 ("HID: intel_ish-hid: ISH Transport layer")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > ---
->  drivers/hid/hid-logitech-hidpp.c | 10 ----------
->  1 file changed, 10 deletions(-)
++Even Xu, We should do during alloc. Please try to submit a change for
+that for later kernel rev as it will require error processing during
+hbm dispatch.
+
+>  drivers/hid/intel-ish-hid/ishtp/dma-if.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
-> logitech-hidpp.c
-> index 08ad19097e9e..7f9187201913 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -32,11 +32,6 @@ MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("Benjamin Tissoires <benjamin.tissoires@gmail.com>");
->  MODULE_AUTHOR("Nestor Lopez Casado <nlopezcasad@logitech.com>");
+> diff --git a/drivers/hid/intel-ish-hid/ishtp/dma-if.c
+> b/drivers/hid/intel-ish-hid/ishtp/dma-if.c
+> index 40554c8daca0..00046cbfd4ed 100644
+> --- a/drivers/hid/intel-ish-hid/ishtp/dma-if.c
+> +++ b/drivers/hid/intel-ish-hid/ishtp/dma-if.c
+> @@ -104,6 +104,11 @@ void *ishtp_cl_get_dma_send_buf(struct
+> ishtp_device *dev,
+>         int required_slots = (size / DMA_SLOT_SIZE)
+>                 + 1 * (size % DMA_SLOT_SIZE != 0);
 >  
-> -static bool disable_raw_mode;
-> -module_param(disable_raw_mode, bool, 0644);
-> -MODULE_PARM_DESC(disable_raw_mode,
-> -       "Disable Raw mode reporting for touchpads and keep firmware
-> gestures.");
-> -
->  static bool disable_tap_to_click;
->  module_param(disable_tap_to_click, bool, 0644);
->  MODULE_PARM_DESC(disable_tap_to_click,
-> @@ -4355,11 +4350,6 @@ static int hidpp_probe(struct hid_device
-> *hdev, const struct hid_device_id *id)
->             hidpp_application_equals(hdev, HID_GD_KEYBOARD))
->                 hidpp->quirks |=
-> HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS;
+> +       if (!dev->ishtp_dma_tx_map) {
+> +               dev_err(dev->devc, "Fail to allocate Tx map\n");
+> +               return NULL;
+> +       }
+> +
+>         spin_lock_irqsave(&dev->ishtp_dma_tx_lock, flags);
+>         for (i = 0; i <= (dev->ishtp_dma_num_slots - required_slots);
+> i++) {
+>                 free = 1;
+> @@ -150,6 +155,11 @@ void ishtp_cl_release_dma_acked_mem(struct
+> ishtp_device *dev,
+>                 return;
+>         }
 >  
-> -       if (disable_raw_mode) {
-> -               hidpp->quirks &= ~HIDPP_QUIRK_CLASS_WTP;
-> -               hidpp->quirks &= ~HIDPP_QUIRK_NO_HIDINPUT;
-> -       }
-> -
->         if (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP) {
->                 ret = wtp_allocate(hdev, id);
->                 if (ret)
+> +       if (!dev->ishtp_dma_tx_map) {
+> +               dev_err(dev->devc, "Fail to allocate Tx map\n");
+> +               return;
+> +       }
+> +
+>         i = (msg_addr - dev->ishtp_host_dma_tx_buf) / DMA_SLOT_SIZE;
+>         spin_lock_irqsave(&dev->ishtp_dma_tx_lock, flags);
+>         for (j = 0; j < acked_slots; j++) {
 
