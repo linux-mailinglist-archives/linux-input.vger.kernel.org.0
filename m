@@ -2,89 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 025DE6526AD
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 20:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A44E652731
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 20:40:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233255AbiLTS71 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Dec 2022 13:59:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44448 "EHLO
+        id S234040AbiLTTkC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 14:40:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbiLTS71 (ORCPT
+        with ESMTP id S229757AbiLTTkA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 13:59:27 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415751B1E2;
-        Tue, 20 Dec 2022 10:59:26 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id w26so9134215pfj.6;
-        Tue, 20 Dec 2022 10:59:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dBWAV6mPvRgKPCAJVlW6TB8VEgAk8q8OnRK0EpMiohs=;
-        b=cDurWDHM8sRetRDZFkI5MeOy9ihnMMpmqsnytFtPLxOpzSNS6GSu2/l7rhHOGOnO1X
-         RyL5z2SEXXiA/IWeCS1qwfRJQ6AVBcypZU0+BeEGysouLmMjJkRLZ3weaoElOMtFgIPj
-         yswJLxXbtEyRNSLYeuYNTM+egI4t0RQ1ibYoapv10odUIy0sStFI5kbfTsDkmffY7kG+
-         tQn5oxGvxGpkA+hMRQ9xl1w+3AttjyjKqzVRYiwAYTBSucIivOA+aJ/ZQDIlTYxYoIW+
-         JMhuSwrWoMwBWbjsgXxi/W9eugoTUuDjfuXZ0NQQPJLDGMaaTtKnHp/BJSohWsfblceo
-         VIOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dBWAV6mPvRgKPCAJVlW6TB8VEgAk8q8OnRK0EpMiohs=;
-        b=4hmsDTmtOnTn+sronDYd6+tL63CyxJAqkAK81MO8PdoSJip1CWGLCdNHuunOzX6sWF
-         8pcZt2xqZPvFTLAiWbemTsitbpOz+fI9uelvrly/Bh+gsBqVVerW30b7Jk0fWfFMXdOM
-         MNAguMNnjOqgH7nv/gyYJEQHZo6f4lqGOTmKeCueXdpZCmrjSNt/SQpzTjjL5m2q9PI7
-         gbEePHG9q47aWOTKPcWiDi3dAlwX8jVXbW7jvhnlZoWUd/oxisfytFL9fqVlIf4IzR2n
-         AwI/b57xtimJYsDJPf08YYtXiF2l67yBECPKMdcDZkFeCK2tsgdCrVnvQJiLeo26suJ7
-         gmVw==
-X-Gm-Message-State: ANoB5pnPCX76jMUXP+5gQD81F72UZuXmFUecFVGCkaiwkMM0F6i+smUQ
-        gWTQoNzKyTzDf4G1Szfi0j/XI6USNJY=
-X-Google-Smtp-Source: AA0mqf4kEDgTidFKfZQ0Nxnf0RmG5OCyWuiN2591xupEvfSQGRQ5aeEdKJ7spc7NqXGCM2GlHpt2GQ==
-X-Received: by 2002:a62:1bd6:0:b0:578:e56:f57b with SMTP id b205-20020a621bd6000000b005780e56f57bmr42484658pfb.28.1671562765617;
-        Tue, 20 Dec 2022 10:59:25 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:7206:404e:4820:d175])
-        by smtp.gmail.com with ESMTPSA id y28-20020aa78f3c000000b005774d225353sm8979966pfr.137.2022.12.20.10.59.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 10:59:24 -0800 (PST)
-Date:   Tue, 20 Dec 2022 10:59:22 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: fm801-gp - Fix an error handling path
-Message-ID: <Y6IGCtw1CHgcBwbB@google.com>
-References: <2d4f01f3a721b0dcd34669ab01aff9eddaad53dc.1671485791.git.christophe.jaillet@wanadoo.fr>
+        Tue, 20 Dec 2022 14:40:00 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C3D2187;
+        Tue, 20 Dec 2022 11:39:58 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 8D0971C09F9; Tue, 20 Dec 2022 20:39:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1671565196;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z6Z4LV97YlfeiHNsI0GPtvBWuPiFBia9iXHj9p0V7f4=;
+        b=iSK/6k6YdYfe0pf3QIaGF0m9os72nxF3CAqc4kVpFydNcBeDZyAXwLd29ygI3aWdCD/P4E
+        hjb1tP04xpxvEqTGSku5jVwZ3Ze5vyiRMUS/PfukmleXTPDA24OIQLtf5lIYLLX2i19Nc9
+        ctnIK+xkRK2AK199jxQW3iEge/uxrTY=
+Date:   Tue, 20 Dec 2022 20:39:56 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
+Message-ID: <Y6IPjC9mpnoquL8S@duo.ucw.cz>
+References: <20221220134519.3dd1318b@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="Q4QndSuPZQc8d5xp"
 Content-Disposition: inline
-In-Reply-To: <2d4f01f3a721b0dcd34669ab01aff9eddaad53dc.1671485791.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Christophe,
 
-On Mon, Dec 19, 2022 at 10:36:47PM +0100, Christophe JAILLET wrote:
-> This looks odd to call release_resource() for something allocated with
-> request_region().
-> Use release_region() instead.
+--Q4QndSuPZQc8d5xp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I do not see why it is weird. request_region() gives you an instance of
-"resource" structure which can later be freed. If we indeed want to use
-release_region() (and hardcode the length in both places) then we should
-also remove gp->res_port member. But I really do not find anything wrong
-nor do I want to touch these old drivers...
+On Tue 2022-12-20 13:45:19, Steven Rostedt wrote:
+> [
+>   Linus,
+>=20
+>     I ran the script against your latest master branch:
+>     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
+>=20
+>     As the timer_shutdown*() code is now in your tree, I figured
+>     we can start doing the conversions. At least add the trivial ones
+>     now as Thomas suggested that this gets applied at the end of the
+>     merge window, to avoid conflicts with linux-next during the
+>     development cycle. I can wait to Friday to run it again, and
+>     resubmit.
+>=20
+>     What is the best way to handle this?
+> ]
+>=20
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+>=20
+> Due to several bugs caused by timers being re-armed after they are
+> shutdown and just before they are freed, a new state of timers was added
+> called "shutdown". After a timer is set to this state, then it can no
+> longer be re-armed.
+>=20
+> The following script was run to find all the trivial locations where
+> del_timer() or del_timer_sync() is called in the same function that the
+> object holding the timer is freed. It also ignores any locations where the
+> timer->function is modified between the del_timer*() and the free(), as
+> that is not considered a "trivial" case.
+>=20
+> This was created by using a coccinelle script and the following
+commands:
 
-Thanks.
+LED parts looks good to me.
 
--- 
-Dmitry
+Getting it in just before -rc1 would be best solution for me.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--Q4QndSuPZQc8d5xp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY6IPjAAKCRAw5/Bqldv6
+8qFnAJ4h7/YkgMmaMAi5FTo4aeUHj64lowCgv7jO/1JyimzJx+06JHTOXFlIAIk=
+=01ne
+-----END PGP SIGNATURE-----
+
+--Q4QndSuPZQc8d5xp--
