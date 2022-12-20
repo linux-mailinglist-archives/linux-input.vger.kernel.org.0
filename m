@@ -2,71 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AE65651F34
-	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 11:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA46F651FF1
+	for <lists+linux-input@lfdr.de>; Tue, 20 Dec 2022 12:53:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233358AbiLTKsC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Dec 2022 05:48:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56628 "EHLO
+        id S230184AbiLTLxC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Dec 2022 06:53:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233364AbiLTKsA (ORCPT
+        with ESMTP id S229657AbiLTLxB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Dec 2022 05:48:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35FB3DD0
-        for <linux-input@vger.kernel.org>; Tue, 20 Dec 2022 02:47:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671533245;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BtcNXhVAF5Mh5/Biw8m1gljXz/koZEnrJ8YAHCfLSVg=;
-        b=Z1TZBCI3zN9PU4yrFqRqXxPmBSMvy7+/p/iyD1RGTQ/pN4JiNk8Mxn4JsN6SmobIhhDxdO
-        kvzbPEke9izlKV3qEsUnSPhyxPSSY6kxkx52PIGM3OVss+lL8RfwNC0IY2hVQCiIzk1thQ
-        +3HRK9izcHmPh2cUDv6Wm+sTBGmhEUY=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-214-65LJ2e5SOBiYwIbLD0vl5w-1; Tue, 20 Dec 2022 05:47:24 -0500
-X-MC-Unique: 65LJ2e5SOBiYwIbLD0vl5w-1
-Received: by mail-il1-f199.google.com with SMTP id j3-20020a056e02154300b00304bc968ef1so8079610ilu.4
-        for <linux-input@vger.kernel.org>; Tue, 20 Dec 2022 02:47:23 -0800 (PST)
+        Tue, 20 Dec 2022 06:53:01 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A3163DD;
+        Tue, 20 Dec 2022 03:53:01 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id m4so12022943pls.4;
+        Tue, 20 Dec 2022 03:53:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lso547JX5vTY2uG06uoFIFztgpYecJYWXqOFJKfCq9A=;
+        b=NZBmBWT0pXX5TaRDccE1wmua0oWib2GxgHdFapwRZJovA6yEJLwSuHqnjdnlGzvdFx
+         sbJoX6yb8Ubb1qa/54JSFrn8/KVPrk6Zgz6ksxwgK7Hge+QQx4JOp44XYTbyOv7c4QrN
+         9dmddS+pG07psJp1LojSHEDz6xCj+gviFXyTAPvuGbyard1kB/iP+sfVUeNMN05dsEKw
+         a4LoQ/J+rOjMQgkXk7qHVIwsgnkqkVeZENxlDA/NMfH20WJ9u/+M3Di90NUfk9/r76RN
+         6+MJ9C/BG2GMl8fCxkMRohgwfz6z8QRM3msAgJv1RLsrde9Niq4pBZ11iPtgjvhGD3BP
+         BX6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BtcNXhVAF5Mh5/Biw8m1gljXz/koZEnrJ8YAHCfLSVg=;
-        b=jLH0dm+NO35/NtqEA6O/qhCxGcFYNK5MepxoJAY2h87PBll9qY3hvVSy4fV4Q7OdGt
-         b9wh4BEMTy0tF6GKvE6J1TrO0BR/BNhxFkOqII1IyTGFGfAMxa27w/pj3uQrYh23/dtD
-         0wbCEY+iiC59zAz8yCCL4C3UlG2P0uHgABdQ70lgAlNNGzBboPc9VlJn8sSckSzj63zD
-         vNwF38rVBldb8cCi8MNMImMKZIssPzsgfLlr3It55cPVjAtY5SfVS6lpHyTXzi4J3cW/
-         RUcLu/cyIf7QWP39Yv6fgDmB0ySwpjT5bXMBIkK73zIm9YOfiyIC3Xh45pqwdY9IMjVU
-         X2wg==
-X-Gm-Message-State: ANoB5pnxSo/kiurFEmXwXlSd19209XCl59EAK4LBLpkzoaCoc5NWzk7/
-        ziVi+CwW6UJkKW/wT30I6SGb+ULtmSjkuPlwCM7yL+O/poJ+9YkQc19uttNdbH4I0k5FVPHJ1J5
-        Z7yUkw4ytBySYuBQIbIxtVc/spnaloUWlAdcwyUA=
-X-Received: by 2002:a02:a089:0:b0:375:2a78:73fd with SMTP id g9-20020a02a089000000b003752a7873fdmr46525969jah.217.1671533242987;
-        Tue, 20 Dec 2022 02:47:22 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7JBXJpg6qNm9SgzBNzQZEfnJaZx37hGB0TWVUAAFj/Mc2O387CUR2IQywQyTtLbStHSDLWatI/4QD3XC8tKTg=
-X-Received: by 2002:a02:a089:0:b0:375:2a78:73fd with SMTP id
- g9-20020a02a089000000b003752a7873fdmr46525962jah.217.1671533242764; Tue, 20
- Dec 2022 02:47:22 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lso547JX5vTY2uG06uoFIFztgpYecJYWXqOFJKfCq9A=;
+        b=AGcuIoxtEJDvEqzVXux+3AKB9iqro+Iwq+zJA/Zy+29Jgs7BpgfcFObrPiDWSsP97e
+         w34Rsmx4VNT75qip9xgDbPUGEBjoAgRKP4tzN9MVMeUH1BiY7VBP2osqairxI3dp2Pfp
+         YVwUMbT+EgxiTU0g/G9jKUm4fAC8jG+sXgpXpQwC+nnu0rdKf0oIN7f5EzI+PkcOrZR/
+         yGKFrnvofaet+Ee2U+N7z9XZvex6PQIBNqMt4LQxvvp/3aZXp8GZAh6B9oJjcmPUn8jL
+         TLztXZmyQ7oC/cWOc+ZZrcvbxoBSjFOK5J105u2DzPLXuSfn8/2l7LO60eAArnQfWssd
+         CKCw==
+X-Gm-Message-State: ANoB5pkGisgo6dpC/Hr8TwzXBm2xhRDJhrJOqpNC0wYe4Z7gxT4saA5X
+        gxanCK/BT4eEfS9UbBzlryc=
+X-Google-Smtp-Source: AA0mqf74eIrv2LcbZ4UdOuZq35RVyjX2oL4FLp5h/Guu7OQyM9gJa2Y4Kvx4rn4wBkEUJM22lye9Ug==
+X-Received: by 2002:a17:903:515:b0:189:ec2d:89c0 with SMTP id jn21-20020a170903051500b00189ec2d89c0mr46662475plb.59.1671537180573;
+        Tue, 20 Dec 2022 03:53:00 -0800 (PST)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id j5-20020a170902c3c500b00172fad607b3sm9140276plj.207.2022.12.20.03.52.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Dec 2022 03:52:59 -0800 (PST)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Eric Anholt <eric@anholt.net>, linux-input@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] input: raspberrypi-ts: Fix refcount leak in rpi_ts_probe
+Date:   Tue, 20 Dec 2022 15:52:43 +0400
+Message-Id: <20221220115246.1522054-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221220024921.21992-1-jiasheng@iscas.ac.cn> <035598f0-3174-9677-0b53-f3ccbfb54155@amd.com>
-In-Reply-To: <035598f0-3174-9677-0b53-f3ccbfb54155@amd.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 20 Dec 2022 11:47:11 +0100
-Message-ID: <CAO-hwJ++Dr94062SPnbqRJ33yJ5qB48--rnGyNQ12d6VvsCRUA@mail.gmail.com>
-Subject: Re: [PATCH] HID: amd_sfh: Add missing check for dma_alloc_coherent
-To:     Basavaraj Natikar <bnatikar@amd.com>
-Cc:     Jiasheng Jiang <jiasheng@iscas.ac.cn>, basavaraj.natikar@amd.com,
-        jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,43 +75,60 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 7:53 AM Basavaraj Natikar <bnatikar@amd.com> wrote:
->
->
-> On 12/20/2022 8:19 AM, Jiasheng Jiang wrote:
-> > Add check for the return value of the dma_alloc_coherent since
-> > it may return NULL pointer if allocation fails.
-> >
-> > Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
-> > Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> > ---
-> >  drivers/hid/amd-sfh-hid/amd_sfh_client.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> > index 8275bba63611..ab125f79408f 100644
-> > --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> > +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-> > @@ -237,6 +237,10 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
-> >               in_data->sensor_virt_addr[i] = dma_alloc_coherent(dev, sizeof(int) * 8,
-> >                                                                 &cl_data->sensor_dma_addr[i],
-> >                                                                 GFP_KERNEL);
-> > +             if (!in_data->sensor_virt_addr[i]) {
-> > +                     rc = -ENOMEM;
-> > +                     goto cleanup;
-> > +             }
-> >               cl_data->sensor_sts[i] = SENSOR_DISABLED;
-> >               cl_data->sensor_requested_cnt[i] = 0;
-> >               cl_data->cur_hid_dev = i;
->
-> looks good to me.
->
-> Acked-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+rpi_firmware_get() take reference, we need to release it in error paths
+as well. Add missing rpi_firmware_put() in the error handling to fix it.
 
-Thanks.
+Fixes: 0b9f28fed3f7 ("Input: add official Raspberry Pi's touchscreen driver")
+Fixes: 3b8ddff780b7 ("input: raspberrypi-ts: Release firmware handle when not needed")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/input/touchscreen/raspberrypi-ts.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-I have now applied this patch to hid.git branch for-6.2/upstream-fixes.
-
-Cheers,
-Benjamin
+diff --git a/drivers/input/touchscreen/raspberrypi-ts.c b/drivers/input/touchscreen/raspberrypi-ts.c
+index 5000f5fd9ec3..114237c76378 100644
+--- a/drivers/input/touchscreen/raspberrypi-ts.c
++++ b/drivers/input/touchscreen/raspberrypi-ts.c
+@@ -140,21 +140,24 @@ static int rpi_ts_probe(struct platform_device *pdev)
+ 		return -EPROBE_DEFER;
+ 
+ 	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+-	if (!ts)
+-		return -ENOMEM;
++	if (!ts) {
++		error = -ENOMEM;
++		goto err_put_fw;
++	}
+ 	ts->pdev = pdev;
+ 
+ 	ts->fw_regs_va = dma_alloc_coherent(dev, PAGE_SIZE, &ts->fw_regs_phys,
+ 					    GFP_KERNEL);
+ 	if (!ts->fw_regs_va) {
+ 		dev_err(dev, "failed to dma_alloc_coherent\n");
+-		return -ENOMEM;
++		error = -ENOMEM;
++		goto err_put_fw;
+ 	}
+ 
+ 	error = devm_add_action_or_reset(dev, rpi_ts_dma_cleanup, ts);
+ 	if (error) {
+ 		dev_err(dev, "failed to devm_add_action_or_reset, %d\n", error);
+-		return error;
++		goto err_put_fw;
+ 	}
+ 
+ 	touchbuf = (u32)ts->fw_regs_phys;
+@@ -206,6 +209,10 @@ static int rpi_ts_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	return 0;
++
++err_put_fw:
++	rpi_firmware_put(fw);
++	return error;
+ }
+ 
+ static const struct of_device_id rpi_ts_match[] = {
+-- 
+2.25.1
 
