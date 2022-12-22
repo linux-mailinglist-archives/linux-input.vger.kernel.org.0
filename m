@@ -2,67 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 781976540D9
-	for <lists+linux-input@lfdr.de>; Thu, 22 Dec 2022 13:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DB2A654452
+	for <lists+linux-input@lfdr.de>; Thu, 22 Dec 2022 16:28:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235814AbiLVMOO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Dec 2022 07:14:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42332 "EHLO
+        id S235694AbiLVP1r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Dec 2022 10:27:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235816AbiLVMNo (ORCPT
+        with ESMTP id S235340AbiLVP12 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Dec 2022 07:13:44 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1155365C6;
-        Thu, 22 Dec 2022 04:08:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1671710880; bh=G4ht3vV2Qi4yCodNxC2rKqBCJ5z+iRhOvFWldjVUyOM=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=mpw2SsGxBjzRA+ae4ejTW9QiU5biKHx3c98cQM8bbE/ClHQ6jb9q/oYJ4ekd2pTox
-         hhl+9WsXkvTR15b8cAWIuG/LNV0gedZJodyktgvRnMWe+5vXIhXzSO5Jyftr+NQHKy
-         0D2upJ5S3XpiM11clIYL2CnNrEKMD9d5sS0f2itg9M+okOlEPF4nUSzTO/jtSrh6FX
-         Un5FqCrmfs7+ynmnnZQ5cnTpPgysoJlRW6d3DTrkz2rdtb7PrdMRbYXnsRc2fYh8uU
-         be8fVVbjG2wfm5jI/ejH/TPKo0F+ulDrAxtzUtPyKD5XfZZyi+uD1MBUpKa0q3eMgw
-         nJbip0xQ65j2w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.localdomain ([95.223.45.187]) by mail.gmx.net
- (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MBDnC-1p1D6145sc-00ChCx; Thu, 22 Dec 2022 13:08:00 +0100
-From:   Philipp Jungkamp <p.jungkamp@gmx.net>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Lars-Peter Clausen <lars@metafoo.de>
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        Philipp Jungkamp <p.jungkamp@gmx.net>
-Subject: [PATCH] IIO: hid-sensor-prox: add missing scale attribute
-Date:   Thu, 22 Dec 2022 13:07:42 +0100
-Message-Id: <20221222120742.232087-1-p.jungkamp@gmx.net>
-X-Mailer: git-send-email 2.39.0
+        Thu, 22 Dec 2022 10:27:28 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B3F2A53D;
+        Thu, 22 Dec 2022 07:27:27 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id u9so5819045ejo.0;
+        Thu, 22 Dec 2022 07:27:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nba1yEUQ4IspImoTxgBgulwRJGaLwUT3y2k3SAEhk2w=;
+        b=CaCIlnKjNyZ4IyoUl+CgZj1LqeAv9MAUxcCT859S9HP2t5qJm9Z4T8ey94mFBH8ttk
+         rRfDw3HtPeNHw+PyicPwUuEWNZKkQiijoLR4MytrrV+YDkcOxqCH9i9t9EWROX1eDlTG
+         /16W1xVzGdK/R2S8hFNqPaspaZhRiVygxVhZHBzaz5uxAVfcNYlqeEzqvGFepV1bwBcY
+         gACWjC5FWnUjp96e35P6klxU71HUaaF6DdRIGf/8S7Uir5/qtheBU+fiVk3o1j2uar9B
+         DPmWS7QT7jqvjX4YY62nbAocHeExvpWxEGASrJ5QGIBtylTjaIhuR/h7N4r3j6oPyxVb
+         cFiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nba1yEUQ4IspImoTxgBgulwRJGaLwUT3y2k3SAEhk2w=;
+        b=zsUbUOn5Bx6YFmwDnBfp5hhfSS3nIma79g/QvshFtSi5BJlISVqHhQ54DkNc0jMb8H
+         vZzcjDVsAXcOUYip8yLIvHTkmcUavj57Mxu7zBzljBIvPpVlh9iZ//bPUA5g5q3o9zrL
+         T6K46N7mLKE/LSYwT943Q6pcCryUxlIatIBqRb3/ZbQ01KuY+56RrJ3UN5D1soZtpta0
+         0ozeittyN5AwMOcsOaTkCqDwHUfYElWYoynC6Gl/TvOyZkv44mlyKewacdFmob6szI/i
+         8Bj4zVsbU7sPz+kUOvvS/SqYA+TbpfCjmxWADeOm7tX99p4DHn5Cf/o5Vxij6bsnPWkL
+         qYOQ==
+X-Gm-Message-State: AFqh2kqc6V+GAdLYJWrLNATFeDX/hSOw1H6CLriMZq2coWmpLgAncP8b
+        O/arimf3O5459TPAHn2DzBBqJhkzT6QVXqeJRl+MDOLD18w=
+X-Google-Smtp-Source: AMrXdXuKwHbEzVI/+VFZfpbd00bwED3WJ37vP8KCdY6EfPyam9i8faYgGpnmna4jNYZ3lVMwBm89LZRw3SLaZIlWnuM=
+X-Received: by 2002:a17:907:6f13:b0:7ad:e161:b026 with SMTP id
+ sy19-20020a1709076f1300b007ade161b026mr792609ejc.760.1671722846022; Thu, 22
+ Dec 2022 07:27:26 -0800 (PST)
 MIME-Version: 1.0
+References: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
+In-Reply-To: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Thu, 22 Dec 2022 16:27:14 +0100
+Message-ID: <CADyDSO7ui6cmhga-vjaxfw82gK6erDO54aYRWWqO4L6DKzNgug@mail.gmail.com>
+Subject: Re: [PATCH 0/8] HID: remove some unneeded exported symbols from hid.h
+To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:yFOUXtw8gw0ShPfLwEJE7lHLbPvOB/fzL01jzlqfJYN1CuZPF0I
- v099GeLIBo1HtKQmOVvy+27LxzDW/b9n/bhPIOgPYMyGMk5tI/5RzcRC4rz2tJNw/qM4sno
- jwaavnSWwqJyzTiEXMA/y6qO6Ciz9FLhi+/uTLva6vZ0hltmBcUieWFnD5SIrLFidl/CAyM
- DhnJgKfnH6hYW7UzuKtJQ==
-UI-OutboundReport: notjunk:1;M01:P0:VG7UoddkwGU=;lBEqt8t50Cq18Dfc/01Sw2TT/yd
- hWFHhqSDLMG88CND/KaJfyV98egDfXPiLs0sd/vqxY/bDM4RVMcCkXreu4Ut8ojbblBNy8zLV
- FpmsYXqLefGa9YqDy2f3auFtGICNasZ1Hq40EOCpmGPN0+5+78EVJRFavOV1JTakZTKm5Jomc
- XGsnfgotaxzKfOddDx5sCTNnCM7AvKgIFBF8Sl2Z0H1slLrpIGqMgo88DAdc78/l/jKw2xa7c
- 3Bp1AYjH3D+BPWQch9jXEkdvV5JqZGNSuGaUnR6wW80EUiGeuYXoqY4FjNFxOX5PSQgIbU7gc
- E4BIhn9ybhQLnCVW1YakVj3IJ3yA1oqpEByCJaaOcQVFSNlPMTBMJ1VqrP3HqT58UA9VPi3Rf
- vvMuNqTZiLX8Sv1RQNBPAvLEj+qcfnHJaXy1LS1ovS3USSsuWqpubbNhVa2rDfX/jW+DP/AZZ
- VSHqz6ELU0VVWrS5KWvrabKh18hWJZIyPCrP3YwOeg9kkAIMhONZCxhVzsO5A3oLC2wi8yqPg
- rA3ieoVNUnJmsErbKK/Sp9zxg4C+DJLQIe4b2Sov379QsJZsMf62ftLUYVVtYO7BEhwzewv0S
- /JPatceaezoEtRDUjEcJsSHO6zfD98dtomRhwhT6mahLdEoUz7etox4XendLamcwlYbj3eyZU
- haya6p7KGFcXuj53D7k3hkPFDBM2CVrnj1PoSRz6XLQPBb9Sb9SVUL4u3uVVK+diI81O62o4e
- qloX1nB8hQ+8a3yiekzei0MChYiX5t41/xOk1cFTApp+H7X8zG1W0IiL1i/quq53XC8UUCrH/
- eYMLbhVxEFt7ymw7K6SqbPYoyLxgCTxWqVCFBzY7jBrv8o49kZhSQop2+860tUpqT8I0qVTsa
- +r5rVrSs1MueeaoY/wTUFa4DPExutyKKsOoC5dFrWRZR0+BpIhNLZyfJOS4fRpZcptnpduPYc
- BxGgdFJVxznUH3LsxSxNJtTXtAc=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,45 +72,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The hid-sensor-prox returned an empty string on sysfs in_proximity_scale
-read. This is due to the the drivers reporting it's scale from an
-internal value which is never changed from zero.
+Hi
 
-Try to query the scale of the HID sensor using hid_sensor_format_scale.
+On Thu, 22 Dec 2022 at 06:10, Thomas Wei=C3=9Fschuh <linux@weissschuh.net> =
+wrote:
+> Small cleanup to get rid of exports of the lowlevel hid drivers and to ma=
+ke
+> them const.
+[...]
+> Thomas Wei=C3=9Fschuh (8):
+>       HID: letsketch: Use hid_is_usb()
+>       HID: usbhid: Make hid_is_usb() non-inline
+>       HID: Remove unused function hid_is_using_ll_driver()
+>       HID: Unexport struct usb_hid_driver
+>       HID: Unexport struct uhid_hid_driver
+>       HID: Unexport struct hidp_hid_driver
+>       HID: Unexport struct i2c_hid_ll_driver
+>       HID: Make lowlevel driver structs const
 
-Signed-off-by: Philipp Jungkamp <p.jungkamp@gmx.net>
-=2D--
-Hello,
+Yeah, it makes sense to avoid exposing the structs.
 
-While trying to utilize hid_sensor_prox driver I noticed this problem.
-Should this be part of the branch created for the other patch series I
-have submitted?
-See: https://lore.kernel.org/linux-iio/nycvar.YFH.7.76.2212201525010.9000@=
-cbobk.fhfr.pm/T/#u
+Reviewed-by: David Rheinsberg <david.rheinsberg@gmail.com>
 
-Regards,
-Philipp Jungkamp
-
- drivers/iio/light/hid-sensor-prox.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-s=
-ensor-prox.c
-index f10fa2abfe72..3322f8e56f41 100644
-=2D-- a/drivers/iio/light/hid-sensor-prox.c
-+++ b/drivers/iio/light/hid-sensor-prox.c
-@@ -222,6 +222,9 @@ static int prox_parse_report(struct platform_device *p=
-dev,
- 	dev_dbg(&pdev->dev, "prox %x:%x\n", st->prox_attr.index,
- 			st->prox_attr.report_id);
-
-+	st->scale_precision =3D hid_sensor_format_scale(usage_id, &st->prox_attr=
-,
-+				&st->scale_pre_decml, &st->scale_post_decml);
-+
- 	return ret;
- }
-
-=2D-
-2.39.0
-
+Thanks
+David
