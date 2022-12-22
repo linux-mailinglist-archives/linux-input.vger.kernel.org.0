@@ -2,188 +2,233 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4C15653DD8
-	for <lists+linux-input@lfdr.de>; Thu, 22 Dec 2022 11:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D81653E84
+	for <lists+linux-input@lfdr.de>; Thu, 22 Dec 2022 11:48:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235237AbiLVKDD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Dec 2022 05:03:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57412 "EHLO
+        id S229548AbiLVKsK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Dec 2022 05:48:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235149AbiLVKDB (ORCPT
+        with ESMTP id S235281AbiLVKsJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Dec 2022 05:03:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00B5C23EB7
-        for <linux-input@vger.kernel.org>; Thu, 22 Dec 2022 02:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671703334;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-        b=VPSAzvZsd0VOW0Pl30eVauKyaeyjrHeZyCKLjc73aCE0sDFNugWd332Tf8Gnf2vM6ktSsq
-        o4AXqF1IvloyT4WAPqILWIDn4nvNCDVbbf9ElBuTPa5ti0AU/YRO/UojBqvS08s5Y6pfM8
-        3mkvIzE4KULEPGaldccqosp5ef/3JS4=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-628-RXjF2GUkOhKe2-8IblR1gA-1; Thu, 22 Dec 2022 05:02:11 -0500
-X-MC-Unique: RXjF2GUkOhKe2-8IblR1gA-1
-Received: by mail-qk1-f198.google.com with SMTP id i4-20020a05620a248400b006febc1651bbso913183qkn.4
-        for <linux-input@vger.kernel.org>; Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-        b=RN0mL3NYC+QLJgM1JRJCafUpfVi5MUYDJs7HoMz06KmXto5NBFuaOLQOb8Ba7yvSHG
-         5VpzoUjj+0f4RwZ/5D5gVnn0PMbIB4n/levKhaAhBMuucFC6D3IflVJ4HBFQYNA/IWA/
-         AIjdx9H5lFrChgJ/eXvaExrEcQVCsWOgRdIBPqTu5+4L3lnbGG0Z2sl0IPz0ycB96T9N
-         aoM28iUpc2R3wwaFeoTAL1+W7Mo1XrNOBrQBjdvD0boswJ8KbJe3K7Y+oa7s33llC3V3
-         ra94FSKII5p+P5rlpik+Wx221tuERqmzNqKVyWuHNgMap1HfAq/35JOOSTOUvkMv8EzK
-         RnqA==
-X-Gm-Message-State: AFqh2kqaDEQTM6vBq5JfgFSE2GCPItWw5zwpebyTlsW1Jh/jd6VN/2g+
-        LYIMrandNfbuwEC8lQPrp42sDRulM27inxHVnIUD0jVQ2pNLzyiydROPpp8zg6baWgBFoWba9ec
-        j+WM15Rc3jx9Khlfy6/Auix0=
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id x8-20020a0cc508000000b004e5a127382fmr6466203qvi.48.1671703331034;
-        Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtZnBvcAi4VqZ0nAfseRa5ZZncJObkgh59kN1yODkWBS5WICo+kLsdO+KK5pqcbrrZqdW1DHQ==
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id x8-20020a0cc508000000b004e5a127382fmr6466171qvi.48.1671703330733;
-        Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-101-173.dyn.eolo.it. [146.241.101.173])
-        by smtp.gmail.com with ESMTPSA id f1-20020a05620a408100b006cfc9846594sm4269qko.93.2022.12.22.02.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Message-ID: <8d91ab13f56e88af0f6133130808f9623b3adb2e.camel@redhat.com>
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Date:   Thu, 22 Dec 2022 11:02:01 +0100
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        Thu, 22 Dec 2022 05:48:09 -0500
+X-Greylist: delayed 176 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 22 Dec 2022 02:48:07 PST
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.161])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B499227907
+        for <linux-input@vger.kernel.org>; Thu, 22 Dec 2022 02:48:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1671705727;
+    s=strato-dkim-0002; d=xenosoft.de;
+    h=Subject:From:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
+    bh=/Fn2+ItX52zP/7/Zh5YkeNhH3usYa/D+bF8oIAtP+YI=;
+    b=RPyJQ4JA25m7Zc1V4PRs3qHyNAG5B19aAB8UwMlhfefIJOS4861zOShd3VyCAAIXDg
+    QMmsAfR25VoQqrrHrB/6mqkbAnhwHiZPvVYRkdXSr20zt6A3Zn8zcF4mH1IP6g/9GFm2
+    FKBWFIYn71mehKmBdQ+rxpIHAwsXZjum4MKBzKXb16EiiFVEoWYR9qaDFOomd/VAA6bL
+    k44b/+eyplOU5eEr5Ym9y37/YdMTEd7HFokb+ala2Eo0WfdGMW/3hRKKgSwRaT51vzPy
+    d00Tya/21JhySi1Nn3aCjIx6RHAy2dlEolYsnHWD6LLYwLbAr4Dwz3DwC5DRRM9vDdu3
+    e0zw==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfio0GngadwjQ4EoIjqR3pZ8rPGEXjzEWc+eGtQ=="
+X-RZG-CLASS-ID: mo00
+Received: from [IPV6:2a02:8109:8980:4474:59bc:ad4d:fc2c:81d1]
+    by smtp.strato.de (RZmta 48.2.1 AUTH)
+    with ESMTPSA id e28afdyBMAg6xgk
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Thu, 22 Dec 2022 11:42:06 +0100 (CET)
+Message-ID: <747e3240-bb3f-3a0c-e998-02f3b4826704@xenosoft.de>
+Date:   Thu, 22 Dec 2022 11:42:06 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+To:     anpatel@nvidia.com, jkosina@suse.cz, linux-input@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Darren Stevens <darren@stevens-zone.net>,
+        "R.T.Dickinson" <rtd2@xtra.co.nz>
+From:   Christian Zigotzky <chzigotzky@xenosoft.de>
+Subject: [PASEMI] Nemo board doesn't reboot anymore after the commit "HID:
+ usbhid: Add ALWAYS_POLL quirk for some mice"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2022-12-20 at 13:45 -0500, Steven Rostedt wrote:
-> [
->   Linus,
-> 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
-> 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
-> 
->     What is the best way to handle this?
-> ]
-> 
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> 
-> Due to several bugs caused by timers being re-armed after they are
-> shutdown and just before they are freed, a new state of timers was added
-> called "shutdown". After a timer is set to this state, then it can no
-> longer be re-armed.
-> 
-> The following script was run to find all the trivial locations where
-> del_timer() or del_timer_sync() is called in the same function that the
-> object holding the timer is freed. It also ignores any locations where the
-> timer->function is modified between the del_timer*() and the free(), as
-> that is not considered a "trivial" case.
-> 
-> This was created by using a coccinelle script and the following commands:
-> 
->  $ cat timer.cocci
-> @@
-> expression ptr, slab;
-> identifier timer, rfield;
-> @@
-> (
-> -       del_timer(&ptr->timer);
-> +       timer_shutdown(&ptr->timer);
-> > 
-> -       del_timer_sync(&ptr->timer);
-> +       timer_shutdown_sync(&ptr->timer);
-> )
->   ... when strict
->       when != ptr->timer
-> (
->         kfree_rcu(ptr, rfield);
-> > 
->         kmem_cache_free(slab, ptr);
-> > 
->         kfree(ptr);
-> )
-> 
->  $ spatch timer.cocci . > /tmp/t.patch
->  $ patch -p1 < /tmp/t.patch
-> 
-> Link: https://lore.kernel.org/lkml/20221123201306.823305113@linutronix.de/
-> 
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Hello,
 
-For the networking bits:
+The Nemo board [1] doesn't reboot anymore since the final kernel 6.1. 
+The reboot works with the RC8 of kernel 6.1.
+Actually, a reboot works but the CFE firmware is not loaded. Maybe there 
+is still something in the memory after the reboot.
 
->  drivers/net/ethernet/intel/i40e/i40e_main.c      |  6 +++---
->  drivers/net/ethernet/marvell/sky2.c              |  2 +-
->  drivers/net/ethernet/sun/sunvnet.c               |  2 +-
->  drivers/net/usb/sierra_net.c                     |  2 +-
->  net/802/garp.c                                   |  2 +-
->  net/802/mrp.c                                    |  4 ++--
->  net/bridge/br_multicast.c                        |  8 ++++----
->  net/bridge/br_multicast_eht.c                    |  4 ++--
->  net/core/gen_estimator.c                         |  2 +-
->  net/ipv4/ipmr.c                                  |  2 +-
->  net/ipv6/ip6mr.c                                 |  2 +-
->  net/mac80211/mesh_pathtbl.c                      |  2 +-
->  net/netfilter/ipset/ip_set_list_set.c            |  2 +-
->  net/netfilter/ipvs/ip_vs_lblc.c                  |  2 +-
->  net/netfilter/ipvs/ip_vs_lblcr.c                 |  2 +-
->  net/netfilter/xt_IDLETIMER.c                     |  4 ++--
->  net/netfilter/xt_LED.c                           |  2 +-
->  net/sched/cls_flow.c                             |  2 +-
->  net/sunrpc/svc.c                                 |  2 +-
->  net/tipc/discover.c                              |  2 +-
->  net/tipc/monitor.c                               |  2 +-
+I bisected today. [2]
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+The commit "HID: usbhid: Add ALWAYS_POLL quirk for some mice". [3] is 
+the problem.
+
+I was able to revert this commit and the reboot works without any 
+problems again.
+
+I created a patch for reverting the bad commit. [4]
+
+Then compiled the kernel with this patch. After that, the X1000 reboots 
+without any problems.
+
+I use a Cherry USB mouse. [5]
+
+Please check the bad commit.
+
+Thanks,
+Christian
+
+
+[1] https://en.wikipedia.org/wiki/AmigaOne_X1000
+[2] https://forum.hyperion-entertainment.com/viewtopic.php?p=56303#p56303
+[3] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.1&id=f6d910a89a2391e5ce1f275d205023880a33d3f8
+[4] usbhid.patch:
+
+diff -rupN a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+--- a/drivers/hid/hid-ids.h    2022-12-22 10:24:06.842881276 +0100
++++ b/drivers/hid/hid-ids.h    2022-12-22 10:23:35.903328869 +0100
+@@ -274,7 +274,6 @@
+  #define USB_DEVICE_ID_CH_AXIS_295    0x001c
+
+  #define USB_VENDOR_ID_CHERRY        0x046a
+-#define USB_DEVICE_ID_CHERRY_MOUSE_000C    0x000c
+  #define USB_DEVICE_ID_CHERRY_CYMOTION    0x0023
+  #define USB_DEVICE_ID_CHERRY_CYMOTION_SOLAR    0x0027
+
+@@ -919,7 +918,6 @@
+  #define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER    0x02fd
+  #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
+  #define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
+-#define USB_DEVICE_ID_MS_MOUSE_0783      0x0783
+
+  #define USB_VENDOR_ID_MOJO        0x8282
+  #define USB_DEVICE_ID_RETRO_ADAPTER    0x3201
+@@ -1388,7 +1386,6 @@
+
+  #define USB_VENDOR_ID_PRIMAX    0x0461
+  #define USB_DEVICE_ID_PRIMAX_MOUSE_4D22    0x4d22
+-#define USB_DEVICE_ID_PRIMAX_MOUSE_4E2A    0x4e2a
+  #define USB_DEVICE_ID_PRIMAX_KEYBOARD    0x4e05
+  #define USB_DEVICE_ID_PRIMAX_REZEL    0x4e72
+  #define USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4D0F    0x4d0f
+diff -rupN a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+--- a/drivers/hid/hid-quirks.c    2022-12-22 10:24:06.844881247 +0100
++++ b/drivers/hid/hid-quirks.c    2022-12-22 10:23:35.904328855 +0100
+@@ -54,7 +54,6 @@ static const struct hid_device_id hid_qu
+      { HID_USB_DEVICE(USB_VENDOR_ID_CH, 
+USB_DEVICE_ID_CH_FLIGHT_SIM_YOKE), HID_QUIRK_NOGET },
+      { HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_PRO_PEDALS), 
+HID_QUIRK_NOGET },
+      { HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_PRO_THROTTLE), 
+HID_QUIRK_NOGET },
+-    { HID_USB_DEVICE(USB_VENDOR_ID_CHERRY, 
+USB_DEVICE_ID_CHERRY_MOUSE_000C), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 
+USB_DEVICE_ID_CORSAIR_K65RGB), HID_QUIRK_NO_INIT_REPORTS },
+      { HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 
+USB_DEVICE_ID_CORSAIR_K65RGB_RAPIDFIRE), HID_QUIRK_NO_INIT_REPORTS | 
+HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 
+USB_DEVICE_ID_CORSAIR_K70RGB), HID_QUIRK_NO_INIT_REPORTS },
+@@ -123,7 +122,6 @@ static const struct hid_device_id hid_qu
+      { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 
+USB_DEVICE_ID_LOGITECH_MOUSE_C05A), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 
+USB_DEVICE_ID_LOGITECH_MOUSE_C06A), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_MCS, 
+USB_DEVICE_ID_MCS_GAMEPADBLOCK), HID_QUIRK_MULTI_INPUT },
+-    { HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, 
+USB_DEVICE_ID_MS_MOUSE_0783), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, 
+USB_DEVICE_ID_MS_PIXART_MOUSE), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, 
+USB_DEVICE_ID_MS_POWER_COVER), HID_QUIRK_NO_INIT_REPORTS },
+      { HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, 
+USB_DEVICE_ID_MS_SURFACE3_COVER), HID_QUIRK_NO_INIT_REPORTS },
+@@ -148,7 +146,6 @@ static const struct hid_device_id hid_qu
+      { HID_USB_DEVICE(USB_VENDOR_ID_PIXART, 
+USB_DEVICE_ID_PIXART_OPTICAL_TOUCH_SCREEN), HID_QUIRK_NO_INIT_REPORTS },
+      { HID_USB_DEVICE(USB_VENDOR_ID_PIXART, 
+USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, 
+USB_DEVICE_ID_PRIMAX_MOUSE_4D22), HID_QUIRK_ALWAYS_POLL },
+-    { HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, 
+USB_DEVICE_ID_PRIMAX_MOUSE_4E2A), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, 
+USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4D0F), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, 
+USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4D65), HID_QUIRK_ALWAYS_POLL },
+      { HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, 
+USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4E22), HID_QUIRK_ALWAYS_POLL },
+
+[5]
+
+Bus 003 Device 002: ID 046a:000c Cherry GmbH
+Couldn't open device, some information will be missing
+Device Descriptor:
+   bLength                18
+   bDescriptorType         1
+   bcdUSB               1.10
+   bDeviceClass            0
+   bDeviceSubClass         0
+   bDeviceProtocol         0
+   bMaxPacketSize0         8
+   idVendor           0x046a Cherry GmbH
+   idProduct          0x000c
+   bcdDevice            8.10
+   iManufacturer           0
+   iProduct                0
+   iSerial                 0
+   bNumConfigurations      1
+   Configuration Descriptor:
+     bLength                 9
+     bDescriptorType         2
+     wTotalLength       0x0022
+     bNumInterfaces          1
+     bConfigurationValue     1
+     iConfiguration          0
+     bmAttributes         0xa0
+       (Bus Powered)
+       Remote Wakeup
+     MaxPower              100mA
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        0
+       bAlternateSetting       0
+       bNumEndpoints           1
+       bInterfaceClass         3 Human Interface Device
+       bInterfaceSubClass      1 Boot Interface Subclass
+       bInterfaceProtocol      2 Mouse
+       iInterface              0
+         HID Device Descriptor:
+           bLength                 9
+           bDescriptorType        33
+           bcdHID               1.00
+           bCountryCode            0 Not supported
+           bNumDescriptors         1
+           bDescriptorType        34 Report
+           wDescriptorLength      52
+          Report Descriptors:
+            ** UNAVAILABLE **
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x81  EP 1 IN
+         bmAttributes            3
+           Transfer Type            Interrupt
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0004  1x 4 bytes
+         bInterval              10
 
