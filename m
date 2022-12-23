@@ -2,82 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C54DD654CEC
-	for <lists+linux-input@lfdr.de>; Fri, 23 Dec 2022 08:40:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52316654CFC
+	for <lists+linux-input@lfdr.de>; Fri, 23 Dec 2022 08:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbiLWHkk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Dec 2022 02:40:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36098 "EHLO
+        id S235884AbiLWHre (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Dec 2022 02:47:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbiLWHkj (ORCPT
+        with ESMTP id S235881AbiLWHrd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Dec 2022 02:40:39 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC9612A9E;
-        Thu, 22 Dec 2022 23:40:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D8C961E59;
-        Fri, 23 Dec 2022 07:40:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2C3AC433EF;
-        Fri, 23 Dec 2022 07:40:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1671781237;
-        bh=KTUubI0BHL09Dsjc8ugI3jb5QrMgDW2Khn7LPdXgi1s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tJNYqGft3JZpEgnUY3zvq1NF7Zfm/5y2altZnmi+Wc5fBUrzM6ze2QdqDtMMyGFAV
-         tWm6uti7JrNiuJtwZe+3s33xruT0+ByH/MJhctfB93hWsiY//p04Yjgw09rGHpKD91
-         CF1NqoYXS977H1WNaxBT+DZkAL0FNDOPud1OA+B4=
-Date:   Fri, 23 Dec 2022 08:40:34 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     =?utf-8?B?am9ld3Uo5ZCz5Luy5oyvKQ==?= <joewu@msi.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Xiang wangx <wangxiang@cdjrlc.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-        Benson Leung <bleung@chromium.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Daisuke Nojiri <dnojiri@chromium.org>,
-        Derek Huang <derekhuang@google.com>,
-        "Dustin L . Howett" <dustin@howett.net>,
-        Furquan Shaikh <furquan@chromium.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: Re: [PATCH v2] cros_ec_keyb: Add 3 buttons for monitor function
-Message-ID: <Y6VbckwldHFKcPRO@kroah.com>
-References: <e23628e2cb464d238eb1c33a9e1e516b@msi.com>
+        Fri, 23 Dec 2022 02:47:33 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E94430F46;
+        Thu, 22 Dec 2022 23:47:32 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id v23so4275136pju.3;
+        Thu, 22 Dec 2022 23:47:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YR55G9jjoRMMPsmodTNiLbx+TyjEdvtvdLYurZPfaN8=;
+        b=o2QV5EjfyGwQymBw3MiEVEiXoA9BcDha8F88P5QvkSg0GlCM2Y3uo0JzqLAhVB2s+O
+         5qOuTNMEdk8y8JioagUG7IRQoJhHf8OrwSSObO+dEW6uLf2W1Dy364CD10Zva7bZ7XGR
+         Epam6lhOQuTDExs/R8NSV4MBwgvfwklMcu+CeR+8fNiQWlKQ/ndaEM4beM402UmSklbj
+         u+KloBT+B8xQ3MqHzzQjZjc265cNLsD7Ra44FsJY9KX0oibk++Rx8yFjfqYR7QercVZv
+         ATEfWNl6c6SK2C/t/azCvRA+uM+zcGMSw34/HXFIxml0c8uTPLw8LjSq4F8+y1dBUFCZ
+         I1ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YR55G9jjoRMMPsmodTNiLbx+TyjEdvtvdLYurZPfaN8=;
+        b=EeYcBP1Z1rQCkoblkAFa9lZ0I6QcPTChDs/xmSDM7xEoVlJJbcRoM/c8EGPycYrg3r
+         /LYHj+8lCsriqjA6X/EOxvM4k95kTrTkTPvPMzo2ptE7OLUViplEqixLHBebrm3b5fTC
+         W18qQvlTFTLVC6xknxye6LGfcGxSFqrr0sTXKTh8u3F4QIBoBi3rGx4zAvGjQstVvJFC
+         lhZ2/r3jgG237+UaeOlTc+5oOkVJoyP6KR/71xkdJYYrGgJwUnLlzlNBFBq5CFaoRzmy
+         RsqOPYn/caDdQupuPYzp21vB9XjkGgKyZuOjtO7rtluxz6kNyEZL6zV5AXQwHyreSpad
+         cLFw==
+X-Gm-Message-State: AFqh2kpY9udMJvYvbf00IZMXhP9qPQ/5Xg1bjN0U650iGxa+stdWHwMH
+        TY7am5Y96wwd/8F0Xgq76OouAgqInrDkkM35
+X-Google-Smtp-Source: AMrXdXtL0LpOWA6q8EssuMIA2u9mczls2uCvJtiRIEW/JUe3R3Bcafg4y8eUESEbyyGQJw8FXA++Cg==
+X-Received: by 2002:a17:90a:ce8d:b0:219:34cb:476c with SMTP id g13-20020a17090ace8d00b0021934cb476cmr9682964pju.9.1671781651605;
+        Thu, 22 Dec 2022 23:47:31 -0800 (PST)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id y15-20020a17090ad70f00b00218daa55e5fsm1699552pju.12.2022.12.22.23.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Dec 2022 23:47:31 -0800 (PST)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Rob Herring <robh@kernel.org>, Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] input: raspberrypi-ts: Fix refcount leak in rpi_ts_probe
+Date:   Fri, 23 Dec 2022 11:46:53 +0400
+Message-Id: <20221223074657.810346-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e23628e2cb464d238eb1c33a9e1e516b@msi.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Dec 23, 2022 at 07:18:06AM +0000, joewu(吳仲振) wrote:
-> *****CONFIDENTIAL INFORMATION*****
-> 
-> This email is intended only for the use of the person or entity to whom it is
-> addressed and contains information that may be subject to and/or may be
-> restricted from disclosure by contract or applicable law. If you are not the 
-> intended recipient of this email, be advised that any disclosure, copy, 
-> distribution or use of the contents of this message is strictly prohibited. 
-> If you are not the intended recipient of this email, please notify the sender 
-> that you have received this in error by replying to this message. Then, 
-> please delete it from your system. Our Privacy Policy is available here 
-> https://www.msi.com/page/privacy-policy. Thank you.
+rpi_firmware_get() take reference, we need to release it in error paths
+as well. Use devm_rpi_firmware_get() helper to handling the resources.
+Also remove the existing rpi_firmware_put().
 
-Now deleted.
+Fixes: 0b9f28fed3f7 ("Input: add official Raspberry Pi's touchscreen driver")
+Fixes: 3b8ddff780b7 ("input: raspberrypi-ts: Release firmware handle when not needed")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+changes in v2:
+- use devm_rpi_firmware_get().
+- remove rpi_firmware_put().
+---
+ drivers/input/touchscreen/raspberrypi-ts.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/input/touchscreen/raspberrypi-ts.c b/drivers/input/touchscreen/raspberrypi-ts.c
+index 5000f5fd9ec3..45c575df994e 100644
+--- a/drivers/input/touchscreen/raspberrypi-ts.c
++++ b/drivers/input/touchscreen/raspberrypi-ts.c
+@@ -134,7 +134,7 @@ static int rpi_ts_probe(struct platform_device *pdev)
+ 		return -ENOENT;
+ 	}
+ 
+-	fw = rpi_firmware_get(fw_node);
++	fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
+ 	of_node_put(fw_node);
+ 	if (!fw)
+ 		return -EPROBE_DEFER;
+@@ -160,7 +160,6 @@ static int rpi_ts_probe(struct platform_device *pdev)
+ 	touchbuf = (u32)ts->fw_regs_phys;
+ 	error = rpi_firmware_property(fw, RPI_FIRMWARE_FRAMEBUFFER_SET_TOUCHBUF,
+ 				      &touchbuf, sizeof(touchbuf));
+-	rpi_firmware_put(fw);
+ 	if (error || touchbuf != 0) {
+ 		dev_warn(dev, "Failed to set touchbuf, %d\n", error);
+ 		return error;
+-- 
+2.25.1
+
