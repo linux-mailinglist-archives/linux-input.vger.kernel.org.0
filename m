@@ -2,62 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AFF065629C
-	for <lists+linux-input@lfdr.de>; Mon, 26 Dec 2022 13:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B6116562B0
+	for <lists+linux-input@lfdr.de>; Mon, 26 Dec 2022 13:55:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbiLZMfS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Dec 2022 07:35:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47554 "EHLO
+        id S229683AbiLZMzK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Dec 2022 07:55:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiLZMfR (ORCPT
+        with ESMTP id S229502AbiLZMzJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Dec 2022 07:35:17 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D480BC3;
-        Mon, 26 Dec 2022 04:35:16 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id t15so1098888wro.9;
-        Mon, 26 Dec 2022 04:35:16 -0800 (PST)
+        Mon, 26 Dec 2022 07:55:09 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5EE24A;
+        Mon, 26 Dec 2022 04:55:08 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id g25-20020a7bc4d9000000b003d97c8d4941so1687011wmk.4;
+        Mon, 26 Dec 2022 04:55:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MQalA6kD2340oU4FsQ4S0uJjJ5Z70ukhJA1ZOudNs84=;
-        b=FxhHvaxKTEKeJRny0L9g6RfbHcUL+Rw6DN9Vq30rix2eoe5kv3cEgX+D8IPR5qv5Lm
-         pMjHOOepd8R8uAQRGNbRBpYn8pItYB6OArBB1J3XWmu0QLoJ5Igprm9bZq8b+vhd32b0
-         W/9TscDqUA5+9rOVEqbKWz4m5jKoF52aVCWEtvzVbCq6y+Yr8zkFW+uOCebXIdhZNrxq
-         q44YtdtISYRSJXh6ks50j9QEOawpRN7ypx1wM7zJ1RxjPZ+wrlyntdTN4tLoDywg28s3
-         WqHlQYYNgZjbgBFIGLnQ8e98K8E1+mplEjTy9LrR9yfmbLcbyegJwN0Dsj/sStqjj+z0
-         u/Cw==
+        bh=go4tve/Op9RygAUFtopjfFh/CZKE0zEfnvvG7nESATk=;
+        b=c8ZvrltCQdzj8L4d54KkYOebmwCkj1586jCOfO9hZkUf2+Eo2iKLi7TcSwjiY9g0w+
+         SaQVW27TnlmNMgeKpsqSpOrjcviIE70e5HNvsdxmLZOlCsBA2Ddb6KojCeDi8iT1QvI9
+         JzAdySj0a8tWBW/tuaxBfLBD2OmzesZ8f7o1tcvb0vrkdjB8mWXTkxlN8ZIeG7E7r4Mp
+         LNAvpLcZfCXB56RSpubURKVi5wPjj39C6ml2zAxVaiXmnPHGKGjvrheK7tn4d0iQSa3/
+         VbcaODCA6OEZCoR3kkZSUPEEcy1eGqaUrc3WkXyjzj/ABr9ZOXbLAWptx0J6hIPlAt2+
+         j3Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MQalA6kD2340oU4FsQ4S0uJjJ5Z70ukhJA1ZOudNs84=;
-        b=itJtjPZM7Nd4vspZE1gZBXLzP5O26WFlv1KJBXynAi526o+EdztZxos40RGtc64aIS
-         ipx6Mc0ig1cJHXpc/3IsLw5/5EEQJLZALCbYJOcO/ctdTk5c16VLC2IAQ4MlkKG67JJs
-         /aHWpt3/lEABB7PJGLNjnl5Bi3vFkmszUlmfeXmPZYoBp4OQCWUKAr2k3kLME3Urz6XT
-         gwU6luNxJEziKFHQm3umr3j2cOtKbByTVO13WQxBzrLnhcVKFubikKz3rD8DgAivhoat
-         vthxWFRKx6ma4+dvEKOwYvQnNw7CkUU3qta7lzgCcNc+41PdWUsB/iuKvh2YlJMdzKam
-         DQHw==
-X-Gm-Message-State: AFqh2kqW8kpZKDF1FFpvc9vNe5Opp/Dak3mYOs1lnCpVt89m7xJFxI/q
-        fHn++xBWc6XacRzcuWDRpzZ2FeaXwzk=
-X-Google-Smtp-Source: AMrXdXuSwqHBlzKw4UFIpTvZK4fcdooiO399YfLpYxBhmzP7+QepqUXO3Y3m+aKQl8yUR4L3W0KTdg==
-X-Received: by 2002:adf:fcc6:0:b0:277:7243:5cef with SMTP id f6-20020adffcc6000000b0027772435cefmr6177260wrs.67.1672058114981;
-        Mon, 26 Dec 2022 04:35:14 -0800 (PST)
+        bh=go4tve/Op9RygAUFtopjfFh/CZKE0zEfnvvG7nESATk=;
+        b=tUw96IBXxnnYMJKRjI44jUjfTFBTLIOY3UNVoqPGMIwNKjac22KpBly36xj28psQ36
+         6xb0GbcrhXpzIZm0mqexY1C1WGnpguh2qcY6mOlNFIWbo0BN9jn6U00W7wxZc3eS0BQt
+         u/OWpDAVxLgqYBaEb/jjlWy3ffRhq7s8sPulsa1poln9fOy5TzZYipHGxE5SNqctImz9
+         r5hD5B9DpqfIFoNUKZd2xhdhSgkGCYGmjv37gzILCNKEJETNgk44BzXcQeVbE3o0Wxu/
+         Rmorp5j1qaCj7pmuSQJyiSRdnYxw55jk/Hj/RmQCa0pwr6PrczIeRoI5q4uclizUh9NX
+         KECQ==
+X-Gm-Message-State: AFqh2krZcwj32RRAoI5TUvD4RnxqmGI8MMvn/MuI1HnBqhRvDxN6JScI
+        Ylc27ict/PdyT478UbjcUhI=
+X-Google-Smtp-Source: AMrXdXtjEVEFZLzSyoStT9Kj6tBwQJE4D7bQ2cUpq8U38CgZHYINOKjoo5N1ROeqxyLB0k2BxlMIug==
+X-Received: by 2002:a05:600c:2112:b0:3d3:396e:5e36 with SMTP id u18-20020a05600c211200b003d3396e5e36mr12856292wml.0.1672059307214;
+        Mon, 26 Dec 2022 04:55:07 -0800 (PST)
 Received: from localhost.localdomain ([94.73.32.212])
-        by smtp.gmail.com with ESMTPSA id e15-20020a5d500f000000b002427bfd17b6sm11948075wrt.63.2022.12.26.04.35.13
+        by smtp.gmail.com with ESMTPSA id y24-20020a05600c365800b003cf894dbc4fsm13684497wmq.25.2022.12.26.04.55.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 04:35:14 -0800 (PST)
+        Mon, 26 Dec 2022 04:55:06 -0800 (PST)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To:     jikos@kernel.org
 Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Mark Waddoups <mwaddoups@gmail.com>
-Subject: [PATCH] HID: uclogic: Add support for XP-PEN Deco 01 V2
-Date:   Mon, 26 Dec 2022 13:34:56 +0100
-Message-Id: <20221226123456.14822-1-jose.exposito89@gmail.com>
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/6] HID: uclogic: Add support for XP-PEN Deco PRO SW and MW
+Date:   Mon, 26 Dec 2022 13:54:48 +0100
+Message-Id: <20221226125454.16106-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -72,58 +71,56 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The XP-PEN Deco 01 V2 is a UGEE v2 device with a frame with 8 buttons.
-Its pen has 2 buttons, supports tilt and pressure.
+Hi!
 
-Add its ID in order to support the device.
+This series add support for the XP-PEN Deco PRO SW and MW drawing
+tablets.
 
-Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/839
-Tested-by: Mark Waddoups <mwaddoups@gmail.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-ids.h            | 1 +
- drivers/hid/hid-uclogic-core.c   | 2 ++
- drivers/hid/hid-uclogic-params.c | 2 ++
- 3 files changed, 5 insertions(+)
+Both tablets are similar, the only difference between them is their
+size and their IDs. I own one of them and Andreas helped me test the
+other one, so thanks a lot!
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 82713ef3aaa6..9ca471faab65 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1295,6 +1295,7 @@
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_G540	0x0075
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_G640	0x0094
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01	0x0042
-+#define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01_V2	0x0905
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L	0x0935
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_PRO_S	0x0909
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_STAR06	0x0078
-diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
-index 7fa6fe04f1b2..cfbbc39807a6 100644
---- a/drivers/hid/hid-uclogic-core.c
-+++ b/drivers/hid/hid-uclogic-core.c
-@@ -525,6 +525,8 @@ static const struct hid_device_id uclogic_devices[] = {
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_G640) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
-+				USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01_V2) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index cd1233d7e253..3c5eea3df328 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -1655,6 +1655,8 @@ int uclogic_params_init(struct uclogic_params *params,
- 		break;
- 	case VID_PID(USB_VENDOR_ID_UGEE,
- 		     USB_DEVICE_ID_UGEE_PARBLO_A610_PRO):
-+	case VID_PID(USB_VENDOR_ID_UGEE,
-+		     USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01_V2):
- 	case VID_PID(USB_VENDOR_ID_UGEE,
- 		     USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L):
- 	case VID_PID(USB_VENDOR_ID_UGEE,
+Please note that this series might cause conflicts with [1], but they
+should be really easy to fix/I can rebase once it is merged.
+
+About the patches:
+
+ - The first patch introduces a quirks to be able to fix the frame type
+   reported by these devices.
+ - The second patch adds another quirks to know whether a tablet has
+   battery or not. I didn't find any difference in the information
+   reported by the firmware nor in the Windows driver to obtain this
+   information, so I added a manual flag.
+ - The fourth patch adds a generic mechanism to schedule jobs when an
+   event is received, in this case, to reconnect the tablet.
+ - The last two patches add support for the tablets.
+
+Best wishes,
+José Expósito
+
+[1] [PATCH] HID: uclogic: Add support for XP-PEN Deco 01 V2
+    https://lore.kernel.org/linux-input/20221226123456.14822-1-jose.exposito89@gmail.com/T/
+
+José Expósito (6):
+  HID: uclogic: Add frame type quirk
+  HID: uclogic: Add battery quirk
+  HID: uclogic: Refactor UGEEv2 probe magic data
+  HID: uclogic: Handle wireless device reconnection
+  HID: uclogic: Add support for XP-PEN Deco Pro SW
+  HID: uclogic: Add support for XP-PEN Deco Pro MW
+
+ drivers/hid/hid-ids.h                 |   2 +
+ drivers/hid/hid-input.c               |   4 +
+ drivers/hid/hid-uclogic-core-test.c   | 105 ++++++++++++++++++++++
+ drivers/hid/hid-uclogic-core.c        |  61 +++++++++----
+ drivers/hid/hid-uclogic-params-test.c |  16 ++++
+ drivers/hid/hid-uclogic-params.c      | 124 ++++++++++++++++++++++++--
+ drivers/hid/hid-uclogic-params.h      |  40 +++++++++
+ drivers/hid/hid-uclogic-rdesc.c       |   6 ++
+ drivers/hid/hid-uclogic-rdesc.h       |   5 ++
+ 9 files changed, 338 insertions(+), 25 deletions(-)
+ create mode 100644 drivers/hid/hid-uclogic-core-test.c
+
 -- 
 2.38.1
 
