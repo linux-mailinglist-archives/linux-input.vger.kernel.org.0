@@ -2,94 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8616656E77
-	for <lists+linux-input@lfdr.de>; Tue, 27 Dec 2022 20:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E0F6656EDD
+	for <lists+linux-input@lfdr.de>; Tue, 27 Dec 2022 21:35:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231167AbiL0TzB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Dec 2022 14:55:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56006 "EHLO
+        id S232321AbiL0Ufy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Dec 2022 15:35:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbiL0Tyw (ORCPT
+        with ESMTP id S232365AbiL0Udy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Dec 2022 14:54:52 -0500
-X-Greylist: delayed 493 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 27 Dec 2022 11:54:51 PST
-Received: from mail.holmansrus.com (unknown [143.59.183.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5A3101E;
-        Tue, 27 Dec 2022 11:54:51 -0800 (PST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.holmansrus.com (Postfix) with ESMTP id 2820BE1D46;
-        Tue, 27 Dec 2022 13:46:37 -0600 (CST)
-Received: from mail.holmansrus.com ([127.0.0.1])
-        by localhost (mail.holmansrus.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id VlecP-Fp4TuH; Tue, 27 Dec 2022 13:46:34 -0600 (CST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.holmansrus.com (Postfix) with ESMTP id B1591E1D4A;
-        Tue, 27 Dec 2022 13:46:34 -0600 (CST)
-X-Virus-Scanned: amavisd-new at holmansrus.com
-Received: from mail.holmansrus.com ([127.0.0.1])
-        by localhost (mail.holmansrus.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 8GvPUnVo9Se7; Tue, 27 Dec 2022 13:46:34 -0600 (CST)
-Received: from mail.holmansrus.com (mail.holmansrus.com [10.90.0.246])
-        by mail.holmansrus.com (Postfix) with ESMTP id 7559CE1778;
-        Tue, 27 Dec 2022 13:46:34 -0600 (CST)
-Date:   Tue, 27 Dec 2022 13:46:34 -0600 (CST)
-From:   Walt Holman <walt@holmansrus.com>
-To:     linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Message-ID: <743753078.40.1672170394290.JavaMail.zimbra@holmansrus.com>
-Subject: PATCH: Add devce IDs for Logitech G923 Xbox Steering Wheel
+        Tue, 27 Dec 2022 15:33:54 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CBB5DEF7;
+        Tue, 27 Dec 2022 12:33:41 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 943E86123F;
+        Tue, 27 Dec 2022 20:33:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 127E2C433F0;
+        Tue, 27 Dec 2022 20:33:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672173220;
+        bh=AbnPlA2rxyD6/fEDBrUH2gyFaqCrUGv4i5hDuU+QrME=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BzzmbxMLbaM1S2MpEfsTbzRrhS0tpVtRQ5dveM/LXDPDO/qJh1cB+VYtMwdgh9Bp3
+         SwQw3Na9Y4QpkuMf0G+m9HPQWLPXhdjL0fWdHPldfbNZ/cNuVV3UZvnJ05RqdiEu8b
+         DpS7MnBNyo+8+wm/8qTOFdkSnbVsHSEewzBld4j/Kol3mCiC8dHU1Cb6oPrn8nxkut
+         6sL2lK5tXn8wPEO1U56pzb07MOFRQP7cHTWl89UUvW5vlQrZ1YST88zrAjr7AEKtwH
+         ueByHb2R+dKHGtt1DhXTPMZYEIxJuqQwXM8W/PYw/pJIwtTmr/79zzekJqPms9NX6F
+         f9gSJ0fML3Qfw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+        Akito <the@akito.ooo>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 27/28] HID: multitouch: fix Asus ExpertBook P2 P2451FA trackpoint
+Date:   Tue, 27 Dec 2022 15:32:48 -0500
+Message-Id: <20221227203249.1213526-27-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221227203249.1213526-1-sashal@kernel.org>
+References: <20221227203249.1213526-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-        boundary="----=_Part_38_1228832334.1672170394288"
-X-Originating-IP: [10.90.0.246]
-X-Mailer: Zimbra 8.8.15_GA_4484 (ZimbraWebClient - GC108 (Linux)/8.8.15_GA_4481)
-Thread-Index: OOK75kChqCuOz9n0sHuUxbaMgbTqAQ==
-Thread-Topic: PATCH: Add devce IDs for Logitech G923 Xbox Steering Wheel
-X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_50,RDNS_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-------=_Part_38_1228832334.1672170394288
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: José Expósito <jose.exposito89@gmail.com>
 
-Hello,
+[ Upstream commit 4eab1c2fe06c98a4dff258dd64800b6986c101e9 ]
 
-This patch adds support for the Logitech G923 Xbox edition steering wheel. This uses the hid-logitech-hidpp kernel module and from my testing, force feedback and all buttons work. This requires the usb_modeswitch application to setup the device in PC mode with a magic string that is the same as the Logitech 920 wheel. Originally I had massaged a patch I found for this wheel, however, much of it was unnecessary and I culled it back to just adding the ID's. Let me know if you need anything else or have any questions. Thanks,
+The HID descriptor of this device contains two mouse collections, one
+for mouse emulation and the other for the trackpoint.
 
-Signed-off-by: Walt Holman walt@holmansrus.com
+Both collections get merged and, because the first one defines X and Y,
+the movemenent events reported by the trackpoint collection are
+ignored.
 
-------=_Part_38_1228832334.1672170394288
-Content-Type: text/x-patch; name=logitech-g923-hidpp-clean.patch
-Content-Disposition: attachment; filename=logitech-g923-hidpp-clean.patch
-Content-Transfer-Encoding: base64
+Set the MT_CLS_WIN_8_FORCE_MULTI_INPUT class for this device to be able
+to receive its reports.
 
-ZGlmZiAtdTIgLXIgbGludXgtc291cmNlL2RyaXZlcnMvaGlkL2hpZC1pZHMuaCBsaW51eC10YXJn
-ZXQvZHJpdmVycy9oaWQvaGlkLWlkcy5oCi0tLSBsaW51eC1zb3VyY2UvZHJpdmVycy9oaWQvaGlk
-LWlkcy5oCTIwMjItMTItMjEgMTA6NDg6MTIuMDAwMDAwMDAwIC0wNjAwCisrKyBsaW51eC10YXJn
-ZXQvZHJpdmVycy9oaWQvaGlkLWlkcy5oCTIwMjItMTItMjIgMTI6NTA6MTYuNDAzODgwMTM3IC0w
-NjAwCkBAIC04MjAsNCArODIwLDUgQEAKICNkZWZpbmUgVVNCX0RFVklDRV9JRF9MT0dJVEVDSF9H
-MjlfV0hFRUwJMHhjMjRmCiAjZGVmaW5lIFVTQl9ERVZJQ0VfSURfTE9HSVRFQ0hfRzkyMF9XSEVF
-TAkweGMyNjIKKyNkZWZpbmUgVVNCX0RFVklDRV9JRF9MT0dJVEVDSF9HOTIzX1hCT1hfV0hFRUwJ
-MHhjMjZlCiAjZGVmaW5lIFVTQl9ERVZJQ0VfSURfTE9HSVRFQ0hfV0lOR01BTl9GM0QJMHhjMjgz
-CiAjZGVmaW5lIFVTQl9ERVZJQ0VfSURfTE9HSVRFQ0hfRk9SQ0UzRF9QUk8JMHhjMjg2CmRpZmYg
-LXUyIC1yIGxpbnV4LXNvdXJjZS9kcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyBsaW51
-eC10YXJnZXQvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMKLS0tIGxpbnV4LXNvdXJj
-ZS9kcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYwkyMDIyLTEyLTIxIDEwOjQ4OjEyLjAw
-MDAwMDAwMCAtMDYwMAorKysgbGludXgtdGFyZ2V0L2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1o
-aWRwcC5jCTIwMjItMTItMjIgMTI6NTM6MzYuMzM1NzU1MTk5IC0wNjAwCkBAIC00MzQxLDQgKzQz
-NDEsNyBAQAogCSAgSElEX1VTQl9ERVZJQ0UoVVNCX1ZFTkRPUl9JRF9MT0dJVEVDSCwgVVNCX0RF
-VklDRV9JRF9MT0dJVEVDSF9HOTIwX1dIRUVMKSwKIAkJLmRyaXZlcl9kYXRhID0gSElEUFBfUVVJ
-UktfQ0xBU1NfRzkyMCB8IEhJRFBQX1FVSVJLX0ZPUkNFX09VVFBVVF9SRVBPUlRTfSwKKwl7IC8q
-IExvZ2l0ZWNoIEc5MjMgV2hlZWwgKFhib3ggdmVyc2lvbikgb3ZlciBVU0IgKi8KKwkgIEhJRF9V
-U0JfREVWSUNFKFVTQl9WRU5ET1JfSURfTE9HSVRFQ0gsIFVTQl9ERVZJQ0VfSURfTE9HSVRFQ0hf
-RzkyM19YQk9YX1dIRUVMKSwKKwkJLmRyaXZlcl9kYXRhID0gSElEUFBfUVVJUktfQ0xBU1NfRzky
-MCB8IEhJRFBQX1FVSVJLX0ZPUkNFX09VVFBVVF9SRVBPUlRTIH0sCiAJeyAvKiBMb2dpdGVjaCBH
-IFBybyBHYW1pbmcgTW91c2Ugb3ZlciBVU0IgKi8KIAkgIEhJRF9VU0JfREVWSUNFKFVTQl9WRU5E
-T1JfSURfTE9HSVRFQ0gsIDB4QzA4OCkgfSwKCg==
-------=_Part_38_1228832334.1672170394288--
+This fix is similar to/based on commit 40d5bb87377a ("HID: multitouch:
+enable multi-input as a quirk for some devices").
+
+Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/825
+Reported-by: Akito <the@akito.ooo>
+Tested-by: Akito <the@akito.ooo>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-multitouch.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 91a4d3fc30e0..372cbdd223e0 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1967,6 +1967,10 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+ 			USB_VENDOR_ID_ELAN, 0x313a) },
+ 
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
++			USB_VENDOR_ID_ELAN, 0x3148) },
++
+ 	/* Elitegroup panel */
+ 	{ .driver_data = MT_CLS_SERIAL,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_ELITEGROUP,
+-- 
+2.35.1
+
