@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00838656F71
-	for <lists+linux-input@lfdr.de>; Tue, 27 Dec 2022 21:45:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83FE1656FAB
+	for <lists+linux-input@lfdr.de>; Tue, 27 Dec 2022 22:02:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232210AbiL0Uoe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Dec 2022 15:44:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59664 "EHLO
+        id S229608AbiL0VCF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Dec 2022 16:02:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233011AbiL0Unq (ORCPT
+        with ESMTP id S230162AbiL0VBi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Dec 2022 15:43:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDCE510547;
-        Tue, 27 Dec 2022 12:36:13 -0800 (PST)
+        Tue, 27 Dec 2022 16:01:38 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728FB19C3C;
+        Tue, 27 Dec 2022 12:44:53 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D756B61242;
-        Tue, 27 Dec 2022 20:35:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F01BC433F0;
-        Tue, 27 Dec 2022 20:35:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AF7706123C;
+        Tue, 27 Dec 2022 20:36:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469CAC433F0;
+        Tue, 27 Dec 2022 20:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672173353;
-        bh=yc6MwUUfISVnWBSSWrTX3TsHe81BkuYouhbaE4q+Eco=;
+        s=k20201202; t=1672173369;
+        bh=ecdEva4g4plPZSIGb0osCXt5CKtfa57X5dXM251YLgk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Xi0/13uAQEIR8wjVAtMk/KLkbrtMWcwY0mx4YuGu5NK8RPwpG5GaGOiHnIleq0s/3
-         IsdjCM7/yuI7v4bk1ipXO5SnRH+gwKOOkeMRPzGivS2uXL4NyP+RSc/vvATyryl2eG
-         m1fB8poG3nwIRjd/WMSUaLXTQSvEJcK1yGXGTbV92KCarjjXfPgUrjv8vAg6lKOkCc
-         c7TCnKVJxDAHvSyxvEq493K+KqAgdlX4//XXWX9sp6mVIB30vW5xwRrNRH+wrLCjvc
-         kZrNKUqTcJMu9/1cg9iwtkyOZK4rVj0WGV02Qso8GNcwIGquNb+AMSWzIMeHF5daC9
-         hdwl7Pg17zVjA==
+        b=IzYRV7VvZUpEsjg8JimokHJgIoEedEaLDLfcqIJT2IjsZ3gDW7G7xwDMsjzmDhR8r
+         84b6RB6XXXW3UobKblXxshG0MxOMoeirq8av8ons/TF8WHc0iBLYMxOyxSeGMOwlfN
+         xbNKZZMznfRe7RGJ6O+GCgqaUT3ABokQ6xoVOT6t9SjElFlFcQ7Xb1QHL/OJb/l1ui
+         /1JAsM9xGUkghA0UP/6fOhg+Pkns2YAwAILGQI3dcizwfhrwlSnTwOxOlvrYMYp99t
+         14s064Vwz/KLKrhGCXlNliV5TsTLYgmkDYo7oLCLFpuUEdBWRFeuhIE+S1KayK4lZq
+         MLUXCs9YFnxCg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Terry Junge <linuxhid@cosmicgizmosystems.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 7/7] HID: plantronics: Additional PIDs for double volume key presses quirk
-Date:   Tue, 27 Dec 2022 15:35:32 -0500
-Message-Id: <20221227203534.1214640-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 4/4] HID: plantronics: Additional PIDs for double volume key presses quirk
+Date:   Tue, 27 Dec 2022 15:35:53 -0500
+Message-Id: <20221227203555.1214746-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221227203534.1214640-1-sashal@kernel.org>
-References: <20221227203534.1214640-1-sashal@kernel.org>
+In-Reply-To: <20221227203555.1214746-1-sashal@kernel.org>
+References: <20221227203555.1214746-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -93,10 +93,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 12 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0d4479f478aa..7320cca1a3e5 100644
+index 00943ddbe417..2c9597c8ac92 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -938,7 +938,10 @@
+@@ -908,7 +908,10 @@
  #define USB_DEVICE_ID_ORTEK_IHOME_IMAC_A210S	0x8003
  
  #define USB_VENDOR_ID_PLANTRONICS	0x047f
@@ -108,10 +108,10 @@ index 0d4479f478aa..7320cca1a3e5 100644
  #define USB_VENDOR_ID_PANASONIC		0x04da
  #define USB_DEVICE_ID_PANABOARD_UBT780	0x1044
 diff --git a/drivers/hid/hid-plantronics.c b/drivers/hid/hid-plantronics.c
-index e81b7cec2d12..3d414ae194ac 100644
+index 460711c1124a..3b75cadd543f 100644
 --- a/drivers/hid/hid-plantronics.c
 +++ b/drivers/hid/hid-plantronics.c
-@@ -198,9 +198,18 @@ static int plantronics_probe(struct hid_device *hdev,
+@@ -201,9 +201,18 @@ static int plantronics_probe(struct hid_device *hdev,
  }
  
  static const struct hid_device_id plantronics_devices[] = {
