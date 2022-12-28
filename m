@@ -2,85 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBA89657290
-	for <lists+linux-input@lfdr.de>; Wed, 28 Dec 2022 05:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0CD4657312
+	for <lists+linux-input@lfdr.de>; Wed, 28 Dec 2022 07:09:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230347AbiL1EhI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Dec 2022 23:37:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42614 "EHLO
+        id S232418AbiL1GJO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Dec 2022 01:09:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbiL1EhE (ORCPT
+        with ESMTP id S229526AbiL1GIQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Dec 2022 23:37:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D88BC83;
-        Tue, 27 Dec 2022 20:37:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2EA28B8109E;
-        Wed, 28 Dec 2022 04:36:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDBDC433D2;
-        Wed, 28 Dec 2022 04:36:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672202217;
-        bh=P9Mpe/o5JpOI9cDQcX+WA6qz0zAEVHg/nvnBy8POcc0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ReiLaN1X5szOYp69WNCVPkNe1JPOFmOYEMe8CtqsmCp/89RGD3V100AHeEnQhkasW
-         EQRa57wt489fAaLbxt7DSU91Emvk9LZ/0nCgnDaAgSoQ8IUSbbiPNoiIX4Q89+0FA/
-         sAnrqgxrSGZz7/lcg8EgufnQfvFvVoU2OU/gnNczoCoJbezYqhRjDXSsIGj26KG1jp
-         xM/vQT2IzlDA7p5H/LvV2CLsd6Lf1oWDiAfx8MuXridxkf1Ji5sfWJR//sKYHdCrbr
-         wzYP03GuUn1FhdSyM98S7cUnbJBeIaJqeWNtMmncz2vlk1UZRV4srzNU6bCysI3lmH
-         iyhJVboOhobgg==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     dianders@chromium.org
-Cc:     ecs.beijing2022@gmail.com, krzysztof.kozlowski+dt@linaro.org,
-        swboyd@chromium.org, konrad.dybcio@linaro.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        agross@kernel.org, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        linux-arm-msm@vger.kernel.org, mka@chromium.org
-Subject: Re: [PATCH v3 0/4] arm64: dts: qcom: sc7180: Make pazquel360's touchscreen work
-Date:   Tue, 27 Dec 2022 22:36:31 -0600
-Message-Id: <167220221230.833009.15388091518134899835.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20221209171240.1614904-1-dianders@chromium.org>
-References: <20221209171240.1614904-1-dianders@chromium.org>
+        Wed, 28 Dec 2022 01:08:16 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BEAE0B0;
+        Tue, 27 Dec 2022 22:06:38 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id x26so3883795pfq.10;
+        Tue, 27 Dec 2022 22:06:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J2pU4Ljf/baXLHkKM+0GW9OZ+a+3/dhLhTsDpyWdPkY=;
+        b=J4rsImfjSAB9ftOXVUGlyeDy4HhqXCrEuncwIMH47Kkumi18w/3toVyuMb4wHstQe/
+         14DqUxdW2vzJeotM9o1RylgZUT71RCJKW6sJ8oMpicYdi5/O76A0QR5tXdVVm83f2qn+
+         x6FcogvB8kDygHsitrYqL+eilBiPhsz7K0LTf5V8bPQIkmYJwe7QGceiReDVsM/FtBvu
+         Z1c6UAPBEup7ZNFM1K6TZR4LdmUK0ReYH54xAMarW0SgiJFGLNIhSc7Bhvrukk9WRZi4
+         cMGRrRxXKwsHM0Ns8ti+DVWw6Hu1QQIO3FVzCUccpqiAsW/EylqSI1XppAcAt9m4/+us
+         olcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J2pU4Ljf/baXLHkKM+0GW9OZ+a+3/dhLhTsDpyWdPkY=;
+        b=yUzx2nM7vR9DiPC6o76nxBizwTICtBEx5pNuVpEnkoh9dbPObUUHG14vh5qGUm80Ci
+         Gm5L5HDKfJZ2LXBkrBcqdeRiMccClyfRsYCpAAkxECCfBvqd3BN5v2XHK1+wlljUw6jl
+         Ussjujr7VWojox4Q3VWfek8J3+1X1APkvue0fX56PuoKUh0wIk4L5WU42c+NtLvjOG4C
+         b9q6DSGoTm27oVrehe0RQrXjO/L4CoisWF0ZDRPCd89M8AhQGpyLcXF4lknuaDQhbKbz
+         eDNSx+da7u+zR3u5Dp0Ovs6cOApSHrRrYWd+XH5QQqTlviV60sRGkjkI0N6cojhbGPPX
+         r1Rg==
+X-Gm-Message-State: AFqh2kpgDOrwkmt12h8hy/oQaQ3tqqpyGhY0/4G6qa3K0TtBJU98qefW
+        VqSys807wzNkZjxFDnu+qmY=
+X-Google-Smtp-Source: AMrXdXssL+HoU539KBbanMYtFjkMjsC+NRAwSnxjXIyIOsXHMFQfiSMu1K3sxpr04gDr+bBjLPh56w==
+X-Received: by 2002:aa7:8209:0:b0:581:3328:b468 with SMTP id k9-20020aa78209000000b005813328b468mr7808000pfi.6.1672207598250;
+        Tue, 27 Dec 2022 22:06:38 -0800 (PST)
+Received: from carlis-virtual-machine.localdomain ([156.236.96.164])
+        by smtp.gmail.com with ESMTPSA id w186-20020a6262c3000000b005772f762e43sm9831769pfb.13.2022.12.27.22.06.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Dec 2022 22:06:37 -0800 (PST)
+From:   Xuezhi Zhang <zhangxuezhi3@gmail.com>
+To:     zhangxuezhi1@coolpad.com, erazor_de@users.sourceforge.net,
+        jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: roccat: convert sysfs snprintf to sysfs_emit
+Date:   Wed, 28 Dec 2022 14:06:33 +0800
+Message-Id: <20221228060633.1459256-1-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 9 Dec 2022 09:12:36 -0800, Douglas Anderson wrote:
-> This series of patches adds / fixes problems with pazquel360's
-> touchscreen. A few notes here:
-> 
-> 1. Originally the touchscreen was supposed to be added as part of the
-> first landing of the pazquel360 device tree. ...but the fact that
-> Yunlong changed email addresses seems to have messed up Bjorn's
-> scripts. What landed was v3 [1] instead of v5 [2]. The pazquel360 part
-> of this series is that diff (minus the incorrect 'hid-descr-addr' property).
-> 
-> [...]
+From: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
 
-Applied, thanks!
+Follow the advice of the Documentation/filesystems/sysfs.rst
+and show() should only use sysfs_emit() or sysfs_emit_at()
+when formatting the value to be returned to user space.
 
-[1/4] arm64: dts: qcom: sc7180: Bump up trogdor ts_reset_l drive strength
-      commit: 9506a3661258d07a60b186f667b391708ddf63ac
-[2/4] arm64: dts: qcom: sc7180: Add trogdor eDP/touchscreen regulator off-on-time
-      commit: f5b4811e8758fed76da4f54f6efa1452bc878595
-[3/4] arm64: dts: qcom: sc7180: Start the trogdor eDP/touchscreen regulator on
-      commit: 23ff866987de2910de4a1060e9b0e112376c0dd0
-[4/4] arm64: dts: qcom: sc7180: Add pazquel360 touschreen
-      commit: 335fe4b79838a7c722d21c15784f7ed1172a6c81
+Signed-off-by: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+---
+ drivers/hid/hid-roccat-isku.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
+diff --git a/drivers/hid/hid-roccat-isku.c b/drivers/hid/hid-roccat-isku.c
+index e95d59cd8d07..d356a0ac770c 100644
+--- a/drivers/hid/hid-roccat-isku.c
++++ b/drivers/hid/hid-roccat-isku.c
+@@ -63,7 +63,7 @@ static ssize_t isku_sysfs_show_actual_profile(struct device *dev,
+ {
+ 	struct isku_device *isku =
+ 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
+-	return snprintf(buf, PAGE_SIZE, "%d\n", isku->actual_profile);
++	return sysfs_emit(buf, "%d\n", isku->actual_profile);
+ }
+ 
+ static ssize_t isku_sysfs_set_actual_profile(struct device *dev,
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.25.1
+
