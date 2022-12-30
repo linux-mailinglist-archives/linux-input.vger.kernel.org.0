@@ -2,271 +2,186 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4FF5659B58
-	for <lists+linux-input@lfdr.de>; Fri, 30 Dec 2022 19:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF58659BCB
+	for <lists+linux-input@lfdr.de>; Fri, 30 Dec 2022 21:02:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235450AbiL3SSJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Dec 2022 13:18:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55060 "EHLO
+        id S229681AbiL3UCt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Dec 2022 15:02:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235553AbiL3SSI (ORCPT
+        with ESMTP id S229464AbiL3UCt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Dec 2022 13:18:08 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCFBB5F45
-        for <linux-input@vger.kernel.org>; Fri, 30 Dec 2022 10:18:07 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id k19so7203554pfg.11
-        for <linux-input@vger.kernel.org>; Fri, 30 Dec 2022 10:18:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ORRvwSnWjUXudUstD1Xv1bOrqlW9q5nNGD1nKeJMbAQ=;
-        b=YqyrIfH3zaARlu1SEuZe6p3USVlBGOfijuT41hXA5rOqd/aZZIU0SuB1CH2qiKgHTV
-         LwEbXV450X4zE1niFXFDHnROa7QEC1Tzv3VehVR8VCW36zkgnlQOoma2Zf5PNj97+I/D
-         fGLpApttt4dfB++lWmq45fJiQuvpgNkrTBU4cphKSStQsGvIKK+oErA3y6uKChRN52hZ
-         hhm6boWVczmJE1dG3TxgSj2OlANwUU/suJG6ktIWjycGcISHFjw+KItTFL05Vp7XJQSc
-         9IIvymwL3Iyi+cHEzLSrMA9j+iX9NZnFr+AP9aCQOLrGipOFIgbibSuKuwDeUnwnnSAa
-         U8cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ORRvwSnWjUXudUstD1Xv1bOrqlW9q5nNGD1nKeJMbAQ=;
-        b=tMedNvGWWS/LYbH8LvFraL0DjWvbf7/jTQnJdsdWNnJ/r6byqZkrbTc6M2piWM6n6o
-         +TBWGX1JtAwK6TU4TJc1CxEuTgwLpGr33Y158Mho3Tu5oeVZtYKWptfrDhVkkG2PavjT
-         /1yZaKLOkk1cFpL+vG2M+MSBqnG//FkpJ3YwcSnE4nHEgg6scllGGmWDSvmoJPrHVguc
-         Y0hAnfuILglG0m7WOEeuH5y/NgvpNfg4k3sXfFEweACfcCAKIPLOH3sSnJJwOtxkjQr2
-         bIeHbH4FL3jHhbdcZ2NkcrLlrtbiZZY3wR4Ojo7wPTudpDgFZ4Tjpy4C3v2snjEt76nt
-         o/aw==
-X-Gm-Message-State: AFqh2kpUcfcgROm83Womw/NLmfgpX/KZ286cHJUZTqKPOC4YaVcqeMXs
-        zIgLpFSKkB6xQLkFwO4seFDVkbaMeKDVOO6McYk=
-X-Google-Smtp-Source: AMrXdXsIqoffh4gyElaUMRlNZO8tgII4MoM1vf4/1NUiQGgBa3U1M12voNi52yh4C4gfGMhydbkVHDFneV7aXkLSms0=
-X-Received: by 2002:a05:6a00:2487:b0:578:9709:615f with SMTP id
- c7-20020a056a00248700b005789709615fmr2175766pfv.45.1672424287078; Fri, 30 Dec
- 2022 10:18:07 -0800 (PST)
+        Fri, 30 Dec 2022 15:02:49 -0500
+Received: from ryne.moe (ryne.moe [157.90.134.234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0774E1261F;
+        Fri, 30 Dec 2022 12:02:45 -0800 (PST)
+Received: from adrastea.localnet (unknown [170.55.83.2])
+        by ryne.moe (Postfix) with ESMTPSA id 17F211900338;
+        Fri, 30 Dec 2022 20:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=redstrate.com;
+        s=default; t=1672430564;
+        bh=aveChmaN8G/lMNf9XyNe+rnT8SmfSevZ+682G76lGMI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Royo1aU9SSa+p3/9rlt7WqnN1oCpG/U8J+FsoGcN5Nwz2qgsYuKnZyhE/187uR3p0
+         JNChiHC0p7OCwF4yjQBJiS47Qfk4gJ7RqOz42pDKEgSBVTmpJ0b6YvyUZRhzZfPmhL
+         NjTpV/Ocu4sR6O0cTdn2DVhDvi1yeAgFRsJgTPsw=
+From:   redstrate <josh@redstrate.com>
+To:     =?ISO-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        kurikaesu@users.noreply.github.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: uclogic: Add support for XP-PEN Artist 22R Pro
+Date:   Fri, 30 Dec 2022 15:02:41 -0500
+Message-ID: <3448509.5fSG56mABF@adrastea>
+In-Reply-To: <20221229190648.69040-1-jose.exposito89@gmail.com>
+References: <2068502.VLH7GnMWUR@adrastea>
+ <20221229190648.69040-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-References: <20221226000722.2xgbvsnrl6k7f7tk@ananas> <CAEc3jaDf_TqzxRt3m=OscjLcg=L-jYhNq2r7jEyD6Z1pFo3NRA@mail.gmail.com>
- <20221228180130.47ix3afwbv4bmqfc@ananas> <CAEc3jaD-Z4F8CQBHKrBV=H1JwO3LhQMxy1rv2k30rCYhkr1CmQ@mail.gmail.com>
- <20221228215838.7rxsevi4wfldmm2j@ananas> <CAEc3jaAq7wH1b_jmw-t__Fc4xG6bTpW8hTnBf0gF8L04-sSiEw@mail.gmail.com>
- <20221229192119.jy2q4xaipfplqjbd@ananas> <CAEc3jaAvAh__5AUwjat4qQzLzSsNCAncYQtEX5ExXX1Hxh9cLw@mail.gmail.com>
-In-Reply-To: <CAEc3jaAvAh__5AUwjat4qQzLzSsNCAncYQtEX5ExXX1Hxh9cLw@mail.gmail.com>
-From:   Alain <alain.carlucci@gmail.com>
-Date:   Fri, 30 Dec 2022 19:17:55 +0100
-Message-ID: <CAME7zCKKtmaiPtvnvvakOVOh1ggyPb4qVkpnom6miD6z7hJydA@mail.gmail.com>
-Subject: Re: [PATCH] HID: sony: Fix division by zero
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        djogorchock@gmail.com
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>
-Content-Type: multipart/mixed; boundary="0000000000008bd0f505f10f9f98"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---0000000000008bd0f505f10f9f98
-Content-Type: text/plain; charset="UTF-8"
+> Hi Joshua,
+> 
+> Thanks a lot for your patch!
+> 
+> It might cause conflicts with [1] and [2], so we'll need to rebase on
+> top of each other work at some point.
+> 
+> [1]
+> https://lore.kernel.org/linux-input/20221226123456.14822-1-jose.exposito89@
+> gmail.com/T/ [2]
+> https://lore.kernel.org/linux-input/20221226125454.16106-1-jose.exposito89@
+> gmail.com/T/
 
-Hi Roderick,
-Hi Daniel,
+I've seen those patches in the mailing list (and I thought they already got 
+merged heh) so I'll keep a close eye and rebase as needed.
 
-Thank you for all the suggestions, Roderick.
-I fixed the typo in your patch, backported to hid-sony and tested both of them.
-They fix the issue and the DS4 can be used even without calibration data.
-I cannot test if everything works well with a DualSense because I do
-not own one.
+> 
+> Sparse nitpick: "uclogic_extra_input_mapping" can be made static.
+> 
 
-Hi Daniel, I've seen that in the hid-nintendo driver, the calibration
-denominator is not sanitized if it's zero.
-If I'm not mistaken, a device that disguises itself as a joycon with
-denominator zero can crash the kernel
-when this is used in the mult_frac(). I had this behaviour with the
-hid-sony driver.
-You can find attached the patch that should solve the problem.
+I somehow missed that, will change.
 
-Thanks,
-Alain
+> 
+> Is it possible to receive a report with information from both dials at
+> the same time?
+> 
+> I'm asking because I'm trying to understand what is the meaning of the
+> 0x10 and 0x20 values and I wonder if they are generated when both dials
+> are used at the same time.
+> 
 
---0000000000008bd0f505f10f9f98
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0003-HID-nintendo-sanity-check-for-denominators.patch"
-Content-Disposition: attachment; 
-	filename="0003-HID-nintendo-sanity-check-for-denominators.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lcau763i0>
-X-Attachment-Id: f_lcau763i0
+According to Aren's reference sheet he wrote up for this tablet, the 0x10 and 
+0x20 values are reported by the right dial (left frame: 
+02:f0:00:00:00:00:00:20:00:14, right frame: 02:f0:00:00:00:00:00:10:00:14). 
+Dumping the contents of data[frame->bitmap_dial_byte] yields the same result. 
+The left dial works like usual, 02 for left and 01 for right.
 
-RnJvbSA1ZjdhYTE2MTJhMTAxMjNiOTYzMDcwMWQyOWUzOWY4ZTU1YTc0YjVlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGFpbiBDYXJsdWNjaSA8Y2FycGlrZW1haWxAZ21haWwuY29t
-PgpEYXRlOiBGcmksIDMwIERlYyAyMDIyIDE4OjUzOjUzICswMTAwClN1YmplY3Q6IFtQQVRDSCAz
-LzNdIEhJRDogbmludGVuZG86IHNhbml0eSBjaGVjayBmb3IgZGVub21pbmF0b3JzCgpUaGlzIHBh
-dGNoIHByZXZlbnRzIGEgY3Jhc2ggaWYgdGhlIGRldmljZSByZXBvcnRzIGRlbm9taW5hdG9yIGVx
-dWFsIHRvCnplcm8uIEluIHRoYXQgY2FzZSwgaXQgaXMgc3Vic3RpdHV0ZWQgd2l0aCBvbmUsIHNv
-IHRoYXQgdGhlIGRyaXZlciBkb2VzCm5vdCBkbyBhIGRpdmlzaW9uIGJ5IHplcm8uCi0tLQogZHJp
-dmVycy9oaWQvaGlkLW5pbnRlbmRvLmMgfCAxMyArKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdl
-ZCwgMTMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlkL2hpZC1uaW50ZW5k
-by5jIGIvZHJpdmVycy9oaWQvaGlkLW5pbnRlbmRvLmMKaW5kZXggNWJmYzBjNDUwLi5mMDUwNzU0
-ZTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaGlkL2hpZC1uaW50ZW5kby5jCisrKyBiL2RyaXZlcnMv
-aGlkL2hpZC1uaW50ZW5kby5jCkBAIC04NjYsNiArODY2LDE5IEBAIHN0YXRpYyB2b2lkIGpveWNv
-bl9jYWxjX2ltdV9jYWxfZGl2aXNvcnMoc3RydWN0IGpveWNvbl9jdGxyICpjdGxyKQogCQkJCQkJ
-Y3Rsci0+YWNjZWxfY2FsLm9mZnNldFtpXTsKIAkJY3Rsci0+aW11X2NhbF9neXJvX2Rpdmlzb3Jb
-aV0gPSBjdGxyLT5neXJvX2NhbC5zY2FsZVtpXSAtCiAJCQkJCQljdGxyLT5neXJvX2NhbC5vZmZz
-ZXRbaV07CisKKworCQkvKiBTYW5pdHkgY2hlY2sgYWNjZWxlcm9tZXRlciBjYWxpYnJhdGlvbiBk
-YXRhLiAqLworCQlpZiAoY3Rsci0+aW11X2NhbF9hY2NlbF9kaXZpc29yW2ldID09IDApIHsKKwkJ
-CWhpZF93YXJuKGN0bHItPmhkZXYsICJJbnZhbGlkIGRpdmlzb3IgZm9yIGFjY2VsZXJvbWV0ZXIg
-JWQuIiwgaSk7CisJCQljdGxyLT5pbXVfY2FsX2FjY2VsX2Rpdmlzb3JbaV0gPSAxOworCQl9CisK
-KwkJLyogU2FuaXR5IGNoZWNrIGd5cm9zY29wZSBjYWxpYnJhdGlvbiBkYXRhLiAqLworCQlpZiAo
-Y3Rsci0+aW11X2NhbF9neXJvX2Rpdmlzb3JbaV0gPT0gMCkgeworCQkJaGlkX3dhcm4oY3Rsci0+
-aGRldiwgIkludmFsaWQgZGl2aXNvciBmb3IgZ3lyb3Njb3BlICVkLiIsIGkpOworCQkJY3Rsci0+
-aW11X2NhbF9neXJvX2Rpdmlzb3JbaV0gPSAxOworCQl9CiAJfQogfQogCi0tIAoyLjM5LjAKCg==
---0000000000008bd0f505f10f9f98
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-HID-playstation-sanity-check-calibration-data.patch"
-Content-Disposition: attachment; 
-	filename="0001-HID-playstation-sanity-check-calibration-data.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lcau764c2>
-X-Attachment-Id: f_lcau764c2
+As for recieving reports of the two dials turning at the same time... I can't 
+seem to make it do that. This tablet is pretty big, and I can't turn the dials 
+fast enough.
 
-RnJvbSBkNzUxOTExZjIzYWNhNDEzYjJiZjgzMWVhMzAxMjE5YzUzMzA4MWU2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGFpbiBDYXJsdWNjaSA8Y2FycGlrZW1haWxAZ21haWwuY29t
-PgpEYXRlOiBGcmksIDMwIERlYyAyMDIyIDE4OjQ3OjU0ICswMTAwClN1YmplY3Q6IFtQQVRDSCAx
-LzNdIEhJRDogcGxheXN0YXRpb246IHNhbml0eSBjaGVjayBjYWxpYnJhdGlvbiBkYXRhLgoKVGhp
-cyBwYXRjaCBwcmV2ZW50cyBhIGRpdmlzaW9uIGJ5IHplcm8gaWYgdGhlIHRoZSBkZXZpY2UgcmVw
-b3J0cyBpbnZhbGlkCmNhbGlicmF0aW9uIHBhcmFtZXRlcnMuIEluIHRoYXQgY2FzZSwgZmFsbGJh
-Y2sgdG8gZGVmYXVsdCB2YWx1ZXMuCi0tLQogZHJpdmVycy9oaWQvaGlkLXBsYXlzdGF0aW9uLmMg
-fCA2MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQs
-IDYxIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9oaWQtcGxheXN0YXRp
-b24uYyBiL2RyaXZlcnMvaGlkL2hpZC1wbGF5c3RhdGlvbi5jCmluZGV4IGYzOTliZjBkMy4uYTI0
-OWYzYmIwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2hpZC9oaWQtcGxheXN0YXRpb24uYworKysgYi9k
-cml2ZXJzL2hpZC9oaWQtcGxheXN0YXRpb24uYwpAQCAtOTU0LDYgKzk1NCw3IEBAIHN0YXRpYyBp
-bnQgZHVhbHNlbnNlX2dldF9jYWxpYnJhdGlvbl9kYXRhKHN0cnVjdCBkdWFsc2Vuc2UgKmRzKQog
-CWludCBzcGVlZF8yeDsKIAlpbnQgcmFuZ2VfMmc7CiAJaW50IHJldCA9IDA7CisJaW50IGk7CiAJ
-dWludDhfdCAqYnVmOwogCiAJYnVmID0ga3phbGxvYyhEU19GRUFUVVJFX1JFUE9SVF9DQUxJQlJB
-VElPTl9TSVpFLCBHRlBfS0VSTkVMKTsKQEAgLTEwMDUsNiArMTAwNiwyMyBAQCBzdGF0aWMgaW50
-IGR1YWxzZW5zZV9nZXRfY2FsaWJyYXRpb25fZGF0YShzdHJ1Y3QgZHVhbHNlbnNlICpkcykKIAlk
-cy0+Z3lyb19jYWxpYl9kYXRhWzJdLnNlbnNfbnVtZXIgPSBzcGVlZF8yeCpEU19HWVJPX1JFU19Q
-RVJfREVHX1M7CiAJZHMtPmd5cm9fY2FsaWJfZGF0YVsyXS5zZW5zX2Rlbm9tID0gZ3lyb19yb2xs
-X3BsdXMgLSBneXJvX3JvbGxfbWludXM7CiAKKwkvKiBTYW5pdHkgY2hlY2sgZ3lybyBjYWxpYnJh
-dGlvbiBkYXRhLiBUaGlzIGlzIG5lZWRlZCBmb3IgY2xvbmUgZGV2aWNlcywKKwkgKiB3aGljaCBw
-b29ybHkgaW1wbGVtZW50IHN1cHBvcnQuIFNvbWUgZGV2aWNlcyBhcHBlYXIgdG8gcmV0dXJuIHpl
-cm9zCisJICogZm9yIGFsbCBkYXRhLCB3aGlsZSBzb21lIGhhcmRjb2RlIGFsbCB0aGUgc2FtZSB2
-YWx1ZXMgYW5kIGZvciBzb21lCisJICogdXNlIHRoZSB3cm9uZyBzaWduICh0aGUgZGVsdGEgaXMg
-dGhlbiAwKS4KKwkgKiBXaGVuIHdlIGRldGVjdCBzb21ldGhpbmcgZmlzaHksIGp1c3QgZGlzYWJs
-ZSB0aGUgY2FsaWJyYXRpb24gbG9naWMKKwkgKiBhbHRvZ2V0aGVyIGFzIG5vdGhpbmcgY2FuIGJl
-IHRydXN0ZWQgZm9yIHRoYXQgYXhpcy4KKwkgKi8KKwlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0la
-RShkcy0+Z3lyb19jYWxpYl9kYXRhKTsgaSsrKSB7CisJCWlmIChkcy0+Z3lyb19jYWxpYl9kYXRh
-W2ldLnNlbnNfZGVub20gPT0gMCkgeworCQkJaGlkX3dhcm4oZHMtPmJhc2UuaGRldiwgIkludmFs
-aWQgZ3lybyBjYWxpYnJhdGlvbiBkYXRhIGZvciBheGlzICglZCksIGRpc2FibGluZyBjYWxpYnJh
-dGlvbi4iLAorCQkJCQlkcy0+Z3lyb19jYWxpYl9kYXRhW2ldLmFic19jb2RlKTsKKwkJCWRzLT5n
-eXJvX2NhbGliX2RhdGFbaV0uYmlhcyA9IDA7CisJCQlkcy0+Z3lyb19jYWxpYl9kYXRhW2ldLnNl
-bnNfbnVtZXIgPSBEU19HWVJPX1JFU19QRVJfREVHX1M7CisJCQlkcy0+Z3lyb19jYWxpYl9kYXRh
-W2ldLnNlbnNfZGVub20gPSAxOworCQl9CisJfQorCiAJLyoKIAkgKiBTZXQgYWNjZWxlcm9tZXRl
-ciBjYWxpYnJhdGlvbiBhbmQgbm9ybWFsaXphdGlvbiBwYXJhbWV0ZXJzLgogCSAqIERhdGEgdmFs
-dWVzIHdpbGwgYmUgbm9ybWFsaXplZCB0byAxL0RTX0FDQ19SRVNfUEVSX0cgZy4KQEAgLTEwMjcs
-NiArMTA0NSwxOCBAQCBzdGF0aWMgaW50IGR1YWxzZW5zZV9nZXRfY2FsaWJyYXRpb25fZGF0YShz
-dHJ1Y3QgZHVhbHNlbnNlICpkcykKIAlkcy0+YWNjZWxfY2FsaWJfZGF0YVsyXS5zZW5zX251bWVy
-ID0gMipEU19BQ0NfUkVTX1BFUl9HOwogCWRzLT5hY2NlbF9jYWxpYl9kYXRhWzJdLnNlbnNfZGVu
-b20gPSByYW5nZV8yZzsKIAorCS8qIFNhbml0eSBjaGVjayBhY2NlbGVyb21ldGVyIGNhbGlicmF0
-aW9uIGRhdGEuIFRoaXMgaXMgbmVlZGVkIGZvciBjbG9uZSBkZXZpY2VzLAorCSAqIHdoaWNoIHBv
-b3JseSBpbXBsZW1lbnQgc3VwcG9ydC4KKwkgKi8KKwlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0la
-RShkcy0+YWNjZWxfY2FsaWJfZGF0YSk7IGkrKykgeworCQlpZiAoZHMtPmFjY2VsX2NhbGliX2Rh
-dGFbaV0uc2Vuc19kZW5vbSA9PSAwKSB7CisJCQloaWRfd2Fybihkcy0+YmFzZS5oZGV2LCAiSW52
-YWxpZCBhY2NlbGVyb21ldGVyIGNhbGlicmF0aW9uIGRhdGEgZm9yIGF4aXMgKCVkKSwgZGlzYWJs
-aW5nIGNhbGlicmF0aW9uLiIsCisJCQkJCWRzLT5hY2NlbF9jYWxpYl9kYXRhW2ldLmFic19jb2Rl
-KTsKKwkJCWRzLT5hY2NlbF9jYWxpYl9kYXRhW2ldLmJpYXMgPSAwOworCQkJZHMtPmFjY2VsX2Nh
-bGliX2RhdGFbaV0uc2Vuc19udW1lciA9IERTX0FDQ19SRVNfUEVSX0c7CisJCQlkcy0+YWNjZWxf
-Y2FsaWJfZGF0YVtpXS5zZW5zX2Rlbm9tID0gMTsKKwkJfQorCX0KIGVycl9mcmVlOgogCWtmcmVl
-KGJ1Zik7CiAJcmV0dXJuIHJldDsKQEAgLTE3MzcsNiArMTc2Nyw3IEBAIHN0YXRpYyBpbnQgZHVh
-bHNob2NrNF9nZXRfY2FsaWJyYXRpb25fZGF0YShzdHJ1Y3QgZHVhbHNob2NrNCAqZHM0KQogCWlu
-dCBzcGVlZF8yeDsKIAlpbnQgcmFuZ2VfMmc7CiAJaW50IHJldCA9IDA7CisJaW50IGk7CiAJdWlu
-dDhfdCAqYnVmOwogCiAJaWYgKGRzNC0+YmFzZS5oZGV2LT5idXMgPT0gQlVTX1VTQikgewpAQCAt
-MTgzMCw2ICsxODYxLDIzIEBAIHN0YXRpYyBpbnQgZHVhbHNob2NrNF9nZXRfY2FsaWJyYXRpb25f
-ZGF0YShzdHJ1Y3QgZHVhbHNob2NrNCAqZHM0KQogCWRzNC0+Z3lyb19jYWxpYl9kYXRhWzJdLnNl
-bnNfbnVtZXIgPSBzcGVlZF8yeCpEUzRfR1lST19SRVNfUEVSX0RFR19TOwogCWRzNC0+Z3lyb19j
-YWxpYl9kYXRhWzJdLnNlbnNfZGVub20gPSBneXJvX3JvbGxfcGx1cyAtIGd5cm9fcm9sbF9taW51
-czsKIAorCS8qIFNhbml0eSBjaGVjayBneXJvIGNhbGlicmF0aW9uIGRhdGEuIFRoaXMgaXMgbmVl
-ZGVkIGZvciBjbG9uZSBkZXZpY2VzLAorCSAqIHdoaWNoIHBvb3JseSBpbXBsZW1lbnQgc3VwcG9y
-dC4gU29tZSBkZXZpY2VzIGFwcGVhciB0byByZXR1cm4gemVyb3MKKwkgKiBmb3IgYWxsIGRhdGEs
-IHdoaWxlIHNvbWUgaGFyZGNvZGUgYWxsIHRoZSBzYW1lIHZhbHVlcyBhbmQgZm9yIHNvbWUKKwkg
-KiB1c2UgdGhlIHdyb25nIHNpZ24gKHRoZSBkZWx0YSBpcyB0aGVuIDApLgorCSAqIFdoZW4gd2Ug
-ZGV0ZWN0IHNvbWV0aGluZyBmaXNoeSwganVzdCBkaXNhYmxlIHRoZSBjYWxpYnJhdGlvbiBsb2dp
-YworCSAqIGFsdG9nZXRoZXIgYXMgbm90aGluZyBjYW4gYmUgdHJ1c3RlZCBmb3IgdGhhdCBheGlz
-LgorCSAqLworCWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGRzNC0+Z3lyb19jYWxpYl9kYXRh
-KTsgaSsrKSB7CisJCWlmIChkczQtPmd5cm9fY2FsaWJfZGF0YVtpXS5zZW5zX2Rlbm9tID09IDAp
-IHsKKwkJCWhpZF93YXJuKGhkZXYsICJJbnZhbGlkIGd5cm8gY2FsaWJyYXRpb24gZGF0YSBmb3Ig
-YXhpcyAoJWQpLCBkaXNhYmxpbmcgY2FsaWJyYXRpb24uIiwKKwkJCQkJZHM0LT5neXJvX2NhbGli
-X2RhdGFbaV0uYWJzX2NvZGUpOworCQkJZHM0LT5neXJvX2NhbGliX2RhdGFbaV0uYmlhcyA9IDA7
-CisJCQlkczQtPmd5cm9fY2FsaWJfZGF0YVtpXS5zZW5zX251bWVyID0gRFM0X0dZUk9fUkVTX1BF
-Ul9ERUdfUzsKKwkJCWRzNC0+Z3lyb19jYWxpYl9kYXRhW2ldLnNlbnNfZGVub20gPSAxOworCQl9
-CisJfQorCiAJLyoKIAkgKiBTZXQgYWNjZWxlcm9tZXRlciBjYWxpYnJhdGlvbiBhbmQgbm9ybWFs
-aXphdGlvbiBwYXJhbWV0ZXJzLgogCSAqIERhdGEgdmFsdWVzIHdpbGwgYmUgbm9ybWFsaXplZCB0
-byAxL0RTNF9BQ0NfUkVTX1BFUl9HIGcuCkBAIC0xODUyLDYgKzE5MDAsMTkgQEAgc3RhdGljIGlu
-dCBkdWFsc2hvY2s0X2dldF9jYWxpYnJhdGlvbl9kYXRhKHN0cnVjdCBkdWFsc2hvY2s0ICpkczQp
-CiAJZHM0LT5hY2NlbF9jYWxpYl9kYXRhWzJdLnNlbnNfbnVtZXIgPSAyKkRTNF9BQ0NfUkVTX1BF
-Ul9HOwogCWRzNC0+YWNjZWxfY2FsaWJfZGF0YVsyXS5zZW5zX2Rlbm9tID0gcmFuZ2VfMmc7CiAK
-KwkvKiBTYW5pdHkgY2hlY2sgYWNjZWxlcm9tZXRlciBjYWxpYnJhdGlvbiBkYXRhLiBUaGlzIGlz
-IG5lZWRlZCBmb3IgY2xvbmUgZGV2aWNlcywKKwkgKiB3aGljaCBwb29ybHkgaW1wbGVtZW50IHN1
-cHBvcnQuCisJICovCisJZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoZHM0LT5hY2NlbF9jYWxp
-Yl9kYXRhKTsgaSsrKSB7CisJCWlmIChkczQtPmFjY2VsX2NhbGliX2RhdGFbaV0uc2Vuc19kZW5v
-bSA9PSAwKSB7CisJCQloaWRfd2FybihoZGV2LCAiSW52YWxpZCBhY2NlbGVyb21ldGVyIGNhbGli
-cmF0aW9uIGRhdGEgZm9yIGF4aXMgKCVkKSwgZGlzYWJsaW5nIGNhbGlicmF0aW9uLiIsCisJCQkJ
-CWRzNC0+YWNjZWxfY2FsaWJfZGF0YVtpXS5hYnNfY29kZSk7CisJCQlkczQtPmFjY2VsX2NhbGli
-X2RhdGFbaV0uYmlhcyA9IDA7CisJCQlkczQtPmFjY2VsX2NhbGliX2RhdGFbaV0uc2Vuc19udW1l
-ciA9IERTNF9BQ0NfUkVTX1BFUl9HOworCQkJZHM0LT5hY2NlbF9jYWxpYl9kYXRhW2ldLnNlbnNf
-ZGVub20gPSAxOworCQl9CisJfQorCiBlcnJfZnJlZToKIAlrZnJlZShidWYpOwogCXJldHVybiBy
-ZXQ7Ci0tIAoyLjM5LjAKCg==
---0000000000008bd0f505f10f9f98
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0002-HID-sony-sanity-check-DS4-calibration-data.patch"
-Content-Disposition: attachment; 
-	filename="0002-HID-sony-sanity-check-DS4-calibration-data.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lcau764a1>
-X-Attachment-Id: f_lcau764a1
+> 
+> You can probably reuse uclogic_params_ugee_v2_init() or at least reuse
+> uclogic_probe_interface() and uclogic_params_parse_ugee_v2_desc() if
+> for some reason we need custom logic for this tablet.
+> 
 
-RnJvbSBkYzkyZjBiZTEzNTJiYTVhMjcyMzlmNDUxZTVmMDE2MWU0OGYxNGU2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGFpbiBDYXJsdWNjaSA8Y2FycGlrZW1haWxAZ21haWwuY29t
-PgpEYXRlOiBGcmksIDMwIERlYyAyMDIyIDE4OjUyOjA2ICswMTAwClN1YmplY3Q6IFtQQVRDSCAy
-LzNdIEhJRDogc29ueTogc2FuaXR5IGNoZWNrIERTNCBjYWxpYnJhdGlvbiBkYXRhCgpUaGlzIHBh
-dGNoIHByZXZlbnRzIGEgY3Jhc2ggd2hlbiB0aGUgRFM0IHJlcG9ydHMgaW52YWxpZCBjYWxpYnJh
-dGlvbgpkYXRhIGZvciB0aGUgSU1Vcy4gSXQgY2hlY2tzIGlmIHRoZSBkZW5vbWluYXRvciBpcyB6
-ZXJvLCBhbmQgaW4gdGhhdApjYXNlIGZhbGxiYWNrIHRvIGEgZGVmYXVsdCB2YWx1ZS4KLS0tCiBk
-cml2ZXJzL2hpZC9oaWQtc29ueS5jIHwgMjUgKysrKysrKysrKysrKysrKysrKysrKysrKwogMSBm
-aWxlIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9o
-aWQtc29ueS5jIGIvZHJpdmVycy9oaWQvaGlkLXNvbnkuYwppbmRleCAxMzEyNTk5N2EuLmQyNWU4
-NGUzNSAxMDA2NDQKLS0tIGEvZHJpdmVycy9oaWQvaGlkLXNvbnkuYworKysgYi9kcml2ZXJzL2hp
-ZC9oaWQtc29ueS5jCkBAIC0xNzE0LDYgKzE3MTQsNyBAQCBzdGF0aWMgaW50IGR1YWxzaG9jazRf
-Z2V0X2NhbGlicmF0aW9uX2RhdGEoc3RydWN0IHNvbnlfc2MgKnNjKQogCXNob3J0IGFjY196X3Bs
-dXMsIGFjY196X21pbnVzOwogCWludCBzcGVlZF8yeDsKIAlpbnQgcmFuZ2VfMmc7CisJaW50IGk7
-CiAKIAkvKiBGb3IgQmx1ZXRvb3RoIHdlIHVzZSBhIGRpZmZlcmVudCByZXF1ZXN0LCB3aGljaCBz
-dXBwb3J0cyBDUkMuCiAJICogTm90ZTogaW4gQmx1ZXRvb3RoIG1vZGUgZmVhdHVyZSByZXBvcnQg
-MHgwMiBhbHNvIGNoYW5nZXMgdGhlIHN0YXRlCkBAIC0xODU4LDYgKzE4NTksMzAgQEAgc3RhdGlj
-IGludCBkdWFsc2hvY2s0X2dldF9jYWxpYnJhdGlvbl9kYXRhKHN0cnVjdCBzb255X3NjICpzYykK
-IAlzYy0+ZHM0X2NhbGliX2RhdGFbNV0uc2Vuc19udW1lciA9IDIqRFM0X0FDQ19SRVNfUEVSX0c7
-CiAJc2MtPmRzNF9jYWxpYl9kYXRhWzVdLnNlbnNfZGVub20gPSByYW5nZV8yZzsKIAorCS8qIFNh
-bml0eSBjaGVjayBneXJvIGNhbGlicmF0aW9uIGRhdGEuIFRoaXMgaXMgbmVlZGVkIGZvciBjbG9u
-ZSBkZXZpY2VzLAorCSAqIHdoaWNoIHBvb3JseSBpbXBsZW1lbnQgc3VwcG9ydC4gU29tZSBkZXZp
-Y2VzIGFwcGVhciB0byByZXR1cm4gemVyb3MKKwkgKiBmb3IgYWxsIGRhdGEsIHdoaWxlIHNvbWUg
-aGFyZGNvZGUgYWxsIHRoZSBzYW1lIHZhbHVlcyBhbmQgZm9yIHNvbWUKKwkgKiB1c2UgdGhlIHdy
-b25nIHNpZ24gKHRoZSBkZWx0YSBpcyB0aGVuIDApLgorCSAqIFdoZW4gd2UgZGV0ZWN0IHNvbWV0
-aGluZyBmaXNoeSwganVzdCBkaXNhYmxlIHRoZSBjYWxpYnJhdGlvbiBsb2dpYworCSAqIGFsdG9n
-ZXRoZXIgYXMgbm90aGluZyBjYW4gYmUgdHJ1c3RlZCBmb3IgdGhhdCBheGlzLgorCSAqLworCWZv
-ciAoaSA9IDA7IGkgPCA2OyBpKyspIHsKKwkJaWYgKHNjLT5kczRfY2FsaWJfZGF0YVtpXS5zZW5z
-X2Rlbm9tID09IDApIHsKKwkJCWhpZF93YXJuKHNjLT5oZGV2LCAiSW52YWxpZCBjYWxpYnJhdGlv
-biBkYXRhIGZvciBheGlzICglZCksIGRpc2FibGluZyBjYWxpYnJhdGlvbi4iLAorCQkJCQlzYy0+
-ZHM0X2NhbGliX2RhdGFbaV0uYWJzX2NvZGUpOworCisJCQlpZiAoaSA8IDMpIHsKKwkJCQkvKiBH
-eXJvc2NvcGUgKi8KKwkJCQlzYy0+ZHM0X2NhbGliX2RhdGFbaV0uc2Vuc19udW1lciA9IERTNF9H
-WVJPX1JFU19QRVJfREVHX1M7CisJCQl9IGVsc2UgeworCQkJCS8qIEFjY2VsZXJvbWV0ZXIgKi8K
-KwkJCQlzYy0+ZHM0X2NhbGliX2RhdGFbaV0uc2Vuc19udW1lciA9IERTNF9BQ0NfUkVTX1BFUl9H
-OworCQkJfQorCQkJc2MtPmRzNF9jYWxpYl9kYXRhW2ldLmJpYXMgPSAwOworCQkJc2MtPmRzNF9j
-YWxpYl9kYXRhW2ldLnNlbnNfZGVub20gPSAxOworCQl9CisJfQorCiBlcnJfc3RvcDoKIAlrZnJl
-ZShidWYpOwogCXJldHVybiByZXQ7Ci0tIAoyLjM5LjAKCg==
---0000000000008bd0f505f10f9f98--
+I actually looked a little into the UGEE v2 init functions to see if I could 
+reuse anything (but to be honest, I really just skimmed) but I will take a 
+second look to see if I can consolidate it.
+
+> 
+> Is this value 8? In all the models I have seen so far this is indeed
+> the number of buttons.
+> 
+> Also, what's the value of buf[6]? As you can see in
+> uclogic_params_parse_ugee_v2_desc(), this field is the frame type. I'd be
+> nice to know whether a different frame type is reported when 2 dials are
+> present or not.
+> 
+> Could you attach the contents of the 14 bytes of "buf", please? I'd be
+> nice to have a look and see if we can reuse as much code as possible.
+> 
+
+Yeah here's the 14 bytes of "buf" here:
+buf[0] = 000c
+buf[1] = 0003
+buf[2] = 0030
+buf[3] = 00ba
+buf[4] = 009a
+buf[5] = 0068
+buf[6] = 0006
+buf[7] = 0000
+buf[8] = 00ff
+buf[9] = 001f
+buf[10] = 00ec
+buf[11] = 0009
+buf[12] = 0080
+buf[13] = 0072
+
+I'm not sure you made a typo, but buf[6] in uclogic_params_parse_ugee_v2_desc 
+is reading the button count, which reports as 6 for some reason. buf[7] is 0 
+though, so it appears that its still reporting as UCLOGIC_PARAMS_FRAME_BUTTONS 
+(I could just be misunderstanding the strdescs) or the frames are completely 
+different.
+
+>
+> Ideally, we should be able to handle this tablet with the other UGEE v2
+> tablets.
+> 
+
+Yeah I will consolidate this case if I manage to merge this with the other 
+UGEE v2 tablet support.
+
+> 
+> This array is already declared in uclogic_params_ugee_v2_init(), which,
+> hopefully, we will be able to reuse. Otherwise, you might be interested
+> in this commit (not merged yet):
+> https://lore.kernel.org/linux-input/20221226125454.16106-4-jose.exposito89@g
+> mail.com/T/#u
+
+I didn't see that array in ugee_v2_init, what I'll do is match the variables 
+defined in your cleanup patch (I believe it's closely identical already), so it 
+makes rebasing easier no matter what order they're merged in.
+
+> 
+> Can't "uclogic_rdesc_ugee_v2_pen_template_arr" be used instead?
+> 
+
+Yeah I think so, at first I didn't consider it but on closer inspection - the 
+offsets are the same (just for some reason, out of order). I'll be looking into 
+testing the pen using this descriptor on the second revision, maybe Pro-series 
+and UGEE v2 aren't so different after all!
+
+> 
+> Have a look to "uclogic_rdesc_ugee_v2_frame_dial_template_arr", I don't
+> know if it could be used for your tablet.
+> 
+
+Same as above, same structure - different order (but it's all semantic, same 
+offsets) so I'll be consolidating if it works out.
+
+>
+> If your tablet reports its number of buttons, UCLOGIC_RDESC_FRAME_PH_BTN
+> can be used here.
+> 
+
+I'll be reviewing the descriptor data, ideally it should but I don't have high 
+hopes (as shown above) but I'm going to be testing it more.
+
+Thank you for the review! I'll be resubmitting a second version of the patch 
+with your suggestions and making sure the kernel test bot is happy - and 
+hopefully there will be a lot less duplication structure-wise.
+
+
+
+
