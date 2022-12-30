@@ -2,64 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CFDE6591DB
-	for <lists+linux-input@lfdr.de>; Thu, 29 Dec 2022 21:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4FF5659B58
+	for <lists+linux-input@lfdr.de>; Fri, 30 Dec 2022 19:18:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233651AbiL2U5C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Dec 2022 15:57:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32794 "EHLO
+        id S235450AbiL3SSJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Dec 2022 13:18:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229773AbiL2U5A (ORCPT
+        with ESMTP id S235553AbiL3SSI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Dec 2022 15:57:00 -0500
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78E5FB1FD
-        for <linux-input@vger.kernel.org>; Thu, 29 Dec 2022 12:56:59 -0800 (PST)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-45f4aef92daso275508487b3.0
-        for <linux-input@vger.kernel.org>; Thu, 29 Dec 2022 12:56:59 -0800 (PST)
+        Fri, 30 Dec 2022 13:18:08 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCFBB5F45
+        for <linux-input@vger.kernel.org>; Fri, 30 Dec 2022 10:18:07 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id k19so7203554pfg.11
+        for <linux-input@vger.kernel.org>; Fri, 30 Dec 2022 10:18:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ihKu5ELZcBRucgwI5O0UvvW5hjYBusIzqRwj7dSzfOY=;
-        b=AX3t9jMUX5pdQH7ff5EOxMCxQkxUvUT9ptHZRif1EQoNWU8Flyf1zwcQzRB/FxeqFP
-         /03r+Z3sQYDwPtK83JS1dIErTQ+lHqyLh5jLTeVPVXQourn3E48AZUDUDkeYOQ7LlEdV
-         FLkQuOE7RVBGTAeZC/vjhbuUnHgQkFG/MwnOWLui81I+0lZlLMAJEKPHK6e+1how8GWd
-         KTHRTmSDL5e2jV9mJ4SmsLY0LaY5OK3h2zxQo8I/DE5ExFQEQeOUK1qdZdvHkhle2kjt
-         bXpsZEBZuAXZNZg6ZCRytUdL7auMtOOt96fqhtPJYa4VqGgxPub/mCLqOZZHXpF62vLk
-         EKZQ==
+        bh=ORRvwSnWjUXudUstD1Xv1bOrqlW9q5nNGD1nKeJMbAQ=;
+        b=YqyrIfH3zaARlu1SEuZe6p3USVlBGOfijuT41hXA5rOqd/aZZIU0SuB1CH2qiKgHTV
+         LwEbXV450X4zE1niFXFDHnROa7QEC1Tzv3VehVR8VCW36zkgnlQOoma2Zf5PNj97+I/D
+         fGLpApttt4dfB++lWmq45fJiQuvpgNkrTBU4cphKSStQsGvIKK+oErA3y6uKChRN52hZ
+         hhm6boWVczmJE1dG3TxgSj2OlANwUU/suJG6ktIWjycGcISHFjw+KItTFL05Vp7XJQSc
+         9IIvymwL3Iyi+cHEzLSrMA9j+iX9NZnFr+AP9aCQOLrGipOFIgbibSuKuwDeUnwnnSAa
+         U8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ihKu5ELZcBRucgwI5O0UvvW5hjYBusIzqRwj7dSzfOY=;
-        b=70QNc2urxFRLfkXSHRH4IyQrte+Sk6a5iW2HJbYgoQL59qv7SNDz0igtienr7I897Y
-         aNG5foI7u5lq7C10J4wqqlPrPjeaIeCaz9Gh9iM1rBkdq0q/Dc5DyNlxRCN9rzqq7ujX
-         8KTBHdcscu57+tURFHj6mWzjv1XEIoawwXCTjsY86QAKurgY6SdgCYmYQb4P/CsSLR4L
-         jtn5bLc524UEA8+9dqXVWLmSbndrRWHZkVj/yBYGEvtcyxlNnlcCJErWgkWx8DRGV8pP
-         1D1yU64HXooAIzKlaIWsJfzcu1Met6SVCwWeJfMdA8vO6/Pb29FWlQzOkVkNanOUtACQ
-         M80A==
-X-Gm-Message-State: AFqh2kpx45O8iJQhARHTmlcOGqJGO8l7kpveA/TFZgbN3pqvbenVAs4l
-        4y/XKYNaO+KvNcbl3Rria9k3eECw4CWD+hSwT4sEJ0rv
-X-Google-Smtp-Source: AMrXdXsgOzG5x3PxLGg8NUEUvGj2QEhyWG5rkuDaLUCd92tQz9fUTaAdk24GCLqjwJimyJkz8UXukfgfQb+RnGSpkMg=
-X-Received: by 2002:a81:1d93:0:b0:476:40af:a522 with SMTP id
- d141-20020a811d93000000b0047640afa522mr2242363ywd.518.1672347418667; Thu, 29
- Dec 2022 12:56:58 -0800 (PST)
+        bh=ORRvwSnWjUXudUstD1Xv1bOrqlW9q5nNGD1nKeJMbAQ=;
+        b=tMedNvGWWS/LYbH8LvFraL0DjWvbf7/jTQnJdsdWNnJ/r6byqZkrbTc6M2piWM6n6o
+         +TBWGX1JtAwK6TU4TJc1CxEuTgwLpGr33Y158Mho3Tu5oeVZtYKWptfrDhVkkG2PavjT
+         /1yZaKLOkk1cFpL+vG2M+MSBqnG//FkpJ3YwcSnE4nHEgg6scllGGmWDSvmoJPrHVguc
+         Y0hAnfuILglG0m7WOEeuH5y/NgvpNfg4k3sXfFEweACfcCAKIPLOH3sSnJJwOtxkjQr2
+         bIeHbH4FL3jHhbdcZ2NkcrLlrtbiZZY3wR4Ojo7wPTudpDgFZ4Tjpy4C3v2snjEt76nt
+         o/aw==
+X-Gm-Message-State: AFqh2kpUcfcgROm83Womw/NLmfgpX/KZ286cHJUZTqKPOC4YaVcqeMXs
+        zIgLpFSKkB6xQLkFwO4seFDVkbaMeKDVOO6McYk=
+X-Google-Smtp-Source: AMrXdXsIqoffh4gyElaUMRlNZO8tgII4MoM1vf4/1NUiQGgBa3U1M12voNi52yh4C4gfGMhydbkVHDFneV7aXkLSms0=
+X-Received: by 2002:a05:6a00:2487:b0:578:9709:615f with SMTP id
+ c7-20020a056a00248700b005789709615fmr2175766pfv.45.1672424287078; Fri, 30 Dec
+ 2022 10:18:07 -0800 (PST)
 MIME-Version: 1.0
 References: <20221226000722.2xgbvsnrl6k7f7tk@ananas> <CAEc3jaDf_TqzxRt3m=OscjLcg=L-jYhNq2r7jEyD6Z1pFo3NRA@mail.gmail.com>
  <20221228180130.47ix3afwbv4bmqfc@ananas> <CAEc3jaD-Z4F8CQBHKrBV=H1JwO3LhQMxy1rv2k30rCYhkr1CmQ@mail.gmail.com>
  <20221228215838.7rxsevi4wfldmm2j@ananas> <CAEc3jaAq7wH1b_jmw-t__Fc4xG6bTpW8hTnBf0gF8L04-sSiEw@mail.gmail.com>
- <20221229192119.jy2q4xaipfplqjbd@ananas>
-In-Reply-To: <20221229192119.jy2q4xaipfplqjbd@ananas>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Thu, 29 Dec 2022 12:56:47 -0800
-Message-ID: <CAEc3jaAvAh__5AUwjat4qQzLzSsNCAncYQtEX5ExXX1Hxh9cLw@mail.gmail.com>
+ <20221229192119.jy2q4xaipfplqjbd@ananas> <CAEc3jaAvAh__5AUwjat4qQzLzSsNCAncYQtEX5ExXX1Hxh9cLw@mail.gmail.com>
+In-Reply-To: <CAEc3jaAvAh__5AUwjat4qQzLzSsNCAncYQtEX5ExXX1Hxh9cLw@mail.gmail.com>
+From:   Alain <alain.carlucci@gmail.com>
+Date:   Fri, 30 Dec 2022 19:17:55 +0100
+Message-ID: <CAME7zCKKtmaiPtvnvvakOVOh1ggyPb4qVkpnom6miD6z7hJydA@mail.gmail.com>
 Subject: Re: [PATCH] HID: sony: Fix division by zero
-To:     Alain Carlucci <alain.carlucci@gmail.com>
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        djogorchock@gmail.com
 Cc:     linux-input <linux-input@vger.kernel.org>,
         Jiri Kosina <jikos@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; boundary="0000000000008bd0f505f10f9f98"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -70,74 +71,202 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alain,
+--0000000000008bd0f505f10f9f98
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Dec 29, 2022 at 11:21 AM Alain Carlucci
-<alain.carlucci@gmail.com> wrote:
->
-> Hi Roderick,
->
-> >Give this patch a try. It is against hid-playstation, which as of 6.2
-> >supports DS4. Let me know if it works. You can see the sensors working
-> >through evdev on the motion sensors device.
->
-> Thank you for the patch, just tried. I think there is a typo in the
-> condition of the for-loop that sanitizes the input.
-> Instead of `; i < ARRAY_SIZE()` it's written `; ARRAY_SIZE()`,
-> which always evaluates to true. The loop then overflows the array and
-> crashes the kernel.
+Hi Roderick,
+Hi Daniel,
 
-Ooh oops. It was a quick patch I wrote without testing.
+Thank you for all the suggestions, Roderick.
+I fixed the typo in your patch, backported to hid-sony and tested both of them.
+They fix the issue and the DS4 can be used even without calibration data.
+I cannot test if everything works well with a DualSense because I do
+not own one.
 
-> By the way, the DualSense code has similar calibration code and also
-> there the input is not sanitized.
-> I think it's quite easy to create a fake DualSense device with
-> an Arduino that emulates the protocol up to calib_denom=0, just to
-> exploit that and crash every linux machine is plugged in. Or even
-> worst, exploit that via bluetooth.
-
-You are right it probably won't hurt to duplicate the logic there.
-
-> >If you want to dig deeper, you can play around with
-> >dualshock4_get_calibration_data in hid-playstation. The particular
-> >report (though not fully documented in the driver) does contain a lot
-> >of device info (firmware info, manufacturing dates, various strings).
-> >You can probably find the details online. Some data there might be
-> >weird or not populated.
->
-> Thank you! Just discovered that this strange DS4 (CUH-ZCT2E) replies
-> all zeros both to HID request 0x02 (get calibration data) and as the
-> BT address (request 0x12, Pairing Info), which explains why BT is not
-> working.
-
-There is definitely something weird with your device. Something must
-have gotten wiped somehow.
-
-> I tried to request version info (0xa3), the response seems the same as
-> another fully-working and original CUH-ZCT2E:
-> """
-> Build Date: Sep 21 2018 04:50:51
-> HW Version: 0100.b008
-> SW Version: 00000001.a00a
-> SW Series:  2010
-> Code Size:  0002a000
-> """
->
-> Anyway, I have seen that request 0xA2 puts the DS4 in an alternate
-> boot mode, probably DFU mode, where the device reboots as 054c:0856
-> and waits for data, which seems totally undocumented online.
-> Do you know anything about this mode?
-> It would be amazing to be able to reflash the original firmware,
-
-Unfortunately I can't disclose any of that information. I can say that
-on DS4 it wasn't common to update firmware (as opposed to DualSense)
-while out in the wild. Some of these requests and others are probably
-used to initiate firmware programming and programming of MAC address,
-calibration data and other settings. It is probably quite involved and
-hard to get right without bricking your device.
-
-> Thanks,
-> Alain
+Hi Daniel, I've seen that in the hid-nintendo driver, the calibration
+denominator is not sanitized if it's zero.
+If I'm not mistaken, a device that disguises itself as a joycon with
+denominator zero can crash the kernel
+when this is used in the mult_frac(). I had this behaviour with the
+hid-sony driver.
+You can find attached the patch that should solve the problem.
 
 Thanks,
-Roderick
+Alain
+
+--0000000000008bd0f505f10f9f98
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0003-HID-nintendo-sanity-check-for-denominators.patch"
+Content-Disposition: attachment; 
+	filename="0003-HID-nintendo-sanity-check-for-denominators.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lcau763i0>
+X-Attachment-Id: f_lcau763i0
+
+RnJvbSA1ZjdhYTE2MTJhMTAxMjNiOTYzMDcwMWQyOWUzOWY4ZTU1YTc0YjVlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGFpbiBDYXJsdWNjaSA8Y2FycGlrZW1haWxAZ21haWwuY29t
+PgpEYXRlOiBGcmksIDMwIERlYyAyMDIyIDE4OjUzOjUzICswMTAwClN1YmplY3Q6IFtQQVRDSCAz
+LzNdIEhJRDogbmludGVuZG86IHNhbml0eSBjaGVjayBmb3IgZGVub21pbmF0b3JzCgpUaGlzIHBh
+dGNoIHByZXZlbnRzIGEgY3Jhc2ggaWYgdGhlIGRldmljZSByZXBvcnRzIGRlbm9taW5hdG9yIGVx
+dWFsIHRvCnplcm8uIEluIHRoYXQgY2FzZSwgaXQgaXMgc3Vic3RpdHV0ZWQgd2l0aCBvbmUsIHNv
+IHRoYXQgdGhlIGRyaXZlciBkb2VzCm5vdCBkbyBhIGRpdmlzaW9uIGJ5IHplcm8uCi0tLQogZHJp
+dmVycy9oaWQvaGlkLW5pbnRlbmRvLmMgfCAxMyArKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdl
+ZCwgMTMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlkL2hpZC1uaW50ZW5k
+by5jIGIvZHJpdmVycy9oaWQvaGlkLW5pbnRlbmRvLmMKaW5kZXggNWJmYzBjNDUwLi5mMDUwNzU0
+ZTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaGlkL2hpZC1uaW50ZW5kby5jCisrKyBiL2RyaXZlcnMv
+aGlkL2hpZC1uaW50ZW5kby5jCkBAIC04NjYsNiArODY2LDE5IEBAIHN0YXRpYyB2b2lkIGpveWNv
+bl9jYWxjX2ltdV9jYWxfZGl2aXNvcnMoc3RydWN0IGpveWNvbl9jdGxyICpjdGxyKQogCQkJCQkJ
+Y3Rsci0+YWNjZWxfY2FsLm9mZnNldFtpXTsKIAkJY3Rsci0+aW11X2NhbF9neXJvX2Rpdmlzb3Jb
+aV0gPSBjdGxyLT5neXJvX2NhbC5zY2FsZVtpXSAtCiAJCQkJCQljdGxyLT5neXJvX2NhbC5vZmZz
+ZXRbaV07CisKKworCQkvKiBTYW5pdHkgY2hlY2sgYWNjZWxlcm9tZXRlciBjYWxpYnJhdGlvbiBk
+YXRhLiAqLworCQlpZiAoY3Rsci0+aW11X2NhbF9hY2NlbF9kaXZpc29yW2ldID09IDApIHsKKwkJ
+CWhpZF93YXJuKGN0bHItPmhkZXYsICJJbnZhbGlkIGRpdmlzb3IgZm9yIGFjY2VsZXJvbWV0ZXIg
+JWQuIiwgaSk7CisJCQljdGxyLT5pbXVfY2FsX2FjY2VsX2Rpdmlzb3JbaV0gPSAxOworCQl9CisK
+KwkJLyogU2FuaXR5IGNoZWNrIGd5cm9zY29wZSBjYWxpYnJhdGlvbiBkYXRhLiAqLworCQlpZiAo
+Y3Rsci0+aW11X2NhbF9neXJvX2Rpdmlzb3JbaV0gPT0gMCkgeworCQkJaGlkX3dhcm4oY3Rsci0+
+aGRldiwgIkludmFsaWQgZGl2aXNvciBmb3IgZ3lyb3Njb3BlICVkLiIsIGkpOworCQkJY3Rsci0+
+aW11X2NhbF9neXJvX2Rpdmlzb3JbaV0gPSAxOworCQl9CiAJfQogfQogCi0tIAoyLjM5LjAKCg==
+--0000000000008bd0f505f10f9f98
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-HID-playstation-sanity-check-calibration-data.patch"
+Content-Disposition: attachment; 
+	filename="0001-HID-playstation-sanity-check-calibration-data.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lcau764c2>
+X-Attachment-Id: f_lcau764c2
+
+RnJvbSBkNzUxOTExZjIzYWNhNDEzYjJiZjgzMWVhMzAxMjE5YzUzMzA4MWU2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGFpbiBDYXJsdWNjaSA8Y2FycGlrZW1haWxAZ21haWwuY29t
+PgpEYXRlOiBGcmksIDMwIERlYyAyMDIyIDE4OjQ3OjU0ICswMTAwClN1YmplY3Q6IFtQQVRDSCAx
+LzNdIEhJRDogcGxheXN0YXRpb246IHNhbml0eSBjaGVjayBjYWxpYnJhdGlvbiBkYXRhLgoKVGhp
+cyBwYXRjaCBwcmV2ZW50cyBhIGRpdmlzaW9uIGJ5IHplcm8gaWYgdGhlIHRoZSBkZXZpY2UgcmVw
+b3J0cyBpbnZhbGlkCmNhbGlicmF0aW9uIHBhcmFtZXRlcnMuIEluIHRoYXQgY2FzZSwgZmFsbGJh
+Y2sgdG8gZGVmYXVsdCB2YWx1ZXMuCi0tLQogZHJpdmVycy9oaWQvaGlkLXBsYXlzdGF0aW9uLmMg
+fCA2MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQs
+IDYxIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9oaWQtcGxheXN0YXRp
+b24uYyBiL2RyaXZlcnMvaGlkL2hpZC1wbGF5c3RhdGlvbi5jCmluZGV4IGYzOTliZjBkMy4uYTI0
+OWYzYmIwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2hpZC9oaWQtcGxheXN0YXRpb24uYworKysgYi9k
+cml2ZXJzL2hpZC9oaWQtcGxheXN0YXRpb24uYwpAQCAtOTU0LDYgKzk1NCw3IEBAIHN0YXRpYyBp
+bnQgZHVhbHNlbnNlX2dldF9jYWxpYnJhdGlvbl9kYXRhKHN0cnVjdCBkdWFsc2Vuc2UgKmRzKQog
+CWludCBzcGVlZF8yeDsKIAlpbnQgcmFuZ2VfMmc7CiAJaW50IHJldCA9IDA7CisJaW50IGk7CiAJ
+dWludDhfdCAqYnVmOwogCiAJYnVmID0ga3phbGxvYyhEU19GRUFUVVJFX1JFUE9SVF9DQUxJQlJB
+VElPTl9TSVpFLCBHRlBfS0VSTkVMKTsKQEAgLTEwMDUsNiArMTAwNiwyMyBAQCBzdGF0aWMgaW50
+IGR1YWxzZW5zZV9nZXRfY2FsaWJyYXRpb25fZGF0YShzdHJ1Y3QgZHVhbHNlbnNlICpkcykKIAlk
+cy0+Z3lyb19jYWxpYl9kYXRhWzJdLnNlbnNfbnVtZXIgPSBzcGVlZF8yeCpEU19HWVJPX1JFU19Q
+RVJfREVHX1M7CiAJZHMtPmd5cm9fY2FsaWJfZGF0YVsyXS5zZW5zX2Rlbm9tID0gZ3lyb19yb2xs
+X3BsdXMgLSBneXJvX3JvbGxfbWludXM7CiAKKwkvKiBTYW5pdHkgY2hlY2sgZ3lybyBjYWxpYnJh
+dGlvbiBkYXRhLiBUaGlzIGlzIG5lZWRlZCBmb3IgY2xvbmUgZGV2aWNlcywKKwkgKiB3aGljaCBw
+b29ybHkgaW1wbGVtZW50IHN1cHBvcnQuIFNvbWUgZGV2aWNlcyBhcHBlYXIgdG8gcmV0dXJuIHpl
+cm9zCisJICogZm9yIGFsbCBkYXRhLCB3aGlsZSBzb21lIGhhcmRjb2RlIGFsbCB0aGUgc2FtZSB2
+YWx1ZXMgYW5kIGZvciBzb21lCisJICogdXNlIHRoZSB3cm9uZyBzaWduICh0aGUgZGVsdGEgaXMg
+dGhlbiAwKS4KKwkgKiBXaGVuIHdlIGRldGVjdCBzb21ldGhpbmcgZmlzaHksIGp1c3QgZGlzYWJs
+ZSB0aGUgY2FsaWJyYXRpb24gbG9naWMKKwkgKiBhbHRvZ2V0aGVyIGFzIG5vdGhpbmcgY2FuIGJl
+IHRydXN0ZWQgZm9yIHRoYXQgYXhpcy4KKwkgKi8KKwlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0la
+RShkcy0+Z3lyb19jYWxpYl9kYXRhKTsgaSsrKSB7CisJCWlmIChkcy0+Z3lyb19jYWxpYl9kYXRh
+W2ldLnNlbnNfZGVub20gPT0gMCkgeworCQkJaGlkX3dhcm4oZHMtPmJhc2UuaGRldiwgIkludmFs
+aWQgZ3lybyBjYWxpYnJhdGlvbiBkYXRhIGZvciBheGlzICglZCksIGRpc2FibGluZyBjYWxpYnJh
+dGlvbi4iLAorCQkJCQlkcy0+Z3lyb19jYWxpYl9kYXRhW2ldLmFic19jb2RlKTsKKwkJCWRzLT5n
+eXJvX2NhbGliX2RhdGFbaV0uYmlhcyA9IDA7CisJCQlkcy0+Z3lyb19jYWxpYl9kYXRhW2ldLnNl
+bnNfbnVtZXIgPSBEU19HWVJPX1JFU19QRVJfREVHX1M7CisJCQlkcy0+Z3lyb19jYWxpYl9kYXRh
+W2ldLnNlbnNfZGVub20gPSAxOworCQl9CisJfQorCiAJLyoKIAkgKiBTZXQgYWNjZWxlcm9tZXRl
+ciBjYWxpYnJhdGlvbiBhbmQgbm9ybWFsaXphdGlvbiBwYXJhbWV0ZXJzLgogCSAqIERhdGEgdmFs
+dWVzIHdpbGwgYmUgbm9ybWFsaXplZCB0byAxL0RTX0FDQ19SRVNfUEVSX0cgZy4KQEAgLTEwMjcs
+NiArMTA0NSwxOCBAQCBzdGF0aWMgaW50IGR1YWxzZW5zZV9nZXRfY2FsaWJyYXRpb25fZGF0YShz
+dHJ1Y3QgZHVhbHNlbnNlICpkcykKIAlkcy0+YWNjZWxfY2FsaWJfZGF0YVsyXS5zZW5zX251bWVy
+ID0gMipEU19BQ0NfUkVTX1BFUl9HOwogCWRzLT5hY2NlbF9jYWxpYl9kYXRhWzJdLnNlbnNfZGVu
+b20gPSByYW5nZV8yZzsKIAorCS8qIFNhbml0eSBjaGVjayBhY2NlbGVyb21ldGVyIGNhbGlicmF0
+aW9uIGRhdGEuIFRoaXMgaXMgbmVlZGVkIGZvciBjbG9uZSBkZXZpY2VzLAorCSAqIHdoaWNoIHBv
+b3JseSBpbXBsZW1lbnQgc3VwcG9ydC4KKwkgKi8KKwlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0la
+RShkcy0+YWNjZWxfY2FsaWJfZGF0YSk7IGkrKykgeworCQlpZiAoZHMtPmFjY2VsX2NhbGliX2Rh
+dGFbaV0uc2Vuc19kZW5vbSA9PSAwKSB7CisJCQloaWRfd2Fybihkcy0+YmFzZS5oZGV2LCAiSW52
+YWxpZCBhY2NlbGVyb21ldGVyIGNhbGlicmF0aW9uIGRhdGEgZm9yIGF4aXMgKCVkKSwgZGlzYWJs
+aW5nIGNhbGlicmF0aW9uLiIsCisJCQkJCWRzLT5hY2NlbF9jYWxpYl9kYXRhW2ldLmFic19jb2Rl
+KTsKKwkJCWRzLT5hY2NlbF9jYWxpYl9kYXRhW2ldLmJpYXMgPSAwOworCQkJZHMtPmFjY2VsX2Nh
+bGliX2RhdGFbaV0uc2Vuc19udW1lciA9IERTX0FDQ19SRVNfUEVSX0c7CisJCQlkcy0+YWNjZWxf
+Y2FsaWJfZGF0YVtpXS5zZW5zX2Rlbm9tID0gMTsKKwkJfQorCX0KIGVycl9mcmVlOgogCWtmcmVl
+KGJ1Zik7CiAJcmV0dXJuIHJldDsKQEAgLTE3MzcsNiArMTc2Nyw3IEBAIHN0YXRpYyBpbnQgZHVh
+bHNob2NrNF9nZXRfY2FsaWJyYXRpb25fZGF0YShzdHJ1Y3QgZHVhbHNob2NrNCAqZHM0KQogCWlu
+dCBzcGVlZF8yeDsKIAlpbnQgcmFuZ2VfMmc7CiAJaW50IHJldCA9IDA7CisJaW50IGk7CiAJdWlu
+dDhfdCAqYnVmOwogCiAJaWYgKGRzNC0+YmFzZS5oZGV2LT5idXMgPT0gQlVTX1VTQikgewpAQCAt
+MTgzMCw2ICsxODYxLDIzIEBAIHN0YXRpYyBpbnQgZHVhbHNob2NrNF9nZXRfY2FsaWJyYXRpb25f
+ZGF0YShzdHJ1Y3QgZHVhbHNob2NrNCAqZHM0KQogCWRzNC0+Z3lyb19jYWxpYl9kYXRhWzJdLnNl
+bnNfbnVtZXIgPSBzcGVlZF8yeCpEUzRfR1lST19SRVNfUEVSX0RFR19TOwogCWRzNC0+Z3lyb19j
+YWxpYl9kYXRhWzJdLnNlbnNfZGVub20gPSBneXJvX3JvbGxfcGx1cyAtIGd5cm9fcm9sbF9taW51
+czsKIAorCS8qIFNhbml0eSBjaGVjayBneXJvIGNhbGlicmF0aW9uIGRhdGEuIFRoaXMgaXMgbmVl
+ZGVkIGZvciBjbG9uZSBkZXZpY2VzLAorCSAqIHdoaWNoIHBvb3JseSBpbXBsZW1lbnQgc3VwcG9y
+dC4gU29tZSBkZXZpY2VzIGFwcGVhciB0byByZXR1cm4gemVyb3MKKwkgKiBmb3IgYWxsIGRhdGEs
+IHdoaWxlIHNvbWUgaGFyZGNvZGUgYWxsIHRoZSBzYW1lIHZhbHVlcyBhbmQgZm9yIHNvbWUKKwkg
+KiB1c2UgdGhlIHdyb25nIHNpZ24gKHRoZSBkZWx0YSBpcyB0aGVuIDApLgorCSAqIFdoZW4gd2Ug
+ZGV0ZWN0IHNvbWV0aGluZyBmaXNoeSwganVzdCBkaXNhYmxlIHRoZSBjYWxpYnJhdGlvbiBsb2dp
+YworCSAqIGFsdG9nZXRoZXIgYXMgbm90aGluZyBjYW4gYmUgdHJ1c3RlZCBmb3IgdGhhdCBheGlz
+LgorCSAqLworCWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGRzNC0+Z3lyb19jYWxpYl9kYXRh
+KTsgaSsrKSB7CisJCWlmIChkczQtPmd5cm9fY2FsaWJfZGF0YVtpXS5zZW5zX2Rlbm9tID09IDAp
+IHsKKwkJCWhpZF93YXJuKGhkZXYsICJJbnZhbGlkIGd5cm8gY2FsaWJyYXRpb24gZGF0YSBmb3Ig
+YXhpcyAoJWQpLCBkaXNhYmxpbmcgY2FsaWJyYXRpb24uIiwKKwkJCQkJZHM0LT5neXJvX2NhbGli
+X2RhdGFbaV0uYWJzX2NvZGUpOworCQkJZHM0LT5neXJvX2NhbGliX2RhdGFbaV0uYmlhcyA9IDA7
+CisJCQlkczQtPmd5cm9fY2FsaWJfZGF0YVtpXS5zZW5zX251bWVyID0gRFM0X0dZUk9fUkVTX1BF
+Ul9ERUdfUzsKKwkJCWRzNC0+Z3lyb19jYWxpYl9kYXRhW2ldLnNlbnNfZGVub20gPSAxOworCQl9
+CisJfQorCiAJLyoKIAkgKiBTZXQgYWNjZWxlcm9tZXRlciBjYWxpYnJhdGlvbiBhbmQgbm9ybWFs
+aXphdGlvbiBwYXJhbWV0ZXJzLgogCSAqIERhdGEgdmFsdWVzIHdpbGwgYmUgbm9ybWFsaXplZCB0
+byAxL0RTNF9BQ0NfUkVTX1BFUl9HIGcuCkBAIC0xODUyLDYgKzE5MDAsMTkgQEAgc3RhdGljIGlu
+dCBkdWFsc2hvY2s0X2dldF9jYWxpYnJhdGlvbl9kYXRhKHN0cnVjdCBkdWFsc2hvY2s0ICpkczQp
+CiAJZHM0LT5hY2NlbF9jYWxpYl9kYXRhWzJdLnNlbnNfbnVtZXIgPSAyKkRTNF9BQ0NfUkVTX1BF
+Ul9HOwogCWRzNC0+YWNjZWxfY2FsaWJfZGF0YVsyXS5zZW5zX2Rlbm9tID0gcmFuZ2VfMmc7CiAK
+KwkvKiBTYW5pdHkgY2hlY2sgYWNjZWxlcm9tZXRlciBjYWxpYnJhdGlvbiBkYXRhLiBUaGlzIGlz
+IG5lZWRlZCBmb3IgY2xvbmUgZGV2aWNlcywKKwkgKiB3aGljaCBwb29ybHkgaW1wbGVtZW50IHN1
+cHBvcnQuCisJICovCisJZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoZHM0LT5hY2NlbF9jYWxp
+Yl9kYXRhKTsgaSsrKSB7CisJCWlmIChkczQtPmFjY2VsX2NhbGliX2RhdGFbaV0uc2Vuc19kZW5v
+bSA9PSAwKSB7CisJCQloaWRfd2FybihoZGV2LCAiSW52YWxpZCBhY2NlbGVyb21ldGVyIGNhbGli
+cmF0aW9uIGRhdGEgZm9yIGF4aXMgKCVkKSwgZGlzYWJsaW5nIGNhbGlicmF0aW9uLiIsCisJCQkJ
+CWRzNC0+YWNjZWxfY2FsaWJfZGF0YVtpXS5hYnNfY29kZSk7CisJCQlkczQtPmFjY2VsX2NhbGli
+X2RhdGFbaV0uYmlhcyA9IDA7CisJCQlkczQtPmFjY2VsX2NhbGliX2RhdGFbaV0uc2Vuc19udW1l
+ciA9IERTNF9BQ0NfUkVTX1BFUl9HOworCQkJZHM0LT5hY2NlbF9jYWxpYl9kYXRhW2ldLnNlbnNf
+ZGVub20gPSAxOworCQl9CisJfQorCiBlcnJfZnJlZToKIAlrZnJlZShidWYpOwogCXJldHVybiBy
+ZXQ7Ci0tIAoyLjM5LjAKCg==
+--0000000000008bd0f505f10f9f98
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0002-HID-sony-sanity-check-DS4-calibration-data.patch"
+Content-Disposition: attachment; 
+	filename="0002-HID-sony-sanity-check-DS4-calibration-data.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lcau764a1>
+X-Attachment-Id: f_lcau764a1
+
+RnJvbSBkYzkyZjBiZTEzNTJiYTVhMjcyMzlmNDUxZTVmMDE2MWU0OGYxNGU2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGFpbiBDYXJsdWNjaSA8Y2FycGlrZW1haWxAZ21haWwuY29t
+PgpEYXRlOiBGcmksIDMwIERlYyAyMDIyIDE4OjUyOjA2ICswMTAwClN1YmplY3Q6IFtQQVRDSCAy
+LzNdIEhJRDogc29ueTogc2FuaXR5IGNoZWNrIERTNCBjYWxpYnJhdGlvbiBkYXRhCgpUaGlzIHBh
+dGNoIHByZXZlbnRzIGEgY3Jhc2ggd2hlbiB0aGUgRFM0IHJlcG9ydHMgaW52YWxpZCBjYWxpYnJh
+dGlvbgpkYXRhIGZvciB0aGUgSU1Vcy4gSXQgY2hlY2tzIGlmIHRoZSBkZW5vbWluYXRvciBpcyB6
+ZXJvLCBhbmQgaW4gdGhhdApjYXNlIGZhbGxiYWNrIHRvIGEgZGVmYXVsdCB2YWx1ZS4KLS0tCiBk
+cml2ZXJzL2hpZC9oaWQtc29ueS5jIHwgMjUgKysrKysrKysrKysrKysrKysrKysrKysrKwogMSBm
+aWxlIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9o
+aWQtc29ueS5jIGIvZHJpdmVycy9oaWQvaGlkLXNvbnkuYwppbmRleCAxMzEyNTk5N2EuLmQyNWU4
+NGUzNSAxMDA2NDQKLS0tIGEvZHJpdmVycy9oaWQvaGlkLXNvbnkuYworKysgYi9kcml2ZXJzL2hp
+ZC9oaWQtc29ueS5jCkBAIC0xNzE0LDYgKzE3MTQsNyBAQCBzdGF0aWMgaW50IGR1YWxzaG9jazRf
+Z2V0X2NhbGlicmF0aW9uX2RhdGEoc3RydWN0IHNvbnlfc2MgKnNjKQogCXNob3J0IGFjY196X3Bs
+dXMsIGFjY196X21pbnVzOwogCWludCBzcGVlZF8yeDsKIAlpbnQgcmFuZ2VfMmc7CisJaW50IGk7
+CiAKIAkvKiBGb3IgQmx1ZXRvb3RoIHdlIHVzZSBhIGRpZmZlcmVudCByZXF1ZXN0LCB3aGljaCBz
+dXBwb3J0cyBDUkMuCiAJICogTm90ZTogaW4gQmx1ZXRvb3RoIG1vZGUgZmVhdHVyZSByZXBvcnQg
+MHgwMiBhbHNvIGNoYW5nZXMgdGhlIHN0YXRlCkBAIC0xODU4LDYgKzE4NTksMzAgQEAgc3RhdGlj
+IGludCBkdWFsc2hvY2s0X2dldF9jYWxpYnJhdGlvbl9kYXRhKHN0cnVjdCBzb255X3NjICpzYykK
+IAlzYy0+ZHM0X2NhbGliX2RhdGFbNV0uc2Vuc19udW1lciA9IDIqRFM0X0FDQ19SRVNfUEVSX0c7
+CiAJc2MtPmRzNF9jYWxpYl9kYXRhWzVdLnNlbnNfZGVub20gPSByYW5nZV8yZzsKIAorCS8qIFNh
+bml0eSBjaGVjayBneXJvIGNhbGlicmF0aW9uIGRhdGEuIFRoaXMgaXMgbmVlZGVkIGZvciBjbG9u
+ZSBkZXZpY2VzLAorCSAqIHdoaWNoIHBvb3JseSBpbXBsZW1lbnQgc3VwcG9ydC4gU29tZSBkZXZp
+Y2VzIGFwcGVhciB0byByZXR1cm4gemVyb3MKKwkgKiBmb3IgYWxsIGRhdGEsIHdoaWxlIHNvbWUg
+aGFyZGNvZGUgYWxsIHRoZSBzYW1lIHZhbHVlcyBhbmQgZm9yIHNvbWUKKwkgKiB1c2UgdGhlIHdy
+b25nIHNpZ24gKHRoZSBkZWx0YSBpcyB0aGVuIDApLgorCSAqIFdoZW4gd2UgZGV0ZWN0IHNvbWV0
+aGluZyBmaXNoeSwganVzdCBkaXNhYmxlIHRoZSBjYWxpYnJhdGlvbiBsb2dpYworCSAqIGFsdG9n
+ZXRoZXIgYXMgbm90aGluZyBjYW4gYmUgdHJ1c3RlZCBmb3IgdGhhdCBheGlzLgorCSAqLworCWZv
+ciAoaSA9IDA7IGkgPCA2OyBpKyspIHsKKwkJaWYgKHNjLT5kczRfY2FsaWJfZGF0YVtpXS5zZW5z
+X2Rlbm9tID09IDApIHsKKwkJCWhpZF93YXJuKHNjLT5oZGV2LCAiSW52YWxpZCBjYWxpYnJhdGlv
+biBkYXRhIGZvciBheGlzICglZCksIGRpc2FibGluZyBjYWxpYnJhdGlvbi4iLAorCQkJCQlzYy0+
+ZHM0X2NhbGliX2RhdGFbaV0uYWJzX2NvZGUpOworCisJCQlpZiAoaSA8IDMpIHsKKwkJCQkvKiBH
+eXJvc2NvcGUgKi8KKwkJCQlzYy0+ZHM0X2NhbGliX2RhdGFbaV0uc2Vuc19udW1lciA9IERTNF9H
+WVJPX1JFU19QRVJfREVHX1M7CisJCQl9IGVsc2UgeworCQkJCS8qIEFjY2VsZXJvbWV0ZXIgKi8K
+KwkJCQlzYy0+ZHM0X2NhbGliX2RhdGFbaV0uc2Vuc19udW1lciA9IERTNF9BQ0NfUkVTX1BFUl9H
+OworCQkJfQorCQkJc2MtPmRzNF9jYWxpYl9kYXRhW2ldLmJpYXMgPSAwOworCQkJc2MtPmRzNF9j
+YWxpYl9kYXRhW2ldLnNlbnNfZGVub20gPSAxOworCQl9CisJfQorCiBlcnJfc3RvcDoKIAlrZnJl
+ZShidWYpOwogCXJldHVybiByZXQ7Ci0tIAoyLjM5LjAKCg==
+--0000000000008bd0f505f10f9f98--
