@@ -2,42 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B02F65B63E
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E1065B63C
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236353AbjABSGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Jan 2023 13:06:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47584 "EHLO
+        id S232506AbjABSGo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Jan 2023 13:06:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232796AbjABSGK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:10 -0500
+        with ESMTP id S236303AbjABSGL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:11 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5B3DD4
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:08 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D16E355BB
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:09 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 57C6EB80D0B
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FC0C433D2;
-        Mon,  2 Jan 2023 18:06:05 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 82CD7B80D0D
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8599FC433EF;
+        Mon,  2 Jan 2023 18:06:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682766;
-        bh=wp2ktGfZ0eg2QwSC98iKO5FSWIj7S0x2/HyeCPemldY=;
+        s=k20201202; t=1672682767;
+        bh=xHO8Iv4ZqtiCejPdA5Y2Q7wrp3IybCcMIqoV1cTvr10=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gYPHAaVBqQKEqDARxI+y7AOqlyK9WY7kuVd1CvD4JS9q+CGvL0Ll6OAUMb+VWPsho
-         GMewwRk+WawK1wAriDf7VH/xx6Znp0udmrMscRc/gYrMyNehncPSZKZEX6uwCwgK5v
-         G+Ai7MmrtbXnf0zzH9ZpWKDNA1/k1aEVpWVNZxsAnb5vPxSsgCU8ZDQr+26n9rYMbt
-         b/7H+cO5NaN0dfgs79wc6hp3br326DvGvYS+1YXvCPHZJFsxoftykhiT2DhVonio0+
-         +5EEeQV5PiqnI4rGBItkPGyA/0L/jMEOE0hV/Nhrv+Civh72M65mZcXf/bdw/ro6xU
-         hoAe+1Itb3J4w==
+        b=rUfI5FQrOGv/UWWJWLTVSm/b9uuIPVb7tEiMIlYfgB0Bfo+fqx3jM5pDmXlR/tRyC
+         Hs2mpS1GcTVnkZTzsPcfdA2u20IumwahI/hcCtYiH+9ZsxELijPkZM20vr9ipvJ3zl
+         mcRwD++OwbFB6vRnDbGZah8dbIn5MgxWQk3xS7FNY1RWfYPJUYasZXM7RBWH5ErrGq
+         Svk2FxnF3qojGD61YDYCitf5YT0yui2chQnMgAna5D1PjVJ0gJ++/c1R69vwZozLmo
+         dJk6SKV+1tPbFpfjktJYNo7ySIJnOwDnMGToHoz5l0GPhcUGckhZVIiiA+JOc8UxWv
+         6xpAYXRFGu9xQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 09/69] Input: iqs626a - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:17:42 +0000
-Message-Id: <20230102181842.718010-10-jic23@kernel.org>
+Subject: [PATCH 10/69] Input: kxtj9 - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Mon,  2 Jan 2023 18:17:43 +0000
+Message-Id: <20230102181842.718010-11-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
@@ -62,49 +62,49 @@ removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- drivers/input/misc/iqs626a.c | 8 ++++----
+ drivers/input/misc/kxtj9.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/misc/iqs626a.c b/drivers/input/misc/iqs626a.c
-index 23b5dd9552dc..4727e6b95e41 100644
---- a/drivers/input/misc/iqs626a.c
-+++ b/drivers/input/misc/iqs626a.c
-@@ -1712,7 +1712,7 @@ static int iqs626_probe(struct i2c_client *client)
- 	return error;
+diff --git a/drivers/input/misc/kxtj9.c b/drivers/input/misc/kxtj9.c
+index 7e73e6e0730f..4e806d56c55d 100644
+--- a/drivers/input/misc/kxtj9.c
++++ b/drivers/input/misc/kxtj9.c
+@@ -494,7 +494,7 @@ static int kxtj9_probe(struct i2c_client *client)
+ 	return 0;
  }
  
--static int __maybe_unused iqs626_suspend(struct device *dev)
-+static int iqs626_suspend(struct device *dev)
+-static int __maybe_unused kxtj9_suspend(struct device *dev)
++static int kxtj9_suspend(struct device *dev)
  {
- 	struct iqs626_private *iqs626 = dev_get_drvdata(dev);
- 	struct i2c_client *client = iqs626->client;
-@@ -1771,7 +1771,7 @@ static int __maybe_unused iqs626_suspend(struct device *dev)
- 	return error;
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct kxtj9_data *tj9 = i2c_get_clientdata(client);
+@@ -509,7 +509,7 @@ static int __maybe_unused kxtj9_suspend(struct device *dev)
+ 	return 0;
  }
  
--static int __maybe_unused iqs626_resume(struct device *dev)
-+static int iqs626_resume(struct device *dev)
+-static int __maybe_unused kxtj9_resume(struct device *dev)
++static int kxtj9_resume(struct device *dev)
  {
- 	struct iqs626_private *iqs626 = dev_get_drvdata(dev);
- 	struct i2c_client *client = iqs626->client;
-@@ -1818,7 +1818,7 @@ static int __maybe_unused iqs626_resume(struct device *dev)
- 	return error;
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct kxtj9_data *tj9 = i2c_get_clientdata(client);
+@@ -524,7 +524,7 @@ static int __maybe_unused kxtj9_resume(struct device *dev)
+ 	return 0;
  }
  
--static SIMPLE_DEV_PM_OPS(iqs626_pm, iqs626_suspend, iqs626_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(iqs626_pm, iqs626_suspend, iqs626_resume);
+-static SIMPLE_DEV_PM_OPS(kxtj9_pm_ops, kxtj9_suspend, kxtj9_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(kxtj9_pm_ops, kxtj9_suspend, kxtj9_resume);
  
- static const struct of_device_id iqs626_of_match[] = {
- 	{ .compatible = "azoteq,iqs626a" },
-@@ -1830,7 +1830,7 @@ static struct i2c_driver iqs626_i2c_driver = {
+ static const struct i2c_device_id kxtj9_id[] = {
+ 	{ NAME, 0 },
+@@ -536,7 +536,7 @@ MODULE_DEVICE_TABLE(i2c, kxtj9_id);
+ static struct i2c_driver kxtj9_driver = {
  	.driver = {
- 		.name = "iqs626a",
- 		.of_match_table = iqs626_of_match,
--		.pm = &iqs626_pm,
-+		.pm = pm_sleep_ptr(&iqs626_pm),
+ 		.name	= NAME,
+-		.pm	= &kxtj9_pm_ops,
++		.pm	= pm_sleep_ptr(&kxtj9_pm_ops),
  	},
- 	.probe_new = iqs626_probe,
- };
+ 	.probe_new	= kxtj9_probe,
+ 	.id_table	= kxtj9_id,
 -- 
 2.39.0
 
