@@ -2,43 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AE7165B65C
+	by mail.lfdr.de (Postfix) with ESMTP id 752E065B65D
 	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236347AbjABSHT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S236361AbjABSHT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Mon, 2 Jan 2023 13:07:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49436 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236500AbjABSGx (ORCPT
+        with ESMTP id S236502AbjABSGx (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:53 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF56C2F5
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DCD52E2
         for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A944FB80DEC
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7A8C433EF;
-        Mon,  2 Jan 2023 18:06:48 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CE6261084
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC3CBC433F0;
+        Mon,  2 Jan 2023 18:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682809;
-        bh=d4MO4Fl+LVtQkwl5qpm268Fadx1u/sLrfvHPk8I0zRo=;
+        s=k20201202; t=1672682810;
+        bh=Bfpirfi1/wnNoY0OXjR20imqa1gbuOi0JsIrNeOfC+M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Zhjr7UcoYKkadJs5KnYx76vpYh5Z+alzIgjSvWt0tjcNgRcmKvhnkCCwrWHEOZ9cF
-         n1/XBwE8OndB1MPhj8m4Zq7ZBW6lI9WVK531LzP0salBuQuT9sGrxq3lYjXSI4epEu
-         b+0cX88Uh2I1tXCyYQDIyXF/zv95Y2A79PLHdxeguTrPrSjxmfyUBcMo47xSGhwHPB
-         +6kF1xoyOrFoRff5lhpKJZEFREKmXiYYcN0MVArY12EGEbH71bTTNqPfBX1w6AeKUg
-         A4ew0s35cgz1UxvsA9irNdfpAK0Dv3iOXoE0MGoriW4I8R/faC2tIu6cCLPLGisI38
-         x3nsM/2Fx78yQ==
+        b=A7biqdAU1EOqdwZZXE1T5TWfesrJQtKvlY6WtRKAikHcsYP8W2BVowDKvLB7FQncP
+         FOgkCPZ9ss7cPjfplQr5Fbc19zYDk6QJpQ9EsWQaTFOadKMDG4txR0PmNY9dWUDXj4
+         LASKsF7vZ1yKs8+z3FlYjL7HMdVuv1B9bHpK9HKRPpcvMmEyIWeGFXt+TuN3Ayrn0b
+         I+gV7twoXplxZR7eTfDWDOkUto3z00fuY/6p++D80yrr+bs5R1jnGT5cmZRpr/YBup
+         YlOX/BIR1NdxDDAMjjhnfzyYiziDhgY8wXiPZBJG1My+i6QFiuQLBN2dylkmLu/xCa
+         qclkBpfBLCyDw==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Daniel Mack <daniel@zonque.org>
-Subject: [PATCH 42/69] Input: eeti_ts - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:18:15 +0000
-Message-Id: <20230102181842.718010-43-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 43/69] Input: egalax_ts - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Mon,  2 Jan 2023 18:18:16 +0000
+Message-Id: <20230102181842.718010-44-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
@@ -62,51 +61,51 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Daniel Mack <daniel@zonque.org>
 ---
- drivers/input/touchscreen/eeti_ts.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/input/touchscreen/egalax_ts.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/eeti_ts.c b/drivers/input/touchscreen/eeti_ts.c
-index c8ab03f49227..56fa21688bdb 100644
---- a/drivers/input/touchscreen/eeti_ts.c
-+++ b/drivers/input/touchscreen/eeti_ts.c
-@@ -232,7 +232,7 @@ static int eeti_ts_probe(struct i2c_client *client)
- 	return 0;
+diff --git a/drivers/input/touchscreen/egalax_ts.c b/drivers/input/touchscreen/egalax_ts.c
+index 742d47a75ac1..1a9805938e6d 100644
+--- a/drivers/input/touchscreen/egalax_ts.c
++++ b/drivers/input/touchscreen/egalax_ts.c
+@@ -223,7 +223,7 @@ static const struct i2c_device_id egalax_ts_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, egalax_ts_id);
+ 
+-static int __maybe_unused egalax_ts_suspend(struct device *dev)
++static int egalax_ts_suspend(struct device *dev)
+ {
+ 	static const u8 suspend_cmd[MAX_I2C_DATA_LEN] = {
+ 		0x3, 0x6, 0xa, 0x3, 0x36, 0x3f, 0x2, 0, 0, 0
+@@ -238,7 +238,7 @@ static int __maybe_unused egalax_ts_suspend(struct device *dev)
+ 	return ret > 0 ? 0 : ret;
  }
  
--static int __maybe_unused eeti_ts_suspend(struct device *dev)
-+static int eeti_ts_suspend(struct device *dev)
+-static int __maybe_unused egalax_ts_resume(struct device *dev)
++static int egalax_ts_resume(struct device *dev)
  {
  	struct i2c_client *client = to_i2c_client(dev);
- 	struct eeti_ts *eeti = i2c_get_clientdata(client);
-@@ -251,7 +251,7 @@ static int __maybe_unused eeti_ts_suspend(struct device *dev)
- 	return 0;
+ 
+@@ -248,7 +248,8 @@ static int __maybe_unused egalax_ts_resume(struct device *dev)
+ 	return egalax_wake_up_device(client);
  }
  
--static int __maybe_unused eeti_ts_resume(struct device *dev)
-+static int eeti_ts_resume(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct eeti_ts *eeti = i2c_get_clientdata(client);
-@@ -270,7 +270,7 @@ static int __maybe_unused eeti_ts_resume(struct device *dev)
- 	return 0;
- }
+-static SIMPLE_DEV_PM_OPS(egalax_ts_pm_ops, egalax_ts_suspend, egalax_ts_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(egalax_ts_pm_ops,
++				egalax_ts_suspend, egalax_ts_resume);
  
--static SIMPLE_DEV_PM_OPS(eeti_ts_pm, eeti_ts_suspend, eeti_ts_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(eeti_ts_pm, eeti_ts_suspend, eeti_ts_resume);
- 
- static const struct i2c_device_id eeti_ts_id[] = {
- 	{ "eeti_ts", 0 },
-@@ -288,7 +288,7 @@ static const struct of_device_id of_eeti_ts_match[] = {
- static struct i2c_driver eeti_ts_driver = {
+ static const struct of_device_id egalax_ts_dt_ids[] = {
+ 	{ .compatible = "eeti,egalax_ts" },
+@@ -259,7 +260,7 @@ MODULE_DEVICE_TABLE(of, egalax_ts_dt_ids);
+ static struct i2c_driver egalax_ts_driver = {
  	.driver = {
- 		.name = "eeti_ts",
--		.pm = &eeti_ts_pm,
-+		.pm = pm_sleep_ptr(&eeti_ts_pm),
- 		.of_match_table = of_match_ptr(of_eeti_ts_match),
+ 		.name	= "egalax_ts",
+-		.pm	= &egalax_ts_pm_ops,
++		.pm	= pm_sleep_ptr(&egalax_ts_pm_ops),
+ 		.of_match_table	= egalax_ts_dt_ids,
  	},
- 	.probe_new = eeti_ts_probe,
+ 	.id_table	= egalax_ts_id,
 -- 
 2.39.0
 
