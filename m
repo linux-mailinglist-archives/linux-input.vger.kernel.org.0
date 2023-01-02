@@ -2,42 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F2865B650
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60AAF65B64D
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236488AbjABSHA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Jan 2023 13:07:00 -0500
+        id S236513AbjABSG5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Jan 2023 13:06:57 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236486AbjABSGd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:33 -0500
+        with ESMTP id S236490AbjABSGe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:34 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2184DAD
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:32 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135F6DAD
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:34 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F5AA61084
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9EE0C433D2;
-        Mon,  2 Jan 2023 18:06:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A54D361038
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BB42C433EF;
+        Mon,  2 Jan 2023 18:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682791;
-        bh=t3XtVjo6jR8vWFZbI6nj9aLXlGbINHR9jQqeT3yIrcA=;
+        s=k20201202; t=1672682793;
+        bh=A/p+bOHqSv9ECzGy2jdon9H3yyyOlExiHZ/PsPc3q6o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r6/1KmJCvk9k08Cp2mQz83ioOHwZmNjnTnkShzuRpQFhhBErNH3UUwV07B2zcal6W
-         rtOH2KOU0jDNA6U8norDSFfglakXZ5vz7lONRKK00SxXQ3PEz9Iarb0GpUH6yNvrbN
-         U+MrjosmqWPr9EeU7mO9nszNCPKKoubVzzzUvfFdYL7HqdokCY5p2N1TZC3uVNNRoC
-         Zda4SU48dotyWYQZg2wLaz6ITDLHrFIL2ahDpL0Yzp3Aw4HZ4MRrt65/u0jVbG4M+z
-         Bva6QgSQr8l2f2I4NGERetevwurtcHF+Qcb5f6CkIpwJZhoWzpUN6pE7cYQR4Ar3Hf
-         plzF1USbh1ywQ==
+        b=hLWW1KrkIWVrqmBl8dK2N+InEIT9rdFLcoaQELk0WyhSjfAM+hBokqJhj782ycyjc
+         lkfSTjgVo39Y8xalbnVirVCfuxHnYOW52JjCUjw9kQiFoh3YEiLX4fZvVLo9kx5W5X
+         ETMC6CH3Z9aM9BFJQmCmEwcrkInwbEsmSr8o7Ue+YwHU12cUByIJ36Ew5fa/XYrXKV
+         MBpcqieoKJg5MUTIVh4+DqNPCngTTqitZZrKyNc/uMJTgSLR9oNDz5LqylmIY2IZn6
+         iF8wI62jPMbC1tNYufGt16TDmVrs129npuBo2xEeg0/2UrPyrJdh+ej/C9M/5vANjI
+         qSlTiRAE82NEQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 29/69] Input: ambakmi - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:18:02 +0000
-Message-Id: <20230102181842.718010-30-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Michael Hennerich <michael.hennerich@analog.com>
+Subject: [PATCH 30/69] Input: ad7877 - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Mon,  2 Jan 2023 18:18:03 +0000
+Message-Id: <20230102181842.718010-31-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
@@ -61,41 +62,48 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>
 ---
- drivers/input/serio/ambakmi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/ad7877.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/serio/ambakmi.c b/drivers/input/serio/ambakmi.c
-index c391700fc4ae..8fbfa448be4a 100644
---- a/drivers/input/serio/ambakmi.c
-+++ b/drivers/input/serio/ambakmi.c
-@@ -170,7 +170,7 @@ static void amba_kmi_remove(struct amba_device *dev)
- 	amba_release_regions(dev);
- }
- 
--static int __maybe_unused amba_kmi_resume(struct device *dev)
-+static int amba_kmi_resume(struct device *dev)
- {
- 	struct amba_kmi_port *kmi = dev_get_drvdata(dev);
- 
-@@ -180,7 +180,7 @@ static int __maybe_unused amba_kmi_resume(struct device *dev)
+diff --git a/drivers/input/touchscreen/ad7877.c b/drivers/input/touchscreen/ad7877.c
+index 08f5372f0bfd..edb36d663f22 100644
+--- a/drivers/input/touchscreen/ad7877.c
++++ b/drivers/input/touchscreen/ad7877.c
+@@ -788,7 +788,7 @@ static int ad7877_probe(struct spi_device *spi)
  	return 0;
  }
  
--static SIMPLE_DEV_PM_OPS(amba_kmi_dev_pm_ops, NULL, amba_kmi_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(amba_kmi_dev_pm_ops, NULL, amba_kmi_resume);
+-static int __maybe_unused ad7877_suspend(struct device *dev)
++static int ad7877_suspend(struct device *dev)
+ {
+ 	struct ad7877 *ts = dev_get_drvdata(dev);
  
- static const struct amba_id amba_kmi_idtable[] = {
- 	{
-@@ -196,7 +196,7 @@ static struct amba_driver ambakmi_driver = {
- 	.drv		= {
- 		.name	= "kmi-pl050",
- 		.owner	= THIS_MODULE,
--		.pm	= &amba_kmi_dev_pm_ops,
-+		.pm	= pm_sleep_ptr(&amba_kmi_dev_pm_ops),
+@@ -797,7 +797,7 @@ static int __maybe_unused ad7877_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused ad7877_resume(struct device *dev)
++static int ad7877_resume(struct device *dev)
+ {
+ 	struct ad7877 *ts = dev_get_drvdata(dev);
+ 
+@@ -806,12 +806,12 @@ static int __maybe_unused ad7877_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(ad7877_pm, ad7877_suspend, ad7877_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(ad7877_pm, ad7877_suspend, ad7877_resume);
+ 
+ static struct spi_driver ad7877_driver = {
+ 	.driver = {
+ 		.name	= "ad7877",
+-		.pm	= &ad7877_pm,
++		.pm	= pm_sleep_ptr(&ad7877_pm),
  	},
- 	.id_table	= amba_kmi_idtable,
- 	.probe		= amba_kmi_probe,
+ 	.probe		= ad7877_probe,
+ };
 -- 
 2.39.0
 
