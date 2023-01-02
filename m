@@ -2,114 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95FC865B676
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40ECD65B6F4
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 20:30:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236475AbjABSHf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Jan 2023 13:07:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49768 "EHLO
+        id S232106AbjABTaj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Jan 2023 14:30:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236495AbjABSH1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:07:27 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 939EA2F5
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:07:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 32CCE61038
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:07:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A952DC433EF;
-        Mon,  2 Jan 2023 18:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682844;
-        bh=fKlwZBB5vriG9IeekEsuZH7scn4rXfepY25G/m2u79g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Kc1gCAxmg8xRe1RwTqrLp7CjVLDreLAJs5Z2ILwlrxNiqKvzI5rJ5OA3VZQXwsq9+
-         nz02aLEn3ejSY4XkmCcnw4jvjHj87vxmtzRKLh8sEyvAPiH3PoJiEOtL80w6sP2caL
-         l7EvQX5xQubLZVv39BAZ21vOOgMhV4UsoICpOM6du2GoiIVNMiQoG78twFww2QhjZ7
-         u3/TnWgSGFRUhOq+KqCe3vrzScn3ryjMjzwE9ghiy97cPxUINTj36P822n6rbqysuE
-         fSovdJodRAeTxxbSZRtj/fl3cVaL2+XFBGyt13785TxHxxviC/h1Nb2JNYE3eVqXL/
-         X4Wjdu2D2H5qw==
-From:   Jonathan Cameron <jic23@kernel.org>
+        with ESMTP id S230170AbjABTai (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 14:30:38 -0500
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4CB45F96
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 11:30:36 -0800 (PST)
+Received: from g550jk.localnet (2a02-8388-6582-fe80-0000-0000-0000-0005.cable.dynamic.v6.surfer.at [IPv6:2a02:8388:6582:fe80::5])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 355EACC3F7;
+        Mon,  2 Jan 2023 19:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1672687835; bh=hD+hA655NeBEo4dcZwAZoLCg+OqGIP651daKFbGrLik=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=R/0OGkCCBxv+OmXUUS97/uEu9lvBOihIQJWn0ktGWSlvFBdPRh3Lt+fo7D5badbxz
+         cysgOk6gNR7jIIP8ZVWTm6TSQ/IgBsIbfQl5G9r03dtmAwydGuNuVpQI2Hdxh6J3F8
+         u6fy8Yjlc5sREBKitevpYoq/yc7CNSnAsK92pFTg=
+From:   Luca Weiss <luca@z3ntu.xyz>
 To:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 69/69] Input: ipaq-micro-ts - use DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:18:42 +0000
-Message-Id: <20230102181842.718010-70-jic23@kernel.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH 07/69] Input: gpio-vibra - switch to DEFINE_SIMPLE_DEV_PM_OPS()
+ and pm_sleep_ptr()
+Date:   Mon, 02 Jan 2023 20:30:33 +0100
+Message-ID: <12122463.O9o76ZdvQC@g550jk>
+In-Reply-To: <20230102181842.718010-8-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
+ <20230102181842.718010-8-jic23@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,FROM_SUSPICIOUS_NTLD,SPF_HELO_NONE,SPF_PASS,
+        T_PDS_OTHER_BAD_TLD autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+On Montag, 2. J=E4nner 2023 19:17:40 CET Jonathan Cameron wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>=20
+> SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
+> against unused function warnings.  The new combination of pm_sleep_ptr()
+> and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
+> thus suppressing the warning, but still allowing the unused code to be
+> removed. Thus also drop the __maybe_unused markings.
+>=20
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Luca Weiss <luca@z3ntu.xyz>
 
-This driver never used the older SIMPLE_DEV_PM_OPS() but instead just
-set two of the callbacks directly.  Skip that deprecated macro and go
-straight to the new form that avoids the need for guarding or marking
-callbacks __maybe_unused.
+Reviewed-by: Luca Weiss <luca@z3ntu.xyz>
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
---
-It is possible there is some subtle reason why only two of the
-callbacks normally set by SIMPLE_DEV_PM_OPS() are set. As such,
-this one needs some closer reading than many of the others.
----
- drivers/input/touchscreen/ipaq-micro-ts.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+Thanks!
 
-diff --git a/drivers/input/touchscreen/ipaq-micro-ts.c b/drivers/input/touchscreen/ipaq-micro-ts.c
-index 0eb5689fe65f..d8e25b502968 100644
---- a/drivers/input/touchscreen/ipaq-micro-ts.c
-+++ b/drivers/input/touchscreen/ipaq-micro-ts.c
-@@ -119,7 +119,7 @@ static int micro_ts_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int __maybe_unused micro_ts_suspend(struct device *dev)
-+static int micro_ts_suspend(struct device *dev)
- {
- 	struct touchscreen_data *ts = dev_get_drvdata(dev);
- 
-@@ -128,7 +128,7 @@ static int __maybe_unused micro_ts_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused micro_ts_resume(struct device *dev)
-+static int micro_ts_resume(struct device *dev)
- {
- 	struct touchscreen_data *ts = dev_get_drvdata(dev);
- 	struct input_dev *input = ts->input;
-@@ -143,14 +143,13 @@ static int __maybe_unused micro_ts_resume(struct device *dev)
- 	return 0;
- }
- 
--static const struct dev_pm_ops micro_ts_dev_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(micro_ts_suspend, micro_ts_resume)
--};
-+static DEFINE_SIMPLE_DEV_PM(micro_ts_dev_pm_ops,
-+			    micro_ts_suspend, micro_ts_resume);
- 
- static struct platform_driver micro_ts_device_driver = {
- 	.driver	= {
- 		.name	= "ipaq-micro-ts",
--		.pm	= &micro_ts_dev_pm_ops,
-+		.pm	= pm_sleep_ptr(&micro_ts_dev_pm_ops),
- 	},
- 	.probe	= micro_ts_probe,
- };
--- 
-2.39.0
+> ---
+>  drivers/input/misc/gpio-vibra.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/input/misc/gpio-vibra.c
+> b/drivers/input/misc/gpio-vibra.c index f79f75595dd7..134a1309ba92 100644
+> --- a/drivers/input/misc/gpio-vibra.c
+> +++ b/drivers/input/misc/gpio-vibra.c
+> @@ -157,7 +157,7 @@ static int gpio_vibrator_probe(struct platform_device
+> *pdev) return 0;
+>  }
+>=20
+> -static int __maybe_unused gpio_vibrator_suspend(struct device *dev)
+> +static int gpio_vibrator_suspend(struct device *dev)
+>  {
+>  	struct platform_device *pdev =3D to_platform_device(dev);
+>  	struct gpio_vibrator *vibrator =3D platform_get_drvdata(pdev);
+> @@ -169,7 +169,7 @@ static int __maybe_unused gpio_vibrator_suspend(struct
+> device *dev) return 0;
+>  }
+>=20
+> -static int __maybe_unused gpio_vibrator_resume(struct device *dev)
+> +static int gpio_vibrator_resume(struct device *dev)
+>  {
+>  	struct platform_device *pdev =3D to_platform_device(dev);
+>  	struct gpio_vibrator *vibrator =3D platform_get_drvdata(pdev);
+> @@ -180,8 +180,8 @@ static int __maybe_unused gpio_vibrator_resume(struct
+> device *dev) return 0;
+>  }
+>=20
+> -static SIMPLE_DEV_PM_OPS(gpio_vibrator_pm_ops,
+> -			 gpio_vibrator_suspend, gpio_vibrator_resume);
+> +static DEFINE_SIMPLE_DEV_PM_OPS(gpio_vibrator_pm_ops,
+> +				gpio_vibrator_suspend,=20
+gpio_vibrator_resume);
+>=20
+>  #ifdef CONFIG_OF
+>  static const struct of_device_id gpio_vibra_dt_match_table[] =3D {
+> @@ -195,7 +195,7 @@ static struct platform_driver gpio_vibrator_driver =
+=3D {
+>  	.probe	=3D gpio_vibrator_probe,
+>  	.driver	=3D {
+>  		.name	=3D "gpio-vibrator",
+> -		.pm	=3D &gpio_vibrator_pm_ops,
+> +		.pm	=3D pm_sleep_ptr(&gpio_vibrator_pm_ops),
+>  		.of_match_table =3D of_match_ptr(gpio_vibra_dt_match_table),
+>  	},
+>  };
+
+
+
 
