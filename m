@@ -2,42 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EABB265B652
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BE3765B653
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236486AbjABSHA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Jan 2023 13:07:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49280 "EHLO
+        id S236493AbjABSHC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Jan 2023 13:07:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236491AbjABSGh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:37 -0500
+        with ESMTP id S236495AbjABSGj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:39 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7228D5FF7
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:36 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F5BB38BD
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:38 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0FDB061090
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA35C433EF;
-        Mon,  2 Jan 2023 18:06:34 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B05CE61038
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA17BC433D2;
+        Mon,  2 Jan 2023 18:06:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682795;
-        bh=ttZG/hThuLxfyJrixxjvdrjxHYGdj+JfoO65HELhxHE=;
+        s=k20201202; t=1672682797;
+        bh=Un5nYpevtqceByjkTlY/X84bVFVGTSzGQTioYBHsDFc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ksEzce4Ts55LR6b+Zmtqv5vjP5Jw0rhYW7DcWo/rRKhWOLuYcFZwt4BWNtivDl4vV
-         9yYYMgKL6TfAiA9skyO7X+PfGkF4H5VABIUtW6H8a0KBwDYbEfDA0J6TmjEl8B6Wtf
-         hVSdtnRYXrUQ4mpUwGHNXEHCc/fJ7ANkIDYOf6TxHQF6oaibOdJySF99O/Ec999w7j
-         6v6f2J/I62QIEB6VyE4C12tc7IM+Fnqw1m6dJ4YABdBN5OcaFMZJLcJGzx9+0h4Jho
-         vw6s+h55ta6/Q7PdKdakyGLi0IGN7StyGatpfTgzVXTwrZKfnh63LwNuKBFEe/tO/V
-         wKMff1Ifptw8w==
+        b=M+xyZI9FYQYcB5IbBbvV1ZpVGO0ubS3rLgpISAan2k8C1cxRnNgUdt+xKjBB2ooGD
+         Pmqs0rPpv6IhbqM3QJnrEKxNsE0181Yt7RT9PavJFLGCZw18hZ8BmSTvGkeC83eH5o
+         BkCJT2+bCudQs9ImDTuU1PVZs+PjigJqHf7CR+/hGj7jT9MtsXirEQqCOFC51m+Yw2
+         vsPm/A7CdZLCEul8CzUy8p9VCYEk0s+pMJntWvd0rMfjtdv9dyXlRHlBruAPsCCoeJ
+         z6IVHXpvTlkK791AdWdZrvkZth+hhPbzxTzal8wUpQ+8fMfzTa4hE182ICsC1N7a48
+         mqOAOXxvRTajQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 32/69] Input: ar1021 - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:18:05 +0000
-Message-Id: <20230102181842.718010-33-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: [PATCH 33/69] Input: atmel_mxt_ts - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Mon,  2 Jan 2023 18:18:06 +0000
+Message-Id: <20230102181842.718010-34-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
@@ -61,51 +64,53 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
 ---
- drivers/input/touchscreen/ar1021_i2c.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ar1021_i2c.c b/drivers/input/touchscreen/ar1021_i2c.c
-index 25bcc677e98b..3a5b65cae360 100644
---- a/drivers/input/touchscreen/ar1021_i2c.c
-+++ b/drivers/input/touchscreen/ar1021_i2c.c
-@@ -142,7 +142,7 @@ static int ar1021_i2c_probe(struct i2c_client *client)
- 	return 0;
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 39ef2664b852..996bf434e1cb 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -3296,7 +3296,7 @@ static void mxt_remove(struct i2c_client *client)
+ 			       data->regulators);
  }
  
--static int __maybe_unused ar1021_i2c_suspend(struct device *dev)
-+static int ar1021_i2c_suspend(struct device *dev)
+-static int __maybe_unused mxt_suspend(struct device *dev)
++static int mxt_suspend(struct device *dev)
  {
  	struct i2c_client *client = to_i2c_client(dev);
- 
-@@ -151,7 +151,7 @@ static int __maybe_unused ar1021_i2c_suspend(struct device *dev)
+ 	struct mxt_data *data = i2c_get_clientdata(client);
+@@ -3317,7 +3317,7 @@ static int __maybe_unused mxt_suspend(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused ar1021_i2c_resume(struct device *dev)
-+static int ar1021_i2c_resume(struct device *dev)
+-static int __maybe_unused mxt_resume(struct device *dev)
++static int mxt_resume(struct device *dev)
  {
  	struct i2c_client *client = to_i2c_client(dev);
- 
-@@ -160,7 +160,8 @@ static int __maybe_unused ar1021_i2c_resume(struct device *dev)
+ 	struct mxt_data *data = i2c_get_clientdata(client);
+@@ -3338,7 +3338,7 @@ static int __maybe_unused mxt_resume(struct device *dev)
  	return 0;
  }
  
--static SIMPLE_DEV_PM_OPS(ar1021_i2c_pm, ar1021_i2c_suspend, ar1021_i2c_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(ar1021_i2c_pm,
-+				ar1021_i2c_suspend, ar1021_i2c_resume);
+-static SIMPLE_DEV_PM_OPS(mxt_pm_ops, mxt_suspend, mxt_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(mxt_pm_ops, mxt_suspend, mxt_resume);
  
- static const struct i2c_device_id ar1021_i2c_id[] = {
- 	{ "ar1021", 0 },
-@@ -177,7 +178,7 @@ MODULE_DEVICE_TABLE(of, ar1021_i2c_of_match);
- static struct i2c_driver ar1021_i2c_driver = {
- 	.driver	= {
- 		.name	= "ar1021_i2c",
--		.pm	= &ar1021_i2c_pm,
-+		.pm	= pm_sleep_ptr(&ar1021_i2c_pm),
- 		.of_match_table = ar1021_i2c_of_match,
+ static const struct of_device_id mxt_of_match[] = {
+ 	{ .compatible = "atmel,maxtouch", },
+@@ -3375,7 +3375,7 @@ static struct i2c_driver mxt_driver = {
+ 		.name	= "atmel_mxt_ts",
+ 		.of_match_table = mxt_of_match,
+ 		.acpi_match_table = ACPI_PTR(mxt_acpi_id),
+-		.pm	= &mxt_pm_ops,
++		.pm	= pm_sleep_ptr(&mxt_pm_ops),
  	},
- 
+ 	.probe_new	= mxt_probe,
+ 	.remove		= mxt_remove,
 -- 
 2.39.0
 
