@@ -2,43 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E6865B661
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B580865B664
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236457AbjABSHW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Jan 2023 13:07:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49510 "EHLO
+        id S236360AbjABSHZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Jan 2023 13:07:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236528AbjABSHB (ORCPT
+        with ESMTP id S236530AbjABSHB (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:07:01 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 547B35F96
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2685BDAD
         for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:07:00 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 09EA5B80DEC
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9379461090
         for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91B8C433EF;
-        Mon,  2 Jan 2023 18:06:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1607EC433F0;
+        Mon,  2 Jan 2023 18:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682817;
-        bh=1fZtWpowuzcKXpQvaRbYJ021cC9TtqN2quRW9UcPSU0=;
+        s=k20201202; t=1672682819;
+        bh=OpLp46EogIxb5OGUTW6thnW7f1HE9c0MSmMVIedzrgI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Bup5IjrhccUfntyyVqpeMgJWfGkkzf2v6/GVVj03+WxWWhBzOqtOwhBWIE8o6pZNI
-         yzgQOkUTnjtL/cOPQ0hwCTjMfkZsxP1S5oQR02vrytwtkWgIhzPj82wqAtAjJWr71s
-         XMj0t4THApsKpFNP46EpP2AqG1VdEwXvfR89XLePApsYLDhmelvJnepvEFum+XzI0D
-         J/02iLFCUJ9+S1joHaUmjXPbSmIjGXyoW4JsJbRA/+uZe0wUGUTQmlCBFwsrABAYl6
-         +eyF87t1CqnVD5BKtflhacxWlXN044iebPom0brka5iO5febXuF0TmGvQkBotYuntW
-         rMytBKCylGqFg==
+        b=lI8cC7beBsvHLyG6bP8WkAL5T3878//WobUVFFLzlAzdWE4WXXnglk+MaFel039Nl
+         444MsIo+tWFLtYqnEMHa+ok5z5pX+xUr63OD5gqEXoKxCS1Sm4QaSTUoLEH+0ORQfP
+         M4gv68wP36ofUAInkyz/8CpAYpbwtRh6spbKhvmASynrEeziTULclU/GteP/vIyU7y
+         u5/+Dg4clmA7o+VLIclj6j5wuOdvIRf2+nbeZaxJgMwUcm2/eiiHkdn7039B+NRRdt
+         j9FOrcX0wAjsAQ4m1/raLdxFIXV7397Y+J5mVkhz8L4sY5DEdD5Wm/aOcPk1+gtyIN
+         54K1Kgu/GsbOg==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Joe Hung <joe_hung@ilitek.com>
-Subject: [PATCH 48/69] Input: ilitek_ts_i2c - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:18:21 +0000
-Message-Id: <20230102181842.718010-49-jic23@kernel.org>
+        Markuss Broks <markuss.broks@gmail.com>
+Subject: [PATCH 49/69] Input: imagis - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Mon,  2 Jan 2023 18:18:22 +0000
+Message-Id: <20230102181842.718010-50-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
@@ -62,51 +62,51 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Joe Hung <joe_hung@ilitek.com>
+Cc: Markuss Broks <markuss.broks@gmail.com>
 ---
- drivers/input/touchscreen/ilitek_ts_i2c.c | 8 ++++----
+ drivers/input/touchscreen/imagis.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ilitek_ts_i2c.c b/drivers/input/touchscreen/ilitek_ts_i2c.c
-index e6ade3775a8a..d69809338498 100644
---- a/drivers/input/touchscreen/ilitek_ts_i2c.c
-+++ b/drivers/input/touchscreen/ilitek_ts_i2c.c
-@@ -604,7 +604,7 @@ static int ilitek_ts_i2c_probe(struct i2c_client *client)
+diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
+index e2697e6c6d2a..de1b16e94bb8 100644
+--- a/drivers/input/touchscreen/imagis.c
++++ b/drivers/input/touchscreen/imagis.c
+@@ -309,7 +309,7 @@ static int imagis_probe(struct i2c_client *i2c)
  	return 0;
  }
  
--static int __maybe_unused ilitek_suspend(struct device *dev)
-+static int ilitek_suspend(struct device *dev)
+-static int __maybe_unused imagis_suspend(struct device *dev)
++static int imagis_suspend(struct device *dev)
  {
  	struct i2c_client *client = to_i2c_client(dev);
- 	struct ilitek_ts_data *ts = i2c_get_clientdata(client);
-@@ -621,7 +621,7 @@ static int __maybe_unused ilitek_suspend(struct device *dev)
- 	return 0;
+ 	struct imagis_ts *ts = i2c_get_clientdata(client);
+@@ -325,7 +325,7 @@ static int __maybe_unused imagis_suspend(struct device *dev)
+ 	return retval;
  }
  
--static int __maybe_unused ilitek_resume(struct device *dev)
-+static int ilitek_resume(struct device *dev)
+-static int __maybe_unused imagis_resume(struct device *dev)
++static int imagis_resume(struct device *dev)
  {
  	struct i2c_client *client = to_i2c_client(dev);
- 	struct ilitek_ts_data *ts = i2c_get_clientdata(client);
-@@ -640,7 +640,7 @@ static int __maybe_unused ilitek_resume(struct device *dev)
- 	return 0;
+ 	struct imagis_ts *ts = i2c_get_clientdata(client);
+@@ -341,7 +341,7 @@ static int __maybe_unused imagis_resume(struct device *dev)
+ 	return retval;
  }
  
--static SIMPLE_DEV_PM_OPS(ilitek_pm_ops, ilitek_suspend, ilitek_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(ilitek_pm_ops, ilitek_suspend, ilitek_resume);
+-static SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
  
- static const struct i2c_device_id ilitek_ts_i2c_id[] = {
- 	{ ILITEK_TS_NAME, 0 },
-@@ -675,7 +675,7 @@ MODULE_DEVICE_TABLE(of, ilitek_ts_i2c_match);
- static struct i2c_driver ilitek_ts_i2c_driver = {
+ #ifdef CONFIG_OF
+ static const struct of_device_id imagis_of_match[] = {
+@@ -354,7 +354,7 @@ MODULE_DEVICE_TABLE(of, imagis_of_match);
+ static struct i2c_driver imagis_ts_driver = {
  	.driver = {
- 		.name = ILITEK_TS_NAME,
--		.pm = &ilitek_pm_ops,
-+		.pm = pm_sleep_ptr(&ilitek_pm_ops),
- 		.of_match_table = of_match_ptr(ilitek_ts_i2c_match),
- 		.acpi_match_table = ACPI_PTR(ilitekts_acpi_id),
+ 		.name = "imagis-touchscreen",
+-		.pm = &imagis_pm_ops,
++		.pm = pm_sleep_ptr(&imagis_pm_ops),
+ 		.of_match_table = of_match_ptr(imagis_of_match),
  	},
+ 	.probe_new = imagis_probe,
 -- 
 2.39.0
 
