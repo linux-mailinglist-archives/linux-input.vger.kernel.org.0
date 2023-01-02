@@ -2,42 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0171B65B675
-	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11D9065B677
+	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:07:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236452AbjABSHf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Jan 2023 13:07:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49752 "EHLO
+        id S236495AbjABSHg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Jan 2023 13:07:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236496AbjABSHZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:07:25 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A10F9DB1
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:07:24 -0800 (PST)
+        with ESMTP id S236500AbjABSH1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:07:27 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E534D116B
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:07:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 496A9B80DF4
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:07:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D02AC433F0;
-        Mon,  2 Jan 2023 18:07:21 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 936E2B80DF0
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:07:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56C94C433D2;
+        Mon,  2 Jan 2023 18:07:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682841;
-        bh=D+xzrm8+tGJWej4XFfR/tu4Ix5fet+t3h85ezQCOn3g=;
+        s=k20201202; t=1672682843;
+        bh=gkIYc4/MRL5X3akPURcJs/EjJw83xE9ZMq4yKDMqTPg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fOvqJyL9GCaiXFyW+lgySGPalm6qwowQgnB5HLxF5REoW1ktRYIV7bCb+m8niLcsY
-         sg1PkXaRkSMB+PDQS4O4LQwKb483Tt8gCNMwmNobEaWSrKZZoH7AvxoqVx1l0MMa+C
-         /j7ODlavDeVtOqBtcJM56nAP/hwhBSv+vEbCgS7AkY8zLzV7SVR5M4XT4uw8Kkfvf+
-         IUJUUKXMfnWClGE6tUi/jV89mIPJFq/FjTQXs3EmlRGNCnK0GtEcHcbAGwhzwNNn8m
-         C4KdnaS9xlayKnQqzfxDhTZmc0ZMIHdJAPVz0DVXYLrMnkvBGUikI38nlMPX5INLvK
-         i7tA6EwI0Fidg==
+        b=Isl1q/7xp6XftcdnUCDMeA9QhMHg6VrNClJWtWGYtWeZY77gRCPj397HiqKFIV4iJ
+         LMyfQH3dJzQTNvb6e0klQJ8Cz4g9wHK5mUSDyo8L03ZGJlK/DaNzS1zNurF1CMgB0L
+         gga6Vw5WRqRkp/wT7XJcDLL9ArWeXqo7LbyX3B2V9FUrtxs4c7vua4IdMNSz+W59Qd
+         GxgVWwrAgskesuQZcoEaFfXF2ufCRDO6iiKOTyD8NHIPLGZg//x9sBhB8/KCGxG+3b
+         4p01WCgUXExF8I3pT5xuNVGYkWxtqfhEnbFxkhfbJgNohoXL4qNjak02TYvN0uq/2C
+         pFV5OVSbx4taQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 67/69] Input: zforce_ts - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:18:40 +0000
-Message-Id: <20230102181842.718010-68-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 68/69] Input: zinitix - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Mon,  2 Jan 2023 18:18:41 +0000
+Message-Id: <20230102181842.718010-69-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
@@ -61,50 +62,51 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/input/touchscreen/zforce_ts.c | 8 ++++----
+ drivers/input/touchscreen/zinitix.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/zforce_ts.c b/drivers/input/touchscreen/zforce_ts.c
-index 24e78ca83fa3..76b194285e1c 100644
---- a/drivers/input/touchscreen/zforce_ts.c
-+++ b/drivers/input/touchscreen/zforce_ts.c
-@@ -608,7 +608,7 @@ static void zforce_input_close(struct input_dev *dev)
- 	return;
+diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+index 52f9e9eaab14..cdf9bcd744db 100644
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -562,7 +562,7 @@ static int zinitix_ts_probe(struct i2c_client *client)
+ 	return 0;
  }
  
--static int __maybe_unused zforce_suspend(struct device *dev)
-+static int zforce_suspend(struct device *dev)
+-static int __maybe_unused zinitix_suspend(struct device *dev)
++static int zinitix_suspend(struct device *dev)
  {
  	struct i2c_client *client = to_i2c_client(dev);
- 	struct zforce_ts *ts = i2c_get_clientdata(client);
-@@ -653,7 +653,7 @@ static int __maybe_unused zforce_suspend(struct device *dev)
+ 	struct bt541_ts_data *bt541 = i2c_get_clientdata(client);
+@@ -577,7 +577,7 @@ static int __maybe_unused zinitix_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused zinitix_resume(struct device *dev)
++static int zinitix_resume(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct bt541_ts_data *bt541 = i2c_get_clientdata(client);
+@@ -593,7 +593,7 @@ static int __maybe_unused zinitix_resume(struct device *dev)
  	return ret;
  }
  
--static int __maybe_unused zforce_resume(struct device *dev)
-+static int zforce_resume(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct zforce_ts *ts = i2c_get_clientdata(client);
-@@ -691,7 +691,7 @@ static int __maybe_unused zforce_resume(struct device *dev)
- 	return ret;
- }
+-static SIMPLE_DEV_PM_OPS(zinitix_pm_ops, zinitix_suspend, zinitix_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(zinitix_pm_ops, zinitix_suspend, zinitix_resume);
  
--static SIMPLE_DEV_PM_OPS(zforce_pm_ops, zforce_suspend, zforce_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(zforce_pm_ops, zforce_suspend, zforce_resume);
- 
- static void zforce_reset(void *data)
- {
-@@ -941,7 +941,7 @@ MODULE_DEVICE_TABLE(of, zforce_dt_idtable);
- static struct i2c_driver zforce_driver = {
+ #ifdef CONFIG_OF
+ static const struct of_device_id zinitix_of_match[] = {
+@@ -620,7 +620,7 @@ static struct i2c_driver zinitix_ts_driver = {
+ 	.probe_new = zinitix_ts_probe,
  	.driver = {
- 		.name	= "zforce-ts",
--		.pm	= &zforce_pm_ops,
-+		.pm	= pm_sleep_ptr(&zforce_pm_ops),
- 		.of_match_table	= of_match_ptr(zforce_dt_idtable),
+ 		.name = "Zinitix-TS",
+-		.pm = &zinitix_pm_ops,
++		.pm = pm_sleep_ptr(&zinitix_pm_ops),
+ 		.of_match_table = of_match_ptr(zinitix_of_match),
  	},
- 	.probe_new	= zforce_probe,
+ };
 -- 
 2.39.0
 
