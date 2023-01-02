@@ -2,42 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7610465B638
+	by mail.lfdr.de (Postfix) with ESMTP id 2B8EA65B637
 	for <lists+linux-input@lfdr.de>; Mon,  2 Jan 2023 19:06:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236234AbjABSGL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S234558AbjABSGL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Mon, 2 Jan 2023 13:06:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47584 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234558AbjABSGC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:02 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98983626A
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:01 -0800 (PST)
+        with ESMTP id S236298AbjABSGF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Jan 2023 13:06:05 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE5FBF54
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 10:06:04 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 37CBD61093
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAF2EC433F0;
-        Mon,  2 Jan 2023 18:05:59 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 68BC1B80D0D
+        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 18:06:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA25C433EF;
+        Mon,  2 Jan 2023 18:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672682760;
-        bh=l2NcdvkQRpDh5XF6l2Oj+NMh4/PHJMd27ZIIZThO760=;
+        s=k20201202; t=1672682762;
+        bh=yTeszxuvQgDKdYT0ragnF3gBuF2JkNE+uL9JVBLje98=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KCEu37yWojvITireKnBs7biaIKaj7H/K9UM1JNxoGLtmKbSrcQ+wkPN2yEP64K1/N
-         5TYsrkx67JLAQMMviXmwvJTGeZEOLssGtDgrAHyidHQmDCCRgfCChxRpdpke28+TBb
-         0A5LyTIIt1O2Z8DWXPePhVwXfMkWY6YeT65RIpFtQ4sJ7NyG1QcAABdGwRGj9c+ZNw
-         Ta0szeBHe5NyI+siywM1o/Q0QwcNXvtH37K353lLwvWszPY5CSDc6h28rePS83QJDC
-         6jwfIrWx8fVJTYE7nNhKzCTG3Eycf0D9XeHevdVCVIAB5xYK/fWSOriaw+JzPMpJUm
-         EkVjpTwd9JDnw==
+        b=kFQuUNicUmbVfjIMNqIRCMVxs/t3iiIOQMDmrWU/ZG4Uju5Mxz3LYFPDkt9j5tqbi
+         BVJ3aN714lD4b2LDPI3FtFosHN1ANfrWUDNcQBEdI3vH4o7YkKzeElbPfQALnmEUej
+         qmioTzA/RLO70omYgvcPK8NCbrlr+t9arqnIc1sTv/5GNdHp+lN1jLAhiwQSrv/lr2
+         8meT1wjSYZ5ekq3VSZfvElIkMMlRH5nq40ozHjZilL5Wn0nU5g3h6xFZ6OKAyWdTMs
+         PCwJPqNLGOe8bKCW8pDtvXJH4Y6Fi6gqXoqIK7CZ2jfTfPtnx3jBBwRwdNMo6EFagZ
+         /sw2pp5eB6f1A==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 05/69] Input: drv2667 - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Date:   Mon,  2 Jan 2023 18:17:38 +0000
-Message-Id: <20230102181842.718010-6-jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Moritz Fischer <mdf@kernel.org>
+Subject: [PATCH 06/69] Input: e3x0-button - switch to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Date:   Mon,  2 Jan 2023 18:17:39 +0000
+Message-Id: <20230102181842.718010-7-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102181842.718010-1-jic23@kernel.org>
 References: <20230102181842.718010-1-jic23@kernel.org>
@@ -61,49 +62,52 @@ thus suppressing the warning, but still allowing the unused code to be
 removed. Thus also drop the __maybe_unused markings.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Moritz Fischer <mdf@kernel.org>
 ---
- drivers/input/misc/drv2667.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/input/misc/e3x0-button.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/misc/drv2667.c b/drivers/input/misc/drv2667.c
-index da7ac63dce4c..88b4dbe3e5b5 100644
---- a/drivers/input/misc/drv2667.c
-+++ b/drivers/input/misc/drv2667.c
-@@ -399,7 +399,7 @@ static int drv2667_probe(struct i2c_client *client)
+diff --git a/drivers/input/misc/e3x0-button.c b/drivers/input/misc/e3x0-button.c
+index e2fde6e1553f..5bd527117470 100644
+--- a/drivers/input/misc/e3x0-button.c
++++ b/drivers/input/misc/e3x0-button.c
+@@ -35,7 +35,7 @@ static irqreturn_t e3x0_button_press_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static int __maybe_unused e3x0_button_suspend(struct device *dev)
++static int e3x0_button_suspend(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 
+@@ -45,7 +45,7 @@ static int __maybe_unused e3x0_button_suspend(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused drv2667_suspend(struct device *dev)
-+static int drv2667_suspend(struct device *dev)
+-static int __maybe_unused e3x0_button_resume(struct device *dev)
++static int e3x0_button_resume(struct device *dev)
  {
- 	struct drv2667_data *haptics = dev_get_drvdata(dev);
- 	int ret = 0;
-@@ -428,7 +428,7 @@ static int __maybe_unused drv2667_suspend(struct device *dev)
- 	return ret;
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 
+@@ -55,8 +55,8 @@ static int __maybe_unused e3x0_button_resume(struct device *dev)
+ 	return 0;
  }
  
--static int __maybe_unused drv2667_resume(struct device *dev)
-+static int drv2667_resume(struct device *dev)
+-static SIMPLE_DEV_PM_OPS(e3x0_button_pm_ops,
+-			 e3x0_button_suspend, e3x0_button_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(e3x0_button_pm_ops,
++				e3x0_button_suspend, e3x0_button_resume);
+ 
+ static int e3x0_button_probe(struct platform_device *pdev)
  {
- 	struct drv2667_data *haptics = dev_get_drvdata(dev);
- 	int ret = 0;
-@@ -457,7 +457,7 @@ static int __maybe_unused drv2667_resume(struct device *dev)
- 	return ret;
- }
- 
--static SIMPLE_DEV_PM_OPS(drv2667_pm_ops, drv2667_suspend, drv2667_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(drv2667_pm_ops, drv2667_suspend, drv2667_resume);
- 
- static const struct i2c_device_id drv2667_id[] = {
- 	{ "drv2667", 0 },
-@@ -478,7 +478,7 @@ static struct i2c_driver drv2667_driver = {
+@@ -122,7 +122,7 @@ static struct platform_driver e3x0_button_driver = {
  	.driver		= {
- 		.name	= "drv2667-haptics",
- 		.of_match_table = of_match_ptr(drv2667_of_match),
--		.pm	= &drv2667_pm_ops,
-+		.pm	= pm_sleep_ptr(&drv2667_pm_ops),
+ 		.name	= "e3x0-button",
+ 		.of_match_table = of_match_ptr(e3x0_button_match),
+-		.pm	= &e3x0_button_pm_ops,
++		.pm	= pm_sleep_ptr(&e3x0_button_pm_ops),
  	},
- 	.id_table = drv2667_id,
+ 	.probe		= e3x0_button_probe,
  };
 -- 
 2.39.0
