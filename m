@@ -2,149 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3336365BE4C
-	for <lists+linux-input@lfdr.de>; Tue,  3 Jan 2023 11:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5D765BE77
+	for <lists+linux-input@lfdr.de>; Tue,  3 Jan 2023 11:54:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233298AbjACKjp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Jan 2023 05:39:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35014 "EHLO
+        id S237361AbjACKyx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Jan 2023 05:54:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbjACKjo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Jan 2023 05:39:44 -0500
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 224D3B80
-        for <linux-input@vger.kernel.org>; Tue,  3 Jan 2023 02:39:42 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id B10FB32009A3;
-        Tue,  3 Jan 2023 05:39:39 -0500 (EST)
-Received: from imap43 ([10.202.2.93])
-  by compute5.internal (MEProxy); Tue, 03 Jan 2023 05:39:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1672742379; x=1672828779; bh=fU
-        3Pu8HnB2cg4MbXdC8GC8qoQYxa1LahtWmk/Pmh83g=; b=XejJGx2FLowOeWf2Wc
-        o637HYBXSn+3AJx1pvUjlwZDHOfjT3POrzUbT9wtAe1gHc+TKTYjlRRmuTE8WOgg
-        cB2FDz1D7ldaVPxLovLOKCNTd+lAEkP/98QCzuRd30Jwus5QcZTJC8iuC9SWIIuM
-        5RtbreaLikEsXGHurj5tSpP2Ygl2DnPHTJXnAxHeW806qxwWP+CuL0/GBNhFFvbS
-        N1CeJXacwGtS3BfBwNhkodlQUFoAt5f1jn2J0yHet2xm4o6iWbBOFmgIUnKbFh+M
-        a85zH8pZLMhUNrCJ+XNPN8NgjQEp7tY2Z7yXxr1F3opH198pxiO7sQQZqDRwu9c/
-        Qqqg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1672742379; x=1672828779; bh=fU3Pu8HnB2cg4MbXdC8GC8qoQYxa
-        1LahtWmk/Pmh83g=; b=o0r9GSvoI8EKwdYmQqokm2Ip5LsvQbtRZeYwBIxedXIX
-        OcCAWhJFR2txwr1GHe7Dw66ATklnZZLz69NSAgTS7GGO2wNgUXuexv4xNH7AvpHA
-        4UByQuVAKyHfRsKizvXvyqOFME4igG8Ssy1qapjhy0BgZyAkK0B5YE5MTRNUZHV5
-        2NvfcOjZ5xvAMw4MW57yS1Fnl2SoRyQvmCmqBQcelpT736rjUq0Sv4weh9+qJj9B
-        fBNCBLpez0P6v+jSkzK1dKXGUW0l96aKDPC5d/+V8hr2B6oTBtCTUddu1DR4qAPG
-        6CdeaMbV8LSANN+Ov7IUF7bZWv3pqG5IyJhnaJA8pw==
-X-ME-Sender: <xms:6wW0Y5T_IUXCVAbwCMS3d9t5VuwlpGXdVt6l-yOUY9rRGU7cRE66PA>
-    <xme:6wW0YyzmfjfBvhVnB4wrFGOmtMMVq4V7rzktPlFPIPQJ2JxYYJXXH0ayzE0QC12tU
-    Y6KU8XoC3MsWWXZcXQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeggddujecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomheptehlihhs
-    thgrihhruceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrg
-    htthgvrhhnpeeukeffkefhjeethedtieegudejvedvhfejleekheefhfdufffhjefgjeei
-    heehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:6wW0Y-3gw_OJdn64JiWHAaeT1Itn1mpV_vFr4Bal9N_LyOSDrzY4sA>
-    <xmx:6wW0YxAf2-u7v9fmU1kdvxUmVk_TnL3gXv-6CC9l6GlNn69rLtI4qw>
-    <xmx:6wW0YyheOAlNyNoXHGBrCJQ8w3YDtw-hxySxDpKNnH1QGrwQhLheFQ>
-    <xmx:6wW0Y2b8MAjv2kIDgy0wfEgHFRei7kMjNF3iEO4FnBKADjHpUMvvow>
-Feedback-ID: ifd214418:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id E835B2D40074; Tue,  3 Jan 2023 05:39:38 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <d8398ac3-0121-4ce8-a700-8224bc9853dc@app.fastmail.com>
-In-Reply-To: <20230102181842.718010-65-jic23@kernel.org>
-References: <20230102181842.718010-1-jic23@kernel.org>
- <20230102181842.718010-65-jic23@kernel.org>
-Date:   Tue, 03 Jan 2023 20:39:17 +1000
-From:   Alistair <alistair@alistair23.me>
-To:     "Jonathan Cameron" <jic23@kernel.org>, linux-input@vger.kernel.org,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Cc:     "Jonathan Cameron" <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH 64/69] Input: wacom_i2c - switch to DEFINE_SIMPLE_DEV_PM_OPS() and
- pm_sleep_ptr()
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S237311AbjACKyw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Jan 2023 05:54:52 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD60DF70
+        for <linux-input@vger.kernel.org>; Tue,  3 Jan 2023 02:54:51 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id j17so35650574lfr.3
+        for <linux-input@vger.kernel.org>; Tue, 03 Jan 2023 02:54:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dBmEORUktmC2vHOscQjNLXVVbcXPef8IPSJnCs/MHUM=;
+        b=EFeCoB14ySDWcoZR6RuLaGUisduJZHnKuJDaOG0CU65D9sUaQw4mvaSUXd2LrZettN
+         OqcjWMXcBJfuQA70UbzUZ0PK62I72np9gtBPCqxxOs/v7yhhWUTCHwgR0qJhh5pmBCR8
+         LFc2jJllR8Aay07qPBefkXDr2sVihvTsCjNMk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dBmEORUktmC2vHOscQjNLXVVbcXPef8IPSJnCs/MHUM=;
+        b=X+jNpZlNi3MZCYeBXhz52M9q1vyjgi7Wcce1As5T9SWdMbyOKToRsUajPjgD9B2E0Y
+         mMbj5+GskgjcAG/QBdNDx5YTml2Fs/FudPMH9p4TWbSnNk594sBZPbqT0Eny/R5x7Wy6
+         cqLcDd/VGo3gDB8Rx4W53MI+hS90pSL8AW2Dz9RO2Og5/IkJvBQnDtMsOX1HTg5dqoXO
+         URiNgrs9YA3yoFOa9RKc6Syomn6CPgnVY9BCQNio69/FRZICenWO64kDLGuiV4LJSsPQ
+         9jdWmz0ePiOVExFon2fEy/k3rDtrrFT4zUssNq7mgTzFoj7h5ODFLTkkVKoJbf1ooFS5
+         OJOQ==
+X-Gm-Message-State: AFqh2kpByibEqyaZMAzCSN/CfVAFoRr1o4HmSlSJ2Khg6U1kCArqS48Q
+        CwISh1IKYzR2Fg3JVFVD4WzqLSfdkYRm1vLX4wU=
+X-Google-Smtp-Source: AMrXdXsnsff8SCNcPGkk+I73UG73EDCiOyH4di6nrtgrbOeFou6NxpM5e2KHETmQ4OhNhCSUMXhcQA==
+X-Received: by 2002:a05:6512:2821:b0:4b5:26f3:2247 with SMTP id cf33-20020a056512282100b004b526f32247mr14287181lfb.69.1672743289288;
+        Tue, 03 Jan 2023 02:54:49 -0800 (PST)
+Received: from [172.16.11.74] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id p2-20020ac246c2000000b004b5a85e369asm4802638lfo.252.2023.01.03.02.54.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 02:54:48 -0800 (PST)
+Message-ID: <ed79eb76-1ce9-a02d-78c6-0f9127dbc918@rasmusvillemoes.dk>
+Date:   Tue, 3 Jan 2023 11:54:47 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] Input: edt-ft5x06 - always do msleep(300) during
+ initialization
+Content-Language: en-US, da
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        broonie@kernel.org
+References: <20221202105800.653982-1-linux@rasmusvillemoes.dk>
+ <Y4pCtm4J3HWhYl8/@nixie71>
+ <58ec9951-32d7-6967-3571-d18c667ae478@rasmusvillemoes.dk>
+ <Y46wMrS7iN6yBsBf@nixie71>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <Y46wMrS7iN6yBsBf@nixie71>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 3 Jan 2023, at 4:18 AM, Jonathan Cameron wrote:
-> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+On 06/12/2022 04.00, Jeff LaBundy wrote:
+> Hi Rasmus,
 > 
-> SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
-> against unused function warnings.  The new combination of pm_sleep_ptr()
-> and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
-> thus suppressing the warning, but still allowing the unused code to be
-> removed. Thus also drop the __maybe_unused markings.
+> On Mon, Dec 05, 2022 at 09:59:08AM +0100, Rasmus Villemoes wrote:
+>> On 02/12/2022 19.23, Jeff LaBundy wrote:
+>>> + Mark
+>>>
+>>> Hi Rasmus,
+>>>
+>>> On Fri, Dec 02, 2022 at 11:57:59AM +0100, Rasmus Villemoes wrote:
+>>>> We have a board with an FT5446, which is close enough to a
+>>>> FT5506 (i.e. it also supports up to 10 touch points and has similar
+>>>> register layout) for this driver to work. However, on our board the
+>>>> iovcc and vcc regulators are indeed controllable (so not always-on),
+>>>> but there is no reset or wakeup gpio hooked up.
+>>>>
+>>>> Without a large enough delay between the regulator_enable() calls and
+>>>> edt_ft5x06_ts_identify(), the first edt_ft5x06_ts_readwrite() call
+>>>> fails with -ENXIO and thus the device fails to probe. So
+>>>> unconditionally do an mdelay(300) instead of only when a reset-gpio is
+>>>> present.
+>>>>
+>>>> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+>>>
+>>> This is just my $.02, but it does not seem we are on the correct path
+>>> here. 300 ms sounds more like bulk capacitor charge time rather than
+>>> anything to do with this specific IC; is that a reasonable assumption?
+>>>
+>>> Normally, we want to do the following:
+>>>
+>>> 1. Enable regulator
+>>> 2. Wait for voltage rail to stabilize (RC time constant)
+>>> 3. Wait for any applicable POR delay (IC datasheet)
+>>> 4. Deassert reset
+>>> 5. Wait for any applicable reset delay (IC datasheet)
+>>> 6. Start communication
+>>>
+>>> Here we are dealing with step (2), 
+>>
+>> Nope, we are really essentially dealing with step 5, even if there's no
+>> reset gpio that we've flipped around. The data sheet says to wait 200 ms
+>> (and I don't know why the driver does 300, perhaps there's some other
+>> chip in the family with that value, or perhaps it was just a
+>> belt-and-suspenders choice) after releasing reset. It's just that
+>> "releasing reset" is, in my case, effectively happens at the same time
+>> as the regulators are enabled.
+>>
+>> I also played around with some smaller values. As I wrote, with no
+>> delay, I would get -ENXIO, but with both 50 and 100, the chip would
+>> "respond", but the values were essentially garbage (and not reproducible
+>> from one boot to the next). So even if it's a rather long time, it most
+>> definitely is a hard requirement to wait that long - perhaps we could
+>> make it 200, but I'd rather not reduce that time when I don't know if
+>> other variants have that 300 as a requirement.
+>>
+>> Even if we could interrogate the regulator and ask it if "are you
+>> actually always-on", I'd rather not make the delay conditional on that;
+>> we cannot know if it has been on for 300+ ms, and since the device does
+>> respond, but not correctly, we could end up with probing and
+>> initializing the device, but in a wrong state. That's a recipe for
+>> impossible debugging (add a single printk somewhere earlier and the
+>> timing changes so that suddenly it gets initialized correctly...).
 > 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Alistair Francis <alistair@alistair23.me>
+> Thank you for these additional details, especially with my having taken
+> us on a tangent :) Perhaps the controller requires so much time because
+> it is loading firmware internally. Based on this information, the patch
+> seems reasonable to me.
+> 
+> Reviewed-by: Jeff LaBundy <jeff@labundy.com>
 
-Reviewed-by: Alistair Francis <alistair@alistair23.me>
+Thanks.
 
-Alistair
+Dmitry, any chance this could get picked up? I don't see it in
+next-20221226.
 
-> ---
-> drivers/input/touchscreen/wacom_i2c.c | 8 ++++----
-> 1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
-> index c9188ee00c62..a145b9105255 100644
-> --- a/drivers/input/touchscreen/wacom_i2c.c
-> +++ b/drivers/input/touchscreen/wacom_i2c.c
-> @@ -232,7 +232,7 @@ static int wacom_i2c_probe(struct i2c_client *client)
-> return 0;
-> }
->  
-> -static int __maybe_unused wacom_i2c_suspend(struct device *dev)
-> +static int wacom_i2c_suspend(struct device *dev)
-> {
-> struct i2c_client *client = to_i2c_client(dev);
->  
-> @@ -241,7 +241,7 @@ static int __maybe_unused wacom_i2c_suspend(struct device *dev)
-> return 0;
-> }
->  
-> -static int __maybe_unused wacom_i2c_resume(struct device *dev)
-> +static int wacom_i2c_resume(struct device *dev)
-> {
-> struct i2c_client *client = to_i2c_client(dev);
->  
-> @@ -250,7 +250,7 @@ static int __maybe_unused wacom_i2c_resume(struct device *dev)
-> return 0;
-> }
->  
-> -static SIMPLE_DEV_PM_OPS(wacom_i2c_pm, wacom_i2c_suspend, wacom_i2c_resume);
-> +static DEFINE_SIMPLE_DEV_PM_OPS(wacom_i2c_pm, wacom_i2c_suspend, wacom_i2c_resume);
->  
-> static const struct i2c_device_id wacom_i2c_id[] = {
-> { "WAC_I2C_EMR", 0 },
-> @@ -261,7 +261,7 @@ MODULE_DEVICE_TABLE(i2c, wacom_i2c_id);
-> static struct i2c_driver wacom_i2c_driver = {
-> .driver = {
-> .name = "wacom_i2c",
-> - .pm = &wacom_i2c_pm,
-> + .pm = pm_sleep_ptr(&wacom_i2c_pm),
-> },
->  
-> .probe_new = wacom_i2c_probe,
-> -- 
-> 2.39.0
-> 
-> 
+Rasmus
+
