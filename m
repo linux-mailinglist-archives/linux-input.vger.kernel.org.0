@@ -2,94 +2,241 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6435565BB73
-	for <lists+linux-input@lfdr.de>; Tue,  3 Jan 2023 08:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1464665BC35
+	for <lists+linux-input@lfdr.de>; Tue,  3 Jan 2023 09:28:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233060AbjACHyo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Jan 2023 02:54:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58798 "EHLO
+        id S230211AbjACI2E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Jan 2023 03:28:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbjACHym (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Jan 2023 02:54:42 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B470CDF2F
-        for <linux-input@vger.kernel.org>; Mon,  2 Jan 2023 23:54:41 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id b3so44593443lfv.2
-        for <linux-input@vger.kernel.org>; Mon, 02 Jan 2023 23:54:41 -0800 (PST)
+        with ESMTP id S236933AbjACI2C (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Jan 2023 03:28:02 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FC0DF72;
+        Tue,  3 Jan 2023 00:28:01 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id j17so23313890wrr.7;
+        Tue, 03 Jan 2023 00:28:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4HMcx1QAFcXp/Qx6CDx8fr1cXVBwmYfFpEeT3225EpU=;
-        b=Kk5d4b+4KRmJBd52EyRmGjIYQfiK/sPMkXIuJz+JBdw8whxybJmypWgvxZywZVJ3ZF
-         vXL8tWaEngjt1xIp8AfunAm2uOOt5OgAsFMjYOx1MLbjBI6I/DRAnaBwDvpVlpWEilco
-         kLcehxM7N+DygG3hKGlputvxBcg/M2EJmamxaeyKsGSmcLuy75cyPipZAojh0aft68Sq
-         aSyXgEm1jtTVwhG+wzzA0dJ12X5QG8bsIrw8vu/AXCxDb7zkjey1AgTkH6O0e8PtxuCO
-         uj6e+0hfTsaS4CXttOTyAH1aXlDBPSX3faES3t+p3rxCNci+Ya0IjP2YOTBhs6y3i/U+
-         vREA==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RzTOHhbrAU0werJfvhfCcgLwro7YHGo+Gre2tM+aB2Q=;
+        b=NP+Ao11IKxMjc4ptv31s8brg7cWgTw+sd/2DPUuhY/RUW6lZ1V1q4QmmxJu1KjpoAp
+         slKmfucI2TNZwfyxKx8KiQe64NDXKAZtNdfQklGTPqfYnntOtgHny4BQ4y93xb5KT8z9
+         VB/hg3q+FKmuaJqjXfXBwR8UbwvWyNC7Km3ZDWCpZTj7A9Qmza0b0kHizYtKsWid/u1X
+         1DaSqxVusSD7zcYzoHLOShuPYDo5WIAf8/GoZSS6qXN2IECQoOYdoesyvMtrdCxb3aeY
+         YxRxDC2O/5U+XiB2GuHeivcI/lFczY+gGY3Un1HgEQLLP365q23x2vPAYh+ZuV6sQI9b
+         V61g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4HMcx1QAFcXp/Qx6CDx8fr1cXVBwmYfFpEeT3225EpU=;
-        b=n/hIBpRCBSwvtrgYDJHUK+SzZIIJrnU24Lseh9KhmdT+Rw/qnrcAf8XVW1pKunXNEh
-         +W7AtelBpAp915ws5uiFBgBhxWjDC5lFRyPZ3typb8gI7tQR/MLbm22oUjB+p3sY6tLR
-         0M40mi29mq/YMvwZktwdWhH2w+bH7/T3GgznW+tpo7SpKIrMODiVkgQRZWVfa8pPsnIy
-         y1o6NMrbFzmdbxE7Pc0y6SSMrXDJ79WfMLIVnZDeT6g6GnOxNn1BsA4F/N9zSOZvaVsn
-         pOQfRp9N4ip9BPkTB6eHxZCYYvMkR1vHmCj1/j0JKN3hknPaRHmB1ftAdu5TqgHAqYYB
-         AxsA==
-X-Gm-Message-State: AFqh2kpMfme7RH0VMy/qHC9J2Rqlpbkluk1+bTgw+WG2LvjlswFmksvV
-        z2lSXdpwcf2uTzT7DarVdrBRmG2YOPS0/RxC
-X-Google-Smtp-Source: AMrXdXuelxBI1Yn8tmASSWnPS6ou6W79wdh5bus50/Y0A+K/kWdF2O72HyZqfVXzN5IVZtI0qPTjMg==
-X-Received: by 2002:a05:6512:2e3:b0:4a4:68b7:dedd with SMTP id m3-20020a05651202e300b004a468b7deddmr13146611lfq.57.1672732480029;
-        Mon, 02 Jan 2023 23:54:40 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id o8-20020ac24348000000b004b49025f96dsm4743641lfl.187.2023.01.02.23.54.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jan 2023 23:54:39 -0800 (PST)
-Message-ID: <52277543-c12b-e1da-8127-fb9917dfe7f3@linaro.org>
-Date:   Tue, 3 Jan 2023 08:54:38 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RzTOHhbrAU0werJfvhfCcgLwro7YHGo+Gre2tM+aB2Q=;
+        b=rqEwJYU/mpEYZw9D2Nu4AetC5bzPRN8w4Gt5B1r0E3gzkin3gTPh8cRjhfw2/KUCD8
+         O5XvNfdkfbC5nRhd3ws6Sf0JG9E4aA9c8IfgBntFKJePvd+mlVb4uYuNbqf+sYm2JZlA
+         6oBnOeRknKFajcoF0ggIC6J73PjRc88VyKW6OQVILhuObzfmalG0XACC6fq5y+0dFe2r
+         tvlJS6ZuFP6PP5ws762KOKTWShLpeCG+H7Kjsbscq0ljH10+shb5yACmdvRfhcyIC5M2
+         cq/Y2z8AlCWBHGw2AH8XUrBlFEQa3WzSewLjq9MSPjoVLvk+kw1eYDA7E9916ItO8Pas
+         IyIg==
+X-Gm-Message-State: AFqh2kpawrnMbYdY4SDvf8/Jh8Trg2j194d+vSeSh77BDJ96hETBZTgx
+        9vfvZz9pX0sXoH7cby/Tcn4=
+X-Google-Smtp-Source: AMrXdXtfY2MaSYxOP+b4pzEgCXz7mg9mYA+y/WFE2lqeXJ02PkIjNYmyuV1xJD3tJFVQbfcHhmUrjg==
+X-Received: by 2002:adf:f5c6:0:b0:29f:ebd1:6a5 with SMTP id k6-20020adff5c6000000b0029febd106a5mr680513wrp.14.1672734480105;
+        Tue, 03 Jan 2023 00:28:00 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i18-20020adff312000000b0024274a5db0asm31060338wro.2.2023.01.03.00.27.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 00:27:59 -0800 (PST)
+Date:   Tue, 3 Jan 2023 11:27:56 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Joshua Goins <josh@redstrate.com>
+Cc:     linux-input@vger.kernel.org, jose.exposito89@gmail.com,
+        kernel test robot <lkp@intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: uclogic: Add support for XP-PEN Artist 22R Pro
+Message-ID: <Y7PnDMx1ztWgfA8W@kadam>
+References: <2068502.VLH7GnMWUR@adrastea>
+ <20230102194911.56083-1-josh@redstrate.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 11/69] Input: max77693-haptic - switch to
- DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Content-Language: en-US
-To:     Jonathan Cameron <jic23@kernel.org>, linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <20230102181842.718010-1-jic23@kernel.org>
- <20230102181842.718010-12-jic23@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230102181842.718010-12-jic23@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230102194911.56083-1-josh@redstrate.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 02/01/2023 19:17, Jonathan Cameron wrote:
-> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
-> against unused function warnings.  The new combination of pm_sleep_ptr()
-> and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
-> thus suppressing the warning, but still allowing the unused code to be
-> removed. Thus also drop the __maybe_unused markings.
-> 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Mon, Jan 02, 2023 at 02:49:10PM -0500, Joshua Goins wrote:
+> @@ -91,9 +115,27 @@ static int uclogic_input_mapping(struct hid_device *hdev,
+>  	struct uclogic_drvdata *drvdata = hid_get_drvdata(hdev);
+>  	struct uclogic_params *params = &drvdata->params;
+>  
+> -	/* Discard invalid pen usages */
+> -	if (params->pen.usage_invalid && (field->application == HID_DG_PEN))
+> -		return -1;
+> +	if (field->application == HID_GD_KEYPAD) {
+> +		/*
+> +		 * Remap input buttons to sensible ones that are not invalid.
+> +		 * This only affects previous behavior for devices with more than ten or so buttons.
+> +		 */
+> +		const int key = (usage->hid & HID_USAGE) - 1;
+> +
+> +		if (key > 0 && key < ARRAY_SIZE(uclogic_extra_input_mapping)) {
 
+It's an unusual that zero is not valid but I don't know the code at all.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +			hid_map_usage(hi,
+> +				      usage,
+> +				      bit,
+> +				      max,
+> +				      EV_KEY,
+> +				      uclogic_extra_input_mapping[key]);
+> +			return 1;
+> +		}
+> +	} else if (field->application == HID_DG_PEN) {
+> +		/* Discard invalid pen usages */
+> +		if (params->pen.usage_invalid)
+> +			return -1;
+> +	}
+>  
+>  	/* Let hid-core decide what to do */
+>  	return 0;
 
-Best regards,
-Krzysztof
+[ snip ]
+
+> +/*
+> + * uclogic_params_init_ugee_xppen_pro() - Initializes a UGEE XP-Pen Pro tablet device.
+> + *
+> + * @hdev:	The HID device of the tablet interface to initialize and get
+> + *		parameters from. Cannot be NULL.
+> + * @params:	Parameters to fill in (to be cleaned with
+> + *		uclogic_params_cleanup()). Not modified in case of error.
+> + *		Cannot be NULL.
+> + *
+> + * Returns:
+> + *	Zero, if successful. A negative errno code on error.
+> + */
+> +static int uclogic_params_init_ugee_xppen_pro(struct uclogic_params *params,
+> +					      struct hid_device *hdev,
+> +					      const u8 rdesc_frame_arr[],
+> +					      const size_t rdesc_frame_size)
+> +{
+> +	int rc = 0;
+> +	struct usb_interface *iface;
+> +	__u8 bInterfaceNumber;
+> +	const int str_desc_len = 12;
+> +	u8 *str_desc = NULL;
+> +	__u8 *rdesc_pen = NULL;
+> +	s32 desc_params[UCLOGIC_RDESC_PH_ID_NUM];
+> +	/* The resulting parameters (noop) */
+> +	struct uclogic_params p = {0, };
+> +
+> +	if (!hdev || !params) {
+> +		rc = -EINVAL;
+> +		goto cleanup;
+> +	}
+> +
+> +	iface = to_usb_interface(hdev->dev.parent);
+> +	bInterfaceNumber = iface->cur_altsetting->desc.bInterfaceNumber;
+> +
+> +	/* Ignore non-pen interfaces */
+> +	if (bInterfaceNumber != 2) {
+> +		uclogic_params_init_invalid(&p);
+> +		goto output;
+
+So this is a success path?  "ret = 0?"  The comments kind of suggest
+that but I want to be sure.
+
+> +	}
+> +
+> +	/*
+> +	 * Initialize the interface by sending magic data.
+> +	 * This magic data is the same as other UGEE v2 tablets.
+> +	 */
+> +	rc = uclogic_probe_interface(hdev,
+> +				     uclogic_ugee_v2_probe_arr,
+> +				     uclogic_ugee_v2_probe_size,
+> +				     0x03);
+> +	if (rc) {
+> +		uclogic_params_init_invalid(&p);
+> +		goto output;
+> +	}
+> +
+> +	/**
+> +	 * Read the string descriptor containing pen and frame parameters.
+> +	 * These are slightly different than typical UGEE v2 devices.
+> +	 */
+> +	rc = uclogic_params_get_str_desc(&str_desc, hdev, 100, str_desc_len);
+> +	if (rc != str_desc_len) {
+> +		hid_err(hdev, "failed retrieving pen and frame parameters: %d\n", rc);
+> +		uclogic_params_init_invalid(&p);
+> +		goto output;
+
+This isn't correct.  You need to do something like:
+
+		rc = (rc < 0) ? rc : -EINVAL;
+
+regards,
+dan carpenter
+
+> +	}
+> +
+> +	rc = uclogic_params_parse_ugee_xppen_pro_desc(str_desc, str_desc_len,
+> +						      desc_params,
+> +						      ARRAY_SIZE(desc_params));
+> +	if (rc)
+> +		goto cleanup;
+> +
+> +	kfree(str_desc);
+> +	str_desc = NULL;
+> +
+> +	/* Initialize the pen interface */
+> +	rdesc_pen = uclogic_rdesc_template_apply(
+> +				uclogic_rdesc_ugee_v2_pen_template_arr,
+> +				uclogic_rdesc_ugee_v2_pen_template_size,
+> +				desc_params, ARRAY_SIZE(desc_params));
+> +	if (!rdesc_pen) {
+> +		rc = -ENOMEM;
+> +		goto cleanup;
+> +	}
+> +
+> +	p.pen.desc_ptr = rdesc_pen;
+> +	p.pen.desc_size = uclogic_rdesc_ugee_v2_pen_template_size;
+> +	p.pen.id = 0x02;
+> +	p.pen.subreport_list[0].value = 0xf0;
+> +	p.pen.subreport_list[0].id = UCLOGIC_RDESC_V1_FRAME_ID;
+> +
+> +	/* Initialize the frame interface */
+> +	rc = uclogic_params_frame_init_with_desc(
+> +		&p.frame_list[0],
+> +		rdesc_frame_arr,
+> +		rdesc_frame_size,
+> +		UCLOGIC_RDESC_V1_FRAME_ID);
+> +	if (rc < 0) {
+> +		hid_err(hdev, "initializing frame params failed: %d\n", rc);
+> +		goto output;
+> +	}
+> +
+> +	p.frame_list[0].bitmap_dial_byte = 7;
+> +	p.frame_list[0].bitmap_second_dial_destination_byte = 8;
+> +
+> +output:
+> +	/* Output parameters */
+> +	memcpy(params, &p, sizeof(*params));
+> +	memset(&p, 0, sizeof(p));
+> +	rc = 0;
+> +cleanup:
+> +	kfree(str_desc);
+> +	uclogic_params_cleanup(&p);
+> +	return rc;
+> +}
+
 
