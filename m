@@ -2,105 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D79E65C58E
-	for <lists+linux-input@lfdr.de>; Tue,  3 Jan 2023 18:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BC6F65C590
+	for <lists+linux-input@lfdr.de>; Tue,  3 Jan 2023 19:00:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237887AbjACR7l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Jan 2023 12:59:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53002 "EHLO
+        id S238203AbjACSAM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Jan 2023 13:00:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238537AbjACR71 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Jan 2023 12:59:27 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2984711472
-        for <linux-input@vger.kernel.org>; Tue,  3 Jan 2023 09:59:25 -0800 (PST)
+        with ESMTP id S238434AbjACR7n (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Jan 2023 12:59:43 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2060.outbound.protection.outlook.com [40.107.93.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645C311474
+        for <linux-input@vger.kernel.org>; Tue,  3 Jan 2023 09:59:41 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LRF9yYlT3tU8YNDg5FmFzaJegdD2Du+T2LEcdENzPdZnQAPMfRkBeAnxXDzlA/sQLVaN2F4cSvhp9Az8rm+xppFRrwtDbE4qxXbEZ4loOfDBz/Ct4m4kRug8jNqRnoiapDAMiZLNpWvs/JrFML+VsQcTJjSorub1TUURiNR1cYsucelY1s22hScar4PaaSnEQVNAlR6cL1LF+gzJhybO0If1Q3cElx1i20/MneSGPsmS/FU0QGaXx0m+miPT5tQZ7o3PaZUAnvkmvS3HAzVIIWGklPNr1R9oia+AFq13jj53LfFtw6iPTZRI1ts+W4gpu6XKkirXst3nuNpfOg18cA==
+ b=ICLm3V7CNE8WMZy4qLFQZV9bmT7Vcbb+3gVBjdB6jr7Vz6HBkDs9cDs8Ei5HD20k4Xc7+fqYuJbEhVHd/KFb5XGmlvEsyiQ77q0LNibTAEi2+PutAHQT9zAWgcQiMnGn39Zrf6vmnzEAdLQ/Vurwo2TRZRR1lifrhPNOA6rjXl0pe8YU4LX75ghgupFf45fg15SvXvGBGAIFSW5021AAUVCbT1QcuBpufFyViKvWyVAkMJtweJnadnYB4z5CyTI6v61PiGhQ4iA3yhE15klt1UL1urpT3sYfNkPV/v0PUUTulUqXXn8BVc8VMPpfC6QRJZvGnQaJkLystnn65njUEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uQW/uQFOn1Oq3Y237O0D92XgzfQknFA1ouydCXhnI+0=;
- b=P7p3OmTSQTtA7LFDva7wl/ttsggniEmLz8HuVFDcMMsM5TPhLIF9L4U6mgNEdP3/lU9ILeMfUR+QdBqxZpu+Hcrk/VfV4zFnc6aE5qw4eDiLrM5SttfO7tRKic0S/f7ErnUfKVTpvWiq4u16wT5kaudXFBktHJLu6I6vmxTgpDtan/Ppqw/u0JrtXAr103tKFplhE5Xh5mi+o4wxnPri62JqiPr6tJNBAsd7ZkvZBFUsGkslibFBqqEwWyiKcq9b4P1OZUpnvOaqvBhJVI9ZnRQExctPteMBDPdH7i9GtOp2MWEmCPvGiUWfueVx8+Z0ezYFsnr73LBC7Xyd9p9i+A==
+ bh=3IsUcineFaX6YbpxMopOtJLpV9QYnHIlps8mGLCO4S8=;
+ b=hfmxyB6yE7KaKKSKJcAlf1uPoJruOsXWX3o/fmIMGVTC5bGEnuNibHlHHZ0xSbwAANtFYHs221sfC2Ws2iRyQ3n9dRmhJEK2JV2xNkgBRBbXiAwW89axk6uenm64MgNWGit8W0WuQcTYmlRamKMOTACMAKLhgDEX8zWaJIqDP4nqGbVaiyPxGArO/Q/ulbU7oyOOdjP9ZSZcIyEFawgInjebI9eeRQ4+FQRAEvijqRHVICYn4mIaQsqZE0dDaQOHSILnMsAdE603tjmURoiFL5eeX4yIzdDpvpDG8WYD+k2PcmwKLcZV5bgb19uZe+4wzBLXqgjHoLRS3o7AnaNe+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uQW/uQFOn1Oq3Y237O0D92XgzfQknFA1ouydCXhnI+0=;
- b=fmlGLAd8YU7/fThjE5AJQJDQnA58Wbd7zhX1167Fm8+nNXIBYnzX60v4vvErweH+RjZtSvAUmHT5PHS2orvQGackl+5qh0Tdof3DvbZQ6DHcaKxQ1pY5sRYoVk85MA+CMsqIkGHirw9H/JghmdFjiK8HBojqcTETGTlP9nieTDM=
+ bh=3IsUcineFaX6YbpxMopOtJLpV9QYnHIlps8mGLCO4S8=;
+ b=ZcR7MSJ0CoewIjuqGi0a5pgpz86mVCUjLyi9Yv/UEQYdsC8lINq+KaL9sIgNJoOp4A6tXZ/4O14kiRdV0W1CiwIWdIu29i6YtiyjsutaxKUmQI/u89cWPhuvAQ2jqB2QKi8B8PbSX4jb6QK+lZHSpq9e5CW3N/xuQUiCjz5/AVE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by SJ0PR08MB6592.namprd08.prod.outlook.com
- (2603:10b6:a03:2d0::10) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:803:43::21) by BYAPR08MB6005.namprd08.prod.outlook.com
+ (2603:10b6:a03:c3::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
- 2023 17:59:23 +0000
+ 2023 17:59:37 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::ea42:ebaf:dd18:6a4c]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::ea42:ebaf:dd18:6a4c%6]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
- 17:59:23 +0000
-Date:   Tue, 3 Jan 2023 11:59:21 -0600
+ 17:59:36 +0000
+Date:   Tue, 3 Jan 2023 11:59:35 -0600
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, jeff@labundy.com
-Subject: [PATCH v2 4/5] Input: iqs269a - do not poll during suspend or resume
-Message-ID: <Y7Rs+eEXlRw4Vq57@nixie71>
+Subject: [PATCH v2 5/5] Input: iqs269a - do not poll during ATI
+Message-ID: <Y7RtB2T7AF9rYMjK@nixie71>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <Y7RsTqhYJOZs11sK@nixie71>
 References: <Y7RsTqhYJOZs11sK@nixie71>
-X-ClientProxiedBy: DM6PR07CA0067.namprd07.prod.outlook.com
- (2603:10b6:5:74::44) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+X-ClientProxiedBy: SN6PR01CA0013.prod.exchangelabs.com (2603:10b6:805:b6::26)
+ To SN4PR0801MB3774.namprd08.prod.outlook.com (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SJ0PR08MB6592:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85dd109d-e5bb-4aa2-b736-08daedb43f02
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|BYAPR08MB6005:EE_
+X-MS-Office365-Filtering-Correlation-Id: abfc37ba-7298-45dc-6c5a-08daedb446dc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +JTWS1Hd7Pi6yEaOQ03SxuC7ilhBY7KiU0vs/r+GR2Qh5SAZuChz8zClkSjEaocaXMsdM9t0AepURK+vqCkXstiXre+zumg4y9iwjTeUcJXYEdzuAUWpG+LeFtWE702Ng6BeJpd5onRcu1Zx1etRnvqPIpfaoghG8NBLT7af3LD+fGVltfyJ3P8U0zxBuqab1L6NyLc6/AbTg13DdgvRMt3fQWoHX2PWu5CN+d4qanFBJSvF3DBNdYIW4QtnVpbWkRvc529kL4PIyJOwXQ0c6cyXafTBCIKKcHjf+nT1UKFm1QAbjq6fGaFgW+qxE9K+7YqAC5913ZydQ3PZ6Z5ZVMJqRk1/9oWDBP8ei4YhP4U/ekvvbFmGti19dUG3ZFEgaXrcgElttVOL9LN2lw4SCfnOan0W3angpabzVqhnfq44/B2xL+vMVXtUNGzyPb4H03m80KKcTHTFUjxFL6uEXTcTj5R9yRbzL4hNCJTs/ne3f8YW0mJYzF3OvoRgXRlYFzO0pH6YaUKtHPBy+XEc6PgzXkNWQQupK/LR4dfOR+H7cvCxiyr9JHsE5J5nN8zNqfBQIbARmDzDU9+cvMGawkMi/6gwnpPTYv/jyxKMDN58DFBy2txCVaq5vYYiP9vK0z7cyBOZnth+HBwWaipAYge1GIvT8Kp9s+8YaSWqJJbDO/L2M3eEtMdD6cDEEky0xlSmHZahkUR+cayZjWWjDg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(136003)(346002)(376002)(366004)(396003)(39830400003)(451199015)(186003)(26005)(6512007)(9686003)(83380400001)(86362001)(33716001)(38100700002)(316002)(6916009)(2906002)(15650500001)(4326008)(66946007)(41300700001)(8936002)(5660300002)(8676002)(66556008)(66476007)(478600001)(107886003)(6486002)(6506007)(22166006)(67856001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: QgIVlUnVeitXG/kE99hhA+F3rbkDzw+5W+Gn90zJ4gEM6LlP7z2CN9ZzhHXMkxvW26qehL392GGpZB0JYI1Ca0yK+hnE6r3jk/byg542SeeOCPqWNslgZd1zGQaaazxTI7B5gUUQKGew+D/smBA+rZsvzwi71e2vy/VcQURgLIOdA+jTxaUbt58E/O+GgyPyGLGvP+39yec/ouUNFqAl7Fnue4LepmWN52uSZkZ9JCGn1aiEc7qPhwo5tH9+G91y0OKoe2zZYpw313EAyJO64cn0jMGwm9TQkN/YwJIqDenkOQnU1haZCzAqLhwqZCthNadeaAjPV+yv7wagUCCLEX1lFCtJ8Di1r/5x6+WUlAtREJU2q/NW/iir7SHH0o09jmLK7n1HzEsgE/Jku7hP3xCQsaMN1WU7xvZ4lcdASum6IiP3LeS2rfaIUXo2RRsweF5vGi/72RYGLEuaN56I6rG4/JlhpXAdV0ceT010WPmPcuyDvYfvI7ibb7nLl52Pv6+e1yO6nIPtJCWTMLnGWhd9XLqC/b2og25pb8MkMAb86by5V4TEGYN4wityCu0tdKMghKoBffzPzeXIgsqXPHGQ1424w4dG4T+aXCCk8wFM4KQXQ43Q1YRHlPmodrRTZVvBJ9TmGHko0ay7Z3/8QdA3TVURgIP/Q9gt0yFHm1OauEhfkZMa1p/PFoQl5nxX
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(346002)(39830400003)(376002)(136003)(396003)(451199015)(86362001)(4326008)(66556008)(2906002)(66946007)(66476007)(8676002)(5660300002)(38100700002)(83380400001)(478600001)(316002)(6916009)(6486002)(41300700001)(33716001)(8936002)(107886003)(6506007)(9686003)(6512007)(186003)(26005)(22166006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?esgI8lIATjbjoFxBgKRcJBeYYbfBBGlcGQ7FsHc4AfiZ24eFCKP34OXtmTTk?=
- =?us-ascii?Q?X4SMFhoqpeobz6R32ubm2SY7fLYWSfraJrC+3iMrmvsL81qRfkh6zcsFO6gf?=
- =?us-ascii?Q?Mzmt0eY1WU1LjRwFUvKAkB9KFizOpT34blpE2FtIKeNMQboQU0bStmi7brNq?=
- =?us-ascii?Q?1sbwDBe33x5L8eQMwevhivwfqLfFB2Y4+xcz63MW/NkXtp3Qn4hfPiIxRpPu?=
- =?us-ascii?Q?v9ahEyWShl9GdSD3USn1EmSgaAGCOqWnWuMmHssCPaRlK1+3iYqpXVaeoMvK?=
- =?us-ascii?Q?aUehIbsDUORRBDMqAnlCEaG0GG6LuWlw5cqBXjhvMk9Hw1ra2gJRrwkUsteP?=
- =?us-ascii?Q?BJrHUJsLSuGVeEysuWml0IzjVZNlDJ0bZ85IYVDxxs4BEdfVDQTwscNfw6gn?=
- =?us-ascii?Q?lHUukiEVe1E6LKlxnq4u3Uxtb/Tq2YxcZ/Q+UjAmeOekUZmcGE9heB/5UCmw?=
- =?us-ascii?Q?1EnHX7MvZULBP+cIJrHsK5Zngkrq4n2iEwFiO+UKIyY7t7NpBaIzr/y8UZCV?=
- =?us-ascii?Q?Ygsm8lAU6rTOdRJAZSoIZ722S+NJdhu5hGOWEZiJo7cvkKed/JW4/BGoALEu?=
- =?us-ascii?Q?vwNfOwWzM93A3UBkuyTGEgGhV+TH1/35TZV4KeM3rcbY/ymBFkouzNAY2Uxe?=
- =?us-ascii?Q?TPhnsQCKA5s/whnzsr1dEeM9tQ44nYuwwRP+HOE1S/Ka7MVYvbORpd9uF/6A?=
- =?us-ascii?Q?0v4BqG9yHowBqpeJhyLyfimf+swK/YN+f9iZKV8s8clU7MlN6bI5H5uKytbN?=
- =?us-ascii?Q?hbXQ/yJhi0/nazGMb2AveHjwjFmMQTWWfVUhcPU6b56w8w7fRbU5rXCpjemu?=
- =?us-ascii?Q?TU8+g/xyN9Upyw7kb/I08h/s5IHthPf+VvpuUHiYrmEVP6XlR9ZsFrGTuok/?=
- =?us-ascii?Q?0uBwcf3Xw69EMNyVzteuA0oVcwiAbXIHvtbYU8OlgDAinmT5sZS7iUf8P9ao?=
- =?us-ascii?Q?nbnaeaGxsJt7MzX6V6CKqMFqXsBYsR72C2NFVEjAlkI6OZbcAi5p/iT6QGNp?=
- =?us-ascii?Q?DR9cJNPdVANQA7+Y7b5zmzy7wqQPwQJOCZcDpzfIrJ+n1cYNatC2ni5lxsqG?=
- =?us-ascii?Q?zPPA67vPuQ1DcP8RcLrQRFROhoYG6DTHaUQPh697akIsH4oG2mc/+EzRxpNn?=
- =?us-ascii?Q?tOxJHTnfbeFRHF+b5F7w8WYWLyuklIM8vgDLV61DfsmkdBPyD8Nsda1xeIgK?=
- =?us-ascii?Q?PV4BKPyk1WQyMBnBeXRMf0ZYATLo8XqYNvpVeE2EWEkRQnKKQUU96TYU3EGO?=
- =?us-ascii?Q?2y+f96HVbNzC3DPLcFxx9A7kTwvtiim8gbAniArA6axnIAAcjyVkKUcc1ziA?=
- =?us-ascii?Q?JntTH9Bjs43AZ+g6zVmlhbt/HFCHdpejhpahqPOam9og/Tb5mK3Z4QEhO1oc?=
- =?us-ascii?Q?kG11qElVx7/bFZr2xH6omiY2dhjyKRqd1/aoKvTldmv0i3llsFenCe9ft+gH?=
- =?us-ascii?Q?dSQ3G7SictZX4Xb4ZU2rUlCPZGAESaSJDKbiIrdrO4BGj+W5JbQlPjsk3iUr?=
- =?us-ascii?Q?/Ir1xU59SsWXzYwiBd51z2ecn/3pFVFNt20NEWJH8dLvgG1T+O82sIkkEkxv?=
- =?us-ascii?Q?5yXUoN2gWovHrdcUIm4r6Jo8WZTwgpzlMs8lceub?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FouSlR7OTtktdsQoaiLGL8NxszreeEfn8Sv4jSCj92faSBOqygYD41dxmosV?=
+ =?us-ascii?Q?VVmCZGj/588HxXpgy0zgd2pgyzz3Q/EyUjslzlNEX68GrfQseL4vnxcND2xV?=
+ =?us-ascii?Q?l09bMm39FSWHZTdOnpcfF1IgbjYWmMmhbPh/qy1xVkKiGXspI04qbLZsYtav?=
+ =?us-ascii?Q?tvXeBPMPrUyVNwA+3zKgQlgKShONutAxo3aK/RyDdWu9Ik6kwdv+xARc0CbH?=
+ =?us-ascii?Q?rSU6cyh9PYVbs/s65jdGzaSvBSmDax66XtGOqf2mAUsrgNZRNNyFXKqvoMWN?=
+ =?us-ascii?Q?rp+LZNcGT8LY1E8PUqTFKZ6ZEgWPKs6Y7YiNbQk3Q0uxP1c3I6m1y07yubnF?=
+ =?us-ascii?Q?gp6qXKuhnbUdOq7+st3BR0oe2Zjz+FughH7TI5IDl+Px22DfzQIFCAjbGkGy?=
+ =?us-ascii?Q?Yxxch3oyOGt49OelWSyzE8PRw/Q3vgghaTwQ/GyYeDjwtQn4W5xfbw8SrPIK?=
+ =?us-ascii?Q?CsNS0zIa9Fw7Vn0XX7LClQZvjIrQlT6hwNDxOHMTcKWsI3GvWVCwLgRRsZDF?=
+ =?us-ascii?Q?19Y9XtkKmsQ0VoMFvd6NX/XUK1sD0MiKi5Sb9ARIHSXrveyiib5zBbkXy0Tk?=
+ =?us-ascii?Q?cHgMyGyXer1ESAVY57OPBwOKz8R7UgUifRyjXYDjVDd/LYhsiOC5cKvKwq5I?=
+ =?us-ascii?Q?13nhRyxua2HHZy77tLxL6n3p4KGWl25J9Ohn0ivSCMXaKfp6aofF0eZssNe0?=
+ =?us-ascii?Q?lx5aS6+1TZw4OLtJgpWolAky/AhFoZj4BkKN5mDznaIom8/rpakLXpcscjHw?=
+ =?us-ascii?Q?CoSB1i+ySx9d8DMvNRsKK6y4HYPJ+qfLFKxfLh7dBf+1nuEWSH2KuZnZSswY?=
+ =?us-ascii?Q?h/j8x6yOHS+nD+ZVZCajGq2adrxvCT1onPIVU1EOZA33PfIn+uyuflgIxzZc?=
+ =?us-ascii?Q?lZq/zH365hvKnsxS5kqKWmAwAOEaIM9sSVhDYXZI1gjiBTJqWf2+eqlC496X?=
+ =?us-ascii?Q?IrS9FzdcXlKDxr5LPDTXwvfCmJdzbIYxmm49MB2efyIvLf2D5DObWXjF4hNU?=
+ =?us-ascii?Q?p9dGuCHgKBMx2x7XArc9HnMZV+xcW3WSfBSXPqRXRfAiRD/Nz1EwofOyc5CT?=
+ =?us-ascii?Q?TRIxt2Q8EKh5Gwls9q0UyNOCPcmqFntEFqh2n26QKBa+nLPxwYKUTXvfZlO7?=
+ =?us-ascii?Q?kyMEqUL/zb0/fHvn7J1uFFOCp6Pic1bD73r3XaHL2WOe/ttYS3+9RLWePc47?=
+ =?us-ascii?Q?7w7zeek6QkzbMj1d/WR26Bcx2a5IW/ZGMHXMbq6J3pI5TzoP6nAcxGEy2A1L?=
+ =?us-ascii?Q?Ho0gdH7ZkqF5IYQ5PF2W6Zz0MeVlshA8zcTH+7sK3KiCZeNFQTgChFSseIRB?=
+ =?us-ascii?Q?TWY2VHJjXqbkaLKp6eDAvtho74k3FaHOZH6dsZ7yJLALelhNTKHQTK90tRhs?=
+ =?us-ascii?Q?J2M62DJ+wszn6r38IH7BfHJhqxPGaP8a8hQLYYQxVhLiaWrhNPm83GHQlZwN?=
+ =?us-ascii?Q?BTnnrNMs/q+Hq54pbPFi4pcOAlBJIxTcK/GZtoqn3LbSAdgvqpURqmlnylRG?=
+ =?us-ascii?Q?DXPS+JMbwAYSjkXAgFvhaCUwBWMOICpN9xCUEsm/BG6d0js6o1sIluoXf1La?=
+ =?us-ascii?Q?emt3M7WAMHFkPfQt5AzaxdU5BA5OJQHbbYs592en?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85dd109d-e5bb-4aa2-b736-08daedb43f02
+X-MS-Exchange-CrossTenant-Network-Message-Id: abfc37ba-7298-45dc-6c5a-08daedb446dc
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 17:59:23.4635
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 17:59:36.6655
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sQBhUyJfb4cVrN9pP8aOVHSynkSGIFnAVvOFVWwrOOCAdxISPd8lWLW0ABvbHG49ErAiziVUHoU6ynsw0gMZKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR08MB6592
+X-MS-Exchange-CrossTenant-UserPrincipalName: f8aYUuij8fO24uiek/1dGGmLEi6eQ+0/HtHpByuiaYhZ0YDTK9KEmUTSUjzR7ZXDXbgXeowrYqnzHvZctkfVTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR08MB6005
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -110,20 +109,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Polling the device while it transitions from automatic to manual
-power mode switching may keep the device from actually finishing
-the transition. The process appears to time out depending on the
-polling rate and the device's core clock frequency.
+After initial start-up, the driver triggers ATI (calibration) with
+the newly loaded register configuration in place. Next, the driver
+polls a register field to ensure ATI completed in a timely fashion
+and that the device is ready to sense.
 
-This is ultimately unnecessary in the first place; instead it is
-sufficient to write the desired mode during initialization, then
-disable automatic switching at suspend. This eliminates the need
-to ensure the device is prepared for a manual change and removes
-the 'suspend_mode' variable.
+However, communicating with the device over I2C while ATI is under-
+way may induce noise in the device and cause ATI to fail. As such,
+the vendor recommends not to poll the device during ATI.
 
-Similarly, polling the device while it transitions from one mode
-to another under manual control may time out as well. This added
-step does not appear to be necessary either, so drop it.
+To solve this problem, let the device naturally signal to the host
+that ATI is complete by way of an interrupt. A completion prevents
+the device from successfully probing until this happens.
+
+As an added benefit, initial switch states are now reported in the
+interrupt handler at the same time ATI status is checked. As such,
+duplicate code that reports initial switch states has been removed
+from iqs269_input_init().
+
+The former logic that scaled ATI timeout and filter settling delay
+is not carried forward with the new implementation, as it produces
+overly conservative delays at the lower clock rate.
+
+Rather, a single timeout that covers both clock rates is used. The
+filter settling delay does not happen to be necessary and has been
+removed as well.
 
 Fixes: 04e49867fad1 ("Input: add support for Azoteq IQS269A")
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
@@ -132,191 +142,246 @@ Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 Changes in v2:
  - Added Reviewed-by
 
- drivers/input/misc/iqs269a.c | 118 +++++++++--------------------------
- 1 file changed, 31 insertions(+), 87 deletions(-)
+ drivers/input/misc/iqs269a.c | 97 +++++++++++++++++-------------------
+ 1 file changed, 46 insertions(+), 51 deletions(-)
 
 diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
-index 1530efd301c2..814d1a898e7f 100644
+index 814d1a898e7f..8b30c911f789 100644
 --- a/drivers/input/misc/iqs269a.c
 +++ b/drivers/input/misc/iqs269a.c
-@@ -148,9 +148,6 @@
- #define IQS269_ATI_POLL_TIMEOUT_US		(iqs269->delay_mult * 500000)
- #define IQS269_ATI_STABLE_DELAY_MS		(iqs269->delay_mult * 150)
+@@ -9,6 +9,7 @@
+  * axial sliders presented by the device.
+  */
  
--#define IQS269_PWR_MODE_POLL_SLEEP_US		IQS269_ATI_POLL_SLEEP_US
--#define IQS269_PWR_MODE_POLL_TIMEOUT_US		IQS269_ATI_POLL_TIMEOUT_US
++#include <linux/completion.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+@@ -144,10 +145,6 @@
+ #define IQS269_NUM_CH				8
+ #define IQS269_NUM_SL				2
+ 
+-#define IQS269_ATI_POLL_SLEEP_US		(iqs269->delay_mult * 10000)
+-#define IQS269_ATI_POLL_TIMEOUT_US		(iqs269->delay_mult * 500000)
+-#define IQS269_ATI_STABLE_DELAY_MS		(iqs269->delay_mult * 150)
 -
  #define iqs269_irq_wait()			usleep_range(200, 250)
  
  enum iqs269_local_cap_size {
-@@ -295,7 +292,6 @@ struct iqs269_private {
+@@ -289,10 +286,10 @@ struct iqs269_private {
+ 	struct mutex lock;
+ 	struct iqs269_switch_desc switches[ARRAY_SIZE(iqs269_events)];
+ 	struct iqs269_sys_reg sys_reg;
++	struct completion ati_done;
  	struct input_dev *keypad;
  	struct input_dev *slider[IQS269_NUM_SL];
  	unsigned int keycode[ARRAY_SIZE(iqs269_events) * IQS269_NUM_CH];
--	unsigned int suspend_mode;
- 	unsigned int delay_mult;
+-	unsigned int delay_mult;
  	unsigned int ch_num;
  	bool hall_enable;
-@@ -767,17 +763,6 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
- 	iqs269->hall_enable = device_property_present(&client->dev,
- 						      "azoteq,hall-enable");
+ 	bool ati_current;
+@@ -973,13 +970,8 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
  
--	if (!device_property_read_u32(&client->dev, "azoteq,suspend-mode",
--				      &val)) {
--		if (val > IQS269_SYS_SETTINGS_PWR_MODE_MAX) {
--			dev_err(&client->dev, "Invalid suspend mode: %u\n",
--				val);
--			return -EINVAL;
+ 	general = be16_to_cpu(sys_reg->general);
+ 
+-	if (device_property_present(&client->dev, "azoteq,clk-div")) {
++	if (device_property_present(&client->dev, "azoteq,clk-div"))
+ 		general |= IQS269_SYS_SETTINGS_CLK_DIV;
+-		iqs269->delay_mult = 4;
+-	} else {
+-		general &= ~IQS269_SYS_SETTINGS_CLK_DIV;
+-		iqs269->delay_mult = 1;
+-	}
+ 
+ 	/*
+ 	 * Configure the device to automatically switch between normal and low-
+@@ -1036,7 +1028,6 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
+ 
+ static int iqs269_dev_init(struct iqs269_private *iqs269)
+ {
+-	unsigned int val;
+ 	int error;
+ 
+ 	mutex_lock(&iqs269->lock);
+@@ -1052,14 +1043,12 @@ static int iqs269_dev_init(struct iqs269_private *iqs269)
+ 	if (error)
+ 		goto err_mutex;
+ 
+-	error = regmap_read_poll_timeout(iqs269->regmap, IQS269_SYS_FLAGS, val,
+-					!(val & IQS269_SYS_FLAGS_IN_ATI),
+-					 IQS269_ATI_POLL_SLEEP_US,
+-					 IQS269_ATI_POLL_TIMEOUT_US);
+-	if (error)
+-		goto err_mutex;
++	/*
++	 * The following delay gives the device time to deassert its RDY output
++	 * so as to prevent an interrupt from being serviced prematurely.
++	 */
++	usleep_range(2000, 2100);
+ 
+-	msleep(IQS269_ATI_STABLE_DELAY_MS);
+ 	iqs269->ati_current = true;
+ 
+ err_mutex:
+@@ -1071,10 +1060,8 @@ static int iqs269_dev_init(struct iqs269_private *iqs269)
+ static int iqs269_input_init(struct iqs269_private *iqs269)
+ {
+ 	struct i2c_client *client = iqs269->client;
+-	struct iqs269_flags flags;
+ 	unsigned int sw_code, keycode;
+ 	int error, i, j;
+-	u8 dir_mask, state;
+ 
+ 	iqs269->keypad = devm_input_allocate_device(&client->dev);
+ 	if (!iqs269->keypad)
+@@ -1087,23 +1074,7 @@ static int iqs269_input_init(struct iqs269_private *iqs269)
+ 	iqs269->keypad->name = "iqs269a_keypad";
+ 	iqs269->keypad->id.bustype = BUS_I2C;
+ 
+-	if (iqs269->hall_enable) {
+-		error = regmap_raw_read(iqs269->regmap, IQS269_SYS_FLAGS,
+-					&flags, sizeof(flags));
+-		if (error) {
+-			dev_err(&client->dev,
+-				"Failed to read initial status: %d\n", error);
+-			return error;
 -		}
--
--		iqs269->suspend_mode = val;
 -	}
 -
- 	error = regmap_raw_read(iqs269->regmap, IQS269_SYS_SETTINGS, sys_reg,
- 				sizeof(*sys_reg));
- 	if (error)
-@@ -1005,6 +990,17 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
- 	general &= ~IQS269_SYS_SETTINGS_DIS_AUTO;
- 	general &= ~IQS269_SYS_SETTINGS_PWR_MODE_MASK;
+ 	for (i = 0; i < ARRAY_SIZE(iqs269_events); i++) {
+-		dir_mask = flags.states[IQS269_ST_OFFS_DIR];
+-		if (!iqs269_events[i].dir_up)
+-			dir_mask = ~dir_mask;
+-
+-		state = flags.states[iqs269_events[i].st_offs] & dir_mask;
+-
+ 		sw_code = iqs269->switches[i].code;
  
-+	if (!device_property_read_u32(&client->dev, "azoteq,suspend-mode",
-+				      &val)) {
-+		if (val > IQS269_SYS_SETTINGS_PWR_MODE_MAX) {
-+			dev_err(&client->dev, "Invalid suspend mode: %u\n",
-+				val);
-+			return -EINVAL;
-+		}
+ 		for (j = 0; j < IQS269_NUM_CH; j++) {
+@@ -1116,13 +1087,9 @@ static int iqs269_input_init(struct iqs269_private *iqs269)
+ 			switch (j) {
+ 			case IQS269_CHx_HALL_ACTIVE:
+ 				if (iqs269->hall_enable &&
+-				    iqs269->switches[i].enabled) {
++				    iqs269->switches[i].enabled)
+ 					input_set_capability(iqs269->keypad,
+ 							     EV_SW, sw_code);
+-					input_report_switch(iqs269->keypad,
+-							    sw_code,
+-							    state & BIT(j));
+-				}
+ 				fallthrough;
+ 
+ 			case IQS269_CHx_HALL_INACTIVE:
+@@ -1138,14 +1105,6 @@ static int iqs269_input_init(struct iqs269_private *iqs269)
+ 		}
+ 	}
+ 
+-	input_sync(iqs269->keypad);
+-
+-	error = input_register_device(iqs269->keypad);
+-	if (error) {
+-		dev_err(&client->dev, "Failed to register keypad: %d\n", error);
+-		return error;
+-	}
+-
+ 	for (i = 0; i < IQS269_NUM_SL; i++) {
+ 		if (!iqs269->sys_reg.slider_select[i])
+ 			continue;
+@@ -1205,6 +1164,9 @@ static int iqs269_report(struct iqs269_private *iqs269)
+ 		return error;
+ 	}
+ 
++	if (be16_to_cpu(flags.system) & IQS269_SYS_FLAGS_IN_ATI)
++		return 0;
 +
-+		general |= (val << IQS269_SYS_SETTINGS_PWR_MODE_SHIFT);
-+	}
+ 	error = regmap_raw_read(iqs269->regmap, IQS269_SLIDER_X, slider_x,
+ 				sizeof(slider_x));
+ 	if (error) {
+@@ -1267,6 +1229,12 @@ static int iqs269_report(struct iqs269_private *iqs269)
+ 
+ 	input_sync(iqs269->keypad);
+ 
++	/*
++	 * The following completion signals that ATI has finished, any initial
++	 * switch states have been reported and the keypad can be registered.
++	 */
++	complete_all(&iqs269->ati_done);
 +
- 	if (!device_property_read_u32(&client->dev, "azoteq,ulp-update",
- 				      &val)) {
- 		if (val > IQS269_SYS_SETTINGS_ULP_UPDATE_MAX) {
-@@ -1687,59 +1683,30 @@ static int iqs269_probe(struct i2c_client *client)
- 	return error;
+ 	return 0;
  }
  
-+static u16 iqs269_general_get(struct iqs269_private *iqs269)
-+{
-+	u16 general = be16_to_cpu(iqs269->sys_reg.general);
+@@ -1298,6 +1266,9 @@ static ssize_t counts_show(struct device *dev,
+ 	if (!iqs269->ati_current || iqs269->hall_enable)
+ 		return -EPERM;
+ 
++	if (!completion_done(&iqs269->ati_done))
++		return -EBUSY;
 +
-+	general &= ~IQS269_SYS_SETTINGS_REDO_ATI;
-+	general &= ~IQS269_SYS_SETTINGS_ACK_RESET;
-+
-+	return general | IQS269_SYS_SETTINGS_DIS_AUTO;
-+}
-+
- static int __maybe_unused iqs269_suspend(struct device *dev)
+ 	/*
+ 	 * Unsolicited I2C communication prompts the device to assert its RDY
+ 	 * pin, so disable the interrupt line until the operation is finished
+@@ -1554,7 +1525,9 @@ static ssize_t ati_trigger_show(struct device *dev,
  {
  	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
- 	struct i2c_client *client = iqs269->client;
--	unsigned int val;
- 	int error;
-+	u16 general = iqs269_general_get(iqs269);
  
--	if (!iqs269->suspend_mode)
-+	if (!(general & IQS269_SYS_SETTINGS_PWR_MODE_MASK))
- 		return 0;
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", iqs269->ati_current);
++	return scnprintf(buf, PAGE_SIZE, "%u\n",
++			 iqs269->ati_current &&
++			 completion_done(&iqs269->ati_done));
+ }
  
- 	disable_irq(client->irq);
- 
--	/*
--	 * Automatic power mode switching must be disabled before the device is
--	 * forced into any particular power mode. In this case, the device will
--	 * transition into normal-power mode.
--	 */
--	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
--				   IQS269_SYS_SETTINGS_DIS_AUTO, ~0);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * The following check ensures the device has completed its transition
--	 * into normal-power mode before a manual mode switch is performed.
--	 */
--	error = regmap_read_poll_timeout(iqs269->regmap, IQS269_SYS_FLAGS, val,
--					!(val & IQS269_SYS_FLAGS_PWR_MODE_MASK),
--					 IQS269_PWR_MODE_POLL_SLEEP_US,
--					 IQS269_PWR_MODE_POLL_TIMEOUT_US);
--	if (error)
--		goto err_irq;
--
--	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
--				   IQS269_SYS_SETTINGS_PWR_MODE_MASK,
--				   iqs269->suspend_mode <<
--				   IQS269_SYS_SETTINGS_PWR_MODE_SHIFT);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * This last check ensures the device has completed its transition into
--	 * the desired power mode to prevent any spurious interrupts from being
--	 * triggered after iqs269_suspend has already returned.
--	 */
--	error = regmap_read_poll_timeout(iqs269->regmap, IQS269_SYS_FLAGS, val,
--					 (val & IQS269_SYS_FLAGS_PWR_MODE_MASK)
--					 == (iqs269->suspend_mode <<
--					     IQS269_SYS_FLAGS_PWR_MODE_SHIFT),
--					 IQS269_PWR_MODE_POLL_SLEEP_US,
--					 IQS269_PWR_MODE_POLL_TIMEOUT_US);
-+	error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS, general);
- 
--err_irq:
- 	iqs269_irq_wait();
- 	enable_irq(client->irq);
- 
-@@ -1750,43 +1717,20 @@ static int __maybe_unused iqs269_resume(struct device *dev)
- {
- 	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
- 	struct i2c_client *client = iqs269->client;
--	unsigned int val;
- 	int error;
-+	u16 general = iqs269_general_get(iqs269);
- 
--	if (!iqs269->suspend_mode)
-+	if (!(general & IQS269_SYS_SETTINGS_PWR_MODE_MASK))
- 		return 0;
+ static ssize_t ati_trigger_store(struct device *dev,
+@@ -1574,6 +1547,7 @@ static ssize_t ati_trigger_store(struct device *dev,
+ 		return count;
  
  	disable_irq(client->irq);
++	reinit_completion(&iqs269->ati_done);
  
--	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
--				   IQS269_SYS_SETTINGS_PWR_MODE_MASK, 0);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * This check ensures the device has returned to normal-power mode
--	 * before automatic power mode switching is re-enabled.
--	 */
--	error = regmap_read_poll_timeout(iqs269->regmap, IQS269_SYS_FLAGS, val,
--					!(val & IQS269_SYS_FLAGS_PWR_MODE_MASK),
--					 IQS269_PWR_MODE_POLL_SLEEP_US,
--					 IQS269_PWR_MODE_POLL_TIMEOUT_US);
--	if (error)
--		goto err_irq;
--
--	error = regmap_update_bits(iqs269->regmap, IQS269_SYS_SETTINGS,
--				   IQS269_SYS_SETTINGS_DIS_AUTO, 0);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * This step reports any events that may have been "swallowed" as a
--	 * result of polling PWR_MODE (which automatically acknowledges any
--	 * pending interrupts).
--	 */
--	error = iqs269_report(iqs269);
-+	error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS,
-+			     general & ~IQS269_SYS_SETTINGS_PWR_MODE_MASK);
-+	if (!error)
-+		error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS,
-+				     general & ~IQS269_SYS_SETTINGS_DIS_AUTO);
+ 	error = iqs269_dev_init(iqs269);
  
--err_irq:
- 	iqs269_irq_wait();
- 	enable_irq(client->irq);
+@@ -1583,6 +1557,10 @@ static ssize_t ati_trigger_store(struct device *dev,
+ 	if (error)
+ 		return error;
  
++	if (!wait_for_completion_timeout(&iqs269->ati_done,
++					 msecs_to_jiffies(2000)))
++		return -ETIMEDOUT;
++
+ 	return count;
+ }
+ 
+@@ -1641,6 +1619,7 @@ static int iqs269_probe(struct i2c_client *client)
+ 	}
+ 
+ 	mutex_init(&iqs269->lock);
++	init_completion(&iqs269->ati_done);
+ 
+ 	error = regmap_raw_read(iqs269->regmap, IQS269_VER_INFO, &ver_info,
+ 				sizeof(ver_info));
+@@ -1676,6 +1655,22 @@ static int iqs269_probe(struct i2c_client *client)
+ 		return error;
+ 	}
+ 
++	if (!wait_for_completion_timeout(&iqs269->ati_done,
++					 msecs_to_jiffies(2000))) {
++		dev_err(&client->dev, "Failed to complete ATI\n");
++		return -ETIMEDOUT;
++	}
++
++	/*
++	 * The keypad may include one or more switches and is not registered
++	 * until ATI is complete and the initial switch states are read.
++	 */
++	error = input_register_device(iqs269->keypad);
++	if (error) {
++		dev_err(&client->dev, "Failed to register keypad: %d\n", error);
++		return error;
++	}
++
+ 	error = devm_device_add_group(&client->dev, &iqs269_attr_group);
+ 	if (error)
+ 		dev_err(&client->dev, "Failed to add attributes: %d\n", error);
 -- 
 2.34.1
 
