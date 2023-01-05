@@ -2,140 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F34D65F3A2
-	for <lists+linux-input@lfdr.de>; Thu,  5 Jan 2023 19:24:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C099C65F674
+	for <lists+linux-input@lfdr.de>; Thu,  5 Jan 2023 23:10:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233306AbjAESYD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Jan 2023 13:24:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49324 "EHLO
+        id S232335AbjAEWJf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Jan 2023 17:09:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230190AbjAESYC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Jan 2023 13:24:02 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1598F53720
-        for <linux-input@vger.kernel.org>; Thu,  5 Jan 2023 10:24:02 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id n65-20020a17090a2cc700b0021bc5ef7a14so2861618pjd.0
-        for <linux-input@vger.kernel.org>; Thu, 05 Jan 2023 10:24:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WCB9Pqnmy3FV/sI7W65zlBgSINFypF4TPmTVJFxNTlo=;
-        b=H31qXKiUKXPgchmkJrO2ogKU4GaTP6jkz03R2SsdLctUPGVnL/soLMygm3tHsdaCKv
-         laImXIQ1hV/KPKgkCUSpYClcyMiyOsb4JM0dZJLZXWta1LfaFHEcai+dy4llG7rPMfnO
-         tMngndzODrrpvJCZDJJnA9SWXKa86GIjceUyursCnpwz64WTDiC5cCubhfrvquetls4j
-         vQeza1x1oqfH1vrXNT5HEP+QqfpElOIATjaGCRY2HBf6Vuf9lfCx32uy56lf7rIXG7PP
-         mYmldMq+MOD2v0+QLqxa7HnUneqnTpVFaSJZDiC9qVw7aXhum++aOVPgHvkfDOtjC5vO
-         UdSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WCB9Pqnmy3FV/sI7W65zlBgSINFypF4TPmTVJFxNTlo=;
-        b=cTzwaXIgiDOk8DRf526rmoqr+Tr0EWBWhIPZCkw0ZtEVtRczXeWW9XMbcQGqrfpRIH
-         LpYKp1xcTAZU8rWT50C2plCZDF8upIU3ZdCAQ/+PTqmDkcmVQV8rOin8qxS88e5fRnkT
-         GW39EnAvUWYzVd0c/YETMUQoluVsDNfsAB0NuV6HIFIpscCbTl9GZDLXVW9JD48lwnBN
-         ma/ZZzp8lRGAa+KGacw/DfhWr2il2a+VizmyGDPb1hpVpnnckizDZlgDKWiDs4GbdHEm
-         4TgmZOfgjM1/yX8ytYhZDbYbbmf9XoMoCgeMTq4wSorcXn6Ea7gEaVIP6kXKH8/CvPQm
-         aT+w==
-X-Gm-Message-State: AFqh2kqKtOG1dlBgk6W4d8nCRJeh2OiyeX4XvWavGpj0TFcCgqY+2Ihv
-        31qc6PebY8+yOi0EQRVMv8EgBLeXbZFIzLcEtLg=
-X-Google-Smtp-Source: AMrXdXsAaZPE7+Wi2nQora+BeYkY73oLEZZ0EUqmkFv/1q1wU5aOXpNPSQTnOXXDfKtrtuTwdSxFSg==
-X-Received: by 2002:a17:902:7048:b0:18f:438a:cfe1 with SMTP id h8-20020a170902704800b0018f438acfe1mr55969120plt.59.1672943041414;
-        Thu, 05 Jan 2023 10:24:01 -0800 (PST)
-Received: from localhost (net-93-66-86-112.cust.vodafonedsl.it. [93.66.86.112])
-        by smtp.gmail.com with ESMTPSA id n16-20020a170902d2d000b00176b84eb29asm26329958plc.301.2023.01.05.10.23.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 10:24:00 -0800 (PST)
-Date:   Thu, 5 Jan 2023 19:23:55 +0100
-From:   Alain Carlucci <alain.carlucci@gmail.com>
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>, djogorchock@gmail.com
-Subject: Re: [PATCH] HID: sony: Fix division by zero
-Message-ID: <20230105182355.ke4xy2bayxmqdne3@ananas>
-References: <CAEc3jaDf_TqzxRt3m=OscjLcg=L-jYhNq2r7jEyD6Z1pFo3NRA@mail.gmail.com>
- <20221228180130.47ix3afwbv4bmqfc@ananas>
- <CAEc3jaD-Z4F8CQBHKrBV=H1JwO3LhQMxy1rv2k30rCYhkr1CmQ@mail.gmail.com>
- <20221228215838.7rxsevi4wfldmm2j@ananas>
- <CAEc3jaAq7wH1b_jmw-t__Fc4xG6bTpW8hTnBf0gF8L04-sSiEw@mail.gmail.com>
- <20221229192119.jy2q4xaipfplqjbd@ananas>
- <CAEc3jaAvAh__5AUwjat4qQzLzSsNCAncYQtEX5ExXX1Hxh9cLw@mail.gmail.com>
- <CAME7zCKPjFbE6nSSoQOVK=BnFG0YAvMgHjAmHKTXcxk3Weuo+w@mail.gmail.com>
- <CAEc3jaBz92QRKCs1Ckb0njDNMu4=CHZcUJ=MPif3Mzvw_Xok2w@mail.gmail.com>
- <CAEc3jaD78h1qbWg+QQ40_yv5xc-oGFHAEyEOx2Nh20C-pxwcJg@mail.gmail.com>
+        with ESMTP id S236192AbjAEWIw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Jan 2023 17:08:52 -0500
+Received: from ryne.moe (ryne.moe [157.90.134.234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D6E1A6E41B;
+        Thu,  5 Jan 2023 14:08:34 -0800 (PST)
+Received: from adrastea.localnet (unknown [170.55.83.2])
+        by ryne.moe (Postfix) with ESMTPSA id B45701900401;
+        Thu,  5 Jan 2023 22:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=redstrate.com;
+        s=default; t=1672956513;
+        bh=r6XnwZZkbxtki7WdFdm9xTSDHdb0DlUFmv8n6lO6Zl8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Iz43PPr2zlar4TgT0HB4dZeEI8/C8DlhXuMX/j0FHgY3owHVWpBQ3rDFalG0dgkrI
+         axgiJG+tjEHmeVQ5xKGPfHAgHyEFMsMEFLRFOOauE++bZ/DbneBB3O/j4q73GPyGFv
+         dwADVT1RrjC4VHi+Op0HY68nr/wp+tvvaB0Sw/W0=
+From:   redstrate <josh@redstrate.com>
+To:     =?ISO-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc:     linux-input@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: uclogic: Add support for XP-PEN Artist 22R Pro
+Date:   Thu, 05 Jan 2023 17:08:29 -0500
+Message-ID: <4810275.31r3eYUQgx@adrastea>
+In-Reply-To: <Y7cLJpgnP50JzHps@fedora>
+References: <2068502.VLH7GnMWUR@adrastea> <20230102194911.56083-1-josh@redstrate.com>
+ <Y7cLJpgnP50JzHps@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAEc3jaD78h1qbWg+QQ40_yv5xc-oGFHAEyEOx2Nh20C-pxwcJg@mail.gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Roderick,
+> I see this event codes in a test device mock in libinput, but I wonder
+> if we could/should use BTN_9 instead of skiping a few IDs here.
+> 
+> Honestly, I don't now what should be the right approach in this case,
+> let's see if someone else comments on this topic.
 
-I just tried to see with evtest the values of gyro/accel after
-changing the driver so that follows the suggestion on the dsremap
-website: dividing by two speed_2x:
-speed_2x = (gyro_speed_plus + gyro_speed_minus) >> 1;
+I forgot about BTN_9, that should be an easy change. I already merged changes 
+upstream in systemd/udev to mark devices with these buttons correctly - so, 
+sunken cost and all that :-)
 
-The DS4 shows values no higher than 600000 (post-calibration) while 
-heavily shaking the joystick. For the record, the calibration is:
+> I think that you could use uclogic_params_parse_ugee_v2_desc() and
+> change the number of buttons in the template afterwards. It'd avoid
+> some code duplication.
 
-gyro_pitch_plus: 8848   gyro_pitch_minus: -8853
-gyro_yaw_plus: 8833     gyro_yaw_minus: -8827
-gyro_roll_plus: 8856    gyro_roll_minus: -8841
-gyro_speed_plus: 540    gyro_speed_minus: 540
-acc_x_plus: 8107        acc_x_minus: -8107
-acc_y_plus: 8259        acc_y_minus: -8259
-acc_z_plus: 8187        acc_z_minus: -8186
+Yeah I think that's what I'll do, I was thinking of reusing it and just 
+overriding parameters if needed.
 
-This is an example of the output:
+> There are some XP-Pen PRO devices handled by the other init function.
+> Maybe we could rename this function to something more specific to your
+> device.
 
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 128610
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 95747
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 61321
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 28864
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 874
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -27802
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -54949
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -82064
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -110398
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -138107
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -170345
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -205239
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -242320
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -281525
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -318043
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -356748
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -394453
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -430628
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -465428
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -496105
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -526469
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -551897
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -554865
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -522127
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -450933
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -323041
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -180404
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value -44859
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 71006
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 148353
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 202209
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 242757
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 274183
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 298456
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 316106
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 331569
-Event: time [...], type 3 (EV_ABS), code 3 (ABS_RX), value 338942
+Ah okay, it's pretty specific to this device anyway - so I'll rename the 
+function so it's clear what it's purpose is. I wasn't sure if future XP-PEN 
+Pro work was going to reuse this function, but I guess we'll rename it if that 
+happens!
 
-Thanks,
-Alain
+> You can use "uclogic_ugee_v2_probe_endpoint" here.
+
+Good catch! Will change.
+
+> User-space lacks support for dials, but, with this descriptor, would it
+> be possible to differenciate between the 2 dials to, for example,
+> assign them different actions? Or would them be exposed as the same
+> dial?
+> 
+> I have no idea how would user-space see this, but it'd interesting to
+> see how libinput handles it.
+
+Currently userspace sees this as REL_WHEEL and REL_HWHEEL, but like
+mentioned libinput currently rejects mouse wheel events from tablet pads.
+The fact that they previously worked before these patches is because udev
+misclassified the pad device as a mouse. I'm working upstream to expose dials 
+on tablet pads in libinput (I just got the green light so I'll be working on 
+that shortly!)
+
+> You can cherry-pick my patch refactoring this variables and send it as
+> part of your series. I think that it might help maintainers with the
+> merge and it'd also fix the problem reported by the test robot.
+
+Ooh good point, I didn't even consider doing that. Next version will have it 
+split up into two then.
+
+
+
+
