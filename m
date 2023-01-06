@@ -2,147 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C12660257
-	for <lists+linux-input@lfdr.de>; Fri,  6 Jan 2023 15:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B53266025D
+	for <lists+linux-input@lfdr.de>; Fri,  6 Jan 2023 15:42:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232785AbjAFOiN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Jan 2023 09:38:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42472 "EHLO
+        id S229767AbjAFOl7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Jan 2023 09:41:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbjAFOiM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Jan 2023 09:38:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CD68099D
-        for <linux-input@vger.kernel.org>; Fri,  6 Jan 2023 06:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673015846;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=P/zfGuEErfx9YxOb8v5xGvNVY0pRdOYDG3xC/nVLZ30=;
-        b=LzahyLOiYxfBw8+iz6KJdvbXLzxyGKM38tJXuvZ99jWXkRaa/pWiyWxnw96ad3VDUa2eXu
-        7q4jlekkasA/LqLYg9M/U5fpDBPx9jLNVaQku8V76TftuHrNV3w7hQrjxJbj82bVr65Szq
-        yH27ihWZYsAqqHcHol1SvEh7iCg56mw=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-339-zWRtBKCiMRWurdXd9j7p6Q-1; Fri, 06 Jan 2023 09:37:25 -0500
-X-MC-Unique: zWRtBKCiMRWurdXd9j7p6Q-1
-Received: by mail-il1-f200.google.com with SMTP id y5-20020a056e021be500b0030bc4f23f0aso1232236ilv.3
-        for <linux-input@vger.kernel.org>; Fri, 06 Jan 2023 06:37:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P/zfGuEErfx9YxOb8v5xGvNVY0pRdOYDG3xC/nVLZ30=;
-        b=qRErl0Avd8mPuuuIYbdWUJwSwUPSKOQqwh34j+BKmjpkTfH86xDF/NYqTQZv1jRlyB
-         dUbzrdSytTYfpf0toRD9doKrpg+ECUTYf8rK2xP5rX1yCDJ1Gku2qw58bOGE0riCOoXD
-         1YouJL9DJpgKmIPua4Wi1PnOxDgRBUcxjpE39fVkT3nQkfdOttwYsCio+pL17a5DpP6M
-         SwuYhA4lOfFLsNEJk4VFP1UtW8UgARNxJs8/8u+vo7cdX2PEiQ7qTkhHtTBu0C+JqsTW
-         cmGQfeO0lXWEz4M/UklHlJp0mpmpW7zs5eAMlcF+CEijAHX/0wTwtcxBLqiaWkA0jATK
-         be5w==
-X-Gm-Message-State: AFqh2kqHd5CnnIf1OlnpyRUKMK3yBVZKQs+9MNqaf10HkDdYaTyBD81i
-        BCD2Gbyqt3AUGT/4tWqQLEjgLxiEFopIS+1T9vGM3ejk5bkYC1Jl7Y3G5kpr493a5IQx0lp2fKP
-        HTin4YBzgDAEbtxcdC5QcF0wOxEz1UdyIc6ZJ5PY=
-X-Received: by 2002:a02:54c7:0:b0:38a:757f:dac9 with SMTP id t190-20020a0254c7000000b0038a757fdac9mr4442650jaa.84.1673015844324;
-        Fri, 06 Jan 2023 06:37:24 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvM4bw2Ko76z00L7EjKh+skm8JncjwnAQJE6ihiSkxq86ANz2AZ+mFp90pOVnrlYrhleh2gJGZWL4Ra8my8I3c=
-X-Received: by 2002:a02:54c7:0:b0:38a:757f:dac9 with SMTP id
- t190-20020a0254c7000000b0038a757fdac9mr4442635jaa.84.1673015844043; Fri, 06
- Jan 2023 06:37:24 -0800 (PST)
+        with ESMTP id S229472AbjAFOl6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Jan 2023 09:41:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 190AE5E651
+        for <linux-input@vger.kernel.org>; Fri,  6 Jan 2023 06:41:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A90EE61376
+        for <linux-input@vger.kernel.org>; Fri,  6 Jan 2023 14:41:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 084F1C433D2;
+        Fri,  6 Jan 2023 14:41:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673016117;
+        bh=8EsxnIBfDu3hX7I4HWdnma591isFDpzGurRz4gzs2kY=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=o9g+mwDFquqmPxFUFq9UMGp5UDAR8JuWhDSyajBNkn4vwwvK7SViQjcfPszzCy3qS
+         jDcY/KkA9SrhmsqjuwJXnc/3GAcZEaZwsgkElORhwFktIB9Dnnrz2vTxrLfKkbcxlt
+         5M0yTuUvIXwveahYCUb6ufZSriYeuyvo2FGd3bqevFrOwn/ZfK1fwguGaTNYwM/ozg
+         trOqRydyA8B5Z98G2vAaawj1MV6X69TWEEfL+I5PxbMz1P67Q/ZMGNeUhZ0rc0N9tY
+         7y/B5ud3pUmKVSfcM7qj6CtOGY51Sjmt+g5FCM7+J4kcOjjtlYljuLpkSJomNYL/2Y
+         0ReMonhgqU/oQ==
+Date:   Fri, 6 Jan 2023 15:41:56 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Christian Zigotzky <chzigotzky@xenosoft.de>
+cc:     anpatel@nvidia.com, linux-input@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Darren Stevens <darren@stevens-zone.net>,
+        "R.T.Dickinson" <rtd2@xtra.co.nz>, linux-input@vger.kernel.org,
+        mad skateman <madskateman@gmail.com>,
+        Christian Zigotzky <info@xenosoft.de>
+Subject: Re: [PASEMI] Nemo board doesn't reboot anymore after the commit
+ "HID: usbhid: Add ALWAYS_POLL quirk for some mice"
+In-Reply-To: <75f18191-c311-18f2-bfdb-ac82fb166e1b@xenosoft.de>
+Message-ID: <nycvar.YFH.7.76.2301061540530.1734@cbobk.fhfr.pm>
+References: <747e3240-bb3f-3a0c-e998-02f3b4826704@xenosoft.de> <75f18191-c311-18f2-bfdb-ac82fb166e1b@xenosoft.de>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20230106102332.1019632-9-benjamin.tissoires@redhat.com> <202301062140.zfdqzE9b-lkp@intel.com>
-In-Reply-To: <202301062140.zfdqzE9b-lkp@intel.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 6 Jan 2023 15:37:12 +0100
-Message-ID: <CAO-hwJK3RetR9T_=4C+3Fmj-ThNx-3XWgrOJGAL9VebM-PdgLw@mail.gmail.com>
-Subject: Re: [PATCH HID for-next v1 8/9] HID: bpf: clean up entrypoint
-To:     kernel test robot <lkp@intel.com>
-Cc:     Greg KH <greg@kroah.com>, Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 6, 2023 at 2:42 PM kernel test robot <lkp@intel.com> wrote:
->
-> Hi Benjamin,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on hid/for-next]
-> [also build test WARNING on next-20230106]
-> [cannot apply to shuah-kselftest/next shuah-kselftest/fixes char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.2-rc2]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/selftests-hid-add-vmtest-sh/20230106-182823
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-> patch link:    https://lore.kernel.org/r/20230106102332.1019632-9-benjamin.tissoires%40redhat.com
-> patch subject: [PATCH HID for-next v1 8/9] HID: bpf: clean up entrypoint
-> config: i386-randconfig-a013
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/46336953b47885c5111b7c1a92403b3d94cf3d41
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Benjamin-Tissoires/selftests-hid-add-vmtest-sh/20230106-182823
->         git checkout 46336953b47885c5111b7c1a92403b3d94cf3d41
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hid/bpf/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
-> >> drivers/hid/bpf/hid_bpf_jmp_table.c:502:6: warning: no previous prototype for function 'call_hid_bpf_prog_put_deferred' [-Wmissing-prototypes]
->    void call_hid_bpf_prog_put_deferred(struct work_struct *work)
->         ^
->    drivers/hid/bpf/hid_bpf_jmp_table.c:502:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
->    void call_hid_bpf_prog_put_deferred(struct work_struct *work)
->    ^
->    static
->    1 warning generated.
->
->
-> vim +/call_hid_bpf_prog_put_deferred +502 drivers/hid/bpf/hid_bpf_jmp_table.c
->
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  501
-> 0baef37335dd4d Benjamin Tissoires 2022-11-03 @502  void call_hid_bpf_prog_put_deferred(struct work_struct *work)
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  503  {
-> ade9207f04dc40 Benjamin Tissoires 2023-01-06  504       /* kept around for patch readability, to be dropped in the next commmit */
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  505  }
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  506
->
+On Fri, 6 Jan 2023, Christian Zigotzky wrote:
 
-Oops, this function should have been dropped in 8/9 "HID: bpf: clean
-up entrypoint". It's now dead code. I'll fix it in v2.
+> Hello,
+> 
+> The reboot issue is still present in the RC2 of kernel 6.2. We still need the
+> usbhid.patch. [1]
+> 
+> Please check the bad commit. [2]
 
-Cheers,
-Benjamin
+Ankit,
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+have you tested with all the devices that you added the quirk for in your 
+original patch?
+
+Unless I hear otherwise, I will just drop 
+the quirk for USB_DEVICE_ID_CHERRY_MOUSE_000C before this gets clarified.
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
