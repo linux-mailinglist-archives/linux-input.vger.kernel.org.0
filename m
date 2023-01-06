@@ -2,47 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EA0266029F
-	for <lists+linux-input@lfdr.de>; Fri,  6 Jan 2023 15:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 337026602C2
+	for <lists+linux-input@lfdr.de>; Fri,  6 Jan 2023 16:07:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234520AbjAFOyf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Jan 2023 09:54:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
+        id S232580AbjAFPHu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Jan 2023 10:07:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbjAFOyO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Jan 2023 09:54:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDC780AEF
-        for <linux-input@vger.kernel.org>; Fri,  6 Jan 2023 06:54:12 -0800 (PST)
+        with ESMTP id S235566AbjAFPHb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Jan 2023 10:07:31 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2708B75D
+        for <linux-input@vger.kernel.org>; Fri,  6 Jan 2023 07:07:02 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5DFF4B81D59
-        for <linux-input@vger.kernel.org>; Fri,  6 Jan 2023 14:54:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD01C433EF;
-        Fri,  6 Jan 2023 14:54:08 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B7EE6B81D96
+        for <linux-input@vger.kernel.org>; Fri,  6 Jan 2023 15:07:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39B3AC433F0;
+        Fri,  6 Jan 2023 15:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673016850;
-        bh=Bh/rtBzCiusDBf9Bq/dcn2ily/fKp9K2HGpCyiD8h9w=;
+        s=k20201202; t=1673017619;
+        bh=atUxbB9cNv8eC2HJIkEm37NDy/kfwhLMGII1b/RG53E=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=LKM9BLtkQBCMxjhxodQDFUS4iIHuQ3uOLZe83gVo5WjJUPCJ2obdRROECSMNhHK0M
-         Q9yFWTQoxlUyCUFLucdIQ1PU2zzuqZ0vWbTpVT5DoysnCX26hB8CFkdbTSKEzL1H6y
-         eLhuUx1vy0YM8xYsatPlllkPudLbbNZHbu93fvqtTved+gNg4+v2yYLDNIAqT1bOup
-         zqs9foiafmOhf5wm86pKsrCi3YaIIUfgpLd7DTHCNxfZWnWNq38c0DNe8yTbfnkdoC
-         FLiPIQi2B8F6Ad2OYfYbr1SWe9k3ktXz2CmJKcBYIg3WEDDzZZerL6XEeJD8vej/OA
-         b5+RsMrJJOifw==
-Date:   Fri, 6 Jan 2023 15:54:10 +0100 (CET)
+        b=RS4Ne7Azoz2HxnbupP4b11iEJMZLBnUO4fFTAvcKNWKW+43AF4KAt6Qh5lsZHKjbP
+         4OkuAkktbcQGp9Yh6MNEq3icitA6PkzjLUvGAyWvCysUKP+/G0oewZcVe2d8bk8L+J
+         1Je8AIMGuqBLf1UZK17mzJ6gMgtBtwC6KV8gNIW25jfSyJAxAXcJZ3gtTwpJIQArSs
+         Lu0M/O8fDLtS0lr/6Q9uvDG3gEeC578UpXH/fxjqYzFhbjVoUdkkZvIVW+YSGk3U//
+         iHUn+SmZzpayZWDRnXWoA+8qSfOanDEwcuev7SJzNUrJKxmPYzXN5IspIkNOj4f3jo
+         +J1K1dnwc6A3g==
+Date:   Fri, 6 Jan 2023 16:06:59 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Philipp Jungkamp <p.jungkamp@gmx.net>
-cc:     kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-        oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [hid:for-6.3/hid-sensor 2/4] drivers/hid/hid-sensor-custom.c:960:12:
- warning: stack frame size (1104) exceeds limit (1024) in
- 'hid_sensor_custom_probe'
-In-Reply-To: <69d201656df475ed869acfb833712c1ba081cfc6.camel@gmx.net>
-Message-ID: <nycvar.YFH.7.76.2301061553290.1734@cbobk.fhfr.pm>
-References: <202212230026.gBHQvZbI-lkp@intel.com> <69d201656df475ed869acfb833712c1ba081cfc6.camel@gmx.net>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        kernel test robot <lkp@intel.com>,
+        Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] HID: amd_sfh: Fix warning unwind goto
+In-Reply-To: <20230102163042.1743830-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2301061606470.1734@cbobk.fhfr.pm>
+References: <20230102163042.1743830-1-Basavaraj.Natikar@amd.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,83 +53,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 22 Dec 2022, Philipp Jungkamp wrote:
+On Mon, 2 Jan 2023, Basavaraj Natikar wrote:
 
-> Hello,
+> Return directly instead of using existing goto will not cleanup
+> previously allocated resources. Hence replace return with goto
+> to fix warning unwind goto which cleanups previously allocated
+> resources.
 > 
-> does this mean the problem lies in 'hid_sensor_custom_probe' itself or
-> could this also be caused by local variables in nested functions.
+> Fixes: 93ce5e0231d7 ("HID: amd_sfh: Implement SFH1.1 functionality")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> ---
+>  drivers/hid/amd-sfh-hid/amd_sfh_client.c      | 2 +-
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> I suspect the problem lies in 'hid_sensor_custom_get_known' where I put
-> an instance of 'struct hid_sensor_custom_properties' on the stack.
-> 
-> This struct is way too large (I didn't know there was a upper stack
-> limit of 1024). It's current size is sizeof(u16) * 3 *
-> HID_CUSTOM_MAX_FEATURE_BYTES = 384.
-> 
-> Would allocating it for the scope of 'hid_sensor_custom_get_known' make
-> sense?
-> 
-> Which kind of kernel allocation functions should I use here?  
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> index ab125f79408f..1fb0f7105fb2 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> @@ -282,7 +282,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+>  		}
+>  		rc = mp2_ops->get_rep_desc(cl_idx, cl_data->report_descr[i]);
+>  		if (rc)
+> -			return rc;
+> +			goto cleanup;
+>  		mp2_ops->start(privdata, info);
+>  		status = amd_sfh_wait_for_response
+>  				(privdata, cl_data->sensor_idx[i], SENSOR_ENABLED);
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+> index 4da2f9f62aba..a1d6e08fab7d 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+> @@ -160,7 +160,7 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
+>  		}
+>  		rc = mp2_ops->get_rep_desc(cl_idx, cl_data->report_descr[i]);
+>  		if (rc)
+> -			return rc;
+> +			goto cleanup;
+>  
+>  		writel(0, privdata->mmio + AMD_P2C_MSG(0));
 
-As there was no followup to this as far as I can see, I have just queued 
-the patch below on top of the hid-sensor branch.
-
-
-
-From: Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH] HID: hid-sensor-custom: Fix big on-stack allocation in hid_sensor_custom_get_known()
-
-struct hid_sensor_custom_properties is currently 384 bytes big, which consumes
-too much stack space for no good reason. Make it dynamically allocated.
-
-Fixes: 98c062e824519 ("HID: hid-sensor-custom: Allow more custom iio sensors")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
----
- drivers/hid/hid-sensor-custom.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-index 0c287dde345c..3e3f89e01d81 100644
---- a/drivers/hid/hid-sensor-custom.c
-+++ b/drivers/hid/hid-sensor-custom.c
-@@ -911,21 +911,28 @@ hid_sensor_custom_get_known(struct hid_sensor_hub_device *hsdev,
- 	int ret;
- 	const struct hid_sensor_custom_match *match =
- 		hid_sensor_custom_known_table;
--	struct hid_sensor_custom_properties prop;
-+	struct hid_sensor_custom_properties *prop;
- 
--	ret = hid_sensor_custom_properties_get(hsdev, &prop);
-+	prop = kmalloc(sizeof(struct hid_sensor_custom_properties), GFP_KERNEL);
-+	if (!prop)
-+		return -ENOMEM;
-+
-+	ret = hid_sensor_custom_properties_get(hsdev, prop);
- 	if (ret < 0)
--		return ret;
-+		goto out;
- 
- 	while (match->tag) {
--		if (hid_sensor_custom_do_match(hsdev, match, &prop)) {
-+		if (hid_sensor_custom_do_match(hsdev, match, prop)) {
- 			*known = match;
--			return 0;
-+			ret = 0;
-+			goto out;
- 		}
- 		match++;
- 	}
--
--	return -ENODATA;
-+	ret = -ENODATA;
-+out:
-+	kfree(prop);
-+	return ret;
- }
- 
- static struct platform_device *
+Applied to for-6.2/upstream-fixes, thanks.
 
 -- 
 Jiri Kosina
