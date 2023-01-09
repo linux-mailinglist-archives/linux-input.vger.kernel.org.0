@@ -2,74 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F122C66209E
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 09:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F01766209B
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 09:53:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234229AbjAIIxG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Jan 2023 03:53:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34308 "EHLO
+        id S233794AbjAIIxF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Jan 2023 03:53:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236711AbjAIIwd (ORCPT
+        with ESMTP id S236812AbjAIIwd (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Mon, 9 Jan 2023 03:52:33 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A84E186BA
-        for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 00:44:55 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8073186F8
+        for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 00:44:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673253876;
+        s=mimecast20190719; t=1673253885;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=E8q5jpTo62ZXlOOGGv2dS1aCiXpU1bZezyIGO2F7ao0=;
-        b=CKe+nnLGa6NJXeHSKkGmUewcPEddQvhw5w9Vqxx9yO7fGcVp05kIhVJJn4d5KpQdiolcj0
-        RVoToWcmIuBC4DaVHsc10xYJRA5L6ExZAcM8KuZxc3c3sz8t0GduZk0J0V9O3zSSH0mtKE
-        t72LYQ1OMSqJWuV8a/pkASlYEGoAScs=
+        bh=dvncnM1nWRMSvld9oaWAMDOO9HazaD0/X3LGbto83Ok=;
+        b=TAER0d1us9PotsK26gdi+4twxwWaSfPRQu9YeZjaag/iJ8/X2QiPZYE+QbFlq8n2zVMofB
+        PPykkdSm7krqpH3V+I3plQ5M+4fRUidVc2SzO+CjKg9cydQCYrcpjoheGA4toXo7PXLCXV
+        JKbgdshgQTDQXSIDTxub+/D4MEUMER0=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-TxmdAkwvOkOaIF_9vSfOUA-1; Mon, 09 Jan 2023 03:44:34 -0500
-X-MC-Unique: TxmdAkwvOkOaIF_9vSfOUA-1
-Received: by mail-ej1-f71.google.com with SMTP id xh12-20020a170906da8c00b007413144e87fso4942636ejb.14
-        for <linux-input@vger.kernel.org>; Mon, 09 Jan 2023 00:44:34 -0800 (PST)
+ us-mta-662-anEXYM05MqiTJ88ETrYePw-1; Mon, 09 Jan 2023 03:44:44 -0500
+X-MC-Unique: anEXYM05MqiTJ88ETrYePw-1
+Received: by mail-ej1-f71.google.com with SMTP id sc9-20020a1709078a0900b0084c4e8dc14eso4915145ejc.4
+        for <linux-input@vger.kernel.org>; Mon, 09 Jan 2023 00:44:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E8q5jpTo62ZXlOOGGv2dS1aCiXpU1bZezyIGO2F7ao0=;
-        b=4giyoBtT8zNsNam8JrgpA1SKG43XKXrhVlbuyul+eCjG1RFLSRkHqUrPxHnkfBdv/q
-         vkNcmOj4YMCTPlSK6DDywxcmIT7J3JgQPcHLfEt8+ZR4UHjRMRF2+53XyALzCWVY+16N
-         8qZ4YVHpQ9rRH5Qn12Y+xzWQNGBjghB2rUjMLFJ+bJ8Pg+pWW/5l8kksgnVQ0pgu/jbJ
-         TwKLs2YcjlCwRFld7XsAOrpp7Yl4FK93CWz9+5WJota7BCFWNWvwaVh1UA/+wQQgWPsb
-         aop5/4S/ouFvsWAT9ce00i/o2e0R0n764Nk7+DcLsFojNh9Ccu8gnKkHAFPiLLKCwOHQ
-         Wtzg==
-X-Gm-Message-State: AFqh2kpGplC07hR6LIrvYavjaqszLoRb/5cjWAMc/L7YFft9w2Fpc16U
-        352YaGcdrYeLxI6KXID0p5DzsvZ4g7tNVm99ZDB/0IDTOawF1zIAHazyW0DYpBZ08erc6xTNWuF
-        7N+02HuZ8ZNugfh2IcgoodZw=
-X-Received: by 2002:a05:6402:2:b0:483:5e56:7bc5 with SMTP id d2-20020a056402000200b004835e567bc5mr43659836edu.40.1673253873608;
-        Mon, 09 Jan 2023 00:44:33 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvEWKrRwylHa8Df0azEda6waifEazhezH5/O9DzsUjNiHtwziQxoD/ho42S82Wi2RrKzLLLNQ==
-X-Received: by 2002:a05:6402:2:b0:483:5e56:7bc5 with SMTP id d2-20020a056402000200b004835e567bc5mr43659831edu.40.1673253873398;
-        Mon, 09 Jan 2023 00:44:33 -0800 (PST)
+        bh=dvncnM1nWRMSvld9oaWAMDOO9HazaD0/X3LGbto83Ok=;
+        b=wksF10jNhK+p16OHa8Lo51Mjv7ZOaxUbuEJ/VCHsfs9nfOuhA4aMcW6ayMtN6n29GU
+         DtNugNbzAjKTlP9A+4BAJjVlrHvf6m8Hy6L5gWdBfPtRmBpUsMTwe/yGz27p9jz/xRTf
+         K9ctOftAgA+N3DbxjfTsLklg5JOe7OZ7mz84/IiEVdEpfPd3dZzU8x2dOaIfSkN5nlT9
+         72kjRL75fRNFcxP0vGM8fBcksksnF5dNfoWUBPpMLix8b/Ka3V7lLaLa508KpqV307Zk
+         bOreAdM4SNmQ+PMSZX/I+kV/srKOvaNfju7z3pZ/y59D3TzYQUfGlAuBMz0I7WmRvtGL
+         H8lg==
+X-Gm-Message-State: AFqh2kqbyRGr/RSWCpCLDO1KPIla6qs1ZAC3vocnI0ZCvQ5ad3X10I9l
+        pvNichoCqbIBRSIX3BbyxAzzVOj+L6vxWly8+x4fFshT8hIVplYLjTiK+kITjE8BxgYvImASmRW
+        5pAd6DHPdS8MuT7L3Dc4T/8A=
+X-Received: by 2002:a17:907:6d97:b0:7c1:5ee1:4c56 with SMTP id sb23-20020a1709076d9700b007c15ee14c56mr69856939ejc.55.1673253883037;
+        Mon, 09 Jan 2023 00:44:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuydUZVBXPSKer5CjviHU5asUnYxMWXjE38mlgJ5CYkyT9Y6IVPXQafqZexMFsN4j7s/S2gaA==
+X-Received: by 2002:a17:907:6d97:b0:7c1:5ee1:4c56 with SMTP id sb23-20020a1709076d9700b007c15ee14c56mr69856928ejc.55.1673253882815;
+        Mon, 09 Jan 2023 00:44:42 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p3-20020a056402500300b00488abbbadb3sm3414601eda.63.2023.01.09.00.44.32
+        by smtp.gmail.com with ESMTPSA id lb6-20020a170907784600b007ad69e9d34dsm3474103ejc.54.2023.01.09.00.44.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 00:44:32 -0800 (PST)
-Message-ID: <78f675ed-c9c0-156e-b588-d8e70868b823@redhat.com>
-Date:   Mon, 9 Jan 2023 09:44:32 +0100
+        Mon, 09 Jan 2023 00:44:42 -0800 (PST)
+Message-ID: <ccf50f6d-e5f0-3810-040c-7c1dab9f5de2@redhat.com>
+Date:   Mon, 9 Jan 2023 09:44:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 37/69] Input: chipone_in8318 - switch to
+Subject: Re: [PATCH 38/69] Input: chipone_icn8505 - switch to
  DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
 Content-Language: en-US, nl
 To:     Jonathan Cameron <jic23@kernel.org>, linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
 References: <20230102181842.718010-1-jic23@kernel.org>
- <20230102181842.718010-38-jic23@kernel.org>
+ <20230102181842.718010-39-jic23@kernel.org>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230102181842.718010-38-jic23@kernel.org>
+In-Reply-To: <20230102181842.718010-39-jic23@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -91,7 +91,7 @@ On 1/2/23 19:18, Jonathan Cameron wrote:
 > against unused function warnings.  The new combination of pm_sleep_ptr()
 > and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
 > thus suppressing the warning, but still allowing the unused code to be
-> removed. Thus also drop the #ifdef guards.
+> removed. Thus also drop the __maybe_unused markings.
 > 
 > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > Cc: Hans de Goede <hdegoede@redhat.com>
@@ -106,39 +106,47 @@ Hans
 
 
 > ---
->  drivers/input/touchscreen/chipone_icn8318.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  drivers/input/touchscreen/chipone_icn8505.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/input/touchscreen/chipone_icn8318.c b/drivers/input/touchscreen/chipone_icn8318.c
-> index f6769e4bd4f2..32b714a6ed2d 100644
-> --- a/drivers/input/touchscreen/chipone_icn8318.c
-> +++ b/drivers/input/touchscreen/chipone_icn8318.c
-> @@ -148,7 +148,6 @@ static void icn8318_stop(struct input_dev *dev)
->  	gpiod_set_value_cansleep(data->wake_gpio, 0);
->  }
->  
-> -#ifdef CONFIG_PM_SLEEP
->  static int icn8318_suspend(struct device *dev)
->  {
->  	struct icn8318_data *data = i2c_get_clientdata(to_i2c_client(dev));
-> @@ -172,9 +171,8 @@ static int icn8318_resume(struct device *dev)
->  
+> diff --git a/drivers/input/touchscreen/chipone_icn8505.c b/drivers/input/touchscreen/chipone_icn8505.c
+> index c421f4be2700..246bee0bee53 100644
+> --- a/drivers/input/touchscreen/chipone_icn8505.c
+> +++ b/drivers/input/touchscreen/chipone_icn8505.c
+> @@ -460,7 +460,7 @@ static int icn8505_probe(struct i2c_client *client)
 >  	return 0;
 >  }
-> -#endif
 >  
-> -static SIMPLE_DEV_PM_OPS(icn8318_pm_ops, icn8318_suspend, icn8318_resume);
-> +static DEFINE_SIMPLE_DEV_PM_OPS(icn8318_pm_ops, icn8318_suspend, icn8318_resume);
->  
->  static int icn8318_probe(struct i2c_client *client)
+> -static int __maybe_unused icn8505_suspend(struct device *dev)
+> +static int icn8505_suspend(struct device *dev)
 >  {
-> @@ -263,7 +261,7 @@ MODULE_DEVICE_TABLE(i2c, icn8318_i2c_id);
->  static struct i2c_driver icn8318_driver = {
+>  	struct icn8505_data *icn8505 = i2c_get_clientdata(to_i2c_client(dev));
+>  
+> @@ -471,7 +471,7 @@ static int __maybe_unused icn8505_suspend(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int __maybe_unused icn8505_resume(struct device *dev)
+> +static int icn8505_resume(struct device *dev)
+>  {
+>  	struct icn8505_data *icn8505 = i2c_get_clientdata(to_i2c_client(dev));
+>  	int error;
+> @@ -484,7 +484,7 @@ static int __maybe_unused icn8505_resume(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static SIMPLE_DEV_PM_OPS(icn8505_pm_ops, icn8505_suspend, icn8505_resume);
+> +static DEFINE_SIMPLE_DEV_PM_OPS(icn8505_pm_ops, icn8505_suspend, icn8505_resume);
+>  
+>  static const struct acpi_device_id icn8505_acpi_match[] = {
+>  	{ "CHPN0001" },
+> @@ -495,7 +495,7 @@ MODULE_DEVICE_TABLE(acpi, icn8505_acpi_match);
+>  static struct i2c_driver icn8505_driver = {
 >  	.driver = {
->  		.name	= "chipone_icn8318",
-> -		.pm	= &icn8318_pm_ops,
-> +		.pm	= pm_sleep_ptr(&icn8318_pm_ops),
->  		.of_match_table = icn8318_of_match,
+>  		.name	= "chipone_icn8505",
+> -		.pm	= &icn8505_pm_ops,
+> +		.pm	= pm_sleep_ptr(&icn8505_pm_ops),
+>  		.acpi_match_table = icn8505_acpi_match,
 >  	},
->  	.probe_new = icn8318_probe,
+>  	.probe_new = icn8505_probe,
 
