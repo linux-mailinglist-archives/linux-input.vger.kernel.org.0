@@ -2,151 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0176C6620AB
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 09:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F7A662141
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 10:18:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234413AbjAIIyX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Jan 2023 03:54:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60930 "EHLO
+        id S233657AbjAIJSx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Jan 2023 04:18:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236968AbjAIIxw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Jan 2023 03:53:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C35E19C11
-        for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 00:45:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673253913;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EfKGawghBZdsRFPfs5p9QceNL5m8jQj9g6qWgcPYJiw=;
-        b=P9ieauosiv9bvuxoRo1PK8a0pzSPbr2nvbEvlC7Mugdh9YWkCRQGPpCWvi6J9u66Zymlz8
-        xJfwjHDNphC7XtLEyE4QcKtTpst490CDUGeXYOfhJADXrzG/EzNGeXElCGCS8+skTKRNWt
-        KxxWvq7r/zc96kzy6Ou1uf3uMYL9Rm4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663--W62hlPQPJGR4OUJ_c7omw-1; Mon, 09 Jan 2023 03:45:12 -0500
-X-MC-Unique: -W62hlPQPJGR4OUJ_c7omw-1
-Received: by mail-ej1-f69.google.com with SMTP id xh12-20020a170906da8c00b007413144e87fso4943559ejb.14
-        for <linux-input@vger.kernel.org>; Mon, 09 Jan 2023 00:45:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EfKGawghBZdsRFPfs5p9QceNL5m8jQj9g6qWgcPYJiw=;
-        b=sl9zrnLonz2YJ7XGDR62aHcTUb0sLBoqWA5tC9gkx89k+o/SpFMscdHIf5xiV7UN+q
-         xBTvEusNPPFsG4Cgg6Kw/Xf6uf1Prz00zi9r80uNc5frytKsEuhyBUtjZaCOlOndSN1s
-         Bug7w7oYRsNUGW/PsQrzK2+JB/EsxB27t/l3shheH55lGeInt62wrqdgWNSratTFnPJ/
-         sSnZb81CX2tU1NS+rhFYKB0CQDQ4w/c77QyQDmAOx3/XeeXl2wQNY9/5Fmzr7inW0hSS
-         XgI/ngfnaOXuLnKoTud/zGh4XIM02oy/6k+zCHLC5fwDG6bcBCQ17Qov/nakAo0V9Ml1
-         qhJg==
-X-Gm-Message-State: AFqh2kpLdpzABNvEPRt7OCeObC3goB76as0xXFSV3VKNOjCrr3EeSYPs
-        dP5tRStCsSPolHCCWH7y/EiaPDNqwe2YtF3Oi1l++064vpc3oa3r1+zC6wPb5QtePenvJidA1ey
-        hoIfgUxN2bCb5kzz2PeJv1S4=
-X-Received: by 2002:a17:907:d38c:b0:7c0:b0f9:e360 with SMTP id vh12-20020a170907d38c00b007c0b0f9e360mr55435868ejc.16.1673253911026;
-        Mon, 09 Jan 2023 00:45:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvEP4Rjwae9rdl/LculB7XO/9Ofg5tfBHr2OXntq7mHFea+kvg4rLxU09JEI1dv4mDJRWzpoQ==
-X-Received: by 2002:a17:907:d38c:b0:7c0:b0f9:e360 with SMTP id vh12-20020a170907d38c00b007c0b0f9e360mr55435860ejc.16.1673253910825;
-        Mon, 09 Jan 2023 00:45:10 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p14-20020a170906784e00b00849c1e5c00esm3460991ejm.72.2023.01.09.00.45.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 00:45:10 -0800 (PST)
-Message-ID: <f04c6477-a457-37ea-fb53-0321a8c04767@redhat.com>
-Date:   Mon, 9 Jan 2023 09:45:09 +0100
+        with ESMTP id S236653AbjAIJSM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Jan 2023 04:18:12 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9BCF1A828;
+        Mon,  9 Jan 2023 01:14:41 -0800 (PST)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pEoEo-00030V-8i; Mon, 09 Jan 2023 10:14:38 +0100
+Message-ID: <b74f4337-2e52-fe01-666c-d08335e9f4f4@leemhuis.info>
+Date:   Mon, 9 Jan 2023 10:14:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 59/69] Input: silead - switch to
- DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
-Content-Language: en-US, nl
-To:     Jonathan Cameron <jic23@kernel.org>, linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <20230102181842.718010-1-jic23@kernel.org>
- <20230102181842.718010-60-jic23@kernel.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230102181842.718010-60-jic23@kernel.org>
+Content-Language: en-US, de-DE
+From:   "Linux kernel regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bastien Nocera <hadess@hadess.net>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, berilko@gmail.com,
+        =?UTF-8?Q?Stefan_Br=c3=bcns?= <stefan.bruens@rwth-aachen.de>,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: =?UTF-8?Q?=5bRegression=5d_Bug=c2=a0216903_-_HiRes_Scroll_for_Perfo?=
+ =?UTF-8?Q?rmance_Mouse_MX_broken_in_6=2e1?=
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1673255681;6e6a64d8;
+X-HE-SMSGID: 1pEoEo-00030V-8i
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi, this is your Linux kernel regression tracker.
 
-On 1/2/23 19:18, Jonathan Cameron wrote:
-> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+I noticed a regression report in bugzilla.kernel.org. As many (most?)
+kernel developer don't keep an eye on it, I decided to forward it by
+mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216903 :
+
+>  berilko@gmail.com 2023-01-08 19:14:21 UTC
 > 
-> SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
-> against unused function warnings.  The new combination of pm_sleep_ptr()
-> and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
-> thus suppressing the warning, but still allowing the unused code to be
-> removed. Thus also drop the __maybe_unused markings.
+> Since 6.1 Kernel driver for hid-logitech-hidpp no more detect Performance MX as FastScroll
 > 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-> ---
->  drivers/input/touchscreen/silead.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Self-made patch is:
+> --- archlinux-linux/drivers/hid/hid-logitech-hidpp.c	2023-01-09 00:41:25.310773805 +0700
+> +++ archlinux-linux/drivers/hid/hid-logitech-hidpp.c	2023-01-09 01:09:10.844967608 +0700
+> @@ -3479,7 +3479,7 @@
+>  						  HIDPP_GET_REGISTER,
+>  						  HIDPP_ENABLE_FAST_SCROLL,
+>  						  NULL, 0, &response);
+> -		if (!ret) {
+> +		if (!ret || /* Patch for Performance MX */ hidpp->hid_dev->product == 0x101a) {
+>  			hidpp->capabilities |= HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL;
+>  			hid_dbg(hidpp->hid_dev, "Detected HID++ 1.0 fast scroll\n");
+>  		}
 > 
-> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-> index 8a7351c4414c..a37fac089010 100644
-> --- a/drivers/input/touchscreen/silead.c
-> +++ b/drivers/input/touchscreen/silead.c
-> @@ -736,7 +736,7 @@ static int silead_ts_probe(struct i2c_client *client)
->  	return 0;
->  }
->  
-> -static int __maybe_unused silead_ts_suspend(struct device *dev)
-> +static int silead_ts_suspend(struct device *dev)
->  {
->  	struct i2c_client *client = to_i2c_client(dev);
->  
-> @@ -745,7 +745,7 @@ static int __maybe_unused silead_ts_suspend(struct device *dev)
->  	return 0;
->  }
->  
-> -static int __maybe_unused silead_ts_resume(struct device *dev)
-> +static int silead_ts_resume(struct device *dev)
->  {
->  	struct i2c_client *client = to_i2c_client(dev);
->  	bool second_try = false;
-> @@ -784,7 +784,7 @@ static int __maybe_unused silead_ts_resume(struct device *dev)
->  	return 0;
->  }
->  
-> -static SIMPLE_DEV_PM_OPS(silead_ts_pm, silead_ts_suspend, silead_ts_resume);
-> +static DEFINE_SIMPLE_DEV_PM_OPS(silead_ts_pm, silead_ts_suspend, silead_ts_resume);
->  
->  static const struct i2c_device_id silead_ts_id[] = {
->  	{ "gsl1680", 0 },
-> @@ -832,7 +832,7 @@ static struct i2c_driver silead_ts_driver = {
->  		.name = SILEAD_TS_NAME,
->  		.acpi_match_table = ACPI_PTR(silead_ts_acpi_match),
->  		.of_match_table = of_match_ptr(silead_ts_of_match),
-> -		.pm = &silead_ts_pm,
-> +		.pm = pm_sleep_ptr(&silead_ts_pm),
->  	},
->  };
->  module_i2c_driver(silead_ts_driver);
+> [reply] [−] Comment 1 Stefan Brüns 2023-01-08 23:39:50 UTC
+> 
+> Unfortunately, the hires auto detection is broken for HID++1.0 devices.
+> 
+> https://elixir.bootlin.com/linux/latest/source/drivers/hid/hid-logitech-hidpp.c#L3477
+> 
+> ```
+> 		ret = hidpp_send_rap_command_sync(hidpp,
+> 						  REPORT_ID_HIDPP_SHORT,
+> 						  HIDPP_GET_REGISTER,
+> 						  HIDPP_ENABLE_FAST_SCROLL,
+> 						  NULL, 0, &response);
+> ```
+> 
+> This command tries to read from register 0x40, while the FAST_SCROLL feature is BIT(6) (0x40) in register 0x01.
+> 
+> For my M705, enabling and disabling of FAST_SCROLL is possible (writing 0x42/0x02 to register 0x1), and the current setting can be read back.
+> 
+> I don't think auto-detection is possible for HID++1.0 devices.
+> 
 
+See the ticket for more details.
+
+BTW, let me use this mail to also add the report to the list of tracked
+regressions to ensure it's doesn't fall through the cracks:
+
+#regzbot introduced: v6.0..v6.1
+https://bugzilla.kernel.org/show_bug.cgi?id=216903
+#regzbot title: hid: HiRes Scroll for Performance Mouse MX broken
+#regzbot ignore-activity
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
