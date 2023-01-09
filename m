@@ -2,61 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1621C662040
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 09:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F4576620A9
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 09:54:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236665AbjAIIl7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Jan 2023 03:41:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50128 "EHLO
+        id S233505AbjAIIyV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Jan 2023 03:54:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236740AbjAIIlQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Jan 2023 03:41:16 -0500
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64BBA13F8C
-        for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 00:41:13 -0800 (PST)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id 2510F83E96; Mon,  9 Jan 2023 08:40:58 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1673253671; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=AIjsduUA5IamjvPkyB+ENpRh87AadAXJn1RYkTRoQmNPK11/DVvivTqYHyMvV3wQD
-         RawjkJjUqbaWC4oPL9vKBMotEkaPh3YxLDEiTluiBI1Ugcuf+/vMqH8qjLyeFr/hvv
-         hzPv6lJ8q+2d14YHdhTpjMWPAMGUrJl5dhtmbZOQMmoSQpYcatVTFKcfn54ylRFMZd
-         QEBr8cT7nLLQkHAkaW9nW+s35DYBLDRVB3/dXuX4FGLxMyM7oe4QiiGUWQCZT7eWFQ
-         eYwaCh9TC+78JQ1P7IgETSvnW4OlVNXvso0yJDmya1gBg/TsbqSCkDVeSAIHgpksq5
-         pTFyaC+QfEylQ==
-Received: by mail.lokoho.com for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 08:40:48 GMT
-Message-ID: <20230109074502-0.1.3a.ko5c.0.k2hfoi3g1n@lokoho.com>
-Date:   Mon,  9 Jan 2023 08:40:48 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-input@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        with ESMTP id S236709AbjAIIxP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Jan 2023 03:53:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D09618E26
+        for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 00:45:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673253865;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ieip31en4i37wmpCPbTtyt0Hvq3ESMUz6JG3sPLhFUI=;
+        b=Xr7p/x9Ppk+tmE6kuhkgjSpApYYQOLoiNClJMQ+i5uh5VEodTRfnE8p2LEcKwe6YbY9UqM
+        VP7lwZ4PUnj+JM1GVQzfyrAn6DV8BjidEGP2VFlR+KPXt8nzSVeNrEPcBg5vlW1SIVWcws
+        RVIhEXD/HXG14p6gAXPsJZx9fvYOzRo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-45-wDJgEY2WNAGJOggmrnSqrA-1; Mon, 09 Jan 2023 03:44:24 -0500
+X-MC-Unique: wDJgEY2WNAGJOggmrnSqrA-1
+Received: by mail-ej1-f69.google.com with SMTP id qk40-20020a1709077fa800b007eeb94ecdb5so4934114ejc.12
+        for <linux-input@vger.kernel.org>; Mon, 09 Jan 2023 00:44:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ieip31en4i37wmpCPbTtyt0Hvq3ESMUz6JG3sPLhFUI=;
+        b=jkefntGm/RHp8zILe8SEEi2F36D7D6edSzAt3IKsFTKqeHO10TcPBCSXxojhSUtzru
+         0m+ESdqLBczhxLgSpXhyoomBlluBUAf+CDMJtjn3GRDXkfgn/+fSncDcTtiOIFeFltLe
+         T2k6gz9aogYw/RxoUZUDibTXo89WgISi5MJLdVShJ/LrJVC+YOcP4zmv20OmhlK0C7ip
+         9AkgDtTZaf8jXycOk4TzXVXTc2PxoVw81p5p/i/u2bba4tXdu54cX7AyUIoXHMuwfhXZ
+         q5+DnT8FyghSf4yrnyGa0b309gVblHVj4kDQrCfcxg836jJXwsqRDHGQ4fECCKcSKFRN
+         NiSA==
+X-Gm-Message-State: AFqh2kpi7xBK92FLr/jdr12eD26ms+4ctcZom2tTxNjiRHx0FvDVtqSq
+        gcAKBYgjkpyUdPuMPsU8T+Mcx+lfdq12VtCVguyS3xLpn5mL/JIl1cJ91Ki0WoVDSMKSUeXN99f
+        WRahvnS94T+zBTWwHIHeuKKg=
+X-Received: by 2002:a05:6402:1294:b0:499:8849:5faf with SMTP id w20-20020a056402129400b0049988495fafmr4103863edv.26.1673253863171;
+        Mon, 09 Jan 2023 00:44:23 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsVZxBqsgkhVH8FwbSxvIabTD3h8uk0E6+um85WCSAmmX7/1Ykx5r/2lz924HQeO3Po+JdKVA==
+X-Received: by 2002:a05:6402:1294:b0:499:8849:5faf with SMTP id w20-20020a056402129400b0049988495fafmr4103850edv.26.1673253862958;
+        Mon, 09 Jan 2023 00:44:22 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id lb11-20020a170907784b00b007b935641971sm3403615ejc.5.2023.01.09.00.44.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Jan 2023 00:44:22 -0800 (PST)
+Message-ID: <94daff62-6ef0-92b6-c4b1-faf768eb74cc@redhat.com>
+Date:   Mon, 9 Jan 2023 09:44:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 26/69] Input: elan_i2c_core - switch to
+ DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()
+Content-Language: en-US, nl
+To:     Jonathan Cameron <jic23@kernel.org>, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Raul E Rangel <rrangel@chromium.org>
+References: <20230102181842.718010-1-jic23@kernel.org>
+ <20230102181842.718010-27-jic23@kernel.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230102181842.718010-27-jic23@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi,
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+On 1/2/23 19:17, Jonathan Cameron wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
+> against unused function warnings.  The new combination of pm_sleep_ptr()
+> and DEFINE_SIMPLE_DEV_PM_OPS() allows the compiler to see the functions,
+> thus suppressing the warning, but still allowing the unused code to be
+> removed. Thus also drop the __maybe_unused markings.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Raul E Rangel <rrangel@chromium.org>
+> Cc: Hans de Goede <hdegoede@redhat.com>
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Thanks, patch looks good to me:
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
 
 
-Pozdrawiam
-Adam Charachuta
+> ---
+>  drivers/input/mouse/elan_i2c_core.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index 76729ada1582..5f0d75a45c80 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -1328,7 +1328,7 @@ static int elan_probe(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int __maybe_unused elan_suspend(struct device *dev)
+> +static int elan_suspend(struct device *dev)
+>  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct elan_tp_data *data = i2c_get_clientdata(client);
+> @@ -1365,7 +1365,7 @@ static int __maybe_unused elan_suspend(struct device *dev)
+>  	return ret;
+>  }
+>  
+> -static int __maybe_unused elan_resume(struct device *dev)
+> +static int elan_resume(struct device *dev)
+>  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct elan_tp_data *data = i2c_get_clientdata(client);
+> @@ -1394,7 +1394,7 @@ static int __maybe_unused elan_resume(struct device *dev)
+>  	return error;
+>  }
+>  
+> -static SIMPLE_DEV_PM_OPS(elan_pm_ops, elan_suspend, elan_resume);
+> +static DEFINE_SIMPLE_DEV_PM_OPS(elan_pm_ops, elan_suspend, elan_resume);
+>  
+>  static const struct i2c_device_id elan_id[] = {
+>  	{ DRIVER_NAME, 0 },
+> @@ -1418,7 +1418,7 @@ MODULE_DEVICE_TABLE(of, elan_of_match);
+>  static struct i2c_driver elan_driver = {
+>  	.driver = {
+>  		.name	= DRIVER_NAME,
+> -		.pm	= &elan_pm_ops,
+> +		.pm	= pm_sleep_ptr(&elan_pm_ops),
+>  		.acpi_match_table = ACPI_PTR(elan_acpi_id),
+>  		.of_match_table = of_match_ptr(elan_of_match),
+>  		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+
