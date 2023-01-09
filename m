@@ -2,151 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0D4766202D
-	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 09:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1621C662040
+	for <lists+linux-input@lfdr.de>; Mon,  9 Jan 2023 09:42:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236516AbjAIIkP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Jan 2023 03:40:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48972 "EHLO
+        id S236665AbjAIIl7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Jan 2023 03:41:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236511AbjAIIkJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Jan 2023 03:40:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6CAF13F3F
-        for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 00:39:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673253559;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=J1F19OootqSJo02/5nq51ccGj2gFAyI3aLRBvhLG6VY=;
-        b=Q1O58HtIrS/mkKgLZ3EqHS40Tt85Oxtq6Kcw9HF0bqq7e4sAgM3fFSeqHm9HzLQ1AujGRb
-        qXnV4PfPo0LSR50w4mP+ES6ewOdnwTh97UbnK+pPgRf6hnYRSQBS8sWGsjjTcsDjumP8pA
-        5C7tCZRDG5T/bW7NZDeVrzB5cErmlM8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-516-oviWsv8JOR-1NCMQFZ_NlA-1; Mon, 09 Jan 2023 03:39:18 -0500
-X-MC-Unique: oviWsv8JOR-1NCMQFZ_NlA-1
-Received: by mail-ed1-f69.google.com with SMTP id y21-20020a056402359500b0048123f0f8deso4809921edc.23
-        for <linux-input@vger.kernel.org>; Mon, 09 Jan 2023 00:39:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J1F19OootqSJo02/5nq51ccGj2gFAyI3aLRBvhLG6VY=;
-        b=Hiy0UYPbCB3iA1HXF1TKir8az+bSb775zlrl8/jJZbl0GDqCsXnt4Y0TiYZxnhat9i
-         rcD6r/SAQyqQqWHZiAKNe4k2r56xX4+LexZIxbGGBf4xSQgppFW5nRCWbhUOMFtPokK1
-         BbtU2ehgPEamoT2rdm3fXOUXyjnGy3KUCB3CThzMxojEXsuC1yeyFGASZhqnDBugAUIp
-         NWyOCtoI6eucA5OCfVzgOOSjp90987uFPVS5WWf/felt0jin5fraPydZhEi8d6AMUfbs
-         rLrZvAuok+qRJ77VdnY3MTTIljvu0h4AStxUKnHBaiTGPPH1KV54s0S9bKwWDgI2DG/o
-         gaoQ==
-X-Gm-Message-State: AFqh2koIgXzwWXi0ITjdplDRr44Q6pZuzKgClwNYP3m+JChoLzYNTcGF
-        yRwK3bNTJ1+h7YYvJIl/LBkr3Rqn8Z/kig7eywPg7BfrIQvtudhbMh4NbbkTrWiXF3+uhyMOlQt
-        ugqkc1RS+r7LNDfpqHCecpAg=
-X-Received: by 2002:a05:6402:1cce:b0:472:1b3b:35f1 with SMTP id ds14-20020a0564021cce00b004721b3b35f1mr71459271edb.21.1673253557330;
-        Mon, 09 Jan 2023 00:39:17 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvQHoqNFDBv5b+KRfQQPCDn8dbqFoFTle6LxtPDIi5nK+QwX7m5tX1huyDBGiicuZ1OooY54w==
-X-Received: by 2002:a05:6402:1cce:b0:472:1b3b:35f1 with SMTP id ds14-20020a0564021cce00b004721b3b35f1mr71459255edb.21.1673253557102;
-        Mon, 09 Jan 2023 00:39:17 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id t18-20020aa7d712000000b0046b4e0fae75sm3413735edq.40.2023.01.09.00.39.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 00:39:16 -0800 (PST)
-Message-ID: <101825b0-3d27-28dd-d70b-d4df1321b132@redhat.com>
-Date:   Mon, 9 Jan 2023 09:39:15 +0100
+        with ESMTP id S236740AbjAIIlQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Jan 2023 03:41:16 -0500
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64BBA13F8C
+        for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 00:41:13 -0800 (PST)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id 2510F83E96; Mon,  9 Jan 2023 08:40:58 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1673253671; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=AIjsduUA5IamjvPkyB+ENpRh87AadAXJn1RYkTRoQmNPK11/DVvivTqYHyMvV3wQD
+         RawjkJjUqbaWC4oPL9vKBMotEkaPh3YxLDEiTluiBI1Ugcuf+/vMqH8qjLyeFr/hvv
+         hzPv6lJ8q+2d14YHdhTpjMWPAMGUrJl5dhtmbZOQMmoSQpYcatVTFKcfn54ylRFMZd
+         QEBr8cT7nLLQkHAkaW9nW+s35DYBLDRVB3/dXuX4FGLxMyM7oe4QiiGUWQCZT7eWFQ
+         eYwaCh9TC+78JQ1P7IgETSvnW4OlVNXvso0yJDmya1gBg/TsbqSCkDVeSAIHgpksq5
+         pTFyaC+QfEylQ==
+Received: by mail.lokoho.com for <linux-input@vger.kernel.org>; Mon,  9 Jan 2023 08:40:48 GMT
+Message-ID: <20230109074502-0.1.3a.ko5c.0.k2hfoi3g1n@lokoho.com>
+Date:   Mon,  9 Jan 2023 08:40:48 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-input@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 0/8] HID: remove some unneeded exported symbols from hid.h
-Content-Language: en-US, nl
-To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        netdev@vger.kernel.org
-References: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Dzie=C5=84 dobry,
 
-On 12/22/22 06:10, Thomas Weißschuh wrote:
-> Small cleanup to get rid of exports of the lowlevel hid drivers and to make
-> them const.
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-Thanks, the entire series looks good to me:
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-for the series.
-
-Regards,
-
-Hans
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
 
-> 
-> To: Hans de Goede <hdegoede@redhat.com>
-> To: Jiri Kosina <jikos@kernel.org>
-> To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> To: David Rheinsberg <david.rheinsberg@gmail.com>
-> To: Marcel Holtmann <marcel@holtmann.org>
-> To: Johan Hedberg <johan.hedberg@gmail.com>
-> To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-> To: "David S. Miller" <davem@davemloft.net>
-> To: Eric Dumazet <edumazet@google.com>
-> To: Jakub Kicinski <kuba@kernel.org>
-> To: Paolo Abeni <pabeni@redhat.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-bluetooth@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> 
-> ---
-> Thomas Weißschuh (8):
->       HID: letsketch: Use hid_is_usb()
->       HID: usbhid: Make hid_is_usb() non-inline
->       HID: Remove unused function hid_is_using_ll_driver()
->       HID: Unexport struct usb_hid_driver
->       HID: Unexport struct uhid_hid_driver
->       HID: Unexport struct hidp_hid_driver
->       HID: Unexport struct i2c_hid_ll_driver
->       HID: Make lowlevel driver structs const
-> 
->  drivers/hid/hid-letsketch.c        |  2 +-
->  drivers/hid/i2c-hid/i2c-hid-core.c |  3 +--
->  drivers/hid/uhid.c                 |  3 +--
->  drivers/hid/usbhid/hid-core.c      |  9 +++++++--
->  include/linux/hid.h                | 18 ++----------------
->  net/bluetooth/hidp/core.c          |  3 +--
->  6 files changed, 13 insertions(+), 25 deletions(-)
-> ---
-> base-commit: d264dd3bbbd16b56239e889023fbe49413a58eaf
-> change-id: 20221222-hid-b9551f9fa236
-> 
-> Best regards,
-
+Pozdrawiam
+Adam Charachuta
