@@ -2,103 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 561EB6643FB
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 16:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F8B56644C8
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 16:30:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233300AbjAJPDt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Jan 2023 10:03:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
+        id S238629AbjAJPaK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Jan 2023 10:30:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233250AbjAJPDY (ORCPT
+        with ESMTP id S232701AbjAJP3q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Jan 2023 10:03:24 -0500
-X-Greylist: delayed 518 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 Jan 2023 07:03:07 PST
-Received: from w1.tutanota.de (w1.tutanota.de [81.3.6.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F1574F102;
-        Tue, 10 Jan 2023 07:03:06 -0800 (PST)
-Received: from tutadb.w10.tutanota.de (unknown [192.168.1.10])
-        by w1.tutanota.de (Postfix) with ESMTP id 94710FBF999;
-        Tue, 10 Jan 2023 14:54:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1673362466;
-        s=s1; d=tuta.io;
-        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
-        bh=4FnHMSoDG+UwWAFI0bQdg+tPEV4Pse/8h0+mQ/LOzUw=;
-        b=oC42p0+E3mdwVzXD4vM7LJqoRBTfAMDaZjHxXojVR9BKs39Zu5bBoqALQ9WRTpHZ
-        EdrgBIGxqa+7BWM/iLQFy2GQ6e/y6YkiPqib8vkqBIShWGuuNpPjxT27BEtrHRzsOae
-        jWolVarxOzc7T/K0d+43NlRAEaFWncmjSZ36T2YFtX+YRqJ/zadL6hCYYmgnJAPRGlw
-        KWiu/JOnHc6rzqf9WpF01XLExRnyJslDCBMeJOphZC54F4tUyRB5qFdZqDu4AT5TLG4
-        LnJ5CrWl08XNRJXLnWr0X+DugidK/SniT3eGpSP+yg4YTqROwTOgkX0C04PzD0SG3Ay
-        d3wkOqSAcw==
-Date:   Tue, 10 Jan 2023 15:54:26 +0100 (CET)
-From:   marco.rodolfi@tuta.io
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Cc:     Marco Rodolfi <marco.rodolfi@tuta.io>
-Message-ID: <NLR9TEh--3-9@tuta.io>
-Subject: [PATCH] HID: Ignore battery for Elan touchscreen on Asus TP420IA
+        Tue, 10 Jan 2023 10:29:46 -0500
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C8476219;
+        Tue, 10 Jan 2023 07:29:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1673364554;
+  x=1704900554;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rZK4lXaEJ4x4EqUHUPXE5HpqBwAiLoEDFrRFR6F5708=;
+  b=JhYxjwmH0Rr7Rogvhoo5OAAdVh+ObULieC1EXkOAtt/hklprYsE69a1j
+   mIjHZi+BFIifjowKK2W5Ji3SbzFGtN1BofkQyJZszvAjgpo+Cptt4v72k
+   r9I/BoKMEHgffhKs5SEKGF3wu5Iow+U9l8brRvtkT5gGLxmRhL+rcfC+q
+   aH45OvGBpRw81IJnecqPm9evVJRFoSWYx7VZWJyRdqAUKqDzVBt9fFgzG
+   +n4EAgPr4VFsNe//XTnVsxFnL8p3hLCHEf/SJJWFjigEa/x/6GFkEpxFd
+   cmFhW4tT+N1Kqqe7kR3YqXJ1XmsXbIRdXLzCu4s8sjadPWei3v1epcCmF
+   Q==;
+From:   Jiri Valek - 2N <jiriv@axis.com>
+To:     <linux-input@vger.kernel.org>
+CC:     <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-kernel@vger.kernel.org>, <robh+dt@kernel.org>,
+        <u.kleine-koenig@pengutronix.de>, <jiriv@axis.com>
+Subject: [PATCH v3 0/2] Input: cap11xx add support for cap1203, cap1293 and cap1298
+Date:   Tue, 10 Jan 2023 16:28:57 +0100
+Message-ID: <20230110152859.295881-1-jiriv@axis.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: se-mail07w.axis.com (10.20.40.13) To se-mail01w.axis.com
+ (10.20.40.7)
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+PATCH 1 - add compatible string for new models
+PATCH 2 - add support for new models into driver
 
-This device has a touchscreen thats report a battery even if it doesn't=20
-have one.=20
-Ask Linux to ignore the battery so it will not always report it as low.=20
-=20
-Signed-off-by: Marco Rodolfi <marco.rodolfi@tuta.io>=20
----=20
- drivers/hid/hid-ids.h =C2=A0=C2=A0| 1 +=20
- drivers/hid/hid-input.c | 2 ++=20
- 2 files changed, 3 insertions(+)=20
-=20
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h=20
-index 8f58c3c1bec3..0f525b946cd1 100644=20
---- a/drivers/hid/hid-ids.h=20
-+++ b/drivers/hid/hid-ids.h=20
-@@ -413,6 +413,7 @@=20
- #define I2C_DEVICE_ID_HP_ENVY_X360_15 =C2=A00x2d05=20
- #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100 =C2=A0=C2=A00x29CF=20
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_15 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A00x2817=20
-+#define I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN 0x2BC8=20
- #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN 0x2544=20
- #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN =C2=A0=C2=A00x2706=20
- #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN =C2=A0=C2=A00x261A=20
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c=20
-index 859aeb07542e..54e2d4066d9b 100644=20
---- a/drivers/hid/hid-input.c=20
-+++ b/drivers/hid/hid-input.c=20
-@@ -369,6 +369,8 @@ static const struct hid_device_id hid_battery_quirks[] =
-=3D {=20
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_BLUETOOTH_DEVICE(USB_VENDO=
-R_ID_LOGITECH,=20
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD),=20
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0HID_BATTERY_QUIRK_IG=
-NORE },=20
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, =
-I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN)
-,=20
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0HID_BATTERY_QUIRK_IGNORE =
-},=20
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_USB_DEVICE(USB_VENDOR_ID_E=
-LAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),=20
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0HID_BATTERY_QUIRK_IG=
-NORE },=20
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_USB_DEVICE(USB_VENDOR_ID_E=
-LAN, USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN)
-,=20
--- =C2=A0
-2.39.0=20
+Changes in v2:
+  - Fixed if statement in PATCH 2.
 
-=20
+Changes in v3:
+  - Model names sorted alphabetically in PATCH 2.
+
+Jiri Valek - 2N (2):
+  dt-bindings: input: microchip,cap11xx: add cap1203, cap1293 and
+    cap1298
+  Input: cap11xx - add support for cap1203, cap1293 and cap1298
+
+ .../bindings/input/microchip,cap11xx.yaml     |  3 +++
+ drivers/input/keyboard/cap11xx.c              | 19 +++++++++++++++++--
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
+
