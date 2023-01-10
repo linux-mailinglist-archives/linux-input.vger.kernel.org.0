@@ -2,80 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1447E664398
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 15:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 561EB6643FB
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 16:03:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238460AbjAJOse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Jan 2023 09:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58434 "EHLO
+        id S233300AbjAJPDt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Jan 2023 10:03:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238702AbjAJOsZ (ORCPT
+        with ESMTP id S233250AbjAJPDY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Jan 2023 09:48:25 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A724FCF2;
-        Tue, 10 Jan 2023 06:48:24 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id p25so6524944ljn.12;
-        Tue, 10 Jan 2023 06:48:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v5WsDUKqWc4u2jJZSjpZXWIATqF3Ue62OEMi4UxyJJ0=;
-        b=oc2q/yf7Mk3QIlXAJYeunlc0xCzF2jvNa+OlXsTXr8lFDtVjeEoCiol1ouFQbJZ1B/
-         DVduttuoKizppvkqtLxYQMTN1QKiOES3NgF5UoqkbILX/9nFbBsNVPPoS/kJBTtUDqQc
-         Ik8CVMr+t/u/sRvPOc1FGAoLlVDF5BbKylVDYae3TcaZwzoGO9F8VhJUtQ5Y6X0Z36Ta
-         36QV6jghOZeBndrBoq15x2Sjvk+jMdZovO0HHTsV281PKgjZOJwrbIwxn5ocyhEI5FLU
-         8ax3oiWPUPJ9jSZ1wFRrDypucm2G1ZtJvrPVSdzNQ6o7UPBE6qtodw3i1TYsypPXfi6a
-         aqAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v5WsDUKqWc4u2jJZSjpZXWIATqF3Ue62OEMi4UxyJJ0=;
-        b=0JVdiHa+KxICLADOT3e2rcItXgVvuVGZhxd9stmLuk2GkMTHVq+WDlsm4JO/2Lc5aA
-         nc6AVzpLKEJjOSIf+IVYL3/skTExZF0+0M7QVlbVCR92mVUo1UCg5un7+VOtD6sTP5+h
-         JegD69BaSNH6nMTywo0zBdgaTpgWXpwj9Gi1iPmkByuACzJvY83v9J5D5+WBKgpZjyep
-         qIvBo0ma77YY39VG0TG7xUbmnlWHGBmekB9TqhQW0IoKIXXya+7UotGzchO7H/78Me68
-         /+7jJhnk1+7BK8JA8E73oCsz4+RJjMwuv4U/TaMXpQjh6MnssY2ltgcwknToxz6JRBoP
-         6KWQ==
-X-Gm-Message-State: AFqh2kpO0qJNKImfr4vBONVdM8EioK5MSl8V1vZxqw2UkVBl0JVY5Rvx
-        9qIItHe2wcAxNtq3w5wT5nU=
-X-Google-Smtp-Source: AMrXdXsgTVvxwQgYkltkVwEjosBkKDYfG19UHkSooATESFBmQ4jCcULgczuaRd9ZB3b5tLhmA/IqUQ==
-X-Received: by 2002:a2e:95c6:0:b0:285:74d8:fd15 with SMTP id y6-20020a2e95c6000000b0028574d8fd15mr1698704ljh.9.1673362102984;
-        Tue, 10 Jan 2023 06:48:22 -0800 (PST)
-Received: from gmail.com (82-209-154-112.cust.bredband2.com. [82.209.154.112])
-        by smtp.gmail.com with ESMTPSA id t21-20020a2e8e75000000b0027b54ff90c0sm1323531ljk.139.2023.01.10.06.48.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jan 2023 06:48:21 -0800 (PST)
-Date:   Tue, 10 Jan 2023 15:48:33 +0100
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
-Message-ID: <Y716wUFVm+PvkMqv@gmail.com>
-References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
- <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
- <YwTvrNuulKx0SB6H@gmail.com>
- <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
- <YwcbVJswrL1Doi4s@gmail.com>
- <CAO-hwJJ86oAuaFD+uX7Rwv7cASO=4mchRJ1UBTxz9gYs6M1rUg@mail.gmail.com>
- <YyLVblZkIPCvNd/2@gmail.com>
- <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
- <d4b420a0-23da-6ab6-886a-7342f7e63651@redhat.com>
+        Tue, 10 Jan 2023 10:03:24 -0500
+X-Greylist: delayed 518 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 Jan 2023 07:03:07 PST
+Received: from w1.tutanota.de (w1.tutanota.de [81.3.6.162])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F1574F102;
+        Tue, 10 Jan 2023 07:03:06 -0800 (PST)
+Received: from tutadb.w10.tutanota.de (unknown [192.168.1.10])
+        by w1.tutanota.de (Postfix) with ESMTP id 94710FBF999;
+        Tue, 10 Jan 2023 14:54:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1673362466;
+        s=s1; d=tuta.io;
+        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
+        bh=4FnHMSoDG+UwWAFI0bQdg+tPEV4Pse/8h0+mQ/LOzUw=;
+        b=oC42p0+E3mdwVzXD4vM7LJqoRBTfAMDaZjHxXojVR9BKs39Zu5bBoqALQ9WRTpHZ
+        EdrgBIGxqa+7BWM/iLQFy2GQ6e/y6YkiPqib8vkqBIShWGuuNpPjxT27BEtrHRzsOae
+        jWolVarxOzc7T/K0d+43NlRAEaFWncmjSZ36T2YFtX+YRqJ/zadL6hCYYmgnJAPRGlw
+        KWiu/JOnHc6rzqf9WpF01XLExRnyJslDCBMeJOphZC54F4tUyRB5qFdZqDu4AT5TLG4
+        LnJ5CrWl08XNRJXLnWr0X+DugidK/SniT3eGpSP+yg4YTqROwTOgkX0C04PzD0SG3Ay
+        d3wkOqSAcw==
+Date:   Tue, 10 Jan 2023 15:54:26 +0100 (CET)
+From:   marco.rodolfi@tuta.io
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Cc:     Marco Rodolfi <marco.rodolfi@tuta.io>
+Message-ID: <NLR9TEh--3-9@tuta.io>
+Subject: [PATCH] HID: Ignore battery for Elan touchscreen on Asus TP420IA
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="CYuxnQgK2200QJ9N"
-Content-Disposition: inline
-In-Reply-To: <d4b420a0-23da-6ab6-886a-7342f7e63651@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -83,69 +51,54 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---CYuxnQgK2200QJ9N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This device has a touchscreen thats report a battery even if it doesn't=20
+have one.=20
+Ask Linux to ignore the battery so it will not always report it as low.=20
+=20
+Signed-off-by: Marco Rodolfi <marco.rodolfi@tuta.io>=20
+---=20
+ drivers/hid/hid-ids.h =C2=A0=C2=A0| 1 +=20
+ drivers/hid/hid-input.c | 2 ++=20
+ 2 files changed, 3 insertions(+)=20
+=20
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h=20
+index 8f58c3c1bec3..0f525b946cd1 100644=20
+--- a/drivers/hid/hid-ids.h=20
++++ b/drivers/hid/hid-ids.h=20
+@@ -413,6 +413,7 @@=20
+ #define I2C_DEVICE_ID_HP_ENVY_X360_15 =C2=A00x2d05=20
+ #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100 =C2=A0=C2=A00x29CF=20
+ #define I2C_DEVICE_ID_HP_SPECTRE_X360_15 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A00x2817=20
++#define I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN 0x2BC8=20
+ #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN 0x2544=20
+ #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN =C2=A0=C2=A00x2706=20
+ #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN =C2=A0=C2=A00x261A=20
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c=20
+index 859aeb07542e..54e2d4066d9b 100644=20
+--- a/drivers/hid/hid-input.c=20
++++ b/drivers/hid/hid-input.c=20
+@@ -369,6 +369,8 @@ static const struct hid_device_id hid_battery_quirks[] =
+=3D {=20
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_BLUETOOTH_DEVICE(USB_VENDO=
+R_ID_LOGITECH,=20
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD),=20
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0HID_BATTERY_QUIRK_IG=
+NORE },=20
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, =
+I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN)
+,=20
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0HID_BATTERY_QUIRK_IGNORE =
+},=20
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_USB_DEVICE(USB_VENDOR_ID_E=
+LAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),=20
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0HID_BATTERY_QUIRK_IG=
+NORE },=20
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ HID_USB_DEVICE(USB_VENDOR_ID_E=
+LAN, USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN)
+,=20
+-- =C2=A0
+2.39.0=20
 
-Hi Benjamin,
-
-On Mon, Sep 19, 2022 at 03:32:37PM +0200, Benjamin Tissoires wrote:
->=20
->=20
-
-[...]
-
->=20
-> I am back home, and I just tested that. I had a doubt, and it is indeed
-> failing. You need the following change for this to be working (I need to
-> send it as a proper patch after assessing it hasn't side effects)
-
-Did it come up with any side effects? :-)
-
->=20
-> ---
->=20
-> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-> index 13cce286247e..f37ffe2bd488 100644
-> --- a/drivers/hid/usbhid/hid-core.c
-> +++ b/drivers/hid/usbhid/hid-core.c
-> @@ -275,6 +275,7 @@ static void hid_irq_in(struct urb *urb)
->         int                     status;
->         switch (urb->status) {
-> +       case -EOVERFLOW:        /* happens with modified report descripto=
-rs */
->         case 0:                 /* success */
->                 usbhid->retry_delay =3D 0;
->                 if (!test_bit(HID_OPENED, &usbhid->iofl))
-> ---
->=20
-> Cheers,
-> Benjamin
->=20
-
-Best regards,
-Marcus Folkesson
-
-
---CYuxnQgK2200QJ9N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmO9erwACgkQiIBOb1ld
-UjIKFA//chEo/4qumcU+/1AFw44iiyHLU7hw3sANpAQkevMeFkzQUrE25/7/Oul9
-PRzga+rowCyIFQMWqlj5qrr3ns5tOXUFZaCZmcK0az0sKIFhPnSgR8fBHEAmgUiK
-mPyMuOQ6DMTkO6wvv4tstNw2SzA4xjaxRsVKsb/B4NFjJOefLTxWKQPWcPMkJNtn
-+GOsdDBwj+r1pd9xse0d6VHpZklV5tGw0nONclTisQ8WvtQS+PQVWkAFoJoj0kF6
-wLu2059i2T4sxZr8vpJiqZzM4DVAG2z3lvdp5j5SxoUDxp+TA+m8J/xMRMElhIpK
-iO8QWlvOWS9q1PKzN6rJHqffhGPeoHt11zoKeHD67mYE/s+C0SX3tiXefobRjkFf
-/bl+kve2AgJBAMBbQdUEHt1v4uoczj2oqljKQxkOwY1Uu7a1QxuWUfaVWHuklVsq
-tUffwME//mjn/liJsALqJA7k75ZmlApHJiCv0+LOq4LWdC0LIHWN5Z4/oRmClLpp
-o/mpTlUA3G+pEw0Gkv4ypMmDLoj5S7ljIdH08wmB4lhe2l38Fq5m6Y7Q/iXm1TXX
-XkTOo6a2185ExqVk+MPAkRhr/v95ZFHLnYM56oyERMW2zEgBvWSnQrL49xcOVzDb
-mE4ubjD7WygIVPc558GpEiwAGiPk1sMH+k4Exuj5fptk9kHviAU=
-=JxWA
------END PGP SIGNATURE-----
-
---CYuxnQgK2200QJ9N--
+=20
