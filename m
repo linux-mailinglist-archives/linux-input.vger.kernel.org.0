@@ -2,93 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B585663E0D
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 11:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C5726642BF
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 15:06:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231210AbjAJKYE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Jan 2023 05:24:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49736 "EHLO
+        id S238637AbjAJOGJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Jan 2023 09:06:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238318AbjAJKXT (ORCPT
+        with ESMTP id S238493AbjAJOFg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Jan 2023 05:23:19 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC5CCA449
-        for <linux-input@vger.kernel.org>; Tue, 10 Jan 2023 02:22:39 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id bn26so11225108wrb.0
-        for <linux-input@vger.kernel.org>; Tue, 10 Jan 2023 02:22:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ctK7ZyN2QqifD5vli3AqrEm055mrM6gMAEL00lxhJZg=;
-        b=razDtEVjbFgLq+LYEZKHsaTisUEBpVP1ZTmNc7dDUG5W6V4rEK8fppIk2sM2W+8QO/
-         4kewjuRoiUyeOriGg3RTKmg+20zwsXd6pN6Sp3rmLtBroBmDrSjonzD0ew+zsbxERlYY
-         taRLSJy5lRq3Zc1xlDfXmQChti3NoWDNnLF9LEVL4nNg6BrdTDdG1/0t5okuwyUbRgKK
-         Es1u1J5DD6higs3IaU0nvOMoMOzaWvzOuTOtDudfGgLFRmA3SYSC3JYntXhOLgeDSZxD
-         kd6O74uJ18EqgEMA7nixiNN/DQm9JkGYIFZTWmlByu6YygJl68Q9JJjT0HvmJaPG9q6U
-         Ad7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ctK7ZyN2QqifD5vli3AqrEm055mrM6gMAEL00lxhJZg=;
-        b=begQfAD3f9sYQMF8Zya3kkZ7pCKoGiMOc6uLZjmbUyLzmzfDMs421fgRYfpP0EGIwb
-         rGURzFQ2H+BlXTdlURyoOYqZkbMsdt4/DGC15RhVQZoWvMwhs8OGhavRuMFeZRWwpLhL
-         CQD5Bl82yI66SlZXrWaIVk9wM/cuCO70iajf8q7OTPEjnlwQe+ekMpXkSgl9DcZ9YXs2
-         rmETAQ7IxtB8hILJNiOMRHVON5whC32qvyUUKXRWkW509DmCDW1FlDoGTzXIH5aATUP3
-         iqQ4GSVTfNBdMGN3S0p1QvpHRoTOijmDaRNuY+bX4AshJ13xjfZbcShgPBAwfTUVMogE
-         vOAA==
-X-Gm-Message-State: AFqh2kojdvhOmgcvCKiNeDEfYv6I1CxU0x7q/CYWJNG0dmhNz/xja4A0
-        wCv3eTZV4s2Ly8jDMP80SaTWFg==
-X-Google-Smtp-Source: AMrXdXsr5rGo+5MTh8YMx455vuw7O1viFs0yOXa+irSqZILtSqfJ5xTgwGtTGjwiFsT3Fi92hckBVw==
-X-Received: by 2002:a05:6000:705:b0:267:e918:d1e6 with SMTP id bs5-20020a056000070500b00267e918d1e6mr42811873wrb.51.1673346158340;
-        Tue, 10 Jan 2023 02:22:38 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id a14-20020adff7ce000000b002549b649b62sm10689139wrq.50.2023.01.10.02.22.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jan 2023 02:22:37 -0800 (PST)
-Message-ID: <c45a7d39-eb09-a33c-5b91-8cb1d8effaac@linaro.org>
-Date:   Tue, 10 Jan 2023 11:22:35 +0100
+        Tue, 10 Jan 2023 09:05:36 -0500
+X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 Jan 2023 06:05:19 PST
+Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D2359323;
+        Tue, 10 Jan 2023 06:05:19 -0800 (PST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by srv6.fidu.org (Postfix) with ESMTP id 5805FC80098;
+        Tue, 10 Jan 2023 14:45:29 +0100 (CET)
+Authentication-Results: srv6.fidu.org (amavisd-new); dkim=pass (1024-bit key)
+        reason="pass (just generated, assumed good)"
+        header.d=tuxedocomputers.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        tuxedocomputers.com; h=content-transfer-encoding:mime-version
+        :x-mailer:message-id:date:date:subject:subject:from:from; s=
+        default; t=1673358329; x=1675172730; bh=4DKaJu+WPPVZCeQEpaqoy53S
+        NXY+bFCNbliOvLVKW0Q=; b=bS/gkEDf6oX+HG9tC2M9C4lY3gi0ir9y2TrSj6oc
+        GXWhK0vyJY92wxKWdtOOuK4Bzt+KbSZQKqe9sO9STon/ATN+OeXl/Zz8yXHo42Lb
+        iEtiPJ4jORXBJA54q/BIhrqYFQHJWkhOYA59bRkhdqgBcnPJs1/dU5sjGCGOkVbt
+        oPM=
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
+        with LMTP id w4yJp4eBLLND; Tue, 10 Jan 2023 14:45:29 +0100 (CET)
+Received: from wsembach-tuxedo.fritz.box (host-88-217-226-44.customer.m-online.net [88.217.226.44])
+        (Authenticated sender: wse@tuxedocomputers.com)
+        by srv6.fidu.org (Postfix) with ESMTPA id AEF64C80097;
+        Tue, 10 Jan 2023 14:45:28 +0100 (CET)
+From:   Werner Sembach <wse@tuxedocomputers.com>
+To:     dmitry.torokhov@gmail.com, hdegoede@redhat.com,
+        wse@tuxedocomputers.com, mkorpershoek@baylibre.com,
+        chenhuacai@kernel.org, tiwai@suse.de,
+        wsa+renesas@sang-engineering.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: i8042 - add Clevo PCX0DX to i8042 quirk table
+Date:   Tue, 10 Jan 2023 14:45:24 +0100
+Message-Id: <20230110134524.553620-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 0/2] Input: cap11xx add support for cap1203, cap1293
- and cap1298
-Content-Language: en-US
-To:     Jiri Valek - 2N <jiriv@axis.com>
-Cc:     devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
-        u.kleine-koenig@pengutronix.de
-References: <20230103134105.736346-3-jiriv@axis.com>
- <20230104135951.930783-1-jiriv@axis.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230104135951.930783-1-jiriv@axis.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 04/01/2023 14:59, Jiri Valek - 2N wrote:
-> PATCH 1 - add compatible string for new models
-> PATCH 2 - add support for new models into driver
-> 
+The Clevo PCX0DX/TUXEDO XP1511, need quirks for the keyboard to not be
+occasionally unresponsive after resume.
 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/input/serio/i8042-acpipnpio.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-
-Best regards,
-Krzysztof
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+index 46f8a694291ed..efc61736099b9 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -1238,6 +1238,13 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+ 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "PCX0DX"),
++		},
++		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
++					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "X170SM"),
+-- 
+2.34.1
 
