@@ -2,303 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33F0E664D37
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 21:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1869D664E95
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 23:16:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231948AbjAJU02 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Jan 2023 15:26:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38610 "EHLO
+        id S234206AbjAJWQV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Jan 2023 17:16:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233276AbjAJU0M (ORCPT
+        with ESMTP id S233598AbjAJWQU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Jan 2023 15:26:12 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28DAB5D40A
-        for <linux-input@vger.kernel.org>; Tue, 10 Jan 2023 12:26:11 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id b17so6922249pld.7
-        for <linux-input@vger.kernel.org>; Tue, 10 Jan 2023 12:26:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZZtOedLV/QlyXTghqPz+ASgSdVaeqyqAQ4U3JRPc5GU=;
-        b=DAMYgjxMDkCD69f8legiSoDZJOGyrRXqCxPk5q0pOAfmRuhQS62TzCdsiKh0y8aw1A
-         ct0dMlWRQwSwDm6ZgJJ1icWfUuddL4ibRv6uU/aE7pf9Px8YwwqvzzAzMOYFnhk6TzrZ
-         VEC9fJ6YbXRfMAah2kXvxeFvw4zWEdlWyEmgY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZZtOedLV/QlyXTghqPz+ASgSdVaeqyqAQ4U3JRPc5GU=;
-        b=44VH3+uPLMNcsJ/mvBQ/p4tSrxMtkXScSGaHO2QbzPImNCbdFByki+T+MfSYZEyTCP
-         39WLgRv8qg/uMDzhAhYA4SvGgZjfzdwKJDLG5t9VTCgkuuEeq7m6qYPtQwI698rZJmmt
-         fWiY+YWXx1oiW39pNKZJ41lUB80Ee+n/+pwq1NNcyVwOBjzWWHph8SXFT+4iWj693CiT
-         dB98EfJwf8vDeXLDN754KJRTS4eN3WpMk5iSSmIO67aIb4ufx7vAAUFqfhaGsI9+3OhC
-         u+pYEI6JJ8nip9iPdmLlUVh3GPGl6tWKtzCnS1wNG6lp+JJ3sNuMhDWqJU2jc1ZGz+CC
-         t45g==
-X-Gm-Message-State: AFqh2krbMrvDJJT/pMU+geLyvj6iOH9OAegom0ibj4I0BcUSCLbx+xE9
-        RgdBSTr4b/ptmCzB/b88NWQooQ==
-X-Google-Smtp-Source: AMrXdXsiHqbcP/ggoWTg5uVXkqUKvPLWxRZ4QgVx/YdvUXAwjXSVdGafNMSpvb2+T1CftQWTJ3mzXg==
-X-Received: by 2002:a17:902:cf41:b0:192:dd42:9e66 with SMTP id e1-20020a170902cf4100b00192dd429e66mr17743867plg.12.1673382370598;
-        Tue, 10 Jan 2023 12:26:10 -0800 (PST)
-Received: from ballway1.c.googlers.com.com (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
-        by smtp.gmail.com with ESMTPSA id d17-20020a170902ced100b00168dadc7354sm8578408plg.78.2023.01.10.12.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jan 2023 12:26:10 -0800 (PST)
-From:   Allen Ballway <ballway@chromium.org>
-To:     ballway@chromium.org
-Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
-        dtor@chromium.org, jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rydberg@bitmath.org
-Subject: [PATCH v6 RESEND] HID: multitouch: Add quirks for flipped axes
-Date:   Tue, 10 Jan 2023 20:25:50 +0000
-Message-Id: <20230110202550.651091-1-ballway@chromium.org>
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-In-Reply-To: <20221215172644.688044-1-ballway@chromium.org>
-References: <20221215172644.688044-1-ballway@chromium.org>
+        Tue, 10 Jan 2023 17:16:20 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1301333D6F;
+        Tue, 10 Jan 2023 14:16:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673388979; x=1704924979;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=02/mtlONODBo5M9TTdVEHRM4g1koLObGdfJhbFlAXJ8=;
+  b=j3cZcg66Id/Uajp2r9S8UrNuZSWz0rSftjqNDbLGzZ/A4RUMgzHELus0
+   xtt8BvKxGLAdRUdvdvyWPEsIzhEVjVOTKjKq9ioj1NvflfBlTuhBNnLR5
+   aEXAgtp1UbdJkTyLtLAnqjQnDZoXtRngoex/iCdsMJ4krvfutTF//bCb7
+   hBS1W1CZPWkyLYAsJyqCPYMoReK7x7XKUJCbYpxo0k+yh6yp8q6E5NNj7
+   FGi2v+/mrNOFgDkyeL6owFe9hf1uPAoU4pZq2mgydF/Q+Bc1lKnKJFd9A
+   Zi4vTYQ7AhtodLIufrcoPpdD/CcusvE+w+m1hyZTuSYFx25pqsdwrfKFv
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="325278307"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="325278307"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2023 14:16:18 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="689566524"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="689566524"
+Received: from amsaiyed-mobl.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.209.116.99])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2023 14:16:18 -0800
+Message-ID: <74fbf0eb19ebdb964397d8f8d9b5fc12a06128cf.camel@linux.intel.com>
+Subject: Re: [PATCH v2] HID: Recognize sensors with application collections
+ too.
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Aditya Garg <gargaditya08@live.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "jkosina@suse.cz" <jkosina@suse.cz>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>
+Cc:     "orlandoch.dev@gmail.com" <orlandoch.dev@gmail.com>,
+        "ronald@innovation.ch" <ronald@innovation.ch>
+Date:   Tue, 10 Jan 2023 14:16:17 -0800
+In-Reply-To: <EFCEA45A-C6F4-477A-B011-9C9E6E61E488@live.com>
+References: <8DA00FF4-DB08-4CEC-A5B4-47A71DC09C13@live.com>
+         <01D620E2-18CA-40F6-A330-454CBC20C542@live.com>
+         <EFCEA45A-C6F4-477A-B011-9C9E6E61E488@live.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Certain touchscreen devices, such as the ELAN9034, are oriented
-incorrectly and report touches on opposite points on the X and Y axes.
-For example, a 100x200 screen touched at (10,20) would report (90, 180)
-and vice versa.
 
-This is fixed by adding device quirks to transform the touch points
-into the correct spaces, from X -> MAX(X) - X, and Y -> MAX(Y) - Y.
+Don't add full stop at the end.
 
-Signed-off-by: Allen Ballway <ballway@chromium.org>
----
-V5 -> V6: Add another IS_ENABLED check for CONFIG_I2C_DMI_CORE because
-the module may not be there at all.
+HID: Recognize sensors with application collection
 
-V4 -> V5: Add IS_ENABLED check for CONFIG_DMI to prevent linker error.
+On Tue, 2023-01-10 at 08:57 +0000, Aditya Garg wrote:
+> From: Ronald Tschalär <ronald@innovation.ch>
+> 
+> According to HUTRR39 logical sensor devices may be nested inside
+> physical collections or may be specified in multiple top-level
+> application collections (see page 59, strategies 1 and 2). However,
+> the current code was only recognizing those with physical
+> collections.
+> 
+> This issue turned up in the T2 MacBook Pro's which define the ALS in
+> a top-level application collection.
+> 
+> Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> —
+> V2 :- Add missing signed-off-by
+>  drivers/hid/hid-core.c       | 3 ++-
+>  drivers/hid/hid-sensor-hub.c | 6 ++++--
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> index b7f5566e338d..8fcd663b10e2 100644
+> --- a/drivers/hid/hid-core.c
+> +++ b/drivers/hid/hid-core.c
+> @@ -804,7 +804,8 @@ static void hid_scan_collection(struct hid_parser
+> *parser, unsigned type)
+>         int i;
+>  
+>         if (((parser->global.usage_page << 16) == HID_UP_SENSOR) &&
+> -           type == HID_COLLECTION_PHYSICAL)
+> +           (type == HID_COLLECTION_PHYSICAL ||
+> +            type == HID_COLLECTION_APPLICATION))
+>                 hid->group = HID_GROUP_SENSOR_HUB;
+>  
+>         if (hid->vendor == USB_VENDOR_ID_MICROSOFT &&
+> diff --git a/drivers/hid/hid-sensor-hub.c b/drivers/hid/hid-sensor-
+> hub.c
+> index 6abd3e2a9094..d03dc4ca095f 100644
+> --- a/drivers/hid/hid-sensor-hub.c
+> +++ b/drivers/hid/hid-sensor-hub.c
+> @@ -397,7 +397,8 @@ int sensor_hub_input_get_attribute_info(struct
+> hid_sensor_hub_device *hsdev,
+>                 for (i = 0; i < report->maxfield; ++i) {
+>                         field = report->field[i];
+>                         if (field->maxusage) {
+> -                               if (field->physical == usage_id &&
+> +                               if ((field->physical == usage_id ||
+> +                                    field->application == usage_id)
+> &&
+>                                         (field->logical ==
+> attr_usage_id ||
+>                                         field->usage[0].hid ==
+>                                                         attr_usage_id
+> ) &&
+> @@ -506,7 +507,8 @@ static int sensor_hub_raw_event(struct hid_device
+> *hdev,
+>                                         collection->usage);
+>  
+>                 callback = sensor_hub_get_callback(hdev,
+> -                               report->field[i]->physical,
+> +                               report->field[i]->physical ?:
+> +                                       report->field[i]->application
+Better not use language extensions. Simple to use
 
-V3 -> V4: Move quirk logic to i2c_hid_get_dmi_quirks and remove
-duplicate quirks from hid-multitouch.
+ report->field[i]->physical ?  report->field[i]->physical : report-
+>field[i]->application
 
-V2 -> V3: Use existing HID_QUIRK_*_INVERT and match the quirk in
-hid-quirk, passing down to hid-multitouch through the hid device.
+Otherwise patch is fine.
 
-V1 -> V2: Address review comments, change to use DMI match. Confirmed
-MT_TOOL_X/Y require transformation and update orientation based on
-flipped axes.
+Thanks,
+Srinivas
 
-
- drivers/hid/hid-multitouch.c             | 39 ++++++++++++++++++---
- drivers/hid/hid-quirks.c                 |  6 ++++
- drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 43 ++++++++++++++++++++++++
- drivers/hid/i2c-hid/i2c-hid.h            |  3 ++
- 4 files changed, 87 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 91a4d3fc30e08..622fe6928104c 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -71,6 +71,7 @@ MODULE_LICENSE("GPL");
- #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
- #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
- #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
-+#define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
-
- #define MT_INPUTMODE_TOUCHSCREEN	0x02
- #define MT_INPUTMODE_TOUCHPAD		0x03
-@@ -1009,6 +1010,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 			    struct mt_usages *slot)
- {
- 	struct input_mt *mt = input->mt;
-+	struct hid_device *hdev = td->hdev;
- 	__s32 quirks = app->quirks;
- 	bool valid = true;
- 	bool confidence_state = true;
-@@ -1086,6 +1088,10 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 		int orientation = wide;
- 		int max_azimuth;
- 		int azimuth;
-+		int x;
-+		int y;
-+		int cx;
-+		int cy;
-
- 		if (slot->a != DEFAULT_ZERO) {
- 			/*
-@@ -1104,6 +1110,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 			if (azimuth > max_azimuth * 2)
- 				azimuth -= max_azimuth * 4;
- 			orientation = -azimuth;
-+			if (quirks & MT_QUIRK_ORIENTATION_INVERT)
-+				orientation = -orientation;
-+
- 		}
-
- 		if (quirks & MT_QUIRK_TOUCH_SIZE_SCALING) {
-@@ -1115,10 +1124,23 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 			minor = minor >> 1;
- 		}
-
--		input_event(input, EV_ABS, ABS_MT_POSITION_X, *slot->x);
--		input_event(input, EV_ABS, ABS_MT_POSITION_Y, *slot->y);
--		input_event(input, EV_ABS, ABS_MT_TOOL_X, *slot->cx);
--		input_event(input, EV_ABS, ABS_MT_TOOL_Y, *slot->cy);
-+		x = hdev->quirks & HID_QUIRK_X_INVERT ?
-+			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
-+			*slot->x;
-+		y = hdev->quirks & HID_QUIRK_Y_INVERT ?
-+			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->y :
-+			*slot->y;
-+		cx = hdev->quirks & HID_QUIRK_X_INVERT ?
-+			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->cx :
-+			*slot->cx;
-+		cy = hdev->quirks & HID_QUIRK_Y_INVERT ?
-+			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->cy :
-+			*slot->cy;
-+
-+		input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
-+		input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
-+		input_event(input, EV_ABS, ABS_MT_TOOL_X, cx);
-+		input_event(input, EV_ABS, ABS_MT_TOOL_Y, cy);
- 		input_event(input, EV_ABS, ABS_MT_DISTANCE, !*slot->tip_state);
- 		input_event(input, EV_ABS, ABS_MT_ORIENTATION, orientation);
- 		input_event(input, EV_ABS, ABS_MT_PRESSURE, *slot->p);
-@@ -1735,6 +1757,15 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	if (id->vendor == HID_ANY_ID && id->product == HID_ANY_ID)
- 		td->serial_maybe = true;
-
-+
-+	/* Orientation is inverted if the X or Y axes are
-+	 * flipped, but normalized if both are inverted.
-+	 */
-+	if (hdev->quirks & (HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT) &&
-+	    !((hdev->quirks & HID_QUIRK_X_INVERT)
-+	      && (hdev->quirks & HID_QUIRK_Y_INVERT)))
-+		td->mtclass.quirks = MT_QUIRK_ORIENTATION_INVERT;
-+
- 	/* This allows the driver to correctly support devices
- 	 * that emit events over several HID messages.
- 	 */
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 0e9702c7f7d6c..78452faf3c9b4 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -19,6 +19,7 @@
- #include <linux/input/elan-i2c-ids.h>
-
- #include "hid-ids.h"
-+#include "i2c-hid/i2c-hid.h"
-
- /*
-  * Alphabetically sorted by vendor then product.
-@@ -1298,6 +1299,11 @@ unsigned long hid_lookup_quirk(const struct hid_device *hdev)
- 		quirks = hid_gets_squirk(hdev);
- 	mutex_unlock(&dquirks_lock);
-
-+	/* Get quirks specific to I2C devices */
-+	if (IS_ENABLED(CONFIG_I2C_DMI_CORE) && IS_ENABLED(CONFIG_DMI) &&
-+	    hdev->bus == BUS_I2C)
-+		quirks |= i2c_hid_get_dmi_quirks(hdev->vendor, hdev->product);
-+
- 	return quirks;
- }
- EXPORT_SYMBOL_GPL(hid_lookup_quirk);
-diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-index 8e0f67455c098..554a7dc285365 100644
---- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
-@@ -10,8 +10,10 @@
- #include <linux/types.h>
- #include <linux/dmi.h>
- #include <linux/mod_devicetable.h>
-+#include <linux/hid.h>
-
- #include "i2c-hid.h"
-+#include "../hid-ids.h"
-
-
- struct i2c_hid_desc_override {
-@@ -416,6 +418,28 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
- 	{ }	/* Terminate list */
- };
-
-+static const struct hid_device_id i2c_hid_elan_flipped_quirks = {
-+	HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8, USB_VENDOR_ID_ELAN, 0x2dcd),
-+		HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT
-+};
-+
-+/*
-+ * This list contains devices which have specific issues based on the system
-+ * they're on and not just the device itself. The driver_data will have a
-+ * specific hid device to match against.
-+ */
-+static const struct dmi_system_id i2c_hid_dmi_quirk_table[] = {
-+	{
-+		.ident = "DynaBook K50/FR",
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dynabook Inc."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "dynabook K50/FR"),
-+		},
-+		.driver_data = (void *)&i2c_hid_elan_flipped_quirks,
-+	},
-+	{ }	/* Terminate list */
-+};
-+
-
- struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
- {
-@@ -450,3 +474,22 @@ char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
- 	*size = override->hid_report_desc_size;
- 	return override->hid_report_desc;
- }
-+
-+u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
-+{
-+	u32 quirks = 0;
-+	const struct dmi_system_id *system_id =
-+			dmi_first_match(i2c_hid_dmi_quirk_table);
-+
-+	if (system_id) {
-+		const struct hid_device_id *device_id =
-+				(struct hid_device_id *)(system_id->driver_data);
-+
-+		if (device_id && device_id->vendor == vendor &&
-+		    device_id->product == product)
-+			quirks = device_id->driver_data;
-+	}
-+
-+	return quirks;
-+}
-+EXPORT_SYMBOL_GPL(i2c_hid_get_dmi_quirks);
-diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
-index 96c75510ad3f1..2c7b66d5caa0f 100644
---- a/drivers/hid/i2c-hid/i2c-hid.h
-+++ b/drivers/hid/i2c-hid/i2c-hid.h
-@@ -9,6 +9,7 @@
- struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name);
- char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
- 					       unsigned int *size);
-+u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product);
- #else
- static inline struct i2c_hid_desc
- 		   *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
-@@ -16,6 +17,8 @@ static inline struct i2c_hid_desc
- static inline char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
- 							     unsigned int *size)
- { return NULL; }
-+static inline u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
-+{ return 0; }
- #endif
-
- /**
---
-2.39.0.rc1.256.g54fd8350bd-goog
+> ,
+>                                 report->field[i]-
+> >usage[0].collection_index,
+>                                 &hsdev, &priv);
+>                 if (!callback) {
+> -- 
+> 2.38.1
+> 
 
