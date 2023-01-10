@@ -2,144 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBC4F6644CF
-	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 16:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDD666645DC
+	for <lists+linux-input@lfdr.de>; Tue, 10 Jan 2023 17:18:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238959AbjAJPaR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Jan 2023 10:30:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38048 "EHLO
+        id S238580AbjAJQSG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Jan 2023 11:18:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238989AbjAJP34 (ORCPT
+        with ESMTP id S234104AbjAJQRf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Jan 2023 10:29:56 -0500
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 157EA2726;
-        Tue, 10 Jan 2023 07:29:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1673364568;
-  x=1704900568;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Y9TFaBNCB2DZlBpUhclkx95oVenxfjVvcEEeJ14NYjM=;
-  b=eevBbJR34FKLdiGa3nhhjG4He3cHT8IHcOwNE8GCLSrZauViP/ynvhCQ
-   Wk7dEULvk3B7bY8ZYx4i+sAwtLV61bJ/yUXd27BFwx3ZXg+sNgzBSsX8B
-   MqidddrfbAPL6rkwRrTlVTK3MpjlQTLR6bhCZU8y9g0DYsaSLxLXfVZ1W
-   rN3x6Y++IN7QPr5+igQ0m1oNDOpdX1H363DbUDA+uJVD/apOfW5P3lA67
-   DPU7SMiWFlxtdU510KKH9qJIwDpLWvuV1ny/a1kL/sqtb3lC+PC0EGIRT
-   +8jK5UJp4KNJArIzxi4icVV3I5ormvfIN3LwnIwOMa+320NSJHZp1CBCm
-   w==;
-From:   Jiri Valek - 2N <jiriv@axis.com>
-To:     <linux-input@vger.kernel.org>
-CC:     <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-kernel@vger.kernel.org>, <robh+dt@kernel.org>,
-        <u.kleine-koenig@pengutronix.de>, <jiriv@axis.com>
-Subject: [PATCH v3 2/2] Input: cap11xx - add support for cap1203, cap1293 and cap1298
-Date:   Tue, 10 Jan 2023 16:28:59 +0100
-Message-ID: <20230110152859.295881-3-jiriv@axis.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230110152859.295881-1-jiriv@axis.com>
-References: <20230110152859.295881-1-jiriv@axis.com>
+        Tue, 10 Jan 2023 11:17:35 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475005BA24;
+        Tue, 10 Jan 2023 08:17:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D7D1EB8171E;
+        Tue, 10 Jan 2023 16:17:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A474DC43396;
+        Tue, 10 Jan 2023 16:17:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673367449;
+        bh=B1wBKo3cDbweRD7XMkug8uJodBE8kcjQKvZBxTx7Ok8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hJN56HNsaSeSc4ovjlSJA6QcqyPrLqV5l1jDxV2jatRDTB6Kj6RSRJ+pLDWC3kVnu
+         Bdh82Xfutc3h6yzmv+da8gn0BEHZWwvePdWHvWz8Xmy+MZA5KDr1m6+O83HO5ZLv1Z
+         JcW8wWvrAU8yq8MECxEOqtVf3AHfXxnQ7vKsd/LGAG13z86kP7djxbDXyHbqXr3IQR
+         YBxOFk0V1/HKcvSKK9ksmrcM+pH6bVM+Z2OdQxAlvXIeW/4E0vJOMvtxhRJ8Z/LuyV
+         FdiYehaFml2GcrPHFF0A9GF0AJxIaJlcYFDt5QyhTNmtEHIpZGqPf7imkuPJ2AFtZQ
+         PtJVUOtNK889w==
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     samuel@sholland.org, agx@sigxcpu.org, megous@megous.com,
+        heiko@sntech.de, hdegoede@redhat.com, robh+dt@kernel.org,
+        wens@csie.org, michael.riesch@wolfvision.net, lukma@denx.de,
+        icenowy@aosc.io, kernel@pengutronix.de, david@protonic.nl,
+        shawnguo@kernel.org, foss+kernel@0leil.net, linux-imx@nxp.com,
+        festevam@gmail.com, pgwipeout@gmail.com,
+        jagan@amarulasolutions.com, agross@kernel.org, hadess@hadess.net,
+        dmitry.torokhov@gmail.com, jernej.skrabec@gmail.com,
+        angelogioacchino.delregno@somainline.org, mamlinav@gmail.com,
+        frieder.schrempf@kontron.de, angus@akkea.ca,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        konrad.dybcio@somainline.org, krzysztof.kozlowski+dt@linaro.org
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, quentin.schulz@theobroma-systems.com,
+        linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: (subset) [PATCH v3 0/9] fix reset line polarity for Goodix touchscreen controllers
+Date:   Tue, 10 Jan 2023 10:17:20 -0600
+Message-Id: <167336743963.2134489.16668389773212954467.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: se-mail07w.axis.com (10.20.40.13) To se-mail01w.axis.com
- (10.20.40.7)
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add basic support for more CAP1xxx sensors.
-All models from CAP1xxx family are register-compatible.
-Some advanced features are not used and disabled by default.
+On Mon, 5 Dec 2022 14:40:29 +0100, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> 
+> The Goodix touchscreen controller has a reset line active low. It happens to
+> also be used to configure its i2c address at runtime. If the reset line is
+> incorrectly asserted, the address will be wrongly configured. This cost me a few
+> hours, trying to figure out why the touchscreen wouldn't work.
+> 
+> [...]
 
-Reported-by: kernel test robot <lkp@xxxxxxxxx>
-Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
----
-Changes in v2:
-  - Fixed if statement.
-  
-Changes in v3:
-  - Model names sorted alphabetically.
-  
- drivers/input/keyboard/cap11xx.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/input/keyboard/cap11xx.c b/drivers/input/keyboard/cap11xx.c
-index 79afd0386e3f..ce27168302a8 100644
---- a/drivers/input/keyboard/cap11xx.c
-+++ b/drivers/input/keyboard/cap11xx.c
-@@ -98,14 +98,20 @@ enum {
- 	CAP1106,
- 	CAP1126,
- 	CAP1188,
-+	CAP1203,
- 	CAP1206,
-+	CAP1293,
-+	CAP1298
- };
- 
- static const struct cap11xx_hw_model cap11xx_devices[] = {
- 	[CAP1106] = { .product_id = 0x55, .num_channels = 6, .num_leds = 0, .no_gain = false },
- 	[CAP1126] = { .product_id = 0x53, .num_channels = 6, .num_leds = 2, .no_gain = false },
- 	[CAP1188] = { .product_id = 0x50, .num_channels = 8, .num_leds = 8, .no_gain = false },
-+	[CAP1203] = { .product_id = 0x6d, .num_channels = 3, .num_leds = 0, .no_gain = true },
- 	[CAP1206] = { .product_id = 0x67, .num_channels = 6, .num_leds = 0, .no_gain = true },
-+	[CAP1293] = { .product_id = 0x6f, .num_channels = 3, .num_leds = 0, .no_gain = false },
-+	[CAP1298] = { .product_id = 0x71, .num_channels = 8, .num_leds = 0, .no_gain = false },
- };
- 
- static const struct reg_default cap11xx_reg_defaults[] = {
-@@ -377,7 +383,8 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 	if (error < 0)
- 		return error;
- 
--	dev_info(dev, "CAP11XX detected, revision 0x%02x\n", rev);
-+	dev_info(dev, "CAP11XX detected, model %s, revision 0x%02x\n",
-+			id->name, rev);
- 	node = dev->of_node;
- 
- 	if (!of_property_read_u32(node, "microchip,sensor-gain", &gain32)) {
-@@ -390,7 +397,9 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 			dev_err(dev, "Invalid sensor-gain value %d\n", gain32);
- 	}
- 
--	if (id->driver_data != CAP1206) {
-+	if ((id->driver_data == CAP1106) ||
-+		(id->driver_data == CAP1126) ||
-+		(id->driver_data == CAP1188)) {
- 		if (of_property_read_bool(node, "microchip,irq-active-high")) {
- 			error = regmap_update_bits(priv->regmap,
- 						   CAP11XX_REG_CONFIG2,
-@@ -483,7 +492,10 @@ static const struct of_device_id cap11xx_dt_ids[] = {
- 	{ .compatible = "microchip,cap1106", },
- 	{ .compatible = "microchip,cap1126", },
- 	{ .compatible = "microchip,cap1188", },
-+	{ .compatible = "microchip,cap1203", },
- 	{ .compatible = "microchip,cap1206", },
-+	{ .compatible = "microchip,cap1293", },
-+	{ .compatible = "microchip,cap1298", },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, cap11xx_dt_ids);
-@@ -492,7 +504,10 @@ static const struct i2c_device_id cap11xx_i2c_ids[] = {
- 	{ "cap1106", CAP1106 },
- 	{ "cap1126", CAP1126 },
- 	{ "cap1188", CAP1188 },
-+	{ "cap1203", CAP1203 },
- 	{ "cap1206", CAP1206 },
-+	{ "cap1293", CAP1293 },
-+	{ "cap1298", CAP1298 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, cap11xx_i2c_ids);
+[8/9] arm64: dts: qcom: msm8998-fxtec: fix touchscreen reset GPIO polarity
+      commit: 8a0721dae68fdb4534e220fc9faae7a0ef2f3785
+
+Best regards,
 -- 
-2.25.1
-
+Bjorn Andersson <andersson@kernel.org>
