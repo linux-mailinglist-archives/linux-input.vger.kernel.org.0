@@ -2,128 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49557665817
-	for <lists+linux-input@lfdr.de>; Wed, 11 Jan 2023 10:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB68666581E
+	for <lists+linux-input@lfdr.de>; Wed, 11 Jan 2023 10:51:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238325AbjAKJvE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Jan 2023 04:51:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46830 "EHLO
+        id S235843AbjAKJvW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Jan 2023 04:51:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232058AbjAKJta (ORCPT
+        with ESMTP id S238681AbjAKJul (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Jan 2023 04:49:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A7FB13CF4
-        for <linux-input@vger.kernel.org>; Wed, 11 Jan 2023 01:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673430441;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UE0xeHCU2bfsdgMc1zyv/Lgw7gDb0/ii1vRY0TiYYqA=;
-        b=F0Qzc9pOcBHuo5Dde0ELojDlA4f5urFDt1ws+oXym06rv8eG33z9EgVqY3ASn5cGyA6ktC
-        q6QYvf6FWHasKjS14G1dqiRtZQJxxBRCLqclHzmhwOkLjUeLQ9FqSGibRbLofFu8ywA/Su
-        8JLKUOldYAVYoQfpgZJcigTnV6uwMqo=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-249-9FicrOGjPBaR5XGi0o_IUg-1; Wed, 11 Jan 2023 04:47:20 -0500
-X-MC-Unique: 9FicrOGjPBaR5XGi0o_IUg-1
-Received: by mail-io1-f69.google.com with SMTP id y24-20020a5ec818000000b006e2c0847835so8741571iol.12
-        for <linux-input@vger.kernel.org>; Wed, 11 Jan 2023 01:47:20 -0800 (PST)
+        Wed, 11 Jan 2023 04:50:41 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4246B879
+        for <linux-input@vger.kernel.org>; Wed, 11 Jan 2023 01:49:34 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id e3so5233443wru.13
+        for <linux-input@vger.kernel.org>; Wed, 11 Jan 2023 01:49:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f5UTkJXjloBGekLVRDZ7QXDVwLg1lqR8XsOo+O7z1x8=;
+        b=RHY6EdsCbQmNMYzKzRptGo5Ellf/+tkiujkhtRQdnhXnCTYUaSEj5hNyKF6KSINcLG
+         fGdMDqcRRdN7UiaL/IeL4UlZ7isq7t6C76XP35C/oO95MzDA69/Ta//RUGajV6Ry4fPv
+         sPfY+gZ/qF6XknseVnO79ulIJ5idm4LHktK5V9pDcevHwMII/UIDt4veTXQPy95+XWTv
+         N7DK1H/TOngwOSOSpEn0myvD7f3WHjJH7dt29oLKTk7LtzYSKI81klNAT7ztosmyPKXY
+         IZCbyzD1xNHVcj/TA83Dz+rk/VGw5K9o1GLBChq36xG0b51IQNhphZmgrmDX8aFC+Iqx
+         qHPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UE0xeHCU2bfsdgMc1zyv/Lgw7gDb0/ii1vRY0TiYYqA=;
-        b=25kLOAEuyT2mt/LtSoCxtD85txDZJeM2294PVJf+s/DAUyxLu2aZkopNAlkGmddJnf
-         76a7tZQngQChH70n9ZDMVoGccc8AoysOssd22QZbzOT+QcSx87zS2GFwmDt82MRx/sye
-         NlVfUiHd0kasm2i4EKE+HKtUEciH9GcpwWfoDKqrkj/Fl0z10nk8jcOx+GP6L1db9ki2
-         Ek75YCp/oP3OlY3sx5M1f604SspLuqDc1q5w1BhG3sYnSo6CqWghgLaiwn5kd5du71Fu
-         IcVQbyim7rYo7rnKCk76ra4lqjdhowmtJjHyO9S1ENVo+wTPVJ145YhnZaZSgbJdayIX
-         NbLQ==
-X-Gm-Message-State: AFqh2kp2vQ3rPdK5HCVe8G73iC2N0bibZGiXmzQjpSB2TqnIX3yg8SGD
-        OnMO/HkvgvOZL9PfntslmWP/SaGgOioo3rHK6vBPfGUBNzp6Ak0bYpUC2u2c9TYgoKAEv+MXtyv
-        Vjp2YjdfiAIUM/Ayaz1YtG1V/8rOHN99jyGikCYw=
-X-Received: by 2002:a05:6602:449:b0:6df:bfeb:f15d with SMTP id e9-20020a056602044900b006dfbfebf15dmr5813368iov.122.1673430439237;
-        Wed, 11 Jan 2023 01:47:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtMGuR8Fz8YM4jgsNWownmj/QbuhKvKMrvrkynsYoffbOpUWKeQSLAK7R9clAJLj9D4yWVopYxCWeyDIqtLC0Q=
-X-Received: by 2002:a05:6602:449:b0:6df:bfeb:f15d with SMTP id
- e9-20020a056602044900b006dfbfebf15dmr5813358iov.122.1673430439027; Wed, 11
- Jan 2023 01:47:19 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f5UTkJXjloBGekLVRDZ7QXDVwLg1lqR8XsOo+O7z1x8=;
+        b=scX6WjNZWPyuOokWlcdadbUaJqHpuSxp6pB0wXH4+EwIa9Zaf8lBE8qZ4H9l0mDK0k
+         DshXAT6jVq+k7xigsE92qVzi0nkIpH7Ok2M5ZUu77l4deTTqXOVya2vuYyW9Wnq3Jse6
+         x4zsGFtO+sYwJP4QaMbnGbRlrhZ0pRysKXEZwuTrxBp3J9T5pm4PmqqABnMj8nENrs70
+         2a9kJp2XHUR/NNySff+jLCzGK4hfZsumG/Y5irP7BFObevjAu2gfc+mMjs3CUH08cB3P
+         NkD6uYH4npZHrrgSV97nxL3L+ZbuSIebrvVMti+kepmokP8nvCEsiJdKizGIFw/EIRza
+         MfBQ==
+X-Gm-Message-State: AFqh2kqpD7+CyaWObguFKObcQUC45YNQiYgX3gSBNVdG6emtHC15BXLg
+        xKrSgcJdtNB++HV6J/XhYst5YUh1qE2fjRI0
+X-Google-Smtp-Source: AMrXdXteYQ4OHRd8SBeI9ZE1Weg4t+gmpyD9d9ms5k0M09eAGsByHTI8iRoposVi0flzbo4VWjY9mw==
+X-Received: by 2002:a5d:5a04:0:b0:271:dd0c:8665 with SMTP id bq4-20020a5d5a04000000b00271dd0c8665mr40996847wrb.62.1673430573258;
+        Wed, 11 Jan 2023 01:49:33 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id i10-20020adff30a000000b0024228b0b932sm16119123wro.27.2023.01.11.01.49.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Jan 2023 01:49:32 -0800 (PST)
+Message-ID: <7a795adf-3ceb-1c90-c723-22e4576a524d@linaro.org>
+Date:   Wed, 11 Jan 2023 10:49:30 +0100
 MIME-Version: 1.0
-References: <20230106102332.1019632-1-benjamin.tissoires@redhat.com>
- <20230106102332.1019632-7-benjamin.tissoires@redhat.com> <20230111061054.dqduab66plb6uzg2@macbook-pro-6.dhcp.thefacebook.com>
-In-Reply-To: <20230111061054.dqduab66plb6uzg2@macbook-pro-6.dhcp.thefacebook.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 11 Jan 2023 10:47:07 +0100
-Message-ID: <CAO-hwJLk7dNYHiharC0wR0563aTE9NfD_jE5qxdoM9m0pW__cA@mail.gmail.com>
-Subject: Re: [PATCH HID for-next v1 6/9] HID: bpf: rework how programs are
- attached and stored in the kernel
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3 1/2] dt-bindings: input: microchip,cap11xx: add
+ cap1203, cap1293 and cap1298
+Content-Language: en-US
+To:     Jiri Valek - 2N <jiriv@axis.com>, linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+        krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, u.kleine-koenig@pengutronix.de
+References: <20230110152859.295881-1-jiriv@axis.com>
+ <20230110152859.295881-2-jiriv@axis.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230110152859.295881-2-jiriv@axis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 11, 2023 at 7:11 AM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Fri, Jan 06, 2023 at 11:23:29AM +0100, Benjamin Tissoires wrote:
-> >
-> > +static void hid_bpf_link_release(struct bpf_link *link)
-> > +{
-> > +     struct hid_bpf_link *hid_link =
-> > +             container_of(link, struct hid_bpf_link, link);
-> > +
-> > +     __clear_bit(hid_link->index, jmp_table.enabled);
-> > +     schedule_work(&release_work);
-> > +}
->
-> ...
->
-> > +     link->index = prog_idx;
->
-> I was super confused that you use prog_idx as a bit in jmp_table
-> and had to look into your tree what hid_bpf_jmp_table.c is doing.
-> Looks like it's not prog_id (which is prog->aux->id) that we know.
-> It's hid specific prog idx in that jmp table.
-> Maybe would be good to rename your prog_idx to something with 'hid' suffix or prefix?
-> or 'table' suffix or prefix ?
-> prog_table_idx ?
+On 10/01/2023 16:28, Jiri Valek - 2N wrote:
+> Add support for cap1203, cap1293 and cap1298.
+> 
+> Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
+> ---
+> No changes since v1
+> 
 
-prog_table_idx sounds good :)
+Really?
 
->
-> Other than that the patch set looking great.
+This is a friendly reminder during the review process.
 
-great, thanks!
+It seems my previous comments were not fully addressed. Maybe my
+feedback got lost between the quotes, maybe you just forgot to apply it.
+Please go back to the previous discussion and either implement all
+requested changes or keep discussing them.
 
-> I'm assuming removing call_hid_bpf_prog_put_deferred() and everything related
-> comes in the next set?
->
+Thank you.
 
-Yep. I'll probably send it tomorrow. I have a bunch of urgent
-corporate stuff to do today so won't have time for the fun part of the
-job :(
-
-Cheers,
-Benjamin
+Best regards,
+Krzysztof
 
