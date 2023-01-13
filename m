@@ -2,111 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 880286692AA
-	for <lists+linux-input@lfdr.de>; Fri, 13 Jan 2023 10:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB4216693AE
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jan 2023 11:07:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241181AbjAMJNc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Jan 2023 04:13:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
+        id S240751AbjAMKHB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Jan 2023 05:07:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241189AbjAMJMY (ORCPT
+        with ESMTP id S239755AbjAMKG5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:12:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8A513E3A
-        for <linux-input@vger.kernel.org>; Fri, 13 Jan 2023 01:10:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673601006;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/inVd9UHQixWXyAa+0MDkfw5LIKFllU3vs3HgZK6jgc=;
-        b=i1V0rpyQgpt3IekEMrne2zMaGCFD4VTy94IgV51+s1Jtl3GAT7jxyCCsRyYkSaG6F6DiSc
-        8wmpeX7S/HrK2mVKwA+DNfzgfC0FkWCvLjCH35q9bJOhK4kyuqu50Y9ytNcBRc4FqTBzvX
-        dbmt3KqmkqN1cYCtV3jhV/M9oc5YrLk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550--HjQU60KNxmzY7XjHPb57A-1; Fri, 13 Jan 2023 04:10:03 -0500
-X-MC-Unique: -HjQU60KNxmzY7XjHPb57A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40D81101A55E;
-        Fri, 13 Jan 2023 09:10:02 +0000 (UTC)
-Received: from plouf.redhat.com (ovpn-193-50.brq.redhat.com [10.40.193.50])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF531121314;
-        Fri, 13 Jan 2023 09:09:59 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH HID for-next v2 9/9] HID: bpf: reorder BPF registration
-Date:   Fri, 13 Jan 2023 10:09:35 +0100
-Message-Id: <20230113090935.1763477-10-benjamin.tissoires@redhat.com>
-In-Reply-To: <20230113090935.1763477-1-benjamin.tissoires@redhat.com>
-References: <20230113090935.1763477-1-benjamin.tissoires@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Fri, 13 Jan 2023 05:06:57 -0500
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186DC34D65;
+        Fri, 13 Jan 2023 02:06:56 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id 59F1E2B066ED;
+        Fri, 13 Jan 2023 05:06:53 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 13 Jan 2023 05:06:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1673604412; x=1673611612; bh=wiGd1poFqy
+        c19NDgfhWxoziS+5a2ezYepeVzBSacqw8=; b=jQa0HDmPBmL/FfJL+hgRmPsB40
+        Y3mC3xChdI36TABN4RG5b4ucaLsZc6+hC+19/zCIm4A4ie1QOoF7GdEwpLDXWLgg
+        YS7KkbMyef4z8Yilol0xjO/jcY2PDSzSOyaObnKUz9YejiKar9NRQ/48gMheN8SP
+        L9ydOdhClMFMN+laVtMxeJLlISQdpKBcfrhR3HNQLngArqhNZXfmj7B7QaV3Yjlc
+        q1pbz3p93X/orY60g/G7bg2Tiz9gOW8CeW5RhiSUeYXFN/oIPHXLd05ewSyQoczy
+        YcvZ76uBqZ6njLqUwdbbXb3on9pD3cxdKgfVZ0av7GSfMv1N46xG/nNSra4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1673604412; x=1673611612; bh=wiGd1poFqyc19NDgfhWxoziS+5a2
+        ezYepeVzBSacqw8=; b=T9tKOcHloTqEvCQgyITgoeWHiCG023yZCoHB8GCNjjun
+        JWtWHvJqinTMKxNzOHfWFkde1UNzFYeNjWL4OYuUevGP5ZiDtpX0SAgeRoVmsRqT
+        4s4imE9aYV/f9Pvbl/xyCzDnDswOyuD8ceeVeSEppPmXeTdO2UYN2NW+SPkjkx6z
+        7AGNecW4IwYIR8h6khoClacES7xN1wBX6oY0XpQ9E/MHHJqDRpFMe5RHSjqUpFHQ
+        972R/sDnO/VHBlJ/MZtdHhD4RBw3rwTM6MhJr5iT0G2mUNkzC1EVZ0kt797d6W2S
+        fBdJ8aBi3uu6VLi/i8mbcHwOUByNIvAxQvGBru7fCg==
+X-ME-Sender: <xms:Oy3BY2x8u8jGs5oav_hETNuy2fGaBGNB7nGV00CwtVI39ajIhtTDrA>
+    <xme:Oy3BYyQeI43uOCS5CK49RFBPrQXLvgoH7jyxA1EWEhaXS1U_GFSXnUcOsyByJ4HxX
+    7ebslCPuxwL7F72QUk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleekgddtkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:Oy3BY4WFmJ1Wzov0EgMi6qcJljjNqlgJoW7YxZYtni3we9ZcuZJC0Q>
+    <xmx:Oy3BY8jDZdOmomBzdPQYugeTKvRs2JAmwJR9qFQ78gYn6oU0QQd3og>
+    <xmx:Oy3BY4DQ3Zg11gEbb70JkOCpYbMnoYHqWtdB8svYNbX-CHCrZb2sRA>
+    <xmx:PC3BYzV0__Pe1Lv9Yq1qvCTC7InwXhC6SGzQNcMq4ULKQsDh2lBDrgxrUdU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B041DB60086; Fri, 13 Jan 2023 05:06:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <d9c2f760-283b-483c-8512-fdd2c372f26c@app.fastmail.com>
+In-Reply-To: <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-12-hch@lst.de>
+ <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
+Date:   Fri, 13 Jan 2023 11:06:22 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Christoph Hellwig" <hch@lst.de>
+Cc:     "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+        "Rich Felker" <dalias@libc.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+        "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        linux-mtd@lists.infradead.org, Netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Subject: Re: [PATCH 11/22] mtd/nand: remove sh_flctl
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Given that our initial BPF program is not using any kfuncs anymore,
-we can reorder the initialization to first try to load it and then
-register the kfuncs. This has the advantage of not exporting kfuncs
-when HID-BPF is not working.
+On Fri, Jan 13, 2023, at 09:30, Geert Uytterhoeven wrote:
+> On Fri, Jan 13, 2023 at 7:24 AM Christoph Hellwig <hch@lst.de> wrote:
+>> Now that arch/sh is removed this driver is dead code.
+>
+> FTR, this hardware block is also present on the ARM-based
+> SH-Mobile AG5 and R-Mobile A1 SoCs.
+> Again, no DT support.
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+I would generally consider drivers dead when they have no DT support
+and no platform in the upstream kernel registering the corresponding
+device.
 
----
+If anyone still uses this driver on SH-Mobile or R-Mobile, they
+have clearly given up on upstreaming their patches by now, and
+they can carry the burden of maintaining the driver out of tree,
+or re-submit a working version.
 
-no changes in v2
----
- drivers/hid/bpf/hid_bpf_dispatch.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-index 26117b4ec016..8a034a555d4c 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.c
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-@@ -514,15 +514,16 @@ static int __init hid_bpf_init(void)
- 		return 0;
- 	}
- 
--	err = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &hid_bpf_kfunc_set);
-+	err = hid_bpf_preload_skel();
- 	if (err) {
--		pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
-+		pr_warn("error while preloading HID BPF dispatcher: %d", err);
- 		return 0;
- 	}
- 
--	err = hid_bpf_preload_skel();
-+	/* register tracing kfuncs after we are sure we can load our preloaded bpf program */
-+	err = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &hid_bpf_kfunc_set);
- 	if (err) {
--		pr_warn("error while preloading HID BPF dispatcher: %d", err);
-+		pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
- 		return 0;
- 	}
- 
--- 
-2.38.1
-
+    Arnd
