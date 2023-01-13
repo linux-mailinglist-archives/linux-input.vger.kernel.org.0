@@ -2,72 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7CF1668E68
-	for <lists+linux-input@lfdr.de>; Fri, 13 Jan 2023 07:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB23668F0A
+	for <lists+linux-input@lfdr.de>; Fri, 13 Jan 2023 08:22:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240683AbjAMGza (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Jan 2023 01:55:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59412 "EHLO
+        id S241052AbjAMHWt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Jan 2023 02:22:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbjAMGyo (ORCPT
+        with ESMTP id S234084AbjAMHWT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Jan 2023 01:54:44 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B333809A8;
-        Thu, 12 Jan 2023 22:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=6Oe5pngS4zjkmz1lYubpQMTIHz9uRDw0CU0YC0V6wD0=; b=pXvJWqLjv4lgpXQvPP6PGer754
-        sHhCKTNnwaUdJkSMgH0VikqgkymfAStvaxxiPA/nzBy5kBlDvkxO+ARZcjMi817vzN/mazkqxZ4JI
-        fKYYMZ1ZeI/9vN7MFYM0mB+YQtavd14pD7gCMSJvcNs2jsDb1jqpv94Vc5s3wQZaUspBPnKofTM0l
-        6fwFG2x/9lVACroexRAruDto/ZT2RqfsdrAdA4b0+LmVXHnrEwGn2bEMmlZP/KAuHZa0xRXA9pog5
-        zbVdLhe1ePdvkGu83tMlzKtv1emnjMTD3+H6i4uQz7tTtX7xeBtepEfUxjJiCJo/rBuh+RjengYaB
-        s9OojMTQ==;
-Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pGDi5-000qNW-SY; Fri, 13 Jan 2023 06:38:41 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Input: synaptics-rmi4: use correct function name in kernel-doc
-Date:   Thu, 12 Jan 2023 22:38:41 -0800
-Message-Id: <20230113063841.17191-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.0
+        Fri, 13 Jan 2023 02:22:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CDBD5BA1E;
+        Thu, 12 Jan 2023 23:12:49 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C26A862274;
+        Fri, 13 Jan 2023 07:12:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE1AC433D2;
+        Fri, 13 Jan 2023 07:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1673593968;
+        bh=QW1PY3rFgL7HIa1lrzMI5uksSAfbml0XYJbvQzFAuWk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0oMMF0AsnNGVsfn35DXLDvgW2FFDBQctJVJeY8ZKTXb5ezzn7lhGkAftJpZH35IQL
+         SnxMV96zvZ93p/8lbSuV6nhLT/2v6ajWOmV2dS1jXf/y0bbQOvb+apnJ6XXiXzoBRc
+         F2PSRDe2WkZQdYDnszi1VWAGguwJrTfCgd0RBj8I=
+Date:   Fri, 13 Jan 2023 08:12:44 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Subject: Re: [PATCH 02/22] usb: remove the dead USB_OHCI_SH option
+Message-ID: <Y8EEbCP6PRMzWP5y@kroah.com>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-3-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230113062339.1909087-3-hch@lst.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use the correct function name in kernel-doc notation to prevent a warning:
+On Fri, Jan 13, 2023 at 07:23:19AM +0100, Christoph Hellwig wrote:
+> USB_OHCI_SH is a dummy option that never builds any code, remove it.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/usb/host/Kconfig | 11 -----------
+>  1 file changed, 11 deletions(-)
+> 
+> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+> index 8d799d23c476e1..ca5f657c092cf4 100644
+> --- a/drivers/usb/host/Kconfig
+> +++ b/drivers/usb/host/Kconfig
+> @@ -548,17 +548,6 @@ config USB_OHCI_HCD_SSB
+>  
+>  	  If unsure, say N.
+>  
+> -config USB_OHCI_SH
+> -	bool "OHCI support for SuperH USB controller (DEPRECATED)"
+> -	depends on SUPERH || COMPILE_TEST
+> -	select USB_OHCI_HCD_PLATFORM
+> -	help
+> -	  This option is deprecated now and the driver was removed, use
+> -	  USB_OHCI_HCD_PLATFORM instead.
+> -
+> -	  Enables support for the on-chip OHCI controller on the SuperH.
+> -	  If you use the PCI OHCI controller, this option is not necessary.
+> -
+>  config USB_OHCI_EXYNOS
+>  	tristate "OHCI support for Samsung S5P/Exynos SoC Series"
+>  	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+> -- 
+> 2.39.0
+> 
 
-drivers/input/rmi4/rmi_bus.c:300: warning: expecting prototype for rmi_register_function_handler(). Prototype was for __rmi_register_function_handler() instead
+Do you want all of these to go through a single tree, or can they go
+through the different driver subsystem trees?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
----
- drivers/input/rmi4/rmi_bus.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If single:
 
-diff -- a/drivers/input/rmi4/rmi_bus.c b/drivers/input/rmi4/rmi_bus.c
---- a/drivers/input/rmi4/rmi_bus.c
-+++ b/drivers/input/rmi4/rmi_bus.c
-@@ -285,7 +285,7 @@ void rmi_unregister_function(struct rmi_
- }
- 
- /**
-- * rmi_register_function_handler - register a handler for an RMI function
-+ * __rmi_register_function_handler - register a handler for an RMI function
-  * @handler: RMI handler that should be registered.
-  * @owner: pointer to module that implements the handler
-  * @mod_name: name of the module implementing the handler
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+If not, I'll be glad to take this.
+
+thanks,
+
+greg k-h
