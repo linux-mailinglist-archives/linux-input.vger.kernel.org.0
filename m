@@ -2,44 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCAD166ACD0
-	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 18:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D9FB66ACD1
+	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 18:03:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjANRDC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 14 Jan 2023 12:03:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37920 "EHLO
+        id S230288AbjANRDE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Jan 2023 12:03:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230295AbjANRC7 (ORCPT
+        with ESMTP id S229955AbjANRDC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 14 Jan 2023 12:02:59 -0500
+        Sat, 14 Jan 2023 12:03:02 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B91EBB777
-        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 09:02:58 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1A4B747
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 09:03:00 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 49CC860BC1
-        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 17:02:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF6DC433F0;
-        Sat, 14 Jan 2023 17:02:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C563760C01
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 17:02:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22CA0C433F2;
+        Sat, 14 Jan 2023 17:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673715777;
-        bh=WmulUa00nVBFtJzNq66tmRXEyQB2Lu/VtCKKfiisxaE=;
+        s=k20201202; t=1673715779;
+        bh=bNlQp06hTROH1cUdwcVPA4Q2JKZPVOwmwfOIX8AT6es=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LZX9lPzwd1SPD1gjIqO+VdUQ29yowdrwi/zygoqdtdtH4BGoioVWeSaz708KpCYtP
-         XfuCFc+BlhhRQNS7XJlDb9kNa8h8v4uChE1/r1vZKavxH7bXD+74ZCe9hIIBFqhWvy
-         3vYXcDrB/UEsPnPgNSMFpvq4w6ZOn4CH/zbZfztZTU3gW77jKJPUBtToIzRMcCEwT1
-         JHS/Rejua8imUtNJzYQdfE7Y95yB+2GLsW5K5yU5TkjGVBMRtuPR2X5JCXueu1CmIr
-         usN2tFLkg9RZndvWQHMK2Z7vE6l94hlalS/6iwEsbSJoMCcSY0AnZ7yVDI1isuZ7Ok
-         fZHlvkcfaoBhA==
+        b=F7Fuf4G7QCyolbj9c+6q483CHVcIj35Mm/CGChHpPm8MaCyUWDdweNZSsqsc+bD2d
+         kgfeFMOJhXXwA0ZTqN1MI1i6WJNO7Z7W4kqo4EP6uu+nIplGujXBgDQqiu7dsywzc7
+         nMbMcpKH4EXh+/i1mwug8ZyiluhPd/Uqx2BhI8XuSxAKsA1WuX/ojwDeURw64LkGOi
+         lklh83LOlXPzZ8ZUnV22R0cgwwUZt+M+346BDfK88U+s9gobE9HztApNMx1F03jhxI
+         /ADhy8kpLsBN7aUGynF4H5jDLUlCJY/PK2vMqgn8clG6OmD3zn9wIVFzfIF7Xi9BZN
+         0BF58V3jvaM9g==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     jic23@kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andi Shyti <andi@etezian.org>
-Subject: [PATCH 06/16] Input: stmfts - switch to SYSTEM_SLEEP_/RUNTIME_PM_OPS() and pm_ptr()
-Date:   Sat, 14 Jan 2023 17:16:10 +0000
-Message-Id: <20230114171620.42891-7-jic23@kernel.org>
+        Michael Hennerich <michael.hennerich@analog.com>
+Subject: [PATCH 07/16] Input: ad714x - unify dev_pm_ops using EXPORT_SIMPLE_DEV_PM_OPS()
+Date:   Sat, 14 Jan 2023 17:16:11 +0000
+Message-Id: <20230114171620.42891-8-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230114171620.42891-1-jic23@kernel.org>
 References: <20230114171620.42891-1-jic23@kernel.org>
@@ -56,79 +56,150 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-SET_SYSTEM_SLEEP_PM_OPS() and SET_RUNTIME_PM_OPS() are deprecated as
-they require explicit protection against unused function warnings.
-The new combination of pm_ptr() and SYSTEM_SLEEP_PM_OPS()/
-RUNTIME_PM_OPS() allows the compiler to see the functions,
-thus suppressing the warning, but still allowing the unused code to be
-removed. Thus also drop the __maybe_unused markings.
+The I2C and SPI PM callbacks were identical (though wrapped in some
+bouncing out to the bus specific container of the struct device and
+then back again to get the drvdata). As such rather than just moving
+these to SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() take the opportunity
+to unify the struct dev_pm_ops and use the new EXPORT_SIMPLE_DEV_PM_OPS()
+macro so that we can drop the unused suspend and resume callbacks as well
+as the structure if !CONFIG_PM_SLEEP without needing to mark the callbacks
+__maybe_unused.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Andi Shyti <andi@etezian.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>
 ---
- drivers/input/touchscreen/stmfts.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/input/misc/ad714x-i2c.c | 14 +-------------
+ drivers/input/misc/ad714x-spi.c | 14 +-------------
+ drivers/input/misc/ad714x.c     | 12 ++++++------
+ drivers/input/misc/ad714x.h     |  4 ++--
+ 4 files changed, 10 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-index d092e89d40e8..fdbf5e68943c 100644
---- a/drivers/input/touchscreen/stmfts.c
-+++ b/drivers/input/touchscreen/stmfts.c
-@@ -742,7 +742,7 @@ static void stmfts_remove(struct i2c_client *client)
- 	pm_runtime_disable(&client->dev);
- }
+diff --git a/drivers/input/misc/ad714x-i2c.c b/drivers/input/misc/ad714x-i2c.c
+index 5ef518a50e63..d8e39f4a57ac 100644
+--- a/drivers/input/misc/ad714x-i2c.c
++++ b/drivers/input/misc/ad714x-i2c.c
+@@ -12,18 +12,6 @@
+ #include <linux/pm.h>
+ #include "ad714x.h"
  
--static int __maybe_unused stmfts_runtime_suspend(struct device *dev)
-+static int stmfts_runtime_suspend(struct device *dev)
+-static int __maybe_unused ad714x_i2c_suspend(struct device *dev)
+-{
+-	return ad714x_disable(i2c_get_clientdata(to_i2c_client(dev)));
+-}
+-
+-static int __maybe_unused ad714x_i2c_resume(struct device *dev)
+-{
+-	return ad714x_enable(i2c_get_clientdata(to_i2c_client(dev)));
+-}
+-
+-static SIMPLE_DEV_PM_OPS(ad714x_i2c_pm, ad714x_i2c_suspend, ad714x_i2c_resume);
+-
+ static int ad714x_i2c_write(struct ad714x_chip *chip,
+ 			    unsigned short reg, unsigned short data)
  {
- 	struct stmfts_data *sdata = dev_get_drvdata(dev);
- 	int ret;
-@@ -754,7 +754,7 @@ static int __maybe_unused stmfts_runtime_suspend(struct device *dev)
- 	return ret;
- }
+@@ -96,7 +84,7 @@ MODULE_DEVICE_TABLE(i2c, ad714x_id);
+ static struct i2c_driver ad714x_i2c_driver = {
+ 	.driver = {
+ 		.name = "ad714x_captouch",
+-		.pm   = &ad714x_i2c_pm,
++		.pm   = pm_sleep_ptr(&ad714x_pm),
+ 	},
+ 	.probe_new = ad714x_i2c_probe,
+ 	.id_table = ad714x_id,
+diff --git a/drivers/input/misc/ad714x-spi.c b/drivers/input/misc/ad714x-spi.c
+index 7d3bf434620f..eb13b4cd6594 100644
+--- a/drivers/input/misc/ad714x-spi.c
++++ b/drivers/input/misc/ad714x-spi.c
+@@ -15,18 +15,6 @@
+ #define AD714x_SPI_CMD_PREFIX      0xE000   /* bits 15:11 */
+ #define AD714x_SPI_READ            BIT(10)
  
--static int __maybe_unused stmfts_runtime_resume(struct device *dev)
-+static int stmfts_runtime_resume(struct device *dev)
+-static int __maybe_unused ad714x_spi_suspend(struct device *dev)
+-{
+-	return ad714x_disable(spi_get_drvdata(to_spi_device(dev)));
+-}
+-
+-static int __maybe_unused ad714x_spi_resume(struct device *dev)
+-{
+-	return ad714x_enable(spi_get_drvdata(to_spi_device(dev)));
+-}
+-
+-static SIMPLE_DEV_PM_OPS(ad714x_spi_pm, ad714x_spi_suspend, ad714x_spi_resume);
+-
+ static int ad714x_spi_read(struct ad714x_chip *chip,
+ 			   unsigned short reg, unsigned short *data, size_t len)
  {
- 	struct stmfts_data *sdata = dev_get_drvdata(dev);
- 	int ret;
-@@ -766,7 +766,7 @@ static int __maybe_unused stmfts_runtime_resume(struct device *dev)
- 	return ret;
+@@ -103,7 +91,7 @@ static int ad714x_spi_probe(struct spi_device *spi)
+ static struct spi_driver ad714x_spi_driver = {
+ 	.driver = {
+ 		.name	= "ad714x_captouch",
+-		.pm	= &ad714x_spi_pm,
++		.pm	= pm_sleep_ptr(&ad714x_pm),
+ 	},
+ 	.probe		= ad714x_spi_probe,
+ };
+diff --git a/drivers/input/misc/ad714x.c b/drivers/input/misc/ad714x.c
+index 43132d98feda..1acd8429c56c 100644
+--- a/drivers/input/misc/ad714x.c
++++ b/drivers/input/misc/ad714x.c
+@@ -1162,9 +1162,9 @@ struct ad714x_chip *ad714x_probe(struct device *dev, u16 bus_type, int irq,
  }
+ EXPORT_SYMBOL(ad714x_probe);
  
--static int __maybe_unused stmfts_suspend(struct device *dev)
-+static int stmfts_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+-int ad714x_disable(struct ad714x_chip *ad714x)
++static int ad714x_suspend(struct device *dev)
  {
- 	struct stmfts_data *sdata = dev_get_drvdata(dev);
++	struct ad714x_chip *ad714x = dev_get_drvdata(dev);
+ 	unsigned short data;
  
-@@ -775,7 +775,7 @@ static int __maybe_unused stmfts_suspend(struct device *dev)
+ 	dev_dbg(ad714x->dev, "%s enter\n", __func__);
+@@ -1178,10 +1178,10 @@ int ad714x_disable(struct ad714x_chip *ad714x)
+ 
  	return 0;
  }
+-EXPORT_SYMBOL(ad714x_disable);
  
--static int __maybe_unused stmfts_resume(struct device *dev)
-+static int stmfts_resume(struct device *dev)
+-int ad714x_enable(struct ad714x_chip *ad714x)
++static int ad714x_resume(struct device *dev)
  {
- 	struct stmfts_data *sdata = dev_get_drvdata(dev);
++	struct ad714x_chip *ad714x = dev_get_drvdata(dev);
+ 	dev_dbg(ad714x->dev, "%s enter\n", __func__);
  
-@@ -783,8 +783,8 @@ static int __maybe_unused stmfts_resume(struct device *dev)
+ 	mutex_lock(&ad714x->mutex);
+@@ -1201,8 +1201,8 @@ int ad714x_enable(struct ad714x_chip *ad714x)
+ 
+ 	return 0;
  }
+-EXPORT_SYMBOL(ad714x_enable);
+-#endif
++
++EXPORT_SIMPLE_DEV_PM_OPS(ad714x_pm, ad714x_suspend, ad714x_resume);
  
- static const struct dev_pm_ops stmfts_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(stmfts_suspend, stmfts_resume)
--	SET_RUNTIME_PM_OPS(stmfts_runtime_suspend, stmfts_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(stmfts_suspend, stmfts_resume)
-+	RUNTIME_PM_OPS(stmfts_runtime_suspend, stmfts_runtime_resume, NULL)
+ MODULE_DESCRIPTION("Analog Devices AD714X Capacitance Touch Sensor Driver");
+ MODULE_AUTHOR("Barry Song <21cnbao@gmail.com>");
+diff --git a/drivers/input/misc/ad714x.h b/drivers/input/misc/ad714x.h
+index af847b5f0d0e..dafa12325f27 100644
+--- a/drivers/input/misc/ad714x.h
++++ b/drivers/input/misc/ad714x.h
+@@ -8,6 +8,7 @@
+ #ifndef _AD714X_H_
+ #define _AD714X_H_
+ 
++#include <linux/pm.h>
+ #include <linux/types.h>
+ 
+ #define STAGE_NUM              12
+@@ -45,8 +46,7 @@ struct ad714x_chip {
+ 
  };
  
- #ifdef CONFIG_OF
-@@ -805,7 +805,7 @@ static struct i2c_driver stmfts_driver = {
- 	.driver = {
- 		.name = STMFTS_DEV_NAME,
- 		.of_match_table = of_match_ptr(stmfts_of_match),
--		.pm = &stmfts_pm_ops,
-+		.pm = pm_ptr(&stmfts_pm_ops),
- 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
- 	},
- 	.probe_new = stmfts_probe,
+-int ad714x_disable(struct ad714x_chip *ad714x);
+-int ad714x_enable(struct ad714x_chip *ad714x);
++extern const struct dev_pm_ops ad714x_pm;
+ struct ad714x_chip *ad714x_probe(struct device *dev, u16 bus_type, int irq,
+ 				 ad714x_read_t read, ad714x_write_t write);
+ 
 -- 
 2.39.0
 
