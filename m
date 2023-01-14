@@ -2,43 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F71266ACD3
-	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 18:03:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0BC866ACD4
+	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 18:03:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230222AbjANRDF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 14 Jan 2023 12:03:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38072 "EHLO
+        id S230284AbjANRDI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Jan 2023 12:03:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbjANRDE (ORCPT
+        with ESMTP id S230292AbjANRDG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 14 Jan 2023 12:03:04 -0500
+        Sat, 14 Jan 2023 12:03:06 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776F759FF
-        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 09:03:03 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628F6A5F0
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 09:03:04 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9422860B4D
-        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 17:03:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E084C433F1;
-        Sat, 14 Jan 2023 17:03:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E679C60BF9
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 17:03:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D44AC433F2;
+        Sat, 14 Jan 2023 17:03:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673715782;
-        bh=tCNbAL2O2w27urcWXdqc91kTvXnsbGcqyuiClUxiYLo=;
+        s=k20201202; t=1673715783;
+        bh=8YXSQ9ESVBWSwK3z/En15WH8uLTOqxGy1o5BJU3aBBk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HqAw+HpUPb68mMnft+Z3ZM97yFoADng1wo/8U8eXbx+P2u7HNRg+WE3jg74wFaesi
-         7dO4gxq8peDBpQ35LlrLzSXFcUmw/mfmtZmOoo8vGeQZchuCENVripyhW8yNduFdiA
-         huw7agDsfZPVmhqcTEejnpZK2OBqGRTYS3qXhqaOIVijL7D/TyX9jL/6GdusvSonqB
-         xcbB6VnoUJGqR6e3jx9do3+b6FFDEaIu9VNjvatlzs3+1io9JsfUuKcqIXkMvwKXfE
-         B77KEkniLc+i26infceqaIP4/2tJVVXxESZQtEnITd0mhIuww8Emgz+QWMcgOSLCNT
-         N/5MY70YQLaHg==
+        b=OPOLo/okUpaezBeE4MWb4yLRdREHZMgdKF+hj8BuYFW457GAY/tG7zhRHJVWeo+iY
+         62bnqG9nFQy1Wh0Oezqfjr1FfxlZ38ZhFI2xWGjZFyMFjegbL+ka1nJY+jojVCroIn
+         hUwLKzn+RM6xTOvt68+9JLNCVDkvvyNSlaPVoeU5UhJGrnImHSrCplTCcTAJ7KJ78p
+         nECO+lMegy9/7Lmy1qMYR5Yzdl5GoQ4KWp0VFyKHBii5Uhd1Qj3KB3PsiVBWn6t7R5
+         eRactElOZXHy21lKqBpvr7LVx+fY5Bdi12am/W+0R8wZso/nmm4dVKsKe2aWQ0FSuQ
+         RImKKkXGpEgqQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     jic23@kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 09/16] Input: tsc200x - use EXPORT_GPL_SIMPLE_DEV_PM_OPS()
-Date:   Sat, 14 Jan 2023 17:16:13 +0000
-Message-Id: <20230114171620.42891-10-jic23@kernel.org>
+Subject: [PATCH 10/16] Input: cyttsp4 - use EXPORT_GPL_RUNTIME_DEV_PM_OPS()
+Date:   Sat, 14 Jan 2023 17:16:14 +0000
+Message-Id: <20230114171620.42891-11-jic23@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230114171620.42891-1-jic23@kernel.org>
 References: <20230114171620.42891-1-jic23@kernel.org>
@@ -55,78 +55,85 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-SIMPLE_DEV_PM_OPS() is deprecated as it requires explicit protection
-against unused function warnings.  The new combination of pm_sleep_ptr()
-and EXPORT_GPL_SIMPLE_DEV_PM_OPS() allows the compiler to see the
-functions, thus suppressing the warning, but still allowing the unused
-code to be removed. Thus also drop the __maybe_unused markings.
-This function also removes the need for separate EXPORT_SYMBOL_GPL()
+SET_SYSTEM_SLEEP_PM_OPS() and RUNTIME_PM_OPS() are deprecated as
+they requires explicit protection against unused function warnings.
+The new combination of pm_ptr() EXPORT_GPL_RUNTIME_DEV_PM_OPS()
+allows the compiler to see the functions, thus suppressing the
+warning, but still allowing the unused code to be
+removed. Thus also drop the #ifdef guards.
+
+Note that we are replacing an unconditional call to the suspend
+and resume functions for sleep use cases with one via
+pm_runtime_force_suspend() / pm_runtime_force_resume() that only
+do anything to the device if we are not already in the appropriate
+runtime suspended state.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- drivers/input/touchscreen/tsc2004.c      | 2 +-
- drivers/input/touchscreen/tsc2005.c      | 2 +-
- drivers/input/touchscreen/tsc200x-core.c | 7 +++----
- 3 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/touchscreen/tsc2004.c b/drivers/input/touchscreen/tsc2004.c
-index 575768b587bb..45f39eb20638 100644
---- a/drivers/input/touchscreen/tsc2004.c
-+++ b/drivers/input/touchscreen/tsc2004.c
-@@ -65,7 +65,7 @@ static struct i2c_driver tsc2004_driver = {
+--
+
+I 'think' this should be fine in that it can only reduce the number
+of unnecessary suspends.  If anyone can test that would be great.
+---
+ drivers/input/touchscreen/cyttsp4_core.c | 9 ++-------
+ drivers/input/touchscreen/cyttsp4_i2c.c  | 2 +-
+ drivers/input/touchscreen/cyttsp4_spi.c  | 2 +-
+ 3 files changed, 4 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/input/touchscreen/cyttsp4_core.c b/drivers/input/touchscreen/cyttsp4_core.c
+index dccbcb942fe5..0cd6f626adec 100644
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -1744,7 +1744,6 @@ static void cyttsp4_free_si_ptrs(struct cyttsp4 *cd)
+ 	kfree(si->btn_rec_data);
+ }
+ 
+-#ifdef CONFIG_PM
+ static int cyttsp4_core_sleep(struct cyttsp4 *cd)
+ {
+ 	int rc;
+@@ -1877,13 +1876,9 @@ static int cyttsp4_core_resume(struct device *dev)
+ 
+ 	return 0;
+ }
+-#endif
+ 
+-const struct dev_pm_ops cyttsp4_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(cyttsp4_core_suspend, cyttsp4_core_resume)
+-	SET_RUNTIME_PM_OPS(cyttsp4_core_suspend, cyttsp4_core_resume, NULL)
+-};
+-EXPORT_SYMBOL_GPL(cyttsp4_pm_ops);
++EXPORT_GPL_RUNTIME_DEV_PM_OPS(cyttsp4_pm_ops,
++			      cyttsp4_core_suspend, cyttsp4_core_resume, NULL);
+ 
+ static int cyttsp4_mt_open(struct input_dev *input)
+ {
+diff --git a/drivers/input/touchscreen/cyttsp4_i2c.c b/drivers/input/touchscreen/cyttsp4_i2c.c
+index c260bab0c62c..ec7a4779f3fb 100644
+--- a/drivers/input/touchscreen/cyttsp4_i2c.c
++++ b/drivers/input/touchscreen/cyttsp4_i2c.c
+@@ -58,7 +58,7 @@ MODULE_DEVICE_TABLE(i2c, cyttsp4_i2c_id);
+ static struct i2c_driver cyttsp4_i2c_driver = {
  	.driver = {
- 		.name   = "tsc2004",
- 		.of_match_table = of_match_ptr(tsc2004_of_match),
--		.pm     = &tsc200x_pm_ops,
-+		.pm     = pm_sleep_ptr(&tsc200x_pm_ops),
+ 		.name	= CYTTSP4_I2C_NAME,
+-		.pm	= &cyttsp4_pm_ops,
++		.pm	= pm_ptr(&cyttsp4_pm_ops),
  	},
- 	.id_table       = tsc2004_idtable,
- 	.probe_new      = tsc2004_probe,
-diff --git a/drivers/input/touchscreen/tsc2005.c b/drivers/input/touchscreen/tsc2005.c
-index 555dfe98b3c4..b6dfbcfc8c19 100644
---- a/drivers/input/touchscreen/tsc2005.c
-+++ b/drivers/input/touchscreen/tsc2005.c
-@@ -81,7 +81,7 @@ static struct spi_driver tsc2005_driver = {
- 	.driver	= {
- 		.name	= "tsc2005",
- 		.of_match_table = of_match_ptr(tsc2005_of_match),
--		.pm	= &tsc200x_pm_ops,
-+		.pm	= pm_sleep_ptr(&tsc200x_pm_ops),
+ 	.probe_new	= cyttsp4_i2c_probe,
+ 	.remove		= cyttsp4_i2c_remove,
+diff --git a/drivers/input/touchscreen/cyttsp4_spi.c b/drivers/input/touchscreen/cyttsp4_spi.c
+index 5d7db84f2749..944fbbe9113e 100644
+--- a/drivers/input/touchscreen/cyttsp4_spi.c
++++ b/drivers/input/touchscreen/cyttsp4_spi.c
+@@ -173,7 +173,7 @@ static void cyttsp4_spi_remove(struct spi_device *spi)
+ static struct spi_driver cyttsp4_spi_driver = {
+ 	.driver = {
+ 		.name	= CYTTSP4_SPI_NAME,
+-		.pm	= &cyttsp4_pm_ops,
++		.pm	= pm_ptr(&cyttsp4_pm_ops),
  	},
- 	.probe	= tsc2005_probe,
- 	.remove	= tsc2005_remove,
-diff --git a/drivers/input/touchscreen/tsc200x-core.c b/drivers/input/touchscreen/tsc200x-core.c
-index 72c7258b93a5..b799f26fcf8f 100644
---- a/drivers/input/touchscreen/tsc200x-core.c
-+++ b/drivers/input/touchscreen/tsc200x-core.c
-@@ -588,7 +588,7 @@ void tsc200x_remove(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(tsc200x_remove);
- 
--static int __maybe_unused tsc200x_suspend(struct device *dev)
-+static int tsc200x_suspend(struct device *dev)
- {
- 	struct tsc200x *ts = dev_get_drvdata(dev);
- 
-@@ -604,7 +604,7 @@ static int __maybe_unused tsc200x_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tsc200x_resume(struct device *dev)
-+static int tsc200x_resume(struct device *dev)
- {
- 	struct tsc200x *ts = dev_get_drvdata(dev);
- 
-@@ -620,8 +620,7 @@ static int __maybe_unused tsc200x_resume(struct device *dev)
- 	return 0;
- }
- 
--SIMPLE_DEV_PM_OPS(tsc200x_pm_ops, tsc200x_suspend, tsc200x_resume);
--EXPORT_SYMBOL_GPL(tsc200x_pm_ops);
-+EXPORT_GPL_SIMPLE_DEV_PM_OPS(tsc200x_pm_ops, tsc200x_suspend, tsc200x_resume);
- 
- MODULE_AUTHOR("Lauri Leukkunen <lauri.leukkunen@nokia.com>");
- MODULE_DESCRIPTION("TSC200x Touchscreen Driver Core");
+ 	.probe  = cyttsp4_spi_probe,
+ 	.remove = cyttsp4_spi_remove,
 -- 
 2.39.0
 
