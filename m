@@ -2,46 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8580A66ACDA
-	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 18:03:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1D166AD75
+	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 20:47:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230306AbjANRDR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 14 Jan 2023 12:03:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38264 "EHLO
+        id S230340AbjANTrx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Jan 2023 14:47:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230285AbjANRDP (ORCPT
+        with ESMTP id S230260AbjANTrt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 14 Jan 2023 12:03:15 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7344830DB
-        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 09:03:14 -0800 (PST)
+        Sat, 14 Jan 2023 14:47:49 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA011A5C9;
+        Sat, 14 Jan 2023 11:47:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2E14BB80938
-        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 17:03:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3391C433D2;
-        Sat, 14 Jan 2023 17:03:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DA52F60ADD;
+        Sat, 14 Jan 2023 19:47:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA54C433D2;
+        Sat, 14 Jan 2023 19:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673715791;
-        bh=KxjPv6ueFUfWu6l2frfr+Nr23nCmoR9EN/JPsNdBiww=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=S0wbv4HJFFNB+tm2FjXDQ+KOKzKWAhNJYTUm81wAbMh0Rrz9vu6bnAyM8ugbS/L1Q
-         ynaVSBitzJ/5aKwBnUS57qs57UnPSqPSUyY7PKUHRd4xOPfjm0vtFFWNqa9dvYtrb6
-         chvcuULMHT41f3Do83h0eTNyhRhxpy2+hfr5sRKsC+o0rp/yEw531yaktr+jVyILRB
-         +TYwsS2yjN8Zd7Oh1oN8CTO0lFmpMc/MFR4y8nKHdPNj6Qljs88892/bjnL8VuuAmz
-         F+Nm8oxxbKPLquSy6Ja3YgUuwvRoHn5KBiYvh8drVeHq85xt3veeOnqPNSpDJCxMJq
-         8Z3pqzrVMV2kQ==
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     jic23@kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 16/16] Input: wistron_btns -  use pm_sleep_ptr() to allow removal of ifdef CONFIG_PM guards
-Date:   Sat, 14 Jan 2023 17:16:20 +0000
-Message-Id: <20230114171620.42891-17-jic23@kernel.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230114171620.42891-1-jic23@kernel.org>
-References: <20230114171620.42891-1-jic23@kernel.org>
+        s=k20201202; t=1673725667;
+        bh=gMU2qV2VgM+YENiKJhH+abvn4ddBqKL0P0RzB5p/M9M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=J80B8qRk5QOTG8JqtnwvGlTRxhA2TlX3aGgUGykutFA28xkS1L79HoIMWUQtYDCTj
+         dCd/689zlAuf5mMLONRyOIcLBGJAawuKZj0GNZM0DDyfIiv63g6cOGVUdPbGjzGOeK
+         43nrrY1DnPSIiCsMQ1mdGBgd09ZbU7hmOt/yvu59q2hP3l8M/NAyQ9o/F9B/CQK0on
+         fE3yWz8n685HzaXhQIOLWmaeEhVdi+exUo8YNDBbMl6cPP11Fb39GIRiU/kHrDNDvZ
+         HNsfKIJOXgJf6U3sjs1605a6/2LOgx2m45e2P4jaM8tXl63pcbaHE+AD8eIJbaVA1T
+         Q5DrM4P1UlMBg==
+From:   SeongJae Park <sj@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     SeongJae Park <sj@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Iwona Winiarska <iwona.winiarska@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        openbmc@lists.ozlabs.org, alsa-devel@alsa-project.org,
+        linux-watchdog@vger.kernel.org
+Subject: [PATCH 1/2] Docs/subsystem-apis: Remove '[The ]Linux' prefixes from titles of listed documents
+Date:   Sat, 14 Jan 2023 19:47:40 +0000
+Message-Id: <20230114194741.115855-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -53,52 +72,237 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Some documents that listed on subsystem-apis have 'Linux' or 'The Linux'
+title prefixes.  It's duplicated information, and makes finding the
+document of interest with human eyes not easy.  Remove the prefixes from
+the titles.
 
-As the guards only apply to suspend and resume, #ifdef CONFIG_PM_SLEEP
-would have been a tighter protection. As pm_sleep_ptr() lets the compiler
-see the protected ops structure and callbacks but also lets the compiler
-remove it as unused code if !CONFIG_PM_SLEEP this allows the #ifdef
-guards to be removed, slightly simplifying the resulting code.
-
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
---
-It seems likely that DEFINE_SIMPLE_DEV_PM_OPS() would work here but
-I'd prefer not to make that change unless someone can confirm that the
-extra callbacks registered will have no unwanted side effects in this
-driver.
+Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- drivers/input/misc/wistron_btns.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ Documentation/PCI/index.rst        | 6 +++---
+ Documentation/cpu-freq/index.rst   | 6 +++---
+ Documentation/crypto/index.rst     | 6 +++---
+ Documentation/driver-api/index.rst | 6 +++---
+ Documentation/gpu/index.rst        | 6 +++---
+ Documentation/hwmon/index.rst      | 6 +++---
+ Documentation/input/index.rst      | 6 +++---
+ Documentation/mm/index.rst         | 6 +++---
+ Documentation/peci/index.rst       | 6 +++---
+ Documentation/scheduler/index.rst  | 6 +++---
+ Documentation/scsi/index.rst       | 6 +++---
+ Documentation/sound/index.rst      | 6 +++---
+ Documentation/virt/index.rst       | 6 +++---
+ Documentation/watchdog/index.rst   | 6 +++---
+ 14 files changed, 42 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/input/misc/wistron_btns.c b/drivers/input/misc/wistron_btns.c
-index 80dfd72a02d3..111cb70cde46 100644
---- a/drivers/input/misc/wistron_btns.c
-+++ b/drivers/input/misc/wistron_btns.c
-@@ -1295,7 +1295,6 @@ static int wistron_remove(struct platform_device *dev)
- 	return 0;
- }
+diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+index c17c87af1968..e73f84aebde3 100644
+--- a/Documentation/PCI/index.rst
++++ b/Documentation/PCI/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
--#ifdef CONFIG_PM
- static int wistron_suspend(struct device *dev)
- {
- 	if (have_wifi)
-@@ -1330,14 +1329,11 @@ static const struct dev_pm_ops wistron_pm_ops = {
- 	.poweroff	= wistron_suspend,
- 	.restore	= wistron_resume,
- };
--#endif
+-=======================
+-Linux PCI Bus Subsystem
+-=======================
++=================
++PCI Bus Subsystem
++=================
  
- static struct platform_driver wistron_driver = {
- 	.driver		= {
- 		.name	= "wistron-bios",
--#ifdef CONFIG_PM
--		.pm	= &wistron_pm_ops,
--#endif
-+		.pm	= pm_sleep_ptr(&wistron_pm_ops),
- 	},
- 	.probe		= wistron_probe,
- 	.remove		= wistron_remove,
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
+index 2fe32dad562a..de25740651f7 100644
+--- a/Documentation/cpu-freq/index.rst
++++ b/Documentation/cpu-freq/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-==============================================================================
+-Linux CPUFreq - CPU frequency and voltage scaling code in the Linux(TM) kernel
+-==============================================================================
++========================================================================
++CPUFreq - CPU frequency and voltage scaling code in the Linux(TM) kernel
++========================================================================
+ 
+ Author: Dominik Brodowski  <linux@brodo.de>
+ 
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index 21338fa92642..da5d5ad2bdf3 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -1,6 +1,6 @@
+-=======================
+-Linux Kernel Crypto API
+-=======================
++==========
++Crypto API
++==========
+ 
+ :Author: Stephan Mueller
+ :Author: Marek Vasut
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index d3a58f77328e..b208e0dac3a0 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -1,6 +1,6 @@
+-========================================
+-The Linux driver implementer's API guide
+-========================================
++==============================
++Driver implementer's API guide
++==============================
+ 
+ The kernel offers a wide variety of interfaces to support the development
+ of device drivers.  This document is an only somewhat organized collection
+diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+index b99dede9a5b1..eee5996acf2c 100644
+--- a/Documentation/gpu/index.rst
++++ b/Documentation/gpu/index.rst
+@@ -1,6 +1,6 @@
+-==================================
+-Linux GPU Driver Developer's Guide
+-==================================
++============================
++GPU Driver Developer's Guide
++============================
+ 
+ .. toctree::
+ 
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index fe2cc6b73634..c2b3c1a822dd 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -1,6 +1,6 @@
+-=========================
+-Linux Hardware Monitoring
+-=========================
++===================
++Hardware Monitoring
++===================
+ 
+ .. toctree::
+    :maxdepth: 1
+diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
+index 9888f5cbf6d5..35581cd18e91 100644
+--- a/Documentation/input/index.rst
++++ b/Documentation/input/index.rst
+@@ -1,6 +1,6 @@
+-=============================
+-The Linux Input Documentation
+-=============================
++===================
++Input Documentation
++===================
+ 
+ Contents:
+ 
+diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+index 4aa12b8be278..5a94a921ea40 100644
+--- a/Documentation/mm/index.rst
++++ b/Documentation/mm/index.rst
+@@ -1,6 +1,6 @@
+-=====================================
+-Linux Memory Management Documentation
+-=====================================
++===============================
++Memory Management Documentation
++===============================
+ 
+ Memory Management Guide
+ =======================
+diff --git a/Documentation/peci/index.rst b/Documentation/peci/index.rst
+index 989de10416e7..930e75217c33 100644
+--- a/Documentation/peci/index.rst
++++ b/Documentation/peci/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0-only
+ 
+-====================
+-Linux PECI Subsystem
+-====================
++==============
++PECI Subsystem
++==============
+ 
+ .. toctree::
+ 
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index b430d856056a..1aac972a652f 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -1,6 +1,6 @@
+-===============
+-Linux Scheduler
+-===============
++=========
++Scheduler
++=========
+ 
+ .. toctree::
+     :maxdepth: 1
+diff --git a/Documentation/scsi/index.rst b/Documentation/scsi/index.rst
+index 7c5f5f8f614e..919f3edfe1bf 100644
+--- a/Documentation/scsi/index.rst
++++ b/Documentation/scsi/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-====================
+-Linux SCSI Subsystem
+-====================
++==============
++SCSI Subsystem
++==============
+ 
+ .. toctree::
+    :maxdepth: 1
+diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
+index 4d7d42acf6df..5abed5fc6485 100644
+--- a/Documentation/sound/index.rst
++++ b/Documentation/sound/index.rst
+@@ -1,6 +1,6 @@
+-===================================
+-Linux Sound Subsystem Documentation
+-===================================
++=============================
++Sound Subsystem Documentation
++=============================
+ 
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
+index 56e003ff28ff..7fb55ae08598 100644
+--- a/Documentation/virt/index.rst
++++ b/Documentation/virt/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-============================
+-Linux Virtualization Support
+-============================
++======================
++Virtualization Support
++======================
+ 
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/watchdog/index.rst b/Documentation/watchdog/index.rst
+index c177645081d8..4603f2511f58 100644
+--- a/Documentation/watchdog/index.rst
++++ b/Documentation/watchdog/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-======================
+-Linux Watchdog Support
+-======================
++================
++Watchdog Support
++================
+ 
+ .. toctree::
+     :maxdepth: 1
 -- 
-2.39.0
+2.25.1
 
