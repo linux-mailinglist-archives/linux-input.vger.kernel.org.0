@@ -2,135 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE28166A6F6
-	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 00:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7943466ACCA
+	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 18:02:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbjAMXUZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Jan 2023 18:20:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34790 "EHLO
+        id S230178AbjANRCw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Jan 2023 12:02:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbjAMXUS (ORCPT
+        with ESMTP id S230265AbjANRCv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Jan 2023 18:20:18 -0500
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656B28CD09
-        for <linux-input@vger.kernel.org>; Fri, 13 Jan 2023 15:20:12 -0800 (PST)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-15eeec85280so2802531fac.11
-        for <linux-input@vger.kernel.org>; Fri, 13 Jan 2023 15:20:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TQ9PrP3iNHpghVpkywhiMHcSFTwXN8kLEUSP7zNfGWk=;
-        b=HEeiDnUeOlaMmzrHg6LtTWNe2KIF6Q5d6PASMOjvpBnFNwlXnpxtBoyLsjdUSiFic5
-         Zy4GrupmECG1CN3m99XRInimzLkAyFlnAC1yFwr9ZV5WqZ8Mxia0axE41+SyDlpGZHOF
-         b9/hPmk9ZzrDZTerjRuPw9aOBuwmuFZgGCgGCyi5DNv5BOgrp6hpzWbx8PiSSS3PCS6S
-         UoJjpLq7r0mXx6nv8CL2PCVxH6W+Fc0fSdqCoguiOJxRwovXLajxMhMVOFQITRvWQd2L
-         +x8hdq/wHJdMhQD25h3cEnBEwX4srdIbxyBywCRXQlXO+4KVbgaam+X20emmeoxJCckb
-         5wPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TQ9PrP3iNHpghVpkywhiMHcSFTwXN8kLEUSP7zNfGWk=;
-        b=K8R/YQ7y1Oo9aM4y278iFFx61s3Ft1CvRM9sAzlDa2NXySJPdAZQHl3tBrUFr9vIHp
-         6TQ7fpMSQb6jZ+yjoBgPldMq9vVF7EQNFItnphWE/DSgBSP8E+4us0t4R3GPs1xYcwEm
-         0wIkV4hbetBzSqPfXKwGeP8VHYuu7PSfj+z6Eb9EYuIynEQi3LlQwtTHXnwksWL6APWI
-         ru6+yid5zwcAwVmszpZA7kh+A5NNOIjBSxPMdmhBjRUb/MKdYkyQfyC74/hjhoaaurKj
-         eK9OoNlgULse7OuPrc+kSuXHyn0ETuNqGIJMK85pXy+PxDlgjCniPwbYBhDux35p3DO/
-         qZNQ==
-X-Gm-Message-State: AFqh2kowVJZXFm2VatZCUZl+HxbLW4nm/QdinIl8tEJlt//Lx7bec3/N
-        C5+ZV5Dah3xp2aeHe0OeBhFwZQ==
-X-Google-Smtp-Source: AMrXdXu9HHEo/oiUtz2RMFCVU9bzsQZjZJ6cJq7QQE+EgrBS53y1RWYqF/4GpGuzhXIiUysKwMTRjQ==
-X-Received: by 2002:a05:6871:4090:b0:155:cb39:7325 with SMTP id kz16-20020a056871409000b00155cb397325mr16579350oab.6.1673652012126;
-        Fri, 13 Jan 2023 15:20:12 -0800 (PST)
-Received: from [192.168.86.224] ([136.62.38.22])
-        by smtp.gmail.com with ESMTPSA id z13-20020a056870738d00b0013ae39d0575sm11411907oam.15.2023.01.13.15.20.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 15:20:11 -0800 (PST)
-Message-ID: <38200b53-c743-4396-6603-7274f4a29c86@landley.net>
-Date:   Fri, 13 Jan 2023 17:32:20 -0600
+        Sat, 14 Jan 2023 12:02:51 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A260AA5F6
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 09:02:49 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E3FD60BC1
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 17:02:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A991C433D2;
+        Sat, 14 Jan 2023 17:02:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673715768;
+        bh=tRQXDArWf8Unud5toS4LvkdCgfKWkAxY0EJ+ydnKOGU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jWpDpIWQ0zj16sMm/V8fRfiVvFVNnzZ71zDWDfIYPG5Fjyp+QKvp7tkGl00SeVdXB
+         u3cjYLpog3l+cW32L5XCLBbKXwnJA91lNjTxKv6RqnrsiwvBlh6S2UxaBsdxKjkk9C
+         T9yqoHkI+mEh0P3Fza9n8Jg0GJnB0012e53PS/xHNq132lJOmemkgkKdvMELzBmE8s
+         OTmmRbYUX96W8HH2ZraJD7r7T0BG0rnh//B4ybldA+mnPfbePNdeIRdxUdPUdQjof+
+         8tly5ldhWGkqyPArLgJkK72XvYXhMQupVigmTMvtXooQQveXennMCKYlguuf3paJTd
+         tMjIfuJ/E4WAQ==
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     jic23@kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Caleb Connolly <caleb@connolly.tech>,
+        Andi Shyti <andi@etezian.org>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Javier Martinez Canillas <javier@dowhile0.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 00/16] Input: Switch to new PM macros set 3
+Date:   Sat, 14 Jan 2023 17:16:04 +0000
+Message-Id: <20230114171620.42891-1-jic23@kernel.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: remove arch/sh
-Content-Language: en-US
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <CAMuHMdUcnP6a9Ch5=_CMPq-io-YWK5pshkOT2nZmP1hvNcwBAg@mail.gmail.com>
- <142532fb-5997-bdc1-0811-a80ae33f4ba4@physik.fu-berlin.de>
- <6891afb6-4190-6a52-0319-745b3f138d97@landley.net>
- <fe09d811-e290-821d-ec8b-75936b6583c2@physik.fu-berlin.de>
-From:   Rob Landley <rob@landley.net>
-In-Reply-To: <fe09d811-e290-821d-ec8b-75936b6583c2@physik.fu-berlin.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 1/13/23 13:05, John Paul Adrian Glaubitz wrote:
-> Hi Rob!
-> 
-> On 1/13/23 20:11, Rob Landley wrote:
->> There is definitely interest in this architecture. I'm aware Rich hasn't been
->> the most responsive maintainer. (I'm told he's on vacation with his family at
->> the moment, according to the text I got about this issue from the J-core
->> hardware guys in Japan.)
-> 
-> Well, maybe we can just give it a try together ...
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Jeff Dionne said he'd make himself available to answer hardware questions. (He
-said he maintained some Linux ports 20 years ago, but isn't current with Linux
-plumbing. Last month he was digging through the guts of vxworks, and the project
-before that was some sort of BSD I think?)
+Continuation of
+https://lore.kernel.org/all/20230102181842.718010-1-jic23@kernel.org/
 
-I _do_ maintain Linux patches, I just generally don't bother to repost them
-endlessly. Here's my "on top of 6.1" stack for example, each of which links to
-at least one time it was posted to linux-kernel:
+This time we have most of the remaining drivers where the changes needed
+are more complex than the earlier straight conversions.
 
-https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/linux-patches/
+A separate series will deal with pm80x as the cleanup for that will
+extend to MFD and RTC trees and cannot easily be broken up due to
+some changes in exports.
 
->> The main reason we haven't converted everything to device tree is we only have
->> access to test hardware for a subset of the boards. Pruning the list of
->> supported boards and converting the rest to device tree might make sense. We can
->> always add/convert boards back later...
-> 
-> There is a patch by Yoshinori Sato which adds device tree support to SH. Maybe we
-> can revive it.
+There is a general mixture of cases in here:
+1) More complex direct conversions - typically drivers with separate
+   sleep and runtime pm ops.
+2) Cases where the callbacks or struct dev_pm_ops is exported to
+   multiple modules.
+3) Refactors that avoid duplication of callbacks or exports.
+4) A tweak to the core input handling to use the new macros - this
+   is different from the driver changes, but seemed sensible.
 
-The turtle board is device tree and has been since it was merged. The
-infrastructure is there, the question is converting over boards and testing
-them, or deciding to prune them. Did Sato-san convert many boards? (I'm not
-finding his patch via google...)
+Note there are a few cases in here where I a much more minimal
+set of callbacks is provided than DEFINE_SIMPLE_DEV_PM_OPS() and
+friends would set. I don't know the history behind those so whilst
+they might well be fine converted to the generic macros, I've
+left them alone.
 
-> Adrian
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Caleb Connolly <caleb@connolly.tech>
+Cc: Andi Shyti <andi@etezian.org>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Andrew Duggan <aduggan@synaptics.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>
+Cc: Javier Martinez Canillas <javier@dowhile0.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
 
-Rob
+Jonathan Cameron (16):
+  Input: cyapa - switch to SYSTEM_SLEEP/RUNTIME_PM_OPS() and pm_ptr()
+  Input: axp20x-pek - switch to SYSTEM_SLEEP_PM_OPS() and pm_sleep_ptr()
+  Input: samsung-keypad - switch to pm_ptr() and
+    SYSTEM_SLEEP/RUNTIME_PM_OPS()
+  Input: s6sy761 - switch to SYSTEM_SLEEP_/RUNTIME_PM_OPS() and pm_ptr()
+  Input: rmi4 - switch to SYSTEM_SLEEP/RUNTIME_PM_OPS() and pm_ptr()
+  Input: stmfts - switch to SYSTEM_SLEEP_/RUNTIME_PM_OPS() and pm_ptr()
+  Input: ad714x - unify dev_pm_ops using EXPORT_SIMPLE_DEV_PM_OPS()
+  Input: adxl34x - unify dev_pm_ops using EXPORT_SIMPLE_DEV_PM_OPS()
+  Input: tsc200x - use EXPORT_GPL_SIMPLE_DEV_PM_OPS()
+  Input: cyttsp4 - use EXPORT_GPL_RUNTIME_DEV_PM_OPS()
+  Input: cyttsp - use EXPORT_GPL_SIMPLE_DEV_PM_OPS()
+  Input: applespi - use pm_sleep_ptr() and SYSTEM_SLEEP_PM_OPS()
+  Input: omap4-keyad - use pm_ptr() and RUNTIME_DEV_PM_OPS()
+  Input: Use pm_sleep_ptr() to avoid need for ifdef CONFIG_PM_SLEEP
+  Input: cma3000 - use pm_sleep_ptr() to allow removal of ifdef
+    CONFIG_PM guards
+  Input: wistron_btns -  use pm_sleep_ptr() to allow removal of ifdef
+    CONFIG_PM guards
+
+ drivers/input/input.c                    |  7 ++-----
+ drivers/input/keyboard/applespi.c        | 10 +++++-----
+ drivers/input/keyboard/omap4-keypad.c    |  6 +++---
+ drivers/input/keyboard/samsung-keypad.c  | 12 ++++--------
+ drivers/input/misc/ad714x-i2c.c          | 14 +------------
+ drivers/input/misc/ad714x-spi.c          | 14 +------------
+ drivers/input/misc/ad714x.c              | 12 ++++++------
+ drivers/input/misc/ad714x.h              |  4 ++--
+ drivers/input/misc/adxl34x-i2c.c         | 25 +-----------------------
+ drivers/input/misc/adxl34x-spi.c         | 25 +-----------------------
+ drivers/input/misc/adxl34x.c             | 16 +++++++++++----
+ drivers/input/misc/adxl34x.h             |  4 ++--
+ drivers/input/misc/axp20x-pek.c          | 12 +++++-------
+ drivers/input/misc/cma3000_d0x_i2c.c     |  6 +-----
+ drivers/input/misc/wistron_btns.c        |  6 +-----
+ drivers/input/mouse/cyapa.c              | 14 ++++++-------
+ drivers/input/rmi4/rmi_i2c.c             | 11 +++--------
+ drivers/input/rmi4/rmi_smbus.c           | 15 +++++++-------
+ drivers/input/rmi4/rmi_spi.c             | 11 +++--------
+ drivers/input/touchscreen/cyttsp4_core.c |  9 ++-------
+ drivers/input/touchscreen/cyttsp4_i2c.c  |  2 +-
+ drivers/input/touchscreen/cyttsp4_spi.c  |  2 +-
+ drivers/input/touchscreen/cyttsp_core.c  |  7 +++----
+ drivers/input/touchscreen/cyttsp_i2c.c   |  2 +-
+ drivers/input/touchscreen/cyttsp_spi.c   |  2 +-
+ drivers/input/touchscreen/s6sy761.c      | 15 +++++++-------
+ drivers/input/touchscreen/stmfts.c       | 14 ++++++-------
+ drivers/input/touchscreen/tsc2004.c      |  2 +-
+ drivers/input/touchscreen/tsc2005.c      |  2 +-
+ drivers/input/touchscreen/tsc200x-core.c |  7 +++----
+ 30 files changed, 95 insertions(+), 193 deletions(-)
+
+-- 
+2.39.0
+
