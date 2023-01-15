@@ -2,166 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6280866AD7E
-	for <lists+linux-input@lfdr.de>; Sat, 14 Jan 2023 20:48:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1A3866AEEF
+	for <lists+linux-input@lfdr.de>; Sun, 15 Jan 2023 01:43:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230365AbjANTr7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 14 Jan 2023 14:47:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34016 "EHLO
+        id S230458AbjAOAn3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Jan 2023 19:43:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230345AbjANTry (ORCPT
+        with ESMTP id S230416AbjAOAnY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 14 Jan 2023 14:47:54 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D64DA5C9;
-        Sat, 14 Jan 2023 11:47:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 08284B80A36;
-        Sat, 14 Jan 2023 19:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1236C433D2;
-        Sat, 14 Jan 2023 19:47:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673725670;
-        bh=h5oj8uz2mcobJK2H+Hm87QzyJogghFxebdxYASXr6cM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KiDrcBr9xYYjYZegA2r59TFavCdH1lJzSKxoSZ6AnPCL95MfbvVcN/2vpGfdMQsPS
-         cEQ2xGXQikIXt/oa7BuEOV6UUTZwitOmkFZ/IQb+AHojukxeVTNXd7gT4AN+4AE5TF
-         xNB1KvHvAWsJJQiJjtrAHEfQ7gL3a2YeYtcoQ+/mKfhDWWwOGZOAOFuWdRRkKcBSR0
-         1oLifEXl8Pf53b4bHvQbdXl5r9PY9o9nUOziEzSMP57fwtK63MPFONd5i1qND5Tz2V
-         HfKNpJPuqhUU/n0FFCruuQnRLZajl/DjGHd0wL593NZ07RyNMpUnjrPASGFfUoszoq
-         wt6ROkuSivsgA==
-From:   SeongJae Park <sj@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     SeongJae Park <sj@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-        linux-input@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: [PATCH 2/2] Docs: Add some missing SPDX license identifiers of subsystem docs
-Date:   Sat, 14 Jan 2023 19:47:41 +0000
-Message-Id: <20230114194741.115855-2-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230114194741.115855-1-sj@kernel.org>
-References: <20230114194741.115855-1-sj@kernel.org>
+        Sat, 14 Jan 2023 19:43:24 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D3BA27A
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 16:43:22 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id h185so20568641oif.5
+        for <linux-input@vger.kernel.org>; Sat, 14 Jan 2023 16:43:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VA+b6ERucM0SVhgS+CxkVoqDPdylXXEER7Oavou/n5c=;
+        b=AWOVJoTRCZIzDDPEVrLicc1SKpwl7KTn8Ol48utvExDUblpnjljkkxvHgz5x7ZXre+
+         8m1djuSOUoerjvNlDkOsvOoru5Slmn51JdtG4yWzqApm65GcAawUt0a4970Ve8qE/PbE
+         WIpzUe/igEignY6RXJsMefYQMCJguWlv4sRLkistNu2yHDIEgQ5le/hWruMQxtCBR8qR
+         R0Xe1ZeaqdcCUIm6QnssL2hDeKkpiOJ4cANGy/HkgZiIyg5h2uIoq1Znienu3k+LNYC0
+         mG/pqdest+Z0kWbWIAyWD+qrcbh4pkalGKoAU1Y3Z3G0iffow+5qADIIMc/6gwB/2uWn
+         mYPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VA+b6ERucM0SVhgS+CxkVoqDPdylXXEER7Oavou/n5c=;
+        b=ZYU0nD2RLeLllpgo85KIqbi2jtEH6JIBbwM/v+AJUCWGwdSaY6b9WXnQnUnktfPkfa
+         2VKZGwgCfpHYj+NbphmUdeIPEjwUd5hcWecnv9GNWU5tBWdoTV5Tv4YX7uXNbp5iFlul
+         EgniT2mt145Unz/wpyrJ2tznByJckbZ2LmFe78AUKXxAAq7rU6EgqpSchT1de057hIHN
+         diNrid8lVVx2AWKXYRCP3j80ClSwo03tYlAqgo4q1e39w/4K6U+v1QCQf8lTDoYUPWZI
+         xhQDTMPFVL9h+n7x0eAQ/u80UhceMNhKfKe67e6zLrWsYIWXDetFH4w6actR3H8Th8iS
+         WmUw==
+X-Gm-Message-State: AFqh2kqsmKd+oiCd2eD3iTqE2T9Rs4tJ50zjUNHzl2TVUrTFq2qggVZA
+        05p3WTMnEfh61Nj1Yhqw/Rn6Ag==
+X-Google-Smtp-Source: AMrXdXtmlbzCnjvw02a750r61CcJJIRVFXhgi7CC+Te697GM+nVvImU+iajKPZiIXIE5Si7tn9Lk3Q==
+X-Received: by 2002:aca:c189:0:b0:35a:6005:3dc5 with SMTP id r131-20020acac189000000b0035a60053dc5mr35396207oif.51.1673743401843;
+        Sat, 14 Jan 2023 16:43:21 -0800 (PST)
+Received: from [192.168.86.224] ([136.62.38.22])
+        by smtp.gmail.com with ESMTPSA id l10-20020a056808020a00b00360e46a1edasm10935583oie.22.2023.01.14.16.43.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Jan 2023 16:43:21 -0800 (PST)
+Message-ID: <fe206345-9445-f1be-02c1-b3cc39a533ef@landley.net>
+Date:   Sat, 14 Jan 2023 18:55:31 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 02/22] usb: remove the dead USB_OHCI_SH option
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-3-hch@lst.de> <Y8EEbCP6PRMzWP5y@kroah.com>
+From:   Rob Landley <rob@landley.net>
+In-Reply-To: <Y8EEbCP6PRMzWP5y@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some subsystem documents are missing SPDX license identifiers.  Add
-those.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/crypto/index.rst     | 2 ++
- Documentation/driver-api/index.rst | 2 ++
- Documentation/gpu/index.rst        | 2 ++
- Documentation/hwmon/index.rst      | 2 ++
- Documentation/input/index.rst      | 2 ++
- Documentation/mm/index.rst         | 2 ++
- Documentation/scheduler/index.rst  | 2 ++
- Documentation/sound/index.rst      | 2 ++
- 8 files changed, 16 insertions(+)
 
-diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index da5d5ad2bdf3..95b0870e09b8 100644
---- a/Documentation/crypto/index.rst
-+++ b/Documentation/crypto/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==========
- Crypto API
- ==========
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index b208e0dac3a0..7a2584ab63c4 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==============================
- Driver implementer's API guide
- ==============================
-diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-index eee5996acf2c..ff06a6b12c5e 100644
---- a/Documentation/gpu/index.rst
-+++ b/Documentation/gpu/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ============================
- GPU Driver Developer's Guide
- ============================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index c2b3c1a822dd..2186d732654f 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===================
- Hardware Monitoring
- ===================
-diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
-index 35581cd18e91..d60bf9cfe005 100644
---- a/Documentation/input/index.rst
-+++ b/Documentation/input/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===================
- Input Documentation
- ===================
-diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-index 5a94a921ea40..c4e9fbacaf38 100644
---- a/Documentation/mm/index.rst
-+++ b/Documentation/mm/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===============================
- Memory Management Documentation
- ===============================
-diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-index 1aac972a652f..ae0229f5a9cf 100644
---- a/Documentation/scheduler/index.rst
-+++ b/Documentation/scheduler/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- =========
- Scheduler
- =========
-diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
-index 5abed5fc6485..7e67e12730d3 100644
---- a/Documentation/sound/index.rst
-+++ b/Documentation/sound/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- =============================
- Sound Subsystem Documentation
- =============================
--- 
-2.25.1
+On 1/13/23 01:12, Greg Kroah-Hartman wrote:
+> On Fri, Jan 13, 2023 at 07:23:19AM +0100, Christoph Hellwig wrote:
+>> USB_OHCI_SH is a dummy option that never builds any code, remove it.
+>> 
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>  drivers/usb/host/Kconfig | 11 -----------
+>>  1 file changed, 11 deletions(-)
+>> 
+>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+>> index 8d799d23c476e1..ca5f657c092cf4 100644
+>> --- a/drivers/usb/host/Kconfig
+>> +++ b/drivers/usb/host/Kconfig
+>> @@ -548,17 +548,6 @@ config USB_OHCI_HCD_SSB
+>>  
+>>  	  If unsure, say N.
+>>  
+>> -config USB_OHCI_SH
+>> -	bool "OHCI support for SuperH USB controller (DEPRECATED)"
+>> -	depends on SUPERH || COMPILE_TEST
+>> -	select USB_OHCI_HCD_PLATFORM
+>> -	help
+>> -	  This option is deprecated now and the driver was removed, use
+>> -	  USB_OHCI_HCD_PLATFORM instead.
+>> -
+>> -	  Enables support for the on-chip OHCI controller on the SuperH.
+>> -	  If you use the PCI OHCI controller, this option is not necessary.
+>> -
+>>  config USB_OHCI_EXYNOS
+>>  	tristate "OHCI support for Samsung S5P/Exynos SoC Series"
+>>  	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+>> -- 
+>> 2.39.0
+>> 
+> 
+> Do you want all of these to go through a single tree, or can they go
+> through the different driver subsystem trees?
 
+Neither please. Multiple people are objecting.
+
+Rob
