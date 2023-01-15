@@ -2,87 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B0666B1DD
-	for <lists+linux-input@lfdr.de>; Sun, 15 Jan 2023 16:09:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04BE066B21F
+	for <lists+linux-input@lfdr.de>; Sun, 15 Jan 2023 16:36:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230432AbjAOPJP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 15 Jan 2023 10:09:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49478 "EHLO
+        id S231395AbjAOPgT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 Jan 2023 10:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231280AbjAOPJO (ORCPT
+        with ESMTP id S231214AbjAOPgS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 15 Jan 2023 10:09:14 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECFA87ED1
-        for <linux-input@vger.kernel.org>; Sun, 15 Jan 2023 07:09:12 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 876821EC042F
-        for <linux-input@vger.kernel.org>; Sun, 15 Jan 2023 16:09:11 +0100 (CET)
-Received: from deliver ([unix socket])
-         by localhost (Cyrus v2.4.17-caldav-beta9-Debian-2.4.17+caldav~beta9-3) with LMTPA;
-         Sun, 15 Jan 2023 15:19:22 +0100
-X-Sieve: CMU Sieve 2.4
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPS id 0FED41EC0513
-        for <bp@alien8.de>; Sun, 15 Jan 2023 15:19:22 +0100 (CET)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 89C0260C8E
-        for <bp@alien8.de>; Sun, 15 Jan 2023 14:19:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E6E54C433F2
-        for <bp@alien8.de>; Sun, 15 Jan 2023 14:19:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673792359;
-        bh=8QG0LoL5mJCyDTNQGeLr5sOqIRFyOE9VEs16f7QMd8w=;
-        h=From:To:Subject:Date:From;
-        b=ZIMrtcltaahxv+JPXwAlVIU5cCpsYnCep12iu5Kw9Qq1PVNdUGErgy7v0LRfz2Zlc
-         QGMlh/nhVEnRyPAWNljdZ3mHb+4/HHiDUXoSDRKtxELLY6QE+TiscZx2goTcU54TZC
-         M4rPMfCNgujs3o8gbhVtIQOi9norGDMgDf3YeATblTk9v/q0immdYZG3LH7twjTpBw
-         gl8Tbhl52eBRb0ShmFcwA253YNzUJMyTMsRXdSSUcd3TBOXljm7ZybNpmg76JN1euL
-         ndU8C/cO3PH46Hl1/i27+r6lUos+tljVJFriOwuuodAKhR3m4WEDWazwL5LvYXmObv
-         ONKTkExJHpPiA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id D183AC43145; Sun, 15 Jan 2023 14:19:19 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     bp@alien8.de
-Subject: [Bug 216933] New: brightness keys not working on Lenovo ideapad 3
-Date:   Sun, 15 Jan 2023 14:19:19 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo platform_x86_64@kernel-bugs.osdl.org
-X-Bugzilla-Product: Platform Specific/Hardware
-X-Bugzilla-Component: x86-64
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tuxuser@quantentunnel.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: platform_x86_64@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-216933-6385@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Sun, 15 Jan 2023 10:36:18 -0500
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CE05B83;
+        Sun, 15 Jan 2023 07:36:17 -0800 (PST)
+Received: by mail-ot1-x332.google.com with SMTP id j16-20020a056830271000b0067202045ee9so14887309otu.7;
+        Sun, 15 Jan 2023 07:36:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
+        b=ESYN/lgtsCJz1vk5hIWF8P0XT3zE4HOkfbCef61dEh9nfpUszGpqaILDdbRYwRpBaS
+         Gq0n3cdms6iw0aRSFDJpioaByPmQbKCQP0DMmTGvyCsapfKPYKjs4KTwwNR87Zitspdn
+         tniK5INo56zs/GSaaJc39/v4ceiIJC1pB59guwU6dk/ST7wHrW1GsjBxDt0fMLpUe9Og
+         1v9Whb4AApgIKVhjQbVH2MHL30mD29abfoMS+VPtLoheVkY7LhOupZe8UcHafZllZEmR
+         Q02XH5CuaiXHw9on84tyYVxbzt6ZWhdpxJ/RGI0Gk5dJ5RFTO2+nukuT+lKm/LaCi8GD
+         Tvcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
+        b=g9f7Piy/Nq3PFywGEVd18+BFVQ/jYGX1rjf15FY+4/ZsQXR3JUOzNER+Nr/dyI2qqK
+         t0dlW65vbjI0IDyRgVfUEtEyQM8AFmMLMjT9CbadShDF2l8c13GPt3ANBv6UkjGS5WHq
+         LtenkYbMBb4+ipZy0V6N6XbZjg6Ku1c1VaYVIJ4bXqp3T5WMHNwNq1BaATKDkVutPFq6
+         MNZAtO3KdB6uaeLXDfoksNRnarhsMv2vxefCJ61+ICYmJ/VTgoKb2oxcNcKK+kv/mDXD
+         A6u9O6fRVDwF/u8O22CGHXYS9FzjEqKrMn8icCiirhgA56zBwVYAXt+RHj/7cLmh8lVq
+         QaOw==
+X-Gm-Message-State: AFqh2kpqpxwuVaqZTqlWgYBWAlX9LSol4gywmZC0biwr0sjd5Pyyrc35
+        Tq09VdHwZIX0WGG1AX7ic8ms9/QsdsQQtwGhCv4=
+X-Google-Smtp-Source: AMrXdXu/zET195jKhsFTVp5xxmwIScKWmACgEKUi1QrBdrbk6v28T2qMy0jJBHOkkSBc+MnjFZnNZuARMBSt9P0VdRA=
+X-Received: by 2002:a9d:489:0:b0:684:bedc:4f54 with SMTP id
+ 9-20020a9d0489000000b00684bedc4f54mr837621otm.233.1673796976794; Sun, 15 Jan
+ 2023 07:36:16 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: mail.skyhub.de;
-        dkim=pass header.d=kernel.org header.s=k20201202 header.b=ZIMrtclt;
-        dmarc=pass (policy=none) header.from=kernel.org;
-        spf=pass (mail.skyhub.de: domain of bugzilla-daemon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org
-X-Spamd-Bar: --------
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+References: <20230114194741.115855-1-sj@kernel.org> <20230114194741.115855-2-sj@kernel.org>
+In-Reply-To: <20230114194741.115855-2-sj@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Sun, 15 Jan 2023 10:35:57 -0500
+Message-ID: <CADnq5_OUnkzoZcCdW0X-=gJsXSRgY=GLrbmfNj0geDCzL5a7eQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Docs: Add some missing SPDX license identifiers of
+ subsystem docs
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jean Delvare <jdelvare@suse.com>, linux-crypto@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-input@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,45 +79,111 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216933
+On Sat, Jan 14, 2023 at 2:48 PM SeongJae Park <sj@kernel.org> wrote:
+>
+> Some subsystem documents are missing SPDX license identifiers.  Add
+> those.
 
-            Bug ID: 216933
-           Summary: brightness keys not working on Lenovo ideapad 3
-           Product: Platform Specific/Hardware
-           Version: 2.5
-    Kernel Version: 6.1.5
-          Hardware: Intel
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: x86-64
-          Assignee: platform_x86_64@kernel-bugs.osdl.org
-          Reporter: tuxuser@quantentunnel.de
-        Regression: No
+It would be good to split this up per subsystem.
 
-System: Lenovo ideapad 3
-OS: openSUSE Leap 15.4, all updates installed
-Kernel: 6.1.5, 5.14.21-150400.38-default
+>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/crypto/index.rst     | 2 ++
+>  Documentation/driver-api/index.rst | 2 ++
+>  Documentation/gpu/index.rst        | 2 ++
+>  Documentation/hwmon/index.rst      | 2 ++
+>  Documentation/input/index.rst      | 2 ++
+>  Documentation/mm/index.rst         | 2 ++
+>  Documentation/scheduler/index.rst  | 2 ++
+>  Documentation/sound/index.rst      | 2 ++
+>  8 files changed, 16 insertions(+)
+>
+> diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+> index da5d5ad2bdf3..95b0870e09b8 100644
+> --- a/Documentation/crypto/index.rst
+> +++ b/Documentation/crypto/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ==========
+>  Crypto API
+>  ==========
+> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+> index b208e0dac3a0..7a2584ab63c4 100644
+> --- a/Documentation/driver-api/index.rst
+> +++ b/Documentation/driver-api/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ==============================
+>  Driver implementer's API guide
+>  ==============================
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index eee5996acf2c..ff06a6b12c5e 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 
-Brightness keys are not working. When pressing these in kde plasma no
-brightness increase / decrease indicator is shown.
-The brightness system itself is working: When changing the brightness using=
- the
-plasma battery applet, the brightness changes as expected.
+Most of the DRM code is MIT.  I'd expect this would be MIT as well.
 
-Changing to runlevel 3 showkey and evtest don't respond to pressing these k=
-eys.
-They only respond to other keys.
-evtest displays
-/dev/input/event1 is Video Bus
-Here it displays Event code 224 for KEY_BRIGHTNESSDOWN and Event code 225 f=
-or
-KEY_BRIGHTNESSUP. But pressing the buttons leads to no response.
+Alex
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> +
+>  ============================
+>  GPU Driver Developer's Guide
+>  ============================
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index c2b3c1a822dd..2186d732654f 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Hardware Monitoring
+>  ===================
+> diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
+> index 35581cd18e91..d60bf9cfe005 100644
+> --- a/Documentation/input/index.rst
+> +++ b/Documentation/input/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Input Documentation
+>  ===================
+> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+> index 5a94a921ea40..c4e9fbacaf38 100644
+> --- a/Documentation/mm/index.rst
+> +++ b/Documentation/mm/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===============================
+>  Memory Management Documentation
+>  ===============================
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index 1aac972a652f..ae0229f5a9cf 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  =========
+>  Scheduler
+>  =========
+> diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
+> index 5abed5fc6485..7e67e12730d3 100644
+> --- a/Documentation/sound/index.rst
+> +++ b/Documentation/sound/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  =============================
+>  Sound Subsystem Documentation
+>  =============================
+> --
+> 2.25.1
+>
