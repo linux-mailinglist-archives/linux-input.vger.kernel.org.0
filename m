@@ -2,119 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2672166C1FB
-	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 15:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75FC266C273
+	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 15:44:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232243AbjAPORD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Jan 2023 09:17:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38864 "EHLO
+        id S229648AbjAPOoF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Jan 2023 09:44:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232260AbjAPOOx (ORCPT
+        with ESMTP id S230313AbjAPOn1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Jan 2023 09:14:53 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E24372FCE9;
-        Mon, 16 Jan 2023 06:05:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3642A60FC9;
-        Mon, 16 Jan 2023 14:05:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1C26C433F2;
-        Mon, 16 Jan 2023 14:05:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673877942;
-        bh=ENBJXackha8omqNqOhEs9TxO3aOO2kDId+z48P+U3UU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=peZ4dV2rhfz5thHk+0oKxTqhr9VskkNXihVR34mOVLA6nGBZQoLjFWFpFzVNA0AFq
-         hgFgf85eF+GWkwQFBI9dtVsZs4wGvBxjVaDjIbYYMUuAwvnJ4eZ5vNvaQeblFu3XCP
-         FGxzKIS18XoiX3cnnCgRL9NLomGJMRWGD5qIy/X/7hrWmlR2PaYpgmcXu4UqzxkM8H
-         qpzjQHUJqjMXHJDSI+SARsYislUCB7SJBE+ej/Qr/YmmEgH6tVEEaSMsppE3lymz7+
-         dxf5hc1YBsALMu1tWJKxF1qOWLZ6I7Hu5xYno5gVAhdW6CzzeoWPNODNrNYn9p/0HM
-         Rjt/Zmvtzfdhw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Michael Klein <m.klein@mvz-labor-lb.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 13/16] platform/x86: touchscreen_dmi: Add info for the CSL Panther Tab HD
-Date:   Mon, 16 Jan 2023 09:05:16 -0500
-Message-Id: <20230116140520.116257-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230116140520.116257-1-sashal@kernel.org>
-References: <20230116140520.116257-1-sashal@kernel.org>
+        Mon, 16 Jan 2023 09:43:27 -0500
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 785C734548
+        for <linux-input@vger.kernel.org>; Mon, 16 Jan 2023 06:21:03 -0800 (PST)
+Date:   Mon, 16 Jan 2023 14:20:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1673878861; x=1674138061;
+        bh=Sfy0m7zMzls91IWFR2crDfn3FuzrRA5EIx9SdCXE8qk=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=nR7HwKon03AN1Ca0UeujedWFB5XTj6dK2271ihHkLFPF79PbR4MjoEkwFlR/z3aka
+         IEokS6xKGuO7Ofw5m4MjVOLONxAk6KAhuYS7CbZd2FBsvcZAhlJnENoyoxRhBYHBlc
+         2YzFEv7c0dhakqPZgPigfmWQnqH3QbrmAoJeu0bo=
+To:     Jonathan Cameron <jic23@kernel.org>, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From:   Caleb Connolly <caleb@connolly.tech>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Andi Shyti <andi@etezian.org>
+Subject: Re: [PATCH 04/16] Input: s6sy761 - switch to SYSTEM_SLEEP_/RUNTIME_PM_OPS() and pm_ptr()
+Message-ID: <3c6c160f-4f35-859d-9f06-92477174cbb4@connolly.tech>
+In-Reply-To: <20230114171620.42891-5-jic23@kernel.org>
+References: <20230114171620.42891-1-jic23@kernel.org> <20230114171620.42891-5-jic23@kernel.org>
+Feedback-ID: 10753939:user:proton
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Michael Klein <m.klein@mvz-labor-lb.de>
 
-[ Upstream commit 36c2b9d6710427f802494ba070621cb415198293 ]
 
-Add touchscreen info for the CSL Panther Tab HD.
+On 14/01/2023 17:16, Jonathan Cameron wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>
+> SET_SYSTEM_SLEEP_PM_OPS() and SET_RUNTIME_PM_OPS() are deprecated as
+> they require explicit protection against unused function warnings.
+> The new combination of pm_ptr() and SYSTEM_SLEEP_PM_OPS()/
+> RUNTIME_PM_OPS() allows the compiler to see the functions,
+> thus suppressing the warning, but still allowing the unused code to be
+> removed. Thus also drop the __maybe_unused markings.
+>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Signed-off-by: Michael Klein <m.klein@mvz-labor-lb.de>
-Link: https://lore.kernel.org/r/20221220121103.uiwn5l7fii2iggct@LLGMVZLB-0037
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Tested-by: Caleb Connolly <caleb@connolly.tech> # oneplus-guacamole
+> Cc: Caleb Connolly <caleb@connolly.tech>
+> Cc: Andi Shyti <andi@etezian.org>
+> ---
+>  drivers/input/touchscreen/s6sy761.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/input/touchscreen/s6sy761.c b/drivers/input/touchscr=
+een/s6sy761.c
+> index cc417c03aaca..371cf4848ad5 100644
+> --- a/drivers/input/touchscreen/s6sy761.c
+> +++ b/drivers/input/touchscreen/s6sy761.c
+> @@ -479,7 +479,7 @@ static void s6sy761_remove(struct i2c_client *client)
+>  =09pm_runtime_disable(&client->dev);
+>  }
+>
+> -static int __maybe_unused s6sy761_runtime_suspend(struct device *dev)
+> +static int s6sy761_runtime_suspend(struct device *dev)
+>  {
+>  =09struct s6sy761_data *sdata =3D dev_get_drvdata(dev);
+>
+> @@ -487,7 +487,7 @@ static int __maybe_unused s6sy761_runtime_suspend(str=
+uct device *dev)
+>  =09=09=09=09S6SY761_APPLICATION_MODE, S6SY761_APP_SLEEP);
+>  }
+>
+> -static int __maybe_unused s6sy761_runtime_resume(struct device *dev)
+> +static int s6sy761_runtime_resume(struct device *dev)
+>  {
+>  =09struct s6sy761_data *sdata =3D dev_get_drvdata(dev);
+>
+> @@ -495,7 +495,7 @@ static int __maybe_unused s6sy761_runtime_resume(stru=
+ct device *dev)
+>  =09=09=09=09S6SY761_APPLICATION_MODE, S6SY761_APP_NORMAL);
+>  }
+>
+> -static int __maybe_unused s6sy761_suspend(struct device *dev)
+> +static int s6sy761_suspend(struct device *dev)
+>  {
+>  =09struct s6sy761_data *sdata =3D dev_get_drvdata(dev);
+>
+> @@ -504,7 +504,7 @@ static int __maybe_unused s6sy761_suspend(struct devi=
+ce *dev)
+>  =09return 0;
+>  }
+>
+> -static int __maybe_unused s6sy761_resume(struct device *dev)
+> +static int s6sy761_resume(struct device *dev)
+>  {
+>  =09struct s6sy761_data *sdata =3D dev_get_drvdata(dev);
+>
+> @@ -514,9 +514,8 @@ static int __maybe_unused s6sy761_resume(struct devic=
+e *dev)
+>  }
+>
+>  static const struct dev_pm_ops s6sy761_pm_ops =3D {
+> -=09SET_SYSTEM_SLEEP_PM_OPS(s6sy761_suspend, s6sy761_resume)
+> -=09SET_RUNTIME_PM_OPS(s6sy761_runtime_suspend,
+> -=09=09=09=09s6sy761_runtime_resume, NULL)
+> +=09SYSTEM_SLEEP_PM_OPS(s6sy761_suspend, s6sy761_resume)
+> +=09RUNTIME_PM_OPS(s6sy761_runtime_suspend, s6sy761_runtime_resume, NULL)
+>  };
+>
+>  #ifdef CONFIG_OF
+> @@ -537,7 +536,7 @@ static struct i2c_driver s6sy761_driver =3D {
+>  =09.driver =3D {
+>  =09=09.name =3D S6SY761_DEV_NAME,
+>  =09=09.of_match_table =3D of_match_ptr(s6sy761_of_match),
+> -=09=09.pm =3D &s6sy761_pm_ops,
+> +=09=09.pm =3D pm_ptr(&s6sy761_pm_ops),
+>  =09},
+>  =09.probe_new =3D s6sy761_probe,
+>  =09.remove =3D s6sy761_remove,
+> --
+> 2.39.0
+>
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 515c66ca1aec..61cb1a4a8257 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -169,6 +169,23 @@ static const struct ts_dmi_data connect_tablet9_data = {
- 	.properties     = connect_tablet9_props,
- };
- 
-+static const struct property_entry csl_panther_tab_hd_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y", 20),
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1526),
-+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-+	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-csl-panther-tab-hd.fw"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data csl_panther_tab_hd_data = {
-+	.acpi_name      = "MSSL1680:00",
-+	.properties     = csl_panther_tab_hd_props,
-+};
-+
- static const struct property_entry cube_iwork8_air_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 3),
-@@ -721,6 +738,14 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Tablet 9"),
- 		},
- 	},
-+	{
-+		/* CSL Panther Tab HD */
-+		.driver_data = (void *)&csl_panther_tab_hd_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "CSL Computer GmbH & Co. KG"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "CSL Panther Tab HD"),
-+		},
-+	},
- 	{
- 		/* CUBE iwork8 Air */
- 		.driver_data = (void *)&cube_iwork8_air_data,
--- 
-2.35.1
+--
+Kind Regards,
+Caleb
 
