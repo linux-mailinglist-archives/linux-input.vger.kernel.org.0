@@ -2,100 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72CF866BF44
-	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 14:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA43366C12C
+	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 15:08:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbjAPNOe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Jan 2023 08:14:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36166 "EHLO
+        id S231839AbjAPOIV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Jan 2023 09:08:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231639AbjAPNNg (ORCPT
+        with ESMTP id S231959AbjAPOHO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Jan 2023 08:13:36 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B542D1E5E0;
-        Mon, 16 Jan 2023 05:10:34 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7BB62E0005;
-        Mon, 16 Jan 2023 13:09:38 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: [PATCH] HID: logitech-hidpp: Hard-code HID++ 1.0 fast scroll support
-Date:   Mon, 16 Jan 2023 14:09:37 +0100
-Message-Id: <20230116130937.391441-1-hadess@hadess.net>
-X-Mailer: git-send-email 2.39.0
+        Mon, 16 Jan 2023 09:07:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264672202A;
+        Mon, 16 Jan 2023 06:03:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DA578B80E93;
+        Mon, 16 Jan 2023 14:03:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C03C433A0;
+        Mon, 16 Jan 2023 14:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673877817;
+        bh=ULKksNeFZxXmgOopqYpPVAa6F2fOa6PinMK37fnpjC4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CBXPm/W5FZ35CEUv5QViRYC69OBrzzBvE5qVGYYXkgvT9QqzppdHh+oJfYi69htv3
+         HNPq8vcFoiWgw3wDNA2r4DbuUja5PzGTovflmSC4CtMR6SFNbTxkcsAWkK2uzr2PBb
+         a2WwaNU9RNAwz17A/ElW6yU/Rfz8egDksnnAfkJbOOOrEcJsi4bO1FWMlx/xuvce3x
+         vG9qV9VslcusMYM9eHTTIe9i7lodNw2Z67SnZw+aWP3illo29sQRqdg9G8a7ok1rOJ
+         04fvxyU8Op2n8q9LRAa+QMcGjr+JTkupVH+8XZaMKButzUHOdnKNiY+p8Wt8/jDL9E
+         6xUbtolUwizMw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Michael Klein <m.klein@mvz-labor-lb.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 44/53] platform/x86: touchscreen_dmi: Add info for the CSL Panther Tab HD
+Date:   Mon, 16 Jan 2023 09:01:44 -0500
+Message-Id: <20230116140154.114951-44-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20230116140154.114951-1-sashal@kernel.org>
+References: <20230116140154.114951-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-HID++ 1.0 devices only export whether Fast Scrolling is enabled, not
-whether they are capable of it. Reinstate the original quirks for the 3
-supported mice so fast scrolling works again on those devices.
+From: Michael Klein <m.klein@mvz-labor-lb.de>
 
-Fixes: 908d325 ("HID: logitech-hidpp: Detect hi-res scrolling support")
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=216903
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
+[ Upstream commit 36c2b9d6710427f802494ba070621cb415198293 ]
+
+Add touchscreen info for the CSL Panther Tab HD.
+
+Signed-off-by: Michael Klein <m.klein@mvz-labor-lb.de>
+Link: https://lore.kernel.org/r/20221220121103.uiwn5l7fii2iggct@LLGMVZLB-0037
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index abf2c95e4d0b..fa026e9107c5 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -77,6 +77,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
- #define HIDPP_QUIRK_HIDPP_WHEELS		BIT(26)
- #define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS	BIT(27)
- #define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS	BIT(28)
-+#define HIDPP_QUIRK_HI_RES_SCROLL_1P0		BIT(29)
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index baae3120efd0..f00995390fdf 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -264,6 +264,23 @@ static const struct ts_dmi_data connect_tablet9_data = {
+ 	.properties     = connect_tablet9_props,
+ };
  
- /* These are just aliases for now */
- #define HIDPP_QUIRK_KBD_SCROLL_WHEEL HIDPP_QUIRK_HIDPP_WHEELS
-@@ -3472,14 +3473,8 @@ static int hidpp_initialize_hires_scroll(struct hidpp_device *hidpp)
- 			hid_dbg(hidpp->hid_dev, "Detected HID++ 2.0 hi-res scrolling\n");
- 		}
- 	} else {
--		struct hidpp_report response;
--
--		ret = hidpp_send_rap_command_sync(hidpp,
--						  REPORT_ID_HIDPP_SHORT,
--						  HIDPP_GET_REGISTER,
--						  HIDPP_ENABLE_FAST_SCROLL,
--						  NULL, 0, &response);
--		if (!ret) {
-+		/* We cannot detect fast scrolling support on HID++ 1.0 devices */
-+		if (hidpp->quirks & HIDPP_QUIRK_HI_RES_SCROLL_1P0) {
- 			hidpp->capabilities |= HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL;
- 			hid_dbg(hidpp->hid_dev, "Detected HID++ 1.0 fast scroll\n");
- 		}
-@@ -4296,9 +4291,15 @@ static const struct hid_device_id hidpp_devices[] = {
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
- 		USB_DEVICE_ID_LOGITECH_T651),
- 	  .driver_data = HIDPP_QUIRK_CLASS_WTP },
-+	{ /* Mouse Logitech Anywhere MX */
-+	  LDJ_DEVICE(0x1017), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
- 	{ /* Mouse logitech M560 */
- 	  LDJ_DEVICE(0x402d),
- 	  .driver_data = HIDPP_QUIRK_DELAYED_INIT | HIDPP_QUIRK_CLASS_M560 },
-+	{ /* Mouse Logitech M705 (firmware RQM17) */
-+	  LDJ_DEVICE(0x101b), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
-+	{ /* Mouse Logitech Performance MX */
-+	  LDJ_DEVICE(0x101a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
- 	{ /* Keyboard logitech K400 */
- 	  LDJ_DEVICE(0x4024),
- 	  .driver_data = HIDPP_QUIRK_CLASS_K400 },
++static const struct property_entry csl_panther_tab_hd_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 20),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1526),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-csl-panther-tab-hd.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	{ }
++};
++
++static const struct ts_dmi_data csl_panther_tab_hd_data = {
++	.acpi_name      = "MSSL1680:00",
++	.properties     = csl_panther_tab_hd_props,
++};
++
+ static const struct property_entry cube_iwork8_air_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
+ 	PROPERTY_ENTRY_U32("touchscreen-min-y", 3),
+@@ -1124,6 +1141,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Tablet 9"),
+ 		},
+ 	},
++	{
++		/* CSL Panther Tab HD */
++		.driver_data = (void *)&csl_panther_tab_hd_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "CSL Computer GmbH & Co. KG"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "CSL Panther Tab HD"),
++		},
++	},
+ 	{
+ 		/* CUBE iwork8 Air */
+ 		.driver_data = (void *)&cube_iwork8_air_data,
 -- 
-2.39.0
+2.35.1
 
