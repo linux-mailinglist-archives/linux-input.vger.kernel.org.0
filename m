@@ -2,109 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62FFC66C43C
-	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 16:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AADC666CDDF
+	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 18:45:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjAPPpx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Jan 2023 10:45:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33440 "EHLO
+        id S235002AbjAPRpJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Jan 2023 12:45:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbjAPPpw (ORCPT
+        with ESMTP id S231356AbjAPRoj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Jan 2023 10:45:52 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4A41B56F;
-        Mon, 16 Jan 2023 07:45:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673883951; x=1705419951;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=nCe0S1pP7gr66ZIU7rc/P1INm79GsfNMMBj/cbVwIds=;
-  b=Uo6YTP3FxvTdgeHSZsYXqw+K/gGHPAmEtsJcnlOFrBlJErRKAnQ1yxcs
-   2jtD2ScVpLRQ+WRI3jTPzVyEm1kp9LnaWmAvxBb9p/UPupNIWlOH7/dXz
-   69Enh5k+pLqhN2S6efx65p6ww8IHltWNT21axEUfSqhUr4xc+76pQB7+/
-   TBRymBIL19u+jWtnAuVOobNKMec4VAbrxdeXJDfDf4vnG0/iP2sRIpZRo
-   4NnbMkYn4FaUB+/h9Hm4/6TP8rPXa2VnzVdNa5N9L20Z1c3n5/YLqX2jN
-   9WwgKfqEMc/sUUKTNIfLy/12yxNMZwmEf3D5QLtkHeObraZezwXxmAMmA
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="323188292"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="323188292"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 07:45:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="652296811"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="652296811"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 16 Jan 2023 07:45:49 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 6AE5992; Mon, 16 Jan 2023 17:46:23 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Raul E Rangel <rrangel@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 2/2] HID: i2c-hid: acpi: Unify ACPI ID tables format
-Date:   Mon, 16 Jan 2023 17:46:21 +0200
-Message-Id: <20230116154621.16135-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230116154621.16135-1-andriy.shevchenko@linux.intel.com>
-References: <20230116154621.16135-1-andriy.shevchenko@linux.intel.com>
+        Mon, 16 Jan 2023 12:44:39 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72347568A4;
+        Mon, 16 Jan 2023 09:23:49 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 976966108B;
+        Mon, 16 Jan 2023 17:23:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC4EC433EF;
+        Mon, 16 Jan 2023 17:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673889828;
+        bh=JYdgMzjX3SdtHUhlc4JqQNlQEpIgJ4tHf+fTdHFdHb8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YppIn6k9jGPDSp77P5hlkqwbe3XdHs8C+pzPcjc4LzgHZq9iYLlDNh1+m96T8qzyq
+         4dXD/4siUPnnCXhFsmjoqRbjuRnA0vksn98yQGWysEfS/zuyHJ/j2nvsDgtA4p0Uk+
+         aXmAr6+VAkYhRBKGMwFoZbffaKhAsR5hGlzQAZyE5n+4+POhnM08Gk6apNO7D7aVRP
+         +KmuEPwNNQLujE24eT2vagiEMBqWA3tu3d8zmCpkl4z61/0b17ZwoNy12h6Jv7+mCZ
+         FvSJeU1AcyNui7w2DJ6gyAL0dntf7XuTrPuHFcwKy1Gj2Zebuqkeze/APTUoM178wo
+         qTsgQLVE/AABQ==
+From:   SeongJae Park <sj@kernel.org>
+To:     Alex Deucher <alexdeucher@gmail.com>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, alsa-devel@alsa-project.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jean Delvare <jdelvare@suse.com>, linux-crypto@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-input@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 2/2] Docs: Add some missing SPDX license identifiers of subsystem docs
+Date:   Mon, 16 Jan 2023 17:23:45 +0000
+Message-Id: <20230116172345.12835-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CADnq5_OUnkzoZcCdW0X-=gJsXSRgY=GLrbmfNj0geDCzL5a7eQ@mail.gmail.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Unify ACPI ID tables format by:
-- surrounding HID by spaces
-- dropping unnecessary driver_data assignment to 0
-- dropping comma at the terminator entry
+Hi Alex,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: no changes
- drivers/hid/i2c-hid/i2c-hid-acpi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Sun, 15 Jan 2023 10:35:57 -0500 Alex Deucher <alexdeucher@gmail.com> wrote:
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-index 5e28da45e762..3a7e2bcb5412 100644
---- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-@@ -39,8 +39,8 @@ static const struct acpi_device_id i2c_hid_acpi_blacklist[] = {
- 	 * The CHPN0001 ACPI device, which is used to describe the Chipone
- 	 * ICN8505 controller, has a _CID of PNP0C50 but is not HID compatible.
- 	 */
--	{"CHPN0001", 0 },
--	{ },
-+	{ "CHPN0001" },
-+	{ }
- };
- 
- /* HID I²C Device: 3cdff6f7-4267-4555-ad05-b30a3d8938de */
-@@ -104,9 +104,9 @@ static int i2c_hid_acpi_probe(struct i2c_client *client)
- }
- 
- static const struct acpi_device_id i2c_hid_acpi_match[] = {
--	{"ACPI0C50", 0 },
--	{"PNP0C50", 0 },
--	{ },
-+	{ "ACPI0C50" },
-+	{ "PNP0C50" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, i2c_hid_acpi_match);
- 
--- 
-2.39.0
+> On Sat, Jan 14, 2023 at 2:48 PM SeongJae Park <sj@kernel.org> wrote:
+> >
+> > Some subsystem documents are missing SPDX license identifiers.  Add
+> > those.
+> 
+> It would be good to split this up per subsystem.
 
+Thank you for the comment, will do so in next spin.
+
+
+Thanks,
+SJ
+
+[...]
