@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92F3566C1BD
-	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 15:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2672166C1FB
+	for <lists+linux-input@lfdr.de>; Mon, 16 Jan 2023 15:17:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232347AbjAPOOy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Jan 2023 09:14:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42256 "EHLO
+        id S232243AbjAPORD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Jan 2023 09:17:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232568AbjAPON7 (ORCPT
+        with ESMTP id S232260AbjAPOOx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Jan 2023 09:13:59 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290E323879;
-        Mon, 16 Jan 2023 06:05:21 -0800 (PST)
+        Mon, 16 Jan 2023 09:14:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E24372FCE9;
+        Mon, 16 Jan 2023 06:05:43 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 94AA9B80F9D;
-        Mon, 16 Jan 2023 14:05:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B39AC433EF;
-        Mon, 16 Jan 2023 14:05:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3642A60FC9;
+        Mon, 16 Jan 2023 14:05:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1C26C433F2;
+        Mon, 16 Jan 2023 14:05:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673877915;
-        bh=ZclT+Rr4Amqk2xxKYwoOwr98+nCPydHHUKNDuDbMQzY=;
+        s=k20201202; t=1673877942;
+        bh=ENBJXackha8omqNqOhEs9TxO3aOO2kDId+z48P+U3UU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cSCRtzakXsovTWhVG3efGgdFW+fyx7ja+SqDnjfX5oRc/7uHTta1i5f5Dr4lotcxZ
-         f3To9Sz6kcEs7ALzqnKf8a65UY+YZ6mvdkNEw++lIw5fHl/RrxuAPbpMx3Fl5pKaIw
-         BVZ0tscMXk2OO8RfvUyqiGsoIPd1MCVFuIVnyHKhONOGn+nnS0jSOIP2hibs3ok/+z
-         qW0NOKMePE3H320mxpjQi0lyb4omd7C9IOk31O09M7OPYESX68RKHu9mIcl9zR6lXE
-         PHpHxeLHxLSALmcZcs6A0ea7EdFL4iRJt6eIJUR6kVy4ddnCmoG0xcYIxcQPVSafBS
-         k6YasPOwagm9A==
+        b=peZ4dV2rhfz5thHk+0oKxTqhr9VskkNXihVR34mOVLA6nGBZQoLjFWFpFzVNA0AFq
+         hgFgf85eF+GWkwQFBI9dtVsZs4wGvBxjVaDjIbYYMUuAwvnJ4eZ5vNvaQeblFu3XCP
+         FGxzKIS18XoiX3cnnCgRL9NLomGJMRWGD5qIy/X/7hrWmlR2PaYpgmcXu4UqzxkM8H
+         qpzjQHUJqjMXHJDSI+SARsYislUCB7SJBE+ej/Qr/YmmEgH6tVEEaSMsppE3lymz7+
+         dxf5hc1YBsALMu1tWJKxF1qOWLZ6I7Hu5xYno5gVAhdW6CzzeoWPNODNrNYn9p/0HM
+         Rjt/Zmvtzfdhw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michael Klein <m.klein@mvz-labor-lb.de>,
         Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
         linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 15/17] platform/x86: touchscreen_dmi: Add info for the CSL Panther Tab HD
-Date:   Mon, 16 Jan 2023 09:04:46 -0500
-Message-Id: <20230116140448.116034-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 13/16] platform/x86: touchscreen_dmi: Add info for the CSL Panther Tab HD
+Date:   Mon, 16 Jan 2023 09:05:16 -0500
+Message-Id: <20230116140520.116257-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230116140448.116034-1-sashal@kernel.org>
-References: <20230116140448.116034-1-sashal@kernel.org>
+In-Reply-To: <20230116140520.116257-1-sashal@kernel.org>
+References: <20230116140520.116257-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 25 insertions(+)
 
 diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 110ff1e6ef81..bc26acace2c3 100644
+index 515c66ca1aec..61cb1a4a8257 100644
 --- a/drivers/platform/x86/touchscreen_dmi.c
 +++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -255,6 +255,23 @@ static const struct ts_dmi_data connect_tablet9_data = {
+@@ -169,6 +169,23 @@ static const struct ts_dmi_data connect_tablet9_data = {
  	.properties     = connect_tablet9_props,
  };
  
@@ -100,7 +100,7 @@ index 110ff1e6ef81..bc26acace2c3 100644
  static const struct property_entry cube_iwork8_air_props[] = {
  	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
  	PROPERTY_ENTRY_U32("touchscreen-min-y", 3),
-@@ -1057,6 +1074,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+@@ -721,6 +738,14 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
  			DMI_MATCH(DMI_PRODUCT_NAME, "Tablet 9"),
  		},
  	},
