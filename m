@@ -2,97 +2,203 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19D8766E49F
-	for <lists+linux-input@lfdr.de>; Tue, 17 Jan 2023 18:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A69F66E4CC
+	for <lists+linux-input@lfdr.de>; Tue, 17 Jan 2023 18:22:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232844AbjAQRPw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 17 Jan 2023 12:15:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43528 "EHLO
+        id S235146AbjAQRWu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Jan 2023 12:22:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230147AbjAQRPR (ORCPT
+        with ESMTP id S235184AbjAQRWO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Jan 2023 12:15:17 -0500
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 160004995F;
-        Tue, 17 Jan 2023 09:14:21 -0800 (PST)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NxFl52Jb1z6J6LH;
-        Wed, 18 Jan 2023 01:10:25 +0800 (CST)
-Received: from localhost (10.45.151.130) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 17 Jan
- 2023 17:14:19 +0000
-Date:   Tue, 17 Jan 2023 17:14:17 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Input: ipaq-micro-ts - fix DEFINE_SIMPLE_DEV_PM_OPS
- typo
-Message-ID: <20230117171417.00002890@Huawei.com>
-In-Reply-To: <20230117164539.1631336-1-arnd@kernel.org>
-References: <20230117164539.1631336-1-arnd@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        Tue, 17 Jan 2023 12:22:14 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6071E5D6;
+        Tue, 17 Jan 2023 09:21:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 76B20614E7;
+        Tue, 17 Jan 2023 17:21:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABC2BC433EF;
+        Tue, 17 Jan 2023 17:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673976085;
+        bh=9wwVcHjy8o8R0Tm0Qxk0hELS+dDYumTePIwYrvyTEIY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=O5jTplu/i3ONiBA9HU0qKqCmWa0/F0c4cFMbTxaeekS3wvpkEEVXmn6euceZpoLo9
+         CzVuXu47gE4tdP2lTVtCcNzuiEQoPW0sKlGCuMw09RJMvNghyPOcCqxYA+B7V87HLx
+         a30FSP83a8egkNEn0nT5ekf1+IidZyWIoblRaU8J6shDsDXZwCfa+11WekhS0CyGuB
+         u63nHRq38XrEJa3g+sZlLk/G5dpSfe0CrXJR43DfHzjTfdvMNEp2vVQSSuRvenJTWd
+         /Sx7IWWqbi35PXCNV1Cj2sYzch8OML+BKFUZw93KRVDB9gfPxxPWHL/JpP5TXfJhG5
+         XlU06G5WiokQA==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Douglas Anderson <dianders@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hid: stop drivers from selecting CONFIG_HID
+Date:   Tue, 17 Jan 2023 18:20:55 +0100
+Message-Id: <20230117172121.2715953-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [10.45.151.130]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 17 Jan 2023 17:45:33 +0100
-Arnd Bergmann <arnd@kernel.org> wrote:
+From: Arnd Bergmann <arnd@arndb.de>
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The previous change was not properly build tested and needs
-> a trivial spelling change:
-> 
-> ipaq-micro-ts.c:146:8: error: type defaults to 'int' in declaration of 'DEFINE_SIMPLE_DEV_PM' [-Werror=implicit-int]
-> 
-> Fixes: 144ff5e03d74 ("Input: ipaq-micro-ts - use DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Hi Arnd,
+There is a mix of drivers using either 'depends on HID' or 'select HID',
+which causes both circular dependencies and missed dependencies for
+a 'select':
 
-I clearly messed up my build tests - will look into how that went wrong.
-From an initial look, this looks like a driver that could benefit from
-a || COMPILE_TEST addition to the Kconfig depenencies. Nothing looks to be
-build time dependent on the related MFD.
+WARNING: unment direct dependencies for HID
+  Depends on [m]: HID_SUPPORT [=y] && INPUT [=m]
+  Selected by [y]:
+  - AMD_SFH_HID [=y] && HID_SUPPORT [=y] && (X86_64 || COMPILE_TEST [=y]) && PCI [=y]
+  Selected by [m]:
+  - I2C_HID_CORE [=m] && HID_SUPPORT [=y]
 
-Thanks for fixing it up.
+WARNING: unmet direct dependencies detected for INPUT_FF_MEMLESS
+  Depends on [m]: INPUT [=m]
+  Selected by [y]:
+  - DRAGONRISE_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_DRAGONRISE [=y]
+  - HID_MICROSOFT [=y] && HID_SUPPORT [=y] && HID [=y]
+  - GREENASIA_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_GREENASIA [=y]
+  Selected by [m]:
+  - INPUT_ARIZONA_HAPTICS [=m] && INPUT [=m] && INPUT_MISC [=y] && MFD_ARIZONA [=y] && SND_SOC [=m]
+  - INPUT_PM8XXX_VIBRATOR [=m] && INPUT [=m] && INPUT_MISC [=y] && (MFD_PM8XXX [=m] || MFD_SPMI_PMIC [=n])
+  - INPUT_MAX8997_HAPTIC [=m] && INPUT [=m] && INPUT_MISC [=y] && PWM [=y] && MFD_MAX8997 [=y]
+  - INPUT_GPIO_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
+  - INPUT_REGULATOR_HAPTIC [=m] && INPUT [=m] && INPUT_MISC [=y] && REGULATOR [=y]
+  - INPUT_TWL6040_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && TWL6040_CORE [=y]
+  - INPUT_PWM_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && PWM [=y]
+  - INPUT_DRV260X_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
+  - INPUT_DRV2665_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y]
+  - INPUT_DRV2667_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y]
+  - INPUT_SC27XX_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && (MFD_SC27XX_PMIC [=y] || COMPILE_TEST [=y])
+  - HID_MAYFLASH [=m] && HID_SUPPORT [=y] && HID [=y]
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Avoid this by changing all HID client drivers to use 'depends on HID'.
+For I2C_HID, this requires a larger rework of the Kconfig description,
+but it hopefully becomes easier to understand without the complex
+I2C_HID_CORE definition.
 
+Fixes: 25621bcc8976 ("HID: Kconfig: split HID support and hid-core compilation")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/hid/amd-sfh-hid/Kconfig   |  2 +-
+ drivers/hid/i2c-hid/Kconfig       | 31 ++++++++++++++++---------------
+ drivers/hid/intel-ish-hid/Kconfig |  2 +-
+ 3 files changed, 18 insertions(+), 17 deletions(-)
 
-> ---
->  drivers/input/touchscreen/ipaq-micro-ts.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/ipaq-micro-ts.c b/drivers/input/touchscreen/ipaq-micro-ts.c
-> index d8e25b502968..94720c41c9be 100644
-> --- a/drivers/input/touchscreen/ipaq-micro-ts.c
-> +++ b/drivers/input/touchscreen/ipaq-micro-ts.c
-> @@ -143,8 +143,8 @@ static int micro_ts_resume(struct device *dev)
->  	return 0;
->  }
->  
-> -static DEFINE_SIMPLE_DEV_PM(micro_ts_dev_pm_ops,
-> -			    micro_ts_suspend, micro_ts_resume);
-> +static DEFINE_SIMPLE_DEV_PM_OPS(micro_ts_dev_pm_ops,
-> +				micro_ts_suspend, micro_ts_resume);
->  
->  static struct platform_driver micro_ts_device_driver = {
->  	.driver	= {
+diff --git a/drivers/hid/amd-sfh-hid/Kconfig b/drivers/hid/amd-sfh-hid/Kconfig
+index 56e473fc3c93..af752dd3a340 100644
+--- a/drivers/hid/amd-sfh-hid/Kconfig
++++ b/drivers/hid/amd-sfh-hid/Kconfig
+@@ -5,7 +5,7 @@ menu "AMD SFH HID Support"
+ 
+ config AMD_SFH_HID
+ 	tristate "AMD Sensor Fusion Hub"
+-	select HID
++	depends on HID
+ 	help
+ 	  If you say yes to this option, support will be included for the
+ 	  AMD Sensor Fusion Hub.
+diff --git a/drivers/hid/i2c-hid/Kconfig b/drivers/hid/i2c-hid/Kconfig
+index d65abe65ce73..b72b7f1ceca8 100644
+--- a/drivers/hid/i2c-hid/Kconfig
++++ b/drivers/hid/i2c-hid/Kconfig
+@@ -1,11 +1,15 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-menu "I2C HID support"
+-	depends on I2C
++menuconfig I2C_HID
++	tristate "I2C HID support"
++	default y
++	depends on I2C && INPUT && HID
++
++if I2C_HID
+ 
+ config I2C_HID_ACPI
+ 	tristate "HID over I2C transport layer ACPI driver"
+-	default n
+-	depends on I2C && INPUT && ACPI
++	depends on ACPI
++	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
+ 	  other HID based devices which is connected to your computer via I2C.
+@@ -19,8 +23,8 @@ config I2C_HID_ACPI
+ 
+ config I2C_HID_OF
+ 	tristate "HID over I2C transport layer Open Firmware driver"
+-	default n
+-	depends on I2C && INPUT && OF
++	depends on OF
++	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
+ 	  other HID based devices which is connected to your computer via I2C.
+@@ -34,8 +38,8 @@ config I2C_HID_OF
+ 
+ config I2C_HID_OF_ELAN
+ 	tristate "Driver for Elan hid-i2c based devices on OF systems"
+-	default n
+-	depends on I2C && INPUT && OF
++	depends on OF
++	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you want support for Elan i2c devices that use
+ 	  the i2c-hid protocol on Open Firmware (Device Tree)-based
+@@ -49,8 +53,8 @@ config I2C_HID_OF_ELAN
+ 
+ config I2C_HID_OF_GOODIX
+ 	tristate "Driver for Goodix hid-i2c based devices on OF systems"
+-	default n
+-	depends on I2C && INPUT && OF
++	depends on OF
++	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you want support for Goodix i2c devices that use
+ 	  the i2c-hid protocol on Open Firmware (Device Tree)-based
+@@ -62,10 +66,7 @@ config I2C_HID_OF_GOODIX
+ 	  will be called i2c-hid-of-goodix.  It will also build/depend on
+ 	  the module i2c-hid.
+ 
+-endmenu
+-
+ config I2C_HID_CORE
+ 	tristate
+-	default y if I2C_HID_ACPI=y || I2C_HID_OF=y || I2C_HID_OF_ELAN=y || I2C_HID_OF_GOODIX=y
+-	default m if I2C_HID_ACPI=m || I2C_HID_OF=m || I2C_HID_OF_ELAN=m || I2C_HID_OF_GOODIX=m
+-	select HID
++
++endif
+diff --git a/drivers/hid/intel-ish-hid/Kconfig b/drivers/hid/intel-ish-hid/Kconfig
+index 689da84a520d..253dc10d35ef 100644
+--- a/drivers/hid/intel-ish-hid/Kconfig
++++ b/drivers/hid/intel-ish-hid/Kconfig
+@@ -6,7 +6,7 @@ config INTEL_ISH_HID
+ 	tristate "Intel Integrated Sensor Hub"
+ 	default n
+ 	depends on X86
+-	select HID
++	depends on HID
+ 	help
+ 	  The Integrated Sensor Hub (ISH) enables the ability to offload
+ 	  sensor polling and algorithm processing to a dedicated low power
+-- 
+2.39.0
 
