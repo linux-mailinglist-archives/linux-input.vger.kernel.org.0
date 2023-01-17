@@ -2,52 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E377E66DD38
-	for <lists+linux-input@lfdr.de>; Tue, 17 Jan 2023 13:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE8BB66DDED
+	for <lists+linux-input@lfdr.de>; Tue, 17 Jan 2023 13:45:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236428AbjAQMKn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Jan 2023 07:10:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
+        id S236618AbjAQMpJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Jan 2023 07:45:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236352AbjAQMKl (ORCPT
+        with ESMTP id S236398AbjAQMpI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Jan 2023 07:10:41 -0500
+        Tue, 17 Jan 2023 07:45:08 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6D432E6A;
-        Tue, 17 Jan 2023 04:10:41 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F502BF32;
+        Tue, 17 Jan 2023 04:45:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E2C461306;
-        Tue, 17 Jan 2023 12:10:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23E6BC433D2;
-        Tue, 17 Jan 2023 12:10:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5315D6133A;
+        Tue, 17 Jan 2023 12:45:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98F61C433EF;
+        Tue, 17 Jan 2023 12:45:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673957440;
-        bh=qzB6Dzj1nRN+4AUETWyKdF1OATZeQ2+Z4Nnjn1uKXj0=;
+        s=k20201202; t=1673959506;
+        bh=QALQSOse3Nfpa+1ORQP8HnNqmt7biFKVAgM8Dnwoe/4=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=U6ITn3OYIySHW5OuM8/U1SPI2zsAXYEIyshYCDpSakViZJ42NivklcUeiX+ipNfeI
-         qwKDSVZV8MhrnB5NivxHwmrUgc/zoF4CHVpD2CcZmEOTaQKojoOYRq52CisZCGk/44
-         p+c/OsXQ6FT/mDR+4HiNF9UV/fbONawLJKX+E+PdPrLGP4QIv9MqwkN8XkcKv/4UJq
-         EwkLyWWQiKYzMh9O7Q+UfcE7AZzSDiG/RLOhK9Gm1Zj4LWfnP8ENu+9Q4IUj4t3kl7
-         1xfkiSaplWXqLeOrRHODIs71u0B4OqBOnWjpyiTBySCTxXHQ8ND67b08qd8hXxUjj0
-         +tAEUQVbFAT6Q==
-Date:   Tue, 17 Jan 2023 13:10:40 +0100 (CET)
+        b=Do53J3cGvms9ZFZKFD2D9mMVrVk2KbnyqYQ/pA85YH19sgia+wuE8AmGmxsZ8nURO
+         6sngua+aapDGngh1biAStRsGui6CcxHfRWsPc0Td0UHfBjs6IabBnsY0Tqt9ihp3FI
+         ZTMbH8L6oWqN7BGIU4I1W9xEKjgrNC0hP3FRAc6ibSKUxRGnn0C8gU73ki3kWi+NvI
+         dnjnECx5X6RISrPgGrnhvpjJxrT82o7ytVAzwqQhmaBMHT2rNa0eP/O1Zw6zwWL7Hm
+         2SG07TamJUhyjDFb52nySYlrwb/wrXno4DG6gW/N5JEtmABQvJ5+OW+tjcWiX57xTr
+         YuQSd9TWlmuNw==
+Date:   Tue, 17 Jan 2023 13:45:05 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Pietro Borrello <borrello@diag.uniroma1.it>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Kees Cook <keescook@chromium.org>, Hanno Zulla <abos@hanno.de>,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Cover Letter: HID: drop assumptions on non-empty
- report lists
-In-Reply-To: <20230114-hid-fix-emmpty-report-list-v1-0-e4d02fad3ba5@diag.uniroma1.it>
-Message-ID: <nycvar.YFH.7.76.2301171310140.1734@cbobk.fhfr.pm>
-References: <20230114-hid-fix-emmpty-report-list-v1-0-e4d02fad3ba5@diag.uniroma1.it>
+To:     =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>
+cc:     Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 0/8] HID: remove some unneeded exported symbols from
+ hid.h
+In-Reply-To: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
+Message-ID: <nycvar.YFH.7.76.2301171344500.1734@cbobk.fhfr.pm>
+References: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -57,17 +65,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 16 Jan 2023, Pietro Borrello wrote:
+On Thu, 22 Dec 2022, Thomas Weißschuh wrote:
 
-> We found potential misuses of list_entry() on lists in hid driver
-> code that are not checked.
-> Issuing a list_entry() on an empty list causes a type confusion making
-> the list_entry point to the list_head itself.
-> The most impactful seems the missing check for an empty list in
-> hid_validate_values() which is supposed to check the validity of the
-> reports themselves, potentially affecting all the drivers that rely on it.
+> Small cleanup to get rid of exports of the lowlevel hid drivers and to make
+> them const.
+> 
+> To: Hans de Goede <hdegoede@redhat.com>
+> To: Jiri Kosina <jikos@kernel.org>
+> To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> To: David Rheinsberg <david.rheinsberg@gmail.com>
+> To: Marcel Holtmann <marcel@holtmann.org>
+> To: Johan Hedberg <johan.hedberg@gmail.com>
+> To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+> To: "David S. Miller" <davem@davemloft.net>
+> To: Eric Dumazet <edumazet@google.com>
+> To: Jakub Kicinski <kuba@kernel.org>
+> To: Paolo Abeni <pabeni@redhat.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-bluetooth@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> 
+> ---
+> Thomas Weißschuh (8):
+>       HID: letsketch: Use hid_is_usb()
+>       HID: usbhid: Make hid_is_usb() non-inline
+>       HID: Remove unused function hid_is_using_ll_driver()
+>       HID: Unexport struct usb_hid_driver
+>       HID: Unexport struct uhid_hid_driver
+>       HID: Unexport struct hidp_hid_driver
+>       HID: Unexport struct i2c_hid_ll_driver
+>       HID: Make lowlevel driver structs const
+> 
+>  drivers/hid/hid-letsketch.c        |  2 +-
+>  drivers/hid/i2c-hid/i2c-hid-core.c |  3 +--
+>  drivers/hid/uhid.c                 |  3 +--
+>  drivers/hid/usbhid/hid-core.c      |  9 +++++++--
+>  include/linux/hid.h                | 18 ++----------------
+>  net/bluetooth/hidp/core.c          |  3 +--
+>  6 files changed, 13 insertions(+), 25 deletions(-)
 
-Both applied to hid.git#for-6.2/upstream-fixes. Thanks Pietro,
+Applied to hid.git#for-6.3/hid-core. Thanks,
 
 -- 
 Jiri Kosina
