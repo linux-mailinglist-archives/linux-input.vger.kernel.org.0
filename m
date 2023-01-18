@@ -2,127 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4971A671758
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:20:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2730467177D
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:24:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbjARJUs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 04:20:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45242 "EHLO
+        id S229846AbjARJYh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 04:24:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbjARJUO (ORCPT
+        with ESMTP id S229987AbjARJVP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 04:20:14 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 923973802A
-        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 00:37:20 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id a9so20568466ybb.3
-        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 00:37:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=25UwbnVsrXF2XOi/rzL1DlQwNobgAwu6Gm3xehAhpEg=;
-        b=7STNftU56FeuGXCbKpxA8SkAyftYHoh2ddBxJLrGdwEMF2wSLs4242bL3ea7idm5Y4
-         ZVQ/xvgum+hHgSjspxs86GNktGzef1nXS6Mo89JmiQa5yugKc3EeVHltuwxL+WF/pNdS
-         +K37nonpOv3TdxAAYtLuBz9afr/v5GEmecEAozwXbxje8N+rYtBYhjqK1SY1832d17C5
-         RSydKm1Znlri1UHuFga/UcmMn1Y2pX9kmXQ4HVHhy9Hmn9TBDGz8yjVny/4VHzBOW7pc
-         rO9LAg34p8wTL1M9PSKiR0CRlB1B2GuzGZUvri8SOBxJz08Zt8e4Jc5lcosU1Oc6lIme
-         L7TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=25UwbnVsrXF2XOi/rzL1DlQwNobgAwu6Gm3xehAhpEg=;
-        b=OfVIe30ngzyzcNqKYAKIEd3V//dwuOUVx5Ekx9gXyqxzuZ9UW3CiHCo8a6PqvKDlY9
-         XEg1qra1gQlN6Fae8JzvW4do5HszFGZU/LUUiJn/YH5swqeRtlEun3vC1kcKBQiG26t8
-         eQItmxiQS6Gaq8BpIRcqhzKiAs78629Jt4hviXguAYe92Dwq10dFwVYQIE7w+29m3Kao
-         7eiBJaWZggNwz8SZLjUc5xT0zGlMv0xG2QLDIN9dU1B3mONfLueriEJGHUU0mTByxM09
-         q/ul0GfV3PNg1Akw9RurdfhoFCRr5fy+xCFZWeOqQkTeHl6MXFYWWVZru3syNO/t8hMU
-         iNFA==
-X-Gm-Message-State: AFqh2kpais70LWW4pX4O1O5wJ89PsV7yemwpFaSPZmayMZt9EuPLIdVe
-        roaFueJVmd37yVyeQRjRJjU10VwR1JP0e2o167x8kg==
-X-Google-Smtp-Source: AMrXdXvkAjgZueXUsTbnjRyYgL573SkSrK6hKqOKoelBS/6ldk0KA9UsmaJzrb/I41AEghUW3nnSomU38BecAKrN5lo=
-X-Received: by 2002:a5b:4d2:0:b0:707:473f:b763 with SMTP id
- u18-20020a5b04d2000000b00707473fb763mr812592ybp.158.1674031039739; Wed, 18
- Jan 2023 00:37:19 -0800 (PST)
+        Wed, 18 Jan 2023 04:21:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E0475738;
+        Wed, 18 Jan 2023 00:41:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 33C6761711;
+        Wed, 18 Jan 2023 08:41:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE5DC433F0;
+        Wed, 18 Jan 2023 08:41:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674031304;
+        bh=JE6oTJJg8zFAswHFzhsBSx8vEF1SwFX6/4C5ABy+iY0=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=SXiCadhBShJUM4bmF7D7uYdxd18+idPeX426h+8/2OoSg8BH7luvDzHApwhpt0GQT
+         IQ/QqI4S5P7ABpQWVyO57qVJOg0NK7V1ug6ArMVmXJvAXDk60KRqZWJZTSAvBXZPv3
+         zrcs4ZZqDdwvl55tEObZSRpj/0JX30tJzNVcPDGAFNXtx72+Z7QYEX8x0jRgagALTN
+         Z6PBATJNH899vMzKeaHHbE3lHncUCOWRhQTZYK8OTMjghMbSmudRLP5Du5R0Xnip8s
+         FfhoMSC1X/rjjsFNfDHV8Qhbf50QGaV8UESRswYVw8UNVavcQknwQFLb/icxb6dCFv
+         CZ4/yMJ3GrLbw==
+Date:   Wed, 18 Jan 2023 09:41:45 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] HID: i2c-hid: use standard debugging APIs
+In-Reply-To: <20221223-hid-dbg-v1-0-f641e80263eb@weissschuh.net>
+Message-ID: <nycvar.YFH.7.76.2301180941320.1734@cbobk.fhfr.pm>
+References: <20221223-hid-dbg-v1-0-f641e80263eb@weissschuh.net>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
- <7hr0xe56uf.fsf@baylibre.com> <0fc0217e-f1dd-d64c-d43c-cd47a8acbfd4@gmail.com>
- <CAFGrd9qZzpxPWpiEOJacc9m2WDFB8Mgr5U5too89mZmqqFir_Q@mail.gmail.com>
-In-Reply-To: <CAFGrd9qZzpxPWpiEOJacc9m2WDFB8Mgr5U5too89mZmqqFir_Q@mail.gmail.com>
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-Date:   Wed, 18 Jan 2023 09:37:08 +0100
-Message-ID: <CAFGrd9q9aMZLH71HuyDfCxca65bdeSnkO4Oe+PTsYq=+qNAWjw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/8] Add MediaTek MT6357 PMIC support
-To:     Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Kevin Hilman <khilman@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Rob Herring <robh+dt@kernel.org>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Flora Fu <flora.fu@mediatek.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-mediatek@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Matthias,
+On Fri, 23 Dec 2022, Thomas Weißschuh wrote:
 
-Gentle ping to merge the v8 rebased on top of v6.2-tmp/soc.
-https://lore.kernel.org/r/20221005-mt6357-support-v8-0-560caaafee53@baylibr=
-e.com
+> When trying to debug i2c-hid I was not able to use the builtin debug
+> mechanism because the "debug" module parameter is not writable.
+> 
+> We can change i2c-hid to use the standard kernel debugging APIs which are
+> more discoverable and have more features.
+> 
+> There is a bit of a stilistic conflict between consistently using
+> i2c_hid_dbg() and consistently using dev_<level>().
+> 
+> The second patch aligns debugging on i2c_hid_dbg().
+> If this is unneeded, feel free to drop it.
+> 
+> It would also be easy to just use dev_dbg() everywhere for consistency.
+> 
+> To: Jiri Kosina <jikos@kernel.org>
+> To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> 
+> ---
+> Thomas Weißschuh (2):
+>       HID: i2c-hid: switch to standard debugging APIs
+>       HID: i2c-hid: use uniform debugging APIs
+> 
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 15 +++------------
+>  1 file changed, 3 insertions(+), 12 deletions(-)
 
-Thanks,
-Alex
+Applied to for-6.3/i2c-hid branch, thanks Thomas.
 
-Le lun. 2 janv. 2023 =C3=A0 17:10, Alexandre Mergnat
-<amergnat@baylibre.com> a =C3=A9crit :
->
-> > >> This patch series adds MFD, PMIC keys, and regulator support for MT6=
-357.
-> > >> MT6357 is a MediaTek PMIC very similar to MT6358.
-> > >
-> > > The regulator driver (and bindings) were merged by Mark.  Could you t=
-ake
-> > > the rest of this series via your mediatek tree?  The input driver (an=
-d
-> > > bindings) are ack'd by Dmitry.
-> > >
-> >
-> > Yes I can do that but 3/8 does not apply cleanly. Could you please reba=
-se on top
-> > of v6.2-tmp/soc?
->
-> Hi Matthias,
->
-> I've pushed the V8 rebased on top of v6.2-tmp/soc.
-> https://lore.kernel.org/r/20221005-mt6357-support-v8-0-560caaafee53@bayli=
-bre.com
->
-> Thanks,
-> Alex
+-- 
+Jiri Kosina
+SUSE Labs
+
