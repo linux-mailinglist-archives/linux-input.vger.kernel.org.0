@@ -2,50 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A93FE671787
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAE6767179A
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:26:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230107AbjARJYo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 04:24:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
+        id S229655AbjARJZq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 04:25:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230203AbjARJXR (ORCPT
+        with ESMTP id S229862AbjARJYE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 04:23:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0288378AB2;
-        Wed, 18 Jan 2023 00:47:28 -0800 (PST)
+        Wed, 18 Jan 2023 04:24:04 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCE28798CF;
+        Wed, 18 Jan 2023 00:49:03 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 927006170C;
-        Wed, 18 Jan 2023 08:47:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7861C433D2;
-        Wed, 18 Jan 2023 08:47:25 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 74D12B81BB6;
+        Wed, 18 Jan 2023 08:49:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 649A9C433EF;
+        Wed, 18 Jan 2023 08:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674031647;
-        bh=eGelRK0QxB4MHLWy0yYg1Wv7neg8Dl520nKPLbMU4aA=;
+        s=k20201202; t=1674031741;
+        bh=YvCaTb+WM1z/jkE0eRVvRdXaotfkYrFvJyzz047AbI8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=sS7XrDHS/o9lxqEMfAYhwR5Fqlu9awESG6q4VEp79BN3Old4eI8JzG4Yjhgs9Zdsf
-         fMoudhuaeYeTRj17o2Pw5X6/l7IX/S7ybP7RtnK46P9owfsSeowL1Xe5ff7eda/fcs
-         NeGgxGZ3EYdY1KZKfoR6nCbeucRBdcYoKjrVuGNUnvvKYawo0I7jc0a4ZLlAyILF4B
-         upj1v1Ntf7YbLlkvi3qVx2VhYQHKm7WADhxiq1ZsmOyteE3DH+kSREvaez7ddG9PrW
-         BaIgS6qUnz2wm395RBkzKx50UNDXYSkpy2qaEFIL042Vji8Sk5e7OPXYj9u4x2iMKg
-         A9XUE0FkV94nA==
-Date:   Wed, 18 Jan 2023 09:47:27 +0100 (CET)
+        b=RYVadmqaFiwuo8ltlbKzzttPYuuJ91PPCxm4CiOpnbV9GVB8VcvJnVVvn39UOfj5G
+         GpDwsAmFLTjh9eYy5yd9eFtS0gP9CpPgKFnbTvOBYt6NVPJ5OFekCtX3QQyNP0/odn
+         IouAiYWr9v8qtvEVQ8IEP/noMEvinEL8nCWLTVvnOV5YM+pnu884Me56BseX3IARhB
+         1XhP/NYf1NJbPkA6KEICHzO0ntfUxcN9qZfItotT97dQNHWkHa801JKKmfvJonPG60
+         ESH0ritSJcKb5CTFxmeo6qLOigJCwzsWUFA9eYs+iV9na4IOSezVrQYm7SOloqF5h7
+         QdWDaPtC71Zrg==
+Date:   Wed, 18 Jan 2023 09:49:01 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, mcanal@igalia.com,
-        mairacanal@riseup.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: uclogic: Use KUNIT_EXPECT_MEMEQ
-In-Reply-To: <20221226125736.18053-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2301180947220.1734@cbobk.fhfr.pm>
-References: <20221226125736.18053-1-jose.exposito89@gmail.com>
+To:     Adrian Freund <adrian@freund.io>
+cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Luke D. Jones" <luke@ljones.dev>, Ivan Dovgal <iv.dovg@gmail.com>
+Subject: Re: [PATCH v2] HID: amd_sfh: Add support for tablet-mode-switch
+ sensor
+In-Reply-To: <20221218214723.14735-1-adrian@freund.io>
+Message-ID: <nycvar.YFH.7.76.2301180948450.1734@cbobk.fhfr.pm>
+References: <20221218214723.14735-1-adrian@freund.io>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -55,40 +56,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 26 Dec 2022, José Expósito wrote:
+On Sun, 18 Dec 2022, Adrian Freund wrote:
 
-> Commit b8a926bea8b1 ("kunit: Introduce KUNIT_EXPECT_MEMEQ and
-> KUNIT_EXPECT_MEMNEQ macros") introduced a new macro to compare blocks of
-> memory and, if the test fails, print the result in a human friendly
-> format. For example, this is the output of a test failure:
+> This patch adds support for the tablet mode switch sensors on
+> convertible devices where that sensor is managed by AMD SFH, like the
+> Asus Flow X13 and the Lenovo ThinkPad L13 Yoga Gen2 (AMD).
 > 
->  Expected res == params->expected, but
->      res ==
->       01  02  aa  00  00  00  03  bb  00 <00> 00  04  05
->      params->expected ==
->       01  02  aa  00  00  00  03  bb  00 <01> 00  04  05
-> 
-> Use this new macro to replace KUNIT_EXPECT_EQ + memcmp.
-> 
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> ---
->  drivers/hid/hid-uclogic-rdesc-test.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-uclogic-rdesc-test.c b/drivers/hid/hid-uclogic-rdesc-test.c
-> index b429c541bf2f..90bf4e586e01 100644
-> --- a/drivers/hid/hid-uclogic-rdesc-test.c
-> +++ b/drivers/hid/hid-uclogic-rdesc-test.c
-> @@ -197,8 +197,7 @@ static void hid_test_uclogic_template(struct kunit *test)
->  					   params->param_list,
->  					   params->param_num);
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, res);
-> -	KUNIT_EXPECT_EQ(test, 0,
-> -			memcmp(res, params->expected, params->template_size));
-> +	KUNIT_EXPECT_MEMEQ(test, res, params->expected, params->template_size);
->  	kfree(res);
+> Co-developed-by: Ivan Dovgal <iv.dovg@gmail.com>
+> Signed-off-by: Ivan Dovgal <iv.dovg@gmail.com>
+> Co-developed-by: Luke D. Jones <luke@ljones.dev>
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+> Signed-off-by: Adrian Freund <adrian@freund.io>
 
-Applied, thanks.
+Basavaraj, could you please review this? Thanks,
 
 -- 
 Jiri Kosina
