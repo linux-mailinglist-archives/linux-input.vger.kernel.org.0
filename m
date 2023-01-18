@@ -2,92 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70F4C6720E9
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 16:16:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90426672109
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 16:20:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231685AbjARPQl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 10:16:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49432 "EHLO
+        id S231741AbjARPUR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 10:20:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232020AbjARPPr (ORCPT
+        with ESMTP id S231863AbjARPUA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 10:15:47 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E9E34AA6B;
-        Wed, 18 Jan 2023 07:11:20 -0800 (PST)
+        Wed, 18 Jan 2023 10:20:00 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C55221965;
+        Wed, 18 Jan 2023 07:16:32 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6BC9561882;
-        Wed, 18 Jan 2023 15:11:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485B7C433EF;
-        Wed, 18 Jan 2023 15:11:18 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2C406B81D7E;
+        Wed, 18 Jan 2023 15:16:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB517C433EF;
+        Wed, 18 Jan 2023 15:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674054679;
-        bh=sCr67gWivJseBF45jgOCyYIoZmtdfEOxspjP2kKsFN8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bg6UDs8jtgE5JPen7pxURdeNdaiDy8g9RB2czgHGlm9tLQ5UgYmmHm3DyKtwYqxqx
-         YZ+aXKioVXtG1BpFYS83XKQiMwckISE4pkyAIXg8vfFjJumLsLwLBuZxa1vQnFtIJb
-         kJo3wDacC3/cq1EUcaaQYEehBvne/ZiUD4+X+jBteqgnadYJQ4LSqqlPiGA9T/1MLb
-         XhfextH7IoYJ5ovfb5xV4f5hmZUIkDcdf0zNWNb2y2ZfmkjqL6zzHvswYsLzMCi/vr
-         DftT+0cOmxbtprdjejXNTBcYzjpobxVuCGDo40w0GestkCU88OqT6RGjOijbElqfTK
-         Nsy1oR68xhTOA==
-Date:   Wed, 18 Jan 2023 15:11:14 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     benjamin.tissoires@redhat.com, avid.rheinsberg@gmail.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: core: Provide new max_buffer_size attribute to
- over-ride the default
-Message-ID: <Y8gMEn+wivZRhIsd@google.com>
-References: <20230113150557.1308176-1-lee@kernel.org>
- <nycvar.YFH.7.76.2301181002550.1734@cbobk.fhfr.pm>
- <Y8fTd0VJXqKkPIuo@google.com>
- <nycvar.YFH.7.76.2301181554370.1734@cbobk.fhfr.pm>
+        s=k20201202; t=1674054989;
+        bh=om/bRyK6aiyNR+pwzYnLAB12Psugl9/MwqjElPrPtx4=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=bjlgGLBbCuNrJ5pwY5jYYRmTqodNZrWm5TdnDdCUBLczo7JdZ0KM/1HUPk4Cac1Ik
+         ExjwwjZAtSU7Zlb6NAC0Ij1zhsfXvtB1F8EcJkj0bwi04N0UdppSaPouFEZGfPG5pK
+         JCHULNzy1dX3OwjxF30xftwxJMwSt/eedb9CpcXrIGPs78AOu4npg7Tv/BKh9wxS4R
+         bgYaWn3gDPoy9KfYyu0Gc4q6LVdQEG+0ETojqOA2rEQqjWV1p8TcsRXjbpLJilBDhj
+         zdX8vP3rsJSXj7Jhpx+f3GouORoLjUp9OCuAKjhsiYr3kzo79mRAWpCfvrWj2kltyv
+         DgNDqwwwfNScw==
+Date:   Wed, 18 Jan 2023 16:16:29 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Douglas Anderson <dianders@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hid: stop drivers from selecting CONFIG_HID
+In-Reply-To: <20230117172121.2715953-1-arnd@kernel.org>
+Message-ID: <nycvar.YFH.7.76.2301181616140.1734@cbobk.fhfr.pm>
+References: <20230117172121.2715953-1-arnd@kernel.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <nycvar.YFH.7.76.2301181554370.1734@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75 autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 18 Jan 2023, Jiri Kosina wrote:
+On Tue, 17 Jan 2023, Arnd Bergmann wrote:
 
-> On Wed, 18 Jan 2023, Lee Jones wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> > > > Presently, when a report is processed, its size is compared solely 
-> > > > against the value specified by user-space.  
-> > > 
-> > > While I am generally fine with the idea, I don't understand this sentence. 
-> > > What exactly do you mean by 'specified by user-space'? It's defined as a 
-> > > compile-time constant.
-> > > 
-> > > > If the received report ends up being smaller than this, the
-> > > > remainder of the buffer is zeroed. 
-> > 
-> > Apologies for any ambiguity.
-> > 
-> > "its size" == "compile-time constant"
-> > 
-> > Would "its maximum size" read better?
+> There is a mix of drivers using either 'depends on HID' or 'select HID',
+> which causes both circular dependencies and missed dependencies for
+> a 'select':
 > 
-> I think that the confusion comes from the fact that the changelog is 
-> written solely with the UHID usercase on mind ... ? (which is dealt with 
-> in the independent followup patch).
+> WARNING: unment direct dependencies for HID
+>   Depends on [m]: HID_SUPPORT [=y] && INPUT [=m]
+>   Selected by [y]:
+>   - AMD_SFH_HID [=y] && HID_SUPPORT [=y] && (X86_64 || COMPILE_TEST [=y]) && PCI [=y]
+>   Selected by [m]:
+>   - I2C_HID_CORE [=m] && HID_SUPPORT [=y]
+> 
+> WARNING: unmet direct dependencies detected for INPUT_FF_MEMLESS
+>   Depends on [m]: INPUT [=m]
+>   Selected by [y]:
+>   - DRAGONRISE_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_DRAGONRISE [=y]
+>   - HID_MICROSOFT [=y] && HID_SUPPORT [=y] && HID [=y]
+>   - GREENASIA_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_GREENASIA [=y]
+>   Selected by [m]:
+>   - INPUT_ARIZONA_HAPTICS [=m] && INPUT [=m] && INPUT_MISC [=y] && MFD_ARIZONA [=y] && SND_SOC [=m]
+>   - INPUT_PM8XXX_VIBRATOR [=m] && INPUT [=m] && INPUT_MISC [=y] && (MFD_PM8XXX [=m] || MFD_SPMI_PMIC [=n])
+>   - INPUT_MAX8997_HAPTIC [=m] && INPUT [=m] && INPUT_MISC [=y] && PWM [=y] && MFD_MAX8997 [=y]
+>   - INPUT_GPIO_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
+>   - INPUT_REGULATOR_HAPTIC [=m] && INPUT [=m] && INPUT_MISC [=y] && REGULATOR [=y]
+>   - INPUT_TWL6040_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && TWL6040_CORE [=y]
+>   - INPUT_PWM_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && PWM [=y]
+>   - INPUT_DRV260X_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
+>   - INPUT_DRV2665_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y]
+>   - INPUT_DRV2667_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y]
+>   - INPUT_SC27XX_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && (MFD_SC27XX_PMIC [=y] || COMPILE_TEST [=y])
+>   - HID_MAYFLASH [=m] && HID_SUPPORT [=y] && HID [=y]
+> 
+> Avoid this by changing all HID client drivers to use 'depends on HID'.
+> For I2C_HID, this requires a larger rework of the Kconfig description,
+> but it hopefully becomes easier to understand without the complex
+> I2C_HID_CORE definition.
+> 
+> Fixes: 25621bcc8976 ("HID: Kconfig: split HID support and hid-core compilation")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Quite possibly, yes.  Since this is the way the bug was reported to me
-and how I presently view it.  However, I suppose reports do not always
-originate from user-space.  Good point.
-
-How would you like me to move forward?  Would you like me to re-write
-the commit log to be more generic?
+Applied to hid.git#for-6.3/hid-bpf. Thanks,
 
 -- 
-Lee Jones [李琼斯]
+Jiri Kosina
+SUSE Labs
+
