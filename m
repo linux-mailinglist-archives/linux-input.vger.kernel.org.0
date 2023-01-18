@@ -2,57 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90426672109
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 16:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B209672749
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 19:43:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231741AbjARPUR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 10:20:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51918 "EHLO
+        id S229877AbjARSnH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 13:43:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231863AbjARPUA (ORCPT
+        with ESMTP id S229813AbjARSnG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 10:20:00 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C55221965;
-        Wed, 18 Jan 2023 07:16:32 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2C406B81D7E;
-        Wed, 18 Jan 2023 15:16:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB517C433EF;
-        Wed, 18 Jan 2023 15:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674054989;
-        bh=om/bRyK6aiyNR+pwzYnLAB12Psugl9/MwqjElPrPtx4=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=bjlgGLBbCuNrJ5pwY5jYYRmTqodNZrWm5TdnDdCUBLczo7JdZ0KM/1HUPk4Cac1Ik
-         ExjwwjZAtSU7Zlb6NAC0Ij1zhsfXvtB1F8EcJkj0bwi04N0UdppSaPouFEZGfPG5pK
-         JCHULNzy1dX3OwjxF30xftwxJMwSt/eedb9CpcXrIGPs78AOu4npg7Tv/BKh9wxS4R
-         bgYaWn3gDPoy9KfYyu0Gc4q6LVdQEG+0ETojqOA2rEQqjWV1p8TcsRXjbpLJilBDhj
-         zdX8vP3rsJSXj7Jhpx+f3GouORoLjUp9OCuAKjhsiYr3kzo79mRAWpCfvrWj2kltyv
-         DgNDqwwwfNScw==
-Date:   Wed, 18 Jan 2023 16:16:29 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Douglas Anderson <dianders@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hid: stop drivers from selecting CONFIG_HID
-In-Reply-To: <20230117172121.2715953-1-arnd@kernel.org>
-Message-ID: <nycvar.YFH.7.76.2301181616140.1734@cbobk.fhfr.pm>
-References: <20230117172121.2715953-1-arnd@kernel.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Wed, 18 Jan 2023 13:43:06 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65938144A3
+        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 10:43:05 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id 188so39238398ybi.9
+        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 10:43:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=U1ot/boOrStdfQDJKyWwrcadp/Yz1XZ5rkEYGiiNBok=;
+        b=c6oLYMnNv+yOUlKUI8NVBiEKst2YRh1V8xncJcN2hgHUWuZ3irUxHTI91PP6BlM6ff
+         5dBqeHx2FnMoUWzNa0IZwFXd8LmPZJxSmfixj8DrlfLQfOrwEsTEPpOXQCPrb81JfBTn
+         y155I4C1uwaEC0U/R02dpFnuet/B00uaDSN/GETDMcgyqg3/V53prdP3G1zhJ2i6GvJB
+         liFuYz9AKjA8SJSYf/n/jZQlou9aljCbRfEBJ8kC6Jeee8wmgUKw7gkGRMBEsdQ0oyYb
+         7ZHgFVJB54CkGZA+9SNKalhq9nB4XfulSOg0FobJUW7DA0dA6q0f/o7mPH2PQToJPfJD
+         PRig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U1ot/boOrStdfQDJKyWwrcadp/Yz1XZ5rkEYGiiNBok=;
+        b=A0+JdJVlnRVnZBqyGbcXZZmKsdJQn3KahsASEMoqeUvH8/ETqYfh5+oxdjPeuEeJ3c
+         3N5I/0HL6bCYzeEQMspmggfqEcYHr5B9hHoABQsj4/0HyIL8NaCZIHEGl7hLNNS1HGlI
+         o+ZPj3d+fp4vdFTSqrUXA4mbfSfh141jZEsD5oK7mfCMAYXPZ8/wK9wXkz6hHCSA5/ii
+         Mn4xCvEbT8Ej9gYKNfsAN6AZQUiKmOt5KLdS/TsbpbET7u1pg3yYi1aa5xKjTgn0E2qL
+         P2IorrA8zTkYmGFWYc6UPDDhsp5jHHXqJDCzQAl5h8K8Mg4mtUxfiaYkz8zatAV5TTVM
+         mwjA==
+X-Gm-Message-State: AFqh2kpfQxnxOcutWFY6djg7hHjDibsuYRanMnU9NtWlF3qN9+xI0p3b
+        z/p3AYNizF128hOTv+NO1wZwhBYtYfsgrUZMIWg=
+X-Google-Smtp-Source: AMrXdXtg4lj38zesLrLcj9fJhzEzCFJPkCHHfZxu3K03be7486OJ/4W/+hg2O+MPcscQy5nW2/nJaFiR3X96ggI/wDo=
+X-Received: by 2002:a25:d57:0:b0:76c:f1a:8a81 with SMTP id 84-20020a250d57000000b0076c0f1a8a81mr130177ybn.479.1674067384591;
+ Wed, 18 Jan 2023 10:43:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75 autolearn=ham
+References: <20230106015910.3031670-1-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2301181013030.1734@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2301181013030.1734@cbobk.fhfr.pm>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Wed, 18 Jan 2023 10:42:53 -0800
+Message-ID: <CAEc3jaAJRy+jWpYn7gDpo6KXuyhn6sR4w9mhF=uhOqFSKmmyVQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] HID: playstation: various DS4 and DualSense fixes
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,52 +68,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 17 Jan 2023, Arnd Bergmann wrote:
+On Wed, Jan 18, 2023 at 2:12 AM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Thu, 5 Jan 2023, Roderick Colenbrander wrote:
+>
+> > Hi,
+> >
+> > This patch set contains a number of small fixes and stability improvements.
+> >
+> > The stability patches are most critical as they prevent kernel crashes.
+> > Over the years there have been various buggy devices usually clone devices,
+> > but now apparently some official devices with wiped calibration data.
+> > It is hard to handle all permutations of devices as some have constants,
+> > some have broken constants (e.g. wrong sign of a coefficient). We disable
+> > calibration when we see an invalid 0 denominator. The patch adds the same
+> > logic to both the DualShock4 and DualSense code.
+> >
+> > As part of the calibration stability improvements, a thorough review was
+> > performed of the calibration code as it was suspected it was potentially
+> > incorrect. It was found to be only slightly wrong for the handling of the
+> > bias of the gyroscopes. Two patches fix this for both DualShock4 and DualSense.
+> > There is only a marginal impact on practical values as the bias values
+> > tend to be quite small.
+> >
+> > Thanks,
+> > Roderick Colenbrander
+> > Sony Interactive Entertainment, LLC
+>
+> I am splitting the stability ones (for 6.2) from the small improvements /
+> cleanups (for 6.3).
+>
+> Thanks,
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> There is a mix of drivers using either 'depends on HID' or 'select HID',
-> which causes both circular dependencies and missed dependencies for
-> a 'select':
-> 
-> WARNING: unment direct dependencies for HID
->   Depends on [m]: HID_SUPPORT [=y] && INPUT [=m]
->   Selected by [y]:
->   - AMD_SFH_HID [=y] && HID_SUPPORT [=y] && (X86_64 || COMPILE_TEST [=y]) && PCI [=y]
->   Selected by [m]:
->   - I2C_HID_CORE [=m] && HID_SUPPORT [=y]
-> 
-> WARNING: unmet direct dependencies detected for INPUT_FF_MEMLESS
->   Depends on [m]: INPUT [=m]
->   Selected by [y]:
->   - DRAGONRISE_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_DRAGONRISE [=y]
->   - HID_MICROSOFT [=y] && HID_SUPPORT [=y] && HID [=y]
->   - GREENASIA_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_GREENASIA [=y]
->   Selected by [m]:
->   - INPUT_ARIZONA_HAPTICS [=m] && INPUT [=m] && INPUT_MISC [=y] && MFD_ARIZONA [=y] && SND_SOC [=m]
->   - INPUT_PM8XXX_VIBRATOR [=m] && INPUT [=m] && INPUT_MISC [=y] && (MFD_PM8XXX [=m] || MFD_SPMI_PMIC [=n])
->   - INPUT_MAX8997_HAPTIC [=m] && INPUT [=m] && INPUT_MISC [=y] && PWM [=y] && MFD_MAX8997 [=y]
->   - INPUT_GPIO_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
->   - INPUT_REGULATOR_HAPTIC [=m] && INPUT [=m] && INPUT_MISC [=y] && REGULATOR [=y]
->   - INPUT_TWL6040_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && TWL6040_CORE [=y]
->   - INPUT_PWM_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && PWM [=y]
->   - INPUT_DRV260X_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
->   - INPUT_DRV2665_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y]
->   - INPUT_DRV2667_HAPTICS [=m] && INPUT_MISC [=y] && INPUT [=m] && I2C [=y]
->   - INPUT_SC27XX_VIBRA [=m] && INPUT [=m] && INPUT_MISC [=y] && (MFD_SC27XX_PMIC [=y] || COMPILE_TEST [=y])
->   - HID_MAYFLASH [=m] && HID_SUPPORT [=y] && HID [=y]
-> 
-> Avoid this by changing all HID client drivers to use 'depends on HID'.
-> For I2C_HID, this requires a larger rework of the Kconfig description,
-> but it hopefully becomes easier to understand without the complex
-> I2C_HID_CORE definition.
-> 
-> Fixes: 25621bcc8976 ("HID: Kconfig: split HID support and hid-core compilation")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Thanks, that's how the patches were kind of set up. I wasn't sure due
+to timing where they would land, but thanks for pulling in the
+stability fixes!
 
-Applied to hid.git#for-6.3/hid-bpf. Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Thanks,
+Roderick
