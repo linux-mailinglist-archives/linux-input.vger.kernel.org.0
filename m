@@ -2,128 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95622671AF4
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 12:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 206C067205E
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 16:00:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbjARLoX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 06:44:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53468 "EHLO
+        id S229663AbjARPAc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 10:00:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjARLnx (ORCPT
+        with ESMTP id S231698AbjARPAK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 06:43:53 -0500
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5617683F8
-        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 03:02:22 -0800 (PST)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1442977d77dso35071737fac.6
-        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 03:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KuI0iwHsMdHgi9UUhJbv/FF6Zx1hDWv0kF6EEdUlD2I=;
-        b=5PCGooyhPIEuUA8LfHpgz2E1NSo9q7mSLwwd+kP7a2WQx5oIObawC1SZ8b3GjlhI6w
-         k+aUwf08xYT06HES1GVAUttTfmtlU/+2mUQ+E6nwI3mvpykPVqpS3CT4T1OK8Y7wh8Lh
-         OxdivEq+CnvHPuPDLKxMirSIFn7kanNvD0azdCBrxVrZC626tljgU09Q5NwDlRdCl5Pm
-         h30BKW+O6Gpe2j8vZBVS7nQX0CZx9F+vnTsIKQmfF0oeOZkgBCg3IFGxtjTVee8Llq3v
-         VTgrTzM1eGIkuy0knsusfqmXW3O1e3iUrjIXv4sd1h2zvdReBrfi+vZn6Ejf/45OptwH
-         w5QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KuI0iwHsMdHgi9UUhJbv/FF6Zx1hDWv0kF6EEdUlD2I=;
-        b=x4mO7MCuRTte0F/Ks7zhdhod+bykJAgEZaZOu9ualdvxi4dfZbs8yN0Zc0rXxjVCaL
-         hFCDeDq0J8bwk9aMsCJQjn5Xdl8NfNGi8QPIHlRiAp4YqFETq2wljHYINUB4o+o9IwPe
-         vagBbr/Gvs1ehyttEfE4OXmQ82xL+cAzXZvLSBzjNcrD8UnDG9tqnGGOj2zVJhnxrkqs
-         DTUzLy0byqZ5JjkEUzJGHKxY3knwWcN09nuIBlQbWsY5FDO3/4tQR6rirIo/Qa8B79aL
-         v6o2tkvvITDQI7fMdKwUW9SdWZy3Nqieep/Et/K7fF3+RG8v+op2gCAppytHfCwjh1VL
-         apXg==
-X-Gm-Message-State: AFqh2kqXFPWViloHMu8Das9KRDv7CcL7LHkE2VKXr0WsV5wbw1xvbwbO
-        Yb22s/qEMFdk0hebmw3TbFbPZg==
-X-Google-Smtp-Source: AMrXdXvlrp1Ed3XBrrhA3zCnrQ6Rbb/wKmg6UrVk+wIslhGo+AMwXBPpNO4DwySZY2+3rtlEwlTN+A==
-X-Received: by 2002:a05:6870:c190:b0:15e:cc77:1e6d with SMTP id h16-20020a056870c19000b0015ecc771e6dmr4364085oad.13.1674039741194;
-        Wed, 18 Jan 2023 03:02:21 -0800 (PST)
-Received: from ?IPV6:2607:fb91:120e:1c84:8038:3fff:fe9f:cbb4? ([2607:fb91:120e:1c84:8038:3fff:fe9f:cbb4])
-        by smtp.gmail.com with ESMTPSA id e19-20020a056871045300b001442fada152sm18099522oag.46.2023.01.18.03.02.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 03:02:20 -0800 (PST)
-Message-ID: <efa6a8aa-466e-cfaa-0113-b85002af008e@landley.net>
-Date:   Wed, 18 Jan 2023 05:14:36 -0600
+        Wed, 18 Jan 2023 10:00:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F5A5AB48;
+        Wed, 18 Jan 2023 06:55:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 44E4B6185C;
+        Wed, 18 Jan 2023 14:55:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71347C433D2;
+        Wed, 18 Jan 2023 14:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674053725;
+        bh=wjglZMLOEjQw+vq02RhUK9jEtIO+B6Bqz4mUgDY3ieY=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=O30xWI6z44KBeWjES0Q+xaK/kQvDQoRnFLDXLidPgskZam0Us1qX5SErhY2uqB7f0
+         1Hq/zby63ptVXMEGOd/bslV1Me7c4YcdfPiUYexlgnd93zUXkeNnc4MBbeff8TiiSg
+         Odl0oCDgki+7RHty31CatojngdO+l8wC3yMAiG7Gbj3Czvl6obwg3L1UNyOY438koG
+         xLZk0hyqISVQ5rQ9lIrmjmLX35omEqK4lB1EGOecnD+2WOBXfvn3Jy5wpx4WxkSt4K
+         j5n8xGkMw/Gx4bOdw9TyLYD5cKN3clag3O1I6b8a+wIoGHTDRgBG7q/No5ClfoYrO9
+         +MvZWaDpllSiQ==
+Date:   Wed, 18 Jan 2023 15:55:26 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Lee Jones <lee@kernel.org>
+cc:     benjamin.tissoires@redhat.com, avid.rheinsberg@gmail.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/2] HID: core: Provide new max_buffer_size attribute to
+ over-ride the default
+In-Reply-To: <Y8fTd0VJXqKkPIuo@google.com>
+Message-ID: <nycvar.YFH.7.76.2301181554370.1734@cbobk.fhfr.pm>
+References: <20230113150557.1308176-1-lee@kernel.org> <nycvar.YFH.7.76.2301181002550.1734@cbobk.fhfr.pm> <Y8fTd0VJXqKkPIuo@google.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: remove arch/sh
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
- <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
- <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
- <7329212f-b1a0-41eb-99b3-a56eb1d23138@landley.net>
- <CAMuHMdXo3iR2C=CAaXO5tBRCncnQAAMR6BMPLOm_nBpFAeVhrA@mail.gmail.com>
-From:   Rob Landley <rob@landley.net>
-In-Reply-To: <CAMuHMdXo3iR2C=CAaXO5tBRCncnQAAMR6BMPLOm_nBpFAeVhrA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 1/18/23 01:46, Geert Uytterhoeven wrote:
-> Again, I think you're talking about something different.
-> Does kexec work for you?
+On Wed, 18 Jan 2023, Lee Jones wrote:
 
-Sorry, got woken up several hours early by sirens and flashy lights this morning
-(duplex on the corner caught fire, Austin has a LOT of emergency vehicles), been
-a bit underclocked all day.
-
-No, I haven't tried kexec on sh4. I'll add it to the todo heap.
-
->> > I tried working my way up from 2.6.22, but gave up around 2.6.29.
->> > Probably I should do this with r2d and qemu instead ;-)
->>
->> I have current running there. I've had current running there for years. Config
->> attached...
->>
->> > Both r2d and landisk are SH7751.
->>
->> Cool. Shouldn't be hard to get landisk running current then.
+> > > Presently, when a report is processed, its size is compared solely 
+> > > against the value specified by user-space.  
+> > 
+> > While I am generally fine with the idea, I don't understand this sentence. 
+> > What exactly do you mean by 'specified by user-space'? It's defined as a 
+> > compile-time constant.
+> > 
+> > > If the received report ends up being smaller than this, the
+> > > remainder of the buffer is zeroed. 
 > 
-> Current kernels work fine on landisk with an old Debian userspace
-> on CF.  The 8139cp driver is a bit flaky: last time I tried nfsroot,
-> that didn't work well.
+> Apologies for any ambiguity.
+> 
+> "its size" == "compile-time constant"
+> 
+> Would "its maximum size" read better?
 
-I've never had luck with NFS, I was using NBD. Hadn't noticed the flake but
-haven't stress tested it too hard either?
+I think that the confusion comes from the fact that the changelog is 
+written solely with the UHID usercase on mind ... ? (which is dealt with 
+in the independent followup patch).
 
-Mostly new userspace is what I'm testing...
+Thanks,
 
-Rob
+-- 
+Jiri Kosina
+SUSE Labs
+
