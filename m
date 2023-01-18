@@ -2,49 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A6896717A1
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A796717E1
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:37:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbjARJ1T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 04:27:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47490 "EHLO
+        id S229934AbjARJhj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 04:37:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230282AbjARJZO (ORCPT
+        with ESMTP id S230040AbjARJfC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 04:25:14 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 898D44FCF3
-        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 00:50:36 -0800 (PST)
+        Wed, 18 Jan 2023 04:35:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0396A193DE;
+        Wed, 18 Jan 2023 00:54:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 30848616F7
-        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 08:50:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 949FCC433D2;
-        Wed, 18 Jan 2023 08:50:34 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9F81BB8118F;
+        Wed, 18 Jan 2023 08:54:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D8DC433F0;
+        Wed, 18 Jan 2023 08:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674031835;
-        bh=QauonNv0EXGoSeatSna+JMFAAXtdwXpakLfDdsWLD2g=;
+        s=k20201202; t=1674032086;
+        bh=qpbIsiLmAWo/Yyxp9eZJRCZtQ25fsobPBsJ/XpH9rEA=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=TwOUcfYZaa7xvDmEJDaj7Q0DnMZLH/hhyptlcGyE+8GEPq0PHRA8g62cuSkGYtisa
-         QhVe7RpMTqjFJXlDHB31+Xzfyfd9TqdJSK7+aWVJbmFGpKSKwmQkCPxx72iHqvHzom
-         OwMNCtBzKywhN/aRX7D8PCMa0SpTp3+mgKS3FN3hBc3/Q/i83cR2Sm3NIwoeokeLNk
-         cB6vs86CYv3FqgEfYYHuJ+ccN2+g7zVl/48u9VMsb8jQnfU1cqf8eGtc98Sa0D6sEn
-         bYcjSoC+1CnTDyeRwhRTOvtv+ATwqjKx7d8f1v8PLZ/qMa/Y9tz1WPMh5pHcowsXLh
-         eVyLCYyv50PRg==
-Date:   Wed, 18 Jan 2023 09:50:36 +0100 (CET)
+        b=YhCyzSQcoTw8iqjo7c+CNIZCUhXds2k7rVb4XcN+Joyx3dW8gmlKluhfsTdV3fZnk
+         Iz/A/2/KJqWZgb5dto5rbgTDx2HxISQyNyOvPDB3IC69jd1xhL4gLmFmRq29q4K9eF
+         R1MdX8X/dqciwv9WSJhx3AiF0ixAjtKGqI1J8QIyYRXMIcZSL7Pfae6XvKRahJjr5M
+         HoFCeHmLT7BnzDvklHdLeuatRGc2TIMBnxKgYUQRpYLdDwhCj68WLntkVR/AiX+XOY
+         kwxMEVSNtdsO8rOkSoLI50KY1EWy6g6QYy/vfrlN9Mdw3Z/DJse9EfEO7wZjEuxDao
+         0P70JC9bKnDbA==
+Date:   Wed, 18 Jan 2023 09:54:46 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Roderick Colenbrander <roderick@gaikai.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH] HID: sony: remove DualShock4 support.
-In-Reply-To: <20230106211425.3048993-1-roderick.colenbrander@sony.com>
-Message-ID: <nycvar.YFH.7.76.2301180949580.1734@cbobk.fhfr.pm>
-References: <20230106211425.3048993-1-roderick.colenbrander@sony.com>
+To:     Aditya Garg <gargaditya08@live.com>
+cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "srinivas.pandruvada@linux.intel.com" 
+        <srinivas.pandruvada@linux.intel.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "orlandoch.dev@gmail.com" <orlandoch.dev@gmail.com>,
+        "ronald@innovation.ch" <ronald@innovation.ch>
+Subject: Re: [PATCH v3] HID: Recognize sensors with application collections
+In-Reply-To: <9E66CF6F-99A0-4CC5-9FA0-3A9DCFCA0388@live.com>
+Message-ID: <nycvar.YFH.7.76.2301180953340.1734@cbobk.fhfr.pm>
+References: <8DA00FF4-DB08-4CEC-A5B4-47A71DC09C13@live.com> <01D620E2-18CA-40F6-A330-454CBC20C542@live.com> <EFCEA45A-C6F4-477A-B011-9C9E6E61E488@live.com> <9E66CF6F-99A0-4CC5-9FA0-3A9DCFCA0388@live.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -54,19 +61,22 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 6 Jan 2023, Roderick Colenbrander wrote:
+On Wed, 11 Jan 2023, Aditya Garg wrote:
 
-> Now that hid-playstation provides DualShock4 support, remove
-> DualShock4 support from hid-sony as it is redundant.
+> From: Ronald Tschalär <ronald@innovation.ch>
 > 
-> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> ---
->  drivers/hid/hid-sony.c | 1021 ++--------------------------------------
->  1 file changed, 40 insertions(+), 981 deletions(-)
+> According to HUTRR39 logical sensor devices may be nested inside
+> physical collections or may be specified in multiple top-level
+> application collections (see page 59, strategies 1 and 2). However,
+> the current code was only recognizing those with physical collections.
+> 
+> This issue turned up in the T2 MacBook Pros which define the ALS in
+> a top-level application collection.
+> 
+> Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
 
-What's not to like about this diffstat :)
-
-Applied, thanks Roderick.
+Makes sense. Queued in for-6.3/hid-core. Thanks,
 
 -- 
 Jiri Kosina
