@@ -2,75 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC2D7671890
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 11:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C2C967188E
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 11:08:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbjARKIh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 05:08:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43846 "EHLO
+        id S230086AbjARKIc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 05:08:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbjARKHy (ORCPT
+        with ESMTP id S230136AbjARKHx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 05:07:54 -0500
-Received: from freundtech.com (freundtech.com [IPv6:2a01:4f8:c17:2d66::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8567656CF;
-        Wed, 18 Jan 2023 01:13:24 -0800 (PST)
-Received: from [IPV6:2a02:8071:2b80:7760:fecd:7e78:31fb:a087] (unknown [IPv6:2a02:8071:2b80:7760:fecd:7e78:31fb:a087])
-        by freundtech.com (Postfix) with ESMTPSA id C554C1EBBBE;
-        Wed, 18 Jan 2023 10:13:22 +0100 (CET)
-Message-ID: <e2b16837-cc05-4f04-f58e-a8315ab85321@freund.io>
-Date:   Wed, 18 Jan 2023 10:13:22 +0100
+        Wed, 18 Jan 2023 05:07:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8204665EEE
+        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 01:13:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2C3C5B8118F
+        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 09:13:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D70C433F0;
+        Wed, 18 Jan 2023 09:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674033211;
+        bh=5Wei7Yl9E6IvQz6cOag1a/vKrXAfK2BzUFT/EYy+8eY=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=vA5imcc1TOVIp3Od8ptPYjYqiE/ZYnjhMJVoImmDoOYdkk9aBSSg0eI9JE0rgJaQk
+         Grfd8pMecgPRvG9viRnWKm5Uuu+FuFpwnEGfcxIscr2zEGhkCqH8x4yNM9ZO5jtYEH
+         n+C1pS0oj/Ek9Q9d5EyjScDKXVhRQVwR+X+c1+JxTCyQNVAUNBrSk2+TJHCUK5J1Ef
+         NGAE/DAcloOX/kkqWrvjWRyr/oeD0Du2bL1EuXgrjsE9ZMWvSWCwNp79xP7DHsZ9W7
+         KOUxxzCqBXen5o0V5et3WtbqyW1IeTsEuhMm4aYVdMUMCrrJzXm0aHq+WmVtM3W66K
+         PWg4Lh4L48amg==
+Date:   Wed, 18 Jan 2023 10:13:32 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH 0/5] HID: playstation: various DS4 and DualSense fixes
+In-Reply-To: <20230106015910.3031670-1-roderick.colenbrander@sony.com>
+Message-ID: <nycvar.YFH.7.76.2301181013030.1734@cbobk.fhfr.pm>
+References: <20230106015910.3031670-1-roderick.colenbrander@sony.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2] HID: amd_sfh: Add support for tablet-mode-switch
- sensor
-Content-Language: en-US
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Basavaraj Natikar <basavaraj.natikar@amd.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Luke D. Jones" <luke@ljones.dev>, Ivan Dovgal <iv.dovg@gmail.com>
-References: <20221218214723.14735-1-adrian@freund.io>
- <nycvar.YFH.7.76.2301180948450.1734@cbobk.fhfr.pm>
-From:   Adrian Freund <adrian@freund.io>
-In-Reply-To: <nycvar.YFH.7.76.2301180948450.1734@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 1/18/23 09:49, Jiri Kosina wrote:
-> On Sun, 18 Dec 2022, Adrian Freund wrote:
->
->> This patch adds support for the tablet mode switch sensors on
->> convertible devices where that sensor is managed by AMD SFH, like the
->> Asus Flow X13 and the Lenovo ThinkPad L13 Yoga Gen2 (AMD).
->>
->> Co-developed-by: Ivan Dovgal <iv.dovg@gmail.com>
->> Signed-off-by: Ivan Dovgal <iv.dovg@gmail.com>
->> Co-developed-by: Luke D. Jones <luke@ljones.dev>
->> Signed-off-by: Luke D. Jones <luke@ljones.dev>
->> Signed-off-by: Adrian Freund <adrian@freund.io>
-> Basavaraj, could you please review this? Thanks,
->
-I think this doesn't need a review right now. I recently found some big 
-problems with the patch recently and am working on an updated version. I 
-think reviewing once I send v3 should be enough.
+On Thu, 5 Jan 2023, Roderick Colenbrander wrote:
 
-In short: This patch generates nonsensical HID messages that don't even 
-contain the sensor state.
-It still makes the tablet-mode-switch work on some but not all devices 
-due to a mechanism I don't fully understand yet. Somehow ACPI devices 
-that previously did nothing suddenly work with this patch and are then 
-getting picked up by various platform drivers depending on the device. 
-This driver however doesn't properly handle the actual data directly 
-from the sensor.
+> Hi,
+> 
+> This patch set contains a number of small fixes and stability improvements.
+> 
+> The stability patches are most critical as they prevent kernel crashes.
+> Over the years there have been various buggy devices usually clone devices,
+> but now apparently some official devices with wiped calibration data.
+> It is hard to handle all permutations of devices as some have constants,
+> some have broken constants (e.g. wrong sign of a coefficient). We disable
+> calibration when we see an invalid 0 denominator. The patch adds the same
+> logic to both the DualShock4 and DualSense code.
+> 
+> As part of the calibration stability improvements, a thorough review was
+> performed of the calibration code as it was suspected it was potentially
+> incorrect. It was found to be only slightly wrong for the handling of the
+> bias of the gyroscopes. Two patches fix this for both DualShock4 and DualSense.
+> There is only a marginal impact on practical values as the bias values
+> tend to be quite small.
+> 
+> Thanks,
+> Roderick Colenbrander
+> Sony Interactive Entertainment, LLC
 
----
-Adrian
+I am splitting the stability ones (for 6.2) from the small improvements / 
+cleanups (for 6.3).
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
