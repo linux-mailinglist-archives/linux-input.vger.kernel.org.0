@@ -2,83 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 206C067205E
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 16:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FDBC672077
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 16:04:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjARPAc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 10:00:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59858 "EHLO
+        id S231588AbjARPEF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 10:04:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231698AbjARPAK (ORCPT
+        with ESMTP id S230240AbjARPDZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 10:00:10 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F5A5AB48;
-        Wed, 18 Jan 2023 06:55:26 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 44E4B6185C;
-        Wed, 18 Jan 2023 14:55:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71347C433D2;
-        Wed, 18 Jan 2023 14:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674053725;
-        bh=wjglZMLOEjQw+vq02RhUK9jEtIO+B6Bqz4mUgDY3ieY=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=O30xWI6z44KBeWjES0Q+xaK/kQvDQoRnFLDXLidPgskZam0Us1qX5SErhY2uqB7f0
-         1Hq/zby63ptVXMEGOd/bslV1Me7c4YcdfPiUYexlgnd93zUXkeNnc4MBbeff8TiiSg
-         Odl0oCDgki+7RHty31CatojngdO+l8wC3yMAiG7Gbj3Czvl6obwg3L1UNyOY438koG
-         xLZk0hyqISVQ5rQ9lIrmjmLX35omEqK4lB1EGOecnD+2WOBXfvn3Jy5wpx4WxkSt4K
-         j5n8xGkMw/Gx4bOdw9TyLYD5cKN3clag3O1I6b8a+wIoGHTDRgBG7q/No5ClfoYrO9
-         +MvZWaDpllSiQ==
-Date:   Wed, 18 Jan 2023 15:55:26 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Lee Jones <lee@kernel.org>
-cc:     benjamin.tissoires@redhat.com, avid.rheinsberg@gmail.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: core: Provide new max_buffer_size attribute to
- over-ride the default
-In-Reply-To: <Y8fTd0VJXqKkPIuo@google.com>
-Message-ID: <nycvar.YFH.7.76.2301181554370.1734@cbobk.fhfr.pm>
-References: <20230113150557.1308176-1-lee@kernel.org> <nycvar.YFH.7.76.2301181002550.1734@cbobk.fhfr.pm> <Y8fTd0VJXqKkPIuo@google.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Wed, 18 Jan 2023 10:03:25 -0500
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA85AB0
+        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 07:01:39 -0800 (PST)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-4f7b55575f7so8498647b3.11
+        for <linux-input@vger.kernel.org>; Wed, 18 Jan 2023 07:01:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=m5GuKVC4pQj49C/fjSRZidC/mq+hHR2WXiau98BExSI=;
+        b=YFxTn+0aMlGuM8qOPt+295N9LyLmFMU/l2XSqZZs4n53A1tfmeYsfxCELocIGNNd63
+         TDAjTW9AaI8IPzLlpvTDQk5B6GisT42aDSg/l9Zlf1ValNq+CvqbkjO00BytXfkb4ah6
+         0fSYxW32u2aoqF12F0SMYV2YhFPmwa0l5Ve+YGTxHIAl57IGyRq993fRLmEyF2uzZE9E
+         LNIMTE9hnGdySe5UDVg9fkFR96tl96GV9PY91TDKYeGgiXHXADuY/pPvc/OShk6cMUFX
+         Dn/hP42c6mWZ9SN/LgK75tYIgm+ZhHmANpbNLzLIt91R16JkCFxu5xH4eSl5aYPkvfiW
+         kBPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m5GuKVC4pQj49C/fjSRZidC/mq+hHR2WXiau98BExSI=;
+        b=wFJCA3plzrM2+pChsYJAT8D1mj2FC7/rmZKID80PA3M8YpLBq8uwvxB3XMG0RxkqKx
+         IbF10HyyvztgWyHV+4yMAjiyih3lFiIKqmSZimte6iPEcE/YnMCygvJ98nrJ/AY/RdCM
+         khcOkUGnUJDog/WaxKZO0Q3gkWAazRP30i1oxeTBlMUPl9kXB4qeWgBwq9Qs/l6Jomd4
+         aosGvH8SU4cF+Kv3uo9N4LoISFrq6m32hIMCIa2c6AZn1cJ+eNRmATr+GWkwJZmv9Bec
+         TgwIyunxOiMLQOW/rfyNgh6C265bycFgViwGDaP0Q4rZ0bSqtjbo1/EqhGp/neAjgUMu
+         ihvg==
+X-Gm-Message-State: AFqh2krhIfeJlOkxKz6wVqzKG/+ZUf4yjkikZ74dvHRHV4yAXwjI2Gtd
+        M47+Z695DyDtGzwEFCCoD+S/ofP4ZRiRb0/OZ9nHUbreCO7qP79e
+X-Google-Smtp-Source: AMrXdXsqKwUbP8nL/iwFdRJ+SsmKRYq2SOn3EZXbhFPP25F7tic0BmRJR86ghf7B6XvuS2SuKFsE6Y5FczSzBU0PhII=
+X-Received: by 2002:a0d:c384:0:b0:483:3c9b:37d6 with SMTP id
+ f126-20020a0dc384000000b004833c9b37d6mr779217ywd.382.1674054098693; Wed, 18
+ Jan 2023 07:01:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Jonathan Denose <jdenose@google.com>
+Date:   Wed, 18 Jan 2023 09:01:27 -0600
+Message-ID: <CAMCVhVPHf9j0rYzRCdN+QQTMnE+BO1B08wDyrC2Pg0b_PkU7YA@mail.gmail.com>
+Subject: Alps touchpad intermittently recognized as generic mouse
+To:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 18 Jan 2023, Lee Jones wrote:
+Hello,
 
-> > > Presently, when a report is processed, its size is compared solely 
-> > > against the value specified by user-space.  
-> > 
-> > While I am generally fine with the idea, I don't understand this sentence. 
-> > What exactly do you mean by 'specified by user-space'? It's defined as a 
-> > compile-time constant.
-> > 
-> > > If the received report ends up being smaller than this, the
-> > > remainder of the buffer is zeroed. 
-> 
-> Apologies for any ambiguity.
-> 
-> "its size" == "compile-time constant"
-> 
-> Would "its maximum size" read better?
+I have a Dell Vostro 3550 which fails to initialize the AlpsPS/2
+driver for its touchpad and then falls back to the generic PS/2 driver
+which doesn't allow for two finger vertical scrolling. I have looked
+through the driver code and found the failure to happen for address
+0x0006 on this line in some cases and this other line in other cases.
+Sometimes the initialize doesn't fail at all and the AlpsPS/2 driver
+is used and the touchpad works correctly with vertical scroll.
 
-I think that the confusion comes from the fact that the changelog is 
-written solely with the UHID usercase on mind ... ? (which is dealt with 
-in the independent followup patch).
+I have found that this touchpad and driver work fine on the same
+device running Ubuntu. I am currently using kernel 5.10 running
+ChromeOS.
 
-Thanks,
+Some more info for the touchpad:
+E6 report: 00 00 64
+E7 report: 73 02 64
+EC report: 88 07 9d
 
--- 
-Jiri Kosina
-SUSE Labs
+Any help in resolving this issue would be greatly appreciated!
 
+Thank you,
+Jonathan
