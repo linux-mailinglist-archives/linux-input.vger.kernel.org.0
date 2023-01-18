@@ -2,90 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29ECE6719AD
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 11:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F65C671B40
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 12:54:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229511AbjARKxL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 05:53:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43912 "EHLO
+        id S230169AbjARLym (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 06:54:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230471AbjARKvA (ORCPT
+        with ESMTP id S230338AbjARLwg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 05:51:00 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F289A45F40;
-        Wed, 18 Jan 2023 02:00:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674036041; x=1705572041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=2kzgrBUfMBAY/+H5vDRwbImFOagJJve1sIaVm+YscYE=;
-  b=UefuBp1NLFFuMnkqf4VPFFpP4d3UJcidkltE1mvqxinv8jl4A6c8nClB
-   T/QhABpFTbDLwlDGaQZ2X5X1D0Q0PkSWhbybz5Hcq93bDo4sJBSBRTId0
-   ESZnsivQgU+vo0zyuHyNQJEkzWSuR9qgH7STZv8Gxc6LYcihYzMApuNFO
-   RvTVcQy0+ZZ/PZ/VWZHr0zcy4V46jEMi1RVcxJbre1vMOeImwM66cgvnH
-   8Yv9RwUNjAuBaZ4v3KYlUAYkvN0DYVi/BPOKRo042Vcw0qPeORPIm7VbV
-   0ksrLCqEU9J1gSgCGiHeTnmV2jzH29Pb93HoTI+pwYsKO2lrlQgBiC3+Q
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="308508848"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="308508848"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 02:00:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="783612749"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="783612749"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 18 Jan 2023 02:00:38 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pI5FF-00B6yP-0G;
-        Wed, 18 Jan 2023 12:00:37 +0200
-Date:   Wed, 18 Jan 2023 12:00:36 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        Wed, 18 Jan 2023 06:52:36 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB096E831;
+        Wed, 18 Jan 2023 03:09:51 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CBF97B81C16;
+        Wed, 18 Jan 2023 11:09:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC90FC433EF;
+        Wed, 18 Jan 2023 11:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674040188;
+        bh=NZW9HiYlTqxS3hzsVzUHhCSns2PIpY7e66VoK9HVTLg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=V9GY2h1POWPM4omeBU1RQWCB2P8xzsiyNNn4SDIbh96+c0FJw9PzlpDWU9R9o0Mnl
+         eg7DDc2wABs+Fbiw8FseF24qqKr9sDgLqNUthJjtq25MdasDkU3GxCO2OfPH7FKO1J
+         XDQ1cuwB5qKVCTjOzK+gxK7l4Miif+6KTQhLAp2OQJRMkp1l+FjzEnmTHP6byD/aj2
+         bCLGvCdbTthkBWATMpGnPkx/afltV13dA3iO5O0XL4hE286F4OuhqRVWrBDDFDLChB
+         fY0Lsh/GE+dBeVLoTI0vQ/JEhwQkXOC43ySr1ZnBc5lwvtyMoztYJ5qimuYcqRkDoN
+         ACi0p1kS9b2HQ==
+Date:   Wed, 18 Jan 2023 11:09:43 +0000
+From:   Lee Jones <lee@kernel.org>
 To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Raul E Rangel <rrangel@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] HID: i2c-hid: acpi: Drop unneded NULL check of
- adev
-Message-ID: <Y8fDRJ9tL8BzUKJD@smile.fi.intel.com>
-References: <20230116154621.16135-1-andriy.shevchenko@linux.intel.com>
- <nycvar.YFH.7.76.2301181006170.1734@cbobk.fhfr.pm>
+Cc:     benjamin.tissoires@redhat.com, avid.rheinsberg@gmail.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/2] HID: core: Provide new max_buffer_size attribute to
+ over-ride the default
+Message-ID: <Y8fTd0VJXqKkPIuo@google.com>
+References: <20230113150557.1308176-1-lee@kernel.org>
+ <nycvar.YFH.7.76.2301181002550.1734@cbobk.fhfr.pm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <nycvar.YFH.7.76.2301181006170.1734@cbobk.fhfr.pm>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <nycvar.YFH.7.76.2301181002550.1734@cbobk.fhfr.pm>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 10:06:32AM +0100, Jiri Kosina wrote:
-> On Mon, 16 Jan 2023, Andy Shevchenko wrote:
-> 
-> > The driver is enumerated on ACPI platforms, so adev is valid.
-> > Since there is no valid I�C ID table provided, there is no
-> > possibility to bind a device to this driver via user space.
-> > Hence, drop unneeded NULL check of adev.
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> Applied both to hid.git#for-6.3/i2c-hid. Thanks,
+On Wed, 18 Jan 2023, Jiri Kosina wrote:
 
-Thank you and HNY!
+> On Fri, 13 Jan 2023, Lee Jones wrote:
+> 
+> > Presently, when a report is processed, its size is compared solely 
+> > against the value specified by user-space.  
+> 
+> While I am generally fine with the idea, I don't understand this sentence. 
+> What exactly do you mean by 'specified by user-space'? It's defined as a 
+> compile-time constant.
+> 
+> > If the received report ends up being smaller than this, the
+> > remainder of the buffer is zeroed. 
+
+Apologies for any ambiguity.
+
+"its size" == "compile-time constant"
+
+Would "its maximum size" read better?
+
+These sentences are an attempt to describe this statement:
+
+    if (csize < rsize) {
+        dbg_hid("report %d is too short, (%d < %d)\n", report->id,
+            csize, rsize);
+        memset(cdata + csize, 0, rsize - csize);
+    }
+
+Where csize is "the [size of the] received report" and rsize is the
+"value [size] specified by user-space".  Thus, if user-space says the
+report will be 8-Bytes (rsize) and it actually only only submits 6-Bytes
+(csize), then the subsystem will complain that the "report is too short"
+and it will attempt to zero the seemingly unused 2-Bytes.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones [李琼斯]
