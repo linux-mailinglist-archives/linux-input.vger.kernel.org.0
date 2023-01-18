@@ -2,49 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DD4D671838
-	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:53:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C2867184D
+	for <lists+linux-input@lfdr.de>; Wed, 18 Jan 2023 10:57:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbjARJxD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Jan 2023 04:53:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37422 "EHLO
+        id S229602AbjARJ5h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Jan 2023 04:57:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230300AbjARJwe (ORCPT
+        with ESMTP id S229993AbjARJz7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Jan 2023 04:52:34 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E318F6F9;
-        Wed, 18 Jan 2023 01:03:46 -0800 (PST)
+        Wed, 18 Jan 2023 04:55:59 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886A9917E9;
+        Wed, 18 Jan 2023 01:06:34 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6C921B81AA0;
-        Wed, 18 Jan 2023 09:03:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA49C433EF;
-        Wed, 18 Jan 2023 09:03:42 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 3D55BCE1B7B;
+        Wed, 18 Jan 2023 09:06:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CFCDC433D2;
+        Wed, 18 Jan 2023 09:06:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674032624;
-        bh=Z+pgYC89S4+L9Jh7B8LqdM+hX7kbZdQaaYDpkoSrfUo=;
+        s=k20201202; t=1674032791;
+        bh=3rR5NFZPdgUltcrnDeHPchHniZSq12mFPgNrAtdt01w=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=AoEz3tLJdGTcnf3EB1XpR03FJgWRmArpgneIhsAzB08HkkeLUKxcwLRxWqZBQ2hfd
-         8XPDyEJ0qZE4+YR8WdtoUdq4We0LHcJ4fFhi9NqVPoiwDZ4ukt/H1P6xAN4U1r/AP4
-         z50+HzzoS3JGPujCDZQvPyzzy9GKLeVgOYRqF5OY07JGXQn3AqcXcHSxNBciSETJ8t
-         1OfUQtLDVRAoq/EeyQcw+RFWXk5JTZEpmMyxgFOXp3RPvCmroJ98wAldoPhXGwMoAy
-         KPENEASbX6U92vhMxlVTDW48tZRjcYnGyafkNft1K3f+/9ijLYyPqyv1ZgDn6JUuVR
-         rB61n61y8GrqA==
-Date:   Wed, 18 Jan 2023 10:03:44 +0100 (CET)
+        b=BYe0e2lYMHa18C150XrQbce2OxC0YxzULr0oNljzENHcgQqBD6rs7Qw1JkMY+EyI5
+         8hlOxd2TTsPiACwS+NAmIIyBQwmBwwdvfJBoDyprLmbo7s0bMU5JnCP45u8y0P2woJ
+         9iOCS/x6H4o2g0WgnQbyh9pd7xBfkx1HaP0DVUj0WT+CNMjJYYyM4/EIDvGTWJtr+R
+         XlaFqagcQON4tdqaPBOSRUZhCjiSFY/6HPZiqfKMDM+LvFlLKG2yxV1bNoAlmHAH9N
+         ICFs5zp8HPK3YB04y9Ubjtzwd8IS0yfsTeQ9aLcRsBNJaUrpBRMBDzFfODEN1WHmT/
+         ame4lXeq/kYMg==
+Date:   Wed, 18 Jan 2023 10:06:32 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Lee Jones <lee@kernel.org>
-cc:     benjamin.tissoires@redhat.com, avid.rheinsberg@gmail.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: core: Provide new max_buffer_size attribute to
- over-ride the default
-In-Reply-To: <20230113150557.1308176-1-lee@kernel.org>
-Message-ID: <nycvar.YFH.7.76.2301181002550.1734@cbobk.fhfr.pm>
-References: <20230113150557.1308176-1-lee@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Raul E Rangel <rrangel@chromium.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] HID: i2c-hid: acpi: Drop unneded NULL check of
+ adev
+In-Reply-To: <20230116154621.16135-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.2301181006170.1734@cbobk.fhfr.pm>
+References: <20230116154621.16135-1-andriy.shevchenko@linux.intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -54,16 +57,16 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 13 Jan 2023, Lee Jones wrote:
+On Mon, 16 Jan 2023, Andy Shevchenko wrote:
 
-> Presently, when a report is processed, its size is compared solely 
-> against the value specified by user-space.  
+> The driver is enumerated on ACPI platforms, so adev is valid.
+> Since there is no valid I²C ID table provided, there is no
+> possibility to bind a device to this driver via user space.
+> Hence, drop unneeded NULL check of adev.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-While I am generally fine with the idea, I don't understand this sentence. 
-What exactly do you mean by 'specified by user-space'? It's defined as a 
-compile-time constant.
-
-Thanks,
+Applied both to hid.git#for-6.3/i2c-hid. Thanks,
 
 -- 
 Jiri Kosina
