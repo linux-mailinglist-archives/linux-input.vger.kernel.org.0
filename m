@@ -2,96 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA92F674057
-	for <lists+linux-input@lfdr.de>; Thu, 19 Jan 2023 18:51:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F6B6740FE
+	for <lists+linux-input@lfdr.de>; Thu, 19 Jan 2023 19:30:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbjASRvn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Jan 2023 12:51:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58682 "EHLO
+        id S229688AbjASSau (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Jan 2023 13:30:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbjASRvm (ORCPT
+        with ESMTP id S230180AbjASSat (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Jan 2023 12:51:42 -0500
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F6793CE;
-        Thu, 19 Jan 2023 09:51:37 -0800 (PST)
-Received: by mail-oi1-f181.google.com with SMTP id n8so2369459oih.0;
-        Thu, 19 Jan 2023 09:51:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=88CEYayVz9P+ewRhEaNDKsu17wnm0wIpWAPH9sbb1IA=;
-        b=EEnKd0O6AIC2cl4W7Xht0Ia5DcY00mMYZ88d5zfHtf/K5dlK2QHlMiS0GT6/aKhXve
-         JktxSD+UPZlrfreqBodlCse2AHqRKyL+WdLj/w20VoAX+1kuZ9Bpu/OgVGpQhlzWbunB
-         Uc7myhQVGcxPXMtcHmN2ULO3pnHmhK1uw++TucduEYSWookBYGkpMKteK6t7Z26Lj5Ae
-         9uCp1cPMfA08SRm7eeX3mLARonRv0QqwEhFIcKCEI/IvGNf7dAGyA/XUz4/p8s6RevAL
-         CxRGgpegXBmUR3vwCFjmBfBA2FdrQFpRd2wgAwNFfWhzFxy5E1xLDi8b2ZhEdj52fDOp
-         /YrQ==
-X-Gm-Message-State: AFqh2krUO71vl0X4OmWnWL5t0aGIvLETHzvwLEwk2HEWsrj9oBC14ipt
-        IyKy0mwaVmW7nymsH6YFgA==
-X-Google-Smtp-Source: AMrXdXtXwGBPksu+/jJLSzW2KkFBYnEBDrD8ZPFZET2oHNBgRWSgf6Q/22TJC6L0+eIw9JAIJ04kvA==
-X-Received: by 2002:a05:6808:200e:b0:360:de9c:98cd with SMTP id q14-20020a056808200e00b00360de9c98cdmr6659825oiw.49.1674150696295;
-        Thu, 19 Jan 2023 09:51:36 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id c6-20020aca1c06000000b0035763a9a36csm2159422oic.44.2023.01.19.09.51.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 09:51:35 -0800 (PST)
-Received: (nullmailer pid 2099339 invoked by uid 1000);
-        Thu, 19 Jan 2023 17:51:35 -0000
-Date:   Thu, 19 Jan 2023 11:51:35 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jesse Taube <mr.bossman075@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        lee@kernel.org, lee.jones@linaro.org
-Subject: Re: [PATCH v2] drivers/mfd: simple-mfd-i2c: Add generic compatible
-Message-ID: <20230119175135.GA2085792-robh@kernel.org>
-References: <20221202113226.114465-1-Mr.Bossman075@gmail.com>
+        Thu, 19 Jan 2023 13:30:49 -0500
+X-Greylist: delayed 80076 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 19 Jan 2023 10:30:15 PST
+Received: from m25.coreserver.jp (m25.coreserver.jp [202.172.26.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084808F6D7
+        for <linux-input@vger.kernel.org>; Thu, 19 Jan 2023 10:30:14 -0800 (PST)
+Received: (qmail 816929 invoked by uid 89); 20 Jan 2023 03:30:13 +0900
+Received: from 25.6.30.125.dy.iij4u.or.jp (HELO fg-ryz..) (fujii@xaxxi.net@125.30.6.25)
+  by m25.coreserver.jp with TLS_AES_256_GCM_SHA384 encrypted SMTP; 20 Jan 2023 03:30:13 +0900
+From:   Takahiro Fujii <fujii@xaxxi.net>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Takahiro Fujii <fujii@xaxxi.net>
+Subject: [PATCH] HID: elecom: add support for TrackBall 056E:011C
+Date:   Fri, 20 Jan 2023 03:30:02 +0900
+Message-Id: <20230119183002.352852-1-fujii@xaxxi.net>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202113226.114465-1-Mr.Bossman075@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 06:32:26AM -0500, Jesse Taube wrote:
-> Some devices may want to use this driver without having a specific
-> compatible string. Add a generic compatible string to allow this.
+Make function buttons on ELECOM M-HT1DRBK trackball mouse work. This model
+has two devices with different device IDs (010D and 011C). Both of
+them misreports the number of buttons as 5 in the report descriptor, even
+though they have 8 buttons. hid-elecom overwrites the report to fix them,
+but supports only on 010D and does not work on 011C. This patch fixes
+011C in the similar way but with specialized position parameters.
+In fact, it is sufficient to rewrite only 17th byte (05 -> 08). However I
+followed the existing way.
 
-What devices need this?
+Signed-off-by: Takahiro Fujii <fujii@xaxxi.net>
+---
+ drivers/hid/hid-elecom.c | 16 ++++++++++++++--
+ drivers/hid/hid-ids.h    |  3 ++-
+ drivers/hid/hid-quirks.c |  3 ++-
+ 3 files changed, 18 insertions(+), 4 deletions(-)
 
-Is that no specific compatible string at all or just in the kernel? 
-Because the former definitely goes against DT requirements. The latter 
-enables the former without a schema.
+diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
+index e59e9911fc37..4fa45ee77503 100644
+--- a/drivers/hid/hid-elecom.c
++++ b/drivers/hid/hid-elecom.c
+@@ -12,6 +12,7 @@
+  *  Copyright (c) 2017 Alex Manoussakis <amanou@gnu.org>
+  *  Copyright (c) 2017 Tomasz Kramkowski <tk@the-tk.com>
+  *  Copyright (c) 2020 YOSHIOKA Takuma <lo48576@hard-wi.red>
++ *  Copyright (c) 2022 Takahiro Fujii <fujii@xaxxi.net>
+  */
+ 
+ /*
+@@ -89,7 +90,7 @@ static __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 	case USB_DEVICE_ID_ELECOM_M_DT1URBK:
+ 	case USB_DEVICE_ID_ELECOM_M_DT1DRBK:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1URBK:
+-	case USB_DEVICE_ID_ELECOM_M_HT1DRBK:
++	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D:
+ 		/*
+ 		 * Report descriptor format:
+ 		 * 12: button bit count
+@@ -99,6 +100,16 @@ static __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		 */
+ 		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 8);
+ 		break;
++	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
++		/*
++		 * Report descriptor format:
++		 * 22: button bit count
++		 * 30: padding bit count
++		 * 24: button report size
++		 * 16: button usage maximum
++		 */
++		mouse_button_fixup(hdev, rdesc, *rsize, 22, 30, 24, 16, 8);
++		break;
+ 	}
+ 	return rdesc;
+ }
+@@ -112,7 +123,8 @@ static const struct hid_device_id elecom_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, elecom_devices);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 82713ef3aaa6..86692aecf36d 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -429,7 +429,8 @@
+ #define USB_DEVICE_ID_ELECOM_M_DT1URBK	0x00fe
+ #define USB_DEVICE_ID_ELECOM_M_DT1DRBK	0x00ff
+ #define USB_DEVICE_ID_ELECOM_M_HT1URBK	0x010c
+-#define USB_DEVICE_ID_ELECOM_M_HT1DRBK	0x010d
++#define USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D	0x010d
++#define USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C	0x011c
+ 
+ #define USB_VENDOR_ID_DREAM_CHEEKY	0x1d34
+ #define USB_DEVICE_ID_DREAM_CHEEKY_WN	0x0004
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 0e9702c7f7d6..0e7b4e6a5b2d 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -394,7 +394,8 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C) },
+ #endif
+ #if IS_ENABLED(CONFIG_HID_ELO)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, 0x0009) },
 
-> 
-> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-> ---
->  drivers/mfd/simple-mfd-i2c.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
-> index f4c8fc3ee463..0bda0dd9276e 100644
-> --- a/drivers/mfd/simple-mfd-i2c.c
-> +++ b/drivers/mfd/simple-mfd-i2c.c
-> @@ -73,6 +73,7 @@ static const struct simple_mfd_data silergy_sy7636a = {
->  };
->  
->  static const struct of_device_id simple_mfd_i2c_of_match[] = {
-> +	{ .compatible = "simple-mfd-i2c-generic" },
+base-commit: 7c698440524117dca7534592db0e7f465ae4d0bb
+-- 
+2.39.0
 
-Simple and generic? There is no such device. Anywhere.
-
-This is also not documented which is how I found it (make 
-dt_compatible_check). But this should be reverted or dropped rather than 
-documented IMO.
-
-Rob
