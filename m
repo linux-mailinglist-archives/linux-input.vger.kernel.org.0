@@ -2,169 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D0376736DE
-	for <lists+linux-input@lfdr.de>; Thu, 19 Jan 2023 12:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 707B0673755
+	for <lists+linux-input@lfdr.de>; Thu, 19 Jan 2023 12:48:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbjASLan (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Jan 2023 06:30:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38732 "EHLO
+        id S229852AbjASLr5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Jan 2023 06:47:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230398AbjASLaZ (ORCPT
+        with ESMTP id S229656AbjASLrz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Jan 2023 06:30:25 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE8A78572
-        for <linux-input@vger.kernel.org>; Thu, 19 Jan 2023 03:29:56 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id k16so1268402wms.2
-        for <linux-input@vger.kernel.org>; Thu, 19 Jan 2023 03:29:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=c/2ba17zj7VIMK/xPxIvdDUjP5shl1h27sejoZLeZuQ=;
-        b=Qw9NmNb2h3Q/WXN8V5dKD8ZMvIo3a0/mIEIjRNyA53EOfat0tKaG0+L0ynTn+k0bn+
-         7nB4MNLiiYgOCG7bjoRS10SdcndOKBq9AwVfBDlD94nOxaxQdV3xD35VPPvWBVtg29O0
-         3wpX7BiIIIR/hUytdPdEjdj/9zcu+Y492n43AxsG6phf2LHg9p4F6WknT7O61Z48ZEfj
-         zQvdXQWl3GvX79bSXIQ4vV97pmYo9gGScPOml2FX5ndGYGUnSkSDt3lXOGiOzx4NXJoY
-         nSvSiP90PrTm9/BI2ZektMxNMMw0QiFqlkZKkxlMtOWCYyWEouI1VUK3PZUhiek9/Obk
-         Jnag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/2ba17zj7VIMK/xPxIvdDUjP5shl1h27sejoZLeZuQ=;
-        b=hdyyDyFxGR55Un++05EAfnW4sLMAXXNQr1V1cIqkOIeRe68TlZlXec6oKYf7HpgvSw
-         +jftzs7SeAIS96sSRtIbwhtXMnY+JmoPmRbmIYkI0ZaF7k3mCiOzR/XF0H0MFk+bSZ1Y
-         yGc+HcRIa9ISsaY/02jyh3S0x27iUj1/E45Xzm9CRA3uDcD3dg/+C+by5ImQzwPBJTyG
-         DrwdgLl3LDRFyIB/aptTfx1nA/+uaYfs4NZGvl7PCyJExu9P2n7GOLx1fIgSyWJJfZT3
-         OzId2lwcppQzdHa84sCrmpYcQqxjYst4CYEmGaM+ktlZfnRTsnugRIAJmXsks7vPhbyR
-         zqCw==
-X-Gm-Message-State: AFqh2kq7B/E0bhaRyUSIll/NT1jMp2/UTxDW5ZKnK9AH6oBEWv+TQLvP
-        DWGAYvYWNltFWlPW2zDPyNGQoQ==
-X-Google-Smtp-Source: AMrXdXuMiM4IM//k/gieCDJhxZvpWdnP1PFB01eqMkwELfRhnLAPpWXMgCWEP2v9uPTdedd9+u1RGw==
-X-Received: by 2002:a05:600c:54d0:b0:3d9:7847:96e2 with SMTP id iw16-20020a05600c54d000b003d9784796e2mr9919025wmb.2.1674127792247;
-        Thu, 19 Jan 2023 03:29:52 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id g9-20020a05600c310900b003c21ba7d7d6sm1189775wmo.44.2023.01.19.03.29.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jan 2023 03:29:51 -0800 (PST)
-Message-ID: <9622fe3c-0f3a-a3a2-6e35-90befe869d1b@linaro.org>
-Date:   Thu, 19 Jan 2023 12:29:50 +0100
+        Thu, 19 Jan 2023 06:47:55 -0500
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2052.outbound.protection.outlook.com [40.107.105.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB74302AA;
+        Thu, 19 Jan 2023 03:47:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cJ8oG1npGnq2MMf9hIUARfOeogm7P0065exisjKFGjdqgceshWPa+LPmWSu6HrN/ijQSB7XTDauDG9P+GYPlqUGDilV4E8IFzNj2pYuJKALkUEKmrQW5cZFCn/jEzWaE7tLk9qUjz5ZZsfi9pik9Dk5gW7irPS2yeStoFL286lKKy2rdAnO7Jgf40IwM/iQFrVPYH6NMzH2tBAYaZ8j0h1Z5hsUzhY10l770wIHZowir5uB35/de/1akdA5CxC12QogNPTNYl/9XxZb2DPg9aJ0PUcWVcuONQ9JbbDzlIC63KKgsqRoKTyuSQnIQEHH+D0Cna2YAVsj5icgnhCj4lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y5uZl/lFwV/rzY1++k9S9pVPq+JjDuFekJrdMExZvhY=;
+ b=h5AqdcF/tcLSe0Wkv8acisY/3taImk0XcjPMm2c3FSYPuW5NAIcn7BUG0YPJK+CveZQFFGzSC/APBfQnsIfCV2hBEh5lv4r3qoxxBYwqhjyHLVU5mUGAcHwirS8F5742NMt8nPw7ewCHQoR67bYo7xSdy8IYUdl4HN9/buVMDO34dEC7Zt02i41NfI9A2rKm+w/WQL6m/Rc2Br8mD8M1KrVapIdwzCEch+Ku8UvP1GrbkIN5oV0OteZY5clHDJcEtNNNI8IaOAIgvUjdGdVIdMfr7aHHKet96SVHG8dCXb81dK6OUnizCy9iixTOglaErBBo1cwayKr+S6n1Nvt/kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.199) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=in.bosch.com;
+ dmarc=pass (p=reject sp=none pct=100) action=none header.from=in.bosch.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=in.bosch.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y5uZl/lFwV/rzY1++k9S9pVPq+JjDuFekJrdMExZvhY=;
+ b=XPWDwSXSwHJsjJPcBH6rdVTa3WBfU6rfjHqtgfligzmVP8FD3JuoJCOOEWwFPdVqp2NJViYQ7YZHnJ0mjUXgoQccWISHDUcifB64gxCbYq1+PKd5g1DZ+Q/mws8sJammqL+oWAAaGpvk18kZ0rOR+BZIWpmWuBppyUUMqMGUxHo=
+Received: from DU2PR04CA0202.eurprd04.prod.outlook.com (2603:10a6:10:28d::27)
+ by DU2PR10MB7743.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:46e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Thu, 19 Jan
+ 2023 11:47:50 +0000
+Received: from DBAEUR03FT007.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:28d:cafe::a2) by DU2PR04CA0202.outlook.office365.com
+ (2603:10a6:10:28d::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25 via Frontend
+ Transport; Thu, 19 Jan 2023 11:47:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.199)
+ smtp.mailfrom=in.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=in.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of in.bosch.com designates
+ 139.15.153.199 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.199; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.199) by
+ DBAEUR03FT007.mail.protection.outlook.com (100.127.142.161) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6023.16 via Frontend Transport; Thu, 19 Jan 2023 11:47:49 +0000
+Received: from FE-EXCAS2000.de.bosch.com (10.139.217.199) by eop.bosch-org.com
+ (139.15.153.199) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.34; Thu, 19 Jan
+ 2023 12:47:48 +0100
+Received: from FE-HUB2000.de.bosch.com (10.4.103.109) by
+ FE-EXCAS2000.de.bosch.com (10.139.217.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.34; Thu, 19 Jan 2023 12:47:48 +0100
+Received: from localhost.localdomain (10.167.0.77) by FE-HUB2000.de.bosch.com
+ (10.4.103.109) with Microsoft SMTP Server id 15.1.2375.34; Thu, 19 Jan 2023
+ 12:47:45 +0100
+From:   <Gireesh.Hiremath@in.bosch.com>
+To:     <andriy.shevchenko@linux.intel.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dmitry.torokhov@gmail.com>, <Jonathan.Cameron@huawei.com>,
+        <lis8215@gmail.com>, <Gireesh.Hiremath@in.bosch.com>,
+        <sjoerd.simons@collabora.co.uk>, <VinayKumar.Shettar@in.bosch.com>,
+        <Govindaraji.Sivanantham@in.bosch.com>,
+        <anaclaudia.dias@de.bosch.com>
+Subject: Re: [PATCH] driver: input: matric-keypad: switch to gpiod API
+Date:   Thu, 19 Jan 2023 11:47:36 +0000
+Message-ID: <20230119114736.30257-1-Gireesh.Hiremath@in.bosch.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20230113062538.1537-1-Gireesh.Hiremath@in.bosch.com>
+References: <20230113062538.1537-1-Gireesh.Hiremath@in.bosch.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sdm845-oneplus: add tri-state-key
-Content-Language: en-US
-To:     Gergo Koteles <soyer@irl.hu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Caleb Connolly <caleb@connolly.tech>
-References: <20230118234638.189098-1-soyer@irl.hu>
- <20230118234638.189098-4-soyer@irl.hu>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230118234638.189098-4-soyer@irl.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.0.77]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBAEUR03FT007:EE_|DU2PR10MB7743:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81f907e6-2b11-44ad-aa7c-08dafa12fd71
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S1Yhy/8XUVGisa9AfgqSpZp4q4WPVlE1kmvymq1CZq4AIla24mBkkQ+vIPm6YsVvfe8BS4TShxu/oV189pq+HgMBF5omdw1Tu/EPePBLEsJO/4dHebtsr4m+F5sFaHrrY3MTygn6nB+k0TF+nZ+FqVTshSuHU577ElqiQHHIoUTxAR9XwFeowixTC58RNqP12IaVtwzDAN+2sMuYTJ7aGHFrSB6zxQk5XVdIWJxBcWWswF/aUtZgrnKm5hNIR58a5zba1tDoYfVrTT/14CT6vi96/jKR7IyIve8QwiejTb9bPHRUE4Lfhg6WhTbvWF9Pmd756IkDlqpPQH5jC5NXiPY50ZV+IOvPxuliSY9GGIfTmXdkrbwgI4RX8gSauUnqGt2mIRh3p9VkgTzMrhlo3NYbVCUnsYuHW0wxJjX/XlZAdMr778Zoacv7czwOyqoydCyjOPawvaG46Batj5nAGhYEDbj+BK4Esng3KDDTY9fKD8Tk46J4urYmB+b7PUjp4bRyxg3XySlQa/BF1bCBhqxsEvZlaLb/1hz/G8RsoU18bkgcM0Y8AYHJADmLKOxtyRJGehaszd/S9TcULWkIoGoADGNJmBdtmAjaw1KwG7+b1+KaqVH87hdQ5kI8zRt6LZheq0BgF0f/zkRKxC/0etZ6HRKVGAm/LL9J9UsLCTLyCbtEfXEdSw6IZCsI7A0L0xJ9JxvzswJ6974rzBDZTtJWCQ5APumzALxlACUePOg=
+X-Forefront-Antispam-Report: CIP:139.15.153.199;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(136003)(39860400002)(346002)(451199015)(36840700001)(40470700004)(46966006)(316002)(336012)(36860700001)(54906003)(2906002)(356005)(2616005)(40480700001)(82960400001)(107886003)(82740400003)(6666004)(1076003)(2876002)(70206006)(81166007)(70586007)(26005)(4326008)(82310400005)(16526019)(6916009)(8676002)(478600001)(8936002)(47076005)(186003)(5660300002)(83380400001)(86362001)(41300700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: in.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 11:47:49.3693
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81f907e6-2b11-44ad-aa7c-08dafa12fd71
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.199];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT007.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR10MB7743
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 19/01/2023 00:46, Gergo Koteles wrote:
-> The tri-state-key is a sound profile switch found on the OnePlus 6,
-> Android maps the states to "mute", "vibrate" and "ring", expose them as
-> ABS_SND_PROFILE events.
-> The previous GPIO numbers were wrong, the patch updates them to the correct
-> ones.
-> 
-> Co-developed-by: Caleb Connolly <caleb@connolly.tech>
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> ---
->  .../boot/dts/qcom/sdm845-oneplus-common.dtsi  | 43 ++++++++++++++++++-
->  1 file changed, 41 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-> index 42cf4dd5ea28..33215ad17513 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-> @@ -49,6 +49,44 @@ key-vol-up {
->  		};
->  	};
->  
-> +	tri-state-key {
-> +		compatible = "gpio-keys";
-> +		label = "Tri-state key";
-> +
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&tri_state_key_default>;
-> +
-> +		state-top {
+From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
 
-Does not look like you tested the DTS against bindings. Please run `make
-dtbs_check` (see Documentation/devicetree/bindings/writing-schema.rst
-for instructions).
+Hi Andy Shevchenko,
 
-> +			label = "Tri-state key top";
-> +			linux,input-type = <EV_ABS>;
-> +			linux,code = <ABS_SND_PROFILE>;
-> +			linux,input-value = <0>;
-> +			gpios = <&tlmm 126 GPIO_ACTIVE_LOW>;
-> +			debounce-interval = <50>;
-> +			linux,can-disable;
-> +		};
-> +
-> +		state-middle {
-> +			label = "Tri-state key middle";
-> +			linux,input-type = <EV_ABS>;
-> +			linux,code = <ABS_SND_PROFILE>;
-> +			linux,input-value = <1>;
-> +			gpios = <&tlmm 52 GPIO_ACTIVE_LOW>;
-> +			debounce-interval = <50>;
-> +			linux,can-disable;
-> +		};
-> +
-> +		state-bottom {
-> +			label = "Tri-state key bottom";
-> +			linux,input-type = <EV_ABS>;
-> +			linux,code = <ABS_SND_PROFILE>;
-> +			linux,input-value = <2>;
-> +			gpios = <&tlmm 24 GPIO_ACTIVE_LOW>;
-> +			debounce-interval = <50>;
-> +			linux,can-disable;
-> +		};
-> +	};
-> +
->  	reserved-memory {
->  		/*
->  		 * The rmtfs_mem needs to be guarded due to "XPU limitations"
-> @@ -588,9 +626,10 @@ &usb_1_hsphy {
->  &tlmm {
->  	gpio-reserved-ranges = <0 4>, <81 4>;
->  
-> -	tri_state_key_default: tri_state_key_default {
-> +	// The GPIOs have a hardware pullup.
-> +	tri_state_key_default: tri-state-pins {
->  		mux {
+I will correct it as
+>Thank you for the patch, my comments below.
+>
+>> switch to new gpio descriptor based API
+Switch to GPIO descriptor based API.
+>
+>Please, respect English grammar and punctuation.
+>
+>Also, you have a typo in the Subject besides the fact that the template for
+>Input subsystem is different. So prefix has to be changed as well.
+and template as
+Input: matrix_keypad - switch to gpiod API
+>
+>...
+>
+>>  	bool level_on = !pdata->active_low;
+>>  
+>>  	if (on) {
+>> -		gpio_direction_output(pdata->col_gpios[col], level_on);
+>> +		gpiod_direction_output(pdata->col_gpios[col], level_on);
+>>  	} else {
+>> -		gpio_set_value_cansleep(pdata->col_gpios[col], !level_on);
+>> +		gpiod_set_value_cansleep(pdata->col_gpios[col], !level_on);
+>>  	}
+>
+>I believe it's not so trivial. The GPIO descriptor already has encoded the
+>level information and above one as below are not clear now.
+>
+>> -	return gpio_get_value_cansleep(pdata->row_gpios[row]) ?
+>> +	return gpiod_get_value_cansleep(pdata->row_gpios[row]) ?
+>>  			!pdata->active_low : pdata->active_low;
+>
+if GPIO from I2C or SPI IO expander, which may sleep, 
+so it is safer to use the gpiod_set_value_cansleep() and
+gpiod_get_value_cansleep().
+>...
+>
+>> -		err = gpio_request(pdata->col_gpios[i], "matrix_kbd_col");
+>> +		err = gpiod_direction_output(pdata->col_gpios[i], !pdata->active_low);
+>
+>>  	while (--i >= 0)
+>> -		gpio_free(pdata->row_gpios[i]);
+>> +		gpiod_put(pdata->row_gpios[i]);
+>
+>This looks like an incorrect change.
+>
+>>  	while (--i >= 0)
+>> -		gpio_free(pdata->col_gpios[i]);
+>> +		gpiod_put(pdata->col_gpios[i]);
+>
+>So does this.
+>
+>Since you dropped gpio_request() you need to drop gpio_free() as well,
+>and not replace it.
+gpio_request() equalent api gpiod_request() is alredy called inside gpiod_get_index(...).
+gpiod_put() is required to free GPIO.
+>
+>...
+>
+>>  	for (i = 0; i < nrow; i++) {
+>> -		ret = of_get_named_gpio(np, "row-gpios", i);
+>> -		if (ret < 0)
+>
+>> -			return ERR_PTR(ret);
+>
+>(1)
+>
+>> -		gpios[i] = ret;
+>> +		desc = gpiod_get_index(dev, "row", i, GPIOD_IN);
+>> +		if (IS_ERR(desc))
+>
+>> +			return ERR_PTR(-EINVAL);
+>
+>Why?! How will it handle deferred probe, for example?
+shall I update it as 
+				return ERR_CAST(desc);
+>
+>> +		gpios[i] = desc;
+>>  	}
+>
+>...
+>
+>>  	for (i = 0; i < ncol; i++) {
+>> -		ret = of_get_named_gpio(np, "col-gpios", i);
+>> -		if (ret < 0)
+>> -			return ERR_PTR(ret);
+>> -		gpios[nrow + i] = ret;
+>> +		desc = gpiod_get_index(dev, "col", i, GPIOD_IN);
+>> +		if (IS_ERR(desc))
+>> +			return ERR_PTR(-EINVAL);
+>
+>Ditto.
+>
+>> +		gpios[nrow + i] = desc;
+>>  	}
 
-You need to rebase.
-
-Best regards,
-Krzysztof
-
+Thanks,
+Gireesh Hiremath
