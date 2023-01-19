@@ -2,73 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 480A4674538
-	for <lists+linux-input@lfdr.de>; Thu, 19 Jan 2023 22:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02617674B79
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 05:57:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231262AbjASVrg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Jan 2023 16:47:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33698 "EHLO
+        id S230520AbjATE5P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Jan 2023 23:57:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231264AbjASVp3 (ORCPT
+        with ESMTP id S231126AbjATE5A (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Jan 2023 16:45:29 -0500
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86485A5786;
-        Thu, 19 Jan 2023 13:32:18 -0800 (PST)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-4fda31c3351so17149517b3.11;
-        Thu, 19 Jan 2023 13:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tmK/TW0pH5LDv04GPJxLaF0OPEGlwFRwVsAuWtfqOhI=;
-        b=guyAqcRx/i66bLarO4MYebn02MEewoWzMIWaEOppXqob9tf8hrzkld/U3qE769jZcA
-         UX6/8FPeDvOMwjszzGjCPKClB9wErnPmXlPplXnjFD6sCAn8hnXvlZcu3hMMiK1eodgg
-         UYDHh5GfC79I4iNxxT2Iw1xaCVJ6dwJUy12FLADWypmFpqTLy1X7E39Yh6h+PXIm/77j
-         UshKsEdKF+PEWrCQii7QfQx3AdayPDRqYxKJneOBCxZnvIPohqOI4RLuHUlT73f/RCr8
-         Yfm35b17o/GmJ288L+b1/OsIENKagFsx6jY/FqUHotgqwo1TN1013KZH9zlJ41N8z9WT
-         knKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tmK/TW0pH5LDv04GPJxLaF0OPEGlwFRwVsAuWtfqOhI=;
-        b=EICHxYm9FUEkdKI2WrEUqMJ9tmBSMIB0maji/2MFHW/xzv12+FfQmcljGtZZ+j4F0M
-         o54NRWAeLrxOKD68cIKAkM5kM/yfu5kxZY2r8vzHvy8CnxcQW1qNJdOxzvHtEL5lhKwx
-         FkRYEVcEu7BkfHl1iGKJTImW+r3VGeCPjX7s48wwVL4Zo2Sixq6M5tGar/jwhaOThA6E
-         mcXxZBR50lKlADipDLwb1HszyIxd87MThxxMBRq+KY8QDo9QrxxitkoNDYPblA6DlvXx
-         gLBKOYrOryKzaJhVSJDFZWUcQF2fDLK7hicQG6umualfyeeDwvXjbCp7RdQ6H/gf1aPq
-         dwDA==
-X-Gm-Message-State: AFqh2kpFHmsYx0niZRu/KufComqE7eTsZkGoGM6IwHB323mRMMg/hRzk
-        QT5stWfN8lYV8Uhtf6wMgT5+eRdDA1qQYA==
-X-Google-Smtp-Source: AMrXdXsnwiwu/B/N4cwiew5q8WuarEoUUagOMk7p67iPh5lZ4l9nruRbEWsu+obrowCol1kVzk5HSg==
-X-Received: by 2002:a0d:fb07:0:b0:4fb:9c00:f03d with SMTP id l7-20020a0dfb07000000b004fb9c00f03dmr1807643ywf.39.1674163937655;
-        Thu, 19 Jan 2023 13:32:17 -0800 (PST)
-Received: from [10.4.10.38] (pool-108-26-182-112.bstnma.fios.verizon.net. [108.26.182.112])
-        by smtp.gmail.com with ESMTPSA id br38-20020a05620a462600b00706b09b16fasm4235032qkb.11.2023.01.19.13.32.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jan 2023 13:32:16 -0800 (PST)
-Message-ID: <0181494e-58f2-2d22-78b2-e9399bf4552a@gmail.com>
-Date:   Thu, 19 Jan 2023 16:32:15 -0500
+        Thu, 19 Jan 2023 23:57:00 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB3DBCE03;
+        Thu, 19 Jan 2023 20:46:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674190019; x=1705726019;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SyM8caywEFAqKwm6rH70roccYrUPdIquF3xvmc4tvFE=;
+  b=TUrPkpXkwJZM3Ga3wC7J1WPjSEdBybqGqLnqMZwT8Kh52tiIHO4+7iS/
+   N8bPwqBMQk185UZzMD9h2+C0XrfLH1FjnjlHohPgrIfaKftYujZfL3zaK
+   I53TW0UMim0NG0jh8XPJ1KgP6yWQPmhePUalyJaitnBaVnyvL+59PUyiR
+   INNRhhYBdAdWbXSKHyjtAIGxnTLtNWA3h/opbz2IY38DaT5Vzz8OjzTkb
+   sVxHYbxZn2JZvstNS7+taf6uXUKXHXz4FThiJkWhV3I1JS5jeepYuPySp
+   JWngKCFpE4732JOAaQLOR1dnUEqjhymXjIkkoMVPdJAiNnYG7Zfc4Q+TB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308869078"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="308869078"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 06:19:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="660201404"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="660201404"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002.jf.intel.com with ESMTP; 19 Jan 2023 06:19:35 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pIVlN-00BhcV-0Q;
+        Thu, 19 Jan 2023 16:19:33 +0200
+Date:   Thu, 19 Jan 2023 16:19:32 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Gireesh.Hiremath@in.bosch.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmitry.torokhov@gmail.com, Jonathan.Cameron@huawei.com,
+        lis8215@gmail.com, sjoerd.simons@collabora.co.uk,
+        VinayKumar.Shettar@in.bosch.com,
+        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
+Subject: Re: [PATCH] driver: input: matric-keypad: switch to gpiod API
+Message-ID: <Y8lRdC/B2VlDU5zB@smile.fi.intel.com>
+References: <20230113062538.1537-1-Gireesh.Hiremath@in.bosch.com>
+ <20230119114736.30257-1-Gireesh.Hiremath@in.bosch.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] drivers/mfd: simple-mfd-i2c: Add generic compatible
-Content-Language: en-US
-To:     Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        lee.jones@linaro.org
-References: <20221202113226.114465-1-Mr.Bossman075@gmail.com>
- <20230119175135.GA2085792-robh@kernel.org> <Y8mt6ZCMf4YZvDYA@google.com>
-From:   Jesse Taube <mr.bossman075@gmail.com>
-In-Reply-To: <Y8mt6ZCMf4YZvDYA@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119114736.30257-1-Gireesh.Hiremath@in.bosch.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,55 +69,121 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, Jan 19, 2023 at 11:47:36AM +0000, Gireesh.Hiremath@in.bosch.com wrote:
+
+> I will correct it as
+> >Thank you for the patch, my comments below.
+> >
+> >> switch to new gpio descriptor based API
+> Switch to GPIO descriptor based API.
+
+...to the GPIO...
+
+> >Please, respect English grammar and punctuation.
+> >
+> >Also, you have a typo in the Subject besides the fact that the template for
+> >Input subsystem is different. So prefix has to be changed as well.
+> and template as
+> Input: matrix_keypad - switch to gpiod API
+
+OK!
+
+...
+
+> >>  	bool level_on = !pdata->active_low;
+> >>  
+> >>  	if (on) {
+> >> -		gpio_direction_output(pdata->col_gpios[col], level_on);
+> >> +		gpiod_direction_output(pdata->col_gpios[col], level_on);
+> >>  	} else {
+> >> -		gpio_set_value_cansleep(pdata->col_gpios[col], !level_on);
+> >> +		gpiod_set_value_cansleep(pdata->col_gpios[col], !level_on);
+> >>  	}
+> >
+> >I believe it's not so trivial. The GPIO descriptor already has encoded the
+> >level information and above one as below are not clear now.
+> >
+> >> -	return gpio_get_value_cansleep(pdata->row_gpios[row]) ?
+> >> +	return gpiod_get_value_cansleep(pdata->row_gpios[row]) ?
+> >>  			!pdata->active_low : pdata->active_low;
+> >
+> if GPIO from I2C or SPI IO expander, which may sleep, 
+> so it is safer to use the gpiod_set_value_cansleep() and
+> gpiod_get_value_cansleep().
+
+No, my point is about active level (LOW or HIGH). It's encoded into
+the descriptor in opposite to the plain GPIO number.
+
+This change needs very careful understanding of the active level.
+
+...
+
+> >> -		err = gpio_request(pdata->col_gpios[i], "matrix_kbd_col");
+> >> +		err = gpiod_direction_output(pdata->col_gpios[i], !pdata->active_low);
+> >
+> >>  	while (--i >= 0)
+> >> -		gpio_free(pdata->row_gpios[i]);
+> >> +		gpiod_put(pdata->row_gpios[i]);
+> >
+> >This looks like an incorrect change.
+> >
+> >>  	while (--i >= 0)
+> >> -		gpio_free(pdata->col_gpios[i]);
+> >> +		gpiod_put(pdata->col_gpios[i]);
+> >
+> >So does this.
+> >
+> >Since you dropped gpio_request() you need to drop gpio_free() as well,
+> >and not replace it.
+> gpio_request() equalent api gpiod_request() is alredy called inside gpiod_get_index(...).
+> gpiod_put() is required to free GPIO.
+
+Yes, but you removed request call, so should remove the free.
+The gpiod_put() should be at the same function as gpiod_get().
+
+...
+
+> >>  	for (i = 0; i < nrow; i++) {
+> >> -		ret = of_get_named_gpio(np, "row-gpios", i);
+> >> -		if (ret < 0)
+> >
+> >> -			return ERR_PTR(ret);
+> >
+> >(1)
+> >
+> >> -		gpios[i] = ret;
+> >> +		desc = gpiod_get_index(dev, "row", i, GPIOD_IN);
+> >> +		if (IS_ERR(desc))
+> >
+> >> +			return ERR_PTR(-EINVAL);
+> >
+> >Why?! How will it handle deferred probe, for example?
+> shall I update it as 
+> 				return ERR_CAST(desc);
+
+For example...
+
+> >> +		gpios[i] = desc;
+> >>  	}
+
+...
+
+> >>  	for (i = 0; i < ncol; i++) {
+> >> -		ret = of_get_named_gpio(np, "col-gpios", i);
+> >> -		if (ret < 0)
+> >> -			return ERR_PTR(ret);
+> >> -		gpios[nrow + i] = ret;
+> >> +		desc = gpiod_get_index(dev, "col", i, GPIOD_IN);
+> >> +		if (IS_ERR(desc))
+> >> +			return ERR_PTR(-EINVAL);
+
+Ditto.
+
+> >> +		gpios[nrow + i] = desc;
+> >>  	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-On 1/19/23 15:54, Lee Jones wrote:
-> On Thu, 19 Jan 2023, Rob Herring wrote:
-> 
->> On Fri, Dec 02, 2022 at 06:32:26AM -0500, Jesse Taube wrote:
->>> Some devices may want to use this driver without having a specific
->>> compatible string. Add a generic compatible string to allow this.
->>
->> What devices need this?
->>
->> Is that no specific compatible string at all or just in the kernel?
->> Because the former definitely goes against DT requirements. The latter
->> enables the former without a schema.
->>
->>>
->>> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
->>> ---
->>>   drivers/mfd/simple-mfd-i2c.c | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
->>> index f4c8fc3ee463..0bda0dd9276e 100644
->>> --- a/drivers/mfd/simple-mfd-i2c.c
->>> +++ b/drivers/mfd/simple-mfd-i2c.c
->>> @@ -73,6 +73,7 @@ static const struct simple_mfd_data silergy_sy7636a = {
->>>   };
->>>   
->>>   static const struct of_device_id simple_mfd_i2c_of_match[] = {
->>> +	{ .compatible = "simple-mfd-i2c-generic" },
->>
->> Simple and generic? There is no such device. Anywhere.
->>
->> This is also not documented which is how I found it (make
->> dt_compatible_check).
-I will write docs if needed.
-But this should be reverted or dropped rather than
->> documented IMO.
-Hi Rob, sorry for the disturbance. The reason I submitted this patch is 
-this driver is generic and can be used by many different devices. Adding 
-a generic compatible handle allows device tree writers avoid editing the 
-  C source. I also will be submitting device trees that use this in the 
-future if added.
-Thanks,
-Jesse Taube
-> 
-> I thought it would be better than having a huge list here.
-> 
-> Devices should *also* be allocated a specific compatible string.
-> 
-> $ git grep simple-mfd -- arch
-> 
