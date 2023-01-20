@@ -2,188 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02617674B79
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 05:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E962667535C
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 12:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbjATE5P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Jan 2023 23:57:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49276 "EHLO
+        id S229524AbjATL0K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Jan 2023 06:26:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231126AbjATE5A (ORCPT
+        with ESMTP id S229464AbjATL0J (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Jan 2023 23:57:00 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB3DBCE03;
-        Thu, 19 Jan 2023 20:46:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674190019; x=1705726019;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SyM8caywEFAqKwm6rH70roccYrUPdIquF3xvmc4tvFE=;
-  b=TUrPkpXkwJZM3Ga3wC7J1WPjSEdBybqGqLnqMZwT8Kh52tiIHO4+7iS/
-   N8bPwqBMQk185UZzMD9h2+C0XrfLH1FjnjlHohPgrIfaKftYujZfL3zaK
-   I53TW0UMim0NG0jh8XPJ1KgP6yWQPmhePUalyJaitnBaVnyvL+59PUyiR
-   INNRhhYBdAdWbXSKHyjtAIGxnTLtNWA3h/opbz2IY38DaT5Vzz8OjzTkb
-   sVxHYbxZn2JZvstNS7+taf6uXUKXHXz4FThiJkWhV3I1JS5jeepYuPySp
-   JWngKCFpE4732JOAaQLOR1dnUEqjhymXjIkkoMVPdJAiNnYG7Zfc4Q+TB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308869078"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="308869078"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 06:19:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="660201404"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="660201404"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 19 Jan 2023 06:19:35 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pIVlN-00BhcV-0Q;
-        Thu, 19 Jan 2023 16:19:33 +0200
-Date:   Thu, 19 Jan 2023 16:19:32 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Gireesh.Hiremath@in.bosch.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dmitry.torokhov@gmail.com, Jonathan.Cameron@huawei.com,
-        lis8215@gmail.com, sjoerd.simons@collabora.co.uk,
-        VinayKumar.Shettar@in.bosch.com,
-        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
-Subject: Re: [PATCH] driver: input: matric-keypad: switch to gpiod API
-Message-ID: <Y8lRdC/B2VlDU5zB@smile.fi.intel.com>
-References: <20230113062538.1537-1-Gireesh.Hiremath@in.bosch.com>
- <20230119114736.30257-1-Gireesh.Hiremath@in.bosch.com>
+        Fri, 20 Jan 2023 06:26:09 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A4045F58;
+        Fri, 20 Jan 2023 03:26:08 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 57FF761F2A;
+        Fri, 20 Jan 2023 11:26:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E2EBC433D2;
+        Fri, 20 Jan 2023 11:26:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674213967;
+        bh=czey6y6ge6i8PpchkR+ialrlhv0lQLub/JmVU3BLNzg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pNyYuyAWBMaeiv2L1KegX6HDQfhQRjd3BuSvKeZIJZN2sJRyh42oF4b8eyOLf/+Jk
+         opSDBf7um0d0cxwLSfLBo+8viJGJx4i6tHK7jVXWhAyHuRLUJVP3wyp599Ans+bcoR
+         pyF/mmLG7MJHKM7s4ysxR/DQeJMMK2ZwgAS9FRP4=
+Date:   Fri, 20 Jan 2023 12:26:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Joe Wu <joewu@msi.corp-partner.google.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Xiang wangx <wangxiang@cdjrlc.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        chrome-platform@lists.linux.dev,
+        Benson Leung <bleung@chromium.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Daisuke Nojiri <dnojiri@chromium.org>,
+        Derek Huang <derekhuang@google.com>,
+        "Dustin L . Howett" <dustin@howett.net>, Joe Wu <joewu@msi.com>,
+        Furquan Shaikh <furquan@chromium.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Message-ID: <Y8p6THz2jjKEoMrJ@kroah.com>
+References: <20221222063950.26018-1-joewu@msi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119114736.30257-1-Gireesh.Hiremath@in.bosch.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221222063950.26018-1-joewu@msi.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 11:47:36AM +0000, Gireesh.Hiremath@in.bosch.com wrote:
+On Thu, Dec 22, 2022 at 02:39:50PM +0800, Joe Wu wrote:
+> Add 3 extra buttons: 'brightness up', 'brightness down'
+> and 'screen lock' to support monitor manipulating function.
+> 
+> Signed-off-by: Joe Wu <joewu@msi.com>
 
-> I will correct it as
-> >Thank you for the patch, my comments below.
-> >
-> >> switch to new gpio descriptor based API
-> Switch to GPIO descriptor based API.
+From: line does not match the signed-off-by (and is an invalid email
+address...)
 
-...to the GPIO...
+Please fix.
 
-> >Please, respect English grammar and punctuation.
-> >
-> >Also, you have a typo in the Subject besides the fact that the template for
-> >Input subsystem is different. So prefix has to be changed as well.
-> and template as
-> Input: matrix_keypad - switch to gpiod API
+thanks,
 
-OK!
-
-...
-
-> >>  	bool level_on = !pdata->active_low;
-> >>  
-> >>  	if (on) {
-> >> -		gpio_direction_output(pdata->col_gpios[col], level_on);
-> >> +		gpiod_direction_output(pdata->col_gpios[col], level_on);
-> >>  	} else {
-> >> -		gpio_set_value_cansleep(pdata->col_gpios[col], !level_on);
-> >> +		gpiod_set_value_cansleep(pdata->col_gpios[col], !level_on);
-> >>  	}
-> >
-> >I believe it's not so trivial. The GPIO descriptor already has encoded the
-> >level information and above one as below are not clear now.
-> >
-> >> -	return gpio_get_value_cansleep(pdata->row_gpios[row]) ?
-> >> +	return gpiod_get_value_cansleep(pdata->row_gpios[row]) ?
-> >>  			!pdata->active_low : pdata->active_low;
-> >
-> if GPIO from I2C or SPI IO expander, which may sleep, 
-> so it is safer to use the gpiod_set_value_cansleep() and
-> gpiod_get_value_cansleep().
-
-No, my point is about active level (LOW or HIGH). It's encoded into
-the descriptor in opposite to the plain GPIO number.
-
-This change needs very careful understanding of the active level.
-
-...
-
-> >> -		err = gpio_request(pdata->col_gpios[i], "matrix_kbd_col");
-> >> +		err = gpiod_direction_output(pdata->col_gpios[i], !pdata->active_low);
-> >
-> >>  	while (--i >= 0)
-> >> -		gpio_free(pdata->row_gpios[i]);
-> >> +		gpiod_put(pdata->row_gpios[i]);
-> >
-> >This looks like an incorrect change.
-> >
-> >>  	while (--i >= 0)
-> >> -		gpio_free(pdata->col_gpios[i]);
-> >> +		gpiod_put(pdata->col_gpios[i]);
-> >
-> >So does this.
-> >
-> >Since you dropped gpio_request() you need to drop gpio_free() as well,
-> >and not replace it.
-> gpio_request() equalent api gpiod_request() is alredy called inside gpiod_get_index(...).
-> gpiod_put() is required to free GPIO.
-
-Yes, but you removed request call, so should remove the free.
-The gpiod_put() should be at the same function as gpiod_get().
-
-...
-
-> >>  	for (i = 0; i < nrow; i++) {
-> >> -		ret = of_get_named_gpio(np, "row-gpios", i);
-> >> -		if (ret < 0)
-> >
-> >> -			return ERR_PTR(ret);
-> >
-> >(1)
-> >
-> >> -		gpios[i] = ret;
-> >> +		desc = gpiod_get_index(dev, "row", i, GPIOD_IN);
-> >> +		if (IS_ERR(desc))
-> >
-> >> +			return ERR_PTR(-EINVAL);
-> >
-> >Why?! How will it handle deferred probe, for example?
-> shall I update it as 
-> 				return ERR_CAST(desc);
-
-For example...
-
-> >> +		gpios[i] = desc;
-> >>  	}
-
-...
-
-> >>  	for (i = 0; i < ncol; i++) {
-> >> -		ret = of_get_named_gpio(np, "col-gpios", i);
-> >> -		if (ret < 0)
-> >> -			return ERR_PTR(ret);
-> >> -		gpios[nrow + i] = ret;
-> >> +		desc = gpiod_get_index(dev, "col", i, GPIOD_IN);
-> >> +		if (IS_ERR(desc))
-> >> +			return ERR_PTR(-EINVAL);
-
-Ditto.
-
-> >> +		gpios[nrow + i] = desc;
-> >>  	}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+greg k-h
