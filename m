@@ -2,45 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0952B675BE0
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 18:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06524675C1B
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 18:51:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbjATRpY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Jan 2023 12:45:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33708 "EHLO
+        id S230449AbjATRva (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Jan 2023 12:51:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbjATRpY (ORCPT
+        with ESMTP id S229999AbjATRvS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Jan 2023 12:45:24 -0500
+        Fri, 20 Jan 2023 12:51:18 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B18564BA;
-        Fri, 20 Jan 2023 09:45:21 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970499AA94;
+        Fri, 20 Jan 2023 09:51:05 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BBD80B829B0;
-        Fri, 20 Jan 2023 17:45:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62276C433D2;
-        Fri, 20 Jan 2023 17:45:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B57A8B829C6;
+        Fri, 20 Jan 2023 17:51:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2F5C433EF;
+        Fri, 20 Jan 2023 17:50:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674236718;
-        bh=e6PleI4womWUZ/YrAl55kcVrHbcX4H86kmzJS3pQ0GI=;
+        s=k20201202; t=1674237059;
+        bh=EcRsfuo4MLQFoLffhlRTLRURobAOtGtBzMlm0KeV8TY=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=hV1RRoO6H7wPJdSLm7fL6s+B8oQkamq0JC/ItVIdhQFZOZl1C3bPStEqrgDDDyZSM
-         aW3mSFqX5Au9v40YCDf+ntMCNOxiw/WK0WPiosPPbe7Rb5vJbjKa72PZpFUxoBYek5
-         YUhwi8l6XgJHrhE9ZoG/S49ZBSikof0c1ykC0kholtLO0amUG4/7YN1OlOIk4nGF3s
-         lBDiN4ui70j2/7AJHNiXHRVmRuuFayjdxzbQMsWyQY9gk7IFMHnvgmFHVhZtfPodtW
-         VVir9i91Wdms3b3ylSdJL1x/wxu7xYctgtljwdzUCaHZnKpTFtZxZM4ellsm77QzBV
-         JCUuCufD7F7TQ==
-Date:   Fri, 20 Jan 2023 18:45:19 +0100 (CET)
+        b=TiYO+gSX+PZl5Uw0rCYZVcYqP9jEzfVc4e6L0DsrgxFDRGgk65Lv1XAVifucBd7KD
+         Szeq9JcfVFaquifPpMMjwYPepNy2k3KHvIPUr26z0+QO8vno2M+Hr6VQv51Fw+Cz77
+         qJNrL/H3jX18TGGwux7EFa4DOoZJaYweHTFlzztY7793Pj90Xtk2o+Mtn97u/PhGOY
+         dxPAql31f6fDBWM0KodCN7z/SlD6/Mlsl/IUDPtXpuSuuWuNMyZjT3qRtocHYhUhfa
+         Febu3AeZ+fPUvwOxZLOrO7iC30k4IEjA6CcX3/+zvOcvdHmPgWVo1F9L3gSgxeWXIM
+         2+rDxZb61QXzg==
+Date:   Fri, 20 Jan 2023 18:51:00 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Takahiro Fujii <fujii@xaxxi.net>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: elecom: add support for TrackBall 056E:011C
-In-Reply-To: <20230119183002.352852-1-fujii@xaxxi.net>
-Message-ID: <nycvar.YFH.7.76.2301201844460.1734@cbobk.fhfr.pm>
-References: <20230119183002.352852-1-fujii@xaxxi.net>
+To:     Qi Feng <fengqi706@gmail.com>
+cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        fengqi <fengqi@xiaomi.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH] HID: add KEY_CAMERA_FOCUS event in HID
+In-Reply-To: <20230109123216.4974-1-fengqi706@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2301201849090.1734@cbobk.fhfr.pm>
+References: <20230109123216.4974-1-fengqi706@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,38 +54,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 20 Jan 2023, Takahiro Fujii wrote:
+On Mon, 9 Jan 2023, Qi Feng wrote:
 
-> Make function buttons on ELECOM M-HT1DRBK trackball mouse work. This model
-> has two devices with different device IDs (010D and 011C). Both of
-> them misreports the number of buttons as 5 in the report descriptor, even
-> though they have 8 buttons. hid-elecom overwrites the report to fix them,
-> but supports only on 010D and does not work on 011C. This patch fixes
-> 011C in the similar way but with specialized position parameters.
-> In fact, it is sufficient to rewrite only 17th byte (05 -> 08). However I
-> followed the existing way.
-
-Applied, thanks.
-
-> Signed-off-by: Takahiro Fujii <fujii@xaxxi.net>
-> ---
->  drivers/hid/hid-elecom.c | 16 ++++++++++++++--
->  drivers/hid/hid-ids.h    |  3 ++-
->  drivers/hid/hid-quirks.c |  3 ++-
->  3 files changed, 18 insertions(+), 4 deletions(-)
+> From: fengqi <fengqi@xiaomi.com>
 > 
-> diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
-> index e59e9911fc37..4fa45ee77503 100644
-> --- a/drivers/hid/hid-elecom.c
-> +++ b/drivers/hid/hid-elecom.c
-> @@ -12,6 +12,7 @@
->   *  Copyright (c) 2017 Alex Manoussakis <amanou@gnu.org>
->   *  Copyright (c) 2017 Tomasz Kramkowski <tk@the-tk.com>
->   *  Copyright (c) 2020 YOSHIOKA Takuma <lo48576@hard-wi.red>
-> + *  Copyright (c) 2022 Takahiro Fujii <fujii@xaxxi.net>
+> Our HID device need KEY_CAMERA_FOCUS event to control camera, but this 
+> event is non-existent in current HID driver. So we add this event in 
+> hid-input.c
+> 
+> Signed-off-by: fengqi <fengqi@xiaomi.com>
+> ---
+>  drivers/hid/hid-input.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 9b59e436df0a..22cca3406b5c 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1105,6 +1105,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+>  		case 0x0e5: map_key_clear(KEY_BASSBOOST);	break;
+>  		case 0x0e9: map_key_clear(KEY_VOLUMEUP);	break;
+>  		case 0x0ea: map_key_clear(KEY_VOLUMEDOWN);	break;
+> +		case 0x0ee: map_key_clear(KEY_CAMERA_FOCUS);	break;
+>  		case 0x0f5: map_key_clear(KEY_SLOW);		break;
+>  
+>  		case 0x181: map_key_clear(KEY_BUTTONCONFIG);	break;
 
-A minor nit: next time please consider not adding copyright notice just 
-for device ID additions, we usually don't do that.
+[ CCing Benjamin ]
+
+Hi,
+
+so according to HUT 1.3.0, 0xeb-0xef are Reserved for now, so I'd be a 
+little bit hesitatnt to but this into the generic mapping, as later HUT 
+revision might define this in a different way.
+
+Which devices are known to be producing this?
 
 -- 
 Jiri Kosina
