@@ -2,32 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99662675510
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 13:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 216BC675532
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 14:04:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbjATM4O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Jan 2023 07:56:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50882 "EHLO
+        id S230329AbjATNEB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Jan 2023 08:04:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229841AbjATM4O (ORCPT
+        with ESMTP id S229534AbjATNEA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Jan 2023 07:56:14 -0500
-X-Greylist: delayed 614 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 20 Jan 2023 04:56:09 PST
+        Fri, 20 Jan 2023 08:04:00 -0500
 Received: from smtpcmd13147.aruba.it (smtpcmd13147.aruba.it [62.149.156.147])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 388805FFF
-        for <linux-input@vger.kernel.org>; Fri, 20 Jan 2023 04:56:08 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B81349D28B
+        for <linux-input@vger.kernel.org>; Fri, 20 Jan 2023 05:03:58 -0800 (PST)
 Received: from asem-TANK-H61.asem.intra ([151.1.184.193])
         by Aruba Outgoing Smtp  with ESMTPSA
-        id IqmFpgGfF6DTZIqmTpKxFZ; Fri, 20 Jan 2023 13:46:05 +0100
+        id IqmFpgGfF6DTZIqmGpKx8U; Fri, 20 Jan 2023 13:45:53 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1674218765; bh=clriM8z2Ncxi4fAOWxWB+jvP5/EzqBX4gQWuMCxv8Rc=;
+        t=1674218753; bh=1sc2y4jxVCh0WUgnSXRFKIOmNAPld3JSUDEuemnxSIQ=;
         h=From:To:Subject:Date:MIME-Version;
-        b=lapgEq5sABIekSkKB7RRhsJtMtwhjbDABv5/vkkYXQiX8pNUKyz688adxNjhZ2zzJ
-         aBS4Ulqu+3DE6/nbW90rOT/SeyxCCmfDnHD57Fz1ft0NLYNPIo6/wK74/FpmK6j6Ez
-         I1H3UMADDinPvpzsDIA5TBF46lJW8FnQbYr84rawt+tD+U5rbSAjmEWNMpiOnYb8Bz
-         a/67B8Ppmt9tSQnZGBhArZ13tsWmgYtJ07g7G3mwner/ATveXd+Nltr95+S9pWfBxQ
-         nKEvvdR7B3U2+9Ri4EWpiqCt8mBkReScTn15GJ6iZ6xBjGlBRpaqLQTN9wpR+Evb84
-         8S8mbSSQvGUbw==
+        b=Ik/vWtDhTMcmLgXyQ5ygxS8Q1DLrIu8hP2zrf49fBqpwrRDll9/bAtDTeoBP9mfv6
+         LRok3mzAr6EYeMcjLeuAmgO9o4/RT+/KcOTGDznG/yfMR/PQ8iuW9qejt/tFgCmTZ8
+         pwTgW69pwi4qvS6Z0W03Z5J/2Yp/qrVz0LLRad+S5OoCVQ6Rmd3lAJbKA16X2UuJKD
+         LsVrD0P5pHXNWS9/YiUcI0yPX5Y10NofreZQ1IbyDzHPCI/dMWelpU0t59TK6ks9BL
+         TMk3ewrz+RHmwJ0Ze8t1wehids94iw9c6g6tMoKc5dv3HtDEyJmilK1lKy6M9r98mU
+         EqNfvuUTvG/5A==
 From:   Luca Ellero <l.ellero@asem.it>
 To:     dmitry.torokhov@gmail.com, daniel@zonque.org,
         m.felsch@pengutronix.de, andriy.shevchenko@linux.intel.com,
@@ -36,20 +35,18 @@ To:     dmitry.torokhov@gmail.com, daniel@zonque.org,
         luca.ellero@brickedbrain.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Luca Ellero <l.ellero@asem.it>
-Subject: [PATCH 3/3] Input: ads7846 - don't check penirq immediately for 7845
-Date:   Fri, 20 Jan 2023 13:45:44 +0100
-Message-Id: <20230120124544.5993-4-l.ellero@asem.it>
+Subject: [PATCH v4 0/3] Input: ads7846 - fix support for ADS7845
+Date:   Fri, 20 Jan 2023 13:45:41 +0100
+Message-Id: <20230120124544.5993-1-l.ellero@asem.it>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230120124544.5993-1-l.ellero@asem.it>
-References: <20230120124544.5993-1-l.ellero@asem.it>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfOvKTel4AMy9mgv2aDCh+FC7Vu9mcAlOTWAUNZhZU3ZJd12ZBlI7VzbaTcXCOZ0luEXUJl0JhyM9KQ/248BtB5tDHZOdHYGEgfz3HnguekQ22mR8Tt6a
- U1MwQVQYjkiSBPu8dWNrN1A2ctYlGtJLNfvZ7yLoCDZ1tUIscrw5ky5NfNtAc53lhgMPfvpq26SsA5VISmW43Yj3LV7y8NEL73caQY0TEqgUr6kMPqT/8oPK
- nwS+lkVWYQe1qC5JJG6j9K2qXTjdM8lRAgvyneJ8joTW/WUm0midKwpucCxUJrMO/9y6SkFmW+SoQSl3EHO/HhBZY01/DBxuSdHJO6SpTaaV42ZvMlI1kn5H
- AwEbFl/Bf9nIpaJ7mzERFwg+dTIqy3ZTKSghLT1lClMrnsUM+ktd/YvvP+M+cF5NhdDW4ox97kko00FFiMVIi9c/8HYRROlqkUwOXdRddg5QYVqv7cOhELwA
- eVJSpM6/z9zW52gHDqQrfxs4H96S0/FJmPXcB9gx8dnNC3RsxciOi1sU2Qi6m7GeuQfwomipWai94uzfBUiKmkT5Qvwk/2L1oJG9aQY+dECVsi5laKRji+yp
- Q8LMq6Nx90Vfo4bHCPL/ATaX
+X-CMAE-Envelope: MS4xfK2qd5ybJjSlFzMo1WI/f3wDWVy5WneCrHr71Nf/B3YUnHffxHyFi9z3KqQzpupYLWgIouwW3aEoCbSCe8zsK9Q25eUpkrFLJ2s3Xknde7bjUyHuAV0P
+ v7mVpqc+L7yTEoG8/XPiyAY4lUmvIbCL6paoc9KvMHIHP2CYRCtjx3d7V9rMtnGo8wdD56Uuo5Utm3/VTA7x9Jn/O9U1EDKS44FqZzE5tZrUiu1ilDp/5Ipw
+ UcLms1v3ip9YLE+Fz9cXM0a0bBt6rOIsiOMHfV+cZCivgw+uZcy8/D/QPwT/KfNSFsM/KEFjvah8rNjtsUMs29tiqbyGg8eHymCGxWGDNbL/CkUmbZO3cRCp
+ y91ETwhMEMCHnBHfqHKA5GMQAHFx856KHym2NhWYLWsXLB3hi6YA7iT4KeuODzwSifPgE/E1jdeKZa0AvaxmAY02Rnrp/FE0cnU9GsZ4QGuwTs0MY2YDVePu
+ 3MkmybyjKaR3tGu2k7AcPV1x1tODWZfefDKbmy7x2rpfG9tyBG9OQPfa5f1wDaH9XFyetUlPz6hjkujCnrlWTJVORapoo+tzmoEDgz8W5UK+MLNGwlsAFdN3
+ SVipPIGZdc9nWwohcf0RS66j
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL
         autolearn=no autolearn_force=no version=3.4.6
@@ -59,35 +56,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-To discard false readings, one should use "ti,penirq-recheck-delay-usecs".
-Checking get_pendown_state() at the beginning, most of the time fails
-causing malfunctioning.
+ADS7845 support is buggy in this driver.
+These patches fix various issues to get it work properly.
 
-Signed-off-by: Luca Ellero <l.ellero@asem.it>
----
- drivers/input/touchscreen/ads7846.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index 15da1047a577..17f11bce8113 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -843,14 +843,8 @@ static void ads7846_report_state(struct ads7846 *ts)
- 	if (x == MAX_12BIT)
- 		x = 0;
+Changes for v2:
+ - add missing period in patch 0001 message
+ - elaborate comment in patch 0002
  
--	if (ts->model == 7843) {
-+	if (ts->model == 7843 || ts->model == 7845) {
- 		Rt = ts->pressure_max / 2;
--	} else if (ts->model == 7845) {
--		if (get_pendown_state(ts))
--			Rt = ts->pressure_max / 2;
--		else
--			Rt = 0;
--		dev_vdbg(&ts->spi->dev, "x/y: %d/%d, PD %d\n", x, y, Rt);
- 	} else if (likely(x && z1)) {
- 		/* compute touch pressure resistance using equation #2 */
- 		Rt = z2;
+Changes for v3:
+ - send from the same email address of "Signed-off"
+
+Changes for v4:
+ - fix tag
+ - fix comment in patch 0002
+
+Luca Ellero (3):
+  Input: ads7846 - don't report pressure for ads7845
+  Input: ads7846 - always set last command to PWRDOWN
+  Input: ads7846 - don't check penirq immediately for 7845
+
+ drivers/input/touchscreen/ads7846.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
 -- 
 2.25.1
 
