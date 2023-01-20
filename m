@@ -2,104 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FC65675536
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 14:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95D806756C0
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 15:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230374AbjATNEJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Jan 2023 08:04:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56144 "EHLO
+        id S230262AbjATOQy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Jan 2023 09:16:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230453AbjATNEI (ORCPT
+        with ESMTP id S230193AbjATOQx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Jan 2023 08:04:08 -0500
-Received: from smtpcmd13147.aruba.it (smtpcmd13147.aruba.it [62.149.156.147])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3F4DCBD156
-        for <linux-input@vger.kernel.org>; Fri, 20 Jan 2023 05:04:07 -0800 (PST)
-Received: from asem-TANK-H61.asem.intra ([151.1.184.193])
-        by Aruba Outgoing Smtp  with ESMTPSA
-        id IqmFpgGfF6DTZIqmQpKxDO; Fri, 20 Jan 2023 13:46:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1674218763; bh=DFxo0lMWx1LamJoO8gw7DU+04h/F4i+eiapIx8PP5jQ=;
-        h=From:To:Subject:Date:MIME-Version;
-        b=cuNGE9Ijj4X1QMZV1GMEqCwDZpf5uR0kueMLuyN/hdxEYhzqliHQ4Op8PsbyTvx3r
-         IFPA4dK7hHBJGQmyyAT8W847rmK/1dKsPBvN56YSD8efUKEiKq0AZWv+CXDDDY/8Ui
-         X2RS3p51xEtPoEgaWtQVIXTiuyjRBHTZFuzeXSMjenb320Vt9Ssq94FQQQnzmfu7Tn
-         +0mEfM5mILmahesZ0iU3d8MJ9HUTwZBgbAtbNXU+fbmRFKDXwGYK8h2m55gAFeb3X+
-         FMKfF35pbqZDuGrWoeBcKCiHtZZmnDqftpBYBLVxpdj0VCw92b/EQMosDiJppkDXXB
-         m0bwPItMgzJBA==
-From:   Luca Ellero <l.ellero@asem.it>
-To:     dmitry.torokhov@gmail.com, daniel@zonque.org,
-        m.felsch@pengutronix.de, andriy.shevchenko@linux.intel.com,
-        u.kleine-koenig@pengutronix.de, mkl@pengutronix.de,
-        miquel.raynal@bootlin.com, imre.deak@nokia.com,
-        luca.ellero@brickedbrain.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luca Ellero <l.ellero@asem.it>
-Subject: [PATCH 2/3] Input: ads7846 - always set last command to PWRDOWN
-Date:   Fri, 20 Jan 2023 13:45:43 +0100
-Message-Id: <20230120124544.5993-3-l.ellero@asem.it>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230120124544.5993-1-l.ellero@asem.it>
-References: <20230120124544.5993-1-l.ellero@asem.it>
+        Fri, 20 Jan 2023 09:16:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F63C45AD;
+        Fri, 20 Jan 2023 06:16:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 10B1761F89;
+        Fri, 20 Jan 2023 14:14:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C42DC4339B;
+        Fri, 20 Jan 2023 14:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674224098;
+        bh=aT2QPER7G2pwEx35hjTz57D8G6XAX5GS99A1E1Dg2S8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=oL2kaGiej98eDcuFimNLJv7iMH18XiO7sU5ZCFrEA1veGqeivzDikSXwBTSAv0RGm
+         kxmsG8dcjR0OpJFq2auGq1KKz3nviMzjz/1/RhPKhBBoSP89YpfisCU7eir1aXzI3g
+         DTLymK0oM4CxHaguYbFCWVYfqqWvuvoTCdljpS4LvzrJ2osKq9MQMwxyqZEVZXgO7u
+         SUepPd5uzwbWTum0dYQ2BrlZqDW3RdMOWQ1IJ+4QeKoC+c5eatmTL6eefujbDFGRGH
+         PeepFQ37keOBpiPj1wIjbtkVLniAdzW5Q1O+Ohqqf/JutYIf8ec7jW7eqHbgTsWKTQ
+         hyV6qzMxP41AA==
+Received: by mail-vs1-f54.google.com with SMTP id v127so5747515vsb.12;
+        Fri, 20 Jan 2023 06:14:58 -0800 (PST)
+X-Gm-Message-State: AFqh2kqKPxI2UX7J0llusPqm0FlUn3cruPO6VD84BIMJN5uHBecwR6mg
+        Kn7MtFHVygcc8Av4N2YUwALqP0J5VRpdJdpUxg==
+X-Google-Smtp-Source: AMrXdXsaHRx5tp7WwiGOksFRrbK1bg0v79HdqYyxlzRdi34zCccIWHHQIi/6gKtztP49xm7apRWR2lH7W3Q03vCB7aU=
+X-Received: by 2002:a05:6102:5490:b0:3b5:1fe4:f1c2 with SMTP id
+ bk16-20020a056102549000b003b51fe4f1c2mr2054571vsb.0.1674224097356; Fri, 20
+ Jan 2023 06:14:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfL0QDsHFOS64LRHL6Al7UbqGJaiezOl1+OOvf8A67u1hfdUyoKem/h3PepIkXrctWfEhnNHmhDiEs1n6+mT8MqhCYkYGllEJjaUHDXnqOhpwQ36VNez2
- P7ghc6w47ez1XPKv7AuB4kVgGuc9jKxijDNqiAyyqqJKM7R4Ks5XDMhWgMQUsS0shTtZfXtEBDAZcj//azuy3f0sK6TW/0IFk6FPFpXORjGME7bEMGSwtVY2
- 0K9GFEh9/WPR31UN5lbRdtk00da6J/nFX8i1Pwf8c30w2zha5kLQ3yjPnW7EG+MsuBjagelBuiS1JPqKgTKd0Q50H/uC4Mp0vgfkzVedX4KXsgN/q4y1gfci
- +rOzNEEHbNgv2KPRarQWVkrUrPAwjp55VV5kCfit4Egs0FGxHZa2GyhBK0lrq0JWOzGXjeHGs+oWwX8T6Dv99DcGl7NqCBPuHUC2thKpWXSXhfPiFjYprRfE
- 5Co6umRFAmGCl24KJ/dfENdF36hlb4SA0WHek6xlv4Rh1BhT3kdgyszoQ+liBoX7zFrKIHzjIY5jVeURSN5FKB+Ds7lcdUiY6W8RmNa+nXvNk8vZ6fIxKrDL
- 8SP6+kKI6HsPVV/Qa7QakBYL
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20221202113226.114465-1-Mr.Bossman075@gmail.com>
+ <20230119175135.GA2085792-robh@kernel.org> <Y8mt6ZCMf4YZvDYA@google.com>
+In-Reply-To: <Y8mt6ZCMf4YZvDYA@google.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 20 Jan 2023 08:14:45 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJQd4W5-8ej48hAebvyA6neH=2hTtzVU5HhFpQ2yKsQFw@mail.gmail.com>
+Message-ID: <CAL_JsqJQd4W5-8ej48hAebvyA6neH=2hTtzVU5HhFpQ2yKsQFw@mail.gmail.com>
+Subject: Re: [PATCH v2] drivers/mfd: simple-mfd-i2c: Add generic compatible
+To:     Lee Jones <lee@kernel.org>
+Cc:     Jesse Taube <mr.bossman075@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        lee.jones@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Controllers that report pressure (e.g. ADS7846) use 5 commands and the
-correct sequence is READ_X, READ_Y, READ_Z1, READ_Z2, PWRDOWN.
+On Thu, Jan 19, 2023 at 2:54 PM Lee Jones <lee@kernel.org> wrote:
+>
+> On Thu, 19 Jan 2023, Rob Herring wrote:
+>
+> > On Fri, Dec 02, 2022 at 06:32:26AM -0500, Jesse Taube wrote:
+> > > Some devices may want to use this driver without having a specific
+> > > compatible string. Add a generic compatible string to allow this.
+> >
+> > What devices need this?
+> >
+> > Is that no specific compatible string at all or just in the kernel?
+> > Because the former definitely goes against DT requirements. The latter
+> > enables the former without a schema.
+> >
+> > >
+> > > Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+> > > ---
+> > >  drivers/mfd/simple-mfd-i2c.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
+> > > index f4c8fc3ee463..0bda0dd9276e 100644
+> > > --- a/drivers/mfd/simple-mfd-i2c.c
+> > > +++ b/drivers/mfd/simple-mfd-i2c.c
+> > > @@ -73,6 +73,7 @@ static const struct simple_mfd_data silergy_sy7636a = {
+> > >  };
+> > >
+> > >  static const struct of_device_id simple_mfd_i2c_of_match[] = {
+> > > +   { .compatible = "simple-mfd-i2c-generic" },
+> >
+> > Simple and generic? There is no such device. Anywhere.
+> >
+> > This is also not documented which is how I found it (make
+> > dt_compatible_check). But this should be reverted or dropped rather than
+> > documented IMO.
+>
+> I thought it would be better than having a huge list here.
 
-Controllers that don't report pressure (e.g. ADS7845/ADS7843) use only 3
-commands and the correct sequence should be READ_X, READ_Y, PWRDOWN. But
-the sequence sent was incorrect: READ_X, READ_Y, READ_Z1.
+What indication is there that the list would be huge? We have 2 out of
+137 MFD bindings. Usually if the MFD is simple, we'd make it a single
+node. It just needs to be clear what the conditions are for using it.
 
-Fix this by setting the third (and last) command to PWRDOWN.
+> Devices should *also* be allocated a specific compatible string.
+>
+> $ git grep simple-mfd -- arch
 
-Signed-off-by: Luca Ellero <l.ellero@asem.it>
----
- drivers/input/touchscreen/ads7846.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Why can't simple-mfd be used here?
 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index f11b444f2138..15da1047a577 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -1066,6 +1066,9 @@ static int ads7846_setup_spi_msg(struct ads7846 *ts,
- 		struct ads7846_buf_layout *l = &packet->l[cmd_idx];
- 		unsigned int max_count;
- 
-+		if (cmd_idx == packet->cmds - 1)
-+			cmd_idx = ADS7846_PWDOWN;
-+
- 		if (ads7846_cmd_need_settle(cmd_idx))
- 			max_count = packet->count + packet->count_skip;
- 		else
-@@ -1102,7 +1105,12 @@ static int ads7846_setup_spi_msg(struct ads7846 *ts,
- 
- 	for (cmd_idx = 0; cmd_idx < packet->cmds; cmd_idx++) {
- 		struct ads7846_buf_layout *l = &packet->l[cmd_idx];
--		u8 cmd = ads7846_get_cmd(cmd_idx, vref);
-+		u8 cmd;
-+
-+		if (cmd_idx == packet->cmds - 1)
-+			cmd_idx = ADS7846_PWDOWN;
-+
-+		cmd = ads7846_get_cmd(cmd_idx, vref);
- 
- 		for (b = 0; b < l->count; b++)
- 			packet->tx[l->offset + b].cmd = cmd;
--- 
-2.25.1
-
+Rob
