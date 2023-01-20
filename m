@@ -2,58 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95D806756C0
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 15:16:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37FE06756E4
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 15:20:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230262AbjATOQy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Jan 2023 09:16:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43852 "EHLO
+        id S231134AbjATOUZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Jan 2023 09:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbjATOQx (ORCPT
+        with ESMTP id S231288AbjATOT4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Jan 2023 09:16:53 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F63C45AD;
-        Fri, 20 Jan 2023 06:16:07 -0800 (PST)
+        Fri, 20 Jan 2023 09:19:56 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2FC12591;
+        Fri, 20 Jan 2023 06:19:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 10B1761F89;
-        Fri, 20 Jan 2023 14:14:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C42DC4339B;
-        Fri, 20 Jan 2023 14:14:58 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4E2F0B82837;
+        Fri, 20 Jan 2023 14:18:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87C58C433D2;
+        Fri, 20 Jan 2023 14:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674224098;
-        bh=aT2QPER7G2pwEx35hjTz57D8G6XAX5GS99A1E1Dg2S8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oL2kaGiej98eDcuFimNLJv7iMH18XiO7sU5ZCFrEA1veGqeivzDikSXwBTSAv0RGm
-         kxmsG8dcjR0OpJFq2auGq1KKz3nviMzjz/1/RhPKhBBoSP89YpfisCU7eir1aXzI3g
-         DTLymK0oM4CxHaguYbFCWVYfqqWvuvoTCdljpS4LvzrJ2osKq9MQMwxyqZEVZXgO7u
-         SUepPd5uzwbWTum0dYQ2BrlZqDW3RdMOWQ1IJ+4QeKoC+c5eatmTL6eefujbDFGRGH
-         PeepFQ37keOBpiPj1wIjbtkVLniAdzW5Q1O+Ohqqf/JutYIf8ec7jW7eqHbgTsWKTQ
-         hyV6qzMxP41AA==
-Received: by mail-vs1-f54.google.com with SMTP id v127so5747515vsb.12;
-        Fri, 20 Jan 2023 06:14:58 -0800 (PST)
-X-Gm-Message-State: AFqh2kqKPxI2UX7J0llusPqm0FlUn3cruPO6VD84BIMJN5uHBecwR6mg
-        Kn7MtFHVygcc8Av4N2YUwALqP0J5VRpdJdpUxg==
-X-Google-Smtp-Source: AMrXdXsaHRx5tp7WwiGOksFRrbK1bg0v79HdqYyxlzRdi34zCccIWHHQIi/6gKtztP49xm7apRWR2lH7W3Q03vCB7aU=
-X-Received: by 2002:a05:6102:5490:b0:3b5:1fe4:f1c2 with SMTP id
- bk16-20020a056102549000b003b51fe4f1c2mr2054571vsb.0.1674224097356; Fri, 20
- Jan 2023 06:14:57 -0800 (PST)
+        s=k20201202; t=1674224299;
+        bh=0EFlWgRLxVNkH0D5+K2CCNLnfAooxQdTXCQg9UomTuQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KiaEKsSgiJZRbz7IKmOLtFRffZaQY4N6z/wjKf5yz+GEGkQjSDICZpoCCcYKk/qLP
+         nUCeXBwXPwvyJOaQR+AKhv/QeKIe7CLRN41e5ZSJYMzqT/uHubQum0UB7AYMm5XiZr
+         e8X6v6ScvdAzYvAut1sYbLR4QjHeIVc0BE9FTAQvxkK0OggUn3/Gm/Wq226R47d0Ou
+         RCSGoN/357G+odIg8wBmEHFlxJc9fr7EYOKrbsTjS9GvYgbZbLSwfeO374/FcLfwVr
+         fkFSy7/SdtvmfQCMOEtuFxy6Vt1SqnUlQDRBfXT+djifdJawncA98CuJTf/QgZTqkO
+         oVqLICJMrEltw==
+Date:   Fri, 20 Jan 2023 14:18:11 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Marek Vasut <marex@denx.de>,
+        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH 19/27] mfd: remove ucb1400 support
+Message-ID: <Y8qio/hwsP6+EG29@google.com>
+References: <20230105134622.254560-1-arnd@kernel.org>
+ <20230105134622.254560-20-arnd@kernel.org>
 MIME-Version: 1.0
-References: <20221202113226.114465-1-Mr.Bossman075@gmail.com>
- <20230119175135.GA2085792-robh@kernel.org> <Y8mt6ZCMf4YZvDYA@google.com>
-In-Reply-To: <Y8mt6ZCMf4YZvDYA@google.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 20 Jan 2023 08:14:45 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJQd4W5-8ej48hAebvyA6neH=2hTtzVU5HhFpQ2yKsQFw@mail.gmail.com>
-Message-ID: <CAL_JsqJQd4W5-8ej48hAebvyA6neH=2hTtzVU5HhFpQ2yKsQFw@mail.gmail.com>
-Subject: Re: [PATCH v2] drivers/mfd: simple-mfd-i2c: Add generic compatible
-To:     Lee Jones <lee@kernel.org>
-Cc:     Jesse Taube <mr.bossman075@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        lee.jones@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230105134622.254560-20-arnd@kernel.org>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -63,52 +65,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 2:54 PM Lee Jones <lee@kernel.org> wrote:
->
-> On Thu, 19 Jan 2023, Rob Herring wrote:
->
-> > On Fri, Dec 02, 2022 at 06:32:26AM -0500, Jesse Taube wrote:
-> > > Some devices may want to use this driver without having a specific
-> > > compatible string. Add a generic compatible string to allow this.
-> >
-> > What devices need this?
-> >
-> > Is that no specific compatible string at all or just in the kernel?
-> > Because the former definitely goes against DT requirements. The latter
-> > enables the former without a schema.
-> >
-> > >
-> > > Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-> > > ---
-> > >  drivers/mfd/simple-mfd-i2c.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
-> > > index f4c8fc3ee463..0bda0dd9276e 100644
-> > > --- a/drivers/mfd/simple-mfd-i2c.c
-> > > +++ b/drivers/mfd/simple-mfd-i2c.c
-> > > @@ -73,6 +73,7 @@ static const struct simple_mfd_data silergy_sy7636a = {
-> > >  };
-> > >
-> > >  static const struct of_device_id simple_mfd_i2c_of_match[] = {
-> > > +   { .compatible = "simple-mfd-i2c-generic" },
-> >
-> > Simple and generic? There is no such device. Anywhere.
-> >
-> > This is also not documented which is how I found it (make
-> > dt_compatible_check). But this should be reverted or dropped rather than
-> > documented IMO.
->
-> I thought it would be better than having a huge list here.
+On Thu, 05 Jan 2023, Arnd Bergmann wrote:
 
-What indication is there that the list would be huge? We have 2 out of
-137 MFD bindings. Usually if the MFD is simple, we'd make it a single
-node. It just needs to be clear what the conditions are for using it.
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The ucb1400 MFD driver and its gpio and touchscreen child
+> drivers were only used on a few PXA machines that were unused
+> for a while and are now removed.
+> 
+> Removing these leaves the AC97 support as ALSA specific,
+> no other drivers are now connected through this interface.
+> 
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpio/Kconfig                   |   7 -
+>  drivers/gpio/Makefile                  |   1 -
+>  drivers/gpio/gpio-ucb1400.c            |  85 -----
+>  drivers/input/touchscreen/Kconfig      |  16 -
+>  drivers/input/touchscreen/Makefile     |   1 -
+>  drivers/input/touchscreen/ucb1400_ts.c | 458 -------------------------
+>  drivers/mfd/Kconfig                    |  11 -
+>  drivers/mfd/Makefile                   |   1 -
+>  drivers/mfd/ucb1400_core.c             | 158 ---------
+>  include/linux/ucb1400.h                | 160 ---------
+>  sound/Kconfig                          |   1 -
+>  sound/pci/ac97/ac97_codec.c            |   1 -
+>  sound/pci/ac97/ac97_patch.c            |  40 ---
 
-> Devices should *also* be allocated a specific compatible string.
->
-> $ git grep simple-mfd -- arch
+Happy to take this with the relevant Acks.
 
-Why can't simple-mfd be used here?
+I assume an immutable branch is necessary.
 
-Rob
+-- 
+Lee Jones [李琼斯]
