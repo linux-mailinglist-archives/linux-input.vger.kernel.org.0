@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94DFD67584A
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 16:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA3567584F
+	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 16:18:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjATPRM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Jan 2023 10:17:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48870 "EHLO
+        id S230372AbjATPSR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Jan 2023 10:18:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbjATPRM (ORCPT
+        with ESMTP id S229942AbjATPSQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Jan 2023 10:17:12 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69E322D42;
-        Fri, 20 Jan 2023 07:17:11 -0800 (PST)
+        Fri, 20 Jan 2023 10:18:16 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1719BEF96;
+        Fri, 20 Jan 2023 07:18:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674227831; x=1705763831;
+  t=1674227895; x=1705763895;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1DKDhX2aS6+ehqAJu8VWeSS88MeJAdJ3MEj7/2+SAv8=;
-  b=AVaDPTvRPOy1ayGkk7BSj2Sq3cb0hwiur1VYgxUwarM6FeDsB5rm/3me
-   LgYb/QK/rxhZeh2eMwpV6tfOFAEB6TI8LEkFDVyy/sA56KJnxV8XC6Nir
-   JUiskelsilSlkL0dStU9KCgUqNvkXzaZkdjn9QOSpIA+LIY4Iv4PUZ13B
-   eeBE+YEL6/pYDQxaQbzM+F2GnCPiIkrntwRZ1LCtBPiB3YyFzfGhkcLt9
-   lkKKbXgBm4O95BB3LDAsMwSOnKFCvzWrshDmjsa6ky9pN8pcy9VUYHccd
-   WJHVJYK1foBG1ei19nf4aRWCMhPsGDl22kf57GhSJpet6LtywtQrN07JW
+  bh=DMrNEjNnupgz3UG0MstA6kUJVX0stvsDi/5oCO/sBx8=;
+  b=UQ90htaQ5wN4+th9TCM0PeU6AC48C1vA3+zDqHigdAH47mCGxVvwQ327
+   P26nrOU217CvK/JH56/N96z8oXutTgjPZOwr7b0Zj7e6lf8fdwGkr69Iw
+   XcqmxkgACdKk5Utdv+JyDHHD6L4WCUePko3DK9CXMpT5LXU9JwWIXeqWe
+   0e0pedtC+7QCAe5cc4ASqEwFDHYuH90dAKx0yc+7S8KilhpSISgqZm1bH
+   h8I4Y/EMWQeMLl4LibKAvx8JUKypx6tsY53CJzSrH7l8DxoXHPsQOVmaF
+   IlMQtZi0l+mbEeTjEU9ufRkoNqDurhWGDqrbF/0Lmorby9clGRBmEx7hl
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="387961875"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="326876826"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="387961875"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:17:10 -0800
+   d="scan'208";a="326876826"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:18:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="723977921"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="803099574"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="723977921"
+   d="scan'208";a="803099574"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Jan 2023 07:17:07 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 20 Jan 2023 07:18:11 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pIt8b-00CHXa-2f;
-        Fri, 20 Jan 2023 17:17:05 +0200
-Date:   Fri, 20 Jan 2023 17:17:05 +0200
+        id 1pIt9d-00CHZD-28;
+        Fri, 20 Jan 2023 17:18:09 +0200
+Date:   Fri, 20 Jan 2023 17:18:09 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Luca Ellero <l.ellero@asem.it>
 Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
@@ -51,35 +51,32 @@ Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
         mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
         luca.ellero@brickedbrain.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] Input: ads7846 - always set last command to PWRDOWN
-Message-ID: <Y8qwceKl6G1jh014@smile.fi.intel.com>
+Subject: Re: [PATCH 3/3] Input: ads7846 - don't check penirq immediately for
+ 7845
+Message-ID: <Y8qwsdUy9dT7l4OT@smile.fi.intel.com>
 References: <20230120124544.5993-1-l.ellero@asem.it>
- <20230120124544.5993-3-l.ellero@asem.it>
+ <20230120124544.5993-4-l.ellero@asem.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230120124544.5993-3-l.ellero@asem.it>
+In-Reply-To: <20230120124544.5993-4-l.ellero@asem.it>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 01:45:43PM +0100, Luca Ellero wrote:
-> Controllers that report pressure (e.g. ADS7846) use 5 commands and the
-> correct sequence is READ_X, READ_Y, READ_Z1, READ_Z2, PWRDOWN.
-> 
-> Controllers that don't report pressure (e.g. ADS7845/ADS7843) use only 3
-> commands and the correct sequence should be READ_X, READ_Y, PWRDOWN. But
-> the sequence sent was incorrect: READ_X, READ_Y, READ_Z1.
-> 
-> Fix this by setting the third (and last) command to PWRDOWN.
+On Fri, Jan 20, 2023 at 01:45:44PM +0100, Luca Ellero wrote:
+> To discard false readings, one should use "ti,penirq-recheck-delay-usecs".
+> Checking get_pendown_state() at the beginning, most of the time fails
+> causing malfunctioning.
 
-Provide a Fixes: tag?
+Should it have a Fixes: tag?
 
 > Signed-off-by: Luca Ellero <l.ellero@asem.it>
 
