@@ -2,61 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E71A676426
-	for <lists+linux-input@lfdr.de>; Sat, 21 Jan 2023 07:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3849D6764ED
+	for <lists+linux-input@lfdr.de>; Sat, 21 Jan 2023 08:26:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbjAUG1E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 21 Jan 2023 01:27:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34476 "EHLO
+        id S229544AbjAUH0z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Jan 2023 02:26:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjAUG1E (ORCPT
+        with ESMTP id S229464AbjAUH0y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 21 Jan 2023 01:27:04 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2044371BF4
-        for <linux-input@vger.kernel.org>; Fri, 20 Jan 2023 22:27:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674282423; x=1705818423;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CrE2RA3+yG43UzJ/FxB67FD6EVoathpyN7rQU5nvMYI=;
-  b=Gl+rt223AvBIXYp/9rzEc71n9s6PLqlc8FdnDy7pwVUl1ach2Vz3X0YJ
-   /pRNj/YZbxrsM2LcAl4zMTrVvbgd0/42U4uu2BRdPUbh4IURGXET1Ffhb
-   4sdZyFbPpzrP4rQeaXjH56rAvpjjyd0IJNxuEp17iQ+k+lUuhQ38duCr9
-   YudfQfVASm03zEJ634uU9wuWC3Y6d08WOM474tPNFSCvEnREHwq4AlgLV
-   botfinkBbgVA51iqK0xmk6Mrm5LM909FuZoEQNtQps2IMODi2lcO5CzU4
-   moQXBoUblsN7rG1qMN2Lh2l9guQGbZECY2GF8+vrenjJUffU/X6u4N3pn
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="388123418"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="388123418"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 22:27:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="610717061"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="610717061"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Jan 2023 22:27:00 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pJ7LA-0003fN-0W;
-        Sat, 21 Jan 2023 06:27:00 +0000
-Date:   Sat, 21 Jan 2023 14:26:57 +0800
-From:   kernel test robot <lkp@intel.com>
+        Sat, 21 Jan 2023 02:26:54 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B38DF6E822;
+        Fri, 20 Jan 2023 23:26:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 22BF6CE1D4D;
+        Sat, 21 Jan 2023 07:26:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD741C433D2;
+        Sat, 21 Jan 2023 07:26:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674286010;
+        bh=dJ/yx41Bu83Mk/SGvl/isbFz7gan1Q9OejyPTg72ciI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z+QX6XADfzw5u/dOUk0mPTLrP8OD3PqfVEtA2CFrbbKewBLcHo1PJFfz4P+LEKzUN
+         nAboJsALzofE0VwYpXKpqgr0X1T8fXOAKKMqkeVqk+p4M0HeROZ39GbQ/cAoqCX08b
+         SRQApkODG1MuaqARrp/ypUoaeITwXzMDHe+9DEG0=
+Date:   Sat, 21 Jan 2023 08:26:47 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:master] BUILD SUCCESS
- 8aaec1177521eed07240ec5ac2bc55b2a1c35b42
-Message-ID: <63cb85b1.aWZOzPVMavYeBSvj%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Joe Wu <joewu@msi.corp-partner.google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xiang wangx <wangxiang@cdjrlc.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
+        Benson Leung <bleung@chromium.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Daisuke Nojiri <dnojiri@chromium.org>,
+        Derek Huang <derekhuang@google.com>,
+        "Dustin L . Howett" <dustin@howett.net>, Joe Wu <joewu@msi.com>,
+        Furquan Shaikh <furquan@chromium.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH] cros_ec_keyb: Add 3 buttons for monitor function
+Message-ID: <Y8uTt3zXgGPmevkb@kroah.com>
+References: <20221222063950.26018-1-joewu@msi.com>
+ <Y8p6THz2jjKEoMrJ@kroah.com>
+ <Y8rOQqhWcVAv8gmN@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y8rOQqhWcVAv8gmN@google.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,83 +69,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: 8aaec1177521eed07240ec5ac2bc55b2a1c35b42  Input: cros_ec_keyb - add 3 buttons for monitor function
+On Fri, Jan 20, 2023 at 09:24:18AM -0800, Dmitry Torokhov wrote:
+> On Fri, Jan 20, 2023 at 12:26:04PM +0100, Greg Kroah-Hartman wrote:
+> > On Thu, Dec 22, 2022 at 02:39:50PM +0800, Joe Wu wrote:
+> > > Add 3 extra buttons: 'brightness up', 'brightness down'
+> > > and 'screen lock' to support monitor manipulating function.
+> > > 
+> > > Signed-off-by: Joe Wu <joewu@msi.com>
+> > 
+> > From: line does not match the signed-off-by (and is an invalid email
+> > address...)
+> 
+> What do you mean "it's an invalid email address"? You can definitely
+> send emails there... I prefer people not to use Google partner domain
+> accounts in the hope that their employment might outlast their
+> involvement in Google projects, but that is it.
 
-elapsed time: 720m
+I was told that this was not a valid email address to send and receive
+emails from, and was only an email alias given to companies to interact
+with Google through their gerrit systems.  If that is incorrect, I'll
+not complain about this anymore, but someone needs to please verify this
+for me before I do so :)
 
-configs tested: 62
-configs skipped: 2
+But even if it is valid, should we accept it as a way to get in contact
+with the original submitter over time?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> I think if we ask people to stick "From: <whatever the company address
+> is" in the body of the patch we can ignore the difference between sender
+> address and from/signed-off-by when they use partner domain accounts. If
+> anything, such accounts have better vetting than a random gmail or other
+> free email service account some vendors have to create to be able to
+> send a plain-text emails that we require. I mean, we have
+> "Signed-off-by: George Spelvin <lkml@sdf.org>" present in our git
+> history and nobody bats an eye...
 
-gcc tested configs:
-x86_64                            allnoconfig
-arc                                 defconfig
-s390                             allmodconfig
-x86_64                           rhel-8.3-syz
-alpha                               defconfig
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-s390                                defconfig
-x86_64                           rhel-8.3-bpf
-s390                             allyesconfig
-powerpc                           allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-arm                  randconfig-r046-20230119
-arc                  randconfig-r043-20230119
-i386                          randconfig-a001
-i386                          randconfig-a003
-m68k                             allmodconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-i386                          randconfig-a005
-i386                                defconfig
-x86_64                        randconfig-a006
-x86_64                              defconfig
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a004
-x86_64                        randconfig-a015
-arm64                            allyesconfig
-x86_64                        randconfig-a002
-sh                               allmodconfig
-arm                                 defconfig
-x86_64                               rhel-8.3
-ia64                             allmodconfig
-i386                          randconfig-a014
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-i386                             allyesconfig
-x86_64                          rhel-8.3-func
-mips                             allyesconfig
-i386                          randconfig-a012
-arm                              allyesconfig
-i386                          randconfig-a016
-powerpc                          allmodconfig
+Oh lots of people "batted an eye" about that one, I've had too many
+meetings with lawyers about that, which is one reason I now verify email
+addresses like I did here.
 
-clang tested configs:
-s390                 randconfig-r044-20230119
-hexagon              randconfig-r045-20230119
-hexagon              randconfig-r041-20230119
-i386                          randconfig-a002
-riscv                randconfig-r042-20230119
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a001
-i386                          randconfig-a013
-x86_64                          rhel-8.3-rust
-i386                          randconfig-a015
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a011
+thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+greg k-h
