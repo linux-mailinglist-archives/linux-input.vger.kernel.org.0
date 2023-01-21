@@ -2,110 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C32C8676050
-	for <lists+linux-input@lfdr.de>; Fri, 20 Jan 2023 23:43:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E71A676426
+	for <lists+linux-input@lfdr.de>; Sat, 21 Jan 2023 07:27:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbjATWni (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Jan 2023 17:43:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
+        id S229608AbjAUG1E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Jan 2023 01:27:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbjATWni (ORCPT
+        with ESMTP id S229450AbjAUG1E (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Jan 2023 17:43:38 -0500
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFEA13DF7;
-        Fri, 20 Jan 2023 14:43:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-        t=1674254604; bh=SmK4fdjCc+5+gIx3b4Eq/5hJTyyAOSXxn2Irl+5x9sQ=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=rbWwDpsoaA9989HeUv8NI0B38u35ZqWZEbTUE4jON1fFxqsrYsLMMVEg8KSBgNGUs
-         wNisqI2vHvqdS/FCYk70XhjPKc0emCd3spjJ+lMu5Xvzu6JSyWWSxmTmAqNTzo5lRl
-         +h3os2BZAa35HBTcYX6M9LoHZvobIagXrZQOVmyIBd5J9APkN9cugULTa8nf9PCVUE
-         kqCcgtzmEXMNjInMMrMqqFlf3hk64jlOG0N/NJbBkxljgLpPbOrHO4LpsIAImycW4V
-         hMsPI1nMsqDDuZx/WMuRMPjKNDyxN/sQbIcAvbTcqUGP9uj92Ej6fScpCuYCgvZoKx
-         Ub4sPEQyJ493Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from luka-spectre.fritz.box ([77.182.131.156]) by smtp.web.de
- (mrweb106 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 1N8n4G-1ogAU42qsY-015sFO; Fri, 20 Jan 2023 23:38:14 +0100
-From:   Luka Guzenko <l.guzenko@web.de>
-To:     jikos@kernel.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luka Guzenko <l.guzenko@web.de>
-Subject: [PATCH] HID: Ignore battery for ELAN touchscreen 29DF on HP 
-Date:   Fri, 20 Jan 2023 23:37:41 +0100
-Message-Id: <20230120223741.3007-1-l.guzenko@web.de>
-X-Mailer: git-send-email 2.39.1
+        Sat, 21 Jan 2023 01:27:04 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2044371BF4
+        for <linux-input@vger.kernel.org>; Fri, 20 Jan 2023 22:27:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674282423; x=1705818423;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CrE2RA3+yG43UzJ/FxB67FD6EVoathpyN7rQU5nvMYI=;
+  b=Gl+rt223AvBIXYp/9rzEc71n9s6PLqlc8FdnDy7pwVUl1ach2Vz3X0YJ
+   /pRNj/YZbxrsM2LcAl4zMTrVvbgd0/42U4uu2BRdPUbh4IURGXET1Ffhb
+   4sdZyFbPpzrP4rQeaXjH56rAvpjjyd0IJNxuEp17iQ+k+lUuhQ38duCr9
+   YudfQfVASm03zEJ634uU9wuWC3Y6d08WOM474tPNFSCvEnREHwq4AlgLV
+   botfinkBbgVA51iqK0xmk6Mrm5LM909FuZoEQNtQps2IMODi2lcO5CzU4
+   moQXBoUblsN7rG1qMN2Lh2l9guQGbZECY2GF8+vrenjJUffU/X6u4N3pn
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="388123418"
+X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
+   d="scan'208";a="388123418"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 22:27:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="610717061"
+X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
+   d="scan'208";a="610717061"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 20 Jan 2023 22:27:00 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pJ7LA-0003fN-0W;
+        Sat, 21 Jan 2023 06:27:00 +0000
+Date:   Sat, 21 Jan 2023 14:26:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:master] BUILD SUCCESS
+ 8aaec1177521eed07240ec5ac2bc55b2a1c35b42
+Message-ID: <63cb85b1.aWZOzPVMavYeBSvj%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XHSDTG/Z83oXdh/P7+KCto1i2A1FPHqUwt4R7sQRZr9zP6M0smE
- +duC7xldbCGIZLf4H4hBvG3SPFrO0XsYblTc08kw+ytZylUrVTTrJ3fVvfHZvPUGXv+dFM+
- tT2hAfAAmfUz3aiD1sZ2hHZZXwLlJP7AXfPa0lBtc936SmMYICzrCHIrj9rSkvLVH/pZn+s
- Ra8XW82cxWbpwXmxoDKkg==
-UI-OutboundReport: notjunk:1;M01:P0:7OmScQ0ZIoI=;qa+lcBfvBh2BVktoVTfJTom3f5l
- /kTUcjmDjm/EkVgjfD/ZOI+7xuTPp9WmBn48ASEbA76ZmObSLCiFilL042Jt1kncMU3TqV3of
- iEZ1ySA/rHvPEJrR3fPu8ZZrfszS076b7bjRLQFftoFbIg0tzfK/VxeFpCxsrOxa2TDcRZJ/a
- HKx4J+GY6zrTBehOwLH2iIWSUzI5NXmjAAk6EDjzwU6dqj3bSU+vxEIN2J85TCgi2o2nUPCTI
- tP2gLMyjrA7zhH7CoiWN1TikNK3Z7/QiZJN2niH4vTqkoTEc9F4mvVJXUfH/iX53i/MfIITAA
- 6zD9Z+ot+3o1qwxh5GkZvSawC6TbbLRHJnsw3L/hAhccBDYejx701326e/ctozUEmU0YZKd3V
- xSvzHkxof0zt6RQm/g8LIcGnXzfncaAs5+10dF3Hhn0cahJi2xm3jGzWh4ZR2hzQmKj0J64D2
- UgGLaRuuexvB3PVTfwA8traXAeVAAk3koC35Tp5Xl8VoyaEv1BuDnafJBL6LUv4qKHZJ1md9+
- ZKe0fI+a2mFi+KT4waCvDSa2W4/msCa3frcPjTOAuhad7sWgRYS+vMI6IOlpUXworrxd+Iypi
- heFChKTG8geItuG/KzzZc2MxX5nb4WlXuQwB/wWBh4YicT43eMt4SBD9zY/OZFUDAUG6F3b1K
- pQ7dU44iw7fS13984Esq5nIm5GyN4n5FQ8bWKd9QF3eiZxB5045bxd6CteUtlFSjRwCo9z4sn
- plqNagVry9bjKUsHCV6aUlf8h/RxqDbBIU8y1u6+NHHPedHps1LUcieu4iX43KU6/utWW16RW
- wy1rlzeyNeTGGC1iKcAPdTWNZCK9/i0O9ZDFOLbgIBEvN+dWpJxSI3BfWgRGrnUqNDB3Yqijp
- t0f2FgUKIWTiFW4Eeh8f+BVa2PByUR/fSywIDYTkJgqF5Z2/lzGEcrSIAoH5E9i4NAJqqsZdu
- v5ugP8k0bYu19Gr3IpbCg7VyD8c=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The touchscreen reports a battery status of 0% and jumps to 1% when a
-stylus is used. The device ID was added and the battery ignore quirk was
-enabled for it.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: 8aaec1177521eed07240ec5ac2bc55b2a1c35b42  Input: cros_ec_keyb - add 3 buttons for monitor function
 
-Signed-off-by: Luka Guzenko <l.guzenko@web.de>
-=2D--
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
+elapsed time: 720m
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 82713ef3aaa6..78f4846e5711 100644
-=2D-- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -414,6 +414,7 @@
- #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
- #define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_15	0x2817
-+#define I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG  0x29DF
- #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
- #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
- #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 9b59e436df0a..27f17fafce58 100644
-=2D-- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -384,6 +384,8 @@ static const struct hid_device_id hid_battery_quirks[]=
- =3D {
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW=
-0020NG),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREE=
-N),
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCRE=
-EN),
-=2D-
-2.39.1
+configs tested: 62
+configs skipped: 2
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+x86_64                            allnoconfig
+arc                                 defconfig
+s390                             allmodconfig
+x86_64                           rhel-8.3-syz
+alpha                               defconfig
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+s390                                defconfig
+x86_64                           rhel-8.3-bpf
+s390                             allyesconfig
+powerpc                           allnoconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+arm                  randconfig-r046-20230119
+arc                  randconfig-r043-20230119
+i386                          randconfig-a001
+i386                          randconfig-a003
+m68k                             allmodconfig
+alpha                            allyesconfig
+m68k                             allyesconfig
+arc                              allyesconfig
+i386                          randconfig-a005
+i386                                defconfig
+x86_64                        randconfig-a006
+x86_64                              defconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a004
+x86_64                        randconfig-a015
+arm64                            allyesconfig
+x86_64                        randconfig-a002
+sh                               allmodconfig
+arm                                 defconfig
+x86_64                               rhel-8.3
+ia64                             allmodconfig
+i386                          randconfig-a014
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+i386                             allyesconfig
+x86_64                          rhel-8.3-func
+mips                             allyesconfig
+i386                          randconfig-a012
+arm                              allyesconfig
+i386                          randconfig-a016
+powerpc                          allmodconfig
+
+clang tested configs:
+s390                 randconfig-r044-20230119
+hexagon              randconfig-r045-20230119
+hexagon              randconfig-r041-20230119
+i386                          randconfig-a002
+riscv                randconfig-r042-20230119
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a001
+i386                          randconfig-a013
+x86_64                          rhel-8.3-rust
+i386                          randconfig-a015
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a011
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
