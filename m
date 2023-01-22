@@ -2,76 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31BC2677231
-	for <lists+linux-input@lfdr.de>; Sun, 22 Jan 2023 21:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B378D6772B6
+	for <lists+linux-input@lfdr.de>; Sun, 22 Jan 2023 22:37:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbjAVUE2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Jan 2023 15:04:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34872 "EHLO
+        id S230138AbjAVVhA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 22 Jan 2023 16:37:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230137AbjAVUE1 (ORCPT
+        with ESMTP id S229879AbjAVVg7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Jan 2023 15:04:27 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3964E93C4
-        for <linux-input@vger.kernel.org>; Sun, 22 Jan 2023 12:04:26 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id s3so12382723edd.4
-        for <linux-input@vger.kernel.org>; Sun, 22 Jan 2023 12:04:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KLl9PR6sEpr3tIWaSAX25KWJytmOInssz8fRd9oDq20=;
-        b=pMStElh5iDZtNksQKcNNTfjGIA5NCRsb/K49G8EkA8M2j9wfiuATeRMH925ZB9jN3+
-         sLfEsHa6U6h4SODs1LUcD1HM/F7aEWMA4OD/ZSCaUhI/ilpSIvNcLkIKozuictgrE/1k
-         dBL9hASzxYhEeQMzgQWzrB3b/DV/B2zj37crmIZX+DkmQjqn1cf2LBXKqM/IBa+NRqYy
-         jctKi59SfBH5CsV7h+6KpweL4E0Clq452LUDTRsJ1162/QXpdv6dtT3m0MgnMfoeJkWK
-         mBvQ5earHFYyDa/37jgSLpeQi/8kRuUSajg7u/+C54ByyUejFc07ns6/Ar/tWFfQ+eHU
-         Q+5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KLl9PR6sEpr3tIWaSAX25KWJytmOInssz8fRd9oDq20=;
-        b=tlby7KJiGag80GuYaxlxI0/i5bUbql4h3jTBy8J4PWtRL8d61cyZEwyh5/pJPWhzj7
-         l3QyQrLxGPS0MsNZDmpEy8Fve68g7MkzfQHQhMFUa47HjwtQ/I3tFp7thphOrBcgFmCW
-         WT97qpjfVpK5ikL92Z4ywVEAN2qySzhvLOsUnk+XVwIrMzhCc/MqLzbdHAnXjyZlsdWn
-         pu/ICWA1TP9430QjJIQCQrsognyyEXb2SRZIb5C3l21SbcFG2GPfgpLeYo+vMxN/kpL3
-         /1IPyGKOIViprlOTw1U07WGLlqbM9w3mgT4g64QdvTtHX2n9/B6hetPlb03CedID9Jfz
-         gSWw==
-X-Gm-Message-State: AFqh2kpFqFzA8ma1eiu6mF/UbwMna7GShzl0WX+eOf8SI3vvS46f5nix
-        FJ3PiaOeG3Sy8KsBb9tTyAcDyb+V3/QbsQ==
-X-Google-Smtp-Source: AMrXdXsjRIJetlugpnL2yp4A8rKWutTAAU/s1iV1PbVI4PV9KQAcv+Fy2mWxbJlbaVRHOY7A4+W3Kg==
-X-Received: by 2002:a05:6402:454:b0:492:8c77:7dad with SMTP id p20-20020a056402045400b004928c777dadmr21691336edw.8.1674417864591;
-        Sun, 22 Jan 2023 12:04:24 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a4f3:6f00:fdec:b2d9:7885:5e8b? (dzx520yj99w5qw0fgn6gt-3.rev.dnainternet.fi. [2001:14ba:a4f3:6f00:fdec:b2d9:7885:5e8b])
-        by smtp.gmail.com with ESMTPSA id ew7-20020a056402538700b0049b58744f93sm14022546edb.81.2023.01.22.12.04.23
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Jan 2023 12:04:24 -0800 (PST)
-Message-ID: <32629b93-8148-17fb-676e-b37c82821094@gmail.com>
-Date:   Sun, 22 Jan 2023 22:04:23 +0200
+        Sun, 22 Jan 2023 16:36:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49FCB16AE0;
+        Sun, 22 Jan 2023 13:36:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F1DEAB80B45;
+        Sun, 22 Jan 2023 21:36:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB7E3C433D2;
+        Sun, 22 Jan 2023 21:36:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674423415;
+        bh=+kFCj2QmQqaqkQtiLOFfyT0VJOQjHQOx/aIvyvGdoLs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qdLvj6w6684w6d/X9zYg2BFZL54G4t/TuI0Ru07Dj8kOCPAVoymyXtBQGBX0RPJgO
+         vFWVq0fHA9L+aPQE+N5MOg+6YTtOcP4dTjZmtyPALYNYrzyNnIhD9D4Cg+s1dLoWRn
+         MTJ0fd1Mc4eMZu8t+o6Ry0xiUg+4vXPCoYAc9LUiLo09CPpbxmYMwjiHz020m3S/KF
+         r0/s0x+hi+U9rpO1ef709JJU1EFLq9kdQwc68nhiBS1+PYEhvp8sB6o3uWPwvR8rBs
+         YtF0hwHJxaiHHqqishvWLDP0UhZxVIOo4CWWoXdjGwNsbqYkC59+fkVed2OcOVwT1C
+         rPI2g6AG2BcFw==
+From:   SeongJae Park <sj@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     SeongJae Park <sj@kernel.org>,
+        Alex Deucher <alexdeucher@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
+Date:   Sun, 22 Jan 2023 21:36:42 +0000
+Message-Id: <20230122213650.187710-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To:     linux-input@vger.kernel.org
-From:   "Tommi P. Laiho" <tommi.p.laiho@gmail.com>
-Subject: Subject: unsubscribe
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLY,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Please unsubscribe the following email address from the Linux mailing list.
-Email: tommi.p.laihol@gmail.com
+Some subsystem documents are missing SPDX license identifiers on index
+files.  This patchset adds those.
+
+Changes from v1
+(https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
+- Separate from index file content changes
+- Separate patch for each subsystem doc (Alex Deucher)
+- Use MIT license for gpu (Alex Deucher)
+
+SeongJae Park (8):
+  Docs/crypto/index: Add missing SPDX License Identifier
+  Docs/driver-api/index: Add missing SPDX License Identifier
+  Docs/gpu/index: Add missing SPDX License Identifier
+  Docs/hwmon/index: Add missing SPDX License Identifier
+  Docs/input/index: Add missing SPDX License Identifier
+  Docs/mm/index: Add missing SPDX License Identifier
+  Docs/scheduler/index: Add missing SPDX License Identifier
+  Docs/sound/index: Add missing SPDX License Identifier
+
+ Documentation/crypto/index.rst     | 2 ++
+ Documentation/driver-api/index.rst | 2 ++
+ Documentation/gpu/index.rst        | 2 ++
+ Documentation/hwmon/index.rst      | 2 ++
+ Documentation/input/index.rst      | 2 ++
+ Documentation/mm/index.rst         | 2 ++
+ Documentation/scheduler/index.rst  | 2 ++
+ Documentation/sound/index.rst      | 2 ++
+ 8 files changed, 16 insertions(+)
+
+-- 
+2.25.1
 
