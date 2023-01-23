@@ -2,107 +2,184 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75E00677AD8
-	for <lists+linux-input@lfdr.de>; Mon, 23 Jan 2023 13:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91AEE677B29
+	for <lists+linux-input@lfdr.de>; Mon, 23 Jan 2023 13:39:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbjAWMZO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Jan 2023 07:25:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60000 "EHLO
+        id S231715AbjAWMjg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Jan 2023 07:39:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbjAWMZN (ORCPT
+        with ESMTP id S230172AbjAWMjd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Jan 2023 07:25:13 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF70F7ED5;
-        Mon, 23 Jan 2023 04:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674476712; x=1706012712;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iImm6JHQKgIeZCj3fq8kdp17FmAD/Yf9LjaaakF/0fg=;
-  b=M/9UDFd5A1eRSooGcD6yj/lrrk9UdI0QcGXb2qUtOx0YIGMerUXCyBbp
-   9rT+kRLj2EO7nCcGQyU95F8eL/KBC1ijwtfI/XL7c6pGtMLJDiiDS51Iq
-   SYVEwIocGIwUvzo6PhVk6wRs6Zehk8CnVobZvMervANxA3zEpLKNycT4h
-   M8qDEEDa2smkmZjoeLdH4cQMQSH5pHdq/4BgzowIAmB9Q2Ta9grv4UNIO
-   xk7We8h/xJJph8hK2/CWqrAc4NG+dLrASjkhnXaqfYDrMSn1VaR1wuhnQ
-   wpO+DcyLzO6cycIftBFL75WIfW3BXJ6wHftQ8GnxlWFJM2PrpL4VDpDA8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="328114602"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="328114602"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 04:25:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="990389526"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="990389526"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 04:25:08 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pJvso-00DjJQ-1q;
-        Mon, 23 Jan 2023 14:25:06 +0200
-Date:   Mon, 23 Jan 2023 14:25:06 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Luca Ellero <luca.ellero@brickedbrain.com>
-Cc:     Luca Ellero <l.ellero@asem.it>, dmitry.torokhov@gmail.com,
-        daniel@zonque.org, m.felsch@pengutronix.de,
-        u.kleine-koenig@pengutronix.de, mkl@pengutronix.de,
-        miquel.raynal@bootlin.com, imre.deak@nokia.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] Input: ads7846 - don't report pressure for ads7845
-Message-ID: <Y858otTEDM1ugI0k@smile.fi.intel.com>
-References: <20230120124544.5993-1-l.ellero@asem.it>
- <20230120124544.5993-2-l.ellero@asem.it>
- <Y8qwQM2zLbboTeth@smile.fi.intel.com>
- <74c917ce-a67c-7b4a-023b-2f2f4fb365b5@brickedbrain.com>
+        Mon, 23 Jan 2023 07:39:33 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 615B8E383;
+        Mon, 23 Jan 2023 04:39:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F10C660EBA;
+        Mon, 23 Jan 2023 12:39:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88658C433D2;
+        Mon, 23 Jan 2023 12:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674477571;
+        bh=s+8hHnAKl0gi0VZ8wv/8dNvLtUyZNn3XDnnpjynGmVo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qmrseFreLw/EdK/11ZPWq19bvD2AtPVI6dg2av1UzqzdoO982G2Pb+44tBCOIF9OR
+         dcPar4I/PMeBxf36CtGr/5tK/srU8sp5nHZqx+9bHnKmcE1DlZYZf+p2WZgXMvdXhF
+         M9UCKD94gy+yzQLr0pcjkgXXBqzga+F/osMz3tCqMSFfvnKCUvBX6QHpMNZjCTS0QV
+         Ya69I1N3vmS9ZHgl8ixs83oF4RN04bHaMtC+i1OxqWzft4BWwiKuK4804LgU6rhk2y
+         A8bVqpo4D3LT/SroRMJWRJxj+LQq8gD7zuIPodGisnHjoroKwbQEXyCLy4zYP8zl3b
+         JdzjYGeQeWWng==
+From:   Lee Jones <lee@kernel.org>
+To:     lee@kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com,
+        avid.rheinsberg@gmail.com
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v2 1/2] HID: core: Provide new max_buffer_size attribute to over-ride the default
+Date:   Mon, 23 Jan 2023 12:39:11 +0000
+Message-Id: <20230123123912.360651-1-lee@kernel.org>
+X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74c917ce-a67c-7b4a-023b-2f2f4fb365b5@brickedbrain.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 09:27:37AM +0100, Luca Ellero wrote:
-> On 20/01/2023 16:16, Andy Shevchenko wrote:
-> > On Fri, Jan 20, 2023 at 01:45:42PM +0100, Luca Ellero wrote:
-> > > ADS7845 doesn't support pressure.
-> > > This patch avoids the following error reported by libinput-list-devices:
-> > 
-> > s/This patch avoids/Avoid/
-> > 
-> > (This rule is written in Submitting Patches documentation.)
-> > 
-> > > "ADS7845 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE".
-> > 
-> > Do you need a Fixes tag?
-> > 
-> 
-> Hi Andy,
-> thank you for your reply.
-> I haven't found a specific bug report to apply to this patches.
-> Could you kindly provide a "Fixes:" tag that I can apply?
+Presently, when a report is processed, its proposed size, provided by
+the user of the API (as Report Size * Report Count) is compared against
+the subsystem default HID_MAX_BUFFER_SIZE (16k).  However, some
+low-level HID drivers allocate a reduced amount of memory to their
+buffers (e.g. UHID only allocates UHID_DATA_MAX (4k) buffers), rending
+this check inadequate in some cases.
 
-The Fixes tag in accordance with the documentation should refer to the commit
-in the Git history which brought the problem (regression).
+In these circumstances, if the received report ends up being smaller
+than the proposed report size, the remainder of the buffer is zeroed.
+That is, the space between sizeof(csize) (size of the current report)
+and the rsize (size proposed i.e. Report Size * Report Count), which can
+be handled up to HID_MAX_BUFFER_SIZE (16k).  Meaning that memset()
+shoots straight past the end of the buffer boundary and starts zeroing
+out in-use values, often resulting in calamity.
 
-> It's more like this driver has never been tested with ADS7845.
-> Maybe the patches should be considered as a new implementation instead than
-> a bug fix?
+This patch introduces a new variable into 'struct hid_ll_driver' where
+individual low-level drivers can over-ride the default maximum value of
+HID_MAX_BUFFER_SIZE (16k) with something more sympathetic to the
+interface.
 
-If it's indeed from day 1, then the initial commit can be considered as Fixes
-tag, but I leave it to maintainer to decide.
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+v1 => v2:
+ - Edit the commit message to be less focused on UHID
+ 
+ drivers/hid/hid-core.c | 32 +++++++++++++++++++++++++-------
+ include/linux/hid.h    |  3 +++
+ 2 files changed, 28 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index bd47628da6be0..b10383ca8fc05 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -261,6 +261,7 @@ static int hid_add_field(struct hid_parser *parser, unsigned report_type, unsign
+ {
+ 	struct hid_report *report;
+ 	struct hid_field *field;
++	unsigned int max_buffer_size = HID_MAX_BUFFER_SIZE;
+ 	unsigned int usages;
+ 	unsigned int offset;
+ 	unsigned int i;
+@@ -291,8 +292,11 @@ static int hid_add_field(struct hid_parser *parser, unsigned report_type, unsign
+ 	offset = report->size;
+ 	report->size += parser->global.report_size * parser->global.report_count;
+ 
++	if (parser->device->ll_driver->max_buffer_size)
++		max_buffer_size = parser->device->ll_driver->max_buffer_size;
++
+ 	/* Total size check: Allow for possible report index byte */
+-	if (report->size > (HID_MAX_BUFFER_SIZE - 1) << 3) {
++	if (report->size > (max_buffer_size - 1) << 3) {
+ 		hid_err(parser->device, "report is too long\n");
+ 		return -1;
+ 	}
+@@ -1963,6 +1967,7 @@ int hid_report_raw_event(struct hid_device *hid, enum hid_report_type type, u8 *
+ 	struct hid_report_enum *report_enum = hid->report_enum + type;
+ 	struct hid_report *report;
+ 	struct hid_driver *hdrv;
++	int max_buffer_size = HID_MAX_BUFFER_SIZE;
+ 	u32 rsize, csize = size;
+ 	u8 *cdata = data;
+ 	int ret = 0;
+@@ -1978,10 +1983,13 @@ int hid_report_raw_event(struct hid_device *hid, enum hid_report_type type, u8 *
+ 
+ 	rsize = hid_compute_report_size(report);
+ 
+-	if (report_enum->numbered && rsize >= HID_MAX_BUFFER_SIZE)
+-		rsize = HID_MAX_BUFFER_SIZE - 1;
+-	else if (rsize > HID_MAX_BUFFER_SIZE)
+-		rsize = HID_MAX_BUFFER_SIZE;
++	if (hid->ll_driver->max_buffer_size)
++		max_buffer_size = hid->ll_driver->max_buffer_size;
++
++	if (report_enum->numbered && rsize >= max_buffer_size)
++		rsize = max_buffer_size - 1;
++	else if (rsize > max_buffer_size)
++		rsize = max_buffer_size;
+ 
+ 	if (csize < rsize) {
+ 		dbg_hid("report %d is too short, (%d < %d)\n", report->id,
+@@ -2384,7 +2392,12 @@ int hid_hw_raw_request(struct hid_device *hdev,
+ 		       unsigned char reportnum, __u8 *buf,
+ 		       size_t len, enum hid_report_type rtype, enum hid_class_request reqtype)
+ {
+-	if (len < 1 || len > HID_MAX_BUFFER_SIZE || !buf)
++	unsigned int max_buffer_size = HID_MAX_BUFFER_SIZE;
++
++	if (hdev->ll_driver->max_buffer_size)
++		max_buffer_size = hdev->ll_driver->max_buffer_size;
++
++	if (len < 1 || len > max_buffer_size || !buf)
+ 		return -EINVAL;
+ 
+ 	return hdev->ll_driver->raw_request(hdev, reportnum, buf, len,
+@@ -2403,7 +2416,12 @@ EXPORT_SYMBOL_GPL(hid_hw_raw_request);
+  */
+ int hid_hw_output_report(struct hid_device *hdev, __u8 *buf, size_t len)
+ {
+-	if (len < 1 || len > HID_MAX_BUFFER_SIZE || !buf)
++	unsigned int max_buffer_size = HID_MAX_BUFFER_SIZE;
++
++	if (hdev->ll_driver->max_buffer_size)
++		max_buffer_size = hdev->ll_driver->max_buffer_size;
++
++	if (len < 1 || len > max_buffer_size || !buf)
+ 		return -EINVAL;
+ 
+ 	if (hdev->ll_driver->output_report)
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 8677ae38599e4..f9b500b26f67c 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -826,6 +826,7 @@ struct hid_driver {
+  * @output_report: send output report to device
+  * @idle: send idle request to device
+  * @may_wakeup: return if device may act as a wakeup source during system-suspend
++ * @max_buffer_size: over-ride maximum data buffer size (default: HID_MAX_BUFFER_SIZE)
+  */
+ struct hid_ll_driver {
+ 	int (*start)(struct hid_device *hdev);
+@@ -851,6 +852,8 @@ struct hid_ll_driver {
+ 
+ 	int (*idle)(struct hid_device *hdev, int report, int idle, int reqtype);
+ 	bool (*may_wakeup)(struct hid_device *hdev);
++
++	unsigned int max_buffer_size;
+ };
+ 
+ extern struct hid_ll_driver i2c_hid_ll_driver;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.0.246.g2a6d74b583-goog
 
