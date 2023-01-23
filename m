@@ -2,259 +2,220 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ADD0678980
-	for <lists+linux-input@lfdr.de>; Mon, 23 Jan 2023 22:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B054678ADF
+	for <lists+linux-input@lfdr.de>; Mon, 23 Jan 2023 23:41:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232464AbjAWVZI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Jan 2023 16:25:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52930 "EHLO
+        id S233302AbjAWWl1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Jan 2023 17:41:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232459AbjAWVZH (ORCPT
+        with ESMTP id S233282AbjAWWlZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Jan 2023 16:25:07 -0500
-Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com [IPv6:2607:f8b0:4864:20::a2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B806C2CC46;
-        Mon, 23 Jan 2023 13:25:05 -0800 (PST)
-Received: by mail-vk1-xa2b.google.com with SMTP id t2so6665336vkk.9;
-        Mon, 23 Jan 2023 13:25:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rwr1V2VbjfpMmoaBdME1VccHGEWw9VckNn3iFCjPBTM=;
-        b=Op5ShM4k8Ny/E3icaPVaXEQ8zNdoFjtqLDFNRy+A5flLnIr5yNN55tEExpscgwgXQ7
-         ulxGMcMpikL6fjKJ4PPxeWBbJGn7khE3kZu7Ua8JjJ8YLnXuy/aZxlfeiVX3KkvEBaQZ
-         jFiCwiitDYrmqyibdUlqRFgkvTqrNEUqnb8+FHbv45+DheaHKyZRASW84mu8aMwKjN1E
-         Krcs/J1EEl4OvI1o8FLG/b974RM9VUpifT6jAuo7q51XJUrylGo5MDSHrTtMr1hKGllu
-         xRhEQLZxlQzCaWwdQoVD9bx63jLShdwiDZkcgKDhwBVmQ5PId58mo6mdwp6M/tRdlLK7
-         F9Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rwr1V2VbjfpMmoaBdME1VccHGEWw9VckNn3iFCjPBTM=;
-        b=bXqWypQUUfw/uNXywznKIEi/CbfAxO4iH3oPxOXTO4nY+QXyg3G7XQev2fsfUIgDzl
-         0aAL+V9hpSzwK+uWUpLqsXR+e1OCI73k0hCcJOK4TqNGMA/W/zoVD8xzPOG6uBwvYVu5
-         SMjlAWHwGDkZIHNUIBMXdTgtWvjFRDabmZBptect7FZ0Wj1hh84Yd658n4FbpQCTKF4u
-         lHMkY04CtAb1n+xU2+aBnoBe73VzDcmuTsOtTLjATQBtYTkaAHCIbvkJSr1xmanlaNuk
-         Wyeturl1vK40IvE8qbFsYm7Y/1gck3uApoHQbc8WMl0hnTZTZXSW44agNGmTrmn7NMzy
-         NcNw==
-X-Gm-Message-State: AFqh2ko4yyNJqPLghq1c6PEx5glFpt61bB4EwozaeruO0Wu0mVoz4btG
-        TucmOXfD5622hZMxaxlb9OJv1KRm8lvaD9GHhZPd8G0/
-X-Google-Smtp-Source: AMrXdXsq/CITHztVvUQT+oxkRY2L5v1MggNFEQTbxZC4nZ2vf7UY6k94BDrg1frKVH/F2KsvSX5gyH6WHGFzkJcasFI=
-X-Received: by 2002:a05:6122:91d:b0:3e1:a746:2b9e with SMTP id
- j29-20020a056122091d00b003e1a7462b9emr2977054vka.5.1674509104760; Mon, 23 Jan
- 2023 13:25:04 -0800 (PST)
+        Mon, 23 Jan 2023 17:41:25 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 204C433469;
+        Mon, 23 Jan 2023 14:41:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674513684; x=1706049684;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=tfm3IanKWT0HgwyVqoZb45l8o7NGI+jGDe9n+3Vr4bg=;
+  b=EEfpnodpdgARxQYtIyDPG8d4gZwDE9TaTeChH1yo0CIDYhiC6IO2fgfC
+   3fQR1TK37CZeGPUjaL82VkzkumIrOoMV2Q8XcMfKRpRupTb9uOnKV8Tkj
+   pp6oDuDuiJ4PWFJmmZg8ddApbHR6kBI7o8KPFqvlzHIOZaxf0WAGXd8Kn
+   ATTgNNrIV+xX4PfYmhes28odiJP6IrIU/FzibOzDj/ltk/rgGtxZ0KAzm
+   wcz1JmDU4sm7ALK1NE6KCjhszCvfHbKVIpr/+Im6PhXbuLBtqgUdp9Rxe
+   vrXy3AaJDMmH0vx4CoJbu//dhO+jo1S4GZhuCtzqOo2+LOv3csrBSlzBA
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="305835034"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="305835034"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 14:41:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="611791831"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="611791831"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga003.jf.intel.com with ESMTP; 23 Jan 2023 14:41:22 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 14:41:22 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 14:41:21 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 23 Jan 2023 14:41:21 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 23 Jan 2023 14:41:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fLX0ztC1zFlN0ZaWZKP0Obacj6gyZCNeAt2m1ynNwQFQljiWyTlMAN4+4zFRTLILNLswwQvaWqJyFEVyzXXrkB1Y+uoXzQjcKle53JwhKWd/hzz8gVl7aXh3PS0EPaUEUyKLtunTtkdegNUjU86CgsockRYTX2IcOgGfIAM0RGmGu8Yob6M+jLqfLTi87pnD7Mw5OBVYpvBT3XOj19hxDaITO2mPubuZLflGEDD/M0zxDEGVXOt0oTgiQEsrRQvEApAg2zj4EYhfu6Czidqxkld99FmmhceAhOWzUq0uUWsIBbFKWJExpYdeMzzC1apZtuIWQ6qNIW2bF9kD5LqG6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tfm3IanKWT0HgwyVqoZb45l8o7NGI+jGDe9n+3Vr4bg=;
+ b=V3AAyJ7y/kExAR6XtnKERY8M6advyLUXDifOm1AVTi1O5KJFUVngvuHgEPw1i4DjVmbAdEiCQxD+sXxzHfroeEMbJE7lmbP20OiYgPf/IxWXyp9EoAk8N4jJKyHOTqficNQu70IyvtRACZkt4q/5it4rZPxkjdazLm+jO/L1WTcYQY0sr50/KQHEoSwF8zCj7YDbt4B8h7pFPbGuZL4Kwi1Fk73A65cX5A++9oHdr2ALaSoDtJ6ErsQJbKGlHjjMU9H7U+JNybVxvMrWPeCPzRvLmU476xdits12aFVCymEYpEw5M+fuywsquq0h+jesiTEsiro9Dnn40qnxMt0ysg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MW4PR11MB5823.namprd11.prod.outlook.com (2603:10b6:303:186::12)
+ by DS0PR11MB7336.namprd11.prod.outlook.com (2603:10b6:8:11f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
+ 2023 22:41:20 +0000
+Received: from MW4PR11MB5823.namprd11.prod.outlook.com
+ ([fe80::ee2c:e87b:970a:a3f4]) by MW4PR11MB5823.namprd11.prod.outlook.com
+ ([fe80::ee2c:e87b:970a:a3f4%8]) with mapi id 15.20.6002.027; Mon, 23 Jan 2023
+ 22:41:19 +0000
+From:   "Winiarska, Iwona" <iwona.winiarska@intel.com>
+To:     "corbet@lwn.net" <corbet@lwn.net>, "sj@kernel.org" <sj@kernel.org>
+CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "mripard@kernel.org" <mripard@kernel.org>,
+        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "maarten.lankhorst@linux.intel.com" 
+        <maarten.lankhorst@linux.intel.com>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "perex@perex.cz" <perex@perex.cz>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "tiwai@suse.com" <tiwai@suse.com>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>
+Subject: Re: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux' prefixes
+ from titles of listed documents
+Thread-Topic: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux'
+ prefixes from titles of listed documents
+Thread-Index: AQHZLpIpYKkgfyAt90KsNE3IDKSRLq6smneA
+Date:   Mon, 23 Jan 2023 22:41:19 +0000
+Message-ID: <836ba864ed1de79979829310cda798a592e5da6d.camel@intel.com>
+References: <20230122184834.181977-1-sj@kernel.org>
+In-Reply-To: <20230122184834.181977-1-sj@kernel.org>
+Accept-Language: en-US, pl-PL
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW4PR11MB5823:EE_|DS0PR11MB7336:EE_
+x-ms-office365-filtering-correlation-id: a8af50a7-3749-4bab-3c05-08dafd92f24a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XyDX3ChfprONJpY3AJK8wuJ1V0BaVbVczUWg278GoTmgVxtHD0aVb0cqLDWCMy8hjOiypyY/Mh8tiez4ZdV9mJ+sybnPwW4Ja3neXTSUgPiSwoX3z8vX9kVcP6sdiUVcKIcNbUQ1Tg6wCvbb9skfMg872/l7sER6l5GEWB8/G95qsNg/CQLuRrVRzuCQshug2ZjU5dGQJWxPLxGBClwaGA48jgZA6/qny5eFS/EgEcEf6503CdX/brR1pE16CYGh8oKRN5Xij9VyJU1DfWEGpXqGTr3Q/4WIbMIdoQJIyAoV6u96dbOGNeRoYaHV3tgZ0adgZpz8kyURRi9VxXGB+1p+dhflKvIg5MzNjY/3J+yWQ0tXq1eadDTVksdXE2PhvmvMtExSU5AajVCCjJJFxuqI7KXGS6kTsKLBH40aB7Lb8EY63coY8tEL7asIXQFcvWGiR21Gm6xF9r8p4iQIsuXdTZPS2rjijlQYcupGr0ZMp7muwi87xgQK7xlT6Nh9IAzkPnQQDAUgvb3cqec6L30ghRfHlkiKjrwZT7aQEO5rtSFbIjbfbNtyEFNzf9QujbqtqBwyByhOncoGH/9huTvGFv2DCzsKg7IYlymfjQEZ7WkYoUJiC25HDD7wrfGB0p1GL9VTBOHA1ID+3vAYTv4sniJ/Z1cgH22JcEH61x1Xe0/ghpi2XGU0Bn0jRn8PJIsSEdwensnjDiN1qda6hCHwS1NuGvYOCnOxus3KLe8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5823.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(376002)(346002)(39860400002)(136003)(396003)(451199015)(36756003)(38070700005)(86362001)(2906002)(5660300002)(38100700002)(82960400001)(7406005)(8936002)(7416002)(4326008)(41300700001)(122000001)(83380400001)(66476007)(6486002)(478600001)(71200400001)(110136005)(91956017)(6506007)(6512007)(8676002)(186003)(26005)(2616005)(316002)(66946007)(66446008)(76116006)(64756008)(66556008)(54906003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UE5sKzlGYXltZ0lONHMrMkVXa2VnYUZqRzMvU2d2eTY0M3AzWkpBby8zR1Rz?=
+ =?utf-8?B?WEJJQTFuNVJDcElDVzJBWUdRU0ZON05jeEtiZVZXemE4WE91dE40dUhrTmNX?=
+ =?utf-8?B?OUVwWDJDYis0TXZ3RmJJRFdjaXR4b3RJM0N6dVhzaUpNSE8xSk9VclQrRFY1?=
+ =?utf-8?B?RXJ2eGMrRUZaL0pPYWVreHc4QmpkNUJUQ3R1cnRnQ1FSWFFTaE5JWktXZ3pD?=
+ =?utf-8?B?MDB4dmt1eDYvdUh1eGlpVWhkdisxakhqQldSV29zcHRHbnZXTFJCN0hUZTFp?=
+ =?utf-8?B?Y0hnbHdoNk42SUxFKzZaUmNwN3Ezd1ZnNHBpODNaR2txWElUYlRHa3hBdnNP?=
+ =?utf-8?B?MzE2aE5XekpDN3NIS3JRZitnTUhJS05hZ0p1U3VTbzJLdk95Q0tVTnZKRlFM?=
+ =?utf-8?B?R0kzSkZHeTZRaU9RQVVicjNjdG5BbmFMR1Y0VjhOSEtmRE1WeUNjclhVaTZQ?=
+ =?utf-8?B?S3dEK2M4c0xCak9WQ3hzbDNqdG9JSXVzdHlHMnJvUVV6RVZ4RzJuWkxqR05r?=
+ =?utf-8?B?YVY0WEtRYWFaaFhYMzBiQkpvMjJpS29XWWNwUDBGYUsrR2pJTXhwWWl2VWMr?=
+ =?utf-8?B?Tmt2dlVZa1l5UW5BTzlLakhrbm5qR0dYaGJKWDVjSm5sVGJoanNJUEVZUysz?=
+ =?utf-8?B?VVZ0cTFCYllOa0tJaXNqVmhYTEZaUWd4UXE1ckZUZnZBRnJOMm8vdUlKZklV?=
+ =?utf-8?B?MU9zd2UwM1pNRWhrT2MvdGlCL2NwV0dFT0hhS2ZIWW81ZWc4RHBkWVAxYm9Z?=
+ =?utf-8?B?dG9WTkxkYTlCeTlDdmROeGFIRCtGbFNXMnA0R1lNNFNlOTRSTVpscDVnUDl4?=
+ =?utf-8?B?ajRVOHVLZkVtSTg3bitjVTZtbXdkZEpqcEowek5hV0Y2UGdTb3U1aGRkTkVV?=
+ =?utf-8?B?SVR6c0Q1ODM2Y2RiMTY1bWtjTEVrZ2hSeFRKTitlcDJhT0xvZFRGWFVDbmxl?=
+ =?utf-8?B?UXJkZDR5WmV6ZkdDQzVrWmpVUlNPbDVpMVNvUFRDNmJ6cFcwZTFZTm5udTNn?=
+ =?utf-8?B?eUkzaGN0blJTaE1WU1NtQ3lpYWdub1pkUDY4L3N6RUFlRHZWT01XMUtIc29m?=
+ =?utf-8?B?SXVYMkVWMDEvemhDTHVCMUF4aHZPYm8xSEJGck1QbVVmaDVJZ0V6SzB5Wmli?=
+ =?utf-8?B?eVEyVHZISC9wUUQ4NGRobG85U04vSVdIS1lTNi9pNGtzWGp5a2hPUjRXZ3Fn?=
+ =?utf-8?B?WGdiaXowRmR2SmxKYUNxaHQ5cWk4TnNUbXF1V3BHcjJXeDQ4R2pQSW1lQnNB?=
+ =?utf-8?B?NG5ScDNBeXZJT1lNc2kwRDBTRzdoTEpCejF4OWF5ais5MGNmcERtdy9JNmw4?=
+ =?utf-8?B?UnVVWHhPQ2xtSEFQMHVqNTZuRS9PZ3grSjliNFdVb0hIcnZhUWdsczlnQjR6?=
+ =?utf-8?B?WHp6ZWVqZjByMXVoeWxpZEx0UnNKNFhTdU5WcWo2cWt3WmUvS0FlR3BST3BW?=
+ =?utf-8?B?YmxLQWdRaVNPcHluWW9vSkZoWEgxRHQ3eEszZnlkdGYyWTRuR0ozdlFzTkda?=
+ =?utf-8?B?SkwxaUllRXA4d3V0V3RRaEZyM0JDcGpiYzU5RFB0anp4MXhXOXltb2Q4RCsr?=
+ =?utf-8?B?OFdzSHNZeXg2SFFXU1RaYW8wTFV4SGRHZ3VUWE1oeU1tU0ZzUXlyRDdmdzBp?=
+ =?utf-8?B?SnZZRExjVmprOFJmTWxNcmpvZVc0NjFYZzhTSVlsN2Ewb2xZNUV3dVVYRS9z?=
+ =?utf-8?B?UHZ2Nk9tVEVtdThKdWVSUFczbHNIN1RMOXFEK3JsNlh5dTY4UXQ1cklocnp3?=
+ =?utf-8?B?bE5uaWdOTmJVWXpGZnBPdGlhVDNtL2kwaXlDNmJjS0NyTlBQYkJFajNCMnlW?=
+ =?utf-8?B?Z1VpZTd5enNtMmp4YVNJRWFNWjhraW40Ym8wSEM3R3o3MFhiTE9kaFpUVitP?=
+ =?utf-8?B?T2FsQnc3MnhOT1l2MjdUamcrMlV2ZFZpNnZHcU02WklWN3VyVVFSOEplSVJL?=
+ =?utf-8?B?eXVWY0tCSGRyZHVFWEFXR09wV3VuZ2h0Wk80Yy81aVNWKzR1UE1LRk0xMWp6?=
+ =?utf-8?B?YndiN2lVVmtwbDhxUktTcWJXNnRFRG42RDRrNysvMWhNdEZrKzBvLzExNThC?=
+ =?utf-8?B?NVBwNnpjUXoxTW5RN1I1NmlQTWlwaTNmOU5scWhVSjlVYlpPZjB2ejdPN2pN?=
+ =?utf-8?B?dVZzenZ5YjkranVTdHF0dXFoMTdWUk5SREtPTTIrK2xoRnA4RGprSzdFUmtJ?=
+ =?utf-8?B?eEE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4733F5D8A028B44F978D638D6EF85C16@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221224121814.11709-1-lephilousophe@gmail.com> <CAO-hwJJwUQJueutZ5z_4qwBb1Y4+-9h3ta0Xran=s6pJ_e3itQ@mail.gmail.com>
-In-Reply-To: <CAO-hwJJwUQJueutZ5z_4qwBb1Y4+-9h3ta0Xran=s6pJ_e3itQ@mail.gmail.com>
-From:   Philippe Valembois <lephilousophe@gmail.com>
-Date:   Mon, 23 Jan 2023 22:24:53 +0100
-Message-ID: <CAPBBQ-ZYFA82GDz0uf9k=7dmdr+THgP0fqJKvXB_b8a62HMeyA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] HID: evision: Add preliminary support for EVision keyboards
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5823.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8af50a7-3749-4bab-3c05-08dafd92f24a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2023 22:41:19.8194
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PdtkmBUftZFOM9IjP/S+ABsajZYV5P+xwkpuUMm37FProtdkBKk6oIZIbSpUgkFt5TewOGtMWNUGXeJM9j7KHho7vNBolQHZhtKkF/+LvJI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7336
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
-
-Thanks for the review.
-I just sent an updated patch taking your comments into account.
-
-Regards,
-Philippe Valembois
-
-Le lun. 23 janv. 2023 =C3=A0 08:57, Benjamin Tissoires
-<benjamin.tissoires@redhat.com> a =C3=A9crit :
->
-> On Sat, Dec 24, 2022 at 1:23 PM Philippe Valembois
-> <lephilousophe@gmail.com> wrote:
-> >
-> > From: Philippe Valembois <lephilousophe@users.noreply.github.com>
->
-> Jiri, I have a doubt. Do we accept emails from users.noreply.github.com?
->
-> >
-> > For now only supports one model and only filters out bogus reports sent
-> > when the keyboard has been configured through hidraw.
-> > Without this, as events are not released, soft repeat floods userspace
-> > with unknown key events.
-> >
-> > Signed-off-by: Philippe Valembois <lephilousophe@users.noreply.github.c=
-om>
-> > ---
-> >  drivers/hid/Kconfig       |  7 ++++
-> >  drivers/hid/Makefile      |  1 +
-> >  drivers/hid/hid-evision.c | 79 +++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 87 insertions(+)
-> >  create mode 100644 drivers/hid/hid-evision.c
-> >
-> > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> > index e2a5d30c8..1320ea75c 100644
-> > --- a/drivers/hid/Kconfig
-> > +++ b/drivers/hid/Kconfig
-> > @@ -329,6 +329,13 @@ config HID_ELO
-> >         Support for the ELO USB 4000/4500 touchscreens. Note that this =
-is for
-> >         different devices than those handled by CONFIG_TOUCHSCREEN_USB_=
-ELO.
-> >
-> > +config HID_EVISION
-> > +       tristate "EVision Keyboards Support"
-> > +       depends on USB_HID
->
-> AFAICT, the driver only uses pure HID API, so you should be able to
-> depend on HID, not just USB_HID.
->
-> > +       help
-> > +       Support for some EVision keyboards. Note that this is needed on=
-ly when
-> > +       applying customization using userspace programs.
-> > +
-> >  config HID_EZKEY
-> >         tristate "Ezkey BTC 8193 keyboard"
-> >         default !EXPERT
-> > diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> > index e8014c1a2..bd01571dd 100644
-> > --- a/drivers/hid/Makefile
-> > +++ b/drivers/hid/Makefile
-> > @@ -45,6 +45,7 @@ obj-$(CONFIG_HID_EMS_FF)      +=3D hid-emsff.o
-> >  obj-$(CONFIG_HID_ELAN)         +=3D hid-elan.o
-> >  obj-$(CONFIG_HID_ELECOM)       +=3D hid-elecom.o
-> >  obj-$(CONFIG_HID_ELO)          +=3D hid-elo.o
-> > +obj-$(CONFIG_HID_EVISION)      +=3D hid-evision.o
-> >  obj-$(CONFIG_HID_EZKEY)                +=3D hid-ezkey.o
-> >  obj-$(CONFIG_HID_FT260)                +=3D hid-ft260.o
-> >  obj-$(CONFIG_HID_GEMBIRD)      +=3D hid-gembird.o
-> > diff --git a/drivers/hid/hid-evision.c b/drivers/hid/hid-evision.c
-> > new file mode 100644
-> > index 000000000..6ea331575
-> > --- /dev/null
-> > +++ b/drivers/hid/hid-evision.c
-> > @@ -0,0 +1,79 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + *  HID driver for EVision devices
-> > + *  For now, only ignore bogus consumer reports
-> > + *  sent after the keyboard has been configured
-> > + *
-> > + *  Copyright (c) 2022 Philippe Valembois
-> > + */
-> > +
-> > +#include <linux/device.h>
-> > +#include <linux/input.h>
-> > +#include <linux/hid.h>
-> > +#include <linux/module.h>
-> > +#include <linux/usb.h>
->
-> Outside of hid_is_usb(), you are not using anything USB related, so
-> this can be dropped
->
-> > +
-> > +
-> > +#define USB_VENDOR_ID_EVISION       0x320f
-> > +#define USB_DEVICE_ID_EVISION_ICL01 0x5041
->
-> We tend to add those variables in drivers/hid/hid-ids.h
->
-> > +
-> > +static int evision_input_mapping(struct hid_device *hdev, struct hid_i=
-nput *hi,
-> > +               struct hid_field *field, struct hid_usage *usage,
-> > +               unsigned long **bit, int *max)
-> > +{
-> > +       if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
-> > +               return 0;
-> > +
-> > +       // Ignore key down event
->
-> No C++ comments style please, use /* */ instead
->
-> > +       if ((usage->hid & HID_USAGE) >> 8 =3D=3D 0x05)
-> > +               return -1;
-> > +       // Ignore key up event
->
-> Same (and for any other // below).
->
-> > +       if ((usage->hid & HID_USAGE) >> 8 =3D=3D 0x06)
-> > +               return -1;
-> > +
-> > +       switch (usage->hid & HID_USAGE) {
-> > +       // Ignore configuration saved event
-> > +       case 0x0401: return -1;
-> > +       // Ignore reset event
-> > +       case 0x0402: return -1;
-> > +       }
-> > +       return 0;
-> > +}
-> > +
-> > +static int evision_probe(struct hid_device *hdev, const struct hid_dev=
-ice_id *id)
-> > +{
-> > +       int ret;
-> > +
-> > +       if (!hid_is_usb(hdev))
-> > +               return -EINVAL;
->
-> This can be dropped...
->
-> > +
-> > +       ret =3D hid_parse(hdev);
-> > +       if (ret) {
-> > +               hid_err(hdev, "EVision hid parse failed: %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       ret =3D hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-> > +       if (ret) {
-> > +               hid_err(hdev, "EVision hw start failed: %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       return 0;
->
-> ... which means the probe is the default one, meaning it can also be
-> dropped from the patch :)
->
-> > +}
-> > +
-> > +static const struct hid_device_id evision_devices[] =3D {
-> > +       { HID_USB_DEVICE(USB_VENDOR_ID_EVISION, USB_DEVICE_ID_EVISION_I=
-CL01) },
-> > +       { }
-> > +};
-> > +MODULE_DEVICE_TABLE(hid, evision_devices);
-> > +
-> > +static struct hid_driver evision_driver =3D {
-> > +       .name =3D "evision",
-> > +       .id_table =3D evision_devices,
-> > +       .input_mapping =3D evision_input_mapping,
-> > +       .probe =3D evision_probe,
->
-> Just for completeness, remove that .probe line and your driver will
-> behave the same and be smaller :)
->
-> > +};
-> > +module_hid_driver(evision_driver);
-> > +
-> > +MODULE_LICENSE("GPL");
-> > --
-> > 2.38.2
-> >
->
-> Cheers,
-> Benjamin
->
+T24gU3VuLCAyMDIzLTAxLTIyIGF0IDE4OjQ4ICswMDAwLCBTZW9uZ0phZSBQYXJrIHdyb3RlOg0K
+PiBTb21lIGRvY3VtZW50cyB0aGF0IGxpc3RlZCBvbiBzdWJzeXN0ZW0tYXBpcyBoYXZlICdMaW51
+eCcgb3IgJ1RoZSBMaW51eCcNCj4gdGl0bGUgcHJlZml4ZXMuwqAgSXQncyBkdXBsaWNhdGVkIGlu
+Zm9ybWF0aW9uLCBhbmQgbWFrZXMgZmluZGluZyB0aGUNCj4gZG9jdW1lbnQgb2YgaW50ZXJlc3Qg
+d2l0aCBodW1hbiBleWVzIG5vdCBlYXN5LsKgIFJlbW92ZSB0aGUgcHJlZml4ZXMgZnJvbQ0KPiB0
+aGUgdGl0bGVzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2VvbmdKYWUgUGFyayA8c2pAa2VybmVs
+Lm9yZz4NCg0KRm9yIERvY3VtZW50YXRpb24vcGVjaS9pbmRleC5yc3QNCg0KQWNrZWQtYnk6IEl3
+b25hIFdpbmlhcnNrYSA8aXdvbmEud2luaWFyc2thQGludGVsLmNvbT4NCg0KPiAtLS0NCj4gQ2hh
+bmdlcyBmcm9tIHYxDQo+IChodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjMwMTE0MTk0
+NzQxLjExNTg1NS0xLXNqQGtlcm5lbC5vcmcvKQ0KPiAtIERyb3Agc2Vjb25kIHBhdGNoICh3aWxs
+IHBvc3QgbGF0ZXIgZm9yIGVhY2ggc3Vic3lzdGVtKQ0KPiANCj4gwqBEb2N1bWVudGF0aW9uL1BD
+SS9pbmRleC5yc3TCoMKgwqDCoMKgwqDCoCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9j
+cHUtZnJlcS9pbmRleC5yc3TCoMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL2NyeXB0
+by9pbmRleC5yc3TCoMKgwqDCoCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9kcml2ZXIt
+YXBpL2luZGV4LnJzdCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9ncHUvaW5kZXgucnN0
+wqDCoMKgwqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vaHdtb24vaW5kZXgu
+cnN0wqDCoMKgwqDCoCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9pbnB1dC9pbmRleC5y
+c3TCoMKgwqDCoMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL21tL2luZGV4LnJzdMKg
+wqDCoMKgwqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vcGVjaS9pbmRleC5y
+c3TCoMKgwqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vc2NoZWR1bGVyL2lu
+ZGV4LnJzdMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL3Njc2kvaW5kZXgucnN0wqDC
+oMKgwqDCoMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL3NvdW5kL2luZGV4LnJzdMKg
+wqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vdmlydC9pbmRleC5yc3TCoMKg
+wqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vd2F0Y2hkb2cvaW5kZXgucnN0
+wqDCoCB8IDYgKysrLS0tDQo+IMKgMTQgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwg
+NDIgZGVsZXRpb25zKC0pDQo=
