@@ -2,36 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DF8C67A5C1
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 23:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3CFE67A69C
+	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 00:03:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234425AbjAXWbS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 17:31:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58276 "EHLO
+        id S230251AbjAXXDu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 18:03:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234613AbjAXWbO (ORCPT
+        with ESMTP id S233603AbjAXXDr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 17:31:14 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACEB851C53;
-        Tue, 24 Jan 2023 14:31:06 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        Tue, 24 Jan 2023 18:03:47 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC5EE49548;
+        Tue, 24 Jan 2023 15:03:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9F7B699C;
-        Tue, 24 Jan 2023 22:31:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9F7B699C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674599465; bh=XqcEf/qNRLT2aV1bbKur1IhHtd76BW7B0JhjDT5HwFI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ZApMAIuRAyoIabeOgjAMNxRwU/2kNRV273PbxciM9O36U73aGeWc/DO8VSevQ5rCi
-         ROCdgLKEh6MVSCZ5u8GADIkyUrD5ZeCNS2hM07r9fheqr0U3WWgS6Q4C7HlU/Kv8r+
-         Y9Yn4Me05P5ArehCeyXNdZO9UVEdpjoo5PM451G3BC3P9e4tmpgD1L0I+S2JVd/iTH
-         cn6xIDH7KqfMZIFB7H6VJoGNaZoZ0SFwmbUDNL6cOGUEQJCESq1Asb8q6SRkvhXpJw
-         4k8RsMK/Umllp9557D2GafnWs/7OYF4E6yf+4AUSiK4TCgxYIXpuHfEVLzO8bLfGv1
-         YHORfjJnVTYTg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     SeongJae Park <sj@kernel.org>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7F9A7B81717;
+        Tue, 24 Jan 2023 23:03:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93AC5C433EF;
+        Tue, 24 Jan 2023 23:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674601423;
+        bh=FInAJGM6hitQqEWREbqfiZT6RW4VKmJRYiGIyELSJQc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VDav27OxxZTsAQgsUUqCRxbi02UJHTXeQ4BNvRR2EVcVurslbfZQ1hQbAIbZQ0Dfe
+         d2YSKzxKcs/H8PX8n256ShJsj1Yt/HpEuQvjdnXNW7LxK4qClB/5cWjD9N85pUzOHq
+         f9gUdwmJmO9TH4Nu6ulKdR7s5iitURCwPLteuRHaK6g42tTBOlrwyVzrc/b54PXQrm
+         FbSFiUK1nyUKX9eWCnkged8yubqQAufRoj0a6bqC3EvH/1rfsEWHb0Tb9HTxrVTird
+         q9ZhjkXbmN7rMAWQP3zs8stWUwCCsCvl/nEQ1sr2UBHleUHB7lQ7F6o7uEEzUcCbTU
+         KQ4JYbXPqsgEQ==
+From:   SeongJae Park <sj@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     SeongJae Park <sj@kernel.org>,
         Alex Deucher <alexdeucher@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
@@ -52,49 +54,59 @@ Cc:     SeongJae Park <sj@kernel.org>,
         linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
-In-Reply-To: <20230122213650.187710-1-sj@kernel.org>
-References: <20230122213650.187710-1-sj@kernel.org>
-Date:   Tue, 24 Jan 2023 15:31:04 -0700
-Message-ID: <87a627ftuf.fsf@meer.lwn.net>
+Date:   Tue, 24 Jan 2023 23:03:40 +0000
+Message-Id: <20230124230340.113608-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <87a627ftuf.fsf@meer.lwn.net>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SeongJae Park <sj@kernel.org> writes:
+On Tue, 24 Jan 2023 15:31:04 -0700 Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Some subsystem documents are missing SPDX license identifiers on index
-> files.  This patchset adds those.
->
-> Changes from v1
-> (https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
-> - Separate from index file content changes
-> - Separate patch for each subsystem doc (Alex Deucher)
-> - Use MIT license for gpu (Alex Deucher)
->
-> SeongJae Park (8):
->   Docs/crypto/index: Add missing SPDX License Identifier
->   Docs/driver-api/index: Add missing SPDX License Identifier
->   Docs/gpu/index: Add missing SPDX License Identifier
->   Docs/hwmon/index: Add missing SPDX License Identifier
->   Docs/input/index: Add missing SPDX License Identifier
->   Docs/mm/index: Add missing SPDX License Identifier
->   Docs/scheduler/index: Add missing SPDX License Identifier
->   Docs/sound/index: Add missing SPDX License Identifier
+> SeongJae Park <sj@kernel.org> writes:
+> 
+> > Some subsystem documents are missing SPDX license identifiers on index
+> > files.  This patchset adds those.
+> >
+> > Changes from v1
+> > (https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
+> > - Separate from index file content changes
+> > - Separate patch for each subsystem doc (Alex Deucher)
+> > - Use MIT license for gpu (Alex Deucher)
+> >
+> > SeongJae Park (8):
+> >   Docs/crypto/index: Add missing SPDX License Identifier
+> >   Docs/driver-api/index: Add missing SPDX License Identifier
+> >   Docs/gpu/index: Add missing SPDX License Identifier
+> >   Docs/hwmon/index: Add missing SPDX License Identifier
+> >   Docs/input/index: Add missing SPDX License Identifier
+> >   Docs/mm/index: Add missing SPDX License Identifier
+> >   Docs/scheduler/index: Add missing SPDX License Identifier
+> >   Docs/sound/index: Add missing SPDX License Identifier
+> 
+> So I've applied patches 2 (since I wrote the initial file) and 8 (with
+> Takashi's ack).  The others are also fine, I think, but I hesitate to
+> apply license texts to files without knowing that they match the
+> author's intent.  I hate to say it, but I think the best approach is to
+> send each of the remaining patches to the appropriate maintainers for
+> the subsystem involved.
 
-So I've applied patches 2 (since I wrote the initial file) and 8 (with
-Takashi's ack).  The others are also fine, I think, but I hesitate to
-apply license texts to files without knowing that they match the
-author's intent.  I hate to say it, but I think the best approach is to
-send each of the remaining patches to the appropriate maintainers for
-the subsystem involved.
+That makes 100% sense, thank you, Jon!
+
 
 Thanks,
+SJ
 
-jon
+> 
+> Thanks,
+> 
+> jon
