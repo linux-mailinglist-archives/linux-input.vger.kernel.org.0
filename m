@@ -2,131 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B5AC679F63
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 18:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 226B667A004
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 18:20:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233555AbjAXRBD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 12:01:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34260 "EHLO
+        id S233597AbjAXRU2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 12:20:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234407AbjAXRBB (ORCPT
+        with ESMTP id S234771AbjAXRU0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 12:01:01 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D554D474CD
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 09:00:56 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id f19-20020a1c6a13000000b003db0ef4dedcso13279244wmc.4
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 09:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KYTp9wjTwOZySD0OvGmE1iLm2O/7yZJduMC+N1x2FCY=;
-        b=eaqvvd69zK2ecFFhKaHa0hBhlmBsau9NxvlOkYp9nryXUVwd8Nb5/YD1OzKF6F4fpJ
-         /G/FC371WyTNSG3UhmnNm2LThp2Voezu+LuGimxmsZ/R+0zzXRLv83rdsAR2pgQd3UD9
-         OYjwfz3wVGLolA+fXgKVnJO3LQ/syHQkaSYZK2TsQOt6y541qy+Tew9kGi8YLddMkFvl
-         sUyD+bOi4A/Ex4WCPA5Jv1reMIWPNC8XWP3wT9a4VhMOcGdhisTYXPtVhlZMCgpPs/p5
-         opGYNUQx30XID8h1IRmg9s/LchR9oexJBIYrsZ4D7A8s+5hbN8r70n252ZGGNkYs1Sou
-         aOwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KYTp9wjTwOZySD0OvGmE1iLm2O/7yZJduMC+N1x2FCY=;
-        b=Uv2IdGIm9LGJX2wR9oMFP/UrPYsRR9Q3E6dEPTN5niXai5LXige8KyJ3HzbjuYj9jj
-         XUp8xrBTwcdysfZnJSuJksYVYXgcdkAO4S+tyWF7BqM+z87+CsbliTOz6Fc0FZFxP52H
-         Oiai1/7avfgTqxPj7KvbQCtAo6zLkmMHs4hPWWBoGFiKR7mkB/sbDXxT9Bwvv3xEZgeG
-         Abka6eBAcW1ex+8LRG8e6X6kwF+0bYp0J7Uv1zj2IQddE3ebY9stSm8qJhCrzqNy9K0u
-         eHZz+8pfmI02yVUaYM+erd4WAEcQeTEr/WHuZepPm68HljbKc/V3HkVoAje5cDXqGY88
-         fTlQ==
-X-Gm-Message-State: AFqh2kqhD3LGpmHEfSaoV54VlvvpPrtvClNQ10OKp+8FLNOxkpV0VQ1D
-        zm6p2kTFDqT1HEJ/rG0FnZXKaA==
-X-Google-Smtp-Source: AMrXdXvbg0cTmgdM7xa2jo5BUEeu6T2vbRUbh/HDpEbqki1ssEGG6woU2xRjY3TSMJ7GGHM9r/T+qQ==
-X-Received: by 2002:a05:600c:33a8:b0:3d9:ed3b:5b3e with SMTP id o40-20020a05600c33a800b003d9ed3b5b3emr27371743wmp.19.1674579654878;
-        Tue, 24 Jan 2023 09:00:54 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id u32-20020a05600c4d2000b003dafb0c8dfbsm2951125wmp.14.2023.01.24.09.00.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 09:00:54 -0800 (PST)
-Message-ID: <fd8d6f46-9d4a-c74d-6af4-0abbc0c54526@linaro.org>
-Date:   Tue, 24 Jan 2023 18:00:52 +0100
+        Tue, 24 Jan 2023 12:20:26 -0500
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AE14A20D;
+        Tue, 24 Jan 2023 09:20:24 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id D2E1760011;
+        Tue, 24 Jan 2023 17:20:21 +0000 (UTC)
+Message-ID: <a75e34efce22ab1de8f0a2e247294a441e710193.camel@hadess.net>
+Subject: Re: [PATCH 2/3] HID: logitech-hidpp: Don't restart communication if
+ not necessary
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Date:   Tue, 24 Jan 2023 18:20:21 +0100
+In-Reply-To: <20221220092207.428640-2-hadess@hadess.net>
+References: <20221220092207.428640-1-hadess@hadess.net>
+         <20221220092207.428640-2-hadess@hadess.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH 5/5 v7] input: pwm-beeper: handle module unloading
- properly
-Content-Language: en-US
-To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <Y9AK71Q7X4d+1E4f@mt.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y9AK71Q7X4d+1E4f@mt.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 24/01/2023 17:44, Manuel Traut wrote:
-> 'input: pwm-beeper: add feature to set volume via sysfs' adds device
-> attributes without removing them on error or if the module is unloaded.
-> 
-> This change removes the device attributes on module unloading or if
-
-Do not use "This commit/patch".
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-
-> registering on the input subsystem fails.
-> 
-> If the module will be unloaded and loaded again it fails:
-> [ 1007.918180] sysfs: cannot create duplicate filename '/devices/platform/buzzer/volume'
-> 
-> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
-> ---
->  drivers/input/misc/pwm-beeper.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-beeper.c
-> index fe543c4151d6..8ef2937e8f21 100644
-> --- a/drivers/input/misc/pwm-beeper.c
-> +++ b/drivers/input/misc/pwm-beeper.c
-> @@ -300,6 +300,7 @@ static int pwm_beeper_probe(struct platform_device *pdev)
->  
->  	error = input_register_device(beeper->input);
->  	if (error) {
-> +		sysfs_remove_group(&pdev->dev.kobj, &pwm_beeper_attribute_group);
->  		dev_err(dev, "Failed to register input device: %d\n", error);
->  		return error;
->  	}
-> @@ -309,6 +310,17 @@ static int pwm_beeper_probe(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static int pwm_beeper_remove(struct platform_device *pdev)
-> +{
-> +	struct pwm_beeper *beeper;
-> +
-> +    beeper = platform_get_drvdata(pdev);
-
-Wrong indentation.
-
-Please run scripts/checkpatch.pl and fix reported warnings.
-
-
-> +	input_unregister_device(beeper->input);
-
-Best regards,
-Krzysztof
+T24gVHVlLCAyMDIyLTEyLTIwIGF0IDEwOjIyICswMTAwLCBCYXN0aWVuIE5vY2VyYSB3cm90ZToK
+PiBEb24ndCBzdG9wIGFuZCByZXN0YXJ0IGNvbW11bmljYXRpb24gd2l0aCB0aGUgZGV2aWNlIHVu
+bGVzcyB3ZSBuZWVkCj4gdG8KPiBtb2RpZnkgdGhlIGNvbm5lY3QgZmxhZ3MgdXNlZCBiZWNhdXNl
+IG9mIGEgZGV2aWNlIHF1aXJrLgoKRklXVywgQW5kcmVhcyBCZXJnbWVpZXIgdG9sZCBtZSBvZmYt
+bGlzdCB0aGF0IHRoaXMgZml4ZWQgdGhlaXIgcHJvYmxlbQp3aXRoIHRoZSBMaXRyYSBHbG93IG5v
+dCBjb25uZWN0aW5nIHByb3Blcmx5LgoKV291bGQgYmUgZ3JlYXQgdG8gaGF2ZSByZXZpZXdzIG9u
+IHRoaXMgYW5kIG15IG90aGVyIEhJRCsrIHBhdGNoZXMuCgpDaGVlcnMKCj4gLS0tCj4gwqBkcml2
+ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyB8IDMxICsrKysrKysrKysrKysrKysrKystLS0t
+LS0tLS0tLQo+IC0KPiDCoDEgZmlsZSBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCAxMiBkZWxl
+dGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBw
+LmMgYi9kcml2ZXJzL2hpZC9oaWQtCj4gbG9naXRlY2gtaGlkcHAuYwo+IGluZGV4IDdmOTE4NzIw
+MTkxMy4uYjRlNGE4Yzc5Yzc1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVj
+aC1oaWRwcC5jCj4gKysrIGIvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMKPiBAQCAt
+NDMxMCw2ICs0MzEwLDcgQEAgc3RhdGljIGludCBoaWRwcF9wcm9iZShzdHJ1Y3QgaGlkX2Rldmlj
+ZSAqaGRldiwKPiBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCj4gwqDCoMKgwqDCoMKg
+wqDCoGJvb2wgY29ubmVjdGVkOwo+IMKgwqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBpbnQgY29ubmVj
+dF9tYXNrID0gSElEX0NPTk5FQ1RfREVGQVVMVDsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGhp
+ZHBwX2ZmX3ByaXZhdGVfZGF0YSBkYXRhOwo+ICvCoMKgwqDCoMKgwqDCoGJvb2wgd2lsbF9yZXN0
+YXJ0ID0gZmFsc2U7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgLyogcmVwb3J0X2ZpeHVwIG5lZWRz
+IGRydmRhdGEgdG8gYmUgc2V0IGJlZm9yZSB3ZSBjYWxsCj4gaGlkX3BhcnNlICovCj4gwqDCoMKg
+wqDCoMKgwqDCoGhpZHBwID0gZGV2bV9remFsbG9jKCZoZGV2LT5kZXYsIHNpemVvZigqaGlkcHAp
+LCBHRlBfS0VSTkVMKTsKPiBAQCAtNDM2MCw2ICs0MzYxLDkgQEAgc3RhdGljIGludCBoaWRwcF9w
+cm9iZShzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKPiBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9p
+ZCAqaWQpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+cmV0dXJuIHJldDsKPiDCoMKgwqDCoMKgwqDCoMKgfQo+IMKgCj4gK8KgwqDCoMKgwqDCoMKgaWYg
+KGhpZHBwLT5xdWlya3MgJiBISURQUF9RVUlSS19ERUxBWUVEX0lOSVQpCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoHdpbGxfcmVzdGFydCA9IHRydWU7Cj4gKwo+IMKgwqDCoMKgwqDC
+oMKgwqBJTklUX1dPUksoJmhpZHBwLT53b3JrLCBkZWxheWVkX3dvcmtfY2IpOwo+IMKgwqDCoMKg
+wqDCoMKgwqBtdXRleF9pbml0KCZoaWRwcC0+c2VuZF9tdXRleCk7Cj4gwqDCoMKgwqDCoMKgwqDC
+oGluaXRfd2FpdHF1ZXVlX2hlYWQoJmhpZHBwLT53YWl0KTsKPiBAQCAtNDM3NCw3ICs0Mzc4LDcg
+QEAgc3RhdGljIGludCBoaWRwcF9wcm9iZShzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKPiBjb25z
+dCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCj4gwqDCoMKgwqDCoMKgwqDCoCAqIFBsYWluIFVT
+QiBjb25uZWN0aW9ucyBuZWVkIHRvIGFjdHVhbGx5IGNhbGwgc3RhcnQgYW5kIG9wZW4KPiDCoMKg
+wqDCoMKgwqDCoMKgICogb24gdGhlIHRyYW5zcG9ydCBkcml2ZXIgdG8gYWxsb3cgaW5jb21pbmcg
+ZGF0YS4KPiDCoMKgwqDCoMKgwqDCoMKgICovCj4gLcKgwqDCoMKgwqDCoMKgcmV0ID0gaGlkX2h3
+X3N0YXJ0KGhkZXYsIDApOwo+ICvCoMKgwqDCoMKgwqDCoHJldCA9IGhpZF9od19zdGFydChoZGV2
+LCB3aWxsX3Jlc3RhcnQgPyAwIDogY29ubmVjdF9tYXNrKTsKPiDCoMKgwqDCoMKgwqDCoMKgaWYg
+KHJldCkgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaGlkX2VycihoZGV2LCAi
+aHcgc3RhcnQgZmFpbGVkXG4iKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdv
+dG8gaGlkX2h3X3N0YXJ0X2ZhaWw7Cj4gQEAgLTQ0MTEsNiArNDQxNSw3IEBAIHN0YXRpYyBpbnQg
+aGlkcHBfcHJvYmUoc3RydWN0IGhpZF9kZXZpY2UgKmhkZXYsCj4gY29uc3Qgc3RydWN0IGhpZF9k
+ZXZpY2VfaWQgKmlkKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoGhpZHBwLT53aXJlbGVzc19mZWF0dXJlX2luZGV4ID0gMDsKPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGVsc2UgaWYgKHJldCkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGhpZF9od19pbml0X2ZhaWw7Cj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IDA7Cj4gwqDCoMKgwqDCoMKgwqDCoH0KPiDC
+oAo+IMKgwqDCoMKgwqDCoMKgwqBpZiAoY29ubmVjdGVkICYmIChoaWRwcC0+cXVpcmtzICYgSElE
+UFBfUVVJUktfQ0xBU1NfV1RQKSkgewo+IEBAIC00NDI1LDE5ICs0NDMwLDIxIEBAIHN0YXRpYyBp
+bnQgaGlkcHBfcHJvYmUoc3RydWN0IGhpZF9kZXZpY2UKPiAqaGRldiwgY29uc3Qgc3RydWN0IGhp
+ZF9kZXZpY2VfaWQgKmlkKQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGhpZHBwX2Nvbm5lY3RfZXZl
+bnQoaGlkcHApOwo+IMKgCj4gLcKgwqDCoMKgwqDCoMKgLyogUmVzZXQgdGhlIEhJRCBub2RlIHN0
+YXRlICovCj4gLcKgwqDCoMKgwqDCoMKgaGlkX2RldmljZV9pb19zdG9wKGhkZXYpOwo+IC3CoMKg
+wqDCoMKgwqDCoGhpZF9od19jbG9zZShoZGV2KTsKPiAtwqDCoMKgwqDCoMKgwqBoaWRfaHdfc3Rv
+cChoZGV2KTsKPiArwqDCoMKgwqDCoMKgwqBpZiAod2lsbF9yZXN0YXJ0KSB7Cj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIFJlc2V0IHRoZSBISUQgbm9kZSBzdGF0ZSAqLwo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRfZGV2aWNlX2lvX3N0b3AoaGRldik7Cj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZF9od19jbG9zZShoZGV2KTsKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaGlkX2h3X3N0b3AoaGRldik7Cj4gwqAKPiAtwqDC
+oMKgwqDCoMKgwqBpZiAoaGlkcHAtPnF1aXJrcyAmIEhJRFBQX1FVSVJLX05PX0hJRElOUFVUKQo+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb25uZWN0X21hc2sgJj0gfkhJRF9DT05O
+RUNUX0hJRElOUFVUOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoaGlkcHAt
+PnF1aXJrcyAmIEhJRFBQX1FVSVJLX05PX0hJRElOUFVUKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29ubmVjdF9tYXNrICY9IH5ISURfQ09OTkVDVF9I
+SURJTlBVVDsKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoC8qIE5vdyBleHBvcnQgdGhlIGFjdHVhbCBp
+bnB1dHMgYW5kIGhpZHJhdyBub2RlcyB0byB0aGUgd29ybGQKPiAqLwo+IC3CoMKgwqDCoMKgwqDC
+oHJldCA9IGhpZF9od19zdGFydChoZGV2LCBjb25uZWN0X21hc2spOwo+IC3CoMKgwqDCoMKgwqDC
+oGlmIChyZXQpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaGlkX2VycihoZGV2
+LCAiJXM6aGlkX2h3X3N0YXJ0IHJldHVybmVkIGVycm9yXG4iLAo+IF9fZnVuY19fKTsKPiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ290byBoaWRfaHdfc3RhcnRfZmFpbDsKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyogTm93IGV4cG9ydCB0aGUgYWN0dWFsIGlucHV0
+cyBhbmQgaGlkcmF3IG5vZGVzIHRvCj4gdGhlIHdvcmxkICovCj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoHJldCA9IGhpZF9od19zdGFydChoZGV2LCBjb25uZWN0X21hc2spOwo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocmV0KSB7Cj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRfZXJyKGhkZXYsICIlczpoaWRfaHdf
+c3RhcnQgcmV0dXJuZWQKPiBlcnJvclxuIiwgX19mdW5jX18pOwo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ290byBoaWRfaHdfc3RhcnRfZmFpbDsKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfQo+IMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqAK
+PiDCoMKgwqDCoMKgwqDCoMKgaWYgKGhpZHBwLT5xdWlya3MgJiBISURQUF9RVUlSS19DTEFTU19H
+OTIwKSB7Cgo=
 
