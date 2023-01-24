@@ -2,347 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF5E679674
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 12:19:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4D467969A
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 12:29:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232064AbjAXLS7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 06:18:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48218 "EHLO
+        id S233978AbjAXL3e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 06:29:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbjAXLSt (ORCPT
+        with ESMTP id S233976AbjAXL3e (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 06:18:49 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D3EB113D7
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 03:18:46 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id d14so9844014wrr.9
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 03:18:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2qK2A7F5wKZ8rhLeWq4L+8rVvDbisjlQ7qR2HWPTnjc=;
-        b=8GkKs5DahXIcYNgIjCtM2BpCTC0GX7fbdkZWWXZ2cJ7w00DZu5ZmLRsOu3i2bEEE8I
-         LOoqDDwzZawERSbTseb/+W9vixtTQAYdUcDcjYYEMQtwbKS1IcKJA1HVZrO30UjMU3U7
-         HExHLQp30gTa+dZqAplHnI4V6bME98KgTB9d7QeD9eMIsSl0v8DnJwN8RGQ0x5sXTDYp
-         LlbPFisYnPkcosHqIWkBpDgLQ6HnNh02dkTG7AB9ynqZ7jloa3dNnldQQGuQFEwEheea
-         +9ya6TIh1XR792HuYqbUU+wHk4K2esTxl8mK6Z4NFXsl55+zUWGE+ToRiTNQoNo/MK4z
-         PIrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2qK2A7F5wKZ8rhLeWq4L+8rVvDbisjlQ7qR2HWPTnjc=;
-        b=IniFwPzRJC2apDj9VAlBArUoRwcKkzdg3lgwws+oQ5ltxU2bAghWMXZlpPkBAspxEn
-         iXOkq41v+jISQjq/BOTm7sDpWZj0Qwy8cGoa6H0L051oAjpK6P69UB43V+aJ4CPYLPpI
-         XIpKMWNJIBj4MKbwh8qsvP1fylip3thmhLeYHTPvRIYaJtrPRcLuzFrjqYkWXonKhe6U
-         RcnTnwDmVmEeEiaPX2MQbQgd8IpKcjbKl5XropF5wKqtBsTQ0SeiAr/w96+/L2LuJsOE
-         DkSemxr/s2O6KmjmlYrYjbrHHU3R4IFaQoMy5wV3ycG8AZyRfZ09z/BTTLnz35b/sX3r
-         klQg==
-X-Gm-Message-State: AFqh2kqxmXPGbFZXIlSnMI1POUf+1Acj3f40pzXKZua0muRlz20VUB/c
-        hiFNnueL7gSlvMHUQLmRrWZM5btYeZUkyuUG
-X-Google-Smtp-Source: AMrXdXvIsmvUF4yEoKVS0/rjSGMgq1Icc3ay5/OyLgYCWJ7B4WfBq9y0ZBxKPPbUvESJ1z6PY5CR8A==
-X-Received: by 2002:adf:f90e:0:b0:2bc:aa67:28fb with SMTP id b14-20020adff90e000000b002bcaa6728fbmr21588839wrr.49.1674559124538;
-        Tue, 24 Jan 2023 03:18:44 -0800 (PST)
-Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id a17-20020a5d53d1000000b0024274a5db0asm1682635wrw.2.2023.01.24.03.18.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 03:18:44 -0800 (PST)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Jacky Bai <ping.bai@nxp.com>, lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, dmitry.torokhov@gmail.com,
-        a.zummo@towertech.it, alexandre.belloni@bootlin.com
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
-        kernel@pengutronix.de, linux-imx@nxp.com, festevam@gmail.com
-Subject: Re: [PATCH v3 2/4] input: bbnsm_pwrkey: Add bbnsm power key support
-In-Reply-To: <20230103074742.2324924-3-ping.bai@nxp.com>
-References: <20230103074742.2324924-1-ping.bai@nxp.com>
- <20230103074742.2324924-3-ping.bai@nxp.com>
-Date:   Tue, 24 Jan 2023 12:18:43 +0100
-Message-ID: <87wn5c18q4.fsf@baylibre.com>
+        Tue, 24 Jan 2023 06:29:34 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753A62C651;
+        Tue, 24 Jan 2023 03:29:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 141C36100B;
+        Tue, 24 Jan 2023 11:29:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 932BDC4339B;
+        Tue, 24 Jan 2023 11:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674559772;
+        bh=5WEoIGkzQvM2CGmnowaKG97b9a5ptWcHyPkR/YW7pFA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=GsZ4xcS8oIMgMR4HW6Y/IgATE97fF5C8NhNoPFn0c02QHxw3GTXfRODJoD+BxwIR8
+         YJRDgSuB51ZC/GC7Xky74K7lcA/InrQGUEQ1W4AWCGBDFcRcRin0loU9C4gavpC31d
+         x9p+ALYW6pssd+4sqNaGG5AJvGnBk8Beg6jrU+xmsKUe+Cy3vbn7lSX19sf6VJnyjB
+         1eUzwt4ckLD8nz4fm39mkzAfJqzyntnoYnIdM+OcfJf7Z9HXo88QArMRSSLNGdSIqu
+         kaDlmuK6oZuega8LS5AqXruVSgx3mjBPlnHKpKexPbtj2etiHedsbyY9MG8ilwHLt0
+         8xmVIKPh/GjHA==
+Message-ID: <bcdaaf94-b879-b171-f24a-82647a1ef9a6@kernel.org>
+Date:   Tue, 24 Jan 2023 12:29:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 2/3 v6] input: pwm-beeper: add feature to set volume level
+To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        linux-input@vger.kernel.org
+References: <Y8+8824hy/fWkpEk@mt.com> <Y8+9WRP51u+dof8p@mt.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <Y8+9WRP51u+dof8p@mt.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 03, 2023 at 15:47, Jacky Bai <ping.bai@nxp.com> wrote:
+On 24/01/2023 12:13, Manuel Traut wrote:
+> This patch adds the documentation for the devicetree bindings to set
+> the volume levels.
 
-> The ON/OFF logic inside the BBNSM allows for connecting directly
-> into a PMIC or other voltage regulator device. The module has an
-> button input signal and a wakeup request input signal. It also
-> has two interrupts (set_pwr_off_irq and set_pwr_on_irq) and an
-> active-low PMIC enable (pmic_en_b) output.
->
-> Add the power key support for the ON/OFF button function found in
-> BBNSM module.
->
-> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
-> Reviewed-by: Peng Fan <peng.fan@nxp.com>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
+
+> 
+> Signed-off-by: Frieder Schrempf <frieder.schrempf@exceet.de>
+
+I think it is kontron.de now.
+
+> Acked-by: Rob Herring <robh@kernel.org>
+
+This misses your SoB.
+
 > ---
->   - v2 changes:
->     - use device_property_read_u32() to read the property
+>  .../devicetree/bindings/input/pwm-beeper.txt          | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.txt b/Documentation/devicetree/bindings/input/pwm-beeper.txt
+> index 8fc0e48c20db..93cab5eee9f2 100644
+> --- a/Documentation/devicetree/bindings/input/pwm-beeper.txt
+> +++ b/Documentation/devicetree/bindings/input/pwm-beeper.txt
+> @@ -9,6 +9,15 @@ Required properties:
+>  Optional properties:
+>  - amp-supply: phandle to a regulator that acts as an amplifier for the beeper
+>  - beeper-hz:  bell frequency in Hz
+> +- volume-levels: Array of PWM duty cycle values that correspond to
+> +      linear volume levels. These need to be in the range of 0 to 500,
+> +      while 0 means 0% duty cycle (mute) and 500 means 50% duty cycle
+> +      (max volume).
+> +      Please note that the actual volume of most beepers is highly
+> +      non-linear, which means that low volume levels are probably somewhere
+> +      in the range of 1 to 30 (0.1-3% duty cycle).
+> +- default-volume-level: the default volume level (index into the
+> +      array defined by the "volume-levels" property)
 
-We state this in the changelog
+The bindings should be converted to DT schema first and then new
+properties added.
 
->     - clean up the goto return, return directly
->     - sort the header file alphabetically
->     - rename the file to add 'nxp' prefix
->
->   - v3 changes:
->     - get the regmap directly from the parent node
-> ---
->  drivers/input/keyboard/Kconfig            |  11 ++
->  drivers/input/keyboard/Makefile           |   1 +
->  drivers/input/keyboard/nxp-bbnsm-pwrkey.c | 190 ++++++++++++++++++++++
->  3 files changed, 202 insertions(+)
->  create mode 100644 drivers/input/keyboard/nxp-bbnsm-pwrkey.c
->
-> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-> index 84490915ae4d..43827e34f276 100644
-> --- a/drivers/input/keyboard/Kconfig
-> +++ b/drivers/input/keyboard/Kconfig
-> @@ -456,6 +456,17 @@ config KEYBOARD_SNVS_PWRKEY
->  	  To compile this driver as a module, choose M here; the
->  	  module will be called snvs_pwrkey.
->  
-> +config KEYBOARD_BBNSM_PWRKEY
-> +	tristate "NXP BBNSM Power Key Driver"
-> +	depends on ARCH_MXC || COMPILE_TEST
-> +	depends on OF
-> +	help
-> +	  This is the bbnsm powerkey driver for the NXP i.MX application
-> +	  processors.
-> +
-> +	  To compile this driver as a module, choose M here; the
-> +	  module will be called bbnsm_pwrkey.
-> +
->  config KEYBOARD_IMX
->  	tristate "IMX keypad support"
->  	depends on ARCH_MXC || COMPILE_TEST
-> diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
-> index 5f67196bb2c1..e34dd65a34c3 100644
-> --- a/drivers/input/keyboard/Makefile
-> +++ b/drivers/input/keyboard/Makefile
-> @@ -13,6 +13,7 @@ obj-$(CONFIG_KEYBOARD_AMIGA)		+= amikbd.o
->  obj-$(CONFIG_KEYBOARD_APPLESPI)		+= applespi.o
->  obj-$(CONFIG_KEYBOARD_ATARI)		+= atakbd.o
->  obj-$(CONFIG_KEYBOARD_ATKBD)		+= atkbd.o
-> +obj-$(CONFIG_KEYBOARD_BBNSM_PWRKEY)	+= nxp-bbnsm-pwrkey.o
->  obj-$(CONFIG_KEYBOARD_BCM)		+= bcm-keypad.o
->  obj-$(CONFIG_KEYBOARD_CAP11XX)		+= cap11xx.o
->  obj-$(CONFIG_KEYBOARD_CLPS711X)		+= clps711x-keypad.o
-> diff --git a/drivers/input/keyboard/nxp-bbnsm-pwrkey.c b/drivers/input/keyboard/nxp-bbnsm-pwrkey.c
-> new file mode 100644
-> index 000000000000..dc937036c952
-> --- /dev/null
-> +++ b/drivers/input/keyboard/nxp-bbnsm-pwrkey.c
-> @@ -0,0 +1,190 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +//
-> +// Copyright 2022 NXP.
-> +
-> +#include <linux/device.h>
-> +#include <linux/err.h>
-> +#include <linux/init.h>
-> +#include <linux/input.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_wakeirq.h>
-> +#include <linux/regmap.h>
-> +
-> +#define BBNSM_CTRL		0x8
-> +#define BBNSM_INT_EN		0x10
-> +#define BBNSM_EVENTS		0x14
-> +#define BBNSM_PAD_CTRL		0x24
-> +
-> +#define BBNSM_BTN_PRESSED	BIT(7)
-> +#define BBNSM_PWR_ON		BIT(6)
-> +#define BBNSM_BTN_OFF		BIT(5)
-> +#define BBNSM_EMG_OFF		BIT(4)
-> +#define BBNSM_PWRKEY_EVENTS	(BBNSM_PWR_ON | BBNSM_BTN_OFF | BBNSM_EMG_OFF)
-> +#define BBNSM_DP_EN		BIT(24)
-> +
-> +#define DEBOUNCE_TIME		30
-> +#define REPEAT_INTERVAL		60
-> +
-> +struct bbnsm_pwrkey {
-> +	struct regmap *regmap;
-> +	int irq;
-> +	int keycode;
-> +	int keystate;  /* 1:pressed */
-> +	struct timer_list check_timer;
-> +	struct input_dev *input;
-> +};
-> +
-> +static void bbnsm_pwrkey_check_for_events(struct timer_list *t)
-> +{
-> +	struct bbnsm_pwrkey *bbnsm = from_timer(bbnsm, t, check_timer);
-> +	struct input_dev *input = bbnsm->input;
-> +	u32 state;
-> +
-> +	regmap_read(bbnsm->regmap, BBNSM_EVENTS, &state);
-> +
-> +	state = state & BBNSM_BTN_PRESSED ? 1 : 0;
-> +
-> +	/* only report new event if status changed */
-> +	if (state ^ bbnsm->keystate) {
-> +		bbnsm->keystate = state;
-> +		input_event(input, EV_KEY, bbnsm->keycode, state);
-> +		input_sync(input);
-> +		pm_relax(bbnsm->input->dev.parent);
-> +	}
-> +
-> +	/* repeat check if pressed long */
-> +	if (state) {
-> +		mod_timer(&bbnsm->check_timer,
-> +			  jiffies + msecs_to_jiffies(REPEAT_INTERVAL));
-> +	}
-> +}
-> +
-> +static irqreturn_t bbnsm_pwrkey_interrupt(int irq, void *dev_id)
-> +{
-> +	struct platform_device *pdev = dev_id;
-> +	struct bbnsm_pwrkey *bbnsm = platform_get_drvdata(pdev);
-> +	struct input_dev *input = bbnsm->input;
-> +	u32 event;
-> +
-> +	regmap_read(bbnsm->regmap, BBNSM_EVENTS, &event);
-> +	if (event & BBNSM_BTN_OFF)
-> +		mod_timer(&bbnsm->check_timer, jiffies + msecs_to_jiffies(DEBOUNCE_TIME));
-> +	else
-> +		return IRQ_NONE;
-> +
-> +	pm_wakeup_event(input->dev.parent, 0);
-> +
-> +	/* clear PWR OFF */
-> +	regmap_write(bbnsm->regmap, BBNSM_EVENTS, BBNSM_BTN_OFF);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void bbnsm_pwrkey_act(void *pdata)
-> +{
-> +	struct bbnsm_pwrkey *bbnsm = pdata;
-> +
-> +	del_timer_sync(&bbnsm->check_timer);
-> +}
-> +
-> +static int bbnsm_pwrkey_probe(struct platform_device *pdev)
-> +{
-> +	struct bbnsm_pwrkey *bbnsm;
-> +	struct input_dev *input;
-> +	struct device_node *np = pdev->dev.of_node;
-> +	int error;
-> +
-> +	bbnsm = devm_kzalloc(&pdev->dev, sizeof(*bbnsm), GFP_KERNEL);
-> +	if (!bbnsm)
-> +		return -ENOMEM;
-> +
-> +	bbnsm->regmap = syscon_node_to_regmap(np->parent);
-> +	if (IS_ERR(bbnsm->regmap)) {
-> +		dev_err(&pdev->dev, "bbnsm pwerkey get regmap failed\n");
-> +		return PTR_ERR(bbnsm->regmap);
-> +	}
-> +
-> +	if (of_property_read_u32(np, "linux,code", &bbnsm->keycode)) {
+Best regards,
+Krzysztof
 
-But of_property_read_u32() is still used
-
-> +		bbnsm->keycode = KEY_POWER;
-> +		dev_warn(&pdev->dev, "KEY_POWER without setting in dts\n");
-> +	}
-> +
-> +	bbnsm->irq = platform_get_irq(pdev, 0);
-> +	if (bbnsm->irq < 0)
-> +		return -EINVAL;
-> +
-> +	/* config the BBNSM power related register */
-> +	regmap_update_bits(bbnsm->regmap, BBNSM_CTRL, BBNSM_DP_EN, BBNSM_DP_EN);
-> +
-> +	/* clear the unexpected interrupt before driver ready */
-> +	regmap_write_bits(bbnsm->regmap, BBNSM_EVENTS, BBNSM_PWRKEY_EVENTS, BBNSM_PWRKEY_EVENTS);
-> +
-> +	timer_setup(&bbnsm->check_timer, bbnsm_pwrkey_check_for_events, 0);
-> +
-> +	input = devm_input_allocate_device(&pdev->dev);
-> +	if (!input) {
-> +		dev_err(&pdev->dev, "failed to allocate the input device\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	input->name = pdev->name;
-> +	input->phys = "bbnsm-pwrkey/input0";
-> +	input->id.bustype = BUS_HOST;
-> +
-> +	input_set_capability(input, EV_KEY, bbnsm->keycode);
-> +
-> +	/* input customer action to cancel release timer */
-> +	error = devm_add_action(&pdev->dev, bbnsm_pwrkey_act, bbnsm);
-> +	if (error) {
-> +		dev_err(&pdev->dev, "failed to register remove action\n");
-> +		return error;
-> +	}
-> +
-> +	bbnsm->input = input;
-> +	platform_set_drvdata(pdev, bbnsm);
-> +
-> +	error = devm_request_irq(&pdev->dev, bbnsm->irq, bbnsm_pwrkey_interrupt,
-> +			       IRQF_SHARED, pdev->name, pdev);
-> +	if (error) {
-> +		dev_err(&pdev->dev, "interrupt not available.\n");
-> +		return error;
-> +	}
-> +
-> +	error = input_register_device(input);
-> +	if (error < 0) {
-> +		dev_err(&pdev->dev, "failed to register input device\n");
-> +		return error;
-> +	}
-> +
-> +	device_init_wakeup(&pdev->dev, true);
-> +	dev_pm_set_wake_irq(&pdev->dev, bbnsm->irq);
-
-Can we add some error handling here?
-The legacy driver (snvs_pwrkey), which looks a lot like this one, warns
-whne irq wake enabling fails, and so do the other drivers keyboard
-drivers that call dev_pm_set_wake_irq().
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id bbnsm_pwrkey_ids[] = {
-> +	{ .compatible = "nxp,bbnsm-pwrkey" },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, bbnsm_pwrkey_ids);
-> +
-> +static struct platform_driver bbnsm_pwrkey_driver = {
-> +	.driver = {
-> +		.name = "bbnsm_pwrkey",
-> +		.of_match_table = bbnsm_pwrkey_ids,
-> +	},
-> +	.probe = bbnsm_pwrkey_probe,
-> +};
-> +module_platform_driver(bbnsm_pwrkey_driver);
-> +
-> +MODULE_AUTHOR("Jacky Bai <ping.bai@nxp.com>");
-> +MODULE_DESCRIPTION("NXP bbnsm power key Driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.37.1
