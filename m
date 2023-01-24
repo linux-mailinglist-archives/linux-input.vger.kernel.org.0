@@ -2,141 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1E7A679A22
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 14:45:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14102679C27
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 15:41:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234231AbjAXNpA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 08:45:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35556 "EHLO
+        id S234191AbjAXOlH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 09:41:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234248AbjAXNoq (ORCPT
+        with ESMTP id S234099AbjAXOlG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 08:44:46 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE9245F49;
-        Tue, 24 Jan 2023 05:43:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 18B35B811CF;
-        Tue, 24 Jan 2023 13:43:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D447CC433A4;
-        Tue, 24 Jan 2023 13:43:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674567803;
-        bh=FcTV8jsLLGGcPAnVa/CJ/Aog1C5dMMbIq5g6SMp1UnQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=si//1dzdrrljvWLMGao1UoWM0zBJ7cOMt6i64vwakw89re3x3uo5t8rbF2lxOA/00
-         VnWljfWLVh4BYO05jDyX/mrqV5jmEFcrTekC9F+CY9fQUS2KJVAykPRLf47ek3U6DZ
-         yh7oHXGGQvOq1jddilMMbwRn0ZhiaAJm9/M5GKmAZoch/n1sGxN5K/qYjL5CFrQ2NE
-         KL0qZJG1tODvq1Ybwr8bEJ9dtiP5iiuhRo7Ay1qv4d5NybTHMGVjm4a2oknJZc21Wz
-         H9HK6P9+V2yVb1n3N/w/a5V7ae7Pw3EhjgjC4Dx8ez0byXMt3a7mcxlCjLQBgsuNv3
-         qYwATqdvqG/Qw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Roderick Colenbrander <roderick@gaikai.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        Tue, 24 Jan 2023 09:41:06 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D91E305E0;
+        Tue, 24 Jan 2023 06:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674571265; x=1706107265;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LW+kv6TOdMtz0nh46n0wIo2Rr8WZf++Ct0D8mbH2UMs=;
+  b=WOvjXCpkPnTxP4ZfhZnDTj4SLVpBsI6kMC1M5A31ZUxfHs7TyQyv2rOG
+   OZ/iMdacQkyUvGJzXoi8+29pUXeElyjD2J9j7SfR/QfRxmGdWDtm/cAr/
+   g5d1A6lQ0y74uehZS0I9p3LlgpEdz15lRWgEkjZ763DPNJemVduicFxn1
+   zKFV52K2HpxHQ30ZLyF9iDPGJRFRmA23+KOUFhiy+twQFkLLTipZdKVB3
+   gXYa2UzX1pDSiUxzTzgw4ZPWTMjJea/G6JemjiFKZA/zDKZaEbCO+KreZ
+   kCs/T8IXMxuNDvoubvdCXLBcUcnwVhdEY0CD/lSCovcjLkquwiKPKuRx8
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324983419"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="324983419"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 06:41:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="725494134"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="725494134"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2023 06:41:02 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pKKTt-0006XM-2h;
+        Tue, 24 Jan 2023 14:41:01 +0000
+Date:   Tue, 24 Jan 2023 22:40:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 11/14] HID: playstation: sanity check DualSense calibration data.
-Date:   Tue, 24 Jan 2023 08:42:54 -0500
-Message-Id: <20230124134257.637523-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230124134257.637523-1-sashal@kernel.org>
-References: <20230124134257.637523-1-sashal@kernel.org>
+Subject: Re: [PATCH 1/3 v6] input: pwm-beeper: add feature to set volume level
+Message-ID: <202301242226.E9z7kZKT-lkp@intel.com>
+References: <Y8+9L7UincSjIaD9@mt.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8+9L7UincSjIaD9@mt.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Roderick Colenbrander <roderick@gaikai.com>
+Hi Manuel,
 
-[ Upstream commit ccf1e1626d37745d0a697db67407beec9ae9d4b8 ]
+Thank you for the patch! Perhaps something to improve:
 
-Make sure calibration values are defined to prevent potential kernel
-crashes. This fixes a hypothetical issue for virtual or clone devices
-inspired by a similar fix for DS4.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus linus/master v6.2-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-playstation.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Manuel-Traut/input-pwm-beeper-add-feature-to-set-volume-level/20230124-191549
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/Y8%2B9L7UincSjIaD9%40mt.com
+patch subject: [PATCH 1/3 v6] input: pwm-beeper: add feature to set volume level
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301242226.E9z7kZKT-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/3468440a8e674e649dcf11e23f3fb3d229555e7c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Manuel-Traut/input-pwm-beeper-add-feature-to-set-volume-level/20230124-191549
+        git checkout 3468440a8e674e649dcf11e23f3fb3d229555e7c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/misc/
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index bd0e0fe2f627..944e5e5ff134 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -626,6 +626,7 @@ static const struct attribute_group ps_device_attribute_group = {
- 
- static int dualsense_get_calibration_data(struct dualsense *ds)
- {
-+	struct hid_device *hdev = ds->base.hdev;
- 	short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
- 	short gyro_yaw_bias, gyro_yaw_plus, gyro_yaw_minus;
- 	short gyro_roll_bias, gyro_roll_plus, gyro_roll_minus;
-@@ -636,6 +637,7 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
- 	int speed_2x;
- 	int range_2g;
- 	int ret = 0;
-+	int i;
- 	uint8_t *buf;
- 
- 	buf = kzalloc(DS_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
-@@ -687,6 +689,21 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
- 	ds->gyro_calib_data[2].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
- 	ds->gyro_calib_data[2].sens_denom = gyro_roll_plus - gyro_roll_minus;
- 
-+	/*
-+	 * Sanity check gyro calibration data. This is needed to prevent crashes
-+	 * during report handling of virtual, clone or broken devices not implementing
-+	 * calibration data properly.
-+	 */
-+	for (i = 0; i < ARRAY_SIZE(ds->gyro_calib_data); i++) {
-+		if (ds->gyro_calib_data[i].sens_denom == 0) {
-+			hid_warn(hdev, "Invalid gyro calibration data for axis (%d), disabling calibration.",
-+					ds->gyro_calib_data[i].abs_code);
-+			ds->gyro_calib_data[i].bias = 0;
-+			ds->gyro_calib_data[i].sens_numer = DS_GYRO_RANGE;
-+			ds->gyro_calib_data[i].sens_denom = S16_MAX;
-+		}
-+	}
-+
- 	/*
- 	 * Set accelerometer calibration and normalization parameters.
- 	 * Data values will be normalized to 1/DS_ACC_RES_PER_G g.
-@@ -709,6 +726,21 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
- 	ds->accel_calib_data[2].sens_numer = 2*DS_ACC_RES_PER_G;
- 	ds->accel_calib_data[2].sens_denom = range_2g;
- 
-+	/*
-+	 * Sanity check accelerometer calibration data. This is needed to prevent crashes
-+	 * during report handling of virtual, clone or broken devices not implementing calibration
-+	 * data properly.
-+	 */
-+	for (i = 0; i < ARRAY_SIZE(ds->accel_calib_data); i++) {
-+		if (ds->accel_calib_data[i].sens_denom == 0) {
-+			hid_warn(hdev, "Invalid accelerometer calibration data for axis (%d), disabling calibration.",
-+					ds->accel_calib_data[i].abs_code);
-+			ds->accel_calib_data[i].bias = 0;
-+			ds->accel_calib_data[i].sens_numer = DS_ACC_RANGE;
-+			ds->accel_calib_data[i].sens_denom = S16_MAX;
-+		}
-+	}
-+
- err_free:
- 	kfree(buf);
- 	return ret;
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   drivers/input/misc/pwm-beeper.c:73:62: error: macro "DEVICE_ATTR_RW" passed 4 arguments, but takes just 1
+      73 | static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
+         |                                                              ^
+   In file included from include/linux/input.h:19,
+                    from drivers/input/misc/pwm-beeper.c:11:
+   include/linux/device.h:131: note: macro "DEVICE_ATTR_RW" defined here
+     131 | #define DEVICE_ATTR_RW(_name) \
+         | 
+   drivers/input/misc/pwm-beeper.c:73:8: error: type defaults to 'int' in declaration of 'DEVICE_ATTR_RW' [-Werror=implicit-int]
+      73 | static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
+         |        ^~~~~~~~~~~~~~
+   drivers/input/misc/pwm-beeper.c:77:10: error: 'dev_attr_volume' undeclared here (not in a function); did you mean 'dev_attr_max_volume'?
+      77 |         &dev_attr_volume.attr,
+         |          ^~~~~~~~~~~~~~~
+         |          dev_attr_max_volume
+>> drivers/input/misc/pwm-beeper.c:73:8: warning: 'DEVICE_ATTR_RW' defined but not used [-Wunused-variable]
+      73 | static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
+         |        ^~~~~~~~~~~~~~
+   drivers/input/misc/pwm-beeper.c:54:16: warning: 'volume_store' defined but not used [-Wunused-function]
+      54 | static ssize_t volume_store(struct device *dev,
+         |                ^~~~~~~~~~~~
+   drivers/input/misc/pwm-beeper.c:38:16: warning: 'volume_show' defined but not used [-Wunused-function]
+      38 | static ssize_t volume_show(struct device *dev,
+         |                ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/DEVICE_ATTR_RW +73 drivers/input/misc/pwm-beeper.c
+
+    72	
+  > 73	static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
+    74	static DEVICE_ATTR(max_volume, 0644, max_volume_show, NULL);
+    75	
+
 -- 
-2.39.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
