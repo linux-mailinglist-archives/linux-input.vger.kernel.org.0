@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D78A2679A14
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 14:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1E7A679A22
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 14:45:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234428AbjAXNok (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 08:44:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35506 "EHLO
+        id S234231AbjAXNpA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 08:45:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234240AbjAXNoK (ORCPT
+        with ESMTP id S234248AbjAXNoq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 08:44:10 -0500
+        Tue, 24 Jan 2023 08:44:46 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A77C946D57;
-        Tue, 24 Jan 2023 05:43:06 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE9245F49;
+        Tue, 24 Jan 2023 05:43:28 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 209A4B811D5;
-        Tue, 24 Jan 2023 13:42:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81211C433EF;
-        Tue, 24 Jan 2023 13:42:30 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 18B35B811CF;
+        Tue, 24 Jan 2023 13:43:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D447CC433A4;
+        Tue, 24 Jan 2023 13:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674567751;
-        bh=H0Hp6I3Q8cOz+PUapxlRXUDRk2kBz4qkaYnpLHVfn9U=;
+        s=k20201202; t=1674567803;
+        bh=FcTV8jsLLGGcPAnVa/CJ/Aog1C5dMMbIq5g6SMp1UnQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OcGfLUfjRWmtRAgXpU/BWKcQJy1Rbu3wsWOcOz0ax3uQyaO0R5SJwsG5gbDejV61m
-         bdLGo7FruRsFNbvCF36fhuC1s9sd3TF5HwtLPb5fVVvEC7h3ybouohiazl1HV1beoa
-         GZrEWFFw6j9hPBt8vX3usKzh6bvmN85aOGsOY9Tb8cAsr6spkL3tvBrghJrATd//WW
-         E3b6ayQciqiqPy2BPtnMORFBI/FUpakt8ZTCWz/fwfDewYMq7Jnd6sHACehxhWnqUm
-         /NVguBKocKByMS6exmmwhKTfRKBYvPanyHBpyK5qCvWG1uv138JKzfZc0eAVfiaGXw
-         BWJIaFfT268Ig==
+        b=si//1dzdrrljvWLMGao1UoWM0zBJ7cOMt6i64vwakw89re3x3uo5t8rbF2lxOA/00
+         VnWljfWLVh4BYO05jDyX/mrqV5jmEFcrTekC9F+CY9fQUS2KJVAykPRLf47ek3U6DZ
+         yh7oHXGGQvOq1jddilMMbwRn0ZhiaAJm9/M5GKmAZoch/n1sGxN5K/qYjL5CFrQ2NE
+         KL0qZJG1tODvq1Ybwr8bEJ9dtiP5iiuhRo7Ay1qv4d5NybTHMGVjm4a2oknJZc21Wz
+         H9HK6P9+V2yVb1n3N/w/a5V7ae7Pw3EhjgjC4Dx8ez0byXMt3a7mcxlCjLQBgsuNv3
+         qYwATqdvqG/Qw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Roderick Colenbrander <roderick@gaikai.com>,
@@ -39,12 +39,12 @@ Cc:     Roderick Colenbrander <roderick@gaikai.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 22/35] HID: playstation: sanity check DualSense calibration data.
-Date:   Tue, 24 Jan 2023 08:41:18 -0500
-Message-Id: <20230124134131.637036-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 11/14] HID: playstation: sanity check DualSense calibration data.
+Date:   Tue, 24 Jan 2023 08:42:54 -0500
+Message-Id: <20230124134257.637523-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230124134131.637036-1-sashal@kernel.org>
-References: <20230124134131.637036-1-sashal@kernel.org>
+In-Reply-To: <20230124134257.637523-1-sashal@kernel.org>
+References: <20230124134257.637523-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,10 +74,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 32 insertions(+)
 
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 0b58763bfd30..2228f6e4ba23 100644
+index bd0e0fe2f627..944e5e5ff134 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -712,6 +712,7 @@ ATTRIBUTE_GROUPS(ps_device);
+@@ -626,6 +626,7 @@ static const struct attribute_group ps_device_attribute_group = {
  
  static int dualsense_get_calibration_data(struct dualsense *ds)
  {
@@ -85,7 +85,7 @@ index 0b58763bfd30..2228f6e4ba23 100644
  	short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
  	short gyro_yaw_bias, gyro_yaw_plus, gyro_yaw_minus;
  	short gyro_roll_bias, gyro_roll_plus, gyro_roll_minus;
-@@ -722,6 +723,7 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
+@@ -636,6 +637,7 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
  	int speed_2x;
  	int range_2g;
  	int ret = 0;
@@ -93,7 +93,7 @@ index 0b58763bfd30..2228f6e4ba23 100644
  	uint8_t *buf;
  
  	buf = kzalloc(DS_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
-@@ -773,6 +775,21 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
+@@ -687,6 +689,21 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
  	ds->gyro_calib_data[2].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
  	ds->gyro_calib_data[2].sens_denom = gyro_roll_plus - gyro_roll_minus;
  
@@ -115,7 +115,7 @@ index 0b58763bfd30..2228f6e4ba23 100644
  	/*
  	 * Set accelerometer calibration and normalization parameters.
  	 * Data values will be normalized to 1/DS_ACC_RES_PER_G g.
-@@ -795,6 +812,21 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
+@@ -709,6 +726,21 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
  	ds->accel_calib_data[2].sens_numer = 2*DS_ACC_RES_PER_G;
  	ds->accel_calib_data[2].sens_denom = range_2g;
  
