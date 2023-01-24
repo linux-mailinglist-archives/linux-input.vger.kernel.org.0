@@ -2,114 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FD2967A259
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 20:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4E6867A5AF
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 23:28:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233610AbjAXTGv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 14:06:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43168 "EHLO
+        id S234644AbjAXW2L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 17:28:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234613AbjAXTGj (ORCPT
+        with ESMTP id S234522AbjAXW2I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 14:06:39 -0500
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0956C4DCD7;
-        Tue, 24 Jan 2023 11:06:18 -0800 (PST)
-Received: by mail-oo1-f51.google.com with SMTP id h3-20020a4ac443000000b004fb2954e7c3so2785486ooq.10;
-        Tue, 24 Jan 2023 11:06:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1zOsAeVeoSP5y0PXnd29TY9147nVFljKF4SWYsX6McA=;
-        b=fxpJeJTiJDzTzcq7fxq9eiC1CF70mNAdbMiNcP/NIGmufjliMa0xYxzPJiZv/HzJmi
-         RH3nz8Fvb86lujl8o/hh+st2cCgnNpcmCmvyk2tdkX5Y7w/+YFlUoD8aUpbefuG/U8OT
-         933qUkTnHBdSmQ9ZeTSlFS3LFPbZ09rrwWPpjMDYaPa++L2Ireawhhp1z5yQ9BhSLfB0
-         Hg/Qxq1La7e2a1DzkRIdNsfntQ7WVtJoYbCBXBINcndlU4jM3VfD4H3C0yk3xkfKi7x2
-         cKFkMXnYWIMYVXADmiLy+yXMONcm2GCCuRzHXkCL2oZwrbUe2/gLPU+FFW5RbiMpQZSD
-         RM5Q==
-X-Gm-Message-State: AFqh2kpugfzH+OF1xw1MG0bypBmM5dc/fRK6NNbpKXWYdAsmR0Zb7xdi
-        C0vb/p3fn3d+wwT9RyiH3A==
-X-Google-Smtp-Source: AMrXdXt9DHpIlN+z/n8VyspGsPRK6b/qCM28zV8M13m6W05TnvExavuHduH/MfvUfPEIoF6iKsfeSA==
-X-Received: by 2002:a4a:d757:0:b0:502:5eae:e506 with SMTP id h23-20020a4ad757000000b005025eaee506mr6904642oot.2.1674587177167;
-        Tue, 24 Jan 2023 11:06:17 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t14-20020a4ae40e000000b004f29c6fb6besm1054913oov.31.2023.01.24.11.06.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 11:06:16 -0800 (PST)
-Received: (nullmailer pid 1261082 invoked by uid 1000);
-        Tue, 24 Jan 2023 19:06:15 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Tue, 24 Jan 2023 17:28:08 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FA2193C9;
+        Tue, 24 Jan 2023 14:28:01 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5D12E739;
+        Tue, 24 Jan 2023 22:27:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5D12E739
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1674599273; bh=MTaO760PJgYwDFixyQndXwkcxJ6qlGsTUp+EUcJgaCs=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=XW1biFoIP9a4rIRf2cLd3puFe2cCFrQPnLjCIkaYxizp+J6e+ypbS83QROQV7RjZL
+         x+AsBikpA3Vkk3ujbg62UV6QrSznWRdtlGR3w9N1P6p5SjPTaB1VvvVuFhl7bYnzao
+         e+Pb9bvOHC00Tv7pEsztMhT9Z72Gat9MaqdsTs8TiPqfNYcDgG/+/KR+sn5dVczsue
+         lu1v1+vuz/4hzlpLBA+KYbHbvLOlZ4/b/+Fc8THgu2Xt0YT87foyxCIQE79oboIidh
+         ZhOk8JFsQO6mPuPHLHgprow+Ki52f77LDa52ffGAHq1nhkgYRnJAeU48pOJekm2FoI
+         ARNZkhtCcl3AQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     SeongJae Park <sj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Iwona Winiarska <iwona.winiarska@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-mm@kvack.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        linux-input@vger.kernel.org, openbmc@lists.ozlabs.org,
+        alsa-devel@alsa-project.org, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux'
+ prefixes from titles of listed documents
+In-Reply-To: <20230122184834.181977-1-sj@kernel.org>
+References: <20230122184834.181977-1-sj@kernel.org>
+Date:   Tue, 24 Jan 2023 15:27:52 -0700
+Message-ID: <87edrjftzr.fsf@meer.lwn.net>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Manuel Traut <manuel.traut@mt.com>
-Cc:     devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-In-Reply-To: <Y9AJ07zT1lpBLhPk@mt.com>
-References: <Y9AJ07zT1lpBLhPk@mt.com>
-Message-Id: <167458712310.1259438.16687606512438665063.robh@kernel.org>
-Subject: Re: [PATCH 1/5 v7] dt-bindings: input: pwm-beeper: Convert txt
- bindings to yaml
-Date:   Tue, 24 Jan 2023 13:06:15 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+SeongJae Park <sj@kernel.org> writes:
 
-On Tue, 24 Jan 2023 17:39:47 +0100, Manuel Traut wrote:
-> Converts txt binding to new YAML format.
-> 
-> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
+> Some documents that listed on subsystem-apis have 'Linux' or 'The Linux'
+> title prefixes.  It's duplicated information, and makes finding the
+> document of interest with human eyes not easy.  Remove the prefixes from
+> the titles.
+>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 > ---
->  .../devicetree/bindings/input/pwm-beeper.txt  | 24 ----------
->  .../devicetree/bindings/input/pwm-beeper.yaml | 48 +++++++++++++++++++
->  2 files changed, 48 insertions(+), 24 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.txt
->  create mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> 
+> Changes from v1
+> (https://lore.kernel.org/lkml/20230114194741.115855-1-sj@kernel.org/)
+> - Drop second patch (will post later for each subsystem)
+>
+>  Documentation/PCI/index.rst        | 6 +++---
+>  Documentation/cpu-freq/index.rst   | 6 +++---
+>  Documentation/crypto/index.rst     | 6 +++---
+>  Documentation/driver-api/index.rst | 6 +++---
+>  Documentation/gpu/index.rst        | 6 +++---
+>  Documentation/hwmon/index.rst      | 6 +++---
+>  Documentation/input/index.rst      | 6 +++---
+>  Documentation/mm/index.rst         | 6 +++---
+>  Documentation/peci/index.rst       | 6 +++---
+>  Documentation/scheduler/index.rst  | 6 +++---
+>  Documentation/scsi/index.rst       | 6 +++---
+>  Documentation/sound/index.rst      | 6 +++---
+>  Documentation/virt/index.rst       | 6 +++---
+>  Documentation/watchdog/index.rst   | 6 +++---
+>  14 files changed, 42 insertions(+), 42 deletions(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Applied, thanks.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/input/pwm-beeper.yaml:10:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
-
-dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/input/pwm-beeper.example.dts'
-Documentation/devicetree/bindings/input/pwm-beeper.yaml:10:1: found character '\t' that cannot start any token
-make[1]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/input/pwm-beeper.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/input/pwm-beeper.yaml:10:1: found character '\t' that cannot start any token
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/pwm-beeper.yaml: ignoring, error parsing file
-make: *** [Makefile:1508: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/Y9AJ07zT1lpBLhPk@mt.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+jon
