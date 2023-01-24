@@ -2,63 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D0D667947F
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 10:48:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B9416794BE
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 11:07:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233471AbjAXJr7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 04:47:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
+        id S232593AbjAXKHG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 05:07:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233590AbjAXJrz (ORCPT
+        with ESMTP id S229486AbjAXKHF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 04:47:55 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84EB212587
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 01:47:50 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id iv8-20020a05600c548800b003db04a0a46bso782913wmb.0
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 01:47:50 -0800 (PST)
+        Tue, 24 Jan 2023 05:07:05 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBCB7227B5
+        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 02:07:03 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id f12-20020a7bc8cc000000b003daf6b2f9b9so12422112wml.3
+        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 02:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQWReM02pk5ikJk5yBcPaS3tkIFvok/z2z0JtHvtopU=;
-        b=qoyzSERFmFhyIyP6/heaKAHeE6FAy2+gEtxAebubzUKyJZRM3MM0NDPU/KfZGTx8ie
-         BKfX4RGrNbCCa1MuFdpjUnbg4j4uOAbv3N2sm6KwWEaRE8P9BCwSp3iV6+wbUAwXZxYl
-         Qb42xKL1IcUHQ+H5BUaYZD3FcLF1HRxwsJTTGSFDlIRT4HolpezC0+3s4dyK7xGpBqI3
-         dVX5KrC5kb8koemtnwdrrbdGCyr1J9e8ESrI+v7oppxZnktRgVImp8BkTC6TS8UHMOlW
-         ugPVYiVyTOdU+RcpOXVXsS2Xuk+7v+1stsaafH3K10nu4oonpyBJhPWYuuNFi03lUBGF
-         SJSQ==
+        bh=4R9YOVwUyYBfPGZ2jxpq4QdSE5HSTz36nOFHPxprj4k=;
+        b=zJVdnaSFz7iV10ZvhyVWrq7k7nAXw+oolpCL+uYiR4/jcI197MSHCIJKOVqDlIO86l
+         0isT162sRwAkmrA9EfHiob7XmPBJY3fO6FhiI7BBL2XF38SO6lFoHODuAkBwTa0rei/x
+         39klM776k3NT+DK2ikAGzZRcP+M6Z2qypHYBHWk8EwAuZMVuHAO1cZPuQ9hrYX0HKWB7
+         Rzvn1I5SKEXKxPWvQexvtRIXgU5EMTRTvOFIdhMHPFNS7QAAjf1BY+m40ULxhxOVIi/n
+         +jztu7FOtdoGIUj2laKjBDLsL87KFHKFEBCtV+DDcFSWtjaXyKOpfVBoLnWIsEJ1PQJk
+         IdLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQWReM02pk5ikJk5yBcPaS3tkIFvok/z2z0JtHvtopU=;
-        b=vc4BXP51enhRxcpMYf36NXJPBmjM7ZQwQc0etYoj+EUNjQ9+lQCmbiZ8tiLhDZ3FJ1
-         N5SDqjH7ocpaRIlZa9HHgjAlUnCDv/iRU3PI9OT4Op3nT+Zakvyg0J78SFeKd5Q76WlA
-         ELrGKz3Ua96UywPaud4P01OZq8rr1WKfH6CuUZG0ZRKW1m6Hk3AnDlkM4uCq6Vu/5rqm
-         ZB9ZUqN3f//in5Yotd7uok5s5QqU7zdAqPwGU32i7qVh8munhzWOQPIqxnKY1fHdo58D
-         tZtkg9i0fzMloVkNZyvoq48eEGBsvV54ws03Lj305oMFNvfpyBi4vc5MnPTM/akGlRoh
-         xHww==
-X-Gm-Message-State: AFqh2kqct/7CTFo5tjTgZFs/lJ5nuO492L6mmy/Qm2NclmG7LHtdlQfk
-        9B4p5ISK5rpIrIc+qvuGUDnUJg==
-X-Google-Smtp-Source: AMrXdXttI4ZJMWNbKF3dyf600VKGQhEjUfDrJ+febMWIRS9se2X2zpB56FswpqF3fUDGqYKOFkqjVQ==
-X-Received: by 2002:a05:600c:35c1:b0:3d3:5319:b6d3 with SMTP id r1-20020a05600c35c100b003d35319b6d3mr27066611wmq.38.1674553669041;
-        Tue, 24 Jan 2023 01:47:49 -0800 (PST)
+        bh=4R9YOVwUyYBfPGZ2jxpq4QdSE5HSTz36nOFHPxprj4k=;
+        b=H7yTscHCFKNsyxaBU2WAFimDQXXrHTlsq3sTFzf+npNCVbRCWDtlzjABhscPjdastV
+         aTjWwOYUvvTj52mkjFdj0I81myVtK+MiTAaQYSnHQfHmHnHbp67q+Qvkx4rHwpiWf7WV
+         VbLItPELGUQXOL3IpF0pg8WFjA4aTOCdZy5qzYfyM0/byCaj569WecE9kVJ8tmbSfBDB
+         RPMlS2d01BXjgsHYffVDbmaqcSfynTZHW+Mmij1Z7TWVXu2/YwXEkFdXROeI9h/eUfNl
+         oLKwkzJ8/GGT5hG3b01ea/eP0EpDQkcfwqVrM0EWyBs8iAP2BvyDVoIAwDqkfoaLHn/s
+         gdJg==
+X-Gm-Message-State: AFqh2koQd6w6wG95xlE/PmZyvz4DL3TyZRjIqFqncbf6Cl4rX2Zvz93L
+        nqyM4gnuq26NtxglHeNDavF2EQ==
+X-Google-Smtp-Source: AMrXdXusOj/jDctjTJIm+rwbb31SI3b7Z1ftwkUnu0L0+tn23q9EQqeQJ+gRSS2nGC+u8jOURVKWtw==
+X-Received: by 2002:a05:600c:1c02:b0:3d2:3b8d:21e5 with SMTP id j2-20020a05600c1c0200b003d23b8d21e5mr27392120wms.14.1674554822224;
+        Tue, 24 Jan 2023 02:07:02 -0800 (PST)
 Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id o25-20020a1c7519000000b003daf6e3bc2fsm1631899wmc.1.2023.01.24.01.47.48
+        by smtp.gmail.com with ESMTPSA id y15-20020a5d470f000000b002bc8130cca7sm1491871wrq.23.2023.01.24.02.07.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 01:47:48 -0800 (PST)
+        Tue, 24 Jan 2023 02:07:01 -0800 (PST)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
+To:     Rayyan Ansari <rayyan@ansari.sh>, linux-input@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht,
+        Rayyan Ansari <rayyan@ansari.sh>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: cpcap-pwrbutton: remove initial kernel-doc notation
-In-Reply-To: <20230113063831.16469-1-rdunlap@infradead.org>
-References: <20230113063831.16469-1-rdunlap@infradead.org>
-Date:   Tue, 24 Jan 2023 10:47:47 +0100
-Message-ID: <875ycw2ri4.fsf@baylibre.com>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: synaptics-rmi4: Fix SPI device ID
+In-Reply-To: <20221219133717.1638496-1-rayyan@ansari.sh>
+References: <20221219133717.1638496-1-rayyan@ansari.sh>
+Date:   Tue, 24 Jan 2023 11:07:00 +0100
+Message-ID: <8735802qm3.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -70,31 +70,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 12, 2023 at 22:38, Randy Dunlap <rdunlap@infradead.org> wrote:
+On Mon, Dec 19, 2022 at 13:37, Rayyan Ansari <rayyan@ansari.sh> wrote:
 
-> Change the beginning "/**" in the file to "/*" since it is not a
-> kernel-doc comment. This prevents a kernel-doc warning:
+> Currently, the ID being set to "rmi4_spi" causes this warning:
+> "SPI driver rmi4_spi has no spi_device_id for syna,rmi4-spi"
 >
-> drivers/input/misc/cpcap-pwrbutton.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->  * CPCAP Power Button Input Driver
+> Change the ID to rmi4-spi to stop this warning.
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: linux-input@vger.kernel.org
+> Signed-off-by: Rayyan Ansari <rayyan@ansari.sh>
 
 Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
 > ---
->  drivers/input/misc/cpcap-pwrbutton.c |    2 +-
+>  drivers/input/rmi4/rmi_spi.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff -- a/drivers/input/misc/cpcap-pwrbutton.c b/drivers/input/misc/cpcap-pwrbutton.c
-> --- a/drivers/input/misc/cpcap-pwrbutton.c
-> +++ b/drivers/input/misc/cpcap-pwrbutton.c
-> @@ -1,4 +1,4 @@
-> -/**
-> +/*
->   * CPCAP Power Button Input Driver
->   *
->   * Copyright (C) 2017 Sebastian Reichel <sre@kernel.org>
+> diff --git a/drivers/input/rmi4/rmi_spi.c b/drivers/input/rmi4/rmi_spi.c
+> index c82edda66b23..aa3a6a8544d4 100644
+> --- a/drivers/input/rmi4/rmi_spi.c
+> +++ b/drivers/input/rmi4/rmi_spi.c
+> @@ -510,7 +510,7 @@ static const struct dev_pm_ops rmi_spi_pm = {
+>  };
+>  
+>  static const struct spi_device_id rmi_id[] = {
+> -	{ "rmi4_spi", 0 },
+> +	{ "rmi4-spi", 0 },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(spi, rmi_id);
+> -- 
+> 2.39.0
