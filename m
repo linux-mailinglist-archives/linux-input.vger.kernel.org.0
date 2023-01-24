@@ -2,101 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9416794BE
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 11:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95DED6794FA
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 11:15:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232593AbjAXKHG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 05:07:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48096 "EHLO
+        id S232430AbjAXKPw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 05:15:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjAXKHF (ORCPT
+        with ESMTP id S230202AbjAXKPv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 05:07:05 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBCB7227B5
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 02:07:03 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id f12-20020a7bc8cc000000b003daf6b2f9b9so12422112wml.3
-        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 02:07:03 -0800 (PST)
+        Tue, 24 Jan 2023 05:15:51 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C553CE2E
+        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 02:15:50 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id o17-20020a05600c511100b003db021ef437so10523756wms.4
+        for <linux-input@vger.kernel.org>; Tue, 24 Jan 2023 02:15:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4R9YOVwUyYBfPGZ2jxpq4QdSE5HSTz36nOFHPxprj4k=;
-        b=zJVdnaSFz7iV10ZvhyVWrq7k7nAXw+oolpCL+uYiR4/jcI197MSHCIJKOVqDlIO86l
-         0isT162sRwAkmrA9EfHiob7XmPBJY3fO6FhiI7BBL2XF38SO6lFoHODuAkBwTa0rei/x
-         39klM776k3NT+DK2ikAGzZRcP+M6Z2qypHYBHWk8EwAuZMVuHAO1cZPuQ9hrYX0HKWB7
-         Rzvn1I5SKEXKxPWvQexvtRIXgU5EMTRTvOFIdhMHPFNS7QAAjf1BY+m40ULxhxOVIi/n
-         +jztu7FOtdoGIUj2laKjBDLsL87KFHKFEBCtV+DDcFSWtjaXyKOpfVBoLnWIsEJ1PQJk
-         IdLw==
+        h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8un66zLwO3rwD/g45VoCRqCtHHjJIgDrgaIv4nHBGpE=;
+        b=5IzoJ/Bo+JeI4g40vilzNuB+88HZ/EY6bz6sZzs5cuM8K3Z4Jag+2N+Bt9AH1ZDhTs
+         wTd1EpkTQNdqmImQ5tjSPfe/5WpGGQCx/vE/eN6pF/CgzysDahv0gn/vAbORoZno+AHg
+         lUfo5jRmwW2PhE7+z8HMDAMpPxiF6mA4Uxc/Vp4ybinBds0zTCEzMRaBhZfVfs7g4fRI
+         KjZxBHqVLv8OodHM4I2P7bBxipJCN5n/ojhaZjmYZTpVEnKjVjJGQr4BSw6s1J3NB6pu
+         DKQckZDidtxrIUoM/j8IumK5yd2uDp/LBgfT2Hnmfnehbvg1MCGda+h/++crN2fXSn/W
+         loFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4R9YOVwUyYBfPGZ2jxpq4QdSE5HSTz36nOFHPxprj4k=;
-        b=H7yTscHCFKNsyxaBU2WAFimDQXXrHTlsq3sTFzf+npNCVbRCWDtlzjABhscPjdastV
-         aTjWwOYUvvTj52mkjFdj0I81myVtK+MiTAaQYSnHQfHmHnHbp67q+Qvkx4rHwpiWf7WV
-         VbLItPELGUQXOL3IpF0pg8WFjA4aTOCdZy5qzYfyM0/byCaj569WecE9kVJ8tmbSfBDB
-         RPMlS2d01BXjgsHYffVDbmaqcSfynTZHW+Mmij1Z7TWVXu2/YwXEkFdXROeI9h/eUfNl
-         oLKwkzJ8/GGT5hG3b01ea/eP0EpDQkcfwqVrM0EWyBs8iAP2BvyDVoIAwDqkfoaLHn/s
-         gdJg==
-X-Gm-Message-State: AFqh2koQd6w6wG95xlE/PmZyvz4DL3TyZRjIqFqncbf6Cl4rX2Zvz93L
-        nqyM4gnuq26NtxglHeNDavF2EQ==
-X-Google-Smtp-Source: AMrXdXusOj/jDctjTJIm+rwbb31SI3b7Z1ftwkUnu0L0+tn23q9EQqeQJ+gRSS2nGC+u8jOURVKWtw==
-X-Received: by 2002:a05:600c:1c02:b0:3d2:3b8d:21e5 with SMTP id j2-20020a05600c1c0200b003d23b8d21e5mr27392120wms.14.1674554822224;
-        Tue, 24 Jan 2023 02:07:02 -0800 (PST)
+        h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8un66zLwO3rwD/g45VoCRqCtHHjJIgDrgaIv4nHBGpE=;
+        b=YaSlSlWSJyRIxROUGPSLS39ORZLALwe7nPoy7FcNTcnchdpLvBw3bLdnTpchM0eLiy
+         V/R65rx61h7t0609+/dVadXMeVKXebDAGDHhPudNKyTEQ7wzfF2h5IrpISR2r7HHyyqj
+         wrA56osWvAah/GjfABRz15Tspa25pPL8lVzPls0tzEnSD4X2w3Zo/x1L/JFntMQ1n8Bd
+         1noMSZ3StI7eLdwFWB/vA62TJQwQrEgJbI5ZGpX7kd3JT6nTu/rX+0TXDwlftDTyglCV
+         uTH7WL5JOCO4wdiGMJodxIsI9Ec564lDJamcH3ihPsgCUY/r+oamBIOefTANEXkSc2b9
+         GrPg==
+X-Gm-Message-State: AFqh2kop3adXFFt2RZdY5BXW0iJCyTPZTtmTMsd6S70wkiyiI5bOYMYj
+        GEsqdtxk+yUdJh3g51v7/MGjrw==
+X-Google-Smtp-Source: AMrXdXtQiMObKKnyrAyRqjP0D7+AWlOOZakV4ioA/j5cJIYDShX8yJFxBIZJDH9OEpfYy+gS2u1A8A==
+X-Received: by 2002:a05:600c:46cb:b0:3db:1afd:ac45 with SMTP id q11-20020a05600c46cb00b003db1afdac45mr22087623wmo.7.1674555348765;
+        Tue, 24 Jan 2023 02:15:48 -0800 (PST)
 Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id y15-20020a5d470f000000b002bc8130cca7sm1491871wrq.23.2023.01.24.02.07.01
+        by smtp.gmail.com with ESMTPSA id g10-20020a05600c310a00b003d99da8d30asm14069634wmo.46.2023.01.24.02.15.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 02:07:01 -0800 (PST)
+        Tue, 24 Jan 2023 02:15:48 -0800 (PST)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Rayyan Ansari <rayyan@ansari.sh>, linux-input@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht,
-        Rayyan Ansari <rayyan@ansari.sh>,
+To:     Miaoqian Lin <linmq006@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: synaptics-rmi4: Fix SPI device ID
-In-Reply-To: <20221219133717.1638496-1-rayyan@ansari.sh>
-References: <20221219133717.1638496-1-rayyan@ansari.sh>
-Date:   Tue, 24 Jan 2023 11:07:00 +0100
-Message-ID: <8735802qm3.fsf@baylibre.com>
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Rob Herring <robh@kernel.org>, Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] input: raspberrypi-ts: Fix refcount leak in
+ rpi_ts_probe
+In-Reply-To: <20221223074657.810346-1-linmq006@gmail.com>
+References: <20221223074657.810346-1-linmq006@gmail.com>
+Date:   Tue, 24 Jan 2023 11:15:47 +0100
+Message-ID: <87zga81bn0.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 19, 2022 at 13:37, Rayyan Ansari <rayyan@ansari.sh> wrote:
+On Fri, Dec 23, 2022 at 11:46, Miaoqian Lin <linmq006@gmail.com> wrote:
 
-> Currently, the ID being set to "rmi4_spi" causes this warning:
-> "SPI driver rmi4_spi has no spi_device_id for syna,rmi4-spi"
+> rpi_firmware_get() take reference, we need to release it in error paths
+> as well. Use devm_rpi_firmware_get() helper to handling the resources.
+> Also remove the existing rpi_firmware_put().
 >
-> Change the ID to rmi4-spi to stop this warning.
->
-> Signed-off-by: Rayyan Ansari <rayyan@ansari.sh>
+> Fixes: 0b9f28fed3f7 ("Input: add official Raspberry Pi's touchscreen driver")
+> Fixes: 3b8ddff780b7 ("input: raspberrypi-ts: Release firmware handle when not needed")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> ---
+> changes in v2:
+> - use devm_rpi_firmware_get().
+> - remove rpi_firmware_put().
 
 Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
 > ---
->  drivers/input/rmi4/rmi_spi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/input/touchscreen/raspberrypi-ts.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/input/rmi4/rmi_spi.c b/drivers/input/rmi4/rmi_spi.c
-> index c82edda66b23..aa3a6a8544d4 100644
-> --- a/drivers/input/rmi4/rmi_spi.c
-> +++ b/drivers/input/rmi4/rmi_spi.c
-> @@ -510,7 +510,7 @@ static const struct dev_pm_ops rmi_spi_pm = {
->  };
+> diff --git a/drivers/input/touchscreen/raspberrypi-ts.c b/drivers/input/touchscreen/raspberrypi-ts.c
+> index 5000f5fd9ec3..45c575df994e 100644
+> --- a/drivers/input/touchscreen/raspberrypi-ts.c
+> +++ b/drivers/input/touchscreen/raspberrypi-ts.c
+> @@ -134,7 +134,7 @@ static int rpi_ts_probe(struct platform_device *pdev)
+>  		return -ENOENT;
+>  	}
 >  
->  static const struct spi_device_id rmi_id[] = {
-> -	{ "rmi4_spi", 0 },
-> +	{ "rmi4-spi", 0 },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(spi, rmi_id);
+> -	fw = rpi_firmware_get(fw_node);
+> +	fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
+>  	of_node_put(fw_node);
+>  	if (!fw)
+>  		return -EPROBE_DEFER;
+> @@ -160,7 +160,6 @@ static int rpi_ts_probe(struct platform_device *pdev)
+>  	touchbuf = (u32)ts->fw_regs_phys;
+>  	error = rpi_firmware_property(fw, RPI_FIRMWARE_FRAMEBUFFER_SET_TOUCHBUF,
+>  				      &touchbuf, sizeof(touchbuf));
+> -	rpi_firmware_put(fw);
+>  	if (error || touchbuf != 0) {
+>  		dev_warn(dev, "Failed to set touchbuf, %d\n", error);
+>  		return error;
 > -- 
-> 2.39.0
+> 2.25.1
