@@ -2,126 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 226B667A004
-	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 18:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD2967A259
+	for <lists+linux-input@lfdr.de>; Tue, 24 Jan 2023 20:06:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233597AbjAXRU2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 12:20:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54196 "EHLO
+        id S233610AbjAXTGv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 14:06:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234771AbjAXRU0 (ORCPT
+        with ESMTP id S234613AbjAXTGj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 12:20:26 -0500
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AE14A20D;
-        Tue, 24 Jan 2023 09:20:24 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id D2E1760011;
-        Tue, 24 Jan 2023 17:20:21 +0000 (UTC)
-Message-ID: <a75e34efce22ab1de8f0a2e247294a441e710193.camel@hadess.net>
-Subject: Re: [PATCH 2/3] HID: logitech-hidpp: Don't restart communication if
- not necessary
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Date:   Tue, 24 Jan 2023 18:20:21 +0100
-In-Reply-To: <20221220092207.428640-2-hadess@hadess.net>
-References: <20221220092207.428640-1-hadess@hadess.net>
-         <20221220092207.428640-2-hadess@hadess.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        Tue, 24 Jan 2023 14:06:39 -0500
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0956C4DCD7;
+        Tue, 24 Jan 2023 11:06:18 -0800 (PST)
+Received: by mail-oo1-f51.google.com with SMTP id h3-20020a4ac443000000b004fb2954e7c3so2785486ooq.10;
+        Tue, 24 Jan 2023 11:06:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1zOsAeVeoSP5y0PXnd29TY9147nVFljKF4SWYsX6McA=;
+        b=fxpJeJTiJDzTzcq7fxq9eiC1CF70mNAdbMiNcP/NIGmufjliMa0xYxzPJiZv/HzJmi
+         RH3nz8Fvb86lujl8o/hh+st2cCgnNpcmCmvyk2tdkX5Y7w/+YFlUoD8aUpbefuG/U8OT
+         933qUkTnHBdSmQ9ZeTSlFS3LFPbZ09rrwWPpjMDYaPa++L2Ireawhhp1z5yQ9BhSLfB0
+         Hg/Qxq1La7e2a1DzkRIdNsfntQ7WVtJoYbCBXBINcndlU4jM3VfD4H3C0yk3xkfKi7x2
+         cKFkMXnYWIMYVXADmiLy+yXMONcm2GCCuRzHXkCL2oZwrbUe2/gLPU+FFW5RbiMpQZSD
+         RM5Q==
+X-Gm-Message-State: AFqh2kpugfzH+OF1xw1MG0bypBmM5dc/fRK6NNbpKXWYdAsmR0Zb7xdi
+        C0vb/p3fn3d+wwT9RyiH3A==
+X-Google-Smtp-Source: AMrXdXt9DHpIlN+z/n8VyspGsPRK6b/qCM28zV8M13m6W05TnvExavuHduH/MfvUfPEIoF6iKsfeSA==
+X-Received: by 2002:a4a:d757:0:b0:502:5eae:e506 with SMTP id h23-20020a4ad757000000b005025eaee506mr6904642oot.2.1674587177167;
+        Tue, 24 Jan 2023 11:06:17 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t14-20020a4ae40e000000b004f29c6fb6besm1054913oov.31.2023.01.24.11.06.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jan 2023 11:06:16 -0800 (PST)
+Received: (nullmailer pid 1261082 invoked by uid 1000);
+        Tue, 24 Jan 2023 19:06:15 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   Rob Herring <robh@kernel.org>
+To:     Manuel Traut <manuel.traut@mt.com>
+Cc:     devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+In-Reply-To: <Y9AJ07zT1lpBLhPk@mt.com>
+References: <Y9AJ07zT1lpBLhPk@mt.com>
+Message-Id: <167458712310.1259438.16687606512438665063.robh@kernel.org>
+Subject: Re: [PATCH 1/5 v7] dt-bindings: input: pwm-beeper: Convert txt
+ bindings to yaml
+Date:   Tue, 24 Jan 2023 13:06:15 -0600
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gVHVlLCAyMDIyLTEyLTIwIGF0IDEwOjIyICswMTAwLCBCYXN0aWVuIE5vY2VyYSB3cm90ZToK
-PiBEb24ndCBzdG9wIGFuZCByZXN0YXJ0IGNvbW11bmljYXRpb24gd2l0aCB0aGUgZGV2aWNlIHVu
-bGVzcyB3ZSBuZWVkCj4gdG8KPiBtb2RpZnkgdGhlIGNvbm5lY3QgZmxhZ3MgdXNlZCBiZWNhdXNl
-IG9mIGEgZGV2aWNlIHF1aXJrLgoKRklXVywgQW5kcmVhcyBCZXJnbWVpZXIgdG9sZCBtZSBvZmYt
-bGlzdCB0aGF0IHRoaXMgZml4ZWQgdGhlaXIgcHJvYmxlbQp3aXRoIHRoZSBMaXRyYSBHbG93IG5v
-dCBjb25uZWN0aW5nIHByb3Blcmx5LgoKV291bGQgYmUgZ3JlYXQgdG8gaGF2ZSByZXZpZXdzIG9u
-IHRoaXMgYW5kIG15IG90aGVyIEhJRCsrIHBhdGNoZXMuCgpDaGVlcnMKCj4gLS0tCj4gwqBkcml2
-ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyB8IDMxICsrKysrKysrKysrKysrKysrKystLS0t
-LS0tLS0tLQo+IC0KPiDCoDEgZmlsZSBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCAxMiBkZWxl
-dGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBw
-LmMgYi9kcml2ZXJzL2hpZC9oaWQtCj4gbG9naXRlY2gtaGlkcHAuYwo+IGluZGV4IDdmOTE4NzIw
-MTkxMy4uYjRlNGE4Yzc5Yzc1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVj
-aC1oaWRwcC5jCj4gKysrIGIvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMKPiBAQCAt
-NDMxMCw2ICs0MzEwLDcgQEAgc3RhdGljIGludCBoaWRwcF9wcm9iZShzdHJ1Y3QgaGlkX2Rldmlj
-ZSAqaGRldiwKPiBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCj4gwqDCoMKgwqDCoMKg
-wqDCoGJvb2wgY29ubmVjdGVkOwo+IMKgwqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBpbnQgY29ubmVj
-dF9tYXNrID0gSElEX0NPTk5FQ1RfREVGQVVMVDsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGhp
-ZHBwX2ZmX3ByaXZhdGVfZGF0YSBkYXRhOwo+ICvCoMKgwqDCoMKgwqDCoGJvb2wgd2lsbF9yZXN0
-YXJ0ID0gZmFsc2U7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgLyogcmVwb3J0X2ZpeHVwIG5lZWRz
-IGRydmRhdGEgdG8gYmUgc2V0IGJlZm9yZSB3ZSBjYWxsCj4gaGlkX3BhcnNlICovCj4gwqDCoMKg
-wqDCoMKgwqDCoGhpZHBwID0gZGV2bV9remFsbG9jKCZoZGV2LT5kZXYsIHNpemVvZigqaGlkcHAp
-LCBHRlBfS0VSTkVMKTsKPiBAQCAtNDM2MCw2ICs0MzYxLDkgQEAgc3RhdGljIGludCBoaWRwcF9w
-cm9iZShzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKPiBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9p
-ZCAqaWQpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-cmV0dXJuIHJldDsKPiDCoMKgwqDCoMKgwqDCoMKgfQo+IMKgCj4gK8KgwqDCoMKgwqDCoMKgaWYg
-KGhpZHBwLT5xdWlya3MgJiBISURQUF9RVUlSS19ERUxBWUVEX0lOSVQpCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoHdpbGxfcmVzdGFydCA9IHRydWU7Cj4gKwo+IMKgwqDCoMKgwqDC
-oMKgwqBJTklUX1dPUksoJmhpZHBwLT53b3JrLCBkZWxheWVkX3dvcmtfY2IpOwo+IMKgwqDCoMKg
-wqDCoMKgwqBtdXRleF9pbml0KCZoaWRwcC0+c2VuZF9tdXRleCk7Cj4gwqDCoMKgwqDCoMKgwqDC
-oGluaXRfd2FpdHF1ZXVlX2hlYWQoJmhpZHBwLT53YWl0KTsKPiBAQCAtNDM3NCw3ICs0Mzc4LDcg
-QEAgc3RhdGljIGludCBoaWRwcF9wcm9iZShzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKPiBjb25z
-dCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpCj4gwqDCoMKgwqDCoMKgwqDCoCAqIFBsYWluIFVT
-QiBjb25uZWN0aW9ucyBuZWVkIHRvIGFjdHVhbGx5IGNhbGwgc3RhcnQgYW5kIG9wZW4KPiDCoMKg
-wqDCoMKgwqDCoMKgICogb24gdGhlIHRyYW5zcG9ydCBkcml2ZXIgdG8gYWxsb3cgaW5jb21pbmcg
-ZGF0YS4KPiDCoMKgwqDCoMKgwqDCoMKgICovCj4gLcKgwqDCoMKgwqDCoMKgcmV0ID0gaGlkX2h3
-X3N0YXJ0KGhkZXYsIDApOwo+ICvCoMKgwqDCoMKgwqDCoHJldCA9IGhpZF9od19zdGFydChoZGV2
-LCB3aWxsX3Jlc3RhcnQgPyAwIDogY29ubmVjdF9tYXNrKTsKPiDCoMKgwqDCoMKgwqDCoMKgaWYg
-KHJldCkgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaGlkX2VycihoZGV2LCAi
-aHcgc3RhcnQgZmFpbGVkXG4iKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdv
-dG8gaGlkX2h3X3N0YXJ0X2ZhaWw7Cj4gQEAgLTQ0MTEsNiArNDQxNSw3IEBAIHN0YXRpYyBpbnQg
-aGlkcHBfcHJvYmUoc3RydWN0IGhpZF9kZXZpY2UgKmhkZXYsCj4gY29uc3Qgc3RydWN0IGhpZF9k
-ZXZpY2VfaWQgKmlkKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoGhpZHBwLT53aXJlbGVzc19mZWF0dXJlX2luZGV4ID0gMDsKPiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGVsc2UgaWYgKHJldCkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGhpZF9od19pbml0X2ZhaWw7Cj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IDA7Cj4gwqDCoMKgwqDCoMKgwqDCoH0KPiDC
-oAo+IMKgwqDCoMKgwqDCoMKgwqBpZiAoY29ubmVjdGVkICYmIChoaWRwcC0+cXVpcmtzICYgSElE
-UFBfUVVJUktfQ0xBU1NfV1RQKSkgewo+IEBAIC00NDI1LDE5ICs0NDMwLDIxIEBAIHN0YXRpYyBp
-bnQgaGlkcHBfcHJvYmUoc3RydWN0IGhpZF9kZXZpY2UKPiAqaGRldiwgY29uc3Qgc3RydWN0IGhp
-ZF9kZXZpY2VfaWQgKmlkKQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGhpZHBwX2Nvbm5lY3RfZXZl
-bnQoaGlkcHApOwo+IMKgCj4gLcKgwqDCoMKgwqDCoMKgLyogUmVzZXQgdGhlIEhJRCBub2RlIHN0
-YXRlICovCj4gLcKgwqDCoMKgwqDCoMKgaGlkX2RldmljZV9pb19zdG9wKGhkZXYpOwo+IC3CoMKg
-wqDCoMKgwqDCoGhpZF9od19jbG9zZShoZGV2KTsKPiAtwqDCoMKgwqDCoMKgwqBoaWRfaHdfc3Rv
-cChoZGV2KTsKPiArwqDCoMKgwqDCoMKgwqBpZiAod2lsbF9yZXN0YXJ0KSB7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIFJlc2V0IHRoZSBISUQgbm9kZSBzdGF0ZSAqLwo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRfZGV2aWNlX2lvX3N0b3AoaGRldik7Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZF9od19jbG9zZShoZGV2KTsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaGlkX2h3X3N0b3AoaGRldik7Cj4gwqAKPiAtwqDC
-oMKgwqDCoMKgwqBpZiAoaGlkcHAtPnF1aXJrcyAmIEhJRFBQX1FVSVJLX05PX0hJRElOUFVUKQo+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb25uZWN0X21hc2sgJj0gfkhJRF9DT05O
-RUNUX0hJRElOUFVUOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoaGlkcHAt
-PnF1aXJrcyAmIEhJRFBQX1FVSVJLX05PX0hJRElOUFVUKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29ubmVjdF9tYXNrICY9IH5ISURfQ09OTkVDVF9I
-SURJTlBVVDsKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoC8qIE5vdyBleHBvcnQgdGhlIGFjdHVhbCBp
-bnB1dHMgYW5kIGhpZHJhdyBub2RlcyB0byB0aGUgd29ybGQKPiAqLwo+IC3CoMKgwqDCoMKgwqDC
-oHJldCA9IGhpZF9od19zdGFydChoZGV2LCBjb25uZWN0X21hc2spOwo+IC3CoMKgwqDCoMKgwqDC
-oGlmIChyZXQpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaGlkX2VycihoZGV2
-LCAiJXM6aGlkX2h3X3N0YXJ0IHJldHVybmVkIGVycm9yXG4iLAo+IF9fZnVuY19fKTsKPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ290byBoaWRfaHdfc3RhcnRfZmFpbDsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyogTm93IGV4cG9ydCB0aGUgYWN0dWFsIGlucHV0
-cyBhbmQgaGlkcmF3IG5vZGVzIHRvCj4gdGhlIHdvcmxkICovCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoHJldCA9IGhpZF9od19zdGFydChoZGV2LCBjb25uZWN0X21hc2spOwo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocmV0KSB7Cj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRfZXJyKGhkZXYsICIlczpoaWRfaHdf
-c3RhcnQgcmV0dXJuZWQKPiBlcnJvclxuIiwgX19mdW5jX18pOwo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ290byBoaWRfaHdfc3RhcnRfZmFpbDsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfQo+IMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqAK
-PiDCoMKgwqDCoMKgwqDCoMKgaWYgKGhpZHBwLT5xdWlya3MgJiBISURQUF9RVUlSS19DTEFTU19H
-OTIwKSB7Cgo=
+
+On Tue, 24 Jan 2023 17:39:47 +0100, Manuel Traut wrote:
+> Converts txt binding to new YAML format.
+> 
+> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
+> ---
+>  .../devicetree/bindings/input/pwm-beeper.txt  | 24 ----------
+>  .../devicetree/bindings/input/pwm-beeper.yaml | 48 +++++++++++++++++++
+>  2 files changed, 48 insertions(+), 24 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.yaml
+> 
+
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/input/pwm-beeper.yaml:10:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+
+dtschema/dtc warnings/errors:
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/input/pwm-beeper.example.dts'
+Documentation/devicetree/bindings/input/pwm-beeper.yaml:10:1: found character '\t' that cannot start any token
+make[1]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/input/pwm-beeper.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+./Documentation/devicetree/bindings/input/pwm-beeper.yaml:10:1: found character '\t' that cannot start any token
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/pwm-beeper.yaml: ignoring, error parsing file
+make: *** [Makefile:1508: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/Y9AJ07zT1lpBLhPk@mt.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
