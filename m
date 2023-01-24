@@ -2,111 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3CFE67A69C
-	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 00:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82E6167A6E2
+	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 00:35:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbjAXXDu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Jan 2023 18:03:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53756 "EHLO
+        id S233643AbjAXXfB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Jan 2023 18:35:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233603AbjAXXDr (ORCPT
+        with ESMTP id S233737AbjAXXe7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Jan 2023 18:03:47 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC5EE49548;
-        Tue, 24 Jan 2023 15:03:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7F9A7B81717;
-        Tue, 24 Jan 2023 23:03:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93AC5C433EF;
-        Tue, 24 Jan 2023 23:03:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674601423;
-        bh=FInAJGM6hitQqEWREbqfiZT6RW4VKmJRYiGIyELSJQc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VDav27OxxZTsAQgsUUqCRxbi02UJHTXeQ4BNvRR2EVcVurslbfZQ1hQbAIbZQ0Dfe
-         d2YSKzxKcs/H8PX8n256ShJsj1Yt/HpEuQvjdnXNW7LxK4qClB/5cWjD9N85pUzOHq
-         f9gUdwmJmO9TH4Nu6ulKdR7s5iitURCwPLteuRHaK6g42tTBOlrwyVzrc/b54PXQrm
-         FbSFiUK1nyUKX9eWCnkged8yubqQAufRoj0a6bqC3EvH/1rfsEWHb0Tb9HTxrVTird
-         q9ZhjkXbmN7rMAWQP3zs8stWUwCCsCvl/nEQ1sr2UBHleUHB7lQ7F6o7uEEzUcCbTU
-         KQ4JYbXPqsgEQ==
-From:   SeongJae Park <sj@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     SeongJae Park <sj@kernel.org>,
-        Alex Deucher <alexdeucher@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        Tue, 24 Jan 2023 18:34:59 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA21E4ED27;
+        Tue, 24 Jan 2023 15:34:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=z33pQjo2sqnjX+oWqsRt7jj4kSZj16MMYd3bF/XJY6w=; b=CAxqrX95Ee2z8b587wMhEVQP84
+        SRUdVoImnHfKD4VhbmSKs05kcM1kEKWVlWfqheOCMaKeYvVIsch0kjD/L13OxfSUN5zr9DTAFrzIV
+        sBQXwKBdbVQzbThd8NnshGbKpoRhV2wvnyuEjcJ3wqPLStrtjO4xhntq/thtHG6biO3cERVMcOv0n
+        baJSTC0s6/Kq7VxEAAb8F2l3AIbc2KVIfLnWeyOmZf7TWJA1cjX5/ijncOxV5fqc6edT3D6oJHge6
+        xQyIElNus6txtxxDGj8JxGfTFdif8gHykBf2Q12YnChWS5/0NMGBGEoj/RBUkmkdFOvgVQrwR/QFq
+        AESZYfgw==;
+Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pKSoX-005eDw-Mu; Tue, 24 Jan 2023 23:34:53 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jean Delvare <jdelvare@suse.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
-Date:   Tue, 24 Jan 2023 23:03:40 +0000
-Message-Id: <20230124230340.113608-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <87a627ftuf.fsf@meer.lwn.net>
-References: 
+        linux-input@vger.kernel.org
+Subject: [PATCH] input: keyboard: fix a Kconfig spelling mistake & hyphenation
+Date:   Tue, 24 Jan 2023 15:34:53 -0800
+Message-Id: <20230124233453.22893-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 24 Jan 2023 15:31:04 -0700 Jonathan Corbet <corbet@lwn.net> wrote:
+Correct a spelling mistake (reported by codespell).
+Also hyphenate "matrix-based".
 
-> SeongJae Park <sj@kernel.org> writes:
-> 
-> > Some subsystem documents are missing SPDX license identifiers on index
-> > files.  This patchset adds those.
-> >
-> > Changes from v1
-> > (https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
-> > - Separate from index file content changes
-> > - Separate patch for each subsystem doc (Alex Deucher)
-> > - Use MIT license for gpu (Alex Deucher)
-> >
-> > SeongJae Park (8):
-> >   Docs/crypto/index: Add missing SPDX License Identifier
-> >   Docs/driver-api/index: Add missing SPDX License Identifier
-> >   Docs/gpu/index: Add missing SPDX License Identifier
-> >   Docs/hwmon/index: Add missing SPDX License Identifier
-> >   Docs/input/index: Add missing SPDX License Identifier
-> >   Docs/mm/index: Add missing SPDX License Identifier
-> >   Docs/scheduler/index: Add missing SPDX License Identifier
-> >   Docs/sound/index: Add missing SPDX License Identifier
-> 
-> So I've applied patches 2 (since I wrote the initial file) and 8 (with
-> Takashi's ack).  The others are also fine, I think, but I hesitate to
-> apply license texts to files without knowing that they match the
-> author's intent.  I hate to say it, but I think the best approach is to
-> send each of the remaining patches to the appropriate maintainers for
-> the subsystem involved.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+---
+ drivers/input/keyboard/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That makes 100% sense, thank you, Jon!
-
-
-Thanks,
-SJ
-
-> 
-> Thanks,
-> 
-> jon
+diff -- a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+--- a/drivers/input/keyboard/Kconfig
++++ b/drivers/input/keyboard/Kconfig
+@@ -557,7 +557,7 @@ config KEYBOARD_PMIC8XXX
+ 	help
+ 	  Say Y here if you want to enable the driver for the PMIC8XXX
+ 	  keypad provided as a reference design from Qualcomm. This is intended
+-	  to support upto 18x8 matrix based keypad design.
++	  to support up to 18x8 matrix-based keypad design.
+ 
+ 	  To compile this driver as a module, choose M here: the module will
+ 	  be called pmic8xxx-keypad.
