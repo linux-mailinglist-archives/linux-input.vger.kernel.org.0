@@ -2,109 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5006367B063
-	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 11:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4D5267B20A
+	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 12:52:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232999AbjAYKzF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Jan 2023 05:55:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56716 "EHLO
+        id S235753AbjAYLwt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 25 Jan 2023 06:52:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234742AbjAYKzE (ORCPT
+        with ESMTP id S235179AbjAYLwr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Jan 2023 05:55:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B15B3271A
-        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 02:54:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674644065;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TKij3fyxoq/8VKQCHkV4iCLox0kN040mdy7eiQPNDYA=;
-        b=Baf7jXK7s/zpTEwAoK3GUDMiP55W5qyhG4h8GP5kPMTC7CMmvhZpSvyxj7igEKqlmxei8h
-        PNZPoHP1mXmR8qO8m4tu3rYPd1z6HXy9QXYcLtHMZpRTH5cmBxwHbp08tSKAlhicg0urfr
-        6h3dwwDYSE6ilkKVo7zcPJZAAS+TLGI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-0qDC1HfDPK6yUlFBcX2mhg-1; Wed, 25 Jan 2023 05:54:22 -0500
-X-MC-Unique: 0qDC1HfDPK6yUlFBcX2mhg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A31A185C6E3;
-        Wed, 25 Jan 2023 10:54:21 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.193.104])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C4AB540C1141;
-        Wed, 25 Jan 2023 10:54:20 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Gregor Riepl <onitake@gmail.com>, linux-input@vger.kernel.org
-Subject: [PATCH resend 3/3] Input: goodix - Add a settings module-parameter
-Date:   Wed, 25 Jan 2023 11:54:16 +0100
-Message-Id: <20230125105416.17406-4-hdegoede@redhat.com>
-In-Reply-To: <20230125105416.17406-1-hdegoede@redhat.com>
-References: <20230125105416.17406-1-hdegoede@redhat.com>
+        Wed, 25 Jan 2023 06:52:47 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CBEA5FC5;
+        Wed, 25 Jan 2023 03:52:44 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id C3A8EE0005;
+        Wed, 25 Jan 2023 11:52:41 +0000 (UTC)
+Message-ID: <39fcf3b6b0954873d5e7cdcabcd26a63178619b8.camel@hadess.net>
+Subject: Re: [PATCH 2/3] HID: logitech-hidpp: Don't restart communication if
+ not necessary
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Date:   Wed, 25 Jan 2023 12:52:41 +0100
+In-Reply-To: <CAO-hwJJb+hkCpqbiF0Zw8Ot4aCJDpgvMXpVS6rCoMe7QWkhiCg@mail.gmail.com>
+References: <20221220092207.428640-1-hadess@hadess.net>
+         <20221220092207.428640-2-hadess@hadess.net>
+         <a75e34efce22ab1de8f0a2e247294a441e710193.camel@hadess.net>
+         <CAO-hwJJb+hkCpqbiF0Zw8Ot4aCJDpgvMXpVS6rCoMe7QWkhiCg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a settings module-parameter which can be allowed to specify/override
-various device-properties.
+On Wed, 2023-01-25 at 11:18 +0100, Benjamin Tissoires wrote:
+> On Tue, Jan 24, 2023 at 6:20 PM Bastien Nocera <hadess@hadess.net>
+> wrote:
+> > 
+> > On Tue, 2022-12-20 at 10:22 +0100, Bastien Nocera wrote:
+> > > Don't stop and restart communication with the device unless we
+> > > need
+> > > to
+> > > modify the connect flags used because of a device quirk.
+> > 
+> > FIWW, Andreas Bergmeier told me off-list that this fixed their
+> > problem
+> > with the Litra Glow not connecting properly.
+> > 
+> > Would be great to have reviews on this and my other HID++ patches.
+> 
+> Sigh. I reviewed the patches just now (well, v2 at least), and
+> thought
+> I better give a shot at it before merging, and it turns out that this
+> patch breaks the Unifying receivers.
+> 
+> Without it, each device presented to the user space has a proper
+> name:
+> 
+> logitech-hidpp-device 0003:046D:4041.001C: input,hidraw15: USB HID
+> v1.11 Keyboard [Logitech MX Master] on usb-0000:01:00.0-4/input2:5
+> 
+> But with it, I get:
+> 
+> logitech-hidpp-device 0003:046D:4041.0024: input,hidraw8: USB HID
+> v1.11 Keyboard [Logitech Wireless Device PID:4041] on
+> usb-0000:00:14.0-8.2.4/input2:5
+> 
+> This is because we present the device to the userspace before being
+> able to fetch the name from the receiver.
+> 
+> I think we should make that connect/disconnect a special case of the
+> receivers too. Or maybe if the bus is not Bluetooth or USB, do the
+> disconnect/reconnect.
 
-Usuually Goodix touchscreens on x86 devices (where there is no devicetree
-to specify the properties) just work. But in some cases the touchscreen is
-mounted 90 or 180 degrees rotated vs the display, requiring setting the
-touchscreen-x/y-inverted or touchscreen-swapped-x-y properties.
+From what I can tell, this would mean restarting the connection in case
+hidpp_unifying_init() did anything, right?
 
-Being able to specify the necessary properties through a module parameter,
-allows users of new device-models to help us with bringing up support for
-new devices without them needing to do a local kernel-build just to modify
-these settings.
+I'll test this out and update the patch.
 
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/touchscreen/goodix.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index 620f5ec0962f..a105dee04156 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -53,6 +53,10 @@
- #define ACPI_GPIO_SUPPORT
- #endif
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 4547e9580101..e0c28257f598 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4392,8 +4392,10 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+        /* Allow incoming packets */
+        hid_device_io_start(hdev);
  
-+static char *settings;
-+module_param(settings, charp, 0444);
-+MODULE_PARM_DESC(settings, "Override touchscreen settings using a ; separated key=value list, e.g. \"touchscreen-fuzz-x=5;touchscreen-fuzz-y=5;touchscreen-swapped-x-y\"");
-+
- struct goodix_chip_id {
- 	const char *id;
- 	const struct goodix_chip_data *data;
-@@ -1197,7 +1201,8 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
- 	goodix_read_config(ts);
+-       if (hidpp->quirks & HIDPP_QUIRK_UNIFYING)
+-               hidpp_unifying_init(hidpp);
++       if (hidpp->quirks & HIDPP_QUIRK_UNIFYING) {
++               if (hidpp_unifying_init(hidpp) == 0)
++                       will_restart = true;
++       }
  
- 	/* Try overriding touchscreen parameters via device properties */
--	touchscreen_parse_properties(ts->input_dev, true, &ts->prop);
-+	touchscreen_parse_properties_with_settings(ts->input_dev, true,
-+						   &ts->prop, settings);
- 
- 	if (!ts->prop.max_x || !ts->prop.max_y || !ts->max_touch_num) {
- 		if (!ts->reset_controller_at_probe &&
--- 
-2.39.0
+        connected = hidpp_root_get_protocol_version(hidpp) == 0;
+        atomic_set(&hidpp->connected, connected);
 
