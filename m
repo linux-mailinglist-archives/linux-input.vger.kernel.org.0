@@ -2,46 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4923067B348
-	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 14:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC3CC67B501
+	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 15:43:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234279AbjAYN1H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Jan 2023 08:27:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56194 "EHLO
+        id S229827AbjAYOnF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Jan 2023 09:43:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233619AbjAYN1H (ORCPT
+        with ESMTP id S235400AbjAYOnE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Jan 2023 08:27:07 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905FC10AB1;
-        Wed, 25 Jan 2023 05:27:06 -0800 (PST)
+        Wed, 25 Jan 2023 09:43:04 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E032D27D4A;
+        Wed, 25 Jan 2023 06:42:30 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id BC90BCE1ECE;
-        Wed, 25 Jan 2023 13:27:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF983C433D2;
-        Wed, 25 Jan 2023 13:27:01 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D52E7614E8;
+        Wed, 25 Jan 2023 14:41:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C43DC433D2;
+        Wed, 25 Jan 2023 14:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674653223;
-        bh=+yhXbFOH/NA0IXvnqojhd9YmW3lok9/Vt6OXKcPpStc=;
+        s=k20201202; t=1674657678;
+        bh=f0bSOivAmHl0WZMNNqPUhRsJXryAKupiscPEkqGKcEA=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=WKPvIohrjz+xcwLbMwJeN6Q9fLX6YwQR0FsgYJXS72hSr5pI6DvwCWyfNhyEaUjQ6
-         7/32n5C4KYee1Ax7omY+/+Tc0Mgz8YOeNPeZ2JGJRJXPm0csSQOXELNuMS8Ub8fWX8
-         peb8MNA1oApqTpsrdfyr3WV/weo8iV/DU0ZU3CgemQ/0zXZhusxCb5hXHS/WbDyzuo
-         +Wx2h4jr4hryl1znQOTm/5ZfbxGTTl6xBPvYCfM2UI9mc2XjVxDTNSxQOywxPHxq0D
-         dxtbAhTlg7fpBda4jG88/RfK+Wmc0eSW2wgmuN8Vp0KKsRMQYx/cnq2pkG9jUTUqqR
-         0ZOuJdiNAJEpg==
-Date:   Wed, 25 Jan 2023 14:27:04 +0100 (CET)
+        b=BFq2aYwLySPc8sAdSK1OcS6Z5TZKpywPjgFSH698iGmVFiLqvegLz60QH2YELaZPJ
+         kWCRloBtwKHFnQ6kmbIg2hZ33uNGMAUQck/uMsC0zA9tm+Og/xhpBqCJhtmrmRUbhC
+         bjR3Sw81oQVnKWI8hynOTdjdx16INCwOcVa/nyVgB/PRLVTwI0cTIg51gXvhY76w8T
+         Eptt0/ZTX6Y6zE+0UyjRlnVD3hFZ8kI0YSS5/LpgVzVKZAmNXE6e9j7ZBAfbISQ3xJ
+         NFcECjXd0xoRIV5z2tuDAxNil7GlaKYZ4FMvM1sREfYSCkcLtvfb+TSmcd5Yn7lSki
+         o19l7RSCgxStQ==
+Date:   Wed, 25 Jan 2023 15:41:19 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     Philippe Valembois <lephilousophe@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/1] HID: evision: Add preliminary support for EVision
- keyboards
-In-Reply-To: <CAO-hwJJwUQJueutZ5z_4qwBb1Y4+-9h3ta0Xran=s6pJ_e3itQ@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2301251425190.1734@cbobk.fhfr.pm>
-References: <20221224121814.11709-1-lephilousophe@gmail.com> <CAO-hwJJwUQJueutZ5z_4qwBb1Y4+-9h3ta0Xran=s6pJ_e3itQ@mail.gmail.com>
+To:     Marco Rodolfi <marco.rodolfi@tuta.io>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: Ignore battery for Elan touchscreen on Asus
+ TP420IA
+In-Reply-To: <NLR9TEh--3-9@tuta.io>
+Message-ID: <nycvar.YFH.7.76.2301251540380.1734@cbobk.fhfr.pm>
+References: <NLR9TEh--3-9@tuta.io>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,21 +55,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 23 Jan 2023, Benjamin Tissoires wrote:
+On Tue, 10 Jan 2023, marco.rodolfi@tuta.io wrote:
 
-> > From: Philippe Valembois <lephilousophe@users.noreply.github.com>
 > 
-> Jiri, I have a doubt. Do we accept emails from users.noreply.github.com?
+> This device has a touchscreen thats report a battery even if it doesn't 
+> have one. 
+> Ask Linux to ignore the battery so it will not always report it as low. 
+>  
+> Signed-off-by: Marco Rodolfi <marco.rodolfi@tuta.io> 
 
-From quick search in github documentation, this seems to be a blackhole 
-email address, right?
+Hi Marco,
 
-If so, I'd much prefer to have a real e-mail address there, in order to 
-make sure the author / signoff holders can be reached in the future if 
-there are any concerns regarding the patch.
-
-The e-mail address disclosure concern is moot as soon as the emaill with 
-the patch hits LKML anyway.
+your patch has been malformed by your mail client. I have fixed it up and 
+applied, but please make sure you fix that for your further submissions.
 
 Thanks,
 
