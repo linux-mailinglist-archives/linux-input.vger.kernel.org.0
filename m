@@ -2,49 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 174F867B062
-	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 11:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 326E467B065
+	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 11:55:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235172AbjAYKzE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Jan 2023 05:55:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56702 "EHLO
+        id S234742AbjAYKzN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Jan 2023 05:55:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232999AbjAYKzE (ORCPT
+        with ESMTP id S235229AbjAYKzM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Jan 2023 05:55:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E69D546A6
-        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 02:54:22 -0800 (PST)
+        Wed, 25 Jan 2023 05:55:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472FF26BC
+        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 02:54:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674644062;
+        s=mimecast20190719; t=1674644063;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=o0cPEb+IPoauf2zVIHkUBiYmWIfHKFqCE/TEOad+BwQ=;
-        b=cniUKFx/5kxwRpPt9o9GaWLU4zgZU4TD1JEj71eVC+jSsAWWG9rRf4XJADVTkMns2UkpaQ
-        5S9MdzELLG+pBS7VOsW8n0x2ZIKkZB4oXeOG+qtAsQi8x40t9qDQ5O1H8AfWU9L8W9I7qs
-        XC+sBc4xYmuuaXybWrr5Z5DIMjwwdCQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EHJ7QbuEJCvF5/OpAVlhSNCtx75bh+5UQF4mH8jOT6c=;
+        b=Jnmdp+3nl3j3+30o0J8tzI/gUhWE6MijVI+UQwMYoo9+imeED2oMfe8txe7XlRaXi8APSD
+        ryG/Lx7oBoKG9YrcsbVqu0uSdX8RwPeBFBV2oN/gYGezosanxlxckhg53IQdQGVxhzpjdh
+        o+iN053GMJXMnfioFsC5FWJ2fZ6GKQY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-108-mKn82PT4PMC8gWC1BqiNuQ-1; Wed, 25 Jan 2023 05:54:18 -0500
-X-MC-Unique: mKn82PT4PMC8gWC1BqiNuQ-1
+ us-mta-443-ROovyowFO6OKhy_RO1NK6Q-1; Wed, 25 Jan 2023 05:54:19 -0500
+X-MC-Unique: ROovyowFO6OKhy_RO1NK6Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B5053C025D9;
-        Wed, 25 Jan 2023 10:54:18 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70976858F0E;
+        Wed, 25 Jan 2023 10:54:19 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.193.104])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3CD614085720;
-        Wed, 25 Jan 2023 10:54:17 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 937334085720;
+        Wed, 25 Jan 2023 10:54:18 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Bastien Nocera <hadess@hadess.net>,
         Gregor Riepl <onitake@gmail.com>, linux-input@vger.kernel.org
-Subject: [PATCH resend 0/3] Input: touchscreen - settings module-param support
-Date:   Wed, 25 Jan 2023 11:54:13 +0100
-Message-Id: <20230125105416.17406-1-hdegoede@redhat.com>
+Subject: [PATCH resend 1/3] Input: touchscreen - Extend touchscreen_parse_properties() to allow overriding settings with a module option
+Date:   Wed, 25 Jan 2023 11:54:14 +0100
+Message-Id: <20230125105416.17406-2-hdegoede@redhat.com>
+In-Reply-To: <20230125105416.17406-1-hdegoede@redhat.com>
+References: <20230125105416.17406-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
@@ -58,20 +61,6 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry, et al,
-
-This is a resend, because the discussion surrounding this patch-set
-seems to have dried up without really coming to any conclusion
-(summary of previous discussion below).
-
-Original cover-letter (edited for already merged bugfix):
-
-"""
-This series adds support for overriding various silead and
-goodix touchscreen related device-properties from the kernel cmdline.
-This is a reposting of an earlier version which had the following
-cover letter:
-
 On x86/ACPI platforms touchscreens mostly just work without needing any
 device/model specific configuration. But in some cases (mostly with Silead
 and Goodix touchscreens) it is still necessary to manually specify various
@@ -84,106 +73,261 @@ This means that ATM changing these settings requires recompiling the
 kernel. This makes figuring out what settings/properties a specific
 touchscreen needs very hard for normal users to do.
 
-This new settings parameter support is especially useful for helping
-users to get their Silead touchscreens to work. These need to have
-all of their settings (min-x, width, min-y, height, swapping, inverting)
-hardcoded in touchscreen_dmi.c. The settings mod-param allows users
-to find the right setting without them needing to be capable of
-building their own kernel (and without a lot of rebooting) after which
-they can ask someone with some kernel-dev experience to turn this into
-a touchscreen_dmi.c patch for them (and yes the way this hw works sucks,
-but we cannot change that).
+Add a new, optional, settings_override string argument to
+touchscreen_parse_properties(), which takes a list of ; separated
+property-name=value pairs, e.g. :
+"touchscreen-size-x=1665;touchscreen-size-y=1140;touchscreen-swapped-x-y".
 
-An example of a user who was stuck getting their touchscreen to work and
-who was helped by providing a kernel with the settings mod-param added:
-https://github.com/onitake/gsl-firmware/discussions/193
-"""
+This new argument can be used by drivers to implement a module option which
+allows users to easily specify alternative settings for testing.
 
-Dmitry, you replied to the first patch of this series with:
+The 2 new touchscreen_property_read_u32() and
+touchscreen_property_read_bool() helpers are also exported so that
+drivers can use these to add settings-override support to the code
+for driver-specific properties.
 
-"""
-I totally understand the motivation for this, but I do not think that
-having special handling for only touchscreen properties is the right
-thing to do. I would very much prefer is we had a more generic approach
-of adding/overriding properties (via an swnode?).
-"""
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v2:
+- Instead of patching all drivers rename touchscreen_parse_properties()
+  to touchscreen_parse_properties_with_override() and add
+  a static inline wrapper which passes NULL.
+---
+ drivers/input/touchscreen.c       | 103 ++++++++++++++++++++++++++----
+ include/linux/input/touchscreen.h |  19 +++++-
+ 2 files changed, 109 insertions(+), 13 deletions(-)
 
-To which I wrote the following long reply:
-
-"""
-I understand where you are coming from, but I suspect the devicetree
-folks are going to not like any generic solution for 2 reasons:
-
-1. Allowing overriding devicetree properties like regulator voltage is a bad idea,
-granted users can already do this with a custom DTB, but that is a higher
-threshold to pass for a user then just adding something on the kernel cmdline
-
-2. Devicetree supports devicetree-overlays and I expect the devicetree folks
-to steer people who want to override random devicetree  properties in that
-direction (or in the direction of using a custom DTB)
-
-So the ACPI/x86 case really is somewhat special here and especially the
-silead touchscreens are special here. Normally all the settings we are
-talking here come from ACPI tables (or can directly be read from the
-touchscreen controller) and then messing with these settings would be
-a case of using an initrd with a custom ACPI DSDT, just like how
-on devicetree I think we would expect people to use a custom DTB and
-or a devicetree overlay.
-
-but because of this info lacking from the ACPI tables we have it
-hardcoded per 2-in-1/tablet model in:
-drivers/platform/x86/touchscreen_dmi.c
-
-The downside of this hardcoding is that testing new settings requires
-building a custom kernel, which is both not helpful for having
-a quick change settings -> test -> adjust settings cycle when trying
-to find the right settings for a new model as well as quite a steep
-hill to climb for novice users who want to get things to work on
-a new model.
-
-So I do believe that because of this the touchscreen properties
-or special in this case and a somewhat custom solution to allow
-setting just the touchscreen properties from the cmdline thus
-is justified.
-
-Also:
-
-1. Having a mechanism specific to touchscreen properties is
-simpler (more KISS) then having to come up with some more
-complicated generic property override mechanism.
-
-2. A touchscreen property specific mechanism is much less
-susceptible to being misused. Setting the touchscreen properties
-wrong cannot really result in any harm. OTOH setting the
-max / end-of charging voltage of a lipo cell to 4.6 volt
-(this is a real world example) is very much harmful.
-
-The lipo-cell max charge voltage is something which we
-in the sysfs interface deliberately disallow to be set any higher
-then the boot-time value (lower is allowed). Adding a generic
-cmdline mechanism for setting properties would allow
-overriding this.
-"""
+diff --git a/drivers/input/touchscreen.c b/drivers/input/touchscreen.c
+index 4620e20d0190..3b9505d5468d 100644
+--- a/drivers/input/touchscreen.c
++++ b/drivers/input/touchscreen.c
+@@ -12,15 +12,80 @@
+ #include <linux/input/touchscreen.h>
+ #include <linux/module.h>
  
-And then the discussion stopped.
-
-Regards,
-
-Hans
-
-
-Hans de Goede (3):
-  Input: touchscreen - Extend touchscreen_parse_properties() to allow
-    overriding settings with a module option
-  Input: silead - Add a settings module-parameter
-  Input: goodix - Add a settings module-parameter
-
- drivers/input/touchscreen.c        | 103 ++++++++++++++++++++++++++---
- drivers/input/touchscreen/goodix.c |   7 +-
- drivers/input/touchscreen/silead.c |  26 +++++---
- include/linux/input/touchscreen.h  |  19 +++++-
- 4 files changed, 131 insertions(+), 24 deletions(-)
-
++static int touchscreen_get_prop_from_settings_string(const char *settings,
++						     const char *propname,
++						     bool is_boolean,
++						     u32 *val_ret)
++{
++	char *begin, *end;
++	u32 val;
++
++	if (!settings)
++		return -ENOENT;
++
++	begin = strstr(settings, propname);
++	if (!begin)
++		return -ENOENT;
++
++	/* begin must be either the begin of settings, or be preceded by a ';' */
++	if (begin != settings && begin[-1] != ';')
++		return -EINVAL;
++
++	end = begin + strlen(propname);
++	if (*end != '=') {
++		if (is_boolean && (*end == '\0' || *end == ';')) {
++			*val_ret = true;
++			return 0;
++		}
++		return -EINVAL;
++	}
++
++	val = simple_strtoul(end + 1, &end, 0);
++	if (*end != '\0' && *end != ';')
++		return -EINVAL;
++
++	*val_ret = val;
++	return 0;
++}
++
++int touchscreen_property_read_u32(struct device *dev, const char *propname,
++				  const char *settings, u32 *val)
++{
++	int error;
++
++	error = device_property_read_u32(dev, propname, val);
++
++	if (touchscreen_get_prop_from_settings_string(settings, propname,
++						      false, val) == 0)
++		error = 0;
++
++	return error;
++}
++EXPORT_SYMBOL(touchscreen_property_read_u32);
++
++bool touchscreen_property_read_bool(struct device *dev, const char *propname,
++				    const char *settings)
++{
++	u32 val;
++
++	val = device_property_read_bool(dev, propname);
++
++	touchscreen_get_prop_from_settings_string(settings, propname, true, &val);
++
++	return val;
++}
++EXPORT_SYMBOL(touchscreen_property_read_bool);
++
+ static bool touchscreen_get_prop_u32(struct device *dev,
+ 				     const char *property,
++				     const char *settings,
+ 				     unsigned int default_value,
+ 				     unsigned int *value)
+ {
+ 	u32 val;
+ 	int error;
+ 
+-	error = device_property_read_u32(dev, property, &val);
++	error = touchscreen_property_read_u32(dev, property, settings, &val);
+ 	if (error) {
+ 		*value = default_value;
+ 		return false;
+@@ -50,20 +115,28 @@ static void touchscreen_set_params(struct input_dev *dev,
+ }
+ 
+ /**
+- * touchscreen_parse_properties - parse common touchscreen properties
++ * touchscreen_parse_properties_with_settings - parse common touchscreen properties
+  * @input: input device that should be parsed
+  * @multitouch: specifies whether parsed properties should be applied to
+  *	single-touch or multi-touch axes
+  * @prop: pointer to a struct touchscreen_properties into which to store
+  *	axis swap and invert info for use with touchscreen_report_x_y();
+  *	or %NULL
++ * @settings: string with ; separated name=value pairs overriding
++ *	the device-properties or %NULL.
+  *
+  * This function parses common properties for touchscreens and sets up the
+  * input device accordingly. The function keeps previously set up default
+  * values if no value is specified.
++ *
++ * Callers can optional specify a settings string overriding the
++ * device-properties, this can be used to implement a module option which
++ * allows users to easily specify alternative settings for testing.
+  */
+-void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+-				  struct touchscreen_properties *prop)
++void touchscreen_parse_properties_with_settings(struct input_dev *input,
++						bool multitouch,
++						struct touchscreen_properties *prop,
++						const char *settings)
+ {
+ 	struct device *dev = input->dev.parent;
+ 	struct input_absinfo *absinfo;
+@@ -79,26 +152,32 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+ 	axis_y = multitouch ? ABS_MT_POSITION_Y : ABS_Y;
+ 
+ 	data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-x",
++						settings,
+ 						input_abs_get_min(input, axis_x),
+ 						&minimum);
+ 	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-size-x",
++						 settings,
+ 						 input_abs_get_max(input,
+ 								   axis_x) + 1,
+ 						 &maximum);
+ 	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-fuzz-x",
++						 settings,
+ 						 input_abs_get_fuzz(input, axis_x),
+ 						 &fuzz);
+ 	if (data_present)
+ 		touchscreen_set_params(input, axis_x, minimum, maximum - 1, fuzz);
+ 
+ 	data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-y",
++						settings,
+ 						input_abs_get_min(input, axis_y),
+ 						&minimum);
+ 	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-size-y",
++						 settings,
+ 						 input_abs_get_max(input,
+ 								   axis_y) + 1,
+ 						 &maximum);
+ 	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-fuzz-y",
++						 settings,
+ 						 input_abs_get_fuzz(input, axis_y),
+ 						 &fuzz);
+ 	if (data_present)
+@@ -107,10 +186,12 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+ 	axis = multitouch ? ABS_MT_PRESSURE : ABS_PRESSURE;
+ 	data_present = touchscreen_get_prop_u32(dev,
+ 						"touchscreen-max-pressure",
++						settings,
+ 						input_abs_get_max(input, axis),
+ 						&maximum);
+ 	data_present |= touchscreen_get_prop_u32(dev,
+ 						 "touchscreen-fuzz-pressure",
++						 settings,
+ 						 input_abs_get_fuzz(input, axis),
+ 						 &fuzz);
+ 	if (data_present)
+@@ -122,28 +203,28 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+ 	prop->max_x = input_abs_get_max(input, axis_x);
+ 	prop->max_y = input_abs_get_max(input, axis_y);
+ 
+-	prop->invert_x =
+-		device_property_read_bool(dev, "touchscreen-inverted-x");
++	prop->invert_x = touchscreen_property_read_bool(dev, "touchscreen-inverted-x",
++							settings);
+ 	if (prop->invert_x) {
+ 		absinfo = &input->absinfo[axis_x];
+ 		absinfo->maximum -= absinfo->minimum;
+ 		absinfo->minimum = 0;
+ 	}
+ 
+-	prop->invert_y =
+-		device_property_read_bool(dev, "touchscreen-inverted-y");
++	prop->invert_y = touchscreen_property_read_bool(dev, "touchscreen-inverted-y",
++							settings);
+ 	if (prop->invert_y) {
+ 		absinfo = &input->absinfo[axis_y];
+ 		absinfo->maximum -= absinfo->minimum;
+ 		absinfo->minimum = 0;
+ 	}
+ 
+-	prop->swap_x_y =
+-		device_property_read_bool(dev, "touchscreen-swapped-x-y");
++	prop->swap_x_y = touchscreen_property_read_bool(dev, "touchscreen-swapped-x-y",
++							settings);
+ 	if (prop->swap_x_y)
+ 		swap(input->absinfo[axis_x], input->absinfo[axis_y]);
+ }
+-EXPORT_SYMBOL(touchscreen_parse_properties);
++EXPORT_SYMBOL(touchscreen_parse_properties_with_settings);
+ 
+ static void
+ touchscreen_apply_prop_to_x_y(const struct touchscreen_properties *prop,
+diff --git a/include/linux/input/touchscreen.h b/include/linux/input/touchscreen.h
+index fe66e2b58f62..0023c6e368ba 100644
+--- a/include/linux/input/touchscreen.h
++++ b/include/linux/input/touchscreen.h
+@@ -17,8 +17,23 @@ struct touchscreen_properties {
+ 	bool swap_x_y;
+ };
+ 
+-void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+-				  struct touchscreen_properties *prop);
++void touchscreen_parse_properties_with_settings(struct input_dev *input,
++						bool multitouch,
++						struct touchscreen_properties *prop,
++						const char *settings);
++
++static inline void touchscreen_parse_properties(struct input_dev *input,
++						bool multitouch,
++						struct touchscreen_properties *prop)
++{
++	touchscreen_parse_properties_with_settings(input, multitouch, prop, NULL);
++}
++
++int touchscreen_property_read_u32(struct device *dev, const char *propname,
++				  const char *settings, u32 *val);
++
++bool touchscreen_property_read_bool(struct device *dev, const char *propname,
++				    const char *settings);
+ 
+ void touchscreen_set_mt_pos(struct input_mt_pos *pos,
+ 			    const struct touchscreen_properties *prop,
 -- 
 2.39.0
 
