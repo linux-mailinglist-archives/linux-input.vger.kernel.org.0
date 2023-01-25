@@ -2,99 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C01867B276
-	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 13:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4923067B348
+	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 14:27:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235404AbjAYMRb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Jan 2023 07:17:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53266 "EHLO
+        id S234279AbjAYN1H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Jan 2023 08:27:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235102AbjAYMRb (ORCPT
+        with ESMTP id S233619AbjAYN1H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Jan 2023 07:17:31 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B87715549;
-        Wed, 25 Jan 2023 04:17:29 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id BEC9B2000A;
-        Wed, 25 Jan 2023 12:17:26 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: [PATCH v2 2/2] HID: logitech-hidpp: Remove HIDPP_QUIRK_NO_HIDINPUT quirk
-Date:   Wed, 25 Jan 2023 13:17:23 +0100
-Message-Id: <20230125121723.3122-2-hadess@hadess.net>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230125121723.3122-1-hadess@hadess.net>
-References: <20230125121723.3122-1-hadess@hadess.net>
+        Wed, 25 Jan 2023 08:27:07 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905FC10AB1;
+        Wed, 25 Jan 2023 05:27:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id BC90BCE1ECE;
+        Wed, 25 Jan 2023 13:27:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF983C433D2;
+        Wed, 25 Jan 2023 13:27:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674653223;
+        bh=+yhXbFOH/NA0IXvnqojhd9YmW3lok9/Vt6OXKcPpStc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=WKPvIohrjz+xcwLbMwJeN6Q9fLX6YwQR0FsgYJXS72hSr5pI6DvwCWyfNhyEaUjQ6
+         7/32n5C4KYee1Ax7omY+/+Tc0Mgz8YOeNPeZ2JGJRJXPm0csSQOXELNuMS8Ub8fWX8
+         peb8MNA1oApqTpsrdfyr3WV/weo8iV/DU0ZU3CgemQ/0zXZhusxCb5hXHS/WbDyzuo
+         +Wx2h4jr4hryl1znQOTm/5ZfbxGTTl6xBPvYCfM2UI9mc2XjVxDTNSxQOywxPHxq0D
+         dxtbAhTlg7fpBda4jG88/RfK+Wmc0eSW2wgmuN8Vp0KKsRMQYx/cnq2pkG9jUTUqqR
+         0ZOuJdiNAJEpg==
+Date:   Wed, 25 Jan 2023 14:27:04 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Philippe Valembois <lephilousophe@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/1] HID: evision: Add preliminary support for EVision
+ keyboards
+In-Reply-To: <CAO-hwJJwUQJueutZ5z_4qwBb1Y4+-9h3ta0Xran=s6pJ_e3itQ@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2301251425190.1734@cbobk.fhfr.pm>
+References: <20221224121814.11709-1-lephilousophe@gmail.com> <CAO-hwJJwUQJueutZ5z_4qwBb1Y4+-9h3ta0Xran=s6pJ_e3itQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-HIDPP_QUIRK_NO_HIDINPUT isn't used by any devices but still happens to
-work as HIDPP_QUIRK_DELAYED_INIT is defined to the same value. Remove
-HIDPP_QUIRK_NO_HIDINPUT and use HIDPP_QUIRK_DELAYED_INIT everywhere
-instead.
+On Mon, 23 Jan 2023, Benjamin Tissoires wrote:
 
-Tested on a T650 which requires that quirk, and a number of unifying and
-Bluetooth devices that don't.
+> > From: Philippe Valembois <lephilousophe@users.noreply.github.com>
+> 
+> Jiri, I have a doubt. Do we accept emails from users.noreply.github.com?
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
- drivers/hid/hid-logitech-hidpp.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+From quick search in github documentation, this seems to be a blackhole 
+email address, right?
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 31d1fc23a435..ec388e436b6a 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -71,7 +71,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
- /* bits 2..20 are reserved for classes */
- /* #define HIDPP_QUIRK_CONNECT_EVENTS		BIT(21) disabled */
- #define HIDPP_QUIRK_WTP_PHYSICAL_BUTTONS	BIT(22)
--#define HIDPP_QUIRK_NO_HIDINPUT			BIT(23)
-+#define HIDPP_QUIRK_DELAYED_INIT		BIT(23)
- #define HIDPP_QUIRK_FORCE_OUTPUT_REPORTS	BIT(24)
- #define HIDPP_QUIRK_UNIFYING			BIT(25)
- #define HIDPP_QUIRK_HIDPP_WHEELS		BIT(26)
-@@ -87,8 +87,6 @@ MODULE_PARM_DESC(disable_tap_to_click,
- 					 HIDPP_CAPABILITY_HIDPP20_HI_RES_SCROLL | \
- 					 HIDPP_CAPABILITY_HIDPP20_HI_RES_WHEEL)
- 
--#define HIDPP_QUIRK_DELAYED_INIT		HIDPP_QUIRK_NO_HIDINPUT
--
- #define HIDPP_CAPABILITY_HIDPP10_BATTERY	BIT(0)
- #define HIDPP_CAPABILITY_HIDPP20_BATTERY	BIT(1)
- #define HIDPP_CAPABILITY_BATTERY_MILEAGE	BIT(2)
-@@ -4001,7 +3999,7 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
- 	if (hidpp->capabilities & HIDPP_CAPABILITY_HI_RES_SCROLL)
- 		hi_res_scroll_enable(hidpp);
- 
--	if (!(hidpp->quirks & HIDPP_QUIRK_NO_HIDINPUT) || hidpp->delayed_input)
-+	if (!(hidpp->quirks & HIDPP_QUIRK_DELAYED_INIT) || hidpp->delayed_input)
- 		/* if the input nodes are already created, we can stop now */
- 		return;
- 
-@@ -4238,7 +4236,7 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		hid_hw_close(hdev);
- 		hid_hw_stop(hdev);
- 
--		if (hidpp->quirks & HIDPP_QUIRK_NO_HIDINPUT)
-+		if (hidpp->quirks & HIDPP_QUIRK_DELAYED_INIT)
- 			connect_mask &= ~HID_CONNECT_HIDINPUT;
- 
- 		/* Now export the actual inputs and hidraw nodes to the world */
+If so, I'd much prefer to have a real e-mail address there, in order to 
+make sure the author / signoff holders can be reached in the future if 
+there are any concerns regarding the patch.
+
+The e-mail address disclosure concern is moot as soon as the emaill with 
+the patch hits LKML anyway.
+
+Thanks,
+
 -- 
-2.39.1
+Jiri Kosina
+SUSE Labs
 
