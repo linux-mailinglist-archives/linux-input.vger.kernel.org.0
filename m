@@ -2,65 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6979D67AF7F
-	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 11:19:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6542267AF8D
+	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 11:22:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234805AbjAYKTI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Jan 2023 05:19:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57054 "EHLO
+        id S235521AbjAYKWz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Jan 2023 05:22:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230174AbjAYKTH (ORCPT
+        with ESMTP id S235493AbjAYKWy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Jan 2023 05:19:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB13237541
-        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 02:18:19 -0800 (PST)
+        Wed, 25 Jan 2023 05:22:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8517638E99
+        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 02:22:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674641899;
+        s=mimecast20190719; t=1674642126;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=TlcjdODWqojRJNrRfpiByy7Z0dDf4IDNUwL8/r9qais=;
-        b=M4lnZ41QcP2jTTLSznAdwpQ0WF1aKcn4kSVnaFG+kOvqCScGdA7aWO6tDYJd0rEe43HiU2
-        XdScODBIdim5cEibD+WWVb2TA0ehCBkVKhXa27hwFwwuuNbEkKVzb9iuaIF1/NHKaH5s5R
-        H3PEbqErXnx836+cyrc/QulH+VLXyXs=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=89IL5nu5A2pzN0EnC6g6HKyleu+Olf0iNi7gGVlHd5c=;
+        b=GB6x9Xn1tAwJzRGbskebY8/4gIAN29cXcVRkTc5z2vTwqCPrMc0Gpr8h99X/tDn5y0eqts
+        SmEx9jHQmUhN2t1lq946npadmPpS1m1mSjEZMfNq41QgYRF71GUbtUVrxyWsSC4wVlDLNY
+        Ma8vYBmnis9K5XIjvXAPddSvHRjBaMw=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-232-ENuyWoHJN7q6U2JHVxdrxw-1; Wed, 25 Jan 2023 05:18:17 -0500
-X-MC-Unique: ENuyWoHJN7q6U2JHVxdrxw-1
-Received: by mail-yb1-f197.google.com with SMTP id u186-20020a2560c3000000b007c8e2cf3668so19463606ybb.14
-        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 02:18:17 -0800 (PST)
+ us-mta-65-4Q8Lf52FORyvEjsvkc0ysQ-1; Wed, 25 Jan 2023 05:22:05 -0500
+X-MC-Unique: 4Q8Lf52FORyvEjsvkc0ysQ-1
+Received: by mail-yb1-f198.google.com with SMTP id k15-20020a5b0a0f000000b007eba3f8e3baso19197926ybq.4
+        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 02:22:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TlcjdODWqojRJNrRfpiByy7Z0dDf4IDNUwL8/r9qais=;
-        b=N437wl1LPz/9Lp5VBh//kw12pwtvQloTk3QPC3XZFzVOm3hby9XMv3cySP96xyDRMD
-         k7vHLxDJvu3evo4RLwnuGBooYxshms0pZywZAeM08MTphjAXh+TUer8cUQ6MNc226S+O
-         O/EWACcjFy2jGjgWOGfFCMZfY0EU2yYvi3tsHZhWWPbieR/27soVc/Ge6ULv52p6yaek
-         LA5OjFarwyJ9bGuwm+cedzx3co60LRHQYLbxgafAHBsuAAtn9k81ocQvh31dcr7j7vRV
-         mMQUZINw3j2ed8IHktrZ3vSojF9S/O7yjx454t1VyoHgfOETOfvvi1lRiCEmrXUJIgXJ
-         ld8w==
-X-Gm-Message-State: AFqh2kqQuhSGD9LQeqwknA/gC5aiXNfjE7FJ9VZFgLBh5WAdpdB8zt3S
-        9MWye9VkPycaH5rYng9yxOb8tkDPoCA1K2mw2jVpNUHaw54cullRlEo5+ZfUKjYdVpww9r6Jypb
-        phcCHWSN2cgazFtb4xZYvPgOvWH+seomD/FEL5xo=
-X-Received: by 2002:a25:b94d:0:b0:801:e503:dd0c with SMTP id s13-20020a25b94d000000b00801e503dd0cmr1633461ybm.384.1674641897008;
-        Wed, 25 Jan 2023 02:18:17 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvfnJiCb9f0wuIflc1pIHfh46sevA0ev0xwdmK+b5QMrMqam704CgWlQm/C+Aao1/PX9VMQgFqBHlFUTsiUTpE=
-X-Received: by 2002:a25:b94d:0:b0:801:e503:dd0c with SMTP id
- s13-20020a25b94d000000b00801e503dd0cmr1633454ybm.384.1674641896780; Wed, 25
- Jan 2023 02:18:16 -0800 (PST)
+        bh=89IL5nu5A2pzN0EnC6g6HKyleu+Olf0iNi7gGVlHd5c=;
+        b=g5jE4MzRq13hZew2pG7Z9hm+jyV2eS1qSy5yacAMLaGgXMiuD4qwLRkM8bn9ymcZjx
+         +y0KlnvrNnSM3/7ItcBL/IKo4GD37SuHT/wNO1udkL1KkiyeP8fkHIUOnxSZgyw/gFPa
+         7y2bScNA99j+30Dqpemj9fzmwi4V2gyUg0KCl4insspDa+U9gmoRa6zEFfN8OX8IdgVl
+         EmmgI/p1MHiNZyzvqFz8ZMw0oe+GsUkWRAadAkzSpoNlPFxW1G9/0vy6wIsBS32Bmdt6
+         5owUhPyPresvu8fTeGJwLoBXqaMEaqRqf6bK32tjmV+jNE2varc9rFk26HKZIjazpx+E
+         mAwQ==
+X-Gm-Message-State: AFqh2kqvIPJnTuUTlmSTjXldhTt5pU6u+Lv2249GvUzv+HV/eY1AtpqE
+        wInYdGEa68S8vhJBdLEpY2sIoABRB9G1SXyaFbnYRRWUQhjsoOLKMBEHA3dS4aBjE2+0V2sSYI0
+        Px6GDp431sbdBWjR2/+v/JGMmtDnQcIjivywcWXY=
+X-Received: by 2002:a25:1856:0:b0:732:edd2:4138 with SMTP id 83-20020a251856000000b00732edd24138mr2324888yby.448.1674642124662;
+        Wed, 25 Jan 2023 02:22:04 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvddEmRAkvvDknAyoKqnRzba9kixGoTQM2pl9vXy3pB4NOuX4HZrLEyws7vvL9+LlW1co9yqu2FEChxNddAuXI=
+X-Received: by 2002:a25:1856:0:b0:732:edd2:4138 with SMTP id
+ 83-20020a251856000000b00732edd24138mr2324882yby.448.1674642124466; Wed, 25
+ Jan 2023 02:22:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20221220092207.428640-1-hadess@hadess.net> <20221220092207.428640-2-hadess@hadess.net>
- <a75e34efce22ab1de8f0a2e247294a441e710193.camel@hadess.net>
-In-Reply-To: <a75e34efce22ab1de8f0a2e247294a441e710193.camel@hadess.net>
+References: <20230116130937.391441-1-hadess@hadess.net>
+In-Reply-To: <20230116130937.391441-1-hadess@hadess.net>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 25 Jan 2023 11:18:05 +0100
-Message-ID: <CAO-hwJJb+hkCpqbiF0Zw8Ot4aCJDpgvMXpVS6rCoMe7QWkhiCg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] HID: logitech-hidpp: Don't restart communication if
- not necessary
+Date:   Wed, 25 Jan 2023 11:21:53 +0100
+Message-ID: <CAO-hwJLFt185LS5ePO3Wr=L1VULdAHKQC3oXvLAS9GC0-UraFQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: logitech-hidpp: Hard-code HID++ 1.0 fast scroll support
 To:     Bastien Nocera <hadess@hadess.net>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jiri Kosina <jikos@kernel.org>,
@@ -78,133 +76,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 6:20 PM Bastien Nocera <hadess@hadess.net> wrote:
+On Mon, Jan 16, 2023 at 2:09 PM Bastien Nocera <hadess@hadess.net> wrote:
 >
-> On Tue, 2022-12-20 at 10:22 +0100, Bastien Nocera wrote:
-> > Don't stop and restart communication with the device unless we need
-> > to
-> > modify the connect flags used because of a device quirk.
+> HID++ 1.0 devices only export whether Fast Scrolling is enabled, not
+> whether they are capable of it. Reinstate the original quirks for the 3
+> supported mice so fast scrolling works again on those devices.
 >
-> FIWW, Andreas Bergmeier told me off-list that this fixed their problem
-> with the Litra Glow not connecting properly.
->
-> Would be great to have reviews on this and my other HID++ patches.
+> Fixes: 908d325 ("HID: logitech-hidpp: Detect hi-res scrolling support")
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=216903
+> Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> ---
 
-Sigh. I reviewed the patches just now (well, v2 at least), and thought
-I better give a shot at it before merging, and it turns out that this
-patch breaks the Unifying receivers.
+Applied to for-6.3/logitech
 
-Without it, each device presented to the user space has a proper name:
-
-logitech-hidpp-device 0003:046D:4041.001C: input,hidraw15: USB HID
-v1.11 Keyboard [Logitech MX Master] on usb-0000:01:00.0-4/input2:5
-
-But with it, I get:
-
-logitech-hidpp-device 0003:046D:4041.0024: input,hidraw8: USB HID
-v1.11 Keyboard [Logitech Wireless Device PID:4041] on
-usb-0000:00:14.0-8.2.4/input2:5
-
-This is because we present the device to the userspace before being
-able to fetch the name from the receiver.
-
-I think we should make that connect/disconnect a special case of the
-receivers too. Or maybe if the bus is not Bluetooth or USB, do the
-disconnect/reconnect.
+Thanks!
 
 Cheers,
 Benjamin
 
+>  drivers/hid/hid-logitech-hidpp.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 >
-> Cheers
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index abf2c95e4d0b..fa026e9107c5 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -77,6 +77,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
+>  #define HIDPP_QUIRK_HIDPP_WHEELS               BIT(26)
+>  #define HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS     BIT(27)
+>  #define HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS BIT(28)
+> +#define HIDPP_QUIRK_HI_RES_SCROLL_1P0          BIT(29)
 >
-> > ---
-> >  drivers/hid/hid-logitech-hidpp.c | 31 +++++++++++++++++++-----------
-> > -
-> >  1 file changed, 19 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
-> > logitech-hidpp.c
-> > index 7f9187201913..b4e4a8c79c75 100644
-> > --- a/drivers/hid/hid-logitech-hidpp.c
-> > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -4310,6 +4310,7 @@ static int hidpp_probe(struct hid_device *hdev,
-> > const struct hid_device_id *id)
-> >         bool connected;
-> >         unsigned int connect_mask = HID_CONNECT_DEFAULT;
-> >         struct hidpp_ff_private_data data;
-> > +       bool will_restart = false;
-> >
-> >         /* report_fixup needs drvdata to be set before we call
-> > hid_parse */
-> >         hidpp = devm_kzalloc(&hdev->dev, sizeof(*hidpp), GFP_KERNEL);
-> > @@ -4360,6 +4361,9 @@ static int hidpp_probe(struct hid_device *hdev,
-> > const struct hid_device_id *id)
-> >                         return ret;
-> >         }
-> >
-> > +       if (hidpp->quirks & HIDPP_QUIRK_DELAYED_INIT)
-> > +               will_restart = true;
-> > +
-> >         INIT_WORK(&hidpp->work, delayed_work_cb);
-> >         mutex_init(&hidpp->send_mutex);
-> >         init_waitqueue_head(&hidpp->wait);
-> > @@ -4374,7 +4378,7 @@ static int hidpp_probe(struct hid_device *hdev,
-> > const struct hid_device_id *id)
-> >          * Plain USB connections need to actually call start and open
-> >          * on the transport driver to allow incoming data.
-> >          */
-> > -       ret = hid_hw_start(hdev, 0);
-> > +       ret = hid_hw_start(hdev, will_restart ? 0 : connect_mask);
-> >         if (ret) {
-> >                 hid_err(hdev, "hw start failed\n");
-> >                 goto hid_hw_start_fail;
-> > @@ -4411,6 +4415,7 @@ static int hidpp_probe(struct hid_device *hdev,
-> > const struct hid_device_id *id)
-> >                         hidpp->wireless_feature_index = 0;
-> >                 else if (ret)
-> >                         goto hid_hw_init_fail;
-> > +               ret = 0;
-> >         }
-> >
-> >         if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
-> > @@ -4425,19 +4430,21 @@ static int hidpp_probe(struct hid_device
-> > *hdev, const struct hid_device_id *id)
-> >
-> >         hidpp_connect_event(hidpp);
-> >
-> > -       /* Reset the HID node state */
-> > -       hid_device_io_stop(hdev);
-> > -       hid_hw_close(hdev);
-> > -       hid_hw_stop(hdev);
-> > +       if (will_restart) {
-> > +               /* Reset the HID node state */
-> > +               hid_device_io_stop(hdev);
-> > +               hid_hw_close(hdev);
-> > +               hid_hw_stop(hdev);
-> >
-> > -       if (hidpp->quirks & HIDPP_QUIRK_NO_HIDINPUT)
-> > -               connect_mask &= ~HID_CONNECT_HIDINPUT;
-> > +               if (hidpp->quirks & HIDPP_QUIRK_NO_HIDINPUT)
-> > +                       connect_mask &= ~HID_CONNECT_HIDINPUT;
-> >
-> > -       /* Now export the actual inputs and hidraw nodes to the world
-> > */
-> > -       ret = hid_hw_start(hdev, connect_mask);
-> > -       if (ret) {
-> > -               hid_err(hdev, "%s:hid_hw_start returned error\n",
-> > __func__);
-> > -               goto hid_hw_start_fail;
-> > +               /* Now export the actual inputs and hidraw nodes to
-> > the world */
-> > +               ret = hid_hw_start(hdev, connect_mask);
-> > +               if (ret) {
-> > +                       hid_err(hdev, "%s:hid_hw_start returned
-> > error\n", __func__);
-> > +                       goto hid_hw_start_fail;
-> > +               }
-> >         }
-> >
-> >         if (hidpp->quirks & HIDPP_QUIRK_CLASS_G920) {
+>  /* These are just aliases for now */
+>  #define HIDPP_QUIRK_KBD_SCROLL_WHEEL HIDPP_QUIRK_HIDPP_WHEELS
+> @@ -3472,14 +3473,8 @@ static int hidpp_initialize_hires_scroll(struct hidpp_device *hidpp)
+>                         hid_dbg(hidpp->hid_dev, "Detected HID++ 2.0 hi-res scrolling\n");
+>                 }
+>         } else {
+> -               struct hidpp_report response;
+> -
+> -               ret = hidpp_send_rap_command_sync(hidpp,
+> -                                                 REPORT_ID_HIDPP_SHORT,
+> -                                                 HIDPP_GET_REGISTER,
+> -                                                 HIDPP_ENABLE_FAST_SCROLL,
+> -                                                 NULL, 0, &response);
+> -               if (!ret) {
+> +               /* We cannot detect fast scrolling support on HID++ 1.0 devices */
+> +               if (hidpp->quirks & HIDPP_QUIRK_HI_RES_SCROLL_1P0) {
+>                         hidpp->capabilities |= HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL;
+>                         hid_dbg(hidpp->hid_dev, "Detected HID++ 1.0 fast scroll\n");
+>                 }
+> @@ -4296,9 +4291,15 @@ static const struct hid_device_id hidpp_devices[] = {
+>           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
+>                 USB_DEVICE_ID_LOGITECH_T651),
+>           .driver_data = HIDPP_QUIRK_CLASS_WTP },
+> +       { /* Mouse Logitech Anywhere MX */
+> +         LDJ_DEVICE(0x1017), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
+>         { /* Mouse logitech M560 */
+>           LDJ_DEVICE(0x402d),
+>           .driver_data = HIDPP_QUIRK_DELAYED_INIT | HIDPP_QUIRK_CLASS_M560 },
+> +       { /* Mouse Logitech M705 (firmware RQM17) */
+> +         LDJ_DEVICE(0x101b), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
+> +       { /* Mouse Logitech Performance MX */
+> +         LDJ_DEVICE(0x101a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
+>         { /* Keyboard logitech K400 */
+>           LDJ_DEVICE(0x4024),
+>           .driver_data = HIDPP_QUIRK_CLASS_K400 },
+> --
+> 2.39.0
 >
 
