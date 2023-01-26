@@ -2,204 +2,276 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A779C67BFB9
-	for <lists+linux-input@lfdr.de>; Wed, 25 Jan 2023 23:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E973D67C176
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 01:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235859AbjAYWO3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Jan 2023 17:14:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33022 "EHLO
+        id S235880AbjAZAZW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Jan 2023 19:25:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235895AbjAYWO3 (ORCPT
+        with ESMTP id S230177AbjAZAZU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Jan 2023 17:14:29 -0500
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 117255DC36;
-        Wed, 25 Jan 2023 14:14:23 -0800 (PST)
-Received: by mail-oo1-f41.google.com with SMTP id d16-20020a4a5210000000b004f23d1aea58so38627oob.3;
-        Wed, 25 Jan 2023 14:14:23 -0800 (PST)
+        Wed, 25 Jan 2023 19:25:20 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7580951C74
+        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 16:25:17 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id rl14so1169126ejb.2
+        for <linux-input@vger.kernel.org>; Wed, 25 Jan 2023 16:25:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=diag.uniroma1.it; s=google;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xFaiipMBU1uJ4zwdWo9cgaJvki2ZRxBo3KW9cfRmv9M=;
+        b=Hl3DKwSwgR3I3r/InzwE1XijXClvUl/vlUPGr7XyMto0Hv/eyGxl245Rj0wRXoG1PK
+         y0Fj2t47C3UaWp+qgUzD0ADkVsG5J3ymNKZTTaWCQ/G0h14t62pMGk4C1CCxEc3yrQRJ
+         auzigJh4gN1w6c+hicWDOe05041AJ+vP/7DcQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TRsSGAl2CGcYFcqgB1OeEgrNSIUIRdd1BXIPULvuyvI=;
-        b=D9DiXb9c4OqE/DjkRaBlswSX3xb9MJM5R+fK31hcYMsZbukcajAfxpkPeDGU83MPVi
-         D7z9kUcVJ88pcMTUF2rbBZKxgvt6zW2JE1M2O21NA0ip4z5ksphEqc35HPrXydeGNxgx
-         cZ4+wCwoOya6rDNWDFmL73yk9UwnosPTwpYO+/HQiXYag9Ls0or7QYMmsIyKCy3/VElB
-         Tn2LxyuMoKUe+XG6dnHGZ0DbG6mVG1P0Txy930oK+HQcRkl9bH20Q42+4ZVexLE+uM0r
-         Dxo1kPSirNeDn2izauo6L9MAR230rIQoptXahDKBxTzaeQ6ycPiI8oZWq9bN8kJalwYo
-         kiPA==
-X-Gm-Message-State: AFqh2kqZiwNcy62m5r5Qz9mBIWUupSaZkKcFYLRHBlFYEdCxo2pl/EZe
-        JbsM7t+ZDvfgMLlzgDhxUFep4o3R7g==
-X-Google-Smtp-Source: AMrXdXs889ebHzWIpbHPxUkkawgOwkSLjH7nH2aak7Zb4nrjTTK9awgrKpOifPbczyp1GaTDyJjadg==
-X-Received: by 2002:a4a:c189:0:b0:4f3:6e99:e6c1 with SMTP id w9-20020a4ac189000000b004f36e99e6c1mr15181059oop.4.1674684862253;
-        Wed, 25 Jan 2023 14:14:22 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id x1-20020a4aaa01000000b00499527def25sm2337009oom.47.2023.01.25.14.14.21
+        bh=xFaiipMBU1uJ4zwdWo9cgaJvki2ZRxBo3KW9cfRmv9M=;
+        b=UX+07B3c+s0E9v4RrJpRjDGlbXdV78FoS7iCxL3ECgmpQUUa9sAPNXNSH8VWWYmKQk
+         BXsPPqnEz8HlaiE88G7mkOTBHz8frp6ZfEU2eNHp4o2f498QY0483ccGH8sfFQAzTuDt
+         /S4rW06wsQ+iRNrWIxxOKTKtDuTs2Ru2dtDogfcD0LsFIWlC+KIt9+E7EXyY8+dywJHW
+         8uysr1oZklvyVonvoqhzuhHfiv1IV3v52MyNh/sKTI1qcPs32Gawzppv47di+AsoUfTo
+         9rETYvlnyGO6Jd5ZOjhMUc+wpkHKCb65yz6Oe9u2eXtY2OrmUUuoByPgopaU8SmAyl+D
+         InEQ==
+X-Gm-Message-State: AFqh2krlvyGhtNgv7mHgRZfsiOl6jBic31HGjcMggjGnGBMqT6tOQ/N3
+        nZFX+cwHuO+2c1nt6DnEpXM35msMfPwYbA4m28kx8A==
+X-Google-Smtp-Source: AMrXdXtAbpyosNUXc10O3CRqSFTkmLTWSb4hPrjbitpAVff524BGeizRpPaCJt8+hbiFiuKS8ObZig==
+X-Received: by 2002:a17:907:6f18:b0:84d:4e4f:1f85 with SMTP id sy24-20020a1709076f1800b0084d4e4f1f85mr35195658ejc.59.1674692715965;
+        Wed, 25 Jan 2023 16:25:15 -0800 (PST)
+Received: from [192.168.17.2] (wolkje-127.labs.vu.nl. [130.37.198.127])
+        by smtp.gmail.com with ESMTPSA id jy12-20020a170907762c00b008784e808553sm555707ejc.6.2023.01.25.16.25.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 14:14:21 -0800 (PST)
-Received: (nullmailer pid 3058167 invoked by uid 1000);
-        Wed, 25 Jan 2023 22:14:21 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: input: azoteq: Fix differing types
-Date:   Wed, 25 Jan 2023 16:14:16 -0600
-Message-Id: <20230125221416.3058051-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.0
+        Wed, 25 Jan 2023 16:25:15 -0800 (PST)
+From:   Pietro Borrello <borrello@diag.uniroma1.it>
+Subject: [PATCH 0/5] HID: manually unregister leds on device removal to prevent UAFs
+Date:   Thu, 26 Jan 2023 00:24:53 +0000
+Message-Id: <20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFXI0WMC/x2NSwrDMAwFrxK0rsB2PyG9SsnCHyUWpG6RklIIu
+ XvtLod5w9tBSZgU7t0OQh9WfpUK9tRBzL7MhJwqgzPubKy7YuaEWxGaWVcSXCgpXmKYbr0ZBrIJ
+ ahm8EgbxJebWPn2bNvEWmvj7v3uMx/EDqjNKDX4AAAA=
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hanno Zulla <kontakt@hanno.de>,
+        Carlo Caione <carlo@endlessm.com>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Sven Eckelmann <sven@narfation.org>
+Cc:     linux-leds@vger.kernel.org,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+X-Mailer: b4 0.11.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674692715; l=8938;
+ i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id;
+ bh=QdIkage8duwd9pwha6zu89n0T8tDTVZRBDxoP9kF9Mw=;
+ b=fXzHwN750DnttJAeCO91BYVF2+9g4c/zKjp62LHyu93bNaic87TmNnvH3RVlkdCZaqknn5MIW1FG
+ 2n8lM66QAOCDnfCOIAR8TSfyFf0ngp502PN2XMF+eqbMF1H9YGg2
+X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519;
+ pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-'azoteq,ati-base' and 'azoteq,thresh' properties are defined in multiple
-bindings, but have differing types defined. Both 'uint32' and
-'uint32-array' are used. Unify these to use 'uint32-array' everywhere.
+I noticed a recurring pattern is present in multiple hid devices in the
+Linux tree, where the LED controller of a device schedules a work_struct
+to interact with the hardware.
+The work_struct is embedded in the device structure and thus, is freed
+at device removal.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
+The issue is that a LED worker may be scheduled by a timer concurrently
+with device removal, causing the work_struct to be accessed after having
+been freed.
+I was able to trigger the issue in hid-bigbenff.c and hid-asus.c 
+where the work_structs may be scheduled by the LED controller
+while the device is disconnecting, triggering use-after-frees.
+I can attach the reproducer, but it's very simple USB configuration, 
+using the /dev/raw-gadget interface with some more USB interactions 
+to manage LEDs configuration and pass checks in asus_kbd_init() 
+and asus_kbd_get_functions() in case of hid-asus.c.
+I triggered the issue by connecting a device and immediately 
+disconnecting it, so that the remove function runs before the LED one
+which remains pending.
+
+More drivers have the same pattern (hid-lg-g15.c, hid-playstation.c,
+hid-sony.c) but I wasn't able to properly pass the right descriptors
+to trigger the led configurations needed to trigger the workers.
+Some other drivers manually unregister at removal (hid-corsair.c,
+hid-gt683r.c, hid-lenovo.c) since they do not use the managed
+interface, which is safe, to my understanding.
+Also, a similar pattern is present with callbacks which schedule
+a worker originating from input_ff_create_memless() (e.g.,
+in hid-bigbenff.c) but in these cases, I wasn't able to trigger
+the race condition with the event handling to schedule the worker
+during device removal. However, I have no experience with the USB
+protocol and I'm not able to say that they cannot be triggered.
+
+I am currently wondering if this is due to some emulation of the
+/dev/raw-gadget interface or if it's effectively an issue with how each
+device manages resource removal.
+But I wonder why syzkaller didn't find any crash while fuzzing the
+interface with upstream-usb.config, as they seem pretty
+straightforward to trigger.
+Configuring the kernel with CONFIG_DEBUG_OBJECTS, it emits
+a warning in debug_check_no_obj_freed, which makes it clear that
+device removal is freeing resources in use.
+KASAN detects them as use-after-free.
+
+I am attaching multiple patches for all the drivers I suspect the bug
+is present.
+The proposed patches unregister the LED controllers before removing the
+device itself.
+
+I attach the (partial for brevity) ODEBUG dumps:
+
+```hid-bigbenff.c
+[   37.803135][ T1170] usb 1-1: USB disconnect, device number 2
+[   37.827979][ T1170] ODEBUG: free active (active state 0) object
+type: work_struct hint: bigben_worker+0x0/0x860
+[   37.829634][ T1170] WARNING: CPU: 0 PID: 1170 at
+lib/debugobjects.c:505 debug_check_no_obj_freed+0x43a/0x630
+[   37.830904][ T1170] Modules linked in:
+[   37.831413][ T1170] CPU: 0 PID: 1170 Comm: kworker/0:3 Not tainted
+6.1.0-rc4-dirty #43
+[   37.832465][ T1170] Hardware name: QEMU Standard PC (i440FX + PIIX,
+1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+[   37.833751][ T1170] Workqueue: usb_hub_wq hub_event
+[   37.834409][ T1170] RIP: 0010:debug_check_no_obj_freed+0x43a/0x630
+[   37.835218][ T1170] Code: 48 89 ef e8 28 82 58 ff 49 8b 14 24 4c 8b
+45 00 48 c7 c7 40 5f 09 87 48 c7 c6 60 5b 09 87 89 d9 4d 89 f9 31 c0
+e8 46 25 ef fe <0f> 0b 4c 8b 64 24 20 48 ba 00 00 00 00 00 fc ff df ff
+05 4f 7c 17
+[   37.837667][ T1170] RSP: 0018:ffffc900006fee60 EFLAGS: 00010246
+[   37.838503][ T1170] RAX: 0d2d19ffcded3d00 RBX: 0000000000000000
+RCX: ffff888117fc9b00
+[   37.839519][ T1170] RDX: 0000000000000000 RSI: 0000000000000000
+RDI: 0000000000000000
+[   37.840570][ T1170] RBP: ffffffff86e88380 R08: ffffffff8130793b
+R09: fffff520000dfd85
+[   37.841618][ T1170] R10: fffff520000dfd85 R11: 0000000000000000
+R12: ffffffff87095fb8
+[   37.842649][ T1170] R13: ffff888117770ad8 R14: ffff888117770acc
+R15: ffffffff852b7420
+[   37.843728][ T1170] FS:  0000000000000000(0000)
+GS:ffff8881f6600000(0000) knlGS:0000000000000000
+[   37.844877][ T1170] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   37.845749][ T1170] CR2: 00007f992eaab380 CR3: 000000011834b000
+CR4: 00000000001006f0
+[   37.846794][ T1170] Call Trace:
+[   37.847245][ T1170]  <TASK>
+[   37.847643][ T1170]  slab_free_freelist_hook+0x89/0x160
+[   37.848409][ T1170]  ? devres_release_all+0x262/0x350
+[   37.849156][ T1170]  __kmem_cache_free+0x71/0x110
+[   37.849829][ T1170]  devres_release_all+0x262/0x350
+[   37.850478][ T1170]  ? devres_release+0x90/0x90
+[   37.851118][ T1170]  device_release_driver_internal+0x5e5/0x8a0
+[   37.851944][ T1170]  bus_remove_device+0x2ea/0x400
+[   37.852611][ T1170]  device_del+0x64f/0xb40
+[   37.853212][ T1170]  ? kill_device+0x150/0x150
+[   37.853831][ T1170]  ? print_irqtrace_events+0x1f0/0x1f0
+[   37.854564][ T1170]  hid_destroy_device+0x66/0x100
+[   37.855226][ T1170]  usbhid_disconnect+0x9a/0xc0
+[   37.855887][ T1170]  usb_unbind_interface+0x1e1/0x890
+```
+
+``` hid-asus.c
+[   77.409878][ T1169] usb 1-1: USB disconnect, device number 2
+[   77.423606][ T1169] ODEBUG: free active (active state 0) object
+type: work_struct hint: asus_kbd_backlight_work+0x0/0x2c0
+[   77.425222][ T1169] WARNING: CPU: 0 PID: 1169 at
+lib/debugobjects.c:505 debug_check_no_obj_freed+0x43a/0x630
+[   77.426599][ T1169] Modules linked in:
+[   77.427322][ T1169] CPU: 0 PID: 1169 Comm: kworker/0:3 Not tainted
+6.1.0-rc4-dirty #43
+[   77.428404][ T1169] Hardware name: QEMU Standard PC (i440FX + PIIX,
+1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+[   77.429644][ T1169] Workqueue: usb_hub_wq hub_event
+[   77.430296][ T1169] RIP: 0010:debug_check_no_obj_freed+0x43a/0x630
+[   77.431142][ T1169] Code: 48 89 ef e8 28 82 58 ff 49 8b 14 24 4c 8b
+45 00 48 c7 c7 40 5f 09 87 48 c7 c6 60 5b 09 87 89 d9 4d 89 f9 31 c0
+e8 46 25 ef fe <0f> 0b 4c 8b 64 24 20 48 ba 00 00 00 00 00 fc ff df ff
+05 4f 7c 17
+[   77.433691][ T1169] RSP: 0018:ffffc9000069ee60 EFLAGS: 00010246
+[   77.434470][ T1169] RAX: b85d2b40c12d7600 RBX: 0000000000000000
+RCX: ffff888117a78000
+[   77.435507][ T1169] RDX: 0000000000000000 RSI: 0000000080000000
+RDI: 0000000000000000
+[   77.436521][ T1169] RBP: ffffffff86e88380 R08: ffffffff8130793b
+R09: ffffed103ecc4ed6
+[   77.437582][ T1169] R10: ffffed103ecc4ed6 R11: 0000000000000000
+R12: ffffffff87095fb8
+[   77.438593][ T1169] R13: ffff88810e348fe0 R14: ffff88810e348fd4
+R15: ffffffff852b5780
+[   77.439667][ T1169] FS:  0000000000000000(0000)
+GS:ffff8881f6600000(0000) knlGS:0000000000000000
+[   77.440842][ T1169] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   77.441688][ T1169] CR2: 00007ffc05495ff0 CR3: 000000010cdf0000
+CR4: 00000000001006f0
+[   77.442720][ T1169] Call Trace:
+[   77.443167][ T1169]  <TASK>
+[   77.443555][ T1169]  slab_free_freelist_hook+0x89/0x160
+[   77.444302][ T1169]  ? devres_release_all+0x262/0x350
+[   77.444990][ T1169]  __kmem_cache_free+0x71/0x110
+[   77.445638][ T1169]  devres_release_all+0x262/0x350
+[   77.446309][ T1169]  ? devres_release+0x90/0x90
+[   77.446978][ T1169]  device_release_driver_internal+0x5e5/0x8a0
+[   77.447748][ T1169]  bus_remove_device+0x2ea/0x400
+[   77.448421][ T1169]  device_del+0x64f/0xb40
+[   77.448976][ T1169]  ? kill_device+0x150/0x150
+[   77.449577][ T1169]  ? print_irqtrace_events+0x1f0/0x1f0
+[   77.450307][ T1169]  hid_destroy_device+0x66/0x100
+[   77.450938][ T1169]  usbhid_disconnect+0x9a/0xc0
+```
+
+To: Jiri Kosina <jikos@kernel.org>
+To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To: Hanno Zulla <kontakt@hanno.de>
+To: Carlo Caione <carlo@endlessm.com>
+To: Pavel Machek <pavel@ucw.cz>
+To: Lee Jones <lee@kernel.org>
+To: Roderick Colenbrander <roderick.colenbrander@sony.com>
+To: Sven Eckelmann <sven@narfation.org>
+Cc: linux-leds@vger.kernel.org
+Cc: Cristiano Giuffrida <c.giuffrida@vu.nl>
+Cc: "Bos, H.J." <h.j.bos@vu.nl>
+Cc: Jakob Koschel <jkl820.git@gmail.com>
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Jiri Kosina <jkosina@suse.cz>
+Cc: Roderick Colenbrander <roderick@gaikai.com>
+Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
+
 ---
- .../bindings/input/azoteq,iqs7222.yaml        | 12 ++++---
- .../devicetree/bindings/input/iqs269a.yaml    | 34 +++++++++++--------
- .../devicetree/bindings/input/iqs626a.yaml    | 12 ++++---
- 3 files changed, 33 insertions(+), 25 deletions(-)
+Pietro Borrello (5):
+      HID: bigben_remove: manually unregister leds
+      HID: asus_remove: manually unregister led
+      HID: dualsense_remove: manually unregister leds
+      HID: dualshock4_remove: manually unregister leds
+      HID: sony_remove: manually unregister leds
 
-diff --git a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
-index 9ddba7f2e7aa..f2382a56884d 100644
---- a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
-+++ b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
-@@ -354,10 +354,11 @@ patternProperties:
-         description: Specifies the channel's ATI target.
- 
-       azoteq,ati-base:
--        $ref: /schemas/types.yaml#/definitions/uint32
--        multipleOf: 16
--        minimum: 0
--        maximum: 496
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        items:
-+          - multipleOf: 16
-+            minimum: 0
-+            maximum: 496
-         description: Specifies the channel's ATI base.
- 
-       azoteq,ati-mode:
-@@ -440,7 +441,8 @@ patternProperties:
-               slider gesture).
- 
-           azoteq,thresh:
--            $ref: /schemas/types.yaml#/definitions/uint32
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            maxItems: 1
-             description:
-               Specifies the threshold for the event. Valid entries range from
-               0-127 and 0-255 for proximity and touch events, respectively.
-diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
-index 3c430d38594f..4fa20f0f6847 100644
---- a/Documentation/devicetree/bindings/input/iqs269a.yaml
-+++ b/Documentation/devicetree/bindings/input/iqs269a.yaml
-@@ -334,9 +334,10 @@ patternProperties:
-           3: Full
- 
-       azoteq,ati-base:
--        $ref: /schemas/types.yaml#/definitions/uint32
--        enum: [75, 100, 150, 200]
--        default: 100
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        items:
-+          - enum: [75, 100, 150, 200]
-+            default: 100
-         description: Specifies the channel's ATI base.
- 
-       azoteq,ati-target:
-@@ -391,10 +392,11 @@ patternProperties:
- 
-         properties:
-           azoteq,thresh:
--            $ref: /schemas/types.yaml#/definitions/uint32
--            minimum: 0
--            maximum: 255
--            default: 10
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            items:
-+              - minimum: 0
-+                maximum: 255
-+                default: 10
-             description: Specifies the threshold for the event.
- 
-           linux,code: true
-@@ -408,10 +410,11 @@ patternProperties:
- 
-         properties:
-           azoteq,thresh:
--            $ref: /schemas/types.yaml#/definitions/uint32
--            minimum: 0
--            maximum: 255
--            default: 8
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            items:
-+              - minimum: 0
-+                maximum: 255
-+                default: 8
-             description: Specifies the threshold for the event.
- 
-           azoteq,hyst:
-@@ -432,10 +435,11 @@ patternProperties:
- 
-         properties:
-           azoteq,thresh:
--            $ref: /schemas/types.yaml#/definitions/uint32
--            minimum: 0
--            maximum: 255
--            default: 26
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            items:
-+              - minimum: 0
-+                maximum: 255
-+                default: 26
-             description: Specifies the threshold for the event.
- 
-           azoteq,hyst:
-diff --git a/Documentation/devicetree/bindings/input/iqs626a.yaml b/Documentation/devicetree/bindings/input/iqs626a.yaml
-index 7a27502095f3..dbd63d48605c 100644
---- a/Documentation/devicetree/bindings/input/iqs626a.yaml
-+++ b/Documentation/devicetree/bindings/input/iqs626a.yaml
-@@ -234,8 +234,9 @@ patternProperties:
-           about the available RUI options.
- 
-       azoteq,ati-base:
--        $ref: /schemas/types.yaml#/definitions/uint32
--        enum: [75, 100, 150, 200]
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        items:
-+          - enum: [75, 100, 150, 200]
-         description:
-           Specifies the channel's ATI base. The default value is a function
-           of the channel and the device's RUI.
-@@ -475,9 +476,10 @@ patternProperties:
- 
-         properties:
-           azoteq,thresh:
--            $ref: /schemas/types.yaml#/definitions/uint32
--            minimum: 0
--            maximum: 255
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            items:
-+              - minimum: 0
-+                maximum: 255
-             description: Specifies the threshold for the event.
- 
-           azoteq,hyst:
+ drivers/hid/hid-asus.c        | 1 +
+ drivers/hid/hid-bigbenff.c    | 5 +++++
+ drivers/hid/hid-playstation.c | 8 ++++++++
+ drivers/hid/hid-sony.c        | 8 ++++++++
+ 4 files changed, 22 insertions(+)
+---
+base-commit: 2241ab53cbb5cdb08a6b2d4688feb13971058f65
+change-id: 20230125-hid-unregister-leds-4cbf67099e1d
+
+Best regards,
 -- 
-2.39.0
-
+Pietro Borrello <borrello@diag.uniroma1.it>
