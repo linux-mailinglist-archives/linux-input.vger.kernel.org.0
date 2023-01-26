@@ -2,61 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2A5867CAF4
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 13:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 607D067CAF9
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 13:36:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236632AbjAZMcb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Jan 2023 07:32:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49908 "EHLO
+        id S236956AbjAZMg3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Jan 2023 07:36:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230233AbjAZMca (ORCPT
+        with ESMTP id S237251AbjAZMg2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Jan 2023 07:32:30 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2D149568
-        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:32:29 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id e19-20020a05600c439300b003db1cac0c1fso3140188wmn.5
-        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:32:29 -0800 (PST)
+        Thu, 26 Jan 2023 07:36:28 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94F8D6227F
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:36:24 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id q10so1633040wrm.4
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:36:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=/bNSq7yyd0Fn2CFk8JA2YspzkodNLpfvLBCK3Yp7urY=;
-        b=oum0aFT6waydlwgkxuNblpIgYLzAffKOlwHZFRBf593vlK/BANnDrFdlUS89AZ4me7
-         t7F6gSmf8fSgbwgpL7y/garFTLUp+3M6lFJC2LuvieLGCrmvohxqkdVOTmg15uiAdWSr
-         u7PCpDbuD767PgolBOStee35yRZH1oW1CXAkmaD7K8ArEbklE/UhfaIKa2h5eUubSv3N
-         MCjBVvk/gkImWs2O5/kFk+JCzaVIBCHPwuKnpx+btOXeAAtbhtIc+oO5Vafu7R2ZCKK9
-         v38yuYW6hkPJLkKUBJSmgKVA6thZpcFaZhKFhp0Jtn16H6Ngnz9i7X4h/wBAgGzIFGWf
-         Lw3w==
+        bh=wo60df5cmJCZEeoz3PXILA4sT5vfxlhLvp0duE7lf1s=;
+        b=EADzRIu7lym21hOMnZvS+sMMct8/ZA/xoKBHbgkl9ZCl8AXwaxtBx1nL7SVYZvAP1P
+         V0WpbSKizSG3gb8Tx0bP4k2s5D8BnsWgMmVii7/xz6DiFI5xaD4i70VyNi/aR53L4KtP
+         HeGhXiWVenGdkittg1Rag7fB7qDIh8pEfMLezkCMwrrz7+4ZOkhgE3kdDtoXNx6HsjzE
+         rj6xPbcCX14erCpbVDDO6M2wn88dwOJycbU7CLj8JwYfu7TH/ok/lOKDXQoANpOtuGdG
+         i57k4eBlnaBp1HfUOcTPh1PqcvpTvERBo1rfNByEE4wwynr6pMMpdoeDXpiESZB3gLb0
+         SI6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/bNSq7yyd0Fn2CFk8JA2YspzkodNLpfvLBCK3Yp7urY=;
-        b=0+/SBvUuwUgAZqnESdQHH30kOVPZkpDzci8qzpk63Hq0s3WuDEqSSHDzyu258wI7AQ
-         rTnXjMKCXcP71zy3WP9/bx2sbfAMxU0huxuqsknV2vv6GV4qRHAx2krv9UGA250BMNEY
-         10GVA+YKQpQyAbLnAcHnVww84H/fFtOUo/53AiOwdozrHnuCTYfJezR6mPGU7bYdfMP/
-         WfhcYukV7sjrVj7MIkvAMl+6wmR/08rulD5LxNgJ2xsI7NuRjlH3B0K/grZcTixB34/a
-         oFRoyiJoQu6uL/Oxuu01HaugrD5IFnrhymU3+ceQWfsDsEzglT2mFkWz11nb0HwYz0Kt
-         SQBQ==
-X-Gm-Message-State: AFqh2krKHiPTuDdo/0oKG0/xvKPlJQap8o1kZJJcqpc5MkAMM5viDA9G
-        NK4ZH0DqJVkCQQtEERxOsWIHsQ==
-X-Google-Smtp-Source: AMrXdXv8WZZLPkrmDbdaf70Msw/d1T9RanynwxtPxW0TwnaFzZhcu526bILzcynC0l7mfwL8btwJWw==
-X-Received: by 2002:a05:600c:3d14:b0:3da:f793:fff6 with SMTP id bh20-20020a05600c3d1400b003daf793fff6mr35093224wmb.16.1674736348297;
-        Thu, 26 Jan 2023 04:32:28 -0800 (PST)
+        bh=wo60df5cmJCZEeoz3PXILA4sT5vfxlhLvp0duE7lf1s=;
+        b=ucjwNdp9Ol2Tz5TqlOZh6d9u05vGl6qVoCKjHcqpAMEKwESMgdpiNbZ0BO0E1zZvMQ
+         gtaesU0i+F4YHWJrMX6zSTcfRyrRDRXU1e4z+/3o7qTbyo0n7AB1utjzAfUfGItmMznR
+         6AN3vvCzhNYmNhL6buqULdDdGisz+Rijt98KsAxx2aSF5pAKhBX7cLMyI3HYJyOpRt0e
+         WUYN+IUs3QIoiDrGbZXl1H7LF3GrcwqiALLykQuRF8L9UDDXLDGLzP09GWILGhOHumJu
+         4hBfLraTgWOOIlXa2SXfzX39pLi0GtPbudCIz/QGd4UdNq/8FuACw4TMogIgby4ZWoWH
+         FCXg==
+X-Gm-Message-State: AFqh2koANApcYlQykwdXJtqv3wGVIr4S03DeQMZsabrTxbc+fEwNx5Wo
+        /KguXNBTYckxtp9IqU4oTaNZTw==
+X-Google-Smtp-Source: AMrXdXuNVegLRJr6/oQKdCFpXOMON9Yqa+ZGh5kux8Fj0IGtNLS5318NED0H8g007dO7cTnthbbffw==
+X-Received: by 2002:adf:8b45:0:b0:2bd:e8c9:bcd5 with SMTP id v5-20020adf8b45000000b002bde8c9bcd5mr29446034wra.61.1674736583113;
+        Thu, 26 Jan 2023 04:36:23 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05600c468c00b003dc22ee5a2bsm2350815wmo.39.2023.01.26.04.32.27
+        by smtp.gmail.com with ESMTPSA id z4-20020a5d44c4000000b002bfcc9d9607sm112694wrr.68.2023.01.26.04.36.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 04:32:27 -0800 (PST)
-Message-ID: <4a02f9be-04df-352b-fe49-7990eba5dc2e@linaro.org>
-Date:   Thu, 26 Jan 2023 13:32:26 +0100
+        Thu, 26 Jan 2023 04:36:22 -0800 (PST)
+Message-ID: <c519afe0-0a6f-e262-7a85-a3072a828e62@linaro.org>
+Date:   Thu, 26 Jan 2023 13:36:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [PATCH v8 1/5] dt-bindings: input: pwm-beeper: Convert txt
- bindings to yaml
+Subject: Re: [PATCH v8 4/5] dt-bindings: input: pwm-beeper: add volume
 Content-Language: en-US
 To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -65,14 +64,15 @@ Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Frieder Schrempf <frieder.schrempf@kontron.de>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org
 References: <20230126091825.220646-1-manuel.traut@mt.com>
- <20230126091825.220646-2-manuel.traut@mt.com>
+ <20230126091825.220646-5-manuel.traut@mt.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230126091825.220646-2-manuel.traut@mt.com>
+In-Reply-To: <20230126091825.220646-5-manuel.traut@mt.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -80,75 +80,65 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 26/01/2023 10:18, Manuel Traut wrote:
-> Converts txt binding to new YAML format.
+> Adds an array of supported volume levels and a default volume level.
 > 
 > Signed-off-by: Manuel Traut <manuel.traut@mt.com>
 
-Thank you for your patch. There is something to discuss/improve.
+This is the second patch. Bindings must be introduced before you start
+using them.
 
+> ---
+>  .../devicetree/bindings/input/pwm-beeper.yaml | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
 > diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> new file mode 100644
-> index 000000000000..351df83d5cbe
-> --- /dev/null
+> index 351df83d5cbe..f1f9283ca855 100644
+> --- a/Documentation/devicetree/bindings/input/pwm-beeper.yaml
 > +++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/input/pwm-beeper.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> @@ -26,6 +26,24 @@ properties:
+>    beeper-hz:
+>      description: bell frequency in Hz
+>  
+> +  volume-levels:
 
-Drop quotes from both. Apologies for not noticing it earlier.
+use -bp suffix:
+https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml#L44
 
-> +
-> +title: PWM beeper
-> +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> +
-> +description: Registers a PWM device as beeper.
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-beeper
-> +
-> +  pwms:
-> +    maxItems: 1
-> +
-> +  amp-supply:
+which will mean the unit is 1/100 of %, not 1/10. Then you can also drop
+the $ref.
+
+
 > +    description: >
-> +      phandle to a regulator that acts as an amplifier for
-> +      the beeper
+> +      Array of PWM duty cycle values that correspond to
+> +      linear volume levels. These need to be in the range of
+> +      0 to 500, while 0 means 0% duty cycle (mute) and 500
+> +      means 50% duty cycle (max volume).
+> +      Please note that the actual volume of most beepers is
+> +      highly non-linear, which means that low volume levels
+> +      are probably somewhere in the range of 1 to 30 (0.1-3%
+> +      duty cycle).
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +
+> +  default-volume-level:
 
-Drop "phandle to a"
+I propose to use just the value, not the index, so the name should
+finish with '-bp' and the $ref can be dropped.
 
+> +    description: >
+> +      The default volume level (index into the array defined
+> +      by the "volume-levels" property).
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 > +
-> +  beeper-hz:
-> +    description: bell frequency in Hz
-> +
-> +required:
-> +  - compatible
-> +  - pwms
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    beeper_amp: amplifier {
-> +      compatible = "fixed-regulator";
-> +      gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
-> +    };
-
-Drop this device node, not related.
-
-> +
-> +    beeper {
-> +      compatible = "pwm-beeper";
-> +      pwms = <&pwm0>;
-> +      amp-supply = <&beeper_amp>;
-> +    };
+>  required:
+>    - compatible
+>    - pwms
+> @@ -45,4 +63,6 @@ examples:
+>        compatible = "pwm-beeper";
+>        pwms = <&pwm0>;
+>        amp-supply = <&beeper_amp>;
+> +      volume-levels = <0 8 20 40 500>;
+> +      default-volume-level = <4>;
+>      };
 
 Best regards,
 Krzysztof
