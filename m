@@ -2,126 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C1F667CAA3
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 13:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A5867CAF4
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 13:32:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236972AbjAZMMD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Jan 2023 07:12:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37376 "EHLO
+        id S236632AbjAZMcb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Jan 2023 07:32:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbjAZMMC (ORCPT
+        with ESMTP id S230233AbjAZMca (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Jan 2023 07:12:02 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F1CD46D49
-        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:12:01 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id u21so1680629edv.3
-        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:12:01 -0800 (PST)
+        Thu, 26 Jan 2023 07:32:30 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2D149568
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:32:29 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id e19-20020a05600c439300b003db1cac0c1fso3140188wmn.5
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:32:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=diag.uniroma1.it; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q79upilYUaTabLjtO3bZo14lYpmZpgLc63/mP4eG9WA=;
-        b=OAQfmmoGQF9nB8ZfcKyXxyaWHRJX11Xof3DYunbo84PQLWL7/LTQ7CaHKLciNAQTt5
-         4rcYuYqWzT59GU1VyKtOVQDVl30rYzrqC3jVc59DVtnY8oV+TdV/zvurtyjUKjpZ4BIp
-         4dXfs+XQ+rupwImhp2ce/G0Ll+7Pgrc603aLI=
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/bNSq7yyd0Fn2CFk8JA2YspzkodNLpfvLBCK3Yp7urY=;
+        b=oum0aFT6waydlwgkxuNblpIgYLzAffKOlwHZFRBf593vlK/BANnDrFdlUS89AZ4me7
+         t7F6gSmf8fSgbwgpL7y/garFTLUp+3M6lFJC2LuvieLGCrmvohxqkdVOTmg15uiAdWSr
+         u7PCpDbuD767PgolBOStee35yRZH1oW1CXAkmaD7K8ArEbklE/UhfaIKa2h5eUubSv3N
+         MCjBVvk/gkImWs2O5/kFk+JCzaVIBCHPwuKnpx+btOXeAAtbhtIc+oO5Vafu7R2ZCKK9
+         v38yuYW6hkPJLkKUBJSmgKVA6thZpcFaZhKFhp0Jtn16H6Ngnz9i7X4h/wBAgGzIFGWf
+         Lw3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q79upilYUaTabLjtO3bZo14lYpmZpgLc63/mP4eG9WA=;
-        b=kAAsEYwnC90Dpj11QTbs2ZtxONKpVdGR5u9uxW0ZRLC0522azGGQ+8/dqPbxDao4aM
-         WlyPT75w3efXQkcaPG9YdyrVN+QYOj3DpuJdMXYbav4IwZeHFJ8imf1+8H/LvPz7jtNh
-         IPeyQkx97XYI4arMueDySST0vNTmqRah73VCrPwCD2lNwNWtpivoxlpV0TTIFR1TwGag
-         BpcY07SJGHlMuMol0ioMLrlVrAmaFtjfiJ5tmkrW4hrl/gC/XajKJr9oxOJc/SI7sEMx
-         D5g7pT4bS96L3x4im6Fy7ltlqAdMemiHdlNIJhGSyNuYnTrrPuY3Ao3p0LmpMIb59hko
-         cUmQ==
-X-Gm-Message-State: AO0yUKVXMkLNOUXg09TuKk5WTWlXJqNP+Olc0zxMWFJ5cDvFZ5zml8sD
-        ZGzgcRfwt1BXrNSUSmx4EDH74g==
-X-Google-Smtp-Source: AK7set/RV50N96WMsCaAcARPhfwM7z9emlZm/nH0tlMwVFusCkz5W1dfy86jfgB9opXY0tNW53iZhA==
-X-Received: by 2002:a05:6402:190:b0:4a0:8f60:4f46 with SMTP id r16-20020a056402019000b004a08f604f46mr9449504edv.15.1674735119667;
-        Thu, 26 Jan 2023 04:11:59 -0800 (PST)
-Received: from pborrello-1.vm.vusec.net (wolkje-127.labs.vu.nl. [130.37.198.127])
-        by smtp.gmail.com with ESMTPSA id w11-20020a50fa8b000000b0049e09105705sm644044edr.62.2023.01.26.04.11.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 04:11:59 -0800 (PST)
-From:   Pietro Borrello <borrello@diag.uniroma1.it>
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc:     Pietro Borrello <borrello@diag.uniroma1.it>,
-        linux-leds@vger.kernel.org,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hanno Zulla <kontakt@hanno.de>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Sven Eckelmann <sven@narfation.org>
-Subject: [PATCH v2 4/5] HID: dualshock4_remove: manually unregister leds
-Date:   Thu, 26 Jan 2023 12:11:42 +0000
-Message-Id: <20230125-hid-unregister-leds-v2-4-514437b19297@diag.uniroma1.it>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAEc3jaDRzvw4wqomWTZ4QiGT7ndm0u+LQuqDTOWB=B-6w=2yzg@mail.gmail.com>
-References: <20230125-hid-unregister-leds-v2-0-514437b19297@diag.uniroma1.it>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/bNSq7yyd0Fn2CFk8JA2YspzkodNLpfvLBCK3Yp7urY=;
+        b=0+/SBvUuwUgAZqnESdQHH30kOVPZkpDzci8qzpk63Hq0s3WuDEqSSHDzyu258wI7AQ
+         rTnXjMKCXcP71zy3WP9/bx2sbfAMxU0huxuqsknV2vv6GV4qRHAx2krv9UGA250BMNEY
+         10GVA+YKQpQyAbLnAcHnVww84H/fFtOUo/53AiOwdozrHnuCTYfJezR6mPGU7bYdfMP/
+         WfhcYukV7sjrVj7MIkvAMl+6wmR/08rulD5LxNgJ2xsI7NuRjlH3B0K/grZcTixB34/a
+         oFRoyiJoQu6uL/Oxuu01HaugrD5IFnrhymU3+ceQWfsDsEzglT2mFkWz11nb0HwYz0Kt
+         SQBQ==
+X-Gm-Message-State: AFqh2krKHiPTuDdo/0oKG0/xvKPlJQap8o1kZJJcqpc5MkAMM5viDA9G
+        NK4ZH0DqJVkCQQtEERxOsWIHsQ==
+X-Google-Smtp-Source: AMrXdXv8WZZLPkrmDbdaf70Msw/d1T9RanynwxtPxW0TwnaFzZhcu526bILzcynC0l7mfwL8btwJWw==
+X-Received: by 2002:a05:600c:3d14:b0:3da:f793:fff6 with SMTP id bh20-20020a05600c3d1400b003daf793fff6mr35093224wmb.16.1674736348297;
+        Thu, 26 Jan 2023 04:32:28 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id p12-20020a05600c468c00b003dc22ee5a2bsm2350815wmo.39.2023.01.26.04.32.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 04:32:27 -0800 (PST)
+Message-ID: <4a02f9be-04df-352b-fe49-7990eba5dc2e@linaro.org>
+Date:   Thu, 26 Jan 2023 13:32:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.11.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674734023; l=1491; i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id; bh=VPrVVBqqogjSwkjTCQxGFur+jXJWf031MbQaC/naVuk=; b=QqdXEngDfNOZIrOa2KlMzlEnb2T9sRwEwzbMotxYqBGLd6rLohqz/oCflt0Xi2C0F4IUpxWEFqrx JG9f5+PoCjOAgtRyclf/hzZbrARfaDO1Rb3+3XewKkHifnTDhe3Y
-X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519; pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v8 1/5] dt-bindings: input: pwm-beeper: Convert txt
+ bindings to yaml
+Content-Language: en-US
+To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+References: <20230126091825.220646-1-manuel.traut@mt.com>
+ <20230126091825.220646-2-manuel.traut@mt.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230126091825.220646-2-manuel.traut@mt.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Unregister the LED controllers before device removal, to prevent
-unnecessary runs of dualshock4_led_set_brightness().
+On 26/01/2023 10:18, Manuel Traut wrote:
+> Converts txt binding to new YAML format.
+> 
+> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
 
-Fixes: 4521109a8f40 ("HID: playstation: support DualShock4 lightbar.")
-Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
+Thank you for your patch. There is something to discuss/improve.
 
----
+> diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
+> new file mode 100644
+> index 000000000000..351df83d5cbe
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
+> @@ -0,0 +1,48 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/input/pwm-beeper.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 
-Contrary to the other patches in this series, failing to unregister
-the led controller does not results into a use-after-free thanks
-to the output_worker_initialized variable and the spinlock checks.
+Drop quotes from both. Apologies for not noticing it earlier.
 
-Changes in v2:
-- Clarify UAF
-- Link to v1: https://lore.kernel.org/all/20230125-hid-unregister-leds-v1-4-9a5192dcef16@diag.uniroma1.it/
----
- drivers/hid/hid-playstation.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> +
+> +title: PWM beeper
+> +
+> +maintainers:
+> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> +
+> +description: Registers a PWM device as beeper.
+> +
+> +properties:
+> +  compatible:
+> +    const: pwm-beeper
+> +
+> +  pwms:
+> +    maxItems: 1
+> +
+> +  amp-supply:
+> +    description: >
+> +      phandle to a regulator that acts as an amplifier for
+> +      the beeper
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index f23186ca2d76..b41657842e26 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -2434,11 +2434,15 @@ static void dualshock4_remove(struct ps_device *ps_dev)
- {
- 	struct dualshock4 *ds4 = container_of(ps_dev, struct dualshock4, base);
- 	unsigned long flags;
-+	int i;
- 
- 	spin_lock_irqsave(&ds4->base.lock, flags);
- 	ds4->output_worker_initialized = false;
- 	spin_unlock_irqrestore(&ds4->base.lock, flags);
- 
-+	for (i = 0; i < ARRAY_SIZE(ds4->lightbar_leds); i++)
-+		devm_led_classdev_unregister(&ps_dev->hdev->dev, &ds4->lightbar_leds[i]);
-+
- 	cancel_work_sync(&ds4->output_worker);
- 
- 	if (ps_dev->hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE)
+Drop "phandle to a"
 
--- 
-2.25.1
+> +
+> +  beeper-hz:
+> +    description: bell frequency in Hz
+> +
+> +required:
+> +  - compatible
+> +  - pwms
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    beeper_amp: amplifier {
+> +      compatible = "fixed-regulator";
+> +      gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
+> +    };
+
+Drop this device node, not related.
+
+> +
+> +    beeper {
+> +      compatible = "pwm-beeper";
+> +      pwms = <&pwm0>;
+> +      amp-supply = <&beeper_amp>;
+> +    };
+
+Best regards,
+Krzysztof
+
