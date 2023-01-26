@@ -2,144 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 607D067CAF9
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 13:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86BAB67CBA6
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 14:06:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236956AbjAZMg3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Jan 2023 07:36:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51082 "EHLO
+        id S235762AbjAZNGr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Jan 2023 08:06:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237251AbjAZMg2 (ORCPT
+        with ESMTP id S232090AbjAZNGr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Jan 2023 07:36:28 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94F8D6227F
-        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:36:24 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id q10so1633040wrm.4
-        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:36:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wo60df5cmJCZEeoz3PXILA4sT5vfxlhLvp0duE7lf1s=;
-        b=EADzRIu7lym21hOMnZvS+sMMct8/ZA/xoKBHbgkl9ZCl8AXwaxtBx1nL7SVYZvAP1P
-         V0WpbSKizSG3gb8Tx0bP4k2s5D8BnsWgMmVii7/xz6DiFI5xaD4i70VyNi/aR53L4KtP
-         HeGhXiWVenGdkittg1Rag7fB7qDIh8pEfMLezkCMwrrz7+4ZOkhgE3kdDtoXNx6HsjzE
-         rj6xPbcCX14erCpbVDDO6M2wn88dwOJycbU7CLj8JwYfu7TH/ok/lOKDXQoANpOtuGdG
-         i57k4eBlnaBp1HfUOcTPh1PqcvpTvERBo1rfNByEE4wwynr6pMMpdoeDXpiESZB3gLb0
-         SI6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wo60df5cmJCZEeoz3PXILA4sT5vfxlhLvp0duE7lf1s=;
-        b=ucjwNdp9Ol2Tz5TqlOZh6d9u05vGl6qVoCKjHcqpAMEKwESMgdpiNbZ0BO0E1zZvMQ
-         gtaesU0i+F4YHWJrMX6zSTcfRyrRDRXU1e4z+/3o7qTbyo0n7AB1utjzAfUfGItmMznR
-         6AN3vvCzhNYmNhL6buqULdDdGisz+Rijt98KsAxx2aSF5pAKhBX7cLMyI3HYJyOpRt0e
-         WUYN+IUs3QIoiDrGbZXl1H7LF3GrcwqiALLykQuRF8L9UDDXLDGLzP09GWILGhOHumJu
-         4hBfLraTgWOOIlXa2SXfzX39pLi0GtPbudCIz/QGd4UdNq/8FuACw4TMogIgby4ZWoWH
-         FCXg==
-X-Gm-Message-State: AFqh2koANApcYlQykwdXJtqv3wGVIr4S03DeQMZsabrTxbc+fEwNx5Wo
-        /KguXNBTYckxtp9IqU4oTaNZTw==
-X-Google-Smtp-Source: AMrXdXuNVegLRJr6/oQKdCFpXOMON9Yqa+ZGh5kux8Fj0IGtNLS5318NED0H8g007dO7cTnthbbffw==
-X-Received: by 2002:adf:8b45:0:b0:2bd:e8c9:bcd5 with SMTP id v5-20020adf8b45000000b002bde8c9bcd5mr29446034wra.61.1674736583113;
-        Thu, 26 Jan 2023 04:36:23 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id z4-20020a5d44c4000000b002bfcc9d9607sm112694wrr.68.2023.01.26.04.36.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 04:36:22 -0800 (PST)
-Message-ID: <c519afe0-0a6f-e262-7a85-a3072a828e62@linaro.org>
-Date:   Thu, 26 Jan 2023 13:36:21 +0100
+        Thu, 26 Jan 2023 08:06:47 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8E05B96;
+        Thu, 26 Jan 2023 05:06:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674738406; x=1706274406;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kykFXhubpymwzzf6wp/HVD1TT25MTI+pMnPfzf7Ns7M=;
+  b=QKdBx5mxqBQ5iBzRiGY57p/6nMbHxNOXzomSD0NBXTFd59YVV+uIj/eI
+   1eEbhG/Pe0VwxmnJXW3eIcePEZ5C/S/C6wea332I8I+nn/KsIgcDBP3uo
+   yvI/YmZtfyU/UsSbr6Io3g8VK67VZtGIBuvhd6RNQrIk3zNJu9rOdCIrE
+   2U54lSZTeYs7leLJocEeFRrzU0GMk/OZlHV5KYBRhNbSqBHODzWdlzf0k
+   7mcU8QudM49EQwEyu4hJyM+PWW0yBieLeW8fcp27frtHiWvduxPOaIyKr
+   dkss731qFf1LlQgJq+7kBvKjbE2A6xbw4bZ9r+WsDI5QBfOAgieHrcoJ3
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="389143297"
+X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
+   d="scan'208";a="389143297"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 05:06:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="771129604"
+X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
+   d="scan'208";a="771129604"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2023 05:06:33 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pL1xX-00FOp3-0j;
+        Thu, 26 Jan 2023 15:06:31 +0200
+Date:   Thu, 26 Jan 2023 15:06:30 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Luca Ellero <l.ellero@asem.it>
+Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
+        m.felsch@pengutronix.de, u.kleine-koenig@pengutronix.de,
+        mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
+        luca.ellero@brickedbrain.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/3] Input: ads7846 - fix support for ADS7845
+Message-ID: <Y9J61vTJQI8CzwQB@smile.fi.intel.com>
+References: <20230126105227.47648-1-l.ellero@asem.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v8 4/5] dt-bindings: input: pwm-beeper: add volume
-Content-Language: en-US
-To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230126091825.220646-1-manuel.traut@mt.com>
- <20230126091825.220646-5-manuel.traut@mt.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230126091825.220646-5-manuel.traut@mt.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126105227.47648-1-l.ellero@asem.it>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 26/01/2023 10:18, Manuel Traut wrote:
-> Adds an array of supported volume levels and a default volume level.
-> 
-> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
+On Thu, Jan 26, 2023 at 11:52:24AM +0100, Luca Ellero wrote:
+> ADS7845 support is buggy in this driver.
+> These patches fix various issues to get it work properly.
 
-This is the second patch. Bindings must be introduced before you start
-using them.
+Entire series now looks good to me
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Thanks!
 
-> ---
->  .../devicetree/bindings/input/pwm-beeper.yaml | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> index 351df83d5cbe..f1f9283ca855 100644
-> --- a/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> +++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> @@ -26,6 +26,24 @@ properties:
->    beeper-hz:
->      description: bell frequency in Hz
+> Changes for v2:
+>  - add missing period in patch 0001 message
+>  - elaborate comment in patch 0002
 >  
-> +  volume-levels:
+> Changes for v3:
+>  - send from the same email address of "Signed-off"
+> 
+> Changes for v4:
+>  - fix tag
+>  - fix comment in patch 0002
+> 
+> Changes for v5:
+>  - add Fixes: tag
+>  - fix comment in patch 0001
+> 
+> Luca Ellero (3):
+>   Input: ads7846 - don't report pressure for ads7845
+>   Input: ads7846 - always set last command to PWRDOWN
+>   Input: ads7846 - don't check penirq immediately for 7845
+> 
+>  drivers/input/touchscreen/ads7846.c | 23 +++++++++++++----------
+>  1 file changed, 13 insertions(+), 10 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
 
-use -bp suffix:
-https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml#L44
+-- 
+With Best Regards,
+Andy Shevchenko
 
-which will mean the unit is 1/100 of %, not 1/10. Then you can also drop
-the $ref.
-
-
-> +    description: >
-> +      Array of PWM duty cycle values that correspond to
-> +      linear volume levels. These need to be in the range of
-> +      0 to 500, while 0 means 0% duty cycle (mute) and 500
-> +      means 50% duty cycle (max volume).
-> +      Please note that the actual volume of most beepers is
-> +      highly non-linear, which means that low volume levels
-> +      are probably somewhere in the range of 1 to 30 (0.1-3%
-> +      duty cycle).
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  default-volume-level:
-
-I propose to use just the value, not the index, so the name should
-finish with '-bp' and the $ref can be dropped.
-
-> +    description: >
-> +      The default volume level (index into the array defined
-> +      by the "volume-levels" property).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
->  required:
->    - compatible
->    - pwms
-> @@ -45,4 +63,6 @@ examples:
->        compatible = "pwm-beeper";
->        pwms = <&pwm0>;
->        amp-supply = <&beeper_amp>;
-> +      volume-levels = <0 8 20 40 500>;
-> +      default-volume-level = <4>;
->      };
-
-Best regards,
-Krzysztof
 
