@@ -2,172 +2,231 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BDD567C6D7
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 10:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2006F67C7B2
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 10:46:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236684AbjAZJT0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Jan 2023 04:19:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57914 "EHLO
+        id S230343AbjAZJqB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Jan 2023 04:46:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236802AbjAZJTL (ORCPT
+        with ESMTP id S229510AbjAZJqA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Jan 2023 04:19:11 -0500
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2123.outbound.protection.outlook.com [40.107.247.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FA2517CF7;
-        Thu, 26 Jan 2023 01:19:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X6sa+sKjmO+2KkmUDYJfbnpJilnwT3LEyn2pi4Hb9yO2yjPei+05VcA6T0z9Bemn0powVZatx8KZ2kWtYnBrkZ4v/JSTVOlsHGmDEmwv4TNcQuh82HtReVz+VyFx3zYMmVojoDiTeMTdvzTe7Hboz6tBdhfeBE2xt89sS2J1u9Ub4KF5B67mrFPxqIxm5aDv0n9CsQDxh1377oAjK4Q7/FCWJvngyeu8nhZRDOkW4D8oFP/qqMPHZSguGm0JGzQNgkXjAo8aD1NOoY3GZOkgh6vVr+byyhb8JrCHlSMNIUNWbh8gzl59brYHVX1kuVGt0yS2XPIucx38363ETr6etQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UWEkzbCpBJZ1J6AGtrB4vzIydngUMIOXRQJ2gnoyK40=;
- b=nOvGygV8QBT2VTpXZN58zBIiG4Jxtyh7b8rMVwz25hD7TJveJHp1doV/vkHZCKf7+Sc0myY8Wzcc9TrnA0Nu1W0HihFI0e567fh+S3dUtJMpQcC+Dv+6NlWig6xx4UTak1mp7Mk+1sLOnkvXW/8nsPSGUKIbmU2Gwmlh8CwUaDZ5ImofeYvzcVsucjxZbN12rBIqltFFt+aqtEJPPUMkl+IjYrwZzxORDjoMaD8HAI+7rhnGB93n7K4Ijdsw0sEExNBTm2zAtclkZ4P9XPYvWTs1SBTrF47N/6GgsgcoYp5A8I/9giYIxHBbI1vk65nDDnCwXEyp7eG0yN46RKqcNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UWEkzbCpBJZ1J6AGtrB4vzIydngUMIOXRQJ2gnoyK40=;
- b=h+CmQX+F7eQi9oFqmsIFFApG2v7eV79/NywulZbEX+aJPQF/7vRpkyKoK6gFS09ysOyRTt8aUUAXOVzhPpjaezuYYOBLLjmp3goL97s6JqdBJ4Gjzdwcuxm/ebs6a69XhRkttHCSiN6iWiuJ+en+YIPIk09e0J1dPSwHUpjMgOqTBw0bHIauffyCUHB3oeWA2aymgyBy31PHy/VtJyyfXlx7a2ejUPslH6GeL22IsBw1zeKcGzsclYENRrmwmK6vrkbZvlnhjM0F3a27BBB3kZCP3FYLDK+kw8GJ+lY84wPSWbeHMKSf5teaeGc4RMQUDYhMNihydSlkeGC6x2xQ2A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from AS8PR03MB7621.eurprd03.prod.outlook.com (2603:10a6:20b:345::20)
- by AS2PR03MB9516.eurprd03.prod.outlook.com (2603:10a6:20b:598::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Thu, 26 Jan
- 2023 09:18:53 +0000
-Received: from AS8PR03MB7621.eurprd03.prod.outlook.com
- ([fe80::b42f:82f8:24cb:a225]) by AS8PR03MB7621.eurprd03.prod.outlook.com
- ([fe80::b42f:82f8:24cb:a225%9]) with mapi id 15.20.6043.022; Thu, 26 Jan 2023
- 09:18:53 +0000
-From:   Manuel Traut <manuel.traut@mt.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Manuel Traut <manuel.traut@mt.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v8 5/5] input: pwm-beeper: handle module unloading properly
-Date:   Thu, 26 Jan 2023 10:18:25 +0100
-Message-Id: <20230126091825.220646-6-manuel.traut@mt.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230126091825.220646-1-manuel.traut@mt.com>
-References: <20230126091825.220646-1-manuel.traut@mt.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FRYP281CA0008.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::18)
- To AS8PR03MB7621.eurprd03.prod.outlook.com (2603:10a6:20b:345::20)
+        Thu, 26 Jan 2023 04:46:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFCDBA254
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 01:45:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674726317;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JIhKpCgZi4Qd+PtZ8lYpqohAptnpAYSZBkY1jLrxMPM=;
+        b=DZRxhWTSjFuzvbiYneSDSWQjkq8plebXKpCQEDmLLh/ThGNycSMRa2ngIgMn2kv7+txN/S
+        mSP/JMafqxUQGVqrBipnFQty2/aSqIHh3vSlJo0QnqE7wrcLPNeBCBydUcOqGCjrF3V02H
+        bJq+6Cbgle/rhjdHl+Mo1VpPm9W8J4Q=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-616-p3lkK9jXP6CP2Bnz-G3NaQ-1; Thu, 26 Jan 2023 04:45:13 -0500
+X-MC-Unique: p3lkK9jXP6CP2Bnz-G3NaQ-1
+Received: by mail-ej1-f69.google.com with SMTP id xh12-20020a170906da8c00b007413144e87fso933282ejb.14
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 01:45:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JIhKpCgZi4Qd+PtZ8lYpqohAptnpAYSZBkY1jLrxMPM=;
+        b=nJNH5cevMJj0g6003w3m+aLFEiOYRqeX/T0UYy4q46+rBgikcZJ+1aqrvM3/XeIFwc
+         Rr1QYu68kDnPJbgKowhC1qHGk8kinMSJZpQLtNm1d0dUM6Ytqdjr7VVnPUkToHl7Nqgv
+         FX301YpNXCop5x6/cxkJgb6b/Fg7tT+CXTUNXbgz01fBFqH5t9lfhu5ASpKbIAOvPIi6
+         xh0JPMvfhi6uWueKe1f8S/DB4cG5SFx59wb5UnCVH1r00MwE4UlLGT7lVL7hcjXp/k7W
+         ZZs9/050s3jpaAMKuafZblG6BJNrjXs1V96KIWqhLqDmdN0VlUEFsR/UHHX8a6OoOlSj
+         2ThQ==
+X-Gm-Message-State: AFqh2kqxG8MNzx5w/Qq2TUqzZgxdfBR4NqwVFQnOJCJJ7yDtfLktXSW8
+        8mHdBzemoyZPzxvJGmhIzTMWuC+R9iXdxzOZvmVplpAZ5mGLhamdZYDOgw53jYN1i4HKcW9Ekrg
+        XIc8CS85TODXzwwSGu6bpKwY=
+X-Received: by 2002:a17:907:c618:b0:868:b2b6:ee71 with SMTP id ud24-20020a170907c61800b00868b2b6ee71mr37291068ejc.6.1674726311833;
+        Thu, 26 Jan 2023 01:45:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsXH0GJADrSft7sx79AzUkKjxGpISZXFufCJjBtUzi9/L5dgsqiw88g8j1V9gJrtBAZVIYxpg==
+X-Received: by 2002:a17:907:c618:b0:868:b2b6:ee71 with SMTP id ud24-20020a170907c61800b00868b2b6ee71mr37291060ejc.6.1674726311576;
+        Thu, 26 Jan 2023 01:45:11 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id ke22-20020a17090798f600b0087842afc5e0sm324172ejc.210.2023.01.26.01.45.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 01:45:11 -0800 (PST)
+Message-ID: <1b118a84-5758-0045-509f-322bac5b0375@redhat.com>
+Date:   Thu, 26 Jan 2023 10:45:10 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR03MB7621:EE_|AS2PR03MB9516:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0df6ba51-1538-4936-6cd6-08daff7e57ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j1hmOApjRY4HdKIelEO3yYp+BED7XfPAeptHLBjS7sEFcnChlBXewlowrCq/flGOABegEUAS0PxsY66ALkbKz4ZFWR3gfzRn+ONGbRbofIHPZUe9lFNBZcwTiUkLiiQ93FeHWGIyBMZoJr8Ib8LDnt7oQ8sRj9o/SoOZhFEUfxSCxpC6FlNA4XHXOkYfMiwSRZBIwrzfiOkxuCDXR5WhhC6+YQ5N9WVNR9skcnhv99/cYqF44fimlc913LR77oCvY42cLBnBYnsNnLe7AeNoGJIZsp2W0f8koU/MMkuqLxM14cdVIIBBxY42Y8tUyAExPj8m5MAt3WRkIu0KHZaiKG4uRwAr20Gu+B5zYqQwghWhG7tdDp66IjQvUKa3eekhINdBEhnnn5XrAo+++UlGZl80nB0xQjvAfYVuDMzXu9bLRLVo7evp8EkEOdQX8LjcXdADg4lBGj/m6mc5tUDfy8b8+dndRZ47EDXpI5n7BHEIPsyzeE9siUOhBekR9SG5y3ZRI1SPBwkDZhO+1YdtUOgxBo1HyZkt/GunND04r0r0qBWFLJu+33U5oKId4XnwErx+jqmQVnRWEAB7vAjcq2EW+TCv08r6isJD7JhHaT2oJWm7fBXYTDjJAhQ3uqP6tkb5mu4wiXwFFjKnK89b7cvY9hEY/zy5EarQcV72L8W3PYzFHMIekrrn2xWXdB7tUNCEtURvhRUilfWbByxofg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR03MB7621.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(346002)(366004)(396003)(136003)(376002)(451199018)(44832011)(2906002)(38350700002)(38100700002)(2616005)(1076003)(6666004)(6506007)(6512007)(186003)(26005)(86362001)(83380400001)(66556008)(66476007)(6916009)(66946007)(8676002)(4326008)(5660300002)(36756003)(41300700001)(8936002)(52116002)(6486002)(478600001)(316002)(54906003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/zXILcEhhvleoKW1/gKlCaFiyQAejEBygnReGxZOcr4UfXhfIuZKweoZ7mhu?=
- =?us-ascii?Q?kRXqFaRU0R3g/MacxjZMjOer/Y9c90W2HQt8VZyM7qky4iRKZYRMMbvjxMUq?=
- =?us-ascii?Q?6eC75x9MoRDrVSrvRl+yeeAsYFNddOsQYH1XVOBJTt3NqGvqvBK7puOIFnEY?=
- =?us-ascii?Q?ACtmD/9bTwE8+708VBtIkmJoYHto/T3Tl6nfJvY6AzcgUIajjXUjIkLukQsv?=
- =?us-ascii?Q?7x5KrNoW02CrtFUhBKWjiryOkvb/M8ixoe/VWDJ1VPdToofFsfcebow8vnua?=
- =?us-ascii?Q?cEpkhXvRj7TZlQj6xt7AkJHyYYgGAoUV7vdjbCLYaiVZfD2wcJp/mhDEVdcW?=
- =?us-ascii?Q?FcXOVAlX1IkgNcjgJeB/jpBLZMKlMbJazSYKF7Ln+yW6DrkR7THNoIfpQAfC?=
- =?us-ascii?Q?Nq15TBwzQgPbzrs0nPIsZQGcv7kgzTUn5cGYX1jdHySnepEQnjIT2c/nJ/FC?=
- =?us-ascii?Q?6GmzMy2fS8nzEj7+Kyjh8ZmB8L1bcHmdUztqhQlt040hjUObEOuucMZwG/oL?=
- =?us-ascii?Q?mDGzg2kJvNK6AwZ5kLWF1wRzCT+A5xrXmHhb6YKp5P/nn8uKEu75DI0Mg5aU?=
- =?us-ascii?Q?TzCuahSzRBRuItA2dVDskcSndMC3lJpBtFg+1m1FROboF7engOHGLdB7Sfyu?=
- =?us-ascii?Q?8mZGA+m6Ki7jKiXn5ui8nGzmkUZus5pFV0/Tqmd59RLGRhQ1feL9EPFYq2b2?=
- =?us-ascii?Q?8aDPrCxRg+6T2bkXs9/ZVg0gQvjTnvm7AMytzqrab1c07NZjnvhaEBaFE3qM?=
- =?us-ascii?Q?WSps223vBJE7bOb5kVDfxa87jtQVF1ZzfjZrcOzkJwO3lkxQ2n/cJD4aC32T?=
- =?us-ascii?Q?O6ghDHTOER9Wk83aUZiB4bvnz87NjACQH/Ca7aKuLmryfiNqptNEyO0Fuqdi?=
- =?us-ascii?Q?9nHkHO3YRa54OSPVc59WELW9UkyJ0du/GB2sivpUEK+OO+WJgWgEoMJEHDI+?=
- =?us-ascii?Q?Wh8ZggBftorKac+2e8kwAgje4Xs568gYA0AZYHIvRQ1ei6th69uOzXDdJdAM?=
- =?us-ascii?Q?i4g3la/cLk5uJEPLvCncMwPQuFsyR6wTdwO5Ldc+4Jn8Je6jZVt+cBa4buTB?=
- =?us-ascii?Q?XBkZed3D55l6Q9b9NNEBRhdIvlELJBOEGx+q6gd2cvjDSyqFDHms1r3KnEB0?=
- =?us-ascii?Q?Ynq6i1/YKOYmMmNsnt7Cp5vtmwa7XMZwLWltTLXN3QIvNHmz/DeRwU5L9Ja/?=
- =?us-ascii?Q?Q6pIjezwMcCvHNC0GgbtBcYUwMJVojXJA1cZl0a/sVQwv1V+LCO0BJuvbJ0m?=
- =?us-ascii?Q?L8jDR3jMzZpWvvOMjZi+ePNFMZPtIy0JytirpK2bPU5wu6DGHL8sZazkH3Bn?=
- =?us-ascii?Q?PqIVVsTwYxFoTwT0T5ow6XETwDvOPu9hDh48wRNI2fTS/rZ2SEXPfR+xSpb8?=
- =?us-ascii?Q?mDL8Zx0aAoT1m/gRfAN8oVdU0D1fI1K1JvQddb/lgiqu5LqxTFDWDHvQLKVq?=
- =?us-ascii?Q?QTVmEFMpM2qjw895h+A4fXgElMFzG3EGtC+8YcydDPJ862Cc7koXxWeZOqpT?=
- =?us-ascii?Q?NnxKD5MKir80EhDq7pNhPtNo32+egAWlga991YcCEu3xG4FnUhh3UYJP9LRA?=
- =?us-ascii?Q?w51EPOt2fQOShF9gnQiv89+ytGssXHjfp15DUkiG?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0df6ba51-1538-4936-6cd6-08daff7e57ba
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR03MB7621.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 09:18:53.0081
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XEwsX7IlK08OcPNUvGVMOX+7JVHs548958vDbACKimT5w1A2F/+hvizLnrBtMaB6zG66Rnn0hbBK83G5La47/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR03MB9516
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH resend 2/3] Input: silead - Add a settings
+ module-parameter
+Content-Language: en-US, nl
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Gregor Riepl <onitake@gmail.com>, linux-input@vger.kernel.org
+References: <20230125105416.17406-1-hdegoede@redhat.com>
+ <20230125105416.17406-3-hdegoede@redhat.com> <Y9IG6zQtGWWwhyLW@nixie71>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y9IG6zQtGWWwhyLW@nixie71>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-'input: pwm-beeper: add feature to set volume via sysfs' adds device
-attributes without removing them on error or if the module is unloaded.
+Hi,
 
-If the module will be unloaded and loaded again it fails:
-[ 1007.918180] sysfs: cannot create duplicate filename '/devices/platform/buzzer/volume'
+On 1/26/23 05:51, Jeff LaBundy wrote:
+> Hi Hans,
+> 
+> On Wed, Jan 25, 2023 at 11:54:15AM +0100, Hans de Goede wrote:
+>> Add a settings module-parameter which can be allowed to specify/override
+>> various device-properties.
+>>
+>> Unlike most other touchscreen controllers Silead touchscreens don't tell us
+>> the ranges of the reported x and y coordinates and Silead touchscreens also
+>> often need to have their axis inverted and/or swapped to match the display
+>> coordinates.
+>>
+>> Being able to specify the necessary properties through a module parameter,
+>> allows users of new device-models to help us with bringing up support for
+>> new devices without them needing to do a local kernel-build just to modify
+>> these settings.
+>>
+>> Reviewed-by: Bastien Nocera <hadess@hadess.net>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> This LGTM, with one comment that I do not feel strongly about.
+> 
+> Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+> 
+>> ---
+>>  drivers/input/touchscreen/silead.c | 26 ++++++++++++++++----------
+>>  1 file changed, 16 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+>> index 8a7351c4414c..22cee8d1bb22 100644
+>> --- a/drivers/input/touchscreen/silead.c
+>> +++ b/drivers/input/touchscreen/silead.c
+>> @@ -58,6 +58,10 @@
+>>  
+>>  #define SILEAD_MAX_FINGERS	10
+>>  
+>> +static char *settings;
+>> +module_param(settings, charp, 0444);
+>> +MODULE_PARM_DESC(settings, "Override touchscreen settings using a ; separated key=value list, e.g. \"touchscreen-size-x=1665;touchscreen-size-y=1140;touchscreen-swapped-x-y\"");
+>> +
+>>  enum silead_ts_power {
+>>  	SILEAD_POWER_ON  = 1,
+>>  	SILEAD_POWER_OFF = 0
+>> @@ -133,14 +137,15 @@ static int silead_ts_request_input_dev(struct silead_ts_data *data)
+>>  
+>>  	input_set_abs_params(data->input, ABS_MT_POSITION_X, 0, 4095, 0, 0);
+>>  	input_set_abs_params(data->input, ABS_MT_POSITION_Y, 0, 4095, 0, 0);
+>> -	touchscreen_parse_properties(data->input, true, &data->prop);
+>> +	touchscreen_parse_properties_with_settings(data->input, true,
+>> +						   &data->prop, settings);
+>>  	silead_apply_efi_fw_min_max(data);
+>>  
+>>  	input_mt_init_slots(data->input, data->max_fingers,
+>>  			    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED |
+>>  			    INPUT_MT_TRACK);
+>>  
+>> -	if (device_property_read_bool(dev, "silead,home-button"))
+>> +	if (touchscreen_property_read_bool(dev, "silead,home-button", settings))
+> 
+> While harmless, this seems like a bit of an overuse of the proposed
+> functionality. Either the platform has a home button or it does not.
+> Would users really need to experiment with this property enabled or
+> disabled?
 
-Therefore remove device attributes on module unloading and in case
-registration at the input subsystem fails.
+Thank you for the review.
 
-Signed-off-by: Manuel Traut <manuel.traut@mt.com>
----
- drivers/input/misc/pwm-beeper.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Having this is actually useful, because users do need to check if
+they actually have a home-button:
 
-diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-beeper.c
-index 82b05f7f4c70..736b89bd1b42 100644
---- a/drivers/input/misc/pwm-beeper.c
-+++ b/drivers/input/misc/pwm-beeper.c
-@@ -299,6 +299,7 @@ static int pwm_beeper_probe(struct platform_device *pdev)
- 
- 	error = input_register_device(beeper->input);
- 	if (error) {
-+		sysfs_remove_group(&pdev->dev.kobj, &pwm_beeper_attribute_group);
- 		dev_err(dev, "Failed to register input device: %d\n", error);
- 		return error;
- 	}
-@@ -308,6 +309,17 @@ static int pwm_beeper_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static int pwm_beeper_remove(struct platform_device *pdev)
-+{
-+	struct pwm_beeper *beeper;
-+
-+	beeper = platform_get_drvdata(pdev);
-+	input_unregister_device(beeper->input);
-+	sysfs_remove_group(&pdev->dev.kobj, &pwm_beeper_attribute_group);
-+
-+	return 0;
-+}
-+
- static int __maybe_unused pwm_beeper_suspend(struct device *dev)
- {
- 	struct pwm_beeper *beeper = dev_get_drvdata(dev);
-@@ -353,6 +365,7 @@ MODULE_DEVICE_TABLE(of, pwm_beeper_match);
- 
- static struct platform_driver pwm_beeper_driver = {
- 	.probe	= pwm_beeper_probe,
-+	.remove	= pwm_beeper_remove,
- 	.driver = {
- 		.name	= "pwm-beeper",
- 		.pm	= &pwm_beeper_pm_ops,
--- 
-2.39.0
+1. Always setting this may lead to false-positive home button presses
+   on some models (IIRC, this has been around for a long time)
+
+2. The home button typical is a windows logo printed on the front of
+   cheap windows tablets below the screen. Recently I was adding info
+   for yet another such cheap tablet and I asked the user to test
+   the home-button since the windows logo was clearly there visually.
+   But on this specific model touching the windows logo does not do
+   anything.
+
+Combined these 2 make it useful for users to be able to explicitly
+test the home-button functionality.
+
+Regards,
+
+Hans
+
+
+> 
+>>  		input_set_capability(data->input, EV_KEY, KEY_LEFTMETA);
+>>  
+>>  	data->input->name = SILEAD_TS_NAME;
+>> @@ -173,7 +178,8 @@ static int silead_ts_request_pen_input_dev(struct silead_ts_data *data)
+>>  	input_set_capability(data->pen_input, EV_KEY, BTN_TOUCH);
+>>  	input_set_capability(data->pen_input, EV_KEY, BTN_TOOL_PEN);
+>>  	set_bit(INPUT_PROP_DIRECT, data->pen_input->propbit);
+>> -	touchscreen_parse_properties(data->pen_input, false, &data->prop);
+>> +	touchscreen_parse_properties_with_settings(data->pen_input, false,
+>> +						   &data->prop, settings);
+>>  	input_abs_set_res(data->pen_input, ABS_X, data->pen_x_res);
+>>  	input_abs_set_res(data->pen_input, ABS_Y, data->pen_y_res);
+>>  
+>> @@ -523,8 +529,8 @@ static int silead_ts_setup(struct i2c_client *client)
+>>  	 * this.
+>>  	 */
+>>  
+>> -	if (device_property_read_bool(&client->dev,
+>> -				      "silead,stuck-controller-bug")) {
+>> +	if (touchscreen_property_read_bool(&client->dev, "silead,stuck-controller-bug",
+>> +					   settings)) {
+>>  		pm_runtime_set_active(&client->dev);
+>>  		pm_runtime_enable(&client->dev);
+>>  		pm_runtime_allow(&client->dev);
+>> @@ -591,8 +597,8 @@ static void silead_ts_read_props(struct i2c_client *client)
+>>  	const char *str;
+>>  	int error;
+>>  
+>> -	error = device_property_read_u32(dev, "silead,max-fingers",
+>> -					 &data->max_fingers);
+>> +	error = touchscreen_property_read_u32(dev, "silead,max-fingers", settings,
+>> +					      &data->max_fingers);
+>>  	if (error) {
+>>  		dev_dbg(dev, "Max fingers read error %d\n", error);
+>>  		data->max_fingers = 5; /* Most devices handle up-to 5 fingers */
+>> @@ -605,9 +611,9 @@ static void silead_ts_read_props(struct i2c_client *client)
+>>  	else
+>>  		dev_dbg(dev, "Firmware file name read error. Using default.");
+>>  
+>> -	data->pen_supported = device_property_read_bool(dev, "silead,pen-supported");
+>> -	device_property_read_u32(dev, "silead,pen-resolution-x", &data->pen_x_res);
+>> -	device_property_read_u32(dev, "silead,pen-resolution-y", &data->pen_y_res);
+>> +	data->pen_supported = touchscreen_property_read_bool(dev, "silead,pen-supported", settings);
+>> +	touchscreen_property_read_u32(dev, "silead,pen-resolution-x", settings, &data->pen_x_res);
+>> +	touchscreen_property_read_u32(dev, "silead,pen-resolution-y", settings, &data->pen_y_res);
+>>  }
+>>  
+>>  #ifdef CONFIG_ACPI
+>> -- 
+>> 2.39.0
+>>
+> 
+> Kind regards,
+> Jeff LaBundy
+> 
 
