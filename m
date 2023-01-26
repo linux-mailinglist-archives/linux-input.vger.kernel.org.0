@@ -2,109 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86BAB67CBA6
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 14:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD6E267CBEA
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 14:21:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235762AbjAZNGr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Jan 2023 08:06:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
+        id S235269AbjAZNVI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Jan 2023 08:21:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232090AbjAZNGr (ORCPT
+        with ESMTP id S229558AbjAZNVI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Jan 2023 08:06:47 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8E05B96;
-        Thu, 26 Jan 2023 05:06:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674738406; x=1706274406;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kykFXhubpymwzzf6wp/HVD1TT25MTI+pMnPfzf7Ns7M=;
-  b=QKdBx5mxqBQ5iBzRiGY57p/6nMbHxNOXzomSD0NBXTFd59YVV+uIj/eI
-   1eEbhG/Pe0VwxmnJXW3eIcePEZ5C/S/C6wea332I8I+nn/KsIgcDBP3uo
-   yvI/YmZtfyU/UsSbr6Io3g8VK67VZtGIBuvhd6RNQrIk3zNJu9rOdCIrE
-   2U54lSZTeYs7leLJocEeFRrzU0GMk/OZlHV5KYBRhNbSqBHODzWdlzf0k
-   7mcU8QudM49EQwEyu4hJyM+PWW0yBieLeW8fcp27frtHiWvduxPOaIyKr
-   dkss731qFf1LlQgJq+7kBvKjbE2A6xbw4bZ9r+WsDI5QBfOAgieHrcoJ3
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="389143297"
-X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
-   d="scan'208";a="389143297"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 05:06:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="771129604"
-X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
-   d="scan'208";a="771129604"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2023 05:06:33 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pL1xX-00FOp3-0j;
-        Thu, 26 Jan 2023 15:06:31 +0200
-Date:   Thu, 26 Jan 2023 15:06:30 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Luca Ellero <l.ellero@asem.it>
-Cc:     dmitry.torokhov@gmail.com, daniel@zonque.org,
-        m.felsch@pengutronix.de, u.kleine-koenig@pengutronix.de,
-        mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
-        luca.ellero@brickedbrain.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] Input: ads7846 - fix support for ADS7845
-Message-ID: <Y9J61vTJQI8CzwQB@smile.fi.intel.com>
-References: <20230126105227.47648-1-l.ellero@asem.it>
+        Thu, 26 Jan 2023 08:21:08 -0500
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A666015C8C;
+        Thu, 26 Jan 2023 05:21:06 -0800 (PST)
+Received: by mail-ot1-f48.google.com with SMTP id k44-20020a9d19af000000b00683e176ab01so761238otk.13;
+        Thu, 26 Jan 2023 05:21:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=sz002uYQx7aQhD0B5gohM0NDHRbcmYnasPC9rqjmz5M=;
+        b=kgEHLRQ4o0faOl1kSDSbKmg9PdGa8yrHE3grxinWpU9EYFtuoqune15nFhRUnnWGZ3
+         QszEZNtieqWeB35ZBr9Dj4Jws7CfEddu+7TMsKfTBFkSWMIbBabzZZTpTo9HRsxZ+gsx
+         tAnvnYXwbHNPDXLdv5MEArmm2ZT9rPZSB35DmAwPrFkKGijNL6JXVaNqCYT0tTE9q30w
+         kKGlvtLRBEFw7DzWMaQk2Ur0ohQtTYX0CK7zkAEVAxVTHUEjAVpONnYO0cuSZXi0TuTY
+         /l0hsDZ+yThXP8RmbBqw21xLvaRS3/i+aqPb6Pr6y26nT9VWsq4S0UEhsuEEjPhiU2GQ
+         +5lg==
+X-Gm-Message-State: AFqh2kqlhBxAgS2DWsz71WwYRompAez46IIlp0uSEXxZHuvQelSRgh00
+        5UDdFi9FnJtYxgghJJl4Z+dgRC77uw==
+X-Google-Smtp-Source: AMrXdXsLf+Rwe5Nz3iPI8O+/n6gSYE4xtLJAe7CrujKz0yCcKoK7JqtuNqV5sK3LB9AeY04h4SM5+Q==
+X-Received: by 2002:a9d:62d0:0:b0:684:de61:77c9 with SMTP id z16-20020a9d62d0000000b00684de6177c9mr18270353otk.30.1674739265840;
+        Thu, 26 Jan 2023 05:21:05 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z15-20020a4ade4f000000b004fb9a65daf1sm494456oot.43.2023.01.26.05.21.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jan 2023 05:21:05 -0800 (PST)
+Received: (nullmailer pid 1204337 invoked by uid 1000);
+        Thu, 26 Jan 2023 13:21:04 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230126105227.47648-1-l.ellero@asem.it>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+From:   Rob Herring <robh@kernel.org>
+To:     Manuel Traut <manuel.traut@mt.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <20230126091825.220646-2-manuel.traut@mt.com>
+References: <20230126091825.220646-1-manuel.traut@mt.com>
+ <20230126091825.220646-2-manuel.traut@mt.com>
+Message-Id: <167473911077.1198926.3684337586701842889.robh@kernel.org>
+Subject: Re: [PATCH v8 1/5] dt-bindings: input: pwm-beeper: Convert txt
+ bindings to yaml
+Date:   Thu, 26 Jan 2023 07:21:04 -0600
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 11:52:24AM +0100, Luca Ellero wrote:
-> ADS7845 support is buggy in this driver.
-> These patches fix various issues to get it work properly.
 
-Entire series now looks good to me
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Thanks!
-
-> Changes for v2:
->  - add missing period in patch 0001 message
->  - elaborate comment in patch 0002
->  
-> Changes for v3:
->  - send from the same email address of "Signed-off"
+On Thu, 26 Jan 2023 10:18:21 +0100, Manuel Traut wrote:
+> Converts txt binding to new YAML format.
 > 
-> Changes for v4:
->  - fix tag
->  - fix comment in patch 0002
-> 
-> Changes for v5:
->  - add Fixes: tag
->  - fix comment in patch 0001
-> 
-> Luca Ellero (3):
->   Input: ads7846 - don't report pressure for ads7845
->   Input: ads7846 - always set last command to PWRDOWN
->   Input: ads7846 - don't check penirq immediately for 7845
-> 
->  drivers/input/touchscreen/ads7846.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.25.1
+> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
+> ---
+>  .../devicetree/bindings/input/pwm-beeper.txt  | 24 ----------
+>  .../devicetree/bindings/input/pwm-beeper.yaml | 48 +++++++++++++++++++
+>  2 files changed, 48 insertions(+), 24 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.yaml
 > 
 
--- 
-With Best Regards,
-Andy Shevchenko
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/input/pwm-beeper.example.dtb: /example-0/amplifier: failed to match any schema with compatible: ['fixed-regulator']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230126091825.220646-2-manuel.traut@mt.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
