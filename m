@@ -2,94 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79D1C67C95E
-	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 12:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B25467CA99
+	for <lists+linux-input@lfdr.de>; Thu, 26 Jan 2023 13:11:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236849AbjAZLDZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Jan 2023 06:03:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53394 "EHLO
+        id S236212AbjAZMK6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Jan 2023 07:10:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237084AbjAZLDX (ORCPT
+        with ESMTP id S232615AbjAZMK5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Jan 2023 06:03:23 -0500
-X-Greylist: delayed 646 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Jan 2023 03:03:20 PST
-Received: from smtpweb146.aruba.it (smtpweb146.aruba.it [62.149.158.146])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FEFEB741
-        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 03:03:20 -0800 (PST)
-Received: from asem-TANK-H61.asem.intra ([151.1.184.193])
-        by Aruba Outgoing Smtp  with ESMTPSA
-        id KzrppyQ5bn7VrKzrwpdlvQ; Thu, 26 Jan 2023 11:52:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1674730357; bh=H9c79j0VtyhTiRS4TnW7zV7MIRdHfFiRAQrVb9wLVoY=;
-        h=From:To:Subject:Date:MIME-Version;
-        b=O3rbeiY+zrMVxTbxh3oMC4P4PXec6OLmpaFUaYqGexZoQ+XcA9+n48HJJBntLH7ZF
-         s9hu/lxR9Ea54dt5iyJOC6DdJApWdYH/CWYmvCJov6L0ejNPZDT+6wZJSZfgfiEHrJ
-         e0+LOfrnZ0sdGdZF+nEDX7M7TlIAbO5/vSEsxXeDqW2UzFYZN4S2Fg4En6Y19rUUG8
-         gOVvPrGZP9y2TGf0ydPaol5gWVEYhFOnGMb7ad5EuoJw0p5oXUN/27WWFFykUCEFdg
-         TzeWhdKkadu59yX4Al9OVcrptfV0mCkmXi63jM0kJT0W6ORD9AOTNDKFrcxN47889o
-         0O9BRk8vCUgCw==
-From:   Luca Ellero <l.ellero@asem.it>
-To:     dmitry.torokhov@gmail.com, daniel@zonque.org,
-        m.felsch@pengutronix.de, andriy.shevchenko@linux.intel.com,
-        u.kleine-koenig@pengutronix.de, mkl@pengutronix.de,
-        miquel.raynal@bootlin.com, imre.deak@nokia.com,
-        luca.ellero@brickedbrain.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luca Ellero <l.ellero@asem.it>
-Subject: [PATCH 3/3] Input: ads7846 - don't check penirq immediately for 7845
-Date:   Thu, 26 Jan 2023 11:52:27 +0100
-Message-Id: <20230126105227.47648-4-l.ellero@asem.it>
+        Thu, 26 Jan 2023 07:10:57 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E7A42BFC
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:10:55 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id y15so987459edq.13
+        for <linux-input@vger.kernel.org>; Thu, 26 Jan 2023 04:10:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=diag.uniroma1.it; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eVbivV8EGu+km89gAq7ikjZD9Nt9wLtDAtt21fJbyIE=;
+        b=Z+Jx3ESL49Z2PCF4IUnISXt1Ax3Bh5RhOtxjA77Q+aTXwdTogaLdApCZ0YageHuLgS
+         qtiYhwM7TJDQQE0gtq3wj3rQUL+qBWAvUl9jsDW1xrQZKGL7EgWvxNPuBBvULej9v72Z
+         uXzY72TclGoeq2vUHaX6eq6+1gn2y/RP7Md/c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eVbivV8EGu+km89gAq7ikjZD9Nt9wLtDAtt21fJbyIE=;
+        b=wJIxNTNmZDjsWkXg5yhckNaYPrE8os0rS58zx05zR2CXRcPnXicbmkYFlgujzBsEt7
+         harbi8O0RQx5U1/1D8N3/EjL0tnvwBgcKz2WCCoV09/LcjW8+U/ljML9SKqzLfeGdtmy
+         uW+ocf/AT+ucE24eMAOU2xBjMZssnkriqwTK7DDZDQZdfH8iViC3ZB02DBcWD4RhPw8a
+         XJQYYRzgpJtIw+EjOOv/kpBMHFLKaIM7sug7dqCdVh4mGyw6IVOEOTZXVMO9ANLf4PGB
+         4kxAhFNoe2/IOvFjmD8b02jePhTuohL8nJ4KVB5lOyY+aaGSUvbWla+vC3myPDQuD0zV
+         ZMVQ==
+X-Gm-Message-State: AFqh2ko3YgzTjiq6Fjt1D42n5VRWkMPp4wcK3/54mBRMZvxHwnzEJj/k
+        KYHzKtgaYo5RhNzOp30kjX9zDQ==
+X-Google-Smtp-Source: AMrXdXsukXmzEgZnFOHM0z7on12mUpXq2NJAYUtr0KLvu8zMkX/pzniYGESNkYwGVqZ6WycqNgozXw==
+X-Received: by 2002:a05:6402:3214:b0:49d:bc8c:c3eb with SMTP id g20-20020a056402321400b0049dbc8cc3ebmr43983796eda.15.1674735053993;
+        Thu, 26 Jan 2023 04:10:53 -0800 (PST)
+Received: from pborrello-1.vm.vusec.net (wolkje-127.labs.vu.nl. [130.37.198.127])
+        by smtp.gmail.com with ESMTPSA id j2-20020aa7ca42000000b0049ef56c01d0sm645490edt.79.2023.01.26.04.10.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jan 2023 04:10:53 -0800 (PST)
+From:   Pietro Borrello <borrello@diag.uniroma1.it>
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc:     Pietro Borrello <borrello@diag.uniroma1.it>,
+        linux-leds@vger.kernel.org,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hanno Zulla <kontakt@hanno.de>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Sven Eckelmann <sven@narfation.org>
+Subject: [PATCH v2 3/5] HID: dualsense_remove: manually unregister leds
+Date:   Thu, 26 Jan 2023 12:09:18 +0000
+Message-Id: <20230125-hid-unregister-leds-v2-3-514437b19297@diag.uniroma1.it>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230126105227.47648-1-l.ellero@asem.it>
-References: <20230126105227.47648-1-l.ellero@asem.it>
+In-Reply-To: <CAEc3jaDRzvw4wqomWTZ4QiGT7ndm0u+LQuqDTOWB=B-6w=2yzg@mail.gmail.com>
+References: <20230125-hid-unregister-leds-v2-0-514437b19297@diag.uniroma1.it>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.11.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674734023; l=1556; i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id; bh=I/aK9DcIPRri1R7+BoQmPFot08oQLGwMbJpqlNV1B8M=; b=x78P2ebxLLwLOWOjBnnzLG/enTMXSF9YH3QbZDzWhLC4Tzv7V/zRQOi1YIKOhINhDOkegJK42hLC m1jeKayWD9ELcEL8IQp12s8Y82S82CkgS5gm1+YzswCDoo5jieve
+X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519; pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfHuIE2j3bYbK5nB8eUKiELfmmJoV7gdzP7PFvJTlXY4Xl56qJKHKJb088FjYoJkUOYVRgPpTD5KR7VnGDT8bhHEjyC90kwKQ8uawkqsGN0vnVOhLJnk5
- 7CoTpTJr0SBXgEi1BRYUuE/4u4ilXoLEAoqtF0M/AEdAH6gHJ/6eXXw3lH0i+3weLKvmbn0y7rvRjGhDQ3EQpELyTFGNk6/PIeCm3TT8OjIiNhTI+2dc6ILE
- kM3bZMsV9Ew/fi+38tX9HREKBX+sqw+66+fFZDSR3SeprG3qNGGXWop61ErY1V0E75rIEQtdAw0aVbvT106JLx4RDZQnGsBCzPW1kcdhJmqhwlSJBPBsS1u9
- 58QVty2YIlt5Hai2jnrUGXVNr7y9KT4YfRYj7u0iuYDaqr4nKvxW3GxfwpKyRYGuAC04kgb2AAL34HrTgt7gJ9ndp8ad6RGRo5zsZKTm24Lpsv9q6Beoq54O
- IOFfbAr6XFVy0XhRVKublbFj/vwbJaGrAHokHnPfDUDbkzIGSfas0U6ZFGWlrJJOCxX0xx+CUnIG+btP++FZ07Vk5IM+hVi9Uc/AbNr50tQaq4M8heVJmsSD
- SMWI204EqQxoCHssmTJyb2+P
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-To discard false readings, one should use "ti,penirq-recheck-delay-usecs".
-Checking get_pendown_state() at the beginning, most of the time fails
-causing malfunctioning.
+Unregister the LED controllers before device removal, to prevent
+unnecessary runs of dualsense_player_led_set_brightness().
 
-Fixes: ffa458c1bd9b ("spi: ads7846 driver")
-Signed-off-by: Luca Ellero <l.ellero@asem.it>
+Fixes: 8c0ab553b072 ("HID: playstation: expose DualSense player LEDs through LED class.")
+Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
+
 ---
- drivers/input/touchscreen/ads7846.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index 15da1047a577..17f11bce8113 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -843,14 +843,8 @@ static void ads7846_report_state(struct ads7846 *ts)
- 	if (x == MAX_12BIT)
- 		x = 0;
+Contrary to the other patches in this series, failing to unregister
+the led controller does not results into a use-after-free thanks
+to the output_worker_initialized variable and the spinlock checks.
+
+Changes in v2:
+- Unregister multicolor led controller
+- Clarify UAF
+- Link to v1: https://lore.kernel.org/all/20230125-hid-unregister-leds-v1-3-9a5192dcef16@diag.uniroma1.it/
+---
+ drivers/hid/hid-playstation.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index 27c40894acab..f23186ca2d76 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -1503,11 +1503,17 @@ static void dualsense_remove(struct ps_device *ps_dev)
+ {
+ 	struct dualsense *ds = container_of(ps_dev, struct dualsense, base);
+ 	unsigned long flags;
++	int i;
  
--	if (ts->model == 7843) {
-+	if (ts->model == 7843 || ts->model == 7845) {
- 		Rt = ts->pressure_max / 2;
--	} else if (ts->model == 7845) {
--		if (get_pendown_state(ts))
--			Rt = ts->pressure_max / 2;
--		else
--			Rt = 0;
--		dev_vdbg(&ts->spi->dev, "x/y: %d/%d, PD %d\n", x, y, Rt);
- 	} else if (likely(x && z1)) {
- 		/* compute touch pressure resistance using equation #2 */
- 		Rt = z2;
+ 	spin_lock_irqsave(&ds->base.lock, flags);
+ 	ds->output_worker_initialized = false;
+ 	spin_unlock_irqrestore(&ds->base.lock, flags);
+ 
++	for (i = 0; i < ARRAY_SIZE(ds->player_leds); i++)
++		devm_led_classdev_unregister(&ps_dev->hdev->dev, &ds->player_leds[i]);
++
++	devm_led_classdev_multicolor_unregister(&ps_dev->hdev->dev, &ds->lightbar);
++
+ 	cancel_work_sync(&ds->output_worker);
+ }
+ 
+
 -- 
 2.25.1
-
