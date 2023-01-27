@@ -2,91 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23E3067DDC5
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 07:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5441567E19A
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 11:29:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232108AbjA0Gkf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Jan 2023 01:40:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39118 "EHLO
+        id S231575AbjA0K3b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Jan 2023 05:29:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231848AbjA0GkU (ORCPT
+        with ESMTP id S231522AbjA0K3b (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Jan 2023 01:40:20 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E79069B07;
-        Thu, 26 Jan 2023 22:40:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=UtsHETgm9NdBjm7zsfWKEYsqPPKnOaDFPcTAJNtRmaw=; b=oWT+ukmPS7MMQzr9rFsrW37Giv
-        JeD8cOuz+wgTmhH3JHmFHWa9Ixv8/M9phEsM/H7e/BWq2uCq6ulgdWK8/BqYwr1xssOuTJqKtYK0q
-        zh7F/GOlIJqt2F2ypsHVO9XUEDEy4mCOr0A3nquJvYg4OwXgDmAIKRgPLVYPpm/7C9qa2CFX0fuZ3
-        pUP+31MBir9UTZJPAzD1+eATKx/4GkT6388e35LLfVlxq790CwZmqSmTt5BDxsPQ+LCGMahEx/9Z5
-        nXLSvtz4qhym52KzX0+IuEKVGP9Aba49XQ9+gU3C4Ql2I7s/OqZV1h3huKFEenTLEQ7WvYj/Qw+bp
-        gA4R6pjw==;
-Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLIPH-00DM0u-HT; Fri, 27 Jan 2023 06:40:15 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 12/35] Documentation: input: correct spelling
-Date:   Thu, 26 Jan 2023 22:39:42 -0800
-Message-Id: <20230127064005.1558-13-rdunlap@infradead.org>
+        Fri, 27 Jan 2023 05:29:31 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB83E1E9CB;
+        Fri, 27 Jan 2023 02:29:29 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id bk15so12440573ejb.9;
+        Fri, 27 Jan 2023 02:29:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kl4vvs/mNFqcvRMUjQB6MZEBYyzmISH11LLZs+X1CO4=;
+        b=irrwnmVUWs7xcQXObqZW8LOuUQ4STYokXf3xo0hwMdm2SNHUrbV1RYueQF57z3XtzW
+         Hhz/ieiHGSao8BYNOeeWiAuv4Kxla/RI5bZjpR3WMNARgHhCuKj+IKrw2OSIIPE7VQIZ
+         2mWn65gMvU61oRKJffsgzQ+3OszBQSSVYpAUTIStDAroQ6dQj5aTjca9TbawTIWL63l0
+         ZGuKVEcRCSW3uYrDOpIZNiWYcyr6NAhVTJhc1jHJjFGPv5FbKGKurotF/uXaNT9w/0to
+         9Q65kpsMeXVtZ7Kp79Rd44ckMe4kzUoYrAUtCi12bXhgmPn24Ek1vrFw/0vccZ6Hy29C
+         groA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kl4vvs/mNFqcvRMUjQB6MZEBYyzmISH11LLZs+X1CO4=;
+        b=mnFAjWTQfn+hgejDfcSWHbxZXOkS2ulSJGKU/FpBdzdBHs/JLA4/nEnsVAlUB8UsYY
+         8A9rQW9vKIyXghMbir9gVP14evn9AruXtFzhrR83ayW5q/R+lBXoeK9c5U7We/DA1NVk
+         imr7lpxFZrh/lYDgbzsGY6m3NemojwmWV7mJcMQ14Dd3GPuuF/qYW7yfEZsZLfQh/ySy
+         TfGzN9LWO/K6lxcL1VA6z6AxBnPraTvXs8VXJOpAjbT9KuPpPqS+5wNbspZPeCu3dFCB
+         dje/Te0hPCHzwcUEBHOCUT1F5O7ddwzNbh3BAgp0JIBzCI2FCotJQDtJUor9i9RFshbW
+         xslQ==
+X-Gm-Message-State: AFqh2kppGf7ogQAN7jDjYxi95qqCgQuLxTTFCXFfVvZ+xUYWmedjr2VU
+        7d9yPfZubSUBZn+755YTstvz57iawJk=
+X-Google-Smtp-Source: AMrXdXu1S8QSuCwn3lnDyLAH/K3ImzWyRibvemHp3ZDDHYsyeTklqfAnwTD50xdqkaDuWmpTMc8SCg==
+X-Received: by 2002:a17:906:9411:b0:870:2aa7:64fc with SMTP id q17-20020a170906941100b008702aa764fcmr38898717ejx.38.1674815368100;
+        Fri, 27 Jan 2023 02:29:28 -0800 (PST)
+Received: from localhost.localdomain ([195.242.46.66])
+        by smtp.gmail.com with ESMTPSA id r25-20020a170906c29900b0084d4b907ff8sm1990023ejz.120.2023.01.27.02.29.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 02:29:27 -0800 (PST)
+From:   Richard Kjerstadius <kjerstadius@gmail.com>
+X-Google-Original-From: Richard Kjerstadius <richard.kjerstadius@teledyne.com>
+To:     linux-input@vger.kernel.org
+Cc:     Richard Kjerstadius <richard.kjerstadius@teledyne.com>,
+        linus.walleij@linaro.org, dmitry.torokhov@gmail.com,
+        alistair@alistair23.me, linux-kernel@vger.kernel.org
+Subject: [PATCH] input: cyttsp5: Fix bitmask for touch buttons
+Date:   Fri, 27 Jan 2023 11:29:03 +0100
+Message-Id: <20230127102903.3317089-1-richard.kjerstadius@teledyne.com>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Correct spelling problems for Documentation/input/ as reported
-by codespell.
+Prior to this patch, the bitmask ends up being 0x3, as opposed to 0x1
+which likely was the intention. The erroneous bit results in the driver
+reporting 2 different button activations in designs with 2 or more
+buttons.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
+To detect which button has been pressed, cyttsp5_btn_attention() uses a
+for loop to iterate through the input buffer, while shifting and
+applying a bitmask to determine the state for each button.
+Unfortunately, when the bitmask is 0x3 and there are multiple buttons,
+this procedure falls apart.
+
+Consider a design with 3 buttons. Pressing the third button will result
+in a call to cyttsp5_btn_attention() with the input buffer containing
+0x4 (binary 0100). In the first iteration of the for loop cur_btn_state
+will be:
+
+(0x4 >> 0 * 1) & 0x3 = 0x4 & 0x3 = 0x0
+
+This is correct. However, in the next iteration this happens:
+
+(0x4 >> 1 * 1) & 0x3 = 0x2 & 0x3 = 0x2
+
+Which means that a key event for key 1 is generated, even though it's
+not really active. In the third iteration, the loop detects the button
+that was actually pressed:
+
+(0x4 >> 2 * 1) & 0x3 = 0x1 & 0x3 = 0x1
+
+This key event is the only one that should have been detected, but it is
+accompanied by the preceding key. Ensuring the applied mask is 0x1
+solves this problem.
+
+Signed-off-by: Richard Kjerstadius <richard.kjerstadius@teledyne.com>
 ---
- Documentation/input/devices/iforce-protocol.rst |    2 +-
- Documentation/input/multi-touch-protocol.rst    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/cyttsp5.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/Documentation/input/devices/iforce-protocol.rst b/Documentation/input/devices/iforce-protocol.rst
---- a/Documentation/input/devices/iforce-protocol.rst
-+++ b/Documentation/input/devices/iforce-protocol.rst
-@@ -49,7 +49,7 @@ OP DATA
- == ====
+diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
+index 4a23d6231382..16caffa35dd9 100644
+--- a/drivers/input/touchscreen/cyttsp5.c
++++ b/drivers/input/touchscreen/cyttsp5.c
+@@ -29,7 +29,7 @@
+ #define CY_MAX_INPUT				512
+ #define CYTTSP5_PREALLOCATED_CMD_BUFFER		32
+ #define CY_BITS_PER_BTN				1
+-#define CY_NUM_BTN_EVENT_ID			GENMASK(CY_BITS_PER_BTN, 0)
++#define CY_NUM_BTN_EVENT_ID			GENMASK(CY_BITS_PER_BTN - 1, 0)
  
- The 2B, LEN and CS fields have disappeared, probably because USB handles
--frames and data corruption is handled or unsignificant.
-+frames and data corruption is handled or insignificant.
- 
- First, I describe effects that are sent by the device to the computer
- 
-diff -- a/Documentation/input/multi-touch-protocol.rst b/Documentation/input/multi-touch-protocol.rst
---- a/Documentation/input/multi-touch-protocol.rst
-+++ b/Documentation/input/multi-touch-protocol.rst
-@@ -383,7 +383,7 @@ Finger Tracking
- ---------------
- 
- The process of finger tracking, i.e., to assign a unique trackingID to each
--initiated contact on the surface, is a Euclidian Bipartite Matching
-+initiated contact on the surface, is a Euclidean Bipartite Matching
- problem.  At each event synchronization, the set of actual contacts is
- matched to the set of contacts from the previous synchronization. A full
- implementation can be found in [#f3]_.
+ #define MAX_AREA				255
+ #define HID_OUTPUT_BL_SOP			0x1
+-- 
+2.39.0
+
