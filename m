@@ -2,133 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF5367E341
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 12:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C44767E5BD
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 13:49:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232263AbjA0L3a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Jan 2023 06:29:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42068 "EHLO
+        id S232045AbjA0Mtj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Jan 2023 07:49:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233326AbjA0L3O (ORCPT
+        with ESMTP id S233705AbjA0Mti (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Jan 2023 06:29:14 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6FC17E681;
-        Fri, 27 Jan 2023 03:28:19 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 33D662003F;
-        Fri, 27 Jan 2023 11:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1674818898; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=tDOqTbs0S3Y0iW7HxTYwoZGCDL2WVLefPe2n98YmMuk=;
-        b=eQmkJHzYyShNotnOsAuCffwXvYJOAC9lLBUOLg8k2yXbrXdAnumj7p3nB7tMaQVYRx0bbO
-        ao5iAwLyJWtgyXlirw1GU52L4FMTDIa5D0gDdF+8ZYdP+mZOb+kJqEv0dFqPa04C4hvVue
-        uOxm4NxBBtNSP3kLD1lob03F7hMgmY8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1674818898;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=tDOqTbs0S3Y0iW7HxTYwoZGCDL2WVLefPe2n98YmMuk=;
-        b=IxFGJ3LqrCl5bt0C2vF/VtW/yDY8ITWzELW/Jno4GLwuLiOsGtudj5NB4fSCH3svcgDptu
-        qeLQESI2b5vA/gBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEB911336F;
-        Fri, 27 Jan 2023 11:28:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id b+feNFG102PBXQAAMHmgww
-        (envelope-from <jdelvare@suse.de>); Fri, 27 Jan 2023 11:28:17 +0000
-Date:   Fri, 27 Jan 2023 12:28:16 +0100
-From:   Jean Delvare <jdelvare@suse.de>
-To:     linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Cc:     Daniel Hung-yu Wu <hywu@google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: [PATCH RESEND] Input: atmel_captouch - drop obsolete dependency on
- COMPILE_TEST
-Message-ID: <20230127122816.02b6ea26@endymion.delvare>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
+        Fri, 27 Jan 2023 07:49:38 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE28817CF1;
+        Fri, 27 Jan 2023 04:49:37 -0800 (PST)
+Received: from [2a02:8108:963f:de38:4bc7:2566:28bd:b73c]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pLOAi-0001Fi-8p; Fri, 27 Jan 2023 13:49:36 +0100
+Message-ID: <93d1e57f-a7c5-4d3c-3b3d-d1f573894a78@leemhuis.info>
+Date:   Fri, 27 Jan 2023 13:49:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [git pull] Input updates for v6.1-rc5
+Content-Language: en-US, de-DE
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+References: <Y3gwySzRvhCwdSgW@google.com>
+ <824effa5-8b9a-c28a-82bb-9b0ab24623e1@kernel.org>
+From:   "Linux kernel regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <824effa5-8b9a-c28a-82bb-9b0ab24623e1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1674823777;fe669485;
+X-HE-SMSGID: 1pLOAi-0001Fi-8p
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
-is possible to test-build any driver which depends on OF on any
-architecture by explicitly selecting OF. Therefore depending on
-COMPILE_TEST as an alternative is no longer needed.
+On 13.12.22 12:41, Jiri Slaby wrote:
+> On 19. 11. 22, 2:26, Dmitry Torokhov wrote:
+>> to receive updates for the input subsystem. You will get:
+>>
+>> - a fix for 8042 to stop leaking platform device on unload
+>> - a fix for Goodix touchscreens on devices like Nanote UMPC-01 where we
+>>    need to reset controller to load config from firmware
+>> - a workaround for Acer Switch to avoid interrupt storm from home and
+>>    power buttons
+>> - a workaround for more ASUS ZenBook models to detect keyboard cnotroller
+>> - a fix for iforce driver to properly handle communication errors
+>> - touchpad on HP Laptop 15-da3001TU switched to RMI mode
+>>
+>> Changelog:
+>> ---------
+>>
+>> Aman Dhoot (1):
+>>        Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to
+>> RMI mode
+> 
+> This appears to break keyboard on HP's 15-da1xxx which appears to have
+> the same ID: SYN3286. This happens on 6.0.12.
 
-As a nice side effect, dropping the alternative dependency on
-COMPILE_TEST allows removing preprocessor directives, which will
-speed up the build.
+Dmitry, Jiri's report afaics made you quickly apply a revert that since
+round about mid December is in -next:
 
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
-Cc: Daniel Hung-yu Wu <hywu@google.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/misc/Kconfig          |    2 +-
- drivers/input/misc/atmel_captouch.c |    4 +---
- 2 files changed, 2 insertions(+), 4 deletions(-)
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=master&id=3c44e2b6cde674797b76e76d3a903a63ce8a18bb
 
---- linux-6.1.orig/drivers/input/misc/Kconfig
-+++ linux-6.1/drivers/input/misc/Kconfig
-@@ -107,7 +107,7 @@ config INPUT_ATC260X_ONKEY
- 
- config INPUT_ATMEL_CAPTOUCH
- 	tristate "Atmel Capacitive Touch Button Driver"
--	depends on OF || COMPILE_TEST
-+	depends on OF
- 	depends on I2C
- 	help
- 	  Say Y here if an Atmel Capacitive Touch Button device which
---- linux-6.1.orig/drivers/input/misc/atmel_captouch.c
-+++ linux-6.1/drivers/input/misc/atmel_captouch.c
-@@ -249,7 +249,6 @@ static int atmel_captouch_probe(struct i
- 	return 0;
- }
- 
--#ifdef CONFIG_OF
- static const struct of_device_id atmel_captouch_of_id[] = {
- 	{
- 		.compatible = "atmel,captouch",
-@@ -257,7 +256,6 @@ static const struct of_device_id atmel_c
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, atmel_captouch_of_id);
--#endif
- 
- static const struct i2c_device_id atmel_captouch_id[] = {
- 	{ "atmel_captouch", 0 },
-@@ -270,7 +268,7 @@ static struct i2c_driver atmel_captouch_
- 	.id_table	= atmel_captouch_id,
- 	.driver		= {
- 		.name	= "atmel_captouch",
--		.of_match_table = of_match_ptr(atmel_captouch_of_id),
-+		.of_match_table = atmel_captouch_of_id,
- 	},
- };
- module_i2c_driver(atmel_captouch_driver);
+But it looks like it never made it to mainline (or am I missing
+something here? it feels like I do... anyway, moving on.). Was that
+intentional or did that simply fall through the cracks due to the
+festive season?
 
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
--- 
-Jean Delvare
-SUSE L3 Support
+#regzbot poke
+
+> synaptics excerpt from dmesg:
+> psmouse serio1: synaptics: Trying to set up SMBus access
+> psmouse serio1: synaptics: SMbus companion is not ready yet
+> ...
+> psmouse serio1: synaptics: queried max coordinates: x [..5648], y [..4826]
+> psmouse serio1: synaptics: queried min coordinates: x [1292..], y [1026..]
+> psmouse serio1: synaptics: Trying to set up SMBus access
+> rmi4_smbus 6-002c: registering SMbus-connected sensor
+> rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics,
+> product: TM3320-003, fw id: 2659795
+> input: Synaptics TM3320-003 as
+> /devices/pci0000:00/0000:00:1f.4/i2c-6/6-002c/rmi4-00/input/input21
+> 
+> 
+> 
+> 
+> This was reported downstream as a regression between 6.0.10 and 6.0.12:
+> https://bugzilla.suse.com/show_bug.cgi?id=1206358
+> 
+> Full dmesgs available there too.
+> 
+> 
+> 6.0.10 has this instead of the above:
+> psmouse serio1: synaptics: queried max coordinates: x [..5648], y [..4826]
+> psmouse serio1: synaptics: queried min coordinates: x [1292..], y [1026..]
+> psmouse serio1: synaptics: Your touchpad (PNP: SYN3286 PNP0f13) says it
+> can support a different bus. If i2c-hid and hid-rmi are not used, you
+> might want to try setting psmouse.synaptics_intertouch to 1 and report
+> this to linux-input@vger.kernel.org.
+> psmouse serio1: synaptics: Touchpad model: 1, fw: 8.16, id: 0x1e2b1,
+> caps: 0xf00323/0x840300/0x2e800/0x400000, board id: 3320, fw id: 2659795
+> 
+> 
+> 
+> thanks,
