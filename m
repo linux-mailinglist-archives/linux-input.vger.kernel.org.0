@@ -2,67 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6306E67F16F
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 23:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C59AC67F192
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 23:58:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjA0WxD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Jan 2023 17:53:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44600 "EHLO
+        id S229804AbjA0W6f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Jan 2023 17:58:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230516AbjA0WxD (ORCPT
+        with ESMTP id S231990AbjA0W6e (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Jan 2023 17:53:03 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4699B8B7BF;
-        Fri, 27 Jan 2023 14:52:34 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id cr11so2582970pfb.1;
-        Fri, 27 Jan 2023 14:52:34 -0800 (PST)
+        Fri, 27 Jan 2023 17:58:34 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84A5D7E06C
+        for <linux-input@vger.kernel.org>; Fri, 27 Jan 2023 14:58:30 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id x2-20020a17090a46c200b002295ca9855aso10077261pjg.2
+        for <linux-input@vger.kernel.org>; Fri, 27 Jan 2023 14:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MtAG/9KYlJY8+9SpaiWUoGAiO2xcU60MPfFMXhDuZ88=;
-        b=g1EdfzO2WHuFFa0jaMoIWoASitkx7tIS4ElpBtZxweM8pO6vAibz9GnjuyAsCyRigX
-         Vhc1APjEX1Oh1TNoZqiKKpZmLd0uSwHrX4/NRtp0D9CEiu53Guv6t6NlCsGAk2GFF6Ir
-         7LlLmSGYEFshtRoCgZrZe8ihYdbrZPPj0WUbrei1Wg+jvumzQJ7xHW2/p4wlXIgzaRTs
-         fQlN/ga34+LIljx0aPUDdkrHm36+0/4GRrQAeiCFkMQ3a3Ghveem9STpTc28jRZYGGJ7
-         oJp5Ih47o/rEnCuIh9rywumUtpBhS3k1lr0R89vFVWpDfY1JSw3E1LN4WdWfqgZ6pZKy
-         VDCg==
+        bh=NAuEPe5Fm3duGs4DCCXetocKtRFyGeUA3RnOr/4KXCw=;
+        b=eru1HYk6LwctM/6B2LL3sBGZ3/0bJmivo3aoZY5W5S8xfNjI6bRH/mt87zjsvfsBLS
+         OwI9DfsSsDJlufSuywzV2FzJahIJHpFp4+esN3r3TdfeYZWAjyLH1MNbNkJ+fSnItrES
+         SQ0ojeXs08BelsOLDtaV65K0gr9choTyZg6FwYLQc/e4lZ7rezoMTaxS//sV5yWWw1sr
+         7rATurTQPn9qjGG0lD97SKiiBN1MOwDvPtB9pbN03EBkX+9NSmGO0nUvcKTcHAC+nR6A
+         1wPH9uWhRkndZolP8g8tXdGfXhG2dVbCr6lrlc4K9hjUQjxNjhQDyetbO/9FkjwNJUYd
+         CPZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MtAG/9KYlJY8+9SpaiWUoGAiO2xcU60MPfFMXhDuZ88=;
-        b=FESzg6EykMlHUc9qExAxfU+Fkb3F7gtpj/vT58Agr8FSp1Cj6c92HvvneA7kmnd6if
-         VIFXYL0+0lJiPuo56xQZwmt8dvBi8zi5olL+3gVqHlqk5Q/rlepIDOvEd10uRDKoXfoJ
-         WDWMQlU2JHpOlS7hSbmV5dzYbIS0snSUTOS/ekk7W+qQrZybLtEyj9McSQLTFzV/IHmq
-         f9wfzyB0GSHADysmrr66jw4Zqtg7DBJ1LdnfgK6Zsov9o91Hp1CeWH+rQ5KkMBSjq5Ci
-         9mHRR+KjGz/1GyhH3lvJ5Tvedohdcndj5/hDGyFjEt58Eag5TRRI6UkJYLoQvAzmI1/T
-         6NQw==
-X-Gm-Message-State: AO0yUKWSsGYXsjQxryVPtERCsxsSC1JWj3T6NiQriHBRRbhQIUU7FMb3
-        MuF6tbtoP8BuE0scWCmlTOE=
-X-Google-Smtp-Source: AK7set9oiUs6Tl3aXiXoueIGJeNfJFvQWZvXAkgJLdhxnuI/gFcFXzwg3djZi8zErXju+tLlb0607Q==
-X-Received: by 2002:a05:6a00:3022:b0:592:b93b:afc0 with SMTP id ay34-20020a056a00302200b00592b93bafc0mr3360503pfb.20.1674859953568;
-        Fri, 27 Jan 2023 14:52:33 -0800 (PST)
+        bh=NAuEPe5Fm3duGs4DCCXetocKtRFyGeUA3RnOr/4KXCw=;
+        b=gVVJZDgCLLjSHY+rqMYm16DW2OMxU4qgnQxrhMsbXyLsdPgpNBq7xVdIio7iKMy0FI
+         2Bb7zoVZTuS9k90aqVUWZWgLORmy8EECB8bReteU7lzdi5fUac25m0vVUkrCWotEqU7n
+         uhGUDtltm4SLRcUQC+0AjWfc1g7xenNVfvrn3hHgPGN//veeiRv7epVJ50HVbrw1IiRv
+         SSuc+CjC5Z4jOqF5+iiCoadUYOQ76Yquw83F+K0EOwkqNiWs8YjFApT23X7xM6qf79/5
+         EkwgNZV6k64AxxmNq/5hTXYpargmUE27sC75VpyUx2dyJH97sFINzNqy9q+64P3CumFR
+         YNBg==
+X-Gm-Message-State: AO0yUKX9fvbkgrhGThy4yQH40l3uwHeRlDG/Ip73d1cESdBXo1NB0RZn
+        pvs2PtQPAAIhb5TkXnEvhFntbEW2XYc=
+X-Google-Smtp-Source: AK7set8hNW2HjVi5vP8k8Ch+1iDO/D5Jnb4EmWrFocmqt+RbYQMzBV0JZ/8wQ+h7dqpbq/x/TYnPkg==
+X-Received: by 2002:a17:903:1106:b0:196:40ff:97b5 with SMTP id n6-20020a170903110600b0019640ff97b5mr8908183plh.40.1674860309861;
+        Fri, 27 Jan 2023 14:58:29 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:f44a:5afb:bb52:dec3])
-        by smtp.gmail.com with ESMTPSA id x127-20020a623185000000b0057447bb0ddcsm3103779pfx.49.2023.01.27.14.52.32
+        by smtp.gmail.com with ESMTPSA id i6-20020a170902c94600b0019625428cefsm3333806pla.281.2023.01.27.14.58.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 14:52:32 -0800 (PST)
-Date:   Fri, 27 Jan 2023 14:52:29 -0800
+        Fri, 27 Jan 2023 14:58:29 -0800 (PST)
+Date:   Fri, 27 Jan 2023 14:58:26 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ipaq-micro-ts - fix DEFINE_SIMPLE_DEV_PM_OPS typo
-Message-ID: <Y9RVrZEuY9pAwovy@google.com>
-References: <20230117164539.1631336-1-arnd@kernel.org>
+To:     John Butler <radon86dev@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: xpad - add 8BitDo Pro 2 Wired Controller support
+Message-ID: <Y9RXEpfd9mJiEUa9@google.com>
+References: <20230124005206.80706-1-radon86dev@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117164539.1631336-1-arnd@kernel.org>
+In-Reply-To: <20230124005206.80706-1-radon86dev@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -73,16 +70,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 05:45:33PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Tue, Jan 24, 2023 at 12:52:06AM +0000, John Butler wrote:
+> Add VID and PID to the xpad_device table to allow driver
+> to use the 8BitDo Pro 2 Wired Controller, which is
+> XTYPE_XBOX360 compatible by default.
 > 
-> The previous change was not properly build tested and needs
-> a trivial spelling change:
-> 
-> ipaq-micro-ts.c:146:8: error: type defaults to 'int' in declaration of 'DEFINE_SIMPLE_DEV_PM' [-Werror=implicit-int]
-> 
-> Fixes: 144ff5e03d74 ("Input: ipaq-micro-ts - use DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr()")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: John Butler <radon86dev@gmail.com>
+> Cc: linux-input@vger.kernel.org
 
 Applied, thank you.
 
