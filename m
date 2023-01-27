@@ -2,125 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5441567E19A
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 11:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BF5367E341
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 12:29:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231575AbjA0K3b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Jan 2023 05:29:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39536 "EHLO
+        id S232263AbjA0L3a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Jan 2023 06:29:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231522AbjA0K3b (ORCPT
+        with ESMTP id S233326AbjA0L3O (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Jan 2023 05:29:31 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB83E1E9CB;
-        Fri, 27 Jan 2023 02:29:29 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id bk15so12440573ejb.9;
-        Fri, 27 Jan 2023 02:29:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kl4vvs/mNFqcvRMUjQB6MZEBYyzmISH11LLZs+X1CO4=;
-        b=irrwnmVUWs7xcQXObqZW8LOuUQ4STYokXf3xo0hwMdm2SNHUrbV1RYueQF57z3XtzW
-         Hhz/ieiHGSao8BYNOeeWiAuv4Kxla/RI5bZjpR3WMNARgHhCuKj+IKrw2OSIIPE7VQIZ
-         2mWn65gMvU61oRKJffsgzQ+3OszBQSSVYpAUTIStDAroQ6dQj5aTjca9TbawTIWL63l0
-         ZGuKVEcRCSW3uYrDOpIZNiWYcyr6NAhVTJhc1jHJjFGPv5FbKGKurotF/uXaNT9w/0to
-         9Q65kpsMeXVtZ7Kp79Rd44ckMe4kzUoYrAUtCi12bXhgmPn24Ek1vrFw/0vccZ6Hy29C
-         groA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Kl4vvs/mNFqcvRMUjQB6MZEBYyzmISH11LLZs+X1CO4=;
-        b=mnFAjWTQfn+hgejDfcSWHbxZXOkS2ulSJGKU/FpBdzdBHs/JLA4/nEnsVAlUB8UsYY
-         8A9rQW9vKIyXghMbir9gVP14evn9AruXtFzhrR83ayW5q/R+lBXoeK9c5U7We/DA1NVk
-         imr7lpxFZrh/lYDgbzsGY6m3NemojwmWV7mJcMQ14Dd3GPuuF/qYW7yfEZsZLfQh/ySy
-         TfGzN9LWO/K6lxcL1VA6z6AxBnPraTvXs8VXJOpAjbT9KuPpPqS+5wNbspZPeCu3dFCB
-         dje/Te0hPCHzwcUEBHOCUT1F5O7ddwzNbh3BAgp0JIBzCI2FCotJQDtJUor9i9RFshbW
-         xslQ==
-X-Gm-Message-State: AFqh2kppGf7ogQAN7jDjYxi95qqCgQuLxTTFCXFfVvZ+xUYWmedjr2VU
-        7d9yPfZubSUBZn+755YTstvz57iawJk=
-X-Google-Smtp-Source: AMrXdXu1S8QSuCwn3lnDyLAH/K3ImzWyRibvemHp3ZDDHYsyeTklqfAnwTD50xdqkaDuWmpTMc8SCg==
-X-Received: by 2002:a17:906:9411:b0:870:2aa7:64fc with SMTP id q17-20020a170906941100b008702aa764fcmr38898717ejx.38.1674815368100;
-        Fri, 27 Jan 2023 02:29:28 -0800 (PST)
-Received: from localhost.localdomain ([195.242.46.66])
-        by smtp.gmail.com with ESMTPSA id r25-20020a170906c29900b0084d4b907ff8sm1990023ejz.120.2023.01.27.02.29.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 02:29:27 -0800 (PST)
-From:   Richard Kjerstadius <kjerstadius@gmail.com>
-X-Google-Original-From: Richard Kjerstadius <richard.kjerstadius@teledyne.com>
-To:     linux-input@vger.kernel.org
-Cc:     Richard Kjerstadius <richard.kjerstadius@teledyne.com>,
-        linus.walleij@linaro.org, dmitry.torokhov@gmail.com,
-        alistair@alistair23.me, linux-kernel@vger.kernel.org
-Subject: [PATCH] input: cyttsp5: Fix bitmask for touch buttons
-Date:   Fri, 27 Jan 2023 11:29:03 +0100
-Message-Id: <20230127102903.3317089-1-richard.kjerstadius@teledyne.com>
-X-Mailer: git-send-email 2.39.1
+        Fri, 27 Jan 2023 06:29:14 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6FC17E681;
+        Fri, 27 Jan 2023 03:28:19 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 33D662003F;
+        Fri, 27 Jan 2023 11:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1674818898; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=tDOqTbs0S3Y0iW7HxTYwoZGCDL2WVLefPe2n98YmMuk=;
+        b=eQmkJHzYyShNotnOsAuCffwXvYJOAC9lLBUOLg8k2yXbrXdAnumj7p3nB7tMaQVYRx0bbO
+        ao5iAwLyJWtgyXlirw1GU52L4FMTDIa5D0gDdF+8ZYdP+mZOb+kJqEv0dFqPa04C4hvVue
+        uOxm4NxBBtNSP3kLD1lob03F7hMgmY8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1674818898;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=tDOqTbs0S3Y0iW7HxTYwoZGCDL2WVLefPe2n98YmMuk=;
+        b=IxFGJ3LqrCl5bt0C2vF/VtW/yDY8ITWzELW/Jno4GLwuLiOsGtudj5NB4fSCH3svcgDptu
+        qeLQESI2b5vA/gBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEB911336F;
+        Fri, 27 Jan 2023 11:28:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id b+feNFG102PBXQAAMHmgww
+        (envelope-from <jdelvare@suse.de>); Fri, 27 Jan 2023 11:28:17 +0000
+Date:   Fri, 27 Jan 2023 12:28:16 +0100
+From:   Jean Delvare <jdelvare@suse.de>
+To:     linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Cc:     Daniel Hung-yu Wu <hywu@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: [PATCH RESEND] Input: atmel_captouch - drop obsolete dependency on
+ COMPILE_TEST
+Message-ID: <20230127122816.02b6ea26@endymion.delvare>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Prior to this patch, the bitmask ends up being 0x3, as opposed to 0x1
-which likely was the intention. The erroneous bit results in the driver
-reporting 2 different button activations in designs with 2 or more
-buttons.
+Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
+is possible to test-build any driver which depends on OF on any
+architecture by explicitly selecting OF. Therefore depending on
+COMPILE_TEST as an alternative is no longer needed.
 
-To detect which button has been pressed, cyttsp5_btn_attention() uses a
-for loop to iterate through the input buffer, while shifting and
-applying a bitmask to determine the state for each button.
-Unfortunately, when the bitmask is 0x3 and there are multiple buttons,
-this procedure falls apart.
+As a nice side effect, dropping the alternative dependency on
+COMPILE_TEST allows removing preprocessor directives, which will
+speed up the build.
 
-Consider a design with 3 buttons. Pressing the third button will result
-in a call to cyttsp5_btn_attention() with the input buffer containing
-0x4 (binary 0100). In the first iteration of the for loop cur_btn_state
-will be:
-
-(0x4 >> 0 * 1) & 0x3 = 0x4 & 0x3 = 0x0
-
-This is correct. However, in the next iteration this happens:
-
-(0x4 >> 1 * 1) & 0x3 = 0x2 & 0x3 = 0x2
-
-Which means that a key event for key 1 is generated, even though it's
-not really active. In the third iteration, the loop detects the button
-that was actually pressed:
-
-(0x4 >> 2 * 1) & 0x3 = 0x1 & 0x3 = 0x1
-
-This key event is the only one that should have been detected, but it is
-accompanied by the preceding key. Ensuring the applied mask is 0x1
-solves this problem.
-
-Signed-off-by: Richard Kjerstadius <richard.kjerstadius@teledyne.com>
+Signed-off-by: Jean Delvare <jdelvare@suse.de>
+Cc: Daniel Hung-yu Wu <hywu@google.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/cyttsp5.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/misc/Kconfig          |    2 +-
+ drivers/input/misc/atmel_captouch.c |    4 +---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-index 4a23d6231382..16caffa35dd9 100644
---- a/drivers/input/touchscreen/cyttsp5.c
-+++ b/drivers/input/touchscreen/cyttsp5.c
-@@ -29,7 +29,7 @@
- #define CY_MAX_INPUT				512
- #define CYTTSP5_PREALLOCATED_CMD_BUFFER		32
- #define CY_BITS_PER_BTN				1
--#define CY_NUM_BTN_EVENT_ID			GENMASK(CY_BITS_PER_BTN, 0)
-+#define CY_NUM_BTN_EVENT_ID			GENMASK(CY_BITS_PER_BTN - 1, 0)
+--- linux-6.1.orig/drivers/input/misc/Kconfig
++++ linux-6.1/drivers/input/misc/Kconfig
+@@ -107,7 +107,7 @@ config INPUT_ATC260X_ONKEY
  
- #define MAX_AREA				255
- #define HID_OUTPUT_BL_SOP			0x1
--- 
-2.39.0
+ config INPUT_ATMEL_CAPTOUCH
+ 	tristate "Atmel Capacitive Touch Button Driver"
+-	depends on OF || COMPILE_TEST
++	depends on OF
+ 	depends on I2C
+ 	help
+ 	  Say Y here if an Atmel Capacitive Touch Button device which
+--- linux-6.1.orig/drivers/input/misc/atmel_captouch.c
++++ linux-6.1/drivers/input/misc/atmel_captouch.c
+@@ -249,7 +249,6 @@ static int atmel_captouch_probe(struct i
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_OF
+ static const struct of_device_id atmel_captouch_of_id[] = {
+ 	{
+ 		.compatible = "atmel,captouch",
+@@ -257,7 +256,6 @@ static const struct of_device_id atmel_c
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, atmel_captouch_of_id);
+-#endif
+ 
+ static const struct i2c_device_id atmel_captouch_id[] = {
+ 	{ "atmel_captouch", 0 },
+@@ -270,7 +268,7 @@ static struct i2c_driver atmel_captouch_
+ 	.id_table	= atmel_captouch_id,
+ 	.driver		= {
+ 		.name	= "atmel_captouch",
+-		.of_match_table = of_match_ptr(atmel_captouch_of_id),
++		.of_match_table = atmel_captouch_of_id,
+ 	},
+ };
+ module_i2c_driver(atmel_captouch_driver);
 
+
+-- 
+Jean Delvare
+SUSE L3 Support
