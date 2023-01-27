@@ -2,126 +2,172 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C44767E5BD
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 13:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B086567EAB1
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 17:20:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232045AbjA0Mtj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Jan 2023 07:49:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
+        id S234290AbjA0QUZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Jan 2023 11:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233705AbjA0Mti (ORCPT
+        with ESMTP id S234589AbjA0QUU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Jan 2023 07:49:38 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE28817CF1;
-        Fri, 27 Jan 2023 04:49:37 -0800 (PST)
-Received: from [2a02:8108:963f:de38:4bc7:2566:28bd:b73c]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pLOAi-0001Fi-8p; Fri, 27 Jan 2023 13:49:36 +0100
-Message-ID: <93d1e57f-a7c5-4d3c-3b3d-d1f573894a78@leemhuis.info>
-Date:   Fri, 27 Jan 2023 13:49:35 +0100
+        Fri, 27 Jan 2023 11:20:20 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15849841B5;
+        Fri, 27 Jan 2023 08:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674836415; x=1706372415;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=U270CQoWlTfib2ccUnX91Q4dGBBbjD5E5gXGCup4EEQ=;
+  b=Qn+RvgIesu0Cu+aqdHXGe3w+vWWMV5Wuloeit5gwz6E5U4yYilFGBnWp
+   9VRK90jzgk7BwNyeLJ5jSmEoRIxxite/KdE2kWy5a0PyLKaGKljtX5gOj
+   2TF0hL2GObgsNW+gn4FVE/DP4nAgG8Z2uv+pWJ93ZcdevHh1NV8Uaaa0c
+   8M5nTkihPneLZRJlDHXGLu+7X+C1HgCduc0AuJhBrxv1noUxaTe8y6XnC
+   oafPUKh96SmWaIhJw8IrJnr1gTtqrlY7xNFgwpDGIcuostyeP1Yo/PN8w
+   qkKykKFhyFmjfp/kgWZsr8mvaOitT5eWkaou8coqplL1dREF/gVnMpFSi
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="306770287"
+X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
+   d="scan'208";a="306770287"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 08:20:14 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="771630254"
+X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
+   d="scan'208";a="771630254"
+Received: from dpbogia-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.209.18.51])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 08:20:14 -0800
+Message-ID: <bcc22f45efbde7b7b075fe84a495a52b81e02b18.camel@linux.intel.com>
+Subject: Re: [PATCH 10/35] Documentation: hid: correct spelling
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Date:   Fri, 27 Jan 2023 08:20:13 -0800
+In-Reply-To: <20230127064005.1558-11-rdunlap@infradead.org>
+References: <20230127064005.1558-1-rdunlap@infradead.org>
+         <20230127064005.1558-11-rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [git pull] Input updates for v6.1-rc5
-Content-Language: en-US, de-DE
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-References: <Y3gwySzRvhCwdSgW@google.com>
- <824effa5-8b9a-c28a-82bb-9b0ab24623e1@kernel.org>
-From:   "Linux kernel regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <824effa5-8b9a-c28a-82bb-9b0ab24623e1@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1674823777;fe669485;
-X-HE-SMSGID: 1pLOAi-0001Fi-8p
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 13.12.22 12:41, Jiri Slaby wrote:
-> On 19. 11. 22, 2:26, Dmitry Torokhov wrote:
->> to receive updates for the input subsystem. You will get:
->>
->> - a fix for 8042 to stop leaking platform device on unload
->> - a fix for Goodix touchscreens on devices like Nanote UMPC-01 where we
->>    need to reset controller to load config from firmware
->> - a workaround for Acer Switch to avoid interrupt storm from home and
->>    power buttons
->> - a workaround for more ASUS ZenBook models to detect keyboard cnotroller
->> - a fix for iforce driver to properly handle communication errors
->> - touchpad on HP Laptop 15-da3001TU switched to RMI mode
->>
->> Changelog:
->> ---------
->>
->> Aman Dhoot (1):
->>        Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to
->> RMI mode
+On Thu, 2023-01-26 at 22:39 -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/hid/ as reported
+> by codespell.
 > 
-> This appears to break keyboard on HP's 15-da1xxx which appears to have
-> the same ID: SYN3286. This happens on 6.0.12.
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 
-Dmitry, Jiri's report afaics made you quickly apply a revert that since
-round about mid December is in -next:
+For Documentation/hid/intel-ish-hid.rst
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=master&id=3c44e2b6cde674797b76e76d3a903a63ce8a18bb
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-But it looks like it never made it to mainline (or am I missing
-something here? it feels like I do... anyway, moving on.). Was that
-intentional or did that simply fall through the cracks due to the
-festive season?
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+> ---
+>  Documentation/hid/hid-alps.rst      |    2 +-
+>  Documentation/hid/hid-bpf.rst       |    2 +-
+>  Documentation/hid/hiddev.rst        |    2 +-
+>  Documentation/hid/hidraw.rst        |    2 +-
+>  Documentation/hid/intel-ish-hid.rst |    2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff -- a/Documentation/hid/hid-alps.rst b/Documentation/hid/hid-
+> alps.rst
+> --- a/Documentation/hid/hid-alps.rst
+> +++ b/Documentation/hid/hid-alps.rst
+> @@ -9,7 +9,7 @@ Currently ALPS HID driver supports U1 To
+>  U1 device basic information.
+>  
+>  ==========     ======
+> -Vender ID      0x044E
+> +Vendor ID      0x044E
+>  Product ID     0x120B
+>  Version ID     0x0121
+>  ==========     ======
+> diff -- a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-
+> bpf.rst
+> --- a/Documentation/hid/hid-bpf.rst
+> +++ b/Documentation/hid/hid-bpf.rst
+> @@ -307,7 +307,7 @@ sysfs path: ``/sys/bus/hid/devices/xxxx:
+>  
+>  We can not rely on hidraw to bind a BPF program to a HID device.
+> hidraw is an
+>  artefact of the processing of the HID device, and is not stable.
+> Some drivers
+> -even disable it, so that removes the tracing capabilies on those
+> devices
+> +even disable it, so that removes the tracing capabilities on those
+> devices
+>  (where it is interesting to get the non-hidraw traces).
+>  
+>  On the other hand, the ``hid_id`` is stable for the entire life of
+> the HID device,
+> diff -- a/Documentation/hid/hiddev.rst b/Documentation/hid/hiddev.rst
+> --- a/Documentation/hid/hiddev.rst
+> +++ b/Documentation/hid/hiddev.rst
+> @@ -8,7 +8,7 @@ Introduction
+>  In addition to the normal input type HID devices, USB also uses the
+>  human interface device protocols for things that are not really
+> human
+>  interfaces, but have similar sorts of communication needs. The two
+> big
+> -examples for this are power devices (especially uninterruptable
+> power
+> +examples for this are power devices (especially uninterruptible
+> power
+>  supplies) and monitor control on higher end monitors.
+>  
+>  To support these disparate requirements, the Linux USB system
+> provides
+> diff -- a/Documentation/hid/hidraw.rst b/Documentation/hid/hidraw.rst
+> --- a/Documentation/hid/hidraw.rst
+> +++ b/Documentation/hid/hidraw.rst
+> @@ -163,7 +163,7 @@ HIDIOCGOUTPUT(len):
+>         Get an Output Report
+>  
+>  This ioctl will request an output report from the device using the
+> control
+> -endpoint.  Typically, this is used to retrive the initial state of
+> +endpoint.  Typically, this is used to retrieve the initial state of
+>  an output report of a device, before an application updates it as
+> necessary either
+>  via a HIDIOCSOUTPUT request, or the regular device write()
+> interface.  The format
+>  of the buffer issued with this report is identical to that of
+> HIDIOCGFEATURE.
+> diff -- a/Documentation/hid/intel-ish-hid.rst
+> b/Documentation/hid/intel-ish-hid.rst
+> --- a/Documentation/hid/intel-ish-hid.rst
+> +++ b/Documentation/hid/intel-ish-hid.rst
+> @@ -199,7 +199,7 @@ the sender that the memory region for th
+>  DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus
+> message
+>  (that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
+>  Additionally to DMA address communication, this sequence checks
+> capabilities:
+> -if thw host doesn't support DMA, then it won't send DMA allocation,
+> so FW can't
+> +if the host doesn't support DMA, then it won't send DMA allocation,
+> so FW can't
+>  send DMA; if FW doesn't support DMA then it won't respond with
+>  DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
+>  Here ISH acts as busmaster DMA controller. Hence when host sends
+> DMA_XFER,
 
-#regzbot poke
-
-> synaptics excerpt from dmesg:
-> psmouse serio1: synaptics: Trying to set up SMBus access
-> psmouse serio1: synaptics: SMbus companion is not ready yet
-> ...
-> psmouse serio1: synaptics: queried max coordinates: x [..5648], y [..4826]
-> psmouse serio1: synaptics: queried min coordinates: x [1292..], y [1026..]
-> psmouse serio1: synaptics: Trying to set up SMBus access
-> rmi4_smbus 6-002c: registering SMbus-connected sensor
-> rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics,
-> product: TM3320-003, fw id: 2659795
-> input: Synaptics TM3320-003 as
-> /devices/pci0000:00/0000:00:1f.4/i2c-6/6-002c/rmi4-00/input/input21
-> 
-> 
-> 
-> 
-> This was reported downstream as a regression between 6.0.10 and 6.0.12:
-> https://bugzilla.suse.com/show_bug.cgi?id=1206358
-> 
-> Full dmesgs available there too.
-> 
-> 
-> 6.0.10 has this instead of the above:
-> psmouse serio1: synaptics: queried max coordinates: x [..5648], y [..4826]
-> psmouse serio1: synaptics: queried min coordinates: x [1292..], y [1026..]
-> psmouse serio1: synaptics: Your touchpad (PNP: SYN3286 PNP0f13) says it
-> can support a different bus. If i2c-hid and hid-rmi are not used, you
-> might want to try setting psmouse.synaptics_intertouch to 1 and report
-> this to linux-input@vger.kernel.org.
-> psmouse serio1: synaptics: Touchpad model: 1, fw: 8.16, id: 0x1e2b1,
-> caps: 0xf00323/0x840300/0x2e800/0x400000, board id: 3320, fw id: 2659795
-> 
-> 
-> 
-> thanks,
