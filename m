@@ -2,172 +2,214 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B086567EAB1
-	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 17:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A0A967EF71
+	for <lists+linux-input@lfdr.de>; Fri, 27 Jan 2023 21:20:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234290AbjA0QUZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Jan 2023 11:20:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48296 "EHLO
+        id S232746AbjA0UUr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Jan 2023 15:20:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234589AbjA0QUU (ORCPT
+        with ESMTP id S232649AbjA0UUq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Jan 2023 11:20:20 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15849841B5;
-        Fri, 27 Jan 2023 08:20:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674836415; x=1706372415;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=U270CQoWlTfib2ccUnX91Q4dGBBbjD5E5gXGCup4EEQ=;
-  b=Qn+RvgIesu0Cu+aqdHXGe3w+vWWMV5Wuloeit5gwz6E5U4yYilFGBnWp
-   9VRK90jzgk7BwNyeLJ5jSmEoRIxxite/KdE2kWy5a0PyLKaGKljtX5gOj
-   2TF0hL2GObgsNW+gn4FVE/DP4nAgG8Z2uv+pWJ93ZcdevHh1NV8Uaaa0c
-   8M5nTkihPneLZRJlDHXGLu+7X+C1HgCduc0AuJhBrxv1noUxaTe8y6XnC
-   oafPUKh96SmWaIhJw8IrJnr1gTtqrlY7xNFgwpDGIcuostyeP1Yo/PN8w
-   qkKykKFhyFmjfp/kgWZsr8mvaOitT5eWkaou8coqplL1dREF/gVnMpFSi
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="306770287"
-X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
-   d="scan'208";a="306770287"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 08:20:14 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="771630254"
-X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
-   d="scan'208";a="771630254"
-Received: from dpbogia-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.209.18.51])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 08:20:14 -0800
-Message-ID: <bcc22f45efbde7b7b075fe84a495a52b81e02b18.camel@linux.intel.com>
-Subject: Re: [PATCH 10/35] Documentation: hid: correct spelling
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Date:   Fri, 27 Jan 2023 08:20:13 -0800
-In-Reply-To: <20230127064005.1558-11-rdunlap@infradead.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
-         <20230127064005.1558-11-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        Fri, 27 Jan 2023 15:20:46 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 979CB40EC
+        for <linux-input@vger.kernel.org>; Fri, 27 Jan 2023 12:20:44 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id f12-20020a7bc8cc000000b003daf6b2f9b9so6131972wml.3
+        for <linux-input@vger.kernel.org>; Fri, 27 Jan 2023 12:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MQJZG/xKcCJsVsFDHrDpLNHly5wPWcC1lO6W1/tImAQ=;
+        b=XLswvSn0iWJEiVX86b3AojUKI6gFD+xJfDL0WBc+eU64CJKFU/9zPdXobp2My2DRdM
+         qY792thqiotAKFM+YmxxS1AievxqjzritonPJ9vyD5RVNPW8QsNK9/bnYCMPFgYGQIPZ
+         SgOLFmJr1a+jhEFFCISU1l/G5+HrMaL+nf2FoQSyUlicGwJmjOFy/3qFDXCXJJcZ+yw0
+         IOf1Sf76AUWDCEu0hyxRIfL2Iv3E1jn5Zf/q1ALJYV/gamGrUad5eK6eeEyDE+qIGscb
+         tA0Z3USSOxPo8ThdS8K4e+CaEZizIxxSwiyYQvd26m9e6VliSuaHPjKitpiLhGHMc8vZ
+         IUVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MQJZG/xKcCJsVsFDHrDpLNHly5wPWcC1lO6W1/tImAQ=;
+        b=AHwEYT1chM3Nv/ovSZaDEachQ1+2B8BO5x65gFaKCjbmWH9AQI4uIbHpss4luaiN2v
+         NJPkUD+7HWtFn2AWTHdJehbGiazOJjgsh0o6YA61GZsM+8DP9ter/42d/VYoIOuTwGaF
+         TL1+Q+6GDrZpAFYAskcWuVBeD85GDwE7RImrRhNMGJs4Jz3AlvxtIU1Vemfi1n3rLQE2
+         46VJEPGT6YgXjSwXCI8Fn5E76psL9T1GHOWdrMq5WEjU1eEfPl4ooqbi5JdOnMYnPTtd
+         AknjaU9xn8sB1UXKI6WO9EUzIQh36xsMFm7tLqPPwVdCIkpLX6vbXUSSo3wr+Cnn5MKO
+         YQcA==
+X-Gm-Message-State: AFqh2kq1Ah78srzvGtCaAs6/CtRrdCsJMM9Pmv8GgkqSKdGZ5GmvW37a
+        KslAxxBNH8Xq9ROpBCkl1djCYw==
+X-Google-Smtp-Source: AMrXdXuNRILKOhT1cKmkeLlOlAI5U7DaEFjqsMn3TViTMRmv1RGPuc0oBtcBH0u3ppdFai6vxu/YCA==
+X-Received: by 2002:a05:600c:540d:b0:3d9:fb59:c16b with SMTP id he13-20020a05600c540d00b003d9fb59c16bmr37938172wmb.36.1674850843204;
+        Fri, 27 Jan 2023 12:20:43 -0800 (PST)
+Received: from krzk-bin.. ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id t1-20020adfe441000000b002bfd524255esm2116881wrm.43.2023.01.27.12.20.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 12:20:42 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: input: touchscreen: st,stmfts: convert to dtschema
+Date:   Fri, 27 Jan 2023 21:20:40 +0100
+Message-Id: <20230127202040.196411-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2023-01-26 at 22:39 -0800, Randy Dunlap wrote:
-> Correct spelling problems for Documentation/hid/ as reported
-> by codespell.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+Convert the ST-Microelectronics FingerTip touchscreen controller
+bindings to DT schema.
 
-For Documentation/hid/intel-ish-hid.rst
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/input/touchscreen/st,stmfts.txt  | 41 -----------
+ .../bindings/input/touchscreen/st,stmfts.yaml | 72 +++++++++++++++++++
+ 2 files changed, 72 insertions(+), 41 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/st,stmfts.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/st,stmfts.yaml
 
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-
-> ---
->  Documentation/hid/hid-alps.rst      |    2 +-
->  Documentation/hid/hid-bpf.rst       |    2 +-
->  Documentation/hid/hiddev.rst        |    2 +-
->  Documentation/hid/hidraw.rst        |    2 +-
->  Documentation/hid/intel-ish-hid.rst |    2 +-
->  5 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff -- a/Documentation/hid/hid-alps.rst b/Documentation/hid/hid-
-> alps.rst
-> --- a/Documentation/hid/hid-alps.rst
-> +++ b/Documentation/hid/hid-alps.rst
-> @@ -9,7 +9,7 @@ Currently ALPS HID driver supports U1 To
->  U1 device basic information.
->  
->  ==========     ======
-> -Vender ID      0x044E
-> +Vendor ID      0x044E
->  Product ID     0x120B
->  Version ID     0x0121
->  ==========     ======
-> diff -- a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-
-> bpf.rst
-> --- a/Documentation/hid/hid-bpf.rst
-> +++ b/Documentation/hid/hid-bpf.rst
-> @@ -307,7 +307,7 @@ sysfs path: ``/sys/bus/hid/devices/xxxx:
->  
->  We can not rely on hidraw to bind a BPF program to a HID device.
-> hidraw is an
->  artefact of the processing of the HID device, and is not stable.
-> Some drivers
-> -even disable it, so that removes the tracing capabilies on those
-> devices
-> +even disable it, so that removes the tracing capabilities on those
-> devices
->  (where it is interesting to get the non-hidraw traces).
->  
->  On the other hand, the ``hid_id`` is stable for the entire life of
-> the HID device,
-> diff -- a/Documentation/hid/hiddev.rst b/Documentation/hid/hiddev.rst
-> --- a/Documentation/hid/hiddev.rst
-> +++ b/Documentation/hid/hiddev.rst
-> @@ -8,7 +8,7 @@ Introduction
->  In addition to the normal input type HID devices, USB also uses the
->  human interface device protocols for things that are not really
-> human
->  interfaces, but have similar sorts of communication needs. The two
-> big
-> -examples for this are power devices (especially uninterruptable
-> power
-> +examples for this are power devices (especially uninterruptible
-> power
->  supplies) and monitor control on higher end monitors.
->  
->  To support these disparate requirements, the Linux USB system
-> provides
-> diff -- a/Documentation/hid/hidraw.rst b/Documentation/hid/hidraw.rst
-> --- a/Documentation/hid/hidraw.rst
-> +++ b/Documentation/hid/hidraw.rst
-> @@ -163,7 +163,7 @@ HIDIOCGOUTPUT(len):
->         Get an Output Report
->  
->  This ioctl will request an output report from the device using the
-> control
-> -endpoint.  Typically, this is used to retrive the initial state of
-> +endpoint.  Typically, this is used to retrieve the initial state of
->  an output report of a device, before an application updates it as
-> necessary either
->  via a HIDIOCSOUTPUT request, or the regular device write()
-> interface.  The format
->  of the buffer issued with this report is identical to that of
-> HIDIOCGFEATURE.
-> diff -- a/Documentation/hid/intel-ish-hid.rst
-> b/Documentation/hid/intel-ish-hid.rst
-> --- a/Documentation/hid/intel-ish-hid.rst
-> +++ b/Documentation/hid/intel-ish-hid.rst
-> @@ -199,7 +199,7 @@ the sender that the memory region for th
->  DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus
-> message
->  (that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
->  Additionally to DMA address communication, this sequence checks
-> capabilities:
-> -if thw host doesn't support DMA, then it won't send DMA allocation,
-> so FW can't
-> +if the host doesn't support DMA, then it won't send DMA allocation,
-> so FW can't
->  send DMA; if FW doesn't support DMA then it won't respond with
->  DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
->  Here ISH acts as busmaster DMA controller. Hence when host sends
-> DMA_XFER,
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/st,stmfts.txt b/Documentation/devicetree/bindings/input/touchscreen/st,stmfts.txt
+deleted file mode 100644
+index 0a5d0cb4a280..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/st,stmfts.txt
++++ /dev/null
+@@ -1,41 +0,0 @@
+-* ST-Microelectronics FingerTip touchscreen controller
+-
+-The ST-Microelectronics FingerTip device provides a basic touchscreen
+-functionality. Along with it the user can enable the touchkey which can work as
+-a basic HOME and BACK key for phones.
+-
+-The driver supports also hovering as an absolute single touch event with x, y, z
+-coordinates.
+-
+-Required properties:
+-- compatible		: must be "st,stmfts"
+-- reg			: I2C slave address, (e.g. 0x49)
+-- interrupts		: interrupt specification
+-- avdd-supply		: analogic power supply
+-- vdd-supply		: power supply
+-- touchscreen-size-x	: see touchscreen.txt
+-- touchscreen-size-y	: see touchscreen.txt
+-
+-Optional properties:
+-- touch-key-connected	: specifies whether the touchkey feature is connected
+-- ledvdd-supply		: power supply to the touch key leds
+-
+-Example:
+-
+-i2c@00000000 {
+-
+-	/* ... */
+-
+-	touchscreen@49 {
+-		compatible = "st,stmfts";
+-		reg = <0x49>;
+-		interrupt-parent = <&gpa1>;
+-		interrupts = <1 IRQ_TYPE_NONE>;
+-		touchscreen-size-x = <1599>;
+-		touchscreen-size-y = <2559>;
+-		touch-key-connected;
+-		avdd-supply = <&ldo30_reg>;
+-		vdd-supply = <&ldo31_reg>;
+-		ledvdd-supply = <&ldo33_reg>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/st,stmfts.yaml b/Documentation/devicetree/bindings/input/touchscreen/st,stmfts.yaml
+new file mode 100644
+index 000000000000..c593ae63d0ec
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/st,stmfts.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/st,stmfts.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ST-Microelectronics FingerTip touchscreen controller
++
++maintainers:
++  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
++
++description:
++  The ST-Microelectronics FingerTip device provides a basic touchscreen
++  functionality. Along with it the user can enable the touchkey which can work
++  as a basic HOME and BACK key for phones.
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    const: st,stmfts
++
++  reg:
++    maxItems: 1
++
++  avdd-supply:
++    description: Analogic power supply
++
++  interrupts:
++    maxItems: 1
++
++  ledvdd-supply:
++    description: Power supply to the touch key leds
++
++  touch-key-connected:
++    type: boolean
++    description: The touchkey feature is connected
++
++  vdd-supply:
++    description: Power supply
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - interrupts
++  - vdd-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@49 {
++            compatible = "st,stmfts";
++            reg = <0x49>;
++            interrupt-parent = <&gpa1>;
++            interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
++            touchscreen-size-x = <1599>;
++            touchscreen-size-y = <2559>;
++            touch-key-connected;
++            avdd-supply = <&ldo30_reg>;
++            vdd-supply = <&ldo31_reg>;
++            ledvdd-supply = <&ldo33_reg>;
++        };
++    };
+-- 
+2.34.1
 
