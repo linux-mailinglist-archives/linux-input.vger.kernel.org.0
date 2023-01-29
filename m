@@ -2,73 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D38268012C
-	for <lists+linux-input@lfdr.de>; Sun, 29 Jan 2023 20:34:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D271680207
+	for <lists+linux-input@lfdr.de>; Sun, 29 Jan 2023 22:54:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231434AbjA2Tex (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Jan 2023 14:34:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60086 "EHLO
+        id S234383AbjA2Vy0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Jan 2023 16:54:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234860AbjA2Tew (ORCPT
+        with ESMTP id S235305AbjA2VyX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Jan 2023 14:34:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311DC13DCE;
-        Sun, 29 Jan 2023 11:34:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C7E22B80C94;
-        Sun, 29 Jan 2023 19:34:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 761E4C433EF;
-        Sun, 29 Jan 2023 19:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675020890;
-        bh=1pgc2YcieceAZEUNE+ZwUtk1C1vBvvqOpgAi73FoknI=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=LwxZeeI6g6VQj5VF6g4JBLRfp+g3AHP0sB56q+pH/yPnnfqio6pc1BffhH83KdrhP
-         fSCdt0WkBpxW0sxBLogLVadNOHJkFlg6ozh2i2YifL/zH593w9+ISnsX337PtuoqNy
-         mmGPjNAcVQr4O44CVcKtm3iJysemGy8usCQcOgovBYQrkykGHpcGmtkBBIQ7unp9mK
-         RHCMa8tRAjdDTi8S+YQox020BXjdSLaHEuKb/tl7UlRCoD6nX6ysLbfxhMCTxoJrmy
-         ApWwbSq7X78Q9o3J2OuBbdZGewBwl5s6E1kMJFqwtF/AG6P/CHxCO9MfU0rP0wQJJS
-         S4W3H8y0bypMQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 62548E451B6;
-        Sun, 29 Jan 2023 19:34:50 +0000 (UTC)
-Subject: Re: [git pull] Input updates for v6.2-rc5
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <Y9XAv4p0H9aU4+yz@google.com>
-References: <Y9XAv4p0H9aU4+yz@google.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y9XAv4p0H9aU4+yz@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.2-rc5
-X-PR-Tracked-Commit-Id: 9c445d2637c938a800fcc8b5f0b10e60c94460c7
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 80826e9020afc7b8243df302a13521e0020fa9d8
-Message-Id: <167502089039.8980.1857518134361632101.pr-tracker-bot@kernel.org>
-Date:   Sun, 29 Jan 2023 19:34:50 +0000
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 29 Jan 2023 16:54:23 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279AB1729;
+        Sun, 29 Jan 2023 13:53:58 -0800 (PST)
+Date:   Sun, 29 Jan 2023 21:53:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1675029235;
+        bh=ZuHmmVa75rD8H0vl4ysn2tdQr+R0FO834UM43ckVg7A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YwDyfjXUge1kIoGDKORmb6v4DE9Rk4To6GBsoNO8yyGwfL9D5sSoEYL/Ec5YoS4Bd
+         DKLIBGJE3uw/fN3pv+DZL+zH3Psaus/uDzqfiPx8a5TDogGxED7kmGQZtApKntadRd
+         JX5nyKASVyeCzlH2iq+DnSX4XDIdpxTfiBR3ELNk=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: use standard debug APIs
+Message-ID: <20230129215352.oglktngi2rvp6sfd@t-8ch.de>
+References: <20221223-hid-dbg-v1-1-5dcf8794f7f9@weissschuh.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221223-hid-dbg-v1-1-5dcf8794f7f9@weissschuh.net>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The pull request you sent on Sat, 28 Jan 2023 16:41:35 -0800:
+Hi Jiri, hi Benjamin,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.2-rc5
+On Fri, Dec 23, 2022 at 09:30:19PM +0000, Thomas Weiﬂschuh wrote:
+> The custom "debug" module parameter is fairly inflexible.
+> It can only manage debugging for all calls dbg_hid() at the same time.
+> 
+> Furthermore it creates a mismatch between calls to hid_dbg() which can
+> be managed by CONFIG_DYNAMIC_DEBUG and dbg_hid() which is managed by the
+> module parameter.
+> 
+> Furthermore the change to pr_debug() allows the debugging statements to
+> be completely compiled-out if desired.
+> 
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> ---
+> 
+> Note: This removes the possibility to enable debugging for the HID core
+> and all drivers at the same time.
+> If this is still desirable it could probably be implemented with the new
+> DYNAMIC_DEBUG class feature.
+> ---
+>  drivers/hid/hid-core.c | 9 ---------
+>  include/linux/hid.h    | 8 +-------
+>  2 files changed, 1 insertion(+), 16 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> index bd47628da6be..4facfb446986 100644
+> --- a/drivers/hid/hid-core.c
+> +++ b/drivers/hid/hid-core.c
+> @@ -41,11 +41,6 @@
+>  
+>  #define DRIVER_DESC "HID core driver"
+>  
+> -int hid_debug = 0;
+> -module_param_named(debug, hid_debug, int, 0600);
+> -MODULE_PARM_DESC(debug, "toggle HID debugging messages");
+> -EXPORT_SYMBOL_GPL(hid_debug);
+> -
+>  static int hid_ignore_special_drivers = 0;
+>  module_param_named(ignore_special_drivers, hid_ignore_special_drivers, int, 0600);
+>  MODULE_PARM_DESC(ignore_special_drivers, "Ignore any special drivers and handle all devices by generic driver");
+> @@ -2909,10 +2904,6 @@ static int __init hid_init(void)
+>  {
+>  	int ret;
+>  
+> -	if (hid_debug)
+> -		pr_warn("hid_debug is now used solely for parser and driver debugging.\n"
+> -			"debugfs is now used for inspecting the device (report descriptor, reports)\n");
+> -
+>  	ret = bus_register(&hid_bus_type);
+>  	if (ret) {
+>  		pr_err("can't register hid bus\n");
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index 8677ae38599e..676f501507aa 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -882,8 +882,6 @@ static inline bool hid_is_usb(struct hid_device *hdev)
+>  
+>  /* HID core API */
+>  
+> -extern int hid_debug;
+> -
+>  extern bool hid_ignore(struct hid_device *);
+>  extern int hid_add_device(struct hid_device *);
+>  extern void hid_destroy_device(struct hid_device *);
+> @@ -1191,11 +1189,7 @@ int hid_pidff_init(struct hid_device *hid);
+>  #define hid_pidff_init NULL
+>  #endif
+>  
+> -#define dbg_hid(fmt, ...)						\
+> -do {									\
+> -	if (hid_debug)							\
+> -		printk(KERN_DEBUG "%s: " fmt, __FILE__, ##__VA_ARGS__);	\
+> -} while (0)
+> +#define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__, ##__VA_ARGS__)
+>  
+>  #define hid_err(hid, fmt, ...)				\
+>  	dev_err(&(hid)->dev, fmt, ##__VA_ARGS__)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/80826e9020afc7b8243df302a13521e0020fa9d8
+any feedback on this patch?
 
-Thank you!
+Please note that this is *not* the same as the already merged
+34ba3657a503 ("HID: i2c-hid: switch to standard debugging APIs")
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> ---
+> base-commit: 51094a24b85e29138b7fa82ef1e1b4fe19c90046
+> change-id: 20221223-hid-dbg-2f3eeddddd53
+> 
+> Best regards,
+> -- 
+> Thomas Weiﬂschuh <linux@weissschuh.net>
+
+Thanks,
+Thomas
