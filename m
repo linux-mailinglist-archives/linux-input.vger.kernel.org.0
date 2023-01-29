@@ -2,115 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7793B67FB1D
-	for <lists+linux-input@lfdr.de>; Sat, 28 Jan 2023 22:21:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 922FB67FBFA
+	for <lists+linux-input@lfdr.de>; Sun, 29 Jan 2023 01:41:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229790AbjA1VVb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 28 Jan 2023 16:21:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38924 "EHLO
+        id S230519AbjA2All (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 Jan 2023 19:41:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjA1VVa (ORCPT
+        with ESMTP id S229966AbjA2Alk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 Jan 2023 16:21:30 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC4383C37
-        for <linux-input@vger.kernel.org>; Sat, 28 Jan 2023 13:21:29 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id ud5so22327414ejc.4
-        for <linux-input@vger.kernel.org>; Sat, 28 Jan 2023 13:21:29 -0800 (PST)
+        Sat, 28 Jan 2023 19:41:40 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3994712F0F;
+        Sat, 28 Jan 2023 16:41:40 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id c124so5546220pfb.8;
+        Sat, 28 Jan 2023 16:41:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cCauAobpo9XpCC17lV+JICFK3jz06KDI3m2pTratXWY=;
-        b=hTv1X2KVDs/2sh8F37H51W9TqKUd4m1KpEkCvk9LC50UZkIc0OZU31kO/6vDIJZacd
-         PPHgt7DtwO3pXiOivuks2pJ0zJ95Az837mvp7GL8SqVtxO/6Ex/8ihht4fc0qulTo3YG
-         HJoY0P+mBXhGsthYoTCsv7cmX/jsBQpza6DXyFf8kWPgO6RxS7oALCyIB2LHglw2KZoy
-         Cc4t0Z6lz3BjBajHvI9zIXP59yIz2xMUBdyFdBCTPUQi458qe3ec2xIf/pIcHr6nPmGA
-         j0wAcVnlyKVMv48FF1WWwf8G6iV0+eodWn4Hkbr4XaKO+P4H1MCKTdhJruEj1t8QuO44
-         gr/Q==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=da5pnEaL8+0pDhSp/BkP4Rwr6DtXuiQDQA4NoCQPyO0=;
+        b=Qlw7ez0NWn81/JzRd3zxiU3DQ8l5o51d2xj+ju1R8BzrFSPIngQ7s6ifXGEYkGx1KP
+         KKdgZUY/YUMG3WyNj5LzDdDOr+crJ1Wn6nuTqE2yGnZWtZQNkStfHzLSGLhetJcCYVA+
+         LNUupIXzdvs1pnCv0EIQyCOgNyfPXly8wxDSJNa1g6YfHij69pzs3NYg2PPgdfhSlzEZ
+         E2JvcUZyk70jyeH/C6UOOoN47M3SVKRBdkjaAR3WBjZupV+OogURDXwzO6cmY25NQRVO
+         KKcNjDyFH3TRmjkC/S04PUDzGKztgbtLx1d2znTmcQ+nytNeJrI0ja341Iz/St/2u7PI
+         X/eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cCauAobpo9XpCC17lV+JICFK3jz06KDI3m2pTratXWY=;
-        b=GBtqXrFP+v0Y5x1uOPwqrm7ubmfaKJRyj1zjS6+X5xrxXCLQ0FPpZqr9vKYRErIHjC
-         9Vb9G5atxYU0/Kg1f4YmnfePJdb4CiieE6EmktueG2OM8JHoPPotVqN6cTCBVzcn9bsr
-         G+06d0I1advIZGVbM/0ZuAMyXK9BvWEo0zoyRvVifOmo8auehhNhQUFeAmwS8qTrn5eR
-         Ic9s2Ri0yM7gWw6Xa5qB3iDpXLv881MV8xqZV/Sal/m/RR6SieUeMITsZ3muQvjXb3OB
-         57M0VYrk2gQTf24d65pZ9dTlQzkf9M/cbcpmhU2d9TD8bYHrsSMc4H0RoeTUYtF1EO+I
-         vd/w==
-X-Gm-Message-State: AO0yUKXQyHHSWBe68XgxShPT/wLrs9BrV+yU2p7sQd4uD4CotaQB+OnW
-        lg2T8XePpEB+6z8y8KB7IX9XpidLh1blkm6pjfQ=
-X-Google-Smtp-Source: AK7set9yMlSDqnwoVoT6cpy5cT4l6NjYrSEmUVzP+lli6Opjt4dYXeEitCeJ8I0q0/Cd2oxDfHO33n5BjFLI1HUOP6g=
-X-Received: by 2002:a17:906:3993:b0:878:4cc7:ed23 with SMTP id
- h19-20020a170906399300b008784cc7ed23mr3244835eje.14.1674940888204; Sat, 28
- Jan 2023 13:21:28 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=da5pnEaL8+0pDhSp/BkP4Rwr6DtXuiQDQA4NoCQPyO0=;
+        b=XAgJyf3ChCUwXrtQpTzn5mXKTIXuILO2c0KDD5HfyY/wuTTS1kgGs8jdpIDD3kxU+M
+         1sPsRjQc4N+rJdv/Y0F4hmKMmDSAdqjp5MdFMziRBJB7rCEDK7v2tg2MripMOYmE+drl
+         vKRW8wA3Vu3KdhSw8wFj4DqSn/tOxZG345Ant0S8LBU8iS/R8szoem725sfOlXRZVybN
+         WtGAGgUdCsiCBqqXbc4DX9C14uTQptrwf6iVvY5+9hkQE0UV16xqnx5INolhloTyB9wj
+         vkI6LNRAqlpvCy3UqZl6prEwJ1pKtbWGei6soxEkXqxemqVgBFv1ZuGKc9W9q3+O/B9m
+         q/+w==
+X-Gm-Message-State: AO0yUKVTDHkpG33pQeVALElQ8lq7mzd8jKDRYtbPeYxIprYu/a5ZBWm6
+        PxqIMNpYB0GwndqfCFxTJcdBsDGYDIM=
+X-Google-Smtp-Source: AK7set/v+1OUq0+ss5I0iYxcKSYo7JfDdD8mYCeZy1AqbZM5xmZMc8spQZSYek1ZAKg6wfDDXekbXg==
+X-Received: by 2002:aa7:85c3:0:b0:592:629a:c9b5 with SMTP id z3-20020aa785c3000000b00592629ac9b5mr6415359pfn.14.1674952899460;
+        Sat, 28 Jan 2023 16:41:39 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:1619:2ad0:738:563])
+        by smtp.gmail.com with ESMTPSA id y15-20020a056a001c8f00b0059260f01115sm3648341pfw.76.2023.01.28.16.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Jan 2023 16:41:38 -0800 (PST)
+Date:   Sat, 28 Jan 2023 16:41:35 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.2-rc5
+Message-ID: <Y9XAv4p0H9aU4+yz@google.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6f02:a465:b0:46:c987:4b6c with HTTP; Sat, 28 Jan 2023
- 13:21:27 -0800 (PST)
-Reply-To: wu.wuheadofficewu.tg@gmail.com
-From:   WESTERN UNION <wu.wuheadofficetrs.wu.tg@gmail.com>
-Date:   Sat, 28 Jan 2023 21:21:27 +0000
-Message-ID: <CAP1G6Fii_fAmUEZ-5mJBQHEkRgVCDUqhjq2Py2n+xQKJKSk5ew@mail.gmail.com>
-Subject: =?UTF-8?B?UG96b3I6IFbDocW+ZW7DvSBwxZnDrWplbWNp?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: Yes, score=7.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,UNDISC_FREEM,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:644 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [wu.wuheadofficetrs.wu.tg[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  2.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  0.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  3.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-UG96b3I6IFbDocW+ZW7DvSBwxZnDrWplbWNpLA0KDQpCdcSPdGUgaW5mb3Jtb3bDoW5pLCDFvmUg
-anNtZSBvYmRyxb5lbGkgc2NodsOhbGVuw70gc291Ym9yIHBsYXRlYiBvZA0KRkVERVLDgUxOw41I
-TyBNSU5JU1RFUlNUVkEgRklOQU5Dw40gdmUgc3BvamVuw60gcyBNZXppbsOhcm9kbsOtbSBtxJtu
-b3bDvW0NCmZvbmRlbSAoTU1GKSBvZMWha29kbsSbbsOtIG9ixJt0w60gcG9kdm9kdSBhIHZhxaFl
-IGUtbWFpbG92w6EgYWRyZXNhIGplIG1lemkNCnV2ZWRlbsO9bWkgb2LEm8WlbWkuDQoNClDDrcWh
-aSB2w6FtLCBhYnljaCB2w6FzIGluZm9ybW92YWwsIMW+ZSB2w6FtIGJ1ZGVtZSB6YXPDrWxhdCAk
-NS4wMDAuMDAgVVNEDQpkZW5uxJsgeiBuYcWhw60ga2FuY2Vsw6HFmWUgemRlLCBwcm90b8W+ZSBq
-c21lIGRvc3RhbGkgbWFuZMOhdCBwxZlldsOpc3QgdmHFoWkNCnBsbm91IGtvbXBlbnphxI1uw60g
-cGxhdGJ1IHZlIHbDvcWhaSAkODAwLjAwMC4wMCBVU0Qgb2QgTWV6aW7DoXJvZG7DrWhvDQptxJtu
-b3bDqWhvIGZvbmR1IChNTUYpIGEgRkVERVLDgUxOw41ITyBNSU5JU1RFUlNUVkEgRklOQU5Dw40u
-IFZhxaFlIG9zb2Juw60NCmlkZW50aWZpa2HEjW7DrSDEjcOtc2xvIHBvc2t5dG51dMOpIHTDvW1l
-bSBJLk0uRiBqZSBDUFAwOTIwVEcuDQoNClpkZSBqc291IHBsYXRlYm7DrSDDumRhamUsIGt0ZXLD
-qSBwb3XFvmlqZW1lIGsgcMWZZWTDoW7DrSB2YcWhw60gZGVubsOtIHBsYXRieS4NCg0KSm3DqW5v
-IG9kZXPDrWxhdGVsZTogRWxhaW5lIEpvaG5zb24NCk90w6F6a2E6IFBsYXRiYQ0KT2Rwb3bEm8SP
-OiBBbm8NCsSMw6FzdGthOiAkNS4wMDAuMDAgVVNEDQpNxJtzdG86IExvbWUNClplbcSbOiBUb2dv
-DQoNClBPWk7DgU1LQTogTVRDTiB2w6FtIGJ1ZGUgemFzbMOhbm8gcG8gdmHFocOtIG9kcG92xJtk
-aSBhIHBvdHZyemVuw60gaW5mb3JtYWPDrQ0KbyB2YcWhZW0gcMWZw61qZW1jaSwgYWJ5IHNlIHDF
-mWVkZcWhbG8gY2h5Ym7DqW11IHDFmWVub3N1Lg0KDQrEjGVrw6FtZSBuYSB2YcWhaSBuYWzDqWhh
-dm91IG9kcG92xJvEjywgYWJ5Y2hvbSBtb2hsaSBwb2tyYcSNb3ZhdCB2IHBsYXRixJsuDQoNClbD
-ocWhIHbEm3Juw70sDQpWZWRvdWPDrSBwb2JvxI1reToNCg==
+Hi Linus,
+
+Please pull from:
+
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.2-rc5
+
+to receive updates for the input subsystem. You will get:
+
+- a revert to Synaptics driver switching touchpad on HP 15-* laptops
+  back to PS/2 emulation mode as native RMI4 causes loss of keyboard
+  function on HP 15-da1xxx
+
+- a quirk added to i8042 for Clevo PCX0DX/TUXEDO XP1511 to make sure
+  keyboard is responding after resume
+
+Changelog:
+---------
+
+Dmitry Torokhov (1):
+      Revert "Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to RMI mode"
+
+Werner Sembach (1):
+      Input: i8042 - add Clevo PCX0DX to i8042 quirk table
+
+Diffstat:
+--------
+
+ drivers/input/mouse/synaptics.c       | 1 -
+ drivers/input/serio/i8042-acpipnpio.h | 7 +++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+Thanks.
+
+-- 
+Dmitry
