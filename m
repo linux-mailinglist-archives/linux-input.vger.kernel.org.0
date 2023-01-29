@@ -2,67 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E64C67FC7F
-	for <lists+linux-input@lfdr.de>; Sun, 29 Jan 2023 03:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DF9367FD3F
+	for <lists+linux-input@lfdr.de>; Sun, 29 Jan 2023 08:07:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230128AbjA2C7W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 28 Jan 2023 21:59:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
+        id S230240AbjA2HHQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Jan 2023 02:07:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjA2C7W (ORCPT
+        with ESMTP id S229436AbjA2HHP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 Jan 2023 21:59:22 -0500
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D88D620693;
-        Sat, 28 Jan 2023 18:59:20 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id r132so7412821oif.10;
-        Sat, 28 Jan 2023 18:59:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I4i31LaSS9q/4u1kbSCx/ZFKdWGE5zXNu3uzmgdfiYk=;
-        b=WC9NQAxaSWcDNEj1EQ/SqCLHMiZuRJBevGD/0rWF3gh2u5EwrTh0qGTOO+Dpt5kC50
-         MAyMt2iyJVzQzmSu404zhrscO3LLo+4tfmDhfKs1PDOyryWw04NnkpMfBUuR0u8inuxl
-         K6I4HIBxY567E+X3+wzTneB/1L9IVq/IZCwiIqpulDWOceWX5R2D5XLCzwmmnImlpa+d
-         xDD8/UQIAL+6GAV5uQ/liQpMqb8zgVr7084NI3sh1qVIP+kvzpAGtLyj3TYHT0wPFxOT
-         IDmPktuhf3XaVnSz7PfaxDYsTGCtiWtIj6TsqT9TLU1ufdFM+tLhupGnHugpNQuBhu//
-         MTzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I4i31LaSS9q/4u1kbSCx/ZFKdWGE5zXNu3uzmgdfiYk=;
-        b=H6cs/sCkf+wWz7MulEVwdIIkJ1e7BN/Fw6dCohNFMYckRG1+IU+9mvsmGxzz+m+Nkw
-         QD2rYEurHgouAfhSvnPfTJHNlMqLWrURhPMqOeiTOMTToGJuBkee70z3o7+jMwa+NkC0
-         UpYWD/L9g6GXhY+FVSDw1c9tVHAKRbl0RppXcqy8Y4wRXx6VAYJaQu/SissaalmtUxM7
-         V/GhWz1XwhPdDvsx0dwNwrST/RS1oR4pz/fG4EzidULsZqw6RCOm3jZHOx366ZiGBctH
-         lN/jK/NMFuD94G2/oXbA3Q5eN45B5beArtgRWtIfRhZFLyJ7VFfxdMXwdSG3RHDEYWhA
-         xPfw==
-X-Gm-Message-State: AFqh2kogzMfURrcpJbB4mLD6vAkB8A+cE19cCMrbiw4VwgD21QAlSYQU
-        Jyg4G/LjIDkP+AnTbUa1Zfzzs/Mas69pVVV5Mdjt8hSlSk8=
-X-Google-Smtp-Source: AMrXdXtjBbNlrbNaqxsosn3cWkfgwuo7+Cj6Gms1kzkaaSdo90s0QMjbEZtqdV6PSjHcqGsKNcH0GUP4vhv7UpRGUZ8=
-X-Received: by 2002:a05:6808:2388:b0:36e:c0b6:6a07 with SMTP id
- bp8-20020a056808238800b0036ec0b66a07mr2349066oib.77.1674961159375; Sat, 28
- Jan 2023 18:59:19 -0800 (PST)
+        Sun, 29 Jan 2023 02:07:15 -0500
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2068.outbound.protection.outlook.com [40.107.6.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD2A222F8;
+        Sat, 28 Jan 2023 23:07:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CmcJ+GDbIO4UjVNpx2ldDkQPp+GXtY5FKJG860mm2wt/wu/Z1Fkeute9v2QbqujXgCCmuqLwabGft3X3pr8ucjLuMSA5BBy1Lc+dUtTdfV8iY+f9CJYHGTG+XD6LTTtSMJPxrCRkBCtlKjN2sjTJ7vurzfxgeG/kU5fUI+s1k97L9cedX1LC5YmJ3SoBACNk6WutoWkFuJLUuOJAPQKytTpWCRdwjFb8A16Vo1U9buXTsPyRDLwk+Ge38pyYy3f+80VvGTeXvaeQH66/smW1O4sJ3nGzJ2tBThhtXZB6aIkVd/I4p2sZtTZfgpfm1gBmmh/iB4qOOb3N+F3EDfejng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PROqGALXwT39hAAoeVpLPOiXehkU60gkSUsxuRid5GA=;
+ b=axCYwx4gO3MXbC+D6H6VNe7PVRVMgMXzVJ2y0a8zxVJHCbLl9uMrNUOgX4Y8cond3aSbmb9IXP+jv+Gqcz4vvdnGjVtRuxSVIhhiDBQnwdIkgPSgF4GmuagNkX1nBoxzHPtm24Y7mIFLft9XJjXTMz5M3brtHoFhdldXLgl8AbEyL8ahsENipUhtVMP09LlKRHthD2f5o6e/WHg3+zxtheVLDvVh9W+1P2tXITxnOCDYITjVcNqNLQQV3wrhsiEvF6Blg6AnvGm/Gx69y9f+kly8bf1/drbs8gPOYBnR3oroTXLat0EtvlmygThWqAFJT/TzH9VVFLJGR7ko++hVhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PROqGALXwT39hAAoeVpLPOiXehkU60gkSUsxuRid5GA=;
+ b=syCS9m1xBTM61qEqfoOUHoHhdCzh3lB5Zf0zf65Pp8G8xI1QLSPE0hwm64YlR7Z19WiOG1Vx7+0sSleBBrqbgacUuzmoGd2nNhlKhWJ32lGq+ik7Q8a47L7xs8RypRTIxbPzQKdBvah+XgwYR+pzhiWMuv2QY1qdBwLovmnb9tA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8650.eurprd04.prod.outlook.com (2603:10a6:20b:43d::18)
+ by PAXPR04MB8815.eurprd04.prod.outlook.com (2603:10a6:102:20e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.33; Sun, 29 Jan
+ 2023 07:07:10 +0000
+Received: from AM9PR04MB8650.eurprd04.prod.outlook.com
+ ([fe80::4ca4:bfde:62dc:4b2c]) by AM9PR04MB8650.eurprd04.prod.outlook.com
+ ([fe80::4ca4:bfde:62dc:4b2c%3]) with mapi id 15.20.6043.033; Sun, 29 Jan 2023
+ 07:07:10 +0000
+From:   Jacky Bai <ping.bai@nxp.com>
+To:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, dmitry.torokhov@gmail.com,
+        a.zummo@towertech.it, alexandre.belloni@bootlin.com
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
+        kernel@pengutronix.de, linux-imx@nxp.com, festevam@gmail.com
+Subject: [PATCH v4 0/4] Add nxp bbnsm module support
+Date:   Sun, 29 Jan 2023 15:08:19 +0800
+Message-Id: <20230129070823.1945489-1-ping.bai@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR01CA0170.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::26) To AM9PR04MB8650.eurprd04.prod.outlook.com
+ (2603:10a6:20b:43d::18)
 MIME-Version: 1.0
-References: <20230109123216.4974-1-fengqi706@gmail.com> <nycvar.YFH.7.76.2301201849090.1734@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2301201849090.1734@cbobk.fhfr.pm>
-From:   qi feng <fengqi706@gmail.com>
-Date:   Sun, 29 Jan 2023 10:59:09 +0800
-Message-ID: <CACOZ=ZWB3grJKn7wAZEZ0BDyN7KJF4VWUTNs-mPxeoW_oiR7=g@mail.gmail.com>
-Subject: Re: [PATCH] HID: add KEY_CAMERA_FOCUS event in HID
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        fengqi <fengqi@xiaomi.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8650:EE_|PAXPR04MB8815:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b4f0257-705c-4f9d-51dd-08db01c7706a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JKzQ9SvAyQ/+F46qLVncQhWldNOrtRsgLpYaxGLYX/wSeKA3ZKxQkR705WdEaf0uqep3TcwifqdH1dM8r9D43YKlo7ij0IOKNVeztWXh1n9IU9GGqN5zGTG6B8PnGQ/dNWZ/y9liWZ0X3qEWTggHgD55D9H0yyApTJcsVth6dNFcw1g3pOYW4vKndc6hy2ZwPHNN2GaVdZnFc1I/01WX9CWVn2JuF4bHrZCTHAtJM3KVeuZKtb2rB2HXEiWP1qR5pyA4GDBHVHQzPMLoh1frByJQRMeLrH9s7uspFVbYK5brN5pU2k4PhJXt0meFDkqktxkSOJosbYsEBCh4IXelQgVw7UwyQsQu2sutfIhSGmx5hvLy3dxieO0mKcjiuhxcn9l9YpzKb259BdicVy4PdgCWJkKK4tUZldjzzFxYwHohOtOyzIrOz4mkRQ5I6koOJvMrkrt6BhJKx0IwIItX8HjN7MYkBjHQXLkWcAhXDplcbqLFzOEoT3phEB+ddN+ZG7vmJQybaETvGvqJ7U0hK9N0hIOg0xtLWsnouUc3MkRmju+t+6fwAe9xFVi5WDO9l3C1ZY8NxJMiqGsM24HVWPEKkOLPTgid7MwRMIhruqTHiLUBT1S+czYg8TWfPKKu4Dx4AX+jgF7VpCRf6RXgaQTJG/j4vGf7fvy93GNH8uNu/85zxI2/rqQUWbG0VaYEOBAgAS1iWA50KKoVfNNxVA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8650.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(366004)(396003)(346002)(376002)(39860400002)(451199018)(2906002)(36756003)(52116002)(7416002)(478600001)(6486002)(38350700002)(86362001)(38100700002)(41300700001)(2616005)(1076003)(6506007)(66476007)(8676002)(66556008)(4326008)(66946007)(316002)(8936002)(5660300002)(26005)(186003)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IOig2pw7GOATpULAybhybU1S/EHviXWtI9XruG8HEGDn8NGYPAtLxx/X8NJ7?=
+ =?us-ascii?Q?VFu6iW4Y56VWcxuhWAoxliLeblB6zlF0mk4GKH/1fJAps7aui4MmhIInC825?=
+ =?us-ascii?Q?fZ5GPFXZESU8RiBwfpSv2Df562wRrdIqsn9aTTSL9tngDJhT4IzEdN2tyjIj?=
+ =?us-ascii?Q?/gMAaPspq31nbOYeUEsZG2lqlD3j1tJO12NmaFoUfynxanbwv3fdb6RsI0jN?=
+ =?us-ascii?Q?TIVkfKzp73TtC1jKE5ntZ0p2ivJdB1AXFk7uBu88iJXCpeMkwQlCgyZwOwPS?=
+ =?us-ascii?Q?qeeDIGGiHQ8QC5TDbS6jF0aFDcQmpGcqNEoUEm2clNaTalSXzjLUK0sU+kYH?=
+ =?us-ascii?Q?ND7BycIAqeU40JOfot3wHcK1z8T2eLpFbFWnrOGB5K8IeY6YVpxaDI13B7fI?=
+ =?us-ascii?Q?AC/aKGpnKEFOezhfhsAFihotatmh30qz2iqxKtkBGI3sjLMAm1s37JTyH7Tz?=
+ =?us-ascii?Q?XpZOxA8sHb8YDleOuZ1psidshAHX0k0UCxsdeWM6/456w5OOjzcSi6/spjaG?=
+ =?us-ascii?Q?WaAQa2u+AqZVrkfxXj0UqYBZwbByR2RJgLvtPZy2unJReLpAxydW8XymQ5bF?=
+ =?us-ascii?Q?SFB7earPxpu1jftukLe1mmwS7wf4dRjegEj3uUpDDn5lvfj53Jjf2FpFZZpo?=
+ =?us-ascii?Q?us+FSrp5sNNv+TNQMlRwsK1MrjNkH7XikTZ5puGNBqVNLFDkWf/3hj3u9yVz?=
+ =?us-ascii?Q?nMMxzjjg5V2waAlNRU4kLNaGrzN5pgUmRTH8L14TwV4UmHQE6xRscgP0c6kj?=
+ =?us-ascii?Q?99qTGOO3b6OfZCkmQ50VwAPy0ZW/GjvCP0068Pb9xzkOblrlnscwmT8q1YyF?=
+ =?us-ascii?Q?vOWLoOcfI+2CmueebPGznlrwqV+R68yVXcKnd0tjr3pmY32XBODKdR2RmDFe?=
+ =?us-ascii?Q?LTgq6G007nvr4P8bF7dxJjXbC+tQcq1Jo+w75WJSIq63nCLoUuH5rue/y+P0?=
+ =?us-ascii?Q?PNjSSd3heK8R3ONS2uzixeEbhnx57zl2Hg4s2YyjS8HuQfm59mrz4Xi2Y+OY?=
+ =?us-ascii?Q?VwLTOYS1oJZGprDGIf3rZBNICddB13apUWrXKeECCwo5G7Vu8UsFbojK49sY?=
+ =?us-ascii?Q?D+0863o1fIUobxQ418QqB8Pz5B8gKUQR79lNng5tryQBqEMjHzrMHGE88mYr?=
+ =?us-ascii?Q?tKn7vuUVZ9bj+vaT8ad0ezTGFresa3V+s8dXNmuTwXP56/o0rDBkq/pRyzcU?=
+ =?us-ascii?Q?aID3h9fueW3zSMfW4DtTOu0Fbg7bkyfv1t6OSBsRm1wnFUNKucj7s1VZDYFn?=
+ =?us-ascii?Q?XAr8Jk8WfQ0GnOZ4+0Mr1rUO5dz2DT70GKyyRn71Rh5S//JvaNFy0DD2v9S0?=
+ =?us-ascii?Q?clmmLZSAE9vs+j8VPYG03CIvBhiFsI8ZbeQAxV1VXJojdWCUQDvkf4/1ErR9?=
+ =?us-ascii?Q?cJ0XcizqGWGoDo+gw6Kdi0tW6PDeEhoIYw2bOPYAmUUrWVWn4uiIA5o4rN1h?=
+ =?us-ascii?Q?YAVPaXS1hpb6pupjdfcgZbZQIUiTNoLcgF2Nih46wkmS6yi3n2g7QltsLlXL?=
+ =?us-ascii?Q?rUoYo61GAyH18YRx97JtMNOQQKXKjKS/14KsEval854zn0ihmi1hGVT2Rlo2?=
+ =?us-ascii?Q?sSNLNcMbI2CWdE+RZS5BcZE89i8G+seWN52pbIib?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b4f0257-705c-4f9d-51dd-08db01c7706a
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8650.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2023 07:07:10.2799
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3HwtPx53gc1W49lzjG5ZthEBLUnSDwCSKe//oSWP0rDrN2W30MY2tT3/ud/+5IR9wzD9du/b0yJy0d8HkjDYRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8815
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,54 +115,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-Our Bluetooth Handle needs the focus function, which is missing in the
-current map
-If our setting is unreasonable, do you have other suggested values
+NXP BBNSM (Battery-Backed Non-Secure Module) serves as non-volatile
+logic and storage for the system. it provides some similar functions
+like RTC and ON/OFF support as previous SNVS module found on legacy
+i.MX SoCs. The BBNSM is replacement of previous SNVS module, and more
+likely it will be used on all the future i.MX SoC or other SoCs from
+NXP.
 
-thanks
+This patchset add the basic support for BBNSM that found on i.MX93.
 
-Jiri Kosina <jikos@kernel.org> =E4=BA=8E2023=E5=B9=B41=E6=9C=8821=E6=97=A5=
-=E5=91=A8=E5=85=AD 01:51=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, 9 Jan 2023, Qi Feng wrote:
->
-> > From: fengqi <fengqi@xiaomi.com>
-> >
-> > Our HID device need KEY_CAMERA_FOCUS event to control camera, but this
-> > event is non-existent in current HID driver. So we add this event in
-> > hid-input.c
-> >
-> > Signed-off-by: fengqi <fengqi@xiaomi.com>
-> > ---
-> >  drivers/hid/hid-input.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> > index 9b59e436df0a..22cca3406b5c 100644
-> > --- a/drivers/hid/hid-input.c
-> > +++ b/drivers/hid/hid-input.c
-> > @@ -1105,6 +1105,7 @@ static void hidinput_configure_usage(struct hid_i=
-nput *hidinput, struct hid_fiel
-> >               case 0x0e5: map_key_clear(KEY_BASSBOOST);       break;
-> >               case 0x0e9: map_key_clear(KEY_VOLUMEUP);        break;
-> >               case 0x0ea: map_key_clear(KEY_VOLUMEDOWN);      break;
-> > +             case 0x0ee: map_key_clear(KEY_CAMERA_FOCUS);    break;
-> >               case 0x0f5: map_key_clear(KEY_SLOW);            break;
-> >
-> >               case 0x181: map_key_clear(KEY_BUTTONCONFIG);    break;
->
-> [ CCing Benjamin ]
->
-> Hi,
->
-> so according to HUT 1.3.0, 0xeb-0xef are Reserved for now, so I'd be a
-> little bit hesitatnt to but this into the generic mapping, as later HUT
-> revision might define this in a different way.
->
-> Which devices are known to be producing this?
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
+Jacky Bai (4):
+  dt-bindings: mfd: Add nxp bbnsm
+  input: bbnsm_pwrkey: Add bbnsm power key support
+  rtc: bbnsm: Add the bbnsm rtc support
+  arm64: dts: imx93: Add the bbnsm dts node
+
+ .../devicetree/bindings/mfd/nxp,bbnsm.yaml    | 101 ++++++++
+ arch/arm64/boot/dts/freescale/imx93.dtsi      |  16 ++
+ drivers/input/keyboard/Kconfig                |  11 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/nxp-bbnsm-pwrkey.c     | 192 +++++++++++++++
+ drivers/rtc/Kconfig                           |  12 +
+ drivers/rtc/Makefile                          |   1 +
+ drivers/rtc/rtc-nxp-bbnsm.c                   | 226 ++++++++++++++++++
+ 8 files changed, 560 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml
+ create mode 100644 drivers/input/keyboard/nxp-bbnsm-pwrkey.c
+ create mode 100644 drivers/rtc/rtc-nxp-bbnsm.c
+
+-- 
+2.37.1
+
