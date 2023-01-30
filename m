@@ -2,64 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC02680D7C
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 13:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2435B680EC8
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 14:26:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234964AbjA3MTo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Jan 2023 07:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51258 "EHLO
+        id S229694AbjA3N00 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Jan 2023 08:26:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231340AbjA3MTo (ORCPT
+        with ESMTP id S236340AbjA3N00 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Jan 2023 07:19:44 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 574CC113F4;
-        Mon, 30 Jan 2023 04:19:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675081183; x=1706617183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1A64CrXlXmsDMcdRzJ5WPL9hxJ1L8uyWxo/3ACh4mhY=;
-  b=FgtHq8/Em6Jk+gFThhyWfq7fVf88Ex8zuDu4cNRQBx9egHqkKYTXjc8g
-   t7AURGuM9O8b2c0u+CT1yNBJDPIG1xhQxFwfugGLp6mPytXfiYtsayQ70
-   Rat7NRPzZhEaJXGo6FZTM0m2yVBsCrQZ4pLLTeExd3U5eKBZU1/X8lAL4
-   ama8AFXZSDVbstIkls0SLKg2Jn0M/D7bbKRYrCJg4V/5rppCfRSThCeVF
-   DYPurnvrkLm1XPmxxhdwwETSZJh3bjrgekyS9mJhP6ENYwc9vLJ1Ssmip
-   JRfPEq6tv0PuMdpVInKElTl4ok7QzYeGSUJE6RDD/8XRtKIPl+EVMDw9z
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="311162631"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="311162631"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 04:19:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="909475875"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="909475875"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Jan 2023 04:19:40 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pMT8N-00HLD7-0F;
-        Mon, 30 Jan 2023 14:19:39 +0200
-Date:   Mon, 30 Jan 2023 14:19:38 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     ye.xingchen@zte.com.cn
-Cc:     dmitry.torokhov@gmail.com, jonathan.cameron@huawei.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: =?iso-8859-1?Q?st-keysc?=
- =?iso-8859-1?Q?an_-_Use=A0devm=5Fplatform=5Fget=5Fand=5Fioremap=5Fresourc?=
- =?iso-8859-1?B?ZSgp?=
-Message-ID: <Y9e12m28aOMlTs0c@smile.fi.intel.com>
-References: <202301281611305841413@zte.com.cn>
+        Mon, 30 Jan 2023 08:26:26 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADA636FC1;
+        Mon, 30 Jan 2023 05:26:25 -0800 (PST)
+Date:   Mon, 30 Jan 2023 13:26:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1675085182;
+        bh=ptL42kkxlabkwB6ja2m2x9/4R6IOCc41SdJfgo/zr4E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NTlAkaqtUq9fYNH9hnK/XxoQR3ZGZD5BYnrj76N+NU9l/sbpSPHh6FXiR4bcJBG1L
+         MDnkq30tcdgNQ/GL1rIu0KlzJ/PqALKrvMIF2idkSKWrPm/SSVaxz52kUoCoEEZuo0
+         yKdXq7Hcjckys2QB4YIb26wFsLG4qhH7kLMX5adc=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/9] HID: Constify lowlevel HID drivers
+Message-ID: <20230130132620.3cmmq5ga3uebazwf@t-8ch.de>
+References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+ <0937b9a5-0caa-2a73-33c4-82e6cab02ef0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <202301281611305841413@zte.com.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0937b9a5-0caa-2a73-33c4-82e6cab02ef0@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,25 +61,63 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jan 28, 2023 at 04:11:30PM +0800, ye.xingchen@zte.com.cn wrote:
-> From: ye xingchen <ye.xingchen@zte.com.cn>
+Hi Hans,
+
+On Mon, Jan 30, 2023 at 09:36:32AM +0100, Hans de Goede wrote:
+> Hi,
 > 
-> Convert platform_get_resource(), devm_ioremap_resource() to a single
-> call to devm_platform_get_and_ioremap_resource(), as this is exactly
-> what this function does.
+> On 1/30/23 04:59, Thomas Weiﬂschuh wrote:
+> > Since 52d225346904 ("HID: Make lowlevel driver structs const") the
+> > lowlevel HID drivers are only exposed as const.
+> > 
+> > Take advantage of this to constify the underlying structures, too.
+> > 
+> > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> 
+> Thanks, series looks good to me:
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> I'll also pick up / merge patches 7 + 8 into pdx86/for-next
+> sometime this week.
 
-...
+Please note that patch 7 depends on commit 52d225346904
+("HID: Make lowlevel driver structs const") which is not yet in Linus'
+tree, only in the HID tree (branch for-6.3/hid-core).
 
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	keypad_data->base = devm_ioremap_resource(&pdev->dev, res);
-> +	keypad_data->base = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+Maybe it's better to take it via the HID tree or I can resend when the
+prerequisites are in Linus' tree.
 
-Why?
-
-What we need here is simple devm_platform_ioremap_resource().
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> > ---
+> > Thomas Weiﬂschuh (9):
+> >       HID: amd_sfh: Constify lowlevel HID driver
+> >       HID: hyperv: Constify lowlevel HID driver
+> >       HID: logitech-dj: Constify lowlevel HID driver
+> >       HID: steam: Constify lowlevel HID driver
+> >       HID: intel-ish-hid: Constify lowlevel HID driver
+> >       HID: surface-hid: Constify lowlevel HID driver
+> >       platform/x86: asus-tf103c-dock: Constify lowlevel HID driver
+> >       platform/x86: asus-tf103c-dock: Constify toprow keymap
+> >       staging: greybus: hid: Constify lowlevel HID driver
+> > 
+> >  drivers/hid/amd-sfh-hid/amd_sfh_hid.c      | 2 +-
+> >  drivers/hid/hid-hyperv.c                   | 2 +-
+> >  drivers/hid/hid-logitech-dj.c              | 4 ++--
+> >  drivers/hid/hid-steam.c                    | 2 +-
+> >  drivers/hid/intel-ish-hid/ishtp-hid.c      | 2 +-
+> >  drivers/hid/surface-hid/surface_hid_core.c | 2 +-
+> >  drivers/platform/x86/asus-tf103c-dock.c    | 4 ++--
+> >  drivers/staging/greybus/hid.c              | 2 +-
+> >  8 files changed, 10 insertions(+), 10 deletions(-)
+> > ---
+> > base-commit: e04955db6a7c3fc4a1e6978649b61a6f5f8028e3
+> > change-id: 20230130-hid-const-ll-driver-fcfdd3af11b8
+> > 
+> > Best regards,
+> 
