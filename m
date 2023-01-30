@@ -2,107 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8EC2680ADE
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 11:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96A1B680A9A
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 11:17:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235593AbjA3KdW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Jan 2023 05:33:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59040 "EHLO
+        id S236139AbjA3KRt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Jan 2023 05:17:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236347AbjA3KdN (ORCPT
+        with ESMTP id S236272AbjA3KRr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Jan 2023 05:33:13 -0500
-X-Greylist: delayed 1412 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 30 Jan 2023 02:33:08 PST
-Received: from mail.schwarzvogel.de (unknown [IPv6:2a01:4f8:252:1806::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0B59B;
-        Mon, 30 Jan 2023 02:33:07 -0800 (PST)
-Received: from klausman by mail.schwarzvogel.de with local (Exim 4.96)
-        (envelope-from <klausman@schwarzvogel.de>)
-        id 1pMR6I-001Gpf-1w;
-        Mon, 30 Jan 2023 11:09:22 +0100
-Date:   Mon, 30 Jan 2023 11:09:22 +0100
-From:   Tobias Klausmann <klausman@schwarzvogel.de>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        David Roth <davidroth9@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus <luna+bugzilla@cosmos-ink.net>
-Subject: Re: [Regression] =?iso-8859-1?Q?Bug=A02168?=
- =?iso-8859-1?Q?85_-_HID++_Logitech_G903_generates_full_scroll_whee?=
- =?iso-8859-1?Q?l?= events with every hi-res tick when attached via USB
-Message-ID: <Y9eXUl6ShjMeH/gO@skade.schwarzvogel.de>
-Mail-Followup-To: Linux regressions mailing list <regressions@lists.linux.dev>,
-        Bastien Nocera <hadess@hadess.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, David Roth <davidroth9@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus <luna+bugzilla@cosmos-ink.net>
-References: <1bb93259-1c9f-5335-a0bf-fc8641b26650@leemhuis.info>
- <be545e72-8312-f213-0250-86a128b7b629@leemhuis.info>
+        Mon, 30 Jan 2023 05:17:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D3435B6
+        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 02:17:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675073820;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UlvqrRsIaGySNIWgyEtFe3L6DCZPEcBZ6mU4ziiJiuQ=;
+        b=XyCUXFOUG+yTe6/yHtXhlQpuRB8epzj0ffIf6D9Qf8V6sLDgngbBn7Qyn7wx+9B1ZR9Osi
+        SM2hlLzIsZu8UDUVh3XpjgAcQRiz1RxXgO13qiUouyBRVaRNlf296XzSBrFygeBWfORcQ2
+        w1Ub5BGlTmOBUSQT1PFf9PjNe723qgw=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-663-A0x_cXKFOUCfKvKUo_k46g-1; Mon, 30 Jan 2023 05:16:59 -0500
+X-MC-Unique: A0x_cXKFOUCfKvKUo_k46g-1
+Received: by mail-ed1-f71.google.com with SMTP id w3-20020a056402268300b00487e0d9b53fso7913212edd.10
+        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 02:16:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UlvqrRsIaGySNIWgyEtFe3L6DCZPEcBZ6mU4ziiJiuQ=;
+        b=m5gj5duEogVodUzC3wg+vEJUNGYLHZ+MeAYBGIww6VpUwKKFuWcV2V94/znJ26wptn
+         UA/oHKFPZxLLRQNqf7ESBqNYRxkWzOHHktbgLEjADa8QkBDNQNTPWkn9ZNFNuA8/VQyR
+         rcodIrSWr7f1fWnrdSQwd3Pqk2d8jTx/w4+kuiTV7vA77l5WL3iyYhoQhUk8f/FpqyrS
+         Fl/pprBkchTFDv+JPsmDMjwkC7mniSR3QMEVOgad2QQ16YGE+nVuOuFviATkEwYjAHDA
+         O+ldeV8+s8A0Cl0//d0xcax1wG27h+l3v03oTJFNFMFeW8/hLPzM1bh5RYnJwBa6GRPA
+         dghg==
+X-Gm-Message-State: AFqh2krS5/dbNspKzaHkfrjo1E6OLFmBaomLisFiItc/3LJrBTXv3QgN
+        06AexMNkSbQFJ3jGngjm/R069xi79k5ynziokJvdyC3fRT36o7s2U5K0MHGrh5lJFOfuxfm3WSo
+        IyCdxPMSkACBvQVk2306nOkU=
+X-Received: by 2002:a17:906:8608:b0:86b:9216:2ddb with SMTP id o8-20020a170906860800b0086b92162ddbmr53439643ejx.52.1675073817914;
+        Mon, 30 Jan 2023 02:16:57 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuNsJWKTnv3uN7vRaSshEY3jYIx5DQ3/vAPthUQAXBa0hLAWrs8TG38BNBGQctubhL/2gLNCg==
+X-Received: by 2002:a17:906:8608:b0:86b:9216:2ddb with SMTP id o8-20020a170906860800b0086b92162ddbmr53439629ejx.52.1675073817696;
+        Mon, 30 Jan 2023 02:16:57 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id f19-20020a05640214d300b004a0a915e726sm3390528edx.73.2023.01.30.02.16.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jan 2023 02:16:57 -0800 (PST)
+Message-ID: <325be2be-0c58-7414-70e9-9585e35874a2@redhat.com>
+Date:   Mon, 30 Jan 2023 11:16:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be545e72-8312-f213-0250-86a128b7b629@leemhuis.info>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [regression] Bug 216977 - asus t100 touchpad registered but not
+ working
+Content-Language: en-US
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <btissoir@redhat.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        jessegodfroy@gmail.com
+References: <2f4dc626-5287-6ec7-a31d-335e5dbb9119@leemhuis.info>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <2f4dc626-5287-6ec7-a31d-335e5dbb9119@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi! 
+Hi All,
 
-On Mon, 30 Jan 2023, Linux kernel regression tracking (Thorsten Leemhuis) wrote:
-> [ccing a few people that CCed to the bug]
-> 
+On 1/30/23 10:22, Linux kernel regression tracking (Thorsten Leemhuis) wrote:
 > Hi, this is your Linux kernel regression tracker.
 > 
-> On 05.01.23 09:12, Thorsten Leemhuis wrote:
-> > [...] Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216885 :
-> > 
-> >>  David Roth 2023-01-04 20:37:22 UTC
-> >>
-> >> Created attachment 303526 [details]
-> >> Libinput record with G903 attached directly to USB
-> >>
-> >> Since
-> >> https://lore.kernel.org/linux-input/20220914132146.6435-1-hadess@hadess.net/T/#u
-> >> my Logitech G903 has gained hi res support. While normally a good
-> >> thing, it seems that in this case it leads to generating one normal
-> >> REL_WHEEL with each REL_WHEEL_HI_RES event instead of just a couple
-> >> of REL_WHEEL_HI_RES, followed by the standard REL_WHEEL once a
-> >> notch/tick is reached. This leads to overly sensitive scrolling and
-> >> makes the wheel basically useless.
+> I noticed a regression report in bugzilla.kernel.org. As many (most?)
+> kernel developer don't keep an eye on it, I decided to forward it by
+> mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216977 :
 > 
-> Bastien, Benjamin, Jiri, that problem was reported 25 days ago now and
-> there is still no fix in sight afaics (please correct me if I'm wrong)
-> -- and based on the reports I've seen it seem quite a few people are
-> hitting it. Hence please allow me to ask:
-> 
-> Wouldn't it be best to revert that change for now (both in mainline and
-> stable of course) and then reapply it once a fix for this problem is
-> available? Or
+>>  jessegodfroy@gmail.com 2023-01-29 15:44:34 UTC
+>>
+>> After upgrading the kernel from 6.0 series to the 6.1 the touchpad on my asus t100 no longer works. 
+>>
+>> The device is registered in dmesg. I believe hid_asus is responsible for the keyboard and touchpad.  The keyboard continues to function, but the touchpad does not. 
+>>
+>> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0001: input,hidraw0: USB HID v1.11 Keyboard [ASUSTek COMPUTER INC. ASUS Base Station(T100)] on usb-0000:00:14.0-3/input0
+>> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0002: Fixing up Asus T100 keyb report descriptor
+>> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0002: input,hiddev96,hidraw1: USB HID v1.11 Device [ASUSTek COMPUTER INC. ASUS Base Station(T100)] on usb-0000:00:14.0-3/input1
+>> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0003: input,hiddev97,hidraw2: USB HID v1.11 Mouse [ASUSTek COMPUTER INC. ASUS Base Station(T100)] on usb-0000:00:14.0-3/input2
+>>
+>> I do not see any changes to hid_asus that should be responsible for the change in performance.
+> See the ticket for more details.
 
-I think there was something cut off or that `Or` is leftovers.
+This is my bad, I accidentally broke SW_TABLET_MODE reporting on
+the Asus T100* and T101* series and it is now reporting that it
+is in tablet mode while it is actually docked and thus in laptop
+mode.
 
-As for no fix: correct, there is no fix yet, though the workaround of
-blacklisting the module sortof works. _Not_ having hires support usually
-doesn't break anything, as it's a relatively new feature/functionality,
-and so many pieces of userland (GTK+, Qt etc) need to be explicitly
-configured to use it, and fall back to lowres in a benign way. I would
-have never noticed this if I didn't use a distro kernel on one machine
-(my hand-built ones omit the module entirely).
+This is causing libinput to suppress touchpad events, as
+it would for a 360° hinges style 2 in 1 with the keyboard +
+touchpad folded behind the display (so in tablet mode).
 
-That said, figuring out what is going on and what to do is not trivial,
-since most people won't think "kernel" when they notice their mouse's
-behavior has changed. My liberal reporting of bugs with Debian, libinput
-and then the kernel (and linking them) was a deliberate attempt in
-leaving breadcrumbs for people to find.
+A fix for this has already been merged for 6.2-rc6:
 
-Best,
-Tobias
+"platform/x86: asus-wmi: Fix kbd_dock_devid tablet-switch reporting"
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fdcc0602d64f22185f61c70747214b630049cc33
+
+And the fix is also queued for the next 6.1.y stable series release:
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/log/?h=queue/6.1
+
+I'll also add this info as a comment to the bug.
+
+Regards,
+
+Hans
+
