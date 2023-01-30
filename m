@@ -2,132 +2,167 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96A1B680A9A
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 11:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDBE4680B0B
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 11:36:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236139AbjA3KRt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Jan 2023 05:17:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49792 "EHLO
+        id S230422AbjA3Kgu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Jan 2023 05:36:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236272AbjA3KRr (ORCPT
+        with ESMTP id S236486AbjA3Kgt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Jan 2023 05:17:47 -0500
+        Mon, 30 Jan 2023 05:36:49 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D3435B6
-        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 02:17:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7DB0170C
+        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 02:36:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675073820;
+        s=mimecast20190719; t=1675074960;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UlvqrRsIaGySNIWgyEtFe3L6DCZPEcBZ6mU4ziiJiuQ=;
-        b=XyCUXFOUG+yTe6/yHtXhlQpuRB8epzj0ffIf6D9Qf8V6sLDgngbBn7Qyn7wx+9B1ZR9Osi
-        SM2hlLzIsZu8UDUVh3XpjgAcQRiz1RxXgO13qiUouyBRVaRNlf296XzSBrFygeBWfORcQ2
-        w1Ub5BGlTmOBUSQT1PFf9PjNe723qgw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/wXvsciQ0KooaHBSOQrZRetD56/VUpWj90cA08FSe/s=;
+        b=IQ3zD6XltGlwWXVE2ZerORI+gydX6zFhIiwUbIYlG7LW1ptKPipaahCLieNp8Lr6Bsa+Eo
+        GIvRaY8xfRYUW/GdLqVD38wVexw8nwD8rH34dMH1DERXIWjmKSu/33HsmDO1/u0VcbmudB
+        Qiut1eqjfCDiZteTxD+hJtvhyIWJVis=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-A0x_cXKFOUCfKvKUo_k46g-1; Mon, 30 Jan 2023 05:16:59 -0500
-X-MC-Unique: A0x_cXKFOUCfKvKUo_k46g-1
-Received: by mail-ed1-f71.google.com with SMTP id w3-20020a056402268300b00487e0d9b53fso7913212edd.10
-        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 02:16:58 -0800 (PST)
+ us-mta-369-JPuXZ24TPd6tdHbGwAua6Q-1; Mon, 30 Jan 2023 05:35:59 -0500
+X-MC-Unique: JPuXZ24TPd6tdHbGwAua6Q-1
+Received: by mail-yb1-f198.google.com with SMTP id c2-20020a25a2c2000000b008016611ca77so12333059ybn.9
+        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 02:35:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UlvqrRsIaGySNIWgyEtFe3L6DCZPEcBZ6mU4ziiJiuQ=;
-        b=m5gj5duEogVodUzC3wg+vEJUNGYLHZ+MeAYBGIww6VpUwKKFuWcV2V94/znJ26wptn
-         UA/oHKFPZxLLRQNqf7ESBqNYRxkWzOHHktbgLEjADa8QkBDNQNTPWkn9ZNFNuA8/VQyR
-         rcodIrSWr7f1fWnrdSQwd3Pqk2d8jTx/w4+kuiTV7vA77l5WL3iyYhoQhUk8f/FpqyrS
-         Fl/pprBkchTFDv+JPsmDMjwkC7mniSR3QMEVOgad2QQ16YGE+nVuOuFviATkEwYjAHDA
-         O+ldeV8+s8A0Cl0//d0xcax1wG27h+l3v03oTJFNFMFeW8/hLPzM1bh5RYnJwBa6GRPA
-         dghg==
-X-Gm-Message-State: AFqh2krS5/dbNspKzaHkfrjo1E6OLFmBaomLisFiItc/3LJrBTXv3QgN
-        06AexMNkSbQFJ3jGngjm/R069xi79k5ynziokJvdyC3fRT36o7s2U5K0MHGrh5lJFOfuxfm3WSo
-        IyCdxPMSkACBvQVk2306nOkU=
-X-Received: by 2002:a17:906:8608:b0:86b:9216:2ddb with SMTP id o8-20020a170906860800b0086b92162ddbmr53439643ejx.52.1675073817914;
-        Mon, 30 Jan 2023 02:16:57 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuNsJWKTnv3uN7vRaSshEY3jYIx5DQ3/vAPthUQAXBa0hLAWrs8TG38BNBGQctubhL/2gLNCg==
-X-Received: by 2002:a17:906:8608:b0:86b:9216:2ddb with SMTP id o8-20020a170906860800b0086b92162ddbmr53439629ejx.52.1675073817696;
-        Mon, 30 Jan 2023 02:16:57 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id f19-20020a05640214d300b004a0a915e726sm3390528edx.73.2023.01.30.02.16.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jan 2023 02:16:57 -0800 (PST)
-Message-ID: <325be2be-0c58-7414-70e9-9585e35874a2@redhat.com>
-Date:   Mon, 30 Jan 2023 11:16:56 +0100
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/wXvsciQ0KooaHBSOQrZRetD56/VUpWj90cA08FSe/s=;
+        b=71CfRL60OOwHn19DLRzsBryZ04JmegJgA9NZbKkr797VhqYwRWPrQj3wIanDUnZ4mB
+         vu8qsIrJbrojUKqhO6lNeNIMJ1DtXOgwrF/YkFZMTCvFIep//LFK8suZ8u8LGpadnX0K
+         ART9mDWi2G8SeBmodzOQC0a/t2YaAF0X94rgOoiZ90FS1RIkc9aRwRRCx2kLEZXcqsep
+         gIKQpmHYoI84p3tvZuOnFZj62hBZXFvuRckKytTapafxctEteQoS+4sCsKaK3arCeBfr
+         QNj2A7hDMbP86YG2gsdmqqOCeq4VfCuTQlnEx0X/LYbsr8xR3gLFBDqfXPzQ322rU8+i
+         xK8g==
+X-Gm-Message-State: AFqh2krX0C9uDhLgt4TmBjuqXmP5BEoa6jbs5bIUJmDJtySPRucjUmLK
+        8phgwZaPt1Q2UYMi6GHv9Gfu0nQt3WCh1tXIxsYNW8/2bCkisGT2/7cNnR4JolSFoJ8Xwbblpx9
+        ZYU8Mfp82z4IaOx1YPnic77jQImOOHL3Mi2d2qj8=
+X-Received: by 2002:a25:c881:0:b0:7e8:ee11:9717 with SMTP id y123-20020a25c881000000b007e8ee119717mr5586435ybf.495.1675074958756;
+        Mon, 30 Jan 2023 02:35:58 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs3NALW6sRFXMXHjsUm5AoXYtnmMaer0VfPdK6xb8TQcw5A5v00DIlVSANsdRqDaB39Vmu+u8RPCUZpf3gyL2I=
+X-Received: by 2002:a25:c881:0:b0:7e8:ee11:9717 with SMTP id
+ y123-20020a25c881000000b007e8ee119717mr5586426ybf.495.1675074958451; Mon, 30
+ Jan 2023 02:35:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [regression] Bug 216977 - asus t100 touchpad registered but not
- working
-Content-Language: en-US
-To:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <btissoir@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+References: <1bb93259-1c9f-5335-a0bf-fc8641b26650@leemhuis.info> <be545e72-8312-f213-0250-86a128b7b629@leemhuis.info>
+In-Reply-To: <be545e72-8312-f213-0250-86a128b7b629@leemhuis.info>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 30 Jan 2023 11:35:47 +0100
+Message-ID: <CAO-hwJJtK3B2x8CAAYsB41X8D=1EpEYK+nSuVA+fXuz1LHkmSg@mail.gmail.com>
+Subject: Re: [Regression] Bug 216885 - HID++ Logitech G903 generates full
+ scroll wheel events with every hi-res tick when attached via USB
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
+        David Roth <davidroth9@gmail.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        jessegodfroy@gmail.com
-References: <2f4dc626-5287-6ec7-a31d-335e5dbb9119@leemhuis.info>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <2f4dc626-5287-6ec7-a31d-335e5dbb9119@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        LKML <linux-kernel@vger.kernel.org>,
+        Tobias Klausmann <klausman@i-no.de>,
+        Linus <luna+bugzilla@cosmos-ink.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi All,
-
-On 1/30/23 10:22, Linux kernel regression tracking (Thorsten Leemhuis) wrote:
+On Mon, Jan 30, 2023 at 10:56 AM Linux kernel regression tracking
+(Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
+>
+> [ccing a few people that CCed to the bug]
+>
 > Hi, this is your Linux kernel regression tracker.
-> 
-> I noticed a regression report in bugzilla.kernel.org. As many (most?)
-> kernel developer don't keep an eye on it, I decided to forward it by
-> mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216977 :
-> 
->>  jessegodfroy@gmail.com 2023-01-29 15:44:34 UTC
->>
->> After upgrading the kernel from 6.0 series to the 6.1 the touchpad on my asus t100 no longer works. 
->>
->> The device is registered in dmesg. I believe hid_asus is responsible for the keyboard and touchpad.  The keyboard continues to function, but the touchpad does not. 
->>
->> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0001: input,hidraw0: USB HID v1.11 Keyboard [ASUSTek COMPUTER INC. ASUS Base Station(T100)] on usb-0000:00:14.0-3/input0
->> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0002: Fixing up Asus T100 keyb report descriptor
->> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0002: input,hiddev96,hidraw1: USB HID v1.11 Device [ASUSTek COMPUTER INC. ASUS Base Station(T100)] on usb-0000:00:14.0-3/input1
->> Jan 29 09:29:53 t100ta-white kernel: asus 0003:0B05:17E0.0003: input,hiddev97,hidraw2: USB HID v1.11 Mouse [ASUSTek COMPUTER INC. ASUS Base Station(T100)] on usb-0000:00:14.0-3/input2
->>
->> I do not see any changes to hid_asus that should be responsible for the change in performance.
-> See the ticket for more details.
+>
+> On 05.01.23 09:12, Thorsten Leemhuis wrote:
+> > [...] Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216885 :
+> >
+> >>  David Roth 2023-01-04 20:37:22 UTC
+> >>
+> >> Created attachment 303526 [details]
+> >> Libinput record with G903 attached directly to USB
+> >>
+> >> Since
+> >> https://lore.kernel.org/linux-input/20220914132146.6435-1-hadess@hadess.net/T/#u
+> >> my Logitech G903 has gained hi res support. While normally a good
+> >> thing, it seems that in this case it leads to generating one normal
+> >> REL_WHEEL with each REL_WHEEL_HI_RES event instead of just a couple
+> >> of REL_WHEEL_HI_RES, followed by the standard REL_WHEEL once a
+> >> notch/tick is reached. This leads to overly sensitive scrolling and
+> >> makes the wheel basically useless.
+>
+> Bastien, Benjamin, Jiri, that problem was reported 25 days ago now and
+> there is still no fix in sight afaics (please correct me if I'm wrong)
+> -- and based on the reports I've seen it seem quite a few people are
+> hitting it. Hence please allow me to ask:
+>
+> Wouldn't it be best to revert that change for now (both in mainline and
+> stable of course) and then reapply it once a fix for this problem is
+> available? Or
 
-This is my bad, I accidentally broke SW_TABLET_MODE reporting on
-the Asus T100* and T101* series and it is now reporting that it
-is in tablet mode while it is actually docked and thus in laptop
-mode.
+Last I heard was that Bastien was actively trying to understand the
+problem. I do have a G903 here but it is lacking the feature the
+reporters have, and so I can not reproduce (there is likely a new
+firmware/model around).
 
-This is causing libinput to suppress touchpad events, as
-it would for a 360° hinges style 2 in 1 with the keyboard +
-touchpad folded behind the display (so in tablet mode).
+After a quick search on
+https://support.logi.com/hc/en-us/search#q=G903&s=all it seems that
+there are 2 G903: M-R0081 and M-R0068. I only own the 68 one which
+explains why I can not reproduce it. :(
 
-A fix for this has already been merged for 6.2-rc6:
+Cheers,
+Benjamin
 
-"platform/x86: asus-wmi: Fix kbd_dock_devid tablet-switch reporting"
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fdcc0602d64f22185f61c70747214b630049cc33
 
-And the fix is also queued for the next 6.1.y stable series release:
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/log/?h=queue/6.1
-
-I'll also add this info as a comment to the bug.
-
-Regards,
-
-Hans
+>
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+>
+> >> Interestingly this only happens when the mouse is connected directly via
+> >> cable (PID:0xC091) and not via the Lightspeed wireless dongle
+> >> (PID:0x4087) where it will lead to correctly applying the times 8
+> >> multiplier and the relevant set of HI_RES and REL_WHEEL event once a
+> >> notch is reached.
+> >>
+> >> I originally thought about patching the module/adding a param to simple
+> >> disable high res support in general, assuming this might be something
+> >> people might want to configure, but seeing that this can be "fixed" that
+> >> way I decided to hold off on the thought.
+> >>
+> >> However it seems like we'd need to trade one set of quirks for another,
+> >> so not sure what the correct approach might be.
+> >>
+> >> I'll attach some libinput debug logs when the issue happens.
+> >
+> > See the ticket for more details.
+> >
+> > BTW, let me use this mail to also add the report to the list of tracked
+> > regressions to ensure it's doesn't fall through the cracks:
+> >
+> > #regzbot introduced: 908d325e1665
+> > https://bugzilla.kernel.org/show_bug.cgi?id=216885
+> > #regzbot title: hid: overly sensitive scrolling with Logitech G903 that
+> > makes the wheel basically useless
+> > #regzbot ignore-activity
+> >
+> > Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> > --
+> > Everything you wanna know about Linux kernel regression tracking:
+> > https://linux-regtracking.leemhuis.info/about/#tldr
+> > If I did something stupid, please tell me, as explained on that page.
+>
 
