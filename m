@@ -2,61 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 162CA68051F
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 05:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2F8968052A
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 05:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235529AbjA3En1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Jan 2023 23:43:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42664 "EHLO
+        id S231161AbjA3Erf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Jan 2023 23:47:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235500AbjA3EnZ (ORCPT
+        with ESMTP id S229769AbjA3Ere (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Jan 2023 23:43:25 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A428222F8;
-        Sun, 29 Jan 2023 20:43:24 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id 144so6842111pfv.11;
-        Sun, 29 Jan 2023 20:43:24 -0800 (PST)
+        Sun, 29 Jan 2023 23:47:34 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F2385259;
+        Sun, 29 Jan 2023 20:47:34 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id b5so3111079plz.5;
+        Sun, 29 Jan 2023 20:47:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LiNNPqaXQM9yS0J3io8bIAgUtUxZYRaSMrpFctF6XsM=;
-        b=Fr/9psA8hpDY8+DJ12nrG4pU05Kt2ZHI9rrvODh/GF7dNbM7TPubpN64DtQiDgeG4r
-         T6ece7USNCKJ16Op/dA0dn90RDa/vC4uj181E1KqXMHTx6TdWX0UC1e9qRQo90EZKOnT
-         WjVCNqvQn4TrfxTd1Vq3IVyeyC/jfmKzkNjOWWyQ4egozDgHr938p8kV8zzxcERmcbnE
-         V5to2G5douPTRHg7O+pskFlEpZkCYrMyjsjnJ5p7Y5r9+bq2vuNFBejxcMkbyhs56yoW
-         4VoT8gI/4mVcepjyIci1OV3xlO+zOnBubaduP6IhNcZCvlyV3J7D4SfddE1nrICp2B8L
-         1gxQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5mwAuq4KqeI3hBJrRDktuJknztZh3QeguF7B7DzVkWY=;
+        b=hIwkO9Frl5fptfPcsYleQBOm8RiJS0nzSchqBE99iXaPLjdjpPkjYgup+weYYooGVy
+         2MhgFdIurVLUIBLBsBBfWwT9mJ9uJPAIQe/gdue4Q9CeOumpIfdefkX1Zoea/VVz4ceD
+         sagFuut4db5T9ZLIBwzyWguyTDqH3inMSJbSFaRlamdi7EcLxq0g3kKBdCB3Sk+qcA5Y
+         HwXdDnj5UMLu738R6fBUfrLAe65O7qdduxRSlz5hkqMFYxvJSG4UF4T1GA4WYvxJ2zQo
+         awBTYrtKpQIqHdFTW6Lm+JQhnE9VChI2EIeQJPNL5vdbqwEq+JMZSBzZc8jo6NmUMJ2T
+         ggpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LiNNPqaXQM9yS0J3io8bIAgUtUxZYRaSMrpFctF6XsM=;
-        b=BJZUMT9Z4J/dVZTH2Yz/9wySOiVSwCVg/urCuTfYuj7AffKwQ09i4l3IUJEXYzXPlU
-         HGUnJ+6QmFdHFDWIArKOzMiUrFbFLGimhAQOrepgJeIUjjISo+S94nHGkNfXzGzoQcq6
-         IQAwevoDy8fkeyey/aJdC8Mbq9tFBL0IgHCVIHswECVjrg0Edtn43kREqIz/Rouk/k0a
-         cYfmhaIb2/H6i8GV143fuzvqSOuIDFAK2hH/iy6F7phAekGhP79V++eMgxYLTEujJ6oL
-         QapdzgCmKDwSw7uBkpVhicQtkPaYT54AjvgY2t/7Z6oURxfStaMXYirRgyppojKh/scT
-         B+FA==
-X-Gm-Message-State: AO0yUKW/ftESScLmDpqlfv9qU7N0de7jTxbwcqb0yQ61RBwaFZyZw3NP
-        mk8EscZ3MuXCq8VXhhQypvsOTuq8IZU=
-X-Google-Smtp-Source: AK7set89HDDa8uOroTLrTWtikayMyCpbHkivU3bAy3DggSf7PcnUg9T5/4dWNF/TvZTTtmKo3XgCNg==
-X-Received: by 2002:aa7:8114:0:b0:590:7636:d435 with SMTP id b20-20020aa78114000000b005907636d435mr5583073pfi.13.1675053803472;
-        Sun, 29 Jan 2023 20:43:23 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5mwAuq4KqeI3hBJrRDktuJknztZh3QeguF7B7DzVkWY=;
+        b=LZ+u6ILJubqGoIzZbPWK6keJEW/XZWVRLwqmXU2674i9EqjTgfak3+uI25O0+1/OIj
+         S6DCxoAm8L1STAIOxTcdQBcAF3IWlCtR010KlcdovdRamTyHXJXawAwqy9CpBHX+HnMD
+         8KTp0TTmat8hJrbZztoP7ItZAIBrb0L5XlhsgIXKYb8RywnoNGPkftXSANAsaUhwqFx4
+         ek+naIIKf6wlhYvenyLFa+IH/R7sw9iH1aalWq5Er8hLK9Fu3Uirfj0d0MNNbn086Dae
+         QIro4eiTyQFs81GIZdFMHJKZEwx6/4Y9xmJWS/qZUffn+Q41eY/l69xDDNQyRDdyItAU
+         hKwA==
+X-Gm-Message-State: AFqh2krNaGMtrHSm5ZXU7SgvzVgltzeALK4oQslIGWXAXppWbb5/89Sx
+        vI6aQhJ6gPOpQX9ccOwObMg=
+X-Google-Smtp-Source: AMrXdXu6QZZTNoUYeOcivG3RunO4q5wvdv449dWvOJhG8TJe1Lk048ucUM//uSH1BSgJtCgV20cdqg==
+X-Received: by 2002:a17:903:11d1:b0:195:e2cc:6f35 with SMTP id q17-20020a17090311d100b00195e2cc6f35mr48400905plh.59.1675054053501;
+        Sun, 29 Jan 2023 20:47:33 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:6882:174b:bc70:101])
-        by smtp.gmail.com with ESMTPSA id 74-20020a62164d000000b0058b59c81a29sm6217336pfw.220.2023.01.29.20.43.22
+        by smtp.gmail.com with ESMTPSA id j7-20020a17090276c700b001932a9e4f2csm2229044plt.255.2023.01.29.20.47.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 20:43:22 -0800 (PST)
-Date:   Sun, 29 Jan 2023 20:43:19 -0800
+        Sun, 29 Jan 2023 20:47:32 -0800 (PST)
+Date:   Sun, 29 Jan 2023 20:47:30 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Stahl, Michael" <mstahl@moba.de>, linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: exc3000 - properly stop timer on shutdown
-Message-ID: <Y9dK57BFqtlf8NmN@google.com>
+To:     ye.xingchen@zte.com.cn
+Cc:     wsa+renesas@sang-engineering.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: =?iso-8859-1?Q?altera?=
+ =?iso-8859-1?Q?=5Fps2_-_Use=A0devm=5Fplatform=5Fget=5Fand=5Fioremap=5Fres?=
+ =?iso-8859-1?Q?ource=28=29?=
+Message-ID: <Y9dL4poPM02ThdBG@google.com>
+References: <202301281603290601283@zte.com.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202301281603290601283@zte.com.cn>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -67,47 +73,16 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We need to stop the timer on driver unbind or probe failures, otherwise
-we get UAF/Oops.
+On Sat, Jan 28, 2023 at 04:03:29PM +0800, ye.xingchen@zte.com.cn wrote:
+> From: ye xingchen <ye.xingchen@zte.com.cn>
+> 
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+> 
+> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 
-Fixes: 7e577a17f2ee ("Input: add I2C attached EETI EXC3000 multi touch driver")
-Reported-by: "Stahl, Michael" <mstahl@moba.de>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/exc3000.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index 4b7eee01c6aa..69eae79e2087 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -109,6 +109,11 @@ static inline void exc3000_schedule_timer(struct exc3000_data *data)
- 	mod_timer(&data->timer, jiffies + msecs_to_jiffies(EXC3000_TIMEOUT_MS));
- }
- 
-+static void exc3000_shutdown_timer(void *timer)
-+{
-+	timer_shutdown_sync(timer);
-+}
-+
- static int exc3000_read_frame(struct exc3000_data *data, u8 *buf)
- {
- 	struct i2c_client *client = data->client;
-@@ -386,6 +391,11 @@ static int exc3000_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
- 
-+	error = devm_add_action_or_reset(&client->dev, exc3000_shutdown_timer,
-+					 &data->timer);
-+	if (error)
-+		return error;
-+
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
- 					  NULL, exc3000_interrupt, IRQF_ONESHOT,
- 					  client->name, data);
--- 
-2.39.1.456.gfc5497dd1b-goog
-
+Applied, thank you.
 
 -- 
 Dmitry
