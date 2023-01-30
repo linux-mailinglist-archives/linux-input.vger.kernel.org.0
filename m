@@ -2,118 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77600681CBF
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 22:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF49681DBF
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 23:10:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229851AbjA3VaH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Jan 2023 16:30:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49270 "EHLO
+        id S230086AbjA3WKa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Jan 2023 17:10:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbjA3VaG (ORCPT
+        with ESMTP id S230496AbjA3WK3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Jan 2023 16:30:06 -0500
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3DC265B3
-        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 13:30:05 -0800 (PST)
-Received: by mail-pf1-x449.google.com with SMTP id n34-20020a056a000d6200b005912ead88aeso6030465pfv.3
-        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 13:30:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1ks4GVEUR6PT1089FpiWUNbhf7r3jxSIVo2HXW9yiGc=;
-        b=AyWfK8ZP3f9NXvlS/ej80Q75u28ntZwmpIbPlH89Bvi6y+rP+oiMGsRqFXQvS+4iQM
-         JGDXtIm4n8abYWDQqx9LF8V6mXy4R+PWOeXpe3FeV4IWic3G+yhS7lMROIAP9HD4qDbL
-         aozIzrRQ9sZEydcP+0a+RzQZNSq764XOKNgszkL37OKAt3Nl1er2pLnvav1Ya4hxhhO5
-         NlsvSIShuTaZhETkxziHndZjY6fc344Lm8V/y0lEINWSrRDfyWJr92nLMULuExALOP9o
-         K9HQri43U/bfjeVZ9rQifHlHX17igWqWgAmQrDvjwWWNpbv3rorbwO1Oy5R/rBoRlnmx
-         EdMg==
+        Mon, 30 Jan 2023 17:10:29 -0500
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51E773526A;
+        Mon, 30 Jan 2023 14:10:00 -0800 (PST)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-16346330067so17075941fac.3;
+        Mon, 30 Jan 2023 14:10:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1ks4GVEUR6PT1089FpiWUNbhf7r3jxSIVo2HXW9yiGc=;
-        b=0rQMmW5H8XUTGBcHXBU3T0SpD6mbB/Y5vLTeQGZ5lGoIYn86orha4xARaPuar7/5+V
-         CDcoEQzPR2ImtvzrXtP6hvphCWqQikGBixAK6xTuj1KLLOy8DQI6UdbaVu4l+hFpLwaW
-         k2rnx9eGYHmSKYXirWPewOcjI4ThY5x9txvUd5kGxHJpDW96rB2W0KRGRcEFwl0HgLvc
-         2ue3aTQmJHWLIxa31Wht4y7zGFy6heU3uDidbXunHwbxTfu8ZXLJ0AZzFWWcg0HQnTLu
-         I/57H8U0SfM3lHrhfd9+9Ydul+SQEAm/ImAyNIdh1kfAzpGcmT8cViFR5d34ovHR8sM1
-         BzsA==
-X-Gm-Message-State: AFqh2kqHd9ggBc+xdvg3eUem0PcGoYadBBaQIeL8gj6pGAY2cQbhYnSn
-        TFQKKWwMknlHobUBiGNOxvqtlwHlboM=
-X-Google-Smtp-Source: AMrXdXsCr+HOyKPh/c0urHNsticErkuB3IaiKNAB3BkKly7Dg8NhUF3Rieqh2fjB3WGczQmgwQsnlQJ5cm0=
-X-Received: from xz2.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:d01])
- (user=xnzhao job=sendgmr) by 2002:a17:902:b20c:b0:194:7cb3:2527 with SMTP id
- t12-20020a170902b20c00b001947cb32527mr6452658plr.4.1675114205168; Mon, 30 Jan
- 2023 13:30:05 -0800 (PST)
-Date:   Mon, 30 Jan 2023 21:29:47 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
-Message-ID: <20230130212947.1315941-1-xnzhao@google.com>
-Subject: [PATCH] HID: core: Fix deadloop in hid_apply_multiplier.
-From:   Xin Zhao <xnzhao@google.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Xin Zhao <xnzhao@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lw81Ox9m8bEAO1darCcd9bAwGM0pyskgkCFM54xB7Dw=;
+        b=sZLdDL8jqtXnpbxbpFD5DHPU+VjwEBKU5G2agaaeI214PPrbVmDiYDYWZ4NEM6qRbc
+         61I+INh/+vw7nIrG1/N77M9Ek22WrW010ctMpsTUF5omaht/9y9fFFMN1/IUaR5tgQ29
+         7IcYjkHpPom614IoQL2BSTt5vmatjNi9VAJ6NrI1RM0p6EwWxr/+RsMV3TFg4suY+UPE
+         b60QFzV4McE/NXDjfN1B/GVaL5QdPTgXiQ6i2lcu+NKohdgM6zLgkYvcuED5lnCS3q5d
+         97BNgmes7omDn9ZWGdYR/W+D6dUovZUFa1XVSiR6kJkAwE2YWUv2ckGlg+uaDpOrLiU1
+         I32Q==
+X-Gm-Message-State: AO0yUKXcpBtSxhobXfy8J8BPvh5uOBObcNLoBaD+9IcXlOwgVBNWCyAQ
+        9JbqIC4EBbKNsB5YEBlkWg==
+X-Google-Smtp-Source: AK7set856cqhnQCPb48Kq7IYjEinJUpv3uoWOb02qiCWhiuZVNYb/yeNAQi/VqSaq0I1hkeIEt1IQA==
+X-Received: by 2002:a05:6870:d38f:b0:163:6239:24f1 with SMTP id k15-20020a056870d38f00b00163623924f1mr5449536oag.36.1675116599324;
+        Mon, 30 Jan 2023 14:09:59 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id gn12-20020a056870d98c00b0013ae39d0575sm5698312oab.15.2023.01.30.14.09.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 14:09:58 -0800 (PST)
+Received: (nullmailer pid 3615591 invoked by uid 1000);
+        Mon, 30 Jan 2023 22:09:58 -0000
+Date:   Mon, 30 Jan 2023 16:09:58 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jacky Bai <ping.bai@nxp.com>
+Cc:     shawnguo@kernel.org, a.zummo@towertech.it, lee@kernel.org,
+        alexandre.belloni@bootlin.com, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, festevam@gmail.com,
+        dmitry.torokhov@gmail.com, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-imx@nxp.com,
+        s.hauer@pengutronix.de, krzysztof.kozlowski+dt@linaro.org,
+        kernel@pengutronix.de, robh+dt@kernel.org
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add nxp bbnsm
+Message-ID: <167511659739.3615531.14629886482934237177.robh@kernel.org>
+References: <20230129070823.1945489-1-ping.bai@nxp.com>
+ <20230129070823.1945489-2-ping.bai@nxp.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230129070823.1945489-2-ping.bai@nxp.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The initial value of hid->collection[].parent_idx if 0. When
-Report descriptor doesn't contain "HID Collection", the value
-remains as 0.
 
-In the meanwhile, when the Report descriptor fullfill
-all following conditions, it will trigger hid_apply_multiplier
-function call.
-1. Usage page is Generic Desktop Ctrls (0x01)
-2. Usage is RESOLUTION_MULTIPLIER (0x48)
-3. Contain any FEATURE items
+On Sun, 29 Jan 2023 15:08:20 +0800, Jacky Bai wrote:
+> Add binding for NXP BBNSM(Battery-Backed Non-Secure Module).
+> 
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
+> ---
+>   - v2 changes:
+>     - remove the redundant 'bindings' string
+>     - add ref to rtc.yaml
+>     - add start-year property
+>     - rename 'regmap' to 'nxp,bbnsm-regmap' and add description & type define
+>     - add header files including in the example and correct the indentation
+> 
+>   -v3 changes:
+>     - remove the 'nxp,bbnsm-regmap' property, get the regmap directly from the
+>       parent node in rtc/pwrkey driver
+> 
+>   - v4 changes:
+>     - update the compatible string to include the soc id as Rob suggested
+> ---
+>  .../devicetree/bindings/mfd/nxp,bbnsm.yaml    | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml
+> 
 
-The while loop in hid_apply_multiplier will search the top-most
-collection by searching parent_idx == -1. Because all parent_idx
-is 0. The loop will run forever.
-
-There is a Report Descriptor triggerring the deadloop
-0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
-0x09, 0x48,        // Usage (0x48)
-0x95, 0x01,        // Report Count (1)
-0x75, 0x08,        // Report Size (8)
-0xB1, 0x01,        // Feature
-
-Signed-off-by: Xin Zhao <xnzhao@google.com>
----
- drivers/hid/hid-core.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 3e1803592bd4..5c72aef3d3dd 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1202,6 +1202,7 @@ int hid_open_report(struct hid_device *device)
- 	__u8 *end;
- 	__u8 *next;
- 	int ret;
-+	int i;
- 	static int (*dispatch_type[])(struct hid_parser *parser,
- 				      struct hid_item *item) = {
- 		hid_parser_main,
-@@ -1252,6 +1253,8 @@ int hid_open_report(struct hid_device *device)
- 		goto err;
- 	}
- 	device->collection_size = HID_DEFAULT_NUM_COLLECTIONS;
-+	for (i = 0; i < HID_DEFAULT_NUM_COLLECTIONS; i++)
-+		device->collection[i].parent_idx = -1;
- 
- 	ret = -EINVAL;
- 	while ((next = fetch_item(start, end, &item)) != NULL) {
--- 
-2.39.1.456.gfc5497dd1b-goog
-
+Reviewed-by: Rob Herring <robh@kernel.org>
