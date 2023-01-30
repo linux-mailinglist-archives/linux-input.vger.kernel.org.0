@@ -2,103 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE89D6814FF
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 16:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB99B681550
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 16:42:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237713AbjA3P3G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Jan 2023 10:29:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43152 "EHLO
+        id S236564AbjA3Pm3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Jan 2023 10:42:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237103AbjA3P3F (ORCPT
+        with ESMTP id S236719AbjA3PmW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Jan 2023 10:29:05 -0500
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F50710AB2;
-        Mon, 30 Jan 2023 07:29:04 -0800 (PST)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1636eae256cso11135494fac.0;
-        Mon, 30 Jan 2023 07:29:04 -0800 (PST)
+        Mon, 30 Jan 2023 10:42:22 -0500
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0EFC402E1;
+        Mon, 30 Jan 2023 07:42:12 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id h12so11468214wrv.10;
+        Mon, 30 Jan 2023 07:42:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Re9Y3gSh85iYxes8p1OPwaScIdLGuvtyxLSCyhs+8AE=;
-        b=T7kF+PVNcG0+OkPJyaABEuEeHZ3hBQ+Y3i1Jd4FGn0+izWCnoVgpqFNUiaDeIa9aFr
-         PZVjtA770IxhHrIAgal8KqA9BeRJdNmliY+WUgS3gQKMyzYdAjhxOqtcAdl1MzSneDxS
-         y/G0jwJ18MLjUHg7BNkKhzoc3TYano8ReJjGstq2VprKo7SLmk3aibdCpcKs5UjTcNcL
-         0qZ2uPeOHwPVjOiasj81gIZOykhbVFe4t1g9hzg0ZctSkOE2X+w+0Qv45xb7bgosz4IZ
-         Fvmf53whuWPbykLByemhoBtJi2/CDe+hyUoAO8+cgq0GJR/rXFTcGX8uR8XJetOJbNo9
-         RzsQ==
-X-Gm-Message-State: AO0yUKVmjnEaO9eKEH75ne3xl8KYqEIbPImSI1kpzda6PShhHkDFW7pC
-        ++2NxNzVBTmES29hSs54ew==
-X-Google-Smtp-Source: AK7set/xg8UFthw46wt095CQ6iVpdLuhS9p0HATUnXyif8qxQF14khdjCq5Cy9p7wXHtQxbvoZDcHA==
-X-Received: by 2002:a05:6870:5704:b0:163:1fa1:7be5 with SMTP id k4-20020a056870570400b001631fa17be5mr13198940oap.38.1675092544165;
-        Mon, 30 Jan 2023 07:29:04 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 14-20020a9d048e000000b006864c8043e0sm5464585otm.61.2023.01.30.07.29.03
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oUbT8GW2Xe7TYWK+SBC453IgVa+1sYQmDI5rwmFeFNw=;
+        b=deFG83Bl4pilxPW8MXRiHJO2NlKic2n5EmXOAm7IkCSQqU6HqdUcbaymqgXzr+5JYv
+         PrbbAeaNOTE8l87rzxQlHET8Cg1xci7xV1WDt+gDduQEL/p4LKI1h79bYLPT5TYSKJeM
+         FDCGVKq61iZ5q23IGaaUYDW4nMdyQw8E0crkSurMus7lHFLdoEjf8MH1aA/F8eywkIEW
+         eqyCckFc2mK39n9aUnLzll2tJlyrJ59FwJfSpEetovXD7KWHY505LPG3n+eyeoU6hgZf
+         KOdozAVGhY947CXbYsCl6L2NHdJaCXFdFQvPC2rGy4m76uL9AmLbAImxQxWKCwnsVEBL
+         sf6w==
+X-Gm-Message-State: AO0yUKVpUCL/xjNWens7EvNVhmbyrmslom1QbBCMVsjT2OWpk+Cyp/6Z
+        xGqt817KPzJS6Hku4jdq0UQ=
+X-Google-Smtp-Source: AK7set9bilzV+cycilUvhPXZZQ4RW9LvqXB3OMkaS0/xxipVSHC82hgRy+Gvk8bq1qBYOdHHuQZcdA==
+X-Received: by 2002:a05:6000:609:b0:2bf:d14a:21dd with SMTP id bn9-20020a056000060900b002bfd14a21ddmr16045718wrb.29.1675093331155;
+        Mon, 30 Jan 2023 07:42:11 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id a18-20020adffad2000000b002be53aa2260sm13482929wrs.117.2023.01.30.07.42.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 07:29:03 -0800 (PST)
-Received: (nullmailer pid 2679071 invoked by uid 1000);
-        Mon, 30 Jan 2023 15:29:03 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Mon, 30 Jan 2023 07:42:10 -0800 (PST)
+Date:   Mon, 30 Jan 2023 15:42:09 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/9] HID: hyperv: Constify lowlevel HID driver
+Message-ID: <Y9flUYVZBWXwdZfk@liuwe-devbox-debian-v2>
+References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+ <20230130-hid-const-ll-driver-v1-2-3fc282b3b1d0@weissschuh.net>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Manuel Traut <manuel.traut@mt.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-In-Reply-To: <20230130135650.1407156-4-manuel.traut@mt.com>
-References: <20230130135650.1407156-1-manuel.traut@mt.com>
- <20230130135650.1407156-4-manuel.traut@mt.com>
-Message-Id: <167509249482.2676771.1698495294796937190.robh@kernel.org>
-Subject: Re: [PATCH v9 3/4] dt-bindings: input: pwm-beeper: add volume
-Date:   Mon, 30 Jan 2023 09:29:03 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230130-hid-const-ll-driver-v1-2-3fc282b3b1d0@weissschuh.net>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-On Mon, 30 Jan 2023 14:56:49 +0100, Manuel Traut wrote:
-> Adds an array of supported volume levels and a default volume level.
+On Mon, Jan 30, 2023 at 03:59:38AM +0000, Thomas Weiﬂschuh wrote:
+> Since commit 52d225346904 ("HID: Make lowlevel driver structs const")
+> the lowlevel HID drivers are only exposed as const.
 > 
-> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
-> ---
->  .../devicetree/bindings/input/pwm-beeper.yaml   | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+> Take advantage of this to constify the underlying structure, too.
 > 
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/pwm-beeper.example.dtb: beeper: 'default-volume-level', 'volume-levels' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230130135650.1407156-4-manuel.traut@mt.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Acked-by: Wei Liu <wei.liu@kernel.org>
