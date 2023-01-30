@@ -2,65 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA35768050D
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 05:34:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F54680511
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 05:36:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235372AbjA3EeY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Jan 2023 23:34:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40064 "EHLO
+        id S232201AbjA3EgB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Jan 2023 23:36:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbjA3EeX (ORCPT
+        with ESMTP id S229578AbjA3EgA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Jan 2023 23:34:23 -0500
+        Sun, 29 Jan 2023 23:36:00 -0500
 Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C67510A;
-        Sun, 29 Jan 2023 20:34:22 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id z3so6859054pfb.2;
-        Sun, 29 Jan 2023 20:34:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7106410A;
+        Sun, 29 Jan 2023 20:35:59 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id c124so6835076pfb.8;
+        Sun, 29 Jan 2023 20:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AjvApUUZfQnnuI/RkgAT/sYUXmootMZoZRsxxLhMUo8=;
-        b=gJdkH4IhC1zF11moSrTif9My4UTpfIxR4xY0wpLNAHml6E6CsoXik5adNHjoNX24la
-         VSx6zBzLNBX9CHm0OIZTm+IICr6ekV3PmeEXZPNWGKYfWEbMYnTmz032/jKe8CB7Sj2m
-         dGwZfjJSsI97imsPxZSq1vzOYnsm3tplDYfDVBwdU19my2nt2At1Zxq2FTr3oTpHaADg
-         mVZY/2TBtDhbMwBRsofq9HfKEJno2M4Hdfx09M9AXyti/2RqLlkqCxgvfOakDXD3NFS/
-         hUGKtPwzqujgAWVhDkCROT04DKowHrTeeN0oIUsNuS4aRpeo5EGGRiY+It07k6x8UPxt
-         4NKQ==
+        bh=5+JwJ2M5LnegZU3pg7JX4aEC8AFeBV1IQ1z0IKVMJEE=;
+        b=YYTvw4Cn4u6EcZjW6eGJvR4r4ir1yAnYTsTB3a/RAr/aSPz+r8gg/9G8ZssXXNlBd7
+         Jy5oSoX2R1NlrpVkq0cK/EMs4k0RuvpvsaAQBvxWe7DTnmMfYZL29ItdFelywcBfCkrO
+         O3FQU9D62QjRAE1sdpofo9mWAiB6bSDDGxNfPuiJmd8PtuRBgoU/6R9Hm9CodwRS13z4
+         0rHKn+wGyfaiYDctPHdw/dOV3YcVdBG1Z6/3tT2DjY01y2UnQK+eNaS0mnWy4qNGR0yj
+         TjojXZDrskz4sppT2r91AqNQ/o3UwBQp52tNfdDU5uejEO6odyKpj/Sm5lbicPtdWKjh
+         6MIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AjvApUUZfQnnuI/RkgAT/sYUXmootMZoZRsxxLhMUo8=;
-        b=Hx1QoV3B5ozL3wclAXQ3MBsT3sa3lcVZM5wGnduX8j6uW00R4xk472lsNXHtMANUnq
-         Mk/NpWIg/L8//FYmbNJmOW5BSUcrbW7M8liVn0TAw1HjWzwirFR6TeVAV7qUDmWjsdzw
-         XBq+R4ehhOVMYFjVAi0mIs6GktHYc04TUEMgA4WO0g7WqwVQOH9QW0pZar3e/V1PSgXI
-         uipKoX+i5N6X8D0EuGdysQ+wNdhvnP8u35JeUKpFrf6b+eg9hWzipu/G75qCH7gdhsyx
-         bXliWrf4duXpGZ4jX0/+TTBs65Clyb+IwBHWKTLnUoSUGz3D49LbfJsZAXtAFY4tOuIl
-         PVAQ==
-X-Gm-Message-State: AO0yUKXovWXXL950tFo73hSnrYy0grsLrnrWNnlp1JyQgrnRMBzL/Ncw
-        6U0yIqCWUVjDMTrlQ9WU+jw=
-X-Google-Smtp-Source: AK7set8TLE1JOuuknWEc+oXZqJWJfgDMVxjQyNpNN0aVK0Mu1BQNlxa8T8uR6c3YA8XUdVlvd9uYNg==
-X-Received: by 2002:a05:6a00:be4:b0:593:da8:6f2c with SMTP id x36-20020a056a000be400b005930da86f2cmr7849764pfu.5.1675053261504;
-        Sun, 29 Jan 2023 20:34:21 -0800 (PST)
+        bh=5+JwJ2M5LnegZU3pg7JX4aEC8AFeBV1IQ1z0IKVMJEE=;
+        b=D6JJ7HDR+/q8rXH2WtqDRaYAYly2OLi2Ra1rn7ncVvg7iQy3vcDgtymwJHL2LEW67f
+         1I1RxgUmdcuhlZ0FXng0lbPvdqN8WAV8c9ZyibaUdwN1wDp6wJ/cLPgFHyHLc4XLMpd8
+         nipqecEfYwO4GL1FbkxVFnelqEyjVEuZArsCVhAT2UaXUKKLC8cPvsm/AZZ92zgBBAZQ
+         bbsXr8rXdrK+RWH7FVfmeAghat/UXeikiMGGSh/MJOuKxNVzlhp1PoRSmFCvD39T8rY0
+         Dp9ONBVSHoXCjNh51BYZRqkuGRFQb+ociCxaMn5IDLSWPhFhPVa9YYGOPsI1r0ExMEQa
+         EMEg==
+X-Gm-Message-State: AO0yUKXJpaa3LYwJOLWMELjgxRnIxLvJT0Lad/wt7C69s76JHd8++Rct
+        WIXEhQ03HrUF2WvRNpWjL9Y=
+X-Google-Smtp-Source: AK7set9bNwZvB7+bN1dOI8ZuzSeOWhzNGdZ6nxIgW/oSb/pGnDRna0UmUnSZGjlH7himeadwb+JVRA==
+X-Received: by 2002:aa7:8e01:0:b0:593:9265:3963 with SMTP id c1-20020aa78e01000000b0059392653963mr6517976pfr.31.1675053358760;
+        Sun, 29 Jan 2023 20:35:58 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:6882:174b:bc70:101])
-        by smtp.gmail.com with ESMTPSA id m2-20020a056a00164200b00587304cbd3fsm6299961pfc.181.2023.01.29.20.34.20
+        by smtp.gmail.com with ESMTPSA id i13-20020a62870d000000b00593adfa8694sm1994666pfe.37.2023.01.29.20.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 20:34:20 -0800 (PST)
-Date:   Sun, 29 Jan 2023 20:34:17 -0800
+        Sun, 29 Jan 2023 20:35:58 -0800 (PST)
+Date:   Sun, 29 Jan 2023 20:35:54 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: keyboard: fix a Kconfig spelling mistake &
- hyphenation
-Message-ID: <Y9dIydcawFmk2A07@google.com>
-References: <20230124233453.22893-1-rdunlap@infradead.org>
+To:     Luca Ellero <l.ellero@asem.it>
+Cc:     daniel@zonque.org, m.felsch@pengutronix.de,
+        andriy.shevchenko@linux.intel.com, u.kleine-koenig@pengutronix.de,
+        mkl@pengutronix.de, miquel.raynal@bootlin.com, imre.deak@nokia.com,
+        luca.ellero@brickedbrain.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/3] Input: ads7846 - fix support for ADS7845
+Message-ID: <Y9dJKkAFybkVn0FY@google.com>
+References: <20230126105227.47648-1-l.ellero@asem.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124233453.22893-1-rdunlap@infradead.org>
+In-Reply-To: <20230126105227.47648-1-l.ellero@asem.it>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -71,15 +74,11 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 03:34:53PM -0800, Randy Dunlap wrote:
-> Correct a spelling mistake (reported by codespell).
-> Also hyphenate "matrix-based".
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: linux-input@vger.kernel.org
+On Thu, Jan 26, 2023 at 11:52:24AM +0100, Luca Ellero wrote:
+> ADS7845 support is buggy in this driver.
+> These patches fix various issues to get it work properly.
 
-Applied, thank you.
+Applied the lot, thank you.
 
 -- 
 Dmitry
