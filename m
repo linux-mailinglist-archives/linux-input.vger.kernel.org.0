@@ -2,110 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDA046805EC
-	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 07:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D2C680785
+	for <lists+linux-input@lfdr.de>; Mon, 30 Jan 2023 09:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231324AbjA3GRa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Jan 2023 01:17:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45352 "EHLO
+        id S235621AbjA3IhY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Jan 2023 03:37:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230365AbjA3GR3 (ORCPT
+        with ESMTP id S229694AbjA3IhW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Jan 2023 01:17:29 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF1EE24C8C;
-        Sun, 29 Jan 2023 22:17:28 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id mf7so9961153ejc.6;
-        Sun, 29 Jan 2023 22:17:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/7rK3vQ2htRQ1Q11HASgdV9Y9x1Ww70EwQDSvH029+4=;
-        b=OLzAKikzFDM0Bta/uPdZW1pZVj0KmmFdA7B8WSgGJPHd3WzqsCJNQNMasNCPfrH1Fs
-         x4UPQusuEbZAklFcWMD/Tkp6xrMIZV3fttvPlJiTlNTREstC927Ossp9EmmDAaACQ2CA
-         tH3yR59+SwAf3OJYE2w8//yuEjnvhV/GENTa/NhKo1B+uqEZz8XZTD9cV6T6hGtugRFc
-         kNQxuH3+xv65hdczV31fgCZDY0DtRFwLI83jFd5yBppA35Z8Kvz+1SF+o3ZJ6fPhTUxD
-         MxfHHEWK++Lgtu7lQJ+Qdfx213BVkyDYCOOl/sGMcjfKuv1fu/xs63ChdKn0tp3woejk
-         hEKQ==
+        Mon, 30 Jan 2023 03:37:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F2E918153
+        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 00:36:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675067796;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4d/SMT2oPu4pWDgGmvW3ooby0A6gn9g87bNk00NILRw=;
+        b=TfdTnAlyUueo5ZKYZ/XZbyfsXu4mhbBSmIaPx731l+EeVVg5B+VzErIlPdvp4ydySRV7z9
+        aobGKFlNEOVPioC8xw+Hd4JhOKj8QcWmvQwhqtGa5fkT8do5PRgXC6Kgrp+tilxeKVo6wK
+        KrzSzOXSIOE7V8ySEwBbOHTNA6jXTDA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-377-sN-Rv5JQPnmmCx3Tg5MpcA-1; Mon, 30 Jan 2023 03:36:35 -0500
+X-MC-Unique: sN-Rv5JQPnmmCx3Tg5MpcA-1
+Received: by mail-ed1-f72.google.com with SMTP id o21-20020aa7dd55000000b004a245f58006so1454763edw.12
+        for <linux-input@vger.kernel.org>; Mon, 30 Jan 2023 00:36:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/7rK3vQ2htRQ1Q11HASgdV9Y9x1Ww70EwQDSvH029+4=;
-        b=6dNLQapjnZkgxs5wrxCv/MMhYeowf3ZjinPLDUBT0xfA9VUndqq52SmB6fZMv4v3s3
-         IPM2PHz1gk0/QM4IJHj8qMxAoBb+drASlx8aS63FOtE2DrWk9xUIav1ffBq+zQKiEY6h
-         e0GqWCx7va2iIiBLsKXCBVljLJQ53MoEEPT8KyBucZrLjGYxKp/+dy3MgPovUk+0Ztni
-         QPCwcYn+DESj4OIdS20+BGsCCPXmY1BSSZz+TGk5wORWYPuCah7H86ldXzwwfb5Wbbjh
-         ZuXbgLYjkSvekRlkZkZu33/IsTHiBnMT+9TubPzb4mEmow/5U9KF2FA7zByIhn97VCQK
-         iApA==
-X-Gm-Message-State: AO0yUKX8lTvZzjYRTMV/HYbqr4eGoth8gA+pstsIqPjvDXVKjqmbMYBl
-        3whc/A/ssY8OTuvGjxQt0P0=
-X-Google-Smtp-Source: AK7set/2Zrn31J0wmnFpf3XeNa3OBumAmPD7+Xxss0QB4LG7+uCsw3ColYVLSX8vXrfqb2JjqIcqtA==
-X-Received: by 2002:a17:906:6c87:b0:87b:59d9:5a03 with SMTP id s7-20020a1709066c8700b0087b59d95a03mr10909226ejr.36.1675059447283;
-        Sun, 29 Jan 2023 22:17:27 -0800 (PST)
-Received: from sakura.myxoz.lan (90-224-45-44-no2390.tbcn.telia.com. [90.224.45.44])
-        by smtp.gmail.com with ESMTPSA id g14-20020a170906594e00b00857c2c29553sm6385095ejr.197.2023.01.29.22.17.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 22:17:26 -0800 (PST)
-Message-ID: <49bcd14a3a940a0a9000c2d59b3319cd237215fe.camel@gmail.com>
-Subject: Re: [PATCH] Input: exc3000 - properly stop timer on shutdown
-From:   Miko Larsson <mikoxyzzz@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Stahl, Michael" <mstahl@moba.de>, linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Date:   Mon, 30 Jan 2023 07:17:25 +0100
-In-Reply-To: <Y9dK57BFqtlf8NmN@google.com>
-References: <Y9dK57BFqtlf8NmN@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.3 (3.46.3-1.module_f37+15877+cf3308f9) 
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4d/SMT2oPu4pWDgGmvW3ooby0A6gn9g87bNk00NILRw=;
+        b=uo81j5+plraEZ7Jbppbl9DmY4tE/KKLVT6egB10Cik6y5tM/ZXZMup0kSjZKSr5Ep3
+         Oa+IdVc7O/3o/8I848ZGRoSI+2QAQUNWGUPttyplt0F2hhCaJEYsQH7UDZ+quOiLNJ96
+         67DhaFaU+DeyW6fgQN/EA4uCaqu4imqnKOR74FE/TeT9Dzfc9U5eShlw0Fkb7XX92noL
+         MJgY0Sc5yJKIo5KSkvczq+M6cie6LBFcWuRggG85einko4LnYatwKRVr6sTJnA3KjDjX
+         uhljoln6cfHwIb0taO2V9B1K0Nc+b3nqgsI8QyLl0xVG3wsnM3ulW3KzmTdLlsWR4Bp1
+         bmqA==
+X-Gm-Message-State: AO0yUKVLbryiIby1JoYHjjNL2qQCL1ym2jFAfqwTfzTMqsqk9nqexW12
+        +yP/0RSZO4Q3LQODOYlBvO4xXsXW2iBUajPcSzuHU6LrpaETuMDomkrprfyDxBvLn9RmiICk3XN
+        39z8U0PtlYG/67RKmDl1Gho8=
+X-Received: by 2002:a17:906:475a:b0:887:981:5f7c with SMTP id j26-20020a170906475a00b0088709815f7cmr5019126ejs.11.1675067794095;
+        Mon, 30 Jan 2023 00:36:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set/0R+gvMcJBFdYRnrzzxOkxWBZLXr5z/Tqk0BP+fIcTMCHK94EHX6VpDr3nSMq6rTGD5CNmOQ==
+X-Received: by 2002:a17:906:475a:b0:887:981:5f7c with SMTP id j26-20020a170906475a00b0088709815f7cmr5019103ejs.11.1675067793927;
+        Mon, 30 Jan 2023 00:36:33 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id z2-20020a170906714200b00888161349desm1582823ejj.182.2023.01.30.00.36.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jan 2023 00:36:33 -0800 (PST)
+Message-ID: <0937b9a5-0caa-2a73-33c4-82e6cab02ef0@redhat.com>
+Date:   Mon, 30 Jan 2023 09:36:32 +0100
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 0/9] HID: Constify lowlevel HID drivers
+Content-Language: en-US
+To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org,
+        linux-staging@lists.linux.dev
+References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gU3VuLCAyMDIzLTAxLTI5IGF0IDIwOjQzIC0wODAwLCBEbWl0cnkgVG9yb2tob3Ygd3JvdGU6
-Cj4gV2UgbmVlZCB0byBzdG9wIHRoZSB0aW1lciBvbiBkcml2ZXIgdW5iaW5kIG9yIHByb2JlIGZh
-aWx1cmVzLAo+IG90aGVyd2lzZQo+IHdlIGdldCBVQUYvT29wcy4KPiAKPiBGaXhlczogN2U1Nzdh
-MTdmMmVlICgiSW5wdXQ6IGFkZCBJMkMgYXR0YWNoZWQgRUVUSSBFWEMzMDAwIG11bHRpCj4gdG91
-Y2ggZHJpdmVyIikKPiBSZXBvcnRlZC1ieTogIlN0YWhsLCBNaWNoYWVsIiA8bXN0YWhsQG1vYmEu
-ZGU+Cj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IFRvcm9raG92IDxkbWl0cnkudG9yb2tob3ZAZ21h
-aWwuY29tPgo+IC0tLQo+IMKgZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi9leGMzMDAwLmMgfCAx
-MCArKysrKysrKysrCj4gwqAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKQo+IAo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL2V4YzMwMDAuYwo+IGIvZHJpdmVy
-cy9pbnB1dC90b3VjaHNjcmVlbi9leGMzMDAwLmMKPiBpbmRleCA0YjdlZWUwMWM2YWEuLjY5ZWFl
-NzllMjA4NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL2V4YzMwMDAu
-Ywo+ICsrKyBiL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vZXhjMzAwMC5jCj4gQEAgLTEwOSw2
-ICsxMDksMTEgQEAgc3RhdGljIGlubGluZSB2b2lkIGV4YzMwMDBfc2NoZWR1bGVfdGltZXIoc3Ry
-dWN0Cj4gZXhjMzAwMF9kYXRhICpkYXRhKQo+IMKgwqDCoMKgwqDCoMKgwqBtb2RfdGltZXIoJmRh
-dGEtPnRpbWVyLCBqaWZmaWVzICsKPiBtc2Vjc190b19qaWZmaWVzKEVYQzMwMDBfVElNRU9VVF9N
-UykpOwo+IMKgfQo+IMKgCj4gK3N0YXRpYyB2b2lkIGV4YzMwMDBfc2h1dGRvd25fdGltZXIodm9p
-ZCAqdGltZXIpCj4gK3sKPiArwqDCoMKgwqDCoMKgwqB0aW1lcl9zaHV0ZG93bl9zeW5jKHRpbWVy
-KTsKPiArfQo+ICsKPiDCoHN0YXRpYyBpbnQgZXhjMzAwMF9yZWFkX2ZyYW1lKHN0cnVjdCBleGMz
-MDAwX2RhdGEgKmRhdGEsIHU4ICpidWYpCj4gwqB7Cj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBp
-MmNfY2xpZW50ICpjbGllbnQgPSBkYXRhLT5jbGllbnQ7Cj4gQEAgLTM4Niw2ICszOTEsMTEgQEAg
-c3RhdGljIGludCBleGMzMDAwX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50Cj4gKmNsaWVudCkKPiDC
-oMKgwqDCoMKgwqDCoMKgaWYgKGVycm9yKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmV0dXJuIGVycm9yOwo+IMKgCj4gK8KgwqDCoMKgwqDCoMKgZXJyb3IgPSBkZXZtX2FkZF9h
-Y3Rpb25fb3JfcmVzZXQoJmNsaWVudC0+ZGV2LAo+IGV4YzMwMDBfc2h1dGRvd25fdGltZXIsCj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmZGF0YS0+dGltZXIpOwo+ICvCoMKgwqDCoMKgwqDCoGlm
-IChlcnJvcikKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIGVycm9yOwo+
-ICsKPiDCoMKgwqDCoMKgwqDCoMKgZXJyb3IgPSBkZXZtX3JlcXVlc3RfdGhyZWFkZWRfaXJxKCZj
-bGllbnQtPmRldiwgY2xpZW50LT5pcnEsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBOVUxM
-LCBleGMzMDAwX2ludGVycnVwdCwKPiBJUlFGX09ORVNIT1QsCj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBjbGllbnQtPm5hbWUsIGRhdGEpOwo+IC0tIAo+IDIuMzkuMS40NTYuZ2ZjNTQ5N2Rk
-MWItZ29vZwo+IAo+IAoKVGhpcyBzaG91bGQgcHJvYmFibHkgYmUgQ2MnZWQgdG8gdGhlIHN0YWJs
-ZSBtYWlsaW5nIGxpc3QuCi0tIAp+bWlrbwo=
+Hi,
+
+On 1/30/23 04:59, Thomas Weißschuh wrote:
+> Since 52d225346904 ("HID: Make lowlevel driver structs const") the
+> lowlevel HID drivers are only exposed as const.
+> 
+> Take advantage of this to constify the underlying structures, too.
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+
+Thanks, series looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+I'll also pick up / merge patches 7 + 8 into pdx86/for-next
+sometime this week.
+
+Regards,
+
+Hans
+
+
+
+> ---
+> Thomas Weißschuh (9):
+>       HID: amd_sfh: Constify lowlevel HID driver
+>       HID: hyperv: Constify lowlevel HID driver
+>       HID: logitech-dj: Constify lowlevel HID driver
+>       HID: steam: Constify lowlevel HID driver
+>       HID: intel-ish-hid: Constify lowlevel HID driver
+>       HID: surface-hid: Constify lowlevel HID driver
+>       platform/x86: asus-tf103c-dock: Constify lowlevel HID driver
+>       platform/x86: asus-tf103c-dock: Constify toprow keymap
+>       staging: greybus: hid: Constify lowlevel HID driver
+> 
+>  drivers/hid/amd-sfh-hid/amd_sfh_hid.c      | 2 +-
+>  drivers/hid/hid-hyperv.c                   | 2 +-
+>  drivers/hid/hid-logitech-dj.c              | 4 ++--
+>  drivers/hid/hid-steam.c                    | 2 +-
+>  drivers/hid/intel-ish-hid/ishtp-hid.c      | 2 +-
+>  drivers/hid/surface-hid/surface_hid_core.c | 2 +-
+>  drivers/platform/x86/asus-tf103c-dock.c    | 4 ++--
+>  drivers/staging/greybus/hid.c              | 2 +-
+>  8 files changed, 10 insertions(+), 10 deletions(-)
+> ---
+> base-commit: e04955db6a7c3fc4a1e6978649b61a6f5f8028e3
+> change-id: 20230130-hid-const-ll-driver-fcfdd3af11b8
+> 
+> Best regards,
 
