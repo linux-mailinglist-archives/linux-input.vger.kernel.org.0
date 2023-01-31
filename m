@@ -2,141 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1356868329C
-	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 17:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3DE6832F6
+	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 17:45:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230491AbjAaQ3z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Jan 2023 11:29:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39482 "EHLO
+        id S231508AbjAaQpv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Jan 2023 11:45:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231998AbjAaQ3T (ORCPT
+        with ESMTP id S231485AbjAaQpt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Jan 2023 11:29:19 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B0E56488;
-        Tue, 31 Jan 2023 08:29:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3F2E0B81DAE;
-        Tue, 31 Jan 2023 16:29:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727A2C433EF;
-        Tue, 31 Jan 2023 16:28:50 +0000 (UTC)
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc:     Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Jens Axboe <axboe@kernel.dk>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Len Brown <len.brown@intel.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>, alsa-devel@alsa-project.org,
-        coresight@lists.linaro.org, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, isdn4linux@listserv.isdn4linux.de,
-        keyrings@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, live-patching@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-mm@kvack.org,
-        openrisc@lists.librecores.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
-        x86@kernel.org
-Subject: Re: (subset) [PATCH 00/35] Documentation: correct lots of spelling errors (series 1)
-Date:   Tue, 31 Jan 2023 16:28:48 +0000
-Message-Id: <167518251202.582976.5415495075435902323.b4-ty@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
+        Tue, 31 Jan 2023 11:45:49 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97832564B3
+        for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 08:45:47 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id m7so14795477wru.8
+        for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 08:45:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N6MGQ9vFPf/PTOMa+Z1CFX94OOnbAZXq2mwlJ2U/izQ=;
+        b=rIJC16gfTs8/WJLZD3b9Yq5SgiLR2O+VykjtBb3ukzqsjOwKzT3SONLqYych3cGLKA
+         LXKil0VgdrQQQD0UWgBcQVgLQhO46RHdgrXCjbn9knu5mVaKNunVOWCtPF8notj/TlOK
+         0+ON8SkYPM6Xb7m3t+svtW3uZFHOX04j8QXWax/bckKNZbDq5emW7YrDxUawNhyn8gDX
+         bRT1L/N3nAlSHmC2eyM/qxsF3YyTOzvtW1kFuYZhQjFsH4/yStVGlzTLaDAFl6M8d3xp
+         WCdfO+RF/J2dvs/ZMfF6PRTVmtSbC24FvhBAR/kdk/9MpDrylAIf7zZ5cK1z2DMFkS13
+         I3dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6MGQ9vFPf/PTOMa+Z1CFX94OOnbAZXq2mwlJ2U/izQ=;
+        b=j6suCoVMuxUTqG4NlGHVEJcfCWpTRBqQaTIEdiPlqAIO9sHIOgcjbqOI7sqaXe43v4
+         mWexmeLLTV5gM4O7ipFuez/Me2TlOlTomT2iiDLjQnRy9KJaFZc0cdvzqDRuKM/g7+nx
+         KMxoi//7Pq1cK+aLRiW0b48dOQoqxZN0QHf8aYK71f5qQQojVlVAbnyF2f+3pnnFUpJ/
+         u4gewhfkRqGT7SUJ6UIBoMIoj8dqweQ9PPyH7vwU3KIKKEBscwT8ErFZnbPzQBMSrVok
+         Dto8ynWI8NjFcGsaL1VS2Nnn3KWlxF8OoIS2ljO0UqcVfNdMEKG2VEU8KZkZx29EKRwa
+         Lo4w==
+X-Gm-Message-State: AO0yUKW66Cj1m+brfLcfYGjI0w4gkFnzfqkHw0v04fyikK82puBFI8NF
+        6jFYwMEeV1LiQQK3s0R6JooQzgpspefC+by7
+X-Google-Smtp-Source: AK7set8HwVxFxeGIJJe7A328sxFXBHw7JRelwm/IIZ1PB2qBlTX4xwpuKXk9gplOppvubNgZXuI6Gw==
+X-Received: by 2002:a5d:6683:0:b0:2bf:e4d9:2c2b with SMTP id l3-20020a5d6683000000b002bfe4d92c2bmr10295846wru.48.1675183546246;
+        Tue, 31 Jan 2023 08:45:46 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id l15-20020a5d6d8f000000b002bfb37497a8sm16087489wrs.31.2023.01.31.08.45.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Jan 2023 08:45:45 -0800 (PST)
+Message-ID: <7a414b9c-4076-19d6-40cb-f80f51969902@linaro.org>
+Date:   Tue, 31 Jan 2023 17:45:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 4/4] CP2112 Devicetree Support
+Content-Language: en-US
+To:     Daniel Kaehn <kaehndan@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        ethan.twardy@plexus.com
+References: <20230128202622.12676-1-kaehndan@gmail.com>
+ <20230128202622.12676-5-kaehndan@gmail.com>
+ <b3712d74-2276-b7ba-4145-4d9a6d5f3a34@linaro.org>
+ <CAP+ZCCe6J8y=qLMWafXPur1V_0=oQdw2QWqeAZ-C3TroMB4HhA@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAP+ZCCe6J8y=qLMWafXPur1V_0=oQdw2QWqeAZ-C3TroMB4HhA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 26 Jan 2023 22:39:30 -0800, Randy Dunlap wrote:
-> Correct many spelling errors in Documentation/ as reported by codespell.
+On 31/01/2023 02:06, Daniel Kaehn wrote:
+> On Sun, Jan 29, 2023 at 5:06 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 28/01/2023 21:26, Danny Kaehn wrote:
+>>> +#if defined(CONFIG_OF_GPIO)
+>>
+>> Don't use #if, but IS_ENABLED(). I think it should work here.
 > 
-> Maintainers of specific kernel subsystems are only Cc-ed on their
-> respective patches, not the entire series. [if all goes well]
-> 
-> These patches are based on linux-next-20230125.
-> 
-> [...]
+> I think I will still need to use an #if / some sort of preprocessor directive,
+> since of_node is only a member of the gpio_chip struct if that is enabled
+> (and thus causes a compile error if done outside of the preprocessor)...
+> Unless I'm misinterpreting your comment?
 
-Applied to arm64 (for-next/misc), thanks!
+If of_node in gpio_chip is indeed hidden by #ifdef, then the code is ok.
 
-[01/35] Documentation: arm64: correct spelling
-        https://git.kernel.org/arm64/c/a70f00e7f1a3
-
--- 
-Catalin
+Best regards,
+Krzysztof
 
