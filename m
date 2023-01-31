@@ -2,61 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 953EF6833B4
-	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 18:20:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 878486836C9
+	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 20:47:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232038AbjAaRUi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Jan 2023 12:20:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53240 "EHLO
+        id S229944AbjAaTrJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Jan 2023 14:47:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232240AbjAaRU0 (ORCPT
+        with ESMTP id S229943AbjAaTrI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Jan 2023 12:20:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B0BD589A5;
-        Tue, 31 Jan 2023 09:19:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 550A2615AE;
-        Tue, 31 Jan 2023 17:19:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D8EC43444;
-        Tue, 31 Jan 2023 17:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675185570;
-        bh=4IqIsKwBqbWVPULwcClTlVG1Iry0wqy5rU9YNE2nIUs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MIHWNdb0Z2FqrlmWPc9Opv1g+sS/ff67HAUmSOgCZWwEBDX1zQBDsdsQ2KAtGFSi3
-         +B95jSJO78whgicFGtqc/H6q0BJ72KeP24SCtEF5oXgOMij4wcwSZzLUK7Apnx7AYo
-         c+4dGZ/7AJYRoDklPCYqBEnIC9eoNkh/qafJ2ty6kC5CdNJfSjXgCOg8ETN8N1bQiM
-         LTAbOtg4XvCMHtDQeVYjfh6hJMud4lhOag167Z/upj8RZAebAnLKhbpD9x1v2HEdd1
-         Bs1iWClAv1MjnrorGEYHm0RIWyh8PJ6q+qm7BEPb5yUOCLo/8hrmuKlamCrpIvLgFx
-         kmZ/Fi3fN1GCw==
-Date:   Tue, 31 Jan 2023 17:19:24 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Pietro Borrello <borrello@diag.uniroma1.it>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hanno Zulla <kontakt@hanno.de>, Pavel Machek <pavel@ucw.cz>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Sven Eckelmann <sven@narfation.org>,
-        linux-leds@vger.kernel.org,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Roderick Colenbrander <roderick@gaikai.com>
-Subject: Re: [PATCH v2 0/5] HID: manually unregister leds on device removal
- to prevent UAFs
-Message-ID: <Y9lNnOA87fCt0hFk@google.com>
-References: <20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it>
+        Tue, 31 Jan 2023 14:47:08 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6634E51D
+        for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 11:47:06 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id n13so688201plf.11
+        for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 11:47:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G13tWeBbYfAk5YRSjBH6d+0AX/VYrNSYaahFKuov3no=;
+        b=N02NPCqPBJGnnPmVQ++Yd/D7ebLtRyBO11o1prrtqWdov0HvUZFgmw4616IlZqwulM
+         nrlAq7KSim5Yk4sqlquj1EYKYc+i8lEg8eUpPqO5hgBtQkomPzb0E/AI0UN3qof7pCXp
+         5pxLt+vPzpUHuWysN+suqo9x1ck0D047Qltaw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G13tWeBbYfAk5YRSjBH6d+0AX/VYrNSYaahFKuov3no=;
+        b=FjHKj1yL4xe+hvQf4aGohflBn+tcp/JRiBayQIPRf72elMtrX2ZFcGX+lohsE+gSqT
+         o/w1xrtl4BPbRwnHnZz+U8K/GoqSEfqGToKt72c7pcVu+7S9Fr7Y7+FBWhZyaeBrMig+
+         dCccXTyu9/hUq7F67zjCiWOhKpNWWKqWcxk4+PrDQCP9SzvMHRedj4iMbzD5IFCOhkKy
+         FRimurJv23bIgIIa/HAhdiiizhgVefouNIAzdyju+iljPAN5vlC/ySyx/wpZonc03QGs
+         rlzQmXfBqN9O6Xio3WB92YJjjWUjYi7BYndthphopT4fQBmgfyhhXfnVA44XUuaLX8g6
+         j66A==
+X-Gm-Message-State: AO0yUKXODd6xB8jptFfBXtlAbILTh18HR9jKJYcz6AcZ/jbYeK2YEOEB
+        a61jpS8gFcsGmtXXIV14Nf5qTQ==
+X-Google-Smtp-Source: AK7set/ftAkYE48QSVASVRmQfgYuRbJF0QKXzbo3WlcsGEFcSE8mO1bWSEfI2H2e9lb5a59L2eHDFA==
+X-Received: by 2002:a05:6a20:71d4:b0:be:db40:634f with SMTP id t20-20020a056a2071d400b000bedb40634fmr3251777pzb.55.1675194426146;
+        Tue, 31 Jan 2023 11:47:06 -0800 (PST)
+Received: from ballway1.c.googlers.com.com (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
+        by smtp.gmail.com with ESMTPSA id k11-20020a17090aef0b00b0022bb3ee9b68sm9230954pjz.13.2023.01.31.11.47.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Jan 2023 11:47:05 -0800 (PST)
+From:   Allen Ballway <ballway@chromium.org>
+To:     ballway@chromium.org
+Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        dtor@chromium.org, jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rydberg@bitmath.org,
+        lukas.bulwahn@gmail.com
+Subject: [PATCH v7] HID: multitouch: Add quirks for flipped axes
+Date:   Tue, 31 Jan 2023 19:46:47 +0000
+Message-Id: <20230131194647.3941931-1-ballway@chromium.org>
+X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
+In-Reply-To: <20230110202550.651091-1-ballway@chromium.org>
+References: <20230110202550.651091-1-ballway@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,53 +70,237 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> To: Jiri Kosina <jikos@kernel.org>
-> To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> To: Hanno Zulla <kontakt@hanno.de>
-> To: Pavel Machek <pavel@ucw.cz>
-> To: Lee Jones <lee@kernel.org>
+Certain touchscreen devices, such as the ELAN9034, are oriented
+incorrectly and report touches on opposite points on the X and Y axes.
+For example, a 100x200 screen touched at (10,20) would report (90, 180)
+and vice versa.
 
-Not entirely sure why I'm receiving these?
+This is fixed by adding device quirks to transform the touch points
+into the correct spaces, from X -> MAX(X) - X, and Y -> MAX(Y) - Y.
 
-> To: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> To: Sven Eckelmann <sven@narfation.org>
-> Cc: linux-leds@vger.kernel.org
-> Cc: Cristiano Giuffrida <c.giuffrida@vu.nl>
-> Cc: "Bos, H.J." <h.j.bos@vu.nl>
-> Cc: Jakob Koschel <jkl820.git@gmail.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Jiri Kosina <jkosina@suse.cz>
-> Cc: Roderick Colenbrander <roderick@gaikai.com>
-> Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
-> 
-> ---
-> Changes in v2:
-> - dualshock4: Clarify UAF
-> - dualsense:  Clarify UAF
-> - dualsense:  Unregister multicolor led controller
-> - Link to v1: https://lore.kernel.org/r/20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it
-> 
-> ---
-> Pietro Borrello (5):
->       HID: bigben_remove: manually unregister leds
->       HID: asus_remove: manually unregister led
->       HID: dualsense_remove: manually unregister leds
->       HID: dualshock4_remove: manually unregister leds
->       HID: sony_remove: manually unregister leds
-> 
->  drivers/hid/hid-asus.c        |  1 +
->  drivers/hid/hid-bigbenff.c    |  5 +++++
->  drivers/hid/hid-playstation.c | 10 ++++++++++
->  drivers/hid/hid-sony.c        |  8 ++++++++
->  4 files changed, 24 insertions(+)
-> ---
-> base-commit: 2241ab53cbb5cdb08a6b2d4688feb13971058f65
-> change-id: 20230125-hid-unregister-leds-4cbf67099e1d
-> 
-> Best regards,
-> -- 
-> Pietro Borrello <borrello@diag.uniroma1.it>
+Signed-off-by: Allen Ballway <ballway@chromium.org>
+---
+V6 -> V7: Fix typo in config name.
 
--- 
-Lee Jones [李琼斯]
+V5 -> V6: Add another IS_ENABLED check for CONFIG_I2C_DMI_CORE because
+the module may not be there at all.
+
+V4 -> V5: Add IS_ENABLED check for CONFIG_DMI to prevent linker error.
+
+V3 -> V4: Move quirk logic to i2c_hid_get_dmi_quirks and remove
+duplicate quirks from hid-multitouch.
+
+V2 -> V3: Use existing HID_QUIRK_*_INVERT and match the quirk in
+hid-quirk, passing down to hid-multitouch through the hid device.
+
+V1 -> V2: Address review comments, change to use DMI match. Confirmed
+MT_TOOL_X/Y require transformation and update orientation based on
+flipped axes.
+
+
+ drivers/hid/hid-multitouch.c             | 39 ++++++++++++++++++---
+ drivers/hid/hid-quirks.c                 |  6 ++++
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 43 ++++++++++++++++++++++++
+ drivers/hid/i2c-hid/i2c-hid.h            |  3 ++
+ 4 files changed, 87 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 91a4d3fc30e08..622fe6928104c 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -71,6 +71,7 @@ MODULE_LICENSE("GPL");
+ #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
+ #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
+ #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
++#define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
+
+ #define MT_INPUTMODE_TOUCHSCREEN	0x02
+ #define MT_INPUTMODE_TOUCHPAD		0x03
+@@ -1009,6 +1010,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			    struct mt_usages *slot)
+ {
+ 	struct input_mt *mt = input->mt;
++	struct hid_device *hdev = td->hdev;
+ 	__s32 quirks = app->quirks;
+ 	bool valid = true;
+ 	bool confidence_state = true;
+@@ -1086,6 +1088,10 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 		int orientation = wide;
+ 		int max_azimuth;
+ 		int azimuth;
++		int x;
++		int y;
++		int cx;
++		int cy;
+
+ 		if (slot->a != DEFAULT_ZERO) {
+ 			/*
+@@ -1104,6 +1110,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			if (azimuth > max_azimuth * 2)
+ 				azimuth -= max_azimuth * 4;
+ 			orientation = -azimuth;
++			if (quirks & MT_QUIRK_ORIENTATION_INVERT)
++				orientation = -orientation;
++
+ 		}
+
+ 		if (quirks & MT_QUIRK_TOUCH_SIZE_SCALING) {
+@@ -1115,10 +1124,23 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			minor = minor >> 1;
+ 		}
+
+-		input_event(input, EV_ABS, ABS_MT_POSITION_X, *slot->x);
+-		input_event(input, EV_ABS, ABS_MT_POSITION_Y, *slot->y);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_X, *slot->cx);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_Y, *slot->cy);
++		x = hdev->quirks & HID_QUIRK_X_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
++			*slot->x;
++		y = hdev->quirks & HID_QUIRK_Y_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->y :
++			*slot->y;
++		cx = hdev->quirks & HID_QUIRK_X_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->cx :
++			*slot->cx;
++		cy = hdev->quirks & HID_QUIRK_Y_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->cy :
++			*slot->cy;
++
++		input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
++		input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
++		input_event(input, EV_ABS, ABS_MT_TOOL_X, cx);
++		input_event(input, EV_ABS, ABS_MT_TOOL_Y, cy);
+ 		input_event(input, EV_ABS, ABS_MT_DISTANCE, !*slot->tip_state);
+ 		input_event(input, EV_ABS, ABS_MT_ORIENTATION, orientation);
+ 		input_event(input, EV_ABS, ABS_MT_PRESSURE, *slot->p);
+@@ -1735,6 +1757,15 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	if (id->vendor == HID_ANY_ID && id->product == HID_ANY_ID)
+ 		td->serial_maybe = true;
+
++
++	/* Orientation is inverted if the X or Y axes are
++	 * flipped, but normalized if both are inverted.
++	 */
++	if (hdev->quirks & (HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT) &&
++	    !((hdev->quirks & HID_QUIRK_X_INVERT)
++	      && (hdev->quirks & HID_QUIRK_Y_INVERT)))
++		td->mtclass.quirks = MT_QUIRK_ORIENTATION_INVERT;
++
+ 	/* This allows the driver to correctly support devices
+ 	 * that emit events over several HID messages.
+ 	 */
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 0e9702c7f7d6c..78452faf3c9b4 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -19,6 +19,7 @@
+ #include <linux/input/elan-i2c-ids.h>
+
+ #include "hid-ids.h"
++#include "i2c-hid/i2c-hid.h"
+
+ /*
+  * Alphabetically sorted by vendor then product.
+@@ -1298,6 +1299,11 @@ unsigned long hid_lookup_quirk(const struct hid_device *hdev)
+ 		quirks = hid_gets_squirk(hdev);
+ 	mutex_unlock(&dquirks_lock);
+
++	/* Get quirks specific to I2C devices */
++	if (IS_ENABLED(CONFIG_I2C_HID_CORE) && IS_ENABLED(CONFIG_DMI) &&
++	    hdev->bus == BUS_I2C)
++		quirks |= i2c_hid_get_dmi_quirks(hdev->vendor, hdev->product);
++
+ 	return quirks;
+ }
+ EXPORT_SYMBOL_GPL(hid_lookup_quirk);
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index 8e0f67455c098..554a7dc285365 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -10,8 +10,10 @@
+ #include <linux/types.h>
+ #include <linux/dmi.h>
+ #include <linux/mod_devicetable.h>
++#include <linux/hid.h>
+
+ #include "i2c-hid.h"
++#include "../hid-ids.h"
+
+
+ struct i2c_hid_desc_override {
+@@ -416,6 +418,28 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 	{ }	/* Terminate list */
+ };
+
++static const struct hid_device_id i2c_hid_elan_flipped_quirks = {
++	HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8, USB_VENDOR_ID_ELAN, 0x2dcd),
++		HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT
++};
++
++/*
++ * This list contains devices which have specific issues based on the system
++ * they're on and not just the device itself. The driver_data will have a
++ * specific hid device to match against.
++ */
++static const struct dmi_system_id i2c_hid_dmi_quirk_table[] = {
++	{
++		.ident = "DynaBook K50/FR",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dynabook Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "dynabook K50/FR"),
++		},
++		.driver_data = (void *)&i2c_hid_elan_flipped_quirks,
++	},
++	{ }	/* Terminate list */
++};
++
+
+ struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
+ {
+@@ -450,3 +474,22 @@ char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 	*size = override->hid_report_desc_size;
+ 	return override->hid_report_desc;
+ }
++
++u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
++{
++	u32 quirks = 0;
++	const struct dmi_system_id *system_id =
++			dmi_first_match(i2c_hid_dmi_quirk_table);
++
++	if (system_id) {
++		const struct hid_device_id *device_id =
++				(struct hid_device_id *)(system_id->driver_data);
++
++		if (device_id && device_id->vendor == vendor &&
++		    device_id->product == product)
++			quirks = device_id->driver_data;
++	}
++
++	return quirks;
++}
++EXPORT_SYMBOL_GPL(i2c_hid_get_dmi_quirks);
+diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
+index 96c75510ad3f1..2c7b66d5caa0f 100644
+--- a/drivers/hid/i2c-hid/i2c-hid.h
++++ b/drivers/hid/i2c-hid/i2c-hid.h
+@@ -9,6 +9,7 @@
+ struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name);
+ char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 					       unsigned int *size);
++u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product);
+ #else
+ static inline struct i2c_hid_desc
+ 		   *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
+@@ -16,6 +17,8 @@ static inline struct i2c_hid_desc
+ static inline char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 							     unsigned int *size)
+ { return NULL; }
++static inline u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
++{ return 0; }
+ #endif
+
+ /**
+--
+2.39.0.rc1.256.g54fd8350bd-goog
+
