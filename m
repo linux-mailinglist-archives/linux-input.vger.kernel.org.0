@@ -2,62 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA6B568269A
-	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 09:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 403BA68287F
+	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 10:17:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229934AbjAaIhL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Jan 2023 03:37:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47794 "EHLO
+        id S232615AbjAaJRc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Jan 2023 04:17:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231311AbjAaIgx (ORCPT
+        with ESMTP id S232476AbjAaJRT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Jan 2023 03:36:53 -0500
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286A7485AB
-        for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 00:36:13 -0800 (PST)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id 9CCCC83AC1; Tue, 31 Jan 2023 08:35:56 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1675154171; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=cioc8OwC/+W9dyaiUbAjN/I0fE4IYApzJfLk7ZEOjeAe0grD/oGLP2dqzz5KKFwal
-         rlIZIULLrliWZNO4uCbGi1RTE0kkJ9pw4KlOfQHP8FFc5pZQUGax7j1Sj/7ZMEfMLn
-         ut6bwkfVQtyT6pXPcRhrLC5RM3YnMsYKLe6NWhUeVRIwQtCzO/UaVaqe0H/tSWmDja
-         Q9ZYRcnN1Xg04eF8TpGeWOyi6QZtwKuL6NOB09n03Y+httJ75ail5E8aLLaOvi3pT5
-         /R0V6M/71FPCeg84K2KKlvNg2ms2yDGV4gk0/MEVVtJuaijQ3fppmueVHdhBxvHqv8
-         HjyJ0eaco+YAQ==
-Received: by mail.lokoho.com for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 08:35:43 GMT
-Message-ID: <20230131074501-0.1.3q.w1f8.0.wlx4q8n6r2@lokoho.com>
-Date:   Tue, 31 Jan 2023 08:35:43 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-input@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        Tue, 31 Jan 2023 04:17:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99DA49EFC;
+        Tue, 31 Jan 2023 01:16:01 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D3B64B81A76;
+        Tue, 31 Jan 2023 09:15:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50235C433EF;
+        Tue, 31 Jan 2023 09:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675156558;
+        bh=ruW9JF/5GyV2/8APV2iWJWlThbmDFU9lgtqCsmQcb/Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ikuWoXd7XkbjgjkN2cV8Ixmcz1/W2QxTIyQD9Yvs03yhPODaS1AA7+0N+FP49CHZt
+         lLgQxTSxbZ4cPKEuIBieUdeg252FYhYdJREXhft3D0LoVr5xvwz1vR+STRLmpGCOAA
+         PKz6I0X2iUoCOL/WPwMnc2VQtbAVOU2srn5/L2OgqK+GhP3oplIlJqa/RfvW3qJZ2A
+         KH1U9v+N9xxqf+68vMjwBx+8b7ae+j8R5NZXpmpECdu0WwYr8QaekA6+XgW42LyJjZ
+         6fPtI02hDQX55+5ZcQIFojGIS0P+EFP1hXVUsHEgyt5bQ56hdK/rTYb/vnHgfZCGpz
+         MnGLtFnsx5JxA==
+Date:   Tue, 31 Jan 2023 09:15:52 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Jacky Bai <ping.bai@nxp.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de,
+        dmitry.torokhov@gmail.com, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, kernel@pengutronix.de,
+        linux-imx@nxp.com, festevam@gmail.com
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add nxp bbnsm
+Message-ID: <Y9jcSDGAlOHfBQ64@google.com>
+References: <20230129070823.1945489-1-ping.bai@nxp.com>
+ <20230129070823.1945489-2-ping.bai@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230129070823.1945489-2-ping.bai@nxp.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Sun, 29 Jan 2023, Jacky Bai wrote:
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+> Add binding for NXP BBNSM(Battery-Backed Non-Secure Module).
+> 
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
+> ---
+>   - v2 changes:
+>     - remove the redundant 'bindings' string
+>     - add ref to rtc.yaml
+>     - add start-year property
+>     - rename 'regmap' to 'nxp,bbnsm-regmap' and add description & type define
+>     - add header files including in the example and correct the indentation
+> 
+>   -v3 changes:
+>     - remove the 'nxp,bbnsm-regmap' property, get the regmap directly from the
+>       parent node in rtc/pwrkey driver
+> 
+>   - v4 changes:
+>     - update the compatible string to include the soc id as Rob suggested
+> ---
+>  .../devicetree/bindings/mfd/nxp,bbnsm.yaml    | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/nxp,bbnsm.yaml
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Applied, thanks
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
-
-
-Pozdrawiam
-Adam Charachuta
+-- 
+Lee Jones [李琼斯]
