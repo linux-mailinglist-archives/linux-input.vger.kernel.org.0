@@ -2,76 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E3DE6832F6
-	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 17:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 953EF6833B4
+	for <lists+linux-input@lfdr.de>; Tue, 31 Jan 2023 18:20:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231508AbjAaQpv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Jan 2023 11:45:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55120 "EHLO
+        id S232038AbjAaRUi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Jan 2023 12:20:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231485AbjAaQpt (ORCPT
+        with ESMTP id S232240AbjAaRU0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Jan 2023 11:45:49 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97832564B3
-        for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 08:45:47 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id m7so14795477wru.8
-        for <linux-input@vger.kernel.org>; Tue, 31 Jan 2023 08:45:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N6MGQ9vFPf/PTOMa+Z1CFX94OOnbAZXq2mwlJ2U/izQ=;
-        b=rIJC16gfTs8/WJLZD3b9Yq5SgiLR2O+VykjtBb3ukzqsjOwKzT3SONLqYych3cGLKA
-         LXKil0VgdrQQQD0UWgBcQVgLQhO46RHdgrXCjbn9knu5mVaKNunVOWCtPF8notj/TlOK
-         0+ON8SkYPM6Xb7m3t+svtW3uZFHOX04j8QXWax/bckKNZbDq5emW7YrDxUawNhyn8gDX
-         bRT1L/N3nAlSHmC2eyM/qxsF3YyTOzvtW1kFuYZhQjFsH4/yStVGlzTLaDAFl6M8d3xp
-         WCdfO+RF/J2dvs/ZMfF6PRTVmtSbC24FvhBAR/kdk/9MpDrylAIf7zZ5cK1z2DMFkS13
-         I3dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N6MGQ9vFPf/PTOMa+Z1CFX94OOnbAZXq2mwlJ2U/izQ=;
-        b=j6suCoVMuxUTqG4NlGHVEJcfCWpTRBqQaTIEdiPlqAIO9sHIOgcjbqOI7sqaXe43v4
-         mWexmeLLTV5gM4O7ipFuez/Me2TlOlTomT2iiDLjQnRy9KJaFZc0cdvzqDRuKM/g7+nx
-         KMxoi//7Pq1cK+aLRiW0b48dOQoqxZN0QHf8aYK71f5qQQojVlVAbnyF2f+3pnnFUpJ/
-         u4gewhfkRqGT7SUJ6UIBoMIoj8dqweQ9PPyH7vwU3KIKKEBscwT8ErFZnbPzQBMSrVok
-         Dto8ynWI8NjFcGsaL1VS2Nnn3KWlxF8OoIS2ljO0UqcVfNdMEKG2VEU8KZkZx29EKRwa
-         Lo4w==
-X-Gm-Message-State: AO0yUKW66Cj1m+brfLcfYGjI0w4gkFnzfqkHw0v04fyikK82puBFI8NF
-        6jFYwMEeV1LiQQK3s0R6JooQzgpspefC+by7
-X-Google-Smtp-Source: AK7set8HwVxFxeGIJJe7A328sxFXBHw7JRelwm/IIZ1PB2qBlTX4xwpuKXk9gplOppvubNgZXuI6Gw==
-X-Received: by 2002:a5d:6683:0:b0:2bf:e4d9:2c2b with SMTP id l3-20020a5d6683000000b002bfe4d92c2bmr10295846wru.48.1675183546246;
-        Tue, 31 Jan 2023 08:45:46 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id l15-20020a5d6d8f000000b002bfb37497a8sm16087489wrs.31.2023.01.31.08.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Jan 2023 08:45:45 -0800 (PST)
-Message-ID: <7a414b9c-4076-19d6-40cb-f80f51969902@linaro.org>
-Date:   Tue, 31 Jan 2023 17:45:44 +0100
+        Tue, 31 Jan 2023 12:20:26 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B0BD589A5;
+        Tue, 31 Jan 2023 09:19:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 550A2615AE;
+        Tue, 31 Jan 2023 17:19:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D8EC43444;
+        Tue, 31 Jan 2023 17:19:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675185570;
+        bh=4IqIsKwBqbWVPULwcClTlVG1Iry0wqy5rU9YNE2nIUs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MIHWNdb0Z2FqrlmWPc9Opv1g+sS/ff67HAUmSOgCZWwEBDX1zQBDsdsQ2KAtGFSi3
+         +B95jSJO78whgicFGtqc/H6q0BJ72KeP24SCtEF5oXgOMij4wcwSZzLUK7Apnx7AYo
+         c+4dGZ/7AJYRoDklPCYqBEnIC9eoNkh/qafJ2ty6kC5CdNJfSjXgCOg8ETN8N1bQiM
+         LTAbOtg4XvCMHtDQeVYjfh6hJMud4lhOag167Z/upj8RZAebAnLKhbpD9x1v2HEdd1
+         Bs1iWClAv1MjnrorGEYHm0RIWyh8PJ6q+qm7BEPb5yUOCLo/8hrmuKlamCrpIvLgFx
+         kmZ/Fi3fN1GCw==
+Date:   Tue, 31 Jan 2023 17:19:24 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Pietro Borrello <borrello@diag.uniroma1.it>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hanno Zulla <kontakt@hanno.de>, Pavel Machek <pavel@ucw.cz>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Sven Eckelmann <sven@narfation.org>,
+        linux-leds@vger.kernel.org,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>
+Subject: Re: [PATCH v2 0/5] HID: manually unregister leds on device removal
+ to prevent UAFs
+Message-ID: <Y9lNnOA87fCt0hFk@google.com>
+References: <20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 4/4] CP2112 Devicetree Support
-Content-Language: en-US
-To:     Daniel Kaehn <kaehndan@gmail.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        ethan.twardy@plexus.com
-References: <20230128202622.12676-1-kaehndan@gmail.com>
- <20230128202622.12676-5-kaehndan@gmail.com>
- <b3712d74-2276-b7ba-4145-4d9a6d5f3a34@linaro.org>
- <CAP+ZCCe6J8y=qLMWafXPur1V_0=oQdw2QWqeAZ-C3TroMB4HhA@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAP+ZCCe6J8y=qLMWafXPur1V_0=oQdw2QWqeAZ-C3TroMB4HhA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,22 +64,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 31/01/2023 02:06, Daniel Kaehn wrote:
-> On Sun, Jan 29, 2023 at 5:06 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> On 28/01/2023 21:26, Danny Kaehn wrote:
->>> +#if defined(CONFIG_OF_GPIO)
->>
->> Don't use #if, but IS_ENABLED(). I think it should work here.
+> To: Jiri Kosina <jikos@kernel.org>
+> To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> To: Hanno Zulla <kontakt@hanno.de>
+> To: Pavel Machek <pavel@ucw.cz>
+> To: Lee Jones <lee@kernel.org>
+
+Not entirely sure why I'm receiving these?
+
+> To: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> To: Sven Eckelmann <sven@narfation.org>
+> Cc: linux-leds@vger.kernel.org
+> Cc: Cristiano Giuffrida <c.giuffrida@vu.nl>
+> Cc: "Bos, H.J." <h.j.bos@vu.nl>
+> Cc: Jakob Koschel <jkl820.git@gmail.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Jiri Kosina <jkosina@suse.cz>
+> Cc: Roderick Colenbrander <roderick@gaikai.com>
+> Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
 > 
-> I think I will still need to use an #if / some sort of preprocessor directive,
-> since of_node is only a member of the gpio_chip struct if that is enabled
-> (and thus causes a compile error if done outside of the preprocessor)...
-> Unless I'm misinterpreting your comment?
+> ---
+> Changes in v2:
+> - dualshock4: Clarify UAF
+> - dualsense:  Clarify UAF
+> - dualsense:  Unregister multicolor led controller
+> - Link to v1: https://lore.kernel.org/r/20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it
+> 
+> ---
+> Pietro Borrello (5):
+>       HID: bigben_remove: manually unregister leds
+>       HID: asus_remove: manually unregister led
+>       HID: dualsense_remove: manually unregister leds
+>       HID: dualshock4_remove: manually unregister leds
+>       HID: sony_remove: manually unregister leds
+> 
+>  drivers/hid/hid-asus.c        |  1 +
+>  drivers/hid/hid-bigbenff.c    |  5 +++++
+>  drivers/hid/hid-playstation.c | 10 ++++++++++
+>  drivers/hid/hid-sony.c        |  8 ++++++++
+>  4 files changed, 24 insertions(+)
+> ---
+> base-commit: 2241ab53cbb5cdb08a6b2d4688feb13971058f65
+> change-id: 20230125-hid-unregister-leds-4cbf67099e1d
+> 
+> Best regards,
+> -- 
+> Pietro Borrello <borrello@diag.uniroma1.it>
 
-If of_node in gpio_chip is indeed hidden by #ifdef, then the code is ok.
-
-Best regards,
-Krzysztof
-
+-- 
+Lee Jones [李琼斯]
