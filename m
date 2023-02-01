@@ -2,121 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB651686B58
-	for <lists+linux-input@lfdr.de>; Wed,  1 Feb 2023 17:15:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CF34686C73
+	for <lists+linux-input@lfdr.de>; Wed,  1 Feb 2023 18:10:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231791AbjBAQPf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Feb 2023 11:15:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51642 "EHLO
+        id S230207AbjBARKy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Feb 2023 12:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231542AbjBAQPc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Feb 2023 11:15:32 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FBDC3C06
-        for <linux-input@vger.kernel.org>; Wed,  1 Feb 2023 08:15:31 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id bg26so7230260wmb.0
-        for <linux-input@vger.kernel.org>; Wed, 01 Feb 2023 08:15:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Akhmn5actGLIdiBKY1RGD6tVXjYHB9tU5fwD4dusjfk=;
-        b=zBQ73vo7dvJsJ+CtZXk/NRBVjxrmhbQUB76WVjxpO0oevyeVPpEwF9Lh7S3wdr2k/R
-         7ziUWECCiCoJO25xCbmKULg+l7tOaIu9Pbw/UAEo50BJR7wfaKwwBo0hRBzYrncVnbJb
-         VxZVQ3p3jwVzbZWyq0nFo5pOttVFu2u9HAJvzXMo2z1ueiwrsa6THSAmbiJsqh3IHiNS
-         kq2oFtkDH9/t/7ri3Mmq0o3X+89mVhrfSJf/+Bn+A6UPCChcvX2vUsAwVxFaJUcNEoOw
-         GVwryHvoEP6+stLVooB16s0HoiSWYMqMCs+798XWMu+1AQRZfOB69je8Z/EhwLnVQXtK
-         3Q7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Akhmn5actGLIdiBKY1RGD6tVXjYHB9tU5fwD4dusjfk=;
-        b=PPx6f3QMSQf6RTKAJ5s0hbLPyCVTpWnk6ypQgVLDk7FjsEFe30pGJWpZUt6acr7O0k
-         UjOUSN7X/fyx3ihD4M+E9uwYS+xu9Eqb2pkCFD6zqUAfMA2NOz7auKRzm7rCqoZfcCBQ
-         Kx3Cpmixl6iu4RL4Tg82GkZZ1ecjpb5Qfdquc1bXwcDDDXZiYaNNByYUE0W7zzS64/GB
-         0AWwDcdK/nwPtf4brmeR0fcIMBZNpICBBx0utPmdqJ0bv+tYiF0c3au22SF1qE0yIb82
-         jMa02zsW02hpQB4unYXdXZFEHgij2Q/a+OLkAg4QMQnKutD/XsDL91TVF6m6OySUh8p3
-         rCBg==
-X-Gm-Message-State: AO0yUKVe090GFhvOax30263V/1eZj+TUHrurL5I4zOZt0hU/sFJRgEs3
-        TZ5/BlkVnUuw1IHiQo5OwGLCgA==
-X-Google-Smtp-Source: AK7set9b2w9VpCLvBN3+NqeaahdJlaPN4olEcUe0FTfkdcB4Kt9xYgGmXdXsMwrGnwEQhDaVIJmfmA==
-X-Received: by 2002:a05:600c:1e0b:b0:3da:1e35:dfec with SMTP id ay11-20020a05600c1e0b00b003da1e35dfecmr2773018wmb.4.1675268129611;
-        Wed, 01 Feb 2023 08:15:29 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id l13-20020adff48d000000b002366e3f1497sm17683823wro.6.2023.02.01.08.15.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Feb 2023 08:15:29 -0800 (PST)
-Message-ID: <d4c1da7b-5b49-6bbf-4470-b3f2eef7f745@linaro.org>
-Date:   Wed, 1 Feb 2023 17:15:27 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 3/4] dt-bindings: input: pwm-beeper: add volume
-Content-Language: en-US
-To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        with ESMTP id S229582AbjBARKx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Feb 2023 12:10:53 -0500
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2108.outbound.protection.outlook.com [40.107.20.108])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CBCD359B;
+        Wed,  1 Feb 2023 09:10:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KTex56OCEZua8ZRjGutLAK+HRz2oYp38phxaYj3t9dUkVP76DyM2VSuEkFEXDfMTLlcCKmQ+GziFK3L6uEc92OLRFI6jk7mw/VtnLrFf6cT1JvYc55oDwqbHJF2oCNQW5tHMhKGGY8997ctcWGYcrZ4F5y6JDaT3PV864rFWQN9gVNQjhOoyJFGiOHTWbimW2XtvxSHrxX2JGuqeJC00PQmLvYDl6OV/CvquZJ8IlqBFQ7vg4s9ax9vahW8J86Opy4VoQOFXXozdAwX6gR47lGGKsptJdiICgiopvmZfYG5IkscbYRbDGDZTnpLMoyexLOQM9U4V53XhZXvXQScLKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3RNrd8L4F83Tadnb/Q2zTf0zmJoI21F27ETdPoSvrn4=;
+ b=TReLRS2UWXB4xHazQxEEVAjGX8y7Yz1RkU8HOU+jDgk0drq7p4vqWhblKwGpsBPRn9alQUczlOncMDuK52DWJ5WHhetJLr3imQ7xKK+thHVJMQrz5x0FCW0EedVAhgdKeh5OY4+0p95/vKmSO+XKgOszMqnhSlOewqKcct7ZA+1//GG+j+aw07TQrB5/Tg4h/QLd1SnYsLOQwm6E1TzzTbCjelP4LKTQlaWJbej5zKXNUBT9As4eVJkcAnwTzoY/YQ5FjFwTsK9oOxs386o5iCEG2AyZLdd/1+NAHknKxWelqtM/d3OVHk5j27iU8Xmir+AhicTh6kQhr0SSYuK+og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3RNrd8L4F83Tadnb/Q2zTf0zmJoI21F27ETdPoSvrn4=;
+ b=CDsJ9RWJaILoob7UK9vegTkpzg7CcENZ3eWh5ZvOZA5OqE8gsb+w0btOXcevetgZZCHptnFQ3YQNnctL3uG1SNgTgOVZ6gHD1CN1U6ZQWSpKqezT2wtZKfYprtS0cy53ZbomHZpSuSC86YDbUyFXXxJcnV7cuW2C2tlTH9n8YdRK31+slftda2FTRKbKpx+78fBRM7qvosV038LfQAbC5o3deQwJ+lvYgu5mQPp9+7IYf2xA2jvabuOA/0fnEIB7vywV6Bxb4mHetoxIdTaoq09CzP6MbZTS+c5LjWvq8VT3VdyfQrmqCIOLXGFsxmw7vNIUPVantQatzWQKLOq+OA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from PAXPR03MB7617.eurprd03.prod.outlook.com (2603:10a6:102:1d8::15)
+ by GVXPR03MB8380.eurprd03.prod.outlook.com (2603:10a6:150:6::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Wed, 1 Feb
+ 2023 17:10:48 +0000
+Received: from PAXPR03MB7617.eurprd03.prod.outlook.com
+ ([fe80::e071:305e:9102:6d89]) by PAXPR03MB7617.eurprd03.prod.outlook.com
+ ([fe80::e071:305e:9102:6d89%8]) with mapi id 15.20.6043.038; Wed, 1 Feb 2023
+ 17:10:46 +0000
+From:   Manuel Traut <manuel.traut@mt.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Manuel Traut <manuel.traut@mt.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230201152128.614439-1-manuel.traut@mt.com>
- <20230201152128.614439-4-manuel.traut@mt.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230201152128.614439-4-manuel.traut@mt.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Subject: [PATCH] dt-bindings: input: pwm-beeper: add volume
+Date:   Wed,  1 Feb 2023 18:10:25 +0100
+Message-Id: <20230201171025.965276-1-manuel.traut@mt.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <d4c1da7b-5b49-6bbf-4470-b3f2eef7f745@linaro.org>
+References: <d4c1da7b-5b49-6bbf-4470-b3f2eef7f745@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0118.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a3::13) To PAXPR03MB7617.eurprd03.prod.outlook.com
+ (2603:10a6:102:1d8::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR03MB7617:EE_|GVXPR03MB8380:EE_
+X-MS-Office365-Filtering-Correlation-Id: 485be0dc-a0c2-4048-002b-08db04773c19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8oUgHuFjakiwKVOyL8iftLp1mdYQtWr/bA1Lk9yQlUu71G/d/zVrdumikTlpA/TqrSEx87Bbwky+is7Vd7EUlbejIip/hRcHxXiHyrdgbIhFVTE5satr8la5qIzX+4Wizi0Wv9yYsZm/5TlN+qWZqmiF9nKILZWBdMBaO4At7fB4wUsuor6h42IOMIS+j7CWa+emZx3dqxoLlQrFUkiWgkWECkQd6xDTcNvHuyV28d8OpS5oWpfJBGC6YlkmT0s4RQaAOrhXlosRLV/cBcHJj0YiWvhtAdwrMzdYgYqUk2pXPZWLGZUYTRT13xtg2tdV5rucyP+05iE1+utZopR/3J471Rb4ttkQlSl9mYXOR5ZnaQxofa2N9frTex9hN9riAySeJzh+9FKFutZXQN7cNnvYIy8zJReiLVBHL344mJ40DUGRbInndCgic8FdCe7RJMeVjIdPnGiGMogEvTVGjhK2OJhSmoLK30/08nLfJv6t5/NozujtbEePwWlbYQfwk1SuIEC3ugkdj+gwDG2n7HZuVrpMPb4HyNnDp//EmdJ48mtb6G62rlXBx6WHHqvsE0a88NUsgHlW3UhGiqzIPeA2DuP8ByEPdKjbVlNaglnAhn+ITJjQPmBw6oq4GaUw+M6I/OHfvQn+4Hj4djHNA1IbDab/o9ZghX+8pzXXQq3iwZTvf4p1P7MEYSmfIyWVxw3iXXo4+G8gulL/zSZfyA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR03MB7617.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(396003)(136003)(366004)(346002)(376002)(451199018)(36756003)(6486002)(2906002)(52116002)(54906003)(40140700001)(6666004)(86362001)(478600001)(38100700002)(38350700002)(2616005)(6506007)(1076003)(8676002)(6916009)(316002)(4326008)(5660300002)(8936002)(44832011)(41300700001)(66946007)(6512007)(26005)(66556008)(186003)(66476007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xtZD18KGbQzGTIVi33e0H8merAugOwrmUZRERdq2ZRS52drnqbhO7zdMGFNf?=
+ =?us-ascii?Q?10EoZeXMRni/ap+DW8a9SMueb6fxqxOr5hfpRzxRXLnh74NPfpM7Di0zC0Wn?=
+ =?us-ascii?Q?2Fj/HajilVj6hiEQU4RgN1Fd3q1iBGCqJjA+OpkJemZe3sOkM/m82SRRZKzh?=
+ =?us-ascii?Q?c9hC4kYtA/YvgyyisGS3rLOzTt5/evACJ8AZ/0PStYXNn2XcFBKLsCVWSeNv?=
+ =?us-ascii?Q?rpBJGajQSoLvh7BxotkI+GxteeJokE94cLUSotOvs8ZUJMrg70HNFFb8gXMO?=
+ =?us-ascii?Q?xU/TwkIHk+goroz/lOLE1aaGwFU4HgnLTufI+pfAOAx6m3htW/hB/yDiaWTR?=
+ =?us-ascii?Q?DbvJU3gwkIgGexLeuzvbscS8gQUr5RLzvAYMKcAUSOLjn9IcHsknqMZ6T2tf?=
+ =?us-ascii?Q?SFzGZyQ5TpxC2DWjA7KnY0BFT902K4TmRyWzDA9K1QE7O1qrTcWnovD7qNNw?=
+ =?us-ascii?Q?dI32R8Ir0GV60TseQ1EMbynJccNzJTDOKwmziqe8s4peRa90ccNmANtAWqT7?=
+ =?us-ascii?Q?JeMm9PpX1f9KxSS73q4AH563XIB5AvGZrb/h6sImd60Ab5OJUl85hj/yq1uG?=
+ =?us-ascii?Q?ecg4Hmv4+EX88lpG/FbG8F4AP371Sy59tiki9D56M9rgqFqLdJTuXJx+nwum?=
+ =?us-ascii?Q?SQILM8x+Phxy6PxJNnPKBU7HYXlzlDNiyGXrJxkFYVlokv9DY/9P/MypPwwo?=
+ =?us-ascii?Q?Jy7ANqfAMxBzebqb17DXnFQ5jEtM5/LJBEo0zYVrV5G0CkWPrm2YyXoJD5rC?=
+ =?us-ascii?Q?CwhhdG54pF+46guGJD51kSxKZBHhRIzOfuh3UUfAauV3NM4u8m5DxvpKUxUs?=
+ =?us-ascii?Q?/1BD3x8Df8rrMkqtE12QOw7Hxy75DrQeuT4AGbO7lhiYxxth87GoAVrysBF8?=
+ =?us-ascii?Q?cAfqlqF6cxPkY+pHRPIKZA3Br/DRw5pwLo+SculTgJKCfcRJkFVUwp+YERJZ?=
+ =?us-ascii?Q?GMlvd4iGaggdsAt8veov0186E3h6tIR9YRQRqmDVmgHbYpLgvljKr1uJoq6s?=
+ =?us-ascii?Q?lrt/vPw6J21Nz4azY8hc4lq4nu7lDAaV+v9khTBRBfU6tdmco4LL3vJace2y?=
+ =?us-ascii?Q?NWE7oHM/+s5NLMm+nfwofTcHa5WAZFfiO4Fa/EyMFA2qhV/YhbcZwpnb+i4w?=
+ =?us-ascii?Q?6argcy7zP54kah8tbXqFWYN95nv/x+AnVFCM8kuos4xFIaE31D+V/juxohI5?=
+ =?us-ascii?Q?BQdQSouQr5HQyZ+idGP00DvqHALwlWxfwOU9QyDVj4E1x4ii5q/I9eSCqpnU?=
+ =?us-ascii?Q?T8W9wUasRXsrTVoeFK1ZfSACNtkrDeB+gIVsk5pxvwGe8MdWXAqhoTiUb6Iy?=
+ =?us-ascii?Q?P6Crhu3NNcpX1V3YUFIPvWwAJ7bCjs4MrZFOp98xNniRfJxMjsLHkZ/Lu8NI?=
+ =?us-ascii?Q?xpAE+srFwMJ+/OxieGJ+qigT4VBufDMG2z/PyywUkzGaQv2ZkcnUl84Q7R88?=
+ =?us-ascii?Q?lLOeIN+4YyriJUwASOYr+XVYmTlobxssWMFL7+u0WuExDXg9RoBC6COe5Hrq?=
+ =?us-ascii?Q?K93TVBGWM1pHg6mBVevl2yzI4Yxcf2V9d6bJdIIT+1zqM2citL3OOE8q1HIj?=
+ =?us-ascii?Q?ttzzsqoRK2S79mf8Gp5T/Tji7nffzyMBYVbQWbPL?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 485be0dc-a0c2-4048-002b-08db04773c19
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR03MB7617.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 17:10:46.4931
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sw3v3kDizIzgbMWrqtDWBpsJ+mMexdz+zZBVQknpAeskpxKHmBIyhJChKHZxbJNJreIezf7IqNS8ApWmxt9aeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR03MB8380
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 01/02/2023 16:21, Manuel Traut wrote:
-> Adds an array of supported volume levels and a default volume level.
+Add an array of supported volume levels and a default volume level.
 
-Adds -> Add
+Signed-off-by: Manuel Traut <manuel.traut@mt.com>
+---
+ .../devicetree/bindings/input/pwm-beeper.yaml      | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-
-> 
-> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
-> ---
->  .../devicetree/bindings/input/pwm-beeper.yaml   | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-
-Thank you for your patch. There is something to discuss/improve.
-
-> diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> index 1ebc3a46d934..6599e28ba5e6 100644
-> --- a/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> +++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> @@ -25,6 +25,21 @@ properties:
->    beeper-hz:
->      description: bell frequency in Hz
->  
-> +  volume-levels-bp:
-> +    description: >
-> +      Array of PWM duty cycle values that correspond to
-> +      linear volume levels. These need to be in the range of
-> +      0 to 5000, while 0 means 0% duty cycle (mute) and 5000
-> +      means 50% duty cycle (max volume).
-
-Is range 0-5000 limitation of the device? If so, this should not be
-free-form text, but "maximum: 5000" (minimum is 0 anyway).
-
-> +      Please note that the actual volume of most beepers is
-> +      highly non-linear, which means that low volume levels
-> +      are probably somewhere in the range of 10 to 300 (0.1-3%
-> +      duty cycle).
-
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
+index 1ebc3a46d934..7ea2954cdd6a 100644
+--- a/Documentation/devicetree/bindings/input/pwm-beeper.yaml
++++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
+@@ -25,6 +25,18 @@ properties:
+   beeper-hz:
+     description: bell frequency in Hz
+ 
++  volume-levels-bp:
++    description: >
++      Please note that the actual volume of most beepers is
++      highly non-linear, which means that low volume levels
++      are probably somewhere in the range of 10 to 300 (0.1-3%
++      duty cycle).
++    maximum: 5000
++
++  default-volume-level-bp:
++    description: >
++      The default volume level.
++
+ required:
+   - compatible
+   - pwms
+@@ -36,4 +48,6 @@ examples:
+     beeper {
+       compatible = "pwm-beeper";
+       pwms = <&pwm0>;
++      volume-levels-bp = <0 80 200 400 5000>;
++      default-volume-level-bp = <80>;
+     };
+-- 
+2.39.1
 
