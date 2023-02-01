@@ -2,104 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42AFD6861C9
-	for <lists+linux-input@lfdr.de>; Wed,  1 Feb 2023 09:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65BB5686497
+	for <lists+linux-input@lfdr.de>; Wed,  1 Feb 2023 11:43:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230109AbjBAIhZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Feb 2023 03:37:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45400 "EHLO
+        id S229974AbjBAKno (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Feb 2023 05:43:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbjBAIhY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Feb 2023 03:37:24 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66954237
-        for <linux-input@vger.kernel.org>; Wed,  1 Feb 2023 00:37:21 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id t7so8158335wrp.5
-        for <linux-input@vger.kernel.org>; Wed, 01 Feb 2023 00:37:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oJIzkRW6nnSDw9Ed428dLxZMztI8zoQfCpSdVMFOs4U=;
-        b=yiWY4yXYyEfkPc4hTBKFqpDLYeA2wtL5o5zpubpA2dxHEWn0wcrSIF/andG8rDMsTj
-         ZuCLjcJSzw/uY3Q4hBFW2yBHavqhLUGnvEQdLQ8lQthXqCLVFW6oaFXxQnSRbH35hBrD
-         Vfwya1K8ONCI0cR2anPlQutEKwrLpe80ZqM76FwJljIuuREXDbCO/3CaYT29JgTIkx8v
-         bRR4XMvmSy8nVSruap8qQo0vkHDkLoY4KMDbGJBJw87YylZoUgN4zOP/8iazmwSuwp/4
-         Q3IwhoZOAOYTImZpCt137eQKxXc/PrFzH6956V9kspM24+RNRfELjpKkY3cpIu3HVRCd
-         V8qg==
+        with ESMTP id S229543AbjBAKnn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Feb 2023 05:43:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C1992659D
+        for <linux-input@vger.kernel.org>; Wed,  1 Feb 2023 02:42:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675248154;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=bltFVBhEHfXNoDMWpukukFuhV9he/3kOb9+wG6ySsOI=;
+        b=I3zeoMuRLco/1J03J2gvxlJNFjLA8bhKkCiyL5Nnj2C7Hn+7BMyRJw+NrO90LibNCeQQkd
+        XGgJhiO+a0ohuMGRAXNwXTxjMZLB75HlFXGU1d4HabZI9DLEEC3+8cyxwJt+y+yMFe+Ils
+        Qy0dKYDRKk90hQP+U8HYBVJFpoDiKuA=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-515-0ErdcBI0O3GcmBWUvQ-LTg-1; Wed, 01 Feb 2023 05:42:33 -0500
+X-MC-Unique: 0ErdcBI0O3GcmBWUvQ-LTg-1
+Received: by mail-yb1-f198.google.com with SMTP id a9-20020a25af09000000b0083fa6f15c2fso3378686ybh.16
+        for <linux-input@vger.kernel.org>; Wed, 01 Feb 2023 02:42:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oJIzkRW6nnSDw9Ed428dLxZMztI8zoQfCpSdVMFOs4U=;
-        b=IoRlB/in+bfdw0TkHAEHk9gTDQPC7KjLp5NHTvPvhavFquNFZMLJkgHI42xgJm5caw
-         TroDB6QmCB4R1c/iPdIoMVx+g3adrSu6cNmjm+rr0hmzrJDySnobnDPLZnvhZINRDTBY
-         b4zXA4OqD31Ox1Ff1V3pZRWeL5gVVJwrnc8nrbwnmwELnMzNeRXvlI4AvQD82BIukkdh
-         Pii5UQSCF56bubD/5w4MDDE0/kcn3WvBIxLxZmnAZGQXIpLqIfokvlDhTk20wIxbZRz9
-         3MLRHcgeKCSjzw8ua/csMmuLrcJCUHm96kzbVFN5YDUE1ra1THY1JQ9z2YvfPAvq0GQr
-         xZiQ==
-X-Gm-Message-State: AO0yUKW+a9+P/6RYpgig/sBsJJt5lHTRaYe0WI59qW7h7j1HgKBQv8HW
-        NeDmVcOv/g139xHQKF/SRwUC6g==
-X-Google-Smtp-Source: AK7set8WMH7c/pfXoF8kz2sbwst4oAmViGYGg8YxONlEYVIJ0VQPbjhnGMLfJG+pMtv0jegfsrwmFA==
-X-Received: by 2002:a05:6000:178d:b0:2bf:d411:a500 with SMTP id e13-20020a056000178d00b002bfd411a500mr2152296wrg.70.1675240640519;
-        Wed, 01 Feb 2023 00:37:20 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id x7-20020a5d6b47000000b002bbed1388a5sm16843271wrw.15.2023.02.01.00.37.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Feb 2023 00:37:20 -0800 (PST)
-Message-ID: <67ecd5d1-ab61-c9d2-b143-398a678a614d@linaro.org>
-Date:   Wed, 1 Feb 2023 09:37:18 +0100
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bltFVBhEHfXNoDMWpukukFuhV9he/3kOb9+wG6ySsOI=;
+        b=5STW8lzMNywAiJ5MLQ/dHbAEBzJxSxht17tfdR1BXXy4ZYgsaW4oeI1vRW1E1lQRAY
+         5qqo+8RMouFawQLrg29splU0g4rUp7M1Vhq//rn3JCEWEeiFRawJUlg+f1fZ+PlaajrK
+         088c6nulKXttqA8KqsDEZFf5nIfcCbA8f0NbWYzY5vmDbh0BU3daNI22fNVNTrY3A6VN
+         hVrcYoguC6dtDKXHAaIa3gceAmJeipKGH8UoU2FSfXlCO6FyQhVw7MD5WsDGt1ldRVNF
+         FjG8ArKjfwb/0frvKHA63XeeaJH3C+hBV2+1uQd3sccc69MTMa2h4C9/mAySitiMhH5w
+         o0fg==
+X-Gm-Message-State: AO0yUKUVwvK3Yl+qhv3uPqETfv3Tk4a3gs/9SzC3IiNAaRh2XZy4AyIA
+        VFGM445jum+DMnLO8WZ5rrkcND3uVTcPtSclJqtbzsdm6EMnrEssB1iImXRQUDVXb/rPv45VA6K
+        OCtv91YXEk93s0yhpmCKOYkiM27pu40hF2X9KKbM=
+X-Received: by 2002:a25:e001:0:b0:735:ea17:94d9 with SMTP id x1-20020a25e001000000b00735ea1794d9mr295374ybg.378.1675248152478;
+        Wed, 01 Feb 2023 02:42:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set/nOQlGCejCPSeRFXJAbHnnr5nt0177Ds1BMktMEZlVCYFUQtDqgg60bZ4PhLFjfgTUgTKrUgTSQjzR+rKOoOs=
+X-Received: by 2002:a25:e001:0:b0:735:ea17:94d9 with SMTP id
+ x1-20020a25e001000000b00735ea1794d9mr295372ybg.378.1675248152233; Wed, 01 Feb
+ 2023 02:42:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v9 3/4] dt-bindings: input: pwm-beeper: add volume
-Content-Language: en-US
-To:     Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230130135650.1407156-1-manuel.traut@mt.com>
- <20230130135650.1407156-4-manuel.traut@mt.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230130135650.1407156-4-manuel.traut@mt.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <CAKXUXMycsUQ3aWbAHa6fnSwmQpTt9PhagY14_k2sKGC+vGiqGg@mail.gmail.com>
+ <CAEs41JBMqSCk4U4aQc08DRL5hHDteRmdt1-TGQg0-niko5MF_w@mail.gmail.com>
+In-Reply-To: <CAEs41JBMqSCk4U4aQc08DRL5hHDteRmdt1-TGQg0-niko5MF_w@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 1 Feb 2023 11:42:21 +0100
+Message-ID: <CAO-hwJKP7GmGXJQa_hvLO080_YyysTARsiGdGAw4p_YWtz_G2w@mail.gmail.com>
+Subject: Re: Dependency on non-existing config I2C_DMI_CORE in commit
+ a2f416bf062a ("HID: multitouch: Add quirks for flipped axes")
+To:     Allen Ballway <ballway@chromium.org>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-input@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
+        Jiri Kosina <jikos@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 30/01/2023 14:56, Manuel Traut wrote:
-> Adds an array of supported volume levels and a default volume level.
-> 
-> Signed-off-by: Manuel Traut <manuel.traut@mt.com>
-> ---
->  .../devicetree/bindings/input/pwm-beeper.yaml   | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> index 1ebc3a46d934..ca9efab7efbf 100644
-> --- a/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> +++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> @@ -25,6 +25,21 @@ properties:
->    beeper-hz:
->      description: bell frequency in Hz
->  
-> +  volume-levels-bp:
-> +    description: >
+Hi Allen,
 
-Does not look like you tested the bindings. Please run `make
-dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
+On Tue, Jan 31, 2023 at 3:44 PM Allen Ballway <ballway@chromium.org> wrote:
+>
+> Hi Lukas,
+>
+> Thanks for catching this, that's definitely a mistake in my code.
+> That was supposed to be CONFIG_I2C_HID_CORE.
+>
+> Should I send a follow-up patch for this, or another revision for the patch?
+> It looks like it hasn't been pulled into the mainline branch yet and I'm not
+> familiar with updating it while in a maintainer branch.
 
-Best regards,
-Krzysztof
+I saw that you sent a followup on the initial series, but can you
+instead send a fix on top of
+https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-6.3/multitouch
+(hid.git tree, branch for-6.3/multitouch)?
+
+Cheers,
+Benjamin
+
+>
+> Thanks,
+> Allen
+>
+> On Mon, Jan 30, 2023 at 3:44 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> >
+> > Dear Allen,
+> >
+> > with commit a2f416bf062a ("HID: multitouch: Add quirks for flipped
+> > axes"), you add code that is dependent on the CONFIG_I2C_DMI_CORE.
+> > However, this config symbol has not been defined anywhere in the
+> > kernel repository. Is this a mistake in your code and you intended to
+> > refer to another config symbol? Is there another patch to come that
+> > adds this config symbol? Or is this a config symbol that only exists
+> > in some out-of-tree repository?
+> >
+> > Something might be odd here, because this code is effectively dead now
+> > with being dependent on a non-existing config symbol.
+> >
+> > Best regards,
+> >
+> > Lukas
+>
 
