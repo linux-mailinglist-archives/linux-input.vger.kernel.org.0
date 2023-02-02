@@ -2,95 +2,165 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDA9C687993
-	for <lists+linux-input@lfdr.de>; Thu,  2 Feb 2023 10:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3495B6879EA
+	for <lists+linux-input@lfdr.de>; Thu,  2 Feb 2023 11:15:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232403AbjBBJ41 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Feb 2023 04:56:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37998 "EHLO
+        id S232001AbjBBKPY convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 2 Feb 2023 05:15:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232453AbjBBJ40 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Feb 2023 04:56:26 -0500
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E53875A3;
-        Thu,  2 Feb 2023 01:56:21 -0800 (PST)
-Received: by mail-oi1-x235.google.com with SMTP id s17so954718ois.10;
-        Thu, 02 Feb 2023 01:56:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rqJ2bM4RcFWC3YKdPNwQw4CDw5pRiYrlonhKnhKfnIc=;
-        b=aktC30zudvFIQmtB4Sp1gTrMEUtsdB0E3tSPY6naP/DC7quRfmd7Ew35iIteA9wB5b
-         pbyFSDr4r6xb19AGw9J3XpWhUyaXz6gRCmURCVBXcvekGOE72qxBSIO/LDlXpm6cALCx
-         9P3IYXsFxO45WD+/e35TE5Z5MlIyE0HZoq5/FnPmVIwpnDH6UFPJTg/W4GPmwxO/m71B
-         E4KcxfPCaQd9Ioft4HBXwKXSsdbvqn46pZbMIpBX8o8gpP/ibpDeCRI9I01KoKiz5icg
-         v6USUS9EX10GTfK+VriL8U8CnKL/QPu6DxLyWzMd9Hxz8aD5GMQQOG52U+eVknH0mhiD
-         yFTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rqJ2bM4RcFWC3YKdPNwQw4CDw5pRiYrlonhKnhKfnIc=;
-        b=qFwHwQwqIWUbnVFIY8UhzXk4AqOHOg/whawQXfOWenEFZbdOSc8Aez2yGZhLoqc0pU
-         9OM48xQ1kP0n3kXKuGwpkRB6KBskAl+BJIr5MYLwEKzVhOC01B15Zt6eMcgNvLVLwqp0
-         PzlmYQixC4uX1u01jk5zins5f1Q++AdohI2APKZvL+TStWI27iIKq3F8UpJViSHNKmZt
-         nixePQBOiEIjAhrXQm7BUCsvyHJCRxh+50HbA6qHNyTaVMATjAwshpfNSjRN6xtPCx1j
-         jZKrjmVd9Yl6/xpj3EGJ4sgd6k1V2Xyq6tPm+Xy6XDQoGiAapJpaD+8SHHG+lZHXJ1F2
-         eHfA==
-X-Gm-Message-State: AO0yUKXvd+2m4Bc82P7EDex/m3WYxJYwCASGPWi0q54O/tsaOFazB6Tq
-        n4NRyTwUyjasdeQIWXzkA2csnz3Wf+Sm3ZpGVsrAEjPa1hI=
-X-Google-Smtp-Source: AK7set/Po9300JuBC+F7tVJoBWPD5tPQ7+3/0skSjAA8iqlz5r8mcAU1qUhOxd+FgKOJmHp33d7UdN8n5NFy/WGW6GM=
-X-Received: by 2002:a05:6808:60e:b0:37a:c636:6af3 with SMTP id
- y14-20020a056808060e00b0037ac6366af3mr93436oih.77.1675331780263; Thu, 02 Feb
- 2023 01:56:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20230109123216.4974-1-fengqi706@gmail.com> <nycvar.YFH.7.76.2301201849090.1734@cbobk.fhfr.pm>
- <CACOZ=ZWB3grJKn7wAZEZ0BDyN7KJF4VWUTNs-mPxeoW_oiR7=g@mail.gmail.com> <nycvar.YFH.7.76.2301301527100.1734@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2301301527100.1734@cbobk.fhfr.pm>
-From:   qi feng <fengqi706@gmail.com>
-Date:   Thu, 2 Feb 2023 17:56:10 +0800
-Message-ID: <CACOZ=ZVd+kreyctS7TjUkcoMm+Kni=jjFi5oN0GTr6JK4MTkMw@mail.gmail.com>
-Subject: Re: [PATCH] HID: add KEY_CAMERA_FOCUS event in HID
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        fengqi <fengqi@xiaomi.com>,
+        with ESMTP id S231917AbjBBKPX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Feb 2023 05:15:23 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BAC8719B8;
+        Thu,  2 Feb 2023 02:15:21 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 1A9CB240009;
+        Thu,  2 Feb 2023 10:15:17 +0000 (UTC)
+Message-ID: <2474ab138c5fbea089bd787d7a885a96e6a57bd1.camel@hadess.net>
+Subject: Re: [PATCH] HID: use standard debug APIs
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 02 Feb 2023 11:15:17 +0100
+In-Reply-To: <20230129215352.oglktngi2rvp6sfd@t-8ch.de>
+References: <20221223-hid-dbg-v1-1-5dcf8794f7f9@weissschuh.net>
+         <20230129215352.oglktngi2rvp6sfd@t-8ch.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I resubmitted V2 according to the standard, please help me to review it
+On Sun, 2023-01-29 at 21:53 +0000, Thomas Weißschuh wrote:
+> Hi Jiri, hi Benjamin,
+> 
+> On Fri, Dec 23, 2022 at 09:30:19PM +0000, Thomas Weißschuh wrote:
+> > The custom "debug" module parameter is fairly inflexible.
+> > It can only manage debugging for all calls dbg_hid() at the same
+> > time.
+> > 
+> > Furthermore it creates a mismatch between calls to hid_dbg() which
+> > can
+> > be managed by CONFIG_DYNAMIC_DEBUG and dbg_hid() which is managed
+> > by the
+> > module parameter.
+> > 
+> > Furthermore the change to pr_debug() allows the debugging
+> > statements to
+> > be completely compiled-out if desired.
+> > 
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
+> > 
+> > Note: This removes the possibility to enable debugging for the HID
+> > core
+> > and all drivers at the same time.
+> > If this is still desirable it could probably be implemented with
+> > the new
+> > DYNAMIC_DEBUG class feature.
+> > ---
+> >  drivers/hid/hid-core.c | 9 ---------
+> >  include/linux/hid.h    | 8 +-------
+> >  2 files changed, 1 insertion(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index bd47628da6be..4facfb446986 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -41,11 +41,6 @@
+> >  
+> >  #define DRIVER_DESC "HID core driver"
+> >  
+> > -int hid_debug = 0;
+> > -module_param_named(debug, hid_debug, int, 0600);
+> > -MODULE_PARM_DESC(debug, "toggle HID debugging messages");
+> > -EXPORT_SYMBOL_GPL(hid_debug);
+> > -
+> >  static int hid_ignore_special_drivers = 0;
+> >  module_param_named(ignore_special_drivers,
+> > hid_ignore_special_drivers, int, 0600);
+> >  MODULE_PARM_DESC(ignore_special_drivers, "Ignore any special
+> > drivers and handle all devices by generic driver");
+> > @@ -2909,10 +2904,6 @@ static int __init hid_init(void)
+> >  {
+> >         int ret;
+> >  
+> > -       if (hid_debug)
+> > -               pr_warn("hid_debug is now used solely for parser
+> > and driver debugging.\n"
+> > -                       "debugfs is now used for inspecting the
+> > device (report descriptor, reports)\n");
+> > -
+> >         ret = bus_register(&hid_bus_type);
+> >         if (ret) {
+> >                 pr_err("can't register hid bus\n");
+> > diff --git a/include/linux/hid.h b/include/linux/hid.h
+> > index 8677ae38599e..676f501507aa 100644
+> > --- a/include/linux/hid.h
+> > +++ b/include/linux/hid.h
+> > @@ -882,8 +882,6 @@ static inline bool hid_is_usb(struct hid_device
+> > *hdev)
+> >  
+> >  /* HID core API */
+> >  
+> > -extern int hid_debug;
+> > -
+> >  extern bool hid_ignore(struct hid_device *);
+> >  extern int hid_add_device(struct hid_device *);
+> >  extern void hid_destroy_device(struct hid_device *);
+> > @@ -1191,11 +1189,7 @@ int hid_pidff_init(struct hid_device *hid);
+> >  #define hid_pidff_init NULL
+> >  #endif
+> >  
+> > -#define dbg_hid(fmt,
+> > ...)                                              \
+> > -do
+> > {                                                                  
+> >  \
+> > -       if
+> > (hid_debug)                                                  \
+> > -               printk(KERN_DEBUG "%s: " fmt, __FILE__,
+> > ##__VA_ARGS__); \
+> > -} while (0)
+> > +#define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__,
+> > ##__VA_ARGS__)
+> >  
+> >  #define hid_err(hid, fmt, ...)                         \
+> >         dev_err(&(hid)->dev, fmt, ##__VA_ARGS__)
+> 
+> any feedback on this patch?
+> 
+> Please note that this is *not* the same as the already merged
+> 34ba3657a503 ("HID: i2c-hid: switch to standard debugging APIs")
 
-thanks a lot
+You can add:
+Tested-by: Bastien Nocera <hadess@hadess.net>
+to this one
 
-Jiri Kosina <jikos@kernel.org> =E4=BA=8E2023=E5=B9=B41=E6=9C=8830=E6=97=A5=
-=E5=91=A8=E4=B8=80 22:28=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sun, 29 Jan 2023, qi feng wrote:
->
-> > Hi,
-> > Our Bluetooth Handle needs the focus function, which is missing in the
-> > current map
-> > If our setting is unreasonable, do you have other suggested values
->
-> If the device is under your control, wouldn't it be better to let it
-> produce something more defined by HID standard? (see e.g. 0x90 -- Camera
-> Control Page).
->
+I tested it as a way to debug the Logitech G903 regression.
+
+I should note that it's pretty weird to have a dbg_hid() and a
+hid_dbg() that do pretty much the same thing, but that was a pre-
+existing problem.
+
+> 
+> > ---
+> > base-commit: 51094a24b85e29138b7fa82ef1e1b4fe19c90046
+> > change-id: 20221223-hid-dbg-2f3eeddddd53
+> > 
+> > Best regards,
+> > -- 
+> > Thomas Weißschuh <linux@weissschuh.net>
+> 
 > Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
+> Thomas
+
