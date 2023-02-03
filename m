@@ -2,206 +2,186 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7110A68A4F1
-	for <lists+linux-input@lfdr.de>; Fri,  3 Feb 2023 22:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22F6B68A5D7
+	for <lists+linux-input@lfdr.de>; Fri,  3 Feb 2023 23:12:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233822AbjBCVvw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Feb 2023 16:51:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49592 "EHLO
+        id S234104AbjBCWML (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Feb 2023 17:12:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233817AbjBCVvv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Feb 2023 16:51:51 -0500
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 695FEA58ED
-        for <linux-input@vger.kernel.org>; Fri,  3 Feb 2023 13:51:29 -0800 (PST)
-Received: by mail-qt1-x830.google.com with SMTP id v17so7149691qto.3
-        for <linux-input@vger.kernel.org>; Fri, 03 Feb 2023 13:51:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gyzeDLExfIbsxff9QObmtNG4lfZckN3yKuHNHqYzaj4=;
-        b=jzLkC6PNT9EC2hINdAfPc9DBtF067lkcwjr5vEJGbBIBazS/lbGid52ycLrWOrCHS2
-         ueLiPxhmtbsAe5LpMexLIlEeVwYEQh58D4Mcm1khz6Rn7rZnP80vnre4uM4pijkc9weN
-         gTrafgSXHv52/A+Xdib+LIA9H3cmYRoO1t6YkXf/Qij7qWG8+0ihsrlKOZVuyADuZPQj
-         2XYY4gE99w8cF2JVFOZ49k7J13QVhxXTP/kbXxB4KNy0Mw0SP+wLsQfZ+7WfJfsCi4Rz
-         BUTryEopv6ABewE8pUYn0L8BTARExDtBvImDuTh+Lxf/bKBahmoVabvl/pNs764VnrED
-         Xe/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gyzeDLExfIbsxff9QObmtNG4lfZckN3yKuHNHqYzaj4=;
-        b=ln0NFN37ilBVSRDUhHxVvBUM+QMESd30ySEbEg1mNdlYQYXV8IflLMvTn/ug4KwkA8
-         kkvGIRumy3w23vf696mPmDtyelDQ9bMFIE+IPZWTAQaUpvageee19fKGKKsZYI0fMayD
-         4fErfT6uraLielKXKD45lBotQFXhmv5o5/EZ7pevr9wx4Px42t4QzSuUSrITU7uAVwXR
-         7vk6zoXn7WWTEcFX4yFZut8pWfaWHK5qE/HTPAIyp2LdY8BKZyWdsfnP6OHWNlUpDMaM
-         gyL/2piJSJbN5p9oymItaeu4QTxffp2z6A6vBiKua/vB+6gpdzEzMETUL/PaMjCSUnU+
-         ZF4A==
-X-Gm-Message-State: AO0yUKUfY4f+C0+pUSFg4XrikVQaXE4iCXK/WIJtoBlHsnhPKRj1ZST9
-        vQVe+byTeYw5D1SyzlgtJlaA8n2ZZ7w=
-X-Google-Smtp-Source: AK7set8Js130Rn2+P6BmRZKzm32p2kB9ZmfgHLYxZYHMHnb9aXhlHc2DFJuIqUg6rlXqXR/67Cor/w==
-X-Received: by 2002:ac8:7fc3:0:b0:3b8:6a5f:9918 with SMTP id b3-20020ac87fc3000000b003b86a5f9918mr22052721qtk.63.1675461087798;
-        Fri, 03 Feb 2023 13:51:27 -0800 (PST)
-Received: from Arrakis.djogorchock.com (pool-173-68-97-122.nycmny.fios.verizon.net. [173.68.97.122])
-        by smtp.gmail.com with ESMTPSA id r10-20020ac83b4a000000b003b9bcd88f7dsm2277408qtf.43.2023.02.03.13.51.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 13:51:26 -0800 (PST)
-From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        Roderick.Colenbrander@sony.com,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v0 2/2] HID: nintendo: fix rumble rate limiter
-Date:   Fri,  3 Feb 2023 16:51:18 -0500
-Message-Id: <20230203215119.435091-3-djogorchock@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230203215119.435091-1-djogorchock@gmail.com>
-References: <20230203215119.435091-1-djogorchock@gmail.com>
+        with ESMTP id S234129AbjBCWLx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Feb 2023 17:11:53 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on20617.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eab::617])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C399EAF507;
+        Fri,  3 Feb 2023 14:10:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T9ObeiM/jrOY2JKkR4ne3LQjCrULo8MLpeOjZvkhUjPrsXV0lRXaV1pq/a4iZF1i7HCOtt3BrEqqNlU1cLPUvMyetnIsMhK40c+5hBK8+ynOOP+So6MEwJ3wZ+/EqJBx+IqiAHotJoxGK6XmRh4bP370TDR6MNe2Yw31njw1ZyWjnFPV3RUJy93uwAMthilL/TxSnp4QP8gCdLp9P/iyWe7TbRbb6DkXmz9eLOAB5l7ttoDeDv9Tq5XiCfIvF3tBCvqpARmz4LO9Fb9beeLezgTl1YcIsbNX2kIgrBXM8QXYV4ZKhjfGmGKIiIVqJ9oMCS0Q3qaU500flDcyYhcq6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x+x5ccW4x02WYaNJ9Rz0NmnKDMIdRwcX3LDIqsLWlcA=;
+ b=icz8RGGyRqoXnNyqHXj1g7YLhWJFtAy8dPVcgtsruwhSRkG3CWYX0FDVC0TkyMHKL5av+6Sg9Zv89PiHu8aZksIYGHQkTi5MslZ74A1VZe0Mn6XZFVzp1tqD3o3b1FDCKwoxn/hMZeydCjmylobLVFYwPYxBgi8pQE5PvdHOR3b0ptcfNQNXA0ktp2+xoi9dC4vZOAiudqVwXdygK4s+UP+6myFnjTwPPoOceGae98vDO5JQiczjnCVw/Xk6Y7+e/sbQG6nBrvvixMDU2tk1IKCl/s21F8XOE584uL6yJyVPTxN7UmKpI9oPROuno+G5GVTtT+7jNekH+KEezl32vQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=suse.cz smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x+x5ccW4x02WYaNJ9Rz0NmnKDMIdRwcX3LDIqsLWlcA=;
+ b=PsriZny04PqwRMUhtee5NbiZRCgmSFTqO3Ogmmss0By54pppOkzBA9B2XbaZtiNcR4v+yxJM7TV7deu7+GqV3wBjenuh18oCSaq+1XRICZ6IQHpbG0Dbp6IRPpfvoAoJAkSo0WlZ6/fYbW64CYAYPxckTPymRLhuSSPQc7QvM0U=
+Received: from DM5PR08CA0044.namprd08.prod.outlook.com (2603:10b6:4:60::33) by
+ PH7PR12MB5952.namprd12.prod.outlook.com (2603:10b6:510:1db::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6043.38; Fri, 3 Feb 2023 22:09:03 +0000
+Received: from DM6NAM11FT111.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:60:cafe::38) by DM5PR08CA0044.outlook.office365.com
+ (2603:10b6:4:60::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.31 via Frontend
+ Transport; Fri, 3 Feb 2023 22:09:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT111.mail.protection.outlook.com (10.13.173.26) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6064.31 via Frontend Transport; Fri, 3 Feb 2023 22:09:02 +0000
+Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 3 Feb
+ 2023 16:09:01 -0600
+From:   Mario Limonciello <mario.limonciello@amd.com>
+To:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Jiri Kosina <jkosina@suse.cz>
+CC:     Mario Limonciello <mario.limonciello@amd.com>,
+        Xaver Hugl <xaver.hugl@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] HID: amd_sfh: if no sensors are enabled, clean up
+Date:   Fri, 3 Feb 2023 16:08:49 -0600
+Message-ID: <20230203220850.13924-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT111:EE_|PH7PR12MB5952:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2324cf81-8c83-4350-9430-08db06334230
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 43UiYRG5ji2S+ebZfxkPdEgP12qnXSYu7Di8uggOabPaP/6hP7G8RWvP82AMtQllClRAzjebJ15C4ltlAZLYj5amuq68i2UfaGFX1YcvijhllI3dX/Wwf9npMGMP36dUS/Peldh5QYgiD6TOP2Kw7RBwwQhmq/RLR/g/O+9zWBs73ziNtT/yIf7QW0FA9JyWf9OXDv71GBfeArlJdMJ9H2rgTWlGvVThuR+B62eeVjea5LfQlOKyzDZAqt7bpKw0doFlJ/kxWNVnP6UmcGWSn42/mrWll6KoNy6uCpwF1n4dGFVDHT4bw77RbhfH2EP//oPQ0PaioDDjOHEsoxdOFNuLFQxWV4gNqlUDOBtZ5CvyhGPe5VrYhvhhgWjN12/a0UuwIeBZvo5rH/uf3IVpqk0H/ClkvXo6eAZn7+/aXt8hza/CxvyzN4ee1mveDfJJQrbFWaO3cnLr1gjRP9wBrhFnnVp5EbgBkQezQzuyt6ZVJ3IsTXMpnMPwLlcW4csKJs+2e8Z2vFF+v/FSehXOuhH6wPrM4w5wMSJqpg1YXu2YVFV6Hm50jACm+qRBH9k/Vx9CNwMKYvQPP2Jgn4C3p1E4twmbb9w7fTFi735JRVb631BvtMyGSu0vLhi/1OOVwPGKbqSxAb9mAmw1VAW3/kKZeiMTIwDJi8jYbwUzzw2ds+Tn4EC6LQK+/mOeZS3t
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(376002)(396003)(346002)(451199018)(36840700001)(46966006)(40470700004)(2616005)(336012)(6666004)(82310400005)(316002)(47076005)(83380400001)(426003)(54906003)(44832011)(36756003)(2906002)(82740400003)(110136005)(5660300002)(70586007)(478600001)(26005)(40460700003)(7696005)(186003)(966005)(356005)(8676002)(16526019)(36860700001)(41300700001)(81166007)(70206006)(1076003)(8936002)(40480700001)(86362001)(4326008)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2023 22:09:02.5698
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2324cf81-8c83-4350-9430-08db06334230
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT111.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5952
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,SPF_HELO_PASS,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It's been discovered that BT controller disconnect events correlate to
-erratic input report timestamp deltas.
+It was reported that commit b300667b33b2 ("HID: amd_sfh: Disable the
+interrupt for all command") had caused increased resume time on HP Envy
+x360.
 
-In experimentation, it's been found that ensuring that multiple
-timestamp deltas are consistent prior to transmitting a rumble packet
-drastically reduces the occurence rate of BT disconnects.
+Before this commit 3 sensors were reported, but they were not actually
+functional.  After this commit the sensors are no longer reported, but
+also the resume time increased.
 
-Alter the joycon_enforce_subcmd_rate() function to use this new
-approach.
+To avoid this problem explicitly look for the number of disabled sensors.
+If all the sensors are disabled, clean everything up.
 
-Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
+Fixes: b300667b33b2 ("HID: amd_sfh: Disable the interrupt for all command")
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2115
+Reported-by: Xaver Hugl <xaver.hugl@gmail.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/hid/hid-nintendo.c | 75 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 69 insertions(+), 6 deletions(-)
+v1->v2:
+ * Use a boolean parameter instead
+---
+ drivers/hid/amd-sfh-hid/amd_sfh_client.c | 13 +++++++++++--
+ drivers/hid/amd-sfh-hid/amd_sfh_hid.h    |  1 +
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 2b781cc9082b4..250f5d2f888ab 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -433,7 +433,9 @@ struct joycon_ctlr {
- 	u8 usb_ack_match;
- 	u8 subcmd_ack_match;
- 	bool received_input_report;
-+	unsigned int last_input_report_msecs;
- 	unsigned int last_subcmd_sent_msecs;
-+	unsigned int consecutive_valid_report_deltas;
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+index 1fb0f7105fb21..c751d12f5df89 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+@@ -227,6 +227,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+ 	cl_data->num_hid_devices = amd_mp2_get_sensor_num(privdata, &cl_data->sensor_idx[0]);
+ 	if (cl_data->num_hid_devices == 0)
+ 		return -ENODEV;
++	cl_data->is_any_sensor_enabled = false;
  
- 	/* factory calibration data */
- 	struct joycon_stick_cal left_stick_cal_x;
-@@ -543,19 +545,54 @@ static void joycon_wait_for_input_report(struct joycon_ctlr *ctlr)
-  * Sending subcommands and/or rumble data at too high a rate can cause bluetooth
-  * controller disconnections.
-  */
-+#define JC_INPUT_REPORT_MIN_DELTA	8
-+#define JC_INPUT_REPORT_MAX_DELTA	17
-+#define JC_SUBCMD_TX_OFFSET_MS		4
-+#define JC_SUBCMD_VALID_DELTA_REQ	3
-+#define JC_SUBCMD_RATE_MAX_ATTEMPTS	500
-+#define JC_SUBCMD_RATE_LIMITER_USB_MS	20
-+#define JC_SUBCMD_RATE_LIMITER_BT_MS	60
-+#define JC_SUBCMD_RATE_LIMITER_MS(ctlr)	((ctlr)->hdev->bus == BUS_USB ? JC_SUBCMD_RATE_LIMITER_USB_MS : JC_SUBCMD_RATE_LIMITER_BT_MS)
- static void joycon_enforce_subcmd_rate(struct joycon_ctlr *ctlr)
- {
--	static const unsigned int max_subcmd_rate_ms = 25;
--	unsigned int current_ms = jiffies_to_msecs(jiffies);
--	unsigned int delta_ms = current_ms - ctlr->last_subcmd_sent_msecs;
-+	unsigned int current_ms;
-+	unsigned long subcmd_delta;
-+	int consecutive_valid_deltas = 0;
-+	int attempts = 0;
-+	unsigned long flags;
-+
-+	if (unlikely(ctlr->ctlr_state != JOYCON_CTLR_STATE_READ))
-+		return;
- 
--	while (delta_ms < max_subcmd_rate_ms &&
--	       ctlr->ctlr_state == JOYCON_CTLR_STATE_READ) {
-+	do {
- 		joycon_wait_for_input_report(ctlr);
- 		current_ms = jiffies_to_msecs(jiffies);
--		delta_ms = current_ms - ctlr->last_subcmd_sent_msecs;
-+		subcmd_delta = current_ms - ctlr->last_subcmd_sent_msecs;
-+
-+		spin_lock_irqsave(&ctlr->lock, flags);
-+		consecutive_valid_deltas = ctlr->consecutive_valid_report_deltas;
-+		spin_unlock_irqrestore(&ctlr->lock, flags);
-+
-+		attempts++;
-+	} while ((consecutive_valid_deltas < JC_SUBCMD_VALID_DELTA_REQ ||
-+		  subcmd_delta < JC_SUBCMD_RATE_LIMITER_MS(ctlr)) &&
-+		 ctlr->ctlr_state == JOYCON_CTLR_STATE_READ &&
-+		 attempts < JC_SUBCMD_RATE_MAX_ATTEMPTS);
-+
-+	if (attempts >= JC_SUBCMD_RATE_MAX_ATTEMPTS) {
-+		hid_warn(ctlr->hdev, "%s: exceeded max attempts", __func__);
-+		return;
+ 	INIT_DELAYED_WORK(&cl_data->work, amd_sfh_work);
+ 	INIT_DELAYED_WORK(&cl_data->work_buffer, amd_sfh_work_buffer);
+@@ -287,6 +288,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+ 		status = amd_sfh_wait_for_response
+ 				(privdata, cl_data->sensor_idx[i], SENSOR_ENABLED);
+ 		if (status == SENSOR_ENABLED) {
++			cl_data->is_any_sensor_enabled = true;
+ 			cl_data->sensor_sts[i] = SENSOR_ENABLED;
+ 			rc = amdtp_hid_probe(cl_data->cur_hid_dev, cl_data);
+ 			if (rc) {
+@@ -301,19 +303,26 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+ 					cl_data->sensor_sts[i]);
+ 				goto cleanup;
+ 			}
++		} else {
++			cl_data->sensor_sts[i] = SENSOR_DISABLED;
++			dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
++				cl_data->sensor_idx[i],
++				get_sensor_name(cl_data->sensor_idx[i]),
++				cl_data->sensor_sts[i]);
+ 		}
+ 		dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
+ 			cl_data->sensor_idx[i], get_sensor_name(cl_data->sensor_idx[i]),
+ 			cl_data->sensor_sts[i]);
  	}
-+
- 	ctlr->last_subcmd_sent_msecs = current_ms;
-+
-+	/*
-+	 * Wait a short time after receiving an input report before
-+	 * transmitting. This should reduce odds of a TX coinciding with an RX.
-+	 * Minimizing concurrent BT traffic with the controller seems to lower
-+	 * the rate of disconnections.
-+	 */
-+	msleep(JC_SUBCMD_TX_OFFSET_MS);
- }
- 
- static int joycon_hid_send_sync(struct joycon_ctlr *ctlr, u8 *data, size_t len,
-@@ -1223,6 +1260,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 	u8 tmp;
- 	u32 btns;
- 	unsigned long msecs = jiffies_to_msecs(jiffies);
-+	unsigned long report_delta_ms = msecs - ctlr->last_input_report_msecs;
- 
- 	spin_lock_irqsave(&ctlr->lock, flags);
- 	if (IS_ENABLED(CONFIG_NINTENDO_FF) && rep->vibrator_report &&
-@@ -1364,6 +1402,31 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 
- 	input_sync(dev);
- 
-+	spin_lock_irqsave(&ctlr->lock, flags);
-+	ctlr->last_input_report_msecs = msecs;
-+	/*
-+	 * Was this input report a reasonable time delta compared to the prior
-+	 * report? We use this information to decide when a safe time is to send
-+	 * rumble packets or subcommand packets.
-+	 */
-+	if (report_delta_ms >= JC_INPUT_REPORT_MIN_DELTA &&
-+	    report_delta_ms <= JC_INPUT_REPORT_MAX_DELTA) {
-+		if (ctlr->consecutive_valid_report_deltas < JC_SUBCMD_VALID_DELTA_REQ)
-+			ctlr->consecutive_valid_report_deltas++;
-+	} else {
-+		ctlr->consecutive_valid_report_deltas = 0;
-+	}
-+	/*
-+	 * Our consecutive valid report tracking is only relevant for
-+	 * bluetooth-connected controllers. For USB devices, we're beholden to
-+	 * USB's underlying polling rate anyway. Always set to the consecutive
-+	 * delta requirement.
-+	 */
-+	if (ctlr->hdev->bus == BUS_USB)
-+		ctlr->consecutive_valid_report_deltas = JC_SUBCMD_VALID_DELTA_REQ;
-+
-+	spin_unlock_irqrestore(&ctlr->lock, flags);
-+
- 	/*
- 	 * Immediately after receiving a report is the most reliable time to
- 	 * send a subcommand to the controller. Wake any subcommand senders
+-	if (mp2_ops->discovery_status && mp2_ops->discovery_status(privdata) == 0) {
++	if (!cl_data->is_any_sensor_enabled ||
++	   (mp2_ops->discovery_status && mp2_ops->discovery_status(privdata) == 0)) {
+ 		amd_sfh_hid_client_deinit(privdata);
+ 		for (i = 0; i < cl_data->num_hid_devices; i++) {
+ 			devm_kfree(dev, cl_data->feature_report[i]);
+ 			devm_kfree(dev, in_data->input_report[i]);
+ 			devm_kfree(dev, cl_data->report_descr[i]);
+ 		}
+-		dev_warn(dev, "Failed to discover, sensors not enabled\n");
++		dev_warn(dev, "Failed to discover, sensors not enabled is %d\n", cl_data->is_any_sensor_enabled);
+ 		return -EOPNOTSUPP;
+ 	}
+ 	schedule_delayed_work(&cl_data->work_buffer, msecs_to_jiffies(AMD_SFH_IDLE_LOOP));
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
+index 3754fb423e3ae..528036892c9d2 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
+@@ -32,6 +32,7 @@ struct amd_input_data {
+ struct amdtp_cl_data {
+ 	u8 init_done;
+ 	u32 cur_hid_dev;
++	bool is_any_sensor_enabled;
+ 	u32 hid_dev_count;
+ 	u32 num_hid_devices;
+ 	struct device_info *hid_devices;
 -- 
-2.39.1
+2.25.1
 
