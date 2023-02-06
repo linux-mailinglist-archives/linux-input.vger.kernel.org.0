@@ -2,80 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C212868C515
-	for <lists+linux-input@lfdr.de>; Mon,  6 Feb 2023 18:48:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 565DC68C92A
+	for <lists+linux-input@lfdr.de>; Mon,  6 Feb 2023 23:13:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbjBFRr6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Feb 2023 12:47:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46816 "EHLO
+        id S229788AbjBFWNF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Feb 2023 17:13:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229994AbjBFRr4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 12:47:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE092A16F
-        for <linux-input@vger.kernel.org>; Mon,  6 Feb 2023 09:47:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675705625;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8kU/0Xl/lLioSQe+1DD5y93hh4p9Kul9hBcSRrRm2WM=;
-        b=cT2b3I7e+R5ytZN8lkAt15oiXVvrs8bCrgioFDV+nMovMtkCaxvYFqa6rzLXdUbTFSPpK+
-        x8HQUX2L+XwKcU8i2uQQyL5/t4GQ7aMPKgM3t3zM4FppbWy2GuYnolTivacrQGRW4K20xI
-        lX3Dq/QzbouKJoT1WGwVlwJhOpYk/W4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-81-wNvbI6y2Niq_8PudbmjNCA-1; Mon, 06 Feb 2023 12:47:04 -0500
-X-MC-Unique: wNvbI6y2Niq_8PudbmjNCA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8352183B3C7;
-        Mon,  6 Feb 2023 17:47:03 +0000 (UTC)
-Received: from plouf.local (ovpn-192-160.brq.redhat.com [10.40.192.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 137241121315;
-        Mon,  6 Feb 2023 17:47:02 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Philippe Valembois <lephilousophe@gmail.com>
-In-Reply-To: <20230125211511.12266-1-lephilousophe@gmail.com>
-References: <20230123211843.10028-1-lephilousophe@gmail.com>
- <20230125211511.12266-1-lephilousophe@gmail.com>
-Subject: Re: [PATCH v3 1/1] HID: evision: Add preliminary support for
- EVision keyboards
-Message-Id: <167570562271.2904739.17104170264756053608.b4-ty@redhat.com>
-Date:   Mon, 06 Feb 2023 18:47:02 +0100
+        with ESMTP id S229568AbjBFWNE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 17:13:04 -0500
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E970D1167E;
+        Mon,  6 Feb 2023 14:13:00 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 8C04560004;
+        Mon,  6 Feb 2023 22:12:57 +0000 (UTC)
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Subject: [PATCH v2 1/3] HID: logitech-hidpp: Add more debug statements
+Date:   Mon,  6 Feb 2023 23:12:54 +0100
+Message-Id: <20230206221256.129198-1-hadess@hadess.net>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 25 Jan 2023 22:15:10 +0100, Philippe Valembois wrote:
-> For now only supports one model and only filters out bogus reports sent
-> when the keyboard has been configured through hidraw.
-> Without this, as events are not released, soft repeat floods userspace
-> with unknown key events.
-> 
-> 
+This should help us figure out some hairy problems with some devices.
 
-Applied to https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git (for-6.3/evision), thanks!
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+---
 
-[1/1] HID: evision: Add preliminary support for EVision keyboards
-      https://git.kernel.org/hid/hid/c/f5cd71cfdb5c
+Fixed kernel test bot warning:
+   drivers/hid/hid-logitech-hidpp.c: In function 'hidpp_send_fap_command_sync':
+>> drivers/hid/hid-logitech-hidpp.c:343:25: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'unsigned int' [-Wformat=]
+     343 |                         "Invalid number of parameters passed to command (%d != %ld)\n",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Cheers,
+ drivers/hid/hid-logitech-hidpp.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index f44ba7be3cc5..1952d8d3b6b2 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -338,8 +338,13 @@ static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
+ 	struct hidpp_report *message;
+ 	int ret;
+ 
+-	if (param_count > sizeof(message->fap.params))
++	if (param_count > sizeof(message->fap.params)) {
++		hid_dbg(hidpp->hid_dev,
++			"Invalid number of parameters passed to command (%d != %llu)\n",
++			param_count,
++			(unsigned long long) sizeof(message->fap.params));
+ 		return -EINVAL;
++	}
+ 
+ 	message = kzalloc(sizeof(struct hidpp_report), GFP_KERNEL);
+ 	if (!message)
+@@ -3440,11 +3445,17 @@ static int hi_res_scroll_enable(struct hidpp_device *hidpp)
+ 		ret = hidpp10_enable_scrolling_acceleration(hidpp);
+ 		multiplier = 8;
+ 	}
+-	if (ret)
++	if (ret) {
++		hid_dbg(hidpp->hid_dev,
++			"Could not enable hi-res scrolling: %d\n", ret);
+ 		return ret;
++	}
+ 
+-	if (multiplier == 0)
++	if (multiplier == 0) {
++		hid_dbg(hidpp->hid_dev,
++			"Invalid multiplier 0 from device, setting it to 1\n");
+ 		multiplier = 1;
++	}
+ 
+ 	hidpp->vertical_wheel_counter.wheel_multiplier = multiplier;
+ 	hid_dbg(hidpp->hid_dev, "wheel multiplier = %d\n", multiplier);
 -- 
-Benjamin Tissoires <benjamin.tissoires@redhat.com>
+2.39.1
 
