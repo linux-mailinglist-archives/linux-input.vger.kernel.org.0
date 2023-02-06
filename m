@@ -2,63 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AC5868C9BB
-	for <lists+linux-input@lfdr.de>; Mon,  6 Feb 2023 23:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4324C68CA5C
+	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 00:14:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbjBFWp7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Feb 2023 17:45:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57384 "EHLO
+        id S229698AbjBFXOg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Feb 2023 18:14:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbjBFWp6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 17:45:58 -0500
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A27930292;
-        Mon,  6 Feb 2023 14:45:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-        t=1675723555; bh=GIC3tTL/tf2O2wwjbxfda9MuiAPNhorCginPDgE6TtY=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=SV8dbsPhdygHy+0aIW90ORwH3to022FtJ/WADg9gLH2FR2QaPft4PAnmZg6PRd1Zp
-         68tKSKhFCsZonqXRDbucB/MePeyzoi7eHpqjAzXaq5DgnOzZ51BBCz2P1sDBIyRtNT
-         fN+CtQaI3ZgSLbA8Mc0uLMmuiK0LoKduksLYGgRniOnjtJlsnA/j8R+pffMGUsBoiz
-         W0ezCTGMz6WRUiFFEUGxr38XwFLaVnAdWKP/xEa/tJsLq8YSr2DZeAaP+AJpNGgzc9
-         72nmII0Z3uXiyuhX9SjJju+cyNyJCotdoci7hdMnGJXUdEamznCTiIFTbs+O2pyyeL
-         uQcjE2Cn8UREA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from luka-spectre.fritz.box ([77.180.149.249]) by smtp.web.de
- (mrweb105 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 1MoecF-1onPe40NDt-00ozYg; Mon, 06 Feb 2023 23:33:13 +0100
-From:   Luka Guzenko <l.guzenko@web.de>
-To:     benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luka Guzenko <l.guzenko@web.de>
-Subject: [PATCH] HID: Ignore battery for ELAN touchscreen on HP ENVY X360 13-ar0xxx
-Date:   Mon,  6 Feb 2023 23:32:18 +0100
-Message-Id: <20230206223218.165134-1-l.guzenko@web.de>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S229826AbjBFXOf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 18:14:35 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE083C2C;
+        Mon,  6 Feb 2023 15:14:33 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id be8so13845458plb.7;
+        Mon, 06 Feb 2023 15:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WPeiolN5TtOZxJBSyBY1/BUm2msoPNJX+opBS614acE=;
+        b=lU7G6ad+KppWcO8IyzV/ABInSNR04C7iCSM5SCr+U52Jicp+3schuiGecqLoYwrKxV
+         7WXiH3gTzs4co6ByxH+Kk7LIK/5SKlEs3ZhPWpxgcBMs9RoL+ywdNXIFynXXIWJvCKov
+         51avSgC1FSmcj0S9gIpQGDi52p2z5BgpZP0WgAp3HmgoBQklKjnClabXvYv4PW1w2iZk
+         356zk9PWOmoQ1gtCKaswfUrejh5jLCexByd5L0OzSXh4iwCSvZrE5H8OUTg3h0rhysF1
+         /YZy0NmxK9IKq1w7YiZTs12w8JaxXlryH0Xj4vCTVy2VMb80iKANcm6wPXNXKOA0GEQ5
+         iEgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WPeiolN5TtOZxJBSyBY1/BUm2msoPNJX+opBS614acE=;
+        b=g1IG/AqdGQ9ZxUklIdJb9yasdIEcT1t8UOJpWA/O+1PMlahnzCXSImsOIb0vSXrY0X
+         u6wo6Bgqol/4bS5FF76RnBC6lkJ7d7VzLoKMQjp68GV8SQ1Cy53w5alje6O9TIClkIK8
+         DwXfcAOTlbHdjpUVBdK9H+FlXTpFiVnkkyMHrJ/U7CYvuCt+0Ms7aA6+Up8WTeJoobZR
+         /hnj6DGh0s13eGKfl6kv2KXgTZNHgxkH5VgEx27AVmp90yY/5d2kHLxf2LwfofSgV1mC
+         eh+DAC9FTipJ31D1c8NOGElV9c33Wy+hKtk3OeIq190Furyckte487oyykrh9qs6+zNc
+         I87w==
+X-Gm-Message-State: AO0yUKXnRSth7qbDdcyHRdsiHwElrp2++PPW1WQdtENMi55+XawdF8Ry
+        jE85TAl3asM3oOBNAN3DWlo=
+X-Google-Smtp-Source: AK7set+J1i0/lOprTA7vLEivyG1SphGWO9nzgCvbkM4CCcdJGgyaqbPWsanDFF4LN4yNK3++n1VQIA==
+X-Received: by 2002:a05:6a20:5498:b0:be:b49e:a634 with SMTP id i24-20020a056a20549800b000beb49ea634mr1176653pzk.23.1675725273185;
+        Mon, 06 Feb 2023 15:14:33 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:991d:5689:64f0:6f3c])
+        by smtp.gmail.com with ESMTPSA id m20-20020a056a00081400b0058da7e58008sm7706630pfk.36.2023.02.06.15.14.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Feb 2023 15:14:32 -0800 (PST)
+Date:   Mon, 6 Feb 2023 15:14:29 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Danny Kaehn <kaehndan@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        ethan.twardy@plexus.com
+Subject: Re: [PATCH v4 2/4] HID: usbhid: Share USB device devicetree node
+ with child HID device
+Message-ID: <Y+GJ1SB6RNMZRBq/@google.com>
+References: <20230206135016.6737-1-kaehndan@gmail.com>
+ <20230206135016.6737-3-kaehndan@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+UbsIwvatb2wLqWu1Rrcz0XkEx6L4z6oOodzzuGRKYoLgDYy/ER
- fc0jIfgyKPmAtUN2D8TB89rFZFMZJiZ6nUKmHJVveK6vF5M/N23RpnIFEXDGZIs3ISxwF++
- H4EF7ZaIeleqjXUmnPMV2GJIxhjWMGjSQdfcvXgs26iWbG+2hbnRgeBFT2C9MUjCQR7Gcfm
- zwvWlrqNdOQVfmRM6cMNw==
-UI-OutboundReport: notjunk:1;M01:P0:rSkds/jlVMU=;Rkg2RXNxWMOK2XDOTnCk2arOY7M
- BbU/A+uxiJmW/kGKUBNptV79KrhJz06pQue65vh2Soe5wZ1AN8pcmVHXlG7iGVuddSzHPiZTE
- 3ZehcBweR49yffgJFl+4EMGDGDFL20qcaBRCOHISl1cYOagpiCh5rz88e0yT9fX2KhIChxRmm
- RaOskY85edIztlJ9I2ujMEBoIitLiUuXQnTpBY8C3o4Vy/C4oD+Iw/Yr1znqKuhM8VXgp/ciK
- go86rm8GJJts+rIEYIaAjMNEjEo7n15i+Q6YRUlWoMaeq0LkOhCsOwsLYADDvxoqR9e9i01xx
- aN0CVBEWX4677tYtt9j0dzZ+vpNWdfOyJv5iVcxuKWLHwwCUBt00ggrYY5b2gD+w5moMCTODC
- WvkEflz9apcoFtL3/9SQtphB/lFkcBUZAHzQ2NLLKCTERFbEsw7QAlz704L7OVShepwHluU2/
- FhdNu7zVcG26Me6jDRqPxrqE2bzWvUxHaylJmrJcHT6CitlZ3orX7fWlot9luajYxKSNRvCFd
- hF2AmD+CcqH4nCLAXwVB3t63OCgRRoNIcI7lg9UEft2Fdg2EUidsVXhT47FtHO4fGr4bs+mX2
- ylGeUK2msUl+RwmUQvNWWu3TAbx7nhmB6HMPUOSTWSJ0EoEB89XSjibEGoIcpg/WiB+JomR9L
- roBtxJdzKwrFUJbsfgHf20HPdOLqR6X2up8v1D7iaAFmzUSjj5EYDxfqhJG/G3jBisjJd1SWO
- /goTlinmMRQB6SW6JGSdNCiaZfso/X7Njeot+aTtGMvHU8NUPpA1TW7vZ/JUASmvFW2QvU1nb
- V9FMRavwyJMoGUCg31KN6W0czGUtCi9O0DYr7uVn/rL6mmXlWeEQ7MBw9jSUufpgcJlC8jRcF
- HQ8kiQltmPpRTXgzAsDW3BljwSGa2UcedpzyYGQyS8Vzjw1rsFm/aLwLW+RSTTXMx/UgHrdYD
- QyHpYrLiQJtMqBaTBQ3qniQ3OXQ=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230206135016.6737-3-kaehndan@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,45 +74,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ignore the reported battery level of the built-in touchscreen to suppress
-battery warnings when a stylus is used. The device ID was added and the
-battery ignore quirk was enabled.
+Hi Danny,
 
-Signed-off-by: Luka Guzenko <l.guzenko@web.de>
-=2D--
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
+On Mon, Feb 06, 2023 at 07:50:14AM -0600, Danny Kaehn wrote:
+> USB HID core now shares its devicetree of_node with its child HID device.
+> Since there can only be one HID device on a USB interface, it is redundant
+> to specify a hid node under the USB device (and further, binding this way
+> isn't currently possible, as hid_driver does not support of_match_table).
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0f8c11842a3a..ea6cd7dfa459 100644
-=2D-- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -409,6 +409,7 @@
- #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
- #define USB_DEVICE_ID_HP_X2		0x074d
- #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
-+#define I2C_DEVICE_ID_HP_ENVY_X360_13_AR0XXX	0x23B9
- #define I2C_DEVICE_ID_HP_ENVY_X360_15	0x2d05
- #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
- #define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 9b59e436df0a..8dc090d9f2d6 100644
-=2D-- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -376,6 +376,8 @@ static const struct hid_device_id hid_battery_quirks[]=
- =3D {
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE, USB_DEVICE_ID_UGEE_XPPEN_TABLET_DEC=
-O_L),
- 	  HID_BATTERY_QUIRK_AVOID_QUERY },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_13_AR0XX=
-X),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15),
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15T_DR10=
-0),
-=2D-
-2.39.1
+Why do we do that only for OF? Can we use device_set_node() instead?
 
+> 
+> Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
+> ---
+>  drivers/hid/usbhid/hid-core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+> index be4c731aaa65..b6c968af258f 100644
+> --- a/drivers/hid/usbhid/hid-core.c
+> +++ b/drivers/hid/usbhid/hid-core.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/hiddev.h>
+>  #include <linux/hid-debug.h>
+>  #include <linux/hidraw.h>
+> +#include <linux/device.h>
+>  #include "usbhid.h"
+>  
+>  /*
+> @@ -1369,6 +1370,7 @@ static int usbhid_probe(struct usb_interface *intf, const struct usb_device_id *
+>  	hid->hiddev_report_event = hiddev_report_event;
+>  #endif
+>  	hid->dev.parent = &intf->dev;
+> +	device_set_of_node_from_dev(&hid->dev, &intf->dev);
+>  	hid->bus = BUS_USB;
+>  	hid->vendor = le16_to_cpu(dev->descriptor.idVendor);
+>  	hid->product = le16_to_cpu(dev->descriptor.idProduct);
+> -- 
+> 2.25.1
+> 
+
+Thanks.
+
+-- 
+Dmitry
