@@ -2,64 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACD0968C92B
-	for <lists+linux-input@lfdr.de>; Mon,  6 Feb 2023 23:13:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AC5868C9BB
+	for <lists+linux-input@lfdr.de>; Mon,  6 Feb 2023 23:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbjBFWNG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Feb 2023 17:13:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
+        id S229591AbjBFWp7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Feb 2023 17:45:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbjBFWNF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 17:13:05 -0500
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B315611E96;
-        Mon,  6 Feb 2023 14:13:04 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id AEAA860006;
-        Mon,  6 Feb 2023 22:13:01 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: [PATCH v2 3/3] HID: logitech-hidpp: Add myself to authors
-Date:   Mon,  6 Feb 2023 23:12:56 +0100
-Message-Id: <20230206221256.129198-3-hadess@hadess.net>
+        with ESMTP id S229550AbjBFWp6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 17:45:58 -0500
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A27930292;
+        Mon,  6 Feb 2023 14:45:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+        t=1675723555; bh=GIC3tTL/tf2O2wwjbxfda9MuiAPNhorCginPDgE6TtY=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=SV8dbsPhdygHy+0aIW90ORwH3to022FtJ/WADg9gLH2FR2QaPft4PAnmZg6PRd1Zp
+         68tKSKhFCsZonqXRDbucB/MePeyzoi7eHpqjAzXaq5DgnOzZ51BBCz2P1sDBIyRtNT
+         fN+CtQaI3ZgSLbA8Mc0uLMmuiK0LoKduksLYGgRniOnjtJlsnA/j8R+pffMGUsBoiz
+         W0ezCTGMz6WRUiFFEUGxr38XwFLaVnAdWKP/xEa/tJsLq8YSr2DZeAaP+AJpNGgzc9
+         72nmII0Z3uXiyuhX9SjJju+cyNyJCotdoci7hdMnGJXUdEamznCTiIFTbs+O2pyyeL
+         uQcjE2Cn8UREA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from luka-spectre.fritz.box ([77.180.149.249]) by smtp.web.de
+ (mrweb105 [213.165.67.124]) with ESMTPSA (Nemesis) id
+ 1MoecF-1onPe40NDt-00ozYg; Mon, 06 Feb 2023 23:33:13 +0100
+From:   Luka Guzenko <l.guzenko@web.de>
+To:     benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luka Guzenko <l.guzenko@web.de>
+Subject: [PATCH] HID: Ignore battery for ELAN touchscreen on HP ENVY X360 13-ar0xxx
+Date:   Mon,  6 Feb 2023 23:32:18 +0100
+Message-Id: <20230206223218.165134-1-l.guzenko@web.de>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230206221256.129198-1-hadess@hadess.net>
-References: <20230206221256.129198-1-hadess@hadess.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+UbsIwvatb2wLqWu1Rrcz0XkEx6L4z6oOodzzuGRKYoLgDYy/ER
+ fc0jIfgyKPmAtUN2D8TB89rFZFMZJiZ6nUKmHJVveK6vF5M/N23RpnIFEXDGZIs3ISxwF++
+ H4EF7ZaIeleqjXUmnPMV2GJIxhjWMGjSQdfcvXgs26iWbG+2hbnRgeBFT2C9MUjCQR7Gcfm
+ zwvWlrqNdOQVfmRM6cMNw==
+UI-OutboundReport: notjunk:1;M01:P0:rSkds/jlVMU=;Rkg2RXNxWMOK2XDOTnCk2arOY7M
+ BbU/A+uxiJmW/kGKUBNptV79KrhJz06pQue65vh2Soe5wZ1AN8pcmVHXlG7iGVuddSzHPiZTE
+ 3ZehcBweR49yffgJFl+4EMGDGDFL20qcaBRCOHISl1cYOagpiCh5rz88e0yT9fX2KhIChxRmm
+ RaOskY85edIztlJ9I2ujMEBoIitLiUuXQnTpBY8C3o4Vy/C4oD+Iw/Yr1znqKuhM8VXgp/ciK
+ go86rm8GJJts+rIEYIaAjMNEjEo7n15i+Q6YRUlWoMaeq0LkOhCsOwsLYADDvxoqR9e9i01xx
+ aN0CVBEWX4677tYtt9j0dzZ+vpNWdfOyJv5iVcxuKWLHwwCUBt00ggrYY5b2gD+w5moMCTODC
+ WvkEflz9apcoFtL3/9SQtphB/lFkcBUZAHzQ2NLLKCTERFbEsw7QAlz704L7OVShepwHluU2/
+ FhdNu7zVcG26Me6jDRqPxrqE2bzWvUxHaylJmrJcHT6CitlZ3orX7fWlot9luajYxKSNRvCFd
+ hF2AmD+CcqH4nCLAXwVB3t63OCgRRoNIcI7lg9UEft2Fdg2EUidsVXhT47FtHO4fGr4bs+mX2
+ ylGeUK2msUl+RwmUQvNWWu3TAbx7nhmB6HMPUOSTWSJ0EoEB89XSjibEGoIcpg/WiB+JomR9L
+ roBtxJdzKwrFUJbsfgHf20HPdOLqR6X2up8v1D7iaAFmzUSjj5EYDxfqhJG/G3jBisjJd1SWO
+ /goTlinmMRQB6SW6JGSdNCiaZfso/X7Njeot+aTtGMvHU8NUPpA1TW7vZ/JUASmvFW2QvU1nb
+ V9FMRavwyJMoGUCg31KN6W0czGUtCi9O0DYr7uVn/rL6mmXlWeEQ7MBw9jSUufpgcJlC8jRcF
+ HQ8kiQltmPpRTXgzAsDW3BljwSGa2UcedpzyYGQyS8Vzjw1rsFm/aLwLW+RSTTXMx/UgHrdYD
+ QyHpYrLiQJtMqBaTBQ3qniQ3OXQ=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
+Ignore the reported battery level of the built-in touchscreen to suppress
+battery warnings when a stylus is used. The device ID was added and the
+battery ignore quirk was enabled.
 
-Same as v1
+Signed-off-by: Luka Guzenko <l.guzenko@web.de>
+=2D--
+ drivers/hid/hid-ids.h   | 1 +
+ drivers/hid/hid-input.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
- drivers/hid/hid-logitech-hidpp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 9e94026de437..03b77ca03081 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -30,6 +30,7 @@
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Benjamin Tissoires <benjamin.tissoires@gmail.com>");
- MODULE_AUTHOR("Nestor Lopez Casado <nlopezcasad@logitech.com>");
-+MODULE_AUTHOR("Bastien Nocera <hadess@hadess.net>");
- 
- static bool disable_tap_to_click;
- module_param(disable_tap_to_click, bool, 0644);
--- 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 0f8c11842a3a..ea6cd7dfa459 100644
+=2D-- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -409,6 +409,7 @@
+ #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
+ #define USB_DEVICE_ID_HP_X2		0x074d
+ #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
++#define I2C_DEVICE_ID_HP_ENVY_X360_13_AR0XXX	0x23B9
+ #define I2C_DEVICE_ID_HP_ENVY_X360_15	0x2d05
+ #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
+ #define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 9b59e436df0a..8dc090d9f2d6 100644
+=2D-- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -376,6 +376,8 @@ static const struct hid_device_id hid_battery_quirks[]=
+ =3D {
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE, USB_DEVICE_ID_UGEE_XPPEN_TABLET_DEC=
+O_L),
+ 	  HID_BATTERY_QUIRK_AVOID_QUERY },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_13_AR0XX=
+X),
++	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15),
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15T_DR10=
+0),
+=2D-
 2.39.1
 
