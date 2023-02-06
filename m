@@ -2,221 +2,192 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2AB768C3D3
-	for <lists+linux-input@lfdr.de>; Mon,  6 Feb 2023 17:51:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42F9268C3E4
+	for <lists+linux-input@lfdr.de>; Mon,  6 Feb 2023 17:54:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjBFQvm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Feb 2023 11:51:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59400 "EHLO
+        id S230296AbjBFQyQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Feb 2023 11:54:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbjBFQvj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 11:51:39 -0500
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8A414EBB;
-        Mon,  6 Feb 2023 08:51:19 -0800 (PST)
-Received: by mail-ot1-f54.google.com with SMTP id e21-20020a9d5615000000b006884e5dce99so3356744oti.5;
-        Mon, 06 Feb 2023 08:51:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nJjfaqQN07abmVZHr04x6j/pMfkMAkZRYidyFnb67BQ=;
-        b=VA8+6u1wlMlC43nBAEknGT7Kn86z+9gUDaU4CFhmPsE7EfA+1Y4IUFX9neSCTXXokh
-         V5J3UBxmTBFsuI6z2VHLeKaxXSgGFU3r9GSskrEqmF4x11rTtTvRjwKN5yuvibVw/eZ2
-         gz8SbWb6C2k8Os3KFQdss8nFTc0KxMmE/kSQtQFhAgLFcOAMYnIEgvwHktqZC7mhzzro
-         rlwP4cH3kEq3EoNAGzxSXeMq0d1HJ2gmFH0RynU09e7jKnvpD98DihtbGzyzIRvkC2Dl
-         PrlZqp0ODlfGYog2ziZZC6RP5ReuW9xfa1XYHZGhTYXwFUdIfZW+PwOhi3bHcEWXS7h7
-         lUDA==
-X-Gm-Message-State: AO0yUKXeac0xtM2/cEM8BUO5jAQ72RxAXjmqyFqswfj3OBCOImSpCFtn
-        0vAJSkRI9TnTczvU6n071A==
-X-Google-Smtp-Source: AK7set9UFjLHrrtdIPxXFwDrC3Co4bVmsVQ8HFpyab0PSxoNOaqTv8RzB9oA1/XFZNcOEP8Fx7ajoA==
-X-Received: by 2002:a05:6830:3903:b0:68b:cdd3:3b93 with SMTP id br3-20020a056830390300b0068bcdd33b93mr94004otb.26.1675702261490;
-        Mon, 06 Feb 2023 08:51:01 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id q21-20020a9d6555000000b0068bd922a244sm5206293otl.20.2023.02.06.08.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Feb 2023 08:51:01 -0800 (PST)
-Received: (nullmailer pid 213128 invoked by uid 1000);
-        Mon, 06 Feb 2023 16:51:00 -0000
-Date:   Mon, 6 Feb 2023 10:51:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Danny Kaehn <kaehndan@gmail.com>
-Cc:     krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, ethan.twardy@plexus.com
-Subject: Re: [PATCH v3 1/4] dt-bindings: input: Add CP2112 HID USB to SMBus
- Bridge
-Message-ID: <20230206165100.GB182582-robh@kernel.org>
-References: <20230205145450.3396-1-kaehndan@gmail.com>
- <20230205145450.3396-2-kaehndan@gmail.com>
+        with ESMTP id S230510AbjBFQyO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 11:54:14 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F74416328;
+        Mon,  6 Feb 2023 08:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675702450; x=1707238450;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VAsAX1g8MgazjysNTQpi5y5anirOqI9txAkZG3IpJe8=;
+  b=dOpb9kvanoGHdhnGm6qLU5zhdpzn2Yu1dwwFofqk0wZO0jnMR7tmtACH
+   ZExvhFAN9RxHWvl0ykcbLpWFnfz25CoBJkHnCJGhY3NAfjn3bfymVh0Er
+   IIaVfaCuvvXgD3m9/1y9X+Lg1g2fvPNGq5bhGDMOn74gw2zltGlMd0v9b
+   6e0gNww35p+Vxv0V6VSiWmY4l1u+TZR59oC5BKBH2JgBZOHfIx48WNN9R
+   46wix1EATI1LIPr87y0X3hkN2Eu9wtsws60GPRE0DnlpNk4Zj/WN8UVhJ
+   pQn0vAlZFoXWkvosyPLiFSODDW89fmykZBIHFsrw1DS857Y6yHPKX5REx
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="393852815"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="393852815"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 08:54:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="735197329"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="735197329"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 06 Feb 2023 08:54:07 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pP4ko-0002ge-0m;
+        Mon, 06 Feb 2023 16:54:06 +0000
+Date:   Tue, 7 Feb 2023 00:53:28 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Subject: Re: [PATCH 1/3] HID: logitech-hidpp: Add more debug statements
+Message-ID: <202302070034.GqDB3Cje-lkp@intel.com>
+References: <20230206135808.8840-1-hadess@hadess.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230205145450.3396-2-kaehndan@gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230206135808.8840-1-hadess@hadess.net>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Feb 05, 2023 at 08:54:47AM -0600, Danny Kaehn wrote:
-> This is a USB HID device which includes an I2C controller and 8 GPIO pins.
-> 
-> The binding allows describing the chip's gpio and i2c controller in DT
-> using the subnodes named "gpio" and "i2c", respectively. This is
-> intended to be used in configurations where the CP2112 is permanently
-> connected in hardware.
-> 
-> Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
-> ---
->  .../bindings/input/silabs,cp2112.yaml         | 112 ++++++++++++++++++
->  1 file changed, 112 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/silabs,cp2112.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/silabs,cp2112.yaml b/Documentation/devicetree/bindings/input/silabs,cp2112.yaml
-> new file mode 100644
-> index 000000000000..eb2e89edb80a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/silabs,cp2112.yaml
-> @@ -0,0 +1,112 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/silabs,cp2112.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: CP2112 HID USB to SMBus/I2C Bridge
-> +
-> +maintainers:
-> +  - Danny Kaehn <kaehndan@gmail.com>
-> +
-> +description:
-> +  The CP2112 is a USB HID device which includes an integrated I2C controller
-> +  and 8 GPIO pins. Its GPIO pins can each be configured as inputs, open-drain
-> +  outputs, or push-pull outputs.
-> +
-> +properties:
-> +  compatible:
-> +    const: usb10c4,ea90
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: The USB port number on the host controller
-> +
-> +  i2c:
-> +    description: The SMBus/I2C controller node for the CP2112
-> +    $ref: /schemas/i2c/i2c-controller.yaml#
-> +    unevaluatedProperties: false
-> +    properties:
-> +      clock-frequency:
-> +        minimum: 10000
-> +        default: 100000
-> +        maximum: 400000
-> +
-> +  gpio:
-> +    description: The GPIO controller node for the CP2112
-> +    type: object
-> +    properties:
-> +      interrupt-controller: true
-> +      "#interrupt-cells":
-> +        const: 2
-> +
-> +      gpio-controller: true
-> +      "#gpio-cells":
-> +        const: 2
-> +
-> +      ngpios:
-> +        const: 8
+Hi Bastien,
 
-If this can only be 1 value, then it doesn't need to be in DT.
+I love your patch! Perhaps something to improve:
 
-> +
-> +      gpio-line-names:
-> +        minItems: 1
-> +        maxItems: 8
-> +
-> +    patternProperties:
-> +      "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.2-rc7 next-20230206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Pick one naming scheme, not everything we allow.
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-logitech-hidpp-Retry-commands-when-device-is-busy/20230206-215940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230206135808.8840-1-hadess%40hadess.net
+patch subject: [PATCH 1/3] HID: logitech-hidpp: Add more debug statements
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230207/202302070034.GqDB3Cje-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f201298961e2cb71de94a0c8632cb9376975959f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bastien-Nocera/HID-logitech-hidpp-Retry-commands-when-device-is-busy/20230206-215940
+        git checkout f201298961e2cb71de94a0c8632cb9376975959f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/hid/
 
-> +        type: object
-> +        properties:
-> +          gpio-hog: true
-> +          input: true
-> +          output-high: true
-> +          output-low: true
-> +          line-name: true
-> +          gpios:
-> +            minItems: 1
-> +            maxItems: 8
-> +
-> +        required:
-> +          - gpio-hog
-> +          - gpios
-> +
-> +        additionalProperties: false
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-You shouldn't need all this for the hog nodes, just need the following 
-and the common schema will check the rest:
+All warnings (new ones prefixed by >>):
 
-required:
-  - gpio-hog 
+   In file included from include/linux/printk.h:566,
+                    from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:16,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/hid/hid-logitech-hidpp.c:13:
+   drivers/hid/hid-logitech-hidpp.c: In function 'hidpp_send_fap_command_sync':
+>> drivers/hid/hid-logitech-hidpp.c:343:25: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'unsigned int' [-Wformat=]
+     343 |                         "Invalid number of parameters passed to command (%d != %ld)\n",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   include/linux/hid.h:1202:9: note: in expansion of macro 'dev_dbg'
+    1202 |         dev_dbg(&(hid)->dev, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~
+   drivers/hid/hid-logitech-hidpp.c:342:17: note: in expansion of macro 'hid_dbg'
+     342 |                 hid_dbg(hidpp->hid_dev,
+         |                 ^~~~~~~
+   drivers/hid/hid-logitech-hidpp.c:343:82: note: format string is defined here
+     343 |                         "Invalid number of parameters passed to command (%d != %ld)\n",
+         |                                                                                ~~^
+         |                                                                                  |
+         |                                                                                  long int
+         |                                                                                %d
 
-> +
-> +    unevaluatedProperties: false
 
-Move this above 'properties'. Easier to read rather than after 
-a long indented block.
+vim +343 drivers/hid/hid-logitech-hidpp.c
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/input/input.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    usb {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      device@1 {
-> +        compatible = "usb10c4,ea90";
-> +        reg = <1>;
-> +
-> +        i2c {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          temp@48 {
-> +            compatible = "national,lm75";
-> +            reg = <0x48>;
-> +          };
-> +        };
-> +
-> +        gpio {
-> +          gpio-controller;
-> +          interrupt-controller;
-> +          #gpio-cells = <2>;
-> +          gpio-line-names = "TEST0", "TEST1", "TEST2",
-> +            "TEST3", "TEST4", "TEST5", "TEST6", "TEST7";
+   333	
+   334	static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
+   335		u8 feat_index, u8 funcindex_clientid, u8 *params, int param_count,
+   336		struct hidpp_report *response)
+   337	{
+   338		struct hidpp_report *message;
+   339		int ret;
+   340	
+   341		if (param_count > sizeof(message->fap.params)) {
+   342			hid_dbg(hidpp->hid_dev,
+ > 343				"Invalid number of parameters passed to command (%d != %ld)\n",
+   344				param_count, sizeof(message->fap.params));
+   345			return -EINVAL;
+   346		}
+   347	
+   348		message = kzalloc(sizeof(struct hidpp_report), GFP_KERNEL);
+   349		if (!message)
+   350			return -ENOMEM;
+   351	
+   352		if (param_count > (HIDPP_REPORT_LONG_LENGTH - 4))
+   353			message->report_id = REPORT_ID_HIDPP_VERY_LONG;
+   354		else
+   355			message->report_id = REPORT_ID_HIDPP_LONG;
+   356		message->fap.feature_index = feat_index;
+   357		message->fap.funcindex_clientid = funcindex_clientid | LINUX_KERNEL_SW_ID;
+   358		memcpy(&message->fap.params, params, param_count);
+   359	
+   360		ret = hidpp_send_message_sync(hidpp, message, response);
+   361		kfree(message);
+   362		return ret;
+   363	}
+   364	
 
-Put a hog to test the schema.
-
-> +        };
-> +      };
-> +    };
-> -- 
-> 2.25.1
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
