@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91C4668DFC8
-	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 19:19:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B0468E014
+	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 19:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232466AbjBGST3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Feb 2023 13:19:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
+        id S232571AbjBGScR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Feb 2023 13:32:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231896AbjBGSTQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 13:19:16 -0500
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C432340BC5
-        for <linux-input@vger.kernel.org>; Tue,  7 Feb 2023 10:18:10 -0800 (PST)
-Received: by mail-il1-x135.google.com with SMTP id u8so6356922ilq.13
-        for <linux-input@vger.kernel.org>; Tue, 07 Feb 2023 10:18:10 -0800 (PST)
+        with ESMTP id S232577AbjBGScG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 13:32:06 -0500
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E07BBB4
+        for <linux-input@vger.kernel.org>; Tue,  7 Feb 2023 10:31:49 -0800 (PST)
+Received: by mail-il1-x12b.google.com with SMTP id u8so6374818ilq.13
+        for <linux-input@vger.kernel.org>; Tue, 07 Feb 2023 10:31:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fQMCLtY/o/lcP2wVxbKEZHVTujPOs6CF4TCboKmWfnM=;
-        b=DYiZQ/QlyBeTa/mCDWni3T7T/0TILBtLstqv2EawL1Ewt5HTPQKQIbVG8t0RJoY5sZ
-         7CWDsy4IjKqxxiPS4ke4s9Tgez07u870yZBp4cCdYjwhvqUr6HrM7ZYCgQqyGa1ZFnVF
-         xsUWTLvKoPpTXYX29+5exDtYHvXgWQzD2Dw9E=
+        bh=OVGv953a/TRW+zFGloKXvKsCRvM9/SxchdtuwLei+Fo=;
+        b=jz/Op+8b4+niNTCYz0rUEA4y/ac+GvW59915DrFptkw1bsxdR8dhDMijIXH9CWlchg
+         PUvECpeICr8G9+jezzp4Vtn2SLurCe0I1XymMjzcBEiVFkz8igHdmDUbzNWlG3UjHfJQ
+         Mht3RDKpDhJVNIui/bQDplWjhxWtsNOIjP0zI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fQMCLtY/o/lcP2wVxbKEZHVTujPOs6CF4TCboKmWfnM=;
-        b=d5pLPB/2j1Eg0Wqt0vNMeP9sRPIR57k7BNvXVmyAvw0WohLCONwYlfIdPxdaKFCCYF
-         G/alSbQAokguMZQCN8E2ibKcJkWvZ80nuv6jwbDJ/UQ8GXVTUgBzDcSiOenWZswILZEW
-         69DqNqBrK+ZbvnQSmMKB/y705E1tqq3/i3K4wPDCps8MV2GnfKZfG1diZIsOOyy+12EM
-         l/Xi3PjxZcxklaCFgYvO1+kWPUzS5FZjtxdNo0Q+tU1TRhd9xb+RFzLaOM29+yT0SVS2
-         wyS4AC9pVl53oqkAr9/qTIRElT7LQAotTM5bukhR2SesvGV6+d8L3H3sLEDCMveIViVt
-         BU+g==
-X-Gm-Message-State: AO0yUKWMkl3u3uuba99c1vzwHTaalqO6yOLdvNbg56RBQFxG027U6oU6
-        3wPIerewxu44TwV6etpfd0OqPw==
-X-Google-Smtp-Source: AK7set987uZbgR5yZkVJT+jrgFpaiDdCBjJhqCqZZGfbB4Gk0XbPD2P05L05pZgj2GUSaLAHeDcYig==
-X-Received: by 2002:a05:6e02:178b:b0:310:a06a:d0b0 with SMTP id y11-20020a056e02178b00b00310a06ad0b0mr5382939ilu.10.1675793889892;
-        Tue, 07 Feb 2023 10:18:09 -0800 (PST)
+        bh=OVGv953a/TRW+zFGloKXvKsCRvM9/SxchdtuwLei+Fo=;
+        b=TRnmw3lO2ml64KLGOZYvSqJYooUDZzHH/XwHHR1bCuR3U72bf57EmIei8GN5EEXQ38
+         QImEX6ImPqOxqAQmAFJhRdNgg/XPC170fs8+MOoy/Sg4RotmgxblZj3gNnyiZ+WaCea9
+         z4yWWqcL6bTFuw1lh+XwJhv1N7McRmUB9y0K/Ls4Xg9MhnwXZpXQlvwzmpCz6aeyV+5x
+         P7qQobPJeReJGd1/I0KjecQrN591L1esDsT79P2CI/WvJRTM0lBoR7w4DpNHXB/VqXp/
+         tAJXB+3IwVB8jXgK1kgDaONqPuunXXgIzMlxg5p6ic5q0ufnnuoNwiwIznvlGEKoUfi/
+         gWAA==
+X-Gm-Message-State: AO0yUKWJ/Lpr8v0JHDllFnf1fwTqZwDtHF6Lwe4oTrw1hgRAhCFACmzd
+        00wIYmnJU1sj/R72hPpuFHDKJA==
+X-Google-Smtp-Source: AK7set/ap571v3p51svWnKT+r9LLpAmOse7WGsIyA3foorSztB6PQDbjr2IVAC/t+XfclX9fNwITXQ==
+X-Received: by 2002:a05:6e02:1be6:b0:30f:6400:f7dd with SMTP id y6-20020a056e021be600b0030f6400f7ddmr5307831ilv.17.1675794708781;
+        Tue, 07 Feb 2023 10:31:48 -0800 (PST)
 Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id e1-20020a056e020b2100b0030c27c9eea4sm4352263ilu.33.2023.02.07.10.18.09
+        by smtp.gmail.com with UTF8SMTPSA id n4-20020a92d9c4000000b00310a40e669esm1601859ilq.11.2023.02.07.10.31.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 10:18:09 -0800 (PST)
-Date:   Tue, 7 Feb 2023 18:18:08 +0000
+        Tue, 07 Feb 2023 10:31:48 -0800 (PST)
+Date:   Tue, 7 Feb 2023 18:31:47 +0000
 From:   Matthias Kaehlcke <mka@chromium.org>
 To:     Douglas Anderson <dianders@chromium.org>
 Cc:     Bjorn Andersson <andersson@kernel.org>,
@@ -57,45 +57,80 @@ Cc:     Bjorn Andersson <andersson@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         devicetree@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] arm64: dts: qcom: sc7280: Hook up the touchscreen IO
- rail on villager
-Message-ID: <Y+KV4D0iAp1GxY2p@google.com>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/7] HID: i2c-hid: goodix: Stop tying the reset line to
+ the regulator
+Message-ID: <Y+KZE1tqTH3lqafJ@google.com>
 References: <20230207024816.525938-1-dianders@chromium.org>
- <20230206184744.3.I740d409bc5bb69bf4a7b3c4568ea6e7a92f16ccd@changeid>
+ <20230206184744.4.I085b32b6140c7d1ac4e7e97b712bff9dd5962b62@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230206184744.3.I740d409bc5bb69bf4a7b3c4568ea6e7a92f16ccd@changeid>
+In-Reply-To: <20230206184744.4.I085b32b6140c7d1ac4e7e97b712bff9dd5962b62@changeid>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 06, 2023 at 06:48:12PM -0800, Douglas Anderson wrote:
-> On never revs of sc7280-herobrine-villager (rev2+) the L3C rail is
-
-nit: s/never/newer/
-
-no need to re-spin just for this.
-
-> provided to the touchscreen as the IO voltage rail. Let's add it in
-> the device tree.
+On Mon, Feb 06, 2023 at 06:48:13PM -0800, Douglas Anderson wrote:
+> In commit 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to
+> true state of the regulator"), we started tying the reset line of
+> Goodix touchscreens to the regulator.
 > 
-> NOTE: Even though this is only really needed on rev2+ villagers (-rev0
-> had non-functioning touchscreen and -rev1 had some hacky hardware
-> magic), it doesn't actually hurt to do this for old villager revs. As
-> talked about in the patch ("arm64: dts: qcom: sc7280: On QCard,
-> regulator L3C should be 1.8V") the L3C regulator didn't go anywhere at
-> all on older revs. That means that turning it on for older revs
-> doesn't hurt other than drawing a tiny bit of extra power. Since -rev0
-> and -rev1 villagers will never make it to real customers and it's nice
-> not to have too many old device trees, the better tradeoff seems to be
-> to enable it everywhere.
+> The primary motivation for that patch was some pre-production hardware
+> (specifically sc7180-trogdor-homestar) where it was proposed to hook
+> the touchscreen's main 3.3V power rail to an always-on supply. In such
+> a case, when we turned "off" the touchscreen in Linux it was bad to
+> assert the "reset" GPIO because that was causing a power drain. The
+> patch accomplished that goal and did it in a general sort of way that
+> didn't require special properties to be added in the device tree for
+> homestar.
+> 
+> It turns out that the design of using an always-on power rail for the
+> touchscreen was rejected soon after the patch was written and long
+> before sc7180-trogdor-homestar went into production. The final design
+> of homestar actually fully separates the rail for the touchscreen and
+> the display panel and both can be powered off and on. That means that
+> the original motivation for the feature is gone.
+> 
+> There are 3 other users of the goodix i2c-hid driver in mainline.
+> 
+> I'll first talk about 2 of the other users in mainline: coachz and
+> mrbland. On both coachz and mrbland the touchscreen power and panel
+> power _are_ shared. That means that the patch to tie the reset line to
+> the true state of the regulator _is_ doing something on those
+> boards. Specifically, the patch reduced power consumption by tens of
+> mA in the case where we turned the touchscreen off but left the panel
+> on. Other than saving a small bit of power, the patch wasn't truly
+> necessary. That being said, even though a small bit of power was saved
+> in the state of "panel on + touchscreen off", that's not actually a
+> state we ever expect to be in, except perhaps for very short periods
+> of time at boot or during suspend/resume. Thus, the patch is truly not
+> necessary. It should be further noted that, as documented in the
+> original patch, the current code still didn't optimize power for every
+> corner case of the "shared rail" situation.
+> 
+> The last user in mainline was very recently added: evoker. Evoker is
+> actually the motivation for me removing this bit of code. It turns out
+> that for evoker we need to manage a second power rail for IO to the
+> touchscreen. Trying to fit the management of this IO rail into the
+> regulator notifiers turns out to be extremely hard. To avoid lockdep
+> splats you shouldn't enable/disable other regulators in regulator
+> notifiers and trying to find a way around this was going to be fairly
+> difficult.
+> 
+> Given the lack of any true motivation to tie the reset line to the
+> regulator, lets go back to the simpler days and remove the code. This
+> is, effectively, a revert of commit bdbc65eb77ee ("HID: i2c-hid:
+> goodix: Fix a lockdep splat"), commit 25ddd7cfc582 ("HID: i2c-hid:
+> goodix: Use the devm variant of regulator_register_notifier()"), and
+> commit 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to true
+> state of the regulator").
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
