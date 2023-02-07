@@ -2,65 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0083368E346
-	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 23:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A15668E35D
+	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 23:20:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbjBGWLh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Feb 2023 17:11:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53898 "EHLO
+        id S229571AbjBGWUC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Feb 2023 17:20:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjBGWLg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 17:11:36 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 399E17A94
-        for <linux-input@vger.kernel.org>; Tue,  7 Feb 2023 14:11:35 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id b5so17201113plz.5
-        for <linux-input@vger.kernel.org>; Tue, 07 Feb 2023 14:11:35 -0800 (PST)
+        with ESMTP id S229706AbjBGWUB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 17:20:01 -0500
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F5F3A870
+        for <linux-input@vger.kernel.org>; Tue,  7 Feb 2023 14:19:52 -0800 (PST)
+Received: by mail-ua1-x935.google.com with SMTP id r12so2764805uan.12
+        for <linux-input@vger.kernel.org>; Tue, 07 Feb 2023 14:19:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=i593f184Hmr8abWf/XruS/2XPihlJHd7nufXR7hHK0U=;
-        b=jEtiVqC6llTtARjXT3H0GDBGkn1em1He6HefcR5Z+ZApS8fx8hTP8A3emqMTvRx1e8
-         llI3vPq4cKRhmoWl02+JysYv3C4mtKCI/tVgyPUVviVMkBRj0SDZ3Y4DvqclQdLdSB9C
-         vTLgKcVx1gXgmesDpEeaPTYQvBvdWnn+cyIuQ=
+        bh=9Vyn8HY8vsd2rsre0kd5fD4aVzHSpoMRl6C5sK8M6sM=;
+        b=KT6Qz39kMvinn10wtsCHxTbUGJe6JE7+Fp7Zr3D0ljX0h5ROBa1xTuVZ8vcDmUM6fy
+         jAJ80JEq+6uDOnYOCpBqLcjymImd88g9AWiwD3h0LzUWR9AlUzUuS1kGTSSR3uR0sJ/v
+         xiyVUh+TGxuQgHqD366+IlfBQKEzYWzfbokcAn0SJBmunKStffE4rxH2C0JINpxSJpga
+         T4jIG7DtYKgasoyv2Z50BGbhdxq7V9k0vp/MX17BlsXnBebFSRUp9tlOSp5x0xGKt9H8
+         sd/G2+pCnBxPTSI0bd9J9cvoJbpTyus8jieFL3DUymwk59Q6pkLhFmOepC41qJ2TVKTC
+         RxIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i593f184Hmr8abWf/XruS/2XPihlJHd7nufXR7hHK0U=;
-        b=LtNtXWm7xLbppfjlkjYHqK/xFge2eFRzaj61opY+nOwZY4QqDvPu2SsI/yyGP9AtGF
-         joQZNWSBm2Y7rNWp7519SpGCup2UqPpwVLgcqIeG5h4RazsrhlH7oOw+DjgjKhgv5aYR
-         C7HghO006tOJjrqSIBD/NJ4QZV4AE+GO1V/bQBgBPi4+D/vbU1jTCUo9UkU2mu/+AMIj
-         7G/fMTpzlHB6KCI9iYytyJ2I3G/OEPVHZPD+Wk0NUz0f/CKsYScvd35X2OXgJ3+xizie
-         XbiHk79c0Nbs3BkZgJ+6WREro/iWuRf3nqSugouldPU44JhF1xZAFWp34VyKBGnv4rED
-         uheQ==
-X-Gm-Message-State: AO0yUKVJ0BnQXRPtXnC8cIqQhB85cfTb1trHwfr5M1Pj/XfJK7L1wT/n
-        uIe4hgaO6daI6Klf5/hcmrvpdNAqWRGQhpt/rYSXUArl1XD0cQ==
-X-Google-Smtp-Source: AK7set/lhHQNMXIISr9N9la2CTvYuDcvZ+/dXpfrOcx/S4HboLBegd9C2OFyGu1PSyIT0qtMJOGDTqIKiYshuksVQIo=
-X-Received: by 2002:a17:902:ce86:b0:198:f9e4:5d1a with SMTP id
- f6-20020a170902ce8600b00198f9e45d1amr1258924plg.13.1675807894714; Tue, 07 Feb
- 2023 14:11:34 -0800 (PST)
+        bh=9Vyn8HY8vsd2rsre0kd5fD4aVzHSpoMRl6C5sK8M6sM=;
+        b=All8rFbtS4Bmlhd55ZmwF9SO/Yp+V7P1oh13VTztKzMn/Kb1ISEAb/JA+g7IdE2NG6
+         YvJ3Z3HWmJ1TDbe9byieXOua5EdFEmiOVsW8uVMWWdobg8P7HG96kcSWwtLUa9J2MXU+
+         KkfEwLGLsFFtwLaWJwFrh0fjaEkTrOgYG9KncQOPtHg2E5PVDLx9gNvn/TDlVKj3aDHd
+         4Md+u5zKe44YkCM6nGv9ZbnOKSXlmRL1CKRHlvkFJtyfkX0ybbmmnRLAI+Ncw9ybP+kx
+         tnWUcYAHgTG0TqIX9xpXovxnCQCzi7h4NPLn0XpqgZMXzEg7RYx8nmDtR1EeG3ndydpJ
+         KLpA==
+X-Gm-Message-State: AO0yUKVL90TrVd+PPU5KnOj5H34d5FUWUeCKqQCC1dbO5xD9otpOE1yx
+        V/x8/IRUr+Iqc2Y70Z4v0asvXlpLjEheZ1gtzFA/cQ==
+X-Google-Smtp-Source: AK7set98YqYgcIQoUZZdGqqr4Xrb2JetbWfTgEKX3PcMLzz4mtJqZH11DpIIZjA7RwI6BtoSiDvRBqx62OExTj7cGNc=
+X-Received: by 2002:ab0:3b90:0:b0:683:c74a:af60 with SMTP id
+ p16-20020ab03b90000000b00683c74aaf60mr933712uaw.74.1675808391950; Tue, 07 Feb
+ 2023 14:19:51 -0800 (PST)
 MIME-Version: 1.0
 References: <Y+K/i4kj0WER1Hl0@google.com>
 In-Reply-To: <Y+K/i4kj0WER1Hl0@google.com>
-From:   Allen Ballway <ballway@chromium.org>
-Date:   Tue, 7 Feb 2023 14:11:24 -0800
-Message-ID: <CAEs41JAFTGs8LErq1e7esANbHGnfyyP=xZzeax7KfPwoazVK8Q@mail.gmail.com>
+From:   Guenter Roeck <groeck@google.com>
+Date:   Tue, 7 Feb 2023 14:19:40 -0800
+Message-ID: <CABXOdTc-qqx4GArwUnRK15yLtvrcaCrDvEzqSSA3-WwDbpUFiA@mail.gmail.com>
 Subject: Re: [PATCH] HID: retain initial quirks set up when creating HID devices
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Allen Ballway <ballway@chromium.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Alistair Francis <alistair@alistair23.me>,
         Guenter Roeck <groeck@chromium.org>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -72,27 +77,35 @@ On Tue, Feb 7, 2023 at 1:16 PM Dmitry Torokhov
 >
 > In certain circumstances, such as when creating I2C-connected HID
 > devices, we want to pass and retain some querks (axis inversion, etc).
+
+quirks
+
 > The source of such quirks may be device tree, or DMI data, or something
 > else not readily available to the HID core itself and therefore cannot
 > be reconstructed easily. To allow this introduce "initial_quirks" field
+
+this, introduce (says gmail)
+
 > in hid_device structure and use it when determining the final set of
 > quirks.
 >
 > This fixes problem with i2c-hid setting up device-tree sourced quirks
+
+fixes the problem (again, says gmail)
+
 > too late and losing them on device rebind, and also allows to sever the
 > tie between hid-code and i2c-hid when applying DMI-based quirks.
 >
 > Fixes: b60d3c803d76 ("HID: i2c-hid-of: Expose the touchscreen-inverted properties")
 > Fixes: a2f416bf062a ("HID: multitouch: Add quirks for flipped axes")
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
+
 > ---
 >
 > Compiled only, not tested on hardware.
 >
-
-Tested on Dynabook K50 with Elan9034 touchscreen and confirmed quirks are
-applied as expected.
-
 >  drivers/hid/hid-quirks.c                 | 8 +-------
 >  drivers/hid/i2c-hid/i2c-hid-core.c       | 6 ++++--
 >  drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 1 -
