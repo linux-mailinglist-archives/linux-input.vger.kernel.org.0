@@ -2,69 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8548F68E2BE
-	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 22:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36A4668E300
+	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 22:32:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229899AbjBGVT7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Feb 2023 16:19:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58572 "EHLO
+        id S229962AbjBGVcM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Feb 2023 16:32:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjBGVT6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 16:19:58 -0500
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD0817175;
-        Tue,  7 Feb 2023 13:19:57 -0800 (PST)
-Received: by mail-ot1-f42.google.com with SMTP id 70-20020a9d084c000000b0068bccf754f1so4650008oty.7;
-        Tue, 07 Feb 2023 13:19:57 -0800 (PST)
+        with ESMTP id S229535AbjBGVcK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 16:32:10 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8351A8694;
+        Tue,  7 Feb 2023 13:32:08 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id m2so17115731plg.4;
+        Tue, 07 Feb 2023 13:32:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
+        b=GuPF+8GjCJo3Bv/FSUkP7V624DONZsgKRAdIrvRl2YyIiW7XhBxcLRwW8Dbo0WHo4/
+         gWeBXiyd23u0JU/wn+dRPdA5GR3Arl6vuCtBwP4eLMHcMJntKln0jv/gQTivZoVGNy+L
+         x1nk4o6lG7MxEj41ozS4hZTUa5kSmxJlczPFlhIY0Bev07KN3nsbYPWxgw04YqgRHXgM
+         H1SJ9hnQNC6ymPwNiVfY2mJd0IFIMBAoGPlSP60M4+yIi6PNbW/2sgS38IoIq7PcwoUg
+         h8Z1h5rI9akxItHMnNGQXqodMNTJCgkbn2Kl7ltL4NcRryTi+Ef6iT52cHPCW2iMqAVh
+         7OFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z47pTYQ+/5OctvC8ddoYwu8QG4IsEwXm/DVEAF/PVtM=;
-        b=SoyK9tJb5xYN3u/LN3HwBLhozTCRChlbn5319JwIwTUi55OTl0NIyBESxnHHWUfzDy
-         QPd1fKY6PqK1wVSSo8pWsrEB/OoZqgEF2fc8iCZJfxDLNaY4BNVJqNvclXO2A2WE9QAI
-         i0ECL8gX11a++cqDEWcegiz0LOESfj6ueWnK/SaUZFSwKWm03KfLmkhQCLrUvmXplKTT
-         VFE3zBb/vTzxzrcHMZEUdlzSGYX1NXRZOksINSN40sjSvdNSO97gxIKLGimEnqcSv/Bt
-         +dJyaLqL8wXg3qvXc+jNCxkmc7arTNR0WPml8/zQbZBuQkmOk/InS4o46dmOYAQgRaDw
-         hFuw==
-X-Gm-Message-State: AO0yUKWr84srnArgXSiDpQb7Z2aZaEEouuElxY8DY8glx5C6v/aNL3He
-        zDpGm+ooMq/PCa4FM4au9in+qENHNw==
-X-Google-Smtp-Source: AK7set/diBRHF4lI5GQLqN0GdFX+iy7l2cjOo76iYc6ZAnC18tkVaZyWtWStK7hjiJcpjbgQkX/zug==
-X-Received: by 2002:a9d:177:0:b0:68d:a785:5f5f with SMTP id 110-20020a9d0177000000b0068da7855f5fmr2872911otu.2.1675804796999;
-        Tue, 07 Feb 2023 13:19:56 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id a24-20020a9d4718000000b0068d3f341dd9sm7019996otf.62.2023.02.07.13.19.56
+        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
+        b=YUj/rYH2IZfkY1oREg+uLs3mPpYUymlQyuGCq99MgKV2d97Q4XhULIfB5qbOnH7BrA
+         Z2wylqkCdkVt0tiDsPazZ2KrE1Si/vqCkCJHWnv8q08saanxco1QNHclYN/Q1AMNbOa7
+         g01e/QwqRi7ptaxXyTbtHBJFA9jL7fa5MSnhzGUVqSBsAyJWXG3YHdQRsWKNRYS4U+Hy
+         /pVoKk+MoByTIV8W0re1T117qCcNLuh3votTgckDS0ErxIPIiKa0HsW5j1XgksM6HudK
+         f0H1pUSMeytIxqwgomS837izpigKBjytTqJb3g0D+QooI3n9/XtmLqnKNqBZSF3mGCvR
+         El+A==
+X-Gm-Message-State: AO0yUKXnN2hBrHZlgkvGluZL+ngGJbKH3KGz80fmmawzMDu+KoZBklof
+        ojBQ1HxnkA2AbQmTyXjwlzk=
+X-Google-Smtp-Source: AK7set8S733/lSzocO4PhiGH97JuaxlIu1uyBJfIu/+7WmPOF35HnmMyyKLJccnN1cXH8ZQnKFrByA==
+X-Received: by 2002:a17:903:244f:b0:199:30a6:3756 with SMTP id l15-20020a170903244f00b0019930a63756mr3394795pls.18.1675805527758;
+        Tue, 07 Feb 2023 13:32:07 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:c930:81ab:3aec:b9cb])
+        by smtp.gmail.com with ESMTPSA id k5-20020a170902760500b00192d3e7eb8fsm9333284pll.252.2023.02.07.13.32.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 13:19:56 -0800 (PST)
-Received: (nullmailer pid 4171931 invoked by uid 1000);
-        Tue, 07 Feb 2023 21:19:55 -0000
-Date:   Tue, 7 Feb 2023 15:19:55 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Douglas Anderson <dianders@chromium.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        devicetree@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Tue, 07 Feb 2023 13:32:06 -0800 (PST)
+Date:   Tue, 7 Feb 2023 13:32:01 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Devarsh Thakkar <devarsht@ti.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH 5/7] dt-bindings: HID: i2c-hid: goodix: Add
- mainboard-vddio-supply
-Message-ID: <167580479546.4171868.14123127361187653098.robh@kernel.org>
-References: <20230207024816.525938-1-dianders@chromium.org>
- <20230206184744.5.Ia77a96c6c5564f9cc25e6220b5a9171d5c2639e8@changeid>
+        Frank Rowand <frowand.list@gmail.com>
+Subject: Re: [PATCH v3 04/12] gpiolib: remove gpio_set_debounce
+Message-ID: <Y+LDUTfKgHEJHNXB@google.com>
+References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
+ <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230206184744.5.Ia77a96c6c5564f9cc25e6220b5a9171d5c2639e8@changeid>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+In-Reply-To: <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,54 +122,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Feb 07, 2023 at 04:29:44PM +0200, Andy Shevchenko wrote:
+> @@ -1010,14 +1009,21 @@ static int ads7846_setup_pendown(struct spi_device *spi,
+>  		}
+>  
+>  		ts->gpio_pendown = pdata->gpio_pendown;
+> -
+> -		if (pdata->gpio_pendown_debounce)
+> -			gpio_set_debounce(pdata->gpio_pendown,
+> -					  pdata->gpio_pendown_debounce);
 
-On Mon, 06 Feb 2023 18:48:14 -0800, Douglas Anderson wrote:
-> The goodix i2c-hid bindings currently support two models of
-> touchscreen: GT7375P and GT7986U. The datasheets of both touchscreens
-> show the following things:
-> * The mainboard that the touchscreen is connected to is only expected
->   to supply one voltage to the touchscreen: 3.3V.
-> * The touchscreen, depending on stuffing options, can accept IO to the
->   touchscreen as either 3.3V or 1.8V. Presumably this means that the
->   touchscreen has its own way internally to make or deal with 1.8V
->   signals when it's configured for 1.8V IO.
-> 
-> NOTE: you've got to look very carefully at the datasheet for the
-> touchscreen to see that the above bullets are true. Specifically, the
-> datasheet shows a signal called VDDIO and one might think that this is
-> where a mainboard would provide VDDIO to the touchscreen. Upon closer
-> inspection, however, a footnote can be found that says "When VDDIO is
-> left floating, the logic level is 1.8V [...]; when VDDIO is connected
-> to AVDD, the logic level is AVDD.". Thus the VDDIO pin on the
-> touchscreen IC is actually a selector and not a pin whre the mainboard
-> would pass a reference voltage.
-> 
-> The fact that the touchscreen isn't supplied 1.8V by the mainboard
-> means that when I originally submitted bindings for these touchscreens
-> I only listed the 3.3V rail in the bindings. It can be noted that the
-> original bindings and driver were added for sc7180-trogdor boards and
-> these boards all use 3.3V IO via a level shifter on the mainboard.
-> 
-> It turns out that with sc7280-herobrine-evoker, we've got a bit of a
-> strange monkey on our hands. Due to some very interesting but
-> (unfortunately) set-in-stone hardware design, we are doing 1.8V IO to
-> the touchscreen but we _also_ have some extra buffers on the mainboard
-> that need to be powered up to make the IO lines work. After much
-> pondering about this, it seems like the best way to handle this is to
-> add an optional "mainboard-vddio" rail to the bindings that is used to
-> power up the buffers. Specifically, the fact that the touchscreen
-> datasheet documents that its IOs can be at a different voltage level
-> than its main power rail means that there truly are two voltage rails
-> associated with the touchscreen, even if we don't actually provide the
-> IO rail to it. Thus it doesn't feel absurd for the DT node on the host
-> to have a 1.8V rail to power up anything related to its 1.8V logic.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> 
->  .../devicetree/bindings/input/goodix,gt7375p.yaml          | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
+Can we please change only this to:
 
-Acked-by: Rob Herring <robh@kernel.org>
+			gpiod_set_debounce(gpio_to_desc(pdata->gpio_pendown),
+					   pdata->gpio_pendown_debounce);
 
+and not change anything else (i.e. drop the changes below)?
+
+>  	} else {
+> -		dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
+> -		return -EINVAL;
+> +		struct gpio_desc *desc;
+> +
+> +		desc = devm_gpiod_get(&spi->dev, "pendown", GPIOD_IN);
+> +		if (IS_ERR(desc)) {
+> +			dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
+> +			return PTR_ERR(desc);
+> +		}
+> +		gpiod_set_consumer_name(desc, "ads7846_pendown");
+> +
+> +		ts->gpio_pendown = desc_to_gpio(desc);
+>  	}
+> +	if (pdata->gpio_pendown_debounce)
+> +		gpiod_set_debounce(gpio_to_desc(ts->gpio_pendown),
+> +				   pdata->gpio_pendown_debounce);
+>  
+>  	return 0;
+
+Thanks.
+
+-- 
+Dmitry
