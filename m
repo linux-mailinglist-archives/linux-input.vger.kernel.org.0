@@ -2,71 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6362E68CA69
-	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 00:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 327FE68CC94
+	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 03:35:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbjBFXSe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Feb 2023 18:18:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52060 "EHLO
+        id S229654AbjBGCfW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Feb 2023 21:35:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbjBFXSe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 18:18:34 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28ECB24103;
-        Mon,  6 Feb 2023 15:18:31 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id 203so9549626pfx.6;
-        Mon, 06 Feb 2023 15:18:31 -0800 (PST)
+        with ESMTP id S229460AbjBGCfT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Feb 2023 21:35:19 -0500
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F31F7144BD;
+        Mon,  6 Feb 2023 18:35:18 -0800 (PST)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-16346330067so17503608fac.3;
+        Mon, 06 Feb 2023 18:35:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HLxvOGgNEoCuiGYaHHfxbpImsa88CZegxBYmR02yYcM=;
-        b=UabTdoB75uvKFsaNx3I+PJfk2fP6++VusYyExYBIX9gM7j9ZCtnneqRDN1hgGYW9Kj
-         yeBvgYV3w+RsN45beypcF0eXgOD/ogXPYhSUl5YVX0t4AhVgcYynKX33anRA+1g3jAfI
-         5uSpnAc1V9KJwkRbwPfd6Pkdl+d2nyhljnE7Gr7zPwGxfFUS5ijzOAhdxjR/JB0E0XCI
-         OHiu2DkPyaqEto7bMcqwgniysaaIZJDFxfBTbBR9WYJ1MNCAVO+SBIywVckP9wqCxexa
-         vrX3ohoiTSW1ymfqb+1kWbpL3ovsG4vGUbcPQuKUoN4dcUTdh6o08SiCCwsfm89mYQ77
-         ydgA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=om88f+OVUdI8AxAASvMDoFpD3xDJBwGXSjFt6nynZvA=;
+        b=Wcrt5NNlQohG+oQHYg01oVX8+5GAs1o0JrPbQ1QjERomfXWoOVXpebEzZQ4N4e6Eg4
+         2zkP2ZWjfcUAa2CsRDcr2VIKd2MVXVTjQEDV3S8iR7XLK8U4DFi+9GpGTW/TzbqZuGHY
+         wyMKarCtuyBVwb8lMyOxqBLHaTpjtdmFtLkY5Cs/yqdESjJGfx8Lc6m+wRCyZ+Zv3s6p
+         pdIqDVDbeRSTj3csxlXvGdxh+92qGGxwIk078Ql2CAtPTwSoYq44gwnIN/XRR6kd4qzS
+         HNznZmqyArRxNp2P01AZNIajBeeHn7koSVlUw/m1vOrKuGLZtOjh8iiE4NYDpfjqTCyh
+         TsLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HLxvOGgNEoCuiGYaHHfxbpImsa88CZegxBYmR02yYcM=;
-        b=a5py0eorHL8i/vS5UNbh4rQOGlPBjJWMg5CaRS0qKSXYI2MOUtiXqSFjBVNBqt/9nm
-         lvsOUp6E/C1USwanK6r/TRlmuYVaWejvjwUtcapJaJp7sLXE+6Wji/D6lDB9ulPoZzd2
-         HcEo2mkRMYPjTUaajDLrhFXN27bXa1ht1HnUMIDnEROtQs1CmO5ii5GhzK6YBsZkF16E
-         jdLlLFqbnISqNjuaRkaMAF/Z6dxuMw2EPWQRo05vXBQpRwJ25Z2+xR1zTRdZPh8g6yJj
-         JDFG7ObNqNrekBwfhF4uSzdFXDesvWRwcSVTNjCldyfdQgXsXPa9IZ9xp0l4t2v/Kbhh
-         tpIw==
-X-Gm-Message-State: AO0yUKXOPAQCwJnpm1lYOtV6MVqTehRnrAAt5tgUfqq+qgBw9XEYdJEv
-        YwqgGNY5uN20Lra79W3KGU8=
-X-Google-Smtp-Source: AK7set9U7k6TIW7e9NB67EDPX4rf/OV3lgUFGN7j9bNRaKFylx01p9L4YpqxfWi5SURMHN7x/8X/sQ==
-X-Received: by 2002:a62:1c42:0:b0:593:b0f7:8734 with SMTP id c63-20020a621c42000000b00593b0f78734mr1094142pfc.20.1675725510502;
-        Mon, 06 Feb 2023 15:18:30 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:991d:5689:64f0:6f3c])
-        by smtp.gmail.com with ESMTPSA id t7-20020aa79387000000b0058d9623e7f1sm7663623pfe.73.2023.02.06.15.18.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Feb 2023 15:18:29 -0800 (PST)
-Date:   Mon, 6 Feb 2023 15:18:26 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Danny Kaehn <kaehndan@gmail.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        ethan.twardy@plexus.com,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 4/4] HID: cp2112: Devicetree Support
-Message-ID: <Y+GKwhkW29Bk26S+@google.com>
-References: <20230206135016.6737-1-kaehndan@gmail.com>
- <20230206135016.6737-5-kaehndan@gmail.com>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=om88f+OVUdI8AxAASvMDoFpD3xDJBwGXSjFt6nynZvA=;
+        b=dPiBCfa6W2+Isbh0gF6KM4ZR0PrraTqymoBSg80BtMEIRYrd6ZXAn/piosTIgPQyID
+         7T15j3jPcz8fi834DUb4A98netcn34vBx2sOJOQk5dIkhKYGE2KL0syEGqwetKtDI4//
+         +9p8p56EAGOuqlP56dUwP0mVo7UNIhvT/Ib8LK9iylqDvCeto/q0t0lvkMlZepRUk52G
+         VIzd2SLK3Rk7Ypr97qZBPq7NUNde3pw6MoLVZDnsAbn5/0HPH5znk/UBeAIgGVUJQ1VO
+         g8DNXXQ4x7tOjgbks6wps1bbDezPCwroKTOQKvxzVBj6idivvmpzYjFsjvypTHQJYqzG
+         t+cQ==
+X-Gm-Message-State: AO0yUKUSsdTVcOxgvSUVBuIY6Opvtp7HGMRA+NyFvirrhlDxPFQaPFg6
+        HatGJOFElPEhw4XK+cpm4Gff4xHoiZBDUk4Bjl4=
+X-Google-Smtp-Source: AK7set/8ppfbmmdWbos6q6dyFPrP6L6Sp2eHfIVn+2iFgXeAmRuhxqTv4PtHI91h9y9LBnarGrV3zmcInZF8KC2b5k4=
+X-Received: by 2002:a05:6870:4289:b0:163:82ad:dbe0 with SMTP id
+ y9-20020a056870428900b0016382addbe0mr2473567oah.77.1675737318320; Mon, 06 Feb
+ 2023 18:35:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230206135016.6737-5-kaehndan@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230131114632.14078-1-fengqi706@gmail.com>
+In-Reply-To: <20230131114632.14078-1-fengqi706@gmail.com>
+From:   qi feng <fengqi706@gmail.com>
+Date:   Tue, 7 Feb 2023 10:35:07 +0800
+Message-ID: <CACOZ=ZU0zgRmoRu8X5bMUzUrXA9x-qoDJqrQroUs=+qKR58MQA@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: add KEY_CAMERA_FOCUS event in HID
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        fengqi <fengqi@xiaomi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,105 +69,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 06, 2023 at 07:50:16AM -0600, Danny Kaehn wrote:
-> Bind i2c and gpio interfaces to subnodes with names
-> "i2c" and "gpio" if they exist, respectively. This
-> allows the gpio and i2c controllers to be described
-> in DT as usual. Additionally, support configuring the
-> i2c bus speed from the clock-frequency property.
-> 
-> Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
+Hi=EF=BC=8C
+
+Please help to review this  v2 code
+
+thanks a lot
+
+Qi Feng <fengqi706@gmail.com> =E4=BA=8E2023=E5=B9=B41=E6=9C=8831=E6=97=A5=
+=E5=91=A8=E4=BA=8C 19:46=E5=86=99=E9=81=93=EF=BC=9A
+>
+> From: fengqi <fengqi@xiaomi.com>
+>
+> Our HID device need KEY_CAMERA_FOCUS event to control camera, but this
+> event is non-existent in current HID driver.we add this event in hid-inpu=
+t.c
+> We committed this v2 version following your previous suggestion
+>
+> Signed-off-by: fengqi <fengqi@xiaomi.com>
 > ---
->  drivers/hid/hid-cp2112.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-> index 27cadadda7c9..aa634accdfb0 100644
-> --- a/drivers/hid/hid-cp2112.c
-> +++ b/drivers/hid/hid-cp2112.c
-> @@ -1234,6 +1234,7 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	u8 buf[3];
->  	struct cp2112_smbus_config_report config;
->  	struct gpio_irq_chip *girq;
-> +	struct i2c_timings timings;
->  	int ret;
->  
->  	dev = devm_kzalloc(&hdev->dev, sizeof(*dev), GFP_KERNEL);
-> @@ -1292,6 +1293,10 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  		goto err_power_normal;
->  	}
->  
-> +	dev->adap.dev.of_node   = of_get_child_by_name(hdev->dev.of_node, "i2c");
-> +	i2c_parse_fw_timings(&dev->adap.dev, &timings, true);
-> +
-> +	config.clock_speed = cpu_to_be32(timings.bus_freq_hz);
->  	config.retry_time = cpu_to_be16(1);
->  
->  	ret = cp2112_hid_output(hdev, (u8 *)&config, sizeof(config),
-> @@ -1300,7 +1305,7 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  		hid_err(hdev, "error setting SMBus config\n");
->  		if (ret >= 0)
->  			ret = -EIO;
-> -		goto err_power_normal;
-> +		goto err_free_i2c_of;
->  	}
->  
->  	hid_set_drvdata(hdev, (void *)dev);
-> @@ -1322,7 +1327,7 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  
->  	if (ret) {
->  		hid_err(hdev, "error registering i2c adapter\n");
-> -		goto err_power_normal;
-> +		goto err_free_i2c_of;
->  	}
->  
->  	hid_dbg(hdev, "adapter registered\n");
-> @@ -1336,6 +1341,9 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	dev->gc.ngpio			= 8;
->  	dev->gc.can_sleep		= 1;
->  	dev->gc.parent			= &hdev->dev;
-> +#if IS_ENABLED(CONFIG_OF_GPIO)
-> +	dev->gc.of_node			= of_get_child_by_name(hdev->dev.of_node, "gpio");
-
-
-I believe Andy is actively trying to get rid of of_node from GPIO chips.
-And in general, we should be using fwnode and generic device properties
-as much as possible.
-
-> +#endif
->  
->  	dev->irq.name = "cp2112-gpio";
->  	dev->irq.irq_startup = cp2112_gpio_irq_startup;
-> @@ -1376,7 +1384,12 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  err_gpiochip_remove:
->  	gpiochip_remove(&dev->gc);
->  err_free_i2c:
-> +#if IS_ENABLED(CONFIG_OF_GPIO)
-> +	of_node_put(dev->gc.of_node);
-> +#endif
->  	i2c_del_adapter(&dev->adap);
-> +err_free_i2c_of:
-> +	of_node_put(dev->adap.dev.of_node);
->  err_power_normal:
->  	hid_hw_power(hdev, PM_HINT_NORMAL);
->  err_hid_close:
-> @@ -1391,6 +1404,11 @@ static void cp2112_remove(struct hid_device *hdev)
->  	struct cp2112_device *dev = hid_get_drvdata(hdev);
->  	int i;
->  
-> +	of_node_put(dev->adap.dev.of_node);
-> +#if IS_ENABLED(CONFIG_OF_GPIO)
-> +	of_node_put(dev->gc.of_node);
-> +#endif
-> +
->  	sysfs_remove_group(&hdev->dev.kobj, &cp2112_attr_group);
->  	i2c_del_adapter(&dev->adap);
->  
-> -- 
-> 2.25.1
-> 
-
-Thanks.
-
--- 
-Dmitry
+>  drivers/hid/hid-input.c | 7 +++++++
+>  include/linux/hid.h     | 1 +
+>  2 files changed, 8 insertions(+)
+>
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 9b59e436df0a..05fa3e191574 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1221,6 +1221,13 @@ static void hidinput_configure_usage(struct hid_in=
+put *hidinput, struct hid_fiel
+>                         return;
+>                 }
+>                 goto unknown;
+> +       case HID_UP_CAMERA:
+> +               switch (usage->hid & HID_USAGE){
+> +               case 0x020: map_key_clear(KEY_CAMERA_FOCUS);    break;
+> +               case 0x021: map_key_clear(KEY_CAMERA);          break;
+> +               default:        goto ignore;
+> +               }
+> +               break;
+>
+>         case HID_UP_HPVENDOR:   /* Reported on a Dutch layout HP5308 */
+>                 set_bit(EV_REP, input->evbit);
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index 8677ae38599e..e3daf2c7739c 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -155,6 +155,7 @@ struct hid_item {
+>  #define HID_UP_DIGITIZER       0x000d0000
+>  #define HID_UP_PID             0x000f0000
+>  #define HID_UP_BATTERY         0x00850000
+> +#define HID_UP_CAMERA          0x00900000
+>  #define HID_UP_HPVENDOR         0xff7f0000
+>  #define HID_UP_HPVENDOR2        0xff010000
+>  #define HID_UP_MSVENDOR                0xff000000
+> --
+> 2.39.0
+>
