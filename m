@@ -2,164 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36A4668E300
-	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 22:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0603C68E315
+	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 22:42:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbjBGVcM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Feb 2023 16:32:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
+        id S229611AbjBGVmS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Feb 2023 16:42:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjBGVcK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 16:32:10 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8351A8694;
-        Tue,  7 Feb 2023 13:32:08 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id m2so17115731plg.4;
-        Tue, 07 Feb 2023 13:32:08 -0800 (PST)
+        with ESMTP id S229483AbjBGVmS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 16:42:18 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DC42CC47;
+        Tue,  7 Feb 2023 13:42:16 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id g8so18445751qtq.13;
+        Tue, 07 Feb 2023 13:42:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
-        b=GuPF+8GjCJo3Bv/FSUkP7V624DONZsgKRAdIrvRl2YyIiW7XhBxcLRwW8Dbo0WHo4/
-         gWeBXiyd23u0JU/wn+dRPdA5GR3Arl6vuCtBwP4eLMHcMJntKln0jv/gQTivZoVGNy+L
-         x1nk4o6lG7MxEj41ozS4hZTUa5kSmxJlczPFlhIY0Bev07KN3nsbYPWxgw04YqgRHXgM
-         H1SJ9hnQNC6ymPwNiVfY2mJd0IFIMBAoGPlSP60M4+yIi6PNbW/2sgS38IoIq7PcwoUg
-         h8Z1h5rI9akxItHMnNGQXqodMNTJCgkbn2Kl7ltL4NcRryTi+Ef6iT52cHPCW2iMqAVh
-         7OFA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3HTYdU1iz2KyIKM/KzNKr77IK1YFseNtCqjIaw9UgK8=;
+        b=LQDVhlPb18Dcs1OKBleO3ovLSuW2zKsjVnM10nB+4BH4ii+BvWG6+3YLn0Wb258D2z
+         wSYabQmxxTCYsaKtMIXLdj4iCLBz0x198e0gu0Yv/wLKzyYB0eHWIkmEDX4j5E5A1ZXU
+         orYcCWzYnB6+aZSVeaZiqYQYiD1H4V/NOBNHK9koTz80ujJR+M0tc50q9/mjRqT2MtdP
+         EOm9MFiJgq0HP6yi6KI/FIC34eiIbpTkxudLd84AyYNybz8TICBIeaPhKVTOVk45OXSO
+         K5UyCqYEszSugQXVHbGcx/qP/ihNCxuiOE+choS1rTXN6cxZKo4OZr2ve/6OI1GEalJ4
+         31QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
-        b=YUj/rYH2IZfkY1oREg+uLs3mPpYUymlQyuGCq99MgKV2d97Q4XhULIfB5qbOnH7BrA
-         Z2wylqkCdkVt0tiDsPazZ2KrE1Si/vqCkCJHWnv8q08saanxco1QNHclYN/Q1AMNbOa7
-         g01e/QwqRi7ptaxXyTbtHBJFA9jL7fa5MSnhzGUVqSBsAyJWXG3YHdQRsWKNRYS4U+Hy
-         /pVoKk+MoByTIV8W0re1T117qCcNLuh3votTgckDS0ErxIPIiKa0HsW5j1XgksM6HudK
-         f0H1pUSMeytIxqwgomS837izpigKBjytTqJb3g0D+QooI3n9/XtmLqnKNqBZSF3mGCvR
-         El+A==
-X-Gm-Message-State: AO0yUKXnN2hBrHZlgkvGluZL+ngGJbKH3KGz80fmmawzMDu+KoZBklof
-        ojBQ1HxnkA2AbQmTyXjwlzk=
-X-Google-Smtp-Source: AK7set8S733/lSzocO4PhiGH97JuaxlIu1uyBJfIu/+7WmPOF35HnmMyyKLJccnN1cXH8ZQnKFrByA==
-X-Received: by 2002:a17:903:244f:b0:199:30a6:3756 with SMTP id l15-20020a170903244f00b0019930a63756mr3394795pls.18.1675805527758;
-        Tue, 07 Feb 2023 13:32:07 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:c930:81ab:3aec:b9cb])
-        by smtp.gmail.com with ESMTPSA id k5-20020a170902760500b00192d3e7eb8fsm9333284pll.252.2023.02.07.13.32.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 13:32:06 -0800 (PST)
-Date:   Tue, 7 Feb 2023 13:32:01 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [PATCH v3 04/12] gpiolib: remove gpio_set_debounce
-Message-ID: <Y+LDUTfKgHEJHNXB@google.com>
-References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
- <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3HTYdU1iz2KyIKM/KzNKr77IK1YFseNtCqjIaw9UgK8=;
+        b=wgrITxyCuicYqYER8PeDDi455C3hJ9h4Myd4RnrizEaDbMrsRFoC4QjgwT9++JxXXl
+         OGCkhigQ0JFHo3TjZ/psRmAmPrfWgrZ86V8rvnK+tgWThlXzDSgBVtQUBe3xXltw9G9K
+         OyQpHLiQrS0vtgeD1nm3OKVMx8KAbqXRcU7YuGv3+HwXzoH2FarhIOp/eU00VDMwayUK
+         EBML/pWWR+SQSlvOk/EEc6ULwAD0EE+g6/85kNtC0ewpywl9sqNNts7xSIRIw+wAxc8q
+         6ak3juW8uz7L3Gd2fRd4fr4veupaqhMYUuflJfwAMcUbwdkTottRoBBC7FuOky+H/oWs
+         SPdw==
+X-Gm-Message-State: AO0yUKXg7Vc2Vp2vH5zDSWg9j2JauaIaf2YakxCI7K5daBXUg3iB+CG7
+        4C1saCo/P2HvUclpXQZgtDE=
+X-Google-Smtp-Source: AK7set95wnbmJXzo9sbtz1p8PraJi/qhYCgAD2SPWDyQjnx6sc6htPaDBK8Fhv0VyS+NzP/ApU+/3A==
+X-Received: by 2002:ac8:5cc4:0:b0:3b8:3c0b:6332 with SMTP id s4-20020ac85cc4000000b003b83c0b6332mr8135000qta.28.1675806136006;
+        Tue, 07 Feb 2023 13:42:16 -0800 (PST)
+Received: from [192.168.50.134] (99-176-3-182.lightspeed.brhmal.sbcglobal.net. [99.176.3.182])
+        by smtp.gmail.com with ESMTPSA id f10-20020ac840ca000000b003b84b92052asm10080640qtm.57.2023.02.07.13.42.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Feb 2023 13:42:15 -0800 (PST)
+Message-ID: <9b645bbd-5b33-03c2-7688-f42815aa2c00@gmail.com>
+Date:   Tue, 7 Feb 2023 15:42:13 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] HID: quirks: Add quirk for Logitech G923 Xbox steering
+ wheel
+Content-Language: en-US
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+References: <823df262-aa1d-4340-666f-07b991fce64b@gmail.com>
+ <4fc782ec-e1f7-3b89-5be9-d5b7bab5c4d3@gmail.com>
+ <20230206095139.xj6ye7iuwnjo2bvj@mail.corp.redhat.com>
+From:   Walt Holman <waltholman09@gmail.com>
+In-Reply-To: <20230206095139.xj6ye7iuwnjo2bvj@mail.corp.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 07, 2023 at 04:29:44PM +0200, Andy Shevchenko wrote:
-> @@ -1010,14 +1009,21 @@ static int ads7846_setup_pendown(struct spi_device *spi,
->  		}
->  
->  		ts->gpio_pendown = pdata->gpio_pendown;
-> -
-> -		if (pdata->gpio_pendown_debounce)
-> -			gpio_set_debounce(pdata->gpio_pendown,
-> -					  pdata->gpio_pendown_debounce);
+On 2/6/23 03:51, Benjamin Tissoires wrote:
+> Hi Walt,
+> 
+> On Jan 27 2023, Walt Holman wrote:
+>> On 1/27/23 16:03, Walt Holman wrote:
+>>> Hello,
+>>>
+>>> This patch adds support for the Logitech G923 Xbox edition steering
+>>> wheel.
+>>>
+>>> -Walt
+>>>
+>>> diff -uprN linux-master-source/drivers/hid/hid-ids.h linux-master-target/drivers/hid/hid-ids.h
+>>> --- linux-master-source/drivers/hid/hid-ids.h    2023-01-27 15:18:14.000000000 -0600
+>>> +++ linux-master-target/drivers/hid/hid-ids.h    2023-01-27 15:50:24.077639994 -0600
+>>> @@ -819,6 +819,7 @@
+>>>    #define USB_DEVICE_ID_LOGITECH_G510_USB_AUDIO    0xc22e
+>>>    #define USB_DEVICE_ID_LOGITECH_G29_WHEEL    0xc24f
+>>>    #define USB_DEVICE_ID_LOGITECH_G920_WHEEL    0xc262
+>>> +#define USB_DEVICE_ID_LOGITECH_G923_XBOX_WHEEL    0xc26e
+>>>    #define USB_DEVICE_ID_LOGITECH_WINGMAN_F3D    0xc283
+>>>    #define USB_DEVICE_ID_LOGITECH_FORCE3D_PRO    0xc286
+>>>    #define USB_DEVICE_ID_LOGITECH_FLIGHT_SYSTEM_G940    0xc287
+>>> diff -uprN linux-master-source/drivers/hid/hid-logitech-hidpp.c linux-master-target/drivers/hid/hid-logitech-hidpp.c
+>>> --- linux-master-source/drivers/hid/hid-logitech-hidpp.c    2023-01-27 15:18:14.000000000 -0600
+>>> +++ linux-master-target/drivers/hid/hid-logitech-hidpp.c    2023-01-27 15:50:24.077639994 -0600
+>>> @@ -4347,6 +4347,9 @@ static const struct hid_device_id hidpp_
+>>>        { /* Logitech G920 Wheel over USB */
+>>>          HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G920_WHEEL),
+>>>            .driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
+>>> +    { /* Logitech G923 Wheel (Xbox version) over USB */
+>>> +      HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G923_XBOX_WHEEL),
+>>> +        .driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS },
+>>>        { /* Logitech G Pro Gaming Mouse over USB */
+>>>          HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC088) },
+>>>
+>> Signed off by: Walt Holman (waltholman09@gmail.com)
+>>
+> 
+> Thanks a lot for your submission. I wanted to quickly include it in the
+> kernel, but it seems that the patch is not following the standards:
+> - "git am" on your patch refuses to take it, saying it is corrupted
+>    (please use "git format-patch" to generate the proper patch format)
+> - your patch doesn't have a proper commit description:
+>    please add a description like "adds support for the Logitech G923 Xbox
+>    edition steering wheel in hid-logitech-hidpp. We get the same level
+>    of features than the regular G920". Or anything else as long as we get
+>    a sensible commit description.
+> 
+> As a general rule of thumb, please follow the doc at [1] to submit your
+> patches.
+> 
+> Cheers,
+> Benjamin
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst
+> 
+Hello Benjamin. Sorry about the malformed patch. I used Thunderbird and evidently it mangled it. I've since setup a proper git environment and re-sent the patch just recently from git send-email. Hopefully that is clean and ready to apply. Thanks!
 
-Can we please change only this to:
+-Walt
 
-			gpiod_set_debounce(gpio_to_desc(pdata->gpio_pendown),
-					   pdata->gpio_pendown_debounce);
-
-and not change anything else (i.e. drop the changes below)?
-
->  	} else {
-> -		dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
-> -		return -EINVAL;
-> +		struct gpio_desc *desc;
-> +
-> +		desc = devm_gpiod_get(&spi->dev, "pendown", GPIOD_IN);
-> +		if (IS_ERR(desc)) {
-> +			dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
-> +			return PTR_ERR(desc);
-> +		}
-> +		gpiod_set_consumer_name(desc, "ads7846_pendown");
-> +
-> +		ts->gpio_pendown = desc_to_gpio(desc);
->  	}
-> +	if (pdata->gpio_pendown_debounce)
-> +		gpiod_set_debounce(gpio_to_desc(ts->gpio_pendown),
-> +				   pdata->gpio_pendown_debounce);
->  
->  	return 0;
-
-Thanks.
-
--- 
-Dmitry
