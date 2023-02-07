@@ -2,73 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11B0468E014
-	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 19:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F0368E04E
+	for <lists+linux-input@lfdr.de>; Tue,  7 Feb 2023 19:43:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232571AbjBGScR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Feb 2023 13:32:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57822 "EHLO
+        id S231213AbjBGSny (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Feb 2023 13:43:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232577AbjBGScG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 13:32:06 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E07BBB4
-        for <linux-input@vger.kernel.org>; Tue,  7 Feb 2023 10:31:49 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id u8so6374818ilq.13
-        for <linux-input@vger.kernel.org>; Tue, 07 Feb 2023 10:31:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OVGv953a/TRW+zFGloKXvKsCRvM9/SxchdtuwLei+Fo=;
-        b=jz/Op+8b4+niNTCYz0rUEA4y/ac+GvW59915DrFptkw1bsxdR8dhDMijIXH9CWlchg
-         PUvECpeICr8G9+jezzp4Vtn2SLurCe0I1XymMjzcBEiVFkz8igHdmDUbzNWlG3UjHfJQ
-         Mht3RDKpDhJVNIui/bQDplWjhxWtsNOIjP0zI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OVGv953a/TRW+zFGloKXvKsCRvM9/SxchdtuwLei+Fo=;
-        b=TRnmw3lO2ml64KLGOZYvSqJYooUDZzHH/XwHHR1bCuR3U72bf57EmIei8GN5EEXQ38
-         QImEX6ImPqOxqAQmAFJhRdNgg/XPC170fs8+MOoy/Sg4RotmgxblZj3gNnyiZ+WaCea9
-         z4yWWqcL6bTFuw1lh+XwJhv1N7McRmUB9y0K/Ls4Xg9MhnwXZpXQlvwzmpCz6aeyV+5x
-         P7qQobPJeReJGd1/I0KjecQrN591L1esDsT79P2CI/WvJRTM0lBoR7w4DpNHXB/VqXp/
-         tAJXB+3IwVB8jXgK1kgDaONqPuunXXgIzMlxg5p6ic5q0ufnnuoNwiwIznvlGEKoUfi/
-         gWAA==
-X-Gm-Message-State: AO0yUKWJ/Lpr8v0JHDllFnf1fwTqZwDtHF6Lwe4oTrw1hgRAhCFACmzd
-        00wIYmnJU1sj/R72hPpuFHDKJA==
-X-Google-Smtp-Source: AK7set/ap571v3p51svWnKT+r9LLpAmOse7WGsIyA3foorSztB6PQDbjr2IVAC/t+XfclX9fNwITXQ==
-X-Received: by 2002:a05:6e02:1be6:b0:30f:6400:f7dd with SMTP id y6-20020a056e021be600b0030f6400f7ddmr5307831ilv.17.1675794708781;
-        Tue, 07 Feb 2023 10:31:48 -0800 (PST)
-Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id n4-20020a92d9c4000000b00310a40e669esm1601859ilq.11.2023.02.07.10.31.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 10:31:48 -0800 (PST)
-Date:   Tue, 7 Feb 2023 18:31:47 +0000
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Douglas Anderson <dianders@chromium.org>
-Cc:     Bjorn Andersson <andersson@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        with ESMTP id S230445AbjBGSnx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 13:43:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06221E1D5;
+        Tue,  7 Feb 2023 10:43:51 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 856E1B81AB2;
+        Tue,  7 Feb 2023 18:43:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D06C433D2;
+        Tue,  7 Feb 2023 18:43:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675795429;
+        bh=z46LV0K67pYt+9sG+8XPfphcBy3wjoS4vl+j+OOVUvk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=icQIS6QVs3SIYrh/ewyBWxOXyRdTzSi5iQLtHvNEjG7lvYhQ+DvHhk+3KEs5qU2sU
+         TMTqOav5kG8GY5JR22dKb78qqMAt/Bg2JYkWEyM+MGuclGw0hQvMcVEtbzsmiJlItD
+         IEGaquWuCLNILvUo5685guZahlOFm7IGWB2GaIQ6/vE/h0SUH8mRyEHQMupAISjrjW
+         fnVVq+bZn0SaHzKt6ZHA6LtwE38N/APEa35C82I5WgacjEtf/+fE+N1kuSQDae5KOg
+         NbPJHolFeXjK9+XKnt9280QC9hb68ZWPxwLnKvG03l5612lhbMN4Z8sBFUzc9BZ9vj
+         q3xPIHrd6PLJg==
+Date:   Tue, 7 Feb 2023 10:43:45 -0800
+From:   Lee Jones <lee@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Devarsh Thakkar <devarsht@ti.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        devicetree@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] HID: i2c-hid: goodix: Stop tying the reset line to
- the regulator
-Message-ID: <Y+KZE1tqTH3lqafJ@google.com>
-References: <20230207024816.525938-1-dianders@chromium.org>
- <20230206184744.4.I085b32b6140c7d1ac4e7e97b712bff9dd5962b62@changeid>
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Subject: Re: [PATCH v3 06/12] gpiolib: split linux/gpio/driver.h out of
+ linux/gpio.h
+Message-ID: <Y+Kb4Ql+I7/Abm48@google.com>
+References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
+ <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230206184744.4.I085b32b6140c7d1ac4e7e97b712bff9dd5962b62@changeid>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -77,61 +107,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 06, 2023 at 06:48:13PM -0800, Douglas Anderson wrote:
-> In commit 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to
-> true state of the regulator"), we started tying the reset line of
-> Goodix touchscreens to the regulator.
-> 
-> The primary motivation for that patch was some pre-production hardware
-> (specifically sc7180-trogdor-homestar) where it was proposed to hook
-> the touchscreen's main 3.3V power rail to an always-on supply. In such
-> a case, when we turned "off" the touchscreen in Linux it was bad to
-> assert the "reset" GPIO because that was causing a power drain. The
-> patch accomplished that goal and did it in a general sort of way that
-> didn't require special properties to be added in the device tree for
-> homestar.
-> 
-> It turns out that the design of using an always-on power rail for the
-> touchscreen was rejected soon after the patch was written and long
-> before sc7180-trogdor-homestar went into production. The final design
-> of homestar actually fully separates the rail for the touchscreen and
-> the display panel and both can be powered off and on. That means that
-> the original motivation for the feature is gone.
-> 
-> There are 3 other users of the goodix i2c-hid driver in mainline.
-> 
-> I'll first talk about 2 of the other users in mainline: coachz and
-> mrbland. On both coachz and mrbland the touchscreen power and panel
-> power _are_ shared. That means that the patch to tie the reset line to
-> the true state of the regulator _is_ doing something on those
-> boards. Specifically, the patch reduced power consumption by tens of
-> mA in the case where we turned the touchscreen off but left the panel
-> on. Other than saving a small bit of power, the patch wasn't truly
-> necessary. That being said, even though a small bit of power was saved
-> in the state of "panel on + touchscreen off", that's not actually a
-> state we ever expect to be in, except perhaps for very short periods
-> of time at boot or during suspend/resume. Thus, the patch is truly not
-> necessary. It should be further noted that, as documented in the
-> original patch, the current code still didn't optimize power for every
-> corner case of the "shared rail" situation.
-> 
-> The last user in mainline was very recently added: evoker. Evoker is
-> actually the motivation for me removing this bit of code. It turns out
-> that for evoker we need to manage a second power rail for IO to the
-> touchscreen. Trying to fit the management of this IO rail into the
-> regulator notifiers turns out to be extremely hard. To avoid lockdep
-> splats you shouldn't enable/disable other regulators in regulator
-> notifiers and trying to find a way around this was going to be fairly
-> difficult.
-> 
-> Given the lack of any true motivation to tie the reset line to the
-> regulator, lets go back to the simpler days and remove the code. This
-> is, effectively, a revert of commit bdbc65eb77ee ("HID: i2c-hid:
-> goodix: Fix a lockdep splat"), commit 25ddd7cfc582 ("HID: i2c-hid:
-> goodix: Use the devm variant of regulator_register_notifier()"), and
-> commit 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to true
-> state of the regulator").
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+On Tue, 07 Feb 2023, Andy Shevchenko wrote:
 
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Almost all gpio drivers include linux/gpio/driver.h, and other
+> files should not rely on includes from this header.
+> 
+> Remove the indirect include from here and include the correct
+> headers directly from where they are used.
+> 
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  arch/arm/mach-omap1/irq.c                              | 1 +
+>  arch/arm/mach-orion5x/board-rd88f5182.c                | 1 +
+>  arch/arm/mach-s3c/s3c64xx.c                            | 1 +
+>  arch/arm/mach-sa1100/assabet.c                         | 1 +
+>  arch/arm/plat-orion/gpio.c                             | 1 +
+>  drivers/net/wireless/broadcom/brcm80211/brcmsmac/led.c | 1 +
+>  include/linux/gpio.h                                   | 2 --
+>  include/linux/mfd/ucb1x00.h                            | 1 +
+
+Acked-by: Lee Jones <lee@kernel.org>
+
+>  8 files changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+Lee Jones [李琼斯]
