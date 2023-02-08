@@ -2,69 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B2968E557
-	for <lists+linux-input@lfdr.de>; Wed,  8 Feb 2023 02:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 253EB68E572
+	for <lists+linux-input@lfdr.de>; Wed,  8 Feb 2023 02:32:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbjBHBTZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Feb 2023 20:19:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44006 "EHLO
+        id S230099AbjBHBcJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Feb 2023 20:32:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjBHBTY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 20:19:24 -0500
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2869241B47;
-        Tue,  7 Feb 2023 17:19:22 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R431e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0Vb90Ra5_1675819160;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0Vb90Ra5_1675819160)
-          by smtp.aliyun-inc.com;
-          Wed, 08 Feb 2023 09:19:21 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] HID: core: clean up some inconsistent indentings
-Date:   Wed,  8 Feb 2023 09:19:19 +0800
-Message-Id: <20230208011919.92807-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        with ESMTP id S229457AbjBHBcH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Feb 2023 20:32:07 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697E618B2C;
+        Tue,  7 Feb 2023 17:32:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=jo71tlA2eEZPdxKjgTvLhMtzKyjxK2QlLMd+t0w/e3Q=; b=ay2mX2FLZ3Pvx6L5UJcyeffPih
+        Z2FzC7RnqKsgae3U/fJ+2MREDfNnYcX+7/DIUMs8G3h8JY9UkvYd4HWnOOk7Is6BNTJaTYAZxe1vf
+        l8LfWY1qS4pm/xpZ6w6Q4zuQ/rSlOUnCWslbQWOSRIy7DLC8xbsQgRlz+/9U8gmSYKYFTGHng3Won
+        9zYe4KLDgG2h5xOK/JslAPD/TMcDxUIDr8Uh+bYJm6gP5/ICWPz84oG5SIr1LjuTibzDMj3s3eZNT
+        vAuQJO05IAMM1Vxg5h6AY1cFu3fy6HRqxOeCQZZ0SMxWcVxafZAqAdGTnLRRAF2dInznQN6ckvsDV
+        zMkQoO9Q==;
+Received: from [2601:1c2:980:9ec0::df2f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pPZJD-00Dmp1-1J; Wed, 08 Feb 2023 01:31:39 +0000
+Message-ID: <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
+Date:   Tue, 7 Feb 2023 17:31:37 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: remove arch/sh
+To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+ <20230203071423.GA24833@lst.de>
+ <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-./drivers/hid/hid-core.c:2727:2-17: code aligned with following code on line 2732
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3980
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/hid/hid-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 842afc88a949..f080f132b36c 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2729,10 +2729,10 @@ int hid_add_device(struct hid_device *hdev)
- 	/*
- 	 * Check for the mandatory transport channel.
- 	 */
--	 if (!hdev->ll_driver->raw_request) {
-+	if (!hdev->ll_driver->raw_request) {
- 		hid_err(hdev, "transport driver missing .raw_request()\n");
- 		return -EINVAL;
--	 }
-+	}
- 
- 	/*
- 	 * Read the device report descriptor once and use as template
+On 2/7/23 01:06, John Paul Adrian Glaubitz wrote:
+> Hello Christoph!
+> 
+> On Fri, 2023-02-03 at 08:14 +0100, Christoph Hellwig wrote:
+>> On Mon, Jan 16, 2023 at 09:52:10AM +0100, John Paul Adrian Glaubitz wrote:
+>>> We have had a discussion between multiple people invested in the SuperH port and
+>>> I have decided to volunteer as a co-maintainer of the port to support Rich Felker
+>>> when he isn't available.
+>>
+>> So, this still isn't reflected in MAINTAINERS in linux-next.  When
+>> do you plan to take over?  What platforms will remain supported and
+>> what can we start dropping due to being unused and unmaintained?
+> 
+> I'm getting everything ready now with Geert's help and I have a probably dumb
+> question regarding the MAINTAINERS file change: Shall I just add myself as an
+> additional maintainer first or shall I also drop Yoshinori Sato?
+> 
+> Also, is it desirable to add a "T:" entry for the kernel tree?
+
+Yes, definitely.
+
+thanks.
 -- 
-2.20.1.7.g153144c
-
+~Randy
