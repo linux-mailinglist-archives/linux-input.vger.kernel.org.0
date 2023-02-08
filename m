@@ -2,93 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CADA68EF9B
-	for <lists+linux-input@lfdr.de>; Wed,  8 Feb 2023 14:16:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB75B68F068
+	for <lists+linux-input@lfdr.de>; Wed,  8 Feb 2023 15:13:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbjBHNQT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Feb 2023 08:16:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58224 "EHLO
+        id S231334AbjBHONF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Feb 2023 09:13:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjBHNQS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Feb 2023 08:16:18 -0500
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC6F46160;
-        Wed,  8 Feb 2023 05:16:15 -0800 (PST)
-Received: by mail-vs1-xe30.google.com with SMTP id p10so19844439vsu.5;
-        Wed, 08 Feb 2023 05:16:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=A9kVK9c7CfGewqX3a1Lelqo2y/d2iFoRNqiWRS7Q7ZU=;
-        b=YYnTf9UOVv++gL127EoqsB1eGw2w2mfYDzpqE/hecKJaTlu9lZA6D0agL6DnQGIZMW
-         1zT1mJocutgpcu8vc9REuPUi3bD+yx+CxlFjr0PaDrC58ZcK5SGUzcXKPoJNrauvVyoY
-         PtkjUNBeomhhco8q2BiqVMmZW1dnEx9AGcE4KXVFkv2zbL09FnWrFj4kOEx4hdEiJDeR
-         6xaJeJjlchdIcB6wymMuhkkW0KugTF1Yp/xk4rfsw5uNkYdoB1aZBJmnYGq2/e+GvFRf
-         tdX+X+wLFDFJ/fkLOb3VCVd/B9WIPLIERM8a7nclcpY8u0ocR3HaV11q1+8XgM1pfroY
-         /9iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A9kVK9c7CfGewqX3a1Lelqo2y/d2iFoRNqiWRS7Q7ZU=;
-        b=jzIHLweacP54GBaPF2w5lqMOef1SG4vgP8clbsKbqo9BftN3AaTEVHJrPeK5m7+wT4
-         ba8e/RNAoSYEBW1543YdRez+IulgZ6Ov9zP2JtFmB40mapk5eRZojD6jtQ2H+q3coRO9
-         GqRXZ3eIHeDTnrkdmPSN5HsJG7BTlyXnnfP+BRX+EuPFWWH5wDG/Jho0Sya7nB4dGrWl
-         hy4GKuBwuoCg1rTQ5vaxFjMK83GBuCPIrOnFP9vD0tE6OrbjcUNAHBYKHZpIh4vSviD7
-         SYq055z90zo/i1l01DZjx6yVY1HwQ6VlCWKmS6LLoogk3rQr+mSjNEQtja00LEePJpKZ
-         ugZg==
-X-Gm-Message-State: AO0yUKUyq4cpezH+9rPuRj6yxU1PEyPAYsolS8KdbjyjIHUQHBSdKvwQ
-        BeBRXA9zsTTZLaGV3XJ2IYv6VaM9ZnFQ0+JE6Gs=
-X-Google-Smtp-Source: AK7set8d+MuMChpHvoSGQ9u0F3j7rUBZKS6nsd4rn161k7Ag4YLcGc2J2bulDhR5rDO7Yz6hVP0FBmPynvf+9lpAz0U=
-X-Received: by 2002:a67:2487:0:b0:3f8:6b59:61b with SMTP id
- k129-20020a672487000000b003f86b59061bmr2491073vsk.40.1675862174437; Wed, 08
- Feb 2023 05:16:14 -0800 (PST)
+        with ESMTP id S230351AbjBHONB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Feb 2023 09:13:01 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC5437F1E;
+        Wed,  8 Feb 2023 06:12:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 99DC5B81C76;
+        Wed,  8 Feb 2023 14:12:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EF7C4339C;
+        Wed,  8 Feb 2023 14:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675865539;
+        bh=CM9X2AuKUJbsYimacCNPKUAK4TpbgQFBIKIrx7h4lJw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LVucjxu+REx2vxJaU73V9LeqN0VfNlpVqOVjlgapAR7+Js6CJh2wUlBGjryat06Mx
+         D9i30JRbIJdOspvFUtAoFUTSjc7q9zKrJAeQbeBiwFIiiX8euIEbk0Ty1Tz6V657+T
+         FLA5gRRVsKUOtlkaWGYAvOyX2NIaQlgKRJiFZbCRwtUw7qjRf/eGTg/jPYZv/0q1tt
+         FcUOC2BCeTia4s8YYIZRIs5mKBJvajFbiu7xD8C4mv+0OOcBl6e5vyuvgWOBBh+MUZ
+         xz5q4YEAPB/J4RrPpxV69F8ll/mVwhh9Od/sV4/BiL8f+TOBF8F2/I8j5Fv6bLISdE
+         LVYCGEEzxvGgw==
+Date:   Wed, 8 Feb 2023 15:12:16 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Huacai Chen <chenhuacai@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Subject: Re: remove arch/sh
+Message-ID: <Y+OtwCqt26UjCwkZ@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+ <20230203071423.GA24833@lst.de>
+ <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
+ <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
+ <f6317e9073362b13b10df57de23e63945becea32.camel@physik.fu-berlin.de>
+ <CAAhV-H57bV855SMr6iBqoQzdak5QSnaRLjQ9oAbOtYZnik5SoQ@mail.gmail.com>
+ <91be7f6b52d8ed74798e86270d59bc5cddefe130.camel@physik.fu-berlin.de>
 MIME-Version: 1.0
-References: <20230206135016.6737-1-kaehndan@gmail.com> <20230206135016.6737-2-kaehndan@gmail.com>
- <20230207185007.GA3962587-robh@kernel.org>
-In-Reply-To: <20230207185007.GA3962587-robh@kernel.org>
-From:   Daniel Kaehn <kaehndan@gmail.com>
-Date:   Wed, 8 Feb 2023 07:16:03 -0600
-Message-ID: <CAP+ZCCcbT6UoWNL7g-WGqO+OjcVyQvms-3YkE2TByMAuD_keng@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] dt-bindings: i2c: Add CP2112 HID USB to SMBus Bridge
-To:     Rob Herring <robh@kernel.org>
-Cc:     krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, ethan.twardy@plexus.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="H/y3lZ2MEalioY2m"
+Content-Disposition: inline
+In-Reply-To: <91be7f6b52d8ed74798e86270d59bc5cddefe130.camel@physik.fu-berlin.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 7, 2023 at 12:50 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Feb 06, 2023 at 07:50:13AM -0600, Danny Kaehn wrote:
-> > This is a USB HID device which includes an I2C controller and 8 GPIO pins.
-> >
-> > The binding allows describing the chip's gpio and i2c controller in DT
-> > using the subnodes named "gpio" and "i2c", respectively. This is
-> > intended to be used in configurations where the CP2112 is permanently
-> > connected in hardware.
->
-> My comments on v3 still apply. Please slow down your pace of sending new
-> versions so folks have change to review.
->
-> Rob
 
-Thanks for the correction -- I definitely see how that could be
-frustrating / problematic. (until now I'd thought the ideal case was
-that comments were addressed as soon as possible, so that folks
-wouldn't be reviewing now-obsolete code that might change due to other
-comments anyways)
+--H/y3lZ2MEalioY2m
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
 
-Danny Kaehn
+> Yes, that's the plan. We're collecting the various patches people have se=
+nt
+> in for arch/sh, review and test them and apply them.
+>=20
+> My test board is running the latest kernel now, so I can test new patches=
+, too.
+
+I am just witnessing this development, but I want to say thanks for your
+effort and congrats on your progress. Looks like you do the right things
+correctly, cool! Kudos also to Geert and others for their assistance.
+
+
+--H/y3lZ2MEalioY2m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPjrbwACgkQFA3kzBSg
+KbYHCw//YV/RG0PWJ1txmpgpA0mLX7EfhxqJS6vwNlqziCSd910A+/ZNL7p2Q5Hx
+wVdeRoLHd9OcZFYXr0HLH0VCIJUYpr57DCy0AoIKL9q9CWET1hAMZjsIv5Kx2uVa
+1obdyCX46XEMqpSBhcsq8Vsq0TMQ4sCLdpVq/wPqBEDGUBGAIhkWX1UMQv2kiS1T
+uuYPKgsFmI2kl52owcOU2yZ42SVZNTEWiO2A8/4BXFfhhzKLWVcZQpEV9OInJ30n
+iXm6abMFAsFavgI90NZl1H4UKKLOzD5Jgr9Rv6DfYuyeADsKe2oQN1NvioHHVqvm
+qWG2b2UnZ7oS+dXxhS7YsQeiiTyZP/mpUprmrCrm0HMsl6iKCgCU8ceuRzy80Obt
+7u9CpA+ceRJ05Gfgo18YElk42l4Qhwk4zSWDQdOwtOlk1FpX9TBxOtOVngYEprMM
+UDRSSXFIJZTEyUAbqWqsMDuGRVcq3S9XAPYINbzig3H+Iy7an/wpxWBnYrRm+eCz
+/eb7eQ/iQYmBd7Zn8XO74E6vvH+pG8f9nqr2sRPpk89ZDPsZEk0wFCHpJQShIYJt
+iSeMDaLVGP+e+YlW7qvKavsdPISxlLhNFA1kj66ccHNZVbNQ5xyGhps/8qefpitG
+nN9N+KCLmNvyC8QCuMiMRDD9RVq8OSQ3VcL2zT8pj3XuJo2po4s=
+=9hIS
+-----END PGP SIGNATURE-----
+
+--H/y3lZ2MEalioY2m--
