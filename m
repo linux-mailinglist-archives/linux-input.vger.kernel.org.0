@@ -2,150 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC4A68F67A
-	for <lists+linux-input@lfdr.de>; Wed,  8 Feb 2023 19:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B9C468FC55
+	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 02:01:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232177AbjBHSDK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Feb 2023 13:03:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39716 "EHLO
+        id S230431AbjBIBBa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Feb 2023 20:01:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231500AbjBHSCy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Feb 2023 13:02:54 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238D058947
-        for <linux-input@vger.kernel.org>; Wed,  8 Feb 2023 10:02:14 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id r18so351957wmq.5
-        for <linux-input@vger.kernel.org>; Wed, 08 Feb 2023 10:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M5KNVHSrC7/cdAAppvSovX1BQYH1mlKeTzSZkndabzI=;
-        b=lhYn0UKt1gI8oDRgPLyn7ikFvTDGwf2Vq24dv2LgPHiV8ihqRT2k7qLxUMyUBPC8iL
-         1kjRzv0p5FOr/OPZoPqTsOomSmdtG6dRIDCmM2zWnykN/NsN+pnvQRcekBxPpLb+7dnJ
-         WMII8V513jFjWV6EbLbZAVMg7+7MzRwZc69Es0ZafU8E7dTwE8PemItdaGxExyYCNWB8
-         VicfQ5HP97OFsOvy5HtV54Dl9qvPAh4xrxJ0Tfty7jVCL1BqJCUFOP0rvw4UZintMu+r
-         YcjZHNEqmas9yN+Xvh+FoJd90tCEohAYODXdGcG3sjItNhs8JWgRGQ4Vm8tIfLxbUBbk
-         X96A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M5KNVHSrC7/cdAAppvSovX1BQYH1mlKeTzSZkndabzI=;
-        b=bodV/N4s3/VP5G9+3VmEsxYQYcGmg91vnnP3RLVTquTkRhU09VJ2DeJYRB5yeGMnZ6
-         /d6ZdBmjt581KdUtfOk7wmZz6ckTG/WmFOoa8d9m46pdHC7z/iJLaIQ0NG9IZMC6A9s0
-         b6qMgmOL+0b3Va3Qa+EKp/Mq1muNuIBIq0i7tNupoWOuq6vrsH1X4muAZiA37CI81bbl
-         GCEYurV3ohALz6hIOGZt2z4encBSc86j6iVt+4KTN/7O9kzNf3mrlDdRsQaJsXZdIkea
-         1zcEGUQlWSem3UZ81TaKvw9jPDSLXt5NDvZ0M6NpDt+cHkXeuZayugGCO/1/HaeD8mNB
-         vwsw==
-X-Gm-Message-State: AO0yUKXeYx/pibZdjJ+l17SC/MkRI5P+OXL/tCyTnGfydJHwTvsj0qLa
-        Ab1pnYHv8MAimnHUyUGQPZmKsg==
-X-Google-Smtp-Source: AK7set/N7X08/6/zDIwTs2SW3WqzqwHVir4In+cx7rhLGQNf+mB7g+wx8kSFQo+gWqS8ovXbhXrHVg==
-X-Received: by 2002:a05:600c:9a2:b0:3dd:393c:20b5 with SMTP id w34-20020a05600c09a200b003dd393c20b5mr7247364wmp.35.1675879326639;
-        Wed, 08 Feb 2023 10:02:06 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id j40-20020a05600c1c2800b003dc4480df80sm3034104wms.34.2023.02.08.10.02.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Feb 2023 10:02:06 -0800 (PST)
-Message-ID: <80f5271e-6fe6-df5a-beff-f3723110edf7@linaro.org>
-Date:   Wed, 8 Feb 2023 19:02:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 02/18] ARM: s3c24xx: Use the right include
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Michael Walle <michael@walle.cc>,
+        with ESMTP id S230430AbjBIBB3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Feb 2023 20:01:29 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE6A22780;
+        Wed,  8 Feb 2023 17:01:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=cRJurgsy1gaC1lctHFZC/IKRwcYLjz/t3VnD1fiYHJo=; b=ZUdmS+Tj7J2Oi5jQXtmCacgF7o
+        Px/Z5vk0mf7TG45dmbeBTDsm4Ni4Te0F4o28sDmUYo39zaCp5/PSh00djQjEOBkGLA0MsMdGzFZh+
+        R7fyRsYeoSQrrxEro0wqgkqSLf5qI3rgZq4xbg/tq2Zc4PRLZP7+H5Wpjrqou2zYCkMkKtg7d+L+o
+        39HpblME8c7dUV9JeQsGa8ftD4q+qUjJoitjko5vC1o10LfQUtLwVZvkg9lalHE+XP7+s5ItanC9B
+        uNfNcUYQ1uhCZ7mBEeXuuw5dQWt+064l21QPWPTkbyJyb8QHikTuv87s3bkRlL4t1rVr0JXOVxGx0
+        y+wZXuPQ==;
+Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pPvJV-00HMDn-Qa; Thu, 09 Feb 2023 01:01:25 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        David Howells <dhowells@redhat.com>,
+        Helge Deller <deller@gmx.de>, linux-m68k@lists.linux-m68k.org,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        linux-parisc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dipen Patel <dipenp@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
- <20230208173343.37582-3-andriy.shevchenko@linux.intel.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230208173343.37582-3-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        linux-input@vger.kernel.org
+Subject: [PATCH] input/misc: hp_sdc_rtc: mark an unused function as __maybe_unused
+Date:   Wed,  8 Feb 2023 17:01:25 -0800
+Message-Id: <20230209010125.23690-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 08/02/2023 18:33, Andy Shevchenko wrote:
-> From: Linus Walleij <linus.walleij@linaro.org>
-> 
-> The file s3c64xx.c is including <linux/gpio.h> despite using no
-> symbols from the file, however it needs it to implicitly bring in
-> of_have_populated_dt() so include <linux/of.h> explicitly instead.
-> 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+When CONFIG_PROC_FS is not set, one procfs-related function is not
+used, causing a build error or warning.
+Mark this function as __maybe_unused to quieten the build.
 
+../drivers/input/misc/hp_sdc_rtc.c:268:12: warning: 'hp_sdc_rtc_proc_show' defined but not used [-Wunused-function]
+  268 | static int hp_sdc_rtc_proc_show(struct seq_file *m, void *v)
+      |            ^~~~~~~~~~~~~~~~~~~~
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Fixes: c18bd9a1ff47 ("hp_sdc_rtc: Don't use create_proc_read_entry()")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: linux-parisc@vger.kernel.org
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+---
+ drivers/input/misc/hp_sdc_rtc.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
-
+diff -- a/drivers/input/misc/hp_sdc_rtc.c b/drivers/input/misc/hp_sdc_rtc.c
+--- a/drivers/input/misc/hp_sdc_rtc.c
++++ b/drivers/input/misc/hp_sdc_rtc.c
+@@ -265,7 +265,7 @@ static inline int hp_sdc_rtc_read_ct(str
+ 	return 0;
+ }
+ 
+-static int hp_sdc_rtc_proc_show(struct seq_file *m, void *v)
++static int __maybe_unused hp_sdc_rtc_proc_show(struct seq_file *m, void *v)
+ {
+ #define YN(bit) ("no")
+ #define NY(bit) ("yes")
