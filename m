@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4371690537
-	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 11:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 332EF69053E
+	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 11:43:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbjBIKnB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Feb 2023 05:43:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35268 "EHLO
+        id S229660AbjBIKnW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Feb 2023 05:43:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbjBIKmq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 05:42:46 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8451ABB9B
-        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 02:42:30 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id t1so1831853ybd.4
-        for <linux-input@vger.kernel.org>; Thu, 09 Feb 2023 02:42:30 -0800 (PST)
+        with ESMTP id S229689AbjBIKnG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 05:43:06 -0500
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C503CE30
+        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 02:43:03 -0800 (PST)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-52bf225460cso19632197b3.4
+        for <linux-input@vger.kernel.org>; Thu, 09 Feb 2023 02:43:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1EVNZNpF/Er877/te7k/r7KimgWui6kPYTMbzlbMpHE=;
-        b=NoRufYnWd3sLfMds3pddswGHnqjpzO29628T+k+Q97BW963D2fJT2hsh+eLfD4RQRH
-         zdt1oPrfGIR6Ose1yZAl+8pQgeUH06VeoxND49uyRtLk5wZaK6P1vWkHUPfwzBs82HZR
-         oz2k/BMEaFgmS29Yh5uwqHaYMz9Lhz6PDpDDMeI348cBYuVGYWvMWT7QO/+7wp9T5Vuw
-         22Lz60wzbBdJCYBR+gQPrDMAhySTtLLftil07FrKSjq7YegvR0bKStX2X/FTg/1VqIdH
-         Sge2BQn9ZdQJjuaYgcGGeAH8hZsKUPivgELlTQNAPWs8P8uYFiU7J3aJu1bicHqUtpvb
-         002g==
+        bh=1Dfnv6QTzazTlsxHac3XWatpVo8TGduuTbtSvglXVvU=;
+        b=EDs5k/W16zn0Ewb4Av+rMGdR5etMeYUDSOnhWymGYKcLYthti1GYfA2TP5e5t/ERNh
+         MKbbieo53E8kpeB0Yyv2NvHUk0yfrE/gvmFC1NYjTeJDTe1h+OdhU5+m3DFeFdI2TB7T
+         p17dPLZa8O46uE7nuWG/UhXPfYyFM5D148s8bTaU+meKYR6c/RyiM9fXtLSdxRl8iuwD
+         C9fro1Hx0Q5jEuplvrdGWMyNelcJTVf+a5N4QugPxawAs41AoO9OZIKCubn/wPeMvXNA
+         /bZx2ceCuEj/De9Vb4bWeaLRk4MMHC2KK2V4YS0PUdsK3mqNfcVg1olMoECAbSvgLbOn
+         l2fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1EVNZNpF/Er877/te7k/r7KimgWui6kPYTMbzlbMpHE=;
-        b=nPC8/iPgXkzHBDa6AO/QM7GfqOcaXmtreQdcefR70SgMGWLgq54Bn0hK9ReTOODTuo
-         UbDVCToiy1EdL1RLbxQdBl9tp8Z60v7eJ2zFNIHWC7cyRVutUNjxFrO4QAWiCoulA1kL
-         iGItf02U5BvG4o7k324XI46weorx7voPLTG/wj1P1HWBxvxetZjHbRkieGkcgUkJqllt
-         1yIsajnzHRD6I1vXbuwV7o4yEkKMK3AxyYSRMy7VIbGK0QuQKmSTeTmFp6JooYIU4iJW
-         xD7015nHU30N1SMD5Uaqk4zPHYbw9/+Arw+rP5wS9HUZ23uod7cMO7cVc+q/x1h2K9Mi
-         TnRA==
-X-Gm-Message-State: AO0yUKXggaM/pzwZcBFAYs0JMZlNwObg4QvZsk5jg1V/rl3EdfBjACsU
-        sSpVSH09VbUuE/TO4bD6C7gc7ikwVkSJgAisQsjO/Q==
-X-Google-Smtp-Source: AK7set/4egQ6ymaaXnifQxB1VP1BF0zfzUZPRKdac18DBhBo3kRtxaBrvl/7jPL1oolTNNR8WQJzGyOCYU7Jrhx58mc=
-X-Received: by 2002:a5b:1c4:0:b0:8c9:2650:4ece with SMTP id
- f4-20020a5b01c4000000b008c926504ecemr420798ybp.210.1675939349691; Thu, 09 Feb
- 2023 02:42:29 -0800 (PST)
+        bh=1Dfnv6QTzazTlsxHac3XWatpVo8TGduuTbtSvglXVvU=;
+        b=DrfCpRRL38mSW5iZDw9nhiBzsJfbmr3zOq11sBuJssdAYGk6K/OJ6ga9WST2SZ/I4g
+         F176PnGA858LPopEyhR0BMMECWsWmvu0xFpXCOJMp3I6lrETCFaX75GEXKDj4ycT4JbG
+         xJ/69hD2/OFN4iik1/bR8WYvP+vEElgxA3MNpbSHXeRUcJxMKEtMsLHR17iAS81YzRPk
+         rkGfnpp0jO3oXZhNftPbZN+gpaeusH0JPoTe/w6SQye11N5Ml5jeSyNHyu2uNL4eTKfK
+         MJLbR3yxk3lk0LlQUuBOjW50HlOoZlRe5P1cBvsIabLuDCXMrdajj1HSFYj2DPZ6bX+F
+         A9+g==
+X-Gm-Message-State: AO0yUKUnTsDwtlKCTwJZD3nrwqeiM5rb3BkbkdnOvW87L8c2JYhyG5Il
+        Q2+lrTRPsccgaVmUVAyEvYkBolyBEU9gccTzZcqoZQ==
+X-Google-Smtp-Source: AK7set9QMguoIjGfWWwpFvhgz/Kg7HslLMdKNBORB2dldIzFQhQQTBP68JgHz09/otq/c2jQJlbDIxPqVcPmUJJPotc=
+X-Received: by 2002:a81:d509:0:b0:4f3:8d0e:edce with SMTP id
+ i9-20020a81d509000000b004f38d0eedcemr1154619ywj.185.1675939382102; Thu, 09
+ Feb 2023 02:43:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com> <20230208173343.37582-17-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230208173343.37582-17-andriy.shevchenko@linux.intel.com>
+References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com> <20230208173343.37582-18-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230208173343.37582-18-andriy.shevchenko@linux.intel.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 9 Feb 2023 11:42:18 +0100
-Message-ID: <CACRpkdY+u4uQAXLggL=Shf7_dES_HRRtew+9Cxuipxi3nHRRCA@mail.gmail.com>
-Subject: Re: [PATCH v4 16/18] gpiolib: Deduplicate forward declarations in consumer.h
+Date:   Thu, 9 Feb 2023 11:42:50 +0100
+Message-ID: <CACRpkdY6rc3hBoY=Cf4nTmMu=VA-d+VUveG6PsU6bvRKAgnxxA@mail.gmail.com>
+Subject: Re: [PATCH v4 17/18] gpiolib: Group forward declarations in consumer.h
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>,
         Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
@@ -126,8 +126,7 @@ X-Mailing-List: linux-input@vger.kernel.org
 On Wed, Feb 8, 2023 at 6:34 PM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 
-> The struct fwnode_handle pointer is used in both branches of ifdeffery,
-> no need to have a copy of the same in each of them, just make it global.
+> For better maintenance group the forward declarations together.
 >
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
