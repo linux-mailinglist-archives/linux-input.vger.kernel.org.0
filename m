@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D02056914FB
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 00:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A7AA6914FC
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 00:59:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229952AbjBIX7B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Feb 2023 18:59:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36524 "EHLO
+        id S229986AbjBIX7C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Feb 2023 18:59:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbjBIX7A (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 18:59:00 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CECB3E082
-        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 15:58:57 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id p26so11478372ejx.13
-        for <linux-input@vger.kernel.org>; Thu, 09 Feb 2023 15:58:57 -0800 (PST)
+        with ESMTP id S229940AbjBIX7B (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 18:59:01 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C7FC56EFA
+        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 15:58:58 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id sa10so11512670ejc.9
+        for <linux-input@vger.kernel.org>; Thu, 09 Feb 2023 15:58:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=diag.uniroma1.it; s=google;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6eVaacS6FkeNHI3gCwBXBXTiRx/aAVUrpV3/vxpn0oI=;
-        b=S7aDmuzLHPV6GlW2WfZYBJeSitD9w76Pdv+1NDock3rMjA7hf2TLUEk5r7UaPlEcI6
-         gcRxMlAX9r/h9qkPAkw6iggSOpagy7f49e+avWXHTrMbdY9cetysnhFyStXkbvHuaNh1
-         lvs7uM1gE2XIu4jEABDb8DFURhYMUTAs6cl+M=
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zdbMGzrRc8LDNDumfc9xBhICdUvlCcLYTrnDicQI/uI=;
+        b=iZEvxitkI76QJtUhzk3xKX/4EPowsvl34KB9wqntEq4yuICsE2lG0hZDRWnrdY8kiu
+         9+FII9iaTX1nqznQnMDq9H2ZblSYgJs8M2hJDhr5oAx5b4xwpnlbp3159acgb3uZaLHz
+         9gMGregBPode/jZNDNY61M2JaxNfq0zQ0/cL4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6eVaacS6FkeNHI3gCwBXBXTiRx/aAVUrpV3/vxpn0oI=;
-        b=oVNXbKOtCmZfOG+dM4DeBWDdLiu+DbZV3SaPGyXK5h6La13q2X8SUGdKH5pKavA+Ru
-         0u3LEg3sQyVG79TcrIDSULrk63oMdCpEbbwSxmZ6pAujKVPZeeOtr+LbOrRAx3/Okg5Q
-         cJEFb//7pL+5heQwMDtzJojsJVi7OHNo2E7V3WiC55PasppyMj4gjpGfUGlX+nIKHWlm
-         1M5ppuBiYD0iaS3puwWfYuLBb1lh+76/BnVqfgXMD3RDMADQ/csGzlYN0fdY/7PSGBUX
-         xI7XtpB7UrqS4/Xnc3r5A4SjSRWIVkGYKMeUMw/EZQJ2yjePIrW+pUg5c6J4pSkYtY3f
-         Z6lg==
-X-Gm-Message-State: AO0yUKWm+QlW4cVrMUGI/PMDgpim/fWGx8RMhr3b43/ot+1Fc2Q7YFqA
-        yToFE//gm/QsL3qrYMZ0Kq6mSQ==
-X-Google-Smtp-Source: AK7set/Oo/VYR7OWORX3SHVeDVpTWkmNVz8CWYN/qPHUe9gYuLWeUXNoSi1MObdO5T0l2BmeBmbd0g==
-X-Received: by 2002:a17:906:c190:b0:88d:79df:7cfc with SMTP id g16-20020a170906c19000b0088d79df7cfcmr13815645ejz.62.1675987136107;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zdbMGzrRc8LDNDumfc9xBhICdUvlCcLYTrnDicQI/uI=;
+        b=pnO1MmyS29x7uFRrBwoDcYiQfaLPt0jbjJAnQbTnWCnBgogIOVkYTatZQixTp2TqTt
+         VYbKDy5TL5wcCU3HRZxSTEBnAdUo4+Vg3slAXtjFXOAx2/ZixNw9VMl1QY87zYvwmXhD
+         HELW+B6n73f7Uo6N6+aM6QiGmUN6Wq9frqQFo8qvT2Ubgnbv5cCEQmWDj8I0RAnW9/Wt
+         CZd7aHZ53PTuppBRyfXsOm/03o2UqMFyXW6ECSG+MF/L8aeBkOxXRqtat5kq7tCRRedY
+         uIWOrrku2+YoANdzcvqyDiw2NCAD4jqs9JSQkJ0ip5as5GRy3Frwcv+Y4B/S/vg+AcO2
+         gLng==
+X-Gm-Message-State: AO0yUKXrgx6Yw4BMy+GEVbPkbQM0QctSFT316af0DvdSneTmC9GorECT
+        9S355ApRW5ZfBWMeARaee+/pZA==
+X-Google-Smtp-Source: AK7set+GrLbFJZDTcwJI/wZkTwNLZg7fQ7UY4vfNSAVWU+vnDfawBhQ26ctzBcy3UkjAkshi059wzA==
+X-Received: by 2002:a17:906:d92:b0:88a:a09d:e673 with SMTP id m18-20020a1709060d9200b0088aa09de673mr12958032eji.31.1675987136696;
         Thu, 09 Feb 2023 15:58:56 -0800 (PST)
 Received: from [192.168.17.2] (wolkje-127.labs.vu.nl. [130.37.198.127])
-        by smtp.gmail.com with ESMTPSA id fi9-20020a170906da0900b0084c6ec69a9dsm1528177ejb.124.2023.02.09.15.58.55
+        by smtp.gmail.com with ESMTPSA id fi9-20020a170906da0900b0084c6ec69a9dsm1528177ejb.124.2023.02.09.15.58.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 15:58:55 -0800 (PST)
+        Thu, 09 Feb 2023 15:58:56 -0800 (PST)
 From:   Pietro Borrello <borrello@diag.uniroma1.it>
-Subject: [PATCH v3 0/2] HID: use spinlocks to safely schedule led workers
-Date:   Thu, 09 Feb 2023 23:58:54 +0000
-Message-Id: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
+Date:   Thu, 09 Feb 2023 23:58:55 +0000
+Subject: [PATCH v3 1/2] HID: bigben: use spinlock to safely schedule
+ workers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL6I5WMC/42NQQ6DIBBFr2JYFyNYUbrqPZouEEaZpGIDStoY7
- 15w3TRd/pn/39tIAI8QyKXYiIeIAWeXQn0qiLbKjUDRpEx4xeuK8YZaNHR1HkYMC3j6ABPoWfe
- DaCspgRmSlr0KQHuvnLZ5O6lczY+nhwFfh+52T9kmyOzfhz2yfP0tioxWVKqGSW40DExcDaqxX
- B36eVKsxIVkbOR/oHhCiU5qLfigu7b7gtr3/QP0klAaIQEAAA==
+Message-Id: <20230125-hid-unregister-leds-v3-1-0a52ac225e00@diag.uniroma1.it>
+References: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
+In-Reply-To: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Hanno Zulla <kontakt@hanno.de>,
@@ -67,11 +67,11 @@ Cc:     Cristiano Giuffrida <c.giuffrida@vu.nl>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Pietro Borrello <borrello@diag.uniroma1.it>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675987135; l=7268;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1675987135; l=4759;
  i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id;
- bh=+KxaKaAhZ+NKfT3czR0WfDvL6adkl46xjCKO4MPnAXU=;
- b=NRkx3KTfmcn6moy8sNvAeltRdh4mYvKBKDA+DavAb0y1qXgxQkZG7Or8mKWFxofwnHOVztwstLow
- qnXs0NPvDXTki8kj4alRT3SmFTQFdl6wgekycUjOHCopNkOzX/rv
+ bh=q65DuWimKWU3Wcj6tgEaabi1e6T/ANMNxvlhUu1UoEE=;
+ b=RyPUT+ZOAScekoh6qrPJ9YICAO7xxeCffbjKBmnLlGmLHTuP9bs5Ddv4qLA3VvcpDiSev3TMxYGW
+ bxy8fUcIBl3AEEsI0sPnpEOY3i/76etzKjW28OM6YEZQGCT+O28a
 X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519;
  pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -83,157 +83,148 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I noticed a recurring pattern is present in multiple hid devices in the
-Linux tree, where the LED controller of a device schedules a work_struct
-to interact with the hardware.
-The work_struct is embedded in the device structure and thus, is freed
-at device removal.
+Use spinlocks to deal with workers introducing a wrapper
+bigben_schedule_work(), and several spinlock checks.
+Otherwise, bigben_set_led() may schedule bigben->worker after the
+structure has been freed, causing a use-after-free.
 
-The issue is that a LED worker may be scheduled by a timer concurrently
-with device removal, causing the work_struct to be accessed after having
-been freed.
-I was able to trigger the issue in hid-bigbenff.c and hid-asus.c 
-where the work_structs may be scheduled by the LED controller
-while the device is disconnecting, triggering use-after-frees.
-I can attach the reproducer, but it's very simple USB configuration, 
-using the /dev/raw-gadget interface with some more USB interactions 
-to manage LEDs configuration and pass checks in asus_kbd_init() 
-and asus_kbd_get_functions() in case of hid-asus.c.
-I triggered the issue by connecting a device and immediately 
-disconnecting it, so that the remove function runs before the LED one
-which remains pending.
-
-I am attaching multiple patches for asus and bigben drivers. 
-The proposed patches introduce safe wrappers to schedule the workers
-safely with several spinlocks checks.
-
-I attach the (partial for brevity) ODEBUG dumps:
-
-```hid-bigbenff.c
-[   37.803135][ T1170] usb 1-1: USB disconnect, device number 2
-[   37.827979][ T1170] ODEBUG: free active (active state 0) object
-type: work_struct hint: bigben_worker+0x0/0x860
-[   37.829634][ T1170] WARNING: CPU: 0 PID: 1170 at
-lib/debugobjects.c:505 debug_check_no_obj_freed+0x43a/0x630
-[   37.830904][ T1170] Modules linked in:
-[   37.831413][ T1170] CPU: 0 PID: 1170 Comm: kworker/0:3 Not tainted
-6.1.0-rc4-dirty #43
-[   37.832465][ T1170] Hardware name: QEMU Standard PC (i440FX + PIIX,
-1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
-[   37.833751][ T1170] Workqueue: usb_hub_wq hub_event
-[   37.834409][ T1170] RIP: 0010:debug_check_no_obj_freed+0x43a/0x630
-[   37.835218][ T1170] Code: 48 89 ef e8 28 82 58 ff 49 8b 14 24 4c 8b
-45 00 48 c7 c7 40 5f 09 87 48 c7 c6 60 5b 09 87 89 d9 4d 89 f9 31 c0
-e8 46 25 ef fe <0f> 0b 4c 8b 64 24 20 48 ba 00 00 00 00 00 fc ff df ff
-05 4f 7c 17
-[   37.837667][ T1170] RSP: 0018:ffffc900006fee60 EFLAGS: 00010246
-[   37.838503][ T1170] RAX: 0d2d19ffcded3d00 RBX: 0000000000000000
-RCX: ffff888117fc9b00
-[   37.839519][ T1170] RDX: 0000000000000000 RSI: 0000000000000000
-RDI: 0000000000000000
-[   37.840570][ T1170] RBP: ffffffff86e88380 R08: ffffffff8130793b
-R09: fffff520000dfd85
-[   37.841618][ T1170] R10: fffff520000dfd85 R11: 0000000000000000
-R12: ffffffff87095fb8
-[   37.842649][ T1170] R13: ffff888117770ad8 R14: ffff888117770acc
-R15: ffffffff852b7420
-[   37.843728][ T1170] FS:  0000000000000000(0000)
-GS:ffff8881f6600000(0000) knlGS:0000000000000000
-[   37.844877][ T1170] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   37.845749][ T1170] CR2: 00007f992eaab380 CR3: 000000011834b000
-CR4: 00000000001006f0
-[   37.846794][ T1170] Call Trace:
-[   37.847245][ T1170]  <TASK>
-[   37.847643][ T1170]  slab_free_freelist_hook+0x89/0x160
-[   37.848409][ T1170]  ? devres_release_all+0x262/0x350
-[   37.849156][ T1170]  __kmem_cache_free+0x71/0x110
-[   37.849829][ T1170]  devres_release_all+0x262/0x350
-[   37.850478][ T1170]  ? devres_release+0x90/0x90
-[   37.851118][ T1170]  device_release_driver_internal+0x5e5/0x8a0
-[   37.851944][ T1170]  bus_remove_device+0x2ea/0x400
-[   37.852611][ T1170]  device_del+0x64f/0xb40
-[   37.853212][ T1170]  ? kill_device+0x150/0x150
-[   37.853831][ T1170]  ? print_irqtrace_events+0x1f0/0x1f0
-[   37.854564][ T1170]  hid_destroy_device+0x66/0x100
-[   37.855226][ T1170]  usbhid_disconnect+0x9a/0xc0
-[   37.855887][ T1170]  usb_unbind_interface+0x1e1/0x890
-```
-
-``` hid-asus.c
-[   77.409878][ T1169] usb 1-1: USB disconnect, device number 2
-[   77.423606][ T1169] ODEBUG: free active (active state 0) object
-type: work_struct hint: asus_kbd_backlight_work+0x0/0x2c0
-[   77.425222][ T1169] WARNING: CPU: 0 PID: 1169 at
-lib/debugobjects.c:505 debug_check_no_obj_freed+0x43a/0x630
-[   77.426599][ T1169] Modules linked in:
-[   77.427322][ T1169] CPU: 0 PID: 1169 Comm: kworker/0:3 Not tainted
-6.1.0-rc4-dirty #43
-[   77.428404][ T1169] Hardware name: QEMU Standard PC (i440FX + PIIX,
-1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
-[   77.429644][ T1169] Workqueue: usb_hub_wq hub_event
-[   77.430296][ T1169] RIP: 0010:debug_check_no_obj_freed+0x43a/0x630
-[   77.431142][ T1169] Code: 48 89 ef e8 28 82 58 ff 49 8b 14 24 4c 8b
-45 00 48 c7 c7 40 5f 09 87 48 c7 c6 60 5b 09 87 89 d9 4d 89 f9 31 c0
-e8 46 25 ef fe <0f> 0b 4c 8b 64 24 20 48 ba 00 00 00 00 00 fc ff df ff
-05 4f 7c 17
-[   77.433691][ T1169] RSP: 0018:ffffc9000069ee60 EFLAGS: 00010246
-[   77.434470][ T1169] RAX: b85d2b40c12d7600 RBX: 0000000000000000
-RCX: ffff888117a78000
-[   77.435507][ T1169] RDX: 0000000000000000 RSI: 0000000080000000
-RDI: 0000000000000000
-[   77.436521][ T1169] RBP: ffffffff86e88380 R08: ffffffff8130793b
-R09: ffffed103ecc4ed6
-[   77.437582][ T1169] R10: ffffed103ecc4ed6 R11: 0000000000000000
-R12: ffffffff87095fb8
-[   77.438593][ T1169] R13: ffff88810e348fe0 R14: ffff88810e348fd4
-R15: ffffffff852b5780
-[   77.439667][ T1169] FS:  0000000000000000(0000)
-GS:ffff8881f6600000(0000) knlGS:0000000000000000
-[   77.440842][ T1169] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   77.441688][ T1169] CR2: 00007ffc05495ff0 CR3: 000000010cdf0000
-CR4: 00000000001006f0
-[   77.442720][ T1169] Call Trace:
-[   77.443167][ T1169]  <TASK>
-[   77.443555][ T1169]  slab_free_freelist_hook+0x89/0x160
-[   77.444302][ T1169]  ? devres_release_all+0x262/0x350
-[   77.444990][ T1169]  __kmem_cache_free+0x71/0x110
-[   77.445638][ T1169]  devres_release_all+0x262/0x350
-[   77.446309][ T1169]  ? devres_release+0x90/0x90
-[   77.446978][ T1169]  device_release_driver_internal+0x5e5/0x8a0
-[   77.447748][ T1169]  bus_remove_device+0x2ea/0x400
-[   77.448421][ T1169]  device_del+0x64f/0xb40
-[   77.448976][ T1169]  ? kill_device+0x150/0x150
-[   77.449577][ T1169]  ? print_irqtrace_events+0x1f0/0x1f0
-[   77.450307][ T1169]  hid_destroy_device+0x66/0x100
-[   77.450938][ T1169]  usbhid_disconnect+0x9a/0xc0
-```
-
+Fixes: 4eb1b01de5b9 ("HID: hid-bigbenff: fix race condition for scheduled work during removal")
 Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
 ---
-Changes in v3:
-- use spinlocks to prevent workers scheduling
-- drop patches on sony & playstation hid drivers
-- Link to v2: https://lore.kernel.org/r/20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it
-
-Changes in v2:
-- dualshock4: Clarify UAF
-- dualsense:  Clarify UAF
-- dualsense:  Unregister multicolor led controller
-- Link to v1: https://lore.kernel.org/r/20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it
-
----
-Pietro Borrello (2):
-      HID: bigben: use spinlock to safely schedule workers
-      HID: asus: use spinlock to safely schedule workers
-
- drivers/hid/hid-asus.c     | 24 +++++++++++++++++++++---
  drivers/hid/hid-bigbenff.c | 34 +++++++++++++++++++++++++++++-----
- 2 files changed, 50 insertions(+), 8 deletions(-)
----
-base-commit: 2241ab53cbb5cdb08a6b2d4688feb13971058f65
-change-id: 20230125-hid-unregister-leds-4cbf67099e1d
+ 1 file changed, 29 insertions(+), 5 deletions(-)
 
-Best regards,
+diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
+index e8b16665860d..28769aa7fed6 100644
+--- a/drivers/hid/hid-bigbenff.c
++++ b/drivers/hid/hid-bigbenff.c
+@@ -174,6 +174,7 @@ static __u8 pid0902_rdesc_fixed[] = {
+ struct bigben_device {
+ 	struct hid_device *hid;
+ 	struct hid_report *report;
++	spinlock_t lock;
+ 	bool removed;
+ 	u8 led_state;         /* LED1 = 1 .. LED4 = 8 */
+ 	u8 right_motor_on;    /* right motor off/on 0/1 */
+@@ -184,15 +185,24 @@ struct bigben_device {
+ 	struct work_struct worker;
+ };
+ 
++static inline void bigben_schedule_work(struct bigben_device *bigben)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&bigben->lock, flags);
++	if (!bigben->removed)
++		schedule_work(&bigben->worker);
++	spin_unlock_irqrestore(&bigben->lock, flags);
++}
+ 
+ static void bigben_worker(struct work_struct *work)
+ {
+ 	struct bigben_device *bigben = container_of(work,
+ 		struct bigben_device, worker);
+ 	struct hid_field *report_field = bigben->report->field[0];
++	unsigned long flags;
+ 
+-	if (bigben->removed || !report_field)
+-		return;
++	spin_lock_irqsave(&bigben->lock, flags);
+ 
+ 	if (bigben->work_led) {
+ 		bigben->work_led = false;
+@@ -219,6 +229,8 @@ static void bigben_worker(struct work_struct *work)
+ 		report_field->value[7] = 0x00; /* padding */
+ 		hid_hw_request(bigben->hid, bigben->report, HID_REQ_SET_REPORT);
+ 	}
++
++	spin_unlock_irqrestore(&bigben->lock, flags);
+ }
+ 
+ static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+@@ -228,6 +240,7 @@ static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+ 	struct bigben_device *bigben = hid_get_drvdata(hid);
+ 	u8 right_motor_on;
+ 	u8 left_motor_force;
++	unsigned long flags;
+ 
+ 	if (!bigben) {
+ 		hid_err(hid, "no device data\n");
+@@ -242,10 +255,13 @@ static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+ 
+ 	if (right_motor_on != bigben->right_motor_on ||
+ 			left_motor_force != bigben->left_motor_force) {
++		spin_lock_irqsave(&bigben->lock, flags);
+ 		bigben->right_motor_on   = right_motor_on;
+ 		bigben->left_motor_force = left_motor_force;
+ 		bigben->work_ff = true;
+-		schedule_work(&bigben->worker);
++		spin_unlock_irqrestore(&bigben->lock, flags);
++
++		bigben_schedule_work(bigben);
+ 	}
+ 
+ 	return 0;
+@@ -259,6 +275,7 @@ static void bigben_set_led(struct led_classdev *led,
+ 	struct bigben_device *bigben = hid_get_drvdata(hid);
+ 	int n;
+ 	bool work;
++	unsigned long flags;
+ 
+ 	if (!bigben) {
+ 		hid_err(hid, "no device data\n");
+@@ -267,6 +284,7 @@ static void bigben_set_led(struct led_classdev *led,
+ 
+ 	for (n = 0; n < NUM_LEDS; n++) {
+ 		if (led == bigben->leds[n]) {
++			spin_lock_irqsave(&bigben->lock, flags);
+ 			if (value == LED_OFF) {
+ 				work = (bigben->led_state & BIT(n));
+ 				bigben->led_state &= ~BIT(n);
+@@ -274,10 +292,11 @@ static void bigben_set_led(struct led_classdev *led,
+ 				work = !(bigben->led_state & BIT(n));
+ 				bigben->led_state |= BIT(n);
+ 			}
++			spin_unlock_irqrestore(&bigben->lock, flags);
+ 
+ 			if (work) {
+ 				bigben->work_led = true;
+-				schedule_work(&bigben->worker);
++				bigben_schedule_work(bigben);
+ 			}
+ 			return;
+ 		}
+@@ -307,8 +326,12 @@ static enum led_brightness bigben_get_led(struct led_classdev *led)
+ static void bigben_remove(struct hid_device *hid)
+ {
+ 	struct bigben_device *bigben = hid_get_drvdata(hid);
++	unsigned long flags;
+ 
++	spin_lock_irqsave(&bigben->lock, flags);
+ 	bigben->removed = true;
++	spin_unlock_irqrestore(&bigben->lock, flags);
++
+ 	cancel_work_sync(&bigben->worker);
+ 	hid_hw_stop(hid);
+ }
+@@ -362,6 +385,7 @@ static int bigben_probe(struct hid_device *hid,
+ 	set_bit(FF_RUMBLE, hidinput->input->ffbit);
+ 
+ 	INIT_WORK(&bigben->worker, bigben_worker);
++	spin_lock_init(&bigben->lock);
+ 
+ 	error = input_ff_create_memless(hidinput->input, NULL,
+ 		hid_bigben_play_effect);
+@@ -402,7 +426,7 @@ static int bigben_probe(struct hid_device *hid,
+ 	bigben->left_motor_force = 0;
+ 	bigben->work_led = true;
+ 	bigben->work_ff = true;
+-	schedule_work(&bigben->worker);
++	bigben_schedule_work(bigben);
+ 
+ 	hid_info(hid, "LED and force feedback support for BigBen gamepad\n");
+ 
+
 -- 
-Pietro Borrello <borrello@diag.uniroma1.it>
+2.25.1
 
