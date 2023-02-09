@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8415C69092F
-	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 13:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD51E690947
+	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 13:51:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229939AbjBIMqJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Feb 2023 07:46:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53164 "EHLO
+        id S229826AbjBIMvM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Feb 2023 07:51:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjBIMqI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 07:46:08 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDAA5BA7D
-        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 04:46:04 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id gr7so5983848ejb.5
-        for <linux-input@vger.kernel.org>; Thu, 09 Feb 2023 04:46:04 -0800 (PST)
+        with ESMTP id S229852AbjBIMvL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 07:51:11 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C2A5EA10
+        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 04:51:10 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id dr8so5928550ejc.12
+        for <linux-input@vger.kernel.org>; Thu, 09 Feb 2023 04:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=diag.uniroma1.it; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+ju7t4a36+oHzJBzDdbRdtWVOsqQ7SpJKvGOYlM6F+o=;
-        b=a2zMTHmykLPxR2GgyDQR2DSW5pN50V//iASjZNSbAnnRVNNv8S4pBWdn7zy6T/sQS0
-         ax43Av1sTVvs1tZ2op8ghcek45fzvnolaohbctL0rmfdlnUCkbyQa5Yn+Y4BHZkR/0Hb
-         qDCn7YLbKZyfIXyB0RxGtD2GoFzQ2pv4KwQSs=
+        bh=ywP3wLh4wvDo/QwHV+7wcEtytTJklLTirZ53i2LI+a8=;
+        b=y57Jl30p79bkWAwhCErecjA1/fhZzTO0rQRmaFWHaJnrGCtBXwt2rgLlTjoXBVA9w5
+         KZVVVbiPys08N6RJQsKe81Olitaki+L4gDlTKfTH49aHT6AZfrBuT/QwpENmsOuWp1pR
+         NsOxYMQ5PUuccIOSYuZKcUfL6SseU2xmnLG7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+ju7t4a36+oHzJBzDdbRdtWVOsqQ7SpJKvGOYlM6F+o=;
-        b=UrL85MZ2aJ7rMNEAKORm2kjYjStXSc5psjiFGYMqTUu7xBcKYG3fKNNFs8U7HMA34c
-         QZJmzWpB+Nt1d/SBYIWqlDndwRcIo0jCx3YlBkfFm7HynuHMNqQ2vRfXcoDuvk7eZoAa
-         hHb7zb8ow7ATICjclR0h16ldHsnXRdiCh0e4+EPvI7es0V1vG/7LhtVyuBPdqqbn1Lnd
-         JUM63dDZEfaTeyemU1ClfGo+m/0gy+InvN6HQH5KnA3/y6XVYyPrNUFc7gjd8nPEfXZk
-         7pDyft4rxd4YmcqGPn8nLjNcr5wL+YwDtV6L7HT30msLcZDT/adj8m3Fq//8HZahLjrs
-         fLbQ==
-X-Gm-Message-State: AO0yUKUd7pvApv5CMmb6HDormAXHnRW3dWITOtDDVuLr5PJ13G6ejIdX
-        ezwvu6pGFwJzsreINU+Srjw5WHz7aZ6WfeR2yL8zvKE6y7RXPWnrpVQ=
-X-Google-Smtp-Source: AK7set++vJmr/SzPfa6+O9EgOJ702xNHmIggfP/tFLO73cFDcKd70TkBpa+7Jt7MzWG7UOmc/P5lIOlAnYKG5d0YrRs=
-X-Received: by 2002:a17:906:2f8c:b0:8ae:9f1e:a1c5 with SMTP id
- w12-20020a1709062f8c00b008ae9f1ea1c5mr479205eji.3.1675946762699; Thu, 09 Feb
- 2023 04:46:02 -0800 (PST)
+        bh=ywP3wLh4wvDo/QwHV+7wcEtytTJklLTirZ53i2LI+a8=;
+        b=Oo9dliuWDXpRKxrDR7PzR/j2vDPBIJ2+x1LS7n0Q6cqMW5qWoH1M2+hwxoiHeXQHH2
+         /aUL0Muje6DrIZNe1Zfn29N0B7wtP9smFMGDpNxcO9kW00dStT7UgXCACV6jotJjmhJV
+         UJ0nHqO3/e9vau1vKLkyDpg2tAaGkF7f1/UDKISrkCM8ZnnHF8lRI8JXg88rPIeTDsit
+         7fSCJPi5OKBBQnEXGwAqjc1CFWYabQQ1vYTwX0TwxSf/40e+X7fkw7P6nIOO62raaQQg
+         GXyAORZVrW3+3HPYE/4WPEHnFqzQDQl1V5gQMvD5tFNM4lSpH75fkFeGiGA2w0fRspaE
+         Aczw==
+X-Gm-Message-State: AO0yUKW+wd4hWbWoVX4qPcEUoAuzqF3LEPpY05PQBnLzgEprfLRMIrI8
+        r26OWKBbCxoP3HkFRHXL7LiMsEBaDCSCn+GTZNWIcQ==
+X-Google-Smtp-Source: AK7set89S6gOohopl7qmpc8RRReO1+qyCnm+U5+12hPjJ/MHQU8IzBZTxBKKWyR49jL9TO4Ct+VZCPsVPAdjohi/18w=
+X-Received: by 2002:a17:906:1e0e:b0:87a:56fc:9df1 with SMTP id
+ g14-20020a1709061e0e00b0087a56fc9df1mr459986ejj.3.1675947068622; Thu, 09 Feb
+ 2023 04:51:08 -0800 (PST)
 MIME-Version: 1.0
 References: <20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it>
- <20230125-hid-unregister-leds-v2-1-689cc62fc878@diag.uniroma1.it> <20230209085546.ohsonlwgqb7yd3d4@mail.corp.redhat.com>
-In-Reply-To: <20230209085546.ohsonlwgqb7yd3d4@mail.corp.redhat.com>
+ <20230125-hid-unregister-leds-v2-3-689cc62fc878@diag.uniroma1.it> <20230209085940.53mrapggf6nagkdh@mail.corp.redhat.com>
+In-Reply-To: <20230209085940.53mrapggf6nagkdh@mail.corp.redhat.com>
 From:   Pietro Borrello <borrello@diag.uniroma1.it>
-Date:   Thu, 9 Feb 2023 13:45:51 +0100
-Message-ID: <CAEih1qUyxfjWo2vV4AUbwt59tKL2Lmz=4P6N4xm9ba99mQiUMA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] HID: bigben_remove: manually unregister leds
+Date:   Thu, 9 Feb 2023 13:50:57 +0100
+Message-ID: <CAEih1qUU_aaHk7xFuyocgUq0pYLHemuRQiTboZDwyBTd7u2L5g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] HID: dualsense_remove: manually unregister leds
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <kontakt@hanno.de>,
         Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
@@ -64,99 +64,42 @@ Cc:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <kontakt@hanno.de>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 9 Feb 2023 at 09:55, Benjamin Tissoires
+On Thu, 9 Feb 2023 at 09:59, Benjamin Tissoires
 <benjamin.tissoires@redhat.com> wrote:
 >
-> Hi Pietro,
->
 > On Jan 31 2023, Pietro Borrello wrote:
-> > Unregister the LED controllers before device removal, as
-> > bigben_set_led() may schedule bigben->worker after the structure has
-> > been freed, causing a use-after-free.
+> > Unregister the LED controllers before device removal, to prevent
+> > unnecessary runs of dualsense_player_led_set_brightness().
 > >
-> > Fixes: 4eb1b01de5b9 ("HID: hid-bigbenff: fix race condition for scheduled work during removal")
+> > Fixes: 8c0ab553b072 ("HID: playstation: expose DualSense player LEDs through LED class.")
 > > Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
+> >
 > > ---
-> >  drivers/hid/hid-bigbenff.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
 > >
-> > diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
-> > index e8b16665860d..d3201b755595 100644
-> > --- a/drivers/hid/hid-bigbenff.c
-> > +++ b/drivers/hid/hid-bigbenff.c
-> > @@ -306,9 +306,14 @@ static enum led_brightness bigben_get_led(struct led_classdev *led)
-> >
-> >  static void bigben_remove(struct hid_device *hid)
-> >  {
-> > +     int n;
-> >       struct bigben_device *bigben = hid_get_drvdata(hid);
-> >
-> >       bigben->removed = true;
-> > +     for (n = 0; n < NUM_LEDS; n++) {
-> > +             if (bigben->leds[n])
-> > +                     devm_led_classdev_unregister(&hid->dev, bigben->leds[n]);
-> > +     }
-> >       cancel_work_sync(&bigben->worker);
+> > Contrary to the other patches in this series, failing to unregister
+> > the led controller does not results into a use-after-free thanks
+> > to the output_worker_initialized variable and the spinlock checks.
 >
-> I don't think this is the correct fix. It would seem that we are
-> suddenly making the assumption that the devm mechanism would do things
-> in the wrong order, when the devm_led_classdev_unregister() should be
-> called *before* the devm_free() of the struct bigben_device.
+> And so we don't need that patch (nor for hid-sony.c) because we have a
+> guard against scheduling a worker job when the device is being removed.
 >
-> However, you can trigger a bug, and thus we can analyse a little bit
-> further what is happening:
->
-> * user calls a function on the LED
-> * bigben_set_led() is called
-> * .remove() is being called at roughly the same time:
->   - bigben->removed is set to true
->   - cancel_work_sync() is called
-> * at that point, bigben_set_led() can not crash because
->   led_classdev_unregister() flushes all of its workers, and thus
->   prevents the call for dev_kfree(struct bigben_device)
-> * but now bigben_set_led() calls schedule_work()
-> * led_classdev_unregister() is now done and devm_kfree() is called for
->   struct bigben_device
-> * now the led worker kicks in, and tries to access struct bigben_device
->   and derefences it to get the value of bigben->removed (and
->   bigben->report), which crashes.
->
-> So without your patch, the problem seems to be that we call a
-> schedule_work *after* we set bigben->removed to true and we call
-> cancel_work_sync().
+> So please drop 3,4,5 from this series, they are just making the code
+> worse.
 
-Yes, this matches my intuition of what is happening here.
-Thank you for the extensive description.
+Sure.
+I kept them only due to the Roderick Colenbrander's comment, but I'm happy
+to remove them.
+For reference:
+> [...] I don't mind the change as it
+> prevents the work scheduling functions to get called unnecessarily.
+Link: https://lore.kernel.org/lkml/CAEc3jaCEKfqEJSV4=6GRj1Ry97xH+HwVSeEOZReNwkt=rLNvNQ@mail.gmail.com/
 
->
-> And if you look at the hid-playstation driver, you'll see that the
-> schedule_work() call is encapsulated in a spinlock and a check to
-> ds->output_worker_initialized.
->
-> And this is why you can not reproduce on the hid-playstation driver,
-> because it is guarded against scheduling a worker when the driver is
-> being removed.
->
-> I think I prefer a lot more the playstation solution: having to manually
-> call a devm_release_free always feels wrong in a normal path. And also
-> by doing so, you might paper another problem that might happen on an
-> error path in probe for instance. Also, this means that the pattern you
-> saw is specific to some drivers, not all depending on how they make use
-> of workers.
->
-
-Yes, I agree this would be much cleaner.
-
-> Would you mind respinning that series with those comments?
-
-Sure, I'll work on that!
-
-Best regards,
+Thanks,
 Pietro
