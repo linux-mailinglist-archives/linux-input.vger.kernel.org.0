@@ -2,126 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE3466902B4
-	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 10:00:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2986C690310
+	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 10:16:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjBIJAf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Feb 2023 04:00:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37438 "EHLO
+        id S229963AbjBIJQO convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 9 Feb 2023 04:16:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjBIJAe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 04:00:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28650728C
-        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 00:59:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675933191;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=yP8Oc/wD0SRDPHRdmmsD8nB/Qzshc+tehAXv+/O2etw=;
-        b=SxjBelhM3bWmqB73Az+FXXS7SrgVlJhcbJYfZQVxRMPfUzrje5vl18k952ewSp9ujLtLYb
-        Egds3xseQPQjxuPvo+FL9wiuX7ULUAtCjw42ShO1rZ8b43L7ESLDz5slOhX8zO5sirTAiV
-        1EyF5Iu7W2NNxagARfXh+E7r8UpvTzQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344-kD5fB-FoM7CLI4ap1VLSTQ-1; Thu, 09 Feb 2023 03:59:46 -0500
-X-MC-Unique: kD5fB-FoM7CLI4ap1VLSTQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8B0029DD980;
-        Thu,  9 Feb 2023 08:59:45 +0000 (UTC)
-Received: from mail.corp.redhat.com (ovpn-192-232.brq.redhat.com [10.40.192.232])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B95974043840;
-        Thu,  9 Feb 2023 08:59:42 +0000 (UTC)
-Date:   Thu, 9 Feb 2023 09:59:40 +0100
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Pietro Borrello <borrello@diag.uniroma1.it>
-Cc:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <kontakt@hanno.de>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Sven Eckelmann <sven@narfation.org>,
-        linux-leds@vger.kernel.org,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Roderick Colenbrander <roderick@gaikai.com>
-Subject: Re: [PATCH v2 3/5] HID: dualsense_remove: manually unregister leds
-Message-ID: <20230209085940.53mrapggf6nagkdh@mail.corp.redhat.com>
-References: <20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it>
- <20230125-hid-unregister-leds-v2-3-689cc62fc878@diag.uniroma1.it>
+        with ESMTP id S229567AbjBIJQM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 04:16:12 -0500
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 558EB5B92;
+        Thu,  9 Feb 2023 01:16:10 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pQ323-003ncL-Bt; Thu, 09 Feb 2023 10:15:55 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pQ323-0012H8-3k; Thu, 09 Feb 2023 10:15:55 +0100
+Message-ID: <ed4a36508c3d047f9e9a882475388be18b790b76.camel@physik.fu-berlin.de>
+Subject: Re: remove arch/sh
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Rob Landley <rob@landley.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Date:   Thu, 09 Feb 2023 10:15:52 +0100
+In-Reply-To: <1c6e7a19-a650-1852-6f74-ca5547db44c4@landley.net>
+References: <20230113062339.1909087-1-hch@lst.de>
+         <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+         <20230116071306.GA15848@lst.de>
+         <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+         <20230203071423.GA24833@lst.de>
+         <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
+         <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
+         <f6317e9073362b13b10df57de23e63945becea32.camel@physik.fu-berlin.de>
+         <1c6e7a19-a650-1852-6f74-ca5547db44c4@landley.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.3 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125-hid-unregister-leds-v2-3-689cc62fc878@diag.uniroma1.it>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Jan 31 2023, Pietro Borrello wrote:
-> Unregister the LED controllers before device removal, to prevent
-> unnecessary runs of dualsense_player_led_set_brightness().
+On Wed, 2023-02-08 at 21:09 -0600, Rob Landley wrote:
+> > Geert has suggested to wait with adding a tree source to the entry until I get my
+> > own kernel.org account. I have enough GPG signatures from multiple kernel developers
+> > on my GPG key, so I think it shouldn't be too difficult to qualify for an account.
 > 
-> Fixes: 8c0ab553b072 ("HID: playstation: expose DualSense player LEDs through LED class.")
-> Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
-> 
-> ---
-> 
-> Contrary to the other patches in this series, failing to unregister
-> the led controller does not results into a use-after-free thanks
-> to the output_worker_initialized variable and the spinlock checks.
+> So you're not planning to use https://lk.j-core.org/J-Core-Developers/sh-linux
+> but push to kernel.org and ask Linus to pull from there?
 
-And so we don't need that patch (nor for hid-sony.c) because we have a
-guard against scheduling a worker job when the device is being removed.
+Yes, that's what Geert recommended.
 
-So please drop 3,4,5 from this series, they are just making the code
-worse.
+Adrian
 
-Cheers,
-Benjamin
-
-> 
-> Changes in v2:
-> - Unregister multicolor led controller
-> - Clarify UAF
-> - Link to v1: https://lore.kernel.org/all/20230125-hid-unregister-leds-v1-3-9a5192dcef16@diag.uniroma1.it/
-> ---
->  drivers/hid/hid-playstation.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-> index 27c40894acab..f23186ca2d76 100644
-> --- a/drivers/hid/hid-playstation.c
-> +++ b/drivers/hid/hid-playstation.c
-> @@ -1503,11 +1503,17 @@ static void dualsense_remove(struct ps_device *ps_dev)
->  {
->  	struct dualsense *ds = container_of(ps_dev, struct dualsense, base);
->  	unsigned long flags;
-> +	int i;
->  
->  	spin_lock_irqsave(&ds->base.lock, flags);
->  	ds->output_worker_initialized = false;
->  	spin_unlock_irqrestore(&ds->base.lock, flags);
->  
-> +	for (i = 0; i < ARRAY_SIZE(ds->player_leds); i++)
-> +		devm_led_classdev_unregister(&ps_dev->hdev->dev, &ds->player_leds[i]);
-> +
-> +	devm_led_classdev_multicolor_unregister(&ps_dev->hdev->dev, &ds->lightbar);
-> +
->  	cancel_work_sync(&ds->output_worker);
->  }
->  
-> 
-> -- 
-> 2.25.1
-
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
