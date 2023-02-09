@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 324DC69070C
-	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 12:23:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B95BE690739
+	for <lists+linux-input@lfdr.de>; Thu,  9 Feb 2023 12:25:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230507AbjBILX1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Feb 2023 06:23:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52504 "EHLO
+        id S231344AbjBILZr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Feb 2023 06:25:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230508AbjBILWk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 06:22:40 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1D560D40;
-        Thu,  9 Feb 2023 03:18:35 -0800 (PST)
+        with ESMTP id S231567AbjBILZR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 06:25:17 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 259B85D3DD;
+        Thu,  9 Feb 2023 03:19:47 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF05161A34;
-        Thu,  9 Feb 2023 11:18:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 641B5C4339C;
-        Thu,  9 Feb 2023 11:18:30 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 98949B8210A;
+        Thu,  9 Feb 2023 11:19:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97BBAC4339B;
+        Thu,  9 Feb 2023 11:19:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675941511;
-        bh=naImJaZsiojPbuOfCQcRFmzenQ6rb8bPJhVkAssPUXw=;
+        s=k20201202; t=1675941559;
+        bh=eYVsuz7yIS4jkNG98M87pZNda/oClfDzRcrDjEc1DpY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LTvaDDJUKTRkuyzwVOH/HHnRUPMkcYHE8COdWcf0PACi3iHQhJtuzfxHChkMTTcrK
-         pc1PrxCxdQ70LGJczpnSeH2cTIfzerLgtS9anU4Tk9jSd5vSt4qb+/LX5IkXm3+QGZ
-         kPekD2yiU241XQTtNup1AebAS3L770j6VcMu9lCh39Hg80bYZxaAvMDAGPWxEES4rC
-         nZXO4tSoDcykfNKUIUBI09eY75NnuaexBvVT+IxQSoif8orea2N2Vt0Rmwp0gEHZ1k
-         5+F46m4osC/VTlA+Jz2KIL26kaxo9viX1VOMVOqJfd/+uf0WUqWb5xp3O2uu2M41A1
-         8UKMVpFn+BJBg==
+        b=qLP1x7jVNS3GBsVavhOE9LQ8CBd5qJ4LDcMI3HRne8NWcJtaORs2NwBqhKW91flFE
+         vCC4va1FQeErZyikFdRZaH+I3t2/xZKQvTWyy49pWvg6Bl54b8G/M1AOA3VAdTIUHV
+         ykVGtsbpYsqtbIg3H9dGVKFvlgZcP9MJOSNT9n6kFLmrnu39mlXAWa1NtPuGJkJlzA
+         TMmwmf5UkI348tFTs29ATDRvyoc6NGYnyk6BF8RcMjDrtLBtDQLh5AIrxBSVnlKzOk
+         p9P1C1T675xfb4F54lskQg+XfMPb97zCjcnwzr289jGIoiUjiZ841bcK2FXZPfR+RL
+         ZUaNdeUujerSQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
         linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 17/17] platform/x86: touchscreen_dmi: Add Chuwi Vi8 (CWI501) DMI match
-Date:   Thu,  9 Feb 2023 06:17:29 -0500
-Message-Id: <20230209111731.1892569-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 13/13] platform/x86: touchscreen_dmi: Add Chuwi Vi8 (CWI501) DMI match
+Date:   Thu,  9 Feb 2023 06:18:31 -0500
+Message-Id: <20230209111833.1892896-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230209111731.1892569-1-sashal@kernel.org>
-References: <20230209111731.1892569-1-sashal@kernel.org>
+In-Reply-To: <20230209111833.1892896-1-sashal@kernel.org>
+References: <20230209111833.1892896-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -71,10 +71,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 93671037fd598..69ba2c5182610 100644
+index bc26acace2c30..b96fbc8dba09d 100644
 --- a/drivers/platform/x86/touchscreen_dmi.c
 +++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -1073,6 +1073,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+@@ -1030,6 +1030,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
  			DMI_MATCH(DMI_BIOS_DATE, "05/07/2016"),
  		},
  	},
