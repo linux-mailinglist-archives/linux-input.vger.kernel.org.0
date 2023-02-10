@@ -2,69 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F40692090
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 15:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 704596920CF
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 15:27:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231910AbjBJOMp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 09:12:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53386 "EHLO
+        id S232506AbjBJO1h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 09:27:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231656AbjBJOMp (ORCPT
+        with ESMTP id S232477AbjBJO1g (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 09:12:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2739C2195A
-        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 06:11:40 -0800 (PST)
+        Fri, 10 Feb 2023 09:27:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FD55FC7
+        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 06:26:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676038299;
+        s=mimecast20190719; t=1676039207;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=YoBs3vIDWvzQKvR/oTtsO0zOrYgmC2p612zkdiN8nZI=;
-        b=eeYcyMuns//uMleHmbpe1u+Uz3AuXDJGFoA3GjAph46Ause93rvHLOC3dWILx8bI/pFo8L
-        6gbYKdrecRoUyo76DOWkAQ2CZzhV9bOWnSnFEe1e8Culdz7jrIo6EQMxU3kdx92bcu4+GV
-        M4+F5B8/GKxnpTCgXjaUyMihygxBek4=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-338-jeNUn2OOOJuNdF7FNn2lmQ-1; Fri, 10 Feb 2023 09:11:38 -0500
-X-MC-Unique: jeNUn2OOOJuNdF7FNn2lmQ-1
-Received: by mail-yb1-f200.google.com with SMTP id q133-20020a25d98b000000b0089ab1a9f0fdso4991617ybg.1
-        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 06:11:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YoBs3vIDWvzQKvR/oTtsO0zOrYgmC2p612zkdiN8nZI=;
-        b=fD7AtCgLYBcpmkON4dm0BdXm7zDwt+Wss3ldWy+rE1BjPvbKx4bfK065SYAZYK3/jy
-         fps9PAjuK2Os2Srff3/M3fKKN7D5kmJWaVPB0i6Pxsl1omGY6kaB2PIvk7DmfuozLW8r
-         4r1koE1WNw4sN+MQsguh077J0rEZGB38Kc+/5T/wOUeWiBZCyPeX2zlEx276MLaZhdB9
-         8DvTDBV9ZsoafRAJXi+hJnxE90FsrKLxbbAjtf1DaUpCmijBAe/9dc9s9ZzOeS79HA98
-         fdNkKeLfPq58HGIpsg1omSGVFtaOzMOL4SW6SYgDIFdiiJIqLNv8h2UHyLlv8VtC+vUg
-         d62Q==
-X-Gm-Message-State: AO0yUKWZ3Q2dYJmdytDiplYAd/Ujj+hMiwkKjbvqd3T77GL3OBj7uzKH
-        eSDXr8MoJiWX8iztl1PUxrP10Y5rni+UqZeaRkoJQNx8Nx+f3pN6tir3vFa7HIBN3Fkwfgm4PMe
-        LUsLXDCXjvvxuCAmMupmXUcvdx4VDabQXD/bOfnQ=
-X-Received: by 2002:a25:abee:0:b0:7e8:ee11:9717 with SMTP id v101-20020a25abee000000b007e8ee119717mr2097767ybi.495.1676038297771;
-        Fri, 10 Feb 2023 06:11:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set97Zh//MtW7TNLPI8dlq3k+OjCqIRogXFhJt0v99VmllmE5FlWZ7GIsIhHXou5s5pN4AzV2Zzus5SSziM/r4zQ=
-X-Received: by 2002:a25:abee:0:b0:7e8:ee11:9717 with SMTP id
- v101-20020a25abee000000b007e8ee119717mr2097763ybi.495.1676038297528; Fri, 10
- Feb 2023 06:11:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
- <20230125-hid-unregister-leds-v3-1-0a52ac225e00@diag.uniroma1.it> <20230210132017.2497-1-hdanton@sina.com>
-In-Reply-To: <20230210132017.2497-1-hdanton@sina.com>
+        bh=gwSuRObxa9mbaORD/+4MDVXikhy2F5XiABD2IkJjms8=;
+        b=Hxw0nMnu7IELto1u+JCz+Yq/L6/yLrNA8Jeu7WyBAWd/1f90nbWN0gs8EQze366KIW4rjV
+        +hw5sKnY8je8xpREaL8p1D/ioheFV7ccRr4M/W1qozFINnp2emIhNXgBOURpiFrV/HLKsv
+        GNv+4J4I3QqKgzup7xYquh165/BL/k8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-319-rN9uQs1eM9y1jIDD2gouhw-1; Fri, 10 Feb 2023 09:26:45 -0500
+X-MC-Unique: rN9uQs1eM9y1jIDD2gouhw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C24A81C05AF6;
+        Fri, 10 Feb 2023 14:26:44 +0000 (UTC)
+Received: from mail.corp.redhat.com (ovpn-195-1.brq.redhat.com [10.40.195.1])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 81DBD2166B29;
+        Fri, 10 Feb 2023 14:26:38 +0000 (UTC)
+Date:   Fri, 10 Feb 2023 15:26:34 +0100
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 10 Feb 2023 15:11:26 +0100
-Message-ID: <CAO-hwJJKCvbdjuG4wER6sHozoLA4F2OTUUpHORtj6KM0q-avzA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] HID: bigben: use spinlock to safely schedule workers
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Pietro Borrello <borrello@diag.uniroma1.it>,
-        Jiri Kosina <jikos@kernel.org>, Hanno Zulla <kontakt@hanno.de>,
+To:     Pietro Borrello <borrello@diag.uniroma1.it>
+Cc:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <kontakt@hanno.de>,
+        Carlo Caione <carlo@endlessm.com>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        Hillf Danton <hdanton@sina.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 1/2] HID: bigben: use spinlock to safely schedule
+ workers
+Message-ID: <20230210142634.2exh6mvbvysy3hqo@mail.corp.redhat.com>
+References: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
+ <20230125-hid-unregister-leds-v3-1-0a52ac225e00@diag.uniroma1.it>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230125-hid-unregister-leds-v3-1-0a52ac225e00@diag.uniroma1.it>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
@@ -75,42 +67,179 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 2:24 PM Hillf Danton <hdanton@sina.com> wrote:
->
-> On Thu, 09 Feb 2023 23:58:55 +0000 Pietro Borrello <borrello@diag.uniroma1.it>
-> > Use spinlocks to deal with workers introducing a wrapper
-> > bigben_schedule_work(), and several spinlock checks.
-> > Otherwise, bigben_set_led() may schedule bigben->worker after the
-> > structure has been freed, causing a use-after-free.
-> >
-> > Fixes: 4eb1b01de5b9 ("HID: hid-bigbenff: fix race condition for scheduled work during removal")
->
-> Given the flag added in 4eb1b01de5b9 and the spinlock added in this
-> patchset, devm_led_classdev_register() looks to not work for you.
+On Feb 09 2023, Pietro Borrello wrote:
+> Use spinlocks to deal with workers introducing a wrapper
+> bigben_schedule_work(), and several spinlock checks.
+> Otherwise, bigben_set_led() may schedule bigben->worker after the
+> structure has been freed, causing a use-after-free.
+> 
+> Fixes: 4eb1b01de5b9 ("HID: hid-bigbenff: fix race condition for scheduled work during removal")
+> Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
+> ---
+>  drivers/hid/hid-bigbenff.c | 34 +++++++++++++++++++++++++++++-----
+>  1 file changed, 29 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
+> index e8b16665860d..28769aa7fed6 100644
+> --- a/drivers/hid/hid-bigbenff.c
+> +++ b/drivers/hid/hid-bigbenff.c
+> @@ -174,6 +174,7 @@ static __u8 pid0902_rdesc_fixed[] = {
+>  struct bigben_device {
+>  	struct hid_device *hid;
+>  	struct hid_report *report;
+> +	spinlock_t lock;
+>  	bool removed;
+>  	u8 led_state;         /* LED1 = 1 .. LED4 = 8 */
+>  	u8 right_motor_on;    /* right motor off/on 0/1 */
+> @@ -184,15 +185,24 @@ struct bigben_device {
+>  	struct work_struct worker;
+>  };
+>  
+> +static inline void bigben_schedule_work(struct bigben_device *bigben)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&bigben->lock, flags);
+> +	if (!bigben->removed)
+> +		schedule_work(&bigben->worker);
+> +	spin_unlock_irqrestore(&bigben->lock, flags);
+> +}
+>  
+>  static void bigben_worker(struct work_struct *work)
+>  {
+>  	struct bigben_device *bigben = container_of(work,
+>  		struct bigben_device, worker);
+>  	struct hid_field *report_field = bigben->report->field[0];
+> +	unsigned long flags;
+>  
+> -	if (bigben->removed || !report_field)
 
-Actually, looking at the code now, it is clear that we need that lock.
-The current code is happily changing the struct bigben_device from
-multiple contexts, and pulls that without any barrier in the work
-struct which should produce some interesting results :)
+You are removing an important test here: if (!report_field), please keep
+it.
 
-And we can probably abuse that lock to prevent scheduling a new work
-as it is done in hid-playstation.c
+> -		return;
+> +	spin_lock_irqsave(&bigben->lock, flags);
+>  
+>  	if (bigben->work_led) {
+>  		bigben->work_led = false;
+> @@ -219,6 +229,8 @@ static void bigben_worker(struct work_struct *work)
+>  		report_field->value[7] = 0x00; /* padding */
+>  		hid_hw_request(bigben->hid, bigben->report, HID_REQ_SET_REPORT);
+>  	}
+> +
+> +	spin_unlock_irqrestore(&bigben->lock, flags);
 
-I'll comment in the patch which parts need to be changed, because it
-is true that this patch is definitely not mergeable as such and will
-need another revision.
+Ouch, having hid_hw_request() called whithin a spinlock is definitely not
+something that should be done.
 
->
-> How about replacing the advanced devm_ method with the traditional plain
-> pair of led_classdev_un/register(), with the flag mentioned cut off but
-> without bothering to add another lock?
->
+However, the spinlock should be protecting 2 kinds of things:
+- any access to any value of struct bigben_device, but in an atomic way
+  (i.e. copy everything you need locally in a spinlock, then release it
+  and never read that struct again in that function).
+- the access to bigben->removed, which should be checked only in
+  bigben_schedule_work() and in the .remove() function.
 
-As mentioned above, the lock is needed anyway, and will probably need
-to be added in a separate patch.
-Reverting to a non devm version of the led class would complexify the
-driver for the error paths, and is probably not the best move IMO.
+Please note that this is what the playstation driver does: it prepares
+the report under the spinlock (which is really fast) before sending the
+report to the device which can be slow and be interrupted.
+
+With that being said, it is clear that we need 2 patches for this one:
+- the first one introduces the spinlock and protects the concurrent
+  accesses to struct bigben_device (which is roughly everything below
+  with the changes I just said)
+- the second one introduces bigben_schedule_work() and piggy backs on
+  top of that new lock.
 
 Cheers,
 Benjamin
+
+>  }
+>  
+>  static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+> @@ -228,6 +240,7 @@ static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+>  	struct bigben_device *bigben = hid_get_drvdata(hid);
+>  	u8 right_motor_on;
+>  	u8 left_motor_force;
+> +	unsigned long flags;
+>  
+>  	if (!bigben) {
+>  		hid_err(hid, "no device data\n");
+> @@ -242,10 +255,13 @@ static int hid_bigben_play_effect(struct input_dev *dev, void *data,
+>  
+>  	if (right_motor_on != bigben->right_motor_on ||
+>  			left_motor_force != bigben->left_motor_force) {
+> +		spin_lock_irqsave(&bigben->lock, flags);
+>  		bigben->right_motor_on   = right_motor_on;
+>  		bigben->left_motor_force = left_motor_force;
+>  		bigben->work_ff = true;
+> -		schedule_work(&bigben->worker);
+> +		spin_unlock_irqrestore(&bigben->lock, flags);
+> +
+> +		bigben_schedule_work(bigben);
+>  	}
+>  
+>  	return 0;
+> @@ -259,6 +275,7 @@ static void bigben_set_led(struct led_classdev *led,
+>  	struct bigben_device *bigben = hid_get_drvdata(hid);
+>  	int n;
+>  	bool work;
+> +	unsigned long flags;
+>  
+>  	if (!bigben) {
+>  		hid_err(hid, "no device data\n");
+> @@ -267,6 +284,7 @@ static void bigben_set_led(struct led_classdev *led,
+>  
+>  	for (n = 0; n < NUM_LEDS; n++) {
+>  		if (led == bigben->leds[n]) {
+> +			spin_lock_irqsave(&bigben->lock, flags);
+>  			if (value == LED_OFF) {
+>  				work = (bigben->led_state & BIT(n));
+>  				bigben->led_state &= ~BIT(n);
+> @@ -274,10 +292,11 @@ static void bigben_set_led(struct led_classdev *led,
+>  				work = !(bigben->led_state & BIT(n));
+>  				bigben->led_state |= BIT(n);
+>  			}
+> +			spin_unlock_irqrestore(&bigben->lock, flags);
+>  
+>  			if (work) {
+>  				bigben->work_led = true;
+> -				schedule_work(&bigben->worker);
+> +				bigben_schedule_work(bigben);
+>  			}
+>  			return;
+>  		}
+> @@ -307,8 +326,12 @@ static enum led_brightness bigben_get_led(struct led_classdev *led)
+>  static void bigben_remove(struct hid_device *hid)
+>  {
+>  	struct bigben_device *bigben = hid_get_drvdata(hid);
+> +	unsigned long flags;
+>  
+> +	spin_lock_irqsave(&bigben->lock, flags);
+>  	bigben->removed = true;
+> +	spin_unlock_irqrestore(&bigben->lock, flags);
+> +
+>  	cancel_work_sync(&bigben->worker);
+>  	hid_hw_stop(hid);
+>  }
+> @@ -362,6 +385,7 @@ static int bigben_probe(struct hid_device *hid,
+>  	set_bit(FF_RUMBLE, hidinput->input->ffbit);
+>  
+>  	INIT_WORK(&bigben->worker, bigben_worker);
+> +	spin_lock_init(&bigben->lock);
+>  
+>  	error = input_ff_create_memless(hidinput->input, NULL,
+>  		hid_bigben_play_effect);
+> @@ -402,7 +426,7 @@ static int bigben_probe(struct hid_device *hid,
+>  	bigben->left_motor_force = 0;
+>  	bigben->work_led = true;
+>  	bigben->work_ff = true;
+> -	schedule_work(&bigben->worker);
+> +	bigben_schedule_work(bigben);
+>  
+>  	hid_info(hid, "LED and force feedback support for BigBen gamepad\n");
+>  
+> 
+> -- 
+> 2.25.1
+> 
 
