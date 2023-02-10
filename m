@@ -2,74 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41899691B2F
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 10:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 178F7691C97
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 11:19:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbjBJJWl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 04:22:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55072 "EHLO
+        id S231430AbjBJKTZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 05:19:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231748AbjBJJWb (ORCPT
+        with ESMTP id S231795AbjBJKTZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 04:22:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA585AB16
-        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 01:21:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676020902;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ksse+DurRPopGoZ4FZY/DGLgBAd9I0EYmRAOwxIALMM=;
-        b=ZvTnTrG9InnuXqIyA7RLY215vckMlZMF44WxcdNssqdgmInyl3rswmXMH0x427tM7luJ2J
-        8tFPOpWfkTswdS7Zh/g7oPecl2C2wkmQgX7xm+AGDaZXNrfB1CKuZUEiT1HwwQLh67iwzL
-        fZc8tG0MYagTGWFiVg5w8wMmnWLAeuM=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-649-f8inh5yBNeGCf-1OYUsdkw-1; Fri, 10 Feb 2023 04:21:41 -0500
-X-MC-Unique: f8inh5yBNeGCf-1OYUsdkw-1
-Received: by mail-yb1-f200.google.com with SMTP id a9-20020a25af09000000b0083fa6f15c2fso4463030ybh.16
-        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 01:21:41 -0800 (PST)
+        Fri, 10 Feb 2023 05:19:25 -0500
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 044066D8E6;
+        Fri, 10 Feb 2023 02:19:24 -0800 (PST)
+Received: by mail-qt1-x82a.google.com with SMTP id h24so5250006qtr.0;
+        Fri, 10 Feb 2023 02:19:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yCZqd00XLcn3H5BBn1Pzxmkx7XJk9fwg6p5ZnvuseLk=;
+        b=kCi2bTLuVJnUSE0d2dpQiJWGvGnc+OIZu/v4tYQBHP9T3ZKA/693e8JfBItJa+hWvj
+         D9FfO9lZL2M9HejH/zh5knsSvAOqefM/MN8amCdoHowC8M+9C1+IefITJyfIHo2awLQR
+         dUdtjCUbEoQ0Mox83L9OM1M2xXlNdQC4oIBYz2KnoCO8tydSUHonXgZIEz0U/BaZHsBF
+         fMkr+lk+9laZwIR/kMwZw+C8dgux5BwwnlH8Tjz8ksDmWIJDFE7NvoWBEEr7vfovGIfu
+         YbDOIj7sAqJ4HrDS3FwyEPMxkGJ9A/rkmxR5iyQuTtAJFNxlnqv68MA1ZAIembc94Cv4
+         4JnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ksse+DurRPopGoZ4FZY/DGLgBAd9I0EYmRAOwxIALMM=;
-        b=sWmXAbHvFVm9vBNPuwws7CM9jmly3+0LukY+MrXpUkqN8M+DL28qN8z941of5iLybC
-         mJYpeAZpqMBjQ6rXb54pxOeGyhOyDWIO3QyThWRAbH/o1mxP+asQP1vAha+NvW6d2MwH
-         GZzeIJAKBHlnp+cm49nOovGnXkk63pwr5U6V0mdaQMnRmqfg1saXKExm0nhkvVbOmFAu
-         9iRnI2CJImMpyeZVTOrR41wdVtim4ADgUg6dJToyEcP1a8URSEkQUCslYdcVCbvfdd8G
-         hVtEbIaQwJ3lfjlomH/WCuxG9zEPreUTKNTgEXUkkigbN9tW6MNFvmsHFG2mrByxGd93
-         LQuQ==
-X-Gm-Message-State: AO0yUKVS6QDTkmH9md9DsFH5AtdYwxIO7PWXesx/pXwLmYwtmiPs46+g
-        zu4bNGJM8Pe4hQSN9Ml4gcwseqFxU73UAnDR9CFia6dksuArZWvIu79hpVeAHFdzkSTgjyB2l4B
-        VzWvl4ie4r1FYtoQWVxHmmJ4z9TVKbjkz8GBWFC8=
-X-Received: by 2002:a81:71c5:0:b0:527:3e8:5a94 with SMTP id m188-20020a8171c5000000b0052703e85a94mr1410850ywc.68.1676020900416;
-        Fri, 10 Feb 2023 01:21:40 -0800 (PST)
-X-Google-Smtp-Source: AK7set+wN2V5jirysw/3f/ou8nn77wySaS8VWCuwZokIVm0wbfW9gDbTXwm+uRk/CJH2CXUpMMRuwA6XgGJhticwm2A=
-X-Received: by 2002:a81:71c5:0:b0:527:3e8:5a94 with SMTP id
- m188-20020a8171c5000000b0052703e85a94mr1410845ywc.68.1676020900147; Fri, 10
- Feb 2023 01:21:40 -0800 (PST)
+        bh=yCZqd00XLcn3H5BBn1Pzxmkx7XJk9fwg6p5ZnvuseLk=;
+        b=ra/DrnAABPx44VBYUeyS0nNgmuwmmklV9493b1yY7UpEUUdz38RUVB8HlXrlyDR05S
+         qxv3e0ZEzXezZX0wKwqZMshvnItI7SGMfyJ7lw4x32ewVWmgyPRByaOSRMvJkUXhq+YY
+         wiELYrwO80HyMsV1Y0SfZj7dsiDelSORWBuqXgAv4+mJfPR4KT+cD0NO59nUAdvWhTkF
+         UjU5a9o8l6ILar5xYoiuUY5yF5BlT2z5367FCCmfnfKURSpbMIl1287QiY2mlqSrTx0J
+         Sc3mZaK1YLKB/AITQj/YgO7FzoOk/2UcAM9CIAZfxssWcaJkTfqZ2sDwFXfXLArwZ0JU
+         f/Og==
+X-Gm-Message-State: AO0yUKVH/sivWE9+ol5yw8+4wHtgP5P2sW/KVJ+IDGHn8u211TrqQXpk
+        g5glEhgMkkgWzwJDSeRc8UnKLyI8wRiT8i3JToY=
+X-Google-Smtp-Source: AK7set8bR0KQF+vsQVgkUBdqSNVcDf1IYvUkD7ceRkYWWdLBF1IJ25xJLfofrYsjGbTVN8paTJOWLl2PV1rzkrFnJ9s=
+X-Received: by 2002:ac8:5dce:0:b0:3b8:6cef:4345 with SMTP id
+ e14-20020ac85dce000000b003b86cef4345mr3028572qtx.106.1676024363085; Fri, 10
+ Feb 2023 02:19:23 -0800 (PST)
 MIME-Version: 1.0
 References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
- <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com> <20230210045624.cjxroikmmvm3liij@t-8ch.de>
- <AC5AB6F5-4D65-4362-A8B8-A694D1371188@live.com> <CAO-hwJK=-9n885crMM8sHFGdNCZfjhqwuQXb2OtgMQiqaoZ66g@mail.gmail.com>
- <B472CABB-5D94-4E15-AE6D-EF8B8BF4CBF3@live.com>
-In-Reply-To: <B472CABB-5D94-4E15-AE6D-EF8B8BF4CBF3@live.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 10 Feb 2023 10:21:29 +0100
-Message-ID: <CAO-hwJJmVA7fcPBUpVZqKQmaJfk1AMqdh2-ZWXBVWtG2KgHyDw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver for
- T1 chip.
+In-Reply-To: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 10 Feb 2023 12:18:47 +0200
+Message-ID: <CAHp75VcPPDTmpx9jpu3ZoaVH_xBgtaEbDQcJJdqcaXi1J+_q0A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Touch Bar and Keyboard backlight driver for Intel Macs
 To:     Aditya Garg <gargaditya08@live.com>
-Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
-        Jiri Kosina <jikos@kernel.org>,
+Cc:     Jiri Kosina <jikos@kernel.org>,
         "jkosina@suse.cz" <jkosina@suse.cz>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
         Andy Shevchenko <andy@infradead.org>,
-        "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
         LKML <linux-kernel@vger.kernel.org>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "ronald@innovation.ch" <ronald@innovation.ch>,
@@ -77,9 +66,9 @@ Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
         Orlando Chamberlain <orlandoch.dev@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,221 +76,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 9:54 AM Aditya Garg <gargaditya08@live.com> wrote:
+On Fri, Feb 10, 2023 at 5:41 AM Aditya Garg <gargaditya08@live.com> wrote:
 >
+> Greetings from t2linux!
 >
+> 2 years ago an attempt was made to send the driver for the Touch Bar on
+> MacBook Pros by Ronald Tschal=C3=A4r [1].
 >
-> > On 10-Feb-2023, at 2:09 PM, Benjamin Tissoires <benjamin.tissoires@redh=
-at.com> wrote:
-> >
-> > On Fri, Feb 10, 2023 at 9:30 AM Aditya Garg <gargaditya08@live.com> wro=
-te:
-> >>
-> >>
-> >>
-> >>> On 10-Feb-2023, at 10:26 AM, Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> =
-wrote:
-> >>>
-> >>> Hi,
-> >>>
-> >>> some comments inline.
-> >>>
-> >>> On Fri, Feb 10, 2023 at 03:43:24AM +0000, Aditya Garg wrote:
-> >>>> From: Ronald Tschal=C3=A4r <ronald@innovation.ch>
-> >>>>
-> >>>> The iBridge device provides access to several devices, including:
-> >>>> - the Touch Bar
-> >>>> - the iSight webcam
-> >>>> - the light sensor
-> >>>> - the fingerprint sensor
-> >>>>
-> >>>> This driver provides the core support for managing the iBridge devic=
-e
-> >>>> and the access to the underlying devices. In particular, the
-> >>>> functionality for the touch bar and light sensor is exposed via USB =
-HID
-> >>>> interfaces, and on devices with the T1 chip one of the HID devices i=
+> Due to some issues pointed out by the maintainers upstream, unfortunately
+> it didn't make it upstream. Now we at t2linux [2] have addressed those
+> issues in this patchset and also improved the touchbar driver for the T2
+> Macs. We also have added a new driver for keyboard backlight support on
+> T2 MacBooks with Magic Keyboard.
+>
+> The first 2 patches of this patchset are the ones sent by Ronald before,
+> with the issues addressed as pointed out in [1].
+>
+> The third patch introduces a new driver, apple-magic-backlight, which add=
 s
-> >>>> used for both functions. So this driver creates virtual HID devices,=
- one
-> >>>> per top-level report collection on each HID device (for a total of 3
-> >>>> virtual HID devices). The sub-drivers then bind to these virtual HID
-> >>>> devices.
-> >>>>
-> >>>> This way the Touch Bar and ALS drivers can be kept in their own modu=
-les,
-> >>>> while at the same time making them look very much like as if they we=
-re
-> >>>> connected to the real HID devices. And those drivers then work (most=
-ly)
-> >>>> without further changes on MacBooks with the T2 chip that don't need
-> >>>> this driver.
-> >>>>
-> >>>> Signed-off-by: Ronald Tschal=C3=A4r <ronald@innovation.ch>
-> >>>> [Kerem Karabay: convert to a platform driver]
-> >>>> [Kerem Karabay: fix appleib_forward_int_op]
-> >>>> [Kerem Karabay: rely on HID core's parsing in appleib_add_device]
-> >>>> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> >>>> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> >>>> ---
-> >>>> drivers/hid/Kconfig         |  15 +
-> >>>> drivers/hid/Makefile        |   1 +
-> >>>> drivers/hid/apple-ibridge.c | 610 ++++++++++++++++++++++++++++++++++=
-++
-> >>>> drivers/hid/apple-ibridge.h |  15 +
-> >>>> drivers/hid/hid-ids.h       |   1 +
-> >>>> drivers/hid/hid-quirks.c    |   3 +
-> >>>> 6 files changed, 645 insertions(+)
-> >>>> create mode 100644 drivers/hid/apple-ibridge.c
-> >>>> create mode 100644 drivers/hid/apple-ibridge.h
-> >>>>
-> >>>
-> >>>>
-> >>>> +}
-> >>>> +
-> >>>> +static int appleib_ll_raw_request(struct hid_device *hdev,
-> >>>> +   unsigned char reportnum, __u8 *buf,
-> >>>> +   size_t len, unsigned char rtype, int reqtype)
-> >>>> +{
-> >>>> + struct appleib_hid_dev_info *hdev_info =3D hdev->driver_data;
-> >>>> +
-> >>>> + return hid_hw_raw_request(hdev_info->hdev, reportnum, buf, len, rt=
-ype,
-> >>>> +   reqtype);
-> >>>> +}
-> >>>> +
-> >>>> +static int appleib_ll_output_report(struct hid_device *hdev, __u8 *=
-buf,
-> >>>> +     size_t len)
-> >>>> +{
-> >>>> + struct appleib_hid_dev_info *hdev_info =3D hdev->driver_data;
-> >>>> +
-> >>>> + return hid_hw_output_report(hdev_info->hdev, buf, len);
-> >>>> +}
-> >>>> +
-> >>>> +static struct hid_ll_driver appleib_ll_driver =3D {
-> >>>> + .start =3D appleib_ll_start,
-> >>>> + .stop =3D appleib_ll_stop,
-> >>>> + .open =3D appleib_ll_open,
-> >>>> + .close =3D appleib_ll_close,
-> >>>> + .power =3D appleib_ll_power,
-> >>>> + .parse =3D appleib_ll_parse,
-> >>>> + .request =3D appleib_ll_request,
-> >>>> + .wait =3D appleib_ll_wait,
-> >>>> + .raw_request =3D appleib_ll_raw_request,
-> >>>> + .output_report =3D appleib_ll_output_report,
-> >>>> +};
-> >>>
-> >>> const
-> >>
-> >> Are you sure about const here?
-> >>
-> >>>
-> >>>> +
-> >>>> + if (udev->actconfig->desc.bConfigurationValue !=3D APPLEIB_BASIC_C=
-ONFIG) {
-> >>>> + rc =3D usb_driver_set_configuration(udev, APPLEIB_BASIC_CONFIG);
-> >>>> + return rc ? rc : -ENODEV;
-> >>>> + }
-> >>>> +
-> >>>> + rc =3D hid_parse(hdev);
-> >>>> + if (rc) {
-> >>>> + hid_err(hdev, "ib: hid parse failed (%d)\n", rc);
-> >>>> + goto error;
-> >>>> + }
-> >>>> +
-> >>>> + rc =3D hid_hw_start(hdev, HID_CONNECT_DRIVER);
-> >>>> + if (rc) {
-> >>>> + hid_err(hdev, "ib: hw start failed (%d)\n", rc);
-> >>>> + goto error;
-> >>>> + }
-> >>>> +
-> >>>> + hdev_info =3D appleib_add_device(hdev);
-> >>>> + if (IS_ERR(hdev_info)) {
-> >>>> + rc =3D PTR_ERR(hdev_info);
-> >>>> + goto stop_hw;
-> >>>> + }
-> >>>> +
-> >>>> + hid_set_drvdata(hdev, hdev_info);
-> >>>> +
-> >>>> + rc =3D hid_hw_open(hdev);
-> >>>> + if (rc) {
-> >>>> + hid_err(hdev, "ib: failed to open hid: %d\n", rc);
-> >>>> + goto remove_dev;
-> >>>> + }
-> >>>> +
-> >>>> + return 0;
-> >>>> +
-> >>>> +remove_dev:
-> >>>> + appleib_remove_device(hdev);
-> >>>> +stop_hw:
-> >>>> + hid_hw_stop(hdev);
-> >>>> +error:
-> >>>> + return rc;
-> >>>> +}
-> >>>> +
-> >>>> +static void appleib_hid_remove(struct hid_device *hdev)
-> >>>> +{
-> >>>> + hid_hw_close(hdev);
-> >>>> + appleib_remove_device(hdev);
-> >>>> + hid_hw_stop(hdev);
-> >>>> +}
-> >>>> +
-> >>>> +static const struct hid_device_id appleib_hid_ids[] =3D {
-> >>>> + { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IBRIDGE)=
- },
-> >>>> + { },
-> >>>> +};
-> >>>> +
-> >>>> +static struct hid_driver appleib_hid_driver =3D {
-> >>>> + .name =3D "apple-ibridge-hid",
-> >>>> + .id_table =3D appleib_hid_ids,
-> >>>> + .probe =3D appleib_hid_probe,
-> >>>> + .remove =3D appleib_hid_remove,
-> >>>> + .raw_event =3D appleib_hid_raw_event,
-> >>>> + .report_fixup =3D appleib_report_fixup,
-> >>>> +#ifdef CONFIG_PM
-> >>>> + .suspend =3D appleib_hid_suspend,
-> >>>> + .resume =3D appleib_hid_resume,
-> >>>> + .reset_resume =3D appleib_hid_reset_resume,
-> >>>> +#endif
-> >>>> +};
-> >>>
-> >>> const
-> >>
-> >> Are you sure you want to do const here, cause other hid-drivers are NO=
-T using const.
-> >
-> > It is scheduled for 6.3:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=3Dfo=
-r-6.3/hid-core
-> >
-> > So yes, please make them const.
+> support for keyboard backlight on T2 MacBooks with the Magic Keyboard.
 >
-> Makes sense for `hid_ll_driver` as per the tree you send me, but I don=E2=
-=80=99t see such a thing for
-> `static struct hid_driver`. Is that scheduled as well?
-
-Good point. I don't recall having seen such series now that you pinpoint th=
-is.
-
-Thomas, is this something you have planned to submit?
-
-Cheers,
-Benjamin
-
+> Note: Apart from these drivers, for the T2 Macs, an additional driver
+> shall be required to communicate with the T2 Security Chip, as the Touch
+> Bar, the internal keyboard, trackpad, camera, ambient light sensor,
+> headphone controls, and NCM Ethernet are accessed through a USB VHCI
+> created with DMA channels to the "T2 Bridge Controller" 106b:1801 PCI
+> device. A work in progress linux driver called apple-bce [3], or USB
+> device passthrough to a Linux VM guest on a Windows host with Apple
+> Bootcamp drivers can be used to get Linux these USB devices working and
+> test these patches.
 >
-> >
-> > Cheers,
-> > Benjamin
-> >
-> >>
-> >>>> +
-> >>>> +static struct appleib_device *appleib_alloc_device(struct platform_=
-device *pdev)
-> >>>> +{
-> >>>> + struct appleib_device *ib_dev;
-> >>>> + acpi_status sts;
->
->
+> [1] https://lore.kernel.org/lkml/20210228012643.69944-1-ronald@innovation=
+.ch/
+> [2] https://t2linux.org/
+> [3] https://github.com/t2linux/apple-bce-drv
 
+Quick observation. Do you miss the Co-developed-by: tags in the patches?
+
+--=20
+With Best Regards,
+Andy Shevchenko
