@@ -2,101 +2,229 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D64306923E0
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 18:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC2E069256A
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 19:36:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232649AbjBJRAw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 12:00:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42036 "EHLO
+        id S232592AbjBJSgN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 13:36:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232755AbjBJRAm (ORCPT
+        with ESMTP id S232558AbjBJSgM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 12:00:42 -0500
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BDC8795FD
-        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 09:00:41 -0800 (PST)
-Received: by mail-ot1-x32f.google.com with SMTP id bv2-20020a0568300d8200b0068dc615ee44so1696653otb.10
-        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 09:00:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QbJmqPWnhU2fzuW6EfX3HBGUxbnNbk0AgxNrozbd3eA=;
-        b=F3PBfoy5nOeRgmuMDO1fhNshVtnpRJXUqqZvWJwLOM61FmisRaSfuE5vq/ey6ZI855
-         c+kH9f5p52EqBbrBmNyCC3SlJW2lfgAMuMswj6Yy7Wbpz8OMEz2UoF6Ln5o30DWRYdL4
-         RNqnuBEID+snQk6sbpE254oTPcPykKAyp2eX3pi5k4HQUoOjp/0RyjHePAlbUFj3gK72
-         VfVwBMETWgoNkWHo3eDzuGkcynQYPbUF/q3dncnmhGp/Fx9IjzrTJODQhF2QLoNeW3IX
-         BkrYDb0BpP/eEUbI7Rj+CijnKc1ni4r3sg6X1K2omcqPZeHRXgajqjUgC30KJD5tmeEv
-         EAQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QbJmqPWnhU2fzuW6EfX3HBGUxbnNbk0AgxNrozbd3eA=;
-        b=OB1rzIdrASlhAfnxmd7N0bYlB4SllJl+eaUwqurYcEdrfsSmubB0C86OB6Kq4OhHpd
-         RBZdn1bFnz7BDOfL7c1iyEK8g444aGhrDdJOazX0PCO0raQs5/UnNdViUQU+3+V5E/gk
-         4nIBCVSxVWpYgCkpGtutWgjCBSrmIeuY12ODAfQlzavBTFSfPa4DmvrHxrDChRt8tcFR
-         L/RzjPzAoGJrB2zcYBmVCyl/BURCrsjB5/37/nE74jiQsNnaUC7FYBKc9BaCkKK1KTg3
-         n4PU0QVy7Cy1ZCjd6HWKfW5sqODjwaFL3wCvAfKwWpNH7DWaD6bcNSA/Ije1f5b3ytbd
-         BJ2A==
-X-Gm-Message-State: AO0yUKW7JxKkQoELBF9KNz7vJcdvID66UtuKCk+pVQttLXX4BKGAE3vC
-        8zz8cI5kWcom75Efc18KChA=
-X-Google-Smtp-Source: AK7set9fi1P+R7rxEBLssXHMQBCSGN9VfqkTGWzzG9wjJGp1jwl7jtt11J55HmdRiNdbYBW82Lrf+g==
-X-Received: by 2002:a9d:6ad5:0:b0:686:b1e5:6e93 with SMTP id m21-20020a9d6ad5000000b00686b1e56e93mr9187046otq.30.1676048440549;
-        Fri, 10 Feb 2023 09:00:40 -0800 (PST)
-Received: from DANNY-DESKTOP.localdomain (071-013-243-092.res.spectrum.com. [71.13.243.92])
-        by smtp.gmail.com with ESMTPSA id d64-20020a37b443000000b0071f0d0aaef7sm3777185qkf.80.2023.02.10.09.00.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 09:00:39 -0800 (PST)
-From:   Danny Kaehn <kaehndan@gmail.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, ethan.twardy@plexus.com
-Subject: [PATCH] HID: cp2112: Fix driver not registering GPIO IRQ chip as threaded
-Date:   Fri, 10 Feb 2023 11:00:44 -0600
-Message-Id: <20230210170044.11835-1-kaehndan@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 10 Feb 2023 13:36:12 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3908F69536;
+        Fri, 10 Feb 2023 10:36:11 -0800 (PST)
+Date:   Fri, 10 Feb 2023 11:36:02 -0700 (GMT-07:00)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
+        t=1676054168; bh=60guHEUGd/XmV+MPQukXhjwcgeGRDbEWPL4ThJ77WqQ=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=l4I/A25g4qNffJqCgIVPIivBY69t5u4DnQt5RoP0+hhg/25Lw4Lkm3T4NaBn+g4ke
+         XdOEuR9mxkD6gNf4v3uHGwbZf3WCNnxug72wkEwnDHWFl5V76osLh0FfeSMcdZ9X9H
+         Ev7Fv8nOzW2lWJToGRhCxX6YfibbEKzEzLr3XnVI=
+From:   =?UTF-8?Q?Thomas_Wei=C3=9Fschuh_?= <thomas@t-8ch.de>
+To:     Aditya Garg <gargaditya08@live.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, jkosina@suse.cz,
+        benjamin.tissoires@redhat.com,
+        Andy Shevchenko <andy@infradead.org>,
+        andy.shevchenko@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org, ronald@innovation.ch,
+        kekrby@gmail.com, Orlando Chamberlain <orlandoch.dev@gmail.com>
+Message-ID: <cb640534-ed9f-4b69-8070-6eb3efd72604@t-8ch.de>
+In-Reply-To: <BM1PR01MB09315DC70770D236DD29D007B8DE9@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com> <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com> <20230210045624.cjxroikmmvm3liij@t-8ch.de> <B9E319F8-6047-40E5-BD9F-D90D6504AA9E@live.com> <20230210153356.zdj7gw7ztbgz2qx7@t-8ch.de> <BM1PR01MB09315DC70770D236DD29D007B8DE9@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver
+ for T1 chip.
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Correlation-ID: <cb640534-ed9f-4b69-8070-6eb3efd72604@t-8ch.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The CP2112 generates interrupts from a polling routine on a thread,
-and can only support threaded interrupts. This patch configures the
-gpiochip irq chip with this flag, disallowing consumers to request
-a hard IRQ from this driver, which resulted in a segfault previously.
 
-Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
----
+Feb 10, 2023 08:50:12 Aditya Garg <gargaditya08@live.com>:
 
-Note -- this patch was first submitted with the patchset:
-"DeviceTree Support for USB-HID Devices and CP2112"
+>
+>
+>> On 10-Feb-2023, at 9:04 PM, Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> wrot=
+e:
+>>
+>> =EF=BB=BFResponses inline
+>>
+>> On Fri, Feb 10, 2023 at 12:05:13PM +0000, Aditya Garg wrote:
+>>>>> On 10-Feb-2023, at 10:26 AM, Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> =
+wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> some comments inline.
+>>>>
+>>>>> On Fri, Feb 10, 2023 at 03:43:24AM +0000, Aditya Garg wrote:
+>>>>
+>>>>> +
+>>>>> +static struct {
+>>>>> + unsigned int usage;
+>>>>> + struct hid_device_id *dev_id;
+>>>>> +} appleib_usage_map[] =3D {
+>>>>> + /* Default iBridge configuration, key inputs and mode settings */
+>>>>> + { 0x00010006, &appleib_sub_hid_ids[0] },
+>>>>> + /* OS X iBridge configuration, digitizer inputs */
+>>>>> + { 0x000D0005, &appleib_sub_hid_ids[0] },
+>>>>> + /* All iBridge configurations, display/DFR settings */
+>>>>> + { 0xFF120001, &appleib_sub_hid_ids[0] },
+>>>>> + /* All iBridge configurations, ALS */
+>>>>> + { 0x00200041, &appleib_sub_hid_ids[1] },
+>>>>> +};
+>>>>
+>>>> const
+>>>>
+>>>
+>>> Constantifying this results in compiler giving warnings
+>>>
+>>> drivers/hid/apple-ibridge.c:78:23: warning: initialization discards 'co=
+nst' qualifier from pointer target type [-Wdiscarded-qualifiers]
+>>> =C2=A0 78 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { 0x0020004=
+1, &appleib_sub_hid_ids[1] },
+>>
+>> For this you also have to constify the hid_device_id *dev_id in
+>> appleib_usage_map. And then propagate this change to some functions and
+>> variables.
+>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 ^
+>>> drivers/hid/apple-ibridge.c: In function 'appleib_add_sub_dev':
+>>> drivers/hid/apple-ibridge.c:363:29: warning: assignment discards 'const=
+' qualifier from pointer target type [-Wdiscarded-qualifiers]
+>>> 363 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sub_hdev->ll_driv=
+er =3D &appleib_ll_driver;
+>>
+>> As Benjamin said this is because your changes are based on Linus' tree
+>> but they will break as soon as they will be merged into the HID tree.
+>> You should base your changes off of the HID tree:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=3Dfor=
+-6.3/hid-core
+>>
+>> This issue is essentially unlucky timing.
+>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>> drivers/hid/apple-ibridge.c: In function 'appleib_hid_probe':
+>>> drivers/hid/apple-ibridge.c:436:12: error: expected '(' before 'hid_is_=
+usb'
+>>> 436 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if hid_is_usb(hde=
+v)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 (
+>>
+>> As the error message indicates, this is invalid syntax and missing a
+>> '('.
+>> What you want to do is to check for
+>>
+>> if (!hid_is_usb(hdev))
+>> =C2=A0=C2=A0 return -ENODEV;
+>
+> It was a typo on my part
+>
+> +=C2=A0=C2=A0 /* check and set usb config first */
+> +=C2=A0=C2=A0 if (hid_is_usb(hdev))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 udev =3D hid_to_usb_dev(hdev);
+> +=C2=A0=C2=A0 else
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
 
-It is now submitted separately upon request, as it is not coupled to the
-other patches in that series.
+I would prefer
 
- drivers/hid/hid-cp2112.c | 1 +
- 1 file changed, 1 insertion(+)
+if (!hid_is_usb(hdev))
+=C2=A0=C2=A0=C2=A0 return -EINVAL;
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 1e16b0fa310d..27cadadda7c9 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -1354,6 +1354,7 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	girq->parents = NULL;
- 	girq->default_type = IRQ_TYPE_NONE;
- 	girq->handler = handle_simple_irq;
-+	girq->threaded = true;
- 
- 	ret = gpiochip_add_data(&dev->gc, dev);
- 	if (ret < 0) {
--- 
-2.25.1
+udev =3D hid_to_usb_dev(hdev);
+
+>
+> This is what I have in my patch set now.
+>
+> If there is something wrong with this, then do tell me
+>
+> Thanks
+>>
+>> *before* calling hid_to_usb_dev(hdev);
+>>
+>>> In file included from drivers/hid/apple-ibridge.c:48:
+>>> drivers/hid/apple-ibridge.c: In function 'appleib_probe':
+>>> drivers/hid/apple-ibridge.c:544:35: warning: passing argument 1 of '__h=
+id_register_driver' discards 'const' qualifier from pointer target type [-W=
+discarded-qualifiers]
+>>> 544 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D hid_regis=
+ter_driver(&appleib_hid_driver);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~
+>>> ./include/linux/hid.h:898:31: note: in definition of macro 'hid_registe=
+r_driver'
+>>> 898 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __hid_register_dr=
+iver(driver, THIS_MODULE, KBUILD_MODNAME)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~
+>>> ./include/linux/hid.h:893:47: note: expected 'struct hid_driver *' but =
+argument is of type 'const struct hid_driver *'
+>>> 893 | extern int __must_check __hid_register_driver(struct hid_driver *=
+,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ^~~~~~~~~~~~~~~~~~~
+>>> drivers/hid/apple-ibridge.c: In function 'appleib_remove':
+>>> drivers/hid/apple-ibridge.c:558:31: warning: passing argument 1 of 'hid=
+_unregister_driver' discards 'const' qualifier from pointer target type [-W=
+discarded-qualifiers]
+>>> 558 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hid_unregister_dr=
+iver(&appleib_hid_driver);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~=
+~~~~~
+>>> ./include/linux/hid.h:900:35: note: expected 'struct hid_driver *' but =
+argument is of type 'const struct hid_driver *'
+>>> 900 | extern void hid_unregister_driver(struct hid_driver *);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~
+>>
+>> These are all because applib_hid_driver can not be const.
+>> Sorry for the wrong advice.
+>>
+>> Benjamin:
+>> HID drivers can not be const because they embed a 'struct driver' that
+>> is needed by the driver core to be mutable.
+>> Fixing this is probably a larger enterprise.
+>>
+>>> make[6]: *** [scripts/Makefile.build:250: drivers/hid/apple-ibridge.o] =
+Error 1
+>>> make[5]: *** [scripts/Makefile.build:500: drivers/hid] Error 2
+>>> make[5]: *** Waiting for unfinished jobs=E2=80=A6.
+>>>
+>>> Some warnings are also due to a typo in if and constantifying `static s=
+truct hid_driver`, although they probably can
+>>> be fixed.
+>>>
+>>> In short, Thomas, do you really want me to constantify the structure I
+>>> am talking about in this email, as well `static struct hid_driver`?
+>>
+>> struct hid_driver: Don't constify
+>> all others: Do constify
+>>
+>> Thomas
 
