@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97560692149
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 15:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D420E6921B5
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 16:13:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232280AbjBJO7q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 09:59:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53370 "EHLO
+        id S232079AbjBJPNZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 10:13:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232289AbjBJO7l (ORCPT
+        with ESMTP id S232462AbjBJPNX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 09:59:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90350301BC
-        for <linux-input@vger.kernel.org>; Fri, 10 Feb 2023 06:58:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676041114;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TtIoamazjUK95m2+XF2UIf7KFJy6XAxCOBciAcuNvB4=;
-        b=NW4kSuDMsmoSjbH/dqPT3gUdBMgFHD90xmQBFt45p0+hoRxhZ9OM+Kbrekks3mJxm5N3GS
-        nExGvNZpVifo+/GNp2lOW+YACwxd1r7QGvpsD72HSwPBHrpk/pofmvurN23b/F/UHuC3Wm
-        Y7Zx017zy/IXu7AbxY7ZE+94Uad+KeQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-yTlxKmzuMeiRrDx5AiM0cg-1; Fri, 10 Feb 2023 09:58:28 -0500
-X-MC-Unique: yTlxKmzuMeiRrDx5AiM0cg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D30CD886464;
-        Fri, 10 Feb 2023 14:58:27 +0000 (UTC)
-Received: from mail.corp.redhat.com (ovpn-195-1.brq.redhat.com [10.40.195.1])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id EF7E6404CD8F;
-        Fri, 10 Feb 2023 14:58:14 +0000 (UTC)
-Date:   Fri, 10 Feb 2023 15:58:12 +0100
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Pietro Borrello <borrello@diag.uniroma1.it>
-Cc:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <kontakt@hanno.de>,
-        Carlo Caione <carlo@endlessm.com>,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Roderick Colenbrander <roderick@gaikai.com>,
+        Fri, 10 Feb 2023 10:13:23 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C855ACE6;
+        Fri, 10 Feb 2023 07:13:23 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id j32-20020a05600c1c2000b003dc4fd6e61dso6508755wms.5;
+        Fri, 10 Feb 2023 07:13:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qFzkK8hl+QAofsP+VURF4ajN7hzwnlwiCh1ujs/8w3M=;
+        b=Sc7u5lVqMsUcV1GDTwfCQ5FWdvZyXqGkZBxML3eax8wAm+hxRd8ZEEx/BGPufl5DBk
+         EThrWjTB+04Az0bUBu+IgrQVlAHjKafWu78CpWBBNVOJ+X6EI5SYZT7DA5VFARq9ZM14
+         hqgvy/bo14RmXTjPoQ7cBHeUQA/zyY7VycuH9gjN0N4FJT6lDBfRb+3x8NOvLDYV3Qtz
+         MO/r93tsT6I0PE0Bl31hMEV+ZRPmbETzmCc/FTEaPUUBFN37ueT1L6qozn81PlUsDpz1
+         pttkR54GntkjV435bM+3QeO0ZGNOkp3YR+OCgGuyB05vvELlPDb/LK7ey99Uux6abJJ7
+         f2Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qFzkK8hl+QAofsP+VURF4ajN7hzwnlwiCh1ujs/8w3M=;
+        b=2vdISzu3O+yETJqrSikGTVSEeYNIGML5LdG1mYj44Aq02zcLDR1QfQ3iUFb6NcBN4W
+         EqApR09UnZIxhZGm6nLvhTFIcWZhzGJodrJZPs68476YJBS99FVRfzkWqV7t2MMyn8rC
+         eLpASGv3rEDE9cahbguq8tBrShxxpqmAUgU1mLrxcxSpGVXzM7CxoOzw3LrueanuuHsJ
+         lSstGTHJFnofXxBXrTuT5miD2mAEFVHymE3GTRibv5w4Lt2GA+ODtb8POuN8+wGiDDpd
+         SFkkeno4r2/MJxQeSbKAIIx/MVKUS0jQhnvbYbJVEweT3LujQYGQgRRU/PxghafAUEJ6
+         kTZQ==
+X-Gm-Message-State: AO0yUKWIZvk7Im8LcAnUy/hbOHBH3Y5W+4U8DPj24vNrCnws59DmMkYX
+        Qb3P8CpmvOneXS4/qIZ91U6B0nZaP9T8d8EZ
+X-Google-Smtp-Source: AK7set8uE/dlxuaGskKjWgKxmwul/XLTPciYk8/cRzLrH7HsehwEPiCZc4ma4G4/5GLmxwg8XhARWA==
+X-Received: by 2002:a05:600c:4d09:b0:3de:db64:a56f with SMTP id u9-20020a05600c4d0900b003dedb64a56fmr17180668wmp.13.1676042001552;
+        Fri, 10 Feb 2023 07:13:21 -0800 (PST)
+Received: from precision7540.ncl.ac.uk (janus-nat-128-240-225-11.ncl.ac.uk. [128.240.225.11])
+        by smtp.gmail.com with ESMTPSA id k7-20020a05600c080700b003daf672a616sm4921553wmp.22.2023.02.10.07.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Feb 2023 07:13:20 -0800 (PST)
+From:   Dale Whinham <daleyo@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] HID: asus: use spinlock to safely schedule workers
-Message-ID: <20230210145812.gbsxqp2mimgcuahr@mail.corp.redhat.com>
-References: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
- <20230125-hid-unregister-leds-v3-2-0a52ac225e00@diag.uniroma1.it>
+Cc:     Dale Whinham <daleyo@gmail.com>
+Subject: [PATCH] Input: synaptics - enable InterTouch on Panasonic Let's Note CF-RZ6
+Date:   Fri, 10 Feb 2023 15:12:39 +0000
+Message-Id: <20230210151239.211503-1-daleyo@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125-hid-unregister-leds-v3-2-0a52ac225e00@diag.uniroma1.it>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,112 +69,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Feb 09 2023, Pietro Borrello wrote:
-> Use spinlocks to deal with workers introducing a wrapper
-> asus_schedule_work(), and several spinlock checks.
-> Otherwise, asus_kbd_backlight_set() may schedule led->work after the
-> structure has been freed, causing a use-after-free.
-> 
-> Fixes: af22a610bc38 ("HID: asus: support backlight on USB keyboards")
-> Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
-> ---
->  drivers/hid/hid-asus.c | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index f99752b998f3..30e194803bd7 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -98,6 +98,7 @@ struct asus_kbd_leds {
->  	struct hid_device *hdev;
->  	struct work_struct work;
->  	unsigned int brightness;
-> +	spinlock_t lock;
->  	bool removed;
->  };
->  
-> @@ -490,13 +491,23 @@ static int rog_nkey_led_init(struct hid_device *hdev)
->  	return ret;
->  }
->  
-> +static void asus_schedule_work(struct asus_kbd_leds *led)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&led->lock, flags);
-> +	if (!led->removed)
-> +		schedule_work(&led->work);
-> +	spin_unlock_irqrestore(&led->lock, flags);
-> +}
-> +
->  static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
->  				   enum led_brightness brightness)
->  {
->  	struct asus_kbd_leds *led = container_of(led_cdev, struct asus_kbd_leds,
->  						 cdev);
->  	led->brightness = brightness;
-> -	schedule_work(&led->work);
-> +	asus_schedule_work(led);
->  }
->  
->  static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
-> @@ -512,15 +523,17 @@ static void asus_kbd_backlight_work(struct work_struct *work)
->  	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
->  	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
->  	int ret;
-> +	unsigned long flags;
->  
-> -	if (led->removed)
-> -		return;
-> +	spin_lock_irqsave(&led->lock, flags);
->  
->  	buf[4] = led->brightness;
->  
->  	ret = asus_kbd_set_report(led->hdev, buf, sizeof(buf));
->  	if (ret < 0)
->  		hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
-> +
-> +	spin_unlock_irqrestore(&led->lock, flags);
+SYN0505 confirmed working reliably on the CF-RZ6 using
+'psmouse.synaptics_intertouch=1'.
 
-Same as in 1/2, please only keep "buf[4] = led->brightness;" under
-spinlock.
+This ID may also be used by other models in the Panasonic Let's Note
+/Toughbook range.
 
-Which also raises the question on why the other accesses of
-led->brightness are not protected by the spinlock :)
+Signed-off-by: Dale Whinham <daleyo@gmail.com>
+---
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Note that we could use an atomic to not use the spinlock, but we need
-the spinlock anyway...
-
-Cheers,
-Benjamin
-
->  }
->  
->  /* WMI-based keyboard backlight LED control (via asus-wmi driver) takes
-> @@ -584,6 +597,7 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
->  	drvdata->kbd_backlight->cdev.brightness_set = asus_kbd_backlight_set;
->  	drvdata->kbd_backlight->cdev.brightness_get = asus_kbd_backlight_get;
->  	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work);
-> +	spin_lock_init(&drvdata->kbd_backlight->lock);
->  
->  	ret = devm_led_classdev_register(&hdev->dev, &drvdata->kbd_backlight->cdev);
->  	if (ret < 0) {
-> @@ -1119,9 +1133,13 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  static void asus_remove(struct hid_device *hdev)
->  {
->  	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-> +	unsigned long flags;
->  
->  	if (drvdata->kbd_backlight) {
-> +		spin_lock_irqsave(&drvdata->kbd_backlight->lock, flags);
->  		drvdata->kbd_backlight->removed = true;
-> +		spin_unlock_irqrestore(&drvdata->kbd_backlight->lock, flags);
-> +
->  		cancel_work_sync(&drvdata->kbd_backlight->work);
->  	}
->  
-> 
-> -- 
-> 2.25.1
-> 
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index b0f776448a1c..7570f6770ed2 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -188,6 +188,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"LEN2054", /* E480 */
+ 	"LEN2055", /* E580 */
+ 	"LEN2068", /* T14 Gen 1 */
++	"SYN0505", /* Panasonic Let's Note CF-RZ6 */
+ 	"SYN3052", /* HP EliteBook 840 G4 */
+ 	"SYN3221", /* HP 15-ay000 */
+ 	"SYN323d", /* HP Spectre X360 13-w013dx */
+-- 
+2.34.1
 
