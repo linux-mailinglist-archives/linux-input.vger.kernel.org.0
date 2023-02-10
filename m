@@ -2,177 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A7CC6914FE
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 00:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0ABF691563
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 01:30:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbjBIX7E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Feb 2023 18:59:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36540 "EHLO
+        id S229768AbjBJAak (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Feb 2023 19:30:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbjBIX7C (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 18:59:02 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD7C5A9D8
-        for <linux-input@vger.kernel.org>; Thu,  9 Feb 2023 15:58:58 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id c26so6761650ejz.10
-        for <linux-input@vger.kernel.org>; Thu, 09 Feb 2023 15:58:58 -0800 (PST)
+        with ESMTP id S229762AbjBJAaj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Feb 2023 19:30:39 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5E5C125A4;
+        Thu,  9 Feb 2023 16:30:37 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id s8so2678534pgg.11;
+        Thu, 09 Feb 2023 16:30:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=diag.uniroma1.it; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XHeWZ65g4BMWv1wpl53BAYKvu7rKoumv2nA2YEeP6jg=;
-        b=UzQWu9+vMmJKCczmOAEbeSrdKvhAmFa6KOuiECJoBeZQpc29/PL26NBo6Hd+DKZ2lC
-         KuTqWz6XIaV5MzitHcn7zc9SumXQkWbyF9TBcSsX1Q0DAVTRJTFOpNy9Y7srdbuWj4vZ
-         v2CarUm7tvVa0Flgt5frBD/OaF7LNkr8NDhww=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j/k0erUD/kDhxh7/K7OwX/bqJpwb0bJwB0iaNCFMZK4=;
+        b=m45PZQvJM/hD/Xj9vlTDu7tBQyIzoAKV+Ug121N7xEPFN7JnwalygRfN9Deee662VD
+         1QVbr7FN2GjKS80HHKfM2VRvvS5Vumhqz4Q+X5SC3+HRHqlG8a7QYMW60YZ5vMmXuVWT
+         Whj682Dxwd3DP/j9rmnilydYjFYDO78yDRgj3f2c7t5Yh9pLdW/rRTvgu6ytHpVWH4Bp
+         WyfwWCyWVkyOkZzxzrnyvN21unxPk7gjxu9VkavwgK4rgme7Roz1XT+g6ILjuGTvn1Ca
+         djNyiDLTeCH+LIzJyxsFu0Lca5uXhw3bVHkTtzSaYa2Z8GkE/XD13cpHeodi0b9EwBno
+         w3Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XHeWZ65g4BMWv1wpl53BAYKvu7rKoumv2nA2YEeP6jg=;
-        b=TYyBkolRZLv2SAFjpeAxMZP4ku3f433fERlRjZNxrwt8l2fvLtpH5YF9vrgezuyBAY
-         1UhHIZLFGGd5HOHuJDkwVQ7y5TCKl7yla8HAQMY2/hKwI2u3C54E8CSCc2mj0hfv7r1a
-         KmaVIJD1dWQ1/gSucw4pyr42xldB2DYeLFp9aNOF1EBtmW3zxlzCmwjI2Njj//aFmVq/
-         L03WWD/qNZRR9NI2UPhOboKbB1CYrbcCb4al700HhpQfJH/N43SHTS4aSyKaXgy60Yrp
-         szsxB95ASsp10BCMDUioS7OLvlaQIq5ra51ww6GWRu8Qhu7pukczWzC19Lo5KOli2UWK
-         1jJQ==
-X-Gm-Message-State: AO0yUKWNNiIjozcjXByr4y1OWgWpw7OFzjzIBPEujN/uxGYroudbuYqv
-        smwkBtt0gBDMvpj+ZR/EYzD4bQ==
-X-Google-Smtp-Source: AK7set8CpmMMo4bA7feRvqMUcm6S94eLmyUaBP/asuzG+0iTf9JFrrf8rh+xN7FpD2S+VXRzGbeSDA==
-X-Received: by 2002:a17:907:c23:b0:8aa:b526:36b3 with SMTP id ga35-20020a1709070c2300b008aab52636b3mr16925820ejc.14.1675987137291;
-        Thu, 09 Feb 2023 15:58:57 -0800 (PST)
-Received: from [192.168.17.2] (wolkje-127.labs.vu.nl. [130.37.198.127])
-        by smtp.gmail.com with ESMTPSA id fi9-20020a170906da0900b0084c6ec69a9dsm1528177ejb.124.2023.02.09.15.58.56
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j/k0erUD/kDhxh7/K7OwX/bqJpwb0bJwB0iaNCFMZK4=;
+        b=imNCB5YEGb78LKNyU+wzeL/H1iYwWxeAuK2mArDGOf8lHLPeMjSO63NSt9NtamWke7
+         Zcr1OXH1HLFVaFBBU4wfpjEbQ/UYisapCy9S7MDHXPPkQ41ZpA2n4YVxkNzwqs+x2Yl5
+         /Ue9tX/AmGog2dcdokrZz+QskLqzb7mKVUb0/8lxxMBR4TbDi3D7hlinmqCba2HwZbPe
+         BsCI7girFxG8nsN3PkftaAkfmvcB8i+YOOo5k4yo5JRYX9aa6jdjQZeDLgaU7EjOK9Lq
+         r6X5u/8V9dgrfGMv2nfAhhGzLJZmsQhX9879r/5XEJwW2rsavEqo2QUXmcVq7kDphFzz
+         wpAA==
+X-Gm-Message-State: AO0yUKWUstSy+4URxhLVCpX38XSe2jM5U1EZo/Lv9PIW/6ovqAysQb8h
+        En0lN9dqQExrKBxM//3uyGU=
+X-Google-Smtp-Source: AK7set8J843VCb5Swh1of6p2yfW1raUVGGmO4Q3S+xAJAvwl45nss0avFGNhPNql2c/P0j9nxUjhIg==
+X-Received: by 2002:aa7:9e42:0:b0:5a8:5424:d13a with SMTP id z2-20020aa79e42000000b005a85424d13amr3990100pfq.11.1675989036714;
+        Thu, 09 Feb 2023 16:30:36 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:4b3d:5db5:694e:89d0])
+        by smtp.gmail.com with ESMTPSA id e24-20020aa78c58000000b005815217e665sm392161pfd.65.2023.02.09.16.30.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 15:58:56 -0800 (PST)
-From:   Pietro Borrello <borrello@diag.uniroma1.it>
-Date:   Thu, 09 Feb 2023 23:58:56 +0000
-Subject: [PATCH v3 2/2] HID: asus: use spinlock to safely schedule workers
+        Thu, 09 Feb 2023 16:30:35 -0800 (PST)
+Date:   Thu, 9 Feb 2023 16:30:29 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
+        Devarsh Thakkar <devarsht@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        Dipen Patel <dipenp@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Subject: Re: [PATCH v4 08/18] gpiolib: remove gpio_set_debounce()
+Message-ID: <Y+WQJTsdeZeAEs/S@google.com>
+References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
+ <20230208173343.37582-9-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230125-hid-unregister-leds-v3-2-0a52ac225e00@diag.uniroma1.it>
-References: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
-In-Reply-To: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hanno Zulla <kontakt@hanno.de>,
-        Carlo Caione <carlo@endlessm.com>
-Cc:     Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pietro Borrello <borrello@diag.uniroma1.it>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675987135; l=3166;
- i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id;
- bh=IdfH/zx2eMB+IWRHkM7AohAvJEH/GhNAfk3hb0BMJ34=;
- b=yFzHFWPuS+supnmEZxKFZUrkALQEH4Ttl6+azLTN4F5JD2ZaTP/Ejm0jUKxR4NlKTeUXfe0ptmMU
- LyCKr1D6C5KIYPOdiTxjG+Xg4wtVm5hbQ34Y5mxE4kpLvNoJUDKS
-X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519;
- pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230208173343.37582-9-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use spinlocks to deal with workers introducing a wrapper
-asus_schedule_work(), and several spinlock checks.
-Otherwise, asus_kbd_backlight_set() may schedule led->work after the
-structure has been freed, causing a use-after-free.
+On Wed, Feb 08, 2023 at 07:33:33PM +0200, Andy Shevchenko wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> gpio_set_debounce() only has a single user, which is trivially
+> converted to gpiod_set_debounce().
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Fixes: af22a610bc38 ("HID: asus: support backlight on USB keyboards")
-Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
----
- drivers/hid/hid-asus.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index f99752b998f3..30e194803bd7 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -98,6 +98,7 @@ struct asus_kbd_leds {
- 	struct hid_device *hdev;
- 	struct work_struct work;
- 	unsigned int brightness;
-+	spinlock_t lock;
- 	bool removed;
- };
- 
-@@ -490,13 +491,23 @@ static int rog_nkey_led_init(struct hid_device *hdev)
- 	return ret;
- }
- 
-+static void asus_schedule_work(struct asus_kbd_leds *led)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&led->lock, flags);
-+	if (!led->removed)
-+		schedule_work(&led->work);
-+	spin_unlock_irqrestore(&led->lock, flags);
-+}
-+
- static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
- 				   enum led_brightness brightness)
- {
- 	struct asus_kbd_leds *led = container_of(led_cdev, struct asus_kbd_leds,
- 						 cdev);
- 	led->brightness = brightness;
--	schedule_work(&led->work);
-+	asus_schedule_work(led);
- }
- 
- static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
-@@ -512,15 +523,17 @@ static void asus_kbd_backlight_work(struct work_struct *work)
- 	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
- 	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
- 	int ret;
-+	unsigned long flags;
- 
--	if (led->removed)
--		return;
-+	spin_lock_irqsave(&led->lock, flags);
- 
- 	buf[4] = led->brightness;
- 
- 	ret = asus_kbd_set_report(led->hdev, buf, sizeof(buf));
- 	if (ret < 0)
- 		hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
-+
-+	spin_unlock_irqrestore(&led->lock, flags);
- }
- 
- /* WMI-based keyboard backlight LED control (via asus-wmi driver) takes
-@@ -584,6 +597,7 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
- 	drvdata->kbd_backlight->cdev.brightness_set = asus_kbd_backlight_set;
- 	drvdata->kbd_backlight->cdev.brightness_get = asus_kbd_backlight_get;
- 	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work);
-+	spin_lock_init(&drvdata->kbd_backlight->lock);
- 
- 	ret = devm_led_classdev_register(&hdev->dev, &drvdata->kbd_backlight->cdev);
- 	if (ret < 0) {
-@@ -1119,9 +1133,13 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
- static void asus_remove(struct hid_device *hdev)
- {
- 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-+	unsigned long flags;
- 
- 	if (drvdata->kbd_backlight) {
-+		spin_lock_irqsave(&drvdata->kbd_backlight->lock, flags);
- 		drvdata->kbd_backlight->removed = true;
-+		spin_unlock_irqrestore(&drvdata->kbd_backlight->lock, flags);
-+
- 		cancel_work_sync(&drvdata->kbd_backlight->work);
- 	}
- 
+Thanks.
 
 -- 
-2.25.1
-
+Dmitry
