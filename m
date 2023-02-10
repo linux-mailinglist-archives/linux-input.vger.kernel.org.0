@@ -2,26 +2,26 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42C6D692304
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 17:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A434692337
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 17:25:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232095AbjBJQNf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 11:13:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35794 "EHLO
+        id S232360AbjBJQZY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 11:25:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232185AbjBJQN2 (ORCPT
+        with ESMTP id S232047AbjBJQZY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 11:13:28 -0500
+        Fri, 10 Feb 2023 11:25:24 -0500
 Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D280C1B557;
-        Fri, 10 Feb 2023 08:13:23 -0800 (PST)
-Date:   Fri, 10 Feb 2023 16:13:19 +0000
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3E51CAF1;
+        Fri, 10 Feb 2023 08:25:22 -0800 (PST)
+Date:   Fri, 10 Feb 2023 16:25:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
-        t=1676045601; bh=OkbtIVAzt7rkeasnd7wkblGp5VuuZaScDlY5TnqhuCo=;
+        t=1676046320; bh=LEjnQLaZubqGKGIaCY7Mqfdx8V+SikT+XCdMi3y+oZA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pCJi8kmcFg016hzlbT59q/IvAvKdkMr6kZob3dCpFcT9q0y1dxiPMvON1h8GYTyPn
-         wPcu91dtsTZpmt4GR5g2eb/J7yYDDQPP/S1xT2n1q3Kb2pFtJPEK/DhJxvDShTPv4S
-         eSGod6wbrdD3CF4SGI3KvZ05E8ZQtXzwMgBEw2/k=
+        b=Dwujsdtfj+tZzU+JtwprdF8baBRcc+VgPYE14CRSYhEPuCOOpxc34xdTfVgGfIVim
+         3UC+q0Dlz2onI9wmNdeNvY0kYHhj6NEp7ymo9pnsrA+oaJHycKs4CMzSlYV6rmP6ny
+         yYKrh45JZ1c4TLzezlZIdQ8n8K1jYTKfcWD/Zz5g=
 From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
 To:     Aditya Garg <gargaditya08@live.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
@@ -34,17 +34,17 @@ Cc:     Jiri Kosina <jikos@kernel.org>,
         "ronald@innovation.ch" <ronald@innovation.ch>,
         "kekrby@gmail.com" <kekrby@gmail.com>,
         Orlando Chamberlain <orlandoch.dev@gmail.com>
-Subject: Re: [PATCH 2/3] HID: apple-touchbar: Add driver for the Touch Bar on
- MacBook Pros
-Message-ID: <20230210161319.rhqpf4seis7cvi7x@t-8ch.de>
+Subject: Re: [PATCH 3/3] HID: apple-magic-backlight: Add driver for keyboard
+ backlight on internal Magic Keyboards
+Message-ID: <20230210162518.pe7ipe44falu3j3k@t-8ch.de>
 References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
  <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
  <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
+ <7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
+In-Reply-To: <7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -54,1633 +54,238 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 03:44:26AM +0000, Aditya Garg wrote:
-> From: Ronald Tschalär <ronald@innovation.ch>
+On Fri, Feb 10, 2023 at 03:45:15AM +0000, Aditya Garg wrote:
+> From: Orlando Chamberlain <orlandoch.dev@gmail.com>
 > 
-> This driver enables basic touch bar functionality: enabling it, switching
-> between modes on FN key press, and dimming and turning the display
-> off/on when idle/active.
+> This driver adds support for the keyboard backlight on Intel T2 Macs
+> with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
 > 
-> Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
-> [Kerem Karabay: use USB product IDs from hid-ids.h]
-> [Kerem Karabay: use hid_hw_raw_request except when setting the touchbar mode on T1 Macs]
-> [Kerem Karabay: update Kconfig description]
-> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> [Orlando Chamberlain: add usage check to not bind to keyboard backlight interface]
 > Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
-> [Aditya Garg: check if apple-touchbar is enabled in the special driver list]
-> [Aditya Garg: fix suspend on T2 Macs]
+> Co-developed-by: Kerem Karabay <kekrby@gmail.com>
+> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
 > Signed-off-by: Aditya Garg <gargaditya08@live.com>
 > ---
->  drivers/hid/Kconfig          |   11 +
->  drivers/hid/Makefile         |    1 +
->  drivers/hid/apple-touchbar.c | 1500 ++++++++++++++++++++++++++++++++++
->  drivers/hid/hid-quirks.c     |    6 +-
->  4 files changed, 1516 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/hid/apple-touchbar.c
+>  MAINTAINERS                         |   6 ++
+>  drivers/hid/Kconfig                 |  13 +++
+>  drivers/hid/Makefile                |   1 +
+>  drivers/hid/apple-magic-backlight.c | 143 ++++++++++++++++++++++++++++
+>  4 files changed, 163 insertions(+)
+>  create mode 100644 drivers/hid/apple-magic-backlight.c
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fb1471cb5..3319f0c3e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9201,6 +9201,12 @@ F:	include/linux/pm.h
+>  F:	include/linux/suspend.h
+>  F:	kernel/power/
+>  
+> +HID APPLE MAGIC BACKLIGHT DRIVER
+> +M:	Orlando Chamberlain <orlandoch.dev@gmail.com>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hid/apple-magic-backlight.c
+> +
+>  HID CORE LAYER
+>  M:	Jiri Kosina <jikos@kernel.org>
+>  M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
 > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index e69afa5f4..4ec669267 100644
+> index 4ec669267..ad4612ec5 100644
 > --- a/drivers/hid/Kconfig
 > +++ b/drivers/hid/Kconfig
-> @@ -134,6 +134,7 @@ config HID_APPLE_IBRIDGE
->  	tristate "Apple iBridge"
->  	depends on USB_HID
->  	depends on (X86 && ACPI) || COMPILE_TEST
-> +	imply HID_APPLE_TOUCHBAR
->  	imply HID_SENSOR_HUB
->  	imply HID_SENSOR_ALS
->  	help
-> @@ -145,6 +146,16 @@ config HID_APPLE_IBRIDGE
+> @@ -156,6 +156,19 @@ config HID_APPLE_TOUCHBAR
 >  	To compile this driver as a module, choose M here: the
->  	module will be called apple-ibridge.
+>  	module will be called apple-touchbar.
 >  
-> +config HID_APPLE_TOUCHBAR
-> +	tristate "Apple Touch Bar"
+> +config HID_APPLE_MAGIC_BACKLIGHT
+> +	tristate "Apple Magic Keyboard Backlight"
 > +	depends on USB_HID
+> +	depends on LEDS_CLASS
+> +	depends on NEW_LEDS
 > +	help
-> +	Say Y here if you want support for the Touch Bar on x86
-> +	MacBook Pros.
+> +	Say Y here if you want support for the keyboard backlight on Macs with
+> +	the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note that this
+> +	driver is not for external magic keyboards.
 > +
 > +	To compile this driver as a module, choose M here: the
-> +	module will be called apple-touchbar.
+> +	module will be called apple-magic-backlight.
 > +
 >  config HID_APPLEIR
 >  	tristate "Apple infrared receiver"
 >  	depends on (USB_HID)
 > diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index b61373cd8..c792e42fe 100644
+> index c792e42fe..a961914ec 100644
 > --- a/drivers/hid/Makefile
 > +++ b/drivers/hid/Makefile
-> @@ -27,6 +27,7 @@ obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
->  obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
+> @@ -28,6 +28,7 @@ obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
 >  obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
 >  obj-$(CONFIG_HID_APPLE_IBRIDGE)	+= apple-ibridge.o
-> +obj-$(CONFIG_HID_APPLE_TOUCHBAR)	+= apple-touchbar.o
+>  obj-$(CONFIG_HID_APPLE_TOUCHBAR)	+= apple-touchbar.o
+> +obj-$(CONFIG_HID_APPLE_MAGIC_BACKLIGHT)	+= apple-magic-backlight.o
 >  obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
 >  obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.o
 >  obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
-> diff --git a/drivers/hid/apple-touchbar.c b/drivers/hid/apple-touchbar.c
+> diff --git a/drivers/hid/apple-magic-backlight.c b/drivers/hid/apple-magic-backlight.c
 > new file mode 100644
-> index 000000000..ff6a8493b
+> index 000000000..9b128f6df
 > --- /dev/null
-> +++ b/drivers/hid/apple-touchbar.c
-> @@ -0,0 +1,1500 @@
+> +++ b/drivers/hid/apple-magic-backlight.c
+> @@ -0,0 +1,143 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Apple Touch Bar Driver
+> + * Apple Magic Keyboard Backlight Driver
 > + *
-> + * Copyright (c) 2017-2018 Ronald Tschalär
-> + */
-> +
-> +/*
-> + * Recent MacBookPro models (MacBookPro 13,[23] and later) have a touch bar,
-> + * which is exposed via several USB interfaces. MacOS supports a fancy mode
-> + * where arbitrary buttons can be defined; this driver currently only
-> + * supports the simple mode that consists of 3 predefined layouts
-> + * (escape-only, esc + special keys, and esc + function keys).
+> + * For Intel Macs with internal Magic Keyboard (MacBookPro16,1-4 and MacBookAir9,1)
 > + *
-> + * The first USB HID interface supports two reports, an input report that
-> + * is used to report the key presses, and an output report which can be
-> + * used to set the touch bar "mode": touch bar off (in which case no touches
-> + * are reported at all), escape key only, escape + 12 function keys, and
-> + * escape + several special keys (including brightness, audio volume,
-> + * etc). The second interface supports several, complex reports, most of
-> + * which are unknown at this time, but one of which has been determined to
-> + * allow for controlling of the touch bar's brightness: off (though touches
-> + * are still reported), dimmed, and full brightness. This driver makes
-> + * use of these two reports.
+> + * Copyright (c) 2022 Kerem Karabay <kekrby@gmail.com>
+> + * Copyright (c) 2023 Orlando Chamberlain <orlandoch.dev@gmail.com>
 > + */
+
+This patch doesn't seem to depend on the others at all and is much
+simpler.
+Maybe split it out from the series so it can get merged on its own and
+you don't have to carry it around anymore.
+
 > +
-> +#define dev_fmt(fmt) "tb: " fmt
-
-This is a bit nondescriptive name. Maybe use KBUILD_MODNAME or the name
-of the HID driver as prefix?
-
-> +#include <linux/device.h>
 > +#include <linux/hid.h>
-> +#include <linux/input.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/ktime.h>
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/string.h>
-> +#include <linux/sysfs.h>
-> +#include <linux/usb/ch9.h>
 > +#include <linux/usb.h>
-> +#include <linux/workqueue.h>
 > +
 > +#include "hid-ids.h"
-> +#include "apple-ibridge.h"
 > +
-> +#define HID_UP_APPLE		0xff120000
-> +#define HID_USAGE_MODE		(HID_UP_CUSTOM | 0x0004)
-> +#define HID_USAGE_APPLE_APP	(HID_UP_APPLE  | 0x0001)
-> +#define HID_USAGE_DISP		(HID_UP_APPLE  | 0x0021)
-> +#define HID_USAGE_DISP_AUX1	(HID_UP_APPLE  | 0x0020)
+> +#define USAGE_MAGIC_BL	0xff00000f
 > +
-> +#define APPLETB_MAX_TB_KEYS	13	/* ESC, F1-F12 */
+> +#define APPLE_MAGIC_REPORT_ID_POWER 3
+> +#define APPLE_MAGIC_REPORT_ID_BRIGHTNESS 1
 > +
-> +#define APPLETB_CMD_MODE_ESC	0
-> +#define APPLETB_CMD_MODE_FN	1
-> +#define APPLETB_CMD_MODE_SPCL	2
-> +#define APPLETB_CMD_MODE_OFF	3
-> +#define APPLETB_CMD_MODE_UPD	254
-> +#define APPLETB_CMD_MODE_NONE	255
-> +
-> +#define APPLETB_CMD_DISP_ON	1
-> +#define APPLETB_CMD_DISP_DIM	2
-> +#define APPLETB_CMD_DISP_OFF	4
-> +#define APPLETB_CMD_DISP_UPD	254
-> +#define APPLETB_CMD_DISP_NONE	255
-> +
-> +#define APPLETB_FN_MODE_FKEYS	0
-> +#define APPLETB_FN_MODE_NORM	1
-> +#define APPLETB_FN_MODE_INV	2
-> +#define APPLETB_FN_MODE_SPCL	3
-> +#define APPLETB_FN_MODE_ESC	4
-> +#define APPLETB_FN_MODE_MAX	APPLETB_FN_MODE_ESC
-> +
-> +#define APPLETB_DEVID_KEYBOARD	1
-> +#define APPLETB_DEVID_TOUCHPAD	2
-> +
-> +#define APPLETB_MAX_DIM_TIME	30
-> +
-> +#define APPLETB_FEATURE_IS_T1	BIT(0)
-> +
-> +static int appletb_tb_def_idle_timeout = 5 * 60;
-> +module_param_named(idle_timeout, appletb_tb_def_idle_timeout, int, 0444);
-> +MODULE_PARM_DESC(idle_timeout, "Default touch bar idle timeout:\n"
-> +			       "    [>0] - turn touch bar display off after no keyboard, trackpad, or touch bar input has been received for this many seconds;\n"
-> +			       "         the display will be turned back on as soon as new input is received\n"
-> +			       "     0 - turn touch bar display off (input does not turn it on again)\n"
-> +			       "    -1 - turn touch bar display on (does not turn off automatically)\n"
-> +			       "    -2 - disable touch bar completely");
-> +
-> +static int appletb_tb_def_dim_timeout = -2;
-> +module_param_named(dim_timeout, appletb_tb_def_dim_timeout, int, 0444);
-> +MODULE_PARM_DESC(dim_timeout, "Default touch bar dim timeout:\n"
-> +			      "    >0 - dim touch bar display after no keyboard, trackpad, or touch bar input has been received for this many seconds\n"
-> +			      "         the display will be returned to full brightness as soon as new input is received\n"
-> +			      "     0 - dim touch bar display (input does not return it to full brightness)\n"
-> +			      "    -1 - disable timeout (touch bar never dimmed)\n"
-> +			      "    [-2] - calculate timeout based on idle-timeout");
-> +
-> +static int appletb_tb_def_fn_mode = APPLETB_FN_MODE_NORM;
-> +module_param_named(fnmode, appletb_tb_def_fn_mode, int, 0444);
-> +MODULE_PARM_DESC(fnmode, "Default Fn key mode:\n"
-> +			 "    0 - function-keys only\n"
-> +			 "    [1] - fn key switches from special to function-keys\n"
-> +			 "    2 - inverse of 1\n"
-> +			 "    3 - special keys only\n"
-> +			 "    4 - escape key only");
-> +
-> +static ssize_t idle_timeout_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf);
-> +static ssize_t idle_timeout_store(struct device *dev,
-> +				  struct device_attribute *attr,
-> +				  const char *buf, size_t size);
-> +static DEVICE_ATTR_RW(idle_timeout);
-> +
-> +static ssize_t dim_timeout_show(struct device *dev,
-> +				struct device_attribute *attr, char *buf);
-> +static ssize_t dim_timeout_store(struct device *dev,
-> +				 struct device_attribute *attr,
-> +				 const char *buf, size_t size);
-> +static DEVICE_ATTR_RW(dim_timeout);
-> +
-> +static ssize_t fnmode_show(struct device *dev, struct device_attribute *attr,
-> +			   char *buf);
-> +static ssize_t fnmode_store(struct device *dev, struct device_attribute *attr,
-> +			    const char *buf, size_t size);
-> +static DEVICE_ATTR_RW(fnmode);
-> +
-> +static struct attribute *appletb_attrs[] = {
-> +	&dev_attr_idle_timeout.attr,
-> +	&dev_attr_dim_timeout.attr,
-> +	&dev_attr_fnmode.attr,
-> +	NULL,
-
-No comma.
-
+> +struct apple_magic_backlight {
+> +	struct led_classdev cdev;
+> +	struct hid_device *hdev;
+> +	struct hid_report *brightness;
+> +	struct hid_report *power;
 > +};
 > +
-> +static const struct attribute_group appletb_attr_group = {
-> +	.attrs = appletb_attrs,
-> +};
-> +
-> +struct appletb_device {
-> +	bool			active;
-> +	struct device		*log_dev;
-> +
-> +	struct hid_field	*mode_field;
-> +	struct hid_field	*disp_field;
-> +	struct hid_field	*disp_field_aux1;
-> +	struct appletb_iface_info {
-> +		struct hid_device	*hdev;
-> +		struct usb_interface	*usb_iface;
-> +		bool			suspended;
-> +	}			mode_iface, disp_iface;
-> +
-> +	struct input_handler	inp_handler;
-> +	struct input_handle	kbd_handle;
-> +	struct input_handle	tpd_handle;
-> +
-> +	bool			last_tb_keys_pressed[APPLETB_MAX_TB_KEYS];
-> +	bool			last_tb_keys_translated[APPLETB_MAX_TB_KEYS];
-> +	bool			last_fn_pressed;
-> +
-> +	ktime_t			last_event_time;
-> +
-> +	unsigned char		cur_tb_mode;
-> +	unsigned char		pnd_tb_mode;
-> +	unsigned char		cur_tb_disp;
-> +	unsigned char		pnd_tb_disp;
-> +	bool			tb_autopm_off;
-> +	bool			restore_autopm;
-> +	struct delayed_work	tb_work;
-> +	/* protects most of the above */
-> +	spinlock_t		tb_lock;
-> +
-> +	int			dim_timeout;
-> +	int			idle_timeout;
-> +	bool			dim_to_is_calc;
-> +	int			fn_mode;
-> +
-> +	bool			is_t1;
-> +};
-> +
-> +struct appletb_key_translation {
-> +	u16 from;
-> +	u16 to;
-> +};
-> +
-> +static const struct appletb_key_translation appletb_fn_codes[] = {
-> +	{ KEY_F1,  KEY_BRIGHTNESSDOWN },
-> +	{ KEY_F2,  KEY_BRIGHTNESSUP },
-> +	{ KEY_F3,  KEY_SCALE },		/* not used */
-> +	{ KEY_F4,  KEY_DASHBOARD },	/* not used */
-> +	{ KEY_F5,  KEY_KBDILLUMDOWN },
-> +	{ KEY_F6,  KEY_KBDILLUMUP },
-> +	{ KEY_F7,  KEY_PREVIOUSSONG },
-> +	{ KEY_F8,  KEY_PLAYPAUSE },
-> +	{ KEY_F9,  KEY_NEXTSONG },
-> +	{ KEY_F10, KEY_MUTE },
-> +	{ KEY_F11, KEY_VOLUMEDOWN },
-> +	{ KEY_F12, KEY_VOLUMEUP },
-> +};
-
-This should be able to make use of sparse_keymap from sparse-keymap.h.
-It makes the code shorter and provides a bit more functionality.
-
-static const struct key_entry appletb_fn_keymap = {
-	{ KE_KEY, KEY_F1, KEY_BRIGHTNESSDOWN },
-	...
-	{ KE_END, 0 }
-};
-
-> +static struct appletb_device *appletb_dev;
-> +
-> +static bool appletb_disable_autopm(struct hid_device *hdev)
+> +static void apple_magic_backlight_power_set(struct apple_magic_backlight *backlight,
+> +					   char power, char rate)
 > +{
-> +	int rc;
+> +	struct hid_report *rep = backlight->power;
 > +
-> +	rc = hid_hw_power(hdev, PM_HINT_FULLON);
+> +	rep->field[0]->value[0] = power ? 1 : 0;
+> +	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
+> +	rep->field[1]->value[0] |= rate << 8;
 > +
-> +	if (rc == 0)
-> +		return true;
-> +
-> +	hid_err(hdev,
-> +		"Failed to disable auto-pm on touch bar device (%d)\n", rc);
-
-You can use "%pE" and ERR_PTR(rc) to produce nicer error strings.
-
-> +	return false;
+> +	hid_hw_request(backlight->hdev, backlight->power, HID_REQ_SET_REPORT);
 > +}
 > +
-> +/*
-> + * While the mode functionality is listed as a valid hid report in the usb
-> + * interface descriptor, on a T1 it's not sent that way. Instead it's sent with
-> + * different request-type and without a leading report-id in the data. Hence
-> + * we need to send it as a custom usb control message rather via any of the
-> + * standard hid_hw_*request() functions. The device might return EPIPE for a
-> + * while after setting the display mode on T1 models, so retrying should be
-> + * done on those models.
-> + */
-> +static int appletb_set_tb_mode(struct appletb_device *tb_dev,
-> +			       unsigned char mode)
+> +static void apple_magic_backlight_brightness_set(struct apple_magic_backlight *backlight,
+> +						int brightness, char rate)
 > +{
-> +	struct hid_report *report;
-> +	void *buf;
-> +	bool autopm_off = false;
-> +	int rc;
+> +	struct hid_report *rep = backlight->brightness;
 > +
-> +	if (!tb_dev->mode_iface.hdev)
-> +		return -ENOTCONN;
+> +	rep->field[0]->value[0] = brightness;
+> +	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
+> +	rep->field[1]->value[0] |= rate << 8;
 > +
-> +	report = tb_dev->mode_field->report;
+> +	hid_hw_request(backlight->hdev, backlight->brightness, HID_REQ_SET_REPORT);
 > +
-> +	if (tb_dev->is_t1) {
-> +		buf = kmemdup(&mode, 1, GFP_KERNEL);
-> +	} else {
-> +		char data[] = { report->id, mode };
-> +
-> +		buf = kmemdup(data, sizeof(data), GFP_KERNEL);
 
-These allocations don't seem to be necessary. They could just be local
-buffers.
+The two functions above are nearly identical.
 
-> +	}
-> +	if (!buf)
-> +		return -ENOMEM;
 > +
-> +	autopm_off = appletb_disable_autopm(tb_dev->mode_iface.hdev);
-> +
-> +	if (tb_dev->is_t1) {
-> +		int tries = 0;
-> +		struct usb_device *dev = interface_to_usbdev(tb_dev->mode_iface.usb_iface);
-> +		__u8 ifnum = tb_dev->mode_iface.usb_iface->cur_altsetting->desc.bInterfaceNumber;
-> +
-> +		do {
-> +			rc = usb_control_msg(dev, usb_sndctrlpipe(dev, 0), HID_REQ_SET_REPORT,
-> +					     USB_DIR_OUT | USB_RECIP_INTERFACE | USB_TYPE_VENDOR,
-> +					     (report->type + 1) << 8 | report->id,
-> +					     ifnum, buf, 1, 2000);
-> +
-> +			if (rc != -EPIPE)
-> +				break;
-> +
-> +			usleep_range(1000 << tries, 3000 << tries);
-> +		} while (++tries < 5);
-> +	} else {
-> +		rc = hid_hw_raw_request(tb_dev->mode_iface.hdev, report->id,
-> +					(__u8 *) buf, 2, report->type,
-> +					HID_REQ_SET_REPORT);
-> +	}
-> +
-> +	if (rc < 0)
-> +		dev_err(tb_dev->log_dev,
-> +			"Failed to set touch bar mode to %u (%d)\n", mode, rc);
-> +
-> +	if (autopm_off)
-> +		hid_hw_power(tb_dev->mode_iface.hdev, PM_HINT_NORMAL);
-> +
-> +	kfree(buf);
-> +
-> +	return rc;
+> +static void apple_magic_backlight_set(struct apple_magic_backlight *backlight,
+> +				     int brightness, char rate)
+> +{
+> +	apple_magic_backlight_power_set(backlight, brightness, rate);
+> +	if (brightness)
+> +		apple_magic_backlight_brightness_set(backlight, brightness, rate);
 > +}
 > +
-> +static int appletb_set_tb_disp(struct appletb_device *tb_dev,
-> +			       unsigned char disp)
+> +static int apple_magic_backlight_led_set(struct led_classdev *led_cdev,
+> +					 enum led_brightness brightness)
 > +{
-> +	struct hid_report *report;
-> +	int rc;
+> +	struct apple_magic_backlight *backlight = container_of(led_cdev,
+> +			struct apple_magic_backlight, cdev);
 > +
-> +	if (!tb_dev->disp_iface.hdev)
-> +		return -ENOTCONN;
-> +
-> +	report = tb_dev->disp_field->report;
-> +
-> +	rc = hid_set_field(tb_dev->disp_field_aux1, 0, 1);
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev,
-> +			"Failed to set display report field (%d)\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	rc = hid_set_field(tb_dev->disp_field, 0, disp);
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev,
-> +			"Failed to set display report field (%d)\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	/*
-> +	 * Keep the USB interface powered on while the touch bar display is on
-> +	 * for better responsiveness.
-> +	 */
-> +	if (disp != APPLETB_CMD_DISP_OFF && !tb_dev->tb_autopm_off)
-> +		tb_dev->tb_autopm_off =
-> +			appletb_disable_autopm(report->device);
-> +
-> +	hid_hw_request(tb_dev->disp_iface.hdev, report, HID_REQ_SET_REPORT);
-> +
-> +	if (disp == APPLETB_CMD_DISP_OFF && tb_dev->tb_autopm_off) {
-> +		hid_hw_power(tb_dev->disp_iface.hdev, PM_HINT_NORMAL);
-> +		tb_dev->tb_autopm_off = false;
-> +	}
-> +
-> +	return rc;
-> +}
-> +
-> +static bool appletb_any_tb_key_pressed(struct appletb_device *tb_dev)
-> +{
-> +	return !!memchr_inv(tb_dev->last_tb_keys_pressed, 0,
-> +			    sizeof(tb_dev->last_tb_keys_pressed));
-> +}
-> +
-> +static void appletb_schedule_tb_update(struct appletb_device *tb_dev, s64 secs)
-> +{
-> +	schedule_delayed_work(&tb_dev->tb_work, msecs_to_jiffies(secs * 1000));
-> +}
-> +
-> +static void appletb_set_tb_worker(struct work_struct *work)
-> +{
-> +	struct appletb_device *tb_dev =
-> +		container_of(work, struct appletb_device, tb_work.work);
-> +	s64 time_left = 0, min_timeout, time_to_off;
-> +	unsigned char pending_mode;
-> +	unsigned char pending_disp;
-> +	unsigned char current_disp;
-> +	bool restore_autopm;
-> +	bool any_tb_key_pressed, need_reschedule;
-> +	int rc1 = 1, rc2 = 1;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	/* handle explicit mode-change request */
-> +	pending_mode = tb_dev->pnd_tb_mode;
-> +	pending_disp = tb_dev->pnd_tb_disp;
-> +	restore_autopm = tb_dev->restore_autopm;
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +	if (pending_mode != APPLETB_CMD_MODE_NONE)
-> +		rc1 = appletb_set_tb_mode(tb_dev, pending_mode);
-> +	if (pending_mode != APPLETB_CMD_MODE_NONE &&
-> +	    pending_disp != APPLETB_CMD_DISP_NONE)
-> +		msleep(25);
-> +	if (pending_disp != APPLETB_CMD_DISP_NONE)
-> +		rc2 = appletb_set_tb_disp(tb_dev, pending_disp);
-> +
-> +	if (restore_autopm && tb_dev->tb_autopm_off)
-> +		appletb_disable_autopm(tb_dev->disp_field->report->device);
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	need_reschedule = false;
-> +
-> +	if (rc1 == 0) {
-> +		tb_dev->cur_tb_mode = pending_mode;
-> +
-> +		if (tb_dev->pnd_tb_mode == pending_mode)
-> +			tb_dev->pnd_tb_mode = APPLETB_CMD_MODE_NONE;
-> +		else
-> +			need_reschedule = true;
-> +	}
-> +
-> +	if (rc2 == 0) {
-> +		tb_dev->cur_tb_disp = pending_disp;
-> +
-> +		if (tb_dev->pnd_tb_disp == pending_disp)
-> +			tb_dev->pnd_tb_disp = APPLETB_CMD_DISP_NONE;
-> +		else
-> +			need_reschedule = true;
-> +	}
-> +	current_disp = tb_dev->cur_tb_disp;
-> +
-> +	tb_dev->restore_autopm = false;
-> +
-> +	/* calculate time left to next timeout */
-> +	if (tb_dev->idle_timeout == -2 || tb_dev->idle_timeout == 0)
-> +		min_timeout = -1;
-> +	else if (tb_dev->idle_timeout == -1)
-> +		min_timeout = tb_dev->dim_timeout;
-> +	else if (tb_dev->dim_timeout <= 0)
-> +		min_timeout = tb_dev->idle_timeout;
-> +	else
-> +		min_timeout = min(tb_dev->dim_timeout, tb_dev->idle_timeout);
-> +
-> +	if (min_timeout > 0) {
-> +		s64 idle_time =
-> +			(ktime_ms_delta(ktime_get(), tb_dev->last_event_time) +
-> +			 500) / 1000;
-> +
-> +		time_left = max(min_timeout - idle_time, 0LL);
-> +		if (tb_dev->idle_timeout <= 0)
-> +			time_to_off = -1;
-> +		else if (idle_time >= tb_dev->idle_timeout)
-> +			time_to_off = 0;
-> +		else
-> +			time_to_off = tb_dev->idle_timeout - idle_time;
-> +	} else {
-> +		/* not used - just to appease the compiler */
-> +		time_to_off = 0;
-> +	}
-> +
-> +	any_tb_key_pressed = appletb_any_tb_key_pressed(tb_dev);
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +	dev_dbg(tb_dev->log_dev, "timeout calc: idle_timeout=%d dim_timeout=%d min_timeout=%lld time_left=%lld need_reschedule=%d any_tb_key_pressed=%d\n",
-> +		tb_dev->idle_timeout, tb_dev->dim_timeout, min_timeout,
-> +		time_left, need_reschedule, any_tb_key_pressed);
-> +
-> +	/* a new command arrived while we were busy - handle it */
-> +	if (need_reschedule) {
-> +		appletb_schedule_tb_update(tb_dev, 0);
-> +		return;
-> +	}
-> +
-> +	/* if no idle/dim timeout, we're done */
-> +	if (min_timeout <= 0)
-> +		return;
-> +
-> +	/* manage idle/dim timeout */
-> +	if (time_left > 0) {
-> +		/* we fired too soon or had a mode-change - re-schedule */
-> +		appletb_schedule_tb_update(tb_dev, time_left);
-> +	} else if (any_tb_key_pressed) {
-> +		/* keys are still pressed - re-schedule */
-> +		appletb_schedule_tb_update(tb_dev, min_timeout);
-> +	} else {
-> +		/* dim or idle timeout reached */
-> +		int next_disp = (time_to_off == 0) ? APPLETB_CMD_DISP_OFF :
-> +						     APPLETB_CMD_DISP_DIM;
-> +		if (next_disp != current_disp &&
-> +		    appletb_set_tb_disp(tb_dev, next_disp) == 0) {
-> +			spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +			tb_dev->cur_tb_disp = next_disp;
-> +			spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +		}
-> +
-> +		if (time_to_off > 0)
-> +			appletb_schedule_tb_update(tb_dev, time_to_off);
-> +	}
-> +}
-> +
-> +static u16 appletb_fn_to_special(u16 code)
-> +{
-> +	int idx;
-> +
-> +	for (idx = 0; idx < ARRAY_SIZE(appletb_fn_codes); idx++) {
-> +		if (appletb_fn_codes[idx].from == code)
-> +			return appletb_fn_codes[idx].to;
-> +	}
-> +
+> +	apple_magic_backlight_set(backlight, brightness, 1);
 > +	return 0;
 > +}
 > +
-> +static unsigned char appletb_get_cur_tb_mode(struct appletb_device *tb_dev)
+> +static int apple_magic_backlight_probe(struct hid_device *hdev,
+> +				       const struct hid_device_id *id)
 > +{
-> +	return tb_dev->pnd_tb_mode != APPLETB_CMD_MODE_NONE ?
-> +				tb_dev->pnd_tb_mode : tb_dev->cur_tb_mode;
-> +}
-> +
-> +static unsigned char appletb_get_cur_tb_disp(struct appletb_device *tb_dev)
-> +{
-> +	return tb_dev->pnd_tb_disp != APPLETB_CMD_DISP_NONE ?
-> +				tb_dev->pnd_tb_disp : tb_dev->cur_tb_disp;
-> +}
-> +
-> +static unsigned char appletb_get_fn_tb_mode(struct appletb_device *tb_dev)
-> +{
-> +	switch (tb_dev->fn_mode) {
-> +	case APPLETB_FN_MODE_ESC:
-> +		return APPLETB_CMD_MODE_ESC;
-> +
-> +	case APPLETB_FN_MODE_FKEYS:
-> +		return APPLETB_CMD_MODE_FN;
-> +
-> +	case APPLETB_FN_MODE_SPCL:
-> +		return APPLETB_CMD_MODE_SPCL;
-> +
-> +	case APPLETB_FN_MODE_INV:
-> +		return (tb_dev->last_fn_pressed) ? APPLETB_CMD_MODE_SPCL :
-> +						   APPLETB_CMD_MODE_FN;
-> +
-> +	case APPLETB_FN_MODE_NORM:
-> +	default:
-> +		return (tb_dev->last_fn_pressed) ? APPLETB_CMD_MODE_FN :
-> +						   APPLETB_CMD_MODE_SPCL;
-> +	}
-> +}
-> +
-> +/*
-> + * Switch touch bar mode and display when mode or display not the desired ones.
-> + */
-> +static void appletb_update_touchbar_no_lock(struct appletb_device *tb_dev,
-> +					    bool force)
-> +{
-> +	unsigned char want_mode;
-> +	unsigned char want_disp;
-> +	bool need_update = false;
-> +
-> +	/*
-> +	 * Calculate the new modes:
-> +	 *   idle_timeout:
-> +	 *     -2  mode/disp off
-> +	 *     -1  mode on, disp on/dim
-> +	 *      0  mode on, disp off
-> +	 *     >0  mode on, disp off after idle_timeout seconds
-> +	 *   dim_timeout (only valid if idle_timeout > 0 || idle_timeout == -1):
-> +	 *     -1  disp never dimmed
-> +	 *      0  disp always dimmed
-> +	 *     >0  disp dim after dim_timeout seconds
-> +	 */
-> +	if (tb_dev->idle_timeout == -2) {
-> +		want_mode = APPLETB_CMD_MODE_OFF;
-> +		want_disp = APPLETB_CMD_DISP_OFF;
-> +	} else {
-> +		want_mode = appletb_get_fn_tb_mode(tb_dev);
-> +		want_disp = tb_dev->idle_timeout ==  0 ? APPLETB_CMD_DISP_OFF :
-> +			    tb_dev->dim_timeout  ==  0 ? APPLETB_CMD_DISP_DIM :
-> +							 APPLETB_CMD_DISP_ON;
-> +	}
-> +
-> +	/*
-> +	 * See if we need to update the touch bar, taking into account that we
-> +	 * generally don't want to switch modes while a touch bar key is
-> +	 * pressed.
-> +	 */
-> +	if (appletb_get_cur_tb_mode(tb_dev) != want_mode &&
-> +	    !appletb_any_tb_key_pressed(tb_dev)) {
-> +		tb_dev->pnd_tb_mode = want_mode;
-> +		need_update = true;
-> +	}
-> +
-> +	if (appletb_get_cur_tb_disp(tb_dev) != want_disp &&
-> +	    (!appletb_any_tb_key_pressed(tb_dev) ||
-> +	     want_disp != APPLETB_CMD_DISP_OFF)) {
-> +		tb_dev->pnd_tb_disp = want_disp;
-> +		need_update = true;
-> +	}
-> +
-> +	if (force)
-> +		need_update = true;
-> +
-> +	/* schedule the update if desired */
-> +	dev_dbg_ratelimited(tb_dev->log_dev,
-> +			    "update: need_update=%d, want_mode=%d, cur-mode=%d, want_disp=%d, cur-disp=%d\n",
-> +			    need_update, want_mode, tb_dev->cur_tb_mode,
-> +			    want_disp, tb_dev->cur_tb_disp);
-> +
-> +	if (need_update) {
-> +		cancel_delayed_work(&tb_dev->tb_work);
-> +		appletb_schedule_tb_update(tb_dev, 0);
-> +	}
-> +}
-> +
-> +static void appletb_update_touchbar(struct appletb_device *tb_dev, bool force)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	if (tb_dev->active)
-> +		appletb_update_touchbar_no_lock(tb_dev, force);
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +}
-> +
-> +static void appletb_set_idle_timeout(struct appletb_device *tb_dev, int new)
-> +{
-> +	tb_dev->idle_timeout = new;
-> +
-> +	if (tb_dev->dim_to_is_calc && tb_dev->idle_timeout > 0)
-> +		tb_dev->dim_timeout = new - min(APPLETB_MAX_DIM_TIME, new / 3);
-> +	else if (tb_dev->dim_to_is_calc)
-> +		tb_dev->dim_timeout = -1;
-> +}
-> +
-> +static ssize_t idle_timeout_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%d\n", tb_dev->idle_timeout);
-> +}
-> +
-> +static ssize_t idle_timeout_store(struct device *dev,
-> +				  struct device_attribute *attr,
-> +				  const char *buf, size_t size)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +	long new;
+> +	struct apple_magic_backlight *backlight;
 > +	int rc;
 > +
-> +	rc = kstrtol(buf, 0, &new);
-> +	if (rc || new > INT_MAX || new < -2)
-> +		return -EINVAL;
-> +
-> +	appletb_set_idle_timeout(tb_dev, new);
-> +	appletb_update_touchbar(tb_dev, true);
-> +
-> +	return size;
-> +}
-> +
-> +static void appletb_set_dim_timeout(struct appletb_device *tb_dev, int new)
-> +{
-> +	if (new == -2) {
-> +		tb_dev->dim_to_is_calc = true;
-> +		appletb_set_idle_timeout(tb_dev, tb_dev->idle_timeout);
-> +	} else {
-> +		tb_dev->dim_to_is_calc = false;
-> +		tb_dev->dim_timeout = new;
-> +	}
-> +}
-> +
-> +static ssize_t dim_timeout_show(struct device *dev,
-> +				struct device_attribute *attr, char *buf)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%d\n",
-> +			tb_dev->dim_to_is_calc ? -2 : tb_dev->dim_timeout);
-> +}
-> +
-> +static ssize_t dim_timeout_store(struct device *dev,
-> +				 struct device_attribute *attr,
-> +				 const char *buf, size_t size)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +	long new;
-> +	int rc;
-> +
-> +	rc = kstrtol(buf, 0, &new);
-> +	if (rc || new > INT_MAX || new < -2)
-> +		return -EINVAL;
-> +
-> +	appletb_set_dim_timeout(tb_dev, new);
-> +	appletb_update_touchbar(tb_dev, true);
-> +
-> +	return size;
-> +}
-> +
-> +static ssize_t fnmode_show(struct device *dev, struct device_attribute *attr,
-> +			   char *buf)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%d\n", tb_dev->fn_mode);
-> +}
-> +
-> +static ssize_t fnmode_store(struct device *dev, struct device_attribute *attr,
-> +			    const char *buf, size_t size)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +	long new;
-> +	int rc;
-> +
-> +	rc = kstrtol(buf, 0, &new);
-> +	if (rc || new > APPLETB_FN_MODE_MAX || new < 0)
-> +		return -EINVAL;
-> +
-> +	tb_dev->fn_mode = new;
-> +	appletb_update_touchbar(tb_dev, false);
-> +
-> +	return size;
-> +}
-> +
-> +static int appletb_tb_key_to_slot(unsigned int code)
-> +{
-> +	switch (code) {
-> +	case KEY_ESC:
-> +		return 0;
-> +	case KEY_F1:
-> +	case KEY_F2:
-> +	case KEY_F3:
-> +	case KEY_F4:
-> +	case KEY_F5:
-> +	case KEY_F6:
-> +	case KEY_F7:
-> +	case KEY_F8:
-> +	case KEY_F9:
-> +	case KEY_F10:
-> +		return code - KEY_F1 + 1;
-> +	case KEY_F11:
-> +	case KEY_F12:
-> +		return code - KEY_F11 + 11;
-> +	default:
-> +		return -1;
-> +	}
-> +}
-> +
-> +static int appletb_hid_event(struct hid_device *hdev, struct hid_field *field,
-> +			     struct hid_usage *usage, __s32 value)
-> +{
-> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
-> +	unsigned int new_code = 0;
-> +	unsigned long flags;
-> +	bool send_dummy = false;
-> +	bool send_trnsl = false;
-> +	int slot;
-> +	int rc = 0;
-> +
-> +	if ((usage->hid & HID_USAGE_PAGE) != HID_UP_KEYBOARD ||
-> +	    usage->type != EV_KEY)
-> +		return 0;
-> +
-> +	/*
-> +	 * Skip non-touch-bar keys.
-> +	 *
-> +	 * Either the touch bar itself or usbhid generate a slew of key-down
-> +	 * events for all the meta keys. None of which we're at all interested
-> +	 * in.
-> +	 */
-> +	slot = appletb_tb_key_to_slot(usage->code);
-> +	if (slot < 0)
-> +		return 0;
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	if (!tb_dev->active) {
-> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +		return 0;
-> +	}
-> +
-> +	new_code = appletb_fn_to_special(usage->code);
-> +
-> +	if (value != 2)
-> +		tb_dev->last_tb_keys_pressed[slot] = value;
-> +
-> +	tb_dev->last_event_time = ktime_get();
-> +
-> +	appletb_update_touchbar_no_lock(tb_dev, false);
-> +
-> +	/*
-> +	 * We want to suppress touch bar keys while the touch bar is off, but
-> +	 * we do want to wake up the screen if it's asleep, so generate a dummy
-> +	 * event in that case.
-> +	 */
-> +	if (tb_dev->cur_tb_mode == APPLETB_CMD_MODE_OFF ||
-> +	    tb_dev->cur_tb_disp == APPLETB_CMD_DISP_OFF) {
-> +		send_dummy = true;
-> +		rc = 1;
-> +	/* translate special keys */
-> +	} else if (new_code &&
-> +		   ((value > 0 &&
-> +		     appletb_get_cur_tb_mode(tb_dev) == APPLETB_CMD_MODE_SPCL)
-> +		    ||
-> +		    (value == 0 && tb_dev->last_tb_keys_translated[slot]))) {
-> +		tb_dev->last_tb_keys_translated[slot] = true;
-> +		send_trnsl = true;
-> +		rc = 1;
-> +	/* everything else handled normally */
-> +	} else {
-> +		tb_dev->last_tb_keys_translated[slot] = false;
-> +	}
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +	/*
-> +	 * Need to send these input events outside of the lock, as otherwise
-> +	 * we can run into the following deadlock:
-> +	 *            Task 1                         Task 2
-> +	 *     appletb_hid_event()            input_event()
-> +	 *       acquire tb_lock                acquire dev->event_lock
-> +	 *       input_event()                  appletb_inp_event()
-> +	 *         acquire dev->event_lock        acquire tb_lock
-> +	 */
-> +	if (send_dummy) {
-> +		input_event(field->hidinput->input, EV_KEY, KEY_UNKNOWN, 1);
-> +		input_event(field->hidinput->input, EV_KEY, KEY_UNKNOWN, 0);
-> +	} else if (send_trnsl) {
-> +		input_event(field->hidinput->input, usage->type, new_code,
-> +			    value);
-> +	}
-> +
-> +	return rc;
-> +}
-> +
-> +static void appletb_inp_event(struct input_handle *handle, unsigned int type,
-> +			      unsigned int code, int value)
-> +{
-> +	struct appletb_device *tb_dev = handle->private;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	if (!tb_dev->active) {
-> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +		return;
-> +	}
-> +
-> +	if (type == EV_KEY && code == KEY_FN && value != 2)
-> +		tb_dev->last_fn_pressed = value;
-> +
-> +	tb_dev->last_event_time = ktime_get();
-> +
-> +	appletb_update_touchbar_no_lock(tb_dev, false);
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +}
-> +
-> +/* Find and save the usb-device associated with the touch bar input device */
-> +static struct usb_interface *appletb_get_usb_iface(struct hid_device *hdev)
-> +{
-> +	struct device *dev = &hdev->dev;
-> +
-> +	while (dev && !(dev->type && dev->type->name &&
-> +			!strcmp(dev->type->name, "usb_interface")))
-
-Check with is_usb_interface(dev)
-
-> +		dev = dev->parent;
-> +
-> +	return dev ? to_usb_interface(dev) : NULL;
-> +}
-> +
-> +static int appletb_inp_connect(struct input_handler *handler,
-> +			       struct input_dev *dev,
-> +			       const struct input_device_id *id)
-> +{
-> +	struct appletb_device *tb_dev = handler->private;
-> +	struct input_handle *handle;
-> +	int rc;
-> +
-> +	if (id->driver_info == APPLETB_DEVID_KEYBOARD) {
-> +		handle = &tb_dev->kbd_handle;
-> +		handle->name = "tbkbd";
-> +	} else if (id->driver_info == APPLETB_DEVID_TOUCHPAD) {
-> +		handle = &tb_dev->tpd_handle;
-> +		handle->name = "tbtpad";
-> +	} else {
-> +		dev_err(tb_dev->log_dev, "Unknown device id (%lu)\n",
-> +			id->driver_info);
-> +		return -ENOENT;
-> +	}
-> +
-> +	if (handle->dev) {
-> +		dev_err(tb_dev->log_dev,
-> +			"Duplicate connect to %s input device\n", handle->name);
-> +		return -EEXIST;
-> +	}
-> +
-> +	handle->open = 0;
-> +	handle->dev = input_get_device(dev);
-> +	handle->handler = handler;
-> +	handle->private = tb_dev;
-> +
-> +	rc = input_register_handle(handle);
-> +	if (rc)
-> +		goto err_free_dev;
-> +
-> +	rc = input_open_device(handle);
-> +	if (rc)
-> +		goto err_unregister_handle;
-> +
-> +	dev_dbg(tb_dev->log_dev, "Connected to %s input device\n",
-> +		handle == &tb_dev->kbd_handle ? "keyboard" : "touchpad");
-> +
-> +	return 0;
-> +
-> + err_unregister_handle:
-> +	input_unregister_handle(handle);
-> + err_free_dev:
-> +	input_put_device(handle->dev);
-> +	handle->dev = NULL;
-> +	return rc;
-> +}
-> +
-> +static void appletb_inp_disconnect(struct input_handle *handle)
-> +{
-> +	struct appletb_device *tb_dev = handle->private;
-> +
-> +	input_close_device(handle);
-> +	input_unregister_handle(handle);
-> +
-> +	dev_dbg(tb_dev->log_dev, "Disconnected from %s input device\n",
-> +		handle == &tb_dev->kbd_handle ? "keyboard" : "touchpad");
-> +
-> +	input_put_device(handle->dev);
-> +	handle->dev = NULL;
-> +}
-> +
-> +static int appletb_input_configured(struct hid_device *hdev,
-> +				    struct hid_input *hidinput)
-> +{
-> +	int idx;
-> +	struct input_dev *input = hidinput->input;
-> +
-> +	/*
-> +	 * Clear various input capabilities that are blindly set by the hid
-> +	 * driver (usbkbd.c)
-> +	 */
-> +	memset(input->evbit, 0, sizeof(input->evbit));
-> +	memset(input->keybit, 0, sizeof(input->keybit));
-> +	memset(input->ledbit, 0, sizeof(input->ledbit));
-> +
-> +	/* set our actual capabilities */
-> +	__set_bit(EV_KEY, input->evbit);
-> +	__set_bit(EV_REP, input->evbit);
-> +	__set_bit(EV_MSC, input->evbit);  /* hid-input generates MSC_SCAN */
-> +
-> +	for (idx = 0; idx < ARRAY_SIZE(appletb_fn_codes); idx++) {
-> +		input_set_capability(input, EV_KEY, appletb_fn_codes[idx].from);
-> +		input_set_capability(input, EV_KEY, appletb_fn_codes[idx].to);
-> +	}
-> +
-> +	input_set_capability(input, EV_KEY, KEY_ESC);
-> +	input_set_capability(input, EV_KEY, KEY_UNKNOWN);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct appletb_iface_info *
-> +appletb_get_iface_info(struct appletb_device *tb_dev, struct hid_device *hdev)
-> +{
-> +	if (hdev == tb_dev->mode_iface.hdev)
-> +		return &tb_dev->mode_iface;
-> +	if (hdev == tb_dev->disp_iface.hdev)
-> +		return &tb_dev->disp_iface;
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * appletb_find_report_field() - Find the field in the report with the given
-> + * usage.
-> + * @report: the report to search
-> + * @field_usage: the usage of the field to search for
-> + *
-> + * Returns: the hid field if found, or NULL if none found.
-> + */
-> +static struct hid_field *appletb_find_report_field(struct hid_report *report,
-> +						   unsigned int field_usage)
-> +{
-> +	int f, u;
-> +
-> +	for (f = 0; f < report->maxfield; f++) {
-> +		struct hid_field *field = report->field[f];
-> +
-> +		if (field->logical == field_usage)
-> +			return field;
-> +
-> +		for (u = 0; u < field->maxusage; u++) {
-> +			if (field->usage[u].hid == field_usage)
-> +				return field;
-> +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * appletb_find_hid_field() - Search all the reports of the device for the
-> + * field with the given usage.
-> + * @hdev: the device whose reports to search
-> + * @application: the usage of application collection that the field must
-> + *               belong to
-> + * @field_usage: the usage of the field to search for
-> + *
-> + * Returns: the hid field if found, or NULL if none found.
-> + */
-> +static struct hid_field *appletb_find_hid_field(struct hid_device *hdev,
-> +						unsigned int application,
-> +						unsigned int field_usage)
-> +{
-> +	static const int report_types[] = { HID_INPUT_REPORT, HID_OUTPUT_REPORT,
-> +					    HID_FEATURE_REPORT };
-> +	struct hid_report *report;
-> +	struct hid_field *field;
-> +	int t;
-> +
-> +	for (t = 0; t < ARRAY_SIZE(report_types); t++) {
-> +		struct list_head *report_list =
-> +			    &hdev->report_enum[report_types[t]].report_list;
-> +		list_for_each_entry(report, report_list, list) {
-> +			if (report->application != application)
-> +				continue;
-> +
-> +			field = appletb_find_report_field(report, field_usage);
-> +			if (field)
-> +				return field;
-> +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static int appletb_extract_report_and_iface_info(struct appletb_device *tb_dev,
-> +						 struct hid_device *hdev,
-> +						 const struct hid_device_id *id)
-> +{
-> +	struct appletb_iface_info *iface_info;
-> +	struct usb_interface *usb_iface;
-> +	struct hid_field *field;
-> +
-> +	field = appletb_find_hid_field(hdev, HID_GD_KEYBOARD, HID_USAGE_MODE);
-> +	if (field) {
-> +		iface_info = &tb_dev->mode_iface;
-> +		tb_dev->mode_field = field;
-> +		tb_dev->is_t1 = !!(id->driver_data & APPLETB_FEATURE_IS_T1);
-> +	} else {
-> +		field = appletb_find_hid_field(hdev, HID_USAGE_APPLE_APP,
-> +					       HID_USAGE_DISP);
-> +		if (!field)
-> +			return 0;
-> +
-> +		iface_info = &tb_dev->disp_iface;
-> +		tb_dev->disp_field = field;
-> +		tb_dev->disp_field_aux1 =
-> +			appletb_find_hid_field(hdev, HID_USAGE_APPLE_APP,
-> +					       HID_USAGE_DISP_AUX1);
-> +
-> +		if (!tb_dev->disp_field_aux1 ||
-> +		    tb_dev->disp_field_aux1->report !=
-> +						tb_dev->disp_field->report) {
-> +			dev_err(tb_dev->log_dev,
-> +				"Unexpected report structure for report %u in device %s\n",
-> +				tb_dev->disp_field->report->id,
-> +				dev_name(&hdev->dev));
-> +			return -ENODEV;
-> +		}
-> +	}
-> +
-> +	usb_iface = appletb_get_usb_iface(hdev);
-> +	if (!usb_iface) {
-> +		dev_err(tb_dev->log_dev,
-> +			"Failed to find usb interface for hid device %s\n",
-> +			dev_name(&hdev->dev));
-> +		return -ENODEV;
-> +	}
-> +
-> +	iface_info->hdev = hdev;
-> +	iface_info->usb_iface = usb_get_intf(usb_iface);
-> +	iface_info->suspended = false;
-> +
-> +	return 1;
-> +}
-> +
-> +static void appletb_clear_iface_info(struct appletb_device *tb_dev,
-> +				     struct hid_device *hdev)
-> +{
-> +	struct appletb_iface_info *iface_info;
-> +
-> +	iface_info = appletb_get_iface_info(tb_dev, hdev);
-> +	if (iface_info) {
-> +		usb_put_intf(iface_info->usb_iface);
-> +		iface_info->usb_iface = NULL;
-> +		iface_info->hdev = NULL;
-> +	}
-> +}
-> +
-> +static bool appletb_test_and_mark_active(struct appletb_device *tb_dev)
-> +{
-> +	unsigned long flags;
-> +	bool activated = false;
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	if (tb_dev->mode_iface.hdev && tb_dev->disp_iface.hdev &&
-> +	    !tb_dev->active) {
-> +		tb_dev->active = true;
-> +		activated = true;
-> +	}
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +	return activated;
-> +}
-> +
-> +static bool appletb_test_and_mark_inactive(struct appletb_device *tb_dev,
-> +					   struct hid_device *hdev)
-> +{
-> +	unsigned long flags;
-> +	bool deactivated = false;
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	if (tb_dev->mode_iface.hdev && tb_dev->disp_iface.hdev &&
-> +	    tb_dev->active &&
-> +	    (hdev == tb_dev->mode_iface.hdev ||
-> +	     hdev == tb_dev->disp_iface.hdev)) {
-> +		tb_dev->active = false;
-> +		deactivated = true;
-> +	}
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +	return deactivated;
-> +}
-> +
-> +static const struct input_device_id appletb_input_devices[] = {
-> +	{
-> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
-> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
-> +		.bustype = BUS_SPI,
-> +		.keybit = { [BIT_WORD(KEY_FN)] = BIT_MASK(KEY_FN) },
-> +		.driver_info = APPLETB_DEVID_KEYBOARD,
-> +	},			/* Builtin SPI keyboard device */
-> +	{
-> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
-> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
-> +		.bustype = BUS_SPI,
-> +		.keybit = { [BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH) },
-> +		.driver_info = APPLETB_DEVID_TOUCHPAD,
-> +	},			/* Builtin SPI touchpad device */
-> +	{
-> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
-> +			INPUT_DEVICE_ID_MATCH_VENDOR |
-> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
-> +		.bustype = BUS_USB,
-> +		.vendor = 0x05ac /* USB_VENDOR_ID_APPLE */,
-> +		.keybit = { [BIT_WORD(KEY_FN)] = BIT_MASK(KEY_FN) },
-> +		.driver_info = APPLETB_DEVID_KEYBOARD,
-> +	},			/* Builtin USB keyboard device */
-> +	{
-> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
-> +			INPUT_DEVICE_ID_MATCH_VENDOR |
-> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
-> +		.bustype = BUS_USB,
-> +		.vendor = 0x05ac /* USB_VENDOR_ID_APPLE */,
-> +		.keybit = { [BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH) },
-> +		.driver_info = APPLETB_DEVID_TOUCHPAD,
-> +	},			/* Builtin USB touchpad device */
-> +	{ },			/* Terminating zero entry */
-> +};
-> +
-> +static bool appletb_match_internal_device(struct input_handler *handler,
-> +					  struct input_dev *inp_dev)
-> +{
-> +	struct device *dev = &inp_dev->dev;
-> +
-> +	if (inp_dev->id.bustype == BUS_SPI)
-> +		return true;
-> +
-> +	/* in kernel: dev && !is_usb_device(dev) */
-> +	while (dev && !(dev->type && dev->type->name &&
-> +			!strcmp(dev->type->name, "usb_device")))
-> +		dev = dev->parent;
-> +
-> +	/*
-> +	 * Apple labels all their internal keyboards and trackpads as such,
-> +	 * instead of maintaining an ever expanding list of product-id's we
-> +	 * just look at the device's product name.
-> +	 */
-> +	if (dev)
-> +		return !!strstr(to_usb_device(dev)->product, "Internal Keyboard");
-> +
-> +	return false;
-> +}
-> +
-> +static int appletb_probe(struct hid_device *hdev,
-> +			 const struct hid_device_id *id)
-> +{
-> +	struct appletb_device *tb_dev = appletb_dev;
-> +	unsigned long flags;
-> +	int rc;
-> +
-> +	/* initialize the report info */
 > +	rc = hid_parse(hdev);
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev, "hid parse failed (%d)\n", rc);
-> +		goto error;
-> +	}
+> +	if (rc)
+> +		return rc;
 > +
-> +	/* Ensure this usb endpoint is for the touchbar backlight, not keyboard
+> +	/* Ensure this usb endpoint is for the keyboard backlight, not touchbar
 > +	 * backlight.
 > +	 */
-> +	if ((hdev->product == USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) &&
-> +			!(hdev->collection && hdev->collection[0].usage ==
-> +				HID_USAGE_APPLE_APP)) {
+> +	if (!(hdev->collection && hdev->collection[0].usage == USAGE_MAGIC_BL))
 > +		return -ENODEV;
-> +	}
 > +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +	backlight = devm_kzalloc(&hdev->dev, sizeof(*backlight), GFP_KERNEL);
 > +
-> +	if (!tb_dev->log_dev)
-> +		tb_dev->log_dev = &hdev->dev;
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +	hid_set_drvdata(hdev, tb_dev);
-> +
-> +	rc = appletb_extract_report_and_iface_info(tb_dev, hdev, id);
-> +	if (rc < 0)
-> +		goto error;
-> +
-> +	rc = hid_hw_start(hdev, HID_CONNECT_DRIVER | HID_CONNECT_HIDINPUT);
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev, "hw start failed (%d)\n", rc);
-> +		goto clear_iface_info;
-> +	}
-> +
-> +	rc = hid_hw_open(hdev);
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev, "hw open failed (%d)\n", rc);
-> +		goto stop_hid;
-> +	}
-> +
-> +	/* do setup if we have both interfaces */
-> +	if (appletb_test_and_mark_active(tb_dev)) {
-> +		/* initialize the touch bar */
-> +		if (appletb_tb_def_fn_mode >= 0 &&
-> +		    appletb_tb_def_fn_mode <= APPLETB_FN_MODE_MAX)
-> +			tb_dev->fn_mode = appletb_tb_def_fn_mode;
-> +		else
-> +			tb_dev->fn_mode = APPLETB_FN_MODE_NORM;
-> +		appletb_set_idle_timeout(tb_dev, appletb_tb_def_idle_timeout);
-> +		appletb_set_dim_timeout(tb_dev, appletb_tb_def_dim_timeout);
-> +		tb_dev->last_event_time = ktime_get();
-> +
-> +		tb_dev->pnd_tb_mode = APPLETB_CMD_MODE_UPD;
-> +		tb_dev->pnd_tb_disp = APPLETB_CMD_DISP_UPD;
-> +
-> +		appletb_update_touchbar(tb_dev, false);
-> +
-> +		/* set up the input handler */
-> +		tb_dev->inp_handler.event = appletb_inp_event;
-> +		tb_dev->inp_handler.connect = appletb_inp_connect;
-> +		tb_dev->inp_handler.disconnect = appletb_inp_disconnect;
-> +		tb_dev->inp_handler.name = "appletb";
-> +		tb_dev->inp_handler.id_table = appletb_input_devices;
-> +		tb_dev->inp_handler.match = appletb_match_internal_device;
-> +		tb_dev->inp_handler.private = tb_dev;
-> +
-> +		rc = input_register_handler(&tb_dev->inp_handler);
-> +		if (rc) {
-> +			dev_err(tb_dev->log_dev,
-> +				"Unable to register keyboard handler (%d)\n",
-> +				rc);
-> +			goto mark_inactive;
-> +		}
-> +
-> +		/* initialize sysfs attributes */
-> +		rc = sysfs_create_group(&tb_dev->mode_iface.hdev->dev.kobj,
-> +					&appletb_attr_group);
-> +		if (rc) {
-> +			dev_err(tb_dev->log_dev,
-> +				"Failed to create sysfs attributes (%d)\n", rc);
-> +			goto unreg_handler;
-> +		}
-> +
-> +		dev_dbg(tb_dev->log_dev, "Touchbar activated\n");
-> +	}
-> +
-> +	return 0;
-> +
-> +unreg_handler:
-> +	input_unregister_handler(&tb_dev->inp_handler);
-> +mark_inactive:
-> +	appletb_test_and_mark_inactive(tb_dev, hdev);
-> +	cancel_delayed_work_sync(&tb_dev->tb_work);
-> +	hid_hw_close(hdev);
-> +stop_hid:
-> +	hid_hw_stop(hdev);
-> +clear_iface_info:
-> +	appletb_clear_iface_info(tb_dev, hdev);
-> +error:
-> +	return rc;
-> +}
-> +
-> +static void appletb_remove(struct hid_device *hdev)
-> +{
-> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
-> +	unsigned long flags;
-> +
-> +	if (appletb_test_and_mark_inactive(tb_dev, hdev)) {
-> +		sysfs_remove_group(&tb_dev->mode_iface.hdev->dev.kobj,
-> +				   &appletb_attr_group);
-> +
-> +		input_unregister_handler(&tb_dev->inp_handler);
-> +
-> +		cancel_delayed_work_sync(&tb_dev->tb_work);
-> +		appletb_set_tb_mode(tb_dev, APPLETB_CMD_MODE_OFF);
-> +		appletb_set_tb_disp(tb_dev, APPLETB_CMD_DISP_ON);
-> +
-> +		if (tb_dev->tb_autopm_off)
-> +			hid_hw_power(tb_dev->disp_iface.hdev, PM_HINT_NORMAL);
-> +
-> +		dev_info(tb_dev->log_dev, "Touchbar deactivated\n");
-> +	}
-> +
-> +	hid_hw_close(hdev);
-> +	hid_hw_stop(hdev);
-> +	appletb_clear_iface_info(tb_dev, hdev);
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	if (tb_dev->log_dev == &hdev->dev) {
-> +		if (tb_dev->mode_iface.hdev)
-> +			tb_dev->log_dev = &tb_dev->mode_iface.hdev->dev;
-> +		else if (tb_dev->disp_iface.hdev)
-> +			tb_dev->log_dev = &tb_dev->disp_iface.hdev->dev;
-> +		else
-> +			tb_dev->log_dev = NULL;
-> +	}
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +}
-> +
-> +#ifdef CONFIG_PM
-> +static int appletb_suspend(struct hid_device *hdev, pm_message_t message)
-> +{
-> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
-> +	struct appletb_iface_info *iface_info;
-> +	unsigned long flags;
-> +	bool all_suspended = false;
-> +
-> +	if (message.event != PM_EVENT_SUSPEND &&
-> +	    message.event != PM_EVENT_FREEZE)
-> +		return 0;
-> +
-> +	if (tb_dev->is_t1) {
-> +
-> +		/*
-> +		 * Wait for both interfaces to be suspended and no more async work
-> +		 * in progress.
-> +		 */
-> +
-> +		spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +		if (!tb_dev->mode_iface.suspended && !tb_dev->disp_iface.suspended) {
-> +			tb_dev->active = false;
-> +			cancel_delayed_work(&tb_dev->tb_work);
-> +		}
-> +
-> +		iface_info = appletb_get_iface_info(tb_dev, hdev);
-> +		if (iface_info)
-> +			iface_info->suspended = true;
-> +
-> +		if ((!tb_dev->mode_iface.hdev || tb_dev->mode_iface.suspended) &&
-> +		    (!tb_dev->disp_iface.hdev || tb_dev->disp_iface.suspended))
-> +			all_suspended = true;
-> +
-> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +		flush_delayed_work(&tb_dev->tb_work);
-> +
-> +		if (!all_suspended)
-> +			return 0;
-> +
-> +		/*
-> +		 * The touch bar device itself remembers the last state when suspended
-> +		 * in some cases, but in others (e.g. when mode != off and disp == off)
-> +		 * it resumes with a different state; furthermore it may be only
-> +		 * partially responsive in that state. By turning both mode and disp
-> +		 * off we ensure it is in a good state when resuming (and this happens
-> +		 * to be the same state after booting/resuming-from-hibernate, so less
-> +		 * special casing between the two).
-> +		 */
-> +		if (message.event == PM_EVENT_SUSPEND) {
-> +			appletb_set_tb_mode(tb_dev, APPLETB_CMD_MODE_OFF);
-> +			appletb_set_tb_disp(tb_dev, APPLETB_CMD_DISP_OFF);
-> +		}
-> +
-> +		spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +		tb_dev->cur_tb_mode = APPLETB_CMD_MODE_OFF;
-> +		tb_dev->cur_tb_disp = APPLETB_CMD_DISP_OFF;
-> +
-> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +		dev_info(tb_dev->log_dev, "Touchbar suspended.\n");
-> +	} else {
-> +		dev_info(tb_dev->log_dev, "T2 Mac detected, not handling suspend.\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int appletb_reset_resume(struct hid_device *hdev)
-> +{
-> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
-> +	struct appletb_iface_info *iface_info;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
-> +
-> +	iface_info = appletb_get_iface_info(tb_dev, hdev);
-> +	if (iface_info)
-> +		iface_info->suspended = false;
-> +
-> +	if ((tb_dev->mode_iface.hdev && !tb_dev->mode_iface.suspended) &&
-> +	    (tb_dev->disp_iface.hdev && !tb_dev->disp_iface.suspended)) {
-> +		/*
-> +		 * Restore touch bar state. Note that autopm state is not
-> +		 * preserved, so need explicitly restore that here.
-> +		 */
-> +		tb_dev->active = true;
-> +		tb_dev->restore_autopm = true;
-> +		tb_dev->last_event_time = ktime_get();
-> +
-> +		appletb_update_touchbar_no_lock(tb_dev, true);
-> +
-> +		dev_info(tb_dev->log_dev, "Touchbar resumed.\n");
-> +	}
-> +
-> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
-> +
-> +	return 0;
-> +}
-> +#endif
-> +
-> +static struct appletb_device *appletb_alloc_device(void)
-> +{
-> +	struct appletb_device *tb_dev;
-> +
-> +	tb_dev = kzalloc(sizeof(*tb_dev), GFP_KERNEL);
-> +	if (!tb_dev)
-> +		return NULL;
-> +
-> +	spin_lock_init(&tb_dev->tb_lock);
-> +	INIT_DELAYED_WORK(&tb_dev->tb_work, appletb_set_tb_worker);
-> +
-> +	return tb_dev;
-> +}
-> +
-> +static void appletb_free_device(struct appletb_device *tb_dev)
-> +{
-> +	cancel_delayed_work_sync(&tb_dev->tb_work);
-> +	kfree(tb_dev);
-> +}
-> +
-> +static const struct hid_device_id appletb_hid_ids[] = {
-> +	/* MacBook Pro's 2016, 2017, with T1 chip */
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LINUX_FOUNDATION,
-> +			 USB_DEVICE_ID_IBRIDGE_TB),
-> +	  .driver_data = APPLETB_FEATURE_IS_T1 },
-> +	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge DFR brightness */
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-> +			USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-> +	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge Display */
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-> +			USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
-> +	{ },
-
-Also no comma here
-
-> +};
-> +
-> +MODULE_DEVICE_TABLE(hid, appletb_hid_ids);
-> +
-> +static struct hid_driver appletb_hid_driver = {
-> +	.name = "apple-touchbar",
-> +	.id_table = appletb_hid_ids,
-> +	.probe = appletb_probe,
-> +	.remove = appletb_remove,
-> +	.event = appletb_hid_event,
-> +	.input_configured = appletb_input_configured,
-> +#ifdef CONFIG_PM
-> +	.suspend = appletb_suspend,
-> +	.reset_resume = appletb_reset_resume,
-> +#endif
-> +};
-> +
-> +static int __init appletb_init(void)
-> +{
-> +	struct appletb_device *tb_dev;
-> +	int rc;
-> +
-> +	tb_dev = appletb_alloc_device();
-> +	if (!tb_dev)
+> +	if (!backlight)
 > +		return -ENOMEM;
 > +
-> +	appletb_dev = tb_dev;
+> +	hid_set_drvdata(hdev, backlight);
 > +
-> +	rc = hid_register_driver(&appletb_hid_driver);
+> +	rc = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
 > +	if (rc)
-> +		goto error;
+> +		return rc;
 > +
-> +	return 0;
+> +	backlight->brightness = hid_register_report(hdev, HID_FEATURE_REPORT,
+> +			APPLE_MAGIC_REPORT_ID_BRIGHTNESS, 0);
+> +	backlight->power = hid_register_report(hdev, HID_FEATURE_REPORT,
+> +			APPLE_MAGIC_REPORT_ID_POWER, 0);
 > +
-> +error:
-> +	appletb_free_device(tb_dev);
+> +	if (!backlight->brightness || !backlight->power) {
+> +		rc = -ENODEV;
+> +		goto hw_stop;
+> +	}
+> +
+> +	backlight->hdev = hdev;
+> +	backlight->cdev.name = "apple::kbd_backlight";
+> +	backlight->cdev.max_brightness = backlight->brightness->field[0]->logical_maximum;
+> +	backlight->cdev.brightness_set_blocking = apple_magic_backlight_led_set;
+> +
+> +	apple_magic_backlight_set(backlight, 0, 0);
+> +
+> +	return devm_led_classdev_register(&hdev->dev, &backlight->cdev);
+> +
+> +hw_stop:
+> +	hid_hw_stop(hdev);
 > +	return rc;
 > +}
 > +
-> +static void __exit appletb_exit(void)
+> +static void apple_magic_backlight_remove(struct hid_device *hdev)
 > +{
-> +	hid_unregister_driver(&appletb_hid_driver);
-> +	appletb_free_device(appletb_dev);
+> +	hid_hw_stop(hdev);
 > +}
-
-You can remove the need for the "static struct appletb_device
-*appletb_dev" by allocating it from the HID drivers probe function and
-freeing it from the remove function.
-Then the whole setup can be removed and replaced by
-hid_module_driver(&appletb_hid_driver)
-
-> +module_init(appletb_init);
-> +module_exit(appletb_exit);
 > +
-> +MODULE_AUTHOR("Ronald Tschalär");
-> +MODULE_DESCRIPTION("MacBookPro Touch Bar driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index c03535c4b..e620190b5 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -316,12 +316,14 @@ static const struct hid_device_id hid_have_special_driver[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021) },
-> -	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-> -	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
->  #endif
->  #if IS_ENABLED(CONFIG_HID_APPLE_IBRIDGE)
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IBRIDGE) },
->  #endif
-> +#if IS_ENABLED(CONFIG_HID_APPLE_TOUCHBAR)
+> +static const struct hid_device_id apple_magic_backlight_hid_ids[] = {
 > +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
-> +#endif
->  #if IS_ENABLED(CONFIG_HID_APPLEIR)
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IRCONTROL) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IRCONTROL2) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(hid, apple_magic_backlight_hid_ids);
+> +
+> +static struct hid_driver apple_magic_backlight_hid_driver = {
+> +	.name = "apple-magic-backlight",
+> +	.id_table = apple_magic_backlight_hid_ids,
+> +	.probe = apple_magic_backlight_probe,
+> +	.remove = apple_magic_backlight_remove,
+
+Drop the .remove, it does the same as the default.
+
+> +};
+> +
+> +module_hid_driver(apple_magic_backlight_hid_driver);
+> +
+> +MODULE_DESCRIPTION("MacBook Magic Keyboard Backlight");
+> +MODULE_AUTHOR("Orlando Chamberlain <orlandoch.dev@gmail.com>");
+> +MODULE_LICENSE("GPL");
 > -- 
 > 2.37.2
 > 
