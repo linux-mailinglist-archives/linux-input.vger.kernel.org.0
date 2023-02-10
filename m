@@ -2,58 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF771691EFF
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 13:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41E35691F92
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 14:07:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231488AbjBJMUy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 07:20:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42784 "EHLO
+        id S231839AbjBJNH5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 08:07:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230510AbjBJMUx (ORCPT
+        with ESMTP id S231685AbjBJNH4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 07:20:53 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8F62595D;
-        Fri, 10 Feb 2023 04:20:52 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so9644103pjq.0;
-        Fri, 10 Feb 2023 04:20:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nCTvu0a6wjUcbYhCc56Bv6cmIy8USHw9Y3nQMvihJyA=;
-        b=loZIz7P9g19yyWNOaOqhhert3n89gsLEw7u9lgkxEbOlKNA3uEL5OmWIIKM/eQNLxN
-         HhfnOnuwzqAKtmYjYym1eF+kJGKRAZnTlvOQEswjTwxq0/Dzqe9i5ae4ChFSOJ6n3Ha0
-         +xci1JfNQsnVW5DFGZWQeAec5N1dEjbdD5G/uWeEqPksK8Fb3prv8Prp6qLJb6iwNjwt
-         QzommCgDcCxE2w1m2NBpbH0Q6lmNsXukWWY0Gwa3KYdr9IHTuW4wSmWWtqciA19JmXO9
-         B0LlaYdfXTahkklclYDlJl1n/bb85TEE4vtHZx8V+QImwSIhVAuZcwi/vkf4Ym9KumLJ
-         XMRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nCTvu0a6wjUcbYhCc56Bv6cmIy8USHw9Y3nQMvihJyA=;
-        b=TQiSqWzEe8qWAPMGtYuZkRhTAn+B3If/dgBQiQH8kgpaBSvVoMiwWzfnUjfW57btoJ
-         d363VgCKZi0U/nGdt1XDy2bX4RYTR15wNfIM8Sa0yHM6JXLRHKyho+a2JFBJh1RTQYYw
-         EnOZAOocQ6PYkK1+3mewfKJdDR5wmU/E8rPZU0UkMIWcpQcgusU9iblat6p3EUtj3wEX
-         YeHILaiAqylQWdMc8+KhIYF+ShzjGmPZWdI1SX1OxZKs9BheZlDDbH2uNPJbo4sgvsaf
-         rxctIPaZ61Ml+Bh2gy58Jr7e3R9F5Cy4ksF/WFjHoRF/D+VMRRJdoFqjEwq8Npg02guG
-         Q9Pw==
-X-Gm-Message-State: AO0yUKXh9qEPk2AwK/T0eQPqYf0FaCqbdxvdwG7fcpznRUjtOMWW9vpd
-        xUwnSvSpbN3m3o9NeLkenLs=
-X-Google-Smtp-Source: AK7set/oizdOeWlu58ZoA4nucT77ymE1cQ9Egy5hUKlJt6b046LD4vcGa3qe0pLjYjcyMJKxERr0UA==
-X-Received: by 2002:a17:902:ec90:b0:199:12d5:5b9b with SMTP id x16-20020a170902ec9000b0019912d55b9bmr17001775plg.25.1676031652119;
-        Fri, 10 Feb 2023 04:20:52 -0800 (PST)
-Received: from redecorated-mbp ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id 20-20020a170902ee5400b0019a688446edsm2118176plo.78.2023.02.10.04.20.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 04:20:51 -0800 (PST)
-Date:   Fri, 10 Feb 2023 23:20:43 +1100
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     Aditya Garg <gargaditya08@live.com>
-Cc:     Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas@t-8ch.de>,
+        Fri, 10 Feb 2023 08:07:56 -0500
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01olkn2095.outbound.protection.outlook.com [40.92.107.95])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B9AD23860;
+        Fri, 10 Feb 2023 05:07:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iKImQl+wcfevkUGj3sH2eNz4Oddk9UfMAuNnlaZCX+oJ1CzBk3wvJXSxRBw4DvxJyod1HROvhQ4fO9rEyl24MvyN+mwAVlTORQNo9JHYSGixGDkpjTiD5Z5aEVWkF6wgKeAlT+yUzoN6xnj+tNGpq/QiC/stjkPwMmofFCDP13b0qE/jwqwUazAvL3XZR+0S1U9vYJIgliUaUY/PJrqiXJOniCUnlCd9VZ0U44oclCYtds9uDFPt+61LyOnEhWMxWO8mCi072xH7/fRpRTk2bUeZLRfPbBnn4i/2XqpyLCKlBeH01grwhRl0v/SCWkGGUK6GHZI/NXEPFYSCXMX3pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h3LnRX5rmLaUXCtPyNoOabiTBtYTp/pa3zb0ETGpuEE=;
+ b=UiJmkw61lZxNMhjqZxA36yCYYsK+19oa1k69GrHX7M1AVhemZsJtLq4mo8TJMiV8szGo1m1Uq4/7pql6HoSv31MMsJTgXEfSU3P9BEDw9vq4xd5l8EkCaJbDiFBYd4iCr0AMZJ0VUlR73OcxF2s9OuI+X/IPe7bsuAsNxlPiDEqbZNOfAPv7UUlEvrMIiT8blEnDBoxDg6YGNFCpOQUvqBNfEzX8TrEOK2yBUrHnfJf+XEkkumLfnrK3kBFfy9LxA+Tu0ZnA6pB5KkhruL8gdW3EpuCl0ql6AR6kx59kJw2YPFj7gsDwQrM+1l1zl71OX1WDEyrus7IbB56995hU0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h3LnRX5rmLaUXCtPyNoOabiTBtYTp/pa3zb0ETGpuEE=;
+ b=aeWyWYfTqOpvrRAK5VWgLL10F4aTZ1DCljNwVv5Hp0bw79zpUYw1Vke61kHkeyW4TgoAWXtAn73q+KIjJ6a+SC+/9N2RtwD89bFW68s8JnmoItt+4wD5wwQ/Q8EGqmI78jDVa1hmBEVeftRgs5VvmFAp2S242PDZpzvQ/tGgZmGgWWxJhmJdDKofqQom5Mx27g0AozIjc7QtezDxF3Ml7YuqZs83id4G4L/CYQel4GtFOWBCeZlAkKbirI86QKb/Li7xqnwMsBZVOFV1EAxtS1UE3HSSvQbLOdApmNR623Ht4gwRBCuFYCxN3kyiMABOWEJnwb6efGAIBtefey/Cgw==
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
+ PN2PR01MB4204.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:11::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6086.17; Fri, 10 Feb 2023 13:07:48 +0000
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::9dc7:9298:c988:474d]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::9dc7:9298:c988:474d%11]) with mapi id 15.20.6111.005; Fri, 10 Feb
+ 2023 13:07:48 +0000
+From:   Aditya Garg <gargaditya08@live.com>
+To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
+CC:     =?utf-8?B?VGhvbWFzIFdlacOfc2NodWg=?= <thomas@t-8ch.de>,
         Jiri Kosina <jikos@kernel.org>,
         "jkosina@suse.cz" <jkosina@suse.cz>,
         "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
@@ -63,21 +48,79 @@ Cc:     Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas@t-8ch.de>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "ronald@innovation.ch" <ronald@innovation.ch>,
         "kekrby@gmail.com" <kekrby@gmail.com>
-Subject: Re: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver
- for T1 chip.
-Message-ID: <20230210232043.18483401@redecorated-mbp>
-In-Reply-To: <B9E319F8-6047-40E5-BD9F-D90D6504AA9E@live.com>
+Subject: Re: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver for
+ T1 chip.
+Thread-Topic: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver for
+ T1 chip.
+Thread-Index: AQHZPQwM5DSulXBskEykQ8jgSAssVq7IFbWAgAAEY4CAAA0kQQ==
+Date:   Fri, 10 Feb 2023 13:07:48 +0000
+Message-ID: <BM1PR01MB0931E8F14D84CFB59EABEBA4B8DE9@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
 References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
         <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
         <20230210045624.cjxroikmmvm3liij@t-8ch.de>
         <B9E319F8-6047-40E5-BD9F-D90D6504AA9E@live.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+ <20230210232043.18483401@redecorated-mbp>
+In-Reply-To: <20230210232043.18483401@redecorated-mbp>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [YH6ez02/umdkWNRwWEOKyL8PjvBi4i4jTdXUpveo6ViKqKARgAUR0eVUM0l2dymv]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|PN2PR01MB4204:EE_
+x-ms-office365-filtering-correlation-id: 2843cd92-8cd2-44ec-b75c-08db0b67cf1d
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yFZ/mTQMo+t8T8MR9pGfQwmkyE2JPnStNi1Q+I3JLCDJ+3X51LopPbaHTN/sMkNpWeSVLsCSiSXbTktHyzYf1nHxWku0zX2opVA+fwhSNSXpU6G+nlqjDJzxl9TfQnA5h0ES5z4XClPA2cFtjiSe/CRr5/jW2m86I7oU1cpcwqZKu1jwSWQ8UCqPDvZKVXa7dInAs9vrrtsuFtZnA5T5/Nel/cG5vG1rgy+IzjBl6E7aGmCBfe+LVm9E3CtxMr3Y1toKyqieZ5pcaUbKzNwpMXBhk5rsAVMkE4eaZvBcnnkp14cn7VPPtmQYIrWGrIHgp1vggAx1b/MMuKYUOwNMA6uoM3FVaPEDZ1is711Af3EAfQagT2TWxHXNg0yegsQTKd+NO8V1xg6fOKGsv59O6G2sKcL4do9lcfbUNYEVWF63erRtfFVN5g/xmuQu1NZy3zjA4ENpOZWM2OUMwZhmprr3iUJWwO/3IbwVFe3oObHNKLlC77krCeFzybn1rUjuiOvYzG0Qj7ZdiT970PnzAHN9FqG1nozZLtgCe7BCXXDjpmpiX3zvuMm574IQdpsCPh93aZl/k2qm/Dsi92lKjHJA4xPKLTSsD8KjrojYxAbrQk87UryVrPudF+kyY1o3w28Bj7B82l5etfZN9y07Mw==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bVlnZWYvbUlrNUt3YmZVbkE5ZjRqTHdYSGxJZzB0NmNqYTNSdkdUdktNanNZ?=
+ =?utf-8?B?WnFsUzRMelZBOXNFVlRQNDAxU2UwMXdmVEMrdERjYWNjR1l2aDlHYUNHTnoz?=
+ =?utf-8?B?STFRdzVVZ1JHQ1pUNytwRHNGRURRSElTcTAyMGp0VmZ5SDNEMmplMitJeFRy?=
+ =?utf-8?B?b1lxLzNoMnlSUThIUEJVWDMzZURldmZ1ZnpqTGFjTldVTzVaNnB5MGVYbFJZ?=
+ =?utf-8?B?b21sbHl5VHp6WnllWWRXSTRzV2taWVZjVU1jZVg1dE9pSFlBSEh1Vlk4R29v?=
+ =?utf-8?B?SjhHZElydXAzSS8vRVZqUWs4d2srSzFFMENKc3dtRkU3Y0JoZ2c3MnM5K01r?=
+ =?utf-8?B?MlZ0d29oNFZGeUNhckNMUFdSU2JpcUg0SzQyOGZpTXN6NVVSVEc1YXFtdVVS?=
+ =?utf-8?B?OUdzNm01UVovRlc2cUNIRE1maWIvc25OcVdjUGN1b3huN01wRFFVM3hZcytu?=
+ =?utf-8?B?K3p5NFl4MFZXN3ZZakRZVHp1WXUwemROaS95bkpTeEV2M2U2cnJPVUd2THNY?=
+ =?utf-8?B?NUs4QUpSTnlDMFZnZjRHV29NeU1NcGE4WWFUZkcveUMybUU2Q1NaajhlY2xp?=
+ =?utf-8?B?ck9NMFlvU21STmF5SG9WME5RSGZUSS8wWWppcWduNkZGUGZDWjUwTW1EWjRW?=
+ =?utf-8?B?Wk11RUg5TUV3UXN5UzUxRVhhYVhWbXhRM1R0WTRnM3hnZ0V2L0hhTFExRkN0?=
+ =?utf-8?B?aDhkbHdnVnhkTEx6TmlmaFc5RlNLVU1pRjVFNll3TFNQZW5NZ2VONUQzTU00?=
+ =?utf-8?B?dCs5dWZ2TDBEelJKTGdSVmhPT2lKWHprTVJRQk03ZVZRQUE1WmlRakNQanJi?=
+ =?utf-8?B?Rnh5R3IrdDRFU2ZWb2ZaVG5KbERjU1V4dzd1WjdMckhwZG5EZEdNZnl3MjZG?=
+ =?utf-8?B?OTdyL2N1MTNzcnJwZmhUaEZHeSt0bWxHT3hadlFadUxRTlZIdXBmdEw2MTJa?=
+ =?utf-8?B?YjFlQzFmUjNPTW42SmRROGNIV0FYVVRxT1pleWJpM1NYVUFSb3ppeXlOZDJH?=
+ =?utf-8?B?OHExeGFZRU1qT3FpLzdNVEkrUHRiMkdINVlsRVpuQWJkVzNnaHVQLytzSlEz?=
+ =?utf-8?B?dHp1NXd0N2tESzV1bFBwN1VuSjBaeHpsakF5UjRHZmZRa0xEczBWOHlCQW5u?=
+ =?utf-8?B?SnZSWEI2MCs2S2NwTThmb1k1Tm4rcE5ub0FFRElXWlpJRENHY2J3TE5KeS9h?=
+ =?utf-8?B?UU02L1FxSVBidFcrakVRUjByaFFNcTFLMHcrK0Z0QXZiN2sza016bnUxaHZ5?=
+ =?utf-8?B?L0N4REo1TUgwcm5hbVV2RXVmZWszVnVtbnNmUm5rN0dmVnpWTkZ5TE1TUmVt?=
+ =?utf-8?B?RitUY3E2L3hzQWNEWGlybnJnS2ovWmRqc0p5K2JpZEozMWZWYlFJemxVL3JX?=
+ =?utf-8?B?OWpLUEp2c1pZeXVzZ2o0NGN2K3F0TFovdDk5Wk05KzlWOTh3ZWUrNDZEWGt3?=
+ =?utf-8?B?OURVY1dlNkYycU1CRDU3aEF2SHA1TlFTYlBHQ1crekVLQXo1YUNwWDB1enYr?=
+ =?utf-8?B?UTdzQVNEZVkrRS9uVFJMT3dTVEtqaVJJUGVaUC9jN3NYTWtoTFFBVHl0SENE?=
+ =?utf-8?B?RWRZNGxtTitXd2c2dkttU0pjYWpPVVpOS0c2Ym9yNEp1cGxhaSt0T3pMZ0pp?=
+ =?utf-8?B?cFQrc0xqeXc1V0FQMTBWUEEybHRYd1ZGU1ovVlJLVWZiOTNRZTVROENjWWEw?=
+ =?utf-8?B?Y3gwMzliczhLTFZ5MkZuN1pCTURDcXAwQy85TXRXa1BoR0ltVHRPZ05GTmwv?=
+ =?utf-8?B?cWIvUHgvalNmOUdQaFhrTlpoY2RLM1lYZTl3NGVUdnNHWEkvdm9YUjV0WTQ5?=
+ =?utf-8?B?WlZIbFlWcHVTaGVpb0gzQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2843cd92-8cd2-44ec-b75c-08db0b67cf1d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2023 13:07:48.6800
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PR01MB4204
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,84 +128,11 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 10 Feb 2023 12:05:13 +0000
-Aditya Garg <gargaditya08@live.com> wrote:
-
-> > On 10-Feb-2023, at 10:26 AM, Thomas Wei=C3=9Fschuh <thomas@t-8ch.de>
-> > wrote:
-> >=20
-> > Hi,
-> >=20
-> > some comments inline.
-> >=20
-> > On Fri, Feb 10, 2023 at 03:43:24AM +0000, Aditya Garg wrote:
-> >  =20
-> >> +
-> >> +static struct {
-> >> + unsigned int usage;
-> >> + struct hid_device_id *dev_id;
-> >> +} appleib_usage_map[] =3D {
-> >> + /* Default iBridge configuration, key inputs and mode settings */
-> >> + { 0x00010006, &appleib_sub_hid_ids[0] },
-> >> + /* OS X iBridge configuration, digitizer inputs */
-> >> + { 0x000D0005, &appleib_sub_hid_ids[0] },
-> >> + /* All iBridge configurations, display/DFR settings */
-> >> + { 0xFF120001, &appleib_sub_hid_ids[0] },
-> >> + /* All iBridge configurations, ALS */
-> >> + { 0x00200041, &appleib_sub_hid_ids[1] },
-> >> +}; =20
-> >=20
-> > const
-> >  =20
->=20
-> Constantifying this results in compiler giving warnings
->=20
-> drivers/hid/apple-ibridge.c:78:23: warning: initialization discards
-> 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-> 78 |         { 0x00200041, &appleib_sub_hid_ids[1] }, |
->         ^ drivers/hid/apple-ibridge.c: In function
-> 'appleib_add_sub_dev': drivers/hid/apple-ibridge.c:363:29: warning:
-> assignment discards 'const' qualifier from pointer target type
-> [-Wdiscarded-qualifiers] 363 |         sub_hdev->ll_driver =3D
-> &appleib_ll_driver; |                             ^
-> drivers/hid/apple-ibridge.c: In function 'appleib_hid_probe':
-> drivers/hid/apple-ibridge.c:436:12: error: expected '(' before
-> 'hid_is_usb' 436 |         if hid_is_usb(hdev) |            ^~~~~~~~~~
->       |            (
-> In file included from drivers/hid/apple-ibridge.c:48:
-> drivers/hid/apple-ibridge.c: In function 'appleib_probe':
-> drivers/hid/apple-ibridge.c:544:35: warning: passing argument 1 of
-> '__hid_register_driver' discards 'const' qualifier from pointer
-> target type [-Wdiscarded-qualifiers] 544 |         ret =3D
-> hid_register_driver(&appleib_hid_driver); |
->         ^~~~~~~~~~~~~~~~~~~ ./include/linux/hid.h:898:31: note: in
-> definition of macro 'hid_register_driver' 898 |
-> __hid_register_driver(driver, THIS_MODULE, KBUILD_MODNAME) |
->                      ^~~~~~ ./include/linux/hid.h:893:47: note:
-> expected 'struct hid_driver *' but argument is of type 'const struct
-> hid_driver *' 893 | extern int __must_check
-> __hid_register_driver(struct hid_driver *, |
->                      ^~~~~~~~~~~~~~~~~~~ drivers/hid/apple-ibridge.c:
-> In function 'appleib_remove': drivers/hid/apple-ibridge.c:558:31:
-> warning: passing argument 1 of 'hid_unregister_driver' discards
-> 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-> 558 |         hid_unregister_driver(&appleib_hid_driver); |
->                     ^~~~~~~~~~~~~~~~~~~ ./include/linux/hid.h:900:35:
-> note: expected 'struct hid_driver *' but argument is of type 'const
-> struct hid_driver *' 900 | extern void hid_unregister_driver(struct
-> hid_driver *); |
-> ^~~~~~~~~~~~~~~~~~~ make[6]: *** [scripts/Makefile.build:250:
-> drivers/hid/apple-ibridge.o] Error 1 make[5]: ***
-> [scripts/Makefile.build:500: drivers/hid] Error 2 make[5]: ***
-> Waiting for unfinished jobs=E2=80=A6.
->=20
-> Some warnings are also due to a typo in if and constantifying `static
-> struct hid_driver`, although they probably can be fixed.
->=20
-> In short, Thomas, do you really want me to constantify the structure
-> I am talking about in this email, as well `static struct hid_driver`?
->=20
-
-Were the changes needed for these structs to be const in the
-linux-input tree for 6.3? If so then if you're applying the patches
-onto linus' tree that might be why there are errors about consts.
+DQo+IFdlcmUgdGhlIGNoYW5nZXMgbmVlZGVkIGZvciB0aGVzZSBzdHJ1Y3RzIHRvIGJlIGNvbnN0
+IGluIHRoZQ0KPiBsaW51eC1pbnB1dCB0cmVlIGZvciA2LjM/IElmIHNvIHRoZW4gaWYgeW91J3Jl
+IGFwcGx5aW5nIHRoZSBwYXRjaGVzDQo+IG9udG8gbGludXMnIHRyZWUgdGhhdCBtaWdodCBiZSB3
+aHkgdGhlcmUgYXJlIGVycm9ycyBhYm91dCBjb25zdHMuDQoNCknigJlkIHdhbnQgdGhlIG1haW50
+YWluZXJzIGNvbW1lbnQgb24gdGhpcy4gSW1vLCB0aGVzZSAyIHN0cnVjdHVyZXMgbmVlZG7igJl0
+IGJlIGNvbnN0YW50aWZpZWQuDQoNCkFsc28sIGl0IHdvdWxkIGJlIG5pY2UgaWYgd2UgY291bGQg
+Z2V0IGEgcmV2aWV3IG9uIHRoZSBvdGhlciAyIHBhdGNoZXMsIHNvIHRoYXQgYSB2MiBjYW4gYmUg
+cHJlcGFyZWQu
