@@ -2,43 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BEBE6922A2
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 16:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42C6D692304
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 17:13:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232331AbjBJPuK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 10:50:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46418 "EHLO
+        id S232095AbjBJQNf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 11:13:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231954AbjBJPuJ (ORCPT
+        with ESMTP id S232185AbjBJQN2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 10:50:09 -0500
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2039.outbound.protection.outlook.com [40.92.103.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B27770956;
-        Fri, 10 Feb 2023 07:50:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k0YrtKjg+V5GeYWPobwPaUH+Iel0/PVZlDqpxPD4jBUfVV/R4/DxVaYWLAGBAcQSp0t8waZ/6GCAhnL4ijSP651OLAvFMSW0bO77Xtaf1CyVGHQ7ikuHa8zWi6o5Des+LEhRKp+VPgv0CYFy/YJw4qIS9X5Y3qkyQU2wI+N5v7UgektRSu3nhLxpSQ3yugx/z26nf7UvPyxiNPkGsv9nK3dp8jMukk65+JQtz7Y9BXfdzLVYr4XPpgP/GSqEwScyavnOYAVN2XuZ59sPNyEZbGmghm8hbc6sjHJ1BhDdD8oixmCEmGU33PDmFRy9rumIZPuGqE6+bo9o4oh+04P6rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fgUQI2cKqq29RMvEwO6jVLXyv85g1QSht872Ww9fec4=;
- b=DV3BQSwuYozv21thaZ7BPL8cjl9aTHo6hd4eeNMSU0jJhMNQJzehRjsuQWBwIRHnASgHf83YtqJg/kxn+Ay8ExYnFD5CVkbxxaHUYoD+53lB3YgWOK0dkge/NZAu9P6/BlZI5QlWsmPkYsgZEayBu07Fmn85DXwN6h2OGr6INKW/iDM38Rz7J6jp/3h4ozxKj9TdPrRrAiMQ62h0S/2+QUTPoeewkdIXDLjNOBfL4UEdcQwYZiqPZJI9Pw8LBJtTVN5KpymcD/74t/JU2uDtEIb/XOzbMQ5vZ+WuPF6zjKUKVRQs5AE/VMcsbKqohlFFG9uCGKJk4cvi6qNxKjjPyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgUQI2cKqq29RMvEwO6jVLXyv85g1QSht872Ww9fec4=;
- b=bmpfi8Ki35Uh5QDYqxe33rJjiJ1hHuMO93HKzxSxaZqvcfcABQiO7cUSX/y8w5u45HOnZAT1MqjzsNvS4+WtA2Np7I3WE+9aSUeC54xAtPHbJMSu03t328hXYYZYe5FB8EeW3sPE/tOATvzboBNNF+JINKvS590beyLHisajkZm7285FTMUW2StGf5L8KGUx3RLZ3MQ7nKQCiaCw7zzQi3EBLMbwfRQQ1uOfQgsygDBjsyx9Lk0XAfRfRLawA2FLf/buVlFwl7CbdHtx+oyKM6F42dUAYBdhEAvi3ht/G7h9nMQ1I46d4HPdNJmiDVX25C1z7P4L6qYpA7EOvcD24Q==
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
- PN3PR01MB8659.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:d0::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.5; Fri, 10 Feb 2023 15:49:59 +0000
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::9dc7:9298:c988:474d]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::9dc7:9298:c988:474d%11]) with mapi id 15.20.6111.005; Fri, 10 Feb
- 2023 15:49:59 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     =?utf-8?B?VGhvbWFzIFdlacOfc2NodWg=?= <thomas@t-8ch.de>
-CC:     Jiri Kosina <jikos@kernel.org>,
+        Fri, 10 Feb 2023 11:13:28 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D280C1B557;
+        Fri, 10 Feb 2023 08:13:23 -0800 (PST)
+Date:   Fri, 10 Feb 2023 16:13:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
+        t=1676045601; bh=OkbtIVAzt7rkeasnd7wkblGp5VuuZaScDlY5TnqhuCo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pCJi8kmcFg016hzlbT59q/IvAvKdkMr6kZob3dCpFcT9q0y1dxiPMvON1h8GYTyPn
+         wPcu91dtsTZpmt4GR5g2eb/J7yYDDQPP/S1xT2n1q3Kb2pFtJPEK/DhJxvDShTPv4S
+         eSGod6wbrdD3CF4SGI3KvZ05E8ZQtXzwMgBEw2/k=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To:     Aditya Garg <gargaditya08@live.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         "jkosina@suse.cz" <jkosina@suse.cz>,
         "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
         Andy Shevchenko <andy@infradead.org>,
@@ -48,175 +34,1653 @@ CC:     Jiri Kosina <jikos@kernel.org>,
         "ronald@innovation.ch" <ronald@innovation.ch>,
         "kekrby@gmail.com" <kekrby@gmail.com>,
         Orlando Chamberlain <orlandoch.dev@gmail.com>
-Subject: Re: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver for
- T1 chip.
-Thread-Topic: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver for
- T1 chip.
-Thread-Index: AQHZPQwM5DSulXBskEykQ8jgSAssVq7IFbWAgAA6XwCAAAR8/A==
-Date:   Fri, 10 Feb 2023 15:49:59 +0000
-Message-ID: <BM1PR01MB09315DC70770D236DD29D007B8DE9@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH 2/3] HID: apple-touchbar: Add driver for the Touch Bar on
+ MacBook Pros
+Message-ID: <20230210161319.rhqpf4seis7cvi7x@t-8ch.de>
 References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
  <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
- <20230210045624.cjxroikmmvm3liij@t-8ch.de>
- <B9E319F8-6047-40E5-BD9F-D90D6504AA9E@live.com>
- <20230210153356.zdj7gw7ztbgz2qx7@t-8ch.de>
-In-Reply-To: <20230210153356.zdj7gw7ztbgz2qx7@t-8ch.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [NKIfIui+tj6+Pb9qNzOcWDJK7u1BRiz9MbiIg5D/g+srMO6Wsbv7Rkn8QvGY5Hd4]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|PN3PR01MB8659:EE_
-x-ms-office365-filtering-correlation-id: 4a4f7fca-4acd-4b02-7720-08db0b7e771e
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Y/tHcSgqsMycCqt6UKrTKPQk04f9lqzwOH38c5DCS1XeH884IDNBnkNJxUUzwC0VNoK/98oD55TsB74ydjyU2Co8arrgwjB8urnDhtHlu76TFKXooJRLF57FmUR5Y5NENQP0T4ZBK0+6FTANZGanoB9mXOC6OiLKR91hMgD4q7IxBm37Fqk0gq3I0LoWsjaBtnHHktlWxY2LkNIUiPy0S2TOB/DUUJzN8dPgHN8H9vsx5srjC5wvjlT74NYEgoQNHY/oEst3ujw1yqk9n4nEC10gUGaZP4usXPozdZlUkxQBxrj3tbauKixeFCYnMe41Gilp4s0fbxj+HCnRoaIf3mmNTAv2nSS90x2XIIIJtVILfSBRubk8O22s8ZlvN7HSJtfzodlVQCuoABf8pzjmxRyLbwLrTBbgTAHrt0VrLq9MkjkRcywGm7AHR40YvddX+lzeibtVHKfhTYSL58G/u8btU639UtJUm+AiOZh2D1ovl8uJMPhbV/tgoAaSWgkNmZ+MzzWARmbmIc99nmjWL+xi7jY377an1kyPcENFkisQ2PRYAajACnjU92udyazSLUI4qJl/Bn184P39/SiFoj5kk4VoFBFGN9jd4Buz4LTALecYjGA3/2S6UTS4QMg6gi6zKCK10QN21RAwQJPnnA==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eVpVSGUvc0c2R2FNRzIvWDVIR20vellub21RTm4rV1JVUGpnVnBwTjVaWjhK?=
- =?utf-8?B?c1pnMklkWFBLWTNCZUZnMGFncWRMOC9JdExlWXN2Yk5JcUE4ZUM5RDJ5cmdI?=
- =?utf-8?B?dk43WCtSODEwUHlwSjg0ZTdiY242YThpd1d5b1l5NWIyazJWSDZNVHRIamtZ?=
- =?utf-8?B?Z3R0aExMSEVKcGVQVzBZM21NbUhGVk9yWTBlYnA1SG9QVnQ4ZWgwSitzbWFE?=
- =?utf-8?B?ZnZhWGNub3RtRE5WOVkzL3o3enVZVklleFkzVGp1L2pCdjViaW5kUTBMRE1V?=
- =?utf-8?B?ckhtYllUUHpURkhKbFp2RUVHd3U0cGNCR1U0N09HWHo5Yi91ek0vNFFvYW94?=
- =?utf-8?B?TDFCREZDdm1sa2tuSllJc3hsSkNZS0t6U2lVWkp1alBFdGlxNXprdE9tOEtq?=
- =?utf-8?B?TG5NN0FhcDBTNWEzdGZWRkxWVmNVQzFzK0IwaDVSbFBTeTRtREVKUzdNQmg3?=
- =?utf-8?B?VklzY1BKdklxcGUrQVZwSHFzSWZ3NUZ1YXc4VXdTRFR4c1dQb2Q3L3lzcjBT?=
- =?utf-8?B?ZDFocC9QZXdJZ2xHanlFRFJ4YjlITWc3amI4d0puRXFFNWFIbVcrcUVZOUhN?=
- =?utf-8?B?S1hRN0NMSjZMdnZjRTd5OElpd3JZOGNvQjkvckRzWVV6MGp0M0xnWXBsS05u?=
- =?utf-8?B?Ylp1L0JjcmgyM0FqenJXcWdHd2hESHJtRE51YXVOOEx5ZGkvNkoyTFNHNmFB?=
- =?utf-8?B?bU1zYjJEZmNTcXFVVWlCMmdrNDlNUlh3NUdZVTZjc0UwWldjQzdCRlh5NGVG?=
- =?utf-8?B?Sm9jQUZUdkZaVTN5RytHdWh0eUo5L0xlbktXcVE4VnFFY09DRUQyMGo1VjdS?=
- =?utf-8?B?VlBFb3czNVRkZzBnTVVFMkhVNDdhYzdIWnc1OEJHL3J3VnkzNmpianJRMzdv?=
- =?utf-8?B?K3RyZkRjcXdPMFBQVlVQQU1rdmlvcUdHT25jWXdIUkthYUZxNGxEUUpiUk5B?=
- =?utf-8?B?L2dDUXVTSUZXdDhFTlVIby8xdytHSkRRUno0c2FRVVhId2FIUERNZS9abEtm?=
- =?utf-8?B?WjQrZ1ZNSzVYeFltaSthUHd1OHVkZ2lScjdOOXFzSmVLcmJMZk5BdDZMc3Fw?=
- =?utf-8?B?V3k2SU5kS1Z5REZSMmtzZlI2QUVWd2czc1ZPeTUybjRab1dRWXZYLzVoR3F5?=
- =?utf-8?B?a3pIZmtxczVrMGhWNHZHTmxhZjkxcUYvRkJlUTVkRXBxWDlJVGIrN2lDc3FT?=
- =?utf-8?B?aWhQc1Q0cThYWElCV1dZVHhsaUFDNTRGdWtIcFFHdk91dUpvUytkVTZwZFZr?=
- =?utf-8?B?d000bkU2OGlmVkhzUDNqWEYwR21JcFVMTmhQUzN6dUtkVzlkQXMxMFVrYVlT?=
- =?utf-8?B?bE1zcEpZVVRPZkVwNW95NVRWbE9KTVByMnJjTW1idmRIV2Z2eGpiNGJ3ODl2?=
- =?utf-8?B?UmJnektqNCtLK09vd2p1c1lzM1BaRi9Pam11OVBocDhKQ0YwaUNUSkhPalNX?=
- =?utf-8?B?TjdzMHFHS1Q3YTNLa1RuMkVvVHl3SGFFUWhwVS9LU2RuL056WGo1MkI2aFpX?=
- =?utf-8?B?aWg5WGdqQlRXODVaY0QxSDFSaitXUVhoTytlYjR1ZXN0N1RXKzRHbFBONE9Y?=
- =?utf-8?B?SVdyQzFETlVrY296WktxOTJ6NEsxckMvVW9HRUpVaVZ3L0RYOVppWnJvdVky?=
- =?utf-8?B?UGhITC9ZRkFmRWlabURiVlNUaFhWVHc3d3g5cFdSTjNVNTI4bmZaYmsrMWE3?=
- =?utf-8?B?U2szejRBWFFpR3g5bFlJMUQ1cENKa1NnY3FxSU1uS0IxQ2pRdzFkdHloYkRp?=
- =?utf-8?B?NVZRWWprWEpmYkRGVDNGSzdLU082Y1E4SEJ2YlZDZUxlRlNFcmpmTDNWNXVY?=
- =?utf-8?B?NzJLZWt4cDI3b0tlMWRtdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a4f7fca-4acd-4b02-7720-08db0b7e771e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2023 15:49:59.5171
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB8659
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-DQoNCj4gT24gMTAtRmViLTIwMjMsIGF0IDk6MDQgUE0sIFRob21hcyBXZWnDn3NjaHVoIDx0aG9t
-YXNAdC04Y2guZGU+IHdyb3RlOg0KPiANCj4g77u/UmVzcG9uc2VzIGlubGluZQ0KPiANCj4gT24g
-RnJpLCBGZWIgMTAsIDIwMjMgYXQgMTI6MDU6MTNQTSArMDAwMCwgQWRpdHlhIEdhcmcgd3JvdGU6
-DQo+Pj4+IE9uIDEwLUZlYi0yMDIzLCBhdCAxMDoyNiBBTSwgVGhvbWFzIFdlacOfc2NodWggPHRo
-b21hc0B0LThjaC5kZT4gd3JvdGU6DQo+Pj4gDQo+Pj4gSGksDQo+Pj4gDQo+Pj4gc29tZSBjb21t
-ZW50cyBpbmxpbmUuDQo+Pj4gDQo+Pj4+IE9uIEZyaSwgRmViIDEwLCAyMDIzIGF0IDAzOjQzOjI0
-QU0gKzAwMDAsIEFkaXR5YSBHYXJnIHdyb3RlOg0KPj4+IA0KPj4+PiArDQo+Pj4+ICtzdGF0aWMg
-c3RydWN0IHsNCj4+Pj4gKyB1bnNpZ25lZCBpbnQgdXNhZ2U7DQo+Pj4+ICsgc3RydWN0IGhpZF9k
-ZXZpY2VfaWQgKmRldl9pZDsNCj4+Pj4gK30gYXBwbGVpYl91c2FnZV9tYXBbXSA9IHsNCj4+Pj4g
-KyAvKiBEZWZhdWx0IGlCcmlkZ2UgY29uZmlndXJhdGlvbiwga2V5IGlucHV0cyBhbmQgbW9kZSBz
-ZXR0aW5ncyAqLw0KPj4+PiArIHsgMHgwMDAxMDAwNiwgJmFwcGxlaWJfc3ViX2hpZF9pZHNbMF0g
-fSwNCj4+Pj4gKyAvKiBPUyBYIGlCcmlkZ2UgY29uZmlndXJhdGlvbiwgZGlnaXRpemVyIGlucHV0
-cyAqLw0KPj4+PiArIHsgMHgwMDBEMDAwNSwgJmFwcGxlaWJfc3ViX2hpZF9pZHNbMF0gfSwNCj4+
-Pj4gKyAvKiBBbGwgaUJyaWRnZSBjb25maWd1cmF0aW9ucywgZGlzcGxheS9ERlIgc2V0dGluZ3Mg
-Ki8NCj4+Pj4gKyB7IDB4RkYxMjAwMDEsICZhcHBsZWliX3N1Yl9oaWRfaWRzWzBdIH0sDQo+Pj4+
-ICsgLyogQWxsIGlCcmlkZ2UgY29uZmlndXJhdGlvbnMsIEFMUyAqLw0KPj4+PiArIHsgMHgwMDIw
-MDA0MSwgJmFwcGxlaWJfc3ViX2hpZF9pZHNbMV0gfSwNCj4+Pj4gK307DQo+Pj4gDQo+Pj4gY29u
-c3QNCj4+PiANCj4+IA0KPj4gQ29uc3RhbnRpZnlpbmcgdGhpcyByZXN1bHRzIGluIGNvbXBpbGVy
-IGdpdmluZyB3YXJuaW5ncw0KPj4gDQo+PiBkcml2ZXJzL2hpZC9hcHBsZS1pYnJpZGdlLmM6Nzg6
-MjM6IHdhcm5pbmc6IGluaXRpYWxpemF0aW9uIGRpc2NhcmRzICdjb25zdCcgcXVhbGlmaWVyIGZy
-b20gcG9pbnRlciB0YXJnZXQgdHlwZSBbLVdkaXNjYXJkZWQtcXVhbGlmaWVyc10NCj4+ICAgNzgg
-fCAgICAgICAgIHsgMHgwMDIwMDA0MSwgJmFwcGxlaWJfc3ViX2hpZF9pZHNbMV0gfSwNCj4gDQo+
-IEZvciB0aGlzIHlvdSBhbHNvIGhhdmUgdG8gY29uc3RpZnkgdGhlIGhpZF9kZXZpY2VfaWQgKmRl
-dl9pZCBpbg0KPiBhcHBsZWliX3VzYWdlX21hcC4gQW5kIHRoZW4gcHJvcGFnYXRlIHRoaXMgY2hh
-bmdlIHRvIHNvbWUgZnVuY3Rpb25zIGFuZA0KPiB2YXJpYWJsZXMuDQo+IA0KPj4gICAgICB8ICAg
-ICAgICAgICAgICAgICAgICAgICBeDQo+PiBkcml2ZXJzL2hpZC9hcHBsZS1pYnJpZGdlLmM6IElu
-IGZ1bmN0aW9uICdhcHBsZWliX2FkZF9zdWJfZGV2JzoNCj4+IGRyaXZlcnMvaGlkL2FwcGxlLWli
-cmlkZ2UuYzozNjM6Mjk6IHdhcm5pbmc6IGFzc2lnbm1lbnQgZGlzY2FyZHMgJ2NvbnN0JyBxdWFs
-aWZpZXIgZnJvbSBwb2ludGVyIHRhcmdldCB0eXBlIFstV2Rpc2NhcmRlZC1xdWFsaWZpZXJzXQ0K
-Pj4gIDM2MyB8ICAgICAgICAgc3ViX2hkZXYtPmxsX2RyaXZlciA9ICZhcHBsZWliX2xsX2RyaXZl
-cjsNCj4gDQo+IEFzIEJlbmphbWluIHNhaWQgdGhpcyBpcyBiZWNhdXNlIHlvdXIgY2hhbmdlcyBh
-cmUgYmFzZWQgb24gTGludXMnIHRyZWUNCj4gYnV0IHRoZXkgd2lsbCBicmVhayBhcyBzb29uIGFz
-IHRoZXkgd2lsbCBiZSBtZXJnZWQgaW50byB0aGUgSElEIHRyZWUuDQo+IFlvdSBzaG91bGQgYmFz
-ZSB5b3VyIGNoYW5nZXMgb2ZmIG9mIHRoZSBISUQgdHJlZToNCj4gaHR0cHM6Ly9naXQua2VybmVs
-Lm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvaGlkL2hpZC5naXQvbG9nLz9oPWZvci02LjMv
-aGlkLWNvcmUNCj4gDQo+IFRoaXMgaXNzdWUgaXMgZXNzZW50aWFsbHkgdW5sdWNreSB0aW1pbmcu
-DQo+IA0KPj4gICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeDQo+PiBkcml2ZXJz
-L2hpZC9hcHBsZS1pYnJpZGdlLmM6IEluIGZ1bmN0aW9uICdhcHBsZWliX2hpZF9wcm9iZSc6DQo+
-PiBkcml2ZXJzL2hpZC9hcHBsZS1pYnJpZGdlLmM6NDM2OjEyOiBlcnJvcjogZXhwZWN0ZWQgJygn
-IGJlZm9yZSAnaGlkX2lzX3VzYicNCj4+ICA0MzYgfCAgICAgICAgIGlmIGhpZF9pc191c2IoaGRl
-dikNCj4+ICAgICAgfCAgICAgICAgICAgIF5+fn5+fn5+fn4NCj4+ICAgICAgfCAgICAgICAgICAg
-ICgNCj4gDQo+IEFzIHRoZSBlcnJvciBtZXNzYWdlIGluZGljYXRlcywgdGhpcyBpcyBpbnZhbGlk
-IHN5bnRheCBhbmQgbWlzc2luZyBhDQo+ICcoJy4NCj4gV2hhdCB5b3Ugd2FudCB0byBkbyBpcyB0
-byBjaGVjayBmb3IgDQo+IA0KPiAgaWYgKCFoaWRfaXNfdXNiKGhkZXYpKQ0KPiAgICByZXR1cm4g
-LUVOT0RFVjsNCg0KSXQgd2FzIGEgdHlwbyBvbiBteSBwYXJ0DQoNCisJLyogY2hlY2sgYW5kIHNl
-dCB1c2IgY29uZmlnIGZpcnN0ICovDQorCWlmIChoaWRfaXNfdXNiKGhkZXYpKQ0KKwkJdWRldiA9
-IGhpZF90b191c2JfZGV2KGhkZXYpOw0KKwllbHNlDQorCQlyZXR1cm4gLUVJTlZBTDsNCg0KVGhp
-cyBpcyB3aGF0IEkgaGF2ZSBpbiBteSBwYXRjaCBzZXQgbm93Lg0KDQpJZiB0aGVyZSBpcyBzb21l
-dGhpbmcgd3Jvbmcgd2l0aCB0aGlzLCB0aGVuIGRvIHRlbGwgbWUNCg0KVGhhbmtzDQo+IA0KPiAq
-YmVmb3JlKiBjYWxsaW5nIGhpZF90b191c2JfZGV2KGhkZXYpOw0KPiANCj4+IEluIGZpbGUgaW5j
-bHVkZWQgZnJvbSBkcml2ZXJzL2hpZC9hcHBsZS1pYnJpZGdlLmM6NDg6DQo+PiBkcml2ZXJzL2hp
-ZC9hcHBsZS1pYnJpZGdlLmM6IEluIGZ1bmN0aW9uICdhcHBsZWliX3Byb2JlJzoNCj4+IGRyaXZl
-cnMvaGlkL2FwcGxlLWlicmlkZ2UuYzo1NDQ6MzU6IHdhcm5pbmc6IHBhc3NpbmcgYXJndW1lbnQg
-MSBvZiAnX19oaWRfcmVnaXN0ZXJfZHJpdmVyJyBkaXNjYXJkcyAnY29uc3QnIHF1YWxpZmllciBm
-cm9tIHBvaW50ZXIgdGFyZ2V0IHR5cGUgWy1XZGlzY2FyZGVkLXF1YWxpZmllcnNdDQo+PiAgNTQ0
-IHwgICAgICAgICByZXQgPSBoaWRfcmVnaXN0ZXJfZHJpdmVyKCZhcHBsZWliX2hpZF9kcml2ZXIp
-Ow0KPj4gICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+
-fn5+fn5+fn5+DQo+PiAuL2luY2x1ZGUvbGludXgvaGlkLmg6ODk4OjMxOiBub3RlOiBpbiBkZWZp
-bml0aW9uIG9mIG1hY3JvICdoaWRfcmVnaXN0ZXJfZHJpdmVyJw0KPj4gIDg5OCB8ICAgICAgICAg
-X19oaWRfcmVnaXN0ZXJfZHJpdmVyKGRyaXZlciwgVEhJU19NT0RVTEUsIEtCVUlMRF9NT0ROQU1F
-KQ0KPj4gICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fg0KPj4gLi9p
-bmNsdWRlL2xpbnV4L2hpZC5oOjg5Mzo0Nzogbm90ZTogZXhwZWN0ZWQgJ3N0cnVjdCBoaWRfZHJp
-dmVyIConIGJ1dCBhcmd1bWVudCBpcyBvZiB0eXBlICdjb25zdCBzdHJ1Y3QgaGlkX2RyaXZlciAq
-Jw0KPj4gIDg5MyB8IGV4dGVybiBpbnQgX19tdXN0X2NoZWNrIF9faGlkX3JlZ2lzdGVyX2RyaXZl
-cihzdHJ1Y3QgaGlkX2RyaXZlciAqLA0KPj4gICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+DQo+PiBkcml2ZXJzL2hp
-ZC9hcHBsZS1pYnJpZGdlLmM6IEluIGZ1bmN0aW9uICdhcHBsZWliX3JlbW92ZSc6DQo+PiBkcml2
-ZXJzL2hpZC9hcHBsZS1pYnJpZGdlLmM6NTU4OjMxOiB3YXJuaW5nOiBwYXNzaW5nIGFyZ3VtZW50
-IDEgb2YgJ2hpZF91bnJlZ2lzdGVyX2RyaXZlcicgZGlzY2FyZHMgJ2NvbnN0JyBxdWFsaWZpZXIg
-ZnJvbSBwb2ludGVyIHRhcmdldCB0eXBlIFstV2Rpc2NhcmRlZC1xdWFsaWZpZXJzXQ0KPj4gIDU1
-OCB8ICAgICAgICAgaGlkX3VucmVnaXN0ZXJfZHJpdmVyKCZhcHBsZWliX2hpZF9kcml2ZXIpOw0K
-Pj4gICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+
-fn4NCj4+IC4vaW5jbHVkZS9saW51eC9oaWQuaDo5MDA6MzU6IG5vdGU6IGV4cGVjdGVkICdzdHJ1
-Y3QgaGlkX2RyaXZlciAqJyBidXQgYXJndW1lbnQgaXMgb2YgdHlwZSAnY29uc3Qgc3RydWN0IGhp
-ZF9kcml2ZXIgKicNCj4+ICA5MDAgfCBleHRlcm4gdm9pZCBoaWRfdW5yZWdpc3Rlcl9kcml2ZXIo
-c3RydWN0IGhpZF9kcml2ZXIgKik7DQo+PiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn4NCj4gDQo+IFRoZXNlIGFyZSBhbGwgYmVjYXVz
-ZSBhcHBsaWJfaGlkX2RyaXZlciBjYW4gbm90IGJlIGNvbnN0Lg0KPiBTb3JyeSBmb3IgdGhlIHdy
-b25nIGFkdmljZS4NCj4gDQo+IEJlbmphbWluOg0KPiBISUQgZHJpdmVycyBjYW4gbm90IGJlIGNv
-bnN0IGJlY2F1c2UgdGhleSBlbWJlZCBhICdzdHJ1Y3QgZHJpdmVyJyB0aGF0DQo+IGlzIG5lZWRl
-ZCBieSB0aGUgZHJpdmVyIGNvcmUgdG8gYmUgbXV0YWJsZS4NCj4gRml4aW5nIHRoaXMgaXMgcHJv
-YmFibHkgYSBsYXJnZXIgZW50ZXJwcmlzZS4NCj4gDQo+PiBtYWtlWzZdOiAqKiogW3NjcmlwdHMv
-TWFrZWZpbGUuYnVpbGQ6MjUwOiBkcml2ZXJzL2hpZC9hcHBsZS1pYnJpZGdlLm9dIEVycm9yIDEN
-Cj4+IG1ha2VbNV06ICoqKiBbc2NyaXB0cy9NYWtlZmlsZS5idWlsZDo1MDA6IGRyaXZlcnMvaGlk
-XSBFcnJvciAyDQo+PiBtYWtlWzVdOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2Jz4oCm
-Lg0KPj4gDQo+PiBTb21lIHdhcm5pbmdzIGFyZSBhbHNvIGR1ZSB0byBhIHR5cG8gaW4gaWYgYW5k
-IGNvbnN0YW50aWZ5aW5nIGBzdGF0aWMgc3RydWN0IGhpZF9kcml2ZXJgLCBhbHRob3VnaCB0aGV5
-IHByb2JhYmx5IGNhbg0KPj4gYmUgZml4ZWQuDQo+PiANCj4+IEluIHNob3J0LCBUaG9tYXMsIGRv
-IHlvdSByZWFsbHkgd2FudCBtZSB0byBjb25zdGFudGlmeSB0aGUgc3RydWN0dXJlIEkNCj4+IGFt
-IHRhbGtpbmcgYWJvdXQgaW4gdGhpcyBlbWFpbCwgYXMgd2VsbCBgc3RhdGljIHN0cnVjdCBoaWRf
-ZHJpdmVyYD8NCj4gDQo+IHN0cnVjdCBoaWRfZHJpdmVyOiBEb24ndCBjb25zdGlmeQ0KPiBhbGwg
-b3RoZXJzOiBEbyBjb25zdGlmeQ0KPiANCj4gVGhvbWFzDQo=
+On Fri, Feb 10, 2023 at 03:44:26AM +0000, Aditya Garg wrote:
+> From: Ronald Tschalär <ronald@innovation.ch>
+> 
+> This driver enables basic touch bar functionality: enabling it, switching
+> between modes on FN key press, and dimming and turning the display
+> off/on when idle/active.
+> 
+> Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
+> [Kerem Karabay: use USB product IDs from hid-ids.h]
+> [Kerem Karabay: use hid_hw_raw_request except when setting the touchbar mode on T1 Macs]
+> [Kerem Karabay: update Kconfig description]
+> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
+> [Orlando Chamberlain: add usage check to not bind to keyboard backlight interface]
+> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+> [Aditya Garg: check if apple-touchbar is enabled in the special driver list]
+> [Aditya Garg: fix suspend on T2 Macs]
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> ---
+>  drivers/hid/Kconfig          |   11 +
+>  drivers/hid/Makefile         |    1 +
+>  drivers/hid/apple-touchbar.c | 1500 ++++++++++++++++++++++++++++++++++
+>  drivers/hid/hid-quirks.c     |    6 +-
+>  4 files changed, 1516 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/hid/apple-touchbar.c
+> 
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index e69afa5f4..4ec669267 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -134,6 +134,7 @@ config HID_APPLE_IBRIDGE
+>  	tristate "Apple iBridge"
+>  	depends on USB_HID
+>  	depends on (X86 && ACPI) || COMPILE_TEST
+> +	imply HID_APPLE_TOUCHBAR
+>  	imply HID_SENSOR_HUB
+>  	imply HID_SENSOR_ALS
+>  	help
+> @@ -145,6 +146,16 @@ config HID_APPLE_IBRIDGE
+>  	To compile this driver as a module, choose M here: the
+>  	module will be called apple-ibridge.
+>  
+> +config HID_APPLE_TOUCHBAR
+> +	tristate "Apple Touch Bar"
+> +	depends on USB_HID
+> +	help
+> +	Say Y here if you want support for the Touch Bar on x86
+> +	MacBook Pros.
+> +
+> +	To compile this driver as a module, choose M here: the
+> +	module will be called apple-touchbar.
+> +
+>  config HID_APPLEIR
+>  	tristate "Apple infrared receiver"
+>  	depends on (USB_HID)
+> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+> index b61373cd8..c792e42fe 100644
+> --- a/drivers/hid/Makefile
+> +++ b/drivers/hid/Makefile
+> @@ -27,6 +27,7 @@ obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
+>  obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
+>  obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
+>  obj-$(CONFIG_HID_APPLE_IBRIDGE)	+= apple-ibridge.o
+> +obj-$(CONFIG_HID_APPLE_TOUCHBAR)	+= apple-touchbar.o
+>  obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
+>  obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.o
+>  obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
+> diff --git a/drivers/hid/apple-touchbar.c b/drivers/hid/apple-touchbar.c
+> new file mode 100644
+> index 000000000..ff6a8493b
+> --- /dev/null
+> +++ b/drivers/hid/apple-touchbar.c
+> @@ -0,0 +1,1500 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Apple Touch Bar Driver
+> + *
+> + * Copyright (c) 2017-2018 Ronald Tschalär
+> + */
+> +
+> +/*
+> + * Recent MacBookPro models (MacBookPro 13,[23] and later) have a touch bar,
+> + * which is exposed via several USB interfaces. MacOS supports a fancy mode
+> + * where arbitrary buttons can be defined; this driver currently only
+> + * supports the simple mode that consists of 3 predefined layouts
+> + * (escape-only, esc + special keys, and esc + function keys).
+> + *
+> + * The first USB HID interface supports two reports, an input report that
+> + * is used to report the key presses, and an output report which can be
+> + * used to set the touch bar "mode": touch bar off (in which case no touches
+> + * are reported at all), escape key only, escape + 12 function keys, and
+> + * escape + several special keys (including brightness, audio volume,
+> + * etc). The second interface supports several, complex reports, most of
+> + * which are unknown at this time, but one of which has been determined to
+> + * allow for controlling of the touch bar's brightness: off (though touches
+> + * are still reported), dimmed, and full brightness. This driver makes
+> + * use of these two reports.
+> + */
+> +
+> +#define dev_fmt(fmt) "tb: " fmt
+
+This is a bit nondescriptive name. Maybe use KBUILD_MODNAME or the name
+of the HID driver as prefix?
+
+> +#include <linux/device.h>
+> +#include <linux/hid.h>
+> +#include <linux/input.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/ktime.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/string.h>
+> +#include <linux/sysfs.h>
+> +#include <linux/usb/ch9.h>
+> +#include <linux/usb.h>
+> +#include <linux/workqueue.h>
+> +
+> +#include "hid-ids.h"
+> +#include "apple-ibridge.h"
+> +
+> +#define HID_UP_APPLE		0xff120000
+> +#define HID_USAGE_MODE		(HID_UP_CUSTOM | 0x0004)
+> +#define HID_USAGE_APPLE_APP	(HID_UP_APPLE  | 0x0001)
+> +#define HID_USAGE_DISP		(HID_UP_APPLE  | 0x0021)
+> +#define HID_USAGE_DISP_AUX1	(HID_UP_APPLE  | 0x0020)
+> +
+> +#define APPLETB_MAX_TB_KEYS	13	/* ESC, F1-F12 */
+> +
+> +#define APPLETB_CMD_MODE_ESC	0
+> +#define APPLETB_CMD_MODE_FN	1
+> +#define APPLETB_CMD_MODE_SPCL	2
+> +#define APPLETB_CMD_MODE_OFF	3
+> +#define APPLETB_CMD_MODE_UPD	254
+> +#define APPLETB_CMD_MODE_NONE	255
+> +
+> +#define APPLETB_CMD_DISP_ON	1
+> +#define APPLETB_CMD_DISP_DIM	2
+> +#define APPLETB_CMD_DISP_OFF	4
+> +#define APPLETB_CMD_DISP_UPD	254
+> +#define APPLETB_CMD_DISP_NONE	255
+> +
+> +#define APPLETB_FN_MODE_FKEYS	0
+> +#define APPLETB_FN_MODE_NORM	1
+> +#define APPLETB_FN_MODE_INV	2
+> +#define APPLETB_FN_MODE_SPCL	3
+> +#define APPLETB_FN_MODE_ESC	4
+> +#define APPLETB_FN_MODE_MAX	APPLETB_FN_MODE_ESC
+> +
+> +#define APPLETB_DEVID_KEYBOARD	1
+> +#define APPLETB_DEVID_TOUCHPAD	2
+> +
+> +#define APPLETB_MAX_DIM_TIME	30
+> +
+> +#define APPLETB_FEATURE_IS_T1	BIT(0)
+> +
+> +static int appletb_tb_def_idle_timeout = 5 * 60;
+> +module_param_named(idle_timeout, appletb_tb_def_idle_timeout, int, 0444);
+> +MODULE_PARM_DESC(idle_timeout, "Default touch bar idle timeout:\n"
+> +			       "    [>0] - turn touch bar display off after no keyboard, trackpad, or touch bar input has been received for this many seconds;\n"
+> +			       "         the display will be turned back on as soon as new input is received\n"
+> +			       "     0 - turn touch bar display off (input does not turn it on again)\n"
+> +			       "    -1 - turn touch bar display on (does not turn off automatically)\n"
+> +			       "    -2 - disable touch bar completely");
+> +
+> +static int appletb_tb_def_dim_timeout = -2;
+> +module_param_named(dim_timeout, appletb_tb_def_dim_timeout, int, 0444);
+> +MODULE_PARM_DESC(dim_timeout, "Default touch bar dim timeout:\n"
+> +			      "    >0 - dim touch bar display after no keyboard, trackpad, or touch bar input has been received for this many seconds\n"
+> +			      "         the display will be returned to full brightness as soon as new input is received\n"
+> +			      "     0 - dim touch bar display (input does not return it to full brightness)\n"
+> +			      "    -1 - disable timeout (touch bar never dimmed)\n"
+> +			      "    [-2] - calculate timeout based on idle-timeout");
+> +
+> +static int appletb_tb_def_fn_mode = APPLETB_FN_MODE_NORM;
+> +module_param_named(fnmode, appletb_tb_def_fn_mode, int, 0444);
+> +MODULE_PARM_DESC(fnmode, "Default Fn key mode:\n"
+> +			 "    0 - function-keys only\n"
+> +			 "    [1] - fn key switches from special to function-keys\n"
+> +			 "    2 - inverse of 1\n"
+> +			 "    3 - special keys only\n"
+> +			 "    4 - escape key only");
+> +
+> +static ssize_t idle_timeout_show(struct device *dev,
+> +				 struct device_attribute *attr, char *buf);
+> +static ssize_t idle_timeout_store(struct device *dev,
+> +				  struct device_attribute *attr,
+> +				  const char *buf, size_t size);
+> +static DEVICE_ATTR_RW(idle_timeout);
+> +
+> +static ssize_t dim_timeout_show(struct device *dev,
+> +				struct device_attribute *attr, char *buf);
+> +static ssize_t dim_timeout_store(struct device *dev,
+> +				 struct device_attribute *attr,
+> +				 const char *buf, size_t size);
+> +static DEVICE_ATTR_RW(dim_timeout);
+> +
+> +static ssize_t fnmode_show(struct device *dev, struct device_attribute *attr,
+> +			   char *buf);
+> +static ssize_t fnmode_store(struct device *dev, struct device_attribute *attr,
+> +			    const char *buf, size_t size);
+> +static DEVICE_ATTR_RW(fnmode);
+> +
+> +static struct attribute *appletb_attrs[] = {
+> +	&dev_attr_idle_timeout.attr,
+> +	&dev_attr_dim_timeout.attr,
+> +	&dev_attr_fnmode.attr,
+> +	NULL,
+
+No comma.
+
+> +};
+> +
+> +static const struct attribute_group appletb_attr_group = {
+> +	.attrs = appletb_attrs,
+> +};
+> +
+> +struct appletb_device {
+> +	bool			active;
+> +	struct device		*log_dev;
+> +
+> +	struct hid_field	*mode_field;
+> +	struct hid_field	*disp_field;
+> +	struct hid_field	*disp_field_aux1;
+> +	struct appletb_iface_info {
+> +		struct hid_device	*hdev;
+> +		struct usb_interface	*usb_iface;
+> +		bool			suspended;
+> +	}			mode_iface, disp_iface;
+> +
+> +	struct input_handler	inp_handler;
+> +	struct input_handle	kbd_handle;
+> +	struct input_handle	tpd_handle;
+> +
+> +	bool			last_tb_keys_pressed[APPLETB_MAX_TB_KEYS];
+> +	bool			last_tb_keys_translated[APPLETB_MAX_TB_KEYS];
+> +	bool			last_fn_pressed;
+> +
+> +	ktime_t			last_event_time;
+> +
+> +	unsigned char		cur_tb_mode;
+> +	unsigned char		pnd_tb_mode;
+> +	unsigned char		cur_tb_disp;
+> +	unsigned char		pnd_tb_disp;
+> +	bool			tb_autopm_off;
+> +	bool			restore_autopm;
+> +	struct delayed_work	tb_work;
+> +	/* protects most of the above */
+> +	spinlock_t		tb_lock;
+> +
+> +	int			dim_timeout;
+> +	int			idle_timeout;
+> +	bool			dim_to_is_calc;
+> +	int			fn_mode;
+> +
+> +	bool			is_t1;
+> +};
+> +
+> +struct appletb_key_translation {
+> +	u16 from;
+> +	u16 to;
+> +};
+> +
+> +static const struct appletb_key_translation appletb_fn_codes[] = {
+> +	{ KEY_F1,  KEY_BRIGHTNESSDOWN },
+> +	{ KEY_F2,  KEY_BRIGHTNESSUP },
+> +	{ KEY_F3,  KEY_SCALE },		/* not used */
+> +	{ KEY_F4,  KEY_DASHBOARD },	/* not used */
+> +	{ KEY_F5,  KEY_KBDILLUMDOWN },
+> +	{ KEY_F6,  KEY_KBDILLUMUP },
+> +	{ KEY_F7,  KEY_PREVIOUSSONG },
+> +	{ KEY_F8,  KEY_PLAYPAUSE },
+> +	{ KEY_F9,  KEY_NEXTSONG },
+> +	{ KEY_F10, KEY_MUTE },
+> +	{ KEY_F11, KEY_VOLUMEDOWN },
+> +	{ KEY_F12, KEY_VOLUMEUP },
+> +};
+
+This should be able to make use of sparse_keymap from sparse-keymap.h.
+It makes the code shorter and provides a bit more functionality.
+
+static const struct key_entry appletb_fn_keymap = {
+	{ KE_KEY, KEY_F1, KEY_BRIGHTNESSDOWN },
+	...
+	{ KE_END, 0 }
+};
+
+> +static struct appletb_device *appletb_dev;
+> +
+> +static bool appletb_disable_autopm(struct hid_device *hdev)
+> +{
+> +	int rc;
+> +
+> +	rc = hid_hw_power(hdev, PM_HINT_FULLON);
+> +
+> +	if (rc == 0)
+> +		return true;
+> +
+> +	hid_err(hdev,
+> +		"Failed to disable auto-pm on touch bar device (%d)\n", rc);
+
+You can use "%pE" and ERR_PTR(rc) to produce nicer error strings.
+
+> +	return false;
+> +}
+> +
+> +/*
+> + * While the mode functionality is listed as a valid hid report in the usb
+> + * interface descriptor, on a T1 it's not sent that way. Instead it's sent with
+> + * different request-type and without a leading report-id in the data. Hence
+> + * we need to send it as a custom usb control message rather via any of the
+> + * standard hid_hw_*request() functions. The device might return EPIPE for a
+> + * while after setting the display mode on T1 models, so retrying should be
+> + * done on those models.
+> + */
+> +static int appletb_set_tb_mode(struct appletb_device *tb_dev,
+> +			       unsigned char mode)
+> +{
+> +	struct hid_report *report;
+> +	void *buf;
+> +	bool autopm_off = false;
+> +	int rc;
+> +
+> +	if (!tb_dev->mode_iface.hdev)
+> +		return -ENOTCONN;
+> +
+> +	report = tb_dev->mode_field->report;
+> +
+> +	if (tb_dev->is_t1) {
+> +		buf = kmemdup(&mode, 1, GFP_KERNEL);
+> +	} else {
+> +		char data[] = { report->id, mode };
+> +
+> +		buf = kmemdup(data, sizeof(data), GFP_KERNEL);
+
+These allocations don't seem to be necessary. They could just be local
+buffers.
+
+> +	}
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	autopm_off = appletb_disable_autopm(tb_dev->mode_iface.hdev);
+> +
+> +	if (tb_dev->is_t1) {
+> +		int tries = 0;
+> +		struct usb_device *dev = interface_to_usbdev(tb_dev->mode_iface.usb_iface);
+> +		__u8 ifnum = tb_dev->mode_iface.usb_iface->cur_altsetting->desc.bInterfaceNumber;
+> +
+> +		do {
+> +			rc = usb_control_msg(dev, usb_sndctrlpipe(dev, 0), HID_REQ_SET_REPORT,
+> +					     USB_DIR_OUT | USB_RECIP_INTERFACE | USB_TYPE_VENDOR,
+> +					     (report->type + 1) << 8 | report->id,
+> +					     ifnum, buf, 1, 2000);
+> +
+> +			if (rc != -EPIPE)
+> +				break;
+> +
+> +			usleep_range(1000 << tries, 3000 << tries);
+> +		} while (++tries < 5);
+> +	} else {
+> +		rc = hid_hw_raw_request(tb_dev->mode_iface.hdev, report->id,
+> +					(__u8 *) buf, 2, report->type,
+> +					HID_REQ_SET_REPORT);
+> +	}
+> +
+> +	if (rc < 0)
+> +		dev_err(tb_dev->log_dev,
+> +			"Failed to set touch bar mode to %u (%d)\n", mode, rc);
+> +
+> +	if (autopm_off)
+> +		hid_hw_power(tb_dev->mode_iface.hdev, PM_HINT_NORMAL);
+> +
+> +	kfree(buf);
+> +
+> +	return rc;
+> +}
+> +
+> +static int appletb_set_tb_disp(struct appletb_device *tb_dev,
+> +			       unsigned char disp)
+> +{
+> +	struct hid_report *report;
+> +	int rc;
+> +
+> +	if (!tb_dev->disp_iface.hdev)
+> +		return -ENOTCONN;
+> +
+> +	report = tb_dev->disp_field->report;
+> +
+> +	rc = hid_set_field(tb_dev->disp_field_aux1, 0, 1);
+> +	if (rc) {
+> +		dev_err(tb_dev->log_dev,
+> +			"Failed to set display report field (%d)\n", rc);
+> +		return rc;
+> +	}
+> +
+> +	rc = hid_set_field(tb_dev->disp_field, 0, disp);
+> +	if (rc) {
+> +		dev_err(tb_dev->log_dev,
+> +			"Failed to set display report field (%d)\n", rc);
+> +		return rc;
+> +	}
+> +
+> +	/*
+> +	 * Keep the USB interface powered on while the touch bar display is on
+> +	 * for better responsiveness.
+> +	 */
+> +	if (disp != APPLETB_CMD_DISP_OFF && !tb_dev->tb_autopm_off)
+> +		tb_dev->tb_autopm_off =
+> +			appletb_disable_autopm(report->device);
+> +
+> +	hid_hw_request(tb_dev->disp_iface.hdev, report, HID_REQ_SET_REPORT);
+> +
+> +	if (disp == APPLETB_CMD_DISP_OFF && tb_dev->tb_autopm_off) {
+> +		hid_hw_power(tb_dev->disp_iface.hdev, PM_HINT_NORMAL);
+> +		tb_dev->tb_autopm_off = false;
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+> +static bool appletb_any_tb_key_pressed(struct appletb_device *tb_dev)
+> +{
+> +	return !!memchr_inv(tb_dev->last_tb_keys_pressed, 0,
+> +			    sizeof(tb_dev->last_tb_keys_pressed));
+> +}
+> +
+> +static void appletb_schedule_tb_update(struct appletb_device *tb_dev, s64 secs)
+> +{
+> +	schedule_delayed_work(&tb_dev->tb_work, msecs_to_jiffies(secs * 1000));
+> +}
+> +
+> +static void appletb_set_tb_worker(struct work_struct *work)
+> +{
+> +	struct appletb_device *tb_dev =
+> +		container_of(work, struct appletb_device, tb_work.work);
+> +	s64 time_left = 0, min_timeout, time_to_off;
+> +	unsigned char pending_mode;
+> +	unsigned char pending_disp;
+> +	unsigned char current_disp;
+> +	bool restore_autopm;
+> +	bool any_tb_key_pressed, need_reschedule;
+> +	int rc1 = 1, rc2 = 1;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	/* handle explicit mode-change request */
+> +	pending_mode = tb_dev->pnd_tb_mode;
+> +	pending_disp = tb_dev->pnd_tb_disp;
+> +	restore_autopm = tb_dev->restore_autopm;
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +	if (pending_mode != APPLETB_CMD_MODE_NONE)
+> +		rc1 = appletb_set_tb_mode(tb_dev, pending_mode);
+> +	if (pending_mode != APPLETB_CMD_MODE_NONE &&
+> +	    pending_disp != APPLETB_CMD_DISP_NONE)
+> +		msleep(25);
+> +	if (pending_disp != APPLETB_CMD_DISP_NONE)
+> +		rc2 = appletb_set_tb_disp(tb_dev, pending_disp);
+> +
+> +	if (restore_autopm && tb_dev->tb_autopm_off)
+> +		appletb_disable_autopm(tb_dev->disp_field->report->device);
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	need_reschedule = false;
+> +
+> +	if (rc1 == 0) {
+> +		tb_dev->cur_tb_mode = pending_mode;
+> +
+> +		if (tb_dev->pnd_tb_mode == pending_mode)
+> +			tb_dev->pnd_tb_mode = APPLETB_CMD_MODE_NONE;
+> +		else
+> +			need_reschedule = true;
+> +	}
+> +
+> +	if (rc2 == 0) {
+> +		tb_dev->cur_tb_disp = pending_disp;
+> +
+> +		if (tb_dev->pnd_tb_disp == pending_disp)
+> +			tb_dev->pnd_tb_disp = APPLETB_CMD_DISP_NONE;
+> +		else
+> +			need_reschedule = true;
+> +	}
+> +	current_disp = tb_dev->cur_tb_disp;
+> +
+> +	tb_dev->restore_autopm = false;
+> +
+> +	/* calculate time left to next timeout */
+> +	if (tb_dev->idle_timeout == -2 || tb_dev->idle_timeout == 0)
+> +		min_timeout = -1;
+> +	else if (tb_dev->idle_timeout == -1)
+> +		min_timeout = tb_dev->dim_timeout;
+> +	else if (tb_dev->dim_timeout <= 0)
+> +		min_timeout = tb_dev->idle_timeout;
+> +	else
+> +		min_timeout = min(tb_dev->dim_timeout, tb_dev->idle_timeout);
+> +
+> +	if (min_timeout > 0) {
+> +		s64 idle_time =
+> +			(ktime_ms_delta(ktime_get(), tb_dev->last_event_time) +
+> +			 500) / 1000;
+> +
+> +		time_left = max(min_timeout - idle_time, 0LL);
+> +		if (tb_dev->idle_timeout <= 0)
+> +			time_to_off = -1;
+> +		else if (idle_time >= tb_dev->idle_timeout)
+> +			time_to_off = 0;
+> +		else
+> +			time_to_off = tb_dev->idle_timeout - idle_time;
+> +	} else {
+> +		/* not used - just to appease the compiler */
+> +		time_to_off = 0;
+> +	}
+> +
+> +	any_tb_key_pressed = appletb_any_tb_key_pressed(tb_dev);
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +	dev_dbg(tb_dev->log_dev, "timeout calc: idle_timeout=%d dim_timeout=%d min_timeout=%lld time_left=%lld need_reschedule=%d any_tb_key_pressed=%d\n",
+> +		tb_dev->idle_timeout, tb_dev->dim_timeout, min_timeout,
+> +		time_left, need_reschedule, any_tb_key_pressed);
+> +
+> +	/* a new command arrived while we were busy - handle it */
+> +	if (need_reschedule) {
+> +		appletb_schedule_tb_update(tb_dev, 0);
+> +		return;
+> +	}
+> +
+> +	/* if no idle/dim timeout, we're done */
+> +	if (min_timeout <= 0)
+> +		return;
+> +
+> +	/* manage idle/dim timeout */
+> +	if (time_left > 0) {
+> +		/* we fired too soon or had a mode-change - re-schedule */
+> +		appletb_schedule_tb_update(tb_dev, time_left);
+> +	} else if (any_tb_key_pressed) {
+> +		/* keys are still pressed - re-schedule */
+> +		appletb_schedule_tb_update(tb_dev, min_timeout);
+> +	} else {
+> +		/* dim or idle timeout reached */
+> +		int next_disp = (time_to_off == 0) ? APPLETB_CMD_DISP_OFF :
+> +						     APPLETB_CMD_DISP_DIM;
+> +		if (next_disp != current_disp &&
+> +		    appletb_set_tb_disp(tb_dev, next_disp) == 0) {
+> +			spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +			tb_dev->cur_tb_disp = next_disp;
+> +			spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +		}
+> +
+> +		if (time_to_off > 0)
+> +			appletb_schedule_tb_update(tb_dev, time_to_off);
+> +	}
+> +}
+> +
+> +static u16 appletb_fn_to_special(u16 code)
+> +{
+> +	int idx;
+> +
+> +	for (idx = 0; idx < ARRAY_SIZE(appletb_fn_codes); idx++) {
+> +		if (appletb_fn_codes[idx].from == code)
+> +			return appletb_fn_codes[idx].to;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static unsigned char appletb_get_cur_tb_mode(struct appletb_device *tb_dev)
+> +{
+> +	return tb_dev->pnd_tb_mode != APPLETB_CMD_MODE_NONE ?
+> +				tb_dev->pnd_tb_mode : tb_dev->cur_tb_mode;
+> +}
+> +
+> +static unsigned char appletb_get_cur_tb_disp(struct appletb_device *tb_dev)
+> +{
+> +	return tb_dev->pnd_tb_disp != APPLETB_CMD_DISP_NONE ?
+> +				tb_dev->pnd_tb_disp : tb_dev->cur_tb_disp;
+> +}
+> +
+> +static unsigned char appletb_get_fn_tb_mode(struct appletb_device *tb_dev)
+> +{
+> +	switch (tb_dev->fn_mode) {
+> +	case APPLETB_FN_MODE_ESC:
+> +		return APPLETB_CMD_MODE_ESC;
+> +
+> +	case APPLETB_FN_MODE_FKEYS:
+> +		return APPLETB_CMD_MODE_FN;
+> +
+> +	case APPLETB_FN_MODE_SPCL:
+> +		return APPLETB_CMD_MODE_SPCL;
+> +
+> +	case APPLETB_FN_MODE_INV:
+> +		return (tb_dev->last_fn_pressed) ? APPLETB_CMD_MODE_SPCL :
+> +						   APPLETB_CMD_MODE_FN;
+> +
+> +	case APPLETB_FN_MODE_NORM:
+> +	default:
+> +		return (tb_dev->last_fn_pressed) ? APPLETB_CMD_MODE_FN :
+> +						   APPLETB_CMD_MODE_SPCL;
+> +	}
+> +}
+> +
+> +/*
+> + * Switch touch bar mode and display when mode or display not the desired ones.
+> + */
+> +static void appletb_update_touchbar_no_lock(struct appletb_device *tb_dev,
+> +					    bool force)
+> +{
+> +	unsigned char want_mode;
+> +	unsigned char want_disp;
+> +	bool need_update = false;
+> +
+> +	/*
+> +	 * Calculate the new modes:
+> +	 *   idle_timeout:
+> +	 *     -2  mode/disp off
+> +	 *     -1  mode on, disp on/dim
+> +	 *      0  mode on, disp off
+> +	 *     >0  mode on, disp off after idle_timeout seconds
+> +	 *   dim_timeout (only valid if idle_timeout > 0 || idle_timeout == -1):
+> +	 *     -1  disp never dimmed
+> +	 *      0  disp always dimmed
+> +	 *     >0  disp dim after dim_timeout seconds
+> +	 */
+> +	if (tb_dev->idle_timeout == -2) {
+> +		want_mode = APPLETB_CMD_MODE_OFF;
+> +		want_disp = APPLETB_CMD_DISP_OFF;
+> +	} else {
+> +		want_mode = appletb_get_fn_tb_mode(tb_dev);
+> +		want_disp = tb_dev->idle_timeout ==  0 ? APPLETB_CMD_DISP_OFF :
+> +			    tb_dev->dim_timeout  ==  0 ? APPLETB_CMD_DISP_DIM :
+> +							 APPLETB_CMD_DISP_ON;
+> +	}
+> +
+> +	/*
+> +	 * See if we need to update the touch bar, taking into account that we
+> +	 * generally don't want to switch modes while a touch bar key is
+> +	 * pressed.
+> +	 */
+> +	if (appletb_get_cur_tb_mode(tb_dev) != want_mode &&
+> +	    !appletb_any_tb_key_pressed(tb_dev)) {
+> +		tb_dev->pnd_tb_mode = want_mode;
+> +		need_update = true;
+> +	}
+> +
+> +	if (appletb_get_cur_tb_disp(tb_dev) != want_disp &&
+> +	    (!appletb_any_tb_key_pressed(tb_dev) ||
+> +	     want_disp != APPLETB_CMD_DISP_OFF)) {
+> +		tb_dev->pnd_tb_disp = want_disp;
+> +		need_update = true;
+> +	}
+> +
+> +	if (force)
+> +		need_update = true;
+> +
+> +	/* schedule the update if desired */
+> +	dev_dbg_ratelimited(tb_dev->log_dev,
+> +			    "update: need_update=%d, want_mode=%d, cur-mode=%d, want_disp=%d, cur-disp=%d\n",
+> +			    need_update, want_mode, tb_dev->cur_tb_mode,
+> +			    want_disp, tb_dev->cur_tb_disp);
+> +
+> +	if (need_update) {
+> +		cancel_delayed_work(&tb_dev->tb_work);
+> +		appletb_schedule_tb_update(tb_dev, 0);
+> +	}
+> +}
+> +
+> +static void appletb_update_touchbar(struct appletb_device *tb_dev, bool force)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	if (tb_dev->active)
+> +		appletb_update_touchbar_no_lock(tb_dev, force);
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +}
+> +
+> +static void appletb_set_idle_timeout(struct appletb_device *tb_dev, int new)
+> +{
+> +	tb_dev->idle_timeout = new;
+> +
+> +	if (tb_dev->dim_to_is_calc && tb_dev->idle_timeout > 0)
+> +		tb_dev->dim_timeout = new - min(APPLETB_MAX_DIM_TIME, new / 3);
+> +	else if (tb_dev->dim_to_is_calc)
+> +		tb_dev->dim_timeout = -1;
+> +}
+> +
+> +static ssize_t idle_timeout_show(struct device *dev,
+> +				 struct device_attribute *attr, char *buf)
+> +{
+> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
+> +
+> +	return snprintf(buf, PAGE_SIZE, "%d\n", tb_dev->idle_timeout);
+> +}
+> +
+> +static ssize_t idle_timeout_store(struct device *dev,
+> +				  struct device_attribute *attr,
+> +				  const char *buf, size_t size)
+> +{
+> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
+> +	long new;
+> +	int rc;
+> +
+> +	rc = kstrtol(buf, 0, &new);
+> +	if (rc || new > INT_MAX || new < -2)
+> +		return -EINVAL;
+> +
+> +	appletb_set_idle_timeout(tb_dev, new);
+> +	appletb_update_touchbar(tb_dev, true);
+> +
+> +	return size;
+> +}
+> +
+> +static void appletb_set_dim_timeout(struct appletb_device *tb_dev, int new)
+> +{
+> +	if (new == -2) {
+> +		tb_dev->dim_to_is_calc = true;
+> +		appletb_set_idle_timeout(tb_dev, tb_dev->idle_timeout);
+> +	} else {
+> +		tb_dev->dim_to_is_calc = false;
+> +		tb_dev->dim_timeout = new;
+> +	}
+> +}
+> +
+> +static ssize_t dim_timeout_show(struct device *dev,
+> +				struct device_attribute *attr, char *buf)
+> +{
+> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
+> +
+> +	return snprintf(buf, PAGE_SIZE, "%d\n",
+> +			tb_dev->dim_to_is_calc ? -2 : tb_dev->dim_timeout);
+> +}
+> +
+> +static ssize_t dim_timeout_store(struct device *dev,
+> +				 struct device_attribute *attr,
+> +				 const char *buf, size_t size)
+> +{
+> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
+> +	long new;
+> +	int rc;
+> +
+> +	rc = kstrtol(buf, 0, &new);
+> +	if (rc || new > INT_MAX || new < -2)
+> +		return -EINVAL;
+> +
+> +	appletb_set_dim_timeout(tb_dev, new);
+> +	appletb_update_touchbar(tb_dev, true);
+> +
+> +	return size;
+> +}
+> +
+> +static ssize_t fnmode_show(struct device *dev, struct device_attribute *attr,
+> +			   char *buf)
+> +{
+> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
+> +
+> +	return snprintf(buf, PAGE_SIZE, "%d\n", tb_dev->fn_mode);
+> +}
+> +
+> +static ssize_t fnmode_store(struct device *dev, struct device_attribute *attr,
+> +			    const char *buf, size_t size)
+> +{
+> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
+> +	long new;
+> +	int rc;
+> +
+> +	rc = kstrtol(buf, 0, &new);
+> +	if (rc || new > APPLETB_FN_MODE_MAX || new < 0)
+> +		return -EINVAL;
+> +
+> +	tb_dev->fn_mode = new;
+> +	appletb_update_touchbar(tb_dev, false);
+> +
+> +	return size;
+> +}
+> +
+> +static int appletb_tb_key_to_slot(unsigned int code)
+> +{
+> +	switch (code) {
+> +	case KEY_ESC:
+> +		return 0;
+> +	case KEY_F1:
+> +	case KEY_F2:
+> +	case KEY_F3:
+> +	case KEY_F4:
+> +	case KEY_F5:
+> +	case KEY_F6:
+> +	case KEY_F7:
+> +	case KEY_F8:
+> +	case KEY_F9:
+> +	case KEY_F10:
+> +		return code - KEY_F1 + 1;
+> +	case KEY_F11:
+> +	case KEY_F12:
+> +		return code - KEY_F11 + 11;
+> +	default:
+> +		return -1;
+> +	}
+> +}
+> +
+> +static int appletb_hid_event(struct hid_device *hdev, struct hid_field *field,
+> +			     struct hid_usage *usage, __s32 value)
+> +{
+> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
+> +	unsigned int new_code = 0;
+> +	unsigned long flags;
+> +	bool send_dummy = false;
+> +	bool send_trnsl = false;
+> +	int slot;
+> +	int rc = 0;
+> +
+> +	if ((usage->hid & HID_USAGE_PAGE) != HID_UP_KEYBOARD ||
+> +	    usage->type != EV_KEY)
+> +		return 0;
+> +
+> +	/*
+> +	 * Skip non-touch-bar keys.
+> +	 *
+> +	 * Either the touch bar itself or usbhid generate a slew of key-down
+> +	 * events for all the meta keys. None of which we're at all interested
+> +	 * in.
+> +	 */
+> +	slot = appletb_tb_key_to_slot(usage->code);
+> +	if (slot < 0)
+> +		return 0;
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	if (!tb_dev->active) {
+> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +		return 0;
+> +	}
+> +
+> +	new_code = appletb_fn_to_special(usage->code);
+> +
+> +	if (value != 2)
+> +		tb_dev->last_tb_keys_pressed[slot] = value;
+> +
+> +	tb_dev->last_event_time = ktime_get();
+> +
+> +	appletb_update_touchbar_no_lock(tb_dev, false);
+> +
+> +	/*
+> +	 * We want to suppress touch bar keys while the touch bar is off, but
+> +	 * we do want to wake up the screen if it's asleep, so generate a dummy
+> +	 * event in that case.
+> +	 */
+> +	if (tb_dev->cur_tb_mode == APPLETB_CMD_MODE_OFF ||
+> +	    tb_dev->cur_tb_disp == APPLETB_CMD_DISP_OFF) {
+> +		send_dummy = true;
+> +		rc = 1;
+> +	/* translate special keys */
+> +	} else if (new_code &&
+> +		   ((value > 0 &&
+> +		     appletb_get_cur_tb_mode(tb_dev) == APPLETB_CMD_MODE_SPCL)
+> +		    ||
+> +		    (value == 0 && tb_dev->last_tb_keys_translated[slot]))) {
+> +		tb_dev->last_tb_keys_translated[slot] = true;
+> +		send_trnsl = true;
+> +		rc = 1;
+> +	/* everything else handled normally */
+> +	} else {
+> +		tb_dev->last_tb_keys_translated[slot] = false;
+> +	}
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +	/*
+> +	 * Need to send these input events outside of the lock, as otherwise
+> +	 * we can run into the following deadlock:
+> +	 *            Task 1                         Task 2
+> +	 *     appletb_hid_event()            input_event()
+> +	 *       acquire tb_lock                acquire dev->event_lock
+> +	 *       input_event()                  appletb_inp_event()
+> +	 *         acquire dev->event_lock        acquire tb_lock
+> +	 */
+> +	if (send_dummy) {
+> +		input_event(field->hidinput->input, EV_KEY, KEY_UNKNOWN, 1);
+> +		input_event(field->hidinput->input, EV_KEY, KEY_UNKNOWN, 0);
+> +	} else if (send_trnsl) {
+> +		input_event(field->hidinput->input, usage->type, new_code,
+> +			    value);
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+> +static void appletb_inp_event(struct input_handle *handle, unsigned int type,
+> +			      unsigned int code, int value)
+> +{
+> +	struct appletb_device *tb_dev = handle->private;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	if (!tb_dev->active) {
+> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +		return;
+> +	}
+> +
+> +	if (type == EV_KEY && code == KEY_FN && value != 2)
+> +		tb_dev->last_fn_pressed = value;
+> +
+> +	tb_dev->last_event_time = ktime_get();
+> +
+> +	appletb_update_touchbar_no_lock(tb_dev, false);
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +}
+> +
+> +/* Find and save the usb-device associated with the touch bar input device */
+> +static struct usb_interface *appletb_get_usb_iface(struct hid_device *hdev)
+> +{
+> +	struct device *dev = &hdev->dev;
+> +
+> +	while (dev && !(dev->type && dev->type->name &&
+> +			!strcmp(dev->type->name, "usb_interface")))
+
+Check with is_usb_interface(dev)
+
+> +		dev = dev->parent;
+> +
+> +	return dev ? to_usb_interface(dev) : NULL;
+> +}
+> +
+> +static int appletb_inp_connect(struct input_handler *handler,
+> +			       struct input_dev *dev,
+> +			       const struct input_device_id *id)
+> +{
+> +	struct appletb_device *tb_dev = handler->private;
+> +	struct input_handle *handle;
+> +	int rc;
+> +
+> +	if (id->driver_info == APPLETB_DEVID_KEYBOARD) {
+> +		handle = &tb_dev->kbd_handle;
+> +		handle->name = "tbkbd";
+> +	} else if (id->driver_info == APPLETB_DEVID_TOUCHPAD) {
+> +		handle = &tb_dev->tpd_handle;
+> +		handle->name = "tbtpad";
+> +	} else {
+> +		dev_err(tb_dev->log_dev, "Unknown device id (%lu)\n",
+> +			id->driver_info);
+> +		return -ENOENT;
+> +	}
+> +
+> +	if (handle->dev) {
+> +		dev_err(tb_dev->log_dev,
+> +			"Duplicate connect to %s input device\n", handle->name);
+> +		return -EEXIST;
+> +	}
+> +
+> +	handle->open = 0;
+> +	handle->dev = input_get_device(dev);
+> +	handle->handler = handler;
+> +	handle->private = tb_dev;
+> +
+> +	rc = input_register_handle(handle);
+> +	if (rc)
+> +		goto err_free_dev;
+> +
+> +	rc = input_open_device(handle);
+> +	if (rc)
+> +		goto err_unregister_handle;
+> +
+> +	dev_dbg(tb_dev->log_dev, "Connected to %s input device\n",
+> +		handle == &tb_dev->kbd_handle ? "keyboard" : "touchpad");
+> +
+> +	return 0;
+> +
+> + err_unregister_handle:
+> +	input_unregister_handle(handle);
+> + err_free_dev:
+> +	input_put_device(handle->dev);
+> +	handle->dev = NULL;
+> +	return rc;
+> +}
+> +
+> +static void appletb_inp_disconnect(struct input_handle *handle)
+> +{
+> +	struct appletb_device *tb_dev = handle->private;
+> +
+> +	input_close_device(handle);
+> +	input_unregister_handle(handle);
+> +
+> +	dev_dbg(tb_dev->log_dev, "Disconnected from %s input device\n",
+> +		handle == &tb_dev->kbd_handle ? "keyboard" : "touchpad");
+> +
+> +	input_put_device(handle->dev);
+> +	handle->dev = NULL;
+> +}
+> +
+> +static int appletb_input_configured(struct hid_device *hdev,
+> +				    struct hid_input *hidinput)
+> +{
+> +	int idx;
+> +	struct input_dev *input = hidinput->input;
+> +
+> +	/*
+> +	 * Clear various input capabilities that are blindly set by the hid
+> +	 * driver (usbkbd.c)
+> +	 */
+> +	memset(input->evbit, 0, sizeof(input->evbit));
+> +	memset(input->keybit, 0, sizeof(input->keybit));
+> +	memset(input->ledbit, 0, sizeof(input->ledbit));
+> +
+> +	/* set our actual capabilities */
+> +	__set_bit(EV_KEY, input->evbit);
+> +	__set_bit(EV_REP, input->evbit);
+> +	__set_bit(EV_MSC, input->evbit);  /* hid-input generates MSC_SCAN */
+> +
+> +	for (idx = 0; idx < ARRAY_SIZE(appletb_fn_codes); idx++) {
+> +		input_set_capability(input, EV_KEY, appletb_fn_codes[idx].from);
+> +		input_set_capability(input, EV_KEY, appletb_fn_codes[idx].to);
+> +	}
+> +
+> +	input_set_capability(input, EV_KEY, KEY_ESC);
+> +	input_set_capability(input, EV_KEY, KEY_UNKNOWN);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct appletb_iface_info *
+> +appletb_get_iface_info(struct appletb_device *tb_dev, struct hid_device *hdev)
+> +{
+> +	if (hdev == tb_dev->mode_iface.hdev)
+> +		return &tb_dev->mode_iface;
+> +	if (hdev == tb_dev->disp_iface.hdev)
+> +		return &tb_dev->disp_iface;
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * appletb_find_report_field() - Find the field in the report with the given
+> + * usage.
+> + * @report: the report to search
+> + * @field_usage: the usage of the field to search for
+> + *
+> + * Returns: the hid field if found, or NULL if none found.
+> + */
+> +static struct hid_field *appletb_find_report_field(struct hid_report *report,
+> +						   unsigned int field_usage)
+> +{
+> +	int f, u;
+> +
+> +	for (f = 0; f < report->maxfield; f++) {
+> +		struct hid_field *field = report->field[f];
+> +
+> +		if (field->logical == field_usage)
+> +			return field;
+> +
+> +		for (u = 0; u < field->maxusage; u++) {
+> +			if (field->usage[u].hid == field_usage)
+> +				return field;
+> +		}
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * appletb_find_hid_field() - Search all the reports of the device for the
+> + * field with the given usage.
+> + * @hdev: the device whose reports to search
+> + * @application: the usage of application collection that the field must
+> + *               belong to
+> + * @field_usage: the usage of the field to search for
+> + *
+> + * Returns: the hid field if found, or NULL if none found.
+> + */
+> +static struct hid_field *appletb_find_hid_field(struct hid_device *hdev,
+> +						unsigned int application,
+> +						unsigned int field_usage)
+> +{
+> +	static const int report_types[] = { HID_INPUT_REPORT, HID_OUTPUT_REPORT,
+> +					    HID_FEATURE_REPORT };
+> +	struct hid_report *report;
+> +	struct hid_field *field;
+> +	int t;
+> +
+> +	for (t = 0; t < ARRAY_SIZE(report_types); t++) {
+> +		struct list_head *report_list =
+> +			    &hdev->report_enum[report_types[t]].report_list;
+> +		list_for_each_entry(report, report_list, list) {
+> +			if (report->application != application)
+> +				continue;
+> +
+> +			field = appletb_find_report_field(report, field_usage);
+> +			if (field)
+> +				return field;
+> +		}
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static int appletb_extract_report_and_iface_info(struct appletb_device *tb_dev,
+> +						 struct hid_device *hdev,
+> +						 const struct hid_device_id *id)
+> +{
+> +	struct appletb_iface_info *iface_info;
+> +	struct usb_interface *usb_iface;
+> +	struct hid_field *field;
+> +
+> +	field = appletb_find_hid_field(hdev, HID_GD_KEYBOARD, HID_USAGE_MODE);
+> +	if (field) {
+> +		iface_info = &tb_dev->mode_iface;
+> +		tb_dev->mode_field = field;
+> +		tb_dev->is_t1 = !!(id->driver_data & APPLETB_FEATURE_IS_T1);
+> +	} else {
+> +		field = appletb_find_hid_field(hdev, HID_USAGE_APPLE_APP,
+> +					       HID_USAGE_DISP);
+> +		if (!field)
+> +			return 0;
+> +
+> +		iface_info = &tb_dev->disp_iface;
+> +		tb_dev->disp_field = field;
+> +		tb_dev->disp_field_aux1 =
+> +			appletb_find_hid_field(hdev, HID_USAGE_APPLE_APP,
+> +					       HID_USAGE_DISP_AUX1);
+> +
+> +		if (!tb_dev->disp_field_aux1 ||
+> +		    tb_dev->disp_field_aux1->report !=
+> +						tb_dev->disp_field->report) {
+> +			dev_err(tb_dev->log_dev,
+> +				"Unexpected report structure for report %u in device %s\n",
+> +				tb_dev->disp_field->report->id,
+> +				dev_name(&hdev->dev));
+> +			return -ENODEV;
+> +		}
+> +	}
+> +
+> +	usb_iface = appletb_get_usb_iface(hdev);
+> +	if (!usb_iface) {
+> +		dev_err(tb_dev->log_dev,
+> +			"Failed to find usb interface for hid device %s\n",
+> +			dev_name(&hdev->dev));
+> +		return -ENODEV;
+> +	}
+> +
+> +	iface_info->hdev = hdev;
+> +	iface_info->usb_iface = usb_get_intf(usb_iface);
+> +	iface_info->suspended = false;
+> +
+> +	return 1;
+> +}
+> +
+> +static void appletb_clear_iface_info(struct appletb_device *tb_dev,
+> +				     struct hid_device *hdev)
+> +{
+> +	struct appletb_iface_info *iface_info;
+> +
+> +	iface_info = appletb_get_iface_info(tb_dev, hdev);
+> +	if (iface_info) {
+> +		usb_put_intf(iface_info->usb_iface);
+> +		iface_info->usb_iface = NULL;
+> +		iface_info->hdev = NULL;
+> +	}
+> +}
+> +
+> +static bool appletb_test_and_mark_active(struct appletb_device *tb_dev)
+> +{
+> +	unsigned long flags;
+> +	bool activated = false;
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	if (tb_dev->mode_iface.hdev && tb_dev->disp_iface.hdev &&
+> +	    !tb_dev->active) {
+> +		tb_dev->active = true;
+> +		activated = true;
+> +	}
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +	return activated;
+> +}
+> +
+> +static bool appletb_test_and_mark_inactive(struct appletb_device *tb_dev,
+> +					   struct hid_device *hdev)
+> +{
+> +	unsigned long flags;
+> +	bool deactivated = false;
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	if (tb_dev->mode_iface.hdev && tb_dev->disp_iface.hdev &&
+> +	    tb_dev->active &&
+> +	    (hdev == tb_dev->mode_iface.hdev ||
+> +	     hdev == tb_dev->disp_iface.hdev)) {
+> +		tb_dev->active = false;
+> +		deactivated = true;
+> +	}
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +	return deactivated;
+> +}
+> +
+> +static const struct input_device_id appletb_input_devices[] = {
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
+> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
+> +		.bustype = BUS_SPI,
+> +		.keybit = { [BIT_WORD(KEY_FN)] = BIT_MASK(KEY_FN) },
+> +		.driver_info = APPLETB_DEVID_KEYBOARD,
+> +	},			/* Builtin SPI keyboard device */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
+> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
+> +		.bustype = BUS_SPI,
+> +		.keybit = { [BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH) },
+> +		.driver_info = APPLETB_DEVID_TOUCHPAD,
+> +	},			/* Builtin SPI touchpad device */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
+> +			INPUT_DEVICE_ID_MATCH_VENDOR |
+> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
+> +		.bustype = BUS_USB,
+> +		.vendor = 0x05ac /* USB_VENDOR_ID_APPLE */,
+> +		.keybit = { [BIT_WORD(KEY_FN)] = BIT_MASK(KEY_FN) },
+> +		.driver_info = APPLETB_DEVID_KEYBOARD,
+> +	},			/* Builtin USB keyboard device */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_BUS |
+> +			INPUT_DEVICE_ID_MATCH_VENDOR |
+> +			INPUT_DEVICE_ID_MATCH_KEYBIT,
+> +		.bustype = BUS_USB,
+> +		.vendor = 0x05ac /* USB_VENDOR_ID_APPLE */,
+> +		.keybit = { [BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH) },
+> +		.driver_info = APPLETB_DEVID_TOUCHPAD,
+> +	},			/* Builtin USB touchpad device */
+> +	{ },			/* Terminating zero entry */
+> +};
+> +
+> +static bool appletb_match_internal_device(struct input_handler *handler,
+> +					  struct input_dev *inp_dev)
+> +{
+> +	struct device *dev = &inp_dev->dev;
+> +
+> +	if (inp_dev->id.bustype == BUS_SPI)
+> +		return true;
+> +
+> +	/* in kernel: dev && !is_usb_device(dev) */
+> +	while (dev && !(dev->type && dev->type->name &&
+> +			!strcmp(dev->type->name, "usb_device")))
+> +		dev = dev->parent;
+> +
+> +	/*
+> +	 * Apple labels all their internal keyboards and trackpads as such,
+> +	 * instead of maintaining an ever expanding list of product-id's we
+> +	 * just look at the device's product name.
+> +	 */
+> +	if (dev)
+> +		return !!strstr(to_usb_device(dev)->product, "Internal Keyboard");
+> +
+> +	return false;
+> +}
+> +
+> +static int appletb_probe(struct hid_device *hdev,
+> +			 const struct hid_device_id *id)
+> +{
+> +	struct appletb_device *tb_dev = appletb_dev;
+> +	unsigned long flags;
+> +	int rc;
+> +
+> +	/* initialize the report info */
+> +	rc = hid_parse(hdev);
+> +	if (rc) {
+> +		dev_err(tb_dev->log_dev, "hid parse failed (%d)\n", rc);
+> +		goto error;
+> +	}
+> +
+> +	/* Ensure this usb endpoint is for the touchbar backlight, not keyboard
+> +	 * backlight.
+> +	 */
+> +	if ((hdev->product == USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) &&
+> +			!(hdev->collection && hdev->collection[0].usage ==
+> +				HID_USAGE_APPLE_APP)) {
+> +		return -ENODEV;
+> +	}
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	if (!tb_dev->log_dev)
+> +		tb_dev->log_dev = &hdev->dev;
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +	hid_set_drvdata(hdev, tb_dev);
+> +
+> +	rc = appletb_extract_report_and_iface_info(tb_dev, hdev, id);
+> +	if (rc < 0)
+> +		goto error;
+> +
+> +	rc = hid_hw_start(hdev, HID_CONNECT_DRIVER | HID_CONNECT_HIDINPUT);
+> +	if (rc) {
+> +		dev_err(tb_dev->log_dev, "hw start failed (%d)\n", rc);
+> +		goto clear_iface_info;
+> +	}
+> +
+> +	rc = hid_hw_open(hdev);
+> +	if (rc) {
+> +		dev_err(tb_dev->log_dev, "hw open failed (%d)\n", rc);
+> +		goto stop_hid;
+> +	}
+> +
+> +	/* do setup if we have both interfaces */
+> +	if (appletb_test_and_mark_active(tb_dev)) {
+> +		/* initialize the touch bar */
+> +		if (appletb_tb_def_fn_mode >= 0 &&
+> +		    appletb_tb_def_fn_mode <= APPLETB_FN_MODE_MAX)
+> +			tb_dev->fn_mode = appletb_tb_def_fn_mode;
+> +		else
+> +			tb_dev->fn_mode = APPLETB_FN_MODE_NORM;
+> +		appletb_set_idle_timeout(tb_dev, appletb_tb_def_idle_timeout);
+> +		appletb_set_dim_timeout(tb_dev, appletb_tb_def_dim_timeout);
+> +		tb_dev->last_event_time = ktime_get();
+> +
+> +		tb_dev->pnd_tb_mode = APPLETB_CMD_MODE_UPD;
+> +		tb_dev->pnd_tb_disp = APPLETB_CMD_DISP_UPD;
+> +
+> +		appletb_update_touchbar(tb_dev, false);
+> +
+> +		/* set up the input handler */
+> +		tb_dev->inp_handler.event = appletb_inp_event;
+> +		tb_dev->inp_handler.connect = appletb_inp_connect;
+> +		tb_dev->inp_handler.disconnect = appletb_inp_disconnect;
+> +		tb_dev->inp_handler.name = "appletb";
+> +		tb_dev->inp_handler.id_table = appletb_input_devices;
+> +		tb_dev->inp_handler.match = appletb_match_internal_device;
+> +		tb_dev->inp_handler.private = tb_dev;
+> +
+> +		rc = input_register_handler(&tb_dev->inp_handler);
+> +		if (rc) {
+> +			dev_err(tb_dev->log_dev,
+> +				"Unable to register keyboard handler (%d)\n",
+> +				rc);
+> +			goto mark_inactive;
+> +		}
+> +
+> +		/* initialize sysfs attributes */
+> +		rc = sysfs_create_group(&tb_dev->mode_iface.hdev->dev.kobj,
+> +					&appletb_attr_group);
+> +		if (rc) {
+> +			dev_err(tb_dev->log_dev,
+> +				"Failed to create sysfs attributes (%d)\n", rc);
+> +			goto unreg_handler;
+> +		}
+> +
+> +		dev_dbg(tb_dev->log_dev, "Touchbar activated\n");
+> +	}
+> +
+> +	return 0;
+> +
+> +unreg_handler:
+> +	input_unregister_handler(&tb_dev->inp_handler);
+> +mark_inactive:
+> +	appletb_test_and_mark_inactive(tb_dev, hdev);
+> +	cancel_delayed_work_sync(&tb_dev->tb_work);
+> +	hid_hw_close(hdev);
+> +stop_hid:
+> +	hid_hw_stop(hdev);
+> +clear_iface_info:
+> +	appletb_clear_iface_info(tb_dev, hdev);
+> +error:
+> +	return rc;
+> +}
+> +
+> +static void appletb_remove(struct hid_device *hdev)
+> +{
+> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
+> +	unsigned long flags;
+> +
+> +	if (appletb_test_and_mark_inactive(tb_dev, hdev)) {
+> +		sysfs_remove_group(&tb_dev->mode_iface.hdev->dev.kobj,
+> +				   &appletb_attr_group);
+> +
+> +		input_unregister_handler(&tb_dev->inp_handler);
+> +
+> +		cancel_delayed_work_sync(&tb_dev->tb_work);
+> +		appletb_set_tb_mode(tb_dev, APPLETB_CMD_MODE_OFF);
+> +		appletb_set_tb_disp(tb_dev, APPLETB_CMD_DISP_ON);
+> +
+> +		if (tb_dev->tb_autopm_off)
+> +			hid_hw_power(tb_dev->disp_iface.hdev, PM_HINT_NORMAL);
+> +
+> +		dev_info(tb_dev->log_dev, "Touchbar deactivated\n");
+> +	}
+> +
+> +	hid_hw_close(hdev);
+> +	hid_hw_stop(hdev);
+> +	appletb_clear_iface_info(tb_dev, hdev);
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	if (tb_dev->log_dev == &hdev->dev) {
+> +		if (tb_dev->mode_iface.hdev)
+> +			tb_dev->log_dev = &tb_dev->mode_iface.hdev->dev;
+> +		else if (tb_dev->disp_iface.hdev)
+> +			tb_dev->log_dev = &tb_dev->disp_iface.hdev->dev;
+> +		else
+> +			tb_dev->log_dev = NULL;
+> +	}
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +}
+> +
+> +#ifdef CONFIG_PM
+> +static int appletb_suspend(struct hid_device *hdev, pm_message_t message)
+> +{
+> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
+> +	struct appletb_iface_info *iface_info;
+> +	unsigned long flags;
+> +	bool all_suspended = false;
+> +
+> +	if (message.event != PM_EVENT_SUSPEND &&
+> +	    message.event != PM_EVENT_FREEZE)
+> +		return 0;
+> +
+> +	if (tb_dev->is_t1) {
+> +
+> +		/*
+> +		 * Wait for both interfaces to be suspended and no more async work
+> +		 * in progress.
+> +		 */
+> +
+> +		spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +		if (!tb_dev->mode_iface.suspended && !tb_dev->disp_iface.suspended) {
+> +			tb_dev->active = false;
+> +			cancel_delayed_work(&tb_dev->tb_work);
+> +		}
+> +
+> +		iface_info = appletb_get_iface_info(tb_dev, hdev);
+> +		if (iface_info)
+> +			iface_info->suspended = true;
+> +
+> +		if ((!tb_dev->mode_iface.hdev || tb_dev->mode_iface.suspended) &&
+> +		    (!tb_dev->disp_iface.hdev || tb_dev->disp_iface.suspended))
+> +			all_suspended = true;
+> +
+> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +		flush_delayed_work(&tb_dev->tb_work);
+> +
+> +		if (!all_suspended)
+> +			return 0;
+> +
+> +		/*
+> +		 * The touch bar device itself remembers the last state when suspended
+> +		 * in some cases, but in others (e.g. when mode != off and disp == off)
+> +		 * it resumes with a different state; furthermore it may be only
+> +		 * partially responsive in that state. By turning both mode and disp
+> +		 * off we ensure it is in a good state when resuming (and this happens
+> +		 * to be the same state after booting/resuming-from-hibernate, so less
+> +		 * special casing between the two).
+> +		 */
+> +		if (message.event == PM_EVENT_SUSPEND) {
+> +			appletb_set_tb_mode(tb_dev, APPLETB_CMD_MODE_OFF);
+> +			appletb_set_tb_disp(tb_dev, APPLETB_CMD_DISP_OFF);
+> +		}
+> +
+> +		spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +		tb_dev->cur_tb_mode = APPLETB_CMD_MODE_OFF;
+> +		tb_dev->cur_tb_disp = APPLETB_CMD_DISP_OFF;
+> +
+> +		spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +		dev_info(tb_dev->log_dev, "Touchbar suspended.\n");
+> +	} else {
+> +		dev_info(tb_dev->log_dev, "T2 Mac detected, not handling suspend.\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int appletb_reset_resume(struct hid_device *hdev)
+> +{
+> +	struct appletb_device *tb_dev = hid_get_drvdata(hdev);
+> +	struct appletb_iface_info *iface_info;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&tb_dev->tb_lock, flags);
+> +
+> +	iface_info = appletb_get_iface_info(tb_dev, hdev);
+> +	if (iface_info)
+> +		iface_info->suspended = false;
+> +
+> +	if ((tb_dev->mode_iface.hdev && !tb_dev->mode_iface.suspended) &&
+> +	    (tb_dev->disp_iface.hdev && !tb_dev->disp_iface.suspended)) {
+> +		/*
+> +		 * Restore touch bar state. Note that autopm state is not
+> +		 * preserved, so need explicitly restore that here.
+> +		 */
+> +		tb_dev->active = true;
+> +		tb_dev->restore_autopm = true;
+> +		tb_dev->last_event_time = ktime_get();
+> +
+> +		appletb_update_touchbar_no_lock(tb_dev, true);
+> +
+> +		dev_info(tb_dev->log_dev, "Touchbar resumed.\n");
+> +	}
+> +
+> +	spin_unlock_irqrestore(&tb_dev->tb_lock, flags);
+> +
+> +	return 0;
+> +}
+> +#endif
+> +
+> +static struct appletb_device *appletb_alloc_device(void)
+> +{
+> +	struct appletb_device *tb_dev;
+> +
+> +	tb_dev = kzalloc(sizeof(*tb_dev), GFP_KERNEL);
+> +	if (!tb_dev)
+> +		return NULL;
+> +
+> +	spin_lock_init(&tb_dev->tb_lock);
+> +	INIT_DELAYED_WORK(&tb_dev->tb_work, appletb_set_tb_worker);
+> +
+> +	return tb_dev;
+> +}
+> +
+> +static void appletb_free_device(struct appletb_device *tb_dev)
+> +{
+> +	cancel_delayed_work_sync(&tb_dev->tb_work);
+> +	kfree(tb_dev);
+> +}
+> +
+> +static const struct hid_device_id appletb_hid_ids[] = {
+> +	/* MacBook Pro's 2016, 2017, with T1 chip */
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LINUX_FOUNDATION,
+> +			 USB_DEVICE_ID_IBRIDGE_TB),
+> +	  .driver_data = APPLETB_FEATURE_IS_T1 },
+> +	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge DFR brightness */
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
+> +			USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
+> +	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge Display */
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
+> +			USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
+> +	{ },
+
+Also no comma here
+
+> +};
+> +
+> +MODULE_DEVICE_TABLE(hid, appletb_hid_ids);
+> +
+> +static struct hid_driver appletb_hid_driver = {
+> +	.name = "apple-touchbar",
+> +	.id_table = appletb_hid_ids,
+> +	.probe = appletb_probe,
+> +	.remove = appletb_remove,
+> +	.event = appletb_hid_event,
+> +	.input_configured = appletb_input_configured,
+> +#ifdef CONFIG_PM
+> +	.suspend = appletb_suspend,
+> +	.reset_resume = appletb_reset_resume,
+> +#endif
+> +};
+> +
+> +static int __init appletb_init(void)
+> +{
+> +	struct appletb_device *tb_dev;
+> +	int rc;
+> +
+> +	tb_dev = appletb_alloc_device();
+> +	if (!tb_dev)
+> +		return -ENOMEM;
+> +
+> +	appletb_dev = tb_dev;
+> +
+> +	rc = hid_register_driver(&appletb_hid_driver);
+> +	if (rc)
+> +		goto error;
+> +
+> +	return 0;
+> +
+> +error:
+> +	appletb_free_device(tb_dev);
+> +	return rc;
+> +}
+> +
+> +static void __exit appletb_exit(void)
+> +{
+> +	hid_unregister_driver(&appletb_hid_driver);
+> +	appletb_free_device(appletb_dev);
+> +}
+
+You can remove the need for the "static struct appletb_device
+*appletb_dev" by allocating it from the HID drivers probe function and
+freeing it from the remove function.
+Then the whole setup can be removed and replaced by
+hid_module_driver(&appletb_hid_driver)
+
+> +module_init(appletb_init);
+> +module_exit(appletb_exit);
+> +
+> +MODULE_AUTHOR("Ronald Tschalär");
+> +MODULE_DESCRIPTION("MacBookPro Touch Bar driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index c03535c4b..e620190b5 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -316,12 +316,14 @@ static const struct hid_device_id hid_have_special_driver[] = {
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021) },
+> -	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
+> -	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
+>  #endif
+>  #if IS_ENABLED(CONFIG_HID_APPLE_IBRIDGE)
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IBRIDGE) },
+>  #endif
+> +#if IS_ENABLED(CONFIG_HID_APPLE_TOUCHBAR)
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
+> +#endif
+>  #if IS_ENABLED(CONFIG_HID_APPLEIR)
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IRCONTROL) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IRCONTROL2) },
+> -- 
+> 2.37.2
+> 
