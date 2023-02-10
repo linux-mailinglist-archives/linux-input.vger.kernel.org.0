@@ -2,58 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11889691D2D
-	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 11:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77ED9691DDD
+	for <lists+linux-input@lfdr.de>; Fri, 10 Feb 2023 12:13:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231720AbjBJKry (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 05:47:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32806 "EHLO
+        id S232088AbjBJLNh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 06:13:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231665AbjBJKrx (ORCPT
+        with ESMTP id S232043AbjBJLN1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 05:47:53 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA9D9125A0;
-        Fri, 10 Feb 2023 02:47:52 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id a8-20020a17090a6d8800b002336b48f653so3314999pjk.3;
-        Fri, 10 Feb 2023 02:47:52 -0800 (PST)
+        Fri, 10 Feb 2023 06:13:27 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD20C72DEE;
+        Fri, 10 Feb 2023 03:12:56 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id g18so5265886qtb.6;
+        Fri, 10 Feb 2023 03:12:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mvehYTPeuUM5Am2E6/a7muiarf4wb5jQnalQjw+cOcY=;
-        b=VXDJTV2Z7zbRz82QDs2SKroei+8LYsA7VvcXZZWCLu0+Iv3SCgo+z9j5ElunCmqzRn
-         L3kZ77rG5xA5maWmEFji5A85CjllEjLzFZnsfeRsUo83OHTgwqEsOh5MMnLdrI/XsBsE
-         ojVegOa07U93S3yIJw7JqvMvFfg4l7lN6ZfRKrMSWcRuid0dpE4ihYXCeJjl35bL3noc
-         fmVHfXTn+wyaNGwaDB7kfr4Gf3aU8FU+ugNrscRKO4x2aYvy5UWWeoHJn+g1RPzYzgQI
-         tAkNkuOodEJf2xogymxH0of5WiGc7xW9BtJEYLbyhbdUzhcPKottEAZiGvTZKyiKOvsT
-         H0gA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hyp8ZmbrcaG2ABsoThk0gEpJR9SiIpSS9II2WcwajGc=;
+        b=f8QxVlEI4ckz8hH+Kkatx5E3WtW9JYGgmYgFj1GWpc1YkcBkPHER7me0S/MTAYqSFM
+         ixsYKKg7nX4YBuQF9yDfrwZ6gEgxyu3y4vKYfwBGWBioawJqhfaS4bkyoMt7bN0rKF0A
+         rxL4KAIRvRLe8iWu2HiJJt1TohtwJu8uM3BUoNuY2LYRpisj+iRH8sVS+3XzB94Tv2D+
+         mIhIvCt2Lc1nbE1IYmZeFLGt446ZIDhNPUMojoSWYFMQBNAr0MQ15j6htFehCOn89fFy
+         TNhl7H2QhkBA0G2ibkYjsBL2KN+cJPgPpJj84/Caa0VFD91yDwcMnClRHT5aEv4BluC4
+         NdtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mvehYTPeuUM5Am2E6/a7muiarf4wb5jQnalQjw+cOcY=;
-        b=x3s3zwJVZ740t6b66EOBsqn/AhZCki137j/1rdbSQJlZkNQTk687mraxQxP5jhTpzl
-         SXy4T+y3IkpN0zocuvSTQDWLMgb16SN1MO/JDwq6hq26utK2o8JSZIj3paF2y3RuuD6K
-         yg+k4THBlnAVpt+TmW0vK07FM1BkK4oj/vso/+2GbTpyUHFiDl3tYctWNs6lWDN/+lgd
-         /OGGSrJcoqOBmUkbycGyAOHX/qjXxrxtkDB8tSyC/ImFxU24I3pu+pF6GS1EVxdUhRwx
-         eXhJZ6cyGVGBYwmtcL+o5Ll98J6NSif+MHJ5kYTC2FiZWRDElgv72icLG3MMK2MGzFjp
-         gatw==
-X-Gm-Message-State: AO0yUKVfsgv9sKPj1e8YphLO1hqHEJ/qNDk7rB03Qx4DgCbxc/WSXldA
-        24/0k+BrBhSDoCinHDjaf3U=
-X-Google-Smtp-Source: AK7set81T3BDNBEApadm+EW4Z+NOVcI0V4eQAURICV1NuEohYTsOswJDA31F5HGjw5z9F9nSElV4ug==
-X-Received: by 2002:a17:902:e385:b0:199:4d57:639e with SMTP id g5-20020a170902e38500b001994d57639emr6908632ple.50.1676026072018;
-        Fri, 10 Feb 2023 02:47:52 -0800 (PST)
-Received: from redecorated-mbp ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170902d34500b0019909279001sm3110988plk.79.2023.02.10.02.47.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 02:47:51 -0800 (PST)
-Date:   Fri, 10 Feb 2023 21:47:37 +1100
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     Aditya Garg <gargaditya08@live.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hyp8ZmbrcaG2ABsoThk0gEpJR9SiIpSS9II2WcwajGc=;
+        b=RQr6eJ/2TBi9lP+Fu5h4euW8GwttFC3KvxD7pAZtDZ1pi99NucFNWTLY4V2tIBTau0
+         jEKAF5UkEjUh+Wd6eFUm9hsmoiGAnqy37AHeHLu93kNSL+pdXUyEqQS6nvJjhAdv+KO6
+         /wWv3h4u5UHQ3ujVukC99YYTXTslxUg5lhgUXeVU1VHnpWgtF1o9awSk5KtmvPYlPFOq
+         XoQ+vwE1nTmW0YSbjANUrtAlY4HWBQehhMpcXxj7UJmAZg7rHDOcv/aMj+4qpmwsozQR
+         peqjdK2LN7e7ylKud8aMICHRthsj2n/KQIKJgIn2W51XasTJSrZm4iPPwM8oGkJ9wIHR
+         HmsQ==
+X-Gm-Message-State: AO0yUKWV/u4RuAQABmjLk3lugqoiW4YrpgHBOGOBDBGj45AJOuRO7/dv
+        AAvyix16HWe27NMrt5KRLGkr5cHOdW1Kd4WZQH8=
+X-Google-Smtp-Source: AK7set/P6I/oQ7XCsnc8nl7vtWaYchdN/on5pNFGQ+JfZpvZcD5o+v20X+ZhePgHGyOUBRrrQpJpsE/fYjKyo8Y0XqQ=
+X-Received: by 2002:a05:622a:1456:b0:3b9:a4ee:be1c with SMTP id
+ v22-20020a05622a145600b003b9a4eebe1cmr2236798qtx.391.1676027562850; Fri, 10
+ Feb 2023 03:12:42 -0800 (PST)
+MIME-Version: 1.0
+References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
+ <CAHp75VcPPDTmpx9jpu3ZoaVH_xBgtaEbDQcJJdqcaXi1J+_q0A@mail.gmail.com>
+ <57D52CFB-228D-4071-94CB-D32883BF872A@live.com> <20230210214737.2ef942c6@redecorated-mbp>
+In-Reply-To: <20230210214737.2ef942c6@redecorated-mbp>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 10 Feb 2023 13:12:06 +0200
+Message-ID: <CAHp75VcccQZb+HadJunXmtCR0j--rnkbe-_FW3DHeU+H5F92mg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Touch Bar and Keyboard backlight driver for Intel Macs
+To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
+Cc:     Aditya Garg <gargaditya08@live.com>,
         Jiri Kosina <jikos@kernel.org>,
         "jkosina@suse.cz" <jkosina@suse.cz>,
         "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
@@ -62,18 +65,8 @@ Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "ronald@innovation.ch" <ronald@innovation.ch>,
         "kekrby@gmail.com" <kekrby@gmail.com>,
-        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas@t-8ch.de>
-Subject: Re: [PATCH 0/3] Touch Bar and Keyboard backlight driver for Intel
- Macs
-Message-ID: <20230210214737.2ef942c6@redecorated-mbp>
-In-Reply-To: <57D52CFB-228D-4071-94CB-D32883BF872A@live.com>
-References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
-        <CAHp75VcPPDTmpx9jpu3ZoaVH_xBgtaEbDQcJJdqcaXi1J+_q0A@mail.gmail.com>
-        <57D52CFB-228D-4071-94CB-D32883BF872A@live.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -84,35 +77,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 10 Feb 2023 10:41:07 +0000
-Aditya Garg <gargaditya08@live.com> wrote:
+On Fri, Feb 10, 2023 at 12:47 PM Orlando Chamberlain
+<orlandoch.dev@gmail.com> wrote:
+> On Fri, 10 Feb 2023 10:41:07 +0000
+> Aditya Garg <gargaditya08@live.com> wrote:
 
-> > 
-> > Quick observation. Do you miss the Co-developed-by: tags in the
-> > patches?  
-> 
-> Most of the changes are minor in the 1st and 2nd patch, we haven't
-> changed most of the code. The changes were written as per the
-> documentation given in
-> https://www.kernel.org/doc/html/latest/maintainer/modifying-patches.html
-> 
-> Do you think a Co-developed-by is still required?
-> 
-> The third patch was actually written by 2 people, so there is a
-> Co-developed-by there.
-> 
+...
 
-To add onto this, for patches 1 and 2, as we haven't been able to
-contact the original author (Ronald), I think the only ways we are
-allowed to make changes are either doing them in separate patches, or
-with the [name <email>: changes] tags. For the latter I thought you had
-to do a Signed-off-by after it, but given the changes aren't just to
-make the patch apply on a newer version, do you think the
-Co-developed-by tag is also needed?
+> > > Quick observation. Do you miss the Co-developed-by: tags in the
+> > > patches?
+> >
+> > Most of the changes are minor in the 1st and 2nd patch, we haven't
+> > changed most of the code. The changes were written as per the
+> > documentation given in
+> > https://www.kernel.org/doc/html/latest/maintainer/modifying-patches.html
+> >
+> > Do you think a Co-developed-by is still required?
+> >
+> > The third patch was actually written by 2 people, so there is a
+> > Co-developed-by there.
+> >
+>
+> To add onto this, for patches 1 and 2, as we haven't been able to
+> contact the original author (Ronald), I think the only ways we are
+> allowed to make changes are either doing them in separate patches, or
+> with the [name <email>: changes] tags. For the latter I thought you had
+> to do a Signed-off-by after it, but given the changes aren't just to
+> make the patch apply on a newer version, do you think the
+> Co-developed-by tag is also needed?
 
-> > 
-> > -- 
-> > With Best Regards,
-> > Andy Shevchenko  
-> 
+I'm not insisting, just asking :-) So, if you think it's not needed, fine to me!
 
+-- 
+With Best Regards,
+Andy Shevchenko
