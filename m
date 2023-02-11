@@ -2,117 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74EE9693405
-	for <lists+linux-input@lfdr.de>; Sat, 11 Feb 2023 22:34:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4812C69342D
+	for <lists+linux-input@lfdr.de>; Sat, 11 Feb 2023 23:28:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjBKVe3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Feb 2023 16:34:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44072 "EHLO
+        id S229647AbjBKW2C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Feb 2023 17:28:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjBKVe3 (ORCPT
+        with ESMTP id S229447AbjBKW2A (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Feb 2023 16:34:29 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2470218B22;
-        Sat, 11 Feb 2023 13:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676151268; x=1707687268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UGdEtbEAzbSERnty//wgt/U2Epe6F7MQ024/er2PNLc=;
-  b=T/I4aLIJ78omiyrVriXFdLGF0LLgv1OANiAU2dlO4nMyTOfXF86KoG7X
-   byVBDjC8E9fVF+NDil/1yFqR3o8O5gafQkUuOLBFI8TQ3s7q7C/RqEg19
-   yKOGQL82ukyS0U4BUmsVclVZeE3P1Io6XkEkvXAwu/WzOr4cpjnHjj6f+
-   t4MB7Veyw4L80EFBvsMnkIJYdjowIyItDg2dSdFW8qq3+TcYtjKMQwEI2
-   AHbSB+XtYxwBHhT85uUkuwS95llOonNgzbi9wLVE/++3xegQowWurRAcP
-   lHbHpwo1Rgev2RKQcW8wcTdjtkU+6AP82HZXWKwmw9mcu3h08466WCJtm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="328356077"
-X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="328356077"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 13:34:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="737081913"
-X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="737081913"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Feb 2023 13:34:26 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pQxVp-0006oj-1t;
-        Sat, 11 Feb 2023 21:34:25 +0000
-Date:   Sun, 12 Feb 2023 05:33:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Michael Zaidman <michael.zaidman@gmail.com>, jikos@kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Michael Zaidman <michael.zaidman@gmail.com>
-Subject: Re: [PATCH v1 1/1] HID: ft260: add GPIO support
-Message-ID: <202302120552.KrGf3GNw-lkp@intel.com>
-References: <20230211115752.26276-2-michael.zaidman@gmail.com>
+        Sat, 11 Feb 2023 17:28:00 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B566818176
+        for <linux-input@vger.kernel.org>; Sat, 11 Feb 2023 14:27:57 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id lu11so23844425ejb.3
+        for <linux-input@vger.kernel.org>; Sat, 11 Feb 2023 14:27:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=diag.uniroma1.it; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qMKDRs1lk34OrFvNVQWLS3WpiXxoEN/LYfhGx5x/hFU=;
+        b=IH79DS3M0l1mAVgFhKyQehHTB+DbUiF3+hhzIIFUVk1nh0Po91xw++G416SsMO/ZcC
+         4gjsFf2P6dazBaU4ouymoeADTw3d6T7nQllB/ePdX2+hBt0Qg68jfTWgAnzPfT4AqJF6
+         mqcX3E/gcA5ZSuxYGWBoPw6TnKrVfNLzlYJYE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qMKDRs1lk34OrFvNVQWLS3WpiXxoEN/LYfhGx5x/hFU=;
+        b=n7U4xA0w2/CFmvbqBaGafQra9EAN4Jx7r4NEcc3lvpGfk6/DkN9WL6QdIFqcs4Frw6
+         PyHiFVWo2W6iQSElrDjBCdhVR0ZtS5GW5UNkrCauOaeoT5kmVe+6JcyYhPYfzjzkjlPP
+         PYkH+bdAbivZGQwL/VYFSKV2Nmj7k1yXCRLDeoaBCkgDzKxg21aNTsX11hPCU69U6npD
+         yH6XFWJxbDYGVtlR7XNhPVmiMkxkojD6wY1zZNJUi4AqA2rAzuIraDaSiiIpmAYfJ9sL
+         dEem5sfmESo4XAdPn2YHCiBz2QrTNTCI1n8wZzyCd8lbsKuFesIXZuaGaKz4zpnZJfKW
+         XM/g==
+X-Gm-Message-State: AO0yUKUrpvph2PmKzTuOq95OGD+LWaYDlZGYyYDgtvaSVWraHekMD//C
+        P+36yAveAPoVU5UObHw0ELB074dVwpFSB7XO/W4F5Q==
+X-Google-Smtp-Source: AK7set9JpTVbpYWUVgepjW5bgCdwbzAkwbaYv/BpCtcgEuja4oCK7L8gRQDx4pRmHB1tc3UCXUgfkee/nxYBeAmfHA8=
+X-Received: by 2002:a17:906:1ba1:b0:879:b98d:eb08 with SMTP id
+ r1-20020a1709061ba100b00879b98deb08mr2688866ejg.3.1676154476257; Sat, 11 Feb
+ 2023 14:27:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230211115752.26276-2-michael.zaidman@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it>
+ <20230125-hid-unregister-leds-v3-1-0a52ac225e00@diag.uniroma1.it> <20230210142634.2exh6mvbvysy3hqo@mail.corp.redhat.com>
+In-Reply-To: <20230210142634.2exh6mvbvysy3hqo@mail.corp.redhat.com>
+From:   Pietro Borrello <borrello@diag.uniroma1.it>
+Date:   Sat, 11 Feb 2023 23:27:45 +0100
+Message-ID: <CAEih1qXsWT2u_M45cuY0RbOts8RM2cM6iPDju07ZtT-gtgr=xQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] HID: bigben: use spinlock to safely schedule workers
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <kontakt@hanno.de>,
+        Carlo Caione <carlo@endlessm.com>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        Hillf Danton <hdanton@sina.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Michael,
+On Fri, 10 Feb 2023 at 15:26, Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> [...]
+> >
+> > -     if (bigben->removed || !report_field)
+>
+> You are removing an important test here: if (!report_field), please keep
+> it.
 
-I love your patch! Perhaps something to improve:
+To my understanding, that check was added in commit
+918aa1ef104d ("HID: bigbenff: prevent null pointer dereference")
+to prevent the NULL pointer crash, only fixing the crash point.
+However, the true root cause was a missing check for output
+reports patched in commit
+c7bf714f8755 ("HID: check empty report_list in bigben_probe()"),
+where the type-confused report list_entry was overlapping with
+a NULL pointer, which was then causing the crash.
+Let me know if there is any other path that may result in having a
+report with no fields. In that case, it would make sense to keep the
+check.
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.2-rc7 next-20230210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> > -             return;
+> > +     spin_lock_irqsave(&bigben->lock, flags);
+> >
+> >       if (bigben->work_led) {
+> >               bigben->work_led = false;
+> > @@ -219,6 +229,8 @@ static void bigben_worker(struct work_struct *work)
+> >               report_field->value[7] = 0x00; /* padding */
+> >               hid_hw_request(bigben->hid, bigben->report, HID_REQ_SET_REPORT);
+> >       }
+> > +
+> > +     spin_unlock_irqrestore(&bigben->lock, flags);
+>
+> Ouch, having hid_hw_request() called whithin a spinlock is definitely not
+> something that should be done.
+>
+> However, the spinlock should be protecting 2 kinds of things:
+> - any access to any value of struct bigben_device, but in an atomic way
+>   (i.e. copy everything you need locally in a spinlock, then release it
+>   and never read that struct again in that function).
+> - the access to bigben->removed, which should be checked only in
+>   bigben_schedule_work() and in the .remove() function.
+>
+> Please note that this is what the playstation driver does: it prepares
+> the report under the spinlock (which is really fast) before sending the
+> report to the device which can be slow and be interrupted.
+>
+> With that being said, it is clear that we need 2 patches for this one:
+> - the first one introduces the spinlock and protects the concurrent
+>   accesses to struct bigben_device (which is roughly everything below
+>   with the changes I just said)
+> - the second one introduces bigben_schedule_work() and piggy backs on
+>   top of that new lock.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Zaidman/HID-ft260-add-GPIO-support/20230211-195918
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230211115752.26276-2-michael.zaidman%40gmail.com
-patch subject: [PATCH v1 1/1] HID: ft260: add GPIO support
-config: arm-randconfig-s041-20230210 (https://download.01.org/0day-ci/archive/20230212/202302120552.KrGf3GNw-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/d3ddadc80df8c149f97dc8ab8fa51ba53f5638cb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Michael-Zaidman/HID-ft260-add-GPIO-support/20230211-195918
-        git checkout d3ddadc80df8c149f97dc8ab8fa51ba53f5638cb
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/hid/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302120552.KrGf3GNw-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/hid-ft260.c:1289:1: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [addressable] [usertype] clock @@
-   drivers/hid/hid-ft260.c:1289:1: sparse:     expected unsigned short [usertype] value
-   drivers/hid/hid-ft260.c:1289:1: sparse:     got restricted __le16 [addressable] [usertype] clock
-
-vim +1289 drivers/hid/hid-ft260.c
-
-6a82582d9fa438 Michael Zaidman 2021-02-19  1287  
-6a82582d9fa438 Michael Zaidman 2021-02-19  1288  FT260_I2CST_ATTR_SHOW(clock);
-6a82582d9fa438 Michael Zaidman 2021-02-19 @1289  FT260_WORD_ATTR_STORE(clock, ft260_set_i2c_speed_report,
-d3ddadc80df8c1 Michael Zaidman 2023-02-11  1290  		      FT260_SET_I2C_CLOCK_SPEED, ft260_attr_dummy_func);
-6a82582d9fa438 Michael Zaidman 2021-02-19  1291  static DEVICE_ATTR_RW(clock);
-6a82582d9fa438 Michael Zaidman 2021-02-19  1292  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks for clarifying. I will work on a v4 patch.
+Best regards,
+Pietro
