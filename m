@@ -2,115 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88EB9692C0C
-	for <lists+linux-input@lfdr.de>; Sat, 11 Feb 2023 01:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2956692D56
+	for <lists+linux-input@lfdr.de>; Sat, 11 Feb 2023 03:23:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbjBKAaZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Feb 2023 19:30:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52614 "EHLO
+        id S229450AbjBKCXw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Feb 2023 21:23:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjBKAaY (ORCPT
+        with ESMTP id S229437AbjBKCXv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Feb 2023 19:30:24 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30284FB;
-        Fri, 10 Feb 2023 16:30:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DA162B82654;
-        Sat, 11 Feb 2023 00:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A2D29C4339C;
-        Sat, 11 Feb 2023 00:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676075420;
-        bh=XEnPFOJ4CxMJH7vgfkFyQKY4s2/0EUC8Eknfpc5jk+s=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=ax5Fd5J1UIn8ED+GyB4f+E8hJ9LztVDn7UWC4mXnOgmf1KRe9qg37VcP6B98kKnsO
-         LZzZNA4MyyMSEIeG7mqIPLuzuz9GmmbPPuWcsDH0Kn9CG/IJyeHa00w9d6VJpmGmI4
-         NXRL4d9rj/vrxhHmcYkuvvsfAImKsX22nRKpEN6IZm/ArT43ezp69CpPKFWLzONl7c
-         8gCOQZrkyi8vqNwPvy5MhnCJYm+ujIZHdOmgGLEGxaUbIkSFrVEqOIZ1FTpVoog4RF
-         TTYadPmdXwwh9e6QDAyw5jGTuEaFaEB2cc1S76SGjrhSDxS3EsrNV3ZLEUNm5ahnDy
-         xyu+Hg0HqKq8Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 740A6E21EC7;
-        Sat, 11 Feb 2023 00:30:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 10 Feb 2023 21:23:51 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD7073582;
+        Fri, 10 Feb 2023 18:23:50 -0800 (PST)
+Date:   Sat, 11 Feb 2023 02:23:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
+        t=1676082227; bh=cND6peTvw/I7idpgc1XRWngdJLvgKPcW8uvL69WIsKw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TUH67zjYEcM4rphEoXAflumxV/kGAOpMKtZcnce3H1MCUPVBOFiJz5G1yrvNPvtDP
+         eKM13NRrvSZ91HY/1GGgCwMgU/gkpBPdblyUwLlFV38QccrCSRqRniny0T2kSi1OeU
+         2dih48HAu8YK7ZCtohAmN3cChsS6OrGwzsbGmeu4=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
+Cc:     Aditya Garg <gargaditya08@live.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "jkosina@suse.cz" <jkosina@suse.cz>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "ronald@innovation.ch" <ronald@innovation.ch>,
+        "kekrby@gmail.com" <kekrby@gmail.com>
+Subject: Re: [PATCH 3/3] HID: apple-magic-backlight: Add driver for keyboard
+ backlight on internal Magic Keyboards
+Message-ID: <20230211022342.7xyvd3qsa42lwrkq@t-8ch.de>
+References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
+ <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
+ <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
+ <7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com>
+ <20230210162518.pe7ipe44falu3j3k@t-8ch.de>
+ <20230211102425.178e1c78@redecorated-mbp>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/24 v2] Documentation: correct lots of spelling errors
- (series 1)
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167607542046.32477.11523239261636548840.git-patchwork-notify@kernel.org>
-Date:   Sat, 11 Feb 2023 00:30:20 +0000
-References: <20230209071400.31476-1-rdunlap@infradead.org>
-In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux@armlinux.org.uk, axboe@kernel.dk, olteanv@gmail.com,
-        steffen.klassert@secunet.com, daniel.m.jordan@oracle.com,
-        akinobu.mita@gmail.com, deller@gmx.de, dmitry.torokhov@gmail.com,
-        rydberg@bitmath.org, isdn@linux-pingi.de, jikos@kernel.org,
-        mbenes@suse.cz, pmladek@suse.com, jpoimboe@kernel.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        jglisse@redhat.com, naoya.horiguchi@nec.com, linmiaohe@huawei.com,
-        jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
-        shorne@gmail.com, bhelgaas@google.com, lpieralisi@kernel.org,
-        maz@kernel.org, mpe@ellerman.id.au, hca@linux.ibm.com,
-        gor@linux.ibm.com, agordeev@linux.ibm.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dhowells@redhat.com, jarkko@kernel.org,
-        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-        bristot@kernel.org, rostedt@goodmis.org, mhiramat@kernel.org,
-        mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
-        zbr@ioremap.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
-        tglx@linutronix.de, bp@alien8.de, chris@zankel.net,
-        jcmvbkbc@gmail.com, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, keyrings@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-trace-devel@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, live-patching@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-mm@kvack.org,
-        openrisc@lists.librecores.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
-        x86@kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230211102425.178e1c78@redecorated-mbp>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed,  8 Feb 2023 23:13:36 -0800 you wrote:
-> Correct many spelling errors in Documentation/ as reported by codespell.
+On Sat, Feb 11, 2023 at 10:24:25AM +1100, Orlando Chamberlain wrote:
+> On Fri, 10 Feb 2023 16:25:18 +0000
+> Thomas Weißschuh <thomas@t-8ch.de> wrote:
 > 
-> Maintainers of specific kernel subsystems are only Cc-ed on their
-> respective patches, not the entire series.
+> > On Fri, Feb 10, 2023 at 03:45:15AM +0000, Aditya Garg wrote:
+> > > From: Orlando Chamberlain <orlandoch.dev@gmail.com>
+> > > +static void apple_magic_backlight_power_set(struct
+> > > apple_magic_backlight *backlight,
+> > > +					   char power, char rate)
+> > > +{
+> > > +	struct hid_report *rep = backlight->power;
+> > > +
+> > > +	rep->field[0]->value[0] = power ? 1 : 0;
+> > > +	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
+> > > +	rep->field[1]->value[0] |= rate << 8;
+> > > +
+> > > +	hid_hw_request(backlight->hdev, backlight->power,
+> > > HID_REQ_SET_REPORT); +}
+> > > +
+> > > +static void apple_magic_backlight_brightness_set(struct
+> > > apple_magic_backlight *backlight,
+> > > +						int brightness,
+> > > char rate) +{
+> > > +	struct hid_report *rep = backlight->brightness;
+> > > +
+> > > +	rep->field[0]->value[0] = brightness;
+> > > +	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
+> > > +	rep->field[1]->value[0] |= rate << 8;
+> > > +
+> > > +	hid_hw_request(backlight->hdev, backlight->brightness,
+> > > HID_REQ_SET_REPORT);
+> > > +  
+> > 
+> > The two functions above are nearly identical.
 > 
-> These patches are based on linux-next-20230209.
-> 
-> [...]
+> They are indeed quite similar, and I can turn the backlight off with the
+> brightness one, but when I logged the usb packets Windows used, it used
+> both so I've done the same in the Linux driver to (hopefully) ensure it
+> works with any other models or firmware updates that the Windows driver
+> works on.
 
-Here is the summary with links:
-  - [03/24] Documentation: core-api: correct spelling
-    (no matching commit)
-  - [08/24] Documentation: isdn: correct spelling
-    https://git.kernel.org/netdev/net-next/c/d12f9ad02806
+I didn't mean to suggest changing the logic, just the way the code is
+organized:
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+static void apple_magic_backlight_report_set(struct apple_magic_backlight *backlight,
+                                             struct hid_report *rep, char value, char rate)
+{
+	rep->field[0]->value[0] = value;
+	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
+	rep->field[1]->value[0] |= rate << 8;
 
+	hid_hw_request(backlight->hdev, rep, HID_REQ_SET_REPORT);
+}
 
+static void apple_magic_backlight_set(struct apple_magic_backlight *backlight,
+				     int brightness, char rate)
+{
+	apple_magic_backlight_report_set(backlight, backlight->power, !!brightness, rate);
+	if (brightness)
+		apple_magic_backlight_report_set(backlight, backlight->brightness, brightness, rate);
+}
+
+This way you can get rid of the duplicated code.
+
+> > 
+> > > +
+> > > +static void apple_magic_backlight_set(struct apple_magic_backlight
+> > > *backlight,
+> > > +				     int brightness, char rate)
+> > > +{
+> > > +	apple_magic_backlight_power_set(backlight, brightness,
+> > > rate);
+> > > +	if (brightness)
+> > > +		apple_magic_backlight_brightness_set(backlight,
+> > > brightness, rate); +}
+> > > +
