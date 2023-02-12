@@ -2,161 +2,298 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA5E6693700
-	for <lists+linux-input@lfdr.de>; Sun, 12 Feb 2023 12:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C91A693708
+	for <lists+linux-input@lfdr.de>; Sun, 12 Feb 2023 12:36:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjBLL3o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Feb 2023 06:29:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46450 "EHLO
+        id S229583AbjBLLgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Feb 2023 06:36:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjBLL3n (ORCPT
+        with ESMTP id S229457AbjBLLgB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Feb 2023 06:29:43 -0500
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060911284A;
-        Sun, 12 Feb 2023 03:29:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1676201355; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=HkGFvJeUk+bE6QufNRZaCyMbx8qdTD+HFi8LSv+UOmkHny7AG8XaN324TSs4Dg0pF3nDxkXzbrECXAltiWoQ+NHskdXpSvArmDfmMeRNapbGN6V9TSjxlMkefulJwHLLanftEYBedzBdyQ8LeHMG7t0Mgjo944/PlTl1QheS/II=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1676201355; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=sdKiqtHN6nftFsRpB9ipKjZhb69tnZdSxehkWarvD8A=; 
-        b=g5t+LEH6QDCe1Q2Gv348lXJ0xgpnfeyAjK+eGkfbhKm1NC3BBJtsiVHDjKCUe0aWi14ZzPIMUX1n4ihrciirbo8Un46IYqlssCsQ//rt78FN1RPpIDF6QGQUoSlvvnsAslwljMGh6ez3R6isuUGpohFC/YGkeF/F9R/8B9tG4FM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=arinc9.com;
-        spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-        dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1676201355;
-        s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-        bh=sdKiqtHN6nftFsRpB9ipKjZhb69tnZdSxehkWarvD8A=;
-        b=Hy8r1v89SG4Sv6Rol2/5mOrhOgIBDRCDTziw4D9gbmI/n2eA2cJVVuq5zNKGn0MC
-        9heT0NnuuP1e6KnuCwvksZBuuQ0f4wZE626HeQ+G97lu6kapMJ3Rl2L1LoSG5T+wwpT
-        tg8opL5fsiHMGfoRO+VVSWOMrRlO1sQwNu9xZHMQ=
-Received: from [10.10.10.3] (37.120.152.236 [37.120.152.236]) by mx.zohomail.com
-        with SMTPS id 1676201354267603.4220221328939; Sun, 12 Feb 2023 03:29:14 -0800 (PST)
-Message-ID: <ffc0f65b-8bdc-3353-8fb8-6e60582c2412@arinc9.com>
-Date:   Sun, 12 Feb 2023 14:29:10 +0300
+        Sun, 12 Feb 2023 06:36:01 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F34F7211E;
+        Sun, 12 Feb 2023 03:35:59 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="358114206"
+X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
+   d="scan'208";a="358114206"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 03:35:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="914008350"
+X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
+   d="scan'208";a="914008350"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006.fm.intel.com with ESMTP; 12 Feb 2023 03:35:57 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@infradead.org>)
+        id 1pRAeB-005qQE-16;
+        Sun, 12 Feb 2023 13:35:55 +0200
+Date:   Sun, 12 Feb 2023 13:35:55 +0200
+From:   Andy Shevchenko <andy@infradead.org>
+To:     Aditya Garg <gargaditya08@live.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "jkosina@suse.cz" <jkosina@suse.cz>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "ronald@innovation.ch" <ronald@innovation.ch>,
+        "kekrby@gmail.com" <kekrby@gmail.com>,
+        Orlando Chamberlain <orlandoch.dev@gmail.com>
+Subject: Re: [PATCH 1/3] HID: apple-ibridge: Add Apple iBridge HID driver for
+ T1 chip.
+Message-ID: <Y+jPG4/EkYt1otap@smile.fi.intel.com>
+References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
+ <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: mtk-pmic-keys: Ignore power button if pressed before driver loads
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     linux-input@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Frank Wunderlich <frank-w@public-files.de>,
-        erkin.bozoglu@xeront.com
-References: <883798d8-f7d9-eadc-1343-7d241741ff67@arinc9.com>
- <87r0vcc51b.fsf@baylibre.com>
-Content-Language: en-US
-From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <87r0vcc51b.fsf@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hey Mattijs,
-
-Sorry for the late response.
-
-On 30.01.2023 20:21, Mattijs Korpershoek wrote:
-> Hi Arınç,
+On Fri, Feb 10, 2023 at 03:43:24AM +0000, Aditya Garg wrote:
+> From: Ronald Tschal�r <ronald@innovation.ch>
 > 
-> On lun., janv. 30, 2023 at 16:36, Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+> The iBridge device provides access to several devices, including:
+> - the Touch Bar
+> - the iSight webcam
+> - the light sensor
+> - the fingerprint sensor
 > 
->> Hi all,
->>
->> The power button on my Bananapi BPI-R2 (MT7623NI SoC, mt6323-keys) is
->> shorted, so the device automatically boots when there's power. This
->> causes the device to reboot when KEYBOARD_MTK_PMIC is loaded because the
->> driver sees the power button being pressed.
+> This driver provides the core support for managing the iBridge device
+> and the access to the underlying devices. In particular, the
+> functionality for the touch bar and light sensor is exposed via USB HID
+> interfaces, and on devices with the T1 chip one of the HID devices is
+> used for both functions. So this driver creates virtual HID devices, one
+> per top-level report collection on each HID device (for a total of 3
+> virtual HID devices). The sub-drivers then bind to these virtual HID
+> devices.
 > 
-> What evidence do you have that there is actually a "press" event being
-> received by userspace? Did you tested this with evtest or something
-> similar?
-> 
-> If a "power button press" is generated, than I imagine that a userspace
-> process must receive it and halt the system, right?
-> 
-> The PMIC also has a feature to shutdown in case detect a long key-press,
-> which is controlled by the mediatek,long-press-mode device-tree
-> property.
-> So is it the pmic that shutdown your board (probably no evidence in
-> logs, just a "power cut" behaviour) or is it userspace?
+> This way the Touch Bar and ALS drivers can be kept in their own modules,
+> while at the same time making them look very much like as if they were
+> connected to the real HID devices. And those drivers then work (mostly)
+> without further changes on MacBooks with the T2 chip that don't need
+> this driver.
 
-Nothing appears on the kernel log and evtest doesn't detect anything. 
-The input device appears only after loading mtk-pmic-keys.ko so I have 
-to run evtest after the driver is loaded. After that, I see nothing 
-noticeable running evtest:
+...
 
-# evtest
-No device specified, trying to scan all of /dev/input/event*
-Available devices:
-/dev/input/event0:	mtk_cir
-/dev/input/event1:	mtk-pmic-keys
-Select the device event number [0-1]: 1
-Input driver version is 1.0.1
-Input device ID: bus 0x19 vendor 0x1 product 0x1 version 0x1
-Input device name: "mtk-pmic-keys"
-Supported events:
-   Event type 0 (EV_SYN)
-   Event type 1 (EV_KEY)
-     Event code 114 (KEY_VOLUMEDOWN)
-     Event code 116 (KEY_POWER)
-Properties:
-Testing ... (interrupt to exit)
-(Device reboots)
+> [Kerem Karabay: convert to a platform driver]
+> [Kerem Karabay: fix appleib_forward_int_op]
+> [Kerem Karabay: rely on HID core's parsing in appleib_add_device]
 
-I've set this on the devicetree of Bananapi BPI-R2:
+If somebody is going to update this (and update seems required for upstreaming)
+the list of changes will grow. I suggest to consider Co-developed-by and move
+these lines to cover-letter changelog.
 
-&mt6323keys {
-	mediatek,long-press-mode = <0>;
-};
+> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
 
-This prevents the device from rebooting after the driver is loaded so I 
-believe this proves that it's the driver that tries to shutdown the board.
+...
 
-> 
->>
->> I was wondering if it's possible to change the driver in a way that
->> doesn't break in this situation. Maybe don't do anything if the first
->> state of the the power button the driver sees is being pressed, and if
->> the state doesn't change.
-> 
-> If the driver is an issue, can't we blacklist it from being probed
-> instead? or do you want to use the home key feature that that same
-> driver provides?
+> +#include <linux/platform_device.h>
+> +#include <linux/acpi.h>
+> +#include <linux/device.h>
+> +#include <linux/hid.h>
+> +#include <linux/list.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/usb.h>
 
-Since it's a special case, specific to my own board, I just disabled the 
-key.
+Can we keep it sorted?
 
-&mt6323keys {
-	power {
-		status = "disabled";
-	};
-};
+> +#include "hid-ids.h"
+> +#include "../hid/usbhid/usbhid.h"
 
-I also see there's no home key on this board so I may submit a patch to 
-disable the home button for this device.
++ Blank line?
 
-Thanks for your help!
+> +#include "apple-ibridge.h"
 
-Cheers.
-Arınç
+...
+
+> +static struct hid_device_id appleib_sub_hid_ids[] = {
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LINUX_FOUNDATION,
+> +			 USB_DEVICE_ID_IBRIDGE_TB) },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LINUX_FOUNDATION,
+> +			 USB_DEVICE_ID_IBRIDGE_ALS) },
+> +};
+> +
+> +static struct {
+> +	unsigned int usage;
+> +	struct hid_device_id *dev_id;
+> +} appleib_usage_map[] = {
+> +	/* Default iBridge configuration, key inputs and mode settings */
+> +	{ 0x00010006, &appleib_sub_hid_ids[0] },
+> +	/* OS X iBridge configuration, digitizer inputs */
+> +	{ 0x000D0005, &appleib_sub_hid_ids[0] },
+> +	/* All iBridge configurations, display/DFR settings */
+> +	{ 0xFF120001, &appleib_sub_hid_ids[0] },
+> +	/* All iBridge configurations, ALS */
+> +	{ 0x00200041, &appleib_sub_hid_ids[1] },
+> +};
+
+Shouldn't be other way around, i.e. via driver_data?
+
+...
+
+> +struct appleib_device {
+> +	acpi_handle asoc_socw;
+> +};
+
+What's the point of having struct out of a single member? Can you use it directly?
+(you can try and see if it's not ugly, in some cases struct can be justified)
+
+...
+
+> +	bool			sub_open[ARRAY_SIZE(appleib_sub_hid_ids)];
+
+Why not using bitmap?
+
+	DECLARE_BITMAP(sub_open, ARRAY_SIZE(...));
+
+...
+
+> +static __u8 *appleib_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+> +				  unsigned int *rsize)
+
+Why __ types are in use? Is it part of ABI?
+
+...
+
+> +static int appleib_forward_int_op(struct hid_device *hdev,
+
+> +				  int (*forward)(struct hid_driver *,
+> +						 struct hid_device *, void *),
+
+This can be on one line
+
+> +				  void *args)
+
+...
+
+> +	if (drv->suspend)
+> +		rc = drv->suspend(hdev, *(pm_message_t *)args);
+
+This looks like a hack. What's going on here and why the pm_message_t is in
+use? All new PM callbacks do not use it.
+
+...
+
+> +	for (i = 0; i < ARRAY_SIZE(hdev_info->sub_hdevs); i++) {
+> +		/*
+> +		 * hid_hw_open(), and hence appleib_ll_open(), is called
+> +		 * from the driver's probe function, which in turn is called
+> +		 * while adding the sub-hdev; but at this point we haven't yet
+> +		 * added the sub-hdev to our list. So if we don't find the
+> +		 * sub-hdev in our list assume it's in the process of being
+> +		 * added and set the flag on the first unset sub-hdev.
+> +		 */
+> +		if (hdev_info->sub_hdevs[i] == hdev ||
+> +		    !hdev_info->sub_hdevs[i]) {
+
+Unusual order of || operator arguments.
+
+This will have a side effect, i.e. if hdev is equal to NULL it will go to the
+true branch. Is it by design?
+
+> +			WRITE_ONCE(hdev_info->sub_open[i], open);
+> +			return 0;
+> +		}
+> +	}
+
+...
+
+> +				while (i-- > 0)
+
+while (i--) ?
+
+> +					hid_destroy_device(hdev_info->sub_hdevs[i]);
+
+> +				return (void *)hdev_info->sub_hdevs[i];
+
+This casting is strange. And entire code piece. You will always return 0
+element as a pointer here, why 'i'? Needs a lot of explanation.
+
+...
+
+> +static const struct hid_device_id appleib_hid_ids[] = {
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IBRIDGE) },
+
+> +	{ },
+
+No comma for the terminator entry.
+
+> +};
+
+...
+
+> +#ifdef CONFIG_PM
+> +	.suspend = appleib_hid_suspend,
+> +	.resume = appleib_hid_resume,
+> +	.reset_resume = appleib_hid_reset_resume,
+> +#endif
+
+Why not using
+
+	.driver = {
+		.pm = ...;
+	},
+
+?
+
+...
+
+> +	ret = hid_register_driver(&appleib_hid_driver);
+> +	if (ret) {
+
+> +		dev_err(&pdev->dev, "Error registering hid driver: %d\n",
+> +			ret);
+> +		return ret;
+
+	return dev_err_probe(...);
+
+> +	}
+
+...
+
+> +static int appleib_suspend(struct platform_device *pdev, pm_message_t message)
+> +{
+> +	struct appleib_device *ib_dev;
+> +	int rc;
+
+> +	ib_dev = platform_get_drvdata(pdev);
+
+Just unite it with the definition above.
+Ditto for the similar cases here and there.
+
+> +	rc = acpi_execute_simple_method(ib_dev->asoc_socw, NULL, 0);
+> +	if (ACPI_FAILURE(rc))
+> +		dev_warn(&pdev->dev, "SOCW(0) failed: %s\n",
+> +			 acpi_format_exception(rc));
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static const struct acpi_device_id appleib_acpi_match[] = {
+> +	{ "APP7777", 0 },
+> +	{ },
+
+No comma for terminator entry.
+
+> +};
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
