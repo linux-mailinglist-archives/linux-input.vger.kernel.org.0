@@ -2,127 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B62F26936F9
-	for <lists+linux-input@lfdr.de>; Sun, 12 Feb 2023 12:18:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA5E6693700
+	for <lists+linux-input@lfdr.de>; Sun, 12 Feb 2023 12:29:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbjBLLSl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Feb 2023 06:18:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44208 "EHLO
+        id S229498AbjBLL3o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Feb 2023 06:29:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjBLLSl (ORCPT
+        with ESMTP id S229457AbjBLL3n (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Feb 2023 06:18:41 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51F0125BB;
-        Sun, 12 Feb 2023 03:18:38 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="328407157"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="328407157"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 03:18:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="737191266"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="737191266"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Feb 2023 03:18:35 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@infradead.org>)
-        id 1pRANN-005q8a-2w;
-        Sun, 12 Feb 2023 13:18:33 +0200
-Date:   Sun, 12 Feb 2023 13:18:33 +0200
-From:   Andy Shevchenko <andy@infradead.org>
-To:     Aditya Garg <gargaditya08@live.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "jkosina@suse.cz" <jkosina@suse.cz>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "ronald@innovation.ch" <ronald@innovation.ch>,
-        "kekrby@gmail.com" <kekrby@gmail.com>,
-        Orlando Chamberlain <orlandoch.dev@gmail.com>
-Subject: Re: [PATCH 3/3] HID: apple-magic-backlight: Add driver for keyboard
- backlight on internal Magic Keyboards
-Message-ID: <Y+jLCebet+aekGRv@smile.fi.intel.com>
-References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
- <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
- <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
- <7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com>
+        Sun, 12 Feb 2023 06:29:43 -0500
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060911284A;
+        Sun, 12 Feb 2023 03:29:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676201355; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=HkGFvJeUk+bE6QufNRZaCyMbx8qdTD+HFi8LSv+UOmkHny7AG8XaN324TSs4Dg0pF3nDxkXzbrECXAltiWoQ+NHskdXpSvArmDfmMeRNapbGN6V9TSjxlMkefulJwHLLanftEYBedzBdyQ8LeHMG7t0Mgjo944/PlTl1QheS/II=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1676201355; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=sdKiqtHN6nftFsRpB9ipKjZhb69tnZdSxehkWarvD8A=; 
+        b=g5t+LEH6QDCe1Q2Gv348lXJ0xgpnfeyAjK+eGkfbhKm1NC3BBJtsiVHDjKCUe0aWi14ZzPIMUX1n4ihrciirbo8Un46IYqlssCsQ//rt78FN1RPpIDF6QGQUoSlvvnsAslwljMGh6ez3R6isuUGpohFC/YGkeF/F9R/8B9tG4FM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=arinc9.com;
+        spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+        dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1676201355;
+        s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+        bh=sdKiqtHN6nftFsRpB9ipKjZhb69tnZdSxehkWarvD8A=;
+        b=Hy8r1v89SG4Sv6Rol2/5mOrhOgIBDRCDTziw4D9gbmI/n2eA2cJVVuq5zNKGn0MC
+        9heT0NnuuP1e6KnuCwvksZBuuQ0f4wZE626HeQ+G97lu6kapMJ3Rl2L1LoSG5T+wwpT
+        tg8opL5fsiHMGfoRO+VVSWOMrRlO1sQwNu9xZHMQ=
+Received: from [10.10.10.3] (37.120.152.236 [37.120.152.236]) by mx.zohomail.com
+        with SMTPS id 1676201354267603.4220221328939; Sun, 12 Feb 2023 03:29:14 -0800 (PST)
+Message-ID: <ffc0f65b-8bdc-3353-8fb8-6e60582c2412@arinc9.com>
+Date:   Sun, 12 Feb 2023 14:29:10 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: mtk-pmic-keys: Ignore power button if pressed before driver loads
+To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc:     linux-input@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        erkin.bozoglu@xeront.com
+References: <883798d8-f7d9-eadc-1343-7d241741ff67@arinc9.com>
+ <87r0vcc51b.fsf@baylibre.com>
+Content-Language: en-US
+From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <87r0vcc51b.fsf@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 03:45:15AM +0000, Aditya Garg wrote:
-> From: Orlando Chamberlain <orlandoch.dev@gmail.com>
+Hey Mattijs,
+
+Sorry for the late response.
+
+On 30.01.2023 20:21, Mattijs Korpershoek wrote:
+> Hi Arınç,
 > 
-> This driver adds support for the keyboard backlight on Intel T2 Macs
-> with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
+> On lun., janv. 30, 2023 at 16:36, Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+> 
+>> Hi all,
+>>
+>> The power button on my Bananapi BPI-R2 (MT7623NI SoC, mt6323-keys) is
+>> shorted, so the device automatically boots when there's power. This
+>> causes the device to reboot when KEYBOARD_MTK_PMIC is loaded because the
+>> driver sees the power button being pressed.
+> 
+> What evidence do you have that there is actually a "press" event being
+> received by userspace? Did you tested this with evtest or something
+> similar?
+> 
+> If a "power button press" is generated, than I imagine that a userspace
+> process must receive it and halt the system, right?
+> 
+> The PMIC also has a feature to shutdown in case detect a long key-press,
+> which is controlled by the mediatek,long-press-mode device-tree
+> property.
+> So is it the pmic that shutdown your board (probably no evidence in
+> logs, just a "power cut" behaviour) or is it userspace?
 
-...
+Nothing appears on the kernel log and evtest doesn't detect anything. 
+The input device appears only after loading mtk-pmic-keys.ko so I have 
+to run evtest after the driver is loaded. After that, I see nothing 
+noticeable running evtest:
 
-> +#include <linux/hid.h>
-> +#include <linux/usb.h>
+# evtest
+No device specified, trying to scan all of /dev/input/event*
+Available devices:
+/dev/input/event0:	mtk_cir
+/dev/input/event1:	mtk-pmic-keys
+Select the device event number [0-1]: 1
+Input driver version is 1.0.1
+Input device ID: bus 0x19 vendor 0x1 product 0x1 version 0x1
+Input device name: "mtk-pmic-keys"
+Supported events:
+   Event type 0 (EV_SYN)
+   Event type 1 (EV_KEY)
+     Event code 114 (KEY_VOLUMEDOWN)
+     Event code 116 (KEY_POWER)
+Properties:
+Testing ... (interrupt to exit)
+(Device reboots)
 
-Seems lack of some header inclusions, e.g. where struct led_classdev is defined
-or -ERRNO codes.
+I've set this on the devicetree of Bananapi BPI-R2:
 
-> +#include "hid-ids.h"
+&mt6323keys {
+	mediatek,long-press-mode = <0>;
+};
 
-...
+This prevents the device from rebooting after the driver is loaded so I 
+believe this proves that it's the driver that tries to shutdown the board.
 
-> +static void apple_magic_backlight_power_set(struct apple_magic_backlight *backlight,
-> +					   char power, char rate)
+> 
+>>
+>> I was wondering if it's possible to change the driver in a way that
+>> doesn't break in this situation. Maybe don't do anything if the first
+>> state of the the power button the driver sees is being pressed, and if
+>> the state doesn't change.
+> 
+> If the driver is an issue, can't we blacklist it from being probed
+> instead? or do you want to use the home key feature that that same
+> driver provides?
 
-char is a beast, can we use u8 here and in similar cases?
+Since it's a special case, specific to my own board, I just disabled the 
+key.
 
-...
+&mt6323keys {
+	power {
+		status = "disabled";
+	};
+};
 
-> +	/* Ensure this usb endpoint is for the keyboard backlight, not touchbar
-> +	 * backlight.
-> +	 */
+I also see there's no home key on this board so I may submit a patch to 
+disable the home button for this device.
 
-/*
- * Multi-line comment style
- * goes like this.
- */
+Thanks for your help!
 
-...
-
-> +	backlight = devm_kzalloc(&hdev->dev, sizeof(*backlight), GFP_KERNEL);
-
-> +
-
-Redundant blank line.
-
-> +	if (!backlight)
-> +		return -ENOMEM;
-
-...
-
-> +static struct hid_driver apple_magic_backlight_hid_driver = {
-> +	.name = "apple-magic-backlight",
-> +	.id_table = apple_magic_backlight_hid_ids,
-> +	.probe = apple_magic_backlight_probe,
-> +	.remove = apple_magic_backlight_remove,
-> +};
-
-> +
-
-Redundant blank line.
-
-> +module_hid_driver(apple_magic_backlight_hid_driver);
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Cheers.
+Arınç
