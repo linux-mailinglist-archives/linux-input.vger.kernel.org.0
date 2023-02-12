@@ -2,437 +2,247 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4F10693717
-	for <lists+linux-input@lfdr.de>; Sun, 12 Feb 2023 12:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16DE669397E
+	for <lists+linux-input@lfdr.de>; Sun, 12 Feb 2023 20:01:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbjBLL4J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Feb 2023 06:56:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54256 "EHLO
+        id S229628AbjBLTBY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Feb 2023 14:01:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjBLL4I (ORCPT
+        with ESMTP id S229479AbjBLTBX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Feb 2023 06:56:08 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD78E11169;
-        Sun, 12 Feb 2023 03:56:06 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="332848857"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="332848857"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 03:56:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="914012213"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="914012213"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Feb 2023 03:56:03 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@infradead.org>)
-        id 1pRAxd-005qmt-1H;
-        Sun, 12 Feb 2023 13:56:01 +0200
-Date:   Sun, 12 Feb 2023 13:56:01 +0200
-From:   Andy Shevchenko <andy@infradead.org>
-To:     Aditya Garg <gargaditya08@live.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "jkosina@suse.cz" <jkosina@suse.cz>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "ronald@innovation.ch" <ronald@innovation.ch>,
-        "kekrby@gmail.com" <kekrby@gmail.com>,
-        Orlando Chamberlain <orlandoch.dev@gmail.com>
-Subject: Re: [PATCH 2/3] HID: apple-touchbar: Add driver for the Touch Bar on
- MacBook Pros
-Message-ID: <Y+jT0cDmlutS5CHg@smile.fi.intel.com>
-References: <E5D8BEBA-3C5B-460F-BD2C-39470A793CC3@live.com>
- <40274C3D-4F4F-479C-944C-EEBDC78F959C@live.com>
- <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
+        Sun, 12 Feb 2023 14:01:23 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52EFE11141
+        for <linux-input@vger.kernel.org>; Sun, 12 Feb 2023 11:01:20 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id sa10so26967627ejc.9
+        for <linux-input@vger.kernel.org>; Sun, 12 Feb 2023 11:01:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=diag.uniroma1.it; s=google;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=obZtl92ZRZwY+0Q7TuwxnTOWj3USPRjxPYHuE4yBwJc=;
+        b=cGQVkDB4NxLIXbpcNxjJYjhjdSGvt1WoLXJNe0xfFnOR6Fh2kqrZ91UMRVraGucBCl
+         sZ+zSreKAh0PUtNidYOr84zSGK6jVvTUkCd1NEIBqzHI1wlfNCluOaw2Rufx5KeC1hVX
+         QaWj6DPyvR8mGeH1e/iL57IKS9MrF9rirLflA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=obZtl92ZRZwY+0Q7TuwxnTOWj3USPRjxPYHuE4yBwJc=;
+        b=IXq0MJCdUeGTEV1NHSeqeq10MsceGZMXTEU4rv+G6YWJdylkRrzsGzzVCktK3mYIJg
+         Htyjcltr3AXe5PwUIGKvU8Y8Qbgmy8nj2mqhYudoiRdHIO/D48w0CwNxKfq9z38IYS3f
+         bMqWH1aHJAL87qqeHyZ4d9RGcPiARkq9HT3zroyRknGr8WcLdyo49tUI31pZhvhiS7wA
+         OkSksNLvxlUFgLv1Sx2O3Qm7Sa6kwbRpbpDB/Inb53x32+XBYTAyNa1ogBlvA8ht+IE0
+         UNDHVEOFGf3Xx3YLS9/T3Ey9+Pvu11aPsDIv98Qrmu4Lod0hUH6dql+nVhwVag5tjmWL
+         mDrw==
+X-Gm-Message-State: AO0yUKXTcBAJe2PmtxxotkP/jHCeh43PxKADI7sVVLGR+Yiz8g0ImaRL
+        pmsrtYszBc0Kx/b6GFhl5wuM+w==
+X-Google-Smtp-Source: AK7set/x85UyPwJl+c245Gw4AmeTeANCqs4F5TCxxO8RDb/0nfI5e+vVu57Nv7ICbZwMxvakXTonUw==
+X-Received: by 2002:a17:906:3159:b0:88f:a23e:6f0d with SMTP id e25-20020a170906315900b0088fa23e6f0dmr23960936eje.37.1676228478815;
+        Sun, 12 Feb 2023 11:01:18 -0800 (PST)
+Received: from [192.168.17.2] (wolkje-127.labs.vu.nl. [130.37.198.127])
+        by smtp.gmail.com with ESMTPSA id l26-20020a170906079a00b008966488a5f1sm5714368ejc.144.2023.02.12.11.01.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Feb 2023 11:01:18 -0800 (PST)
+From:   Pietro Borrello <borrello@diag.uniroma1.it>
+Subject: [PATCH v4 0/5] HID: use spinlocks to safely schedule led workers
+Date:   Sun, 12 Feb 2023 18:59:58 +0000
+Message-Id: <20230125-hid-unregister-leds-v4-0-7860c5763c38@diag.uniroma1.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <868AA58D-2399-4E4A-A6C6-73F88DB13992@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC436WMC/43Nyw7CIBAF0F8xrMXA9GFx5X8YF1OYtpMoNVAbj
+ em/C12rcXnnce5LRApMURw2LxFo5sijT6HcboQd0Pck2aUsQEGhNFRyYCfvPlDPcaIgL+SiLG3
+ b1XtlDGkn0meLkWQb0Nsh/14xn+bFLVDHj7XudE55SMgYnmv7rPP0d9GspZIGK23AWep0fXSM/
+ e7uOYxX1DueRGZn+IOCRNWNsbaGzjb75gtV/EEViVJYAVqAipT6QC3L8ga5nlbcbAEAAA==
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hanno Zulla <kontakt@hanno.de>, Hanno Zulla <abos@hanno.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676228478; l=7696;
+ i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id;
+ bh=THqKbxWM5AeFa6Abp+Ryde9T4zX28mwinYxL+3hn8TA=;
+ b=k0t7WFAfqmcspmHhvRfW+IMXlwgpCK5NbIcNUwjJBGgvnsP4qF526Pq26dgjxnBEJ1FwFHP9m7kk
+ 2xrldwE7CYbUgdQiaaIdVzNhibfOIGBXYDvhdXpuEkWjGyim3zf2
+X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519;
+ pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 03:44:26AM +0000, Aditya Garg wrote:
-> From: Ronald Tschalär <ronald@innovation.ch>
-> 
-> This driver enables basic touch bar functionality: enabling it, switching
-> between modes on FN key press, and dimming and turning the display
-> off/on when idle/active.
-
-...
-
-> Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
-> [Kerem Karabay: use USB product IDs from hid-ids.h]
-> [Kerem Karabay: use hid_hw_raw_request except when setting the touchbar mode on T1 Macs]
-> [Kerem Karabay: update Kconfig description]
-> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> [Orlando Chamberlain: add usage check to not bind to keyboard backlight interface]
-> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
-> [Aditya Garg: check if apple-touchbar is enabled in the special driver list]
-> [Aditya Garg: fix suspend on T2 Macs]
-
-Are you going to use this as a changelog? Not okay for a list of changes.
-Consider Co-developed-by and proper Changelog in the cover letter.
-
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-
-...
-
-> +config HID_APPLE_TOUCHBAR
-> +	tristate "Apple Touch Bar"
-> +	depends on USB_HID
-> +	help
-
-> +	Say Y here if you want support for the Touch Bar on x86
-> +	MacBook Pros.
-> +
-> +	To compile this driver as a module, choose M here: the
-> +	module will be called apple-touchbar.
-
-Wrong indentation for the help description. Missing two spaces.
-
-...
-
-> +#define dev_fmt(fmt) "tb: " fmt
-
-Do we really need this?
-
-...
-
-
-> +static ssize_t idle_timeout_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf);
-> +static ssize_t idle_timeout_store(struct device *dev,
-> +				  struct device_attribute *attr,
-> +				  const char *buf, size_t size);
-
-> +static ssize_t dim_timeout_show(struct device *dev,
-> +				struct device_attribute *attr, char *buf);
-> +static ssize_t dim_timeout_store(struct device *dev,
-> +				 struct device_attribute *attr,
-> +				 const char *buf, size_t size);
-
-> +static ssize_t fnmode_show(struct device *dev, struct device_attribute *attr,
-> +			   char *buf);
-> +static ssize_t fnmode_store(struct device *dev, struct device_attribute *attr,
-> +			    const char *buf, size_t size);
-
-Make sure you will have no unnecessary forward declarations.
-
-...
-
-> +static struct attribute *appletb_attrs[] = {
-> +	&dev_attr_idle_timeout.attr,
-> +	&dev_attr_dim_timeout.attr,
-> +	&dev_attr_fnmode.attr,
-
-> +	NULL,
-
-No comma for terminator entry.
-
-> +};
-
-...
-
-> +static struct appletb_device *appletb_dev;
-
-Why is it global?
-
-...
-
-> +static bool appletb_disable_autopm(struct hid_device *hdev)
-> +{
-> +	int rc;
-> +
-> +	rc = hid_hw_power(hdev, PM_HINT_FULLON);
-
-> +
-
-Redundant blank line and see below.
-
-> +	if (rc == 0)
-> +		return true;
-> +
-> +	hid_err(hdev,
-> +		"Failed to disable auto-pm on touch bar device (%d)\n", rc);
-> +	return false;
-
-
-	if (rc)
-		hid_err(...);
-
-	return rc == 0;
-
-> +}
-
-...
-
-> +static bool appletb_any_tb_key_pressed(struct appletb_device *tb_dev)
-> +{
-> +	return !!memchr_inv(tb_dev->last_tb_keys_pressed, 0,
-> +			    sizeof(tb_dev->last_tb_keys_pressed));
-
-Sounds like last_tb_keys_pressed should be declared as a bitmap and hence
-
-	return !bitmap_empty(...);
-
-> +}
-
-...
-
-> +static ssize_t idle_timeout_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%d\n", tb_dev->idle_timeout);
-
-sysfs_emit().
-
-> +}
-
-...
-
-> +static ssize_t idle_timeout_store(struct device *dev,
-> +				  struct device_attribute *attr,
-> +				  const char *buf, size_t size)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +	long new;
-> +	int rc;
-> +
-> +	rc = kstrtol(buf, 0, &new);
-> +	if (rc || new > INT_MAX || new < -2)
-> +		return -EINVAL;
-
-Do not shadow the error code.
-
-	if (rc)
-		return rc;
-
-Why do you use INT_MAX check with to-long conversion instead of simply calling
-kstrtoint()?
-
-
-> +	appletb_set_idle_timeout(tb_dev, new);
-> +	appletb_update_touchbar(tb_dev, true);
-> +
-> +	return size;
-> +}
-
-...
-
-> +static ssize_t dim_timeout_show(struct device *dev,
-> +				struct device_attribute *attr, char *buf)
-> +{
-> +	struct appletb_device *tb_dev = dev_get_drvdata(dev);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%d\n",
-> +			tb_dev->dim_to_is_calc ? -2 : tb_dev->dim_timeout);
-
-sysfs_emit()
-
-> +}
-> +
-> +static ssize_t dim_timeout_store(struct device *dev,
-> +				 struct device_attribute *attr,
-> +				 const char *buf, size_t size)
-> +{
-
-As per above.
-
-> +}
-> +
-> +static ssize_t fnmode_show(struct device *dev, struct device_attribute *attr,
-> +			   char *buf)
-> +{
-
-As per above.
-
-> +}
-> +
-> +static ssize_t fnmode_store(struct device *dev, struct device_attribute *attr,
-> +			    const char *buf, size_t size)
-> +{
-
-As per above.
-
-> +}
-
-...
-
-> +static int appletb_tb_key_to_slot(unsigned int code)
-> +{
-> +	switch (code) {
-> +	case KEY_ESC:
-> +		return 0;
-> +	case KEY_F1:
-> +	case KEY_F2:
-> +	case KEY_F3:
-> +	case KEY_F4:
-> +	case KEY_F5:
-> +	case KEY_F6:
-> +	case KEY_F7:
-> +	case KEY_F8:
-> +	case KEY_F9:
-> +	case KEY_F10:
-> +		return code - KEY_F1 + 1;
-> +	case KEY_F11:
-> +	case KEY_F12:
-> +		return code - KEY_F11 + 11;
-> +	default:
-> +		return -1;
-
-Use appropriate error code from errno.h.
-
-> +	}
-> +}
-
-...
-
-> +	{ },			/* Terminating zero entry */
-
-No comma.
-
-...
-
-> +static bool appletb_match_internal_device(struct input_handler *handler,
-> +					  struct input_dev *inp_dev)
-> +{
-> +	struct device *dev = &inp_dev->dev;
-> +
-> +	if (inp_dev->id.bustype == BUS_SPI)
-> +		return true;
-> +
-> +	/* in kernel: dev && !is_usb_device(dev) */
-> +	while (dev && !(dev->type && dev->type->name &&
-> +			!strcmp(dev->type->name, "usb_device")))
-> +		dev = dev->parent;
-
-I believe we have some helpers to mach like this.
-
-> +	/*
-> +	 * Apple labels all their internal keyboards and trackpads as such,
-> +	 * instead of maintaining an ever expanding list of product-id's we
-> +	 * just look at the device's product name.
-> +	 */
-> +	if (dev)
-> +		return !!strstr(to_usb_device(dev)->product, "Internal Keyboard");
-> +
-> +	return false;
-> +}
-
-...
-
-> +static int appletb_probe(struct hid_device *hdev,
-> +			 const struct hid_device_id *id)
-
-Can be a single line.
-
-...
-
-> +	rc = hid_parse(hdev);
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev, "hid parse failed (%d)\n", rc);
-> +		goto error;
-
-return dev_err_probe(...);
-
-(error label seems useless)
-
-> +	}
-
-...
-
-> +	if ((hdev->product == USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) &&
-> +			!(hdev->collection && hdev->collection[0].usage ==
-> +				HID_USAGE_APPLE_APP)) {
-
-Broken indentation.
-
-> +		return -ENODEV;
-> +	}
-
-...
-
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev, "hw start failed (%d)\n", rc);
-
-dev_err_probe()
-
-It will unite the style of error messaging.
-
-> +		goto clear_iface_info;
-> +	}
-
-> +	rc = hid_hw_open(hdev);
-> +	if (rc) {
-> +		dev_err(tb_dev->log_dev, "hw open failed (%d)\n", rc);
-
-Ditto. And so on.
-
-> +		goto stop_hid;
-> +	}
-
-...
-
-> +		/* initialize sysfs attributes */
-> +		rc = sysfs_create_group(&tb_dev->mode_iface.hdev->dev.kobj,
-> +					&appletb_attr_group);
-> +		if (rc) {
-> +			dev_err(tb_dev->log_dev,
-> +				"Failed to create sysfs attributes (%d)\n", rc);
-> +			goto unreg_handler;
-> +		}
-
-Can't you use .dev_groups?
-
-> +	}
-
-...
-
-> +	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge Display */
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-> +			USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
-> +	{ },
-
-No comma.
-
-...
-
-> +
-
-Redundant blank line.
-
-> +MODULE_DEVICE_TABLE(hid, appletb_hid_ids);
-
-...
-
-> +#ifdef CONFIG_PM
-> +	.suspend = appletb_suspend,
-> +	.reset_resume = appletb_reset_resume,
-> +#endif
-
-Why not using .driver.pm ?
-
-...
-
-> +module_init(appletb_init);
-> +module_exit(appletb_exit);
-
-Just move them closer to the implementation.
-
+I noticed a recurring pattern is present in multiple hid devices in the
+Linux tree, where the LED controller of a device schedules a work_struct
+to interact with the hardware.
+The work_struct is embedded in the device structure and thus, is freed
+at device removal.
+
+The issue is that a LED worker may be scheduled by a timer concurrently
+with device removal, causing the work_struct to be accessed after having
+been freed.
+I was able to trigger the issue in hid-bigbenff.c and hid-asus.c 
+where the work_structs may be scheduled by the LED controller
+while the device is disconnecting, triggering use-after-frees.
+I can attach the reproducer, but it's very simple USB configuration, 
+using the /dev/raw-gadget interface with some more USB interactions 
+to manage LEDs configuration and pass checks in asus_kbd_init() 
+and asus_kbd_get_functions() in case of hid-asus.c.
+I triggered the issue by connecting a device and immediately 
+disconnecting it, so that the remove function runs before the LED one
+which remains pending.
+
+I am attaching multiple patches for asus and bigben drivers. 
+The proposed patches introduce safe wrappers to schedule the workers
+safely with several spinlocks checks.
+
+I attach the (partial for brevity) ODEBUG dumps:
+
+```hid-bigbenff.c
+[   37.803135][ T1170] usb 1-1: USB disconnect, device number 2
+[   37.827979][ T1170] ODEBUG: free active (active state 0) object
+type: work_struct hint: bigben_worker+0x0/0x860
+[   37.829634][ T1170] WARNING: CPU: 0 PID: 1170 at
+lib/debugobjects.c:505 debug_check_no_obj_freed+0x43a/0x630
+[   37.830904][ T1170] Modules linked in:
+[   37.831413][ T1170] CPU: 0 PID: 1170 Comm: kworker/0:3 Not tainted
+6.1.0-rc4-dirty #43
+[   37.832465][ T1170] Hardware name: QEMU Standard PC (i440FX + PIIX,
+1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+[   37.833751][ T1170] Workqueue: usb_hub_wq hub_event
+[   37.834409][ T1170] RIP: 0010:debug_check_no_obj_freed+0x43a/0x630
+[   37.835218][ T1170] Code: 48 89 ef e8 28 82 58 ff 49 8b 14 24 4c 8b
+45 00 48 c7 c7 40 5f 09 87 48 c7 c6 60 5b 09 87 89 d9 4d 89 f9 31 c0
+e8 46 25 ef fe <0f> 0b 4c 8b 64 24 20 48 ba 00 00 00 00 00 fc ff df ff
+05 4f 7c 17
+[   37.837667][ T1170] RSP: 0018:ffffc900006fee60 EFLAGS: 00010246
+[   37.838503][ T1170] RAX: 0d2d19ffcded3d00 RBX: 0000000000000000
+RCX: ffff888117fc9b00
+[   37.839519][ T1170] RDX: 0000000000000000 RSI: 0000000000000000
+RDI: 0000000000000000
+[   37.840570][ T1170] RBP: ffffffff86e88380 R08: ffffffff8130793b
+R09: fffff520000dfd85
+[   37.841618][ T1170] R10: fffff520000dfd85 R11: 0000000000000000
+R12: ffffffff87095fb8
+[   37.842649][ T1170] R13: ffff888117770ad8 R14: ffff888117770acc
+R15: ffffffff852b7420
+[   37.843728][ T1170] FS:  0000000000000000(0000)
+GS:ffff8881f6600000(0000) knlGS:0000000000000000
+[   37.844877][ T1170] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   37.845749][ T1170] CR2: 00007f992eaab380 CR3: 000000011834b000
+CR4: 00000000001006f0
+[   37.846794][ T1170] Call Trace:
+[   37.847245][ T1170]  <TASK>
+[   37.847643][ T1170]  slab_free_freelist_hook+0x89/0x160
+[   37.848409][ T1170]  ? devres_release_all+0x262/0x350
+[   37.849156][ T1170]  __kmem_cache_free+0x71/0x110
+[   37.849829][ T1170]  devres_release_all+0x262/0x350
+[   37.850478][ T1170]  ? devres_release+0x90/0x90
+[   37.851118][ T1170]  device_release_driver_internal+0x5e5/0x8a0
+[   37.851944][ T1170]  bus_remove_device+0x2ea/0x400
+[   37.852611][ T1170]  device_del+0x64f/0xb40
+[   37.853212][ T1170]  ? kill_device+0x150/0x150
+[   37.853831][ T1170]  ? print_irqtrace_events+0x1f0/0x1f0
+[   37.854564][ T1170]  hid_destroy_device+0x66/0x100
+[   37.855226][ T1170]  usbhid_disconnect+0x9a/0xc0
+[   37.855887][ T1170]  usb_unbind_interface+0x1e1/0x890
+```
+
+``` hid-asus.c
+[   77.409878][ T1169] usb 1-1: USB disconnect, device number 2
+[   77.423606][ T1169] ODEBUG: free active (active state 0) object
+type: work_struct hint: asus_kbd_backlight_work+0x0/0x2c0
+[   77.425222][ T1169] WARNING: CPU: 0 PID: 1169 at
+lib/debugobjects.c:505 debug_check_no_obj_freed+0x43a/0x630
+[   77.426599][ T1169] Modules linked in:
+[   77.427322][ T1169] CPU: 0 PID: 1169 Comm: kworker/0:3 Not tainted
+6.1.0-rc4-dirty #43
+[   77.428404][ T1169] Hardware name: QEMU Standard PC (i440FX + PIIX,
+1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+[   77.429644][ T1169] Workqueue: usb_hub_wq hub_event
+[   77.430296][ T1169] RIP: 0010:debug_check_no_obj_freed+0x43a/0x630
+[   77.431142][ T1169] Code: 48 89 ef e8 28 82 58 ff 49 8b 14 24 4c 8b
+45 00 48 c7 c7 40 5f 09 87 48 c7 c6 60 5b 09 87 89 d9 4d 89 f9 31 c0
+e8 46 25 ef fe <0f> 0b 4c 8b 64 24 20 48 ba 00 00 00 00 00 fc ff df ff
+05 4f 7c 17
+[   77.433691][ T1169] RSP: 0018:ffffc9000069ee60 EFLAGS: 00010246
+[   77.434470][ T1169] RAX: b85d2b40c12d7600 RBX: 0000000000000000
+RCX: ffff888117a78000
+[   77.435507][ T1169] RDX: 0000000000000000 RSI: 0000000080000000
+RDI: 0000000000000000
+[   77.436521][ T1169] RBP: ffffffff86e88380 R08: ffffffff8130793b
+R09: ffffed103ecc4ed6
+[   77.437582][ T1169] R10: ffffed103ecc4ed6 R11: 0000000000000000
+R12: ffffffff87095fb8
+[   77.438593][ T1169] R13: ffff88810e348fe0 R14: ffff88810e348fd4
+R15: ffffffff852b5780
+[   77.439667][ T1169] FS:  0000000000000000(0000)
+GS:ffff8881f6600000(0000) knlGS:0000000000000000
+[   77.440842][ T1169] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   77.441688][ T1169] CR2: 00007ffc05495ff0 CR3: 000000010cdf0000
+CR4: 00000000001006f0
+[   77.442720][ T1169] Call Trace:
+[   77.443167][ T1169]  <TASK>
+[   77.443555][ T1169]  slab_free_freelist_hook+0x89/0x160
+[   77.444302][ T1169]  ? devres_release_all+0x262/0x350
+[   77.444990][ T1169]  __kmem_cache_free+0x71/0x110
+[   77.445638][ T1169]  devres_release_all+0x262/0x350
+[   77.446309][ T1169]  ? devres_release+0x90/0x90
+[   77.446978][ T1169]  device_release_driver_internal+0x5e5/0x8a0
+[   77.447748][ T1169]  bus_remove_device+0x2ea/0x400
+[   77.448421][ T1169]  device_del+0x64f/0xb40
+[   77.448976][ T1169]  ? kill_device+0x150/0x150
+[   77.449577][ T1169]  ? print_irqtrace_events+0x1f0/0x1f0
+[   77.450307][ T1169]  hid_destroy_device+0x66/0x100
+[   77.450938][ T1169]  usbhid_disconnect+0x9a/0xc0
+```
+
+Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
+---
+Changes in v4:
+- Split patches that add spinlock wrt the patches that check scheduling
+- Smaller locked regions
+- Link to v3: https://lore.kernel.org/r/20230125-hid-unregister-leds-v3-0-0a52ac225e00@diag.uniroma1.it
+
+Changes in v3:
+- use spinlocks to prevent workers scheduling
+- drop patches on sony & playstation hid drivers
+- Link to v2: https://lore.kernel.org/r/20230125-hid-unregister-leds-v2-0-689cc62fc878@diag.uniroma1.it
+
+Changes in v2:
+- dualshock4: Clarify UAF
+- dualsense:  Clarify UAF
+- dualsense:  Unregister multicolor led controller
+- Link to v1: https://lore.kernel.org/r/20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it
+
+---
+Pietro Borrello (5):
+      HID: bigben: use spinlock to protect concurrent accesses
+      HID: bigben_worker() remove unneeded check on report_field
+      HID: bigben: use spinlock to safely schedule workers
+      HID: asus: use spinlock to protect concurrent accesses
+      HID: asus: use spinlock to safely schedule workers
+
+ drivers/hid/hid-asus.c     | 37 +++++++++++++++++++++----
+ drivers/hid/hid-bigbenff.c | 68 +++++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 93 insertions(+), 12 deletions(-)
+---
+base-commit: 2241ab53cbb5cdb08a6b2d4688feb13971058f65
+change-id: 20230125-hid-unregister-leds-4cbf67099e1d
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Pietro Borrello <borrello@diag.uniroma1.it>
 
