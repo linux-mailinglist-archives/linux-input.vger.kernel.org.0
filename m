@@ -2,139 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC301693985
-	for <lists+linux-input@lfdr.de>; Sun, 12 Feb 2023 20:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18650693E10
+	for <lists+linux-input@lfdr.de>; Mon, 13 Feb 2023 07:09:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbjBLTB1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Feb 2023 14:01:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37966 "EHLO
+        id S229545AbjBMGJo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Feb 2023 01:09:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjBLTBY (ORCPT
+        with ESMTP id S229472AbjBMGJn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Feb 2023 14:01:24 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7FA11157
-        for <linux-input@vger.kernel.org>; Sun, 12 Feb 2023 11:01:23 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id lu11so27051128ejb.3
-        for <linux-input@vger.kernel.org>; Sun, 12 Feb 2023 11:01:23 -0800 (PST)
+        Mon, 13 Feb 2023 01:09:43 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137B326BC;
+        Sun, 12 Feb 2023 22:09:43 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id dt8so9391229oib.0;
+        Sun, 12 Feb 2023 22:09:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=diag.uniroma1.it; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hh/UKIXKiKTQVDUlV3UWWD570IF4/BDU9PZ9FyIy/sA=;
-        b=J6PKRYKBYEmGAVL7rt2WCxbffU3b3leYr48LgyvRq7CkFj6mUzXrORML7jFnb6mwty
-         6n7PW6cyXzTBqDxYry33A9GK8Q6+NgcuWdTrHORV8ESmbxzXV64cx4HA/ZwwgzGhPRn6
-         VxPXWoMy6CSwvwfSaMaSu5/oXrZaDAI4aL7FY=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZW39st+bcMCGZRLtcOFM+mueOEc3yNzsbz2kzchZjkE=;
+        b=gtyBKEOlwl0ZCCtLRe1KEzIMF9FByTzvs9HZ/nr4mABc3FEFcub5uFtyh+tcHvBlCI
+         +QFgJ354gmNHfuoANivjpGz7+2mU31OREQ6W3dBR0e93E8jxvn5V3I2y2gAf93PnTptL
+         oyYzfOCFhJhwc12ltp6NVYlYLii7LEgik6jLJYccCc+K/gCxfNF9kokoVHa9uulMj5dw
+         rchjuHQxtN8pdFOHXA0DOEiHU4Op7q16g9JthMBCRRs0fFEVa4xaP69POOVuanTl4V3c
+         XXWtnOj7OhPby5lDhEaItO5zciF7MEKnfPDB5ye25cWU4HdQEuGxCZ/aLEimxK4fLt/4
+         zBpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hh/UKIXKiKTQVDUlV3UWWD570IF4/BDU9PZ9FyIy/sA=;
-        b=zX9aPdUcZJ/akS27XAFlQtADL2avUNF6eg+dTRAtiDiOiFVmEkXLXY5B3Ia/8WTfcK
-         ieMapWklFK6VW0yYQozhhgJU+eza40/10Fcy2phA6dS6fATr6XNOsIAPMeCYkIuMQSvk
-         91lUNnsd8l9TTyV9qXjJDyCHystB0h8naQvr7gh3xBqWa6we2IBA4tQhOtKMnlRw2sVS
-         mOF/aCTicsH2pwxOD28Z1Kc8hUpuorbFg8mBLUfjXnzESHa7gMxgnF7DcnsXDrx+JUjo
-         sSt2VvuVZSxbEr9Tn4SAAJH+SlTzLNT1+gFAga20UCLzkWSZXgPL5uwVNWecediTlgdR
-         zY8w==
-X-Gm-Message-State: AO0yUKU+3yQ7q/PXSXJ0nFt0zNs1Q7Oie8IX/nFZ9G+g3wn/Py1nUWSw
-        D48PIy8ybtogEksug3yeBang1g==
-X-Google-Smtp-Source: AK7set+O6uJQ6LGcIo1ASlmFFEsONi8bY7xs/6WombXPge6kUrTCiR5SuK7e78P2rg7Htz5c36EU+A==
-X-Received: by 2002:a17:906:9f0c:b0:8af:7b80:82ba with SMTP id fy12-20020a1709069f0c00b008af7b8082bamr7161002ejc.20.1676228481708;
-        Sun, 12 Feb 2023 11:01:21 -0800 (PST)
-Received: from [192.168.17.2] (wolkje-127.labs.vu.nl. [130.37.198.127])
-        by smtp.gmail.com with ESMTPSA id l26-20020a170906079a00b008966488a5f1sm5714368ejc.144.2023.02.12.11.01.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 11:01:21 -0800 (PST)
-From:   Pietro Borrello <borrello@diag.uniroma1.it>
-Date:   Sun, 12 Feb 2023 19:00:03 +0000
-Subject: [PATCH v4 5/5] HID: asus: use spinlock to safely schedule workers
+        bh=ZW39st+bcMCGZRLtcOFM+mueOEc3yNzsbz2kzchZjkE=;
+        b=TG2vIxs0yLNquC1Xu1qjHQHBgb575DUHuFv2sCm5fSq4PC4fpwWUFrpHDFE1c45usB
+         6QQ7nKm3JlNZf8YzRvdyeW3rbQQ2pbXxBtXIyFah035gUrG2tZUt4RXxOIAgItN47wh+
+         k8TZ52UgRPncMalv4JxrpEVpZYHH4UFLwZZ01OwrvxtsUzeZ3d8MHt/6CKyWA6UY4Esr
+         6lolIBXUIRQsbQ1XeeJIVaMiK8SiW93Eruo82dSPatF7qYE2o2C4F5ZTHdzFMQsClIN4
+         bo87y4ijVSpLH1zMM9cUHTSzGKnTb56K0edSuTBLYKwNGdmbwzWmZ6gDP77CWXojGc7E
+         SpGw==
+X-Gm-Message-State: AO0yUKWAGjCIdXWCt1/hVwz5vWrtajuZ3qWyyDluIaqz2t/9ukLAxv0s
+        U7JHqTf3UoGQgzoAr+teOhWHoKCNyTgp6/vNGousNnmmepo=
+X-Google-Smtp-Source: AK7set8UEOVIrTj5XG6VdgcGq89zGLfLE6TRW4LrxehLGAMNpofTFoKg4aJvGvoOp/Uej9mfJSdHRi0/25mmeXRtV28=
+X-Received: by 2002:a05:6808:141:b0:37d:821d:5eb2 with SMTP id
+ h1-20020a056808014100b0037d821d5eb2mr274906oie.178.1676268582369; Sun, 12 Feb
+ 2023 22:09:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230125-hid-unregister-leds-v4-5-7860c5763c38@diag.uniroma1.it>
-References: <20230125-hid-unregister-leds-v4-0-7860c5763c38@diag.uniroma1.it>
-In-Reply-To: <20230125-hid-unregister-leds-v4-0-7860c5763c38@diag.uniroma1.it>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hanno Zulla <kontakt@hanno.de>, Hanno Zulla <abos@hanno.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Roderick Colenbrander <roderick@gaikai.com>,
+References: <20230131114632.14078-1-fengqi706@gmail.com> <CACOZ=ZU0zgRmoRu8X5bMUzUrXA9x-qoDJqrQroUs=+qKR58MQA@mail.gmail.com>
+In-Reply-To: <CACOZ=ZU0zgRmoRu8X5bMUzUrXA9x-qoDJqrQroUs=+qKR58MQA@mail.gmail.com>
+From:   qi feng <fengqi706@gmail.com>
+Date:   Mon, 13 Feb 2023 14:09:31 +0800
+Message-ID: <CACOZ=ZXDDWxPFt7sbpiOzh3WHcJN0xPod1YzSj07FMADaXHTuQ@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: add KEY_CAMERA_FOCUS event in HID
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pietro Borrello <borrello@diag.uniroma1.it>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1676228478; l=1688;
- i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id;
- bh=oZoYiaaa/o7giXPl4cCeWsb4GMTS11aKqe6P5yflgp0=;
- b=hw2c1ER525F2ulFom6GZr679UyhjUVgz9rGkWUCc4nT8BRAR7ysnPWu6TpF5JYhc8RhQ/r19Oo6e
- 6EOWtZAsAZ6g0Hn7vkZQ8incLmf9T/aHWShWTTRgs3SfybShzfAC
-X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519;
- pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        fengqi <fengqi@xiaomi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use spinlocks to deal with workers introducing a wrapper
-asus_schedule_work(), and several spinlock checks.
-Otherwise, asus_kbd_backlight_set() may schedule led->work after the
-structure has been freed, causing a use-after-free.
+Thanks for your help to review
 
-Fixes: af22a610bc38 ("HID: asus: support backlight on USB keyboards")
-Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
----
- drivers/hid/hid-asus.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 9f767baf39fb..d1094bb1aa42 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -491,6 +491,16 @@ static int rog_nkey_led_init(struct hid_device *hdev)
- 	return ret;
- }
- 
-+static void asus_schedule_work(struct asus_kbd_leds *led)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&led->lock, flags);
-+	if (!led->removed)
-+		schedule_work(&led->work);
-+	spin_unlock_irqrestore(&led->lock, flags);
-+}
-+
- static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
- 				   enum led_brightness brightness)
- {
-@@ -502,7 +512,7 @@ static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
- 	led->brightness = brightness;
- 	spin_unlock_irqrestore(&led->lock, flags);
- 
--	schedule_work(&led->work);
-+	asus_schedule_work(led);
- }
- 
- static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
-@@ -526,9 +536,6 @@ static void asus_kbd_backlight_work(struct work_struct *work)
- 	int ret;
- 	unsigned long flags;
- 
--	if (led->removed)
--		return;
--
- 	spin_lock_irqsave(&led->lock, flags);
- 	buf[4] = led->brightness;
- 	spin_unlock_irqrestore(&led->lock, flags);
+loop more
 
--- 
-2.25.1
-
+qi feng <fengqi706@gmail.com> =E4=BA=8E2023=E5=B9=B42=E6=9C=887=E6=97=A5=E5=
+=91=A8=E4=BA=8C 10:35=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi=EF=BC=8C
+>
+> Please help to review this  v2 code
+>
+> thanks a lot
+>
+> Qi Feng <fengqi706@gmail.com> =E4=BA=8E2023=E5=B9=B41=E6=9C=8831=E6=97=A5=
+=E5=91=A8=E4=BA=8C 19:46=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > From: fengqi <fengqi@xiaomi.com>
+> >
+> > Our HID device need KEY_CAMERA_FOCUS event to control camera, but this
+> > event is non-existent in current HID driver.we add this event in hid-in=
+put.c
+> > We committed this v2 version following your previous suggestion
+> >
+> > Signed-off-by: fengqi <fengqi@xiaomi.com>
+> > ---
+> >  drivers/hid/hid-input.c | 7 +++++++
+> >  include/linux/hid.h     | 1 +
+> >  2 files changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > index 9b59e436df0a..05fa3e191574 100644
+> > --- a/drivers/hid/hid-input.c
+> > +++ b/drivers/hid/hid-input.c
+> > @@ -1221,6 +1221,13 @@ static void hidinput_configure_usage(struct hid_=
+input *hidinput, struct hid_fiel
+> >                         return;
+> >                 }
+> >                 goto unknown;
+> > +       case HID_UP_CAMERA:
+> > +               switch (usage->hid & HID_USAGE){
+> > +               case 0x020: map_key_clear(KEY_CAMERA_FOCUS);    break;
+> > +               case 0x021: map_key_clear(KEY_CAMERA);          break;
+> > +               default:        goto ignore;
+> > +               }
+> > +               break;
+> >
+> >         case HID_UP_HPVENDOR:   /* Reported on a Dutch layout HP5308 */
+> >                 set_bit(EV_REP, input->evbit);
+> > diff --git a/include/linux/hid.h b/include/linux/hid.h
+> > index 8677ae38599e..e3daf2c7739c 100644
+> > --- a/include/linux/hid.h
+> > +++ b/include/linux/hid.h
+> > @@ -155,6 +155,7 @@ struct hid_item {
+> >  #define HID_UP_DIGITIZER       0x000d0000
+> >  #define HID_UP_PID             0x000f0000
+> >  #define HID_UP_BATTERY         0x00850000
+> > +#define HID_UP_CAMERA          0x00900000
+> >  #define HID_UP_HPVENDOR         0xff7f0000
+> >  #define HID_UP_HPVENDOR2        0xff010000
+> >  #define HID_UP_MSVENDOR                0xff000000
+> > --
+> > 2.39.0
+> >
