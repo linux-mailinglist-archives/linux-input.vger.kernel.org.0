@@ -2,128 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20890696B59
-	for <lists+linux-input@lfdr.de>; Tue, 14 Feb 2023 18:22:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF16697221
+	for <lists+linux-input@lfdr.de>; Wed, 15 Feb 2023 00:53:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbjBNRW5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Feb 2023 12:22:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52736 "EHLO
+        id S229722AbjBNXxZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Feb 2023 18:53:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjBNRW4 (ORCPT
+        with ESMTP id S229579AbjBNXxY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Feb 2023 12:22:56 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C05C7DA3
-        for <linux-input@vger.kernel.org>; Tue, 14 Feb 2023 09:22:53 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id sa10so41811811ejc.9
-        for <linux-input@vger.kernel.org>; Tue, 14 Feb 2023 09:22:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=diag.uniroma1.it; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QXzOct/9awTTP6Vfra6idMPvdz9sciZM8UCJeQQTcOo=;
-        b=KFdC1vzUNwP77kxIlaSFlFhX5/E7E4gn6poQBMs07GJKmG98m7LjUbwO7RZ2BD0Yma
-         tYGfFg9NLGIDa0ojvHMhWgjkF7wF1J4M8/izkK9guwlGgEWnLXp4jfyhtWpV8+ia99j1
-         ES1Yam62m1vzgmauTGbcO6WjiJ5HT9DMmJLBE=
+        Tue, 14 Feb 2023 18:53:24 -0500
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D9983F8;
+        Tue, 14 Feb 2023 15:53:23 -0800 (PST)
+Received: by mail-io1-f45.google.com with SMTP id o1so6485380ioo.10;
+        Tue, 14 Feb 2023 15:53:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QXzOct/9awTTP6Vfra6idMPvdz9sciZM8UCJeQQTcOo=;
-        b=qdE8WNw8g3nT/jYRbjfcv1JdE+6SMgMMKqub0ayBLyOmzJzq0u6q09OyBgpxx0wNz8
-         UbOAdABrlxN78COwPWzsUQW28q4twXVkkQN2hYSUNzm5+D9cVErgXWw4V76YLc5uy4lW
-         0mrK5J+JOwf35YSTQO0xxKSSoZlQUuPq/DT7foKuQX2L0pyy4YQJUo0gYD4u5cti2j+Q
-         k369NCkrw+ZZgpn7YFwie6NMJ6zXIpjlAlcTeIPLUDZJzRV/Xxv+P4yzvvwFppZIzylP
-         UJIzb+AdZr+GNuT5tSSjIuiqWjwMdulf/xGRt/MOee8Mjhc069+doybIZfmQqAzENx2o
-         fjLA==
-X-Gm-Message-State: AO0yUKV9/WhJfE7lBh3I4yeBXuHScR1DqJ5v3YzFlS5JFDzTyQ0gDrwe
-        LpCKexWkkPVMEmbPbX/Y8D0TnlFItsLPyRH8mk2y2Q==
-X-Google-Smtp-Source: AK7set+pJ1AjyIDx0YVL8hLS/E81NKam1i082k+Kd046jktWo71h8P0tvxnWqM8XTx44vTMWYYk1i5XpJgn7BKrRNWw=
-X-Received: by 2002:a17:906:6b91:b0:879:b98d:eb08 with SMTP id
- l17-20020a1709066b9100b00879b98deb08mr1616327ejr.3.1676395371586; Tue, 14 Feb
- 2023 09:22:51 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XGLPHLPfRvOaYFTkFGj8OsIU5Yo/8b+0A5z0Cx47UN4=;
+        b=xk2yp76/1o9toPVGOwJB+Ommcp7K8aDtEKc34g7UlUG8wldhoS2+s5AdXX6Sw108T0
+         iRYVTuYlJOj1N77byEd9YRyrGxrUNpMytibInxC5ilPoIl8jc4qsJyac36wpXGOCfhd5
+         rYsSgkDtd6NS3ev1TYx9IuZKzezzNHP3rK+UeaIrD5fi1w2XKq1vZr5WShp4Q304ig6s
+         VHa/FxQUWs9VUQGOQIIhDEBDxt69lNDWVt0q7kc52uv/BnGG0gwpUxCk2QOOooWMG3Ct
+         1CweddgltyY+g6K0V8Toss/otrphfe2HylQt9gl9yS8y4asggPYqruCDh84bzr2J9cHG
+         7mig==
+X-Gm-Message-State: AO0yUKU/+fw3UxyR0APm+HIWQ3eWXPNGAYNyCkQW+2nY91XEu4Cd04xa
+        tm17UQ6bi83vu5xLoxNURg==
+X-Google-Smtp-Source: AK7set/Li8aYPqZx69Mm1aIAUgsvYHZBw6JONoQ2/5FXs+0bEqk2nIfKfsG5E4c6niRL/jOuCHmDAQ==
+X-Received: by 2002:a5d:8b5a:0:b0:735:99fa:e3bb with SMTP id c26-20020a5d8b5a000000b0073599fae3bbmr464671iot.10.1676418803101;
+        Tue, 14 Feb 2023 15:53:23 -0800 (PST)
+Received: from robh_at_kernel.org ([65.158.198.5])
+        by smtp.gmail.com with ESMTPSA id d22-20020a02a496000000b00375783003fcsm5046238jam.136.2023.02.14.15.53.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Feb 2023 15:53:22 -0800 (PST)
+Received: (nullmailer pid 50043 invoked by uid 1000);
+        Tue, 14 Feb 2023 23:53:21 -0000
+Date:   Tue, 14 Feb 2023 17:53:21 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Danny Kaehn <kaehndan@gmail.com>
+Cc:     krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, bartosz.golaszewski@linaro.org,
+        andriy.shevchenko@linux.intel.com, dmitry.torokhov@gmail.com,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        ethan.twardy@plexus.com
+Subject: Re: [PATCH v5 1/3] dt-bindings: i2c: Add CP2112 HID USB to SMBus
+ Bridge
+Message-ID: <20230214235321.GA45531-robh@kernel.org>
+References: <20230210223638.12796-1-kaehndan@gmail.com>
+ <20230210223638.12796-2-kaehndan@gmail.com>
 MIME-Version: 1.0
-References: <20230125-hid-unregister-leds-v3-2-0a52ac225e00@diag.uniroma1.it> <202302141039.anZLT940-lkp@intel.com>
-In-Reply-To: <202302141039.anZLT940-lkp@intel.com>
-From:   Pietro Borrello <borrello@diag.uniroma1.it>
-Date:   Tue, 14 Feb 2023 18:22:40 +0100
-Message-ID: <CAEih1qWcM1o5zgAt1oW+y6Xz828MMfmTHAVL-D-DeQXgnKTcOA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] HID: asus: use spinlock to safely schedule workers
-To:     Dan Carpenter <error27@gmail.com>
-Cc:     oe-kbuild@lists.linux.dev, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hanno Zulla <kontakt@hanno.de>,
-        Carlo Caione <carlo@endlessm.com>, lkp@intel.com,
-        oe-kbuild-all@lists.linux.dev,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230210223638.12796-2-kaehndan@gmail.com>
+X-Spam-Status: No, score=2.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 14 Feb 2023 at 08:58, Dan Carpenter <error27@gmail.com> wrote:
->
-> Hi Pietro,
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Pietro-Borrello/HID-bigben-use-spinlock-to-safely-schedule-workers/20230210-080058
-> base:   2241ab53cbb5cdb08a6b2d4688feb13971058f65
-> patch link:    https://lore.kernel.org/r/20230125-hid-unregister-leds-v3-2-0a52ac225e00%40diag.uniroma1.it
-> patch subject: [PATCH v3 2/2] HID: asus: use spinlock to safely schedule workers
-> config: riscv-randconfig-m031-20230212 (https://download.01.org/0day-ci/archive/20230214/202302141039.anZLT940-lkp@intel.com/config)
-> compiler: riscv32-linux-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202302141039.anZLT940-lkp@intel.com/
->
-> smatch warnings:
-> drivers/hid/hid-asus.c:532 asus_kbd_backlight_work() warn: sleeping in atomic context
->
-> vim +532 drivers/hid/hid-asus.c
->
-> af22a610bc3850 Carlo Caione    2017-04-06  521  static void asus_kbd_backlight_work(struct work_struct *work)
-> af22a610bc3850 Carlo Caione    2017-04-06  522  {
-> af22a610bc3850 Carlo Caione    2017-04-06  523          struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
-> af22a610bc3850 Carlo Caione    2017-04-06  524          u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
-> af22a610bc3850 Carlo Caione    2017-04-06  525          int ret;
-> 31e578b641b3b3 Pietro Borrello 2023-02-09  526          unsigned long flags;
-> af22a610bc3850 Carlo Caione    2017-04-06  527
-> 31e578b641b3b3 Pietro Borrello 2023-02-09  528          spin_lock_irqsave(&led->lock, flags);
->                                                         ^^^^^^^^^^^^^^^^^
-> Holding a spinlock.
->
-> af22a610bc3850 Carlo Caione    2017-04-06  529
-> af22a610bc3850 Carlo Caione    2017-04-06  530          buf[4] = led->brightness;
-> af22a610bc3850 Carlo Caione    2017-04-06  531
-> af22a610bc3850 Carlo Caione    2017-04-06 @532          ret = asus_kbd_set_report(led->hdev, buf, sizeof(buf));
->                                                               ^^^^^^^^^^^^^^^^^^^
-> asus_kbd_set_report() does a GFP_KERNEL allocation.
->
->
-> af22a610bc3850 Carlo Caione    2017-04-06  533          if (ret < 0)
-> af22a610bc3850 Carlo Caione    2017-04-06  534                  hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
-> 31e578b641b3b3 Pietro Borrello 2023-02-09  535
-> 31e578b641b3b3 Pietro Borrello 2023-02-09  536          spin_unlock_irqrestore(&led->lock, flags);
-> af22a610bc3850 Carlo Caione    2017-04-06  537  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
->
+On Fri, Feb 10, 2023 at 04:36:36PM -0600, Danny Kaehn wrote:
+> This is a USB HID device which includes an I2C controller and 8 GPIO pins.
+> 
+> The binding allows describing the chip's gpio and i2c controller in DT
+> using the subnodes named "gpio" and "i2c", respectively. This is
+> intended to be used in configurations where the CP2112 is permanently
+> connected in hardware.
+> 
+> Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
+> ---
+>  .../bindings/i2c/silabs,cp2112.yaml           | 113 ++++++++++++++++++
+>  1 file changed, 113 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml b/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
+> new file mode 100644
+> index 000000000000..81eda01ebda5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
+> @@ -0,0 +1,113 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/i2c/silabs,cp2112.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: CP2112 HID USB to SMBus/I2C Bridge
+> +
+> +maintainers:
+> +  - Danny Kaehn <kaehndan@gmail.com>
+> +
+> +description:
+> +  The CP2112 is a USB HID device which includes an integrated I2C controller
+> +  and 8 GPIO pins. Its GPIO pins can each be configured as inputs, open-drain
+> +  outputs, or push-pull outputs.
+> +
+> +properties:
+> +  compatible:
+> +    const: usb10c4,ea90
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: The USB port number on the host controller
+> +
+> +  i2c:
+> +    description: The SMBus/I2C controller node for the CP2112
+> +    $ref: /schemas/i2c/i2c-controller.yaml#
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      sda-gpios:
+> +        maxItems: 1
+> +
+> +      scl-gpios:
+> +        maxItems: 1
+> +
+> +      clock-frequency:
+> +        minimum: 10000
+> +        default: 100000
+> +        maximum: 400000
+> +
+> +  gpio:
+> +    description: The GPIO controller node for the CP2112
+> +    type: object
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      interrupt-controller: true
+> +      "#interrupt-cells":
+> +        const: 2
+> +
+> +      gpio-controller: true
+> +      "#gpio-cells":
+> +        const: 2
+> +
+> +      gpio-line-names:
+> +        minItems: 1
+> +        maxItems: 8
+> +
+> +    patternProperties:
+> +      "^(.+-hog(-[0-9]+)?)$":
 
-Hello,
-Thank you, but the issue has already been fixed in v4.
-Link: https://lore.kernel.org/lkml/20230125-hid-unregister-leds-v4-3-7860c5763c38@diag.uniroma1.it/T/#m8983ca3d0fbf656a40011a77c8988e3d16cac671
+This can be simplified to: '-hog(-[0-9]+)?$'
 
-Best regards,
-Pietro
+Otherwise,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
