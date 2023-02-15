@@ -2,48 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A35F69860D
-	for <lists+linux-input@lfdr.de>; Wed, 15 Feb 2023 21:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDE5069861F
+	for <lists+linux-input@lfdr.de>; Wed, 15 Feb 2023 21:48:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjBOUr1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Feb 2023 15:47:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33708 "EHLO
+        id S229686AbjBOUsI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Feb 2023 15:48:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjBOUrA (ORCPT
+        with ESMTP id S229616AbjBOUrY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Feb 2023 15:47:00 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD15842DCC;
-        Wed, 15 Feb 2023 12:46:32 -0800 (PST)
+        Wed, 15 Feb 2023 15:47:24 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B69304344C;
+        Wed, 15 Feb 2023 12:46:47 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D8CF2B823BB;
-        Wed, 15 Feb 2023 20:46:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B781C433D2;
-        Wed, 15 Feb 2023 20:46:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A96461D52;
+        Wed, 15 Feb 2023 20:46:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E089C433EF;
+        Wed, 15 Feb 2023 20:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676493989;
-        bh=pTSRAXw7DYGKWZHU3UYXOHJQxgUkpC+l+eg/xofmgYo=;
+        s=k20201202; t=1676494002;
+        bh=/7LYG/t2un+e+jyUyYoutBm1iPp3dYGtaK/RkiDv1hw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EBN5vt/1jEftW1K1+cGaz1z8NtRDr8gFNjfxjD7f2nU/r/Ip81IzaJ0O8ZShM9EhA
-         To6Ys4uWKqhr5eIkRnMYxRlZQQHEsSQLqIeVd/3pua5v7KRaUffrJzRMMBijAVAOI7
-         6Pd20xifQ2IHnt3MQknbv83TyfyTfObonqQ3RsYIwGOqvE/4ylxgR3zuLquOeMuS9T
-         JkZfLsXxleaZ3pK1TpRm9OWgk6T331pqmAIxwfrDewcEiwfWRsE7SkU1byx7COokJZ
-         gCKz4ieDprJ6LEc6R7bfQp8OR8ZY9sfx+QsRmYYD9dqE/x3fQM3pR0jcAT4/+WqIKy
-         0TD9gtWCAynFA==
+        b=VF6fyAHQ2Yf9gHWn/hbQpF7trlrfN99ueiR5o0T3xe+CSkxw0xuDU9nABLy8H7WZx
+         UYGcueUmnY9BiqUFzggLNwHBlwLokoqTEpS7MooiuKanj2Z+kv/LCg28cSLM9yM96P
+         T0B/Qj5bIDAvrUX5v8fE5ykKFPiM6iUC42uQLOeA7Qtt1EFn67m16ljIrbobaxgNQg
+         pbsgMYbtJHnaKXP7PmWaic1HpmUuOLRqVGGa8Y2YqYZF7SCDmtMxGsizXgpLcOnred
+         3h3/16LQTSDK/04OQbSazJSarkgDCIbEXWpeW2js/kIRp/Yh8/pt+ygkww5TfgYEQF
+         SzydJfVrOEamQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Luka Guzenko <l.guzenko@web.de>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+Cc:     Takahiro Fujii <fujii@xaxxi.net>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 21/24] HID: Ignore battery for ELAN touchscreen 29DF on HP
-Date:   Wed, 15 Feb 2023 15:45:44 -0500
-Message-Id: <20230215204547.2760761-21-sashal@kernel.org>
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 05/12] HID: elecom: add support for TrackBall 056E:011C
+Date:   Wed, 15 Feb 2023 15:46:27 -0500
+Message-Id: <20230215204637.2761073-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230215204547.2760761-1-sashal@kernel.org>
-References: <20230215204547.2760761-1-sashal@kernel.org>
+In-Reply-To: <20230215204637.2761073-1-sashal@kernel.org>
+References: <20230215204637.2761073-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,48 +56,104 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Luka Guzenko <l.guzenko@web.de>
+From: Takahiro Fujii <fujii@xaxxi.net>
 
-[ Upstream commit ebebf05a4b06a1be49788ca0edf990de01c4b0d0 ]
+[ Upstream commit 29f316a1d7e0a570be9a47fa283ece53a67cebb7 ]
 
-The touchscreen reports a battery status of 0% and jumps to 1% when a
-stylus is used. The device ID was added and the battery ignore quirk was
-enabled for it.
+Make function buttons on ELECOM M-HT1DRBK trackball mouse work. This model
+has two devices with different device IDs (010D and 011C). Both of
+them misreports the number of buttons as 5 in the report descriptor, even
+though they have 8 buttons. hid-elecom overwrites the report to fix them,
+but supports only on 010D and does not work on 011C. This patch fixes
+011C in the similar way but with specialized position parameters.
+In fact, it is sufficient to rewrite only 17th byte (05 -> 08). However I
+followed the existing way.
 
-Signed-off-by: Luka Guzenko <l.guzenko@web.de>
-Link: https://lore.kernel.org/r/20230120223741.3007-1-l.guzenko@web.de
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Takahiro Fujii <fujii@xaxxi.net>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/hid/hid-elecom.c | 16 ++++++++++++++--
+ drivers/hid/hid-ids.h    |  3 ++-
+ drivers/hid/hid-quirks.c |  3 ++-
+ 3 files changed, 18 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
+index e59e9911fc370..4fa45ee77503b 100644
+--- a/drivers/hid/hid-elecom.c
++++ b/drivers/hid/hid-elecom.c
+@@ -12,6 +12,7 @@
+  *  Copyright (c) 2017 Alex Manoussakis <amanou@gnu.org>
+  *  Copyright (c) 2017 Tomasz Kramkowski <tk@the-tk.com>
+  *  Copyright (c) 2020 YOSHIOKA Takuma <lo48576@hard-wi.red>
++ *  Copyright (c) 2022 Takahiro Fujii <fujii@xaxxi.net>
+  */
+ 
+ /*
+@@ -89,7 +90,7 @@ static __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 	case USB_DEVICE_ID_ELECOM_M_DT1URBK:
+ 	case USB_DEVICE_ID_ELECOM_M_DT1DRBK:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1URBK:
+-	case USB_DEVICE_ID_ELECOM_M_HT1DRBK:
++	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D:
+ 		/*
+ 		 * Report descriptor format:
+ 		 * 12: button bit count
+@@ -99,6 +100,16 @@ static __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		 */
+ 		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 8);
+ 		break;
++	case USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C:
++		/*
++		 * Report descriptor format:
++		 * 22: button bit count
++		 * 30: padding bit count
++		 * 24: button report size
++		 * 16: button usage maximum
++		 */
++		mouse_button_fixup(hdev, rdesc, *rsize, 22, 30, 24, 16, 8);
++		break;
+ 	}
+ 	return rdesc;
+ }
+@@ -112,7 +123,8 @@ static const struct hid_device_id elecom_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, elecom_devices);
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 46c0ce4203c08..9e36b4cd905ee 100644
+index fa1aa22547ea7..b153ddc3319e8 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -413,6 +413,7 @@
- #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
- #define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_15	0x2817
-+#define I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG  0x29DF
- #define I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN 0x2BC8
- #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
- #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 3736b0afbff73..7e94ca1822afb 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -386,6 +386,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN),
+@@ -410,7 +410,8 @@
+ #define USB_DEVICE_ID_ELECOM_M_DT1URBK	0x00fe
+ #define USB_DEVICE_ID_ELECOM_M_DT1DRBK	0x00ff
+ #define USB_DEVICE_ID_ELECOM_M_HT1URBK	0x010c
+-#define USB_DEVICE_ID_ELECOM_M_HT1DRBK	0x010d
++#define USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D	0x010d
++#define USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C	0x011c
+ 
+ #define USB_VENDOR_ID_DREAM_CHEEKY	0x1d34
+ #define USB_DEVICE_ID_DREAM_CHEEKY_WN	0x0004
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 184029cad014f..4a8c32148e58f 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -381,7 +381,8 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1URBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_DT1DRBK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1URBK) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_010D) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ELECOM, USB_DEVICE_ID_ELECOM_M_HT1DRBK_011C) },
+ #endif
+ #if IS_ENABLED(CONFIG_HID_ELO)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, 0x0009) },
 -- 
 2.39.0
 
