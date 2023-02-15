@@ -2,157 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED57B698010
-	for <lists+linux-input@lfdr.de>; Wed, 15 Feb 2023 17:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E618D698136
+	for <lists+linux-input@lfdr.de>; Wed, 15 Feb 2023 17:48:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjBOQAE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Feb 2023 11:00:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46802 "EHLO
+        id S229609AbjBOQsz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Feb 2023 11:48:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbjBOQAD (ORCPT
+        with ESMTP id S229485AbjBOQsy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Feb 2023 11:00:03 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 594FA3A86E;
-        Wed, 15 Feb 2023 07:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676476790; x=1708012790;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rFzlPJjklUrRYXlztiXxbWF4vZTLJe24dy5KZSKBFTU=;
-  b=a2QbX3wd6aUC0XQJ2qfsU00tzCVvCSv9F3xqk4Z83a8t6xUnXvoVdf4i
-   NBxzdPdWCGWw2G0+a2FRuc48aS6+5zJjMUsAUU4x7VaRvR1kt0dzcZeE4
-   jHo1zYFgV07HaGAbi4BPBks+qZO9fn82e64Aa8yl7lKBMwgcsv+zV9IxW
-   OiuiwgzZBscUVew/h/YbZuv2dJSiEXos8iy5r5aT66TiKYAAe654m+i11
-   7/wVHEjSAu+ZufvrTjIJdAAaHjX6IYCkPCwqy3u3/8UDxpT3SMTZUn4cD
-   5pGtrG081KVPyAUVsBJtZcBo/nzky/lMvsHKB6yLBlnvLINeQJm0/k0wE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="331461160"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="331461160"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 07:59:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="700017813"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="700017813"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 15 Feb 2023 07:59:31 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pSKBp-007KF7-0b;
-        Wed, 15 Feb 2023 17:59:25 +0200
-Date:   Wed, 15 Feb 2023 17:59:24 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dipen Patel <dipenp@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [PATCH v4 00/18] gpiolib cleanups
-Message-ID: <Y+0BXGLf2n+dAi4v@smile.fi.intel.com>
-References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
- <CAMRc=MdsCZKh12QcqdWk+Zht5UDpA_G1+rx6+_3dzwjDYe6L+Q@mail.gmail.com>
+        Wed, 15 Feb 2023 11:48:54 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE3378685;
+        Wed, 15 Feb 2023 08:48:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A67A61CBC;
+        Wed, 15 Feb 2023 16:48:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D23FBC433D2;
+        Wed, 15 Feb 2023 16:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676479732;
+        bh=vExtuAthxfCRzwSuy6MlSMGY3hLpzHHXxS5asALtauE=;
+        h=From:Date:Subject:To:Cc:Reply-To:From;
+        b=pu0lsh3DhDBLoTy7xD5Z6YuVK4b/NV6u1ZnB/P7cHyzEGx1xoo5xJGYPilSctt4mq
+         VV3DyM3jraXkTOFPyCGyN+uw07P6VNncCyNydw2s3xVEJhAbFFKx0cOv7AlIsscxen
+         ByBltL0y6cMB+vtZxdu8F7pp7ddz3EzlNQHmS3igGjCDKalhhWSW6EonLAABd1L5li
+         F0SArS78kXizbuRSHG4HoZlmx/E95Z1SFnqjeuLSvhg5m7OLvnK9ruY5uYYK+YKRyO
+         IO8qDMkSmft9WjuFDZHqR2y/19cYEJB+hekEjHNgNGAq1mHK5ttml1aH4ssSPdtSep
+         Yr5J4FEdxeZWA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by smtp.lore.kernel.org (Postfix) with ESMTP id BEF39C636CC;
+        Wed, 15 Feb 2023 16:48:52 +0000 (UTC)
+From:   Benjamin Tissoires via B4 Submission Endpoint 
+        <devnull+benjamin.tissoires.redhat.com@kernel.org>
+Date:   Wed, 15 Feb 2023 17:48:36 +0100
+Subject: [PATCH] HID: mcp-2221: prevent UAF in delayed work
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdsCZKh12QcqdWk+Zht5UDpA_G1+rx6+_3dzwjDYe6L+Q@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230215-wip-mcp2221-v1-1-d7d1da261a5c@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAOMM7WMC/x2NywqDMBAAf0X23AV3bRD9ldJDEldd0DQk9AHiv
+ 7v0OAPDHFClqFQYmwOKfLTqKxnQrYG4+rQI6mQM3HLXMjn8asY9ZmYmHPphuhM5mYMDK4KvgqH
+ 4FFdr0nvbTOYis/7+i8fzPC9zHK4GcgAAAA==
+To:     Rishi Gupta <gupt21@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676479731; l=2755;
+ i=benjamin.tissoires@redhat.com; s=20230215; h=from:subject:message-id;
+ bh=ZAV9AC74hbxWCBTTNRrOTw2lYGjCcjlsI2cLyvC0tkA=;
+ b=E4ih/2BE+S5H93iNdEsJpXCj47czOefRfS92Rf51/q8F5Neke3bwRdncxQL3Enm/A2fo4dU8W
+ vnJd4ic/7AnABiMd5nULcqmerv48V8UwhSSpIDRBwe4Oaq18tv+7UuK
+X-Developer-Key: i=benjamin.tissoires@redhat.com; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+X-Endpoint-Received: by B4 Submission Endpoint for
+ benjamin.tissoires@redhat.com/20230215 with auth_id=29
+X-Original-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Reply-To: <benjamin.tissoires@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Feb 15, 2023 at 04:52:29PM +0100, Bartosz Golaszewski wrote:
-> On Wed, Feb 8, 2023 at 6:34 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > These are some older patches Arnd did last year, rebased to
-> > linux-next-20230208. On top there are Andy's patches regarding
-> > similar topic. The series starts with Linus Walleij's patches.
-> >
-> > The main goal is to remove some of the legacy bits of the gpiolib
-> > interfaces, where the corner cases are easily avoided or replaced
-> > with gpio descriptor based interfaces.
-> >
-> > The idea is to get an immutable branch and route the whole series
-> > via GPIO tree.
-> 
-> Andy,
-> 
-> looks like this series has all the acks it needs but I decided to not
-> send it in the upcoming merge window, I'd prefer it gets some time in
-> next so I'll let it sit until the next release cycle.
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Ah, I forgot to mention that this is for the next cycle (v6.4).
-Hence it's fine. (Moreover it's based on Linux Next, so it will
-fail compilation in any certain tree except that one.)
+If the device is plugged/unplugged without giving time for mcp_init_work()
+to complete, we might kick in the devm free code path and thus have
+unavailable struct mcp_2221 while in delayed work.
 
-I will create an immutable branch after v6.3-rc1 is out.
+Add a boolean and a spinlock to prevent scheduling the deleyed work if
+we are in the operation of removing the device.
 
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+---
+Similar to Pietro's series, we can see the pattern in hid-mcp2221,
+except that this time the ledclass is not involved.
+
+Link: https://lore.kernel.org/linux-input/20230125-hid-unregister-leds-v4-5-7860c5763c38@diag.uniroma1.it/
+---
+ drivers/hid/hid-mcp2221.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index e61dd039354b..de8b988f4a48 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -95,6 +95,8 @@ struct mcp2221 {
+ 	struct mutex lock;
+ 	struct completion wait_in_report;
+ 	struct delayed_work init_work;
++	spinlock_t init_work_lock;
++	bool removing;
+ 	u8 *rxbuf;
+ 	u8 txbuf[64];
+ 	int rxbuf_idx;
+@@ -922,6 +924,14 @@ static void mcp2221_hid_unregister(void *ptr)
+ /* This is needed to be sure hid_hw_stop() isn't called twice by the subsystem */
+ static void mcp2221_remove(struct hid_device *hdev)
+ {
++	struct mcp2221 *mcp = hid_get_drvdata(hdev);
++	unsigned long flags;
++
++	spin_lock_irqsave(&mcp->init_work_lock, flags);
++	mcp->removing = true;
++	spin_unlock_irqrestore(&mcp->init_work_lock, flags);
++
++	cancel_delayed_work_sync(&mcp->init_work);
+ }
+ 
+ #if IS_REACHABLE(CONFIG_IIO)
+@@ -1040,6 +1050,7 @@ static void mcp_init_work(struct work_struct *work)
+ 	struct mcp2221_iio *data;
+ 	static int retries = 5;
+ 	int ret, num_channels;
++	unsigned long flags;
+ 
+ 	hid_hw_power(mcp->hdev, PM_HINT_FULLON);
+ 	mutex_lock(&mcp->lock);
+@@ -1090,7 +1101,10 @@ static void mcp_init_work(struct work_struct *work)
+ 		return;
+ 
+ 	/* Device is not ready to read SRAM or FLASH data, try again */
+-	schedule_delayed_work(&mcp->init_work, msecs_to_jiffies(100));
++	spin_lock_irqsave(&mcp->init_work_lock, flags);
++	if (!mcp->removing)
++		schedule_delayed_work(&mcp->init_work, msecs_to_jiffies(100));
++	spin_unlock_irqrestore(&mcp->init_work_lock, flags);
+ }
+ #endif
+ 
+@@ -1131,6 +1145,7 @@ static int mcp2221_probe(struct hid_device *hdev,
+ 	}
+ 
+ 	mutex_init(&mcp->lock);
++	spin_lock_init(&mcp->init_work_lock);
+ 	init_completion(&mcp->wait_in_report);
+ 	hid_set_drvdata(hdev, mcp);
+ 	mcp->hdev = hdev;
+
+---
+base-commit: d883fd110dc17308a1506c5bf17e00ce9fe7b2a2
+change-id: 20230215-wip-mcp2221-979d4115efb5
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
