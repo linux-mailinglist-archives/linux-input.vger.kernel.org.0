@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC00E698EC8
-	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 09:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3481698EEC
+	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 09:44:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbjBPIfz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Feb 2023 03:35:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57364 "EHLO
+        id S229952AbjBPIoY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Feb 2023 03:44:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjBPIfy (ORCPT
+        with ESMTP id S229525AbjBPIoY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Feb 2023 03:35:54 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA7D474D5;
-        Thu, 16 Feb 2023 00:35:49 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so5131503pjq.0;
-        Thu, 16 Feb 2023 00:35:49 -0800 (PST)
+        Thu, 16 Feb 2023 03:44:24 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 040C638B5B;
+        Thu, 16 Feb 2023 00:44:23 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id d2so1185323pjd.5;
+        Thu, 16 Feb 2023 00:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=0PtgDof4o89Oj6A3Ym6AmzeoxKb7pyQvIta7sDdx1Kc=;
-        b=cOMlWq5SF8rn+lCTy6O/YQ+hq0vp9PxMhJ6LEvktqqOBwZnkduQlJVCXO7WqWQPd3Y
-         6FxZfrA50DZvcsTm1ylivJ3Q7/OrgNWGtpIMWUeo8Wdfj/Y36e7J2bYD4GaLqHJnrA0N
-         7OfAKv1NEjFO3ebVfWDREzR2DWvDOLjriaOfOcXGrkjTmAAAMezqI5PuQwjw/ryNp2B/
-         YQhR7FA/aQFvZMSRXuyhQvYQYVr+jK+UxJPNcqOOT5x+xdAcqgDbz14twswkbzlm+ysS
-         eP/0Y0dC11N/U386J+nElfS4BcBKpYr6M0qFI4y2fgu8fQgmFVdTDeI+E3frtXu8V6d+
-         onBg==
+        b=J+MKpiifRVUnm1+rLNu9lutRUWUwMrgb+ru/PRTql8ocS7mAfpP8rUy8BdyB+fwVhm
+         A5wqxnQS0vPTP2SWIW4XagYZ5MkOcMLqEKT+i9bqlvFI6R7yhmUD+Wtyomnfspq2p6M1
+         uaOgqIIdOP4fEbPy/oraMdEAT2gQLEhxEgVt6mpKZh+laHik1K0SOgHGviblEHXpTyOi
+         14KitB+9908gqu46oMnagBNnFr1/NHJLUzFe4z+zN4o1TZ+yEDc3ZPHEWyzU5bQ+fvRt
+         joTKQ2lBinzqlBxanJNZxERXo8RFbmBOx7wuhj6xasYSY6VVAkTv2UdY3grcDeLw4HrE
+         F7/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=0PtgDof4o89Oj6A3Ym6AmzeoxKb7pyQvIta7sDdx1Kc=;
-        b=NpGXiXQA8aaJPWZynluaNCEdDBPVBOeEmAs9X4Atgz97Vohi9Uwwqkbkf4tlCCcmMI
-         hgjWyYAKZ+dOfNltOec1sQxrqtmrzKBB+Z2nVpf41grHLNfwKhWLnIQIZPaU6zPKG8mY
-         INCNmKz3GUMUUNFQhUbaLOAk/qSC+cfcFQkLP0JmccoCItyIqMgekPnM/VKBcOWfw564
-         3q7bdav7BdvMmQAQESD9DJFVnIx00DEuzqsycxyfkONyXcGFqDs8WPRNLm9+c8kv20xL
-         ozAM0FU2b4VZkycyn3rB892gwG/UrWZnkK4yCMLL+6wDqPxsgaLF1k1+t7Vn1XO7jg5J
-         vlYw==
-X-Gm-Message-State: AO0yUKU0ZDD38Zk1GnQgv8q1ot8SDflMV43dCPfiRr5WYTlCeO4VvQCk
-        NJhZ7/VyNtew24KMoXrt2ZA=
-X-Google-Smtp-Source: AK7set/etVBvnBIWcJVDW++R+tZHALqTI8Mes+M+jWwma5VxWSqUle65Ez2eOmO3r7X4gGrK/651Eg==
-X-Received: by 2002:a17:903:22d0:b0:192:4f85:b91d with SMTP id y16-20020a17090322d000b001924f85b91dmr6454674plg.46.1676536548796;
-        Thu, 16 Feb 2023 00:35:48 -0800 (PST)
+        b=X0NvSlZSpjF5SUx4DtXa60k90CsdfNlWkwciW8kITDFuY17EZpM3XFCDG4iJ2SYwHG
+         aeFehmecehELXfOuhFpUGwOm/7grJ3rgBcr3RKNNUYDhOoUp9q9XTM4sdDQXRTnZUtI3
+         nr/1t/+6TXskTWVuExv86gxE5S4Or9KAA52wmngHUE7mRbEciE5Kt7tTb1HH2zCTP6F/
+         ngyyVcFu+qxtjOAiRvJybTM3sIX/Z0Pg/Z5XsWrDDSFEBfFv7wH6dWMz6+nMG79jAT8i
+         /sKs16WZ2y2CDmHTcTGbdzNOttjtzCpHpx0K/T84cWe4ot4jta10sakD4iudTw6mw05t
+         dPMw==
+X-Gm-Message-State: AO0yUKXJGj8C9XlN07Hw+6hBWxD1ocsip6Mv5LL3m708DpI62R0DRISJ
+        7aTVXbZs8j+IWAr0j17Xpe8=
+X-Google-Smtp-Source: AK7set+CYHsq8ek78oGS0PSxmlxN6YIS+FR4k59YmGQj/GbbjdFrVr80YpCTN5sCIBT8b8p5vlhonA==
+X-Received: by 2002:a17:90a:5314:b0:233:ee50:d291 with SMTP id x20-20020a17090a531400b00233ee50d291mr6428759pjh.22.1676537062532;
+        Thu, 16 Feb 2023 00:44:22 -0800 (PST)
 Received: from mi-OptiPlex-7080.mioffice.cn ([2408:8607:1b00:8:b27b:25ff:fe2c:5c4])
-        by smtp.gmail.com with ESMTPSA id iw11-20020a170903044b00b0019aa7d89f06sm735091plb.30.2023.02.16.00.35.47
+        by smtp.gmail.com with ESMTPSA id bt14-20020a17090af00e00b002341ae23ad7sm5355002pjb.1.2023.02.16.00.44.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Feb 2023 00:35:48 -0800 (PST)
+        Thu, 16 Feb 2023 00:44:22 -0800 (PST)
 From:   Qi Feng <fengqi706@gmail.com>
 To:     jikos@kernel.org
 Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, fengqi <fengqi@xiaomi.com>
 Subject: [PATCH v3] Our HID device need KEY_CAMERA_FOCUS event to control camera,
-Date:   Thu, 16 Feb 2023 16:35:42 +0800
+Date:   Thu, 16 Feb 2023 16:44:14 +0800
 Message-Id: <9a85b268c7636ef2e4e3bbbe318561ba2842a591.1676536357.git.fengqi@xiaomi.com>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
