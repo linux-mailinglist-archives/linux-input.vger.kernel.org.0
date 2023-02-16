@@ -2,105 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6961698B36
-	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 04:32:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D309698B57
+	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 05:15:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbjBPDcK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Feb 2023 22:32:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42992 "EHLO
+        id S229563AbjBPEPp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Feb 2023 23:15:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjBPDcI (ORCPT
+        with ESMTP id S229460AbjBPEPo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Feb 2023 22:32:08 -0500
-Received: from irl.hu (irl.hu [95.85.9.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7878528865;
-        Wed, 15 Feb 2023 19:32:07 -0800 (PST)
-Received: from [192.168.0.31] (bc065635.dsl.pool.telekom.hu [::ffff:188.6.86.53])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 000000000006EEE5.0000000063EDA3B3.002C0988; Thu, 16 Feb 2023 04:32:03 +0100
-Message-ID: <007239f0-1b13-77b9-0d9c-d68747e20331@irl.hu>
-Date:   Thu, 16 Feb 2023 04:32:00 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: sdm845-oneplus: add
- tri-state-key
-Content-Language: en-US, hu
-To:     Caleb Connolly <caleb@connolly.tech>, Pavel Machek <pavel@ucw.cz>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jiri Kosina <jikos@kernel.org>,
+        Wed, 15 Feb 2023 23:15:44 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3F6234035;
+        Wed, 15 Feb 2023 20:15:43 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id d2so677993pjd.5;
+        Wed, 15 Feb 2023 20:15:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hKu/tCqMWpC3njjVXAIhON9nLECE9a/6QQav2GblfJc=;
+        b=ZkfsZjXgTv+D4litlZpKtObGQpofrWp7Ug7tGDjWGWdKPW0Vfj1iQOfZPSrpDKAX4G
+         LHOY8IoBjjpC5fOY6N2rzPDziuJKDvukZ9yiuC7czBRTFxPHZvPkglmEq/zQsJFAv7yz
+         rPm/IV4C1SoLhloCOnFNZNfxFgwq/jSnQkkZjRjKlSBAkBTRqQ8eRz5/z3Q9IXmtMZLI
+         LC7iOJMhP9ZtfT6hjlgyZavrympLOm/5R2V9+bitBfbfnHz/ymS8tM8A+Mjxc1oh/AGL
+         Bpncn5ghth8c+ipTjyhPKmKc6XSUOAtOKUxrsXcOZE8jl4HiOfMBQ3a/BTyg+mMHuAXB
+         T9iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hKu/tCqMWpC3njjVXAIhON9nLECE9a/6QQav2GblfJc=;
+        b=N2wL9qj3c9AsgdvKkBM6/6kOE3nd+sXG1ZJGTraDtuMoIGRjHsGLUD4mEk7PgvuMqr
+         ILf3pdP3yPAgCS26rtMu4mbeplppKoCSHuAHfZ450ugwzg2mMkjvByKcCF9UCeG9Oo4e
+         f7MWlmWvUhxfaFoPxzu5mE3UlPSrSpsmhvCuvynJ+UqXO24jIX6olRsdcnA7YEofESsC
+         eWntrQUSWyRdGrHzaihUFMn95yT7aqKUu9iDEhNaDAh/kJ7p5ZUBEgSG9Gpg1GtQh6Rx
+         vIhGEvpQW8A8jsyBVdmWgB7lTlk+jj3bJ72iOcWx7qtZC/sz/Np+UrNTOK+x6ZoXt4/p
+         WLyw==
+X-Gm-Message-State: AO0yUKUkb9G1jjxgpNZ2eZMlnlYr44ahd9cPGvYrwaMVr+9ncYRBl5hX
+        mIOYP110ADYlU8T4L6JHP03Kl8nEaAmJxw==
+X-Google-Smtp-Source: AK7set+yAVOk5FCg/3h3SDyr1GOelZEMqf8+yM5bDTUpJHkKPm3+Blm7V8Rv3alCMniph3eRP069Hw==
+X-Received: by 2002:a17:902:f688:b0:19a:eef0:33a4 with SMTP id l8-20020a170902f68800b0019aeef033a4mr807064plg.62.1676520943077;
+        Wed, 15 Feb 2023 20:15:43 -0800 (PST)
+Received: from localhost.localdomain ([202.53.32.211])
+        by smtp.gmail.com with ESMTPSA id ij21-20020a170902ab5500b00198d1993b4esm157539plb.69.2023.02.15.20.15.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 20:15:42 -0800 (PST)
+From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230209232556.91554-1-soyer@irl.hu>
- <Y+fE7gIMD4BDCffy@duo.ucw.cz>
- <d1959211-bf33-f4fd-01a8-91dcd247aa70@connolly.tech>
-From:   Gergo Koteles <soyer@irl.hu>
-In-Reply-To: <d1959211-bf33-f4fd-01a8-91dcd247aa70@connolly.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>,
+        Aditya Garg <gargaditya08@live.com>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Kerem Karabay <kekrby@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+        Orlando Chamberlain <orlandoch.dev@gmail.com>
+Subject: [PATCHv2 0/2] Apple Magic Keyboard Backlight
+Date:   Thu, 16 Feb 2023 15:12:24 +1100
+Message-Id: <20230216041224.4731-1-orlandoch.dev@gmail.com>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+This patchseries adds support for the internal keyboard backlight of
+Macs with Apple's "Magic" keyboard (MacBookPro16,* and MacBookAir9,1),
+and also documents what names should be used for keyboard backlight
+leds in Documentation/leds/well-known-leds.txt.
 
-> 
-> 
-> On 11/02/2023 16:40, Pavel Machek wrote:
->> Hi!
->>
->>> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
->>> @@ -52,6 +52,43 @@ key-vol-up {
->>>   		};
->>>   	};
->>>
->>> +	tri-state-key {
->>> +		compatible = "gpio-keys";
->>> +		label = "Tri-state key";
->>> +		pinctrl-names = "default";
->>> +		pinctrl-0 = <&tri_state_key_default>;
->>> +		state-top {
->>> +			label = "Tri-state key top";
->>
->> "top/middle" is not too useful. Do we need the label at all? If so,
->> should it say "loud/vibrations only/mute"?
-> 
-> "mute", "vibrate" and "ring" sound good to me.
-> 
+A previous version of this patch was sent alongside some other drivers
+here[1] but for v2 I'm submitting it separately to make upstreaming
+easier.
 
-OnePlus uses the silent/vibrate/ring, iPhone the silent/ring names.
-Maybe silent/vibrate/ring are more familiar.
+v1->v2:
+- drop unneeded remove function
+- combine set functions
+- add missing header inclusions
+- avoid char as argument in favour of u8
+- handful of style/formatting fixes
+- use standard led name ":white:kbd_backlight"
+- rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
+- New patch documenting preferred keyboard backlight names
 
-Adding labels can document these modes here.
-Should we also document these in input-event-codes.h?
-#define ABS_SND_PROFILE		0x22 /* 0 = silent; 1 = vibrate; 2 = ring */
+[1]: https://lore.kernel.org/linux-input/7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com/
 
+Orlando Chamberlain (2):
+  Documentation: leds: standardise keyboard backlight led names
+  HID: apple-magic-backlight: Add driver for keyboard backlight on
+    internal Magic Keyboards
 
-Thanks,
-Gergo
+ Documentation/leds/well-known-leds.txt |   8 ++
+ MAINTAINERS                            |   6 ++
+ drivers/hid/Kconfig                    |  13 +++
+ drivers/hid/Makefile                   |   1 +
+ drivers/hid/apple-magic-backlight.c    | 125 +++++++++++++++++++++++++
+ 5 files changed, 153 insertions(+)
+ create mode 100644 drivers/hid/apple-magic-backlight.c
 
-> Although it would be nice if users can easily map the physical key
-> position to the action when viewing the input device or remapping the
-> key in userspace.
-> 
-> Do you have any ideas or recommendations on how to do this?
->>
->> BR,
->> 								Pavel
-> 
-> --
-> Kind Regards,
-> Caleb
-> 
+-- 
+2.39.1
 
