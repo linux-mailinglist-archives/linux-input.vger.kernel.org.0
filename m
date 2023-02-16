@@ -2,59 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B58F69932C
-	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 12:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CC1D699349
+	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 12:38:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbjBPLd5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Feb 2023 06:33:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52080 "EHLO
+        id S229982AbjBPLiJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Feb 2023 06:38:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230029AbjBPLd4 (ORCPT
+        with ESMTP id S229454AbjBPLiI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Feb 2023 06:33:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63ED913DD6
-        for <linux-input@vger.kernel.org>; Thu, 16 Feb 2023 03:33:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676547189;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fN8NkOdWNPNgUUyDpAWON7BPuwgG0ESBRyhE+Z23ONs=;
-        b=YFg1UYd53HGbi30+8rEdNej1GiH/rOUh9JMJeaa0rsvZ2HOKLKpBSD+hQEWgj803CG3rN6
-        ZeQctuvhYiwMXotP5JzyqEJftNl6Lbrk2k6Om8ROcRdSf8sI5xbbvS9mSb597DRZYLElmS
-        id9mSM851u/F9oxNwXXzuUChSvjYL1M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-a8rTwL2GNcK_BSIN63xmDA-1; Thu, 16 Feb 2023 06:33:06 -0500
-X-MC-Unique: a8rTwL2GNcK_BSIN63xmDA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89851882824;
-        Thu, 16 Feb 2023 11:33:05 +0000 (UTC)
-Received: from xps-13.local (unknown [10.39.195.145])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C9B7F1121314;
-        Thu, 16 Feb 2023 11:33:03 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <abos@hanno.de>,
-        Pietro Borrello <borrello@diag.uniroma1.it>
-Cc:     Jiri Kosina <jkosina@suse.cz>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <20230211-bigben-oob-v1-1-d2849688594c@diag.uniroma1.it>
-References: <20230211-bigben-oob-v1-1-d2849688594c@diag.uniroma1.it>
-Subject: Re: [PATCH] hid: bigben_probe(): validate report count
-Message-Id: <167654718338.255038.8270814886921394655.b4-ty@redhat.com>
-Date:   Thu, 16 Feb 2023 12:33:03 +0100
+        Thu, 16 Feb 2023 06:38:08 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECDCB42DC5;
+        Thu, 16 Feb 2023 03:38:02 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id r28so1377920oiw.3;
+        Thu, 16 Feb 2023 03:38:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0w4s3k53CjHQZ1FbdH4kvMLl4+i7Mxyq78q748S60EA=;
+        b=V0D4fCeLWsL5hEYqG7tzRdiJXCVCVJUZSk9z+JZzl5u1c2kLXOwD/PJofFa1kZ/lXQ
+         Fy7seDYyb5lQpGXuio68exb0RsUhR730c7D0dEIAT/QAaa0lwMfaz2Yij5RJQiPlDfqP
+         P+ZTWUDErGPlc+0AZnXvSef4c4EdRtzN4PqB4rzQ0PT1fuhx7sNAyfHJ75E6drb6qY9z
+         EnIALXYefj4ceJWOUVIScFhah9yg0lul4TbV030TM088BLb63xaoKMS2tiUC1d+CfOBk
+         QVUD1cZWsCMIgN3oba3PnKQfdiWq6qV99sWl4fRYAZ6HWGd4PppzJTSKbsg3wGIXfVB+
+         mOkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0w4s3k53CjHQZ1FbdH4kvMLl4+i7Mxyq78q748S60EA=;
+        b=3yXuIqN4arxpeVHcgHJEiqibfuqCSSSCYipvhP4rDPmCqD/YgCPRvpwZzOvDrHMR92
+         aIFTJRi5W80GldAFdWQ8/vflRdYDLtN2qLJD6bmcHmZWP+tUuCq8uuK/MCwQYVCzvXgp
+         zExQsDvGuTjTnyQLpxNM+LbD0HdBI+XRcKMibEYHiIa8icrbrOywQHx2UzPDjhYfQ+kh
+         FfTrKkBkmkffUWGwcK/Nwd7SZJVSSPRdNe6kiIegtMjhRJvBqcYriMwDU0DnT2nEA6Z4
+         51qwa8xPL7gn/GtqekzpE/UZLiG/1pTCsxfufdbMqik/4ZXM03qknr5i4vMwdaUo+bxK
+         gnZA==
+X-Gm-Message-State: AO0yUKWWFaiLRNGOxENpIlpus1Qbwl5kv6+TOyQvf+5btEu27XKTPSse
+        Ym/srTWW4FEr2+akwlPhCazQ51e8HhfOc+L99z4=
+X-Google-Smtp-Source: AK7set8rEt2ssiauClaagKoUR/idAJ5vK4PQwX5XfrM+5xM5bFbAGucBdEKnLaE5yj/UwNr3ib1BLdtlgDWy28yegBI=
+X-Received: by 2002:a05:6808:1a02:b0:37a:c636:6af3 with SMTP id
+ bk2-20020a0568081a0200b0037ac6366af3mr188630oib.77.1676547481897; Thu, 16 Feb
+ 2023 03:38:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <3f8627d20de711d08b8cafe0a11481a2b9ca941e.1676537236.git.fengqi@xiaomi.com>
+ <Y+4C6srdFygrWsLr@kroah.com>
+In-Reply-To: <Y+4C6srdFygrWsLr@kroah.com>
+From:   qi feng <fengqi706@gmail.com>
+Date:   Thu, 16 Feb 2023 19:37:51 +0800
+Message-ID: <CACOZ=ZUFZ7YvB+uRWthECf-xKpZkbG4XE7Lhh5gWsLFN9TY+AA@mail.gmail.com>
+Subject: Re: [PATCH v4] HID: add KEY_CAMERA_FOCUS event in HID
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        fengqi <fengqi@xiaomi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,23 +71,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Is there something wrong with this, I can correct it
 
-On Sun, 12 Feb 2023 00:01:44 +0000, Pietro Borrello wrote:
-> bigben_probe() does not validate that the output report has the
-> needed report values in the first field.
-> A malicious device registering a report with one field and a single
-> value causes an head OOB write in bigben_worker() when
-> accessing report_field->value[1] to report_field->value[7].
-> Use hid_validate_values() which takes care of all the needed checks.
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] hid: bigben_probe(): validate report count
-      commit: b94335f899542a0da5fafc38af8edcaf90195843
-
-Best regards,
--- 
-Benjamin Tissoires <benjamin.tissoires@redhat.com>
-
+Greg KH <gregkh@linuxfoundation.org> =E4=BA=8E2023=E5=B9=B42=E6=9C=8816=E6=
+=97=A5=E5=91=A8=E5=9B=9B 18:18=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, Feb 16, 2023 at 04:48:30PM +0800, Qi Feng wrote:
+> > From: fengqi <fengqi@xiaomi.com>
+> >
+> > Our HID device need KEY_CAMERA_FOCUS event to control camera,
+> > but this event is non-existent in current HID driver.
+> > So we add this event in hid-input.c.
+> >
+> > Signed-off-by: fengqi <fengqi@xiaomi.com>
+> >
+> > ---
+> > changes in v4:
+> >
+> > -add HID_UP_CAMERA in HID usage tables , Then add the mapping under HID=
+_UP_CAMERA
+> > -modify the commit log of patch
+> > -Link to v3:https://lore.kernel.org/linux-input/9a85b268c7636ef2e4e3bbb=
+e318561ba2842a591.1676536357.git.fengqi@xiaomi.com/T/#u
+> > -Link to v2:https://lore.kernel.org/linux-input/CACOZ=3DZU0zgRmoRu8X5bM=
+UzUrXA9x-qoDJqrQroUs=3D+qKR58MQA@mail.gmail.com/T/#t
+> > -Link to v1:https://lore.kernel.org/linux-input/CACOZ=3DZWB3grJKn7wAZEZ=
+0BDyN7KJF4VWUTNs-mPxeoW_oiR7=3Dg@mail.gmail.com/T/#t
+> > ---
+> >  drivers/hid/hid-input.c | 10 ++++++++++
+> >  include/linux/hid.h     |  1 +
+> >  2 files changed, 11 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > index 77c8c49852b5..c6098ae2fac7 100644
+> > --- a/drivers/hid/hid-input.c
+> > +++ b/drivers/hid/hid-input.c
+> > @@ -1225,6 +1225,16 @@ static void hidinput_configure_usage(struct hid_=
+input *hidinput, struct hid_fiel
+> >                       return;
+> >               }
+> >               goto unknown;
+> > +     case HID_UP_CAMERA:
+> > +             switch (usage->hid & HID_USAGE) {
+> > +             case 0x020:
+> > +                     map_key_clear(KEY_CAMERA_FOCUS);        break;
+> > +             case 0x021:
+> > +                     map_key_clear(KEY_CAMERA);              break;
+> > +             default:
+> > +                     goto ignore;
+> > +             }
+> > +             break;
+> >
+> >       case HID_UP_HPVENDOR:   /* Reported on a Dutch layout HP5308 */
+> >               set_bit(EV_REP, input->evbit);
+> > diff --git a/include/linux/hid.h b/include/linux/hid.h
+> > index 8677ae38599e..88793b77bd63 100644
+> > --- a/include/linux/hid.h
+> > +++ b/include/linux/hid.h
+> > @@ -155,6 +155,7 @@ struct hid_item {
+> >  #define HID_UP_DIGITIZER     0x000d0000
+> >  #define HID_UP_PID           0x000f0000
+> >  #define HID_UP_BATTERY               0x00850000
+> > +#define HID_UP_CAMERA                0x00900000
+> >  #define HID_UP_HPVENDOR         0xff7f0000
+> >  #define HID_UP_HPVENDOR2        0xff010000
+> >  #define HID_UP_MSVENDOR              0xff000000
+> > --
+> > 2.39.0
+> >
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
