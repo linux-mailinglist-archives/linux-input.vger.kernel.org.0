@@ -2,112 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D4F66990F2
-	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 11:18:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D4B6699111
+	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 11:23:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbjBPKS0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Feb 2023 05:18:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55134 "EHLO
+        id S229964AbjBPKXy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Feb 2023 05:23:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbjBPKSZ (ORCPT
+        with ESMTP id S229598AbjBPKXx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Feb 2023 05:18:25 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567D42100;
-        Thu, 16 Feb 2023 02:18:24 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 16 Feb 2023 05:23:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF881ADC5
+        for <linux-input@vger.kernel.org>; Thu, 16 Feb 2023 02:23:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676542985;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=QOwqem5TMYYh4Cx3CrHJhF1Ij/hHutMZXfG8C/L9PEg=;
+        b=LdAetHYNlcRgkeLrv2nestoGn51rw8cTxsMoMBHfzzjruX5Q1KZkCywrTsIi5IrW9NUzgo
+        doZSu+5YUkOhbJmJxkJm956tM30t4iDYe/l//zJYK0MBL5dgYQNUZk3Num2Mz7dHFYAt4Q
+        i47+TfZZ3k+SJSRbkkWOqMbRWAyVtPA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-WaYvPS9nM8Kt-KjVIVLQ1Q-1; Thu, 16 Feb 2023 05:23:02 -0500
+X-MC-Unique: WaYvPS9nM8Kt-KjVIVLQ1Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 79932CE2A4B;
-        Thu, 16 Feb 2023 10:18:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B6B5C433EF;
-        Thu, 16 Feb 2023 10:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1676542700;
-        bh=B/4fB4zbHoqR0LO1WLY5EPDbcPw6sQOKYbHTACv8Pi4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ckLrCOFFomB6H0D+Cgw3GB99dbdAlhxnf06ROWLm6qtzwX6hO20qh0/LVvq5PajqL
-         JC2lKqAOGZ9W+W/mFIGkBXJWwqn8URxVu71TvMmzjLvo/TxGEEPKxZVV5CNzQCMov1
-         gvWtVnMfOfcUi+7tTja/2p8iNbYMylT6zEp0tkks=
-Date:   Thu, 16 Feb 2023 11:18:18 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Qi Feng <fengqi706@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        fengqi <fengqi@xiaomi.com>
-Subject: Re: [PATCH v4] HID: add KEY_CAMERA_FOCUS event in HID
-Message-ID: <Y+4C6srdFygrWsLr@kroah.com>
-References: <3f8627d20de711d08b8cafe0a11481a2b9ca941e.1676537236.git.fengqi@xiaomi.com>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D351885A5A3;
+        Thu, 16 Feb 2023 10:23:01 +0000 (UTC)
+Received: from xps-13.local (unknown [10.39.195.145])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8235CC15BA0;
+        Thu, 16 Feb 2023 10:23:00 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 16 Feb 2023 11:22:58 +0100
+Subject: [PATCH v2] HID: mcp-2221: prevent UAF in delayed work
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f8627d20de711d08b8cafe0a11481a2b9ca941e.1676537236.git.fengqi@xiaomi.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230215-wip-mcp2221-v2-1-109f71fd036e@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAAEE7mMC/22NQQ6CMBBFr0Jm7RhmtBJceQ/DorSDbQKFtIgaw
+ t2trF2+l/z/VkgSvSS4FitEWXzyY8jAhwKM0+Eh6G1m4JJPJZPCl59wMBMzE9ZVbc9ESrpWQV6
+ 0Ogm2UQfj8iY8+z7LKUrn33vi3mR2Ps1j/OzFhX72//lCSGgrS1bzhbQytyjW6floxgGabdu++
+ vx1Q7wAAAA=
+To:     Rishi Gupta <gupt21@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676542980; l=1566;
+ i=benjamin.tissoires@redhat.com; s=20230215; h=from:subject:message-id;
+ bh=FkBSaRYN7wsSzM/cVpBjXwJ4rzMw6Y0ZZJ1Mr4BH7Y8=;
+ b=PPnGovhZwBART4w+ZM1Bh3xeYkWeFpsLwENiNtnGBaQpMHsX3OaOYqJhOSiXPOBDKHC+gC9MA
+ FCdr99BxQ/UCGGG94+yUsIixq1jOXwRFgRTZlN4a8HB9ZKCxB8j0V/z
+X-Developer-Key: i=benjamin.tissoires@redhat.com; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 04:48:30PM +0800, Qi Feng wrote:
-> From: fengqi <fengqi@xiaomi.com>
-> 
-> Our HID device need KEY_CAMERA_FOCUS event to control camera,
-> but this event is non-existent in current HID driver.
-> So we add this event in hid-input.c.
-> 
-> Signed-off-by: fengqi <fengqi@xiaomi.com>
-> 
-> ---
-> changes in v4:
-> 
-> -add HID_UP_CAMERA in HID usage tables , Then add the mapping under HID_UP_CAMERA
-> -modify the commit log of patch
-> -Link to v3:https://lore.kernel.org/linux-input/9a85b268c7636ef2e4e3bbbe318561ba2842a591.1676536357.git.fengqi@xiaomi.com/T/#u
-> -Link to v2:https://lore.kernel.org/linux-input/CACOZ=ZU0zgRmoRu8X5bMUzUrXA9x-qoDJqrQroUs=+qKR58MQA@mail.gmail.com/T/#t
-> -Link to v1:https://lore.kernel.org/linux-input/CACOZ=ZWB3grJKn7wAZEZ0BDyN7KJF4VWUTNs-mPxeoW_oiR7=g@mail.gmail.com/T/#t
-> ---
->  drivers/hid/hid-input.c | 10 ++++++++++
->  include/linux/hid.h     |  1 +
->  2 files changed, 11 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 77c8c49852b5..c6098ae2fac7 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1225,6 +1225,16 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  			return;
->  		}
->  		goto unknown;
-> +	case HID_UP_CAMERA:
-> +		switch (usage->hid & HID_USAGE) {
-> +		case 0x020:
-> +			map_key_clear(KEY_CAMERA_FOCUS);	break;
-> +		case 0x021:
-> +			map_key_clear(KEY_CAMERA);		break;
-> +		default:
-> +			goto ignore;
-> +		}
-> +		break;
->  
->  	case HID_UP_HPVENDOR:	/* Reported on a Dutch layout HP5308 */
->  		set_bit(EV_REP, input->evbit);
-> diff --git a/include/linux/hid.h b/include/linux/hid.h
-> index 8677ae38599e..88793b77bd63 100644
-> --- a/include/linux/hid.h
-> +++ b/include/linux/hid.h
-> @@ -155,6 +155,7 @@ struct hid_item {
->  #define HID_UP_DIGITIZER	0x000d0000
->  #define HID_UP_PID		0x000f0000
->  #define HID_UP_BATTERY		0x00850000
-> +#define HID_UP_CAMERA		0x00900000
->  #define HID_UP_HPVENDOR         0xff7f0000
->  #define HID_UP_HPVENDOR2        0xff010000
->  #define HID_UP_MSVENDOR		0xff000000
-> -- 
-> 2.39.0
-> 
+If the device is plugged/unplugged without giving time for mcp_init_work()
+to complete, we might kick in the devm free code path and thus have
+unavailable struct mcp_2221 while in delayed work.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Canceling the delayed_work item is enough to solve the issue, because
+cancel_delayed_work_sync will prevent the work item to requeue itself.
+
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+---
+Similar to Pietro's series, we can see the pattern in hid-mcp2221,
+except that this time the ledclass is not involved.
+
+Link: https://lore.kernel.org/linux-input/20230125-hid-unregister-leds-v4-5-7860c5763c38@diag.uniroma1.it/
+---
+Changes in v2:
+- drop the spinlock/boolean
+- Link to v1: https://lore.kernel.org/r/20230215-wip-mcp2221-v1-1-d7d1da261a5c@redhat.com
+---
+ drivers/hid/hid-mcp2221.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index e61dd039354b..f74a977cf8f8 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -922,6 +922,9 @@ static void mcp2221_hid_unregister(void *ptr)
+ /* This is needed to be sure hid_hw_stop() isn't called twice by the subsystem */
+ static void mcp2221_remove(struct hid_device *hdev)
+ {
++	struct mcp2221 *mcp = hid_get_drvdata(hdev);
++
++	cancel_delayed_work_sync(&mcp->init_work);
+ }
+ 
+ #if IS_REACHABLE(CONFIG_IIO)
+
+---
+base-commit: d883fd110dc17308a1506c5bf17e00ce9fe7b2a2
+change-id: 20230215-wip-mcp2221-979d4115efb5
+
+Best regards,
+-- 
+Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
