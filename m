@@ -2,33 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC13F698A78
-	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 03:23:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6961698B36
+	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 04:32:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229513AbjBPCXG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Feb 2023 21:23:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38808 "EHLO
+        id S229538AbjBPDcK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Feb 2023 22:32:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjBPCXF (ORCPT
+        with ESMTP id S229504AbjBPDcI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Feb 2023 21:23:05 -0500
+        Wed, 15 Feb 2023 22:32:08 -0500
 Received: from irl.hu (irl.hu [95.85.9.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584E431E1E;
-        Wed, 15 Feb 2023 18:23:04 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7878528865;
+        Wed, 15 Feb 2023 19:32:07 -0800 (PST)
 Received: from [192.168.0.31] (bc065635.dsl.pool.telekom.hu [::ffff:188.6.86.53])
   (AUTH: CRAM-MD5 soyer@irl.hu, )
   by irl.hu with ESMTPSA
-  id 000000000006E9F7.0000000063ED9384.002C0889; Thu, 16 Feb 2023 03:23:00 +0100
-Message-ID: <952d1e7c-8f46-086a-8e14-fa225c6f5844@irl.hu>
-Date:   Thu, 16 Feb 2023 03:22:59 +0100
+  id 000000000006EEE5.0000000063EDA3B3.002C0988; Thu, 16 Feb 2023 04:32:03 +0100
+Message-ID: <007239f0-1b13-77b9-0d9c-d68747e20331@irl.hu>
+Date:   Thu, 16 Feb 2023 04:32:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v2 2/3] Input: add ABS_SND_PROFILE
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: sdm845-oneplus: add
+ tri-state-key
 Content-Language: en-US, hu
-To:     Pavel Machek <pavel@ucw.cz>
+To:     Caleb Connolly <caleb@connolly.tech>, Pavel Machek <pavel@ucw.cz>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
@@ -37,12 +37,12 @@ Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Caleb Connolly <caleb@connolly.tech>
-References: <20230209232539.91500-1-soyer@irl.hu>
- <Y+fCvaGTkddwNGP6@duo.ucw.cz>
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20230209232556.91554-1-soyer@irl.hu>
+ <Y+fE7gIMD4BDCffy@duo.ucw.cz>
+ <d1959211-bf33-f4fd-01a8-91dcd247aa70@connolly.tech>
 From:   Gergo Koteles <soyer@irl.hu>
-In-Reply-To: <Y+fCvaGTkddwNGP6@duo.ucw.cz>
+In-Reply-To: <d1959211-bf33-f4fd-01a8-91dcd247aa70@connolly.tech>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
@@ -53,52 +53,54 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Pavel,
-> Hi!
+Hi,
+
 > 
->> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
->> switch. This will be used for the tri-state key on OnePlus phones or other
->> phones.
 > 
-> Looks like ABS_PROFILE would be fine to use there, no need to create
-> new one, no?
+> On 11/02/2023 16:40, Pavel Machek wrote:
+>> Hi!
+>>
+>>> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+>>> @@ -52,6 +52,43 @@ key-vol-up {
+>>>   		};
+>>>   	};
+>>>
+>>> +	tri-state-key {
+>>> +		compatible = "gpio-keys";
+>>> +		label = "Tri-state key";
+>>> +		pinctrl-names = "default";
+>>> +		pinctrl-0 = <&tri_state_key_default>;
+>>> +		state-top {
+>>> +			label = "Tri-state key top";
+>>
+>> "top/middle" is not too useful. Do we need the label at all? If so,
+>> should it say "loud/vibrations only/mute"?
+> 
+> "mute", "vibrate" and "ring" sound good to me.
 > 
 
-ABS_PROFILE used by some Xbox game controllers to switch controller 
-profiles. In the future, it's imaginable to play games in a linux mobile 
-with the controllers. If we don't want to know in userspace where the 
-event comes from, I think ABS_SND_PROFILE would be better.
+OnePlus uses the silent/vibrate/ring, iPhone the silent/ring names.
+Maybe silent/vibrate/ring are more familiar.
+
+Adding labels can document these modes here.
+Should we also document these in input-event-codes.h?
+#define ABS_SND_PROFILE		0x22 /* 0 = silent; 1 = vibrate; 2 = ring */
+
 
 Thanks,
 Gergo
 
-> Best regards,
-> 								Pavel
+> Although it would be nice if users can easily map the physical key
+> position to the action when viewing the input device or remapping the
+> key in userspace.
 > 
->> Signed-off-by: Gergo Koteles <soyer@irl.hu>
->> ---
->>   Documentation/input/event-codes.rst    | 6 ++++++
->>   drivers/hid/hid-debug.c                | 1 +
->>   include/uapi/linux/input-event-codes.h | 1 +
->>   3 files changed, 8 insertions(+)
+> Do you have any ideas or recommendations on how to do this?
 >>
->> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
->> index b4557462edd7..d43336e64d6a 100644
->> --- a/Documentation/input/event-codes.rst
->> +++ b/Documentation/input/event-codes.rst
->> @@ -241,6 +241,12 @@ A few EV_ABS codes have special meanings:
->>       emitted only when the selected profile changes, indicating the newly
->>       selected profile value.
->>   
->> +* ABS_SND_PROFILE:
->> +
->> +  - Used to describe the state of a multi-value sound profile switch.
->> +    An event is emitted only when the selected profile changes,
->> +    indicating the newly selected profile value.
->> +
->>   * ABS_MT_<name>:
->>   
->>     - Used to describe multitouch input events. Please see
->> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+>> BR,
+>> 								Pavel
+> 
+> --
+> Kind Regards,
+> Caleb
 > 
 
