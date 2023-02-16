@@ -2,75 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D066D6993A6
-	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 12:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9AD56997EE
+	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 15:53:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbjBPLwK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Feb 2023 06:52:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
+        id S230310AbjBPOxh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Feb 2023 09:53:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbjBPLwI (ORCPT
+        with ESMTP id S230283AbjBPOxc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Feb 2023 06:52:08 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038D54DBE0;
-        Thu, 16 Feb 2023 03:52:08 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id ow4so679099qkn.1;
-        Thu, 16 Feb 2023 03:52:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RCvmhgcYonUnPdG+esIO60ks+rKiZjYiiwI3DMsK52s=;
-        b=T5lW0Oe5LWWY1x1RHVWHCTiZOB2nu1NRfMwV888ejAzL1j3iK9mSo7R40ZaaeXLyFX
-         fb4ljprJm0bUrEmLckY4FasTG4jR91p0PRmifpNorxWLgt2WARw0vTu/oqHe//ilGBPQ
-         G2JMj62Jm9gc7ad9dX7Q1DWIgFprXQ++VqGXJ5ecBo+5zTlwGS04vrFCyBR7mjp5067A
-         XC7wzpuu42XbOlH5jaR03xjSLk0E7NRBI4JNRcXUkCscPvNJtjnbWVQjPjZRJpGxr4SM
-         spnXwX5dl06aRZ/IQY8z9HTI5Fmyqh9IAzAjiDMIQg9SiNLRH1pz59ms4y3yh2Nqcj33
-         35NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RCvmhgcYonUnPdG+esIO60ks+rKiZjYiiwI3DMsK52s=;
-        b=i/72iyEVf2GaGsmGHS/8+zL/XPb1ZAiHrSYPZ2yCF6Jk8UcQL+seHKhr1qJANWXe88
-         L73DxYTBTN+DnC34WizCae1QUz7CcHgd0hYIAI84Dmm7ZkQQx92WayELdcdqu2oJUdwJ
-         NW95jHmgBr0gd9A/hwTyaRAkDPuczXiMSHpmtLzTmeijhwLfjEfT3MeNu3zTXLY452rI
-         QhAyCN7ko1zYtwcXV0LATMgXtBam22mJer5/A0yshofMBMi3NJOgGZozKtFG9vb5oCr/
-         z5Atd0IJn4IshSE7volk8ZpR/cw96Y+LdagUeFiBurimv/Ux+X2MMceol+HD1rn2De7K
-         DmIA==
-X-Gm-Message-State: AO0yUKUsrOMYkMsSuWtJwilvvryQIeiybQ6n4LqJv6nkLBDseXoNKlKA
-        0crGeTqoFcdKDt2ojc+7jFB/D7X6iAPHPNEU7Jw=
-X-Google-Smtp-Source: AK7set+aXsvMMJp4Gx5Mm8+jG4Q8FsHa360GObRFOf3i4rr1gqxc/eCqrLEkwWhDf/L7qG9H2wYJkApdPyO8MZagj2o=
-X-Received: by 2002:a37:a89:0:b0:725:ff53:b58e with SMTP id
- 131-20020a370a89000000b00725ff53b58emr335302qkk.331.1676548327067; Thu, 16
- Feb 2023 03:52:07 -0800 (PST)
+        Thu, 16 Feb 2023 09:53:32 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB8354547
+        for <linux-input@vger.kernel.org>; Thu, 16 Feb 2023 06:53:31 -0800 (PST)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pSfdZ-0003Aj-Vt; Thu, 16 Feb 2023 15:53:30 +0100
+Message-ID: <7d40eead-93ac-8585-f13a-9479bf4d9efd@leemhuis.info>
+Date:   Thu, 16 Feb 2023 15:53:29 +0100
 MIME-Version: 1.0
-References: <20230216041224.4731-1-orlandoch.dev@gmail.com>
- <20230216041224.4731-3-orlandoch.dev@gmail.com> <20230216054105.nmtft5ma4hiuqwib@t-8ch.de>
-In-Reply-To: <20230216054105.nmtft5ma4hiuqwib@t-8ch.de>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 16 Feb 2023 13:51:31 +0200
-Message-ID: <CAHp75Vd+hLS7DLbaA3zZ9V_HyT-ZMkMBJbxq7aq5WiPU0fV7Zw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: apple-magic-backlight: Add driver for keyboard
- backlight on internal Magic Keyboards
-To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc:     Orlando Chamberlain <orlandoch.dev@gmail.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: Linux 6.1 and 6.2-rc make mousewheel on Logitech G903 (046d:c091)
+ report too many non-hires events
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Salvatore Bonaccorso <carnil@debian.org>,
+        Tobias Klausmann <klausman@schwarzvogel.de>
+Cc:     linux-input@vger.kernel.org, regressions@lists.linux.dev
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+          Linux regressions mailing list 
+          <regressions@lists.linux.dev>
+References: <Y9GmnIjUgIGuYtk2@skade.schwarzvogel.de>
+ <Y9VBz/GVZPqG3KwM@eldamar.lan>
+ <01fb3b37-8ba2-70f9-df62-4cf8df6bcc97@leemhuis.info>
+In-Reply-To: <01fb3b37-8ba2-70f9-df62-4cf8df6bcc97@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1676559211;a4b98b43;
+X-HE-SMSGID: 1pSfdZ-0003Aj-Vt
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,19 +51,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 7:41 AM Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> wro=
-te:
-> On Thu, Feb 16, 2023 at 03:12:28PM +1100, Orlando Chamberlain wrote:
+[TLDR: This mail in primarily relevant for Linux kernel regression
+tracking. See link in footer if these mails annoy you.]
 
-...
+On 28.01.23 17:28, Linux kernel regression tracking (Thorsten Leemhuis)
+wrote:
+> On 28.01.23 16:39, Salvatore Bonaccorso wrote:
+>> On Wed, Jan 25, 2023 at 11:01:00PM +0100, Tobias Klausmann wrote:
+>>> Hi!
+>>>
+>>> As it says in the subject.
+>>>
+>>> At some point between 6.0 and 6.1, the kernel (if HID_LOGITECH_HIDPP was
+>>> m or y) started reporting a full event for every hires event on a
+>>> Logitech G903. 
 
-> Note: Only your cover letter has the "v2" prefix.
-> Normally git format-patch should apply this properly to all patches when
-> using --reroll-count.
+Just noticed that regzbot missed noticing the fix for this thread:
 
-There is an option -v<X>, where <X> is a version applied to all
-patches in the lot.
+#regzbot fix: 690eb7dec72ae52d
+#regzbot ignore-activity
 
---=20
-With Best Regards,
-Andy Shevchenko
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
+
+#regzbot ignore-activity
