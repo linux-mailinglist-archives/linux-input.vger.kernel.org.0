@@ -2,67 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D4B6699111
-	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 11:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B58F69932C
+	for <lists+linux-input@lfdr.de>; Thu, 16 Feb 2023 12:33:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbjBPKXy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Feb 2023 05:23:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59696 "EHLO
+        id S230207AbjBPLd5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Feb 2023 06:33:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbjBPKXx (ORCPT
+        with ESMTP id S230029AbjBPLd4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Feb 2023 05:23:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF881ADC5
-        for <linux-input@vger.kernel.org>; Thu, 16 Feb 2023 02:23:06 -0800 (PST)
+        Thu, 16 Feb 2023 06:33:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63ED913DD6
+        for <linux-input@vger.kernel.org>; Thu, 16 Feb 2023 03:33:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676542985;
+        s=mimecast20190719; t=1676547189;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=QOwqem5TMYYh4Cx3CrHJhF1Ij/hHutMZXfG8C/L9PEg=;
-        b=LdAetHYNlcRgkeLrv2nestoGn51rw8cTxsMoMBHfzzjruX5Q1KZkCywrTsIi5IrW9NUzgo
-        doZSu+5YUkOhbJmJxkJm956tM30t4iDYe/l//zJYK0MBL5dgYQNUZk3Num2Mz7dHFYAt4Q
-        i47+TfZZ3k+SJSRbkkWOqMbRWAyVtPA=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fN8NkOdWNPNgUUyDpAWON7BPuwgG0ESBRyhE+Z23ONs=;
+        b=YFg1UYd53HGbi30+8rEdNej1GiH/rOUh9JMJeaa0rsvZ2HOKLKpBSD+hQEWgj803CG3rN6
+        ZeQctuvhYiwMXotP5JzyqEJftNl6Lbrk2k6Om8ROcRdSf8sI5xbbvS9mSb597DRZYLElmS
+        id9mSM851u/F9oxNwXXzuUChSvjYL1M=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-WaYvPS9nM8Kt-KjVIVLQ1Q-1; Thu, 16 Feb 2023 05:23:02 -0500
-X-MC-Unique: WaYvPS9nM8Kt-KjVIVLQ1Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+ us-mta-649-a8rTwL2GNcK_BSIN63xmDA-1; Thu, 16 Feb 2023 06:33:06 -0500
+X-MC-Unique: a8rTwL2GNcK_BSIN63xmDA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D351885A5A3;
-        Thu, 16 Feb 2023 10:23:01 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89851882824;
+        Thu, 16 Feb 2023 11:33:05 +0000 (UTC)
 Received: from xps-13.local (unknown [10.39.195.145])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8235CC15BA0;
-        Thu, 16 Feb 2023 10:23:00 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C9B7F1121314;
+        Thu, 16 Feb 2023 11:33:03 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 16 Feb 2023 11:22:58 +0100
-Subject: [PATCH v2] HID: mcp-2221: prevent UAF in delayed work
+To:     Jiri Kosina <jikos@kernel.org>, Hanno Zulla <abos@hanno.de>,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+Cc:     Jiri Kosina <jkosina@suse.cz>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+In-Reply-To: <20230211-bigben-oob-v1-1-d2849688594c@diag.uniroma1.it>
+References: <20230211-bigben-oob-v1-1-d2849688594c@diag.uniroma1.it>
+Subject: Re: [PATCH] hid: bigben_probe(): validate report count
+Message-Id: <167654718338.255038.8270814886921394655.b4-ty@redhat.com>
+Date:   Thu, 16 Feb 2023 12:33:03 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230215-wip-mcp2221-v2-1-109f71fd036e@redhat.com>
-X-B4-Tracking: v=1; b=H4sIAAEE7mMC/22NQQ6CMBBFr0Jm7RhmtBJceQ/DorSDbQKFtIgaw
- t2trF2+l/z/VkgSvSS4FitEWXzyY8jAhwKM0+Eh6G1m4JJPJZPCl59wMBMzE9ZVbc9ESrpWQV6
- 0Ogm2UQfj8iY8+z7LKUrn33vi3mR2Ps1j/OzFhX72//lCSGgrS1bzhbQytyjW6floxgGabdu++
- vx1Q7wAAAA=
-To:     Rishi Gupta <gupt21@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-        Pietro Borrello <borrello@diag.uniroma1.it>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1676542980; l=1566;
- i=benjamin.tissoires@redhat.com; s=20230215; h=from:subject:message-id;
- bh=FkBSaRYN7wsSzM/cVpBjXwJ4rzMw6Y0ZZJ1Mr4BH7Y8=;
- b=PPnGovhZwBART4w+ZM1Bh3xeYkWeFpsLwENiNtnGBaQpMHsX3OaOYqJhOSiXPOBDKHC+gC9MA
- FCdr99BxQ/UCGGG94+yUsIixq1jOXwRFgRTZlN4a8HB9ZKCxB8j0V/z
-X-Developer-Key: i=benjamin.tissoires@redhat.com; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,45 +62,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If the device is plugged/unplugged without giving time for mcp_init_work()
-to complete, we might kick in the devm free code path and thus have
-unavailable struct mcp_2221 while in delayed work.
 
-Canceling the delayed_work item is enough to solve the issue, because
-cancel_delayed_work_sync will prevent the work item to requeue itself.
+On Sun, 12 Feb 2023 00:01:44 +0000, Pietro Borrello wrote:
+> bigben_probe() does not validate that the output report has the
+> needed report values in the first field.
+> A malicious device registering a report with one field and a single
+> value causes an head OOB write in bigben_worker() when
+> accessing report_field->value[1] to report_field->value[7].
+> Use hid_validate_values() which takes care of all the needed checks.
+> 
+> [...]
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
-Similar to Pietro's series, we can see the pattern in hid-mcp2221,
-except that this time the ledclass is not involved.
+Applied, thanks!
 
-Link: https://lore.kernel.org/linux-input/20230125-hid-unregister-leds-v4-5-7860c5763c38@diag.uniroma1.it/
----
-Changes in v2:
-- drop the spinlock/boolean
-- Link to v1: https://lore.kernel.org/r/20230215-wip-mcp2221-v1-1-d7d1da261a5c@redhat.com
----
- drivers/hid/hid-mcp2221.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index e61dd039354b..f74a977cf8f8 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -922,6 +922,9 @@ static void mcp2221_hid_unregister(void *ptr)
- /* This is needed to be sure hid_hw_stop() isn't called twice by the subsystem */
- static void mcp2221_remove(struct hid_device *hdev)
- {
-+	struct mcp2221 *mcp = hid_get_drvdata(hdev);
-+
-+	cancel_delayed_work_sync(&mcp->init_work);
- }
- 
- #if IS_REACHABLE(CONFIG_IIO)
-
----
-base-commit: d883fd110dc17308a1506c5bf17e00ce9fe7b2a2
-change-id: 20230215-wip-mcp2221-979d4115efb5
+[1/1] hid: bigben_probe(): validate report count
+      commit: b94335f899542a0da5fafc38af8edcaf90195843
 
 Best regards,
 -- 
