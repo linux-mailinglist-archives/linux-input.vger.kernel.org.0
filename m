@@ -2,126 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 416B269A406
-	for <lists+linux-input@lfdr.de>; Fri, 17 Feb 2023 03:52:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BE0769A908
+	for <lists+linux-input@lfdr.de>; Fri, 17 Feb 2023 11:24:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbjBQCwO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Feb 2023 21:52:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
+        id S229558AbjBQKYE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Feb 2023 05:24:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjBQCwN (ORCPT
+        with ESMTP id S229534AbjBQKYD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Feb 2023 21:52:13 -0500
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 720E538B6F
-        for <linux-input@vger.kernel.org>; Thu, 16 Feb 2023 18:52:12 -0800 (PST)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id E892685B91;
-        Fri, 17 Feb 2023 03:52:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1676602323;
-        bh=bxnokXviLfNfyuP50mexqTiinxPclAt0nt5C04s3V20=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MDc4YjadaoZrD+WgFz61KJcFMqSEDl+uAEEk11ZJmJrjpD8yDqDtdLw40e4pql9gz
-         P73F7efi1is1DYT3g1bLdah2T5bCi2cbNE2PWSm8ROrBKOyvxmV54K9h2H4ZGNU2J3
-         2sxlSOHFs1AINNKIobaSl/7/jFEdPtXb2Gw3bWN9PlEBSxhm1PInwYA/j+j5kV42/S
-         qltO3jBesUOScbOQfYsTBtyps7rIlxqV2aSTC5+qLrv1/82zjR9q0/uQp0EaD7nFWC
-         n1Tponiub1Azg8u5Nzo1oSZSvmztH+aZrYxST9+GLeO0FjWmZIB9dXGGdhdGTqbGCu
-         U5IV+9fO+T7Fg==
-From:   Marek Vasut <marex@denx.de>
-To:     linux-input@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
-Subject: [PATCH v2] Input: ili210x - Probe even if no resolution information
-Date:   Fri, 17 Feb 2023 03:52:00 +0100
-Message-Id: <20230217025200.203833-1-marex@denx.de>
+        Fri, 17 Feb 2023 05:24:03 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230D0627EE;
+        Fri, 17 Feb 2023 02:24:03 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id j6so1027319plh.1;
+        Fri, 17 Feb 2023 02:24:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uJsG7O5tTCs41MEzjTy+yVNOTt2BE6FSiradkkgB6LY=;
+        b=qRe/SGrZbP7S0qB9hiMc5M1htwbpekmT/G5x9ZA0EQu3n9VLPMX+5QJItPSWqtrBRX
+         rCm0ewMrretrkegnrYkYrIHzvRsNN0CPNgcQ9uCKORPISWhwlhJAaTq1xioliLffKeJy
+         0Cd/Gpq18fvdCsqtB9ZTsjxj5VWMdnYWV9VTBmrhWKDYdtzJAuVZcE0P9RsqoPIx02oS
+         Pz8BeK7GBmmDWSQZSpkusQWRH1v0s+RAKzcrHM+HHHzu7V+eutlJBCDw7f1SDruqNtTU
+         3Xz2eDC+V3UVd16CcUfpCNbOGQP74SQ6t4SFJylmcON6nnhR04ebKh/8nz2oB8x78ihO
+         UO1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uJsG7O5tTCs41MEzjTy+yVNOTt2BE6FSiradkkgB6LY=;
+        b=T14qo4+uKxG+YQeakYAJ2R+i6b+1Q0gp1wcL9PCRv1A3La+9DbYSqRjA2B5GIxxIDd
+         Phn1C3MCyhnsUS20UuJw5lJ4zRVDYz/ud1nOkHN4W03R5LmDZgIP3WEggcqiB0TIKZ17
+         yzlftdFAgpgJaAP+J7iuGxDbqHtRSM69PfmR3KviXamIOYETDCQyB+ggcrp40VZ3+tIh
+         A+2j+U5kloh4PKge5tjUXhnA/Y/ZfQvN9y4nq+yGOnYoKlIm1uomxUt/SAcC+WiNkvuy
+         MvX054d2AufOvY7/qiGEUAx1dUjTL82uKY3DJauU2LgA7+q05DjHRmQwOLQTxJTdOwq6
+         xPRQ==
+X-Gm-Message-State: AO0yUKWFlreUko8X067svxqAqKcLlSp85yPE8B/dKan4aGGADnWIOi0k
+        G14V0Pmshn2yM7UI2sN81rOsyor+xHDECA==
+X-Google-Smtp-Source: AK7set9vt5v4O8ePLcY+Cudv/NZc+8bmvEwJ6/BoQFq+EY+rOWj8nx1HEZHd92QgK/VGJWVdYgQzQg==
+X-Received: by 2002:a17:903:110e:b0:199:3683:5410 with SMTP id n14-20020a170903110e00b0019936835410mr422558plh.50.1676629442237;
+        Fri, 17 Feb 2023 02:24:02 -0800 (PST)
+Received: from localhost.localdomain ([202.53.32.211])
+        by smtp.gmail.com with ESMTPSA id w4-20020a1709029a8400b0019aaba5c90bsm2832538plp.84.2023.02.17.02.23.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 02:24:01 -0800 (PST)
+From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Aditya Garg <gargaditya08@live.com>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Kerem Karabay <kekrby@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+        Orlando Chamberlain <orlandoch.dev@gmail.com>
+Subject: [PATCH v3 0/2] Apple Magic Keyboard Backlight
+Date:   Fri, 17 Feb 2023 21:23:18 +1100
+Message-Id: <20230217102319.3419-1-orlandoch.dev@gmail.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Probe the touch controller driver even if resolution information is not
-available. This can happen e.g. in case the touch controller suffered a
-failed firmware update and is stuck in bootloader mode.
+This patchseries adds support for the internal keyboard backlight of
+Macs with Apple's "Magic" keyboard (MacBookPro16,* and MacBookAir9,1),
+and also documents what names should be used for keyboard backlight
+leds in Documentation/leds/well-known-leds.txt.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Joe Hung <joe_hung@ilitek.com>
-Cc: Luca Hsu <luca_hsu@ilitek.com>
----
-V2: Add dev_warn() in case resolution is invalid
----
- drivers/input/touchscreen/ili210x.c | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+v2->v3:
+- remove unneeded header inclusion
+- use s32 for report value type
+- remove unneeded null check
+- don't set drvdata as its never used
+- prepend "hid-" to module name
 
-diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index 4897fafa4204d..d64b6d77d2e08 100644
---- a/drivers/input/touchscreen/ili210x.c
-+++ b/drivers/input/touchscreen/ili210x.c
-@@ -370,22 +370,33 @@ static int ili251x_firmware_update_resolution(struct device *dev)
- 
- 	/* The firmware update blob might have changed the resolution. */
- 	error = priv->chip->read_reg(client, REG_PANEL_INFO, &rs, sizeof(rs));
--	if (error)
--		return error;
-+	if (!error) {
-+		resx = le16_to_cpup((__le16 *)rs);
-+		resy = le16_to_cpup((__le16 *)(rs + 2));
- 
--	resx = le16_to_cpup((__le16 *)rs);
--	resy = le16_to_cpup((__le16 *)(rs + 2));
-+		/* The value reported by the firmware is invalid. */
-+		if (!resx || resx == 0xffff || !resy || resy == 0xffff)
-+			error = -EINVAL;
-+	}
- 
--	/* The value reported by the firmware is invalid. */
--	if (!resx || resx == 0xffff || !resy || resy == 0xffff)
--		return -EINVAL;
-+	/*
-+	 * In case of error, the firmware might be stuck in bootloader mode,
-+	 * e.g. after a failed firmware update. Set maximum resolution, but
-+	 * do not fail to probe, so the user can re-trigger the firmware
-+	 * update and recover the touch controller.
-+	 */
-+	if (error) {
-+		dev_warn(dev, "Invalid resolution reported by controller.\n");
-+		resx = 16384;
-+		resy = 16384;
-+	}
- 
- 	input_abs_set_max(priv->input, ABS_X, resx - 1);
- 	input_abs_set_max(priv->input, ABS_Y, resy - 1);
- 	input_abs_set_max(priv->input, ABS_MT_POSITION_X, resx - 1);
- 	input_abs_set_max(priv->input, ABS_MT_POSITION_Y, resy - 1);
- 
--	return 0;
-+	return error;
- }
- 
- static ssize_t ili251x_firmware_update_firmware_version(struct device *dev)
-@@ -980,7 +991,6 @@ static int ili210x_i2c_probe(struct i2c_client *client)
- 	if (error) {
- 		dev_err(dev, "Unable to cache firmware information, err: %d\n",
- 			error);
--		return error;
- 	}
- 	touchscreen_parse_properties(input, true, &priv->prop);
- 
+v1->v2:
+- drop unneeded remove function
+- combine set functions
+- add missing header inclusions
+- avoid char as argument in favour of u8
+- handful of style/formatting fixes
+- use standard led name ":white:kbd_backlight"
+- rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
+- New patch documenting preferred keyboard backlight names
+
+v1: https://lore.kernel.org/linux-input/7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com/
+v2: https://lore.kernel.org/linux-input/20230216041224.4731-1-orlandoch.dev@gmail.com/
+
+Orlando Chamberlain (2):
+  Documentation: leds: standardise keyboard backlight led names
+  HID: hid-apple-magic-backlight: Add driver for keyboard backlight on
+    internal Magic Keyboards
+
+ Documentation/leds/well-known-leds.txt  |   8 ++
+ MAINTAINERS                             |   6 ++
+ drivers/hid/Kconfig                     |  13 +++
+ drivers/hid/Makefile                    |   1 +
+ drivers/hid/hid-apple-magic-backlight.c | 122 ++++++++++++++++++++++++
+ 5 files changed, 150 insertions(+)
+ create mode 100644 drivers/hid/hid-apple-magic-backlight.c
+
 -- 
 2.39.1
 
