@@ -2,116 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F51169B117
-	for <lists+linux-input@lfdr.de>; Fri, 17 Feb 2023 17:38:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB7469B287
+	for <lists+linux-input@lfdr.de>; Fri, 17 Feb 2023 19:49:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbjBQQiX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Feb 2023 11:38:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50590 "EHLO
+        id S229582AbjBQStJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Feb 2023 13:49:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230148AbjBQQiV (ORCPT
+        with ESMTP id S229574AbjBQStI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Feb 2023 11:38:21 -0500
-Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 70429199EB;
-        Fri, 17 Feb 2023 08:38:15 -0800 (PST)
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 9F4051E18;
-        Fri, 17 Feb 2023 17:38:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202211; t=1676651892;
-        bh=b0acJb9pUW7KPBRZUk8+qJN8ems67QwFNdAqyRhHEAY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JH2e3nV5IdEXVOjP9nwOHnELfyplyVPxo9p0PhqIErHO1+VEGEYUWVUWwRTpkULaI
-         uou02y9+LzSgZtDCN6hTCnoC5DqtPXolgSjPe2CfprcUSxaRoQPsmXSaF+xn5aLuuA
-         IYLHCRArvE0f7zXxOxPB9yRVE/89l70rUts9h9Kr3/A7qeTbgmRQx3vZbwTYFNm1nk
-         oWTJ+qRbEjcn8I7vhKrx+vTzZ1h12maK/ZibQgRYuuFwa9KOZsW8JCeKgzkfGKBRQ8
-         YX02zT5g5ZxXMJq74HnoKa5a3s2NtXlT9FvJBhdHCUX88QvwDT3ebuFxNfOCN8mLp+
-         meNQhdmqLv4rQ==
-Date:   Fri, 17 Feb 2023 17:38:11 +0100
-From:   Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/11] selftests: hid: import hid-tools hid-multitouch
- and hid-tablets tests
-Message-ID: <20230217163811.i2dvoffzqyqwhc52@tarta.nabijaczleweli.xyz>
-References: <20230217-import-hid-tools-tests-v1-0-d1c48590d0ee@redhat.com>
- <20230217-import-hid-tools-tests-v1-6-d1c48590d0ee@redhat.com>
+        Fri, 17 Feb 2023 13:49:08 -0500
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34B8E2BF17;
+        Fri, 17 Feb 2023 10:49:07 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id bg20so1650016oib.9;
+        Fri, 17 Feb 2023 10:49:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2R5BouqDUnzY018CGf0maQsVNpuPP/EQMpL3MVfNkpE=;
+        b=BT+mVUL9ZxnQ7zUCYoDPXJqiIMKBZdUfV1aSaI07PY96VtS0Lj94wx32PudSTZnGr8
+         a6qH2i/ajLhL4lK23BaVxJrfwgL5M+brXN1NN7qxHfj2jFbG+aN4mt/n/Ai82+neuKDi
+         IFi7+l7NAwr/1m/tUvDyyGobCXSOA0g/UrmsM+FwULGFGoCDW9kO/Hi2Fdtg81wI3Bre
+         SXYuh7nwPbuP1mbJB8DBgMzi1YbgaGDFOX3KsmeDBmDH8WpLkkgyyoLq0AjQXupB0VbT
+         bNK9vX0MXVxGtN09EzV5VcF0XAy/hPIiYqCJA8ooMjo5W8gZHSYTGvPfMc9/U1v24iz/
+         7TQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2R5BouqDUnzY018CGf0maQsVNpuPP/EQMpL3MVfNkpE=;
+        b=ZvYQTJqVrRka3EsmovV9b0V4DYIoELgZBSuVcPeeD+cLZtnkI+nFrQtX37jGYiflET
+         Qg9CiXHTe0uTIlwXMRRPCdmuDoAxEPbuzwu3j1naPuR1ZltRHxG+07ynH6N4cCu/J90z
+         VSqWBym/GmJUhbT9si4RrATSHHZ+5NBQFlkqLpukykunzHaDU067Sut3qRWSsXuaa69p
+         YGfrippiyd8H/rDTODcsccDNsqy7Ku6xAqS2eV0oMkBWMOePvZAO/7OuuSjHrUAU+soW
+         M/T99zmpwSy0QA3mWcbWltLg6vrJfr7z1UConRpQvdREGbqk6LBuVgi2Fo3odeUDq0a6
+         g7OQ==
+X-Gm-Message-State: AO0yUKWCQCm9r1I6zFjJRotU5YaMnegOrd3dTVXOaLmp9HyrWPA6BTEH
+        7bR90/ynrlvpDgYELSeTwWI=
+X-Google-Smtp-Source: AK7set/ruCpvBTql1zrsBXT2gnK2VAEnVOkBfYEEDzWlDNNGsEMgjB0C45IWrCOqL+aePx5CgQme4A==
+X-Received: by 2002:a05:6808:87:b0:378:3ab3:5a0b with SMTP id s7-20020a056808008700b003783ab35a0bmr892674oic.40.1676659746194;
+        Fri, 17 Feb 2023 10:49:06 -0800 (PST)
+Received: from DANNY-DESKTOP.localdomain (071-013-243-092.res.spectrum.com. [71.13.243.92])
+        by smtp.gmail.com with ESMTPSA id s22-20020acaa916000000b0037fa61eb1dasm1198521oie.47.2023.02.17.10.49.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 10:49:05 -0800 (PST)
+From:   Danny Kaehn <kaehndan@gmail.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     bartosz.golaszewski@linaro.org, andriy.shevchenko@linux.intel.com,
+        dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, ethan.twardy@plexus.com
+Subject: [PATCH v6 0/3] Firmware Support for USB-HID Devices and CP2112
+Date:   Fri, 17 Feb 2023 12:49:01 -0600
+Message-Id: <20230217184904.1290-1-kaehndan@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3mws5jieo4g5ql5j"
-Content-Disposition: inline
-In-Reply-To: <20230217-import-hid-tools-tests-v1-6-d1c48590d0ee@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_RDNS_DYNAMIC_FP,
-        RDNS_DYNAMIC,SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+This patchset allows USB-HID devices to have DeviceTree bindings through sharing
+the USB of_node with the HID driver, and adds such a binding and driver
+implementation for the CP2112 USB to SMBus Bridge (which necessitated the
+USB-HID change). This change allows a CP2112 permanently attached in hardware to
+be described in DT and interoperate with other drivers.
 
---3mws5jieo4g5ql5j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes in v6:
+- Fix fwnode_handle reference leaks in hid-cp21112.c
+- Simplify hog node pattern in silabs,cp2112.yaml
 
-On Fri, Feb 17, 2023 at 05:18:00PM +0100, Benjamin Tissoires wrote:
-> These tests have been developed in the hid-tools[0] tree for a while.
-> Now that we have  a proper selftests/hid kernel entry and that the tests
-> are more reliable, it is time to directly include those in the kernel
-> tree.
->=20
-> There are a lot of multitouch tests, and the default timeout of 45 seconds
-> is not big enough. Bump it to 200 seconds.
->=20
-> [0] https://gitlab.freedesktop.org/libevdev/hid-tools
->=20
-> Cc: Peter Hutterer <peter.hutterer@who-t.net>
-> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> Cc: =D0=BD=D0=B0=D0=B1 <nabijaczleweli@nabijaczleweli.xyz>
-> Cc: Bla=C5=BE Hrastnik <blaz@mxxn.io>
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> ---
->  tools/testing/selftests/hid/Makefile               |    2 +
->  tools/testing/selftests/hid/config                 |    1 +
->  tools/testing/selftests/hid/hid-multitouch.sh      |    7 +
->  tools/testing/selftests/hid/hid-tablet.sh          |    7 +
->  tools/testing/selftests/hid/settings               |    3 +
->  .../testing/selftests/hid/tests/test_multitouch.py | 2088 ++++++++++++++=
-++++++
->  tools/testing/selftests/hid/tests/test_tablet.py   |  872 ++++++++
->  7 files changed, 2980 insertions(+)
+Changes in v5:
+ - Use fwnode API instead of of_node api in hid-core.c and hid-cp2112.c
+ - Include sda-gpios and scl-gpios in silabs,cp2112.yaml
+ - Additional fixups to silabs,cp2112.yaml to address comments
+ - Submit threaded interrupt bugfix separately from this patchset, as requested
 
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+Changes in v4:
+ - Moved silabs,cp2112.yaml to /Documentation/devicetree/bindings/i2c
 
-Best,
+Changes in v3:
+ - Additional fixups to silabs,cp2112.yaml to address comments
 
---3mws5jieo4g5ql5j
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v2:
+ - Added more detail to silabs,cp2112.yaml dt-binding
+ - Moved silabs,cp2112.yaml to /Documentation/devicetree/bindings/input
+ - Added support for setting smbus clock-frequency from DT in hid-cp2112.c
+ - Added freeing of of_nodes on error paths of _probe in hid-cp2112.c
 
------BEGIN PGP SIGNATURE-----
+Danny Kaehn (3):
+  dt-bindings: i2c: Add CP2112 HID USB to SMBus Bridge
+  HID: usbhid: Share USB device firmware node with child HID device
+  HID: cp2112: Fwnode Support
 
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmPvrXAACgkQvP0LAY0m
-WPH/kBAAgvUlsF8qiI5pXZnAsOVS35kh2cZxvEkxVhKMpPPP5tRW74m5r3QD+5Ex
-dYaz7yxGEYbq6L+kxOyGbjenfMHE4JcL9xNo6IM1u1tg1vm/IrIcvuOz6eXTksVb
-4mizmWewe71KpqMaqaa47S1nHo3RVta5WMr/GW725kwVfiGgxQIZ3x0+VvxkTlDr
-0qW+MeSMc6mstoTQRZBBCjQFOfjmXwh7+ztd/YJxi5D999SPvuR4Ys8N7iz97Z0A
-F1evfLE36/h6qvOuT1dLa2rwuuqHGA4JZ5zupzD7vVaPO4Y16r3hwSS2OYm7JBre
-L5CakjB+gvK5xBxkQ+25h9Td3dMDlAoSvb5C6swD5qbdq1fOEL83ayAOR19FI/Uo
-qFWJ3mU55CPPxpF19kAxqteFPKPgEapvvUAONYrOVmRHjy8wiabWqlT46TLn7Mqj
-htWrXNdmjL3eO7J0rCrJk9zSD6ihDtuxj7zqqPo2+671nHjF0/tX8jkurfsS0rKw
-qKlDBS75Z4vkXHHhOyCuUtYx7bZyIuySTHFDtIG8n6+NM8KU0QHP1sfJWdYsV9d1
-Ur9aSkaNDAF0MY4aDCk3WwE5admvOizNAO7IOYTE7JuBn02758fMrtEytKkWDSJT
-jdC248fB80Lo2zaMuD/e6nPaS4u9s0OivcooHKl5/SOjGxoUnxg=
-=8SUP
------END PGP SIGNATURE-----
+ .../bindings/i2c/silabs,cp2112.yaml           | 113 ++++++++++++++++++
+ drivers/hid/hid-cp2112.c                      |  15 ++-
+ drivers/hid/usbhid/hid-core.c                 |   2 +
+ 3 files changed, 128 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
 
---3mws5jieo4g5ql5j--
+-- 
+2.25.1
+
