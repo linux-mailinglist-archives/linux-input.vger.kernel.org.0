@@ -2,284 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 577E569CA51
-	for <lists+linux-input@lfdr.de>; Mon, 20 Feb 2023 12:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F8F369CAA7
+	for <lists+linux-input@lfdr.de>; Mon, 20 Feb 2023 13:19:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231844AbjBTLws (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Feb 2023 06:52:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45712 "EHLO
+        id S231871AbjBTMTU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Feb 2023 07:19:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231946AbjBTLwq (ORCPT
+        with ESMTP id S231694AbjBTMSy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Feb 2023 06:52:46 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3CF81BAD8;
-        Mon, 20 Feb 2023 03:52:39 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id cp9so2245238pjb.0;
-        Mon, 20 Feb 2023 03:52:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/1j1FKfM6XLDo8DpqH6IBQb+6Fi1rImq4WOngf4sVck=;
-        b=ZkB8/qj5apmbQeV6Lg9NVc5tnZIO9bgYnzBsITR3NBZgnGESz4A4vuHyTy9j+tUuKc
-         9l5K0KBCTbmbJBbdKnpagibYkEdEoEkrU9ST5NTbPPHRxAjyDHa+FNRtF+HWYR/ZJsLh
-         np74BEXbbDdSfm9EdOWVhea0KT/hFDL4v42yxn9OguIbz7mwdcH7F16/peC8nlijrpAX
-         MR/7AwhOSP6b2GHX++S5FWI52F8lo1494S71qnwtYH1wvJQYu0Vp3pEm2UJwbBTSHsKd
-         7OsVwzZZYUvCLucklnvgwcXzBXyu8s1xKh86K28UWD2y+MMXDxCo1rZjuTYwbN5Y3iiA
-         x8Aw==
+        Mon, 20 Feb 2023 07:18:54 -0500
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A586C65C;
+        Mon, 20 Feb 2023 04:18:53 -0800 (PST)
+Received: by mail-qt1-f180.google.com with SMTP id v19so512904qtx.1;
+        Mon, 20 Feb 2023 04:18:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/1j1FKfM6XLDo8DpqH6IBQb+6Fi1rImq4WOngf4sVck=;
-        b=QLvnJPp0dzSYJDmglPcfBurMmQYfloWEAnGpk2sNvINhY6BRw3wGjaFB6ROBVKpeit
-         SluwDm28Wvee/SaqFeD3y8BysMcWVbL80q/Kr2T8bohckXs3aWlpe822ujs27A3akSzz
-         x73WlMl5luS+xK4ByATK1WYlgG9KQvIrfhyzXr58I7Z5ONLmw3uOwhM2pwfAg4MqPS9O
-         MoSKUuYKjHpP5KXw0DPsJy9OcTF3k+9Vbuusm5ZAfXoGDGnSYJPLznsHeeGfAtmgGjTy
-         35wN/xs08epnydJDYWKQKvhwinMTgVP/zpXAPGiWcYdYHwOjxVwCwGIBhboaSeRPMZE5
-         uv8Q==
-X-Gm-Message-State: AO0yUKV3cp37S3rcKqpwid9L0WuaaaKUdV3cKIZx6dv/1O3ZOdNxRrZf
-        4E+/1ecwFeBg84LXkGgfTk33LAIespD7Hw==
-X-Google-Smtp-Source: AK7set/jwUbpJXB5JRY8GNvLj/SXJtRpRtJZyzWFruXuuqxHVmRhLTTCEaLMTWvASaBDbU276RN1hg==
-X-Received: by 2002:a17:903:124a:b0:196:8445:56be with SMTP id u10-20020a170903124a00b00196844556bemr669339plh.42.1676893959117;
-        Mon, 20 Feb 2023 03:52:39 -0800 (PST)
-Received: from localhost.localdomain ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id iz17-20020a170902ef9100b001962858f990sm955297plb.164.2023.02.20.03.52.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 03:52:38 -0800 (PST)
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
-        Orlando Chamberlain <orlandoch.dev@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v5 2/2] HID: hid-apple-magic-backlight: Add driver for keyboard backlight on internal Magic Keyboards
-Date:   Mon, 20 Feb 2023 22:52:03 +1100
-Message-Id: <20230220115203.76154-3-orlandoch.dev@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230220115203.76154-1-orlandoch.dev@gmail.com>
-References: <20230220115203.76154-1-orlandoch.dev@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6Re6NLj3mYWi/PS1iVcG93D07BAspc2CGyOXyoSaH5I=;
+        b=Hv2om3mMlad73jLiyOltGX+vU7tUvhpeLSqRu6RuGSxvU/6x6QiVoYcmYWlkhgsBdK
+         4v6WofJLjv3eRjiD9MVM5P7eRZn6uZgpQbt5ZfDUnY9lfmes9kyhLyP/HXzd6yU4cxbx
+         rVapytEKP2P8uCG9w7HUZZXaGboBsSi1xQn3Mk7WtqVA4JUmwOP2J+Qq6m07ybqrEvZK
+         /r6OpiCgVa+7jER2nyIclqmHD6UIk42vZWOTLYHI4GR8/Vd8/xu+HDqNOAYftQPBiLui
+         GEHLWV45MJGdyyO/+aC+7W2y6Ab5ib63NNHayaC6Jex/Z6Ssfr6aOuarBnV/Iz616up2
+         ZAcw==
+X-Gm-Message-State: AO0yUKVpaNpYof5LDpPmDQuboV5Bl83O2dNy7WirqLYWpshvE2VoyF/0
+        Hc0q71GJvRGaw61VIGmZo/giDvfmACzzJ02U
+X-Google-Smtp-Source: AK7set+Nd09WGAMk7rH/9anu8D73O6lfdhS4LT5/yzwDDc9S8njlIVGCAwuqGENvmr71hLP61eee9Q==
+X-Received: by 2002:a05:622a:1213:b0:3b9:b6c8:6d5b with SMTP id y19-20020a05622a121300b003b9b6c86d5bmr2150244qtx.35.1676895531806;
+        Mon, 20 Feb 2023 04:18:51 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id m4-20020a37bc04000000b0074028d8a795sm1210904qkf.125.2023.02.20.04.18.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Feb 2023 04:18:50 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-536b7ffdd34so11523257b3.6;
+        Mon, 20 Feb 2023 04:18:49 -0800 (PST)
+X-Received: by 2002:a81:8606:0:b0:52e:e6ed:308e with SMTP id
+ w6-20020a818606000000b0052ee6ed308emr1847623ywf.526.1676895529736; Mon, 20
+ Feb 2023 04:18:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230219143657.241542-1-daniel.lezcano@linaro.org>
+ <20230219143657.241542-2-daniel.lezcano@linaro.org> <OS3PR01MB8460E7C2D1F9EEEDDC579FFEC2A49@OS3PR01MB8460.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS3PR01MB8460E7C2D1F9EEEDDC579FFEC2A49@OS3PR01MB8460.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 Feb 2023 13:18:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWFn+LbKE=77mRBfGqSu3x5qsk3X-pQVeu3uZXEejyRRg@mail.gmail.com>
+Message-ID: <CAMuHMdWFn+LbKE=77mRBfGqSu3x5qsk3X-pQVeu3uZXEejyRRg@mail.gmail.com>
+Subject: Re: [PATCH v1 01/17] thermal/core: Add a thermal zone 'devdata' accessor
+To:     DLG Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Vasily Khoruzhick <anarsoul@gmail.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Talel Shenhar <talel@amazon.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Tim Zimmermann <tim@linux4.de>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Jiang Jian <jiangjian@cdjrlc.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        Balsam CHIHI <bchihi@baylibre.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+        "open list:ARM/Allwinner sunXi SoC support" 
+        <linux-sunxi@lists.linux.dev>,
+        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
+        <linux-input@vger.kernel.org>,
+        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
+        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
+        <linux-wireless@vger.kernel.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC support" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:SAMSUNG THERMAL DRIVER" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+        "open list:TI BANDGAP AND THERMAL DRIVER" 
+        <linux-omap@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This driver adds support for the keyboard backlight on Intel T2 Macs
-with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
+Hi Adam,
 
-Co-developed-by: Kerem Karabay <kekrby@gmail.com>
-Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
----
-v4->v5:
-- use <tab><space><space> for help in Kconfig
-- prepend "hid-" to filename in MAINTAINERS
- MAINTAINERS                             |   6 ++
- drivers/hid/Kconfig                     |  13 +++
- drivers/hid/Makefile                    |   1 +
- drivers/hid/hid-apple-magic-backlight.c | 120 ++++++++++++++++++++++++
- 4 files changed, 140 insertions(+)
- create mode 100644 drivers/hid/hid-apple-magic-backlight.c
+On Mon, Feb 20, 2023 at 12:14 PM DLG Adam Ward
+<DLG-Adam.Ward.opensource@dm.renesas.com> wrote:
+> On 19/02/23 14:37, Daniel Lezcano wrote:
+> >The thermal zone device structure is exposed to the different drivers and obviously they access the internals while that should be restricted to the core thermal code.
+> >
+> >In order to self-encapsulate the thermal core code, we need to prevent the drivers accessing directly the thermal zone structure and provide accessor functions to deal with.
+> >
+> >Provide an accessor to the 'devdata' structure and make use of it in the different drivers.
+> >No functional changes intended.
+> >
+> >Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> >---
+>
+> >drivers/thermal/da9062-thermal.c                 |  2 +-
+>
+> For da9062:
+>
+> Reviewed-by: Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6a47510d1592..e004217a12eb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9201,6 +9201,12 @@ F:	include/linux/pm.h
- F:	include/linux/suspend.h
- F:	kernel/power/
- 
-+HID APPLE MAGIC BACKLIGHT DRIVER
-+M:	Orlando Chamberlain <orlandoch.dev@gmail.com>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/hid-apple-magic-backlight.c
-+
- HID CORE LAYER
- M:	Jiri Kosina <jikos@kernel.org>
- M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index e2a5d30c8895..226210c6293c 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -130,6 +130,19 @@ config HID_APPLE
- 	Say Y here if you want support for keyboards of	Apple iBooks, PowerBooks,
- 	MacBooks, MacBook Pros and Apple Aluminum.
- 
-+config HID_APPLE_MAGIC_BACKLIGHT
-+	tristate "Apple Magic Keyboard Backlight"
-+	depends on USB_HID
-+	depends on LEDS_CLASS
-+	depends on NEW_LEDS
-+	help
-+	  Say Y here if you want support for the keyboard backlight on Macs with
-+	  the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note that this
-+	  driver is not for external magic keyboards.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called hid-apple-magic-backlight.
-+
- config HID_APPLEIR
- 	tristate "Apple infrared receiver"
- 	depends on (USB_HID)
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index e8014c1a2f8b..dc8df002bc86 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -26,6 +26,7 @@ obj-$(CONFIG_HID_ACCUTOUCH)	+= hid-accutouch.o
- obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
- obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
- obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
-+obj-$(CONFIG_HID_APPLE_MAGIC_BACKLIGHT)	+= hid-apple-magic-backlight.o
- obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
- obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.o
- obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
-diff --git a/drivers/hid/hid-apple-magic-backlight.c b/drivers/hid/hid-apple-magic-backlight.c
-new file mode 100644
-index 000000000000..f0fc02ff3b2d
---- /dev/null
-+++ b/drivers/hid/hid-apple-magic-backlight.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Apple Magic Keyboard Backlight Driver
-+ *
-+ * For Intel Macs with internal Magic Keyboard (MacBookPro16,1-4 and MacBookAir9,1)
-+ *
-+ * Copyright (c) 2022 Kerem Karabay <kekrby@gmail.com>
-+ * Copyright (c) 2023 Orlando Chamberlain <orlandoch.dev@gmail.com>
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/leds.h>
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <dt-bindings/leds/common.h>
-+
-+#include "hid-ids.h"
-+
-+#define HID_USAGE_MAGIC_BL	0xff00000f
-+
-+#define APPLE_MAGIC_REPORT_ID_POWER 3
-+#define APPLE_MAGIC_REPORT_ID_BRIGHTNESS 1
-+
-+struct apple_magic_backlight {
-+	struct led_classdev cdev;
-+	struct hid_report *brightness;
-+	struct hid_report *power;
-+};
-+
-+static void apple_magic_backlight_report_set(struct hid_report *rep, s32 value, u8 rate)
-+{
-+	rep->field[0]->value[0] = value;
-+	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
-+	rep->field[1]->value[0] |= rate << 8;
-+
-+	hid_hw_request(rep->device, rep, HID_REQ_SET_REPORT);
-+}
-+
-+static void apple_magic_backlight_set(struct apple_magic_backlight *backlight,
-+				     int brightness, char rate)
-+{
-+	apple_magic_backlight_report_set(backlight->power, brightness ? 1 : 0, rate);
-+	if (brightness)
-+		apple_magic_backlight_report_set(backlight->brightness, brightness, rate);
-+}
-+
-+static int apple_magic_backlight_led_set(struct led_classdev *led_cdev,
-+					 enum led_brightness brightness)
-+{
-+	struct apple_magic_backlight *backlight = container_of(led_cdev,
-+			struct apple_magic_backlight, cdev);
-+
-+	apple_magic_backlight_set(backlight, brightness, 1);
-+	return 0;
-+}
-+
-+static int apple_magic_backlight_probe(struct hid_device *hdev,
-+				       const struct hid_device_id *id)
-+{
-+	struct apple_magic_backlight *backlight;
-+	int rc;
-+
-+	rc = hid_parse(hdev);
-+	if (rc)
-+		return rc;
-+
-+	/*
-+	 * Ensure this usb endpoint is for the keyboard backlight, not touchbar
-+	 * backlight.
-+	 */
-+	if (hdev->collection[0].usage != HID_USAGE_MAGIC_BL)
-+		return -ENODEV;
-+
-+	backlight = devm_kzalloc(&hdev->dev, sizeof(*backlight), GFP_KERNEL);
-+	if (!backlight)
-+		return -ENOMEM;
-+
-+	rc = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+	if (rc)
-+		return rc;
-+
-+	backlight->brightness = hid_register_report(hdev, HID_FEATURE_REPORT,
-+			APPLE_MAGIC_REPORT_ID_BRIGHTNESS, 0);
-+	backlight->power = hid_register_report(hdev, HID_FEATURE_REPORT,
-+			APPLE_MAGIC_REPORT_ID_POWER, 0);
-+
-+	if (!backlight->brightness || !backlight->power) {
-+		rc = -ENODEV;
-+		goto hw_stop;
-+	}
-+
-+	backlight->cdev.name = ":white:" LED_FUNCTION_KBD_BACKLIGHT;
-+	backlight->cdev.max_brightness = backlight->brightness->field[0]->logical_maximum;
-+	backlight->cdev.brightness_set_blocking = apple_magic_backlight_led_set;
-+
-+	apple_magic_backlight_set(backlight, 0, 0);
-+
-+	return devm_led_classdev_register(&hdev->dev, &backlight->cdev);
-+
-+hw_stop:
-+	hid_hw_stop(hdev);
-+	return rc;
-+}
-+
-+static const struct hid_device_id apple_magic_backlight_hid_ids[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, apple_magic_backlight_hid_ids);
-+
-+static struct hid_driver apple_magic_backlight_hid_driver = {
-+	.name = "hid-apple-magic-backlight",
-+	.id_table = apple_magic_backlight_hid_ids,
-+	.probe = apple_magic_backlight_probe,
-+};
-+module_hid_driver(apple_magic_backlight_hid_driver);
-+
-+MODULE_DESCRIPTION("MacBook Magic Keyboard Backlight");
-+MODULE_AUTHOR("Orlando Chamberlain <orlandoch.dev@gmail.com>");
-+MODULE_LICENSE("GPL");
+Looks like Daniel has found the new Dialog maintainer he was looking
+for? Time to update MAINTAINERS?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.39.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
