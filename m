@@ -2,76 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF53169DD1D
-	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 10:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1102869E45B
+	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 17:17:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233967AbjBUJpq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Feb 2023 04:45:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55214 "EHLO
+        id S234389AbjBUQRQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Feb 2023 11:17:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233854AbjBUJpp (ORCPT
+        with ESMTP id S234271AbjBUQRP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Feb 2023 04:45:45 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400DF222F8
-        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 01:45:44 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id h32so14829875eda.2
-        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 01:45:44 -0800 (PST)
+        Tue, 21 Feb 2023 11:17:15 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062A12C666
+        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 08:17:11 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id cq23so19059417edb.1
+        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 08:17:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/PK2BfkpiLdNJHc78+c5wCnYytKxPCOH9JODGsT+Sq0=;
-        b=wjkgqNVhSpIjWrfFumTFJx9NgMl4d88J9tYLaPJDVzMEUrhFTXm1gbEnWULzRpmMF5
-         tJ/H+k0EdaDoQr3mK2J+xP/gUt09/9hOFyEmwcakSn76K8tTqtNhLx+WMLjHoLuo9OGg
-         CUA2x5PRVmk49bQyUljQv7HTxTO/jU1bnSh013iGeOin2d+60yafhbq68gT/VB2cZOaG
-         aQRgAYMKMQ1Kw8YlxOPt9gaHiW85l47o6nfcZ1EoVffLPLYAPbo0SFlRXXgBMnFqWnFX
-         JKYKWVDob4LI9A6+ZiYTZn05TzyByK2Kyw/KJsBTIpK8chqvyfLI1rUw2SBcB8LXxkxW
-         Wodw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oUsSFf+8W788BHVLSjZQlyYufSpAGNHgM/qoly2HN38=;
+        b=f3K9AFBQPqvqHmcWC4asopLazx00fE6HDs7dk9hl/fwrLUG5EE6WzGxzELNFpV1tgT
+         Smc4kuJqFCcV/9dOX+H6+7ErJUid79PFmfp82f+zgetQHRVgZ58SJAb+fvSKjvOel0Ru
+         r+13TcHXHMVVnyliXqq7iVPgRG5lh0NOUf4bx0Ujsg6x7WwSlEvQ95pWMibG/Y6XEwjx
+         GGtwZXpc79kfOF3mMKRy5mesv1S+7Ni1SrZHLP9hlcnWIvwDxHWiieOkrdEiZN8LOwfq
+         KfZopNNzg8yymVdRetqF+1uCZj5evdS0fI1TLCOmA4DkzUc+qgt4QbNXf61VyRD7AFGV
+         Ldsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/PK2BfkpiLdNJHc78+c5wCnYytKxPCOH9JODGsT+Sq0=;
-        b=eUpTSgk615kzAWkBBSAj647gPMlQQbEn/7aSFCEdcRbYkAtKIYONTxOLcrBqjfmRTF
-         fqBgLpW7TWSGP4paXCq1M1L2OBorwQTwkERpRLNmUJHO6t1gJjctea5nFH5YqVwgt2zl
-         M1bBJyrz9wylOEIM7SENGTraEt0KLT0T5q8D8icTIe3ZEqy1hgxQzNqLHnaGXhpM1yPX
-         um/pGZ5NSM4T6hz/TD2PyAKMGugSOcaBHnn5ZENiuKvZZcaus0pQXqHA/pWMfv/HK237
-         ZMmD4JmfYj5GKPVz83m6jE8ubzXUF+a1dmZ+Ip9QgdAHeF4lC7auEwpHezDwmuEaBzk2
-         4eUg==
-X-Gm-Message-State: AO0yUKVpKwK+jaTEVGa0xAGnP199gVeSrAR9jKTnc3roUwp+auO2nmoN
-        Une6mzxccq9WIOzuvbB7pWoPZA==
-X-Google-Smtp-Source: AK7set/nhtES+EmSr0ewBQL+bKcLDyq0xL+oiEJyxDgGr5e9Gv8UiNern63ikKa/1KSjV/+Z76+aVw==
-X-Received: by 2002:a05:6402:b38:b0:4ac:bd6e:9975 with SMTP id bo24-20020a0564020b3800b004acbd6e9975mr4367614edb.20.1676972742739;
-        Tue, 21 Feb 2023 01:45:42 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id y21-20020a056402359500b004ab33d52d03sm2782953edc.22.2023.02.21.01.45.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 01:45:42 -0800 (PST)
-Message-ID: <1478c506-de42-e7a6-c652-a569968c8c29@linaro.org>
-Date:   Tue, 21 Feb 2023 10:45:40 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] dt-bindings: google,cros-ec-keyb: Fix spelling error
-Content-Language: en-US
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230220135531.1987351-1-linus.walleij@linaro.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oUsSFf+8W788BHVLSjZQlyYufSpAGNHgM/qoly2HN38=;
+        b=bkg5uib4jSMTx+yZMduKh9jIdpOLf2u4BCNVmvP38BmbfOZDn8Bnyy+fX0S1BvTNh1
+         IjI1BJEAJnfpCSn7G4zGPdI3lTNGVrQALMzpuxwxGLXVg63EpurXkM8BSpD5TK3M9OKL
+         Nx+K6Lyc8fIa20foGLFOF1J0JXsmH1ckrsaj7gdLRoREYa5TOYEhUDGMAJCwVXkDtO+4
+         pJk2r9yOn8+8D6R0uzy3TtkmJAsnnQmBiY64R9Jnfdiuvr8iwxOCmtpDnAU6YwD9QnGQ
+         AcObhcxR309KfDbLW56eqsh/lG91IWN4+RMg6kVt/Wfbqc3qddoWFZC2r/ea0HA1fn9H
+         kJWA==
+X-Gm-Message-State: AO0yUKWGRc/w38mTs9jHiEyoqau7go/ICpNh3VFpbF8GwLteR+hxbMqK
+        xkDleLhc2H/551QmB9Hw5zdEWA==
+X-Google-Smtp-Source: AK7set+beYuq0Q1tCpnZkYHGSnCiJOVatL4InDipprorqkYEsxyiEh/SZ+aaqS4hVMmwCpyXk+tPaA==
+X-Received: by 2002:a50:ed0e:0:b0:4ac:bab1:feee with SMTP id j14-20020a50ed0e000000b004acbab1feeemr6195879eds.24.1676996229352;
+        Tue, 21 Feb 2023 08:17:09 -0800 (PST)
+Received: from krzk-bin.. ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id u13-20020aa7d88d000000b004ab4c28a967sm2112142edq.44.2023.02.21.08.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Feb 2023 08:17:09 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230220135531.1987351-1-linus.walleij@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: input: cypress,cyapa: convert to dtschema
+Date:   Tue, 21 Feb 2023 17:17:06 +0100
+Message-Id: <20230221161706.56639-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,14 +71,120 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 20/02/2023 14:55, Linus Walleij wrote:
-> The dependency had an obvious spelling error. Fix it.
-> 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Convert the Cypress All Points Addressable (APA) I2C Touchpad / Trackpad
+bindings to DT schema.
 
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/input/cypress,cyapa.txt          | 42 ----------------
+ .../bindings/input/cypress,cyapa.yaml         | 49 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 42 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/cypress,cyapa.txt
+ create mode 100644 Documentation/devicetree/bindings/input/cypress,cyapa.yaml
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/input/cypress,cyapa.txt b/Documentation/devicetree/bindings/input/cypress,cyapa.txt
+deleted file mode 100644
+index d3db65916a36..000000000000
+--- a/Documentation/devicetree/bindings/input/cypress,cyapa.txt
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Cypress I2C Touchpad
+-
+-Required properties:
+-- compatible: must be "cypress,cyapa".
+-- reg: I2C address of the chip.
+-- interrupts: interrupt to which the chip is connected (see interrupt
+-	binding[0]).
+-
+-Optional properties:
+-- wakeup-source: touchpad can be used as a wakeup source.
+-- pinctrl-names: should be "default" (see pinctrl binding [1]).
+-- pinctrl-0: a phandle pointing to the pin settings for the device (see
+-	pinctrl binding [1]).
+-- vcc-supply: a phandle for the regulator supplying 3.3V power.
+-
+-[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+-[1]: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
+-
+-Example:
+-	&i2c0 {
+-		/* ... */
+-
+-		/* Cypress Gen3 touchpad */
+-		touchpad@67 {
+-			compatible = "cypress,cyapa";
+-			reg = <0x67>;
+-			interrupt-parent = <&gpio>;
+-			interrupts = <2 IRQ_TYPE_EDGE_FALLING>;	/* GPIO 2 */
+-			wakeup-source;
+-		};
+-
+-		/* Cypress Gen5 and later touchpad */
+-		touchpad@24 {
+-			compatible = "cypress,cyapa";
+-			reg = <0x24>;
+-			interrupt-parent = <&gpio>;
+-			interrupts = <2 IRQ_TYPE_EDGE_FALLING>;	/* GPIO 2 */
+-			wakeup-source;
+-		};
+-
+-		/* ... */
+-	};
+diff --git a/Documentation/devicetree/bindings/input/cypress,cyapa.yaml b/Documentation/devicetree/bindings/input/cypress,cyapa.yaml
+new file mode 100644
+index 000000000000..29515151abe9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/cypress,cyapa.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/cypress,cyapa.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cypress All Points Addressable (APA) I2C Touchpad / Trackpad
++
++maintainers:
++  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
++
++properties:
++  compatible:
++    const: cypress,cyapa
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  wakeup-source: true
++
++  vcc-supply:
++    description: 3.3V power
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        trackpad@67 {
++            reg = <0x67>;
++            compatible = "cypress,cyapa";
++            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
++            interrupt-parent = <&gpx1>;
++            wakeup-source;
++        };
++    };
+-- 
+2.34.1
 
