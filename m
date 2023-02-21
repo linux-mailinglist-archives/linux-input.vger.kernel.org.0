@@ -2,67 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751F569E76E
-	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 19:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 083A069E860
+	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 20:34:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbjBUSZO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Feb 2023 13:25:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53182 "EHLO
+        id S229500AbjBUTew (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Feb 2023 14:34:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbjBUSZN (ORCPT
+        with ESMTP id S229865AbjBUTev (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Feb 2023 13:25:13 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C7123656;
-        Tue, 21 Feb 2023 10:25:12 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id g1so20669961edz.7;
-        Tue, 21 Feb 2023 10:25:12 -0800 (PST)
+        Tue, 21 Feb 2023 14:34:51 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4253E244A8;
+        Tue, 21 Feb 2023 11:34:46 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id z2so6394694plf.12;
+        Tue, 21 Feb 2023 11:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c3BLHBNbyB6d4PScjJ/843xzZfyZJGKfFJawvu4dX2Y=;
-        b=OoQboNmUTe52RXikv+7iuojM9BYFM1K0l2C5ASBMAunqW2ynay57tF+lJN8GW4cxAo
-         brqUlL3eGHUDbfj5s3ZBrG/9WomcwJy8fynKVekVh65I8Uezl8KzpgUrtkQZB7TPSCEg
-         x8nS3GgGUnVWc0DckOU69z1Cte4Nk3oatH17U2JX5MaJeT6yQHw6AhjzoPHqxItaXmyn
-         xeHiHiXTA1OqwqApZjpBZ1eByhH+KV9qz4hftm0lmqvJaUf8fSyccDJEmngHKVI/Pmh8
-         Ok8IM2u2zda5szc4POCqpG0/XQdwnpetkfgHqDTtNLMEPwk4ETv8ZTL/3W67gqADpDO2
-         ioDw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/17f+DzetPf5Wbn+q3zaaJ9PFuWaNoMs35ocYvK/NiU=;
+        b=UZqQtVF4IiQJvFWIapVaJlYuyBGibLTENnCKujiaGZ27SONdSe0x8FzpmmPg+vOL/2
+         5mgvo9NY6cTBwPDOuB6O1VWbuFieyO9VoUjv29ZlkA5y9pra93NWHwqyWnb5U+kAWOwc
+         kNVqn7A3sEFTbmFaxi1veyaH1sT8KY58dQS5b/NpniVoD3BE+osE6QIeFlX8soGjWiYP
+         57b0theKy9rSF7GiZtIGE/rk/zdslETukshIFm+SGU/n335ANt1EVO2CfGK9ePyn9c/g
+         kCVxM5I8FwJq3qbOjkoqX2BBG6r0P7gYYLV221pB0+LcPP3RA5eTE7WJkm3qTX3WmYaG
+         LwVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c3BLHBNbyB6d4PScjJ/843xzZfyZJGKfFJawvu4dX2Y=;
-        b=f08qgd8Xeuk1WdxnnOxKovIX6jplXFvavPx2p00ZdVhrgSgdM0rf0YqhB0rEdK4LZ1
-         KUY1016k0lZfIl38qO5xksPaWQHkTYUEDO0tL/Xv5k0V/to08vr1AA9g6Mf1/r0bH1ei
-         9cuFKCtmy4Dex1wyctjsPu58cnhBPfQ0v+cIlkJFXyCWgZkhLzCvxemmn6BRpIaPevEJ
-         D0qMfmeTyOTFF4am/6+C4QaeNhIQekuSAQ3U/y3hzPmkvCOgtwXyrVq5yWToF+nSkEcS
-         HaZ9VmtbJDGjG58AY+omxWcYK+B5aiuHOlNZzvoAL1GH5vGKj7cjJcZBKadNeT41+dEM
-         205A==
-X-Gm-Message-State: AO0yUKUg0KVRCuOeX/DPLAZ/22Y3TYHYZfNJJrOAhSThHctDaWdnG9Mn
-        EH5OdzAtwuu7CBvhdQIuQ3o=
-X-Google-Smtp-Source: AK7set82XfQubhD+uVW5tIofQEMfTx1cY8todx0VzsAG9Cqi770GiHgVkzcuEjv+mlLWqFa37ybx2w==
-X-Received: by 2002:aa7:c796:0:b0:4aa:a9c7:4224 with SMTP id n22-20020aa7c796000000b004aaa9c74224mr5535537eds.30.1677003911082;
-        Tue, 21 Feb 2023 10:25:11 -0800 (PST)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id j19-20020a508a93000000b004a21c9facd5sm3826686edj.67.2023.02.21.10.25.10
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/17f+DzetPf5Wbn+q3zaaJ9PFuWaNoMs35ocYvK/NiU=;
+        b=JlDB9efotkDR+n9EF3N8azcrLBpELMAgVmpsG89Szc98WggHNDMsRvlJRyoKeZSUBq
+         di/MbeKekxBH/7ORC0jHRQ3xRd8sPRzjzLjVdXcW3idS5+GeJsXNCPcJpqaK/RvNM0kG
+         7NyS0Fj6Oq3/ruqTyZKYHDG2hTZ7Llrbe83BazjM0d8SYoX0epgjKZ90fJGaE36ho5JZ
+         r2J8k0IPbV4+rHM3xZ8h2HaBJBSltpb/LYmtgzkPrQ3p8F/x6zPnaLB/7Rw2IDw17ph2
+         /uxywki7B4q+335N2TahBO4Bal9wZcHQFH2dyExvwAOsZuJEjp+jtOIoXFRCpezollgR
+         WDeQ==
+X-Gm-Message-State: AO0yUKUic5WyxBReAR4LXR2Ef7OmJIfeWg4VJ2ftR93FpIDvfNdxwox6
+        i+in4FfDTXa15xxBYpljc9j3MSA45NI=
+X-Google-Smtp-Source: AK7set9l9NflyM40DhEq/AoNiBJJJc/LSf+EqEm0YORdySMYYlmJt6maQUBDxtXDqTsqb7F1RsK03Q==
+X-Received: by 2002:a17:903:24e:b0:19c:32b1:185d with SMTP id j14-20020a170903024e00b0019c32b1185dmr7491470plh.39.1677008085520;
+        Tue, 21 Feb 2023 11:34:45 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:30ba:90e9:a2f2:4b50])
+        by smtp.gmail.com with ESMTPSA id ji11-20020a170903324b00b0019afb7a02a1sm9997472plb.218.2023.02.21.11.34.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 10:25:10 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     dmitry.torokhov@gmail.com, ye.xingchen@zte.com.cn
-Cc:     hdegoede@redhat.com, wens@csie.org, samuel@sholland.org,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: sun4i-lradc-keys - Use devm_platform_ioremap_resource()
-Date:   Tue, 21 Feb 2023 19:25:09 +0100
-Message-ID: <2133023.irdbgypaU6@jernej-laptop>
-In-Reply-To: <202302171036375639285@zte.com.cn>
+        Tue, 21 Feb 2023 11:34:44 -0800 (PST)
+Date:   Tue, 21 Feb 2023 11:34:41 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     ye.xingchen@zte.com.cn
+Cc:     hdegoede@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
+        samuel@sholland.org, linux-input@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: =?iso-8859-1?Q?sun4i-lr?=
+ =?iso-8859-1?Q?adc-keys_-_Use=A0devm=5Fplatform=5Fioremap=5Fresource=28?=
+ =?iso-8859-1?Q?=29?=
+Message-ID: <Y/Uc0SMFUmgtjkcH@google.com>
 References: <202302171036375639285@zte.com.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202302171036375639285@zte.com.cn>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -73,8 +75,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dne petek, 17. februar 2023 ob 03:36:37 CET je ye.xingchen@zte.com.cn 
-napisal(a):
+On Fri, Feb 17, 2023 at 10:36:37AM +0800, ye.xingchen@zte.com.cn wrote:
 > From: Ye Xingchen <ye.xingchen@zte.com.cn>
 > 
 > Convert platform_get_resource(), devm_ioremap_resource() to a single
@@ -83,9 +84,7 @@ napisal(a):
 > 
 > Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied, thank you.
 
-Best regards,
-Jernej
-
-
+-- 
+Dmitry
