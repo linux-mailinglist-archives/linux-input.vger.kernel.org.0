@@ -2,68 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E16D269E950
-	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 22:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B7F469EA64
+	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 23:45:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbjBUVPX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Feb 2023 16:15:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48630 "EHLO
+        id S229546AbjBUWpb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Feb 2023 17:45:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjBUVPW (ORCPT
+        with ESMTP id S229736AbjBUWpa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Feb 2023 16:15:22 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6959D31E09
-        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 13:14:38 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id g14so6539678pjb.2
-        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 13:14:38 -0800 (PST)
+        Tue, 21 Feb 2023 17:45:30 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FAAD25E2A;
+        Tue, 21 Feb 2023 14:45:28 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id b14-20020a17090a8c8e00b002349579949aso6279619pjo.5;
+        Tue, 21 Feb 2023 14:45:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JyM57K3teYXqOG4+WVSnqD13Viq0dWCF3ZnkMw4Ax9s=;
-        b=g3HqyNynW14q8JX4gyQhuHdfWUamOpjhu63XBgppKqgISFFYQMZQMOZdAW6UtSVvcS
-         ud8PJQpHmYbklpgWqC3aYOPPMsLNM2lKClMoOmZyiKBPJ11yfVcyzn7FhRWZWV5WuH54
-         V0h29NbfINw/rSWwzkIgcm3MWezcsRNqKjVarLqNLTUzXnEQFkM0HUgJcnZw8AABGMpR
-         vcT4VPSphTihF+EoaBEsdmeb0v3yD4U0KCJln0oYHQcPZyWQiXCj1FiMlkjCXKudw2fe
-         PRom3/waXWInbXmVdzsOLt78zr0vozgkgKfKuD1NhIRqxOi55d/smniuZyQYnopS+sEc
-         +82g==
+        bh=d8yMR/8v8kLbSK0SIiq6XLzEpqqLWV7XeR4dfqEeifw=;
+        b=SfToj7YSKp2pMB+XPjKAkujyzH958pD9nwk9VeGexkEzIdDGtgjjV0OrTliX4VkVC6
+         MKWYUvtiIhujHQ1UNpQmRQzEskN9NEZmNkFhuSEj632GYY57mvT4Zcus9SHwYHKchcVs
+         uim8vH6u8exrN7mdBFl8EdaYc6eFbvqdE0wVN5sekUcLMxmqvIEZoShhSxHmLpSZrq7y
+         MZQXPL2S7HXlQVvLWRpZBIZatxBr7KtMYibXmGcHkTuwESELvH5J411eYCYxanSZfGeX
+         u8mVtH2FCD2GijmdT2sBq96dF7B0iZulQqct00OLE+pyIUWSHgV4RGosAXJatrUBfB9E
+         Ffog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JyM57K3teYXqOG4+WVSnqD13Viq0dWCF3ZnkMw4Ax9s=;
-        b=kwO6BEpVHxNSssruK9OZxt048To1jiB/voi1EDYqUfv5gsClzwcqtZGalmo+Wib4IT
-         VK69usSkEjC4O8F6kaF4n8x2pNS/r2CQYFj8un870cUgXGejbUBHC9PB+uurna06kROP
-         Zdq+xsrtP2KNG9jluVrpHr88+9XQewczRHgv9bFn9t4r3X1lBbFkSgRceb02Z3EtUhmV
-         5BiFcXvpZ/Aj2mAw4/kaEGVUa7oXTblxRd/iZhZrY/c5+DjSaQQ7EhBiepHIOtx/UrFX
-         c+GOX79AolTGfU1swLUycacKb9CVg+P/Ai2uPEUVYWyzGmEO+urk08xpPfW4IwMslK8J
-         5Zag==
-X-Gm-Message-State: AO0yUKWQc1bOkNgZqQ1M1tQjJjbEQ8WspUu+cX3ogGvXCpv519/0BeZ1
-        0b7nL894X/5joIOfJnCth/U=
-X-Google-Smtp-Source: AK7set+ohcT6F2A2uIjz0flYNWekI2rpbRcCk6Cia+yHfKiP5GOry/WYx5TNOFmmNNyvN3ap5Qbhiw==
-X-Received: by 2002:a17:902:f685:b0:19a:d7b0:5472 with SMTP id l5-20020a170902f68500b0019ad7b05472mr6315388plg.5.1677014064849;
-        Tue, 21 Feb 2023 13:14:24 -0800 (PST)
+        bh=d8yMR/8v8kLbSK0SIiq6XLzEpqqLWV7XeR4dfqEeifw=;
+        b=NSgyGqXMOje8RY6H8qOhCXbk97P7bkhRzuNgTaHk2nYxiwjUAbGy3oyGDYs+vv4gqc
+         Mwhpbpd74sQNTSLSjQmfSPo5WxQXI7MVfUovc3YL6rSRYc9A9n1IFiMt/ydzqTYYxYbQ
+         Bj7yszX9PsvylQs0MW84iB6OM4R6fOvt/0BJQ0fQICVEWb7hpTankpDYUQ4udPoaAkSU
+         igNDJqaZ3ddXpQs7BUIeFAPhizESs0jRgP+KcY35qiSCzl0BLD1RDHZx8QEZbtWUu6YB
+         pZOv3BxBTnY0OMmyK3HWQ81LClWK6kzZdJh1Rv2avnoQUwGiiVy+wn+YQ8zvPv+XunaK
+         xfmw==
+X-Gm-Message-State: AO0yUKW0jfive/O/bv+bW+VMsw6VRQNcCZBWHWj/Zk08f61/BCwQ08ki
+        lxEWlAZluW5Diy3RevEoPj8=
+X-Google-Smtp-Source: AK7set/weRvTdX3jDF1S3RU3H+Bmj2cbG/0SPhLrWXlqDTORq4JLJ7A2NFXInfm6UCuQsIvQHtUtyw==
+X-Received: by 2002:a17:902:d2ce:b0:19b:3b4:3aee with SMTP id n14-20020a170902d2ce00b0019b03b43aeemr7641513plc.49.1677019527698;
+        Tue, 21 Feb 2023 14:45:27 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:30ba:90e9:a2f2:4b50])
-        by smtp.gmail.com with ESMTPSA id g19-20020a170902869300b0019c91d7532asm1962982plo.94.2023.02.21.13.14.23
+        by smtp.gmail.com with ESMTPSA id ij8-20020a170902ab4800b0019607aeda8bsm4031360plb.73.2023.02.21.14.45.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 13:14:24 -0800 (PST)
-Date:   Tue, 21 Feb 2023 13:14:21 -0800
+        Tue, 21 Feb 2023 14:45:27 -0800 (PST)
+Date:   Tue, 21 Feb 2023 14:45:23 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-input@vger.kernel.org, Joe Hung <joe_hung@ilitek.com>,
-        Luca Hsu <luca_hsu@ilitek.com>
-Subject: Re: [PATCH v2] Input: ili210x - Probe even if no resolution
- information
-Message-ID: <Y/U0LTx2O2bVsUKY@google.com>
-References: <20230217025200.203833-1-marex@denx.de>
- <Y/UeFbZaMtHLuljN@google.com>
- <bb6ad0b1-dc51-6002-a179-bbe59ff4d701@denx.de>
+To:     Jacky Bai <ping.bai@nxp.com>
+Cc:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, kernel@pengutronix.de,
+        linux-imx@nxp.com, festevam@gmail.com
+Subject: Re: [PATCH v5 1/3] input: bbnsm_pwrkey: Add bbnsm power key support
+Message-ID: <Y/VJgxb9k+zU1hqM@google.com>
+References: <20230215024117.3357341-1-ping.bai@nxp.com>
+ <20230215024117.3357341-2-ping.bai@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bb6ad0b1-dc51-6002-a179-bbe59ff4d701@denx.de>
+In-Reply-To: <20230215024117.3357341-2-ping.bai@nxp.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -74,77 +77,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 21, 2023 at 09:12:29PM +0100, Marek Vasut wrote:
-> On 2/21/23 20:40, Dmitry Torokhov wrote:
-> > Hi Marek,
-> > 
-> > On Fri, Feb 17, 2023 at 03:52:00AM +0100, Marek Vasut wrote:
-> > > Probe the touch controller driver even if resolution information is not
-> > > available. This can happen e.g. in case the touch controller suffered a
-> > > failed firmware update and is stuck in bootloader mode.
-> > > 
-> > > Signed-off-by: Marek Vasut <marex@denx.de>
-> > > ---
-> > > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > Cc: Joe Hung <joe_hung@ilitek.com>
-> > > Cc: Luca Hsu <luca_hsu@ilitek.com>
-> > > ---
-> > > V2: Add dev_warn() in case resolution is invalid
-> > > ---
-> > >   drivers/input/touchscreen/ili210x.c | 28 +++++++++++++++++++---------
-> > >   1 file changed, 19 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-> > > index 4897fafa4204d..d64b6d77d2e08 100644
-> > > --- a/drivers/input/touchscreen/ili210x.c
-> > > +++ b/drivers/input/touchscreen/ili210x.c
-> > > @@ -370,22 +370,33 @@ static int ili251x_firmware_update_resolution(struct device *dev)
-> > >   	/* The firmware update blob might have changed the resolution. */
-> > >   	error = priv->chip->read_reg(client, REG_PANEL_INFO, &rs, sizeof(rs));
-> > > -	if (error)
-> > > -		return error;
-> > > +	if (!error) {
-> > > +		resx = le16_to_cpup((__le16 *)rs);
-> > > +		resy = le16_to_cpup((__le16 *)(rs + 2));
-> > > -	resx = le16_to_cpup((__le16 *)rs);
-> > > -	resy = le16_to_cpup((__le16 *)(rs + 2));
-> > > +		/* The value reported by the firmware is invalid. */
-> > > +		if (!resx || resx == 0xffff || !resy || resy == 0xffff)
-> > > +			error = -EINVAL;
-> > > +	}
-> > > -	/* The value reported by the firmware is invalid. */
-> > > -	if (!resx || resx == 0xffff || !resy || resy == 0xffff)
-> > > -		return -EINVAL;
-> > > +	/*
-> > > +	 * In case of error, the firmware might be stuck in bootloader mode,
-> > > +	 * e.g. after a failed firmware update. Set maximum resolution, but
-> > > +	 * do not fail to probe, so the user can re-trigger the firmware
-> > > +	 * update and recover the touch controller.
-> > > +	 */
-> > > +	if (error) {
-> > > +		dev_warn(dev, "Invalid resolution reported by controller.\n");
-> > > +		resx = 16384;
-> > > +		resy = 16384;
-> > > +	}
-> > >   	input_abs_set_max(priv->input, ABS_X, resx - 1);
-> > >   	input_abs_set_max(priv->input, ABS_Y, resy - 1);
-> > >   	input_abs_set_max(priv->input, ABS_MT_POSITION_X, resx - 1);
-> > >   	input_abs_set_max(priv->input, ABS_MT_POSITION_Y, resy - 1);
-> > > -	return 0;
-> > > +	return error;
-> > 
-> > I think this will make ili251x_firmware_update_cached_state() continue
-> > failing when it reports invalid coordinates. Was this intended?
+On Wed, Feb 15, 2023 at 10:41:15AM +0800, Jacky Bai wrote:
+> The ON/OFF logic inside the BBNSM allows for connecting directly
+> into a PMIC or other voltage regulator device. The module has an
+> button input signal and a wakeup request input signal. It also
+> has two interrupts (set_pwr_off_irq and set_pwr_on_irq) and an
+> active-low PMIC enable (pmic_en_b) output.
 > 
-> This is actually correct, ili251x_firmware_update_cached_state() will fail,
-> but ili210x_i2c_probe() won't stop there anymore, see the second hunk of
-> this patch. The driver will instantiate the controller, so user can load
-> correct firmware into it and recover the hardware.
+> Add the power key support for the ON/OFF button function found in
+> BBNSM module.
+> 
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
+> Reviewed-by: Peng Fan <peng.fan@nxp.com>
 
-I was concerned about call from ili210x_firmware_update_store() which
-will continue returning error.
-
-Thanks.
+Applied with a few cosmetic changes, thank you.
 
 -- 
 Dmitry
