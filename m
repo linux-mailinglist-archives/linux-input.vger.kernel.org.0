@@ -2,189 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1102869E45B
-	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 17:17:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F11669E6B5
+	for <lists+linux-input@lfdr.de>; Tue, 21 Feb 2023 19:01:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234389AbjBUQRQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Feb 2023 11:17:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41168 "EHLO
+        id S230328AbjBUSBZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Feb 2023 13:01:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234271AbjBUQRP (ORCPT
+        with ESMTP id S229647AbjBUSBY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Feb 2023 11:17:15 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062A12C666
-        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 08:17:11 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id cq23so19059417edb.1
-        for <linux-input@vger.kernel.org>; Tue, 21 Feb 2023 08:17:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oUsSFf+8W788BHVLSjZQlyYufSpAGNHgM/qoly2HN38=;
-        b=f3K9AFBQPqvqHmcWC4asopLazx00fE6HDs7dk9hl/fwrLUG5EE6WzGxzELNFpV1tgT
-         Smc4kuJqFCcV/9dOX+H6+7ErJUid79PFmfp82f+zgetQHRVgZ58SJAb+fvSKjvOel0Ru
-         r+13TcHXHMVVnyliXqq7iVPgRG5lh0NOUf4bx0Ujsg6x7WwSlEvQ95pWMibG/Y6XEwjx
-         GGtwZXpc79kfOF3mMKRy5mesv1S+7Ni1SrZHLP9hlcnWIvwDxHWiieOkrdEiZN8LOwfq
-         KfZopNNzg8yymVdRetqF+1uCZj5evdS0fI1TLCOmA4DkzUc+qgt4QbNXf61VyRD7AFGV
-         Ldsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oUsSFf+8W788BHVLSjZQlyYufSpAGNHgM/qoly2HN38=;
-        b=bkg5uib4jSMTx+yZMduKh9jIdpOLf2u4BCNVmvP38BmbfOZDn8Bnyy+fX0S1BvTNh1
-         IjI1BJEAJnfpCSn7G4zGPdI3lTNGVrQALMzpuxwxGLXVg63EpurXkM8BSpD5TK3M9OKL
-         Nx+K6Lyc8fIa20foGLFOF1J0JXsmH1ckrsaj7gdLRoREYa5TOYEhUDGMAJCwVXkDtO+4
-         pJk2r9yOn8+8D6R0uzy3TtkmJAsnnQmBiY64R9Jnfdiuvr8iwxOCmtpDnAU6YwD9QnGQ
-         AcObhcxR309KfDbLW56eqsh/lG91IWN4+RMg6kVt/Wfbqc3qddoWFZC2r/ea0HA1fn9H
-         kJWA==
-X-Gm-Message-State: AO0yUKWGRc/w38mTs9jHiEyoqau7go/ICpNh3VFpbF8GwLteR+hxbMqK
-        xkDleLhc2H/551QmB9Hw5zdEWA==
-X-Google-Smtp-Source: AK7set+beYuq0Q1tCpnZkYHGSnCiJOVatL4InDipprorqkYEsxyiEh/SZ+aaqS4hVMmwCpyXk+tPaA==
-X-Received: by 2002:a50:ed0e:0:b0:4ac:bab1:feee with SMTP id j14-20020a50ed0e000000b004acbab1feeemr6195879eds.24.1676996229352;
-        Tue, 21 Feb 2023 08:17:09 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id u13-20020aa7d88d000000b004ab4c28a967sm2112142edq.44.2023.02.21.08.17.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 08:17:09 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: input: cypress,cyapa: convert to dtschema
-Date:   Tue, 21 Feb 2023 17:17:06 +0100
-Message-Id: <20230221161706.56639-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Tue, 21 Feb 2023 13:01:24 -0500
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95ED32C64C;
+        Tue, 21 Feb 2023 10:01:21 -0800 (PST)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7AEC54000A;
+        Tue, 21 Feb 2023 18:01:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1677002479;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Dl/vHzsChoRqURGkFf3UDkzsWYJfRyvJJaZzJSZYqoQ=;
+        b=PMGa1G918k2xKC5oHsniJ3R27Sw2TLgPKt2QohT6f9QBB/FLLtG9/6y+5uIaStrAoyI0pI
+        9eLkvDFFNilMUk0/amdPVYPkhCFV16/2Nbo61mByNbMklUsTJE/QIfjyaPXGnJZG/IM4+Y
+        MSoPM7jS/PvHXxmudBzAWhcy2zRt+urlXiDaOu3jwvTtPqOEu4uNVrNf+3s5VFaq9YXecv
+        3ihm49kaq6sMeEiB7yVQxGTKpn30DPaNLo+KzRE/2Y/NRd7w/m92SySr/SB79GRX/lYrPC
+        bnlv4P2km6sFon8aXVjKKFGYGU12D4yu+zRpn6eIJTfjWJDlU9gh3VYjMsQRtg==
+Date:   Tue, 21 Feb 2023 19:01:16 +0100
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Jacky Bai <ping.bai@nxp.com>
+Cc:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, dmitry.torokhov@gmail.com,
+        a.zummo@towertech.it, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, kernel@pengutronix.de,
+        linux-imx@nxp.com, festevam@gmail.com
+Subject: Re: [PATCH v5 2/3] rtc: bbnsm: Add the bbnsm rtc support
+Message-ID: <Y/UG7LT6e7+UySRs@mail.local>
+References: <20230215024117.3357341-1-ping.bai@nxp.com>
+ <20230215024117.3357341-3-ping.bai@nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230215024117.3357341-3-ping.bai@nxp.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert the Cypress All Points Addressable (APA) I2C Touchpad / Trackpad
-bindings to DT schema.
+On 15/02/2023 10:41:16+0800, Jacky Bai wrote:
+> The BBNSM module includes a real time counter with alarm.
+> Add a RTC driver for this function.
+> 
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
+> Reviewed-by: Peng Fan <peng.fan@nxp.com>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/input/cypress,cyapa.txt          | 42 ----------------
- .../bindings/input/cypress,cyapa.yaml         | 49 +++++++++++++++++++
- 2 files changed, 49 insertions(+), 42 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/cypress,cyapa.txt
- create mode 100644 Documentation/devicetree/bindings/input/cypress,cyapa.yaml
+> +static int bbnsm_rtc_probe(struct platform_device *pdev)
+> +{
+> +	struct device_node *np = pdev->dev.of_node;
+> +	struct bbnsm_rtc *bbnsm;
+> +	int ret;
+> +
+> +	bbnsm = devm_kzalloc(&pdev->dev, sizeof(*bbnsm), GFP_KERNEL);
+> +	if (!bbnsm)
+> +		return -ENOMEM;
+> +
+> +	bbnsm->rtc = devm_rtc_allocate_device(&pdev->dev);
+> +	if (IS_ERR(bbnsm->rtc))
+> +		return PTR_ERR(bbnsm->rtc);
+> +
+> +	bbnsm->regmap = syscon_node_to_regmap(np->parent);
+> +	if (IS_ERR(bbnsm->regmap)) {
+> +		dev_dbg(&pdev->dev, "bbnsm get regmap failed\n");
+> +		return PTR_ERR(bbnsm->regmap);
+> +	}
+> +
+> +	bbnsm->irq = platform_get_irq(pdev, 0);
+> +	if (bbnsm->irq < 0)
+> +		return bbnsm->irq;
+> +
+> +	platform_set_drvdata(pdev, bbnsm);
+> +
+> +	/* clear all the pending events */
+> +	regmap_write(bbnsm->regmap, BBNSM_EVENTS, 0x7A);
+> +
+> +	device_init_wakeup(&pdev->dev, true);
+> +	dev_pm_set_wake_irq(&pdev->dev, bbnsm->irq);
+> +
+> +	ret = devm_request_irq(&pdev->dev, bbnsm->irq, bbnsm_rtc_irq_handler,
+> +			IRQF_SHARED, "rtc alarm", &pdev->dev);
 
-diff --git a/Documentation/devicetree/bindings/input/cypress,cyapa.txt b/Documentation/devicetree/bindings/input/cypress,cyapa.txt
-deleted file mode 100644
-index d3db65916a36..000000000000
---- a/Documentation/devicetree/bindings/input/cypress,cyapa.txt
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Cypress I2C Touchpad
--
--Required properties:
--- compatible: must be "cypress,cyapa".
--- reg: I2C address of the chip.
--- interrupts: interrupt to which the chip is connected (see interrupt
--	binding[0]).
--
--Optional properties:
--- wakeup-source: touchpad can be used as a wakeup source.
--- pinctrl-names: should be "default" (see pinctrl binding [1]).
--- pinctrl-0: a phandle pointing to the pin settings for the device (see
--	pinctrl binding [1]).
--- vcc-supply: a phandle for the regulator supplying 3.3V power.
--
--[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
--[1]: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
--
--Example:
--	&i2c0 {
--		/* ... */
--
--		/* Cypress Gen3 touchpad */
--		touchpad@67 {
--			compatible = "cypress,cyapa";
--			reg = <0x67>;
--			interrupt-parent = <&gpio>;
--			interrupts = <2 IRQ_TYPE_EDGE_FALLING>;	/* GPIO 2 */
--			wakeup-source;
--		};
--
--		/* Cypress Gen5 and later touchpad */
--		touchpad@24 {
--			compatible = "cypress,cyapa";
--			reg = <0x24>;
--			interrupt-parent = <&gpio>;
--			interrupts = <2 IRQ_TYPE_EDGE_FALLING>;	/* GPIO 2 */
--			wakeup-source;
--		};
--
--		/* ... */
--	};
-diff --git a/Documentation/devicetree/bindings/input/cypress,cyapa.yaml b/Documentation/devicetree/bindings/input/cypress,cyapa.yaml
-new file mode 100644
-index 000000000000..29515151abe9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/cypress,cyapa.yaml
-@@ -0,0 +1,49 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/cypress,cyapa.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cypress All Points Addressable (APA) I2C Touchpad / Trackpad
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-+
-+properties:
-+  compatible:
-+    const: cypress,cyapa
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  wakeup-source: true
-+
-+  vcc-supply:
-+    description: 3.3V power
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        trackpad@67 {
-+            reg = <0x67>;
-+            compatible = "cypress,cyapa";
-+            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-+            interrupt-parent = <&gpx1>;
-+            wakeup-source;
-+        };
-+    };
+This is not properly aligned, you can fix that if you ever have to
+resend.
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
