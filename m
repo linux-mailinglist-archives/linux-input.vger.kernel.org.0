@@ -2,116 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D47B69FD3A
-	for <lists+linux-input@lfdr.de>; Wed, 22 Feb 2023 21:54:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 218AA69FE85
+	for <lists+linux-input@lfdr.de>; Wed, 22 Feb 2023 23:29:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229507AbjBVUyU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Feb 2023 15:54:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57126 "EHLO
+        id S230435AbjBVW3c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Feb 2023 17:29:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjBVUyT (ORCPT
+        with ESMTP id S232888AbjBVW3b (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Feb 2023 15:54:19 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A75CF2E826
-        for <linux-input@vger.kernel.org>; Wed, 22 Feb 2023 12:54:17 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id b13so10157210ljf.6
-        for <linux-input@vger.kernel.org>; Wed, 22 Feb 2023 12:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N+U/HR42fPN8hC1rLiFVx6gFnszC/TbPe/bv3kKzKu0=;
-        b=CpRdXAFmOXc8IWlUDaDmIRyL492+EudgL57Ia+Ej4J/pA083GCZm2E890NYHAWXl4H
-         gRWZQhMyBAx7qd1418S6eaKRYZpxK2f9a6rrfuGGAhLIeyfgzbHu8VOPxH/4ky8i3DLe
-         3iCP+ka5Mg4l+T9qFxcJo6xxtYVlz9RaV5DP638kjBnr/qXm1LPXRcC5vOzGgbrQUwwS
-         I1IpFPC0QW2kV2WzZ7j6NhnrZCJ2IV7ai/7LWSokyJmbaa37/+fKe5DFFlqbsWURQelG
-         uOCnN4G3xvJugc1YcU67KxUC89u+i9+5qNAzFJC/xZ0fHk7COJ7G3RkJbOeERK6gfqR0
-         BCKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N+U/HR42fPN8hC1rLiFVx6gFnszC/TbPe/bv3kKzKu0=;
-        b=uZ21tWGoh94eVRqEPM8eLEbj3Of9tMFj61/DBV756IjMejfZY3mfDhI6KRbe2lSEM5
-         QWXdQJF1j7ZijjI+SuwpGRJ6QVWWdUTluCbXuSjUYWkSaZojKEPaGOjm82/r6RQHNfRk
-         dDYCpK5jVmqEvh6N8pB9MIV0oiw66L1yNLmTJBO3vFZdhB/uY1JV7k1kLPfOkJdITLHP
-         475JkmL0W1Pt+qyCbr+dKe0fduqneT/+vHM0bcj4UK/auBAmLzm/PXtwhnFQiAi1TDaE
-         Sv+adJG6J+NTBlFXCCVGmlLEQUMr6vlvZsk5ur31QfAPVge2nh5kyRTkhyKcBYP1Thcz
-         YEPQ==
-X-Gm-Message-State: AO0yUKUBf12GRafCs+BcJVBAb2CRbhZ54pKxPhFm/dYj1pm4W+JWXHx2
-        oKeMd2pA0CpDiYXkdM1DynGEoA==
-X-Google-Smtp-Source: AK7set/z3+BDrX7ucC0zd60YdqSri9mynP/jEgjOEf4l5BcziLEjl9kpQGB6RLQwxKutOQl6az8wLQ==
-X-Received: by 2002:a2e:7a16:0:b0:293:806:dd74 with SMTP id v22-20020a2e7a16000000b002930806dd74mr2969798ljc.46.1677099255917;
-        Wed, 22 Feb 2023 12:54:15 -0800 (PST)
-Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
-        by smtp.gmail.com with ESMTPSA id 4-20020a05651c008400b002934ad42ce1sm939198ljq.103.2023.02.22.12.54.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 12:54:15 -0800 (PST)
-Message-ID: <ac9a36fa-5c39-d984-3056-169fd5ab405b@linaro.org>
-Date:   Wed, 22 Feb 2023 21:54:13 +0100
+        Wed, 22 Feb 2023 17:29:31 -0500
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D61769C
+        for <linux-input@vger.kernel.org>; Wed, 22 Feb 2023 14:29:27 -0800 (PST)
+Date:   Wed, 22 Feb 2023 22:29:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1677104965; x=1677364165;
+        bh=LIG5OnrvuBi268/TRf4S/OMLMlY9nX07VrQ5VsECQho=;
+        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+        b=KEi+QBjvZQWvWlPtVtO4dt+WACcl2LTBtoBXF1GjP1yVDgpelW6sAwVFgygd+BukW
+         YCX6WF0hOVsPJAVv7KlHeDITVJU0FYQuQGEuGcQHVjIoQ0tejr9RonDuHrD5/L96/L
+         sK/Eg+4dc+XYA1hZm3ps1EsgkAcbUK+RXZ1rxf90u0YhT0ciDyUc6B72OmBvIinKpE
+         BYz46Od/MldluFf3C9Q/ReKo0ppPI6BsfHDZgxy12OZDTQWHNFuYACDDTcUkm7+uni
+         5UEAYbPGmDCBXo3gbjos390GGLJIMD4LiIV56jrYNO8GhSMx6y3fB9XLIB/Un+JUMH
+         paUfhxUFO057w==
+To:     linux-input@vger.kernel.org
+From:   Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, lains@riseup.net,
+        Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Subject: [PATCH 1/2] HID: logitech-dj: Add support for new lightspeed receiver iteration
+Message-ID: <20230222222800.83077-1-mavchatz@protonmail.com>
+Feedback-ID: 20039310:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4 1/3] Input: gpio-keys - add support for
- linux,input-value DTS property
-Content-Language: en-US
-To:     Gergo Koteles <soyer@irl.hu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Caleb Connolly <caleb@connolly.tech>
-References: <cover.1677022414.git.soyer@irl.hu>
- <3519a11b0ef5324a2befbd137cd2aa0cb8fd057d.1677022414.git.soyer@irl.hu>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <3519a11b0ef5324a2befbd137cd2aa0cb8fd057d.1677022414.git.soyer@irl.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+The lightspeed receiver for the Pro X Superlight uses 13 byte mouse reports
+without a report id. The workaround for such cases has been adjusted to
+handle these larger packets.
+
+libratbag recognizes the device and input events are passing through.
+
+https://github.com/libratbag/libratbag/pull/1122
+
+Co-developed-by: Filipe La=C3=ADns <lains@riseup.net>
+Signed-off-by: Filipe La=C3=ADns <lains@riseup.net>
+Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+---
+ drivers/hid/hid-ids.h         |  1 +
+ drivers/hid/hid-logitech-dj.c | 11 ++++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 9e36b4cd905e..030524ed4548 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -848,6 +848,7 @@
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_2=09=090xc534
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1=090xc539
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1=090xc53f
++#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2=090xc547
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY=090xc53a
+ #define USB_DEVICE_ID_SPACETRAVELLER=090xc623
+ #define USB_DEVICE_ID_SPACENAVIGATOR=090xc626
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index c358778e070b..82fe64ef4dbe 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -1692,11 +1692,12 @@ static int logi_dj_raw_event(struct hid_device *hde=
+v,
+ =09=09}
+ =09=09/*
+ =09=09 * Mouse-only receivers send unnumbered mouse data. The 27 MHz
+-=09=09 * receiver uses 6 byte packets, the nano receiver 8 bytes.
++=09=09 * receiver uses 6 byte packets, the nano receiver 8 bytes,
++=09=09 * the lightspeed receiver (Pro X Superlight) 13 bytes.
+ =09=09 */
+ =09=09if (djrcv_dev->unnumbered_application =3D=3D HID_GD_MOUSE &&
+-=09=09    size <=3D 8) {
+-=09=09=09u8 mouse_report[9];
++=09=09    size <=3D 13){
++=09=09=09u8 mouse_report[14];
+
+ =09=09=09/* Prepend report id */
+ =09=09=09mouse_report[0] =3D REPORT_TYPE_MOUSE;
+@@ -1980,6 +1981,10 @@ static const struct hid_device_id logi_dj_receivers[=
+] =3D {
+ =09  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+ =09=09USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1),
+ =09 .driver_data =3D recvr_type_gaming_hidpp},
++=09{ /* Logitech lightspeed receiver (0xc547) */
++=09  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
++=09=09USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2),
++=09 .driver_data =3D recvr_type_gaming_hidpp},
+
+ =09{ /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
+ =09  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER)=
+,
+--
+2.34.1
 
 
-On 22.02.2023 01:10, Gergo Koteles wrote:
-> Allows setting the value of EV_ABS events from DTS.
-> This property is included in the gpio-keys.yaml scheme, but was only
-> implemented for gpio-keys-polled.
-> 
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-Konrad
->  drivers/input/keyboard/gpio_keys.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-> index 5496482a38c1..c42f86ad0766 100644
-> --- a/drivers/input/keyboard/gpio_keys.c
-> +++ b/drivers/input/keyboard/gpio_keys.c
-> @@ -770,6 +770,9 @@ gpio_keys_get_devtree_pdata(struct device *dev)
->  					     &button->type))
->  			button->type = EV_KEY;
->  
-> +		fwnode_property_read_u32(child, "linux,input-value",
-> +					 (u32 *)&button->value);
-> +
->  		button->wakeup =
->  			fwnode_property_read_bool(child, "wakeup-source") ||
->  			/* legacy name */
