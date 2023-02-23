@@ -2,108 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 650696A01AA
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 05:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 102796A04CD
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 10:30:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229448AbjBWEBK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Feb 2023 23:01:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
+        id S233952AbjBWJad convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 23 Feb 2023 04:30:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232802AbjBWEBI (ORCPT
+        with ESMTP id S233945AbjBWJab (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Feb 2023 23:01:08 -0500
-Received: from out28-77.mail.aliyun.com (out28-77.mail.aliyun.com [115.124.28.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4D541085;
-        Wed, 22 Feb 2023 20:01:04 -0800 (PST)
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.08458463|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00787236-0.000697895-0.99143;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047213;MF=michael@allwinnertech.com;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.RUUPChN_1677124861;
-Received: from 192.168.220.144(mailfrom:michael@allwinnertech.com fp:SMTPD_---.RUUPChN_1677124861)
-          by smtp.aliyun-inc.com;
-          Thu, 23 Feb 2023 12:01:02 +0800
-Message-ID: <03a65972-f4ba-9d52-ed5c-ef5374927e53@allwinnertech.com>
-Date:   Thu, 23 Feb 2023 12:01:01 +0800
+        Thu, 23 Feb 2023 04:30:31 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2273F53EDB
+        for <linux-input@vger.kernel.org>; Thu, 23 Feb 2023 01:30:29 -0800 (PST)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id DE3C4E0002;
+        Thu, 23 Feb 2023 09:30:26 +0000 (UTC)
+Message-ID: <7a5f563caf0c2b5a033960915d9497d47a194378.camel@hadess.net>
+Subject: Re: [PATCH 2/2] HID: logitech-hidpp: Add support for the Pro X
+ Superlight
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Mavroudis Chatzilazaridis <mavchatz@protonmail.com>,
+        linux-input@vger.kernel.org
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, lains@riseup.net
+Date:   Thu, 23 Feb 2023 10:30:26 +0100
+In-Reply-To: <20230222222800.83077-2-mavchatz@protonmail.com>
+References: <20230222222800.83077-1-mavchatz@protonmail.com>
+         <20230222222800.83077-2-mavchatz@protonmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] HID: usbhid: enable remote wakeup for mice
-Content-Language: en-US
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230222013944.31095-1-michael@allwinnertech.com>
- <0b6f1b7b-9275-6947-b1b9-73d60ce095ab@gmail.com>
-From:   Michael Wu <michael@allwinnertech.com>
-In-Reply-To: <0b6f1b7b-9275-6947-b1b9-73d60ce095ab@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Sergei:
+On Wed, 2023-02-22 at 22:29 +0000, Mavroudis Chatzilazaridis wrote:
+> This patch adds support for the Pro X Superlight. Tested over USB.
+> 
+> Co-developed-by: Filipe Laíns <lains@riseup.net>
+> Signed-off-by: Filipe Laíns <lains@riseup.net>
+> Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
 
-On 2/22/2023 4:59 PM, Sergei Shtylyov wrote:
-> Hello!
+This patch is:
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> On 2/22/23 4:39 AM, Michael Wu wrote:
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
+> logitech-hidpp.c
+> index 9c1ee8e91e0c..62683a712f8e 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -4350,6 +4350,8 @@ static const struct hid_device_id
+> hidpp_devices[] = {
+>                 .driver_data = HIDPP_QUIRK_CLASS_G920 |
+> HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
+>         { /* Logitech G Pro Gaming Mouse over USB */
+>           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC088) },
+> +       { /* Logitech G Pro X Superlight Gaming Mouse over USB */
+> +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC094) },
 > 
->> This patch fixes a problem that USB mouse can't wake up the device that
->> enters standby.
->>
->> At present, the kernel only checks whether certain USB manufacturers
->> support wake-up, which will easily cause inconvenience to the
->> development work of other manufacturers and add unnecessary work to the
->> maintenance of kernel.
->>
->> The USB protocol supports judging whether a usb supports the wake-up
->> function, so it should be more reasonable to add a wake-up source by
->> directly checking the settings from the USB protocol.
->>
->> There was a similar issue on the keyboard before, which was fixed by
->> this patch (3d61510f4eca), but now the problem happened on the mouse.
->> This patch uses a similar idea to fix this problem.
->>
->> Signed-off-by: Michael Wu <michael@allwinnertech.com>
->> ---
->>   drivers/hid/usbhid/hid-core.c | 8 ++++++++
->>   drivers/hid/usbhid/usbmouse.c | 1 +
->>   2 files changed, 9 insertions(+)
->>
->> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
->> index be4c731aaa65..d3a6755cca09 100644
->> --- a/drivers/hid/usbhid/hid-core.c
->> +++ b/drivers/hid/usbhid/hid-core.c
->> @@ -1189,6 +1189,14 @@ static int usbhid_start(struct hid_device *hid)
->>   		device_set_wakeup_enable(&dev->dev, 1);
->>   	}
->>   
->> +	/**
+>         { /* MX5000 keyboard over Bluetooth */
+>           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb305),
+> --
+> 2.34.1
+> 
 > 
 
->     The kernel-doc comments should not be used here in the function body.
-
-We will remove the NOTE comments.
-
-> 
->> +	 * NOTE: enable remote wakeup by default for all mouse devices
->> +	 * supporting the boot protocol.
->> +	 */
->> +	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT &&
->> +	    interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_MOUSE)
->> +		device_set_wakeup_enable(&dev->dev, 1);
->> +
->>   	mutex_unlock(&usbhid->mutex);
->>   	return 0;
->>   
-> [...]
-> 
-> MBR, Sergey
-
--- 
-Regards,
-Michael Wu
