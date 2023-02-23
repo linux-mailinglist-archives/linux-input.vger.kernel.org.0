@@ -2,25 +2,24 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9427E6A0C54
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 15:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6DD06A0C56
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 15:58:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233708AbjBWO5T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Feb 2023 09:57:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37350 "EHLO
+        id S233306AbjBWO62 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 23 Feb 2023 09:58:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233851AbjBWO5T (ORCPT
+        with ESMTP id S232900AbjBWO62 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 09:57:19 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5054A1FC5;
-        Thu, 23 Feb 2023 06:57:17 -0800 (PST)
+        Thu, 23 Feb 2023 09:58:28 -0500
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0030E18150;
+        Thu, 23 Feb 2023 06:58:25 -0800 (PST)
 Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6402A1C0007;
-        Thu, 23 Feb 2023 14:57:13 +0000 (UTC)
-Message-ID: <5da8d55900b9467a63f5e262f5c9d6c469cb780a.camel@hadess.net>
-Subject: Re: [PATCH 1/5] HID: logitech-hidpp: Add support for ADC
- measurement feature
+        by mail.gandi.net (Postfix) with ESMTPSA id BD6E140010;
+        Thu, 23 Feb 2023 14:58:22 +0000 (UTC)
+Message-ID: <6456c0e4949f8e982ec83198181f1db6a27adb76.camel@hadess.net>
+Subject: Re: [PATCH 3/5] USB: core: Add wireless_status sysfs attribute
 From:   Bastien Nocera <hadess@hadess.net>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
@@ -28,137 +27,174 @@ Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
         Nestor Lopez Casado <nlopezcasad@logitech.com>
-Date:   Thu, 23 Feb 2023 15:57:12 +0100
-In-Reply-To: <Y/dwiDpaBBQItu0a@kroah.com>
+Date:   Thu, 23 Feb 2023 15:58:22 +0100
+In-Reply-To: <Y/dvesNrHivGV6JK@kroah.com>
 References: <20230223132452.37958-1-hadess@hadess.net>
-         <Y/dwiDpaBBQItu0a@kroah.com>
+         <20230223132452.37958-3-hadess@hadess.net> <Y/dvesNrHivGV6JK@kroah.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gVGh1LCAyMDIzLTAyLTIzIGF0IDE0OjU2ICswMTAwLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3Jv
-dGU6Cj4gT24gVGh1LCBGZWIgMjMsIDIwMjMgYXQgMDI6MjQ6NDhQTSArMDEwMCwgQmFzdGllbiBO
-b2NlcmEgd3JvdGU6Cj4gPiBUaGlzIGlzIHVzZWQgaW4gYSBudW1iZXIgb2YgaGVhZHNldHMgdG8g
-cmVwb3J0IHRoZSB2b2x0YWdlIG9mIHRoZQo+ID4gYmF0dGVyeS4KPiA+IAo+ID4gVGhlIHZvbHRh
-Z2UgdG8gY2FwYWNpdHkgY29udmVyc2lvbiBpcyBiYXNlZCBvbiB0aGUgQyBpbXBsZW1lbnRhdGlv
-bgo+ID4gaW4gSGVhZHNldENvbnRyb2wuCj4gCj4gV2hhdCBpcyAiSGVhZHNldENvbnRyb2wiPwoK
-SXQgdGhlIHNvZnR3YXJlIHJlZmVyZW5jZWQgaW4gdGhlIGNvbW1lbnQgYWZ0ZXIgd2hpY2ggSSBk
-b24ndCBuZWVkIGEKYmxhbmsgbGluZSwganVzdCBiZWxvdyB0aGlzIGNvbW1lbnQgOykKCj4gCj4g
-PiAKPiA+IFNpZ25lZC1vZmYtYnk6IEJhc3RpZW4gTm9jZXJhIDxoYWRlc3NAaGFkZXNzLm5ldD4K
-PiA+IEJ1Z0xpbms6IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9
-MjE2NDgzCj4gPiAtLS0KPiA+IMKgZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMgfCAx
-NzQKPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KPiA+IMKgMSBmaWxlIGNoYW5n
-ZWQsIDE3MiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMgYi9kcml2ZXJzL2hpZC9oaWQtCj4g
-PiBsb2dpdGVjaC1oaWRwcC5jCj4gPiBpbmRleCBmZjFmY2ViZjJlYzcuLmY2MzY1Y2RmMmUyMSAx
-MDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1oaWRwcC5jCj4gPiArKysg
-Yi9kcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYwo+ID4gQEAgLTk0LDYgKzk0LDcgQEAg
-TU9EVUxFX1BBUk1fREVTQyhkaXNhYmxlX3RhcF90b19jbGljaywKPiA+IMKgI2RlZmluZSBISURQ
-UF9DQVBBQklMSVRZX0hJRFBQMjBfSElfUkVTX1dIRUVMwqDCoEJJVCg3KQo+ID4gwqAjZGVmaW5l
-IEhJRFBQX0NBUEFCSUxJVFlfSElEUFAyMF9ISV9SRVNfU0NST0xMwqBCSVQoOCkKPiA+IMKgI2Rl
-ZmluZSBISURQUF9DQVBBQklMSVRZX0hJRFBQMTBfRkFTVF9TQ1JPTEzCoMKgwqBCSVQoOSkKPiA+
-ICsjZGVmaW5lIEhJRFBQX0NBUEFCSUxJVFlfQURDX01FQVNVUkVNRU5UwqDCoMKgwqDCoMKgwqBC
-SVQoMTApCj4gPiDCoAo+ID4gwqAjZGVmaW5lIGxnX21hcF9rZXlfY2xlYXIoYynCoCBoaWRfbWFw
-X3VzYWdlX2NsZWFyKGhpLCB1c2FnZSwgYml0LAo+ID4gbWF4LCBFVl9LRVksIChjKSkKPiA+IMKg
-Cj4gPiBAQCAtMTQ1LDYgKzE0Niw3IEBAIHN0cnVjdCBoaWRwcF9iYXR0ZXJ5IHsKPiA+IMKgwqDC
-oMKgwqDCoMKgwqB1OCBmZWF0dXJlX2luZGV4Owo+ID4gwqDCoMKgwqDCoMKgwqDCoHU4IHNvbGFy
-X2ZlYXR1cmVfaW5kZXg7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgdTggdm9sdGFnZV9mZWF0dXJlX2lu
-ZGV4Owo+ID4gK8KgwqDCoMKgwqDCoMKgdTggYWRjX21lYXN1cmVtZW50X2ZlYXR1cmVfaW5kZXg7
-Cj4gPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IHBvd2VyX3N1cHBseV9kZXNjIGRlc2M7Cj4gPiDC
-oMKgwqDCoMKgwqDCoMKgc3RydWN0IHBvd2VyX3N1cHBseSAqcHM7Cj4gPiDCoMKgwqDCoMKgwqDC
-oMKgY2hhciBuYW1lWzY0XTsKPiA+IEBAIC0xNzQ0LDYgKzE3NDYsMTY0IEBAIHN0YXRpYyBpbnQK
-PiA+IGhpZHBwX3NldF93aXJlbGVzc19mZWF0dXJlX2luZGV4KHN0cnVjdCBoaWRwcF9kZXZpY2Ug
-KmhpZHBwKQo+ID4gwqDCoMKgwqDCoMKgwqDCoHJldHVybiByZXQ7Cj4gPiDCoH0KPiA+IMKgCj4g
-PiArLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCj4gPiAtLS0tLS0tLS0tLSAqLwo+ID4gKy8qIDB4MWYyMDogQURDCj4gPiBt
-ZWFzdXJlbWVudMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAq
-Lwo+ID4gKy8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQo+ID4gLS0tLS0tLS0tLS0gKi8KPiA+ICsKPiA+ICsjZGVmaW5lIEhJ
-RFBQX1BBR0VfQURDX01FQVNVUkVNRU5UIDB4MWYyMAo+ID4gKwo+ID4gKyNkZWZpbmUgQ01EX0FE
-Q19NRUFTVVJFTUVOVF9HRVRfQURDX01FQVNVUkVNRU5UIDB4MDAKPiA+ICsKPiA+ICsjZGVmaW5l
-IEVWRU5UX0FEQ19NRUFTVVJFTUVOVF9TVEFUVVNfQlJPQURDQVNUIDB4MDAKPiA+ICsKPiA+ICtz
-dGF0aWMgaW50IGhpZHBwMjBfbWFwX2FkY19tZWFzdXJlbWVudF8xZjIwX2NhcGFjaXR5KHN0cnVj
-dAo+ID4gaGlkX2RldmljZSAqaGlkX2RldiwgaW50IHZvbHRhZ2UpCj4gPiArewo+ID4gK8KgwqDC
-oMKgwqDCoMKgLyogTkI6IFRoaXMgdm9sdGFnZSBjdXJ2ZSBkb2Vzbid0IG5lY2Vzc2FyaWx5IG1h
-cCBwZXJmZWN0bHkKPiA+IHRvIGFsbAo+ID4gK8KgwqDCoMKgwqDCoMKgICogZGV2aWNlcyB0aGF0
-IGltcGxlbWVudCB0aGUgQURDX01FQVNVUkVNRU5UIGZlYXR1cmUuIFRoaXMKPiA+IGlzIGJlY2F1
-c2UKPiA+ICvCoMKgwqDCoMKgwqDCoCAqIHRoZXJlIGFyZSBhIGZldyBkZXZpY2VzIHRoYXQgdXNl
-IGRpZmZlcmVudCBiYXR0ZXJ5Cj4gPiB0ZWNobm9sb2d5Lgo+ID4gK8KgwqDCoMKgwqDCoMKgICoK
-PiA+ICvCoMKgwqDCoMKgwqDCoCAqIEFkYXB0ZWQgZnJvbToKPiA+ICvCoMKgwqDCoMKgwqDCoCAq
-Cj4gPiBodHRwczovL2dpdGh1Yi5jb20vU2FwZC9IZWFkc2V0Q29udHJvbC9ibG9iL2FjZDk3MmJl
-MDQ2OGUwMzliOTNhYWU4MTIyMWYyMGE1NGQyZDYwZjcvc3JjL2RldmljZXMvbG9naXRlY2hfZzYz
-M19nOTMzXzkzNS5jI0w0NC1MNTIKPiA+ICvCoMKgwqDCoMKgwqDCoCAqLwo+ID4gKwoKVGhpcyBp
-cyB0aGUgc29mdHdhcmUgXl5eXl5eXl5eXgoKPiBObyBuZWVkIGZvciBhIGJsYW5rIGxpbmUuCgpT
-dXJlLgoKPiA+ICvCoMKgwqDCoMKgwqDCoHN0YXRpYyBjb25zdCBpbnQgdm9sdGFnZXNbXSA9IHsK
-PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA0MDMwLCA0MDI0LCA0MDE4LCA0MDEx
-LCA0MDAzLCAzOTk0LCAzOTg1LCAzOTc1LAo+ID4gMzk2MywgMzk1MSwKPiA+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAzOTM3LCAzOTIyLCAzOTA3LCAzODkzLCAzODgwLCAzODY4LCAz
-ODU3LCAzODQ2LAo+ID4gMzgzNywgMzgyOCwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAzODIwLCAzODEyLCAzODA1LCAzNzk4LCAzNzkxLCAzNzg1LCAzNzc5LCAzNzczLAo+ID4g
-Mzc2OCwgMzc2MiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAzNzU3LCAzNzUy
-LCAzNzQ3LCAzNzQyLCAzNzM4LCAzNzMzLCAzNzI5LCAzNzI0LAo+ID4gMzcyMCwgMzcxNiwKPiA+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAzNzEyLCAzNzA4LCAzNzA0LCAzNzAwLCAz
-Njk2LCAzNjkyLCAzNjg4LCAzNjg1LAo+ID4gMzY4MSwgMzY3NywKPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAzNjc0LCAzNjcwLCAzNjY3LCAzNjYzLCAzNjYwLCAzNjU3LCAzNjUz
-LCAzNjUwLAo+ID4gMzY0NiwgMzY0MywKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAzNjQwLCAzNjM3LCAzNjMzLCAzNjMwLCAzNjI3LCAzNjI0LCAzNjIwLCAzNjE3LAo+ID4gMzYx
-NCwgMzYxMSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAzNjA4LCAzNjA0LCAz
-NjAxLCAzNTk4LCAzNTk1LCAzNTkyLCAzNTg5LCAzNTg1LAo+ID4gMzU4MiwgMzU3OSwKPiA+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAzNTc2LCAzNTczLCAzNTY5LCAzNTY2LCAzNTYz
-LCAzNTYwLCAzNTU2LCAzNTUzLAo+ID4gMzU1MCwgMzU0NiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAzNTQzLCAzNTM5LCAzNTM2LCAzNTMyLCAzNTI5LCAzNTI1LCAzNDk5LCAz
-NDY2LAo+ID4gMzQzMywgMzM5OSwKPiA+ICvCoMKgwqDCoMKgwqDCoH07Cj4gPiArCj4gPiArwqDC
-oMKgwqDCoMKgwqBpbnQgaTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoEJVSUxEX0JVR19PTihB
-UlJBWV9TSVpFKHZvbHRhZ2VzKSAhPSAxMDApOwo+IAo+IFdoeSBpcyAxMDAgbWFnaWM/wqAgSWYg
-eW91IHdhbnQgaXQgdG8gYmUgMTAwLCBzYXkgc28gdXAgaW4gdGhlCj4gZGVjbGFyYWlvbgo+IHNv
-IHRoYXQgdGhlIGNvZGUgd2lsbCBlbmZvcmNlIHRoYXQuCgpJdCdzIHRoZSBzYW1lIHBhdHRlcm4g
-dXNlZCBpbiBoaWRwcDIwX21hcF9iYXR0ZXJ5X2NhcGFjaXR5KCkgaW4gdGhlCnNhbWUgZmlsZS4g
-SSdsbCBzZW5kIGEgcGF0Y2ggdG8gZml4IHRoYXQgdG9vLgoKPiAKPiA+ICsKPiA+ICvCoMKgwqDC
-oMKgwqDCoGlmICh2b2x0YWdlID09IDApCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmV0dXJuIDA7Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqBpZiAodW5saWtlbHkodm9sdGFn
-ZSA8IDM0MDAgfHwgdm9sdGFnZSA+PSA1MDAwKSkKPiAKPiBXaHkgdW5saWtlbHk/wqAgVGhhdCBz
-aG91bGQgb25seSBldmVyIGJlIHVzZWQgaWYgeW91IGNhbiBtZWFzdXJlIHRoZQo+IHBlcmZvcm1h
-bmNlIGltcGFjdCwgb3RoZXJ3aXNlIHBsZWFzZSByZW1vdmUgaXQuCj4gCj4gPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgaGlkX3dhcm5fb25jZShoaWRfZGV2LAo+ID4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICIlczogcG9z
-c2libHkgdXNpbmcgdGhlIHdyb25nIHZvbHRhZ2UKPiA+IGN1cnZlXG4iLAo+ID4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZnVuY19f
-KTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoGZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKHZv
-bHRhZ2VzKTsgaSsrKSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKHZv
-bHRhZ2UgPj0gdm9sdGFnZXNbaV0pCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoHJldHVybiBBUlJBWV9TSVpFKHZvbHRhZ2VzKSAtIGk7Cj4gPiArwqDC
-oMKgwqDCoMKgwqB9Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiA+ICt9Cj4g
-PiArCj4gPiArc3RhdGljIGludCBoaWRwcDIwX21hcF9hZGNfbWVhc3VyZW1lbnRfMWYyMCh1OCBk
-YXRhWzNdLCBpbnQKPiA+ICp2b2x0YWdlKQo+ID4gK3sKPiA+ICvCoMKgwqDCoMKgwqDCoGludCBz
-dGF0dXMsIGZsYWdzOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgZmxhZ3MgPSAoaW50KSBkYXRh
-WzJdOwo+IAo+IFdoeSBpcyB0aGlzIG5vdyBhbiBpbnQ/CgpTdXJlLgoKPiA+ICsKPiA+ICvCoMKg
-wqDCoMKgwqDCoHN3aXRjaCAoZmxhZ3MpIHsKPiA+ICvCoMKgwqDCoMKgwqDCoGNhc2UgMHgwMToK
-PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSBQT1dFUl9TVVBQTFlf
-U1RBVFVTX0RJU0NIQVJHSU5HOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJy
-ZWFrOwo+ID4gK8KgwqDCoMKgwqDCoMKgY2FzZSAweDAzOgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoHN0YXR1cyA9IFBPV0VSX1NVUFBMWV9TVEFUVVNfQ0hBUkdJTkc7Cj4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgYnJlYWs7Cj4gPiArwqDCoMKgwqDCoMKgwqBj
-YXNlIDB4MDc6Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RhdHVzID0gUE9X
-RVJfU1VQUExZX1NUQVRVU19GVUxMOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oGJyZWFrOwo+ID4gK8KgwqDCoMKgwqDCoMKgY2FzZSAweDBGOgo+ID4gK8KgwqDCoMKgwqDCoMKg
-ZGVmYXVsdDoKPiAKPiBZb3UgYXJlIG9ubHkgY2hlY2tpbmcgaXQgZm9yIGEgcmFuZ2UgMS1mLCB1
-OCBpcyBqdXN0IGZpbmUsIHJpZ2h0PwoKU3VyZS4KCj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgc3RhdHVzID0gUE9XRVJfU1VQUExZX1NUQVRVU19VTktOT1dOOwo+ID4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+ID4gK8KgwqDCoMKgwqDCoMKgfQo+
-ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgKnZvbHRhZ2UgPSBnZXRfdW5hbGlnbmVkX2JlMTYoZGF0
-YSk7Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqBkYmdfaGlkKCIlczogUGFyc2VkIDFmMjAgZGF0
-YSBhcyBmbGFnIDB4JTAyeCB2b2x0YWdlCj4gPiAlZG1WXG4iLAo+ID4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoF9fZnVuY19fLCBmbGFncywgKnZvbHRhZ2UpOwo+IAo+IEkgZG91YnQg
-eW91IG5lZWQgdGhlIF9fZnVuY19fIGxpbmUsIHJpZ2h0P8KgIGR5bmFtaWMgZGVidWcgcHJvdmlk
-ZXMKPiB0aGF0Cj4gZm9yIHlvdSBhdXRvbWF0aWNhbGx5IGlmIHlvdSBhc2sgZm9yIGl0LgoKUmVt
-b3ZlZC4K
+On Thu, 2023-02-23 at 14:51 +0100, Greg Kroah-Hartman wrote:
+> On Thu, Feb 23, 2023 at 02:24:50PM +0100, Bastien Nocera wrote:
+> > Add a wireless_status sysfs attribute to USB devices to keep track
+> > of
+> > whether a USB device that uses a receiver/emitter combo has its
+> > emitter connected or disconnected.
+> 
+> That's going to be very vague, and is starting to get very
+> interface-specific as an attibute here.
+> 
+> Why can't it just be an input device attribute?  Why is "wireless"
+> suddenly a special case for USB devices (we thought we got rid of the
+> old wireless usb code...)
 
+We already had that discussion in December:
+https://patchwork.kernel.org/project/linux-usb/patch/d9f8b9413c10fcf067658979d16a4f5c7abe69e7.camel@hadess.net/
+
+Do you want me to reference this discussion somewhere?
+
+It's not an input device attribute because, in the rest of this
+patchset, the fact that it uses HID is an implementation detail.
+
+> > By default, the USB device will declare not to use a
+> > receiver/emitter.
+> 
+> I do not understand this statement, what do you mean by this?
+
+That the default is for the wireless_status sysfs attribute not to be
+present, which means that the device isn't a receiver/emitter. I can
+remove that if it's confusing.
+
+> 
+> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> > ---
+> >  Documentation/ABI/testing/sysfs-bus-usb | 12 ++++++
+> >  drivers/usb/core/sysfs.c                | 50
+> > +++++++++++++++++++++++++
+> >  drivers/usb/core/usb.h                  |  1 +
+> >  include/linux/usb.h                     | 10 +++++
+> >  4 files changed, 73 insertions(+)
+> > 
+> > diff --git a/Documentation/ABI/testing/sysfs-bus-usb
+> > b/Documentation/ABI/testing/sysfs-bus-usb
+> > index 545c2dd97ed0..0bd22ece05cd 100644
+> > --- a/Documentation/ABI/testing/sysfs-bus-usb
+> > +++ b/Documentation/ABI/testing/sysfs-bus-usb
+> > @@ -166,6 +166,18 @@ Description:
+> >                 The file will be present for all speeds of USB
+> > devices, and will
+> >                 always read "no" for USB 1.1 and USB 2.0 devices.
+> >  
+> > +What:          /sys/bus/usb/devices/<INTERFACE>/wireless_status
+> > +Date:          January 2023
+> 
+> January was last month :(
+
+Sure.
+
+> > +Contact:       Bastien Nocera <hadess@hadess.net>
+> > +Description:
+> > +               Some USB devices use a small USB receiver coupled
+> > with a larger
+> > +               wireless device, usually communicating using
+> > proprietary
+> > +               wireless protocols. This attribute will read either
+> > "connected"
+> > +               or "disconnected" depending on whether the emitter
+> > is turned on,
+> > +               in range and connected, on the interface which is
+> > used to detect
+> > +               this state. If the device does not use a
+> > receiver/emitter combo,
+> > +               then this attribute will not exist.
+> 
+> So would you declare a wireless network device such a thing?
+
+No, because the emitter and receiver together aren't considered a
+single device.
+
+> See, it gets tricky, I do not think this should be a generic USB
+> attribute at all.
+
+See above, it was already discussed.
+
+> > +
+> >  What:          /sys/bus/usb/devices/.../<hub_interface>/port<X>
+> >  Date:          August 2012
+> >  Contact:       Lan Tianyu <tianyu.lan@intel.com>
+> > diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
+> > index 8217032dfb85..da3c0f0dd633 100644
+> > --- a/drivers/usb/core/sysfs.c
+> > +++ b/drivers/usb/core/sysfs.c
+> > @@ -1232,9 +1232,59 @@ static const struct attribute_group
+> > intf_assoc_attr_grp = {
+> >         .is_visible =   intf_assoc_attrs_are_visible,
+> >  };
+> >  
+> > +static ssize_t wireless_status_show(struct device *dev,
+> > +                                   struct device_attribute *attr,
+> > char *buf)
+> > +{
+> > +       struct usb_interface *intf;
+> > +
+> > +       intf = to_usb_interface(dev);
+> > +       if (intf->wireless_status ==
+> > USB_WIRELESS_STATUS_DISCONNECTED)
+> > +               return sysfs_emit(buf, "%s\n", "disconnected");
+> > +       return sysfs_emit(buf, "%s\n", "connected");
+> > +}
+> > +static DEVICE_ATTR_RO(wireless_status);
+> > +
+> > +static struct attribute *intf_wireless_status_attrs[] = {
+> > +       &dev_attr_wireless_status.attr,
+> > +       NULL
+> > +};
+> > +
+> > +static umode_t intf_wireless_status_attr_is_visible(struct kobject
+> > *kobj,
+> > +               struct attribute *a, int n)
+> > +{
+> > +       struct device *dev = kobj_to_dev(kobj);
+> > +       struct usb_interface *intf = to_usb_interface(dev);
+> > +
+> > +       if (a != &dev_attr_wireless_status.attr ||
+> > +           intf->wireless_status != USB_WIRELESS_STATUS_NA)
+> > +               return a->mode;
+> > +       return 0;
+> > +}
+> > +
+> > +static const struct attribute_group intf_wireless_status_attr_grp
+> > = {
+> > +       .attrs =        intf_wireless_status_attrs,
+> > +       .is_visible =   intf_wireless_status_attr_is_visible,
+> > +};
+> > +
+> > +int usb_update_wireless_status_attr(struct usb_interface *intf)
+> > +{
+> > +       struct device *dev = &intf->dev;
+> > +       int ret;
+> > +
+> > +       ret = sysfs_update_group(&dev->kobj,
+> > &intf_wireless_status_attr_grp);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       sysfs_notify(&dev->kobj, NULL, "wireless_status");
+> > +       kobject_uevent(&dev->kobj, KOBJ_CHANGE);
+> 
+> That could be very noisy, why does that deserve a KOBJ_CHANGE event?
+
+Because otherwise user-space can't know that the property either
+appeared or changed. This change only happens when the device is
+powered on or off while the receiver is plugged in, so this shouldn't
+happen at any excessive rate.
