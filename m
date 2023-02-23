@@ -2,98 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60C146A0BC5
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 15:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E8A6A0C19
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 15:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234730AbjBWOSz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Feb 2023 09:18:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54092 "EHLO
+        id S233306AbjBWOqQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Feb 2023 09:46:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234755AbjBWOSn (ORCPT
+        with ESMTP id S233562AbjBWOqP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 09:18:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5EB9584B8
-        for <linux-input@vger.kernel.org>; Thu, 23 Feb 2023 06:17:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677161863;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=X+vaKO2aKzaKFNowjoezt+q34xazm76j77hEz35B3zk=;
-        b=Dp6WVVa3umCBrhuvnh0QTS/xergIwx64i77QVz9Zz2IMH+d8EOTDwfdaWblFpJSkYc/h42
-        I49OQGUp9VdhZquXy1iBzSC1Ww1jcflYRuvZl/ycBuoU0NXICiA435f4bvLNTkF3lz/k3D
-        Ywe//AzuOTvJrdVvOoW/LutvKmWBzIQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-QVtcFkUXNGOhfQqIXjVevg-1; Thu, 23 Feb 2023 09:17:39 -0500
-X-MC-Unique: QVtcFkUXNGOhfQqIXjVevg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Thu, 23 Feb 2023 09:46:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B85034C23;
+        Thu, 23 Feb 2023 06:46:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 543C93C025B4;
-        Thu, 23 Feb 2023 14:17:39 +0000 (UTC)
-Received: from xps-13.local (unknown [10.39.194.236])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 36F1840C1423;
-        Thu, 23 Feb 2023 14:17:38 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 23 Feb 2023 15:17:26 +0100
-Subject: [PATCH] selftest: hid: fix hid_bpf not set in config
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B3C56172A;
+        Thu, 23 Feb 2023 14:46:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6C78C433EF;
+        Thu, 23 Feb 2023 14:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677163571;
+        bh=A7ZaP9yIleoXryrA51MEQFdI9ZE/IxgMZO1YwAt/rGw=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=bG+a1mGCVpa8t4i0p7gVdNtX5XFsdZY252PMObHVb3VlDHtxfRB7TjTaUIaKeZ04F
+         0EFfBtKk39l4gTNlskkTn89rEgQ7iHMaO528XRkuprjENDB2CXz1vDzc1dIFQsfJ/1
+         w3OHRuy5gERgsvuKYGo4GbFvq4/YULUGD9tbLyGcab5jwbChurQyZleG3EJ31/6rjr
+         cU7Lf2vugIqOsCH12lhur2K8b6ctc/Oyb5CBbwmM04ppHm2z/sEbtkKYKnATIu8zUR
+         DiJeK5favS3LoX2Jv+Lc4bSqjG9pDjkhZaE2RHU0xznxZDblRmsDn7PxHX6O2rqwEF
+         JuuNg0SBkBZLA==
+Date:   Thu, 23 Feb 2023 15:46:12 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Shuah Khan <shuah@kernel.org>, linux-input@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selftest: hid: fix hid_bpf not set in config
+In-Reply-To: <20230223-fix_hid_bpf_kconfig-v1-1-71b213bd8e2b@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2302231545410.1142@cbobk.fhfr.pm>
+References: <20230223-fix_hid_bpf_kconfig-v1-1-71b213bd8e2b@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230223-fix_hid_bpf_kconfig-v1-1-71b213bd8e2b@redhat.com>
-X-B4-Tracking: v=1; b=H4sIAHV192MC/x3N0QrCMAyF4VcZubZQO3TWV5FR0i5dg9iNREQYe
- 3c7L38OH2cDJWFSuHcbCH1YeaktzqcOUsE6k+GpNTjreutcbzJ/Q+EpxDWHZ1pq5tncvMertzi
- k4QJNRlQyUbCmctgX6pvkGFah5v93j3Hff10zooF+AAAA
-To:     Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677161857; l=830;
- i=benjamin.tissoires@redhat.com; s=20230215; h=from:subject:message-id;
- bh=v/TWiCuxjXitwyd6nR56q0PQFJdoKNQDW7w5Z4tWehg=;
- b=0ni4kb1AnUdsPUNxfHNmS7177I7WTMIC5VB60xRHYqvq+vePhnobVyDKgYhih63n+vUL6Cjnq
- inUmbNqDb1gAYb13uO5XA6jFr7RAkXIIbA3hVr2dp5D+AOIOL2dGSm2
-X-Developer-Key: i=benjamin.tissoires@redhat.com; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Now that CONFIG_HID_BPF is not automatically implied by HID, we need
-to set it properly in the selftests config.
+On Thu, 23 Feb 2023, Benjamin Tissoires wrote:
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
- tools/testing/selftests/hid/config | 1 +
- 1 file changed, 1 insertion(+)
+> Now that CONFIG_HID_BPF is not automatically implied by HID, we need
+> to set it properly in the selftests config.
+> 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-diff --git a/tools/testing/selftests/hid/config b/tools/testing/selftests/hid/config
-index 9c5a55abca6b..5b5cef445b54 100644
---- a/tools/testing/selftests/hid/config
-+++ b/tools/testing/selftests/hid/config
-@@ -17,5 +17,6 @@ CONFIG_FTRACE_SYSCALLS=y
- CONFIG_FUNCTION_TRACER=y
- CONFIG_HIDRAW=y
- CONFIG_HID=y
-+CONFIG_HID_BPF=y
- CONFIG_INPUT_EVDEV=y
- CONFIG_UHID=y
+Applied to hid.git#for-6.3/upstream-fixes. Thanks,
 
----
-base-commit: 6c71297eaf713ece684a367ce9aff06069d715b9
-change-id: 20230223-fix_hid_bpf_kconfig-899a690a7c75
-
-Best regards,
 -- 
-Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Jiri Kosina
+SUSE Labs
 
