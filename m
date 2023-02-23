@@ -2,41 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB57E6A0733
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 12:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A7AA6A073F
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 12:22:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233333AbjBWLSW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Feb 2023 06:18:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
+        id S233289AbjBWLWy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Feb 2023 06:22:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbjBWLSV (ORCPT
+        with ESMTP id S233328AbjBWLWw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 06:18:21 -0500
-Received: from out28-49.mail.aliyun.com (out28-49.mail.aliyun.com [115.124.28.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AC9166C3;
-        Thu, 23 Feb 2023 03:18:16 -0800 (PST)
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07649013|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0871468-0.0143109-0.898542;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047203;MF=michael@allwinnertech.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.RUpMKkG_1677151093;
-Received: from 192.168.220.144(mailfrom:michael@allwinnertech.com fp:SMTPD_---.RUpMKkG_1677151093)
+        Thu, 23 Feb 2023 06:22:52 -0500
+Received: from out28-52.mail.aliyun.com (out28-52.mail.aliyun.com [115.124.28.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08E2654A09;
+        Thu, 23 Feb 2023 03:22:38 -0800 (PST)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.1515193|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_enroll_verification|0.0199928-0.000496274-0.979511;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047193;MF=michael@allwinnertech.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.RUpWDcJ_1677151355;
+Received: from 192.168.220.144(mailfrom:michael@allwinnertech.com fp:SMTPD_---.RUpWDcJ_1677151355)
           by smtp.aliyun-inc.com;
-          Thu, 23 Feb 2023 19:18:14 +0800
-Message-ID: <9bf4463c-6541-a6cb-9bbc-6d070118509a@allwinnertech.com>
-Date:   Thu, 23 Feb 2023 19:18:12 +0800
+          Thu, 23 Feb 2023 19:22:36 +0800
+Message-ID: <6d7c8e3f-225e-400f-f8a4-bf14c538ad8a@allwinnertech.com>
+Date:   Thu, 23 Feb 2023 19:22:34 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Subject: Re: [PATCH] HID: usbhid: enable remote wakeup for mice
 Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
-        richard.gong@amd.com
+To:     Oliver Neukum <oneukum@suse.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, richard.gong@amd.com,
+        mario.limonciello@amd.com
 References: <20230222013944.31095-1-michael@allwinnertech.com>
- <Y/WwXBF37hoZBbQa@kroah.com>
+ <ef80c145-e33f-4aa8-c9e8-c77f34b1bb0e@suse.com>
 From:   Michael Wu <michael@allwinnertech.com>
-In-Reply-To: <Y/WwXBF37hoZBbQa@kroah.com>
+In-Reply-To: <ef80c145-e33f-4aa8-c9e8-c77f34b1bb0e@suse.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
@@ -46,75 +46,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Greg,
+Dear Oliver,
 
-On 2/22/2023 2:04 PM, Greg KH wrote:
-> On Wed, Feb 22, 2023 at 09:39:44AM +0800, Michael Wu wrote:
+On 2/22/2023 5:34 PM, Oliver Neukum wrote:
+> On 22.02.23 02:39, Michael Wu wrote:
 >> This patch fixes a problem that USB mouse can't wake up the device that
 >> enters standby.
 > 
-> This not a problem, it is that way by design.
-
-I got it, maybe it's a little problem to say that.
-
+> Hi,
 > 
->> At present, the kernel only checks whether certain USB manufacturers
->> support wake-up, which will easily cause inconvenience to the
->> development work of other manufacturers and add unnecessary work to the
->> maintenance of kernel.
->>
->> The USB protocol supports judging whether a usb supports the wake-up
->> function, so it should be more reasonable to add a wake-up source by
->> directly checking the settings from the USB protocol.
+> I am afraid I need to ask you to be a bit more precise here.
+> Are you referring to USB mice being unable to wake up a system,
+> even if you so request via sysfs, or that they won't by default?
 > 
-> But you do not do that in this patch, why not?
+>      Regards
+>          Oliver
 
-I just want to explain the background of my patch, to prove we could use 
-a similar way to avoid such a "disturbing" situation.
-To reduce the influence, my patch enables remote wakeup for USB mouse 
-devices refer to what keyboard do.
-
-> 
->> There was a similar issue on the keyboard before, which was fixed by
->> this patch (3d61510f4eca), but now the problem happened on the mouse.
->> This patch uses a similar idea to fix this problem.
->>
->> Signed-off-by: Michael Wu <michael@allwinnertech.com>
->> ---
->>   drivers/hid/usbhid/hid-core.c | 8 ++++++++
->>   drivers/hid/usbhid/usbmouse.c | 1 +
->>   2 files changed, 9 insertions(+)
->>
->> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
->> index be4c731aaa65..d3a6755cca09 100644
->> --- a/drivers/hid/usbhid/hid-core.c
->> +++ b/drivers/hid/usbhid/hid-core.c
->> @@ -1189,6 +1189,14 @@ static int usbhid_start(struct hid_device *hid)
->>   		device_set_wakeup_enable(&dev->dev, 1);
->>   	}
->>   
->> +	/**
->> +	 * NOTE: enable remote wakeup by default for all mouse devices
->> +	 * supporting the boot protocol.
->> +	 */
->> +	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT &&
->> +	    interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_MOUSE)
->> +		device_set_wakeup_enable(&dev->dev, 1);
-> 
-> Sorry, but we can not take this unless it is proven that this will work
-> properly for all of these devices.  Other operating systems do not do
-> this last I checked, so there will be problems.
-
-As Mario Limonciello says, they has confirmed that the Microsoft Windows 
-does set a similar policy as well. Can we talk about more in this topic: 
-why does Linux not support it?
-Of course, if you have other great idea, I will appreciate that if we 
-can have some further discussion.
-
-> 
-> thanks,
-> 
-> greg k-h
+Yes. I can't use any USB mouse which supports Remote Wakeup to wake up 
+the system by default.
+If I enable the wakeup node in /sys/bus/usb/devices which is disabled by 
+default, the mouse can wakeup the system successfully.
+Clearly, the only thing I can do is to register the wakeup source for 
+USB Mouse devices.
 
 -- 
 Regards,
