@@ -2,38 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 243E86A0D32
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 16:41:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A178A6A0D92
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 17:09:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbjBWPlG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Feb 2023 10:41:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54496 "EHLO
+        id S234071AbjBWQJi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Feb 2023 11:09:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjBWPlG (ORCPT
+        with ESMTP id S234069AbjBWQJh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 10:41:06 -0500
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 5252A2682
-        for <linux-input@vger.kernel.org>; Thu, 23 Feb 2023 07:41:01 -0800 (PST)
-Received: (qmail 1245383 invoked by uid 1000); 23 Feb 2023 10:41:00 -0500
-Date:   Thu, 23 Feb 2023 10:41:00 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: Re: [PATCH 4/5] USB: core: Add API to change the wireless_status
-Message-ID: <Y/eJDDPXJfYgfdfI@rowland.harvard.edu>
-References: <20230223132452.37958-1-hadess@hadess.net>
- <20230223132452.37958-4-hadess@hadess.net>
+        Thu, 23 Feb 2023 11:09:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA17D17168
+        for <linux-input@vger.kernel.org>; Thu, 23 Feb 2023 08:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677168530;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oi3onFZdOfhG5g7Va6cusrW8DmCZ28POxDo8cVUlMpQ=;
+        b=aujha4V8KUCoBFvxv7I792n2xed4J0PG/+TiC9oLBUpK9uD+ipjySSxCZkAMtAlDe1PJ18
+        kE9wAVnhzInjJp/gi7WNGNh/mJmTr68si1HmTq+SuWebcu6ZwiME5nSPiNOpJ1icXTj3qT
+        EWugLj6pB12M2O6ImZRC+KKxvHxl8ao=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-562-Dt-ym4uQO-SjfEciavBYqw-1; Thu, 23 Feb 2023 11:08:46 -0500
+X-MC-Unique: Dt-ym4uQO-SjfEciavBYqw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3DC84101A521;
+        Thu, 23 Feb 2023 16:08:46 +0000 (UTC)
+Received: from plouf.local (unknown [10.22.8.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B7686492C3E;
+        Thu, 23 Feb 2023 16:08:45 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     jikos@kernel.org, Danny Kaehn <kaehndan@gmail.com>
+Cc:     linux-input@vger.kernel.org, ethan.twardy@plexus.com
+In-Reply-To: <20230210170044.11835-1-kaehndan@gmail.com>
+References: <20230210170044.11835-1-kaehndan@gmail.com>
+Subject: Re: [PATCH] HID: cp2112: Fix driver not registering GPIO IRQ chip
+ as threaded
+Message-Id: <167716852549.1538140.9925786530006136542.b4-ty@redhat.com>
+Date:   Thu, 23 Feb 2023 17:08:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230223132452.37958-4-hadess@hadess.net>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS autolearn=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,89 +61,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 23, 2023 at 02:24:51PM +0100, Bastien Nocera wrote:
-> Allow device specific drivers to change the wireless status of a device.
-> This will allow user-space to know whether the device is available,
-> whether or not specific USB interfaces can detect it.
+On Fri, 10 Feb 2023 11:00:44 -0600, Danny Kaehn wrote:
+> The CP2112 generates interrupts from a polling routine on a thread,
+> and can only support threaded interrupts. This patch configures the
+> gpiochip irq chip with this flag, disallowing consumers to request
+> a hard IRQ from this driver, which resulted in a segfault previously.
 > 
-> This can be used by wireless headsets with USB receivers to propagate to
-> user-space whether or not the headset is turned on, so as to consider it
-> as unavailable, and not switch to it just because the receiver is
-> plugged in.
 > 
-> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> ---
->  drivers/usb/core/message.c | 13 +++++++++++++
->  drivers/usb/core/usb.c     | 24 ++++++++++++++++++++++++
->  include/linux/usb.h        |  4 ++++
->  3 files changed, 41 insertions(+)
-> 
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 127fac1af676..d5c7749d515e 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -1908,6 +1908,18 @@ static void __usb_queue_reset_device(struct work_struct *ws)
->  	usb_put_intf(iface);	/* Undo _get_ in usb_queue_reset_device() */
->  }
->  
-> +/*
-> + * Internal function to set the wireless_status sysfs attribute
-> + * See usb_set_wireless_status() for more details
-> + */
-> +static void __usb_wireless_status_intf(struct work_struct *ws)
-> +{
-> +	struct usb_interface *iface =
-> +		container_of(ws, struct usb_interface, wireless_status_work);
-> +
-> +	usb_update_wireless_status_attr(iface);
-> +	usb_put_intf(iface);	/* Undo _get_ in usb_set_wireless_status() */
-> +}
 
-Have you thought about what will happen if this routine ends up running 
-after the interface has been deleted?
+Applied to hid/hid.git (for-6.3/upstream-fixes), thanks!
 
->  /*
->   * usb_set_configuration - Makes a particular device setting be current
-> @@ -2100,6 +2112,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
->  		intf->dev.type = &usb_if_device_type;
->  		intf->dev.groups = usb_interface_groups;
->  		INIT_WORK(&intf->reset_ws, __usb_queue_reset_device);
-> +		INIT_WORK(&intf->wireless_status_work, __usb_wireless_status_intf);
->  		intf->minor = -1;
->  		device_initialize(&intf->dev);
->  		pm_runtime_no_callbacks(&intf->dev);
-> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-> index 11b15d7b357a..5f42c5b9d209 100644
-> --- a/drivers/usb/core/usb.c
-> +++ b/drivers/usb/core/usb.c
-> @@ -871,6 +871,30 @@ int usb_get_current_frame_number(struct usb_device *dev)
->  }
->  EXPORT_SYMBOL_GPL(usb_get_current_frame_number);
->  
-> +/**
-> + * usb_set_wireless_status - sets the wireless_status struct member
-> + * @dev: the device to modify
-> + * @status: the new wireless status
-> + *
-> + * Set the wireless_status struct member to the new value, and emit
-> + * sysfs changes as necessary.
-> + *
-> + * Returns: 0 on success, -EALREADY if already set.
-> + */
-> +int usb_set_wireless_status(struct usb_interface *iface,
-> +		enum usb_wireless_status status)
-> +{
-> +	if (iface->wireless_status == status)
-> +		return -EALREADY;
-> +
-> +	usb_get_intf(iface);
-> +	iface->wireless_status = status;
-> +	schedule_work(&iface->wireless_status_work);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(usb_set_wireless_status);
+[1/1] HID: cp2112: Fix driver not registering GPIO IRQ chip as threaded
+      https://git.kernel.org/hid/hid/c/37f5b858a665
 
-This routine belongs in message.c, next to __usb_wireless_status_intf().
+Cheers,
+-- 
+Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Alan Stern
