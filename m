@@ -2,78 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 102796A04CD
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 10:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 209616A06CA
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 11:57:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233952AbjBWJad convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 23 Feb 2023 04:30:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
+        id S232207AbjBWK51 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Feb 2023 05:57:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233945AbjBWJab (ORCPT
+        with ESMTP id S231849AbjBWK50 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 04:30:31 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2273F53EDB
-        for <linux-input@vger.kernel.org>; Thu, 23 Feb 2023 01:30:29 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id DE3C4E0002;
-        Thu, 23 Feb 2023 09:30:26 +0000 (UTC)
-Message-ID: <7a5f563caf0c2b5a033960915d9497d47a194378.camel@hadess.net>
-Subject: Re: [PATCH 2/2] HID: logitech-hidpp: Add support for the Pro X
- Superlight
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Mavroudis Chatzilazaridis <mavchatz@protonmail.com>,
+        Thu, 23 Feb 2023 05:57:26 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9D046B2;
+        Thu, 23 Feb 2023 02:57:25 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EE370B819A1;
+        Thu, 23 Feb 2023 10:57:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97B20C433EF;
+        Thu, 23 Feb 2023 10:57:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677149842;
+        bh=hW85lN5X4tT+6zN53XVarJV1CUQAWkY21KNdrbsSBPg=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=buEjSrDnKrOEpPiw82BSZZMJn1rFuU7aoPjIBHXxHn7BcJBdPOISGm3xZfK+3V55C
+         tdw5JxsLzpX31fY4juIpWimeeMnRKKUEKaxKCqHTJvTJngnynetMylQt2ig1Uj5eqU
+         8thp7iS5ubOHz5pDC4NwKfLmcGl7epe7NaO9hGEqZXgwUmRYOQsDj2k4wmoutV7uJx
+         vbFQegSw23cUBqXIqXOW0RXGiRqzjSkOi821pZBGuzUu67f3tUPIdJAAJYAiATyO/k
+         4J1m+oHQwTRj80104Z3Rhl8XbcQjXxEB1bGxeUjBiIZKAqg9gJ3N5FYLQSs/3IMDQ5
+         MQWpeLe3LIXvQ==
+Date:   Thu, 23 Feb 2023 11:57:24 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Lee Jones <lee@kernel.org>
+cc:     benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
         linux-input@vger.kernel.org
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, lains@riseup.net
-Date:   Thu, 23 Feb 2023 10:30:26 +0100
-In-Reply-To: <20230222222800.83077-2-mavchatz@protonmail.com>
-References: <20230222222800.83077-1-mavchatz@protonmail.com>
-         <20230222222800.83077-2-mavchatz@protonmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+Subject: Re: [PATCH v2 1/2] HID: core: Provide new max_buffer_size attribute
+ to over-ride the default
+In-Reply-To: <20230123123912.360651-1-lee@kernel.org>
+Message-ID: <nycvar.YFH.7.76.2302231156420.1142@cbobk.fhfr.pm>
+References: <20230123123912.360651-1-lee@kernel.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2023-02-22 at 22:29 +0000, Mavroudis Chatzilazaridis wrote:
-> This patch adds support for the Pro X Superlight. Tested over USB.
+On Mon, 23 Jan 2023, Lee Jones wrote:
+
+> Presently, when a report is processed, its proposed size, provided by
+> the user of the API (as Report Size * Report Count) is compared against
+> the subsystem default HID_MAX_BUFFER_SIZE (16k).  However, some
+> low-level HID drivers allocate a reduced amount of memory to their
+> buffers (e.g. UHID only allocates UHID_DATA_MAX (4k) buffers), rending
+> this check inadequate in some cases.
 > 
-> Co-developed-by: Filipe Laíns <lains@riseup.net>
-> Signed-off-by: Filipe Laíns <lains@riseup.net>
-> Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-
-This patch is:
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-
+> In these circumstances, if the received report ends up being smaller
+> than the proposed report size, the remainder of the buffer is zeroed.
+> That is, the space between sizeof(csize) (size of the current report)
+> and the rsize (size proposed i.e. Report Size * Report Count), which can
+> be handled up to HID_MAX_BUFFER_SIZE (16k).  Meaning that memset()
+> shoots straight past the end of the buffer boundary and starts zeroing
+> out in-use values, often resulting in calamity.
+> 
+> This patch introduces a new variable into 'struct hid_ll_driver' where
+> individual low-level drivers can over-ride the default maximum value of
+> HID_MAX_BUFFER_SIZE (16k) with something more sympathetic to the
+> interface.
+> 
+> Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
->  drivers/hid/hid-logitech-hidpp.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
-> logitech-hidpp.c
-> index 9c1ee8e91e0c..62683a712f8e 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -4350,6 +4350,8 @@ static const struct hid_device_id
-> hidpp_devices[] = {
->                 .driver_data = HIDPP_QUIRK_CLASS_G920 |
-> HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
->         { /* Logitech G Pro Gaming Mouse over USB */
->           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC088) },
-> +       { /* Logitech G Pro X Superlight Gaming Mouse over USB */
-> +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC094) },
-> 
->         { /* MX5000 keyboard over Bluetooth */
->           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb305),
-> --
-> 2.34.1
-> 
-> 
+> v1 => v2:
+>  - Edit the commit message to be less focused on UHID
+
+Now applied to hid.git#for-6.3/upstream-fixes. Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
