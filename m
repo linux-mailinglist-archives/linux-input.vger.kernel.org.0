@@ -2,198 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64AFA6A0B41
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 14:56:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C146A0BC5
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 15:18:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234247AbjBWN4c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Feb 2023 08:56:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36008 "EHLO
+        id S234730AbjBWOSz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Feb 2023 09:18:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233696AbjBWN4b (ORCPT
+        with ESMTP id S234755AbjBWOSn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 08:56:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1969C4DBC0;
-        Thu, 23 Feb 2023 05:56:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 23 Feb 2023 09:18:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5EB9584B8
+        for <linux-input@vger.kernel.org>; Thu, 23 Feb 2023 06:17:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677161863;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=X+vaKO2aKzaKFNowjoezt+q34xazm76j77hEz35B3zk=;
+        b=Dp6WVVa3umCBrhuvnh0QTS/xergIwx64i77QVz9Zz2IMH+d8EOTDwfdaWblFpJSkYc/h42
+        I49OQGUp9VdhZquXy1iBzSC1Ww1jcflYRuvZl/ycBuoU0NXICiA435f4bvLNTkF3lz/k3D
+        Ywe//AzuOTvJrdVvOoW/LutvKmWBzIQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-QVtcFkUXNGOhfQqIXjVevg-1; Thu, 23 Feb 2023 09:17:39 -0500
+X-MC-Unique: QVtcFkUXNGOhfQqIXjVevg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CD73EB81A2C;
-        Thu, 23 Feb 2023 13:56:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2855FC433D2;
-        Thu, 23 Feb 2023 13:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1677160587;
-        bh=1gWKPlAXdrR5hhk0WnK1PEZQpNwJnsWVqfEEC4TsUrU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QbQejqM5luP4J9OuGqELRZ0ZbWk4LogvtuLg3jJEBwFp0+e3xK27PuyNYCiJFIphD
-         SnmnfS8ztxnkWcP/qmLcUzGhIw/5dasN9E3N2irRYuIcODbz7OZL5xgYL74l/NJnE0
-         Gtx8eX0UtGsEq1CxUkAzXw3nKn30Qx3b0+EIS1p8=
-Date:   Thu, 23 Feb 2023 14:56:24 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: Re: [PATCH 1/5] HID: logitech-hidpp: Add support for ADC measurement
- feature
-Message-ID: <Y/dwiDpaBBQItu0a@kroah.com>
-References: <20230223132452.37958-1-hadess@hadess.net>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 543C93C025B4;
+        Thu, 23 Feb 2023 14:17:39 +0000 (UTC)
+Received: from xps-13.local (unknown [10.39.194.236])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 36F1840C1423;
+        Thu, 23 Feb 2023 14:17:38 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 23 Feb 2023 15:17:26 +0100
+Subject: [PATCH] selftest: hid: fix hid_bpf not set in config
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230223132452.37958-1-hadess@hadess.net>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230223-fix_hid_bpf_kconfig-v1-1-71b213bd8e2b@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAHV192MC/x3N0QrCMAyF4VcZubZQO3TWV5FR0i5dg9iNREQYe
+ 3c7L38OH2cDJWFSuHcbCH1YeaktzqcOUsE6k+GpNTjreutcbzJ/Q+EpxDWHZ1pq5tncvMertzi
+ k4QJNRlQyUbCmctgX6pvkGFah5v93j3Hff10zooF+AAAA
+To:     Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677161857; l=830;
+ i=benjamin.tissoires@redhat.com; s=20230215; h=from:subject:message-id;
+ bh=v/TWiCuxjXitwyd6nR56q0PQFJdoKNQDW7w5Z4tWehg=;
+ b=0ni4kb1AnUdsPUNxfHNmS7177I7WTMIC5VB60xRHYqvq+vePhnobVyDKgYhih63n+vUL6Cjnq
+ inUmbNqDb1gAYb13uO5XA6jFr7RAkXIIbA3hVr2dp5D+AOIOL2dGSm2
+X-Developer-Key: i=benjamin.tissoires@redhat.com; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 23, 2023 at 02:24:48PM +0100, Bastien Nocera wrote:
-> This is used in a number of headsets to report the voltage of the
-> battery.
-> 
-> The voltage to capacity conversion is based on the C implementation
-> in HeadsetControl.
+Now that CONFIG_HID_BPF is not automatically implied by HID, we need
+to set it properly in the selftests config.
 
-What is "HeadsetControl"?
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+---
+ tools/testing/selftests/hid/config | 1 +
+ 1 file changed, 1 insertion(+)
 
-> 
-> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=216483
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 174 ++++++++++++++++++++++++++++++-
->  1 file changed, 172 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index ff1fcebf2ec7..f6365cdf2e21 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -94,6 +94,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
->  #define HIDPP_CAPABILITY_HIDPP20_HI_RES_WHEEL	BIT(7)
->  #define HIDPP_CAPABILITY_HIDPP20_HI_RES_SCROLL	BIT(8)
->  #define HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL	BIT(9)
-> +#define HIDPP_CAPABILITY_ADC_MEASUREMENT	BIT(10)
->  
->  #define lg_map_key_clear(c)  hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
->  
-> @@ -145,6 +146,7 @@ struct hidpp_battery {
->  	u8 feature_index;
->  	u8 solar_feature_index;
->  	u8 voltage_feature_index;
-> +	u8 adc_measurement_feature_index;
->  	struct power_supply_desc desc;
->  	struct power_supply *ps;
->  	char name[64];
-> @@ -1744,6 +1746,164 @@ static int hidpp_set_wireless_feature_index(struct hidpp_device *hidpp)
->  	return ret;
->  }
->  
-> +/* -------------------------------------------------------------------------- */
-> +/* 0x1f20: ADC measurement                                                    */
-> +/* -------------------------------------------------------------------------- */
-> +
-> +#define HIDPP_PAGE_ADC_MEASUREMENT 0x1f20
-> +
-> +#define CMD_ADC_MEASUREMENT_GET_ADC_MEASUREMENT 0x00
-> +
-> +#define EVENT_ADC_MEASUREMENT_STATUS_BROADCAST 0x00
-> +
-> +static int hidpp20_map_adc_measurement_1f20_capacity(struct hid_device *hid_dev, int voltage)
-> +{
-> +	/* NB: This voltage curve doesn't necessarily map perfectly to all
-> +	 * devices that implement the ADC_MEASUREMENT feature. This is because
-> +	 * there are a few devices that use different battery technology.
-> +	 *
-> +	 * Adapted from:
-> +	 * https://github.com/Sapd/HeadsetControl/blob/acd972be0468e039b93aae81221f20a54d2d60f7/src/devices/logitech_g633_g933_935.c#L44-L52
-> +	 */
-> +
+diff --git a/tools/testing/selftests/hid/config b/tools/testing/selftests/hid/config
+index 9c5a55abca6b..5b5cef445b54 100644
+--- a/tools/testing/selftests/hid/config
++++ b/tools/testing/selftests/hid/config
+@@ -17,5 +17,6 @@ CONFIG_FTRACE_SYSCALLS=y
+ CONFIG_FUNCTION_TRACER=y
+ CONFIG_HIDRAW=y
+ CONFIG_HID=y
++CONFIG_HID_BPF=y
+ CONFIG_INPUT_EVDEV=y
+ CONFIG_UHID=y
 
-No need for a blank line.
+---
+base-commit: 6c71297eaf713ece684a367ce9aff06069d715b9
+change-id: 20230223-fix_hid_bpf_kconfig-899a690a7c75
 
-> +	static const int voltages[] = {
-> +		4030, 4024, 4018, 4011, 4003, 3994, 3985, 3975, 3963, 3951,
-> +		3937, 3922, 3907, 3893, 3880, 3868, 3857, 3846, 3837, 3828,
-> +		3820, 3812, 3805, 3798, 3791, 3785, 3779, 3773, 3768, 3762,
-> +		3757, 3752, 3747, 3742, 3738, 3733, 3729, 3724, 3720, 3716,
-> +		3712, 3708, 3704, 3700, 3696, 3692, 3688, 3685, 3681, 3677,
-> +		3674, 3670, 3667, 3663, 3660, 3657, 3653, 3650, 3646, 3643,
-> +		3640, 3637, 3633, 3630, 3627, 3624, 3620, 3617, 3614, 3611,
-> +		3608, 3604, 3601, 3598, 3595, 3592, 3589, 3585, 3582, 3579,
-> +		3576, 3573, 3569, 3566, 3563, 3560, 3556, 3553, 3550, 3546,
-> +		3543, 3539, 3536, 3532, 3529, 3525, 3499, 3466, 3433, 3399,
-> +	};
-> +
-> +	int i;
-> +
-> +	BUILD_BUG_ON(ARRAY_SIZE(voltages) != 100);
+Best regards,
+-- 
+Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Why is 100 magic?  If you want it to be 100, say so up in the declaraion
-so that the code will enforce that.
-
-> +
-> +	if (voltage == 0)
-> +		return 0;
-> +
-> +	if (unlikely(voltage < 3400 || voltage >= 5000))
-
-Why unlikely?  That should only ever be used if you can measure the
-performance impact, otherwise please remove it.
-
-> +		hid_warn_once(hid_dev,
-> +			      "%s: possibly using the wrong voltage curve\n",
-> +			      __func__);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(voltages); i++) {
-> +		if (voltage >= voltages[i])
-> +			return ARRAY_SIZE(voltages) - i;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int hidpp20_map_adc_measurement_1f20(u8 data[3], int *voltage)
-> +{
-> +	int status, flags;
-> +
-> +	flags = (int) data[2];
-
-Why is this now an int?
-
-> +
-> +	switch (flags) {
-> +	case 0x01:
-> +		status = POWER_SUPPLY_STATUS_DISCHARGING;
-> +		break;
-> +	case 0x03:
-> +		status = POWER_SUPPLY_STATUS_CHARGING;
-> +		break;
-> +	case 0x07:
-> +		status = POWER_SUPPLY_STATUS_FULL;
-> +		break;
-> +	case 0x0F:
-> +	default:
-
-You are only checking it for a range 1-f, u8 is just fine, right?
-
-> +		status = POWER_SUPPLY_STATUS_UNKNOWN;
-> +		break;
-> +	}
-> +
-> +	*voltage = get_unaligned_be16(data);
-> +
-> +	dbg_hid("%s: Parsed 1f20 data as flag 0x%02x voltage %dmV\n",
-> +		__func__, flags, *voltage);
-
-I doubt you need the __func__ line, right?  dynamic debug provides that
-for you automatically if you ask for it.
-
-thanks,
-
-greg k-h
