@@ -2,88 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 209616A06CA
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 11:57:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB57E6A0733
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 12:18:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232207AbjBWK51 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Feb 2023 05:57:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
+        id S233333AbjBWLSW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Feb 2023 06:18:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231849AbjBWK50 (ORCPT
+        with ESMTP id S229583AbjBWLSV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 05:57:26 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9D046B2;
-        Thu, 23 Feb 2023 02:57:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EE370B819A1;
-        Thu, 23 Feb 2023 10:57:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97B20C433EF;
-        Thu, 23 Feb 2023 10:57:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677149842;
-        bh=hW85lN5X4tT+6zN53XVarJV1CUQAWkY21KNdrbsSBPg=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=buEjSrDnKrOEpPiw82BSZZMJn1rFuU7aoPjIBHXxHn7BcJBdPOISGm3xZfK+3V55C
-         tdw5JxsLzpX31fY4juIpWimeeMnRKKUEKaxKCqHTJvTJngnynetMylQt2ig1Uj5eqU
-         8thp7iS5ubOHz5pDC4NwKfLmcGl7epe7NaO9hGEqZXgwUmRYOQsDj2k4wmoutV7uJx
-         vbFQegSw23cUBqXIqXOW0RXGiRqzjSkOi821pZBGuzUu67f3tUPIdJAAJYAiATyO/k
-         4J1m+oHQwTRj80104Z3Rhl8XbcQjXxEB1bGxeUjBiIZKAqg9gJ3N5FYLQSs/3IMDQ5
-         MQWpeLe3LIXvQ==
-Date:   Thu, 23 Feb 2023 11:57:24 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Lee Jones <lee@kernel.org>
-cc:     benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] HID: core: Provide new max_buffer_size attribute
- to over-ride the default
-In-Reply-To: <20230123123912.360651-1-lee@kernel.org>
-Message-ID: <nycvar.YFH.7.76.2302231156420.1142@cbobk.fhfr.pm>
-References: <20230123123912.360651-1-lee@kernel.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Thu, 23 Feb 2023 06:18:21 -0500
+Received: from out28-49.mail.aliyun.com (out28-49.mail.aliyun.com [115.124.28.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AC9166C3;
+        Thu, 23 Feb 2023 03:18:16 -0800 (PST)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07649013|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0871468-0.0143109-0.898542;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047203;MF=michael@allwinnertech.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.RUpMKkG_1677151093;
+Received: from 192.168.220.144(mailfrom:michael@allwinnertech.com fp:SMTPD_---.RUpMKkG_1677151093)
+          by smtp.aliyun-inc.com;
+          Thu, 23 Feb 2023 19:18:14 +0800
+Message-ID: <9bf4463c-6541-a6cb-9bbc-6d070118509a@allwinnertech.com>
+Date:   Thu, 23 Feb 2023 19:18:12 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] HID: usbhid: enable remote wakeup for mice
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
+        richard.gong@amd.com
+References: <20230222013944.31095-1-michael@allwinnertech.com>
+ <Y/WwXBF37hoZBbQa@kroah.com>
+From:   Michael Wu <michael@allwinnertech.com>
+In-Reply-To: <Y/WwXBF37hoZBbQa@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 23 Jan 2023, Lee Jones wrote:
+Dear Greg,
 
-> Presently, when a report is processed, its proposed size, provided by
-> the user of the API (as Report Size * Report Count) is compared against
-> the subsystem default HID_MAX_BUFFER_SIZE (16k).  However, some
-> low-level HID drivers allocate a reduced amount of memory to their
-> buffers (e.g. UHID only allocates UHID_DATA_MAX (4k) buffers), rending
-> this check inadequate in some cases.
+On 2/22/2023 2:04 PM, Greg KH wrote:
+> On Wed, Feb 22, 2023 at 09:39:44AM +0800, Michael Wu wrote:
+>> This patch fixes a problem that USB mouse can't wake up the device that
+>> enters standby.
 > 
-> In these circumstances, if the received report ends up being smaller
-> than the proposed report size, the remainder of the buffer is zeroed.
-> That is, the space between sizeof(csize) (size of the current report)
-> and the rsize (size proposed i.e. Report Size * Report Count), which can
-> be handled up to HID_MAX_BUFFER_SIZE (16k).  Meaning that memset()
-> shoots straight past the end of the buffer boundary and starts zeroing
-> out in-use values, often resulting in calamity.
-> 
-> This patch introduces a new variable into 'struct hid_ll_driver' where
-> individual low-level drivers can over-ride the default maximum value of
-> HID_MAX_BUFFER_SIZE (16k) with something more sympathetic to the
-> interface.
-> 
-> Signed-off-by: Lee Jones <lee@kernel.org>
-> ---
-> v1 => v2:
->  - Edit the commit message to be less focused on UHID
+> This not a problem, it is that way by design.
 
-Now applied to hid.git#for-6.3/upstream-fixes. Thanks,
+I got it, maybe it's a little problem to say that.
+
+> 
+>> At present, the kernel only checks whether certain USB manufacturers
+>> support wake-up, which will easily cause inconvenience to the
+>> development work of other manufacturers and add unnecessary work to the
+>> maintenance of kernel.
+>>
+>> The USB protocol supports judging whether a usb supports the wake-up
+>> function, so it should be more reasonable to add a wake-up source by
+>> directly checking the settings from the USB protocol.
+> 
+> But you do not do that in this patch, why not?
+
+I just want to explain the background of my patch, to prove we could use 
+a similar way to avoid such a "disturbing" situation.
+To reduce the influence, my patch enables remote wakeup for USB mouse 
+devices refer to what keyboard do.
+
+> 
+>> There was a similar issue on the keyboard before, which was fixed by
+>> this patch (3d61510f4eca), but now the problem happened on the mouse.
+>> This patch uses a similar idea to fix this problem.
+>>
+>> Signed-off-by: Michael Wu <michael@allwinnertech.com>
+>> ---
+>>   drivers/hid/usbhid/hid-core.c | 8 ++++++++
+>>   drivers/hid/usbhid/usbmouse.c | 1 +
+>>   2 files changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+>> index be4c731aaa65..d3a6755cca09 100644
+>> --- a/drivers/hid/usbhid/hid-core.c
+>> +++ b/drivers/hid/usbhid/hid-core.c
+>> @@ -1189,6 +1189,14 @@ static int usbhid_start(struct hid_device *hid)
+>>   		device_set_wakeup_enable(&dev->dev, 1);
+>>   	}
+>>   
+>> +	/**
+>> +	 * NOTE: enable remote wakeup by default for all mouse devices
+>> +	 * supporting the boot protocol.
+>> +	 */
+>> +	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT &&
+>> +	    interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_MOUSE)
+>> +		device_set_wakeup_enable(&dev->dev, 1);
+> 
+> Sorry, but we can not take this unless it is proven that this will work
+> properly for all of these devices.  Other operating systems do not do
+> this last I checked, so there will be problems.
+
+As Mario Limonciello says, they has confirmed that the Microsoft Windows 
+does set a similar policy as well. Can we talk about more in this topic: 
+why does Linux not support it?
+Of course, if you have other great idea, I will appreciate that if we 
+can have some further discussion.
+
+> 
+> thanks,
+> 
+> greg k-h
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Regards,
+Michael Wu
