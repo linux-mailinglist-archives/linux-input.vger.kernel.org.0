@@ -2,125 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99D826A07A8
-	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 12:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C3346A07E6
+	for <lists+linux-input@lfdr.de>; Thu, 23 Feb 2023 13:02:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233342AbjBWLsF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Feb 2023 06:48:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48432 "EHLO
+        id S233299AbjBWMCE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Feb 2023 07:02:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232923AbjBWLsE (ORCPT
+        with ESMTP id S232207AbjBWMCD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Feb 2023 06:48:04 -0500
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2081.outbound.protection.outlook.com [40.107.20.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7919B12BD7;
-        Thu, 23 Feb 2023 03:48:02 -0800 (PST)
+        Thu, 23 Feb 2023 07:02:03 -0500
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2086.outbound.protection.outlook.com [40.107.21.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EF1D521F3;
+        Thu, 23 Feb 2023 04:02:00 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g5K8UYuWp7nPG74F3+Dq6Cz8EybyiKJP8WoKpe0xs1UqiBxCkzHyEmVUwCht1uSJR+xB0+qCg8xua+z1BMFZVQ9Y10Q+A+cJ2TOiv/O6ozMWmwhN8QYVrE1KlPz/5frdtAgGQThyJarpOMsaMXlFCFYp985AgvQYsQl71vFoW3DCMgpHi6ZTpqCKi2FoVYTlhLNIuaeaZ5fhmDY72Z4yuo5NkRPqWzZKxMH/X7sZLqF7bDBFr7sH4dNf53pm/yZTrPe5f0Tj9i3flcLPCk8KAdbsw5fxNLluJg20v+kVsjL92jCNYGZ3tz1buejz5xWytuK1TTmv84OIw6Vem5sxUA==
+ b=cNBaRhhHvDZtJp02qsXIc+JkDMik7L0z+8JuQv+S72dvjkr3OE4GdAOKKIpwjYPHvT4XmKpSk4HOFDsPndAqp1qwF5jbO0yKleyK0drnnuRrVKHo4D/ozxq6WhECQ2yOgPC+HNu3Cu4wB9gYeL6agBjjK4nNehv5+75QwWFTFSnTPr44SvlBUmwOs//qPAlc6ODJk5gGSv5b3tpIKqLlY+Ni4FEq6nqF8RX+9uqRy8feYC6cAMcc+egBwIPPhLNmdkPH0LlCA45BqzBAXIBdMbbMntYqsJdYz7Td5TuLV9d0pOJrXL5ZUVBn2lo2S2uxgbNkGxcyHxw1S8chsKZBxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lDfD0UI3EzydEPGR2x1jIqRrsC+D86uDDJmTrp98MjA=;
- b=U3iFXcBGvziyK95Szd0TtcRSMawMfTgq2P3y5RjsoMnT3+qSuM58bFYSowIVuc1PhrADb/IQKUXxBejU5tKDaUGTRlvuyrqFumdiXXh6ZyV5Ao3guJGnKWWhAaolR9plwLPk/3lggc129QMcqhKeQsnxVG07ER4EB8eBWl9N8alBd758wHnKSVOrXi4xZq+QI6mHFbZlYr1QHhGg0vIlUpaJQfhlUdGSnJe0SmaWp0+M5jN1xQQ1IIeOj9Hs7tTB9gGjJ8AiXs9ht2WL3prbap9rm5D9KbNdTCB7H1f5i0dOVsby9hg8mSrZqWHOBaiE7v3+H72M6Ihj8MziyRLSpA==
+ bh=XjoJ9HeHZ19pq2ZYarVRWy0rsBDz64pQhPcySVe1wDk=;
+ b=IK40BOm0CM0Nv3ntviAnWVigkh0U2kQe7GEv4hss12r4WCziSUAwa03ua94n91ZigtK3XAD5FKcfBEDuzEOdR2Y27Ne0VYvSAJPs4iLv57U4LW/gg26c5rup1p9b3aQSsVpC6taUVwZ/g8b0xsLkoFur9g5ewrfdNUpTdZp43gA+Bona4TWwKZSxfGLIjiCJ8PsNhD7G+4iDf5ssB0NkdFqAFIsv7ef16ZpnUOFtMZxMXhXUuPm9K0bGZy4wZBntabdOHekFECmTIxN0hoyz2hzjEytuQokAIerUo9eesIniQ6sTSQjK1UiaT+w1t3IKxXks0W9pZZJJZiE7mapByQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
  dkim=pass header.d=suse.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lDfD0UI3EzydEPGR2x1jIqRrsC+D86uDDJmTrp98MjA=;
- b=AVCwUgFONOU4HiHI4Pekp8yG5Hlp+ILS+vYRrWTvhWZBPPwJbkRcUjRw4voAuO1TvYlYlX1wBzdLRxIL3QiVhOA7zboISfy1JjqdNbqB3W8N88N6O0w3rJzU2wh1nxZVh2ouPJLrjNdF5lojeVRcX3firv/p0oeJrh1WG8/jEEoZ+tUTPRJXaalYrc1UgG+7heZVghvMTnGzMq5L3hY+quamOUqJ9AsADYuvEOaSeXSjAZFKY4owmkT44xBrt+NMcT+JG+S4DANQj6t4AClMbAuwMfuAP43wO2DA6SMh3OR5Yb8DQ4YdKWvaQPxqX5kuzHw6+Yl9VYSLT+lJBeJzEA==
+ bh=XjoJ9HeHZ19pq2ZYarVRWy0rsBDz64pQhPcySVe1wDk=;
+ b=TAX8HsyzZd3rkcq8FXBQuc9+Mbh8fDCtFFEiwKiNhpx04THpPqKcKU/wHPrvo30dgLyrvlVYZx9zcZRkS4sFaWOBVh98uAqwwFx3gbBLklQFt+0X9lrT26EoUPqFnIbG5HLalCc3IKp073T4ZauVuCa2Sfahv6Ok7p/lQk8WiBk7qTmetoNPoe09Wj0qMHB/4urKejDbRIlNJ4dEjp+8BHnn9ipLAc2HW98fu9A5oeslbWLJ44UQYsWgYBE4QFzicvbSnkH3g9RJTr6IOb+eE2Drtwb0D9OuwPd3YnbCs0Lfu6QqP4vGE4w/bU4uYjHy85juDFYlanD0ilRnjc0y3g==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=suse.com;
 Received: from VI1PR04MB7104.eurprd04.prod.outlook.com (2603:10a6:800:126::9)
- by DBBPR04MB7849.eurprd04.prod.outlook.com (2603:10a6:10:1eb::21) with
+ by AM0PR04MB6945.eurprd04.prod.outlook.com (2603:10a6:208:17f::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21; Thu, 23 Feb
- 2023 11:47:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Thu, 23 Feb
+ 2023 12:01:57 +0000
 Received: from VI1PR04MB7104.eurprd04.prod.outlook.com
  ([fe80::2191:53f7:4a90:c7cc]) by VI1PR04MB7104.eurprd04.prod.outlook.com
  ([fe80::2191:53f7:4a90:c7cc%7]) with mapi id 15.20.6134.018; Thu, 23 Feb 2023
- 11:47:58 +0000
-Message-ID: <140a05d7-4bf4-3b57-be8e-05d7c6fc5f25@suse.com>
-Date:   Thu, 23 Feb 2023 12:47:56 +0100
+ 12:01:57 +0000
+Message-ID: <801338c3-7c0d-6b3e-eac8-872ee5add466@suse.com>
+Date:   Thu, 23 Feb 2023 13:01:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 Subject: Re: [PATCH] HID: usbhid: enable remote wakeup for mice
 Content-Language: en-US
-To:     Michael Wu <michael@allwinnertech.com>,
-        Oliver Neukum <oneukum@suse.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, richard.gong@amd.com,
-        mario.limonciello@amd.com
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Michael Wu <michael@allwinnertech.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
+        richard.gong@amd.com
 References: <20230222013944.31095-1-michael@allwinnertech.com>
- <ef80c145-e33f-4aa8-c9e8-c77f34b1bb0e@suse.com>
- <6d7c8e3f-225e-400f-f8a4-bf14c538ad8a@allwinnertech.com>
+ <Y/WwXBF37hoZBbQa@kroah.com>
+ <9bf4463c-6541-a6cb-9bbc-6d070118509a@allwinnertech.com>
+ <Y/dMq2KKYfdMdrjh@kroah.com>
 From:   Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <6d7c8e3f-225e-400f-f8a4-bf14c538ad8a@allwinnertech.com>
+In-Reply-To: <Y/dMq2KKYfdMdrjh@kroah.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0070.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::22) To VI1PR04MB7104.eurprd04.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0047.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::14) To VI1PR04MB7104.eurprd04.prod.outlook.com
  (2603:10a6:800:126::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR04MB7104:EE_|DBBPR04MB7849:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d0d3949-a37a-419f-9e0f-08db1593cf28
-X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7104:EE_|AM0PR04MB6945:EE_
+X-MS-Office365-Filtering-Correlation-Id: 75cd928d-662c-49e9-99d9-08db1595c2f9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4wbeQxazruQkEABXsxARc2RKDAQNpGSHf5DCeF7cigMNE90EvuqS8eI28Ov2HixfwB/pej/UO5sWfHpRhIVQy/ZLBRmCWd7YJKcCIYhav9K8WCKXPvD3W2BFahUTaeOkIIUwlukUwqnR/4vCPt2gizdmVxnOEXXPPQgVaMVYSYygvDJSUuPHVgoY2TMEF/aImrj/ebbaLQR83dp/NgYc+p8exlA3FBq6nhslI562gjDCS3ZkeD3tJDmjXFrMK4GEHyfkICUaOvR8xzHws+49k8Qi9giJ6gRn6lgdU7AGVqlnsuGhFKObkRXet26enrH0AGagh/iXMuOfeXyoT4ZwfFYgjcgUTCj0xKL71xrYCGM5rDyvDFdQEuummUiKiJOTBOtZyYkY80l17VaiBFpOXhgJPeJURSimz+tXuXRvR1XjuL7UyurUuVtP7MH+zndWgkqaee6+P03NaOwh6J4qZz0Yeoqe7j8sL8xmlTP3/8cSCdng119PCCjH4OBqIFqlUpt+VQcTU8g38iuc28gt/he9Czwi46CbPedG7QN97Gh1RQAFoLHt7/DSY5FcgHyhgbwg90028zDuhIwwAUhVq+rbSJ3AghSUI5zRASyS3ho8OoRVcbbex8xRmT9J6gj2jT/ljdoKlrNhoEytX7zONh5grcD/mDNoMRgt5bLpX/RSbIEea016tsdjX0PnuvqEc5wT0IIRDNVkwipUYoQa5SbIkyA9KFfi/lSOKMjQw6s=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7104.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(376002)(366004)(396003)(136003)(346002)(451199018)(478600001)(110136005)(6512007)(186003)(6506007)(41300700001)(66556008)(66476007)(66946007)(316002)(6486002)(8676002)(4326008)(53546011)(83380400001)(8936002)(5660300002)(4744005)(2906002)(38100700002)(31696002)(86362001)(31686004)(2616005)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: hDRF24e3ys4+kLEVDVC3iQncb2HogvneoqhM1l/5ToYo+umyp4CVl6NqfJGbEXnljFbemUpUE4tQXs1rTadYxUP+zMqTOf7689NYFIJ2USQcbHpspVOZlC+g4fgjMZDV7NsJO2boky/XpAJ+cMKoEF8c9iuQb4QvRILh3lPgqM6LOE8mtIeR39WGUEJzxI09Cu8QqoBAX26QxQwf4MfxKMcbFUak+l0RNgf0CwVebhT89hu+9XW+4Mzg1O/rksaGGx8QsJDTrcPJpt1kkHHgRQnUsiarcXHuwcpbwZhuNZKVdeWxOvF58w0w2ycUQbF0sXhPltmqVFUMDQAJ6iQFwWqtOUWZ6Yyen9MkqfrcLEre8M2QMTc0Xj6MxKmPtRNu7QOdzFKVCcKtrNPNRAaIG4UZOSsxwnA5xDj9LUGaYK6FdPY9etZMyXEQd622Da1Na42lCIuvZcCik40p/OlfOg9pxntk+WNB2SZrYwzmWjTp2xPB0J0QPNyFIXGXZCas7JSJIxsPNK+2sk3jpEN3QfZY4hdNncyvTj+tCjenHE379AII9pSWxproHG4q8zqZifY/wdK+BmpKJ+ePzH54oefwZfHg8u1pOOlmiZKZlRs19f386M9RiuUcTezyDEntSbbow9cm/WYqXJ1oupWtUYEx/zL3Rav8aIkQkYaLgxywJky9PWLeliSvcprwIzQWeTLD6gFAyUYsxK34yz8Jqjd24KwUVVQkck9Ww/7TUxQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7104.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(346002)(136003)(39860400002)(376002)(396003)(451199018)(31686004)(4326008)(36756003)(2616005)(53546011)(41300700001)(6512007)(186003)(66556008)(8676002)(66476007)(8936002)(66946007)(86362001)(31696002)(83380400001)(6506007)(5660300002)(6486002)(6666004)(110136005)(316002)(38100700002)(478600001)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ajJ2UGJXZzQxMWo1WDB2UVE5dXJpODlYY3Z0SUNOWkNGUzkzeWI5Q3NsbW0r?=
- =?utf-8?B?cHljbVZYSHJKbXBPLzJudVlwdkhOaWdjcm1NZmxLNzM1MHFXZTk1eUJBU1pX?=
- =?utf-8?B?TGJQT1d3cVBKL1VGdkNLQlZIeGJ3c1VGZ3JYdXYzb0pGNnJYS1kzdjJYcUkr?=
- =?utf-8?B?Q25XNDh5dkJuN0tUcHQwRGp6a3FaRUY4a2Y0L2ROU3R2OVl5TWRGZFUyK1Vq?=
- =?utf-8?B?Vy90OEkzbFNQTzBTTEZHMFdvRFpTTVAvTjhCcEs2akUwc0srSHF6S1B0YWQ3?=
- =?utf-8?B?MWNZcUdRU3Z5bTZJM0JTU3oxRHdZWlk4REx6NnpIaTdJM3JRMGpLaUd1MDRU?=
- =?utf-8?B?MFJzbm95cFFKOXZ2RVpJQlhnWDVOWHJqdlZkb3kvZm8vamkycjFjQTVuNHhV?=
- =?utf-8?B?d2RtTGNLMnNOTE10ZEV1eDJ3a1hFaCtJemtEY3ZoSndQZE1wZkU5YkQxV1Vm?=
- =?utf-8?B?VVFIcWsvYi9lWHNZNmVnYllpSXRBRktBNGVjUXBxRFYvQ3kwZ1RObG5VK2t2?=
- =?utf-8?B?YUx6R2J1Y3FEZ0I3KysvOWUvN2hZVFhwTlpadytWR1Z0L296UVArSURsVUhx?=
- =?utf-8?B?Zk4vcWhSV1NJVFA5ak5aOXJFZ0dtanRueGZIM0NaeHo3SnJtSUhkNWJRWlVs?=
- =?utf-8?B?N3hRajhCbFkwVFhaMmZGcG0rSlRUd1ZjZFFuZm5RbXo3N01yV2tzT2R6eEQy?=
- =?utf-8?B?cmxRa2JtVC9odnQyMVpHOGJXWC9LZjNod24rSTdrbXQ1d2RCdEFia1pRdjVw?=
- =?utf-8?B?bkxIOG9FOEl2dENJRlBIMy8xQkZCU3F6RjNReGd3Y25HY0VBcGIxM2cvcjc3?=
- =?utf-8?B?ZHFzeW9zMXpEUDc3LzdmSGsrUUlOYnUvdTA1aVc5RmpESmJ3SlpHeEVoTThj?=
- =?utf-8?B?YWhCV2hDNjBSQW1WaHJlNHFsS1dFQWpaSVBxZzRUYzhaZGsvb3IySEJrK0Q5?=
- =?utf-8?B?a2dONjQvZWpjVWM2aDFlODQzS1pxbzZlSFRYeUI4NnFiL2svK01uMTk3UHV3?=
- =?utf-8?B?VkFaY0o5UFNNRUowZVduVjI5WklwT1Z6cDY3VTkxSmw1YU4wdkdWWHVJai9n?=
- =?utf-8?B?Rk1xRW5qZENNQzFRNE0rTlhjOXk3NlpabWtmOG9mVG4rVnV5UENIMXZnSmhY?=
- =?utf-8?B?V0tML0ptYTNmeFN0bk5yQjQ1WHBSZEhYam5FTjN2b3RjanNqY3NVU3N5YTVG?=
- =?utf-8?B?Nk5ZY045UVFWRm1xaGRMc0JrT2NocXlwOGt4S09YM080SmVOOUZGdEpyMU1Q?=
- =?utf-8?B?a09VNWk0ZTVjOWdKKzdvTXR0eDI5UkhqSzBUV3JNaVl1WVNVWlYrSWk0SXdX?=
- =?utf-8?B?WEdkc0dORjlHd1RwUlQ1dnBhWThkT0ZKVmRCMUZ2K1U0MHNVSjJ0WHpDQXFG?=
- =?utf-8?B?UGxUVWI0YktYL05PSXppMzhSUS9XZmdndVdLTm1tUFFwc2RaY01DdmxRMm5V?=
- =?utf-8?B?Z0lBNGFOT3ZLMm81WGRQZFUybGg1MzVLR0xEajJQR1hJUzRJdzRRZkEwNEtM?=
- =?utf-8?B?VmtZbFRPRlBMSmVhaVczNnY5WUdadldwYTUvbHhMMHlUdVFISWpkTjV0ZElH?=
- =?utf-8?B?V1JnOTcvMnBHNlNWQ1J1NG4xcWRwYXBXUzdQOUFsMnRNUU1aN0NiVTFyYml5?=
- =?utf-8?B?ZnhQenlGQ1J5bGozRndJbXZMTEdEbnlYMlRuK3BrNWxNbk5GelRaVWZxTk9Z?=
- =?utf-8?B?UFp5WVcwMi9MTzBZTzRvWHhDdG9JVWpQdkczenVOY0RFM2pLWW52VndTN3c4?=
- =?utf-8?B?SGJlSjFHV3YyVlNiWXdtazltSEZFWXBnUUI1Q2RscUxUTHFkS0U2RkJJVUlE?=
- =?utf-8?B?VFBkRmpoemY0cXY2RmVwZVZjMkQvRXBmMDV4bUYyRHVCU2J1UjZKSFBHa25V?=
- =?utf-8?B?REVYeGFYUlBVUmlEYlRManBhb3FwRHpWc1VXUXhXR1BRSE5DMnpibm1SdW50?=
- =?utf-8?B?dkhzVkEySzhJeWZaMFNMeFJhY0FtL2ZsT3JuUGl5T2NoVVBDWW5tekhPWjk2?=
- =?utf-8?B?SEdZVkJqZUo0cWlJSC93YUhiWWFHMmp5dGdsNGovSEJtUnYrdks5OWtnQTk5?=
- =?utf-8?B?TExlbG1mdDgwL2hoK0trclM4M2ZNZ2tFdzVER1JsMUFMY0xwRVg2ZVFzcytJ?=
- =?utf-8?B?ajh4L2dSU2Nma0hlQVFLWUkxZm0xVVFzamV5VExTbzVRaEl0eEsxbU1XRGlF?=
- =?utf-8?Q?7lKxjL0a1ASPgJn7WJOZxGs/AMwZ+lnCXh/R5GqbpM/f?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djV1RnQ2Q1FVdUp2L3FuaHc4cjVTbUxwYVQvSGkvcS9OUUwzZUN4TGhNamlN?=
+ =?utf-8?B?TGpvQ0tua2ovMTZKTFBuVkRnOVVWMTVMemxJNVNKaEpCOWxIRS9jU1R2Y2Zn?=
+ =?utf-8?B?eEg3UHU2UVdQeXoxbjR1aVpYNnJObmRMUkhGakN3OHBkdjNWSS8vcHF5Y3lX?=
+ =?utf-8?B?YlRxOTdmeUZ1TGxuTmh3ZjRGOUtLS2RycHJkejVHQUR5TE83TWREN3Q0UjBV?=
+ =?utf-8?B?cENKcUY3S1JsaStiR2ZNVWF1TE5iMEpaa1U2UFBVazJGaGZpaTM4UG9kN2ov?=
+ =?utf-8?B?ZEpraUlOa283SS9RRzRqay9DK1dMcHBsSFowL3RPYysxQitOcllRMFMyQXFQ?=
+ =?utf-8?B?NTFBaG1MdjIzSkxZeGxjRVFCdm8xL2kvNTg0b015NkE1Z0xiTUR2dUlqVUho?=
+ =?utf-8?B?aGVGMVR1YjZpTXI4bG8razc2emRveFhYNDQrTzc4RHBLRm9CYjBrZXg1MDE3?=
+ =?utf-8?B?Rm41WmZpdEdaMjB3TzNUZ3dkdmtrUHhMVnF6OXhlVzZMRkR4S2wxNnZMbUZS?=
+ =?utf-8?B?K0d4TEQ4N1FLVGF2VE9VSUxyOThjT0c5WExQNFcxOThWdUE0WG9iTjdNRWhp?=
+ =?utf-8?B?L2hqSU9PczV2b0wwNFY1YUZobG9LelBjWDBDcEhqdElqSWM2eGYyNDkrTHlC?=
+ =?utf-8?B?Qmh2RWU3dndGQ01ZSG5BOEF4RmxTczhXNUJUUWhNMVYzSWE4bWJqQ3FUODAv?=
+ =?utf-8?B?VUN1ZkRRd09BZ2dwd1BpdTlPVEhmUWxpb1JjbitSbjkvNURhcXA2MHRreGcw?=
+ =?utf-8?B?Uy9MYkEzM0l3OEZLa1hGVnYzUzJDLzgxNzc4VktUV2J3MzZFNzVDdGlSUTh4?=
+ =?utf-8?B?QWUxN2E4a0M5dEFTK2xmaXBZRGxTTk0zU3QxcnhwUCtFTVh1Z3VYUzV4SGFO?=
+ =?utf-8?B?Ym14Rm9sN2Qwa3B3VVQzMUQyRlJnZS83ZzVGbkZZWHphZENvTjdaTUFaWDdG?=
+ =?utf-8?B?UzBDQWs0TklEVXROSm5uVkdlVU1rL1lxVEl5ZTZlN0tuVkMvdS83YUFMTHlK?=
+ =?utf-8?B?T3QvMnN2TXEwOGhKQjR1VDFRQkcvbm8zcEFKNDNWQXE3TXpUMVFTcXdyRk8r?=
+ =?utf-8?B?U2VhWlkwcFZiOEROVU92eTNsTG5QQmJVaVgwaG5vQUVxak10ckdqRWRpeGFi?=
+ =?utf-8?B?amVTaXRQYlc5S1R1TFlBZ3YvTmNOVE8zZXZjSG1DLzJVR2JTOGRkVGRvS1R4?=
+ =?utf-8?B?cGlHMjh1MmFVM2p5M3pOSXFEbU9UUmlNUWVGRXN6QmVaZUc5UFRmVCtSdnlX?=
+ =?utf-8?B?V3FuVnFHU210elZpaCtRS3VtN0F4RG5sS2thNUxDb2pFZU43R0s3Yzh4VHB5?=
+ =?utf-8?B?eXdJYU5VZnZac3hDSlJTbTZ3L1JLYlJ2ZkdHNDdMWjhsOTd3OWJuZTdUQTZm?=
+ =?utf-8?B?TjlreVREZnVrelFNeThwcTBaWFYzMHdDRUVRL1lNcGpxSnJWUUlFRU5NZjI1?=
+ =?utf-8?B?UGhON0E5dVRHYjhtNTBVRzhpdCtMbTl5KzEyaG94THFGaHpNeGIyMkpSTDA1?=
+ =?utf-8?B?cnhMYk9vNEZ1R0N5SWdZeHNiRzQvNXFTVmxMSklROVVTYVRBdGhDVFB1dE9N?=
+ =?utf-8?B?bVBJYU9RRjNnaGowVSsyVVFiTEllblVVdnluWVJ5bldMdVZsdzdHbDFHamk5?=
+ =?utf-8?B?NjNKc3JZTThQZHBOOVc0NTZPZUhtYm85cjk4M3dSclBhL0gzR2ZVdStlNElG?=
+ =?utf-8?B?RE5MNFpPd0dUdk9lYWdOdmlUVUZmNCtaRndONEtzbHlCRGhFWC9Wak1Lb2gz?=
+ =?utf-8?B?NlNxaDBoc0xCQTlObUUxSXVneDFxV0FzbkJNOUJqdnB4S0h0d01PV2ZuVDdx?=
+ =?utf-8?B?UjhFUGNtamNTU01MWmdCRjB1Qk9GSlovQkJtTGJ0QkdsNDkzM0pOZmsvRzdt?=
+ =?utf-8?B?WDJSVmJtNzBsekxUb1hpUUtiTU1sSGVQODVMV3A1MkpyTm5tV1FOaXBCZDVF?=
+ =?utf-8?B?N01rTkJlajRGMzg5YmV5S3hjdjJWMmlQMHhhQmR0MDBoc2pVcDVSMGd2ZkhW?=
+ =?utf-8?B?WnFqWW5QWS9KRzVTZlJ6MVpTQXpXR3k5QWVRTG8rWTVWSzgxU2t2WFZLWWdZ?=
+ =?utf-8?B?VDdUenFpZjVhbUh5NU83NUpIZXZDVCtvQktNVTg0LzI1b1pxRjZWN2paSVlj?=
+ =?utf-8?B?dXdJMHFSZkRiQlE3SFNVemhmdGl3a0FOaEVrcVpmQ0t1OTY1andnQWdCRW5k?=
+ =?utf-8?Q?dvFx3CZ3m1IookmoGTO4x/2SNDDUsLzhC8VrYzFbp69G?=
 X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d0d3949-a37a-419f-9e0f-08db1593cf28
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75cd928d-662c-49e9-99d9-08db1595c2f9
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7104.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 11:47:58.4540
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 12:01:57.1317
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dSBOjlGHWeaDGAkanoFhS9rK3laHS301vnJ2BBIROKWpYa3sIY3vgzxBAbxv7a1WkcaPK0Ls+hR/eOhhKxcDLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7849
+X-MS-Exchange-CrossTenant-UserPrincipalName: WUO7sYPs1Qre0hAh543GcRa4YRorDPbDEIs4A96zL6LS8Da5khFwcE02C84K8I62Imkg7onAmxZnKmQU/Q7Atg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6945
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
@@ -131,17 +131,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 23.02.23 12:22, Michael Wu wrote:
+On 23.02.23 12:23, Greg KH wrote:
 
-> Yes. I can't use any USB mouse which supports Remote Wakeup to wake up the system by default.
-> If I enable the wakeup node in /sys/bus/usb/devices which is disabled by default, the mouse can wakeup the system successfully.
-> Clearly, the only thing I can do is to register the wakeup source for USB Mouse devices.
+>> I just want to explain the background of my patch, to prove we could use a
+>> similar way to avoid such a "disturbing" situation.
+>> To reduce the influence, my patch enables remote wakeup for USB mouse
+>> devices refer to what keyboard do.
 > 
-Hi,
+> Keyboards are not mice :)
+> 
 
-thank you for answering this. I feel a long discussion coming up,
-which I would avoid if I could, so it is important that we are
-clear and do not discuss about a misunderstanding.
+OK, let me explain, why I never proposed switching on autosuspend
+for mice or using them as a system wakeup source. The reasons are very
+similar.
+
+Basically the standard gives us no way to ask a device what constitutes
+a wakeup event for it. We just get the blanket statement of support
+or no support.
+
+For runtime PM I would want my mouse to generate a remote wakeup
+whenever a button is pressed or the mouse is moved. Under this
+premise runtime PM with a mouse works wonderfully. Testing that,
+however, is a challenge.
+It turns out that mice that claim that they support remote wakeup
+by and large deactivate their LED/laser when you send them into
+suspension. Hence they react only to buttons being pressed or mouse
+wheels moved.
+
+As a system wakeup source a mouse that generates events when
+it is moved, however, would make the system unsuspendable, whenever even
+a bit of vibration is acting on the system.
+And as S4 is used in many setups to prevent an uncontrolled shutdown
+at low power, this must work.
+
+I suspect that most, but _not_ _all_ mice, are designed for use
+with a system that ties power management to the screen saver.
+That is a mode of operation that due to the lack of coupling
+between GUI and kernel is hard to copy.
+
+Frankly given these constraints the only default safe in every
+case seems to me to leave the kernel's default at off and
+put the work into udev's hwdb. Not that that is a good solution,
+merely the best I can come up with.
 
 	Regards
 		Oliver
