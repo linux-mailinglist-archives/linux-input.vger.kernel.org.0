@@ -2,176 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D0536A1FA7
-	for <lists+linux-input@lfdr.de>; Fri, 24 Feb 2023 17:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B077E6A1FDF
+	for <lists+linux-input@lfdr.de>; Fri, 24 Feb 2023 17:43:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbjBXQ2d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Feb 2023 11:28:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57024 "EHLO
+        id S229963AbjBXQnh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Feb 2023 11:43:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbjBXQ2c (ORCPT
+        with ESMTP id S229912AbjBXQnh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Feb 2023 11:28:32 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A1C010E2
-        for <linux-input@vger.kernel.org>; Fri, 24 Feb 2023 08:28:11 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id k21-20020a17090aaa1500b002376652e160so3314066pjq.0
-        for <linux-input@vger.kernel.org>; Fri, 24 Feb 2023 08:28:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VsFuz73RC6fkRS2GdqX1H4Ho/hv4eghbVSkmvwXmwm0=;
-        b=B2z+tjAmQHSFWfNRiHrxH51fRQviqMLHa9riHX8E/a8UHYY2nv47htxE7iT+fQkNwX
-         rZqOoNOZl3dto8+w4JroLXqNmh6g+9l/+bv4iI1Ed/c2zditryAhktK7iaTIfG/H1XHh
-         uW3C6F/kBMYb9anl8KvUUr6ZSxHtjO91HdpIAVukvfjDK5esn0BodYbL+3L75BT7jn2l
-         txiaRPKwlB9DOOyxqnwOwNZNHmsHpu9gDzKY1cVaBkOXK57LdmV8xypH+k7egK2Dj33r
-         AbGCob2y1bs4jXHifCjwhWNF114gONxl6aEQSLxMXqPbT2Id245krNpTvv1B+i+zQz4F
-         wHSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VsFuz73RC6fkRS2GdqX1H4Ho/hv4eghbVSkmvwXmwm0=;
-        b=KsiLTAJhbaKMBNrYTiHnpmI2n0oQCtqql8w7B5ahOfEDiCF+NDQAT8byc1pBal90Bj
-         CpCyHFultCJQR/55i9Lpfm/k5q8tAH1kx8LVp8Q+AwDUhdqrcWiyfTmWD5Dcy3EUH7U7
-         qDRfbwAfj53reSetVZbCV2qVk9Y2q5biJP8+ogi6HbFDgsEeJoJb3uzKLf8I3uzJNJDg
-         R3I2eMy1qwOjXmHKPkbXvvMsJMVGggrqUD+J2Y/qU2nkBsJHso+Rlx4kmJyILleDF7Og
-         qdroCfUfic8HDeYPuWuD1OaJKA8zCTNd9v42DP97baiwRNui6A1QuR5dt/3qF4rEcC3n
-         6L8A==
-X-Gm-Message-State: AO0yUKVUoaN01GttPTQUgjniu8xLuUMYNJp/XIYAmEJkS0Qb0Aybqsoq
-        AA5IOOY0byW4El4c4H1YBdnhApBWsHQ=
-X-Google-Smtp-Source: AK7set9UrgF0y4//pSjK3RLBKghJqfb3Ms2iN88L5zM7vJFTGBvCahwYQma0rTRMgRTe1DRMkVx3RQ==
-X-Received: by 2002:a05:6a20:7f9c:b0:cc:4118:65c4 with SMTP id d28-20020a056a207f9c00b000cc411865c4mr6887376pzj.5.1677256090264;
-        Fri, 24 Feb 2023 08:28:10 -0800 (PST)
-Received: from fedora.. ([2601:1c2:4f01:65f0:3613:e8ff:feb3:9ff2])
-        by smtp.gmail.com with ESMTPSA id p14-20020aa7860e000000b005a8bdc18453sm6431433pfn.35.2023.02.24.08.28.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 08:28:09 -0800 (PST)
-From:   Ping Cheng <pinglinux@gmail.com>
-X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
-To:     linux-input@vger.kernel.org
-Cc:     jkosina@suse.cz, Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: [PATCH] HID: wacom: insert timestamp to packed Bluetooth (BT) events
-Date:   Fri, 24 Feb 2023 08:26:43 -0800
-Message-Id: <20230224162643.3799-1-ping.cheng@wacom.com>
-X-Mailer: git-send-email 2.39.2
+        Fri, 24 Feb 2023 11:43:37 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F4A1A961;
+        Fri, 24 Feb 2023 08:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677257016; x=1708793016;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jJ+zDYe8YpOn9npwy/AmG2yBFLE8F2/8quZbClKmzyQ=;
+  b=M0LbihbSthwe0MvHlso/2AV9S1PxsbZgJTlKgB5hYVO823AhX36R8N0N
+   794AuJwGJw2jeeJQM+qj6sg+m62N7voWLfS+wNY0tgMozY0K3Ka2rdmUc
+   Vnlnu96ivbqSQbAS2baVM/hMCVJhRn+pkIYhGPJXCNNF0k6qmddvUm3QH
+   DPJl784hXLBJT2RMiFyFBCdnAox2GihQdxpI8OXsfBiCCV4jphe6QlPF3
+   A9fkY4qGcyrjBXks2J/gJgyYPkEv6uMM2FAUdt/MUQL0WHYH00F/Cg/+q
+   g/mrGY+E/XQOcOMzEWnXC5xEsVbpO9tYJQDsLzvR3ue1Vdwy+AnQ1H67l
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="331252001"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="331252001"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 08:43:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="672955234"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="672955234"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002.jf.intel.com with ESMTP; 24 Feb 2023 08:43:31 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pVbAP-00BXMW-0q;
+        Fri, 24 Feb 2023 18:43:29 +0200
+Date:   Fri, 24 Feb 2023 18:43:28 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Danny Kaehn <kaehndan@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        bartosz.golaszewski@linaro.org, dmitry.torokhov@gmail.com,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        ethan.twardy@plexus.com
+Subject: Re: [PATCH v7 0/3] Firmware Support for USB-HID Devices and CP2112
+Message-ID: <Y/jpME2mb5CqPooj@smile.fi.intel.com>
+References: <20230223213147.268-1-kaehndan@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230223213147.268-1-kaehndan@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-To fully utilize the BT polling/refresh rate, a few input events
-are sent together to reduce event delay. This causes issue to the
-timestamp generated by input_sync since all the events in the same
-packet would pretty much have the same timestamp. This patch inserts
-time interval to the events by averaging the total time used for
-sending the packet.
+On Thu, Feb 23, 2023 at 03:31:44PM -0600, Danny Kaehn wrote:
+> This patchset allows USB-HID devices to have DeviceTree bindings through sharing
+> the USB fwnode with the HID driver, and adds such a binding and driver
+> implementation for the CP2112 USB to SMBus Bridge (which necessitated the
+> USB-HID change). This change allows a CP2112 permanently attached in hardware to
+> be described in DT and interoperate with other drivers.
 
-This decision was mainly based on observing the actual time interval
-between each BT polling. The interval doesn't seem to be constant,
-due to the network and system environment. So, using solutions other
-than averaging doesn't end up with valid timestamps.
+It's your responsibility to carry the tags you have got in the previous rounds
+of the review. Please, be respectful to the reviewers who spent a lot of time
+on yours, in particular, code. Otherwise why to bother with it (upstreaming)
+at all?
 
-Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
-Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
----
- drivers/hid/wacom_wac.c | 26 ++++++++++++++++++++++++++
- drivers/hid/wacom_wac.h |  1 +
- 2 files changed, 27 insertions(+)
-
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index ef4d767..4c5147e 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -1323,6 +1323,9 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 
- 	struct input_dev *pen_input = wacom->pen_input;
- 	unsigned char *data = wacom->data;
-+	int number_of_valid_frames = 0;
-+	int time_interval = 15000000;
-+	ktime_t time_packet_received = ktime_get();
- 	int i;
- 
- 	if (wacom->features.type == INTUOSP2_BT ||
-@@ -1343,12 +1346,30 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 		wacom->id[0] |= (wacom->serial[0] >> 32) & 0xFFFFF;
- 	}
- 
-+	/* number of valid frames */
- 	for (i = 0; i < pen_frames; i++) {
- 		unsigned char *frame = &data[i*pen_frame_len + 1];
- 		bool valid = frame[0] & 0x80;
-+
-+		if (valid)
-+			number_of_valid_frames++;
-+	}
-+
-+	if (number_of_valid_frames) {
-+		if (wacom->hid_data.time_delayed)
-+			time_interval = ktime_get() - wacom->hid_data.time_delayed;
-+		time_interval /= number_of_valid_frames;
-+		wacom->hid_data.time_delayed = time_packet_received;
-+	}
-+
-+	for (i = 0; i < number_of_valid_frames; i++) {
-+		unsigned char *frame = &data[i*pen_frame_len + 1];
-+		bool valid = frame[0] & 0x80;
- 		bool prox = frame[0] & 0x40;
- 		bool range = frame[0] & 0x20;
- 		bool invert = frame[0] & 0x10;
-+		int frames_number_reversed = number_of_valid_frames - i - 1;
-+		int event_timestamp = time_packet_received - frames_number_reversed * time_interval;
- 
- 		if (!valid)
- 			continue;
-@@ -1361,6 +1382,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 			wacom->tool[0] = 0;
- 			wacom->id[0] = 0;
- 			wacom->serial[0] = 0;
-+			wacom->hid_data.time_delayed = 0;
- 			return;
- 		}
- 
-@@ -1397,6 +1419,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 						 get_unaligned_le16(&frame[11]));
- 			}
- 		}
-+
- 		if (wacom->tool[0]) {
- 			input_report_abs(pen_input, ABS_PRESSURE, get_unaligned_le16(&frame[5]));
- 			if (wacom->features.type == INTUOSP2_BT ||
-@@ -1420,6 +1443,9 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 
- 		wacom->shared->stylus_in_proximity = prox;
- 
-+		/* add timestamp to unpack the frames */
-+		input_set_timestamp(pen_input, event_timestamp);
-+
- 		input_sync(pen_input);
- 	}
- }
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index 5e518f7..b9e2a49 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -349,6 +349,7 @@ struct hid_data {
- 	int ps_connected;
- 	bool pad_input_event_flag;
- 	unsigned short sequence_number;
-+	int time_delayed;
- };
- 
- struct wacom_remote_data {
 -- 
-2.39.1
+With Best Regards,
+Andy Shevchenko
+
 
