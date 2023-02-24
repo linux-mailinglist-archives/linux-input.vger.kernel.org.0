@@ -2,81 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A7476A1B16
-	for <lists+linux-input@lfdr.de>; Fri, 24 Feb 2023 12:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5D8E6A1B24
+	for <lists+linux-input@lfdr.de>; Fri, 24 Feb 2023 12:10:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjBXLGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Feb 2023 06:06:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40998 "EHLO
+        id S229906AbjBXLKF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Feb 2023 06:10:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbjBXLGV (ORCPT
+        with ESMTP id S229946AbjBXLJo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Feb 2023 06:06:21 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7522E6A9C2;
-        Fri, 24 Feb 2023 03:04:49 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id x10so52521720edd.13;
-        Fri, 24 Feb 2023 03:04:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gdwuEywNYdOYbVwrQQrjrsPur3vIHOPWD3d4XxXbKX0=;
-        b=MSxzV+R1ku+iZcmavQzQwnWy2bxOkcWE8XUdsyKIODORtXEcfVCF4fOVSMRZkPxz4v
-         0bz3EZvLCc1ijoG7YDtTTNdpxoQlB1L4D800QT5A5oZ+D0OLsVCZ1ub27n/XqFmMovnq
-         SZprioKSlochMIlRzGmjukLD8k+x2Dlq4JOjVcBFmMy8aeya6wwmj724nxotIaGxWySO
-         dsAax1prAXEmqO+a01UTHbuPs6m0sy/izKh2WGtxg4JcYdA6rF+MO7Egzn+ndCLlsXtH
-         S/3K6KhM29cuMF62wxyeWl/+ZyhWKhFlaJPSNSun8OjgUNqr+JmZeBI6rxtgfbIgstXP
-         nf9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gdwuEywNYdOYbVwrQQrjrsPur3vIHOPWD3d4XxXbKX0=;
-        b=i0cjy7LLvk5EDAHLw5fVMeBraban8rfAKIegKtBV0ZY7fKmJIhUBW1wrRxt883r9Al
-         ixPoczk3udTHfeWbsCd+mGr/RSF7VJBE0rFTmxhAO99SHDqHo6dvrjNUkOr4mcKvY6GF
-         Uwt9BjSzCxk1yYDUqFvYZerDNiDeiF02Y6tfr12eO3xgy3Rr9Q6cG/s8k9gPofdxEaRk
-         hKI9owLjAb2XWN5TacCbluHNdorM2JM29iCaegHhx0wBw05BNWjlGlG5DU2UELEYCphf
-         9sT5kElmwf4+DcNOZfhZC/DnfgxHv9JxSHY5dhHQoy2HRAeU7VOTsaRQTw9LyNZciP3v
-         l6Tw==
-X-Gm-Message-State: AO0yUKWVvTuaWASfQzyjkBDB9SUMqFFN879iMFErTIUbOXiWUaVHrQKY
-        fPyV6knymVu0h0RqHudg2LGwuVkgTMpbYfI2yPc=
-X-Google-Smtp-Source: AK7set9Ir/cY7edp/BficUGznr8dJBEy/FQHiI0VNP5F0lqBK32AocTLjQxCKgd+qQmB67y0eof9R8/Ey6CMcCo7af4=
-X-Received: by 2002:a17:906:2a93:b0:8e8:9fb7:5aa9 with SMTP id
- l19-20020a1709062a9300b008e89fb75aa9mr3890235eje.9.1677236657213; Fri, 24 Feb
- 2023 03:04:17 -0800 (PST)
-MIME-Version: 1.0
+        Fri, 24 Feb 2023 06:09:44 -0500
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB2EF129;
+        Fri, 24 Feb 2023 03:08:49 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 54AB33200937;
+        Fri, 24 Feb 2023 06:08:48 -0500 (EST)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Fri, 24 Feb 2023 06:08:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1677236927; x=1677323327; bh=KK
+        c/e3/c+gUAR7YNhfs2iVKf3/8vMlHu6FvoTx1kM0Q=; b=h3dkd95IaDHrMsar4P
+        5ZfIW5JSTdVRQy6z9xoYkUnzJYg7yPofrxkbnJZBMmFpc3ZbT9NQq3++zQJqy8w0
+        +NmBryomuKiXCoJ/UPf6uYvAF1R4nDAsf6PflW27PkGFe56kLQ3wuyfDnH/5y4Y0
+        sk/3fVHzgy2qmtmaH8HJ9u1zFehPVH94gxoIOU7hmB2y11ZbEI3sSjO2JbRmAIyK
+        WH56iCUQVH1Ut2awz8eBSLwtC4/m6/x4hKjXIFGlA7oCbzcxL0cJnufMIV/p7Cvk
+        K4njz/oFFBvHveT5bVuIryzCZr5YrBweGgzF1QhA98/AOCUud7lN+17TEe8buxwv
+        xHrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1677236927; x=1677323327; bh=KKc/e3/c+gUAR7YNhfs2iVKf3/8v
+        MlHu6FvoTx1kM0Q=; b=IM3O6FDRpepQ373V6L66WQMSxqTavvHfvd85D74fenGy
+        0LOIFKbStaLCwMTL0bJ3dbx1sgCObgugiOKdPrmduKqFRLrvawsnxXCp+c9npW4B
+        +z8BzzYSEnnZwJrakTBSwRojiAqdgb1lLtcxiSRvAPkMlsKgR+SoMnZYFjt3y52W
+        XsFQKkifcEMjMX/DHnlqEvujTTl9FH5Z9cp/0OUb8e4Sy7X95gzx2AxQHie7IYjd
+        YFDwcz0+ZXdyCNbfmYRJf4qL10Bn0DpJeVGuYHyzYM2sGRgeABjj/O26Il/fxgGC
+        q3LZJknveJzISIGJbDZ52M9FuPTMiUZWtrsqsLF/6g==
+X-ME-Sender: <xms:v5r4Y7eOL4GPuMpw9qjBwM6NpdS0TmMdyG9C5SAKAMp_7WwOGDSPbg>
+    <xme:v5r4YxNKIkZPx7ZbP9s8XBjCCOG0hFsJjnDPKwGLuKaZy5DqdGUbPK4Ztm7YOb4Xz
+    aOGqZTvIve-xX6Og5U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekfedgvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:v5r4Y0j0CmYGUuTkyLHHFix-zpqch2wnoIvDJY3iN0TuMJ7H-tqvYg>
+    <xmx:v5r4Y88eZjEDu9eTUxAMlahRfwC2jPeipa9paQKo-MsfMudyJ1sQMA>
+    <xmx:v5r4Y3vcQO1vOMoprK8i0g0Ec75dcueKuJtBX1vbxzBBBrvZBYoPrg>
+    <xmx:v5r4Y4mDU1dxo7kQTVrYDK-EHuSoh_hfJegkhndP1P_vCFSGVcQE4A>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id AD0FCA6007C; Fri, 24 Feb 2023 06:08:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-172-g9a2dae1853-fm-20230213.001-g9a2dae18
+Mime-Version: 1.0
+Message-Id: <e6c7eb27-1b60-4894-a623-28ca3bccdea5@app.fastmail.com>
+In-Reply-To: <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
 References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
- <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com> <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
-In-Reply-To: <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
-From:   Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date:   Fri, 24 Feb 2023 12:04:05 +0100
-Message-ID: <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
- controller bindings.
-To:     Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc:     marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, asahi@lists.linux.dev,
-        rydberg@bitmath.org, linux-arm-kernel@lists.infradead.org,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
+ <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
+ <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
+Date:   Fri, 24 Feb 2023 12:08:27 +0100
+From:   "Sven Peter" <sven@svenpeter.dev>
+To:     "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
+        "Mark Kettenis" <mark.kettenis@xs4all.nl>
+Cc:     "Hector Martin" <marcan@marcan.st>,
+        "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        asahi@lists.linux.dev, "Henrik Rydberg" <rydberg@bitmath.org>,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2 controller
+ bindings.
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 24 Feb 2023 at 11:55, Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
+Hi,
 
-> What is the motivation for including the firmware name in the device
-> tree rather than constructing it in the driver like what is done for
-> the broadcom wireless?
-There is no way to identify the device subtype before the firmware is
-uploaded, and so i need some way of figuring out which firmware to use.
+
+On Fri, Feb 24, 2023, at 12:04, Sasha Finkelstein wrote:
+> On Fri, 24 Feb 2023 at 11:55, Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
+>
+>> What is the motivation for including the firmware name in the device
+>> tree rather than constructing it in the driver like what is done for
+>> the broadcom wireless?
+> There is no way to identify the device subtype before the firmware is
+> uploaded, and so i need some way of figuring out which firmware to use.
+
+Some Broadcom bluetooth boards use the compatible of the root node (see
+btbcm_get_board_name in drivers/bluetooth/btbcm.c) which would be "apple,jXXX"
+for Apple Silicon. I believe the Broadcom WiFi driver has similar logic as well
+which marcan had to extend to instead of "brcm,board-type" because different
+WiFi boards can me matched to different Apple Silicon boards. I don't think
+that's the case for this touchscreen though.
+
+
+
+Sven
