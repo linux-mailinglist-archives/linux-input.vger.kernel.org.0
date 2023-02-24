@@ -2,145 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C593C6A16DE
-	for <lists+linux-input@lfdr.de>; Fri, 24 Feb 2023 08:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CE916A1898
+	for <lists+linux-input@lfdr.de>; Fri, 24 Feb 2023 10:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbjBXHDB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Feb 2023 02:03:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52520 "EHLO
+        id S229649AbjBXJSd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Feb 2023 04:18:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjBXHDA (ORCPT
+        with ESMTP id S229481AbjBXJSb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Feb 2023 02:03:00 -0500
-Received: from out28-219.mail.aliyun.com (out28-219.mail.aliyun.com [115.124.28.219])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0732B7DA5;
-        Thu, 23 Feb 2023 23:02:56 -0800 (PST)
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07486305|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.432413-0.0454555-0.522131;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047201;MF=michael@allwinnertech.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.RVTx2Y7_1677222125;
-Received: from 192.168.220.144(mailfrom:michael@allwinnertech.com fp:SMTPD_---.RVTx2Y7_1677222125)
-          by smtp.aliyun-inc.com;
-          Fri, 24 Feb 2023 15:02:52 +0800
-Message-ID: <28256d02-e84f-46ec-3802-f1e8497cb281@allwinnertech.com>
-Date:   Fri, 24 Feb 2023 15:02:04 +0800
+        Fri, 24 Feb 2023 04:18:31 -0500
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81FD948E23
+        for <linux-input@vger.kernel.org>; Fri, 24 Feb 2023 01:18:30 -0800 (PST)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31O8Pimn013309;
+        Fri, 24 Feb 2023 04:18:29 -0500
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3nxc0e4jwr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 24 Feb 2023 04:18:29 -0500
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+        by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 31O9IS9J010427
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 24 Feb 2023 04:18:28 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 24 Feb
+ 2023 04:18:27 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 24 Feb 2023 04:18:27 -0500
+Received: from nsa.ad.analog.com ([10.44.3.102])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 31O9IEmN019939;
+        Fri, 24 Feb 2023 04:18:21 -0500
+From:   =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+To:     <linux-input@vger.kernel.org>
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+Subject: [PATCH] input: keyboard: adp5588: make use of devm_regulator_get_enable()
+Date:   Fri, 24 Feb 2023 10:20:11 +0100
+Message-ID: <20230224092011.713545-1-nuno.sa@analog.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] HID: usbhid: enable remote wakeup for mice
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
-        richard.gong@amd.com
-References: <20230222013944.31095-1-michael@allwinnertech.com>
- <Y/WwXBF37hoZBbQa@kroah.com>
- <9bf4463c-6541-a6cb-9bbc-6d070118509a@allwinnertech.com>
- <Y/dMq2KKYfdMdrjh@kroah.com>
-From:   Michael Wu <michael@allwinnertech.com>
-In-Reply-To: <Y/dMq2KKYfdMdrjh@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
-        autolearn=ham autolearn_force=no version=3.4.6
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: hSFNCUwrxf_VI4zcP_Kj5C3pKnzi6zYH
+X-Proofpoint-GUID: hSFNCUwrxf_VI4zcP_Kj5C3pKnzi6zYH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-24_04,2023-02-23_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 mlxscore=0 mlxlogscore=822 bulkscore=0 malwarescore=0
+ adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ priorityscore=1501 clxscore=1011 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302240075
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Greg：
+Using devm_regulator_get_enable() allow us to save some boiler plate
+code.
 
-On 2/23/2023 7:23 PM, Greg KH wrote:
-> On Thu, Feb 23, 2023 at 07:18:12PM +0800, Michael Wu wrote:
->> Dear Greg,
->>
->> On 2/22/2023 2:04 PM, Greg KH wrote:
->>> On Wed, Feb 22, 2023 at 09:39:44AM +0800, Michael Wu wrote:
->>>> This patch fixes a problem that USB mouse can't wake up the device that
->>>> enters standby.
->>>
->>> This not a problem, it is that way by design.
->>
->> I got it, maybe it's a little problem to say that.
-> 
-> It is.
-> 
->>>> At present, the kernel only checks whether certain USB manufacturers
->>>> support wake-up, which will easily cause inconvenience to the
->>>> development work of other manufacturers and add unnecessary work to the
->>>> maintenance of kernel.
->>>>
->>>> The USB protocol supports judging whether a usb supports the wake-up
->>>> function, so it should be more reasonable to add a wake-up source by
->>>> directly checking the settings from the USB protocol.
->>>
->>> But you do not do that in this patch, why not?
->>
->> I just want to explain the background of my patch, to prove we could use a
->> similar way to avoid such a "disturbing" situation.
->> To reduce the influence, my patch enables remote wakeup for USB mouse
->> devices refer to what keyboard do.
-> 
-> Keyboards are not mice :)
+No functional changes intended...
 
-Sorry, What I wanted to say is that we registered the mouse wake-up 
-source by referring to the practice of the keyboard.
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+---
+ drivers/input/keyboard/adp5588-keys.c | 21 +++------------------
+ 1 file changed, 3 insertions(+), 18 deletions(-)
 
-> 
->>>> There was a similar issue on the keyboard before, which was fixed by
->>>> this patch (3d61510f4eca), but now the problem happened on the mouse.
->>>> This patch uses a similar idea to fix this problem.
->>>>
->>>> Signed-off-by: Michael Wu <michael@allwinnertech.com>
->>>> ---
->>>>    drivers/hid/usbhid/hid-core.c | 8 ++++++++
->>>>    drivers/hid/usbhid/usbmouse.c | 1 +
->>>>    2 files changed, 9 insertions(+)
->>>>
->>>> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
->>>> index be4c731aaa65..d3a6755cca09 100644
->>>> --- a/drivers/hid/usbhid/hid-core.c
->>>> +++ b/drivers/hid/usbhid/hid-core.c
->>>> @@ -1189,6 +1189,14 @@ static int usbhid_start(struct hid_device *hid)
->>>>    		device_set_wakeup_enable(&dev->dev, 1);
->>>>    	}
->>>> +	/**
->>>> +	 * NOTE: enable remote wakeup by default for all mouse devices
->>>> +	 * supporting the boot protocol.
->>>> +	 */
->>>> +	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT &&
->>>> +	    interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_MOUSE)
->>>> +		device_set_wakeup_enable(&dev->dev, 1);
->>>
->>> Sorry, but we can not take this unless it is proven that this will work
->>> properly for all of these devices.  Other operating systems do not do
->>> this last I checked, so there will be problems.
->>
->> As Mario Limonciello says, they has confirmed that the Microsoft Windows
->> does set a similar policy as well. Can we talk about more in this topic: why
->> does Linux not support it?
->> Of course, if you have other great idea, I will appreciate that if we can
->> have some further discussion.
-> 
-> You need to provide some sort of "proof" that this has been heavily
-> tested on a huge range of devices before we can change this.
-> 
-> When this was first implemented, Windows did not work this way and many
-> devices on the market were broken if this were to be enabled.  I'm sure
-> the mailing list archives from 20+ years ago have many more details,
-> please dig around there for specifics.
-> 
-> If you feel strongly that this is the way forward, why not do it in
-> userspace today for your systems as part of testing this out?  It should
-> not require a kernel change, right?
-
-Thanks for your advises. I'm clear now. I will try it in userspace.
-
-> 
-> thanks,
-> 
-> greg k-h
-
+diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
+index 72ae5ce72956..a9138810f8ef 100644
+--- a/drivers/input/keyboard/adp5588-keys.c
++++ b/drivers/input/keyboard/adp5588-keys.c
+@@ -713,17 +713,11 @@ static int adp5588_fw_parse(struct adp5588_kpad *kpad)
+ 	return 0;
+ }
+ 
+-static void adp5588_disable_regulator(void *reg)
+-{
+-	regulator_disable(reg);
+-}
+-
+ static int adp5588_probe(struct i2c_client *client)
+ {
+ 	struct adp5588_kpad *kpad;
+ 	struct input_dev *input;
+ 	struct gpio_desc *gpio;
+-	struct regulator *vcc;
+ 	unsigned int revid;
+ 	int ret;
+ 	int error;
+@@ -749,18 +743,9 @@ static int adp5588_probe(struct i2c_client *client)
+ 	if (error)
+ 		return error;
+ 
+-	vcc = devm_regulator_get(&client->dev, "vcc");
+-	if (IS_ERR(vcc))
+-		return PTR_ERR(vcc);
+-
+-	error = regulator_enable(vcc);
+-	if (error)
+-		return error;
+-
+-	error = devm_add_action_or_reset(&client->dev,
+-					 adp5588_disable_regulator, vcc);
+-	if (error)
+-		return error;
++	ret = devm_regulator_get_enable(&client->dev, "vcc");
++	if (ret)
++		return ret;
+ 
+ 	gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(gpio))
 -- 
-Regards,
-Michael Wu
+2.39.2
+
