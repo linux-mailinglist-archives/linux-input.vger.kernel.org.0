@@ -2,86 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4D3F6A2B4C
-	for <lists+linux-input@lfdr.de>; Sat, 25 Feb 2023 19:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 113966A2C90
+	for <lists+linux-input@lfdr.de>; Sun, 26 Feb 2023 00:22:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbjBYS1K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 25 Feb 2023 13:27:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60930 "EHLO
+        id S229734AbjBYXWX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 25 Feb 2023 18:22:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbjBYS1J (ORCPT
+        with ESMTP id S230059AbjBYXWW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 25 Feb 2023 13:27:09 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D698E11EA3
-        for <linux-input@vger.kernel.org>; Sat, 25 Feb 2023 10:27:08 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id i5so1061933pla.2
-        for <linux-input@vger.kernel.org>; Sat, 25 Feb 2023 10:27:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rXeDHFZcVOvss1BIW+kL49MYBMlusP7/QJhQluj9uPA=;
-        b=MaUGn0BC86XxOm/seu/vcrhnypyHJcQDYUVhdG9OqSu7O7apQjWj+QniwlH3xWR8/y
-         TBk/2T7DEwfLTK4Fsb/2Dh8cBnm40Rol1sDK6aiHbR72XaeXdmY1ILMn97EQDHrYFW5O
-         64a56cUmAffh17aypTZ1xgy5aDQagd9OOFCpIbknzWrt82MFZlA1nl3LSjwhndmPyC4Q
-         RLBJ26p23y4hAL6RqGTRk4MEXPk9qvp8slxBQieoeyFSnEo8IfEVCye4NHfMrJ8t5YjZ
-         Aob10F3ggDxkQgyJsDECRRuo6inK2sEVhXzTg1rv/4DYmBCeCM7wE7GhXsguANmyqiam
-         Qivg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rXeDHFZcVOvss1BIW+kL49MYBMlusP7/QJhQluj9uPA=;
-        b=kQ7sKLTpIPs6yin/S9/jVWbZZQtjrY6YrAuGYWRTmqDh9dBhLl8+EYxWH2ohFhjjU6
-         WzmPN6dmN4VLj/kRzl5NM0EpcrUlt02rcU+BxslU16ru0UzW6VBR36gQ5MYZ0c+B3CtQ
-         efVPuXb3HkDYzOvUerNuxu4n0C01FNK+6zD8DHfxgHL4G+RPXczXyNMEYxR8KdeK1yln
-         U9B20rys4KqJFG2E2kXyF2b44Pw527nSrzzbmctHqLo3sWsqzQIXHvatOGpjkQDZP7cb
-         uzW9QPYE1XL1ZTxaHkYcTf/a3Oemlv/2tydPGJGchIhcdmCC30iLqsNy3qUwTuiAkw6F
-         qX0Q==
-X-Gm-Message-State: AO0yUKUN+bSJl8v9dN63dIuHtCbzpyybJvk8k0QD3CXT1n8JJCU7wDd9
-        1QNI0VJ4xIs27jLMSv5P/qg=
-X-Google-Smtp-Source: AK7set/N6f4qFh1NOQBZmIxGH0XSxGCVYIDFRLpn6hIPDZy1hRrsPboL/DAWZfof8YFlORQoMlhFdg==
-X-Received: by 2002:a05:6a21:340a:b0:cc:d386:ec28 with SMTP id yn10-20020a056a21340a00b000ccd386ec28mr1460383pzb.12.1677349628233;
-        Sat, 25 Feb 2023 10:27:08 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:2c72:3c03:87ac:5b3e])
-        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005ae02dc5b94sm1477243pfi.219.2023.02.25.10.27.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Feb 2023 10:27:07 -0800 (PST)
-Date:   Sat, 25 Feb 2023 10:27:04 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Lyude Paul <lyude@redhat.com>
-Cc:     Vicki Pfau <vi@endrift.com>,
-        Michael Cullen <michael@michaelcullen.name>,
-        Marcos Alano <marcoshalano@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: xpad - fix PowerA EnWired Controller guide button
-Message-ID: <Y/pS+NAqCwdQNJNQ@google.com>
-References: <20221006221209.2016372-1-vi@endrift.com>
- <d4b320fcca34c25713836c1ef5a34157c67071f0.camel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d4b320fcca34c25713836c1ef5a34157c67071f0.camel@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Sat, 25 Feb 2023 18:22:22 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154AF168A4;
+        Sat, 25 Feb 2023 15:22:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 4C8E4CE0CF9;
+        Sat, 25 Feb 2023 23:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9BDA8C433D2;
+        Sat, 25 Feb 2023 23:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677367337;
+        bh=vX+kEKbX2qHJtUk0O7jFcyhvB+G2TgHnLofmiPwtXaE=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=lsZo8FVXcL0IDBjYUWAX6OGsHgSfr9Zq5Xuqz1wqknjUwtTiaBUIoPkOGRSM+wDdU
+         Fi0gwAf93W3GZyyykOdsIFmkSyc2F3xx73C+GMMtQ3hw8+aAZ3rBr7kpSsBbU93t8l
+         O6GzLPfPhHv0P55chWNpYwxF12pOWJZB6I7mcRFRhkWG4HgoblXIkUMSetcMeSYHwY
+         iCasmHd+T/ylG5tGpQVGiLQgc7WaIaUcMKGAt54+YIscGMdrit/yFNVaUCx1OY1QV3
+         NT3DzmqP1TadhWQKP2b8gtqCxp4ztGjVoWd3YGRVoTgTHO3bc6I37ReDVEYUzZaRjL
+         YIvlGhlYPvxBQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 879D2E68D34;
+        Sat, 25 Feb 2023 23:22:17 +0000 (UTC)
+Subject: Re: [git pull] Input updates for v6.3-rc0
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <Y/hc1bPMmOlD+vW2@google.com>
+References: <Y/hc1bPMmOlD+vW2@google.com>
+X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Y/hc1bPMmOlD+vW2@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.3-rc0
+X-PR-Tracked-Commit-Id: 7ae9fb1b7ecbb5d85d07857943f677fd1a559b18
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 60e2bf7d10e9cd5641f4a5183a19058d9a2c8782
+Message-Id: <167736733754.9412.1249316629314100017.pr-tracker-bot@kernel.org>
+Date:   Sat, 25 Feb 2023 23:22:17 +0000
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Lyude,
+The pull request you sent on Thu, 23 Feb 2023 22:44:37 -0800:
 
-On Sat, Feb 25, 2023 at 02:14:27AM +0100, Lyude Paul wrote:
-> Poke, Dmitry - any chance we could get this pushed?
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.3-rc0
 
-I was waiting for Vicki to respond to Mattijs' comments...
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/60e2bf7d10e9cd5641f4a5183a19058d9a2c8782
 
-Thanks.
+Thank you!
 
 -- 
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
