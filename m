@@ -2,48 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 920696A38B6
-	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 03:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 841CA6A3797
+	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 03:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231673AbjB0Cfq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Feb 2023 21:35:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50158 "EHLO
+        id S230320AbjB0CK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Feb 2023 21:10:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231672AbjB0Cfa (ORCPT
+        with ESMTP id S230493AbjB0CKI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Feb 2023 21:35:30 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A8DEC64;
-        Sun, 26 Feb 2023 18:34:48 -0800 (PST)
+        Sun, 26 Feb 2023 21:10:08 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F551BF3;
+        Sun, 26 Feb 2023 18:09:11 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D2114B80CB7;
-        Mon, 27 Feb 2023 02:08:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D561CC4339E;
-        Mon, 27 Feb 2023 02:07:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 96A8360DBE;
+        Mon, 27 Feb 2023 02:09:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A0F9C4339B;
+        Mon, 27 Feb 2023 02:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677463679;
-        bh=D+qWGq/XCNxJdISHB4pY46SxDQzb4YiyTmZPGVAIJ4U=;
+        s=k20201202; t=1677463750;
+        bh=MDOBzsOmwyycbBJKWHx1C9Ml481JTVaL3IEp0ZgADAA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pi8oQTmK5KCwWbIpti/PUbQqg04Ow1SUZK4qo191wkDa72sOKp/QrxGm/XrI6/81M
-         8V2b3VyB6y2ujAW9ivfbrpysMCqaetTxow9bDk3IWcmF+WZV+OUKyV99Qh04diR/Yu
-         UjhppP8OS5mMf9KAd1V4/cq10LaP3Ag9/7OXXH8s5AxYiYe7EfRp+ideZNYTL6FOHH
-         TMCY4hnbq3W5A++nmHEC8lsuxkKLqjfqLlL45fIiuw0TEruS/ls0aHTsoKJ4mngHTr
-         V74phhYXvwIZnsXplOGELufIPulsH6dKx1hGOglN92IfqGLMcvd56yHRdtYBXR8ZHc
-         60nSsxim1+Rcg==
+        b=ndk1QaK/IoJZsJkjGBPttm0z/C96BnlgKXNJnTKEUkZb/elz8ipmI/OjgGpwFKJvE
+         HS0P7iteA2HRBRQunhegE30FjisR+AxtxgC5mdd9eYNZvAEit02aF4xfomSoUz+14M
+         Ksi7tkI4LOZjAlJbThh9/kzt6mspdVg8pFH8oXwoTjSp4j4uWIIoHcxur0OF3ZMqQK
+         +tYoaOlL78WE35bWapry79MeHEujAzkB0PTsAX4xoKzosgnn+7wV+K1BsZfKBZMZrX
+         71SrVS6Ah8eB7avWQwKuLyu7REr/vE4s98t6AyrN7gDkXVDxbDij36MZJdX+BjAjAq
+         wXPBx6dj9VgFA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+Cc:     Jingyuan Liang <jingyliang@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 48/58] HID: logitech-hidpp: Don't restart communication if not necessary
-Date:   Sun, 26 Feb 2023 21:04:46 -0500
-Message-Id: <20230227020457.1048737-48-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 04/25] HID: Add Mapping for System Microphone Mute
+Date:   Sun, 26 Feb 2023 21:08:27 -0500
+Message-Id: <20230227020855.1051605-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230227020457.1048737-1-sashal@kernel.org>
-References: <20230227020457.1048737-1-sashal@kernel.org>
+In-Reply-To: <20230227020855.1051605-1-sashal@kernel.org>
+References: <20230227020855.1051605-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,94 +58,56 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Bastien Nocera <hadess@hadess.net>
+From: Jingyuan Liang <jingyliang@chromium.org>
 
-[ Upstream commit 498ba20690357691103de0f766960355247c78be ]
+[ Upstream commit 2d60f9f4f26785a00273cb81fe60eff129ebd449 ]
 
-Don't stop and restart communication with the device unless we need to
-modify the connect flags used because of a device quirk.
+HUTRR110 added a new usage code for a key that is supposed to
+mute/unmute microphone system-wide.
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
-Link: https://lore.kernel.org/r/20230125121723.3122-1-hadess@hadess.net
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Map the new usage code(0x01 0xa9) to keycode KEY_MICMUTE.
+Additionally hid-debug is adjusted to recognize this keycode as well.
+
+Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 32 ++++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+ drivers/hid/hid-debug.c | 1 +
+ drivers/hid/hid-input.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 07b8506eecc41..74cf4d47013ab 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4107,6 +4107,7 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	bool connected;
- 	unsigned int connect_mask = HID_CONNECT_DEFAULT;
- 	struct hidpp_ff_private_data data;
-+	bool will_restart = false;
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index f48d3534e0200..03da865e423c7 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -937,6 +937,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_KBD_LAYOUT_NEXT] = "KbdLayoutNext",
+ 	[KEY_EMOJI_PICKER] = "EmojiPicker",
+ 	[KEY_DICTATE] = "Dictate",
++	[KEY_MICMUTE] = "MicrophoneMute",
+ 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
+ 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
+ 	[KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index f197aed6444a5..0ae959e54462b 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -709,6 +709,14 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 			break;
+ 		}
  
- 	/* report_fixup needs drvdata to be set before we call hid_parse */
- 	hidpp = devm_kzalloc(&hdev->dev, sizeof(*hidpp), GFP_KERNEL);
-@@ -4162,6 +4163,10 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 			return ret;
- 	}
- 
-+	if (hidpp->quirks & HIDPP_QUIRK_DELAYED_INIT ||
-+	    hidpp->quirks & HIDPP_QUIRK_UNIFYING)
-+		will_restart = true;
-+
- 	INIT_WORK(&hidpp->work, delayed_work_cb);
- 	mutex_init(&hidpp->send_mutex);
- 	init_waitqueue_head(&hidpp->wait);
-@@ -4176,7 +4181,7 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	 * Plain USB connections need to actually call start and open
- 	 * on the transport driver to allow incoming data.
- 	 */
--	ret = hid_hw_start(hdev, 0);
-+	ret = hid_hw_start(hdev, will_restart ? 0 : connect_mask);
- 	if (ret) {
- 		hid_err(hdev, "hw start failed\n");
- 		goto hid_hw_start_fail;
-@@ -4213,6 +4218,7 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 			hidpp->wireless_feature_index = 0;
- 		else if (ret)
- 			goto hid_hw_init_fail;
-+		ret = 0;
- 	}
- 
- 	if (connected && (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP)) {
-@@ -4227,19 +4233,21 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- 	hidpp_connect_event(hidpp);
- 
--	/* Reset the HID node state */
--	hid_device_io_stop(hdev);
--	hid_hw_close(hdev);
--	hid_hw_stop(hdev);
-+	if (will_restart) {
-+		/* Reset the HID node state */
-+		hid_device_io_stop(hdev);
-+		hid_hw_close(hdev);
-+		hid_hw_stop(hdev);
- 
--	if (hidpp->quirks & HIDPP_QUIRK_NO_HIDINPUT)
--		connect_mask &= ~HID_CONNECT_HIDINPUT;
-+		if (hidpp->quirks & HIDPP_QUIRK_NO_HIDINPUT)
-+			connect_mask &= ~HID_CONNECT_HIDINPUT;
- 
--	/* Now export the actual inputs and hidraw nodes to the world */
--	ret = hid_hw_start(hdev, connect_mask);
--	if (ret) {
--		hid_err(hdev, "%s:hid_hw_start returned error\n", __func__);
--		goto hid_hw_start_fail;
-+		/* Now export the actual inputs and hidraw nodes to the world */
-+		ret = hid_hw_start(hdev, connect_mask);
-+		if (ret) {
-+			hid_err(hdev, "%s:hid_hw_start returned error\n", __func__);
-+			goto hid_hw_start_fail;
++		if ((usage->hid & 0xf0) == 0xa0) {	/* SystemControl */
++			switch (usage->hid & 0xf) {
++			case 0x9: map_key_clear(KEY_MICMUTE); break;
++			default: goto ignore;
++			}
++			break;
 +		}
- 	}
- 
- 	if (hidpp->quirks & HIDPP_QUIRK_CLASS_G920) {
++
+ 		if ((usage->hid & 0xf0) == 0xb0) {	/* SC - Display */
+ 			switch (usage->hid & 0xf) {
+ 			case 0x05: map_key_clear(KEY_SWITCHVIDEOMODE); break;
 -- 
 2.39.0
 
