@@ -2,128 +2,282 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84DE76A3904
-	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 03:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AB4D6A395E
+	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 04:13:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbjB0CuU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Feb 2023 21:50:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
+        id S229900AbjB0DNk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Feb 2023 22:13:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjB0CuT (ORCPT
+        with ESMTP id S229633AbjB0DNj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Feb 2023 21:50:19 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C859EF4
-        for <linux-input@vger.kernel.org>; Sun, 26 Feb 2023 18:50:18 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id q31-20020a17090a17a200b0023750b69614so4757948pja.5
-        for <linux-input@vger.kernel.org>; Sun, 26 Feb 2023 18:50:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1677466218;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AhNJCpM44JtaO0Y1PgOfTDKcjrFJKcFtwcLdZoboSiU=;
-        b=BLAgD25MTW0SPmJZOSfba2Jcuw6bULCOVNgE4hF7rGd5ZAaPsVKhXF/vAtb64VbL7z
-         DH64eAFOqrfGGPLkkjfjSlMCQlzsoc/z6gUX99BQv+TX/IxKo4KDsZNg1Ofv9i6ihcZI
-         SHeXd7fJ2VwderdGudbZrkox/KzMICbdSWiGE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677466218;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AhNJCpM44JtaO0Y1PgOfTDKcjrFJKcFtwcLdZoboSiU=;
-        b=UmmLqNbgr9ZaLK1nkk0ty7IwbrA5fHxBk+KRVvksv73X88R6RapM/j0AL9Ku0wgt9r
-         vVnM6CVtMXJjDst7zlkpKD2NV/ZTYx5Z4UyQxes11gSyM8BTIIiCkaDT2MOoJ2GqVcrb
-         /ZafklQg5FaVWKB+Xk+Df4zGSvqLwH45wsqsvW+XTiu0nYTM/niYVcyJxkVxgvPkUqTc
-         A0imYxeBshTxPWwPzwIK0rIJ8cUjknWLofRIoF7yYhKTBoIQ9kFkVQwC62kguMOSHr64
-         ZFtktoQox7eShAGA5Sta2oU0iwePGy3vFlPrR4hTUsf5G2pVltrm5CRyM6QBaaXN0TTH
-         l3BQ==
-X-Gm-Message-State: AO0yUKXWVABiJr6SxluZBNeZdeUsncbbkm8yxCWOVjyiPb1vKxJfNF7x
-        siGv4eYjcFvXKISkWymJPIEbQQ==
-X-Google-Smtp-Source: AK7set9Fg12IfqdQ7uYu7a67t8Q148siTsaPd2Q3inBFSEV39T8ABuvHgStR86B0OcWX++jtaI6Q+w==
-X-Received: by 2002:a17:90b:17d0:b0:233:f393:f6cd with SMTP id me16-20020a17090b17d000b00233f393f6cdmr26959778pjb.5.1677466218169;
-        Sun, 26 Feb 2023 18:50:18 -0800 (PST)
-Received: from rekanorman3.syd.corp.google.com ([2401:fa00:9:14:a541:6cf2:a513:5418])
-        by smtp.gmail.com with ESMTPSA id s6-20020a17090a5d0600b002347475e71fsm3192449pji.14.2023.02.26.18.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 18:50:17 -0800 (PST)
-From:   Reka Norman <rekanorman@chromium.org>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Reka Norman <rekanorman@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Li Qiong <liqiong@nfschina.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: intel-ish-hid: ipc: Fix potential use-after-free in work function
-Date:   Mon, 27 Feb 2023 13:49:38 +1100
-Message-Id: <20230227024938.2265017-1-rekanorman@chromium.org>
-X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
+        Sun, 26 Feb 2023 22:13:39 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F8EBDDA;
+        Sun, 26 Feb 2023 19:13:38 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B5CB4B80CBF;
+        Mon, 27 Feb 2023 02:06:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1082FC433EF;
+        Mon, 27 Feb 2023 02:06:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677463596;
+        bh=eEChCoWLvbUWTbU2Y8uTUla8PiuRJh6JULLPRmrW7JE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Uo1hYfIa1jQR3JdOrJ1zC3lC0io1b1b/PPV1xWpi3rM8p7euSbZ8CQAH0KsVKwp3+
+         IwpNjfjGLQmx4Z+PgHjX5YS6YzkfwMuZh315xn8DggUIjmugXDIc+snxY8k1P+b5jX
+         F1ltkwXv9lOjOSD4FGG8PKW6CAuHaNWfHSALrarnLPiBDoDBYRtR1Ue3UBvjQxzb5j
+         MWWdZktodFH17pNhc/S1pcRqxj/OvxqIzWMBDuSiy7PSycC9yZfu1jaNQrgSEwMio2
+         Pxpwy0GQn3bC6VQ88OCkzIt8T3z8eeGSdatz0Pv44dxS7U2acEbfq4KhOLC7VzVqMa
+         tfZ6XEvP46QeA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Allen Ballway <ballway@chromium.org>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        dmitry.torokhov@gmail.com, alistair@alistair23.me,
+        kabel@kernel.org, hverkuil-cisco@xs4all.nl, petrm@nvidia.com,
+        u.kleine-koenig@pengutronix.de, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 23/58] HID: multitouch: Add quirks for flipped axes
+Date:   Sun, 26 Feb 2023 21:04:21 -0500
+Message-Id: <20230227020457.1048737-23-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230227020457.1048737-1-sashal@kernel.org>
+References: <20230227020457.1048737-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When a reset notify IPC message is received, the ISR schedules a work
-function and passes the ISHTP device to it via a global pointer
-ishtp_dev. If ish_probe() fails, the devm-managed device resources
-including ishtp_dev are freed, but the work is not cancelled, causing a
-use-after-free when the work function tries to access ishtp_dev. Use
-devm_work_autocancel() instead, so that the work is automatically
-cancelled if probe fails.
+From: Allen Ballway <ballway@chromium.org>
 
-Signed-off-by: Reka Norman <rekanorman@chromium.org>
+[ Upstream commit a2f416bf062a38bb76cccd526d2d286b8e4db4d9 ]
+
+Certain touchscreen devices, such as the ELAN9034, are oriented
+incorrectly and report touches on opposite points on the X and Y axes.
+For example, a 100x200 screen touched at (10,20) would report (90, 180)
+and vice versa.
+
+This is fixed by adding device quirks to transform the touch points
+into the correct spaces, from X -> MAX(X) - X, and Y -> MAX(Y) - Y.
+
+Signed-off-by: Allen Ballway <ballway@chromium.org>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+ drivers/hid/hid-multitouch.c             | 39 ++++++++++++++++++---
+ drivers/hid/hid-quirks.c                 |  6 ++++
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 43 ++++++++++++++++++++++++
+ drivers/hid/i2c-hid/i2c-hid.h            |  3 ++
+ 4 files changed, 87 insertions(+), 4 deletions(-)
 
- drivers/hid/intel-ish-hid/ipc/ipc.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
-index 15e14239af829..a49c6affd7c4c 100644
---- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-+++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2014-2016, Intel Corporation.
-  */
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 372cbdd223e09..e31be0cb8b850 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -71,6 +71,7 @@ MODULE_LICENSE("GPL");
+ #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
+ #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
+ #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
++#define MT_QUIRK_ORIENTATION_INVERT	BIT(22)
  
-+#include <linux/devm-helpers.h>
- #include <linux/sched.h>
- #include <linux/spinlock.h>
- #include <linux/delay.h>
-@@ -621,7 +622,6 @@ static void	recv_ipc(struct ishtp_device *dev, uint32_t doorbell_val)
- 	case MNG_RESET_NOTIFY:
- 		if (!ishtp_dev) {
- 			ishtp_dev = dev;
--			INIT_WORK(&fw_reset_work, fw_reset_work_fn);
- 		}
- 		schedule_work(&fw_reset_work);
- 		break;
-@@ -940,6 +940,7 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
+ #define MT_INPUTMODE_TOUCHSCREEN	0x02
+ #define MT_INPUTMODE_TOUCHPAD		0x03
+@@ -1009,6 +1010,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			    struct mt_usages *slot)
  {
- 	struct ishtp_device *dev;
- 	int	i;
-+	int	ret;
+ 	struct input_mt *mt = input->mt;
++	struct hid_device *hdev = td->hdev;
+ 	__s32 quirks = app->quirks;
+ 	bool valid = true;
+ 	bool confidence_state = true;
+@@ -1086,6 +1088,10 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 		int orientation = wide;
+ 		int max_azimuth;
+ 		int azimuth;
++		int x;
++		int y;
++		int cx;
++		int cy;
  
- 	dev = devm_kzalloc(&pdev->dev,
- 			   sizeof(struct ishtp_device) + sizeof(struct ish_hw),
-@@ -975,6 +976,12 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
- 		list_add_tail(&tx_buf->link, &dev->wr_free_list);
- 	}
+ 		if (slot->a != DEFAULT_ZERO) {
+ 			/*
+@@ -1104,6 +1110,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			if (azimuth > max_azimuth * 2)
+ 				azimuth -= max_azimuth * 4;
+ 			orientation = -azimuth;
++			if (quirks & MT_QUIRK_ORIENTATION_INVERT)
++				orientation = -orientation;
++
+ 		}
  
-+	ret = devm_work_autocancel(&pdev->dev, &fw_reset_work, fw_reset_work_fn);
-+	if (ret) {
-+		dev_err(dev->devc, "Failed to initialise FW reset work\n");
-+		return NULL;
+ 		if (quirks & MT_QUIRK_TOUCH_SIZE_SCALING) {
+@@ -1115,10 +1124,23 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			minor = minor >> 1;
+ 		}
+ 
+-		input_event(input, EV_ABS, ABS_MT_POSITION_X, *slot->x);
+-		input_event(input, EV_ABS, ABS_MT_POSITION_Y, *slot->y);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_X, *slot->cx);
+-		input_event(input, EV_ABS, ABS_MT_TOOL_Y, *slot->cy);
++		x = hdev->quirks & HID_QUIRK_X_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
++			*slot->x;
++		y = hdev->quirks & HID_QUIRK_Y_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->y :
++			*slot->y;
++		cx = hdev->quirks & HID_QUIRK_X_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->cx :
++			*slot->cx;
++		cy = hdev->quirks & HID_QUIRK_Y_INVERT ?
++			input_abs_get_max(input, ABS_MT_POSITION_Y) - *slot->cy :
++			*slot->cy;
++
++		input_event(input, EV_ABS, ABS_MT_POSITION_X, x);
++		input_event(input, EV_ABS, ABS_MT_POSITION_Y, y);
++		input_event(input, EV_ABS, ABS_MT_TOOL_X, cx);
++		input_event(input, EV_ABS, ABS_MT_TOOL_Y, cy);
+ 		input_event(input, EV_ABS, ABS_MT_DISTANCE, !*slot->tip_state);
+ 		input_event(input, EV_ABS, ABS_MT_ORIENTATION, orientation);
+ 		input_event(input, EV_ABS, ABS_MT_PRESSURE, *slot->p);
+@@ -1735,6 +1757,15 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	if (id->vendor == HID_ANY_ID && id->product == HID_ANY_ID)
+ 		td->serial_maybe = true;
+ 
++
++	/* Orientation is inverted if the X or Y axes are
++	 * flipped, but normalized if both are inverted.
++	 */
++	if (hdev->quirks & (HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT) &&
++	    !((hdev->quirks & HID_QUIRK_X_INVERT)
++	      && (hdev->quirks & HID_QUIRK_Y_INVERT)))
++		td->mtclass.quirks = MT_QUIRK_ORIENTATION_INVERT;
++
+ 	/* This allows the driver to correctly support devices
+ 	 * that emit events over several HID messages.
+ 	 */
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index be3ad02573de8..d13f8e6ccee45 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -19,6 +19,7 @@
+ #include <linux/input/elan-i2c-ids.h>
+ 
+ #include "hid-ids.h"
++#include "i2c-hid/i2c-hid.h"
+ 
+ /*
+  * Alphabetically sorted by vendor then product.
+@@ -1297,6 +1298,11 @@ unsigned long hid_lookup_quirk(const struct hid_device *hdev)
+ 		quirks = hid_gets_squirk(hdev);
+ 	mutex_unlock(&dquirks_lock);
+ 
++	/* Get quirks specific to I2C devices */
++	if (IS_ENABLED(CONFIG_I2C_DMI_CORE) && IS_ENABLED(CONFIG_DMI) &&
++	    hdev->bus == BUS_I2C)
++		quirks |= i2c_hid_get_dmi_quirks(hdev->vendor, hdev->product);
++
+ 	return quirks;
+ }
+ EXPORT_SYMBOL_GPL(hid_lookup_quirk);
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index 8e0f67455c098..554a7dc285365 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -10,8 +10,10 @@
+ #include <linux/types.h>
+ #include <linux/dmi.h>
+ #include <linux/mod_devicetable.h>
++#include <linux/hid.h>
+ 
+ #include "i2c-hid.h"
++#include "../hid-ids.h"
+ 
+ 
+ struct i2c_hid_desc_override {
+@@ -416,6 +418,28 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 	{ }	/* Terminate list */
+ };
+ 
++static const struct hid_device_id i2c_hid_elan_flipped_quirks = {
++	HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8, USB_VENDOR_ID_ELAN, 0x2dcd),
++		HID_QUIRK_X_INVERT | HID_QUIRK_Y_INVERT
++};
++
++/*
++ * This list contains devices which have specific issues based on the system
++ * they're on and not just the device itself. The driver_data will have a
++ * specific hid device to match against.
++ */
++static const struct dmi_system_id i2c_hid_dmi_quirk_table[] = {
++	{
++		.ident = "DynaBook K50/FR",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dynabook Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "dynabook K50/FR"),
++		},
++		.driver_data = (void *)&i2c_hid_elan_flipped_quirks,
++	},
++	{ }	/* Terminate list */
++};
++
+ 
+ struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
+ {
+@@ -450,3 +474,22 @@ char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 	*size = override->hid_report_desc_size;
+ 	return override->hid_report_desc;
+ }
++
++u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
++{
++	u32 quirks = 0;
++	const struct dmi_system_id *system_id =
++			dmi_first_match(i2c_hid_dmi_quirk_table);
++
++	if (system_id) {
++		const struct hid_device_id *device_id =
++				(struct hid_device_id *)(system_id->driver_data);
++
++		if (device_id && device_id->vendor == vendor &&
++		    device_id->product == product)
++			quirks = device_id->driver_data;
 +	}
 +
- 	dev->ops = &ish_hw_ops;
- 	dev->devc = &pdev->dev;
- 	dev->mtu = IPC_PAYLOAD_SIZE - sizeof(struct ishtp_msg_hdr);
++	return quirks;
++}
++EXPORT_SYMBOL_GPL(i2c_hid_get_dmi_quirks);
+diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
+index 96c75510ad3f1..2c7b66d5caa0f 100644
+--- a/drivers/hid/i2c-hid/i2c-hid.h
++++ b/drivers/hid/i2c-hid/i2c-hid.h
+@@ -9,6 +9,7 @@
+ struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name);
+ char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 					       unsigned int *size);
++u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product);
+ #else
+ static inline struct i2c_hid_desc
+ 		   *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name)
+@@ -16,6 +17,8 @@ static inline struct i2c_hid_desc
+ static inline char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
+ 							     unsigned int *size)
+ { return NULL; }
++static inline u32 i2c_hid_get_dmi_quirks(const u16 vendor, const u16 product)
++{ return 0; }
+ #endif
+ 
+ /**
 -- 
-2.39.2.637.g21b0678d19-goog
+2.39.0
 
