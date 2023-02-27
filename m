@@ -2,164 +2,186 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C733C6A4A68
-	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 19:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01A9C6A4B93
+	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 20:51:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbjB0S7W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Feb 2023 13:59:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38392 "EHLO
+        id S230115AbjB0Tvs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Feb 2023 14:51:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbjB0S7T (ORCPT
+        with ESMTP id S230335AbjB0Tvp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Feb 2023 13:59:19 -0500
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C78B75B;
-        Mon, 27 Feb 2023 10:59:17 -0800 (PST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by srv6.fidu.org (Postfix) with ESMTP id EB8EEC800A2;
-        Mon, 27 Feb 2023 19:59:13 +0100 (CET)
-Authentication-Results: srv6.fidu.org (amavisd-new); dkim=pass (1024-bit key)
-        reason="pass (just generated, assumed good)"
-        header.d=tuxedocomputers.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        tuxedocomputers.com; h=content-transfer-encoding:mime-version
-        :references:in-reply-to:x-mailer:message-id:date:date:subject
-        :subject:from:from; s=default; t=1677524353; x=1679338754; bh=nv
-        PHU13DiB2jn0kJ1y/JEV9BlTwfA0upugNB7OXnblo=; b=OgMuXssREfliICSyiB
-        prBefGRyr62UtnB0RjgBqDfLWrfIRL5PInwEehlFKG69umjxVIMUqCDP5kW1nQRQ
-        XiAvhJcNKKtJLGLkZd0pnrQTMw2s5BWhNDHkz7wsPI8Aie8yJ5skbCsZMLzVMKxV
-        EmclK4V0J8ySWdcZHximXZEIk=
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
-        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
-        with LMTP id UNjbz8pMYp71; Mon, 27 Feb 2023 19:59:13 +0100 (CET)
-Received: from wsembach-tuxedo.fritz.box (host-88-217-226-44.customer.m-online.net [88.217.226.44])
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by srv6.fidu.org (Postfix) with ESMTPA id 47DD8C800A1;
-        Mon, 27 Feb 2023 19:59:13 +0100 (CET)
-From:   Werner Sembach <wse@tuxedocomputers.com>
-To:     dmitry.torokhov@gmail.com, wse@tuxedocomputers.com,
-        swboyd@chromium.org, gregkh@linuxfoundation.org,
-        hdegoede@redhat.com, mkorpershoek@baylibre.com,
-        chenhuacai@kernel.org, wsa+renesas@sang-engineering.com,
-        tiwai@suse.de, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] Input: i8042 - add 2 more TUXEDO devices to i8042 and atkbd quirk tables
-Date:   Mon, 27 Feb 2023 19:59:07 +0100
-Message-Id: <20230227185907.569154-3-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227185907.569154-1-wse@tuxedocomputers.com>
-References: <20230227185907.569154-1-wse@tuxedocomputers.com>
+        Mon, 27 Feb 2023 14:51:45 -0500
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51F98279B6;
+        Mon, 27 Feb 2023 11:51:41 -0800 (PST)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-172094e10e3so8570155fac.10;
+        Mon, 27 Feb 2023 11:51:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U2w9C/mXgb39nbWWzCANJLsyjZIuLsO8IPSpBBNMA04=;
+        b=3PaR5v/q1IAU/yANfWVnSUMwatMh4sus2Lzt3t2ZqoHB7zBP4oCG/uA/Rq4VZVzBZp
+         KutZQLFREkwZGBfEgZU8xfDlPTHfpKgrC1nkejaSiuFMpTtrcPng6o08Uu/q6iUyTdir
+         bPhMHIwjafpPgQmw6zHkcReqsOcsXWXh6nDWQgUj9nPvHizAaPcIt3R/1az/HeAE+v+t
+         SlpOTB/queCmJaaUUSRU3yXre7LBx3Ufoy/hOnxC1dm+P6tWmFxDnOxUnex6qZS9Oy94
+         r8moX5JgMcITmZlmV2JOC+tZ0r3nZuaKtK9vprsIaG3IDrxeW7rzlwEPjobAQeNrCQQH
+         j+vw==
+X-Gm-Message-State: AO0yUKXQcgUNMHOHEIyfBDQNh5ntlhhziojJ/GyNYMn1amo4p9l1CENC
+        6kkIP9qjw+khzEKaSQ2yGA==
+X-Google-Smtp-Source: AK7set8+QjpptCrKzerYds+IQtpA5ahwHgQ9R+U8uqnkDEbcdthD+ZZB5YTwTiygb3cfDhitheANoA==
+X-Received: by 2002:a05:6871:586:b0:172:64f3:8430 with SMTP id u6-20020a056871058600b0017264f38430mr11660397oan.28.1677527500430;
+        Mon, 27 Feb 2023 11:51:40 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id m2-20020a056870194200b001727c3bf124sm2578392oak.31.2023.02.27.11.51.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 11:51:39 -0800 (PST)
+Received: (nullmailer pid 749238 invoked by uid 1000);
+        Mon, 27 Feb 2023 19:51:39 -0000
+Date:   Mon, 27 Feb 2023 13:51:39 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc:     Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        - <asahi@lists.linux.dev>, Henrik Rydberg <rydberg@bitmath.org>,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
+ controller bindings.
+Message-ID: <20230227195139.GA677578-robh@kernel.org>
+References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
+ <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-A lot of modern Clevo barebones have touchpad and/or keyboard issues after
-suspend fixable with nomux + reset + noloop + nopnp. Luckily, none of them
-have an external PS/2 port so this can safely be set for all of them.
+On Fri, Feb 24, 2023 at 11:20:06AM +0100, Sasha Finkelstein wrote:
+> Add bindings for touchscreen controllers attached using the Z2 protocol.
+> Those are present in most Apple devices.
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>  .../input/touchscreen/apple,z2-touchscreen.yaml    | 81 ++++++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/apple,z2-touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-touchscreen.yaml
+> new file mode 100644
+> index 000000000000..695594494b1e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-touchscreen.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/apple,z2-touchscreen.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple touchscreens attached using the Z2 protocol.
+> +
+> +maintainers:
+> +  - asahi@lists.linux.dev
+> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
+> +
+> +description: A series of touschscreen controllers used in Apple products.
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: apple,z2-touchscreen
 
-I'm not entirely sure if every device listed really needs all four quirks,
-but after testing and production use. No negative effects could be
-observed when setting all four.
+Is 'z2' anything other than a touchscreen? If not, '-touchscreen' is 
+redundant. If so, then what else is there? You should be describing 
+physical devices, not just a protocol for touchscreen.
 
-Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes the keyboard
-very laggy for ~5 seconds after boot and sometimes also after resume. To
-fix this atkbd_reset_fixup is also applied for this device via a quirk,
-which fixes it again.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts-extended:
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: stable@vger.kernel.org
----
- drivers/input/keyboard/atkbd.c        | 24 ++++++++++++++++++++++++
- drivers/input/serio/i8042-acpipnpio.h | 26 ++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
+Just 'interrupts' here. 'interrupts-extended' is implicitly supported.
 
-diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
-index ef65c46c4efe..e89918347357 100644
---- a/drivers/input/keyboard/atkbd.c
-+++ b/drivers/input/keyboard/atkbd.c
-@@ -1886,6 +1886,30 @@ static const struct dmi_system_id atkbd_dmi_quirk_table[] __initconst = {
- 		},
- 		.callback = atkbd_deactivate_fixup,
- 	},
-+	/*
-+	 * Some Clevo devices need this reset, otherwise they keyboard may
-+	 * be laggy after boot and/or resume for ~5 seconds.
-+	 */
-+	{
-+		/*
-+		 * Clevo device, DMI_BOARD_VENDOR and DMI_SYSTEM_VENDOR
-+		 * differ between resellers.
-+		 */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "N150CU"),
-+		},
-+		.callback = atkbd_reset_fixup,
-+	},
-+	{
-+		/*
-+		 * Clevo device, DMI_BOARD_VENDOR and DMI_SYSTEM_VENDOR
-+		 * differ between resellers.
-+		 */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "NHxxRZQ"),
-+		},
-+		.callback = atkbd_reset_fixup,
-+	},
- 	{ }
- };
- 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index efc61736099b..6ed1044b4ba5 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -1116,6 +1116,19 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
-+	{
-+		/*
-+		 * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes the
-+		 * keyboard very laggy for ~5 seconds after boot and sometimes also
-+		 * after resume. To fix this atkbd_reset_fixup is also applied for
-+		 * this device via a quirk, which fixes it again.
-+		 */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "N150CU"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
-@@ -1123,6 +1136,19 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
-+	{
-+		/*
-+		 * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes the
-+		 * keyboard very laggy for ~5 seconds after boot and sometimes also
-+		 * after resume. To fix this atkbd_reset_fixup is also applied for
-+		 * this device via a quirk, which fixes it again.
-+		 */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "NHxxRZQ"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
--- 
-2.34.1
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  cs-gpios:
 
+There is a standard way to do GPIO based chip-selects. It happens to be 
+'cs-gpios', but this is in the wrong place. It goes in the SPI 
+controller node.
+
+> +    maxItems: 1
+> +
+> +  firmware-name:
+> +    maxItems: 1
+> +
+> +  apple,z2-device-name:
+> +    description: The name to be used for the input device
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  spi-max-frequency: true
+> +
+> +required:
+> +  - compatible
+> +  - interrupts-extended
+> +  - reset-gpios
+> +  - cs-gpios
+> +  - firmware-name
+> +  - apple,z2-device-name
+> +  - touchscreen-size-x
+> +  - touchscreen-size-y
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    spi {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+
+4 space indentation is preferred here.
+
+> +
+> +            touchscreen@0 {
+> +                    compatible = "apple,z2-touchscreen";
+> +                    reg = <0>;
+> +                    spi-max-frequency = <11500000>;
+> +                    reset-gpios = <&pinctrl_ap 139 0>;
+> +                    cs-gpios = <&pinctrl_ap 109 0>;
+> +                    interrupts-extended = <&pinctrl_ap 194 IRQ_TYPE_EDGE_FALLING>;
+> +                    firmware-name = "apple/dfrmtfw-j293.bin";
+> +                    touchscreen-size-x = <23045>;
+> +                    touchscreen-size-y = <640>;
+> +                    apple,z2-device-name = "MacBookPro17,1 Touch Bar";
+
+Why do we need this string? If you want a human consumed label for 
+some identification, we have a property for that purpose. It's called 
+'label'. But when there is only 1 instance, I don't really see the 
+point.
+
+Rob
