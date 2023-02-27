@@ -2,112 +2,197 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7156A3A50
-	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 06:21:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 228AF6A3B9F
+	for <lists+linux-input@lfdr.de>; Mon, 27 Feb 2023 08:17:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbjB0FVA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Feb 2023 00:21:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54722 "EHLO
+        id S229777AbjB0HRi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Feb 2023 02:17:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjB0FU7 (ORCPT
+        with ESMTP id S229451AbjB0HRh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Feb 2023 00:20:59 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FA21116D;
-        Sun, 26 Feb 2023 21:20:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677475258; x=1709011258;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=PRmzNDPLW359VDJZq8Qx7txrVCvA7QawULc06bBKX3k=;
-  b=cKih6w2gV45oqgwb4Bkk+/9Nxv7rfXX/F2tGoRMe97bGn2kvl96JTxBJ
-   HDB8NRthkMRPNnLh/FTKs0GKkVIDNxUHWj1UMphqX7qz0sk/qWEcz+1y5
-   n0rM8fty8QRbVQ/qZ0csCPnv1e37NJjEezbf4Mlt0Rjl23bcQERv40k6J
-   Nn+/x/lepKdW0A8wiquw5DyQEXtOz9KAG6WREAdJynz2qYnWanqbsO5zC
-   orN14pCnrkbn4knWVOEuRomGlXK95DqXZnTR+6PBDjetDDyE0DKPl0ku5
-   OoUzZcPXJwIIB6UUMpXEnyCNOECrhk15DCPFGyPKMh/pMDVmwStHYoXYT
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="336059868"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="336059868"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 21:20:58 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="673612760"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="673612760"
-Received: from dkumarr-mobl2.gar.corp.intel.com ([10.213.123.7])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 21:18:17 -0800
-Message-ID: <d5c82db4bf9aac71342a8e969ae2deb145d71280.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Fix potential use-after-free
- in work function
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Reka Norman <rekanorman@chromium.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Li Qiong <liqiong@nfschina.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Sun, 26 Feb 2023 21:18:14 -0800
-In-Reply-To: <20230227024938.2265017-1-rekanorman@chromium.org>
-References: <20230227024938.2265017-1-rekanorman@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        Mon, 27 Feb 2023 02:17:37 -0500
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2040.outbound.protection.outlook.com [40.107.21.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F831C30D
+        for <linux-input@vger.kernel.org>; Sun, 26 Feb 2023 23:17:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D3EtZ9+zDlP7I2RkFN3rEeq0F+ebiu1gkaC3ZkMHhEsDD0qlY4iaBKG9KrWz3Bym5nzqV4HVJU2ixEVTmEZASV1enaj+ysNZEd1hKWKcDGbTIBmZruR0chRxiOMH4vtnR8E+ly/BsHWXfbgd8g/fjsYPnExxLufRnTaKivs5gNFke8zqCjQJ+Ipaxc5ACZqtoyccXWC1qfaRSOftFXH63dCSceFWhWjeiG3dKzQbwstFenHy1SDUBecIltkDPg4ftthXA7Rua006pV9B3fNgNTygbpQ7VzTfLu7/Iy6z/LwERdvD/bPEvdadajgAVgayro9cCy4236SPCxAZEdWxzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kX/xMObPFGaqmFmU9oafeA1TkDvbp8N+wdI+5gKZtx0=;
+ b=ISsOQpH/tXRhNogwrEufMJ0ELFlEHylb0swunUJat9390q8d8vDhz8A9PwnNTw7d4vzEsZRHufKpR5EA77VHDQI4JfKmt/+4OjtywFeS+cgPcG2V2kpYC53qrSgrwtjY5LcTaOBNwMxrQXlNxb4qqnZvAxFAdA2C9bXEcIPROdSPiDJ8Q63mmE64HHXiwQxLNXR9anAN8cDiGjRMO46FYoTWxgmMXVUTd7RqDSITTzkvw0vFwHN4WrFfktIbkkjaxhnnfl4qCaGtn6vcDyvEzrXwxJFaRSPgAbyZ2a1igjvOLCjvWEzWAL7ZQpJy2NRLh3mAEqfAGyig/Lz8NDEZcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kX/xMObPFGaqmFmU9oafeA1TkDvbp8N+wdI+5gKZtx0=;
+ b=AF7cUAE3AmRgCeKh7N+fO/TgCyCrYLp37iyFVqvy9Ob5g9FZUy+GOjop5wstLGBmWtQ5PNPP57cM4AK4WAjN1PPFZalA8IklYClo0SEIQEG1loN5NCzbtcM44jHKBMTony1eBSElYHqle0KhpfJo30/HERQgNVWSVQWq3MtAUQE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS8PR04MB8642.eurprd04.prod.outlook.com (2603:10a6:20b:429::24)
+ by PA4PR04MB7903.eurprd04.prod.outlook.com (2603:10a6:102:b9::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.29; Mon, 27 Feb
+ 2023 07:17:33 +0000
+Received: from AS8PR04MB8642.eurprd04.prod.outlook.com
+ ([fe80::1793:79b4:2cb7:4db]) by AS8PR04MB8642.eurprd04.prod.outlook.com
+ ([fe80::1793:79b4:2cb7:4db%7]) with mapi id 15.20.6134.029; Mon, 27 Feb 2023
+ 07:17:33 +0000
+From:   Jacky Bai <ping.bai@nxp.com>
+To:     dmitry.torokhov@gmail.com, will@kernel.org,
+        catalin.marinas@arm.com, shawnguo@kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-imx@nxp.com
+Subject: [PATCH 1/2] input: snvs_pwrkey: Move snvs pewrkey to misc dir
+Date:   Mon, 27 Feb 2023 15:19:12 +0800
+Message-Id: <20230227071913.334617-1-ping.bai@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0001.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::13) To AS8PR04MB8642.eurprd04.prod.outlook.com
+ (2603:10a6:20b:429::24)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8642:EE_|PA4PR04MB7903:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4f0afb9-56fa-403a-81f7-08db1892b1f4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: G/JCBCilLayc7VRtXfIE+nH7ytk+z8tOvoXugsePxuCfXGEXLLv/BWDWCK0ktGOcWWtK9zn7t5xlaq4U8AeuWyi4gftUsSTMiUJN3ssixbkgL57JxVeRHjyfxKJHU5oNqm2qiWKQypOuF8CjBdMSW67sCCqL3wBln0vlHe1J9deDFMstcte94UWSTTPnCK5ZFV4n7z2QVuOZ4Cxf8/CX921SscZ3IWqmOGqIP1xYcSpur51XVL70juh5K7tvhcSdFNh8cgdR05KEjdN2+1dLmU+m3AEgwmWlNzryoaRojkBjcGp8Lt4GC6Gxe1Xngu4uYp7UjtwWYK/Lraa1LOAWdrv0rnc7OPRacrJHMdYBSHOmY7EDseFu/Fcdtt0VB+uFRxakiQJmRbjZ9an9SxmP8mV3bTGfhG5a/qMOgM6EkW48o3zq/+pZyMaqp0wL3lazCQxnoRqRQtiN3oCDD5iqiKBm2bUrxQK5aBt7f/QT+bsHe4RsdUNoykbIWxOYOP1Wt0Q63paWNUem8IQS/SWKkii3KLUqOcpmlLWFcg+si94WOpAUN+7H3O5IiRJJSrAQwGtQyeYk040n4cgXPG9OE9/Qg942OdJkT7ALWr1XM2zw/ha1Sp6p1Xe/9lshRDH98RmjKpMrrg6NISDClaRw0kone/2N4p9DAGQTF0gHR/fmEkPy0NFkLB9mwuGfbBirrsvZXg5Q2h2kH2r4ktnKVw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(396003)(136003)(346002)(366004)(39860400002)(451199018)(316002)(36756003)(86362001)(38350700002)(38100700002)(1076003)(6666004)(6506007)(83380400001)(2616005)(186003)(26005)(6512007)(5660300002)(52116002)(8936002)(2906002)(6486002)(478600001)(4326008)(41300700001)(8676002)(66476007)(66946007)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rD2rUNnM2ogyHOrpQRqcMKtyFaNDno9qRRVcjRhfTiOMdyV8yoJ/wOvjmlrF?=
+ =?us-ascii?Q?WDzKLVAtfGHoUtL5PTuZlBuIiYrDGNc1fPOdUGX0wzhzKCBKiU25NouWQCEB?=
+ =?us-ascii?Q?RACWv+Z4uglnk5rUojfCSEMjxU/IwjIqgVpdlS7M95SR6xNsDbzNFmmMTgMs?=
+ =?us-ascii?Q?Xn5j7XiDsQ3nSHc9MQk5h4hl7ruSI9BJI8kuH5keGLck8QKgRaGjQj8pHvhh?=
+ =?us-ascii?Q?e6mFsqT6/urtQTr4tWYc6gNKV8QuUq24DSG6yVYP7ZKjhZk/df5LXjitm6w1?=
+ =?us-ascii?Q?7AoaDIETPaTXlIWMCWw2uZMggVVpb9pid0G5MLyEkm0jjCFb1flQESu/RTVv?=
+ =?us-ascii?Q?zBk4xG3NxIem93L+Z5qbiXZKqRuta3batVCzLoeyA+F12M0sne/DsWMECKHK?=
+ =?us-ascii?Q?hSYg+ve3hYkyQvjw/CNQPQVAABAKQBnI8kFePmf4wo84CeWOhzmmSa3bSeoh?=
+ =?us-ascii?Q?I1XUz9NmAD6obXNm7y2fNikcsPQqxphKRhpJJ3AzxtQr/veodoFCJjD4d2Gi?=
+ =?us-ascii?Q?SPGYhoFHZCs9+Vh9lRJ446D9LHyajOb2o7m7ZpqcHvnWs9Nwn6950UIeDam/?=
+ =?us-ascii?Q?BZCRhuPRlcsRjucVwa8hjWFK2KQcy/cw4ctbfmIMkiW398LPmfUAg0GQfegb?=
+ =?us-ascii?Q?Uhw3OJnv+MRq5YJNGINUG//hQlGNEqqVBR7ueAHCb3Noq7LwM20ZBTg3BepR?=
+ =?us-ascii?Q?Lmdwq1kpdbdGVqwbT7eOZgLnLQ6Fxkd2908IqJjToLH1T2zAZOFqCm4JaeXf?=
+ =?us-ascii?Q?kVre7xxjacNj7BpcmA+3fcOHgQSkPfa3OT8xgM3790fUK7KycpKUhiqSWDrr?=
+ =?us-ascii?Q?esP68YCHcd7bFTZZuNXDD/dKIaz8u9Rakrzg5/3EHaLgt56HO47QSO4m5Rnc?=
+ =?us-ascii?Q?YpSnEFwP5HsdfpwvrTOhPnbmmvZvvykct3sDC5s5so+5G/eY6EaDAeyYpvq8?=
+ =?us-ascii?Q?JpxhGK8CJKySKy/Kh3dyJ19LjKxFMH1n0pdLRHuVaEvaVUdMBxXwjixXWQf9?=
+ =?us-ascii?Q?iSHTVbmf6Je5vZX4DZnMz74l8kbFj/iWIpaj7eVj0UPmB+puDh26KN4fBTpg?=
+ =?us-ascii?Q?Qg2q9OIwk1329CKvZjmIzzikCS9KOELKKgu6feYnRaJvAtk27Wp6rrYbI8sm?=
+ =?us-ascii?Q?TX1jfuNgYr0wypdNIohvc+wXOSs01/wWi7wXKm3y8cJQ3sava5jD6dwmLhtr?=
+ =?us-ascii?Q?3bAWRDv0gudc3VZOgV49tzZLaZ+h5UQpxigzPTaIaeOBw2Nj6PKAArXc+gyq?=
+ =?us-ascii?Q?gBu7+LEf1C/oeAnQSTRKqZ5TwbVefwzxXLD8aUwkg1f0IxbdYPW02WuscIuF?=
+ =?us-ascii?Q?fTT9o0BSHQPZkd5247Z6ldERZ2OSugJ9efqkLxfGL5/c95aEzY62CGMVQzI8?=
+ =?us-ascii?Q?E5uS34waHMKJuqutEQwiiOrJ/xLx+IqMIoVWl8XntFU+TWlNFToUDZ6pNM1B?=
+ =?us-ascii?Q?1kTlvykEDfdd3N2bOfvh1f5UDM5q2C7NIB/V0Bx0dqAIWiue98KraanmLgUz?=
+ =?us-ascii?Q?FKuap0fBMQVKxzhRuhMBHFwahmJqSiiu3xnx2zGmlAeMuGBCaAu/bwVFv3OD?=
+ =?us-ascii?Q?uD3Pm0Tz1EO0If5Xgm/ANY7FyZ8292H0PrdUBMbm?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4f0afb9-56fa-403a-81f7-08db1892b1f4
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2023 07:17:33.4949
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9Dg9Sntmg8C11EQ3N5vxOlANVqbrwL1mhPJWrIhdruZ23HXOsSlVgJLPx+WvBQx0nQzPvpExs7Z9PVUCMmHt0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7903
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gTW9uLCAyMDIzLTAyLTI3IGF0IDEzOjQ5ICsxMTAwLCBSZWthIE5vcm1hbiB3cm90ZToKPiBX
-aGVuIGEgcmVzZXQgbm90aWZ5IElQQyBtZXNzYWdlIGlzIHJlY2VpdmVkLCB0aGUgSVNSIHNjaGVk
-dWxlcyBhIHdvcmsKPiBmdW5jdGlvbiBhbmQgcGFzc2VzIHRoZSBJU0hUUCBkZXZpY2UgdG8gaXQg
-dmlhIGEgZ2xvYmFsIHBvaW50ZXIKPiBpc2h0cF9kZXYuIElmIGlzaF9wcm9iZSgpIGZhaWxzLCB0
-aGUgZGV2bS1tYW5hZ2VkIGRldmljZSByZXNvdXJjZXMKPiBpbmNsdWRpbmcgaXNodHBfZGV2IGFy
-ZSBmcmVlZCwgYnV0IHRoZSB3b3JrIGlzIG5vdCBjYW5jZWxsZWQsIGNhdXNpbmcKPiBhCj4gdXNl
-LWFmdGVyLWZyZWUgd2hlbiB0aGUgd29yayBmdW5jdGlvbiB0cmllcyB0byBhY2Nlc3MgaXNodHBf
-ZGV2LiBVc2UKPiBkZXZtX3dvcmtfYXV0b2NhbmNlbCgpIGluc3RlYWQsIHNvIHRoYXQgdGhlIHdv
-cmsgaXMgYXV0b21hdGljYWxseQo+IGNhbmNlbGxlZCBpZiBwcm9iZSBmYWlscy4KPiAKPiBTaWdu
-ZWQtb2ZmLWJ5OiBSZWthIE5vcm1hbiA8cmVrYW5vcm1hbkBjaHJvbWl1bS5vcmc+CkFja2VkLWJ5
-OiBTcmluaXZhcyBQYW5kcnV2YWRhIDxzcmluaXZhcy5wYW5kcnV2YWRhQGxpbnV4LmludGVsLmNv
-bT4KCj4gLS0tCj4gCj4gwqBkcml2ZXJzL2hpZC9pbnRlbC1pc2gtaGlkL2lwYy9pcGMuYyB8IDkg
-KysrKysrKystCj4gwqAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
-KC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlkL2ludGVsLWlzaC1oaWQvaXBjL2lwYy5j
-IGIvZHJpdmVycy9oaWQvaW50ZWwtCj4gaXNoLWhpZC9pcGMvaXBjLmMKPiBpbmRleCAxNWUxNDIz
-OWFmODI5Li5hNDljNmFmZmQ3YzRjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvaGlkL2ludGVsLWlz
-aC1oaWQvaXBjL2lwYy5jCj4gKysrIGIvZHJpdmVycy9oaWQvaW50ZWwtaXNoLWhpZC9pcGMvaXBj
-LmMKPiBAQCAtNSw2ICs1LDcgQEAKPiDCoCAqIENvcHlyaWdodCAoYykgMjAxNC0yMDE2LCBJbnRl
-bCBDb3Jwb3JhdGlvbi4KPiDCoCAqLwo+IMKgCj4gKyNpbmNsdWRlIDxsaW51eC9kZXZtLWhlbHBl
-cnMuaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9zY2hlZC5oPgo+IMKgI2luY2x1ZGUgPGxpbnV4L3Nw
-aW5sb2NrLmg+Cj4gwqAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4KPiBAQCAtNjIxLDcgKzYyMiw2
-IEBAIHN0YXRpYyB2b2lkwqByZWN2X2lwYyhzdHJ1Y3QgaXNodHBfZGV2aWNlICpkZXYsCj4gdWlu
-dDMyX3QgZG9vcmJlbGxfdmFsKQo+IMKgwqDCoMKgwqDCoMKgwqBjYXNlIE1OR19SRVNFVF9OT1RJ
-Rlk6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIWlzaHRwX2Rldikgewo+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlzaHRwX2Rl
-diA9IGRldjsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oElOSVRfV09SSygmZndfcmVzZXRfd29yaywgZndfcmVzZXRfd29ya19mbik7Cj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBzY2hlZHVsZV93b3JrKCZmd19yZXNldF93b3JrKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoGJyZWFrOwo+IEBAIC05NDAsNiArOTQwLDcgQEAgc3RydWN0IGlzaHRwX2Rldmlj
-ZSAqaXNoX2Rldl9pbml0KHN0cnVjdCBwY2lfZGV2Cj4gKnBkZXYpCj4gwqB7Cj4gwqDCoMKgwqDC
-oMKgwqDCoHN0cnVjdCBpc2h0cF9kZXZpY2UgKmRldjsKPiDCoMKgwqDCoMKgwqDCoMKgaW50wqDC
-oMKgwqDCoGk7Cj4gK8KgwqDCoMKgwqDCoMKgaW50wqDCoMKgwqDCoHJldDsKPiDCoAo+IMKgwqDC
-oMKgwqDCoMKgwqBkZXYgPSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwKPiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNpemVvZihzdHJ1Y3QgaXNo
-dHBfZGV2aWNlKSArCj4gc2l6ZW9mKHN0cnVjdCBpc2hfaHcpLAo+IEBAIC05NzUsNiArOTc2LDEy
-IEBAIHN0cnVjdCBpc2h0cF9kZXZpY2UgKmlzaF9kZXZfaW5pdChzdHJ1Y3QgcGNpX2Rldgo+ICpw
-ZGV2KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbGlzdF9hZGRfdGFpbCgmdHhf
-YnVmLT5saW5rLCAmZGV2LT53cl9mcmVlX2xpc3QpOwo+IMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqAK
-PiArwqDCoMKgwqDCoMKgwqByZXQgPSBkZXZtX3dvcmtfYXV0b2NhbmNlbCgmcGRldi0+ZGV2LCAm
-ZndfcmVzZXRfd29yaywKPiBmd19yZXNldF93b3JrX2ZuKTsKPiArwqDCoMKgwqDCoMKgwqBpZiAo
-cmV0KSB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldl9lcnIoZGV2LT5kZXZj
-LCAiRmFpbGVkIHRvIGluaXRpYWxpc2UgRlcgcmVzZXQKPiB3b3JrXG4iKTsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIE5VTEw7Cj4gK8KgwqDCoMKgwqDCoMKgfQo+ICsK
-PiDCoMKgwqDCoMKgwqDCoMKgZGV2LT5vcHMgPSAmaXNoX2h3X29wczsKPiDCoMKgwqDCoMKgwqDC
-oMKgZGV2LT5kZXZjID0gJnBkZXYtPmRldjsKPiDCoMKgwqDCoMKgwqDCoMKgZGV2LT5tdHUgPSBJ
-UENfUEFZTE9BRF9TSVpFIC0gc2l6ZW9mKHN0cnVjdCBpc2h0cF9tc2dfaGRyKTsKCg==
+snvs pwrkey is not a traditional keyboard device,
+more sense to move it into input/misc as other
+pwrkey drivers.
+
+Signed-off-by: Jacky Bai <ping.bai@nxp.com>
+---
+ drivers/input/keyboard/Kconfig                 | 11 -----------
+ drivers/input/keyboard/Makefile                |  1 -
+ drivers/input/misc/Kconfig                     | 11 +++++++++++
+ drivers/input/misc/Makefile                    |  1 +
+ drivers/input/{keyboard => misc}/snvs_pwrkey.c |  0
+ 5 files changed, 12 insertions(+), 12 deletions(-)
+ rename drivers/input/{keyboard => misc}/snvs_pwrkey.c (100%)
+
+diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+index 1d0c5f4c0f99..3d58d0457103 100644
+--- a/drivers/input/keyboard/Kconfig
++++ b/drivers/input/keyboard/Kconfig
+@@ -445,17 +445,6 @@ config KEYBOARD_MPR121
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called mpr121_touchkey.
+ 
+-config KEYBOARD_SNVS_PWRKEY
+-	tristate "IMX SNVS Power Key Driver"
+-	depends on ARCH_MXC || (COMPILE_TEST && HAS_IOMEM)
+-	depends on OF
+-	help
+-	  This is the snvs powerkey driver for the Freescale i.MX application
+-	  processors.
+-
+-	  To compile this driver as a module, choose M here; the
+-	  module will be called snvs_pwrkey.
+-
+ config KEYBOARD_IMX
+ 	tristate "IMX keypad support"
+ 	depends on ARCH_MXC || COMPILE_TEST
+diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
+index aecef00c5d09..80eeb02aaf79 100644
+--- a/drivers/input/keyboard/Makefile
++++ b/drivers/input/keyboard/Makefile
+@@ -59,7 +59,6 @@ obj-$(CONFIG_KEYBOARD_QT1070)           += qt1070.o
+ obj-$(CONFIG_KEYBOARD_QT2160)		+= qt2160.o
+ obj-$(CONFIG_KEYBOARD_SAMSUNG)		+= samsung-keypad.o
+ obj-$(CONFIG_KEYBOARD_SH_KEYSC)		+= sh_keysc.o
+-obj-$(CONFIG_KEYBOARD_SNVS_PWRKEY)	+= snvs_pwrkey.o
+ obj-$(CONFIG_KEYBOARD_SPEAR)		+= spear-keyboard.o
+ obj-$(CONFIG_KEYBOARD_STMPE)		+= stmpe-keypad.o
+ obj-$(CONFIG_KEYBOARD_STOWAWAY)		+= stowaway.o
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 81a54a59e13c..35cb522b51cb 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -939,4 +939,15 @@ config INPUT_STPMIC1_ONKEY
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called stpmic1_onkey.
+ 
++config INPUT_SNVS_PWRKEY
++	tristate "IMX SNVS Power Key Driver"
++	depends on ARCH_MXC || (COMPILE_TEST && HAS_IOMEM)
++	depends on OF
++	help
++	  This is the snvs powerkey driver for the Freescale i.MX application
++	  processors.
++
++	  To compile this driver as a module, choose M here; the
++	  module will be called snvs_pwrkey.
++
+ endif
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 04296a4abe8e..33de0a3b5f6a 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -90,3 +90,4 @@ obj-$(CONFIG_INPUT_WM831X_ON)		+= wm831x-on.o
+ obj-$(CONFIG_INPUT_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
+ obj-$(CONFIG_INPUT_YEALINK)		+= yealink.o
+ obj-$(CONFIG_INPUT_IDEAPAD_SLIDEBAR)	+= ideapad_slidebar.o
++obj-$(CONFIG_INPUT_SNVS_PWRKEY)		+= snvs_pwrkey.o
+diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/misc/snvs_pwrkey.c
+similarity index 100%
+rename from drivers/input/keyboard/snvs_pwrkey.c
+rename to drivers/input/misc/snvs_pwrkey.c
+-- 
+2.34.1
 
