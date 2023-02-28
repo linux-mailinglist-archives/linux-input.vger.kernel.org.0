@@ -2,52 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76A7A6A5028
-	for <lists+linux-input@lfdr.de>; Tue, 28 Feb 2023 01:32:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1B106A515E
+	for <lists+linux-input@lfdr.de>; Tue, 28 Feb 2023 03:43:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbjB1Acc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Feb 2023 19:32:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57870 "EHLO
+        id S229768AbjB1Cnm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Feb 2023 21:43:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjB1Ac3 (ORCPT
+        with ESMTP id S229543AbjB1Cnm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Feb 2023 19:32:29 -0500
-Received: from endrift.com (endrift.com [173.255.198.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7FA326CDF
-        for <linux-input@vger.kernel.org>; Mon, 27 Feb 2023 16:32:28 -0800 (PST)
-Received: from [192.168.0.22] (unknown [50.47.218.115])
-        by endrift.com (Postfix) with ESMTPSA id 932D2A27C;
-        Mon, 27 Feb 2023 16:32:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
-        t=1677544348; bh=aM2CN+WBQSReaTbVFvbQ0SHsOhrrTOKqIqlryLBNyKw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=qiG5JG7SETPz3M2j3Rlbq/r22yDVLja5ImFZocGU/NV+JPmW5crOGqkQz1mr2YmAL
-         x7uzwHX85TwbYI+fa7XE6W9USWuJqGHdEpjXhrRYyQt3evBUsi3YPAOGgQGu2hIfkK
-         wr6A+z96TfMKpK7Yn1wuffyMoYSwGGCTzbyjdiyXx0S7OUF+nLwXN+cXTtdxvhAQUs
-         yoly0KqJrJeM0TgM4sFUNmz1hE8vpsQMzFGS9y6QI2DPAXOkSe5mEwPIHgeuTQ/pAK
-         D1BG4t0Y1YRFAT6KQyKB48eIe/7SzotwD2VmiNfBLcRB1wXmJH6ZzFrD7lKRwrfObB
-         vL5DG1DldYCtQ==
-Message-ID: <d153e498-fda9-21dc-6b4c-c6b45a1edd76@endrift.com>
-Date:   Mon, 27 Feb 2023 16:32:26 -0800
+        Mon, 27 Feb 2023 21:43:42 -0500
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D705262;
+        Mon, 27 Feb 2023 18:43:39 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: marcan@marcan.st)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id B2BA541A42;
+        Tue, 28 Feb 2023 02:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+        t=1677552217; bh=NuKc2S3qmn19MvrLhz9ClzFdWxxviwYmA9lJ0wCcJD4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=CJYespKF0HwDDt3xb5H7cX1sUtHgGCnnJ69XiKoI+lgTJGY82EUyo25qPJOgD/2je
+         7iHaRB6G6Vl2DL+syENSJPMHbJIWazIy5q0fzLLuMaW9gKnmA6IchflMsP6nMjBkjl
+         5l1W7xOJT9H5+s9vTdDFPcycjcAo5M8nB1IoGRIST/MUzT0K79wo0S4YhmpQWhXD85
+         cPjP0qy21cx+pYYKV41Oa4DzK6nqscUFRTLGAvNQ6JA0pfNAxo/qN1/OczlruLUAOe
+         TzSOnn1fZ270pSzwymQ+h/FXy3YDAoyavWZfQoKrzrgrya8A7c6FklAG+jQZrEVYBm
+         WI0TVF1m1YnLw==
+Message-ID: <01ce15ee-ad64-6d0d-3b72-9d11eac8d40e@marcan.st>
+Date:   Tue, 28 Feb 2023 11:43:31 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH] Input: xpad - fix PowerA EnWired Controller guide button
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 0/4] Driver for Apple Z2 touchscreens.
 Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lyude Paul <lyude@redhat.com>
-Cc:     Michael Cullen <michael@michaelcullen.name>,
-        Marcos Alano <marcoshalano@gmail.com>,
-        linux-input@vger.kernel.org
-References: <20221006221209.2016372-1-vi@endrift.com>
- <d4b320fcca34c25713836c1ef5a34157c67071f0.camel@redhat.com>
- <Y/pS+NAqCwdQNJNQ@google.com>
-From:   Vicki Pfau <vi@endrift.com>
-In-Reply-To: <Y/pS+NAqCwdQNJNQ@google.com>
+To:     fnkl.kernel@gmail.com, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        - <asahi@lists.linux.dev>, Henrik Rydberg <rydberg@bitmath.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
+From:   Hector Martin <marcan@marcan.st>
+In-Reply-To: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,19 +60,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On 24/02/2023 19.20, Sasha Finkelstein via B4 Relay wrote:
+> Hi.
+> 
+> This series adds support for Apple touchscreens using the Z2 protocol.
+> Those are used as the primary touchscreen on mobile Apple devices, and for the
+> touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+> in charge of speaking Z2 to the touchbar).
+> 
+> Sending this as a RFC for now, since this series requires the SPI controller
+> support which is not upstream yet:
+> https://lore.kernel.org/all/20211212034726.26306-1-marcan@marcan.st/
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-On 2/25/23 10:27, Dmitry Torokhov wrote:
-> Hi Lyude,
-> 
-> On Sat, Feb 25, 2023 at 02:14:27AM +0100, Lyude Paul wrote:
->> Poke, Dmitry - any chance we could get this pushed?
-> 
-> I was waiting for Vicki to respond to Mattijs' comments...
-> 
-> Thanks.
-> 
+Just FWIW, I'm happy to see this get RFCed early (early review is always
+good), but I don't think we should submit it until it actually gets some
+testing in real-world scenarios. That is naturally blocked on having a
+MIPI display driver, since a touchscreen above a dead screen isn't
+terribly useful. Otherwise, we might realize that we have some
+binding/API issues we missed that are harder to fix after the fact.
 
-I'm a little confused as to what's happened here. This appears to be the thread for the v1 of this patch, but the v2 appeared later in a separate series (https://lore.kernel.org/linux-input/20230203022758.3982393-1-vi@endrift.com/T/#m98b35653c34a180e08cebb63b43b3690943f6e77) that was reviewed already. It moves the check into a separate function that will wind up properly freeing the URB if it fails. I tried moving it directly into probe, but that broke resume; it works properly when put in this function.
+So let's hold off on submission proper until we have the screen working
+and some basic userspace tooling to go with all this shipping downstream
+and it gets some real-world testing. Hopefully by then I'll have sent
+out the SPI controller driver too :)
 
-Vicki
+- Hector
