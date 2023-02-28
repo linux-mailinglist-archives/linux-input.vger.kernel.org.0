@@ -2,108 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B9B6A519C
-	for <lists+linux-input@lfdr.de>; Tue, 28 Feb 2023 04:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D7F06A53BB
+	for <lists+linux-input@lfdr.de>; Tue, 28 Feb 2023 08:34:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbjB1DGE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Feb 2023 22:06:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48582 "EHLO
+        id S229481AbjB1HeX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Feb 2023 02:34:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjB1DGD (ORCPT
+        with ESMTP id S229470AbjB1HeW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Feb 2023 22:06:03 -0500
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88F7234CF;
-        Mon, 27 Feb 2023 19:06:02 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        Tue, 28 Feb 2023 02:34:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807F810AB1;
+        Mon, 27 Feb 2023 23:34:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: marcan@marcan.st)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id EE7D13FA55;
-        Tue, 28 Feb 2023 03:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-        t=1677553560; bh=wVcS342cqA0YYWvmacgIf9QEQsqALNiDVlYfNtFDUa0=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To;
-        b=WesZhbidz5NnlzU1ruhs6kqvMrgw9FR6q5ZpOXhEMZCiKGClK70ct+JWPWIvdK9JI
-         btsNOSeFIEUGtUFzUahNNEcvEYb1kDbtK9hQRU02Dztg12zTetnsknyIBmShVl+5Ck
-         CPR2kpdchCvo/phvemqAKmRhnRmjAlSp5wYEyRUfLZ62HyiIbL89K0M+hK7gKE5KgU
-         XkyaGM18wDKWxutqMLllXS3LVKS3SLzOnZdhXDqPYIKwVTiERct6CBkv/jneealFu3
-         fHG5/1heaHvKVMHp96rG8Ul/LBKmwEUx6U7spU6FCBr2gKSERqTJnCdKyz/z1PhA6n
-         VXyAu6qfmPOuQ==
-Message-ID: <bb82ed53-3c90-69d2-1c92-d8a6f735fc5f@marcan.st>
-Date:   Tue, 28 Feb 2023 12:05:55 +0900
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 184EE60FF3;
+        Tue, 28 Feb 2023 07:34:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E89DFC433D2;
+        Tue, 28 Feb 2023 07:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1677569660;
+        bh=3BCQtTaoAWxY6XcyC7IK2Ni1ftd1LIYwHPXYAOHigno=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eMXs3aMDccSqN83TVIdJPnk7imTUeC/8STtUztsKGxdg1jQ532YK4qH46ZMTZn77S
+         TOdGQ9WQY1anhHpw/dBZLGprghzwMTvSoZUYn0SwBtShoIsh/rRZeTJR3vdjk/nVFI
+         78gZctIC8RCRVLE/IYsFQyYXg9z1ga+B8HIL6bFs=
+Date:   Tue, 28 Feb 2023 08:34:17 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Werner Sembach <wse@tuxedocomputers.com>
+Cc:     dmitry.torokhov@gmail.com, swboyd@chromium.org,
+        hdegoede@redhat.com, mkorpershoek@baylibre.com,
+        chenhuacai@kernel.org, wsa+renesas@sang-engineering.com,
+        tiwai@suse.de, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] Input: atkbd - Make it possible to apply
+ atkbd.reset via kernel quirk
+Message-ID: <Y/2ueXSFK0iOR5M5@kroah.com>
+References: <20230227185907.569154-1-wse@tuxedocomputers.com>
+ <20230227185907.569154-2-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To:     Sasha Finkelstein <fnkl.kernel@gmail.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        - <asahi@lists.linux.dev>, Henrik Rydberg <rydberg@bitmath.org>,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
- <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
- <20230227195139.GA677578-robh@kernel.org>
- <CAMT+MTRodB_+sMtoPxv-gP_+sJAwNb36XuLOGo=HvuCQq6h+gQ@mail.gmail.com>
- <20230227221426.GA1048218-robh@kernel.org>
- <CAMT+MTTH-DC+1wMFUGNwVM3cYm0B+XVK7wL07khdy1hSjyhDGA@mail.gmail.com>
-From:   Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
- controller bindings.
-In-Reply-To: <CAMT+MTTH-DC+1wMFUGNwVM3cYm0B+XVK7wL07khdy1hSjyhDGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230227185907.569154-2-wse@tuxedocomputers.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 28/02/2023 07.25, Sasha Finkelstein wrote:
-> On Mon, 27 Feb 2023 at 23:14, Rob Herring <robh@kernel.org> wrote:
->> I know little about libinput, but how would it know about
->> 'apple,z2-device-name'?
->>
-> The idea was to forward the contents of this property
-> into the input device name.
+On Mon, Feb 27, 2023 at 07:59:06PM +0100, Werner Sembach wrote:
+> atkbd.reset was only a command line parameter. Some devices might have a
+> known bug that can be worked around by just permanently applying this
+> quirk.
+> 
+> This patch adds the ability to do this on the kernel level for known buggy
+> devices.
+> 
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/input/keyboard/atkbd.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+> index 246958795f60..ef65c46c4efe 100644
+> --- a/drivers/input/keyboard/atkbd.c
+> +++ b/drivers/input/keyboard/atkbd.c
+> @@ -1731,6 +1731,12 @@ static int __init atkbd_deactivate_fixup(const struct dmi_system_id *id)
+>  	return 1;
+>  }
+>  
+> +static int __init atkbd_reset_fixup(const struct dmi_system_id *id)
+> +{
+> +	atkbd_reset = true;
+> +	return 1;
 
-Then you want "label", as Rob said.
+Why is this returning 1?  Who calls this?
 
-But I also agree with Rob that we want per-device compatibles, even if
-we don't use them upfront in the driver. That's what we do everywhere
-else, and it has served us well. I suggest this hierarchy:
+And this should be a per-device attribute, not a global one, right?
 
-compatible = "apple,j293-touchbar", "apple,z2-touchbar",
-"apple,z2-multitouch";
-label = "Apple J293 Touch Bar";
+thanks,
 
-Then let's say a hypothetical touchscreen + touchbar MacBook comes out,
-we end up with:
-
-compatible = "apple,j789-touchbar", "apple,z2-touchbar",
-"apple,z2-multitouch";
-label = "Apple J789 Touch Bar";
-
-compatible = "apple,j789-touchscreen", "apple,z2-touchscreen",
-"apple,z2-multitouch";
-label = "Apple J789 Touchscreen";
-
-And it all is nicely future-proof. If libinput needs a hint other than
-the device name to figure out what should be treated as a touchscreen or
-not, the driver can use the "apple,z2-touchbar" vs
-"apple,z2-touchscreen" distinction level for that. And if per-device
-quirks are never necessary, we just ignore the model number compatible,
-which is already what we do all over the place in other drivers (but the
-day it becomes necessary, it's ready for us). And if it turns out we
-don't need any of this for a while, the driver can just bind to
-"apple,z2-multitouch" and call it a day.
-
-- Hector
+greg k-h
