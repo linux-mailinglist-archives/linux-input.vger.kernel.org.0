@@ -2,240 +2,400 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B203D6A8787
-	for <lists+linux-input@lfdr.de>; Thu,  2 Mar 2023 18:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 727016A93DD
+	for <lists+linux-input@lfdr.de>; Fri,  3 Mar 2023 10:25:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbjCBRG4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Mar 2023 12:06:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45428 "EHLO
+        id S230178AbjCCJZP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Mar 2023 04:25:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjCBRGz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Mar 2023 12:06:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE77B3E620
-        for <linux-input@vger.kernel.org>; Thu,  2 Mar 2023 09:06:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677776774;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=P+O1LqszOtLJbpRbLI2Mm/fovxni5AsK6bjZCJWG61o=;
-        b=B6Noad44koKkmG9M6a2WzUTxxA5pr7chnhZAdmpsFZC8pnF2bbmRTpMQmWlGsOI2YIQt6q
-        zrqAlFbgQcDagy4E0FE92/T3kYVY8y4LwTuc5EhuhyeFHzazHyxVo+OvUKvZvEszOfNNL1
-        Uo7tik83XJKFYPrsBYu7SIME4b5JwL0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-325-sDNJddsLPjSt7nJYiSVdRg-1; Thu, 02 Mar 2023 12:06:10 -0500
-X-MC-Unique: sDNJddsLPjSt7nJYiSVdRg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 926953C10ECC;
-        Thu,  2 Mar 2023 17:06:09 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.22.8.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 266D12026D4B;
-        Thu,  2 Mar 2023 17:06:07 +0000 (UTC)
-Date:   Thu, 2 Mar 2023 18:06:06 +0100
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Daniel Kaehn <kaehndan@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
-        bartosz.golaszewski@linaro.org, dmitry.torokhov@gmail.com,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        ethan.twardy@plexus.com
-Subject: Re: [PATCH v8 3/3] HID: cp2112: Fwnode Support
-Message-ID: <20230302170554.q3426ii255735rzw@mail.corp.redhat.com>
-References: <20230227140758.1575-1-kaehndan@gmail.com>
- <20230227140758.1575-4-kaehndan@gmail.com>
- <Y/03to4XFXPwkGH1@smile.fi.intel.com>
- <CAP+ZCCe=f3AtxvC1Z6zPErMEG9BcnCOjApc26n_9yjq2+U72pw@mail.gmail.com>
- <Y/9oO1AE6GK6CQmp@smile.fi.intel.com>
+        with ESMTP id S230280AbjCCJZB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Mar 2023 04:25:01 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 313EF5C120
+        for <linux-input@vger.kernel.org>; Fri,  3 Mar 2023 01:24:44 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id r18so1615192wrx.1
+        for <linux-input@vger.kernel.org>; Fri, 03 Mar 2023 01:24:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1677835482;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qZW13a6M4CbKDv+/tbaLjH07R3EIPpeX9wuis9iCl0M=;
+        b=RfgXVuHmkLq5H7QR1aoNvvv2IALanaH0P/POcAYoDGfK0laJjSXiUXMG2kCc40DmBV
+         5ao/QP6HdIAaN6hNk1zsTzmBzkjlvVSzfFS32NfO47ganlGU74uAoAc1ONN+fKkDAW9x
+         PX+j4q4yKvu2RAejYMPqtDX+48X9mtQ1/g9Vf3iteKlk+hgIhFTUB5g2QFY/UIh+osJ0
+         fL6DK+KImynrpdP8OB9rryz08dmc6/+BcNgfGSBVfXMAbbsUaNG2kjFjD85Q95edAEuw
+         Uzo33thMuESwFCv9ZVOxFgln7WLK59Zrhky23WQocCu9bvPQsGwITh3daE7wri7PgkXk
+         2ABg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677835482;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qZW13a6M4CbKDv+/tbaLjH07R3EIPpeX9wuis9iCl0M=;
+        b=iP1DeZm4es33SkOTLEVjDtsiXeK01359ASSYYim9CvZVRYjrToMj+1mbJFbIryLeCz
+         Hvpzaqq0RjYm0ucuI0ohfwM5uMyq8fmaeE8TexjsY7tpWzmSy+0KI2OqKHMzEQxcKPH+
+         gd51L0AfdRplKGqczkET7/FILtM5OrZeixuRwDvnPnCf+TXO1uOgkaDo9RJcDW6UFewz
+         xNvPVtvRcXNc2oQ9+Nu1VBEtCFsQxHJpjDrSiBX7CxzNCq5zWXMNvzMsK/JASVeGqyY7
+         VW9ZUM3InqOM2JcEAmBs2o9aNzKAPQmVXMovzqMsdKmCiuPzNXtRQBZLklX0PkfvHM4I
+         YhqQ==
+X-Gm-Message-State: AO0yUKWVF1mk8tuCgSGgLFNA6E00oQZmTOtwGzB3NOzFX3mR+5DH4WFZ
+        Rh97XFyn2rEtFcZJNge8mhpTWw==
+X-Google-Smtp-Source: AK7set/TivsVLpZgfVwr7zBuzY0idsigW/sKtrB0Gs+T0bp+j2ltmNPJktyEla4UqtSRdklCLprlWw==
+X-Received: by 2002:adf:e60b:0:b0:2ca:9950:718 with SMTP id p11-20020adfe60b000000b002ca99500718mr890693wrm.52.1677835482554;
+        Fri, 03 Mar 2023 01:24:42 -0800 (PST)
+Received: from ?IPV6:2a05:6e02:1041:c10:e474:bda6:c260:d90b? ([2a05:6e02:1041:c10:e474:bda6:c260:d90b])
+        by smtp.googlemail.com with ESMTPSA id p7-20020a5d48c7000000b002c71d206329sm1631219wrs.55.2023.03.03.01.24.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Mar 2023 01:24:41 -0800 (PST)
+Message-ID: <1d3da42e-2499-7ff6-50fa-048a720e855f@linaro.org>
+Date:   Fri, 3 Mar 2023 10:24:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v5 00/18] Self-encapsulate the thermal zone device
+ structure
+Content-Language: en-US
+To:     rafael@kernel.org
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Vasily Khoruzhick <anarsoul@gmail.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Talel Shenhar <talel@amazon.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        Balsam CHIHI <bchihi@baylibre.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        linux-acpi@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y/9oO1AE6GK6CQmp@smile.fi.intel.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mar 01 2023, Andy Shevchenko wrote:
-> +Cc: Hans (as some DT/ACPI interesting cases are being discussed).
+
+Hi Rafael,
+
+Do we have enough ack to apply this series, is it for you ?
+
+Thanks
+
+   -- Daniel
+
+
+On 01/03/2023 21:14, Daniel Lezcano wrote:
+> The exported thermal headers expose the thermal core structure while those
+> should be private to the framework. The initial idea was the thermal sensor
+> drivers use the thermal zone device structure pointer to pass it around from
+> the ops to the thermal framework API like a handler.
 > 
-> On Tue, Feb 28, 2023 at 01:05:54PM -0600, Daniel Kaehn wrote:
-> > On Mon, Feb 27, 2023 at 5:07 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Mon, Feb 27, 2023 at 08:07:58AM -0600, Danny Kaehn wrote:
-> > > > Bind I2C and GPIO interfaces to subnodes with names
-> > > > "i2c" and "gpio" if they exist, respectively. This
-> > > > allows the GPIO and I2C controllers to be described
-> > > > in firmware as usual. Additionally, support configuring the
-> > > > I2C bus speed from the clock-frequency device property.
-> > >
-> > > A bit shorten indentation...
-> > >
-> > > Nevertheless what I realized now is that this change, despite being OF
-> > > independent by used APIs, still OF-only.
-> > 
-> > I assumed this would practically be the case -- not because of the casing
-> > reason you gave (wasn't aware of that, thanks for the FYI), but because it
-> > doesn't seem that there's any way to describe USB devices connected to
-> > a USB port in ACPI, at least as far as I can tell (ACPI is still largely a black
-> > box to me).
+> Unfortunately, different drivers are using and abusing the internals of this
+> structure to hook the associated struct device, read the internals values, take
+> the lock, etc ...
 > 
-> That's not true :-)
+> In order to fix this situation, let's encapsulate the structure leaking the
+> more in the different drivers: the thermal_zone_device structure.
 > 
-> Microsoft created a schema that is not part of the specification, but let's
-> say a standard de facto. Linux supports that and I even played with it [1]
-> to get connection of the arbitrary device to USB-2-GPIO/I²C/SPI adapter.
+> This series revisit the existing drivers using the thermal zone private
+> structure internals to change the access to something else. For instance, the
+> get_temp() ops is using the tz->dev to write a debug trace. Despite the trace
+> is not helpful, we can check the return value for the get_temp() ops in the
+> call site and show the message in this place.
 > 
-> > But it seems reasonable that we should try to use the interface
-> > in a way so that it could be described using ACPI at some point (assuming
-> > that it isn't currently possible).
-> > 
-> > > Would it be possible to allow indexed access to child nodes as well, so if
-> > > there are no names, we may still be able to use firmware nodes from the correct
-> > > children?
-> > 
-> > Sure, you mean to fallback to using child nodes by index rather than by name
-> > in the case that that device_get_named_child_node() fails?  Would we need to
-> > somehow verify that those nodes are the nodes we expect them to be? (a.e.
-> > node 0 is actually the i2c-controller, node 1 is actually the
-> > gpio-controller).
+> With this set of changes, the thermal_zone_device is almost self-encapsulated.
+> As usual, the acpi driver needs a more complex changes, so that will come in a
+> separate series along with the structure moved the private core headers.
 > 
-> Something like that, but I don't know if we can actually validate this without
-> having a preliminary agreement (hard-coded values) that index 0 is always let's
-> say I²C controller and so on.
+> Changelog:
+> 	- V5:
+> 	   - Dropped patch 19 : "thermal/tegra: Do not enable ... is already enabled"
+> 	   - Changed the init sequence of the hw channels on tegra3 to close
+> 	     the race window
+> 	   - Collected more tags
+> 	- V4:
+> 	   - Collected more tags
+> 	   - Fixed a typo therma_zone_device_priv() for db8500
+> 	   - Remove traces patch [20/20] to be submitted separetely
+> 	- V3:
+> 	   - Split the first patch into three to reduce the number of
+> 	     recipients per change
+> 	   - Collected more tags
+> 	   - Added missing changes for ->devdata in some drivers
+> 	   - Added a 'type' accessor
+> 	   - Replaced the 'type' to 'id' changes by the 'type' accessor
+> 	   - Used the 'type' accessor in the drivers
+> 	- V2:
+> 	   - Collected tags
+> 	   - Added missing changes for ->devdata for the tsens driver
+> 	   - Renamed thermal_zone_device_get_data() to thermal_zone_priv()
+> 	   - Added stubs when CONFIG_THERMAL is not set
+> 	   - Dropped hwmon change where we remove the tz->lock usage
 > 
-> > I don't see a reason why not, though I am curious if there is
-> > precedence for this
-> > strategy, a.e. in other drivers that use named child nodes. In my initial search
-> > through the kernel, I don't think I found anything like this -- does that mean
-> > those drivers also inherently won't work with ACPI?
+> Thank you all for your comments
 > 
-> If they are relying on names, yes, they won't work. It might be that some of them
-> have specific ACPI approach where different description is in use.
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Ido Schimmel <idosch@nvidia.com>
+> Cc: Petr Machata <petrm@nvidia.com>
+> Cc: Gregory Greenman <gregory.greenman@intel.com>
+> Cc: Kalle Valo <kvalo@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Amit Kucheria <amitk@kernel.org>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+> Cc: Ray Jui <rjui@broadcom.com>
+> Cc: Scott Branden <sbranden@broadcom.com>
+> Cc: Markus Mayer <mmayer@broadcom.com>
+> Cc: Support Opensource <support.opensource@diasemi.com>
+> Cc: Andy Gross <agross@kernel.org>
+> Cc: Bjorn Andersson <andersson@kernel.org>
+> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Cc: Thara Gopinath <thara.gopinath@gmail.com>
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Alim Akhtar <alim.akhtar@samsung.com>
+> Cc: Orson Zhai <orsonzhai@gmail.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+> Cc: Yangtao Li <tiny.windzz@gmail.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Talel Shenhar <talel@amazon.com>
+> Cc: Eduardo Valentin <edubezval@gmail.com>
+> Cc: Keerthy <j-keerthy@ti.com>
+> Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: Stefan Wahren <stefan.wahren@i2se.com>
+> Cc: Zheng Yongjun <zhengyongjun3@huawei.com>
+> Cc: Yang Li <yang.lee@linux.alibaba.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Daniel Golle <daniel@makrotopia.org>
+> Cc: Balsam CHIHI <bchihi@baylibre.com>
+> Cc: Mikko Perttunen <mperttunen@nvidia.com>
+> Cc: linux-acpi@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-ide@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-hwmon@vger.kernel.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-sunxi@lists.linux.dev
+> Cc: linux-input@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-rpi-kernel@lists.infradead.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-tegra@vger.kernel.org
+> Cc: linux-omap@vger.kernel.org
+> Cc: linux-mediatek@lists.infradead.org
 > 
-> > The only driver I can find which uses device_get_named_child_node and has
-> > an acpi_device_id is drivers/platform/x86/intel/chtwc_int33fe.c
+> Daniel Lezcano (18):
+>    thermal/core: Add a thermal zone 'devdata' accessor
+>    thermal/core: Use the thermal zone 'devdata' accessor in thermal
+>      located drivers
+>    thermal/core: Use the thermal zone 'devdata' accessor in hwmon located
+>      drivers
+>    thermal/core: Use the thermal zone 'devdata' accessor in remaining
+>      drivers
+>    thermal/core: Show a debug message when get_temp() fails
+>    thermal: Remove debug or error messages in get_temp() ops
+>    thermal/hwmon: Do not set no_hwmon before calling
+>      thermal_add_hwmon_sysfs()
+>    thermal/hwmon: Use the right device for devm_thermal_add_hwmon_sysfs()
+>    thermal: Don't use 'device' internal thermal zone structure field
+>    thermal/core: Add thermal_zone_device structure 'type' accessor
+>    thermal/drivers/spear: Don't use tz->device but pdev->dev
+>    thermal: Add a thermal zone id accessor
+>    thermal: Use thermal_zone_device_type() accessor
+>    thermal/drivers/da9062: Don't access the thermal zone device fields
+>    thermal/hwmon: Use the thermal_core.h header
+>    thermal/drivers/tegra: Remove unneeded lock when setting a trip point
+>    thermal/drivers/acerhdf: Make interval setting only at module load
+>      time
+>    thermal/drivers/acerhdf: Remove pointless governor test
 > 
-> Yes, and you may notice the capitalization of the name. Also note, that relying
-> on the name in ACPI like now is quite fragile due to no common standard between
-> OEMs on how to name the same hardware nodes, they are free in that.
+>   drivers/acpi/thermal.c                        | 18 +++----
+>   drivers/ata/ahci_imx.c                        |  2 +-
+>   drivers/hwmon/hwmon.c                         |  4 +-
+>   drivers/hwmon/pmbus/pmbus_core.c              |  2 +-
+>   drivers/hwmon/scmi-hwmon.c                    |  4 +-
+>   drivers/hwmon/scpi-hwmon.c                    |  2 +-
+>   drivers/iio/adc/sun4i-gpadc-iio.c             |  2 +-
+>   drivers/input/touchscreen/sun4i-ts.c          |  2 +-
+>   .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  2 +-
+>   .../ethernet/mellanox/mlxsw/core_thermal.c    | 16 +++----
+>   drivers/net/wireless/intel/iwlwifi/mvm/tt.c   |  4 +-
+>   drivers/platform/x86/acerhdf.c                | 19 ++------
+>   drivers/power/supply/power_supply_core.c      |  2 +-
+>   drivers/regulator/max8973-regulator.c         |  2 +-
+>   drivers/thermal/amlogic_thermal.c             |  4 +-
+>   drivers/thermal/armada_thermal.c              | 14 ++----
+>   drivers/thermal/broadcom/bcm2711_thermal.c    |  3 +-
+>   drivers/thermal/broadcom/bcm2835_thermal.c    |  3 +-
+>   drivers/thermal/broadcom/brcmstb_thermal.c    |  8 ++--
+>   drivers/thermal/broadcom/ns-thermal.c         |  2 +-
+>   drivers/thermal/broadcom/sr-thermal.c         |  2 +-
+>   drivers/thermal/da9062-thermal.c              | 13 +++--
+>   drivers/thermal/db8500_thermal.c              |  2 +-
+>   drivers/thermal/dove_thermal.c                |  7 +--
+>   drivers/thermal/hisi_thermal.c                |  5 +-
+>   drivers/thermal/imx8mm_thermal.c              |  4 +-
+>   drivers/thermal/imx_sc_thermal.c              |  9 ++--
+>   drivers/thermal/imx_thermal.c                 | 47 +++++--------------
+>   .../intel/int340x_thermal/int3400_thermal.c   |  2 +-
+>   .../int340x_thermal/int340x_thermal_zone.c    |  4 +-
+>   .../processor_thermal_device_pci.c            |  4 +-
+>   drivers/thermal/intel/intel_pch_thermal.c     |  2 +-
+>   .../thermal/intel/intel_quark_dts_thermal.c   |  6 +--
+>   drivers/thermal/intel/intel_soc_dts_iosf.c    | 13 ++---
+>   drivers/thermal/intel/x86_pkg_temp_thermal.c  |  4 +-
+>   drivers/thermal/k3_bandgap.c                  |  4 +-
+>   drivers/thermal/k3_j72xx_bandgap.c            |  2 +-
+>   drivers/thermal/kirkwood_thermal.c            |  7 +--
+>   drivers/thermal/max77620_thermal.c            |  6 +--
+>   drivers/thermal/mediatek/auxadc_thermal.c     |  4 +-
+>   drivers/thermal/mediatek/lvts_thermal.c       | 10 ++--
+>   drivers/thermal/qcom/qcom-spmi-adc-tm5.c      |  6 +--
+>   drivers/thermal/qcom/qcom-spmi-temp-alarm.c   |  6 +--
+>   drivers/thermal/qcom/tsens.c                  |  6 +--
+>   drivers/thermal/qoriq_thermal.c               |  4 +-
+>   drivers/thermal/rcar_gen3_thermal.c           |  5 +-
+>   drivers/thermal/rcar_thermal.c                |  8 +---
+>   drivers/thermal/rockchip_thermal.c            |  8 +---
+>   drivers/thermal/rzg2l_thermal.c               |  3 +-
+>   drivers/thermal/samsung/exynos_tmu.c          |  4 +-
+>   drivers/thermal/spear_thermal.c               | 10 ++--
+>   drivers/thermal/sprd_thermal.c                |  2 +-
+>   drivers/thermal/st/st_thermal.c               |  5 +-
+>   drivers/thermal/st/stm_thermal.c              |  4 +-
+>   drivers/thermal/sun8i_thermal.c               |  4 +-
+>   drivers/thermal/tegra/soctherm.c              |  6 +--
+>   drivers/thermal/tegra/tegra-bpmp-thermal.c    |  6 ++-
+>   drivers/thermal/tegra/tegra30-tsensor.c       | 31 ++++++------
+>   drivers/thermal/thermal-generic-adc.c         |  7 ++-
+>   drivers/thermal/thermal_core.c                | 18 +++++++
+>   drivers/thermal/thermal_helpers.c             |  3 ++
+>   drivers/thermal/thermal_hwmon.c               |  9 ++--
+>   drivers/thermal/thermal_hwmon.h               |  4 +-
+>   drivers/thermal/thermal_mmio.c                |  2 +-
+>   .../ti-soc-thermal/ti-thermal-common.c        | 10 ++--
+>   drivers/thermal/uniphier_thermal.c            |  2 +-
+>   include/linux/thermal.h                       | 19 ++++++++
+>   67 files changed, 218 insertions(+), 246 deletions(-)
 > 
-> > > P.S. The problem with ACPI is that "name" of the child node will be in capital
-> > > letters as it's in accordance with the specification.
-> > 
-> > Knowing that this is the limitation, some other potential resolutions
-> > to potentially
-> > consider might be:
-> > 
-> > - Uppercase the names of the child nodes for the DT binding -- it appears
-> >   that the child node that chtwc_int33fe.c (the driver mentioned earlier)
-> >   accesses does indeed have an upper-cased name -- though that driver doesn't
-> >   have an of_device_id (makes sense, x86...). It seems named child nodes are
-> >   always lowercase in DT bindings -- not sure if that's a rule, or just how
-> >   it currently happens to be.
-> 
-> Not an option AFAIK, the DT and ACPI specifications are requiring conflicting
-> naming schema.
-> 
-> Possible way is to lowering case for ACPI names, but I dunno. We need more
-> opinions on this.
-> 
-> > - Do a case invariant compare on the names (and/or check for both lowercase
-> >   and uppercase)
-> 
-> For ACPI it will be always capital. For DT I have no clue if they allow capital
-> letters there, but I assume they don't.
-> 
-> > - Remove the use of child nodes, and combine the i2c and gpio nodes into the
-> >     cp2112's fwnode. I didn't do this initially because I wanted to avoid
-> >     namespace collisions between GPIO hogs and i2c child devices, and thought
-> >     that logically made sense to keep them separate, but that was before
-> >     knowing this limitation of ACPI.
-> 
-> Seems to me not an option at all, we need to define hardware as is. If it
-> combines two devices under a hood, should be two devices under a hood in
-> DT/ACPI.
-> 
-> [1]: https://stackoverflow.com/a/60855157/2511795
 
-Thanks Andy for your help here, and thanks for that link.
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-I am trying to test Danny's patch as I want to use it for my HID CI,
-being an owner of a CP2112 device myself.
-
-The current setup is using out of the tree patches [2] which are
-implementing a platform i2c-hid support and some manual addition of a
-I2C-HID device on top of it. This works fine but gets busted every now
-and then when the tree sees a change that conflicts with these patches.
-
-So with Danny's series, I thought I could have an SSDT override to
-declare that very same device instead of patching my kernel before
-testing it.
-
-Of course, it gets tricky because I need to run that under qemu.
-
-I am currently stuck at the "sharing the firmware_node from usb with
-HID" step and I'd like to know if you could help me.
-
-On my laptop, if I plug the CP2112 (without using a USB hub), I can get:
-
-$> ls -l /sys/bus/hid/devices/0003:10C4:EA90.*            
-  lrwxrwxrwx. 1 root root 0 Mar  2 17:02 /sys/bus/hid/devices/0003:10C4:EA90.0079 -> ../../../devices/pci0000:00/0000:00:14.0/usb2/2-9/2-9:1.0/0003:10C4:EA90.0079
-$> ls -l /sys/bus/usb/devices/2-9*/firmware_node
-  lrwxrwxrwx. 1 root root 0 Mar  2 17:03 /sys/bus/usb/devices/2-9:1.0/firmware_node -> ../../../../../LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:15/device:16/device:25
-  lrwxrwxrwx. 1 root root 0 Mar  2 17:02 /sys/bus/usb/devices/2-9/firmware_node -> ../../../../LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:15/device:16/device:25
-
-So AFAIU the USB device is properly assigned a firmware node. My dsdt
-also shows the "Device (RHUB)" and I guess everything is fine.
-
-However, playing with qemu is not so easy.
-
-I am running qemu with the following arguments (well, almost because I
-have a wrapper script on top of it and I also run the compiled kernel
-from the current tree):
-
-#> qemu-system-x86_64 -bios /usr/share/edk2/ovmf/OVMF_CODE.fd \
-                      -netdev user,id=hostnet0 \
-                      -device virtio-net-pci,netdev=hostnet0 \
-                      -m 4G \
-                      -enable-kvm \
-                      -cpu host \
-                      -device qemu-xhci -usb \
-                      -device 'usb-host,vendorid=0x10c4,productid=0xea90' \
-                      -cdrom ~/Downloads/Fedora-Workstation-Live-x86_64-37-1.7.iso
-
-And this is what I get:
-
-#> ls -l /sys/bus/hid/devices/0003:10C4:EA90.*
-  lrwxrwxrwx 1 root root 0 Mar  2 16:10 /sys/bus/hid/devices/0003:10C4:EA90.0001 -> ../../../devices/pci0000:00/0000:00:06.0/usb2/2-1/2-1:1.0/0003:10C4:EA90.0001
-
-#> ls -l /sys/bus/usb/devices/2-1*/firmware_node
-  ls: cannot access '/sys/bus/usb/devices/2-1*/firmware_node': No such file or directory
-
-Looking at the DSDT, I do not see any reference to the USB hub, so I
-wonder if the firmware_node needs to be populated first in the DSDT.
-
-Also note that if I plug the CP2112 over a docking station, I lose the
-firmware_node sysfs entries on the host too.
-
-Do you think it would be achievable to emulate that over qemu and use a
-mainline kernel without patches?
-
-Cheers,
-Benjamin
-
-[2] https://gitlab.freedesktop.org/bentiss/gitlab-kernel-ci/-/tree/master/VM
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
