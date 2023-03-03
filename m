@@ -2,104 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 976456A9A95
-	for <lists+linux-input@lfdr.de>; Fri,  3 Mar 2023 16:26:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A211F6AA049
+	for <lists+linux-input@lfdr.de>; Fri,  3 Mar 2023 20:48:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230494AbjCCP0e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Mar 2023 10:26:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42666 "EHLO
+        id S231549AbjCCTsg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Mar 2023 14:48:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229983AbjCCP0e (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Mar 2023 10:26:34 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E41B22DFA
-        for <linux-input@vger.kernel.org>; Fri,  3 Mar 2023 07:26:33 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id c11so2069322oiw.2
-        for <linux-input@vger.kernel.org>; Fri, 03 Mar 2023 07:26:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1677857192;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EEa5f5NbUQ9Kfmnp5btTdhemZ/7E/FPRRcXInOiUGEY=;
-        b=R178QZSgljLqAoKE9diLz27SuOjHRHaqnUVuigk6hXtWcHOUa29Uzkvnbem2imCsKF
-         V9nQTCpSScNtJe/ojpHvkGFURCn87QZPkGv7lZMrP10iTVCV0VcvlDyjYW2QXVbb2ZtM
-         yGy9Ynfjm3ggEUZVz8fcTmBAbV81IvGByaYZ0=
+        with ESMTP id S231377AbjCCTse (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Mar 2023 14:48:34 -0500
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA6B136DD;
+        Fri,  3 Mar 2023 11:48:29 -0800 (PST)
+Received: by mail-ed1-f50.google.com with SMTP id d30so14743202eda.4;
+        Fri, 03 Mar 2023 11:48:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677857192;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1677872908;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EEa5f5NbUQ9Kfmnp5btTdhemZ/7E/FPRRcXInOiUGEY=;
-        b=xdX6PpEGgdosPi7+x6LDk/aWAkjZmkvZXsxt8R3G/XIxRtKPHA2jU/Toi/drSuxg/Z
-         /CmAQGCKCdgnDwDihh8SXsDdwO8sPdqvfIokZtwsgos+vfhpwI/LvFoYMjQmN3pPkKGI
-         2tiOwTtUSkmJQA3T8bNffqXvllm1l8R4s4b81AHGR7kK2fEQ/ofICa1rgcn8wn3f8txY
-         WNxrWaPohcxZWPJI/a7J338/5t7u6f45sg6ZhddL9rq4MH3HKOA504MrZGsSOHEWju8i
-         2UzDpl9iIyx7XA7PJOFdqjea9EVlElesF3F4Qhh4RbYBfjo8bBYTVnPxVdxsi66dE6Bm
-         B45Q==
-X-Gm-Message-State: AO0yUKXKvCv+4Z7F45q0mmA3d//WoXykhM9K2M9X5CODuW281r+9MRJR
-        RCZLtV894TIa9jzKbRGP2quKDQ==
-X-Google-Smtp-Source: AK7set+v1XbLGu0Af838tFwLLnH7TU3D50cVydeEOiqWBWrFk+9bROuPkSnJ5LccQoNZI/cKxWX93w==
-X-Received: by 2002:a05:6808:8e4:b0:383:b2bb:1212 with SMTP id d4-20020a05680808e400b00383b2bb1212mr864942oic.4.1677857192501;
-        Fri, 03 Mar 2023 07:26:32 -0800 (PST)
-Received: from jdenose34.roam.corp.google.com (99-137-158-190.lightspeed.cicril.sbcglobal.net. [99.137.158.190])
-        by smtp.gmail.com with ESMTPSA id i66-20020aca3b45000000b00383e9fa1eaasm980129oia.43.2023.03.03.07.26.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 07:26:31 -0800 (PST)
-From:   Jonathan Denose <jdenose@chromium.org>
-X-Google-Original-From: Jonathan Denose <jdenose@google.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Jonathan Denose <jdenose@google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Takashi Iwai <tiwai@suse.de>,
-        Werner Sembach <wse@tuxedocomputers.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Input: i8042 - Add quirk for Fujitsu Lifebook A574/H
-Date:   Fri,  3 Mar 2023 09:26:23 -0600
-Message-Id: <20230303152623.45859-1-jdenose@google.com>
-X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
+        bh=qr3wWyppk2JO5cvuGc7OJNqcMG2NC5hwXnkMjN+yuLE=;
+        b=mXnS1hzVlXCx/SEZZDeRfFq3BbGUQ+FjBtAfGFxEc85b/SDiGvfpUX5JGXb2Z9tljK
+         rOiGhppg1i6z9oMLxW9thrYeiO19ASWqZ2fscBNdgDaVbRpvwU2kwtYDrC6vmS4ODpst
+         +94sWKfQlegHXJGKnUd9gtUYoKXXAozsoxfrJ/I3LlSe5MNcgeLDUr/IejCmigtQ+v6a
+         aE3C/A91wSwmjfJSKSCXIYoP+gLDxRUD30cluv2duVOIxollBv24c0jL7g6HcgIKN/lU
+         I2NKB480pc2+1Sm8d+irHvwfGtMYgmUPvT3mhMHdnmRF2+yAst3bcCgQaV/1hRwlWBHT
+         a0tw==
+X-Gm-Message-State: AO0yUKUPkSB+bPBxfzvK+deUOKRvGuaCQHQ3KJTrVnZjqpQ/33IEcdjy
+        lQk3i8K6WdCn2pEMgIDr2SCbV4U9+BGn131FnjeSFLkp
+X-Google-Smtp-Source: AK7set8pOENE3qQdov6OdbnX8NZeqRAuHLeW/9RDr9g861DgXcdaR15YJISLt3N0xGeu3omTus0Ig7L1FfyytK0BbOU=
+X-Received: by 2002:a50:ce19:0:b0:4bc:2776:5b61 with SMTP id
+ y25-20020a50ce19000000b004bc27765b61mr1748709edi.6.1677872907622; Fri, 03 Mar
+ 2023 11:48:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230301201446.3713334-1-daniel.lezcano@linaro.org> <1d3da42e-2499-7ff6-50fa-048a720e855f@linaro.org>
+In-Reply-To: <1d3da42e-2499-7ff6-50fa-048a720e855f@linaro.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 3 Mar 2023 20:48:16 +0100
+Message-ID: <CAJZ5v0i9fbEpedS-CCM5qvfaG095jUDzOFd-H83G3mpwDaxoAA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/18] Self-encapsulate the thermal zone device structure
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     rafael@kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
+        Len Brown <lenb@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Vasily Khoruzhick <anarsoul@gmail.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Talel Shenhar <talel@amazon.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        Balsam CHIHI <bchihi@baylibre.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        linux-acpi@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fujitsu Lifebook A574/H requires the nomux option to properly
-probe the touchpad, especially when waking from sleep.
+Hi Daniel,
 
-Signed-off-by: Jonathan Denose <jdenose@google.com>
----
+On Fri, Mar 3, 2023 at 10:24 AM Daniel Lezcano
+<daniel.lezcano@linaro.org> wrote:
+>
+>
+> Hi Rafael,
+>
+> Do we have enough ack to apply this series, is it for you ?
 
- drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I've just queued it up for 6.4.
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index efc61736099b..fe7ffe30997c 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -610,6 +610,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		},
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
- 	},
-+	{
-+		/* Fujitsu Lifebook A574/H */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "FMVA0501PZ"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
-+	},
- 	{
- 		/* Gigabyte M912 */
- 		.matches = {
--- 
-2.40.0.rc0.216.gc4246ad0f0-goog
+It will reach linux-next and the thermal branch some time next week,
+but I will be traveling, so there may be delays.
 
+Thanks!
