@@ -2,143 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FDE56AA728
-	for <lists+linux-input@lfdr.de>; Sat,  4 Mar 2023 02:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DF966AAFEC
+	for <lists+linux-input@lfdr.de>; Sun,  5 Mar 2023 14:34:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbjCDBLv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Mar 2023 20:11:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41144 "EHLO
+        id S229792AbjCENev (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Mar 2023 08:34:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjCDBLu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Mar 2023 20:11:50 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17DDF6A9FA;
-        Fri,  3 Mar 2023 17:11:02 -0800 (PST)
-Received: from mercury (unknown [185.254.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S229783AbjCENeu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Mar 2023 08:34:50 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052AAB455;
+        Sun,  5 Mar 2023 05:34:48 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2377E6602FA8;
-        Sat,  4 Mar 2023 01:09:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1677892173;
-        bh=azvDplbHMaoh4IBoec/JRVXjJiT7wfVg7BkGadNGmdY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Hs2HbpLthGtyuePn9H13JM73X+jdfzrs+djukRcdQxnlvmMTzLtW5xCqaE63EZ18d
-         jx6kS6zm1ebT8jcFCD2veFYPCb25xj2FEgtp+TMBp7ynfMlj6cgTUY0R68+aUFwaG8
-         GpHoKhEoFfpaXB9BR0sDoiAIIJ2B02cajE6rqB/VRkrqK61vnEmhl99VYy/ALbDd4h
-         BFqvQZprERH1fRW4IW/hQVTRAyfnL1R4oP6gr2rbyrTRHea1h1Zy0OYZlBuT4StRwm
-         9OnY+f1iH9w/1mz5Y2E5oEyzW2GjSZ8YgeRth6VjDcQD89loH3PRBvsEFgsGbOP/8N
-         kEWN6pm34835w==
-Received: by mercury (Postfix, from userid 1000)
-        id DCBB910609DD; Sat,  4 Mar 2023 02:09:29 +0100 (CET)
-Date:   Sat, 4 Mar 2023 02:09:29 +0100
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Jason Gerecke <killertofu@gmail.com>
-Cc:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        "ping.cheng@wacom.com" <ping.cheng@wacom.com>,
-        "jason.gerecke@wacom.com" <jason.gerecke@wacom.com>,
-        linux-pm@vger.kernel.org
-Subject: Re: "proximity" attribute for input devices
-Message-ID: <c65e2dbc-c8f9-4481-85f1-4d1eb140a05f@mercury.local>
-References: <MN0PR12MB6101F4408960BDB9CF63DD53E2AB9@MN0PR12MB6101.namprd12.prod.outlook.com>
- <CANRwn3Tb1JgLpCiYFZBO1+PDHWLT-yxEPQ0TQ19xGDWZR9pmoA@mail.gmail.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4398360AD9;
+        Sun,  5 Mar 2023 13:34:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D3F8C433D2;
+        Sun,  5 Mar 2023 13:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678023287;
+        bh=Ww9ERM95+pBS9/qhdjKVefHnaoUi6JrSFsrwD71Xu8E=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=OhttQW5raw8emmMTnEMBeznudEb3yCZ3mVBjJXwEQdNLOLe/+wjdsF2l65DusYha6
+         l+LLbumOYotJIzNBl6kaFHSQstCrgvNb3tHr5zmMsFquVQNegKCV0M0b306nzFwBQX
+         sE6wNTp3+Z6fP0fldRKZj21rCI9y4YDo279CMb1UgixTlZQfCdlhNTnMMQkHTgxxuR
+         X1h7YQbY1dkVgT2y21E1A81xBk5wbR2ERt0OCPHm/ea5j94/F9wDJVG/UD1RDRSDKY
+         AyS/i2PBugtckqBikdp4gIkmc85/g+GXaAkSLJpKP2fAzkemXrfIsAoKbWARkd3sAS
+         B/iUU8GTSQqgg==
+Message-ID: <42ac04f2-e7dc-a5a8-750e-243aa82c35db@kernel.org>
+Date:   Sun, 5 Mar 2023 14:34:43 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="34dxy4kcivdpbrnl"
-Content-Disposition: inline
-In-Reply-To: <CANRwn3Tb1JgLpCiYFZBO1+PDHWLT-yxEPQ0TQ19xGDWZR9pmoA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/2] Input: hideep - Optionally reset controller work
+ mode to native HiDeep protocol
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org
+References: <20230303222113.285546-1-hdegoede@redhat.com>
+ <20230303222113.285546-3-hdegoede@redhat.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230303222113.285546-3-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 03/03/2023 23:21, Hans de Goede wrote:
+> The HiDeep IST940E touchscreen controller used on the Lenovo Yoga Book X90F
+> convertible comes up in HID mode by default.
+> 
+> This works well on the X91F Windows model where the touchscreen is
+> correctly described in ACPI and ACPI takes care of controlling
+> the reset GPIO and regulators.
+> 
+> But the X90F ships with Android and the ACPI tables on this model don't
+> describe the touchscreen. Instead this is hardcoded in the vendor kernel.
+> 
+> The vendor kernel uses the touchscreen in native HiDeep 20 (2.0?) protocol
+> mode and switches the controller to this mode by writing 0 to reg 0x081e.
+> 
+> Adjusting the i2c-hid code to deal with the reset-gpio and regulators on
+> this non devicetree (but rather broken ACPI) convertible is somewhat tricky
+> and the native protocol reports ABS_MT_PRESSURE and ABS_MT_TOUCH_MAJOR
+> which are not reported in HID mode, so it is preferable to use the native
+> mode.
+> 
+> Add support to the hideep driver to reset the work-mode to the native
+> HiDeep protocol to allow using it on the Lenovo Yoga Book X90F.
+> This is guarded behind a new "hideep,reset-work-mode" boolean property,
+> to avoid changing behavior on other devices.
+> 
+> For the record: I did test using the i2c-hid driver with some quick hacks
+> and it does work. The I2C-HID descriptor is available from address 0x0020,
+> just like on the X91F Windows model.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
---34dxy4kcivdpbrnl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
 
-Hi,
+> ---
+>  .../bindings/input/touchscreen/hideep.txt        |  1 +
+>  drivers/input/touchscreen/hideep.c               | 16 ++++++++++++++++
+>  2 files changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/hideep.txt b/Documentation/devicetree/bindings/input/touchscreen/hideep.txt
+> index a47c36190b01..68bb9f8dcc30 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/hideep.txt
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/hideep.txt
+> @@ -17,6 +17,7 @@ Optional properties:
+>  - linux,keycodes	: Specifies an array of numeric keycode values to
+>  			be used for reporting button presses. The array can
+>  			contain up to 3 entries.
+> +- hideep,reset-work-mode: bool, reset touch report format to the native HiDeep protocol
 
-On Fri, Mar 03, 2023 at 03:05:41PM -0800, Jason Gerecke wrote:
-> Apologies for the delay in replying.
->=20
-> First off: as an immediate action, I'm thinking of changing the Wacom
-> driver to do lazy creation of the power_supply device. This would mean
-> that rather than creating it at the same time as the input device, we
-> would wait until we receive some kind of affirmative indication of a
-> battery being present. Most Wacom peripherals report battery status in
-> a "heartbeat" report that is sent every few seconds, so there wouldn't
-> be much change for the typical user (just a few-second delay between
-> connecting the hardware and a power_supply device being created). In
-> the case of the "component" devices that are built into laptops and
-> other computers, however, the battery status is only reported while
-> the pen is actually in proximity. For users like you who don't own (or
-> never use) a pen, this means that our driver would never create a
-> power_supply device -- preventing GNOME from showing a battery that
-> isn't relevant. I'm working on a patch set that does this but need a
-> bit more time to finish it.
->
-> That's only a partial solution, however. If a component user were to
-> bring a pen into prox even just briefly, then a power_supply device
-> would be created and not go away until the user reboots. The pen's
-> battery status will become stale at some point in time though --
-> self-discharge, use of the pen on another device, and even just simple
-> irrelevance if the user hasn't used the pen in a while (do I care that
-> the pen which I left at home is at 50% battery?). I agree that it
-> makes sense for userspace to hide the battery after a while due to
-> things like this. Are there new signals that the kernel should be
-> providing to userspace (e.g. an attribute that indicates if we're in
-> communication with power_supply? an attribute signaling that data
-> might be stale)? Or are the signals that are already provided
-> sufficient (e.g. should GNOME just hide power_supply devices that are
-> in an "Unknown" state? or maybe hide power_supplies which haven't been
-> updated in more than 1 hour?)
+Bindings must be a separate patch.
 
-Can't you just unregister the power-supply device if there hasn't
-been any heartbeat for some minutes and go back to the init state
-(i.e. the one where you are waiting for a heartbeat to appear for
-the first time)?
+Also, would be nice to convert first the TXT to DT schema (YAML).
 
-> I've added the power_supply list and maintainer for some additional
-> viewpoints on the second paragraph... If there are questions about how
-> the Wacom hardware and its battery reporting works, I'm happy to
-> provide answers...
+"-mode" suggests it's some enum, not bool. Otherwise what exactly it is
+choosing (which mode)?
 
-I think the problem you have is quite specific to the Wacom
-hardware. Usually wireless devices are either connected or
-disconnected and drivers unregister the battery device on
-disconnect. So I think this logic belongs into Wacom specific
-code and not in generic power-supply core code.
 
--- Sebastian
 
---34dxy4kcivdpbrnl
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+Krzysztof
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmQCmjwACgkQ2O7X88g7
-+pp4hA/9HWX3RrsiIVIX00iAb9g6mQcWRNXcSKq6QN7WRA1FMd9wpTYNzaikKavd
-aD7ZMOg7RU/XUgh+urTsbSoomE7gZQ1Jrt4N1isnzOM26BxaQyfAMiqo8NCo7VY6
-Ldt9/YdYPqixyWoQWGkOuKx09fmgMBE1dnu0t3ShEqY60pyTt6Tk2R2wOSmWmvXs
-VAe1BJ2gQxhI5yJ6VTJ2FpPL83zetTi3hT6aVpvsEbCh3RT8iG57Ubou6cZ6zNdd
-d/b0BZyVJjCI0x/FfokQEQ1dqam0CjW8pQ6q8I41JWPCwSZD+ZyAmSVtY8u6CxlL
-hJLQPJXOD36kksQStDN9xyuoKiMmtL6edOGukO+aWtb6toYFglDdzfjiSKZpNEzt
-SVpBuq6KB/g85mzlB2glQXVsXAGbjlsMif5H7w3hKgQNCTvya1dRx9DLD9djDv0c
-hTvQzt1Wn6VzZ0gfRUUf4+0Y//ss7zZqhQoIwvfsa3RARlGhNw/X/OpDqQgWy7BX
-T27xsSy+P5zr28bttt4XFei6C1FiwFGPM2rl+H48yyAJXDhTXMDYntFT59m/HaSP
-03aFUnVsJ2FSy6qFcV0yi9YBdTPW5gJKQgRqc4lFTOOdxV9nDqwzxAblGW40LUGU
-Vh6lxyfYGhkOikZJCWpahJTuARyEVtsvj4tEzcv+bcvOgSg6ybM=
-=qSbH
------END PGP SIGNATURE-----
-
---34dxy4kcivdpbrnl--
