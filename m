@@ -2,169 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C60C6AB127
-	for <lists+linux-input@lfdr.de>; Sun,  5 Mar 2023 16:05:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59F126AB8C8
+	for <lists+linux-input@lfdr.de>; Mon,  6 Mar 2023 09:49:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbjCEPFW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Mar 2023 10:05:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46516 "EHLO
+        id S229570AbjCFItp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Mar 2023 03:49:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjCEPFV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Mar 2023 10:05:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B8F14994
-        for <linux-input@vger.kernel.org>; Sun,  5 Mar 2023 07:04:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678028674;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lcIzdJEQlVPhl3VnJddZ0bZYXiRhJ/fuBDlWnBeXDVw=;
-        b=HrE0DPsfT79YQ6NDMW19bd9mHpoLuy8gKM1HLSuouXnisXj7DJL0kK00rgA+wXEWC2yji7
-        ahGX/9w9lfMbPF/OnOHLN3Yzuf79w4PHiatG2CB590LaQmaeqKty0VfyTxztkWqFdK2O+W
-        DyL5ELz/CqWWoAOeRaMnDzam4IwihhI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-372-L1olOJA4N6e1rhAHkg6xkQ-1; Sun, 05 Mar 2023 10:04:33 -0500
-X-MC-Unique: L1olOJA4N6e1rhAHkg6xkQ-1
-Received: by mail-ed1-f72.google.com with SMTP id z14-20020a05640235ce00b004e07ddbc2f8so1589781edc.7
-        for <linux-input@vger.kernel.org>; Sun, 05 Mar 2023 07:04:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678028672;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lcIzdJEQlVPhl3VnJddZ0bZYXiRhJ/fuBDlWnBeXDVw=;
-        b=r3UStLiaB2omxhrtyLwXsIhyq7SoXADsG4AJyqxZQXEIff+8Fd2IT2tmt+S+T/K5v/
-         aLwf5QQ+YFDgNM5j5Xck/PLMREI5OyobSDjkXr75P6FZr7nHqc3BX6tz9MBfC15tJUHB
-         7X98Duu+Jyv9sGa4tyY361d+fycdy1T5CJjVrcWWMKsM7ZN7hCdczLyDmkFH6Fo6/7Gx
-         SES4wttnPS88GAw1LX5IzjZbaZiI6+WVJpVgw7wxnOK8IR6ZNGT/TDIJwoZC7AJYYPEt
-         daV5jzlkgFykSS5100QCX8ggIrjv4oWwUxgB0LmZdl0dadE5d0LYJpRtRxQ6QUYF8LgT
-         ITvQ==
-X-Gm-Message-State: AO0yUKXFsrQgOOggHmijO6JeIWznSQoZsBob/D9Uj2PTt7Aszq7BMW3S
-        ieTnbCJ4e3NTUE879O/yU9Z6rr3NxZfnSpBKg1XSNR/d3Bp44MU1Nd+nVIKibKGmBKI3yfxu/y6
-        0bmsddo/J/BsPFrT0u0fhqDM=
-X-Received: by 2002:a17:907:a508:b0:878:545b:e540 with SMTP id vr8-20020a170907a50800b00878545be540mr8051189ejc.51.1678028672362;
-        Sun, 05 Mar 2023 07:04:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set8hm2FL/eqdJdmtaLVxB2FQSQjEL+PahVQp0/laTJn/dWCamgTiqgJO37h/0nRatSbzHTUptw==
-X-Received: by 2002:a17:907:a508:b0:878:545b:e540 with SMTP id vr8-20020a170907a50800b00878545be540mr8051175ejc.51.1678028672045;
-        Sun, 05 Mar 2023 07:04:32 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id v9-20020a17090651c900b008b2e4f88ed7sm3334165ejk.111.2023.03.05.07.04.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Mar 2023 07:04:31 -0800 (PST)
-Message-ID: <857e6fc3-65f6-5b71-073f-b518ab3c814e@redhat.com>
-Date:   Sun, 5 Mar 2023 16:04:30 +0100
+        with ESMTP id S229557AbjCFItp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Mar 2023 03:49:45 -0500
+X-Greylist: delayed 503 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 06 Mar 2023 00:49:44 PST
+Received: from mail.amblevebiz.com (mail.amblevebiz.com [80.211.239.97])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B44F96B
+        for <linux-input@vger.kernel.org>; Mon,  6 Mar 2023 00:49:44 -0800 (PST)
+Received: by mail.amblevebiz.com (Postfix, from userid 1002)
+        id 3591F82B5A; Mon,  6 Mar 2023 09:41:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=amblevebiz.com;
+        s=mail; t=1678092079;
+        bh=mG5KF9rXIT2hCcIXZaMY449X9Ndwb1czFhgZLlqDg7A=;
+        h=Date:From:To:Subject:From;
+        b=VKI6q6xMS1Pic8dVcqCnLzTdRY71nD5Q7M9QZsZzO+ZFzn8BffszAYz/DFYg7FXiK
+         h7rLwXytTLE4AXzJZPPaFms00r9ks1d2Arr1WVXOphhsh77xi5+AqXmk6Oeft2y6gc
+         mlwu7rKYivQ+rpSWbIDXeuvmJjig5sxVInKdEBHw6koSrvqGQ9O/SJDFBXVO2g2mM7
+         nvK85eSTvzh58uBiDtCdlCJDv8oJRog0Zo+7usgEQo9T+8NazZSZ7JYVZhRegWG+UU
+         Bw3lhSiRgQTcjL8EI5muXHOZMFG0hW97LtQzW4duwCu5uRF9igHDC3UotHkDiYKUdA
+         sdYFQxiZzp79w==
+Received: by mail.amblevebiz.com for <linux-input@vger.kernel.org>; Mon,  6 Mar 2023 08:41:04 GMT
+Message-ID: <20230306084500-0.1.i.xks.0.jxfb9qgd4w@amblevebiz.com>
+Date:   Mon,  6 Mar 2023 08:41:04 GMT
+From:   =?UTF-8?Q? "Luk=C3=A1=C5=A1_Horv=C3=A1th" ?= 
+        <lukas.horvath@amblevebiz.com>
+To:     <linux-input@vger.kernel.org>
+Subject: =?UTF-8?Q?Technick=C3=BD_audit_podlah?=
+X-Mailer: mail.amblevebiz.com
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 2/2] Input: hideep - Optionally reset controller work
- mode to native HiDeep protocol
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org
-References: <20230303222113.285546-1-hdegoede@redhat.com>
- <20230303222113.285546-3-hdegoede@redhat.com>
- <42ac04f2-e7dc-a5a8-750e-243aa82c35db@kernel.org>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <42ac04f2-e7dc-a5a8-750e-243aa82c35db@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=7.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4999]
+        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: amblevebiz.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [80.211.239.97 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: amblevebiz.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
+        *      days
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Dobr=C3=A9 r=C3=A1no,
 
-On 3/5/23 14:34, Krzysztof Kozlowski wrote:
-> On 03/03/2023 23:21, Hans de Goede wrote:
->> The HiDeep IST940E touchscreen controller used on the Lenovo Yoga Book X90F
->> convertible comes up in HID mode by default.
->>
->> This works well on the X91F Windows model where the touchscreen is
->> correctly described in ACPI and ACPI takes care of controlling
->> the reset GPIO and regulators.
->>
->> But the X90F ships with Android and the ACPI tables on this model don't
->> describe the touchscreen. Instead this is hardcoded in the vendor kernel.
->>
->> The vendor kernel uses the touchscreen in native HiDeep 20 (2.0?) protocol
->> mode and switches the controller to this mode by writing 0 to reg 0x081e.
->>
->> Adjusting the i2c-hid code to deal with the reset-gpio and regulators on
->> this non devicetree (but rather broken ACPI) convertible is somewhat tricky
->> and the native protocol reports ABS_MT_PRESSURE and ABS_MT_TOUCH_MAJOR
->> which are not reported in HID mode, so it is preferable to use the native
->> mode.
->>
->> Add support to the hideep driver to reset the work-mode to the native
->> HiDeep protocol to allow using it on the Lenovo Yoga Book X90F.
->> This is guarded behind a new "hideep,reset-work-mode" boolean property,
->> to avoid changing behavior on other devices.
->>
->> For the record: I did test using the i2c-hid driver with some quick hacks
->> and it does work. The I2C-HID descriptor is available from address 0x0020,
->> just like on the X91F Windows model.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC.  It might happen, that command when run on an older
-> kernel, gives you outdated entries.  Therefore please be sure you base
-> your patches on recent Linux kernel.
-> 
->> ---
->>  .../bindings/input/touchscreen/hideep.txt        |  1 +
->>  drivers/input/touchscreen/hideep.c               | 16 ++++++++++++++++
->>  2 files changed, 17 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/input/touchscreen/hideep.txt b/Documentation/devicetree/bindings/input/touchscreen/hideep.txt
->> index a47c36190b01..68bb9f8dcc30 100644
->> --- a/Documentation/devicetree/bindings/input/touchscreen/hideep.txt
->> +++ b/Documentation/devicetree/bindings/input/touchscreen/hideep.txt
->> @@ -17,6 +17,7 @@ Optional properties:
->>  - linux,keycodes	: Specifies an array of numeric keycode values to
->>  			be used for reporting button presses. The array can
->>  			contain up to 3 entries.
->> +- hideep,reset-work-mode: bool, reset touch report format to the native HiDeep protocol
-> 
-> Bindings must be a separate patch.
-> 
-> Also, would be nice to convert first the TXT to DT schema (YAML).
-> 
-> "-mode" suggests it's some enum, not bool. Otherwise what exactly it is
-> choosing (which mode)?
+uva=C5=BEujete o bezesp=C3=A1rov=C3=A9 podlaze pro v=C3=BDrobn=C3=AD prov=
+oz?
 
-As it says it is resetting the mode to the native HiDeep protocol,
-we have no docs on the controller, so I have no idea what other
-values may be written to 0x081e other then 0 and what modes those
-values will enable.
+Jako sv=C4=9Btov=C3=BD l=C3=ADdr ve v=C3=BDrob=C4=9B a pokl=C3=A1dce podl=
+ah =C5=99e=C5=A1=C3=ADme probl=C3=A9my vypl=C3=BDvaj=C3=ADc=C3=AD z vlivu=
+ chemick=C3=BDch slou=C4=8Denin, ot=C4=9Bru, n=C3=A1raz=C5=AF, vlhkosti n=
+ebo n=C3=A1hl=C3=BDch zm=C4=9Bn teplot - na=C5=A1e podlahov=C3=A9 syst=C3=
+=A9my jsou p=C5=99izp=C5=AFsobeny nejt=C4=9B=C5=BE=C5=A1=C3=ADm podm=C3=AD=
+nk=C3=A1m prost=C5=99ed=C3=AD.
 
-Anyways I just realized I should have not included this at all,
-since atm this new property is only used on X86/ACPI platforms
-(through platform code setting a device-property), so it is not
-used on devicetree platforms at all.
+Garantujeme v=C3=A1m =C5=99e=C5=A1en=C3=AD, kter=C3=A1 jsou =C5=A1etrn=C3=
+=A1 k =C5=BEivotn=C3=ADmu prost=C5=99ed=C3=AD, odoln=C3=A1 a snadno se =C4=
+=8Dist=C3=AD, hygienick=C3=A1, protiskluzov=C3=A1 a bezpe=C4=8Dn=C3=A1 pr=
+o zam=C4=9Bstnance.
 
-And Rob has repeatedly requested to not add properties not
-actually used in devicetree files (1) to the bindings.
+Poskytujeme kr=C3=A1tkou dobu instalace a nep=C5=99etr=C5=BEit=C3=BD prov=
+oz i o v=C3=ADkendech a sv=C3=A1tc=C3=ADch, =C4=8D=C3=ADm=C5=BE eliminuje=
+me riziko prostoj=C5=AF.
 
-So I'll just drop the bindings in the next version of this
-patch-set.
+Mohu V=C3=A1m zdarma nab=C3=ADdnout technick=C3=BD audit podlah s komplex=
+n=C3=ADm rozborem podkladu.
 
-Regards,
-
-Hans
+M=C5=AF=C5=BEeme pro v=C3=A1s mluvit o =C5=99e=C5=A1en=C3=ADch?
 
 
-1) Like these x86 kinda kernel internal (it is also the kernel
-setting the property) properties to devicetree bindings.
-
+Luk=C3=A1=C5=A1 Horv=C3=A1th
