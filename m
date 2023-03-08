@@ -2,158 +2,190 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ADB86B0401
-	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 11:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A70B6B0477
+	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 11:33:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbjCHKXK convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 8 Mar 2023 05:23:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54656 "EHLO
+        id S231272AbjCHKdq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Mar 2023 05:33:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230244AbjCHKXJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 05:23:09 -0500
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E29220685;
-        Wed,  8 Mar 2023 02:23:01 -0800 (PST)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1BADEFF804;
-        Wed,  8 Mar 2023 10:22:58 +0000 (UTC)
-Message-ID: <df8538e8a97cb4547db7da51a4359c03657ab79f.camel@hadess.net>
-Subject: Re: [PATCH v2] Add rumble support to latest xbox controllers
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Siarhei Vishniakou <svv@google.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed, 08 Mar 2023 11:22:58 +0100
-In-Reply-To: <20230307213536.2299487-1-svv@google.com>
-References: <20230307213536.2299487-1-svv@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        with ESMTP id S231266AbjCHKdS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 05:33:18 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C5375B5C0;
+        Wed,  8 Mar 2023 02:32:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1678271573; x=1709807573;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+A9YZu+0i0gdrAHhttFNWmIXgGQkvnuT8OPaxaa6Rsg=;
+  b=SrqYBDqlsx1WiZd8xNLM5AeAA7S9NXE9Ggb/+14neXcL4UJ2CXhHAQYB
+   30xoETZa90Y6YmR0CHx2VeJq0ywxE0/sUIpaxi4hopGCqeoAK02GXIJ0d
+   4nb7Eb2P/TyOlxxyT+aW9xq8DwrM8+XWJ1x5LH34NI5WCzO3/TlWMw58R
+   67JhD1RYP0zl+iGN4Ke66PoiefmbJdJXiZfL/QWJt6kpTa2UdJVjsEA+W
+   qFkQjdlcA8D3gQp9pgQSS2ZKcEq2VfvPnSaoINmNttyk/NnO9HlbI505K
+   zDAltJkBW7DVnCH0BMpT6aTNHWdyNr6vi67cwSfSpPK1hZxAmHiDOvRE7
+   A==;
+X-IronPort-AV: E=Sophos;i="5.98,243,1673910000"; 
+   d="scan'208";a="29542949"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 08 Mar 2023 11:32:50 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 08 Mar 2023 11:32:50 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Wed, 08 Mar 2023 11:32:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1678271570; x=1709807570;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+A9YZu+0i0gdrAHhttFNWmIXgGQkvnuT8OPaxaa6Rsg=;
+  b=ipB+fNyvbo/ew2n3eD1pK/IZCiwAtBQiKgqjhxaS92ftP2UhY5hbNlu+
+   g45imvoKyOOGBfFwbJpxh5Cl9Y8ILPu4N3Okz/6DPj4fvXL+n74HL2Lwd
+   fKe/dt6eCFRaePRUEQ/+MAWO25EUXsTkuHF7jnu+pQ5sStHVfKGSn/wz/
+   f3vcErqN3xpcyGL8GF/7NDIOsFWYV+Ipl+2rQifpPzH05HXiheRC+bRkB
+   WgPpwYgL7BHG3rhia9DOHk0meycf/Vw/r/zGoEtBqeQmuPKEkgfv3RBQt
+   ri4Rzfg+/kLEPc+Iv9FObneLepxgvxR1kfoprWo54yNt2OH0C/KRp8T8q
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,243,1673910000"; 
+   d="scan'208";a="29542947"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 08 Mar 2023 11:32:50 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 048FD280056;
+        Wed,  8 Mar 2023 11:32:50 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     "lee@kernel.org" <lee@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        Jacky Bai <ping.bai@nxp.com>
+Subject: RE: [PATCH v5 3/3] arm64: dts: imx93: Add the bbnsm dts node
+Date:   Wed, 08 Mar 2023 11:32:47 +0100
+Message-ID: <2904532.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <AM9PR04MB8650E01C4772DF3D48A3564587B49@AM9PR04MB8650.eurprd04.prod.outlook.com>
+References: <20230215024117.3357341-1-ping.bai@nxp.com> <20230215024117.3357341-4-ping.bai@nxp.com> <AM9PR04MB8650E01C4772DF3D48A3564587B49@AM9PR04MB8650.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2023-03-07 at 13:35 -0800, Siarhei Vishniakou wrote:
-> Currently, rumble is only supported via bluetooth on a single xbox
-> controller, called 'model 1708'. On the back of the device, it's
-> named
-> 'wireless controller for xbox one'. However, in 2021, Microsoft
-> released
-> a firmware update for this controller. As part of this update, the
-> HID
-> descriptor of the device changed. The product ID was also changed
-> from
-> 0x02fd to 0x0b20. On this controller, rumble was supported via
-> hid-microsoft, which matched against the old product id (0x02fd). As
-> a
-> result, the firmware update broke rumble support on this controller.
-> 
-> The hid-microsoft driver actually supports rumble on the new
-> firmware,
-> as well. So simply adding new product id is sufficient to bring back
-> this support.
-> 
-> After discussing further with the xbox team, it was pointed out that
-> another xbox controller, xbox elite series 2, can be supported in a
-> similar way.
-> 
-> Add rumble support for all of these devices in this patch. Two of the
-> devices have received firmware updates that caused their product id's
-> to
-> change. Both old and new firmware versions of these devices were
-> tested.
-> 
-> The tested controllers are:
-> 
-> 1. 'wireless controller for xbox one', model 1708
-> 2. 'xbox wireless controller', model 1914. This is also sometimes
->    referred to as 'xbox series S|X'.
-> 3. 'elite series 2', model 1797.
-> 
-> The tested configurations are:
-> 1. model 1708, pid 0x02fd (old firmware)
-> 2. model 1708, pid 0x0b20 (new firmware)
-> 3. model 1914, pid 0x0b13
-> 4. model 1797, pid 0x0b05 (old firmware)
-> 5. model 1797, pid 0x0b22 (new firmware)
-> 
-> I verified rumble support on both bluetooth and usb.
+Hi,
 
-Looks good although I would personally have preferred separate patches
-for each controller.
+Am Mittwoch, 8. M=E4rz 2023, 10:58:00 CET schrieb Jacky Bai:
+> Hi Shawn,
+>=20
+> Can you help pick this patch?
 
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Just for completeness:
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+on TQMa93xx
 
-Would a link to:
-https://en.wikipedia.org/wiki/Xbox_Wireless_Controller#Summary
-also be useful to make which model is which clearer in the minds of
-future readers?
+Best regards,
+Alexander
 
-Cheers
+> BR
+>=20
+> > Subject: [PATCH v5 3/3] arm64: dts: imx93: Add the bbnsm dts node
+> >=20
+> > Add the bbnsm node for RTC & ON/OFF button support
+> >=20
+> > Signed-off-by: Jacky Bai <ping.bai@nxp.com>
+> > ---
+> >=20
+> >   - v5 changes: no
+> >  =20
+> >   - v4 changes:
+> >     - update the compatible string to align with binding file
+> >  =20
+> >   - v3 changes:
+> >     - remove 'nxp,bbnsm-regmap' property to align with binding doc
+> >  =20
+> >   - v2 changes:
+> >     - update the regmap property to align with binding doc
+> >=20
+> > ---
+> >=20
+> >  arch/arm64/boot/dts/freescale/imx93.dtsi | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >=20
+> > diff --git a/arch/arm64/boot/dts/freescale/imx93.dtsi
+> > b/arch/arm64/boot/dts/freescale/imx93.dtsi
+> > index 2076f9c9983a..e772c136e895 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx93.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx93.dtsi
+> > @@ -243,6 +243,22 @@ iomuxc: pinctrl@443c0000 {
+> >=20
+> >  				status =3D "okay";
+> >  		=09
+> >  			};
+> >=20
+> > +			bbnsm: bbnsm@44440000 {
+> > +				compatible =3D "nxp,imx93-bbnsm",=20
+"syscon", "simple-mfd";
+> > +				reg =3D <0x44440000 0x10000>;
+> > +
+> > +				bbnsm_rtc: rtc {
+> > +					compatible =3D "nxp,imx93-
+bbnsm-rtc";
+> > +					interrupts =3D <GIC_SPI 73=20
+IRQ_TYPE_LEVEL_HIGH>;
+> > +				};
+> > +
+> > +				bbnsm_pwrkey: pwrkey {
+> > +					compatible =3D "nxp,imx93-
+bbnsm-pwrkey";
+> > +					interrupts =3D <GIC_SPI 73=20
+IRQ_TYPE_LEVEL_HIGH>;
+> > +					linux,code =3D <KEY_POWER>;
+> > +				};
+> > +			};
+> > +
+> >=20
+> >  			clk: clock-controller@44450000 {
+> >  		=09
+> >  				compatible =3D "fsl,imx93-ccm";
+> >  				reg =3D <0x44450000 0x10000>;
+> >=20
+> > --
+> > 2.34.1
+>=20
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
-> 
-> Signed-off-by: Siarhei Vishniakou <svv@google.com>
-> Change-Id: I3337a7ab5f40759c85bf67bf0dbe5d4de31ce1ff
-> ---
->  drivers/hid/hid-ids.h       |  6 +++++-
->  drivers/hid/hid-microsoft.c | 11 ++++++++++-
->  2 files changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 053853a891c5..c9b75f8ba49a 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -903,7 +903,11 @@
->  #define USB_DEVICE_ID_MS_TYPE_COVER_2    0x07a9
->  #define USB_DEVICE_ID_MS_POWER_COVER     0x07da
->  #define USB_DEVICE_ID_MS_SURFACE3_COVER                0x07de
-> -#define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER 0x02fd
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708    0x02fd
-> +#define
-> USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE        0x0b20
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914    0x0b13
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797    0x0b05
-> +#define
-> USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE        0x0b22
->  #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
->  #define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
->  
-> diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-
-> microsoft.c
-> index 071fd093a5f4..9345e2bfd56e 100644
-> --- a/drivers/hid/hid-microsoft.c
-> +++ b/drivers/hid/hid-microsoft.c
-> @@ -446,7 +446,16 @@ static const struct hid_device_id ms_devices[] =
-> {
->                 .driver_data = MS_PRESENTER },
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, 0x091B),
->                 .driver_data = MS_SURFACE_DIAL },
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
-> USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER),
-> +
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
-> USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
-> USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
-> USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
-> USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
-> USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE),
->                 .driver_data = MS_QUIRK_FF },
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
-> USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
->                 .driver_data = MS_QUIRK_FF },
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
