@@ -2,106 +2,199 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A7E16B0ED7
-	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 17:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E8246B1078
+	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 18:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229932AbjCHQgS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Mar 2023 11:36:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53518 "EHLO
+        id S229897AbjCHRzS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Mar 2023 12:55:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjCHQgR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 11:36:17 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657B3C48B3;
-        Wed,  8 Mar 2023 08:36:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678293376; x=1709829376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=s9BtKtVSrIKLXagJLYzRz116xejwMWGS1//KAH8CpD0=;
-  b=PDQ+yMAnyWXG9gB8sp2i86N79yVwv5sGg+ga4Nuip/kLm44Q7tqamcwg
-   JSy8OoRIpHQkrdJWtjqt+yrBhm5pImrxwMu8OLKhA+73ymULMS51Lplgd
-   E42d7QG1vF8l38RLvkDMfv03zqB0xWPDxSL5DnNHvhN7MNeUqQhl2ffNc
-   oY7VUxZnpEq2UQN7hxCWe58INDKwVJFVCv2Idb8mG3njs9s3vtT8IBFIC
-   4pGfF/39bQk5PoIMZdsb/JEZO19SHj+/RzFtiTzU0HuHJckex4OF6v+dG
-   xUqeY/FjLvlMzJ+kVraneea2k5ZkiZ15yzi09rVf2HwF/J8k1VOUzZlzC
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="320033353"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="320033353"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:36:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="1006385764"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="1006385764"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 08 Mar 2023 08:36:12 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pZwlv-00HVvn-03;
-        Wed, 08 Mar 2023 18:36:11 +0200
-Date:   Wed, 8 Mar 2023 18:36:10 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Daniel Kaehn <kaehndan@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
-        bartosz.golaszewski@linaro.org, dmitry.torokhov@gmail.com,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        ethan.twardy@plexus.com
-Subject: Re: [PATCH v8 3/3] HID: cp2112: Fwnode Support
-Message-ID: <ZAi5esmc158Bd2oL@smile.fi.intel.com>
-References: <CAP+ZCCfsKdOyy5vzPh5OjpZjNQrYWDRzrqa_QxvG+kZDPYa+3A@mail.gmail.com>
- <ZAZOvEvqNDq6jZNB@smile.fi.intel.com>
- <20230307131706.olnb4qzo4ynu7gce@mail.corp.redhat.com>
- <CAP+ZCCcbXqPOY5Xzq9v8JNSzH9+xOqgfkTezJdLQY=vwQco4vQ@mail.gmail.com>
- <20230307144852.ueyaotkeeqfjlgk7@mail.corp.redhat.com>
- <ZAeADcJWmJR+1ycJ@smile.fi.intel.com>
- <20230308152611.tae2pnmflakrcyhh@mail.corp.redhat.com>
- <CAP+ZCCcntCn4yaVKtTxDuDRvPgLXfP1kC7mYe2qKuhSGzVZMog@mail.gmail.com>
- <20230308155527.jnrsowubvnk22ica@mail.corp.redhat.com>
- <ZAi4NjqXTbLpVhPo@smile.fi.intel.com>
+        with ESMTP id S229886AbjCHRzP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 12:55:15 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF94818AB2
+        for <linux-input@vger.kernel.org>; Wed,  8 Mar 2023 09:55:13 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id bm20so12776449oib.7
+        for <linux-input@vger.kernel.org>; Wed, 08 Mar 2023 09:55:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1678298113;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WJB0uEFZy/6MAVKabKPNgYxMOfzy8GKwC4p9P3PtYzY=;
+        b=eVp3vQJHlGmIuoFfc33UZGjhDIawS1wbNoXeZ25+CsG5cifizuSRnvzeHr9oq24UXm
+         HfBovf/wQhvhS6pzXpQh61QyDcS4udJRKawvXI8NMavuLvnz8fZhwZcmxwnAMj733PaX
+         mFxz9tGPe8NyQhfjTJZSTmWltjxMSF1e8YdSfKKkx1onMP2KSyBprqJ7Ime72lhTaGt+
+         HcrzrWFpzrufHfZRmC/mSAsRTG68L19yFPraTt+p0gDui61sp259xebMBpxPxOzNO8y9
+         qS8T7FoxKIYawrgqJsvN2rFU6TFRlLh9h//pKD7gprRff5nm0fb9QW0pszpbAzMtq1EC
+         qwXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678298113;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WJB0uEFZy/6MAVKabKPNgYxMOfzy8GKwC4p9P3PtYzY=;
+        b=otYC6LX6rJM39jXl9ZZs96yhtYn44bK8aRm4WzWQa4EbWEu3FV12/BsO49FcpNe0oD
+         o1qHb6Mpz8nE8KlAybviAX1Yk6vW9BkfIONy6pon6ZHhtyhrGmUd+POCOS3cpJE5ueOA
+         7DDtu36w8O+kctLG2BlzXF8xkpBqsWCFDIJvtAhDzj3DtDP1APWJQWu9fuPOsPaszvnZ
+         KInQsesGqaURiwS+nbhbpPn5AuDiNEOruaJAdby+4m9J8A5InnTpURXEcXWmxR/r7Lt6
+         QAocM4GuwjMzrqAnaXFKKPmc0eT7wxbmtdN/1vjCIVwFpp+Lghtv7lZcXBTUzlrtm4do
+         zDwQ==
+X-Gm-Message-State: AO0yUKWUMuGFTPEdblTMJGvT9MswA4uDKClHx5u50coxqz/WavpBtozX
+        9ZczZdJL1HAknI8orUaLY+JcnqPVpE/vpHid0apP0Q==
+X-Google-Smtp-Source: AK7set/p4JuRmBIOUxe387+u5jOsJ11MbI1eUrrgc5E9Dnj/TZdxuGkzDN1XZUaaLgvsln9u+nm/CRvE+HttQCJ7PKY=
+X-Received: by 2002:aca:130f:0:b0:384:f72:a6cb with SMTP id
+ e15-20020aca130f000000b003840f72a6cbmr6385962oii.1.1678298112806; Wed, 08 Mar
+ 2023 09:55:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZAi4NjqXTbLpVhPo@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230307213536.2299487-1-svv@google.com> <df8538e8a97cb4547db7da51a4359c03657ab79f.camel@hadess.net>
+In-Reply-To: <df8538e8a97cb4547db7da51a4359c03657ab79f.camel@hadess.net>
+From:   Siarhei Vishniakou <svv@google.com>
+Date:   Wed, 8 Mar 2023 09:55:01 -0800
+Message-ID: <CAKF84v2hm-wRNonbMV9PMBghhSL1jTQ8ot7gTzspVpEv5d2SDw@mail.gmail.com>
+Subject: Re: [PATCH v2] Add rumble support to latest xbox controllers
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 06:30:46PM +0200, Andy Shevchenko wrote:
-> On Wed, Mar 08, 2023 at 04:55:27PM +0100, Benjamin Tissoires wrote:
-> > On Mar 08 2023, Daniel Kaehn wrote:
-> > > On Wed, Mar 8, 2023 at 9:26 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
+Thanks Bastien!
 
-...
+I can definitely add a link to the wikipedia page.
 
-> > 			ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-> > 			Package () {
-> > 				Package () { "cell-names", Package () { "i2c", "gpio" }
-> > 			}
-> 
-> Yeah, looking at this, I think it still fragile. First of all, either this is
-> missing, or simply wrong. We would need to access indices. ACPI _ADR is in the
-> specification. As much as with PCI it may be considered reliable.
-> 
-> So, that said, forget about it, and simply use _ADR as indicator of the node.
-> See how MFD (in the Linux kernel) cares about this. Ex. Diolan DLN-2 driver.
-
-And that said, maybe CP2112 should simply re-use what MFD _already_ provides?
-
--- 
-With Best Regards,
-Andy Shevchenko
+Are you talking about adding the link to the commit message, or to hid-ids.=
+h ?
 
 
+On Wed, Mar 8, 2023 at 2:23=E2=80=AFAM Bastien Nocera <hadess@hadess.net> w=
+rote:
+>
+> On Tue, 2023-03-07 at 13:35 -0800, Siarhei Vishniakou wrote:
+> > Currently, rumble is only supported via bluetooth on a single xbox
+> > controller, called 'model 1708'. On the back of the device, it's
+> > named
+> > 'wireless controller for xbox one'. However, in 2021, Microsoft
+> > released
+> > a firmware update for this controller. As part of this update, the
+> > HID
+> > descriptor of the device changed. The product ID was also changed
+> > from
+> > 0x02fd to 0x0b20. On this controller, rumble was supported via
+> > hid-microsoft, which matched against the old product id (0x02fd). As
+> > a
+> > result, the firmware update broke rumble support on this controller.
+> >
+> > The hid-microsoft driver actually supports rumble on the new
+> > firmware,
+> > as well. So simply adding new product id is sufficient to bring back
+> > this support.
+> >
+> > After discussing further with the xbox team, it was pointed out that
+> > another xbox controller, xbox elite series 2, can be supported in a
+> > similar way.
+> >
+> > Add rumble support for all of these devices in this patch. Two of the
+> > devices have received firmware updates that caused their product id's
+> > to
+> > change. Both old and new firmware versions of these devices were
+> > tested.
+> >
+> > The tested controllers are:
+> >
+> > 1. 'wireless controller for xbox one', model 1708
+> > 2. 'xbox wireless controller', model 1914. This is also sometimes
+> >    referred to as 'xbox series S|X'.
+> > 3. 'elite series 2', model 1797.
+> >
+> > The tested configurations are:
+> > 1. model 1708, pid 0x02fd (old firmware)
+> > 2. model 1708, pid 0x0b20 (new firmware)
+> > 3. model 1914, pid 0x0b13
+> > 4. model 1797, pid 0x0b05 (old firmware)
+> > 5. model 1797, pid 0x0b22 (new firmware)
+> >
+> > I verified rumble support on both bluetooth and usb.
+>
+> Looks good although I would personally have preferred separate patches
+> for each controller.
+>
+> Reviewed-by: Bastien Nocera <hadess@hadess.net>
+>
+> Would a link to:
+> https://en.wikipedia.org/wiki/Xbox_Wireless_Controller#Summary
+> also be useful to make which model is which clearer in the minds of
+> future readers?
+>
+> Cheers
+>
+> >
+> > Signed-off-by: Siarhei Vishniakou <svv@google.com>
+> > Change-Id: I3337a7ab5f40759c85bf67bf0dbe5d4de31ce1ff
+> > ---
+> >  drivers/hid/hid-ids.h       |  6 +++++-
+> >  drivers/hid/hid-microsoft.c | 11 ++++++++++-
+> >  2 files changed, 15 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> > index 053853a891c5..c9b75f8ba49a 100644
+> > --- a/drivers/hid/hid-ids.h
+> > +++ b/drivers/hid/hid-ids.h
+> > @@ -903,7 +903,11 @@
+> >  #define USB_DEVICE_ID_MS_TYPE_COVER_2    0x07a9
+> >  #define USB_DEVICE_ID_MS_POWER_COVER     0x07da
+> >  #define USB_DEVICE_ID_MS_SURFACE3_COVER                0x07de
+> > -#define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER 0x02fd
+> > +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708    0x02fd
+> > +#define
+> > USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE        0x0b20
+> > +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914    0x0b13
+> > +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797    0x0b05
+> > +#define
+> > USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE        0x0b22
+> >  #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
+> >  #define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
+> >
+> > diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-
+> > microsoft.c
+> > index 071fd093a5f4..9345e2bfd56e 100644
+> > --- a/drivers/hid/hid-microsoft.c
+> > +++ b/drivers/hid/hid-microsoft.c
+> > @@ -446,7 +446,16 @@ static const struct hid_device_id ms_devices[] =3D
+> > {
+> >                 .driver_data =3D MS_PRESENTER },
+> >         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, 0x091B),
+> >                 .driver_data =3D MS_SURFACE_DIAL },
+> > -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
+> > USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER),
+> > +
+> > +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
+> > USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708),
+> > +               .driver_data =3D MS_QUIRK_FF },
+> > +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
+> > USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE),
+> > +               .driver_data =3D MS_QUIRK_FF },
+> > +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
+> > USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914),
+> > +               .driver_data =3D MS_QUIRK_FF },
+> > +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
+> > USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797),
+> > +               .driver_data =3D MS_QUIRK_FF },
+> > +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
+> > USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE),
+> >                 .driver_data =3D MS_QUIRK_FF },
+> >         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT,
+> > USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
+> >                 .driver_data =3D MS_QUIRK_FF },
+>
