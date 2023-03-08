@@ -2,139 +2,177 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5416B0EC3
-	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 17:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A288A6B0EC9
+	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 17:30:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbjCHQ3D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Mar 2023 11:29:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40080 "EHLO
+        id S229558AbjCHQax (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Mar 2023 11:30:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230360AbjCHQ2l (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 11:28:41 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4949E2069F;
-        Wed,  8 Mar 2023 08:28:04 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id ay14so64314611edb.11;
-        Wed, 08 Mar 2023 08:28:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678292882;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8qplyMQINe2W3LTK4CSzGPDowxH4S62V5RleKulPJLo=;
-        b=UtXXjB2Sb8uE0I4aQP+tKLypRWWg8k3euJKU2xyVGn64N6QNcvZeL21p+DOHBO63lz
-         gZkplvHD9ZzIaTXGvqSOp3gmPNC+rmIPzX3HMIBoW5fHIZcEjiFeovQTma48qQrCmtDL
-         B1n7s5Kaggh90Z/RXSXXfnypGsOT5SMrjcerMVXz4qTgDlSgqm0NxX7BB/3AdeGXXZ+Q
-         7nxPhpFKOI7n3b4fa3Rfu+wwB+ceq7APuXgJGE2pJmXLlio7Kl7JaylaKPSgrXsqDSIi
-         usqxI8ZBZe+BR0o2rb40Zm4iTall99XMKe1a/ho6rCaRJLd+kfsXWLLWYnaz/mvAV/je
-         wqeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678292882;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8qplyMQINe2W3LTK4CSzGPDowxH4S62V5RleKulPJLo=;
-        b=5kTokw50Fkvvdm15kCEZOHTWXC6SPqhaVz5seZ9Z8Eh3Whyr6YbYkINmATEVehC5Rm
-         KRXlXwn/YlIVWeb1uSFj4m7y0Lah3wG9nn+l1GU74zst4Qg2miIa7Uvw8NY/Iw4xsOTa
-         BmWZDPdlD/OB2WfDiqIxCdYPxtSjGT2vVVQXUJqhTF9k01OEFoLkp9wFEdhs2WvTo4gP
-         VLsAWYCgICy8kIWmhGSwrSuW26ZI1FxWVzKQR78rWw88O3d+IkAs8dctTEJEbFGlgEz/
-         W7ypsaitvzAkgHqpm2jAIEqe41FXIvK8tW36r9V+ccB7PhdfKbZP8rPnWWsPT93d6aBc
-         DYAw==
-X-Gm-Message-State: AO0yUKVDUkUtNyhIfMR7yIRyHXw8v5pPTeSXU93l3d91qYjqGIAQjRUO
-        NbYJS+XycW5FFH1pe6mwmXTNaMraZ+14uGdjtiM=
-X-Google-Smtp-Source: AK7set+hOtnRk+qv+mClFvaRL1/R3Qml7puc5AuPLJ04zytXRlCcUdQoy38YoFwXbCxX06FIf9stExK/tK3Naq6QgOM=
-X-Received: by 2002:a17:906:6b83:b0:878:790b:b7fd with SMTP id
- l3-20020a1709066b8300b00878790bb7fdmr8941949ejr.14.1678292882589; Wed, 08 Mar
- 2023 08:28:02 -0800 (PST)
+        with ESMTP id S229525AbjCHQaw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 11:30:52 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 947911993;
+        Wed,  8 Mar 2023 08:30:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678293051; x=1709829051;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=oKN2YVAhWdMDazYxC3zM74ycX+IfIN3U3RFFhR2hNWA=;
+  b=dWMAnVcd/PRJl2RFXuO3za6tlkmaAdG4GwlfqC2C7GLKniTqmd/hzUbZ
+   aV6ukO2HWsils+keP/NuI6URB/H5PwtgMc3fDR9r7g7spWXIrF6MJyw53
+   DvRX+sG++5v5M7kOr2WfzadacnD6tLVjP8JV3EHEOYA01j3U2F58pkcCw
+   eUtL745mi7eqYfD18FA5Od8CWOSwaaLCY/DaxrMH2rpSbZtiH942UOi1h
+   uKA2RI0O7xFI6HVMmsPOlQOFnJAq7cmXVlZNToT+K8dID86SjIp9/op/C
+   u+RgcwrOgAr8M27LWJGpcVEuaFGSh/8EvS2LdLuKaeOtJbFhsP/zfA1om
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="422473108"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="422473108"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:30:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="820290156"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="820290156"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 08:30:48 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pZwgg-00HVnO-1D;
+        Wed, 08 Mar 2023 18:30:46 +0200
+Date:   Wed, 8 Mar 2023 18:30:46 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Daniel Kaehn <kaehndan@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
+        bartosz.golaszewski@linaro.org, dmitry.torokhov@gmail.com,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        ethan.twardy@plexus.com
+Subject: Re: [PATCH v8 3/3] HID: cp2112: Fwnode Support
+Message-ID: <ZAi4NjqXTbLpVhPo@smile.fi.intel.com>
+References: <ZAYca0ADk0Uk1sK1@smile.fi.intel.com>
+ <CAP+ZCCfsKdOyy5vzPh5OjpZjNQrYWDRzrqa_QxvG+kZDPYa+3A@mail.gmail.com>
+ <ZAZOvEvqNDq6jZNB@smile.fi.intel.com>
+ <20230307131706.olnb4qzo4ynu7gce@mail.corp.redhat.com>
+ <CAP+ZCCcbXqPOY5Xzq9v8JNSzH9+xOqgfkTezJdLQY=vwQco4vQ@mail.gmail.com>
+ <20230307144852.ueyaotkeeqfjlgk7@mail.corp.redhat.com>
+ <ZAeADcJWmJR+1ycJ@smile.fi.intel.com>
+ <20230308152611.tae2pnmflakrcyhh@mail.corp.redhat.com>
+ <CAP+ZCCcntCn4yaVKtTxDuDRvPgLXfP1kC7mYe2qKuhSGzVZMog@mail.gmail.com>
+ <20230308155527.jnrsowubvnk22ica@mail.corp.redhat.com>
 MIME-Version: 1.0
-References: <20221209142615.33574-1-jandryuk@gmail.com> <87359gkc1d.fsf@baylibre.com>
- <CAKf6xpsGy7rjK3Rkosevr3dD+64-WqCEzAecBbHEHpBMeAHh7A@mail.gmail.com>
-In-Reply-To: <CAKf6xpsGy7rjK3Rkosevr3dD+64-WqCEzAecBbHEHpBMeAHh7A@mail.gmail.com>
-From:   Jason Andryuk <jandryuk@gmail.com>
-Date:   Wed, 8 Mar 2023 11:27:50 -0500
-Message-ID: <CAKf6xpsXjZ11cB05q3iKUcY3k2i0MXnpC-8anRe8YAwwxrhh7A@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: xen-kbdfront - drop keys to shrink modalias
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Cc:     linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230308155527.jnrsowubvnk22ica@mail.corp.redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 8, 2023 at 11:26=E2=80=AFAM Jason Andryuk <jandryuk@gmail.com> =
-wrote:
->
-> On Thu, Dec 15, 2022 at 8:54=E2=80=AFAM Mattijs Korpershoek
-> <mkorpershoek@baylibre.com> wrote:
-> >
-> > On Fri, Dec 09, 2022 at 09:26, Jason Andryuk <jandryuk@gmail.com> wrote=
-:
-> >
-> > > xen kbdfront registers itself as being able to deliver *any* key sinc=
-e
-> > > it doesn't know what keys the backend may produce.
+On Wed, Mar 08, 2023 at 04:55:27PM +0100, Benjamin Tissoires wrote:
+> On Mar 08 2023, Daniel Kaehn wrote:
+> > On Wed, Mar 8, 2023 at 9:26 AM Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> > > But if I refer "\\_SB_.PCI0.USB0.RHUB.CP21.GPIO", the IRQ is never assigned.
+> > > With the parent (CP21), it works.
 > > >
-> > > Unfortunately, the generated modalias gets too large and uevent creat=
-ion
-> > > fails with -ENOMEM.
-> > >
-> > > This can lead to gdm not using the keyboard since there is no seat
-> > > associated [1] and the debian installer crashing [2].
-> > >
-> > > Trim the ranges of key capabilities by removing some BTN_* ranges.
-> > > While doing this, some neighboring undefined ranges are removed to tr=
-im
-> > > it further.
-> > >
-> > > An upper limit of KEY_KBD_LCD_MENU5 is still too large.  Use an upper
-> > > limit of KEY_BRIGHTNESS_MENU.
-> > >
-> > > This removes:
-> > > BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
-> > > Empty space 0x224..0x229
-> > >
-> > > Empty space 0x28a..0x28f
-> > > KEY_MACRO1(0x290)..KEY_MACRO30(0x2ad)
-> > > KEY_MACRO_RECORD_START          0x2b0
-> > > KEY_MACRO_RECORD_STOP           0x2b1
-> > > KEY_MACRO_PRESET_CYCLE          0x2b2
-> > > KEY_MACRO_PRESET1(0x2b3)..KEY_MACRO_PRESET3(0xb5)
-> > > Empty space 0x2b6..0x2b7
-> > > KEY_KBD_LCD_MENU1(0x2b8)..KEY_KBD_LCD_MENU5(0x2bc)
-> > > Empty space 0x2bd..0x2bf
-> > > BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
-> > > Empty space 0x2e8..0x2ff
-> > >
-> > > The modalias shrinks from 2082 to 1550 bytes.
-> > >
-> > > A chunk of keys need to be removed to allow the keyboard to be used.
-> > > This may break some functionality, but the hope is these macro keys a=
-re
-> > > uncommon and don't affect any users.
-> > >
-> > > [1] https://github.com/systemd/systemd/issues/22944
-> > > [2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net=
-/T/
-> > >
-> > > Cc: Phillip Susi <phill@thesusis.net>
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-> >
-> > Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->
-> Thank you, Mattjis.
+> > > So I wonder if the cp2112 driver is correctly assigning the gc->parent
+> > > field.
 
-Thank you, Mattijs.  My apologies.
+> > Did you make a change to the CP2112 driver patch to look for uppercase
+> > "I2C" and "GPIO"?
+> 
+> yes, sorry I should have mentioned it. This is the only modification I
+> have compared to the upstream kernel plus your patch series.
+> 
+> > Otherwise, it won't assign those child nodes appropriately, and the
+> > gpiochip code will use
+> > the parent node by default if the gpiochip's fwnode isn't assigned (I believe).
+> 
+> I don't think it's a fwnode issue, but a problem with the assignment of
+> the parent of the gc:
+> ---
+> dev->gc.parent = &hdev->dev;
+> ---
 
-Regards,
-Jason
+I don't think so. The parent should point to the _physical_ device, which is
+CP2112, which is correct in my opinion.
+
+> Because the function acpi_gpiochip_find() in drivers/gpio/gpiolib-acpi.c
+> compares the acpi handle returned by fetching the ACPI path
+> ("\\_SB_.PCI0.USB0.RHUB.CP21.GPIO") and the one of gc->parent, which in
+> the hid-cp2112 case is the HID device itself.
+
+We have specifically gc->fwnode for cases like this.
+
+...
+
+>         Device (CP21) // the USB-hid & CP2112 shared node
+>         {
+>           Name (_ADR, One)
+> 		Name (_DSD, Package ()
+> 		{
+> 			ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+> 			Package () {
+> 				Package () { "cell-names", Package () { "i2c", "gpio" }
+> 			}
+
+Yeah, looking at this, I think it still fragile. First of all, either this is
+missing, or simply wrong. We would need to access indices. ACPI _ADR is in the
+specification. As much as with PCI it may be considered reliable.
+
+So, that said, forget about it, and simply use _ADR as indicator of the node.
+See how MFD (in the Linux kernel) cares about this. Ex. Diolan DLN-2 driver.
+
+> 		})
+> 
+>           Device (I2C)
+>           {
+>             Name (_ADR, Zero)
+>             Name (_STA, 0x0F)
+>           }
+> 
+>           Device (GPIO)
+>           {
+>             Name (_ADR, One)
+>             Name (_STA, 0x0F)
+> 
+>             Name (_DSD, Package () {
+>               ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+>               Package () {
+>                 Package () { "gpio-hog", 1 },
+>                 Package () { "gpios", Package () { 4, 0 } },
+>                 Package () { "output-high", 1 },
+>                 Package () { "line-name", "gpio4-pullup" },
+>               },
+>               ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+>               Package () {
+>                 Package () { "gpio-line-names", Package () {
+>                             "",
+>                             "",
+>                             "irq-rmi4",
+>                             "",
+>                             "power", // set to 1 with gpio-hog above
+>                             "",
+>                             "",
+>                             "",
+>                             ""}},
+>               }
+>             })
+>           }
+>         }
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
