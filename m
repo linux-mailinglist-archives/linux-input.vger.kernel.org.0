@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFFB86B0844
-	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 14:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B326B0841
+	for <lists+linux-input@lfdr.de>; Wed,  8 Mar 2023 14:17:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231132AbjCHNQ5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S231528AbjCHNQ5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Wed, 8 Mar 2023 08:16:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42088 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231259AbjCHNQe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 08:16:34 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D2DCA244;
-        Wed,  8 Mar 2023 05:13:24 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id m8-20020a17090a4d8800b002377bced051so2284149pjh.0;
-        Wed, 08 Mar 2023 05:13:24 -0800 (PST)
+        with ESMTP id S230280AbjCHNQf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Mar 2023 08:16:35 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2F91E5FA;
+        Wed,  8 Mar 2023 05:13:25 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so2227019pjg.4;
+        Wed, 08 Mar 2023 05:13:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678281201;
+        d=gmail.com; s=20210112; t=1678281202;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pfh0KN1ri+OTygQJZXMIKBpXa0FBqGE1v3ae9U34K4M=;
-        b=QClyTe2I/hwZ33JYUtvcFvlYFCxqH6gGxddkb6Mw9ZaqpgFxBKcorhq8UJPzxRRUCi
-         uTx2PAKgI7bZrF/lTreDTxx7yWj9FiMv/lcDOtBO4kTVWb/ldkZzPi74PN0iCcPzjL0u
-         6IfzT1yMB1KmotWpnR50Ed/zp68QUvjkRw8+Z8BwLKfNv1LrRvjObQb5B0Mbo4meFOK8
-         pcECmBt83D7aT32ermDtuFvqSky7Wq8yWGobn3Y0xiIaiPUEjNFzDHO0el2pOBUSYoSH
-         Mv2TTNWc/3XsfxfV4UkiSb0e0ybIrlSQyVaF3kOWv1Hfuo0AKLaOHX+E5g3t/m8T/NGm
-         OzkA==
+        bh=i9DydYMTRcu+Y1TIha62te3KuLPkmgUGtmnQcwLhqok=;
+        b=Tn5RpYYPDAxm4Z7gCKwmkYz586o87KxZws4SUGzdG3r5dY6sqt48NpTvOaTMOe7HCg
+         QXGOU96te0rOAKK9l45lxVeOyFFObDCpkkcyrAJl8GIu68LPXeZ/6E/ntIvVXRG0Er3u
+         lBRCpkG8M/qN5TIyFQ6UFTOTFRh0BXLNrFPwcMC/RIvJ4hTH5jBxv4ZxiqmeWrioBrLO
+         GnO1LEEh5uTAxANXib6aKPZu9hz3g3503wKnkWQx5kw97+ajapIc4AoYKtkJxjAblAYL
+         HzWwgBvV8UIdgAd7GCiAIKnosqTAQ8u+MjInJNbDOncMrtS+Pc38M4pXmGGTRXQFe8y9
+         LvKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678281201;
+        d=1e100.net; s=20210112; t=1678281202;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Pfh0KN1ri+OTygQJZXMIKBpXa0FBqGE1v3ae9U34K4M=;
-        b=lllP3brH++MGDGz/q2ahQweQz/5mCOcwi1g6kST1mZ4h2PdyAahnpbZyZAFrjiKKQd
-         EN1n7m4jc4vAU8KcIcM1lgwj5vmFs65QbgeUN6nPy06Y1mMRJMew0xNSYXHILqdOUQ+N
-         /Mgf7Bm/WzaMxwTFcEz/LInZ3BBKPhHGrEzh1L2/MjixAmzKSNlzVvVIvjy3keWNMh1c
-         7ty2OXncaS/OEzDzHt54JxIKzURWI5oPtLyfuHgyPBrXSK+Hy6YQjxuiW7+Ou60JIpb1
-         kkj2On0cYZZFMdDPbwe7cEi/IrvWuXWOWA9LkYs+Aw1B4bX1A9Qgonda0tTE3fYH6e6U
-         mGtw==
-X-Gm-Message-State: AO0yUKVtxHp8cBSRsIKZfE60t7bqyul7u5gRRMvRqOaOn8NFtJndETue
-        S17cFb8vxBn45QC/Z0lLf7BfCIKroqY/TQ==
-X-Google-Smtp-Source: AK7set8Bt/ATEsVpbspnSTejTRLMfyJ07DawX/2uXj17i/3EVlhdgHKR+73y098HVsKX1AP/1lQniw==
-X-Received: by 2002:a05:6a20:8e05:b0:cb:c2a8:2c48 with SMTP id y5-20020a056a208e0500b000cbc2a82c48mr22265955pzj.17.1678281201203;
-        Wed, 08 Mar 2023 05:13:21 -0800 (PST)
+        bh=i9DydYMTRcu+Y1TIha62te3KuLPkmgUGtmnQcwLhqok=;
+        b=bdZ2WfajaY9B72j2QYbKye6Ihy8w1L78Hmf5jhHZGzeJ1ezE0wCoAjyIh4JLLMMbkd
+         ZDnhCPIaEGLL63knZCbo4PBy+0lNLDt2th0ZI3zrsgQoOOqBvBRPBz124E8FJGRfX1II
+         oO4o9vtN7PsN7XLi9aCEIi/FlQ3Lg+Exqq3sSKM6PIRMc8V9GueDU7MZv+zPcFx+bY3B
+         UYbgs/ou4fDpAr3HwVZqJ8vAloBu49um0QcgyV1BBnX4/3jmpRf5J1ueocRTFB1/gy5g
+         6wIajNeU1+a6hXna8nBfZ+T4UrMjPUCjkDSrh0YY5tUI57cLZhLkoOTJ3H4KUjdp4q5e
+         L/Kg==
+X-Gm-Message-State: AO0yUKXEp1isvLMkwKqLy1hui6oQry6FAFwNRu6UaQ5oD8IHjNjDy7EO
+        frJtel7qfyiTLER1846OFaNcinNt4w8Xqg==
+X-Google-Smtp-Source: AK7set/TwA4lxLU+d97/RzlILaZxriqI8LnAscbUByLondBzsqbLuaqyyVNMLWvvA8lFw+quo3Zs+g==
+X-Received: by 2002:a05:6a20:ba9e:b0:cc:9f59:4562 with SMTP id fb30-20020a056a20ba9e00b000cc9f594562mr15918278pzb.53.1678281202174;
+        Wed, 08 Mar 2023 05:13:22 -0800 (PST)
 Received: from localhost.localdomain (c-71-202-83-242.hsd1.ca.comcast.net. [71.202.83.242])
-        by smtp.gmail.com with ESMTPSA id i15-20020aa78b4f000000b0061ddff8c53dsm931038pfd.151.2023.03.08.05.13.20
+        by smtp.gmail.com with ESMTPSA id i15-20020aa78b4f000000b0061ddff8c53dsm931038pfd.151.2023.03.08.05.13.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 05:13:20 -0800 (PST)
+        Wed, 08 Mar 2023 05:13:21 -0800 (PST)
 From:   Eirin Nya <nyanpasu256@gmail.com>
 To:     dmitry.torokhov@gmail.com
 Cc:     mkorpershoek@baylibre.com, phoenix@emc.com.tw,
         josh.chen@emc.com.tw, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, Eirin Nya <nyanpasu256@gmail.com>
-Subject: [PATCH V2 RESEND 2/3] Input: elantech - Remove redundant field elantech_data::width
-Date:   Wed,  8 Mar 2023 05:13:06 -0800
-Message-Id: <20230308131307.13832-3-nyanpasu256@gmail.com>
+Subject: [PATCH V2 RESEND 3/3] Input: elantech - Fix incorrectly halved touchpad range on ELAN v3 touchpads
+Date:   Wed,  8 Mar 2023 05:13:07 -0800
+Message-Id: <20230308131307.13832-4-nyanpasu256@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308131307.13832-1-nyanpasu256@gmail.com>
 References: <20230308131307.13832-1-nyanpasu256@gmail.com>
@@ -72,51 +72,104 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-elantech_data::width is copied from elantech_device_info::width, and
-neither is mutated after initialization. So remove the redundant
-variable to prevent future bugs.
+On Linux 6.1.15, on my laptop (Dell Inspiron 15R SE 7520) with an Elan
+v3 touchpad (dmesg says "with firmware version 0x450f02"), the reported
+size of my touchpad (in userspace by calling mtdev_configure() and
+libevdev_get_abs_maximum(), in kernel space
+elantech_device_info::x_max/y_max, either way 1470 by 700) is half that
+of the actual touch range (2940 by 1400), and the upper half of my
+touchpad reports negative values. As a result, with the Synaptics or
+libinput X11 driver set to edge scrolling mode, the entire right half of
+my touchpad has x-values past evdev's reported maximum size, and acts as
+a giant scrollbar!
 
+The problem is that elantech_setup_ps2() -> elantech_set_absolute_mode()
+sets up absolute mode and doubles the hardware resolution (doubling the
+hardware's maximum reported x/y coordinates and its response to
+ETP_FW_ID_QUERY), *after* elantech_query_info() fetches the touchpad
+coordinate system size using ETP_FW_ID_QUERY, which gets cached and
+reported to userspace through ioctl(fd, EVIOCGABS(ABS_X/Y), ...). So the
+touchpad size reported to userspace (and used to subtract vertical
+coordinates from) is half the maximum position of actual touches.
+
+This patch splits out a function elantech_query_range_v3() which fetches
+*only* ETP_FW_ID_QUERY (touchpad size), and calls it a second time if
+elantech_set_absolute_mode() enables double-size mode. This means the
+first call is redundant and wasted if a second call occurs, but this
+minimizes the need to restructure the driver.
+
+Link: https://lore.kernel.org/linux-input/CAL57YxZNutUVxBtvbVWKMw-V2kqeVB5kTQ5BFdJmN=mdPq8Q8Q@mail.gmail.com/
+Link: https://lore.kernel.org/linux-input/20221008093437.72d0f6b0@dell-void.nyanpasu256.gmail.com.beta.tailscale.net/
+Fixes: 37548659bb22 ("Input: elantech - query the min/max information beforehand too")
 Signed-off-by: Eirin Nya <nyanpasu256@gmail.com>
 Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 ---
- drivers/input/mouse/elantech.c | 4 +---
- drivers/input/mouse/elantech.h | 1 -
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ drivers/input/mouse/elantech.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 79e31611fc6e..263779c0313b 100644
+index 263779c0313b..a2176f0fd36c 100644
 --- a/drivers/input/mouse/elantech.c
 +++ b/drivers/input/mouse/elantech.c
-@@ -691,7 +691,7 @@ static void process_packet_head_v4(struct psmouse *psmouse)
- 	input_report_abs(dev, ABS_MT_POSITION_X, etd->mt[id].x);
- 	input_report_abs(dev, ABS_MT_POSITION_Y, etd->mt[id].y);
- 	input_report_abs(dev, ABS_MT_PRESSURE, pres);
--	input_report_abs(dev, ABS_MT_TOUCH_MAJOR, traces * etd->width);
-+	input_report_abs(dev, ABS_MT_TOUCH_MAJOR, traces * etd->info.width);
- 	/* report this for backwards compatibility */
- 	input_report_abs(dev, ABS_TOOL_WIDTH, traces);
+@@ -1006,6 +1006,9 @@ static void elantech_set_rate_restore_reg_07(struct psmouse *psmouse,
+ 		psmouse_err(psmouse, "restoring reg_07 failed\n");
+ }
  
-@@ -1253,8 +1253,6 @@ static int elantech_set_input_params(struct psmouse *psmouse)
- 		input_abs_set_res(dev, ABS_MT_POSITION_Y, info->y_res);
- 	}
++static int elantech_query_range_v3(struct psmouse *psmouse,
++				   struct elantech_device_info *info);
++
+ /*
+  * Put the touchpad into absolute mode
+  */
+@@ -1047,6 +1050,14 @@ static int elantech_set_absolute_mode(struct psmouse *psmouse)
+ 		if (elantech_write_reg(psmouse, 0x10, etd->reg_10))
+ 			rc = -1;
  
--	etd->width = width;
--
++		/*
++		 * If we boost hardware resolution, we have to re-query
++		 * info->x_max and y_max.
++		 */
++		if (etd->info.set_hw_resolution)
++			if (elantech_query_range_v3(psmouse, &etd->info))
++				rc = -1;
++
+ 		break;
+ 
+ 	case 4:
+@@ -1671,6 +1682,20 @@ static int elantech_set_properties(struct elantech_device_info *info)
  	return 0;
  }
  
-diff --git a/drivers/input/mouse/elantech.h b/drivers/input/mouse/elantech.h
-index 1ec004f72d13..fb093134ead7 100644
---- a/drivers/input/mouse/elantech.h
-+++ b/drivers/input/mouse/elantech.h
-@@ -180,7 +180,6 @@ struct elantech_data {
- 	unsigned char reg_25;
- 	unsigned char reg_26;
- 	unsigned int single_finger_reports;
--	unsigned int width;
- 	struct finger_pos mt[ETP_MAX_FINGERS];
- 	unsigned char parity[256];
- 	struct elantech_device_info info;
++static int elantech_query_range_v3(struct psmouse *psmouse,
++				   struct elantech_device_info *info)
++{
++	unsigned char param[3];
++
++	if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
++		return -EINVAL;
++
++	info->x_max = (0x0f & param[0]) << 8 | param[1];
++	info->y_max = (0xf0 & param[0]) << 4 | param[2];
++
++	return 0;
++}
++
+ static int elantech_query_info(struct psmouse *psmouse,
+ 			       struct elantech_device_info *info)
+ {
+@@ -1826,11 +1851,8 @@ static int elantech_query_info(struct psmouse *psmouse,
+ 		break;
+ 
+ 	case 3:
+-		if (info->send_cmd(psmouse, ETP_FW_ID_QUERY, param))
++		if (elantech_query_range_v3(psmouse, info))
+ 			return -EINVAL;
+-
+-		info->x_max = (0x0f & param[0]) << 8 | param[1];
+-		info->y_max = (0xf0 & param[0]) << 4 | param[2];
+ 		break;
+ 
+ 	case 4:
 -- 
 2.39.2
 
