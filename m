@@ -2,125 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28C506B25E1
-	for <lists+linux-input@lfdr.de>; Thu,  9 Mar 2023 14:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4038F6B268D
+	for <lists+linux-input@lfdr.de>; Thu,  9 Mar 2023 15:17:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231216AbjCINwh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Mar 2023 08:52:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37830 "EHLO
+        id S230011AbjCIORo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Mar 2023 09:17:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231217AbjCINwT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Mar 2023 08:52:19 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1144EFF57;
-        Thu,  9 Mar 2023 05:51:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678369893; x=1709905893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n7loq3SUYJyzj6So9ZqieWFywDbN1ivWI6Q2fdH6CLA=;
-  b=AZObsspkC8sLIIwIErtoIObIK6ofMY7+2OEHvFr2OsJjiZHPxHq12r72
-   mIHlHrake7rvCLHoi+pd9HR49aCTNnZWtwGlA6BS0FKhKa7JqNUMvT35Y
-   DzEPN5R9+7www2AQ4BZPVh59loqBKlI+mb5TUutR+CCN3aCSVh5nU+9zh
-   B62yNxF0TJAOlUAahSKQFIQEPksHoeb56oJAFlofmMhvnVWhsDsxvHqOr
-   +xP/sEcbcKAQnlxtQSEvt98IPwoPO5ynWH9eXEUG3vxeYn9UynC4ypJ9N
-   q2LkuBSb9FzRGREy0XQtJgU1PwNRQA4dkhvICK8bKOKg6X4TCY5RM4yv2
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="338783603"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="338783603"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 05:50:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="851507550"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="851507550"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005.jf.intel.com with ESMTP; 09 Mar 2023 05:50:08 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1paGek-000LWZ-2R;
-        Thu, 09 Mar 2023 15:50:06 +0200
-Date:   Thu, 9 Mar 2023 15:50:06 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Daniel Kaehn <kaehndan@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
-        bartosz.golaszewski@linaro.org, dmitry.torokhov@gmail.com,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        ethan.twardy@plexus.com
-Subject: Re: [PATCH v8 3/3] HID: cp2112: Fwnode Support
-Message-ID: <ZAnkDiEfh4ZkLpJh@smile.fi.intel.com>
-References: <ZAZOvEvqNDq6jZNB@smile.fi.intel.com>
- <20230307131706.olnb4qzo4ynu7gce@mail.corp.redhat.com>
- <CAP+ZCCcbXqPOY5Xzq9v8JNSzH9+xOqgfkTezJdLQY=vwQco4vQ@mail.gmail.com>
- <20230307144852.ueyaotkeeqfjlgk7@mail.corp.redhat.com>
- <ZAeADcJWmJR+1ycJ@smile.fi.intel.com>
- <20230308152611.tae2pnmflakrcyhh@mail.corp.redhat.com>
- <CAP+ZCCcntCn4yaVKtTxDuDRvPgLXfP1kC7mYe2qKuhSGzVZMog@mail.gmail.com>
- <20230308155527.jnrsowubvnk22ica@mail.corp.redhat.com>
- <ZAi4NjqXTbLpVhPo@smile.fi.intel.com>
- <20230309093811.se7exh6eocdgx5jv@mail.corp.redhat.com>
+        with ESMTP id S229963AbjCIORo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Mar 2023 09:17:44 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 870EF4215;
+        Thu,  9 Mar 2023 06:17:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 430B2B81F05;
+        Thu,  9 Mar 2023 14:17:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BDA1C433D2;
+        Thu,  9 Mar 2023 14:17:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1678371460;
+        bh=U2L9Ekgd4hB+KhnyK9evmyvlEBztsljIX4EP4XtmtI4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Tz3/8prC2QiN0cxQCoIE8eyYK1NGSe5d4Sz+8W3evmNRca05Uh61v9XuGLF69Cq6Q
+         sASZ5hzjL3xnfngJ5bKp5WpeJGA90jrYCylLDDh0aW6+yiTvcXA//w1lB7YMtRWEjE
+         ePJmXIK0l89g8I3tYXhMYXmcqhsuPNoTHK4ZUx/8=
+Date:   Thu, 9 Mar 2023 15:17:37 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Subject: Re: [PATCH v3 5/6] USB: core: Add API to change the wireless_status
+Message-ID: <ZAnqgWvszcy6nF1I@kroah.com>
+References: <20230302105555.51417-1-hadess@hadess.net>
+ <20230302105555.51417-5-hadess@hadess.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230309093811.se7exh6eocdgx5jv@mail.corp.redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230302105555.51417-5-hadess@hadess.net>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Mar 09, 2023 at 10:38:11AM +0100, Benjamin Tissoires wrote:
-> On Mar 08 2023, Andy Shevchenko wrote:
-
-...
-
-> Looks like gpiolib-acpi.c doesn't care about fwnode at all.
+On Thu, Mar 02, 2023 at 11:55:54AM +0100, Bastien Nocera wrote:
+> This adds the API that allows device specific drivers to tell user-space
+> about whether the wireless device is connected to its receiver dongle.
 > 
-> if I do the following:
+> See "USB: core: Add wireless_status sysfs attribute" for a detailed
+> explanation of what this attribute should be used for.
 > 
+> Signed-off-by: Bastien Nocera <hadess@hadess.net>
 > ---
-> diff --git a/drivers/gpio/gpiolib-acpi.c b/drivers/gpio/gpiolib-acpi.c
-> index d8a421ce26a8..5aebc266426b 100644
-> --- a/drivers/gpio/gpiolib-acpi.c
-> +++ b/drivers/gpio/gpiolib-acpi.c
-> @@ -126,7 +126,7 @@ static bool acpi_gpio_deferred_req_irqs_done;
->  
->  static int acpi_gpiochip_find(struct gpio_chip *gc, void *data)
->  {
-> -       return gc->parent && device_match_acpi_handle(gc->parent, data);
-> +       return ACPI_HANDLE_FWNODE(gc->fwnode) == data;
->  }
->  
->  /**
-> ---
-
-This seems a legit fix.
-
-> I can now directly reference the GPIO ACPI node in my GpioInt()
-> declaration. And AFAICT this should be safe to do because gpiolib ensure
-> that gc->fwnode is set, using the one from the parent if it is not set
-> previously.
+> Fixed locking/use-after-free in v2, thanks to Alan Stern
 > 
-> I need to check if this works with my icelake laptop, and if so I'll
-> send it to the list.
+> Fixed ordering of locking/put in v3, thanks to Alan Stern again
 > 
-> The reason the intel gpios are working (the only one I checked) is
-> because the \\SB.GPI0 node refers to the pinctrl controller (driver
-> pinctrl-icelake.c in my case, which then creates a subdevice for
-> handling the gpio).
+>  drivers/usb/core/message.c | 40 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/usb.h        |  5 +++++
+>  2 files changed, 45 insertions(+)
 
-Good catch!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
