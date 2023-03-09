@@ -2,143 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A0D56B2AB8
-	for <lists+linux-input@lfdr.de>; Thu,  9 Mar 2023 17:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2B126B3213
+	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 00:33:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbjCIQ2s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Mar 2023 11:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48016 "EHLO
+        id S229601AbjCIXd2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Mar 2023 18:33:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbjCIQ2Z (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Mar 2023 11:28:25 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F81030B1E
-        for <linux-input@vger.kernel.org>; Thu,  9 Mar 2023 08:19:43 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id k10so9074222edk.13
-        for <linux-input@vger.kernel.org>; Thu, 09 Mar 2023 08:19:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678378715;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pU1OTBYl8ElxfZaqjfIJsMTqsKjO/PQMi+tQNnzKT4Q=;
-        b=Y5iOhApeaOqysVtMq3H6OyW1ab6LE1/SB56phCySXGyIsJMKcg/3OImcHfR9Hp+Wtz
-         WzpBaVqLYwul4amz7Cc9gvp7lR3c+Ih5n6+njJjqv8Ddw55K4FKBjjsf6mXb4HyURtJn
-         rU3pbCrhFlPTNaOdPuavZeU06vVbZ43InkAalX4iE/5VCHExo1ZLnbISsaCJnp8Kf9D9
-         vbELMINZnrCj/SZ07dIXE/g8hjgAzKY4S8Ut6Mx0ehuC0gtffZSyJOGkAJfFe/QDUg1V
-         WBiCDkhuevn2gBh7qz3kT3Ah91pwCuyug6A0/4TNYdxJXc1cStygOvwH7vNy/nsjkWIN
-         Rs/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678378715;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pU1OTBYl8ElxfZaqjfIJsMTqsKjO/PQMi+tQNnzKT4Q=;
-        b=AEB5YY7tJrOn8Kg8c6oeK7am8c4f/HgsYbasvk878ucTLBHTgiBtxu+gvidLsIk69A
-         Ox+8zXt1EJmf3dAFJL0Z+H/3Hf3g+LHFdRRhQguJaMIeSF0E1yRga0qSsfK6OcYXDE70
-         6N16xSi19xqDRINH0CTS04K/8qVCrBsAoLcCb+KdyZ3KgEIG1qR64fwbNA2ZHgnYlWgJ
-         DSOzH/Hc5oscONPUkS7909MTwj6wN+txGwqbhFZEpU+BYhqNRZQm1O7cqMzhTTC3UMvq
-         pujWZbaOSHIcDc2kCHy5SahZ4Zoz38mxt468lZbn4eSUU6Z1fs+IHmjZL5oos03qNmzT
-         CvrQ==
-X-Gm-Message-State: AO0yUKUiK8NtQWsL8zn1r1QoTTgQl5fO6NzH3AQRNFl+bdqUM/gPY819
-        FHNYvfxhsK/ZPFrfr9UFMGoT3n28GmXzV9K4yG0=
-X-Google-Smtp-Source: AK7set/uDxSQX6guni2q9LjuMZgDKvnwtVPDVc/y4ZwVZTtKpMFGC+aDylsQfmADZ8cH166t4rv0qg==
-X-Received: by 2002:a05:600c:1906:b0:3eb:3c76:c23c with SMTP id j6-20020a05600c190600b003eb3c76c23cmr20444802wmq.3.1678378147773;
-        Thu, 09 Mar 2023 08:09:07 -0800 (PST)
-Received: from localhost ([82.66.159.240])
-        by smtp.gmail.com with ESMTPSA id z18-20020a1c4c12000000b003e876122dc1sm216880wmf.47.2023.03.09.08.09.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 08:09:07 -0800 (PST)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Jason Andryuk <jandryuk@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: xen-kbdfront - drop keys to shrink modalias
-In-Reply-To: <CAKf6xpsGy7rjK3Rkosevr3dD+64-WqCEzAecBbHEHpBMeAHh7A@mail.gmail.com>
-References: <20221209142615.33574-1-jandryuk@gmail.com>
- <87359gkc1d.fsf@baylibre.com>
- <CAKf6xpsGy7rjK3Rkosevr3dD+64-WqCEzAecBbHEHpBMeAHh7A@mail.gmail.com>
-Date:   Thu, 09 Mar 2023 17:09:05 +0100
-Message-ID: <87o7p1dhzy.fsf@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        with ESMTP id S230373AbjCIXd0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Mar 2023 18:33:26 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB555C116;
+        Thu,  9 Mar 2023 15:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678404804; x=1709940804;
+  h=message-id:subject:from:reply-to:to:cc:date:mime-version:
+   content-transfer-encoding;
+  bh=fURQFsvjsw/isrhS07s6cUz/AKobP94qJzaPR6T3Bdk=;
+  b=J4G5Mtz+5Psp3eN30ygCtmpBcSNmIfJF1YJKex9YxoJlf4eJccWY4OAt
+   Ca09QhxXOofEOzeInoCf7XstocXNy5CDGUw87ppeb0b2YjUB6N0hdcXxV
+   c4DAyUKco05kklWKgH+wNUl64KIzrZAWi8bgiDb3nvNGVuFBsAsUN0TnI
+   rDSfLaE8w9hX8NndBYeKNhzG4cSOKLc/d/xWSIBbBb/e4rHX6t0NVeOBr
+   dXPYfolSw2BN0wy6HB4B1/1u7PJUQDJqGoSRA+JAb4qWZRqSi/ipO3yih
+   fYgZ6xPyzioHzttjLmWDAuPqbApztOl+PHzjHTGlty7MnrE0LCXP1Mieq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="320454160"
+X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
+   d="scan'208";a="320454160"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 15:33:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="851704649"
+X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
+   d="scan'208";a="851704649"
+Received: from wopr.jf.intel.com ([10.54.75.136])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 15:33:23 -0800
+Message-ID: <592bcdcbb3603cf5dfefd09abdd6916db4efc691.camel@linux.intel.com>
+Subject: BUG: hid-sensor-ids code includes binary data in device name
+From:   Todd Brandt <todd.e.brandt@linux.intel.com>
+Reply-To: todd.e.brandt@linux.intel.com
+To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     p.jungkamp@gmx.net, Jonathan.Cameron@huawei.com,
+        srinivas.pandruvada@linux.intel.com, jkosina@suse.cz,
+        todd.e.brandt@intel.com
+Date:   Thu, 09 Mar 2023 15:33:08 -0800
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jason,
+Hi all, I've run into an issue in 6.3.0-rc1 that causes problems with
+ftrace and I've bisected it to this commit:
 
-On mer., mars 08, 2023 at 11:26, Jason Andryuk <jandryuk@gmail.com> wrote:
+commit 98c062e8245199fa9121141a0bf1035dc45ae90e (HEAD, refs/bisect/bad)
+Author: Philipp Jungkamp p.jungkamp@gmx.net
+Date:   Fri Nov 25 00:38:38 2022 +0100
 
-> On Thu, Dec 15, 2022 at 8:54=E2=80=AFAM Mattijs Korpershoek
-> <mkorpershoek@baylibre.com> wrote:
->>
->> On Fri, Dec 09, 2022 at 09:26, Jason Andryuk <jandryuk@gmail.com> wrote:
->>
->> > xen kbdfront registers itself as being able to deliver *any* key since
->> > it doesn't know what keys the backend may produce.
->> >
->> > Unfortunately, the generated modalias gets too large and uevent creati=
-on
->> > fails with -ENOMEM.
->> >
->> > This can lead to gdm not using the keyboard since there is no seat
->> > associated [1] and the debian installer crashing [2].
->> >
->> > Trim the ranges of key capabilities by removing some BTN_* ranges.
->> > While doing this, some neighboring undefined ranges are removed to trim
->> > it further.
->> >
->> > An upper limit of KEY_KBD_LCD_MENU5 is still too large.  Use an upper
->> > limit of KEY_BRIGHTNESS_MENU.
->> >
->> > This removes:
->> > BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
->> > Empty space 0x224..0x229
->> >
->> > Empty space 0x28a..0x28f
->> > KEY_MACRO1(0x290)..KEY_MACRO30(0x2ad)
->> > KEY_MACRO_RECORD_START          0x2b0
->> > KEY_MACRO_RECORD_STOP           0x2b1
->> > KEY_MACRO_PRESET_CYCLE          0x2b2
->> > KEY_MACRO_PRESET1(0x2b3)..KEY_MACRO_PRESET3(0xb5)
->> > Empty space 0x2b6..0x2b7
->> > KEY_KBD_LCD_MENU1(0x2b8)..KEY_KBD_LCD_MENU5(0x2bc)
->> > Empty space 0x2bd..0x2bf
->> > BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
->> > Empty space 0x2e8..0x2ff
->> >
->> > The modalias shrinks from 2082 to 1550 bytes.
->> >
->> > A chunk of keys need to be removed to allow the keyboard to be used.
->> > This may break some functionality, but the hope is these macro keys are
->> > uncommon and don't affect any users.
->> >
->> > [1] https://github.com/systemd/systemd/issues/22944
->> > [2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net/=
-T/
->> >
->> > Cc: Phillip Susi <phill@thesusis.net>
->> > Cc: stable@vger.kernel.org
->> > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
->>
->> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->
-> Thank you, Mattjis.
->
-> Any other thoughts?  Can this patch be applied?
+    HID: hid-sensor-custom: Allow more custom iio sensors
 
-That's not up to to decide, Dmitry might pick this up or give you a
-review whenever he has time.
+    The known LUID table for established/known custom HID sensors was
+    limited to sensors with "INTEL" as manufacturer. But some vendors
+such
+    as Lenovo also include fairly standard iio sensors (e.g. ambient
+light)
+    in their custom sensors.
 
->
-> Thanks,
-> Jason
+    Expand the known custom sensors table by a tag used for the
+platform
+    device name and match sensors based on the LUID as well as
+optionally
+    on model and manufacturer properties.
+
+    Signed-off-by: Philipp Jungkamp p.jungkamp@gmx.net
+    Reviewed-by: Jonathan Cameron Jonathan.Cameron@huawei.com
+    Acked-by: Srinivas Pandruvada srinivas.pandruvada@linux.intel.com
+    Signed-off-by: Jiri Kosina jkosina@suse.cz
+
+You're using raw data as part of the devname in the "real_usage"
+string, but it includes chars other than ASCII, and those chars end
+up being printed out in the ftrace log which is meant to be ASCII only.
+
+-       /* HID-SENSOR-INT-REAL_USAGE_ID */
+-       dev_name = kasprintf(GFP_KERNEL, "HID-SENSOR-INT-%s",
+real_usage);
++       /* HID-SENSOR-TAG-REAL_USAGE_ID */
++       dev_name = kasprintf(GFP_KERNEL, "HID-SENSOR-%s-%s",
++                            match->tag, real_usage);
+
+My sleepgraph tool started to crash because it read these lines from
+ftrace:
+
+device_pm_callback_start: platform HID-SENSOR-INT-020b?.39.auto,
+parent: 001F:8087:0AC2.0003, [suspend]
+device_pm_callback_end: platform HID-SENSOR-INT-020b?.39.auto, err=0
+
+The "HID-SENSOR-INT-020b?.39.auto" string includes a binary char that
+kills
+python3 code that loops through an ascii file as such:
+
+  File "/usr/bin/sleepgraph", line 5579, in executeSuspend
+    for line in fp:
+  File "/usr/lib/python3.10/codecs.py", line 322, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position
+1568: invalid start byte
+
+I've updated sleepgraph to handle random non-ascii chars, but other
+tools
+may suffer the same fate. Can you rewrite this to ensure that no binary
+chars make it into the devname?
+
