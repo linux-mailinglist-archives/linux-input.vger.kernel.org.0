@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CBAB6B42C9
-	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4E4B6B4451
+	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:23:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbjCJOHH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Mar 2023 09:07:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33760 "EHLO
+        id S232110AbjCJOXI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Mar 2023 09:23:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231786AbjCJOGp (ORCPT
+        with ESMTP id S231648AbjCJOWa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Mar 2023 09:06:45 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDBEC116C27;
-        Fri, 10 Mar 2023 06:06:21 -0800 (PST)
+        Fri, 10 Mar 2023 09:22:30 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3335311ABBB;
+        Fri, 10 Mar 2023 06:21:53 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D13E060D29;
-        Fri, 10 Mar 2023 14:06:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D880DC433EF;
-        Fri, 10 Mar 2023 14:06:14 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A705BB82291;
+        Fri, 10 Mar 2023 14:21:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32146C4339E;
+        Fri, 10 Mar 2023 14:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678457176;
-        bh=Gnnoq5rEYTSfL1/eq63BF8ajSPWfoKqKskp1qaY3HZk=;
+        s=k20201202; t=1678458110;
+        bh=jcQlVbYJMOn0q9l0MPqOqOqXFxZpQLqlK9jqO58IPWc=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=a3FuLhyYzJLFSEL31cmNveXLmKYk0B8wPFoTWb1FaoLyG8eJbC7DVvJhSx+bv9iX+
-         yfF/MWA7GbE6j21DZDG3xhfGHG7ikMuA+DZBFDR68hjcLFMZuDaOTjQkbTKIlT7Sk7
-         x0knL8VOCtgUpEHbJ++rxPan/7fuKiodOIgBltOHAdPXiRSVy1te70sRnCS8MwHreR
-         +LtAba3D2pqv5ZIInMsK9tUps1GpC2Ue38CoeEUwoAe53js6Q2BthFCSJ5P6fEIlKM
-         Q0Bsoufve+BHTRUb/icNtvr5UttbxYEU0W54CzFO87Q7iJhNT+9aEamhHBTI2nGTj2
-         utBHdghrBdwbg==
-Date:   Fri, 10 Mar 2023 15:06:18 +0100 (CET)
+        b=HKx5GH/a+uce16kTYa4aU3HDTpbLcqxGz/7WD/Og2uUe4d5yC1mIIzM56L9WkWi8r
+         NmKduebE3zbG1jLsZS9l7obxQ4r3anecpecl90wUT+FxhcIOU7ivSIVz+IFiKmBQkE
+         9zX4123VtncIme5ZRNUeUEZKKZ6alsAtncBcrT8rs+x0UuVuea6pO8nG11HcenuVGQ
+         RKJaDvYuR2FKPMly5fmzm9pXLm3bKLpnczLcKt7IPDWlWek5yumnxdZg5E7ng8MJFS
+         +K23SAo+hKV+GvExowzYYvun5IroCshowDJUz6ZavZZR6B7vWRk8YJoZPRgxKzW3HL
+         7hQ4BoSWFfhig==
+Date:   Fri, 10 Mar 2023 15:21:52 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     David Yang <mmyangfl@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] HID: kye: Add support for all kye tablets
-In-Reply-To: <20230207043318.23842-1-mmyangfl@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2303101506030.1142@cbobk.fhfr.pm>
-References: <20230207043318.23842-1-mmyangfl@gmail.com>
+To:     Qi Feng <fengqi706@gmail.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, fengqi <fengqi@xiaomi.com>
+Subject: Re: [PATCH v4] HID: add KEY_CAMERA_FOCUS event in HID
+In-Reply-To: <3f8627d20de711d08b8cafe0a11481a2b9ca941e.1676537236.git.fengqi@xiaomi.com>
+Message-ID: <nycvar.YFH.7.76.2303101521430.1142@cbobk.fhfr.pm>
+References: <3f8627d20de711d08b8cafe0a11481a2b9ca941e.1676537236.git.fengqi@xiaomi.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,28 +53,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 7 Feb 2023, David Yang wrote:
+On Thu, 16 Feb 2023, Qi Feng wrote:
 
-> This series refactor kye tablet descriptor fixup routine, by using a
-> template and filling parameters on the fly, and add support for all
-> possible kye tablets.
-> ---
-> v2: fix missing rsize assignment
-> v3: fix geometry
-> v4: split patches
+> From: fengqi <fengqi@xiaomi.com>
 > 
-> David Yang (4):
->   HID: kye: Rewrite tablet descriptor fixup routine
->   HID: kye: Generate tablet fixup descriptors on the fly
->   HID: kye: Sort kye devices
->   HID: kye: Add support for all kye tablets
+> Our HID device need KEY_CAMERA_FOCUS event to control camera,
+> but this event is non-existent in current HID driver.
+> So we add this event in hid-input.c.
 > 
->  drivers/hid/hid-ids.h    |   9 +-
->  drivers/hid/hid-kye.c    | 917 +++++++++++++++++----------------------
->  drivers/hid/hid-quirks.c |  14 +-
->  3 files changed, 414 insertions(+), 526 deletions(-)
+> Signed-off-by: fengqi <fengqi@xiaomi.com>
 
-Now queued in hid.git#for-6.4/kye, thanks David.
+Applied, thank you.
 
 -- 
 Jiri Kosina
