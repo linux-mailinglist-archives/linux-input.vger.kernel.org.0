@@ -2,106 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7623A6B4668
-	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FA4A6B4755
+	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:50:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232825AbjCJOm5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Mar 2023 09:42:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58774 "EHLO
+        id S233162AbjCJOuK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Mar 2023 09:50:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232828AbjCJOmo (ORCPT
+        with ESMTP id S233227AbjCJOtL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Mar 2023 09:42:44 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F0B121145;
-        Fri, 10 Mar 2023 06:42:32 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B351EB822DE;
-        Fri, 10 Mar 2023 14:42:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DEDDC4339E;
-        Fri, 10 Mar 2023 14:42:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678459349;
-        bh=QJI8jxSgxgCLw9wGmPZcqm/kqPEh7EYtxapd36JTFFI=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=jagdd7lRHQi3lc3huqDqkxQNWUIs3SIcRlDMZoAGSNrqo1TFz6+k0nh5wfP1cHiYE
-         jk5xn3GFxPY0pshfPnoHZmk5wzfjItgeEuGvMahBBckgClGiCjWIes9VLYkBtb19ya
-         yBY4UV29JAESz+KTz3bequANVsoU2UZ9ZG1GomhUXReTT/MGVbeJJD1EMNXxG6m90o
-         KV60xDeMOb3TEbq0BshOq1Pan0uljZEpVwfpGzRcqFBclgSeIIBpHHh5/z8L733w/4
-         1wcbFqryw/pllWlsSDcz6MgNNys1ZncdovQ5K3YfaUAtB8SFF2nnUHWg8zrz0kDrA+
-         TZq2uyV6YExAA==
-Date:   Fri, 10 Mar 2023 15:42:31 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Philippe Troin <phil@fifi.org>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: add HP 13t-aw100 & 14t-ea100 digitizer battery
- quirks
-In-Reply-To: <20230306185026.8B85A1A0008D@ceramic.home.fifi.org>
-Message-ID: <nycvar.YFH.7.76.2303101542240.1142@cbobk.fhfr.pm>
-References: <20230306185026.8B85A1A0008D@ceramic.home.fifi.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Fri, 10 Mar 2023 09:49:11 -0500
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088D71241C8;
+        Fri, 10 Mar 2023 06:47:44 -0800 (PST)
+Received: by mail-ot1-f46.google.com with SMTP id e9-20020a056830200900b00694651d19f6so3018291otp.12;
+        Fri, 10 Mar 2023 06:47:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678459663;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IV8iy1W+HzbM7y1sc4cc2CVnizJ5BO/3Cf1trLEFKYw=;
+        b=HUggcPDvnndBgOC2PHR7gxqRevwSVmFEquvZevOMBDTy/jnQ/wDqSKEQqF3NW3TEv/
+         o+ucbkrMIipWjfWsTOr7Ia5B9qoNq0V09v6kaS3L8WiJ9J1ud5VK8JdrIIb5UCQ9XV/1
+         5ozTflou0WTL36uXXlC8Q7ZqQHsUvS4GnHR7vJ4U2pGXfMkFDqLX0tmEz48tO7qvUaeI
+         6omGfN/awsaLlSUJuTLHRyLAm646+dpFyKmYb0rIpqcJe476fq6NkHZEXd7D8gSYMpPg
+         WXbzCgI3g0O4X1bXqVIdEXUpkjW4S9mJy+jBTZAKSFdcK1KDlEWx3qdcMZh5VXrTk9pL
+         QN/w==
+X-Gm-Message-State: AO0yUKWHKbf8Fv5VPr/nGx1icP61kUP9ToQUseRvbRvbspgitti75zuy
+        CTeB8NqVpuji0PDjpqR35w==
+X-Google-Smtp-Source: AK7set/E91M/DeQ2a1JpWl0X0cQUJeecXU0OnwwVJTHI7R2Y9BdaX8OyAkHZpawpFKpiIsbABzXv0A==
+X-Received: by 2002:a05:6830:44a2:b0:690:e454:fc1e with SMTP id r34-20020a05683044a200b00690e454fc1emr15757037otv.7.1678459663313;
+        Fri, 10 Mar 2023 06:47:43 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id 64-20020a9d06c6000000b006864816ecd9sm106511otx.59.2023.03.10.06.47.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 06:47:42 -0800 (PST)
+Received: (nullmailer pid 1542708 invoked by uid 1000);
+        Fri, 10 Mar 2023 14:47:08 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: zinitix: Use of_property_present() for testing DT property presence
+Date:   Fri, 10 Mar 2023 08:47:08 -0600
+Message-Id: <20230310144708.1542682-1-robh@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 6 Mar 2023, Philippe Troin wrote:
+It is preferred to use typed property access functions (i.e.
+of_property_read_<type> functions) rather than low-level
+of_get_property/of_find_property functions for reading properties. As
+part of this, convert of_get_property/of_find_property calls to the
+recently added of_property_present() helper when we just want to test
+for presence of a property and nothing more.
 
-> Similar to many other devices using the Synopsys Designware Elantech
-> hardware, HP Spectre x360 13t-aw100 and 14t-ea100 report an empty
-> battery devices, supposedly for the active stylus.
-> 
-> Apply the HID_BATTERY_QUIRK_IGNORE quirk to ignore the battery reports
-> from these devices. Note that there are multiple versions of the panel
-> installed in the 14t-ea100.
-> 
-> Signed-off-by: Philippe Troin <phil@fifi.org>
-> ---
->  drivers/hid/hid-ids.h   | 3 +++
->  drivers/hid/hid-input.c | 6 ++++++
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 63545cd307e5..22e716b66fb8 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -420,6 +420,9 @@
->  #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
->  #define I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN	0x2A1C
->  #define I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN	0x279F
-> +#define I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100	0x29F5
-> +#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
-> +#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
->  
->  #define USB_VENDOR_ID_ELECOM		0x056e
->  #define USB_DEVICE_ID_ELECOM_BM084	0x0061
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 7fc967964dd8..5c65a584b3fa 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -398,6 +398,12 @@ static const struct hid_device_id hid_battery_quirks[] = {
->  	  HID_BATTERY_QUIRK_IGNORE },
->  	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN),
->  	  HID_BATTERY_QUIRK_IGNORE },
-> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100),
-> +	  HID_BATTERY_QUIRK_IGNORE },
-> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1),
-> +	  HID_BATTERY_QUIRK_IGNORE },
-> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2),
-> +	  HID_BATTERY_QUIRK_IGNORE },
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ drivers/input/touchscreen/zinitix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks.
-
+diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+index cdf9bcd744db..b6ece47151b8 100644
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -260,7 +260,7 @@ static int zinitix_init_regulators(struct bt541_ts_data *bt541)
+ 	 * so check if "vddo" is present and in that case use these names.
+ 	 * Else use the proper supply names on the component.
+ 	 */
+-	if (of_find_property(dev->of_node, "vddo-supply", NULL)) {
++	if (of_property_present(dev->of_node, "vddo-supply")) {
+ 		bt541->supplies[0].supply = "vdd";
+ 		bt541->supplies[1].supply = "vddo";
+ 	} else {
 -- 
-Jiri Kosina
-SUSE Labs
+2.39.2
 
