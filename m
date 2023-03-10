@@ -2,146 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1D6E6B4CB6
-	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 17:22:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD9A66B4DB1
+	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 17:56:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbjCJQWj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Mar 2023 11:22:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33948 "EHLO
+        id S231221AbjCJQ4I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Mar 2023 11:56:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231355AbjCJQWS (ORCPT
+        with ESMTP id S231362AbjCJQzm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Mar 2023 11:22:18 -0500
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2082c.outbound.protection.outlook.com [IPv6:2a01:111:f403:7011::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA09A5D74F;
-        Fri, 10 Mar 2023 08:18:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XOPD4bwonAE8RLWUYeW45nh0RCBBNVfZnY+kVgB7T8LioD8e972gNzYSGChQpNMEVzl+Mfna81n8UnX2iwst/F4ft2kLS17L/8KpweCwimqk+YblU1wo3eJ7Rv6tQTk7Qal78O1mxB8Lo/qpne8t+C+EwvvZA8FXQsD949E7H3AhmczI7hYU0J8qzZ2iI8RqrPSviiZbtoAcS2dFcyV8Lc9hhSopmGsVZ2+3szTg+VA4NqK82Iby/WN6f3iCNq5MBflSHnFpHZJTl2MPJKfv4YS96F2e68nAOl6NsQh+KJkr4e/Na+d4MwvdvGhVyR73j2MBuwJtDz/OIlIQ3vkKMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a2NtUzhnfFSfq/iZksZZGTVHbYTEaaGj/GVA/5X2di4=;
- b=gBClOtR8BS/ysLbGnT6SUXTDJLsdQWsVwi+UbaV9aGX10EhP+Mq3rnwvOuAe+3RMiC0J+1t1ZDSa6BKgpOdRymGfDQaSlIIZPgvHlzPq9kdcy62XkC3ky9MapER53zlcky8LkNSTL8eVFwQSPn8kj/yuwE8xCGCoM2KM3/qxoFzSeVnIIXbG8QRees7I5QXPUocCBYV31fCeeJSttk6v3TLXnsO1NlLk/EN3Ga7/6bsI4Q9q6Ia3ElHr/UIqKpKCtTCrod7lMUGULA+6BGUW+dq/ICXQB+6CKbEHnHaCqa/9kKMnfVxnqwDJVJP+V885Z7epoQ2AoXKTOBLGj1HPeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a2NtUzhnfFSfq/iZksZZGTVHbYTEaaGj/GVA/5X2di4=;
- b=s6x31hSDFg+Fca4ZWZGNYb00tr65EeBAg7jhm+5zOk3FX7ebOVSdx0HtPr6rUB3Z289eo4kI2D3RZatE+mEOGIqlkch+dxCrZa7L3M084vyH7Atk1tfALrQgn+eVDK7kQSbf0EOmEzcW6MV6ZhebDZH5UjoGLLz+l2JCzOwnUXk7hEvSoFaDu5+9ceB5oT9PihAE9t6DPXRS4Yx28lv7FIaerYst4g5371Xo3WI5udKOmOnquxzJgrALdm6KSV8pLlJuWxObPCJIkcOrr7mg13no3kJnzF8h2atgadT0Rl4I1hmVrv1q+zLpladaQsWbxZF3yHqhkf7eONRzwDjbwg==
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- PN0P287MB0427.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:122::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.19; Fri, 10 Mar 2023 16:16:12 +0000
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::945f:41d7:1db:1fd3]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::945f:41d7:1db:1fd3%9]) with mapi id 15.20.6178.020; Fri, 10 Mar 2023
- 16:16:12 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     Jiri Kosina <jikos@kernel.org>
-CC:     Orlando Chamberlain <orlandoch.dev@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Fri, 10 Mar 2023 11:55:42 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062F8AD04;
+        Fri, 10 Mar 2023 08:53:07 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so6499940wmb.5;
+        Fri, 10 Mar 2023 08:53:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678467181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SIZHiPYmUfwEfRLCvC1wnxERX0JIKAMAqH6shcSzDMI=;
+        b=BFj0Hy4pAIILDu7BSbXbKqKVPhHUu21fdl+t7FBJOjPA3rbO0cjblN3I9hjshRbXEv
+         JI/xBhRs+t74TleLVPWQFXUlpUZA2OJxCj1fFbqwmUEG4xK4udUYeMkjYxUHGd3Rj+H8
+         jYnKozKktz9EHubsIaveekcGqXYXmmAwwe7VLKv+RMDvuHB6trfFEEkEmcgAgcmxlDwS
+         iwOxTpj/5dbdyxa0Ffx/xoz/HPFuNU0Mlv/jwnRqVfmb/+ucag2w6cN9pPdbjfdVPJjr
+         bYKTdpqSrXghfm0eUTTX1ZTYQtSQglIiRXh9IWKkKLLXvo/MbcpDDxNaVoIlA8RtXwJB
+         dbLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678467181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SIZHiPYmUfwEfRLCvC1wnxERX0JIKAMAqH6shcSzDMI=;
+        b=lxXhLZNlsu+7nRyfANjNdWaFJ7znb7oct+jY+G7hn0VF6TXJ6o/9Qi2xEc0/CNbgrl
+         aPb4fH6j+0Op1amYHCUpeKFsOqk4exL51uq8FtZJSPko+LbvKkszlWriyLpDJiGrCpWn
+         djy/O600CZoaNvGQWTXQcI+BwL/TPkoorvEcMpCPq5EN5x4FsP88xitJivWssWl7s70h
+         VAU/cXL/PeoCY/68Qhk7YrEGIPWuhgfdYlP+hMV8EUox3c+BjIJlNCnmgGHZnhb/Ivh9
+         NgQELhQGdttBw6S+sNHie4sOa/60npsdGY8JvbMBclj1zmgqUNVaNfCNEGwuuEQU/eWA
+         mPdg==
+X-Gm-Message-State: AO0yUKUEv+ApPtkqRC1owyhMgf/ht7hiaDGL/51AZJoc/L7jzFe1j3Lz
+        1Y7LnxFt5v+QdE2gABvr9M0=
+X-Google-Smtp-Source: AK7set85HIRyC5u9XoICbRzTKjn+zmMax77FYMqrehPFpeCxCW/pYg+YZiyJvITud1PNPoYUIQc8OA==
+X-Received: by 2002:a05:600c:4f02:b0:3eb:39c3:8844 with SMTP id l2-20020a05600c4f0200b003eb39c38844mr3481192wmq.12.1678467181167;
+        Fri, 10 Mar 2023 08:53:01 -0800 (PST)
+Received: from alessandro-pc.localdomain (host-80-116-19-80.pool80116.interbusiness.it. [80.116.19.80])
+        by smtp.gmail.com with ESMTPSA id u17-20020a05600c211100b003e20fa01a86sm408427wml.13.2023.03.10.08.53.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 08:53:00 -0800 (PST)
+From:   Alessandro Manca <crizan.git@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?iso-8859-1?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>
-Subject: Re: [PATCH v5 0/2] Apple Magic Keyboard Backlight
-Thread-Topic: [PATCH v5 0/2] Apple Magic Keyboard Backlight
-Thread-Index: AQHZRSHQtk/6TmX0P0KgTUJwSEQZ/a70MSkAgAAb1a8=
-Date:   Fri, 10 Mar 2023 16:16:11 +0000
-Message-ID: <MA0P287MB021727E7ED58C8C74F879CE4B8BA9@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-References: <20230220115203.76154-1-orlandoch.dev@gmail.com>
- <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [Wyomo9HO5vpJDSL+c+fy4adhx+/r9mLF]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN0P287MB0427:EE_
-x-ms-office365-filtering-correlation-id: c593cdd9-dba8-4141-90b3-08db2182c3cd
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: d2l4slyfgnccVVGxqFN9lwy5zqYR9juw08D12j2dljlJZgly7xU/tuiccsYvN6cYVIea8rvatXQRamWzCbEN5RlIpjFiYePtO2r3fK+IHeUI3FRjhpdWA4iie+F4kz5vW0zrDKxnQcjWXcERq7CRd9bkO38Cvk/GjoyazAbBsB8XjiHOUltJMf8CZLFy7jeXPib2bV0rFd3rqGm4F1U2FTTNkrcdo6GxG/ETnuf7N+nUFPMx0GEuN/EQXx+WS6xs7YJPa3Tt8o3nLkBNvnuF4pyI/S743MHCg2FVGOfx7v9RvFrXIWDqTbLFjcExw6fczBYYY4vStdkrWRzIHR4ABWLhomltu0C1/XfOLjVQ9UJyNlkIyKoZhf3j5e88WiP78mQor3BEjZKtjHlMaUsjZ4jPVfuAn6/WO3i7LOAKkCGhp2IqbI/5ZJDFH6rG0zEL6/HNI7B5IJu1E6JxdjmhYPsR8x9uKuMc2xmgoMkc1tdj/GLtHxxhzQqhjA7fuR4I8rurke3TIlYer/HN1R7Fk3rQpqV0XIWNiiALR00n76luKXRwKOUkYwib+3bGABrnqevLhQpms+8hWt0gzy3IF1poZGd6EtioDDnESTSOq3ej9wlj5vXlCcbBQS5tOecv9flrSA6mniXJgjqw6PFxpg==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?GbzlB4TnSbdn7tOof1aSOvFPNOC+jlxn64aoNklsui08xPyPRJ8o1nva89?=
- =?iso-8859-1?Q?P1HOmIqWxcPb045hK/l1LKZRRpgGni2oTvKvyj03VuUaVxsvt4uVM1eoU+?=
- =?iso-8859-1?Q?M+5y9Sa0IuCKf9twz/r3i8Wi/TODoKr9tv6G2RVjRb0iENjkLEdCItDqoj?=
- =?iso-8859-1?Q?K07lLpPSdJsnDAhxKxCD56+9YO4KtnEytUjrjVrI5j7wsmmc7iqPBJcafB?=
- =?iso-8859-1?Q?aJTz/4kcPjWRBqQRFtH8GAgHhvf0Bs3yWNn1N5IpMp+tR5iKcZ9PnyP7ih?=
- =?iso-8859-1?Q?au6U7iGG7iCNR9F+nZyDN0li49KOucp23e6ma1ZMQje+oCUcn4zGvgV0vB?=
- =?iso-8859-1?Q?7bBmbYyHM8EIJx05QUq/lHmRRzRgCvEAHVWq54yRVAAYQ8i8A0Z9tdlqYI?=
- =?iso-8859-1?Q?BbuFv5PEzqXgx20vJjlhj01UZlJW4ZvlM8W1FN6aSDmhWuAZWHta+dVDKo?=
- =?iso-8859-1?Q?xqGNrKnhSkHNHJ66cLM/CpPfPaLRod/EKSQtBo1CxKLcFxVXTodruhxWFH?=
- =?iso-8859-1?Q?VhmUnKrWyi23orby1z8joJkJ9QhL4Hd+MSj+Ri5nXCzSOdui2EaQ/hUvoe?=
- =?iso-8859-1?Q?LdR0Tj0ppfnvI9xf5plg7htgCF4bIoqgDjYQmVfPj43hlzVi2CuYSNnbbj?=
- =?iso-8859-1?Q?rqMEg3q7N9z1IfbLfCCB3Pb9vhq/35+EpD50LhL3pBWs4xVqoR//OTAT+2?=
- =?iso-8859-1?Q?9KuMa1ofgGKq6US4Ab8UxyL/uRnEQ+8DWmBK58yJm4gVjQeCfKatXnXlI6?=
- =?iso-8859-1?Q?HM4NivOdcdHXWsnVC7vnaFHedA2lcjc3BzfBAtDmhEttsxAyyxZT0bVpTC?=
- =?iso-8859-1?Q?WzOrBfjtuywjEifalMebAbeAclj62Vr8xdi0mynRQ9qW9z1eo9mMFRMZpI?=
- =?iso-8859-1?Q?OUUXuuQhDdsZgA8ATNxPAHIvW3uDKBXi8Ybpc9SQ6fw0xf+pwSgeiXvSuB?=
- =?iso-8859-1?Q?CMvUx6b7IJd6wcvM6+kIH8M9lv1T2f9V/RCPEcyIGtc7BaUFaxiIWsC/Xy?=
- =?iso-8859-1?Q?8RFzTOBkoDOpnysv15EqZBP73lYiGVUk+92aKO5P8HHSrxJ3uIU11iYd6D?=
- =?iso-8859-1?Q?WqVgAFzZhRtB8+af4kUO82R/B0osDhDp+FXHYVn0a6ibqQtMwudLzP5Pe6?=
- =?iso-8859-1?Q?sqyv3+B5+Jbw2UdFt6TmdtTS1O3A+hBbEc6hHH/ekibbTeKLb46y6pzBV7?=
- =?iso-8859-1?Q?u6heQ4CBd3hNTMATGPYHRURKNdkp+TMzeUR8rh74/CBVYHcpuF9MJFpmwa?=
- =?iso-8859-1?Q?qwxqdXC0tnCUnpyK01UjeHWDqxq69iFo0HNPqQMOZ+jmAzG3KIsyNZQ/rn?=
- =?iso-8859-1?Q?bnHCQ3Fwam7UyKgd33BZ+R7JOg=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alessandro Manca <crizan.git@gmail.com>
+Subject: [PATCH] HID: topre: Add support for 87 keys Realforce R2
+Date:   Fri, 10 Mar 2023 17:49:33 +0100
+Message-Id: <20230310164933.4798-1-crizan.git@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: c593cdd9-dba8-4141-90b3-08db2182c3cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2023 16:16:11.6926
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB0427
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+The tenkeyless version of the Realforce R2 has the same issue of the
+full size one, the report fixup is needed to make n-key rollover
+work instead of 6 key rollover
 
-> Hi,
->=20
-> thanks for creating the support for backlight.
->=20
-> Is there any reason why not to fold all this into existing hid-apple? I=20
-> don't think we need separate driver for the backlist, separated from the=
-=20
-> rest of hid-apple support.
->=20
-> Thanks,
->=20
-> --=20
-> Jiri Kosina
-> SUSE Labs
->=20
+Signed-off-by: Alessandro Manca <crizan.git@gmail.com>
+---
+ drivers/hid/Kconfig     | 2 +-
+ drivers/hid/hid-ids.h   | 1 +
+ drivers/hid/hid-topre.c | 2 ++
+ 3 files changed, 4 insertions(+), 1 deletion(-)
 
-As far as I know, hid-apple manages the keyboards and trackpads on Macs.
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 82f64fb31fda..4ce012f83253 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1122,7 +1122,7 @@ config HID_TOPRE
+ 	tristate "Topre REALFORCE keyboards"
+ 	depends on HID
+ 	help
+-	  Say Y for N-key rollover support on Topre REALFORCE R2 108 key keyboards.
++	  Say Y for N-key rollover support on Topre REALFORCE R2 108/87 key keyboards.
+ 
+ config HID_THINGM
+ 	tristate "ThingM blink(1) USB RGB LED"
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 63545cd307e5..50728e0a5067 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1249,6 +1249,7 @@
+ 
+ #define USB_VENDOR_ID_TOPRE			0x0853
+ #define USB_DEVICE_ID_TOPRE_REALFORCE_R2_108			0x0148
++#define USB_DEVICE_ID_TOPRE_REALFORCE_R2_87			0x0146
+ 
+ #define USB_VENDOR_ID_TOPSEED		0x0766
+ #define USB_DEVICE_ID_TOPSEED_CYBERLINK	0x0204
+diff --git a/drivers/hid/hid-topre.c b/drivers/hid/hid-topre.c
+index 88a91cdad5f8..d1d5ca310ead 100644
+--- a/drivers/hid/hid-topre.c
++++ b/drivers/hid/hid-topre.c
+@@ -36,6 +36,8 @@ static __u8 *topre_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ static const struct hid_device_id topre_id_table[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
+ 			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_108) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
++			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_87) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, topre_id_table);
+-- 
+2.39.2
 
-The magic backlight is managed by the touchbar on T2 Macs, so if you wanna =
-integrate the driver in some other one, then it should be the to-be-upstrea=
-med touchbar driver.
-
-But when we did that, the MacBook Air 2020, the model which has magic backl=
-ight, but no touchbar faced issues. lsusb interestingly shows presence of t=
-ouch bar backlight even on this model, but backlight is registered at the 0=
-th interface on Air, and 1st interface on the Pros. So, the co-author, Kere=
-m Karabay suggested using a separate driver.
-
-Although, the authors may give more detailed reason for the same.=
