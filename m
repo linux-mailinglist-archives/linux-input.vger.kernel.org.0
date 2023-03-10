@@ -2,52 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9012B6B45C5
-	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7623A6B4668
+	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:42:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232666AbjCJOhE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Mar 2023 09:37:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46192 "EHLO
+        id S232825AbjCJOm5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Mar 2023 09:42:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232678AbjCJOg4 (ORCPT
+        with ESMTP id S232828AbjCJOmo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Mar 2023 09:36:56 -0500
+        Fri, 10 Mar 2023 09:42:44 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABDD811A2EC;
-        Fri, 10 Mar 2023 06:36:37 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F0B121145;
+        Fri, 10 Mar 2023 06:42:32 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9D16AB822DD;
-        Fri, 10 Mar 2023 14:36:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD339C433EF;
-        Fri, 10 Mar 2023 14:36:30 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B351EB822DE;
+        Fri, 10 Mar 2023 14:42:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DEDDC4339E;
+        Fri, 10 Mar 2023 14:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678458993;
-        bh=qyc4HtAfs0oFkSh7TiVFkSvvHVwKqZYdZrQDv4CKMfo=;
+        s=k20201202; t=1678459349;
+        bh=QJI8jxSgxgCLw9wGmPZcqm/kqPEh7EYtxapd36JTFFI=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=he4Spk3glwq8JDawOjY7kt/f4Yr/NEkiMXYrgkpR4R5jEv7ZQgCQUdPAf3emcg/+x
-         otfpJUBp6QID2Ysfe6HcaNOAq88I0gA6NYOneQwNwrVmutesv+ciSfncC97CPuTaiq
-         XVvDAIOF5PWuJUjepSUeZqgRMkQXc7sOklwWoRUbES9Oy6bAsdOkcaOV0X9p01m0UO
-         pZIGyUsvvPIWnuI0JEoTY++4RqfH9EhJzZj6xfZuRmUTG/OkYRIx2xGNKYBO6ZrqPC
-         XPaaA9o93Uejfkb0PuZHACWIMayPn38CGZjjyJXULBvjGDXsKv3XEvRxzDCwxL7FIS
-         6KnYmCmpYXEDw==
-Date:   Fri, 10 Mar 2023 15:36:34 +0100 (CET)
+        b=jagdd7lRHQi3lc3huqDqkxQNWUIs3SIcRlDMZoAGSNrqo1TFz6+k0nh5wfP1cHiYE
+         jk5xn3GFxPY0pshfPnoHZmk5wzfjItgeEuGvMahBBckgClGiCjWIes9VLYkBtb19ya
+         yBY4UV29JAESz+KTz3bequANVsoU2UZ9ZG1GomhUXReTT/MGVbeJJD1EMNXxG6m90o
+         KV60xDeMOb3TEbq0BshOq1Pan0uljZEpVwfpGzRcqFBclgSeIIBpHHh5/z8L733w/4
+         1wcbFqryw/pllWlsSDcz6MgNNys1ZncdovQ5K3YfaUAtB8SFF2nnUHWg8zrz0kDrA+
+         TZq2uyV6YExAA==
+Date:   Fri, 10 Mar 2023 15:42:31 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
-cc:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>
-Subject: Re: [PATCH v5 0/2] Apple Magic Keyboard Backlight
-In-Reply-To: <20230220115203.76154-1-orlandoch.dev@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-References: <20230220115203.76154-1-orlandoch.dev@gmail.com>
+To:     Philippe Troin <phil@fifi.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: add HP 13t-aw100 & 14t-ea100 digitizer battery
+ quirks
+In-Reply-To: <20230306185026.8B85A1A0008D@ceramic.home.fifi.org>
+Message-ID: <nycvar.YFH.7.76.2303101542240.1142@cbobk.fhfr.pm>
+References: <20230306185026.8B85A1A0008D@ceramic.home.fifi.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -60,65 +54,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 20 Feb 2023, Orlando Chamberlain wrote:
+On Mon, 6 Mar 2023, Philippe Troin wrote:
 
-> This patchseries adds support for the internal keyboard backlight of
-> Macs with Apple's "Magic" keyboard (MacBookPro16,* and MacBookAir9,1),
-> and also documents what names should be used for keyboard backlight
-> leds in Documentation/leds/well-known-leds.txt.
+> Similar to many other devices using the Synopsys Designware Elantech
+> hardware, HP Spectre x360 13t-aw100 and 14t-ea100 report an empty
+> battery devices, supposedly for the active stylus.
 > 
-> v4->v5:
-> - use <tab><space><space> for help in Kconfig
-> - prepend "hid-" to filename in MAINTAINERS
+> Apply the HID_BATTERY_QUIRK_IGNORE quirk to ignore the battery reports
+> from these devices. Note that there are multiple versions of the panel
+> installed in the 14t-ea100.
 > 
-> v3->v4:
-> - collect reviews from Andy and Thomas
-> - remove now unused hdev member of apple_magic_backlight
+> Signed-off-by: Philippe Troin <phil@fifi.org>
+> ---
+>  drivers/hid/hid-ids.h   | 3 +++
+>  drivers/hid/hid-input.c | 6 ++++++
+>  2 files changed, 9 insertions(+)
 > 
-> v2->v3:
-> - remove unneeded header inclusion
-> - use s32 for report value type
-> - remove unneeded null check
-> - don't set drvdata as its never used
-> - prepend "hid-" to module name
-> 
-> v1->v2:
-> - drop unneeded remove function
-> - combine set functions
-> - add missing header inclusions
-> - avoid char as argument in favour of u8
-> - handful of style/formatting fixes
-> - use standard led name ":white:kbd_backlight"
-> - rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
-> - New patch documenting preferred keyboard backlight names
-> 
-> v1: https://lore.kernel.org/linux-input/7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com/
-> v2: https://lore.kernel.org/linux-input/20230216041224.4731-1-orlandoch.dev@gmail.com/
-> v3: https://lore.kernel.org/linux-input/20230217102319.3419-1-orlandoch.dev@gmail.com/
-> v4: https://lore.kernel.org/linux-input/20230218090709.7467-1-orlandoch.dev@gmail.com/
-> 
-> Orlando Chamberlain (2):
->   Documentation: leds: standardise keyboard backlight led names
->   HID: hid-apple-magic-backlight: Add driver for keyboard backlight on
->     internal Magic Keyboards
-> 
->  Documentation/leds/well-known-leds.txt  |   8 ++
->  MAINTAINERS                             |   6 ++
->  drivers/hid/Kconfig                     |  13 +++
->  drivers/hid/Makefile                    |   1 +
->  drivers/hid/hid-apple-magic-backlight.c | 120 ++++++++++++++++++++++++
->  5 files changed, 148 insertions(+)
->  create mode 100644 drivers/hid/hid-apple-magic-backlight.c
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 63545cd307e5..22e716b66fb8 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -420,6 +420,9 @@
+>  #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
+>  #define I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN	0x2A1C
+>  #define I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN	0x279F
+> +#define I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100	0x29F5
+> +#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
+> +#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
+>  
+>  #define USB_VENDOR_ID_ELECOM		0x056e
+>  #define USB_DEVICE_ID_ELECOM_BM084	0x0061
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 7fc967964dd8..5c65a584b3fa 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -398,6 +398,12 @@ static const struct hid_device_id hid_battery_quirks[] = {
+>  	  HID_BATTERY_QUIRK_IGNORE },
+>  	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN),
+>  	  HID_BATTERY_QUIRK_IGNORE },
+> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100),
+> +	  HID_BATTERY_QUIRK_IGNORE },
+> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1),
+> +	  HID_BATTERY_QUIRK_IGNORE },
+> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2),
+> +	  HID_BATTERY_QUIRK_IGNORE },
 
-Hi,
-
-thanks for creating the support for backlight.
-
-Is there any reason why not to fold all this into existing hid-apple? I 
-don't think we need separate driver for the backlist, separated from the 
-rest of hid-apple support.
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
