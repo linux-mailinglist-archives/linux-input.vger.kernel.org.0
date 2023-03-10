@@ -2,143 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6C746B4741
-	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B1206B47E4
+	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:56:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233278AbjCJOtg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Mar 2023 09:49:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43544 "EHLO
+        id S233074AbjCJO4Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Mar 2023 09:56:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232910AbjCJOsU (ORCPT
+        with ESMTP id S233302AbjCJOyX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Mar 2023 09:48:20 -0500
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F2A10A12D;
-        Fri, 10 Mar 2023 06:47:33 -0800 (PST)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-176d1a112bfso6058966fac.5;
-        Fri, 10 Mar 2023 06:47:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678459653;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f2lTtjWUMnJBmccOD7sA1r/lC9FUen1jFS0i++9lx7Q=;
-        b=UkIKxn4M53jXCHs42yJQx2FU1sA+NF1K9WoA9fbF2wYFsXubnlNZzWUoumlDGIOw7R
-         ahhr2zXE+KuCxAoOxN2+GIwbSdcoWwO8Uhldk4hERbAlv+HoxQKgwK9Ca18uTJ2ZOZjJ
-         iNGcCV9+tgQGlNT2vrRZwi0dxKPy0SdyB5iFbystR7eJBU9QAyQYErHCBqL3jQLDUEZb
-         xoXS595knYz2UqkDoaQ5AitqixLE24e02IDJzJ4lbRM0KCRmvfWP5LqD8E9MJd5g5XmS
-         70a4VvDoOrVLPIhdf/XsS4fMDRN/LiN6UrZ1pRQ6SpDQSe/RFWMYnTSrdthfnafvadjt
-         XJAQ==
-X-Gm-Message-State: AO0yUKWB8zqkaLUthpaLDO/0vuOvwZnNN0eY4fz5/VkLawlr+AdrQ3fk
-        XtuWkaH3tniPVHIeLkdUCQ==
-X-Google-Smtp-Source: AK7set8QdGWW9Ap+0QPRi0nLe9hGsHW1DfpJIT8al6u/OSLp22lw3dj34v105XOmPR2CdhO8nZ8RnA==
-X-Received: by 2002:a05:6870:819d:b0:172:21e9:21c7 with SMTP id k29-20020a056870819d00b0017221e921c7mr16014357oae.40.1678459652873;
-        Fri, 10 Mar 2023 06:47:32 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id z13-20020a056870e14d00b00172721f6cd5sm114767oaa.16.2023.03.10.06.47.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 06:47:32 -0800 (PST)
-Received: (nullmailer pid 1542798 invoked by uid 1000);
-        Fri, 10 Mar 2023 14:47:08 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] Input: Use of_property_read_bool() for boolean properties
-Date:   Fri, 10 Mar 2023 08:47:08 -0600
-Message-Id: <20230310144708.1542751-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        Fri, 10 Mar 2023 09:54:23 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5D7C1223AB
+        for <linux-input@vger.kernel.org>; Fri, 10 Mar 2023 06:50:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C36AD6196E
+        for <linux-input@vger.kernel.org>; Fri, 10 Mar 2023 14:50:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF9BC4339B;
+        Fri, 10 Mar 2023 14:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678459804;
+        bh=QSiGl2YAdAGsmfCWq2WtCLj+0Ez162pQjq7zaxIAl2o=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Uoo0CZSUNtCSbYK1Ilwk3a7ISmxXlnYty+t84E39HN5QBCti+L4c8DzbXVjFaAkz8
+         kaP4fxD9abhTpIRnZ4TVrrF/bIzFjRmbFASVEIYo1roZRBBPvU7IaQXoxrvwvGCOQR
+         FwTcCI5TyFhZ8mETwU4qFDTyxlY0mz0JqSFRBB7GYw14ihiG5wOEMhnPSwW2ZM7k2P
+         lOrFISOz3yiWBHsn0vMmtRGMv9kihzes7wNu5RVCgbZ8J6v8g4pPPNKo57B0b9VFil
+         Y2elb1nol0X9hi4iYaIibbo2fQXlSG/Db2C6ME5qfEM2JbfjIrW8vcMUKQb1ro9e5m
+         EYv5Su2fkIrKw==
+Date:   Fri, 10 Mar 2023 15:50:07 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Alex Henrie <alexhenrie24@gmail.com>
+cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] HID: apple: Set the tilde quirk flag on the Geyser
+ 4 and later
+In-Reply-To: <20230227030614.827480-1-alexhenrie24@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2303101549590.1142@cbobk.fhfr.pm>
+References: <20230227030614.827480-1-alexhenrie24@gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It is preferred to use typed property access functions (i.e.
-of_property_read_<type> functions) rather than low-level
-of_get_property/of_find_property functions for reading properties.
-Convert reading boolean properties to to of_property_read_bool().
+On Sun, 26 Feb 2023, Alex Henrie wrote:
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/input/keyboard/matrix_keypad.c  | 6 ++----
- drivers/input/keyboard/omap4-keypad.c   | 3 +--
- drivers/input/keyboard/samsung-keypad.c | 3 +--
- drivers/input/keyboard/tegra-kbc.c      | 3 +--
- 4 files changed, 5 insertions(+), 10 deletions(-)
+> I recently tested several old MacBooks and as far as I can tell, all
+> MacBooks that have an ISO keyboard have the tilde key quirk:
+> 
+> Product    Model  Year  System      CPU    Shape  Labels     Country  Quirky
+> ============================================================================
+> 05ac:021b  A1181  2006  MacBook2,1  T5600  ISO    British    13       Yes
+> 05ac:021b  A1181  2007  MacBook2,1  T7200  ISO    Québécois  13       Yes
+> 05ac:0229  A1181  2007  MacBook4,1  T8300  ANSI   Usonian    33       No
+> 05ac:022a  A1181  2007  MacBook4,1  T8100  ISO    English    13       Yes
+> 05ac:022a  A1181  2007  MacBook5,2  P7350  ISO    Québécois  13       Yes
+> 05ac:0237  A1278  2008  MacBook5,1  P7350  ISO    Dutch      13       Yes
+> 05ac:0237  A1278  2009  MacBook5,5  P7550  ISO    British    13       Yes
+> 
+> The model number and year are from the laptop case. Since Apple printed
+> the same model and year on many different laptops, the system name (as
+> reported in the SMBIOS tables) and CPU form a more precise identifier.
+> 
+> Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+> ---
+> v2: Added system names from SMBIOS tables to commit message, no code
+> changes
 
-diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-index 203310727d88..a1b037891af2 100644
---- a/drivers/input/keyboard/matrix_keypad.c
-+++ b/drivers/input/keyboard/matrix_keypad.c
-@@ -425,14 +425,12 @@ matrix_keypad_parse_dt(struct device *dev)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	if (of_get_property(np, "linux,no-autorepeat", NULL))
--		pdata->no_autorepeat = true;
-+	pdata->no_autorepeat = of_property_read_bool(np, "linux,no-autorepeat");
- 
- 	pdata->wakeup = of_property_read_bool(np, "wakeup-source") ||
- 			of_property_read_bool(np, "linux,wakeup"); /* legacy */
- 
--	if (of_get_property(np, "gpio-activelow", NULL))
--		pdata->active_low = true;
-+	pdata->active_low = of_property_read_bool(np, "gpio-activelow");
- 
- 	pdata->drive_inactive_cols =
- 		of_property_read_bool(np, "drive-inactive-cols");
-diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-index 4426120398b0..9f085d5679db 100644
---- a/drivers/input/keyboard/omap4-keypad.c
-+++ b/drivers/input/keyboard/omap4-keypad.c
-@@ -274,8 +274,7 @@ static int omap4_keypad_parse_dt(struct device *dev,
- 	if (err)
- 		return err;
- 
--	if (of_get_property(np, "linux,input-no-autorepeat", NULL))
--		keypad_data->no_autorepeat = true;
-+	keypad_data->no_autorepeat = of_property_read_bool(np, "linux,input-no-autorepeat");
- 
- 	return 0;
- }
-diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
-index 09e883ea1352..d85dd2489293 100644
---- a/drivers/input/keyboard/samsung-keypad.c
-+++ b/drivers/input/keyboard/samsung-keypad.c
-@@ -291,8 +291,7 @@ samsung_keypad_parse_dt(struct device *dev)
- 		*keymap++ = KEY(row, col, key_code);
- 	}
- 
--	if (of_get_property(np, "linux,input-no-autorepeat", NULL))
--		pdata->no_autorepeat = true;
-+	pdata->no_autorepeat = of_property_read_bool(np, "linux,input-no-autorepeat");
- 
- 	pdata->wakeup = of_property_read_bool(np, "wakeup-source") ||
- 			/* legacy name */
-diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
-index da4019cf0c83..d5a6c7d8eb25 100644
---- a/drivers/input/keyboard/tegra-kbc.c
-+++ b/drivers/input/keyboard/tegra-kbc.c
-@@ -504,8 +504,7 @@ static int tegra_kbc_parse_dt(struct tegra_kbc *kbc)
- 	if (!of_property_read_u32(np, "nvidia,repeat-delay-ms", &prop))
- 		kbc->repeat_cnt = prop;
- 
--	if (of_find_property(np, "nvidia,needs-ghost-filter", NULL))
--		kbc->use_ghost_filter = true;
-+	kbc->use_ghost_filter = of_property_present(np, "nvidia,needs-ghost-filter");
- 
- 	if (of_property_read_bool(np, "wakeup-source") ||
- 	    of_property_read_bool(np, "nvidia,wakeup-source")) /* legacy */
+Applied, thanks.
+
 -- 
-2.39.2
+Jiri Kosina
+SUSE Labs
 
