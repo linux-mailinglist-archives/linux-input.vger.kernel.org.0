@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B4A6B4267
-	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CBAB6B42C9
+	for <lists+linux-input@lfdr.de>; Fri, 10 Mar 2023 15:07:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbjCJODE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Mar 2023 09:03:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51194 "EHLO
+        id S231707AbjCJOHH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Mar 2023 09:07:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231527AbjCJOCo (ORCPT
+        with ESMTP id S231786AbjCJOGp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Mar 2023 09:02:44 -0500
+        Fri, 10 Mar 2023 09:06:45 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5276D117583
-        for <linux-input@vger.kernel.org>; Fri, 10 Mar 2023 06:02:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDBEC116C27;
+        Fri, 10 Mar 2023 06:06:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D8AFA61552
-        for <linux-input@vger.kernel.org>; Fri, 10 Mar 2023 14:02:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A2EDC433D2;
-        Fri, 10 Mar 2023 14:02:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D13E060D29;
+        Fri, 10 Mar 2023 14:06:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D880DC433EF;
+        Fri, 10 Mar 2023 14:06:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678456962;
-        bh=Bg4GU5+ExAVQKhyeDYeLkMepGHbujFA2Pz/wujgoPbw=;
+        s=k20201202; t=1678457176;
+        bh=Gnnoq5rEYTSfL1/eq63BF8ajSPWfoKqKskp1qaY3HZk=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=eNuea4cvzDD9Sk9upyBE26gFoeUORvYkqsZfiKZ05Us9QE+gcFIBHZWGVJlejr2bl
-         dNPB+fiR2JJ5ByVzuxabGOteEb+H43D/I1C0/pnrb4nMX4soJh3T/PG7lRwto0GlVR
-         Jp8ZmrlIIKtO1aABPWix7Wm17i7/awV9Cjbftyi3wzgOnwnPijhMY5nkYi2N7odY65
-         TUOf3xECSOgbVA+ylA5FuVnJBq/a6TpH0RFyqFWTNKGEOYw1ibdRa7QM0c0PnUhX3A
-         kMxGZ2C4G+fTxiYlpw/udI7d+tVhU8eBbJdE7QvboMx/Yasx/EVi0s8xG0aVSDjn+D
-         bZJgKCMdTDS/w==
-Date:   Fri, 10 Mar 2023 15:02:44 +0100 (CET)
+        b=a3FuLhyYzJLFSEL31cmNveXLmKYk0B8wPFoTWb1FaoLyG8eJbC7DVvJhSx+bv9iX+
+         yfF/MWA7GbE6j21DZDG3xhfGHG7ikMuA+DZBFDR68hjcLFMZuDaOTjQkbTKIlT7Sk7
+         x0knL8VOCtgUpEHbJ++rxPan/7fuKiodOIgBltOHAdPXiRSVy1te70sRnCS8MwHreR
+         +LtAba3D2pqv5ZIInMsK9tUps1GpC2Ue38CoeEUwoAe53js6Q2BthFCSJ5P6fEIlKM
+         Q0Bsoufve+BHTRUb/icNtvr5UttbxYEU0W54CzFO87Q7iJhNT+9aEamhHBTI2nGTj2
+         utBHdghrBdwbg==
+Date:   Fri, 10 Mar 2023 15:06:18 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>
-cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        Roderick.Colenbrander@sony.com
-Subject: Re: [PATCH v0 0/2] HID: nintendo: avoid BT rumble disconnections
-In-Reply-To: <20230203215119.435091-1-djogorchock@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2303101502330.1142@cbobk.fhfr.pm>
-References: <20230203215119.435091-1-djogorchock@gmail.com>
+To:     David Yang <mmyangfl@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] HID: kye: Add support for all kye tablets
+In-Reply-To: <20230207043318.23842-1-mmyangfl@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2303101506030.1142@cbobk.fhfr.pm>
+References: <20230207043318.23842-1-mmyangfl@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,51 +53,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 3 Feb 2023, Daniel J. Ogorchock wrote:
+On Tue, 7 Feb 2023, David Yang wrote:
 
-> The hid-nintendo driver has been plagued by an issue where rumble
-> command traffic to bluetooth-connected controllers can cause frequent
-> power downs of the controllers.
+> This series refactor kye tablet descriptor fixup routine, by using a
+> template and filling parameters on the fly, and add support for all
+> possible kye tablets.
+> ---
+> v2: fix missing rsize assignment
+> v3: fix geometry
+> v4: split patches
 > 
-> Digging into other pro controller driver implementations, I've not found
-> anything that hid-nintendo is doing incorrectly. Some implementations
-> seem to be working around the same problem (e.g. libsdl's hidapi
-> implementation rate limits rumble commands to avoid the problem).
+> David Yang (4):
+>   HID: kye: Rewrite tablet descriptor fixup routine
+>   HID: kye: Generate tablet fixup descriptors on the fly
+>   HID: kye: Sort kye devices
+>   HID: kye: Add support for all kye tablets
 > 
-> hid-nintendo already rate limits rumble control packets, but that does
-> not solve the problem.
-> 
-> Using btmon output, I've fuond the the disconnections reliably occur
-> shortly after the controller's reporting rate become erratic. The
-> controller is meant to report input packets roughly every 15ms. Sending
-> rumble commands can sometimes result in the input packets arriving in
-> bursts/batches. Once the controller and/or BT stack enters this state,
-> even halting rumble commands will never allow the reporting rate to
-> recover to nominal. The controller will eventually disconnect.
-> 
-> This patch set strives to avoid the problematic scenario. It detects if
-> input reports arrive at clearly incorrect deltas. During these times,
-> the driver will hold off on transmitting any rumble commands to the
-> controller. This approach has allowed the reporting rate to reliably
-> recover in my testing. I've not been able to generate a controller
-> disconnection during hours of testing games with frequent rumble.
-> 
-> The behavior of this mechanism is tunable using #defines. We may need to
-> tweak/tune as the mitigation is used on different hardware setups.
-> 
-> My suspicion is that the core issue is somewhere in the bluez stack. My
-> next step is to investigate that lead in more detail. This patchset at
-> least allows for use of the controllers via bluetooth with rumble
-> enabled without frequently disconnecting.
-> 
-> Daniel J. Ogorchock (2):
->   HID: nintendo: prevent rumble queue overruns
->   HID: nintendo: fix rumble rate limiter
-> 
->  drivers/hid/hid-nintendo.c | 95 ++++++++++++++++++++++++++++++++++----
->  1 file changed, 86 insertions(+), 9 deletions(-)
+>  drivers/hid/hid-ids.h    |   9 +-
+>  drivers/hid/hid-kye.c    | 917 +++++++++++++++++----------------------
+>  drivers/hid/hid-quirks.c |  14 +-
+>  3 files changed, 414 insertions(+), 526 deletions(-)
 
-Now queued in hid.git#for-6.4/nintendo. Thanks,
+Now queued in hid.git#for-6.4/kye, thanks David.
 
 -- 
 Jiri Kosina
