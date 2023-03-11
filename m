@@ -2,52 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96E726B5918
-	for <lists+linux-input@lfdr.de>; Sat, 11 Mar 2023 07:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3666B5961
+	for <lists+linux-input@lfdr.de>; Sat, 11 Mar 2023 09:01:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229473AbjCKGvi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Mar 2023 01:51:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35070 "EHLO
+        id S229612AbjCKIBe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Mar 2023 03:01:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbjCKGvh (ORCPT
+        with ESMTP id S229515AbjCKIBc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Mar 2023 01:51:37 -0500
+        Sat, 11 Mar 2023 03:01:32 -0500
 Received: from smtpq4.tb.mail.iss.as9143.net (smtpq4.tb.mail.iss.as9143.net [212.54.42.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A859140FC8
-        for <linux-input@vger.kernel.org>; Fri, 10 Mar 2023 22:51:34 -0800 (PST)
-Received: from [212.54.42.107] (helo=smtp3.tb.mail.iss.as9143.net)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DAB6125DAF
+        for <linux-input@vger.kernel.org>; Sat, 11 Mar 2023 00:01:30 -0800 (PST)
+Received: from [212.54.42.105] (helo=smtp1.tb.mail.iss.as9143.net)
         by smtpq4.tb.mail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.90_1)
         (envelope-from <dick@mrns.nl>)
-        id 1pat4n-00022c-Bt
-        for linux-input@vger.kernel.org; Sat, 11 Mar 2023 07:51:33 +0100
+        id 1pauAT-0001Va-6K
+        for linux-input@vger.kernel.org; Sat, 11 Mar 2023 09:01:29 +0100
 Received: from routi.mrns.nl ([213.93.239.227])
-        by smtp3.tb.mail.iss.as9143.net with ESMTPA
-        id at4lpceQktg8eat4mp5zov; Sat, 11 Mar 2023 07:51:33 +0100
+        by smtp1.tb.mail.iss.as9143.net with ESMTPA
+        id auARpf1q1Ivg1auARpkw8e; Sat, 11 Mar 2023 09:01:29 +0100
 X-Env-Mailfrom: dick@mrns.nl
 X-Env-Rcptto: linux-input@vger.kernel.org
 X-SourceIP: 213.93.239.227
-X-CNFS-Analysis: v=2.4 cv=bZetEsDB c=1 sm=1 tr=0 ts=640c24f5 cx=a_exe
+X-CNFS-Analysis: v=2.4 cv=OIXhnwWB c=1 sm=1 tr=0 ts=640c3559 cx=a_exe
  a=JHrq6bmmrihZf+Bww3MhDg==:117 a=JHrq6bmmrihZf+Bww3MhDg==:17
  a=k__wU0fu6RkA:10 a=oxU5Xt4QAAAA:8 a=H1w7Dpf3J3Y2f7KK384A:9
  a=jKdzr7yA372qb7_9lzlF:22
 X-Authenticated-Sender: boeierlaan60@ziggo.nl
-Received: by routi.mrns.nl (sSMTP sendmail emulation); Sat, 11 Mar 2023 07:51:31 +0100
+Received: by routi.mrns.nl (sSMTP sendmail emulation); Sat, 11 Mar 2023 09:01:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mrns.nl;
+ i=@mrns.nl; q=dns/txt; s=mail; t=1678521687; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding
+ : from; bh=JyOxZNLMgepTG2sF3FpoZIep+bHAsj6d3amLul+RV4Y=;
+ b=kYVjUkaZhjf01FfEThxQ6OI45hZrVwy4eCpyXvKie9NjWhZmPZc3Ck9MnB7e/Y8ym8eYE
+ /2P0XxAPBZeYwP9Z511uVTAvW3zuOB2KUZeCPJMGzQcOZtq/mez/8LWkRyZAoMujM6lT968
+ nU+TTvJZgJQyM68f6HrzoztmWvDRzQY=
 From:   Dick Marinus <dick@mrns.nl>
 To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Cc:     Dick Marinus <dick@mrns.nl>
 Subject: [PATCH] Use HID descriptor for razer devices
-Date:   Sat, 11 Mar 2023 07:51:05 +0100
-Message-Id: <20230311065105.2789549-1-dick@mrns.nl>
+Date:   Sat, 11 Mar 2023 09:01:18 +0100
+Message-Id: <20230311080118.2810709-1-dick@mrns.nl>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAphZi6dGL5HLTWgpj9F6rN1+rMPfA0C8QU057KnGwYzYGB9VZVvH0Eu6WqCsCjMT85TGuZuh3UN6YT/54gVtV9a1G+ossITH+yk5Ix26lMKHRO4layB
- XPPwJF7PAWiUZmile+17sX1pRPj8gofQIkkSiI9SwCAyMC14zJ21VVsxs+yfxfrvoMqArITs4KvFLb8ejDcUu5QeEzCELR4g8cdZz7qBXleOLvzxZh25q6SL
- okfmN/OTFeme15mamaSU2gLOFnaQBuY/f+behECStdheVcIGdh9Zo3c2QKUXWx86U+iL0PNZCfoexn+cp5C57VMLAirF/sP/waTHTQbZsQE=
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-CMAE-Envelope: MS4xfP9zjk9qNPfWT9Y53JZlmwL4/2eMa5Ml+0r/tpXrvqueN4+TtPL/k9Ex2YJZCjMSEXoj6QlAnrV6S30C/gwZ0RjshFopxP+f7uj1lXWmbbAFvOrXtnW4
+ kRnjeFENO0oh+Ax0l8n5aEW2kotyfHINfFRAMzjueUKNrikwuSsGcIp6upQKGhBcI3yCyn/Ucq0MSgP5qdgUdUgOGPuXibEwsr6+BbZAlhYG7vOtJrHSgnMZ
+ LwnpIheoJTp6IWKv5/ooxmy0HcCYwX0CfbltnRZ2YWltafknvIbjBeaAsUxSl71yGp5eXHTXym3bXk6oyU56t3uOWtp9szBotsaVAF44hac=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
