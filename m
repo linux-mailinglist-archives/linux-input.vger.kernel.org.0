@@ -2,168 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC986B5B4D
-	for <lists+linux-input@lfdr.de>; Sat, 11 Mar 2023 12:48:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80CD56B5BB8
+	for <lists+linux-input@lfdr.de>; Sat, 11 Mar 2023 13:31:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229768AbjCKLsU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Mar 2023 06:48:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50266 "EHLO
+        id S229906AbjCKMbx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Mar 2023 07:31:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjCKLsT (ORCPT
+        with ESMTP id S230365AbjCKMbq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Mar 2023 06:48:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C30B2597F
-        for <linux-input@vger.kernel.org>; Sat, 11 Mar 2023 03:47:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678535251;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eG9Tr7sxkZtQXo+XMiP2Xmu0AaM5weaeNyVvlOJiu+s=;
-        b=FrhWZ5p0mshf60lJvYpQo+rE3FE0FxYKojfccx/m5/uqToOY7DYTPcMUeNJH7INP7vfQfD
-        FaA0xcjHUcDV/+uqU0tIeWvwx6X2EFyjtvPCB3MtrLelV09pcI9nON/2MGd0uTuYXEQqBI
-        2h4w5pdWEUFJcIA05v/uqUPnjd9tncI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-foAKDqp4NUGze0NU3-kt4w-1; Sat, 11 Mar 2023 06:47:29 -0500
-X-MC-Unique: foAKDqp4NUGze0NU3-kt4w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Sat, 11 Mar 2023 07:31:46 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B2C12DDC7;
+        Sat, 11 Mar 2023 04:31:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50E33800050;
-        Sat, 11 Mar 2023 11:47:29 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.56])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9F216C16028;
-        Sat, 11 Mar 2023 11:47:28 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v5 2/2] Input: hideep - Optionally reset controller work mode to native HiDeep protocol
-Date:   Sat, 11 Mar 2023 12:47:26 +0100
-Message-Id: <20230311114726.182789-3-hdegoede@redhat.com>
-In-Reply-To: <20230311114726.182789-1-hdegoede@redhat.com>
-References: <20230311114726.182789-1-hdegoede@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4312760BA0;
+        Sat, 11 Mar 2023 12:31:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C60EC4339B;
+        Sat, 11 Mar 2023 12:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678537904;
+        bh=p5iWwHAklWT0bySItEhojZIf18mXXNFhFCDhXndKyK8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=AamS5nNCIINdQ5gPbG0tS4TRoqFwguJYVQAPQdOqT8UJOgKafXRkL45eh6CrmqzJH
+         3mSVmkZ2tsZvKuorrMmIP+YCyrxb7McFpweGnfNcVXbf9crDhcgeqV+OExB7JCMdNT
+         OqFxDd+l3/imn6lB3eH9suY82ns7sXwGbjCP5El79TRmhR7CyhoLxs43J95oKQAPrg
+         m9gw9o0Il0dzGUxaMgBVCVt7A5KnIcBtq1uC8L4t5HJx2UomOTurm1ghRFSDgPFDJX
+         HQwhgPXRqRKkri7tWvX8xPGncaijbaMKwJ7hmeCZFVW5cCTxKWO/LGsjmX4WxczRt7
+         uIRHR+Mp1vLTA==
+Date:   Sat, 11 Mar 2023 12:31:48 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Philipp Jungkamp <p.jungkamp@gmx.net>
+Cc:     Todd Brandt <todd.e.brandt@intel.com>, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        todd.e.brandt@linux.intel.com, srinivas.pandruvada@linux.intel.com,
+        jikos@kernel.org
+Subject: Re: [PATCH] Fix buffer overrun in HID-SENSOR name.
+Message-ID: <20230311123148.0fbe1091@jic23-huawei>
+In-Reply-To: <b9dab02783e5eeaa74b291d4394150689e7c7b8a.camel@gmx.net>
+References: <20230310235414.12467-1-todd.e.brandt@intel.com>
+        <b9dab02783e5eeaa74b291d4394150689e7c7b8a.camel@gmx.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The HiDeep IST940E touchscreen controller used on the Lenovo Yoga Book X90F
-convertible comes up in HID mode by default.
+On Sat, 11 Mar 2023 01:53:22 +0100
+Philipp Jungkamp <p.jungkamp@gmx.net> wrote:
 
-This works well on the X91F Windows model where the touchscreen is
-correctly described in ACPI and ACPI takes care of controlling
-the reset GPIO and regulators.
+> This is exactly the fix I proposed. Thank you for testing and properly
+> submitting it.
+>=20
+> Regards,
+> Philipp Jungkamp
 
-But the X90F ships with Android and the ACPI tables on this model don't
-describe the touchscreen. Instead this is hardcoded in the vendor kernel.
+Looks good to me as well.
 
-The vendor kernel uses the touchscreen in native HiDeep 20 (2.0?) protocol
-mode and switches the controller to this mode by writing 0 to reg 0x081e.
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Adjusting the i2c-hid code to deal with the reset-gpio and regulators on
-this non devicetree (but rather broken ACPI) convertible is somewhat tricky
-and the native protocol reports ABS_MT_PRESSURE and ABS_MT_TOUCH_MAJOR
-which are not reported in HID mode, so it is preferable to use the native
-mode.
-
-Add support to the hideep driver to reset the work-mode to the native
-HiDeep protocol to allow using it on the Lenovo Yoga Book X90F.
-This is guarded behind a new "hideep,force-native-protocol" boolean
-property, to avoid changing behavior on other devices.
-
-For the record: I did test using the i2c-hid driver with some quick hacks
-and it does work. The I2C-HID descriptor is available from address 0x0020,
-just like on the X91F Windows model.
-
-So far the new "hideep,force-native-protocol" property is only used on
-x86/ACPI (non devicetree) devs. IOW it is not used in actual devicetree
-files. The devicetree-bindings maintainers have requested properties like
-these to not be added to the devicetree-bindings, so the new property is
-deliberately not added to the existing devicetree-bindings.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v5:
-- Rename the property to "hideep,force-native-protocol"
-- Add a comment to the property checking code that this property
-  should not be used in devicetree without first adding it to
-  the devicetree-bindings.
-
-Changes in v3:
-- Do not add the x86/acpi only property to the dt-bindings doc
-
-Changes in v2:
-- New patch in v2 of this patch-set
----
- drivers/input/touchscreen/hideep.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/drivers/input/touchscreen/hideep.c b/drivers/input/touchscreen/hideep.c
-index 5e6e43d56448..74673db06ed0 100644
---- a/drivers/input/touchscreen/hideep.c
-+++ b/drivers/input/touchscreen/hideep.c
-@@ -35,6 +35,7 @@
- #define HIDEEP_EVENT_ADDR		0x240
- 
- /* command list */
-+#define HIDEEP_WORK_MODE		0x081e
- #define HIDEEP_RESET_CMD		0x9800
- 
- /* event bit */
-@@ -964,6 +965,21 @@ static const struct attribute_group hideep_ts_attr_group = {
- 	.attrs = hideep_ts_sysfs_entries,
- };
- 
-+static void hideep_set_work_mode(struct hideep_ts *ts)
-+{
-+	/*
-+	 * Reset touch report format to the native HiDeep 20 protocol if requested.
-+	 * This is necessary to make touchscreens which come up in I2C-HID mode
-+	 * work with this driver.
-+	 *
-+	 * Note this is a kernel internal device-property set by x86 platform code,
-+	 * this MUST not be used in devicetree files without first adding it to
-+	 * the DT bindings.
-+	 */
-+	if (device_property_read_bool(&ts->client->dev, "hideep,force-native-protocol"))
-+		regmap_write(ts->reg, HIDEEP_WORK_MODE, 0x00);
-+}
-+
- static int hideep_suspend(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
-@@ -987,6 +1003,8 @@ static int hideep_resume(struct device *dev)
- 		return error;
- 	}
- 
-+	hideep_set_work_mode(ts);
-+
- 	enable_irq(client->irq);
- 
- 	return 0;
-@@ -1063,6 +1081,8 @@ static int hideep_probe(struct i2c_client *client)
- 		return error;
- 	}
- 
-+	hideep_set_work_mode(ts);
-+
- 	error = hideep_init_input(ts);
- 	if (error)
- 		return error;
--- 
-2.39.1
+>=20
+> On Fri, 2023-03-10 at 15:54 -0800, Todd Brandt wrote:
+> > Philipp Jungkamp created this fix, I'm simply submitting it. I've
+> > verified it fixes bugzilla issue 217169.
+> >=20
+> > Reported-and-tested-by: Todd Brandt <todd.e.brandt@linux.intel.com>
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217169
+> > Signed-off-by: Todd Brandt <todd.e.brandt@intel.com>
+> > ---
+> > =C2=A0drivers/hid/hid-sensor-custom.c | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
+> > sensor-custom.c
+> > index 3e3f89e01d81..d85398721659 100644
+> > --- a/drivers/hid/hid-sensor-custom.c
+> > +++ b/drivers/hid/hid-sensor-custom.c
+> > @@ -940,7 +940,7 @@ hid_sensor_register_platform_device(struct
+> > platform_device *pdev,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct h=
+id_sensor_hub_device
+> > *hsdev,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const st=
+ruct
+> > hid_sensor_custom_match *match)
+> > =C2=A0{
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0char real_usage[HID_SENSOR_U=
+SAGE_LENGTH];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0char real_usage[HID_SENSOR_U=
+SAGE_LENGTH] =3D { 0 };
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct platform_device =
+*custom_pdev;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const char *dev_name;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0char *c; =20
+>=20
 
