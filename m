@@ -2,78 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F9C76B58F5
-	for <lists+linux-input@lfdr.de>; Sat, 11 Mar 2023 07:33:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96E726B5918
+	for <lists+linux-input@lfdr.de>; Sat, 11 Mar 2023 07:51:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbjCKGd3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Mar 2023 01:33:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
+        id S229473AbjCKGvi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Mar 2023 01:51:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjCKGd0 (ORCPT
+        with ESMTP id S229874AbjCKGvh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Mar 2023 01:33:26 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE021C321;
-        Fri, 10 Mar 2023 22:33:25 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso7126115pjs.3;
-        Fri, 10 Mar 2023 22:33:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678516405;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XJ+nhmVjwHZ6QFf7JMBkQR/zIZ3Yd/huMBL/cm4iNmk=;
-        b=YwbUBaQ94Jkn4cElkpeXswJBzsf17zkSBeqeq1RolkjLWCq6FVODndKYzRo2q/2lE4
-         +Tv+KMz3XsH0UQ0JjqQk7p/xvWq46RjYtzP+5IULTM06SCjJa0h+qqgfNT+7bXs1M8IL
-         +X1k4Kwb5cCWymsteEuOFSaRxRmoNltyDwWyZVPJKJrLDh6jacOT5tLw2lfam8Wf322Y
-         jnvrJKeSU+nsU9EEDkSq1kB/Ppf5aZa5iC3VIHkyV6Q+CHLQMMtCT3XNfe55NH4AbckK
-         VpRx4SBVg7Aw3+rQRP3dPyoIxQ0gKrQroSjfaJnNVWn+A+Qilxg0/yYp3mnpTl9eb9C/
-         Jwhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678516405;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XJ+nhmVjwHZ6QFf7JMBkQR/zIZ3Yd/huMBL/cm4iNmk=;
-        b=BgnVUWDPPTjR/JzrSddpx/9QfXNlKtGGjTuO1f3jbWXmsKfHICCmJJZ+KvcbolNsM6
-         ygZrKMLFVOCQgWRVbURnCweInVQGfow+GCAnI6rpjFuzZqGYhtyuzL3JFezEgrtmJ9i/
-         1P1Hwh3D96HGoITdh0O9vvXCsh2APfWMCp1IAUrySsdUvGqwBii8NBKwoeLx1QCHwtZb
-         7V2pO+eYIvJShsoRwkFhPQoTsxtnpsEybRvO36ai/hehxcr/qyoN603L5WS0aInkCTQB
-         eJYQdZYYhp1brZcUyOHs7GULwrI2kh8sylg4ELbtuonC2YwCxP0a2IfKfvQIumgLHaUS
-         5RAQ==
-X-Gm-Message-State: AO0yUKXfJ84FBrp+qUVWrT0RdRMBkC16mBcnfmu20j5PTjeRo6agJkGE
-        /dV/7/9UkkXJWqJB/Wk6odQ=
-X-Google-Smtp-Source: AK7set816qLD75sU6ayDA8I1y1Rgse0n0WSvhFSlB58g0NpWpzg8IoZ8A7Wd7E0BIRnHE2g2/4z+AA==
-X-Received: by 2002:a17:90b:1d88:b0:237:99b8:4eef with SMTP id pf8-20020a17090b1d8800b0023799b84eefmr29501361pjb.9.1678516404934;
-        Fri, 10 Mar 2023 22:33:24 -0800 (PST)
-Received: from redecorated-mbp (124-148-239-17.tpgi.com.au. [124.148.239.17])
-        by smtp.gmail.com with ESMTPSA id l8-20020a17090aaa8800b002349608e80csm850931pjq.47.2023.03.10.22.33.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 22:33:24 -0800 (PST)
-Date:   Sat, 11 Mar 2023 17:33:13 +1100
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas@t-8ch.de>
-Subject: Re: [PATCH v5 0/2] Apple Magic Keyboard Backlight
-Message-ID: <20230311173313.66c829a7@redecorated-mbp>
-In-Reply-To: <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-References: <20230220115203.76154-1-orlandoch.dev@gmail.com>
-        <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+        Sat, 11 Mar 2023 01:51:37 -0500
+Received: from smtpq4.tb.mail.iss.as9143.net (smtpq4.tb.mail.iss.as9143.net [212.54.42.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A859140FC8
+        for <linux-input@vger.kernel.org>; Fri, 10 Mar 2023 22:51:34 -0800 (PST)
+Received: from [212.54.42.107] (helo=smtp3.tb.mail.iss.as9143.net)
+        by smtpq4.tb.mail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <dick@mrns.nl>)
+        id 1pat4n-00022c-Bt
+        for linux-input@vger.kernel.org; Sat, 11 Mar 2023 07:51:33 +0100
+Received: from routi.mrns.nl ([213.93.239.227])
+        by smtp3.tb.mail.iss.as9143.net with ESMTPA
+        id at4lpceQktg8eat4mp5zov; Sat, 11 Mar 2023 07:51:33 +0100
+X-Env-Mailfrom: dick@mrns.nl
+X-Env-Rcptto: linux-input@vger.kernel.org
+X-SourceIP: 213.93.239.227
+X-CNFS-Analysis: v=2.4 cv=bZetEsDB c=1 sm=1 tr=0 ts=640c24f5 cx=a_exe
+ a=JHrq6bmmrihZf+Bww3MhDg==:117 a=JHrq6bmmrihZf+Bww3MhDg==:17
+ a=k__wU0fu6RkA:10 a=oxU5Xt4QAAAA:8 a=H1w7Dpf3J3Y2f7KK384A:9
+ a=jKdzr7yA372qb7_9lzlF:22
+X-Authenticated-Sender: boeierlaan60@ziggo.nl
+Received: by routi.mrns.nl (sSMTP sendmail emulation); Sat, 11 Mar 2023 07:51:31 +0100
+From:   Dick Marinus <dick@mrns.nl>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Cc:     Dick Marinus <dick@mrns.nl>
+Subject: [PATCH] Use HID descriptor for razer devices
+Date:   Sat, 11 Mar 2023 07:51:05 +0100
+Message-Id: <20230311065105.2789549-1-dick@mrns.nl>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-CMAE-Envelope: MS4xfAphZi6dGL5HLTWgpj9F6rN1+rMPfA0C8QU057KnGwYzYGB9VZVvH0Eu6WqCsCjMT85TGuZuh3UN6YT/54gVtV9a1G+ossITH+yk5Ix26lMKHRO4layB
+ XPPwJF7PAWiUZmile+17sX1pRPj8gofQIkkSiI9SwCAyMC14zJ21VVsxs+yfxfrvoMqArITs4KvFLb8ejDcUu5QeEzCELR4g8cdZz7qBXleOLvzxZh25q6SL
+ okfmN/OTFeme15mamaSU2gLOFnaQBuY/f+behECStdheVcIGdh9Zo3c2QKUXWx86U+iL0PNZCfoexn+cp5C57VMLAirF/sP/waTHTQbZsQE=
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,81 +55,222 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 10 Mar 2023 15:36:34 +0100 (CET)
-Jiri Kosina <jikos@kernel.org> wrote:
+hid-razer currently makes some guesses which device should be used to
+send control messages and the size of it.
 
-> On Mon, 20 Feb 2023, Orlando Chamberlain wrote:
-> 
-> > This patchseries adds support for the internal keyboard backlight of
-> > Macs with Apple's "Magic" keyboard (MacBookPro16,* and
-> > MacBookAir9,1), and also documents what names should be used for
-> > keyboard backlight leds in Documentation/leds/well-known-leds.txt.
-> > 
-> > v4->v5:
-> > - use <tab><space><space> for help in Kconfig
-> > - prepend "hid-" to filename in MAINTAINERS
-> > 
-> > v3->v4:
-> > - collect reviews from Andy and Thomas
-> > - remove now unused hdev member of apple_magic_backlight
-> > 
-> > v2->v3:
-> > - remove unneeded header inclusion
-> > - use s32 for report value type
-> > - remove unneeded null check
-> > - don't set drvdata as its never used
-> > - prepend "hid-" to module name
-> > 
-> > v1->v2:
-> > - drop unneeded remove function
-> > - combine set functions
-> > - add missing header inclusions
-> > - avoid char as argument in favour of u8
-> > - handful of style/formatting fixes
-> > - use standard led name ":white:kbd_backlight"
-> > - rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
-> > - New patch documenting preferred keyboard backlight names
-> > 
-> > v1:
-> > https://lore.kernel.org/linux-input/7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com/
-> > v2:
-> > https://lore.kernel.org/linux-input/20230216041224.4731-1-orlandoch.dev@gmail.com/
-> > v3:
-> > https://lore.kernel.org/linux-input/20230217102319.3419-1-orlandoch.dev@gmail.com/
-> > v4:
-> > https://lore.kernel.org/linux-input/20230218090709.7467-1-orlandoch.dev@gmail.com/
-> > 
-> > Orlando Chamberlain (2):
-> >   Documentation: leds: standardise keyboard backlight led names
-> >   HID: hid-apple-magic-backlight: Add driver for keyboard backlight
-> > on internal Magic Keyboards
-> > 
-> >  Documentation/leds/well-known-leds.txt  |   8 ++
-> >  MAINTAINERS                             |   6 ++
-> >  drivers/hid/Kconfig                     |  13 +++
-> >  drivers/hid/Makefile                    |   1 +
-> >  drivers/hid/hid-apple-magic-backlight.c | 120
-> > ++++++++++++++++++++++++ 5 files changed, 148 insertions(+)
-> >  create mode 100644 drivers/hid/hid-apple-magic-backlight.c  
-> 
-> Hi,
-> 
-> thanks for creating the support for backlight.
-> 
-> Is there any reason why not to fold all this into existing hid-apple?
-> I don't think we need separate driver for the backlist, separated
-> from the rest of hid-apple support.
+This patch derives this information from the HID descriptors, the
+Windows Drivers from Razer also do this.
 
-Hi Jiri,
+The crc in the blackwidow_init packet is now calculated (copied from
+openrazer GPL code).
 
-I think we can do that if we modify hid-apple to support usb endpoints
-with only the keyboard backlight and no keyboard, assuming it doesn't
-prevent the (not upstream) touchbar driver from using the touchbar
-backlight interface (and I don't think it will, given hid-apple lets a
-different driver bind to the trackpad interface of the
-keyboard/trackpad usb device).
+Signed-off-by: Dick Marinus <dick@mrns.nl>
+---
+ drivers/hid/hid-razer.c | 141 ++++++++++++++++++++++++++++++----------
+ drivers/hid/hid-razer.h |   7 ++
+ 2 files changed, 115 insertions(+), 33 deletions(-)
+ create mode 100644 drivers/hid/hid-razer.h
 
-> 
-> Thanks,
-> 
+diff --git a/drivers/hid/hid-razer.c b/drivers/hid/hid-razer.c
+index 740df148b0..0c83269d66 100644
+--- a/drivers/hid/hid-razer.c
++++ b/drivers/hid/hid-razer.c
+@@ -15,31 +15,15 @@
+ #include <linux/wait.h>
+ 
+ #include "hid-ids.h"
++#include "hid-razer.h"
+ 
+ #define map_key_clear(c) hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
+ 
+-#define RAZER_BLACKWIDOW_TRANSFER_BUF_SIZE	91
+-
+ static bool macro_key_remapping = 1;
+ module_param(macro_key_remapping, bool, 0644);
+ MODULE_PARM_DESC(macro_key_remapping, " on (Y) off (N)");
+ 
+-
+-static unsigned char blackwidow_init[RAZER_BLACKWIDOW_TRANSFER_BUF_SIZE] = {
+-	0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x04,
+-	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x04, 0x00
+-};
++static unsigned char set_device_mode[] = {0x00, 0x04, 0x02, 0x00};
+ 
+ static int razer_input_mapping(struct hid_device *hdev,
+ 		struct hid_input *hi, struct hid_field *field,
+@@ -73,35 +57,125 @@ static int razer_input_mapping(struct hid_device *hdev,
+ 	return 0;
+ }
+ 
++static bool razer_check_control_interface(struct hid_device *hdev)
++{
++	int i;
++	unsigned int hid;
++	struct hid_report *report;
++	struct hid_razer *hid_razer_drvdata;
++
++	hid_razer_drvdata = hid_get_drvdata(hdev);
++
++	list_for_each_entry(report, &hdev->report_enum[HID_FEATURE_REPORT].report_list, list) {
++		for (i = 0; i < report->maxfield; i++) {
++			hid = report->field[i]->usage->hid;
++
++			if ((hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR && (hid & HID_USAGE) == 0x2) {
++				hid_razer_drvdata->report_count = report->field[i]->report_count;
++				return true;
++			}
++		}
++	}
++
++	return false;
++}
++
++static int razer_control_message(struct hid_device *hdev, unsigned char data_len,
++	unsigned char *data)
++{
++	struct hid_razer *hid_razer_drvdata;
++	unsigned char *full_control_message;
++	unsigned char crc = 0;
++	unsigned int i;
++	unsigned int report_count;
++	int ret;
++
++	if (data_len < 2) {
++		ret = -EINVAL;
++		goto cleanup_and_exit;
++	}
++
++	hid_razer_drvdata = hid_get_drvdata(hdev);
++
++	report_count = hid_razer_drvdata->report_count;
++
++	if (report_count < 2) {
++		ret = -EINVAL;
++		goto cleanup_and_exit;
++	}
++
++	full_control_message = kzalloc(report_count + 1, GFP_KERNEL);
++
++	if (full_control_message == NULL) {
++		ret = -ENOMEM;
++		goto cleanup_and_exit;
++	}
++
++	full_control_message[6] = data_len - 2;
++	memcpy(full_control_message + 7, data, data_len);
++
++	for (i = 2; i < report_count - 2; i++)
++		crc ^= full_control_message[i];
++
++	full_control_message[report_count - 1] = crc;
++
++	ret = hid_hw_raw_request(
++		hdev,
++		0,
++		full_control_message,
++		report_count + 1,
++		HID_FEATURE_REPORT,
++		HID_REQ_SET_REPORT
++	);
++
++	if (ret != report_count + 1) {
++		ret = -EIO;
++		goto cleanup_and_exit;
++	}
++
++cleanup_and_exit:
++	kfree(full_control_message);
++
++	return 0;
++}
++
++
+ static int razer_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ {
+-	char *buf;
+ 	int ret = 0;
++	struct hid_razer *hid_razer_drvdata;
++
++	hid_razer_drvdata = kzalloc(sizeof(struct hid_razer), GFP_KERNEL);
++	if (hid_razer_drvdata == NULL)
++		return -ENOMEM;
++
++	hid_set_drvdata(hdev, hid_razer_drvdata);
+ 
+ 	ret = hid_parse(hdev);
++
+ 	if (ret)
+ 		return ret;
+ 
+-	/*
+-	 * Only send the enable macro keys command for the third device
+-	 * identified as mouse input.
+-	 */
+-	if (hdev->type == HID_TYPE_USBMOUSE) {
+-		buf = kmemdup(blackwidow_init, RAZER_BLACKWIDOW_TRANSFER_BUF_SIZE, GFP_KERNEL);
+-		if (buf == NULL)
+-			return -ENOMEM;
+-
+-		ret = hid_hw_raw_request(hdev, 0, buf, RAZER_BLACKWIDOW_TRANSFER_BUF_SIZE,
+-				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+-		if (ret != RAZER_BLACKWIDOW_TRANSFER_BUF_SIZE)
++	if (razer_check_control_interface(hdev)) {
++		ret = razer_control_message(hdev, sizeof(set_device_mode), set_device_mode);
++		if (ret) {
+ 			hid_err(hdev, "failed to enable macro keys: %d\n", ret);
+-
+-		kfree(buf);
++			return ret;
++		}
+ 	}
+ 
+ 	return hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+ }
+ 
++static void razer_remove(struct hid_device *hdev)
++{
++	struct hid_razer *hid_razer_drvdata;
++
++	hid_razer_drvdata = hid_get_drvdata(hdev);
++
++	kfree(hid_razer_drvdata);
++}
++
+ static const struct hid_device_id razer_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_RAZER,
+ 		USB_DEVICE_ID_RAZER_BLACKWIDOW) },
+@@ -118,6 +192,7 @@ static struct hid_driver razer_driver = {
+ 	.id_table = razer_devices,
+ 	.input_mapping = razer_input_mapping,
+ 	.probe = razer_probe,
++	.remove = razer_remove,
+ };
+ module_hid_driver(razer_driver);
+ 
+diff --git a/drivers/hid/hid-razer.h b/drivers/hid/hid-razer.h
+new file mode 100644
+index 0000000000..d8214ca54b
+--- /dev/null
++++ b/drivers/hid/hid-razer.h
+@@ -0,0 +1,7 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __HID_RAZER_H
++#define __HID_RAZER_H
++struct hid_razer {
++	unsigned int report_count;
++};
++#endif
+-- 
+2.39.2
 
