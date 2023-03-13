@@ -2,114 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 440B96B6FA6
-	for <lists+linux-input@lfdr.de>; Mon, 13 Mar 2023 07:53:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BBC6B73BD
+	for <lists+linux-input@lfdr.de>; Mon, 13 Mar 2023 11:21:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjCMGxS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Mar 2023 02:53:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53356 "EHLO
+        id S230018AbjCMKVG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Mar 2023 06:21:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229828AbjCMGxO (ORCPT
+        with ESMTP id S229854AbjCMKUm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Mar 2023 02:53:14 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C2F23312;
-        Sun, 12 Mar 2023 23:53:12 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id f14so4616410iow.5;
-        Sun, 12 Mar 2023 23:53:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678690392;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DrhDq8EK0QZScFTe+Abz54ar9UkGFsTVlaBdo7wkZXc=;
-        b=WRwIkO0MaPLsECMaML4XbPTHS1bhW6oO2l/OsPvAvFOjED+0XjcubuOI+plZ7fXcDL
-         ePGK+TdSHWPEGjU+IaWlAIc8HAlYak9u028f49uPBepmcgG4fLh272L/gL5sUyQnqwMB
-         6BG1zd3ilQc6cNWex8SjYLrhvw6XK/izVj3kKnKjpiTnyBn2DfKgjzRROXAsvq0e8jCb
-         neMqreTyGhN2g4grphBnNlhxVWoThx1wr1eZ0FHin8gBmr/CnFxw6wr7q4aRqFgiQ4k+
-         Dvw3fFmz4tUm04AqxM56N4/2q/WZWoS8PV87kxBckH2ZNTMpBgebsbTtPzP9QQSGWKww
-         xEIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678690392;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DrhDq8EK0QZScFTe+Abz54ar9UkGFsTVlaBdo7wkZXc=;
-        b=jbJLy5W8zgTO5EBtKv75NCmSk59QwqbnMXjgc/arMNOSWe/ZTa9TGc/4hxUTNFYXB6
-         o/wxYLoDdvb6pFxwIrN/GvDNM5ZkTwDKL9KFQfRCGuZcDkx0JD+qLxFry7Zl6xuIbAGh
-         UA84UTkAoDdbxtP0B+8rqCJ33vj0cqdgAWC8USUe5O0PKuq8PT/curRJ//1AhunzXZMW
-         k//aiPu+yzhdbKqKBVqKVAUgX+pUH7UDZBJu6W3GLLVwJNJM2vJmi1LSnDYhmCsGcJW4
-         5iuB1BkopABh+irGwTo/PMYhJzoumkXtesxG8L2UoL9pzbyEd4esdHJibpd/rXUD3BOK
-         hDbw==
-X-Gm-Message-State: AO0yUKXOasMIZZRxBu++GMLd+qwyLC7Bvq5fCra4Hzho8A4Lve0DHHhK
-        v/F1en7da5u6C8CUwcyG9Go=
-X-Google-Smtp-Source: AK7set+lFi9QRrFZ2RoTcyUWlu0L2z5H2HHDSr4cvK42G+ygiV2hrykZP+e+PUjZjeiitYvirYCOPg==
-X-Received: by 2002:a6b:dd04:0:b0:74c:c1ba:91fa with SMTP id f4-20020a6bdd04000000b0074cc1ba91famr6487829ioc.0.1678690392055;
-        Sun, 12 Mar 2023 23:53:12 -0700 (PDT)
-Received: from ?IPV6:2604:2d80:4d87:cd00:9f51:32d7:1177:67d? ([2604:2d80:4d87:cd00:9f51:32d7:1177:67d])
-        by smtp.gmail.com with ESMTPSA id c25-20020a5d9399000000b0074c8295db0csm2328468iol.6.2023.03.12.23.53.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Mar 2023 23:53:11 -0700 (PDT)
-Message-ID: <3f4efaa3-75cf-1cc3-faaa-e687ee051617@gmail.com>
-Date:   Mon, 13 Mar 2023 01:53:09 -0500
+        Mon, 13 Mar 2023 06:20:42 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8A25BC9F;
+        Mon, 13 Mar 2023 03:20:16 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pbfHr-0003zH-3l; Mon, 13 Mar 2023 11:20:15 +0100
+Message-ID: <6625ee0a-31a7-9fef-d299-457c0f98f5a0@leemhuis.info>
+Date:   Mon, 13 Mar 2023 11:20:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 1/5] dt-bindings: input: touchscreen: add bindings for
- focaltech,fts
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Caleb Connolly <caleb@connolly.tech>,
+ Thunderbird/102.8.0
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
+Cc:     Steffen <wiesenbergsteffen+lxkernel@gmail.com>,
+        Linux kernel regressions list <regressions@lists.linux.dev>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        Job Noorman <job@noorman.info>,
-        Alistair Francis <alistair@alistair23.me>,
-        Chris Morgan <macromorgan@hotmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-References: <20230312093249.1846993-1-joelselvaraj.oss@gmail.com>
- <20230312093249.1846993-2-joelselvaraj.oss@gmail.com>
- <c9db83e8-f87d-b94d-0c23-8114adb312e1@linaro.org>
- <02012975-8b4c-58ba-b002-d2983c0e1500@gmail.com>
- <4f864115-ef66-6940-c1c3-6b296de4cab5@linaro.org>
-From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
-In-Reply-To: <4f864115-ef66-6940-c1c3-6b296de4cab5@linaro.org>
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: [regression] Bug 217182 - Dell Latitude E7450 Trackpoint not working
+ as expected
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678702816;fb9a1c55;
+X-HE-SMSGID: 1pbfHr-0003zH-3l
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Krzysztof,
 
-On 13/03/23 01:42, Krzysztof Kozlowski wrote:
-> Downstream DTS is never a guideline on design of upstream bindings. They
-> violate DT binding rules so many times so much, that I don't treat it as
-> argument.
+Hi, Thorsten here, the Linux kernel's regression tracker.
+
+I noticed a regression report in bugzilla.kernel.org. As many (most?)
+kernel developer don't keep an eye on it, I decided to forward it by
+mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217182 :
+
+>  Steffen 2023-03-12 11:17:02 UTC
 > 
-> The property does not look board but device specific, so you should
-> infer it from compatible.
+> Hi,
+> I'm new to this bug tracking system and just a user, not a developer.
+> 
+> I use a Dell Latitude E7450 running with the Debian unstable based
+> distribution Siduction.
+> After upgrading to Linux kernel 6.2.x the Trackpoint does not work
+> anymore as expected. It uses an Alps PS/2 DualPoint Stick.
+> Even slight touches in any direction send the cursor to the top right
+> corner of the screen where it stays regardless of actual pointer
+> movement. This also appears in console mode. One can retrieve the
+> pointer again with the touchpad, but I'm more precise with the
+> Trackpoint and prefer using that.
+> The Trackpoint works well in kernel 6.1.14
+> Can somebody help?
 
-Understood. Will do so in v2.
+See the ticket for more details.
 
-Thanks,
-Joel
+
+[TLDR for the rest of this mail: I'm adding this report to the list of
+tracked Linux kernel regressions; the text you find below is based on a
+few templates paragraphs you might have encountered already in similar
+form.]
+
+BTW, let me use this mail to also add the report to the list of tracked
+regressions to ensure it's doesn't fall through the cracks:
+
+#regzbot introduced: v6.1..v6.2
+https://bugzilla.kernel.org/show_bug.cgi?id=217182
+#regzbot title: input: alps: Dell Latitude E7450 Trackpoint acting up
+#regzbot ignore-activity
+
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
+
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
+this thread sees some discussion). See page linked in footer for details.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
