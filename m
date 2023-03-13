@@ -2,104 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01BBC6B73BD
-	for <lists+linux-input@lfdr.de>; Mon, 13 Mar 2023 11:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7449A6B7E3B
+	for <lists+linux-input@lfdr.de>; Mon, 13 Mar 2023 17:56:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbjCMKVG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Mar 2023 06:21:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48496 "EHLO
+        id S230520AbjCMQ41 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Mar 2023 12:56:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbjCMKUm (ORCPT
+        with ESMTP id S230325AbjCMQ4W (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Mar 2023 06:20:42 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8A25BC9F;
-        Mon, 13 Mar 2023 03:20:16 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pbfHr-0003zH-3l; Mon, 13 Mar 2023 11:20:15 +0100
-Message-ID: <6625ee0a-31a7-9fef-d299-457c0f98f5a0@leemhuis.info>
-Date:   Mon, 13 Mar 2023 11:20:14 +0100
+        Mon, 13 Mar 2023 12:56:22 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BDBF559CE;
+        Mon, 13 Mar 2023 09:56:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678726581; x=1710262581;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=YG8ab328VKxI7RnIDAuiIqCFxzEn9D3+VAvNv07H3HI=;
+  b=XLCfz/4iVdIs3Dv7xSiO35CbI/4CoqllW6xoCjoy9wocdqczL6euqNB1
+   GnXCeQR++rDGKarzddzun4dK1/ICrP2hCtbXI5v74LSgvnV8dh32f5VcK
+   NXptKHNgWR9pDgHSxgZPvZrel8W62u/aZTYbVITD9zlUFcn/Xz5aXxQRL
+   asvbmnQcJRTodrTxKWJZYFlgdz9Ie5IwI6ZTexGBPpFbRTACuS+qkYsJX
+   moBKuMX/vR9gEJHVZnheUR4ObSHHnYNKOSebGMaxGb2delKMVvZWUFEiZ
+   0U8Takcu1n2jmgGKEHZ0TQ/D2E8Gq/kev4BhIKt96FqmxP1tgCFaGm4ft
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="321053880"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="321053880"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 09:56:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="822034540"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="822034540"
+Received: from igodinez-mobl.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.209.87.244])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 09:56:19 -0700
+Message-ID: <39f2b66cca60d8f0bd4ff6b691b864dff3e449b9.camel@linux.intel.com>
+Subject: Re: [PATCH] Fix buffer overrun in HID-SENSOR name.
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Todd Brandt <todd.e.brandt@intel.com>, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     todd.e.brandt@linux.intel.com, jic23@kernel.org, jikos@kernel.org,
+        p.jungkamp@gmx.net
+Date:   Mon, 13 Mar 2023 09:56:18 -0700
+In-Reply-To: <20230310235414.12467-1-todd.e.brandt@intel.com>
+References: <20230310235414.12467-1-todd.e.brandt@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
-Cc:     Steffen <wiesenbergsteffen+lxkernel@gmail.com>,
-        Linux kernel regressions list <regressions@lists.linux.dev>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: [regression] Bug 217182 - Dell Latitude E7450 Trackpoint not working
- as expected
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678702816;fb9a1c55;
-X-HE-SMSGID: 1pbfHr-0003zH-3l
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-Hi, Thorsten here, the Linux kernel's regression tracker.
-
-I noticed a regression report in bugzilla.kernel.org. As many (most?)
-kernel developer don't keep an eye on it, I decided to forward it by
-mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217182 :
-
->  Steffen 2023-03-12 11:17:02 UTC
+On Fri, 2023-03-10 at 15:54 -0800, Todd Brandt wrote:
+> Philipp Jungkamp created this fix, I'm simply submitting it. I've
+> verified it fixes bugzilla issue 217169.
 > 
-> Hi,
-> I'm new to this bug tracking system and just a user, not a developer.
+Not the correct change log. Something like below:
+
+On some platforms there are some platform device is created with
+invalid name. For example:
+"HID-SENSOR-INT-020b?.39.auto" instead of "HID-SENSOR-INT-020b.39.auto"
+
+This string include some invalid character, hence it will fail to
+properly load the driver which will handle this custom sensor. Also
+it is a problem for some user space tools, which parses the device
+names.
+
+This is because the string real_usage is not NULL terminated and
+printed with %s to form device name.
+
+To address this initialize the real_usage string with 0s.
+
+> Reported-and-tested-by: Todd Brandt <todd.e.brandt@linux.intel.com>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217169
+
+
+
+Fixes: 98c062e82451 ("HID: hid-sensor-custom: Allow more custom iio
+sensors")
+
+Suggest-by: Philipp Jungkamp p.jungkamp@gmx.net
+
+> Signed-off-by: Todd Brandt <todd.e.brandt@intel.com>
+
+Thanks,
+Srinivas
+
+> ---
+>  drivers/hid/hid-sensor-custom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I use a Dell Latitude E7450 running with the Debian unstable based
-> distribution Siduction.
-> After upgrading to Linux kernel 6.2.x the Trackpoint does not work
-> anymore as expected. It uses an Alps PS/2 DualPoint Stick.
-> Even slight touches in any direction send the cursor to the top right
-> corner of the screen where it stays regardless of actual pointer
-> movement. This also appears in console mode. One can retrieve the
-> pointer again with the touchpad, but I'm more precise with the
-> Trackpoint and prefer using that.
-> The Trackpoint works well in kernel 6.1.14
-> Can somebody help?
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
+> sensor-custom.c
+> index 3e3f89e01d81..d85398721659 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -940,7 +940,7 @@ hid_sensor_register_platform_device(struct
+> platform_device *pdev,
+>                                     struct hid_sensor_hub_device
+> *hsdev,
+>                                     const struct
+> hid_sensor_custom_match *match)
+>  {
+> -       char real_usage[HID_SENSOR_USAGE_LENGTH];
+> +       char real_usage[HID_SENSOR_USAGE_LENGTH] = { 0 };
+>         struct platform_device *custom_pdev;
+>         const char *dev_name;
+>         char *c;
 
-See the ticket for more details.
-
-
-[TLDR for the rest of this mail: I'm adding this report to the list of
-tracked Linux kernel regressions; the text you find below is based on a
-few templates paragraphs you might have encountered already in similar
-form.]
-
-BTW, let me use this mail to also add the report to the list of tracked
-regressions to ensure it's doesn't fall through the cracks:
-
-#regzbot introduced: v6.1..v6.2
-https://bugzilla.kernel.org/show_bug.cgi?id=217182
-#regzbot title: input: alps: Dell Latitude E7450 Trackpoint acting up
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
-this thread sees some discussion). See page linked in footer for details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
