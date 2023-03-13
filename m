@@ -2,62 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 273AE6B6BEC
-	for <lists+linux-input@lfdr.de>; Sun, 12 Mar 2023 23:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C755E6B6CC8
+	for <lists+linux-input@lfdr.de>; Mon, 13 Mar 2023 01:22:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbjCLWVd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Mar 2023 18:21:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40750 "EHLO
+        id S229470AbjCMAWG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Mar 2023 20:22:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbjCLWVc (ORCPT
+        with ESMTP id S229749AbjCMAWF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Mar 2023 18:21:32 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0CC2387A;
-        Sun, 12 Mar 2023 15:21:31 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id v10so4317733iox.8;
-        Sun, 12 Mar 2023 15:21:31 -0700 (PDT)
+        Sun, 12 Mar 2023 20:22:05 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5AEA38E91;
+        Sun, 12 Mar 2023 17:21:58 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id w4so6245255ilv.0;
+        Sun, 12 Mar 2023 17:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678659690;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1678666918;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CeAdxBrqTUyAYKttKLhS7gcvDyYqiZAsmqO7paKVPNY=;
-        b=KIL+iLyt2FWfJRmDL0R98KYV/Kg5dLh5cYWykT3tdogKEBckSjCJUpPQf4kMFaCDpD
-         k4CRERBSn7miZn7y0wI0lSnwt2UiAFcI+hPF3/Ehwv2lr7O0yaYt2YcLU+zwnPThLXDr
-         tjIbZr1J3OOXDrZYLiPSBleI6pMSsBp3ktTXBO0+IYABpueKfJQrAdlkmrS2JQ1h+TFk
-         ix1Tsl44lEMenPBVhYN6M0QMAFmTtzyhyxKxDgPmQHszdLL+9EztsDhnHHTWaNu0aeDP
-         SuJhzZv8lR0gQ0I64pnGThVZFwhexKTViyolvlR9kBzluCpyVYSYJNDZTfpGqCUX2A/H
-         rYBQ==
+        bh=X6sm0vPVDlzzX7R9q9j+GwtCn9EFllfv7TIz3i1LxV8=;
+        b=G6czlN1zTjIenoOH1hZCtA6NEMrTfhphnXJB5d73Hl2RTaU0jzlODgu3d59Xmyl8lC
+         tRvcd9+QljuIflX7cCFgIKrCdH859SG7q9J7Vak8CEimfTMsifCzRhsPkHWKOhJ1W9Yw
+         yYcaKrEq13Op1zB2gT2DkBunXhLbX7N3waaIB1L3kMVr/V9KgK1PQDDKn7DlnkDUgHdX
+         EiYSiVFDATLcUxlZNDlZ6aXUhfjjQcil2F/Del4pywdcd7qAxwVZ9OJIP4e82PhFR2zr
+         W1EvcM3+mOLtSXAF5y11b7z0vSPDIyQQGX3+DrlGYGwUfx9gPBNHxCHlq8JinvaMJ2zo
+         EaVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678659690;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1678666918;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CeAdxBrqTUyAYKttKLhS7gcvDyYqiZAsmqO7paKVPNY=;
-        b=e4385UunZxEiNz5h0LrKoJRgH5NpJHdIVG/rhuZKC8tXc87P+4LibZnqJ/rLM4z3BI
-         PH27d6qWMecpRVQqlegFwleYUGTcL2z2Y3o/VEelL9VagNAu62bVsxPxJHZwvfRLF2Ke
-         OW13osru8a0LfZeHScoyV5QgSXcB/4bdySeP+eNeL5rrurU3BUpDcjVbfoLzgOjcxWO9
-         4XWD6cZV93SUwpYg/l9P2nIB3gwpCZiX/TMJYMS1pi8nMAWZ35vbIO2ML+36vsGgSllr
-         ZLnKTUBhc/GYJzmxjJb5u+VEHQP+kjAjzp/4DuZ8gb9IkSo6znvoLujr0KTNRLeqajSM
-         HfUw==
-X-Gm-Message-State: AO0yUKVeZZq+LO9IbAw6euf1C571q1iFwg9Cb100emdzgi4w4xusA63Y
-        WpYOvh5yQWD9Bo70AWurE3c=
-X-Google-Smtp-Source: AK7set/kri0qgJj6wF/0ehVkbW3BJXFoiVIrYztz7A/XX8/UL2inzBVww3JTYPCUlBVoAntTfbUZug==
-X-Received: by 2002:a5d:9606:0:b0:74e:8718:a174 with SMTP id w6-20020a5d9606000000b0074e8718a174mr7748324iol.1.1678659690237;
-        Sun, 12 Mar 2023 15:21:30 -0700 (PDT)
+        bh=X6sm0vPVDlzzX7R9q9j+GwtCn9EFllfv7TIz3i1LxV8=;
+        b=6/0d1qx24tUH8tIHTFa4lFlWVILsEgmX0kQCp1cO6bguepu6BsS7VgdaNHChflNjoJ
+         HoLQX2JmUuhGPFPSM644qXJkDDlSwf2RYBOjWr/8PZnVDCqIGAGnDTu/qyfRzcj1pwoR
+         Sdg/OzX2CdoH3qyC2G5qo9qA7fhnmtuoxjssqJN51qhEujDh++HejSGl1Msu37EkAHhe
+         sorPUuQV08Y2705iLGSKnnoDVkxz89+/esSA02xgMRvFFWDZxKPZWTDa6RyoJfi4zVIP
+         +ZBDG/T59+hUiXkWbAFHjWIWvwIw8hUI/qylrT96qpQjaf/tFlVRbZQB2lV9O00oa1I5
+         GMHA==
+X-Gm-Message-State: AO0yUKURu+A9HOP9wEv2xJKj2ptDdcS97i0dYX6Yy544utiziP1DkTCm
+        OFYZOhBxfZ75xRcshTQgU28=
+X-Google-Smtp-Source: AK7set9m6XiGAn3V7EaIQiBQlky8tE/G1ty6Ubbe73VObDkMvo/ytLKn289ZZMsQWao0iRUU7sJW0g==
+X-Received: by 2002:a05:6e02:1c86:b0:317:16bc:dc97 with SMTP id w6-20020a056e021c8600b0031716bcdc97mr10545610ill.3.1678666917751;
+        Sun, 12 Mar 2023 17:21:57 -0700 (PDT)
 Received: from ?IPV6:2604:2d80:4d87:cd00:9f51:32d7:1177:67d? ([2604:2d80:4d87:cd00:9f51:32d7:1177:67d])
-        by smtp.gmail.com with ESMTPSA id i18-20020a02c612000000b004042607348dsm343542jan.34.2023.03.12.15.21.28
+        by smtp.gmail.com with ESMTPSA id c5-20020a92cf45000000b00314201bcbdfsm1929864ilr.3.2023.03.12.17.21.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Mar 2023 15:21:29 -0700 (PDT)
-Message-ID: <d40faca2-fe5d-5b5a-eefe-68eb3e5e8125@gmail.com>
-Date:   Sun, 12 Mar 2023 17:21:27 -0500
+        Sun, 12 Mar 2023 17:21:57 -0700 (PDT)
+Message-ID: <02012975-8b4c-58ba-b002-d2983c0e1500@gmail.com>
+Date:   Sun, 12 Mar 2023 19:21:55 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.1.2
-Subject: Re: [PATCH 2/5] Input: add driver for Focaltech FTS touchscreen
-Content-Language: en-US
-To:     Markuss Broks <markuss.broks@gmail.com>,
+Subject: Re: [PATCH 1/5] dt-bindings: input: touchscreen: add bindings for
+ focaltech,fts
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Caleb Connolly <caleb@connolly.tech>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -70,6 +70,7 @@ To:     Markuss Broks <markuss.broks@gmail.com>,
         Robert Jarzmik <robert.jarzmik@free.fr>,
         Jeff LaBundy <jeff@labundy.com>,
         Neil Armstrong <neil.armstrong@linaro.org>,
+        Markuss Broks <markuss.broks@gmail.com>,
         Jean Delvare <jdelvare@suse.de>,
         Max Krummenacher <max.krummenacher@toradex.com>,
         Job Noorman <job@noorman.info>,
@@ -79,10 +80,11 @@ Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 References: <20230312093249.1846993-1-joelselvaraj.oss@gmail.com>
- <20230312093249.1846993-3-joelselvaraj.oss@gmail.com>
- <68b05c43-5808-5792-9b57-aeafffe84149@gmail.com>
+ <20230312093249.1846993-2-joelselvaraj.oss@gmail.com>
+ <c9db83e8-f87d-b94d-0c23-8114adb312e1@linaro.org>
+Content-Language: en-US
 From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
-In-Reply-To: <68b05c43-5808-5792-9b57-aeafffe84149@gmail.com>
+In-Reply-To: <c9db83e8-f87d-b94d-0c23-8114adb312e1@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -95,39 +97,60 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Markuss,
+Hi Krzysztof,
 
-Thanks for the quick review! I agree with most of your comments and will
-fix them in a v2 soon. I have a few doubts as discussed below.
+Thanks for the review! I agree with most of your comments and will
+fix them in v2. I have a few doubts as discussed below.
 
-On 12/03/23 15:40, Markuss Broks wrote:
+On 12/03/23 15:47, Krzysztof Kozlowski wrote:
+> I have doubts you will cover here all possible FTS controllers, so
+> filename should be more specific, e.g. choose the oldest device compatible.
 
-> Why is the _ratelimited variant necessary?
+The driver is kind of widely used and can actually support 49 touch
+panel variants as per the downstream code [1]. With some slight
+modifications, the other touch panels can be supported too. However, in
+real world, we have only tested the driver against the two panel we have
+access to (FT8719 - Poco F1 Phone and FT5452 - Shiftmq6 Phone).
 
-I assumed in case of the interrupt working, but i2c reads fail for some
-reason, it would spam a lot of error messages if the user touches the
-screen continuously, like a swipe up gesture or something.
+Although its very generic and widely used, I agree we don't know that
+will be the case forever. So I am ok with changing it to more specific
+one. But I don't think the panel chip number denote which is older and
+which newer. Shall I just go with focaltech,fts5452, as that's the
+lowest number panel that we have tested so far and is supported?
 
-I referred to ad7879 touchscreen's irq handling code [1] and thought
-it's probably best to do this, to be on the safe side. I will remove
-this if it's not needed in v2.
+Or do I just keep it generic as it can potentially support a lot of
+variants?
 
-> Overall, I think it's better to cast the data type to a struct, which
-> would make this seem with less random.
+>> +  focaltech,max-touch-number:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description: max number of fingers supported
+> 
+> Why this is not implied from compatible? IOW, why this differs between
+> boards?
 
-Sorry, I am not sure I got this right. Do you mean I create an array of
-struct called say "fts_point" that stores the x, y, type, etc. info of
-all the points, then report it separately. Like similar to something
-done by the auo-pixcir touchscreen driver [2]?
+Without proper datasheet it is kind of hard to say if this is the
+maximum supported touch points by hardware or just a vendor specified
+one. Because, downstream has it as devicetree property and we only know
+what's set in that from each vendor tree. The FT8719 used in Poco F1
+specifies 10 touch points in downstrean devicetree. But, if I specify it
+as 2, it will still work fine. The FT5452 used in shiftmq6 specifies 5
+touch points in downstream devicetree, but we won't know if that is the
+maximum possible, unless we try to increase it upto 10 and confirm.
 
-If I didn't get this correctly, can you show me some code in mainline,
-that does it? It would be very helpful.
+So, yeah without the datasheet, we will be just kind of assuming that is
+is the maximum possible number of touch points by the hardware. I am not
+sure if we wanna hard code that in the driver. Is it okay if we let this
+configurable? Boards/Phones can use the max touch number their vendor
+driver points too or if they have a datasheet, they can specify maximum
+supported one too.
+
+Kindly let me know your thoughts on this.
 
 [1]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/ad7879.c?h=v6.3-rc1#n250
-[2]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/auo-pixcir-ts.c?h=v6.3-rc1#n162
+https://github.com/LineageOS/android_kernel_xiaomi_sdm845/blob/f1977d9edd01cff3fc9a12e09cd6a5a8052fc8ca/drivers/input/touchscreen/focaltech_touch/focaltech_config.h#L37
 
-> - Markuss
+> Best regards,
+> Krzysztof
+
 Thanks,
 Joel
