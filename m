@@ -2,126 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00BBE6B975F
-	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 15:10:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C4BE6B9D01
+	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 18:28:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232609AbjCNOKx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Mar 2023 10:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56810 "EHLO
+        id S229760AbjCNR2k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Mar 2023 13:28:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231916AbjCNOKp (ORCPT
+        with ESMTP id S229573AbjCNR2j (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Mar 2023 10:10:45 -0400
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA0F2746E7;
-        Tue, 14 Mar 2023 07:10:39 -0700 (PDT)
-Received: by mail-il1-f179.google.com with SMTP id h7so8694039ila.5;
-        Tue, 14 Mar 2023 07:10:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678803039;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eS4/esiARLcOTfS3GdLeqZGAcqprgtcpPQrawrBj7eg=;
-        b=Wof+pzJSIpP/hCNcTRLZCf8BALpfc8Kg8hF62PWzeH9cklITZwUr0Py53Y+e66ZCqc
-         XFPMkAzwU2gZSsKszOmd9/2d4XvgjbtCF+hq6I5ijPKqkkIMrWNIT9FEl76XYHKJZap0
-         dyh2U2TNswLOErHc9qH1/BA4HPqm299X0r4MIrssO4oU0K3j6LUGvQ5FklKoApuXMlUi
-         00K1uI1UspuIDru82VkTjWhRKr+czYofEjLV6Mn6dgKc3r36KKC5ABQ4YPodl4mc9M+I
-         zh/GnOVY7hoyHYDdOD/EAy4f8teU6XmLZSMxHBGQdzTqWdG86VZHQrC/5TP+avPCTKmT
-         fX9w==
-X-Gm-Message-State: AO0yUKW15Nh5iSmMcrx6vqxoaExNb/8+Wnfr1TfpF9nIvPMBLj1eZWvt
-        819YceqhI0Z5WwAgXuCvutOnHFCppQ==
-X-Google-Smtp-Source: AK7set9vurV8ePdJ3YUU8JtLsv59fy96jE59gbECky++E2PvPP3k8EJn8p4ZlNE3D5AbxhNRcvvApg==
-X-Received: by 2002:a92:ce12:0:b0:316:e6e5:f0db with SMTP id b18-20020a92ce12000000b00316e6e5f0dbmr2485972ilo.0.1678803038894;
-        Tue, 14 Mar 2023 07:10:38 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id f12-20020a926a0c000000b003231580e8e2sm841024ilc.6.2023.03.14.07.10.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 07:10:37 -0700 (PDT)
-Received: (nullmailer pid 83774 invoked by uid 1000);
-        Tue, 14 Mar 2023 14:10:19 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>
-Cc:     phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        linux-input@vger.kernel.org, Caleb Connolly <caleb@connolly.tech>,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Jeff LaBundy <jeff@labundy.com>, devicetree@vger.kernel.org,
-        Jean Delvare <jdelvare@suse.de>,
-        Job Noorman <job@noorman.info>,
-        Alistair Francis <alistair@alistair23.me>,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>
-In-Reply-To: <20230312093249.1846993-2-joelselvaraj.oss@gmail.com>
-References: <20230312093249.1846993-1-joelselvaraj.oss@gmail.com>
- <20230312093249.1846993-2-joelselvaraj.oss@gmail.com>
-Message-Id: <167880254230.25342.652645660925907921.robh@kernel.org>
-Subject: Re: [PATCH 1/5] dt-bindings: input: touchscreen: add bindings for
- focaltech,fts
-Date:   Tue, 14 Mar 2023 09:10:19 -0500
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+        Tue, 14 Mar 2023 13:28:39 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C1930EAD;
+        Tue, 14 Mar 2023 10:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678814917; x=1710350917;
+  h=from:to:cc:subject:date:message-id;
+  bh=DaQNsZPNuwEZmQfv4ilWdbGgK7Acovm7M+l1yC6x52w=;
+  b=Q7awHz96/bdxnfWtK03TKuqnsrk44W618mOS2KnspoHum9kyhP+Hg+l0
+   npGK3BHFz3ohGzFl++byxuId7eb2W7r1r4t4Zz/G+dmZnj7W1JR6D0ECI
+   OtK0gaqXuAVZDHhu3VPGeVCn7LsnchX2rYdThHT7aGjDU8eVdY8KIDXQQ
+   Kj+OosNe1H8aEsnj1sY/5o27UxPruBtHfO1EK+tO5JWeDCbeOvY4yYPPq
+   m94gqVy3ZVKFaVJMsgrojhW2hKFRZrq39GNBLTcA5LJq+Yfe5Sv5xl3ra
+   dDisUtI4NMv9HcSkbo0dQj88eX61Z16TPG9HctL9obhRp984BLpSIjCmk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="339036762"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="339036762"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 10:28:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="748090937"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="748090937"
+Received: from wopr.jf.intel.com ([10.54.75.136])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Mar 2023 10:28:35 -0700
+From:   Todd Brandt <todd.e.brandt@intel.com>
+To:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     todd.e.brandt@linux.intel.com, todd.e.brandt@intel.com,
+        srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
+        jikos@kernel.org, p.jungkamp@gmx.net
+Subject: [PATCH v3] HID:hid-sensor-custom: Fix buffer overrun in device name
+Date:   Tue, 14 Mar 2023 10:28:34 -0700
+Message-Id: <20230314172834.13175-1-todd.e.brandt@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On some platforms there are some platform devices created with
+invalid names. For example: "HID-SENSOR-INT-020b?.39.auto" instead
+of "HID-SENSOR-INT-020b.39.auto"
 
-On Sun, 12 Mar 2023 04:32:45 -0500, Joel Selvaraj wrote:
-> Add devicetree bindings for the Focaltech FTS touchscreen drivers.
-> 
-> Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> ---
->  .../input/touchscreen/focaltech,fts.yaml      | 81 +++++++++++++++++++
->  1 file changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/focaltech,fts.yaml
-> 
+This string include some invalid characters, hence it will fail to
+properly load the driver which will handle this custom sensor. Also
+it is a problem for some user space tools, which parses the device
+names from ftrace and dmesg.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+This is because the string, real_usage, is not NULL terminated and
+printed with %s to form device name.
 
-yamllint warnings/errors:
+To address this, initialize the real_usage string with 0s.
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/input/touchscreen/focaltech,fts.example.dts:23.9-14 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/input/touchscreen/focaltech,fts.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1512: dt_binding_check] Error 2
+Reported-and-tested-by: Todd Brandt <todd.e.brandt@linux.intel.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217169
+Suggested-by: Philipp Jungkamp <p.jungkamp@gmx.net>
+Signed-off-by: Philipp Jungkamp <p.jungkamp@gmx.net>
+Signed-off-by: Todd Brandt <todd.e.brandt@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ drivers/hid/hid-sensor-custom.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230312093249.1846993-2-joelselvaraj.oss@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+index 3e3f89e01d81..d85398721659 100644
+--- a/drivers/hid/hid-sensor-custom.c
++++ b/drivers/hid/hid-sensor-custom.c
+@@ -940,7 +940,7 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
+ 				    struct hid_sensor_hub_device *hsdev,
+ 				    const struct hid_sensor_custom_match *match)
+ {
+-	char real_usage[HID_SENSOR_USAGE_LENGTH];
++	char real_usage[HID_SENSOR_USAGE_LENGTH] = { 0 };
+ 	struct platform_device *custom_pdev;
+ 	const char *dev_name;
+ 	char *c;
+-- 
+2.17.1
 
