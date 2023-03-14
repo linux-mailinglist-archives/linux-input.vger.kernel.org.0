@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751CC6B93CA
-	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 13:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4149F6B96AE
+	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 14:46:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231652AbjCNMap (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Mar 2023 08:30:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
+        id S231980AbjCNNqU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Mar 2023 09:46:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231771AbjCNMaN (ORCPT
+        with ESMTP id S231243AbjCNNqF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Mar 2023 08:30:13 -0400
+        Tue, 14 Mar 2023 09:46:05 -0400
 Received: from tretyak2.mcst.ru (tretyak2.mcst.ru [212.5.119.215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7CC591CA;
-        Tue, 14 Mar 2023 05:29:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59E33A648F;
+        Tue, 14 Mar 2023 06:42:49 -0700 (PDT)
 Received: from tretyak2.mcst.ru (localhost [127.0.0.1])
-        by tretyak2.mcst.ru (Postfix) with ESMTP id 5A59410226F;
-        Tue, 14 Mar 2023 15:28:01 +0300 (MSK)
+        by tretyak2.mcst.ru (Postfix) with ESMTP id 2995E10238F;
+        Tue, 14 Mar 2023 15:44:02 +0300 (MSK)
 Received: from frog.lab.sun.mcst.ru (frog.lab.sun.mcst.ru [172.16.4.50])
-        by tretyak2.mcst.ru (Postfix) with ESMTP id 56D9510238F;
-        Tue, 14 Mar 2023 15:27:41 +0300 (MSK)
+        by tretyak2.mcst.ru (Postfix) with ESMTP id 25F6C10226F;
+        Tue, 14 Mar 2023 15:43:42 +0300 (MSK)
 Received: from artemiev-i.lab.sun.mcst.ru (avior-1 [192.168.53.223])
-        by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 32ECReA8013681;
-        Tue, 14 Mar 2023 15:27:40 +0300
+        by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 32EChfKV018729;
+        Tue, 14 Mar 2023 15:43:41 +0300
 From:   Igor Artemiev <Igor.A.Artemiev@mcst.ru>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         lvc-project@linuxtesting.org
-Subject: [lvc-project] [PATCH] Input: trackpoint - remove unreachable code
-Date:   Tue, 14 Mar 2023 15:27:14 +0300
-Message-Id: <20230314122714.1494260-1-Igor.A.Artemiev@mcst.ru>
+Subject: [lvc-project] [PATCH] Input: synaptics - remove unreachable code
+Date:   Tue, 14 Mar 2023 15:43:36 +0300
+Message-Id: <20230314124336.1494716-1-Igor.A.Artemiev@mcst.ru>
 X-Mailer: git-send-email 2.39.0.152.ga5737674b6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,29 +46,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The trackpoint_sync() function always returnd 0.
+The synaptics_resolution() function always returnd 0.
 And there is no need to check its result.
 
 Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Fixes: 2a924d71794c ("Input: trackpoint - only expose supported controls for Elan, ALPS and NXP")
+Fixes: e839ffab0289 ("Input: synaptics - add support for Intertouch devices")
 Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
 ---
- drivers/input/mouse/trackpoint.c | 4 +---
+ drivers/input/mouse/synaptics.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
-index 4a86b3e31d3b..561a4d2d81ff 100644
---- a/drivers/input/mouse/trackpoint.c
-+++ b/drivers/input/mouse/trackpoint.c
-@@ -386,9 +386,7 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
- 	was_reset = tp->variant_id == TP_VARIANT_IBM &&
- 		    trackpoint_power_on_reset(&psmouse->ps2dev) == 0;
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index fa021af8506e..4f1182bf9667 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -444,9 +444,7 @@ static int synaptics_query_hardware(struct psmouse *psmouse,
+ 	if (error)
+ 		return error;
  
--	error = trackpoint_sync(psmouse, was_reset);
+-	error = synaptics_resolution(psmouse, info);
 -	if (error)
 -		return error;
-+	trackpoint_sync(psmouse, was_reset);
++	synaptics_resolution(psmouse, info);
  
  	return 0;
  }
