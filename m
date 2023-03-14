@@ -2,131 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A79566B9E1A
-	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 19:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 301606BA062
+	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 21:05:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbjCNSTD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Mar 2023 14:19:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46060 "EHLO
+        id S230247AbjCNUFK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Mar 2023 16:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229888AbjCNSTB (ORCPT
+        with ESMTP id S230380AbjCNUFD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Mar 2023 14:19:01 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49DAF10A9E;
-        Tue, 14 Mar 2023 11:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678817910; x=1710353910;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=EMNSMIc/1OLn4clLWf8xoaZ0++kSg/7KOnW5Rsc1hVo=;
-  b=jzdt3cXUJtxQtetZGTLnZKHD7deDjn/gQDeAciZ24wWF4Yw8TRNFt1iu
-   5Dr3bekP5X2LdMEJ3GaKplM//APrHDDGxY665IKwjNkNiowJMy4CIDIst
-   BTPt2xjc/IlpKlGIl/js17AAZQgD23b5YUA99drzwwl4IetPZliSG8XPc
-   6mBsGZLaDXrZ0SOaAhnTg9XV+q60i9ZG37d1HUr5vuesHazK6Dnvw8tAi
-   7qR8ks0odgRf/NdHhFixJRq7GGcnlDKMkbFGY2BzmWAn3HIZV6/EBlAvQ
-   9wt/SmSfWgUYTbdJw/GgxjmJBUGTLZby/y4bUrkK0BgWB4SkfJ+BlK0T1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="317904475"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="317904475"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 11:18:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="672433830"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="672433830"
-Received: from chenjona-mobl.amr.corp.intel.com ([10.209.88.170])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 11:18:28 -0700
-Message-ID: <8fc761f7c432a4936505cb62a6db101e9cc6c824.camel@linux.intel.com>
-Subject: Re: [PATCH v4] HID:hid-sensor-custom: Fix buffer overrun in device
- name
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Todd Brandt <todd.e.brandt@intel.com>, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     todd.e.brandt@linux.intel.com, jic23@kernel.org, jikos@kernel.org,
-        p.jungkamp@gmx.net, stable@vger.kernel.org
-Date:   Tue, 14 Mar 2023 11:18:27 -0700
-In-Reply-To: <20230314181256.15283-1-todd.e.brandt@intel.com>
-References: <20230314181256.15283-1-todd.e.brandt@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        Tue, 14 Mar 2023 16:05:03 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A48B30199;
+        Tue, 14 Mar 2023 13:05:02 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id r11so15228223edd.5;
+        Tue, 14 Mar 2023 13:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678824300;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+XGXvs0ITat1ZXax2nuiG9HnqxC3NFYEPJinGjqM7Qo=;
+        b=FHwqi6k2Pbfwxlx87QG3Ul5Kd7sv0X9DI/oWX9lF6BGIQtxxqDiC2xnXtWFFF/hcnr
+         n9zCFNL6Pu35FbRP9YiNTKstbgw+SEkjdv1Y5a0JhFF5ZGmlkWgNr7X3kA+lJZjqVeFJ
+         Mm6GGMFgs4/5qJgKpQmfvpJUTVEbM6TsRJjaa6s3JoExg0x9bEK6NjpK/yyFjNN9Oak3
+         Bwm/5MXDIvov+RLli8egLCBLc4ioN0if2kTIejiBVHfr7PlLJcVSP0n1oUPSidAKyYKk
+         D2gQNAY6DHFIRDEht3GyasELTUino2LDeX409tM9uUF6Iq2wObfLtxxUJhAYud7h/hRl
+         xGsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678824300;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+XGXvs0ITat1ZXax2nuiG9HnqxC3NFYEPJinGjqM7Qo=;
+        b=VSQBflmdvEfeV6hnhO4vCmyog4eAAYY1Ody++Tpj3Npfuw+WJWfMJHQU6Yohm++aLi
+         vM0RtZ0nVjIIWVM7Av/dHXRa6fmeuKp3RqWXfbmVI9EebgHiRz2OHE47RBYMmUVSIcby
+         TOGpkwoITKcU6okThCK0FeP57Icr/vYvOTKrFIstiB0D86CBqe0D0xZTXcFlc8EJW1lZ
+         yX/BQreVfTpxmFb+Qwl50PBCC8pmk849gticiYMtaeTTYAsRlIUbjBc28fXfCUZuREg9
+         OwoPHY0VyZXXAUZAuwGK/jubr+cZdIkMsbu8IIDuO9b7D7Vl+Zj2xhtvKI6kszWqlnAk
+         Cbug==
+X-Gm-Message-State: AO0yUKVSNeoteYa1i9ZKeUGTpX1fvvx7ZN16+OwfEFCVUNaidf6csqpc
+        txgF1mmIurb9ndRovwsibas=
+X-Google-Smtp-Source: AK7set8hUj4QjdDm+ijiDf9LUnE1MtORn47ZJsuHaWn6Joj/taxgFTUrG3jHA4aN+kKHh+wc/HvpYQ==
+X-Received: by 2002:a17:906:1f51:b0:928:ace8:9f07 with SMTP id d17-20020a1709061f5100b00928ace89f07mr3060748ejk.12.1678824300526;
+        Tue, 14 Mar 2023 13:05:00 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id e23-20020a170906375700b008cff300cf47sm1534950ejc.72.2023.03.14.13.04.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 13:05:00 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 3/4] Input: sun4i-ts: drop of_match_ptr for ID table
+Date:   Tue, 14 Mar 2023 21:04:58 +0100
+Message-ID: <21805180.EfDdHjke4D@jernej-laptop>
+In-Reply-To: <20230312131514.351603-3-krzysztof.kozlowski@linaro.org>
+References: <20230312131514.351603-1-krzysztof.kozlowski@linaro.org>
+ <20230312131514.351603-3-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2023-03-14 at 11:12 -0700, Todd Brandt wrote:
-> On some platforms there are some platform devices created with
-> invalid names. For example: "HID-SENSOR-INT-020b?.39.auto" instead
-> of "HID-SENSOR-INT-020b.39.auto"
+Dne nedelja, 12. marec 2023 ob 14:15:13 CET je Krzysztof Kozlowski napisal(=
+a):
+> The driver can match only via the DT table so the table should be always
+> used and the of_match_ptr does not have any sense (this also allows ACPI
+> matching via PRP0001, even though it might not be relevant here).  This
+> also fixes !CONFIG_OF error:
 >=20
-> This string include some invalid characters, hence it will fail to
-> properly load the driver which will handle this custom sensor. Also
-> it is a problem for some user space tools, which parses the device
-> names from ftrace and dmesg.
+>   drivers/input/touchscreen/sun4i-ts.c:392:34: error: =E2=80=98sun4i_ts_o=
+f_match=E2=80=99
+> defined but not used [-Werror=3Dunused-const-variable=3D]
 >=20
-> This is because the string, real_usage, is not NULL terminated and
-> printed with %s to form device name.
->=20
-> To address this, initialize the real_usage string with 0s.
->=20
-> Reported-and-tested-by: Todd Brandt <todd.e.brandt@linux.intel.com>
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217169
-> Fixes: 98c062e82451 ("HID: hid-sensor-custom: Allow more custom iio
-> sensors")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Philipp Jungkamp <p.jungkamp@gmx.net>
-> Signed-off-by: Philipp Jungkamp <p.jungkamp@gmx.net>
-> Signed-off-by: Todd Brandt <todd.e.brandt@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
-> Changes in v4:
-> - add the Fixes line
-> - add patch version change list
-> Changes in v3:
-> - update the changelog
-> - add proper reviewed/signed/suggested links
-> Changes in v2:
-> - update the changelog
+>  drivers/input/touchscreen/sun4i-ts.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> =C2=A0drivers/hid/hid-sensor-custom.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
-> sensor-custom.c
-> index 3e3f89e01d81..d85398721659 100644
-> --- a/drivers/hid/hid-sensor-custom.c
-> +++ b/drivers/hid/hid-sensor-custom.c
-> @@ -940,7 +940,7 @@ hid_sensor_register_platform_device(struct
-> platform_device *pdev,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct hid_=
-sensor_hub_device
-> *hsdev,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struc=
-t
-> hid_sensor_custom_match *match)
-> =C2=A0{
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0char real_usage[HID_SENSOR_USA=
-GE_LENGTH];
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0char real_usage[HID_SENSOR_USA=
-GE_LENGTH] =3D { 0 };
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct platform_device *c=
-ustom_pdev;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const char *dev_name;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0char *c;
+
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> diff --git a/drivers/input/touchscreen/sun4i-ts.c
+> b/drivers/input/touchscreen/sun4i-ts.c index 1117fba30020..577c75c83e25
+> 100644
+> --- a/drivers/input/touchscreen/sun4i-ts.c
+> +++ b/drivers/input/touchscreen/sun4i-ts.c
+> @@ -400,7 +400,7 @@ MODULE_DEVICE_TABLE(of, sun4i_ts_of_match);
+>  static struct platform_driver sun4i_ts_driver =3D {
+>  	.driver =3D {
+>  		.name	=3D "sun4i-ts",
+> -		.of_match_table =3D of_match_ptr(sun4i_ts_of_match),
+> +		.of_match_table =3D sun4i_ts_of_match,
+>  	},
+>  	.probe	=3D sun4i_ts_probe,
+>  	.remove	=3D sun4i_ts_remove,
+
+
+
 
