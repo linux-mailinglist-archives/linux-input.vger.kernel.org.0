@@ -2,65 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FCB06B8DA3
-	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 09:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81A756B92D2
+	for <lists+linux-input@lfdr.de>; Tue, 14 Mar 2023 13:13:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbjCNIkn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Mar 2023 04:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49066 "EHLO
+        id S231691AbjCNMNT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Mar 2023 08:13:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbjCNIkf (ORCPT
+        with ESMTP id S229707AbjCNMNS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Mar 2023 04:40:35 -0400
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DB66583;
-        Tue, 14 Mar 2023 01:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-        t=1678783205; i=l.guzenko@web.de;
-        bh=Ctk/zl6GMWowK4nKMV2F8aNscA/SpH4/y3AJ82A4BlI=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=NmdRDov8yeUCL8oEgu9AakPkJS6BhMHRwd7PP8fRUctaTvRWKCqCqt8K8dNA3xvOo
-         pCQqJj084kg4Hf2AlwW83Pnuc12c/ozZZiyv2Gp1vX1r3xH+2SzWgUVVYOY8IiOXwX
-         4unor0N8witnQGMkS7j7moaTqkEuWhNDvnj3Vp7sWEdqWm97HchpyQh7vcXThfQdLw
-         WoCwVjSwDw1F8od0ZYbscBbuUgib4Vn42xC6zMKkMBqjsETnymyB9QjoReNT8M1jW6
-         52Pwrw4NkhE7sJRYkKReeMf8J91Ul7+N3mjnlO9V3u09XbbWSmJKc1BCndwK6wcZA+
-         4DgurSvutROKA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from luka-spectre.d.ethz.ch ([195.176.112.245]) by smtp.web.de
- (mrweb005 [213.165.67.108]) with ESMTPSA (Nemesis) id
- 1MgiXQ-1qAEUi3hT2-00h6Gj; Tue, 14 Mar 2023 09:40:04 +0100
-From:   Luka Guzenko <l.guzenko@web.de>
-To:     benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luka Guzenko <l.guzenko@web.de>
-Subject: [PATCH] HID: Ignore battery for ELAN touchscreen on HP ENVY X360 13-ar0xxx
-Date:   Tue, 14 Mar 2023 09:39:35 +0100
-Message-Id: <20230314083935.13331-1-l.guzenko@web.de>
-X-Mailer: git-send-email 2.39.2
+        Tue, 14 Mar 2023 08:13:18 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED2C685376;
+        Tue, 14 Mar 2023 05:12:46 -0700 (PDT)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32EAWXjf010453;
+        Tue, 14 Mar 2023 12:12:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=PWOdpu7huu3x6L9OitOqCOlr3p7FNjAIQDP7DCrE7uo=;
+ b=PSOIXDRkQ24agpUZMWZ+56b0xC8BSV7Zs1ugV5P7F+GIEf1rXv1a1qHIR2tnvgY7srAP
+ ulU/PlGT+3YiSxvEy5KelrKZwSTBVAfvNQlVDLnkXmRqYvU2rL2cNi7d9vcCA7qDyhCo
+ 46O18KmySduR6Fo30pLjaSeuo3Xgyq8XI1/F+5aIXI/BKq6n0Z1TOP2mde4DmRUb1eLp
+ SC8+/ahRVXhebYRoDhDK5u4z3Cr1Mzpjt6NWTJj4MMAVXlTH2rb6FC8e/rCk81rdZckI
+ /TTa8doU/TWqvWtw5BL5rBtIHd/f5AtxDuXQMlH7iDcnIDpDYyAlzugrT9nX404k00cy Zw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3paq8yaerh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Mar 2023 12:12:36 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32EAWoEb011300;
+        Tue, 14 Mar 2023 12:12:36 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3paq8yaeqq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Mar 2023 12:12:35 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+        by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32E8uLJc006456;
+        Tue, 14 Mar 2023 12:12:34 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+        by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3p8h96krsj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Mar 2023 12:12:33 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+        by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32ECCVUl25363180
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 14 Mar 2023 12:12:31 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 781142007A;
+        Tue, 14 Mar 2023 12:12:31 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0C8382007D;
+        Tue, 14 Mar 2023 12:12:31 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Tue, 14 Mar 2023 12:12:30 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH v3 13/38] Input: add HAS_IOPORT dependencies
+Date:   Tue, 14 Mar 2023 13:11:51 +0100
+Message-Id: <20230314121216.413434-14-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230314121216.413434-1-schnelle@linux.ibm.com>
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:e44qeSup14mtbtiDyAvqhJ3+As5aZVD8b+7B2cy2pSKITXgi2du
- XCoA1zTn2dxj2PuWinkO0nMoYsUlHe8HjbvVkeQUxhcmcA/G0cJQKxdBEcbg1np2fKIoL8D
- ifuQnggukwg5JaM3r4gVDzyZ8ZxDO0p41FrVXRd8tifDjkOSu41L/a7eOOgH2RHOX8c2n1A
- iCk1ZASsaeiNh5yTyXbhg==
-UI-OutboundReport: notjunk:1;M01:P0:gd0s568P7qw=;xZ+6DBij06NM6R5vTo4LWpq8Qhz
- kV5gKkdG2A7cJ9Lz8hMoK4asi4NAqpiDEMS3gDQO6+rMjGTigEiFC2YavnoVo8Qw6LDYngAtg
- CHUqo7l0uVselZz5IEa6Tdtn1Vn6lhtJn3IpgBitZaKlBU/NfuGxmlmp5SCAfjDLW0w24My2u
- VFw0hY1IRvh+LSg/tPwu0+q09CfnbSlU9Lw2blHx8YWkH3OpQU1t7GBCPldj7Gu/DS5OXIzPF
- /3v9Y5jM4eWV/UMZrlr+hyC2K9T7CCQC0DfAe7a+f2NOW4SrN2b2WBIgBHmBDrrzSC18fxBOW
- BnZObquntBX5Hz05cy60L6zGYAcIAiF7IfxM8B4BgUNQqgH5wAE0ERU8nAWVNhpXaVgD/bi9j
- HEtDUqTg4q+zgWt71OZnbK75anVD5EuEOoQHHQU/o55cdHK3rEetcHlin0/qcKM+J7GGyL5Kl
- rU3PCieYQkiEuWD+mpFIJeyRu4UZ0JfL9zr4FuZ7WDSdipvKIxZo+vZj36vY1iZVR0i2dLXmG
- MJ3V1Gy5AWksg+r3Dscfk6hkYNfHnR32TImd2ynsegaCs6uzWE2b/eoErBr18sLyzhNEDb2WG
- Svy1Gw5gp66e9bJMGdHA7O6jRp3qiuproJ9qX0vZl4DhFt+m/qaEwEPybibt903jVpJKyrzsq
- +/dVW4cvwQ3wf3kn0qYRhJ6LQqkhzZ7xJ4+GXkjqg5lKqNPCSMlURTpjAcqJ9pgyQyOeKR/Ue
- ppW4RrBLMBh3bwFqDXEi8UG+d4gawuq1HGRBG3TbgQXJ+6XNYLRUJMenLj9MMi5x68zcE6wGA
- vByr4CI1sj1mAx+1OYUb1mBh+ZIQhVsGm1Nic3kQ+H6ZaXrJiBVr6XzdPExJRNCWft3TjNTdU
- n4rVfaiDThMl7A4bbiBNJxZE7M5TJsLiedm0Wdl/mOc48rrjxVp/aVfjmE9+EnsfForz8R29M
- XNejO59qur3WmO5HKa/9M1286Ic=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: yQAlx44sEPm9Fz6Gzh6ckX9YwOiZK3VY
+X-Proofpoint-ORIG-GUID: nlZfI-7xcWOZRlTxLqFLtPAU-8PxsvJX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-14_04,2023-03-14_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=869 clxscore=1011 suspectscore=0 adultscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 impostorscore=0
+ mlxscore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2303140103
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,45 +103,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ignore the reported battery level of the built-in touchscreen to suppress
-battery warnings when a stylus is used. The device ID was added and the
-battery ignore quirk was enabled.
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them.
 
-Signed-off-by: Luka Guzenko <l.guzenko@web.de>
-=2D--
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/input/serio/Kconfig       | 2 ++
+ drivers/input/touchscreen/Kconfig | 1 +
  2 files changed, 3 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 63545cd307e5..b76462881cea 100644
-=2D-- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -409,6 +409,7 @@
- #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
- #define USB_DEVICE_ID_HP_X2		0x074d
- #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
-+#define I2C_DEVICE_ID_HP_ENVY_X360_13_AR0XXX	0x23B9
- #define I2C_DEVICE_ID_HP_ENVY_X360_15	0x2d05
- #define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
- #define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 7fc967964dd8..9639479600f4 100644
-=2D-- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -382,6 +382,8 @@ static const struct hid_device_id hid_battery_quirks[]=
- =3D {
- 	  HID_BATTERY_QUIRK_AVOID_QUERY },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE, USB_DEVICE_ID_UGEE_XPPEN_TABLET_DEC=
-O_PRO_SW),
- 	  HID_BATTERY_QUIRK_AVOID_QUERY },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_13_AR0XX=
-X),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15),
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15T_DR10=
-0),
-=2D-
-2.39.2
+diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
+index f39b7b3f7942..5d125627c595 100644
+--- a/drivers/input/serio/Kconfig
++++ b/drivers/input/serio/Kconfig
+@@ -75,6 +75,7 @@ config SERIO_Q40KBD
+ config SERIO_PARKBD
+ 	tristate "Parallel port keyboard adapter"
+ 	depends on PARPORT
++	depends on HAS_IOPORT
+ 	help
+ 	  Say Y here if you built a simple parallel port adapter to attach
+ 	  an additional AT keyboard, XT keyboard or PS/2 mouse.
+@@ -148,6 +149,7 @@ config HIL_MLC
+ config SERIO_PCIPS2
+ 	tristate "PCI PS/2 keyboard and PS/2 mouse controller"
+ 	depends on PCI
++	depends on HAS_IOPORT
+ 	help
+ 	  Say Y here if you have a Mobility Docking station with PS/2
+ 	  keyboard and mice ports.
+diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+index 1a2049b336a6..6c268b8f0d19 100644
+--- a/drivers/input/touchscreen/Kconfig
++++ b/drivers/input/touchscreen/Kconfig
+@@ -690,6 +690,7 @@ config TOUCHSCREEN_INEXIO
+ 
+ config TOUCHSCREEN_MK712
+ 	tristate "ICS MicroClock MK712 touchscreen"
++	depends on ISA
+ 	help
+ 	  Say Y here if you have the ICS MicroClock MK712 touchscreen
+ 	  controller chip in your system.
+-- 
+2.37.2
 
