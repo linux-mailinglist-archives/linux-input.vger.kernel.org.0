@@ -2,104 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E2D6BA5D4
-	for <lists+linux-input@lfdr.de>; Wed, 15 Mar 2023 05:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C06C96BA5D6
+	for <lists+linux-input@lfdr.de>; Wed, 15 Mar 2023 05:02:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjCOEBO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Mar 2023 00:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
+        id S230129AbjCOECU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Mar 2023 00:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230129AbjCOEBM (ORCPT
+        with ESMTP id S229488AbjCOECT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Mar 2023 00:01:12 -0400
+        Wed, 15 Mar 2023 00:02:19 -0400
 Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2075.outbound.protection.outlook.com [40.107.95.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F6DB34324;
-        Tue, 14 Mar 2023 21:01:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 114F03402C;
+        Tue, 14 Mar 2023 21:02:18 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fFShtwyySpirX+WZdaxnE/Fb90UCGJjhmrXLVrSTK7vEHEMg89cz0z9MLIM64D3nQZKayTbswzFccbaRfkfMwy65afBNsoOaZIER89+1p3+0D6btyr5R6OZQ3ecekyuiqxLPffPSOnMTmXodomr752a3zGUPXfAGkeYWERGfUTJTRdSvFdcs/OpB13MqQANuP3AqHZxG478UYxp8Fso0jCNXgQVA0Lj750CcvFGdJlPCgKxyS07y0EHKWIWzTGf6iOts5JtpAzYFfZ0miKDHliR1XoQLEN8B6Cs6tD2rmEQiJW1wGLgmbXw0ginv9/y8XMnXR0UQ6UDPOUGSykj0eg==
+ b=XTZbbUCuVaMG13BovGaQBKlCGTt5u5DcO6beSai27DkCGYt3ndH29h0p675tjyK7rfaw1FDqkinsVBpgwLr99aTcCr6zU7UK/L13ge5vETJ/UUPffrlbtzNF1qc/QI/6YLIHhYdKF7Uj0erB3qdBuhf6Bb8C7rJfDQYkDMyCqGR784baQH9g6qXYtFZ6qDzn34L9T9WJuf7ikr1XNpXLHWnwif80IbsGj/QVn0w8axskGTY3JgbG1so5SUa++EXIaPldt1UfbIGfezZyvQsKbrR0smSE52ViF9+FCqf2Ay3NgDs8fJ+HG4KYA35NIUyOEfEQlKcenLND2uFSfYTHUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o6R2iAIrHu+HQQMUSN5/OOifMs8PL6vmkwl40S1h0hA=;
- b=KLxe0ffmKTXYjM31k/w7Eqrl/a44RH8z6Ou8CRe0SawUITJBsRCl47IWXxGlurqnwC77YRGE7bAtfEh7oen/S//5PEpew/i67Kn1DqHiFttwaF2CXylKSEsbdXcN3n59LXjTpdXEJU8QWs7OC+dRdQWC+a0mrt9JQx3hUjyyn5puQtrRz2eNFXR/TEnpdNjbt35iUvIjwzNjUImlyulaoXLCk6f5ksP/zNRLGA0c1Xjo+lS98/FohYLh+Jmw36crneU1wup8O6FS/PqG6T8EgeXRTz9QCn78ecDQLIxXnkJ5cCTtcbdtNBkA8Ovt8RRI2DODpdXkZSc4adfWNRKhIg==
+ bh=HoKWlroqSJwvZksGQMcLleLe6BXzyWOY/+HRNSjMYrY=;
+ b=hxyZoob7M+GRXKRV4Tlnb6s8aLG8g112B2282YtXn1+Vct3jA8yN5XeFAZG/hjVHmSRHelulq246OaeiS5SlZgXpFwyy5os3egIZBRQ2PmBgxW9dMW8OY2E4UMRqZ68W/c6rnrdeH+Fn+dzw7g7RX5w1K7CcHBozN0kL+XX4UDF4Bn+wFXzm6UaAdyw+/zgs69j1qHp3d0XK9pgH+2htTSgSHhI3S9hhHMF+Zwh2GKOBOJgyGgiVHhxeX6vjs+6CFfYNyktm0EhZD2Jb1Ucm+B+I932/I05U3s2KiW3OLKb2D0gGw3holRM8U2YcHpjLvJLMQJfi1C1LGKhbTyNCIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o6R2iAIrHu+HQQMUSN5/OOifMs8PL6vmkwl40S1h0hA=;
- b=bhh+GyFAzjfZKQsg6YPUw2OIHoBWwxoUBCwaEYJNDJRDfeRUTHlnhXpNZ4KGZEpe6tHW38uLh9cVD1lZ9C1sl+xMaJrwJ9cTRu8XMRjoHy49DJ6sEzStwveCk2xyRN1/PZDHRnLvnDwX+u+cGzqJNSIyZK+VJ1yn+CkASNzQQc4=
+ bh=HoKWlroqSJwvZksGQMcLleLe6BXzyWOY/+HRNSjMYrY=;
+ b=wTJlsyst2eMV4Fv68gU2dILGsmpVAotZ0i4qRy0EMYU1lIzcIP78e7+YbhRczSkYJUfMXWLV3gNmNM0VmDViJiwmcLmffRaqTSINMS3e+0t0Q7rV+BIiH27L/Trhu/k5+d/U8MMldbOxuPcHgqN53t1rWCwc5liSXnINhLhb6hI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21) by BN0PR08MB7487.namprd08.prod.outlook.com
  (2603:10b6:408:157::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Wed, 15 Mar
- 2023 04:01:05 +0000
+ 2023 04:02:16 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::4e0c:f94b:5d28:66e4]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::4e0c:f94b:5d28:66e4%6]) with mapi id 15.20.6178.029; Wed, 15 Mar 2023
- 04:01:05 +0000
-Date:   Tue, 14 Mar 2023 23:00:57 -0500
+ 04:02:16 +0000
+Date:   Tue, 14 Mar 2023 23:02:15 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         jeff@labundy.com
-Subject: [PATCH v2 0/4] Add support for slider gestures and OTP variants
-Message-ID: <ZBFC+e/3JcYITClP@nixie71>
+Subject: [PATCH v2 1/4] dt-bindings: input: iqs269a: Add bindings for slider
+ gestures
+Message-ID: <ZBFDR0k9IDt4dorb@nixie71>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-ClientProxiedBy: SN4PR0501CA0123.namprd05.prod.outlook.com
- (2603:10b6:803:42::40) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <ZBFC+e/3JcYITClP@nixie71>
+References: <ZBFC+e/3JcYITClP@nixie71>
+X-ClientProxiedBy: SN6PR08CA0017.namprd08.prod.outlook.com
+ (2603:10b6:805:66::30) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|BN0PR08MB7487:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9981989c-d87d-4edc-e310-08db2509e611
+X-MS-Office365-Filtering-Correlation-Id: f195dcb7-b2de-4209-9e9a-08db250a107a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YPjXfnfSItaiQo9YovcVKS3tV0g/dOomrwI3UCk0H/K23SKx5qbHPcST63yx/CAvx1xrTwkoY3V5pW4qMDE/8UFPqV+6FSXn5s9DHjzmSoNmTbA2MZ+TQth/urRBGNCzxCZkm4wAZ3D+YK3mNP/5GWKO+QzndeLD7xK9tQ1sdaTs4VkeZZJVnQ2AffyLyp6qD2fo9fNY5VDQ3jH4o9oavd20GX7RwcpuHt1YM1IoJei40+n/to5kueMYLFGlLIAzGceNN2xVMaL1GWbOe9m1z3CbiE/eil8B+LJOt+2ziFbbprrxpF5ncX5ifxhBDqBvqCped8q5iztDzQNn6gNFBiq/hKCChXoesfOkrUFU/z89xsDeTwYVQ3cZyZQ+sFwXaiopNWo3UHQT+GsLO/jj7qNQBM67a9YUrF1CgS4pbZ2v9RI/SlpCBB/r/qyy4nYvJbket8IAVfBkbSRqn0OB/RyvpzYnxAPaAUhOcPewjXK20U8g4G+kWzOs7zj5TAQFchU4WXNZI8ea5INS21hA7f/Dq8y0Om1jbbki1CRV9dpS8KpIu3HHKXfbR2/xaovhRTawSqFVgdSUBJRDuXAu1atHsN8Iyfhhur3juPKGcLSX9XGtEA/JLNViYQKt6xdd
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(39830400003)(376002)(136003)(366004)(346002)(396003)(451199018)(86362001)(8936002)(478600001)(5660300002)(2906002)(4326008)(41300700001)(66476007)(66946007)(8676002)(316002)(66556008)(33716001)(83380400001)(38100700002)(6666004)(9686003)(6506007)(107886003)(6512007)(26005)(186003)(966005)(6486002)(66899018);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 8XRkRR983O+SFrPsMUk7q0QcCIumJhzup4i9Nr9OPMh0tO5A02Z7Ci4AH3XmKZSQPZKHfMZ646cGr39SaMRFB+Ra7P5jTHN9RI6ndD1EOBRu2Tci+DmXayxO0ILtEcl7JgO0FuCb+22kOaNGwpdAKAiER9+RNemAmel4eNaoNlgs/dibQuKRZ9HW92gFQSNaBGs4UI+W0bqBsit7Q38IFWTcSeTuTj3ZQqiih6rKdseTvqebqfalAe5fZ++peeLC4Sznl2/Aw5k0hZP0qd1tgcu1zkc+0f3W8RLfza+Zo4zVzmciO2dZYpyKYO8Q3XzBRzX3+Wxi6YoeIMOYstaS63c9doAJHMfOIkyAqULFyfbPutJvf6ZLuPpUpZbZodQO2XrcQlxoC9XzVlKSOjM53/+cUdAu8grRXlhZ7jwdhTfjI9g6wpSLSCWVPPOqOIRqlGFyyueJhAEjvPs7E3UPEPVxJ3LMGov9+8A+7K/0HXivCNysm/ig936E9zL4MjPXkY3K0MvUxB07oyNET0hRREi/6PU476ARBkkCbw50mmouPXnNm1vKaJlEbRP4+Q/X3JwwKAMNT0gzmyEadcib9IwgG3n5xk/91JpFLHdCS4bYyPMeu2hBGval5LwVXIpTJpLOFwx04D13GlHoebbsrw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(39830400003)(376002)(136003)(366004)(346002)(396003)(451199018)(86362001)(8936002)(478600001)(5660300002)(2906002)(4326008)(41300700001)(66476007)(66946007)(8676002)(316002)(66556008)(33716001)(83380400001)(38100700002)(9686003)(6506007)(107886003)(6512007)(26005)(186003)(6486002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zmIcmvsFpcGxtU3ZhQPvmuCua4LwL1Cx/YtM0i1+Sf/lJ3YnraR+/Iylyj0s?=
- =?us-ascii?Q?i8Wc+rcTf6+3JirVKhyGj/C1YTeRNQw1CP26FPwvZoHpSAC97Pi7hsWFtInX?=
- =?us-ascii?Q?VI4J+YD8rqSty0p702RpK7B62CcM4K4sWQk0+HFLFsjINlvo3e45GtjzWRFk?=
- =?us-ascii?Q?BYWkG3t+iq9cuvpXwUjC70thqOBYYo/wcuctJJcdMRYYOiIngYPz/R6ztrI4?=
- =?us-ascii?Q?LfLwd4yUD9SkUfWdFaUEDUUTuQQLUryqzfCdEXt+qQN11qIIc0RDQwKf9Boo?=
- =?us-ascii?Q?9yiXyXCJULBhX3UDhJSgQl7z6Tf914w96nriMkDWDXl6CCTfW5q8j6RUWn4r?=
- =?us-ascii?Q?CHeRpXDW/h+kTXnTfiKW0FXiKSJLzp4Q3mEqNS92p0s92WS7xt3Kcuaf+XDD?=
- =?us-ascii?Q?S0uIVsqv7PAqWEZtQWRU7XmO6hvI5kXQ4VcxSm/TJAJncLgiJEa4dMETps0U?=
- =?us-ascii?Q?EcJhAcUesirwEkMUY5E9OyzxAyhRkOPeB83KPF1EYkq1gcYX2W+EPldaT9T9?=
- =?us-ascii?Q?wkkqK0t/s6QhvKezfxUD5subTH/sKun5RkpfXT5dp6CNy2/ThAhPiXbUGzJm?=
- =?us-ascii?Q?vmhTrLvXxoLQU2BFurDkIo7J9LV4VWa8RrXLDggWq5kup2mTnG1A9pRxqOXA?=
- =?us-ascii?Q?wTpb/6tvSVN0QM9jgg3a8djHgaEatY8i/hNVnoFF4nEulTDHUQVqznIWXIr7?=
- =?us-ascii?Q?2SlgYp06KY+sadcHQ8KAHL6Z/YcuKx08TW24Fmq8oXwSn3qhnbW0bL+y0kZm?=
- =?us-ascii?Q?xOzazb11igxMjJeKd7y7x0//MMHANeaVz7LKdyoB8uX4Q5ogMZedPmrFeI6U?=
- =?us-ascii?Q?Q2iekDZSE92Lol+2swhf0XWEWB+El0Uh+LvaD9zhHY1MOcYE+PpgZif1xwP1?=
- =?us-ascii?Q?HEyWUU6HM15X0qbMKM4zWa/ihpTY79MKJSUBJsXDmDF5GlhbBLua59y8c+/o?=
- =?us-ascii?Q?R+3nv/mSHICF3VtENIxj8wAd7s/G2QBnpsov2n/RVWlwDTvB54iP6lHAcTCs?=
- =?us-ascii?Q?nPesDrpQWal0olztdK1msbBXvw/FzcCuuY7xQN2gc4timZR8kEm7KNOd+4T8?=
- =?us-ascii?Q?emQSCUCrBuVAzMnxUCwZ9+TWf8OsP7eo3AY2P7EjS4y+r1eYsjj17qhP7opb?=
- =?us-ascii?Q?qQaRHG24eT4mNo0y/siDN339XoYz93+4JZ6RFKdNxizIh3CH6Bebjw0+xAC0?=
- =?us-ascii?Q?4UOOh56mo83Fag5I7NXWgpuX7TUKaXO+2JDOnqFqGS3nNTTkugcSmt0HRZWw?=
- =?us-ascii?Q?JZHov9Y4E0wPxE+AbBDV0oB5DlJES6lnBDk1Su/xVg84ZRMJSJ58Ks3QkZjn?=
- =?us-ascii?Q?cFV9l5KesM6KWk6QgmjR68GDz/87Ug4EH/rISirrmE/84DQ6Uqq9yl82NEPX?=
- =?us-ascii?Q?RL9hsPtY5Tg+p0Ar2jdtdKVdNfJrj0q38Zeu2TrmHdbV7ayQX6j4MDIbRKHb?=
- =?us-ascii?Q?QaSFmLBvzek91d082VFe+PaUEw3igWV/utaZ5M/qa1yl7CiQxsRNGRyNSR33?=
- =?us-ascii?Q?ELur7Peh29dVZbMJTVX/DUNWK6YjnYA8rpiDKCelc8HpCMULf8FvucqL1tnz?=
- =?us-ascii?Q?WHd1GSa0PrqOSUXwEEGjRVwdZvBS/YoL6yJb6XU7?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1hP5J0TFuyeVQgLs5L2J45UuIwNU6NdGw2Pp84+H768lk/xdvMUXdnQUn2vD?=
+ =?us-ascii?Q?n1X6luwA/smZ2ZAayCZ46ngUeXzVDRcXqy1z8CYtj6fG6PaZnKqy6N6QUOAz?=
+ =?us-ascii?Q?OL7GCh2tZSeYXAizBe3JCGeM6itaeZN8109L9i/zPhftvLaC9GyEufxtoTdm?=
+ =?us-ascii?Q?7NoW11CmUfLst3B/D/i9zj8Z6tLVqvojreC3QkQeXQNDxAWX2c34xbp2L2/h?=
+ =?us-ascii?Q?VddI3umyaL/D35LYH0g/OqQu1gKM+IXYuWzlJduGL8sX3DHfrY+cnmOLYpZe?=
+ =?us-ascii?Q?rtsgcqk1kQbwdpy9ckC+YyUyGFX1mRVq4DhRFSRW2T222jXRVi0bx5MB/cDp?=
+ =?us-ascii?Q?hzOVI9X5Z17WdU2JahnOO3BtqnHyIiAe4rib0w6588xLRWCc4uBfJFnwykOw?=
+ =?us-ascii?Q?QfVOgOI+o8GrZXEkjbVKOHiXFU0o/li2WdiSR9tz/7YbDkXyctdEOFbU0Ub8?=
+ =?us-ascii?Q?Empw48SDCwaFNvWqnXwTGaKTvh6YZnD63SzPYRPbE7QAQI926DqbWyPtpWkp?=
+ =?us-ascii?Q?WwGH42s5qCtqikn5QFERZN9+HxO10PNXWCgZMIayAMVmp5YlsUJNRVcFRCi/?=
+ =?us-ascii?Q?7o++HKG0YCrJUQ4mL0fJoykqR5U9nxagx/iPFZOlBIBm10D1RoWhdO3u3L3I?=
+ =?us-ascii?Q?QxXxl4WKpFWzt4OJWP+2kbQKhCAclXFoqCxgedGZiZveDT1k9R736cmpGLgy?=
+ =?us-ascii?Q?JoDlm5z0mpfd8Qttfd84wc3/6jE9LFwwVvpzn/ifTwdOsAjgKa+k828mfYc+?=
+ =?us-ascii?Q?QlqXQc+C/8Ac7VZKvt1/tBiduA2yL6tOyRJNmUJBZ6oE1dS4kGmc3vvXetKD?=
+ =?us-ascii?Q?iN9y45+hdOV+ST6PROpG8cy5seHL//N26X5rK0Z9R/gEU5VIJ6RZiW34q1Cm?=
+ =?us-ascii?Q?qXWBnaCFnn8S3KkttH9PXTnzyJARMPyGHQzE3gPnljmknCrRl6MYpzTqRWHS?=
+ =?us-ascii?Q?PYTuI2bj1mfQ/QNdE/n9voIHb+nF9nFsq4aPKWmFwbyhjkD3euc4A8CbK8JZ?=
+ =?us-ascii?Q?l9M542tDffc2sZmlXfaFstNbLGK8cNiAWl6h2OsTEN/vKQEKGpqI/CxedSO3?=
+ =?us-ascii?Q?hDjNlAgouTMYuL1VTHiuCPiCk5jttUwOKDQiRTmcShVMwnV8SxzIClBnxysD?=
+ =?us-ascii?Q?FQ/oIT0VQLogW9sTTMJcDVH4niewlLje71XyILqqhouPgeFLO9Uajmz5hXz8?=
+ =?us-ascii?Q?5n2CK9ej/Hn6ZfdZVoZWfFatxqUcCDS+4kdTu17+BldpBlGmd6mzjXtb6DlS?=
+ =?us-ascii?Q?k+aWWWB3lCo0qFaHc3hw6XSD/cKlik+i2s1gogDOfdtNR/nDCsbGK/b8oLnt?=
+ =?us-ascii?Q?Q5OncbCFB/SbKYCrrFPgs3RdUfUEeVtEy+301BoO95a7hSvAyphdV/AD62pA?=
+ =?us-ascii?Q?w5QZDZTg9qRO4MMmsIKBvmugFV8ZyhT1q1ROYAtFS0nq2xRf1nRl58O39wbQ?=
+ =?us-ascii?Q?7ACaFzqgIhv/HK8bZFeMY6uZxyMriQ1uyVC/DkTHrKidY0pKeZmrafJNoPd9?=
+ =?us-ascii?Q?m3EHkWy6vtsGcsrupYM4iahLYVcWvgbl8mBbVJgNSxaFcHI17+ezW+3mWAbe?=
+ =?us-ascii?Q?rZz1siynx6+OIcDjk+hXY4VQQy5xkKS/NzzjeGaI?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9981989c-d87d-4edc-e310-08db2509e611
+X-MS-Exchange-CrossTenant-Network-Message-Id: f195dcb7-b2de-4209-9e9a-08db250a107a
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2023 04:01:04.9953
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2023 04:02:16.0835
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 16mK1ESdAPswxFBYFdhs/r5ZL244TYVX6jsEA8UxJGu4GD8cVH68hzjAaG6PbtlZr02Nuk0bjwPd41SQ1ZBI/Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: y3Y2Ou0J1O2D+0Z89hhFFpBn4FnUlGz4gBozPMUavgUILeL+GQQm9gh9b2Peno/M6UIgGKIss9BcaGpkwZZQEA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR08MB7487
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
@@ -110,40 +113,114 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This series introduces support for some additional features offered by the
-Azoteq IQS269A capacitive touch controller.
+This patch adds bindings for slider gestures that can be expressed
+by the device.
 
-Patches 1 and 2 add support for slider gestures (e.g. tap or swipe). Gestures
-are recognized by the hardware itself based on touch activity across the chan-
-nels associated with the slider. This feature is useful for lightweight systems
-that do not post-process absolute coordinates to determine gestures expressed
-by the user.
+Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+Changes in v2:
+ - Renamed 'azoteq,slider-swipe' to 'azoteq,gesture-swipe' to match IQS626A and
+   noted it as depending upon 'linux,keycodes'
+ - Dropped the $ref declaration for 'linux,keycodes' and referenced input.yaml,
+   which has since been updated to define this property
 
-Gestures are presented to user space as keycodes. An example use-case is an
-array of multimedia keys as seen in the following demo:
+ .../devicetree/bindings/input/iqs269a.yaml    | 68 +++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
-https://youtu.be/k_vMRQiHLgA
-
-Patches 3 and 4 add support for the device's available OTP variants, which
-trade features or exhibit errata that require workarounds.
-
-The original series was first introduced in [1]. Patch 5 was determined to be
-non-optimal, and has since been dropped. Patch 6 has been dropped in favor of
-[2] which has since been merged.
-
-[1] https://patchwork.kernel.org/patch/11716215/
-[2] https://patchwork.kernel.org/patch/13087783/
-
-Jeff LaBundy (4):
-  dt-bindings: input: iqs269a: Add bindings for slider gestures
-  Input: iqs269a - add support for slider gestures
-  dt-bindings: input: iqs269a: Add bindings for OTP variants
-  Input: iqs269a - add support for OTP variants
-
- .../devicetree/bindings/input/iqs269a.yaml    |  98 +++++-
- drivers/input/misc/iqs269a.c                  | 314 ++++++++++++++++--
- 2 files changed, 379 insertions(+), 33 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
+index 3c430d38594f..b42f07542d27 100644
+--- a/Documentation/devicetree/bindings/input/iqs269a.yaml
++++ b/Documentation/devicetree/bindings/input/iqs269a.yaml
+@@ -9,6 +9,9 @@ title: Azoteq IQS269A Capacitive Touch Controller
+ maintainers:
+   - Jeff LaBundy <jeff@labundy.com>
+ 
++allOf:
++  - $ref: input.yaml#
++
+ description: |
+   The Azoteq IQS269A is an 8-channel capacitive touch controller that features
+   additional Hall-effect and inductive sensing capabilities.
+@@ -204,6 +207,63 @@ properties:
+     default: 1
+     description: Specifies the slider coordinate filter strength.
+ 
++  linux,keycodes:
++    minItems: 1
++    maxItems: 8
++    description: |
++      Specifies the numeric keycodes associated with each available gesture in
++      the following order (enter 0 for unused gestures):
++      0: Slider 0 tap
++      1: Slider 0 hold
++      2: Slider 0 positive flick or swipe
++      3: Slider 0 negative flick or swipe
++      4: Slider 1 tap
++      5: Slider 1 hold
++      6: Slider 1 positive flick or swipe
++      7: Slider 1 negative flick or swipe
++
++  azoteq,gesture-swipe:
++    type: boolean
++    description:
++      Directs the device to interpret axial gestures as a swipe (finger remains
++      on slider) instead of a flick (finger leaves slider).
++
++  azoteq,timeout-tap-ms:
++    multipleOf: 16
++    minimum: 0
++    maximum: 4080
++    default: 400
++    description:
++      Specifies the length of time (in ms) within which a slider touch must be
++      released in order to be interpreted as a tap. Default and maximum values
++      as well as step size are reduced by a factor of 4 with device version 2.
++
++  azoteq,timeout-swipe-ms:
++    multipleOf: 16
++    minimum: 0
++    maximum: 4080
++    default: 2000
++    description:
++      Specifies the length of time (in ms) within which an axial gesture must be
++      completed in order to be interpreted as a flick or swipe. Default and max-
++      imum values as well as step size are reduced by a factor of 4 with device
++      version 2.
++
++  azoteq,thresh-swipe:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 255
++    default: 128
++    description:
++      Specifies the number of points across which an axial gesture must travel
++      in order to be interpreted as a flick or swipe.
++
++dependencies:
++  azoteq,gesture-swipe: ["linux,keycodes"]
++  azoteq,timeout-tap-ms: ["linux,keycodes"]
++  azoteq,timeout-swipe-ms: ["linux,keycodes"]
++  azoteq,thresh-swipe: ["linux,keycodes"]
++
+ patternProperties:
+   "^channel@[0-7]$":
+     type: object
+@@ -484,6 +544,14 @@ examples:
+                     azoteq,hall-enable;
+                     azoteq,suspend-mode = <2>;
+ 
++                    linux,keycodes = <KEY_PLAYPAUSE>,
++                                     <KEY_STOPCD>,
++                                     <KEY_NEXTSONG>,
++                                     <KEY_PREVIOUSSONG>;
++
++                    azoteq,timeout-tap-ms = <400>;
++                    azoteq,timeout-swipe-ms = <800>;
++
+                     channel@0 {
+                             reg = <0x0>;
+ 
 -- 
 2.34.1
 
