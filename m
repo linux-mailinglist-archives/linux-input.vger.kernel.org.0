@@ -2,104 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00BD96BBE01
-	for <lists+linux-input@lfdr.de>; Wed, 15 Mar 2023 21:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B285C6BBF39
+	for <lists+linux-input@lfdr.de>; Wed, 15 Mar 2023 22:39:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbjCOUfu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Mar 2023 16:35:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
+        id S231470AbjCOVjZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Mar 2023 17:39:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbjCOUft (ORCPT
+        with ESMTP id S232358AbjCOVjX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Mar 2023 16:35:49 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB8C567B5;
-        Wed, 15 Mar 2023 13:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678912548; x=1710448548;
-  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=YTP0/6cwU8JktExo5ElC+GWJKWhyv6IQ+sWZM6ARXlY=;
-  b=DzFNbQyGY3pxoSGRNHk0shqTDHpZZMaTLkKTLrw/c3RJZudxuAik6GZU
-   X7x9EN7P5T8gtTlSK+pQlMkmxe+7Vt0ERcGitxUMOZYy8HmTmJ8hPmGYt
-   8i8KLgogOR/PDlFZuY0Vmi4h1wl6FC8q2Ath9ieKgJm2rmG/j9ydQqlCF
-   czvP4xHl1V5FRnvkdTwEMbzW++fN6CwbwtBGmoLIhVd/+1MMQz9rkHshG
-   065+nuGsp09NRs+YtdXdlQC8DcVA9rJQhfoH2ImNontMq/NOzmb4UBHWY
-   zp3kB/7YYgOFhKijdFdDNH0yTuakj0go0GMrQAncm52yK4u4F/xIpFgl8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="321659247"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="321659247"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 13:35:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="672869204"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="672869204"
-Received: from bgi1-mobl2.amr.corp.intel.com ([10.209.18.146])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 13:35:47 -0700
-Message-ID: <4aef4cd04a499c022c64c5e0276ce36f9ff3eacf.camel@linux.intel.com>
-Subject: Re: [PATCH v2] Fix buffer overrun in HID-SENSOR name string
-From:   Todd Brandt <todd.e.brandt@linux.intel.com>
-Reply-To: todd.e.brandt@linux.intel.com
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Todd Brandt <todd.e.brandt@intel.com>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
-        jikos@kernel.org, p.jungkamp@gmx.net
-Date:   Wed, 15 Mar 2023 13:35:42 -0700
-In-Reply-To: <cdfe3d41-5ea4-c6a8-fbab-4920d08c6303@kernel.org>
-References: <20230313220653.3996-1-todd.e.brandt@intel.com>
-         <cdfe3d41-5ea4-c6a8-fbab-4920d08c6303@kernel.org>
+        Wed, 15 Mar 2023 17:39:23 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E0B22DDC
+        for <linux-input@vger.kernel.org>; Wed, 15 Mar 2023 14:39:17 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id x17so9910069lfu.5
+        for <linux-input@vger.kernel.org>; Wed, 15 Mar 2023 14:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1678916356;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xpb1J1NQ6EcmoUdHknfKnhbMa93N3wEHpyW+bdyQONg=;
+        b=LbnrbqYotsDEftqvLOrYJFCfLK5i4oqISnGrGn6agxzw8/YnPyrS2vxPYqM+1z/vQF
+         wINDblmUBDxiKsig19Csd5SheO95lETJnskgZFHG0aI8waJ6sg7tXZrgjMo9S6s1gXg8
+         hOEJ6A7EDOSdDDFObXNkYXRcynmHJTDjemnMo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678916356;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xpb1J1NQ6EcmoUdHknfKnhbMa93N3wEHpyW+bdyQONg=;
+        b=4cdzz8hNdYlOfPv/qdAFFjBO2SuzNZf5JuVZpisukPdOH5R7A9AtuR+SD+j9cL9Au0
+         yjmNrOx9gGVLM4/DFdfgc0bNimNKPVrF42sba9XVGFF2jHdNuQchq7t6XRr3OuH8/tw1
+         8WGh10r/HnbSkEtmfLaD3EqGL93tLgLmgEEh1TgNcNL30Kt86yEoslG2faQHwl128+z0
+         09ncPSdV/Zna4Sz0Pv0eSZJt7ux6Hw8DRKzL/kqiJEwt016Jvg8dA6kDqHAmWV1wvf9B
+         pZSOhLOCqPvhjZbBHQLrx7oju4tW4GH4XiPRb3A7KI2cgWHWOVWHg8AVRAvtYFtre2qJ
+         HUBw==
+X-Gm-Message-State: AO0yUKX2G3oGAUUQxVdOcpze5qJEPOPdXT5C/DwUo7BygTkWfEetW+1r
+        U6ebxfWNOaHFl4BJnPTsZcX0K/+m21lKATpH1T2YTA==
+X-Google-Smtp-Source: AK7set+mP/RuDHK+N/Y6H+PENikTQrRb0WwxcH0GLjHAjy6KeV/C6zmPe7FvsqJU2zV137xoXpWUGB+f3Rnz3qEEY7g=
+X-Received: by 2002:ac2:4a65:0:b0:4db:1a8b:1b87 with SMTP id
+ q5-20020ac24a65000000b004db1a8b1b87mr2468829lfp.8.1678916355956; Wed, 15 Mar
+ 2023 14:39:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230303152623.45859-1-jdenose@google.com> <e8f5e2aa-d7fa-88ff-6306-4c1ee8feeade@redhat.com>
+In-Reply-To: <e8f5e2aa-d7fa-88ff-6306-4c1ee8feeade@redhat.com>
+From:   Jonathan Denose <jdenose@chromium.org>
+Date:   Wed, 15 Mar 2023 16:39:04 -0500
+Message-ID: <CALNJtpWsvZEdGJFA30cv0cSq43Djm7q+trDQVxx5aRDzg7u3Gw@mail.gmail.com>
+Subject: Re: [PATCH] Input: i8042 - Add quirk for Fujitsu Lifebook A574/H
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Denose <jdenose@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Takashi Iwai <tiwai@suse.de>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2023-03-15 at 08:04 +0100, Krzysztof Kozlowski wrote:
-> On 13/03/2023 23:06, Todd Brandt wrote:
-> > On some platforms there are some platform devices created with
-> > invalid names. For example: "HID-SENSOR-INT-020b?.39.auto" instead
-> > of "HID-SENSOR-INT-020b.39.auto"
-> >=20
-> > This string include some invalid characters, hence it will fail to
-> > properly load the driver which will handle this custom sensor. Also
-> > it is a problem for some user space tools, which parse the device
-> > names from ftrace and dmesg.
-> >=20
-> > This is because the string, real_usage, is not NULL terminated and
-> > printed with %s to form device name.
-> >=20
-> > To address this, we initialize the real_usage string with 0s.
-> >=20
-> > Philipp Jungkamp created this fix, I'm simply submitting it. I've
-> > verified it fixes bugzilla issue 217169
-> >=20
-> > Reported-and-tested-by: Todd Brandt <todd.e.brandt@linux.intel.com>
-> > Signed-off-by: Todd Brandt <todd.e.brandt@intel.com>
->=20
-> SoB denotes that you reported this and tested. Otherwise shall we
-> start
-> adding Reported and Tested tags to all of our commits?
->=20
-I just copied it from someone else's post on the mailing list, I
-thought it was part of the standard lkml vernacular but I just looked
-it up and it's explicitly forbidden in
-Documentation/process/maintainer-top.rst line 385. So the answer is no.
-I'll not use it again.
+Hello Hans,
 
->=20
-> Best regards,
-> Krzysztof
->=20
+Thank you very much for your review.
 
+For my knowledge, what is the timeline for patches in the input
+mailing list getting applied to a maintainer branch after review?
+
+Best,
+Jonathan
+
+On Mon, Mar 6, 2023 at 5:00=E2=80=AFAM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> Hi,
+>
+> On 3/3/23 16:26, Jonathan Denose wrote:
+> > Fujitsu Lifebook A574/H requires the nomux option to properly
+> > probe the touchpad, especially when waking from sleep.
+> >
+> > Signed-off-by: Jonathan Denose <jdenose@google.com>
+>
+> Thanks, patch looks good to me:
+>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>
+> Regards,
+>
+> Hans
+>
+>
+> > ---
+> >
+> >  drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/seri=
+o/i8042-acpipnpio.h
+> > index efc61736099b..fe7ffe30997c 100644
+> > --- a/drivers/input/serio/i8042-acpipnpio.h
+> > +++ b/drivers/input/serio/i8042-acpipnpio.h
+> > @@ -610,6 +610,14 @@ static const struct dmi_system_id i8042_dmi_quirk_=
+table[] __initconst =3D {
+> >               },
+> >               .driver_data =3D (void *)(SERIO_QUIRK_NOMUX)
+> >       },
+> > +     {
+> > +             /* Fujitsu Lifebook A574/H */
+> > +             .matches =3D {
+> > +                     DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
+> > +                     DMI_MATCH(DMI_PRODUCT_NAME, "FMVA0501PZ"),
+> > +             },
+> > +             .driver_data =3D (void *)(SERIO_QUIRK_NOMUX)
+> > +     },
+> >       {
+> >               /* Gigabyte M912 */
+> >               .matches =3D {
+>
