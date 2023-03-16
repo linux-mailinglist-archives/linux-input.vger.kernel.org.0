@@ -2,67 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E18F96BD35E
-	for <lists+linux-input@lfdr.de>; Thu, 16 Mar 2023 16:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25C0F6BD3E8
+	for <lists+linux-input@lfdr.de>; Thu, 16 Mar 2023 16:35:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230209AbjCPPXs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Mar 2023 11:23:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54490 "EHLO
+        id S231149AbjCPPfh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Mar 2023 11:35:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbjCPPXr (ORCPT
+        with ESMTP id S231834AbjCPPew (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Mar 2023 11:23:47 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C63BD4EE;
-        Thu, 16 Mar 2023 08:23:22 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id cy23so9020922edb.12;
-        Thu, 16 Mar 2023 08:23:22 -0700 (PDT)
+        Thu, 16 Mar 2023 11:34:52 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 418F5E4C48;
+        Thu, 16 Mar 2023 08:31:39 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id o12so9153836edb.9;
+        Thu, 16 Mar 2023 08:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678980201;
+        d=gmail.com; s=20210112; t=1678980610;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PrzoMD4CuQsD1GnaeduBqm/59VH2CvP6iZ8kpO4L4zo=;
-        b=XrCXgJktL34IIt3GcnrDHQHCthbcX8YMQKdGHU2WcL0y+Bu/PhLujdea7yl8QF/lqq
-         8POJ8BJNXHxkXbBmynbKTiksORbOSHKL246ItZuT4agOTc6Me2DGhFaX4/gIlJg/LTjf
-         uZDsJVRAERjYQUlkf8vv4H8V/eUKlPYl5FLkNYxg9Pe/tE3qOET+4M/BsArcMrOsFsNX
-         tOXjTwcEy3ZMFhGg5eW6OyA9RjcvVVpdFXKVcMvngPLg+DuDGK+pOLl+27DuQn/hzfVH
-         XpWcNwEfmGAgNHAjuQd/dhtyM8Sdafq421zsktFiHvgiNxgpQs2DJ40lUiC0pUjQunEz
-         aRiQ==
+        bh=kR1oOd0KW+NoHybvtjt8GhtXv3GPHKja8BztShJw2Sc=;
+        b=DnvEH2yt7mXhqeCKIGZALHx+GWSIxRKGQhllkUUxzmYLK53DYFsu3Mp37WFBBz8nVL
+         p4LMttNZBh7GMresFLGX/v8fhDPS22LuhJcFHJ9kCYfHulu60ONRQ6TicPIx+HpHrBUB
+         wYeBlU+KcXZIweglDVJKvEARNbPeU/cXKK/Ju0Sx+6RWK0/bbLvce0MVDAkIhfzljnLi
+         3OYNA9WupYhTVdKkeZCmIXaQsvPybrOBn3aQ/9PMf+/F4eXZYjm0rflrvpCJk6tn7u1s
+         sR2wNpdBgWN9JKF09ijqhwTkwVLDcfkyIaTf00vHpJui1g4Kg2L2D++Q41xC4TDvmZZw
+         jUng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678980201;
+        d=1e100.net; s=20210112; t=1678980610;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PrzoMD4CuQsD1GnaeduBqm/59VH2CvP6iZ8kpO4L4zo=;
-        b=cj+KtQw6gjS2SghllZKc/mm+zua3+rb1wjrZDj8iQYqQDkxerhnyFuy3M4206ZPCFw
-         HlC33POSRIJ0V7ffoiDPPR1yWS576Az65UzsAuy+uEfrcX93GFLh/cA2pZg7KQiCgMPt
-         J8ljpIVMjXKHxoCuhRkhx1aSLQdGcES7ssN70n65+2JIYdLHtxFLbSRCHOQkNhzhWv9U
-         7r5Wr/WJo/OZzBN23w5zRenlaccQMQwfcWqd2sIr6rlFK3pT1hkgVarzg549fdKQuXYx
-         giC4cT9frZ6mCai44pZgZprjky6Pe+9rNssjp45sC+NoE3UFBeDBplKI75CAWF37axZU
-         W5Rg==
-X-Gm-Message-State: AO0yUKVP+b/iKYqsDWe6zxMjJrThJrOfRUnMQBy+AjxDgYJ4ZzEPC2Kx
-        Kpkovtcqy1mtwRFr53XtqLc=
-X-Google-Smtp-Source: AK7set8lt7URSpbX+pGpgLmU3TWep7/xdKn7mfbpM5H0xYj/ihzze1dQOcospGw7olsuqcv7qa9ZbQ==
-X-Received: by 2002:a17:906:6816:b0:930:1914:88fe with SMTP id k22-20020a170906681600b00930191488femr3553311ejr.68.1678980200899;
-        Thu, 16 Mar 2023 08:23:20 -0700 (PDT)
+        bh=kR1oOd0KW+NoHybvtjt8GhtXv3GPHKja8BztShJw2Sc=;
+        b=LH+lgbEl9iS8pW72lBlzR+hPYyxd8Q4u9xCR2xh2PYwlD2OO58cyLV7nFhowRVGwt1
+         5Ka4FhrgN5SQoLNsu+aRQzwgbV6R4T08ehl+ERDGbvgbO5rEYXUV7pM5VpT/RaeKLGgc
+         FYGOsacntGe/RjXPeSDwBbg6YrPzGmpKqEQId3wshYCCCSp3WQ+CZNVQORC7nLP0IL9J
+         suy7OGzHEc0T3/iVjiypuh2/rX1Rtlcm52jl86d4PcWjJXs0Qf15lg70dTFUEBfIJQcu
+         XRv6QLgRFCzh5oLIbtwh7ry8+J7OIir+8VW6dCz/nY02sgWz/HGAIQB1j200dS9pCyw0
+         IjfQ==
+X-Gm-Message-State: AO0yUKUN4BGe7m7aqPufweHAtqaHI2lG164rtV8o7eEHavVB2qnLuomM
+        scBl8m8H9UCu7AIGQfcxzLI=
+X-Google-Smtp-Source: AK7set/HOUiyIY0YMzvXFDiy9l11rYHYEYSWkk7yen19J93Lq3Yx258aDMaUwmYxFcs41Bd+GaZ/9Q==
+X-Received: by 2002:a17:907:7fa1:b0:930:123:8cc8 with SMTP id qk33-20020a1709077fa100b0093001238cc8mr4483529ejc.21.1678980610468;
+        Thu, 16 Mar 2023 08:30:10 -0700 (PDT)
 Received: from localhost.localdomain (84-84-8-249.fixed.kpn.net. [84.84.8.249])
-        by smtp.gmail.com with ESMTPSA id vg8-20020a170907d30800b008c76facbbf7sm3981006ejc.171.2023.03.16.08.22.48
+        by smtp.gmail.com with ESMTPSA id a17-20020a1709063e9100b0093048a8bd31sm1018977ejj.68.2023.03.16.08.30.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 08:23:00 -0700 (PDT)
+        Thu, 16 Mar 2023 08:30:08 -0700 (PDT)
 From:   Jan Jasper de Kroon <jajadekroon@gmail.com>
 To:     jajadekroon@gmail.com
-Cc:     dmitry.torokhov@gmail.com, hadess@hadess.net, hdegoede@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        megi@xff.cz
-Subject: [PATCH v4 2/2] input: touchscreen: goodix: Hold controller in reset during suspend
-Date:   Thu, 16 Mar 2023 16:22:00 +0100
-Message-Id: <20230316152159.66922-1-jajadekroon@gmail.com>
+Cc:     alexandre.belloni@bootlin.com, broonie@kernel.org,
+        devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+        kernel@undef.tools, krzysztof.kozlowski+dt@linaro.org,
+        linux-input@vger.kernel.org, robh+dt@kernel.org
+Subject: [PATCH v3 1/2] dt-bindings: input: touchscreen: Add 'goodix-hold-in-reset' property to Goodix
+Date:   Thu, 16 Mar 2023 16:29:50 +0100
+Message-Id: <20230316152949.67441-1-jajadekroon@gmail.com>
 X-Mailer: git-send-email 2.34.3
-In-Reply-To: <20230310170026.415739-1-jajadekroon@gmail.com>
-References: <20230310170026.415739-1-jajadekroon@gmail.com>
+In-Reply-To: <20230312183106.551840-1-jajadekroon@gmail.com>
+References: <20230312183106.551840-1-jajadekroon@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -74,106 +74,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ondřej Jirman <megi@xff.cz>
+Add an optional 'goodix-hold-in-reset', to the Goodix touchscreen
+device tree binding. When set to true, the touchscreen controller will
+be held in reset mode during system suspend, reducing power consumption.
+If not present, the property defaults to false.
 
-The Goodix touchscreen controller used in PinePhone is not properly
-suspended during system sleep, leading to high power consumption. This
-commit modifies the driver to hold the controller in reset during
-system sleep, reducing power consumption by around 40mW.
-
-The original patch also disabled the regulators during system sleep, but
-this could cause issues with other peripherals attached to the same power
-supplies. Hence, this commit only holds the controller in reset during
-system sleep and does not attempt to power it off.
-
-A separate commit adds a new device tree property "goodix-hold-in-reset"
-to control the hold-in-reset behavior of the controller during system sleep.
-
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
 Signed-off-by: Jan Jasper de Kroon <jajadekroon@gmail.com>
 ---
-Changes from v3 to v4:
+Changes from v2 to v3:
+- Used imperative mood instead of "This patch adds".
+- Dropped "I am submitting this patch to..." as it is redundant.
+- Removed the paragraph related to the related patch sent to the 
+  linux-input mailing list as it is not necessary.
 - Renamed the hold-in-reset-in-suspend function to 
   goodix-hold-in-reset to prevent potential naming conflicts with other 
   functions in the codebase. No functional changes were made.
 
-Changes from v2 to v3:
-- Some patch style cleaning up, to confirm to submission standard.
-
 Changes from v1 to v2:
-- Rewrote the commit message and function name to better reflect it's 
-  behavior.
- drivers/input/touchscreen/goodix.c | 23 +++++++++++++++++++++++
- drivers/input/touchscreen/goodix.h |  1 +
- 2 files changed, 24 insertions(+)
+- Updated subject prefix to match subsystem.
+- Added more detailed description of the change.
+- Fixed formatting issues in commit message.
+ .../devicetree/bindings/input/touchscreen/goodix.yaml     | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index b348172f19c3..9f86bdfbfc73 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -1284,6 +1284,7 @@ static void goodix_disable_regulators(void *arg)
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+index 3d016b87c8df..197f8db9acc2 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+@@ -56,6 +56,13 @@ properties:
+   touchscreen-size-y: true
+   touchscreen-swapped-x-y: true
  
- static int goodix_ts_probe(struct i2c_client *client)
- {
-+	struct device_node *np = client->dev.of_node;
- 	struct goodix_ts_data *ts;
- 	const char *cfg_name;
- 	int error;
-@@ -1303,6 +1304,7 @@ static int goodix_ts_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, ts);
- 	init_completion(&ts->firmware_loading_complete);
- 	ts->contact_size = GOODIX_CONTACT_SIZE;
-+	ts->goodix_hold_in_reset = of_property_read_bool(np, "goodix-hold-in-reset");
- 
- 	error = goodix_get_gpio_config(ts);
- 	if (error)
-@@ -1410,6 +1412,13 @@ static int goodix_suspend(struct device *dev)
- 	if (ts->load_cfg_from_disk)
- 		wait_for_completion(&ts->firmware_loading_complete);
- 
-+	if (ts->goodix_hold_in_reset) {
-+		goodix_free_irq(ts);
-+		goodix_irq_direction_output(ts, 0);
-+		gpiod_direction_output(ts->gpiod_rst, 0);
-+		return 0;
-+	}
++  goodix-hold-in-reset:
++    description: |
++      When set to true, the touchscreen controller will be held in reset mode
++      during system suspend. This can help reduce power consumption, but may
++      cause the touchscreen to take longer to resume when the system is woken
++      up from suspend.
 +
- 	/* We need gpio pins to suspend/resume */
- 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
- 		disable_irq(client->irq);
-@@ -1455,6 +1464,20 @@ static int goodix_resume(struct device *dev)
- 	u8 config_ver;
- 	int error;
+ additionalProperties: false
  
-+	if (ts->goodix_hold_in_reset) {
-+		error = goodix_reset(ts);
-+		if (error) {
-+			dev_err(dev, "Controller reset failed.\n");
-+			return error;
-+		}
-+
-+		error = goodix_request_irq(ts);
-+		if (error)
-+			return error;
-+
-+		return 0;
-+	}
-+
- 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
- 		enable_irq(client->irq);
- 		return 0;
-diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
-index 87797cc88b32..7be7eb1a8f27 100644
---- a/drivers/input/touchscreen/goodix.h
-+++ b/drivers/input/touchscreen/goodix.h
-@@ -104,6 +104,7 @@ struct goodix_ts_data {
- 	u8 main_clk[GOODIX_MAIN_CLK_LEN];
- 	int bak_ref_len;
- 	u8 *bak_ref;
-+	bool goodix_hold_in_reset;
- };
+ required:
+@@ -75,6 +82,7 @@ examples:
+         interrupts = <0 0>;
+         irq-gpios = <&gpio1 0 0>;
+         reset-gpios = <&gpio1 1 0>;
++        goodix-hold-in-reset;
+       };
+     };
  
- int goodix_i2c_read(struct i2c_client *client, u16 reg, u8 *buf, int len);
 -- 
 2.34.3
 
