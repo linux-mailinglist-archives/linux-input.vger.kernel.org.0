@@ -2,154 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0703A6BC9BF
-	for <lists+linux-input@lfdr.de>; Thu, 16 Mar 2023 09:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57BC66BCA9F
+	for <lists+linux-input@lfdr.de>; Thu, 16 Mar 2023 10:19:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbjCPIuL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Mar 2023 04:50:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
+        id S229669AbjCPJT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Mar 2023 05:19:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231281AbjCPIuF (ORCPT
+        with ESMTP id S230448AbjCPJTx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Mar 2023 04:50:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A08EB7A
-        for <linux-input@vger.kernel.org>; Thu, 16 Mar 2023 01:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678956558;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZQF+VfJcpEoBY5ux7q01aOkEisslQ62cgsWrGcOCzeA=;
-        b=VXvnNK1jpjQeDelS1YpZmskqtrXp8axVH3muxIKXrVePAq9XqLYekbsVieVeTzUVISl29V
-        8n8/aM0BjmZVi1CYc4nIHDVUTLALRNY8FFLf3bKAQBbseT7DtY0UgGqAPwagEjCr6AHDeF
-        3U9qd9khn3ufqPywWkyNUq/LgeJHomw=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-8-2BwuYuA6MvKASLT5FkTcgA-1; Thu, 16 Mar 2023 04:49:16 -0400
-X-MC-Unique: 2BwuYuA6MvKASLT5FkTcgA-1
-Received: by mail-ed1-f72.google.com with SMTP id fi8-20020a056402550800b004a26cc7f6cbso2029068edb.4
-        for <linux-input@vger.kernel.org>; Thu, 16 Mar 2023 01:49:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678956554;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZQF+VfJcpEoBY5ux7q01aOkEisslQ62cgsWrGcOCzeA=;
-        b=EY8onnskC1l5IOFVC9WgPDEiDg65guUKLRqdmHWZ+n+TxedcNZ5FZqy0E1ZjHDhXfn
-         euMVS5/wThFmaLET93Cawi9WCteGH9iRLXfWjGiVA++O6jxhKyXs2M+hdXXCNy3JUtvS
-         xBd+EJVU9nIUitnwpB6TjrCQZOqK1pZhZSObi2OoP0bKiDFniPi5TXYFJ3ni7XV6mbee
-         nPKwg+XISahJBxBQ9SxaVaum5oqpTTa/fWzQIWRn0eGFtxNC3UWNiCFuq7vA8/J7efOZ
-         yxQHxzGOeSCEG2UFemkCRpapLZoaYyPHJjxVoJcUSbSrc6iCGioVJGm6j8VMTIpyYOI2
-         +S0w==
-X-Gm-Message-State: AO0yUKXr45ZW25Ai1uBap4wmowYoxuEp++4FZFh4bBDAIVx6fy1mYPue
-        nGkR5ty/fpvDS4J9hcJ6gy8L2yeEk8iEtxqjOzHL/MgteKEigvC1rWSjxoAEAJlyp/6RgTiLJ5N
-        ta90m+ywS7P3cz2DEMi+naLU=
-X-Received: by 2002:a17:907:31ca:b0:92f:e643:e822 with SMTP id xf10-20020a17090731ca00b0092fe643e822mr3072610ejb.37.1678956554160;
-        Thu, 16 Mar 2023 01:49:14 -0700 (PDT)
-X-Google-Smtp-Source: AK7set986UHmIZ1pfjcoD9S5jCEussbdGvwlVTM/9q1utc4TpF0kSx1gaCcutBDOKagtBqq8vpo49g==
-X-Received: by 2002:a17:907:31ca:b0:92f:e643:e822 with SMTP id xf10-20020a17090731ca00b0092fe643e822mr3072589ejb.37.1678956553903;
-        Thu, 16 Mar 2023 01:49:13 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id t21-20020a1709066bd500b0092bd1a7f5fdsm3539340ejs.57.2023.03.16.01.49.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 01:49:13 -0700 (PDT)
-Message-ID: <31b1d4a5-3a98-ae3a-b089-f2464fc890f4@redhat.com>
-Date:   Thu, 16 Mar 2023 09:49:12 +0100
+        Thu, 16 Mar 2023 05:19:53 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440FB23A4C
+        for <linux-input@vger.kernel.org>; Thu, 16 Mar 2023 02:19:51 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5BEE5C0005;
+        Thu, 16 Mar 2023 09:19:49 +0000 (UTC)
+Message-ID: <1aa6be4ede37b1c7f9d11896c4b23a7a630592fa.camel@hadess.net>
+Subject: Re: [PATCH] Input: goodix - Add Lenovo Yoga Book X90F to
+ nine_bytes_report DMI table
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Date:   Thu, 16 Mar 2023 10:19:48 +0100
+In-Reply-To: <20230315134442.71787-1-hdegoede@redhat.com>
+References: <20230315134442.71787-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] Input: i8042 - Add quirk for Fujitsu Lifebook A574/H
-Content-Language: en-US, nl
-To:     Jonathan Denose <jdenose@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Denose <jdenose@google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Takashi Iwai <tiwai@suse.de>,
-        Werner Sembach <wse@tuxedocomputers.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-input@vger.kernel.org
-References: <20230303152623.45859-1-jdenose@google.com>
- <e8f5e2aa-d7fa-88ff-6306-4c1ee8feeade@redhat.com>
- <CALNJtpWsvZEdGJFA30cv0cSq43Djm7q+trDQVxx5aRDzg7u3Gw@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CALNJtpWsvZEdGJFA30cv0cSq43Djm7q+trDQVxx5aRDzg7u3Gw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 3/15/23 22:39, Jonathan Denose wrote:
-> Hello Hans,
-> 
-> Thank you very much for your review.
-> 
-> For my knowledge, what is the timeline for patches in the input
-> mailing list getting applied to a maintainer branch after review?
-
-It depends on when Dmitry has time to go through the patch queue. Not a really helpful answer I know, sorry.
-
-Regards,
-
-Hans
-
-
-> On Mon, Mar 6, 2023 at 5:00 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 3/3/23 16:26, Jonathan Denose wrote:
->>> Fujitsu Lifebook A574/H requires the nomux option to properly
->>> probe the touchpad, especially when waking from sleep.
->>>
->>> Signed-off-by: Jonathan Denose <jdenose@google.com>
->>
->> Thanks, patch looks good to me:
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->>
->> Regards,
->>
->> Hans
->>
->>
->>> ---
->>>
->>>  drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
->>>  1 file changed, 8 insertions(+)
->>>
->>> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
->>> index efc61736099b..fe7ffe30997c 100644
->>> --- a/drivers/input/serio/i8042-acpipnpio.h
->>> +++ b/drivers/input/serio/i8042-acpipnpio.h
->>> @@ -610,6 +610,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->>>               },
->>>               .driver_data = (void *)(SERIO_QUIRK_NOMUX)
->>>       },
->>> +     {
->>> +             /* Fujitsu Lifebook A574/H */
->>> +             .matches = {
->>> +                     DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
->>> +                     DMI_MATCH(DMI_PRODUCT_NAME, "FMVA0501PZ"),
->>> +             },
->>> +             .driver_data = (void *)(SERIO_QUIRK_NOMUX)
->>> +     },
->>>       {
->>>               /* Gigabyte M912 */
->>>               .matches = {
->>
-> 
+T24gV2VkLCAyMDIzLTAzLTE1IGF0IDE0OjQ0ICswMTAwLCBIYW5zIGRlIEdvZWRlIHdyb3RlOgo+
+IFRoZSBBbmRyb2lkIExlbm92byBZb2dhIEJvb2sgWDkwRiAvIFg5MEwgdXNlcyB0aGUgc2FtZSBn
+b29kaXgKPiB0b3VjaHNjcmVlbgo+IHdpdGggOSBieXRlcyB0b3VjaCByZXBvcnRzIGZvciBpdHMg
+dG91Y2gga2V5Ym9hcmQgYXMgdGhlIGFscmVhZHkKPiBzdXBwb3J0ZWQKPiBXaW5kb3dzIExlbm92
+byBZb2dhIEJvb2sgWDkxRi9MLCBhZGQgYSBETUkgbWF0Y2ggZm9yIHRoaXMgdG8KPiB0aGUgbmlu
+ZV9ieXRlc19yZXBvcnQgRE1JIHRhYmxlLgo+IAo+IFdoZW4gdGhlIHF1aXJrIGZvciB0aGUgWDkx
+Ri9MIHdhcyBpbml0aWFsbHkgYWRkZWQgaXQgd2FzIHdyaXR0ZW4gdG8KPiBhbHNvIGFwcGx5IHRv
+IHRoZSBYOTBGL0wgYnV0IHRoaXMgZG9lcyBub3Qgd29yayBiZWNhdXNlIHRoZSBBbmRyb2lkCj4g
+dmVyc2lvbiBvZiB0aGUgWW9nYSBCb29rIHVzZXMgY29tcGxldGVseSBkaWZmZXJlbnQgRE1JIHN0
+cmluZ3MuCj4gQWxzbyBhZGp1c3QgdGhlIFg5MUYvTCBxdWlyayB0byByZWZsZWN0IHRoYXQgaXQg
+b25seSBhcHBsaWVzIHRvCj4gdGhlIFg5MUYvTCBtb2RlbHMuCj4gCj4gU2lnbmVkLW9mZi1ieTog
+SGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KCkxHVE0KClJldmlld2VkLWJ5OiBC
+YXN0aWVuIE5vY2VyYSA8aGFkZXNzQGhhZGVzcy5uZXQ+Cgo+IC0tLQo+IMKgZHJpdmVycy9pbnB1
+dC90b3VjaHNjcmVlbi9nb29kaXguYyB8IDE0ICsrKysrKysrKysrLS0tCj4gwqAxIGZpbGUgY2hh
+bmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi9nb29kaXguYwo+IGIvZHJpdmVycy9pbnB1dC90b3Vj
+aHNjcmVlbi9nb29kaXguYwo+IGluZGV4IDNjNzFmMGRmOTc2OS4uODhjMjIzYTRkYTYxIDEwMDY0
+NAo+IC0tLSBhL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vZ29vZGl4LmMKPiArKysgYi9kcml2
+ZXJzL2lucHV0L3RvdWNoc2NyZWVuL2dvb2RpeC5jCj4gQEAgLTEyOCwxMCArMTI4LDE4IEBAIHN0
+YXRpYyBjb25zdCB1bnNpZ25lZCBsb25nIGdvb2RpeF9pcnFfZmxhZ3NbXSA9Cj4gewo+IMKgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBkbWlfc3lzdGVtX2lkIG5pbmVfYnl0ZXNfcmVwb3J0W10gPSB7Cj4g
+wqAjaWYgZGVmaW5lZChDT05GSUdfRE1JKSAmJiBkZWZpbmVkKENPTkZJR19YODYpCj4gwqDCoMKg
+wqDCoMKgwqDCoHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLmlkZW50ID0gIkxl
+bm92byBZb2dhQm9vayIsCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIFlCMS1Y
+OTFML0YgYW5kIFlCMS1YOTBML0YgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+LyogTGVub3ZvIFlvZ2EgQm9vayBYOTBGIC8gWDkwTCAqLwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgLm1hdGNoZXMgPSB7Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBETUlfTUFUQ0goRE1JX1BST0RVQ1RfTkFNRSwgIkxlbm92byBZQjEt
+WDkiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgRE1J
+X0VYQUNUX01BVENIKERNSV9TWVNfVkVORE9SLCAiSW50ZWwKPiBDb3Jwb3JhdGlvbiIpLAo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgRE1JX0VYQUNUX01B
+VENIKERNSV9QUk9EVUNUX05BTUUsICJDSEVSUllWSUVXCj4gRDEgUExBVEZPUk0iKSwKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoERNSV9FWEFDVF9NQVRD
+SChETUlfUFJPRFVDVF9WRVJTSU9OLCAiWUVUSS0KPiAxMSIpLAo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqB9Cj4gK8KgwqDCoMKgwqDCoMKgfSwKPiArwqDCoMKgwqDCoMKgwqB7Cj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIExlbm92byBZb2dhIEJvb2sgWDkxRiAv
+IFg5MUwgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLm1hdGNoZXMgPSB7Cj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBOb24gZXhh
+Y3QgbWF0Y2ggdG8gbWF0Y2ggRiArIEwgdmVyc2lvbnMgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoERNSV9NQVRDSChETUlfUFJPRFVDVF9OQU1FLCAi
+TGVub3ZvIFlCMS0KPiBYOTEiKSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH0K
+PiDCoMKgwqDCoMKgwqDCoMKgfSwKPiDCoCNlbmRpZgoK
 
