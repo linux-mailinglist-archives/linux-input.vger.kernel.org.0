@@ -2,84 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57BC66BCA9F
-	for <lists+linux-input@lfdr.de>; Thu, 16 Mar 2023 10:19:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E18F96BD35E
+	for <lists+linux-input@lfdr.de>; Thu, 16 Mar 2023 16:23:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbjCPJT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Mar 2023 05:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36074 "EHLO
+        id S230209AbjCPPXs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Mar 2023 11:23:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230448AbjCPJTx (ORCPT
+        with ESMTP id S229959AbjCPPXr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Mar 2023 05:19:53 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440FB23A4C
-        for <linux-input@vger.kernel.org>; Thu, 16 Mar 2023 02:19:51 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5BEE5C0005;
-        Thu, 16 Mar 2023 09:19:49 +0000 (UTC)
-Message-ID: <1aa6be4ede37b1c7f9d11896c4b23a7a630592fa.camel@hadess.net>
-Subject: Re: [PATCH] Input: goodix - Add Lenovo Yoga Book X90F to
- nine_bytes_report DMI table
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Date:   Thu, 16 Mar 2023 10:19:48 +0100
-In-Reply-To: <20230315134442.71787-1-hdegoede@redhat.com>
-References: <20230315134442.71787-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        Thu, 16 Mar 2023 11:23:47 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C63BD4EE;
+        Thu, 16 Mar 2023 08:23:22 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id cy23so9020922edb.12;
+        Thu, 16 Mar 2023 08:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678980201;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PrzoMD4CuQsD1GnaeduBqm/59VH2CvP6iZ8kpO4L4zo=;
+        b=XrCXgJktL34IIt3GcnrDHQHCthbcX8YMQKdGHU2WcL0y+Bu/PhLujdea7yl8QF/lqq
+         8POJ8BJNXHxkXbBmynbKTiksORbOSHKL246ItZuT4agOTc6Me2DGhFaX4/gIlJg/LTjf
+         uZDsJVRAERjYQUlkf8vv4H8V/eUKlPYl5FLkNYxg9Pe/tE3qOET+4M/BsArcMrOsFsNX
+         tOXjTwcEy3ZMFhGg5eW6OyA9RjcvVVpdFXKVcMvngPLg+DuDGK+pOLl+27DuQn/hzfVH
+         XpWcNwEfmGAgNHAjuQd/dhtyM8Sdafq421zsktFiHvgiNxgpQs2DJ40lUiC0pUjQunEz
+         aRiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678980201;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PrzoMD4CuQsD1GnaeduBqm/59VH2CvP6iZ8kpO4L4zo=;
+        b=cj+KtQw6gjS2SghllZKc/mm+zua3+rb1wjrZDj8iQYqQDkxerhnyFuy3M4206ZPCFw
+         HlC33POSRIJ0V7ffoiDPPR1yWS576Az65UzsAuy+uEfrcX93GFLh/cA2pZg7KQiCgMPt
+         J8ljpIVMjXKHxoCuhRkhx1aSLQdGcES7ssN70n65+2JIYdLHtxFLbSRCHOQkNhzhWv9U
+         7r5Wr/WJo/OZzBN23w5zRenlaccQMQwfcWqd2sIr6rlFK3pT1hkgVarzg549fdKQuXYx
+         giC4cT9frZ6mCai44pZgZprjky6Pe+9rNssjp45sC+NoE3UFBeDBplKI75CAWF37axZU
+         W5Rg==
+X-Gm-Message-State: AO0yUKVP+b/iKYqsDWe6zxMjJrThJrOfRUnMQBy+AjxDgYJ4ZzEPC2Kx
+        Kpkovtcqy1mtwRFr53XtqLc=
+X-Google-Smtp-Source: AK7set8lt7URSpbX+pGpgLmU3TWep7/xdKn7mfbpM5H0xYj/ihzze1dQOcospGw7olsuqcv7qa9ZbQ==
+X-Received: by 2002:a17:906:6816:b0:930:1914:88fe with SMTP id k22-20020a170906681600b00930191488femr3553311ejr.68.1678980200899;
+        Thu, 16 Mar 2023 08:23:20 -0700 (PDT)
+Received: from localhost.localdomain (84-84-8-249.fixed.kpn.net. [84.84.8.249])
+        by smtp.gmail.com with ESMTPSA id vg8-20020a170907d30800b008c76facbbf7sm3981006ejc.171.2023.03.16.08.22.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Mar 2023 08:23:00 -0700 (PDT)
+From:   Jan Jasper de Kroon <jajadekroon@gmail.com>
+To:     jajadekroon@gmail.com
+Cc:     dmitry.torokhov@gmail.com, hadess@hadess.net, hdegoede@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        megi@xff.cz
+Subject: [PATCH v4 2/2] input: touchscreen: goodix: Hold controller in reset during suspend
+Date:   Thu, 16 Mar 2023 16:22:00 +0100
+Message-Id: <20230316152159.66922-1-jajadekroon@gmail.com>
+X-Mailer: git-send-email 2.34.3
+In-Reply-To: <20230310170026.415739-1-jajadekroon@gmail.com>
+References: <20230310170026.415739-1-jajadekroon@gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gV2VkLCAyMDIzLTAzLTE1IGF0IDE0OjQ0ICswMTAwLCBIYW5zIGRlIEdvZWRlIHdyb3RlOgo+
-IFRoZSBBbmRyb2lkIExlbm92byBZb2dhIEJvb2sgWDkwRiAvIFg5MEwgdXNlcyB0aGUgc2FtZSBn
-b29kaXgKPiB0b3VjaHNjcmVlbgo+IHdpdGggOSBieXRlcyB0b3VjaCByZXBvcnRzIGZvciBpdHMg
-dG91Y2gga2V5Ym9hcmQgYXMgdGhlIGFscmVhZHkKPiBzdXBwb3J0ZWQKPiBXaW5kb3dzIExlbm92
-byBZb2dhIEJvb2sgWDkxRi9MLCBhZGQgYSBETUkgbWF0Y2ggZm9yIHRoaXMgdG8KPiB0aGUgbmlu
-ZV9ieXRlc19yZXBvcnQgRE1JIHRhYmxlLgo+IAo+IFdoZW4gdGhlIHF1aXJrIGZvciB0aGUgWDkx
-Ri9MIHdhcyBpbml0aWFsbHkgYWRkZWQgaXQgd2FzIHdyaXR0ZW4gdG8KPiBhbHNvIGFwcGx5IHRv
-IHRoZSBYOTBGL0wgYnV0IHRoaXMgZG9lcyBub3Qgd29yayBiZWNhdXNlIHRoZSBBbmRyb2lkCj4g
-dmVyc2lvbiBvZiB0aGUgWW9nYSBCb29rIHVzZXMgY29tcGxldGVseSBkaWZmZXJlbnQgRE1JIHN0
-cmluZ3MuCj4gQWxzbyBhZGp1c3QgdGhlIFg5MUYvTCBxdWlyayB0byByZWZsZWN0IHRoYXQgaXQg
-b25seSBhcHBsaWVzIHRvCj4gdGhlIFg5MUYvTCBtb2RlbHMuCj4gCj4gU2lnbmVkLW9mZi1ieTog
-SGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KCkxHVE0KClJldmlld2VkLWJ5OiBC
-YXN0aWVuIE5vY2VyYSA8aGFkZXNzQGhhZGVzcy5uZXQ+Cgo+IC0tLQo+IMKgZHJpdmVycy9pbnB1
-dC90b3VjaHNjcmVlbi9nb29kaXguYyB8IDE0ICsrKysrKysrKysrLS0tCj4gwqAxIGZpbGUgY2hh
-bmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi9nb29kaXguYwo+IGIvZHJpdmVycy9pbnB1dC90b3Vj
-aHNjcmVlbi9nb29kaXguYwo+IGluZGV4IDNjNzFmMGRmOTc2OS4uODhjMjIzYTRkYTYxIDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vZ29vZGl4LmMKPiArKysgYi9kcml2
-ZXJzL2lucHV0L3RvdWNoc2NyZWVuL2dvb2RpeC5jCj4gQEAgLTEyOCwxMCArMTI4LDE4IEBAIHN0
-YXRpYyBjb25zdCB1bnNpZ25lZCBsb25nIGdvb2RpeF9pcnFfZmxhZ3NbXSA9Cj4gewo+IMKgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBkbWlfc3lzdGVtX2lkIG5pbmVfYnl0ZXNfcmVwb3J0W10gPSB7Cj4g
-wqAjaWYgZGVmaW5lZChDT05GSUdfRE1JKSAmJiBkZWZpbmVkKENPTkZJR19YODYpCj4gwqDCoMKg
-wqDCoMKgwqDCoHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLmlkZW50ID0gIkxl
-bm92byBZb2dhQm9vayIsCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIFlCMS1Y
-OTFML0YgYW5kIFlCMS1YOTBML0YgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-LyogTGVub3ZvIFlvZ2EgQm9vayBYOTBGIC8gWDkwTCAqLwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgLm1hdGNoZXMgPSB7Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBETUlfTUFUQ0goRE1JX1BST0RVQ1RfTkFNRSwgIkxlbm92byBZQjEt
-WDkiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgRE1J
-X0VYQUNUX01BVENIKERNSV9TWVNfVkVORE9SLCAiSW50ZWwKPiBDb3Jwb3JhdGlvbiIpLAo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgRE1JX0VYQUNUX01B
-VENIKERNSV9QUk9EVUNUX05BTUUsICJDSEVSUllWSUVXCj4gRDEgUExBVEZPUk0iKSwKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoERNSV9FWEFDVF9NQVRD
-SChETUlfUFJPRFVDVF9WRVJTSU9OLCAiWUVUSS0KPiAxMSIpLAo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqB9Cj4gK8KgwqDCoMKgwqDCoMKgfSwKPiArwqDCoMKgwqDCoMKgwqB7Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIExlbm92byBZb2dhIEJvb2sgWDkxRiAv
-IFg5MUwgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLm1hdGNoZXMgPSB7Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBOb24gZXhh
-Y3QgbWF0Y2ggdG8gbWF0Y2ggRiArIEwgdmVyc2lvbnMgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoERNSV9NQVRDSChETUlfUFJPRFVDVF9OQU1FLCAi
-TGVub3ZvIFlCMS0KPiBYOTEiKSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH0K
-PiDCoMKgwqDCoMKgwqDCoMKgfSwKPiDCoCNlbmRpZgoK
+From: Ondřej Jirman <megi@xff.cz>
+
+The Goodix touchscreen controller used in PinePhone is not properly
+suspended during system sleep, leading to high power consumption. This
+commit modifies the driver to hold the controller in reset during
+system sleep, reducing power consumption by around 40mW.
+
+The original patch also disabled the regulators during system sleep, but
+this could cause issues with other peripherals attached to the same power
+supplies. Hence, this commit only holds the controller in reset during
+system sleep and does not attempt to power it off.
+
+A separate commit adds a new device tree property "goodix-hold-in-reset"
+to control the hold-in-reset behavior of the controller during system sleep.
+
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+Signed-off-by: Jan Jasper de Kroon <jajadekroon@gmail.com>
+---
+Changes from v3 to v4:
+- Renamed the hold-in-reset-in-suspend function to 
+  goodix-hold-in-reset to prevent potential naming conflicts with other 
+  functions in the codebase. No functional changes were made.
+
+Changes from v2 to v3:
+- Some patch style cleaning up, to confirm to submission standard.
+
+Changes from v1 to v2:
+- Rewrote the commit message and function name to better reflect it's 
+  behavior.
+ drivers/input/touchscreen/goodix.c | 23 +++++++++++++++++++++++
+ drivers/input/touchscreen/goodix.h |  1 +
+ 2 files changed, 24 insertions(+)
+
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index b348172f19c3..9f86bdfbfc73 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -1284,6 +1284,7 @@ static void goodix_disable_regulators(void *arg)
+ 
+ static int goodix_ts_probe(struct i2c_client *client)
+ {
++	struct device_node *np = client->dev.of_node;
+ 	struct goodix_ts_data *ts;
+ 	const char *cfg_name;
+ 	int error;
+@@ -1303,6 +1304,7 @@ static int goodix_ts_probe(struct i2c_client *client)
+ 	i2c_set_clientdata(client, ts);
+ 	init_completion(&ts->firmware_loading_complete);
+ 	ts->contact_size = GOODIX_CONTACT_SIZE;
++	ts->goodix_hold_in_reset = of_property_read_bool(np, "goodix-hold-in-reset");
+ 
+ 	error = goodix_get_gpio_config(ts);
+ 	if (error)
+@@ -1410,6 +1412,13 @@ static int goodix_suspend(struct device *dev)
+ 	if (ts->load_cfg_from_disk)
+ 		wait_for_completion(&ts->firmware_loading_complete);
+ 
++	if (ts->goodix_hold_in_reset) {
++		goodix_free_irq(ts);
++		goodix_irq_direction_output(ts, 0);
++		gpiod_direction_output(ts->gpiod_rst, 0);
++		return 0;
++	}
++
+ 	/* We need gpio pins to suspend/resume */
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+ 		disable_irq(client->irq);
+@@ -1455,6 +1464,20 @@ static int goodix_resume(struct device *dev)
+ 	u8 config_ver;
+ 	int error;
+ 
++	if (ts->goodix_hold_in_reset) {
++		error = goodix_reset(ts);
++		if (error) {
++			dev_err(dev, "Controller reset failed.\n");
++			return error;
++		}
++
++		error = goodix_request_irq(ts);
++		if (error)
++			return error;
++
++		return 0;
++	}
++
+ 	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_NONE) {
+ 		enable_irq(client->irq);
+ 		return 0;
+diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
+index 87797cc88b32..7be7eb1a8f27 100644
+--- a/drivers/input/touchscreen/goodix.h
++++ b/drivers/input/touchscreen/goodix.h
+@@ -104,6 +104,7 @@ struct goodix_ts_data {
+ 	u8 main_clk[GOODIX_MAIN_CLK_LEN];
+ 	int bak_ref_len;
+ 	u8 *bak_ref;
++	bool goodix_hold_in_reset;
+ };
+ 
+ int goodix_i2c_read(struct i2c_client *client, u16 reg, u8 *buf, int len);
+-- 
+2.34.3
 
