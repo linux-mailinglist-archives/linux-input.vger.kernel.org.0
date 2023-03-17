@@ -2,87 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE7156BE7F0
-	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 12:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D05F36BEA52
+	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 14:41:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbjCQLW2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Mar 2023 07:22:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33248 "EHLO
+        id S230093AbjCQNlB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Mar 2023 09:41:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229925AbjCQLW1 (ORCPT
+        with ESMTP id S230395AbjCQNk7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Mar 2023 07:22:27 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D2115C8F;
-        Fri, 17 Mar 2023 04:21:57 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id h8so4936796plf.10;
-        Fri, 17 Mar 2023 04:21:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679052117;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E78nJAaJHQoaQexbDXvi3+hTf5R/PEar9dE329mRMXE=;
-        b=B4c2SndqL02wDBS7Gus/lAODPuw0m6nrxunVHo6Mh2s0bR0gqlXZjjEkwkUlsCLudY
-         6VPT/4xXjyWFF/F48eLdTIjnVZxK4HvQ56DpW8hrW13XikCwHNAPWJCIo02s0GlNCR7N
-         AyPd0iiCagHDWb+TJ8nF7xhBt248J9ZMTRMOunEyEWJzDsEgIqQXrpeR6R9soy4I6Tbv
-         AZzc7L/973+uK8bh/y60qI0/VHL9x3I54stcKLF3V02IR2ltehCk/zXnPFNljrKmaO8k
-         1W4t7kzEVIBlXoNF4z2ifr+lCjEmW0HeFYxrP6IK/DsI0od5WLe0+6AwPcKI63FOVHRO
-         E2Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679052117;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E78nJAaJHQoaQexbDXvi3+hTf5R/PEar9dE329mRMXE=;
-        b=zu5yBdZUA7rH2aiktAe45ioYc/+kplqyC+XWf0TMGhhZSzzZ+rMxQlEFfhw4yprcUH
-         rFrz3ofcBVcDRI0iooaS+EEhlmZh+2phY6+eD5omuZK/3ROqMAXnVQZcDV2DAYOS8PUW
-         z95fIJ6Ds+7KuHtel3BhaukEG3J8ms5Yn5OchUJ6lB6YKLkdhKiLCVuRlLJFmNkXquwH
-         s7fa2E7t109kHBoXaWyc45zoX1lyQ0BZ+oHn5aijvM4as6PMB6sCKmoZvAhNxa7R7Jkd
-         C0/P0MMqiIGVyl3pQa/sE6hg2ieEl4iX8vKhtx+LLE1Q4+4mg5tmO0851r/X5+Vijh7w
-         ibww==
-X-Gm-Message-State: AO0yUKU5a5RMbInUgSx3HRPAwVfoA0B5WpzjeqSxKRJ3bf/MkTZn/bWR
-        eGJKBu1OOUDvlLAWbE3rmn/DU2pJRDeKmw==
-X-Google-Smtp-Source: AK7set+BbTq7KNQfkHvoRNW986M6GK7lHB6U6IaWZOL98sAWOUJwSmf2ryuzwTt8SXHOJJAgjmOSmA==
-X-Received: by 2002:a17:90a:355:b0:237:24a8:c5e2 with SMTP id 21-20020a17090a035500b0023724a8c5e2mr7519544pjf.40.1679052117267;
-        Fri, 17 Mar 2023 04:21:57 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:d084:8252:e846:af61])
-        by smtp.gmail.com with ESMTPSA id jn15-20020a170903050f00b001a04d27ee92sm1321780plb.241.2023.03.17.04.21.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 04:21:56 -0700 (PDT)
-Date:   Fri, 17 Mar 2023 04:21:54 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: zinitix: Use of_property_present() for testing DT
- property presence
-Message-ID: <ZBRNUt9y+25v0Bw3@google.com>
-References: <20230310144708.1542682-1-robh@kernel.org>
+        Fri, 17 Mar 2023 09:40:59 -0400
+Received: from tretyak2.mcst.ru (tretyak2.mcst.ru [212.5.119.215])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB124E6FDE;
+        Fri, 17 Mar 2023 06:40:38 -0700 (PDT)
+Received: from tretyak2.mcst.ru (localhost [127.0.0.1])
+        by tretyak2.mcst.ru (Postfix) with ESMTP id 46B67102391;
+        Fri, 17 Mar 2023 16:40:35 +0300 (MSK)
+Received: from frog.lab.sun.mcst.ru (frog.lab.sun.mcst.ru [172.16.4.50])
+        by tretyak2.mcst.ru (Postfix) with ESMTP id 4331810238F;
+        Fri, 17 Mar 2023 16:40:15 +0300 (MSK)
+Received: from artemiev-i.lab.sun.mcst.ru (avior-1 [192.168.53.223])
+        by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 32HDeEQo002688;
+        Fri, 17 Mar 2023 16:40:14 +0300
+From:   Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: [lvc-project] [PATCH v2] Input: trackpoint - remove unreachable code
+Date:   Fri, 17 Mar 2023 16:39:09 +0300
+Message-Id: <20230317133909.1564390-1-Igor.A.Artemiev@mcst.ru>
+X-Mailer: git-send-email 2.39.0.152.ga5737674b6
+In-Reply-To: <ZBQ+bJQkcZREArAq@google.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230310144708.1542682-1-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+         bases: 20111107 #2745587, check: 20230317 notchecked
+X-AV-Checked: ClamAV using ClamSMTP
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 08:47:08AM -0600, Rob Herring wrote:
-> It is preferred to use typed property access functions (i.e.
-> of_property_read_<type> functions) rather than low-level
-> of_get_property/of_find_property functions for reading properties. As
-> part of this, convert of_get_property/of_find_property calls to the
-> recently added of_property_present() helper when we just want to test
-> for presence of a property and nothing more.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+The trackpoint_sync() function always returns 0.
+And there is no need to check its result.
 
-Applied, thank you.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
+Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+---
+v2: make the trackpoint_sync() a void function 
+as Andi Shyti <andi.shyti@kernel.org> suggested.
+ 
+ drivers/input/mouse/trackpoint.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
+index 4a86b3e31d3b..2c381377ad4b 100644
+--- a/drivers/input/mouse/trackpoint.c
++++ b/drivers/input/mouse/trackpoint.c
+@@ -300,7 +300,7 @@ static int trackpoint_start_protocol(struct psmouse *psmouse,
+  *		      power-on reset was run). If so, values will only be
+  *		      written to TP if they differ from power-on default.
+  */
+-static int trackpoint_sync(struct psmouse *psmouse, bool in_power_on_state)
++static void trackpoint_sync(struct psmouse *psmouse, bool in_power_on_state)
+ {
+ 	struct trackpoint_data *tp = psmouse->private;
+ 
+@@ -340,8 +340,6 @@ static int trackpoint_sync(struct psmouse *psmouse, bool in_power_on_state)
+ 	TRACKPOINT_UPDATE(in_power_on_state, psmouse, tp, press_to_select);
+ 	TRACKPOINT_UPDATE(in_power_on_state, psmouse, tp, skipback);
+ 	TRACKPOINT_UPDATE(in_power_on_state, psmouse, tp, ext_dev);
+-
+-	return 0;
+ }
+ 
+ static void trackpoint_defaults(struct trackpoint_data *tp)
+@@ -386,9 +384,7 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
+ 	was_reset = tp->variant_id == TP_VARIANT_IBM &&
+ 		    trackpoint_power_on_reset(&psmouse->ps2dev) == 0;
+ 
+-	error = trackpoint_sync(psmouse, was_reset);
+-	if (error)
+-		return error;
++	trackpoint_sync(psmouse, was_reset);
+ 
+ 	return 0;
+ }
 -- 
-Dmitry
+2.30.2
+
