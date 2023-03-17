@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2036BE7E4
-	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 12:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E938E6BE7E6
+	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 12:20:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbjCQLUl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Mar 2023 07:20:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57506 "EHLO
+        id S229894AbjCQLU5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Mar 2023 07:20:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbjCQLUk (ORCPT
+        with ESMTP id S229886AbjCQLU4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Mar 2023 07:20:40 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721ABBE5CB;
-        Fri, 17 Mar 2023 04:20:11 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id ix20so4959334plb.3;
-        Fri, 17 Mar 2023 04:20:11 -0700 (PDT)
+        Fri, 17 Mar 2023 07:20:56 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1144E1FEA;
+        Fri, 17 Mar 2023 04:20:25 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id c4so2904592pfl.0;
+        Fri, 17 Mar 2023 04:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679052010;
+        d=gmail.com; s=20210112; t=1679052025;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=LUsFZcElnirxMxsGWtP7RpSM3YXWjq7ve24NpjNKOq4=;
-        b=ciczQQTdLiTc+HUCmmexi03FzlaRtMQGL18B7mO7Hq8hZFnn/xcgnVIlZP1IcGIY0G
-         yWUuxuH85wIKkiFfQYkCxR3UUpKJZvAC/CUK1tdNSQ3y0LVfArFj1w1yDhciKsFWKP5+
-         gvgvGXUlm3sfuK0J3eLG1AD6f59ECtjWIy3ygCKErSpNbxcZQFtg5n16Mm+v7/83OvVi
-         cvt1M0/Pfr+2Fe9mzDwXetgSZXCTmNqq3EPawocTbkYT3eZ6m6/xccPjitzWR9zaHRJW
-         JUsAck+XGGz57+s6BgWJLJkUcfXUImEkUHbbJ0EJyKDINWt6f30XQgVM9Q0cSMQuvbOH
-         n8gQ==
+        bh=KH3sDhveeP+HgjB/MBfU5c/5KaPz4VTPorwSz2k9Oik=;
+        b=lJUscY2d4a6HncL6cbFB7bK+fd9kDlRHz42ieVf54xv45lC5bbYAFwzknil9nBDR3P
+         FJpGUt/rw3YidoDR/0LNahaxQA5SbhZFXG0F1F7+Z/m1i8PTKuy6fcyBFGQlanCk7UOI
+         2/UfAmdZi0m2zTmkSB2BWhrM1VSmxs2eqENG0UH2bFDzfxpptr47YmIT9mWUCbjQmOXw
+         fn3o4lEc207zPD7qA9b2wkjlFkvNOmxrL46A7quJaYNgArArsN6iav+pbfxvpTmkPvRF
+         TnNrACWIRef+zSPOGveRJRO5xGjp6Sd7tYAEZ6P83E4Au29bi03AOp65pJkFyS+G2cqx
+         ZBdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679052010;
+        d=1e100.net; s=20210112; t=1679052025;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LUsFZcElnirxMxsGWtP7RpSM3YXWjq7ve24NpjNKOq4=;
-        b=rf9q8M3Gmt8FXkQAfdDC/ammt9mLUR/qz8Zf+1cfTuo18JGfruM+DHSwAeljkCAOA3
-         LZyTWHAGPeR/NYrgF5JfaB0OLyg6wztEkHFSd6NfMo+PswUgm8PJl+JBANHApVA4Jd/U
-         LpqSbNHlGZ1+9186dulcUeuvF+sgmZqZpOA3xu57btQUXNXoto9+563ISm9eey5ll88w
-         vD++th0ydqKhnPb9bmVybRe3jWGPiKmK+8iEDbvJxCq+7mN+ZIZZeElPqMDqOiqjN9EC
-         3PRcmhHe7ABzo3hFjFu+LxooEaxgfsS8IzKbjGuKGVp7LI/nRN3a77eZIYp8TQgmrXCP
-         WVRw==
-X-Gm-Message-State: AO0yUKX+am8nlNDsfFu1V9Wcc5KJfcQAMR/+v9M+iNems29Bh6ddr2n1
-        gCqFRtEvHMrwHznofx4mpQI=
-X-Google-Smtp-Source: AK7set+cnEYFS/OwqzUJQae17ZAKvPAAq2PqJq+ey3hbHNcnG3FI0vSYRDvIEbGSDE3UZCfx+Tnbvg==
-X-Received: by 2002:a17:90b:4d86:b0:23d:5196:eca8 with SMTP id oj6-20020a17090b4d8600b0023d5196eca8mr7890564pjb.20.1679052010159;
-        Fri, 17 Mar 2023 04:20:10 -0700 (PDT)
+        bh=KH3sDhveeP+HgjB/MBfU5c/5KaPz4VTPorwSz2k9Oik=;
+        b=FHxGxsTcS9q5YCSX2xEYZ38x/I0UYbyfgCGvOa+aTQuidqtjQXMoJD9uyjWkUcXtgf
+         6ZfCTWnnIPLyNNkSKY5ZTDNxu5Iu8xjoGr6pcTAOoN/nPRRpsZGxiHvbt5Cy75xgB1Sa
+         V9yv3zueyaIMgFnP45FGjHGSYGMW88aoSdrxMtTQWFpISAJqByvjE9URvXgYNz/J5TSo
+         3h/YyU5+tv/7Dy2LCOTQcMY1tCGzw6PYJDK+eqvhO+dcmu5fevID78uO3lUv/QEJ/eI7
+         hehAJ60/o1uloirmffUd2agR7MzwJfgqYzA2ulVC88UYFsvmZ0e+5jTmBKVekgBy1IP4
+         S4HA==
+X-Gm-Message-State: AO0yUKXurj/PP8AHum1TG2vxfNgRV02IIF+gahmmF6hjd0JLV74PnevS
+        duVHjoNj5rpXSOq2DLaUVrM=
+X-Google-Smtp-Source: AK7set8S3IgT90Iwi4OgXWmUJoFTXB0GAENTgqr+iLtDA+giTAnJ48TQtwwhBFwxNP9uDYoSzQ9lFA==
+X-Received: by 2002:a62:7910:0:b0:626:248d:4ece with SMTP id u16-20020a627910000000b00626248d4ecemr1879513pfc.30.1679052025033;
+        Fri, 17 Mar 2023 04:20:25 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:d084:8252:e846:af61])
-        by smtp.gmail.com with ESMTPSA id ca20-20020a17090af31400b00233d6547000sm1187175pjb.54.2023.03.17.04.20.08
+        by smtp.gmail.com with ESMTPSA id x5-20020aa79185000000b0062612b97cfdsm1323540pfa.123.2023.03.17.04.20.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 04:20:09 -0700 (PDT)
-Date:   Fri, 17 Mar 2023 04:20:06 -0700
+        Fri, 17 Mar 2023 04:20:24 -0700 (PDT)
+Date:   Fri, 17 Mar 2023 04:20:20 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
@@ -61,15 +61,15 @@ Cc:     Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
         Samuel Holland <samuel@sholland.org>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/4] Input: tm2-touchkey: drop of_match_ptr for ID table
-Message-ID: <ZBRM5oAoJc/3sUaw@google.com>
+Subject: Re: [PATCH 3/4] Input: sun4i-ts: drop of_match_ptr for ID table
+Message-ID: <ZBRM9KV9nDnjao/D@google.com>
 References: <20230312131514.351603-1-krzysztof.kozlowski@linaro.org>
- <20230312131514.351603-2-krzysztof.kozlowski@linaro.org>
+ <20230312131514.351603-3-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230312131514.351603-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230312131514.351603-3-krzysztof.kozlowski@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -80,13 +80,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Mar 12, 2023 at 02:15:12PM +0100, Krzysztof Kozlowski wrote:
-> The driver will match mostly by DT table (even thought there is regular
-> ID table) so there is little benefit in of_match_ptr (this also allows
-> ACPI matching via PRP0001, even though it might not be relevant here).
-> This also fixes !CONFIG_OF error:
+On Sun, Mar 12, 2023 at 02:15:13PM +0100, Krzysztof Kozlowski wrote:
+> The driver can match only via the DT table so the table should be always
+> used and the of_match_ptr does not have any sense (this also allows ACPI
+> matching via PRP0001, even though it might not be relevant here).  This
+> also fixes !CONFIG_OF error:
 > 
->   drivers/input/keyboard/tm2-touchkey.c:335:34: error: ‘tm2_touchkey_of_match’ defined but not used [-Werror=unused-const-variable=]
+>   drivers/input/touchscreen/sun4i-ts.c:392:34: error: ‘sun4i_ts_of_match’ defined but not used [-Werror=unused-const-variable=]
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
