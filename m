@@ -2,65 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FE9D6BE6F3
-	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 11:36:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A04A76BE6F7
+	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 11:38:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbjCQKg4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Mar 2023 06:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55756 "EHLO
+        id S229488AbjCQKiG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Mar 2023 06:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbjCQKgz (ORCPT
+        with ESMTP id S229654AbjCQKiE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Mar 2023 06:36:55 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C085B59438
-        for <linux-input@vger.kernel.org>; Fri, 17 Mar 2023 03:36:53 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id h8so4837334plf.10
-        for <linux-input@vger.kernel.org>; Fri, 17 Mar 2023 03:36:53 -0700 (PDT)
+        Fri, 17 Mar 2023 06:38:04 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1326166E6;
+        Fri, 17 Mar 2023 03:38:02 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so257289pjl.4;
+        Fri, 17 Mar 2023 03:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679049413;
+        d=gmail.com; s=20210112; t=1679049482;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=G2csMlvOny2JhJw4m82pTJ+QASfAKXeYQUn4r9A31HI=;
-        b=peMYv8hbXebuK86B8NsAYTASHmhdk4Z6wsUr9GP3ftaG2Y+H17UnFkP6sd7OJy2Ge3
-         jq9Zmr6ON1/fAv7crq7LLs6fPYd/oi25EeLQXMCSAGwOTy0fcxRcXC9qXNcUCoubjPOE
-         ZSvA5xahR34nQ8cvp1SpPMivTzJ7T0XhSwkIqUd+gD+1R7Xpg78H9U3G7ZAHPe2cuAJV
-         tf6AqLcvID657rA8EpTdDjCabedaOrlUObslv2ohcstdTiBUovdxaoYoL43jcZrtJEC3
-         keOT+nJ7uu8SuD9bRvEcA78QaIFIgUWP3uMUo1ZPRhlRtqJLcWFbUjklNiPPUZsf/wq1
-         /ysA==
+        bh=L8hDCM0BvKf6M/FAL95ch0TPHn3it9hzyPSQddz+nU0=;
+        b=GJtPM8/YPgBYVMf80AQyvXk1icXvfz253xYaj492Oqj9f2Xr8BuRvMTxlCLMOSmO8g
+         OCEW1pR4cPU0uHkc+1zLI6pyoWGyHHBUtNDyaF+WMoMWvSdJL7Rn+Qibiov1HLHS4ONj
+         Czx4yL4EW31OFsTIOto0o5sbBjK+ihL9RO0CqhoSJgQqpj37oEH7AtNf28W6cwhIrbPB
+         mxFFRjK0x+mOe21jz1SCANSA95F6etzIhzbGoCp7hnrtdQnUz+wn1E23XpDO0UouV7gz
+         lVYhPrPS/D8FH1IVsBlsLYZLOqrQYO8+WGDSes8SeGxK9AKm2OtLgSUGWwTzQEdqprYd
+         qelw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679049413;
+        d=1e100.net; s=20210112; t=1679049482;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G2csMlvOny2JhJw4m82pTJ+QASfAKXeYQUn4r9A31HI=;
-        b=CCsUdoD7cEQWcLbPQPZwpHarl7mQx2lWog8zeY6X8BS2F0+aFdGMnFWVl5Okgx47GH
-         vnQwhmpTWD8vk+c+naOmuws74wjaNg0/2z0URQrJgCsKgQoTocDsS9KE4PstIRhc3pWz
-         oSY1Azv+nHBX+P6+CzlW0jttP5r7yYbY7fyk9rNF2NoHlX71My7JN0ITvYK5g3cq+WNc
-         zD7UYTPMqY73ySbtGRmNYlhRfmPiKOjsQG8s2t0Rhofa9CZ7s0OULUOf24glmkqgGgfT
-         E3dtCrACn53OyTuqXKY4hGnB1d0/hutQ4v2BJZr1un4bN9ck/kgfdpp4KStLg1ute3Dq
-         1/1A==
-X-Gm-Message-State: AO0yUKUITc99nuTiJwLvB4b6OSN9supQ4QTaOntLWqUml5ZT8pF9JbFc
-        7wrkdmzEH0nTGBFcKzBNwMk=
-X-Google-Smtp-Source: AK7set8bfb5od9L02KsvAP29KE8BU3AuSon7nr+AUXn9yFC8qntKUTtFvgWOG7MDsuZvp+noF4t6YQ==
-X-Received: by 2002:a17:902:c702:b0:1a1:82cc:5ae5 with SMTP id p2-20020a170902c70200b001a182cc5ae5mr5703619plp.13.1679049413149;
-        Fri, 17 Mar 2023 03:36:53 -0700 (PDT)
+        bh=L8hDCM0BvKf6M/FAL95ch0TPHn3it9hzyPSQddz+nU0=;
+        b=tZU671H3yiHkyR1RJucIpn+CtklUQGLMqkr3bweLThumzVxq+oU1uJV9BaWxPPZUBS
+         t/xFJ1fvqdVu1iaC+984U+7u2ADcoyelXBixeAMtA4lg/vm9lQRsM/Ne7g01K7cFzUwg
+         2FlT994WgKFoZ5fjzaddKxYThZfZfwLPRS2R5L6vz/Mt63Ipvtf4e0Ir/CEmTpEhIouy
+         K6nIB2zFv6o0fnVgolzKyOq5RfpLog3Q+kl3SnJ6hc6AInCX/kOpZ2/VIT0mIjYDobqE
+         U7EUbFQ6q1yzIxHBZZYsM/YY6BxvSUwswpG9lZ9Z4ZmYVhon+vCxG1t+RKtNfcOgWRK4
+         FV2Q==
+X-Gm-Message-State: AO0yUKV0Z5fZFqx+rtyl7HkI5jktq5nr4n2njJZQyH0iNLwDdaKo6ezi
+        CJylNJlyCGE29rQytij+Y0s=
+X-Google-Smtp-Source: AK7set9YMjnNmOUNgiio6BWh5Vvz0PBCktdEJQFGzWFOOCjDSSWLULlKx/hs+9jU8D/t+D0Jvb4nEQ==
+X-Received: by 2002:a05:6a20:3d92:b0:be:da1c:df65 with SMTP id s18-20020a056a203d9200b000beda1cdf65mr8074412pzi.28.1679049482106;
+        Fri, 17 Mar 2023 03:38:02 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:d084:8252:e846:af61])
-        by smtp.gmail.com with ESMTPSA id ja13-20020a170902efcd00b001a1a31953a8sm1257655plb.130.2023.03.17.03.36.52
+        by smtp.gmail.com with ESMTPSA id j19-20020aa783d3000000b005dca6f0046dsm1308934pfn.12.2023.03.17.03.38.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 03:36:52 -0700 (PDT)
-Date:   Fri, 17 Mar 2023 03:36:49 -0700
+        Fri, 17 Mar 2023 03:38:01 -0700 (PDT)
+Date:   Fri, 17 Mar 2023 03:37:58 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: goodix - Add Lenovo Yoga Book X90F to
- nine_bytes_report DMI table
-Message-ID: <ZBRCwUIJBcotSoXh@google.com>
-References: <20230315134442.71787-1-hdegoede@redhat.com>
+To:     Jonathan Denose <jdenose@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Denose <jdenose@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Takashi Iwai <tiwai@suse.de>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: i8042 - Add quirk for Fujitsu Lifebook A574/H
+Message-ID: <ZBRDBrLeRwrTboTl@google.com>
+References: <20230303152623.45859-1-jdenose@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230315134442.71787-1-hdegoede@redhat.com>
+In-Reply-To: <20230303152623.45859-1-jdenose@google.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -71,19 +78,11 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 02:44:42PM +0100, Hans de Goede wrote:
-> The Android Lenovo Yoga Book X90F / X90L uses the same goodix touchscreen
-> with 9 bytes touch reports for its touch keyboard as the already supported
-> Windows Lenovo Yoga Book X91F/L, add a DMI match for this to
-> the nine_bytes_report DMI table.
+On Fri, Mar 03, 2023 at 09:26:23AM -0600, Jonathan Denose wrote:
+> Fujitsu Lifebook A574/H requires the nomux option to properly
+> probe the touchpad, especially when waking from sleep.
 > 
-> When the quirk for the X91F/L was initially added it was written to
-> also apply to the X90F/L but this does not work because the Android
-> version of the Yoga Book uses completely different DMI strings.
-> Also adjust the X91F/L quirk to reflect that it only applies to
-> the X91F/L models.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Jonathan Denose <jdenose@google.com>
 
 Applied, thank you.
 
