@@ -2,72 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA3596BE7E8
-	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 12:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48C546BE7ED
+	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 12:22:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229909AbjCQLVM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Mar 2023 07:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58716 "EHLO
+        id S229494AbjCQLWI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Mar 2023 07:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbjCQLVJ (ORCPT
+        with ESMTP id S229603AbjCQLWG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Mar 2023 07:21:09 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5A8BF76E;
-        Fri, 17 Mar 2023 04:20:45 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id k2so4944397pll.8;
-        Fri, 17 Mar 2023 04:20:45 -0700 (PDT)
+        Fri, 17 Mar 2023 07:22:06 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4BD35AF;
+        Fri, 17 Mar 2023 04:21:37 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id d13so4775274pjh.0;
+        Fri, 17 Mar 2023 04:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679052045;
+        d=gmail.com; s=20210112; t=1679052094;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MwLiXEkSoODfLPV/T7b8EOfk9wVIiqqUoC/gH53lWZU=;
-        b=Ttm6IQgPtKVqW35fvUeY6VXzeem1vkYZOaz7vrKbqQj84Ey4plajxvY5qeVS5aAce6
-         Xkwcd0olSVfA/Pt70m1P4G+S5TwoKQ6+En8w3Y9Zhaa534QbBM3pGw8FoxdHQYCpzPEm
-         vDXQlV0DA2NaGBjJhZz2svDF7liaMLdMlcxGLHBo4mcBGWLVug4R8MBTr0IqaK3zd8wM
-         /UIyPPMOjC1Kbgst4AaM+SJvN3kd9EKEh1VLPosb4D8m8bBzlbU4xfabzadoAygf9A8j
-         I8oxYJJT3O4GiOf+6Y5mAYH/yqbI46z+dKEdO4LS4O6A8QL/Huv9sMoxrmSm7x8crldR
-         vYKA==
+        bh=WxKX5ZJpiF04icvSHpZ1JZbirujoxDwuq90/M5FjSys=;
+        b=YSJDOLaroYd5w6iQfw3pdh471hY8XPd5FvwTmVPnGRUkl28QMXCHqo/o7llbDurN6W
+         jDPnDPltYLthgdu1rM3rv8u0PR9XOIz5HezA9EUENzU8JmPgPI8ozfmT79k0Zx3TlG6X
+         /7QNPd73hFIQ6mKIUijKptnhjDagvipVHSkTgX0XKUiKTLuY0MGHz1BkKnPGYgm6lmFZ
+         KtnO/pHVbVAJzPtRxOJ3sqzY08tSW8c2E29p19VL/TfoAhT1XLVPzein5X+te5WgdVNp
+         Be4wfNIVTgP3xU69HvUNrNOm2v1m4xylYKTeL95Ryggxkn23nUUhIdWvpdF4L1/xqW8Z
+         9JgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679052045;
+        d=1e100.net; s=20210112; t=1679052094;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MwLiXEkSoODfLPV/T7b8EOfk9wVIiqqUoC/gH53lWZU=;
-        b=KEXosVDyFbGnJ8fOyLA5Pmw40v88U7xQShUIZtWrcxSPVzm0hvjLabEm/thHF0aR7d
-         yij+8XXUqHoy6G59FgEFcEgGXvkM39lfRxvWsZ4OBYiZzxecBUCoHXQbz0/2oxJtrlvg
-         DXqGDlcP7h1G2rYhds3JnOg7We1HXVr4qFzIoWqNW2N2v/r0v8kTxA5zyQBClNtCnQ1/
-         osVp/fQcizPtE7yNjN6YnSQSmlNhBTAfIWXVelxhVM9siiq3znlg6x7ofn3gggSesXYF
-         ts4ybbg0k9IYbKr7jU1wkUhQ+5WWBdDwOR1A2Vmo2ZNfFZdKlwM74hsLR33brJXONyf2
-         IRag==
-X-Gm-Message-State: AO0yUKVPWEVNBM+q+/Ezfx8H4/4ceE+cCDqKoscZ8IMvIhSCpl7EfhIY
-        UXDU2Bcg8jFc3ShEkPv6iQE=
-X-Google-Smtp-Source: AK7set/62xLpYpXgwN2rSkGaoIOTq1VB0W8uBipmcDV+jPGswnD5z5uLk5Q3AY0HOm7fAjS0AE5Faw==
-X-Received: by 2002:a17:902:d2c7:b0:19a:a520:b203 with SMTP id n7-20020a170902d2c700b0019aa520b203mr8979837plc.25.1679052045382;
-        Fri, 17 Mar 2023 04:20:45 -0700 (PDT)
+        bh=WxKX5ZJpiF04icvSHpZ1JZbirujoxDwuq90/M5FjSys=;
+        b=H7MvIti2pcQWyfI3fvVeP2koA22HCCJSqAcV6FK2EtFWtlYvQf8CoVj19Crv7pizU9
+         FBBzSwuI6c9dCiBOGAVivwQ3YYURRJwnIVl9nckggM5rhsIzyiMOkXaT5NdMeB7txGjI
+         uJeSmeauabEKOFGsFREpW2ld9/SoUei897YMaAmvWbaGntwFt5bifQ8QzBPzgSS1ptZv
+         3BNbKRLOVsg50ORiHPFt2sRB2ixnTqIzM64hcD6icDg3QPf1ENZr65lg+DMSxg2Qlc1h
+         5sIk/1NNZL3juto7+gNtw6nxuyx0MsJiiqUqTptmmWyJurxXIwCsKNC/EIecBOF+FxXj
+         XNNw==
+X-Gm-Message-State: AO0yUKVWnoO4XYLn9xgrBZYxfaK7oyqddb0K6f9HZNxdeq74+iM+zqRX
+        Lvz1pABcvNDU7sakk5gc8OQ=
+X-Google-Smtp-Source: AK7set8ja1cWo1D6wJamqoAnRPQ12MFPwJrSryte3yXlsyCvRIdPaGtpd49G2n0EsAW3H9Yz1f497g==
+X-Received: by 2002:a17:902:ea0f:b0:19e:8267:9590 with SMTP id s15-20020a170902ea0f00b0019e82679590mr7836526plg.41.1679052093980;
+        Fri, 17 Mar 2023 04:21:33 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:d084:8252:e846:af61])
-        by smtp.gmail.com with ESMTPSA id iw21-20020a170903045500b0019aa8149cb9sm1353820plb.79.2023.03.17.04.20.43
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902900800b0019a88c1cf63sm1328760plp.180.2023.03.17.04.21.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 04:20:44 -0700 (PDT)
-Date:   Fri, 17 Mar 2023 04:20:41 -0700
+        Fri, 17 Mar 2023 04:21:33 -0700 (PDT)
+Date:   Fri, 17 Mar 2023 04:21:30 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/4] Input: bcm_iproc_tsc: drop of_match_ptr for ID table
-Message-ID: <ZBRNCbrpzfy35mdO@google.com>
-References: <20230312131514.351603-1-krzysztof.kozlowski@linaro.org>
- <20230312131514.351603-4-krzysztof.kozlowski@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] Input: Use of_property_read_bool() for boolean properties
+Message-ID: <ZBRNOgXAS8wC9xSH@google.com>
+References: <20230310144708.1542751-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230312131514.351603-4-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230310144708.1542751-1-robh@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -78,13 +74,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Mar 12, 2023 at 02:15:14PM +0100, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
+On Fri, Mar 10, 2023 at 08:47:08AM -0600, Rob Herring wrote:
+> It is preferred to use typed property access functions (i.e.
+> of_property_read_<type> functions) rather than low-level
+> of_get_property/of_find_property functions for reading properties.
+> Convert reading boolean properties to to of_property_read_bool().
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
 Applied, thank you.
 
