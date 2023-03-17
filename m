@@ -2,160 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C0A6BE1D2
-	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 08:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D95536BE667
+	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 11:18:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbjCQHSS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Mar 2023 03:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44466 "EHLO
+        id S229581AbjCQKS1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Mar 2023 06:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbjCQHSN (ORCPT
+        with ESMTP id S229489AbjCQKS0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Mar 2023 03:18:13 -0400
-X-Greylist: delayed 64 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 17 Mar 2023 00:18:12 PDT
-Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2908B11EB0
-        for <linux-input@vger.kernel.org>; Fri, 17 Mar 2023 00:18:11 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,268,1673884800"; 
-   d="scan'208";a="2219545"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 17 Mar 2023 15:16:59 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(80126:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Fri, 17 Mar 2023 15:16:59 +0800 (CST)
-Received: from 101.10.109.20
-        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2479:0:AUTH_LOGIN)
-        (envelope-from <jingle.wu@emc.com.tw>); Fri, 17 Mar 2023 15:16:58 +0800 (CST)
-From:   "jingle.wu" <jingle.wu@emc.com.tw>
-To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com
-Cc:     phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw,
-        "jingle.wu" <jingle.wu@emc.com.tw>
-Subject: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
-Date:   Fri, 17 Mar 2023 15:16:46 +0800
-Message-Id: <20230317071646.977357-1-jingle.wu@emc.com.tw>
-X-Mailer: git-send-email 2.34.1
+        Fri, 17 Mar 2023 06:18:26 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECFC22915D;
+        Fri, 17 Mar 2023 03:18:24 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id d13so4635712pjh.0;
+        Fri, 17 Mar 2023 03:18:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679048304;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jNrsgXJ/NWO4n3wCF2k2m7jKTXJyy3MF3Cvwg3Uy3NA=;
+        b=mk9iZOkddVyJfCp7Olo5O4XCEMgkl8jh1V5YMscOlraSfjEF/wccoTP68bDcicVXyQ
+         RAP3yxKQRZ+O78429GJgP6YG4Z1Nt2Hzh2GUza/Y4asXFsXcJkvm2HJZNoauqvEEvCY5
+         018PkqnBT8h75JM0XCItIKm0Wc0hnfQWaAJy6e2G0CCEFbp5tVZ6yR4eiU907ZyJzUIS
+         QbwfHFL8wNT1F6bXwgd5h9sbFyT0kZc8e384khSAzwHoNOgV6RcbjoCajuPQqX0QDVbr
+         DXQ5Z+/mP1Yk5/s3SiUf183M0mtVV/LZM5h2be0oMbUERiogv1atqPn8USMwsKPNPHhE
+         q3HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679048304;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jNrsgXJ/NWO4n3wCF2k2m7jKTXJyy3MF3Cvwg3Uy3NA=;
+        b=eWX45yeBb6CsOLsT78o46rtaNB0knR8mxKZViG6HxIiepmLToA7GAjSUUPZAZhpq6z
+         YxZYFJ+E38XRF7xAtdek0aMTGQ2QB1ikKt885bteErN3lwnAFS9VXQZy7GYDwTKBG+9U
+         b4wl23XPthyEIkeqtjtXbt8eIoCY2uLnxCz946tM6xvH8m834R7XAbtri2ZdDMtlrIGS
+         4Jm65PKJRpC54taX2ff9yvUxtHsEOioQ8sOOcF5ZR2gCCwPgmkLzDprneVzrSUZcerUG
+         Nz+ZiiwISWeqLwAgRi0K+l9r+7k/Zn71lETBfJzZROCmLzqRiGjSPZb85+YSXWZHnFln
+         LHtg==
+X-Gm-Message-State: AO0yUKWfYREtQEFEn2NyxXae7R6fP/dOScY3yYo3Uj0+Mxck8RbatTd+
+        i6PxWqhhJefd5FNGN0H1AXgmZ5uQEicelA==
+X-Google-Smtp-Source: AK7set8pf1fpeZS0Pk0HI6/6Rximln0raPIwWyOapFyANc7AXiUJSM5N8CDaSqrCWVUzh8kvSzjY6A==
+X-Received: by 2002:a17:902:e883:b0:19a:75b8:f50c with SMTP id w3-20020a170902e88300b0019a75b8f50cmr8519707plg.31.1679048304190;
+        Fri, 17 Mar 2023 03:18:24 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:d084:8252:e846:af61])
+        by smtp.gmail.com with ESMTPSA id 17-20020a170902c11100b0019ee045a2b3sm1187843pli.308.2023.03.17.03.18.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 03:18:23 -0700 (PDT)
+Date:   Fri, 17 Mar 2023 03:18:20 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andi Shyti <andi.shyti@kernel.org>
+Cc:     Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: Re: [lvc-project] [PATCH] Input: trackpoint - remove unreachable code
+Message-ID: <ZBQ+bJQkcZREArAq@google.com>
+References: <20230314122714.1494260-1-Igor.A.Artemiev@mcst.ru>
+ <20230314131356.cwb4nd7i43sws75j@intel.intel>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230314131356.cwb4nd7i43sws75j@intel.intel>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add inhibit/uninhibit functions.
+On Tue, Mar 14, 2023 at 02:13:56PM +0100, Andi Shyti wrote:
+> Hi Igor,
+> 
+> On Tue, Mar 14, 2023 at 03:27:14PM +0300, Igor Artemiev wrote:
+> > The trackpoint_sync() function always returnd 0.
+> > And there is no need to check its result.
+> > 
+> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> > 
+> > Fixes: 2a924d71794c ("Input: trackpoint - only expose supported controls for Elan, ALPS and NXP")
+> > Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+> 
+> I don't think it requires the Fixes tag... it's not really
+> broken.
+> 
+> > ---
+> >  drivers/input/mouse/trackpoint.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
+> > index 4a86b3e31d3b..561a4d2d81ff 100644
+> > --- a/drivers/input/mouse/trackpoint.c
+> > +++ b/drivers/input/mouse/trackpoint.c
+> > @@ -386,9 +386,7 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
+> >  	was_reset = tp->variant_id == TP_VARIANT_IBM &&
+> >  		    trackpoint_power_on_reset(&psmouse->ps2dev) == 0;
+> >  
+> > -	error = trackpoint_sync(psmouse, was_reset);
+> > -	if (error)
+> > -		return error;
+> > +	trackpoint_sync(psmouse, was_reset);
+> 
+> what worries me here is that if this returns always '0' who tells
+> me that it will always return '0'?
+> 
+> One day someone might add an error return path and you would miss
+> it here.
+> 
+> Would it make sense to make the trackpoint_sync() a void function
+> as well?
 
-Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
----
- drivers/input/mouse/elan_i2c_core.c | 86 +++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+Yes if we are dropping the check we should also change the function to
+not return anything.
 
-diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-index 5f0d75a45c80..cc0375265659 100644
---- a/drivers/input/mouse/elan_i2c_core.c
-+++ b/drivers/input/mouse/elan_i2c_core.c
-@@ -329,6 +329,89 @@ static int elan_initialize(struct elan_tp_data *data, bool skip_reset)
- 	return error;
- }
- 
-+static int elan_reactivate(struct elan_tp_data *data)
-+{
-+	struct device *dev = &data->client->dev;
-+	int ret;
-+
-+	ret = elan_set_power(data, true);
-+	if (ret)
-+		dev_err(dev, "failed to restore power: %d\n", ret);
-+
-+	ret = data->ops->sleep_control(data->client, false);
-+		if (ret) {
-+			dev_err(dev,
-+				"failed to wake device up: %d\n", ret);
-+			return ret;
-+		}
-+
-+	return ret;
-+}
-+
-+static void elan_inhibit(struct input_dev *input_dev)
-+{
-+	struct elan_tp_data *data = input_get_drvdata(input_dev);
-+	struct i2c_client *client = data->client;
-+	int ret;
-+
-+	if (data->in_fw_update)
-+		return;
-+
-+	dev_dbg(&client->dev, "inhibiting\n");
-+	/*
-+	 * We are taking the mutex to make sure sysfs operations are
-+	 * complete before we attempt to bring the device into low[er]
-+	 * power mode.
-+	 */
-+	ret = mutex_lock_interruptible(&data->sysfs_mutex);
-+	if (ret)
-+		return;
-+
-+	disable_irq(client->irq);
-+
-+	ret = elan_set_power(data, false);
-+	if (ret)
-+		enable_irq(client->irq);
-+
-+	mutex_unlock(&data->sysfs_mutex);
-+
-+}
-+
-+static void elan_close(struct input_dev *input_dev)
-+{
-+	if ((input_dev->users) && (!input_dev->inhibited))
-+		elan_inhibit(input_dev);
-+
-+}
-+
-+static int elan_uninhibit(struct input_dev *input_dev)
-+{
-+	struct elan_tp_data *data = input_get_drvdata(input_dev);
-+	struct i2c_client *client = data->client;
-+	int ret;
-+
-+	dev_dbg(&client->dev, "uninhibiting\n");
-+	ret = mutex_lock_interruptible(&data->sysfs_mutex);
-+	if (ret)
-+		return ret;
-+
-+	ret = elan_reactivate(data);
-+	if (ret == 0)
-+		enable_irq(client->irq);
-+
-+	mutex_unlock(&data->sysfs_mutex);
-+
-+	return ret;
-+}
-+
-+static int elan_open(struct input_dev *input_dev)
-+{
-+	if ((input_dev->users) && (input_dev->inhibited))
-+		return elan_uninhibit(input_dev);
-+
-+	return 0;
-+}
-+
- static int elan_query_device_info(struct elan_tp_data *data)
- {
- 	int error;
-@@ -1175,6 +1258,9 @@ static int elan_setup_input_device(struct elan_tp_data *data)
- 				     0, ETP_FINGER_WIDTH * min_width, 0, 0);
- 	}
- 
-+	input->open = elan_open;
-+	input->close = elan_close;
-+
- 	data->input = input;
- 
- 	return 0;
+Thanks.
+
 -- 
-2.34.1
-
+Dmitry
