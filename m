@@ -2,75 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 299E16BFB84
-	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 17:26:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F2076BFBA1
+	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 17:44:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjCRQ0Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Mar 2023 12:26:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49890 "EHLO
+        id S229821AbjCRQn7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Mar 2023 12:43:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbjCRQ0P (ORCPT
+        with ESMTP id S229473AbjCRQn6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Mar 2023 12:26:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E114F1026E
-        for <linux-input@vger.kernel.org>; Sat, 18 Mar 2023 09:25:25 -0700 (PDT)
+        Sat, 18 Mar 2023 12:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEFE20575
+        for <linux-input@vger.kernel.org>; Sat, 18 Mar 2023 09:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679156725;
+        s=mimecast20190719; t=1679157790;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=RMLleG2DXcNogGAuAWxYrgTG9bG50WKJ62cIAjwjdNE=;
-        b=a6JB5f00438iuVisdNyCoXZ2/4H11ClFxSe/p6HtvWdhdH/NSIccgZzl/QL1O3jenQjo/M
-        StpGnyKQ+12mG6MyI0TV2aZ/Ks9VmyR2gf8q0bC5w3Ka4y7x6+Sa5Ah8CEdAzGEHOjxTIb
-        t4+71vbnQeDjfFSxu/4D0L/6oBgu8I4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=8qTmKzr5kfPBVHTLN+KCKhuoURqJ1d0K8awn1mb6e78=;
+        b=OWYA3Bk4RGX/MMSh0FERwqO0I8RoOdlVZhkQCjcxRTOhLbSJZ5nNM4TeXvXB1zwnToQaEY
+        NIbQ16IJGNkDTesYZiWsh9Ct/kHa5Dl/4RQSCZFS1wYU/SmEbtQopezBfLwZMxljjsgUk3
+        JosUvHp5WDsyyc/MsizDdhHgCHyRvR8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-62-3wWA57ypMleOgdmr3c0b0g-1; Sat, 18 Mar 2023 12:25:23 -0400
-X-MC-Unique: 3wWA57ypMleOgdmr3c0b0g-1
-Received: by mail-ed1-f70.google.com with SMTP id b1-20020aa7dc01000000b004ad062fee5eso11670944edu.17
-        for <linux-input@vger.kernel.org>; Sat, 18 Mar 2023 09:25:23 -0700 (PDT)
+ us-mta-633-5HAZRqjHNyWCZ5Rdcq9VDg-1; Sat, 18 Mar 2023 12:43:08 -0400
+X-MC-Unique: 5HAZRqjHNyWCZ5Rdcq9VDg-1
+Received: by mail-ed1-f72.google.com with SMTP id k30-20020a50ce5e000000b00500544ebfb1so2327542edj.7
+        for <linux-input@vger.kernel.org>; Sat, 18 Mar 2023 09:43:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679156722;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1679157787;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RMLleG2DXcNogGAuAWxYrgTG9bG50WKJ62cIAjwjdNE=;
-        b=GcA/f4Sy69M08t4IlfkP8IprlYN+T0XKfqwWquBlzBieBHwrbV6vjuqSsutCQm8gqk
-         HLXuAN8iHctNP9iv98UgRqqHG0dPZ+DDlGJLxRTvnWkir3MdxWuOnQT6eTMwbfkOaYfo
-         L9gMFY/obq7vt0yBTOfxFAmMdFrKrQlw8hwodM9S6Xrsyldp6tQcQu0aRA/gj9VNIBUn
-         ZFFug2iBM353eVBiyeUdfaBo6aQ/kDpIBTJEsMpFpFJIT6mQqZ2QaP6yxqJs4M5LE3/A
-         cGT1mhDFRWPX73G6v4jFpUiII1/Mzkm9pplO/2lX7Oax4fCj6vRn2o2n57ThtatfUHcd
-         9YYA==
-X-Gm-Message-State: AO0yUKVxmra+w/aAaBBa4jOFFNIc0PDKA8eGnn4ndNEK5uyVbOzoPz4W
-        4jvDfgdqwNrXm3doiQlsAlwrjLDN49VTY51tmZqFRrgpBvZ1e7wq6f/Su9lYwung62Ueo9GTE98
-        we5GVXHefFscUC55elxM8zOwL6v30K9k=
-X-Received: by 2002:a17:907:8690:b0:933:3a65:67ed with SMTP id qa16-20020a170907869000b009333a6567edmr2477137ejc.75.1679156721977;
-        Sat, 18 Mar 2023 09:25:21 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/0JZzssF+//gwBugYtJOfPoHdL9gBfMtdVZPgFd+DEMg4E7q1aCuABo4Gc7m0xJc3btkS1Og==
-X-Received: by 2002:a17:907:8690:b0:933:3a65:67ed with SMTP id qa16-20020a170907869000b009333a6567edmr2477124ejc.75.1679156721688;
-        Sat, 18 Mar 2023 09:25:21 -0700 (PDT)
+        bh=8qTmKzr5kfPBVHTLN+KCKhuoURqJ1d0K8awn1mb6e78=;
+        b=CeU6LweYgNdYCOiKzJ7mZzMc4iSGbE2ogQK4lpcYqYUR7P6cpGLNo3h/1ZXkqJj0lg
+         sL+15iXXvDuepiLTk0HRFEcwBZiQYrq7X+KdB+MK2nLF1fc6vSc2A2/eGLo3urIYRvlY
+         cMZ919JdbhW2yWc8AH8uN5foGVKZrODhaIgvNGqqUBPbr2D3vvWFmsScoCbmVqasLCPM
+         ctf3xEskuHlxUvd6q43ZndmHCY3ry+94SEyy//vPzpqlZ9lA3lw2HVaiAoJcjlf3UQuH
+         vqTfs3owvoti7OCYlW8Sv1GzJKL+SOxeGqdyg7exf3Hy8/A2kbi7pewL/EG/5CSQ0Awq
+         uvkg==
+X-Gm-Message-State: AO0yUKXRTEz0/R6sE6dcO4DAcO9w8vq0QJUSaoZO0Vson1wuqPbW7ygY
+        SYfRXr7ALob0RmLq6pGai3T8hnIhinOc0IsCzHe+7e9rC/l10Rt7TKWoFFz/6Geuyus7vpdQEPQ
+        JJQNU/INobrgwmaMUtNOzEFU=
+X-Received: by 2002:a05:6402:b2e:b0:4f9:9e56:84bf with SMTP id bo14-20020a0564020b2e00b004f99e5684bfmr6788125edb.10.1679157787628;
+        Sat, 18 Mar 2023 09:43:07 -0700 (PDT)
+X-Google-Smtp-Source: AK7set89AlppMDrfR/43PIUExvhvMG/jKnG4vsy7XxhESBrvrhiSghtoTblYJc/00XHsLaWp7oYEPw==
+X-Received: by 2002:a05:6402:b2e:b0:4f9:9e56:84bf with SMTP id bo14-20020a0564020b2e00b004f99e5684bfmr6788116edb.10.1679157787375;
+        Sat, 18 Mar 2023 09:43:07 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id qq24-20020a17090720d800b008df7d2e122dsm2318909ejb.45.2023.03.18.09.25.20
+        by smtp.gmail.com with ESMTPSA id x93-20020a50bae6000000b004fbf6b35a56sm2564415ede.76.2023.03.18.09.43.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Mar 2023 09:25:21 -0700 (PDT)
-Message-ID: <bbb03157-d1e4-4db0-82ef-03e339ca30e6@redhat.com>
-Date:   Sat, 18 Mar 2023 17:25:20 +0100
+        Sat, 18 Mar 2023 09:43:06 -0700 (PDT)
+Message-ID: <49d10207-6f31-f1a1-90f1-7f8df5a83ee2@redhat.com>
+Date:   Sat, 18 Mar 2023 17:43:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] input: alps: fix compatibility with -funsigned-char
-To:     msizanoen <msizanoen@qtmlabs.xyz>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     stable@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
+Subject: Re: [PATCH] Input: focaltech - use explicitly signed char type
 Content-Language: en-US, nl
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev
+Cc:     stable@vger.kernel.org, regressions@leemhuis.info,
+        barry@messagefor.me.uk
+References: <e20db4c4-b2a8-bc88-232f-d1213733d20c@leemhuis.info>
+ <20230318133010.1285202-1-Jason@zx2c4.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
+In-Reply-To: <20230318133010.1285202-1-Jason@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -85,19 +86,20 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On 3/18/23 15:42, msizanoen wrote:
-> The AlpsPS/2 code previously relied on the assumption that `char` is a
-> signed type, which was true on x86 platforms (the only place where this
-> driver is used) before kernel 6.2. However, on 6.2 and later, this
-> assumption is broken due to the introduction of -funsigned-char as a new
-> global compiler flag.
+On 3/18/23 14:30, Jason A. Donenfeld wrote:
+> The recent change of -funsigned-char causes additions of negative
+> numbers to become additions of large positive numbers, leading to wrong
+> calculations of mouse movement. Change these casts to be explictly
+> signed, to take into account negative offsets.
 > 
-> Fix this by explicitly specifying the signedness of `char` when sign
-> extending the values received from the device.
-> 
-> Fixes: f3f33c677699 ("Input: alps - Rushmore and v7 resolution support")
+> Fixes: 3bc753c06dd0 ("kbuild: treat char as always unsigned")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: msizanoen <msizanoen@qtmlabs.xyz>
+> Cc: regressions@leemhuis.info
+> Cc: barry@messagefor.me.uk
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+> Wrote this patch from my phone, untested, so it would be nice if
+> somebody with hardware could confirm it works.
 
 Thanks, patch looks good to me:
 
@@ -108,37 +110,34 @@ Regards,
 Hans
 
 
-> ---
->  drivers/input/mouse/alps.c | 8 ++++----
+> 
+>  drivers/input/mouse/focaltech.c | 8 ++++----
 >  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
-> index 989228b5a0a4..1c570d373b30 100644
-> --- a/drivers/input/mouse/alps.c
-> +++ b/drivers/input/mouse/alps.c
-> @@ -2294,20 +2294,20 @@ static int alps_get_v3_v7_resolution(struct psmouse *psmouse, int reg_pitch)
->  	if (reg < 0)
->  		return reg;
+> diff --git a/drivers/input/mouse/focaltech.c b/drivers/input/mouse/focaltech.c
+> index 6fd5fff0cbff..3dbad0d8e8c9 100644
+> --- a/drivers/input/mouse/focaltech.c
+> +++ b/drivers/input/mouse/focaltech.c
+> @@ -202,8 +202,8 @@ static void focaltech_process_rel_packet(struct psmouse *psmouse,
+>  	state->pressed = packet[0] >> 7;
+>  	finger1 = ((packet[0] >> 4) & 0x7) - 1;
+>  	if (finger1 < FOC_MAX_FINGERS) {
+> -		state->fingers[finger1].x += (char)packet[1];
+> -		state->fingers[finger1].y += (char)packet[2];
+> +		state->fingers[finger1].x += (signed char)packet[1];
+> +		state->fingers[finger1].y += (signed char)packet[2];
+>  	} else {
+>  		psmouse_err(psmouse, "First finger in rel packet invalid: %d\n",
+>  			    finger1);
+> @@ -218,8 +218,8 @@ static void focaltech_process_rel_packet(struct psmouse *psmouse,
+>  	 */
+>  	finger2 = ((packet[3] >> 4) & 0x7) - 1;
+>  	if (finger2 < FOC_MAX_FINGERS) {
+> -		state->fingers[finger2].x += (char)packet[4];
+> -		state->fingers[finger2].y += (char)packet[5];
+> +		state->fingers[finger2].x += (signed char)packet[4];
+> +		state->fingers[finger2].y += (signed char)packet[5];
+>  	}
+>  }
 >  
-> -	x_pitch = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
-> +	x_pitch = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
->  	x_pitch = 50 + 2 * x_pitch; /* In 0.1 mm units */
->  
-> -	y_pitch = (char)reg >> 4; /* sign extend upper 4 bits */
-> +	y_pitch = (signed char)reg >> 4; /* sign extend upper 4 bits */
->  	y_pitch = 36 + 2 * y_pitch; /* In 0.1 mm units */
->  
->  	reg = alps_command_mode_read_reg(psmouse, reg_pitch + 1);
->  	if (reg < 0)
->  		return reg;
->  
-> -	x_electrode = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
-> +	x_electrode = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
->  	x_electrode = 17 + x_electrode;
->  
-> -	y_electrode = (char)reg >> 4; /* sign extend upper 4 bits */
-> +	y_electrode = (signed char)reg >> 4; /* sign extend upper 4 bits */
->  	y_electrode = 13 + y_electrode;
->  
->  	x_phys = x_pitch * (x_electrode - 1); /* In 0.1 mm units */
 
