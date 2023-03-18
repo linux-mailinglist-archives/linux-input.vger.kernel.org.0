@@ -2,116 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 593DE6BF53A
-	for <lists+linux-input@lfdr.de>; Fri, 17 Mar 2023 23:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE7986BF6BF
+	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 01:01:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbjCQWgG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 17 Mar 2023 18:36:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55144 "EHLO
+        id S229604AbjCRABe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Mar 2023 20:01:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjCQWgF (ORCPT
+        with ESMTP id S229690AbjCRABd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Mar 2023 18:36:05 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25DC02B2AF
-        for <linux-input@vger.kernel.org>; Fri, 17 Mar 2023 15:36:02 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1F64440004;
-        Fri, 17 Mar 2023 22:36:00 +0000 (UTC)
-Message-ID: <d261279a47e43b3bc1c546a766a51e423c978066.camel@hadess.net>
-Subject: Re: [PATCH] Fix incorrectly applied patch for MAP_PROFILE_BUTTON
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Matthias Benkmann <matthias.benkmann@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Nate Yocom <nate@yocom.org>
-Date:   Fri, 17 Mar 2023 23:36:00 +0100
-In-Reply-To: <CAK4gqCBiDiVQ-q8x_JjZ4ZY5UKr81foA_aa5YwZsE0yFarBtzA@mail.gmail.com>
-References: <CAK4gqCBiDiVQ-q8x_JjZ4ZY5UKr81foA_aa5YwZsE0yFarBtzA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        Fri, 17 Mar 2023 20:01:33 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 962AE73884
+        for <linux-input@vger.kernel.org>; Fri, 17 Mar 2023 17:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679097691; x=1710633691;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EtTdpq2Qim66ogE2fVDLv4z6eFrPBnfVkHg5XwXUma8=;
+  b=BsZeO+mhhaPTLWFfYJwIOQSsFnzr9OKWbAvUEDjFGfs/IVMgg0QoI0OT
+   WdknbftGL13kZKzXjBO5FFRchSWU4g16916TGPcP9Oa3GQw6CPV4Ukl7u
+   PDVi1We2yz4t4MH7buAhDseevC/+BcFv9McHw3BWNVMOzlJUYFYw4/3BH
+   t/Ow/od6kSZCneDGiqMMHZGYloPajO1jQbk7Km4m3CTKW93zuigTgwuq6
+   yP6Zbee+wOail8f4AsfYrmBTCX6DpLuKBMkbuiw1vQNNBCotGUCwepfye
+   07WwOzQ9D0G6QKFZBs5UikDlV/+f/NecOpFmJMEQbKYa6T7nXllNBIdmz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="339926057"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
+   d="scan'208";a="339926057"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 17:01:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="673741949"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
+   d="scan'208";a="673741949"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 17 Mar 2023 17:01:29 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pdK0h-0009fD-21;
+        Sat, 18 Mar 2023 00:01:23 +0000
+Date:   Sat, 18 Mar 2023 08:00:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ f1e96f0617fc578f74319a5ba46473773035594f
+Message-ID: <6414ff25.Vhh+6XijFPYnHG52%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: f1e96f0617fc578f74319a5ba46473773035594f  Input: bcm_iproc_tsc - drop of_match_ptr for ID table
 
+elapsed time: 723m
 
-On Fri, 2023-03-17 at 17:00 +0100, Matthias Benkmann wrote:
-> Original
->  patch can be seen here:
->  
-> https://lore.kernel.org/all/20220908173930.28940-6-nate@yocom.org/ The
->  hunk
->  in question was supposed to go into xpad**ONE**_process_packet(),
-> but ended
->  up in xpad_process_packet(). This fix is based on visual inspection
-> only. I
->  do not have the hardware to verify that it works. I CAN confidently
-> say,
->  however, that the old code could not possibly have worked, because
+configs tested: 110
+configs skipped: 3
 
-In the future, please don't use "old code", we don't know what "old
-code" you could be referring to.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-However you can remove this whole section, and either Nate or I will
-test you v2.
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r001-20230313   gcc  
+alpha                randconfig-r034-20230313   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r004-20230312   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r001-20230313   gcc  
+arm          buildonly-randconfig-r005-20230313   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r046-20230312   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r005-20230313   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r002-20230313   gcc  
+hexagon      buildonly-randconfig-r004-20230312   clang
+hexagon      buildonly-randconfig-r005-20230313   clang
+hexagon              randconfig-r041-20230312   clang
+hexagon              randconfig-r041-20230313   clang
+hexagon              randconfig-r045-20230312   clang
+hexagon              randconfig-r045-20230313   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r002-20230313   gcc  
+i386         buildonly-randconfig-r003-20230313   gcc  
+i386                         debian-10.3-func   gcc  
+i386                   debian-10.3-kselftests   gcc  
+i386                        debian-10.3-kunit   gcc  
+i386                          debian-10.3-kvm   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230313   gcc  
+i386                 randconfig-a002-20230313   gcc  
+i386                 randconfig-a003-20230313   gcc  
+i386                 randconfig-a004-20230313   gcc  
+i386                 randconfig-a005-20230313   gcc  
+i386                 randconfig-a006-20230313   gcc  
+i386                 randconfig-a011-20230313   clang
+i386                 randconfig-a012-20230313   clang
+i386                 randconfig-a013-20230313   clang
+i386                 randconfig-a014-20230313   clang
+i386                 randconfig-a015-20230313   clang
+i386                 randconfig-a016-20230313   clang
+i386                          randconfig-c001   gcc  
+i386                 randconfig-r032-20230313   gcc  
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r005-20230312   gcc  
+ia64                                defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r004-20230312   gcc  
+m68k                 randconfig-r031-20230313   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r003-20230312   gcc  
+nios2        buildonly-randconfig-r003-20230312   gcc  
+nios2                               defconfig   gcc  
+openrisc     buildonly-randconfig-r001-20230312   gcc  
+parisc       buildonly-randconfig-r006-20230312   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r004-20230313   gcc  
+parisc               randconfig-r036-20230313   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r001-20230313   clang
+powerpc      buildonly-randconfig-r004-20230313   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r003-20230313   gcc  
+riscv                randconfig-r042-20230313   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230313   clang
+sh                               allmodconfig   gcc  
+sh           buildonly-randconfig-r006-20230313   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r035-20230313   gcc  
+sparc64              randconfig-r006-20230313   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230313   gcc  
+x86_64               randconfig-a002-20230313   gcc  
+x86_64               randconfig-a003-20230313   gcc  
+x86_64               randconfig-a004-20230313   gcc  
+x86_64               randconfig-a005-20230313   gcc  
+x86_64               randconfig-a006-20230313   gcc  
+x86_64               randconfig-a011-20230313   clang
+x86_64               randconfig-a012-20230313   clang
+x86_64               randconfig-a013-20230313   clang
+x86_64               randconfig-a014-20230313   clang
+x86_64               randconfig-a015-20230313   clang
+x86_64               randconfig-a016-20230313   clang
+x86_64               randconfig-k001-20230313   clang
+x86_64                        randconfig-k001   clang
+x86_64               randconfig-r033-20230313   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r005-20230312   gcc  
 
-> the
->  function xpad_process_packet() is not called for the Microsoft X-Box
-> Adaptive
->  Controller since it is tagged as XTYPE_XBOXONE. So at least this fix
-> does not
->  break something that worked.
-
-You need to use a Fixes tag, as well as a Signed-off-by tag, as per:
-https://docs.kernel.org/process/submitting-patches.html
-
-Please send a v2 with those and make sure to CC: the folks mentioned in
-the original patch (that is, Nate and myself), as well as the
-maintainers of the tree in question.
-
-Good catch!
-
-Cheers
-
-> 
-> ---
->  drivers/input/joystick/xpad.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/joystick/xpad.c
-> b/drivers/input/joystick/xpad.c
-> index f642ec8e92dd..29131f1a2f06 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -781,9 +781,6 @@ static void xpad_process_packet(struct usb_xpad
-> *xpad, u16 cmd, unsigned char *d
->   input_report_key(dev, BTN_C, data[8]);
->   input_report_key(dev, BTN_Z, data[9]);
-> 
-> - /* Profile button has a value of 0-3, so it is reported as an axis
-> */
-> - if (xpad->mapping & MAP_PROFILE_BUTTON)
-> - input_report_abs(dev, ABS_PROFILE, data[34]);
-> 
->   input_sync(dev);
->  }
-> @@ -1061,6 +1058,10 @@ static void xpadone_process_packet(struct
-> usb_xpad *xpad, u16 cmd, unsigned char
->   (__u16) le16_to_cpup((__le16 *)(data + 8)));
->   }
-> 
-> + /* Profile button has a value of 0-3, so it is reported as an axis
-> */
-> + if (xpad->mapping & MAP_PROFILE_BUTTON)
-> + input_report_abs(dev, ABS_PROFILE, data[34]);
-> +
->   /* paddle handling */
->   /* based on SDL's SDL_hidapi_xboxone.c */
->   if (xpad->mapping & MAP_PADDLES) {
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
