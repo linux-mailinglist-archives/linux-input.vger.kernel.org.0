@@ -2,53 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE3506BFC15
-	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 19:00:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 281AD6BFD0F
+	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 23:51:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbjCRSAy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Mar 2023 14:00:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
+        id S229623AbjCRWvW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Mar 2023 18:51:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbjCRSAy (ORCPT
+        with ESMTP id S229488AbjCRWvW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Mar 2023 14:00:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49B9D1F918;
-        Sat, 18 Mar 2023 11:00:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 110E0B8010F;
-        Sat, 18 Mar 2023 18:00:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2FB9C433EF;
-        Sat, 18 Mar 2023 18:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679162450;
-        bh=iQv2UWT4vp+zaZRW7O18XPD/QQoMvERRM+QNrfGepGQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TAYcje2tV8zG2FX9OfYDEBiijUSQbXspknLvLpc1EVQ7Cd2I1a8QS5PP6jYT48tLu
-         qgpfHEoAMMpF/sNVwusHmFhY4xgcS+v1nOQqyZWnYc0+CFZFSDccnwNKUZbssrACZE
-         pJlYK+B7K/wQc+5o8OINig2YeBUv/SyEIYskuqfKm3MP5SZSlm7xUKOCu9lPUF1fLf
-         e/Se8Zu9pN0uG1uRvR1BZZW3MnzQU5kfqykPLmvyYLM2YVQpGx3ERQ0mSNxYI8GXE1
-         fRxGz38+Oz5naX5qvQ7eKeRp3vWL6Kb1WTzblLKPpOwEe6ipdtCJ5wRKZcuN8K9wL/
-         CSHsWnlSX972g==
-Date:   Sat, 18 Mar 2023 19:00:47 +0100
-From:   Andi Shyti <andi.shyti@kernel.org>
-To:     Matthias Benkmann <matthias.benkmann@gmail.com>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        Nate Yocom <nate@yocom.org>, hadess@hadess.net,
-        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
-        Pavel Rojtberg <rojtberg@gmail.com>
-Subject: Re: [PATCH v3] Fix incorrectly applied patch for MAP_PROFILE_BUTTON
-Message-ID: <20230318180047.3pzcep5roaon3nph@intel.intel>
-References: <CAK4gqCCk7ipRbZ=LM8Nsj+nE2S6v6QN39ziYSr3d2NmVMHULYg@mail.gmail.com>
- <20230318162106.0aef4ba5@ninja>
+        Sat, 18 Mar 2023 18:51:22 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F3E25E1C
+        for <linux-input@vger.kernel.org>; Sat, 18 Mar 2023 15:51:18 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pdfOO-0006G4-Ca; Sat, 18 Mar 2023 23:51:16 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pdfOM-0055zl-9u; Sat, 18 Mar 2023 23:51:14 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pdfOL-005yrv-J0; Sat, 18 Mar 2023 23:51:13 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Jeff LaBundy <jeff@labundy.com>
+Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH] Input: iqs62x-keys - Suppress duplicated error message in .remove()
+Date:   Sat, 18 Mar 2023 23:51:10 +0100
+Message-Id: <20230318225110.261439-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230318162106.0aef4ba5@ninja>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1069; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ISSrIVWJqHIKiMrx5WuU5B3o8c+0rUo9ePR1EM1577g=; b=owGbwMvMwMXY3/A7olbonx/jabUkhhQxh5gfuTYSl32PioX5ph97ZvnFdaZVWptdxQRmh8Rb6 02P1Kp0MhqzMDByMciKKbLYN67JtKqSi+xc++8yzCBWJpApDFycAjCRtzvY/2lzsy2VlbqWYfyP r77o9PTX31Wqfr2bJt4XtlnC64D2krS4eT61LV22yl/Yk2xmS1SzZjnmr953rDTH5txezjeZswM O3jimy6C4zSVjW/tv9sWSZ45fn+o14XhlQ7DYpXBf73du2xg0OT0v3dmVw3/Gt4HzjGXcC/vGFO XFsZIcy4wCF9l+XzR/Zd7cHmbzz/rZxx5vrn3xTvflhsz1Eh5qRSukO1XkeDNLu9zsHq904baa2 h8wUf2wL4effM7fN4vV3X9EZMREslW3XXH8Lj4v9ALzvFNxygH1ljWWvFfe/pjdVqu9o+mC5NWU CHYlmULn69WLw3b279OIOCafc8Qma6nqHnuv0JAN4fEA
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,55 +54,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 18, 2023 at 04:21:06PM +0100, Matthias Benkmann wrote:
-> When the linked patch was applied,
+If a platform driver's remove callback returns non-zero the driver core
+emits an error message. In such a case however iqs62x_keys_remove()
+already issued a (better) message. So return zero to suppress the
+generic message.
 
-Please refer to the patch as "commit fff1011a26d6 ("Input: xpad -
-add X-Box Adaptive Profile button")" and not as "linked patch".
+This patch has no other side effects as platform_remove() ignores the
+return value of .remove() after the warning.
 
-> one hunk ended up in the wrong function. This patch moves it to where
-> it probably belongs.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/input/keyboard/iqs62x-keys.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-probably? We need to be sure here :)
+diff --git a/drivers/input/keyboard/iqs62x-keys.c b/drivers/input/keyboard/iqs62x-keys.c
+index db793a550c25..02ceebad7bda 100644
+--- a/drivers/input/keyboard/iqs62x-keys.c
++++ b/drivers/input/keyboard/iqs62x-keys.c
+@@ -320,7 +320,7 @@ static int iqs62x_keys_remove(struct platform_device *pdev)
+ 	if (ret)
+ 		dev_err(&pdev->dev, "Failed to unregister notifier: %d\n", ret);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static struct platform_driver iqs62x_keys_platform_driver = {
 
-Besides, please, use the imperative form, not "this patch moves"
-but "move what where", please be more specific.
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.39.2
 
-Andi
-
-> Link: https://lore.kernel.org/all/20220908173930.28940-6-nate@yocom.org/
-> Fixes: fff1011a26d6 (Input: xpad - add X-Box Adaptive Profile button)
-> Signed-off-by: Matthias Benkmann <matthias.benkmann@gmail.com>
-> 
-> ---
->  drivers/input/joystick/xpad.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index f642ec8e92dd..29131f1a2f06 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -781,9 +781,6 @@ static void xpad_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char *d
->  	input_report_key(dev, BTN_C, data[8]);
->  	input_report_key(dev, BTN_Z, data[9]);
->  
-> -	/* Profile button has a value of 0-3, so it is reported as an axis */
-> -	if (xpad->mapping & MAP_PROFILE_BUTTON)
-> -		input_report_abs(dev, ABS_PROFILE, data[34]);
->  
->  	input_sync(dev);
->  }
-> @@ -1061,6 +1058,10 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
->  					(__u16) le16_to_cpup((__le16 *)(data + 8)));
->  		}
->  
-> +		/* Profile button has a value of 0-3, so it is reported as an axis */
-> +		if (xpad->mapping & MAP_PROFILE_BUTTON)
-> +			input_report_abs(dev, ABS_PROFILE, data[34]);
-> +
->  		/* paddle handling */
->  		/* based on SDL's SDL_hidapi_xboxone.c */
->  		if (xpad->mapping & MAP_PADDLES) {
-> -- 
-> 2.25.1
-> 
