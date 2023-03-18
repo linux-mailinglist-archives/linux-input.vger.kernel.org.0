@@ -2,133 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFFCE6BF9BF
-	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 13:08:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97A816BFA3D
+	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 14:30:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbjCRMIT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Mar 2023 08:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50290 "EHLO
+        id S229559AbjCRNaY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Mar 2023 09:30:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjCRMIS (ORCPT
+        with ESMTP id S229502AbjCRNaY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Mar 2023 08:08:18 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060B430182;
-        Sat, 18 Mar 2023 05:08:14 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pdVM4-00054s-Tt; Sat, 18 Mar 2023 13:08:13 +0100
-Message-ID: <e20db4c4-b2a8-bc88-232f-d1213733d20c@leemhuis.info>
-Date:   Sat, 18 Mar 2023 13:08:12 +0100
+        Sat, 18 Mar 2023 09:30:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D816D303FE;
+        Sat, 18 Mar 2023 06:30:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A6D760C69;
+        Sat, 18 Mar 2023 13:30:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FD4FC433D2;
+        Sat, 18 Mar 2023 13:30:20 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="WKCKR3gP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1679146217;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Nqr/nUnieHd8r4zheNL21KlePfDeA8yZBuwwN9r8k3A=;
+        b=WKCKR3gP1Tnb355ZsuLfODImva+5vZoE0VRH5sszMUhW7DjWsC/OybL9flZ/lNbuW6gQql
+        DmKVIZhdh0+7BU3uNdllcMFYumCKzKC1phn+GS/dnbzDQkqhLCIxNWCO7VRakLHilNFiur
+        EPGaVd7JdsozAfyFHeiXcDVj/TBOiK4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 33af9d47 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Sat, 18 Mar 2023 13:30:17 +0000 (UTC)
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>, stable@vger.kernel.org,
+        regressions@leemhuis.info, barry@messagefor.me.uk
+Subject: [PATCH] Input: focaltech - use explicitly signed char type
+Date:   Sat, 18 Mar 2023 14:30:10 +0100
+Message-Id: <20230318133010.1285202-1-Jason@zx2c4.com>
+In-Reply-To: <e20db4c4-b2a8-bc88-232f-d1213733d20c@leemhuis.info>
+References: <e20db4c4-b2a8-bc88-232f-d1213733d20c@leemhuis.info>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linux kernel regressions list <regressions@lists.linux.dev>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        barry@messagefor.me.uk
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: [regression] focaltech touchpad driver misbehaves due to "kbuild:
- treat char as always unsigned"
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1679141295;ab4bbee5;
-X-HE-SMSGID: 1pdVM4-00054s-Tt
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi, Thorsten here, the Linux kernel's regression tracker.
+The recent change of -funsigned-char causes additions of negative
+numbers to become additions of large positive numbers, leading to wrong
+calculations of mouse movement. Change these casts to be explictly
+signed, to take into account negative offsets.
 
-I noticed a regression report in bugzilla.kernel.org. Jason, apparently
-it's caused by a change of yours (3bc753c06dd0 ("kbuild: treat char as
-always unsigned")), which apparently caused a problem in
-drivers/input/mouse/focaltech.c to surface. Someone provided a patch
-already to fix it here: https://bugs.archlinux.org/task/77733?getfile=22498
+Fixes: 3bc753c06dd0 ("kbuild: treat char as always unsigned")
+Cc: stable@vger.kernel.org
+Cc: regressions@leemhuis.info
+Cc: barry@messagefor.me.uk
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+Wrote this patch from my phone, untested, so it would be nice if
+somebody with hardware could confirm it works.
 
-Back to the bug. As many (most?) kernel developer don't keep an eye on
-bugzilla, I decided to forward it by mail. Quoting from
-https://bugzilla.kernel.org/show_bug.cgi?id=217211 :
+ drivers/input/mouse/focaltech.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> Barry 2023-03-17 13:51:10 UTC
-> 
-> Created attachment 303972 [details] Kernel bisect result
-> 
-> O/S: Archlinux.
-> 
-> On any kernel release from 6.2 onwards I have found that the touchpad
-> doesn't respond to multi finger touches properly. The pad works fine for
-> single finger movement and single finger tap to click. If I click and
-> hold the pad button and then use another finger to move such as for text
-> selection, drag and drop, moving or resizing a window etc. Or if I try
-> to use 2 finger scrolling then the mouse pointer jumps to the top or
-> right or into the top right of the screen. All of this functionality
-> worked as expected up to kernel 6.1.19.
-> 
-> I have bisected the kernel and got the attached result.
-> 
-> 
-> I have checked out kernel 6.2.6 and removed the `-funsigned-char` from
-> the Makefile. Kernel 6.2.6 built with the modified Makefile restores the
-> correct functionality. I believe the touchpad uses the psmouse driver so
-> maybe the new build option has broken this driver.>
-> I have bisected the kernel and got the attached result.
-> 
-> 
-> I have checked out kernel 6.2.6 and removed the `-funsigned-char`
-> from the Makefile. Kernel 6.2.6 built with the modified Makefile
-> restores the correct functionality. I believe the touchpad uses the
-> psmouse driver so maybe the new build option has broken this driver.
-> 
-> [...]
-> 
-> barry@messagefor.me.uk 2023-03-18 11:49:27 UTC
-> 
-> Hi. If you check this link which is my report of the same bug on the
-> arch bug tracker there is a patch attached which fixes the issue.
-> 
-> https://bugs.archlinux.org/task/77733#comment216336
+diff --git a/drivers/input/mouse/focaltech.c b/drivers/input/mouse/focaltech.c
+index 6fd5fff0cbff..3dbad0d8e8c9 100644
+--- a/drivers/input/mouse/focaltech.c
++++ b/drivers/input/mouse/focaltech.c
+@@ -202,8 +202,8 @@ static void focaltech_process_rel_packet(struct psmouse *psmouse,
+ 	state->pressed = packet[0] >> 7;
+ 	finger1 = ((packet[0] >> 4) & 0x7) - 1;
+ 	if (finger1 < FOC_MAX_FINGERS) {
+-		state->fingers[finger1].x += (char)packet[1];
+-		state->fingers[finger1].y += (char)packet[2];
++		state->fingers[finger1].x += (signed char)packet[1];
++		state->fingers[finger1].y += (signed char)packet[2];
+ 	} else {
+ 		psmouse_err(psmouse, "First finger in rel packet invalid: %d\n",
+ 			    finger1);
+@@ -218,8 +218,8 @@ static void focaltech_process_rel_packet(struct psmouse *psmouse,
+ 	 */
+ 	finger2 = ((packet[3] >> 4) & 0x7) - 1;
+ 	if (finger2 < FOC_MAX_FINGERS) {
+-		state->fingers[finger2].x += (char)packet[4];
+-		state->fingers[finger2].y += (char)packet[5];
++		state->fingers[finger2].x += (signed char)packet[4];
++		state->fingers[finger2].y += (signed char)packet[5];
+ 	}
+ }
+ 
+-- 
+2.40.0
 
-See the ticket for more details.
-
-
-[TLDR for the rest of this mail: I'm adding this report to the list of
-tracked Linux kernel regressions; the text you find below is based on a
-few templates paragraphs you might have encountered already in similar
-form.]
-
-BTW, let me use this mail to also add the report to the list of tracked
-regressions to ensure it's doesn't fall through the cracks:
-
-#regzbot introduced: 3bc753c06dd0
-https://bugzilla.kernel.org/show_bug.cgi?id=217211
-#regzbot title: kbuild/input: focaltech touchpad driver misbehaves due
-to a checke how to treat char
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
-this thread sees some discussion). See page linked in footer for details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
