@@ -2,109 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC5BC6BFAED
-	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 15:41:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 052EB6BFB06
+	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 15:55:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbjCROlm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Mar 2023 10:41:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47982 "EHLO
+        id S229478AbjCROzc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Mar 2023 10:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjCROll (ORCPT
+        with ESMTP id S229473AbjCROzb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Mar 2023 10:41:41 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B04922884E;
-        Sat, 18 Mar 2023 07:41:36 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id t4so8536130ybg.11;
-        Sat, 18 Mar 2023 07:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679150496;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=dLPasiW4wXVIcw3dYPau5cyl60uI/uhzmr1mBi9HhnE=;
-        b=mdPha3r3qnla2jIaaGzEGOD3OmH+pKT6QdNcjL1/bQGuf5RSbP9uHteSAIKjrmK+8O
-         VWM5tzX/ENS8VJRTKti9nnRccLjZyfpIMyhKsqqqwFFdNU7E5dHkHg726UWkDsp/MlkB
-         3gvsSbza41mbEJW2HwdJ+6YgAI9b8ib+f8+fxWTZJphWZlYiaIzblUa70osAAZe58HJS
-         ebtL1tp4W0WBsGrcPAYm0dNxHn/fsbrJMweI2d+FUh7ohBtSYBostduk8oz8Bu6HOn4K
-         9vU3RtRLghRlM1+jmrRdQmaazxhsn43svMXhyHF3l0VxNRz49d9dQMwo6DNRE8GrdIBQ
-         P5rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679150496;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dLPasiW4wXVIcw3dYPau5cyl60uI/uhzmr1mBi9HhnE=;
-        b=c1fd8Lg0evd8+SIRhbiEyWU2UY4Ayyl8jF7C1F6J2yFzl4pQrNpmYcmK3yVAfhX16B
-         6TzggWan1S1DUU5sJN+r4nLYHQq0TdZ3iXx1qY7lfGFZ4KyL1Xzt//RkF+zKB+lWh1/H
-         nMn6ExYFGU1wHu/35kO8y9DweQz9lJE8/0MdiMHFh2oTf/XK/AfoR+7XtDwakkcu55hB
-         XW1sYc3vYdz31o3scjuo2ZYs/hGqnG6wfqj8/NbPal9LUqWuNaBq7g8Ill/dl+x0n82K
-         OcAjDbwXjQCrbU8k6pjIAX3nxvOvtNGktCUfgKnUqxfGWG8WIGuxeKAOL6yknfjM12iU
-         lw3A==
-X-Gm-Message-State: AO0yUKUYRbyJbrYKIPF3HavCVVqhavUCzF0o0fVzMg7c+BZ9W28HuIv2
-        GM2uIW0uCiKohDet4/+EKnWqMReNmzLSShgcFr8RfN2cUkM2OLcF
-X-Google-Smtp-Source: AK7set/USFx6SL92vrbK7UMJBUMUhbz9/SxJ8CMpwtHsmavN3Em70lrlrLmjg4GdYklHlpVw2drZ4ENxdr7OM11QVo0=
-X-Received: by 2002:a05:6902:1101:b0:b26:d140:5f74 with SMTP id
- o1-20020a056902110100b00b26d1405f74mr1830252ybu.1.1679150495867; Sat, 18 Mar
- 2023 07:41:35 -0700 (PDT)
+        Sat, 18 Mar 2023 10:55:31 -0400
+Received: from hyperium.qtmlabs.xyz (hyperium.qtmlabs.xyz [IPv6:2a02:c206:2066:3319::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3644A1498B
+        for <linux-input@vger.kernel.org>; Sat, 18 Mar 2023 07:55:28 -0700 (PDT)
+Received: from dong.kernal.eu (unknown [222.254.17.84])
+        by hyperium.qtmlabs.xyz (Postfix) with ESMTPSA id B9055820257;
+        Sat, 18 Mar 2023 15:46:24 +0100 (CET)
+Received: from localhost (unknown [171.255.115.39])
+        by dong.kernal.eu (Postfix) with ESMTPSA id 2975F44496AC;
+        Sat, 18 Mar 2023 21:46:19 +0700 (+07)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtmlabs.xyz; s=syka;
+        t=1679150779;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=QS6eRcg3qz0+dvGL11XvXEsHicDLuvrO+aW9MNPSbOE=;
+        b=BIj85WG2x2uqf88mxb7tsgmbgKVsvHC0nx2oc4yjIX0OSYloylRPs9rdl8mJQamv79M4iO
+        xIC8L2pjq6gWknVs+tTzYU8aBq1V1Vd0gSWSlyp6YHgLJL0yqJL28Xwaa58nCEO9gHOLh5
+        +RJepBA8M/EX9Be8lo+XLWQ0Hq9sTB9iyoKHd7rL7ahGrP6FZzV10CJbgJV/7XzRnbrcSv
+        5AxGTC6cbe1G/b2zZUHdmyxDwfn7PziA1hu06v1obLgdvhpSOjA+lyO/oQT34sF4SsQQlI
+        49k7O9hhQvdfSbqVSDitP67I7OnFgqLRckjkXUpDtCZ44L6ntIAizSwU/Pbd0g==
+From:   msizanoen <msizanoen@qtmlabs.xyz>
+To:     =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     msizanoen <msizanoen@qtmlabs.xyz>, stable@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] input: alps: fix compatibility with -funsigned-char
+Date:   Sat, 18 Mar 2023 21:42:07 +0700
+Message-Id: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-From:   Matthias Benkmann <matthias.benkmann@gmail.com>
-Date:   Sat, 18 Mar 2023 15:41:25 +0100
-Message-ID: <CAK4gqCCk7ipRbZ=LM8Nsj+nE2S6v6QN39ziYSr3d2NmVMHULYg@mail.gmail.com>
-Subject: [PATCH v2] Fix incorrectly applied patch for MAP_PROFILE_BUTTON
-To:     linux-input@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, Nate Yocom <nate@yocom.org>,
-        hadess@hadess.net, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, Pavel Rojtberg <rojtberg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When the linked patch was applied,
-one hunk ended up in the wrong function. This patch moves it to where
-it probably belongs.
+The AlpsPS/2 code previously relied on the assumption that `char` is a
+signed type, which was true on x86 platforms (the only place where this
+driver is used) before kernel 6.2. However, on 6.2 and later, this
+assumption is broken due to the introduction of -funsigned-char as a new
+global compiler flag.
 
-Link: https://lore.kernel.org/all/20220908173930.28940-6-nate@yocom.org/
-Fixes: fff1011a26d6 (Input: xpad - add X-Box Adaptive Profile button)
-Signed-off-by: Matthias Benkmann <matthias.benkmann@gmail.com>
+Fix this by explicitly specifying the signedness of `char` when sign
+extending the values received from the device.
 
+Fixes: f3f33c677699 ("Input: alps - Rushmore and v7 resolution support")
+Cc: stable@vger.kernel.org
+Signed-off-by: msizanoen <msizanoen@qtmlabs.xyz>
 ---
- drivers/input/joystick/xpad.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/input/mouse/alps.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index f642ec8e92dd..29131f1a2f06 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -781,9 +781,6 @@ static void xpad_process_packet(struct usb_xpad
-*xpad, u16 cmd, unsigned char *d
-        input_report_key(dev, BTN_C, data[8]);
-        input_report_key(dev, BTN_Z, data[9]);
-
--       /* Profile button has a value of 0-3, so it is reported as an axis */
--       if (xpad->mapping & MAP_PROFILE_BUTTON)
--               input_report_abs(dev, ABS_PROFILE, data[34]);
-
-        input_sync(dev);
- }
-@@ -1061,6 +1058,10 @@ static void xpadone_process_packet(struct
-usb_xpad *xpad, u16 cmd, unsigned char
-                                        (__u16) le16_to_cpup((__le16
-*)(data + 8)));
-                }
-
-+               /* Profile button has a value of 0-3, so it is
-reported as an axis */
-+               if (xpad->mapping & MAP_PROFILE_BUTTON)
-+                       input_report_abs(dev, ABS_PROFILE, data[34]);
-+
-                /* paddle handling */
-                /* based on SDL's SDL_hidapi_xboxone.c */
-                if (xpad->mapping & MAP_PADDLES) {
+diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+index 989228b5a0a4..1c570d373b30 100644
+--- a/drivers/input/mouse/alps.c
++++ b/drivers/input/mouse/alps.c
+@@ -2294,20 +2294,20 @@ static int alps_get_v3_v7_resolution(struct psmouse *psmouse, int reg_pitch)
+ 	if (reg < 0)
+ 		return reg;
+ 
+-	x_pitch = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
++	x_pitch = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+ 	x_pitch = 50 + 2 * x_pitch; /* In 0.1 mm units */
+ 
+-	y_pitch = (char)reg >> 4; /* sign extend upper 4 bits */
++	y_pitch = (signed char)reg >> 4; /* sign extend upper 4 bits */
+ 	y_pitch = 36 + 2 * y_pitch; /* In 0.1 mm units */
+ 
+ 	reg = alps_command_mode_read_reg(psmouse, reg_pitch + 1);
+ 	if (reg < 0)
+ 		return reg;
+ 
+-	x_electrode = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
++	x_electrode = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+ 	x_electrode = 17 + x_electrode;
+ 
+-	y_electrode = (char)reg >> 4; /* sign extend upper 4 bits */
++	y_electrode = (signed char)reg >> 4; /* sign extend upper 4 bits */
+ 	y_electrode = 13 + y_electrode;
+ 
+ 	x_phys = x_pitch * (x_electrode - 1); /* In 0.1 mm units */
 -- 
-2.25.1
+2.39.2
+
