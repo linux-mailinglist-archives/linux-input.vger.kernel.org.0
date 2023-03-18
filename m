@@ -2,55 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97A816BFA3D
-	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 14:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC5BC6BFAED
+	for <lists+linux-input@lfdr.de>; Sat, 18 Mar 2023 15:41:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbjCRNaY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Mar 2023 09:30:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49838 "EHLO
+        id S229542AbjCROlm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Mar 2023 10:41:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjCRNaY (ORCPT
+        with ESMTP id S229517AbjCROll (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Mar 2023 09:30:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D816D303FE;
-        Sat, 18 Mar 2023 06:30:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A6D760C69;
-        Sat, 18 Mar 2023 13:30:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FD4FC433D2;
-        Sat, 18 Mar 2023 13:30:20 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="WKCKR3gP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1679146217;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Nqr/nUnieHd8r4zheNL21KlePfDeA8yZBuwwN9r8k3A=;
-        b=WKCKR3gP1Tnb355ZsuLfODImva+5vZoE0VRH5sszMUhW7DjWsC/OybL9flZ/lNbuW6gQql
-        DmKVIZhdh0+7BU3uNdllcMFYumCKzKC1phn+GS/dnbzDQkqhLCIxNWCO7VRakLHilNFiur
-        EPGaVd7JdsozAfyFHeiXcDVj/TBOiK4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 33af9d47 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Sat, 18 Mar 2023 13:30:17 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>, stable@vger.kernel.org,
-        regressions@leemhuis.info, barry@messagefor.me.uk
-Subject: [PATCH] Input: focaltech - use explicitly signed char type
-Date:   Sat, 18 Mar 2023 14:30:10 +0100
-Message-Id: <20230318133010.1285202-1-Jason@zx2c4.com>
-In-Reply-To: <e20db4c4-b2a8-bc88-232f-d1213733d20c@leemhuis.info>
-References: <e20db4c4-b2a8-bc88-232f-d1213733d20c@leemhuis.info>
+        Sat, 18 Mar 2023 10:41:41 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B04922884E;
+        Sat, 18 Mar 2023 07:41:36 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id t4so8536130ybg.11;
+        Sat, 18 Mar 2023 07:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679150496;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dLPasiW4wXVIcw3dYPau5cyl60uI/uhzmr1mBi9HhnE=;
+        b=mdPha3r3qnla2jIaaGzEGOD3OmH+pKT6QdNcjL1/bQGuf5RSbP9uHteSAIKjrmK+8O
+         VWM5tzX/ENS8VJRTKti9nnRccLjZyfpIMyhKsqqqwFFdNU7E5dHkHg726UWkDsp/MlkB
+         3gvsSbza41mbEJW2HwdJ+6YgAI9b8ib+f8+fxWTZJphWZlYiaIzblUa70osAAZe58HJS
+         ebtL1tp4W0WBsGrcPAYm0dNxHn/fsbrJMweI2d+FUh7ohBtSYBostduk8oz8Bu6HOn4K
+         9vU3RtRLghRlM1+jmrRdQmaazxhsn43svMXhyHF3l0VxNRz49d9dQMwo6DNRE8GrdIBQ
+         P5rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679150496;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dLPasiW4wXVIcw3dYPau5cyl60uI/uhzmr1mBi9HhnE=;
+        b=c1fd8Lg0evd8+SIRhbiEyWU2UY4Ayyl8jF7C1F6J2yFzl4pQrNpmYcmK3yVAfhX16B
+         6TzggWan1S1DUU5sJN+r4nLYHQq0TdZ3iXx1qY7lfGFZ4KyL1Xzt//RkF+zKB+lWh1/H
+         nMn6ExYFGU1wHu/35kO8y9DweQz9lJE8/0MdiMHFh2oTf/XK/AfoR+7XtDwakkcu55hB
+         XW1sYc3vYdz31o3scjuo2ZYs/hGqnG6wfqj8/NbPal9LUqWuNaBq7g8Ill/dl+x0n82K
+         OcAjDbwXjQCrbU8k6pjIAX3nxvOvtNGktCUfgKnUqxfGWG8WIGuxeKAOL6yknfjM12iU
+         lw3A==
+X-Gm-Message-State: AO0yUKUYRbyJbrYKIPF3HavCVVqhavUCzF0o0fVzMg7c+BZ9W28HuIv2
+        GM2uIW0uCiKohDet4/+EKnWqMReNmzLSShgcFr8RfN2cUkM2OLcF
+X-Google-Smtp-Source: AK7set/USFx6SL92vrbK7UMJBUMUhbz9/SxJ8CMpwtHsmavN3Em70lrlrLmjg4GdYklHlpVw2drZ4ENxdr7OM11QVo0=
+X-Received: by 2002:a05:6902:1101:b0:b26:d140:5f74 with SMTP id
+ o1-20020a056902110100b00b26d1405f74mr1830252ybu.1.1679150495867; Sat, 18 Mar
+ 2023 07:41:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+From:   Matthias Benkmann <matthias.benkmann@gmail.com>
+Date:   Sat, 18 Mar 2023 15:41:25 +0100
+Message-ID: <CAK4gqCCk7ipRbZ=LM8Nsj+nE2S6v6QN39ziYSr3d2NmVMHULYg@mail.gmail.com>
+Subject: [PATCH v2] Fix incorrectly applied patch for MAP_PROFILE_BUTTON
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, Nate Yocom <nate@yocom.org>,
+        hadess@hadess.net, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, Pavel Rojtberg <rojtberg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,49 +65,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The recent change of -funsigned-char causes additions of negative
-numbers to become additions of large positive numbers, leading to wrong
-calculations of mouse movement. Change these casts to be explictly
-signed, to take into account negative offsets.
+When the linked patch was applied,
+one hunk ended up in the wrong function. This patch moves it to where
+it probably belongs.
 
-Fixes: 3bc753c06dd0 ("kbuild: treat char as always unsigned")
-Cc: stable@vger.kernel.org
-Cc: regressions@leemhuis.info
-Cc: barry@messagefor.me.uk
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Link: https://lore.kernel.org/all/20220908173930.28940-6-nate@yocom.org/
+Fixes: fff1011a26d6 (Input: xpad - add X-Box Adaptive Profile button)
+Signed-off-by: Matthias Benkmann <matthias.benkmann@gmail.com>
+
 ---
-Wrote this patch from my phone, untested, so it would be nice if
-somebody with hardware could confirm it works.
+ drivers/input/joystick/xpad.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- drivers/input/mouse/focaltech.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index f642ec8e92dd..29131f1a2f06 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -781,9 +781,6 @@ static void xpad_process_packet(struct usb_xpad
+*xpad, u16 cmd, unsigned char *d
+        input_report_key(dev, BTN_C, data[8]);
+        input_report_key(dev, BTN_Z, data[9]);
 
-diff --git a/drivers/input/mouse/focaltech.c b/drivers/input/mouse/focaltech.c
-index 6fd5fff0cbff..3dbad0d8e8c9 100644
---- a/drivers/input/mouse/focaltech.c
-+++ b/drivers/input/mouse/focaltech.c
-@@ -202,8 +202,8 @@ static void focaltech_process_rel_packet(struct psmouse *psmouse,
- 	state->pressed = packet[0] >> 7;
- 	finger1 = ((packet[0] >> 4) & 0x7) - 1;
- 	if (finger1 < FOC_MAX_FINGERS) {
--		state->fingers[finger1].x += (char)packet[1];
--		state->fingers[finger1].y += (char)packet[2];
-+		state->fingers[finger1].x += (signed char)packet[1];
-+		state->fingers[finger1].y += (signed char)packet[2];
- 	} else {
- 		psmouse_err(psmouse, "First finger in rel packet invalid: %d\n",
- 			    finger1);
-@@ -218,8 +218,8 @@ static void focaltech_process_rel_packet(struct psmouse *psmouse,
- 	 */
- 	finger2 = ((packet[3] >> 4) & 0x7) - 1;
- 	if (finger2 < FOC_MAX_FINGERS) {
--		state->fingers[finger2].x += (char)packet[4];
--		state->fingers[finger2].y += (char)packet[5];
-+		state->fingers[finger2].x += (signed char)packet[4];
-+		state->fingers[finger2].y += (signed char)packet[5];
- 	}
+-       /* Profile button has a value of 0-3, so it is reported as an axis */
+-       if (xpad->mapping & MAP_PROFILE_BUTTON)
+-               input_report_abs(dev, ABS_PROFILE, data[34]);
+
+        input_sync(dev);
  }
- 
--- 
-2.40.0
+@@ -1061,6 +1058,10 @@ static void xpadone_process_packet(struct
+usb_xpad *xpad, u16 cmd, unsigned char
+                                        (__u16) le16_to_cpup((__le16
+*)(data + 8)));
+                }
 
++               /* Profile button has a value of 0-3, so it is
+reported as an axis */
++               if (xpad->mapping & MAP_PROFILE_BUTTON)
++                       input_report_abs(dev, ABS_PROFILE, data[34]);
++
+                /* paddle handling */
+                /* based on SDL's SDL_hidapi_xboxone.c */
+                if (xpad->mapping & MAP_PADDLES) {
+-- 
+2.25.1
