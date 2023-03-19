@@ -2,117 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 145096BFF0C
-	for <lists+linux-input@lfdr.de>; Sun, 19 Mar 2023 03:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DC9D6C0073
+	for <lists+linux-input@lfdr.de>; Sun, 19 Mar 2023 10:56:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbjCSCSG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Mar 2023 22:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47124 "EHLO
+        id S229468AbjCSJ4f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Mar 2023 05:56:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbjCSCSF (ORCPT
+        with ESMTP id S229621AbjCSJ4d (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Mar 2023 22:18:05 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CB6B1CBC9;
-        Sat, 18 Mar 2023 19:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679192282; x=1710728282;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jIPuaikK5WiTV8K4JvH+9NjhVzDb94XyP23TDKGgK3k=;
-  b=i5eVd3FzzJqkiKW7mCDUaI2lwc74Oz/oepUX/0gRpm4OsKvmTQ0x/jy9
-   YZcrTiSH1wElVY8TCXVB6f9epLkjCaAGZnhpbcmeMZEBDXLEtmJKIrRq7
-   Z+BS6rxXfVxlw9XXvVgXeoOojUTyffdaJheH/PcLj18rRVf60MwQycjJT
-   cs/mqzRtZuEx6z3xMib4DickHXTW4HuYlnNjc222jv132hoqZSR3em4TS
-   1aWaKXK42J4mi1sTSRaOTqBUpkwtqCKFYOBUm7TgME0vIhx5fZ/GBahs7
-   GhSuVtUe2MPb4Eyh8Ok48pOEae8bnkBiNvvrtFh1yeMY5orzvEYkxO8qL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="318874990"
-X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="318874990"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 19:18:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="854880048"
-X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="854880048"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 18 Mar 2023 19:17:59 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pdicQ-000ALI-0m;
-        Sun, 19 Mar 2023 02:17:58 +0000
-Date:   Sun, 19 Mar 2023 10:17:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "jingle.wu" <jingle.wu@emc.com.tw>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-Cc:     oe-kbuild-all@lists.linux.dev, phoenix@emc.com.tw,
-        josh.chen@emc.com.tw, dave.wang@emc.com.tw,
-        "jingle.wu" <jingle.wu@emc.com.tw>
-Subject: Re: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
-Message-ID: <202303191024.mbwWRV3A-lkp@intel.com>
-References: <20230317071646.977357-1-jingle.wu@emc.com.tw>
+        Sun, 19 Mar 2023 05:56:33 -0400
+Received: from hyperium.qtmlabs.xyz (hyperium.qtmlabs.xyz [194.163.182.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D285423A7E;
+        Sun, 19 Mar 2023 02:56:23 -0700 (PDT)
+Received: from dong.kernal.eu (unknown [222.254.17.84])
+        by hyperium.qtmlabs.xyz (Postfix) with ESMTPSA id B253C820068;
+        Sun, 19 Mar 2023 10:56:21 +0100 (CET)
+Received: from [172.20.10.2] (unknown [27.67.137.222])
+        by dong.kernal.eu (Postfix) with ESMTPSA id 37D4044496AC;
+        Sun, 19 Mar 2023 16:56:17 +0700 (+07)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtmlabs.xyz; s=syka;
+        t=1679219777;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DJI5NqP+7UPBiESx9Y6xUHlCLtPOkNMX1Uu0kNfBbrk=;
+        b=B+LOu8hbwgyeI82gMu/DdcpT2Wmc2CB+RCXcIDMGqCsecbSWz7233uAXkwYDs5RWsFKx0I
+        Bke44w9C2XuiBbJfeIkanCfJT3Twdw2qGuhhhcjSUFjWXJ2SYJiKpiCW8BJFNTy2sSts0D
+        hYkpGvFaTmijfE7lzUSCjWg9uDQgRarkiNLCx3MXtdnlsoHYpCCuNUKmpjcdlunaWz8FgQ
+        ymhmD6hmYbdeoV3RviqLx7Q7w5nKJYmtCXBMEvkXfD556QxTkNYbmJAtJientZhLo5LzQc
+        ZHPdIMuxgig9Qa47WgIPxUfb2LEg/hZ6+HnxYhHxOv7Rem4Jhf5PVOyuPV1yFw==
+Message-ID: <1fd818c2-4e68-8760-9123-de4fa1920c6b@qtmlabs.xyz>
+Date:   Sun, 19 Mar 2023 16:56:11 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230317071646.977357-1-jingle.wu@emc.com.tw>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] input: alps: fix compatibility with -funsigned-char
+Content-Language: en-US
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     stable@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
+From:   msizanoen <msizanoen@qtmlabs.xyz>
+In-Reply-To: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SORBS_WEB,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi jingle.wu,
+Patch confirmed working as expected on real hardware.
 
-Thank you for the patch! Perhaps something to improve:
+Tested-by: msizanoen <msizanoen@qtmlabs.xyz>
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.3-rc2 next-20230317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/jingle-wu/Input-elan_i2c-Implement-inhibit-uninhibit-functions/20230317-152004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20230317071646.977357-1-jingle.wu%40emc.com.tw
-patch subject: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
-config: nios2-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191024.mbwWRV3A-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303191024.mbwWRV3A-lkp@intel.com/
-
-smatch warnings:
-drivers/input/mouse/elan_i2c_core.c:342 elan_reactivate() warn: inconsistent indenting
-
-vim +342 drivers/input/mouse/elan_i2c_core.c
-
-   331	
-   332	static int elan_reactivate(struct elan_tp_data *data)
-   333	{
-   334		struct device *dev = &data->client->dev;
-   335		int ret;
-   336	
-   337		ret = elan_set_power(data, true);
-   338		if (ret)
-   339			dev_err(dev, "failed to restore power: %d\n", ret);
-   340	
-   341		ret = data->ops->sleep_control(data->client, false);
- > 342			if (ret) {
-   343				dev_err(dev,
-   344					"failed to wake device up: %d\n", ret);
-   345				return ret;
-   346			}
-   347	
-   348		return ret;
-   349	}
-   350	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On 3/18/23 21:42, msizanoen wrote:
+> The AlpsPS/2 code previously relied on the assumption that `char` is a
+> signed type, which was true on x86 platforms (the only place where this
+> driver is used) before kernel 6.2. However, on 6.2 and later, this
+> assumption is broken due to the introduction of -funsigned-char as a new
+> global compiler flag.
+>
+> Fix this by explicitly specifying the signedness of `char` when sign
+> extending the values received from the device.
+>
+> Fixes: f3f33c677699 ("Input: alps - Rushmore and v7 resolution support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: msizanoen <msizanoen@qtmlabs.xyz>
+> ---
+>   drivers/input/mouse/alps.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+> index 989228b5a0a4..1c570d373b30 100644
+> --- a/drivers/input/mouse/alps.c
+> +++ b/drivers/input/mouse/alps.c
+> @@ -2294,20 +2294,20 @@ static int alps_get_v3_v7_resolution(struct psmouse *psmouse, int reg_pitch)
+>   	if (reg < 0)
+>   		return reg;
+>   
+> -	x_pitch = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+> +	x_pitch = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+>   	x_pitch = 50 + 2 * x_pitch; /* In 0.1 mm units */
+>   
+> -	y_pitch = (char)reg >> 4; /* sign extend upper 4 bits */
+> +	y_pitch = (signed char)reg >> 4; /* sign extend upper 4 bits */
+>   	y_pitch = 36 + 2 * y_pitch; /* In 0.1 mm units */
+>   
+>   	reg = alps_command_mode_read_reg(psmouse, reg_pitch + 1);
+>   	if (reg < 0)
+>   		return reg;
+>   
+> -	x_electrode = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+> +	x_electrode = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+>   	x_electrode = 17 + x_electrode;
+>   
+> -	y_electrode = (char)reg >> 4; /* sign extend upper 4 bits */
+> +	y_electrode = (signed char)reg >> 4; /* sign extend upper 4 bits */
+>   	y_electrode = 13 + y_electrode;
+>   
+>   	x_phys = x_pitch * (x_electrode - 1); /* In 0.1 mm units */
