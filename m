@@ -2,135 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C9E56C04EB
-	for <lists+linux-input@lfdr.de>; Sun, 19 Mar 2023 21:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2AED6C06C6
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 01:17:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbjCSUsP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Mar 2023 16:48:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
+        id S229484AbjCTARw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Mar 2023 20:17:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjCSUsK (ORCPT
+        with ESMTP id S229446AbjCTARv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Mar 2023 16:48:10 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D65768B;
-        Sun, 19 Mar 2023 13:48:07 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id r5so11130017qtp.4;
-        Sun, 19 Mar 2023 13:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679258887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HrTr039c+6RN5N35ewTG2eYP720SLlYLqSsBbC6Oub8=;
-        b=DxonOl/8K+dvmpWuo+1YenKfHOlFPr30tw66Jg22opyy3IHXlPpOn7dRUNZOT41Tz8
-         VRPg6q5HnxqAep5WpgHZTHU4/GeovoueOqbCd+GzpGrOVmNx/uWLYZopitxZPPDPl49M
-         sUA1Ol8FDk1CkA5PnpUS4VF81lDITASOygHcbOqP0VfJoLl5ITlfGwokgXy8RbUZwFuU
-         oSB5mI96cXCxeJeozDLEYIrapjy8exR+i2pfCWYNcI9s4S+OIulLm4KQzUFUfEy/EhzG
-         Xzemc8s/PAtDZ23po7mpWP2uWlyFhigw2EDdEygK/OSwwSHiUpt7JLp2yArbpqX39khE
-         kIcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679258887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HrTr039c+6RN5N35ewTG2eYP720SLlYLqSsBbC6Oub8=;
-        b=ROcwb42Z+TCpw48hy0KeORDZPacDIsoOykHg47dlocgXdTxtrzpXMCEHSX4+LY8k/6
-         PgHS4+13WAhenwr0rTzOCi/XW6M8QSOw+O+6HK5PAYQ/q4behYafJmc/o2+wtsi5tKK6
-         xi8oRpNpojpEc492ILeDYi+ET2dymcv7JLBpFtyRTjQWWPYvFrqweQAOrbms6BB1O82a
-         xjuMuxHhHM/Tm5wEM9wziUhqu56dXoaxWQCDWfBudcSFJTMOZ/KPnqVV5CmqTIihOzza
-         j5B4kWkoR7PQpI6msBP/840q5iAC1ucBKa2C0i1pvlei2yWu7CjTWzAW31TKQ7YEGI9k
-         ZK3w==
-X-Gm-Message-State: AO0yUKVfV7Wo8aNT7X/PRYWkaunil1ROFog1OIjeKz7nWCjTnQOHTIkk
-        B+4rU6elPYnjgCq9QvasP4g=
-X-Google-Smtp-Source: AK7set+q7zCLSBGRHPR1/9WObyNMJyALQo+2AYOd+xNYhamOq9gmtCR4X1wKet5VZSoLbD4joTSPQQ==
-X-Received: by 2002:a05:622a:1a0e:b0:3bf:c371:789e with SMTP id f14-20020a05622a1a0e00b003bfc371789emr24348536qtb.14.1679258886920;
-        Sun, 19 Mar 2023 13:48:06 -0700 (PDT)
-Received: from DANNY-DESKTOP.localdomain (071-013-243-092.res.spectrum.com. [71.13.243.92])
-        by smtp.gmail.com with ESMTPSA id m24-20020ac866d8000000b003b7e8c04d2esm5186021qtp.64.2023.03.19.13.48.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 13:48:06 -0700 (PDT)
-From:   Danny Kaehn <kaehndan@gmail.com>
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     bartosz.golaszewski@linaro.org, andriy.shevchenko@linux.intel.com,
-        dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, ethan.twardy@plexus.com
-Subject: [PATCH v9 3/3] HID: cp2112: Fwnode Support
-Date:   Sun, 19 Mar 2023 15:48:02 -0500
-Message-Id: <20230319204802.1364-4-kaehndan@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230319204802.1364-1-kaehndan@gmail.com>
-References: <20230319204802.1364-1-kaehndan@gmail.com>
+        Sun, 19 Mar 2023 20:17:51 -0400
+X-Greylist: delayed 119542 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 19 Mar 2023 17:17:47 PDT
+Received: from hyperium.qtmlabs.xyz (hyperium.qtmlabs.xyz [IPv6:2a02:c206:2066:3319::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA51136CD;
+        Sun, 19 Mar 2023 17:17:47 -0700 (PDT)
+Received: from dong.kernal.eu (unknown [222.254.17.84])
+        by hyperium.qtmlabs.xyz (Postfix) with ESMTPSA id 7FB5F820068;
+        Mon, 20 Mar 2023 01:17:44 +0100 (CET)
+Received: from localhost (unknown [194.163.182.183])
+        by dong.kernal.eu (Postfix) with ESMTPSA id 9CC1C44496AC;
+        Mon, 20 Mar 2023 07:17:40 +0700 (+07)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtmlabs.xyz; s=syka;
+        t=1679271461;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=otmKIrN246oTyDwHdR9LyS1yBV+UX+yNWfJ0s/2P3xM=;
+        b=ItWAw7G4YuAA74aaV87TYgc+gaYtoawizOI/bQaJqkEQd3439JfVvosBvU8h9s+uNnlFdS
+        Olv/9UREGrltoWASPjgppwHDNR6PUl2VlGvbS3qNUz84Wcwq2gw5aGggoJ3u9eaAaNDznH
+        gnXQ214f67QNs+gbDjS71V67IrgHVIVrf+CMUWEl+aSAUZPAB6WzeJ+N6/UgFKs7isXPhH
+        xXASFj3gNl0wmS9zqRRa7ccjPfTOBYQVddtyQKQE7IJ9AxUTx7GK1vM9EjorGc9Y/o6XHR
+        jFZcMfCXWELug81fXsjuwJXMgbbmlsbBfrTc6CoM7g8M55l+5eJb1AI+TiVebA==
+From:   msizanoen <msizanoen@qtmlabs.xyz>
+To:     msizanoen@qtmlabs.xyz
+Cc:     dmitry.torokhov@gmail.com, hdegoede@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pali@kernel.org, stable@vger.kernel.org
+Subject: [PATCH v2] input: alps: fix compatibility with -funsigned-char
+Date:   Mon, 20 Mar 2023 01:17:31 +0100
+Message-Id: <20230320001731.175969-1-msizanoen@qtmlabs.xyz>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
+References: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Support describing the CP2112's I2C and GPIO interfaces in firmware.
+The AlpsPS/2 code previously relied on the assumption that `char` is a
+signed type, which was true on x86 platforms (the only place where this
+driver is used) before kernel 6.2. However, on 6.2 and later, this
+assumption is broken due to the introduction of -funsigned-char as a new
+global compiler flag.
 
-I2C and GPIO child nodes can either be children with names "i2c" and
-"gpio", or, for ACPI, device nodes with _ADR Zero and One,
-respectively.
+Fix this by explicitly specifying the signedness of `char` when sign
+extending the values received from the device.
 
-Additionally, support configuring the I2C bus speed from the
-clock-frequency device property.
+v2:
+	Add explicit signedness to more places
 
-Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
+Fixes: f3f33c677699 ("Input: alps - Rushmore and v7 resolution support")
+Cc: stable@vger.kernel.org
+Signed-off-by: msizanoen <msizanoen@qtmlabs.xyz>
 ---
- drivers/hid/hid-cp2112.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/input/mouse/alps.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 27cadadda7c9..9e327763fd90 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -1234,6 +1234,10 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	u8 buf[3];
- 	struct cp2112_smbus_config_report config;
- 	struct gpio_irq_chip *girq;
-+	struct i2c_timings timings;
-+	struct fwnode_handle *child;
-+	u32 addr;
-+	const char *name;
- 	int ret;
+diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+index 989228b5a0a4..523ba1196c72 100644
+--- a/drivers/input/mouse/alps.c
++++ b/drivers/input/mouse/alps.c
+@@ -852,8 +852,8 @@ static void alps_process_packet_v6(struct psmouse *psmouse)
+ 			x = y = z = 0;
  
- 	dev = devm_kzalloc(&hdev->dev, sizeof(*dev), GFP_KERNEL);
-@@ -1247,6 +1251,17 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		/* Divide 4 since trackpoint's speed is too fast */
+-		input_report_rel(dev2, REL_X, (char)x / 4);
+-		input_report_rel(dev2, REL_Y, -((char)y / 4));
++		input_report_rel(dev2, REL_X, (signed char)x / 4);
++		input_report_rel(dev2, REL_Y, -((signed char)y / 4));
  
- 	mutex_init(&dev->lock);
+ 		psmouse_report_standard_buttons(dev2, packet[3]);
  
-+	device_for_each_child_node(&hdev->dev, child) {
-+		name = fwnode_get_name(child);
-+		ret = acpi_get_local_address(ACPI_HANDLE_FWNODE(child), &addr);
-+
-+		if ((name && strcmp("i2c", name) == 0) || (!ret && addr == 0))
-+			device_set_node(&dev->adap.dev, child);
-+		else if ((name && strcmp("gpio", name)) == 0 ||
-+					(!ret && addr == 1))
-+			dev->gc.fwnode = child;
-+	}
-+
- 	ret = hid_parse(hdev);
- 	if (ret) {
- 		hid_err(hdev, "parse failed\n");
-@@ -1292,6 +1307,9 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		goto err_power_normal;
- 	}
+@@ -1104,8 +1104,8 @@ static void alps_process_trackstick_packet_v7(struct psmouse *psmouse)
+ 	    ((packet[3] & 0x20) << 1);
+ 	z = (packet[5] & 0x3f) | ((packet[3] & 0x80) >> 1);
  
-+	i2c_parse_fw_timings(&dev->adap.dev, &timings, true);
-+
-+	config.clock_speed = cpu_to_be32(timings.bus_freq_hz);
- 	config.retry_time = cpu_to_be16(1);
+-	input_report_rel(dev2, REL_X, (char)x);
+-	input_report_rel(dev2, REL_Y, -((char)y));
++	input_report_rel(dev2, REL_X, (signed char)x);
++	input_report_rel(dev2, REL_Y, -((signed char)y));
+ 	input_report_abs(dev2, ABS_PRESSURE, z);
  
- 	ret = cp2112_hid_output(hdev, (u8 *)&config, sizeof(config),
+ 	psmouse_report_standard_buttons(dev2, packet[1]);
+@@ -2294,20 +2294,20 @@ static int alps_get_v3_v7_resolution(struct psmouse *psmouse, int reg_pitch)
+ 	if (reg < 0)
+ 		return reg;
+ 
+-	x_pitch = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
++	x_pitch = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+ 	x_pitch = 50 + 2 * x_pitch; /* In 0.1 mm units */
+ 
+-	y_pitch = (char)reg >> 4; /* sign extend upper 4 bits */
++	y_pitch = (signed char)reg >> 4; /* sign extend upper 4 bits */
+ 	y_pitch = 36 + 2 * y_pitch; /* In 0.1 mm units */
+ 
+ 	reg = alps_command_mode_read_reg(psmouse, reg_pitch + 1);
+ 	if (reg < 0)
+ 		return reg;
+ 
+-	x_electrode = (char)(reg << 4) >> 4; /* sign extend lower 4 bits */
++	x_electrode = (signed char)(reg << 4) >> 4; /* sign extend lower 4 bits */
+ 	x_electrode = 17 + x_electrode;
+ 
+-	y_electrode = (char)reg >> 4; /* sign extend upper 4 bits */
++	y_electrode = (signed char)reg >> 4; /* sign extend upper 4 bits */
+ 	y_electrode = 13 + y_electrode;
+ 
+ 	x_phys = x_pitch * (x_electrode - 1); /* In 0.1 mm units */
 -- 
-2.25.1
+2.39.2
 
