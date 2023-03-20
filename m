@@ -2,48 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B80506C07A2
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 02:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA016C07E8
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 02:03:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbjCTBAq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Mar 2023 21:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45336 "EHLO
+        id S231326AbjCTBDA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Mar 2023 21:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230450AbjCTA7L (ORCPT
+        with ESMTP id S230504AbjCTBBA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Mar 2023 20:59:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D454519690;
-        Sun, 19 Mar 2023 17:56:03 -0700 (PDT)
+        Sun, 19 Mar 2023 21:01:00 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA67234EF;
+        Sun, 19 Mar 2023 17:57:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B6216611EE;
-        Mon, 20 Mar 2023 00:56:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F775C433A1;
-        Mon, 20 Mar 2023 00:56:02 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E7914B80D49;
+        Mon, 20 Mar 2023 00:57:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD948C433EF;
+        Mon, 20 Mar 2023 00:57:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679273763;
-        bh=P4CzGikgM7jVUFgJYP7iZJQTknwuEyOTArmUon2XDVo=;
+        s=k20201202; t=1679273834;
+        bh=HGJeQnoObfbSLZ8AINAJNAeWLiQ6BHi5qwXuZ8RdO8Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CvXZ7B9lnwLOjFKofHeSwbx3eKUfQNUlBKAt4uXY7Gs4jYtrxo3nJkQjsEG5ba3a/
-         6bBFHopPE97c7TkUnYJdavbwwH0fZPqGiAvXo4OPprIFQJojOLNpETkkvREdFJoXhT
-         tjrj/SFk+oV5KWqtsdAPuEpOVUShrun3dW2hj6qMth/njhJgz2ntOU2hoMk2HvgvFb
-         IoQNF+tgOQjfxoNB4WMIQ2fFhdrlvLzQOnmyoKCeQumZGOzdo5lBMOKdgxcdqmKJSA
-         /8fomuIh2D5RSB3Na5b9B3OTIYAHPgKkJNNQD8/R0rA6QMlc6qwwfx7DQDl8WG2G48
-         dWNjVIcFhcs1Q==
+        b=D0zShpSWMpWTCpYHbksuFoqULgYP/n8rr8imPOllG6YD5LakkTakWVyvv2mM8tmYw
+         d3xk1PiFpA4jHYRtcUjRbW1Pfi0EOvEP5SDao4gdeQ3x8G0hprWd0t8xZK/peGwzPU
+         Ssvs47saMF+7fyMNMgXdgtBmXteR7DRBMODhXUvsNuPbCpseDl41d+8CXFIRJx0WrP
+         F0M1IxiOWAm5ud+n3llosKBWRc3E7MbyZWRNtdsefJCKgmC/C1rSjaJtQxCqADvTdM
+         jlEl8417Hmt3CCJsIKB6nUVb/mf3mqLbrJvE75sN2NFLsw+hqXpg1EJAD7W+cR28wF
+         kFezg6BZ0LjtA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Danny Kaehn <kaehndan@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 02/15] HID: cp2112: Fix driver not registering GPIO IRQ chip as threaded
-Date:   Sun, 19 Mar 2023 20:55:46 -0400
-Message-Id: <20230320005559.1429040-2-sashal@kernel.org>
+Cc:     Reka Norman <rekanorman@chromium.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        liqiong@nfschina.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 3/9] HID: intel-ish-hid: ipc: Fix potential use-after-free in work function
+Date:   Sun, 19 Mar 2023 20:57:01 -0400
+Message-Id: <20230320005707.1429405-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320005559.1429040-1-sashal@kernel.org>
-References: <20230320005559.1429040-1-sashal@kernel.org>
+In-Reply-To: <20230320005707.1429405-1-sashal@kernel.org>
+References: <20230320005707.1429405-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,35 +58,67 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Danny Kaehn <kaehndan@gmail.com>
+From: Reka Norman <rekanorman@chromium.org>
 
-[ Upstream commit 37f5b858a66543b2b67c0288280af623985abc29 ]
+[ Upstream commit 8ae2f2b0a28416ed2f6d8478ac8b9f7862f36785 ]
 
-The CP2112 generates interrupts from a polling routine on a thread,
-and can only support threaded interrupts. This patch configures the
-gpiochip irq chip with this flag, disallowing consumers to request
-a hard IRQ from this driver, which resulted in a segfault previously.
+When a reset notify IPC message is received, the ISR schedules a work
+function and passes the ISHTP device to it via a global pointer
+ishtp_dev. If ish_probe() fails, the devm-managed device resources
+including ishtp_dev are freed, but the work is not cancelled, causing a
+use-after-free when the work function tries to access ishtp_dev. Use
+devm_work_autocancel() instead, so that the work is automatically
+cancelled if probe fails.
 
-Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
-Link: https://lore.kernel.org/r/20230210170044.11835-1-kaehndan@gmail.com
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Reka Norman <rekanorman@chromium.org>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-cp2112.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/intel-ish-hid/ipc/ipc.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 172f20e88c6c9..d902fe43cb818 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -1352,6 +1352,7 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	girq->parents = NULL;
- 	girq->default_type = IRQ_TYPE_NONE;
- 	girq->handler = handle_simple_irq;
-+	girq->threaded = true;
+diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+index e00b9dbe220f1..abc94235100c6 100644
+--- a/drivers/hid/intel-ish-hid/ipc/ipc.c
++++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+@@ -13,6 +13,7 @@
+  * more details.
+  */
  
- 	ret = gpiochip_add_data(&dev->gc, dev);
- 	if (ret < 0) {
++#include <linux/devm-helpers.h>
+ #include <linux/sched.h>
+ #include <linux/spinlock.h>
+ #include <linux/delay.h>
+@@ -618,7 +619,6 @@ static void	recv_ipc(struct ishtp_device *dev, uint32_t doorbell_val)
+ 	case MNG_RESET_NOTIFY:
+ 		if (!ishtp_dev) {
+ 			ishtp_dev = dev;
+-			INIT_WORK(&fw_reset_work, fw_reset_work_fn);
+ 		}
+ 		schedule_work(&fw_reset_work);
+ 		break;
+@@ -909,6 +909,7 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
+ {
+ 	struct ishtp_device *dev;
+ 	int	i;
++	int	ret;
+ 
+ 	dev = devm_kzalloc(&pdev->dev,
+ 			   sizeof(struct ishtp_device) + sizeof(struct ish_hw),
+@@ -945,6 +946,12 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
+ 		list_add_tail(&tx_buf->link, &dev->wr_free_list_head.link);
+ 	}
+ 
++	ret = devm_work_autocancel(&pdev->dev, &fw_reset_work, fw_reset_work_fn);
++	if (ret) {
++		dev_err(dev->devc, "Failed to initialise FW reset work\n");
++		return NULL;
++	}
++
+ 	dev->ops = &ish_hw_ops;
+ 	dev->devc = &pdev->dev;
+ 	dev->mtu = IPC_PAYLOAD_SIZE - sizeof(struct ishtp_msg_hdr);
 -- 
 2.39.2
 
