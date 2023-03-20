@@ -2,83 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 494846C09B9
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 05:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69D7F6C09C4
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 05:43:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbjCTEfn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Mar 2023 00:35:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34866 "EHLO
+        id S229483AbjCTEnU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Mar 2023 00:43:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230183AbjCTEfM (ORCPT
+        with ESMTP id S229458AbjCTEnT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Mar 2023 00:35:12 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D53F8193EB;
-        Sun, 19 Mar 2023 21:35:10 -0700 (PDT)
-Received: from fsav415.sakura.ne.jp (fsav415.sakura.ne.jp [133.242.250.114])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 32K4YpbX067261;
-        Mon, 20 Mar 2023 13:34:51 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav415.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp);
- Mon, 20 Mar 2023 13:34:51 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 32K4Yp5K067258
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 20 Mar 2023 13:34:51 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <6b5de584-b31f-9045-a438-b42da350326b@I-love.SAKURA.ne.jp>
-Date:   Mon, 20 Mar 2023 13:34:52 +0900
+        Mon, 20 Mar 2023 00:43:19 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A23546BF;
+        Sun, 19 Mar 2023 21:43:17 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so11105475pjb.0;
+        Sun, 19 Mar 2023 21:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679287396;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XvWHoe4oka91PRMJ82kMIgYEdl3/ETSadVO88206sUA=;
+        b=CCdq9rHl9h5ultsOwA2hAWww/6tT1QFPz+kpyfKvfgFpp5Tu3dfmuRJlUe3SbX5gLH
+         jLa6Rj4SAJ4K37w8uCw7FVGv3BzNIrBEDVqMxpACRgh/5N3ZqouGe0T93ZsKBIQ0ayKz
+         6aG2UVYdNCs6+Q/TDYUqSAfqPB/sg5tKibI3plMnIdRoIHLRyvxUmtjIFTNpz/c4MjDB
+         iJzOfuVdBqU75lNrZ7WZiOspjQwyJCMJSUZ9tu4kCm9e9qq6RQQLj1ryMZwu8NTDBgLh
+         JfCEBcWkSrG15Rdapzy88TTq3R83lbyXrXiF+Dv8XZOgkRmnz6CnWp1W3Xhj2uwzILb3
+         Yodg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679287396;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XvWHoe4oka91PRMJ82kMIgYEdl3/ETSadVO88206sUA=;
+        b=OXBdTH+fV2nVRYNZKarMiiPFd4/XF0MexSia082DngpNYs/ig92e84SNDvhu1r0202
+         yHlfwIb2Tbo9cfwjiHavJYYBxEkKRvH73RCPZGrYIjb6Cyc5uox011K02InivIypNVJ7
+         ZWCIjY7b+xF+K25UjRModXg04vPMEMFQwXzAe/Z6iBFqwCqwPzSBifJnsQplI/E9JFTv
+         OAgDif4L7/ZYwU75IjMCRSjEMC+0Q00BNZje1uF+KAA4Y4D3nTmjNIHdsdh7r/yqItL1
+         2Sgjn53lHmSSrSy7Nui1aUiB0ItegudVvWrPFtVRwX6FvmuGKNtX9oOBOGisOoevdpIt
+         tFRQ==
+X-Gm-Message-State: AO0yUKW6T/9OVBSpGqjXebBAch1A1x88NACf2SsVEeADtOYOtH13ZCGa
+        bX5ZGxIV5b68wnsHql44OeQ=
+X-Google-Smtp-Source: AK7set96QRyUOxY1uSoFxs/xmLDiRsjHIy1wl/Y4P5b8GeqQx801IawR2/wB+IfidC6bI1/d/D0AZQ==
+X-Received: by 2002:a17:902:f685:b0:1a1:a727:a802 with SMTP id l5-20020a170902f68500b001a1a727a802mr11720931plg.19.1679287396541;
+        Sun, 19 Mar 2023 21:43:16 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:687c:5175:b0b1:a145])
+        by smtp.gmail.com with ESMTPSA id y9-20020a17090a154900b002372106a5casm4971744pja.44.2023.03.19.21.43.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Mar 2023 21:43:15 -0700 (PDT)
+Date:   Sun, 19 Mar 2023 21:43:12 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     msizanoen <msizanoen@qtmlabs.xyz>
+Cc:     hdegoede@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, pali@kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH v2] input: alps: fix compatibility with -funsigned-char
+Message-ID: <ZBfkYEe0LfITyiUh@google.com>
+References: <20230318144206.14309-1-msizanoen@qtmlabs.xyz>
+ <20230320001731.175969-1-msizanoen@qtmlabs.xyz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] Input: iforce - Fix exception handling in
- iforce_usb_probe()
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Markus Elfring <Markus.Elfring@web.de>
-Cc:     kernel-janitors@vger.kernel.org, linux-input@vger.kernel.org,
-        Hillf Danton <hdanton@sina.com>, cocci@inria.fr,
-        LKML <linux-kernel@vger.kernel.org>
-References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
- <521b63e1-9470-58ef-599e-50a1846e5380@web.de> <ZBffPEIWcmYcaXR3@google.com>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <ZBffPEIWcmYcaXR3@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230320001731.175969-1-msizanoen@qtmlabs.xyz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2023/03/20 13:21, Dmitry Torokhov wrote:
-> On Sun, Mar 19, 2023 at 07:03:00PM +0100, Markus Elfring wrote:
->> Date: Sun, 19 Mar 2023 18:50:51 +0100
->>
->> The label “fail” was used to jump to another pointer check despite of
->> the detail in the implementation of the function “iforce_usb_probe”
->> that it was determined already that a corresponding variable contained
->> still a null pointer.
->>
->> 1. Use more appropriate labels instead.
->>
->> 2. Reorder jump targets at the end.
->>
->> 3. Delete a redundant check.
->>
->>
->> This issue was detected by using the Coccinelle software.
-> 
-> I am sorry, but I do not understand what the actual issue is. The fact
-> that come Coccinelle script complains is not enough to change the code.
-> 
+Hi,
 
-Right. There is no issue with the code, for usb_free_urb(NULL) is a no-op.
-Proposing as a cleanup, without Fixes: tags, could be possible though.
+On Mon, Mar 20, 2023 at 01:17:31AM +0100, msizanoen wrote:
+> The AlpsPS/2 code previously relied on the assumption that `char` is a
+> signed type, which was true on x86 platforms (the only place where this
+> driver is used) before kernel 6.2. However, on 6.2 and later, this
+> assumption is broken due to the introduction of -funsigned-char as a new
+> global compiler flag.
+> 
+> Fix this by explicitly specifying the signedness of `char` when sign
+> extending the values received from the device.
+> 
+> v2:
+> 	Add explicit signedness to more places
+> 
+> Fixes: f3f33c677699 ("Input: alps - Rushmore and v7 resolution support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: msizanoen <msizanoen@qtmlabs.xyz>
 
+Please use s8 instead of signed char. Also, could you please tell me if
+"msizanoen" is your real name? It is required in the DCO. Apologies if
+it really is.
+
+Thanks.
+
+-- 
+Dmitry
