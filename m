@@ -2,78 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 769066C1F96
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 19:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7246C2114
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 20:17:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231282AbjCTSYo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Mar 2023 14:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42950 "EHLO
+        id S231550AbjCTTRC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Mar 2023 15:17:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231279AbjCTSYI (ORCPT
+        with ESMTP id S231463AbjCTTQh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Mar 2023 14:24:08 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D27D3346E
-        for <linux-input@vger.kernel.org>; Mon, 20 Mar 2023 11:17:19 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-54184571389so239272187b3.4
-        for <linux-input@vger.kernel.org>; Mon, 20 Mar 2023 11:17:19 -0700 (PDT)
+        Mon, 20 Mar 2023 15:16:37 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A72583A846;
+        Mon, 20 Mar 2023 12:08:46 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id ek18so50914261edb.6;
+        Mon, 20 Mar 2023 12:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679336222;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2EunEBKVYoEoq69imBRqQomGfF0cWJoxl6o7vJ+JiVg=;
-        b=nASx186ylC8+CvmJWOwx2v/yKfAZi0Xaz/XTnjcDjXg8ciDMvkRQsp+eqdobwLkqjc
-         cFkN+2FN7BbnQYpFbUUHlYISwHiQgYcdQTNhXi5oM3qwArm8Wp4JwsYZUgfC6FHbqGi7
-         muRkNVMIfQuCbjhDrUoMG6m000XS+Sux0xSRzQzqRZKOgh3ZSzST0dr7U1HlgC++LF9M
-         08Op/vyqbq8lnq81WUgU637mFsvFxlPNSPr/ZhvEwrj4if/xvJ2W7y8YeMpHjjp9cqz+
-         yXjXDmlvLZM4b8QGvYQYrJqlyIC1wPxN/evf2vDsCInPl9rl4U+fIT5m/AlpWQEz2VKZ
-         bTYA==
+        d=gmail.com; s=20210112; t=1679339325;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rntUn+sA5+a5jB7OMEeFvtRNclHYN0rSHfvZwb0rt/g=;
+        b=Yw2nTJUCnicn46QE/nAMk8TEOBXxmKNx8lNlu3aHUixpdumw/gDyjAQX6a47kkcUkN
+         Y4vELAcD8me8Wk0GH2BK6oiNa/+9PRqgsw+AvStRoPhrm+/IVwcBNoFuwNodRtw/Ro7c
+         2XcOkmjXquU+5O6ywESihU9mmc29CiwnGIqmKg1Z4BHOgy6164xG4ujSxRy8R/kmcAPL
+         O5PF0mCcaa2Y8plYM9v2PMPyP4h5b8m7gjt1lj3hQgg4Ip6juolj7PxHrzfZD+BHVGMN
+         0wmjvzxhz5PnPjAVrLs836/MbaojocEJW9jUQUm8fMVIZyG13aBrXJW7IFLqFKppSYrr
+         NHWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679336222;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2EunEBKVYoEoq69imBRqQomGfF0cWJoxl6o7vJ+JiVg=;
-        b=F5a2h33thNa2fE30ktsk0G4pdCuP+tB/Brvs8O1m+LsMGuoXqOqg0VOe1bIgIg09Wl
-         F/E8vcOa1FYSNI+Nru1d6aKwFT8ej0X2B3VJw5GqvV9WhgxkwYpnPmpn9pBU4UnI77HT
-         38KyKUzo5QB7gGV2RjzHo+4j3T6dXUMafepZSJfdZH5iGgi/u9jHQee2x7N0w6rO+LOa
-         YTek/8MOZ95hip86l+Q6dqTXaBWqvjqJ4X/VLVweOPTWPAwN4E2tC5GaBbsJW6iHbJ25
-         dQ+9/BmFuCvTwzq90ULqLQrvGnH5UG0oVPG3Dk68E4VVgTBtmFGYuyT8L14vcSPxAUdH
-         SEbg==
-X-Gm-Message-State: AAQBX9eH7mFEUF17gTso9Dn+wjXtSMOQ6/TKJx9sm+FWI2lLfv3Omfqk
-        q6KMI7UdNgNcw+uz2KTsMHtyZ6i5MZ9X+NAPUw==
-X-Google-Smtp-Source: AKy350ZFBed1yqCb1oCL0txKdys2tV7yXxKvigA0hpWbrepKcmw6vlqKb0Al+KP+MFeGfL8mZGdz7eGPo8ooUoV4kvc=
-X-Received: by 2002:a81:b64e:0:b0:52f:184a:da09 with SMTP id
- h14-20020a81b64e000000b0052f184ada09mr317249ywk.2.1679336221965; Mon, 20 Mar
- 2023 11:17:01 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679339325;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rntUn+sA5+a5jB7OMEeFvtRNclHYN0rSHfvZwb0rt/g=;
+        b=fB/xDBysK1sjFObhyVxuix2u6PjtggkA3gF1Tzv2uXqnroHQXicZFV87HMZaPmslxa
+         j1nPa+pvGt9gpkJB44Atv9B2ll1NhI6tssTpybDQF3tPwzSWopYtooBGOV3X3w93hNDQ
+         xFTA5vd9wrxaUSraEaOSWe0jlhBJuCE800gpOaTyKgddex2ACrJvlk9G3pBemvNn8FVu
+         wgahGdwn3QLSZI+lYjcx0+bbk8QHhvZ+ThwshdLKRiktNOo+C9JPSTBM8v1zhGmK0FHN
+         F0P5F1MjszINE0bU2wuy3iJ6gst+/ylQqeWeFxKthDQb+41EMsCVieqNMt5hhw8vNuft
+         FWcQ==
+X-Gm-Message-State: AO0yUKXGlQQgLxL2IjW5IDBLyUAHW0KSBpD3AhzbdJ31iqXx+8OxdU71
+        pu7OBliKYlg+XkvHG3LrC00ZPTc6OaxK8FvKq2Y=
+X-Google-Smtp-Source: AK7set9Ld3St3Qcim1+xZzym7kkesgBkLKqYAhh/hi4W4RBAlupWuN6BKes2OCEYBR9+rEgbIj6IPDk9EMXSr+v9t9k=
+X-Received: by 2002:a50:8e0a:0:b0:4fb:dc5e:6501 with SMTP id
+ 10-20020a508e0a000000b004fbdc5e6501mr382359edw.1.1679339325090; Mon, 20 Mar
+ 2023 12:08:45 -0700 (PDT)
 MIME-Version: 1.0
-Reply-To: vandekujohmaria@outlook.com
-Sender: dm558639@gmail.com
-Received: by 2002:a05:7000:b293:b0:491:8ae:2968 with HTTP; Mon, 20 Mar 2023
- 11:17:01 -0700 (PDT)
-From:   Gerhardus Maria <vandekujohmaria@gmail.com>
-Date:   Mon, 20 Mar 2023 18:17:01 +0000
-X-Google-Sender-Auth: XN533eDsDvWr9GzD7TS1ZcUKFAs
-Message-ID: <CAK1UNhcg8WCRWqYbAXcn-O3E7uAd_6gKGYQZ4RfFqK2QdgMpew@mail.gmail.com>
-Subject: Good day
-To:     undisclosed-recipients:;
+References: <20230320153419.9185-1-n.zhandarovich@fintech.ru>
+In-Reply-To: <20230320153419.9185-1-n.zhandarovich@fintech.ru>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Mon, 20 Mar 2023 20:08:33 +0100
+Message-ID: <CADyDSO6nvFaC8dZKuSYcqgdiL8oub+eKU-PqYSeH2cXnVw-=Uw@mail.gmail.com>
+Subject: Re: [PATCH] HID: wiimote: check completion in wiimod_battery_get_property
+To:     Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        David Herrmann <dh.herrmann@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dear
+Hi
 
-How are you doing?I'm van der kuil Johannes gerhardus Maria. I am a
-lawyer from the Netherlands who reside in Belgium and I am working on
-the donation file of my client, Mr. Bartos Pierre Nationality of
-Belgium.  I would like to know if you will accept my
-client's donation Mr. Bartos Pierre?
+On Mon, 20 Mar 2023 at 16:34, Nikita Zhandarovich
+<n.zhandarovich@fintech.ru> wrote:
+>
+> wiimote_cmd_wait() in wiimod_battery_get_property() may signal that the
+> task of getting specific battery property was interrupted or timed out.
+> There is no need to do any further computation in such cases, so just
+> return the error.
+>
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+>
+> Fixes: dcf392313817 ("HID: wiimote: convert BATTERY to module")
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+>  drivers/hid/hid-wiimote-modules.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-wiimote-modules.c b/drivers/hid/hid-wiimote-modules.c
+> index dbccdfa63916..9755718d9856 100644
+> --- a/drivers/hid/hid-wiimote-modules.c
+> +++ b/drivers/hid/hid-wiimote-modules.c
+> @@ -220,8 +220,10 @@ static int wiimod_battery_get_property(struct power_supply *psy,
+>         wiiproto_req_status(wdata);
+>         spin_unlock_irqrestore(&wdata->state.lock, flags);
+>
+> -       wiimote_cmd_wait(wdata);
+> +       ret = wiimote_cmd_wait(wdata);
+>         wiimote_cmd_release(wdata);
+> +       if (ret)
+> +               return ret;
 
-Waiting to hear from you soon
+The current code returns cached battery-information in case a
+synchronous update did not succeed. Battery information is likely
+updated regularly, anyway, so the synchronous update is usually not
+required.
+
+I don't think bailing out and returning the error to the caller is
+required or gains us anything but more complexity. Or am I missing
+something here?
+
+Thanks
+David
