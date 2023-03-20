@@ -2,70 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42B696C09A9
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 05:29:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 435C26C09B6
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 05:34:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbjCTE3I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Mar 2023 00:29:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57268 "EHLO
+        id S230095AbjCTEel (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Mar 2023 00:34:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjCTE26 (ORCPT
+        with ESMTP id S230158AbjCTEeQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Mar 2023 00:28:58 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C83C1F91D
-        for <linux-input@vger.kernel.org>; Sun, 19 Mar 2023 21:28:57 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id z19so772338plo.2
-        for <linux-input@vger.kernel.org>; Sun, 19 Mar 2023 21:28:57 -0700 (PDT)
+        Mon, 20 Mar 2023 00:34:16 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4601D21280;
+        Sun, 19 Mar 2023 21:33:51 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id c18so11171978ple.11;
+        Sun, 19 Mar 2023 21:33:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679286537;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=x65PnXga/IL0tZsauQho1fwk4bBQrymyPv6NK3PuAnY=;
-        b=g3MTmNp/g5w1EDwJsPE5s9ALj8qHN3ghRrkTZs9+phWh/KLjOL/2Ov+YsH23TvLkzL
-         NehBlZckziH3UAb9Pbo/Qx+IR3wTuDVfOTEqpxQl+QFlL6AfqVE6srHviqDkfx8GHASM
-         4tNSsPfSSyjssvL8peTSDLyBFm3QaXYKX0orx5u7wz9dabcjtaZ07YGayid9TYErtC+9
-         Gks/eKx4QRRZhR0KGBTbERJTL8Ystu1BjS7rkccyWVZ+pcLiOQ6sSxajh1OGLZqmEi4w
-         sH3g4QL4e+oiTurOmglrcJ+f8i1VuStrXEopegeWYHJWhIwcEr8rQcGJPFn1kN8FJ1j5
-         Wb7w==
+        d=gmail.com; s=20210112; t=1679286829;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XhjZz/NfFkzkOrH5dOtayCqjpoAXNIQg89V9pLQQEy8=;
+        b=TMWS8S8Qnf1HXHnwnApp5iSmwBQVWTqJG0asMirPpPiwIfac8cNIHseIC4/mOkImYe
+         YBMm3NXvYEiv5GDJSAvtVNT86eI1pQzAMx9ocrdPKXNUu9pfaW9+huZ+WWNHrwTWHJeR
+         mzMcAeC2HucHzTu2r3mAAXP41vHNb8aLpMASMp7f276EN+m4GX/IUyJo0G7fSIEAzjCR
+         ssTOggeLhhB4c4wo2t7e4b26JgHa6/VyIUghcfmoUMHveFNAZhu2aNtjFqS2OCFXBRXN
+         M2RiIXE4IHF5eAkjc3F0xPjAL4JwGIJ/JPSqja0ZkFiEgff35y9H+JYB7DL8qsmFIYxL
+         RywQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679286537;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x65PnXga/IL0tZsauQho1fwk4bBQrymyPv6NK3PuAnY=;
-        b=XvNsDHDTnI7XU+fSlf5+tw8+K5JEYCDODLHVn/GUwu/CtEQdkupWFDpz1Bp+4e347h
-         1bhsl8RDIzdR7A9eESnCfV+icKJc42qlSzNRnc9LpRF4wcVp9EXGKjHZszEwIr4E0THO
-         h2b+//Xp6Amk4IRwfn6D5T397SlJtACLhXpkug0KEwBO3Kg9e0V14Sdb6rGqiLdmuBe3
-         YzTg6T+NvO9IRCs2TAubX6A0UpNK/4fLk4HrLKxnEN97ARSkSA20A18w5zRq9XHnL22d
-         BJRTXtfsrsXU6pwTsOz75siX/UoQr2lJIFWtSuj5bwf8EaxFUWo9flOFnXKpW2q4M2rv
-         A+ug==
-X-Gm-Message-State: AO0yUKUIZq+EtySy9utwOVAf0ynP9i9LCc4cqJ79Cx41NPOgLClL5pao
-        pdBvj18iCfxFZ+ItoVp6o2Y=
-X-Google-Smtp-Source: AK7set9NmwZSI/5zdRrjXm7v7bZ6CB+0oRKqJHUc15L5tJ0c3lwEyAeuYLsxXH5fQleuTzl2GTsmBA==
-X-Received: by 2002:a17:902:e888:b0:199:10d2:b9da with SMTP id w8-20020a170902e88800b0019910d2b9damr17892783plg.58.1679286536752;
-        Sun, 19 Mar 2023 21:28:56 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679286829;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XhjZz/NfFkzkOrH5dOtayCqjpoAXNIQg89V9pLQQEy8=;
+        b=NTFQtYyVJqIcgZdZjDMCrEeCB0cXfKW8bMHMZWw6I70Xi4XuDhiZWozRjOR+UIlWpk
+         gtJHQDcCbitm8NEpVD3SC0gv/wMemVZzbGmFd8ZIWE0v/mh115eYJTsqKR3D839Y1RJO
+         i6F0Fpu98PXGbrIDQzw0vudw8BTefeo8RV5xmXrTSrY5QHyJqu3U9vds0WP9609/Vz83
+         2L1HsbvjaJ4ydWqOkGvZTwAmHuINqnDEtxQcuPPxwOeCsXC9qsYIeldldfl3zdPf3yki
+         MSd9ouEOd5t0VEu2OmKmHE3nK631gUP5h79Rgn/sur2uqt9XNYeFV2CwasoaEpLz3Wds
+         JDxA==
+X-Gm-Message-State: AO0yUKW2a8siLEpe7K49ShVBPGz2Da5Mns0476/vWKIVn472gW/i7hho
+        whaoOPZ85oNa2JjfizvAweI=
+X-Google-Smtp-Source: AK7set+vfET8VPU5zFcyVHGbKQoxtEOeVkC6MHndPhV8fMy+OUstN0TvKRpWR1v/I7ORW0I7UZcM0w==
+X-Received: by 2002:a17:90b:1d83:b0:233:cd29:f168 with SMTP id pf3-20020a17090b1d8300b00233cd29f168mr18558552pjb.24.1679286829513;
+        Sun, 19 Mar 2023 21:33:49 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:687c:5175:b0b1:a145])
-        by smtp.gmail.com with ESMTPSA id a5-20020a1709027d8500b001a1c2ee06e0sm2245734plm.15.2023.03.19.21.28.55
+        by smtp.gmail.com with ESMTPSA id jm2-20020a17090304c200b001a04d27ee92sm415690plb.241.2023.03.19.21.33.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 21:28:56 -0700 (PDT)
-Date:   Sun, 19 Mar 2023 21:28:53 -0700
+        Sun, 19 Mar 2023 21:33:48 -0700 (PDT)
+Date:   Sun, 19 Mar 2023 21:33:45 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH] Input: iqs62x-keys - Suppress duplicated error message
- in .remove()
-Message-ID: <ZBfhBUzU0THfTT3I@google.com>
-References: <20230318225110.261439-1-u.kleine-koenig@pengutronix.de>
+To:     Andi Shyti <andi.shyti@kernel.org>
+Cc:     Matthias Benkmann <matthias.benkmann@gmail.com>,
+        linux-input@vger.kernel.org, Nate Yocom <nate@yocom.org>,
+        hadess@hadess.net, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, Pavel Rojtberg <rojtberg@gmail.com>
+Subject: Re: [PATCH v3] Fix incorrectly applied patch for MAP_PROFILE_BUTTON
+Message-ID: <ZBfiKc2IHtonxy7o@google.com>
+References: <CAK4gqCCk7ipRbZ=LM8Nsj+nE2S6v6QN39ziYSr3d2NmVMHULYg@mail.gmail.com>
+ <20230318162106.0aef4ba5@ninja>
+ <20230318180047.3pzcep5roaon3nph@intel.intel>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230318225110.261439-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230318180047.3pzcep5roaon3nph@intel.intel>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -76,18 +75,22 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 18, 2023 at 11:51:10PM +0100, Uwe Kleine-König wrote:
-> If a platform driver's remove callback returns non-zero the driver core
-> emits an error message. In such a case however iqs62x_keys_remove()
-> already issued a (better) message. So return zero to suppress the
-> generic message.
+On Sat, Mar 18, 2023 at 07:00:47PM +0100, Andi Shyti wrote:
+> On Sat, Mar 18, 2023 at 04:21:06PM +0100, Matthias Benkmann wrote:
+> > When the linked patch was applied,
 > 
-> This patch has no other side effects as platform_remove() ignores the
-> return value of .remove() after the warning.
+> Please refer to the patch as "commit fff1011a26d6 ("Input: xpad -
+> add X-Box Adaptive Profile button")" and not as "linked patch".
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > one hunk ended up in the wrong function. This patch moves it to where
+> > it probably belongs.
+> 
+> probably? We need to be sure here :)
+> 
+> Besides, please, use the imperative form, not "this patch moves"
+> but "move what where", please be more specific.
 
-Applied, thank you.
+Reworded and applied, thank you.
 
 -- 
 Dmitry
