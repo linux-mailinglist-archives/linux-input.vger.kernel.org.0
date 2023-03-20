@@ -2,71 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE8C6C0999
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 05:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42B696C09A9
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 05:29:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbjCTEVX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Mar 2023 00:21:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50682 "EHLO
+        id S229529AbjCTE3I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Mar 2023 00:29:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjCTEVW (ORCPT
+        with ESMTP id S229871AbjCTE26 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Mar 2023 00:21:22 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 389A3C66E;
-        Sun, 19 Mar 2023 21:21:21 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id k2so11162495pll.8;
-        Sun, 19 Mar 2023 21:21:21 -0700 (PDT)
+        Mon, 20 Mar 2023 00:28:58 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C83C1F91D
+        for <linux-input@vger.kernel.org>; Sun, 19 Mar 2023 21:28:57 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id z19so772338plo.2
+        for <linux-input@vger.kernel.org>; Sun, 19 Mar 2023 21:28:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679286081;
+        d=gmail.com; s=20210112; t=1679286537;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=RS1w7jufLTgqj4IcYaB/yvHrW7A9zSSTjyhf1dZzfNM=;
-        b=UYZ4lXSE+fk2ch38kp24qVIB/g3NrO9tCkzEczF3dIhgdmMl48WycaRDmmxbb1lsLy
-         TNz/NY7Q2knzvZ30g7Dexjv6RqakQ5SZDBonPBUGxVOLqKrLIm45yHLScaGcoMRawAAB
-         Qo2tQSdCtJJtwXGjw7ixR1vXqS9VptmWqzUrVmjdGx0vjOb/jjufga1UOqIjcIwAv9et
-         Ds0zY2MTiocqUm4E/RMabAhvQB2ApkVInO3Kr5P22HrWGxpKle9+SCHtCPIw2ThgsJy6
-         UYGGNnwpc0KEnA5sMuSnq0NyTDVf1hdZ2X3lxfd1XW8R03bL5ftkuwUKP7e0ec8z/OUn
-         VUeA==
+        bh=x65PnXga/IL0tZsauQho1fwk4bBQrymyPv6NK3PuAnY=;
+        b=g3MTmNp/g5w1EDwJsPE5s9ALj8qHN3ghRrkTZs9+phWh/KLjOL/2Ov+YsH23TvLkzL
+         NehBlZckziH3UAb9Pbo/Qx+IR3wTuDVfOTEqpxQl+QFlL6AfqVE6srHviqDkfx8GHASM
+         4tNSsPfSSyjssvL8peTSDLyBFm3QaXYKX0orx5u7wz9dabcjtaZ07YGayid9TYErtC+9
+         Gks/eKx4QRRZhR0KGBTbERJTL8Ystu1BjS7rkccyWVZ+pcLiOQ6sSxajh1OGLZqmEi4w
+         sH3g4QL4e+oiTurOmglrcJ+f8i1VuStrXEopegeWYHJWhIwcEr8rQcGJPFn1kN8FJ1j5
+         Wb7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679286081;
+        d=1e100.net; s=20210112; t=1679286537;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RS1w7jufLTgqj4IcYaB/yvHrW7A9zSSTjyhf1dZzfNM=;
-        b=6oHt0JIt+xLyGPPUQlXh4ZZDCUyDHkM2YY+Uvs9al6JdmAA/OuKhxCDK7GPamNaulS
-         3aFw04hV66V/49THImH8LELSAjErWwX1ijgR6GtI3jwT0nlhJNeAu+jqEB+ibvxcrce4
-         N0PhgYu0Pq5OisGt917QYFvhDULmzApi0d1dR6pFzZiOHn+F5fAjaLznJmd0bLyPAHP1
-         ERz7xRKwk/Vu9yexPexarQYONGj/wRuJTvt9c8pqTncGUPA02K8HzSnRO4PJOKWDZAEU
-         npYOFhcV/RJhMrxhhrVUO6+WWww2g1HkOPMTvRw46T3EZojhLf7ickzeSyn1xb0fc9zm
-         9n7A==
-X-Gm-Message-State: AO0yUKUIyp18YnpVrSQidTnhlui89EAXFn3qCs2D5eNnrot9LAec2poh
-        m+a/0d4uw/PoqcADJsRucfU=
-X-Google-Smtp-Source: AK7set/OkIXlOAw6NRV+sFsu29XPd9i/eNuH4vDyF0QKBJE2m6aRrELRvriOwhclBp5/Tmr4BhgECQ==
-X-Received: by 2002:a17:903:2910:b0:19d:1c6e:d31f with SMTP id lh16-20020a170903291000b0019d1c6ed31fmr14313851plb.29.1679286080664;
-        Sun, 19 Mar 2023 21:21:20 -0700 (PDT)
+        bh=x65PnXga/IL0tZsauQho1fwk4bBQrymyPv6NK3PuAnY=;
+        b=XvNsDHDTnI7XU+fSlf5+tw8+K5JEYCDODLHVn/GUwu/CtEQdkupWFDpz1Bp+4e347h
+         1bhsl8RDIzdR7A9eESnCfV+icKJc42qlSzNRnc9LpRF4wcVp9EXGKjHZszEwIr4E0THO
+         h2b+//Xp6Amk4IRwfn6D5T397SlJtACLhXpkug0KEwBO3Kg9e0V14Sdb6rGqiLdmuBe3
+         YzTg6T+NvO9IRCs2TAubX6A0UpNK/4fLk4HrLKxnEN97ARSkSA20A18w5zRq9XHnL22d
+         BJRTXtfsrsXU6pwTsOz75siX/UoQr2lJIFWtSuj5bwf8EaxFUWo9flOFnXKpW2q4M2rv
+         A+ug==
+X-Gm-Message-State: AO0yUKUIZq+EtySy9utwOVAf0ynP9i9LCc4cqJ79Cx41NPOgLClL5pao
+        pdBvj18iCfxFZ+ItoVp6o2Y=
+X-Google-Smtp-Source: AK7set9NmwZSI/5zdRrjXm7v7bZ6CB+0oRKqJHUc15L5tJ0c3lwEyAeuYLsxXH5fQleuTzl2GTsmBA==
+X-Received: by 2002:a17:902:e888:b0:199:10d2:b9da with SMTP id w8-20020a170902e88800b0019910d2b9damr17892783plg.58.1679286536752;
+        Sun, 19 Mar 2023 21:28:56 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:687c:5175:b0b1:a145])
-        by smtp.gmail.com with ESMTPSA id jk5-20020a170903330500b001a01bb92273sm5494855plb.279.2023.03.19.21.21.19
+        by smtp.gmail.com with ESMTPSA id a5-20020a1709027d8500b001a1c2ee06e0sm2245734plm.15.2023.03.19.21.28.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 21:21:19 -0700 (PDT)
-Date:   Sun, 19 Mar 2023 21:21:16 -0700
+        Sun, 19 Mar 2023 21:28:56 -0700 (PDT)
+Date:   Sun, 19 Mar 2023 21:28:53 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     kernel-janitors@vger.kernel.org, linux-input@vger.kernel.org,
-        Hillf Danton <hdanton@sina.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Input: iforce - Fix exception handling in
- iforce_usb_probe()
-Message-ID: <ZBffPEIWcmYcaXR3@google.com>
-References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
- <521b63e1-9470-58ef-599e-50a1846e5380@web.de>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH] Input: iqs62x-keys - Suppress duplicated error message
+ in .remove()
+Message-ID: <ZBfhBUzU0THfTT3I@google.com>
+References: <20230318225110.261439-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <521b63e1-9470-58ef-599e-50a1846e5380@web.de>
+In-Reply-To: <20230318225110.261439-1-u.kleine-koenig@pengutronix.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -77,27 +76,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Mar 19, 2023 at 07:03:00PM +0100, Markus Elfring wrote:
-> Date: Sun, 19 Mar 2023 18:50:51 +0100
+On Sat, Mar 18, 2023 at 11:51:10PM +0100, Uwe Kleine-K�nig wrote:
+> If a platform driver's remove callback returns non-zero the driver core
+> emits an error message. In such a case however iqs62x_keys_remove()
+> already issued a (better) message. So return zero to suppress the
+> generic message.
 > 
-> The label “fail” was used to jump to another pointer check despite of
-> the detail in the implementation of the function “iforce_usb_probe”
-> that it was determined already that a corresponding variable contained
-> still a null pointer.
+> This patch has no other side effects as platform_remove() ignores the
+> return value of .remove() after the warning.
 > 
-> 1. Use more appropriate labels instead.
-> 
-> 2. Reorder jump targets at the end.
-> 
-> 3. Delete a redundant check.
-> 
-> 
-> This issue was detected by using the Coccinelle software.
+> Signed-off-by: Uwe Kleine-K�nig <u.kleine-koenig@pengutronix.de>
 
-I am sorry, but I do not understand what the actual issue is. The fact
-that come Coccinelle script complains is not enough to change the code.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
