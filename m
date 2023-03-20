@@ -2,42 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DD676C17F0
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 16:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C2D6C1A11
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 16:44:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232413AbjCTPSi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Mar 2023 11:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57966 "EHLO
+        id S232248AbjCTPoP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Mar 2023 11:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232231AbjCTPSR (ORCPT
+        with ESMTP id S231396AbjCTPnq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Mar 2023 11:18:17 -0400
-Received: from tretyak2.mcst.ru (tretyak2.mcst.ru [212.5.119.215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC7502F79C;
-        Mon, 20 Mar 2023 08:12:55 -0700 (PDT)
-Received: from tretyak2.mcst.ru (localhost [127.0.0.1])
-        by tretyak2.mcst.ru (Postfix) with ESMTP id 9FD72102390;
-        Mon, 20 Mar 2023 18:12:26 +0300 (MSK)
-Received: from frog.lab.sun.mcst.ru (frog.lab.sun.mcst.ru [172.16.4.50])
-        by tretyak2.mcst.ru (Postfix) with ESMTP id 9B3A7101777;
-        Mon, 20 Mar 2023 18:12:06 +0300 (MSK)
-Received: from artemiev-i.lab.sun.mcst.ru (avior-1 [192.168.53.223])
-        by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 32KFC6in020030;
-        Mon, 20 Mar 2023 18:12:06 +0300
-From:   Igor Artemiev <Igor.A.Artemiev@mcst.ru>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lvc-project@linuxtesting.org
-Subject: [lvc-project] [PATCH] Input: cypress_ps2 - fix cypress_ps2_sendbyte() result check
-Date:   Mon, 20 Mar 2023 18:11:49 +0300
-Message-Id: <20230320151149.1623089-1-Igor.A.Artemiev@mcst.ru>
-X-Mailer: git-send-email 2.39.0.152.ga5737674b6
+        Mon, 20 Mar 2023 11:43:46 -0400
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3DF3D92C;
+        Mon, 20 Mar 2023 08:34:36 -0700 (PDT)
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Mon, 20 Mar
+ 2023 18:34:24 +0300
+Received: from localhost (10.0.253.157) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 20 Mar
+ 2023 18:34:24 +0300
+From:   Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To:     David Rheinsberg <david.rheinsberg@gmail.com>
+CC:     Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "David Herrmann" <dh.herrmann@gmail.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lvc-project@linuxtesting.org>
+Subject: [PATCH] HID: wiimote: check completion in wiimod_battery_get_property
+Date:   Mon, 20 Mar 2023 08:34:19 -0700
+Message-ID: <20230320153419.9185-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-         bases: 20111107 #2745587, check: 20230320 notchecked
-X-AV-Checked: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.0.253.157]
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -46,30 +48,36 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-cypress_ps2_sendbyte() returns 0 or an error code greater than 0.
-The cypress_ps2_read_cmd_status() function assumes that
-cypress_ps2_read_cmd_status() will return a negative value on error.
+wiimote_cmd_wait() in wiimod_battery_get_property() may signal that the
+task of getting specific battery property was interrupted or timed out.
+There is no need to do any further computation in such cases, so just
+return the error.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Found by Linux Verification Center (linuxtesting.org) with static
+analysis tool SVACE.
 
-Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+Fixes: dcf392313817 ("HID: wiimote: convert BATTERY to module")
+Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 ---
- drivers/input/mouse/cypress_ps2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-wiimote-modules.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/mouse/cypress_ps2.c b/drivers/input/mouse/cypress_ps2.c
-index d272f1ec27ba..b170959e2ad3 100644
---- a/drivers/input/mouse/cypress_ps2.c
-+++ b/drivers/input/mouse/cypress_ps2.c
-@@ -114,7 +114,7 @@ static int cypress_ps2_read_cmd_status(struct psmouse *psmouse,
- 	memset(param, 0, pktsize);
+diff --git a/drivers/hid/hid-wiimote-modules.c b/drivers/hid/hid-wiimote-modules.c
+index dbccdfa63916..9755718d9856 100644
+--- a/drivers/hid/hid-wiimote-modules.c
++++ b/drivers/hid/hid-wiimote-modules.c
+@@ -220,8 +220,10 @@ static int wiimod_battery_get_property(struct power_supply *psy,
+ 	wiiproto_req_status(wdata);
+ 	spin_unlock_irqrestore(&wdata->state.lock, flags);
  
- 	rc = cypress_ps2_sendbyte(psmouse, 0xe9);
--	if (rc < 0)
-+	if (rc > 0)
- 		goto out;
+-	wiimote_cmd_wait(wdata);
++	ret = wiimote_cmd_wait(wdata);
+ 	wiimote_cmd_release(wdata);
++	if (ret)
++		return ret;
  
- 	wait_event_timeout(ps2dev->wait,
+ 	spin_lock_irqsave(&wdata->state.lock, flags);
+ 	state = wdata->state.cmd_battery;
 -- 
-2.30.2
+2.25.1
 
