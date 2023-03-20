@@ -2,51 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A9576C084B
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 02:09:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44FE56C080D
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 02:06:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbjCTBJi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Mar 2023 21:09:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57206 "EHLO
+        id S231972AbjCTBF6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Mar 2023 21:05:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231292AbjCTBJH (ORCPT
+        with ESMTP id S229884AbjCTBDR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Mar 2023 21:09:07 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE9B12203E;
-        Sun, 19 Mar 2023 18:00:58 -0700 (PDT)
+        Sun, 19 Mar 2023 21:03:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2D923D95;
+        Sun, 19 Mar 2023 17:57:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id BFA58CE1018;
-        Mon, 20 Mar 2023 00:54:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D51DC433A0;
-        Mon, 20 Mar 2023 00:54:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8AB61611FC;
+        Mon, 20 Mar 2023 00:56:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F217CC433EF;
+        Mon, 20 Mar 2023 00:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679273661;
-        bh=E7EQYQXRaLRNx1bbv4x7/S3qJQ4eXr3q7YX+k86XXQk=;
+        s=k20201202; t=1679273768;
+        bh=oXcpe/O4c2WbWlDUT2vZedheqmY6RANycE72UAH12Uw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sqiRRIfJcbWBo0BaRVOdgPyJDz0/HjqcxB/PbS1GWvjj3azZz6Du5AtEQ2QRI1HOp
-         ygcg8eNeU/WymeY1Itox3r3yD3GdWyGWL2haydev7OTENJwp9VjBaZg04y8onQkASY
-         YUBvp/CS9Cgmoa9HEKl7ncHXlvxKbPbhnnkRjRTCim/wI8HP9TjDTy+eGaWJK2SZqW
-         lXmzV6pCPGkzNQViWHN54EE1qpf93q2iFh2mSHlLBx1fc0mG8jIaYb+zB3lRj3aVw3
-         K5V28ZHyRLyZEUkV7/ROPeuhUX1HAIKnyJKbskhU68cFmC9Bk/dEmUYhnVIUHZ4/Cc
-         TqXjAdK9GwN1A==
+        b=eNeQX16l4PDie5KODBrpxuTtxXi2659Api4fU1s2O3NJPzutYNPDbuCm9yf6Vz/e8
+         1tqzI5iwhRPIJm5wlDAgaakc1oc/zzqXORdi5pzC6TbZXQ4PScV0yoch9dORGvIiV7
+         v9dNL0KPZBT6lz53WHPwKxW5TRUipvGuMZEa5aDiU/zo+Rv5AzuBsTjUjKmWb8eWQL
+         6h/IfhlMhlMZA2QKKI0/aPRHVRNEV63dfu3p4YtIJJ2vqd1UZepLheCalvb/JBrx8r
+         BcTvLOLdoD1FybdRI6d5k+2PM4X6Snp+24djj51EAMRmgG0OHjKm2A2XXwd3LaJXbP
+         +lRUHcY9dL7Nw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Rafa=C5=82=20Szalecki?= <perexist7@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
+Cc:     Reka Norman <rekanorman@chromium.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 04/29] HID: logitech-hidpp: Add support for Logitech MX Master 3S mouse
-Date:   Sun, 19 Mar 2023 20:53:46 -0400
-Message-Id: <20230320005413.1428452-4-sashal@kernel.org>
+        liqiong@nfschina.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 04/15] HID: intel-ish-hid: ipc: Fix potential use-after-free in work function
+Date:   Sun, 19 Mar 2023 20:55:48 -0400
+Message-Id: <20230320005559.1429040-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320005413.1428452-1-sashal@kernel.org>
-References: <20230320005413.1428452-1-sashal@kernel.org>
+In-Reply-To: <20230320005559.1429040-1-sashal@kernel.org>
+References: <20230320005559.1429040-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -59,33 +58,67 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Rafał Szalecki <perexist7@gmail.com>
+From: Reka Norman <rekanorman@chromium.org>
 
-[ Upstream commit db50f7a3983f0154e730f1147ef729e0c5c2f90c ]
+[ Upstream commit 8ae2f2b0a28416ed2f6d8478ac8b9f7862f36785 ]
 
-Add signature for the Logitech MX Master 3S mouse over Bluetooth.
+When a reset notify IPC message is received, the ISR schedules a work
+function and passes the ISHTP device to it via a global pointer
+ishtp_dev. If ish_probe() fails, the devm-managed device resources
+including ishtp_dev are freed, but the work is not cancelled, causing a
+use-after-free when the work function tries to access ishtp_dev. Use
+devm_work_autocancel() instead, so that the work is automatically
+cancelled if probe fails.
 
-Signed-off-by: Rafał Szalecki <perexist7@gmail.com>
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Reka Norman <rekanorman@chromium.org>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/hid/intel-ish-hid/ipc/ipc.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index fdb66dc065822..e906ee375298a 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4378,6 +4378,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e) },
- 	{ /* MX Master 3 mouse over Bluetooth */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023) },
-+	{ /* MX Master 3S mouse over Bluetooth */
-+	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb034) },
- 	{}
- };
+diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+index a45ac7fa417b9..b950873c300b3 100644
+--- a/drivers/hid/intel-ish-hid/ipc/ipc.c
++++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+@@ -5,6 +5,7 @@
+  * Copyright (c) 2014-2016, Intel Corporation.
+  */
  
++#include <linux/devm-helpers.h>
+ #include <linux/sched.h>
+ #include <linux/spinlock.h>
+ #include <linux/delay.h>
+@@ -594,7 +595,6 @@ static void	recv_ipc(struct ishtp_device *dev, uint32_t doorbell_val)
+ 	case MNG_RESET_NOTIFY:
+ 		if (!ishtp_dev) {
+ 			ishtp_dev = dev;
+-			INIT_WORK(&fw_reset_work, fw_reset_work_fn);
+ 		}
+ 		schedule_work(&fw_reset_work);
+ 		break;
+@@ -885,6 +885,7 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
+ {
+ 	struct ishtp_device *dev;
+ 	int	i;
++	int	ret;
+ 
+ 	dev = devm_kzalloc(&pdev->dev,
+ 			   sizeof(struct ishtp_device) + sizeof(struct ish_hw),
+@@ -920,6 +921,12 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
+ 		list_add_tail(&tx_buf->link, &dev->wr_free_list);
+ 	}
+ 
++	ret = devm_work_autocancel(&pdev->dev, &fw_reset_work, fw_reset_work_fn);
++	if (ret) {
++		dev_err(dev->devc, "Failed to initialise FW reset work\n");
++		return NULL;
++	}
++
+ 	dev->ops = &ish_hw_ops;
+ 	dev->devc = &pdev->dev;
+ 	dev->mtu = IPC_PAYLOAD_SIZE - sizeof(struct ishtp_msg_hdr);
 -- 
 2.39.2
 
