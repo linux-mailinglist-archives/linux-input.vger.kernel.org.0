@@ -2,54 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B67A6C06E8
-	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 01:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA236C06F3
+	for <lists+linux-input@lfdr.de>; Mon, 20 Mar 2023 01:53:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbjCTAxG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Mar 2023 20:53:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59836 "EHLO
+        id S229640AbjCTAxJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Mar 2023 20:53:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjCTAxF (ORCPT
+        with ESMTP id S229538AbjCTAxH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Mar 2023 20:53:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8E1C19F31;
-        Sun, 19 Mar 2023 17:53:03 -0700 (PDT)
+        Sun, 19 Mar 2023 20:53:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C121A48A;
+        Sun, 19 Mar 2023 17:53:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D63A61151;
-        Mon, 20 Mar 2023 00:53:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D393C4339B;
-        Mon, 20 Mar 2023 00:53:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 83FC46114C;
+        Mon, 20 Mar 2023 00:53:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BAC5C433D2;
+        Mon, 20 Mar 2023 00:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679273582;
-        bh=58zc0AzHfesSx+M9pKNJIvOAgE7ILLowXaKun9ELkcg=;
+        s=k20201202; t=1679273585;
+        bh=Xsolz83rCXsNcwOTYnTFqWA0Fsn4iBJ44RuNqsIKNGU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gIbqgn7k1BUXyI4aG/jajqBB+m2131dIi0ynBiuQJWklwp/Bcyz4IScDw0V+k/Oj+
-         +OkwWKCRhTSGIM6FmdgVFFY6Ftp2mC/OqwbLOB2QkQpxePvr0jkWboftMBBtMNoxV4
-         FOFlr2vad3XNmUKswVMBCytiggQc/u+1BcuwBxucdxVnyDQPXAjkTlqWspHNx5bLPl
-         V1VrF74cirVSj/84YsPIE0+NEZ3vLq69xAeR59HRWi847vuMrLkTawp0ANLbqeXQJG
-         +qiBmrtq61YZtAdL9GB5ISKUmOfBDjypeovHF0PoxOArlR39PzhhSfkb9XXu2s2WBR
-         OnRUrrykCL7SA==
+        b=Oh802y01hz7cdtawNpGBDo4l5PSi25cYkabpxKUHHXoQjAWUZw0Ko9jFI7lqMnQBj
+         voQOKhfgkBju5jWA7PmGX27Fum62syS/N9qWXGjMoGr0n7n5EvLdcKTulIUP7TN/dP
+         2E87Fiufsw+jU9rvuQmh/a/749wgfaycC1oK60aG2+g6iIZeyM2a8s3p+HbaRPdt6V
+         r7+hOJpwLIeFZ0W/iTnRrV/bwC6WunIo3gD4EipBvkQDbjh4rpsVVNKl1XQfDZmkke
+         j9cfbzQsfWKgXtJ9pD2vrfRwtyscluZXRWVNE4n5AaUHVo1WSyRREvTJMQptBbWhLp
+         llaO5heUxeAtw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Danny Kaehn <kaehndan@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+Cc:     =?UTF-8?q?Rafa=C5=82=20Szalecki?= <perexist7@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 02/30] HID: cp2112: Fix driver not registering GPIO IRQ chip as threaded
-Date:   Sun, 19 Mar 2023 20:52:27 -0400
-Message-Id: <20230320005258.1428043-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 04/30] HID: logitech-hidpp: Add support for Logitech MX Master 3S mouse
+Date:   Sun, 19 Mar 2023 20:52:29 -0400
+Message-Id: <20230320005258.1428043-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230320005258.1428043-1-sashal@kernel.org>
 References: <20230320005258.1428043-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,35 +59,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Danny Kaehn <kaehndan@gmail.com>
+From: Rafał Szalecki <perexist7@gmail.com>
 
-[ Upstream commit 37f5b858a66543b2b67c0288280af623985abc29 ]
+[ Upstream commit db50f7a3983f0154e730f1147ef729e0c5c2f90c ]
 
-The CP2112 generates interrupts from a polling routine on a thread,
-and can only support threaded interrupts. This patch configures the
-gpiochip irq chip with this flag, disallowing consumers to request
-a hard IRQ from this driver, which resulted in a segfault previously.
+Add signature for the Logitech MX Master 3S mouse over Bluetooth.
 
-Signed-off-by: Danny Kaehn <kaehndan@gmail.com>
-Link: https://lore.kernel.org/r/20230210170044.11835-1-kaehndan@gmail.com
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Rafał Szalecki <perexist7@gmail.com>
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-cp2112.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-logitech-hidpp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 1e16b0fa310d1..27cadadda7c9d 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -1354,6 +1354,7 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	girq->parents = NULL;
- 	girq->default_type = IRQ_TYPE_NONE;
- 	girq->handler = handle_simple_irq;
-+	girq->threaded = true;
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 5efc591a02a03..3c00e6ac8e76a 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4378,6 +4378,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e) },
+ 	{ /* MX Master 3 mouse over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023) },
++	{ /* MX Master 3S mouse over Bluetooth */
++	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb034) },
+ 	{}
+ };
  
- 	ret = gpiochip_add_data(&dev->gc, dev);
- 	if (ret < 0) {
 -- 
 2.39.2
 
