@@ -2,221 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73D186C260E
-	for <lists+linux-input@lfdr.de>; Tue, 21 Mar 2023 00:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78F386C2A3D
+	for <lists+linux-input@lfdr.de>; Tue, 21 Mar 2023 07:13:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbjCTXuK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Mar 2023 19:50:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50262 "EHLO
+        id S230097AbjCUGNO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Mar 2023 02:13:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbjCTXuC (ORCPT
+        with ESMTP id S229646AbjCUGNN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Mar 2023 19:50:02 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067A02D5E;
-        Mon, 20 Mar 2023 16:49:21 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id s8so83939ois.2;
-        Mon, 20 Mar 2023 16:49:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679356047;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=09zhwGZdslyyy0wEVjKWFObTfJyiv32GzYkmakn90gk=;
-        b=MA/T70/CCgY7qQ/VDG+SBiDLHMmSuHrL4gVP3joV7QRe0tFBI/oVCJhj9xkn2Fc/Ec
-         2CWRscpjLn07BQGtFUUimQr1vpCOOrorwY5sq2KRbiGZtoKfcgPcpHH1MzfHV7y0/CX0
-         DlE8PHV+iu6FuxG8qSs0bIShrfNln9pajG694+35xr9CHBWh6bvYiHPcE5HCWxdoqBbq
-         cb0/yKHBvslt2Ig1/+juny1QWV4X43CaNBM4G2UVy3BraJ0gc84TD3TGpIUHRVPBadAk
-         +Q2SH/+u73pZebLad6Ep0sXVpHk/NhEBf2J4NXC45mk7fO0I+zyVLskf2VIwx/TwDwal
-         KPvQ==
-X-Gm-Message-State: AO0yUKVHhjmtYKN62BfSuC2mvJB3REKjweCncGSuyOGzR5VS+qeXnLDj
-        pFxYy/XQaEr3h5at7xDB3Q==
-X-Google-Smtp-Source: AK7set9WTfaJXM41TJy22yCuZh1qIWa2bJcddNw/957CohV/gMvQrnK7rg84XkJp//b3oWasSQ68WQ==
-X-Received: by 2002:a05:6808:656:b0:383:e7c8:4000 with SMTP id z22-20020a056808065600b00383e7c84000mr129044oih.13.1679356047370;
-        Mon, 20 Mar 2023 16:47:27 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id b66-20020aca3445000000b0037d7c3cfac7sm4263116oia.15.2023.03.20.16.47.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 16:47:27 -0700 (PDT)
-Received: (nullmailer pid 2930320 invoked by uid 1000);
-        Mon, 20 Mar 2023 23:47:26 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH] dt-bindings: input: Drop unneeded quotes
-Date:   Mon, 20 Mar 2023 18:47:18 -0500
-Message-Id: <20230320234718.2930154-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        Tue, 21 Mar 2023 02:13:13 -0400
+Received: from exchange.fintech.ru (e10edge.fintech.ru [195.54.195.159])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9AC31E23;
+        Mon, 20 Mar 2023 23:13:09 -0700 (PDT)
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Tue, 21 Mar
+ 2023 09:13:06 +0300
+Received: from [10.0.253.157] (10.0.253.157) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 21 Mar
+ 2023 09:13:06 +0300
+Message-ID: <2c3701ba-da8e-b67f-059f-79a52f20beec@fintech.ru>
+Date:   Mon, 20 Mar 2023 23:13:02 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] HID: wiimote: check completion in
+ wiimod_battery_get_property
+To:     David Rheinsberg <david.rheinsberg@gmail.com>
+CC:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        David Herrmann <dh.herrmann@gmail.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lvc-project@linuxtesting.org>
+References: <20230320153419.9185-1-n.zhandarovich@fintech.ru>
+ <CADyDSO6nvFaC8dZKuSYcqgdiL8oub+eKU-PqYSeH2cXnVw-=Uw@mail.gmail.com>
+Content-Language: en-US
+From:   Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+In-Reply-To: <CADyDSO6nvFaC8dZKuSYcqgdiL8oub+eKU-PqYSeH2cXnVw-=Uw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.0.253.157]
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-checking for this can be enabled in yamllint.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/input/adc-joystick.yaml     | 4 ++--
- .../devicetree/bindings/input/google,cros-ec-keyb.yaml        | 2 +-
- Documentation/devicetree/bindings/input/imx-keypad.yaml       | 2 +-
- Documentation/devicetree/bindings/input/matrix-keymap.yaml    | 2 +-
- .../devicetree/bindings/input/mediatek,mt6779-keypad.yaml     | 2 +-
- .../devicetree/bindings/input/microchip,cap11xx.yaml          | 4 ++--
- Documentation/devicetree/bindings/input/pwm-vibrator.yaml     | 4 ++--
- Documentation/devicetree/bindings/input/regulator-haptic.yaml | 4 ++--
- .../bindings/input/touchscreen/elan,elants_i2c.yaml           | 4 ++--
- 9 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-index da0f8dfca8bf..6c244d66f8ce 100644
---- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-+++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-@@ -2,8 +2,8 @@
- # Copyright 2019-2020 Artur Rojek
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/input/adc-joystick.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/input/adc-joystick.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: ADC attached joystick
- 
-diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-index e05690b3e963..3486c81699a8 100644
---- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-+++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-@@ -57,7 +57,7 @@ if:
-       contains:
-         const: google,cros-ec-keyb
- then:
--  $ref: "/schemas/input/matrix-keymap.yaml#"
-+  $ref: /schemas/input/matrix-keymap.yaml#
-   required:
-     - keypad,num-rows
-     - keypad,num-columns
-diff --git a/Documentation/devicetree/bindings/input/imx-keypad.yaml b/Documentation/devicetree/bindings/input/imx-keypad.yaml
-index 7514df62b592..b110eb1f3358 100644
---- a/Documentation/devicetree/bindings/input/imx-keypad.yaml
-+++ b/Documentation/devicetree/bindings/input/imx-keypad.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Liu Ying <gnuiyl@gmail.com>
- 
- allOf:
--  - $ref: "/schemas/input/matrix-keymap.yaml#"
-+  - $ref: /schemas/input/matrix-keymap.yaml#
- 
- description: |
-   The KPP is designed to interface with a keypad matrix with 2-point contact
-diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.yaml b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-index 4d6dbe91646d..a715c2a773fe 100644
---- a/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-+++ b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-@@ -21,7 +21,7 @@ description: |
- 
- properties:
-   linux,keymap:
--    $ref: '/schemas/types.yaml#/definitions/uint32-array'
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-     description: |
-       An array of packed 1-cell entries containing the equivalent of row,
-       column and linux key-code. The 32-bit big endian cell is packed as:
-diff --git a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-index d768c30f48fb..47aac8794b68 100644
---- a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-+++ b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Mattijs Korpershoek <mkorpershoek@baylibre.com>
- 
- allOf:
--  - $ref: "/schemas/input/matrix-keymap.yaml#"
-+  - $ref: /schemas/input/matrix-keymap.yaml#
- 
- description: |
-   Mediatek's Keypad controller is used to interface a SoC with a matrix-type
-diff --git a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-index 5fa625b5c5fb..5b5d4f7d3482 100644
---- a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-+++ b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/input/microchip,cap11xx.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/input/microchip,cap11xx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Microchip CAP11xx based capacitive touch sensors
- 
-diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.yaml b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-index a70a636ee112..d32716c604fe 100644
---- a/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-+++ b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/input/pwm-vibrator.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/input/pwm-vibrator.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: PWM vibrator
- 
-diff --git a/Documentation/devicetree/bindings/input/regulator-haptic.yaml b/Documentation/devicetree/bindings/input/regulator-haptic.yaml
-index 627891e1ef55..cf63f834dd7d 100644
---- a/Documentation/devicetree/bindings/input/regulator-haptic.yaml
-+++ b/Documentation/devicetree/bindings/input/regulator-haptic.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/input/regulator-haptic.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/input/regulator-haptic.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Regulator Haptic
- 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-index f9053e5e9b24..3255c2c8951a 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/elan,elants_i2c.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/input/touchscreen/elan,elants_i2c.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/input/touchscreen/elan,elants_i2c.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Elantech I2C Touchscreen
- 
--- 
-2.39.2
+On 3/20/23 12:08, David Rheinsberg wrote:
+> Hi
+> 
+> On Mon, 20 Mar 2023 at 16:34, Nikita Zhandarovich
+> <n.zhandarovich@fintech.ru> wrote:
+>>
+>> wiimote_cmd_wait() in wiimod_battery_get_property() may signal that the
+>> task of getting specific battery property was interrupted or timed out.
+>> There is no need to do any further computation in such cases, so just
+>> return the error.
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with static
+>> analysis tool SVACE.
+>>
+>> Fixes: dcf392313817 ("HID: wiimote: convert BATTERY to module")
+>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>> ---
+>>  drivers/hid/hid-wiimote-modules.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/hid/hid-wiimote-modules.c b/drivers/hid/hid-wiimote-modules.c
+>> index dbccdfa63916..9755718d9856 100644
+>> --- a/drivers/hid/hid-wiimote-modules.c
+>> +++ b/drivers/hid/hid-wiimote-modules.c
+>> @@ -220,8 +220,10 @@ static int wiimod_battery_get_property(struct power_supply *psy,
+>>         wiiproto_req_status(wdata);
+>>         spin_unlock_irqrestore(&wdata->state.lock, flags);
+>>
+>> -       wiimote_cmd_wait(wdata);
+>> +       ret = wiimote_cmd_wait(wdata);
+>>         wiimote_cmd_release(wdata);
+>> +       if (ret)
+>> +               return ret;
+> 
+> The current code returns cached battery-information in case a
+> synchronous update did not succeed. Battery information is likely
+> updated regularly, anyway, so the synchronous update is usually not
+> required.
+> 
+> I don't think bailing out and returning the error to the caller is
+> required or gains us anything but more complexity. Or am I missing
+> something here?
+> 
+> Thanks
+> David
 
+Hi. I think you are right, my change is not that essential to begin with
+and there is no urgency to patch this.
+
+Thanks for your patience,
+Nikita
