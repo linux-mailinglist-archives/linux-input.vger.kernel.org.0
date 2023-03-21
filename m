@@ -2,160 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F09146C369C
-	for <lists+linux-input@lfdr.de>; Tue, 21 Mar 2023 17:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB7C06C382C
+	for <lists+linux-input@lfdr.de>; Tue, 21 Mar 2023 18:28:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbjCUQKZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Mar 2023 12:10:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
+        id S229674AbjCUR2l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Mar 2023 13:28:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjCUQKZ (ORCPT
+        with ESMTP id S229484AbjCUR2k (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Mar 2023 12:10:25 -0400
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B8D13609B;
-        Tue, 21 Mar 2023 09:10:22 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by srv6.fidu.org (Postfix) with ESMTP id 27CEAC8008E;
-        Tue, 21 Mar 2023 17:10:20 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
-        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id JParbD9YrLXB; Tue, 21 Mar 2023 17:10:19 +0100 (CET)
-Received: from [192.168.178.25] (business-24-134-105-141.pool2.vodafone-ip.de [24.134.105.141])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by srv6.fidu.org (Postfix) with ESMTPSA id 971B9C80090;
-        Tue, 21 Mar 2023 17:10:19 +0100 (CET)
-Message-ID: <f50b3db3-785d-3efd-b45d-13e1e93f60cc@tuxedocomputers.com>
-Date:   Tue, 21 Mar 2023 17:10:19 +0100
+        Tue, 21 Mar 2023 13:28:40 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DF3FF31
+        for <linux-input@vger.kernel.org>; Tue, 21 Mar 2023 10:28:39 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 20so9175397lju.0
+        for <linux-input@vger.kernel.org>; Tue, 21 Mar 2023 10:28:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679419717;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
+        b=XOV/krzLQW7ragMjdUdTOcCLYMVa4l9EwdH3JPyYEOj5d+rC46d40hUDn9e8ehILWi
+         EnlcW65notnq4aDGGr1lXNLvyBoL2g+rEhKsMQg+0J8mCOjN0QxftpV0EKKPrFS3O5SP
+         1NysIZR+a/XhMZZ5MsPpYlvBx65I6OfDmAi4bIy9lV0LXGxsIFFI/Q3vbaMo7HfSrfGT
+         TVhAnuX1XHe1ZnuIMIKk45ip6VDtZXDDqV3FZQ7Pp1KVuUZgshK8tqT+Wgv74RF4DHv3
+         bXxd6OXLLJFA0lZicn1yc9kqsGRrf10i3lAdunDOkhJg9/CrqQCKSBzOw6PxtB5wqZ5G
+         m/ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679419717;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
+        b=i4nINEpUntgv/KGyrD1SIcP1Z7jHHNh6l0ZQ6UQ0dz22E9mxpNbRehpiUvnrgemjMG
+         CUstwPuQPGq5mZS01B+jLpPqvx+/cJ9MwcZcvMnX3otiwfFgw8sPA4D4JU+GuYoC7ert
+         7aYq+sQdEa86/SeH7/0FyNBbgLaCJO0YfVsQliEZio016u5lXZtlxDn8KdzyNZVUtnic
+         FfL96D9aG4vTAh5p4cPhiE6gWeZuAxk+Vcmzt+x9cJUCXIwfPCW7cQRe0G/LjqIqdOUf
+         UffJdS/TRhPfMUe6FMtippTB0QvKMBUWO9SpIJeXhU2F4GkblZtgZg1Jbm+0u9ZgMbxt
+         SI+g==
+X-Gm-Message-State: AO0yUKVXGWY8GCuIG/7jGNEZ8CmPPv+QeOh2l4qqjdQ7mPJclLzQt1uH
+        EHcB0tto/BUFEbgfAUvh6H4fUeA/GzkhTFMC3MU=
+X-Google-Smtp-Source: AK7set+njoCcmF70xO9qsj5N2IGguzER7F1k46a0KQDRC9dII7NBYkdWKCCJ6HOYrXCLb8sGuj6mRQ2lNC3kQ2bHXCE=
+X-Received: by 2002:a2e:8703:0:b0:29a:9053:ed1b with SMTP id
+ m3-20020a2e8703000000b0029a9053ed1bmr1135933lji.3.1679419717390; Tue, 21 Mar
+ 2023 10:28:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 2/2] Input: i8042 - add TUXEDO devices to i8042 quirk
- tables for partial fix
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>, dmitry.torokhov@gmail.com,
-        tiwai@suse.de, samuel@cavoj.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220708161005.1251929-1-wse@tuxedocomputers.com>
- <20220708161005.1251929-3-wse@tuxedocomputers.com>
- <37a7e536-252a-c8a9-1412-37d3f2052a6d@redhat.com>
- <c5a7fa10-7b6a-fa0d-622e-4392fda1ee93@tuxedocomputers.com>
- <e84a2cb3-ea2f-6ce4-aba8-4026b3e6bedd@redhat.com>
-From:   Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <e84a2cb3-ea2f-6ce4-aba8-4026b3e6bedd@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6520:440a:b0:24d:cf61:2e9f with HTTP; Tue, 21 Mar 2023
+ 10:28:36 -0700 (PDT)
+Reply-To: dravasmith27@gmail.com
+From:   Dr Ava Smith <harrykuunda@gmail.com>
+Date:   Tue, 21 Mar 2023 10:28:36 -0700
+Message-ID: <CAKN7XSW5YTvU7pAfxsFybcXixk+A7ih=Pwm_ny0MXLR2zYFEQQ@mail.gmail.com>
+Subject: GREETINGS FROM DR AVA SMITH
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        SUBJ_ALL_CAPS,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:22b listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5001]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [harrykuunda[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [dravasmith27[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am 11.07.22 um 14:55 schrieb Hans de Goede:
-> Hi,
->
-> On 7/11/22 14:45, Werner Sembach wrote:
->> Hi,
->>
->> On 7/8/22 21:39, Hans de Goede wrote:
->>> Hi,
->>>
->>> On 7/8/22 18:10, Werner Sembach wrote:
->>>> A lot of modern Clevo barebones have touchpad and/or keyboard issues after
->>>> suspend fixable with nomux + reset + noloop + nopnp. Luckily, none of them
->>>> have an external PS/2 port so this can safely be set for all of them.
->>>>
->>>> I'm not entirely sure if every device listed really needs all four quirks,
->>>> but after testing and production use. No negative effects could be
->>>> observed when setting all four.
->>>>
->>>> Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS on the Clevo N150CU
->>>> and the Clevo NHxxRZQ makes the keyboard very laggy for ~5 seconds after
->>>> boot and sometimes also after resume. However both are required for the
->>>> keyboard to not fail completely sometimes after boot or resume.
->>> Hmm, the very laggy bit does not sound good. Have you looked into other
->>> solutions, e.g. what happens if you use just nomux without any of the
->>> other 3 options ?
->> I tried a lot of combinations, but it was some time ago.
->>
->> iirc: at least nomux and reset are required and both individually cause the lagging.
->>
->> So the issue is not fixed by just using a different set of quirks.
-> Hmm, ok. So given that this seems to be the best we can do
-> the patch looks good to me:
->
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->
-> Regards,
->
-> Hans
-
-Afaik this patch never got merged. Sadly I still have no better solution, so I 
-wanted to bring the patch up for discussion again as it still makes the 
-situation better in my opinion.
-
-Kind Regards,
-
-Werner Sembach
-
->
->
->>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->>>> Cc: stable@vger.kernel.org
->>>> ---
->>>>    drivers/input/serio/i8042-x86ia64io.h | 28 +++++++++++++++++++++++++++
->>>>    1 file changed, 28 insertions(+)
->>>>
->>>> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
->>>> index 5204a7dd61d4..9dc0266e5168 100644
->>>> --- a/drivers/input/serio/i8042-x86ia64io.h
->>>> +++ b/drivers/input/serio/i8042-x86ia64io.h
->>>> @@ -1107,6 +1107,20 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->>>>            .driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->>>>                        SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->>>>        },
->>>> +    {
->>>> +        /*
->>>> +         * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes
->>>> +         * the keyboard very laggy for ~5 seconds after boot and
->>>> +         * sometimes also after resume.
->>>> +         * However both are required for the keyboard to not fail
->>>> +         * completely sometimes after boot or resume.
->>>> +         */
->>>> +        .matches = {
->>>> +            DMI_MATCH(DMI_BOARD_NAME, "N150CU"),
->>>> +        },
->>>> +        .driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->>>> +                    SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->>>> +    },
->>>>        {
->>>>            .matches = {
->>>>                DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
->>>> @@ -1114,6 +1128,20 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->>>>            .driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->>>>                        SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->>>>        },
->>>> +    {
->>>> +        /*
->>>> +         * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes
->>>> +         * the keyboard very laggy for ~5 seconds after boot and
->>>> +         * sometimes also after resume.
->>>> +         * However both are required for the keyboard to not fail
->>>> +         * completely sometimes after boot or resume.
->>>> +         */
->>>> +        .matches = {
->>>> +            DMI_MATCH(DMI_BOARD_NAME, "NHxxRZQ"),
->>>> +        },
->>>> +        .driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
->>>> +                    SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
->>>> +    },
->>>>        {
->>>>            .matches = {
->>>>                DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
->
+-- 
+Hello Dear,
+how are you today?hope you are fine
+My name is Dr Ava Smith ,Am an English and French nationalities.
+I will give you pictures and more details about me as soon as i hear from you
+Thanks
+Ava
