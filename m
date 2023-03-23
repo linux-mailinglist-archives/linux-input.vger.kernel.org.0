@@ -2,147 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5A56C6C1E
-	for <lists+linux-input@lfdr.de>; Thu, 23 Mar 2023 16:18:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83EE16C6C3A
+	for <lists+linux-input@lfdr.de>; Thu, 23 Mar 2023 16:24:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231912AbjCWPSy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Mar 2023 11:18:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37238 "EHLO
+        id S232117AbjCWPYr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Mar 2023 11:24:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232068AbjCWPSq (ORCPT
+        with ESMTP id S232029AbjCWPYq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Mar 2023 11:18:46 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954ED29405;
-        Thu, 23 Mar 2023 08:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679584720; x=1711120720;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fBTf1WFkxv6jpIw1EyUCMiRABvqdmGxDE71QRCONeqM=;
-  b=eJDy74BnaGJQV0FBpjM/Cb66TncNeNvpUzjafx6UYGAcYDUM37oWccS2
-   xFjmsttf3RmH2QzKAzKBDwR9R4XWQr9NoKRl5EZPBGpXtuq5NI8LT9Iao
-   hOZxBZBaoVbN0t9v9idt8VeBxe2GZOZG3Lm0ZHC9UeNqcw5wSqWcF5hcC
-   2uVHlIu8amNwkVKTgGb/CaJV97rHYzrlKyzl9l3WhH5jX5njcL/itAWGn
-   IRqvMhVWIgVTle+xH4y7e4GmFn5zRQAy40RPZ6d0SIRN/3s3OWQxRQYWj
-   hxq6zMz/Fed/Ux5Xz1J3h82ySyIEZEeeBm9C1SOnOkjMTAl8PhWpOav3J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="319171900"
-X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="319171900"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 08:18:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="675745582"
-X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="675745582"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 23 Mar 2023 08:18:31 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pfMhz-000ETr-0r;
-        Thu, 23 Mar 2023 15:18:31 +0000
-Date:   Thu, 23 Mar 2023 23:18:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Maximilian Weigand <mweigand@mweigand.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Maximilian Weigand <mweigand@mweigand.net>,
-        Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH 2/6] Input: cyttsp5: remove unused code
-Message-ID: <202303232302.FB64fi39-lkp@intel.com>
-References: <20230323135205.1160879-3-mweigand@mweigand.net>
+        Thu, 23 Mar 2023 11:24:46 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780631B574
+        for <linux-input@vger.kernel.org>; Thu, 23 Mar 2023 08:24:45 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id r11so4150335wrr.12
+        for <linux-input@vger.kernel.org>; Thu, 23 Mar 2023 08:24:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679585084;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=esQmEaP76SDEyGl7zqjjaeoUbrLJ2LkNFzcvJ0FZOvE=;
+        b=PNlk4HxU9foesDO5bVo+fXlLN792sbSfOZHXY+8XsLvxViJfErPURbtzShBDuRYrXV
+         BTwGskKwYxAu/oM0qaHo54eWtPfgk4d2hHS3f2dsx6Wmr3YBodb0LZ82FpdwxEMUBOtf
+         bkXAQHttvUYbLpMw11q72U0PNbyIhMbLP39o4rh/lHDBiytLKABg9CMBl2wstaJpwMRK
+         K8LZ8heuA/Ck8Gh7a7gxqP5be2q4xdqdICn6jMSNLZQh+ZDDvZ0ZKZ7Q8CPxzYYADacL
+         N1mr0JWa7Q//Ee5uBkQsZbdYUr9XWGeoIGIkH71Fj/LYs1JcqNJ4qTcMLJOwJHckn2Tn
+         Kexw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679585084;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=esQmEaP76SDEyGl7zqjjaeoUbrLJ2LkNFzcvJ0FZOvE=;
+        b=pwTLob+J4wzZuIjwnQmNSSQDH6wm+0OX/J0ahJBmACLhwIMg04YZ7q8zkM3SNbu8rf
+         xF2FWiGuk4BYOFRihnCbSxe5hXO89JIl/vuxEdeBLCYzyLti5S5SKxPeSaF7DYGVswQb
+         WoTrjQbrUVP0G3bH+QLL3G8ljrS15I4vlh2GUNDOLr6MCP2YsHjw/eJ1sBsp2GwbZdga
+         IJ9NYedw0XDQYuLpB3KejtMNy6igt8Id39Bh7ygAGdpLH0xz9z/9SE/Ja0MK6EjGVaOu
+         zIQwlt905nJ9AlIzKCJbfGgaTpdYO+7e/dfqk32h/q/7NEjj0b9R8AqCP63KPKiBS6UV
+         yGsQ==
+X-Gm-Message-State: AAQBX9eMPQz7zGYFv4R46qh+9zKwHunj0AkG6ekaR3B2S1vexgiCky6a
+        EoB2YtO8VpnHNqjWKQAic+baoQAmtNR0QXO8+dlZoatG2XI=
+X-Google-Smtp-Source: AKy350a62It/WQ2MgaScsKgCOWeaB8O8KHzUHPRlVDfGQ5u7zgNwXgABccaPf6VaQxWr4SMKZzW+0Rz1PldKBS4D9ew=
+X-Received: by 2002:a5d:494c:0:b0:2d6:e7b3:74cb with SMTP id
+ r12-20020a5d494c000000b002d6e7b374cbmr812762wrs.7.1679585083829; Thu, 23 Mar
+ 2023 08:24:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230323135205.1160879-3-mweigand@mweigand.net>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+References: <CANRwn3QZfeu4Oonw2-bFHzDajxDJRD6+G5HXr1WJ7bJuXddf2Q@mail.gmail.com>
+ <20221203114318.10103-1-jose.exposito89@gmail.com> <CANRwn3S=6S+mtzL5eFUP=z6K0m=1LO3gyvS4eWHugB8n_3NBhw@mail.gmail.com>
+In-Reply-To: <CANRwn3S=6S+mtzL5eFUP=z6K0m=1LO3gyvS4eWHugB8n_3NBhw@mail.gmail.com>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Thu, 23 Mar 2023 08:24:32 -0700
+Message-ID: <CANRwn3RzXZnLzfhX3EGjL+aFJwxxhyS53ZYNHfYyW-0=JdYFvQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: Recognize "Digitizer" as a valid input application
+To:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Cc:     jason.gerecke@wacom.com, jikos@kernel.org,
+        joshua@joshua-dickens.com, ping.cheng@wacom.com,
+        pinglinux@gmail.com, skomra@gmail.com,
+        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Maximilian,
+Following up on this since it has been a while since the last attempt.
+I'm still hoping to get this patch merged if possible :)
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on dtor-input/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20230323135205.1160879-3-mweigand%40mweigand.net
-patch subject: [PATCH 2/6] Input: cyttsp5: remove unused code
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303232302.FB64fi39-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/4358a60821eb8149dabed197c09d3c0eab63bf38
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
-        git checkout 4358a60821eb8149dabed197c09d3c0eab63bf38
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/touchscreen/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303232302.FB64fi39-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_get_hid_descriptor':
->> drivers/input/touchscreen/cyttsp5.c:604:12: warning: unused variable 'cmd' [-Wunused-variable]
-     604 |         u8 cmd[2];
-         |            ^~~
+The patch still applies cleanly against the for-6.4/core branch and
+the hid-tools test suite still runs without any (new*) test failures
+when the patch is applied. Please let me know if there's anything I
+could / should do to continue moving this forward.
 
 
-vim +/cmd +604 drivers/input/touchscreen/cyttsp5.c
+*There are four failures in test_sony.py, but they occur on the
+for-6.4/core branch regardless of if the patch is applied or not.
 
-5b0c03e24a061f Alistair Francis 2022-10-31  598  
-5b0c03e24a061f Alistair Francis 2022-10-31  599  static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
-5b0c03e24a061f Alistair Francis 2022-10-31  600  				      struct cyttsp5_hid_desc *desc)
-5b0c03e24a061f Alistair Francis 2022-10-31  601  {
-5b0c03e24a061f Alistair Francis 2022-10-31  602  	struct device *dev = ts->dev;
-5b0c03e24a061f Alistair Francis 2022-10-31  603  	int rc;
-5b0c03e24a061f Alistair Francis 2022-10-31 @604  	u8 cmd[2];
-5b0c03e24a061f Alistair Francis 2022-10-31  605  
-5b0c03e24a061f Alistair Francis 2022-10-31  606  	rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
-5b0c03e24a061f Alistair Francis 2022-10-31  607  	if (rc) {
-5b0c03e24a061f Alistair Francis 2022-10-31  608  		dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
-5b0c03e24a061f Alistair Francis 2022-10-31  609  		return rc;
-5b0c03e24a061f Alistair Francis 2022-10-31  610  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  611  
-5b0c03e24a061f Alistair Francis 2022-10-31  612  	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
-5b0c03e24a061f Alistair Francis 2022-10-31  613  			msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
-5b0c03e24a061f Alistair Francis 2022-10-31  614  	if (rc <= 0) {
-5b0c03e24a061f Alistair Francis 2022-10-31  615  		dev_err(ts->dev, "HID get descriptor timed out\n");
-5b0c03e24a061f Alistair Francis 2022-10-31  616  		rc = -ETIMEDOUT;
-5b0c03e24a061f Alistair Francis 2022-10-31  617  		return rc;
-5b0c03e24a061f Alistair Francis 2022-10-31  618  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  619  
-5b0c03e24a061f Alistair Francis 2022-10-31  620  	memcpy(desc, ts->response_buf, sizeof(*desc));
-5b0c03e24a061f Alistair Francis 2022-10-31  621  
-5b0c03e24a061f Alistair Francis 2022-10-31  622  	/* Check HID descriptor length and version */
-5b0c03e24a061f Alistair Francis 2022-10-31  623  	if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
-5b0c03e24a061f Alistair Francis 2022-10-31  624  	    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
-5b0c03e24a061f Alistair Francis 2022-10-31  625  		dev_err(dev, "Unsupported HID version\n");
-5b0c03e24a061f Alistair Francis 2022-10-31  626  		return -ENODEV;
-5b0c03e24a061f Alistair Francis 2022-10-31  627  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  628  
-5b0c03e24a061f Alistair Francis 2022-10-31  629  	return 0;
-5b0c03e24a061f Alistair Francis 2022-10-31  630  }
-5b0c03e24a061f Alistair Francis 2022-10-31  631  
+Jason
+---
+Now instead of four in the eights place /
+you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+(That is to say, eight) to the two,     /
+But you can=E2=80=99t take seven from three,    /
+So you look at the sixty-fours....
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+On Thu, Dec 15, 2022 at 8:11=E2=80=AFAM Jason Gerecke <killertofu@gmail.com=
+> wrote:
+>
+> Thanks for the response, Jose.
+>
+> Unfortunately this isn't an issue that we can fix in the Wacom driver
+> since it affects devices that don't use the Wacom driver. While we
+> could theoretically adopt affected VID:PIDs into the Wacom driver on a
+> case-by-case basis, there would be a large time lag between us
+> adopting a device and users running the required kernel. This should
+> really be something that is fixed in the hid-generic driver, even if
+> it means some pain trying to ensure we don't break things in the
+> process... I'm still hoping to hear something back from Benjamin about
+> my hid-tools test results or if additional testing is needed.
+>
+> Jason
+> ---
+> Now instead of four in the eights place /
+> you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+> (That is to say, eight) to the two,     /
+> But you can=E2=80=99t take seven from three,    /
+> So you look at the sixty-fours....
+>
+> On Sat, Dec 3, 2022 at 3:43 AM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@g=
+mail.com> wrote:
+> >
+> > Hi Jason,
+> >
+> > > Still waiting to hear back about this. Are positive results from the
+> > > hid-tools tests sufficient, or is there additional work that should b=
+e
+> > > done for this patch?
+> >
+> > A while ago a similar patch was sent [1] and it was in a similar status
+> > to your patch for a while, so I decided to fix the issue in the UCLogic
+> > driver [2].
+> >
+> > I can not tell you if this patch needs additional work, but you might b=
+e
+> > interested in fixing it in the Wacom driver, where it'd be easier for y=
+ou
+> > to test that no regressions are introduced.
+> >
+> > I hope this helps a bit,
+> > Jose
+> >
+> > [1] https://lore.kernel.org/linux-input/20220804151832.30373-1-openglfr=
+eak@googlemail.com/
+> > [2] https://lore.kernel.org/linux-input/d08049f2-443b-f769-cfde-629cdfb=
+96fc0@alexyzhang.dev/T/
