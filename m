@@ -2,144 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0FA46C639F
-	for <lists+linux-input@lfdr.de>; Thu, 23 Mar 2023 10:31:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E8766C67A5
+	for <lists+linux-input@lfdr.de>; Thu, 23 Mar 2023 13:07:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230343AbjCWJbA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Mar 2023 05:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
+        id S231206AbjCWMG7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Mar 2023 08:06:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjCWJad (ORCPT
+        with ESMTP id S231245AbjCWMGl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Mar 2023 05:30:33 -0400
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2049.outbound.protection.outlook.com [40.107.104.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEFCA3B0DC;
-        Thu, 23 Mar 2023 02:26:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K0QK2GUhFDXulqDnlUGbXx2IaVpcwn7yAdBK6UjgnzgDFqkZwaXqq7CUoCOITKsJASHQKK+OcI8vFzM+ugbmSnQ5R8I5bsRy08sXmzNlr5H9N7icED+rSxxF0PmhhzbbFn1reByhB7359PHGcdatoaZwVIt3F+BXGwFiSEvzJapfD0JduOodO0YVQpQ8xaUzh0zpK+52Qau03L4sljUPiybRh5Y4FyvSWLKuPrz99ZR66bmb9N30984hBHuH0gaQJVZVQRKhNgJZSA+x4qjbbTgXuSFPaaRVBJonkXFyqr4imfgEjPBaD74/kRJK/+WP88jKeCCVhDg74gRBIWS5FQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GNqfyKCgdVd66995CTm9Q6VbVxxWeEAGCFI+VWWSogk=;
- b=R5mjDh8Ao8pnq6cFlpvUArDLoh92Erm5wcgmd/VfwfzeuCGXUE2Hpn+UYfF4MTD+3ITfP2c+bwMsqXECYKlt9xTqNjCwGNM/b6CLL6aAJvS8VGugM6PWg7mXw/bbneEnWI2as3At48bo1lWGdmamyIxT8AfVOJ58HLauUrcyp3A0vz6pTG9Sd1TooNcOWBIPY+Tx8wbeQvZ11Jc3TDN8jhqf/6O3x99m+jy1yBKZT2MPU1o2SwFpXPiTOlYOFkbkxjyGFPT7EgtnzfsTlmNKznpZ3/WzYP4dtSUeeiSvc/IOYX8FG3ISduD7MA1VnXnLD6mlNMn0ArK8hTj6RpknNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GNqfyKCgdVd66995CTm9Q6VbVxxWeEAGCFI+VWWSogk=;
- b=E7t6JsJ4/m3GqnEsahMh1S5MONkwSbMMPfUXgSelJdRDG0Y/LOObSadXmbiNxtRoijj+37RniHn219vFt5jGFKt8fhrJ2RLUiQaenGo76hfgfCMzjoq5YhmPQA31KNN4Iz1v0Ew+4m/Vv2Kq7xHZ86LQcLn/at6RkfrG4g7geSk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
- by AM9PR04MB8603.eurprd04.prod.outlook.com (2603:10a6:20b:43a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Thu, 23 Mar
- 2023 09:26:43 +0000
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::f55a:cf12:da08:6d2a]) by DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::f55a:cf12:da08:6d2a%9]) with mapi id 15.20.6178.038; Thu, 23 Mar 2023
- 09:26:43 +0000
-From:   "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     shawnguo@kernel.org, aisheng.dong@nxp.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, Peng Fan <peng.fan@nxp.com>
-Subject: [PATCH 2/2] input: imx_sc_key: add wakeup support
-Date:   Thu, 23 Mar 2023 17:31:41 +0800
-Message-Id: <20230323093141.4070840-2-peng.fan@oss.nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230323093141.4070840-1-peng.fan@oss.nxp.com>
-References: <20230323093141.4070840-1-peng.fan@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SGXP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::32)
- To DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
+        Thu, 23 Mar 2023 08:06:41 -0400
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC28B46AD;
+        Thu, 23 Mar 2023 05:05:52 -0700 (PDT)
+Date:   Thu, 23 Mar 2023 12:05:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1679573148; x=1679832348;
+        bh=E7k73I4MNEuDAsQ0Kvbnyvlsp4CfV6veKmwyBA4aO+s=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=vwC0RRnNmzwaeDlzwBjsscOVx91u2300tDHYgrrP37jmP77GzCnFNRsQN+Ryj8+tU
+         tFqaDq6BAYwet3/E5GhQhmcXM3Svw0EFaT01FTHS0Al1ev+A36fYX2ofD3eYuCTBYq
+         xlHTKc7IK29fA6S4JUBgbCXdaJ4wr9xhYW2VbnSmVEvlObhtEX/7SWmlMvJ9MTeSPk
+         oEEOsAqI5ng7y4BxsdnjzKElQuaaTTCApLKTTNGD+A6niuEGhMLTXQnoLdDDkPjHar
+         YrxZQoCGexYB617f3aMIvI/AcvQmXxmorV9Z356BX6J1iHfpNx69FH0v/cTMNq24uc
+         Lj/ZGbJy3G/RA==
+To:     Andrew Kallmeyer <kallmeyeras@gmail.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     platform-driver-x86@vger.kernel.org, Gergo Koteles <soyer@irl.hu>,
+        Ike Panhc <ike.pan@canonical.com>, linux-input@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Armin Wolf <W_Armin@gmx.de>
+Subject: Re: [PATCH v2 2/2] platform/x86: Add driver for Yoga Tablet Mode switch
+Message-ID: <XgKppKbytAKuIBKEDEChlLJE86hsLgonhU8OFHaBjveK7MV8apS9OGi3cNc6v6UPKee_AkKiPD6peBcTcZ3q45k-TTyMBO4GD52wpLxQS3c=@protonmail.com>
+In-Reply-To: <20230323025200.5462-3-kallmeyeras@gmail.com>
+References: <20230323025200.5462-1-kallmeyeras@gmail.com> <20230323025200.5462-3-kallmeyeras@gmail.com>
+Feedback-ID: 20568564:user:proton
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR04MB9417:EE_|AM9PR04MB8603:EE_
-X-MS-Office365-Filtering-Correlation-Id: d6269582-5155-4955-8302-08db2b80b6fc
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dG5StSBvl+IwP2I6YBRMtZQvToL5qOqQffZNHxMBuSV5jJvYGIF3mRa1eoVBxk703V27rgCrh+UsPLk5VhFsp3LBMoaPDJz9TVWyUy5ReRiWET1xmJHWTUTOx0fOaiJd9LPLlgESd8WODTNSNHJ987rEvR/RMjjGZ6WkpS6luKbVy37RU+7ytJAc2r5yz0iWt4i51Tla9vMTUxaC3wnrXbDooRp29mDuE2gkHmynvsFyRitcNIBm5hiaHJOF6ky0a2ulFv85sg9ZMHnLZEGxyw1hFv/I0Yb2V42Picq+KPbxMcRzVsKaoa9kZMz8dEmyUYMbJGLmEF+h+SvoSRO0MueehPTjcqW4+Cd13eyfXCbktQdagyzkAKu56+kZkaX9CLf8qkpqqu9+X7KMEkcSQMKD4SCl2IAifv07TB2dvKBNqiOsK9MbqZQlNwTWqXbYorS0IkhQ8ZWZpj5IkERv98BR2x0FrX0hk4dxr+VVXUspXa/kplZE9ZfrFnsbShoXbYEF2FKNFHH1Etl+K3XbZhVemsNxFJCEckofTXnxg37qPyCg2SrR2U6FVIlWhTilDV2eRnmIyOZTS7YrAhEPSqYIP1miUzkHrZOsSxby9Yel2axfWTb0EHeVFRjnNnQG8a0GGQopiSXcsRVzhxng4ORqr70hjVnLc+Ya22k7GC/wZmlp4sxtE08BdBR9joGWvFbbNOWgoG8qx02/mvlJiw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(366004)(346002)(376002)(136003)(396003)(451199018)(86362001)(38350700002)(38100700002)(2906002)(4744005)(41300700001)(66476007)(8676002)(4326008)(5660300002)(7416002)(8936002)(66556008)(66946007)(2616005)(186003)(6512007)(83380400001)(6506007)(1076003)(478600001)(316002)(26005)(52116002)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nXcvYXEciiV8jQqG6sDGFWSMmrl7GpRjtqF1XPffPmXkN4ypdIwjD1Aq5al/?=
- =?us-ascii?Q?qlYA6vZBh2Zo9sTzoOrhGAcQFjbRRme3vOb9bqPGO7892BAQd7kf24FBqOOk?=
- =?us-ascii?Q?bbhepo9iFhetv2WihlVGFMEM4oVs+t2BKDwOhoEEwQVSX+vGOOMWNUo6h5iK?=
- =?us-ascii?Q?krMFiN+73aJrFEVHJPXqKpoZzAHk6t/kxWx7kh5iTDrgBVHd5FpzmG0WfRYK?=
- =?us-ascii?Q?5b4V6UDtLPVn6Xi7XXd9ScstZ0NWJMjofwOT/c2EPX/vasAoSaSLMVQ15fGj?=
- =?us-ascii?Q?xTF2sosJk5wU3NkA/b3MYLftuRhDNEF/vcWK0SGZNBRr44JMuVv93S5BXeUB?=
- =?us-ascii?Q?RlK7Nva8UZoNxS0pxtnowA6vn5OlVkhDtB8qcsgIsJQnjqANdaZB78eszfZa?=
- =?us-ascii?Q?yRpNcVbvua5D67NcTE//5tKYx/YVjrz1baLrSOk9Wj5L/4TFWO7vDhCACSar?=
- =?us-ascii?Q?G3mfdD20GAvXu+fBl3JUzqawTMy3uR7ZjNdLoNS8QtbDu7SFEWaBS5yQjSXQ?=
- =?us-ascii?Q?aSF6wASYz8VaHr1LsQm2WkgeyDSTkAdnrWZ2i11dYTNRcb6AhxrzJFdpjbDL?=
- =?us-ascii?Q?IRdnSbUbZaGZS8zHw8s86Ma8+pAfkuFep+1KWvqvUPxYhvFO0e+XkysQG20/?=
- =?us-ascii?Q?zwWWNla4fmCFM/h5ctfNinStLr01npb/Q9+BDU01HqjasBtlJH0dga2+OYqu?=
- =?us-ascii?Q?XeNHpMtFRon0G3j0QcyP3VM2mnw0Hg8tqilXXXoyX9svg2NesXmMOn2gyyy2?=
- =?us-ascii?Q?N5rclhKJLz5tE/jSqXVbUHaZXYXWDRD3X8fXlwF6pb9Yuh1zgWwDpb11bcPY?=
- =?us-ascii?Q?tm8Xg9cmC5FVuuSQVzQn8fwQrCYis9jcVH3+rab81OhV/yXll6DJx/1yc8LC?=
- =?us-ascii?Q?ChOV/KiMqJsDx3eJPNBqFUZDhEUaWf3zP2vr/FBSS9ft3Ry4SgeQtf0p4yo4?=
- =?us-ascii?Q?TdkAa7A8SKh71hHqrNitkf4gKIFWwlM2MSJRFTRB4uUco7OUEqGAol5BhtqO?=
- =?us-ascii?Q?zjPHEXxdmB498+Tq7rhX+YeuDEaBwfQ9whNv9wuVWWbFPWxfk4+zzg9OXBhc?=
- =?us-ascii?Q?IPC+ubW88ImM40n2P4lyQRcfHVxifoNAyPjyU9W9g/hqOPvjyJwbHfn5eGLw?=
- =?us-ascii?Q?X5Ansz3NPDPMCD19rL8Q3XVv1vJBPjTOi585wwyG3rn/MjBe6FthlCI7p/WL?=
- =?us-ascii?Q?fx8X+5/yt+wTUUo/7e+xr0DRMqM02zfrYEWdr5rgXJscLz7nbmo63a/WmwVu?=
- =?us-ascii?Q?5BmYHGq44mx8nfq8dZohIUNcrmcOLHg/GX2JM/HlJnoNjcZXgl/A+eSUuUCv?=
- =?us-ascii?Q?uokYZ9cJVn3wxO6DISvXP+rEpWStaRP8gP1ZYPNwbERoIdW3M+TxRLA9QsX1?=
- =?us-ascii?Q?lx0lrOz8/40kWDaT6U8iK/CBlvl5zTllXtEaHLfQCbgjOYRxlk+3xJE2cWHp?=
- =?us-ascii?Q?tjoMTP4uIfEsGc4YPUMEcu/iYDP7mbr7MeD42e+uUVRatpZOcQ6ryH4Huh/F?=
- =?us-ascii?Q?PhPzSUU0BKskxbwwwohIRHDAjrj4qQnp+RLZWieTEp5TVvc2GB8+vgPMuvRR?=
- =?us-ascii?Q?XkHo3z9o1J4wqNeAcjvFdl+k0Ez28+3cIN2YCeja?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6269582-5155-4955-8302-08db2b80b6fc
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 09:26:43.3085
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fxDBghMnInHJDvjwHWV6QedlYGzhwH66wbQS91uEF7cagPtmtkPrx1sm30PardpBXXXx0f1HPyI1dF9uYzbayQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8603
-X-Spam-Status: No, score=-0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Peng Fan <peng.fan@nxp.com>
+Hi
 
-Add support for waking up from system wide suspend.
 
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
- drivers/input/keyboard/imx_sc_key.c | 2 ++
- 1 file changed, 2 insertions(+)
+2023. m=C3=A1rcius 23., cs=C3=BCt=C3=B6rt=C3=B6k 3:52 keltez=C3=A9ssel, And=
+rew Kallmeyer <kallmeyeras@gmail.com> =C3=ADrta:
 
-diff --git a/drivers/input/keyboard/imx_sc_key.c b/drivers/input/keyboard/imx_sc_key.c
-index d18839f1f4f6..234f23cf9990 100644
---- a/drivers/input/keyboard/imx_sc_key.c
-+++ b/drivers/input/keyboard/imx_sc_key.c
-@@ -151,6 +151,8 @@ static int imx_sc_key_probe(struct platform_device *pdev)
- 	priv->input = input;
- 	platform_set_drvdata(pdev, priv);
- 
-+	device_init_wakeup(&pdev->dev, device_property_read_bool(&pdev->dev, "wakeup-source"));
-+
- 	error = imx_scu_irq_group_enable(SC_IRQ_GROUP_WAKE, SC_IRQ_BUTTON,
- 					 true);
- 	if (error) {
--- 
-2.37.1
+> From: Gergo Koteles <soyer@irl.hu>
+>=20
+> This WMI driver for the tablet mode control switch for Lenovo Yoga
+> notebooks was originally written by Gergo Koteles. The mode is mapped to
+> a SW_TABLET_MODE switch capable input device.
+>=20
+> Andrew followed the suggestions that were posted in reply to Gergo's RFC
+> patch, and on the v1 version of this patch to follow-up and get it
+> merged.
+>=20
+> Changes from Gergo's RFC:
+>=20
+>  - Refactored obtaining a reference to the EC ACPI device needed for the
+>    quirk implementation as suggested by Hans de Goede
+>  - Applied small fixes and switched to devm_input_allocate_device() and
+>    removing input_unregister_device() as suggested by Barnab=C3=A1s P=
+=C5=91cze.
+>  - Merged the lenovo_ymc_trigger_ec function with the
+>    ideapad_trigger_ymc_next_read function since it was no longer
+>    external.
+>  - Added the word "Tablet" to the driver description to hopefully make
+>    it more clear.
+>  - Fixed the LENOVO_YMC_QUERY_METHOD ID and the name string for the EC
+>    APCI device trigged for the quirk
+>  - Triggered the input event on probe so that the initial tablet mode
+>    state when the driver is loaded is reported to userspace as suggested
+>    by Armin Wolf.
+>=20
+> We have tested this on the Yoga 7 14AIL7 for the non-quirk path and on
+> the Yoga 7 14ARB7 which has the firmware bug that requires triggering
+> the embedded controller to send the mode change events. This workaround
+> is also used by the Windows drivers.
+>=20
+> According to reports at https://github.com/lukas-w/yoga-usage-mode,
+> which uses the same WMI devices, the following models should also work:
+> Yoga C940, Ideapad flex 14API, Yoga 9 14IAP7, Yoga 7 14ARB7, etc.
+>=20
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> Co-developed-by: Andrew Kallmeyer <kallmeyeras@gmail.com>
+> Signed-off-by: Andrew Kallmeyer <kallmeyeras@gmail.com>
+> Link: https://lore.kernel.org/r/20221004214332.35934-1-soyer@irl.hu/
+> Link: https://lore.kernel.org/platform-driver-x86/20230310041726.217447-1=
+-kallmeyeras@gmail.com/
+> ---
+> [...]
+> +struct lenovo_ymc_private {
+> +=09struct input_dev *input_dev;
+> +=09struct acpi_device *ec_acpi_dev;
+> +};
+> +
+> +static void lenovo_ymc_trigger_ec(struct wmi_device *wdev, struct lenovo=
+_ymc_private *priv)
+> +{
+> +=09int err;
+> +
+> +=09if (!ec_trigger || !priv || !priv->ec_acpi_dev)
 
+I think just the `!priv->ec_acpi_dev` check is sufficient.
+
+
+> +=09=09return;
+> +=09err =3D write_ec_cmd(priv->ec_acpi_dev->handle, VPCCMD_W_YMC, 1);
+> +=09if (err)
+> +=09=09dev_warn(&wdev->dev, "Could not write YMC: %d\n", err);
+> +}
+> [...]
+> +static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
+> +{
+> +=09struct input_dev *input_dev;
+> +=09struct lenovo_ymc_private *priv;
+> +=09int err;
+> +
+> +=09ec_trigger |=3D dmi_check_system(ec_trigger_quirk_dmi_table);
+> +
+> +=09priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
+> +=09if (!priv)
+> +=09=09return -ENOMEM;
+> +
+> +=09if (ec_trigger) {
+> +=09=09pr_debug("Lenovo YMC enable EC triggering.\n");
+> +=09=09priv->ec_acpi_dev =3D acpi_dev_get_first_match_dev("VPC2004", NULL=
+, -1);
+
+The reference is leaked in case of an error. Use `devm_add_action_or_reset(=
+)`:
+
+  static void acpi_dev_put_helper(void *p) { acpi_dev_put(p); }
+  [...]
+  priv->ec_acpi_dev =3D acpi_dev_get_first_match_dev("VPC2004", NULL, -1);
+  if (!priv->ec_acpi_dev)
+    ...
+  err =3D devm_add_action_or_reset(&wdev->dev, acpi_dev_put_helper, priv->e=
+c_acpi_dev)
+  if (err)
+    ...
+
+And then you can remove `lenovo_ymc_remove()` altogether.
+
+
+> +=09=09if (!priv->ec_acpi_dev) {
+> +=09=09=09dev_err(&wdev->dev, "Could not find EC ACPI device.\n");
+> +=09=09=09return -ENODEV;
+> +=09=09}
+> +=09}
+> +
+> +=09input_dev =3D devm_input_allocate_device(&wdev->dev);
+> +=09if (!input_dev)
+> +=09=09return -ENOMEM;
+> +
+> +=09input_dev->name =3D "Lenovo Yoga Tablet Mode Control switch";
+> +=09input_dev->phys =3D LENOVO_YMC_EVENT_GUID "/input0";
+> +=09input_dev->id.bustype =3D BUS_HOST;
+> +=09input_dev->dev.parent =3D &wdev->dev;
+> +
+> +=09input_set_capability(input_dev, EV_SW, SW_TABLET_MODE);
+
+As far as I can tell `sparse_keymap_setup()` already sets the above.
+
+
+> +
+> +=09err =3D sparse_keymap_setup(input_dev, lenovo_ymc_keymap, NULL);
+> +=09if (err) {
+> +=09=09dev_err(&wdev->dev,
+> +=09=09=09"Could not set up input device keymap: %d\n", err);
+> +=09=09return err;
+> +=09}
+> +
+> +=09err =3D input_register_device(input_dev);
+> +=09if (err) {
+> +=09=09dev_err(&wdev->dev,
+> +=09=09=09"Could not register input device: %d\n", err);
+> +=09=09return err;
+> +=09}
+> +
+> +=09priv->input_dev =3D input_dev;
+> +=09dev_set_drvdata(&wdev->dev, priv);
+> +
+> +=09// Report the state for the first time on probe
+> +=09lenovo_ymc_trigger_ec(wdev, priv);
+> +=09lenovo_ymc_notify(wdev, NULL);
+> +=09return 0;
+> +}
+> [...]
+
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
