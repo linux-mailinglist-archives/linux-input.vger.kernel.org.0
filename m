@@ -2,125 +2,164 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 044FE6C46BB
-	for <lists+linux-input@lfdr.de>; Wed, 22 Mar 2023 10:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6356C5CE2
+	for <lists+linux-input@lfdr.de>; Thu, 23 Mar 2023 03:54:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbjCVJmq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Mar 2023 05:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46570 "EHLO
+        id S229903AbjCWCyO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Mar 2023 22:54:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230416AbjCVJmp (ORCPT
+        with ESMTP id S229904AbjCWCyN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Mar 2023 05:42:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6277215C92
-        for <linux-input@vger.kernel.org>; Wed, 22 Mar 2023 02:41:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679478118;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DFGRBQosIj9vyHsVGDhOFNURTnbZjTQuyPtt51CKxoE=;
-        b=UesyR/Vo4Jzz3JfdyQ1JzzklEQiLUcowuXraGDqmSWW+NxswxjcC37qFS53JtA4nSxYXDd
-        m8O8e/aU4PxBEO1pLEBd3cUHuontFc+ZDnE02MGUt1SKr4aAgLReqR5AwCmtsq5tAcQNvW
-        giTLgRQklI2F8KsHfQxcp6C55mS9FC8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-NcG-zdD0PaiJq8dAdL70_w-1; Wed, 22 Mar 2023 05:41:57 -0400
-X-MC-Unique: NcG-zdD0PaiJq8dAdL70_w-1
-Received: by mail-ed1-f70.google.com with SMTP id e18-20020a056402191200b004fa702d64b3so26702156edz.23
-        for <linux-input@vger.kernel.org>; Wed, 22 Mar 2023 02:41:57 -0700 (PDT)
+        Wed, 22 Mar 2023 22:54:13 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 284C42E826;
+        Wed, 22 Mar 2023 19:53:53 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso601927pjb.3;
+        Wed, 22 Mar 2023 19:53:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679540032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Am2RzwLg7v4VtB0gE/uR1y64FgPvtIhnflRvSeqC5Mg=;
+        b=bW4JkR1ujfFxR5iQwq9DhgjVpyvlGx5eipecuh6VYF6JrhZsrfdbl9qW2Cxyn/0ph9
+         S8tupIFc0ws31pzHLbWLH4n04vx1P/xOrhWOgcqg2TPJiSgrx+ohfn6Z+xlRE7Y9Apqg
+         Zb12TPPppGl1bQ2q43f6eCTjvAaiNSCTM3nOtddsXp1UnSXC5Va9Bg4obC8CxEKm1stC
+         wFnBq78NkYfb9hf9kAe7vOLd9qbVNuccLoSKFik0hjFH5ztRnj1nKmOoZT+Cb0is843d
+         hxEQuXAb3PsInoX2f6eTUr+Cr9BI3ISgp+9yMsPZUfAVy72hEqXAt5L4Ez4WybTCbeiP
+         FAkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679478116;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DFGRBQosIj9vyHsVGDhOFNURTnbZjTQuyPtt51CKxoE=;
-        b=xUiokyPu3ShW9F4bHXVFIjiHEIUAj7PzunpjN9FC3MNgjFa05CNozvcEQv9eQmeglV
-         4uwiL4gvD00MYatWi8IrXV/N0ESfK3KZyjXnEx5ipBavPc7UljQoyVwid996Ux5bxI6i
-         XPdg+yuANGtjY3zUPLxxuaK6x0BtoY+LJtDtRUYrFpUqfyDCJUyG8nVtbDRZ6pkds2Jl
-         s5B1D0+KPkruiZBfB/KFvFUpNToEmwdfx/MOWXAJ79Q2FGa2HyjcEuxpIXeZKCJt9MA8
-         LGBhnQkjqoE/Z1dkV2up8OnlrOvXcf3qIGfumj/RExOKEGuTZO38ezi9+0dPk9gVt1xR
-         JoRA==
-X-Gm-Message-State: AO0yUKXREPn73DbhAkjpxhYX49MjxgmcGInxr64NfCO5iYAVNxra3xUA
-        Kq5w5zRPNvQ9IBvlMsw+Wygi0nYluTYvK/jmEtvGlTzQqF5yB5huUWHIJu16wgQ65OsJPgO7xt0
-        BJMF+BEpnqFDcy/8XgdPtJIO0TujABmc=
-X-Received: by 2002:a17:907:78cf:b0:889:58bd:86f1 with SMTP id kv15-20020a17090778cf00b0088958bd86f1mr6376579ejc.14.1679478115884;
-        Wed, 22 Mar 2023 02:41:55 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+pP0DzvWK9D2FJXhcECGDV7IlfuKGizE5Hr2SqOPT5W6JnRpLmA0d6YfCqhnBNmfbBA6z1xw==
-X-Received: by 2002:a17:907:78cf:b0:889:58bd:86f1 with SMTP id kv15-20020a17090778cf00b0088958bd86f1mr6376562ejc.14.1679478115557;
-        Wed, 22 Mar 2023 02:41:55 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ot17-20020a170906ccd100b008e51a1fd7bfsm7026055ejb.172.2023.03.22.02.41.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 02:41:54 -0700 (PDT)
-Message-ID: <41a38d9c-ad41-6611-1b43-dee9c557bdef@redhat.com>
-Date:   Wed, 22 Mar 2023 10:41:53 +0100
+        d=1e100.net; s=20210112; t=1679540032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Am2RzwLg7v4VtB0gE/uR1y64FgPvtIhnflRvSeqC5Mg=;
+        b=s94dPaV6Dpj5cpP3upeef+lIivgvaiIRBqjNKHFX8o+XkPEsyAOC8c1z2vTHulpDYZ
+         wvlY9EJVh1z1cOpGjwGtHutHYhGanPVJZirCJ+EySw1JM9k+ADz2YE7AMGHSkQEmZawC
+         MX0jDxJT2TbqdWxGY5nGc2U+hF+AKbUsUkWXRVdSdMEhGVNVkgrcxfsdtUUWkXf0X5mV
+         x/wsbhBRoPL/sXm+0OgvfLRiH32Tmmgwvx/ZRwsgl6tawBFpxgOhNGrkAmHPAowpnIYb
+         JStQ8L+hp5mXQ7Zz6b0GOHvrLvOPyiibLxOsXJt2CVebcYFk4sXi8lYSgXuWSNp7yrOB
+         SbVQ==
+X-Gm-Message-State: AAQBX9fUcqtLA7XNfFCixTKXkjhRTfJY6hN3Ksn4hRRIxOyjNGoFcgRF
+        692WjwEUyeGpUtEx+8lHckT7y8njaqWAPw==
+X-Google-Smtp-Source: AKy350ZjpcbpL2qm08U6K2qaLG4acaE6OOcDLTGgssKqvpXvZwrJAe7obGuk77ZI3EyjMUAtBs0TrA==
+X-Received: by 2002:a17:90b:1b05:b0:240:1d2b:1363 with SMTP id nu5-20020a17090b1b0500b002401d2b1363mr1590096pjb.34.1679540032264;
+        Wed, 22 Mar 2023 19:53:52 -0700 (PDT)
+Received: from localhost.localdomain ([47.147.242.129])
+        by smtp.gmail.com with ESMTPSA id iy13-20020a170903130d00b001a1c74554f3sm7623697plb.185.2023.03.22.19.53.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 19:53:51 -0700 (PDT)
+From:   Andrew Kallmeyer <kallmeyeras@gmail.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Andrew Kallmeyer <kallmeyeras@gmail.com>,
+        Gergo Koteles <soyer@irl.hu>,
+        Ike Panhc <ike.pan@canonical.com>, linux-input@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Armin Wolf <W_Armin@gmx.de>,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>
+Subject: [PATCH v2 0/2] platform/x86: Add driver for Yoga Tablet mode switch
+Date:   Wed, 22 Mar 2023 19:51:58 -0700
+Message-Id: <20230323025200.5462-1-kallmeyeras@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] Input: silead - Use dev_err_probe()
-To:     ye.xingchen@zte.com.cn
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <202303221650190306634@zte.com.cn>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <202303221650190306634@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+This driver maps the Lenovo Yoga tablet mode switch to a SW_TABLET_MODE input
+device. This will make the tablet status available to desktop environments.
 
-On 3/22/23 09:50, ye.xingchen@zte.com.cn wrote:
-> From: Ye Xingchen <ye.xingchen@zte.com.cn>
-> 
-> Replace the open-code with dev_err_probe() to simplify the code.
-> 
-> Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
+This patch series is the result of the discussion at
+https://lore.kernel.org/r/CAG4kvq9US=-NjyXFMzJYu2zCJryJWtOc7FGZbrewpgCDjdAkbg@mail.gmail.com/
 
-Thanks, patch looks good to me:
+I decided to follow-up on the patch Gergo wrote and respond to the review
+comments to get it merged and available for everyone.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Gergo and I have tested this on the Yoga 7 14ARB7, and the Yoga 7 14AIL7
+respectively. Additionally, according to reports at
+https://github.com/lukas-w/yoga-usage-mode, which uses the same WMI devices,
+this driver should work with:
+Yoga C940, Ideapad flex 14API, Yoga 9 14IAP7, Yoga 7 14ARB7, etc.
 
-Regards,
+The diff since v1 is as follows:
+v1: https://lore.kernel.org/platform-driver-x86/20230310041726.217447-1-kallmeyeras@gmail.com/
 
-Hans
+--- a/drivers/platform/x86/lenovo-ymc.c
++++ b/drivers/platform/x86/lenovo-ymc.c
+@@ -18,7 +18,7 @@
+ #define LENOVO_YMC_QUERY_GUID	"09B0EE6E-C3FD-4243-8DA1-7911FF80BB8C"
+ 
+ #define LENOVO_YMC_QUERY_INSTANCE 0
+-#define LENOVO_YMC_QUERY_METHOD 0xAB
++#define LENOVO_YMC_QUERY_METHOD 0x01
+ 
+ static bool ec_trigger __read_mostly;
+ module_param(ec_trigger, bool, 0644);
+@@ -103,6 +103,12 @@ static void lenovo_ymc_notify(struct wmi_device *wdev, union acpi_object *data)
+ 	lenovo_ymc_trigger_ec(wdev, priv);
+ }
+ 
++static void lenovo_ymc_remove(struct wmi_device *wdev)
++{
++	struct lenovo_ymc_private *priv = dev_get_drvdata(&wdev->dev);
++	acpi_dev_put(priv->ec_acpi_dev);
++}
++
+ static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
+ {
+ 	struct input_dev *input_dev;
+@@ -117,7 +123,7 @@ static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
+ 
+ 	if (ec_trigger) {
+ 		pr_debug("Lenovo YMC enable EC triggering.\n");
+-		priv->ec_acpi_dev = acpi_dev_get_first_match_dev("VCP2004", NULL, -1);
++		priv->ec_acpi_dev = acpi_dev_get_first_match_dev("VPC2004", NULL, -1);
+ 		if (!priv->ec_acpi_dev) {
+ 			dev_err(&wdev->dev, "Could not find EC ACPI device.\n");
+ 			return -ENODEV;
+@@ -151,7 +157,10 @@ static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
+ 
+ 	priv->input_dev = input_dev;
+ 	dev_set_drvdata(&wdev->dev, priv);
++
++	// Report the state for the first time on probe
+ 	lenovo_ymc_trigger_ec(wdev, priv);
++	lenovo_ymc_notify(wdev, NULL);
+ 	return 0;
+ }
+ 
+@@ -168,6 +177,7 @@ static struct wmi_driver lenovo_ymc_driver = {
+ 	.id_table = lenovo_ymc_wmi_id_table,
+ 	.probe = lenovo_ymc_probe,
+ 	.notify = lenovo_ymc_notify,
++	.remove = lenovo_ymc_remove,
+ };
+ 
+ module_wmi_driver(lenovo_ymc_driver);
 
+Andrew Kallmeyer (1):
+  platform/x86: Move ideapad ACPI helpers to a new header
 
+Gergo Koteles (1):
+  platform/x86: Add driver for Yoga Tablet Mode switch
 
-> ---
->  drivers/input/touchscreen/silead.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-> index a37fac089010..f464155aed65 100644
-> --- a/drivers/input/touchscreen/silead.c
-> +++ b/drivers/input/touchscreen/silead.c
-> @@ -706,11 +706,9 @@ static int silead_ts_probe(struct i2c_client *client)
-> 
->  	/* Power GPIO pin */
->  	data->gpio_power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
-> -	if (IS_ERR(data->gpio_power)) {
-> -		if (PTR_ERR(data->gpio_power) != -EPROBE_DEFER)
-> -			dev_err(dev, "Shutdown GPIO request failed\n");
-> -		return PTR_ERR(data->gpio_power);
-> -	}
-> +	if (IS_ERR(data->gpio_power))
-> +		return dev_err_probe(dev, PTR_ERR(data->gpio_power),
-> +				     "Shutdown GPIO request failed\n");
-> 
->  	error = silead_ts_setup(client);
->  	if (error)
+ drivers/platform/x86/Kconfig          |  10 ++
+ drivers/platform/x86/Makefile         |   1 +
+ drivers/platform/x86/ideapad-laptop.c | 135 +------------------
+ drivers/platform/x86/ideapad-laptop.h | 152 +++++++++++++++++++++
+ drivers/platform/x86/lenovo-ymc.c     | 187 ++++++++++++++++++++++++++
+ 5 files changed, 351 insertions(+), 134 deletions(-)
+ create mode 100644 drivers/platform/x86/ideapad-laptop.h
+ create mode 100644 drivers/platform/x86/lenovo-ymc.c
+
+-- 
+2.40.0
 
