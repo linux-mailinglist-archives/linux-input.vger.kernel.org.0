@@ -2,290 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F19B06C6A00
-	for <lists+linux-input@lfdr.de>; Thu, 23 Mar 2023 14:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A5A56C6C1E
+	for <lists+linux-input@lfdr.de>; Thu, 23 Mar 2023 16:18:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbjCWNw6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Mar 2023 09:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41776 "EHLO
+        id S231912AbjCWPSy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Mar 2023 11:18:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231681AbjCWNw4 (ORCPT
+        with ESMTP id S232068AbjCWPSq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Mar 2023 09:52:56 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FB428E63;
-        Thu, 23 Mar 2023 06:52:52 -0700 (PDT)
-Received: from koko.localdomain ([89.1.213.94]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1Mof1D-1qHA1O1nWz-00p4pQ; Thu, 23 Mar 2023 14:52:47 +0100
-From:   Maximilian Weigand <mweigand@mweigand.net>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        Thu, 23 Mar 2023 11:18:46 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954ED29405;
+        Thu, 23 Mar 2023 08:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679584720; x=1711120720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fBTf1WFkxv6jpIw1EyUCMiRABvqdmGxDE71QRCONeqM=;
+  b=eJDy74BnaGJQV0FBpjM/Cb66TncNeNvpUzjafx6UYGAcYDUM37oWccS2
+   xFjmsttf3RmH2QzKAzKBDwR9R4XWQr9NoKRl5EZPBGpXtuq5NI8LT9Iao
+   hOZxBZBaoVbN0t9v9idt8VeBxe2GZOZG3Lm0ZHC9UeNqcw5wSqWcF5hcC
+   2uVHlIu8amNwkVKTgGb/CaJV97rHYzrlKyzl9l3WhH5jX5njcL/itAWGn
+   IRqvMhVWIgVTle+xH4y7e4GmFn5zRQAy40RPZ6d0SIRN/3s3OWQxRQYWj
+   hxq6zMz/Fed/Ux5Xz1J3h82ySyIEZEeeBm9C1SOnOkjMTAl8PhWpOav3J
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="319171900"
+X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
+   d="scan'208";a="319171900"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 08:18:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="675745582"
+X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
+   d="scan'208";a="675745582"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 23 Mar 2023 08:18:31 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pfMhz-000ETr-0r;
+        Thu, 23 Mar 2023 15:18:31 +0000
+Date:   Thu, 23 Mar 2023 23:18:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Maximilian Weigand <mweigand@mweigand.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org
-Cc:     Maximilian Weigand <mweigand@mweigand.net>,
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Maximilian Weigand <mweigand@mweigand.net>,
         Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH 6/6] Input: cyttsp5: implement proper sleep and wakeup procedures
-Date:   Thu, 23 Mar 2023 14:52:05 +0100
-Message-Id: <20230323135205.1160879-7-mweigand@mweigand.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230323135205.1160879-1-mweigand@mweigand.net>
-References: <20230323135205.1160879-1-mweigand@mweigand.net>
+Subject: Re: [PATCH 2/6] Input: cyttsp5: remove unused code
+Message-ID: <202303232302.FB64fi39-lkp@intel.com>
+References: <20230323135205.1160879-3-mweigand@mweigand.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zzLyeqflRm7UGravOHiW9xcOiaMBdEHtUyUJZy+G19EFiSvwZEy
- bB1uFk0Icuov9zFJw5z94J7ZfVW46ZVUEh2+9+1PwidmBZu2lsEzBiXsECNj43pGOJoR/14
- l6beIwi8usfnUL0JTV5KAP1rCOoJtFJu7WXVLgZgnlhcYtlRz0SMWIXOUxWBGT387o4bSAb
- S0CBmfK1ip2o7cuE13Ivg==
-UI-OutboundReport: notjunk:1;M01:P0:dbSg3Nw2nDA=;psUiAgzFxzslLiHCkMxlFn64goY
- wlu+imSNWjE1s6slWUg6OJns53Pe8gnVrUdYlaIHM/a6+q1xoSNcb/Zg0MGsvvGjDAN/Ps2Vt
- XNVmglUZeusYMtIZZyRviCz21ZyfKSQwU4SChKboc0yqTW1SiUkK3a+KXbSheaDn7KUcIsDry
- NomUVJsDZgWmHu03+IF9HoYKpNnvXeX7e6h7jn04ihq4twrKm075QBwfVeD+Txgo3Sews9YN1
- gtvLdwgKImv5AL9xx3PDJZq4zHlZA9cM96aZgWJoM0oqeK1kvieEAgvs6VVFHn4x6hP/mHMhg
- KUGEMGU/ru4Fj25l5ktJVLqBKOEjhknOSkES7Il46ctAOGfRJBUY1UyL8O9xQzpE43qVMfKc6
- j/ynA9I8ulQjbWs8W/AoGVT94WsuMBAzY2YST3XJyU/9hR68UDUkIaMmQaazlO0//fO9a8Slp
- 8w6n9fwPDvFFGOHF32WJuq6m09sRukTk2EkrFDmny6kVg/FSOH21AjikQRTdzw+5h1ktpALzz
- Tj7gQqBwOjFL2GkE9q7Yh7M8H6lDKU7MYmstQkNYBVsMeOVe0cY9SrmmbqO690DxyRethv1iY
- d8ou9y/kcN30787xFt9rBQMtvqe6TYkH0JOvUs9POsLhgHBU+2Ll6rwYrbHWyztna/EqoHdBm
- hqSXjZy1keh61fCDM4V9+zeDfaAfD/MQsmZuY/CjPQ==
-X-Spam-Status: No, score=0.0 required=5.0 tests=RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230323135205.1160879-3-mweigand@mweigand.net>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The touchscreen can be put into a deep sleep state that prevents it from
-emitting touch irqs. Put the touchscreen into deep sleep during suspend
-if it is not marked as a wakeup source.
+Hi Maximilian,
 
-This also fixes a problem with the touchscreen getting unresponsive after
-system resume because it pulled the interrupt line low during sleep in
-response to a touch event, thereby effectively disabling the interrupt
-handling (which triggers on the falling edge).
+Thank you for the patch! Perhaps something to improve:
 
-Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
-Reviewed-by: Alistair Francis <alistair@alistair23.me>
----
- drivers/input/touchscreen/cyttsp5.c | 129 +++++++++++++++++++++++++++-
- 1 file changed, 128 insertions(+), 1 deletion(-)
+[auto build test WARNING on dtor-input/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-index 01dd10a596ab..3e8387f6347c 100644
---- a/drivers/input/touchscreen/cyttsp5.c
-+++ b/drivers/input/touchscreen/cyttsp5.c
-@@ -43,6 +43,7 @@
- #define HID_DESC_REG				0x1
- #define HID_INPUT_REG				0x3
- #define HID_OUTPUT_REG				0x4
-+#define HID_COMMAND_REG             0x5
- 
- #define REPORT_ID_TOUCH				0x1
- #define REPORT_ID_BTN				0x3
-@@ -68,6 +69,7 @@
- #define HID_APP_OUTPUT_REPORT_ID		0x2F
- #define HID_BL_RESPONSE_REPORT_ID		0x30
- #define HID_BL_OUTPUT_REPORT_ID			0x40
-+#define HID_RESPONSE_REPORT_ID      0xF0
- 
- #define HID_OUTPUT_RESPONSE_REPORT_OFFSET	2
- #define HID_OUTPUT_RESPONSE_CMD_OFFSET		4
-@@ -78,9 +80,15 @@
- #define HID_SYSINFO_BTN_MASK			GENMASK(7, 0)
- #define HID_SYSINFO_MAX_BTN			8
- 
-+#define HID_CMD_SET_POWER           0x8
-+
-+#define HID_POWER_ON                0x0
-+#define HID_POWER_SLEEP             0x1
-+
- #define CY_HID_OUTPUT_TIMEOUT_MS		200
- #define CY_HID_OUTPUT_GET_SYSINFO_TIMEOUT_MS	3000
- #define CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS	4000
-+#define CY_HID_SET_POWER_TIMEOUT		500
- 
- /* maximum number of concurrent tracks */
- #define TOUCH_REPORT_SIZE			10
-@@ -100,6 +108,14 @@
- #define TOUCH_REPORT_USAGE_PG_MIN		0xFF010063
- #define TOUCH_COL_USAGE_PG			0x000D0022
- 
-+#define SET_CMD_LOW(byte, bits) \
-+	((byte) = (((byte) & 0xF0) | ((bits) & 0x0F)))
-+#define SET_CMD_HIGH(byte, bits)\
-+	((byte) = (((byte) & 0x0F) | ((bits) & 0xF0)))
-+#define SET_CMD_OPCODE(byte, opcode) SET_CMD_LOW(byte, opcode)
-+#define SET_CMD_REPORT_TYPE(byte, type) SET_CMD_HIGH(byte, ((type) << 4))
-+#define SET_CMD_REPORT_ID(byte, id) SET_CMD_LOW(byte, id)
-+
- /* System Information interface definitions */
- struct cyttsp5_sensing_conf_data_dev {
- 	u8 electrodes_x;
-@@ -179,6 +195,7 @@ struct cyttsp5_hid_desc {
- struct cyttsp5 {
- 	struct device *dev;
- 	struct completion cmd_done;
-+	struct completion cmd_command_done;
- 	struct cyttsp5_sysinfo sysinfo;
- 	struct cyttsp5_hid_desc hid_desc;
- 	u8 cmd_buf[CYTTSP5_PREALLOCATED_CMD_BUFFER];
-@@ -191,6 +208,7 @@ struct cyttsp5 {
- 	struct regmap *regmap;
- 	struct touchscreen_properties prop;
- 	struct regulator *vdd;
-+	bool is_wakeup_source;
- };
- 
- /*
-@@ -556,6 +574,84 @@ static int cyttsp5_hid_output_get_sysinfo(struct cyttsp5 *ts)
- 	return cyttsp5_get_sysinfo_regs(ts);
- }
- 
-+static int cyttsp5_enter_sleep(struct cyttsp5 *ts)
-+{
-+	int rc;
-+	u8 cmd[2];
-+	u16 crc;
-+
-+	memset(cmd, 0, sizeof(cmd));
-+
-+	SET_CMD_REPORT_TYPE(cmd[0], 0);
-+	SET_CMD_REPORT_ID(cmd[0], HID_POWER_SLEEP);
-+	SET_CMD_OPCODE(cmd[1], HID_CMD_SET_POWER);
-+
-+	rc = cyttsp5_write(ts, HID_COMMAND_REG, cmd, 2);
-+	if (rc) {
-+		dev_err(ts->dev, "Failed to write command %d", rc);
-+		return rc;
-+	}
-+
-+	rc = wait_for_completion_interruptible_timeout(&ts->cmd_command_done,
-+				msecs_to_jiffies(CY_HID_SET_POWER_TIMEOUT));
-+	if (rc <= 0) {
-+		dev_err(ts->dev, "HID output cmd execution timed out\n");
-+		rc = -ETIMEDOUT;
-+		return rc;
-+	}
-+
-+	/* validate */
-+	if ((ts->response_buf[2] != HID_RESPONSE_REPORT_ID)
-+			|| ((ts->response_buf[3] & 0x3) != HID_POWER_SLEEP)
-+			|| ((ts->response_buf[4] & 0xF) != HID_CMD_SET_POWER)) {
-+		rc = -EINVAL;
-+		dev_err(ts->dev, "Validation of the sleep response failed\n");
-+		return rc;
-+	}
-+
-+	return 0;
-+
-+}
-+
-+static int cyttsp5_wakeup(struct cyttsp5 *ts)
-+{
-+	int rc;
-+	u8 cmd[2];
-+	u16 crc;
-+
-+	memset(cmd, 0, sizeof(cmd));
-+
-+	SET_CMD_REPORT_TYPE(cmd[0], 0);
-+	SET_CMD_REPORT_ID(cmd[0], HID_POWER_ON);
-+	SET_CMD_OPCODE(cmd[1], HID_CMD_SET_POWER);
-+
-+	rc = cyttsp5_write(ts, HID_COMMAND_REG, cmd, 2);
-+	if (rc) {
-+		dev_err(ts->dev, "Failed to write command %d", rc);
-+		return rc;
-+	}
-+
-+	rc = wait_for_completion_interruptible_timeout(&ts->cmd_command_done,
-+				msecs_to_jiffies(CY_HID_SET_POWER_TIMEOUT));
-+	if (rc <= 0) {
-+		dev_err(ts->dev, "HID output cmd execution timed out\n");
-+		rc = -ETIMEDOUT;
-+		return rc;
-+	}
-+
-+	/* validate */
-+	if ((ts->response_buf[2] != HID_RESPONSE_REPORT_ID)
-+			|| ((ts->response_buf[3] & 0x3) != HID_POWER_ON)
-+			|| ((ts->response_buf[4] & 0xF) != HID_CMD_SET_POWER)) {
-+		rc = -EINVAL;
-+		dev_err(ts->dev, "Validation of the sleep response failed\n");
-+		return rc;
-+	}
-+
-+	return 0;
-+
-+}
-+
- static int cyttsp5_hid_output_bl_launch_app(struct cyttsp5 *ts)
- {
- 	int rc;
-@@ -670,6 +766,10 @@ static irqreturn_t cyttsp5_handle_irq(int irq, void *handle)
- 	case HID_BTN_REPORT_ID:
- 		cyttsp5_btn_attention(ts->dev);
- 		break;
-+	case HID_RESPONSE_REPORT_ID:
-+		memcpy(ts->response_buf, ts->input_buf, size);
-+		complete(&ts->cmd_command_done);
-+		break;
- 	default:
- 		/* It is not an input but a command response */
- 		memcpy(ts->response_buf, ts->input_buf, size);
-@@ -784,6 +884,7 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
- 	dev_set_drvdata(dev, ts);
- 
- 	init_completion(&ts->cmd_done);
-+	init_completion(&ts->cmd_command_done);
- 
- 	/* Power up the device */
- 	ts->vdd = devm_regulator_get(dev, "vdd");
-@@ -830,8 +931,11 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
- 		return error;
- 	}
- 
--	if (device_property_read_bool(dev, "wakeup-source"))
-+	if (device_property_read_bool(dev, "wakeup-source")) {
- 		device_init_wakeup(dev, true);
-+		ts->is_wakeup_source = true;
-+	} else
-+		ts->is_wakeup_source = false;
- 
- 	error = cyttsp5_startup(ts);
- 	if (error) {
-@@ -884,6 +988,29 @@ static const struct i2c_device_id cyttsp5_i2c_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, cyttsp5_i2c_id);
- 
-+static int __maybe_unused cyttsp5_suspend(struct device *dev)
-+{
-+	struct cyttsp5 *ts = dev_get_drvdata(dev);
-+
-+	if (!ts->is_wakeup_source)
-+		cyttsp5_enter_sleep(ts);
-+	return 0;
-+}
-+
-+static int __maybe_unused cyttsp5_resume(struct device *dev)
-+{
-+	struct cyttsp5 *ts = dev_get_drvdata(dev);
-+	struct i2c_client *client = to_i2c_client(dev);
-+	int error;
-+
-+	if (!ts->is_wakeup_source)
-+		cyttsp5_wakeup(ts);
-+
-+	return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(cyttsp5_pm, cyttsp5_suspend, cyttsp5_resume);
-+
- static struct i2c_driver cyttsp5_i2c_driver = {
- 	.driver = {
- 		.name = CYTTSP5_NAME,
+url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230323135205.1160879-3-mweigand%40mweigand.net
+patch subject: [PATCH 2/6] Input: cyttsp5: remove unused code
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303232302.FB64fi39-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/4358a60821eb8149dabed197c09d3c0eab63bf38
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+        git checkout 4358a60821eb8149dabed197c09d3c0eab63bf38
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/touchscreen/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303232302.FB64fi39-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_get_hid_descriptor':
+>> drivers/input/touchscreen/cyttsp5.c:604:12: warning: unused variable 'cmd' [-Wunused-variable]
+     604 |         u8 cmd[2];
+         |            ^~~
+
+
+vim +/cmd +604 drivers/input/touchscreen/cyttsp5.c
+
+5b0c03e24a061f Alistair Francis 2022-10-31  598  
+5b0c03e24a061f Alistair Francis 2022-10-31  599  static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
+5b0c03e24a061f Alistair Francis 2022-10-31  600  				      struct cyttsp5_hid_desc *desc)
+5b0c03e24a061f Alistair Francis 2022-10-31  601  {
+5b0c03e24a061f Alistair Francis 2022-10-31  602  	struct device *dev = ts->dev;
+5b0c03e24a061f Alistair Francis 2022-10-31  603  	int rc;
+5b0c03e24a061f Alistair Francis 2022-10-31 @604  	u8 cmd[2];
+5b0c03e24a061f Alistair Francis 2022-10-31  605  
+5b0c03e24a061f Alistair Francis 2022-10-31  606  	rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
+5b0c03e24a061f Alistair Francis 2022-10-31  607  	if (rc) {
+5b0c03e24a061f Alistair Francis 2022-10-31  608  		dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
+5b0c03e24a061f Alistair Francis 2022-10-31  609  		return rc;
+5b0c03e24a061f Alistair Francis 2022-10-31  610  	}
+5b0c03e24a061f Alistair Francis 2022-10-31  611  
+5b0c03e24a061f Alistair Francis 2022-10-31  612  	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
+5b0c03e24a061f Alistair Francis 2022-10-31  613  			msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
+5b0c03e24a061f Alistair Francis 2022-10-31  614  	if (rc <= 0) {
+5b0c03e24a061f Alistair Francis 2022-10-31  615  		dev_err(ts->dev, "HID get descriptor timed out\n");
+5b0c03e24a061f Alistair Francis 2022-10-31  616  		rc = -ETIMEDOUT;
+5b0c03e24a061f Alistair Francis 2022-10-31  617  		return rc;
+5b0c03e24a061f Alistair Francis 2022-10-31  618  	}
+5b0c03e24a061f Alistair Francis 2022-10-31  619  
+5b0c03e24a061f Alistair Francis 2022-10-31  620  	memcpy(desc, ts->response_buf, sizeof(*desc));
+5b0c03e24a061f Alistair Francis 2022-10-31  621  
+5b0c03e24a061f Alistair Francis 2022-10-31  622  	/* Check HID descriptor length and version */
+5b0c03e24a061f Alistair Francis 2022-10-31  623  	if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
+5b0c03e24a061f Alistair Francis 2022-10-31  624  	    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
+5b0c03e24a061f Alistair Francis 2022-10-31  625  		dev_err(dev, "Unsupported HID version\n");
+5b0c03e24a061f Alistair Francis 2022-10-31  626  		return -ENODEV;
+5b0c03e24a061f Alistair Francis 2022-10-31  627  	}
+5b0c03e24a061f Alistair Francis 2022-10-31  628  
+5b0c03e24a061f Alistair Francis 2022-10-31  629  	return 0;
+5b0c03e24a061f Alistair Francis 2022-10-31  630  }
+5b0c03e24a061f Alistair Francis 2022-10-31  631  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
