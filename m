@@ -2,83 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1C6E6C7BBC
-	for <lists+linux-input@lfdr.de>; Fri, 24 Mar 2023 10:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 140AB6C7D5A
+	for <lists+linux-input@lfdr.de>; Fri, 24 Mar 2023 12:39:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231447AbjCXJmh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Mar 2023 05:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57444 "EHLO
+        id S229870AbjCXLjk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Mar 2023 07:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231913AbjCXJm0 (ORCPT
+        with ESMTP id S230079AbjCXLjj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Mar 2023 05:42:26 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ED3823D99;
-        Fri, 24 Mar 2023 02:42:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 15B32B822B4;
-        Fri, 24 Mar 2023 09:42:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1A1C433D2;
-        Fri, 24 Mar 2023 09:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679650934;
-        bh=RXLbJP66l+NVDx7tBnaGVTOAavKemdss5NDCGeWcfZ0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Jm0Xn+E3CwlJEpReaFwKvz9hTsksuJUCgPK0qLE3cS8cKrAnmZVB/+ITNIK5HWako
-         4YqmR6Lk9yqksRYGaZBFj/KBo4U43/sd9GAnrjh8n1zKBh0Z+grBxq+myMHpP0uHJ2
-         2DKMSMP9c885ArAyE7nHseasv0i8MxEScCkIGWiMw1GOnraTv1eK8HWEQwwiQGdEoq
-         puGVUeMI+Yt6UZ635ZC50KeNNZac1BSZLdvSAUrZt3BomTouok1x+EhSXjjFERR6B0
-         jxp6cfCGmvc2PPVTjccfldPc8/eAZba4qpAqcVx1BR5Gj0jqrKRJCDF58nLzptr31r
-         Cf9wiuI9tVywA==
-Message-ID: <172e88fc-0052-d16a-ed68-5c29ddc54bd0@kernel.org>
-Date:   Fri, 24 Mar 2023 10:42:11 +0100
+        Fri, 24 Mar 2023 07:39:39 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB9D1D90B
+        for <linux-input@vger.kernel.org>; Fri, 24 Mar 2023 04:39:22 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id z10so897917pgr.8
+        for <linux-input@vger.kernel.org>; Fri, 24 Mar 2023 04:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679657962;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0ZeK4ZJ1o6tGrUVsDjmi+mms9O6S9hGyBZoeD/hC1EM=;
+        b=gmqzdLy63bUqyBwewp+l29yCESUdoRYsdqkACLc42ygaI5orNAKZHVedJxqq/71n3b
+         nNv0OJ5N6MmTyzzMua8liKCjtBFv/dTigdevIDRQ+O+4D381/mSQrfU855VWyBRX8p7L
+         9K4gdKdNvUure/61eQ3iRFB0w8VECTwD6/jy5cCUpMmdfNDg7aBfUYB5LS1FGy355GPx
+         qyX+XzapvejdXgYXdOHmZCAbggfhfkF4XWLIv6s96jthwsarDiTPiNBtYDOERrq2NXv8
+         v01oI4e1unhFfxwG/DQqPPDTowibMtS2CtdlW3AfPY/hWzUXkP20V3VhuArtbGXLzjKa
+         RXsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679657962;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ZeK4ZJ1o6tGrUVsDjmi+mms9O6S9hGyBZoeD/hC1EM=;
+        b=YI+SLplVmtxA1xPw3y3HPrA1VZXNyHUUiKOfSaHD6jQt8B2Ps4p70Z1gdIjVf+u3PO
+         wrf2nu/POuoyDvGl0UBjk/2VVDbE1uwWliTcKjigZBwAp9cyNMEuEFg+1r/mk+J9xdIe
+         7BnpoQ3ddfggDONt71m344CJ4PqlyGFE6D6kN4SaQhlznPb9BDIS/JUjTr18/wlPL9cE
+         ZSyS9B7+Cod/kgn77lBqSL31prPpf5HcMOJl1qAxgGV6UdxHh0A5QLyLPr5DEf7okzFl
+         NY/bl0wUXoTD4WxvnUS/+XDynJ6inH/sZ79bgRQKhr2vHI7fOv5NVihKlKdjrujeEHfM
+         /NBA==
+X-Gm-Message-State: AAQBX9c/uHEM5WT9eUFXzFTOcn4USlLygRVXklnIfXh0E+siXysCGQA4
+        A/hH6G2+46sLNxnIPTn6fhpD7bnxtOzAO6EbHtw=
+X-Google-Smtp-Source: AKy350ZT8Rioh4mK7fmMkGEeb4XPM2LW8LuKKJUQNfakPwfRWeTnnWxFwDTNWcEtXX5OxeUXL6MEmya0adUBCiSgBmo=
+X-Received: by 2002:a65:454b:0:b0:503:354c:41ad with SMTP id
+ x11-20020a65454b000000b00503354c41admr507032pgr.11.1679657961772; Fri, 24 Mar
+ 2023 04:39:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 5/6] devicetree: input: cypress,tt21000: add wakeup-source
- entry to documentation
-Content-Language: en-US
-To:     Maximilian Weigand <mweigand@mweigand.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Alistair Francis <alistair@alistair23.me>
-References: <20230323135205.1160879-1-mweigand@mweigand.net>
- <20230323135205.1160879-6-mweigand@mweigand.net>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20230323135205.1160879-6-mweigand@mweigand.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Received: by 2002:a05:6a10:c7c3:b0:40a:64ae:d236 with HTTP; Fri, 24 Mar 2023
+ 04:39:21 -0700 (PDT)
+Reply-To: fionahill.2023@outlook.com
+From:   Fiona Hill <kevinhansen8819@gmail.com>
+Date:   Fri, 24 Mar 2023 04:39:21 -0700
+Message-ID: <CA++QgS_C6MSGoPP+ksErN5Xfx59Lmy5jU4aB6+XMhSmMYm6LLA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 23/03/2023 14:52, Maximilian Weigand wrote:
-> The touchscreen can be used to wake up systems from sleep and therefore
-> the wakeup-source entry should be included in the documentation.
-
-Use subject prefixes matching the subsystem (which you can get for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching).
-
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC.  It might happen, that command when run on an older
-kernel, gives you outdated entries.  Therefore please be sure you base
-your patches on recent Linux kernel.
-
-> 
-> Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
-> Reviewed-by: Alistair Francis <alistair@alistair23.me>
-
-Best regards,
-Krzysztof
-
+-- 
+Hello friend did you receive my message i send to you? please get back to me
