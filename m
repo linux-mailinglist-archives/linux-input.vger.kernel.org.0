@@ -2,50 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86A8D6C7E59
-	for <lists+linux-input@lfdr.de>; Fri, 24 Mar 2023 14:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D05A76C7E7B
+	for <lists+linux-input@lfdr.de>; Fri, 24 Mar 2023 14:10:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230350AbjCXNA4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Mar 2023 09:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45686 "EHLO
+        id S231738AbjCXNKU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Mar 2023 09:10:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230088AbjCXNAz (ORCPT
+        with ESMTP id S229794AbjCXNKT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Mar 2023 09:00:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2D74C2B;
-        Fri, 24 Mar 2023 06:00:55 -0700 (PDT)
+        Fri, 24 Mar 2023 09:10:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9481795;
+        Fri, 24 Mar 2023 06:10:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BACBA62A69;
-        Fri, 24 Mar 2023 13:00:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CE51C433D2;
-        Fri, 24 Mar 2023 13:00:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 23AA662ACB;
+        Fri, 24 Mar 2023 13:10:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 979ACC433D2;
+        Fri, 24 Mar 2023 13:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679662854;
-        bh=Nqt8dM+hpeNv7xex2w5Jz9mlfv7En+rUD6nOArTbrfU=;
+        s=k20201202; t=1679663417;
+        bh=F0HFFIS62//+IDqQarAuRmb4u+Etmm9kj8vJ4jyMrVY=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=XkKdty1KmqYf+xr4pULB63a49jwFSz4wikXpfMiszyg4CgKW0p77VNs5zWqZEz3lu
-         cdCIUBrHc3ifEaDSsSMDD2CTU4va2HM7d+AiuIN36n65sAUaeZWMVIDDGyulMem9Gt
-         /WFOzSD6Iv+YXF6HMYt5C6zqSzJqKSSFFoW4wkPZf9al9/qKAMY2Gxy5dfIOQJ9tOU
-         P+t41lHJTvvGJGjHOWneU/mfB9AJ2LSO3J070RQw1+vNsgu7KlKxK2TDWYnS23unpN
-         5gmxn8fossduhJP5Acn1t+pKP66j0TSJfVDt4SrUtBHnKFF6aSQQd114xb8TLdP5MK
-         34uFFsJWzNeFA==
-Date:   Fri, 24 Mar 2023 14:00:50 +0100 (CET)
+        b=KNRX96BfZOHJpemk4BPtqYbiYzfz+E+F9ajdXWKCVSrwZ1qiXrUHjUAtXY/3Sz6LG
+         l+oTBqGBSK/OCpWMDAqtpage16IZT4lncVS+nwyBETT4ZaFHNf41Jn+SIASll3mMcI
+         iZ31FtHtpdQdDTsumsQAyZe3g6nDIj5lUeAd85fLrLfcbGgA2HnFsGOoMYeKi8BBxl
+         7vzXiwXUGGBlu0OIX9QCQnmLSrvfB4374pnvkb38AkBDmsv9IiDn2ViP/YRGMOM3Ve
+         V46+hG/38UeCyBQvmP2YyRXLgHyRjF5GF4a2JExT+lqPUL3xujI8GA+Kg3eEvTJ1CL
+         LAA1xvx3vaU2A==
+Date:   Fri, 24 Mar 2023 14:10:13 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Yangfl <mmyangfl@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] HID: kye: Add support for all kye tablets
-In-Reply-To: <CAAXyoMPMbYCV7br9DJn_KCq68RLnimockqU0uvsO8maT3ROxTA@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2303241400340.1142@cbobk.fhfr.pm>
-References: <20230207043318.23842-1-mmyangfl@gmail.com> <nycvar.YFH.7.76.2303101506030.1142@cbobk.fhfr.pm> <CAAXyoMPMbYCV7br9DJn_KCq68RLnimockqU0uvsO8maT3ROxTA@mail.gmail.com>
+To:     Todd Brandt <todd.e.brandt@intel.com>
+cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, todd.e.brandt@linux.intel.com,
+        srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
+        p.jungkamp@gmx.net, stable@vger.kernel.org
+Subject: Re: [PATCH v4] HID:hid-sensor-custom: Fix buffer overrun in device
+ name
+In-Reply-To: <20230314181256.15283-1-todd.e.brandt@intel.com>
+Message-ID: <nycvar.YFH.7.76.2303241409580.1142@cbobk.fhfr.pm>
+References: <20230314181256.15283-1-todd.e.brandt@intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,37 +56,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 11 Mar 2023, Yangfl wrote:
+On Tue, 14 Mar 2023, Todd Brandt wrote:
 
-> > > This series refactor kye tablet descriptor fixup routine, by using a
-> > > template and filling parameters on the fly, and add support for all
-> > > possible kye tablets.
-> > > ---
-> > > v2: fix missing rsize assignment
-> > > v3: fix geometry
-> > > v4: split patches
-> > >
-> > > David Yang (4):
-> > >   HID: kye: Rewrite tablet descriptor fixup routine
-> > >   HID: kye: Generate tablet fixup descriptors on the fly
-> > >   HID: kye: Sort kye devices
-> > >   HID: kye: Add support for all kye tablets
-> > >
-> > >  drivers/hid/hid-ids.h    |   9 +-
-> > >  drivers/hid/hid-kye.c    | 917 +++++++++++++++++----------------------
-> > >  drivers/hid/hid-quirks.c |  14 +-
-> > >  3 files changed, 414 insertions(+), 526 deletions(-)
-> >
-> > Now queued in hid.git#for-6.4/kye, thanks David.
-> >
-> > --
-> > Jiri Kosina
-> > SUSE Labs
-> >
+> On some platforms there are some platform devices created with
+> invalid names. For example: "HID-SENSOR-INT-020b?.39.auto" instead
+> of "HID-SENSOR-INT-020b.39.auto"
 > 
-> Thanks. But seems you missed the last patch.
+> This string include some invalid characters, hence it will fail to
+> properly load the driver which will handle this custom sensor. Also
+> it is a problem for some user space tools, which parses the device
+> names from ftrace and dmesg.
+> 
+> This is because the string, real_usage, is not NULL terminated and
+> printed with %s to form device name.
+> 
+> To address this, initialize the real_usage string with 0s.
+> 
+> Reported-and-tested-by: Todd Brandt <todd.e.brandt@linux.intel.com>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217169
+> Fixes: 98c062e82451 ("HID: hid-sensor-custom: Allow more custom iio sensors")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Philipp Jungkamp <p.jungkamp@gmx.net>
+> Signed-off-by: Philipp Jungkamp <p.jungkamp@gmx.net>
+> Signed-off-by: Todd Brandt <todd.e.brandt@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+> Changes in v4:
+> - add the Fixes line
+> - add patch version change list
+> Changes in v3:
+> - update the changelog
+> - add proper reviewed/signed/suggested links
+> Changes in v2:
+> - update the changelog
 
-Weird. Right you are. I have now fixed that. Thanks for catching it,
+Applied to for-6.3/upstream-fixes, thanks.
 
 -- 
 Jiri Kosina
