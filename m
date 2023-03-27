@@ -2,123 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1664C6CA7CA
-	for <lists+linux-input@lfdr.de>; Mon, 27 Mar 2023 16:34:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60EB86CA8CA
+	for <lists+linux-input@lfdr.de>; Mon, 27 Mar 2023 17:18:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232949AbjC0Oeq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Mar 2023 10:34:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36242 "EHLO
+        id S232369AbjC0PSe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Mar 2023 11:18:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233082AbjC0Oel (ORCPT
+        with ESMTP id S229940AbjC0PSd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Mar 2023 10:34:41 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A993FD3
-        for <linux-input@vger.kernel.org>; Mon, 27 Mar 2023 07:34:26 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id b20so37165402edd.1
-        for <linux-input@vger.kernel.org>; Mon, 27 Mar 2023 07:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679927665;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p6S8RyFrt4BO6FyIv0fU5W0gek0a3hrOl5MC8HNRpP4=;
-        b=MoTFCwDiuf/djF5k/sazpWVd+uespoBwFdOm8bp7QInvQZQtXBkFP6ID4cq+O78jWW
-         C6YyGDuq+2CUpEo+gf8oW3IflgdYVCrFs+nGyH8Nqxy0i4Ru6Nq8mN1Cznn4OPopG0fZ
-         U7wjy4AIJK00h5XnBSBJ5rCf+pqIWTgp2Ii2JUXR2DnwHet+bsBEGi7HIu+U8QRy7NKO
-         Kk+U25rUaUUyx+XIw27fePJySc2hwVGMLLlPrUhVp8DwCiwE+4smxvPe/bk7mYSzelJS
-         ZLNl9GPzCNCOkMyF7ccyDPEvkbYfq14v+SrLlhBehXYu1Zh/ainZXLO4XTQHxZ82pG4E
-         lJEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679927665;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p6S8RyFrt4BO6FyIv0fU5W0gek0a3hrOl5MC8HNRpP4=;
-        b=b+NbDGoNa6TUdOs5MVLu2Kne7kUSAY+miqNGh0/VAVLD1U4d2IVZQL9nZD1jhgcU2c
-         Ke8YUzyJi4RB8GpDevMx1lJvpvdK/vWdoci7426dGciltAYl+AV1+fkQbrFi6sm+ILGk
-         tMPEGlKSAEZ8pBDj6VZkPnuzsJ60mSiW2gcwTXOVdHvxtsdGhD1ywg1527imelRU2GAM
-         EkgUTmFbn4jBTKtDlI/uHhPh20CWLOQPHlEXR8cbeg9HjohgmqYbR8M4DE4AP9UcIU4I
-         ndc30RFF1DVk2V7TkfPaOPO5HSklGE2W+lscNewTOuLqyKuqho5KOL5JhjXxJiTPX/ST
-         vMdA==
-X-Gm-Message-State: AAQBX9dgYWvwZ8Y+xSy6z9EkPNa2fQb4BxwFs242AIjeNLNzwrODPVYb
-        MG4z2r90bPOEVvFpqlldGEG63RCh7IJNWw==
-X-Google-Smtp-Source: AKy350ZTAzHDgZGNgThpYx5pDqZnotKoRntpzex7AS0kpAQYApC3OgpE1KF+67cvO+83VN0ijDVHEw==
-X-Received: by 2002:a50:ef01:0:b0:4fb:de7d:b05a with SMTP id m1-20020a50ef01000000b004fbde7db05amr10378475eds.40.1679927664781;
-        Mon, 27 Mar 2023 07:34:24 -0700 (PDT)
-Received: from ninja ([2001:9e8:2bd9:4800:ae22:bff:fec3:bbcf])
-        by smtp.gmail.com with ESMTPSA id b44-20020a509f2f000000b004c09527d62dsm14735446edf.30.2023.03.27.07.34.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 07:34:24 -0700 (PDT)
-Date:   Mon, 27 Mar 2023 16:33:46 +0200
-From:   Matthias Benkmann <matthias.benkmann@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Rojtberg <rojtberg@gmail.com>,
-        Nate Yocom <nate@yocom.org>
-Subject: [PATCH] xpad.c: Change MAP_SELECT_BUTTON to MAP_SHARE_BUTTON
-Message-ID: <20230327163346.563a298b@ninja>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Mon, 27 Mar 2023 11:18:33 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3393F19A1;
+        Mon, 27 Mar 2023 08:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679930312; x=1711466312;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=17LMq6FcckRvCjRKh2cYsU9tHbmYq+HS/t9LCbX9zWs=;
+  b=XRxKw6YDlwBjmsBEeav0LrqO3G2aKK/iojUhC19QrU4PpcmL17WaU9gR
+   ysUh9e2f/qtH+5KQ5MrBDJIQWBhbfeVixS1GEKkmct95+OczyGaCLuE4x
+   nWxhkkcQVZzh18u6YaiPHZ87N3PeuZsTQntlg0vUz3FRua9whQUxjsoZx
+   394K7rLvaEyUJ5lr/Qe/DIY6pFxXusQH0pVLRHUYh4sDJOGpr57abwFN5
+   0g+wINomQr+6l9z4h4R5/z6uYEgjPZRqiziTIrAt1xl16ZWbwhU5ghFJq
+   xGGWKQIaYCOn2ZFq3hLKm9UGD+89JvZgvc4o9VQbly1Gtb5En/nuaD19C
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320693417"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
+   d="scan'208";a="320693417"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 08:18:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="676999194"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
+   d="scan'208";a="676999194"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 27 Mar 2023 08:18:16 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pgobv-000Hnx-10;
+        Mon, 27 Mar 2023 15:18:15 +0000
+Date:   Mon, 27 Mar 2023 23:17:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Maximilian Weigand <mweigand@mweigand.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Maximilian Weigand <mweigand@mweigand.net>,
+        Alistair Francis <alistair@alistair23.me>
+Subject: Re: [PATCH 2/6] Input: cyttsp5: remove unused code
+Message-ID: <202303272323.nRNi9Sso-lkp@intel.com>
+References: <20230323135205.1160879-3-mweigand@mweigand.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230323135205.1160879-3-mweigand@mweigand.net>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The button affected by the macro MAP_SELECT_BUTTON is called "Share".
-Rename the macro to match the name of the button.
+Hi Maximilian,
 
-Signed-off-by: Matthias Benkmann <matthias.benkmann@gmail.com>
----
- drivers/input/joystick/xpad.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 49ae963e5f9d..0235e8b4b943 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -80,7 +80,7 @@
- #define MAP_DPAD_TO_BUTTONS		(1 << 0)
- #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
- #define MAP_STICKS_TO_NULL		(1 << 2)
--#define MAP_SELECT_BUTTON		(1 << 3)
-+#define MAP_SHARE_BUTTON		(1 << 3)
- #define MAP_PADDLES			(1 << 4)
- #define MAP_PROFILE_BUTTON		(1 << 5)
- 
-@@ -150,7 +150,7 @@ static const struct xpad_device {
- 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
- 	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_PROFILE_BUTTON, XTYPE_XBOXONE },
--	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
-+	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
- 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
-@@ -1003,7 +1003,7 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 		/* menu/view buttons */
- 		input_report_key(dev, BTN_START,  data[4] & BIT(2));
- 		input_report_key(dev, BTN_SELECT, data[4] & BIT(3));
--		if (xpad->mapping & MAP_SELECT_BUTTON)
-+		if (xpad->mapping & MAP_SHARE_BUTTON)
- 			input_report_key(dev, KEY_RECORD, data[22] & BIT(0));
- 
- 		/* buttons A,B,X,Y */
-@@ -1869,7 +1869,7 @@ static int xpad_init_input(struct usb_xpad *xpad)
- 	    xpad->xtype == XTYPE_XBOXONE) {
- 		for (i = 0; xpad360_btn[i] >= 0; i++)
- 			input_set_capability(input_dev, EV_KEY, xpad360_btn[i]);
--		if (xpad->mapping & MAP_SELECT_BUTTON)
-+		if (xpad->mapping & MAP_SHARE_BUTTON)
- 			input_set_capability(input_dev, EV_KEY, KEY_RECORD);
- 	} else {
- 		for (i = 0; xpad_btn[i] >= 0; i++)
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus linus/master v6.3-rc4 next-20230327]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230323135205.1160879-3-mweigand%40mweigand.net
+patch subject: [PATCH 2/6] Input: cyttsp5: remove unused code
+config: i386-randconfig-a011-20230327 (https://download.01.org/0day-ci/archive/20230327/202303272323.nRNi9Sso-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4358a60821eb8149dabed197c09d3c0eab63bf38
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+        git checkout 4358a60821eb8149dabed197c09d3c0eab63bf38
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/touchscreen/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303272323.nRNi9Sso-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/input/touchscreen/cyttsp5.c:604:5: warning: unused variable 'cmd' [-Wunused-variable]
+           u8 cmd[2];
+              ^
+   1 warning generated.
+
+
+vim +/cmd +604 drivers/input/touchscreen/cyttsp5.c
+
+5b0c03e24a061f Alistair Francis 2022-10-31  598  
+5b0c03e24a061f Alistair Francis 2022-10-31  599  static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
+5b0c03e24a061f Alistair Francis 2022-10-31  600  				      struct cyttsp5_hid_desc *desc)
+5b0c03e24a061f Alistair Francis 2022-10-31  601  {
+5b0c03e24a061f Alistair Francis 2022-10-31  602  	struct device *dev = ts->dev;
+5b0c03e24a061f Alistair Francis 2022-10-31  603  	int rc;
+5b0c03e24a061f Alistair Francis 2022-10-31 @604  	u8 cmd[2];
+5b0c03e24a061f Alistair Francis 2022-10-31  605  
+5b0c03e24a061f Alistair Francis 2022-10-31  606  	rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
+5b0c03e24a061f Alistair Francis 2022-10-31  607  	if (rc) {
+5b0c03e24a061f Alistair Francis 2022-10-31  608  		dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
+5b0c03e24a061f Alistair Francis 2022-10-31  609  		return rc;
+5b0c03e24a061f Alistair Francis 2022-10-31  610  	}
+5b0c03e24a061f Alistair Francis 2022-10-31  611  
+5b0c03e24a061f Alistair Francis 2022-10-31  612  	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
+5b0c03e24a061f Alistair Francis 2022-10-31  613  			msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
+5b0c03e24a061f Alistair Francis 2022-10-31  614  	if (rc <= 0) {
+5b0c03e24a061f Alistair Francis 2022-10-31  615  		dev_err(ts->dev, "HID get descriptor timed out\n");
+5b0c03e24a061f Alistair Francis 2022-10-31  616  		rc = -ETIMEDOUT;
+5b0c03e24a061f Alistair Francis 2022-10-31  617  		return rc;
+5b0c03e24a061f Alistair Francis 2022-10-31  618  	}
+5b0c03e24a061f Alistair Francis 2022-10-31  619  
+5b0c03e24a061f Alistair Francis 2022-10-31  620  	memcpy(desc, ts->response_buf, sizeof(*desc));
+5b0c03e24a061f Alistair Francis 2022-10-31  621  
+5b0c03e24a061f Alistair Francis 2022-10-31  622  	/* Check HID descriptor length and version */
+5b0c03e24a061f Alistair Francis 2022-10-31  623  	if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
+5b0c03e24a061f Alistair Francis 2022-10-31  624  	    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
+5b0c03e24a061f Alistair Francis 2022-10-31  625  		dev_err(dev, "Unsupported HID version\n");
+5b0c03e24a061f Alistair Francis 2022-10-31  626  		return -ENODEV;
+5b0c03e24a061f Alistair Francis 2022-10-31  627  	}
+5b0c03e24a061f Alistair Francis 2022-10-31  628  
+5b0c03e24a061f Alistair Francis 2022-10-31  629  	return 0;
+5b0c03e24a061f Alistair Francis 2022-10-31  630  }
+5b0c03e24a061f Alistair Francis 2022-10-31  631  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
