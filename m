@@ -2,161 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7986CA315
-	for <lists+linux-input@lfdr.de>; Mon, 27 Mar 2023 14:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1664C6CA7CA
+	for <lists+linux-input@lfdr.de>; Mon, 27 Mar 2023 16:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232638AbjC0MKT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Mar 2023 08:10:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58028 "EHLO
+        id S232949AbjC0Oeq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Mar 2023 10:34:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232019AbjC0MKT (ORCPT
+        with ESMTP id S233082AbjC0Oel (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Mar 2023 08:10:19 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 339BA19BF;
-        Mon, 27 Mar 2023 05:10:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679919017; x=1711455017;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=jeepVfFfCQsHZs+6635Pz6VkoXSevOib+Apjcl9UAno=;
-  b=ZO2D4pJkE/Us1O38/CbkB9XFN0DYEDCBeBG5lzX/qXaNrR5WuZsCn0cO
-   WbxJvGTb1eejoljqDcu4wN2wBNeffo2l2ObLpQcJfkhMexLDej2rNW5qw
-   KrmeDI35PZfHYT6/Es4vQVuDGXTIMqXKtGGg3ujoyXtfIvlltsPV/pVy6
-   MjcTgPZ85aSvbAv1r9O9nsEJ654eEn9qA8mSh0vB/TF0xT9fMBxFoEgpt
-   gARkXQmwe+yqrtF4n+i6g1RyeHMHFnEc21lk2fAcQrqR1+i86dux/6Wfn
-   W6s+PagIHuPbNGHTZ11cVmcE1rk7n5MdnsjI4QresmKCbBH7EGl4qFIx1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="341821758"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="341821758"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 05:10:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="633583683"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="633583683"
-Received: from biyengar-mobl.amr.corp.intel.com ([10.213.176.16])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 05:10:16 -0700
-Message-ID: <c6b89edad5f74bf5ca82401a3d9cc5b4198baac8.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: Fix kernel panic during warm reset
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Tanu Malhotra <tanu.malhotra@intel.com>, jikos@kernel.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        even.xu@intel.com, Shaunak Saha <shaunak.saha@intel.com>
-Date:   Mon, 27 Mar 2023 05:10:14 -0700
-In-Reply-To: <20230327032310.2416272-1-tanu.malhotra@intel.com>
-References: <20230327032310.2416272-1-tanu.malhotra@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        Mon, 27 Mar 2023 10:34:41 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A993FD3
+        for <linux-input@vger.kernel.org>; Mon, 27 Mar 2023 07:34:26 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id b20so37165402edd.1
+        for <linux-input@vger.kernel.org>; Mon, 27 Mar 2023 07:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679927665;
+        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p6S8RyFrt4BO6FyIv0fU5W0gek0a3hrOl5MC8HNRpP4=;
+        b=MoTFCwDiuf/djF5k/sazpWVd+uespoBwFdOm8bp7QInvQZQtXBkFP6ID4cq+O78jWW
+         C6YyGDuq+2CUpEo+gf8oW3IflgdYVCrFs+nGyH8Nqxy0i4Ru6Nq8mN1Cznn4OPopG0fZ
+         U7wjy4AIJK00h5XnBSBJ5rCf+pqIWTgp2Ii2JUXR2DnwHet+bsBEGi7HIu+U8QRy7NKO
+         Kk+U25rUaUUyx+XIw27fePJySc2hwVGMLLlPrUhVp8DwCiwE+4smxvPe/bk7mYSzelJS
+         ZLNl9GPzCNCOkMyF7ccyDPEvkbYfq14v+SrLlhBehXYu1Zh/ainZXLO4XTQHxZ82pG4E
+         lJEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679927665;
+        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p6S8RyFrt4BO6FyIv0fU5W0gek0a3hrOl5MC8HNRpP4=;
+        b=b+NbDGoNa6TUdOs5MVLu2Kne7kUSAY+miqNGh0/VAVLD1U4d2IVZQL9nZD1jhgcU2c
+         Ke8YUzyJi4RB8GpDevMx1lJvpvdK/vWdoci7426dGciltAYl+AV1+fkQbrFi6sm+ILGk
+         tMPEGlKSAEZ8pBDj6VZkPnuzsJ60mSiW2gcwTXOVdHvxtsdGhD1ywg1527imelRU2GAM
+         EkgUTmFbn4jBTKtDlI/uHhPh20CWLOQPHlEXR8cbeg9HjohgmqYbR8M4DE4AP9UcIU4I
+         ndc30RFF1DVk2V7TkfPaOPO5HSklGE2W+lscNewTOuLqyKuqho5KOL5JhjXxJiTPX/ST
+         vMdA==
+X-Gm-Message-State: AAQBX9dgYWvwZ8Y+xSy6z9EkPNa2fQb4BxwFs242AIjeNLNzwrODPVYb
+        MG4z2r90bPOEVvFpqlldGEG63RCh7IJNWw==
+X-Google-Smtp-Source: AKy350ZTAzHDgZGNgThpYx5pDqZnotKoRntpzex7AS0kpAQYApC3OgpE1KF+67cvO+83VN0ijDVHEw==
+X-Received: by 2002:a50:ef01:0:b0:4fb:de7d:b05a with SMTP id m1-20020a50ef01000000b004fbde7db05amr10378475eds.40.1679927664781;
+        Mon, 27 Mar 2023 07:34:24 -0700 (PDT)
+Received: from ninja ([2001:9e8:2bd9:4800:ae22:bff:fec3:bbcf])
+        by smtp.gmail.com with ESMTPSA id b44-20020a509f2f000000b004c09527d62dsm14735446edf.30.2023.03.27.07.34.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 07:34:24 -0700 (PDT)
+Date:   Mon, 27 Mar 2023 16:33:46 +0200
+From:   Matthias Benkmann <matthias.benkmann@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Rojtberg <rojtberg@gmail.com>,
+        Nate Yocom <nate@yocom.org>
+Subject: [PATCH] xpad.c: Change MAP_SELECT_BUTTON to MAP_SHARE_BUTTON
+Message-ID: <20230327163346.563a298b@ninja>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 2023-03-26 at 20:23 -0700, Tanu Malhotra wrote:
+The button affected by the macro MAP_SELECT_BUTTON is called "Share".
+Rename the macro to match the name of the button.
 
-some minor nits below.
+Signed-off-by: Matthias Benkmann <matthias.benkmann@gmail.com>
+---
+ drivers/input/joystick/xpad.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> During warm reset device->fw_client is set to NULL. If a bus driver
-> is
-> registered after this NULL setting and before new firmware clients
-> are
-> enumerated by ISHTP, kernel panic will result in the function
-> ishtp_cl_bus_match(). This is because of reference to
-> device->fw_client->props.protocol_name.
->=20
-> ISH firmware after getting successfully loaded, sends a warm reset
-> notification to remove all clients from the bus and sets
-> device->fw_client to NULL. Until kernel v5.15, all enabled ISHTP
-> kernel
-> module drivers were loaded after any of the first ISHTP device was
-> registered, regardless of whether it was a matched or an unmatched
-> device. This resulted in all drivers getting registered much before
-> the
-> warm reset notification from ISH. Starting kernel v5.16, this issue
-> got
-> exposed after the change was introduced to load only bus drivers for
-> the
-> respective matching devices.
-One paragraph break will be better.
-
->  In this scenario, cros_ec_ishtp device and
-> cros_ec_ishtp driver are registered after the warm reset
-> device_fw_client NULL setting. cros_ec_ishtp driver_register()
-> triggers
-> the callback to ishtp_cl_bus_match() to match driver to the device
-> and
-> causes kernel panic in guid_equal() when dereferencing fw_client NULL
-> pointer to get protocol_name.
->=20
-> Fixes: f155dfeaa4ee ("platform/x86: isthp_eclite: only load for
-> matching devices")
-> Fixes: facfe0a4fdce ("platform/chrome: chros_ec_ishtp: only load for
-> matching devices")
-> Fixes: 0d0cccc0fd83 ("HID: intel-ish-hid: hid-client: only load for
-> matching devices")
-> Fixes: 44e2a58cb880 ("HID: intel-ish-hid: fw-loader: only load for
-> matching devices")
->=20
-No need of blank line.
-
-> Signed-off-by: Tanu Malhotra <tanu.malhotra@intel.com>
-> Tested-by: Shaunak Saha <shaunak.saha@intel.com>
-You can also add=20
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-
-Also add
-Cc: <stable@vger.kernel.org> # 5.16+
-
-> ---
-When you submit "PATCH v2", Add change log here. (That is below "---").
-Something like this:
-v2
-- Updated commit description
-- Added CC to stable
-
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/bus.c | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c
-> b/drivers/hid/intel-ish-hid/ishtp/bus.c
-> index 81385ab37fa9..4f540906268f 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-> @@ -241,8 +241,8 @@ static int ishtp_cl_bus_match(struct device *dev,
-> struct device_driver *drv)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ishtp_cl_device *d=
-evice =3D to_ishtp_cl_device(dev);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ishtp_cl_driver *d=
-river =3D to_ishtp_cl_driver(drv);
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return guid_equal(&driver->id[=
-0].guid,
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &d=
-evice->fw_client->props.protocol_name);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return(device->fw_client ? gui=
-d_equal(&driver->id[0].guid,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &device->fw_client-
-> >props.protocol_name) : 0);
-Align the second line to char "d" after "(".
-
-Thanks,
-Srinivas
-
-> =C2=A0}
-> =C2=A0
-> =C2=A0/**
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 49ae963e5f9d..0235e8b4b943 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -80,7 +80,7 @@
+ #define MAP_DPAD_TO_BUTTONS		(1 << 0)
+ #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
+ #define MAP_STICKS_TO_NULL		(1 << 2)
+-#define MAP_SELECT_BUTTON		(1 << 3)
++#define MAP_SHARE_BUTTON		(1 << 3)
+ #define MAP_PADDLES			(1 << 4)
+ #define MAP_PROFILE_BUTTON		(1 << 5)
+ 
+@@ -150,7 +150,7 @@ static const struct xpad_device {
+ 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+ 	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_PROFILE_BUTTON, XTYPE_XBOXONE },
+-	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
++	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SHARE_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
+@@ -1003,7 +1003,7 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
+ 		/* menu/view buttons */
+ 		input_report_key(dev, BTN_START,  data[4] & BIT(2));
+ 		input_report_key(dev, BTN_SELECT, data[4] & BIT(3));
+-		if (xpad->mapping & MAP_SELECT_BUTTON)
++		if (xpad->mapping & MAP_SHARE_BUTTON)
+ 			input_report_key(dev, KEY_RECORD, data[22] & BIT(0));
+ 
+ 		/* buttons A,B,X,Y */
+@@ -1869,7 +1869,7 @@ static int xpad_init_input(struct usb_xpad *xpad)
+ 	    xpad->xtype == XTYPE_XBOXONE) {
+ 		for (i = 0; xpad360_btn[i] >= 0; i++)
+ 			input_set_capability(input_dev, EV_KEY, xpad360_btn[i]);
+-		if (xpad->mapping & MAP_SELECT_BUTTON)
++		if (xpad->mapping & MAP_SHARE_BUTTON)
+ 			input_set_capability(input_dev, EV_KEY, KEY_RECORD);
+ 	} else {
+ 		for (i = 0; xpad_btn[i] >= 0; i++)
+-- 
+2.25.1
 
