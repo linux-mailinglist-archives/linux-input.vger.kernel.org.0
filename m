@@ -2,49 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8419C6CB9EF
-	for <lists+linux-input@lfdr.de>; Tue, 28 Mar 2023 10:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 440D76CBD85
+	for <lists+linux-input@lfdr.de>; Tue, 28 Mar 2023 13:26:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230407AbjC1Izk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Mar 2023 04:55:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49534 "EHLO
+        id S230156AbjC1L0Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Mar 2023 07:26:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbjC1Izj (ORCPT
+        with ESMTP id S232394AbjC1L0P (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Mar 2023 04:55:39 -0400
-X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Mar 2023 01:55:36 PDT
-Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9346755A6
-        for <linux-input@vger.kernel.org>; Tue, 28 Mar 2023 01:55:36 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,296,1673884800"; 
-   d="scan'208";a="2343455"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 28 Mar 2023 16:54:26 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(80153:0:AUTH_RELAY)
-        (envelope-from <phoenix@emc.com.tw>); Tue, 28 Mar 2023 16:54:26 +0800 (CST)
-Received: from 192.168.33.13
-        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2478:1:AUTH_LOGIN)
-        (envelope-from <phoenix@emc.com.tw>); Tue, 28 Mar 2023 16:54:25 +0800 (CST)
-From:   "phoenix" <phoenix@emc.com.tw>
-To:     "'jingle.wu'" <jingle.wu@emc.com.tw>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <dmitry.torokhov@gmail.com>
-Cc:     <josh.chen@emc.com.tw>, <dave.wang@emc.com.tw>
-References: <20230320011456.986321-1-jingle.wu@emc.com.tw>
-In-Reply-To: <20230320011456.986321-1-jingle.wu@emc.com.tw>
-Subject: RE: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
-Date:   Tue, 28 Mar 2023 16:54:25 +0800
-Message-ID: <002401d96152$e5ab1f70$b1015e50$@emc.com.tw>
+        Tue, 28 Mar 2023 07:26:15 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD0C3C22
+        for <linux-input@vger.kernel.org>; Tue, 28 Mar 2023 04:26:11 -0700 (PDT)
+Received: from fsav414.sakura.ne.jp (fsav414.sakura.ne.jp [133.242.250.113])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 32SBPlIK066834;
+        Tue, 28 Mar 2023 20:25:47 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav414.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav414.sakura.ne.jp);
+ Tue, 28 Mar 2023 20:25:47 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav414.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 32SBPlZv066831
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Tue, 28 Mar 2023 20:25:47 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <aa0d1e42-9a62-698b-fa89-000ce397316c@I-love.SAKURA.ne.jp>
+Date:   Tue, 28 Mar 2023 20:25:48 +0900
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To:     Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH (repost)] Input: MT - use __GFP_NOWARN allocation at
+ input_mt_init_slots()
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQJF62IY79PwBMHzbH32rexKKwKtnq42zNEA
-Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcODgwNTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0yMzA5YmQ2YS1jZDQ2LTExZWQtYTk3NC04OGQ3ZjY1ODJkZmNcYW1lLXRlc3RcMjMwOWJkNmItY2Q0Ni0xMWVkLWE5NzQtODhkN2Y2NTgyZGZjYm9keS50eHQiIHN6PSIzMzYwIiB0PSIxMzMyNDQ2NzI2NDc5OTIyOTIiIGg9IkJnWEpwanJaeCs2d2c4OG9Sb0ZzNiswSDNMMD0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: true
 X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -53,132 +51,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+syzbot is reporting too large allocation at input_mt_init_slots(), for
+num_slots is supplied from userspace using ioctl(UI_DEV_CREATE).
 
-No response from you yet,
-Can you help review this patch, thanks
+Use __GFP_NOWARN. Also, replace n2 with array_size(), for 32bits variable
+n2 will overflow if num_slots >= 65536 and will cause out of bounds
+read/write at input_mt_set_matrix()/input_mt_set_slots() on architectures
+where PAGE_SIZE > 4096 is available (e.g. PPC64).
 
-Best regards,
-Phoenix Huang
------Original Message-----
-From: jingle.wu [mailto:jingle.wu@emc.com.tw] 
-Sent: Monday, March 20, 2023 9:15 AM
-To: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
-dmitry.torokhov@gmail.com
-Cc: phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw;
-jingle.wu <jingle.wu@emc.com.tw>
-Subject: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
-
-Add inhibit/uninhibit functions.
-
-Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
+Reported-by: syzbot <syzbot+0122fa359a69694395d5@syzkaller.appspotmail.com>
+Link: https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 ---
- drivers/input/mouse/elan_i2c_core.c | 86 +++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+Dmitry Torokhov proposed limiting max size to accept. But since it seems
+that nobody knows appropriate max size to accept, reposting as-is.
+https://lkml.kernel.org/r/03e8c3f0-bbbf-af37-6f52-67547cbd4cde@I-love.SAKURA.ne.jp
 
-diff --git a/drivers/input/mouse/elan_i2c_core.c
-b/drivers/input/mouse/elan_i2c_core.c
-index 5f0d75a45c80..b7100945c9cc 100644
---- a/drivers/input/mouse/elan_i2c_core.c
-+++ b/drivers/input/mouse/elan_i2c_core.c
-@@ -329,6 +329,89 @@ static int elan_initialize(struct elan_tp_data *data,
-bool skip_reset)
- 	return error;
- }
+ drivers/input/input-mt.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
+index 14b53dac1253..cf74579462ba 100644
+--- a/drivers/input/input-mt.c
++++ b/drivers/input/input-mt.c
+@@ -47,7 +47,7 @@ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
+ 	if (mt)
+ 		return mt->num_slots != num_slots ? -EINVAL : 0;
  
-+static int elan_reactivate(struct elan_tp_data *data) {
-+	struct device *dev = &data->client->dev;
-+	int ret;
-+
-+	ret = elan_set_power(data, true);
-+	if (ret)
-+		dev_err(dev, "failed to restore power: %d\n", ret);
-+
-+	ret = data->ops->sleep_control(data->client, false);
-+	if (ret) {
-+		dev_err(dev,
-+			"failed to wake device up: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static void elan_inhibit(struct input_dev *input_dev) {
-+	struct elan_tp_data *data = input_get_drvdata(input_dev);
-+	struct i2c_client *client = data->client;
-+	int ret;
-+
-+	if (data->in_fw_update)
-+		return;
-+
-+	dev_dbg(&client->dev, "inhibiting\n");
-+	/*
-+	 * We are taking the mutex to make sure sysfs operations are
-+	 * complete before we attempt to bring the device into low[er]
-+	 * power mode.
-+	 */
-+	ret = mutex_lock_interruptible(&data->sysfs_mutex);
-+	if (ret)
-+		return;
-+
-+	disable_irq(client->irq);
-+
-+	ret = elan_set_power(data, false);
-+	if (ret)
-+		enable_irq(client->irq);
-+
-+	mutex_unlock(&data->sysfs_mutex);
-+
-+}
-+
-+static void elan_close(struct input_dev *input_dev) {
-+	if ((input_dev->users) && (!input_dev->inhibited))
-+		elan_inhibit(input_dev);
-+
-+}
-+
-+static int elan_uninhibit(struct input_dev *input_dev) {
-+	struct elan_tp_data *data = input_get_drvdata(input_dev);
-+	struct i2c_client *client = data->client;
-+	int ret;
-+
-+	dev_dbg(&client->dev, "uninhibiting\n");
-+	ret = mutex_lock_interruptible(&data->sysfs_mutex);
-+	if (ret)
-+		return ret;
-+
-+	ret = elan_reactivate(data);
-+	if (ret == 0)
-+		enable_irq(client->irq);
-+
-+	mutex_unlock(&data->sysfs_mutex);
-+
-+	return ret;
-+}
-+
-+static int elan_open(struct input_dev *input_dev) {
-+	if ((input_dev->users) && (input_dev->inhibited))
-+		return elan_uninhibit(input_dev);
-+
-+	return 0;
-+}
-+
- static int elan_query_device_info(struct elan_tp_data *data)  {
- 	int error;
-@@ -1175,6 +1258,9 @@ static int elan_setup_input_device(struct elan_tp_data
-*data)
- 				     0, ETP_FINGER_WIDTH * min_width, 0, 0);
+-	mt = kzalloc(struct_size(mt, slots, num_slots), GFP_KERNEL);
++	mt = kzalloc(struct_size(mt, slots, num_slots), GFP_KERNEL | __GFP_NOWARN);
+ 	if (!mt)
+ 		goto err_mem;
+ 
+@@ -80,8 +80,8 @@ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
+ 	if (flags & INPUT_MT_SEMI_MT)
+ 		__set_bit(INPUT_PROP_SEMI_MT, dev->propbit);
+ 	if (flags & INPUT_MT_TRACK) {
+-		unsigned int n2 = num_slots * num_slots;
+-		mt->red = kcalloc(n2, sizeof(*mt->red), GFP_KERNEL);
++		mt->red = kcalloc(array_size(num_slots, num_slots),
++				  sizeof(*mt->red), GFP_KERNEL | __GFP_NOWARN);
+ 		if (!mt->red)
+ 			goto err_mem;
  	}
- 
-+	input->open = elan_open;
-+	input->close = elan_close;
-+
- 	data->input = input;
- 
- 	return 0;
-
-base-commit: 38e04b3e4240a6d8fb43129ebad41608db64bc6f
---
-2.34.1
-
+-- 
+2.18.4
