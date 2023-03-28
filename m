@@ -2,186 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BD296CB691
-	for <lists+linux-input@lfdr.de>; Tue, 28 Mar 2023 08:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8419C6CB9EF
+	for <lists+linux-input@lfdr.de>; Tue, 28 Mar 2023 10:56:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbjC1GIg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Mar 2023 02:08:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52780 "EHLO
+        id S230407AbjC1Izk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Mar 2023 04:55:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjC1GIg (ORCPT
+        with ESMTP id S229654AbjC1Izj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Mar 2023 02:08:36 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E7830C2
-        for <linux-input@vger.kernel.org>; Mon, 27 Mar 2023 23:08:34 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ph2VT-0005ir-PD; Tue, 28 Mar 2023 08:08:31 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ph2VS-007EoN-OA; Tue, 28 Mar 2023 08:08:30 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ph2VR-008c6e-Md; Tue, 28 Mar 2023 08:08:29 +0200
-Date:   Tue, 28 Mar 2023 08:08:29 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        kernel@pengutronix.de, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: iqs62x-keys - Suppress duplicated error message
- in .remove()
-Message-ID: <20230328060829.tqu367vf3ewgiz6j@pengutronix.de>
-References: <20230318225110.261439-1-u.kleine-koenig@pengutronix.de>
- <ZCImXFuXgh+rsRl5@nixie71>
+        Tue, 28 Mar 2023 04:55:39 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Mar 2023 01:55:36 PDT
+Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9346755A6
+        for <linux-input@vger.kernel.org>; Tue, 28 Mar 2023 01:55:36 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.98,296,1673884800"; 
+   d="scan'208";a="2343455"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 28 Mar 2023 16:54:26 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(80153:0:AUTH_RELAY)
+        (envelope-from <phoenix@emc.com.tw>); Tue, 28 Mar 2023 16:54:26 +0800 (CST)
+Received: from 192.168.33.13
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2478:1:AUTH_LOGIN)
+        (envelope-from <phoenix@emc.com.tw>); Tue, 28 Mar 2023 16:54:25 +0800 (CST)
+From:   "phoenix" <phoenix@emc.com.tw>
+To:     "'jingle.wu'" <jingle.wu@emc.com.tw>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <dmitry.torokhov@gmail.com>
+Cc:     <josh.chen@emc.com.tw>, <dave.wang@emc.com.tw>
+References: <20230320011456.986321-1-jingle.wu@emc.com.tw>
+In-Reply-To: <20230320011456.986321-1-jingle.wu@emc.com.tw>
+Subject: RE: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
+Date:   Tue, 28 Mar 2023 16:54:25 +0800
+Message-ID: <002401d96152$e5ab1f70$b1015e50$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3ylomidmgf5rj2mq"
-Content-Disposition: inline
-In-Reply-To: <ZCImXFuXgh+rsRl5@nixie71>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQJF62IY79PwBMHzbH32rexKKwKtnq42zNEA
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcODgwNTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0yMzA5YmQ2YS1jZDQ2LTExZWQtYTk3NC04OGQ3ZjY1ODJkZmNcYW1lLXRlc3RcMjMwOWJkNmItY2Q0Ni0xMWVkLWE5NzQtODhkN2Y2NTgyZGZjYm9keS50eHQiIHN6PSIzMzYwIiB0PSIxMzMyNDQ2NzI2NDc5OTIyOTIiIGg9IkJnWEpwanJaeCs2d2c4OG9Sb0ZzNiswSDNMMD0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Dmitry,
 
---3ylomidmgf5rj2mq
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No response from you yet,
+Can you help review this patch, thanks
 
-Hello Jeff,
+Best regards,
+Phoenix Huang
+-----Original Message-----
+From: jingle.wu [mailto:jingle.wu@emc.com.tw] 
+Sent: Monday, March 20, 2023 9:15 AM
+To: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
+dmitry.torokhov@gmail.com
+Cc: phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw;
+jingle.wu <jingle.wu@emc.com.tw>
+Subject: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
 
-On Mon, Mar 27, 2023 at 06:27:24PM -0500, Jeff LaBundy wrote:
-> On Sat, Mar 18, 2023 at 11:51:10PM +0100, Uwe Kleine-K=F6nig wrote:
-> > If a platform driver's remove callback returns non-zero the driver core
-> > emits an error message. In such a case however iqs62x_keys_remove()
-> > already issued a (better) message. So return zero to suppress the
-> > generic message.
-> >=20
-> > This patch has no other side effects as platform_remove() ignores the
-> > return value of .remove() after the warning.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> I was traveling all last week, and therefore unable to voice my opposition
-> in time. However, I figured I would still provide my feedback in case this
-> change may be proposed for other cases.
+Add inhibit/uninhibit functions.
 
-It is.
+Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
+---
+ drivers/input/mouse/elan_i2c_core.c | 86 +++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
-> > ---
-> >  drivers/input/keyboard/iqs62x-keys.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/input/keyboard/iqs62x-keys.c b/drivers/input/keybo=
-ard/iqs62x-keys.c
-> > index db793a550c25..02ceebad7bda 100644
-> > --- a/drivers/input/keyboard/iqs62x-keys.c
-> > +++ b/drivers/input/keyboard/iqs62x-keys.c
-> > @@ -320,7 +320,7 @@ static int iqs62x_keys_remove(struct platform_devic=
-e *pdev)
-> >  	if (ret)
-> >  		dev_err(&pdev->dev, "Failed to unregister notifier: %d\n", ret);
-> > =20
-> > -	return ret;
-> > +	return 0;
->=20
-> In my opinion, we should never silence a function's return value, especia=
-lly
-> in service of what is ultimately innocuous and cosmetic in nature. While =
-this
-> specific example is harmless today, the caller can change and hence shoul=
-d be
-> the only instance who decides whether the return value is important.
-
-The caller will change. Today the caller (i.e. platform_remove()) looks
-as follows:
-
-	... if (drv->remove) {
-                int ret =3D drv->remove(dev);
-
-                if (ret)
-                        dev_warn(_dev, "remove callback returned a non-zero=
- value. This will be ignored.\n");
-	}
-
-(so ret isn't used later any more). And I eventually will do
-
- struct platform_driver {
- ...
--	int (*remove)(struct platform_device *);
-+	void (*remove)(struct platform_device *);
- ...
+diff --git a/drivers/input/mouse/elan_i2c_core.c
+b/drivers/input/mouse/elan_i2c_core.c
+index 5f0d75a45c80..b7100945c9cc 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -329,6 +329,89 @@ static int elan_initialize(struct elan_tp_data *data,
+bool skip_reset)
+ 	return error;
  }
+ 
++static int elan_reactivate(struct elan_tp_data *data) {
++	struct device *dev = &data->client->dev;
++	int ret;
++
++	ret = elan_set_power(data, true);
++	if (ret)
++		dev_err(dev, "failed to restore power: %d\n", ret);
++
++	ret = data->ops->sleep_control(data->client, false);
++	if (ret) {
++		dev_err(dev,
++			"failed to wake device up: %d\n", ret);
++		return ret;
++	}
++
++	return ret;
++}
++
++static void elan_inhibit(struct input_dev *input_dev) {
++	struct elan_tp_data *data = input_get_drvdata(input_dev);
++	struct i2c_client *client = data->client;
++	int ret;
++
++	if (data->in_fw_update)
++		return;
++
++	dev_dbg(&client->dev, "inhibiting\n");
++	/*
++	 * We are taking the mutex to make sure sysfs operations are
++	 * complete before we attempt to bring the device into low[er]
++	 * power mode.
++	 */
++	ret = mutex_lock_interruptible(&data->sysfs_mutex);
++	if (ret)
++		return;
++
++	disable_irq(client->irq);
++
++	ret = elan_set_power(data, false);
++	if (ret)
++		enable_irq(client->irq);
++
++	mutex_unlock(&data->sysfs_mutex);
++
++}
++
++static void elan_close(struct input_dev *input_dev) {
++	if ((input_dev->users) && (!input_dev->inhibited))
++		elan_inhibit(input_dev);
++
++}
++
++static int elan_uninhibit(struct input_dev *input_dev) {
++	struct elan_tp_data *data = input_get_drvdata(input_dev);
++	struct i2c_client *client = data->client;
++	int ret;
++
++	dev_dbg(&client->dev, "uninhibiting\n");
++	ret = mutex_lock_interruptible(&data->sysfs_mutex);
++	if (ret)
++		return ret;
++
++	ret = elan_reactivate(data);
++	if (ret == 0)
++		enable_irq(client->irq);
++
++	mutex_unlock(&data->sysfs_mutex);
++
++	return ret;
++}
++
++static int elan_open(struct input_dev *input_dev) {
++	if ((input_dev->users) && (input_dev->inhibited))
++		return elan_uninhibit(input_dev);
++
++	return 0;
++}
++
+ static int elan_query_device_info(struct elan_tp_data *data)  {
+ 	int error;
+@@ -1175,6 +1258,9 @@ static int elan_setup_input_device(struct elan_tp_data
+*data)
+ 				     0, ETP_FINGER_WIDTH * min_width, 0, 0);
+ 	}
+ 
++	input->open = elan_open;
++	input->close = elan_close;
++
+ 	data->input = input;
+ 
+ 	return 0;
 
-and change platform_remove() to just:
+base-commit: 38e04b3e4240a6d8fb43129ebad41608db64bc6f
+--
+2.34.1
 
-	if (drv->remove)
-		drv->remove(dev);
-
-The change in question is a preparation for that.
-
-The reason I tackle that is that .remove() returning an int seduces
-driver authors to exit early in .remove() in the expectation that there
-is error handling in the core (which there isn't).
-
-See
-
-	https://lore.kernel.org/linux-spi/20230317084232.142257-3-u.kleine-koenig@=
-pengutronix.de
-
-for such an issue.
-
-> If having both fine and subsequently coarse print statements is unaccepta=
-ble,
-> I would have preferred to drop this driver's print statement and continue=
- to
-> return ret. Or at the very least, include a comment as to why we delibera=
-tely
-> ignore the return value.
-
-I have a patch series in the queue that will convert all drivers in
-drivers/input to .remove_new(). (See
-https://lore.kernel.org/linux-media/20230326143224.572654-9-u.kleine-koenig=
-@pengutronix.de
-for an example of such a conversion.) If we add such a comment now, I
-will probably miss to adapt it then.
-
-So I'm still convinced the patch I did is the right thing to do.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---3ylomidmgf5rj2mq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQihFwACgkQj4D7WH0S
-/k75sAf/YUSq94hrV7sTRYXQjwtjO5YQ4eTS0n2aUcFVHGUP+E2pg8dpcMxiL6a7
-PGoz5SvY986djSWES94DBGhhVvza5q+YM2e7sHk3TlBQe3zjscbGHujhL8Tatx/6
-Fv+Yjw64Y5whUETEK8HlJJld8OZgQMyzOkGkDGvdna1CFc8xuoUzcRYqe2lW7JBl
-NvD6N1kTMHuxmx0yMtFe4mgFDbsdHTpJkeAhmVvmU9L4GCgnZpNV5pvJnaPeXvV1
-DzFOgsQJa+is+t83+9W3Xb4I5Lpaw3/w6LjCDcBJ9TQSRkGkmtunYHIZvcjPopcs
-AlBQL8uI5iQViTNsV4sqrD8RB6K1+A==
-=M9HX
------END PGP SIGNATURE-----
-
---3ylomidmgf5rj2mq--
