@@ -2,51 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C0A56CCCC0
-	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 00:01:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9DF6CCD40
+	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 00:32:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbjC1WBk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Mar 2023 18:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57644 "EHLO
+        id S229549AbjC1Wcl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Mar 2023 18:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229941AbjC1WBj (ORCPT
+        with ESMTP id S229689AbjC1Wcj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Mar 2023 18:01:39 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6947694;
-        Tue, 28 Mar 2023 15:01:37 -0700 (PDT)
+        Tue, 28 Mar 2023 18:32:39 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 437372D5A;
+        Tue, 28 Mar 2023 15:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680040897; x=1711576897;
+  t=1680042757; x=1711578757;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rzfiK2i8eSEs95el4ER+BIWkX9JsCs0x0U1KgXz0v5M=;
-  b=QE20E5Occ1YiferKyPeSHd9Kf/8av/EvPePbyNhP112xRNv4oiBv0D2r
-   O4cXO8XsxMVFTY4s5F+rRgJ2Qv7QSxvo6UZic2GTEAaGJhdnSXXZQpN82
-   1SHToaIyumjX8u+QXxbh1z4p5oBuggTJt0aIUZRoSVZv2NZdN9F3CO0F/
-   ntbn6NowuIOLms5pP4B+PUZ0Ebkbws+F0USf17PU5HQtpcpmQaZDjWrVG
-   rTD8TWxGr4Ogd6aZ8BpIMbNyNtn5zAKLCr1QF8gt5s+EwDM01wJV9VxOq
-   aSaBm0MSK2bcNMNlNIUY8skHzT1NXLrTHHg8mVwhWWuGnTe3JvLeNmhSo
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="324599700"
+  bh=O6iGX/spmgumjalDiRYYo6+WOgQCrqrmZru8HZWfn4Q=;
+  b=CySTMMN/UbneWeXacE36ISV1XsZYZKAJn3eXThBn49GtDT90ielgTt4B
+   E4OQwBZrmXUgvj3+exO8eAaQ0UgY4CsVskgh0fyVaBWbygTQkmda41k8N
+   99HHEbpwzEsoKYLjFK4MS+dqW8+b/qsAjnkQ9kHriDQbZx1PHzkuDal/3
+   9GKcDG1ExBb9WMF0pMSOa3drlkrgsjdKMmKEuJ2HUBU6tpJV2mitmY3xn
+   Kto/qQVT0YyRkcD43E7vZWrA3IjqZ7jG4G+Qjy29UYM2c3RsPOltoXFid
+   Ih98OZUgZBVzxMULu7Ip2+K9WDWw4RluxOA8OioCWqC1m+46r2EvJzX+O
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340735062"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="324599700"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 15:01:25 -0700
+   d="scan'208";a="340735062"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP; 28 Mar 2023 15:27:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="773314885"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="716643600"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="773314885"
+   d="scan'208";a="716643600"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Mar 2023 15:01:23 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Mar 2023 15:22:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1phHNa-000Iv1-0i;
-        Tue, 28 Mar 2023 22:01:22 +0000
-Date:   Wed, 29 Mar 2023 06:01:16 +0800
+        id 1phHhu-000IvV-1Z;
+        Tue, 28 Mar 2023 22:22:22 +0000
+Date:   Wed, 29 Mar 2023 06:21:49 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Torsha Banerjee <torsha@chromium.org>, u-boot@lists.denx.de
-Cc:     oe-kbuild-all@lists.linux.dev, Jora Jacobi <jora@google.com>,
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Jora Jacobi <jora@google.com>,
         Torsha Banerjee <torsha@google.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
@@ -54,15 +55,16 @@ Cc:     oe-kbuild-all@lists.linux.dev, Jora Jacobi <jora@google.com>,
 Subject: Re: [PATCH] Series-to: Fred Bloggs <f.blogs@napier.co.nz> Series-cc:
  Sean O'Brien <seobrien@chromium.org> HID: input:  Restore missing cursor for
  digitizer devices
-Message-ID: <202303290538.GxYGQ37a-lkp@intel.com>
+Message-ID: <202303290657.v6bveeLJ-lkp@intel.com>
 References: <20230328161119.1.I40a8881b83b0e440ed5368d98b42a2d9a0c105aa@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20230328161119.1.I40a8881b83b0e440ed5368d98b42a2d9a0c105aa@changeid>
-X-Spam-Status: No, score=1.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        UPPERCASE_75_100 autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,UPPERCASE_75_100 autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -83,8 +85,8 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 url:    https://github.com/intel-lab-lkp/linux/commits/Torsha-Banerjee/Series-to-Fred-Bloggs-f-blogs-napier-co-nz-Series-cc-Sean-O-Brien-seobrien-chromium-org-HID-input-Restore-missing-cursor/20230329-001305
 patch link:    https://lore.kernel.org/r/20230328161119.1.I40a8881b83b0e440ed5368d98b42a2d9a0c105aa%40changeid
 patch subject: [PATCH] Series-to: Fred Bloggs <f.blogs@napier.co.nz> Series-cc: Sean O'Brien <seobrien@chromium.org> HID: input:  Restore missing cursor for digitizer devices
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303290538.GxYGQ37a-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+config: i386-randconfig-a012-20230327 (https://download.01.org/0day-ci/archive/20230329/202303290657.v6bveeLJ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -94,25 +96,22 @@ reproduce (this is a W=1 build):
         git checkout 15e6cca84ddc6ef20ce0e540e439b1e976006f0b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290538.GxYGQ37a-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303290657.v6bveeLJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/hid/hid-quirks.c:15:
->> drivers/hid/hid-quirks.c:105:47: error: 'USB_DEVICE_ID_HUION_HS64' undeclared here (not in a function); did you mean 'USB_DEVICE_ID_HUION_TABLET'?
-     105 |         { HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_HS64), HID_QUIRK_DEVICE_IS_DIGITIZER },
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:716:54: note: in definition of macro 'HID_USB_DEVICE'
-     716 |         .bus = BUS_USB, .vendor = (ven), .product = (prod)
-         |                                                      ^~~~
+>> drivers/hid/hid-quirks.c:105:40: error: use of undeclared identifier 'USB_DEVICE_ID_HUION_HS64'
+           { HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_HS64), HID_QUIRK_DEVICE_IS_DIGITIZER },
+                                                 ^
+   1 error generated.
 
 
-vim +105 drivers/hid/hid-quirks.c
+vim +/USB_DEVICE_ID_HUION_HS64 +105 drivers/hid/hid-quirks.c
 
     22	
     23	/*
