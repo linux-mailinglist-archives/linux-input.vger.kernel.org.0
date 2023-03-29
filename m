@@ -2,370 +2,486 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 076D26CCF99
-	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 03:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B85A06CCF9C
+	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 03:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjC2Bqb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Mar 2023 21:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44720 "EHLO
+        id S229563AbjC2BsF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Mar 2023 21:48:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjC2Bqa (ORCPT
+        with ESMTP id S229680AbjC2BsE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Mar 2023 21:46:30 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEB6C19B2;
-        Tue, 28 Mar 2023 18:46:28 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id u10so13481049plz.7;
-        Tue, 28 Mar 2023 18:46:28 -0700 (PDT)
+        Tue, 28 Mar 2023 21:48:04 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2078.outbound.protection.outlook.com [40.107.92.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91382189
+        for <linux-input@vger.kernel.org>; Tue, 28 Mar 2023 18:47:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SR1GuAaMM11oxpR7M3vKtLp9hU6eIZ+mC5CRTwhaEA5Y+kofugJ1oZFxIzau2pUMplxVBMZAXVLoX8dPr/8LHzbcS+oUlvyMtoNKM44P0EAEQbJrb7XTPb7pCFoL3ooY1U41xgpanKc8G57NXXK46ZAuNpSBbbNCmEhVcP9maQl4a741N6w5rmrVY46R+h+Vb+9Mh5QV0OQPJWow+fpMsBAKfGjviHfKQ5etoN1Vyyb/GQmmmW2D7M9BWtni0n2kFuG6WQKf/fLQqkVKnd01k3TbZfX3wJrbHzbxkvoV4LiBEEY1RoykCPF7OdOUbpCsKHqdGWjIAm7eYOVJoi/Z1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KyEhtATjgSzQicYlk+mPQS6u4UbZ6q3ZSWM43cN5Nc4=;
+ b=IB316D/TJTUQrUveXGrPhl0ER7FbxoeaOaVpzv7yNPXPX8e/Yv0xXfeNF+NGP6v1xzR/sW+qDC9OWWCc48l1Khhb7ZSqkjeZUq7gU52JIlJWLiKIj+5hYRihanDnI3leYqIp9zwvTLQ9YZbkP2aENdM2M/DtqzcBG2gqEBujnl83MB9BuLjBpb+h5XsbxIoB/BGOBfCDcdp5fjtmlOvEZS4UUpbSBvuc/zT9c5cV0eq+CQoLmGXm+k/5UVpeQlKLzshOKZTLyuT9zN7EBhcPUGwG1XqUsL1r7uXsDZjPw2BCbCqduhSEOUA2lhEbcvklf8FAATK0Qr15DHRsUCPZKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680054388;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=deoW1nDD6AE5M0junL3wJzEC4AyY0UpQhfct2xRu5gY=;
-        b=gCFOs/LY8lU0CaYkzaFI9uAa36DfSn/jxprj+2MYJi87nWxcEWPQjuqzT6G8YOij8o
-         nyoknv6Mdgspd1CKpNG5w8ar+OcXXy0NLMPjMSzckrv+kQShBRw3eCd/SJ233HEQmHSc
-         0/cJhc+Ar+sZL5TUsbeO5cD2K50oqNcmUOK9hKb3QgMcx4HSAvf65zy+u5E+dWma+E8c
-         tNbUQwxBS2xj1QmklGuPxCg3fEy+kK0sUCZQXJ8dymwnLq6i3pfFZl+CeblZskyO0gsn
-         044+pkXy7N08TQIi6iox4k7vZ+Hr1KxEyhyAjkwyqcV/DxlQF0Y500gE44CWwvyqy9kJ
-         bB9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680054388;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=deoW1nDD6AE5M0junL3wJzEC4AyY0UpQhfct2xRu5gY=;
-        b=p38dQDAum6f0LyQWY5MDH0VH/9t6GN0sBpwDurlS+Eqv+X7ShJToPSJ60tcuoP7XU0
-         4OCK9nVE72JxGaPTGe+KWRCoDEgZsiuPxwVbiBlnDm03OnCXlG+Lf33OOmrXoZWxHvF2
-         KTAdw5Yb9TyrmXot12nmpeA5fYgYKyY7qTRYgsr/Y2e6Bpk3TNpZnSqSOX9eBu3pZzYY
-         luTDZnQPJdhd5/7GzORvjJX2yUoXh0phK+29FD+nuWkZYrBjPy00Ql58gvwwVXdiyGWU
-         65QU6Y5tj2oXxngBIpzyngDlRrvefrlm+dDshYNngIOnuVuUHa/jIwZJjpx6vKOwHp43
-         xNgw==
-X-Gm-Message-State: AAQBX9dAWOlCb7SKj6WvCieI6oz+1F1IkCknYcn5FATCa2WjE/VxYtxt
-        oKk2kTkorZvmAswzW4C9VpuhrdqVoAbkUQ==
-X-Google-Smtp-Source: AKy350aeGsaD3eph8lpkUHo5NCf3HnAg1n56vMCH0fvLw0/oqmtTP+FHaeHsXl4AXqG4AZ0ICBTutQ==
-X-Received: by 2002:a17:90a:db97:b0:236:6a28:f784 with SMTP id h23-20020a17090adb9700b002366a28f784mr18780768pjv.3.1680054387881;
-        Tue, 28 Mar 2023 18:46:27 -0700 (PDT)
-Received: from localhost.localdomain ([47.147.242.129])
-        by smtp.gmail.com with ESMTPSA id nv8-20020a17090b1b4800b00233cde36909sm203918pjb.21.2023.03.28.18.46.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Mar 2023 18:46:27 -0700 (PDT)
-From:   Andrew Kallmeyer <kallmeyeras@gmail.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     Andrew Kallmeyer <kallmeyeras@gmail.com>,
-        Gergo Koteles <soyer@irl.hu>,
-        Ike Panhc <ike.pan@canonical.com>, linux-input@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        Armin Wolf <W_Armin@gmx.de>,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>
-Subject: [PATCH v3 2/2] platform/x86: Add driver for Yoga Tablet Mode switch
-Date:   Tue, 28 Mar 2023 18:45:59 -0700
-Message-Id: <20230329014559.44494-3-kallmeyeras@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230329014559.44494-1-kallmeyeras@gmail.com>
-References: <20230329014559.44494-1-kallmeyeras@gmail.com>
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KyEhtATjgSzQicYlk+mPQS6u4UbZ6q3ZSWM43cN5Nc4=;
+ b=mgzR0rZEcKqyfgnZWvfYUJQIwNhz+Vb0uSuwdRZOJlXbTEOXZSAewuAUvYrXAvqMo7nzOkGhEVJhdrmDroF9mAO68qreC7dJG4Ymhol2GcDxAM8DurmXRK4bwUVrRZKixSALJzGXb0ddauAu5n7C9a4mKsYLd1Hx8WXftlLDjKU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by CO1PR08MB6708.namprd08.prod.outlook.com
+ (2603:10b6:303:6f::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.28; Wed, 29 Mar
+ 2023 01:47:51 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::34bc:e51:9ef9:3ab1]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::34bc:e51:9ef9:3ab1%4]) with mapi id 15.20.6178.041; Wed, 29 Mar 2023
+ 01:47:50 +0000
+Date:   Tue, 28 Mar 2023 20:47:47 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] Input: touchscreen - Add new Novatek NVT-ts driver
+Message-ID: <ZCOYwxZ6npS8bBgb@nixie71>
+References: <20230326212308.55730-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230326212308.55730-1-hdegoede@redhat.com>
+X-ClientProxiedBy: SN7P220CA0012.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:806:123::17) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|CO1PR08MB6708:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4bcaef49-7147-4ab3-af24-08db2ff79a58
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: h/OOWszfpiJF91DufFoAcmYIjJ9wtzhMHUzy5/ktLPhqePDgb9E3R5FHHm8ofpNDTTNu2MZ6sVTljQwWRqK6NLw4KjICY5JVCmbnYMf/nJFNHuZB5hBAdRgyxDr/5DmZCEhgln09aj5ZnvbNK5zsrq4z7jzBrHXZWmLTPEtibzHuLE4nCBGMvjBc5EID0fX/8iwHY5tWyer5wyN9dEdfnVHHJeWJw/f5MNQxBWUu8YyGJF11H63MMxb95O1TaWxkrB3/RAtcHu4ihV5NCEJTfoggKC3aocjn9YjTE+extT6W4ddB3Rcv2mtbDhZePpVFihFd1/CoOIX6M0s5S2iDV93lHknPatJ5Vi1vTPoKE2z5TJu5A37C+IyijfzPKeDh36MWyRCktn2MbE2pG2q2ilWxPxbDb08zCjrKA3FCGwtOhiR/2gtG0jXV3nHMiBzq3VQJWnuIGJSnEcNqZ1Cm4Ayaqq1qLgVk38vdfdlJRVwxQDOCoTLLH18UyLf3Qx6YoQWGjylbYrB95vXzh/lHoBhBA1LO4IQ34yBJHIamyI8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(346002)(396003)(366004)(376002)(39830400003)(136003)(451199021)(8936002)(2906002)(83380400001)(41300700001)(86362001)(38100700002)(33716001)(5660300002)(6486002)(966005)(478600001)(66556008)(8676002)(66946007)(6916009)(6512007)(66476007)(4326008)(6506007)(30864003)(6666004)(186003)(316002)(26005)(9686003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BGWwlmSao1nowK0HsQ9Z+P0L5zIUm8P9cup/TKuLOkb7UUE10i2I4JztwNpo?=
+ =?us-ascii?Q?k/tsDpo/QpAKiLMreJzZ3H3V4+HYcm180Hw4ZYgZ9XUbr5/mtHRk95AqcxaV?=
+ =?us-ascii?Q?K1JdovrZQ8yKP5Lnws9fVjhQk7cRGrwEiBLd0QSMvDE0WCwS3RlyaTmSupaV?=
+ =?us-ascii?Q?9qtFIIO+t0+HK5odXYHQ7p3sUSMJ8uQ1w530IThmMZHhoV6UHWRH7S5pRyvN?=
+ =?us-ascii?Q?T+La9TCOxcho5GNm6y04bbTWLx+NXgJ/UDVDQQFyZWWtkmoObGmmHzg1Llf6?=
+ =?us-ascii?Q?f4Vsy7TcMkoSrzJrG5lV/JOTb7bpseZ0YPwQqodumywshrpvO+2RftCqkYF/?=
+ =?us-ascii?Q?CChuylZwdrVaGbYnMEnXID07dq61zVNxbAoXTlZJXkS2e4ovad5MHDVoYIJi?=
+ =?us-ascii?Q?yYFWxR5L+TNrrhjqkYesB22HM6IjiW0/KbvjuL/R4yXB+Bd0PCMIMH8MlMXZ?=
+ =?us-ascii?Q?1Ax7Ae9rZTOu0T7U/FUjHefaTeCSebLayTJbwsvjhkeS3Fkj7PCmlJy+F38h?=
+ =?us-ascii?Q?/rT9nrZT1TQJEhyG/ERj/KQecQo0Ofi6/42wPDvuTe4Zg8c+c8O7x74aPf18?=
+ =?us-ascii?Q?OsoPunCu31nW+v4iE3Buu9CLJIVDQf/FOa5cZX68n57rYaqNzyLvycnbbPfC?=
+ =?us-ascii?Q?BBsjFpFtDuVwSdnUQW4IY6hOsR3QDF7WjtrHzJpOh2uN2lrxoD/B5cLreAnO?=
+ =?us-ascii?Q?vSvyJa8JKeqSHnUwgLrAe61mZLbjDv8oXxBkoaJ3VZ/C47uf+pNxdZggnmDo?=
+ =?us-ascii?Q?2dYZUYensElSCnzZYozieqbk4/yndipsRVPhiq5tbE/R58XgFi5aQUF8wSC7?=
+ =?us-ascii?Q?o4dc0VvVyJO2bkVBKS7IVzXDBSIGK7Wf+17DuRBFxg8OH04Qs+Xhxw0Xx5q+?=
+ =?us-ascii?Q?y306Bdp1j+ldGNUZ61smtHnR6hf6dPLPmoQ3HI2IdqMlJfzrInliI5nyIqHw?=
+ =?us-ascii?Q?MZKq4ulo0NnI/ljdNqS3t8UDbRHRrAvn3/Oa97eIXK/v6u+f29qcZGeJIqYw?=
+ =?us-ascii?Q?5nl50LmNaZZsxS1ax90GhYPj6LMja4+Wa5nWu/Cfm4yU8kxB6nkJm+d2egfC?=
+ =?us-ascii?Q?93IxTRji5Qca9h8mHRpcvxN5t0PNmNjxU/FRXthH14gdfgGg0f/2P0pRvf00?=
+ =?us-ascii?Q?FQA2bBfO4/Jb3PMztngdqPFZVizGBKRSDgOZhaGX9mAD/73f7RAMvSHgUVCF?=
+ =?us-ascii?Q?Wx6aHAm2TfDGr0A7bEVtnGnvAPXtVSzKsTs6cufSVFNGZ2syVmHmBcrX3zu5?=
+ =?us-ascii?Q?eg/dkiMMj/tFM9KhJaRtY3iN9BtMJg7lBG0bTrgkU2B0yYT9WBpN/S9C8Y+A?=
+ =?us-ascii?Q?pg5VdYlLm9IkJ4tjGVpYWCAMg1U+zzS251cTwOsRBM6T3Qm0Qa8SalUpBdkc?=
+ =?us-ascii?Q?2uV/XFqDk15ivm77T5L2V9FbHIwZiX7QmPKZqypNyMW4L/7z+zQ8vfL0Vha1?=
+ =?us-ascii?Q?d246DiZP+wYQJzydwG+zCTfgjUdn6adwtO2AHakRmZkZIL3DfarARcfRcIDp?=
+ =?us-ascii?Q?lVCHFDGEnSnDBb+6rK0BYtbrFPPj3vf9eJeNk7GvHhVIv1oWVyGfpNONF5Va?=
+ =?us-ascii?Q?loCQQM8QTQ7mYq6bpzDEjuuFbDDZO/lLoVcvEOWS?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bcaef49-7147-4ab3-af24-08db2ff79a58
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 01:47:49.8019
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2tw9zAKlCnuhe7fWIU3ARSNuRAKfr3tNA9p8dylrGeWo1agNFNpDYHhEZC7iIXaqTQVAb4iPkSSz+kM5BpXDPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR08MB6708
+X-Spam-Status: No, score=-0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Gergo Koteles <soyer@irl.hu>
+On Sun, Mar 26, 2023 at 11:23:08PM +0200, Hans de Goede wrote:
+> Add a new driver for the Novatek i2c touchscreen controller as found
+> on the Acer Iconia One 7 B1-750 tablet. Unfortunately the touchscreen
+> controller model-number is unknown. Even with the tablet opened up it
+> is impossible to read the model-number.
+> 
+> Android calls this a "NVT-ts" touchscreen, but that may apply to other
+> Novatek controller models too.
+> 
+> This appears to be the same controller as the one supported by
+> https://github.com/advx9600/android/blob/master/touchscreen/NVTtouch_Android4.0/NVTtouch.c
+> but unfortunately that does not give us a model-number either.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-This WMI driver for the tablet mode control switch for Lenovo Yoga
-notebooks was originally written by Gergo Koteles. The mode is mapped to
-a SW_TABLET_MODE switch capable input device.
+Reviewed-by: Jeff LaBundy <jeff@labundy.com>
 
-Andrew followed the suggestions that were posted in reply to Gergo's RFC
-patch, and on the v1 & v2 versions of this patch to follow-up and get it
-merged.
-
-Changes from Gergo's RFC:
-
- - Refactored obtaining a reference to the EC ACPI device needed for the
-   quirk implementation as suggested by Hans de Goede
- - Applied small fixes and switched to always registering handles with
-   the driver for automatic cleanup as suggested by Barnabás Pőcze.
- - Merged the lenovo_ymc_trigger_ec function with the
-   ideapad_trigger_ymc_next_read function since it was no longer
-   external.
- - Added the word "Tablet" to the driver description to hopefully make
-   it more clear.
- - Fixed the LENOVO_YMC_QUERY_METHOD ID and the name string for the EC
-   APCI device trigged for the quirk
- - Triggered the input event on probe so that the initial tablet mode
-   state when the driver is loaded is reported to userspace as suggested
-   by Armin Wolf.
- - Restricted the permissions of the ec_trigger parameter as suggested
-   by Armin Wolf. Also updated the description.
-
-We have tested this on the Yoga 7 14AIL7 for the non-quirk path and on
-the Yoga 7 14ARB7 which has the firmware bug that requires triggering
-the embedded controller to send the mode change events. This workaround
-is also used by the Windows drivers.
-
-According to reports at https://github.com/lukas-w/yoga-usage-mode,
-which uses the same WMI devices, the following models should also work:
-Yoga C940, Ideapad flex 14API, Yoga 9 14IAP7, Yoga 7 14ARB7, etc.
-
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
-Co-developed-by: Andrew Kallmeyer <kallmeyeras@gmail.com>
-Signed-off-by: Andrew Kallmeyer <kallmeyeras@gmail.com>
-Link: https://lore.kernel.org/r/20221004214332.35934-1-soyer@irl.hu/
-Link: https://lore.kernel.org/r/20230310041726.217447-1-kallmeyeras@gmail.com/
-Link: https://lore.kernel.org/r/20230323025200.5462-1-kallmeyeras@gmail.com/
----
- drivers/platform/x86/Kconfig          |  10 ++
- drivers/platform/x86/Makefile         |   1 +
- drivers/platform/x86/ideapad-laptop.h |   1 +
- drivers/platform/x86/lenovo-ymc.c     | 186 ++++++++++++++++++++++++++
- 4 files changed, 198 insertions(+)
- create mode 100644 drivers/platform/x86/lenovo-ymc.c
-
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 5692385e2..858be0c65 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -470,6 +470,16 @@ config IDEAPAD_LAPTOP
- 	  This is a driver for Lenovo IdeaPad netbooks contains drivers for
- 	  rfkill switch, hotkey, fan control and backlight control.
- 
-+config LENOVO_YMC
-+	tristate "Lenovo Yoga Tablet Mode Control"
-+	depends on ACPI_WMI
-+	depends on INPUT
-+	depends on IDEAPAD_LAPTOP
-+	select INPUT_SPARSEKMAP
-+	help
-+	  This driver maps the Tablet Mode Control switch to SW_TABLET_MODE input
-+	  events for Lenovo Yoga notebooks.
-+
- config SENSORS_HDAPS
- 	tristate "Thinkpad Hard Drive Active Protection System (hdaps)"
- 	depends on INPUT
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 1d3d1b025..10054cdea 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -63,6 +63,7 @@ obj-$(CONFIG_UV_SYSFS)       += uv_sysfs.o
- # IBM Thinkpad and Lenovo
- obj-$(CONFIG_IBM_RTL)		+= ibm_rtl.o
- obj-$(CONFIG_IDEAPAD_LAPTOP)	+= ideapad-laptop.o
-+obj-$(CONFIG_LENOVO_YMC)	+= lenovo-ymc.o
- obj-$(CONFIG_SENSORS_HDAPS)	+= hdaps.o
- obj-$(CONFIG_THINKPAD_ACPI)	+= thinkpad_acpi.o
- obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
-diff --git a/drivers/platform/x86/ideapad-laptop.h b/drivers/platform/x86/ideapad-laptop.h
-index 7dd8ce027..2564cb1cd 100644
---- a/drivers/platform/x86/ideapad-laptop.h
-+++ b/drivers/platform/x86/ideapad-laptop.h
-@@ -35,6 +35,7 @@ enum {
- 	VPCCMD_W_FAN,
- 	VPCCMD_R_RF,
- 	VPCCMD_W_RF,
-+	VPCCMD_W_YMC = 0x2A,
- 	VPCCMD_R_FAN = 0x2B,
- 	VPCCMD_R_SPECIAL_BUTTONS = 0x31,
- 	VPCCMD_W_BL_POWER = 0x33,
-diff --git a/drivers/platform/x86/lenovo-ymc.c b/drivers/platform/x86/lenovo-ymc.c
-new file mode 100644
-index 000000000..5e520a764
---- /dev/null
-+++ b/drivers/platform/x86/lenovo-ymc.c
-@@ -0,0 +1,186 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * lenovo-ymc.c - Lenovo Yoga Mode Control driver
-+ *
-+ * Copyright © 2022 Gergo Koteles <soyer@irl.hu>
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/acpi.h>
-+#include <linux/dmi.h>
-+#include <linux/input.h>
-+#include <linux/input/sparse-keymap.h>
-+#include <linux/wmi.h>
-+#include "ideapad-laptop.h"
-+
-+#define LENOVO_YMC_EVENT_GUID	"06129D99-6083-4164-81AD-F092F9D773A6"
-+#define LENOVO_YMC_QUERY_GUID	"09B0EE6E-C3FD-4243-8DA1-7911FF80BB8C"
-+
-+#define LENOVO_YMC_QUERY_INSTANCE 0
-+#define LENOVO_YMC_QUERY_METHOD 0x01
-+
-+static bool ec_trigger __read_mostly;
-+module_param(ec_trigger, bool, 0444);
-+MODULE_PARM_DESC(ec_trigger, "Enable EC triggering work-around to force emitting tablet mode events");
-+
-+static const struct dmi_system_id ec_trigger_quirk_dmi_table[] = {
-+	{
-+		// Lenovo Yoga 7 14ARB7
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "82QF"),
-+		},
-+	},
-+	{ },
-+};
-+
-+struct lenovo_ymc_private {
-+	struct input_dev *input_dev;
-+	struct acpi_device *ec_acpi_dev;
-+};
-+
-+static void lenovo_ymc_trigger_ec(struct wmi_device *wdev, struct lenovo_ymc_private *priv)
-+{
-+	int err;
-+	if (!priv->ec_acpi_dev)
-+		return;
-+	err = write_ec_cmd(priv->ec_acpi_dev->handle, VPCCMD_W_YMC, 1);
-+	if (err)
-+		dev_warn(&wdev->dev, "Could not write YMC: %d\n", err);
-+}
-+
-+static const struct key_entry lenovo_ymc_keymap[] = {
-+	// Laptop
-+	{ KE_SW, 0x01, { .sw = { SW_TABLET_MODE, 0 } } },
-+	// Tablet
-+	{ KE_SW, 0x02, { .sw = { SW_TABLET_MODE, 1 } } },
-+	// Drawing Board
-+	{ KE_SW, 0x03, { .sw = { SW_TABLET_MODE, 1 } } },
-+	// Tent
-+	{ KE_SW, 0x04, { .sw = { SW_TABLET_MODE, 1 } } },
-+	{ KE_END },
-+};
-+
-+static void lenovo_ymc_notify(struct wmi_device *wdev, union acpi_object *data)
-+{
-+	struct lenovo_ymc_private *priv = dev_get_drvdata(&wdev->dev);
-+
-+	u32 input_val = 0;
-+	struct acpi_buffer input = {sizeof(input_val), &input_val};
-+	struct acpi_buffer output = {ACPI_ALLOCATE_BUFFER, NULL};
-+	acpi_status status;
-+	union acpi_object *obj;
-+	int code;
-+
-+	status = wmi_evaluate_method(LENOVO_YMC_QUERY_GUID,
-+				LENOVO_YMC_QUERY_INSTANCE,
-+				LENOVO_YMC_QUERY_METHOD,
-+				&input, &output);
-+
-+	if (ACPI_FAILURE(status)) {
-+		dev_warn(&wdev->dev,
-+			"Failed to evaluate query method: %s\n",
-+			acpi_format_exception(status));
-+		return;
-+	}
-+
-+	obj = output.pointer;
-+
-+	if (obj->type != ACPI_TYPE_INTEGER) {
-+		dev_warn(&wdev->dev,
-+			"WMI event data is not an integer\n");
-+		goto free_obj;
-+	}
-+	code = obj->integer.value;
-+
-+	if (!sparse_keymap_report_event(priv->input_dev, code, 1, true))
-+		dev_warn(&wdev->dev, "Unknown key %d pressed\n", code);
-+
-+free_obj:
-+	kfree(obj);
-+	lenovo_ymc_trigger_ec(wdev, priv);
-+}
-+
-+static void acpi_dev_put_helper(void *p) { acpi_dev_put(p); }
-+
-+static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
-+{
-+	struct input_dev *input_dev;
-+	struct lenovo_ymc_private *priv;
-+	int err;
-+
-+	ec_trigger |= dmi_check_system(ec_trigger_quirk_dmi_table);
-+
-+	priv = devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	if (ec_trigger) {
-+		pr_debug("Lenovo YMC enable EC triggering.\n");
-+		priv->ec_acpi_dev = acpi_dev_get_first_match_dev("VPC2004", NULL, -1);
-+
-+		if (!priv->ec_acpi_dev) {
-+			dev_err(&wdev->dev, "Could not find EC ACPI device.\n");
-+			return -ENODEV;
-+		}
-+		err = devm_add_action_or_reset(&wdev->dev,
-+				acpi_dev_put_helper, priv->ec_acpi_dev);
-+		if (err) {
-+			dev_err(&wdev->dev,
-+				"Could not clean up EC ACPI device: %d\n", err);
-+			return err;
-+		}
-+	}
-+
-+	input_dev = devm_input_allocate_device(&wdev->dev);
-+	if (!input_dev)
-+		return -ENOMEM;
-+
-+	input_dev->name = "Lenovo Yoga Tablet Mode Control switch";
-+	input_dev->phys = LENOVO_YMC_EVENT_GUID "/input0";
-+	input_dev->id.bustype = BUS_HOST;
-+	input_dev->dev.parent = &wdev->dev;
-+	err = sparse_keymap_setup(input_dev, lenovo_ymc_keymap, NULL);
-+	if (err) {
-+		dev_err(&wdev->dev,
-+			"Could not set up input device keymap: %d\n", err);
-+		return err;
-+	}
-+
-+	err = input_register_device(input_dev);
-+	if (err) {
-+		dev_err(&wdev->dev,
-+			"Could not register input device: %d\n", err);
-+		return err;
-+	}
-+
-+	priv->input_dev = input_dev;
-+	dev_set_drvdata(&wdev->dev, priv);
-+
-+	// Report the state for the first time on probe
-+	lenovo_ymc_trigger_ec(wdev, priv);
-+	lenovo_ymc_notify(wdev, NULL);
-+	return 0;
-+}
-+
-+static const struct wmi_device_id lenovo_ymc_wmi_id_table[] = {
-+	{ .guid_string = LENOVO_YMC_EVENT_GUID },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(wmi, lenovo_ymc_wmi_id_table);
-+
-+static struct wmi_driver lenovo_ymc_driver = {
-+	.driver = {
-+		.name = "lenovo-ymc",
-+	},
-+	.id_table = lenovo_ymc_wmi_id_table,
-+	.probe = lenovo_ymc_probe,
-+	.notify = lenovo_ymc_notify,
-+};
-+
-+module_wmi_driver(lenovo_ymc_driver);
-+
-+MODULE_AUTHOR("Gergo Koteles <soyer@irl.hu>");
-+MODULE_DESCRIPTION("Lenovo Yoga Mode Control driver");
-+MODULE_LICENSE("GPL");
--- 
-2.40.0
-
+> ---
+>  MAINTAINERS                                |   6 +
+>  drivers/input/touchscreen/Kconfig          |  10 +
+>  drivers/input/touchscreen/Makefile         |   1 +
+>  drivers/input/touchscreen/novatek-nvt-ts.c | 289 +++++++++++++++++++++
+>  4 files changed, 306 insertions(+)
+>  create mode 100644 drivers/input/touchscreen/novatek-nvt-ts.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 08b7178d645b..30b57a4afe9e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14788,6 +14788,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/nolibc.git
+>  F:	tools/include/nolibc/
+>  F:	tools/testing/selftests/nolibc/
+>  
+> +NOVATEK NVT-TS I2C TOUCHSCREEN DRIVER
+> +M:	Hans de Goede <hdegoede@redhat.com>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/input/touchscreen/novatek-nvt-ts.c
+> +
+>  NSDEPS
+>  M:	Matthias Maennich <maennich@google.com>
+>  S:	Maintained
+> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+> index 1a2049b336a6..1feecd7ed3cb 100644
+> --- a/drivers/input/touchscreen/Kconfig
+> +++ b/drivers/input/touchscreen/Kconfig
+> @@ -654,6 +654,16 @@ config TOUCHSCREEN_MTOUCH
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called mtouch.
+>  
+> +config TOUCHSCREEN_NOVATEK_NVT_TS
+> +	tristate "Novatek NVT-ts touchscreen support"
+> +	depends on I2C
+> +	help
+> +	  Say Y here if you have a Novatek NVT-ts touchscreen.
+> +	  If unsure, say N.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called novatek-nvt-ts.
+> +
+>  config TOUCHSCREEN_IMAGIS
+>  	tristate "Imagis touchscreen support"
+>  	depends on I2C
+> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+> index f2fd28cc34a6..159cd5136fdb 100644
+> --- a/drivers/input/touchscreen/Makefile
+> +++ b/drivers/input/touchscreen/Makefile
+> @@ -67,6 +67,7 @@ obj-$(CONFIG_TOUCHSCREEN_MMS114)	+= mms114.o
+>  obj-$(CONFIG_TOUCHSCREEN_MSG2638)	+= msg2638.o
+>  obj-$(CONFIG_TOUCHSCREEN_MTOUCH)	+= mtouch.o
+>  obj-$(CONFIG_TOUCHSCREEN_MK712)		+= mk712.o
+> +obj-$(CONFIG_TOUCHSCREEN_NOVATEK_NVT_TS)	+= novatek-nvt-ts.o
+>  obj-$(CONFIG_TOUCHSCREEN_HP600)		+= hp680_ts_input.o
+>  obj-$(CONFIG_TOUCHSCREEN_HP7XX)		+= jornada720_ts.o
+>  obj-$(CONFIG_TOUCHSCREEN_IPAQ_MICRO)	+= ipaq-micro-ts.o
+> diff --git a/drivers/input/touchscreen/novatek-nvt-ts.c b/drivers/input/touchscreen/novatek-nvt-ts.c
+> new file mode 100644
+> index 000000000000..f959e7b14ad6
+> --- /dev/null
+> +++ b/drivers/input/touchscreen/novatek-nvt-ts.c
+> @@ -0,0 +1,289 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Driver for Novatek i2c touchscreen controller as found on
+> + * the Acer Iconia One 7 B1-750 tablet. The Touchscreen controller
+> + * model-number is unknown. Android calls this a "NVT-ts" touchscreen,
+> + * but that may apply to other Novatek controller models too.
+> + *
+> + * Copyright (c) 2023 Hans de Goede <hdegoede@redhat.com>
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/i2c.h>
+> +#include <linux/input.h>
+> +#include <linux/input/mt.h>
+> +#include <linux/input/touchscreen.h>
+> +#include <linux/module.h>
+> +
+> +#include <asm/unaligned.h>
+> +
+> +#define NVT_TS_TOUCH_START		0x00
+> +#define NVT_TS_TOUCH_SIZE		6
+> +
+> +#define NVT_TS_PARAMETERS_START		0x78
+> +/* These are offsets from NVT_TS_PARAMETERS_START */
+> +#define NVT_TS_PARAMS_WIDTH		0x04
+> +#define NVT_TS_PARAMS_HEIGHT		0x06
+> +#define NVT_TS_PARAMS_MAX_TOUCH		0x09
+> +#define NVT_TS_PARAMS_MAX_BUTTONS	0x0a
+> +#define NVT_TS_PARAMS_IRQ_TYPE		0x0b
+> +#define NVT_TS_PARAMS_WAKE_TYPE		0x0c
+> +#define NVT_TS_PARAMS_CHIP_ID		0x0e
+> +#define NVT_TS_PARAMS_SIZE		0x0f
+> +
+> +#define NVT_TS_SUPPORTED_WAKE_TYPE	0x05
+> +#define NVT_TS_SUPPORTED_CHIP_ID	0x05
+> +
+> +#define NVT_TS_MAX_TOUCHES		10
+> +#define NVT_TS_MAX_SIZE			4096
+> +
+> +#define NVT_TS_TOUCH_INVALID		0xff
+> +#define NVT_TS_TOUCH_SLOT_SHIFT		3
+> +#define NVT_TS_TOUCH_TYPE_MASK		GENMASK(2, 0)
+> +#define NVT_TS_TOUCH_NEW		1
+> +#define NVT_TS_TOUCH_UPDATE		2
+> +#define NVT_TS_TOUCH_RELEASE		3
+> +
+> +static const int nvt_ts_irq_type[4] = {
+> +	IRQF_TRIGGER_RISING,
+> +	IRQF_TRIGGER_FALLING,
+> +	IRQF_TRIGGER_LOW,
+> +	IRQF_TRIGGER_HIGH
+> +};
+> +
+> +struct nvt_ts_data {
+> +	struct i2c_client *client;
+> +	struct input_dev *input;
+> +	struct gpio_desc *reset_gpio;
+> +	struct touchscreen_properties prop;
+> +	int max_touches;
+> +	u8 buf[NVT_TS_TOUCH_SIZE * NVT_TS_MAX_TOUCHES];
+> +};
+> +
+> +static int nvt_ts_read_data(struct i2c_client *client, u8 reg, u8 *data, int count)
+> +{
+> +	struct i2c_msg msg[2] = {
+> +		{
+> +			.addr = client->addr,
+> +			.len = 1,
+> +			.buf = &reg,
+> +		},
+> +		{
+> +			.addr = client->addr,
+> +			.flags = I2C_M_RD,
+> +			.len = count,
+> +			.buf = data,
+> +		}
+> +	};
+> +	int ret;
+> +
+> +	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
+> +	if (ret != ARRAY_SIZE(msg)) {
+> +		dev_err(&client->dev, "Error reading from 0x%02x: %d\n", reg, ret);
+> +		return (ret < 0) ? ret : -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static irqreturn_t nvt_ts_irq(int irq, void *dev_id)
+> +{
+> +	struct nvt_ts_data *data = dev_id;
+> +	struct device *dev = &data->client->dev;
+> +	int i, error, slot, x, y;
+> +	bool active;
+> +	u8 *touch;
+> +
+> +	error = nvt_ts_read_data(data->client, NVT_TS_TOUCH_START, data->buf,
+> +				 data->max_touches * NVT_TS_TOUCH_SIZE);
+> +	if (error)
+> +		return IRQ_HANDLED;
+> +
+> +	for (i = 0; i < data->max_touches; i++) {
+> +		touch = &data->buf[i * NVT_TS_TOUCH_SIZE];
+> +
+> +		if (touch[0] == NVT_TS_TOUCH_INVALID)
+> +			continue;
+> +
+> +		slot = touch[0] >> NVT_TS_TOUCH_SLOT_SHIFT;
+> +		if (slot < 1 || slot > data->max_touches) {
+> +			dev_warn(dev, "slot %d out of range, ignoring\n", slot);
+> +			continue;
+> +		}
+> +
+> +		switch (touch[0] & NVT_TS_TOUCH_TYPE_MASK) {
+> +		case NVT_TS_TOUCH_NEW:
+> +		case NVT_TS_TOUCH_UPDATE:
+> +			active = true;
+> +			break;
+> +		case NVT_TS_TOUCH_RELEASE:
+> +			active = false;
+> +			break;
+> +		default:
+> +			dev_warn(dev, "slot %d unknown state %d\n", slot, touch[0] & 7);
+> +			continue;
+> +		}
+> +
+> +		slot--;
+> +		x = (touch[1] << 4) | (touch[3] >> 4);
+> +		y = (touch[2] << 4) | (touch[3] & 0x0f);
+> +
+> +		input_mt_slot(data->input, slot);
+> +		input_mt_report_slot_state(data->input, MT_TOOL_FINGER, active);
+> +		touchscreen_report_pos(data->input, &data->prop, x, y, true);
+> +	}
+> +
+> +	input_mt_sync_frame(data->input);
+> +	input_sync(data->input);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int nvt_ts_start(struct input_dev *dev)
+> +{
+> +	struct nvt_ts_data *data = input_get_drvdata(dev);
+> +
+> +	enable_irq(data->client->irq);
+> +	gpiod_set_value_cansleep(data->reset_gpio, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static void nvt_ts_stop(struct input_dev *dev)
+> +{
+> +	struct nvt_ts_data *data = input_get_drvdata(dev);
+> +
+> +	disable_irq(data->client->irq);
+> +	gpiod_set_value_cansleep(data->reset_gpio, 1);
+> +}
+> +
+> +static int nvt_ts_suspend(struct device *dev)
+> +{
+> +	struct nvt_ts_data *data = i2c_get_clientdata(to_i2c_client(dev));
+> +
+> +	mutex_lock(&data->input->mutex);
+> +	if (input_device_enabled(data->input))
+> +		nvt_ts_stop(data->input);
+> +	mutex_unlock(&data->input->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int nvt_ts_resume(struct device *dev)
+> +{
+> +	struct nvt_ts_data *data = i2c_get_clientdata(to_i2c_client(dev));
+> +
+> +	mutex_lock(&data->input->mutex);
+> +	if (input_device_enabled(data->input))
+> +		nvt_ts_start(data->input);
+> +	mutex_unlock(&data->input->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(nvt_ts_pm_ops, nvt_ts_suspend, nvt_ts_resume);
+> +
+> +static int nvt_ts_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	int error, width, height, irq_type;
+> +	struct nvt_ts_data *data;
+> +	struct input_dev *input;
+> +
+> +	if (!client->irq) {
+> +		dev_err(dev, "Error no irq specified\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->client = client;
+> +	i2c_set_clientdata(client, data);
+> +
+> +	data->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(data->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(data->reset_gpio), "requesting reset GPIO\n");
+> +
+> +	/* Wait for controller to come out of reset before params read */
+> +	msleep(100);
+> +	error = nvt_ts_read_data(data->client, NVT_TS_PARAMETERS_START, data->buf,
+> +				 NVT_TS_PARAMS_SIZE);
+> +	gpiod_set_value_cansleep(data->reset_gpio, 1); /* Put back in reset */
+> +	if (error)
+> +		return error;
+> +
+> +	width  = get_unaligned_be16(&data->buf[NVT_TS_PARAMS_WIDTH]);
+> +	height = get_unaligned_be16(&data->buf[NVT_TS_PARAMS_HEIGHT]);
+> +	data->max_touches = data->buf[NVT_TS_PARAMS_MAX_TOUCH];
+> +	irq_type = data->buf[NVT_TS_PARAMS_IRQ_TYPE];
+> +
+> +	if (width > NVT_TS_MAX_SIZE || height >= NVT_TS_MAX_SIZE ||
+> +	    data->max_touches > NVT_TS_MAX_TOUCHES ||
+> +	    irq_type >= ARRAY_SIZE(nvt_ts_irq_type) ||
+> +	    data->buf[NVT_TS_PARAMS_WAKE_TYPE] != NVT_TS_SUPPORTED_WAKE_TYPE ||
+> +	    data->buf[NVT_TS_PARAMS_CHIP_ID] != NVT_TS_SUPPORTED_CHIP_ID) {
+> +		dev_err(dev, "Unsupported touchscreen parameters: %*ph\n",
+> +			NVT_TS_PARAMS_SIZE, data->buf);
+> +		return -EIO;
+> +	}
+> +
+> +	dev_dbg(dev, "Detected %dx%d touchscreen with %d max touches\n",
+> +		width, height, data->max_touches);
+> +
+> +	if (data->buf[NVT_TS_PARAMS_MAX_BUTTONS])
+> +		dev_warn(dev, "Touchscreen buttons are not supported\n");
+> +
+> +	input = devm_input_allocate_device(dev);
+> +	if (!input)
+> +		return -ENOMEM;
+> +
+> +	input->name = client->name;
+> +	input->id.bustype = BUS_I2C;
+> +	input->open = nvt_ts_start;
+> +	input->close = nvt_ts_stop;
+> +
+> +	input_set_abs_params(input, ABS_MT_POSITION_X, 0, width - 1, 0, 0);
+> +	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, height - 1, 0, 0);
+> +	touchscreen_parse_properties(input, true, &data->prop);
+> +
+> +	error = input_mt_init_slots(input, data->max_touches,
+> +				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+> +	if (error)
+> +		return error;
+> +
+> +	data->input = input;
+> +	input_set_drvdata(input, data);
+> +
+> +	error = devm_request_threaded_irq(dev, client->irq, NULL, nvt_ts_irq,
+> +					  IRQF_ONESHOT | IRQF_NO_AUTOEN | nvt_ts_irq_type[irq_type],
+> +					  client->name, data);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "requesting irq\n");
+> +
+> +	return input_register_device(input);
+> +}
+> +
+> +static const struct i2c_device_id nvt_ts_i2c_id[] = {
+> +	{ "NVT-ts" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, nvt_ts_i2c_id);
+> +
+> +static struct i2c_driver nvt_ts_driver = {
+> +	.driver = {
+> +		.name	= "novatek-nvt-ts",
+> +		.pm	= pm_sleep_ptr(&nvt_ts_pm_ops),
+> +	},
+> +	.probe_new = nvt_ts_probe,
+> +	.id_table = nvt_ts_i2c_id,
+> +};
+> +
+> +module_i2c_driver(nvt_ts_driver);
+> +
+> +MODULE_DESCRIPTION("Novatek NVT-ts touchscreen driver");
+> +MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.39.1
+> 
