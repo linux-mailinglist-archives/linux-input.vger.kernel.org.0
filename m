@@ -2,68 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA9DF6CCD40
-	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 00:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 088C86CCF93
+	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 03:46:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229549AbjC1Wcl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Mar 2023 18:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56296 "EHLO
+        id S229604AbjC2Bq3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Mar 2023 21:46:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjC1Wcj (ORCPT
+        with ESMTP id S229451AbjC2Bq1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Mar 2023 18:32:39 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 437372D5A;
-        Tue, 28 Mar 2023 15:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680042757; x=1711578757;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O6iGX/spmgumjalDiRYYo6+WOgQCrqrmZru8HZWfn4Q=;
-  b=CySTMMN/UbneWeXacE36ISV1XsZYZKAJn3eXThBn49GtDT90ielgTt4B
-   E4OQwBZrmXUgvj3+exO8eAaQ0UgY4CsVskgh0fyVaBWbygTQkmda41k8N
-   99HHEbpwzEsoKYLjFK4MS+dqW8+b/qsAjnkQ9kHriDQbZx1PHzkuDal/3
-   9GKcDG1ExBb9WMF0pMSOa3drlkrgsjdKMmKEuJ2HUBU6tpJV2mitmY3xn
-   Kto/qQVT0YyRkcD43E7vZWrA3IjqZ7jG4G+Qjy29UYM2c3RsPOltoXFid
-   Ih98OZUgZBVzxMULu7Ip2+K9WDWw4RluxOA8OioCWqC1m+46r2EvJzX+O
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340735062"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="340735062"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP; 28 Mar 2023 15:27:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="716643600"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="716643600"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 28 Mar 2023 15:22:23 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1phHhu-000IvV-1Z;
-        Tue, 28 Mar 2023 22:22:22 +0000
-Date:   Wed, 29 Mar 2023 06:21:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Torsha Banerjee <torsha@chromium.org>, u-boot@lists.denx.de
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Jora Jacobi <jora@google.com>,
-        Torsha Banerjee <torsha@google.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Series-to: Fred Bloggs <f.blogs@napier.co.nz> Series-cc:
- Sean O'Brien <seobrien@chromium.org> HID: input:  Restore missing cursor for
- digitizer devices
-Message-ID: <202303290657.v6bveeLJ-lkp@intel.com>
-References: <20230328161119.1.I40a8881b83b0e440ed5368d98b42a2d9a0c105aa@changeid>
+        Tue, 28 Mar 2023 21:46:27 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A318D19B2;
+        Tue, 28 Mar 2023 18:46:26 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id c18so13469158ple.11;
+        Tue, 28 Mar 2023 18:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680054386;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bGJF3zw9bpsw9KwvV5w/b8rbDQOZMSiRG/jlCaUfUw4=;
+        b=jQthCR6i7krS4xherxu+OYOa5MW55Ew1zAjQfGewGWlrCni4axXi2qpxhQjZ95O+S/
+         o63SSdh6IMKFoaqgXJJk2TcOKr/r3MXfkVgCIBl3K/PJMUQ9+NZvNnzKqAqRB0j2hW/F
+         4TUJhhmlsgmtMr4SxRiKFvUMMredpeSPQxFjr7xHemAMbuzWIgOFiZi783G9xL7o4O6a
+         IU8eTxq3OeNGylnlbOoVZTZv/h6N5pg/ko/qcpqioQPwANYqrQ3cM1P4PCgpRBL+ynEI
+         YoPW8b/YuQRqWRzuLN7+5o0GKWOi1R2K+jN6WjZi9SOiAxM0HsvLZ1PGjgtDunOn6c8W
+         tBrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680054386;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bGJF3zw9bpsw9KwvV5w/b8rbDQOZMSiRG/jlCaUfUw4=;
+        b=bNyeQNdYaWf5cXD3vkMgqaa8nlxlYHA1BM5/fqKs0cfNfIrDDrUX8YdGG42U6A2etJ
+         saiYDdL/Avv7x/wkpesoEUWpc8Giz61liv0KXQ9lIC24zbijKLZeB76SnPxzJPaeyTdk
+         M5d0p+S8svaAO/Btah3GBXNmIUWnixBMfcmdmr5OP8jhElyq18GDim99Sjsj4W1m9nIU
+         iOY87FlMY51JZx84lQHw1nMuhJf6GsuXHN+4YGI4vjkzUN7fRVJWdHRuV9l+g19etHJi
+         P6VnYpReFRYXzLULtAwy+mHR9S2KDzbz5vy5TixroIGIw5/tcngmkkznMa8Oq7H5sYTH
+         amRw==
+X-Gm-Message-State: AAQBX9cQX5WFYqtvGkIqQIcmXv6Wyd5jF7drAgfBGHZbaWK04K0D60C9
+        VznN4r98NyzTaWa/2jjS8XWTBBPYpq+JhA==
+X-Google-Smtp-Source: AKy350Z9pNIDYbtOj43Rd5gPI/FhoBO6flJNiEiyDJy706d1NE9q66EeQss8u8Ku70ne77zWxNbN/Q==
+X-Received: by 2002:a17:90b:3b4d:b0:240:3dc7:4939 with SMTP id ot13-20020a17090b3b4d00b002403dc74939mr21470894pjb.27.1680054385859;
+        Tue, 28 Mar 2023 18:46:25 -0700 (PDT)
+Received: from localhost.localdomain ([47.147.242.129])
+        by smtp.gmail.com with ESMTPSA id nv8-20020a17090b1b4800b00233cde36909sm203918pjb.21.2023.03.28.18.46.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Mar 2023 18:46:25 -0700 (PDT)
+From:   Andrew Kallmeyer <kallmeyeras@gmail.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Andrew Kallmeyer <kallmeyeras@gmail.com>,
+        Gergo Koteles <soyer@irl.hu>,
+        Ike Panhc <ike.pan@canonical.com>, linux-input@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Armin Wolf <W_Armin@gmx.de>,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>
+Subject: [PATCH v3 0/2] platform/x86: Add driver for Yoga Tablet mode switch
+Date:   Tue, 28 Mar 2023 18:45:57 -0700
+Message-Id: <20230329014559.44494-1-kallmeyeras@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230328161119.1.I40a8881b83b0e440ed5368d98b42a2d9a0c105aa@changeid>
-X-Spam-Status: No, score=-1.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,UPPERCASE_75_100 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,233 +74,114 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Torsha,
+This driver maps the Lenovo Yoga tablet mode switch to a SW_TABLET_MODE input
+device. This will make the tablet status available to desktop environments.
 
-Thank you for the patch! Yet something to improve:
+This patch series is the result of the discussion at
+https://lore.kernel.org/r/CAG4kvq9US=-NjyXFMzJYu2zCJryJWtOc7FGZbrewpgCDjdAkbg@mail.gmail.com/
 
-[auto build test ERROR on v6.3-rc4]
-[also build test ERROR on linus/master next-20230328]
-[cannot apply to hid/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I decided to follow-up on the patch Gergo wrote and respond to the review
+comments to get it merged and available for everyone.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Torsha-Banerjee/Series-to-Fred-Bloggs-f-blogs-napier-co-nz-Series-cc-Sean-O-Brien-seobrien-chromium-org-HID-input-Restore-missing-cursor/20230329-001305
-patch link:    https://lore.kernel.org/r/20230328161119.1.I40a8881b83b0e440ed5368d98b42a2d9a0c105aa%40changeid
-patch subject: [PATCH] Series-to: Fred Bloggs <f.blogs@napier.co.nz> Series-cc: Sean O'Brien <seobrien@chromium.org> HID: input:  Restore missing cursor for digitizer devices
-config: i386-randconfig-a012-20230327 (https://download.01.org/0day-ci/archive/20230329/202303290657.v6bveeLJ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/15e6cca84ddc6ef20ce0e540e439b1e976006f0b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Torsha-Banerjee/Series-to-Fred-Bloggs-f-blogs-napier-co-nz-Series-cc-Sean-O-Brien-seobrien-chromium-org-HID-input-Restore-missing-cursor/20230329-001305
-        git checkout 15e6cca84ddc6ef20ce0e540e439b1e976006f0b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
+Gergo and I have tested this on the Yoga 7 14ARB7, and the Yoga 7 14AIL7
+respectively. Additionally, according to reports at
+https://github.com/lukas-w/yoga-usage-mode, which uses the same WMI devices,
+this driver should work with:
+Yoga C940, Ideapad flex 14API, Yoga 9 14IAP7, Yoga 7 14ARB7, etc.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290657.v6bveeLJ-lkp@intel.com/
+v1: https://lore.kernel.org/r/20230310041726.217447-1-kallmeyeras@gmail.com/
+v2: https://lore.kernel.org/r/20230323025200.5462-1-kallmeyeras@gmail.com/
+The diff since v2 is as follows:
 
-All errors (new ones prefixed by >>):
+--- a/drivers/platform/x86/lenovo-ymc.c
++++ b/drivers/platform/x86/lenovo-ymc.c
+@@ -21,8 +21,8 @@
+ #define LENOVO_YMC_QUERY_METHOD 0x01
+ 
+ static bool ec_trigger __read_mostly;
+-module_param(ec_trigger, bool, 0644);
+-MODULE_PARM_DESC(ec_trigger, "Enable EC triggering to emit YMC events");
++module_param(ec_trigger, bool, 0444);
++MODULE_PARM_DESC(ec_trigger, "Enable EC triggering work-around to force emitting tablet mode events");
+ 
+ static const struct dmi_system_id ec_trigger_quirk_dmi_table[] = {
+ 	{
+@@ -43,8 +43,7 @@ struct lenovo_ymc_private {
+ static void lenovo_ymc_trigger_ec(struct wmi_device *wdev, struct lenovo_ymc_private *priv)
+ {
+ 	int err;
+-
+-	if (!ec_trigger || !priv || !priv->ec_acpi_dev)
++	if (!priv->ec_acpi_dev)
+ 		return;
+ 	err = write_ec_cmd(priv->ec_acpi_dev->handle, VPCCMD_W_YMC, 1);
+ 	if (err)
+@@ -103,11 +102,7 @@ static void lenovo_ymc_notify(struct wmi_device *wdev, union acpi_object *data)
+ 	lenovo_ymc_trigger_ec(wdev, priv);
+ }
+ 
+-static void lenovo_ymc_remove(struct wmi_device *wdev)
+-{
+-	struct lenovo_ymc_private *priv = dev_get_drvdata(&wdev->dev);
+-	acpi_dev_put(priv->ec_acpi_dev);
+-}
++static void acpi_dev_put_helper(void *p) { acpi_dev_put(p); }
+ 
+ static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
+ {
+@@ -124,10 +119,18 @@ static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
+ 	if (ec_trigger) {
+ 		pr_debug("Lenovo YMC enable EC triggering.\n");
+ 		priv->ec_acpi_dev = acpi_dev_get_first_match_dev("VPC2004", NULL, -1);
++
+ 		if (!priv->ec_acpi_dev) {
+ 			dev_err(&wdev->dev, "Could not find EC ACPI device.\n");
+ 			return -ENODEV;
+ 		}
++		err = devm_add_action_or_reset(&wdev->dev,
++				acpi_dev_put_helper, priv->ec_acpi_dev);
++		if (err) {
++			dev_err(&wdev->dev,
++				"Could not clean up EC ACPI device: %d\n", err);
++			return err;
++		}
+ 	}
+ 
+ 	input_dev = devm_input_allocate_device(&wdev->dev);
+@@ -138,9 +141,6 @@ static int lenovo_ymc_probe(struct wmi_device *wdev, const void *ctx)
+ 	input_dev->phys = LENOVO_YMC_EVENT_GUID "/input0";
+ 	input_dev->id.bustype = BUS_HOST;
+ 	input_dev->dev.parent = &wdev->dev;
+-
+-	input_set_capability(input_dev, EV_SW, SW_TABLET_MODE);
+-
+ 	err = sparse_keymap_setup(input_dev, lenovo_ymc_keymap, NULL);
+ 	if (err) {
+ 		dev_err(&wdev->dev,
+@@ -177,7 +177,6 @@ static struct wmi_driver lenovo_ymc_driver = {
+ 	.id_table = lenovo_ymc_wmi_id_table,
+ 	.probe = lenovo_ymc_probe,
+ 	.notify = lenovo_ymc_notify,
+-	.remove = lenovo_ymc_remove,
+ };
+ 
+ module_wmi_driver(lenovo_ymc_driver);
 
->> drivers/hid/hid-quirks.c:105:40: error: use of undeclared identifier 'USB_DEVICE_ID_HUION_HS64'
-           { HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_HS64), HID_QUIRK_DEVICE_IS_DIGITIZER },
-                                                 ^
-   1 error generated.
+Andrew Kallmeyer (1):
+  platform/x86: Move ideapad ACPI helpers to a new header
 
+Gergo Koteles (1):
+  platform/x86: Add driver for Yoga Tablet Mode switch
 
-vim +/USB_DEVICE_ID_HUION_HS64 +105 drivers/hid/hid-quirks.c
-
-    22	
-    23	/*
-    24	 * Alphabetically sorted by vendor then product.
-    25	 */
-    26	
-    27	static const struct hid_device_id hid_quirks[] = {
-    28		{ HID_USB_DEVICE(USB_VENDOR_ID_AASHIMA, USB_DEVICE_ID_AASHIMA_GAMEPAD), HID_QUIRK_BADPAD },
-    29		{ HID_USB_DEVICE(USB_VENDOR_ID_AASHIMA, USB_DEVICE_ID_AASHIMA_PREDATOR), HID_QUIRK_BADPAD },
-    30		{ HID_USB_DEVICE(USB_VENDOR_ID_AFATECH, USB_DEVICE_ID_AFATECH_AF9016), HID_QUIRK_FULLSPEED_INTERVAL },
-    31		{ HID_USB_DEVICE(USB_VENDOR_ID_AIREN, USB_DEVICE_ID_AIREN_SLIMPLUS), HID_QUIRK_NOGET },
-    32		{ HID_USB_DEVICE(USB_VENDOR_ID_AKAI_09E8, USB_DEVICE_ID_AKAI_09E8_MIDIMIX), HID_QUIRK_NO_INIT_REPORTS },
-    33		{ HID_USB_DEVICE(USB_VENDOR_ID_AKAI, USB_DEVICE_ID_AKAI_MPKMINI2), HID_QUIRK_NO_INIT_REPORTS },
-    34		{ HID_USB_DEVICE(USB_VENDOR_ID_ALPS, USB_DEVICE_ID_IBM_GAMEPAD), HID_QUIRK_BADPAD },
-    35		{ HID_USB_DEVICE(USB_VENDOR_ID_AMI, USB_DEVICE_ID_AMI_VIRT_KEYBOARD_AND_MOUSE), HID_QUIRK_ALWAYS_POLL },
-    36		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_2PORTKVM), HID_QUIRK_NOGET },
-    37		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_4PORTKVMC), HID_QUIRK_NOGET },
-    38		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_4PORTKVM), HID_QUIRK_NOGET },
-    39		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_CS124U), HID_QUIRK_NOGET },
-    40		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_CS1758), HID_QUIRK_NOGET },
-    41		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_CS682), HID_QUIRK_NOGET },
-    42		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_CS692), HID_QUIRK_NOGET },
-    43		{ HID_USB_DEVICE(USB_VENDOR_ID_ATEN, USB_DEVICE_ID_ATEN_UC100KM), HID_QUIRK_NOGET },
-    44		{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_MULTI_TOUCH), HID_QUIRK_MULTI_INPUT },
-    45		{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
-    46		{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE2), HID_QUIRK_ALWAYS_POLL },
-    47		{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS), HID_QUIRK_MULTI_INPUT },
-    48		{ HID_USB_DEVICE(USB_VENDOR_ID_CHIC, USB_DEVICE_ID_CHIC_GAMEPAD), HID_QUIRK_BADPAD },
-    49		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_3AXIS_5BUTTON_STICK), HID_QUIRK_NOGET },
-    50		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_AXIS_295), HID_QUIRK_NOGET },
-    51		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_COMBATSTICK), HID_QUIRK_NOGET },
-    52		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_FIGHTERSTICK), HID_QUIRK_NOGET },
-    53		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_FLIGHT_SIM_ECLIPSE_YOKE), HID_QUIRK_NOGET },
-    54		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_FLIGHT_SIM_YOKE), HID_QUIRK_NOGET },
-    55		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_PRO_PEDALS), HID_QUIRK_NOGET },
-    56		{ HID_USB_DEVICE(USB_VENDOR_ID_CH, USB_DEVICE_ID_CH_PRO_THROTTLE), HID_QUIRK_NOGET },
-    57		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_K65RGB), HID_QUIRK_NO_INIT_REPORTS },
-    58		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_K65RGB_RAPIDFIRE), HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_ALWAYS_POLL },
-    59		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_K70RGB), HID_QUIRK_NO_INIT_REPORTS },
-    60		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_K70RGB_RAPIDFIRE), HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_ALWAYS_POLL },
-    61		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_K70R), HID_QUIRK_NO_INIT_REPORTS },
-    62		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_K95RGB), HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_ALWAYS_POLL },
-    63		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_M65RGB), HID_QUIRK_NO_INIT_REPORTS },
-    64		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_GLAIVE_RGB), HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_ALWAYS_POLL },
-    65		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_SCIMITAR_PRO_RGB), HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_ALWAYS_POLL },
-    66		{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_STRAFE), HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_ALWAYS_POLL },
-    67		{ HID_USB_DEVICE(USB_VENDOR_ID_CREATIVELABS, USB_DEVICE_ID_CREATIVE_SB_OMNI_SURROUND_51), HID_QUIRK_NOGET },
-    68		{ HID_USB_DEVICE(USB_VENDOR_ID_DELL, USB_DEVICE_ID_DELL_PIXART_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
-    69		{ HID_USB_DEVICE(USB_VENDOR_ID_DMI, USB_DEVICE_ID_DMI_ENC), HID_QUIRK_NOGET },
-    70		{ HID_USB_DEVICE(USB_VENDOR_ID_DRACAL_RAPHNET, USB_DEVICE_ID_RAPHNET_2NES2SNES), HID_QUIRK_MULTI_INPUT },
-    71		{ HID_USB_DEVICE(USB_VENDOR_ID_DRACAL_RAPHNET, USB_DEVICE_ID_RAPHNET_4NES4SNES), HID_QUIRK_MULTI_INPUT },
-    72		{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_REDRAGON_SEYMUR2), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-    73		{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_DOLPHINBAR), HID_QUIRK_MULTI_INPUT },
-    74		{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE1), HID_QUIRK_MULTI_INPUT },
-    75		{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE3), HID_QUIRK_MULTI_INPUT },
-    76		{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_PS3), HID_QUIRK_MULTI_INPUT },
-    77		{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_WIIU), HID_QUIRK_MULTI_INPUT },
-    78		{ HID_USB_DEVICE(USB_VENDOR_ID_DWAV, USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER), HID_QUIRK_MULTI_INPUT | HID_QUIRK_NOGET },
-    79		{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, HID_ANY_ID), HID_QUIRK_ALWAYS_POLL },
-    80		{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_TS2700), HID_QUIRK_NOGET },
-    81		{ HID_USB_DEVICE(USB_VENDOR_ID_EMS, USB_DEVICE_ID_EMS_TRIO_LINKER_PLUS_II), HID_QUIRK_MULTI_INPUT },
-    82		{ HID_USB_DEVICE(USB_VENDOR_ID_ETURBOTOUCH, USB_DEVICE_ID_ETURBOTOUCH_2968), HID_QUIRK_MULTI_INPUT },
-    83		{ HID_USB_DEVICE(USB_VENDOR_ID_ETURBOTOUCH, USB_DEVICE_ID_ETURBOTOUCH), HID_QUIRK_MULTI_INPUT },
-    84		{ HID_USB_DEVICE(USB_VENDOR_ID_FORMOSA, USB_DEVICE_ID_FORMOSA_IR_RECEIVER), HID_QUIRK_NO_INIT_REPORTS },
-    85		{ HID_USB_DEVICE(USB_VENDOR_ID_FREESCALE, USB_DEVICE_ID_FREESCALE_MX28), HID_QUIRK_NOGET },
-    86		{ HID_USB_DEVICE(USB_VENDOR_ID_FUTABA, USB_DEVICE_ID_LED_DISPLAY), HID_QUIRK_NO_INIT_REPORTS },
-    87		{ HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_SAT_ADAPTOR), HID_QUIRK_MULTI_INPUT },
-    88		{ HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_USB_JOYPAD), HID_QUIRK_MULTI_INPUT },
-    89		{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_GV186),
-    90			HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-    91		{ HID_USB_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_KISHI),
-    92			HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-    93		{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_DRIVING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
-    94		{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FIGHTING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
-    95		{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FLYING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
-    96		{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A096), HID_QUIRK_NO_INIT_REPORTS },
-    97		{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A293), HID_QUIRK_ALWAYS_POLL },
-    98		{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0A4A), HID_QUIRK_ALWAYS_POLL },
-    99		{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0B4A), HID_QUIRK_ALWAYS_POLL },
-   100		{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
-   101		{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A), HID_QUIRK_ALWAYS_POLL },
-   102		{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941), HID_QUIRK_ALWAYS_POLL },
-   103		{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641), HID_QUIRK_ALWAYS_POLL },
-   104		{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
- > 105		{ HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_HS64), HID_QUIRK_DEVICE_IS_DIGITIZER },
-   106		{ HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_TABLET), HID_QUIRK_DEVICE_IS_DIGITIZER },
-   107		{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
-   108		{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
-   109		{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M610X), HID_QUIRK_MULTI_INPUT },
-   110		{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X), HID_QUIRK_MULTI_INPUT },
-   111		{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2), HID_QUIRK_MULTI_INPUT },
-   112		{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M912), HID_QUIRK_MULTI_INPUT },
-   113		{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
-   114		{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
-   115		{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
-   116		{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D), HID_QUIRK_ALWAYS_POLL },
-   117		{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019), HID_QUIRK_ALWAYS_POLL },
-   118		{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E), HID_QUIRK_ALWAYS_POLL },
-   119		{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6093), HID_QUIRK_ALWAYS_POLL },
-   120		{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C007), HID_QUIRK_ALWAYS_POLL },
-   121		{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C077), HID_QUIRK_ALWAYS_POLL },
-   122		{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_KEYBOARD_G710_PLUS), HID_QUIRK_NOGET },
-   123		{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_MOUSE_C01A), HID_QUIRK_ALWAYS_POLL },
-   124		{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_MOUSE_C05A), HID_QUIRK_ALWAYS_POLL },
-   125		{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_MOUSE_C06A), HID_QUIRK_ALWAYS_POLL },
-   126		{ HID_USB_DEVICE(USB_VENDOR_ID_MCS, USB_DEVICE_ID_MCS_GAMEPADBLOCK), HID_QUIRK_MULTI_INPUT },
-   127		{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_MOUSE_0783), HID_QUIRK_ALWAYS_POLL },
-   128		{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_PIXART_MOUSE), HID_QUIRK_ALWAYS_POLL },
-   129		{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_POWER_COVER), HID_QUIRK_NO_INIT_REPORTS },
-   130		{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_SURFACE3_COVER), HID_QUIRK_NO_INIT_REPORTS },
-   131		{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_SURFACE_PRO_2), HID_QUIRK_NO_INIT_REPORTS },
-   132		{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_TOUCH_COVER_2), HID_QUIRK_NO_INIT_REPORTS },
-   133		{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_TYPE_COVER_2), HID_QUIRK_NO_INIT_REPORTS },
-   134		{ HID_USB_DEVICE(USB_VENDOR_ID_MOJO, USB_DEVICE_ID_RETRO_ADAPTER), HID_QUIRK_MULTI_INPUT },
-   135		{ HID_USB_DEVICE(USB_VENDOR_ID_MSI, USB_DEVICE_ID_MSI_GT683R_LED_PANEL), HID_QUIRK_NO_INIT_REPORTS },
-   136		{ HID_USB_DEVICE(USB_VENDOR_ID_MULTIPLE_1781, USB_DEVICE_ID_RAPHNET_4NES4SNES_OLD), HID_QUIRK_MULTI_INPUT },
-   137		{ HID_USB_DEVICE(USB_VENDOR_ID_NATSU, USB_DEVICE_ID_NATSU_GAMEPAD), HID_QUIRK_BADPAD },
-   138		{ HID_USB_DEVICE(USB_VENDOR_ID_NEC, USB_DEVICE_ID_NEC_USB_GAME_PAD), HID_QUIRK_BADPAD },
-   139		{ HID_USB_DEVICE(USB_VENDOR_ID_NEXIO, USB_DEVICE_ID_NEXIO_MULTITOUCH_PTI0750), HID_QUIRK_NO_INIT_REPORTS },
-   140		{ HID_USB_DEVICE(USB_VENDOR_ID_NEXTWINDOW, USB_DEVICE_ID_NEXTWINDOW_TOUCHSCREEN), HID_QUIRK_MULTI_INPUT},
-   141		{ HID_USB_DEVICE(USB_VENDOR_ID_NOVATEK, USB_DEVICE_ID_NOVATEK_MOUSE), HID_QUIRK_NO_INIT_REPORTS },
-   142		{ HID_USB_DEVICE(USB_VENDOR_ID_NTRIG, USB_DEVICE_ID_NTRIG_DUOSENSE), HID_QUIRK_NO_INIT_REPORTS },
-   143		{ HID_USB_DEVICE(USB_VENDOR_ID_PANTHERLORD, USB_DEVICE_ID_PANTHERLORD_TWIN_USB_JOYSTICK), HID_QUIRK_MULTI_INPUT | HID_QUIRK_SKIP_OUTPUT_REPORTS },
-   144		{ HID_USB_DEVICE(USB_VENDOR_ID_PENMOUNT, USB_DEVICE_ID_PENMOUNT_1610), HID_QUIRK_NOGET },
-   145		{ HID_USB_DEVICE(USB_VENDOR_ID_PENMOUNT, USB_DEVICE_ID_PENMOUNT_1640), HID_QUIRK_NOGET },
-   146		{ HID_USB_DEVICE(USB_VENDOR_ID_PI_ENGINEERING, USB_DEVICE_ID_PI_ENGINEERING_VEC_USB_FOOTPEDAL), HID_QUIRK_HIDINPUT_FORCE },
-   147		{ HID_USB_DEVICE(USB_VENDOR_ID_PIXART, USB_DEVICE_ID_PIXART_OPTICAL_TOUCH_SCREEN1), HID_QUIRK_NO_INIT_REPORTS },
-   148		{ HID_USB_DEVICE(USB_VENDOR_ID_PIXART, USB_DEVICE_ID_PIXART_OPTICAL_TOUCH_SCREEN2), HID_QUIRK_NO_INIT_REPORTS },
-   149		{ HID_USB_DEVICE(USB_VENDOR_ID_PIXART, USB_DEVICE_ID_PIXART_OPTICAL_TOUCH_SCREEN), HID_QUIRK_NO_INIT_REPORTS },
-   150		{ HID_USB_DEVICE(USB_VENDOR_ID_PIXART, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
-   151		{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_MOUSE_4D22), HID_QUIRK_ALWAYS_POLL },
-   152		{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_MOUSE_4E2A), HID_QUIRK_ALWAYS_POLL },
-   153		{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4D0F), HID_QUIRK_ALWAYS_POLL },
-   154		{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4D65), HID_QUIRK_ALWAYS_POLL },
-   155		{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_PIXART_MOUSE_4E22), HID_QUIRK_ALWAYS_POLL },
-   156		{ HID_USB_DEVICE(USB_VENDOR_ID_PRODIGE, USB_DEVICE_ID_PRODIGE_CORDLESS), HID_QUIRK_NOGET },
-   157		{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3001), HID_QUIRK_NOGET },
-   158		{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3003), HID_QUIRK_NOGET },
-   159		{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3008), HID_QUIRK_NOGET },
-   160		{ HID_USB_DEVICE(USB_VENDOR_ID_REALTEK, USB_DEVICE_ID_REALTEK_READER), HID_QUIRK_NO_INIT_REPORTS },
-   161		{ HID_USB_DEVICE(USB_VENDOR_ID_RETROUSB, USB_DEVICE_ID_RETROUSB_SNES_RETROPAD), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-   162		{ HID_USB_DEVICE(USB_VENDOR_ID_RETROUSB, USB_DEVICE_ID_RETROUSB_SNES_RETROPORT), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-   163		{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_RUMBLEPAD), HID_QUIRK_BADPAD },
-   164		{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-   165		{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_2), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-   166		{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_PRO), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-   167		{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X65), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-   168		{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD2), HID_QUIRK_NO_INIT_REPORTS },
-   169		{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD), HID_QUIRK_NO_INIT_REPORTS },
-   170		{ HID_USB_DEVICE(USB_VENDOR_ID_SENNHEISER, USB_DEVICE_ID_SENNHEISER_BTD500USB), HID_QUIRK_NOGET },
-   171		{ HID_USB_DEVICE(USB_VENDOR_ID_SIGMA_MICRO, USB_DEVICE_ID_SIGMA_MICRO_KEYBOARD), HID_QUIRK_NO_INIT_REPORTS },
-   172		{ HID_USB_DEVICE(USB_VENDOR_ID_SIGMATEL, USB_DEVICE_ID_SIGMATEL_STMP3780), HID_QUIRK_NOGET },
-   173		{ HID_USB_DEVICE(USB_VENDOR_ID_SIS_TOUCH, USB_DEVICE_ID_SIS1030_TOUCH), HID_QUIRK_NOGET },
-   174		{ HID_USB_DEVICE(USB_VENDOR_ID_SIS_TOUCH, USB_DEVICE_ID_SIS817_TOUCH), HID_QUIRK_NOGET },
-   175		{ HID_USB_DEVICE(USB_VENDOR_ID_SIS_TOUCH, USB_DEVICE_ID_SIS9200_TOUCH), HID_QUIRK_NOGET },
-   176		{ HID_USB_DEVICE(USB_VENDOR_ID_SIS_TOUCH, USB_DEVICE_ID_SIS_TS), HID_QUIRK_NO_INIT_REPORTS },
-   177		{ HID_USB_DEVICE(USB_VENDOR_ID_SUN, USB_DEVICE_ID_RARITAN_KVM_DONGLE), HID_QUIRK_NOGET },
-   178		{ HID_USB_DEVICE(USB_VENDOR_ID_SYMBOL, USB_DEVICE_ID_SYMBOL_SCANNER_1), HID_QUIRK_NOGET },
-   179		{ HID_USB_DEVICE(USB_VENDOR_ID_SYMBOL, USB_DEVICE_ID_SYMBOL_SCANNER_2), HID_QUIRK_NOGET },
-   180		{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_HD), HID_QUIRK_NO_INIT_REPORTS },
-   181		{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_LTS1), HID_QUIRK_NO_INIT_REPORTS },
-   182		{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_LTS2), HID_QUIRK_NO_INIT_REPORTS },
-   183		{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_QUAD_HD), HID_QUIRK_NO_INIT_REPORTS },
-   184		{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_TP_V103), HID_QUIRK_NO_INIT_REPORTS },
-   185		{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DELL_K12A), HID_QUIRK_NO_INIT_REPORTS },
-   186		{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DELL_K15A), HID_QUIRK_NO_INIT_REPORTS },
-   187		{ HID_USB_DEVICE(USB_VENDOR_ID_TOPMAX, USB_DEVICE_ID_TOPMAX_COBRAPAD), HID_QUIRK_BADPAD },
-   188		{ HID_USB_DEVICE(USB_VENDOR_ID_TOUCHPACK, USB_DEVICE_ID_TOUCHPACK_RTS), HID_QUIRK_MULTI_INPUT },
-   189		{ HID_USB_DEVICE(USB_VENDOR_ID_TPV, USB_DEVICE_ID_TPV_OPTICAL_TOUCHSCREEN_8882), HID_QUIRK_NOGET },
-   190		{ HID_USB_DEVICE(USB_VENDOR_ID_TPV, USB_DEVICE_ID_TPV_OPTICAL_TOUCHSCREEN_8883), HID_QUIRK_NOGET },
-   191		{ HID_USB_DEVICE(USB_VENDOR_ID_TURBOX, USB_DEVICE_ID_TURBOX_KEYBOARD), HID_QUIRK_NOGET },
-   192		{ HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC, USB_DEVICE_ID_UCLOGIC_TABLET_KNA5), HID_QUIRK_MULTI_INPUT },
-   193		{ HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC, USB_DEVICE_ID_UCLOGIC_TABLET_TWA60), HID_QUIRK_MULTI_INPUT },
-   194		{ HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER, USB_DEVICE_ID_UGTIZER_TABLET_WP5540), HID_QUIRK_MULTI_INPUT },
-   195		{ HID_USB_DEVICE(USB_VENDOR_ID_WALTOP, USB_DEVICE_ID_WALTOP_MEDIA_TABLET_10_6_INCH), HID_QUIRK_MULTI_INPUT },
-   196		{ HID_USB_DEVICE(USB_VENDOR_ID_WALTOP, USB_DEVICE_ID_WALTOP_MEDIA_TABLET_14_1_INCH), HID_QUIRK_MULTI_INPUT },
-   197		{ HID_USB_DEVICE(USB_VENDOR_ID_WALTOP, USB_DEVICE_ID_WALTOP_SIRIUS_BATTERY_FREE_TABLET), HID_QUIRK_MULTI_INPUT },
-   198		{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP_LTD2, USB_DEVICE_ID_SMARTJOY_DUAL_PLUS), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
-   199		{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP, USB_DEVICE_ID_QUAD_USB_JOYPAD), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
-   200		{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE), HID_QUIRK_MULTI_INPUT },
-   201		{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_GROUP_AUDIO), HID_QUIRK_NOGET },
-   202	
-   203		{ 0 }
-   204	};
-   205	
+ drivers/platform/x86/Kconfig          |  10 ++
+ drivers/platform/x86/Makefile         |   1 +
+ drivers/platform/x86/ideapad-laptop.c | 135 +------------------
+ drivers/platform/x86/ideapad-laptop.h | 152 +++++++++++++++++++++
+ drivers/platform/x86/lenovo-ymc.c     | 185 ++++++++++++++++++++++++++
+ 5 files changed, 349 insertions(+), 134 deletions(-)
+ create mode 100644 drivers/platform/x86/ideapad-laptop.h
+ create mode 100644 drivers/platform/x86/lenovo-ymc.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.40.0
+
