@@ -2,312 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68B176CD64D
-	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 11:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8144B6CD668
+	for <lists+linux-input@lfdr.de>; Wed, 29 Mar 2023 11:28:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbjC2JYf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Mar 2023 05:24:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56806 "EHLO
+        id S229804AbjC2J25 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Mar 2023 05:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbjC2JYd (ORCPT
+        with ESMTP id S229554AbjC2J24 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Mar 2023 05:24:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8D02685
-        for <linux-input@vger.kernel.org>; Wed, 29 Mar 2023 02:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680081825;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=mYk5Vd+Cw2j906cJQiXMpCJj7sRVVRcz7eKjR8ZmdUk=;
-        b=fzNArQizBXnBqvEYCXTSHvjZmrYsBlOKOi+2e4edG18VRA2XvrKj4q5u0r18A9WFdsUXPp
-        sEAR4bU5aTqXC1WtLCs9C92/vI5y2RcjDNG02DzY2EV+caIUbYIM8ruOF4Kar23K+9to5I
-        5ZFJzbmDAXh8jBtOQBhg3wnF/4rLNW8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-303-8_RClz6gMHuw_qWSped8zg-1; Wed, 29 Mar 2023 05:23:43 -0400
-X-MC-Unique: 8_RClz6gMHuw_qWSped8zg-1
-Received: by mail-wm1-f72.google.com with SMTP id i4-20020a05600c354400b003ef649aa8c7so6221209wmq.6
-        for <linux-input@vger.kernel.org>; Wed, 29 Mar 2023 02:23:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680081823;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mYk5Vd+Cw2j906cJQiXMpCJj7sRVVRcz7eKjR8ZmdUk=;
-        b=dSkHP2Tf/QjuRVrFb8YQp7BK1jym9ecRJG/STCFFbkgXS3QuVuCFrR0KtQfCYtajod
-         etbjU43HT8XFyRy2NSyKegsUI1sKeoWzzpjeW0x/ayQOtlk++TYgFdWxKVo9VaHt/VsM
-         WG7gzuV6j2Sf+moNOhGpV2wzhfAbBSkdc7friiCoPofU036gOV/+3/fmXDdNOaICq+nz
-         p1UBa6epbVj5RtUGk4Js4EyTpLTUgEynxwAymDrMd1k5wo1P4QqRe9xOh1c0z7Y9Dmrv
-         bmazshYtb8lJGHZ7G5O1FC8iqedcfN35dA/wdaaWMGi3GZlaxCAciBn49a+879v3IZfO
-         8NxQ==
-X-Gm-Message-State: AAQBX9fVGZNgtLHjs566VfKB93W3E2aD2do5tjBd6nW66U7+bDo99w/y
-        liKU4jPVuIh0jZlujU91hAGpYFLvLwj4ImE7CEmlVmSVI9lAq0oq6oknZADtnVQgD9WppNJqdG1
-        GM2bgHVlPqX55Nkx3fGF19Yw=
-X-Received: by 2002:a1c:4c11:0:b0:3ef:6ea4:a675 with SMTP id z17-20020a1c4c11000000b003ef6ea4a675mr8271704wmf.36.1680081822762;
-        Wed, 29 Mar 2023 02:23:42 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YTIyv31nTZptEcX2RsNGbTwhTNTBAHponC3oHY6a+YXFKPgSWGFARGvtpGsKg6qg5oGHwhXw==
-X-Received: by 2002:a1c:4c11:0:b0:3ef:6ea4:a675 with SMTP id z17-20020a1c4c11000000b003ef6ea4a675mr8271689wmf.36.1680081822369;
-        Wed, 29 Mar 2023 02:23:42 -0700 (PDT)
-Received: from minerva.redhat.com (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id l7-20020a05600c4f0700b003ef5deb4188sm1672219wmq.17.2023.03.29.02.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 02:23:42 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        linux-kselftest@vger.kernel.org,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
-        Javier Martinez Canillas <javierm@redhat.com>,
+        Wed, 29 Mar 2023 05:28:56 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70A0330FF;
+        Wed, 29 Mar 2023 02:28:55 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 231AA219C7;
+        Wed, 29 Mar 2023 09:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1680082134; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PWy6BhAqB0twK2rbrO71b3JtwEl2UDo3dmVSgkvr7Cs=;
+        b=yJKl+oauleT3X+homnJ87/o0reKN+UgLYTpa+N83G1+/7VWAIkkzvFeM1d6NGDFlIwZn67
+        pszzc6K4uzfuumnfFb5GE57zAZd86bkQgeBbOiRKXOd/92VgqaJsaXszauFR+2xroE/Md+
+        66i2zKtKcuenL5rN7P0W7QbAa8/I8k8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1680082134;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PWy6BhAqB0twK2rbrO71b3JtwEl2UDo3dmVSgkvr7Cs=;
+        b=Qvte5u6895My3Gbzzs7efgm2R2sYAilCvUqwhCN4sH6JCte4KXz4Nq0MSGnCGQzClnutAB
+        aqcFVwbmbR6hozAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E46E9138FF;
+        Wed, 29 Mar 2023 09:28:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id j1RVNtUEJGTuBgAAMHmgww
+        (envelope-from <tiwai@suse.de>); Wed, 29 Mar 2023 09:28:53 +0000
+Date:   Wed, 29 Mar 2023 11:28:53 +0200
+Message-ID: <874jq3q52i.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        Pali =?ISO-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Input: Add KUnit tests for some of the input core helper functions
-Date:   Wed, 29 Mar 2023 11:23:31 +0200
-Message-Id: <20230329092332.2143623-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        regressions@lists.linux.dev, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [REGRESSION] wrong coord from Thinkpad TrackPoint since 6.2 kernel
+In-Reply-To: <3dec29bf-b772-d82d-fff9-6c8bcca5f464@redhat.com>
+References: <87h6u4otuc.wl-tiwai@suse.de>
+        <3dec29bf-b772-d82d-fff9-6c8bcca5f464@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The input subsystem doesn't currently have any unit tests, let's add a
-CONFIG_INPUT_KUNIT_TEST option that builds a test suite to be executed
-with the KUnit test infrastructure.
+On Wed, 29 Mar 2023 11:22:18 +0200,
+Hans de Goede wrote:
+> 
+> Hi Takashi,
+> 
+> On 3/29/23 10:16, Takashi Iwai wrote:
+> > Hi,
+> > 
+> > we've received a bug report about Thinkpad TrackPoint (ALPS DualPoint
+> > Stick) on 6.2 kernel:
+> >   https://bugzilla.opensuse.org/show_bug.cgi?id=1209805
+> > 
+> > The device reports the wrong values as the movements, e.g. sometimes a
+> > value such as 255, 254 or -255 is returned while usually it should be
+> > a smaller value like -1 or 2.
+> > 
+> > The evtest on 6.2.x kernel shows the wrong values like:
+> > 
+> > Event: time 1680037542.898747, type 2 (EV_REL), code 0 (REL_X), value 255
+> > Event: time 1680037542.898747, -------------- SYN_REPORT ------------
+> > Event: time 1680037543.145196, type 2 (EV_REL), code 0 (REL_X), value 1
+> > Event: time 1680037543.145196, -------------- SYN_REPORT ------------
+> > Event: time 1680037543.175087, type 2 (EV_REL), code 1 (REL_Y), value -255
+> > Event: time 1680037543.175087, -------------- SYN_REPORT ------------
+> > Event: time 1680037543.185421, type 2 (EV_REL), code 0 (REL_X), value 1
+> > Event: time 1680037543.185421, type 2 (EV_REL), code 1 (REL_Y), value -255
+> > Event: time 1680037543.185421, -------------- SYN_REPORT ------------
+> > 
+> > while 6.1.x kernel shows the correct values like:
+> > 
+> > Event: time 1680037386.318058, type 2 (EV_REL), code 0 (REL_X), value -1
+> > Event: time 1680037386.318058, type 2 (EV_REL), code 1 (REL_Y), value -1
+> > Event: time 1680037386.318058, -------------- SYN_REPORT ------------
+> > Event: time 1680037386.328087, type 2 (EV_REL), code 0 (REL_X), value -1
+> > Event: time 1680037386.328087, type 2 (EV_REL), code 1 (REL_Y), value -1
+> > Event: time 1680037386.328087, -------------- SYN_REPORT ------------
+> > Event: time 1680037386.338046, type 2 (EV_REL), code 0 (REL_X), value -1
+> > Event: time 1680037386.338046, type 2 (EV_REL), code 1 (REL_Y), value -2
+> > Event: time 1680037386.338046, -------------- SYN_REPORT ------------
+> >   
+> > I couldn't see any relevant changes in alps.c between those versions,
+> > so this is likely a breakage in a lower layer.
+> > 
+> > Could you guys take a look?
+> 
+> I believe this is caused by the kernel now using -funsigned-char
+> everywhere and this should be fixed by this commit:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?h=for-linus&id=754ff5060daf5a1cf4474eff9b4edeb6c17ef7ab
 
-For now, only three tests were added for some of the input core helper
-functions that are trivial to test:
+Ah, that makes sense!
 
-  * input_test_polling: set/get poll interval and set-up a poll handler.
+I'll build a test kernel with this fix and ask the reporter for
+testing.
 
-  * input_test_timestamp: set/get input event timestamps.
+> And there is a similar issue in the focaltech touchpad driver:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?h=for-linus&id=8980f190947ba29f23110408e712444884b74251
+> 
+> Dmitry, since this is hitting 6.2 users, perhaps you can send
+> a pull-req for your current for-linus branch to get the fix
+> on its way to stable ?
 
-  * input_test_match_device_id: match a device by bus, vendor, product
-                                and events that is capable of handling.
+That'll be great.
 
-But having the minimal KUnit support allows to add more tests and suites
-as follow-up changes. The tests can be run with the following command:
 
-  $ ./tools/testing/kunit/kunit.py run \
-    --kunitconfig=drivers/input/tests/.kunitconfig
+Thanks!
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-
- drivers/input/Kconfig            |  12 +++
- drivers/input/Makefile           |   1 +
- drivers/input/tests/Makefile     |   3 +
- drivers/input/tests/input_test.c | 144 +++++++++++++++++++++++++++++++
- 4 files changed, 160 insertions(+)
- create mode 100644 drivers/input/tests/Makefile
- create mode 100644 drivers/input/tests/input_test.c
-
-diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
-index e2752f7364bc..e094e5bbaa0c 100644
---- a/drivers/input/Kconfig
-+++ b/drivers/input/Kconfig
-@@ -166,6 +166,18 @@ config INPUT_EVBUG
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called evbug.
- 
-+config INPUT_KUNIT_TEST
-+	tristate "KUnit tests for Input" if !KUNIT_ALL_TESTS
-+	depends on INPUT && KUNIT=y
-+	default KUNIT_ALL_TESTS
-+	help
-+	  Say Y here if you want to build the KUnit tests for the input
-+	  subsystem. For more information about KUnit and unit tests in
-+	  general, please refer to the KUnit documentation in
-+	  Documentation/dev-tools/kunit/.
-+
-+	  If in doubt, say "N".
-+
- config INPUT_APMPOWER
- 	tristate "Input Power Event -> APM Bridge" if EXPERT
- 	depends on INPUT && APM_EMULATION
-diff --git a/drivers/input/Makefile b/drivers/input/Makefile
-index 2266c7d010ef..c78753274921 100644
---- a/drivers/input/Makefile
-+++ b/drivers/input/Makefile
-@@ -26,6 +26,7 @@ obj-$(CONFIG_INPUT_JOYSTICK)	+= joystick/
- obj-$(CONFIG_INPUT_TABLET)	+= tablet/
- obj-$(CONFIG_INPUT_TOUCHSCREEN)	+= touchscreen/
- obj-$(CONFIG_INPUT_MISC)	+= misc/
-+obj-$(CONFIG_INPUT_KUNIT_TEST)	+= tests/
- 
- obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
- 
-diff --git a/drivers/input/tests/Makefile b/drivers/input/tests/Makefile
-new file mode 100644
-index 000000000000..90cf954181bc
---- /dev/null
-+++ b/drivers/input/tests/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_INPUT_KUNIT_TEST) += input_test.o
-diff --git a/drivers/input/tests/input_test.c b/drivers/input/tests/input_test.c
-new file mode 100644
-index 000000000000..25bbf51b5c87
---- /dev/null
-+++ b/drivers/input/tests/input_test.c
-@@ -0,0 +1,144 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit test for the input core.
-+ *
-+ * Copyright (c) 2023 Red Hat Inc
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/input.h>
-+
-+#include <kunit/test.h>
-+
-+#define POLL_INTERVAL 100
-+
-+static int input_test_init(struct kunit *test)
-+{
-+	struct input_dev *input_dev;
-+	int ret;
-+
-+	input_dev = input_allocate_device();
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, input_dev);
-+
-+	input_dev->name = "Test input device";
-+	input_dev->id.bustype = BUS_VIRTUAL;
-+	input_dev->id.vendor = 1;
-+	input_dev->id.product = 1;
-+	input_dev->id.version = 1;
-+	input_set_capability(input_dev, EV_KEY, BTN_LEFT);
-+	input_set_capability(input_dev, EV_KEY, BTN_RIGHT);
-+
-+	ret = input_register_device(input_dev);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	test->priv = input_dev;
-+
-+	return 0;
-+}
-+
-+static void input_test_exit(struct kunit *test)
-+{
-+	struct input_dev *input_dev = test->priv;
-+
-+	input_unregister_device(input_dev);
-+}
-+
-+static void input_test_poll(struct input_dev *input) { }
-+
-+static void input_test_polling(struct kunit *test)
-+{
-+	struct input_dev *input_dev = test->priv;
-+	int ret;
-+
-+	ret = input_get_poll_interval(input_dev);
-+	KUNIT_ASSERT_EQ(test, ret, -EINVAL);
-+
-+	ret = input_setup_polling(input_dev, input_test_poll);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	input_set_poll_interval(input_dev, POLL_INTERVAL);
-+
-+	ret = input_get_poll_interval(input_dev);
-+	KUNIT_ASSERT_EQ(test, ret, POLL_INTERVAL);
-+}
-+
-+static void input_test_timestamp(struct kunit *test)
-+{
-+	const ktime_t invalid_timestamp = ktime_set(0, 0);
-+	struct input_dev *input_dev = test->priv;
-+	ktime_t *timestamp, time;
-+	int ret;
-+
-+	timestamp = input_get_timestamp(input_dev);
-+	time = timestamp[INPUT_CLK_MONO];
-+
-+	ret = ktime_compare(time, invalid_timestamp);
-+	KUNIT_ASSERT_EQ(test, ret, 1);
-+
-+	time = ktime_get();
-+	input_set_timestamp(input_dev, time);
-+
-+	timestamp = input_get_timestamp(input_dev);
-+	KUNIT_ASSERT_EQ(test, ktime_compare(timestamp[INPUT_CLK_MONO],
-+					    time), 0);
-+}
-+
-+static void input_test_match_device_id(struct kunit *test)
-+{
-+	struct input_dev *input_dev = test->priv;
-+	struct input_device_id id;
-+
-+	id.flags = INPUT_DEVICE_ID_MATCH_BUS;
-+	id.bustype = BUS_VIRTUAL;
-+	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
-+
-+	id.bustype = BUS_I2C;
-+	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
-+
-+	id.flags = INPUT_DEVICE_ID_MATCH_VENDOR;
-+	id.vendor = 1;
-+	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
-+
-+	id.vendor = 2;
-+	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
-+
-+	id.flags = INPUT_DEVICE_ID_MATCH_PRODUCT;
-+	id.product = 1;
-+	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
-+
-+	id.product = 2;
-+	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
-+
-+	id.flags = INPUT_DEVICE_ID_MATCH_VERSION;
-+	id.version = 1;
-+	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
-+
-+	id.version = 2;
-+	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
-+
-+	id.flags = INPUT_DEVICE_ID_MATCH_EVBIT;
-+	__set_bit(EV_KEY, id.evbit);
-+	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
-+
-+	__set_bit(EV_ABS, id.evbit);
-+	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
-+}
-+
-+static struct kunit_case input_tests[] = {
-+	KUNIT_CASE(input_test_polling),
-+	KUNIT_CASE(input_test_timestamp),
-+	KUNIT_CASE(input_test_match_device_id),
-+	{ /* sentinel */ }
-+};
-+
-+static struct kunit_suite input_test_suite = {
-+	.name = "input_core",
-+	.init = input_test_init,
-+	.exit = input_test_exit,
-+	.test_cases = input_tests,
-+};
-+
-+kunit_test_suite(input_test_suite);
-+
-+MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
-+MODULE_LICENSE("GPL");
-
-base-commit: 3a93e40326c8f470e71d20b4c42d36767450f38f
--- 
-2.40.0
-
+Takashi
