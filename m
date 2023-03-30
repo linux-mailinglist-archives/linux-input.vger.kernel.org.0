@@ -2,59 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D0C26CFABB
-	for <lists+linux-input@lfdr.de>; Thu, 30 Mar 2023 07:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA2B06CFDC1
+	for <lists+linux-input@lfdr.de>; Thu, 30 Mar 2023 10:11:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229452AbjC3F24 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Mar 2023 01:28:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36070 "EHLO
+        id S229640AbjC3IKm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Mar 2023 04:10:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229760AbjC3F2w (ORCPT
+        with ESMTP id S230023AbjC3IKl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Mar 2023 01:28:52 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B635BA6
-        for <linux-input@vger.kernel.org>; Wed, 29 Mar 2023 22:28:50 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id o2so17066459plg.4
-        for <linux-input@vger.kernel.org>; Wed, 29 Mar 2023 22:28:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680154130;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wqVI8CoL+hm/7lSZW5GkB0l5kQIBCPwbwoQ7U3eg71s=;
-        b=Ce5bVelcLjEUuy26UGZxkv3U6psA9wfsghPXPloY7QVJoaoy9wJm0UZi0mHHAFENxh
-         q2ZNf6/tOTeBzNue4Z1RYFnP5lpcFPpIon6vJbeaQcWTaE6+Ez52gW4eUgJUoJ552Qx1
-         BUhdt9zjhfzfROAzq2+f41aZSsT2hV6CqKqHtEpm4G634GMatHCsh7QDmP6g8PWaOgev
-         5fBVnpROcp0HBNwBUQajxAp6Cnyq1xSyq71pajiKWkfMdJGd9nLbxglgA2pgLyydPu3d
-         GD3iYROR1VuwZT1HAlD+FDc8TgU6EzjqF4ufP3hReRMFMkqbsDR/xk3oBfM/Uhav5AD2
-         U6HQ==
+        Thu, 30 Mar 2023 04:10:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7480A40CA
+        for <linux-input@vger.kernel.org>; Thu, 30 Mar 2023 01:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680163793;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=j+kZDFg3lmlfEXt7vrPYf2wFRjTPUJsHa1umgwkaIJU=;
+        b=AVFAU5zmx76goUKiFszEHoPv9unmiRg98GR+P26Jh8Lyt/XLvJDKcbHnd1uZPUJqFirVIq
+        9woGMAsAPRUKAIzZATpFBekIf0bGVw1mWHKSuuvaNf+9vSfG1agKn2GQfcmmvqqMvgCSqp
+        820P6ke6gnLKs34YPZq48mpS1f6rTdw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-613-Mm2QhxAZMsiGdVN6OUlyDA-1; Thu, 30 Mar 2023 04:09:52 -0400
+X-MC-Unique: Mm2QhxAZMsiGdVN6OUlyDA-1
+Received: by mail-wm1-f70.google.com with SMTP id o37-20020a05600c512500b003edd119ec9eso9069545wms.0
+        for <linux-input@vger.kernel.org>; Thu, 30 Mar 2023 01:09:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680154130;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1680163791;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wqVI8CoL+hm/7lSZW5GkB0l5kQIBCPwbwoQ7U3eg71s=;
-        b=PN+xSYP1UC2ZcWifGwkC0y8sV1wndWuCcgc1RK9+K8QOYZ7LF/pm2BP2qxLTsziqyq
-         td4Pd8XrpivVF+TisjWCVksc1yUgfnKNIcIoVHEkueUgNoav6SZg+h/MZ0FicgeyVGhI
-         yraSpEek49vay/e7tB17bt+EM2/8cnQ+9zIRnDv4UjYffpsdwL5NkXp6vY+Rh39w1tgD
-         a1Ton6aTrAaIxO4Pa9iVdtaT2mbeKK2zfbUE5fJxxiYg1SuVlQnyU5H1ycjgLtMNVc1b
-         +ANa3Xz1bodbIJPmC4ydZ36s2XvqStj6HdpUBam536LXqEk0ng8oBqr0n+yGaK770Yyf
-         Yl7g==
-X-Gm-Message-State: AAQBX9eUMRAG3jFzrhCLFWqy9VJZl8ELmkoeXO3oYbjVIfhJnjT6Esrs
-        I+/qi/gL2OrkcCdD32SX+utb+KwzfpPFD+5sq28OgA==
-X-Google-Smtp-Source: AKy350b6ps0Rvhl5ZmokYglpnvFAca+Eck+gMmZYamR16d6R8+zxb8WbckccVzHIZcTozk9UBb4ZVcr4zWea2es0tT8=
-X-Received: by 2002:a17:903:489:b0:1a2:8c7e:f325 with SMTP id
- jj9-20020a170903048900b001a28c7ef325mr239042plb.11.1680154130181; Wed, 29 Mar
- 2023 22:28:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230329092332.2143623-1-javierm@redhat.com>
-In-Reply-To: <20230329092332.2143623-1-javierm@redhat.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Wed, 29 Mar 2023 22:28:38 -0700
-Message-ID: <CAGS_qxpEzXRWqy2Xd8qJn7GRxv+8HF40Lxt8esD-59CzeePZSw@mail.gmail.com>
-Subject: Re: [PATCH] Input: Add KUnit tests for some of the input core helper functions
-To:     Javier Martinez Canillas <javierm@redhat.com>
+        bh=j+kZDFg3lmlfEXt7vrPYf2wFRjTPUJsHa1umgwkaIJU=;
+        b=gtGq/w8jJrBK7fpYoyGhjk5GRO2rw6NhIrmKeUjIJJvtwjsPpq8xQQ/0vOJp8B+iDr
+         uLROSvgTrWkECMLD1V8odo1v84/i7yJ3BfIjXD5sZN2zSWKRf3sOTGJq9+qpTQzJ54Xf
+         MBVfehTp1kdFq7PIDYrvevrs2lU/72ANgNI9x8jCv5liTXzjCCHsU/Uz3ZF1Y3nPxwoo
+         BjwE0y8WcR8LaQ/hGY4ygXmINtztYZrG5c+7ILy4AnpgKw/7fsnnw2gfKYEil7KVltQ4
+         2ohpBdzHUJlLpRNCjiGbWniIjluXWIcingv8vidrm4vVI+vX6GLdnZE20xZ/NkUZzaQR
+         kNiw==
+X-Gm-Message-State: AAQBX9fy8zNaWGTHe1WCfJOnTVYNAEQrCVz06vac0Kc5ZiOAoDq453Vb
+        xofuKMbyL+bOTg0myLSf6I9mQpiFgWGXAuqZ1nCx+wKScNGi7fhXxE0MHsVEit2i7pIfjKN4hDs
+        8VIJKMwGS2ZqVFXhik7mJX2c=
+X-Received: by 2002:adf:ef09:0:b0:2ce:a944:2c6c with SMTP id e9-20020adfef09000000b002cea9442c6cmr17202658wro.12.1680163791150;
+        Thu, 30 Mar 2023 01:09:51 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b+lhfU3YqiOsoIgk9QUtyARFh7zv1+Jz6/tkkgpyht/XGLopg8s5IdYP+a7WiC4h4LY7zpqg==
+X-Received: by 2002:adf:ef09:0:b0:2ce:a944:2c6c with SMTP id e9-20020adfef09000000b002cea9442c6cmr17202635wro.12.1680163790813;
+        Thu, 30 Mar 2023 01:09:50 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id s8-20020a1cf208000000b003e203681b26sm4855785wmc.29.2023.03.30.01.09.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 01:09:50 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     Daniel Latypov <dlatypov@google.com>
 Cc:     linux-kernel@vger.kernel.org,
         Brendan Higgins <brendanhiggins@google.com>,
         Maxime Ripard <maxime@cerno.tech>,
@@ -63,236 +66,140 @@ Cc:     linux-kernel@vger.kernel.org,
         David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] Input: Add KUnit tests for some of the input core
+ helper functions
+In-Reply-To: <CAGS_qxpEzXRWqy2Xd8qJn7GRxv+8HF40Lxt8esD-59CzeePZSw@mail.gmail.com>
+References: <20230329092332.2143623-1-javierm@redhat.com>
+ <CAGS_qxpEzXRWqy2Xd8qJn7GRxv+8HF40Lxt8esD-59CzeePZSw@mail.gmail.com>
+Date:   Thu, 30 Mar 2023 10:09:49 +0200
+Message-ID: <87cz4qfynm.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 2:23=E2=80=AFAM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
+Daniel Latypov <dlatypov@google.com> writes:
+
+Hello Daniel,
+
+Thanks a lot for your feedback!
+
+> On Wed, Mar 29, 2023 at 2:23=E2=80=AFAM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+
+[...]
+
+>>
+>>   $ ./tools/testing/kunit/kunit.py run \
+>>     --kunitconfig=3Ddrivers/input/tests/.kunitconfig
 >
-> The input subsystem doesn't currently have any unit tests, let's add a
-> CONFIG_INPUT_KUNIT_TEST option that builds a test suite to be executed
-> with the KUnit test infrastructure.
+> Nice!
+> A few small suggestions below as someone who has worked on KUnit.
 >
-> For now, only three tests were added for some of the input core helper
-> functions that are trivial to test:
+> FYI, to save a few keystrokes, you can omit the "/.kunitconfig" and
+> just pass the dir, i.e.
+>   --kunitconfig=3Ddrivers/input/tests
 >
->   * input_test_polling: set/get poll interval and set-up a poll handler.
+
+Ah, cool. I didn't know that.
+
+[...]
+
+>>  drivers/input/tests/input_test.c | 144 +++++++++++++++++++++++++++++++
 >
->   * input_test_timestamp: set/get input event timestamps.
+> I don't see the .kunitconfig in the diff.
+> Was it accidentally forgotten or does this patch apply to a tree that
+> already has the file?
 >
->   * input_test_match_device_id: match a device by bus, vendor, product
->                                 and events that is capable of handling.
+> (it's easy to forget since git will still ignore it by default, IIRC)
 >
-> But having the minimal KUnit support allows to add more tests and suites
-> as follow-up changes. The tests can be run with the following command:
+
+I did indeed forgot because as you mentioned git add complained and I
+missed that needed to force to add it.
+
+[...]
+
+>> +         Say Y here if you want to build the KUnit tests for the input
+>> +         subsystem. For more information about KUnit and unit tests in
+>> +         general, please refer to the KUnit documentation in
+>> +         Documentation/dev-tools/kunit/.
+>> +
+>> +         If in doubt, say "N".
 >
->   $ ./tools/testing/kunit/kunit.py run \
->     --kunitconfig=3Ddrivers/input/tests/.kunitconfig
-
-Nice!
-A few small suggestions below as someone who has worked on KUnit.
-
-FYI, to save a few keystrokes, you can omit the "/.kunitconfig" and
-just pass the dir, i.e.
-  --kunitconfig=3Ddrivers/input/tests
-
+> FYI, I know this is in the style guide, but I'd personally feel free
+> to leave out this paragraph.
 >
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
+> Having such "advertising" about what KUnit is made more sense when
+> less people knew about it.
+> It's not known by everyone in the community yet, but we might be
+> getting to a point where this turns into repetitive bloat.
 >
->  drivers/input/Kconfig            |  12 +++
->  drivers/input/Makefile           |   1 +
->  drivers/input/tests/Makefile     |   3 +
->  drivers/input/tests/input_test.c | 144 +++++++++++++++++++++++++++++++
 
-I don't see the .kunitconfig in the diff.
-Was it accidentally forgotten or does this patch apply to a tree that
-already has the file?
+Ok, I'll drop these.
 
-(it's easy to forget since git will still ignore it by default, IIRC)
+[...]
 
->  4 files changed, 160 insertions(+)
->  create mode 100644 drivers/input/tests/Makefile
->  create mode 100644 drivers/input/tests/input_test.c
+>> +
+>> +       ret =3D input_register_device(input_dev);
+>> +       KUNIT_ASSERT_EQ(test, ret, 0);
 >
-> diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
-> index e2752f7364bc..e094e5bbaa0c 100644
-> --- a/drivers/input/Kconfig
-> +++ b/drivers/input/Kconfig
-> @@ -166,6 +166,18 @@ config INPUT_EVBUG
->           To compile this driver as a module, choose M here: the
->           module will be called evbug.
+> (very unlikely that this matters, but...)
+> Hmm, should we call input_free_device() if this fails?
+> i.e. something like
 >
-> +config INPUT_KUNIT_TEST
-> +       tristate "KUnit tests for Input" if !KUNIT_ALL_TESTS
-> +       depends on INPUT && KUNIT=3Dy
-> +       default KUNIT_ALL_TESTS
-> +       help
-> +         Say Y here if you want to build the KUnit tests for the input
-> +         subsystem. For more information about KUnit and unit tests in
-> +         general, please refer to the KUnit documentation in
-> +         Documentation/dev-tools/kunit/.
-> +
-> +         If in doubt, say "N".
-
-FYI, I know this is in the style guide, but I'd personally feel free
-to leave out this paragraph.
-
-Having such "advertising" about what KUnit is made more sense when
-less people knew about it.
-It's not known by everyone in the community yet, but we might be
-getting to a point where this turns into repetitive bloat.
-
-> +
->  config INPUT_APMPOWER
->         tristate "Input Power Event -> APM Bridge" if EXPERT
->         depends on INPUT && APM_EMULATION
-> diff --git a/drivers/input/Makefile b/drivers/input/Makefile
-> index 2266c7d010ef..c78753274921 100644
-> --- a/drivers/input/Makefile
-> +++ b/drivers/input/Makefile
-> @@ -26,6 +26,7 @@ obj-$(CONFIG_INPUT_JOYSTICK)  +=3D joystick/
->  obj-$(CONFIG_INPUT_TABLET)     +=3D tablet/
->  obj-$(CONFIG_INPUT_TOUCHSCREEN)        +=3D touchscreen/
->  obj-$(CONFIG_INPUT_MISC)       +=3D misc/
-> +obj-$(CONFIG_INPUT_KUNIT_TEST) +=3D tests/
+> ret =3D ...;
+> if (ret) {
+>   input_free_device(input_dev);
+>   KUNIT_ASSERT_FAILURE(test, "failed to register device: %d", ret);
+> }
 >
->  obj-$(CONFIG_INPUT_APMPOWER)   +=3D apm-power.o
+
+Indeed. I'll do this too.
+
+[...]
+
+>> +
+>> +       ret =3D input_get_poll_interval(input_dev);
+>> +       KUNIT_ASSERT_EQ(test, ret, -EINVAL);
 >
-> diff --git a/drivers/input/tests/Makefile b/drivers/input/tests/Makefile
-> new file mode 100644
-> index 000000000000..90cf954181bc
-> --- /dev/null
-> +++ b/drivers/input/tests/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-$(CONFIG_INPUT_KUNIT_TEST) +=3D input_test.o
-> diff --git a/drivers/input/tests/input_test.c b/drivers/input/tests/input=
-_test.c
-> new file mode 100644
-> index 000000000000..25bbf51b5c87
-> --- /dev/null
-> +++ b/drivers/input/tests/input_test.c
-> @@ -0,0 +1,144 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * KUnit test for the input core.
-> + *
-> + * Copyright (c) 2023 Red Hat Inc
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/input.h>
-> +
-> +#include <kunit/test.h>
-> +
-> +#define POLL_INTERVAL 100
-> +
-> +static int input_test_init(struct kunit *test)
-> +{
-> +       struct input_dev *input_dev;
-> +       int ret;
-> +
-> +       input_dev =3D input_allocate_device();
-> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, input_dev);
-> +
-> +       input_dev->name =3D "Test input device";
-> +       input_dev->id.bustype =3D BUS_VIRTUAL;
-> +       input_dev->id.vendor =3D 1;
-> +       input_dev->id.product =3D 1;
-> +       input_dev->id.version =3D 1;
-> +       input_set_capability(input_dev, EV_KEY, BTN_LEFT);
-> +       input_set_capability(input_dev, EV_KEY, BTN_RIGHT);
-> +
-> +       ret =3D input_register_device(input_dev);
-> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> minor suggestion: can we inline these? E.g.
+>   KUNIT_ASSERT_EQ(test, -EINVAL, input_get_poll_interval(input_dev));
+> This way on failure, KUnit can print the function call instead of just `r=
+et`.
+>
+> Users could always find out what failed by the line #, but including
+> it in the output would be a bit nicer.
+>
+> E.g. w/ KUNIT_EXPECT_EQ(test, 0, ...)
+>
+>     # example_simple_test: EXPECTATION FAILED at
+> lib/kunit/kunit-example-test.c:29
+>     Expected 0 =3D=3D input_get_poll_interval(input_dev), but
+>         input_get_poll_interval(input_dev) =3D=3D 42 (0x2a)
+>
+> verus
+>
+>     # example_simple_test: EXPECTATION FAILED at
+> lib/kunit/kunit-example-test.c:28
+>     Expected ret =3D=3D 0, but
+>         ret =3D=3D 42 (0x2a)
+>
 
-(very unlikely that this matters, but...)
-Hmm, should we call input_free_device() if this fails?
-i.e. something like
+Great suggestion. I'll change too, it would also get rid of the ret variabl=
+e.
 
-ret =3D ...;
-if (ret) {
-  input_free_device(input_dev);
-  KUNIT_ASSERT_FAILURE(test, "failed to register device: %d", ret);
-}
+--=20
+Best regards,
 
-KUNIT_ASSERT_FAILURE() is like KUNIT_ASSERT_*(), but doesn't do any compari=
-son.
-It just unconditionally aborts the test after printing the given message.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-We could alternatively do
-  kunit_err(test, "failed to register device: %d", ret);
-  return ret;
-but this version won't show a file and line number.
-
-> +
-> +       test->priv =3D input_dev;
-> +
-> +       return 0;
-> +}
-> +
-> +static void input_test_exit(struct kunit *test)
-> +{
-> +       struct input_dev *input_dev =3D test->priv;
-> +
-> +       input_unregister_device(input_dev);
-> +}
-> +
-> +static void input_test_poll(struct input_dev *input) { }
-> +
-> +static void input_test_polling(struct kunit *test)
-> +{
-> +       struct input_dev *input_dev =3D test->priv;
-> +       int ret;
-> +
-> +       ret =3D input_get_poll_interval(input_dev);
-> +       KUNIT_ASSERT_EQ(test, ret, -EINVAL);
-
-minor suggestion: can we inline these? E.g.
-  KUNIT_ASSERT_EQ(test, -EINVAL, input_get_poll_interval(input_dev));
-This way on failure, KUnit can print the function call instead of just `ret=
-`.
-
-Users could always find out what failed by the line #, but including
-it in the output would be a bit nicer.
-
-E.g. w/ KUNIT_EXPECT_EQ(test, 0, ...)
-
-    # example_simple_test: EXPECTATION FAILED at
-lib/kunit/kunit-example-test.c:29
-    Expected 0 =3D=3D input_get_poll_interval(input_dev), but
-        input_get_poll_interval(input_dev) =3D=3D 42 (0x2a)
-
-verus
-
-    # example_simple_test: EXPECTATION FAILED at
-lib/kunit/kunit-example-test.c:28
-    Expected ret =3D=3D 0, but
-        ret =3D=3D 42 (0x2a)
-
-
-> +
-> +       ret =3D input_setup_polling(input_dev, input_test_poll);
-> +       KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +       input_set_poll_interval(input_dev, POLL_INTERVAL);
-> +
-> +       ret =3D input_get_poll_interval(input_dev);
-> +       KUNIT_ASSERT_EQ(test, ret, POLL_INTERVAL);
-> +}
-> +
-
-Thanks,
-Daniel
