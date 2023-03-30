@@ -2,80 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA2B06CFDC1
-	for <lists+linux-input@lfdr.de>; Thu, 30 Mar 2023 10:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E232D6CFE09
+	for <lists+linux-input@lfdr.de>; Thu, 30 Mar 2023 10:19:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbjC3IKm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Mar 2023 04:10:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
+        id S230014AbjC3ITl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Mar 2023 04:19:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbjC3IKl (ORCPT
+        with ESMTP id S229902AbjC3ITk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Mar 2023 04:10:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7480A40CA
-        for <linux-input@vger.kernel.org>; Thu, 30 Mar 2023 01:09:54 -0700 (PDT)
+        Thu, 30 Mar 2023 04:19:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459DB19A
+        for <linux-input@vger.kernel.org>; Thu, 30 Mar 2023 01:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680163793;
+        s=mimecast20190719; t=1680164332;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j+kZDFg3lmlfEXt7vrPYf2wFRjTPUJsHa1umgwkaIJU=;
-        b=AVFAU5zmx76goUKiFszEHoPv9unmiRg98GR+P26Jh8Lyt/XLvJDKcbHnd1uZPUJqFirVIq
-        9woGMAsAPRUKAIzZATpFBekIf0bGVw1mWHKSuuvaNf+9vSfG1agKn2GQfcmmvqqMvgCSqp
-        820P6ke6gnLKs34YPZq48mpS1f6rTdw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=t7eECtwVNg9V18DvuwK2iZYXBSAw49aJkmw0hqJ5qzY=;
+        b=Gv5ac868GpQ8ovNnqG7G3lQhb/r6Lv/lkD8sel7PlSKUPsQdDNKG/6vxO+9PJiIM8lxIrI
+        3aOV9uJk3MDoSynuUozJhsATJ6m0C7ty8qnhso+SFd39BkeYwJeUhxFcbu7ZgJBrfqvD5B
+        4OppP12/+gMODTasZ5KohHU/+hXgejM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-613-Mm2QhxAZMsiGdVN6OUlyDA-1; Thu, 30 Mar 2023 04:09:52 -0400
-X-MC-Unique: Mm2QhxAZMsiGdVN6OUlyDA-1
-Received: by mail-wm1-f70.google.com with SMTP id o37-20020a05600c512500b003edd119ec9eso9069545wms.0
-        for <linux-input@vger.kernel.org>; Thu, 30 Mar 2023 01:09:52 -0700 (PDT)
+ us-mta-512-5jcRPe3_NDe8rfkcB0y61Q-1; Thu, 30 Mar 2023 04:18:50 -0400
+X-MC-Unique: 5jcRPe3_NDe8rfkcB0y61Q-1
+Received: by mail-wm1-f71.google.com with SMTP id iv18-20020a05600c549200b003ee21220fccso9068808wmb.1
+        for <linux-input@vger.kernel.org>; Thu, 30 Mar 2023 01:18:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680163791;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j+kZDFg3lmlfEXt7vrPYf2wFRjTPUJsHa1umgwkaIJU=;
-        b=gtGq/w8jJrBK7fpYoyGhjk5GRO2rw6NhIrmKeUjIJJvtwjsPpq8xQQ/0vOJp8B+iDr
-         uLROSvgTrWkECMLD1V8odo1v84/i7yJ3BfIjXD5sZN2zSWKRf3sOTGJq9+qpTQzJ54Xf
-         MBVfehTp1kdFq7PIDYrvevrs2lU/72ANgNI9x8jCv5liTXzjCCHsU/Uz3ZF1Y3nPxwoo
-         BjwE0y8WcR8LaQ/hGY4ygXmINtztYZrG5c+7ILy4AnpgKw/7fsnnw2gfKYEil7KVltQ4
-         2ohpBdzHUJlLpRNCjiGbWniIjluXWIcingv8vidrm4vVI+vX6GLdnZE20xZ/NkUZzaQR
-         kNiw==
-X-Gm-Message-State: AAQBX9fy8zNaWGTHe1WCfJOnTVYNAEQrCVz06vac0Kc5ZiOAoDq453Vb
-        xofuKMbyL+bOTg0myLSf6I9mQpiFgWGXAuqZ1nCx+wKScNGi7fhXxE0MHsVEit2i7pIfjKN4hDs
-        8VIJKMwGS2ZqVFXhik7mJX2c=
-X-Received: by 2002:adf:ef09:0:b0:2ce:a944:2c6c with SMTP id e9-20020adfef09000000b002cea9442c6cmr17202658wro.12.1680163791150;
-        Thu, 30 Mar 2023 01:09:51 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b+lhfU3YqiOsoIgk9QUtyARFh7zv1+Jz6/tkkgpyht/XGLopg8s5IdYP+a7WiC4h4LY7zpqg==
-X-Received: by 2002:adf:ef09:0:b0:2ce:a944:2c6c with SMTP id e9-20020adfef09000000b002cea9442c6cmr17202635wro.12.1680163790813;
-        Thu, 30 Mar 2023 01:09:50 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id s8-20020a1cf208000000b003e203681b26sm4855785wmc.29.2023.03.30.01.09.50
+        d=1e100.net; s=20210112; t=1680164329;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t7eECtwVNg9V18DvuwK2iZYXBSAw49aJkmw0hqJ5qzY=;
+        b=K4aeawq8Cd8g1MnHrv7/PM9iha4JgCDE1KofXw98yFrjWns6892W5bVt4oU2dAPz1K
+         4adyBT2/2S0NMahTKWYsxrZSmjY2qdUm0GCg7MlSL+Qcrictly8jD6I7cCqM01Ysk50H
+         uGh1VjZVGBdP1QnttAgPHpHJrEfl2aPdxq6k9a+KNdHsxY7nlIFvnPmkr1A7NL7qV2Bx
+         AfTX8TuS48CcFZBzRCrsPnOXLE0d8gwK3kfT7jKUlLZAgI+yVGp6xWn7kkOKPT124yhN
+         7MUPDeFIRmy6DYepDEilKatJiGX1neNTKt8+eyUuPc3lcc3BHd2I2hdZlK5zLpVMV5qx
+         r5AQ==
+X-Gm-Message-State: AAQBX9eQOLwiz5IsoTQgrfUzOCfMnVyEhIYIaANijcXotkbmPaIt6kEh
+        QAjB6e43Vt36+o48vKWtT73eIwIdWngTKN6uyeU1zs4mfDJQk18RIcqwtzYA7ASNwFr2G/a+q3b
+        X89DJL7mRyk3fj6Gjoy72AlfEsbzTRLk=
+X-Received: by 2002:a5d:53c8:0:b0:2dd:2a04:b73f with SMTP id a8-20020a5d53c8000000b002dd2a04b73fmr14836583wrw.49.1680164329580;
+        Thu, 30 Mar 2023 01:18:49 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YHmCn199HtVyO5MEs1UEbLsArdPXVMMRghyJj0jOBpNRBnC3gHUBArUxmR5qR0AZzRBzXpAg==
+X-Received: by 2002:a5d:53c8:0:b0:2dd:2a04:b73f with SMTP id a8-20020a5d53c8000000b002dd2a04b73fmr14836558wrw.49.1680164329215;
+        Thu, 30 Mar 2023 01:18:49 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id b9-20020adfde09000000b002daeb108304sm19070458wrm.33.2023.03.30.01.18.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 01:09:50 -0700 (PDT)
+        Thu, 30 Mar 2023 01:18:49 -0700 (PDT)
 From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     linux-kernel@vger.kernel.org,
+To:     linux-kernel@vger.kernel.org
+Cc:     Enric Balletbo i Serra <eballetbo@redhat.com>,
         Brendan Higgins <brendanhiggins@google.com>,
-        Maxime Ripard <maxime@cerno.tech>,
         linux-kselftest@vger.kernel.org,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
+        =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+        David Gow <davidgow@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, Maxime Ripard <maxime@cerno.tech>,
+        Javier Martinez Canillas <javierm@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: Add KUnit tests for some of the input core
- helper functions
-In-Reply-To: <CAGS_qxpEzXRWqy2Xd8qJn7GRxv+8HF40Lxt8esD-59CzeePZSw@mail.gmail.com>
-References: <20230329092332.2143623-1-javierm@redhat.com>
- <CAGS_qxpEzXRWqy2Xd8qJn7GRxv+8HF40Lxt8esD-59CzeePZSw@mail.gmail.com>
-Date:   Thu, 30 Mar 2023 10:09:49 +0200
-Message-ID: <87cz4qfynm.fsf@minerva.mail-host-address-is-not-set>
+Subject: [PATCH v2] Input: Add KUnit tests for some of the input core helper functions
+Date:   Thu, 30 Mar 2023 10:18:31 +0200
+Message-Id: <20230330081831.2291351-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
@@ -86,120 +84,256 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Daniel Latypov <dlatypov@google.com> writes:
+The input subsystem doesn't currently have any unit tests, let's add a
+CONFIG_INPUT_KUNIT_TEST option that builds a test suite to be executed
+with the KUnit test infrastructure.
 
-Hello Daniel,
+For now, only three tests were added for some of the input core helper
+functions that are trivial to test:
 
-Thanks a lot for your feedback!
+  * input_test_polling: set/get poll interval and set-up a poll handler.
 
-> On Wed, Mar 29, 2023 at 2:23=E2=80=AFAM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
+  * input_test_timestamp: set/get input event timestamps.
 
-[...]
+  * input_test_match_device_id: match a device by bus, vendor, product,
+                                version and events capable of handling.
 
->>
->>   $ ./tools/testing/kunit/kunit.py run \
->>     --kunitconfig=3Ddrivers/input/tests/.kunitconfig
->
-> Nice!
-> A few small suggestions below as someone who has worked on KUnit.
->
-> FYI, to save a few keystrokes, you can omit the "/.kunitconfig" and
-> just pass the dir, i.e.
->   --kunitconfig=3Ddrivers/input/tests
->
+But having the minimal KUnit support allows to add more tests and suites
+as follow-up changes. The tests can be run with the following command:
 
-Ah, cool. I didn't know that.
+  $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/input/tests/
 
-[...]
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Tested-by: Enric Balletbo i Serra <eballetbo@redhat.com>
+---
 
->>  drivers/input/tests/input_test.c | 144 +++++++++++++++++++++++++++++++
->
-> I don't see the .kunitconfig in the diff.
-> Was it accidentally forgotten or does this patch apply to a tree that
-> already has the file?
->
-> (it's easy to forget since git will still ignore it by default, IIRC)
->
+Changes in v2:
+- Add Enric's Tested-by tag.
+- Drop the .kunitconfig from the example command (Daniel Latypov).
+- Add .kunitconfig that wasn't added by mistake (Daniel Latypov).
+- Remove ref to KUnit docs in the Kconfig help text (Daniel Latypov).
+- Inline function calls in the KUNIT_ASSERT_*() calls (Daniel Latypov).
+- Add some comments to explain why a fail or success is expected.
 
-I did indeed forgot because as you mentioned git add complained and I
-missed that needed to force to add it.
+ drivers/input/Kconfig            |  10 +++
+ drivers/input/Makefile           |   1 +
+ drivers/input/tests/.kunitconfig |   3 +
+ drivers/input/tests/Makefile     |   3 +
+ drivers/input/tests/input_test.c | 150 +++++++++++++++++++++++++++++++
+ 5 files changed, 167 insertions(+)
+ create mode 100644 drivers/input/tests/.kunitconfig
+ create mode 100644 drivers/input/tests/Makefile
+ create mode 100644 drivers/input/tests/input_test.c
 
-[...]
+diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
+index e2752f7364bc..735f90b74ee5 100644
+--- a/drivers/input/Kconfig
++++ b/drivers/input/Kconfig
+@@ -166,6 +166,16 @@ config INPUT_EVBUG
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called evbug.
+ 
++config INPUT_KUNIT_TEST
++	tristate "KUnit tests for Input" if !KUNIT_ALL_TESTS
++	depends on INPUT && KUNIT=y
++	default KUNIT_ALL_TESTS
++	help
++	  Say Y here if you want to build the KUnit tests for the input
++	  subsystem.
++
++	  If in doubt, say "N".
++
+ config INPUT_APMPOWER
+ 	tristate "Input Power Event -> APM Bridge" if EXPERT
+ 	depends on INPUT && APM_EMULATION
+diff --git a/drivers/input/Makefile b/drivers/input/Makefile
+index 2266c7d010ef..c78753274921 100644
+--- a/drivers/input/Makefile
++++ b/drivers/input/Makefile
+@@ -26,6 +26,7 @@ obj-$(CONFIG_INPUT_JOYSTICK)	+= joystick/
+ obj-$(CONFIG_INPUT_TABLET)	+= tablet/
+ obj-$(CONFIG_INPUT_TOUCHSCREEN)	+= touchscreen/
+ obj-$(CONFIG_INPUT_MISC)	+= misc/
++obj-$(CONFIG_INPUT_KUNIT_TEST)	+= tests/
+ 
+ obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
+ 
+diff --git a/drivers/input/tests/.kunitconfig b/drivers/input/tests/.kunitconfig
+new file mode 100644
+index 000000000000..2f5bedf8028e
+--- /dev/null
++++ b/drivers/input/tests/.kunitconfig
+@@ -0,0 +1,3 @@
++CONFIG_KUNIT=y
++CONFIG_INPUT=y
++CONFIG_INPUT_KUNIT_TEST=y
+diff --git a/drivers/input/tests/Makefile b/drivers/input/tests/Makefile
+new file mode 100644
+index 000000000000..90cf954181bc
+--- /dev/null
++++ b/drivers/input/tests/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++
++obj-$(CONFIG_INPUT_KUNIT_TEST) += input_test.o
+diff --git a/drivers/input/tests/input_test.c b/drivers/input/tests/input_test.c
+new file mode 100644
+index 000000000000..e5a6c1ad2167
+--- /dev/null
++++ b/drivers/input/tests/input_test.c
+@@ -0,0 +1,150 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit test for the input core.
++ *
++ * Copyright (c) 2023 Red Hat Inc
++ */
++
++#include <linux/delay.h>
++#include <linux/input.h>
++
++#include <kunit/test.h>
++
++#define POLL_INTERVAL 100
++
++static int input_test_init(struct kunit *test)
++{
++	struct input_dev *input_dev;
++	int ret;
++
++	input_dev = input_allocate_device();
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, input_dev);
++
++	input_dev->name = "Test input device";
++	input_dev->id.bustype = BUS_VIRTUAL;
++	input_dev->id.vendor = 1;
++	input_dev->id.product = 1;
++	input_dev->id.version = 1;
++	input_set_capability(input_dev, EV_KEY, BTN_LEFT);
++	input_set_capability(input_dev, EV_KEY, BTN_RIGHT);
++
++	ret = input_register_device(input_dev);
++	if (ret) {
++		input_free_device(input_dev);
++		KUNIT_ASSERT_FAILURE(test, "Register device failed: %d", ret);
++	}
++
++	test->priv = input_dev;
++
++	return 0;
++}
++
++static void input_test_exit(struct kunit *test)
++{
++	struct input_dev *input_dev = test->priv;
++
++	input_unregister_device(input_dev);
++	input_free_device(input_dev);
++}
++
++static void input_test_poll(struct input_dev *input) { }
++
++static void input_test_polling(struct kunit *test)
++{
++	struct input_dev *input_dev = test->priv;
++
++	/* Must fail because a poll handler has not been set-up yet */
++	KUNIT_ASSERT_EQ(test, input_get_poll_interval(input_dev), -EINVAL);
++
++	KUNIT_ASSERT_EQ(test, input_setup_polling(input_dev, input_test_poll), 0);
++
++	input_set_poll_interval(input_dev, POLL_INTERVAL);
++
++	/* Must succeed because poll handler was set-up and poll interval set */
++	KUNIT_ASSERT_EQ(test, input_get_poll_interval(input_dev), POLL_INTERVAL);
++}
++
++static void input_test_timestamp(struct kunit *test)
++{
++	const ktime_t invalid_timestamp = ktime_set(0, 0);
++	struct input_dev *input_dev = test->priv;
++	ktime_t *timestamp, time;
++
++	timestamp = input_get_timestamp(input_dev);
++	time = timestamp[INPUT_CLK_MONO];
++
++	/* The returned timestamp must always be valid */
++	KUNIT_ASSERT_EQ(test, ktime_compare(time, invalid_timestamp), 1);
++
++	time = ktime_get();
++	input_set_timestamp(input_dev, time);
++
++	timestamp = input_get_timestamp(input_dev);
++	/* The timestamp must be the same than set before */
++	KUNIT_ASSERT_EQ(test, ktime_compare(timestamp[INPUT_CLK_MONO], time), 0);
++}
++
++static void input_test_match_device_id(struct kunit *test)
++{
++	struct input_dev *input_dev = test->priv;
++	struct input_device_id id;
++
++	/*
++	 * Must match when the input device bus, vendor, product, version
++	 * and events capable of handling are the same and fail to match
++	 * otherwise.
++	 */
++	id.flags = INPUT_DEVICE_ID_MATCH_BUS;
++	id.bustype = BUS_VIRTUAL;
++	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
++
++	id.bustype = BUS_I2C;
++	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
++
++	id.flags = INPUT_DEVICE_ID_MATCH_VENDOR;
++	id.vendor = 1;
++	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
++
++	id.vendor = 2;
++	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
++
++	id.flags = INPUT_DEVICE_ID_MATCH_PRODUCT;
++	id.product = 1;
++	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
++
++	id.product = 2;
++	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
++
++	id.flags = INPUT_DEVICE_ID_MATCH_VERSION;
++	id.version = 1;
++	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
++
++	id.version = 2;
++	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
++
++	id.flags = INPUT_DEVICE_ID_MATCH_EVBIT;
++	__set_bit(EV_KEY, id.evbit);
++	KUNIT_ASSERT_TRUE(test, input_match_device_id(input_dev, &id));
++
++	__set_bit(EV_ABS, id.evbit);
++	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
++}
++
++static struct kunit_case input_tests[] = {
++	KUNIT_CASE(input_test_polling),
++	KUNIT_CASE(input_test_timestamp),
++	KUNIT_CASE(input_test_match_device_id),
++	{ /* sentinel */ }
++};
++
++static struct kunit_suite input_test_suite = {
++	.name = "input_core",
++	.init = input_test_init,
++	.exit = input_test_exit,
++	.test_cases = input_tests,
++};
++
++kunit_test_suite(input_test_suite);
++
++MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
++MODULE_LICENSE("GPL");
 
->> +         Say Y here if you want to build the KUnit tests for the input
->> +         subsystem. For more information about KUnit and unit tests in
->> +         general, please refer to the KUnit documentation in
->> +         Documentation/dev-tools/kunit/.
->> +
->> +         If in doubt, say "N".
->
-> FYI, I know this is in the style guide, but I'd personally feel free
-> to leave out this paragraph.
->
-> Having such "advertising" about what KUnit is made more sense when
-> less people knew about it.
-> It's not known by everyone in the community yet, but we might be
-> getting to a point where this turns into repetitive bloat.
->
-
-Ok, I'll drop these.
-
-[...]
-
->> +
->> +       ret =3D input_register_device(input_dev);
->> +       KUNIT_ASSERT_EQ(test, ret, 0);
->
-> (very unlikely that this matters, but...)
-> Hmm, should we call input_free_device() if this fails?
-> i.e. something like
->
-> ret =3D ...;
-> if (ret) {
->   input_free_device(input_dev);
->   KUNIT_ASSERT_FAILURE(test, "failed to register device: %d", ret);
-> }
->
-
-Indeed. I'll do this too.
-
-[...]
-
->> +
->> +       ret =3D input_get_poll_interval(input_dev);
->> +       KUNIT_ASSERT_EQ(test, ret, -EINVAL);
->
-> minor suggestion: can we inline these? E.g.
->   KUNIT_ASSERT_EQ(test, -EINVAL, input_get_poll_interval(input_dev));
-> This way on failure, KUnit can print the function call instead of just `r=
-et`.
->
-> Users could always find out what failed by the line #, but including
-> it in the output would be a bit nicer.
->
-> E.g. w/ KUNIT_EXPECT_EQ(test, 0, ...)
->
->     # example_simple_test: EXPECTATION FAILED at
-> lib/kunit/kunit-example-test.c:29
->     Expected 0 =3D=3D input_get_poll_interval(input_dev), but
->         input_get_poll_interval(input_dev) =3D=3D 42 (0x2a)
->
-> verus
->
->     # example_simple_test: EXPECTATION FAILED at
-> lib/kunit/kunit-example-test.c:28
->     Expected ret =3D=3D 0, but
->         ret =3D=3D 42 (0x2a)
->
-
-Great suggestion. I'll change too, it would also get rid of the ret variabl=
-e.
-
---=20
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+base-commit: 3a93e40326c8f470e71d20b4c42d36767450f38f
+-- 
+2.40.0
 
