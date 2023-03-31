@@ -2,155 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 246096D0E61
-	for <lists+linux-input@lfdr.de>; Thu, 30 Mar 2023 21:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 694026D19B6
+	for <lists+linux-input@lfdr.de>; Fri, 31 Mar 2023 10:25:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232003AbjC3TLJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Mar 2023 15:11:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44748 "EHLO
+        id S230109AbjCaIZF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Mar 2023 04:25:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231986AbjC3TLH (ORCPT
+        with ESMTP id S230134AbjCaIYF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Mar 2023 15:11:07 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39301EC58;
-        Thu, 30 Mar 2023 12:11:04 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id cj15so12038328qtb.5;
-        Thu, 30 Mar 2023 12:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680203463;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/La1NUClP9IMQiiLt2X44fMAY95yDMjmZuDa4nNgHL0=;
-        b=qrYDDnpIkI8YoAv4P7urp8V9gsKqxgEruszvIyPong9+IeYqHY92YkCunZXe+kg9FX
-         OReDSgMb+RiEYyRBfj7vL0Osep1aXlMQYUPbbyhbWYxw7rs7Uj1zfFH1qsOYotRFGfE+
-         GGmA538TFpFZP998OIFvah4Zb0+SSL/Sb25j/TeOD8FTjkAB7E5554s/zr/KnCYa89mj
-         w+wA4+tf+eRy3Ix29dW/fSibqPoqpeaWjT9Oq2yuNpJIqwPyBX4/AXZlbzW0FG7Mpa5r
-         A46qAuXuVGbc0Vrg/dNXOpxAEdu1cNL2Y1ET7hrnFdsVltxZjPeVbMAym5SCTB5WtdDo
-         6ktg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680203463;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/La1NUClP9IMQiiLt2X44fMAY95yDMjmZuDa4nNgHL0=;
-        b=zrcSs+YAzzbVRqHUCTHRqonM1aqeFHD8sh+LTH70CrxQL1v3MW2zuLYgr+r7g6W2is
-         2d+bJzbahzjrnbecg/4W+8/nN60rCh8Hv4j8GE5Oud3EVAIunfH6ZmKE6oiHDwRJzzp2
-         oH1gCmnmcXAI1AzHiAUNTmwynEzZBmZwqVObmEV2+1tKjhgQ9PwiG/y1d/2h8Qg5ET7h
-         dA7Mnw5pJBuwSp1FxnqUBl1NACBKZy44cXsaxX3trYhpD4APrwoCy/c+4IaksfzVD+Uk
-         HZpqPfMfelQpqzUvaG0xQxM13ECOkZGXUXqrYRjL4bG/dM98f0NzLQFU+6LbKDOXvaD4
-         de9g==
-X-Gm-Message-State: AO0yUKVviQbYg5+59VH+uT2YPjAdFZ7pXUlpsRKmVKvC1/DkcGO4oobT
-        wSZVxvKo8Uu2cxhtBAqCJBrZ6ftnzQkEiw==
-X-Google-Smtp-Source: AK7set9edRopzZ9YfOtxBokYW9pjyewn5J0/eaf79P/YBKQ8RLqpbrPZnNrMcc287BIqlT6wwL9fXQ==
-X-Received: by 2002:ac8:7c45:0:b0:3b8:6763:c25f with SMTP id o5-20020ac87c45000000b003b86763c25fmr41723668qtv.13.1680203463283;
-        Thu, 30 Mar 2023 12:11:03 -0700 (PDT)
-Received: from [127.0.1.1] ([91.230.2.244])
-        by smtp.gmail.com with ESMTPSA id q21-20020a05620a2a5500b007426ec97253sm70223qkp.111.2023.03.30.12.11.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 12:11:02 -0700 (PDT)
-From:   Benjamin Bara <bbara93@gmail.com>
-Date:   Thu, 30 Mar 2023 21:10:37 +0200
-Subject: [PATCH v4] Input: tsc2007 - enable cansleep pendown GPIO
+        Fri, 31 Mar 2023 04:24:05 -0400
+X-Greylist: delayed 1273 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 31 Mar 2023 01:23:02 PDT
+Received: from mail.arnisdale.pl (mail.arnisdale.pl [151.80.133.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F79FEB61
+        for <linux-input@vger.kernel.org>; Fri, 31 Mar 2023 01:23:02 -0700 (PDT)
+Received: by mail.arnisdale.pl (Postfix, from userid 1002)
+        id 7D32729856; Fri, 31 Mar 2023 07:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=arnisdale.pl; s=mail;
+        t=1680248840; bh=6DhEsVYOGxxfetVY3oiVeew+7Cm34ArcvgDq2WQYIRw=;
+        h=Date:From:To:Subject:From;
+        b=re1kUH7Iunny2Gp9a3aNL3rbArhP+iQnqC0C9NY84BZvf7I39rxdK/4yn1m6j7OSe
+         EzqPjRKVFhS6n+sAsPKNnVzIyqVMhOF3ZxVWfT9IKHc/1HBEaRvFxWOXTZEl8iCPHx
+         t43EGU6tMErV4xdE1PUWSmm0avJ/RZ98m4hbPMUl4cYsEAf3gHf2iKfth56wkXtyYd
+         dNmPciCgvKC/2qdMankZRr9qo93ZL8IkH+5TYoDs+l0r6OjZncsj5qgNwVfda8ln7W
+         Z6SPbiW+hHqyt5yjzdzSDoxcoXe+uwFhStx5loP/Z5+q1MXf9rH6OmyPr2r10XYQ+2
+         +eDnKyc2vvJ8g==
+Received: by mail.arnisdale.pl for <linux-input@vger.kernel.org>; Fri, 31 Mar 2023 07:45:40 GMT
+Message-ID: <20230331064501-0.1.3o.182bs.0.crdine5lrm@arnisdale.pl>
+Date:   Fri, 31 Mar 2023 07:45:40 GMT
+From:   "Maciej Telka" <maciej.telka@arnisdale.pl>
+To:     <linux-input@vger.kernel.org>
+Subject: =?UTF-8?Q?Nawi=C4=85zanie_wsp=C3=B3=C5=82pracy?=
+X-Mailer: mail.arnisdale.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230328-tsc2007-sleep-v4-1-2ede92ec9b71@skidata.com>
-X-B4-Tracking: v=1; b=H4sIAKzeJWQC/3WOS4rDMBBErxK0HgVJLfmTVe4xZNGW27GY2A7dw
- kwIvntkwyxn+SjqVb2VECcSdTm9FdOaJC1zAf91UnHE+U469YWVMw4MuEZnic6YWsuD6KmHKrQ
- BkMD1RpVOh0K6Y5zjuLcmlEy8B0+mIf0eQ9+3wgMvk84jE/7pnaltMLUP4M9gbVXVjba665Cxh
- et9wvQ4x2XaZWOSvPDrOL3Crvzv3wrFEVpvqemj8dZe5Sf1mPFQ3bZt+wAGetbDAgEAAA==
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     hns@goldelico.com, richard.leitner@linux.dev,
-        christophe.jaillet@wanadoo.fr, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>,
-        Richard Leitner <richard.leitner@linux.dev>
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: arnisdale.pl]
+        *  3.6 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [151.80.133.87 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: arnisdale.pl]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
+Dzie=C5=84 dobry,
 
-When a hard IRQ is triggered, the soft IRQ, which decides if an actual
-pen down happened, should always be triggered. This enables the usage of
-"can_sleep" GPIO chips as "pen down" GPIO, as the value is not read
-during the hard IRQ anymore. This might be the case if the GPIO chip is
-an expander behind i2c.
+Czy jest mo=C5=BCliwo=C5=9B=C4=87 nawi=C4=85zania wsp=C3=B3=C5=82pracy z =
+Pa=C5=84stwem?
 
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
----
-Hi!
+Z ch=C4=99ci=C4=85 porozmawiam z osob=C4=85 zajmuj=C4=85c=C4=85 si=C4=99 =
+dzia=C5=82aniami zwi=C4=85zanymi ze sprzeda=C5=BC=C4=85.
 
-I found a different approach to my problem:
-If the primary IRQ handler is set to NULL, the default primary IRQ
-handler simply triggers a soft IRQ handler wake up. As the hard IRQ is
-only triggered when a pen down is detected, the gpiod_get_value() inside
-tsc2007_is_pen_down() always returns true and therefore can be
-neglected.
+Pomagamy skutecznie pozyskiwa=C4=87 nowych klient=C3=B3w.
 
-v3: https://lore.kernel.org/lkml/20230328-tsc2007-sleep-v3-1-5941e8dc0411@skidata.com/
+Zapraszam do kontaktu.
 
-----
-v4:
-- don't read value in hard IRQ
 
-v3:
-- extend commit message
-
-v2:
-- fix style mentioned by Christophe
----
- drivers/input/touchscreen/tsc2007_core.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
-
-diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
-index 3c793fb70a0e..fa4a71e3ad52 100644
---- a/drivers/input/touchscreen/tsc2007_core.c
-+++ b/drivers/input/touchscreen/tsc2007_core.c
-@@ -172,19 +172,6 @@ static irqreturn_t tsc2007_soft_irq(int irq, void *handle)
- 	return IRQ_HANDLED;
- }
- 
--static irqreturn_t tsc2007_hard_irq(int irq, void *handle)
--{
--	struct tsc2007 *ts = handle;
--
--	if (tsc2007_is_pen_down(ts))
--		return IRQ_WAKE_THREAD;
--
--	if (ts->clear_penirq)
--		ts->clear_penirq();
--
--	return IRQ_HANDLED;
--}
--
- static void tsc2007_stop(struct tsc2007 *ts)
- {
- 	ts->stopped = true;
-@@ -376,7 +363,7 @@ static int tsc2007_probe(struct i2c_client *client)
- 	}
- 
- 	err = devm_request_threaded_irq(&client->dev, ts->irq,
--					tsc2007_hard_irq, tsc2007_soft_irq,
-+					NULL, tsc2007_soft_irq,
- 					IRQF_ONESHOT,
- 					client->dev.driver->name, ts);
- 	if (err) {
-
----
-base-commit: 197b6b60ae7bc51dd0814953c562833143b292aa
-change-id: 20230328-tsc2007-sleep-f65953ae32d0
-
-Best regards,
--- 
-Benjamin Bara <benjamin.bara@skidata.com>
-
+Pozdrawiam serdecznie
+Maciej Telka
