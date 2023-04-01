@@ -2,162 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 900D96D2B7B
-	for <lists+linux-input@lfdr.de>; Sat,  1 Apr 2023 00:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60F3A6D2DE5
+	for <lists+linux-input@lfdr.de>; Sat,  1 Apr 2023 05:22:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232973AbjCaWp5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 31 Mar 2023 18:45:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60174 "EHLO
+        id S233768AbjDADWK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Mar 2023 23:22:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjCaWp4 (ORCPT
+        with ESMTP id S233621AbjDADWI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 31 Mar 2023 18:45:56 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53EFF2D5F
-        for <linux-input@vger.kernel.org>; Fri, 31 Mar 2023 15:45:55 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id q102so21965516pjq.3
-        for <linux-input@vger.kernel.org>; Fri, 31 Mar 2023 15:45:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1680302755;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FT3VTUjo7B8Z6a6Co0FRAvEldOp0goywye0iYEBwxqQ=;
-        b=bymzRAbBGTzOVh8y2mzeeRerq3UIiF4kZE079arFHGmT9TIO75k6aqXL8nUbrDPK/5
-         aqzUCQO3aFP3ohy6F4Y/RVzpJljEtT9hgu3PYKtF6KwT0EB/t29v3WSGxu130p0tAP9+
-         dgOg094CfB3dOx3wRIYpGwe1PTLE1exXzBF98=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680302755;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FT3VTUjo7B8Z6a6Co0FRAvEldOp0goywye0iYEBwxqQ=;
-        b=auW+uVI0tp7IIbALjTVZP+7v5/Xa57d/LKiE04LEZ+/5obXRbap4nrwJaaiQKB/WpD
-         80UXGHftL7QIuDhrC5+TQdrORmAmxHGT2w2iUgFrvtQvVrJqN5ZzNDNixzHGKnsYMM5B
-         /uNsdaeNbLoOxxif+dv+ItSketbGGO/P1fni8f8fflhZ56l1xHcs9aeECVMV/mBkf9Pf
-         h8Bbxwk64xYYCWHFCls04zubmC+jO6t5Q2OfOekswjq4qpopWD2MIZLqFUyWcR9Btz6e
-         sF349ilmyS7Qzh+jTboocajvC3OLqZaFSkmYywzmZesisN7Q61zgKMvRoqVDxwv00cc8
-         H93w==
-X-Gm-Message-State: AAQBX9e3v9+yfPf0/XNZAaq4SHqAIGFVzvrnLo3wtOYM2GdEZU8hE0RL
-        FJ/JQxvCblStCzMxz7W/Jv20kQ==
-X-Google-Smtp-Source: AKy350bGaWt/BjzawxlujTsu+UdC93Q73IN15yVjk8iKLVcxpk0Kzb92ZCHHJsqTzHeW3KM5XN1gqQ==
-X-Received: by 2002:a05:6a20:4a30:b0:df:4e86:9c99 with SMTP id fr48-20020a056a204a3000b000df4e869c99mr19610716pzb.55.1680302754782;
-        Fri, 31 Mar 2023 15:45:54 -0700 (PDT)
-Received: from torsha.c.googlers.com.com (209.148.168.34.bc.googleusercontent.com. [34.168.148.209])
-        by smtp.gmail.com with ESMTPSA id j11-20020aa7800b000000b005895f9657ebsm2289216pfi.70.2023.03.31.15.45.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 15:45:54 -0700 (PDT)
-From:   Torsha Banerjee <torsha@chromium.org>
-X-Google-Original-From: Torsha Banerjee <torsha@google.com>
-To:     u-boot@lists.denx.de
-Cc:     Jing <jingyliang@chromium.org>, Sean <seobrien@chromum.org>,
-        Jora Jacobi <jora@google.com>,
-        Harry Cutts <hcutts@chromium.org>,
-        Torsha Banerjee <torsha@google.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Series-to: LKML <linux-kernel@vger.kernel.org>
-Date:   Fri, 31 Mar 2023 22:45:36 +0000
-Message-Id: <20230331224536.1685149-1-torsha@google.com>
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-MIME-Version: 1.0
+        Fri, 31 Mar 2023 23:22:08 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6011CDBF0;
+        Fri, 31 Mar 2023 20:22:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PR/Eb0Uo9Em57k61eJYHhJskmlU7a8EmjqNFZIoR844feO768WAZ7gHPobflTzGpXRIChWKfmUqUv96tpqO/gEPjRQ4KFdNHLpmOCrckunL2fFWODBrQ+N6E3m1N7fjjdUdGpUoXBLK0jPrPO6//1UlhWZcvgqVrAAfE+XxuQVuab9AEot9IgeyRuCRjpf+R0bMj9fFxiJTRiKHBAlBYTZyUjuVrB8S1xsaI/q4S1G/jZsIHnql9ARkgOPcqwLIe1BspgLW+QE2b6kniVYKlXq/a+OhkF+Elf5JIAxDxKNFRgzMRZeIWva+QjVRQJkZneOo5CvBYLCGoLubRTakwVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8vC+TcVf7biSaXXbs809HuUKxokujMPoBfi1gFjlvMk=;
+ b=M1Mbeq1ObzpInWC1gyRrGcR1F/gqnOdvV55J+fgWImfFQU+uWr64BTUCAxh3kvNt8XWX7wPAzyCXktLKI0BbiSzyCSrCjLBynxSBr2hbu/mwVo3S3KeK2JbItISvZfOHqEbMlNLv7nxPkUG81AjGnrzBrRg3+EKL584k9QAwcd8Wn30Ij2fHxP1Yr5If7sMhIdkvFHoJ6T4g4T4QT0ow0kPGmxJbbIWiuIT1OE8qolSXh2tfiZAGobQba7FujbmO+eAhBvlz0GAb5+tDDDO/7inZ18KCRXGzqJUksG9/Oo+ESjkmn2XVSkz/fYchVCIkmeuYTUj5E47le/1A/iGIPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8vC+TcVf7biSaXXbs809HuUKxokujMPoBfi1gFjlvMk=;
+ b=FUJ94L1tqZxKxyKR/2SZ7ngIYVqWuuYOUxXBWRbZyWrVGDzfjwopzpK6XaoQkpP5ktQlXtV8tKquzXsQXZOfB8ENMdjkE9NIuSk344rHcIx2oL5VJy7Q+vgt+EPo/zj/1oAFoqz70IRP9QuuVywlXkB0mxxweZA9a9EevJIiaqt3r13LFfw9WZGc61WJj9QRx5x13pSdQPaDMraj5keRLifSEXPYOKR/pRLcmGLMSUGGjT5ySKt6xMz9Ac24Rwc2IahIJ2uxWKFa0IryEpUQ3MD1dL6ECQWSXDQCtFHJDzGy/zhYccw1nLTduL1t5do+ED8KoQpyPj8hRLziChHDCQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
+ by BL0PR12MB4914.namprd12.prod.outlook.com (2603:10b6:208:1c4::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.23; Sat, 1 Apr
+ 2023 03:22:03 +0000
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::3559:931:66c6:7507]) by BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::3559:931:66c6:7507%3]) with mapi id 15.20.6254.024; Sat, 1 Apr 2023
+ 03:22:02 +0000
+From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: [PATCH v1 RESEND 0/1] HID: shield
+Date:   Fri, 31 Mar 2023 20:21:50 -0700
+Message-Id: <20230401032150.7424-1-rrameshbabu@nvidia.com>
+X-Mailer: git-send-email 2.38.4
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0103.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::18) To BYAPR12MB2743.namprd12.prod.outlook.com
+ (2603:10b6:a03:61::28)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|BL0PR12MB4914:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92bbce5c-5d48-4dc8-de1e-08db32604326
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +ioATjfPOM8j9tHAtJxcvQ9OFHGHZJe9L+bLhbBIKomiKqOOPkLZMjl+S7dnaf8WgEUdYuqXGSdkG3o0qzn9NZqDK5MZyglU+NSzCjhr/klgVkQF3Sc/foKx+qGLm0ADMRMVz7kIpKC5mIo9a9vWqTDekGRqSiAD4N1nXzUcg0Kb//2fBC/flvV3zh+zgHNHdrd+mP8UzKIp5vUPmXWDCQSfY8W42NfVuXDVMw7HZwzRGs7rrsvSXUZOcm+361oNCqE6zs6DnEoPsgZWsHjfZmcWqylwrvCdeEzHy5ivSTV3yfqjnKe7TMcr9coPoPr+xuJ2f7P/HQpjyfeUkE2Pw7YguH84ziGZaaH6yUhZDExKwSLUBYh0nRJqsfeflunuH9/znWrCYG9ZriQ4GgkhXGJthGZwHJUY8+U8VQHfMC6xLM+FOUJkWNPklr41omcOZmr+uAQJ4ykyFOYIbf6zwHxoQqHNBV0fHwtBIuhO8inn20MASbV9GxDZ4smW6RJYiC8LvHcSmih2J5pltAL0lVSa/GmcHvroYn1CtS1U3WUuugYaiD1rYG9xcDe96lTLMKics4TBMlDNIwYrA0BBxDsughtwa2Yk/eEsILjsvaI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(376002)(366004)(39860400002)(136003)(451199021)(5660300002)(38100700002)(41300700001)(8936002)(8676002)(86362001)(4744005)(2906002)(107886003)(66556008)(6512007)(1076003)(6506007)(6486002)(6666004)(966005)(2616005)(36756003)(66476007)(4326008)(66946007)(316002)(478600001)(110136005)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p6ExYi98D0lZCi/u9zsShj2gNSn468nQ8AjjxWecfohlTFru8cnGd4WDWqXf?=
+ =?us-ascii?Q?m1KWomzxU4zg52Vk20roRhMAe49RDjZsbVRVw8UAt2kw/k+ESg8yAu2h0q+7?=
+ =?us-ascii?Q?cN4Kr8ATyw0KQvqd/75or9brhQNtDRXZGGyy/rxZbKooeH1Gha7wP40uuayZ?=
+ =?us-ascii?Q?I1AEQe6vmUU7icM6NUHm/MknBuNfgzt4QFQ0PpL62ADL1VfH4Jcp1Vj9NFv7?=
+ =?us-ascii?Q?F9Tu/EiLWmGyWmvwR45AHhX0QFv7ylANuf2s97iQdaoJhkx9kYi7iwKg7d1I?=
+ =?us-ascii?Q?CLkjVn7PkrCmBkS8Gkn8AhD93iWjy0UQtXqG6hu/Yw4cBIAFYVCgMv0LHjpF?=
+ =?us-ascii?Q?XzeRrjAR+zb84r9TayKfibf1GcB5mlHJvcIgf/YPesVsNZi9IgR93/gARN1R?=
+ =?us-ascii?Q?zm0inqak/H38Fndzf1Fme9gnPrk8nYkKyznvx0Ru2sV+MSb0od0T5nOX9hSt?=
+ =?us-ascii?Q?Sa6QakeFYmEUIERj4vd3MNYqbaF311fraI/pc4yy+tPfAuAaIL3WV+cuWjYI?=
+ =?us-ascii?Q?JVBIWwGM/3/eOIqjtAg/Efc9wM2Y8DoLCOHzglfym8geBxCRSUVeHG8kxhiT?=
+ =?us-ascii?Q?pwnJEANO2q6SKe7oVzPImNKiGENDxjKwklLVBSCCgRCTWrGzNaMGRu0VrX2t?=
+ =?us-ascii?Q?cw6CLU4qXZe3RLLOSZsziTzctOEl/fTEf/aY3Sye1RkajBTCPwi36jRoX2Lt?=
+ =?us-ascii?Q?CPbgH6JUxC8T72JylztgAViAPQt+ktUU8oikO2Av4uG0r+K/A/hdRHwGSE8q?=
+ =?us-ascii?Q?BW2OMf7tb93t586AG45imU+EQSM4RY7fdqvmbDHe3c6n7wrsmMzfOqrOtYvN?=
+ =?us-ascii?Q?thL9G18jkecplKOGD/y1icZc3NAbVLklz1dukuBLnunM4XFhjEcjRpDJIKHl?=
+ =?us-ascii?Q?Tp4X/05kAJje+/O40bW7vL2Ymdf3zf3LV/NyH+4F8oJxwaNDL/2w28kORIch?=
+ =?us-ascii?Q?4XQoRjDs2Ohe+DL+S+r0yWPf3fr055ihd1YAAu76cTG4fMlrxEqyEJvGtuHw?=
+ =?us-ascii?Q?BV93Ac2M/Z/Z3EawB2a8IhsnFwSoHpbSeBqZsv0c5IBG+notxZnvF2n6EyBc?=
+ =?us-ascii?Q?on0JVHofhYvkotxNMeLYlcqOZHWQD41OK/RDy/xaLGoh3cJROxJOcaWs3hRc?=
+ =?us-ascii?Q?ossGB+SX1QQrlO30lnQE6bNP1kTj0R2iVt7QF6NeRgyBofIkcqSrIh0rVmMy?=
+ =?us-ascii?Q?3Cc5l4d/nYe5qKIGap0X53lBSEFY8zKs57KLzDD7QjcODhdCyIaKSBzO2HZw?=
+ =?us-ascii?Q?5vMzBSZjLApG4dDmOlnjmgaXHzcKW/6SWaEReplgqwXus/oK2zRFf4+p07rY?=
+ =?us-ascii?Q?Z6KzRzPXhdBq2fV4bN8tRsytVXfJwCkBIbO1wwd+ourHbAK3DzhqPd9i6XbY?=
+ =?us-ascii?Q?Yivaaff6INkMLnZU5TpzN/BHwde4hCgNlrlqcX7WDRYVc/84ECozEmaQbiaS?=
+ =?us-ascii?Q?EHSiySUuatGuO55ZaEvQwN8yisSJm1Gd6LfpARi3dqTlFl/CAtGCSX8367Kt?=
+ =?us-ascii?Q?ZerzxKweE9CouZpfrM4H9GbSp5cmmjycEyV3yQJs+8nwAOXcytzrWWERtRy/?=
+ =?us-ascii?Q?aP9CrSToMM5+ioK2lPUzfIJ+LEeX6IqR45tNHk+0Xw5GDrKyWI63hrXSK8BY?=
+ =?us-ascii?Q?EExMlIY31nu7kZvPuNEZHUzaDfS0J9VMIT+8luW9dYpCP5ii9ErimFfeNjBT?=
+ =?us-ascii?Q?C6nvOg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92bbce5c-5d48-4dc8-de1e-08db32604326
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2023 03:22:02.9220
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2ZlIinl40vFjoBTmASlwdk9LCZFZ1j+qNq3lKdmiote4zQTsbN5RCeUJutDRypc4wAJQwv9volM+hBf+OVXX3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4914
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jora Jacobi <jora@google.com>
+Hi.
 
-Restore missing cursor for digitizer devices
+This is an initial driver implementation for supporting NVIDIA SHIELD
+peripherals. Currently supports the following functionality for the
+THUNDERSTRIKE (SHIELD 2017) controller.
 
-A previously committed patch to remove cursors for HID Digitizer-Pen
-devices also removed the cursors for some tablets which have incorrect HID
-descriptors. These devices should enumerate with Usage ID "Digitizer"
-instead of Usage ID "Pen".
+  - Haptics (ff_memless)
+  - Serial number query (sysfs)
+  - Hardware information query (sysfs)
+  - Firmware version query (sysfs)
 
-Patch which introduced the issue: commit 8473a93d1ba5
-("HID: input: Set INPUT_PROP_-property for HID_UP_DIGITIZERS")
+Rahul Rameshbabu (1):
+  HID: shield: Initial driver implementation with Thunderstrike support
 
-Changes-
-Add HID quirk HID_QUIRK_DEVICE_IS_DIGITIZER
-Quirk will force INPUT_PROP_POINTER for HID Digitizers
-Apply quirk to Huion tablets
-Apply quirk to UGEE/XP-Pen tablets based on device ID
+ MAINTAINERS              |   6 +
+ drivers/hid/Kconfig      |  18 ++
+ drivers/hid/Makefile     |   1 +
+ drivers/hid/hid-ids.h    |   3 +
+ drivers/hid/hid-shield.c | 587 +++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 615 insertions(+)
+ create mode 100644 drivers/hid/hid-shield.c
 
-Tested with Huion H640P and H430P. Connected the digitizer to the
-Chromebook and confirmed with a drawing program that the cursor appears and
-moves when the digitizer's stylus is hovering over the surface of the
-digitizer.
-
-Signed-off-by: Jora Jacobi <jora@google.com>
-Reviewed-by: Harry Cutts <hcutts@chromium.org>
-Signed-off-by: Torsha Banerjee <torsha@google.com>
----
-
- drivers/hid/hid-input.c  | 3 ++-
- drivers/hid/hid-quirks.c | 9 +++++++++
- include/linux/hid.h      | 1 +
- 3 files changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 7fc967964dd8..f0c67baddc8d 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -927,7 +927,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		break;
- 
- 	case HID_UP_DIGITIZER:
--		if ((field->application & 0xff) == 0x01) /* Digitizer */
-+		if (((field->application & 0xff) == 0x01) ||
-+			(device->quirks & HID_QUIRK_DEVICE_IS_DIGITIZER)) /* Digitizer */
- 			__set_bit(INPUT_PROP_POINTER, input->propbit);
- 		else if ((field->application & 0xff) == 0x02) /* Pen */
- 			__set_bit(INPUT_PROP_DIRECT, input->propbit);
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 66e64350f138..094fe4c4f3b3 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -102,6 +102,8 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_HS64), HID_QUIRK_DEVICE_IS_DIGITIZER },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_TABLET), HID_QUIRK_DEVICE_IS_DIGITIZER },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M610X), HID_QUIRK_MULTI_INPUT },
-@@ -1298,6 +1300,13 @@ unsigned long hid_lookup_quirk(const struct hid_device *hdev)
- 		quirks = hid_gets_squirk(hdev);
- 	mutex_unlock(&dquirks_lock);
- 
-+	/*
-+	 * UGEE/XP-Pen HID Pen devices which have 0x0-0x9 as the low nibble
-+	 * of the device ID are actually digitizers, not HID Pen devices
-+	 */
-+	if (hdev->vendor == USB_VENDOR_ID_UGEE && (hdev->product & 0x0F) <= 0x09)
-+		quirks |= HID_QUIRK_DEVICE_IS_DIGITIZER;
-+
- 	return quirks;
- }
- EXPORT_SYMBOL_GPL(hid_lookup_quirk);
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 1ea8c7a3570b..1653359002b3 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -354,6 +354,7 @@ struct hid_item {
- #define HID_QUIRK_INPUT_PER_APP			BIT(11)
- #define HID_QUIRK_X_INVERT			BIT(12)
- #define HID_QUIRK_Y_INVERT			BIT(13)
-+#define HID_QUIRK_DEVICE_IS_DIGITIZER           BIT(14)
- #define HID_QUIRK_SKIP_OUTPUT_REPORTS		BIT(16)
- #define HID_QUIRK_SKIP_OUTPUT_REPORT_ID		BIT(17)
- #define HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP	BIT(18)
+Link: https://lore.kernel.org/linux-input/20230311010940.57585-1-rrameshbabu@nvidia.com/
 -- 
-2.40.0.348.gf938b09366-goog
+2.38.3
 
