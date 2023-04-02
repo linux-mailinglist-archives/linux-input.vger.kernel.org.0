@@ -2,66 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53CB96D341D
-	for <lists+linux-input@lfdr.de>; Sat,  1 Apr 2023 23:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61D466D352E
+	for <lists+linux-input@lfdr.de>; Sun,  2 Apr 2023 03:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230053AbjDAVlw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 1 Apr 2023 17:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36718 "EHLO
+        id S230023AbjDBBqb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 1 Apr 2023 21:46:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjDAVlv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Apr 2023 17:41:51 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3AD21880F
-        for <linux-input@vger.kernel.org>; Sat,  1 Apr 2023 14:41:47 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so27009432pjl.4
-        for <linux-input@vger.kernel.org>; Sat, 01 Apr 2023 14:41:47 -0700 (PDT)
+        with ESMTP id S229379AbjDBBqb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Apr 2023 21:46:31 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1186BDBE6;
+        Sat,  1 Apr 2023 18:46:30 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso27258717pjb.3;
+        Sat, 01 Apr 2023 18:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680385307;
+        d=gmail.com; s=20210112; t=1680399989;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OtigsOlplDoHeTuk33NQKZAFXnLLwpjE0rYIpKIIwbM=;
-        b=Jq1b659XeYQnG0VgG0onMWRkbgaPPXy92OBmcmOKivIKYrBNHDcmLYSpNNSFW4620W
-         5oTUkCST2aRJ64fix0lS4R76T70vzDEaIer4n+J0/juYeRUiGC4+Mxs3+zOnEPnxpVLt
-         nuHjjlqU5B9LOol+i3DELkuQgePAE9fTspdyr1RdyWmKtyuSnRPkXqj13TkJ/n0AhDdT
-         C0brL1MUeH61iRy6Hm6XtFZ+Pwv3bfpkJmT0/hZHLA8doRmFGVg7R5N3u8IsskQymnnh
-         hGuMVHPeaKgM9dd68nUS20HFKbGioPYLLuNElt8B39vWV/d4UZGycSK0BJ0Tjza81N3s
-         gdxQ==
+        bh=1Bb8e+yvqbOsaU3lAGqJyEfpetYx3Zam8q/Ik/zjoW0=;
+        b=XNvF/LzfVH1AX+2s5DHymZ+Fv+4BPpj48mrxKGgWLnyJB+5xxmP/iVG5W6NXRkqufF
+         iYTNCXGFg/W6f/N1sgRe0dtXFxyOgkcABZRBl9aFpE6dsGUJ0Ivdkl8QAFxlK+K6lzqW
+         YInuQr5TsqV7mA3lEkk2/cBe3Rx/OJku9wJ42d2s5I+5bh75YN/AVuqpDnvzsDK2Y4Fd
+         Jrq/7MNOvEVLwGieXyArtXyXK6iuv1dQ4JYMbF9f+MrSzZFNNj/ICvdv1JKmVmhZnhK0
+         +tUIOPD/gOkIIGhxa37ea2NPDR0HnDiR+2ilanUs/dYv5WXDOIM7TrIOcywW6/qMtoBH
+         +pOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680385307;
+        d=1e100.net; s=20210112; t=1680399989;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OtigsOlplDoHeTuk33NQKZAFXnLLwpjE0rYIpKIIwbM=;
-        b=WCnaf9/gPDHk4Lx632k56UYZd3Zk72srWvoj7mHmdtuXFoO8CpBfnIRV6fn4JINmY/
-         AbYRdT7qoxjg/Nm9IYpyJcUOtsZ9U69M8o5bWFw7eC42AIbTDjLQqbZxZrb5BNDDCS27
-         EAw7P6ZcfCMjQBYjH//QIpaJLoXbYd+RKiTyBBiGjd9aroW2huCGmxHRn/AMuTcowJ1v
-         hLBSXLvvuhSptOUpK6OYR+MG2NBaiv33c3SMRCNQWtA8dJeGLjJ4eFJnd3V+JMBv5idu
-         OLxkwVO6kjQNY2Eu3fRUEOk+qKu3+KgjBWFNOxGzJAMwjTcUTsKLgsNj2RAUj6Sgpkjt
-         wJfw==
-X-Gm-Message-State: AAQBX9c3WE5RBzJNuA0OaTVYtSy0OulBJNSDurdH7OCR+oXdJzL0R3eZ
-        5gD60EV+uyeUcA14kknlQgk=
-X-Google-Smtp-Source: AKy350Y0MN6sC6S/73OCrdlVA672pAXRBhqE8JoJ170v8lxmty8Fq/JYH/KU96MxpdomMAJEs4I+CQ==
-X-Received: by 2002:a17:90b:1bcc:b0:237:a174:ce54 with SMTP id oa12-20020a17090b1bcc00b00237a174ce54mr33380641pjb.21.1680385306969;
-        Sat, 01 Apr 2023 14:41:46 -0700 (PDT)
+        bh=1Bb8e+yvqbOsaU3lAGqJyEfpetYx3Zam8q/Ik/zjoW0=;
+        b=N8+UQAWivC05OkFO8sr4wWmIYI5UZmzu09pzGu5H+Z3qDaaWtG4RXoryUWU5dL3FeS
+         16+oc06w8rRKBcdEbbnXvZdJUwZYob1hX0b4C1eRA+zkv92UET8o9gsrJ8N7NMw5Qvzf
+         URFpITuJFv0VpnQ4cyM8iwaREyka7dxRkcCPFXN9drHOJwwtZD9RRcWwV6tCrNIHd+1J
+         X1vu2rh8fROmiQaoTnH5vHO7kDGTK5xqVLU3aurg0TEfWAbIodCzYTJ0wopBWsO8XkTD
+         RqGc1MYESjXpPNUIdQLyxrW0vP6T500mm1tCzch8MeZTWssjWHrzXX9lhXJl4InpZZL8
+         K8yA==
+X-Gm-Message-State: AAQBX9cobwjUH7qa4Ba+TqgF23dl0R2nqWUH5u7AZjaryrTZeH9wHXCZ
+        AoV+upUHAcU6W6Cx9JJ1OVg=
+X-Google-Smtp-Source: AKy350aJ6H/Yx3AC2upO019FO/x1hb8yP7V8EQkhbobcviHgBAb/tn32j+OqQk2fXLezOuEWtu9OXw==
+X-Received: by 2002:a17:90b:4a02:b0:234:ba34:71bf with SMTP id kk2-20020a17090b4a0200b00234ba3471bfmr36096554pjb.1.1680399989417;
+        Sat, 01 Apr 2023 18:46:29 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:ac04:c59e:2de:5791])
-        by smtp.gmail.com with ESMTPSA id z22-20020a17090a609600b00227223c58ecsm3545046pji.42.2023.04.01.14.41.45
+        by smtp.gmail.com with ESMTPSA id s17-20020a17090a881100b002372106a5casm3717345pjn.44.2023.04.01.18.46.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 14:41:46 -0700 (PDT)
-Date:   Sat, 1 Apr 2023 14:41:43 -0700
+        Sat, 01 Apr 2023 18:46:28 -0700 (PDT)
+Date:   Sat, 1 Apr 2023 18:46:25 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Vicki Pfau <vi@endrift.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Pavel Rojtberg <rojtberg@gmail.com>
-Subject: Re: [PATCH 2/2] Input: xpad - fix PowerA EnWired Controller guide
- button
-Message-ID: <ZCilF4RM5LY85aHP@google.com>
-References: <20230330024752.2405603-1-vi@endrift.com>
- <20230330024752.2405603-3-vi@endrift.com>
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH] Input: cma3000_d0x - Clean up some inconsistent indenting
+Message-ID: <ZCjecTFJKnsiwJmT@google.com>
+References: <20230322064158.4043-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330024752.2405603-3-vi@endrift.com>
+In-Reply-To: <20230322064158.4043-1-jiapeng.chong@linux.alibaba.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -72,47 +70,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 07:47:52PM -0700, Vicki Pfau wrote:
-> This commit explicitly disables the audio interface the same way the official
-> driver does. This is needed for some controllers, such as the PowerA Enhanced
-> Wired Controller for Series X|S (0x20d6:0x200e) to report the guide button.
+Hi Jiapeng,
+
+On Wed, Mar 22, 2023 at 02:41:58PM +0800, Jiapeng Chong wrote:
+> No functional modification involved.
 > 
-> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> drivers/input/misc/cma3000_d0x.c:328 cma3000_init() warn: inconsistent indenting.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4588
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  drivers/input/joystick/xpad.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/input/misc/cma3000_d0x.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index 698224e1948f..c31fc4e9b310 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -1396,6 +1396,14 @@ static int xpad_start_xbox_one(struct usb_xpad *xpad)
->  	unsigned long flags;
->  	int retval;
+> diff --git a/drivers/input/misc/cma3000_d0x.c b/drivers/input/misc/cma3000_d0x.c
+> index e6feb73bb52b..c444a44e4576 100644
+> --- a/drivers/input/misc/cma3000_d0x.c
+> +++ b/drivers/input/misc/cma3000_d0x.c
+> @@ -325,7 +325,7 @@ struct cma3000_accl_data *cma3000_init(struct device *dev, int irq,
+>  	input_dev->open = cma3000_open;
+>  	input_dev->close = cma3000_close;
 >  
-> +	/* Explicitly disable the audio interface. This is needed for some
-> +	 * controllers, such as the PowerA Enhanced Wired Controller
-> +	 * for Series X|S (0x20d6:0x200e) to report the guide button */
-> +	retval = usb_set_interface(xpad->udev, GIP_WIRED_INTF_AUDIO, 0);
-> +	if (retval)
-> +		dev_warn(&xpad->dev->dev,
-> +			 "unable to disable audio interface: %d\n", retval);
+> -	 __set_bit(EV_ABS, input_dev->evbit);
+> +	__set_bit(EV_ABS, input_dev->evbit);
 
-I would prefer if we first validated that the interface is in fact
-present. Can we do something like:
+We should simply remove this, as input_set_abs_params() will set EV_ABS
+bit for us.
 
-	if (usb_ifnum_to_if(xpad->udev, GIP_WIRED_INTF_AUDIO)) {
-		error = usb_set_interface(xpad->udev, GIP_WIRED_INTF_AUDIO, 0);
-		if (error)
-			...
-	}
-
-> +
->  	spin_lock_irqsave(&xpad->odata_lock, flags);
 >  
->  	/*
+>  	input_set_abs_params(input_dev, ABS_X,
+>  			-data->g_range, data->g_range, pdata->fuzz_x, 0);
 > -- 
-> 2.40.0
+> 2.20.1.7.g153144c
 > 
 
 Thanks.
