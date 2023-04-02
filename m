@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F05D6D3A30
-	for <lists+linux-input@lfdr.de>; Sun,  2 Apr 2023 22:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 553626D3A35
+	for <lists+linux-input@lfdr.de>; Sun,  2 Apr 2023 22:10:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230421AbjDBUK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Apr 2023 16:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45406 "EHLO
+        id S230490AbjDBUKl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Apr 2023 16:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbjDBUKZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Apr 2023 16:10:25 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E307FCDD3
-        for <linux-input@vger.kernel.org>; Sun,  2 Apr 2023 13:10:24 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id y4so109580539edo.2
-        for <linux-input@vger.kernel.org>; Sun, 02 Apr 2023 13:10:24 -0700 (PDT)
+        with ESMTP id S230329AbjDBUK2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Apr 2023 16:10:28 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEFA1D302
+        for <linux-input@vger.kernel.org>; Sun,  2 Apr 2023 13:10:26 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id er13so68512172edb.9
+        for <linux-input@vger.kernel.org>; Sun, 02 Apr 2023 13:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1680466223;
+        d=amarulasolutions.com; s=google; t=1680466225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vKHTsVqE1aT1cdcOBW/aMh8k9NVa86bMl3ifc5Yx2Wk=;
-        b=ZX/RqwIvU3d1R+i4XBGekHVa1JDlG4wFRU98W4Xv93C1RKpIpl8AqMhDMsonFH9Hhf
-         FYkGAXyMFxuk35wSKO0r2zzIwlfuurPtD12iPdlKNqCQyv1LM0Prf0aA2wMY6s5GKM+6
-         OE8VWzBiI1fJeNDWmFvFldEY0wDcJgVgUhn0k=
+        bh=YKRIdGHuZOd/fQcotLl6knbHASupHjbM4BeF84H3jy8=;
+        b=KemN7IfEaOKpyLMRAKesUNvo24XAovAd4ZbIiIGt+CDFvnp3LWFFq8s9nJ1oPJI1YG
+         vkFLJ91RDd4+nFRefEQHRP5s30PMiMsN3BgnytdSGmJjNFJSFwT7zPGEv2fHNFHIMu9q
+         FMrNnNJLaqYIU5iQxiU5i/K8Qb3y2qJgco94I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680466223;
+        d=1e100.net; s=20210112; t=1680466225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vKHTsVqE1aT1cdcOBW/aMh8k9NVa86bMl3ifc5Yx2Wk=;
-        b=GN9V9/lNudOT6DBbxzv9WSUThh9vmjzAVUV2dPsussT9/qEXGe7QsWsrOsRs5/OSNK
-         AKmPjb150CIW3azLIOKFfrPrvfKYVJJVvXgFS9B//UV+QWP0/twrpJK+RijY9N45FpA7
-         f9K4KMHWreRv4sC63sKAL56dGejXTJmRGrjN3RT02vfh50YBacGrnXw1VjubZKsVv63S
-         nkpLm4mdMbiE6zLApy7n2N4LmpVHuL9QbEQXfJ7FFzGdIPczq7/dAVnX028c9/epx2fK
-         Q1/TZwU/ELM/FDx/HIcsKgV6qz1k4AuB52f7vnHvauii3yzm7cPASZjiK0f1hGfhtdP7
-         gcSg==
-X-Gm-Message-State: AAQBX9dyT4k4img1wAYAOJNFQZeQLVsniFmPUSoFQkTFgF6OaHV9t7p5
-        9JiDrYbAnPzVFcmGtkW2ToxaCg==
-X-Google-Smtp-Source: AKy350bcJ30wLjvIzA6SYVa70CsgGFz3H3xm7zWgQr/X7yWBqVHR+qJnoVuVel+3GF1jQzn6DVO1Xw==
-X-Received: by 2002:a17:906:4a4e:b0:889:1eb1:7517 with SMTP id a14-20020a1709064a4e00b008891eb17517mr35894731ejv.30.1680466223564;
-        Sun, 02 Apr 2023 13:10:23 -0700 (PDT)
+        bh=YKRIdGHuZOd/fQcotLl6knbHASupHjbM4BeF84H3jy8=;
+        b=mFJyCtAg6IfUEMB1UvCeBhu1k/vB87UiytWBzYnqRPvBX8/kVsH1jJsH0XG7ux6DHb
+         j+7Cawkr7udk8ahPqMBJ9we1fVH9R7y4+vhNix5gQfNgw7eBhPrBohTRJ57hmZ4Knhev
+         A/KcLiwGJwYkMa+vs/0Yg/K+Xz+GR2RH42VET+NlaeHAM5nzcorBZcSYSDlj5lRwEkXo
+         0JfgLHknP4YMtJBw1dx4o8we1UnigZ4Dq3Fss9koimHX5kIm1Rf1zXtA/2ntIJ56Damq
+         puCosq/zc3bPddTV2UvtxKAvknYafhHmGKJPpEtV/7y8N4vA4Ezwu6K57TIigagKv0L4
+         2Jpg==
+X-Gm-Message-State: AAQBX9fs9bmp5zJ3UaSc5em19djruKzBbTDfQiXbFVDQ1Tjql3JWzTuO
+        h1Nz8cmFiDVJLTYsirT3x5JNNg==
+X-Google-Smtp-Source: AKy350bmW8+mqHitZKifCu3kSyviwg6CmmU0N6sR5cecSEU/DKNNAPOiklDjW2pcVfw3y6wb++6PWw==
+X-Received: by 2002:a17:906:4796:b0:93f:3084:d6f with SMTP id cw22-20020a170906479600b0093f30840d6fmr34022998ejc.18.1680466224998;
+        Sun, 02 Apr 2023 13:10:24 -0700 (PDT)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-95-248-31-153.retail.telecomitalia.it. [95.248.31.153])
-        by smtp.gmail.com with ESMTPSA id gl18-20020a170906e0d200b00924d38bbdc0sm3553127ejb.105.2023.04.02.13.10.22
+        by smtp.gmail.com with ESMTPSA id gl18-20020a170906e0d200b00924d38bbdc0sm3553127ejb.105.2023.04.02.13.10.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 13:10:23 -0700 (PDT)
+        Sun, 02 Apr 2023 13:10:24 -0700 (PDT)
 From:   Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     michael@amarulasolutions.com, linux-amarula@amarulasolutions.com,
@@ -57,9 +57,9 @@ Cc:     michael@amarulasolutions.com, linux-amarula@amarulasolutions.com,
         <u.kleine-koenig@pengutronix.de>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
         linux-input@vger.kernel.org
-Subject: [PATCH 8/9] Input: edt-ft5x06 - unify the crc check
-Date:   Sun,  2 Apr 2023 22:09:50 +0200
-Message-Id: <20230402200951.1032513-9-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH 9/9] Input: edt-ft5x06: Calculate points data length only once
+Date:   Sun,  2 Apr 2023 22:09:51 +0200
+Message-Id: <20230402200951.1032513-10-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20230402200951.1032513-1-dario.binacchi@amarulasolutions.com>
 References: <20230402200951.1032513-1-dario.binacchi@amarulasolutions.com>
@@ -74,36 +74,119 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-With this patch, the CRC is always verified by the same function, even in
-the case of accessing registers where the number of bytes is minimal.
+It is pointless and expensive to calculate data in the interrupt that
+depends on the type of touchscreen, which is detected on the driver
+probe and cannot then be changed.
+So calculate the size of the data buffer on the driver probe, as well as
+the data retrieval command, and then use them in the ISR.
 
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+
 ---
 
- drivers/input/touchscreen/edt-ft5x06.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/input/touchscreen/edt-ft5x06.c | 56 +++++++++++++-------------
+ 1 file changed, 28 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 8aae4c1e6b73..fdb32e3591be 100644
+index fdb32e3591be..24ab9e9f5b21 100644
 --- a/drivers/input/touchscreen/edt-ft5x06.c
 +++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -240,13 +240,10 @@ static int edt_M06_i2c_read(void *context, const void *reg_buf, size_t reg_size,
- 		if (!edt_ft5x06_ts_check_crc(tsdata, val_buf, val_size))
- 			return -EIO;
- 	} else if (reg_read) {
--		u8 crc = wbuf[0] ^ wbuf[1] ^ rbuf[0];
--
--		if (crc != rbuf[1]) {
--			dev_err(dev, "crc error: 0x%02x expected, got 0x%02x\n",
--				crc, rbuf[1]);
-+		wbuf[2] = rbuf[0];
-+		wbuf[3] = rbuf[1];
-+		if (!edt_ft5x06_ts_check_crc(tsdata, wbuf, 4))
- 			return -EIO;
--		}
+@@ -135,6 +135,10 @@ struct edt_ft5x06_ts_data {
+ 	int offset_y;
+ 	int report_rate;
+ 	int max_support_points;
++	int point_len;
++	u8 tdata_cmd;
++	int tdata_len;
++	int tdata_offset;
  
- 		*((u8 *)val_buf) = rbuf[0];
+ 	char name[EDT_NAME_LEN];
+ 	char fw_version[EDT_NAME_LEN];
+@@ -296,38 +300,13 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
+ {
+ 	struct edt_ft5x06_ts_data *tsdata = dev_id;
+ 	struct device *dev = &tsdata->client->dev;
+-	u8 cmd;
+ 	u8 rdbuf[63];
+ 	int i, type, x, y, id;
+-	int offset, tplen, datalen, crclen;
+ 	int error;
+ 
+-	switch (tsdata->version) {
+-	case EDT_M06:
+-		cmd = 0xf9; /* tell the controller to send touch data */
+-		offset = 5; /* where the actual touch data starts */
+-		tplen = 4;  /* data comes in so called frames */
+-		crclen = 1; /* length of the crc data */
+-		break;
+-
+-	case EDT_M09:
+-	case EDT_M12:
+-	case EV_FT:
+-	case GENERIC_FT:
+-		cmd = 0x0;
+-		offset = 3;
+-		tplen = 6;
+-		crclen = 0;
+-		break;
+-
+-	default:
+-		goto out;
+-	}
+-
+ 	memset(rdbuf, 0, sizeof(rdbuf));
+-	datalen = tplen * tsdata->max_support_points + offset + crclen;
+-
+-	error = regmap_bulk_read(tsdata->regmap, cmd, rdbuf, datalen);
++	error = regmap_bulk_read(tsdata->regmap, tsdata->tdata_cmd, rdbuf,
++				 tsdata->tdata_len);
+ 	if (error) {
+ 		dev_err_ratelimited(dev, "Unable to fetch data, error: %d\n",
+ 				    error);
+@@ -335,7 +314,7 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
  	}
+ 
+ 	for (i = 0; i < tsdata->max_support_points; i++) {
+-		u8 *buf = &rdbuf[i * tplen + offset];
++		u8 *buf = &rdbuf[i * tsdata->point_len + tsdata->tdata_offset];
+ 
+ 		type = buf[0] >> 6;
+ 		/* ignore Reserved events */
+@@ -1071,6 +1050,26 @@ static void edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
+ 	}
+ }
+ 
++static void edt_ft5x06_ts_set_tdata_parameters(struct edt_ft5x06_ts_data *tsdata)
++{
++	int crclen;
++
++	if (tsdata->version == EDT_M06) {
++		tsdata->tdata_cmd = 0xf9;
++		tsdata->tdata_offset = 5;
++		tsdata->point_len = 4;
++		crclen = 1;
++	} else {
++		tsdata->tdata_cmd = 0x0;
++		tsdata->tdata_offset = 3;
++		tsdata->point_len = 6;
++		crclen = 0;
++	}
++
++	tsdata->tdata_len = tsdata->point_len * tsdata->max_support_points +
++		tsdata->tdata_offset + crclen;
++}
++
+ static void edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
+ {
+ 	struct edt_reg_addr *reg_addr = &tsdata->reg_addr;
+@@ -1274,6 +1273,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
+ 	 */
+ 	regmap_read(tsdata->regmap, 0x00, &val);
+ 
++	edt_ft5x06_ts_set_tdata_parameters(tsdata);
+ 	edt_ft5x06_ts_set_regs(tsdata);
+ 	edt_ft5x06_ts_get_defaults(&client->dev, tsdata);
+ 	edt_ft5x06_ts_get_parameters(tsdata);
 -- 
 2.32.0
 
