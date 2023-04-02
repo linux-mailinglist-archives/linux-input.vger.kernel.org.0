@@ -2,72 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A5066D35A5
-	for <lists+linux-input@lfdr.de>; Sun,  2 Apr 2023 07:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C5F06D35A9
+	for <lists+linux-input@lfdr.de>; Sun,  2 Apr 2023 07:51:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjDBFrg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Apr 2023 01:47:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46876 "EHLO
+        id S230176AbjDBFvP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Apr 2023 01:51:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjDBFrf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Apr 2023 01:47:35 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C00448D;
-        Sat,  1 Apr 2023 22:47:34 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id ix20so25185899plb.3;
-        Sat, 01 Apr 2023 22:47:34 -0700 (PDT)
+        with ESMTP id S229379AbjDBFvO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Apr 2023 01:51:14 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED1AFF0A;
+        Sat,  1 Apr 2023 22:51:13 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so27488447pjl.4;
+        Sat, 01 Apr 2023 22:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680414453;
+        d=gmail.com; s=20210112; t=1680414673;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I1Ip6H2C/SYRXcAheTsObvc2FbSTd1j6J7uDiWmAyq4=;
-        b=gbOMl9Mq3LAbU0CJwPfTdmp52OVMO0usJ7HHRUWFmZliv5CsZZsWy62ZqMW39dnPPa
-         D0rZyuVbHm4DNrUHmS//p+VsigfRz2nUOmlaOWcBVK1zfv/H4BLnDLjEPF9S22aR4BXS
-         qVKI3qUm/2R8dGaamoBDJTor/zSza+JiXzI5cuEas/DWODlnx5Ln7lF4LFcCqCQW1tTU
-         nqPECLt9Ut/R56ohmvm/XLFRSV+zVDtgt6lMLU3MudpbXXLa82evKhiD4JthnLnUanZ2
-         6n/GYRvbNEjMzISHhaD7tS/K9bguUEAyInFN7EaI/+MumsH8FD2kuhefEF7QU5fcErHJ
-         BE7w==
+        bh=ioqX/+yVEIXU3d6d/36shXJp6gmpkhNyRGnBaYRSPfI=;
+        b=lgbI9oh8iY/Kubtg2gwmeHkvaooPXJn0TRcAUdB8UpoqALG88Jupv7nZuaepHUNlLd
+         IXdm6wjUPzKVv/cOL3uXscYVBV6TRZKSecb5wBV+ZykpTpYaLpp9FHFbnQfr8U4m0DOX
+         U49f+Ug/jyp9HTgeTFhBPWYd7lugZUPeHEH1cHxUOZz48nCjptNdYKVlE3fpyYY9PEmz
+         v7r4sUAVQAZZCa2go7kHsioTfC1tDEx42VF985xtaowfKmWwuplvbvUmeIcj4i2Bu+4W
+         1ahuiSgcBJaSMA/zi8rqs4IqdwX7OZ2nSiuT2FCFiP27T9booDpGsHYc1xlQNRfGgW6B
+         HzFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680414453;
+        d=1e100.net; s=20210112; t=1680414673;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I1Ip6H2C/SYRXcAheTsObvc2FbSTd1j6J7uDiWmAyq4=;
-        b=GxwPMHYP5h+dJsOxfww1j9UVE96WcR6nhM9r/RAn0OJgUWYWjQMSrXzK9ebuljMw+E
-         EaJzsX6j/apn6rsfxbNI/v6xzSsFCOras00pgELoiq5ppePa12OKqaBkWenuhjQOam3M
-         Wn0AU8kDCYAyHM+QMNV8lxY7G6wUUnZt+/KGlgg3fuxmhocYIZKPA5zD3Mwb3JBegfH2
-         LZn1J2Jjufhr8sLypmGSnbr0f8/t06vpYK8/jNzoTqun7dGljZGZNqc6jye/xpV9EpOU
-         DcBXGVdODi6TjQ+hYdI31SVzV0Kk+QvTWsDIUyi94+X02BkknpocXqAtR7250mCEQgAm
-         l6mw==
-X-Gm-Message-State: AAQBX9drWcd1BEXLkK0CyjJGyzmWkOPD64ea988xSew5mMDVKEJpI0vX
-        nl1PHrf1GCMgnHQEuGyEBcg=
-X-Google-Smtp-Source: AKy350bNJXAUKZ4vbFeo52akfFyQRnzwCqGq8HRMK70EoXBMZPpZX0Nv0Cskg9Otz+EhKcFvKZdBZQ==
-X-Received: by 2002:a17:902:d101:b0:19e:7b09:bd4d with SMTP id w1-20020a170902d10100b0019e7b09bd4dmr27098606plw.47.1680414453558;
-        Sat, 01 Apr 2023 22:47:33 -0700 (PDT)
+        bh=ioqX/+yVEIXU3d6d/36shXJp6gmpkhNyRGnBaYRSPfI=;
+        b=73sSmrj9Xuz1ZemDVRGrI0sKqm88/+VYnjZZz+W34E64O0etFqfrS/AZUe2vT11VLe
+         EypfO0NLNiGrG6xFL3DdjagoYpxSUYvAhR8VagRu+7+yL7ftuXrlllHYFTji7WGIKPgL
+         Z2Z30bEfMNENP9PX12bItvILssxlQmKJILe0mXloMjKUUaIyk3irSYdgtfxWu1uOd/jF
+         aaUHwPQotW1lHLzCN5rfwHuDmhfG5CsYays2rtIbIJZLWZ6wmUbZxPub8QASnWJvBn00
+         Inw+Dme7KyXk2Byl0Psb7sd/jelSe2pgpAGjrb2nSyzvOpAHHDqZmpT2PHZI8tYwF77x
+         a6fQ==
+X-Gm-Message-State: AAQBX9dSq03qvswj4/s9fUWtuBYy8iJ4NqZsKCY3dDS1mdMyKgph8CoU
+        68jT2cN1P82yvU01svKMQhQ=
+X-Google-Smtp-Source: AKy350bsQz0+JUQ+kISa5Ldkmd+jCPIZn5GQ+FoyGYzGlSXe/b8ImMJUsKJEYLT73CidzTSKAwWK9w==
+X-Received: by 2002:a17:902:d4c8:b0:1a1:ce05:9ba with SMTP id o8-20020a170902d4c800b001a1ce0509bamr42625577plg.52.1680414673012;
+        Sat, 01 Apr 2023 22:51:13 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:9a1d:5e0:d8f3:bc01])
-        by smtp.gmail.com with ESMTPSA id jo17-20020a170903055100b001964c8164aasm4188348plb.129.2023.04.01.22.47.32
+        by smtp.gmail.com with ESMTPSA id g14-20020a1709029f8e00b00198b01b412csm4158999plq.303.2023.04.01.22.51.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 22:47:32 -0700 (PDT)
-Date:   Sat, 1 Apr 2023 22:47:29 -0700
+        Sat, 01 Apr 2023 22:51:12 -0700 (PDT)
+Date:   Sat, 1 Apr 2023 22:51:09 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Enric Balletbo i Serra <eballetbo@redhat.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        linux-kselftest@vger.kernel.org,
-        =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-        David Gow <davidgow@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, Maxime Ripard <maxime@cerno.tech>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: Add KUnit tests for some of the input core
- helper functions
-Message-ID: <ZCkW8bFjy0GA0C34@google.com>
-References: <20230330081831.2291351-1-javierm@redhat.com>
+To:     Benjamin Bara <bbara93@gmail.com>
+Cc:     hns@goldelico.com, richard.leitner@linux.dev,
+        christophe.jaillet@wanadoo.fr, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Benjamin Bara <benjamin.bara@skidata.com>
+Subject: Re: [PATCH v4] Input: tsc2007 - enable cansleep pendown GPIO
+Message-ID: <ZCkXzQ38N44Y7H+I@google.com>
+References: <20230328-tsc2007-sleep-v4-1-2ede92ec9b71@skidata.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330081831.2291351-1-javierm@redhat.com>
+In-Reply-To: <20230328-tsc2007-sleep-v4-1-2ede92ec9b71@skidata.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -78,30 +72,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 10:18:31AM +0200, Javier Martinez Canillas wrote:
-> The input subsystem doesn't currently have any unit tests, let's add a
-> CONFIG_INPUT_KUNIT_TEST option that builds a test suite to be executed
-> with the KUnit test infrastructure.
-> 
-> For now, only three tests were added for some of the input core helper
-> functions that are trivial to test:
-> 
->   * input_test_polling: set/get poll interval and set-up a poll handler.
-> 
->   * input_test_timestamp: set/get input event timestamps.
-> 
->   * input_test_match_device_id: match a device by bus, vendor, product,
->                                 version and events capable of handling.
-> 
-> But having the minimal KUnit support allows to add more tests and suites
-> as follow-up changes. The tests can be run with the following command:
-> 
->   $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/input/tests/
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Tested-by: Enric Balletbo i Serra <eballetbo@redhat.com>
+Hi Benjamin,
 
-Applied, thank you.
+On Thu, Mar 30, 2023 at 09:10:37PM +0200, Benjamin Bara wrote:
+> From: Benjamin Bara <benjamin.bara@skidata.com>
+> 
+> When a hard IRQ is triggered, the soft IRQ, which decides if an actual
+> pen down happened, should always be triggered. This enables the usage of
+> "can_sleep" GPIO chips as "pen down" GPIO, as the value is not read
+> during the hard IRQ anymore. This might be the case if the GPIO chip is
+> an expander behind i2c.
+> 
+> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+> ---
+> Hi!
+> 
+> I found a different approach to my problem:
+> If the primary IRQ handler is set to NULL, the default primary IRQ
+> handler simply triggers a soft IRQ handler wake up. As the hard IRQ is
+> only triggered when a pen down is detected, the gpiod_get_value() inside
+> tsc2007_is_pen_down() always returns true and therefore can be
+> neglected.
+
+Don't you need to switch to gpio_get_valued_cansleep() in
+tsc2007_is_pen_down() to actually allow sleeping gpios?
+
+Thanks.
 
 -- 
 Dmitry
