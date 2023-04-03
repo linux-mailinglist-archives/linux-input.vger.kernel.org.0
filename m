@@ -2,189 +2,266 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD7F16D4E50
-	for <lists+linux-input@lfdr.de>; Mon,  3 Apr 2023 18:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCBC16D4E51
+	for <lists+linux-input@lfdr.de>; Mon,  3 Apr 2023 18:48:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232783AbjDCQsa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Apr 2023 12:48:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56472 "EHLO
+        id S232845AbjDCQsc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Apr 2023 12:48:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232846AbjDCQs2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Apr 2023 12:48:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 471CCEC
-        for <linux-input@vger.kernel.org>; Mon,  3 Apr 2023 09:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680540461;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qQwDcCskXBeDCSbmN6IgStKJCOu+oFfxGictYR2Li9Q=;
-        b=YuidDRsxZcN+J/VK+z1awd04XJC9pXBxS9P+RYLexLaZMQQatNC0oF/4RI/UJR7lC9fiOj
-        EUfKGCUh2fewUgLrvJTTNte0sOtDVOVgMlcXLKsqmLmmPgg3Ie0Sa7Trb4cLlGY4lowYJd
-        jUsTANmMKE5wQj+SyggAvmCHIHudqPY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-l_YbXRY4NnSAbLEpAqh82A-1; Mon, 03 Apr 2023 12:47:37 -0400
-X-MC-Unique: l_YbXRY4NnSAbLEpAqh82A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9594185A790;
-        Mon,  3 Apr 2023 16:47:36 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.45.224.142])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B696A2166B26;
-        Mon,  3 Apr 2023 16:47:34 +0000 (UTC)
-Date:   Mon, 3 Apr 2023 18:47:32 +0200
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Torsha Banerjee <torsha@chromium.org>
-Cc:     u-boot@lists.denx.de, Jing <jingyliang@chromium.org>,
-        Sean <seobrien@chromium.org>, Jora Jacobi <jora@google.com>,
-        Harry Cutts <hcutts@chromium.org>,
-        Torsha Banerjee <torsha@google.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Series-to: LKML <linux-kernel@vger.kernel.org>
-Message-ID: <20230403164646.zwqluchagef34bei@mail.corp.redhat.com>
-References: <20230331224536.1685149-1-torsha@google.com>
+        with ESMTP id S232894AbjDCQsb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Apr 2023 12:48:31 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 541492132
+        for <linux-input@vger.kernel.org>; Mon,  3 Apr 2023 09:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680540508; x=1712076508;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0IaWyzHRiZmq9d9Y+J8p4k1/9Cel2Oqdh4sThicP9+w=;
+  b=luR+UE2yl6ZjkMA7IX0sEx8Tlq4tpdfeYO0qaAd5I/AWdrv9SIbFeHk4
+   GZiBueUck9x2d95iq1+sWiW4nWsHbQCHkpVs4hYRcaSxlxnfFXjdmjQRl
+   89AQR40MXVqSb4DnaX7Wg5CDJRduSP/OJrwybZfHeIdHfinzt1DqxMOAe
+   wmmakF6BF5ptSOjX1r6mAflIIwZdJW1m76sIKxQsgZTIsAc9pBwpdbjVy
+   8vRPY3LWVFFJgpZoZJm5AXbt3rF59rN2vi+kOP5iqHD8E/efra+yU/3N/
+   Bm4rv/KHkEdLqRBhCcZig9RInBmKiho9VVcI7BsXtnrFz3zvJItV0CIEW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="339447951"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
+   d="scan'208";a="339447951"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 09:48:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="1015784445"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
+   d="scan'208";a="1015784445"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 03 Apr 2023 09:48:25 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pjNM0-000OWj-1V;
+        Mon, 03 Apr 2023 16:48:24 +0000
+Date:   Tue, 04 Apr 2023 00:48:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 0df28e7166e803028c380c59dda530ffada0503c
+Message-ID: <642b0351.04jQOcohBplYJRwq%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230331224536.1685149-1-torsha@google.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Torsha,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 0df28e7166e803028c380c59dda530ffada0503c  Input: edt-ft5x06 - calculate points data length only once
 
-Well, your commit title is just wrong, it should not start by
-"Series-to: LKML ", which seems very much like a badly configured client
-;)
+elapsed time: 722m
 
-On Mar 31 2023, Torsha Banerjee wrote:
-> From: Jora Jacobi <jora@google.com>
+configs tested: 187
+configs skipped: 12
 
-This is much better than v1: we got the from and a matching S-o-B :)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-So thanks for that.
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r002-20230402   gcc  
+alpha        buildonly-randconfig-r005-20230402   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r002-20230403   gcc  
+alpha                randconfig-r003-20230402   gcc  
+alpha                randconfig-r012-20230402   gcc  
+alpha                randconfig-r025-20230402   gcc  
+alpha                randconfig-r025-20230403   gcc  
+alpha                randconfig-r032-20230402   gcc  
+alpha                randconfig-r032-20230403   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r001-20230402   gcc  
+arc          buildonly-randconfig-r006-20230402   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r004-20230403   gcc  
+arc                  randconfig-r011-20230402   gcc  
+arc                  randconfig-r015-20230403   gcc  
+arc                  randconfig-r016-20230403   gcc  
+arc                  randconfig-r033-20230402   gcc  
+arc                  randconfig-r043-20230402   gcc  
+arc                  randconfig-r043-20230403   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r003-20230403   clang
+arm                                 defconfig   gcc  
+arm                  randconfig-r002-20230402   clang
+arm                  randconfig-r005-20230403   gcc  
+arm                  randconfig-r011-20230403   clang
+arm                  randconfig-r033-20230403   gcc  
+arm                  randconfig-r036-20230403   gcc  
+arm                  randconfig-r046-20230402   gcc  
+arm                  randconfig-r046-20230403   clang
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r002-20230403   clang
+arm64        buildonly-randconfig-r004-20230402   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r013-20230402   clang
+arm64                randconfig-r014-20230403   gcc  
+arm64                randconfig-r021-20230403   gcc  
+arm64                randconfig-r022-20230403   gcc  
+arm64                randconfig-r023-20230402   clang
+arm64                randconfig-r026-20230403   gcc  
+csky         buildonly-randconfig-r003-20230402   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r006-20230403   gcc  
+csky                 randconfig-r015-20230403   gcc  
+csky                 randconfig-r035-20230403   gcc  
+hexagon      buildonly-randconfig-r004-20230403   clang
+hexagon              randconfig-r023-20230402   clang
+hexagon              randconfig-r025-20230402   clang
+hexagon              randconfig-r026-20230402   clang
+hexagon              randconfig-r032-20230402   clang
+hexagon              randconfig-r041-20230402   clang
+hexagon              randconfig-r041-20230403   clang
+hexagon              randconfig-r045-20230402   clang
+hexagon              randconfig-r045-20230403   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r005-20230403   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230403   clang
+i386                 randconfig-a002-20230403   clang
+i386                 randconfig-a003-20230403   clang
+i386                 randconfig-a004-20230403   clang
+i386                 randconfig-a005-20230403   clang
+i386                 randconfig-a006-20230403   clang
+i386                 randconfig-a011-20230403   gcc  
+i386                 randconfig-a012-20230403   gcc  
+i386                 randconfig-a013-20230403   gcc  
+i386                 randconfig-a014-20230403   gcc  
+i386                 randconfig-a015-20230403   gcc  
+i386                 randconfig-a016-20230403   gcc  
+i386                 randconfig-r003-20230403   clang
+i386                 randconfig-r032-20230403   clang
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r004-20230402   gcc  
+ia64                 randconfig-r005-20230402   gcc  
+ia64                 randconfig-r023-20230403   gcc  
+ia64                 randconfig-r024-20230403   gcc  
+ia64                 randconfig-r031-20230402   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r001-20230402   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r001-20230403   gcc  
+loongarch            randconfig-r014-20230402   gcc  
+loongarch            randconfig-r015-20230402   gcc  
+loongarch            randconfig-r024-20230403   gcc  
+loongarch            randconfig-r031-20230403   gcc  
+loongarch            randconfig-r033-20230403   gcc  
+loongarch            randconfig-r034-20230402   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r002-20230403   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r003-20230402   gcc  
+m68k                 randconfig-r003-20230403   gcc  
+m68k                 randconfig-r033-20230402   gcc  
+microblaze   buildonly-randconfig-r002-20230402   gcc  
+microblaze           randconfig-r004-20230403   gcc  
+microblaze           randconfig-r021-20230402   gcc  
+microblaze           randconfig-r035-20230402   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r012-20230403   clang
+mips                 randconfig-r036-20230402   clang
+mips                 randconfig-r036-20230403   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r011-20230402   gcc  
+nios2                randconfig-r013-20230403   gcc  
+openrisc     buildonly-randconfig-r004-20230402   gcc  
+openrisc             randconfig-r001-20230402   gcc  
+openrisc             randconfig-r001-20230403   gcc  
+openrisc             randconfig-r014-20230403   gcc  
+openrisc             randconfig-r034-20230402   gcc  
+parisc       buildonly-randconfig-r003-20230403   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r031-20230402   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r006-20230403   gcc  
+powerpc              randconfig-r001-20230402   gcc  
+powerpc              randconfig-r002-20230402   gcc  
+powerpc              randconfig-r006-20230403   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r001-20230403   gcc  
+riscv        buildonly-randconfig-r004-20230403   gcc  
+riscv        buildonly-randconfig-r006-20230402   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r005-20230402   gcc  
+riscv                randconfig-r022-20230402   clang
+riscv                randconfig-r022-20230403   gcc  
+riscv                randconfig-r024-20230402   clang
+riscv                randconfig-r026-20230403   gcc  
+riscv                randconfig-r036-20230402   gcc  
+riscv                randconfig-r042-20230402   clang
+riscv                randconfig-r042-20230403   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r006-20230402   gcc  
+s390                 randconfig-r011-20230403   gcc  
+s390                 randconfig-r013-20230403   gcc  
+s390                 randconfig-r025-20230403   gcc  
+s390                 randconfig-r034-20230403   clang
+s390                 randconfig-r035-20230403   clang
+s390                 randconfig-r044-20230402   clang
+s390                 randconfig-r044-20230403   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r022-20230402   gcc  
+sparc        buildonly-randconfig-r005-20230403   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r016-20230403   gcc  
+sparc                randconfig-r021-20230403   gcc  
+sparc                randconfig-r024-20230402   gcc  
+sparc64      buildonly-randconfig-r003-20230402   gcc  
+sparc64              randconfig-r015-20230402   gcc  
+sparc64              randconfig-r031-20230403   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230403   clang
+x86_64               randconfig-a002-20230403   clang
+x86_64               randconfig-a003-20230403   clang
+x86_64               randconfig-a004-20230403   clang
+x86_64               randconfig-a005-20230403   clang
+x86_64               randconfig-a006-20230403   clang
+x86_64               randconfig-a011-20230403   gcc  
+x86_64               randconfig-a012-20230403   gcc  
+x86_64               randconfig-a013-20230403   gcc  
+x86_64               randconfig-a014-20230403   gcc  
+x86_64               randconfig-a015-20230403   gcc  
+x86_64               randconfig-a016-20230403   gcc  
+x86_64               randconfig-r005-20230403   clang
+x86_64               randconfig-r012-20230403   gcc  
+x86_64               randconfig-r034-20230403   clang
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r005-20230402   gcc  
+xtensa               randconfig-r004-20230402   gcc  
+xtensa               randconfig-r016-20230402   gcc  
 
-> 
-> Restore missing cursor for digitizer devices
-> 
-> A previously committed patch to remove cursors for HID Digitizer-Pen
-> devices also removed the cursors for some tablets which have incorrect HID
-> descriptors. These devices should enumerate with Usage ID "Digitizer"
-> instead of Usage ID "Pen".
-> 
-> Patch which introduced the issue: commit 8473a93d1ba5
-> ("HID: input: Set INPUT_PROP_-property for HID_UP_DIGITIZERS")
-> 
-> Changes-
-> Add HID quirk HID_QUIRK_DEVICE_IS_DIGITIZER
-> Quirk will force INPUT_PROP_POINTER for HID Digitizers
-> Apply quirk to Huion tablets
-> Apply quirk to UGEE/XP-Pen tablets based on device ID
-> 
-> Tested with Huion H640P and H430P. Connected the digitizer to the
-> Chromebook and confirmed with a drawing program that the cursor appears and
-> moves when the digitizer's stylus is hovering over the surface of the
-> digitizer.
-
-Would you mind re-testing the issue against the branch for-6.4/core of
-hid.git[0]
-
-IIRC UCLogic tablets where having an issue after Commit f7d8e387d9ae
-("HID: uclogic: Switch to Digitizer usage for styluses") and it was
-manually fixed in 3405a4beaaa8 ("HID: uclogic: Add HID_QUIRK_HIDINPUT_FORCE
-quirk")
-
-One proposed solution was to use a0f5276716c8 ("HID: Recognize "Digitizer"
-as a valid input application"), and given that it was slightly broader,
-I was initially reluctant to take it.
-
-Given that Huion tablets tend to use hid-uclogic, I hope that it's
-already fixed, and we don't even need to do more work to have your problem
-resolved.
-
-Cheers,
-Benjamin
-
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-6.4/core
-
-> 
-> Signed-off-by: Jora Jacobi <jora@google.com>
-> Reviewed-by: Harry Cutts <hcutts@chromium.org>
-> Signed-off-by: Torsha Banerjee <torsha@google.com>
-> ---
-> 
->  drivers/hid/hid-input.c  | 3 ++-
->  drivers/hid/hid-quirks.c | 9 +++++++++
->  include/linux/hid.h      | 1 +
->  3 files changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 7fc967964dd8..f0c67baddc8d 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -927,7 +927,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  		break;
->  
->  	case HID_UP_DIGITIZER:
-> -		if ((field->application & 0xff) == 0x01) /* Digitizer */
-> +		if (((field->application & 0xff) == 0x01) ||
-> +			(device->quirks & HID_QUIRK_DEVICE_IS_DIGITIZER)) /* Digitizer */
->  			__set_bit(INPUT_PROP_POINTER, input->propbit);
->  		else if ((field->application & 0xff) == 0x02) /* Pen */
->  			__set_bit(INPUT_PROP_DIRECT, input->propbit);
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index 66e64350f138..094fe4c4f3b3 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -102,6 +102,8 @@ static const struct hid_device_id hid_quirks[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0941), HID_QUIRK_ALWAYS_POLL },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641), HID_QUIRK_ALWAYS_POLL },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_HS64), HID_QUIRK_DEVICE_IS_DIGITIZER },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_HUION, USB_DEVICE_ID_HUION_TABLET), HID_QUIRK_DEVICE_IS_DIGITIZER },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M610X), HID_QUIRK_MULTI_INPUT },
-> @@ -1298,6 +1300,13 @@ unsigned long hid_lookup_quirk(const struct hid_device *hdev)
->  		quirks = hid_gets_squirk(hdev);
->  	mutex_unlock(&dquirks_lock);
->  
-> +	/*
-> +	 * UGEE/XP-Pen HID Pen devices which have 0x0-0x9 as the low nibble
-> +	 * of the device ID are actually digitizers, not HID Pen devices
-> +	 */
-> +	if (hdev->vendor == USB_VENDOR_ID_UGEE && (hdev->product & 0x0F) <= 0x09)
-> +		quirks |= HID_QUIRK_DEVICE_IS_DIGITIZER;
-> +
->  	return quirks;
->  }
->  EXPORT_SYMBOL_GPL(hid_lookup_quirk);
-> diff --git a/include/linux/hid.h b/include/linux/hid.h
-> index 1ea8c7a3570b..1653359002b3 100644
-> --- a/include/linux/hid.h
-> +++ b/include/linux/hid.h
-> @@ -354,6 +354,7 @@ struct hid_item {
->  #define HID_QUIRK_INPUT_PER_APP			BIT(11)
->  #define HID_QUIRK_X_INVERT			BIT(12)
->  #define HID_QUIRK_Y_INVERT			BIT(13)
-> +#define HID_QUIRK_DEVICE_IS_DIGITIZER           BIT(14)
->  #define HID_QUIRK_SKIP_OUTPUT_REPORTS		BIT(16)
->  #define HID_QUIRK_SKIP_OUTPUT_REPORT_ID		BIT(17)
->  #define HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP	BIT(18)
-> -- 
-> 2.40.0.348.gf938b09366-goog
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
