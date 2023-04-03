@@ -2,95 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ABA46D3C7C
-	for <lists+linux-input@lfdr.de>; Mon,  3 Apr 2023 06:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F236D3E53
+	for <lists+linux-input@lfdr.de>; Mon,  3 Apr 2023 09:44:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231414AbjDCEkt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Apr 2023 00:40:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41876 "EHLO
+        id S231742AbjDCHoI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Apr 2023 03:44:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbjDCEks (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Apr 2023 00:40:48 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6098A4A;
-        Sun,  2 Apr 2023 21:40:47 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so29210306pjb.0;
-        Sun, 02 Apr 2023 21:40:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680496847;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=agyl9pNXNvbaNwQwfiQ30HYhuh0VP1fCUWLtFvhHSws=;
-        b=l0iTAlQZA49O55zJpMhBjWFVpJnHqoAi97I4XxTnoXtf+E9NgXOeyl7Fmu0XlxdaJN
-         Ix7RNpjVYwFwVBkftN/xQ17cvKB8WMRpsw1K4YNQCaU0GzdecYX67eysWfbszHkhvD9I
-         7qzus4LLxLw+8uG6gS1y6nJev+9ARyajX8KiogwVeZWojwLv6mHjO8T+kDT8yI/nWQ08
-         tdJW+ndyGXfJ/G6YK5toYFl7BYt55sMM3pL2408TbQ0gEcQPO7u2sHqYN1x6X+g+RimP
-         /j9YZFAVibBYYOWJEuRRCpR9+cAFUgWwh74DhiZiqU+U3oNjFAz6RSdsAeOrbwDiBIJd
-         oxxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680496847;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=agyl9pNXNvbaNwQwfiQ30HYhuh0VP1fCUWLtFvhHSws=;
-        b=3d1+RSfOxZmEZMwGastD0EHHrAQSDDVumLEp3Vnj6cLz07vwwk1ItC8C41kk7BQhzm
-         AzDLPciuhG02GLitssiqHPPzPAuxQLdxSe5nvfyDH0LFEhzroVExM2gNOnomn2x0h0mp
-         9DOojjQApASY1es0wiAwX5DsxmZqUWfkpcLcHoDEP9WCbr4av81nHDDeH1Y3SpAw16N5
-         if0QQtRJ7dHCzVdbrN4x6SAP6k6s+H4Og31T9fMwAuZozkbh9G+pUCtZIvZ/lPfMLmfi
-         gHfpPNhx2jc+eYnHI2UIu4/6ECO4k5Oi2gtsu4BrRmJen7wRL6UOrtg1r+qii+Rm6rkv
-         fdYg==
-X-Gm-Message-State: AO0yUKW/Euhr+z15Q3EU3rKwKW8mBsSPY1SRoYWDjp09VDzWGtd1e3mZ
-        zar0wREfHTfNAoFgwfb3wxo=
-X-Google-Smtp-Source: AK7set8LR9NfsmXTc0xrmBsbF5ga7JuHoX4k5dzmfgi5fPv8CDRkEObErLpxqrBJpekMDRquC4KcgA==
-X-Received: by 2002:a05:6a20:4f88:b0:d3:78ab:77c3 with SMTP id gh8-20020a056a204f8800b000d378ab77c3mr31650627pzb.48.1680496847080;
-        Sun, 02 Apr 2023 21:40:47 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:9a1d:5e0:d8f3:bc01])
-        by smtp.gmail.com with ESMTPSA id bw11-20020a056a00408b00b0056283e2bdbdsm5698077pfb.138.2023.04.02.21.40.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 21:40:46 -0700 (PDT)
-Date:   Sun, 2 Apr 2023 21:40:43 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc:     linux-kernel@vger.kernel.org, michael@amarulasolutions.com,
-        linux-amarula@amarulasolutions.com,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/9] Input: edt-ft5x06 - convert to use regmap API
-Message-ID: <ZCpYy1f/84nC1Tx8@google.com>
-References: <20230402200951.1032513-1-dario.binacchi@amarulasolutions.com>
+        with ESMTP id S231654AbjDCHoF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Apr 2023 03:44:05 -0400
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1CE3EB54
+        for <linux-input@vger.kernel.org>; Mon,  3 Apr 2023 00:43:46 -0700 (PDT)
+X-QQ-mid: bizesmtp78t1680507756tqmlqfe1
+Received: from [172.27.112.111] ( [58.249.112.45])
+        by bizesmtp.qq.com (ESMTP) with SMTP id 0
+        for <linux-input@vger.kernel.org>; Mon, 03 Apr 2023 15:42:35 +0800 (CST)
+X-QQ-SSF: 01400000000000B0F000000A0000000
+X-QQ-FEAT: rZJGTgY0+YMhg0nEM5LP9/UoRrRkRELhQwzETcr+pQNOPRN72NWJxHCqjgu2e
+        YJGDhENYkXcBOEgfhlMwL2gTdV+bJ6lXNah8RJxPy9NroP0OJ6tK1DfKNSfQEVxAwUyRmHH
+        JweAdCcbW9xCodd6ttTcQxxfN2/AmQ0PL/UFGkl4f1EW9snaM8ipZl8zomH7vfmFZChr0oa
+        Rq0Ofvx8QDW1OHf8woPiGRaeO8Kgv5tXWvQwmqKLWrWPrXvtBOBaX5lTxQo+24fnSiiAzeI
+        Bo+KVIj24t1WZP93sf5iI5K+fa8hwhBWz9olJT6IpOtA/amphnr6bqoPJn9d6UCn4Rjw8MU
+        GvSvOgW/OHLyqwr9lICAmN4t0INd1j5uE8+Zr28mlykdDK5UThHRMacQ+U4dlxS1Yz9hn3/
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 12353600545479003282
+Message-ID: <A3D566C5B262EC0F+4ede8371-9a20-6e5d-6a8c-b44d15634e26@mail2.sysu.edu.cn>
+Date:   Mon, 3 Apr 2023 15:42:35 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230402200951.1032513-1-dario.binacchi@amarulasolutions.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+From:   Shang Ye <yesh25@mail2.sysu.edu.cn>
+Subject: Seeking directions: Workaround for failed keyboard initialization on
+ some Lenovo laptops
+To:     linux-input@vger.kernel.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:mail2.sysu.edu.cn:qybglogicsvr:qybglogicsvr7
+X-Spam-Status: No, score=1.6 required=5.0 tests=FORGED_MUA_MOZILLA,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 02, 2023 at 10:09:42PM +0200, Dario Binacchi wrote:
-> 
-> This series converts the driver to use the regmap API for accessing the
-> registers of the different models it manages, making the driver code more
-> generic.
-> The series has been tested on the following touchscreen models:
-> - M06
-> - M09
-> - M12
-> - EP0430MLF0M
-> - generic ft5x06 (05)
-> 
-> The series also includes some code cleaning and optimization patches.
+Hi,
 
-Applied the lot, thank you.
+There have been quite a few reports about failed keyboard initialization 
+on some 9 types of Lenovo Yoga / XiaoXinPro / IdeaPad (14", Intel) 
+laptops. A list of them can be found here:
+https://github.com/yescallop/atkbd-nogetid#presumably-supported-machines
+And a related kernel bug report can be found here:
+https://bugzilla.kernel.org/show_bug.cgi?id=216994
 
--- 
-Dmitry
+I'd like to first provide a dmesg log (without patch) that illustrates 
+the problem on my Yoga 14sIHU 2021:
+https://gist.github.com/yescallop/5a97d010f226172fafab0933ce8ea8af
+
+At first the KBD port was successfully set up by `i8042`, but then the 
+first initialization attempt by `atkbd` failed:
+
+    [    2.698474] i8042: [17] f2 -> i8042 (kbd-data)
+    [    2.698678] i8042: [17] fa <- i8042 (interrupt, 0, 1)
+    [    2.698746] i8042: [17] 83 <- i8042 (interrupt, 0, 1)
+    [    2.698767] i8042: [17] 60 -> i8042 (command)
+    [    2.698856] i8042: [17] 66 -> i8042 (parameter)
+    [    2.698951] i8042: [17] 60 -> i8042 (command)
+    [    2.699092] i8042: [17] 67 -> i8042 (parameter)
+
+It seems that the i8042 implementation on the laptop omitted the `0xab` 
+byte from its response to the `GETID` command, thus making the 
+`atkbd_probe` function fail for receiving an invalid keyboard ID (should 
+normally be `0xab 0x83`).
+
+This situation went on for a few rounds when I pressed and released the 
+space key (scan code: 0x39 when pressed, 0xb9 when released). The sixth 
+time I pressed the space key, something different happened:
+
+    [   48.188540] i8042: [13664] 39 <- i8042 (interrupt, 0, 1)
+    [   48.188658] i8042: [13664] f2 -> i8042 (kbd-data)
+    [   48.188998] i8042: [13664] fa <- i8042 (interrupt, 0, 1)
+    [   48.709743] i8042: [13821] ed -> i8042 (kbd-data)
+    [   48.913069] i8042: [13882] 60 -> i8042 (command)
+    [   48.913235] i8042: [13882] 66 -> i8042 (parameter)
+    [   48.913446] i8042: [13882] 60 -> i8042 (command)
+    [   48.913591] i8042: [13882] 67 -> i8042 (parameter)
+    [   48.913672] i8042: [13882] fa <- i8042 (interrupt, 0, 0)
+
+This time even the byte `0x83` was omitted, so the `GETID` command 
+failed and `atkbd_probe` tried to set the LEDs on the keyboard, but 
+failed again for not receiving an ACK to the command byte `0xed`. 
+However, when `i8042_port_close` was later called, an ACK was read from 
+the KBD port, which is an indication that the i8042 implementation might 
+have failed to raise an interrupt for this ACK.
+
+And the next time I released the space key, the byte `0x83` was omitted 
+again, but `atkbd_probe` somehow succeeded in receiving an ACK to the 
+`SETLEDS` command, and the keyboard was finally initialized properly.
+
+An easy workaround is to add a kernel parameter `i8042.dumbkbd` in the 
+boot loader, but as this makes the Caps Lock LED unusable, some other 
+solutions should be considered when it comes to patching the kernel. 
+Here I provide two possible solutions:
+
+ 1. Add a module parameter in `atkbd`, say `assume_normal_kbd`, that,
+    when set to true, makes `atkbd_probe` skip sending the `GETID`
+    command and set the keyboard ID directly to `0xab83`. Then, add
+    quirks to make it a default for the affected machines.
+ 2. In `atkbd_probe`: Call `i8042_flush` immediately after the `GETID`
+    command is finished, to get rid of any remaining byte in the
+    keyboard buffer that is not properly signaled by an interrupt. Then,
+    if the command failed or the keyboard ID is invalid, try to set the
+    LEDs on anything connected to the KBD port.
+
+I have tried both solutions and both worked nicely on my laptop, but 
+there might be some problems with them:
+
+  * For the first solution: Do we add a module parameter, quirks, or
+    both? I find that `i8042.probe_defer` is an example for adding both
+    of them, and `atkbd_skip_deactivate` for adding only quirks.
+  * For the second solution: Is it okay to flush all data in the
+    keyboard/mouse buffer down the toilet from this particular call site
+    for all machines? I suspect some special handling is required for
+    not flushing the data in the mouse buffer but instead sending them
+    to the upper layers.
+  * For the second solution: Will it do any harm to persistently try to
+    set the LEDs on a mouse connected to the KBD port? A comment in
+    `atkbd_probe` says "If a mouse is connected, this should make sure
+    we don't try to set the LEDs on it." I'm not at all familiar to PS/2
+    devices, so can someone maybe explain this a bit?
+
+The second solution is, indeed, a general one that may automatically fix 
+similar problems on other machines, without needing to manually add 
+quirks in `atkbd`. A example of a similar problem on HP Spectre x360 
+13-aw2xxx is described here:
+https://patchwork.kernel.org/project/linux-input/patch/20210201160336.16008-1-anton@cpp.in/
+
+But it can nevertheless cause regressions if not thoroughly considered. 
+Thus, I'm here seeking for your directions on a workaround for this 
+problem, as there can be some better solution that I'm not aware of.
+
+Thanks,
+Shang
+
