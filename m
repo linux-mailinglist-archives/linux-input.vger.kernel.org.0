@@ -2,100 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C9E86D59D6
-	for <lists+linux-input@lfdr.de>; Tue,  4 Apr 2023 09:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1F2E6D5A93
+	for <lists+linux-input@lfdr.de>; Tue,  4 Apr 2023 10:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233212AbjDDHl5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Apr 2023 03:41:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47958 "EHLO
+        id S234075AbjDDIRu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Apr 2023 04:17:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjDDHl4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Apr 2023 03:41:56 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B2B10EA;
-        Tue,  4 Apr 2023 00:41:55 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so35232138pjt.2;
-        Tue, 04 Apr 2023 00:41:55 -0700 (PDT)
+        with ESMTP id S234054AbjDDIRt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Apr 2023 04:17:49 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3BCE74
+        for <linux-input@vger.kernel.org>; Tue,  4 Apr 2023 01:17:47 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id i5so127386175eda.0
+        for <linux-input@vger.kernel.org>; Tue, 04 Apr 2023 01:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680594115;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RLZXH9LKQ7+V9D+5CMfFVNwTnI59Wm1ssSfTYrYAXlw=;
-        b=EK6HPTDKWjHlPWtWEQiBLeIj0HG/XbgwL0my/OLwgDd2a8/bbSuWJLGOMEgTRSbAyj
-         6G1q9JpHdgnJazUvFIsEwn83D5M/NuWtcnCMjEj2VS9iEh/G4dODb1tCozuvrM1wWX82
-         yOC+aa0CwWvQkrrP1GBjHtRynyGfStF7davUQSuEefNdATdWixJ8DoEloVEQXO8WxHvy
-         gbIQqZQZIoa276UC+SmrqHN2lcJVpG1PmOJ0HMTO88Rw1IEY64lgUO4tW1qIXa0YDvRh
-         G5ym5Ej6wTmYTjki5hn2GtjOLjR31gGoEgDVeaBj7a3rjw3sg6k2VIFVG/1bWzy/+9h0
-         0Rww==
+        d=linaro.org; s=google; t=1680596266;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=csVvkhT6MaVLbsUjZrgKGXypyh9Z79Wm9AsNuXlC+Tw=;
+        b=u5SW6/j99gN7rv7rKP8viYG+qodyH02DXjGfAhiYbslyDCRpoLBbyuH8EnWYqU4MMY
+         zbLKyHJsoGwkdihBPaqXybBE3ru8Tt9XEsl+WSBynPEJh373ISEoCVrUtvOwlRL3J9ls
+         zyh0+rLYTozYAqDK4Q17QZ527WfWBbWaZrMZJGav6fL4npEME5fZFmHRuCNcqhp1Mx0F
+         ViFlaRSVGh3y5Sk+7QseiU4WkhJw/WpWr21iwRKewnNDrRfK7xPaN3bc2qvjR6xABDxu
+         oxJQm75rlgV2RMQ2n0pAe3JziKRl5KQXZBxH7N6FpCaM7/wQy/BPTOwRNFLvaBdk2Ip/
+         e5UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680594115;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RLZXH9LKQ7+V9D+5CMfFVNwTnI59Wm1ssSfTYrYAXlw=;
-        b=wCUzStAK6hgECGGYMymU2wip2wl8jb4hHpJWn7ysBAwhmYkwWEbh/JwwL2pxIIfQrs
-         4RNpy9i7AtmqcTYb4C4TAJefCe04cUJJWLIvxF4OrNL4kV7tnijQ5DxgrcJL5eqLyOI6
-         WKgGzLnn21W/ZKkY38nICQpEVZf4CjVS6nO72d8g9SMkxZ6haiVshXuJGRU56pBtTLKG
-         fNBhiEjZkd81cLjgh/FL7WQvqxMK+AxQ0Qq3Ww8anz/k8RFUlLRql28chKY1GAWx3Ota
-         1vr3hU++UVzcsNBu60EqsiaRtp3I3Uv9kiDcCtRzeWVCJgBasd3zTbPWU6jlxumWFjkw
-         icwg==
-X-Gm-Message-State: AAQBX9c4/rldnuJ9GBKlT4L5TE5CfZPjs0OjVR92KSW6tY60pzavEK7D
-        xwSJIChVsX3+7W4teeCmS1gKAboyRiOo1w==
-X-Google-Smtp-Source: AKy350blMTRFDIdKJ/XpubXFkEOOGGoCSPcjrA8g7Uhqh/eMU1v9iP2DFkO9UrzAn+6d+pnClqSc0g==
-X-Received: by 2002:a05:6a20:4e13:b0:c6:c85f:da5b with SMTP id gk19-20020a056a204e1300b000c6c85fda5bmr1479492pzb.55.1680594114951;
-        Tue, 04 Apr 2023 00:41:54 -0700 (PDT)
-Received: from Negi ([207.151.52.77])
-        by smtp.gmail.com with ESMTPSA id b24-20020a631b18000000b0050f74d435e6sm6975617pgb.18.2023.04.04.00.41.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 00:41:54 -0700 (PDT)
-From:   Soumya Negi <soumya.negi97@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Soumya Negi <soumya.negi97@gmail.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: Check sanity of pipe in pegasus_probe()
-Date:   Tue,  4 Apr 2023 00:41:45 -0700
-Message-Id: <20230404074145.11523-1-soumya.negi97@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        d=1e100.net; s=20210112; t=1680596266;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=csVvkhT6MaVLbsUjZrgKGXypyh9Z79Wm9AsNuXlC+Tw=;
+        b=IXwdggvtO9JDU6oAP6nnuYd0V8Cf1lIbdOE7yA5eJ7+CiFRp17hv2+vx1LhpLuR2Dx
+         bQZjMSJ9Z2nHpj+X5EFqwpediZiaLD+c1wnyP6Q1+p8hbrbgkzfVS7VQcUZGY+UX/K2v
+         +7TEmqBTUtaSig8Qry+doow54cf2JWS+PHiWkqjp3v2uyXS01j9dodz7GR4r1AAf4z1b
+         /Hn67nJWR/VVxcYB8gCDr4J+u2k//AgWTsNkFKEYVfuQJxvo0K3dYjDvn9bLyEi7Khg0
+         aKHnEEsU6OhlgQzeOAKvFxGBBrkV637t8539ouHgmTxt7abPFKxslzPGRbqX3RMafShN
+         kNKw==
+X-Gm-Message-State: AAQBX9frb/YjI505PAizX1eCyelVqAraV7jxSu5a+qSRaf1BTmSs09Qg
+        xJDDF3n6T9oK+M6YcU+CNUaL0xtBa/iDpTm/HUY=
+X-Google-Smtp-Source: AKy350ZjdQ/ZfKRN5K6cThQ5389TacCmIKnpzI0DFmA1lMsqy03gk8/y0ABgplSsVnnGwi8NBdGkxg==
+X-Received: by 2002:a17:906:7ac9:b0:93d:b767:9fea with SMTP id k9-20020a1709067ac900b0093db7679feamr1473012ejo.31.1680596266294;
+        Tue, 04 Apr 2023 01:17:46 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:233a:5c18:b527:381e? ([2a02:810d:15c0:828:233a:5c18:b527:381e])
+        by smtp.gmail.com with ESMTPSA id t12-20020a170906608c00b0093d0867a65csm5693940ejj.175.2023.04.04.01.17.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Apr 2023 01:17:45 -0700 (PDT)
+Message-ID: <9422ab57-8512-0177-76fa-76347626f941@linaro.org>
+Date:   Tue, 4 Apr 2023 10:17:45 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH V2] dt-bindings: input: pwm-beeper: convert to dt schema
+Content-Language: en-US
+To:     Peng Fan <peng.fan@nxp.com>,
+        "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230403090640.3237060-1-peng.fan@oss.nxp.com>
+ <9dc60868-b3f2-e30f-f4fe-d2fbd551d948@linaro.org>
+ <DU0PR04MB9417000982CDDF5B75E309F488939@DU0PR04MB9417.eurprd04.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <DU0PR04MB9417000982CDDF5B75E309F488939@DU0PR04MB9417.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix WARNING in pegasus_open/usb_submit_urb
-Syzbot bug: https://syzkaller.appspot.com/bug?id=bbc107584dcf3262253ce93183e51f3612aaeb13
+On 04/04/2023 08:44, Peng Fan wrote:
 
-Warning raised because pegasus_driver submits transfer request for
-bogus URB(pipe type does not match endpoint type). Add sanity check at
-probe time for pipe value extracted from endpoint descriptor. Probe
-will fail if sanity check fails.
 
-Reported-and-tested-by: syzbot+04ee0cb4caccaed12d78@syzkaller.appspotmail.com
-Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
----
- drivers/input/tablet/pegasus_notetaker.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+>>
+>>> +
+>>> +  beeper-hz:
+>>> +    description: bell frequency in Hz
+>>> +    minimum: 1
+>>> +    maximum: 4
+>>
+>> default is 1000, so how constraints can be lower than default? Also - missing
+>> default.
+> [Peng Fan] 
+> I am not sure what maximum value should be set. Previously I set 256, Rob
+> questioned it.
 
-diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
-index d836d3dcc6a2..a68da2988f9c 100644
---- a/drivers/input/tablet/pegasus_notetaker.c
-+++ b/drivers/input/tablet/pegasus_notetaker.c
-@@ -296,6 +296,12 @@ static int pegasus_probe(struct usb_interface *intf,
- 	pegasus->intf = intf;
- 
- 	pipe = usb_rcvintpipe(dev, endpoint->bEndpointAddress);
-+	/* Sanity check that pipe's type matches endpoint's type */
-+	if (usb_pipe_type_check(dev, pipe)) {
-+		error = -EINVAL;
-+		goto err_free_mem;
-+	}
-+
- 	pegasus->data_len = usb_maxpacket(dev, pipe);
- 
- 	pegasus->data = usb_alloc_coherent(dev, pegasus->data_len, GFP_KERNEL,
--- 
-2.17.1
+Yep, because 256 is power of 2, so really does not look correct. It is
+still lower than default, right?
+
+Best regards,
+Krzysztof
 
