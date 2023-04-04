@@ -2,97 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5E456D6426
-	for <lists+linux-input@lfdr.de>; Tue,  4 Apr 2023 15:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 754CA6D650C
+	for <lists+linux-input@lfdr.de>; Tue,  4 Apr 2023 16:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235439AbjDDNv2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Apr 2023 09:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49570 "EHLO
+        id S234858AbjDDOTt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Apr 2023 10:19:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235408AbjDDNvZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Apr 2023 09:51:25 -0400
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEF94217;
-        Tue,  4 Apr 2023 06:51:23 -0700 (PDT)
-Received: by mail-ot1-f43.google.com with SMTP id k14-20020a9d700e000000b0069faa923e7eso17341650otj.10;
-        Tue, 04 Apr 2023 06:51:23 -0700 (PDT)
+        with ESMTP id S235174AbjDDOTs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Apr 2023 10:19:48 -0400
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2502710C2
+        for <linux-input@vger.kernel.org>; Tue,  4 Apr 2023 07:19:47 -0700 (PDT)
+Received: by mail-il1-f199.google.com with SMTP id d5-20020a923605000000b003232594207dso21451306ila.8
+        for <linux-input@vger.kernel.org>; Tue, 04 Apr 2023 07:19:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680616282;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dH0qV0hRMQiU3rBtrwZNkoVLWYzrXYIYrbxPgs77oBQ=;
-        b=imOZ1mp3KwVEXvqEaQeSv+1+2lp0C5JGyTg3US7GOpPUpVdgdoXZ5hrD/KzlwIb82O
-         WgW2LvF0hJ0UVh/DYkpf8HSl3uteDVIgMJ6TWPcQf/fkUHqet814lkwuEOpVhMreci2+
-         Db785DTMVRhSm/wbppbi/88eiJoKKXRTHKcZWH/dhsrDKea66mjsjtuRzix0TW3YzHvY
-         rdOsnoGFlJolURcLoGp+OYrQoalh88FstLh2K9qRHs6RDb6pzBpaKbBLcYDEIw21wgui
-         nAh+PfsadtHSEgFMEhOtx8H/JEr7rTYQdv6PTgyCw2fM7B/SKYPKTg7HQd6PR77D40R2
-         UbOw==
-X-Gm-Message-State: AAQBX9f5ijNKih/Ax/K0Lmla93nRCRu0ejvKWbtdrwgRoxWNG3+OkPh8
-        Q8EJoTKaOl6pkDmTMaVT/w==
-X-Google-Smtp-Source: AKy350ajbMepIhxILlKEJFxTug5uTHyx6XXjORZb9ow9pjepVuAtHVSMuR07D+VBVbYsbxkOyajiUw==
-X-Received: by 2002:a9d:1289:0:b0:68d:3fc8:7c11 with SMTP id g9-20020a9d1289000000b0068d3fc87c11mr11026951otg.12.1680616282479;
-        Tue, 04 Apr 2023 06:51:22 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id r4-20020a056830134400b00697be532609sm4480817otq.73.2023.04.04.06.51.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 06:51:22 -0700 (PDT)
-Received: (nullmailer pid 3793289 invoked by uid 1000);
-        Tue, 04 Apr 2023 13:51:21 -0000
-Date:   Tue, 4 Apr 2023 08:51:21 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Peng Fan <peng.fan@nxp.com>
-Cc:     "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V2] dt-bindings: input: pwm-beeper: convert to dt schema
-Message-ID: <20230404135121.GA3787069-robh@kernel.org>
-References: <20230403090640.3237060-1-peng.fan@oss.nxp.com>
- <9dc60868-b3f2-e30f-f4fe-d2fbd551d948@linaro.org>
- <DU0PR04MB9417000982CDDF5B75E309F488939@DU0PR04MB9417.eurprd04.prod.outlook.com>
- <9422ab57-8512-0177-76fa-76347626f941@linaro.org>
+        d=1e100.net; s=20210112; t=1680617986; x=1683209986;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ot0KYur+8nLVH0WRSyoEfyDfQEVy44kpAPp7VjgrfEU=;
+        b=FmAjWSvwy55Q/YsmTWiJd5M2GMSni65MAnHScyzwfBsrEv+pfqXseVrs6cHfiK9W6b
+         UfUHBOMU9gdT7Jx2+yVAs665UvtJFMvGQR4szrtqY8WrEkOMA2g+wMIncsinMcx52TkK
+         qrPLKOpVtYeBTPfk3r47btn+8LdAHjyxuN4M9jYTCS8G67aTkMztI+x3yoLdGDczuc5q
+         2Uf2x1v0f17MKr+sv/NzKP1LQzVF9wuK65NlWattfd/aIMC1w9wnzIG3lK8PUH/y6zWT
+         kfs9chGbPAtRa4OsyDNRJD2X3rLmtnX2mxrYgX6Fxg9dj/NHoyDxAyOCuUFGt4HxiR2E
+         pgVA==
+X-Gm-Message-State: AAQBX9d1Rgi5unn6XA3q4W/eCDxL6hiOgHVkEEaG3Ky8NDp/GWlki2Vw
+        6+pgpywbgPUen97+jjxMR1xGDLvZ091P3Zr1lrbQPN8cde+V9DU=
+X-Google-Smtp-Source: AKy350Z7MFpp1VYeHsipLm/zlefsLydHgYGG92vadQj4ytQIm8IVdQw4igVowqFeUN432AECcHqyb5WeKolpVmSalIiw1rzGqE8R
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9422ab57-8512-0177-76fa-76347626f941@linaro.org>
-X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Received: by 2002:a02:94eb:0:b0:40a:dc7f:7715 with SMTP id
+ x98-20020a0294eb000000b0040adc7f7715mr1538706jah.4.1680617986468; Tue, 04 Apr
+ 2023 07:19:46 -0700 (PDT)
+Date:   Tue, 04 Apr 2023 07:19:46 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001632e305f8835e90@google.com>
+Subject: [syzbot] Monthly input report
+From:   syzbot <syzbot+list8e8dead94ef997c19522@syzkaller.appspotmail.com>
+To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.6 required=5.0 tests=FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Apr 04, 2023 at 10:17:45AM +0200, Krzysztof Kozlowski wrote:
-> On 04/04/2023 08:44, Peng Fan wrote:
-> 
-> 
-> >>
-> >>> +
-> >>> +  beeper-hz:
-> >>> +    description: bell frequency in Hz
-> >>> +    minimum: 1
-> >>> +    maximum: 4
-> >>
-> >> default is 1000, so how constraints can be lower than default? Also - missing
-> >> default.
-> > [Peng Fan] 
-> > I am not sure what maximum value should be set. Previously I set 256, Rob
-> > questioned it.
-> 
-> Yep, because 256 is power of 2, so really does not look correct. It is
-> still lower than default, right?
+Hello input maintainers/developers,
 
-It's Hertz and an audible (to humans) range! At most that's 60 - 
-10000Hz. I imagine any beeper h/w is capable of much narrower range than 
-that, but don't know what's typical. 
+This is a 30-day syzbot report for the input subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/input
 
-Rob
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 14 issues are still open and 42 have been fixed so far.
+
+Some of the still happening issues:
+
+Crashes Repro Title
+2162    Yes   WARNING in input_mt_init_slots
+              https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
+93      Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
+              https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
+67      Yes   general protection fault in hidraw_release
+              https://syzkaller.appspot.com/bug?extid=953a33deaf38c66a915e
+49      Yes   inconsistent lock state in find_vmap_area
+              https://syzkaller.appspot.com/bug?extid=8d19062486784d15dda9
+32      Yes   WARNING in bcm5974_start_traffic/usb_submit_urb
+              https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
