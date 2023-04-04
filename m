@@ -2,177 +2,273 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC4BA6D584D
-	for <lists+linux-input@lfdr.de>; Tue,  4 Apr 2023 07:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15C9B6D58E0
+	for <lists+linux-input@lfdr.de>; Tue,  4 Apr 2023 08:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233498AbjDDF7W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Apr 2023 01:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
+        id S233297AbjDDGoj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Apr 2023 02:44:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233497AbjDDF7U (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Apr 2023 01:59:20 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53BFD1FC1
-        for <linux-input@vger.kernel.org>; Mon,  3 Apr 2023 22:59:19 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id y4so126073390edo.2
-        for <linux-input@vger.kernel.org>; Mon, 03 Apr 2023 22:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680587958;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wiB8f+utJ+hMeKGr19vY1AW8IT5CgpavMZTAW8CfDo8=;
-        b=LWTekgtcYnpbuZIaVWv1QyVwvaglD4P2iektNFDuOxM5mrqAwrYKqA+BPIgSOL03eM
-         SJda9KY/tHhzaDB4EwFImm4vXfvNYQWn4mMr8cQEZjXqERYdQOIQ+3XbuDwYSGUKwCNN
-         g8N2JQqo9jifsK6G0Z9PzIiK3DQ9befm5eahQAy7aN0eTE7nUKi7uNsZQuBmFkQPk4ja
-         Jk5iTVHpSMRuL1MguJDv8JXqKEEWLODwyO7q8QnBIUv0UfjR9FqasZRjaJlH8FpOnQ3g
-         R9ftdW5MfW9tW+xFvgbRgOcGaUejyOYeYeFeIGxBnSTaXdjCisMIdE6visvyWyWn4o5v
-         b5sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680587958;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wiB8f+utJ+hMeKGr19vY1AW8IT5CgpavMZTAW8CfDo8=;
-        b=IMQiIZBDY24whFkMTm/Kkal3+BhRxzhHwXPYgmqInS4+6k8eKkU9B1S1Gyz/yC93VZ
-         m+62BP3TZVwZbkLmZI602NZp2iJI8yVhbx1tftt3KJf7z9DJiWHjLXfPN1jg+SP0I9y0
-         Bc7Bo921NaY+N1xod4ccbUssUlejK0qpsGwSLXMYgkvzXeedEzb2OSZBw1z4dlMFztGI
-         EYtDkneEHINSJaGurK+RbVOZS2ZOsKdFmLyJJSfbgtTxFiKmrv6ib6IV5NQc9GZe13s0
-         82peV5GBXUtCL/Hgmiqol/Qwt9oDavsx8yyLM/MHSiT5F+++Fc2k74+wpiEINa353nzv
-         xRog==
-X-Gm-Message-State: AAQBX9eCahm9AfRiD1exGwtiiwkmBI88J0nozB/sHD60vpCSVfHK/Wd7
-        nR9MFeuawZTb8VReUkCci2ykUQ==
-X-Google-Smtp-Source: AKy350Zjo5JyIPdPVntAKk8hSDAAoeHUNUAJjySaQFV09xKFNyvBWdycJ19uxRDC8bj0CbRgMxB3QA==
-X-Received: by 2002:a17:907:33cf:b0:93e:9fb9:183b with SMTP id zk15-20020a17090733cf00b0093e9fb9183bmr916720ejb.73.1680587957768;
-        Mon, 03 Apr 2023 22:59:17 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:233a:5c18:b527:381e? ([2a02:810d:15c0:828:233a:5c18:b527:381e])
-        by smtp.gmail.com with ESMTPSA id ld10-20020a1709079c0a00b00949173bdad1sm286721ejc.213.2023.04.03.22.59.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 22:59:17 -0700 (PDT)
-Message-ID: <9dc60868-b3f2-e30f-f4fe-d2fbd551d948@linaro.org>
-Date:   Tue, 4 Apr 2023 07:59:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH V2] dt-bindings: input: pwm-beeper: convert to dt schema
-Content-Language: en-US
-To:     "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, dmitry.torokhov@gmail.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        s.hauer@pengutronix.de
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+        with ESMTP id S229693AbjDDGoi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Apr 2023 02:44:38 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C4351FE1;
+        Mon,  3 Apr 2023 23:44:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dgCBbmSbwrAyuVR3G/z1NC8vOYNbSrigkLbsj8iVqkos7tXoAooHeDIhk+EJkcKF8bsrMLu7GKvgeG46WzdzhkOPRMPppXD6w2EESe/Bbz6ZZVVEn1aQosqjVrIMiKo2XC6KhP8mBeaYD+/PwrPHI6DBfoRUWB+O0+Nn66uswOz3qJA8Ei5o6orObX73QAGmGhscRmRauaC0Hi5fHSKVSyimrGSRp8c1FO39Mr75DVMCHT+rJzWC4ppgvBicePumJ3de6PItfJX+ELsRQ9jZO8QrExHBnmm2qCDANDtF1KaMNHZSfQlCp1RYxAADXnTgUCFsyyEiRSCuQGQq/R1aqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o7E8xCpXlCvnX4Fmg+W7fc10a59me7adMP7RMvJMnA8=;
+ b=nZMON3XqmuUK7qpKbnj2/OnZLyhQZI5Qt8djKGJFyMHLslcqOgrmbRH6/iaDbN/3eAPUpl84vI5g/JXvLCXHz5guiJxu+WCpTrxmfjcpoqNKQrElADkxT9Ksmol32fyBhRIbC7Da0RNZ7MmReVpVbfqhgU9J02nC/vValGleFYJ3X27WzBrqBaRfbBJKuIRZLQ9dVG4X38AqUlM02NaXh+hMWXDxm2ac7e7d8YIjHTjm0dfGVStxCgp0qjy8E/TY+k4fxQk/LH2kNAubJiV4/LGqceEf6/y7ZWUpGpuLiJxSxo8mP/S1VdOqQZRiemi0alPAFrUvfxZPHGiY4nRGxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o7E8xCpXlCvnX4Fmg+W7fc10a59me7adMP7RMvJMnA8=;
+ b=Y4KhwybonnEbDJWvl5XRevsYYKrXN84zaRCSj6nHfJjq2jLs7IWsj1Lm/OaxlRXDOap6NKBD+fs9CW6Vj/NNzp/GDadkWEd9Mxu0IW+MVdTbkZYmpIgQglLk03f7/lhXxQVyOISFhS/sHqMRwVwFVLYJiSd5Xyn8JXXA0MNtWo4=
+Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
+ by DBBPR04MB7723.eurprd04.prod.outlook.com (2603:10a6:10:20a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Tue, 4 Apr
+ 2023 06:44:34 +0000
+Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
+ ([fe80::b999:f2c6:a8cc:7b4]) by DU0PR04MB9417.eurprd04.prod.outlook.com
+ ([fe80::b999:f2c6:a8cc:7b4%4]) with mapi id 15.20.6254.033; Tue, 4 Apr 2023
+ 06:44:34 +0000
+From:   Peng Fan <peng.fan@nxp.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH V2] dt-bindings: input: pwm-beeper: convert to dt schema
+Thread-Topic: [PATCH V2] dt-bindings: input: pwm-beeper: convert to dt schema
+Thread-Index: AQHZZgrkvUOoKsCx70SkE5mkO6a/468aqRcAgAAMUmA=
+Date:   Tue, 4 Apr 2023 06:44:34 +0000
+Message-ID: <DU0PR04MB9417000982CDDF5B75E309F488939@DU0PR04MB9417.eurprd04.prod.outlook.com>
 References: <20230403090640.3237060-1-peng.fan@oss.nxp.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230403090640.3237060-1-peng.fan@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+ <9dc60868-b3f2-e30f-f4fe-d2fbd551d948@linaro.org>
+In-Reply-To: <9dc60868-b3f2-e30f-f4fe-d2fbd551d948@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU0PR04MB9417:EE_|DBBPR04MB7723:EE_
+x-ms-office365-filtering-correlation-id: 474c58ea-1793-4606-6b03-08db34d80d65
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Q6biahLVj2VofRj1JUgzkEmlsssrHVivEh8fh4iTyXREbc0ASDSoqIRCc+EV+jcnO3x5HR99zZJQfeheABbzyuv4Ks2w01T3fNTpUBEcpchhfZcPeO6SAuNi6BmJNwLz2/ehJOl8eix4PFeMPWcN0Goz6jWISkgzFDn9dlLhRAuq+1fy0nC4S96zBc1mnhnZN/oulIBut02y9QrlB85lOrs95j5jmxG/chqhWnjZNVKtNFohuAI9LZoEw0GuhXsMCOy7OL6lhphm9xrsYrcNe9AoSFfxyXcklsM8EeUxjKHeXcI9LKTxnMCHlArzkRsa2p7KpCQZf84waKiB1OSRSkcOvdgozdIARf0Qo4gEGcDBcGkJikMyLOkwd2RqV1v/N8JpCH/M+AqpPhYez1pT8+KJegDcG+QaJEcy/+XPysnQg3NFE7QHrlJzz3NjvvcRVLIE1T4YmPOudvI5KmJyv6IOWO/15E6uqJ6KLrFX/OnzOLJ9neuTd3qu2iYyLky6aB0gbwDfqt+g233ilmIvkIAkjbnqU4oRo5KAR8XXnvxpce6X2/2ktc2NQISIkc7pOcAXJF7QFo6oZST5xOA8v+BG+WUDIBBJW/weyI+UUCo=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(376002)(136003)(346002)(366004)(451199021)(186003)(2906002)(6506007)(26005)(53546011)(9686003)(44832011)(83380400001)(55016003)(5660300002)(8936002)(7696005)(52536014)(71200400001)(38100700002)(478600001)(45080400002)(122000001)(41300700001)(316002)(38070700005)(54906003)(110136005)(33656002)(76116006)(86362001)(66476007)(66446008)(64756008)(8676002)(66946007)(66556008)(4326008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2V/balj3vPmq/LjOofORzdKTsoP6kfT/bjHjOeG3RcuhzTrXZ7evb5/P04t6?=
+ =?us-ascii?Q?pqVz7dgImJC+GFmm3EOIA/oQG2G9qMaKVDh2EwJiox4he9yLZU7cMd1RHrc8?=
+ =?us-ascii?Q?A7/WhfsJOScrSG8oM7Npgzn+diT5GmOFkDKTsKs4/mz8aOwCqtRg0807mtBj?=
+ =?us-ascii?Q?1nMmD2V1hKS5KX7aOhXwST+9nL3LV+SprukhexGvDfNemPxisLHnB0bUe95x?=
+ =?us-ascii?Q?tiysqq4c/2e/Ehy0Ob5BbLoz8Tx6kpobSxlkU8tC+yuJGfRGdM6epBrYTVFn?=
+ =?us-ascii?Q?eklHEgb0T+N2xWpxA0AQJ04fN/fJQOubplkp3ri/fsXwS10LxK2e4rcVwsX1?=
+ =?us-ascii?Q?zW04WELuDs66lZ7+VamyMCrLNSqfGm0FXjYE1RwAsL6FyNT+omkxcIb2m7r7?=
+ =?us-ascii?Q?VjxfaWiCHJEVaaNBqnwNfj7/ywtz61Sgsk75XXLj1QWkDPVHxKgSQqIcEwNd?=
+ =?us-ascii?Q?k6vRVRkup6DqZ6z4WvASG8+HF9RGqlOMczBSW2qANit3LWDYoznGKzJWB8zG?=
+ =?us-ascii?Q?zgaxWeqh4eVs9G7bx6uoxHfFBSURiBwtMywPUYdPV21pfTMWzpjVKtVfLRB8?=
+ =?us-ascii?Q?x/AHMLmLhluFT4CZvEaZncDK46clWFvdMNmtSgUYxmBeWY5TxUCzDNsBgbSb?=
+ =?us-ascii?Q?heHoEA5RoRFs0gGpZjclOVUgAM2fmsyTBReMO5rd6R235cndrGiXwNh+SHbb?=
+ =?us-ascii?Q?pxw2pI+vPTUuZX4xLEQyc44QtKe7lSt0BPXkV34QfRChaSveyY33/wxF96uU?=
+ =?us-ascii?Q?S1yxYmeXR6Ow8XQ0GvSIzZq3fbt496gxY4b2WW074devRuh0N7ZVvqKDF8Wd?=
+ =?us-ascii?Q?+OjaVVuXsCll0mxKnnQrT+KoRcFL9X0M6FW2Lf6c2XZXsOaakt/uqJ2oM9ZV?=
+ =?us-ascii?Q?xK6gL3K5dEzjMLOPhFxZRDfaVSStz6fPRQBJfLzLARqaevHRgsWAvUWmwC0W?=
+ =?us-ascii?Q?G/dIwoM4vsTV07DFx3UtSymBn1rROA2tDPcM6axcqLjWW5I/CZVEEhXhv2wq?=
+ =?us-ascii?Q?BbMSxNgCchEWWwkukmLhCHYjuex5+5ihDjLgcRZ0+mAf88/QdSMy7wRFVHRM?=
+ =?us-ascii?Q?X6cKHPSHNNZGrb+XtAOew84VxYC/hbI2FJ/xdqwVtZ+ZX9MimYw3LF63tmEY?=
+ =?us-ascii?Q?YXcj3DAHipiA0f1oqBu+cdl2U1I638BiebEGgYNAAZVcx2bLEv22wIHMH2XY?=
+ =?us-ascii?Q?a4JCmrqBcuDkVy5ghTWxJXdUgi/8UnlE09lFqf24LlWVYLEUVeK9qn8goDqQ?=
+ =?us-ascii?Q?JByDRuqSFf+7f8BJT6QOYmmZDsMYMXp+goEyJDP5KeO35ZPUGYbmUwU1C8z5?=
+ =?us-ascii?Q?vHcUCmBr2sRhGkQ0JyyU7NSQZtnEOPL3w5/wjE4yS2VOPt/LLG0wLBt4jOFM?=
+ =?us-ascii?Q?ShbyatiCT0lG3GRjbIadC+8GCeQ0kt7E6Nx9aalYktjy+/Dp2BfLGI0n83ee?=
+ =?us-ascii?Q?IowzzNwNYba+YTqZs9RnqdmzRg4ylCVTRhkXpLV5LgsFxzTs9secdtrWqHcr?=
+ =?us-ascii?Q?Qylo1IHcHUpwXn9FE/Wa6hLbh89sWFEiQbtuuhE+LZ28awnJ7RrUZ0xBfIm4?=
+ =?us-ascii?Q?PPT4N9heJ31sT8tZlQQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 474c58ea-1793-4606-6b03-08db34d80d65
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Apr 2023 06:44:34.5035
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: D9wqaNexWtRRn4TjWANRoxhLkwgUDvTgYbbGuVN1tRkkCll3Rq2PRSzoRg0ZI8GO+g30uZiOx+JFEMkQjeGmIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7723
+X-Spam-Status: No, score=1.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 03/04/2023 11:06, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
-> 
-> Convert the binding doc to dt schema, and also fixed the
-> example from fixed-regulator to regulator-fixed.
-> 
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
-> 
-> V2:
->  License update
->  Don't need to show providers
->  Make example complete
->  Decrease beeper hz
+> Subject: Re: [PATCH V2] dt-bindings: input: pwm-beeper: convert to dt
+> schema
+>=20
+> On 03/04/2023 11:06, Peng Fan (OSS) wrote:
+> > From: Peng Fan <peng.fan@nxp.com>
+> >
+> > Convert the binding doc to dt schema, and also fixed the example from
+> > fixed-regulator to regulator-fixed.
+> >
+> > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > ---
+> >
+> > V2:
+> >  License update
+> >  Don't need to show providers
+> >  Make example complete
+> >  Decrease beeper hz
+>=20
+> Why?
+>=20
+> >  Misc update
+> >
+> >  .../devicetree/bindings/input/pwm-beeper.txt  | 24 -----------
+> > .../devicetree/bindings/input/pwm-beeper.yaml | 42
+> +++++++++++++++++++
+> >  2 files changed, 42 insertions(+), 24 deletions(-)  delete mode
+> > 100644 Documentation/devicetree/bindings/input/pwm-beeper.txt
+> >  create mode 100644
+> > Documentation/devicetree/bindings/input/pwm-beeper.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.txt
+> > b/Documentation/devicetree/bindings/input/pwm-beeper.txt
+> > deleted file mode 100644
+> > index 8fc0e48c20db..000000000000
+> > --- a/Documentation/devicetree/bindings/input/pwm-beeper.txt
+> > +++ /dev/null
+> > @@ -1,24 +0,0 @@
+> > -* PWM beeper device tree bindings
+> > -
+> > -Registers a PWM device as beeper.
+> > -
+> > -Required properties:
+> > -- compatible: should be "pwm-beeper"
+> > -- pwms: phandle to the physical PWM device
+> > -
+> > -Optional properties:
+> > -- amp-supply: phandle to a regulator that acts as an amplifier for
+> > the beeper
+> > -- beeper-hz:  bell frequency in Hz
+> > -
+> > -Example:
+> > -
+> > -beeper_amp: amplifier {
+> > -	compatible =3D "fixed-regulator";
+> > -	gpios =3D <&gpio0 1 GPIO_ACTIVE_HIGH>;
+> > -};
+> > -
+> > -beeper {
+> > -	compatible =3D "pwm-beeper";
+> > -	pwms =3D <&pwm0>;
+> > -	amp-supply =3D <&beeper_amp>;
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml
+> > b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
+> > new file mode 100644
+> > index 000000000000..a3797f338f46
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
+> > @@ -0,0 +1,42 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> >
+> +https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevi
+> > +cetree.org%2Fschemas%2Finput%2Fpwm-
+> beeper.yaml%23&data=3D05%7C01%7Cpeng
+> >
+> +.fan%40nxp.com%7Cd0db787eb4ca45afdacb08db34d1ba6b%7C686ea1d3
+> bc2b4c6fa
+> >
+> +92cd99c5c301635%7C0%7C0%7C638161847599379017%7CUnknown%7CT
+> WFpbGZsb3d8
+> >
+> +eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%
+> 3D%7C
+> >
+> +3000%7C%7C%7C&sdata=3DFUaIpDqrTVLbQYOrqcXjK3cIwbntbdz7zq86mWr8
+> yDA%3D&re
+> > +served=3D0
+> > +$schema:
+> >
+> +https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevi
+> > +cetree.org%2Fmeta-
+> schemas%2Fcore.yaml%23&data=3D05%7C01%7Cpeng.fan%40nx
+> >
+> +p.com%7Cd0db787eb4ca45afdacb08db34d1ba6b%7C686ea1d3bc2b4c6fa9
+> 2cd99c5c
+> >
+> +301635%7C0%7C0%7C638161847599535229%7CUnknown%7CTWFpbGZsb
+> 3d8eyJWIjoiM
+> >
+> +C4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C300
+> 0%7C%7
+> >
+> +C%7C&sdata=3DOhqZ1z81rsRTjnHINrfR4yGh7%2FiuwGU9CuS8xPJ6NFw%3D&
+> reserved=3D
+> > +0
+> > +
+> > +title: PWM beeper
+> > +
+> > +maintainers:
+> > +  - Sascha Hauer <s.hauer@pengutronix.de>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: pwm-beeper
+> > +
+> > +  pwms:
+> > +    description: Phandle to the physical PWM device
+>=20
+> Drop description.
+>=20
+> > +    maxItems: 1
+> > +
+> > +  amp-supply:
+> > +    description: Phandle to a regulator that acts as an amplifier for
+> > + the beeper
+>=20
+> Drop "Phandle to a regulator that acts as "
+>=20
+> > +
+> > +  beeper-hz:
+> > +    description: bell frequency in Hz
+> > +    minimum: 1
+> > +    maximum: 4
+>=20
+> default is 1000, so how constraints can be lower than default? Also - mis=
+sing
+> default.
+[Peng Fan]=20
+I am not sure what maximum value should be set. Previously I set 256, Rob
+questioned it.
 
-Why?
-
->  Misc update
-> 
->  .../devicetree/bindings/input/pwm-beeper.txt  | 24 -----------
->  .../devicetree/bindings/input/pwm-beeper.yaml | 42 +++++++++++++++++++
->  2 files changed, 42 insertions(+), 24 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.txt
->  create mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.txt b/Documentation/devicetree/bindings/input/pwm-beeper.txt
-> deleted file mode 100644
-> index 8fc0e48c20db..000000000000
-> --- a/Documentation/devicetree/bindings/input/pwm-beeper.txt
-> +++ /dev/null
-> @@ -1,24 +0,0 @@
-> -* PWM beeper device tree bindings
-> -
-> -Registers a PWM device as beeper.
-> -
-> -Required properties:
-> -- compatible: should be "pwm-beeper"
-> -- pwms: phandle to the physical PWM device
-> -
-> -Optional properties:
-> -- amp-supply: phandle to a regulator that acts as an amplifier for the beeper
-> -- beeper-hz:  bell frequency in Hz
-> -
-> -Example:
-> -
-> -beeper_amp: amplifier {
-> -	compatible = "fixed-regulator";
-> -	gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
-> -};
-> -
-> -beeper {
-> -	compatible = "pwm-beeper";
-> -	pwms = <&pwm0>;
-> -	amp-supply = <&beeper_amp>;
-> -};
-> diff --git a/Documentation/devicetree/bindings/input/pwm-beeper.yaml b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> new file mode 100644
-> index 000000000000..a3797f338f46
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/pwm-beeper.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/pwm-beeper.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: PWM beeper
-> +
-> +maintainers:
-> +  - Sascha Hauer <s.hauer@pengutronix.de>
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-beeper
-> +
-> +  pwms:
-> +    description: Phandle to the physical PWM device
-
-Drop description.
-
-> +    maxItems: 1
-> +
-> +  amp-supply:
-> +    description: Phandle to a regulator that acts as an amplifier for the beeper
-
-Drop "Phandle to a regulator that acts as "
-
-> +
-> +  beeper-hz:
-> +    description: bell frequency in Hz
-> +    minimum: 1
-> +    maximum: 4
-
-default is 1000, so how constraints can be lower than default? Also -
-missing default.
-
-Best regards,
-Krzysztof
+Regards,
+Peng.
+>=20
+> Best regards,
+> Krzysztof
 
