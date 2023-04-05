@@ -2,96 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 012916D85A8
-	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 20:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DEC56D85F4
+	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 20:27:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233411AbjDESHa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Apr 2023 14:07:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
+        id S233939AbjDES1s convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 5 Apr 2023 14:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjDESH2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 14:07:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C3D67D95;
-        Wed,  5 Apr 2023 11:07:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 908CC627FF;
-        Wed,  5 Apr 2023 18:06:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E652C433D2;
-        Wed,  5 Apr 2023 18:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1680718011;
-        bh=d1Pk2ZSYTsDyUcVK0NMJYETf7DI5PZ43iawuHurWjGI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R9lwLOprtJ5WlxJMGh1fasd6QZKtIMsz8vJnGVx5k76eWHAL0wXRRa/ns3IYbbci1
-         J63ShGUSB0vDMEF1+uhtKfslzWc2j7hmES3KH+Tl0ZbNvUrjwL59nq2VwFqsdQEsod
-         i0qwv2jVZOVpaYsuFMLijGfS6cyD2npQvI6YWwSY=
-Date:   Wed, 5 Apr 2023 20:06:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v2] USB: core: Fix docs warning caused by wireless_status
- feature
-Message-ID: <2023040541-decipher-chowtime-42a3@gregkh>
-References: <20230405092754.36579-1-hadess@hadess.net>
- <2023040554-obscurity-latter-b12b@gregkh>
- <8ee84f3383fb074f031b88c4f030757667635d96.camel@hadess.net>
+        with ESMTP id S232680AbjDES1r (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 14:27:47 -0400
+Received: from smtprelay08.ispgateway.de (smtprelay08.ispgateway.de [134.119.228.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D963596;
+        Wed,  5 Apr 2023 11:27:45 -0700 (PDT)
+Received: from [92.206.161.29] (helo=note-book.lan)
+        by smtprelay08.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <git@apitzsch.eu>)
+        id 1pk7rB-0006r0-0c; Wed, 05 Apr 2023 20:27:41 +0200
+Message-ID: <f528763247f2513edecb00108e5099120b379350.camel@apitzsch.eu>
+Subject: Re: [PATCH v3 0/2] platform/x86: Add driver for Yoga Tablet mode
+ switch
+From:   =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To:     Andrew Kallmeyer <kallmeyeras@gmail.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     Gergo Koteles <soyer@irl.hu>, Ike Panhc <ike.pan@canonical.com>,
+        linux-input@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+        Armin Wolf <W_Armin@gmx.de>,
+        =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Date:   Wed, 05 Apr 2023 20:27:39 +0200
+In-Reply-To: <20230329014559.44494-1-kallmeyeras@gmail.com>
+References: <20230329014559.44494-1-kallmeyeras@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8ee84f3383fb074f031b88c4f030757667635d96.camel@hadess.net>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+X-Spam-Status: No, score=-0.0 required=5.0 tests=RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Apr 05, 2023 at 08:03:16PM +0200, Bastien Nocera wrote:
-> On Wed, 2023-04-05 at 19:13 +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Apr 05, 2023 at 11:27:54AM +0200, Bastien Nocera wrote:
-> > > Fix wrongly named 'dev' parameter in doc block, should have been
-> > > iface:
-> > > drivers/usb/core/message.c:1939: warning: Function parameter or
-> > > member 'iface' not described in 'usb_set_wireless_status'
-> > > drivers/usb/core/message.c:1939: warning: Excess function parameter
-> > > 'dev' description in 'usb_set_wireless_status'
-> > > 
-> > > And fix missing struct member doc in kernel API, and reorder to
-> > > match struct:
-> > > include/linux/usb.h:270: warning: Function parameter or member
-> > > 'wireless_status_work' not described in 'usb_interface'
-> > > 
-> > > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Link:
-> > > https://lore.kernel.org/linux-next/20230405114807.5a57bf46@canb.auug.org.au/T/#t
-> > > Fixes: 0a4db185f078 ("USB: core: Add API to change the
-> > > wireless_status")
-> > 
-> > I do not see that git commit id anywhere, where is it from?� What
-> > tree?
-> > 
-> > Ah, input tree, not much I can do there...
+Am Dienstag, dem 28.03.2023 um 18:45 -0700 schrieb Andrew Kallmeyer:
+> This driver maps the Lenovo Yoga tablet mode switch to a SW_TABLET_MODE input
+> device. This will make the tablet status available to desktop environments.
 > 
-> Yes, it's from the hid tree.
+> This patch series is the result of the discussion at
+> https://lore.kernel.org/r/CAG4kvq9US=-NjyXFMzJYu2zCJryJWtOc7FGZbrewpgCDjdAkbg@mail.gmail.com/
 > 
-> Benjamin is waiting on either Alan or yourself ack'ing the changes
-> before pushing it through the hid tree, to avoid stepping on somebody
-> else's toes.
+> I decided to follow-up on the patch Gergo wrote and respond to the review
+> comments to get it merged and available for everyone.
 > 
-> The patch seems to fix the warnings in my local tests, let me know if
-> you have any comments about the wording.
+> Gergo and I have tested this on the Yoga 7 14ARB7, and the Yoga 7 14AIL7
+> respectively. Additionally, according to reports at
+> https://github.com/lukas-w/yoga-usage-mode, which uses the same WMI devices,
+> this driver should work with:
+> Yoga C940, Ideapad flex 14API, Yoga 9 14IAP7, Yoga 7 14ARB7, etc.
+> 
+> v1: https://lore.kernel.org/r/20230310041726.217447-1-kallmeyeras@gmail.com/
+> v2: https://lore.kernel.org/r/20230323025200.5462-1-kallmeyeras@gmail.com/
+> The diff since v2 is as follows:
+> 
+> [..]
+> 
+> Andrew Kallmeyer (1):
+>   platform/x86: Move ideapad ACPI helpers to a new header
+> 
+> Gergo Koteles (1):
+>   platform/x86: Add driver for Yoga Tablet Mode switch
+> 
+>  drivers/platform/x86/Kconfig          |  10 ++
+>  drivers/platform/x86/Makefile         |   1 +
+>  drivers/platform/x86/ideapad-laptop.c | 135 +------------------
+>  drivers/platform/x86/ideapad-laptop.h | 152 +++++++++++++++++++++
+>  drivers/platform/x86/lenovo-ymc.c     | 185 ++++++++++++++++++++++++++
+>  5 files changed, 349 insertions(+), 134 deletions(-)
+>  create mode 100644 drivers/platform/x86/ideapad-laptop.h
+>  create mode 100644 drivers/platform/x86/lenovo-ymc.c
+> 
 
-Nope:
+Hi Andrew,
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+it seems my last tested-by got lost, when preparing the this patch
+version or was ignored because of the amount of code changes.
+
+Anyway, tested again on Lenovo ThinkBook 14s Yoga ITL.
+
+Tested-by: André Apitzsch <git@apitzsch.eu>
+
+Best regards,
+André
