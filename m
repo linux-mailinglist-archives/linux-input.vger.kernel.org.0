@@ -2,99 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6844A6D7835
-	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 11:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E57FB6D7CFB
+	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 14:53:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237521AbjDEJ2y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Apr 2023 05:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54522 "EHLO
+        id S237665AbjDEMxs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Apr 2023 08:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237518AbjDEJ2c (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 05:28:32 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53DE2E64;
-        Wed,  5 Apr 2023 02:28:04 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5F040100015;
-        Wed,  5 Apr 2023 09:27:55 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2] USB: core: Fix docs warning caused by wireless_status feature
-Date:   Wed,  5 Apr 2023 11:27:54 +0200
-Message-Id: <20230405092754.36579-1-hadess@hadess.net>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S232465AbjDEMxs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 08:53:48 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA3E1FFE;
+        Wed,  5 Apr 2023 05:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680699227; x=1712235227;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9RREiQXXstMZSmb+k61tk620ydm2/SSYbZmimxZoplo=;
+  b=InSpP32FKJKRqJ7GdZsBteGeKPrEj3ARYD8i5vHFPMXNxWJ+xeRTyNrL
+   4fPoK/C/mLdf0PUMsskXId9P3EcwOEpZO4R6+GoMqYL5Ed14dAxnBvxrK
+   CpIzj385TCBOCF0rnYSNwvjeQqYr7aXhglznQON30Q6SbwOm5m2g743lU
+   FpUWWAPSPloYvWSJVb2ncGK/LACqYxFyN6yT0fezt08NDfAH9D9+LHEQh
+   fSdfQ/+j0ChdcdGFR2Pf0z9qh9LZWLsWfgAb3ovsWlU5R/32NE1suPLlO
+   lJYMDtaGJd+MGAKwBU+L2LltWJvc+0O7hYpt3CI/YGvP2W3Vr2p4WHAiT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="342460116"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="342460116"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 05:53:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="1016453008"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="1016453008"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga005.fm.intel.com with ESMTP; 05 Apr 2023 05:53:44 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id D26531D5; Wed,  5 Apr 2023 15:53:46 +0300 (EEST)
+Date:   Wed, 5 Apr 2023 15:53:46 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Linux GPIO <linux-gpio@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [GIT PULL] intel-gpio for 6.4-2
+Message-ID: <ZC1vWkY52ggGxem8@black.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix wrongly named 'dev' parameter in doc block, should have been iface:
-drivers/usb/core/message.c:1939: warning: Function parameter or member 'iface' not described in 'usb_set_wireless_status'
-drivers/usb/core/message.c:1939: warning: Excess function parameter 'dev' description in 'usb_set_wireless_status'
+Hi Linux GPIO  maintainers et al.,
 
-And fix missing struct member doc in kernel API, and reorder to
-match struct:
-include/linux/usb.h:270: warning: Function parameter or member 'wireless_status_work' not described in 'usb_interface'
+Here is the second PR for GPIO subsystem that contains some treewide fixes
+against previous PR along with Intel GPIO related stuff. It has been in the
+Linux Next for a few weeks without no additional problems being reported.
+Please, pull this for v6.4 cycle.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Link: https://lore.kernel.org/linux-next/20230405114807.5a57bf46@canb.auug.org.au/T/#t
-Fixes: 0a4db185f078 ("USB: core: Add API to change the wireless_status")
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
-Added missing link and sob, thanks to bentiss for the quick review
+This can be treated as immutable tag, in case anyone wants to go with it
+separately.
 
- drivers/usb/core/message.c | 2 +-
- include/linux/usb.h        | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 7930dca84616..7c7f88ca4f62 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -1926,7 +1926,7 @@ static void __usb_wireless_status_intf(struct work_struct *ws)
- 
- /**
-  * usb_set_wireless_status - sets the wireless_status struct member
-- * @dev: the device to modify
-+ * @iface: the interface to modify
-  * @status: the new wireless status
-  *
-  * Set the wireless_status struct member to the new value, and emit
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index a48eeec62a66..56f4758f3c31 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -203,14 +203,16 @@ enum usb_wireless_status {
-  *	following a reset or suspend operation it doesn't support.
-  * @authorized: This allows to (de)authorize individual interfaces instead
-  *	a whole device in contrast to the device authorization.
-+ * @wireless_status: if the USB device uses a receiver/emitter combo, whether
-+ *	the emitter is connected.
-+ * @wireless_status_work: Used for scheduling wireless status changes
-+ * 	from atomic context.
-  * @dev: driver model's view of this device
-  * @usb_dev: if an interface is bound to the USB major, this will point
-  *	to the sysfs representation for that device.
-  * @reset_ws: Used for scheduling resets from atomic context.
-  * @resetting_device: USB core reset the device, so use alt setting 0 as
-  *	current; needs bandwidth alloc after reset.
-- * @wireless_status: if the USB device uses a receiver/emitter combo, whether
-- *	the emitter is connected.
-  *
-  * USB device drivers attach to interfaces on a physical device.  Each
-  * interface encapsulates a single high level function, such as feeding
+With Best Regards,
+Andy Shevchenko
+
+The following changes since commit 380c7ba3923c6e471aff0f951a6cf42e8dec2c79:
+
+  gpiolib: Clean up headers (2023-03-06 12:33:02 +0200)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-gpio-intel.git tags/intel-gpio-v6.4-2
+
+for you to fetch changes up to 782eea0c89f7d071d6b56ecfa1b8b0c81164b9be:
+
+  gpiolib: acpi: Add a ignore wakeup quirk for Clevo NL5xNU (2023-03-23 16:22:18 +0200)
+
+----------------------------------------------------------------
+intel-gpio for v6.4-2
+
+* Fixed suspend issue on Clevo NL5xNU
+* Split a new Intel Tangier (library) driver for current and new platforms
+* Introduced a new driver for Intel Elkhart Lake PSE GPIO (see also above)
+* Contained a few fixes for the previous of_gpio.h cleanup
+* Miscellaneous cleanups here and there
+
+The following is an automated git shortlog grouped by driver:
+
+elkhartlake:
+ -  Introduce Intel Elkhart Lake PSE GPIO
+
+gpiolib:
+ -  acpi: Add a ignore wakeup quirk for Clevo NL5xNU
+ -  acpi: Move ACPI device NULL check to acpi_get_driver_gpio_data()
+ -  acpi: use the fwnode in acpi_gpiochip_find()
+
+ich:
+ -  Use devm_gpiochip_add_data() to simplify remove path
+
+merrifield:
+ -  Utilise temporary variable for struct device
+ -  Use dev_err_probe()
+ -  Adapt to Intel Tangier GPIO driver
+
+mips:
+ -  ar7: include linux/gpio/driver.h
+
+mm-lantiq:
+ -  Fix typo in the newly added header filename
+
+powerpc/40x:
+ -  Add missing select OF_GPIO_MM_GPIOCHIP
+
+sh:
+ -  mach-x3proto: Add missing #include <linux/gpio/driver.h>
+
+tangier:
+ -  Introduce Intel Tangier GPIO driver
+
+----------------------------------------------------------------
+Andrew Davis (1):
+      gpio: ich: Use devm_gpiochip_add_data() to simplify remove path
+
+Andy Shevchenko (5):
+      gpio: merrifield: Use dev_err_probe()
+      gpio: merrifield: Utilise temporary variable for struct device
+      powerpc/40x: Add missing select OF_GPIO_MM_GPIOCHIP
+      gpio: mm-lantiq: Fix typo in the newly added header filename
+      gpiolib: acpi: Move ACPI device NULL check to acpi_get_driver_gpio_data()
+
+Arnd Bergmann (1):
+      mips: ar7: include linux/gpio/driver.h
+
+Benjamin Tissoires (1):
+      gpiolib: acpi: use the fwnode in acpi_gpiochip_find()
+
+Geert Uytterhoeven (1):
+      sh: mach-x3proto: Add missing #include <linux/gpio/driver.h>
+
+Pandith N (3):
+      gpio: tangier: Introduce Intel Tangier GPIO driver
+      gpio: merrifield: Adapt to Intel Tangier GPIO driver
+      gpio: elkhartlake: Introduce Intel Elkhart Lake PSE GPIO
+
+Werner Sembach (1):
+      gpiolib: acpi: Add a ignore wakeup quirk for Clevo NL5xNU
+
+ MAINTAINERS                         |   2 +
+ arch/mips/ar7/gpio.c                |   2 +-
+ arch/powerpc/platforms/40x/Kconfig  |   1 +
+ arch/sh/boards/mach-x3proto/setup.c |   2 +-
+ drivers/gpio/Kconfig                |  24 +-
+ drivers/gpio/Makefile               |   2 +
+ drivers/gpio/gpio-elkhartlake.c     |  90 ++++++
+ drivers/gpio/gpio-ich.c             |  10 +-
+ drivers/gpio/gpio-merrifield.c      | 453 +++---------------------------
+ drivers/gpio/gpio-mm-lantiq.c       |   2 +-
+ drivers/gpio/gpio-tangier.c         | 536 ++++++++++++++++++++++++++++++++++++
+ drivers/gpio/gpio-tangier.h         | 117 ++++++++
+ drivers/gpio/gpiolib-acpi.c         |  26 +-
+ 13 files changed, 825 insertions(+), 442 deletions(-)
+ create mode 100644 drivers/gpio/gpio-elkhartlake.c
+ create mode 100644 drivers/gpio/gpio-tangier.c
+ create mode 100644 drivers/gpio/gpio-tangier.h
+
 -- 
-2.40.0
+With Best Regards,
+Andy Shevchenko
+
 
