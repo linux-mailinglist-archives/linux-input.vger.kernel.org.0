@@ -2,21 +2,21 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 318476D77D9
-	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 11:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6844A6D7835
+	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 11:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237040AbjDEJMG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Apr 2023 05:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43586 "EHLO
+        id S237521AbjDEJ2y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Apr 2023 05:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237014AbjDEJMG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 05:12:06 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9641C10F9;
-        Wed,  5 Apr 2023 02:12:03 -0700 (PDT)
+        with ESMTP id S237518AbjDEJ2c (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 05:28:32 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53DE2E64;
+        Wed,  5 Apr 2023 02:28:04 -0700 (PDT)
 Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 26160C0004;
-        Wed,  5 Apr 2023 09:11:57 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5F040100015;
+        Wed,  5 Apr 2023 09:27:55 +0000 (UTC)
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -25,9 +25,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
         Nestor Lopez Casado <nlopezcasad@logitech.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] USB: core: Fix docs warning caused by wireless_status feature
-Date:   Wed,  5 Apr 2023 11:11:57 +0200
-Message-Id: <20230405091157.35056-1-hadess@hadess.net>
+Subject: [PATCH v2] USB: core: Fix docs warning caused by wireless_status feature
+Date:   Wed,  5 Apr 2023 11:27:54 +0200
+Message-Id: <20230405092754.36579-1-hadess@hadess.net>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,8 +49,12 @@ match struct:
 include/linux/usb.h:270: warning: Function parameter or member 'wireless_status_work' not described in 'usb_interface'
 
 Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Link: https://lore.kernel.org/linux-next/20230405114807.5a57bf46@canb.auug.org.au/T/#t
 Fixes: 0a4db185f078 ("USB: core: Add API to change the wireless_status")
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
+Added missing link and sob, thanks to bentiss for the quick review
+
  drivers/usb/core/message.c | 2 +-
  include/linux/usb.h        | 6 ++++--
  2 files changed, 5 insertions(+), 3 deletions(-)
