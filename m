@@ -2,75 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D766D7094
-	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 01:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 318476D77D9
+	for <lists+linux-input@lfdr.de>; Wed,  5 Apr 2023 11:12:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236497AbjDDXWt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Apr 2023 19:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47500 "EHLO
+        id S237040AbjDEJMG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Apr 2023 05:12:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236379AbjDDXWs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Apr 2023 19:22:48 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF093C06;
-        Tue,  4 Apr 2023 16:22:47 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-5445009c26bso645531667b3.8;
-        Tue, 04 Apr 2023 16:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680650567;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Jae+kgNJA+vLUqMPfGkfrIa2AP/V2belPN6CLTFIj4=;
-        b=lrNvuQ0LdMh2j1HS2tfDOqZu5mtZn3hsS107OH71RhDivc/IGjuDSTK3Nm7+ykyRT1
-         aGhiSqwb5mKlES6w6X8BlzFHBUtt/BUhCiX/AdhNoRPgUca/l1/gIEiAtXS9qdKrohY0
-         oloz42lKY6FazrTsjB49EbnL3Zdb430lO4eY+xDJd3mzTezahdxxEEU6ju7RiF2dNiIC
-         rm9hxdVxhX6F7T1ZdNe7hIywNabgsMSn8WdYf5Ys/Y13pC/7rlQwAGd9m866t5Pt3N5G
-         EsVS/V1GHmE/eXLrd1LdznPHTAaFaCiYjpUNOy4sZ/KRH49I4/gxUlPeUUvLl0mwM1uF
-         6RTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680650567;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2Jae+kgNJA+vLUqMPfGkfrIa2AP/V2belPN6CLTFIj4=;
-        b=Lokpqh8RTpjHiA0hiP/nRwoq9m/fs2x3VWzMzIEnmqegQgs+PkySfeN1+rnvicfVn1
-         51KiGE7wgcS4JRlz/6vuHilCRcsySCpERfKLfXwj0+LU6rFTn9GKSJExahNI+q4v/JJ5
-         XlKBICpzuTy68UP2JoME9sTSO2ERmLWlPId9JpLN9hk1/kfCyYCHKuysygnwOlFVk4Hp
-         iE/IZoQTAW26EWxyZGTTIW8pdSeszPCxQdrgzoRZ4HGwfJI9rKcO2YU7SL/YOoTCf1wQ
-         LQ9WG7Tj/gyqGqswiV1uor4j8qQe/i0sdLOmD1BQEIdRkLEKWdQNCcpYIhVRGxGBrweY
-         gEPg==
-X-Gm-Message-State: AAQBX9fnD8rJfGQPLFybj0U/MCsPfHflz+jbAy51EZiz6GVniQ+rH/dI
-        hGCT5OleoETFuCZ2XizrZjW4ZeukZXoAlSJywDg=
-X-Google-Smtp-Source: AKy350aZv6OvJxb3sMF82CLnMDw/7BR6i7oF2hYP7FkvOx2EN+LUytmEvif//qmWBvZLGup0Xw9MIRpL36vCT78ulPE=
-X-Received: by 2002:a81:ad0b:0:b0:545:3f42:2d97 with SMTP id
- l11-20020a81ad0b000000b005453f422d97mr2481053ywh.3.1680650566822; Tue, 04 Apr
- 2023 16:22:46 -0700 (PDT)
+        with ESMTP id S237014AbjDEJMG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 05:12:06 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9641C10F9;
+        Wed,  5 Apr 2023 02:12:03 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 26160C0004;
+        Wed,  5 Apr 2023 09:11:57 +0000 (UTC)
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] USB: core: Fix docs warning caused by wireless_status feature
+Date:   Wed,  5 Apr 2023 11:11:57 +0200
+Message-Id: <20230405091157.35056-1-hadess@hadess.net>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230217-import-hid-tools-tests-v1-0-d1c48590d0ee@redhat.com>
- <20230403162024.sespaq5iwbjan4xl@mail.corp.redhat.com> <20230404013731.GA38303@quokka>
-In-Reply-To: <20230404013731.GA38303@quokka>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Tue, 4 Apr 2023 16:22:35 -0700
-Message-ID: <CAEc3jaBaY4GAHTtXyCZGw=AoxfBQ_9-rxorrS0KwJjAFyN993A@mail.gmail.com>
-Subject: Re: [PATCH 00/11] selftests: hid: import the tests from hid-tools
-To:     Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Candle Sun <candle.sun@unisoc.com>,
-        Jose Torreguitar <jtguitar@google.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Silvan Jegen <s.jegen@gmail.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>,
-        =?UTF-8?Q?Bla=C5=BE_Hrastnik?= <blaz@mxxn.io>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,139 +40,57 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+Fix wrongly named 'dev' parameter in doc block, should have been iface:
+drivers/usb/core/message.c:1939: warning: Function parameter or member 'iface' not described in 'usb_set_wireless_status'
+drivers/usb/core/message.c:1939: warning: Excess function parameter 'dev' description in 'usb_set_wireless_status'
 
-I like the direction of bundling the tests with the kernel and should
-make it easier in case there are driver changes breaking tests as
-well.
+And fix missing struct member doc in kernel API, and reorder to
+match struct:
+include/linux/usb.h:270: warning: Function parameter or member 'wireless_status_work' not described in 'usb_interface'
 
-Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: 0a4db185f078 ("USB: core: Add API to change the wireless_status")
+---
+ drivers/usb/core/message.c | 2 +-
+ include/linux/usb.h        | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-Thanks,
-Roderick Colenbrander
+diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+index 7930dca84616..7c7f88ca4f62 100644
+--- a/drivers/usb/core/message.c
++++ b/drivers/usb/core/message.c
+@@ -1926,7 +1926,7 @@ static void __usb_wireless_status_intf(struct work_struct *ws)
+ 
+ /**
+  * usb_set_wireless_status - sets the wireless_status struct member
+- * @dev: the device to modify
++ * @iface: the interface to modify
+  * @status: the new wireless status
+  *
+  * Set the wireless_status struct member to the new value, and emit
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index a48eeec62a66..56f4758f3c31 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -203,14 +203,16 @@ enum usb_wireless_status {
+  *	following a reset or suspend operation it doesn't support.
+  * @authorized: This allows to (de)authorize individual interfaces instead
+  *	a whole device in contrast to the device authorization.
++ * @wireless_status: if the USB device uses a receiver/emitter combo, whether
++ *	the emitter is connected.
++ * @wireless_status_work: Used for scheduling wireless status changes
++ * 	from atomic context.
+  * @dev: driver model's view of this device
+  * @usb_dev: if an interface is bound to the USB major, this will point
+  *	to the sysfs representation for that device.
+  * @reset_ws: Used for scheduling resets from atomic context.
+  * @resetting_device: USB core reset the device, so use alt setting 0 as
+  *	current; needs bandwidth alloc after reset.
+- * @wireless_status: if the USB device uses a receiver/emitter combo, whether
+- *	the emitter is connected.
+  *
+  * USB device drivers attach to interfaces on a physical device.  Each
+  * interface encapsulates a single high level function, such as feeding
+-- 
+2.40.0
 
-On Mon, Apr 3, 2023 at 6:54=E2=80=AFPM Peter Hutterer <peter.hutterer@who-t=
-.net> wrote:
->
-> On Mon, Apr 03, 2023 at 06:20:24PM +0200, Benjamin Tissoires wrote:
-> > On Feb 17 2023, Benjamin Tissoires wrote:
-> > > I have been running hid-tools for a while, but it was in its own
-> > > separate repository for multiple reasons. And the past few weeks
-> > > I finally managed to make the kernel tests in that repo in a
-> > > state where we can merge them in the kernel tree directly:
-> > >
-> > > - the tests run in ~2 to 3 minutes
-> > > - the tests are way more reliable than previously
-> > > - the tests are mostly self-contained now (to the exception
-> > >   of the Sony ones)
-> > >
-> > > To be able to run the tests we need to use the latest release
-> > > of hid-tools, as this project still keeps the HID parsing logic
-> > > and is capable of generating the HID events.
-> > >
-> > > The series also ensures we can run the tests with vmtest.sh,
-> > > allowing for a quick development and test in the tree itself.
-> > >
-> > > This should allow us to require tests to be added to a series
-> > > when we see fit and keep them alive properly instead of having
-> > > to deal with 2 repositories.
-> > >
-> > > In Cc are all of the people who participated in the elaboration
-> > > of those tests, so please send back a signed-off-by for each
-> > > commit you are part of.
-> > >
-> > > This series applies on top of the for-6.3/hid-bpf branch, which
-> > > is the one that added the tools/testing/selftests/hid directory.
-> > > Given that this is unlikely this series will make the cut for
-> > > 6.3, we might just consider this series to be based on top of
-> > > the future 6.3-rc1.
-> > >
-> > > Cheers,
-> > > Benjamin
-> > >
-> > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > ---
-> >
-> > Jiri, do you mind if I push that code in the hid tree with the followin=
-g
-> > changes:
-> > - Peter privately gave me his signed-off-by
->
-> Apologies, this fell off my list after the initial ack in a meeting with
-> Benjamin. This time publicly:
->   Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-> for the relevant commits.
->
-> Cheers,
->   Peter
->
->
-> > - I included changes from https://gitlab.freedesktop.org/libevdev/hid-t=
-ools/-/merge_requests/143
-> >   to fix the failing sony tests in v6.3
-> >
-> > I am not a big fan of sending a v2 because the ML are not happy with th=
-e
-> > amount of changes...
-> >
-> > Cheers,
-> > Benjamin
-> >
-> > > Benjamin Tissoires (11):
-> > >       selftests: hid: make vmtest rely on make
-> > >       selftests: hid: import hid-tools hid-core tests
-> > >       selftests: hid: import hid-tools hid-gamepad tests
-> > >       selftests: hid: import hid-tools hid-keyboards tests
-> > >       selftests: hid: import hid-tools hid-mouse tests
-> > >       selftests: hid: import hid-tools hid-multitouch and hid-tablets=
- tests
-> > >       selftests: hid: import hid-tools wacom tests
-> > >       selftests: hid: import hid-tools hid-apple tests
-> > >       selftests: hid: import hid-tools hid-ite tests
-> > >       selftests: hid: import hid-tools hid-sony and hid-playstation t=
-ests
-> > >       selftests: hid: import hid-tools usb-crash tests
-> > >
-> > >  tools/testing/selftests/hid/Makefile               |   12 +
-> > >  tools/testing/selftests/hid/config                 |   11 +
-> > >  tools/testing/selftests/hid/hid-apple.sh           |    7 +
-> > >  tools/testing/selftests/hid/hid-core.sh            |    7 +
-> > >  tools/testing/selftests/hid/hid-gamepad.sh         |    7 +
-> > >  tools/testing/selftests/hid/hid-ite.sh             |    7 +
-> > >  tools/testing/selftests/hid/hid-keyboard.sh        |    7 +
-> > >  tools/testing/selftests/hid/hid-mouse.sh           |    7 +
-> > >  tools/testing/selftests/hid/hid-multitouch.sh      |    7 +
-> > >  tools/testing/selftests/hid/hid-sony.sh            |    7 +
-> > >  tools/testing/selftests/hid/hid-tablet.sh          |    7 +
-> > >  tools/testing/selftests/hid/hid-usb_crash.sh       |    7 +
-> > >  tools/testing/selftests/hid/hid-wacom.sh           |    7 +
-> > >  tools/testing/selftests/hid/run-hid-tools-tests.sh |   28 +
-> > >  tools/testing/selftests/hid/settings               |    3 +
-> > >  tools/testing/selftests/hid/tests/__init__.py      |    2 +
-> > >  tools/testing/selftests/hid/tests/base.py          |  345 ++++
-> > >  tools/testing/selftests/hid/tests/conftest.py      |   81 +
-> > >  .../selftests/hid/tests/descriptors_wacom.py       | 1360 ++++++++++=
-+++
-> > >  .../selftests/hid/tests/test_apple_keyboard.py     |  440 +++++
-> > >  tools/testing/selftests/hid/tests/test_gamepad.py  |  209 ++
-> > >  tools/testing/selftests/hid/tests/test_hid_core.py |  154 ++
-> > >  .../selftests/hid/tests/test_ite_keyboard.py       |  166 ++
-> > >  tools/testing/selftests/hid/tests/test_keyboard.py |  485 +++++
-> > >  tools/testing/selftests/hid/tests/test_mouse.py    |  977 +++++++++
-> > >  .../testing/selftests/hid/tests/test_multitouch.py | 2088 ++++++++++=
-++++++++++
-> > >  tools/testing/selftests/hid/tests/test_sony.py     |  282 +++
-> > >  tools/testing/selftests/hid/tests/test_tablet.py   |  872 ++++++++
-> > >  .../testing/selftests/hid/tests/test_usb_crash.py  |  103 +
-> > >  .../selftests/hid/tests/test_wacom_generic.py      |  844 ++++++++
-> > >  tools/testing/selftests/hid/vmtest.sh              |   25 +-
-> > >  31 files changed, 8554 insertions(+), 10 deletions(-)
-> > > ---
-> > > base-commit: 2f7f4efb9411770b4ad99eb314d6418e980248b4
-> > > change-id: 20230217-import-hid-tools-tests-dc0cd4f3c8a8
-> > >
-> > > Best regards,
-> > > --
-> > > Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > >
-> >
