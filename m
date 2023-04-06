@@ -2,98 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DE896D95E8
-	for <lists+linux-input@lfdr.de>; Thu,  6 Apr 2023 13:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DB846D971E
+	for <lists+linux-input@lfdr.de>; Thu,  6 Apr 2023 14:40:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238493AbjDFLio (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Apr 2023 07:38:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46544 "EHLO
+        id S236554AbjDFMkI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Apr 2023 08:40:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238016AbjDFLiO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Apr 2023 07:38:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D584EBDD7;
-        Thu,  6 Apr 2023 04:35:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 292056465D;
-        Thu,  6 Apr 2023 11:34:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D400C433D2;
-        Thu,  6 Apr 2023 11:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680780846;
-        bh=9sQTzdzQIRmdNZ+niKlHkq4sOuPXASqIJ/yStmcsx48=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jZTdC8nYR/4aw+0BDTs5Io5SuYQplI6VMSDZZT3RpxH7sWXO7wyy+cJ8bwZlXZHza
-         8Xu5ABOg+uH3pSRjFZufzIxfhzBvH/lM/iQ2iLViJWqIlm09GL+8mqNwVT7LjYn577
-         9PJf/M+/MHNt3kruFPrkuT6uOb+HbpKaueVmXwz7r1LntVIsaLGi5eWjJaxuUZItmJ
-         TblXocfhxiBdEpfn5IKgzMB7qAU4epvcjuJ8VZUpdyl4VDzlZinCte9Pc3lqdCkTBz
-         xNqm3crQoATbBVLYjh8LPw6vyY37iTrBdBfY4H5jio7YjSEaHpKGH4C1gdh/82rPqb
-         vzThgKvakyB0w==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jonathan Denose <jdenose@chromium.org>,
-        Jonathan Denose <jdenose@google.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, wse@tuxedocomputers.com,
-        wsa+renesas@sang-engineering.com, mkorpershoek@baylibre.com,
-        chenhuacai@kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 2/8] Input: i8042 - add quirk for Fujitsu Lifebook A574/H
-Date:   Thu,  6 Apr 2023 07:33:54 -0400
-Message-Id: <20230406113400.649038-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230406113400.649038-1-sashal@kernel.org>
-References: <20230406113400.649038-1-sashal@kernel.org>
+        with ESMTP id S230032AbjDFMkG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Apr 2023 08:40:06 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657A476A9
+        for <linux-input@vger.kernel.org>; Thu,  6 Apr 2023 05:39:59 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id o12so17302763iow.6
+        for <linux-input@vger.kernel.org>; Thu, 06 Apr 2023 05:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680784798; x=1683376798;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
+        b=JvHQq6jDpjJvwT6PkJYmX6TmCq2EAfryhNRMWAJ3mTNA5mBvoSBF8SJDTZxK7dDU6p
+         VjB2VxTNUBl1WEd4EtVxJi+gTdDuxneFWVTHczYHc75E2oIblKYn+XvVe/MFe8bFtjvZ
+         GiTq9m5gEfNZRx0FqwPAcDTgOPY9OVGgAHAd8Xp0I6f5E9tcOraXeKS/SmdV1yiPol/D
+         3DuA099tgBp8uVQvC7Gg9aQSifHOjaJ4wx2rrnQvIZ1cQlnwOIDYgcnVCQrnkhYbG6fd
+         cVQzjOW1RSviUsxpZ0wS5zrME8U1jYvk3xmKD7f1q/SkUAPPxkscPwgtMGKKvWrCewjX
+         erfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680784798; x=1683376798;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
+        b=nhA6ZW9cecC3olb5CFZZNQOUBD7yEuZwEifGzleTB3mwPlfDB2qRtyN00gZ0NY//PS
+         q4dMRMd4qCxnq0xE/dbUnHKQz7ZQh+ZB+pw0IfzuNG0QZtHKD6DZlmVOxYP7AayXL/+k
+         F3OTcN6l8XuL6lFp94oxzrWwOCTunaMlmTHRgO+vi2/tt6ETWJG9mGEef1WNNx254dZf
+         Zan62PFQ9bP3ZzNTZeKMMAdS8iLE62eQWuFYclNuJgq0jbhYVsv8p7oN4xKd/fy/nvVa
+         Xiu8pTeO8R6dNX1pEVRPAAAQbmEkhXgF44IPM6AxIv9YDGm+Zr9eRBMFm3pxh7OyYJ2v
+         +IZw==
+X-Gm-Message-State: AAQBX9frhFGQIoA2kmGL0FbcvQcd8WI4VqdPoO0gNWcOgjOgi3CyeB7k
+        ffCT/DgE1cY00Ao4B5BTnC1TsHzSb35lJ6jTo48=
+X-Google-Smtp-Source: AKy350YuKUhlMWV0qnquIGioH92ye+h4pdKwLAkubULyFMrtfjM42b2B1YJNs5Mdm81ERvcHs1aRsT/9TYphVSxt2n8=
+X-Received: by 2002:a02:94af:0:b0:3c5:1971:1b7f with SMTP id
+ x44-20020a0294af000000b003c519711b7fmr4985239jah.6.1680784798591; Thu, 06 Apr
+ 2023 05:39:58 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Received: by 2002:a05:6638:61a:b0:40b:2d08:d1bc with HTTP; Thu, 6 Apr 2023
+ 05:39:58 -0700 (PDT)
+Reply-To: dravasmith27@gmail.com
+From:   Dr Ava Smith <wertew30@gmail.com>
+Date:   Thu, 6 Apr 2023 05:39:58 -0700
+Message-ID: <CAKBYrSfLP-WRTzq82Oxs+syYwavaKgu7BM1iLEqPSgkx_Q=YQQ@mail.gmail.com>
+Subject: GREETINGS FROM DR AVA SMITH
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jonathan Denose <jdenose@chromium.org>
-
-[ Upstream commit f5bad62f9107b701a6def7cac1f5f65862219b83 ]
-
-Fujitsu Lifebook A574/H requires the nomux option to properly
-probe the touchpad, especially when waking from sleep.
-
-Signed-off-by: Jonathan Denose <jdenose@google.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20230303152623.45859-1-jdenose@google.com
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/serio/i8042-x86ia64io.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index b2ab20c16cc77..da2bf8259330e 100644
---- a/drivers/input/serio/i8042-x86ia64io.h
-+++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -605,6 +605,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		},
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
- 	},
-+	{
-+		/* Fujitsu Lifebook A574/H */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "FMVA0501PZ"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
-+	},
- 	{
- 		/* Gigabyte M912 */
- 		.matches = {
 -- 
-2.39.2
-
+Hello Dear,
+how are you today?hope you are fine
+My name is Dr Ava Smith ,Am an English and French nationalities.
+I will give you pictures and more details about me as soon as i hear from you
+Thanks
+Ava
