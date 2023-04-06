@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C81B96D9624
-	for <lists+linux-input@lfdr.de>; Thu,  6 Apr 2023 13:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE896D95E8
+	for <lists+linux-input@lfdr.de>; Thu,  6 Apr 2023 13:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238694AbjDFLoL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Apr 2023 07:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59118 "EHLO
+        id S238493AbjDFLio (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Apr 2023 07:38:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238697AbjDFLn4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Apr 2023 07:43:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C311510255;
-        Thu,  6 Apr 2023 04:39:41 -0700 (PDT)
+        with ESMTP id S238016AbjDFLiO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Apr 2023 07:38:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D584EBDD7;
+        Thu,  6 Apr 2023 04:35:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 980FB645A6;
-        Thu,  6 Apr 2023 11:33:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBDD0C4339C;
-        Thu,  6 Apr 2023 11:33:42 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 292056465D;
+        Thu,  6 Apr 2023 11:34:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D400C433D2;
+        Thu,  6 Apr 2023 11:34:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680780824;
-        bh=gPGILrrmHxgPoKgXOEw7bWzfSVq5qJ9Trmj7Zy01FW8=;
+        s=k20201202; t=1680780846;
+        bh=9sQTzdzQIRmdNZ+niKlHkq4sOuPXASqIJ/yStmcsx48=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Gkh7Iwt45irSShRT20hJD7EMQZ+Nmzj/Kgnl/K6oqEekBgMOYl7cFMgvWZgDNXo5O
-         IAH66PbzMv2G1WFUOEOLmsqmkh8zAmX6SDciZJWboP8fJ5Cx4aVGO+7+z7OHx6yba6
-         MIJrcoUeqRPSPnaTMv9qbc7hZJcN6ghE2TmDWGqdSa86GIMdmA5ZieOn7foEhP8J1n
-         Gvtph2sTjt1StjhrdyubY8siM/bxJ1O76BWUcmrjeJe3hdiCCtXNp8diUU06gdQ7n/
-         fHqyX/sfhPSx5qNhVgZ9gByRAI96SsDn3yAAZ31Rs2VNs4zmM6ss0oGatBeCfUGsOB
-         Oal/TMi2jGoQQ==
+        b=jZTdC8nYR/4aw+0BDTs5Io5SuYQplI6VMSDZZT3RpxH7sWXO7wyy+cJ8bwZlXZHza
+         8Xu5ABOg+uH3pSRjFZufzIxfhzBvH/lM/iQ2iLViJWqIlm09GL+8mqNwVT7LjYn577
+         9PJf/M+/MHNt3kruFPrkuT6uOb+HbpKaueVmXwz7r1LntVIsaLGi5eWjJaxuUZItmJ
+         TblXocfhxiBdEpfn5IKgzMB7qAU4epvcjuJ8VZUpdyl4VDzlZinCte9Pc3lqdCkTBz
+         xNqm3crQoATbBVLYjh8LPw6vyY37iTrBdBfY4H5jio7YjSEaHpKGH4C1gdh/82rPqb
+         vzThgKvakyB0w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jonathan Denose <jdenose@chromium.org>,
@@ -38,20 +38,20 @@ Cc:     Jonathan Denose <jdenose@chromium.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, wse@tuxedocomputers.com,
-        mkorpershoek@baylibre.com, chenhuacai@kernel.org,
-        wsa+renesas@sang-engineering.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 2/9] Input: i8042 - add quirk for Fujitsu Lifebook A574/H
-Date:   Thu,  6 Apr 2023 07:33:30 -0400
-Message-Id: <20230406113337.648916-2-sashal@kernel.org>
+        wsa+renesas@sang-engineering.com, mkorpershoek@baylibre.com,
+        chenhuacai@kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 2/8] Input: i8042 - add quirk for Fujitsu Lifebook A574/H
+Date:   Thu,  6 Apr 2023 07:33:54 -0400
+Message-Id: <20230406113400.649038-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230406113337.648916-1-sashal@kernel.org>
-References: <20230406113337.648916-1-sashal@kernel.org>
+In-Reply-To: <20230406113400.649038-1-sashal@kernel.org>
+References: <20230406113400.649038-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index 6b2e88da30766..92fb2f72511e8 100644
+index b2ab20c16cc77..da2bf8259330e 100644
 --- a/drivers/input/serio/i8042-x86ia64io.h
 +++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -601,6 +601,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+@@ -605,6 +605,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
  		},
  		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
  	},
