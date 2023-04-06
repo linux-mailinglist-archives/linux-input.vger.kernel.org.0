@@ -2,109 +2,207 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 902006D8D95
-	for <lists+linux-input@lfdr.de>; Thu,  6 Apr 2023 04:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2F4C6D91D6
+	for <lists+linux-input@lfdr.de>; Thu,  6 Apr 2023 10:40:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234707AbjDFCku (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Apr 2023 22:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35546 "EHLO
+        id S229456AbjDFIkd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Apr 2023 04:40:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234853AbjDFCkt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Apr 2023 22:40:49 -0400
-Received: from endrift.com (endrift.com [173.255.198.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91BB58A42
-        for <linux-input@vger.kernel.org>; Wed,  5 Apr 2023 19:40:34 -0700 (PDT)
-Received: from [192.168.0.22] (unknown [50.47.218.115])
-        by endrift.com (Postfix) with ESMTPSA id 6AC8CA028;
-        Wed,  5 Apr 2023 19:40:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
-        t=1680748833; bh=s+bbXjZIrEEut75wHSf1pB1XJv/VztAZAaJiufe4t+M=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=igku181S1D7Pnu7XEfvQzFDlOHWoWfl4M5m3ln/q1SW0LiC1xB1m3OY/Vf8HKDTXg
-         u7470/DjuQWm3quPw77hDvDb0tkhAmo6MoSnTz8SMCOVADNWXWe/BKe2tgMNUFO62M
-         EWn55jw0ujQiOsvbMCOeHTKnOpQHsX9ZnSMqgf5zGMHYt49cVc8ekPSPirFlJUN/Cy
-         amPUAN0a4impLAc/LmhhrZNqbAdn2o86g0Zr4vaySfye74pBfEDTL25vUkEeH3fiAl
-         VFWxy/wVGQZGcC9l+ezUin+bcE7bW0jn909bpa2TrDa9YkwBAyumgBgHOT2j/yDug7
-         d6FED2ql/bNMw==
-Message-ID: <a02e0ba4-4ea7-40a0-1d33-8f87f2fe8f2f@endrift.com>
-Date:   Wed, 5 Apr 2023 19:40:32 -0700
+        with ESMTP id S233551AbjDFIkb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Apr 2023 04:40:31 -0400
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF6110F1
+        for <linux-input@vger.kernel.org>; Thu,  6 Apr 2023 01:40:29 -0700 (PDT)
+Received: by mail-vs1-xe36.google.com with SMTP id g17so33747635vst.10
+        for <linux-input@vger.kernel.org>; Thu, 06 Apr 2023 01:40:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112; t=1680770428;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jR3lSlRmFdYNE1a70r8vLaLLs3BrzD6yzomUa88ohkk=;
+        b=o5Pbl1y/uUk1ZOPzA0i/Icesou7llplJZMO8L9FW8PnXFswcV0JArMpwztigXQcu7a
+         rL2noQZvQyap9RPvibdBWplOaMHjTKbvnwUkFyZShbL2FoXcsPA3pcmFsFUTI7lRVrKs
+         2i8EADUYwzLHBjMs/NTeSborLyY9dMAkd/Tj6IxxJApHQqyQQK9LcQMc8sE6cKfEaP3p
+         mdJOv7dMhQQpzifFFlG85YHy+yh9Feq8s11JGHxUonsyD7OOszM0LHTqE1qCeP8+HeQ3
+         3ruaDtaI8WSC1zqzCK6UWy2uv10q/cLrQR9mrX62h3EVz8jx6iTtVZlZCIW/0Wgjx4SO
+         MAYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680770428;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jR3lSlRmFdYNE1a70r8vLaLLs3BrzD6yzomUa88ohkk=;
+        b=mjI5aPv/HTtgNjkHyGdVQQErtnqEboy0nPoua6yUY3WHg+I/iA08TjlCJkOPMLsS7z
+         QJ0GphjWCze7Rx5AphM3eT0uzgBkzPbTiMhI7VDcTFFyj6EDrQBWKc032AEXsb33su+A
+         MerRJmfORMu3gGQIDqVas7uJQmwDGb4RWRqwA75PjmQQKXlIKB+//+8eMo2wI6c7GdMB
+         OLJF4w6VLyhjPSOhFdSoryJQKU2KgAIV6cnoM/EVWPCbbvw3qg4eFUnzSBAP9mR/8PC7
+         pulEAj+RNpyBM5e6yviqTTrSbURCKoIwGtsPJ/gIol1KIEdBTrflz/BPeBDxa3wNxzuo
+         gXbg==
+X-Gm-Message-State: AAQBX9d7g8cWkwK43nNzWsmETqZ3T5q0sqMbTl0jeOJO9AcvN2GRT5bP
+        jXbs+OiMr8OfatNA4sg8YK/V6Injhz2fYimvWFCvgQ==
+X-Google-Smtp-Source: AKy350bmVOdCYhwvmpu+PiK2jygpvRtLrmmk78Ewa9wvym1GnHg5SBR+F3ruO1114iQkbo8VLT1EdNlwg6Dw6DEiodo=
+X-Received: by 2002:a05:6102:23f0:b0:426:7730:2002 with SMTP id
+ p16-20020a05610223f000b0042677302002mr7043184vsc.0.1680770427798; Thu, 06 Apr
+ 2023 01:40:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 2/2] Input: xpad - fix PowerA EnWired Controller guide
- button
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Pavel Rojtberg <rojtberg@gmail.com>
-References: <20230330024752.2405603-1-vi@endrift.com>
- <20230330024752.2405603-3-vi@endrift.com> <ZCilF4RM5LY85aHP@google.com>
-From:   Vicki Pfau <vi@endrift.com>
-In-Reply-To: <ZCilF4RM5LY85aHP@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <ZC1vWkY52ggGxem8@black.fi.intel.com>
+In-Reply-To: <ZC1vWkY52ggGxem8@black.fi.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 6 Apr 2023 10:40:16 +0200
+Message-ID: <CAMRc=MeqExfmEtAEfc01Zqw_vmC_qAtQKcaPK6aERt6ovpR1ng@mail.gmail.com>
+Subject: Re: [GIT PULL] intel-gpio for 6.4-2
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linux GPIO <linux-gpio@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Wed, Apr 5, 2023 at 2:53=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> Hi Linux GPIO  maintainers et al.,
+>
+> Here is the second PR for GPIO subsystem that contains some treewide fixe=
+s
+> against previous PR along with Intel GPIO related stuff. It has been in t=
+he
+> Linux Next for a few weeks without no additional problems being reported.
+> Please, pull this for v6.4 cycle.
+>
+> This can be treated as immutable tag, in case anyone wants to go with it
+> separately.
+>
+> Thanks,
+>
+> With Best Regards,
+> Andy Shevchenko
+>
+> The following changes since commit 380c7ba3923c6e471aff0f951a6cf42e8dec2c=
+79:
+>
+>   gpiolib: Clean up headers (2023-03-06 12:33:02 +0200)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-gpio-intel.git=
+ tags/intel-gpio-v6.4-2
+>
+> for you to fetch changes up to 782eea0c89f7d071d6b56ecfa1b8b0c81164b9be:
+>
+>   gpiolib: acpi: Add a ignore wakeup quirk for Clevo NL5xNU (2023-03-23 1=
+6:22:18 +0200)
+>
+> ----------------------------------------------------------------
+> intel-gpio for v6.4-2
+>
+> * Fixed suspend issue on Clevo NL5xNU
+> * Split a new Intel Tangier (library) driver for current and new platform=
+s
+> * Introduced a new driver for Intel Elkhart Lake PSE GPIO (see also above=
+)
+> * Contained a few fixes for the previous of_gpio.h cleanup
+> * Miscellaneous cleanups here and there
+>
+> The following is an automated git shortlog grouped by driver:
+>
+> elkhartlake:
+>  -  Introduce Intel Elkhart Lake PSE GPIO
+>
+> gpiolib:
+>  -  acpi: Add a ignore wakeup quirk for Clevo NL5xNU
+>  -  acpi: Move ACPI device NULL check to acpi_get_driver_gpio_data()
+>  -  acpi: use the fwnode in acpi_gpiochip_find()
+>
+> ich:
+>  -  Use devm_gpiochip_add_data() to simplify remove path
+>
+> merrifield:
+>  -  Utilise temporary variable for struct device
+>  -  Use dev_err_probe()
+>  -  Adapt to Intel Tangier GPIO driver
+>
+> mips:
+>  -  ar7: include linux/gpio/driver.h
+>
+> mm-lantiq:
+>  -  Fix typo in the newly added header filename
+>
+> powerpc/40x:
+>  -  Add missing select OF_GPIO_MM_GPIOCHIP
+>
+> sh:
+>  -  mach-x3proto: Add missing #include <linux/gpio/driver.h>
+>
+> tangier:
+>  -  Introduce Intel Tangier GPIO driver
+>
+> ----------------------------------------------------------------
+> Andrew Davis (1):
+>       gpio: ich: Use devm_gpiochip_add_data() to simplify remove path
+>
+> Andy Shevchenko (5):
+>       gpio: merrifield: Use dev_err_probe()
+>       gpio: merrifield: Utilise temporary variable for struct device
+>       powerpc/40x: Add missing select OF_GPIO_MM_GPIOCHIP
+>       gpio: mm-lantiq: Fix typo in the newly added header filename
+>       gpiolib: acpi: Move ACPI device NULL check to acpi_get_driver_gpio_=
+data()
+>
+> Arnd Bergmann (1):
+>       mips: ar7: include linux/gpio/driver.h
+>
+> Benjamin Tissoires (1):
+>       gpiolib: acpi: use the fwnode in acpi_gpiochip_find()
+>
+> Geert Uytterhoeven (1):
+>       sh: mach-x3proto: Add missing #include <linux/gpio/driver.h>
+>
+> Pandith N (3):
+>       gpio: tangier: Introduce Intel Tangier GPIO driver
+>       gpio: merrifield: Adapt to Intel Tangier GPIO driver
+>       gpio: elkhartlake: Introduce Intel Elkhart Lake PSE GPIO
+>
+> Werner Sembach (1):
+>       gpiolib: acpi: Add a ignore wakeup quirk for Clevo NL5xNU
+>
+>  MAINTAINERS                         |   2 +
+>  arch/mips/ar7/gpio.c                |   2 +-
+>  arch/powerpc/platforms/40x/Kconfig  |   1 +
+>  arch/sh/boards/mach-x3proto/setup.c |   2 +-
+>  drivers/gpio/Kconfig                |  24 +-
+>  drivers/gpio/Makefile               |   2 +
+>  drivers/gpio/gpio-elkhartlake.c     |  90 ++++++
+>  drivers/gpio/gpio-ich.c             |  10 +-
+>  drivers/gpio/gpio-merrifield.c      | 453 +++---------------------------
+>  drivers/gpio/gpio-mm-lantiq.c       |   2 +-
+>  drivers/gpio/gpio-tangier.c         | 536 ++++++++++++++++++++++++++++++=
+++++++
+>  drivers/gpio/gpio-tangier.h         | 117 ++++++++
+>  drivers/gpio/gpiolib-acpi.c         |  26 +-
+>  13 files changed, 825 insertions(+), 442 deletions(-)
+>  create mode 100644 drivers/gpio/gpio-elkhartlake.c
+>  create mode 100644 drivers/gpio/gpio-tangier.c
+>  create mode 100644 drivers/gpio/gpio-tangier.h
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 
+Pulled, thanks!
 
-On 4/1/23 14:41, Dmitry Torokhov wrote:
-> On Wed, Mar 29, 2023 at 07:47:52PM -0700, Vicki Pfau wrote:
->> This commit explicitly disables the audio interface the same way the official
->> driver does. This is needed for some controllers, such as the PowerA Enhanced
->> Wired Controller for Series X|S (0x20d6:0x200e) to report the guide button.
->>
->> Signed-off-by: Vicki Pfau <vi@endrift.com>
->> ---
->>  drivers/input/joystick/xpad.c | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
->> index 698224e1948f..c31fc4e9b310 100644
->> --- a/drivers/input/joystick/xpad.c
->> +++ b/drivers/input/joystick/xpad.c
->> @@ -1396,6 +1396,14 @@ static int xpad_start_xbox_one(struct usb_xpad *xpad)
->>  	unsigned long flags;
->>  	int retval;
->>  
->> +	/* Explicitly disable the audio interface. This is needed for some
->> +	 * controllers, such as the PowerA Enhanced Wired Controller
->> +	 * for Series X|S (0x20d6:0x200e) to report the guide button */
->> +	retval = usb_set_interface(xpad->udev, GIP_WIRED_INTF_AUDIO, 0);
->> +	if (retval)
->> +		dev_warn(&xpad->dev->dev,
->> +			 "unable to disable audio interface: %d\n", retval);
-> 
-> I would prefer if we first validated that the interface is in fact
-> present. Can we do something like:
-> 
-> 	if (usb_ifnum_to_if(xpad->udev, GIP_WIRED_INTF_AUDIO)) {
-> 		error = usb_set_interface(xpad->udev, GIP_WIRED_INTF_AUDIO, 0);
-> 		if (error)
-> 			...
-> 	}
-> 
-
-Yup, that makes sense. Wasn't sure what the cleanest way to do that was, though I'm unconvinced that the first party driver would work without this interface. It can't hurt to add the check.
-
-Should I resubmit both patches in the series, or just this one?
-
->> +
->>  	spin_lock_irqsave(&xpad->odata_lock, flags);
->>  
->>  	/*
->> -- 
->> 2.40.0
->>
-> 
-> Thanks.
-> 
-
-Thanks,
-Vicki
+Bart
