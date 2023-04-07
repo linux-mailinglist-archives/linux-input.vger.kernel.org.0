@@ -2,116 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C206DAECC
-	for <lists+linux-input@lfdr.de>; Fri,  7 Apr 2023 16:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8787E6DB109
+	for <lists+linux-input@lfdr.de>; Fri,  7 Apr 2023 18:57:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232574AbjDGOWD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Apr 2023 10:22:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
+        id S229575AbjDGQ5w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Apr 2023 12:57:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbjDGOWC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Apr 2023 10:22:02 -0400
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 432D5A1;
-        Fri,  7 Apr 2023 07:21:57 -0700 (PDT)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-17683b570b8so45759676fac.13;
-        Fri, 07 Apr 2023 07:21:57 -0700 (PDT)
+        with ESMTP id S229570AbjDGQ5v (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Apr 2023 12:57:51 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4AE61A5;
+        Fri,  7 Apr 2023 09:57:50 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id ld14so1520218qvb.13;
+        Fri, 07 Apr 2023 09:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680886669;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o+EC9oSqo+HSTysdaLl9MdTGNN+XyvYFDHraMGNwzHo=;
+        b=KAFsJ88KqYSuxae/wmpNfoMXlas7mSPVg8du6CvORQjqNZSSfmg/gJmR0aSHYNqOej
+         xUCyV7ghNU/pu5rKHl5CK7JAzupwOhro1oHui6dXT8nv5iBvJNuPiX2XCe/u0C1Sfwt+
+         Dmtz1MrBIFdBpodPvmmapP1SAwb5Xlb2XJzmr0aLMfqq3z4z9DvfVNRtpfrN0trsOavb
+         nmBeKzzO9MEr1boanB4ojnuNJDi9E+NgAqIlWXnm5YxmuUeUxOurftf8+aLXzwk4tuNZ
+         JgtT/B1BxH0uKKmC/mYjb/wY4PhBDw+silSWAAdiNn4Q+XKpGOZjUbWWZzge1nhvS2EE
+         6S7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680877316; x=1683469316;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=NMIR9M1GbiWk7oGA/2V+GFh3GIKCgNeg+MN6EFnM3to=;
-        b=d9R4ALeghTUQJLwsGR+CsbdKG2gNf+5Z4Q1r6IShHiwFhI/NwjVFZCcgtkdzzjBhLE
-         HQR2yzNJrizoiP/9deyMNlOqqS7wwn2u5eD2icYq6X3+qbjBj85FJQ/6luYk6ljif07B
-         EA6ur9qiGbzopPxfPRayjLzZ926BGagUgeoB/4j4KguQKnHzL+MstrbTe92q+YYXmewU
-         a3nvm+vPx9/ozwbaY+4Mb69Q+PeZvyRoakxJlAf3sRMiIxmz5pGPG9FEoze+nFqx80mo
-         RQdrWjN7baD/30v9ngXeVcW13FeA9ZRS13UDlMrbRsWKaFHQYvKzQXi3cYIJVH36Mdjv
-         kLAw==
-X-Gm-Message-State: AAQBX9d8OYo3SyE1e2VKBKthgiCjEq/xuMBixkI7yXJrFU/HTWKSqoui
-        Uc3VeZy4gjSPgerVuxXGgg==
-X-Google-Smtp-Source: AKy350b/+e/EnCQS6A6IciZNVcnyRxRm4mJKpC51Qck5j3M+4aEIHe0nOKJg64J+Py4r8vCgLUCATA==
-X-Received: by 2002:a05:6870:5692:b0:15f:e044:23b2 with SMTP id p18-20020a056870569200b0015fe04423b2mr1915525oao.7.1680877316381;
-        Fri, 07 Apr 2023 07:21:56 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id yg21-20020a05687c009500b0016a37572d17sm1725734oab.2.2023.04.07.07.21.55
+        d=1e100.net; s=20210112; t=1680886669;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o+EC9oSqo+HSTysdaLl9MdTGNN+XyvYFDHraMGNwzHo=;
+        b=XcwKqtQ+WFEH6BbqIlj07dZoAhY86y4dxI3LjJv/gKIGCOvAI5dukIZ0mJ5nrKfffn
+         LJ4xrcYxTFK6f5GQ2LGJbVpQ5kBUD9nni7QFIeLlCvlkglklxw1HyDT/tnKI+6x5SvQe
+         EganWA4/NMA0MJpOLcSvO177pve8PzV+hN492g4qd9NEynmuslI2eip19y7A1aXzBH/q
+         9fRWQMqZUA2GGKRFpNq2oLhRe5DOY+m5bmlQ52s24rlHLp8j/jABCU6YRr5EWtb9lN+/
+         29mqSo2LLN81v7l5pHh+E2pJkgYAIkBqfH90pegbhRIVkv0UTI3T5eRdulyBdf2KbuIP
+         kN3g==
+X-Gm-Message-State: AAQBX9cYhtrm/riMDj+Utt7leOhZa7cNX2ipakUIxCPp8iMNq2udf1wL
+        LaUMLxJTtj2CX24wWu2j713JhWSFpmk=
+X-Google-Smtp-Source: AKy350YHDMgNvgTK9CT41wGDurKn6+YzqMaaNnr4pZILaC4amGknZRiPUSNd+P7UXpyjnCZiToUQqQ==
+X-Received: by 2002:a05:6214:2a49:b0:5bf:370e:f446 with SMTP id jf9-20020a0562142a4900b005bf370ef446mr6635631qvb.17.1680886669126;
+        Fri, 07 Apr 2023 09:57:49 -0700 (PDT)
+Received: from penguin ([205.220.129.30])
+        by smtp.gmail.com with ESMTPSA id kl14-20020a056214518e00b005dd8b9345absm1454622qvb.67.2023.04.07.09.57.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 07:21:55 -0700 (PDT)
-Received: (nullmailer pid 2506786 invoked by uid 1000);
-        Fri, 07 Apr 2023 14:21:55 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+        Fri, 07 Apr 2023 09:57:48 -0700 (PDT)
+Date:   Fri, 7 Apr 2023 09:57:12 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "jingle.wu" <jingle.wu@emc.com.tw>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw
+Subject: Re: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
+Message-ID: <ZDBKwo4UMUm+TSnj@penguin>
+References: <20230320011456.986321-1-jingle.wu@emc.com.tw>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Fred Treven <fred.treven@cirrus.com>
-Cc:     ben.bright@cirrus.com, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, james.ogletree@cirrus.com,
-        robh+dt@kernel.org, patches@opensource.cirrus.com,
-        dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
-        krzystztof.kozlowski+dt@linaro.org
-In-Reply-To: <1680819613-29256-1-git-send-email-fred.treven@cirrus.com>
-References: <Add devicetree bindings for CS40L26 driver>
- <1680819613-29256-1-git-send-email-fred.treven@cirrus.com>
-Message-Id: <168087712059.2500855.14244097462998293799.robh@kernel.org>
-Subject: Re: [PATCH 2/2] dt-bindings: input: cirrus,cs40l26: Add bindings
-Date:   Fri, 07 Apr 2023 09:21:55 -0500
-X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230320011456.986321-1-jingle.wu@emc.com.tw>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Jingle,
 
-On Thu, 06 Apr 2023 17:20:13 -0500, Fred Treven wrote:
-> Add devicetree bindings for CS40L26 driver.
+On Mon, Mar 20, 2023 at 09:14:56AM +0800, jingle.wu wrote:
+> Add inhibit/uninhibit functions.
 > 
-> Signed-off-by: Fred Treven <fred.treven@cirrus.com>
+> Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
 > ---
->  .../devicetree/bindings/input/cs40l26.yaml         | 92 ++++++++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  2 files changed, 93 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/cs40l26.yaml
+>  drivers/input/mouse/elan_i2c_core.c | 86 +++++++++++++++++++++++++++++
+>  1 file changed, 86 insertions(+)
 > 
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index 5f0d75a45c80..b7100945c9cc 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -329,6 +329,89 @@ static int elan_initialize(struct elan_tp_data *data, bool skip_reset)
+>  	return error;
+>  }
+>  
+> +static int elan_reactivate(struct elan_tp_data *data)
+> +{
+> +	struct device *dev = &data->client->dev;
+> +	int ret;
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Please call this variable and other similar ones "error".
 
-yamllint warnings/errors:
+> +
+> +	ret = elan_set_power(data, true);
+> +	if (ret)
+> +		dev_err(dev, "failed to restore power: %d\n", ret);
+> +
+> +	ret = data->ops->sleep_control(data->client, false);
+> +	if (ret) {
+> +		dev_err(dev,
+> +			"failed to wake device up: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return ret;
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/input/cs40l26.example.dts:24.13-26: Warning (reg_format): /example-0/i2c/cs40l26@58:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-Documentation/devicetree/bindings/input/cs40l26.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/cs40l26.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/cs40l26.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/cs40l26.example.dts:21.13-34.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #address-cells for I2C bus
-Documentation/devicetree/bindings/input/cs40l26.example.dts:21.13-34.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #size-cells for I2C bus
-Documentation/devicetree/bindings/input/cs40l26.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/cs40l26.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'i2c_bus_bridge'
-Documentation/devicetree/bindings/input/cs40l26.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/cs40l26.example.dts:22.31-33.13: Warning (avoid_default_addr_size): /example-0/i2c/cs40l26@58: Relying on default #address-cells value
-Documentation/devicetree/bindings/input/cs40l26.example.dts:22.31-33.13: Warning (avoid_default_addr_size): /example-0/i2c/cs40l26@58: Relying on default #size-cells value
-Documentation/devicetree/bindings/input/cs40l26.example.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/cs40l26.example.dtb: cs40l26@58: 'cirrus,bst-exploratory-mode-disabled', 'reset-gpios' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/cs40l26.yaml
+return 0;
 
-doc reference errors (make refcheckdocs):
+> +}
+> +
+> +static void elan_inhibit(struct input_dev *input_dev)
+> +{
+> +	struct elan_tp_data *data = input_get_drvdata(input_dev);
+> +	struct i2c_client *client = data->client;
+> +	int ret;
+> +
+> +	if (data->in_fw_update)
+> +		return;
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1680819613-29256-1-git-send-email-fred.treven@cirrus.com
+Simply and silently ignoring inhibit request is not great. Can we wait
+for firmware update to complete?
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+> +
+> +	dev_dbg(&client->dev, "inhibiting\n");
+> +	/*
+> +	 * We are taking the mutex to make sure sysfs operations are
+> +	 * complete before we attempt to bring the device into low[er]
+> +	 * power mode.
+> +	 */
+> +	ret = mutex_lock_interruptible(&data->sysfs_mutex);
+> +	if (ret)
+> +		return;
+> +
+> +	disable_irq(client->irq);
+> +
+> +	ret = elan_set_power(data, false);
+> +	if (ret)
+> +		enable_irq(client->irq);
+> +
+> +	mutex_unlock(&data->sysfs_mutex);
+> +
+> +}
+> +
+> +static void elan_close(struct input_dev *input_dev)
+> +{
+> +	if ((input_dev->users) && (!input_dev->inhibited))
+> +		elan_inhibit(input_dev);
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+I am not sure why you need these checks. Input core will only call
+input_dev->close() when device is powered up st (i.e. it is not inhibited
+and there are users of it) and when either:
 
-pip3 install dtschema --upgrade
+- there is inhibit request or
+- the last user is letting go of the device
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Similarly elan_open() will be called when first user opens device if
+device is not inhibited, or when request to uninhibit comes for
+inhibited device that has users.
 
+But you need to make sure you start in a low power state.
+
+Thanks.
+
+-- 
+Dmitry
