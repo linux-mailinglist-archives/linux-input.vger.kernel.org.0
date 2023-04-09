@@ -2,143 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BDA56DB125
-	for <lists+linux-input@lfdr.de>; Fri,  7 Apr 2023 19:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 762AC6DC001
+	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 15:32:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbjDGRIQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Apr 2023 13:08:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44346 "EHLO
+        id S229585AbjDINce (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Apr 2023 09:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjDGRIQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Apr 2023 13:08:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E5DA5CB;
-        Fri,  7 Apr 2023 10:08:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D20C61128;
-        Fri,  7 Apr 2023 17:08:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2739C433D2;
-        Fri,  7 Apr 2023 17:08:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680887293;
-        bh=F9eXAOVjjUTkx4GJvdCe60V7AF+Tu5+yzB4QhkxKFzw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kS6Tq8/AdhYkJvytfHyj4T22LnB8x5qWAr3izYZ8j0HPSLGukGTc4IRs9yCSVwrou
-         MfEBswBPApPcffskt2iQwKY/uACFaIjWZUg7sKmcKKOwiX+9/zoF0Wt7GR+09c4ob0
-         VotnV0BFo9CsDi2+kgIXTiv4yYxQ41ZmI6v5UlBim+jwCwKeoiK7AAIS4aGPmj4FCa
-         x3lODavUnCHkfyQSV3/jfQUI8wALlCIbnSizDjy/LA8hIs1K1r+ptaqEOSs/se7eOl
-         6Qoe0GilPN/DfVBFnkAJkaff4kcVtouznnXtBG0c93tWBxNH2fSLA95jbvduQXg5Aa
-         mxRXW/l3sD0jg==
-Date:   Fri, 7 Apr 2023 10:11:03 -0700
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     Gergo Koteles <soyer@irl.hu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        with ESMTP id S229484AbjDINcd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 09:32:33 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF013599;
+        Sun,  9 Apr 2023 06:32:32 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id g19so46561616lfr.9;
+        Sun, 09 Apr 2023 06:32:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681047150; x=1683639150;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2OwlGcOxlJlN3MIUaRMj/bpmF1BMiMrIYCbEpNuZpqI=;
+        b=FnDCAnPk1QMeGGkItp3mZTwuQWT8ViMPWxedYv6BSzXp2wayH4Dm0zeISrNN2b4bZj
+         Wh3owmlZod2AplRR7/0ZdFlTTbfRTOOb9swkRUZPctUzKIQDWF7CxwpH8udeHGfevYNU
+         kh8jYzW5DHK6ae2kTkse5g87Fn1IMorT5NLIheVL5bTx595qGQLEP6/oXlu488ml3Q4f
+         p00nfLESHPVIzl25cwAApk3E04YW45Y1gY5zlWdempWG/U8rZZCd+PHAjczmFJnf/YLL
+         NcTk4baptK0nTGRvtfMYQa8IvR8Ar1eumG3Elhfg/6Bx4mG6ouznEuThO2/3r6dEdj4K
+         j/cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681047150; x=1683639150;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2OwlGcOxlJlN3MIUaRMj/bpmF1BMiMrIYCbEpNuZpqI=;
+        b=YltNtgxFkFtZpEnICz5rU5c7wQz2nGAX3qrnFgHt6NUgcx5R35bK2DORJZxjGWC+qK
+         fMKibrO3z8kvoHPKCUGt2wF92eNoPt60XtfVkeHq7G6Pof6xtwDbs0cP+tRLzq0u1ELR
+         9hcySry5p+gp1Ve0jSJUfA0n+fL/YddqwwDxk6Ddkvi2ld6YKsFI07PTaKzzaTgDV2Yk
+         i+Vs8p4yK43bZMcRjqf9qSsd3vZQIRDopO+rK+eHQsWf9PpUrLIR4P7R4r2nTJX1rGN7
+         /2AnRekJNLTAM9Jl3Uh/SK4K5Vh1Q5/ILHXlk5y5yag3tcVvV/XIrUMtjgcG92aKAaOD
+         R/gg==
+X-Gm-Message-State: AAQBX9fJqmW9xFxDo1YkEP3jn+W+6ByIc5ykStMmkdkVDCdCWdPVQAVB
+        FHaUA2uuINvAbh1yRYC3rVQ=
+X-Google-Smtp-Source: AKy350bix1b3DMlJK9+vyuOd62RoWfeZNF6BH+0X4TDDpyFCQiNNS3eOugX8Iw1egN3tajdtsR8E+Q==
+X-Received: by 2002:ac2:4d03:0:b0:4eb:3fb2:c56d with SMTP id r3-20020ac24d03000000b004eb3fb2c56dmr2803384lfi.12.1681047150024;
+        Sun, 09 Apr 2023 06:32:30 -0700 (PDT)
+Received: from [192.168.171.122] ([46.211.100.81])
+        by smtp.gmail.com with ESMTPSA id v11-20020ac2560b000000b004d58e782886sm1608274lfd.303.2023.04.09.06.32.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Apr 2023 06:32:29 -0700 (PDT)
+Message-ID: <f9c8e0d4-1d0c-cefc-866c-046d4d374576@gmail.com>
+Date:   Sun, 9 Apr 2023 16:32:27 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 2/5] Input: add driver for Focaltech FTS touchscreen
+Content-Language: en-US
+To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+        Caleb Connolly <caleb@connolly.tech>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Caleb Connolly <caleb@connolly.tech>
-Subject: Re: [PATCH v4 2/3] Input: add ABS_SND_PROFILE
-Message-ID: <20230407171103.5jf46g4hw3fed7dn@ripper>
-References: <cover.1677022414.git.soyer@irl.hu>
- <1a4752739568afbdbaaff48436d2bb595d2bda0d.1677022414.git.soyer@irl.hu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1a4752739568afbdbaaff48436d2bb595d2bda0d.1677022414.git.soyer@irl.hu>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Jean Delvare <jdelvare@suse.de>,
+        Max Krummenacher <max.krummenacher@toradex.com>,
+        Job Noorman <job@noorman.info>,
+        Alistair Francis <alistair@alistair23.me>,
+        Chris Morgan <macromorgan@hotmail.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+References: <20230312093249.1846993-1-joelselvaraj.oss@gmail.com>
+ <20230312093249.1846993-3-joelselvaraj.oss@gmail.com>
+ <68b05c43-5808-5792-9b57-aeafffe84149@gmail.com>
+ <d40faca2-fe5d-5b5a-eefe-68eb3e5e8125@gmail.com>
+From:   Markuss Broks <markuss.broks@gmail.com>
+In-Reply-To: <d40faca2-fe5d-5b5a-eefe-68eb3e5e8125@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Feb 22, 2023 at 01:10:33AM +0100, Gergo Koteles wrote:
-> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
-> switch. This will be used for the alert-slider on OnePlus phones or other
-> phones.
-> 
-> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
-> to input-event-codes.h so they can be used from DTS.
-> 
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> ---
->  Documentation/input/event-codes.rst    | 6 ++++++
->  drivers/hid/hid-debug.c                | 1 +
->  include/uapi/linux/input-event-codes.h | 9 +++++++++
->  3 files changed, 16 insertions(+)
-> 
-> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-> index b4557462edd7..d43336e64d6a 100644
-> --- a/Documentation/input/event-codes.rst
-> +++ b/Documentation/input/event-codes.rst
-> @@ -241,6 +241,12 @@ A few EV_ABS codes have special meanings:
->      emitted only when the selected profile changes, indicating the newly
->      selected profile value.
->  
-> +* ABS_SND_PROFILE:
-> +
-> +  - Used to describe the state of a multi-value sound profile switch.
-> +    An event is emitted only when the selected profile changes,
-> +    indicating the newly selected profile value.
-> +
->  * ABS_MT_<name>:
->  
->    - Used to describe multitouch input events. Please see
-> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-> index e213bdde543a..76fb2ecbbc51 100644
-> --- a/drivers/hid/hid-debug.c
-> +++ b/drivers/hid/hid-debug.c
-> @@ -1018,6 +1018,7 @@ static const char *absolutes[ABS_CNT] = {
->  	[ABS_DISTANCE] = "Distance",	[ABS_TILT_X] = "XTilt",
->  	[ABS_TILT_Y] = "YTilt",		[ABS_TOOL_WIDTH] = "ToolWidth",
->  	[ABS_VOLUME] = "Volume",	[ABS_PROFILE] = "Profile",
-> +	[ABS_SND_PROFILE] = "SoundProfile",
->  	[ABS_MISC] = "Misc",
->  	[ABS_MT_TOUCH_MAJOR] = "MTMajor",
->  	[ABS_MT_TOUCH_MINOR] = "MTMinor",
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 022a520e31fc..e8d5ee027b40 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -866,6 +866,7 @@
->  
->  #define ABS_VOLUME		0x20
->  #define ABS_PROFILE		0x21
-> +#define ABS_SND_PROFILE		0x22
->  
->  #define ABS_MISC		0x28
->  
-> @@ -974,4 +975,12 @@
->  #define SND_MAX			0x07
->  #define SND_CNT			(SND_MAX+1)
->  
-> +/*
-> + * ABS_SND_PROFILE values
-> + */
-> +
-> +#define SND_PROFILE_SILENT	0x00
-> +#define SND_PROFILE_VIBRATE	0x01
-> +#define SND_PROFILE_RING	0x02
+Hi Joel,
 
-The patch looks good to me, bu I'd need these header file additions in
-order to merge the dts patch. Could I get an ack and take it through the
-Qualocmm tree, or could you pick it up for 6.4, and then I can merge the
-dts change after that?
+Sorry for responding late:
 
-Regards,
-Bjorn
+On 3/13/23 00:21, Joel Selvaraj wrote:
+> Hi Markuss,
+>
+> Thanks for the quick review! I agree with most of your comments and will
+> fix them in a v2 soon. I have a few doubts as discussed below.
+>
+> On 12/03/23 15:40, Markuss Broks wrote:
+>
+>> Why is the _ratelimited variant necessary?
+> I assumed in case of the interrupt working, but i2c reads fail for some
+> reason, it would spam a lot of error messages if the user touches the
+> screen continuously, like a swipe up gesture or something.
+>
+> I referred to ad7879 touchscreen's irq handling code [1] and thought
+> it's probably best to do this, to be on the safe side. I will remove
+> this if it's not needed in v2.
+>
+>> Overall, I think it's better to cast the data type to a struct, which
+>> would make this seem with less random.
+> Sorry, I am not sure I got this right. Do you mean I create an array of
+> struct called say "fts_point" that stores the x, y, type, etc. info of
+> all the points, then report it separately. Like similar to something
+> done by the auo-pixcir touchscreen driver [2]?
 
-> +
->  #endif
-> -- 
-> 2.39.2
-> 
+By that I meant doing something like the Zinitix driver[1] does. It has 
+a struct data type for whatever you read from hardware, e.g.
+
+struct point_coord {
+     __le16    x;
+     __le16    y;
+...
+};
+
+from that driver. That way you can cast the data read to that struct and 
+have it look a bit nicer.
+
+This is just a suggestion though, you have the final choice in what 
+design you choose for your code :)
+
+>
+> If I didn't get this correctly, can you show me some code in mainline,
+> that does it? It would be very helpful.
+>
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/ad7879.c?h=v6.3-rc1#n250
+> [2]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/auo-pixcir-ts.c?h=v6.3-rc1#n162
+>
+>> - Markuss
+> Thanks,
+> Joel
+[1]
+https://elixir.free-electrons.com/linux/v6.3-rc5/source/drivers/input/touchscreen/zinitix.c
+
+
+- Markuss
+
