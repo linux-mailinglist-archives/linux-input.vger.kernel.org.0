@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AA476DC069
-	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 16:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B99166DC06A
+	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 16:43:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229445AbjDIOnf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Apr 2023 10:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36094 "EHLO
+        id S229586AbjDIOnk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Apr 2023 10:43:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjDIOnd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 10:43:33 -0400
+        with ESMTP id S229584AbjDIOnk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 10:43:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2CD2358C
-        for <linux-input@vger.kernel.org>; Sun,  9 Apr 2023 07:42:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0141630F6
+        for <linux-input@vger.kernel.org>; Sun,  9 Apr 2023 07:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681051373;
+        s=mimecast20190719; t=1681051370;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ZqvPZJAfawDAQ9NHo9T3b1Jmr1jDjUSR0TnjxNywKX0=;
-        b=LxkD57IEkBjncRYgCfADpOlz/A7R7NusVhpgcE8AM6x0mQErSej/tqEWdv9RIVtJer1GmW
-        HwwovV22AvHXm9+Cs+wZTmH4/BdXqLITwrSen8X/BzuNkDLP9iy/qyos/+tehf4Vn4jH1X
-        nGr/S2d4LSFC9as6zmR6nu4O5fOQj/A=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=W25vjDxRWh3r7g/c9uA6SC3LXuaMuOvAMoNp73wzVP0=;
+        b=Ggai89XQWaG60DYJ43FOxkAlvpybonRL4Jilg/ggYr/qq2roYB0jqZ7ledxgPV9y9VFA8r
+        vHdEjjo0DgYCa/qv39oznsXA7RRERqg289tuDD6uGNWxMIrONbgvHwSpp579FLULvQ2SHY
+        z7Ptbx7Ub0rFJH4XtVdAo2xm1mbdikg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-139-vgQW4zZCPTq2dGOnBkPwKA-1; Sun, 09 Apr 2023 10:42:47 -0400
-X-MC-Unique: vgQW4zZCPTq2dGOnBkPwKA-1
+ us-mta-201-ojCNDTZQNM69OXMk95TO6g-1; Sun, 09 Apr 2023 10:42:48 -0400
+X-MC-Unique: ojCNDTZQNM69OXMk95TO6g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49D0B3C0C899;
-        Sun,  9 Apr 2023 14:42:47 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A2DC185A78F;
+        Sun,  9 Apr 2023 14:42:48 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.31])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7CFB4202701E;
-        Sun,  9 Apr 2023 14:42:46 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7C751202701E;
+        Sun,  9 Apr 2023 14:42:47 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Douglas Anderson <dianders@chromium.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH 2/6] HID: i2c-hid-of: Allow using i2c-hid-of on non OF platforms
-Date:   Sun,  9 Apr 2023 16:42:39 +0200
-Message-Id: <20230409144243.25360-3-hdegoede@redhat.com>
+Subject: [PATCH 3/6] HID: i2c-hid-of: Add reset GPIO support to i2c-hid-of
+Date:   Sun,  9 Apr 2023 16:42:40 +0200
+Message-Id: <20230409144243.25360-4-hdegoede@redhat.com>
 In-Reply-To: <20230409144243.25360-1-hdegoede@redhat.com>
 References: <20230409144243.25360-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -60,81 +60,82 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There are some x86 tablets / 2-in-1s which ship with Android as their
-factory OS image. These have pretty broken ACPI tables, relying on
-everything being hardcoded in the factory kernel image.
+Add reset GPIO support to the generic i2c-hid-of driver
 
-platform/x86/x86-android-tablets.c manually instantiates i2c-clients for
-i2c devices on these tablets to make them work with the mainline kernel.
+This is necessary to make the Wacom digitizer on the Lenovo Yoga Book 1
+(yb1-x90f/l) work and this will also allow consolidating the 2 specialized
+i2c-hid-of-elan.c and i2c-hid-of-goodix.c drivers into the generic
+i2c-hid-of driver.
 
-The Lenovo Yoga Book 1 (yb1-x90f/l) is such a 2-in-1. It has 2 I2C-HID
-devices its main touchscreen and a Wacom digitizer. Its main touchscreen
-can alternatively also be used in HiDeep's native protocol mode but
-for the Wacom digitizer we really need I2C-HID.
-
-This patch allows using i2c-hid-of on non OF platforms so that it can
-bind to a non ACPI instantiated i2c_client on x86 for the Wacom digitizer.
-Note the driver already has an "i2c-over-hid" i2c_device_id (rather then
-an of_device_id).
-
-Besides enabling building on non-OF platforms this also replaces
-the only of_property_read_u32() call with device_property_read_u32() note
-that other properties where already read using device_property_read_...().
+For now the new "post-reset-deassert-delay-ms" property is only used on
+x86/ACPI (non devicetree) devs. IOW it is not used in actual devicetree
+files and the same goes for the reset GPIO. The devicetree-bindings
+maintainers have requested properties like these to not be added to
+the devicetree-bindings, so the new property + GPIO are deliberately
+not added to the existing devicetree-bindings.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/hid/i2c-hid/Kconfig      | 6 ++++--
- drivers/hid/i2c-hid/i2c-hid-of.c | 4 +++-
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ drivers/hid/i2c-hid/i2c-hid-of.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/hid/i2c-hid/Kconfig b/drivers/hid/i2c-hid/Kconfig
-index 4439be7fa74d..3be17109301a 100644
---- a/drivers/hid/i2c-hid/Kconfig
-+++ b/drivers/hid/i2c-hid/Kconfig
-@@ -23,12 +23,14 @@ config I2C_HID_ACPI
- 
- config I2C_HID_OF
- 	tristate "HID over I2C transport layer Open Firmware driver"
--	depends on OF
-+	# No "depends on OF" because this can also be used for manually
-+	# (board-file) instantiated "hid-over-i2c" type i2c-clients.
- 	select I2C_HID_CORE
- 	help
- 	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
- 	  other HID based devices which is connected to your computer via I2C.
--	  This driver supports Open Firmware (Device Tree)-based systems.
-+	  This driver supports Open Firmware (Device Tree)-based systems as
-+	  well as binding to manually (board-file) instantiated i2c-hid-clients.
- 
- 	  If unsure, say N.
- 
 diff --git a/drivers/hid/i2c-hid/i2c-hid-of.c b/drivers/hid/i2c-hid/i2c-hid-of.c
-index c82a5a54c3e6..385f7460e03c 100644
+index 385f7460e03c..d0289afa57dc 100644
 --- a/drivers/hid/i2c-hid/i2c-hid-of.c
 +++ b/drivers/hid/i2c-hid/i2c-hid-of.c
-@@ -82,7 +82,7 @@ static int i2c_hid_of_probe(struct i2c_client *client)
- 	ihid_of->ops.power_up = i2c_hid_of_power_up;
- 	ihid_of->ops.power_down = i2c_hid_of_power_down;
+@@ -21,6 +21,7 @@
  
--	ret = of_property_read_u32(dev->of_node, "hid-descr-addr", &val);
-+	ret = device_property_read_u32(dev, "hid-descr-addr", &val);
- 	if (ret) {
- 		dev_err(dev, "HID register address not provided\n");
- 		return -ENODEV;
-@@ -113,11 +113,13 @@ static int i2c_hid_of_probe(struct i2c_client *client)
- 				  hid_descriptor_address, quirks);
+ #include <linux/delay.h>
+ #include <linux/device.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/hid.h>
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
+@@ -35,8 +36,10 @@ struct i2c_hid_of {
+ 	struct i2chid_ops ops;
+ 
+ 	struct i2c_client *client;
++	struct gpio_desc *reset_gpio;
+ 	struct regulator_bulk_data supplies[2];
+ 	int post_power_delay_ms;
++	int post_reset_delay_ms;
+ };
+ 
+ static int i2c_hid_of_power_up(struct i2chid_ops *ops)
+@@ -55,6 +58,10 @@ static int i2c_hid_of_power_up(struct i2chid_ops *ops)
+ 	if (ihid_of->post_power_delay_ms)
+ 		msleep(ihid_of->post_power_delay_ms);
+ 
++	gpiod_set_value_cansleep(ihid_of->reset_gpio, 0);
++	if (ihid_of->post_reset_delay_ms)
++		msleep(ihid_of->post_reset_delay_ms);
++
+ 	return 0;
  }
  
-+#ifdef CONFIG_OF
- static const struct of_device_id i2c_hid_of_match[] = {
- 	{ .compatible = "hid-over-i2c" },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, i2c_hid_of_match);
-+#endif
+@@ -62,6 +69,7 @@ static void i2c_hid_of_power_down(struct i2chid_ops *ops)
+ {
+ 	struct i2c_hid_of *ihid_of = container_of(ops, struct i2c_hid_of, ops);
  
- static const struct i2c_device_id i2c_hid_of_id_table[] = {
- 	{ "hid", 0 },
++	gpiod_set_value_cansleep(ihid_of->reset_gpio, 1);
+ 	regulator_bulk_disable(ARRAY_SIZE(ihid_of->supplies),
+ 			       ihid_of->supplies);
+ }
+@@ -96,6 +104,14 @@ static int i2c_hid_of_probe(struct i2c_client *client)
+ 	if (!device_property_read_u32(dev, "post-power-on-delay-ms", &val))
+ 		ihid_of->post_power_delay_ms = val;
+ 
++	if (!device_property_read_u32(dev, "post-reset-deassert-delay-ms", &val))
++		ihid_of->post_reset_delay_ms = val;
++
++	/* Start out with reset asserted */
++	ihid_of->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ihid_of->reset_gpio))
++		return PTR_ERR(ihid_of->reset_gpio);
++
+ 	ihid_of->supplies[0].supply = "vdd";
+ 	ihid_of->supplies[1].supply = "vddl";
+ 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ihid_of->supplies),
 -- 
 2.39.1
 
