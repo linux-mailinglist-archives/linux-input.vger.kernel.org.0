@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 762AC6DC001
-	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 15:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 713A06DC055
+	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 16:24:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjDINce (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Apr 2023 09:32:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36928 "EHLO
+        id S229584AbjDIOYP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Apr 2023 10:24:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjDINcd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 09:32:33 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF013599;
-        Sun,  9 Apr 2023 06:32:32 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id g19so46561616lfr.9;
-        Sun, 09 Apr 2023 06:32:32 -0700 (PDT)
+        with ESMTP id S229581AbjDIOYO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 10:24:14 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86CBA3C1E;
+        Sun,  9 Apr 2023 07:24:13 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7606cf9c551so837739f.0;
+        Sun, 09 Apr 2023 07:24:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681047150; x=1683639150;
+        d=gmail.com; s=20210112; t=1681050253; x=1683642253;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2OwlGcOxlJlN3MIUaRMj/bpmF1BMiMrIYCbEpNuZpqI=;
-        b=FnDCAnPk1QMeGGkItp3mZTwuQWT8ViMPWxedYv6BSzXp2wayH4Dm0zeISrNN2b4bZj
-         Wh3owmlZod2AplRR7/0ZdFlTTbfRTOOb9swkRUZPctUzKIQDWF7CxwpH8udeHGfevYNU
-         kh8jYzW5DHK6ae2kTkse5g87Fn1IMorT5NLIheVL5bTx595qGQLEP6/oXlu488ml3Q4f
-         p00nfLESHPVIzl25cwAApk3E04YW45Y1gY5zlWdempWG/U8rZZCd+PHAjczmFJnf/YLL
-         NcTk4baptK0nTGRvtfMYQa8IvR8Ar1eumG3Elhfg/6Bx4mG6ouznEuThO2/3r6dEdj4K
-         j/cg==
+        bh=MHSYHiDIzBHYaMVI0wzSHbeNEEeUgNK+KBUGPamVoTI=;
+        b=fwJe44uxeTO23RKC1OfwUecw7FRiSCZSNDF7dFPwhmnc2Sh+dNlQrB3RmC08UJcM6i
+         eeJthrJ26fhXHdoUn6uAejjroei+54f43vk6AMA5knEfO2r5MJWdTPftBBnliDfKe8rx
+         vUb5OotTptb4muF7PMzIFq8SsOL48owkj/CKA1SMhDfxed/xpaqTBIzRpiUFeAgTK23t
+         ArvNNPI3llK6DoY+Zo9O+xMlnEF3gyWTA5dFNf+JqPCf8+EcFg22/LZwEZS0VKovgZVU
+         5vsxZmquy5Q+0SI7DXcwey3cV9E0FQtx4lFJnu3NtCV9eGcwQzsQ/PMCl47YP2AuugVq
+         Z4UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681047150; x=1683639150;
+        d=1e100.net; s=20210112; t=1681050253; x=1683642253;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2OwlGcOxlJlN3MIUaRMj/bpmF1BMiMrIYCbEpNuZpqI=;
-        b=YltNtgxFkFtZpEnICz5rU5c7wQz2nGAX3qrnFgHt6NUgcx5R35bK2DORJZxjGWC+qK
-         fMKibrO3z8kvoHPKCUGt2wF92eNoPt60XtfVkeHq7G6Pof6xtwDbs0cP+tRLzq0u1ELR
-         9hcySry5p+gp1Ve0jSJUfA0n+fL/YddqwwDxk6Ddkvi2ld6YKsFI07PTaKzzaTgDV2Yk
-         i+Vs8p4yK43bZMcRjqf9qSsd3vZQIRDopO+rK+eHQsWf9PpUrLIR4P7R4r2nTJX1rGN7
-         /2AnRekJNLTAM9Jl3Uh/SK4K5Vh1Q5/ILHXlk5y5yag3tcVvV/XIrUMtjgcG92aKAaOD
-         R/gg==
-X-Gm-Message-State: AAQBX9fJqmW9xFxDo1YkEP3jn+W+6ByIc5ykStMmkdkVDCdCWdPVQAVB
-        FHaUA2uuINvAbh1yRYC3rVQ=
-X-Google-Smtp-Source: AKy350bix1b3DMlJK9+vyuOd62RoWfeZNF6BH+0X4TDDpyFCQiNNS3eOugX8Iw1egN3tajdtsR8E+Q==
-X-Received: by 2002:ac2:4d03:0:b0:4eb:3fb2:c56d with SMTP id r3-20020ac24d03000000b004eb3fb2c56dmr2803384lfi.12.1681047150024;
-        Sun, 09 Apr 2023 06:32:30 -0700 (PDT)
-Received: from [192.168.171.122] ([46.211.100.81])
-        by smtp.gmail.com with ESMTPSA id v11-20020ac2560b000000b004d58e782886sm1608274lfd.303.2023.04.09.06.32.28
+        bh=MHSYHiDIzBHYaMVI0wzSHbeNEEeUgNK+KBUGPamVoTI=;
+        b=xvX20GcYw8h18Tmqjng7ML8zyqYtZYif2D3YiFqOF+VdTPKYO0GUvYlwhbNfj8h8mW
+         lO6Fp76lkDsYCd9QopDtd0RIzYSCEggFjdJkIzGgXG+mMpZDcrOve1kcYK3hPDsiMMjE
+         ntOEMEpYBwE1FvGbZHniFy9GoxWjxOMe3+6CTd6TGZe7LMcLIJ2Xoz5heFH+z12rc2V9
+         uSmkp1hv6pqgEdAFvQkaVNYLoL9F97JfD5KgswmJiNgh1sRklycj/9z/IcG1Nkp3KdrZ
+         rcBzP9I+RHrGo9yfMeZ3YVH6xWzsL3oglRNOJGdzoLBu+nGJmKx1RP5NM1w4O9INJ/wA
+         X9Xw==
+X-Gm-Message-State: AAQBX9fErX2qlAttVCHw5Ca1V6GjRDnxTDchywB+AwLCalCd99YM0JBx
+        pPfoaIIKM1/LaNJ/5kL9tFs=
+X-Google-Smtp-Source: AKy350ajeWPC0FBnxE/7DVJzQIH1nvd4qauxyXv8VLbEMO9fTPhqsZZLJPPOw3a6w57EhWIkDlvSYA==
+X-Received: by 2002:a05:6602:4192:b0:760:478f:e436 with SMTP id bx18-20020a056602419200b00760478fe436mr2453709iob.2.1681050252926;
+        Sun, 09 Apr 2023 07:24:12 -0700 (PDT)
+Received: from ?IPV6:2604:2d80:4d87:cd00:9f51:32d7:1177:67d? ([2604:2d80:4d87:cd00:9f51:32d7:1177:67d])
+        by smtp.gmail.com with ESMTPSA id e12-20020a05660222cc00b0074555814e73sm2428949ioe.32.2023.04.09.07.24.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Apr 2023 06:32:29 -0700 (PDT)
-Message-ID: <f9c8e0d4-1d0c-cefc-866c-046d4d374576@gmail.com>
-Date:   Sun, 9 Apr 2023 16:32:27 +0300
+        Sun, 09 Apr 2023 07:24:12 -0700 (PDT)
+Message-ID: <0f6e0854-5097-3abe-8e02-36cb7027bf61@gmail.com>
+Date:   Sun, 9 Apr 2023 09:24:10 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
+ Thunderbird/102.1.2
 Subject: Re: [PATCH 2/5] Input: add driver for Focaltech FTS touchscreen
 Content-Language: en-US
-To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+To:     Markuss Broks <markuss.broks@gmail.com>,
         Caleb Connolly <caleb@connolly.tech>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -81,9 +81,10 @@ References: <20230312093249.1846993-1-joelselvaraj.oss@gmail.com>
  <20230312093249.1846993-3-joelselvaraj.oss@gmail.com>
  <68b05c43-5808-5792-9b57-aeafffe84149@gmail.com>
  <d40faca2-fe5d-5b5a-eefe-68eb3e5e8125@gmail.com>
-From:   Markuss Broks <markuss.broks@gmail.com>
-In-Reply-To: <d40faca2-fe5d-5b5a-eefe-68eb3e5e8125@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <f9c8e0d4-1d0c-cefc-866c-046d4d374576@gmail.com>
+From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
+In-Reply-To: <f9c8e0d4-1d0c-cefc-866c-046d4d374576@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
@@ -95,64 +96,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Joel,
+Hi Markuss,
 
-Sorry for responding late:
+On 09/04/23 08:32, Markuss Broks wrote:
+> By that I meant doing something like the Zinitix driver[1] does. It has
+> a struct data type for whatever you read from hardware, e.g.
+> 
+> struct point_coord {
+>     __le16    x;
+>     __le16    y;
+> ...
+> };
+> 
+> from that driver. That way you can cast the data read to that struct and
+> have it look a bit nicer.
 
-On 3/13/23 00:21, Joel Selvaraj wrote:
-> Hi Markuss,
->
-> Thanks for the quick review! I agree with most of your comments and will
-> fix them in a v2 soon. I have a few doubts as discussed below.
->
-> On 12/03/23 15:40, Markuss Broks wrote:
->
->> Why is the _ratelimited variant necessary?
-> I assumed in case of the interrupt working, but i2c reads fail for some
-> reason, it would spam a lot of error messages if the user touches the
-> screen continuously, like a swipe up gesture or something.
->
-> I referred to ad7879 touchscreen's irq handling code [1] and thought
-> it's probably best to do this, to be on the safe side. I will remove
-> this if it's not needed in v2.
->
->> Overall, I think it's better to cast the data type to a struct, which
->> would make this seem with less random.
-> Sorry, I am not sure I got this right. Do you mean I create an array of
-> struct called say "fts_point" that stores the x, y, type, etc. info of
-> all the points, then report it separately. Like similar to something
-> done by the auo-pixcir touchscreen driver [2]?
+Understood. Thanks for the clarification. Jeff LaBundy explained it a
+bit too. I have addressed all the other comments in this patch series in
+my WIP v2. However, I am having quite the trouble casting the buffer to
+a struct. The register layout is bit weird. It would have been easier if
+they are sets of 8bits or 16bits values. Instead it seems to be split in
+terms 4bits and 12bits or I don't know. I am a bit new to this and
+having trouble handling endianess with these weird splits in the buffer.
 
-By that I meant doing something like the Zinitix driver[1] does. It has 
-a struct data type for whatever you read from hardware, e.g.
+Here is a hand drawn image of the buffer layout [1]. Let me know if you
+or anyone have any thoughts on this. Wonder if it's worth the trouble :)
 
-struct point_coord {
-     __le16    x;
-     __le16    y;
-...
-};
+[1] https://imgur.com/a/4RYrB1G
 
-from that driver. That way you can cast the data read to that struct and 
-have it look a bit nicer.
+> This is just a suggestion though, you have the final choice in what
+> design you choose for your code :)
 
-This is just a suggestion though, you have the final choice in what 
-design you choose for your code :)
+I am gonna try it a few more days and if I can't make it work in a
+sensible way, I will probably go with the existing approach.
 
->
-> If I didn't get this correctly, can you show me some code in mainline,
-> that does it? It would be very helpful.
->
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/ad7879.c?h=v6.3-rc1#n250
-> [2]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/auo-pixcir-ts.c?h=v6.3-rc1#n162
->
->> - Markuss
-> Thanks,
-> Joel
-[1]
-https://elixir.free-electrons.com/linux/v6.3-rc5/source/drivers/input/touchscreen/zinitix.c
+> - Markuss
 
-
-- Markuss
-
+Thanks,
+Joel
