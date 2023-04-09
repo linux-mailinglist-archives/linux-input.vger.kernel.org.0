@@ -2,93 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 713A06DC055
-	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 16:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D55426DC068
+	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 16:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbjDIOYP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Apr 2023 10:24:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59806 "EHLO
+        id S229585AbjDIOne (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Apr 2023 10:43:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbjDIOYO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 10:24:14 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86CBA3C1E;
-        Sun,  9 Apr 2023 07:24:13 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7606cf9c551so837739f.0;
-        Sun, 09 Apr 2023 07:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681050253; x=1683642253;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MHSYHiDIzBHYaMVI0wzSHbeNEEeUgNK+KBUGPamVoTI=;
-        b=fwJe44uxeTO23RKC1OfwUecw7FRiSCZSNDF7dFPwhmnc2Sh+dNlQrB3RmC08UJcM6i
-         eeJthrJ26fhXHdoUn6uAejjroei+54f43vk6AMA5knEfO2r5MJWdTPftBBnliDfKe8rx
-         vUb5OotTptb4muF7PMzIFq8SsOL48owkj/CKA1SMhDfxed/xpaqTBIzRpiUFeAgTK23t
-         ArvNNPI3llK6DoY+Zo9O+xMlnEF3gyWTA5dFNf+JqPCf8+EcFg22/LZwEZS0VKovgZVU
-         5vsxZmquy5Q+0SI7DXcwey3cV9E0FQtx4lFJnu3NtCV9eGcwQzsQ/PMCl47YP2AuugVq
-         Z4UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681050253; x=1683642253;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MHSYHiDIzBHYaMVI0wzSHbeNEEeUgNK+KBUGPamVoTI=;
-        b=xvX20GcYw8h18Tmqjng7ML8zyqYtZYif2D3YiFqOF+VdTPKYO0GUvYlwhbNfj8h8mW
-         lO6Fp76lkDsYCd9QopDtd0RIzYSCEggFjdJkIzGgXG+mMpZDcrOve1kcYK3hPDsiMMjE
-         ntOEMEpYBwE1FvGbZHniFy9GoxWjxOMe3+6CTd6TGZe7LMcLIJ2Xoz5heFH+z12rc2V9
-         uSmkp1hv6pqgEdAFvQkaVNYLoL9F97JfD5KgswmJiNgh1sRklycj/9z/IcG1Nkp3KdrZ
-         rcBzP9I+RHrGo9yfMeZ3YVH6xWzsL3oglRNOJGdzoLBu+nGJmKx1RP5NM1w4O9INJ/wA
-         X9Xw==
-X-Gm-Message-State: AAQBX9fErX2qlAttVCHw5Ca1V6GjRDnxTDchywB+AwLCalCd99YM0JBx
-        pPfoaIIKM1/LaNJ/5kL9tFs=
-X-Google-Smtp-Source: AKy350ajeWPC0FBnxE/7DVJzQIH1nvd4qauxyXv8VLbEMO9fTPhqsZZLJPPOw3a6w57EhWIkDlvSYA==
-X-Received: by 2002:a05:6602:4192:b0:760:478f:e436 with SMTP id bx18-20020a056602419200b00760478fe436mr2453709iob.2.1681050252926;
-        Sun, 09 Apr 2023 07:24:12 -0700 (PDT)
-Received: from ?IPV6:2604:2d80:4d87:cd00:9f51:32d7:1177:67d? ([2604:2d80:4d87:cd00:9f51:32d7:1177:67d])
-        by smtp.gmail.com with ESMTPSA id e12-20020a05660222cc00b0074555814e73sm2428949ioe.32.2023.04.09.07.24.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Apr 2023 07:24:12 -0700 (PDT)
-Message-ID: <0f6e0854-5097-3abe-8e02-36cb7027bf61@gmail.com>
-Date:   Sun, 9 Apr 2023 09:24:10 -0500
+        with ESMTP id S229445AbjDIOnd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 10:43:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC2730DA
+        for <linux-input@vger.kernel.org>; Sun,  9 Apr 2023 07:42:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681051368;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=5BnjhgG3AS+OBSzeFNkAckdPT2mm6rp9JcAUIqJ02Ik=;
+        b=P8f2VGZbaVY8oFFI4dh5SSg0bt0JDjpVC84bh2OV1Z6UZkF924E1fai0FJSHd12dVWKEVI
+        dTZUV0uLt8rxN8JS2Y1GZxkAH8ZolYCD4mCBgJI46BVLTUbdtEwMtI/I8GlCW2yHM75few
+        mu+kHtiihWTPwZiKdpYdZieGTCYiPjM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-557-efcYJzP_PoOP7ljv--EX8Q-1; Sun, 09 Apr 2023 10:42:45 -0400
+X-MC-Unique: efcYJzP_PoOP7ljv--EX8Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BD661C0418B;
+        Sun,  9 Apr 2023 14:42:45 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.31])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 765DB2027040;
+        Sun,  9 Apr 2023 14:42:44 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Douglas Anderson <dianders@chromium.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [PATCH 0/6] HID: i2c-hid-of: Allow using i2c-hid-of on non OF platforms + remove specialized drivers
+Date:   Sun,  9 Apr 2023 16:42:37 +0200
+Message-Id: <20230409144243.25360-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 2/5] Input: add driver for Focaltech FTS touchscreen
-Content-Language: en-US
-To:     Markuss Broks <markuss.broks@gmail.com>,
-        Caleb Connolly <caleb@connolly.tech>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Jean Delvare <jdelvare@suse.de>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        Job Noorman <job@noorman.info>,
-        Alistair Francis <alistair@alistair23.me>,
-        Chris Morgan <macromorgan@hotmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-References: <20230312093249.1846993-1-joelselvaraj.oss@gmail.com>
- <20230312093249.1846993-3-joelselvaraj.oss@gmail.com>
- <68b05c43-5808-5792-9b57-aeafffe84149@gmail.com>
- <d40faca2-fe5d-5b5a-eefe-68eb3e5e8125@gmail.com>
- <f9c8e0d4-1d0c-cefc-866c-046d4d374576@gmail.com>
-From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
-In-Reply-To: <f9c8e0d4-1d0c-cefc-866c-046d4d374576@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,41 +57,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Markuss,
+Hi All,
 
-On 09/04/23 08:32, Markuss Broks wrote:
-> By that I meant doing something like the Zinitix driver[1] does. It has
-> a struct data type for whatever you read from hardware, e.g.
-> 
-> struct point_coord {
->     __le16    x;
->     __le16    y;
-> ...
-> };
-> 
-> from that driver. That way you can cast the data read to that struct and
-> have it look a bit nicer.
+This series consist of 2 parts:
 
-Understood. Thanks for the clarification. Jeff LaBundy explained it a
-bit too. I have addressed all the other comments in this patch series in
-my WIP v2. However, I am having quite the trouble casting the buffer to
-a struct. The register layout is bit weird. It would have been easier if
-they are sets of 8bits or 16bits values. Instead it seems to be split in
-terms 4bits and 12bits or I don't know. I am a bit new to this and
-having trouble handling endianess with these weird splits in the buffer.
+1. Patches 1-3. Allow using i2c-hid-of on non OF platforms to allow I2C-HID
+   devices which are not enumerated by ACPI to work on ACPI platforms
+   (by manual i2c_client instantiation using i2c_client_id matching).
 
-Here is a hand drawn image of the buffer layout [1]. Let me know if you
-or anyone have any thoughts on this. Wonder if it's worth the trouble :)
+2. Patches 4-6. Remove the special i2c-hid-of-elan and i2c-hid-of-goodix
+   driver, folding the functionality into the generic i2c-hid-of driver.
+   Since 1. requires adding reset-gpio support to i2c-hid-of there was
+   very little difference left between the generic i2c-hid-of code and
+   the specialized drivers. So I decided to merge them into the generic
+   driver instead of having duplicate code.
 
-[1] https://imgur.com/a/4RYrB1G
+Note patches 4-6 have not been actually tested with an "elan,ekth6915"
+touchscreen nor with a "goodix,gt7375p" touchscreen.
 
-> This is just a suggestion though, you have the final choice in what
-> design you choose for your code :)
+Douglas, can you perhaps test this patch-set with an "elan,ekth6915"
+touchscreen and with a "goodix,gt7375p" touchscreen ?
 
-I am gonna try it a few more days and if I can't make it work in a
-sensible way, I will probably go with the existing approach.
+Regards,
 
-> - Markuss
+Hans
 
-Thanks,
-Joel
+
+Hans de Goede (6):
+  HID: i2c-hid-of: Consistenly use dev local variable in probe()
+  HID: i2c-hid-of: Allow using i2c-hid-of on non OF platforms
+  HID: i2c-hid-of: Add reset GPIO support to i2c-hid-of
+  HID: i2c-hid-of: Add chip_data struct
+  HID: i2c-hid-of: Consolidate Elan support into generic i2c-hid-of
+    driver
+  HID: i2c-hid-of: Consolidate Goodix support into generic i2c-hid-of
+    driver
+
+ drivers/hid/i2c-hid/Kconfig             |  36 +------
+ drivers/hid/i2c-hid/Makefile            |   2 -
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c   | 129 ------------------------
+ drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 125 -----------------------
+ drivers/hid/i2c-hid/i2c-hid-of.c        | 124 +++++++++++++++++++----
+ 5 files changed, 106 insertions(+), 310 deletions(-)
+ delete mode 100644 drivers/hid/i2c-hid/i2c-hid-of-elan.c
+ delete mode 100644 drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+
+-- 
+2.39.1
+
