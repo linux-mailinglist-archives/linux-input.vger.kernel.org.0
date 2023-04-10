@@ -2,111 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAED16DC0AF
-	for <lists+linux-input@lfdr.de>; Sun,  9 Apr 2023 18:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F1F06DC24B
+	for <lists+linux-input@lfdr.de>; Mon, 10 Apr 2023 03:26:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbjDIQpZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Apr 2023 12:45:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56408 "EHLO
+        id S229650AbjDJB0M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Apr 2023 21:26:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjDIQpY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 12:45:24 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C4010FF
-        for <linux-input@vger.kernel.org>; Sun,  9 Apr 2023 09:45:24 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2465835cf6fso328982a91.1
-        for <linux-input@vger.kernel.org>; Sun, 09 Apr 2023 09:45:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681058723; x=1683650723;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ckKd8a0U1q1GcHzUV8msjehKvhe+3DrvoXzQ82WRs8=;
-        b=gXUffbyuulcVKCLv8c84zouueHotpU00t7gCK2i/KxxhTUWGOZwaBJj9hwvUrFPqmn
-         2DrnaWLLsvNWR4W2yma38RU4TngKdI8XlKwdOtPDE2Ujgz14BdyWw3PKuGRuFX67up65
-         ozNrN4wZgr0Nrn7aygnZiQ739v9j8EZw3/I+SWsSUsrHCaKhKkLbOkdtX0RYtJMWnft6
-         ZufiDkRI45DyDswnGsSOfgtLrhId1Ggp7cKltiPAbBth1lAJxK79sgY8WZdCFb7l+cEv
-         DGiE8mcAY39CoAY7tcKmTAt8gzkQK4jzUqJeGc5Ge1Ka1MVeYouv2NfKK9fV11VaweRo
-         vF4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681058723; x=1683650723;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9ckKd8a0U1q1GcHzUV8msjehKvhe+3DrvoXzQ82WRs8=;
-        b=LNA+RNy+gcwrRTRs3rrlRxH674x0iTGW8PXujNAXdu+rl39tcuInDHQI7VBrQ/fNHd
-         05N5oVx2iPa0JyPX1cD0Ce7SJiNkoYcQW9bSsP9kF73TXggTTp3VgypWNT/QLt0iajJf
-         Q8whZxtM2rjgBulDDz380KVeu5KyjA3pO7g2FXrFYWWxe88f/ec98Gzu1Gf8enPzgjSF
-         jMnS6IDqUokUN/ndCyzwoOfLuj5SyOXWE8M1/m4rZgELqCy5mQPEVLiwgdG0Ay+eGLCK
-         jkCMImIB8r3JvuAioctUNgfQC5ggv3/6k5bajbk7o+kgpb4aP2Tl84Q/BFocRbF3NncO
-         ua0Q==
-X-Gm-Message-State: AAQBX9cKfzpnfQd+lI4HYEqm8mkn1yqXS/bm+CWz6thJv2sUEer12A2b
-        hUjwDrj/uS5pondyeZ73XCemobXkhpk=
-X-Google-Smtp-Source: AKy350YlJM485svA29VmG+XmDK2VPAwSZjHj1na6iqiKzV53tFbYR58SzcRDeRpnHuLEbrSTAszg5A==
-X-Received: by 2002:a17:90a:cb12:b0:246:868e:2d58 with SMTP id z18-20020a17090acb1200b00246868e2d58mr3468671pjt.3.1681058722920;
-        Sun, 09 Apr 2023 09:45:22 -0700 (PDT)
-Received: from localhost.localdomain ([2607:fb91:8e8d:5c96:4571:a905:9b6b:37ab])
-        by smtp.gmail.com with ESMTPSA id s1-20020a17090ae68100b00234115a2221sm5067106pjy.39.2023.04.09.09.45.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Apr 2023 09:45:22 -0700 (PDT)
-From:   Ping Cheng <pinglinux@gmail.com>
-X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
-To:     linux-input@vger.kernel.org
-Cc:     jkosina@suse.cz, jason.gerecke@wacom.com, aaron.skomra@wacom.com,
-        joshua.dickens@wacom.com, Ping Cheng <ping.cheng@wacom.com>
-Subject: [PATCH] HID: wacom: Set a default resolution for older tablets
-Date:   Sun,  9 Apr 2023 09:42:29 -0700
-Message-Id: <20230409164229.29777-1-ping.cheng@wacom.com>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S229538AbjDJB0L (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 21:26:11 -0400
+Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4B51135A7
+        for <linux-input@vger.kernel.org>; Sun,  9 Apr 2023 18:26:08 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.98,332,1673884800"; 
+   d="scan'208";a="2457879"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 10 Apr 2023 09:26:06 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(80126:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 10 Apr 2023 09:26:08 +0800 (CST)
+Received: from 192.168.33.11
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2470:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 10 Apr 2023 09:26:06 +0800 (CST)
+From:   "Jingle.Wu" <jingle.wu@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <phoenix@emc.com.tw>, <josh.chen@emc.com.tw>,
+        <dave.wang@emc.com.tw>
+References: <20230320011456.986321-1-jingle.wu@emc.com.tw> <ZDBKwo4UMUm+TSnj@penguin>
+In-Reply-To: <ZDBKwo4UMUm+TSnj@penguin>
+Subject: RE: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
+Date:   Mon, 10 Apr 2023 09:26:04 +0800
+Message-ID: <000001d96b4b$6b30cda0$419268e0$@emc.com.tw>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQJF62IY79PwBMHzbH32rexKKwKtngJcjz5NrjfYmYA=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1hODdmNzhhYi1kNzNlLTExZWQtYTg1Zi1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcYTg3Zjc4YWMtZDczZS0xMWVkLWE4NWYtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIzNDkxIiB0PSIxMzMyNTU2MzU2NDM3OTEwMjUiIGg9Ik9CVTBrYmlxazBIaEpCcWRjYVA0U00rS0VnUT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some older tablets may not report physical maximum for X/Y
-coordinates. Set a default to prevent undefined resolution.
+HI Dmitry:
 
-Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
----
- drivers/hid/wacom_wac.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+> +static void elan_close(struct input_dev *input_dev) {
+> +	if ((input_dev->users) && (!input_dev->inhibited))
+> +		elan_inhibit(input_dev);
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 9312d611db8e..e499b447d48c 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -1895,6 +1895,7 @@ static void wacom_map_usage(struct input_dev *input, struct hid_usage *usage,
- 	int fmax = field->logical_maximum;
- 	unsigned int equivalent_usage = wacom_equivalent_usage(usage->hid);
- 	int resolution_code = code;
-+	int resolution = hidinput_calc_abs_res(field, resolution_code);
- 
- 	if (equivalent_usage == HID_DG_TWIST) {
- 		resolution_code = ABS_RZ;
-@@ -1915,8 +1916,15 @@ static void wacom_map_usage(struct input_dev *input, struct hid_usage *usage,
- 	switch (type) {
- 	case EV_ABS:
- 		input_set_abs_params(input, code, fmin, fmax, fuzz, 0);
--		input_abs_set_res(input, code,
--				  hidinput_calc_abs_res(field, resolution_code));
-+
-+		/* older tablet may miss physical usage */
-+		if ((code == ABS_X || code == ABS_Y) && !resolution) {
-+			resolution = WACOM_INTUOS_RES;
-+			hid_warn(input,
-+				 "Wacom usage (%d) missing resolution \n",
-+				 code);
-+		}
-+		input_abs_set_res(input, code, resolution);
- 		break;
- 	case EV_KEY:
- 	case EV_MSC:
--- 
-2.39.2
+This check is for "only inhibit request", and elan_open() its check is for
+"only uninhibit request".
+Because input_dev-> open() close() will be executed 2-3 times when initial.
+
+Thanks
+Jingle
+
+-----Original Message-----
+From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com] 
+Sent: Saturday, April 8, 2023 12:57 AM
+To: jingle.wu <jingle.wu@emc.com.tw>
+Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
+phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw
+Subject: Re: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit
+functions.
+
+Hi Jingle,
+
+On Mon, Mar 20, 2023 at 09:14:56AM +0800, jingle.wu wrote:
+> Add inhibit/uninhibit functions.
+> 
+> Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
+> ---
+>  drivers/input/mouse/elan_i2c_core.c | 86 
+> +++++++++++++++++++++++++++++
+>  1 file changed, 86 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/elan_i2c_core.c 
+> b/drivers/input/mouse/elan_i2c_core.c
+> index 5f0d75a45c80..b7100945c9cc 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -329,6 +329,89 @@ static int elan_initialize(struct elan_tp_data *data,
+bool skip_reset)
+>  	return error;
+>  }
+>  
+> +static int elan_reactivate(struct elan_tp_data *data) {
+> +	struct device *dev = &data->client->dev;
+> +	int ret;
+
+Please call this variable and other similar ones "error".
+
+> +
+> +	ret = elan_set_power(data, true);
+> +	if (ret)
+> +		dev_err(dev, "failed to restore power: %d\n", ret);
+> +
+> +	ret = data->ops->sleep_control(data->client, false);
+> +	if (ret) {
+> +		dev_err(dev,
+> +			"failed to wake device up: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+
+return 0;
+
+> +}
+> +
+> +static void elan_inhibit(struct input_dev *input_dev) {
+> +	struct elan_tp_data *data = input_get_drvdata(input_dev);
+> +	struct i2c_client *client = data->client;
+> +	int ret;
+> +
+> +	if (data->in_fw_update)
+> +		return;
+
+Simply and silently ignoring inhibit request is not great. Can we wait for
+firmware update to complete?
+
+> +
+> +	dev_dbg(&client->dev, "inhibiting\n");
+> +	/*
+> +	 * We are taking the mutex to make sure sysfs operations are
+> +	 * complete before we attempt to bring the device into low[er]
+> +	 * power mode.
+> +	 */
+> +	ret = mutex_lock_interruptible(&data->sysfs_mutex);
+> +	if (ret)
+> +		return;
+> +
+> +	disable_irq(client->irq);
+> +
+> +	ret = elan_set_power(data, false);
+> +	if (ret)
+> +		enable_irq(client->irq);
+> +
+> +	mutex_unlock(&data->sysfs_mutex);
+> +
+> +}
+> +
+> +static void elan_close(struct input_dev *input_dev) {
+> +	if ((input_dev->users) && (!input_dev->inhibited))
+> +		elan_inhibit(input_dev);
+
+I am not sure why you need these checks. Input core will only call
+input_dev->close() when device is powered up st (i.e. it is not inhibited
+and there are users of it) and when either:
+
+- there is inhibit request or
+- the last user is letting go of the device
+
+Similarly elan_open() will be called when first user opens device if device
+is not inhibited, or when request to uninhibit comes for inhibited device
+that has users.
+
+But you need to make sure you start in a low power state.
+
+Thanks.
+
+--
+Dmitry
 
