@@ -2,173 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1F06DC24B
-	for <lists+linux-input@lfdr.de>; Mon, 10 Apr 2023 03:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D8A6DC28A
+	for <lists+linux-input@lfdr.de>; Mon, 10 Apr 2023 04:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbjDJB0M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Apr 2023 21:26:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43074 "EHLO
+        id S229498AbjDJCJJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Apr 2023 22:09:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbjDJB0L (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 21:26:11 -0400
-Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4B51135A7
-        for <linux-input@vger.kernel.org>; Sun,  9 Apr 2023 18:26:08 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,332,1673884800"; 
-   d="scan'208";a="2457879"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 10 Apr 2023 09:26:06 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(80126:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 10 Apr 2023 09:26:08 +0800 (CST)
-Received: from 192.168.33.11
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2470:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 10 Apr 2023 09:26:06 +0800 (CST)
-From:   "Jingle.Wu" <jingle.wu@emc.com.tw>
-To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
-Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <phoenix@emc.com.tw>, <josh.chen@emc.com.tw>,
-        <dave.wang@emc.com.tw>
-References: <20230320011456.986321-1-jingle.wu@emc.com.tw> <ZDBKwo4UMUm+TSnj@penguin>
-In-Reply-To: <ZDBKwo4UMUm+TSnj@penguin>
-Subject: RE: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
-Date:   Mon, 10 Apr 2023 09:26:04 +0800
-Message-ID: <000001d96b4b$6b30cda0$419268e0$@emc.com.tw>
+        with ESMTP id S229485AbjDJCJI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Apr 2023 22:09:08 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9213F2D58
+        for <linux-input@vger.kernel.org>; Sun,  9 Apr 2023 19:09:07 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id q15-20020a17090a2dcf00b0023efab0e3bfso6073106pjm.3
+        for <linux-input@vger.kernel.org>; Sun, 09 Apr 2023 19:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681092547;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bA2mgCGY2/4a4N4VGTQ0T+MQPM6u+AXQOWFtOs5m9xQ=;
+        b=UdKrLQvbaHEfIdCZXcnO4mXJUGm992JtJkJGmaYzhRAudXGhItFDbiDChllS5/5aCC
+         jo6URIxcaoEwo+KKpf6TCG/pTjA7+ehI9XcQohpw26sLqtlXtpCJ4PS5P7We8x/m+8T/
+         KcW2ruzDasS4a9QCsXnXg54mUdmNLmgD+WDGjbp5r6yLdZN9hfiThLQ1ZR5DGHpOTKog
+         /cR+2nu/fhQoUV1cLvI0jIwt1S+CQGv+bydkVuNw1+kz1dn9K+zVQefWdI8GSlh6EL9r
+         Ibbhb/NbiRfWJJAKD84GNRV31VTzI9V+Nlvuu0MvKePNPg1koA2M1MlgRNjsJ0iU6BAu
+         kfAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681092547;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bA2mgCGY2/4a4N4VGTQ0T+MQPM6u+AXQOWFtOs5m9xQ=;
+        b=WrOAM4MElTQg5KnJU1xBLiFEZyEB+igmcV6nqf+w69+h1pOeRfndrIm3RY5cZz5SdZ
+         uovFBz2ybv7ogMN+H6CwLRQzkEfyINAyxlnr6+eRnTJtls4msCxsFC2OhgxfwNOiHFmX
+         YBl1gA2l/0KIMyrRSybWTX523eU622jlKBXiH91hTc/k0nG/iVLbwPi04cb3ZPbRgtIt
+         dW4jdrBe9nT6Ps6i02upDmrgNRNnJjNZKSfFPzoSTCpAUhKxklykDE/BN2mZo3+sEOcU
+         8VM0ReeqWMTjsLd4mFBevaukM4oMjR/CUMEdfKoggnswqA6l2N/skASjKVg29hMTh3M8
+         k1Sw==
+X-Gm-Message-State: AAQBX9cc7eynJpkr0DHIZZzrQkykY4zPXlULaomKP/Gew7ws2eDTnGkH
+        I+4ZZpAKVZD0BHJzDsATqsU=
+X-Google-Smtp-Source: AKy350aGRMPrwQwNPeizF7gbMKmIhKTMn9lCgR4bgWlXiDxKCZXVb3UMsur3qY7yALj+LmKll//y+w==
+X-Received: by 2002:a05:6a20:6722:b0:d0:45c1:831 with SMTP id q34-20020a056a20672200b000d045c10831mr10782134pzh.60.1681092546697;
+        Sun, 09 Apr 2023 19:09:06 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:803c:4683:913e:ce04])
+        by smtp.gmail.com with ESMTPSA id bm17-20020a056a00321100b0062de3e977bcsm6646408pfb.26.2023.04.09.19.09.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Apr 2023 19:09:05 -0700 (PDT)
+Date:   Sun, 9 Apr 2023 19:09:02 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Vicki Pfau <vi@endrift.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Pavel Rojtberg <rojtberg@gmail.com>
+Subject: Re: [PATCH 2/2] Input: xpad - fix PowerA EnWired Controller guide
+ button
+Message-ID: <ZDNvvtfhjcS4x8f4@google.com>
+References: <20230330024752.2405603-1-vi@endrift.com>
+ <20230330024752.2405603-3-vi@endrift.com>
+ <ZCilF4RM5LY85aHP@google.com>
+ <a02e0ba4-4ea7-40a0-1d33-8f87f2fe8f2f@endrift.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQJF62IY79PwBMHzbH32rexKKwKtngJcjz5NrjfYmYA=
-Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1hODdmNzhhYi1kNzNlLTExZWQtYTg1Zi1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcYTg3Zjc4YWMtZDczZS0xMWVkLWE4NWYtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIzNDkxIiB0PSIxMzMyNTU2MzU2NDM3OTEwMjUiIGg9Ik9CVTBrYmlxazBIaEpCcWRjYVA0U00rS0VnUT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: true
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a02e0ba4-4ea7-40a0-1d33-8f87f2fe8f2f@endrift.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-HI Dmitry:
-
-> +static void elan_close(struct input_dev *input_dev) {
-> +	if ((input_dev->users) && (!input_dev->inhibited))
-> +		elan_inhibit(input_dev);
-
-This check is for "only inhibit request", and elan_open() its check is for
-"only uninhibit request".
-Because input_dev-> open() close() will be executed 2-3 times when initial.
-
-Thanks
-Jingle
-
------Original Message-----
-From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com] 
-Sent: Saturday, April 8, 2023 12:57 AM
-To: jingle.wu <jingle.wu@emc.com.tw>
-Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
-phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw
-Subject: Re: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit
-functions.
-
-Hi Jingle,
-
-On Mon, Mar 20, 2023 at 09:14:56AM +0800, jingle.wu wrote:
-> Add inhibit/uninhibit functions.
+On Wed, Apr 05, 2023 at 07:40:32PM -0700, Vicki Pfau wrote:
 > 
-> Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
-> ---
->  drivers/input/mouse/elan_i2c_core.c | 86 
-> +++++++++++++++++++++++++++++
->  1 file changed, 86 insertions(+)
 > 
-> diff --git a/drivers/input/mouse/elan_i2c_core.c 
-> b/drivers/input/mouse/elan_i2c_core.c
-> index 5f0d75a45c80..b7100945c9cc 100644
-> --- a/drivers/input/mouse/elan_i2c_core.c
-> +++ b/drivers/input/mouse/elan_i2c_core.c
-> @@ -329,6 +329,89 @@ static int elan_initialize(struct elan_tp_data *data,
-bool skip_reset)
->  	return error;
->  }
->  
-> +static int elan_reactivate(struct elan_tp_data *data) {
-> +	struct device *dev = &data->client->dev;
-> +	int ret;
+> On 4/1/23 14:41, Dmitry Torokhov wrote:
+> > On Wed, Mar 29, 2023 at 07:47:52PM -0700, Vicki Pfau wrote:
+> >> This commit explicitly disables the audio interface the same way the official
+> >> driver does. This is needed for some controllers, such as the PowerA Enhanced
+> >> Wired Controller for Series X|S (0x20d6:0x200e) to report the guide button.
+> >>
+> >> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> >> ---
+> >>  drivers/input/joystick/xpad.c | 8 ++++++++
+> >>  1 file changed, 8 insertions(+)
+> >>
+> >> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> >> index 698224e1948f..c31fc4e9b310 100644
+> >> --- a/drivers/input/joystick/xpad.c
+> >> +++ b/drivers/input/joystick/xpad.c
+> >> @@ -1396,6 +1396,14 @@ static int xpad_start_xbox_one(struct usb_xpad *xpad)
+> >>  	unsigned long flags;
+> >>  	int retval;
+> >>  
+> >> +	/* Explicitly disable the audio interface. This is needed for some
+> >> +	 * controllers, such as the PowerA Enhanced Wired Controller
+> >> +	 * for Series X|S (0x20d6:0x200e) to report the guide button */
+> >> +	retval = usb_set_interface(xpad->udev, GIP_WIRED_INTF_AUDIO, 0);
+> >> +	if (retval)
+> >> +		dev_warn(&xpad->dev->dev,
+> >> +			 "unable to disable audio interface: %d\n", retval);
+> > 
+> > I would prefer if we first validated that the interface is in fact
+> > present. Can we do something like:
+> > 
+> > 	if (usb_ifnum_to_if(xpad->udev, GIP_WIRED_INTF_AUDIO)) {
+> > 		error = usb_set_interface(xpad->udev, GIP_WIRED_INTF_AUDIO, 0);
+> > 		if (error)
+> > 			...
+> > 	}
+> > 
+> 
+> Yup, that makes sense. Wasn't sure what the cleanest way to do that was, though I'm unconvinced that the first party driver would work without this interface. It can't hurt to add the check.
+> 
+> Should I resubmit both patches in the series, or just this one?
 
-Please call this variable and other similar ones "error".
-
-> +
-> +	ret = elan_set_power(data, true);
-> +	if (ret)
-> +		dev_err(dev, "failed to restore power: %d\n", ret);
-> +
-> +	ret = data->ops->sleep_control(data->client, false);
-> +	if (ret) {
-> +		dev_err(dev,
-> +			"failed to wake device up: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return ret;
-
-return 0;
-
-> +}
-> +
-> +static void elan_inhibit(struct input_dev *input_dev) {
-> +	struct elan_tp_data *data = input_get_drvdata(input_dev);
-> +	struct i2c_client *client = data->client;
-> +	int ret;
-> +
-> +	if (data->in_fw_update)
-> +		return;
-
-Simply and silently ignoring inhibit request is not great. Can we wait for
-firmware update to complete?
-
-> +
-> +	dev_dbg(&client->dev, "inhibiting\n");
-> +	/*
-> +	 * We are taking the mutex to make sure sysfs operations are
-> +	 * complete before we attempt to bring the device into low[er]
-> +	 * power mode.
-> +	 */
-> +	ret = mutex_lock_interruptible(&data->sysfs_mutex);
-> +	if (ret)
-> +		return;
-> +
-> +	disable_irq(client->irq);
-> +
-> +	ret = elan_set_power(data, false);
-> +	if (ret)
-> +		enable_irq(client->irq);
-> +
-> +	mutex_unlock(&data->sysfs_mutex);
-> +
-> +}
-> +
-> +static void elan_close(struct input_dev *input_dev) {
-> +	if ((input_dev->users) && (!input_dev->inhibited))
-> +		elan_inhibit(input_dev);
-
-I am not sure why you need these checks. Input core will only call
-input_dev->close() when device is powered up st (i.e. it is not inhibited
-and there are users of it) and when either:
-
-- there is inhibit request or
-- the last user is letting go of the device
-
-Similarly elan_open() will be called when first user opens device if device
-is not inhibited, or when request to uninhibit comes for inhibited device
-that has users.
-
-But you need to make sure you start in a low power state.
+Both please.
 
 Thanks.
 
---
+-- 
 Dmitry
-
