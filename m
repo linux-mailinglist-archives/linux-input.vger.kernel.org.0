@@ -2,244 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31FB66DDBB6
-	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 15:05:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0818F6DE052
+	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 18:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbjDKNF5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Apr 2023 09:05:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38972 "EHLO
+        id S230449AbjDKQCS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Apr 2023 12:02:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbjDKNFY (ORCPT
+        with ESMTP id S229503AbjDKQBt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Apr 2023 09:05:24 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B2849D6
-        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 06:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681218315; x=1712754315;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vUaYXkPHH/Ws4kLps9xXe2WFiJeYIuhigM/6oIjZ2rA=;
-  b=hNlPEG2fprvq9nkVj5Bl81eIs7AAa74FUpzer08H+fFxNCCqSjGM4Gdl
-   33qg8QrrmWTSImb+m2iX2bwE7fA7YOLRqZx2ef21oTsyeSfEXh1JU+5W/
-   WAG+Q4XTt1Ft/gl+mS0vrf0fHFIlVNPO0gEoaiB6O2Xymzkg3ezRrxqhn
-   Ym7mpuB4fEgGehe8+KMCp3RQ6eZko4QCU94eIw0QmoQRxaOTXf2kKasPQ
-   2Zvaj925dWNSm9oRdkkk1kLAPtvORlhNd7BtYeMvsc05J/P5ATSDrKYBu
-   mFvQssdVQN/e0pomw8NddU+L33+WTNTIkBsh+70bkqPeDn+pEsccnal7M
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="371459610"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="371459610"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 06:05:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="1018362171"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="1018362171"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Apr 2023 06:05:11 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pmDgM-000WJh-0z;
-        Tue, 11 Apr 2023 13:05:10 +0000
-Date:   Tue, 11 Apr 2023 21:04:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 483a14418661878d89216be0f02918892227833b
-Message-ID: <64355aca.11PdjqCGVXAg+xNq%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 11 Apr 2023 12:01:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9830D5598
+        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 09:00:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681228835;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DIz95DWfuWVWieuNpWMo1Cw7FlHwUdZxflZkaM9dGnM=;
+        b=XOWehopp0HoAigvRFH5wAzdlcFnIqzSAszH5ybbJntuGyvCIGPL5e8qLirQIDKWdwvjBhB
+        QWqTuYmI2U2SCLTCWyzTlm9u4l8n29zOgbEllUIytpUx7tMrmrA4dzhW/ExGuuchThnN41
+        BFKPFmDZ0Icbb2+BKAI+vk+KkEQsg+8=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-183-vaAZ85GUOuSb7gsI6T-ehw-1; Tue, 11 Apr 2023 12:00:33 -0400
+X-MC-Unique: vaAZ85GUOuSb7gsI6T-ehw-1
+Received: by mail-ej1-f71.google.com with SMTP id ue7-20020a170907c68700b009339c9c32ffso2886150ejc.5
+        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 09:00:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681228832; x=1683820832;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DIz95DWfuWVWieuNpWMo1Cw7FlHwUdZxflZkaM9dGnM=;
+        b=I+f6loi5qb55PZZaVaHg1aIqQImWgmgDAe0ydDjy3g/m02E3uq9jSw62ZvpBOIO/Ro
+         ZigGDid1X5t2+QA0rV9BZdQnAurMUlUCpO33phzZ3Li987e8XTj5lnd1TX3rEg4etnhp
+         SlLXb9m05GkyZzBYJH9iqGSr5nmbDZta3HdldtLTwtFycnuuu3rlVW5lHZ9u+Zl3pfs3
+         FoKasJnnnzFhw1apH0MYnP0fFkfFy8CMzwSIU5J1xeReqoCVFwbl7H6tv0i6kKgD6MGU
+         9Nhzqyim7VoK2JqKa9OtdRNMbuG1gy4P+Vtha2vvpNiU7c6+xfcljdGlacONDDm4vgXh
+         3mag==
+X-Gm-Message-State: AAQBX9dKvh3OyC7e+8xDDblftdL4mXNkX7CraTgzAfLq4RsxyZrOfbVH
+        0C1FkRE9hpXxiwoswXGSlsDGwlsuR9VtK17Y1JnK1QlTmAyh8TbiS1DDj22fAsyOrTg8kc2z/MX
+        A9YwIrkD/7QuDU+KNpvMY7As=
+X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr7928978ejb.37.1681228832734;
+        Tue, 11 Apr 2023 09:00:32 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YifCQS3Xdtt9JAr4wUTf8YRLx1nfvZIfthJ4Q/mH743yMkxn784JsKLTHVISuxggmcljCUag==
+X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr7928956ejb.37.1681228832420;
+        Tue, 11 Apr 2023 09:00:32 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id z24-20020a170906271800b0093f822321fesm6254488ejc.137.2023.04.11.09.00.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Apr 2023 09:00:31 -0700 (PDT)
+Message-ID: <eafe8744-49d4-31e3-2329-ddd452358915@redhat.com>
+Date:   Tue, 11 Apr 2023 18:00:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 0/6] HID: i2c-hid-of: Allow using i2c-hid-of on non OF
+ platforms + remove specialized drivers
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-input@vger.kernel.org
+References: <20230409144243.25360-1-hdegoede@redhat.com>
+ <20230411090209.gartwrkq56syerwk@mail.corp.redhat.com>
+ <c3e08839-b621-3e57-0d6b-f4cd14c897b9@redhat.com>
+ <20230411125036.3ojjdrjzxhasu5du@mail.corp.redhat.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230411125036.3ojjdrjzxhasu5du@mail.corp.redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 483a14418661878d89216be0f02918892227833b  Input: edt-ft5x06 - select REGMAP_I2C
+Hi Benjamin,
 
-elapsed time: 723m
+On 4/11/23 14:50, Benjamin Tissoires wrote:
+> On Apr 11 2023, Hans de Goede wrote:
+>> Hi Benjamin,
+>>
+>> On 4/11/23 11:02, Benjamin Tissoires wrote:
+>>> Hi Hans,
+>>>
+>>> On Apr 09 2023, Hans de Goede wrote:
+>>>> Hi All,
+>>>>
+>>>> This series consist of 2 parts:
+>>>>
+>>>> 1. Patches 1-3. Allow using i2c-hid-of on non OF platforms to allow I2C-HID
+>>>>    devices which are not enumerated by ACPI to work on ACPI platforms
+>>>>    (by manual i2c_client instantiation using i2c_client_id matching).
+>>>
+>>> Patches 1 and 2 are looking good, but I wonder if you can not achieve the
+>>> same result by relying on an ACPI SSDT override. I got something similar
+>>> working on this thread[0].
+>>
+>> Yes this could be made to work with an ACPI override. But the goal is
+>> to make things work OOTB for end users when they install Linux and
+>> ACPI overrides are very far from something which works OOTB.
+> 
+> Fair enough.
+> 
+>>
+>>> I understand the "post-reset-deassert-delay-ms" might be something hard
+>>> to express with an SSDT, but we should already have all the bits in
+>>> place, no?
+>>
+>> Actually if an ACPI override is used then the setting of the GPIO
+>> can be done in _PS0 and _PS3 (power on / off) methods and those
+>> can simply include a sleep after setting the GPIO.
+> 
+> Though this is all conditional if we can make ACPI SSDT override
+> something that can be shipped while installing the device...
+> 
+>>
+>>> Also, the problem of "post-reset-deassert-delay-ms" is that you are not
+>>> documenting it, because the OF folks do not want this in device tree,
+>>> and I tend to agree with them. So this basically creates a brand new
+>>> undocumented property, which is less than ideal.
+>>
+>> I'm merely not documenting it because there are no devicetree users yet.
+> 
+> AFAIU, the non devicetree properties should also be documented through
+> DT bindings, no? So not documenting feels very much like "I want to slip
+> this one in without having to deal with DT maintainers" (and before you
+> take it personaly, I know this is definitively not the intent). So I'd
+> rather much having a public API documented, even if there are no users.
 
-configs tested: 163
-configs skipped: 16
+Right, so as a hobby I have a tendency to work on these somewhat niche/weird
+x86 devices, like x86 tablets which use Android as factory OS :)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+As such I have encountered the need for device-properties to pass info
+from drivers/platform/x86 code to more generic drivers a number of
+times before.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r006-20230409   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r014-20230409   gcc  
-alpha                randconfig-r015-20230410   gcc  
-alpha                randconfig-r023-20230410   gcc  
-alpha                randconfig-r026-20230410   gcc  
-arc                              allyesconfig   gcc  
-arc          buildonly-randconfig-r003-20230409   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r012-20230409   gcc  
-arc                  randconfig-r012-20230410   gcc  
-arc                  randconfig-r043-20230409   gcc  
-arc                  randconfig-r043-20230410   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r001-20230409   clang
-arm          buildonly-randconfig-r005-20230410   clang
-arm                                 defconfig   gcc  
-arm                  randconfig-r005-20230411   clang
-arm                  randconfig-r014-20230409   clang
-arm                  randconfig-r016-20230409   clang
-arm                  randconfig-r046-20230409   clang
-arm                  randconfig-r046-20230410   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r022-20230410   gcc  
-arm64                randconfig-r036-20230410   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r003-20230411   gcc  
-csky                 randconfig-r021-20230410   gcc  
-hexagon      buildonly-randconfig-r001-20230409   clang
-hexagon      buildonly-randconfig-r003-20230409   clang
-hexagon              randconfig-r001-20230411   clang
-hexagon              randconfig-r015-20230409   clang
-hexagon              randconfig-r026-20230409   clang
-hexagon              randconfig-r041-20230409   clang
-hexagon              randconfig-r041-20230410   clang
-hexagon              randconfig-r045-20230409   clang
-hexagon              randconfig-r045-20230410   clang
-hexagon              randconfig-r045-20230411   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r003-20230410   clang
-i386         buildonly-randconfig-r004-20230410   clang
-i386         buildonly-randconfig-r006-20230410   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230410   clang
-i386                 randconfig-a002-20230410   clang
-i386                 randconfig-a003-20230410   clang
-i386                 randconfig-a004-20230410   clang
-i386                 randconfig-a005-20230410   clang
-i386                 randconfig-a006-20230410   clang
-i386                 randconfig-a011-20230410   gcc  
-i386                 randconfig-a012-20230410   gcc  
-i386                 randconfig-a013-20230410   gcc  
-i386                 randconfig-a014-20230410   gcc  
-i386                 randconfig-a015-20230410   gcc  
-i386                 randconfig-a016-20230410   gcc  
-i386                 randconfig-r015-20230410   gcc  
-ia64                             allmodconfig   gcc  
-ia64         buildonly-randconfig-r005-20230409   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r005-20230411   gcc  
-ia64                 randconfig-r011-20230409   gcc  
-ia64                 randconfig-r022-20230409   gcc  
-ia64                 randconfig-r024-20230410   gcc  
-ia64                 randconfig-r031-20230409   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r006-20230411   gcc  
-loongarch            randconfig-r024-20230409   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze           randconfig-r025-20230409   gcc  
-microblaze           randconfig-r034-20230409   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r021-20230409   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r002-20230411   gcc  
-nios2                randconfig-r006-20230411   gcc  
-nios2                randconfig-r024-20230409   gcc  
-openrisc     buildonly-randconfig-r004-20230409   gcc  
-openrisc             randconfig-r012-20230410   gcc  
-openrisc             randconfig-r013-20230409   gcc  
-openrisc             randconfig-r016-20230409   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r013-20230409   gcc  
-parisc               randconfig-r023-20230409   gcc  
-parisc               randconfig-r033-20230409   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r002-20230410   gcc  
-powerpc      buildonly-randconfig-r006-20230409   gcc  
-powerpc              randconfig-r011-20230410   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv        buildonly-randconfig-r002-20230410   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r016-20230410   gcc  
-riscv                randconfig-r024-20230410   gcc  
-riscv                randconfig-r025-20230410   gcc  
-riscv                randconfig-r031-20230410   clang
-riscv                randconfig-r042-20230409   gcc  
-riscv                randconfig-r042-20230410   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r002-20230409   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r001-20230411   gcc  
-s390                 randconfig-r004-20230411   gcc  
-s390                 randconfig-r015-20230409   gcc  
-s390                 randconfig-r026-20230409   gcc  
-s390                 randconfig-r035-20230410   clang
-s390                 randconfig-r044-20230409   gcc  
-s390                 randconfig-r044-20230410   gcc  
-s390                 randconfig-r044-20230411   clang
-sh                               allmodconfig   gcc  
-sh           buildonly-randconfig-r001-20230410   gcc  
-sh                   randconfig-r021-20230409   gcc  
-sh                   randconfig-r022-20230409   gcc  
-sh                   randconfig-r025-20230409   gcc  
-sh                   randconfig-r032-20230410   gcc  
-sh                   randconfig-r034-20230410   gcc  
-sparc        buildonly-randconfig-r004-20230410   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r011-20230409   gcc  
-sparc                randconfig-r035-20230409   gcc  
-sparc                randconfig-r036-20230409   gcc  
-sparc64      buildonly-randconfig-r003-20230410   gcc  
-sparc64              randconfig-r011-20230410   gcc  
-sparc64              randconfig-r012-20230409   gcc  
-sparc64              randconfig-r025-20230410   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230410   clang
-x86_64               randconfig-a002-20230410   clang
-x86_64               randconfig-a003-20230410   clang
-x86_64               randconfig-a004-20230410   clang
-x86_64               randconfig-a005-20230410   clang
-x86_64               randconfig-a006-20230410   clang
-x86_64               randconfig-a011-20230410   gcc  
-x86_64               randconfig-a012-20230410   gcc  
-x86_64               randconfig-a013-20230410   gcc  
-x86_64               randconfig-a014-20230410   gcc  
-x86_64               randconfig-a015-20230410   gcc  
-x86_64               randconfig-a016-20230410   gcc  
-x86_64                        randconfig-k001   clang
-x86_64               randconfig-r021-20230410   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r004-20230409   gcc  
-xtensa               randconfig-r004-20230411   gcc  
-xtensa               randconfig-r014-20230410   gcc  
-xtensa               randconfig-r023-20230410   gcc  
-xtensa               randconfig-r033-20230410   gcc  
+Each time this happens, if I try to add them to bindings I get
+asked for some example devicetree code, I then respond that these
+are *device*-properties not of-properties and that there are no
+current devicetree users after which the DT maintainers tell me
+to then NOT document them in the DT bindings, at least not until
+actually DT users show up. I fully expect any attempt do add
+this to the DT bindings to go the same way.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+And now I have you telling me you really want to see this
+documented at the same time as it getting implemented. Which
+I fully understand, but does leads to a bit of a catch 22.
+
+Anyways lets just go with the alternative of treating this
+similar as the existing specialized drivers, see below.
+
+<snip>
+
+>> Note if just the existence of the property is the main stumbling
+>> block I can go the match_data route for the wacom digitizer on
+>> the Yoga Book 1 too and add an extra i2c_device_id with match-data
+>> setting the delay. This could then either be its own specialized
+>> driver, or we could still go with the current patch-set
+>> (minus the property) and add an i2c_device_id with match-data
+>> to i2c-hid-of.c .
+> 
+> I'd much rather have a i2c-hid-of.c internal API, yes. Whether it's a
+> function call, a callback or a match-data (or a driver-data), this is
+> something we are in control and we can change.
+
+Ok.
+
+So I see 2 options here:
+
+1. Take the approach from patches 1-4 here, but drop the property and
+   use match data on a new "wacom0169" i2c_device_id instead.
+   This would also pave the way to merging patches 5 + 6 once tested
+   by google to reduce some code duplication. Although you write below
+   you would prefer to keep these around as example code for other
+   specialized drivers...
+
+2. Add a new specialized i2c-hid-of-wacom driver for this.
+   Question: Since this will be using i2c_device_id binding not
+   DT/OF binding the -of- in the name is technically incorrect,
+   but it would be consistent with the other specialized drivers
+   and could be seen as preparation (avoiding a rename/confusion)
+   for when any DT enumerated devices which need special handling
+   show up (note only relevant if you prefer this approach).
+
+Either way is fine with me really. So you get to chose. If you
+let me know which route you prefer, I'll go and prepare either
+a v2 of this series, or a whole new patch for the new specialized
+driver.
+
+Regards,
+
+Hans
+
+
