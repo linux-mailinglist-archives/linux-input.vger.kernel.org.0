@@ -2,66 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D77E06DE28D
-	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 19:33:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CDAE6DE527
+	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 21:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229999AbjDKRdg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Apr 2023 13:33:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59600 "EHLO
+        id S229498AbjDKT7Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Apr 2023 15:59:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229903AbjDKRdf (ORCPT
+        with ESMTP id S229587AbjDKT7P (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Apr 2023 13:33:35 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F308659CA;
-        Tue, 11 Apr 2023 10:33:34 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id pc4-20020a17090b3b8400b0024676052044so8806362pjb.1;
-        Tue, 11 Apr 2023 10:33:34 -0700 (PDT)
+        Tue, 11 Apr 2023 15:59:15 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7F4449A
+        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 12:59:13 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id i26so12244423lfc.6
+        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 12:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681234414;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a+Q+pUWAZRzRKnGB5ZHIXezRq0+Nj1ASM//XuOwm3Pg=;
-        b=fnquWY97DKT38k4zy5Hy1EW5YRQI5MpB4aKoRFJ4C49qXfB/Fa/eGNZojf/4NbrsOp
-         iWZkam6qNF5ako7kX+aK0CHSPsMn4/Erm5ErLa2XvJU7XAn9IJ3UWD+7XMVKyoeCW3xR
-         rFWRN/RXSvnAonE0WpUUQr7XGHQHhK7BKP5rtvDZEZ3MSjQREaQzKp/78PnFXVD+Pn4h
-         rsf+Xv/Bzz0kHDQ3LmW9wW5QEFsdq1vj09qdpiGwgST6v16MFEWiM0/6otPzVxRAKmws
-         Cym27e+/9x/88LHNklSImMKEkfF05CkWIqtKqmFKJOhw4ZSGcBEmc8YCbNXdhtiQQ7oT
-         U6tg==
+        d=linaro.org; s=google; t=1681243151;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YGquEeXVbkvJ/pjYgSu5IRfkUFUUSGPMLUNyd+676Zw=;
+        b=lHvUhPPca9Bie5uxi0VZJlh6YqEu88ELyrACrrKD8hqS7uqeeF/PAf9KCjj90yXweO
+         lzb7zI3gvRLWNwnjpoNBfysJMQARe54SLqDsAMQQGLEAZrIF100LkHm94Logm5Usrxiu
+         UKBYoT6LZb0D4EASajb0jJiddE30NhGXtNMLJmR9IHlVwNpiHy9gVDZ9XBfY8vv8ThtO
+         nqySdmk2SUnYp2K0Cjyv2EWVdlw1R8I+tR6qlcwdf78fGDC9CWF0VTmKBatlkh778Pdb
+         9pDXOUNsxE5Aff1hFjUQ4vu1mbPIbB/QZTcRRY+9U01CpfCSMX8c36zaIkrfXo08sH8J
+         hp7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681234414;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a+Q+pUWAZRzRKnGB5ZHIXezRq0+Nj1ASM//XuOwm3Pg=;
-        b=sVKN58hNTTQD1XT/19R5QjJGg5OSqI8jxveYGvBpJiDf3xbYG3JCY/6LtovXsbLy4h
-         F2kKfcNUYSSA1vEy8bHeoCTlVVr6SzdcxGlxORfSy8acMBP29AqpkMK2A5/rcHGXup0P
-         BlPe4v0IqqyUS3w6D+N3QYqe39aoh6NjCddU2utuz1fq/OimanDiF1BG/XJeagSc/ACq
-         OwtPZLocXglrRw4Baj0U77bk0kvS43JLTy9qwAVdNhfusBxVNK17RtGkpbRpwL1I4y/E
-         KTL65Q27qTk6cu25V9pf1EbE7KUG+sVs2L/ob/jc3g6xXsAMCDuprZa887R8Tgjsb22X
-         5tVg==
-X-Gm-Message-State: AAQBX9c/3jK0KMJNpN6fPq+OeDsU1O9OiEw1eoFr2nFLZivTYzE78lur
-        cQ7XT33RLdVbNGHXJKez6CSgLXHExDK02p4+
-X-Google-Smtp-Source: AKy350ZGGQhbjBhyKG9uz5Q4X6fGuhDZUtJXykO2rWjC+yQADYv8eiTAsFhcpVUp+ivBx2x9CkbBZg==
-X-Received: by 2002:a17:902:fb45:b0:1a2:bf79:9da5 with SMTP id lf5-20020a170902fb4500b001a2bf799da5mr13140719plb.59.1681234414228;
-        Tue, 11 Apr 2023 10:33:34 -0700 (PDT)
-Received: from d.home.yangfl.dn42 ([104.28.213.202])
-        by smtp.gmail.com with ESMTPSA id i2-20020a1709026ac200b001a4fecf79e4sm9767344plt.49.2023.04.11.10.33.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 10:33:33 -0700 (PDT)
-From:   David Yang <mmyangfl@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     David Yang <mmyangfl@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: kye: Fix rdesc for kye tablets
-Date:   Wed, 12 Apr 2023 01:33:08 +0800
-Message-Id: <20230411173308.422756-1-mmyangfl@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20210112; t=1681243151;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YGquEeXVbkvJ/pjYgSu5IRfkUFUUSGPMLUNyd+676Zw=;
+        b=Osi57C9kHsrvCHz+SAEdXGxdP7oq6h/LMSjCFtrZ7ML8Pu06VyNcU7wc2xJ9Jt+9BT
+         I3fz1xH/h9npy5vqYN2LORRNx/qagXdl3NMh6pegkCIxnxUj8NiEuJ5+bUw9dTUwAG3H
+         bbHsy9uTMxW/hRXFCKIG3IneRO9eIB0Kpnr46MroRsCcBFQcuz2xeURXHHS6HboGCfQy
+         6Q/wNtSk8uukTdEK1RFhppMEE6QgwF7zx+QWfTWlzg4gV8VVHfn6P4tyuc7xh/Xbs525
+         LuiW5mlapXtRfUXZRwWSuRasOy9PyUB5f7o4gZ1GVKnB62aaV4wSlb9nVaKdasOCfG5K
+         fN1w==
+X-Gm-Message-State: AAQBX9f8JaS6uAVsL9ZRbx21ocSMit+ISNQV5EETsskWTLYE5S5mLr9M
+        FogvFgoDvFixutfk2GPBY7EFoA==
+X-Google-Smtp-Source: AKy350anl32bVFzS4/dw+9FZFzkBkofKoVS9aL368apBUkQ9gDiOIWo73QVHAbH3X2cGyL9rq5Yv9g==
+X-Received: by 2002:ac2:550b:0:b0:4eb:cbb:790f with SMTP id j11-20020ac2550b000000b004eb0cbb790fmr5018318lfk.66.1681243151583;
+        Tue, 11 Apr 2023 12:59:11 -0700 (PDT)
+Received: from [192.168.1.101] (abxj23.neoplus.adsl.tpnet.pl. [83.9.3.23])
+        by smtp.gmail.com with ESMTPSA id g1-20020a19ee01000000b004db3900da02sm2652951lfb.73.2023.04.11.12.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Apr 2023 12:59:11 -0700 (PDT)
+Message-ID: <cd531beb-69f4-a2e8-299f-c85d8593673c@linaro.org>
+Date:   Tue, 11 Apr 2023 21:58:57 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 4/5] arm64: dts: qcom: sdm845-xiaomi-beryllium-ebbg:
+ introduce support for fts touchscreen
+Content-Language: en-US
+To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+        Caleb Connolly <caleb@connolly.tech>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Job Noorman <job@noorman.info>,
+        Alistair Francis <alistair@alistair23.me>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+References: <20230410160200.57261-1-joelselvaraj.oss@gmail.com>
+ <20230410160200.57261-5-joelselvaraj.oss@gmail.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230410160200.57261-5-joelselvaraj.oss@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -70,49 +94,56 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I forget to add them in previous commit 2dd438cdc2e9
-("HID: kye: Add support for all kye tablets").
 
-Signed-off-by: David Yang <mmyangfl@gmail.com>
----
- drivers/hid/hid-kye.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hid/hid-kye.c b/drivers/hid/hid-kye.c
-index b3bde4bb979d..eb9bf2829937 100644
---- a/drivers/hid/hid-kye.c
-+++ b/drivers/hid/hid-kye.c
-@@ -209,7 +209,7 @@ static const __u8 pensketch_t609a_control_rdesc[] = {
- 	0xC0               /*  End Collection            */
- };
- 
--/* Fix indexes in kye_tablet_report_fixup if you change this */
-+/* Fix indexes in kye_tablet_fixup if you change this */
- static const __u8 kye_tablet_rdesc[] = {
- 	0x06, 0x00, 0xFF,             /*  Usage Page (FF00h),             */
- 	0x09, 0x01,                   /*  Usage (01h),                    */
-@@ -493,12 +493,19 @@ static __u8 *kye_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 		rdesc = kye_consumer_control_fixup(hdev, rdesc, rsize, 83,
- 					"Genius Gx Imperator Keyboard");
- 		break;
-+	case USB_DEVICE_ID_KYE_EASYPEN_M406:
-+	case USB_DEVICE_ID_KYE_EASYPEN_M506:
- 	case USB_DEVICE_ID_KYE_EASYPEN_I405X:
- 	case USB_DEVICE_ID_KYE_MOUSEPEN_I608X:
--	case USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2:
-+	case USB_DEVICE_ID_KYE_EASYPEN_M406W:
- 	case USB_DEVICE_ID_KYE_EASYPEN_M610X:
--	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
-+	case USB_DEVICE_ID_KYE_EASYPEN_340:
- 	case USB_DEVICE_ID_KYE_PENSKETCH_M912:
-+	case USB_DEVICE_ID_KYE_MOUSEPEN_M508WX:
-+	case USB_DEVICE_ID_KYE_MOUSEPEN_M508X:
-+	case USB_DEVICE_ID_KYE_EASYPEN_M406XE:
-+	case USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2:
-+	case USB_DEVICE_ID_KYE_PENSKETCH_T609A:
- 		rdesc = kye_tablet_fixup(hdev, rdesc, rsize);
- 		break;
- 	}
--- 
-2.39.2
+On 10.04.2023 18:01, Joel Selvaraj wrote:
+> The Poco F1 EBBG variant uses Focaltech FTS8719 touchscreen. Introduce
+> support for it.
+> 
+> Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+> ---
+>  .../dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts | 26 +++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
+> index 76931ebad065..f857ed3e2df4 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
+> @@ -13,3 +13,29 @@ &display_panel {
+>  	compatible = "ebbg,ft8719";
+>  	status = "okay";
+>  };
+> +
+> +&i2c14 {
+> +	status = "okay";
+> +
+> +	dmas =  <&gpi_dma1 0 6 QCOM_GPI_I2C>,
+> +		<&gpi_dma1 1 6 QCOM_GPI_I2C>;
+> +	dma-names = "tx", "rx";
+That's totally in sdm845.dtsi already!
 
+> +
+> +	touchscreen@38 {
+> +		compatible = "focaltech,fts8719";
+> +		reg = <0x38>;
+> +
+> +		interrupt-parent = <&tlmm>;
+> +		interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
+interrupts-extended
+
+> +		reset-gpios = <&tlmm 32 GPIO_ACTIVE_LOW>;
+> +
+> +		vddio-supply = <&vreg_l14a_1p8>;
+> +
+> +		pinctrl-names = "default", "sleep";
+> +		pinctrl-0 = <&ts_int_default &ts_reset_default>;
+> +		pinctrl-1 = <&ts_int_sleep &ts_reset_sleep>;
+property
+property-names
+
+Konrad
+> +
+> +		touchscreen-size-x = <1080>;
+> +		touchscreen-size-y = <2246>;
+> +	};
+> +};
