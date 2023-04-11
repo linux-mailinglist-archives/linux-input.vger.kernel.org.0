@@ -2,83 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0818F6DE052
-	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 18:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1A2D6DE0BF
+	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 18:14:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230449AbjDKQCS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Apr 2023 12:02:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53644 "EHLO
+        id S231331AbjDKQON (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Apr 2023 12:14:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjDKQBt (ORCPT
+        with ESMTP id S230194AbjDKQNx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Apr 2023 12:01:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9830D5598
-        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 09:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681228835;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DIz95DWfuWVWieuNpWMo1Cw7FlHwUdZxflZkaM9dGnM=;
-        b=XOWehopp0HoAigvRFH5wAzdlcFnIqzSAszH5ybbJntuGyvCIGPL5e8qLirQIDKWdwvjBhB
-        QWqTuYmI2U2SCLTCWyzTlm9u4l8n29zOgbEllUIytpUx7tMrmrA4dzhW/ExGuuchThnN41
-        BFKPFmDZ0Icbb2+BKAI+vk+KkEQsg+8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-183-vaAZ85GUOuSb7gsI6T-ehw-1; Tue, 11 Apr 2023 12:00:33 -0400
-X-MC-Unique: vaAZ85GUOuSb7gsI6T-ehw-1
-Received: by mail-ej1-f71.google.com with SMTP id ue7-20020a170907c68700b009339c9c32ffso2886150ejc.5
-        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 09:00:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681228832; x=1683820832;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DIz95DWfuWVWieuNpWMo1Cw7FlHwUdZxflZkaM9dGnM=;
-        b=I+f6loi5qb55PZZaVaHg1aIqQImWgmgDAe0ydDjy3g/m02E3uq9jSw62ZvpBOIO/Ro
-         ZigGDid1X5t2+QA0rV9BZdQnAurMUlUCpO33phzZ3Li987e8XTj5lnd1TX3rEg4etnhp
-         SlLXb9m05GkyZzBYJH9iqGSr5nmbDZta3HdldtLTwtFycnuuu3rlVW5lHZ9u+Zl3pfs3
-         FoKasJnnnzFhw1apH0MYnP0fFkfFy8CMzwSIU5J1xeReqoCVFwbl7H6tv0i6kKgD6MGU
-         9Nhzqyim7VoK2JqKa9OtdRNMbuG1gy4P+Vtha2vvpNiU7c6+xfcljdGlacONDDm4vgXh
-         3mag==
-X-Gm-Message-State: AAQBX9dKvh3OyC7e+8xDDblftdL4mXNkX7CraTgzAfLq4RsxyZrOfbVH
-        0C1FkRE9hpXxiwoswXGSlsDGwlsuR9VtK17Y1JnK1QlTmAyh8TbiS1DDj22fAsyOrTg8kc2z/MX
-        A9YwIrkD/7QuDU+KNpvMY7As=
-X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr7928978ejb.37.1681228832734;
-        Tue, 11 Apr 2023 09:00:32 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YifCQS3Xdtt9JAr4wUTf8YRLx1nfvZIfthJ4Q/mH743yMkxn784JsKLTHVISuxggmcljCUag==
-X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr7928956ejb.37.1681228832420;
-        Tue, 11 Apr 2023 09:00:32 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id z24-20020a170906271800b0093f822321fesm6254488ejc.137.2023.04.11.09.00.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Apr 2023 09:00:31 -0700 (PDT)
-Message-ID: <eafe8744-49d4-31e3-2329-ddd452358915@redhat.com>
-Date:   Tue, 11 Apr 2023 18:00:31 +0200
+        Tue, 11 Apr 2023 12:13:53 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AF8D7D88
+        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 09:11:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l1M7iVyBtIIc1CQ1+TnFiPct5owT6pdvyvgHuH9tleN/GcsZ69dsf04Oo2KgBrCb8Wp5QTHwC7UdIHsBoaJPWPK1acMBU2B+qeur1xg/Ny60zK4sNPcgAXFnkNjFRXRZ+07tj9f1+QRL3t0cP9SaSYd801MSDJfWRDGC46uekCzFqscI/pJg9BnUI++RA22YoJN3mTJHqzuxLErxaiVvlpupW2Ozs6jI4/v/7kbEYYcxhsJl/u55VccWaVM4sM48TvnyX2BfpbmuZ9fA2RGEarDGgT/afFMHYPgbo8LasUUZvVsceQsfRKwEFhR/rm5BkQG0aZsMUpnieh32ZsUoqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LhEDjNGpSf2WmBeqJyaGaWoIz8+/oBAKbhSQriirL5c=;
+ b=kvOnvrCqLzvS/i+yl7yqfjgVf5u47G3GFKJinwilcrzqTbYGM9W2ZeypnTw3J/hbD/2gO0oWA2p7WjsJSuduchDsPy/VaMUn3dKjmTS+mVQOkdYO+CfzJn1ZwFoU84s2VNt4uG48693iDws71ZEd1oA6c3131QIfnvuqKjKL+rOOBhQSLK+Bv4rEqAUuz6WRU+SkaRA+BqClpHZa38Tnh/sAnXMv1bwTaXc8DNAYL0/ZLltquuUVKNCRjXixi5Ch8dJbL7XgMX/CFAkk7QX5rNrDPfXU/yZ1ZaBcIyw+vzSzmOy1XrVUpVxGohq/So+CVkMFZggRtVDXoC570KWImA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LhEDjNGpSf2WmBeqJyaGaWoIz8+/oBAKbhSQriirL5c=;
+ b=ATYkCpEUJbulCOR9jXzaudgni6NZsqk8+gpLwy9IfyefDgZRwUxbcKaTX2Cu7UbpcSl033bZNErA923TmIKCqDAmmeyRo7u0N/mok6b8Z+mO/5kU9kMfNY6zbQxMCpFhIDxvI639w27NY3Tego/ygxAmf+IVuN6V9IYLSsAJTmA=
+Received: from DM6PR05CA0051.namprd05.prod.outlook.com (2603:10b6:5:335::20)
+ by DS0PR12MB6560.namprd12.prod.outlook.com (2603:10b6:8:d0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Tue, 11 Apr
+ 2023 16:11:20 +0000
+Received: from DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:335:cafe::11) by DM6PR05CA0051.outlook.office365.com
+ (2603:10b6:5:335::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.21 via Frontend
+ Transport; Tue, 11 Apr 2023 16:11:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT030.mail.protection.outlook.com (10.13.172.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6298.29 via Frontend Transport; Tue, 11 Apr 2023 16:11:19 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 11 Apr
+ 2023 11:11:18 -0500
+From:   Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>
+CC:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: [PATCH 0/7] Fixes to amd_sfh 
+Date:   Tue, 11 Apr 2023 21:40:23 +0530
+Message-ID: <20230411161030.909350-1-Basavaraj.Natikar@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 0/6] HID: i2c-hid-of: Allow using i2c-hid-of on non OF
- platforms + remove specialized drivers
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-input@vger.kernel.org
-References: <20230409144243.25360-1-hdegoede@redhat.com>
- <20230411090209.gartwrkq56syerwk@mail.corp.redhat.com>
- <c3e08839-b621-3e57-0d6b-f4cd14c897b9@redhat.com>
- <20230411125036.3ojjdrjzxhasu5du@mail.corp.redhat.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230411125036.3ojjdrjzxhasu5du@mail.corp.redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT030:EE_|DS0PR12MB6560:EE_
+X-MS-Office365-Filtering-Correlation-Id: a05c89a1-d53e-4afb-b4ab-08db3aa76328
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7K6ant2ILYldBOQjI4XGYLwJnx0ezzFeC0n29BWQf5pEAcDD0NknIDPPNQq9J8OCP30oNHfuM3c7qTrJHlr+5qdIR1VdevnZjMSiBDE3opusXY/NTojwTmj2cqKsG8xWNJzCPLZZeLeGeNPNgbjk2xUtlCn5ARvTlPUHEpL9Wo/j4p27BHuII5HY0hRatqmkrzCEvGlQFHstaXHdzI9BX9sqU0I9gvvSMpl6qkjRBOyFAl2aN5iMbVZS2R/OmIFgOYsmggWuklGk0vu1k10jIPfRW1JYeMgVMtin4uo6sG8T51sSERB657nAgRqVjkbI4DSuxYRxFqWTSVtVHa58ToX7AKTs+vQNC4TEp70vdicm0q1xHu+DmtEmNPQ8KZMrsK65/vfhfMhxalxpyDzyk3IeeKA4RxrBjP+HAiYeXUkMM1gicse4P08mQFZAYj1LlVTYoQ0B2am6JT268CycR/vToT3XY3enhqgAyFxEIk3+h5K5DwnttMvIXD9Qs6++TT61RiWVAZPvXjhPznO8CIN98auW4lCjQro3idWebiUkFB6uflFU/dqK3FTu/tID7Euy7I61QiZB3+jQy5h1OBqP83rzJ1/nkSOjN0vgJa3INQIpsvIJp8JxJSK9gjcEX6pgMs8pKxeQh2AgXQLtZpS3tPKUClFNp5XLxkdicRORHNn7u1Nu5GPrTgZ+QSjSttgmgc7Bm+fV89v4G20dT5ec9+puHSwQsIvcVMpjJlk=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(346002)(376002)(396003)(451199021)(36840700001)(46966006)(40470700004)(36860700001)(426003)(336012)(47076005)(83380400001)(2616005)(478600001)(7696005)(6666004)(16526019)(4743002)(186003)(316002)(110136005)(26005)(1076003)(2906002)(4744005)(36756003)(5660300002)(40460700003)(81166007)(356005)(70206006)(4326008)(70586007)(82740400003)(41300700001)(82310400005)(8676002)(8936002)(86362001)(40480700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2023 16:11:19.9837
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a05c89a1-d53e-4afb-b4ab-08db3aa76328
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6560
+X-Spam-Status: No, score=0.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,122 +97,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+Changes include correcting structure fields, illuminance values,
+shutdown PM operations, stop all command, increasing sensor
+command timeout and no sensor condition.
 
-On 4/11/23 14:50, Benjamin Tissoires wrote:
-> On Apr 11 2023, Hans de Goede wrote:
->> Hi Benjamin,
->>
->> On 4/11/23 11:02, Benjamin Tissoires wrote:
->>> Hi Hans,
->>>
->>> On Apr 09 2023, Hans de Goede wrote:
->>>> Hi All,
->>>>
->>>> This series consist of 2 parts:
->>>>
->>>> 1. Patches 1-3. Allow using i2c-hid-of on non OF platforms to allow I2C-HID
->>>>    devices which are not enumerated by ACPI to work on ACPI platforms
->>>>    (by manual i2c_client instantiation using i2c_client_id matching).
->>>
->>> Patches 1 and 2 are looking good, but I wonder if you can not achieve the
->>> same result by relying on an ACPI SSDT override. I got something similar
->>> working on this thread[0].
->>
->> Yes this could be made to work with an ACPI override. But the goal is
->> to make things work OOTB for end users when they install Linux and
->> ACPI overrides are very far from something which works OOTB.
-> 
-> Fair enough.
-> 
->>
->>> I understand the "post-reset-deassert-delay-ms" might be something hard
->>> to express with an SSDT, but we should already have all the bits in
->>> place, no?
->>
->> Actually if an ACPI override is used then the setting of the GPIO
->> can be done in _PS0 and _PS3 (power on / off) methods and those
->> can simply include a sleep after setting the GPIO.
-> 
-> Though this is all conditional if we can make ACPI SSDT override
-> something that can be shipped while installing the device...
-> 
->>
->>> Also, the problem of "post-reset-deassert-delay-ms" is that you are not
->>> documenting it, because the OF folks do not want this in device tree,
->>> and I tend to agree with them. So this basically creates a brand new
->>> undocumented property, which is less than ideal.
->>
->> I'm merely not documenting it because there are no devicetree users yet.
-> 
-> AFAIU, the non devicetree properties should also be documented through
-> DT bindings, no? So not documenting feels very much like "I want to slip
-> this one in without having to deal with DT maintainers" (and before you
-> take it personaly, I know this is definitively not the intent). So I'd
-> rather much having a public API documented, even if there are no users.
+Basavaraj Natikar (7):
+  HID: amd_sfh: Correct the structure fields
+  HID: amd_sfh: Correct the sensor enable and disable command
+  HID: amd_sfh: Fix illuminance value
+  HID: amd_sfh: Add support for shutdown operation
+  HID: amd_sfh: Correct the stop all command
+  HID: amd_sfh: Increase sensor command timeout for SFH1.1
+  HID: amd_sfh: Handle "no sensors" enabled for SFH1.1
 
-Right, so as a hobby I have a tendency to work on these somewhat niche/weird
-x86 devices, like x86 tablets which use Android as factory OS :)
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c             |  9 +++++++++
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c      |  2 +-
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c      | 11 +++++++++++
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c | 10 +++++++---
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h |  8 ++++----
+ 5 files changed, 32 insertions(+), 8 deletions(-)
 
-As such I have encountered the need for device-properties to pass info
-from drivers/platform/x86 code to more generic drivers a number of
-times before.
-
-Each time this happens, if I try to add them to bindings I get
-asked for some example devicetree code, I then respond that these
-are *device*-properties not of-properties and that there are no
-current devicetree users after which the DT maintainers tell me
-to then NOT document them in the DT bindings, at least not until
-actually DT users show up. I fully expect any attempt do add
-this to the DT bindings to go the same way.
-
-And now I have you telling me you really want to see this
-documented at the same time as it getting implemented. Which
-I fully understand, but does leads to a bit of a catch 22.
-
-Anyways lets just go with the alternative of treating this
-similar as the existing specialized drivers, see below.
-
-<snip>
-
->> Note if just the existence of the property is the main stumbling
->> block I can go the match_data route for the wacom digitizer on
->> the Yoga Book 1 too and add an extra i2c_device_id with match-data
->> setting the delay. This could then either be its own specialized
->> driver, or we could still go with the current patch-set
->> (minus the property) and add an i2c_device_id with match-data
->> to i2c-hid-of.c .
-> 
-> I'd much rather have a i2c-hid-of.c internal API, yes. Whether it's a
-> function call, a callback or a match-data (or a driver-data), this is
-> something we are in control and we can change.
-
-Ok.
-
-So I see 2 options here:
-
-1. Take the approach from patches 1-4 here, but drop the property and
-   use match data on a new "wacom0169" i2c_device_id instead.
-   This would also pave the way to merging patches 5 + 6 once tested
-   by google to reduce some code duplication. Although you write below
-   you would prefer to keep these around as example code for other
-   specialized drivers...
-
-2. Add a new specialized i2c-hid-of-wacom driver for this.
-   Question: Since this will be using i2c_device_id binding not
-   DT/OF binding the -of- in the name is technically incorrect,
-   but it would be consistent with the other specialized drivers
-   and could be seen as preparation (avoiding a rename/confusion)
-   for when any DT enumerated devices which need special handling
-   show up (note only relevant if you prefer this approach).
-
-Either way is fine with me really. So you get to chose. If you
-let me know which route you prefer, I'll go and prepare either
-a v2 of this series, or a whole new patch for the new specialized
-driver.
-
-Regards,
-
-Hans
-
+-- 
+2.25.1
 
