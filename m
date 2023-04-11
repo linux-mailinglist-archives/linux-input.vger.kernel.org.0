@@ -2,314 +2,244 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6506D6DDB36
-	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 14:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31FB66DDBB6
+	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 15:05:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbjDKMvb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Apr 2023 08:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43406 "EHLO
+        id S230281AbjDKNF5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Apr 2023 09:05:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjDKMva (ORCPT
+        with ESMTP id S230362AbjDKNFY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Apr 2023 08:51:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB283598
-        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 05:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681217444;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3/m90kyzpcuhfEbVLNKKGSF4lETG9qdo9zHkD3PocJo=;
-        b=Z0mj6f+j8H4oWBwd9RNP8ZMEi+9HGCYRXtrZyQ9V4p7TgrUIMwHpqKTTMxJGzCUTLfb8/o
-        pSpTrFeczaMNBHZ1oWkPuykus6SZudJh+98796iXx2bu/tLR8cB/kRwUvGZ4zzxgc6Y70r
-        cKq0TTizzb6OTbDyRD+33m1/brJiAi0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-r3to90JHOYOmrGgpeVbtFw-1; Tue, 11 Apr 2023 08:50:41 -0400
-X-MC-Unique: r3to90JHOYOmrGgpeVbtFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B18CB29ABA22;
-        Tue, 11 Apr 2023 12:50:40 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.45.224.142])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6945E2166B30;
-        Tue, 11 Apr 2023 12:50:39 +0000 (UTC)
-Date:   Tue, 11 Apr 2023 14:50:36 +0200
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/6] HID: i2c-hid-of: Allow using i2c-hid-of on non OF
- platforms + remove specialized drivers
-Message-ID: <20230411125036.3ojjdrjzxhasu5du@mail.corp.redhat.com>
-References: <20230409144243.25360-1-hdegoede@redhat.com>
- <20230411090209.gartwrkq56syerwk@mail.corp.redhat.com>
- <c3e08839-b621-3e57-0d6b-f4cd14c897b9@redhat.com>
+        Tue, 11 Apr 2023 09:05:24 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B2849D6
+        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 06:05:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681218315; x=1712754315;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vUaYXkPHH/Ws4kLps9xXe2WFiJeYIuhigM/6oIjZ2rA=;
+  b=hNlPEG2fprvq9nkVj5Bl81eIs7AAa74FUpzer08H+fFxNCCqSjGM4Gdl
+   33qg8QrrmWTSImb+m2iX2bwE7fA7YOLRqZx2ef21oTsyeSfEXh1JU+5W/
+   WAG+Q4XTt1Ft/gl+mS0vrf0fHFIlVNPO0gEoaiB6O2Xymzkg3ezRrxqhn
+   Ym7mpuB4fEgGehe8+KMCp3RQ6eZko4QCU94eIw0QmoQRxaOTXf2kKasPQ
+   2Zvaj925dWNSm9oRdkkk1kLAPtvORlhNd7BtYeMvsc05J/P5ATSDrKYBu
+   mFvQssdVQN/e0pomw8NddU+L33+WTNTIkBsh+70bkqPeDn+pEsccnal7M
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="371459610"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="371459610"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 06:05:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="1018362171"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="1018362171"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 11 Apr 2023 06:05:11 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pmDgM-000WJh-0z;
+        Tue, 11 Apr 2023 13:05:10 +0000
+Date:   Tue, 11 Apr 2023 21:04:10 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 483a14418661878d89216be0f02918892227833b
+Message-ID: <64355aca.11PdjqCGVXAg+xNq%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c3e08839-b621-3e57-0d6b-f4cd14c897b9@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Apr 11 2023, Hans de Goede wrote:
-> Hi Benjamin,
-> 
-> On 4/11/23 11:02, Benjamin Tissoires wrote:
-> > Hi Hans,
-> > 
-> > On Apr 09 2023, Hans de Goede wrote:
-> >> Hi All,
-> >>
-> >> This series consist of 2 parts:
-> >>
-> >> 1. Patches 1-3. Allow using i2c-hid-of on non OF platforms to allow I2C-HID
-> >>    devices which are not enumerated by ACPI to work on ACPI platforms
-> >>    (by manual i2c_client instantiation using i2c_client_id matching).
-> > 
-> > Patches 1 and 2 are looking good, but I wonder if you can not achieve the
-> > same result by relying on an ACPI SSDT override. I got something similar
-> > working on this thread[0].
-> 
-> Yes this could be made to work with an ACPI override. But the goal is
-> to make things work OOTB for end users when they install Linux and
-> ACPI overrides are very far from something which works OOTB.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 483a14418661878d89216be0f02918892227833b  Input: edt-ft5x06 - select REGMAP_I2C
 
-Fair enough.
+elapsed time: 723m
 
-> 
-> > I understand the "post-reset-deassert-delay-ms" might be something hard
-> > to express with an SSDT, but we should already have all the bits in
-> > place, no?
-> 
-> Actually if an ACPI override is used then the setting of the GPIO
-> can be done in _PS0 and _PS3 (power on / off) methods and those
-> can simply include a sleep after setting the GPIO.
+configs tested: 163
+configs skipped: 16
 
-Though this is all conditional if we can make ACPI SSDT override
-something that can be shipped while installing the device...
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> > Also, the problem of "post-reset-deassert-delay-ms" is that you are not
-> > documenting it, because the OF folks do not want this in device tree,
-> > and I tend to agree with them. So this basically creates a brand new
-> > undocumented property, which is less than ideal.
-> 
-> I'm merely not documenting it because there are no devicetree users yet.
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r006-20230409   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r014-20230409   gcc  
+alpha                randconfig-r015-20230410   gcc  
+alpha                randconfig-r023-20230410   gcc  
+alpha                randconfig-r026-20230410   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r003-20230409   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r012-20230409   gcc  
+arc                  randconfig-r012-20230410   gcc  
+arc                  randconfig-r043-20230409   gcc  
+arc                  randconfig-r043-20230410   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r001-20230409   clang
+arm          buildonly-randconfig-r005-20230410   clang
+arm                                 defconfig   gcc  
+arm                  randconfig-r005-20230411   clang
+arm                  randconfig-r014-20230409   clang
+arm                  randconfig-r016-20230409   clang
+arm                  randconfig-r046-20230409   clang
+arm                  randconfig-r046-20230410   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r022-20230410   gcc  
+arm64                randconfig-r036-20230410   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r003-20230411   gcc  
+csky                 randconfig-r021-20230410   gcc  
+hexagon      buildonly-randconfig-r001-20230409   clang
+hexagon      buildonly-randconfig-r003-20230409   clang
+hexagon              randconfig-r001-20230411   clang
+hexagon              randconfig-r015-20230409   clang
+hexagon              randconfig-r026-20230409   clang
+hexagon              randconfig-r041-20230409   clang
+hexagon              randconfig-r041-20230410   clang
+hexagon              randconfig-r045-20230409   clang
+hexagon              randconfig-r045-20230410   clang
+hexagon              randconfig-r045-20230411   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r003-20230410   clang
+i386         buildonly-randconfig-r004-20230410   clang
+i386         buildonly-randconfig-r006-20230410   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230410   clang
+i386                 randconfig-a002-20230410   clang
+i386                 randconfig-a003-20230410   clang
+i386                 randconfig-a004-20230410   clang
+i386                 randconfig-a005-20230410   clang
+i386                 randconfig-a006-20230410   clang
+i386                 randconfig-a011-20230410   gcc  
+i386                 randconfig-a012-20230410   gcc  
+i386                 randconfig-a013-20230410   gcc  
+i386                 randconfig-a014-20230410   gcc  
+i386                 randconfig-a015-20230410   gcc  
+i386                 randconfig-a016-20230410   gcc  
+i386                 randconfig-r015-20230410   gcc  
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r005-20230409   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r005-20230411   gcc  
+ia64                 randconfig-r011-20230409   gcc  
+ia64                 randconfig-r022-20230409   gcc  
+ia64                 randconfig-r024-20230410   gcc  
+ia64                 randconfig-r031-20230409   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r006-20230411   gcc  
+loongarch            randconfig-r024-20230409   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze           randconfig-r025-20230409   gcc  
+microblaze           randconfig-r034-20230409   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r021-20230409   clang
+nios2                               defconfig   gcc  
+nios2                randconfig-r002-20230411   gcc  
+nios2                randconfig-r006-20230411   gcc  
+nios2                randconfig-r024-20230409   gcc  
+openrisc     buildonly-randconfig-r004-20230409   gcc  
+openrisc             randconfig-r012-20230410   gcc  
+openrisc             randconfig-r013-20230409   gcc  
+openrisc             randconfig-r016-20230409   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r013-20230409   gcc  
+parisc               randconfig-r023-20230409   gcc  
+parisc               randconfig-r033-20230409   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r002-20230410   gcc  
+powerpc      buildonly-randconfig-r006-20230409   gcc  
+powerpc              randconfig-r011-20230410   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r002-20230410   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r016-20230410   gcc  
+riscv                randconfig-r024-20230410   gcc  
+riscv                randconfig-r025-20230410   gcc  
+riscv                randconfig-r031-20230410   clang
+riscv                randconfig-r042-20230409   gcc  
+riscv                randconfig-r042-20230410   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390         buildonly-randconfig-r002-20230409   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r001-20230411   gcc  
+s390                 randconfig-r004-20230411   gcc  
+s390                 randconfig-r015-20230409   gcc  
+s390                 randconfig-r026-20230409   gcc  
+s390                 randconfig-r035-20230410   clang
+s390                 randconfig-r044-20230409   gcc  
+s390                 randconfig-r044-20230410   gcc  
+s390                 randconfig-r044-20230411   clang
+sh                               allmodconfig   gcc  
+sh           buildonly-randconfig-r001-20230410   gcc  
+sh                   randconfig-r021-20230409   gcc  
+sh                   randconfig-r022-20230409   gcc  
+sh                   randconfig-r025-20230409   gcc  
+sh                   randconfig-r032-20230410   gcc  
+sh                   randconfig-r034-20230410   gcc  
+sparc        buildonly-randconfig-r004-20230410   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r011-20230409   gcc  
+sparc                randconfig-r035-20230409   gcc  
+sparc                randconfig-r036-20230409   gcc  
+sparc64      buildonly-randconfig-r003-20230410   gcc  
+sparc64              randconfig-r011-20230410   gcc  
+sparc64              randconfig-r012-20230409   gcc  
+sparc64              randconfig-r025-20230410   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230410   clang
+x86_64               randconfig-a002-20230410   clang
+x86_64               randconfig-a003-20230410   clang
+x86_64               randconfig-a004-20230410   clang
+x86_64               randconfig-a005-20230410   clang
+x86_64               randconfig-a006-20230410   clang
+x86_64               randconfig-a011-20230410   gcc  
+x86_64               randconfig-a012-20230410   gcc  
+x86_64               randconfig-a013-20230410   gcc  
+x86_64               randconfig-a014-20230410   gcc  
+x86_64               randconfig-a015-20230410   gcc  
+x86_64               randconfig-a016-20230410   gcc  
+x86_64                        randconfig-k001   clang
+x86_64               randconfig-r021-20230410   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r004-20230409   gcc  
+xtensa               randconfig-r004-20230411   gcc  
+xtensa               randconfig-r014-20230410   gcc  
+xtensa               randconfig-r023-20230410   gcc  
+xtensa               randconfig-r033-20230410   gcc  
 
-AFAIU, the non devicetree properties should also be documented through
-DT bindings, no? So not documenting feels very much like "I want to slip
-this one in without having to deal with DT maintainers" (and before you
-take it personaly, I know this is definitively not the intent). So I'd
-rather much having a public API documented, even if there are no users.
-
-> 
-> Between the 2 currently supported of devices with a reset GPIO +
-> the I2C-HID capable touchscreen + wacom digitizer on the x86 android
-> Yoga Book 1 I'm trying to get to work that is 4 I2C-HID devices which
-> all follow the pattern of: 1. They have a reset GPIO, 2. they need
-> some delay after reset is deasserted.
-> 
-> It seems silly to keep adding more and more device-ids + match-data
-> with just the delays in there when it seems that many many I2C-HID
-> capable controllers/chips follow this pattern.
-
-The problem, AFAICT, is that I2C-HID is only described through ACPI, and
-a lot of the HW specific is let to ACPI. So i2c-hid-of, is basically OEM
-bringing components together on a DT platform, and hoping for the best.
-This works well in the way that we don't need to add a new driver for
-it, but they can not easily describe what they need (or even fail like
-your tablet which is supposed to be working thorugh ACPI).
-
-So if we had one big competitor, like Google for Chromebooks, who just
-said: "this is what you need for OF i2c-hid devices, and you can not
-rely on anything else", life would be much simpler.
-
-> 
-> Also note that there already is a very similar "post-power-on-delay-ms"
-> property. I really don't see what makes specifying a delay after
-> enabling regulators through a property ok, but specifying the delay
-> after reset-deassert not ok. Allowing one but not the other is not
-> very consistent.
-
-Agree :/
-
-> 
-> The reason why I'm not documenting the property now is because of
-> lack of current devicetree users. It can be documented once
-> the first DT users show up and getting it accepted should really not
-> be an issue given that "post-power-on-delay-ms" already exists.
-
-Honestly this is not a good way of doing thing IMO. This is basically
-what I did with i2c-hid, and it pissed the DT maintainers. (I did it
-because at the time the maintainers were not reactive, and/or the ML
-were not correctly set IIRC).
-
-> 
-> Note if just the existence of the property is the main stumbling
-> block I can go the match_data route for the wacom digitizer on
-> the Yoga Book 1 too and add an extra i2c_device_id with match-data
-> setting the delay. This could then either be its own specialized
-> driver, or we could still go with the current patch-set
-> (minus the property) and add an i2c_device_id with match-data
-> to i2c-hid-of.c .
-
-I'd much rather have a i2c-hid-of.c internal API, yes. Whether it's a
-function call, a callback or a match-data (or a driver-data), this is
-something we are in control and we can change. A blind undocumented
-property is going to be a pain if we get to change it.
-
-(unless of course you can get Rob's ack on the preperty itself).
-
-> 
-> The only question then is how to name the i2c_device_id for the wacom
-> digitizer. It has a vid:pid of 056A:0169 So maybe "wacom0169" ?
-
-Seems reasonable to me :)
-
-[few minutes later]
-
-Well, maybe we don't want the PID to be used here, because we will end
-up having to quirk every single device. But OTOH I do not see a
-different solution...
-
-
-> 
-> 
-> >> 2. Patches 4-6. Remove the special i2c-hid-of-elan and i2c-hid-of-goodix
-> >>    driver, folding the functionality into the generic i2c-hid-of driver.
-> >>    Since 1. requires adding reset-gpio support to i2c-hid-of there was
-> >>    very little difference left between the generic i2c-hid-of code and
-> >>    the specialized drivers. So I decided to merge them into the generic
-> >>    driver instead of having duplicate code.
-> > 
-> > I understand the spirit, but I am not a big fan of this. The reason is
-> > just detailed your following statements: getting tests on those is hard.
-> 
-> Actually AFAIK the chromeos folks have an automated test lab where
-> all supported models get tested and they regularly test the latest
-> mainline kernels. So even without me asking for it any regressions
-> here should have been caught in this case since support for both
-> special-case i2c-hid-of drivers was added for chromeos.
-> 
-> And the code is almost identical, the only difference is using
-> the bulk-regulator API vs enabling the regulators 1 by 1, which
-> should not make any difference.
-
-Well, it's nice to know regressions, but it's nicer to know them before
-we introduce them in linux-next :)
-
-My point is if you don't manage to get tests on those devices, and we
-can "guarantee" that the changes in i2c-hid-of.c will be a noop for
-them, why bother merging them together? If the files have dedicated
-maintainers, we should probably rely on them instead :)
-
-> 
-> > So there is code duplication, yes, but OTOH this guarantees that we do
-> > not break those devices while working on something else.
-> > 
-> > I can always be convinced otherwise, but I still think the approach of
-> > the devicetree-bindings maintainers works better: if you need a new
-> > property that isn't available in the core of i2c-hid-of, and which is
-> > device specific (even if it's just a msleep for a line to be ready),
-> > make this a separate driver. Trying to parametrize everything with
-> > properties will just end up in a situation where one "meaningless"
-> > property will break another device, and it's going to be a pain to
-> > trace, because those drivers are not tested every single kernel release.
-> 
-> This is not trying to parametrize everything, this is trying to
-> parametrize something which turns out to be necessary over 4 different
-> chips/controller models. And I'm pretty sure that if I start looking
-> into ACPI tables I will find many more controllers which use a reset
-> GPIO + a delay after de-assert like this.
-> 
-> IOW something which is clearly a very common pattern.
-> 
-> You have been advocating to make HID code more generic allowing
-> device-quirks in BPF format to avoid adding drivers for every
-> tiny descriptor fixup.
-
-Hehe, fair enough :) But my problem here is more who is responsible for
-this code, and merging them together means more responsibility to the
-i2c-hid-of.c maintainer. Having separate self-contained drivers for
-handling device subtleties (when they are not generic) allows to not
-break one device when fixing one other.
-
-> 
-> Do you really want to go the route of a tiny driver for every
-> i2c-hid chip variant used with devicetree, rather then having
-> a single extra property ?
-
-I'd like that property to be validated by Rob first. You raised the
-inconsistency above, and I'd rather have an ack from him first.
-
-Having a "this is how every i2c-hid device works" kind of argument might
-make it enough for him to change his opinion (because I think that was
-the argument for the post power delay).
-
-> 
-> Note that if patches 1-3 had been in place when Douglas
-> started adding support for the "elan,ekth6915" and
-> "goodix,gt7375p" devices that the devicetree on
-> the chromeos devices using those would then likely
-> have simply used the "hid-descr-addr", "post-power-on-delay-ms"
-> and "post-reset-deassert-delay-ms" properties and no
-> separate drivers would have been necessary at all.
-
-I think that's how the whole separate driver started. And the argument
-of having separate drivers still stands, for devices that are not doing
-the same things like others.
-
-The compatible allows to store a set of device specific data that will
-not change whatever board the device is placed in. So though technically
-easier for the maintainers, having a dedicated property is putting the
-burden on the user. While OTOH, if this property is internal API, we can
-have a table with it, that says that Goodix needs X ms, when Elan Y and
-Wacom Z ms.
-
-But then, you're going to say that this requires a kernel bump, when a
-device property is just on the board side, so much convenient from an
-OEM point of view :(
-
-> 
-> (We need patches 4-6 now only to keep compatibility with
->  existing devicetree files which don't set these)
-> 
-> So I really see patches 4-6 as a way to reduce future
-> work reviewing specialized drivers for you and Jiri.
-
-And I thank you for that :)
-
-> 
-> Yes there may still be some special cases in the future
-> which need a specialized driver which we have now, but
-> I believe that covering the common reset-GPIO pattern
-> will drastically reduce the need for those drivers and
-> thus will lower the maintainer burden.
-
-Just a small thinking here: if we keep the current compatible drivers
-here, we have an example we can point people at if they need fancier
-things. So maybe keeping them (or one at least) is a good thing, no?
-
-Cheers,
-Benjamin
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
