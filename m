@@ -2,152 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5DC6DD61F
-	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 11:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B95586DD68C
+	for <lists+linux-input@lfdr.de>; Tue, 11 Apr 2023 11:27:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbjDKJDE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Apr 2023 05:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52584 "EHLO
+        id S229452AbjDKJ1q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Apr 2023 05:27:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjDKJDD (ORCPT
+        with ESMTP id S229482AbjDKJ1p (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Apr 2023 05:03:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC153F2
-        for <linux-input@vger.kernel.org>; Tue, 11 Apr 2023 02:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681203737;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fXw1DjQnb0zShy7HRrG6rjrMseykEUnCt/9xPQRr9Y4=;
-        b=Y/NGYytgpkya+mpcYEIQQxAZWpyZu7AV3WvYPOiopEtRyLWjLwdVk0Rc1E0/hTfi5VGlpB
-        jLspZhpgMA/j5kKGo4c3BKmNTZvnf/+JvQETFU1/iAqjYDmRVcsccXrFpsv40ucJ07r8JW
-        gHZ8uPYgmVRf2Z72W6He6CipKWFNwDU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-606-mwaQVybVMl2JMOm50Vz6oQ-1; Tue, 11 Apr 2023 05:02:14 -0400
-X-MC-Unique: mwaQVybVMl2JMOm50Vz6oQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A32FC858289;
-        Tue, 11 Apr 2023 09:02:13 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.45.224.142])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 798BE492C13;
-        Tue, 11 Apr 2023 09:02:12 +0000 (UTC)
-Date:   Tue, 11 Apr 2023 11:02:09 +0200
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/6] HID: i2c-hid-of: Allow using i2c-hid-of on non OF
- platforms + remove specialized drivers
-Message-ID: <20230411090209.gartwrkq56syerwk@mail.corp.redhat.com>
-References: <20230409144243.25360-1-hdegoede@redhat.com>
+        Tue, 11 Apr 2023 05:27:45 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A451736;
+        Tue, 11 Apr 2023 02:27:44 -0700 (PDT)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33B4pNUi026389;
+        Tue, 11 Apr 2023 04:27:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=tbVjMlrmInbvJ7aczvEH3xSHbYoDsBqY+xs8DjEREbo=;
+ b=fry3zmp8rtSd424svKSkVlV9XPH/+OsPxxxWzpgHfXls0gLPKBKHu2p6gXEjUjFXnmXb
+ VtRj6wWjqRrUeEQHiWuMp6BKZys6BKXfDmm+n+TTXDNXfS/JU6rHcONz551AiCIwSb9M
+ YTe099nnLQ9135sinAH5H4MP5/GLNKvw7i+my416gYDwlpp5QI6d1Q7PSjwv3Cb3pZCp
+ FofkWhSUeGk9JuTnsjbF1vrQtZPcBz6jWy6xkSHlyoDxqL8MF8z7qq2fTJ4YVJl0pR0W
+ Y03Eg1t+a05gXr7eGMcPnQpL8ANHDFgMwn+Jg07eCvBvCj9+tdp5nUQQOalYxHXxh3+l jQ== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3pu4pq4gnf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Apr 2023 04:27:10 -0500
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Tue, 11 Apr
+ 2023 04:27:09 -0500
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 11 Apr 2023 04:27:09 -0500
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id E486915A4;
+        Tue, 11 Apr 2023 09:27:08 +0000 (UTC)
+Date:   Tue, 11 Apr 2023 09:27:08 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Jeff LaBundy <jeff@labundy.com>
+CC:     Fred Treven <fred.treven@cirrus.com>, <dmitry.torokhov@gmail.com>,
+        <ben.bright@cirrus.com>, <james.ogletree@cirrus.com>,
+        <lee@kernel.org>, <jdelvare@suse.de>, <joel@jms.id.au>,
+        <cy_huang@richtek.com>, <rdunlap@infradead.org>,
+        <eajames@linux.ibm.com>, <ping.bai@nxp.com>, <msp@baylibre.com>,
+        <arnd@arndb.de>, <bartosz.golaszewski@linaro.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: Re: [PATCH 1/2] Input: cs40l26: Support for CS40L26 Boosted Haptic
+ Amplifier
+Message-ID: <20230411092708.GX68926@ediswmail.ad.cirrus.com>
+References: <SupportforCS40L26BoostedHapticAmplifier>
+ <1680819415-28806-1-git-send-email-fred.treven@cirrus.com>
+ <ZDI0p5Rkp74SzJCv@nixie71>
+ <20230410085634.GV68926@ediswmail.ad.cirrus.com>
+ <ZDSqfHemG8pKj1k7@nixie71>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230409144243.25360-1-hdegoede@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+In-Reply-To: <ZDSqfHemG8pKj1k7@nixie71>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: UOXRTSioca8bC0ylK2hAIDGKJ6guRXkM
+X-Proofpoint-ORIG-GUID: UOXRTSioca8bC0ylK2hAIDGKJ6guRXkM
+X-Proofpoint-Spam-Reason: safe
+X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
+On Mon, Apr 10, 2023 at 07:31:56PM -0500, Jeff LaBundy wrote:
+> On Mon, Apr 10, 2023 at 08:56:34AM +0000, Charles Keepax wrote:
+> > On Sat, Apr 08, 2023 at 10:44:39PM -0500, Jeff LaBundy wrote:
+> > I would far rather not have every single attempt to communicate
+> > with the device wrapped in a retry if the communication failed
+> > incase the device is hibernating. It seems much cleaner, and less
+> > likely to risk odd behaviour, to know we have brought the device
+> > out of hibernation.
 
-On Apr 09 2023, Hans de Goede wrote:
-> Hi All,
-> 
-> This series consist of 2 parts:
-> 
-> 1. Patches 1-3. Allow using i2c-hid-of on non OF platforms to allow I2C-HID
->    devices which are not enumerated by ACPI to work on ACPI platforms
->    (by manual i2c_client instantiation using i2c_client_id matching).
+> A common way to deal with this is that of [1], where the bus calls
+> are simply wrapped with all retry logic limited to two places (read
+> and write). These functions could also print the register address
+> in case of failure, solving the problem of having dozens of custom
+> error messages thorughout the driver.
 
-Patches 1 and 2 are looking good, but I wonder if you can not achieve the
-same result by relying on an ACPI SSDT override. I got something similar
-working on this thread[0].
+I suspect this really comes down to a matter of taste, but my
+thoughts would be that the code is shorter that way, but not
+necessarily simpler. This feels far more error prone and likely
+to encounter issues where the device hibernates at a time someone
+hadn't properly thought through. I am far more comfortable with
+the device is blocked from hibernating whilst the driver is
+actively engaged with it and it keeps any special handling for
+exiting hibernate in one place.
 
-I understand the "post-reset-deassert-delay-ms" might be something hard
-to express with an SSDT, but we should already have all the bits in
-place, no?
+> Does the current implementation at least allow the device to hibernate
+> while the system is otherwise active, as opposed to _only_ during
+> runtime suspend? If so, that's still a marked improvement from L25
+> era where customers rightfully pointed out that the downstream driver
+> was not making efficient use of hibernation. ;)
 
-Also, the problem of "post-reset-deassert-delay-ms" is that you are not
-documenting it, because the OF folks do not want this in device tree,
-and I tend to agree with them. So this basically creates a brand new
-undocumented property, which is less than ideal.
+I am not entirely sure I follow this one, yes the device can only
+hibernate whilst it is runtime suspended. But I don't understand
+why that is a problem being runtime resumed implies this device
+is active, not the system is otherwise active. I am not sure if
+I am missing your point or there is some confusion here between
+runtime and system suspend. The device can only hibernate during
+runtime suspend, but the only thing that determines being runtime
+resumed is activity on this device so in general it shouldn't be
+hibernating at that point anyway.
 
-> 
-> 2. Patches 4-6. Remove the special i2c-hid-of-elan and i2c-hid-of-goodix
->    driver, folding the functionality into the generic i2c-hid-of driver.
->    Since 1. requires adding reset-gpio support to i2c-hid-of there was
->    very little difference left between the generic i2c-hid-of code and
->    the specialized drivers. So I decided to merge them into the generic
->    driver instead of having duplicate code.
-
-I understand the spirit, but I am not a big fan of this. The reason is
-just detailed your following statements: getting tests on those is hard.
-
-So there is code duplication, yes, but OTOH this guarantees that we do
-not break those devices while working on something else.
-
-I can always be convinced otherwise, but I still think the approach of
-the devicetree-bindings maintainers works better: if you need a new
-property that isn't available in the core of i2c-hid-of, and which is
-device specific (even if it's just a msleep for a line to be ready),
-make this a separate driver. Trying to parametrize everything with
-properties will just end up in a situation where one "meaningless"
-property will break another device, and it's going to be a pain to
-trace, because those drivers are not tested every single kernel release.
-
-> 
-> Note patches 4-6 have not been actually tested with an "elan,ekth6915"
-> touchscreen nor with a "goodix,gt7375p" touchscreen.
-> 
-> Douglas, can you perhaps test this patch-set with an "elan,ekth6915"
-> touchscreen and with a "goodix,gt7375p" touchscreen ?
-> 
-> Regards,
-> 
-> Hans
+> I don't feel particularly strongly about it, so if the current
+> implementation will stay, perhaps consider a few comments in this
+> area to describe how the device's state is managed.
 > 
 
-Cheers,
-Benjamin
+I certainly never object to adding some comments.
 
-
-[0] https://lore.kernel.org/linux-input/20230308155527.jnrsowubvnk22ica@mail.corp.redhat.com/
-
-> 
-> Hans de Goede (6):
->   HID: i2c-hid-of: Consistenly use dev local variable in probe()
->   HID: i2c-hid-of: Allow using i2c-hid-of on non OF platforms
->   HID: i2c-hid-of: Add reset GPIO support to i2c-hid-of
->   HID: i2c-hid-of: Add chip_data struct
->   HID: i2c-hid-of: Consolidate Elan support into generic i2c-hid-of
->     driver
->   HID: i2c-hid-of: Consolidate Goodix support into generic i2c-hid-of
->     driver
-> 
->  drivers/hid/i2c-hid/Kconfig             |  36 +------
->  drivers/hid/i2c-hid/Makefile            |   2 -
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c   | 129 ------------------------
->  drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 125 -----------------------
->  drivers/hid/i2c-hid/i2c-hid-of.c        | 124 +++++++++++++++++++----
->  5 files changed, 106 insertions(+), 310 deletions(-)
->  delete mode 100644 drivers/hid/i2c-hid/i2c-hid-of-elan.c
->  delete mode 100644 drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-> 
-> -- 
-> 2.39.1
-> 
-
+Thanks,
+Charles
