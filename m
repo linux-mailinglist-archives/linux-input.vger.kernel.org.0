@@ -2,219 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3706E14C7
-	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 21:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFA476E1611
+	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 22:48:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbjDMTD6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Apr 2023 15:03:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
+        id S229561AbjDMUsW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Apr 2023 16:48:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbjDMTD5 (ORCPT
+        with ESMTP id S229493AbjDMUsV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Apr 2023 15:03:57 -0400
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2061.outbound.protection.outlook.com [40.107.212.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC1119BB
-        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 12:03:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NKW998CYv8PTrRtoji4QThBVHL9bnpSIcoZt72A9R1vZFOo8tWtdlzRXL8XY0tgfd1Cm50W6lageM2JH64RkSTXLd7ULFWF5nm5qNzf3wENzFDXtCWEyxCuoyX2fKc0DMG9TmNfNCMdFM//2W0sYT9oNM3sguNN75g029H+R9H+VBMMcIoQCOis7hdp23ls1rEjBt5D9aW+BVzghrJr9ie4X2lPGXGZlKuvfSwDwKhtNmMhc8G7UPM6EfcOA5/Kb69e1h42TQljF7FbAVvZds+RW7crBPij+rIBQxxcSZm3byTytvWzjEZkCVzgrdxtaDT1fOV4JKekaB426+NL6Ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LvqCBv75JW/ImvvZD0sGi7la9tz8oJaQmq3WgZ6BmZs=;
- b=oexyUG8o89QKdf4E5c5Jz2gao8fHuwyQ8NXD8LpylUHeOQRyxIjiPpEu02gsXW6+V3kcJoZooUPvoKq+xFNSGdWPR6vu/EwIRMfzfGpALLLas2EDrfKUCkbtYJo6Po7rABfcwfpUsReacBU3b9Ip6Nc7nwYxWCjLK6EiKsoJUi/Kb3e5tr2Qyse50O+0JL7i42g18aAZfl2D8L8uHNQfjTgV8ZfMtFYrmp1lcK/pkkNzyCtasY0xNSpagjMQ8eYCozfkzM288+oXnohL+ZGBfuU+YSEUioWosJernVvBTCuLL/hIUIN92oTe0eQQ5wirz/sanNxJOuglH/3ld9xF9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LvqCBv75JW/ImvvZD0sGi7la9tz8oJaQmq3WgZ6BmZs=;
- b=DbH9pZxPlhfKQrzXzSkk8yZdL9Q9LOh67ocZF00S/YN34ydCPDgxnJ7rc4eolP+vN6hnIAMeRt4drztCLSVUB2gZfPdGvOvrX2qVz7HFYBkoMwEuz66uabtCnT1m2dvJsvmuq2N+5u47nnyvBTWn55sgaZ42rbNQPjsq203PMLo=
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.26; Thu, 13 Apr
- 2023 19:03:51 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::f4d:82d0:c8c:bebe]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::f4d:82d0:c8c:bebe%2]) with mapi id 15.20.6277.036; Thu, 13 Apr 2023
- 19:03:51 +0000
-From:   "Limonciello, Mario" <Mario.Limonciello@amd.com>
-To:     Jason Gerecke <killertofu@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-CC:     Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Joshua Dickens <Joshua@Joshua-Dickens.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Bastien Nocera <hadess@hadess.net>
-Subject: RE: [PATCH 1/2] HID: wacom: Lazy-init batteries
-Thread-Topic: [PATCH 1/2] HID: wacom: Lazy-init batteries
-Thread-Index: AQHZbjRC+RGURlT1JEeUV/1Hs3D2Pa8pmLBA
-Date:   Thu, 13 Apr 2023 19:03:51 +0000
-Message-ID: <MN0PR12MB61013E79DEF1586288AE345AE2989@MN0PR12MB6101.namprd12.prod.outlook.com>
-References: <20230413181743.7849-1-jason.gerecke@wacom.com>
-In-Reply-To: <20230413181743.7849-1-jason.gerecke@wacom.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-04-13T19:03:49Z;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=4664f393-7e7c-4c03-b8b7-b16a7030589d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_enabled: true
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_setdate: 2023-04-13T19:03:49Z
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_method: Privileged
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_name: Public-AIP 2.0
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_actionid: 514af1d1-641e-44d0-946d-7c44da221bd7
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR12MB6101:EE_|DS0PR12MB6486:EE_
-x-ms-office365-filtering-correlation-id: 119922f5-dd3c-4a59-e94f-08db3c51d1d2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(39860400002)(136003)(366004)(451199021)(38070700005)(86362001)(9686003)(186003)(66476007)(66446008)(66556008)(64756008)(66946007)(8676002)(76116006)(41300700001)(38100700002)(122000001)(4326008)(2906002)(6506007)(83380400001)(5660300002)(966005)(71200400001)(52536014)(7696005)(8936002)(55016003)(33656002)(316002)(110136005)(54906003)(478600001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
+        Thu, 13 Apr 2023 16:48:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29C3C9740
+        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 13:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681418856;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HtJyH8SGOogFlfOnGodd9IaFOBzxhFrcUEkKoY2za9c=;
+        b=d7gqhzyL1qXXWY7U8RyK0kAxMiimFvrzO5QdaDPUswC8uTlmo4Fu1OdQZOJbf4d0OGGPJh
+        e/C38VZxsfYPKCVE6CPJNLD9F2hZsndEbTzQdA3bh5xZ2HPnL1qcuxuutYDtv8RuW0mrrd
+        sG+jBkVR3uyJWPdcUMf/qFKI70FxVYw=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-563-TMCSyofzMb6TWGlSMDvDEg-1; Thu, 13 Apr 2023 16:47:34 -0400
+X-MC-Unique: TMCSyofzMb6TWGlSMDvDEg-1
+Received: by mail-qt1-f198.google.com with SMTP id o4-20020ac87c44000000b003e38726ec8bso11671192qtv.23
+        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 13:47:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681418854; x=1684010854;
+        h=mime-version:user-agent:content-transfer-encoding:organization
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HtJyH8SGOogFlfOnGodd9IaFOBzxhFrcUEkKoY2za9c=;
+        b=IopdXFUpJn8xwHWclaLp6S0ezQAR+/NypqWh1fywoLjbeHoYH0cvpTMrRSuWoBGBt8
+         7ECUi+VhcIBxpnDd2npLTL/Mx5dg/9rtIcov0huhBe75L9J86SiwEyPrqHcL632WHjGu
+         SNle3w+sSe4Bf3Wf76/Yu6lIiNYUy8+xy7U20Lpp9zkxARAn5W+nu071gT35VTyjTo2w
+         Q6YBtIxSldekIjOJcPs/AAiRbHp2SPRphy40y8gA337P3rE6mELCaSWyA3MJuW8ldl71
+         PoTSne6dMGLHU4ktQJDher2fYOX6s5LlwTHABn50ZVbxFrvUwqqdnY1yUw55vBUD4I4J
+         XUDw==
+X-Gm-Message-State: AAQBX9fhMUiw8vN4My1SIPlToitHhBXs1XBmBsX1w5xiOXOkmA16F8Ta
+        yWtW+I1dD5lMAozlSYrLFbTlC+IIRBNs1cbw+wSIqlA5KBivJXCkW0P8kdqbaTtD5zfqdM8oN8C
+        upCqQf3YJbCL02gy3nPrg5GY=
+X-Received: by 2002:a05:6214:3016:b0:5ab:56d4:dc43 with SMTP id ke22-20020a056214301600b005ab56d4dc43mr5587077qvb.7.1681418854258;
+        Thu, 13 Apr 2023 13:47:34 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a8sRNTuKwFoQtKvkf4jEyAXIx03sqtsM/4yGDcBMha7WAuFQVZmn5TalW41FaoMN1GUCoIdA==
+X-Received: by 2002:a05:6214:3016:b0:5ab:56d4:dc43 with SMTP id ke22-20020a056214301600b005ab56d4dc43mr5587055qvb.7.1681418853990;
+        Thu, 13 Apr 2023 13:47:33 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c62:8200::feb? ([2600:4040:5c62:8200::feb])
+        by smtp.gmail.com with ESMTPSA id dr3-20020a05621408e300b005ef44499177sm668792qvb.116.2023.04.13.13.47.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Apr 2023 13:47:33 -0700 (PDT)
+Message-ID: <063c8f77c216ffac463532023009124542d54c19.camel@redhat.com>
+Subject: Re: [PATCH] Input: synaptics - disable intertouch for Lenovo L440
+From:   Lyude Paul <lyude@redhat.com>
+To:     Jonathan Denose <jdenose@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-input@vger.kernel.org, Jonathan Denose <jdenose@google.com>,
+        Aman Dhoot <amandhoot12@gmail.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andrew Duggan <aduggan@synaptics.com>
+Date:   Thu, 13 Apr 2023 16:47:32 -0400
+In-Reply-To: <20230412175311.1.Ieb687047a5b75c7b7ee5dd258207ef5ca9a3b728@changeid>
+References: <20230412175311.1.Ieb687047a5b75c7b7ee5dd258207ef5ca9a3b728@changeid>
+Organization: Red Hat Inc.
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 119922f5-dd3c-4a59-e94f-08db3c51d1d2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2023 19:03:51.3205
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Up8t+5bJRelmJ+4jNuEjqDWdvUZxSwmmbLc+DMC+WJrIrm75ajpyFGRlM2bWnIMwSuj4ukH7QEL2AS4LTo4y8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6486
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[Public]
+This patch looks fine to me, I'm a bit curious though whether the folks at
+Synaptics have any idea of some other workaround we might be able to do rat=
+her
+than disabling intertouch? Added Andrew Duggan to CC to ask.
 
-> From: Jason Gerecke <killertofu@gmail.com>
->=20
-> Rather than creating batteries as part of the initial device probe, let's
-> make the process lazy. This gives us the opportunity to prevent batteries
-> from being created in situations where they are unnecessary.
->=20
-> There are two cases in particular where batteries are being unnecessarily
-> created at initialization. These are AES sensors (for which we don't know
-> any battery status information until a battery-powered pen actually comes
-> into prox) peripheral tablets which share HID descriptors between the
-> wired-only and wireless-capable SKUs of a family of devices.
->=20
-> This patch will delay battery initialization of the former until a pen
-> actually comes into prox. It will delay battery initialization of the
-> latter until either a pen comes into prox or a "heartbeat" packet is
-> processed.
->=20
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> Tested-by: Mario Limonciello <mario.limonciello@amd.com>
+If we don't get any response from them after a while, feel free to consider
+this:
 
-Some other tags to add:
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217062
-Link: https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/2354
-
+On Wed, 2023-04-12 at 17:54 -0500, Jonathan Denose wrote:
+> When intertouch is enabled for the L440 a (deep)sleep/resume
+> cycle causes the touchpad driver to hang which causes the
+> touchpad to become unresponsive. Disable intertouch resolves
+> this issue and the touchpad is fine after resume from sleep.
+>=20
+> Additionally, when the PNP id for the L440 is only removed
+> from the topbuttonpad_pnp_ids list, a message is logged to
+> enable psmouse.synaptics_intertouch, which would cause the
+> sleep/resume issue again. By removing the PNP id from
+> topbutton_pnp_ids and then adding it to the
+> forcepad_pnp_ids array, intertouch is disabled and the
+> message is not logged.
+>=20
+> Signed-off-by: Jonathan Denose <jdenose@google.com>
 > ---
->  drivers/hid/wacom_sys.c | 10 ----------
->  drivers/hid/wacom_wac.c | 13 ++++++-------
->  2 files changed, 6 insertions(+), 17 deletions(-)
 >=20
-> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-> index fb538a6c4add8..8214896adadad 100644
-> --- a/drivers/hid/wacom_sys.c
-> +++ b/drivers/hid/wacom_sys.c
-> @@ -2372,13 +2372,6 @@ static int wacom_parse_and_register(struct
-> wacom *wacom, bool wireless)
->  	if (error)
->  		goto fail;
+>  drivers/input/mouse/synaptics.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >=20
-> -	if (!(features->device_type & WACOM_DEVICETYPE_WL_MONITOR)
-> &&
-> -	     (features->quirks & WACOM_QUIRK_BATTERY)) {
-> -		error =3D wacom_initialize_battery(wacom);
-> -		if (error)
-> -			goto fail;
-> -	}
-> -
->  	error =3D wacom_register_inputs(wacom);
->  	if (error)
->  		goto fail;
-> @@ -2509,9 +2502,6 @@ static void wacom_wireless_work(struct
-> work_struct *work)
->=20
->  		strscpy(wacom_wac->name, wacom_wac1->name,
->  			sizeof(wacom_wac->name));
-> -		error =3D wacom_initialize_battery(wacom);
-> -		if (error)
-> -			goto fail;
->  	}
->=20
->  	return;
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index 4cfa51416dbcb..391fde5bf6024 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -113,6 +113,11 @@ static void wacom_notify_battery(struct
-> wacom_wac *wacom_wac,
->  	bool bat_connected, bool ps_connected)
->  {
->  	struct wacom *wacom =3D container_of(wacom_wac, struct wacom,
-> wacom_wac);
-> +	bool bat_initialized =3D wacom->battery.battery;
-> +	bool has_quirk =3D wacom_wac->features.quirks &
-> WACOM_QUIRK_BATTERY;
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synapt=
+ics.c
+> index fa021af8506e4..77a4f58128e84 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -150,7 +150,6 @@ static const char * const topbuttonpad_pnp_ids[] =3D =
+{
+>  	"LEN2001", /* Edge E431 */
+>  	"LEN2002", /* Edge E531 */
+>  	"LEN2003",
+> -	"LEN2004", /* L440 */
+>  	"LEN2005",
+>  	"LEN2006", /* Edge E440/E540 */
+>  	"LEN2007",
+> @@ -198,6 +197,7 @@ static const char * const smbus_pnp_ids[] =3D {
+>  static const char * const forcepad_pnp_ids[] =3D {
+>  	"SYN300D",
+>  	"SYN3014",
+> +	"LEN2004", /* L440 */
+>  	NULL
+>  };
+> =20
+> @@ -1769,6 +1769,8 @@ static int synaptics_create_intertouch(struct psmou=
+se *psmouse,
+>  		.flags =3D I2C_CLIENT_HOST_NOTIFY,
+>  	};
+> =20
+> +	psmouse_dbg(psmouse, "topbuttonpad is: %s\n", topbuttonpad ? "true" : "=
+false");
 > +
-> +	if (bat_initialized !=3D has_quirk)
-> +		wacom_schedule_work(wacom_wac,
-> WACOM_WORKER_BATTERY);
->=20
->  	__wacom_notify_battery(&wacom->battery, bat_status,
-> bat_capacity,
->  			       bat_charging, bat_connected, ps_connected);
-> @@ -3391,19 +3396,13 @@ static int wacom_status_irq(struct wacom_wac
-> *wacom_wac, size_t len)
->  		int battery =3D (data[8] & 0x3f) * 100 / 31;
->  		bool charging =3D !!(data[8] & 0x80);
->=20
-> +		features->quirks |=3D WACOM_QUIRK_BATTERY;
->  		wacom_notify_battery(wacom_wac,
-> WACOM_POWER_SUPPLY_STATUS_AUTO,
->  				     battery, charging, battery || charging, 1);
-> -
-> -		if (!wacom->battery.battery &&
-> -		    !(features->quirks & WACOM_QUIRK_BATTERY)) {
-> -			features->quirks |=3D WACOM_QUIRK_BATTERY;
-> -			wacom_schedule_work(wacom_wac,
-> WACOM_WORKER_BATTERY);
-> -		}
->  	}
->  	else if ((features->quirks & WACOM_QUIRK_BATTERY) &&
->  		 wacom->battery.battery) {
->  		features->quirks &=3D ~WACOM_QUIRK_BATTERY;
-> -		wacom_schedule_work(wacom_wac,
-> WACOM_WORKER_BATTERY);
->  		wacom_notify_battery(wacom_wac,
-> POWER_SUPPLY_STATUS_UNKNOWN, 0, 0, 0, 0);
->  	}
->  	return 0;
-> --
-> 2.40.0
+>  	return psmouse_smbus_init(psmouse, &intertouch_board,
+>  				  &pdata, sizeof(pdata), true,
+>  				  leave_breadcrumbs);
+
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
