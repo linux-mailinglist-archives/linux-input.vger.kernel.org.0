@@ -2,130 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47D566E12A4
-	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 18:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B67496E13F4
+	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 20:18:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbjDMQqO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Apr 2023 12:46:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50660 "EHLO
+        id S229959AbjDMSSH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Apr 2023 14:18:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbjDMQqN (ORCPT
+        with ESMTP id S229982AbjDMSSB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Apr 2023 12:46:13 -0400
-Received: from smtpout30.security-mail.net (smtpout30.security-mail.net [85.31.212.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839C9A27D
-        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 09:46:11 -0700 (PDT)
-Received: from localhost (fx305.security-mail.net [127.0.0.1])
-        by fx305.security-mail.net (Postfix) with ESMTP id E210530F941
-        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 18:46:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalrayinc.com;
-        s=sec-sig-email; t=1681404368;
-        bh=e7wUi4mc3TwCsUMSuEjMHiV+EmAdxJozU/xynxv1Vbw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=BN3Lp33sKlyyoG7bdKRLYwpqCNIkM+KjEh1mgLnj3oNXOqXr4vQ8wNZ22hvLrV5SB
-         uatuNRC4xWmyOV7JF9YJQmV/+9GAv0YZVxdDwEvdidnvGy9XudeaWgU73PKzn7WyAU
-         /2ngO44GFvHVt6zxiAh3CSLTfDEKA1EOFUXr0pAY=
-Received: from fx305 (fx305.security-mail.net [127.0.0.1]) by
- fx305.security-mail.net (Postfix) with ESMTP id 9F44430F6D3; Thu, 13 Apr
- 2023 18:46:08 +0200 (CEST)
-Received: from FRA01-PR2-obe.outbound.protection.outlook.com
- (mail-pr2fra01on0109.outbound.protection.outlook.com [104.47.24.109]) by
- fx305.security-mail.net (Postfix) with ESMTPS id 0077830F48A; Thu, 13 Apr
- 2023 18:46:07 +0200 (CEST)
-Received: from MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:15::18)
- by PR1P264MB2159.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:192::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Thu, 13 Apr
- 2023 16:46:07 +0000
-Received: from MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
- ([fe80::ce25:a152:1cab:d832]) by MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
- ([fe80::ce25:a152:1cab:d832%4]) with mapi id 15.20.6298.030; Thu, 13 Apr
- 2023 16:46:07 +0000
-X-Virus-Scanned: E-securemail
-Secumail-id: <1d2c.643831cf.f38cd.0>
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ee1k7ngFJXTYCSy5WDm4XhH/SA98NW0Pi02KY+iTnQ4A0DYynqCfwem6VHAZKuW/J+d6Gx5Axb1bcCrNBQlm1KDfX6GuV+K0m8+p3zoOk5VYiKV5u3l19NCaCSb2TodUOS7OQpJNJkmSX/Bbcqff3AfjMEeMvK8VYbkGkX9bf3R23yQL2lNvSZkfq3O/UsKlh+jeTbCrrYhcR+M0kR5JSoV3rjT+bsbso9bV7qd8K+Fdti5m4aa+DlJgoqIwmAedvSVw/TrAypch0vod2IYKA69Mv5jX9SbMrbiL3Vo777FsLNHOb8IT3XTD4xqIZtipF/cyrpjB3iBx0omHWWCH3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microsoft.com; s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e7wUi4mc3TwCsUMSuEjMHiV+EmAdxJozU/xynxv1Vbw=;
- b=fRCm12EJ+gjwKXMcW8yDppE2r2DJaDTWCMceAxzXQw3HkZtE46WHFJVk1s58OFheNQQwEBjY9qcsheqDd9WKslYIoO97E1e7pfFozQGEMHe8oEpovcyawDNeY/XNKVAQdkx5nCiPJNH0Mw5DOgdxczMCm7Se+B1HZlhIZ9NkwX3PCVYDp5PcDlyNQyjz0J5EK3pkq/+htCNkdRgNXD8eM9f0rODFyXFRDseNoGtj89lrBOZ3EYewJXb2yhrnov8MpuV9w2vCnjUqR3kG9vhwxvSFHofL3OS2Zhu1blU2JCy9bGpYYD5T3Ju34D45rh89ymW2LIxd59Jn8zV+xxhF1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kalrayinc.com; dmarc=pass action=none
- header.from=kalrayinc.com; dkim=pass header.d=kalrayinc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalrayinc.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e7wUi4mc3TwCsUMSuEjMHiV+EmAdxJozU/xynxv1Vbw=;
- b=dm7FQRV6SZAaqCvCKz/WPnqN5MYjmVPVGxicd8Z7S//WK9nPlDWDuMA8hB5fpnI+QgzbpoBYH6HFAq1DcNeFgGJQub60onPTLREyURKha1eD7MshQNnsG/++RTQi+8ZoUYAYTELHCa4dSZZ466aRmLR3cfnifa8ZgqDahIFleCJP06Gk+/xsyCBy9muOxIZIeFqOopQKD3n1FPb9Qe3YyNuULPajZ8tgf1bpEvCpQJ8JHqCOT+gDxS9y9/V7es3DH175gjPnIzFgJbPuG2v3zUkZe4hnVrCcP1pbaCHRmbZ8pZAO+DstThmQJefTirGPTx60wGDaXDcxnZONszQbMQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kalrayinc.com;
-Date:   Thu, 13 Apr 2023 18:46:04 +0200
-From:   Louis Morhet <lmorhet@kalrayinc.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     gupt21@gmail.com, jikos@kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Fixes for the mcp2221 gpiochip get_* calls
-Message-ID: <20230413164604.GA17941@achlys.lin.mbt.kalray.eu>
-References: <cover.1680602387.git.lmorhet@kalrayinc.com>
- <20230413144913.53a22nat4s6i2mib@mail.corp.redhat.com>
-Content-Disposition: inline
-In-Reply-To: <20230413144913.53a22nat4s6i2mib@mail.corp.redhat.com>
-X-ClientProxiedBy: LO4P123CA0465.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::20) To MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:15::18)
+        Thu, 13 Apr 2023 14:18:01 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0A798A58
+        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 11:17:49 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-54c0c86a436so418048997b3.6
+        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 11:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681409869; x=1684001869;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MQczAQBrWdzaEL6ONLzRykYRkgSEoAdka2nj7Q8ZvSc=;
+        b=g4SDWQ+1EG77eUOiWzWcr4zuGk+HceHHndMMEEGB5L2iT+FJhhE26kKkGJtJJg2Fci
+         cG7VpM3azBrzvrI0sL1vZwW6H0LHiJqvkQzcaPkaEDl8k2TypXHnbZz+QIlUymtGeqe/
+         qtQNe84uRRkI1C2nghuvMlTTzPZB13GcNz2GfzSnNk0wXFSbznv9WLTFSFefXfnf5NCs
+         5X1uxcAtOl0ReglSWvxR9YFADT/3T+V57cYfuXNHEp+DldhpQVqYZV/IunwX6sEAhjrc
+         0fVSbQcCmJ5qIBCCPHDstBwWG4JOGjGNb4zTKjnVYZInOaBbP/3OydImBHrPJZUGRCK0
+         qyQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681409869; x=1684001869;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MQczAQBrWdzaEL6ONLzRykYRkgSEoAdka2nj7Q8ZvSc=;
+        b=QVV2GKCw4xubPTLmx5ueiygyE6uKtPvg9CaNPH7iK9GLRhHSWPsRdvD/YTGXCPLhit
+         2Ne7DSrFa+zUcHghLeeZfOIlPsKa6i8YKR5js5WEwjd0hh0swtXwkd+H2NG8nLkT4Dp0
+         TcaB22xoZLKOiFg906ZY8ZQoGZ5uvBa0eX8/UmzpUIacZ+XHCTIFhQPKj/VS9FEBca7/
+         rkBpp60Km0QgXZNHe8XVMfXh/xMHKDr056MxHK72Lf13Zpcxhm5QTix/Vm5NJTO0RilN
+         Vyjl88kXzlJX+fL8ARgOdfrkp2op0tnYZOTHPfOvjIt8vEGPUdtekZM/nRN8b+J9wrPi
+         rwzg==
+X-Gm-Message-State: AAQBX9dc6E0+IqPnJqtSKgdC3u66qh+cG2Sg8EDEsPbSRmMPSKiwt9Ms
+        MOsSuhoBdMvO8zzJ+oXXC/HIw6jMPgMepw==
+X-Google-Smtp-Source: AKy350Z3xEYKSu8abthHPiOec0cjLiEF4TESEWP5jvJO1std0AC4+N9iOJcez8goaywmz/crH6virg==
+X-Received: by 2002:a0d:ddc9:0:b0:54f:895e:70ff with SMTP id g192-20020a0dddc9000000b0054f895e70ffmr2832745ywe.21.1681409868717;
+        Thu, 13 Apr 2023 11:17:48 -0700 (PDT)
+Received: from horus.lan (71-34-68-4.ptld.qwest.net. [71.34.68.4])
+        by smtp.gmail.com with ESMTPSA id l9-20020a817009000000b00545a08184aasm641547ywc.58.2023.04.13.11.17.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Apr 2023 11:17:47 -0700 (PDT)
+From:   Jason Gerecke <killertofu@gmail.com>
+X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
+To:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH 1/2] HID: wacom: Lazy-init batteries
+Date:   Thu, 13 Apr 2023 11:17:42 -0700
+Message-Id: <20230413181743.7849-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MR1P264MB1555:EE_|PR1P264MB2159:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03fd6a63-b466-4ab9-1779-08db3c3e939b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mLOggepvdfa527gpae4xzYWASLST93tT1Rf41BMD9gO4VtK7owqcsnm7ipBfmuMm8OF07NPHbTOam2f3vpn1cXphWkZ2R8avCEv1BfjmNfMTXB0OVlPPml8eNKBbSB/vWEiJAdEUWwylWcAAKJXiTP6JqnYfUFcYR9J6xHhdZrVaP/0eqjL5TAkNE01CClSNYh54JSqEqCstoKzHv05JcF2a/jQ7YKkaisTkHsIZqblEdFKqf8DByQuUK7w/+hB4lbt3XGGkapu7pkVDvNAkbXpdI2QodGLNPmG+1f09Olv4yaA4Qi3jxTCq9WTP48hNfB1PyvGkCSAUt72wJFYtyvoZovOPfeQ6Cm3/lUitNSODWHFWFrrjlCkXEsu9fhISBNrmj0Jlkz+VV8jrksYs1Z3uStAUcE+4arKHjKPFqTazKjNHbM/atbqLX8rhuoDSKTQb4/NMMLKlPJ7Zputn06yId6g/NdtAwGlnaNxg8G+jx5OwvgPNBMIsl8tp60JY+cTUBUlJxRXKJ6dTmLjpTq/NsO2JCeh2GHFypC/NG2NZgeFUMEyyFtuwEI904wqB
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(396003)(39850400004)(346002)(376002)(451199021)(5660300002)(41300700001)(33656002)(38100700002)(4744005)(2906002)(8676002)(86362001)(4326008)(6916009)(66556008)(8936002)(66946007)(66476007)(316002)(1076003)(83380400001)(6506007)(6512007)(26005)(9686003)(186003)(478600001)(6486002)(6666004);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: PO8atFpZk+tcl/5jJJEP5q5uHsbRIByead5WyqF3H80f2cuivK1sRqseFixm6DaqRUAltJ5w60O5+dK0w92Yuoc46Whe4lK6GmbAkJr0YJojoRW+weA4XiYj5eFFC8Fbin0lSyqGTBd61upphRsDAb3NOFXYAmSDFSJniR5CcCney1FoZHMV2Z+HhqRnvS5uJJnO73aeeX9H1FrRJaQCvUZUjbhiRoFL8TW+0ruBKoa0du4eilXg581nN5Khuskhh7JmnOVeaExe0+zsQWfePqsrl2I2gDP0ggUStAmhTMb/tYOGQJPMUhZ/YizodjnAnwUdaWcnPT45TB8X54dQwei+zhyyRFQCHBJ57IDhJKLwAq0LTNzpkYMf0nyaV72BnepSlW1qGcKuGKqx1LxNBKH57aSd2a8y3/qge/0u/aHYMqjSphP8GBhihh0OvViSbBJ1NYrubkBUk21qc3LGO9YhGo+Z9wVBNgstmGIgS5UpF+/U5ivOLszGul29Oyj3T+Y8iPJwYVqPiY/ouPE4jLnMia5xkAFLxfzeBaDSNzDbu4l9eZ6OxvoyEYTdh1nO9m0SaAT5aoFvx5HSydt3NASQJj4w3zHlErkcq93vdAydxnPShPnTX9H45eHDZO+fimbAnN0uLAw4coOkkiFRtQYRRUNCUYXcOfi7IcIjxU+hfLw9b5W8w56Z8MEJUsiXxRs7gJ2mFnaGUYvi7OnBK/mS5K1YE38HUYtDhr/OWbWr1GAsAE82MJvDhbTUDWfTBkM0KtsVZtpBZNTH+JLzYxMRIuz65OCHNSr15i4CwS33CDlc4UA4HL4UnfkNkj7HOxVne//DhOh3Sfqs3C1RPjJN4cX5xjofNFAZ9wmeO0R17BFuv/yE3dSmie/1xTmqNwE1ijqeOrNDDQqtR4i05dn46+KqgUmBJXwSnuhUfazAbbhVtzm/+Lh3N+jIwFm/
- Q6+rxSgwGHMEEKoeHtaGUIomropOxM6z3pCpN1HFcSnc7C81inHB64e4KFB0LnQ8+Dn+4rgjcqHcuWmI3iDAm2+3/clN9cP15lbu+Rdg5WF+wE+LXxjMSE2gne5iI9N37wMM3XVWd0fbDHKdMyKWtpV5WJvZIw7Wy17ndWwIddnvajxETyEigovKtGZbqSbVE48cJpFKZY94BlZCr7UX6ElrcozJred5ite2Sh6CEeQ9C/7rk6X3s1bkv38E5pZdUVeZrhJ0Hmc3b1VxyVo0rIvUS+mLKaJJ2iCbmgipajAeBAcEZcs3tAfY8NiZKTC7Z59+jKkbLRhFwTa2PumIDTtStVT/BXT3/mw1QEhzpYMs2sRUD1lEDdTGOrstKb7BLANEoWuEdSlSr4SYPp3P1azYJkEH05cvKN7wfNYHktlB+5ShkzD0fBB/KlRysVKUS4CdllIEvDhOZeUYGLv8xfvNZ5tlymQZJt4/XnZHb0S9QhWUfvQ4R3Ips2OY/Uhe4xgi43NnxztSmkUQLkOWciYH/dIzVp+BFHEw16MgHQY33x2MVWCii2rU2NGFZLJsoSRUZkDGtg23lrfbPEfeTsuGSqLoRua1/0SyYbe9pp78ZnyNK/gu3n5pU6Ep3FGF
-X-OriginatorOrg: kalrayinc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03fd6a63-b466-4ab9-1779-08db3c3e939b
-X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 16:46:06.9808
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8931925d-7620-4a64-b7fe-20afd86363d3
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kAD9Aj7cge0+wU0PWhkF0WqiIzyezr5i+4rvv+oq4eOpD7tophLE34jCBi51hiEEBwjvCStHQ1IaNjHN7jUgsA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1P264MB2159
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Apr 13, 2023 at 04:49:13PM +0200, Benjamin Tissoires wrote:
-> As you should have seen in the automatic replied, I took that series in
-> because it seems to fix a rather worrying bug.
-Thanks!
+From: Jason Gerecke <killertofu@gmail.com>
 
-> Also, just a side note, this driver is very limited in term of scope, as
-> it only touches one dedicated device. Which means that whatever solution
-> feels the more elegant to you has a good chance of being accepted :)
-Well, using a struct to describe the layout of a message seems more
-elegant; but if I'm not mistaken, taking offsets of fields in a packed
-struct is UB... so I was surprised to even see that in Linux, that's why
-I was wondering if I should pursue in that direction.
+Rather than creating batteries as part of the initial device probe, let's
+make the process lazy. This gives us the opportunity to prevent batteries
+from being created in situations where they are unnecessary.
 
+There are two cases in particular where batteries are being unnecessarily
+created at initialization. These are AES sensors (for which we don't know
+any battery status information until a battery-powered pen actually comes
+into prox) peripheral tablets which share HID descriptors between the
+wired-only and wireless-capable SKUs of a family of devices.
 
---
-Louis
+This patch will delay battery initialization of the former until a pen
+actually comes into prox. It will delay battery initialization of the
+latter until either a pen comes into prox or a "heartbeat" packet is
+processed.
 
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Tested-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/hid/wacom_sys.c | 10 ----------
+ drivers/hid/wacom_wac.c | 13 ++++++-------
+ 2 files changed, 6 insertions(+), 17 deletions(-)
 
-
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index fb538a6c4add8..8214896adadad 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -2372,13 +2372,6 @@ static int wacom_parse_and_register(struct wacom *wacom, bool wireless)
+ 	if (error)
+ 		goto fail;
+ 
+-	if (!(features->device_type & WACOM_DEVICETYPE_WL_MONITOR) &&
+-	     (features->quirks & WACOM_QUIRK_BATTERY)) {
+-		error = wacom_initialize_battery(wacom);
+-		if (error)
+-			goto fail;
+-	}
+-
+ 	error = wacom_register_inputs(wacom);
+ 	if (error)
+ 		goto fail;
+@@ -2509,9 +2502,6 @@ static void wacom_wireless_work(struct work_struct *work)
+ 
+ 		strscpy(wacom_wac->name, wacom_wac1->name,
+ 			sizeof(wacom_wac->name));
+-		error = wacom_initialize_battery(wacom);
+-		if (error)
+-			goto fail;
+ 	}
+ 
+ 	return;
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 4cfa51416dbcb..391fde5bf6024 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -113,6 +113,11 @@ static void wacom_notify_battery(struct wacom_wac *wacom_wac,
+ 	bool bat_connected, bool ps_connected)
+ {
+ 	struct wacom *wacom = container_of(wacom_wac, struct wacom, wacom_wac);
++	bool bat_initialized = wacom->battery.battery;
++	bool has_quirk = wacom_wac->features.quirks & WACOM_QUIRK_BATTERY;
++
++	if (bat_initialized != has_quirk)
++		wacom_schedule_work(wacom_wac, WACOM_WORKER_BATTERY);
+ 
+ 	__wacom_notify_battery(&wacom->battery, bat_status, bat_capacity,
+ 			       bat_charging, bat_connected, ps_connected);
+@@ -3391,19 +3396,13 @@ static int wacom_status_irq(struct wacom_wac *wacom_wac, size_t len)
+ 		int battery = (data[8] & 0x3f) * 100 / 31;
+ 		bool charging = !!(data[8] & 0x80);
+ 
++		features->quirks |= WACOM_QUIRK_BATTERY;
+ 		wacom_notify_battery(wacom_wac, WACOM_POWER_SUPPLY_STATUS_AUTO,
+ 				     battery, charging, battery || charging, 1);
+-
+-		if (!wacom->battery.battery &&
+-		    !(features->quirks & WACOM_QUIRK_BATTERY)) {
+-			features->quirks |= WACOM_QUIRK_BATTERY;
+-			wacom_schedule_work(wacom_wac, WACOM_WORKER_BATTERY);
+-		}
+ 	}
+ 	else if ((features->quirks & WACOM_QUIRK_BATTERY) &&
+ 		 wacom->battery.battery) {
+ 		features->quirks &= ~WACOM_QUIRK_BATTERY;
+-		wacom_schedule_work(wacom_wac, WACOM_WORKER_BATTERY);
+ 		wacom_notify_battery(wacom_wac, POWER_SUPPLY_STATUS_UNKNOWN, 0, 0, 0, 0);
+ 	}
+ 	return 0;
+-- 
+2.40.0
 
