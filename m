@@ -2,80 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FECF6E1094
-	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 17:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3E96E109A
+	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 17:07:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbjDMPFR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Apr 2023 11:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56092 "EHLO
+        id S229784AbjDMPHX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Apr 2023 11:07:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230458AbjDMPFQ (ORCPT
+        with ESMTP id S231614AbjDMPHS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Apr 2023 11:05:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619329038
-        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 08:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681398268;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6yfErlPJ2vr74VduI57GspiDRqXQfNKwB+SR/G23mKM=;
-        b=iXReiKTRLIdxZ32zf4RvKpxzr0pxBtT7htYDga05sFqGpAaOXgAKWm5k4kqUDtDHcUVQj8
-        hzKN3qiWGqKdCQaZYgkW41lEaglQWogMjmOU6Cadfsplp8E6LaFrPGONXuB1qiaQvskjH4
-        dsiKxNfh46KgNZydweYvN7diyNlOCvA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-FagzRnX4PMiSla0_pWqL6w-1; Thu, 13 Apr 2023 11:04:25 -0400
-X-MC-Unique: FagzRnX4PMiSla0_pWqL6w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Thu, 13 Apr 2023 11:07:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D71EA5DD;
+        Thu, 13 Apr 2023 08:07:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC647101A551;
-        Thu, 13 Apr 2023 15:04:23 +0000 (UTC)
-Received: from plouf.local (unknown [10.45.224.142])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 42538141511D;
-        Thu, 13 Apr 2023 15:04:23 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     linux-input@vger.kernel.org, jkosina@suse.cz,
-        Alex Henrie <alexhenrie24@gmail.com>
-In-Reply-To: <20230404024829.13982-1-alexhenrie24@gmail.com>
-References: <20230404024829.13982-1-alexhenrie24@gmail.com>
-Subject: Re: [PATCH] HID: apple: Set the tilde quirk flag on the Geyser 3
-Message-Id: <168139826304.850074.2716895482881756924.b4-ty@redhat.com>
-Date:   Thu, 13 Apr 2023 17:04:23 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 15B7163F74;
+        Thu, 13 Apr 2023 15:07:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B55C433D2;
+        Thu, 13 Apr 2023 15:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681398424;
+        bh=r8BLpDALAAoKFN5NitGFlcbTATfE6nIZcBcaUZE9GKQ=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=f78hTUfOG1Z/S4K79rhzeeCOJAm/938HwYqcG0ca0yasc238F3lMlqdpe71Z6uvVq
+         o02kORb+QeTb2eS1i2U/43Sh6gT9WeSkN6SXRWCovrM/iXFWyMaBavkQ+St7v8G01W
+         jZrC7AZ6n2pYHaOOREZPhtFjAzQ/HqKQyj9FRtBpFiteJOiLy6J+ci18Q5gwf7b6O3
+         vAvTngPCw+0LX+1CNnS5V7mVSEwTAXtJqA/Q9zrwunkBk5kBnYTdweiII9pwaAbhrs
+         8B/NhUFmy4a/S2yKX6aGTWIfcFUDGttJlGM+AdrbkFHqP5NXlHftzJdOB1x95I6IR7
+         T0wNWObAtt2Yw==
+Date:   Thu, 13 Apr 2023 17:07:00 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] HID: shield: Initial driver implementation with
+ Thunderstrike support
+In-Reply-To: <20230410170840.16119-2-rrameshbabu@nvidia.com>
+Message-ID: <nycvar.YFH.7.76.2304131705350.29760@cbobk.fhfr.pm>
+References: <20230410170840.16119-1-rrameshbabu@nvidia.com> <20230410170840.16119-2-rrameshbabu@nvidia.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 03 Apr 2023 20:48:29 -0600, Alex Henrie wrote:
-> I was finally able to obtain a MacBook1,1 to test and I've now confirmed
-> that it has the tilde key quirk as well:
+On Mon, 10 Apr 2023, Rahul Rameshbabu wrote:
+
+> Supports the Thunderstrike (SHIELD 2017) controller. Implements support for
+> the Thunderstrike HOSTCMD firmware interface. Adds sysfs attributes about a
+> SHIELD device and introduces haptics support for controllers.
 > 
-> Product    Model  Year  System      CPU    Shape  Labels     Country  Quirky
-> ============================================================================
-> 05ac:0218  A1181  2006  MacBook1,1  T2500  ISO    British    13       Yes
-> 
-> [...]
+> Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
 
-Applied to hid/hid.git (for-6.4/apple), thanks!
+Thanks a lot for submitting the driver. I have one minor question:
 
-[1/1] HID: apple: Set the tilde quirk flag on the Geyser 3
-      https://git.kernel.org/hid/hid/c/29e1ecc197d4
+[ ... snip ... ]
+> +thunderstrike_update_haptics(struct thunderstrike *ts,
+> +			     struct thunderstrike_hostcmd_haptics *motors)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&ts->haptics_update_lock, flags);
+> +	ts->haptics_val = *motors;
+> +	spin_unlock_irqrestore(&ts->haptics_update_lock, flags);
 
-Cheers,
+Do we really have to disable interrupts when taking haptics_update_lock? 
+Is it ever being taken from interrupt context?
+
+Thanks,
+
 -- 
-Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Jiri Kosina
+SUSE Labs
 
