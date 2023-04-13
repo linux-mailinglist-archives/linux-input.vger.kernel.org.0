@@ -2,418 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3F816E11F5
-	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 18:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47D566E12A4
+	for <lists+linux-input@lfdr.de>; Thu, 13 Apr 2023 18:46:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbjDMQOF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Apr 2023 12:14:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52398 "EHLO
+        id S229583AbjDMQqO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Apr 2023 12:46:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbjDMQOE (ORCPT
+        with ESMTP id S229819AbjDMQqN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Apr 2023 12:14:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47AEE9759
-        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 09:13:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681402394;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Pb+DXaRxOte/+X57yJ6svEGPxZp7GreNGeUXGHZyccI=;
-        b=RwRv7PpzhQ1vQzrWnlWwVq+ahLvavNURaxhUKJh4dlzlFIQtrLN3HTviagnAjtzNogSK+k
-        ZXKEqGffVWeRm26PQ0qWWj63RCURKQXwoPCdgx0/lKR290tzvXWcRvB4Pgz+7n6TG4q/SF
-        W9pR2WkFwppgD8HpkPt+w9vfNx/6NcY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-xJQY2iSGO1qiA-ujFqeaPg-1; Thu, 13 Apr 2023 12:13:11 -0400
-X-MC-Unique: xJQY2iSGO1qiA-ujFqeaPg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A09D3C0ED6D;
-        Thu, 13 Apr 2023 16:13:10 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.45.224.142])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D0F2492C14;
-        Thu, 13 Apr 2023 16:13:08 +0000 (UTC)
-Date:   Thu, 13 Apr 2023 18:13:05 +0200
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Mubashshir <ahmubashshir@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Huseyin BIYIK <huseyinbiyik@hotmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v3] staging: HID: Add ShanWan USB WirelessGamepad driver
-Message-ID: <20230413161305.ywthwbu3ta3mv66b@mail.corp.redhat.com>
-References: <39b44678dc54b519fa469b69d80757b36ab3cf25.1681118245.git.ahmubashshir@gmail.com>
- <fd1961a773558930b6ae0aa2f6fc7f84833ee634.1681131540.git.ahmubashshir@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        Thu, 13 Apr 2023 12:46:13 -0400
+Received: from smtpout30.security-mail.net (smtpout30.security-mail.net [85.31.212.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839C9A27D
+        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 09:46:11 -0700 (PDT)
+Received: from localhost (fx305.security-mail.net [127.0.0.1])
+        by fx305.security-mail.net (Postfix) with ESMTP id E210530F941
+        for <linux-input@vger.kernel.org>; Thu, 13 Apr 2023 18:46:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalrayinc.com;
+        s=sec-sig-email; t=1681404368;
+        bh=e7wUi4mc3TwCsUMSuEjMHiV+EmAdxJozU/xynxv1Vbw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=BN3Lp33sKlyyoG7bdKRLYwpqCNIkM+KjEh1mgLnj3oNXOqXr4vQ8wNZ22hvLrV5SB
+         uatuNRC4xWmyOV7JF9YJQmV/+9GAv0YZVxdDwEvdidnvGy9XudeaWgU73PKzn7WyAU
+         /2ngO44GFvHVt6zxiAh3CSLTfDEKA1EOFUXr0pAY=
+Received: from fx305 (fx305.security-mail.net [127.0.0.1]) by
+ fx305.security-mail.net (Postfix) with ESMTP id 9F44430F6D3; Thu, 13 Apr
+ 2023 18:46:08 +0200 (CEST)
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com
+ (mail-pr2fra01on0109.outbound.protection.outlook.com [104.47.24.109]) by
+ fx305.security-mail.net (Postfix) with ESMTPS id 0077830F48A; Thu, 13 Apr
+ 2023 18:46:07 +0200 (CEST)
+Received: from MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:15::18)
+ by PR1P264MB2159.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:192::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Thu, 13 Apr
+ 2023 16:46:07 +0000
+Received: from MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::ce25:a152:1cab:d832]) by MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::ce25:a152:1cab:d832%4]) with mapi id 15.20.6298.030; Thu, 13 Apr
+ 2023 16:46:07 +0000
+X-Virus-Scanned: E-securemail
+Secumail-id: <1d2c.643831cf.f38cd.0>
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ee1k7ngFJXTYCSy5WDm4XhH/SA98NW0Pi02KY+iTnQ4A0DYynqCfwem6VHAZKuW/J+d6Gx5Axb1bcCrNBQlm1KDfX6GuV+K0m8+p3zoOk5VYiKV5u3l19NCaCSb2TodUOS7OQpJNJkmSX/Bbcqff3AfjMEeMvK8VYbkGkX9bf3R23yQL2lNvSZkfq3O/UsKlh+jeTbCrrYhcR+M0kR5JSoV3rjT+bsbso9bV7qd8K+Fdti5m4aa+DlJgoqIwmAedvSVw/TrAypch0vod2IYKA69Mv5jX9SbMrbiL3Vo777FsLNHOb8IT3XTD4xqIZtipF/cyrpjB3iBx0omHWWCH3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microsoft.com; s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e7wUi4mc3TwCsUMSuEjMHiV+EmAdxJozU/xynxv1Vbw=;
+ b=fRCm12EJ+gjwKXMcW8yDppE2r2DJaDTWCMceAxzXQw3HkZtE46WHFJVk1s58OFheNQQwEBjY9qcsheqDd9WKslYIoO97E1e7pfFozQGEMHe8oEpovcyawDNeY/XNKVAQdkx5nCiPJNH0Mw5DOgdxczMCm7Se+B1HZlhIZ9NkwX3PCVYDp5PcDlyNQyjz0J5EK3pkq/+htCNkdRgNXD8eM9f0rODFyXFRDseNoGtj89lrBOZ3EYewJXb2yhrnov8MpuV9w2vCnjUqR3kG9vhwxvSFHofL3OS2Zhu1blU2JCy9bGpYYD5T3Ju34D45rh89ymW2LIxd59Jn8zV+xxhF1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kalrayinc.com; dmarc=pass action=none
+ header.from=kalrayinc.com; dkim=pass header.d=kalrayinc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalrayinc.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e7wUi4mc3TwCsUMSuEjMHiV+EmAdxJozU/xynxv1Vbw=;
+ b=dm7FQRV6SZAaqCvCKz/WPnqN5MYjmVPVGxicd8Z7S//WK9nPlDWDuMA8hB5fpnI+QgzbpoBYH6HFAq1DcNeFgGJQub60onPTLREyURKha1eD7MshQNnsG/++RTQi+8ZoUYAYTELHCa4dSZZ466aRmLR3cfnifa8ZgqDahIFleCJP06Gk+/xsyCBy9muOxIZIeFqOopQKD3n1FPb9Qe3YyNuULPajZ8tgf1bpEvCpQJ8JHqCOT+gDxS9y9/V7es3DH175gjPnIzFgJbPuG2v3zUkZe4hnVrCcP1pbaCHRmbZ8pZAO+DstThmQJefTirGPTx60wGDaXDcxnZONszQbMQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kalrayinc.com;
+Date:   Thu, 13 Apr 2023 18:46:04 +0200
+From:   Louis Morhet <lmorhet@kalrayinc.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     gupt21@gmail.com, jikos@kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Fixes for the mcp2221 gpiochip get_* calls
+Message-ID: <20230413164604.GA17941@achlys.lin.mbt.kalray.eu>
+References: <cover.1680602387.git.lmorhet@kalrayinc.com>
+ <20230413144913.53a22nat4s6i2mib@mail.corp.redhat.com>
 Content-Disposition: inline
-In-Reply-To: <fd1961a773558930b6ae0aa2f6fc7f84833ee634.1681131540.git.ahmubashshir@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230413144913.53a22nat4s6i2mib@mail.corp.redhat.com>
+X-ClientProxiedBy: LO4P123CA0465.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1aa::20) To MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:15::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MR1P264MB1555:EE_|PR1P264MB2159:EE_
+X-MS-Office365-Filtering-Correlation-Id: 03fd6a63-b466-4ab9-1779-08db3c3e939b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mLOggepvdfa527gpae4xzYWASLST93tT1Rf41BMD9gO4VtK7owqcsnm7ipBfmuMm8OF07NPHbTOam2f3vpn1cXphWkZ2R8avCEv1BfjmNfMTXB0OVlPPml8eNKBbSB/vWEiJAdEUWwylWcAAKJXiTP6JqnYfUFcYR9J6xHhdZrVaP/0eqjL5TAkNE01CClSNYh54JSqEqCstoKzHv05JcF2a/jQ7YKkaisTkHsIZqblEdFKqf8DByQuUK7w/+hB4lbt3XGGkapu7pkVDvNAkbXpdI2QodGLNPmG+1f09Olv4yaA4Qi3jxTCq9WTP48hNfB1PyvGkCSAUt72wJFYtyvoZovOPfeQ6Cm3/lUitNSODWHFWFrrjlCkXEsu9fhISBNrmj0Jlkz+VV8jrksYs1Z3uStAUcE+4arKHjKPFqTazKjNHbM/atbqLX8rhuoDSKTQb4/NMMLKlPJ7Zputn06yId6g/NdtAwGlnaNxg8G+jx5OwvgPNBMIsl8tp60JY+cTUBUlJxRXKJ6dTmLjpTq/NsO2JCeh2GHFypC/NG2NZgeFUMEyyFtuwEI904wqB
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(396003)(39850400004)(346002)(376002)(451199021)(5660300002)(41300700001)(33656002)(38100700002)(4744005)(2906002)(8676002)(86362001)(4326008)(6916009)(66556008)(8936002)(66946007)(66476007)(316002)(1076003)(83380400001)(6506007)(6512007)(26005)(9686003)(186003)(478600001)(6486002)(6666004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: PO8atFpZk+tcl/5jJJEP5q5uHsbRIByead5WyqF3H80f2cuivK1sRqseFixm6DaqRUAltJ5w60O5+dK0w92Yuoc46Whe4lK6GmbAkJr0YJojoRW+weA4XiYj5eFFC8Fbin0lSyqGTBd61upphRsDAb3NOFXYAmSDFSJniR5CcCney1FoZHMV2Z+HhqRnvS5uJJnO73aeeX9H1FrRJaQCvUZUjbhiRoFL8TW+0ruBKoa0du4eilXg581nN5Khuskhh7JmnOVeaExe0+zsQWfePqsrl2I2gDP0ggUStAmhTMb/tYOGQJPMUhZ/YizodjnAnwUdaWcnPT45TB8X54dQwei+zhyyRFQCHBJ57IDhJKLwAq0LTNzpkYMf0nyaV72BnepSlW1qGcKuGKqx1LxNBKH57aSd2a8y3/qge/0u/aHYMqjSphP8GBhihh0OvViSbBJ1NYrubkBUk21qc3LGO9YhGo+Z9wVBNgstmGIgS5UpF+/U5ivOLszGul29Oyj3T+Y8iPJwYVqPiY/ouPE4jLnMia5xkAFLxfzeBaDSNzDbu4l9eZ6OxvoyEYTdh1nO9m0SaAT5aoFvx5HSydt3NASQJj4w3zHlErkcq93vdAydxnPShPnTX9H45eHDZO+fimbAnN0uLAw4coOkkiFRtQYRRUNCUYXcOfi7IcIjxU+hfLw9b5W8w56Z8MEJUsiXxRs7gJ2mFnaGUYvi7OnBK/mS5K1YE38HUYtDhr/OWbWr1GAsAE82MJvDhbTUDWfTBkM0KtsVZtpBZNTH+JLzYxMRIuz65OCHNSr15i4CwS33CDlc4UA4HL4UnfkNkj7HOxVne//DhOh3Sfqs3C1RPjJN4cX5xjofNFAZ9wmeO0R17BFuv/yE3dSmie/1xTmqNwE1ijqeOrNDDQqtR4i05dn46+KqgUmBJXwSnuhUfazAbbhVtzm/+Lh3N+jIwFm/
+ Q6+rxSgwGHMEEKoeHtaGUIomropOxM6z3pCpN1HFcSnc7C81inHB64e4KFB0LnQ8+Dn+4rgjcqHcuWmI3iDAm2+3/clN9cP15lbu+Rdg5WF+wE+LXxjMSE2gne5iI9N37wMM3XVWd0fbDHKdMyKWtpV5WJvZIw7Wy17ndWwIddnvajxETyEigovKtGZbqSbVE48cJpFKZY94BlZCr7UX6ElrcozJred5ite2Sh6CEeQ9C/7rk6X3s1bkv38E5pZdUVeZrhJ0Hmc3b1VxyVo0rIvUS+mLKaJJ2iCbmgipajAeBAcEZcs3tAfY8NiZKTC7Z59+jKkbLRhFwTa2PumIDTtStVT/BXT3/mw1QEhzpYMs2sRUD1lEDdTGOrstKb7BLANEoWuEdSlSr4SYPp3P1azYJkEH05cvKN7wfNYHktlB+5ShkzD0fBB/KlRysVKUS4CdllIEvDhOZeUYGLv8xfvNZ5tlymQZJt4/XnZHb0S9QhWUfvQ4R3Ips2OY/Uhe4xgi43NnxztSmkUQLkOWciYH/dIzVp+BFHEw16MgHQY33x2MVWCii2rU2NGFZLJsoSRUZkDGtg23lrfbPEfeTsuGSqLoRua1/0SyYbe9pp78ZnyNK/gu3n5pU6Ep3FGF
+X-OriginatorOrg: kalrayinc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03fd6a63-b466-4ab9-1779-08db3c3e939b
+X-MS-Exchange-CrossTenant-AuthSource: MR1P264MB1555.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 16:46:06.9808
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8931925d-7620-4a64-b7fe-20afd86363d3
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kAD9Aj7cge0+wU0PWhkF0WqiIzyezr5i+4rvv+oq4eOpD7tophLE34jCBi51hiEEBwjvCStHQ1IaNjHN7jUgsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1P264MB2159
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-ALTERMIMEV2_out: done
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Apr 10 2023, Mubashshir wrote:
-> This device has a quirky initialization process.
-> Depending on how it was initialized, behaves completely differently.
-> In default mode, it behaves as expected, but in fallback it disables
-> force-feedback, analog stick configurations and L3/R3.
-> 
-> Signed-off-by: Huseyin BIYIK <huseyinbiyik@hotmail.com>
-> Signed-off-by: Mubashshir <ahmubashshir@gmail.com>
-> ---
-> v3: Another missed semicolon
-> 
->  drivers/hid/Kconfig       |  19 +++
->  drivers/hid/Makefile      |   1 +
->  drivers/hid/hid-ids.h     |   3 +
->  drivers/hid/hid-shanwan.c | 256 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 279 insertions(+)
->  create mode 100644 drivers/hid/hid-shanwan.c
-> 
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index 82f64fb31fda..a17db9c9694c 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -990,6 +990,25 @@ config HID_SEMITEK
->  	- Woo-dy
->  	- X-Bows Nature/Knight
->  
-> +config HID_SHANWAN
-> +	tristate "ShanWan USB WirelessGamepad"
-> +	depends on USB_HID
-> +	help
-> +	Support for Shanwan USB WirelessGamepad (and clones).
-> +
-> +	This device has a quirky initialization process.
-> +	Depending on how it was initialized, it behaves completely differently.
-> +	In default mode, it behaves as expected, but in fallback it disables
-> +	force-feedback, analog stick configurations and L3/R3.
-> +
-> +config SHANWAN_FF
-> +	bool "ShanWan USB WirelessGamepad force feedback support"
-> +	depends on HID_SHANWAN
-> +	select INPUT_FF_MEMLESS
-> +	help
-> +	Say Y here if you have a ShanWan USB WirelessGamepad and want to enable
-> +	force feedback support for it.
-> +
->  config HID_SIGMAMICRO
->  	tristate "SiGma Micro-based keyboards"
->  	depends on USB_HID
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index 5d37cacbde33..52878455fc10 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -116,6 +116,7 @@ obj-$(CONFIG_HID_RMI)		+= hid-rmi.o
->  obj-$(CONFIG_HID_SAITEK)	+= hid-saitek.o
->  obj-$(CONFIG_HID_SAMSUNG)	+= hid-samsung.o
->  obj-$(CONFIG_HID_SEMITEK)	+= hid-semitek.o
-> +obj-$(CONFIG_HID_SHANWAN)	+= hid-shanwan.o
->  obj-$(CONFIG_HID_SIGMAMICRO)	+= hid-sigmamicro.o
->  obj-$(CONFIG_HID_SMARTJOYPLUS)	+= hid-sjoy.o
->  obj-$(CONFIG_HID_SONY)		+= hid-sony.o
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 63545cd307e5..278914e37eb7 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -623,6 +623,9 @@
->  #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641	0x0641
->  #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a	0x1f4a
->  
-> +#define USB_VENDOR_ID_SHANWAN 0x2563
-> +#define USB_PRODUCT_ID_SHANWAN_USB_WIRELESSGAMEPAD 0x0575
-> +
->  #define USB_VENDOR_ID_HUION		0x256c
->  #define USB_DEVICE_ID_HUION_TABLET	0x006e
->  #define USB_DEVICE_ID_HUION_TABLET2	0x006d
-> diff --git a/drivers/hid/hid-shanwan.c b/drivers/hid/hid-shanwan.c
-> new file mode 100644
-> index 000000000000..39c1bb6f40c6
-> --- /dev/null
-> +++ b/drivers/hid/hid-shanwan.c
-> @@ -0,0 +1,256 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Force feedback support for Shanwan USB WirelessGamepad
-> + *
-> + * Copyright (c) 2022-2023	Huseyin BIYIK	<huseyinbiyik@hotmail.com>
-> + * Copyright (c) 2023	Ahmad Hasan Mubashshir	<ahmubashshir@gmail.com>
-> + *
-> + * mapping according to Gamepad Protocol
-> + *
-> + * Button 01: BTN_SOUTH (CROSS)
-> + * Button 02: BTN_EAST(CIRCLE)
-> + * Button 03: BTN_NORTH (TRIANGLE)
-> + * Button 04: BTN_WEST (SQUARE)
-> + * Button 05: BTL_TL (L1)
-> + * Button 06: BTM_TR (R1)
-> + * Button 07: BTN_TL2 (L2)
-> + * Button 08: BTN_TR2 (R2)
-> + * Button 09: BTN_SELECT
-> + * Button 10: BTN_START
-> + * Button 11: BTN_MODE
-> + * Button 12: BTN_THUMBL (LS1)
-> + * Button 13: BTN_THUMBR (LS1)
-> + * LS1: X/Y AXIS
-> + * LS2: Rx/Ry AXIS
-> + * R2/L2 Touch Sensors: R/Rz
-> + */
-> +
-> +#include <linux/input.h>
-> +#include <linux/slab.h>
-> +#include <linux/hid.h>
-> +#include <linux/module.h>
-> +#include <linux/types.h>
-> +#include <linux/moduleparam.h>
-> +
-> +#include "hid-ids.h"
-> +
-> +#define PID0575_RDESC_ORIG_SIZE 137
-> +
-> +static bool swap_motors;
-> +module_param_named(swap, swap_motors, bool, 0);
-> +MODULE_PARM_DESC(swap, "Swap Weak/Strong Feedback motors");
-> +
-> +static __u8 pid0575_rdesc_fixed[] = {
-> +	0x05, 0x01, // Usage Page (Generic Desktop Ctrls)
-> +	0x09, 0x05, // Usage (Game Pad)
-> +	0xA1, 0x01, // Collection (Application)
-> +	0x15, 0x00, // Logical Minimum (0)
-> +	0x25, 0x01, // Logical Maximum (1)
-> +	0x35, 0x00, // Physical Minimum (0)
-> +	0x45, 0x01, // Physical Maximum (1)
-> +	0x75, 0x01, // Report Size (1)
-> +	0x95, 0x0D, // Report Count (13)
-> +	0x05, 0x09, // Usage Page (Button)
-> +	0x09, 0x03, // Usage (BTN_NORTH)
-> +	0x09, 0x02, // Usage (BTN_EAST)
-> +	0x09, 0x01, // Usage (BTN_SOUTH)
-> +	0x09, 0x04, // Usage (BTN_WEST)
-> +	0x09, 0x05, // Usage (BTN_TL)
-> +	0x09, 0x06, // Usage (BTN_TR)
-> +	0x09, 0x07, // Usage (BTN_TL2)
-> +	0x09, 0x08, // Usage (BTN_TR2)
-> +	0x09, 0x09, // Usage (BTN_SELECT)
-> +	0x09, 0x10, // Usage (BTN_START)
-> +	0x09, 0x12, // Usage (BTN_THUMBL)
-> +	0x09, 0x13, // Usage (BTN_THUMBR)
-> +	0x09, 0x11, // Usage (BTN_MODE)
-> +	0x81, 0x02, // Input (Data,Var,Abs,No Wrap,Linear,PreferredState,NoNullPosition)
-> +	0x75, 0x01, // Report Size (1)
-> +	0x95, 0x03, // Report Count (3)
-> +	0x81, 0x01, // Input (Const,Array,Abs,No Wrap,Linear,PreferredState,NoNullPosition)
-> +	0x05, 0x01, // Usage Page (Generic Desktop Ctrls)
-> +	0x25, 0x07, // Logical Maximum (7)
-> +	0x46, 0x3B, 0x01, // Physical Maximum (315)
-> +	0x75, 0x04, // Report Size (4)
-> +	0x95, 0x01, // Report Count (1)
-> +	0x65, 0x14, // Unit (System: English Rotation, Length: Centimeter)
-> +	0x09, 0x39, // Usage (Hat switch)
-> +	0x81, 0x42, // Input (Data,Var,Abs,No Wrap,Linear,PreferredState,NullState)
-> +	0x65, 0x00, // Unit (None)
-> +	0x95, 0x01, // Report Count (1)
-> +	0x81, 0x01, // Input(Const,Array,Abs,NoWrap,Linear,PreferredState,NoNullPosition)
-> +	0x26, 0xFF, 0x00, // Logical Maximum (255)
-> +	0x46, 0xFF, 0x00, // Physical Maximum (255)
-> +	0x09, 0x30, // Usage (X)
-> +	0x09, 0x31, // Usage (Y)
-> +	0x09, 0x33, // Usage (Rx)
-> +	0x09, 0x34, // Usage (Ry)
-> +	0x75, 0x08, // Report Size (8)
-> +	0x95, 0x04, // Report Count (4)
-> +	0x81, 0x02, // Input (Data,Var,Abs,No Wrap,Linear,PreferredState,NoNullPosition)
-> +	0x95, 0x0A, // Report Count (10)
-> +	0x81, 0x01, // Input (Const,Array,Abs,No Wrap,Linear,PreferredState,NoNullPosition)
-> +	0x05, 0x01, // Usage Page (Generic Desktop Ctrls)
-> +	0x26, 0xFF, 0x00, // Logical Maximum (255)
-> +	0x46, 0xFF, 0x00, // Physical Maximum (255)
-> +	0x09, 0x32, // Usage (Z)
-> +	0x09, 0x35, // Usage (Rz)
-> +	0x95, 0x02, // Report Count (2)
-> +	0x81, 0x02, // Input(Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-> +	0x95, 0x08, // Report Count (8)
-> +	0x81, 0x01, // Input(Const,Array,Abs,NoWrap,Linear,PreferredState,NoNullPosition)
-> +	0x06, 0x00, 0xFF, // Usage Page (Vendor Defined 0xFF00)
-> +	0xB1, 0x02, // Feature(Data,Var,Abs,No Wrap,Linear,PreferredState,NoNullPosition,!volatile)
-> +	0x0A, 0x21, 0x26, // Usage (0x2621)
-> +	0x95, 0x08, // Report Count (8)
-> +	0x91, 0x02, // Output(Data,Var,Abs,No Wrap,Linear,PreferredState,NoNullPosition,!volatile)
-> +	0x0A, 0x21, 0x26, // Usage (0x2621)
-> +	0x95, 0x08, // Report Count (8)
-> +	0x81, 0x02, // Input(Data,Var,Abs,No Wrap,Linear,Preferred State,NoNullPosition)
-> +	0xC0,       // End Collection
-> +};
-> +
-> +struct shanwan_device {
-> +	struct hid_report *report;
-> +};
-> +
-> +#ifdef CONFIG_SHANWAN_FF
-> +static int shanwan_play_effect(struct input_dev *dev, void *data, struct ff_effect *effect)
-> +{
-> +	struct hid_device *hid = input_get_drvdata(dev);
-> +	struct shanwan_device *shanwan = data;
-> +	struct hid_report *report = shanwan->report;
-> +
-> +	if (effect->type != FF_RUMBLE)
-> +		return 0;
-> +
-> +	report->field[0]->value[0] = 0x02; /* 2 = rumble effect message */
-> +	report->field[0]->value[1] = 0x08; /* reserved value, always 8 */
-> +	if (swap_motors) {
-> +		/* weak rumble / strong rumble */
-> +		report->field[0]->value[2] = effect->u.rumble.strong_magnitude / 256;
-> +		report->field[0]->value[3] = effect->u.rumble.weak_magnitude / 256;
-> +	} else {
-> +		/* strong rumble / weak rumble */
-> +		report->field[0]->value[2] = effect->u.rumble.weak_magnitude / 256;
-> +		report->field[0]->value[3] = effect->u.rumble.strong_magnitude / 256;
-> +	}
-> +	report->field[0]->value[4] = 0xff; /* duration 0-254 (255 = nonstop) */
-> +	report->field[0]->value[5] = 0x00; /* padding */
-> +	report->field[0]->value[6] = 0x00; /* padding */
-> +	report->field[0]->value[7] = 0x00; /* padding */
-> +	hid_hw_request(hid, report, HID_REQ_SET_REPORT);
+On Thu, Apr 13, 2023 at 04:49:13PM +0200, Benjamin Tissoires wrote:
+> As you should have seen in the automatic replied, I took that series in
+> because it seems to fix a rather worrying bug.
+Thanks!
 
-I see some other drivers using a workqueue here because ->play() can be
-called in atomic context. Are you sure you can sleep here?
+> Also, just a side note, this driver is very limited in term of scope, as
+> it only touches one dedicated device. Which means that whatever solution
+> feels the more elegant to you has a good chance of being accepted :)
+Well, using a struct to describe the layout of a message seems more
+elegant; but if I'm not mistaken, taking offsets of fields in a packed
+struct is UB... so I was surprised to even see that in Linux, that's why
+I was wondering if I should pursue in that direction.
 
-> +
-> +	return 0;
-> +}
-> +
-> +static int shanwan_init_ff(struct hid_device *hid)
-> +{
-> +	struct shanwan_device *shanwan;
-> +	struct hid_report *report;
-> +	struct hid_input *hidinput;
-> +	struct list_head *report_list = &hid->report_enum[HID_OUTPUT_REPORT].report_list;
-> +	struct input_dev *dev;
-> +
-> +	if (list_empty(&hid->inputs)) {
-> +		hid_err(hid, "no inputs found\n");
-> +		return -ENODEV;
-> +	}
-> +	hidinput = list_first_entry(&hid->inputs, struct hid_input, list);
-> +	dev = hidinput->input;
-> +
-> +	if (list_empty(report_list)) {
-> +		hid_err(hid, "no output reports found\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	report = list_first_entry(report_list, struct hid_report, list);
-> +
-> +	shanwan = kzalloc(sizeof(*shanwan), GFP_KERNEL);
-> +	if (!shanwan)
-> +		return -ENOMEM;
-> +
-> +	set_bit(FF_RUMBLE, dev->ffbit);
-> +
-> +	if (input_ff_create_memless(dev, shanwan, shanwan_play_effect)) {
-> +		kfree(shanwan);
-> +		return -ENODEV;
-> +	}
-> +
-> +	shanwan->report = report;
-> +
-> +	return 0;
-> +}
-> +#else
-> +static int shanwan_init_ff(struct hid_device *hid)
-> +{
-> +	return 0;
-> +}
-> +#endif
-> +
-> +static int shanwan_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> +{
-> +	int error;
-> +
-> +	error = hid_parse(hdev);
-> +	if (error) {
-> +		hid_err(hdev, "parse failed\n");
-> +		return error;
-> +	}
-> +
-> +	error = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
-> +	if (error) {
-> +		hid_err(hdev, "hw start failed\n");
-> +		return error;
-> +	}
-> +
-> +	error = shanwan_init_ff(hdev);
-> +	if (error)
-> +		hid_warn(hdev, "Failed to enable force feedback support, error: %d\n", error);
-> +
-> +	error = hid_hw_open(hdev);
 
-What's the point of keeping it opened for the lifetime of the device? Do
-you really need this?
+--
+Louis
 
-> +	if (error) {
-> +		dev_err(&hdev->dev, "hw open failed\n");
-> +		hid_hw_stop(hdev);
-> +		return error;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void shanwan_remove(struct hid_device *hdev)
-> +{
-> +	hid_hw_close(hdev);
 
-If you can drop the last hid_hw_open/close, then you can entirely skip
-the ->remove().
 
-Cheers,
-Benjamin
-
-> +	hid_hw_stop(hdev);
-> +}
-> +
-> +static __u8 *shanwan_report_fixup(struct hid_device *hid, __u8 *rdesc, unsigned int *rsize)
-> +{
-> +	if (*rsize == PID0575_RDESC_ORIG_SIZE) {
-> +		rdesc = pid0575_rdesc_fixed;
-> +		*rsize = sizeof(pid0575_rdesc_fixed);
-> +	} else {
-> +		hid_warn(hid, "unexpected rdesc, please submit for review\n");
-> +	}
-> +	return rdesc;
-> +}
-> +
-> +static const struct hid_device_id shanwan_devices[] = {
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_SHANWAN, USB_PRODUCT_ID_SHANWAN_USB_WIRELESSGAMEPAD) },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(hid, shanwan_devices);
-> +
-> +static struct hid_driver shanwan_driver = {
-> +	.name			= "shanwan",
-> +	.id_table		= shanwan_devices,
-> +	.probe			= shanwan_probe,
-> +	.report_fixup		= shanwan_report_fixup,
-> +	.remove			= shanwan_remove,
-> +};
-> +module_hid_driver(shanwan_driver);
-> +
-> +MODULE_AUTHOR("Huseyin BIYIK <huseyinbiyik@hotmail.com>");
-> +MODULE_AUTHOR("Ahmad Hasan Mubashshir <ahmubashshir@gmail.com>");
-> +MODULE_DESCRIPTION("Force feedback support for Shanwan USB WirelessGamepad");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.40.0
-> 
 
